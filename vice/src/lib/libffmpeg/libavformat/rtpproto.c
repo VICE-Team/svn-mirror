@@ -551,7 +551,18 @@ static int rtp_get_multi_file_handle(URLContext *h, int **handles,
 }
 
 URLProtocol ff_rtp_protocol = {
-    .name                      = "rtp",
+#ifdef IDE_COMPILE
+    "rtp",
+    rtp_open,
+    0, rtp_read,
+    rtp_write,
+    0, rtp_close,
+    0, 0, 0, rtp_get_file_handle,
+    rtp_get_multi_file_handle,
+    0, sizeof(RTPContext),
+    0, URL_PROTOCOL_FLAG_NETWORK,
+#else
+	.name                      = "rtp",
     .url_open                  = rtp_open,
     .url_read                  = rtp_read,
     .url_write                 = rtp_write,
@@ -560,4 +571,5 @@ URLProtocol ff_rtp_protocol = {
     .url_get_multi_file_handle = rtp_get_multi_file_handle,
     .priv_data_size            = sizeof(RTPContext),
     .flags                     = URL_PROTOCOL_FLAG_NETWORK,
+#endif
 };

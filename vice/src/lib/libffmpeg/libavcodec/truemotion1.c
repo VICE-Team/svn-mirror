@@ -406,8 +406,13 @@ static int truemotion1_decode_header(TrueMotion1Context *s)
     if (s->w != s->avctx->width || s->h != s->avctx->height ||
         new_pix_fmt != s->avctx->pix_fmt) {
         av_frame_unref(s->frame);
-        s->avctx->sample_aspect_ratio = (AVRational){ 1 << width_shift, 1 };
-        s->avctx->pix_fmt = new_pix_fmt;
+#ifdef IDE_COMPILE
+		s->avctx->sample_aspect_ratio.num = 1 << width_shift;
+		s->avctx->sample_aspect_ratio.den = 1;
+#else
+		s->avctx->sample_aspect_ratio = (AVRational){ 1 << width_shift, 1 };
+#endif
+		s->avctx->pix_fmt = new_pix_fmt;
 
         if ((ret = ff_set_dimensions(s->avctx, s->w, s->h)) < 0)
             return ret;
@@ -904,7 +909,18 @@ static av_cold int truemotion1_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_truemotion1_decoder = {
-    .name           = "truemotion1",
+#ifdef IDE_COMPILE
+    "truemotion1",
+    "Duck TrueMotion 1.0",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_TRUEMOTION1,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(TrueMotion1Context),
+    0, 0, 0, 0, 0, truemotion1_decode_init,
+    0, 0, truemotion1_decode_frame,
+    truemotion1_decode_end,
+#else
+	.name           = "truemotion1",
     .long_name      = NULL_IF_CONFIG_SMALL("Duck TrueMotion 1.0"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_TRUEMOTION1,
@@ -913,4 +929,5 @@ AVCodec ff_truemotion1_decoder = {
     .close          = truemotion1_decode_end,
     .decode         = truemotion1_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

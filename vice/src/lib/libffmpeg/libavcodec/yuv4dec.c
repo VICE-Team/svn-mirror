@@ -74,11 +74,21 @@ static int yuv4_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_yuv4_decoder = {
-    .name         = "yuv4",
+#ifdef IDE_COMPILE
+    "yuv4",
+    "Uncompressed packed 4:2:0",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_YUV4,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, yuv4_decode_init,
+    0, 0, yuv4_decode_frame,
+#else
+	.name         = "yuv4",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed 4:2:0"),
     .type         = AVMEDIA_TYPE_VIDEO,
     .id           = AV_CODEC_ID_YUV4,
     .init         = yuv4_decode_init,
     .decode       = yuv4_decode_frame,
     .capabilities = CODEC_CAP_DR1,
+#endif
 };

@@ -27,6 +27,10 @@
 #include "mem.h"
 #include "samplefmt.h"
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 MAKE_ACCESSORS(AVFrame, frame, int64_t, best_effort_timestamp)
 MAKE_ACCESSORS(AVFrame, frame, int64_t, pkt_duration)
 MAKE_ACCESSORS(AVFrame, frame, int64_t, pkt_pos)
@@ -73,14 +77,24 @@ int8_t *av_frame_get_qp_table(AVFrame *f, int *stride, int *type)
 const char *av_get_colorspace_name(enum AVColorSpace val)
 {
     static const char * const name[] = {
-        [AVCOL_SPC_RGB]       = "GBR",
+#ifdef IDE_COMPILE
+        "GBR",
+        "bt709",
+        0, 0, "fcc",
+        "bt470bg",
+        "smpte170m",
+        "smpte240m",
+        "YCgCo",
+#else
+		[AVCOL_SPC_RGB]       = "GBR",
         [AVCOL_SPC_BT709]     = "bt709",
         [AVCOL_SPC_FCC]       = "fcc",
         [AVCOL_SPC_BT470BG]   = "bt470bg",
         [AVCOL_SPC_SMPTE170M] = "smpte170m",
         [AVCOL_SPC_SMPTE240M] = "smpte240m",
         [AVCOL_SPC_YCOCG]     = "YCgCo",
-    };
+#endif
+	};
     if ((unsigned)val >= FF_ARRAY_ELEMS(name))
         return NULL;
     return name[val];
@@ -101,8 +115,13 @@ static void get_frame_defaults(AVFrame *frame)
     av_frame_set_pkt_pos              (frame, -1);
     av_frame_set_pkt_size             (frame, -1);
     frame->key_frame           = 1;
-    frame->sample_aspect_ratio = (AVRational){ 0, 1 };
-    frame->format              = -1; /* unknown */
+#ifdef IDE_COMPILE
+	frame->sample_aspect_ratio.num = 0;
+	frame->sample_aspect_ratio.den = 1;
+#else
+	frame->sample_aspect_ratio = (AVRational){ 0, 1 };
+#endif
+	frame->format              = -1; /* unknown */
     frame->extended_data       = frame->data;
     frame->color_primaries     = AVCOL_PRI_UNSPECIFIED;
     frame->color_trc           = AVCOL_TRC_UNSPECIFIED;

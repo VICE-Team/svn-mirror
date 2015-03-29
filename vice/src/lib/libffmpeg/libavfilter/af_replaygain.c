@@ -586,28 +586,50 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad replaygain_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad replaygain_outputs[] = {
     {
-        .name = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+#else
+		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_af_replaygain = {
-    .name          = "replaygain",
+#ifdef IDE_COMPILE
+    "replaygain",
+    NULL_IF_CONFIG_SMALL("ReplayGain scanner."),
+    replaygain_inputs,
+    replaygain_outputs,
+    0, 0, 0, 0, uninit,
+    query_formats,
+    sizeof(ReplayGainContext),
+#else
+	.name          = "replaygain",
     .description   = NULL_IF_CONFIG_SMALL("ReplayGain scanner."),
     .query_formats = query_formats,
     .uninit        = uninit,
     .priv_size     = sizeof(ReplayGainContext),
     .inputs        = replaygain_inputs,
     .outputs       = replaygain_outputs,
+#endif
 };

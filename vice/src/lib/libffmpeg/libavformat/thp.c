@@ -19,6 +19,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/libm.h"
+#endif
+
 #include "libavutil/intreadwrite.h"
 #include "libavutil/intfloat.h"
 #include "avformat.h"
@@ -201,10 +205,19 @@ static int thp_read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_thp_demuxer = {
-    .name           = "thp",
+#ifdef IDE_COMPILE
+    "thp",
+    "THP",
+    0, 0, 0, 0, 0, 0, 0, sizeof(ThpDemuxContext),
+    thp_probe,
+    thp_read_header,
+    thp_read_packet
+#else
+	.name           = "thp",
     .long_name      = NULL_IF_CONFIG_SMALL("THP"),
     .priv_data_size = sizeof(ThpDemuxContext),
     .read_probe     = thp_probe,
     .read_header    = thp_read_header,
     .read_packet    = thp_read_packet
+#endif
 };

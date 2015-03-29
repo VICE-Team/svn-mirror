@@ -67,10 +67,12 @@ static void x264_lookahead_update_last_nonb( x264_t *h, x264_frame_t *new_nonb )
 #if HAVE_THREAD
 static void x264_lookahead_slicetype_decide( x264_t *h )
 {
-    x264_stack_align( x264_slicetype_decide, h );
+    int shift_frames;
+
+	x264_stack_align( x264_slicetype_decide, h );
 
     x264_lookahead_update_last_nonb( h, h->lookahead->next.list[0] );
-    int shift_frames = h->lookahead->next.list[0]->i_bframes + 1;
+    shift_frames = h->lookahead->next.list[0]->i_bframes + 1;
 
     x264_pthread_mutex_lock( &h->lookahead->ofbuf.mutex );
     while( h->lookahead->ofbuf.i_size == h->lookahead->ofbuf.i_max_size )
@@ -91,9 +93,11 @@ static void *x264_lookahead_thread( x264_t *h )
 {
     while( !h->lookahead->b_exit_thread )
     {
-        x264_pthread_mutex_lock( &h->lookahead->ifbuf.mutex );
+        int shift;
+
+		x264_pthread_mutex_lock( &h->lookahead->ifbuf.mutex );
         x264_pthread_mutex_lock( &h->lookahead->next.mutex );
-        int shift = X264_MIN( h->lookahead->next.i_max_size - h->lookahead->next.i_size, h->lookahead->ifbuf.i_size );
+        shift = X264_MIN( h->lookahead->next.i_max_size - h->lookahead->next.i_size, h->lookahead->ifbuf.i_size );
         x264_lookahead_shift( &h->lookahead->next, &h->lookahead->ifbuf, shift );
         x264_pthread_mutex_unlock( &h->lookahead->next.mutex );
         if( h->lookahead->next.i_size <= h->lookahead->i_slicetype_length + h->param.b_vfr_input )
@@ -126,8 +130,11 @@ static void *x264_lookahead_thread( x264_t *h )
 int x264_lookahead_init( x264_t *h, int i_slicetype_length )
 {
     x264_lookahead_t *look;
-    CHECKED_MALLOCZERO( look, sizeof(x264_lookahead_t) );
-    for( int i = 0; i < h->param.i_threads; i++ )
+	int i;
+    x264_t *look_h;
+
+	CHECKED_MALLOCZERO( look, sizeof(x264_lookahead_t) );
+    for( i = 0; i < h->param.i_threads; i++ )
         h->thread[i]->lookahead = look;
 
     look->i_last_keyframe = - h->param.i_keyint_max;
@@ -144,7 +151,7 @@ int x264_lookahead_init( x264_t *h, int i_slicetype_length )
     if( !h->param.i_sync_lookahead )
         return 0;
 
-    x264_t *look_h = h->thread[h->param.i_threads];
+    look_h = h->thread[h->param.i_threads];
     *look_h = *h;
     if( x264_macroblock_cache_allocate( look_h ) )
         goto fail;
@@ -193,9 +200,11 @@ void x264_lookahead_put_frame( x264_t *h, x264_frame_t *frame )
 
 int x264_lookahead_is_empty( x264_t *h )
 {
-    x264_pthread_mutex_lock( &h->lookahead->ofbuf.mutex );
+    int b_empty;
+
+	x264_pthread_mutex_lock( &h->lookahead->ofbuf.mutex );
     x264_pthread_mutex_lock( &h->lookahead->next.mutex );
-    int b_empty = !h->lookahead->next.i_size && !h->lookahead->ofbuf.i_size;
+    b_empty = !h->lookahead->next.i_size && !h->lookahead->ofbuf.i_size;
     x264_pthread_mutex_unlock( &h->lookahead->next.mutex );
     x264_pthread_mutex_unlock( &h->lookahead->ofbuf.mutex );
     return b_empty;
@@ -203,9 +212,11 @@ int x264_lookahead_is_empty( x264_t *h )
 
 static void x264_lookahead_encoder_shift( x264_t *h )
 {
-    if( !h->lookahead->ofbuf.i_size )
+    int i_frames;
+
+	if( !h->lookahead->ofbuf.i_size )
         return;
-    int i_frames = h->lookahead->ofbuf.list[0]->i_bframes + 1;
+    i_frames = h->lookahead->ofbuf.list[0]->i_bframes + 1;
     while( i_frames-- )
     {
         x264_frame_push( h->frames.current, x264_frame_shift( h->lookahead->ofbuf.list ) );
@@ -226,13 +237,14 @@ void x264_lookahead_get_frames( x264_t *h )
     }
     else
     {   /* We are not running a lookahead thread, so perform all the slicetype decide on the fly */
+        int shift_frames;
 
         if( h->frames.current[0] || !h->lookahead->next.i_size )
             return;
 
         x264_stack_align( x264_slicetype_decide, h );
         x264_lookahead_update_last_nonb( h, h->lookahead->next.list[0] );
-        int shift_frames = h->lookahead->next.list[0]->i_bframes + 1;
+        shift_frames = h->lookahead->next.list[0]->i_bframes + 1;
         x264_lookahead_shift( &h->lookahead->ofbuf, &h->lookahead->next, shift_frames );
 
         /* For MB-tree and VBV lookahead, we have to perform propagation analysis on I-frames too. */

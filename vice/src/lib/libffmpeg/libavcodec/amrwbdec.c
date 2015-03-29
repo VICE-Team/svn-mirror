@@ -24,6 +24,10 @@
  * AMR wideband decoder
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/libm.h"
+#endif
+
 #include "libavutil/channel_layout.h"
 #include "libavutil/common.h"
 #include "libavutil/float_dsp.h"
@@ -1265,8 +1269,24 @@ static int amrwb_decode_frame(AVCodecContext *avctx, void *data,
     return expected_fr_size;
 }
 
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLT,
+                                                     AV_SAMPLE_FMT_NONE };
+#endif
+
 AVCodec ff_amrwb_decoder = {
-    .name           = "amrwb",
+#ifdef IDE_COMPILE
+    "amrwb",
+    "AMR-WB (Adaptive Multi-Rate WideBand)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_AMR_WB,
+    CODEC_CAP_DR1,
+    0, 0, 0, tmp1,
+    0, 0, 0, 0, sizeof(AMRWBContext),
+    0, 0, 0, 0, 0, amrwb_decode_init,
+    0, 0, amrwb_decode_frame,
+#else
+	.name           = "amrwb",
     .long_name      = NULL_IF_CONFIG_SMALL("AMR-WB (Adaptive Multi-Rate WideBand)"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_AMR_WB,
@@ -1276,4 +1296,5 @@ AVCodec ff_amrwb_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_FLT,
                                                      AV_SAMPLE_FMT_NONE },
+#endif
 };

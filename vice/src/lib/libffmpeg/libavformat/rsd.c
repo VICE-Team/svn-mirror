@@ -157,12 +157,26 @@ static int rsd_read_packet(AVFormatContext *s, AVPacket *pkt)
     return ret;
 }
 
+#ifdef IDE_COMPILE
+static const AVCodecTag* const tmpx[] = {rsd_tags, 0};
+#endif
+
 AVInputFormat ff_rsd_demuxer = {
-    .name           =   "rsd",
+#ifdef IDE_COMPILE
+    "rsd",
+    "GameCube RSD",
+    0, "rsd",
+    tmpx,
+    0, 0, 0, 0, 0, rsd_probe,
+    rsd_read_header,
+    rsd_read_packet,
+#else
+	.name           =   "rsd",
     .long_name      =   NULL_IF_CONFIG_SMALL("GameCube RSD"),
     .read_probe     =   rsd_probe,
     .read_header    =   rsd_read_header,
     .read_packet    =   rsd_read_packet,
     .extensions     =   "rsd",
     .codec_tag      =   (const AVCodecTag* const []){rsd_tags, 0},
+#endif
 };

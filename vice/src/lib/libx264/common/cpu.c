@@ -237,9 +237,11 @@ uint32_t x264_cpu_detect( void )
 
     if( !strcmp((char*)vendor, "GenuineIntel") )
     {
+        int family;
+        int model;
         x264_cpu_cpuid( 1, &eax, &ebx, &ecx, &edx );
-        int family = ((eax>>8)&0xf) + ((eax>>20)&0xff);
-        int model  = ((eax>>4)&0xf) + ((eax>>12)&0xf0);
+        family = ((eax>>8)&0xf) + ((eax>>20)&0xff);
+        model  = ((eax>>4)&0xf) + ((eax>>12)&0xf0);
         if( family == 6 )
         {
             /* 6/9 (pentium-m "banias"), 6/13 (pentium-m "dothan"), and 6/14 (core1 "yonah")
@@ -283,10 +285,11 @@ uint32_t x264_cpu_detect( void )
             uint32_t buf[4];
             int max, i = 0;
             do {
-                x264_cpu_cpuid( 2, buf+0, buf+1, buf+2, buf+3 );
+				int j;
+				x264_cpu_cpuid( 2, buf+0, buf+1, buf+2, buf+3 );
                 max = buf[0]&0xff;
                 buf[0] &= ~0xff;
-                for( int j = 0; j < 4; j++ )
+                for( j = 0; j < 4; j++ )
                     if( !(buf[j]>>31) )
                         while( buf[j] )
                         {

@@ -283,10 +283,19 @@ static int pix_decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
 }
 
 AVCodec ff_brender_pix_decoder = {
-    .name         = "brender_pix",
+#ifdef IDE_COMPILE
+    "brender_pix",
+    "BRender PIX image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_BRENDER_PIX,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, pix_decode_frame,
+#else
+	.name         = "brender_pix",
     .long_name    = NULL_IF_CONFIG_SMALL("BRender PIX image"),
     .type         = AVMEDIA_TYPE_VIDEO,
     .id           = AV_CODEC_ID_BRENDER_PIX,
     .decode       = pix_decode_frame,
     .capabilities = CODEC_CAP_DR1,
+#endif
 };

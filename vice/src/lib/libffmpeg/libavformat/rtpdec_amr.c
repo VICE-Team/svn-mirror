@@ -190,21 +190,41 @@ static int amr_parse_sdp_line(AVFormatContext *s, int st_index,
 }
 
 RTPDynamicProtocolHandler ff_amr_nb_dynamic_handler = {
-    .enc_name         = "AMR",
+#ifdef IDE_COMPILE
+    "AMR",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_AMR_NB,
+    0, 0, amr_parse_sdp_line,
+    amr_new_context,
+    amr_free_context,
+    amr_handle_packet,
+#else
+	.enc_name         = "AMR",
     .codec_type       = AVMEDIA_TYPE_AUDIO,
     .codec_id         = AV_CODEC_ID_AMR_NB,
     .parse_sdp_a_line = amr_parse_sdp_line,
     .alloc            = amr_new_context,
     .free             = amr_free_context,
     .parse_packet     = amr_handle_packet,
+#endif
 };
 
 RTPDynamicProtocolHandler ff_amr_wb_dynamic_handler = {
-    .enc_name         = "AMR-WB",
+#ifdef IDE_COMPILE
+    "AMR-WB",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_AMR_WB,
+    0, 0, amr_parse_sdp_line,
+    amr_new_context,
+    amr_free_context,
+    amr_handle_packet,
+#else
+	.enc_name         = "AMR-WB",
     .codec_type       = AVMEDIA_TYPE_AUDIO,
     .codec_id         = AV_CODEC_ID_AMR_WB,
     .parse_sdp_a_line = amr_parse_sdp_line,
     .alloc            = amr_new_context,
     .free             = amr_free_context,
     .parse_packet     = amr_handle_packet,
+#endif
 };

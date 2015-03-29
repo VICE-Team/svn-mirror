@@ -224,11 +224,21 @@ static int64_t pva_read_timestamp(struct AVFormatContext *s, int stream_index,
 }
 
 AVInputFormat ff_pva_demuxer = {
-    .name           = "pva",
+#ifdef IDE_COMPILE
+    "pva",
+    "TechnoTrend PVA",
+    0, 0, 0, 0, 0, 0, 0, sizeof(PVAContext),
+    pva_probe,
+    pva_read_header,
+    pva_read_packet,
+    0, 0, pva_read_timestamp,
+#else
+	.name           = "pva",
     .long_name      = NULL_IF_CONFIG_SMALL("TechnoTrend PVA"),
     .priv_data_size = sizeof(PVAContext),
     .read_probe     = pva_probe,
     .read_header    = pva_read_header,
     .read_packet    = pva_read_packet,
     .read_timestamp = pva_read_timestamp,
+#endif
 };

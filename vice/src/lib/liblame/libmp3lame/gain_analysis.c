@@ -90,6 +90,8 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
+#elif IDE_COMPILE
+#include "lame-config.h"
 #endif
 
 #include <stdio.h>
@@ -97,7 +99,7 @@
 #include <string.h>
 
 #include "lame.h"
-#include "machine.h"
+#include "lame-machine.h"
 #include "gain_analysis.h"
 
 /* for each filter: */

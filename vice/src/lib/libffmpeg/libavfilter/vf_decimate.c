@@ -66,14 +66,24 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption decimate_options[] = {
-    { "cycle",     "set the number of frame from which one will be dropped", OFFSET(cycle), AV_OPT_TYPE_INT, {.i64 = 5}, 2, 25, FLAGS },
+#ifdef IDE_COMPILE
+	{ "cycle", "set the number of frame from which one will be dropped", OFFSET(cycle), AV_OPT_TYPE_INT, {5}, 2, 25, FLAGS },
+    { "dupthresh", "set duplicate threshold", OFFSET(dupthresh_flt), AV_OPT_TYPE_DOUBLE, {0x3ff199999999999a}, 0, 100, FLAGS },
+    { "scthresh", "set scene change threshold", OFFSET(scthresh_flt), AV_OPT_TYPE_DOUBLE, {0x402e000000000000}, 0, 100, FLAGS },
+    { "blockx", "set the size of the x-axis blocks used during metric calculations", OFFSET(blockx), AV_OPT_TYPE_INT, {32}, 4, 1<<9, FLAGS },
+    { "blocky", "set the size of the y-axis blocks used during metric calculations", OFFSET(blocky), AV_OPT_TYPE_INT, {32}, 4, 1<<9, FLAGS },
+    { "ppsrc", "mark main input as a pre-processed input and activate clean source input stream", OFFSET(ppsrc), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
+    { "chroma", "set whether or not chroma is considered in the metric calculations", OFFSET(chroma), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS },
+#else
+	{ "cycle",     "set the number of frame from which one will be dropped", OFFSET(cycle), AV_OPT_TYPE_INT, {.i64 = 5}, 2, 25, FLAGS },
     { "dupthresh", "set duplicate threshold",    OFFSET(dupthresh_flt), AV_OPT_TYPE_DOUBLE, {.dbl =  1.1}, 0, 100, FLAGS },
     { "scthresh",  "set scene change threshold", OFFSET(scthresh_flt),  AV_OPT_TYPE_DOUBLE, {.dbl = 15.0}, 0, 100, FLAGS },
     { "blockx",    "set the size of the x-axis blocks used during metric calculations", OFFSET(blockx), AV_OPT_TYPE_INT, {.i64 = 32}, 4, 1<<9, FLAGS },
     { "blocky",    "set the size of the y-axis blocks used during metric calculations", OFFSET(blocky), AV_OPT_TYPE_INT, {.i64 = 32}, 4, 1<<9, FLAGS },
     { "ppsrc",     "mark main input as a pre-processed input and activate clean source input stream", OFFSET(ppsrc), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS },
     { "chroma",    "set whether or not chroma is considered in the metric calculations", OFFSET(chroma), AV_OPT_TYPE_INT, {.i64=1}, 0, 1, FLAGS },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(decimate);
@@ -265,11 +275,18 @@ static av_cold int decimate_init(AVFilterContext *ctx)
 {
     DecimateContext *dm = ctx->priv;
     AVFilterPad pad = {
-        .name         = av_strdup("main"),
+#ifdef IDE_COMPILE
+        av_strdup("main"),
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = av_strdup("main"),
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-    };
+#endif
+	};
 
     if (!pad.name)
         return AVERROR(ENOMEM);
@@ -361,14 +378,23 @@ static int config_output(AVFilterLink *outlink)
     const AVFilterLink *inlink =
         ctx->inputs[dm->ppsrc ? INPUT_CLEANSRC : INPUT_MAIN];
     AVRational fps = inlink->frame_rate;
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
 
     if (!fps.num || !fps.den) {
         av_log(ctx, AV_LOG_ERROR, "The input needs a constant frame rate; "
                "current rate of %d/%d is invalid\n", fps.num, fps.den);
         return AVERROR(EINVAL);
     }
-    fps = av_mul_q(fps, (AVRational){dm->cycle - 1, dm->cycle});
-    av_log(ctx, AV_LOG_VERBOSE, "FPS: %d/%d -> %d/%d\n",
+#ifdef IDE_COMPILE
+	tmp.num = dm->cycle - 1;
+	tmp.den = dm->cycle;
+	fps = av_mul_q(fps, tmp);
+#else
+	fps = av_mul_q(fps, (AVRational){dm->cycle - 1, dm->cycle});
+#endif
+	av_log(ctx, AV_LOG_VERBOSE, "FPS: %d/%d -> %d/%d\n",
            inlink->frame_rate.num, inlink->frame_rate.den, fps.num, fps.den);
     outlink->flags |= FF_LINK_FLAG_REQUEST_LOOP;
     outlink->time_base  = inlink->time_base;
@@ -382,16 +408,34 @@ static int config_output(AVFilterLink *outlink)
 
 static const AVFilterPad decimate_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+        config_output,
+#else
+		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_output,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_decimate = {
-    .name          = "decimate",
+#ifdef IDE_COMPILE
+    "decimate",
+    NULL_IF_CONFIG_SMALL("Decimate frames (post field matching filter)."),
+    0, decimate_outputs,
+    &decimate_class,
+    AVFILTER_FLAG_DYNAMIC_INPUTS,
+    decimate_init,
+    0, decimate_uninit,
+    query_formats,
+    sizeof(DecimateContext),
+#else
+	.name          = "decimate",
     .description   = NULL_IF_CONFIG_SMALL("Decimate frames (post field matching filter)."),
     .init          = decimate_init,
     .uninit        = decimate_uninit,
@@ -400,4 +444,5 @@ AVFilter ff_vf_decimate = {
     .outputs       = decimate_outputs,
     .priv_class    = &decimate_class,
     .flags         = AVFILTER_FLAG_DYNAMIC_INPUTS,
+#endif
 };

@@ -50,8 +50,12 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption thumbnail_options[] = {
-    { "n", "set the frames batch size", OFFSET(n_frames), AV_OPT_TYPE_INT, {.i64=100}, 2, INT_MAX, FLAGS },
-    { NULL }
+#ifdef IDE_COMPILE
+	{ "n", "set the frames batch size", OFFSET(n_frames), AV_OPT_TYPE_INT, {100}, 2, INT_MAX, FLAGS },
+#else
+	{ "n", "set the frames batch size", OFFSET(n_frames), AV_OPT_TYPE_INT, {.i64=100}, 2, INT_MAX, FLAGS },
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(thumbnail);
@@ -209,25 +213,49 @@ static int query_formats(AVFilterContext *ctx)
 
 static const AVFilterPad thumbnail_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_props,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_props,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad thumbnail_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+#else
+		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_thumbnail = {
-    .name          = "thumbnail",
+#ifdef IDE_COMPILE
+    "thumbnail",
+    NULL_IF_CONFIG_SMALL("Select the most representative frame in a given sequence of consecutive frames."),
+    thumbnail_inputs,
+    thumbnail_outputs,
+    &thumbnail_class,
+    0, init,
+    0, uninit,
+    query_formats,
+    sizeof(ThumbContext),
+#else
+	.name          = "thumbnail",
     .description   = NULL_IF_CONFIG_SMALL("Select the most representative frame in a given sequence of consecutive frames."),
     .priv_size     = sizeof(ThumbContext),
     .init          = init,
@@ -236,4 +264,5 @@ AVFilter ff_vf_thumbnail = {
     .inputs        = thumbnail_inputs,
     .outputs       = thumbnail_outputs,
     .priv_class    = &thumbnail_class,
+#endif
 };

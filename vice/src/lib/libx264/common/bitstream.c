@@ -62,6 +62,7 @@ void x264_nal_encode( x264_t *h, uint8_t *dst, x264_nal_t *nal )
     uint8_t *src = nal->p_payload;
     uint8_t *end = nal->p_payload + nal->i_payload;
     uint8_t *orig_dst = dst;
+    int size;
 
     if( h->param.b_annexb )
     {
@@ -78,7 +79,7 @@ void x264_nal_encode( x264_t *h, uint8_t *dst, x264_nal_t *nal )
     *dst++ = ( 0x00 << 7 ) | ( nal->i_ref_idc << 5 ) | nal->i_type;
 
     dst = h->bsf.nal_escape( dst, src, end );
-    int size = (dst - orig_dst) - 4;
+    size = (dst - orig_dst) - 4;
 
     /* Write the size header for mp4/etc */
     if( !h->param.b_annexb )

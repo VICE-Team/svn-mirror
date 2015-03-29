@@ -301,11 +301,21 @@ static int cine_read_seek(AVFormatContext *avctx, int stream_index, int64_t time
 }
 
 AVInputFormat ff_cine_demuxer = {
-    .name           = "cine",
+#ifdef IDE_COMPILE
+    "cine",
+    "Phantom Cine",
+    0, 0, 0, 0, 0, 0, 0, sizeof(CineDemuxContext),
+    cine_read_probe,
+    cine_read_header,
+    cine_read_packet,
+    0, cine_read_seek,
+#else
+	.name           = "cine",
     .long_name      = NULL_IF_CONFIG_SMALL("Phantom Cine"),
     .priv_data_size = sizeof(CineDemuxContext),
     .read_probe     = cine_read_probe,
     .read_header    = cine_read_header,
     .read_packet    = cine_read_packet,
     .read_seek      = cine_read_seek,
+#endif
 };

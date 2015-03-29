@@ -26,6 +26,9 @@
 #include "lpc.h"
 #include "libavutil/avassert.h"
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
 
 /**
  * Apply Welch window function to audio block

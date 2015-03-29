@@ -650,7 +650,18 @@ static av_cold int decode_end(AVCodecContext *avctx)
 
 #if CONFIG_MSZH_DECODER
 AVCodec ff_mszh_decoder = {
-    .name           = "mszh",
+#ifdef IDE_COMPILE
+    "mszh",
+    "LCL (LossLess Codec Library) MSZH",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_MSZH,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(LclDecContext),
+    0, 0, 0, 0, 0, decode_init,
+    0, 0, decode_frame,
+    decode_end,
+#else
+	.name           = "mszh",
     .long_name      = NULL_IF_CONFIG_SMALL("LCL (LossLess Codec Library) MSZH"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_MSZH,
@@ -659,6 +670,7 @@ AVCodec ff_mszh_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };
 #endif
 

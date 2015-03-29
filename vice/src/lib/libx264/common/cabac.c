@@ -1330,12 +1330,17 @@ uint8_t x264_cabac_contexts[4][QP_MAX_SPEC+1][1024];
 void x264_cabac_init( x264_t *h )
 {
     int ctx_count = CHROMA444 ? 1024 : 460;
-    for( int i = 0; i < 4; i++ )
+	int i;
+
+	for( i = 0; i < 4; i++ )
     {
         const int8_t (*cabac_context_init)[1024][2] = i == 0 ? &x264_cabac_context_init_I
                                                              : &x264_cabac_context_init_PB[i-1];
-        for( int qp = 0; qp <= QP_MAX_SPEC; qp++ )
-            for( int j = 0; j < ctx_count; j++ )
+		int qp;
+		int j;
+
+		for( qp = 0; qp <= QP_MAX_SPEC; qp++ )
+            for( j = 0; j < ctx_count; j++ )
             {
                 int state = x264_clip3( (((*cabac_context_init)[j][0] * qp) >> 4) + (*cabac_context_init)[j][1], 1, 126 );
                 x264_cabac_contexts[i][qp][j] = (X264_MIN( state, 127-state ) << 1) | (state >> 6);
@@ -1445,8 +1450,10 @@ void x264_cabac_encode_ue_bypass( x264_cabac_t *cb, int exp_bits, int val )
     uint32_t v = val + (1<<exp_bits);
     int k = 31 - x264_clz( v );
     uint32_t x = (bypass_lut[k-exp_bits]<<exp_bits) + v;
-    k = 2*k+1-exp_bits;
-    int i = ((k-1)&7)+1;
+	int i;
+
+	k = 2*k+1-exp_bits;
+    i = ((k-1)&7)+1;
     do {
         k -= i;
         cb->i_low <<= i;

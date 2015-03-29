@@ -76,12 +76,13 @@ static void dither_plane_##pitch( pixel *dst, int dst_stride, uint16_t *src, int
     const int lshift = 16-BIT_DEPTH; \
     const int rshift = 16-BIT_DEPTH+2; \
     const int half = 1 << (16-BIT_DEPTH+1); \
-    const int pixel_max = (1 << BIT_DEPTH)-1; \
+	const int pixel_max = (1 << BIT_DEPTH)-1; \
+	int x, y; \
     memset( errors, 0, (width+1) * sizeof(int16_t) ); \
-    for( int y = 0; y < height; y++, src += src_stride, dst += dst_stride ) \
+    for( y = 0; y < height; y++, src += src_stride, dst += dst_stride ) \
     { \
         int err = 0; \
-        for( int x = 0; x < width; x++ ) \
+        for( x = 0; x < width; x++ ) \
         { \
             err = err*2 + errors[x] + errors[x+1]; \
             dst[x*pitch] = x264_clip3( ((src[x*pitch]<<2)+err+half) >> rshift, 0, pixel_max ); \
@@ -98,7 +99,9 @@ DITHER_PLANE( 4 )
 static void dither_image( cli_image_t *out, cli_image_t *img, int16_t *error_buf )
 {
     int csp_mask = img->csp & X264_CSP_MASK;
-    for( int i = 0; i < img->planes; i++ )
+	int i;
+
+	for( i = 0; i < img->planes; i++ )
     {
         int num_interleaved = csp_num_interleaved( img->csp, i );
         int height = x264_cli_csps[csp_mask].height[i] * img->height;
@@ -137,16 +140,20 @@ static void scale_image( cli_image_t *output, cli_image_t *img )
 {
     int csp_mask = img->csp & X264_CSP_MASK;
     const int shift = BIT_DEPTH - 8;
-    for( int i = 0; i < img->planes; i++ )
+	int i;
+	
+	for( i = 0; i < img->planes; i++ )
     {
         uint8_t *src = img->plane[i];
         uint16_t *dst = (uint16_t*)output->plane[i];
         int height = x264_cli_csps[csp_mask].height[i] * img->height;
         int width = x264_cli_csps[csp_mask].width[i] * img->width;
+		int j;
 
-        for( int j = 0; j < height; j++ )
+		for( j = 0; j < height; j++ )
         {
-            for( int k = 0; k < width; k++ )
+			int k;
+			for( k = 0; k < width; k++ )
                 dst[k] = src[k] << shift;
 
             src += img->stride[i];
@@ -222,8 +229,10 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info,
     /* only add the filter to the chain if it's needed */
     if( change_fmt || bit_depth != 8 * x264_cli_csp_depth_factor( csp ) )
     {
-        FAIL_IF_ERROR( !depth_filter_csp_is_supported(csp), "unsupported colorspace.\n" )
-        depth_hnd_t *h = x264_malloc( sizeof(depth_hnd_t) + (info->width+1)*sizeof(int16_t) );
+        depth_hnd_t *h;
+
+		FAIL_IF_ERROR( !depth_filter_csp_is_supported(csp), "unsupported colorspace.\n" )
+        h = x264_malloc( sizeof(depth_hnd_t) + (info->width+1)*sizeof(int16_t) );
 
         if( !h )
             return -1;

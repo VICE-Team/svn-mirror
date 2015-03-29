@@ -29,27 +29,38 @@
 
 char **x264_split_string( char *string, char *sep, int limit )
 {
-    if( !string )
-        return NULL;
     int sep_count = 0;
-    char *tmp = string;
+    char *tmp;
+    char **split;
+    int i;
+    char *str;
+    char *esc;
+    char *tok;
+	char *nexttok;
+
+	if( !string )
+        return NULL;
+    tmp = string;
     while( ( tmp = ( tmp = strstr( tmp, sep ) ) ? tmp + strlen( sep ) : 0 ) )
         ++sep_count;
     if( sep_count == 0 )
     {
-        if( string[0] == '\0' )
+        char **ret;
+
+		if( string[0] == '\0' )
             return calloc( 1, sizeof( char* ) );
-        char **ret = calloc( 2, sizeof( char* ) );
+        ret = calloc( 2, sizeof( char* ) );
         ret[0] = strdup( string );
         return ret;
     }
 
-    char **split = calloc( ( limit > 0 ? limit : sep_count ) + 2, sizeof(char*) );
-    int i = 0;
-    char *str = strdup( string );
+    split = calloc( ( limit > 0 ? limit : sep_count ) + 2, sizeof(char*) );
+    i = 0;
+    str = strdup( string );
     assert( str );
-    char *esc = NULL;
-    char *tok = str, *nexttok = str;
+    esc = NULL;
+    tok = str;
+	nexttok = str;
     do
     {
         nexttok = strstr( nexttok, sep );
@@ -82,32 +93,47 @@ char **x264_split_string( char *string, char *sep, int limit )
 
 void x264_free_string_array( char **array )
 {
-    if( !array )
+	int i;
+
+	if( !array )
         return;
-    for( int i = 0; array[i] != NULL; i++ )
+    for( i = 0; array[i] != NULL; i++ )
         free( array[i] );
     free( array );
 }
 
 char **x264_split_options( const char *opt_str, const char *options[] )
 {
-    if( !opt_str )
+    char *opt_str_dup;
+    char **split;
+    int split_count;
+    int options_count;
+    char **opts;
+    char **arg;
+    int opt;
+	int found_named;
+	int invalid;
+	int i;
+
+	if( !opt_str )
         return NULL;
-    char *opt_str_dup = strdup( opt_str );
-    char **split = x264_split_string( opt_str_dup, ",", 0 );
+    opt_str_dup = strdup( opt_str );
+    split = x264_split_string( opt_str_dup, ",", 0 );
     free( opt_str_dup );
-    int split_count = 0;
+    split_count = 0;
     while( split[split_count] != NULL )
         ++split_count;
 
-    int options_count = 0;
+    options_count = 0;
     while( options[options_count] != NULL )
         ++options_count;
 
-    char **opts = calloc( split_count * 2 + 2, sizeof( char * ) );
-    char **arg = NULL;
-    int opt = 0, found_named = 0, invalid = 0;
-    for( int i = 0; split[i] != NULL; i++, invalid = 0 )
+    opts = calloc( split_count * 2 + 2, sizeof( char * ) );
+    arg = NULL;
+    opt = 0;
+	found_named = 0;
+	invalid = 0;
+    for( i = 0; split[i] != NULL; i++, invalid = 0 )
     {
         arg = x264_split_string( split[i], "=", 2 );
         if( arg == NULL )
@@ -137,8 +163,8 @@ char **x264_split_options( const char *opt_str, const char *options[] )
         }
         else
         {
-            found_named = 1;
             int j = 0;
+            found_named = 1;
             while( options[j] != NULL && strcmp( arg[0], options[j] ) )
                 ++j;
             RETURN_IF_ERROR( options[j] == NULL, "Invalid option '%s'\n", arg[0] )
@@ -157,10 +183,13 @@ char **x264_split_options( const char *opt_str, const char *options[] )
 
 char *x264_get_option( const char *name, char **split_options )
 {
-    if( !split_options )
+    int last_i;
+	int i;
+
+	if( !split_options )
         return NULL;
-    int last_i = -1;
-    for( int i = 0; split_options[i] != NULL; i += 2 )
+    last_i = -1;
+    for( i = 0; split_options[i] != NULL; i += 2 )
         if( !strcmp( split_options[i], name ) )
             last_i = i;
     if( last_i >= 0 )

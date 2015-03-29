@@ -744,11 +744,21 @@ static int iff_read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_iff_demuxer = {
-    .name           = "iff",
+#ifdef IDE_COMPILE
+    "iff",
+    "IFF (Interchange File Format)",
+    AVFMT_GENERIC_INDEX | AVFMT_NO_BYTE_SEEK,
+    0, 0, 0, 0, 0, 0, sizeof(IffDemuxContext),
+    iff_probe,
+    iff_read_header,
+    iff_read_packet,
+#else
+	.name           = "iff",
     .long_name      = NULL_IF_CONFIG_SMALL("IFF (Interchange File Format)"),
     .priv_data_size = sizeof(IffDemuxContext),
     .read_probe     = iff_probe,
     .read_header    = iff_read_header,
     .read_packet    = iff_read_packet,
     .flags          = AVFMT_GENERIC_INDEX | AVFMT_NO_BYTE_SEEK,
+#endif
 };

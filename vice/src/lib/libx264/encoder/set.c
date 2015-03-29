@@ -35,8 +35,11 @@ const static uint8_t avcintra_uuid[] = {0xF7, 0x49, 0x3E, 0xB3, 0xD4, 0x00, 0x47
 
 static void transpose( uint8_t *buf, int w )
 {
-    for( int i = 0; i < w; i++ )
-        for( int j = 0; j < i; j++ )
+    int i;
+	int j;
+
+	for( i = 0; i < w; i++ )
+        for( j = 0; j < i; j++ )
             XCHG( uint8_t, buf[w*i+j], buf[w*j+i] );
 }
 
@@ -60,7 +63,9 @@ static void scaling_list_write( bs_t *s, x264_pps_t *pps, int idx )
     else
     {
         int run;
-        bs_write1( s, 1 );   // scaling_list_present_flag
+		int j;
+
+		bs_write1( s, 1 );   // scaling_list_present_flag
 
         // try run-length compression of trailing values
         for( run = len; run > 1; run-- )
@@ -69,7 +74,7 @@ static void scaling_list_write( bs_t *s, x264_pps_t *pps, int idx )
         if( run < len && len - run < bs_size_se( (int8_t)-list[zigzag[run]] ) )
             run = len;
 
-        for( int j = 0; j < run; j++ )
+        for( j = 0; j < run; j++ )
             bs_write_se( s, (int8_t)(list[zigzag[j]] - (j>0 ? list[zigzag[j-1]] : 8)) ); // delta
 
         if( run < len )
@@ -101,6 +106,7 @@ void x264_sei_write( bs_t *s, uint8_t *payload, int payload_size, int payload_ty
 void x264_sps_init( x264_sps_t *sps, int i_id, x264_param_t *param )
 {
     int csp = param->i_csp & X264_CSP_MASK;
+    int max_frame_num;
 
     sps->i_id = i_id;
     sps->i_mb_width = ( param->i_width + 15 ) / 16;
@@ -154,7 +160,7 @@ void x264_sps_init( x264_sps_t *sps, int i_id, x264_param_t *param )
     }
 
     /* number of refs + current frame */
-    int max_frame_num = sps->vui.i_max_dec_frame_buffering * (!!param->i_bframe_pyramid+1) + 1;
+    max_frame_num = sps->vui.i_max_dec_frame_buffering * (!!param->i_bframe_pyramid+1) + 1;
     /* Intra refresh cannot write a recovery time greater than max frame num-1 */
     if( param->b_intra_refresh )
     {
@@ -419,7 +425,10 @@ void x264_sps_write( bs_t *s, x264_sps_t *sps )
 
 void x264_pps_init( x264_pps_t *pps, int i_id, x264_param_t *param, x264_sps_t *sps )
 {
-    pps->i_id = i_id;
+	int i;
+	int j;
+
+	pps->i_id = i_id;
     pps->i_sps_id = sps->i_id;
     pps->b_cabac = param->b_cabac;
 
@@ -447,11 +456,11 @@ void x264_pps_init( x264_pps_t *pps, int i_id, x264_param_t *param, x264_sps_t *
     switch( pps->i_cqm_preset )
     {
     case X264_CQM_FLAT:
-        for( int i = 0; i < 8; i++ )
+        for( i = 0; i < 8; i++ )
             pps->scaling_list[i] = x264_cqm_flat16;
         break;
     case X264_CQM_JVT:
-        for( int i = 0; i < 8; i++ )
+        for( i = 0; i < 8; i++ )
             pps->scaling_list[i] = x264_cqm_jvt[i];
         break;
     case X264_CQM_CUSTOM:
@@ -472,8 +481,8 @@ void x264_pps_init( x264_pps_t *pps, int i_id, x264_param_t *param, x264_sps_t *
         pps->scaling_list[CQM_8PY+4] = param->cqm_8py;
         pps->scaling_list[CQM_8IC+4] = param->cqm_8ic;
         pps->scaling_list[CQM_8PC+4] = param->cqm_8pc;
-        for( int i = 0; i < 8; i++ )
-            for( int j = 0; j < (i < 4 ? 16 : 64); j++ )
+        for( i = 0; i < 8; i++ )
+            for( j = 0; j < (i < 4 ? 16 : 64); j++ )
                 if( pps->scaling_list[i][j] == 0 )
                     pps->scaling_list[i] = x264_cqm_jvt[i];
         break;
@@ -630,11 +639,13 @@ void x264_sei_pic_timing_write( x264_t *h, bs_t *s )
 
     if( sps->vui.b_pic_struct_present )
     {
-        bs_write( &q, 4, h->fenc->i_pic_struct-1 ); // We use index 0 for "Auto"
+		int i;
+
+		bs_write( &q, 4, h->fenc->i_pic_struct-1 ); // We use index 0 for "Auto"
 
         // These clock timestamps are not standardised so we don't set them
         // They could be time of origin, capture or alternative ideal display
-        for( int i = 0; i < num_clock_ts[h->fenc->i_pic_struct]; i++ )
+        for( i = 0; i < num_clock_ts[h->fenc->i_pic_struct]; i++ )
             bs_write1( &q, 0 ); // clock_timestamp_flag
     }
 
@@ -688,9 +699,11 @@ void x264_sei_frame_packing_write( x264_t *h, bs_t *s )
 
 void x264_filler_write( x264_t *h, bs_t *s, int filler )
 {
-    bs_realign( s );
+	int i;
 
-    for( int i = 0; i < filler; i++ )
+	bs_realign( s );
+
+    for( i = 0; i < filler; i++ )
         bs_write( s, 8, 0xff );
 
     bs_rbsp_trailing( s );
@@ -715,7 +728,9 @@ void x264_sei_dec_ref_pic_marking_write( x264_t *h, bs_t *s )
     bs_write1( &q, sh->i_mmco_command_count > 0 );
     if( sh->i_mmco_command_count > 0 )
     {
-        for( int i = 0; i < sh->i_mmco_command_count; i++ )
+		int i;
+
+		for( i = 0; i < sh->i_mmco_command_count; i++ )
         {
             bs_write_ue( &q, 1 );
             bs_write_ue( &q, sh->mmco[i].i_difference_of_pic_nums - 1 );

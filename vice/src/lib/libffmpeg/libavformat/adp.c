@@ -89,10 +89,19 @@ static int adp_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_adp_demuxer = {
-    .name           = "adp",
+#ifdef IDE_COMPILE
+    "adp",
+    "ADP",
+    0, "adp,dtk",
+    0, 0, 0, 0, 0, 0, adp_probe,
+    adp_read_header,
+    adp_read_packet,
+#else
+	.name           = "adp",
     .long_name      = NULL_IF_CONFIG_SMALL("ADP"),
     .read_probe     = adp_probe,
     .read_header    = adp_read_header,
     .read_packet    = adp_read_packet,
     .extensions     = "adp,dtk",
+#endif
 };

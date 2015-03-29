@@ -98,8 +98,24 @@ static int rso_write_trailer(AVFormatContext *s)
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const AVCodecTag* const tmpx[] = {ff_codec_rso_tags, 0};
+#endif
+
 AVOutputFormat ff_rso_muxer = {
-    .name           =   "rso",
+#ifdef IDE_COMPILE
+    "rso",
+    "Lego Mindstorms RSO",
+    0, "rso",
+    AV_CODEC_ID_PCM_U8,
+    AV_CODEC_ID_NONE,
+    0, AVFMT_NOTIMESTAMPS,
+    tmpx,
+    0, 0, 0, rso_write_header,
+    rso_write_packet,
+    rso_write_trailer,
+#else
+	.name           =   "rso",
     .long_name      =   NULL_IF_CONFIG_SMALL("Lego Mindstorms RSO"),
     .extensions     =   "rso",
     .audio_codec    =   AV_CODEC_ID_PCM_U8,
@@ -109,4 +125,5 @@ AVOutputFormat ff_rso_muxer = {
     .write_trailer  =   rso_write_trailer,
     .codec_tag      =   (const AVCodecTag* const []){ff_codec_rso_tags, 0},
     .flags          =   AVFMT_NOTIMESTAMPS,
+#endif
 };

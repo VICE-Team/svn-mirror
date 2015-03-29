@@ -47,11 +47,21 @@ static int g722_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_g722_demuxer = {
-    .name           = "g722",
+#ifdef IDE_COMPILE
+    "g722",
+    "raw G.722",
+    AVFMT_GENERIC_INDEX,
+    "g722,722",
+    0, 0, 0, 0, AV_CODEC_ID_ADPCM_G722,
+    0, 0, g722_read_header,
+    ff_raw_read_partial_packet,
+#else
+	.name           = "g722",
     .long_name      = NULL_IF_CONFIG_SMALL("raw G.722"),
     .read_header    = g722_read_header,
     .read_packet    = ff_raw_read_partial_packet,
     .flags          = AVFMT_GENERIC_INDEX,
     .extensions     = "g722,722",
     .raw_codec_id   = AV_CODEC_ID_ADPCM_G722,
+#endif
 };

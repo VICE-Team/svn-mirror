@@ -22,7 +22,13 @@
 #define AVUTIL_X86_ASM_H
 
 #include <stdint.h>
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 typedef struct xmm_reg { uint64_t a, b; } xmm_reg;
 typedef struct ymm_reg { uint64_t a, b, c, d; } ymm_reg;

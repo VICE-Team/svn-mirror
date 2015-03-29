@@ -648,7 +648,17 @@ static int64_t mpegps_read_dts(AVFormatContext *s, int stream_index,
 }
 
 AVInputFormat ff_mpegps_demuxer = {
-    .name           = "mpeg",
+#ifdef IDE_COMPILE
+    "mpeg",
+    "MPEG-PS (MPEG-2 Program Stream)",
+    AVFMT_SHOW_IDS | AVFMT_TS_DISCONT,
+    0, 0, 0, 0, 0, 0, sizeof(MpegDemuxContext),
+    mpegps_probe,
+    mpegps_read_header,
+    mpegps_read_packet,
+    0, 0, mpegps_read_dts,
+#else
+	.name           = "mpeg",
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-PS (MPEG-2 Program Stream)"),
     .priv_data_size = sizeof(MpegDemuxContext),
     .read_probe     = mpegps_probe,
@@ -656,6 +666,7 @@ AVInputFormat ff_mpegps_demuxer = {
     .read_packet    = mpegps_read_packet,
     .read_timestamp = mpegps_read_dts,
     .flags          = AVFMT_SHOW_IDS | AVFMT_TS_DISCONT,
+#endif
 };
 
 #if CONFIG_VOBSUB_DEMUXER
@@ -936,8 +947,16 @@ static int vobsub_read_seek(AVFormatContext *s, int stream_index,
     if (stream_index == -1 && s->nb_streams != 1) {
         int i, ret = 0;
         AVRational time_base = s->streams[0]->time_base;
-        ts = av_rescale_q(ts, AV_TIME_BASE_Q, time_base);
-        min_ts = av_rescale_rnd(min_ts, time_base.den,
+#ifdef IDE_COMPILE
+        AVRational tmp;
+
+        tmp.num = 1;
+		tmp.den = AV_TIME_BASE;
+		ts = av_rescale_q(ts, tmp, time_base);
+#else
+		ts = av_rescale_q(ts, AV_TIME_BASE_Q, time_base);
+#endif
+		min_ts = av_rescale_rnd(min_ts, time_base.den,
                                 time_base.num * (int64_t)AV_TIME_BASE,
                                 AV_ROUND_UP   | AV_ROUND_PASS_MINMAX);
         max_ts = av_rescale_rnd(max_ts, time_base.den,
@@ -971,7 +990,19 @@ static int vobsub_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_vobsub_demuxer = {
-    .name           = "vobsub",
+#ifdef IDE_COMPILE
+    "vobsub",
+    "VobSub subtitle format",
+    AVFMT_SHOW_IDS,
+    "idx",
+    0, 0, 0, 0, 0, sizeof(MpegDemuxContext),
+    vobsub_probe,
+    vobsub_read_header,
+    vobsub_read_packet,
+    vobsub_read_close,
+    0, 0, 0, 0, vobsub_read_seek,
+#else
+	.name           = "vobsub",
     .long_name      = NULL_IF_CONFIG_SMALL("VobSub subtitle format"),
     .priv_data_size = sizeof(MpegDemuxContext),
     .read_probe     = vobsub_probe,
@@ -981,5 +1012,6 @@ AVInputFormat ff_vobsub_demuxer = {
     .read_close     = vobsub_read_close,
     .flags          = AVFMT_SHOW_IDS,
     .extensions     = "idx",
+#endif
 };
 #endif

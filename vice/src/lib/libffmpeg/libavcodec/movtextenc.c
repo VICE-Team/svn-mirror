@@ -103,8 +103,13 @@ static void mov_text_new_line_cb(void *priv, int forced)
 }
 
 static const ASSCodesCallbacks mov_text_callbacks = {
-    .text     = mov_text_text_cb,
+#ifdef IDE_COMPILE
+    mov_text_text_cb,
+    mov_text_new_line_cb,
+#else
+	.text     = mov_text_text_cb,
     .new_line = mov_text_new_line_cb,
+#endif
 };
 
 static int mov_text_encode_frame(AVCodecContext *avctx, unsigned char *buf,
@@ -154,7 +159,17 @@ static int mov_text_encode_close(AVCodecContext *avctx)
 }
 
 AVCodec ff_movtext_encoder = {
-    .name           = "mov_text",
+#ifdef IDE_COMPILE
+    "mov_text",
+    "3GPP Timed Text subtitle",
+    AVMEDIA_TYPE_SUBTITLE,
+    AV_CODEC_ID_MOV_TEXT,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, sizeof(MovTextContext),
+    0, 0, 0, 0, 0, mov_text_encode_init,
+    mov_text_encode_frame,
+    0, 0, mov_text_encode_close,
+#else
+	.name           = "mov_text",
     .long_name      = NULL_IF_CONFIG_SMALL("3GPP Timed Text subtitle"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
     .id             = AV_CODEC_ID_MOV_TEXT,
@@ -162,4 +177,5 @@ AVCodec ff_movtext_encoder = {
     .init           = mov_text_encode_init,
     .encode_sub     = mov_text_encode_frame,
     .close          = mov_text_encode_close,
+#endif
 };

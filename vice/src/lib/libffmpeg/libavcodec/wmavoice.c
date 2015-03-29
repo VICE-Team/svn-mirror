@@ -27,6 +27,10 @@
 
 #include <math.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/libm.h"
+#endif
+
 #include "libavutil/channel_layout.h"
 #include "libavutil/float_dsp.h"
 #include "libavutil/mem.h"
@@ -802,11 +806,20 @@ static void postfilter(WMAVoiceContext *s, const float *synth,
         /* remove ultra-low frequency DC noise / highpass filter;
          * coefficients are identical to those used in SIPR decoding,
          * and very closely resemble those used in AMR-NB decoding. */
-        ff_acelp_apply_order_2_transfer_function(samples, samples,
+#ifdef IDE_COMPILE
+    	const float tmp1[2] = { -1.99997, 1.0 };
+    	const float tmp2[2] = { -1.9330735188, 0.93589198496 };
+		ff_acelp_apply_order_2_transfer_function(samples, samples,
+            tmp1,
+            tmp2,
+            0.93980580475, s->dcf_mem, size);
+#else
+		ff_acelp_apply_order_2_transfer_function(samples, samples,
             (const float[2]) { -1.99997,      1.0 },
             (const float[2]) { -1.9330735188, 0.93589198496 },
             0.93980580475, s->dcf_mem, size);
-    }
+#endif
+	}
 }
 /**
  * @}
@@ -2061,7 +2074,20 @@ static av_cold void wmavoice_flush(AVCodecContext *ctx)
 }
 
 AVCodec ff_wmavoice_decoder = {
-    .name             = "wmavoice",
+#ifdef IDE_COMPILE
+    "wmavoice",
+    "Windows Media Audio Voice",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_WMAVOICE,
+    CODEC_CAP_SUBFRAMES | CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(WMAVoiceContext),
+    0, 0, 0, 0, wmavoice_init_static_data,
+    wmavoice_decode_init,
+    0, 0, wmavoice_decode_packet,
+    wmavoice_decode_end,
+    wmavoice_flush,
+#else
+	.name             = "wmavoice",
     .long_name        = NULL_IF_CONFIG_SMALL("Windows Media Audio Voice"),
     .type             = AVMEDIA_TYPE_AUDIO,
     .id               = AV_CODEC_ID_WMAVOICE,
@@ -2072,4 +2098,5 @@ AVCodec ff_wmavoice_decoder = {
     .decode           = wmavoice_decode_packet,
     .capabilities     = CODEC_CAP_SUBFRAMES | CODEC_CAP_DR1,
     .flush            = wmavoice_flush,
+#endif
 };

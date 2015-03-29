@@ -1,0 +1,38 @@
+# name of the project
+PROJECTNAME = x264common
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	lib\libx264
+	lib\libx264\extras
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	lib\libx264\common\mc.c
+	lib\libx264\common\predict.c
+	lib\libx264\common\pixel.c
+	lib\libx264\common\macroblock.c
+	lib\libx264\common\frame.c
+	lib\libx264\common\dct.c
+	lib\libx264\common\cpu.c
+	lib\libx264\common\cabac.c
+	lib\libx264\common\common.c
+	lib\libx264\common\osdep.c
+	lib\libx264\common\rectangle.c
+	lib\libx264\common\set.c
+	lib\libx264\common\quant.c
+	lib\libx264\common\deblock.c
+	lib\libx264\common\vlc.c
+	lib\libx264\common\mvpred.c
+	lib\libx264\common\bitstream.c
+	lib\libx264\common\threadpool.c
+	lib\libx264\common\win32thread.c
+	lib\libx264\common\x86\mc-c.c
+	lib\libx264\common\x86\predict-c.c
+	lib\libx264\common\opencl.c

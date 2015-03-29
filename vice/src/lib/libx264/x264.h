@@ -28,6 +28,10 @@
 #ifndef X264_X264_H
 #define X264_X264_H
 
+#ifdef IDE_COMPILE
+#include "inttypes.h"
+#endif
+
 #if !defined(_STDINT_H) && !defined(_STDINT_H_) && !defined(_STDINT_H_INCLUDED) && !defined(_STDINT) &&\
     !defined(_INTTYPES_H) && !defined(_INTTYPES_H_) && !defined(_INTTYPES)
 # ifdef _MSC_VER

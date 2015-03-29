@@ -57,12 +57,18 @@ static void help( int longhelp )
 static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x264_param_t *param, char *opt_string )
 {
     selvry_hnd_t *h = malloc( sizeof(selvry_hnd_t) );
-    if( !h )
+    int offsets[MAX_PATTERN_SIZE];
+    char *tok;
+    char *p;
+    intptr_t max_rewind;
+    int min;
+	int i;
+
+	if( !h )
         return -1;
     h->pattern_len = 0;
     h->step_size = 0;
-    int offsets[MAX_PATTERN_SIZE];
-    for( char *tok, *p = opt_string; (tok = strtok( p, "," )); p = NULL )
+    for( p = opt_string; (tok = strtok( p, "," )); p = NULL )
     {
         int val = x264_otoi( tok, -1 );
         if( p )
@@ -84,9 +90,9 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x2
     memcpy( h->pattern, offsets, h->pattern_len * sizeof(int) );
 
     /* determine required cache size to maintain pattern. */
-    intptr_t max_rewind = 0;
-    int min = h->step_size;
-    for( int i = h->pattern_len-1; i >= 0; i-- )
+    max_rewind = 0;
+    min = h->step_size;
+    for( i = h->pattern_len-1; i >= 0; i-- )
     {
          min = X264_MIN( min, offsets[i] );
          if( i )

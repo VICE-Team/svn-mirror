@@ -464,7 +464,18 @@ static av_cold int smc_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_smc_decoder = {
-    .name           = "smc",
+#ifdef IDE_COMPILE
+    "smc",
+    "QuickTime Graphics (SMC)",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_SMC,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(SmcContext),
+    0, 0, 0, 0, 0, smc_decode_init,
+    0, 0, smc_decode_frame,
+    smc_decode_end,
+#else
+	.name           = "smc",
     .long_name      = NULL_IF_CONFIG_SMALL("QuickTime Graphics (SMC)"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_SMC,
@@ -473,4 +484,5 @@ AVCodec ff_smc_decoder = {
     .close          = smc_decode_end,
     .decode         = smc_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

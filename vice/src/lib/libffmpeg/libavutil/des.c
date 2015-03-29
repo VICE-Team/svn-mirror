@@ -333,7 +333,12 @@ void av_des_crypt(AVDES *d, uint8_t *dst, const uint8_t *src, int count, uint8_t
 }
 
 void av_des_mac(AVDES *d, uint8_t *dst, const uint8_t *src, int count) {
-    av_des_crypt_mac(d, dst, src, count, (uint8_t[8]){0}, 0, 1);
+#ifdef IDE_COMPILE
+    uint8_t tmp0[8] = {0};
+	av_des_crypt_mac(d, dst, src, count, tmp0, 0, 1);
+#else
+	av_des_crypt_mac(d, dst, src, count, (uint8_t[8]){0}, 0, 1);
+#endif
 }
 
 #ifdef TEST

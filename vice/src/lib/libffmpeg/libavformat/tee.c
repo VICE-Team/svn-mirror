@@ -49,9 +49,15 @@ static const char *const slave_opt_delim = ":]"; /* must have the close too */
 static const char *const slave_bsfs_spec_sep = "/";
 
 static const AVClass tee_muxer_class = {
-    .class_name = "Tee muxer",
+#ifdef IDE_COMPILE
+    "Tee muxer",
+    av_default_item_name,
+    0, LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "Tee muxer",
     .item_name  = av_default_item_name,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 static int parse_slave_options(void *log, char *slave,
@@ -207,16 +213,30 @@ static int open_slave(AVFormatContext *avf, char *slave, TeeSlave *tee_slave)
 
     if (!(avf2->oformat->flags & AVFMT_NOFILE)) {
         if ((ret = avio_open(&avf2->pb, filename, AVIO_FLAG_WRITE)) < 0) {
-            av_log(avf, AV_LOG_ERROR, "Slave '%s': error opening: %s\n",
+#ifdef IDE_COMPILE
+			char tmpz[64] = {0};
+
+			av_log(avf, AV_LOG_ERROR, "Slave '%s': error opening: %s\n",
+                   slave, av_make_error_string(tmpz, 64, ret));
+#else
+			av_log(avf, AV_LOG_ERROR, "Slave '%s': error opening: %s\n",
                    slave, av_err2str(ret));
-            goto end;
+#endif
+			goto end;
         }
     }
 
     if ((ret = avformat_write_header(avf2, &options)) < 0) {
-        av_log(avf, AV_LOG_ERROR, "Slave '%s': error writing header: %s\n",
+#ifdef IDE_COMPILE
+		char tmpz[64] = {0};
+
+		av_log(avf, AV_LOG_ERROR, "Slave '%s': error writing header: %s\n",
+               slave, av_make_error_string(tmpz, 64, ret));
+#else
+		av_log(avf, AV_LOG_ERROR, "Slave '%s': error writing header: %s\n",
                slave, av_err2str(ret));
-        goto end;
+#endif
+		goto end;
     }
 
     tee_slave->avf = avf2;
@@ -486,7 +506,17 @@ static int tee_write_packet(AVFormatContext *avf, AVPacket *pkt)
 }
 
 AVOutputFormat ff_tee_muxer = {
-    .name              = "tee",
+#ifdef IDE_COMPILE
+    "tee",
+    "Multiple muxer tee",
+    0, 0, 0, 0, 0, AVFMT_NOFILE,
+    0, &tee_muxer_class,
+    0, sizeof(TeeContext),
+    tee_write_header,
+    tee_write_packet,
+    tee_write_trailer,
+#else
+	.name              = "tee",
     .long_name         = NULL_IF_CONFIG_SMALL("Multiple muxer tee"),
     .priv_data_size    = sizeof(TeeContext),
     .write_header      = tee_write_header,
@@ -494,4 +524,5 @@ AVOutputFormat ff_tee_muxer = {
     .write_packet      = tee_write_packet,
     .priv_class        = &tee_muxer_class,
     .flags             = AVFMT_NOFILE,
+#endif
 };

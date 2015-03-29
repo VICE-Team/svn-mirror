@@ -431,8 +431,25 @@ static av_cold void mpc8_decode_flush(AVCodecContext *avctx)
     c->cur_frame = 0;
 }
 
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16P,
+                                                      AV_SAMPLE_FMT_NONE };
+#endif
+
 AVCodec ff_mpc8_decoder = {
-    .name           = "mpc8",
+#ifdef IDE_COMPILE
+    "mpc8",
+    "Musepack SV8",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_MUSEPACK8,
+    CODEC_CAP_DR1,
+    0, 0, 0, tmp1,
+    0, 0, 0, 0, sizeof(MPCContext),
+    0, 0, 0, 0, 0, mpc8_decode_init,
+    0, 0, mpc8_decode_frame,
+    0, mpc8_decode_flush,
+#else
+	.name           = "mpc8",
     .long_name      = NULL_IF_CONFIG_SMALL("Musepack SV8"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_MUSEPACK8,
@@ -443,4 +460,5 @@ AVCodec ff_mpc8_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_NONE },
+#endif
 };

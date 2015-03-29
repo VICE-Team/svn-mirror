@@ -64,9 +64,14 @@ typedef struct {
 #define OFFSET(x) offsetof(AStreamSyncContext, x)
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption astreamsync_options[] = {
-    { "expr", "set stream selection expression", OFFSET(expr_str), AV_OPT_TYPE_STRING, { .str = "t1-t2" }, .flags = FLAGS },
+#ifdef IDE_COMPILE
+	{ "expr", "set stream selection expression", OFFSET(expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "t1-t2" }, 0, 0, FLAGS },
+    { "e",    "set stream selection expression", OFFSET(expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "t1-t2" }, 0, 0, FLAGS },
+#else
+	{ "expr", "set stream selection expression", OFFSET(expr_str), AV_OPT_TYPE_STRING, { .str = "t1-t2" }, .flags = FLAGS },
     { "e",    "set stream selection expression", OFFSET(expr_str), AV_OPT_TYPE_STRING, { .str = "t1-t2" }, .flags = FLAGS },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(astreamsync);
@@ -200,34 +205,71 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad astreamsync_inputs[] = {
     {
-        .name         = "in1",
+#ifdef IDE_COMPILE
+        "in1",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+		.name         = "in1",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-    },{
-        .name         = "in2",
+#endif
+	},{
+#ifdef IDE_COMPILE
+        "in2",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+		.name         = "in2",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad astreamsync_outputs[] = {
     {
-        .name          = "out1",
+#ifdef IDE_COMPILE
+        "out1",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+        config_output,
+#else
+		.name          = "out1",
         .type          = AVMEDIA_TYPE_AUDIO,
         .config_props  = config_output,
         .request_frame = request_frame,
-    },{
-        .name          = "out2",
+#endif
+	},{
+#ifdef IDE_COMPILE
+        "out2",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+        config_output,
+#else
+		.name          = "out2",
         .type          = AVMEDIA_TYPE_AUDIO,
         .config_props  = config_output,
         .request_frame = request_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_af_astreamsync = {
-    .name          = "astreamsync",
+#ifdef IDE_COMPILE
+    "astreamsync",
+    NULL_IF_CONFIG_SMALL("Copy two streams of audio data in a configurable order."),
+    astreamsync_inputs,
+    astreamsync_outputs,
+    &astreamsync_class,
+    0, init,
+    0, uninit,
+    query_formats,
+    sizeof(AStreamSyncContext),
+#else
+	.name          = "astreamsync",
     .description   = NULL_IF_CONFIG_SMALL("Copy two streams of audio data "
                                           "in a configurable order."),
     .priv_size     = sizeof(AStreamSyncContext),
@@ -237,4 +279,5 @@ AVFilter ff_af_astreamsync = {
     .inputs        = astreamsync_inputs,
     .outputs       = astreamsync_outputs,
     .priv_class    = &astreamsync_class,
+#endif
 };

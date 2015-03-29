@@ -2270,20 +2270,45 @@ static void decode_flush(AVCodecContext *avctx)
 #define OFFSET(x) offsetof(MJpegDecodeContext, x)
 #define VD AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_DECODING_PARAM
 static const AVOption options[] = {
-    { "extern_huff", "Use external huffman table.",
+#ifdef IDE_COMPILE
+	{ "extern_huff", "Use external huffman table.", OFFSET(extern_huff), AV_OPT_TYPE_INT, {0}, 0, 1, VD },
+#else
+	{ "extern_huff", "Use external huffman table.",
       OFFSET(extern_huff), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VD },
-    { NULL },
+#endif
+	{ NULL },
 };
 
 static const AVClass mjpegdec_class = {
-    .class_name = "MJPEG decoder",
+#ifdef IDE_COMPILE
+    "MJPEG decoder",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "MJPEG decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 AVCodec ff_mjpeg_decoder = {
-    .name           = "mjpeg",
+#ifdef IDE_COMPILE
+    "mjpeg",
+    "MJPEG (Motion JPEG)",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_MJPEG,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 3,
+    &mjpegdec_class,
+    0, sizeof(MJpegDecodeContext),
+    0, 0, 0, 0, 0, ff_mjpeg_decode_init,
+    0, 0, ff_mjpeg_decode_frame,
+    ff_mjpeg_decode_end,
+    decode_flush,
+#else
+	.name           = "mjpeg",
     .long_name      = NULL_IF_CONFIG_SMALL("MJPEG (Motion JPEG)"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_MJPEG,
@@ -2295,11 +2320,26 @@ AVCodec ff_mjpeg_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .max_lowres     = 3,
     .priv_class     = &mjpegdec_class,
+#endif
 };
 #endif
+
 #if CONFIG_THP_DECODER
 AVCodec ff_thp_decoder = {
-    .name           = "thp",
+#ifdef IDE_COMPILE
+    "thp",
+    "Nintendo Gamecube THP video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_THP,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 3,
+    0, 0, sizeof(MJpegDecodeContext),
+    0, 0, 0, 0, 0, ff_mjpeg_decode_init,
+    0, 0, ff_mjpeg_decode_frame,
+    ff_mjpeg_decode_end,
+    decode_flush,
+#else
+	.name           = "thp",
     .long_name      = NULL_IF_CONFIG_SMALL("Nintendo Gamecube THP video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_THP,
@@ -2310,5 +2350,6 @@ AVCodec ff_thp_decoder = {
     .flush          = decode_flush,
     .capabilities   = CODEC_CAP_DR1,
     .max_lowres     = 3,
+#endif
 };
 #endif

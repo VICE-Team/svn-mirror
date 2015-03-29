@@ -1072,8 +1072,27 @@ static av_cold void flush(AVCodecContext *avctx)
 }
 
 #if CONFIG_IMC_DECODER
+
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
+                                                      AV_SAMPLE_FMT_NONE };
+#endif
+
 AVCodec ff_imc_decoder = {
-    .name           = "imc",
+#ifdef IDE_COMPILE
+    "imc",
+    "IMC (Intel Music Coder)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_IMC,
+    CODEC_CAP_DR1,
+    0, 0, 0, tmp1,
+    0, 0, 0, 0, sizeof(IMCContext),
+    0, 0, 0, 0, 0, imc_decode_init,
+    0, 0, imc_decode_frame,
+    imc_decode_close,
+    flush,
+#else
+	.name           = "imc",
     .long_name      = NULL_IF_CONFIG_SMALL("IMC (Intel Music Coder)"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_IMC,
@@ -1085,11 +1104,32 @@ AVCodec ff_imc_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
+#endif
 };
 #endif
+
 #if CONFIG_IAC_DECODER
+
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmp2[] = { AV_SAMPLE_FMT_FLTP,
+                                                      AV_SAMPLE_FMT_NONE };
+#endif
+
 AVCodec ff_iac_decoder = {
-    .name           = "iac",
+#ifdef IDE_COMPILE
+    "iac",
+    "IAC (Indeo Audio Coder)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_IAC,
+    CODEC_CAP_DR1,
+    0, 0, 0, tmp2,
+    0, 0, 0, 0, sizeof(IMCContext),
+    0, 0, 0, 0, 0, imc_decode_init,
+    0, 0, imc_decode_frame,
+    imc_decode_close,
+    flush,
+#else
+	.name           = "iac",
     .long_name      = NULL_IF_CONFIG_SMALL("IAC (Indeo Audio Coder)"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_IAC,
@@ -1101,5 +1141,6 @@ AVCodec ff_iac_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
+#endif
 };
 #endif

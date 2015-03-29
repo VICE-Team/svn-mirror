@@ -340,9 +340,16 @@ static void motion_search(RoqContext *enc, int blocksize)
 
     for (i=0; i<enc->height; i+=blocksize)
         for (j=0; j<enc->width; j+=blocksize) {
-            lowestdiff = eval_motion_dist(enc, j, i, (motion_vect) {{0,0}},
+#ifdef IDE_COMPILE
+            {
+				motion_vect tmp1 = {{0,0}};
+				lowestdiff = eval_motion_dist(enc, j, i, tmp1, blocksize);
+			}
+#else
+			lowestdiff = eval_motion_dist(enc, j, i, (motion_vect) {{0,0}},
                                           blocksize);
-            bestpick.d[0] = 0;
+#endif
+			bestpick.d[0] = 0;
             bestpick.d[1] = 0;
 
             if (blocksize == 4)
@@ -1089,19 +1096,47 @@ static int roq_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
 #define OFFSET(x) offsetof(RoqContext, x)
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-    { "quake3_compat", "Whether to respect known limitations in Quake 3 decoder", OFFSET(quake3_compat), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, VE },
-    { NULL },
+#ifdef IDE_COMPILE
+	{ "quake3_compat", "Whether to respect known limitations in Quake 3 decoder", OFFSET(quake3_compat), AV_OPT_TYPE_INT, {1}, 0, 1, VE },
+#else
+	{ "quake3_compat", "Whether to respect known limitations in Quake 3 decoder", OFFSET(quake3_compat), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, VE },
+#endif
+	{ NULL },
 };
 
 static const AVClass roq_class = {
-    .class_name = "RoQ",
+#ifdef IDE_COMPILE
+    "RoQ",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "RoQ",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp2[] = { AV_PIX_FMT_YUVJ444P,
+                                                        AV_PIX_FMT_NONE };
+#endif
+
 AVCodec ff_roq_encoder = {
-    .name                 = "roqvideo",
+#ifdef IDE_COMPILE
+    "roqvideo",
+    "id RoQ video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_ROQ,
+    0, 0, tmp2,
+    0, 0, 0, 0, &roq_class,
+    0, sizeof(RoqContext),
+    0, 0, 0, 0, 0, roq_encode_init,
+    0, roq_encode_frame,
+    0, roq_encode_end,
+#else
+	.name                 = "roqvideo",
     .long_name            = NULL_IF_CONFIG_SMALL("id RoQ video"),
     .type                 = AVMEDIA_TYPE_VIDEO,
     .id                   = AV_CODEC_ID_ROQ,
@@ -1112,4 +1147,5 @@ AVCodec ff_roq_encoder = {
     .pix_fmts             = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUVJ444P,
                                                         AV_PIX_FMT_NONE },
     .priv_class     = &roq_class,
+#endif
 };

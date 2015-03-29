@@ -955,8 +955,13 @@ int ff_hevc_decode_nal_sps(HEVCContext *s)
 
     sps->sps_temporal_mvp_enabled_flag          = get_bits1(gb);
     sps->sps_strong_intra_smoothing_enable_flag = get_bits1(gb);
-    sps->vui.sar = (AVRational){0, 1};
-    vui_present = get_bits1(gb);
+#ifdef IDE_COMPILE
+	sps->vui.sar.num = 0;
+	sps->vui.sar.den = 1;
+#else
+	sps->vui.sar = (AVRational){0, 1};
+#endif
+	vui_present = get_bits1(gb);
     if (vui_present)
         decode_vui(s, sps);
 

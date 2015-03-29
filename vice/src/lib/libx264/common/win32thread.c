@@ -127,14 +127,16 @@ typedef struct
 
 int x264_pthread_cond_init( x264_pthread_cond_t *cond, const x264_pthread_condattr_t *attr )
 {
-    if( thread_control.cond_init )
+    x264_win32_cond_t *win32_cond;
+
+	if( thread_control.cond_init )
     {
         thread_control.cond_init( cond );
         return 0;
     }
 
     /* non native condition variables */
-    x264_win32_cond_t *win32_cond = calloc( 1, sizeof(x264_win32_cond_t) );
+    win32_cond = calloc( 1, sizeof(x264_win32_cond_t) );
     if( !win32_cond )
         return -1;
     cond->ptr = win32_cond;
@@ -156,12 +158,14 @@ int x264_pthread_cond_init( x264_pthread_cond_t *cond, const x264_pthread_condat
 
 int x264_pthread_cond_destroy( x264_pthread_cond_t *cond )
 {
-    /* native condition variables do not destroy */
+    x264_win32_cond_t *win32_cond;
+
+	/* native condition variables do not destroy */
     if( thread_control.cond_init )
         return 0;
 
     /* non native condition variables */
-    x264_win32_cond_t *win32_cond = cond->ptr;
+    win32_cond = cond->ptr;
     CloseHandle( win32_cond->semaphore );
     CloseHandle( win32_cond->waiters_done );
     x264_pthread_mutex_destroy( &win32_cond->mtx_broadcast );
@@ -173,17 +177,20 @@ int x264_pthread_cond_destroy( x264_pthread_cond_t *cond )
 
 int x264_pthread_cond_broadcast( x264_pthread_cond_t *cond )
 {
-    if( thread_control.cond_broadcast )
+    x264_win32_cond_t *win32_cond;
+    int have_waiter;
+
+	if( thread_control.cond_broadcast )
     {
         thread_control.cond_broadcast( cond );
         return 0;
     }
 
     /* non native condition variables */
-    x264_win32_cond_t *win32_cond = cond->ptr;
+    win32_cond = cond->ptr;
     x264_pthread_mutex_lock( &win32_cond->mtx_broadcast );
     x264_pthread_mutex_lock( &win32_cond->mtx_waiter_count );
-    int have_waiter = 0;
+    have_waiter = 0;
 
     if( win32_cond->waiter_count )
     {
@@ -205,18 +212,21 @@ int x264_pthread_cond_broadcast( x264_pthread_cond_t *cond )
 
 int x264_pthread_cond_signal( x264_pthread_cond_t *cond )
 {
-    if( thread_control.cond_signal )
+    x264_win32_cond_t *win32_cond;
+    int have_waiter;
+
+	if( thread_control.cond_signal )
     {
         thread_control.cond_signal( cond );
         return 0;
     }
 
     /* non-native condition variables */
-    x264_win32_cond_t *win32_cond = cond->ptr;
+    win32_cond = cond->ptr;
 
     x264_pthread_mutex_lock( &win32_cond->mtx_broadcast );
     x264_pthread_mutex_lock( &win32_cond->mtx_waiter_count );
-    int have_waiter = win32_cond->waiter_count;
+    have_waiter = win32_cond->waiter_count;
     x264_pthread_mutex_unlock( &win32_cond->mtx_waiter_count );
 
     if( have_waiter )
@@ -230,11 +240,14 @@ int x264_pthread_cond_signal( x264_pthread_cond_t *cond )
 
 int x264_pthread_cond_wait( x264_pthread_cond_t *cond, x264_pthread_mutex_t *mutex )
 {
-    if( thread_control.cond_wait )
+    x264_win32_cond_t *win32_cond;
+    int last_waiter;
+
+	if( thread_control.cond_wait )
         return !thread_control.cond_wait( cond, mutex, INFINITE );
 
     /* non native condition variables */
-    x264_win32_cond_t *win32_cond = cond->ptr;
+    win32_cond = cond->ptr;
 
     x264_pthread_mutex_lock( &win32_cond->mtx_broadcast );
     x264_pthread_mutex_lock( &win32_cond->mtx_waiter_count );
@@ -248,7 +261,7 @@ int x264_pthread_cond_wait( x264_pthread_cond_t *cond, x264_pthread_mutex_t *mut
 
     x264_pthread_mutex_lock( &win32_cond->mtx_waiter_count );
     win32_cond->waiter_count--;
-    int last_waiter = !win32_cond->waiter_count || !win32_cond->is_broadcast;
+    last_waiter = !win32_cond->waiter_count || !win32_cond->is_broadcast;
     x264_pthread_mutex_unlock( &win32_cond->mtx_waiter_count );
 
     if( last_waiter )
@@ -283,6 +296,7 @@ int x264_pthread_num_processors_np( void )
 {
     DWORD_PTR system_cpus, process_cpus = 0;
     int cpus = 0;
+    DWORD_PTR bit;
 
     /* GetProcessAffinityMask returns affinities of 0 when the process has threads in multiple processor groups.
      * On platforms that support processor grouping, use GetThreadGroupAffinity to get the current thread's affinity instead. */
@@ -300,7 +314,7 @@ int x264_pthread_num_processors_np( void )
 #endif
     if( !process_cpus )
         GetProcessAffinityMask( GetCurrentProcess(), &process_cpus, &system_cpus );
-    for( DWORD_PTR bit = 1; bit; bit <<= 1 )
+    for( bit = 1; bit; bit <<= 1 )
         cpus += !!(process_cpus & bit);
 
     return cpus ? cpus : 1;

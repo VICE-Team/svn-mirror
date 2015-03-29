@@ -25,7 +25,12 @@
 #include <math.h>
 #include <assert.h>
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 #include "mp_msg.h"
 #include "cpudetect.h"
@@ -233,8 +238,13 @@ static int config(struct vf_instance *vf,
             vf->priv->avctx_enc[i]= avcodec_alloc_context3(NULL);
             avctx_enc->width = width + BLOCK;
             avctx_enc->height = height + BLOCK;
-            avctx_enc->time_base= (AVRational){1,25};  // meaningless
-            avctx_enc->gop_size = 300;
+#ifdef IDE_COMPILE
+			avctx_enc->time_base.num = 1;  // meaningless
+			avctx_enc->time_base.den = 25;  // meaningless
+#else
+			avctx_enc->time_base= (AVRational){1,25};  // meaningless
+#endif
+			avctx_enc->gop_size = 300;
             avctx_enc->max_b_frames= 0;
             avctx_enc->pix_fmt = AV_PIX_FMT_YUV420P;
             avctx_enc->flags = CODEC_FLAG_QSCALE | CODEC_FLAG_LOW_DELAY;

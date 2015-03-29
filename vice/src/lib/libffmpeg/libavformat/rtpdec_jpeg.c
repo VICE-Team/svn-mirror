@@ -399,11 +399,21 @@ static int jpeg_parse_packet(AVFormatContext *ctx, PayloadContext *jpeg,
 }
 
 RTPDynamicProtocolHandler ff_jpeg_dynamic_handler = {
-    .enc_name          = "JPEG",
+#ifdef IDE_COMPILE
+    "JPEG",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_MJPEG,
+    26,
+    0, 0, jpeg_new_context,
+    jpeg_free_context,
+    jpeg_parse_packet,
+#else
+	.enc_name          = "JPEG",
     .codec_type        = AVMEDIA_TYPE_VIDEO,
     .codec_id          = AV_CODEC_ID_MJPEG,
     .alloc             = jpeg_new_context,
     .free              = jpeg_free_context,
     .parse_packet      = jpeg_parse_packet,
     .static_payload_id = 26,
+#endif
 };

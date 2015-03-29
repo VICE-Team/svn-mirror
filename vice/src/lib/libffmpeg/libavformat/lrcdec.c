@@ -237,7 +237,17 @@ static int lrc_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_lrc_demuxer = {
-    .name           = "lrc",
+#ifdef IDE_COMPILE
+    "lrc",
+    "LRC lyrics",
+    0, 0, 0, 0, 0, 0, 0, sizeof (LRCContext),
+    lrc_probe,
+    lrc_read_header,
+    lrc_read_packet,
+    lrc_read_close,
+    0, 0, 0, 0, lrc_read_seek
+#else
+	.name           = "lrc",
     .long_name      = NULL_IF_CONFIG_SMALL("LRC lyrics"),
     .priv_data_size = sizeof (LRCContext),
     .read_probe     = lrc_probe,
@@ -245,4 +255,5 @@ AVInputFormat ff_lrc_demuxer = {
     .read_packet    = lrc_read_packet,
     .read_close     = lrc_read_close,
     .read_seek2     = lrc_read_seek
+#endif
 };

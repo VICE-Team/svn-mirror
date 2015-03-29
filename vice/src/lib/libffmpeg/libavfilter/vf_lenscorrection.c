@@ -46,11 +46,18 @@ typedef struct LenscorrectionCtx {
 
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption lenscorrection_options[] = {
-    { "cx",     "set relative center x", offsetof(LenscorrectionCtx, cx), AV_OPT_TYPE_DOUBLE, {.dbl=0.5}, 0, 1, .flags=FLAGS },
+#ifdef IDE_COMPILE
+	{ "cx", "set relative center x", offsetof(LenscorrectionCtx, cx), AV_OPT_TYPE_DOUBLE, {0x3fe0000000000000}, 0, 1, FLAGS },
+    { "cy", "set relative center y", offsetof(LenscorrectionCtx, cy), AV_OPT_TYPE_DOUBLE, {0x3fe0000000000000}, 0, 1, FLAGS },
+    { "k1", "set quadratic distortion factor", offsetof(LenscorrectionCtx, k1), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
+    { "k2", "set double quadratic distortion factor", offsetof(LenscorrectionCtx, k2), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
+#else
+	{ "cx",     "set relative center x", offsetof(LenscorrectionCtx, cx), AV_OPT_TYPE_DOUBLE, {.dbl=0.5}, 0, 1, .flags=FLAGS },
     { "cy",     "set relative center y", offsetof(LenscorrectionCtx, cy), AV_OPT_TYPE_DOUBLE, {.dbl=0.5}, 0, 1, .flags=FLAGS },
     { "k1",     "set quadratic distortion factor", offsetof(LenscorrectionCtx, k1), AV_OPT_TYPE_DOUBLE, {.dbl=0.0}, -1, 1, .flags=FLAGS },
     { "k2",     "set double quadratic distortion factor", offsetof(LenscorrectionCtx, k2), AV_OPT_TYPE_DOUBLE, {.dbl=0.0}, -1, 1, .flags=FLAGS },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(lenscorrection);
@@ -161,7 +168,17 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
         int ycenter = rect->cy * h;
         int k1 = rect->k1 * (1<<24);
         int k2 = rect->k2 * (1<<24);
+#ifdef IDE_COMPILE
         ThreadData td = {
+            in,
+            out,
+            w,
+            h,
+            plane,
+            xcenter,
+            ycenter};
+#else
+		ThreadData td = {
             .in = in,
             .out  = out,
             .w  = w,
@@ -169,6 +186,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
             .xcenter = xcenter,
             .ycenter = ycenter,
             .plane = plane};
+#endif
 
         if (!rect->correction[plane]) {
             int i,j;
@@ -200,24 +218,47 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
 static const AVFilterPad lenscorrection_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad lenscorrection_outputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_props,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_props,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_lenscorrection = {
-    .name          = "lenscorrection",
+#ifdef IDE_COMPILE
+    "lenscorrection",
+    NULL_IF_CONFIG_SMALL("Rectify the image by correcting for lens distortion."),
+    lenscorrection_inputs,
+    lenscorrection_outputs,
+    &lenscorrection_class,
+    AVFILTER_FLAG_SLICE_THREADS,
+    0, 0, uninit,
+    query_formats,
+    sizeof(LenscorrectionCtx),
+#else
+	.name          = "lenscorrection",
     .description   = NULL_IF_CONFIG_SMALL("Rectify the image by correcting for lens distortion."),
     .priv_size     = sizeof(LenscorrectionCtx),
     .query_formats = query_formats,
@@ -226,4 +267,5 @@ AVFilter ff_vf_lenscorrection = {
     .priv_class    = &lenscorrection_class,
     .uninit        = uninit,
     .flags         = AVFILTER_FLAG_SLICE_THREADS,
+#endif
 };

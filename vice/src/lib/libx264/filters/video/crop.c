@@ -49,24 +49,29 @@ static void help( int longhelp )
 
 static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x264_param_t *param, char *opt_string )
 {
-    FAIL_IF_ERROR( x264_cli_csp_is_invalid( info->csp ), "invalid csp %d\n", info->csp )
-    crop_hnd_t *h = calloc( 1, sizeof(crop_hnd_t) );
+    crop_hnd_t *h;
+    static const char *optlist[] = { "left", "top", "right", "bottom", NULL };
+    char **opts;
+	int i;
+
+	FAIL_IF_ERROR( x264_cli_csp_is_invalid( info->csp ), "invalid csp %d\n", info->csp )
+    h = calloc( 1, sizeof(crop_hnd_t) );
     if( !h )
         return -1;
 
     h->csp = x264_cli_get_csp( info->csp );
-    static const char *optlist[] = { "left", "top", "right", "bottom", NULL };
-    char **opts = x264_split_options( opt_string, optlist );
+    opts = x264_split_options( opt_string, optlist );
     if( !opts )
         return -1;
-
-    for( int i = 0; i < 4; i++ )
+    for( i = 0; i < 4; i++ )
     {
         char *opt = x264_get_option( optlist[i], opts );
-        FAIL_IF_ERROR( !opt, "%s crop value not specified\n", optlist[i] )
+        int dim_mod;
+
+		FAIL_IF_ERROR( !opt, "%s crop value not specified\n", optlist[i] )
         h->dims[i] = x264_otoi( opt, -1 );
         FAIL_IF_ERROR( h->dims[i] < 0, "%s crop value `%s' is less than 0\n", optlist[i], opt )
-        int dim_mod = i&1 ? (h->csp->mod_height << info->interlaced) : h->csp->mod_width;
+        dim_mod = i&1 ? (h->csp->mod_height << info->interlaced) : h->csp->mod_width;
         FAIL_IF_ERROR( h->dims[i] % dim_mod, "%s crop value `%s' is not a multiple of %d\n", optlist[i], opt, dim_mod )
     }
     x264_free_string_array( opts );
@@ -97,12 +102,14 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x2
 static int get_frame( hnd_t handle, cli_pic_t *output, int frame )
 {
     crop_hnd_t *h = handle;
-    if( h->prev_filter.get_frame( h->prev_hnd, output, frame ) )
+	int i;
+	
+	if( h->prev_filter.get_frame( h->prev_hnd, output, frame ) )
         return -1;
     output->img.width  = h->dims[2];
     output->img.height = h->dims[3];
     /* shift the plane pointers down 'top' rows and right 'left' columns. */
-    for( int i = 0; i < output->img.planes; i++ )
+    for( i = 0; i < output->img.planes; i++ )
     {
         intptr_t offset = output->img.stride[i] * h->dims[1] * h->csp->height[i];
         offset += h->dims[0] * h->csp->width[i] * x264_cli_csp_depth_factor( output->img.csp );

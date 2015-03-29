@@ -283,10 +283,16 @@ static MMSSCPacketType get_tcp_server_response(MMSTContext *mmst)
             // read the rest of the packet.
             if (length_remaining < 0
                 || length_remaining > sizeof(mms->in_buffer) - 12) {
+#ifdef IDE_COMPILE
                 av_log(NULL, AV_LOG_ERROR,
+                       "Incoming packet length %d exceeds bufsize %""zu""\n",
+                       length_remaining, sizeof(mms->in_buffer) - 12);
+#else
+				av_log(NULL, AV_LOG_ERROR,
                        "Incoming packet length %d exceeds bufsize %"SIZE_SPECIFIER"\n",
                        length_remaining, sizeof(mms->in_buffer) - 12);
-                return AVERROR_INVALIDDATA;
+#endif
+				return AVERROR_INVALIDDATA;
             }
             read_result = ffurl_read_complete(mms->mms_hd, mms->in_buffer + 12,
                                             length_remaining) ;
@@ -319,10 +325,16 @@ static MMSSCPacketType get_tcp_server_response(MMSTContext *mmst)
 
             if (length_remaining < 0
                 || length_remaining > sizeof(mms->in_buffer) - 8) {
+#ifdef IDE_COMPILE
                 av_log(NULL, AV_LOG_ERROR,
+                       "Data length %d is invalid or too large (max=%""zu"")\n",
+                       length_remaining, sizeof(mms->in_buffer));
+#else
+				av_log(NULL, AV_LOG_ERROR,
                        "Data length %d is invalid or too large (max=%"SIZE_SPECIFIER")\n",
                        length_remaining, sizeof(mms->in_buffer));
-                return AVERROR_INVALIDDATA;
+#endif
+				return AVERROR_INVALIDDATA;
             }
             mms->remaining_in_len    = length_remaining;
             mms->read_in_ptr         = mms->in_buffer;
@@ -629,10 +641,19 @@ static int mms_read(URLContext *h, uint8_t *buf, int size)
 }
 
 URLProtocol ff_mmst_protocol = {
-    .name           = "mmst",
+#ifdef IDE_COMPILE
+    "mmst",
+    mms_open,
+    0, mms_read,
+    0, 0, mms_close,
+    0, 0, 0, 0, 0, 0, sizeof(MMSTContext),
+    0, URL_PROTOCOL_FLAG_NETWORK,
+#else
+	.name           = "mmst",
     .url_open       = mms_open,
     .url_read       = mms_read,
     .url_close      = mms_close,
     .priv_data_size = sizeof(MMSTContext),
     .flags          = URL_PROTOCOL_FLAG_NETWORK,
+#endif
 };

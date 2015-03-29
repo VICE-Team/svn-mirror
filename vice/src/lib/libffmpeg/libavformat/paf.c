@@ -258,11 +258,21 @@ static int read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_paf_demuxer = {
-    .name           = "paf",
+#ifdef IDE_COMPILE
+    "paf",
+    "Amazing Studio Packed Animation File",
+    0, 0, 0, 0, 0, 0, 0, sizeof(PAFDemuxContext),
+    read_probe,
+    read_header,
+    read_packet,
+    read_close,
+#else
+	.name           = "paf",
     .long_name      = NULL_IF_CONFIG_SMALL("Amazing Studio Packed Animation File"),
     .priv_data_size = sizeof(PAFDemuxContext),
     .read_probe     = read_probe,
     .read_header    = read_header,
     .read_packet    = read_packet,
     .read_close     = read_close,
+#endif
 };

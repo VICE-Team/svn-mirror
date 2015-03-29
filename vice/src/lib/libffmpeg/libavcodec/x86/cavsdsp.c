@@ -32,7 +32,13 @@
 #include "constants.h"
 #include "fpel.h"
 #include "idctdsp.h"
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 #if HAVE_MMX_INLINE
 

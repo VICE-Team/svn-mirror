@@ -82,11 +82,21 @@ static int y41p_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_y41p_decoder = {
-    .name         = "y41p",
+#ifdef IDE_COMPILE
+    "y41p",
+    "Uncompressed YUV 4:1:1 12-bit",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_Y41P,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, y41p_decode_init,
+    0, 0, y41p_decode_frame,
+#else
+	.name         = "y41p",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed YUV 4:1:1 12-bit"),
     .type         = AVMEDIA_TYPE_VIDEO,
     .id           = AV_CODEC_ID_Y41P,
     .init         = y41p_decode_init,
     .decode       = y41p_decode_frame,
     .capabilities = CODEC_CAP_DR1,
+#endif
 };

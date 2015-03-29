@@ -21,7 +21,14 @@
 
 
 #include "avformat.h"
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "url.h"
 #if CONFIG_NETWORK
 #include "network.h"

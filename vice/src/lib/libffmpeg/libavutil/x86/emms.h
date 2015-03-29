@@ -19,7 +19,13 @@
 #ifndef AVUTIL_X86_EMMS_H
 #define AVUTIL_X86_EMMS_H
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "libavutil/attributes.h"
 #include "libavutil/cpu.h"
 

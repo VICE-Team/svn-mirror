@@ -24,7 +24,13 @@
 #ifndef AVCODEC_VDPAU_INTERNAL_H
 #define AVCODEC_VDPAU_INTERNAL_H
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include <stdint.h>
 #if CONFIG_VDPAU
 #include <vdpau/vdpau.h>

@@ -127,6 +127,8 @@ fail:
 static void avs_build_filter_sequence( char *filename_ext, const char *filter[AVS_MAX_SEQUENCE+1] )
 {
     int i = 0;
+    int j;
+
 #if USE_AVXSYNTH
     const char *all_purpose[] = { "FFVideoSource", 0 };
 #else
@@ -138,7 +140,7 @@ static void avs_build_filter_sequence( char *filename_ext, const char *filter[AV
     if( !strcasecmp( filename_ext, "dga" ) )
         filter[i++] = "AVCSource";
 #endif
-    for( int j = 0; all_purpose[j] && i < AVS_MAX_SEQUENCE; j++ )
+    for( j = 0; all_purpose[j] && i < AVS_MAX_SEQUENCE; j++ )
         filter[i++] = all_purpose[j];
 }
 
@@ -160,11 +162,14 @@ static float get_avs_version( avs_hnd_t *h )
 #if USE_AVXSYNTH
     return 2.58f;
 #else
-    FAIL_IF_ERROR( !h->func.avs_function_exists( h->env, "VersionNumber" ), "VersionNumber does not exist\n" )
-    AVS_Value ver = h->func.avs_invoke( h->env, "VersionNumber", avs_new_value_array( NULL, 0 ), NULL );
+    AVS_Value ver;
+    float ret;
+
+	FAIL_IF_ERROR( !h->func.avs_function_exists( h->env, "VersionNumber" ), "VersionNumber does not exist\n" )
+    ver = h->func.avs_invoke( h->env, "VersionNumber", avs_new_value_array( NULL, 0 ), NULL );
     FAIL_IF_ERROR( avs_is_error( ver ), "unable to determine avisynth version: %s\n", avs_as_error( ver ) )
     FAIL_IF_ERROR( !avs_is_float( ver ), "VersionNumber did not return a float value\n" );
-    float ret = avs_as_float( ver );
+    ret = avs_as_float( ver );
     h->func.avs_release_value( ver );
     return ret;
 #endif
@@ -173,12 +178,23 @@ static float get_avs_version( avs_hnd_t *h )
 static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, cli_input_opt_t *opt )
 {
     FILE *fh = x264_fopen( psz_filename, "r" );
-    if( !fh )
+    avs_hnd_t *h;
+    float avs_version;
+    AVS_Value res;
+    char *filename_ext;
+    const AVS_VideoInfo *vi;
+
+#ifdef _WIN32
+    char ansi_filename[MAX_PATH];
+    AVS_Value arg;
+#endif
+
+	if( !fh )
         return -1;
     FAIL_IF_ERROR( !x264_is_regular_file( fh ), "AVS input is incompatible with non-regular file `%s'\n", psz_filename );
     fclose( fh );
 
-    avs_hnd_t *h = malloc( sizeof(avs_hnd_t) );
+    h = malloc( sizeof(avs_hnd_t) );
     if( !h )
         return -1;
     FAIL_IF_ERROR( x264_avs_load_library( h ), "failed to load avisynth\n" )
@@ -188,31 +204,32 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
         const char *error = h->func.avs_get_error( h->env );
         FAIL_IF_ERROR( error, "%s\n", error );
     }
-    float avs_version = get_avs_version( h );
+    avs_version = get_avs_version( h );
     if( avs_version <= 0 )
         return -1;
     x264_cli_log( "avs", X264_LOG_DEBUG, "using avisynth version %.2f\n", avs_version );
 
 #ifdef _WIN32
     /* Avisynth doesn't support Unicode filenames. */
-    char ansi_filename[MAX_PATH];
     FAIL_IF_ERROR( !x264_ansi_filename( psz_filename, ansi_filename, MAX_PATH, 0 ), "invalid ansi filename\n" );
-    AVS_Value arg = avs_new_value_string( ansi_filename );
+    arg = avs_new_value_string( ansi_filename );
 #else
     AVS_Value arg = avs_new_value_string( psz_filename );
 #endif
 
-    AVS_Value res;
-    char *filename_ext = get_filename_extension( psz_filename );
+    filename_ext = get_filename_extension( psz_filename );
 
     if( !strcasecmp( filename_ext, "avs" ) )
     {
-        res = h->func.avs_invoke( h->env, "Import", arg, NULL );
+        AVS_Value mt_test;
+        int mt_mode;
+
+		res = h->func.avs_invoke( h->env, "Import", arg, NULL );
         FAIL_IF_ERROR( avs_is_error( res ), "%s\n", avs_as_string( res ) )
         /* check if the user is using a multi-threaded script and apply distributor if necessary.
            adapted from avisynth's vfw interface */
-        AVS_Value mt_test = h->func.avs_invoke( h->env, "GetMTMode", avs_new_value_bool( 0 ), NULL );
-        int mt_mode = avs_is_int( mt_test ) ? avs_as_int( mt_test ) : 0;
+        mt_test = h->func.avs_invoke( h->env, "GetMTMode", avs_new_value_bool( 0 ), NULL );
+        mt_mode = avs_is_int( mt_test ) ? avs_as_int( mt_test ) : 0;
         h->func.avs_release_value( mt_test );
         if( mt_mode > 0 && mt_mode < 5 )
         {
@@ -225,8 +242,9 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     {
         /* cycle through known source filters to find one that works */
         const char *filter[AVS_MAX_SEQUENCE+1] = { 0 };
-        avs_build_filter_sequence( filename_ext, filter );
         int i;
+
+		avs_build_filter_sequence( filename_ext, filter );
         for( i = 0; filter[i]; i++ )
         {
             x264_cli_log( "avs", X264_LOG_INFO, "trying %s... ", filter[i] );
@@ -252,13 +270,15 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     }
     FAIL_IF_ERROR( !avs_is_clip( res ), "`%s' didn't return a video clip\n", psz_filename )
     h->clip = h->func.avs_take_clip( res, h->env );
-    const AVS_VideoInfo *vi = h->func.avs_get_video_info( h->clip );
+    vi = h->func.avs_get_video_info( h->clip );
     FAIL_IF_ERROR( !avs_has_video( vi ), "`%s' has no video data\n", psz_filename )
     /* if the clip is made of fields instead of frames, call weave to make them frames */
     if( avs_is_field_based( vi ) )
     {
-        x264_cli_log( "avs", X264_LOG_WARNING, "detected fieldbased (separated) input, weaving to frames\n" );
-        AVS_Value tmp = h->func.avs_invoke( h->env, "Weave", res, NULL );
+        AVS_Value tmp;
+
+		x264_cli_log( "avs", X264_LOG_WARNING, "detected fieldbased (separated) input, weaving to frames\n" );
+        tmp = h->func.avs_invoke( h->env, "Weave", res, NULL );
         FAIL_IF_ERROR( avs_is_error( tmp ), "couldn't weave fields into frames\n" )
         res = update_clip( h, &vi, tmp, res );
         info->interlaced = 1;
@@ -275,17 +295,23 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
         const char *csp = opt->output_csp == X264_CSP_I420 ? "YV12" :
                           opt->output_csp == X264_CSP_I422 ? "YV16" :
                           opt->output_csp == X264_CSP_I444 ? "YV24" : "RGB";
-        x264_cli_log( "avs", X264_LOG_WARNING, "converting input clip to %s\n", csp );
+        char conv_func[14] = { "ConvertTo" };
+
+        char matrix[7] = "";
+        int arg_count = 2;
+
+        const char *arg_name[] = { NULL, "interlaced", "matrix" };
+        AVS_Value arg_arr[3];
+        AVS_Value res2;
+
+		x264_cli_log( "avs", X264_LOG_WARNING, "converting input clip to %s\n", csp );
         FAIL_IF_ERROR( opt->output_csp < X264_CSP_I444 && (vi->width&1),
                        "input clip width not divisible by 2 (%dx%d)\n", vi->width, vi->height )
         FAIL_IF_ERROR( opt->output_csp == X264_CSP_I420 && info->interlaced && (vi->height&3),
                        "input clip height not divisible by 4 (%dx%d)\n", vi->width, vi->height )
         FAIL_IF_ERROR( (opt->output_csp == X264_CSP_I420 || info->interlaced) && (vi->height&1),
                        "input clip height not divisible by 2 (%dx%d)\n", vi->width, vi->height )
-        char conv_func[14] = { "ConvertTo" };
         strcat( conv_func, csp );
-        char matrix[7] = "";
-        int arg_count = 2;
         /* if doing a rgb <-> yuv conversion then range is handled via 'matrix'. though it's only supported in 2.56+ */
         if( avs_version >= 2.56f && ((opt->output_csp == X264_CSP_RGB && avs_is_yuv( vi )) || (opt->output_csp != X264_CSP_RGB && avs_is_rgb( vi ))) )
         {
@@ -297,12 +323,10 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
             // notification that the input range has changed to the desired one
             opt->input_range = opt->output_range;
         }
-        const char *arg_name[] = { NULL, "interlaced", "matrix" };
-        AVS_Value arg_arr[3];
         arg_arr[0] = res;
         arg_arr[1] = avs_new_value_bool( info->interlaced );
         arg_arr[2] = avs_new_value_string( matrix );
-        AVS_Value res2 = h->func.avs_invoke( h->env, conv_func, avs_new_value_array( arg_arr, arg_count ), arg_name );
+        res2 = h->func.avs_invoke( h->env, conv_func, avs_new_value_array( arg_arr, arg_count ), arg_name );
         FAIL_IF_ERROR( avs_is_error( res2 ), "couldn't convert input clip to %s\n", csp )
         res = update_clip( h, &vi, res2, res );
     }
@@ -310,12 +334,14 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     if( avs_is_yuv( vi ) && opt->output_range != RANGE_AUTO && ((opt->input_range == RANGE_PC) != opt->output_range) )
     {
         const char *levels = opt->output_range ? "TV->PC" : "PC->TV";
-        x264_cli_log( "avs", X264_LOG_WARNING, "performing %s conversion\n", levels );
         AVS_Value arg_arr[2];
+        const char *arg_name[] = { NULL, "levels" };
+        AVS_Value res2;
+
+		x264_cli_log( "avs", X264_LOG_WARNING, "performing %s conversion\n", levels );
         arg_arr[0] = res;
         arg_arr[1] = avs_new_value_string( levels );
-        const char *arg_name[] = { NULL, "levels" };
-        AVS_Value res2 = h->func.avs_invoke( h->env, "ColorYUV", avs_new_value_array( arg_arr, 2 ), arg_name );
+        res2 = h->func.avs_invoke( h->env, "ColorYUV", avs_new_value_array( arg_arr, 2 ), arg_name );
         FAIL_IF_ERROR( avs_is_error( res2 ), "couldn't convert range: %s\n", avs_as_error( res2 ) )
         res = update_clip( h, &vi, res2, res );
         // notification that the input range has changed to the desired one
@@ -359,10 +385,12 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
 
 static int picture_alloc( cli_pic_t *pic, int csp, int width, int height )
 {
-    if( x264_cli_pic_alloc( pic, X264_CSP_NONE, width, height ) )
+    const x264_cli_csp_t *cli_csp;
+
+	if( x264_cli_pic_alloc( pic, X264_CSP_NONE, width, height ) )
         return -1;
     pic->img.csp = csp;
-    const x264_cli_csp_t *cli_csp = x264_cli_get_csp( csp );
+    cli_csp = x264_cli_get_csp( csp );
     if( cli_csp )
         pic->img.planes = cli_csp->planes;
 #if HAVE_SWSCALE
@@ -378,12 +406,16 @@ static int read_frame( cli_pic_t *pic, hnd_t handle, int i_frame )
 {
     static const int plane[3] = { AVS_PLANAR_Y, AVS_PLANAR_U, AVS_PLANAR_V };
     avs_hnd_t *h = handle;
-    if( i_frame >= h->num_frames )
+    AVS_VideoFrame *frm;
+    const char *err;
+	int i;
+
+	if( i_frame >= h->num_frames )
         return -1;
-    AVS_VideoFrame *frm = pic->opaque = h->func.avs_get_frame( h->clip, i_frame );
-    const char *err = h->func.avs_clip_get_error( h->clip );
+    frm = pic->opaque = h->func.avs_get_frame( h->clip, i_frame );
+    err = h->func.avs_clip_get_error( h->clip );
     FAIL_IF_ERROR( err, "%s occurred while reading frame %d\n", err, i_frame )
-    for( int i = 0; i < pic->img.planes; i++ )
+    for( i = 0; i < pic->img.planes; i++ )
     {
         /* explicitly cast away the const attribute to avoid a warning */
         pic->img.plane[i] = (uint8_t*)avs_get_read_ptr_p( frm, plane[i] );

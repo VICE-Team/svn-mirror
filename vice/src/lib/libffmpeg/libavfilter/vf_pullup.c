@@ -38,7 +38,18 @@
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption pullup_options[] = {
-    { "jl", "set left junk size",  OFFSET(junk_left),  AV_OPT_TYPE_INT, {.i64=1}, 0, INT_MAX, FLAGS },
+#ifdef IDE_COMPILE
+	{ "jl", "set left junk size", OFFSET(junk_left), AV_OPT_TYPE_INT, {1}, 0, INT_MAX, FLAGS },
+    { "jr", "set right junk size", OFFSET(junk_right), AV_OPT_TYPE_INT, {1}, 0, INT_MAX, FLAGS },
+    { "jt", "set top junk size", OFFSET(junk_top), AV_OPT_TYPE_INT, {4}, 1, INT_MAX, FLAGS },
+    { "jb", "set bottom junk size", OFFSET(junk_bottom), AV_OPT_TYPE_INT, {4}, 1, INT_MAX, FLAGS },
+    { "sb", "set strict breaks", OFFSET(strict_breaks), AV_OPT_TYPE_INT, {0}, -1, 1, FLAGS },
+    { "mp", "set metric plane", OFFSET(metric_plane), AV_OPT_TYPE_INT, {0}, 0, 2, FLAGS, "mp" },
+    { "y", "luma", 0, AV_OPT_TYPE_CONST, {0}, 0, 0, FLAGS, "mp" },
+    { "u", "chroma blue", 0, AV_OPT_TYPE_CONST, {1}, 0, 0, FLAGS, "mp" },
+    { "v", "chroma red", 0, AV_OPT_TYPE_CONST, {2}, 0, 0, FLAGS, "mp" },
+#else
+	{ "jl", "set left junk size",  OFFSET(junk_left),  AV_OPT_TYPE_INT, {.i64=1}, 0, INT_MAX, FLAGS },
     { "jr", "set right junk size", OFFSET(junk_right), AV_OPT_TYPE_INT, {.i64=1}, 0, INT_MAX, FLAGS },
     { "jt", "set top junk size",   OFFSET(junk_top),   AV_OPT_TYPE_INT, {.i64=4}, 1, INT_MAX, FLAGS },
     { "jb", "set bottom junk size", OFFSET(junk_bottom), AV_OPT_TYPE_INT, {.i64=4}, 1, INT_MAX, FLAGS },
@@ -47,7 +58,8 @@ static const AVOption pullup_options[] = {
     { "y", "luma",        0, AV_OPT_TYPE_CONST, {.i64=0}, 0, 0, FLAGS, "mp" },
     { "u", "chroma blue", 0, AV_OPT_TYPE_CONST, {.i64=1}, 0, 0, FLAGS, "mp" },
     { "v", "chroma red",  0, AV_OPT_TYPE_CONST, {.i64=2}, 0, 0, FLAGS, "mp" },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(pullup);
@@ -751,25 +763,48 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad pullup_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad pullup_outputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_pullup = {
-    .name          = "pullup",
+#ifdef IDE_COMPILE
+    "pullup",
+    NULL_IF_CONFIG_SMALL("Pullup from field sequence to frames."),
+    pullup_inputs,
+    pullup_outputs,
+    &pullup_class,
+    0, 0, 0, uninit,
+    query_formats,
+    sizeof(PullupContext),
+#else
+	.name          = "pullup",
     .description   = NULL_IF_CONFIG_SMALL("Pullup from field sequence to frames."),
     .priv_size     = sizeof(PullupContext),
     .priv_class    = &pullup_class,
@@ -777,4 +812,5 @@ AVFilter ff_vf_pullup = {
     .query_formats = query_formats,
     .inputs        = pullup_inputs,
     .outputs       = pullup_outputs,
+#endif
 };

@@ -165,7 +165,17 @@ static int ass_read_seek(AVFormatContext *s, int stream_index,
 }
 
 AVInputFormat ff_ass_demuxer = {
-    .name           = "ass",
+#ifdef IDE_COMPILE
+    "ass",
+    "SSA (SubStation Alpha) subtitle",
+    0, 0, 0, 0, 0, 0, 0, sizeof(ASSContext),
+    ass_probe,
+    ass_read_header,
+    ass_read_packet,
+    ass_read_close,
+    0, 0, 0, 0, ass_read_seek,
+#else
+	.name           = "ass",
     .long_name      = NULL_IF_CONFIG_SMALL("SSA (SubStation Alpha) subtitle"),
     .priv_data_size = sizeof(ASSContext),
     .read_probe     = ass_probe,
@@ -173,4 +183,5 @@ AVInputFormat ff_ass_demuxer = {
     .read_packet    = ass_read_packet,
     .read_close     = ass_read_close,
     .read_seek2     = ass_read_seek,
+#endif
 };

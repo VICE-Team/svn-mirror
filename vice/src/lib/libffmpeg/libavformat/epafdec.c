@@ -93,7 +93,17 @@ static int epaf_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_epaf_demuxer = {
-    .name           = "epaf",
+#ifdef IDE_COMPILE
+    "epaf",
+    "Ensoniq Paris Audio File",
+    AVFMT_GENERIC_INDEX,
+    "paf,fap",
+    0, 0, 0, 0, 0, 0, epaf_probe,
+    epaf_read_header,
+    ff_pcm_read_packet,
+    0, ff_pcm_read_seek,
+#else
+	.name           = "epaf",
     .long_name      = NULL_IF_CONFIG_SMALL("Ensoniq Paris Audio File"),
     .read_probe     = epaf_probe,
     .read_header    = epaf_read_header,
@@ -101,4 +111,5 @@ AVInputFormat ff_epaf_demuxer = {
     .read_seek      = ff_pcm_read_seek,
     .extensions     = "paf,fap",
     .flags          = AVFMT_GENERIC_INDEX,
+#endif
 };

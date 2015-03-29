@@ -140,7 +140,12 @@ extern int ff_mp_msg_level_all;
 void ff_mp_msg_init(void);
 int ff_mp_msg_test(int mod, int lev);
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 void ff_mp_msg_va(int mod, int lev, const char *format, va_list va);
 #ifdef __GNUC__

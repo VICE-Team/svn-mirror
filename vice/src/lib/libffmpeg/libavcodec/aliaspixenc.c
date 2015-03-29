@@ -120,8 +120,24 @@ static av_cold int encode_close(AVCodecContext *avctx)
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp1[] = {
+        AV_PIX_FMT_BGR24, AV_PIX_FMT_GRAY8, AV_PIX_FMT_NONE
+    };
+#endif
+
 AVCodec ff_alias_pix_encoder = {
-    .name      = "alias_pix",
+#ifdef IDE_COMPILE
+    "alias_pix",
+    "Alias/Wavefront PIX image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_ALIAS_PIX,
+    0, 0, tmp1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, encode_init,
+    0, encode_frame,
+    0, encode_close,
+#else
+	.name      = "alias_pix",
     .long_name = NULL_IF_CONFIG_SMALL("Alias/Wavefront PIX image"),
     .type      = AVMEDIA_TYPE_VIDEO,
     .id        = AV_CODEC_ID_ALIAS_PIX,
@@ -131,4 +147,5 @@ AVCodec ff_alias_pix_encoder = {
     .pix_fmts  = (const enum AVPixelFormat[]) {
         AV_PIX_FMT_BGR24, AV_PIX_FMT_GRAY8, AV_PIX_FMT_NONE
     },
+#endif
 };

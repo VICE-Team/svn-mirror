@@ -44,16 +44,27 @@
 
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-    { "nitris_compat", "encode with Avid Nitris compatibility",
+#ifdef IDE_COMPILE
+	{ "nitris_compat", "encode with Avid Nitris compatibility", offsetof(DNXHDEncContext, nitris_compat), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
+#else
+	{ "nitris_compat", "encode with Avid Nitris compatibility",
         offsetof(DNXHDEncContext, nitris_compat), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 static const AVClass dnxhd_class = {
-    .class_name = "dnxhd",
+#ifdef IDE_COMPILE
+    "dnxhd",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "dnxhd",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 static void dnxhd_8bit_get_pixels_8x4_sym(int16_t *av_restrict block,
@@ -1139,8 +1150,30 @@ static const AVCodecDefault dnxhd_defaults[] = {
     { NULL },
 };
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp1[] = {
+        AV_PIX_FMT_YUV422P,
+        AV_PIX_FMT_YUV422P10LE,
+        AV_PIX_FMT_NONE
+    };
+#endif
+
 AVCodec ff_dnxhd_encoder = {
-    .name           = "dnxhd",
+#ifdef IDE_COMPILE
+    "dnxhd",
+    "VC3/DNxHD",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_DNXHD,
+    CODEC_CAP_SLICE_THREADS,
+    0, tmp1,
+    0, 0, 0, 0, &dnxhd_class,
+    0, sizeof(DNXHDEncContext),
+    0, 0, 0, dnxhd_defaults,
+    0, dnxhd_encode_init,
+    0, dnxhd_encode_picture,
+    0, dnxhd_encode_end,
+#else
+	.name           = "dnxhd",
     .long_name      = NULL_IF_CONFIG_SMALL("VC3/DNxHD"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_DNXHD,
@@ -1156,4 +1189,5 @@ AVCodec ff_dnxhd_encoder = {
     },
     .priv_class     = &dnxhd_class,
     .defaults       = dnxhd_defaults,
+#endif
 };

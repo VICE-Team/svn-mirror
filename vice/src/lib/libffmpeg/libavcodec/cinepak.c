@@ -476,7 +476,18 @@ static av_cold int cinepak_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_cinepak_decoder = {
-    .name           = "cinepak",
+#ifdef IDE_COMPILE
+    "cinepak",
+    "Cinepak",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_CINEPAK,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(CinepakContext),
+    0, 0, 0, 0, 0, cinepak_decode_init,
+    0, 0, cinepak_decode_frame,
+    cinepak_decode_end,
+#else
+	.name           = "cinepak",
     .long_name      = NULL_IF_CONFIG_SMALL("Cinepak"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_CINEPAK,
@@ -485,4 +496,5 @@ AVCodec ff_cinepak_decoder = {
     .close          = cinepak_decode_end,
     .decode         = cinepak_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

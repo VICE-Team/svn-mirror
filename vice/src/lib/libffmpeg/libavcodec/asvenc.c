@@ -23,6 +23,10 @@
  * ASUS V1/V2 encoder.
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/attributes.h"
 #include "libavutil/mem.h"
 
@@ -346,8 +350,24 @@ static av_cold int encode_init(AVCodecContext *avctx)
 }
 
 #if CONFIG_ASV1_ENCODER
+
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUV420P,
+                                                     AV_PIX_FMT_NONE };
+#endif
+
 AVCodec ff_asv1_encoder = {
-    .name           = "asv1",
+#ifdef IDE_COMPILE
+    "asv1",
+    "ASUS V1",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_ASV1,
+    0, 0, tmp1,
+    0, 0, 0, 0, 0, 0, sizeof(ASV1Context),
+    0, 0, 0, 0, 0, encode_init,
+    0, encode_frame,
+#else
+	.name           = "asv1",
     .long_name      = NULL_IF_CONFIG_SMALL("ASUS V1"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_ASV1,
@@ -356,12 +376,29 @@ AVCodec ff_asv1_encoder = {
     .encode2        = encode_frame,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
                                                      AV_PIX_FMT_NONE },
+#endif
 };
 #endif
 
 #if CONFIG_ASV2_ENCODER
+
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp2[] = { AV_PIX_FMT_YUV420P,
+                                                     AV_PIX_FMT_NONE };
+#endif
+
 AVCodec ff_asv2_encoder = {
-    .name           = "asv2",
+#ifdef IDE_COMPILE
+    "asv2",
+    "ASUS V2",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_ASV2,
+    0, 0, tmp2,
+    0, 0, 0, 0, 0, 0, sizeof(ASV1Context),
+    0, 0, 0, 0, 0, encode_init,
+    0, encode_frame,
+#else
+	.name           = "asv2",
     .long_name      = NULL_IF_CONFIG_SMALL("ASUS V2"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_ASV2,
@@ -370,5 +407,6 @@ AVCodec ff_asv2_encoder = {
     .encode2        = encode_frame,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
                                                      AV_PIX_FMT_NONE },
+#endif
 };
 #endif

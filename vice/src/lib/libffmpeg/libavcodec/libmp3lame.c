@@ -24,7 +24,11 @@
  * Interface to libmp3lame for mp3 encoding.
  */
 
+#ifdef IDE_COMPILE
+#include <lame.h>
+#else
 #include <lame/lame.h>
+#endif
 
 #include "libavutil/channel_layout.h"
 #include "libavutil/common.h"
@@ -273,17 +277,30 @@ static int mp3lame_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
 #define OFFSET(x) offsetof(LAMEContext, x)
 #define AE AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-    { "reservoir",    "use bit reservoir", OFFSET(reservoir),    AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, AE },
+#ifdef IDE_COMPILE
+	{ "reservoir", "use bit reservoir", OFFSET(reservoir), AV_OPT_TYPE_INT, {1}, 0, 1, AE },
+    { "joint_stereo", "use joint stereo", OFFSET(joint_stereo), AV_OPT_TYPE_INT, {1}, 0, 1, AE },
+    { "abr", "use ABR", OFFSET(abr), AV_OPT_TYPE_INT, {0}, 0, 1, AE },
+#else
+	{ "reservoir",    "use bit reservoir", OFFSET(reservoir),    AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, AE },
     { "joint_stereo", "use joint stereo",  OFFSET(joint_stereo), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, AE },
     { "abr",          "use ABR",           OFFSET(abr),          AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, AE },
-    { NULL },
+#endif
+	{ NULL },
 };
 
 static const AVClass libmp3lame_class = {
-    .class_name = "libmp3lame encoder",
+#ifdef IDE_COMPILE
+    "libmp3lame encoder",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "libmp3lame encoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 static const AVCodecDefault libmp3lame_defaults[] = {
@@ -295,8 +312,35 @@ static const int libmp3lame_sample_rates[] = {
     44100, 48000,  32000, 22050, 24000, 16000, 11025, 12000, 8000, 0
 };
 
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S32P,
+                                                             AV_SAMPLE_FMT_FLTP,
+                                                             AV_SAMPLE_FMT_S16P,
+                                                             AV_SAMPLE_FMT_NONE };
+
+static const uint64_t tmp2[] = { (AV_CH_LAYOUT_MONO),
+                                                  (AV_CH_LAYOUT_STEREO),
+                                                  0 };
+#endif
+
 AVCodec ff_libmp3lame_encoder = {
-    .name                  = "libmp3lame",
+#ifdef IDE_COMPILE
+    "libmp3lame",
+    "libmp3lame MP3 (MPEG audio layer 3)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_MP3,
+    CODEC_CAP_DELAY | CODEC_CAP_SMALL_LAST_FRAME,
+    0, 0, libmp3lame_sample_rates,
+    tmp1,
+    tmp2,
+    0, &libmp3lame_class,
+    0, sizeof(LAMEContext),
+    0, 0, 0, libmp3lame_defaults,
+    0, mp3lame_encode_init,
+    0, mp3lame_encode_frame,
+    0, mp3lame_encode_close,
+#else
+	.name                  = "libmp3lame",
     .long_name             = NULL_IF_CONFIG_SMALL("libmp3lame MP3 (MPEG audio layer 3)"),
     .type                  = AVMEDIA_TYPE_AUDIO,
     .id                    = AV_CODEC_ID_MP3,
@@ -315,4 +359,5 @@ AVCodec ff_libmp3lame_encoder = {
                                                   0 },
     .priv_class            = &libmp3lame_class,
     .defaults              = libmp3lame_defaults,
+#endif
 };

@@ -115,8 +115,15 @@ static void add_serial_pair(WtvSyncEntry ** list, int * count, int64_t serial, i
     WtvSyncEntry *new_list = av_realloc(*list, new_count * sizeof(WtvSyncEntry));
     if (!new_list)
         return;
-    new_list[*count] = (WtvSyncEntry){serial, value};
-    *list  = new_list;
+#ifdef IDE_COMPILE
+    {
+		WtvSyncEntry tmp0 = {serial, value};
+		new_list[*count] = tmp0;
+	}
+#else
+	new_list[*count] = (WtvSyncEntry){serial, value};
+#endif
+	*list  = new_list;
     *count = new_count;
 }
 
@@ -215,9 +222,19 @@ static void finish_chunk(AVFormatContext *s)
 
 static void put_videoinfoheader2(AVIOContext *pb, AVStream *st)
 {
-    AVRational dar = av_mul_q(st->sample_aspect_ratio, (AVRational){st->codec->width, st->codec->height});
     unsigned int num, den;
-    av_reduce(&num, &den, dar.num, dar.den, 0xFFFFFFFF);
+#ifdef IDE_COMPILE
+	AVRational dar;
+	AVRational tmp;
+
+	tmp.num = st->codec->width;
+	tmp.den = st->codec->height;
+	dar = av_mul_q(st->sample_aspect_ratio, tmp);
+#else
+	AVRational dar = av_mul_q(st->sample_aspect_ratio, (AVRational){st->codec->width, st->codec->height});
+#endif
+
+	av_reduce(&num, &den, dar.num, dar.den, 0xFFFFFFFF);
 
     /* VIDEOINFOHEADER2 */
     avio_wl32(pb, 0);
@@ -307,8 +324,15 @@ static int write_stream_codec_info(AVFormatContext *s, AVStream *st)
             return -1;
         }
         avio_wl32(pb, tag);
-        avio_write(pb, (const uint8_t[]){FF_MEDIASUBTYPE_BASE_GUID}, 12);
-    }
+#ifdef IDE_COMPILE
+        {
+			const uint8_t tmp22[] = {FF_MEDIASUBTYPE_BASE_GUID};
+			avio_write(pb, tmp22, 12);
+		}
+#else
+		avio_write(pb, (const uint8_t[]){FF_MEDIASUBTYPE_BASE_GUID}, 12);
+#endif
+	}
     ff_put_guid(pb, format_type); // actual_formattype
 
     return 0;
@@ -830,8 +854,24 @@ static int write_trailer(AVFormatContext *s)
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const AVCodecTag* const tmp33[] = { ff_codec_bmp_tags, ff_codec_wav_tags, 0 };
+#endif
+
 AVOutputFormat ff_wtv_muxer = {
-    .name           = "wtv",
+#ifdef IDE_COMPILE
+    "wtv",
+    "Windows Television (WTV)",
+    0, "wtv",
+    AV_CODEC_ID_AC3,
+    AV_CODEC_ID_MPEG2VIDEO,
+    0, 0, tmp33,
+    0, 0, sizeof(WtvContext),
+    write_header,
+    write_packet,
+    write_trailer,
+#else
+	.name           = "wtv",
     .long_name      = NULL_IF_CONFIG_SMALL("Windows Television (WTV)"),
     .extensions     = "wtv",
     .priv_data_size = sizeof(WtvContext),
@@ -842,4 +882,5 @@ AVOutputFormat ff_wtv_muxer = {
     .write_trailer  = write_trailer,
     .codec_tag      = (const AVCodecTag* const []){ ff_codec_bmp_tags,
                                                     ff_codec_wav_tags, 0 },
+#endif
 };

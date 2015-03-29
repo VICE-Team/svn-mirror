@@ -607,8 +607,25 @@ static av_cold int prores_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp1[] = {AV_PIX_FMT_YUV422P10LE, AV_PIX_FMT_NONE};
+#endif
+
 AVCodec ff_prores_aw_encoder = {
-    .name           = "prores_aw",
+#ifdef IDE_COMPILE
+    "prores_aw",
+    "Apple ProRes",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_PRORES,
+    CODEC_CAP_FRAME_THREADS | CODEC_CAP_INTRA_ONLY,
+    0, tmp1,
+    0, 0, 0, 0, 0, profiles,
+    sizeof(ProresContext),
+    0, 0, 0, 0, 0, prores_encode_init,
+    0, prores_encode_frame,
+    0, prores_encode_close
+#else
+	.name           = "prores_aw",
     .long_name      = NULL_IF_CONFIG_SMALL("Apple ProRes"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_PRORES,
@@ -619,10 +636,28 @@ AVCodec ff_prores_aw_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]){AV_PIX_FMT_YUV422P10, AV_PIX_FMT_NONE},
     .capabilities   = CODEC_CAP_FRAME_THREADS | CODEC_CAP_INTRA_ONLY,
     .profiles       = profiles
+#endif
 };
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp2[] = {AV_PIX_FMT_YUV422P10LE, AV_PIX_FMT_NONE};
+#endif
+
 AVCodec ff_prores_encoder = {
-    .name           = "prores",
+#ifdef IDE_COMPILE
+    "prores",
+    "Apple ProRes",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_PRORES,
+    CODEC_CAP_FRAME_THREADS | CODEC_CAP_INTRA_ONLY,
+    0, tmp2,
+    0, 0, 0, 0, 0, profiles,
+    sizeof(ProresContext),
+    0, 0, 0, 0, 0, prores_encode_init,
+    0, prores_encode_frame,
+    0, prores_encode_close
+#else
+	.name           = "prores",
     .long_name      = NULL_IF_CONFIG_SMALL("Apple ProRes"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_PRORES,
@@ -633,4 +668,5 @@ AVCodec ff_prores_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]){AV_PIX_FMT_YUV422P10, AV_PIX_FMT_NONE},
     .capabilities   = CODEC_CAP_FRAME_THREADS | CODEC_CAP_INTRA_ONLY,
     .profiles       = profiles
+#endif
 };

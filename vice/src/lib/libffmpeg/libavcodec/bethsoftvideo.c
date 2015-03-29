@@ -154,7 +154,18 @@ static av_cold int bethsoftvid_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_bethsoftvid_decoder = {
-    .name           = "bethsoftvid",
+#ifdef IDE_COMPILE
+    "bethsoftvid",
+    "Bethesda VID video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_BETHSOFTVID,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(BethsoftvidContext),
+    0, 0, 0, 0, 0, bethsoftvid_decode_init,
+    0, 0, bethsoftvid_decode_frame,
+    bethsoftvid_decode_end,
+#else
+	.name           = "bethsoftvid",
     .long_name      = NULL_IF_CONFIG_SMALL("Bethesda VID video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_BETHSOFTVID,
@@ -163,4 +174,5 @@ AVCodec ff_bethsoftvid_decoder = {
     .close          = bethsoftvid_decode_end,
     .decode         = bethsoftvid_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

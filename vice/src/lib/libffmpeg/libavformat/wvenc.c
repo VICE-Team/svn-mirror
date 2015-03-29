@@ -77,7 +77,20 @@ static av_cold int wv_write_trailer(AVFormatContext *ctx)
 }
 
 AVOutputFormat ff_wv_muxer = {
-    .name              = "wv",
+#ifdef IDE_COMPILE
+    "wv",
+    "raw WavPack",
+    "audio/x-wavpack",
+    "wv",
+    AV_CODEC_ID_WAVPACK,
+    AV_CODEC_ID_NONE,
+    0, AVFMT_NOTIMESTAMPS,
+    0, 0, 0, sizeof(WvMuxContext),
+    wv_write_header,
+    wv_write_packet,
+    wv_write_trailer,
+#else
+	.name              = "wv",
     .long_name         = NULL_IF_CONFIG_SMALL("raw WavPack"),
     .mime_type         = "audio/x-wavpack",
     .extensions        = "wv",
@@ -88,4 +101,5 @@ AVOutputFormat ff_wv_muxer = {
     .write_packet      = wv_write_packet,
     .write_trailer     = wv_write_trailer,
     .flags             = AVFMT_NOTIMESTAMPS,
+#endif
 };

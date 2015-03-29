@@ -154,9 +154,14 @@ static int decode_frame(AVCodecContext *avctx,
         av_reduce(&avctx->sample_aspect_ratio.num, &avctx->sample_aspect_ratio.den,
                    avctx->sample_aspect_ratio.num,  avctx->sample_aspect_ratio.den,
                   0x10000);
-    else
-        avctx->sample_aspect_ratio = (AVRational){ 0, 1 };
-
+    else {
+#ifdef IDE_COMPILE
+		avctx->sample_aspect_ratio.num = 0;
+		avctx->sample_aspect_ratio.den = 1;
+#else
+		avctx->sample_aspect_ratio = (AVRational){ 0, 1 };
+#endif
+	}
     if (offset >= 1724 + 4) {
         buf = avpkt->data + 1724;
         i = read32(&buf, endian);
@@ -356,10 +361,19 @@ static int decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_dpx_decoder = {
-    .name           = "dpx",
+#ifdef IDE_COMPILE
+    "dpx",
+    "DPX (Digital Picture Exchange) image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_DPX,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, decode_frame,
+#else
+	.name           = "dpx",
     .long_name      = NULL_IF_CONFIG_SMALL("DPX (Digital Picture Exchange) image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_DPX,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

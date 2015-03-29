@@ -219,7 +219,18 @@ static av_cold int decode_end(AVCodecContext *avctx)
 
 #if CONFIG_BINTEXT_DECODER
 AVCodec ff_bintext_decoder = {
-    .name           = "bintext",
+#ifdef IDE_COMPILE
+    "bintext",
+    "Binary text",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_BINTEXT,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(XbinContext),
+    0, 0, 0, 0, 0, decode_init,
+    0, 0, decode_frame,
+    decode_end,
+#else
+	.name           = "bintext",
     .long_name      = NULL_IF_CONFIG_SMALL("Binary text"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_BINTEXT,
@@ -228,11 +239,24 @@ AVCodec ff_bintext_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };
 #endif
+
 #if CONFIG_XBIN_DECODER
 AVCodec ff_xbin_decoder = {
-    .name           = "xbin",
+#ifdef IDE_COMPILE
+    "xbin",
+    "eXtended BINary text",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_XBIN,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(XbinContext),
+    0, 0, 0, 0, 0, decode_init,
+    0, 0, decode_frame,
+    decode_end,
+#else
+	.name           = "xbin",
     .long_name      = NULL_IF_CONFIG_SMALL("eXtended BINary text"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_XBIN,
@@ -241,11 +265,24 @@ AVCodec ff_xbin_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };
 #endif
+
 #if CONFIG_IDF_DECODER
 AVCodec ff_idf_decoder = {
-    .name           = "idf",
+#ifdef IDE_COMPILE
+    "idf",
+    "iCEDraw text",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_IDF,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(XbinContext),
+    0, 0, 0, 0, 0, decode_init,
+    0, 0, decode_frame,
+    decode_end,
+#else
+	.name           = "idf",
     .long_name      = NULL_IF_CONFIG_SMALL("iCEDraw text"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_IDF,
@@ -254,5 +291,6 @@ AVCodec ff_idf_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };
 #endif

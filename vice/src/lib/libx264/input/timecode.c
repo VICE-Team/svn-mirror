@@ -77,9 +77,12 @@ static double correct_fps( double fps, timecode_hnd_t *h )
 
 static int try_mkv_timebase_den( double *fpss, timecode_hnd_t *h, int loop_num )
 {
-    h->timebase_num = 0;
+	int num;
+
+	h->timebase_num = 0;
     h->timebase_den = MKV_TIMEBASE_DEN;
-    for( int num = 0; num < loop_num; num++ )
+
+	for( num = 0; num < loop_num; num++ )
     {
         uint64_t fps_den;
         double exponent;
@@ -400,14 +403,16 @@ static int64_t get_frame_pts( timecode_hnd_t *h, int frame, int real_frame )
         return h->pts[frame];
     else
     {
-        if( h->pts && real_frame )
+        double timecode;
+
+		if( h->pts && real_frame )
         {
             x264_cli_log( "timecode", X264_LOG_INFO, "input timecode file missing data for frame %d and later\n"
                           "                 assuming constant fps %.6f\n", frame, h->assume_fps );
             free( h->pts );
             h->pts = NULL;
         }
-        double timecode = h->last_timecode + 1 / h->assume_fps;
+        timecode = h->last_timecode + 1 / h->assume_fps;
         if( real_frame )
             h->last_timecode = timecode;
         return timecode * ((double)h->timebase_den / h->timebase_num) + 0.5;

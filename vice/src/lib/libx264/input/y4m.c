@@ -72,7 +72,10 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     int colorspace = X264_CSP_NONE;
     int alt_colorspace = X264_CSP_NONE;
     int alt_bit_depth  = 8;
-    if( !h )
+    char *tokstart;
+    const x264_cli_csp_t *csp;
+
+	if( !h )
         return -1;
 
     h->next_frame = 0;
@@ -106,7 +109,7 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     /* Scan properties */
     header_end = &header[i+1]; /* Include space */
     h->seq_header_len = i+1;
-    for( char *tokstart = &header[strlen( Y4M_MAGIC )+1]; tokstart < header_end; tokstart++ )
+    for( tokstart = &header[strlen( Y4M_MAGIC )+1]; tokstart < header_end; tokstart++ )
     {
         if( *tokstart == 0x20 )
             continue;
@@ -199,7 +202,7 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     if( h->bit_depth > 8 )
         info->csp |= X264_CSP_HIGH_DEPTH;
 
-    const x264_cli_csp_t *csp = x264_cli_get_csp( info->csp );
+    csp = x264_cli_get_csp( info->csp );
 
     for( i = 0; i < csp->planes; i++ )
     {
@@ -213,8 +216,10 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     if( x264_is_regular_file( h->fh ) )
     {
         uint64_t init_pos = ftell( h->fh );
-        fseek( h->fh, 0, SEEK_END );
-        uint64_t i_size = ftell( h->fh );
+        uint64_t i_size;
+
+		fseek( h->fh, 0, SEEK_END );
+        i_size = ftell( h->fh );
         fseek( h->fh, init_pos, SEEK_SET );
         info->num_frames = (i_size - h->seq_header_len) / h->frame_size;
     }
@@ -229,6 +234,7 @@ static int read_frame_internal( cli_pic_t *pic, y4m_hnd_t *h, int bit_depth_uc )
     int pixel_depth = x264_cli_csp_depth_factor( pic->img.csp );
     int i = 0;
     char header[16];
+    int error = 0;
 
     /* Read frame header - without terminating '\n' */
     if( fread( header, 1, slen, h->fh ) != slen )
@@ -245,7 +251,6 @@ static int read_frame_internal( cli_pic_t *pic, y4m_hnd_t *h, int bit_depth_uc )
     h->frame_size = h->frame_size - h->frame_header_len + i+slen+1;
     h->frame_header_len = i+slen+1;
 
-    int error = 0;
     for( i = 0; i < pic->img.planes && !error; i++ )
     {
         error |= fread( pic->img.plane[i], pixel_depth, h->plane_size[i], h->fh ) != h->plane_size[i];
@@ -256,7 +261,9 @@ static int read_frame_internal( cli_pic_t *pic, y4m_hnd_t *h, int bit_depth_uc )
             uint16_t *plane = (uint16_t*)pic->img.plane[i];
             uint64_t pixel_count = h->plane_size[i];
             int lshift = 16 - h->bit_depth;
-            for( uint64_t j = 0; j < pixel_count; j++ )
+            uint64_t j;
+
+			for( j = 0; j < pixel_count; j++ )
                 plane[j] = plane[j] << lshift;
         }
     }

@@ -52,14 +52,24 @@ typedef struct RawVideoContext {
 } RawVideoContext;
 
 static const AVOption options[]={
-{"top", "top field first", offsetof(RawVideoContext, tff), AV_OPT_TYPE_INT, {.i64 = -1}, -1, 1, AV_OPT_FLAG_DECODING_PARAM|AV_OPT_FLAG_VIDEO_PARAM},
-{NULL}
+#ifdef IDE_COMPILE
+	{"top", "top field first", offsetof(RawVideoContext, tff), AV_OPT_TYPE_INT, {-1}, -1, 1, AV_OPT_FLAG_DECODING_PARAM|AV_OPT_FLAG_VIDEO_PARAM},
+#else
+	{"top", "top field first", offsetof(RawVideoContext, tff), AV_OPT_TYPE_INT, {.i64 = -1}, -1, 1, AV_OPT_FLAG_DECODING_PARAM|AV_OPT_FLAG_VIDEO_PARAM},
+#endif
+	{NULL}
 };
 
 static const AVClass rawdec_class = {
-    .class_name = "rawdec",
+#ifdef IDE_COMPILE
+    "rawdec",
+    0, options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "rawdec",
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 static av_cold int raw_init_decoder(AVCodecContext *avctx)
@@ -360,7 +370,19 @@ static av_cold int raw_close_decoder(AVCodecContext *avctx)
 }
 
 AVCodec ff_rawvideo_decoder = {
-    .name           = "rawvideo",
+#ifdef IDE_COMPILE
+    "rawvideo",
+    "raw video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_RAWVIDEO,
+    CODEC_CAP_PARAM_CHANGE,
+    0, 0, 0, 0, 0, 0, &rawdec_class,
+    0, sizeof(RawVideoContext),
+    0, 0, 0, 0, 0, raw_init_decoder,
+    0, 0, raw_decode,
+    raw_close_decoder,
+#else
+	.name           = "rawvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("raw video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_RAWVIDEO,
@@ -370,4 +392,5 @@ AVCodec ff_rawvideo_decoder = {
     .decode         = raw_decode,
     .priv_class     = &rawdec_class,
     .capabilities   = CODEC_CAP_PARAM_CHANGE,
+#endif
 };

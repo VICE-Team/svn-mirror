@@ -25,7 +25,13 @@
 #include <stdint.h>
 
 #include "libavutil/common.h"
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 #define MAX_NEG_CROP 1024
 

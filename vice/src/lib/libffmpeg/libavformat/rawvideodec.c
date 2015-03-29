@@ -38,6 +38,9 @@ static int rawvideo_read_header(AVFormatContext *ctx)
     RawVideoDemuxerContext *s = ctx->priv_data;
     enum AVPixelFormat pix_fmt;
     AVStream *st;
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
 
     st = avformat_new_stream(ctx, NULL);
     if (!st)
@@ -58,8 +61,15 @@ static int rawvideo_read_header(AVFormatContext *ctx)
     st->codec->width  = s->width;
     st->codec->height = s->height;
     st->codec->pix_fmt = pix_fmt;
-    st->codec->bit_rate = av_rescale_q(avpicture_get_size(st->codec->pix_fmt, s->width, s->height),
+#ifdef IDE_COMPILE
+	tmp.num = 8;
+	tmp.den = 1;
+	st->codec->bit_rate = av_rescale_q(avpicture_get_size(st->codec->pix_fmt, s->width, s->height),
+                                       tmp, st->time_base);
+#else
+	st->codec->bit_rate = av_rescale_q(avpicture_get_size(st->codec->pix_fmt, s->width, s->height),
                                        (AVRational){8,1}, st->time_base);
+#endif
 
     return 0;
 }
@@ -89,21 +99,45 @@ static int rawvideo_read_packet(AVFormatContext *s, AVPacket *pkt)
 #define OFFSET(x) offsetof(RawVideoDemuxerContext, x)
 #define DEC AV_OPT_FLAG_DECODING_PARAM
 static const AVOption rawvideo_options[] = {
-    { "video_size", "set frame size", OFFSET(width), AV_OPT_TYPE_IMAGE_SIZE, {.str = NULL}, 0, 0, DEC },
+#ifdef IDE_COMPILE
+	{ "video_size", "set frame size", OFFSET(width), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) NULL}, 0, 0, DEC },
+    { "pixel_format", "set pixel format", OFFSET(pixel_format), AV_OPT_TYPE_STRING, {(intptr_t) "yuv420p"}, 0, 0, DEC },
+    { "framerate", "set frame rate", OFFSET(framerate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, DEC },
+#else
+	{ "video_size", "set frame size", OFFSET(width), AV_OPT_TYPE_IMAGE_SIZE, {.str = NULL}, 0, 0, DEC },
     { "pixel_format", "set pixel format", OFFSET(pixel_format), AV_OPT_TYPE_STRING, {.str = "yuv420p"}, 0, 0, DEC },
     { "framerate", "set frame rate", OFFSET(framerate), AV_OPT_TYPE_VIDEO_RATE, {.str = "25"}, 0, 0, DEC },
-    { NULL },
+#endif
+	{ NULL },
 };
 
 static const AVClass rawvideo_demuxer_class = {
-    .class_name = "rawvideo demuxer",
+#ifdef IDE_COMPILE
+    "rawvideo demuxer",
+    av_default_item_name,
+    rawvideo_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "rawvideo demuxer",
     .item_name  = av_default_item_name,
     .option     = rawvideo_options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 AVInputFormat ff_rawvideo_demuxer = {
-    .name           = "rawvideo",
+#ifdef IDE_COMPILE
+    "rawvideo",
+    "raw video",
+    AVFMT_GENERIC_INDEX,
+    "yuv,cif,qcif,rgb",
+    0, &rawvideo_demuxer_class,
+    0, 0, AV_CODEC_ID_RAWVIDEO,
+    sizeof(RawVideoDemuxerContext),
+    0, rawvideo_read_header,
+    rawvideo_read_packet,
+#else
+	.name           = "rawvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("raw video"),
     .priv_data_size = sizeof(RawVideoDemuxerContext),
     .read_header    = rawvideo_read_header,
@@ -112,4 +146,5 @@ AVInputFormat ff_rawvideo_demuxer = {
     .extensions     = "yuv,cif,qcif,rgb",
     .raw_codec_id   = AV_CODEC_ID_RAWVIDEO,
     .priv_class     = &rawvideo_demuxer_class,
+#endif
 };

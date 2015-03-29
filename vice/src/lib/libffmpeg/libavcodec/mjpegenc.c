@@ -215,8 +215,27 @@ static int amv_encode_picture(AVCodecContext *avctx, AVPacket *pkt,
 }
 
 #if CONFIG_MJPEG_ENCODER
+
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp0[] = {
+        AV_PIX_FMT_YUVJ420P, AV_PIX_FMT_YUVJ422P, AV_PIX_FMT_YUVJ444P, AV_PIX_FMT_NONE
+    };
+#endif
+
 AVCodec ff_mjpeg_encoder = {
-    .name           = "mjpeg",
+#ifdef IDE_COMPILE
+    "mjpeg",
+    "MJPEG (Motion JPEG)",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_MJPEG,
+    CODEC_CAP_SLICE_THREADS | CODEC_CAP_FRAME_THREADS | CODEC_CAP_INTRA_ONLY,
+    0, tmp0,
+    0, 0, 0, 0, 0, 0, sizeof(MpegEncContext),
+    0, 0, 0, 0, 0, ff_mpv_encode_init,
+    0, ff_mpv_encode_picture,
+    0, ff_mpv_encode_end,
+#else
+	.name           = "mjpeg",
     .long_name      = NULL_IF_CONFIG_SMALL("MJPEG (Motion JPEG)"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_MJPEG,
@@ -228,11 +247,31 @@ AVCodec ff_mjpeg_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]){
         AV_PIX_FMT_YUVJ420P, AV_PIX_FMT_YUVJ422P, AV_PIX_FMT_YUVJ444P, AV_PIX_FMT_NONE
     },
+#endif
 };
 #endif
+
 #if CONFIG_AMV_ENCODER
+
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp1[] = {
+        AV_PIX_FMT_YUVJ420P, AV_PIX_FMT_NONE
+    };
+#endif
+
 AVCodec ff_amv_encoder = {
-    .name           = "amv",
+#ifdef IDE_COMPILE
+    "amv",
+    "AMV Video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_AMV,
+    0, 0, tmp1,
+    0, 0, 0, 0, 0, 0, sizeof(MpegEncContext),
+    0, 0, 0, 0, 0, ff_mpv_encode_init,
+    0, amv_encode_picture,
+    0, ff_mpv_encode_end,
+#else
+	.name           = "amv",
     .long_name      = NULL_IF_CONFIG_SMALL("AMV Video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_AMV,
@@ -243,5 +282,6 @@ AVCodec ff_amv_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]){
         AV_PIX_FMT_YUVJ420P, AV_PIX_FMT_NONE
     },
+#endif
 };
 #endif

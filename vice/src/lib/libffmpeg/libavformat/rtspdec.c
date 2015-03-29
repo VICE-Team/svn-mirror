@@ -538,13 +538,24 @@ static int rtsp_read_play(AVFormatContext *s)
                 RTSPStream *rtsp_st = rt->rtsp_streams[i];
                 RTPDemuxContext *rtpctx = rtsp_st->transport_priv;
                 AVStream *st = NULL;
-                if (!rtpctx || rtsp_st->stream_index < 0)
+#ifdef IDE_COMPILE
+                AVRational tbq;
+				
+				tbq.num = 1;
+				tbq.den = AV_TIME_BASE;
+#endif
+				
+				if (!rtpctx || rtsp_st->stream_index < 0)
                     continue;
                 st = s->streams[rtsp_st->stream_index];
-                rtpctx->range_start_offset =
+#ifdef IDE_COMPILE
+				rtpctx->range_start_offset = av_rescale_q(reply->range_start, tbq, st->time_base);
+#else
+				rtpctx->range_start_offset =
                     av_rescale_q(reply->range_start, AV_TIME_BASE_Q,
                                  st->time_base);
-            }
+#endif
+			}
         }
     }
     rt->state = RTSP_STATE_STREAMING;
@@ -897,11 +908,20 @@ static int rtsp_read_seek(AVFormatContext *s, int stream_index,
                           int64_t timestamp, int flags)
 {
     RTSPState *rt = s->priv_data;
+#ifdef IDE_COMPILE
+    AVRational tbq;
 
+	tbq.num = 1;
+	tbq.den = AV_TIME_BASE;
+    rt->seek_timestamp = av_rescale_q(timestamp,
+                                      s->streams[stream_index]->time_base,
+                                      tbq);
+#else
     rt->seek_timestamp = av_rescale_q(timestamp,
                                       s->streams[stream_index]->time_base,
                                       AV_TIME_BASE_Q);
-    switch(rt->state) {
+#endif
+	switch(rt->state) {
     default:
     case RTSP_STATE_IDLE:
         break;
@@ -920,14 +940,35 @@ static int rtsp_read_seek(AVFormatContext *s, int stream_index,
 }
 
 static const AVClass rtsp_demuxer_class = {
-    .class_name     = "RTSP demuxer",
+#ifdef IDE_COMPILE
+    "RTSP demuxer",
+    av_default_item_name,
+    ff_rtsp_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name     = "RTSP demuxer",
     .item_name      = av_default_item_name,
     .option         = ff_rtsp_options,
     .version        = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 AVInputFormat ff_rtsp_demuxer = {
-    .name           = "rtsp",
+#ifdef IDE_COMPILE
+    "rtsp",
+    "RTSP input",
+    AVFMT_NOFILE,
+    0, 0, &rtsp_demuxer_class,
+    0, 0, 0, sizeof(RTSPState),
+    rtsp_probe,
+    rtsp_read_header,
+    rtsp_read_packet,
+    rtsp_read_close,
+    rtsp_read_seek,
+    0, rtsp_read_play,
+    rtsp_read_pause,
+#else
+	.name           = "rtsp",
     .long_name      = NULL_IF_CONFIG_SMALL("RTSP input"),
     .priv_data_size = sizeof(RTSPState),
     .read_probe     = rtsp_probe,
@@ -939,4 +980,5 @@ AVInputFormat ff_rtsp_demuxer = {
     .read_play      = rtsp_read_play,
     .read_pause     = rtsp_read_pause,
     .priv_class     = &rtsp_demuxer_class,
+#endif
 };

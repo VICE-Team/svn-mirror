@@ -24,13 +24,15 @@
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
+#elif IDE_COMPILE
+# include "lame-config.h"
 #endif
 
 #include <stdlib.h>
 #include "common.h"
 #include "huffman.h"
 #include "lame.h"
-#include "machine.h"
+#include "lame-machine.h"
 #include "encoder.h"
 #include "lame-analysis.h"
 #include "decode_i386.h"

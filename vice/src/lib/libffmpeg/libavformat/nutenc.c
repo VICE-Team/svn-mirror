@@ -574,9 +574,14 @@ static int write_chapter(NUTContext *nut, AVIOContext *bc, int id)
 
 static int write_index(NUTContext *nut, AVIOContext *bc) {
     int i;
-    Syncpoint dummy= { .pos= 0 };
+#ifdef IDE_COMPILE
+    Syncpoint dummy= {0};
+    Syncpoint *next_node[2] = {NULL};
+#else
+	Syncpoint dummy= { .pos= 0 };
     Syncpoint *next_node[2] = { NULL };
-    int64_t startpos = avio_tell(bc);
+#endif
+	int64_t startpos = avio_tell(bc);
     int64_t payload_size;
 
     put_tt(nut, nut->max_pts_tb, bc, nut->max_pts);
@@ -725,10 +730,15 @@ static int nut_write_header(AVFormatContext *s)
         ff_parse_specific_params(st, &time_base.den, &ssize, &time_base.num);
 
         if (st->codec->codec_type == AVMEDIA_TYPE_AUDIO && st->codec->sample_rate) {
-            time_base = (AVRational) {1, st->codec->sample_rate};
-        } else {
-            time_base = ff_choose_timebase(s, st, 48000);
-        }
+#ifdef IDE_COMPILE
+			time_base.num = 1;
+			time_base.den = st->codec->sample_rate;
+#else
+			time_base = (AVRational) {1, st->codec->sample_rate};
+#endif
+		} else {
+			time_base = ff_choose_timebase(s, st, 48000);
+		}
 
         avpriv_set_pts_info(st, 64, time_base.num, time_base.den);
 
@@ -1002,6 +1012,12 @@ static int nut_write_packet(AVFormatContext *s, AVPacket *pkt)
     if (store_sp &&
         (!(nut->flags & NUT_PIPE) || nut->last_syncpoint_pos == INT_MIN)) {
         int64_t sp_pos = INT64_MAX;
+#ifdef IDE_COMPILE
+        AVRational tmp;
+
+		tmp.num = 1;
+		tmp.den = AV_TIME_BASE;
+#endif
 
         ff_nut_reset_ts(nut, *nus->time_base, pkt->dts);
         for (i = 0; i < s->nb_streams; i++) {
@@ -1031,9 +1047,14 @@ static int nut_write_packet(AVFormatContext *s, AVPacket *pkt)
         ff_put_v(dyn_bc, sp_pos != INT64_MAX ? (nut->last_syncpoint_pos - sp_pos) >> 4 : 0);
 
         if (nut->flags & NUT_BROADCAST) {
-            put_tt(nut, nus->time_base, dyn_bc,
+#ifdef IDE_COMPILE
+			put_tt(nut, nus->time_base, dyn_bc,
+                   av_rescale_q(av_gettime(), tmp, *nus->time_base));
+#else
+			put_tt(nut, nus->time_base, dyn_bc,
                    av_rescale_q(av_gettime(), AV_TIME_BASE_Q, *nus->time_base));
-        }
+#endif
+		}
         put_packet(nut, bc, dyn_bc, 1, SYNCPOINT_STARTCODE);
 
         if (nut->write_index) {
@@ -1200,23 +1221,54 @@ static int nut_write_trailer(AVFormatContext *s)
 #define OFFSET(x) offsetof(NUTContext, x)
 #define E AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-    { "syncpoints",  "NUT syncpoint behaviour",                         OFFSET(flags), AV_OPT_TYPE_FLAGS, {.i64 = 0},             INT_MIN, INT_MAX, E, "syncpoints" },
+#ifdef IDE_COMPILE
+	{ "syncpoints", "NUT syncpoint behaviour", OFFSET(flags), AV_OPT_TYPE_FLAGS, {0}, INT_MIN, INT_MAX, E, "syncpoints" },
+    { "default", "", 0, AV_OPT_TYPE_CONST, {0}, INT_MIN, INT_MAX, E, "syncpoints" },
+    { "none", "Disable syncpoints, low overhead and unseekable", 0, AV_OPT_TYPE_CONST, {NUT_PIPE}, INT_MIN, INT_MAX, E, "syncpoints" },
+    { "timestamped", "Extend syncpoints with a wallclock timestamp", 0, AV_OPT_TYPE_CONST, {NUT_BROADCAST}, INT_MIN, INT_MAX, E, "syncpoints" },
+    { "write_index", "Write index", OFFSET(write_index), AV_OPT_TYPE_INT, {1}, 0, 1, E, },
+#else
+	{ "syncpoints",  "NUT syncpoint behaviour",                         OFFSET(flags), AV_OPT_TYPE_FLAGS, {.i64 = 0},             INT_MIN, INT_MAX, E, "syncpoints" },
     { "default",     "",                                                0,             AV_OPT_TYPE_CONST, {.i64 = 0},             INT_MIN, INT_MAX, E, "syncpoints" },
     { "none",        "Disable syncpoints, low overhead and unseekable", 0,             AV_OPT_TYPE_CONST, {.i64 = NUT_PIPE},      INT_MIN, INT_MAX, E, "syncpoints" },
     { "timestamped", "Extend syncpoints with a wallclock timestamp",    0,             AV_OPT_TYPE_CONST, {.i64 = NUT_BROADCAST}, INT_MIN, INT_MAX, E, "syncpoints" },
     { "write_index", "Write index",                               OFFSET(write_index), AV_OPT_TYPE_INT,   {.i64 = 1},                   0,       1, E, },
-    { NULL },
+#endif
+	{ NULL },
 };
 
 static const AVClass class = {
-    .class_name = "nutenc",
+#ifdef IDE_COMPILE
+    "nutenc",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "nutenc",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 AVOutputFormat ff_nut_muxer = {
-    .name           = "nut",
+#ifdef IDE_COMPILE
+    "nut",
+    "NUT",
+    "video/x-nut",
+    "nut",
+    CONFIG_LIBVORBIS ? AV_CODEC_ID_VORBIS :
+    CONFIG_LIBMP3LAME ? AV_CODEC_ID_MP3 : AV_CODEC_ID_MP2,
+    AV_CODEC_ID_MPEG4,
+    0, AVFMT_GLOBALHEADER | AVFMT_VARIABLE_FPS,
+    ff_nut_codec_tags,
+    &class,
+    0, sizeof(NUTContext),
+    nut_write_header,
+    nut_write_packet,
+    nut_write_trailer,
+#else
+	.name           = "nut",
     .long_name      = NULL_IF_CONFIG_SMALL("NUT"),
     .mime_type      = "video/x-nut",
     .extensions     = "nut",
@@ -1230,4 +1282,5 @@ AVOutputFormat ff_nut_muxer = {
     .flags          = AVFMT_GLOBALHEADER | AVFMT_VARIABLE_FPS,
     .codec_tag      = ff_nut_codec_tags,
     .priv_class     = &class,
+#endif
 };

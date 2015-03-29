@@ -271,8 +271,25 @@ static int caf_write_trailer(AVFormatContext *s)
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const AVCodecTag* const tmpx[] = {ff_codec_caf_tags, 0};
+#endif
+
 AVOutputFormat ff_caf_muxer = {
-    .name           = "caf",
+#ifdef IDE_COMPILE
+    "caf",
+    "Apple CAF (Core Audio Format)",
+    "audio/x-caf",
+    "caf",
+    AV_CODEC_ID_PCM_S16BE,
+    AV_CODEC_ID_NONE,
+    0, 0, tmpx,
+    0, 0, sizeof(CAFContext),
+    caf_write_header,
+    caf_write_packet,
+    caf_write_trailer,
+#else
+	.name           = "caf",
     .long_name      = NULL_IF_CONFIG_SMALL("Apple CAF (Core Audio Format)"),
     .mime_type      = "audio/x-caf",
     .extensions     = "caf",
@@ -283,4 +300,5 @@ AVOutputFormat ff_caf_muxer = {
     .write_packet   = caf_write_packet,
     .write_trailer  = caf_write_trailer,
     .codec_tag      = (const AVCodecTag* const []){ff_codec_caf_tags, 0},
+#endif
 };

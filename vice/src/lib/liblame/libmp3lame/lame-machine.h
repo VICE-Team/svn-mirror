@@ -185,4 +185,4 @@ typedef FLOAT sample_t;
 #endif
 
 
-/* end of machine.h */
+/* end of lame-machine.h */

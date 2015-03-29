@@ -53,7 +53,9 @@
 static int quant_8x8( dctcoef dct[64], udctcoef mf[64], udctcoef bias[64] )
 {
     int nz = 0;
-    for( int i = 0; i < 64; i++ )
+	int i;
+
+	for( i = 0; i < 64; i++ )
         QUANT_ONE( dct[i], mf[i], bias[i] );
     return !!nz;
 }
@@ -61,7 +63,9 @@ static int quant_8x8( dctcoef dct[64], udctcoef mf[64], udctcoef bias[64] )
 static int quant_4x4( dctcoef dct[16], udctcoef mf[16], udctcoef bias[16] )
 {
     int nz = 0;
-    for( int i = 0; i < 16; i++ )
+	int i;
+
+	for( i = 0; i < 16; i++ )
         QUANT_ONE( dct[i], mf[i], bias[i] );
     return !!nz;
 }
@@ -69,10 +73,14 @@ static int quant_4x4( dctcoef dct[16], udctcoef mf[16], udctcoef bias[16] )
 static int quant_4x4x4( dctcoef dct[4][16], udctcoef mf[16], udctcoef bias[16] )
 {
     int nza = 0;
-    for( int j = 0; j < 4; j++ )
+	int j;
+
+	for( j = 0; j < 4; j++ )
     {
         int nz = 0;
-        for( int i = 0; i < 16; i++ )
+		int i;
+
+		for( i = 0; i < 16; i++ )
             QUANT_ONE( dct[j][i], mf[i], bias[i] );
         nza |= (!!nz)<<j;
     }
@@ -82,7 +90,9 @@ static int quant_4x4x4( dctcoef dct[4][16], udctcoef mf[16], udctcoef bias[16] )
 static int quant_4x4_dc( dctcoef dct[16], int mf, int bias )
 {
     int nz = 0;
-    for( int i = 0; i < 16; i++ )
+    int i;
+
+	for( i = 0; i < 16; i++ )
         QUANT_ONE( dct[i], mf, bias );
     return !!nz;
 }
@@ -110,13 +120,16 @@ static void dequant_4x4( dctcoef dct[16], int dequant_mf[6][16], int i_qp )
 
     if( i_qbits >= 0 )
     {
-        for( int i = 0; i < 16; i++ )
+		int i;
+		for( i = 0; i < 16; i++ )
             DEQUANT_SHL( i );
     }
     else
     {
         const int f = 1 << (-i_qbits-1);
-        for( int i = 0; i < 16; i++ )
+		int i;
+
+		for( i = 0; i < 16; i++ )
             DEQUANT_SHR( i );
     }
 }
@@ -128,13 +141,17 @@ static void dequant_8x8( dctcoef dct[64], int dequant_mf[6][64], int i_qp )
 
     if( i_qbits >= 0 )
     {
-        for( int i = 0; i < 64; i++ )
+		int i;
+
+		for( i = 0; i < 64; i++ )
             DEQUANT_SHL( i );
     }
     else
     {
         const int f = 1 << (-i_qbits-1);
-        for( int i = 0; i < 64; i++ )
+		int i;
+
+		for( i = 0; i < 64; i++ )
             DEQUANT_SHR( i );
     }
 }
@@ -146,14 +163,18 @@ static void dequant_4x4_dc( dctcoef dct[16], int dequant_mf[6][16], int i_qp )
     if( i_qbits >= 0 )
     {
         const int i_dmf = dequant_mf[i_qp%6][0] << i_qbits;
-        for( int i = 0; i < 16; i++ )
+		int i;
+
+		for( i = 0; i < 16; i++ )
             dct[i] *= i_dmf;
     }
     else
     {
         const int i_dmf = dequant_mf[i_qp%6][0];
         const int f = 1 << (-i_qbits-1);
-        for( int i = 0; i < 16; i++ )
+		int i;
+
+		for( i = 0; i < 16; i++ )
             dct[i] = ( dct[i] * i_dmf + f ) >> (-i_qbits);
     }
 }
@@ -233,14 +254,16 @@ static ALWAYS_INLINE void optimize_chroma_idct_dequant_2x2( dctcoef out[4], dctc
 static ALWAYS_INLINE int optimize_chroma_round( dctcoef *ref, dctcoef *dct, int dequant_mf, int chroma422 )
 {
     dctcoef out[8];
+    int sum;
+	int i;
 
     if( chroma422 )
         optimize_chroma_idct_dequant_2x4( out, dct, dequant_mf );
     else
         optimize_chroma_idct_dequant_2x2( out, dct, dequant_mf );
 
-    int sum = 0;
-    for( int i = 0; i < (chroma422?8:4); i++ )
+    sum = 0;
+    for( i = 0; i < (chroma422?8:4); i++ )
         sum |= ref[i] ^ out[i];
     return sum >> 6;
 }
@@ -250,6 +273,8 @@ static ALWAYS_INLINE int optimize_chroma_dc_internal( dctcoef *dct, int dequant_
     /* dequant_mf = h->dequant4_mf[CQM_4IC + b_inter][i_qp%6][0] << i_qp/6, max 32*64 */
     dctcoef dct_orig[8];
     int coeff, nz;
+    int sum;
+	int i;
 
     if( chroma422 )
         optimize_chroma_idct_dequant_2x4( dct_orig, dct, dequant_mf );
@@ -257,8 +282,8 @@ static ALWAYS_INLINE int optimize_chroma_dc_internal( dctcoef *dct, int dequant_
         optimize_chroma_idct_dequant_2x2( dct_orig, dct, dequant_mf );
 
     /* If the DC coefficients already round to zero, terminate early. */
-    int sum = 0;
-    for( int i = 0; i < (chroma422?8:4); i++ )
+    sum = 0;
+    for( i = 0; i < (chroma422?8:4); i++ )
         sum |= dct_orig[i];
     if( !(sum >> 6) )
         return 0;
@@ -297,7 +322,9 @@ static int optimize_chroma_2x4_dc( dctcoef dct[8], int dequant_mf )
 
 static void x264_denoise_dct( dctcoef *dct, uint32_t *sum, udctcoef *offset, int size )
 {
-    for( int i = 0; i < size; i++ )
+	int i;
+
+	for( i = 0; i < size; i++ )
     {
         int level = dct[i];
         int sign = level>>31;

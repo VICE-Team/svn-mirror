@@ -1,0 +1,18 @@
+# name of the project
+PROJECTNAME = avutil-x86
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	lib\libffmpeg
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	lib\libffmpeg\libavutil\x86\cpu.c
+	lib\libffmpeg\libavutil\x86\float_dsp_init.c
+	lib\libffmpeg\libavutil\x86\lls_init.c

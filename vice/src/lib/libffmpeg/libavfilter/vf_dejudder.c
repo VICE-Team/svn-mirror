@@ -70,9 +70,13 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM | AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption dejudder_options[] = {
-    {"cycle", "set the length of the cycle to use for dejuddering",
+#ifdef IDE_COMPILE
+	{"cycle", "set the length of the cycle to use for dejuddering", OFFSET(cycle), AV_OPT_TYPE_INT, {4}, 2, 240, FLAGS},
+#else
+	{"cycle", "set the length of the cycle to use for dejuddering",
         OFFSET(cycle), AV_OPT_TYPE_INT, {.i64 = 4}, 2, 240, .flags = FLAGS},
-    {NULL}
+#endif
+	{NULL}
 };
 
 AVFILTER_DEFINE_CLASS(dejudder);
@@ -159,24 +163,46 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
 
 static const AVFilterPad dejudder_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad dejudder_outputs[] = {
     {
-        .name = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_out_props,
+#else
+		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
         .config_props = config_out_props,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_dejudder = {
-    .name        = "dejudder",
+#ifdef IDE_COMPILE
+    "dejudder",
+    NULL_IF_CONFIG_SMALL("Remove judder produced by pullup."),
+    dejudder_inputs,
+    dejudder_outputs,
+    &dejudder_class,
+    0, dejudder_init,
+    0, dejudder_uninit,
+    0, sizeof(DejudderContext),
+#else
+	.name        = "dejudder",
     .description = NULL_IF_CONFIG_SMALL("Remove judder produced by pullup."),
     .priv_size   = sizeof(DejudderContext),
     .priv_class  = &dejudder_class,
@@ -184,4 +210,5 @@ AVFilter ff_vf_dejudder = {
     .outputs     = dejudder_outputs,
     .init        = dejudder_init,
     .uninit      = dejudder_uninit,
+#endif
 };

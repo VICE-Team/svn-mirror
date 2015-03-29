@@ -22,7 +22,13 @@
 #if !defined(AVCODEC_RDFT_H) && (!defined(FFT_FLOAT) || FFT_FLOAT)
 #define AVCODEC_RDFT_H
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "fft.h"
 
 #if CONFIG_HARDCODED_TABLES

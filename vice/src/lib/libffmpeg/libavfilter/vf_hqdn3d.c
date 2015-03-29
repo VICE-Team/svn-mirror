@@ -28,7 +28,13 @@
 
 #include <float.h>
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "libavutil/attributes.h"
 #include "libavutil/common.h"
 #include "libavutil/pixdesc.h"
@@ -322,36 +328,66 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 #define OFFSET(x) offsetof(HQDN3DContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption hqdn3d_options[] = {
-    { "luma_spatial",   "spatial luma strength",    OFFSET(strength[LUMA_SPATIAL]),   AV_OPT_TYPE_DOUBLE, { .dbl = 0.0 }, 0, DBL_MAX, FLAGS },
+#ifdef IDE_COMPILE
+	{ "luma_spatial", "spatial luma strength", OFFSET(strength[LUMA_SPATIAL]), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS },
+    { "chroma_spatial", "spatial chroma strength", OFFSET(strength[CHROMA_SPATIAL]), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS },
+    { "luma_tmp", "temporal luma strength", OFFSET(strength[LUMA_TMP]), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS },
+    { "chroma_tmp", "temporal chroma strength", OFFSET(strength[CHROMA_TMP]), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS },
+#else
+	{ "luma_spatial",   "spatial luma strength",    OFFSET(strength[LUMA_SPATIAL]),   AV_OPT_TYPE_DOUBLE, { .dbl = 0.0 }, 0, DBL_MAX, FLAGS },
     { "chroma_spatial", "spatial chroma strength",  OFFSET(strength[CHROMA_SPATIAL]), AV_OPT_TYPE_DOUBLE, { .dbl = 0.0 }, 0, DBL_MAX, FLAGS },
     { "luma_tmp",       "temporal luma strength",   OFFSET(strength[LUMA_TMP]),       AV_OPT_TYPE_DOUBLE, { .dbl = 0.0 }, 0, DBL_MAX, FLAGS },
     { "chroma_tmp",     "temporal chroma strength", OFFSET(strength[CHROMA_TMP]),     AV_OPT_TYPE_DOUBLE, { .dbl = 0.0 }, 0, DBL_MAX, FLAGS },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(hqdn3d);
 
 static const AVFilterPad avfilter_vf_hqdn3d_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
-
 static const AVFilterPad avfilter_vf_hqdn3d_outputs[] = {
     {
-        .name = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO
+#else
+		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_hqdn3d = {
-    .name          = "hqdn3d",
+#ifdef IDE_COMPILE
+    "hqdn3d",
+    NULL_IF_CONFIG_SMALL("Apply a High Quality 3D Denoiser."),
+    avfilter_vf_hqdn3d_inputs,
+    avfilter_vf_hqdn3d_outputs,
+    &hqdn3d_class,
+    AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
+    init,
+    0, uninit,
+    query_formats,
+    sizeof(HQDN3DContext),
+#else
+	.name          = "hqdn3d",
     .description   = NULL_IF_CONFIG_SMALL("Apply a High Quality 3D Denoiser."),
     .priv_size     = sizeof(HQDN3DContext),
     .priv_class    = &hqdn3d_class,
@@ -361,4 +397,5 @@ AVFilter ff_vf_hqdn3d = {
     .inputs        = avfilter_vf_hqdn3d_inputs,
     .outputs       = avfilter_vf_hqdn3d_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
+#endif
 };

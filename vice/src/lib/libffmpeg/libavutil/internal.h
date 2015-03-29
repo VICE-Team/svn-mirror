@@ -34,7 +34,14 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <assert.h>
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "attributes.h"
 #include "timer.h"
 #include "cpu.h"
@@ -50,12 +57,16 @@
 #   define emms_c()
 #endif
 
+#ifndef IDE_COMPILE
 #ifndef attribute_align_arg
 #if ARCH_X86_32 && AV_GCC_VERSION_AT_LEAST(4,2)
 #    define attribute_align_arg __attribute__((force_align_arg_pointer))
 #else
 #    define attribute_align_arg
 #endif
+#endif
+#else
+#define attribute_align_arg
 #endif
 
 #if defined(_MSC_VER) && CONFIG_SHARED

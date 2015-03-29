@@ -37,6 +37,7 @@ void x264_mb_predict_mv( x264_t *h, int i_list, int idx, int i_width, int16_t mv
     int16_t *mv_b  = h->mb.cache.mv[i_list][i8 - 8];
     int     i_refc = h->mb.cache.ref[i_list][i8 - 8 + i_width];
     int16_t *mv_c  = h->mb.cache.mv[i_list][i8 - 8 + i_width];
+    int i_count;
 
     // Partitions not yet reached in scan order are unavailable.
     if( (idx&3) >= 2 + (i_width&1) || i_refc == -2 )
@@ -104,7 +105,7 @@ void x264_mb_predict_mv( x264_t *h, int i_list, int idx, int i_width, int16_t mv
         }
     }
 
-    int i_count = (i_refa == i_ref) + (i_refb == i_ref) + (i_refc == i_ref);
+    i_count = (i_refa == i_ref) + (i_refb == i_ref) + (i_refc == i_ref);
 
     if( i_count > 1 )
     {
@@ -134,13 +135,15 @@ void x264_mb_predict_mv_16x16( x264_t *h, int i_list, int i_ref, int16_t mvp[2] 
     int16_t *mv_b  = h->mb.cache.mv[i_list][X264_SCAN8_0 - 8];
     int     i_refc = h->mb.cache.ref[i_list][X264_SCAN8_0 - 8 + 4];
     int16_t *mv_c  = h->mb.cache.mv[i_list][X264_SCAN8_0 - 8 + 4];
-    if( i_refc == -2 )
+    int i_count;
+
+	if( i_refc == -2 )
     {
         i_refc = h->mb.cache.ref[i_list][X264_SCAN8_0 - 8 - 1];
         mv_c   = h->mb.cache.mv[i_list][X264_SCAN8_0 - 8 - 1];
     }
 
-    int i_count = (i_refa == i_ref) + (i_refb == i_ref) + (i_refc == i_ref);
+    i_count = (i_refa == i_ref) + (i_refb == i_ref) + (i_refc == i_ref);
 
     if( i_count > 1 )
     {
@@ -191,7 +194,15 @@ static int x264_mb_predict_mv_direct16x16_temporal( x264_t *h )
     int postshift = MB_INTERLACED;
     int offset = 1;
     int yshift = 1;
-    h->mb.i_partition = partition_col[0];
+    int i_mb_4x4;
+    int i_mb_8x8;
+    int max_i8;
+    int step;
+    int width;
+    int height;
+	int i8;
+
+	h->mb.i_partition = partition_col[0];
     if( PARAM_INTERLACED && h->fref[1][0]->field[mb_xy] != MB_INTERLACED )
     {
         if( MB_INTERLACED )
@@ -227,25 +238,28 @@ static int x264_mb_predict_mv_direct16x16_temporal( x264_t *h )
         }
         offset = 0;
     }
-    int i_mb_4x4 = 16 * h->mb.i_mb_stride * mb_y + 4 * mb_x;
-    int i_mb_8x8 =  4 * h->mb.i_mb_stride * mb_y + 2 * mb_x;
+    i_mb_4x4 = 16 * h->mb.i_mb_stride * mb_y + 4 * mb_x;
+    i_mb_8x8 =  4 * h->mb.i_mb_stride * mb_y + 2 * mb_x;
 
     x264_macroblock_cache_ref( h, 0, 0, 4, 4, 1, 0 );
 
     /* Don't do any checks other than the ones we have to, based
      * on the size of the colocated partitions.
      * Depends on the enum order: D_8x8, D_16x8, D_8x16, D_16x16 */
-    int max_i8 = (D_16x16 - h->mb.i_partition) + 1;
-    int step = (h->mb.i_partition == D_16x8) + 1;
-    int width = 4 >> ((D_16x16 - h->mb.i_partition)&1);
-    int height = 4 >> ((D_16x16 - h->mb.i_partition)>>1);
-    for( int i8 = 0; i8 < max_i8; i8 += step )
+    max_i8 = (D_16x16 - h->mb.i_partition) + 1;
+    step = (h->mb.i_partition == D_16x8) + 1;
+    width = 4 >> ((D_16x16 - h->mb.i_partition)&1);
+    height = 4 >> ((D_16x16 - h->mb.i_partition)>>1);
+    for( i8 = 0; i8 < max_i8; i8 += step )
     {
         int x8 = i8&1;
         int y8 = i8>>1;
         int ypart = (SLICE_MBAFF && h->fref[1][0]->field[mb_xy] != MB_INTERLACED) ?
                     MB_INTERLACED ? y8*6 : 2*(h->mb.i_mb_y&1) + y8 :
                     3*y8;
+        int i_part_8x8;
+        int i_ref1_ref;
+        int i_ref;
 
         if( IS_INTRA( type_col[y8] ) )
         {
@@ -255,9 +269,9 @@ static int x264_mb_predict_mv_direct16x16_temporal( x264_t *h )
             continue;
         }
 
-        int i_part_8x8 = i_mb_8x8 + x8 + (ypart>>1) * h->mb.i_b8_stride;
-        int i_ref1_ref = h->fref[1][0]->ref[0][i_part_8x8];
-        int i_ref = (map_col_to_list0(i_ref1_ref>>preshift) << postshift) + (offset&i_ref1_ref&MB_INTERLACED);
+        i_part_8x8 = i_mb_8x8 + x8 + (ypart>>1) * h->mb.i_b8_stride;
+        i_ref1_ref = h->fref[1][0]->ref[0][i_part_8x8];
+        i_ref = (map_col_to_list0(i_ref1_ref>>preshift) << postshift) + (offset&i_ref1_ref&MB_INTERLACED);
 
         if( i_ref >= 0 )
         {
@@ -289,8 +303,13 @@ static int x264_mb_predict_mv_direct16x16_temporal( x264_t *h )
 static ALWAYS_INLINE int x264_mb_predict_mv_direct16x16_spatial( x264_t *h, int b_interlaced )
 {
     int8_t ref[2];
-    ALIGNED_ARRAY_8( int16_t, mv,[2],[2] );
-    for( int i_list = 0; i_list < 2; i_list++ )
+	int i_list;
+    int mb_x;
+    int mb_y;
+    int mb_xy;
+
+	ALIGNED_ARRAY_8( int16_t, mv,[2],[2] );
+    for( i_list = 0; i_list < 2; i_list++ )
     {
         int     i_refa = h->mb.cache.ref[i_list][X264_SCAN8_0 - 1];
         int16_t *mv_a  = h->mb.cache.mv[i_list][X264_SCAN8_0 - 1];
@@ -298,13 +317,15 @@ static ALWAYS_INLINE int x264_mb_predict_mv_direct16x16_spatial( x264_t *h, int 
         int16_t *mv_b  = h->mb.cache.mv[i_list][X264_SCAN8_0 - 8];
         int     i_refc = h->mb.cache.ref[i_list][X264_SCAN8_0 - 8 + 4];
         int16_t *mv_c  = h->mb.cache.mv[i_list][X264_SCAN8_0 - 8 + 4];
+        int i_ref = X264_MIN3( (unsigned)i_refa, (unsigned)i_refb, (unsigned)i_refc );
+
         if( i_refc == -2 )
         {
             i_refc = h->mb.cache.ref[i_list][X264_SCAN8_0 - 8 - 1];
             mv_c   = h->mb.cache.mv[i_list][X264_SCAN8_0 - 8 - 1];
         }
 
-        int i_ref = X264_MIN3( (unsigned)i_refa, (unsigned)i_refb, (unsigned)i_refc );
+        i_ref = X264_MIN3( (unsigned)i_refa, (unsigned)i_refb, (unsigned)i_refc );
         if( i_ref < 0 )
         {
             i_ref = -1;
@@ -334,110 +355,126 @@ static ALWAYS_INLINE int x264_mb_predict_mv_direct16x16_spatial( x264_t *h, int 
         ref[i_list] = i_ref;
     }
 
-    int mb_x = h->mb.i_mb_x;
-    int mb_y = h->mb.i_mb_y;
-    int mb_xy = h->mb.i_mb_xy;
-    int type_col[2] = { h->fref[1][0]->mb_type[mb_xy], h->fref[1][0]->mb_type[mb_xy] };
-    int partition_col[2] = { h->fref[1][0]->mb_partition[mb_xy], h->fref[1][0]->mb_partition[mb_xy] };
-    h->mb.i_partition = partition_col[0];
-    if( b_interlaced && h->fref[1][0]->field[mb_xy] != MB_INTERLACED )
-    {
-        if( MB_INTERLACED )
-        {
-            mb_y = h->mb.i_mb_y&~1;
-            mb_xy = mb_x + h->mb.i_mb_stride * mb_y;
-            type_col[0] = h->fref[1][0]->mb_type[mb_xy];
-            type_col[1] = h->fref[1][0]->mb_type[mb_xy + h->mb.i_mb_stride];
-            partition_col[0] = h->fref[1][0]->mb_partition[mb_xy];
-            partition_col[1] = h->fref[1][0]->mb_partition[mb_xy + h->mb.i_mb_stride];
+    mb_x = h->mb.i_mb_x;
+    mb_y = h->mb.i_mb_y;
+    mb_xy = h->mb.i_mb_xy;
+	{
+    	int type_col[2] = { h->fref[1][0]->mb_type[mb_xy], h->fref[1][0]->mb_type[mb_xy] };
+		{
+            int partition_col[2] = { h->fref[1][0]->mb_partition[mb_xy], h->fref[1][0]->mb_partition[mb_xy] };
+            int i_mb_4x4;
+            int i_mb_8x8;
+            int8_t *l1ref0;
+            int8_t *l1ref1;
 
-            if( (IS_INTRA(type_col[0]) || partition_col[0] == D_16x16) &&
-                (IS_INTRA(type_col[1]) || partition_col[1] == D_16x16) &&
-                partition_col[0] != D_8x8 )
-                h->mb.i_partition = D_16x8;
-            else
-                h->mb.i_partition = D_8x8;
-        }
-        else
-        {
-            int cur_poc = h->fdec->i_poc + h->fdec->i_delta_poc[MB_INTERLACED&h->mb.i_mb_y&1];
-            int col_parity = abs(h->fref[1][0]->i_poc + h->fref[1][0]->i_delta_poc[0] - cur_poc)
-                          >= abs(h->fref[1][0]->i_poc + h->fref[1][0]->i_delta_poc[1] - cur_poc);
-            mb_y = (h->mb.i_mb_y&~1) + col_parity;
-            mb_xy = mb_x + h->mb.i_mb_stride * mb_y;
-            type_col[0] = type_col[1] = h->fref[1][0]->mb_type[mb_xy];
-            partition_col[0] = partition_col[1] = h->fref[1][0]->mb_partition[mb_xy];
-            h->mb.i_partition = partition_col[0];
-        }
-    }
-    int i_mb_4x4 = b_interlaced ? 4 * (h->mb.i_b4_stride*mb_y + mb_x) : h->mb.i_b4_xy ;
-    int i_mb_8x8 = b_interlaced ? 2 * (h->mb.i_b8_stride*mb_y + mb_x) : h->mb.i_b8_xy ;
+			h->mb.i_partition = partition_col[0];
+            if( b_interlaced && h->fref[1][0]->field[mb_xy] != MB_INTERLACED )
+            {
+                if( MB_INTERLACED )
+                {
+                    mb_y = h->mb.i_mb_y&~1;
+                    mb_xy = mb_x + h->mb.i_mb_stride * mb_y;
+                    type_col[0] = h->fref[1][0]->mb_type[mb_xy];
+                    type_col[1] = h->fref[1][0]->mb_type[mb_xy + h->mb.i_mb_stride];
+                    partition_col[0] = h->fref[1][0]->mb_partition[mb_xy];
+                    partition_col[1] = h->fref[1][0]->mb_partition[mb_xy + h->mb.i_mb_stride];
 
-    int8_t *l1ref0 = &h->fref[1][0]->ref[0][i_mb_8x8];
-    int8_t *l1ref1 = &h->fref[1][0]->ref[1][i_mb_8x8];
-    int16_t (*l1mv[2])[2] = { (int16_t (*)[2]) &h->fref[1][0]->mv[0][i_mb_4x4],
-                              (int16_t (*)[2]) &h->fref[1][0]->mv[1][i_mb_4x4] };
+                    if( (IS_INTRA(type_col[0]) || partition_col[0] == D_16x16) &&
+                        (IS_INTRA(type_col[1]) || partition_col[1] == D_16x16) &&
+                        partition_col[0] != D_8x8 )
+                        h->mb.i_partition = D_16x8;
+                    else
+                        h->mb.i_partition = D_8x8;
+                }
+                else
+                {
+                    int cur_poc = h->fdec->i_poc + h->fdec->i_delta_poc[MB_INTERLACED&h->mb.i_mb_y&1];
+                    int col_parity = abs(h->fref[1][0]->i_poc + h->fref[1][0]->i_delta_poc[0] - cur_poc)
+                                  >= abs(h->fref[1][0]->i_poc + h->fref[1][0]->i_delta_poc[1] - cur_poc);
+                    mb_y = (h->mb.i_mb_y&~1) + col_parity;
+                    mb_xy = mb_x + h->mb.i_mb_stride * mb_y;
+                    type_col[0] = type_col[1] = h->fref[1][0]->mb_type[mb_xy];
+                    partition_col[0] = partition_col[1] = h->fref[1][0]->mb_partition[mb_xy];
+                    h->mb.i_partition = partition_col[0];
+                }
+            }
+            i_mb_4x4 = b_interlaced ? 4 * (h->mb.i_b4_stride*mb_y + mb_x) : h->mb.i_b4_xy ;
+            i_mb_8x8 = b_interlaced ? 2 * (h->mb.i_b8_stride*mb_y + mb_x) : h->mb.i_b8_xy ;
 
-    if( (M16( ref ) & 0x8080) == 0x8080 ) /* if( ref[0] < 0 && ref[1] < 0 ) */
-    {
-        x264_macroblock_cache_ref( h, 0, 0, 4, 4, 0, 0 );
-        x264_macroblock_cache_ref( h, 0, 0, 4, 4, 1, 0 );
-        return 1;
-    }
+            l1ref0 = &h->fref[1][0]->ref[0][i_mb_8x8];
+            l1ref1 = &h->fref[1][0]->ref[1][i_mb_8x8];
+            {
+				int16_t (*l1mv[2])[2] = { (int16_t (*)[2]) &h->fref[1][0]->mv[0][i_mb_4x4],
+                                          (int16_t (*)[2]) &h->fref[1][0]->mv[1][i_mb_4x4] };
+                int max_i8;
+                int step;
+                int width;
+                int height;
+				int i8;
 
-    if( h->param.i_threads > 1
-        && ( mv[0][1] > h->mb.mv_max_spel[1]
-          || mv[1][1] > h->mb.mv_max_spel[1] ) )
-    {
+                if( (M16( ref ) & 0x8080) == 0x8080 ) /* if( ref[0] < 0 && ref[1] < 0 ) */
+                {
+                    x264_macroblock_cache_ref( h, 0, 0, 4, 4, 0, 0 );
+                    x264_macroblock_cache_ref( h, 0, 0, 4, 4, 1, 0 );
+                    return 1;
+                }
+
+                if( h->param.i_threads > 1
+                    && ( mv[0][1] > h->mb.mv_max_spel[1]
+                      || mv[1][1] > h->mb.mv_max_spel[1] ) )
+                {
 #if 0
-        fprintf(stderr, "direct_spatial: (%d,%d) (%d,%d) > %d \n",
-                mv[0][0], mv[0][1], mv[1][0], mv[1][1],
-                h->mb.mv_max_spel[1]);
+                    fprintf(stderr, "direct_spatial: (%d,%d) (%d,%d) > %d \n",
+                            mv[0][0], mv[0][1], mv[1][0], mv[1][1],
+                            h->mb.mv_max_spel[1]);
 #endif
-        return 0;
-    }
+                    return 0;
+                }
 
-    if( !M64( mv ) || (!b_interlaced && IS_INTRA( type_col[0] )) || (ref[0]&&ref[1]) )
-        return 1;
+                if( !M64( mv ) || (!b_interlaced && IS_INTRA( type_col[0] )) || (ref[0]&&ref[1]) )
+                    return 1;
 
-    /* Don't do any checks other than the ones we have to, based
-     * on the size of the colocated partitions.
-     * Depends on the enum order: D_8x8, D_16x8, D_8x16, D_16x16 */
-    int max_i8 = (D_16x16 - h->mb.i_partition) + 1;
-    int step = (h->mb.i_partition == D_16x8) + 1;
-    int width = 4 >> ((D_16x16 - h->mb.i_partition)&1);
-    int height = 4 >> ((D_16x16 - h->mb.i_partition)>>1);
+                /* Don't do any checks other than the ones we have to, based
+                 * on the size of the colocated partitions.
+                 * Depends on the enum order: D_8x8, D_16x8, D_8x16, D_16x16 */
+                max_i8 = (D_16x16 - h->mb.i_partition) + 1;
+                step = (h->mb.i_partition == D_16x8) + 1;
+                width = 4 >> ((D_16x16 - h->mb.i_partition)&1);
+                height = 4 >> ((D_16x16 - h->mb.i_partition)>>1);
+				
+                /* col_zero_flag */
+                for( i8 = 0; i8 < max_i8; i8 += step )
+                {
+                    const int x8 = i8&1;
+                    const int y8 = i8>>1;
+                    int ypart = (b_interlaced && h->fref[1][0]->field[mb_xy] != MB_INTERLACED) ?
+                                MB_INTERLACED ? y8*6 : 2*(h->mb.i_mb_y&1) + y8 :
+                                3*y8;
+                    int o8 = x8 + (ypart>>1) * h->mb.i_b8_stride;
+                    int o4 = 3*x8 + ypart * h->mb.i_b4_stride;
+                    int idx;
 
-    /* col_zero_flag */
-    for( int i8 = 0; i8 < max_i8; i8 += step )
-    {
-        const int x8 = i8&1;
-        const int y8 = i8>>1;
-        int ypart = (b_interlaced && h->fref[1][0]->field[mb_xy] != MB_INTERLACED) ?
-                    MB_INTERLACED ? y8*6 : 2*(h->mb.i_mb_y&1) + y8 :
-                    3*y8;
-        int o8 = x8 + (ypart>>1) * h->mb.i_b8_stride;
-        int o4 = 3*x8 + ypart * h->mb.i_b4_stride;
+                    if( b_interlaced && IS_INTRA( type_col[y8] ) )
+                        continue;
 
-        if( b_interlaced && IS_INTRA( type_col[y8] ) )
-            continue;
+                    if( l1ref0[o8] == 0 )
+                        idx = 0;
+                    else if( l1ref0[o8] < 0 && l1ref1[o8] == 0 )
+                        idx = 1;
+                    else
+                        continue;
 
-        int idx;
-        if( l1ref0[o8] == 0 )
-            idx = 0;
-        else if( l1ref0[o8] < 0 && l1ref1[o8] == 0 )
-            idx = 1;
-        else
-            continue;
+                    if( abs( l1mv[idx][o4][0] ) <= 1 && abs( l1mv[idx][o4][1] ) <= 1 )
+                    {
+                        if( ref[0] == 0 ) x264_macroblock_cache_mv( h, 2*x8, 2*y8, width, height, 0, 0 );
+                        if( ref[1] == 0 ) x264_macroblock_cache_mv( h, 2*x8, 2*y8, width, height, 1, 0 );
+                    }
+                }
 
-        if( abs( l1mv[idx][o4][0] ) <= 1 && abs( l1mv[idx][o4][1] ) <= 1 )
-        {
-            if( ref[0] == 0 ) x264_macroblock_cache_mv( h, 2*x8, 2*y8, width, height, 0, 0 );
-            if( ref[1] == 0 ) x264_macroblock_cache_mv( h, 2*x8, 2*y8, width, height, 1, 0 );
-        }
-    }
-
-    return 1;
+                return 1;
+			}
+		}
+	}
 }
 
 
@@ -498,8 +535,9 @@ int x264_mb_predict_mv_direct16x16( x264_t *h, int *b_changed )
     }
 
     /* cache ref & mv */
-    if( b_available )
-        for( int l = 0; l < 2; l++ )
+    if( b_available ) {
+		int l;
+		for( l = 0; l < 2; l++ )
         {
             CP32( h->mb.cache.direct_mv[l][0], h->mb.cache.mv[l][x264_scan8[ 0]] );
             CP32( h->mb.cache.direct_mv[l][1], h->mb.cache.mv[l][x264_scan8[ 4]] );
@@ -511,7 +549,7 @@ int x264_mb_predict_mv_direct16x16( x264_t *h, int *b_changed )
             h->mb.cache.direct_ref[l][3] = h->mb.cache.ref[l][x264_scan8[12]];
             h->mb.cache.direct_partition = h->mb.i_partition;
         }
-
+	}
     return b_available;
 }
 

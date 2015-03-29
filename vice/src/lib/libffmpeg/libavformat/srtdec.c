@@ -158,7 +158,17 @@ static int srt_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_srt_demuxer = {
-    .name        = "srt",
+#ifdef IDE_COMPILE
+    "srt",
+    "SubRip subtitle",
+    0, 0, 0, 0, 0, 0, 0, sizeof(SRTContext),
+    srt_probe,
+    srt_read_header,
+    srt_read_packet,
+    srt_read_close,
+    0, 0, 0, 0, srt_read_seek,
+#else
+	.name        = "srt",
     .long_name   = NULL_IF_CONFIG_SMALL("SubRip subtitle"),
     .priv_data_size = sizeof(SRTContext),
     .read_probe  = srt_probe,
@@ -166,4 +176,5 @@ AVInputFormat ff_srt_demuxer = {
     .read_packet = srt_read_packet,
     .read_seek2  = srt_read_seek,
     .read_close  = srt_read_close,
+#endif
 };

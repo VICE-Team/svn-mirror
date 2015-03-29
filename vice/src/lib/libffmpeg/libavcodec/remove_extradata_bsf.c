@@ -49,6 +49,11 @@ static int remove_extradata(AVBitStreamFilterContext *bsfc, AVCodecContext *avct
 }
 
 AVBitStreamFilter ff_remove_extradata_bsf={
-    .name   = "remove_extra",
+#ifdef IDE_COMPILE
+    "remove_extra",
+    0, remove_extradata,
+#else
+	.name   = "remove_extra",
     .filter = remove_extradata,
+#endif
 };

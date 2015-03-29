@@ -385,7 +385,17 @@ static int atrac3p_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_atrac3p_decoder = {
-    .name           = "atrac3plus",
+#ifdef IDE_COMPILE
+    "atrac3plus",
+    "ATRAC3+ (Adaptive TRansform Acoustic Coding 3+)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_ATRAC3P,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, sizeof(ATRAC3PContext),
+    0, 0, 0, 0, 0, atrac3p_decode_init,
+    0, 0, atrac3p_decode_frame,
+    atrac3p_decode_close,
+#else
+	.name           = "atrac3plus",
     .long_name      = NULL_IF_CONFIG_SMALL("ATRAC3+ (Adaptive TRansform Acoustic Coding 3+)"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_ATRAC3P,
@@ -393,4 +403,5 @@ AVCodec ff_atrac3p_decoder = {
     .init           = atrac3p_decode_init,
     .close          = atrac3p_decode_close,
     .decode         = atrac3p_decode_frame,
+#endif
 };

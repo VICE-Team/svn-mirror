@@ -30,7 +30,13 @@
  *       yields the same error profile as the MMX/MMXEXT/SSE2 versions.
  */
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "libavutil/attributes.h"
 #include "avcodec.h"
 #include "idctdsp.h"

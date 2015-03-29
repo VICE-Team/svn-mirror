@@ -22,7 +22,12 @@
  * Libavfilter multithreading support
  */
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 #include "libavutil/common.h"
 #include "libavutil/cpu.h"

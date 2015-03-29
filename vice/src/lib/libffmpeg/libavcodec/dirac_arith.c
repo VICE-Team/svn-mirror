@@ -64,7 +64,24 @@ const uint16_t ff_dirac_prob[256] = {
 };
 
 const uint8_t ff_dirac_next_ctx[DIRAC_CTX_COUNT] = {
-    [CTX_ZPZN_F1]   = CTX_ZP_F2,
+#ifdef IDE_COMPILE
+    CTX_ZP_F2,
+    CTX_ZP_F2,
+    CTX_NP_F2,
+    CTX_NP_F2,
+    CTX_ZP_F3,
+    CTX_ZP_F4,
+    CTX_ZP_F5,
+    CTX_ZP_F6,
+    CTX_ZP_F6,
+    CTX_NP_F3,
+    CTX_NP_F4,
+    CTX_NP_F5,
+    CTX_NP_F6,
+    CTX_NP_F6,
+    0, 0, 0, 0, 0, CTX_DELTA_Q_F,
+#else
+	[CTX_ZPZN_F1]   = CTX_ZP_F2,
     [CTX_ZPNN_F1]   = CTX_ZP_F2,
     [CTX_ZP_F2]     = CTX_ZP_F3,
     [CTX_ZP_F3]     = CTX_ZP_F4,
@@ -79,6 +96,7 @@ const uint8_t ff_dirac_next_ctx[DIRAC_CTX_COUNT] = {
     [CTX_NP_F5]     = CTX_NP_F6,
     [CTX_NP_F6]     = CTX_NP_F6,
     [CTX_DELTA_Q_F] = CTX_DELTA_Q_F,
+#endif
 };
 
 int16_t ff_dirac_prob_branchless[256][2];

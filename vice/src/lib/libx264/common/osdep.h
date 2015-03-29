@@ -35,7 +35,11 @@
 #include <inttypes.h>
 #include <stdarg.h>
 
+#ifdef IDE_COMPILE
+#include "x264-config.h"
+#else
 #include "config.h"
+#endif
 
 #ifdef __INTEL_COMPILER
 #include <mathimf.h>
@@ -239,8 +243,9 @@ static ALWAYS_INLINE int x264_pthread_fetch_and_add( int *val, int add, x264_pth
 #if defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ > 0) && ARCH_X86
     return __sync_fetch_and_add( val, add );
 #else
-    x264_pthread_mutex_lock( mutex );
-    int res = *val;
+    int res;
+	x264_pthread_mutex_lock( mutex );
+    res = *val;
     *val += add;
     x264_pthread_mutex_unlock( mutex );
     return res;

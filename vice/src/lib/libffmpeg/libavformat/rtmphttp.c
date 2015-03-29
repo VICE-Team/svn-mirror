@@ -254,19 +254,40 @@ fail:
 #define DEC AV_OPT_FLAG_DECODING_PARAM
 
 static const AVOption ffrtmphttp_options[] = {
-    {"ffrtmphttp_tls", "Use a HTTPS tunneling connection (RTMPTS).", OFFSET(tls), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, DEC},
-    { NULL },
+#ifdef IDE_COMPILE
+	{"ffrtmphttp_tls", "Use a HTTPS tunneling connection (RTMPTS).", OFFSET(tls), AV_OPT_TYPE_INT, {0}, 0, 1, DEC},
+#else
+	{"ffrtmphttp_tls", "Use a HTTPS tunneling connection (RTMPTS).", OFFSET(tls), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, DEC},
+#endif
+	{ NULL },
 };
 
 static const AVClass ffrtmphttp_class = {
-    .class_name = "ffrtmphttp",
+#ifdef IDE_COMPILE
+    "ffrtmphttp",
+    av_default_item_name,
+    ffrtmphttp_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "ffrtmphttp",
     .item_name  = av_default_item_name,
     .option     = ffrtmphttp_options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 URLProtocol ff_ffrtmphttp_protocol = {
-    .name           = "ffrtmphttp",
+#ifdef IDE_COMPILE
+    "ffrtmphttp",
+    rtmp_http_open,
+    0, rtmp_http_read,
+    rtmp_http_write,
+    0, rtmp_http_close,
+    0, 0, 0, 0, 0, 0, sizeof(RTMP_HTTPContext),
+    &ffrtmphttp_class,
+    URL_PROTOCOL_FLAG_NETWORK,
+#else
+	.name           = "ffrtmphttp",
     .url_open       = rtmp_http_open,
     .url_read       = rtmp_http_read,
     .url_write      = rtmp_http_write,
@@ -274,4 +295,5 @@ URLProtocol ff_ffrtmphttp_protocol = {
     .priv_data_size = sizeof(RTMP_HTTPContext),
     .flags          = URL_PROTOCOL_FLAG_NETWORK,
     .priv_data_class= &ffrtmphttp_class,
+#endif
 };

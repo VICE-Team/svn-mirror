@@ -94,7 +94,17 @@ static int ac3_probe(AVProbeData *p)
 }
 
 AVInputFormat ff_ac3_demuxer = {
-    .name           = "ac3",
+#ifdef IDE_COMPILE
+    "ac3",
+    "raw AC-3",
+    AVFMT_GENERIC_INDEX,
+    "ac3",
+    0, 0, 0, 0, AV_CODEC_ID_AC3,
+    0, ac3_probe,
+    ff_raw_audio_read_header,
+    ff_raw_read_partial_packet,
+#else
+	.name           = "ac3",
     .long_name      = NULL_IF_CONFIG_SMALL("raw AC-3"),
     .read_probe     = ac3_probe,
     .read_header    = ff_raw_audio_read_header,
@@ -102,6 +112,7 @@ AVInputFormat ff_ac3_demuxer = {
     .flags= AVFMT_GENERIC_INDEX,
     .extensions = "ac3",
     .raw_codec_id   = AV_CODEC_ID_AC3,
+#endif
 };
 #endif
 
@@ -112,7 +123,17 @@ static int eac3_probe(AVProbeData *p)
 }
 
 AVInputFormat ff_eac3_demuxer = {
-    .name           = "eac3",
+#ifdef IDE_COMPILE
+    "eac3",
+    "raw E-AC-3",
+    AVFMT_GENERIC_INDEX,
+    "eac3",
+    0, 0, 0, 0, AV_CODEC_ID_EAC3,
+    0, eac3_probe,
+    ff_raw_audio_read_header,
+    ff_raw_read_partial_packet,
+#else
+	.name           = "eac3",
     .long_name      = NULL_IF_CONFIG_SMALL("raw E-AC-3"),
     .read_probe     = eac3_probe,
     .read_header    = ff_raw_audio_read_header,
@@ -120,5 +141,6 @@ AVInputFormat ff_eac3_demuxer = {
     .flags          = AVFMT_GENERIC_INDEX,
     .extensions     = "eac3",
     .raw_codec_id   = AV_CODEC_ID_EAC3,
+#endif
 };
 #endif

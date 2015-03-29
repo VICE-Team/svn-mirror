@@ -1343,7 +1343,19 @@ static void flush(AVCodecContext *avctx)
 }
 
 AVCodec ff_bink_decoder = {
-    .name           = "binkvideo",
+#ifdef IDE_COMPILE
+    "binkvideo",
+    "Bink video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_BINKVIDEO,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(BinkContext),
+    0, 0, 0, 0, 0, decode_init,
+    0, 0, decode_frame,
+    decode_end,
+    flush,
+#else
+	.name           = "binkvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("Bink video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_BINKVIDEO,
@@ -1353,4 +1365,5 @@ AVCodec ff_bink_decoder = {
     .decode         = decode_frame,
     .flush          = flush,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

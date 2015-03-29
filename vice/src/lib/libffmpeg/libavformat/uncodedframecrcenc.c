@@ -160,7 +160,17 @@ static int write_packet(struct AVFormatContext *s, AVPacket *pkt)
 }
 
 AVOutputFormat ff_uncodedframecrc_muxer = {
-    .name              = "uncodedframecrc",
+#ifdef IDE_COMPILE
+    "uncodedframecrc",
+    "uncoded framecrc testing",
+    0, 0, AV_CODEC_ID_PCM_S16LE,
+    AV_CODEC_ID_RAWVIDEO,
+    0, AVFMT_VARIABLE_FPS | AVFMT_TS_NONSTRICT | AVFMT_TS_NEGATIVE,
+    0, 0, 0, 0, ff_framehash_write_header,
+    write_packet,
+    0, 0, 0, 0, 0, write_frame,
+#else
+	.name              = "uncodedframecrc",
     .long_name         = NULL_IF_CONFIG_SMALL("uncoded framecrc testing"),
     .audio_codec       = AV_CODEC_ID_PCM_S16LE,
     .video_codec       = AV_CODEC_ID_RAWVIDEO,
@@ -169,4 +179,5 @@ AVOutputFormat ff_uncodedframecrc_muxer = {
     .write_uncoded_frame = write_frame,
     .flags             = AVFMT_VARIABLE_FPS | AVFMT_TS_NONSTRICT |
                          AVFMT_TS_NEGATIVE,
+#endif
 };

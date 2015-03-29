@@ -36,10 +36,17 @@
 #include "ac3enc_opts_template.c"
 
 static const AVClass eac3enc_class = {
-    .class_name = "E-AC-3 Encoder",
+#ifdef IDE_COMPILE
+    "E-AC-3 Encoder",
+    av_default_item_name,
+    ac3_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "E-AC-3 Encoder",
     .item_name  = av_default_item_name,
     .option     = ac3_options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 /**
@@ -250,9 +257,27 @@ void ff_eac3_output_frame_header(AC3EncodeContext *s)
         put_bits(&s->pb, 1, 0);
 }
 
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
+                                                      AV_SAMPLE_FMT_NONE };
+#endif
 
 AVCodec ff_eac3_encoder = {
-    .name            = "eac3",
+#ifdef IDE_COMPILE
+    "eac3",
+    "ATSC A/52 E-AC-3",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_EAC3,
+    0, 0, 0, 0, tmp1,
+    ff_ac3_channel_layouts,
+    0, &eac3enc_class,
+    0, sizeof(AC3EncodeContext),
+    0, 0, 0, ac3_defaults,
+    0, ff_ac3_float_encode_init,
+    0, ff_ac3_float_encode_frame,
+    0, ff_ac3_encode_close,
+#else
+	.name            = "eac3",
     .long_name       = NULL_IF_CONFIG_SMALL("ATSC A/52 E-AC-3"),
     .type            = AVMEDIA_TYPE_AUDIO,
     .id              = AV_CODEC_ID_EAC3,
@@ -265,4 +290,5 @@ AVCodec ff_eac3_encoder = {
     .priv_class      = &eac3enc_class,
     .channel_layouts = ff_ac3_channel_layouts,
     .defaults        = ac3_defaults,
+#endif
 };

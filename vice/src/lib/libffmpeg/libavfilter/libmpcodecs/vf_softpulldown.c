@@ -20,7 +20,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "mp_msg.h"
 
 #include "img_format.h"

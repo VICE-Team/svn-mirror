@@ -214,8 +214,12 @@ static int tta_decode_frame(AVCodecContext *avctx, void *data,
                             int *got_frame_ptr, AVPacket *avpkt)
 {
     AVFrame *frame     = data;
-    ThreadFrame tframe = { .f = data };
-    const uint8_t *buf = avpkt->data;
+#ifdef IDE_COMPILE
+    ThreadFrame tframe = { data };
+#else
+	ThreadFrame tframe = { .f = data };
+#endif
+	const uint8_t *buf = avpkt->data;
     int buf_size = avpkt->size;
     TTAContext *s = avctx->priv_data;
     GetBitContext gb;
@@ -404,19 +408,43 @@ static av_cold int tta_decode_close(AVCodecContext *avctx) {
 #define OFFSET(x) offsetof(TTAContext, x)
 #define DEC (AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_AUDIO_PARAM)
 static const AVOption options[] = {
-    { "password", "Set decoding password", OFFSET(pass), AV_OPT_TYPE_STRING, { .str = NULL }, 0, 0, DEC },
-    { NULL },
+#ifdef IDE_COMPILE
+	{ "password", "Set decoding password", OFFSET(pass), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, DEC },
+#else
+	{ "password", "Set decoding password", OFFSET(pass), AV_OPT_TYPE_STRING, { .str = NULL }, 0, 0, DEC },
+#endif
+	{ NULL },
 };
 
 static const AVClass tta_decoder_class = {
-    .class_name = "TTA Decoder",
+#ifdef IDE_COMPILE
+    "TTA Decoder",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "TTA Decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 AVCodec ff_tta_decoder = {
-    .name           = "tta",
+#ifdef IDE_COMPILE
+    "tta",
+    "TTA (True Audio)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_TTA,
+    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
+    0, 0, 0, 0, 0, 0, &tta_decoder_class,
+    0, sizeof(TTAContext),
+    0, init_thread_copy,
+    0, 0, 0, tta_decode_init,
+    0, 0, tta_decode_frame,
+    tta_decode_close,
+#else
+	.name           = "tta",
     .long_name      = NULL_IF_CONFIG_SMALL("TTA (True Audio)"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_TTA,
@@ -427,4 +455,5 @@ AVCodec ff_tta_decoder = {
     .init_thread_copy = ONLY_IF_THREADS_ENABLED(init_thread_copy),
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
     .priv_class     = &tta_decoder_class,
+#endif
 };

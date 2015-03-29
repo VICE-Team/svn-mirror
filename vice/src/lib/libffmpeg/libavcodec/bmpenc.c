@@ -169,8 +169,28 @@ static av_cold int bmp_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp1[] = {
+        AV_PIX_FMT_BGRA, AV_PIX_FMT_BGR24,
+        AV_PIX_FMT_RGB565LE, AV_PIX_FMT_RGB555LE, AV_PIX_FMT_RGB444LE,
+        AV_PIX_FMT_RGB8, AV_PIX_FMT_BGR8, AV_PIX_FMT_RGB4_BYTE, AV_PIX_FMT_BGR4_BYTE, AV_PIX_FMT_GRAY8, AV_PIX_FMT_PAL8,
+        AV_PIX_FMT_MONOBLACK,
+        AV_PIX_FMT_NONE
+    };
+#endif
+
 AVCodec ff_bmp_encoder = {
-    .name           = "bmp",
+#ifdef IDE_COMPILE
+    "bmp",
+    "BMP (Windows and OS/2 bitmap)",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_BMP,
+    0, 0, tmp1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, bmp_encode_init,
+    0, bmp_encode_frame,
+    0, bmp_encode_close,
+#else
+	.name           = "bmp",
     .long_name      = NULL_IF_CONFIG_SMALL("BMP (Windows and OS/2 bitmap)"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_BMP,
@@ -184,4 +204,5 @@ AVCodec ff_bmp_encoder = {
         AV_PIX_FMT_MONOBLACK,
         AV_PIX_FMT_NONE
     },
+#endif
 };

@@ -280,11 +280,21 @@ static int film_read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_segafilm_demuxer = {
-    .name           = "film_cpk",
+#ifdef IDE_COMPILE
+    "film_cpk",
+    "Sega FILM / CPK",
+    0, 0, 0, 0, 0, 0, 0, sizeof(FilmDemuxContext),
+    film_probe,
+    film_read_header,
+    film_read_packet,
+    film_read_close,
+#else
+	.name           = "film_cpk",
     .long_name      = NULL_IF_CONFIG_SMALL("Sega FILM / CPK"),
     .priv_data_size = sizeof(FilmDemuxContext),
     .read_probe     = film_probe,
     .read_header    = film_read_header,
     .read_packet    = film_read_packet,
     .read_close     = film_read_close,
+#endif
 };

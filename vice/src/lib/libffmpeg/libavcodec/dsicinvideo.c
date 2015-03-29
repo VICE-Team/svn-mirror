@@ -305,7 +305,18 @@ static av_cold int cinvideo_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_dsicinvideo_decoder = {
-    .name           = "dsicinvideo",
+#ifdef IDE_COMPILE
+    "dsicinvideo",
+    "Delphine Software International CIN video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_DSICINVIDEO,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(CinVideoContext),
+    0, 0, 0, 0, 0, cinvideo_decode_init,
+    0, 0, cinvideo_decode_frame,
+    cinvideo_decode_end,
+#else
+	.name           = "dsicinvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("Delphine Software International CIN video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_DSICINVIDEO,
@@ -314,4 +325,5 @@ AVCodec ff_dsicinvideo_decoder = {
     .close          = cinvideo_decode_end,
     .decode         = cinvideo_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

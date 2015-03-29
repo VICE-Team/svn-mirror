@@ -27,7 +27,13 @@
 #include "simple_idct.h"
 #include "me_cmp.h"
 #include "mpegvideo.h"
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 uint32_t ff_square_tab[512] = { 0, };
 

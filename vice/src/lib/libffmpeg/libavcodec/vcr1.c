@@ -122,7 +122,17 @@ static int vcr1_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_vcr1_decoder = {
-    .name           = "vcr1",
+#ifdef IDE_COMPILE
+    "vcr1",
+    "ATI VCR1",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_VCR1,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(VCR1Context),
+    0, 0, 0, 0, 0, vcr1_decode_init,
+    0, 0, vcr1_decode_frame,
+#else
+	.name           = "vcr1",
     .long_name      = NULL_IF_CONFIG_SMALL("ATI VCR1"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_VCR1,
@@ -130,4 +140,5 @@ AVCodec ff_vcr1_decoder = {
     .init           = vcr1_decode_init,
     .decode         = vcr1_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

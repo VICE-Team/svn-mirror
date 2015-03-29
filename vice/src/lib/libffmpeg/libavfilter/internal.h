@@ -309,6 +309,17 @@ int ff_poll_frame(AVFilterLink *link);
  */
 int ff_request_frame(AVFilterLink *link);
 
+#ifdef IDE_COMPILE
+#define AVFILTER_DEFINE_CLASS(fname)       \
+    static const AVClass fname##_class = { \
+        #fname,                            \
+        av_default_item_name,              \
+        fname##_options,                   \
+        LIBAVUTIL_VERSION_INT,             \
+        0, 0, 0, 0,                        \
+        AV_CLASS_CATEGORY_FILTER,          \
+    }
+#else
 #define AVFILTER_DEFINE_CLASS(fname)            \
     static const AVClass fname##_class = {      \
         .class_name = #fname,                   \
@@ -317,6 +328,7 @@ int ff_request_frame(AVFilterLink *link);
         .version    = LIBAVUTIL_VERSION_INT,    \
         .category   = AV_CLASS_CATEGORY_FILTER, \
     }
+#endif
 
 AVFilterBufferRef *ff_copy_buffer_ref(AVFilterLink *outlink,
                                       AVFilterBufferRef *ref);

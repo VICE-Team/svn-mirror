@@ -24,7 +24,12 @@
  * logging functions
  */
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 #if HAVE_IO_H
 #include <io.h>
@@ -57,7 +62,33 @@ static int flags;
 
 #if defined(_WIN32) && !defined(__MINGW32CE__) && HAVE_SETCONSOLETEXTATTRIBUTE
 static const uint8_t color[16 + AV_CLASS_CATEGORY_NB] = {
-    [AV_LOG_PANIC  /8] = 12,
+#ifdef IDE_COMPILE
+    12,
+    12,
+    12,
+    14,
+    7,
+    10,
+    10,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 7,
+    13,
+    5,
+    13,
+    5,
+    11,
+    3,
+    10,
+    9,
+    7,
+    7,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13,
+    5,
+    13,
+    5,
+    13,
+    5,
+#else
+	[AV_LOG_PANIC  /8] = 12,
     [AV_LOG_FATAL  /8] = 12,
     [AV_LOG_ERROR  /8] = 12,
     [AV_LOG_WARNING/8] = 14,
@@ -81,6 +112,7 @@ static const uint8_t color[16 + AV_CLASS_CATEGORY_NB] = {
     [16+AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT  ] = 5,
     [16+AV_CLASS_CATEGORY_DEVICE_OUTPUT       ] = 13,
     [16+AV_CLASS_CATEGORY_DEVICE_INPUT        ] = 5,
+#endif
 };
 
 static int16_t background, attr_orig;

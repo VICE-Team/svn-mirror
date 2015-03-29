@@ -221,6 +221,9 @@ int avfilter_config_links(AVFilterContext *filter)
     int (*config_link)(AVFilterLink *);
     unsigned i;
     int ret;
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
 
     for (i = 0; i < filter->nb_inputs; i ++) {
         AVFilterLink *link = filter->inputs[i];
@@ -260,13 +263,26 @@ int avfilter_config_links(AVFilterContext *filter)
 
             switch (link->type) {
             case AVMEDIA_TYPE_VIDEO:
-                if (!link->time_base.num && !link->time_base.den)
-                    link->time_base = inlink ? inlink->time_base : AV_TIME_BASE_Q;
-
-                if (!link->sample_aspect_ratio.num && !link->sample_aspect_ratio.den)
-                    link->sample_aspect_ratio = inlink ?
+                if (!link->time_base.num && !link->time_base.den) {
+#ifdef IDE_COMPILE
+                    tmp.num = 1;
+					tmp.den = AV_TIME_BASE;
+					link->time_base = inlink ? inlink->time_base : tmp;
+#else
+					link->time_base = inlink ? inlink->time_base : AV_TIME_BASE_Q;
+#endif
+				}
+                if (!link->sample_aspect_ratio.num && !link->sample_aspect_ratio.den) {
+#ifdef IDE_COMPILE
+					tmp.num = 1;
+					tmp.den = 1;
+					link->sample_aspect_ratio = inlink ?
+                        inlink->sample_aspect_ratio : tmp;
+#else
+					link->sample_aspect_ratio = inlink ?
                         inlink->sample_aspect_ratio : (AVRational){1,1};
-
+#endif
+				}
                 if (inlink && !link->frame_rate.num && !link->frame_rate.den)
                     link->frame_rate = inlink->frame_rate;
 
@@ -289,9 +305,15 @@ int avfilter_config_links(AVFilterContext *filter)
                         link->time_base = inlink->time_base;
                 }
 
-                if (!link->time_base.num && !link->time_base.den)
-                    link->time_base = (AVRational) {1, link->sample_rate};
-            }
+                if (!link->time_base.num && !link->time_base.den) {
+#ifdef IDE_COMPILE
+					link->time_base.num = 1;
+					link->time_base.den = link->sample_rate;
+#else
+					link->time_base = (AVRational) {1, link->sample_rate};
+#endif
+				}
+			}
 
             if ((config_link = link->dstpad->config_props))
                 if ((ret = config_link(link)) < 0) {
@@ -426,10 +448,19 @@ static int set_enable_expr(AVFilterContext *ctx, const char *expr)
 
 void ff_update_link_current_pts(AVFilterLink *link, int64_t pts)
 {
-    if (pts == AV_NOPTS_VALUE)
+#ifdef IDE_COMPILE
+    AVRational tmp;
+#endif
+	if (pts == AV_NOPTS_VALUE)
         return;
-    link->current_pts = av_rescale_q(pts, link->time_base, AV_TIME_BASE_Q);
-    /* TODO use duration */
+#ifdef IDE_COMPILE
+    tmp.num = 1;
+	tmp.den = AV_TIME_BASE;
+    link->current_pts = av_rescale_q(pts, link->time_base, tmp);
+#else
+	link->current_pts = av_rescale_q(pts, link->time_base, AV_TIME_BASE_Q);
+#endif
+	/* TODO use duration */
     if (link->graph && link->age_index >= 0)
         ff_avfilter_graph_update_heap(link->graph, link);
 }
@@ -564,21 +595,37 @@ static const AVClass *filter_child_class_next(const AVClass *prev)
 #define OFFSET(x) offsetof(AVFilterContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption avfilter_options[] = {
-    { "thread_type", "Allowed thread types", OFFSET(thread_type), AV_OPT_TYPE_FLAGS,
+#ifdef IDE_COMPILE
+	{ "thread_type", "Allowed thread types", OFFSET(thread_type), AV_OPT_TYPE_FLAGS, {AVFILTER_THREAD_SLICE }, 0, INT_MAX, FLAGS, "thread_type" },
+    { "slice", NULL, 0, AV_OPT_TYPE_CONST, {AVFILTER_THREAD_SLICE }, 0, 0, 0, "thread_type" },
+    { "enable", "set enable expression", OFFSET(enable_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
+#else
+	{ "thread_type", "Allowed thread types", OFFSET(thread_type), AV_OPT_TYPE_FLAGS,
         { .i64 = AVFILTER_THREAD_SLICE }, 0, INT_MAX, FLAGS, "thread_type" },
         { "slice", NULL, 0, AV_OPT_TYPE_CONST, { .i64 = AVFILTER_THREAD_SLICE }, .unit = "thread_type" },
     { "enable", "set enable expression", OFFSET(enable_str), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
-    { NULL },
+#endif
+	{ NULL },
 };
 
 static const AVClass avfilter_class = {
-    .class_name = "AVFilter",
+#ifdef IDE_COMPILE
+    "AVFilter",
+    default_filter_name,
+    avfilter_options,
+    LIBAVUTIL_VERSION_INT,
+    0, 0, filter_child_next,
+    filter_child_class_next,
+    AV_CLASS_CATEGORY_FILTER,
+#else
+	.class_name = "AVFilter",
     .item_name  = default_filter_name,
     .version    = LIBAVUTIL_VERSION_INT,
     .category   = AV_CLASS_CATEGORY_FILTER,
     .child_next = filter_child_next,
     .child_class_next = filter_child_class_next,
     .option           = avfilter_options,
+#endif
 };
 
 static int default_execute(AVFilterContext *ctx, avfilter_action_func *func, void *arg,
@@ -743,6 +790,9 @@ static int process_options(AVFilterContext *ctx, AVDictionary **options,
     char *av_uninit(parsed_key), *av_uninit(value);
     const char *key;
     int offset= -1;
+#ifdef IDE_COMPILE
+	char tmp__0[64] = {0};
+#endif
 
     if (!args)
         return 0;
@@ -765,9 +815,14 @@ static int process_options(AVFilterContext *ctx, AVDictionary **options,
             if (ret == AVERROR(EINVAL))
                 av_log(ctx, AV_LOG_ERROR, "No option name near '%s'\n", args);
             else
-                av_log(ctx, AV_LOG_ERROR, "Unable to parse '%s': %s\n", args,
+#ifdef IDE_COMPILE
+				av_log(ctx, AV_LOG_ERROR, "Unable to parse '%s': %s\n", args,
+                       av_make_error_string(tmp__0, 64, ret));
+#else
+				av_log(ctx, AV_LOG_ERROR, "Unable to parse '%s': %s\n", args,
                        av_err2str(ret));
-            return ret;
+#endif
+			return ret;
         }
         if (*args)
             args++;

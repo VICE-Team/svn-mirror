@@ -57,12 +57,21 @@ typedef struct BlockNode{
 }BlockNode;
 
 static const BlockNode null_block= { //FIXME add border maybe
-    .color= {128,128,128},
+#ifdef IDE_COMPILE
+    0,
+    0,
+    0,
+    {128,128,128},
+    0,
+    0,
+#else
+	.color= {128,128,128},
     .mx= 0,
     .my= 0,
     .ref= 0,
     .type= 0,
     .level= 0,
+#endif
 };
 
 #define LOG2_MB_SIZE 4

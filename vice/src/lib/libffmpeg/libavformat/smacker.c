@@ -386,11 +386,21 @@ static int smacker_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_smacker_demuxer = {
-    .name           = "smk",
+#ifdef IDE_COMPILE
+    "smk",
+    "Smacker",
+    0, 0, 0, 0, 0, 0, 0, sizeof(SmackerContext),
+    smacker_probe,
+    smacker_read_header,
+    smacker_read_packet,
+    smacker_read_close,
+#else
+	.name           = "smk",
     .long_name      = NULL_IF_CONFIG_SMALL("Smacker"),
     .priv_data_size = sizeof(SmackerContext),
     .read_probe     = smacker_probe,
     .read_header    = smacker_read_header,
     .read_packet    = smacker_read_packet,
     .read_close     = smacker_read_close,
+#endif
 };

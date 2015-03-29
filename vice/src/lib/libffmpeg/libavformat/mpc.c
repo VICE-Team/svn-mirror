@@ -224,7 +224,18 @@ static int mpc_read_seek(AVFormatContext *s, int stream_index, int64_t timestamp
 
 
 AVInputFormat ff_mpc_demuxer = {
-    .name           = "mpc",
+#ifdef IDE_COMPILE
+    "mpc",
+    "Musepack",
+    0, "mpc",
+    0, 0, 0, 0, 0, sizeof(MPCContext),
+    mpc_probe,
+    mpc_read_header,
+    mpc_read_packet,
+    mpc_read_close,
+    mpc_read_seek,
+#else
+	.name           = "mpc",
     .long_name      = NULL_IF_CONFIG_SMALL("Musepack"),
     .priv_data_size = sizeof(MPCContext),
     .read_probe     = mpc_probe,
@@ -233,4 +244,5 @@ AVInputFormat ff_mpc_demuxer = {
     .read_close     = mpc_read_close,
     .read_seek      = mpc_read_seek,
     .extensions     = "mpc",
+#endif
 };

@@ -27,7 +27,14 @@
 
 #include "libavutil/attributes.h"
 #include "libavutil/bswap.h"
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "rgb2rgb.h"
 #include "swscale.h"
 #include "swscale_internal.h"

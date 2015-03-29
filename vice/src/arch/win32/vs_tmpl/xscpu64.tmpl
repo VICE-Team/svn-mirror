@@ -7,12 +7,19 @@ PROJECTTYPE = gui
 # project dependencies, one per line, preceeded by a tab
 PROJECTDEPS =
 	arch
+	avcodec
+	avcodec-x86
+	avfilter
+	avformat
+	avutil
+	avutil-x86
 	base
 	c64exp
 	c64cart
 	c64cartsystem
 	c64commoncart
 	c64scpu64
+	compat
 	core
 	diskimage
 	drive
@@ -24,10 +31,12 @@ PROJECTDEPS =
 	iecieee
 	ieee
 	imagecontents
+	lame
 	monitor
 	p64
 	parallel
 	platform
+	postproc
 	printerdrv
 	raster
 	resid
@@ -37,10 +46,20 @@ PROJECTDEPS =
 	serial
 	sid
 	sounddrv
+	swresample
+	swresample-x86
+	swscale
+	swscale-x86
 	userport
 	vdrive
 	viciisc
 	video
+	x264
+	x264common
+	x264encoder
+	x264filter
+	x264input
+	x264output
 
 # include directories, relative to the top src dir, one per line, preceeded by a tab
 INCLUDEDIRS =

@@ -2,6 +2,12 @@ EXTRA_DIST = \
 	_vice.tmpl \
 	arch_native.tmpl \
 	arch_sdl.tmpl \
+	avcodec.tmpl \
+	avcodec-x86.tmpl \
+	avfilter.tmpl \
+	avformat.tmpl \
+	avutil.tmpl \
+	avutil-x86.tmpl \
 	base.tmpl \
 	c128.tmpl \
 	c1541.tmpl \
@@ -20,6 +26,7 @@ EXTRA_DIST = \
 	cbm2.tmpl \
 	cbm2common.tmpl \
 	cbm5x0.tmpl \
+	compat.tmpl \
 	core.tmpl \
 	crtc.tmpl \
 	diskimage.tmpl \
@@ -37,6 +44,7 @@ EXTRA_DIST = \
 	iecieee.tmpl \
 	ieee.tmpl \
 	imagecontents.tmpl \
+	lame.tmpl \
 	mkmsvc.c \
 	mkmsvc.dsp \
 	mkmsvc.dsw \
@@ -49,6 +57,7 @@ EXTRA_DIST = \
 	platform.tmpl \
 	plus4.tmpl \
 	plus4exp.tmpl \
+	postproc.tmpl \
 	printerdrv.tmpl \
 	raster.tmpl \
 	resid.tmpl \
@@ -59,6 +68,10 @@ EXTRA_DIST = \
 	serial.tmpl \
 	sid.tmpl \
 	sounddrv.tmpl \
+	swresample.tmpl \
+	swresample-x86.tmpl \
+	swscale.tmpl \
+	swscale-x86.tmpl \
 	tape.tmpl \
 	tcbm.tmpl \
 	userport.tmpl \
@@ -74,6 +87,11 @@ EXTRA_DIST = \
 	video.tmpl \
 	vsid.tmpl \
 	vsidlib.tmpl \
+	x264.tmpl \
+	x264encoder.tmpl \
+	x264filter.tmpl \
+	x264input.tmpl \
+	x264output.tmpl \
 	x128.tmpl \
 	x64.tmpl \
 	x64dtv.tmpl \

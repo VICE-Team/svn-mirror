@@ -307,11 +307,14 @@ static int x264_param_apply_preset( x264_param_t *param, const char *preset )
 static int x264_param_apply_tune( x264_param_t *param, const char *tune )
 {
     char *tmp = x264_malloc( strlen( tune ) + 1 );
-    if( !tmp )
+    char *s;
+    int psy_tuning_used;
+
+	if( !tmp )
         return -1;
     tmp = strcpy( tmp, tune );
-    char *s = strtok( tmp, ",./-+" );
-    int psy_tuning_used = 0;
+    s = strtok( tmp, ",./-+" );
+    psy_tuning_used = 0;
     while( s )
     {
         if( !strncasecmp( s, "film", 4 ) )
@@ -455,10 +458,11 @@ static int profile_string_to_int( const char *str )
 
 int x264_param_apply_profile( x264_param_t *param, const char *profile )
 {
-    if( !profile )
+	int p;
+	if( !profile )
         return 0;
 
-    int p = profile_string_to_int( profile );
+    p = profile_string_to_int( profile );
     if( p < 0 )
     {
         x264_log( NULL, X264_LOG_ERROR, "invalid profile: %s\n", profile );
@@ -516,7 +520,8 @@ int x264_param_apply_profile( x264_param_t *param, const char *profile )
 
 static int parse_enum( const char *arg, const char * const *names, int *dst )
 {
-    for( int i = 0; names[i]; i++ )
+	int i;
+	for( i = 0; names[i]; i++ )
         if( !strcmp( arg, names[i] ) )
         {
             *dst = i;
@@ -1130,7 +1135,20 @@ int x264_picture_alloc( x264_picture_t *pic, int i_csp, int i_width, int i_heigh
 
     static const x264_csp_tab_t x264_csp_tab[] =
     {
-        [X264_CSP_I420] = { 3, { 256*1, 256/2, 256/2 }, { 256*1, 256/2, 256/2 } },
+#ifdef IDE_COMPILE
+        { 0 }, { 3, { 256*1, 256/2, 256/2 }, { 256*1, 256/2, 256/2 } },
+        { 3, { 256*1, 256/2, 256/2 }, { 256*1, 256/2, 256/2 } },
+        { 2, { 256*1, 256*1 }, { 256*1, 256/2 }, },
+        { 3, { 256*1, 256/2, 256/2 }, { 256*1, 256*1, 256*1 } },
+        { 3, { 256*1, 256/2, 256/2 }, { 256*1, 256*1, 256*1 } },
+        { 2, { 256*1, 256*1 }, { 256*1, 256*1 }, },
+        { 0 }, { 3, { 256*1, 256*1, 256*1 }, { 256*1, 256*1, 256*1 } },
+        { 3, { 256*1, 256*1, 256*1 }, { 256*1, 256*1, 256*1 } },
+        { 1, { 256*3 }, { 256*1 }, },
+        { 1, { 256*4 }, { 256*1 }, },
+        { 1, { 256*3 }, { 256*1 }, },
+#else
+		[X264_CSP_I420] = { 3, { 256*1, 256/2, 256/2 }, { 256*1, 256/2, 256/2 } },
         [X264_CSP_YV12] = { 3, { 256*1, 256/2, 256/2 }, { 256*1, 256/2, 256/2 } },
         [X264_CSP_NV12] = { 2, { 256*1, 256*1 },        { 256*1, 256/2 },       },
         [X264_CSP_I422] = { 3, { 256*1, 256/2, 256/2 }, { 256*1, 256*1, 256*1 } },
@@ -1141,18 +1159,23 @@ int x264_picture_alloc( x264_picture_t *pic, int i_csp, int i_width, int i_heigh
         [X264_CSP_BGR]  = { 1, { 256*3 },               { 256*1 },              },
         [X264_CSP_BGRA] = { 1, { 256*4 },               { 256*1 },              },
         [X264_CSP_RGB]  = { 1, { 256*3 },               { 256*1 },              },
-    };
+#endif
+	};
 
     int csp = i_csp & X264_CSP_MASK;
-    if( csp <= X264_CSP_NONE || csp >= X264_CSP_MAX || csp == X264_CSP_V210 )
+    int depth_factor;
+    int plane_offset[3] = {0};
+    int frame_size;
+	int i;
+
+	if( csp <= X264_CSP_NONE || csp >= X264_CSP_MAX || csp == X264_CSP_V210 )
         return -1;
     x264_picture_init( pic );
     pic->img.i_csp = i_csp;
     pic->img.i_plane = x264_csp_tab[csp].planes;
-    int depth_factor = i_csp & X264_CSP_HIGH_DEPTH ? 2 : 1;
-    int plane_offset[3] = {0};
-    int frame_size = 0;
-    for( int i = 0; i < pic->img.i_plane; i++ )
+    depth_factor = i_csp & X264_CSP_HIGH_DEPTH ? 2 : 1;
+    frame_size = 0;
+    for( i = 0; i < pic->img.i_plane; i++ )
     {
         int stride = (((int64_t)i_width * x264_csp_tab[csp].width_fix8[i]) >> 8) * depth_factor;
         int plane_size = (((int64_t)i_height * x264_csp_tab[csp].height_fix8[i]) >> 8) * stride;
@@ -1163,7 +1186,7 @@ int x264_picture_alloc( x264_picture_t *pic, int i_csp, int i_width, int i_heigh
     pic->img.plane[0] = x264_malloc( frame_size );
     if( !pic->img.plane[0] )
         return -1;
-    for( int i = 1; i < pic->img.i_plane; i++ )
+    for( i = 1; i < pic->img.i_plane; i++ )
         pic->img.plane[i] = pic->img.plane[0] + plane_offset[i];
     return 0;
 }

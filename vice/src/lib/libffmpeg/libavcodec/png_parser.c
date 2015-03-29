@@ -110,8 +110,15 @@ flush:
 }
 
 AVCodecParser ff_png_parser = {
-    .codec_ids      = { AV_CODEC_ID_PNG },
+#ifdef IDE_COMPILE
+    { AV_CODEC_ID_PNG },
+    sizeof(PNGParseContext),
+    0, png_parse,
+    ff_parse_close,
+#else
+	.codec_ids      = { AV_CODEC_ID_PNG },
     .priv_data_size = sizeof(PNGParseContext),
     .parser_parse   = png_parse,
     .parser_close   = ff_parse_close,
+#endif
 };

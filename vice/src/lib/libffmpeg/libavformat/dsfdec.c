@@ -149,11 +149,21 @@ static int dsf_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_dsf_demuxer = {
-    .name           = "dsf",
+#ifdef IDE_COMPILE
+    "dsf",
+    "DSD Stream File (DSF)",
+    AVFMT_GENERIC_INDEX | AVFMT_NO_BYTE_SEEK,
+    0, 0, 0, 0, 0, 0, sizeof(DSFContext),
+    dsf_probe,
+    dsf_read_header,
+    dsf_read_packet,
+#else
+	.name           = "dsf",
     .long_name      = NULL_IF_CONFIG_SMALL("DSD Stream File (DSF)"),
     .priv_data_size = sizeof(DSFContext),
     .read_probe     = dsf_probe,
     .read_header    = dsf_read_header,
     .read_packet    = dsf_read_packet,
     .flags          = AVFMT_GENERIC_INDEX | AVFMT_NO_BYTE_SEEK,
+#endif
 };

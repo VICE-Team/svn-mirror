@@ -803,8 +803,12 @@ uint32_t x264_run_before[1<<16];
 
 void x264_cavlc_init( x264_t *h )
 {
-    for( int i_suffix = 0; i_suffix < 7; i_suffix++ )
-        for( int16_t level = -LEVEL_TABLE_SIZE/2; level < LEVEL_TABLE_SIZE/2; level++ )
+	int i_suffix;
+	int16_t level;
+	int i;
+
+	for( i_suffix = 0; i_suffix < 7; i_suffix++ )
+        for( level = -LEVEL_TABLE_SIZE/2; level < LEVEL_TABLE_SIZE/2; level++ )
         {
             int mask = level >> 15;
             int abs_level = (level^mask)-mask;
@@ -842,18 +846,23 @@ void x264_cavlc_init( x264_t *h )
             vlc->i_next = i_next;
         }
 
-    for( int i = 1; i < (1<<16); i++ )
+    for( i = 1; i < (1<<16); i++ )
     {
         x264_run_level_t runlevel;
         ALIGNED_ARRAY_16( dctcoef, dct, [16] );
         int size = 0;
         int bits = 0;
-        for( int j = 0; j < 16; j++ )
+		int j;
+        int total;
+        int zeros;
+        uint32_t mask;
+
+        for( j = 0; j < 16; j++ )
             dct[j] = i&(1<<j);
-        int total = h->quantf.coeff_level_run[DCT_LUMA_4x4]( dct, &runlevel );
-        int zeros = runlevel.last + 1 - total;
-        uint32_t mask = i << (x264_clz( i ) + 1);
-        for( int j = 0; j < total-1 && zeros > 0; j++ )
+        total = h->quantf.coeff_level_run[DCT_LUMA_4x4]( dct, &runlevel );
+        zeros = runlevel.last + 1 - total;
+        mask = i << (x264_clz( i ) + 1);
+        for( j = 0; j < total-1 && zeros > 0; j++ )
         {
             int idx = X264_MIN(zeros, 7) - 1;
             int run = x264_clz( mask );

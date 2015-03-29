@@ -113,7 +113,11 @@ void x264_opencl_close_library( x264_opencl_function_t *ocl )
 #define CL_DEVICE_SIMD_INSTRUCTION_WIDTH_AMD        0x4042
 
 /* Requires full include path in case of out-of-tree builds */
+#ifdef IDE_COMPILE
+#include "common/oclobj-msvc.h"
+#else
 #include "common/oclobj.h"
+#endif
 
 static int x264_detect_switchable_graphics( void );
 
@@ -123,21 +127,28 @@ static cl_program x264_opencl_cache_load( x264_t *h, const char *dev_name, const
 {
     /* try to load cached program binary */
     FILE *fp = x264_fopen( h->param.psz_clbin_file, "rb" );
-    if( !fp )
+    x264_opencl_function_t *ocl;
+    cl_program program;
+    uint8_t *binary;
+    size_t size;
+    const uint8_t *ptr;
+    cl_int status;
+
+	if( !fp )
         return NULL;
 
-    x264_opencl_function_t *ocl = h->opencl.ocl;
-    cl_program program = NULL;
-    uint8_t *binary = NULL;
+    ocl = h->opencl.ocl;
+    program = NULL;
+    binary = NULL;
 
     fseek( fp, 0, SEEK_END );
-    size_t size = ftell( fp );
+    size = ftell( fp );
     rewind( fp );
     CHECKED_MALLOC( binary, size );
 
     if ( fread( binary, 1, size, fp ) != size )
         goto fail;
-    const uint8_t *ptr = (const uint8_t*)binary;
+    ptr = (const uint8_t*)binary;
 
 #define CHECK_STRING( STR )\
     do {\
@@ -155,7 +166,6 @@ static cl_program x264_opencl_cache_load( x264_t *h, const char *dev_name, const
     CHECK_STRING( x264_opencl_source_hash );
 #undef CHECK_STRING
 
-    cl_int status;
     program = ocl->clCreateProgramWithBinary( h->opencl.context, 1, &h->opencl.device, &size, &ptr, NULL, &status );
     if( status != CL_SUCCESS )
         program = NULL;
@@ -171,17 +181,23 @@ fail:
 static void x264_opencl_cache_save( x264_t *h, cl_program program, const char *dev_name, const char *dev_vendor, const char *driver_version )
 {
     FILE *fp = x264_fopen( h->param.psz_clbin_file, "wb" );
-    if( !fp )
+    x264_opencl_function_t *ocl;
+    uint8_t *binary;
+
+    size_t size;
+    cl_int status;
+
+	if( !fp )
     {
         x264_log( h, X264_LOG_INFO, "OpenCL: unable to open clbin file for write\n" );
         return;
     }
 
-    x264_opencl_function_t *ocl = h->opencl.ocl;
-    uint8_t *binary = NULL;
+    ocl = h->opencl.ocl;
+    binary = NULL;
 
-    size_t size = 0;
-    cl_int status = ocl->clGetProgramInfo( program, CL_PROGRAM_BINARY_SIZES, sizeof(size_t), &size, NULL );
+    size = 0;
+    status = ocl->clGetProgramInfo( program, CL_PROGRAM_BINARY_SIZES, sizeof(size_t), &size, NULL );
     if( status != CL_SUCCESS || !size )
     {
         x264_log( h, X264_LOG_INFO, "OpenCL: Unable to query program binary size, no cache file generated\n" );
@@ -226,19 +242,26 @@ static cl_program x264_opencl_compile( x264_t *h )
     char dev_vendor[64];
     char driver_version[64];
     cl_int status;
-    status  = ocl->clGetDeviceInfo( h->opencl.device, CL_DEVICE_NAME,    sizeof(dev_name), dev_name, NULL );
+    int vectorize;
+    const char *buildopts;
+    size_t build_log_len;
+    FILE *log_file;
+
+	status  = ocl->clGetDeviceInfo( h->opencl.device, CL_DEVICE_NAME,    sizeof(dev_name), dev_name, NULL );
     status |= ocl->clGetDeviceInfo( h->opencl.device, CL_DEVICE_VENDOR,  sizeof(dev_vendor), dev_vendor, NULL );
     status |= ocl->clGetDeviceInfo( h->opencl.device, CL_DRIVER_VERSION, sizeof(driver_version), driver_version, NULL );
     if( status != CL_SUCCESS )
         return NULL;
 
     // Most AMD GPUs have vector registers
-    int vectorize = !strcmp( dev_vendor, "Advanced Micro Devices, Inc." );
+    vectorize = !strcmp( dev_vendor, "Advanced Micro Devices, Inc." );
     h->opencl.b_device_AMD_SI = 0;
 
     if( vectorize )
     {
-        /* Disable OpenCL on Intel/AMD switchable graphics devices */
+        cl_uint simdwidth;
+
+		/* Disable OpenCL on Intel/AMD switchable graphics devices */
         if( x264_detect_switchable_graphics() )
         {
             x264_log( h, X264_LOG_INFO, "OpenCL acceleration disabled, switchable graphics detected\n" );
@@ -246,7 +269,7 @@ static cl_program x264_opencl_compile( x264_t *h )
         }
 
         /* Detect AMD SouthernIsland or newer device (single-width registers) */
-        cl_uint simdwidth = 4;
+        simdwidth = 4;
         status = ocl->clGetDeviceInfo( h->opencl.device, CL_DEVICE_SIMD_INSTRUCTION_WIDTH_AMD, sizeof(cl_uint), &simdwidth, NULL );
         if( status == CL_SUCCESS && simdwidth == 1 )
         {
@@ -260,10 +283,13 @@ static cl_program x264_opencl_compile( x264_t *h )
     program = x264_opencl_cache_load( h, dev_name, dev_vendor, driver_version );
     if( !program )
     {
-        /* clCreateProgramWithSource() requires a pointer variable, you cannot just use &x264_opencl_source */
+        const char *strptr;
+        size_t size;
+
+		/* clCreateProgramWithSource() requires a pointer variable, you cannot just use &x264_opencl_source */
         x264_log( h, X264_LOG_INFO, "Compiling OpenCL kernels...\n" );
-        const char *strptr = (const char*)x264_opencl_source;
-        size_t size = sizeof(x264_opencl_source);
+        strptr = (const char*)x264_opencl_source;
+        size = sizeof(x264_opencl_source);
         program = ocl->clCreateProgramWithSource( h->opencl.context, 1, &strptr, &size, &status );
         if( status != CL_SUCCESS || !program )
         {
@@ -273,7 +299,7 @@ static cl_program x264_opencl_compile( x264_t *h )
     }
 
     /* Build the program binary for the OpenCL device */
-    const char *buildopts = vectorize ? "-DVECTORIZE=1" : "";
+    buildopts = vectorize ? "-DVECTORIZE=1" : "";
     status = ocl->clBuildProgram( program, 1, &h->opencl.device, buildopts, NULL, NULL );
     if( status == CL_SUCCESS )
     {
@@ -283,7 +309,7 @@ static cl_program x264_opencl_compile( x264_t *h )
 
     /* Compile failure, should not happen with production code. */
 
-    size_t build_log_len = 0;
+    build_log_len = 0;
     status = ocl->clGetProgramBuildInfo( program, h->opencl.device, CL_PROGRAM_BUILD_LOG, 0, NULL, &build_log_len );
     if( status != CL_SUCCESS || !build_log_len )
     {
@@ -305,7 +331,7 @@ static cl_program x264_opencl_compile( x264_t *h )
         goto fail;
     }
 
-    FILE *log_file = x264_fopen( "x264_kernel_build_log.txt", "w" );
+    log_file = x264_fopen( "x264_kernel_build_log.txt", "w" );
     if( !log_file )
     {
         x264_log( h, X264_LOG_WARNING, "OpenCL: Compilation failed, unable to create file x264_kernel_build_log.txt\n" );
@@ -324,9 +350,6 @@ fail:
 
 static int x264_opencl_lookahead_alloc( x264_t *h )
 {
-    if( !h->param.rc.i_lookahead )
-        return -1;
-
     static const char *kernelnames[] = {
         "mb_intra_cost_satd_8x8",
         "sum_intra_cost",
@@ -357,14 +380,21 @@ static int x264_opencl_lookahead_alloc( x264_t *h )
         &h->opencl.rowsum_inter_kernel
     };
 
-    x264_opencl_function_t *ocl = h->opencl.ocl;
+    int i;
+
+	x264_opencl_function_t *ocl;
     cl_int status;
 
-    h->opencl.lookahead_program = x264_opencl_compile( h );
+	if( !h->param.rc.i_lookahead )
+        return -1;
+
+	ocl = h->opencl.ocl;
+
+	h->opencl.lookahead_program = x264_opencl_compile( h );
     if( !h->opencl.lookahead_program )
         goto fail;
 
-    for( int i = 0; i < ARRAY_SIZE(kernelnames); i++ )
+    for( i = 0; i < ARRAY_SIZE(kernelnames); i++ )
     {
         *kernels[i] = ocl->clCreateKernel( h->opencl.lookahead_program, kernelnames[i], &status );
         if( status != CL_SUCCESS )
@@ -413,6 +443,7 @@ int x264_opencl_lookahead_init( x264_t *h )
     cl_image_format *imageType = NULL;
     cl_context context = NULL;
     int ret = -1;
+    cl_uint i;
 
     cl_uint numPlatforms = 0;
     cl_int status = ocl->clGetPlatformIDs( 0, NULL, &numPlatforms );
@@ -436,10 +467,12 @@ int x264_opencl_lookahead_init( x264_t *h )
 
     /* Select the first OpenCL platform with a GPU device that supports our
      * required image (texture) formats */
-    for( cl_uint i = 0; i < numPlatforms; i++ )
+    for( i = 0; i < numPlatforms; i++ )
     {
         cl_uint gpu_count = 0;
-        status = ocl->clGetDeviceIDs( platforms[i], CL_DEVICE_TYPE_GPU, 0, NULL, &gpu_count );
+        cl_uint gpu;
+
+    	status = ocl->clGetDeviceIDs( platforms[i], CL_DEVICE_TYPE_GPU, 0, NULL, &gpu_count );
         if( status != CL_SUCCESS || !gpu_count )
             continue;
 
@@ -453,9 +486,15 @@ int x264_opencl_lookahead_init( x264_t *h )
             continue;
 
         /* Find a GPU device that supports our image formats */
-        for( cl_uint gpu = 0; gpu < gpu_count; gpu++ )
+        for( gpu = 0; gpu < gpu_count; gpu++ )
         {
-            h->opencl.device = devices[gpu];
+            cl_bool image_support;
+            cl_uint imagecount;
+            int b_has_r;
+            int b_has_rgba;
+            cl_uint j;
+
+			h->opencl.device = devices[gpu];
 
             /* if the user has specified an exact device ID, skip all other
              * GPUs.  If this device matches, allow it to continue through the
@@ -463,7 +502,7 @@ int x264_opencl_lookahead_init( x264_t *h )
             if( h->param.opencl_device_id && devices[gpu] != (cl_device_id)h->param.opencl_device_id )
                 continue;
 
-            cl_bool image_support = 0;
+            image_support = 0;
             status = ocl->clGetDeviceInfo( h->opencl.device, CL_DEVICE_IMAGE_SUPPORT, sizeof(cl_bool), &image_support, NULL );
             if( status != CL_SUCCESS || !image_support )
                 continue;
@@ -474,7 +513,7 @@ int x264_opencl_lookahead_init( x264_t *h )
             if( status != CL_SUCCESS || !context )
                 continue;
 
-            cl_uint imagecount = 0;
+            imagecount = 0;
             status = ocl->clGetSupportedImageFormats( context, CL_MEM_READ_WRITE, CL_MEM_OBJECT_IMAGE2D, 0, NULL, &imagecount );
             if( status != CL_SUCCESS || !imagecount )
                 continue;
@@ -488,9 +527,9 @@ int x264_opencl_lookahead_init( x264_t *h )
             if( status != CL_SUCCESS )
                 continue;
 
-            int b_has_r = 0;
-            int b_has_rgba = 0;
-            for( cl_uint j = 0; j < imagecount; j++ )
+            b_has_r = 0;
+            b_has_rgba = 0;
+            for( j = 0; j < imagecount; j++ )
             {
                 if( imageType[j].image_channel_order == CL_R &&
                     imageType[j].image_channel_data_type == CL_UNSIGNED_INT32 )
@@ -554,6 +593,7 @@ fail:
 static void x264_opencl_lookahead_free( x264_t *h )
 {
     x264_opencl_function_t *ocl = h->opencl.ocl;
+	int i;
 
 #define RELEASE( a, f ) do { if( a ) { ocl->f( a ); a = NULL; } } while( 0 )
     RELEASE( h->opencl.downscale_hpel_kernel, clReleaseKernel );
@@ -574,7 +614,7 @@ static void x264_opencl_lookahead_free( x264_t *h )
     RELEASE( h->opencl.page_locked_buffer, clReleaseMemObject );
     RELEASE( h->opencl.luma_16x16_image[0], clReleaseMemObject );
     RELEASE( h->opencl.luma_16x16_image[1], clReleaseMemObject );
-    for( int i = 0; i < NUM_IMAGE_SCALES; i++ )
+    for( i = 0; i < NUM_IMAGE_SCALES; i++ )
         RELEASE( h->opencl.weighted_scaled_images[i], clReleaseMemObject );
     RELEASE( h->opencl.weighted_luma_hpel, clReleaseMemObject );
     RELEASE( h->opencl.row_satds[0], clReleaseMemObject );
@@ -616,13 +656,14 @@ void x264_opencl_lookahead_delete( x264_t *h )
 
 void x264_opencl_frame_delete( x264_frame_t *frame )
 {
-    x264_opencl_function_t *ocl = frame->opencl.ocl;
+	int j;
+	x264_opencl_function_t *ocl = frame->opencl.ocl;
 
     if( !ocl )
         return;
 
 #define RELEASEBUF(mem) do { if( mem ) { ocl->clReleaseMemObject( mem ); mem = NULL; } } while( 0 )
-    for( int j = 0; j < NUM_IMAGE_SCALES; j++ )
+    for( j = 0; j < NUM_IMAGE_SCALES; j++ )
         RELEASEBUF( frame->opencl.scaled_image2Ds[j] );
     RELEASEBUF( frame->opencl.luma_hpel );
     RELEASEBUF( frame->opencl.inv_qscale_factor );
@@ -671,6 +712,8 @@ static int x264_detect_switchable_graphics( void )
     ADL_POWERXPRESS_SCHEME_GET       ADL_PowerXpress_Scheme_Get;
     ADL_MAIN_CONTROL_DESTROY         ADL_Main_Control_Destroy;
     int ret = 0;
+    int numAdapters;
+	int i;
 
 #ifdef _WIN32
     hDLL = LoadLibraryW( L"atiadlxx.dll" );
@@ -693,11 +736,10 @@ static int x264_detect_switchable_graphics( void )
     if( ADL_OK != ADL_Main_Control_Create( adl_malloc_wrapper, 1 ) )
         goto fail1;
 
-    int numAdapters = 0;
     if( ADL_OK != ADL_Adapter_NumberOfAdapters_Get( &numAdapters ) )
         goto fail2;
 
-    for( int i = 0; i < numAdapters; i++ )
+    for( i = 0; i < numAdapters; i++ )
     {
         int PXSchemeRange, PXSchemeCurrentState, PXSchemeDefaultState;
         if( ADL_OK != ADL_PowerXpress_Scheme_Get( i, &PXSchemeRange, &PXSchemeCurrentState, &PXSchemeDefaultState) )

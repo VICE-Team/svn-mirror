@@ -77,13 +77,22 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption colormatrix_options[] = {
-    { "src", "set source color matrix",      OFFSET(source), AV_OPT_TYPE_INT, {.i64=COLOR_MODE_NONE}, COLOR_MODE_NONE, COLOR_MODE_COUNT-1, .flags=FLAGS, .unit="color_mode" },
+#ifdef IDE_COMPILE
+	{ "src", "set source color matrix", OFFSET(source), AV_OPT_TYPE_INT, {COLOR_MODE_NONE}, COLOR_MODE_NONE, COLOR_MODE_COUNT-1, FLAGS, "color_mode" },
+    { "dst", "set destination color matrix", OFFSET(dest), AV_OPT_TYPE_INT, {COLOR_MODE_NONE}, COLOR_MODE_NONE, COLOR_MODE_COUNT-1, FLAGS, "color_mode" },
+    { "bt709", "set BT.709 colorspace", 0, AV_OPT_TYPE_CONST, {COLOR_MODE_BT709}, 0, 0, FLAGS, "color_mode" },
+    { "fcc", "set FCC colorspace   ", 0, AV_OPT_TYPE_CONST, {COLOR_MODE_FCC}, 0, 0, FLAGS, "color_mode" },
+    { "bt601", "set BT.601 colorspace", 0, AV_OPT_TYPE_CONST, {COLOR_MODE_BT601}, 0, 0, FLAGS, "color_mode" },
+    { "smpte240m", "set SMPTE-240M colorspace", 0, AV_OPT_TYPE_CONST, {COLOR_MODE_SMPTE240M}, 0, 0, FLAGS, "color_mode" },
+#else
+	{ "src", "set source color matrix",      OFFSET(source), AV_OPT_TYPE_INT, {.i64=COLOR_MODE_NONE}, COLOR_MODE_NONE, COLOR_MODE_COUNT-1, .flags=FLAGS, .unit="color_mode" },
     { "dst", "set destination color matrix", OFFSET(dest),   AV_OPT_TYPE_INT, {.i64=COLOR_MODE_NONE}, COLOR_MODE_NONE, COLOR_MODE_COUNT-1, .flags=FLAGS, .unit="color_mode" },
     { "bt709",     "set BT.709 colorspace",      0, AV_OPT_TYPE_CONST, {.i64=COLOR_MODE_BT709},       .flags=FLAGS, .unit="color_mode" },
     { "fcc",       "set FCC colorspace   ",      0, AV_OPT_TYPE_CONST, {.i64=COLOR_MODE_FCC},         .flags=FLAGS, .unit="color_mode" },
     { "bt601",     "set BT.601 colorspace",      0, AV_OPT_TYPE_CONST, {.i64=COLOR_MODE_BT601},       .flags=FLAGS, .unit="color_mode" },
     { "smpte240m", "set SMPTE-240M colorspace",  0, AV_OPT_TYPE_CONST, {.i64=COLOR_MODE_SMPTE240M},   .flags=FLAGS, .unit="color_mode" },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(colormatrix);
@@ -382,24 +391,47 @@ static int filter_frame(AVFilterLink *link, AVFrame *in)
 
 static const AVFilterPad colormatrix_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad colormatrix_outputs[] = {
     {
-        .name = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+#else
+		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_colormatrix = {
-    .name          = "colormatrix",
+#ifdef IDE_COMPILE
+    "colormatrix",
+    NULL_IF_CONFIG_SMALL("Convert color matrix."),
+    colormatrix_inputs,
+    colormatrix_outputs,
+    &colormatrix_class,
+    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
+    init,
+    0, 0, query_formats,
+    sizeof(ColorMatrixContext),
+#else
+	.name          = "colormatrix",
     .description   = NULL_IF_CONFIG_SMALL("Convert color matrix."),
     .priv_size     = sizeof(ColorMatrixContext),
     .init          = init,
@@ -408,4 +440,5 @@ AVFilter ff_vf_colormatrix = {
     .outputs       = colormatrix_outputs,
     .priv_class    = &colormatrix_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
+#endif
 };

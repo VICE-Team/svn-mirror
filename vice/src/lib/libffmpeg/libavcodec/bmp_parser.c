@@ -97,8 +97,15 @@ flush:
 }
 
 AVCodecParser ff_bmp_parser = {
-    .codec_ids      = { AV_CODEC_ID_BMP },
+#ifdef IDE_COMPILE
+    { AV_CODEC_ID_BMP },
+    sizeof(BMPParseContext),
+    0, bmp_parse,
+    ff_parse_close,
+#else
+	.codec_ids      = { AV_CODEC_ID_BMP },
     .priv_data_size = sizeof(BMPParseContext),
     .parser_parse   = bmp_parse,
     .parser_close   = ff_parse_close,
+#endif
 };

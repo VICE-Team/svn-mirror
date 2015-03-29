@@ -26,6 +26,11 @@
 #ifndef AVUTIL_BSWAP_H
 #define AVUTIL_BSWAP_H
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#endif
+
 #include <stdint.h>
 #include "libavutil/avconfig.h"
 #include "attributes.h"

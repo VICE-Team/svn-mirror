@@ -160,11 +160,21 @@ static int redspark_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_redspark_demuxer = {
-    .name           =   "redspark",
+#ifdef IDE_COMPILE
+    "redspark",
+    "RedSpark",
+    0, "rsd",
+    0, 0, 0, 0, 0, sizeof(RedSparkContext),
+    redspark_probe,
+    redspark_read_header,
+    redspark_read_packet,
+#else
+	.name           =   "redspark",
     .long_name      =   NULL_IF_CONFIG_SMALL("RedSpark"),
     .priv_data_size =   sizeof(RedSparkContext),
     .read_probe     =   redspark_probe,
     .read_header    =   redspark_read_header,
     .read_packet    =   redspark_read_packet,
     .extensions     =   "rsd",
+#endif
 };

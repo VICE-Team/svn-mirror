@@ -25,6 +25,10 @@
  * FF Video Codec 1 (a lossless codec) decoder
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/avassert.h"
 #include "libavutil/crc.h"
 #include "libavutil/opt.h"
@@ -336,8 +340,13 @@ static int decode_slice_header(FFV1Context *f, FFV1Context *fs)
         av_log(f->avctx, AV_LOG_WARNING, "ignoring invalid SAR: %u/%u\n",
                f->cur->sample_aspect_ratio.num,
                f->cur->sample_aspect_ratio.den);
-        f->cur->sample_aspect_ratio = (AVRational){ 0, 1 };
-    }
+#ifdef IDE_COMPILE
+		f->cur->sample_aspect_ratio.num = 0;
+		f->cur->sample_aspect_ratio.den = 1;
+#else
+		f->cur->sample_aspect_ratio = (AVRational){ 0, 1 };
+#endif
+	}
 
     if (fs->version > 3) {
         fs->slice_reset_contexts = get_rac(c, state);
@@ -422,8 +431,15 @@ static int decode_slice(AVCodecContext *c, void *arg)
 
     if (!fs->ac) {
         if (f->version == 3 && f->micro_version > 1 || f->version > 3)
-            get_rac(&fs->c, (uint8_t[]) { 129 });
-        fs->ac_byte_count = f->version > 2 || (!x && !y) ? fs->c.bytestream - fs->c.bytestream_start - 1 : 0;
+#ifdef IDE_COMPILE
+		{
+				uint8_t tmp2[] = { 129 };
+				get_rac(&fs->c, tmp2);
+		}
+#else
+    		get_rac(&fs->c, (uint8_t[]) { 129 });
+#endif
+		fs->ac_byte_count = f->version > 2 || (!x && !y) ? fs->c.bytestream - fs->c.bytestream_start - 1 : 0;
         init_get_bits(&fs->gb,
                       fs->c.bytestream_start + fs->ac_byte_count,
                       (fs->c.bytestream_end - fs->c.bytestream_start - fs->ac_byte_count) * 8);
@@ -451,8 +467,15 @@ static int decode_slice(AVCodecContext *c, void *arg)
     }
     if (fs->ac && f->version > 2) {
         int v;
-        get_rac(&fs->c, (uint8_t[]) { 129 });
-        v = fs->c.bytestream_end - fs->c.bytestream - 2 - 5*f->ec;
+#ifdef IDE_COMPILE
+        {
+			uint8_t tmp3[] = { 129 };
+			get_rac(&fs->c, tmp3);
+		}
+#else
+		get_rac(&fs->c, (uint8_t[]) { 129 });
+#endif
+		v = fs->c.bytestream_end - fs->c.bytestream - 2 - 5*f->ec;
         if (v) {
             av_log(f->avctx, AV_LOG_ERROR, "bytestream end mismatching by %d\n", v);
             fs->slice_damaged = 1;
@@ -1081,7 +1104,20 @@ static int update_thread_context(AVCodecContext *dst, const AVCodecContext *src)
 }
 
 AVCodec ff_ffv1_decoder = {
-    .name           = "ffv1",
+#ifdef IDE_COMPILE
+    "ffv1",
+    "FFmpeg video codec #1",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_FFV1,
+    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS | CODEC_CAP_SLICE_THREADS,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(FFV1Context),
+    0, init_thread_copy,
+    update_thread_context,
+    0, 0, decode_init,
+    0, 0, decode_frame,
+    ffv1_close,
+#else
+	.name           = "ffv1",
     .long_name      = NULL_IF_CONFIG_SMALL("FFmpeg video codec #1"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_FFV1,
@@ -1093,4 +1129,5 @@ AVCodec ff_ffv1_decoder = {
     .update_thread_context = ONLY_IF_THREADS_ENABLED(update_thread_context),
     .capabilities   = CODEC_CAP_DR1 /*| CODEC_CAP_DRAW_HORIZ_BAND*/ |
                       CODEC_CAP_FRAME_THREADS | CODEC_CAP_SLICE_THREADS,
+#endif
 };

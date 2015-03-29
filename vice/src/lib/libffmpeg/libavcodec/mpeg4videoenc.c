@@ -1394,21 +1394,50 @@ void ff_mpeg4_encode_video_packet_header(MpegEncContext *s)
 #define OFFSET(x) offsetof(MpegEncContext, x)
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-    { "data_partitioning", "Use data partitioning.",      OFFSET(data_partitioning), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
+#ifdef IDE_COMPILE
+	{ "data_partitioning", "Use data partitioning.", OFFSET(data_partitioning), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
+    { "alternate_scan", "Enable alternate scantable.", OFFSET(alternate_scan), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
+#else
+	{ "data_partitioning", "Use data partitioning.",      OFFSET(data_partitioning), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
     { "alternate_scan",    "Enable alternate scantable.", OFFSET(alternate_scan),    AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
-    FF_MPV_COMMON_OPTS
+#endif
+	FF_MPV_COMMON_OPTS
     { NULL },
 };
 
 static const AVClass mpeg4enc_class = {
-    .class_name = "MPEG4 encoder",
+#ifdef IDE_COMPILE
+    "MPEG4 encoder",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "MPEG4 encoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp0[] = { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE };
+#endif
+
 AVCodec ff_mpeg4_encoder = {
-    .name           = "mpeg4",
+#ifdef IDE_COMPILE
+    "mpeg4",
+    "MPEG-4 part 2",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_MPEG4,
+    CODEC_CAP_DELAY | CODEC_CAP_SLICE_THREADS,
+    0, tmp0,
+    0, 0, 0, 0, &mpeg4enc_class,
+    0, sizeof(MpegEncContext),
+    0, 0, 0, 0, 0, encode_init,
+    0, ff_mpv_encode_picture,
+    0, ff_mpv_encode_end,
+#else
+	.name           = "mpeg4",
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-4 part 2"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_MPEG4,
@@ -1419,4 +1448,5 @@ AVCodec ff_mpeg4_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
     .capabilities   = CODEC_CAP_DELAY | CODEC_CAP_SLICE_THREADS,
     .priv_class     = &mpeg4enc_class,
+#endif
 };

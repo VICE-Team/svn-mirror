@@ -49,10 +49,16 @@ typedef struct AFormatContext {
 #define A AV_OPT_FLAG_AUDIO_PARAM
 #define F AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption aformat_options[] = {
-    { "sample_fmts",     "A comma-separated list of sample formats.",  OFFSET(formats_str),         AV_OPT_TYPE_STRING, .flags = A|F },
+#ifdef IDE_COMPILE
+	{ "sample_fmts",     "A comma-separated list of sample formats.",  OFFSET(formats_str),         AV_OPT_TYPE_STRING, {0}, 0, 0, A|F },
+    { "sample_rates",    "A comma-separated list of sample rates.",    OFFSET(sample_rates_str),    AV_OPT_TYPE_STRING, {0}, 0, 0, A|F },
+    { "channel_layouts", "A comma-separated list of channel layouts.", OFFSET(channel_layouts_str), AV_OPT_TYPE_STRING, {0}, 0, 0, A|F },
+#else
+	{ "sample_fmts",     "A comma-separated list of sample formats.",  OFFSET(formats_str),         AV_OPT_TYPE_STRING, .flags = A|F },
     { "sample_rates",    "A comma-separated list of sample rates.",    OFFSET(sample_rates_str),    AV_OPT_TYPE_STRING, .flags = A|F },
     { "channel_layouts", "A comma-separated list of channel layouts.", OFFSET(channel_layouts_str), AV_OPT_TYPE_STRING, .flags = A|F },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(aformat);
@@ -121,22 +127,42 @@ static int query_formats(AVFilterContext *ctx)
 
 static const AVFilterPad avfilter_af_aformat_inputs[] = {
     {
-        .name = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+#else
+		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_af_aformat_outputs[] = {
     {
-        .name = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+#else
+		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_af_aformat = {
-    .name          = "aformat",
+#ifdef IDE_COMPILE
+    "aformat",
+    NULL_IF_CONFIG_SMALL("Convert the input audio to one of the specified formats."),
+    avfilter_af_aformat_inputs,
+    avfilter_af_aformat_outputs,
+    &aformat_class,
+    0, init,
+    0, 0, query_formats,
+    sizeof(AFormatContext),
+#else
+	.name          = "aformat",
     .description   = NULL_IF_CONFIG_SMALL("Convert the input audio to one of the specified formats."),
     .init          = init,
     .query_formats = query_formats,
@@ -144,4 +170,5 @@ AVFilter ff_af_aformat = {
     .priv_class    = &aformat_class,
     .inputs        = avfilter_af_aformat_inputs,
     .outputs       = avfilter_af_aformat_outputs,
+#endif
 };

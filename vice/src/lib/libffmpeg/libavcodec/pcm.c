@@ -493,6 +493,25 @@ static int pcm_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 #define PCM_ENCODER_0(id_, sample_fmt_, name_, long_name_)
+
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmpz[] = { AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE };
+
+#define PCM_ENCODER_1(id_, sample_fmt_, name_, long_name_)                  \
+AVCodec ff_ ## name_ ## _encoder = {                                        \
+    #name_,                                                 \
+    long_name_,                       \
+    AVMEDIA_TYPE_AUDIO,                                     \
+    AV_CODEC_ID_ ## id_,                                    \
+    CODEC_CAP_VARIABLE_FRAME_SIZE,                          \
+    0, 0, 0, \
+	tmpz, \
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+    pcm_encode_init,                                        \
+    0, \
+    pcm_encode_frame,                                       \
+}
+#else
 #define PCM_ENCODER_1(id_, sample_fmt_, name_, long_name_)                  \
 AVCodec ff_ ## name_ ## _encoder = {                                        \
     .name         = #name_,                                                 \
@@ -505,6 +524,7 @@ AVCodec ff_ ## name_ ## _encoder = {                                        \
     .sample_fmts  = (const enum AVSampleFormat[]){ sample_fmt_,             \
                                                    AV_SAMPLE_FMT_NONE },    \
 }
+#endif
 
 #define PCM_ENCODER_2(cf, id, sample_fmt, name, long_name)                  \
     PCM_ENCODER_ ## cf(id, sample_fmt, name, long_name)
@@ -514,6 +534,27 @@ AVCodec ff_ ## name_ ## _encoder = {                                        \
     PCM_ENCODER_3(CONFIG_ ## id ## _ENCODER, id, sample_fmt, name, long_name)
 
 #define PCM_DECODER_0(id, sample_fmt, name, long_name)
+
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmpx[] = { AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE };
+
+#define PCM_DECODER_1(id_, sample_fmt_, name_, long_name_)                  \
+AVCodec ff_ ## name_ ## _decoder = {                                        \
+    #name_,                                               \
+    long_name_,                     \
+    AVMEDIA_TYPE_AUDIO,                                   \
+    AV_CODEC_ID_ ## id_,                                  \
+    CODEC_CAP_DR1,                                        \
+    0, 0, 0, \
+	tmpx, \
+	0, 0, 0, 0, \
+    sizeof(PCMDecode),                                    \
+    0, 0, 0, 0, 0, \
+    pcm_decode_init,                                      \
+    0, 0, \
+    pcm_decode_frame,                                     \
+}
+#else
 #define PCM_DECODER_1(id_, sample_fmt_, name_, long_name_)                  \
 AVCodec ff_ ## name_ ## _decoder = {                                        \
     .name           = #name_,                                               \
@@ -527,6 +568,7 @@ AVCodec ff_ ## name_ ## _decoder = {                                        \
     .sample_fmts    = (const enum AVSampleFormat[]){ sample_fmt_,           \
                                                      AV_SAMPLE_FMT_NONE },  \
 }
+#endif
 
 #define PCM_DECODER_2(cf, id, sample_fmt, name, long_name)                  \
     PCM_DECODER_ ## cf(id, sample_fmt, name, long_name)

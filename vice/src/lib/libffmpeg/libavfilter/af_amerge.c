@@ -51,9 +51,14 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption amerge_options[] = {
-    { "inputs", "specify the number of inputs", OFFSET(nb_inputs),
+#ifdef IDE_COMPILE
+	{ "inputs", "specify the number of inputs", OFFSET(nb_inputs),
+      AV_OPT_TYPE_INT, { 2 }, 2, SWR_CH_MAX, FLAGS },
+#else
+	{ "inputs", "specify the number of inputs", OFFSET(nb_inputs),
       AV_OPT_TYPE_INT, { .i64 = 2 }, 2, SWR_CH_MAX, FLAGS },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(amerge);
@@ -315,10 +320,16 @@ static av_cold int init(AVFilterContext *ctx)
     for (i = 0; i < am->nb_inputs; i++) {
         char *name = av_asprintf("in%d", i);
         AVFilterPad pad = {
-            .name             = name,
+#ifdef IDE_COMPILE
+            name,
+            AVMEDIA_TYPE_AUDIO,
+            0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+			.name             = name,
             .type             = AVMEDIA_TYPE_AUDIO,
             .filter_frame     = filter_frame,
-        };
+#endif
+		};
         if (!name)
             return AVERROR(ENOMEM);
         ff_insert_inpad(ctx, i, &pad);
@@ -328,16 +339,35 @@ static av_cold int init(AVFilterContext *ctx)
 
 static const AVFilterPad amerge_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+        config_output,
+#else
+		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .config_props  = config_output,
         .request_frame = request_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_af_amerge = {
-    .name          = "amerge",
+#ifdef IDE_COMPILE
+    "amerge",
+    NULL_IF_CONFIG_SMALL("Merge two or more audio streams into a single multi-channel stream."),
+    NULL,
+    amerge_outputs,
+    &amerge_class,
+    AVFILTER_FLAG_DYNAMIC_INPUTS,
+    init,
+    0, uninit,
+    query_formats,
+    sizeof(AMergeContext),
+#else
+	.name          = "amerge",
     .description   = NULL_IF_CONFIG_SMALL("Merge two or more audio streams into "
                                           "a single multi-channel stream."),
     .priv_size     = sizeof(AMergeContext),
@@ -348,4 +378,5 @@ AVFilter ff_af_amerge = {
     .outputs       = amerge_outputs,
     .priv_class    = &amerge_class,
     .flags         = AVFILTER_FLAG_DYNAMIC_INPUTS,
+#endif
 };

@@ -104,7 +104,17 @@ static int ircam_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_ircam_demuxer = {
-    .name           = "ircam",
+#ifdef IDE_COMPILE
+    "ircam",
+    "Berkeley/IRCAM/CARL Sound Format",
+    AVFMT_GENERIC_INDEX,
+    "sf,ircam",
+    0, 0, 0, 0, 0, 0, ircam_probe,
+    ircam_read_header,
+    ff_pcm_read_packet,
+    0, ff_pcm_read_seek,
+#else
+	.name           = "ircam",
     .long_name      = NULL_IF_CONFIG_SMALL("Berkeley/IRCAM/CARL Sound Format"),
     .read_probe     = ircam_probe,
     .read_header    = ircam_read_header,
@@ -112,4 +122,5 @@ AVInputFormat ff_ircam_demuxer = {
     .read_seek      = ff_pcm_read_seek,
     .extensions     = "sf,ircam",
     .flags          = AVFMT_GENERIC_INDEX,
+#endif
 };

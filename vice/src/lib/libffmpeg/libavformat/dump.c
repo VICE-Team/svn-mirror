@@ -22,6 +22,10 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/libm.h"
+#endif
+
 #include "libavutil/channel_layout.h"
 #include "libavutil/display.h"
 #include "libavutil/intreadwrite.h"

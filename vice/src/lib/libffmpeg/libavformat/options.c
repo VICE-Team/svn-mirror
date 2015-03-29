@@ -85,7 +85,17 @@ static AVClassCategory get_category(void *ptr)
 }
 
 static const AVClass av_format_context_class = {
-    .class_name     = "AVFormatContext",
+#ifdef IDE_COMPILE
+    "AVFormatContext",
+    format_to_name,
+    avformat_options,
+    LIBAVUTIL_VERSION_INT,
+    0, 0, format_child_next,
+    format_child_class_next,
+    AV_CLASS_CATEGORY_MUXER,
+    get_category,
+#else
+	.class_name     = "AVFormatContext",
     .item_name      = format_to_name,
     .option         = avformat_options,
     .version        = LIBAVUTIL_VERSION_INT,
@@ -93,6 +103,7 @@ static const AVClass av_format_context_class = {
     .child_class_next = format_child_class_next,
     .category       = AV_CLASS_CATEGORY_MUXER,
     .get_category   = get_category,
+#endif
 };
 
 static void avformat_get_context_defaults(AVFormatContext *s)

@@ -29,7 +29,7 @@
 
 #include "main.h"
 #include "lame.h"
-#include "machine.h"
+#include "lame-machine.h"
 #include "encoder.h"
 #include "lame-analysis.h"
 #include "get_audio.h"

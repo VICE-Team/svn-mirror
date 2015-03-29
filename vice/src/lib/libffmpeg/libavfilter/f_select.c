@@ -150,6 +150,17 @@ typedef struct SelectContext {
 } SelectContext;
 
 #define OFFSET(x) offsetof(SelectContext, x)
+
+#ifdef IDE_COMPILE
+#define DEFINE_OPTIONS(filt_name, FLAGS)                            \
+static const AVOption filt_name##_options[] = {                     \
+    { "expr", "set an expression to use for selecting frames", OFFSET(expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "1" }, 0, 0, FLAGS }, \
+    { "e",    "set an expression to use for selecting frames", OFFSET(expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "1" }, 0, 0, FLAGS }, \
+    { "outputs", "set the number of outputs", OFFSET(nb_outputs), AV_OPT_TYPE_INT, {1}, 1, INT_MAX, FLAGS }, \
+    { "n",       "set the number of outputs", OFFSET(nb_outputs), AV_OPT_TYPE_INT, {1}, 1, INT_MAX, FLAGS }, \
+    { NULL }                                                            \
+}
+#else
 #define DEFINE_OPTIONS(filt_name, FLAGS)                            \
 static const AVOption filt_name##_options[] = {                     \
     { "expr", "set an expression to use for selecting frames", OFFSET(expr_str), AV_OPT_TYPE_STRING, { .str = "1" }, .flags=FLAGS }, \
@@ -158,6 +169,7 @@ static const AVOption filt_name##_options[] = {                     \
     { "n",       "set the number of outputs", OFFSET(nb_outputs), AV_OPT_TYPE_INT, {.i64 = 1}, 1, INT_MAX, .flags=FLAGS }, \
     { NULL }                                                            \
 }
+#endif
 
 static int request_frame(AVFilterLink *outlink);
 
@@ -448,16 +460,33 @@ static av_cold int aselect_init(AVFilterContext *ctx)
 
 static const AVFilterPad avfilter_af_aselect_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_af_aselect = {
-    .name        = "aselect",
+#ifdef IDE_COMPILE
+    "aselect",
+    NULL_IF_CONFIG_SMALL("Select audio frames to pass in output."),
+    avfilter_af_aselect_inputs,
+    0, &aselect_class,
+    AVFILTER_FLAG_DYNAMIC_OUTPUTS,
+    aselect_init,
+    0, uninit,
+    0, sizeof(SelectContext),
+#else
+	.name        = "aselect",
     .description = NULL_IF_CONFIG_SMALL("Select audio frames to pass in output."),
     .init        = aselect_init,
     .uninit      = uninit,
@@ -465,6 +494,7 @@ AVFilter ff_af_aselect = {
     .inputs      = avfilter_af_aselect_inputs,
     .priv_class  = &aselect_class,
     .flags       = AVFILTER_FLAG_DYNAMIC_OUTPUTS,
+#endif
 };
 #endif /* CONFIG_ASELECT_FILTER */
 
@@ -485,16 +515,34 @@ static av_cold int select_init(AVFilterContext *ctx)
 
 static const AVFilterPad avfilter_vf_select_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_select = {
-    .name          = "select",
+#ifdef IDE_COMPILE
+    "select",
+    NULL_IF_CONFIG_SMALL("Select video frames to pass in output."),
+    avfilter_vf_select_inputs,
+    0, &select_class,
+    AVFILTER_FLAG_DYNAMIC_OUTPUTS,
+    select_init,
+    0, uninit,
+    query_formats,
+    sizeof(SelectContext),
+#else
+	.name          = "select",
     .description   = NULL_IF_CONFIG_SMALL("Select video frames to pass in output."),
     .init          = select_init,
     .uninit        = uninit,
@@ -503,5 +551,6 @@ AVFilter ff_vf_select = {
     .priv_class    = &select_class,
     .inputs        = avfilter_vf_select_inputs,
     .flags         = AVFILTER_FLAG_DYNAMIC_OUTPUTS,
+#endif
 };
 #endif /* CONFIG_SELECT_FILTER */

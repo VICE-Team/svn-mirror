@@ -220,10 +220,19 @@ repeat:
 }
 
 AVInputFormat ff_anm_demuxer = {
-    .name           = "anm",
+#ifdef IDE_COMPILE
+    "anm",
+    "Deluxe Paint Animation",
+    0, 0, 0, 0, 0, 0, 0, sizeof(AnmDemuxContext),
+    probe,
+    read_header,
+    read_packet,
+#else
+	.name           = "anm",
     .long_name      = NULL_IF_CONFIG_SMALL("Deluxe Paint Animation"),
     .priv_data_size = sizeof(AnmDemuxContext),
     .read_probe     = probe,
     .read_header    = read_header,
     .read_packet    = read_packet,
+#endif
 };

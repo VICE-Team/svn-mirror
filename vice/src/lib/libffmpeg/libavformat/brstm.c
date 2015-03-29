@@ -286,7 +286,17 @@ static int read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_brstm_demuxer = {
-    .name           = "brstm",
+#ifdef IDE_COMPILE
+    "brstm",
+    "BRSTM (Binary Revolution Stream)",
+    0, "brstm",
+    0, 0, 0, 0, 0, sizeof(BRSTMDemuxContext),
+    probe,
+    read_header,
+    read_packet,
+    read_close,
+#else
+	.name           = "brstm",
     .long_name      = NULL_IF_CONFIG_SMALL("BRSTM (Binary Revolution Stream)"),
     .priv_data_size = sizeof(BRSTMDemuxContext),
     .read_probe     = probe,
@@ -294,4 +304,5 @@ AVInputFormat ff_brstm_demuxer = {
     .read_packet    = read_packet,
     .read_close     = read_close,
     .extensions     = "brstm",
+#endif
 };

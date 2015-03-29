@@ -1616,12 +1616,28 @@ static int finish_frame(AVCodecContext *avctx, AVFrame *pict)
 
 static AVRational update_sar(int old_w, int old_h, AVRational sar, int new_w, int new_h)
 {
-    // attempt to keep aspect during typical resolution switches
-    if (!sar.num)
-        sar = (AVRational){1, 1};
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
 
-    sar = av_mul_q(sar, (AVRational){new_h * old_w, new_w * old_h});
-    return sar;
+	// attempt to keep aspect during typical resolution switches
+    if (!sar.num) {
+#ifdef IDE_COMPILE
+		sar.num = 1;
+		sar.den = 1;
+#else
+		sar = (AVRational){1, 1};
+#endif
+	}
+
+#ifdef IDE_COMPILE
+	tmp.num = new_h * old_w;
+	tmp.den = new_w * old_h;
+	sar = av_mul_q(sar, tmp);
+#else
+	sar = av_mul_q(sar, (AVRational){new_h * old_w, new_w * old_h});
+#endif
+	return sar;
 }
 
 int ff_rv34_decode_frame(AVCodecContext *avctx,

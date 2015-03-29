@@ -286,8 +286,14 @@ end:
 }
 
 AVCodecParser ff_vorbis_parser = {
-    .codec_ids      = { AV_CODEC_ID_VORBIS },
+#ifdef IDE_COMPILE
+    { AV_CODEC_ID_VORBIS },
+    sizeof(VorbisParseContext),
+    0, vorbis_parse,
+#else
+	.codec_ids      = { AV_CODEC_ID_VORBIS },
     .priv_data_size = sizeof(VorbisParseContext),
     .parser_parse   = vorbis_parse,
+#endif
 };
 #endif /* CONFIG_VORBIS_PARSER */

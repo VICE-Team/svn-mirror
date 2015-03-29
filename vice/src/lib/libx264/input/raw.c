@@ -40,13 +40,17 @@ typedef struct
 static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, cli_input_opt_t *opt )
 {
     raw_hnd_t *h = calloc( 1, sizeof(raw_hnd_t) );
-    if( !h )
+    const x264_cli_csp_t *csp;
+	int i;
+
+	if( !h )
         return -1;
 
     if( !opt->resolution )
     {
-        /* try to parse the file name */
-        for( char *p = psz_filename; *p; p++ )
+        char *p;
+		/* try to parse the file name */
+        for( p = psz_filename; *p; p++ )
             if( *p >= '0' && *p <= '9' && sscanf( p, "%dx%d", &info->width, &info->height ) == 2 )
                 break;
     }
@@ -81,8 +85,8 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     info->num_frames  = 0;
     info->vfr         = 0;
 
-    const x264_cli_csp_t *csp = x264_cli_get_csp( info->csp );
-    for( int i = 0; i < csp->planes; i++ )
+    csp = x264_cli_get_csp( info->csp );
+    for( i = 0; i < csp->planes; i++ )
     {
         h->plane_size[i] = x264_cli_pic_plane_size( info->csp, info->width, info->height, i );
         h->frame_size += h->plane_size[i];
@@ -92,8 +96,10 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
 
     if( x264_is_regular_file( h->fh ) )
     {
-        fseek( h->fh, 0, SEEK_END );
-        uint64_t size = ftell( h->fh );
+        uint64_t size;
+
+		fseek( h->fh, 0, SEEK_END );
+        size = ftell( h->fh );
         fseek( h->fh, 0, SEEK_SET );
         info->num_frames = size / h->frame_size;
     }
@@ -106,7 +112,9 @@ static int read_frame_internal( cli_pic_t *pic, raw_hnd_t *h, int bit_depth_uc )
 {
     int error = 0;
     int pixel_depth = x264_cli_csp_depth_factor( pic->img.csp );
-    for( int i = 0; i < pic->img.planes && !error; i++ )
+	int i;
+
+	for( i = 0; i < pic->img.planes && !error; i++ )
     {
         error |= fread( pic->img.plane[i], pixel_depth, h->plane_size[i], h->fh ) != h->plane_size[i];
         if( bit_depth_uc )
@@ -116,7 +124,9 @@ static int read_frame_internal( cli_pic_t *pic, raw_hnd_t *h, int bit_depth_uc )
             uint16_t *plane = (uint16_t*)pic->img.plane[i];
             uint64_t pixel_count = h->plane_size[i];
             int lshift = 16 - h->bit_depth;
-            for( uint64_t j = 0; j < pixel_count; j++ )
+			uint64_t j;
+
+			for( j = 0; j < pixel_count; j++ )
                 plane[j] = plane[j] << lshift;
         }
     }

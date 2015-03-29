@@ -31,7 +31,17 @@ static int jacosub_write_header(AVFormatContext *s)
 }
 
 AVOutputFormat ff_jacosub_muxer = {
-    .name           = "jacosub",
+#ifdef IDE_COMPILE
+    "jacosub",
+    "JACOsub subtitle format",
+    "text/x-jacosub",
+    "jss,js",
+    0, 0, AV_CODEC_ID_JACOSUB,
+    AVFMT_TS_NONSTRICT,
+    0, 0, 0, 0, jacosub_write_header,
+    ff_raw_write_packet,
+#else
+	.name           = "jacosub",
     .long_name      = NULL_IF_CONFIG_SMALL("JACOsub subtitle format"),
     .mime_type      = "text/x-jacosub",
     .extensions     = "jss,js",
@@ -39,4 +49,5 @@ AVOutputFormat ff_jacosub_muxer = {
     .write_packet   = ff_raw_write_packet,
     .flags          = AVFMT_TS_NONSTRICT,
     .subtitle_codec = AV_CODEC_ID_JACOSUB,
+#endif
 };

@@ -31,17 +31,23 @@ typedef struct {
 #define CONTEXT ASetRateContext
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
+#ifdef IDE_COMPILE
+#define OPT_GENERIC(name, field, def, min, max, descr, type, deffield, ...) \
+    { name, descr, offsetof(CONTEXT, field), AV_OPT_TYPE_ ## type,          \
+      { def }, min, max, FLAGS, __VA_ARGS__ }
+#else
 #define OPT_GENERIC(name, field, def, min, max, descr, type, deffield, ...) \
     { name, descr, offsetof(CONTEXT, field), AV_OPT_TYPE_ ## type,          \
       { .deffield = def }, min, max, FLAGS, __VA_ARGS__ }
+#endif
 
 #define OPT_INT(name, field, def, min, max, descr, ...) \
     OPT_GENERIC(name, field, def, min, max, descr, INT, i64, __VA_ARGS__)
 
 static const AVOption asetrate_options[] = {
-    OPT_INT("sample_rate", sample_rate, 44100, 1, INT_MAX, "set the sample rate"),
+	OPT_INT("sample_rate", sample_rate, 44100, 1, INT_MAX, "set the sample rate"),
     OPT_INT("r",           sample_rate, 44100, 1, INT_MAX, "set the sample rate"),
-    {NULL},
+	{NULL},
 };
 
 AVFILTER_DEFINE_CLASS(asetrate);
@@ -91,24 +97,45 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
 
 static const AVFilterPad asetrate_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad asetrate_outputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_props,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_props,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_af_asetrate = {
-    .name          = "asetrate",
+#ifdef IDE_COMPILE
+    "asetrate",
+    NULL_IF_CONFIG_SMALL("Change the sample rate without altering the data."),
+    asetrate_inputs,
+    asetrate_outputs,
+    &asetrate_class,
+    0, 0, 0, 0, query_formats,
+    sizeof(ASetRateContext),
+#else
+	.name          = "asetrate",
     .description   = NULL_IF_CONFIG_SMALL("Change the sample rate without "
                                           "altering the data."),
     .query_formats = query_formats,
@@ -116,4 +143,5 @@ AVFilter ff_af_asetrate = {
     .inputs        = asetrate_inputs,
     .outputs       = asetrate_outputs,
     .priv_class    = &asetrate_class,
+#endif
 };

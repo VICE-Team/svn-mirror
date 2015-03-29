@@ -322,6 +322,8 @@ void av_log_format_line(void *ptr, int level, const char *fmt, va_list vl,
 #  else
 #    define av_dlog(pctx, ...) do { if (0) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__); } while (0)
 #  endif
+#else
+#  define av_dlog(pctx, ...) do { if (0) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__); } while (0)
 #endif
 
 /**

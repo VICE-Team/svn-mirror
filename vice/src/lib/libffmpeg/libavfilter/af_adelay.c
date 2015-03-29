@@ -49,8 +49,12 @@ typedef struct AudioDelayContext {
 #define A AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption adelay_options[] = {
-    { "delays", "set list of delays for each channel", OFFSET(delays), AV_OPT_TYPE_STRING, {.str=NULL}, 0, 0, A },
-    { NULL }
+#ifdef IDE_COMPILE
+	{ "delays", "set list of delays for each channel", OFFSET(delays), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, A },
+#else
+	{ "delays", "set list of delays for each channel", OFFSET(delays), AV_OPT_TYPE_STRING, {.str=NULL}, 0, 0, A },
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(adelay);
@@ -184,6 +188,9 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
     AudioDelayContext *s = ctx->priv;
     AVFrame *out_frame;
     int i;
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
 
     if (ctx->is_disabled || !s->delays)
         return ff_filter_frame(ctx->outputs[0], frame);
@@ -204,8 +211,14 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
             s->delay_channel(d, frame->nb_samples, src, dst);
     }
 
-    s->next_pts = frame->pts + av_rescale_q(frame->nb_samples, (AVRational){1, inlink->sample_rate}, inlink->time_base);
-    av_frame_free(&frame);
+#ifdef IDE_COMPILE
+	tmp.num = 1;
+	tmp.den = inlink->sample_rate;
+	s->next_pts = frame->pts + av_rescale_q(frame->nb_samples, tmp, inlink->time_base);
+#else
+	s->next_pts = frame->pts + av_rescale_q(frame->nb_samples, (AVRational){1, inlink->sample_rate}, inlink->time_base);
+#endif
+	av_frame_free(&frame);
     return ff_filter_frame(ctx->outputs[0], out_frame);
 }
 
@@ -214,6 +227,9 @@ static int request_frame(AVFilterLink *outlink)
     AVFilterContext *ctx = outlink->src;
     AudioDelayContext *s = ctx->priv;
     int ret;
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
 
     ret = ff_request_frame(ctx->inputs[0]);
     if (ret == AVERROR_EOF && !ctx->is_disabled && s->max_delay) {
@@ -231,9 +247,15 @@ static int request_frame(AVFilterLink *outlink)
                                frame->format);
 
         frame->pts = s->next_pts;
-        if (s->next_pts != AV_NOPTS_VALUE)
-            s->next_pts += av_rescale_q(nb_samples, (AVRational){1, outlink->sample_rate}, outlink->time_base);
-
+        if (s->next_pts != AV_NOPTS_VALUE) {
+#ifdef IDE_COMPILE
+			tmp.num = 1;
+			tmp.den = outlink->sample_rate;
+			s->next_pts += av_rescale_q(nb_samples, tmp, outlink->time_base);
+#else
+			s->next_pts += av_rescale_q(nb_samples, (AVRational){1, outlink->sample_rate}, outlink->time_base);
+#endif
+		}
         ret = filter_frame(ctx->inputs[0], frame);
     }
 
@@ -252,25 +274,49 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad adelay_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad adelay_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+#else
+		.name          = "default",
         .request_frame = request_frame,
         .type          = AVMEDIA_TYPE_AUDIO,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_af_adelay = {
-    .name          = "adelay",
+#ifdef IDE_COMPILE
+    "adelay",
+    NULL_IF_CONFIG_SMALL("Delay one or more audio channels."),
+    adelay_inputs,
+    adelay_outputs,
+    &adelay_class,
+    AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
+    0, 0, uninit,
+    query_formats,
+    sizeof(AudioDelayContext),
+#else
+	.name          = "adelay",
     .description   = NULL_IF_CONFIG_SMALL("Delay one or more audio channels."),
     .query_formats = query_formats,
     .priv_size     = sizeof(AudioDelayContext),
@@ -279,4 +325,5 @@ AVFilter ff_af_adelay = {
     .inputs        = adelay_inputs,
     .outputs       = adelay_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
+#endif
 };

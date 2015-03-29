@@ -498,8 +498,12 @@ static int flac_decode_frame(AVCodecContext *avctx, void *data,
                              int *got_frame_ptr, AVPacket *avpkt)
 {
     AVFrame *frame     = data;
-    ThreadFrame tframe = { .f = data };
-    const uint8_t *buf = avpkt->data;
+#ifdef IDE_COMPILE
+    ThreadFrame tframe = { data };
+#else
+	ThreadFrame tframe = { .f = data };
+#endif
+	const uint8_t *buf = avpkt->data;
     int buf_size = avpkt->size;
     FLACContext *s = avctx->priv_data;
     int bytes_read = 0;
@@ -597,8 +601,29 @@ static av_cold int flac_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16,
+                                                      AV_SAMPLE_FMT_S16P,
+                                                      AV_SAMPLE_FMT_S32,
+                                                      AV_SAMPLE_FMT_S32P,
+                                                      AV_SAMPLE_FMT_NONE };
+#endif
+
 AVCodec ff_flac_decoder = {
-    .name           = "flac",
+#ifdef IDE_COMPILE
+    "flac",
+    "FLAC (Free Lossless Audio Codec)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_FLAC,
+    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
+    0, 0, 0, tmp1,
+    0, 0, 0, 0, sizeof(FLACContext),
+    0, init_thread_copy,
+    0, 0, 0, flac_decode_init,
+    0, 0, flac_decode_frame,
+    flac_decode_close,
+#else
+	.name           = "flac",
     .long_name      = NULL_IF_CONFIG_SMALL("FLAC (Free Lossless Audio Codec)"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_FLAC,
@@ -613,4 +638,5 @@ AVCodec ff_flac_decoder = {
                                                       AV_SAMPLE_FMT_S32,
                                                       AV_SAMPLE_FMT_S32P,
                                                       AV_SAMPLE_FMT_NONE },
+#endif
 };

@@ -109,20 +109,26 @@ static ALWAYS_INLINE void deblock_edge_luma_c( pixel *pix, intptr_t xstride, int
 }
 static inline void deblock_luma_c( pixel *pix, intptr_t xstride, intptr_t ystride, int alpha, int beta, int8_t *tc0 )
 {
-    for( int i = 0; i < 4; i++ )
+	int i;
+
+	for( i = 0; i < 4; i++ )
     {
-        if( tc0[i] < 0 )
+		int d;
+
+		if( tc0[i] < 0 )
         {
             pix += 4*ystride;
             continue;
         }
-        for( int d = 0; d < 4; d++, pix += ystride )
+        for( d = 0; d < 4; d++, pix += ystride )
             deblock_edge_luma_c( pix, xstride, alpha, beta, tc0[i] );
     }
 }
 static void deblock_h_luma_mbaff_c( pixel *pix, intptr_t stride, int alpha, int beta, int8_t *tc0 )
 {
-    for( int d = 0; d < 8; d++, pix += stride )
+	int d;
+
+	for( d = 0; d < 8; d++, pix += stride )
         deblock_edge_luma_c( pix, 1, alpha, beta, tc0[d>>1] );
 }
 static void deblock_v_luma_c( pixel *pix, intptr_t stride, int alpha, int beta, int8_t *tc0 )
@@ -150,18 +156,24 @@ static ALWAYS_INLINE void deblock_edge_chroma_c( pixel *pix, intptr_t xstride, i
 }
 static ALWAYS_INLINE void deblock_chroma_c( pixel *pix, int height, intptr_t xstride, intptr_t ystride, int alpha, int beta, int8_t *tc0 )
 {
-    for( int i = 0; i < 4; i++ )
+	int i;
+
+	for( i = 0; i < 4; i++ )
     {
         int tc = tc0[i];
-        if( tc <= 0 )
+		int d;
+
+		if( tc <= 0 )
         {
             pix += height*ystride;
             continue;
         }
-        for( int d = 0; d < height; d++, pix += ystride-2 )
-            for( int e = 0; e < 2; e++, pix++ )
+        for( d = 0; d < height; d++, pix += ystride-2 ) {
+			int e;
+			for( e = 0; e < 2; e++, pix++ )
                 deblock_edge_chroma_c( pix, xstride, alpha, beta, tc0[i] );
-    }
+		}
+	}
 }
 static void deblock_h_chroma_mbaff_c( pixel *pix, intptr_t stride, int alpha, int beta, int8_t *tc0 )
 {
@@ -221,12 +233,15 @@ static ALWAYS_INLINE void deblock_edge_luma_intra_c( pixel *pix, intptr_t xstrid
 }
 static inline void deblock_luma_intra_c( pixel *pix, intptr_t xstride, intptr_t ystride, int alpha, int beta )
 {
-    for( int d = 0; d < 16; d++, pix += ystride )
+	int d;
+
+	for( d = 0; d < 16; d++, pix += ystride )
         deblock_edge_luma_intra_c( pix, xstride, alpha, beta );
 }
 static void deblock_h_luma_intra_mbaff_c( pixel *pix, intptr_t ystride, int alpha, int beta )
 {
-    for( int d = 0; d < 8; d++, pix += ystride )
+	int d;
+	for( d = 0; d < 8; d++, pix += ystride )
         deblock_edge_luma_intra_c( pix, 1, alpha, beta );
 }
 static void deblock_v_luma_intra_c( pixel *pix, intptr_t stride, int alpha, int beta )
@@ -253,8 +268,11 @@ static ALWAYS_INLINE void deblock_edge_chroma_intra_c( pixel *pix, intptr_t xstr
 }
 static ALWAYS_INLINE void deblock_chroma_intra_c( pixel *pix, int width, int height, intptr_t xstride, intptr_t ystride, int alpha, int beta )
 {
-    for( int d = 0; d < height; d++, pix += ystride-2 )
-        for( int e = 0; e < width; e++, pix++ )
+	int d;
+	int e;
+
+	for( d = 0; d < height; d++, pix += ystride-2 )
+        for( e = 0; e < width; e++, pix++ )
             deblock_edge_chroma_intra_c( pix, xstride, alpha, beta );
 }
 static void deblock_h_chroma_intra_mbaff_c( pixel *pix, intptr_t stride, int alpha, int beta )
@@ -278,12 +296,18 @@ static void deblock_strength_c( uint8_t nnz[X264_SCAN8_SIZE], int8_t ref[2][X264
                                 int16_t mv[2][X264_SCAN8_LUMA_SIZE][2], uint8_t bs[2][8][4], int mvy_limit,
                                 int bframe )
 {
-    for( int dir = 0; dir < 2; dir++ )
+	int dir;
+
+	for( dir = 0; dir < 2; dir++ )
     {
         int s1 = dir ? 1 : 8;
         int s2 = dir ? 8 : 1;
-        for( int edge = 0; edge < 4; edge++ )
-            for( int i = 0, loc = X264_SCAN8_0+edge*s2; i < 4; i++, loc += s1 )
+		int edge;
+		int i;
+		int loc;
+
+		for( edge = 0; edge < 4; edge++ )
+            for( i = 0, loc = X264_SCAN8_0+edge*s2; i < 4; i++, loc += s1 )
             {
                 int locn = loc - s2;
                 if( nnz[loc] || nnz[locn] )
@@ -386,19 +410,35 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
     int chroma444 = CHROMA444;
     int chroma_height = 16 >> CHROMA_V_SHIFT;
     intptr_t uvdiff = chroma444 ? h->fdec->plane[2] - h->fdec->plane[1] : 1;
+	int mb_x;
 
-    for( int mb_x = 0; mb_x < h->mb.i_mb_width; mb_x += (~b_interlaced | mb_y)&1, mb_y ^= b_interlaced )
+    for( mb_x = 0; mb_x < h->mb.i_mb_width; mb_x += (~b_interlaced | mb_y)&1, mb_y ^= b_interlaced )
     {
-        x264_prefetch_fenc( h, h->fdec, mb_x, mb_y );
+        int mb_xy;
+        int transform_8x8;
+        int intra_cur;
+
+        pixel *pixy;
+        pixel *pixuv;
+
+        uint8_t (*bs)[8][4];
+
+        int stride2y;
+        int stride2uv;
+        int qp;
+        int qpc;
+        int first_edge_only;
+
+		x264_prefetch_fenc( h, h->fdec, mb_x, mb_y );
         x264_macroblock_cache_load_neighbours_deblock( h, mb_x, mb_y );
 
-        int mb_xy = h->mb.i_mb_xy;
-        int transform_8x8 = h->mb.mb_transform_size[mb_xy];
-        int intra_cur = IS_INTRA( h->mb.type[mb_xy] );
-        uint8_t (*bs)[8][4] = h->deblock_strength[mb_y&1][h->param.b_sliced_threads?mb_xy:mb_x];
+        mb_xy = h->mb.i_mb_xy;
+        transform_8x8 = h->mb.mb_transform_size[mb_xy];
+        intra_cur = IS_INTRA( h->mb.type[mb_xy] );
+        bs = h->deblock_strength[mb_y&1][h->param.b_sliced_threads?mb_xy:mb_x];
 
-        pixel *pixy = h->fdec->plane[0] + 16*mb_y*stridey  + 16*mb_x;
-        pixel *pixuv = h->fdec->plane[1] + chroma_height*mb_y*strideuv + 16*mb_x;
+        pixy = h->fdec->plane[0] + 16*mb_y*stridey  + 16*mb_x;
+        pixuv = h->fdec->plane[1] + chroma_height*mb_y*strideuv + 16*mb_x;
 
         if( mb_y & MB_INTERLACED )
         {
@@ -406,11 +446,11 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
             pixuv -= (chroma_height-1)*strideuv;
         }
 
-        int stride2y  = stridey << MB_INTERLACED;
-        int stride2uv = strideuv << MB_INTERLACED;
-        int qp = h->mb.qp[mb_xy];
-        int qpc = h->chroma_qp_table[qp];
-        int first_edge_only = (h->mb.partition[mb_xy] == D_16x16 && !h->mb.cbp[mb_xy] && !intra_cur) || qp <= qp_thresh;
+        stride2y  = stridey << MB_INTERLACED;
+        stride2uv = strideuv << MB_INTERLACED;
+        qp = h->mb.qp[mb_xy];
+        qpc = h->chroma_qp_table[qp];
+        first_edge_only = (h->mb.partition[mb_xy] == D_16x16 && !h->mb.cbp[mb_xy] && !intra_cur) || qp <= qp_thresh;
 
         #define FILTER( intra, dir, edge, qp, chroma_qp )\
         do\
@@ -456,6 +496,8 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
                 x264_deblock_intra_t luma_intra_deblock = h->loopf.deblock_luma_intra_mbaff;
                 x264_deblock_intra_t chroma_intra_deblock = h->loopf.deblock_chroma_intra_mbaff;
                 int c = chroma444 ? 0 : 1;
+                int offy;
+                int offuv;
 
                 left_qp[0] = h->mb.qp[h->mb.i_mb_left_xy[0]];
                 luma_qp[0] = (qp + left_qp[0] + 1) >> 1;
@@ -475,8 +517,8 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
                         deblock_edge( h, pixuv + uvdiff, 2*strideuv, bs[0][0], chroma_qp[0], a, b, c, chroma_deblock );
                 }
 
-                int offy = MB_INTERLACED ? 4 : 0;
-                int offuv = MB_INTERLACED ? 4-CHROMA_V_SHIFT : 0;
+                offy = MB_INTERLACED ? 4 : 0;
+                offuv = MB_INTERLACED ? 4-CHROMA_V_SHIFT : 0;
                 left_qp[1] = h->mb.qp[h->mb.i_mb_left_xy[1]];
                 luma_qp[1] = (qp + left_qp[1] + 1) >> 1;
                 chroma_qp[1] = (qpc + h->chroma_qp_table[left_qp[1]] + 1) >> 1;
@@ -531,8 +573,9 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
             if( b_interlaced && !(mb_y&1) && !MB_INTERLACED && h->mb.field[h->mb.i_mb_top_xy] )
             {
                 int mbn_xy = mb_xy - 2 * h->mb.i_mb_stride;
+				int j;
 
-                for( int j = 0; j < 2; j++, mbn_xy += h->mb.i_mb_stride )
+                for( j = 0; j < 2; j++, mbn_xy += h->mb.i_mb_stride )
                 {
                     int qpt = h->mb.qp[mbn_xy];
                     int qp_top = (qp + qpt + 1) >> 1;
@@ -606,10 +649,13 @@ void x264_macroblock_deblock( x264_t *h )
     int intra_cur = IS_INTRA( h->mb.i_type );
     int qp = h->mb.i_qp;
     int qpc = h->mb.i_chroma_qp;
-    if( (h->mb.i_partition == D_16x16 && !h->mb.i_cbp_luma && !intra_cur) || qp <= qp_thresh )
+    uint8_t (*bs)[8][4];
+    int transform_8x8;
+
+	if( (h->mb.i_partition == D_16x16 && !h->mb.i_cbp_luma && !intra_cur) || qp <= qp_thresh )
         return;
 
-    uint8_t (*bs)[8][4] = h->mb.cache.deblock_strength;
+    bs = h->mb.cache.deblock_strength;
     if( intra_cur )
     {
         memset( &bs[0][1], 3, 3*4*sizeof(uint8_t) );
@@ -619,7 +665,7 @@ void x264_macroblock_deblock( x264_t *h )
         h->loopf.deblock_strength( h->mb.cache.non_zero_count, h->mb.cache.ref, h->mb.cache.mv,
                                    bs, 4 >> MB_INTERLACED, h->sh.i_type == SLICE_TYPE_B );
 
-    int transform_8x8 = h->mb.b_transform_8x8;
+    transform_8x8 = h->mb.b_transform_8x8;
 
     #define FILTER( dir, edge )\
     do\

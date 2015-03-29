@@ -1467,11 +1467,22 @@ static int recheck_discard_flags(AVFormatContext *s, int first)
 static void fill_timing_for_id3_timestamped_stream(struct playlist *pls)
 {
     if (pls->id3_offset >= 0) {
-        pls->pkt.dts = pls->id3_mpegts_timestamp +
+#ifdef IDE_COMPILE
+        AVRational tmp;
+
+		tmp.num = 1;
+		tmp.den = MPEG_TIME_BASE;
+		pls->pkt.dts = pls->id3_mpegts_timestamp +
+                                 av_rescale_q(pls->id3_offset,
+                                              pls->ctx->streams[pls->pkt.stream_index]->time_base,
+                                              tmp);
+#else
+		pls->pkt.dts = pls->id3_mpegts_timestamp +
                                  av_rescale_q(pls->id3_offset,
                                               pls->ctx->streams[pls->pkt.stream_index]->time_base,
                                               MPEG_TIME_BASE_Q);
-        if (pls->pkt.duration)
+#endif
+		if (pls->pkt.duration)
             pls->id3_offset += pls->pkt.duration;
         else
             pls->id3_offset = -1;
@@ -1481,18 +1492,37 @@ static void fill_timing_for_id3_timestamped_stream(struct playlist *pls)
         pls->pkt.dts = AV_NOPTS_VALUE;
     }
 
-    if (pls->pkt.duration)
-        pls->pkt.duration = av_rescale_q(pls->pkt.duration,
+    if (pls->pkt.duration) {
+#ifdef IDE_COMPILE
+        AVRational tmp;
+		
+		tmp.num = 1;
+		tmp.den = MPEG_TIME_BASE;
+		pls->pkt.duration = av_rescale_q(pls->pkt.duration,
+                                         pls->ctx->streams[pls->pkt.stream_index]->time_base,
+                                         tmp);
+#else
+		pls->pkt.duration = av_rescale_q(pls->pkt.duration,
                                          pls->ctx->streams[pls->pkt.stream_index]->time_base,
                                          MPEG_TIME_BASE_Q);
-
-    pls->pkt.pts = AV_NOPTS_VALUE;
+#endif
+	}
+	pls->pkt.pts = AV_NOPTS_VALUE;
 }
 
 static AVRational get_timebase(struct playlist *pls)
 {
-    if (pls->is_id3_timestamped)
-        return MPEG_TIME_BASE_Q;
+    if (pls->is_id3_timestamped) {
+#ifdef IDE_COMPILE
+        AVRational tmp;
+		
+		tmp.num = 1;
+		tmp.den = MPEG_TIME_BASE;
+		return tmp;
+#else
+		return MPEG_TIME_BASE_Q;
+#endif
+	}
 
     return pls->ctx->streams[pls->pkt.stream_index]->time_base;
 }
@@ -1500,8 +1530,19 @@ static AVRational get_timebase(struct playlist *pls)
 static int compare_ts_with_wrapdetect(int64_t ts_a, struct playlist *pls_a,
                                       int64_t ts_b, struct playlist *pls_b)
 {
-    int64_t scaled_ts_a = av_rescale_q(ts_a, get_timebase(pls_a), MPEG_TIME_BASE_Q);
+#ifdef IDE_COMPILE
+	int64_t scaled_ts_a;
+	int64_t scaled_ts_b;
+    AVRational tmp;
+	
+	tmp.num = 1;
+	tmp.den = MPEG_TIME_BASE;
+	scaled_ts_a = av_rescale_q(ts_a, get_timebase(pls_a), tmp);
+    scaled_ts_b = av_rescale_q(ts_b, get_timebase(pls_b), tmp);
+#else
+	int64_t scaled_ts_a = av_rescale_q(ts_a, get_timebase(pls_a), MPEG_TIME_BASE_Q);
     int64_t scaled_ts_b = av_rescale_q(ts_b, get_timebase(pls_b), MPEG_TIME_BASE_Q);
+#endif
 
     return av_compare_mod(scaled_ts_a, scaled_ts_b, 1LL << 33);
 }
@@ -1535,10 +1576,20 @@ static int hls_read_packet(AVFormatContext *s, AVPacket *pkt)
                     }
 
                     if (c->first_timestamp == AV_NOPTS_VALUE &&
-                        pls->pkt.dts       != AV_NOPTS_VALUE)
-                        c->first_timestamp = av_rescale_q(pls->pkt.dts,
+                        pls->pkt.dts       != AV_NOPTS_VALUE) {
+#ifdef IDE_COMPILE
+                        AVRational tmp;
+						
+						tmp.num = 1;
+						tmp.den = AV_TIME_BASE;
+						c->first_timestamp = av_rescale_q(pls->pkt.dts,
+                            get_timebase(pls), tmp);
+#else
+						c->first_timestamp = av_rescale_q(pls->pkt.dts,
                             get_timebase(pls), AV_TIME_BASE_Q);
-                }
+#endif
+					}
+				}
 
                 if (pls->seek_timestamp == AV_NOPTS_VALUE)
                     break;
@@ -1589,11 +1640,21 @@ static int hls_read_packet(AVFormatContext *s, AVPacket *pkt)
         pkt->stream_index += pls->stream_offset;
         reset_packet(&c->playlists[minplaylist]->pkt);
 
-        if (pkt->dts != AV_NOPTS_VALUE)
-            c->cur_timestamp = av_rescale_q(pkt->dts,
+        if (pkt->dts != AV_NOPTS_VALUE) {
+#ifdef IDE_COMPILE
+            AVRational tmp;
+			
+			tmp.num = 1;
+			tmp.den = AV_TIME_BASE;
+			c->cur_timestamp = av_rescale_q(pkt->dts,
+                                            pls->ctx->streams[pls->pkt.stream_index]->time_base,
+                                            tmp);
+#else
+			c->cur_timestamp = av_rescale_q(pkt->dts,
                                             pls->ctx->streams[pls->pkt.stream_index]->time_base,
                                             AV_TIME_BASE_Q);
-
+#endif
+		}
         return 0;
     }
     return AVERROR_EOF;
@@ -1703,7 +1764,17 @@ static int hls_probe(AVProbeData *p)
 }
 
 AVInputFormat ff_hls_demuxer = {
-    .name           = "hls,applehttp",
+#ifdef IDE_COMPILE
+    "hls,applehttp",
+    "Apple HTTP Live Streaming",
+    0, 0, 0, 0, 0, 0, 0, sizeof(HLSContext),
+    hls_probe,
+    hls_read_header,
+    hls_read_packet,
+    hls_close,
+    hls_read_seek,
+#else
+	.name           = "hls,applehttp",
     .long_name      = NULL_IF_CONFIG_SMALL("Apple HTTP Live Streaming"),
     .priv_data_size = sizeof(HLSContext),
     .read_probe     = hls_probe,
@@ -1711,4 +1782,5 @@ AVInputFormat ff_hls_demuxer = {
     .read_packet    = hls_read_packet,
     .read_close     = hls_close,
     .read_seek      = hls_read_seek,
+#endif
 };

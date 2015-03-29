@@ -283,7 +283,17 @@ static int vqf_read_seek(AVFormatContext *s,
 }
 
 AVInputFormat ff_vqf_demuxer = {
-    .name           = "vqf",
+#ifdef IDE_COMPILE
+    "vqf",
+    "Nippon Telegraph and Telephone Corporation (NTT) TwinVQ",
+    0, "vqf,vql,vqe",
+    0, 0, 0, 0, 0, sizeof(VqfContext),
+    vqf_probe,
+    vqf_read_header,
+    vqf_read_packet,
+    0, vqf_read_seek,
+#else
+	.name           = "vqf",
     .long_name      = NULL_IF_CONFIG_SMALL("Nippon Telegraph and Telephone Corporation (NTT) TwinVQ"),
     .priv_data_size = sizeof(VqfContext),
     .read_probe     = vqf_probe,
@@ -291,4 +301,5 @@ AVInputFormat ff_vqf_demuxer = {
     .read_packet    = vqf_read_packet,
     .read_seek      = vqf_read_seek,
     .extensions     = "vqf,vql,vqe",
+#endif
 };

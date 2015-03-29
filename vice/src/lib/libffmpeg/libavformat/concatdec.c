@@ -475,6 +475,9 @@ static int concat_read_packet(AVFormatContext *avf, AVPacket *pkt)
     int ret;
     int64_t delta;
     ConcatStream *cs;
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
 
     while (1) {
         ret = av_read_frame(cat->avf, pkt);
@@ -500,10 +503,18 @@ static int concat_read_packet(AVFormatContext *avf, AVPacket *pkt)
     if ((ret = filter_packet(avf, cs, pkt)))
         return ret;
 
-    delta = av_rescale_q(cat->cur_file->start_time - cat->avf->start_time,
+#ifdef IDE_COMPILE
+    tmp.num = 1;
+	tmp.den = AV_TIME_BASE;
+
+	delta = av_rescale_q(cat->cur_file->start_time - cat->avf->start_time,
+                         tmp, cat->avf->streams[pkt->stream_index]->time_base);
+#else
+	delta = av_rescale_q(cat->cur_file->start_time - cat->avf->start_time,
                          AV_TIME_BASE_Q,
                          cat->avf->streams[pkt->stream_index]->time_base);
-    if (pkt->pts != AV_NOPTS_VALUE)
+#endif
+	if (pkt->pts != AV_NOPTS_VALUE)
         pkt->pts += delta;
     if (pkt->dts != AV_NOPTS_VALUE)
         pkt->dts += delta;
@@ -525,6 +536,9 @@ static int try_seek(AVFormatContext *avf, int stream,
 {
     ConcatContext *cat = avf->priv_data;
     int64_t t0 = cat->cur_file->start_time - cat->avf->start_time;
+#ifdef IDE_COMPILE
+    AVRational tmp;
+#endif
 
     ts -= t0;
     min_ts = min_ts == INT64_MIN ? INT64_MIN : min_ts - t0;
@@ -532,9 +546,17 @@ static int try_seek(AVFormatContext *avf, int stream,
     if (stream >= 0) {
         if (stream >= cat->avf->nb_streams)
             return AVERROR(EIO);
-        rescale_interval(AV_TIME_BASE_Q, cat->avf->streams[stream]->time_base,
+#ifdef IDE_COMPILE
+        tmp.num = 1;
+		tmp.den = AV_TIME_BASE;
+
+		rescale_interval(tmp, cat->avf->streams[stream]->time_base,
                          &min_ts, &ts, &max_ts);
-    }
+#else
+		rescale_interval(AV_TIME_BASE_Q, cat->avf->streams[stream]->time_base,
+                         &min_ts, &ts, &max_ts);
+#endif
+	}
     return avformat_seek_file(cat->avf, stream, min_ts, ts, max_ts, flags);
 }
 
@@ -543,13 +565,23 @@ static int real_seek(AVFormatContext *avf, int stream,
 {
     ConcatContext *cat = avf->priv_data;
     int ret, left, right;
-
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
+	
     if (stream >= 0) {
         if (stream >= avf->nb_streams)
             return AVERROR(EINVAL);
-        rescale_interval(avf->streams[stream]->time_base, AV_TIME_BASE_Q,
+#ifdef IDE_COMPILE
+        tmp.num = 1;
+		tmp.den = AV_TIME_BASE;
+		rescale_interval(avf->streams[stream]->time_base, tmp,
                          &min_ts, &ts, &max_ts);
-    }
+#else
+		rescale_interval(avf->streams[stream]->time_base, AV_TIME_BASE_Q,
+                         &min_ts, &ts, &max_ts);
+#endif
+	}
 
     left  = 0;
     right = cat->nb_files;
@@ -603,23 +635,46 @@ static int concat_seek(AVFormatContext *avf, int stream,
 #define DEC AV_OPT_FLAG_DECODING_PARAM
 
 static const AVOption options[] = {
-    { "safe", "enable safe mode",
+#ifdef IDE_COMPILE
+	{ "safe", "enable safe mode", OFFSET(safe), AV_OPT_TYPE_INT, {-1}, -1, 1, DEC },
+    { "auto_convert", "automatically convert bitstream format", OFFSET(auto_convert), AV_OPT_TYPE_INT, {0}, 0, 1, DEC },
+#else
+	{ "safe", "enable safe mode",
       OFFSET(safe), AV_OPT_TYPE_INT, {.i64 = -1}, -1, 1, DEC },
     { "auto_convert", "automatically convert bitstream format",
       OFFSET(auto_convert), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, DEC },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 static const AVClass concat_class = {
-    .class_name = "concat demuxer",
+#ifdef IDE_COMPILE
+    "concat demuxer",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "concat demuxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 
 AVInputFormat ff_concat_demuxer = {
-    .name           = "concat",
+#ifdef IDE_COMPILE
+    "concat",
+    "Virtual concatenation script",
+    0, 0, 0, &concat_class,
+    0, 0, 0, sizeof(ConcatContext),
+    concat_probe,
+    concat_read_header,
+    concat_read_packet,
+    concat_read_close,
+    0, 0, 0, 0, concat_seek,
+#else
+	.name           = "concat",
     .long_name      = NULL_IF_CONFIG_SMALL("Virtual concatenation script"),
     .priv_data_size = sizeof(ConcatContext),
     .read_probe     = concat_probe,
@@ -628,4 +683,5 @@ AVInputFormat ff_concat_demuxer = {
     .read_close     = concat_read_close,
     .read_seek2     = concat_seek,
     .priv_class     = &concat_class,
+#endif
 };

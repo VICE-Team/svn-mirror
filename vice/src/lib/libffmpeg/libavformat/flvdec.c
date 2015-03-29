@@ -1047,19 +1047,42 @@ static int flv_read_seek(AVFormatContext *s, int stream_index,
 #define OFFSET(x) offsetof(FLVContext, x)
 #define VD AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_DECODING_PARAM
 static const AVOption options[] = {
-    { "flv_metadata", "Allocate streams according to the onMetaData array", OFFSET(trust_metadata), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VD },
-    { NULL }
+#ifdef IDE_COMPILE
+	{ "flv_metadata", "Allocate streams according to the onMetaData array", OFFSET(trust_metadata), AV_OPT_TYPE_INT, {0}, 0, 1, VD },
+#else
+	{ "flv_metadata", "Allocate streams according to the onMetaData array", OFFSET(trust_metadata), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VD },
+#endif
+	{ NULL }
 };
 
 static const AVClass flv_class = {
-    .class_name = "flvdec",
+#ifdef IDE_COMPILE
+    "flvdec",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "flvdec",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 AVInputFormat ff_flv_demuxer = {
-    .name           = "flv",
+#ifdef IDE_COMPILE
+    "flv",
+    "FLV (Flash Video)",
+    0, "flv",
+    0, &flv_class,
+    0, 0, 0, sizeof(FLVContext),
+    flv_probe,
+    flv_read_header,
+    flv_read_packet,
+    flv_read_close,
+    flv_read_seek,
+#else
+	.name           = "flv",
     .long_name      = NULL_IF_CONFIG_SMALL("FLV (Flash Video)"),
     .priv_data_size = sizeof(FLVContext),
     .read_probe     = flv_probe,
@@ -1069,17 +1092,38 @@ AVInputFormat ff_flv_demuxer = {
     .read_close     = flv_read_close,
     .extensions     = "flv",
     .priv_class     = &flv_class,
+#endif
 };
 
 static const AVClass live_flv_class = {
-    .class_name = "live_flvdec",
+#ifdef IDE_COMPILE
+    "live_flvdec",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "live_flvdec",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 AVInputFormat ff_live_flv_demuxer = {
-    .name           = "live_flv",
+#ifdef IDE_COMPILE
+    "live_flv",
+    "live RTMP FLV (Flash Video)",
+    AVFMT_TS_DISCONT,
+    "flv",
+    0, &live_flv_class,
+    0, 0, 0, sizeof(FLVContext),
+    live_flv_probe,
+    flv_read_header,
+    flv_read_packet,
+    flv_read_close,
+    flv_read_seek
+#else
+	.name           = "live_flv",
     .long_name      = NULL_IF_CONFIG_SMALL("live RTMP FLV (Flash Video)"),
     .priv_data_size = sizeof(FLVContext),
     .read_probe     = live_flv_probe,
@@ -1090,4 +1134,5 @@ AVInputFormat ff_live_flv_demuxer = {
     .extensions     = "flv",
     .priv_class     = &live_flv_class,
     .flags          = AVFMT_TS_DISCONT
+#endif
 };

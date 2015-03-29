@@ -29,6 +29,10 @@
 #include "libavutil/attributes.h"
 #include "libavutil/common.h"
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 /**
  * IIR filter global parameters
  */

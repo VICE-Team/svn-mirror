@@ -327,8 +327,26 @@ static av_cold int mpc7_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16P,
+                                                      AV_SAMPLE_FMT_NONE };
+#endif
+
 AVCodec ff_mpc7_decoder = {
-    .name           = "mpc7",
+#ifdef IDE_COMPILE
+    "mpc7",
+    "Musepack SV7",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_MUSEPACK7,
+    CODEC_CAP_DR1,
+    0, 0, 0, tmp1,
+    0, 0, 0, 0, sizeof(MPCContext),
+    0, 0, 0, 0, 0, mpc7_decode_init,
+    0, 0, mpc7_decode_frame,
+    mpc7_decode_close,
+    mpc7_decode_flush,
+#else
+	.name           = "mpc7",
     .long_name      = NULL_IF_CONFIG_SMALL("Musepack SV7"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_MUSEPACK7,
@@ -340,4 +358,5 @@ AVCodec ff_mpc7_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_NONE },
+#endif
 };

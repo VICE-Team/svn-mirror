@@ -2644,20 +2644,51 @@ static const AVProfile profiles[] = {
 };
 
 static const AVOption options[] = {
-    { "disable_xch", "disable decoding of the XCh extension", offsetof(DCAContext, xch_disable), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, AV_OPT_FLAG_DECODING_PARAM|AV_OPT_FLAG_AUDIO_PARAM },
-    { NULL },
+#ifdef IDE_COMPILE
+	{ "disable_xch", "disable decoding of the XCh extension", offsetof(DCAContext, xch_disable), AV_OPT_TYPE_INT, {0}, 0, 1, AV_OPT_FLAG_DECODING_PARAM|AV_OPT_FLAG_AUDIO_PARAM },
+#else
+	{ "disable_xch", "disable decoding of the XCh extension", offsetof(DCAContext, xch_disable), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, AV_OPT_FLAG_DECODING_PARAM|AV_OPT_FLAG_AUDIO_PARAM },
+#endif
+	{ NULL },
 };
 
 static const AVClass dca_decoder_class = {
-    .class_name = "DCA decoder",
+#ifdef IDE_COMPILE
+    "DCA decoder",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+    0, 0, 0, 0, AV_CLASS_CATEGORY_DECODER,
+#else
+	.class_name = "DCA decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
     .category   = AV_CLASS_CATEGORY_DECODER,
+#endif
 };
 
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
+                                                       AV_SAMPLE_FMT_NONE };
+#endif
+
 AVCodec ff_dca_decoder = {
-    .name            = "dca",
+#ifdef IDE_COMPILE
+    "dca",
+    "DCA (DTS Coherent Acoustics)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_DTS,
+    CODEC_CAP_CHANNEL_CONF | CODEC_CAP_DR1,
+    0, 0, 0, tmp1,
+    0, 0, &dca_decoder_class,
+    profiles,
+    sizeof(DCAContext),
+    0, 0, 0, 0, 0, dca_decode_init,
+    0, 0, dca_decode_frame,
+    dca_decode_end,
+#else
+	.name            = "dca",
     .long_name       = NULL_IF_CONFIG_SMALL("DCA (DTS Coherent Acoustics)"),
     .type            = AVMEDIA_TYPE_AUDIO,
     .id              = AV_CODEC_ID_DTS,
@@ -2670,4 +2701,5 @@ AVCodec ff_dca_decoder = {
                                                        AV_SAMPLE_FMT_NONE },
     .profiles        = NULL_IF_CONFIG_SMALL(profiles),
     .priv_class      = &dca_decoder_class,
+#endif
 };

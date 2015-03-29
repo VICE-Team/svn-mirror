@@ -303,7 +303,15 @@ static int request_frame(AVFilterLink *outlink)
 #define OFFSET(x) offsetof(FramepackContext, x)
 #define V AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption options[] = {
-    { "format", "Frame pack output format", OFFSET(format), AV_OPT_TYPE_INT,
+#ifdef IDE_COMPILE
+	{ "format", "Frame pack output format", OFFSET(format), AV_OPT_TYPE_INT, {AV_STEREO3D_SIDEBYSIDE}, 0, INT_MAX, V, "format" },
+    { "sbs", "Views are packed next to each other", 0, AV_OPT_TYPE_CONST, {AV_STEREO3D_SIDEBYSIDE}, INT_MIN, INT_MAX, V, "format" },
+    { "tab", "Views are packed on top of each other", 0, AV_OPT_TYPE_CONST, {AV_STEREO3D_TOPBOTTOM}, INT_MIN, INT_MAX, V, "format" },
+    { "frameseq", "Views are one after the other", 0, AV_OPT_TYPE_CONST, {AV_STEREO3D_FRAMESEQUENCE}, INT_MIN, INT_MAX, V, "format" },
+    { "lines", "Views are interleaved by lines", 0, AV_OPT_TYPE_CONST, {AV_STEREO3D_LINES}, INT_MIN, INT_MAX, V, "format" },
+    { "columns", "Views are interleaved by columns", 0, AV_OPT_TYPE_CONST, {AV_STEREO3D_COLUMNS}, INT_MIN, INT_MAX, V, "format" },
+#else
+	{ "format", "Frame pack output format", OFFSET(format), AV_OPT_TYPE_INT,
         { .i64 = AV_STEREO3D_SIDEBYSIDE }, 0, INT_MAX, .flags = V, .unit = "format" },
     { "sbs", "Views are packed next to each other", 0, AV_OPT_TYPE_CONST,
         { .i64 = AV_STEREO3D_SIDEBYSIDE }, INT_MIN, INT_MAX, .flags = V, .unit = "format" },
@@ -315,44 +323,83 @@ static const AVOption options[] = {
         { .i64 = AV_STEREO3D_LINES }, INT_MIN, INT_MAX, .flags = V, .unit = "format" },
     { "columns", "Views are interleaved by columns", 0, AV_OPT_TYPE_CONST,
         { .i64 = AV_STEREO3D_COLUMNS }, INT_MIN, INT_MAX, .flags = V, .unit = "format" },
-    { NULL },
+#endif
+	{ NULL },
 };
 
 static const AVClass framepack_class = {
-    .class_name = "framepack",
+#ifdef IDE_COMPILE
+    "framepack",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "framepack",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 static const AVFilterPad framepack_inputs[] = {
     {
-        .name         = "left",
+#ifdef IDE_COMPILE
+        "left",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame_left,
+        0, 0, 0, 1,
+#else
+		.name         = "left",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame_left,
         .needs_fifo   = 1,
-    },
+#endif
+	},
     {
-        .name         = "right",
+#ifdef IDE_COMPILE
+        "right",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame_right,
+        0, 0, 0, 1,
+#else
+		.name         = "right",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame_right,
         .needs_fifo   = 1,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad framepack_outputs[] = {
     {
-        .name          = "packed",
+#ifdef IDE_COMPILE
+        "packed",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+        config_output,
+#else
+		.name          = "packed",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_output,
         .request_frame = request_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_framepack = {
-    .name          = "framepack",
+#ifdef IDE_COMPILE
+    "framepack",
+    NULL_IF_CONFIG_SMALL("Generate a frame packed stereoscopic video."),
+    framepack_inputs,
+    framepack_outputs,
+    &framepack_class,
+    0, 0, 0, framepack_uninit,
+    query_formats,
+    sizeof(FramepackContext),
+#else
+	.name          = "framepack",
     .description   = NULL_IF_CONFIG_SMALL("Generate a frame packed stereoscopic video."),
     .priv_size     = sizeof(FramepackContext),
     .priv_class    = &framepack_class,
@@ -360,4 +407,5 @@ AVFilter ff_vf_framepack = {
     .inputs        = framepack_inputs,
     .outputs       = framepack_outputs,
     .uninit        = framepack_uninit,
+#endif
 };

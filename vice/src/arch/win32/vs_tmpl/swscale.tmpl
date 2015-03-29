@@ -1,0 +1,24 @@
+# name of the project
+PROJECTNAME = swscale
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	lib\libffmpeg
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	lib\libffmpeg\libswscale\hscale_fast_bilinear.c
+	lib\libffmpeg\libswscale\input.c
+	lib\libffmpeg\libswscale\options.c
+	lib\libffmpeg\libswscale\output.c
+	lib\libffmpeg\libswscale\rgb2rgb.c
+	lib\libffmpeg\libswscale\swscale.c
+	lib\libffmpeg\libswscale\swscale_unscaled.c
+	lib\libffmpeg\libswscale\utils.c
+	lib\libffmpeg\libswscale\yuv2rgb.c

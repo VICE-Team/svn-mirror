@@ -56,28 +56,51 @@ typedef struct FileContext {
 } FileContext;
 
 static const AVOption file_options[] = {
-    { "truncate", "truncate existing files on write", offsetof(FileContext, trunc), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, AV_OPT_FLAG_ENCODING_PARAM },
+#ifdef IDE_COMPILE
+	{ "truncate", "truncate existing files on write", offsetof(FileContext, trunc), AV_OPT_TYPE_INT, {1}, 0, 1, AV_OPT_FLAG_ENCODING_PARAM },
+    { "blocksize", "set I/O operation maximum block size", offsetof(FileContext, blocksize), AV_OPT_TYPE_INT, {INT_MAX}, 1, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
+#else
+	{ "truncate", "truncate existing files on write", offsetof(FileContext, trunc), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, AV_OPT_FLAG_ENCODING_PARAM },
     { "blocksize", "set I/O operation maximum block size", offsetof(FileContext, blocksize), AV_OPT_TYPE_INT, { .i64 = INT_MAX }, 1, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 static const AVOption pipe_options[] = {
-    { "blocksize", "set I/O operation maximum block size", offsetof(FileContext, blocksize), AV_OPT_TYPE_INT, { .i64 = INT_MAX }, 1, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
-    { NULL }
+#ifdef IDE_COMPILE
+	{ "blocksize", "set I/O operation maximum block size", offsetof(FileContext, blocksize), AV_OPT_TYPE_INT, {INT_MAX}, 1, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
+#else
+	{ "blocksize", "set I/O operation maximum block size", offsetof(FileContext, blocksize), AV_OPT_TYPE_INT, { .i64 = INT_MAX }, 1, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
+#endif
+	{ NULL }
 };
 
 static const AVClass file_class = {
-    .class_name = "file",
+#ifdef IDE_COMPILE
+    "file",
+    av_default_item_name,
+    file_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "file",
     .item_name  = av_default_item_name,
     .option     = file_options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 static const AVClass pipe_class = {
-    .class_name = "pipe",
+#ifdef IDE_COMPILE
+    "pipe",
+    av_default_item_name,
+    pipe_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "pipe",
     .item_name  = av_default_item_name,
     .option     = pipe_options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 static int file_read(URLContext *h, unsigned char *buf, int size)
@@ -192,7 +215,19 @@ static int file_close(URLContext *h)
 }
 
 URLProtocol ff_file_protocol = {
-    .name                = "file",
+#ifdef IDE_COMPILE
+    "file",
+    file_open,
+    0, file_read,
+    file_write,
+    file_seek,
+    file_close,
+    0, 0, 0, file_get_handle,
+    0, 0, sizeof(FileContext),
+    &file_class,
+    0, file_check,
+#else
+	.name                = "file",
     .url_open            = file_open,
     .url_read            = file_read,
     .url_write           = file_write,
@@ -202,6 +237,7 @@ URLProtocol ff_file_protocol = {
     .url_check           = file_check,
     .priv_data_size      = sizeof(FileContext),
     .priv_data_class     = &file_class,
+#endif
 };
 
 #endif /* CONFIG_FILE_PROTOCOL */
@@ -232,7 +268,17 @@ static int pipe_open(URLContext *h, const char *filename, int flags)
 }
 
 URLProtocol ff_pipe_protocol = {
-    .name                = "pipe",
+#ifdef IDE_COMPILE
+    "pipe",
+    pipe_open,
+    0, file_read,
+    file_write,
+    0, 0, 0, 0, 0, file_get_handle,
+    0, 0, sizeof(FileContext),
+    &pipe_class,
+    0, file_check,
+#else
+	.name                = "pipe",
     .url_open            = pipe_open,
     .url_read            = file_read,
     .url_write           = file_write,
@@ -240,6 +286,7 @@ URLProtocol ff_pipe_protocol = {
     .url_check           = file_check,
     .priv_data_size      = sizeof(FileContext),
     .priv_data_class     = &pipe_class,
+#endif
 };
 
 #endif /* CONFIG_PIPE_PROTOCOL */

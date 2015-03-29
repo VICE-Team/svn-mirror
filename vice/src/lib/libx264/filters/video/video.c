@@ -71,7 +71,9 @@ int x264_init_vid_filter( const char *name, hnd_t *handle, cli_vid_filter_t *fil
 
 void x264_vid_filter_help( int longhelp )
 {
-    for( cli_vid_filter_t *filter_i = first_filter; filter_i; filter_i = filter_i->next )
+	cli_vid_filter_t *filter_i;
+
+	for( filter_i = first_filter; filter_i; filter_i = filter_i->next )
         if( filter_i->help )
             filter_i->help( longhelp );
 }

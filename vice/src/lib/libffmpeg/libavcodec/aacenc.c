@@ -240,10 +240,17 @@ WINDOW_FUNC(eight_short)
 static void (*const apply_window[4])(AVFloatDSPContext *fdsp,
                                      SingleChannelElement *sce,
                                      const float *audio) = {
-    [ONLY_LONG_SEQUENCE]   = apply_only_long_window,
+#ifdef IDE_COMPILE
+    apply_only_long_window,
+    apply_long_start_window,
+    apply_eight_short_window,
+    apply_long_stop_window
+#else
+	[ONLY_LONG_SEQUENCE]   = apply_only_long_window,
     [LONG_START_SEQUENCE]  = apply_long_start_window,
     [EIGHT_SHORT_SEQUENCE] = apply_eight_short_window,
     [LONG_STOP_SEQUENCE]   = apply_long_stop_window
+#endif
 };
 
 static void apply_window_and_mdct(AACEncContext *s, SingleChannelElement *sce,
@@ -705,9 +712,32 @@ static av_cold int dsp_init(AVCodecContext *avctx, AACEncContext *s)
 static av_cold int alloc_buffers(AVCodecContext *avctx, AACEncContext *s)
 {
     int ch;
-    FF_ALLOCZ_ARRAY_OR_GOTO(avctx, s->buffer.samples, s->channels, 3 * 1024 * sizeof(s->buffer.samples[0]), alloc_fail);
+#ifdef IDE_COMPILE
+    {
+		s->buffer.samples = av_mallocz_array(s->channels, 3 * 1024 * sizeof(s->buffer.samples[0]));
+		if (!s->buffer.samples) {
+			av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
+			goto alloc_fail;
+		}
+	};
+    {
+		s->cpe = av_mallocz_array(s->chan_map[0], sizeof(ChannelElement));
+		if (!s->cpe) {
+			av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
+			goto alloc_fail;
+		}
+	};
+    {
+		avctx->extradata = av_mallocz(FF_INPUT_BUFFER_PADDING_SIZE + 32);
+		if (!(avctx->extradata) && (FF_INPUT_BUFFER_PADDING_SIZE + 32) != 0) {
+			av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n"); goto alloc_fail;
+		}
+	};
+#else
+	FF_ALLOCZ_ARRAY_OR_GOTO(avctx, s->buffer.samples, s->channels, 3 * 1024 * sizeof(s->buffer.samples[0]), alloc_fail);
     FF_ALLOCZ_ARRAY_OR_GOTO(avctx, s->cpe, s->chan_map[0], sizeof(ChannelElement), alloc_fail);
     FF_ALLOCZ_OR_GOTO(avctx, avctx->extradata, 5 + FF_INPUT_BUFFER_PADDING_SIZE, alloc_fail);
+#endif
 
     for(ch = 0; ch < s->channels; ch++)
         s->planar_samples[ch] = s->buffer.samples + 3 * 1024 * ch;
@@ -787,7 +817,18 @@ fail:
 
 #define AACENC_FLAGS AV_OPT_FLAG_ENCODING_PARAM | AV_OPT_FLAG_AUDIO_PARAM
 static const AVOption aacenc_options[] = {
-    {"stereo_mode", "Stereo coding method", offsetof(AACEncContext, options.stereo_mode), AV_OPT_TYPE_INT, {.i64 = 0}, -1, 1, AACENC_FLAGS, "stereo_mode"},
+#ifdef IDE_COMPILE
+	{"stereo_mode", "Stereo coding method", offsetof(AACEncContext, options.stereo_mode), AV_OPT_TYPE_INT, {0}, -1, 1, AACENC_FLAGS, "stereo_mode"},
+    {"auto", "Selected by the Encoder", 0, AV_OPT_TYPE_CONST, {-1}, INT_MIN, INT_MAX, AACENC_FLAGS, "stereo_mode"},
+    {"ms_off", "Disable Mid/Side coding", 0, AV_OPT_TYPE_CONST, {0}, INT_MIN, INT_MAX, AACENC_FLAGS, "stereo_mode"},
+    {"ms_force", "Force Mid/Side for the whole frame if possible", 0, AV_OPT_TYPE_CONST, {1}, INT_MIN, INT_MAX, AACENC_FLAGS, "stereo_mode"},
+    {"aac_coder", "", offsetof(AACEncContext, options.aac_coder), AV_OPT_TYPE_INT, {AAC_CODER_TWOLOOP}, 0, AAC_CODER_NB-1, AACENC_FLAGS, "aac_coder"},
+    {"faac", "FAAC-inspired method", 0, AV_OPT_TYPE_CONST, {AAC_CODER_FAAC}, INT_MIN, INT_MAX, AACENC_FLAGS, "aac_coder"},
+    {"anmr", "ANMR method", 0, AV_OPT_TYPE_CONST, {AAC_CODER_ANMR}, INT_MIN, INT_MAX, AACENC_FLAGS, "aac_coder"},
+    {"twoloop", "Two loop searching method", 0, AV_OPT_TYPE_CONST, {AAC_CODER_TWOLOOP}, INT_MIN, INT_MAX, AACENC_FLAGS, "aac_coder"},
+    {"fast", "Constant quantizer", 0, AV_OPT_TYPE_CONST, {AAC_CODER_FAST}, INT_MIN, INT_MAX, AACENC_FLAGS, "aac_coder"},
+#else
+	{"stereo_mode", "Stereo coding method", offsetof(AACEncContext, options.stereo_mode), AV_OPT_TYPE_INT, {.i64 = 0}, -1, 1, AACENC_FLAGS, "stereo_mode"},
         {"auto",     "Selected by the Encoder", 0, AV_OPT_TYPE_CONST, {.i64 = -1 }, INT_MIN, INT_MAX, AACENC_FLAGS, "stereo_mode"},
         {"ms_off",   "Disable Mid/Side coding", 0, AV_OPT_TYPE_CONST, {.i64 =  0 }, INT_MIN, INT_MAX, AACENC_FLAGS, "stereo_mode"},
         {"ms_force", "Force Mid/Side for the whole frame if possible", 0, AV_OPT_TYPE_CONST, {.i64 =  1 }, INT_MIN, INT_MAX, AACENC_FLAGS, "stereo_mode"},
@@ -796,7 +837,8 @@ static const AVOption aacenc_options[] = {
         {"anmr",     "ANMR method",               0, AV_OPT_TYPE_CONST, {.i64 = AAC_CODER_ANMR},    INT_MIN, INT_MAX, AACENC_FLAGS, "aac_coder"},
         {"twoloop",  "Two loop searching method", 0, AV_OPT_TYPE_CONST, {.i64 = AAC_CODER_TWOLOOP}, INT_MIN, INT_MAX, AACENC_FLAGS, "aac_coder"},
         {"fast",     "Constant quantizer",        0, AV_OPT_TYPE_CONST, {.i64 = AAC_CODER_FAST},    INT_MIN, INT_MAX, AACENC_FLAGS, "aac_coder"},
-    {NULL}
+#endif
+	{NULL}
 };
 
 static const AVClass aacenc_class = {
@@ -813,8 +855,27 @@ static const int mpeg4audio_sample_rates[16] = {
     24000, 22050, 16000, 12000, 11025, 8000, 7350
 };
 
+#ifdef IDE_COMPILE
+static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
+                                                     AV_SAMPLE_FMT_NONE };
+#endif
+
 AVCodec ff_aac_encoder = {
-    .name           = "aac",
+#ifdef IDE_COMPILE
+    "aac",
+    "AAC (Advanced Audio Coding)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_AAC,
+    CODEC_CAP_SMALL_LAST_FRAME | CODEC_CAP_DELAY | CODEC_CAP_EXPERIMENTAL,
+    0, 0, mpeg4audio_sample_rates,
+    tmp1,
+    0, 0, &aacenc_class,
+    0, sizeof(AACEncContext),
+    0, 0, 0, 0, 0, aac_encode_init,
+    0, aac_encode_frame,
+    0, aac_encode_end,
+#else
+	.name           = "aac",
     .long_name      = NULL_IF_CONFIG_SMALL("AAC (Advanced Audio Coding)"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_AAC,
@@ -828,4 +889,5 @@ AVCodec ff_aac_encoder = {
     .sample_fmts    = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_FLTP,
                                                      AV_SAMPLE_FMT_NONE },
     .priv_class     = &aacenc_class,
+#endif
 };

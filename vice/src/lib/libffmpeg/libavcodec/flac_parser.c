@@ -611,10 +611,16 @@ static int flac_parse(AVCodecParserContext *s, AVCodecContext *avctx,
         /* Fill the buffer. */
         if (   av_fifo_space(fpc->fifo_buf) < read_end - read_start
             && av_fifo_realloc2(fpc->fifo_buf, (read_end - read_start) + 2*av_fifo_size(fpc->fifo_buf)) < 0) {
+#ifdef IDE_COMPILE
             av_log(avctx, AV_LOG_ERROR,
+                   "couldn't reallocate buffer of size %""td""\n",
+                   (read_end - read_start) + av_fifo_size(fpc->fifo_buf));
+#else
+			av_log(avctx, AV_LOG_ERROR,
                    "couldn't reallocate buffer of size %"PTRDIFF_SPECIFIER"\n",
                    (read_end - read_start) + av_fifo_size(fpc->fifo_buf));
-            goto handle_error;
+#endif
+			goto handle_error;
         }
 
         if (buf && buf_size) {
@@ -728,9 +734,17 @@ static void flac_parse_close(AVCodecParserContext *c)
 }
 
 AVCodecParser ff_flac_parser = {
-    .codec_ids      = { AV_CODEC_ID_FLAC },
+#ifdef IDE_COMPILE
+    { AV_CODEC_ID_FLAC },
+    sizeof(FLACParseContext),
+    flac_parse_init,
+    flac_parse,
+    flac_parse_close,
+#else
+	.codec_ids      = { AV_CODEC_ID_FLAC },
     .priv_data_size = sizeof(FLACParseContext),
     .parser_init    = flac_parse_init,
     .parser_parse   = flac_parse,
     .parser_close   = flac_parse_close,
+#endif
 };

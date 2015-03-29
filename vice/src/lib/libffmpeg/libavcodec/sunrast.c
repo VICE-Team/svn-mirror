@@ -206,10 +206,19 @@ static int sunrast_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_sunrast_decoder = {
-    .name           = "sunrast",
+#ifdef IDE_COMPILE
+    "sunrast",
+    "Sun Rasterfile image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_SUNRAST,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, sunrast_decode_frame,
+#else
+	.name           = "sunrast",
     .long_name      = NULL_IF_CONFIG_SMALL("Sun Rasterfile image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_SUNRAST,
     .decode         = sunrast_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

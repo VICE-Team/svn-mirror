@@ -43,17 +43,30 @@ typedef struct TCPContext {
 #define D AV_OPT_FLAG_DECODING_PARAM
 #define E AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
+#ifdef IDE_COMPILE
+{"listen", "listen on port instead of connecting", OFFSET(listen), AV_OPT_TYPE_INT, {0}, 0, 1, D|E },
+{"timeout", "set timeout of socket I/O operations", OFFSET(rw_timeout), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, D|E },
+{"listen_timeout", "set connection awaiting timeout", OFFSET(listen_timeout), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, D|E },
+#else
 {"listen", "listen on port instead of connecting", OFFSET(listen), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, D|E },
 {"timeout", "set timeout of socket I/O operations", OFFSET(rw_timeout), AV_OPT_TYPE_INT, {.i64 = -1}, -1, INT_MAX, D|E },
 {"listen_timeout", "set connection awaiting timeout", OFFSET(listen_timeout), AV_OPT_TYPE_INT, {.i64 = -1}, -1, INT_MAX, D|E },
+#endif
 {NULL}
 };
 
 static const AVClass tcp_context_class = {
-    .class_name = "tcp",
+#ifdef IDE_COMPILE
+    "tcp",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "tcp",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 /* return non zero if error */
@@ -220,7 +233,19 @@ static int tcp_get_file_handle(URLContext *h)
 }
 
 URLProtocol ff_tcp_protocol = {
-    .name                = "tcp",
+#ifdef IDE_COMPILE
+    "tcp",
+    tcp_open,
+    0, tcp_read,
+    tcp_write,
+    0, tcp_close,
+    0, 0, 0, tcp_get_file_handle,
+    0, tcp_shutdown,
+    sizeof(TCPContext),
+    &tcp_context_class,
+    URL_PROTOCOL_FLAG_NETWORK,
+#else
+	.name                = "tcp",
     .url_open            = tcp_open,
     .url_read            = tcp_read,
     .url_write           = tcp_write,
@@ -230,4 +255,5 @@ URLProtocol ff_tcp_protocol = {
     .priv_data_size      = sizeof(TCPContext),
     .priv_data_class     = &tcp_context_class,
     .flags               = URL_PROTOCOL_FLAG_NETWORK,
+#endif
 };

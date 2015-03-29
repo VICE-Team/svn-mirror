@@ -137,8 +137,25 @@ static av_cold int pnm_encode_close(AVCodecContext *avctx)
 }
 
 #if CONFIG_PGM_ENCODER
+
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp1[] = {
+        AV_PIX_FMT_GRAY8, AV_PIX_FMT_GRAY16BE, AV_PIX_FMT_NONE
+    };
+#endif
+
 AVCodec ff_pgm_encoder = {
-    .name           = "pgm",
+#ifdef IDE_COMPILE
+    "pgm",
+    "PGM (Portable GrayMap) image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_PGM,
+    0, 0, tmp1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, pnm_encode_init,
+    0, pnm_encode_frame,
+    0, pnm_encode_close,
+#else
+	.name           = "pgm",
     .long_name      = NULL_IF_CONFIG_SMALL("PGM (Portable GrayMap) image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_PGM,
@@ -148,12 +165,30 @@ AVCodec ff_pgm_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]){
         AV_PIX_FMT_GRAY8, AV_PIX_FMT_GRAY16BE, AV_PIX_FMT_NONE
     },
+#endif
 };
 #endif
 
 #if CONFIG_PGMYUV_ENCODER
+
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp2[] = {
+        AV_PIX_FMT_YUV420P, AV_PIX_FMT_YUV420P16BE, AV_PIX_FMT_NONE
+    };
+#endif
+
 AVCodec ff_pgmyuv_encoder = {
-    .name           = "pgmyuv",
+#ifdef IDE_COMPILE
+    "pgmyuv",
+    "PGMYUV (Portable GrayMap YUV) image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_PGMYUV,
+    0, 0, tmp2,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, pnm_encode_init,
+    0, pnm_encode_frame,
+    0, pnm_encode_close,
+#else
+	.name           = "pgmyuv",
     .long_name      = NULL_IF_CONFIG_SMALL("PGMYUV (Portable GrayMap YUV) image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_PGMYUV,
@@ -163,12 +198,30 @@ AVCodec ff_pgmyuv_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]){
         AV_PIX_FMT_YUV420P, AV_PIX_FMT_YUV420P16BE, AV_PIX_FMT_NONE
     },
+#endif
 };
 #endif
 
 #if CONFIG_PPM_ENCODER
+
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp3[] = {
+        AV_PIX_FMT_RGB24, AV_PIX_FMT_RGB48BE, AV_PIX_FMT_NONE
+    };
+#endif
+
 AVCodec ff_ppm_encoder = {
-    .name           = "ppm",
+#ifdef IDE_COMPILE
+    "ppm",
+    "PPM (Portable PixelMap) image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_PPM,
+    0, 0, tmp3,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, pnm_encode_init,
+    0, pnm_encode_frame,
+    0, pnm_encode_close,
+#else
+	.name           = "ppm",
     .long_name      = NULL_IF_CONFIG_SMALL("PPM (Portable PixelMap) image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_PPM,
@@ -178,12 +231,29 @@ AVCodec ff_ppm_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]){
         AV_PIX_FMT_RGB24, AV_PIX_FMT_RGB48BE, AV_PIX_FMT_NONE
     },
+#endif
 };
 #endif
 
 #if CONFIG_PBM_ENCODER
+
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp4[] = { AV_PIX_FMT_MONOWHITE,
+                                                  AV_PIX_FMT_NONE };
+#endif
+
 AVCodec ff_pbm_encoder = {
-    .name           = "pbm",
+#ifdef IDE_COMPILE
+    "pbm",
+    "PBM (Portable BitMap) image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_PBM,
+    0, 0, tmp4,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, pnm_encode_init,
+    0, pnm_encode_frame,
+    0, pnm_encode_close,
+#else
+	.name           = "pbm",
     .long_name      = NULL_IF_CONFIG_SMALL("PBM (Portable BitMap) image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_PBM,
@@ -192,5 +262,6 @@ AVCodec ff_pbm_encoder = {
     .encode2        = pnm_encode_frame,
     .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_MONOWHITE,
                                                   AV_PIX_FMT_NONE },
+#endif
 };
 #endif

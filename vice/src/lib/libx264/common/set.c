@@ -88,8 +88,11 @@ int x264_cqm_init( x264_t *h )
     int num_8x8_lists = h->sps->i_chroma_format_idc == CHROMA_444 ? 4
                       : h->param.analyse.b_transform_8x8 ? 2 : 0; /* Checkasm may segfault if optimized out by --chroma-format */
 
+	int i;
+	int q;
+
 #define CQM_ALLOC( w, count )\
-    for( int i = 0; i < count; i++ )\
+    for( i = 0; i < count; i++ )\
     {\
         int size = w*w;\
         int start = w == 8 ? 4 : 0;\
@@ -128,15 +131,15 @@ int x264_cqm_init( x264_t *h )
     CQM_ALLOC( 4, 4 )
     CQM_ALLOC( 8, num_8x8_lists )
 
-    for( int q = 0; q < 6; q++ )
+    for( q = 0; q < 6; q++ )
     {
-        for( int i = 0; i < 16; i++ )
+        for( i = 0; i < 16; i++ )
         {
             int j = (i&1) + ((i>>2)&1);
             def_dequant4[q][i] = dequant4_scale[q][j];
             def_quant4[q][i]   =   quant4_scale[q][j];
         }
-        for( int i = 0; i < 64; i++ )
+        for( i = 0; i < 64; i++ )
         {
             int j = quant8_scan[((i>>1)&12) | (i&3)];
             def_dequant8[q][i] = dequant8_scale[q][j];
@@ -144,26 +147,30 @@ int x264_cqm_init( x264_t *h )
         }
     }
 
-    for( int q = 0; q < 6; q++ )
+    for( q = 0; q < 6; q++ )
     {
-        for( int i_list = 0; i_list < 4; i_list++ )
-            for( int i = 0; i < 16; i++ )
+        int i_list;
+
+		for( i_list = 0; i_list < 4; i_list++ )
+            for( i = 0; i < 16; i++ )
             {
                 h->dequant4_mf[i_list][q][i] = def_dequant4[q][i] * h->pps->scaling_list[i_list][i];
                      quant4_mf[i_list][q][i] = DIV(def_quant4[q][i] * 16, h->pps->scaling_list[i_list][i]);
             }
-        for( int i_list = 0; i_list < num_8x8_lists; i_list++ )
-            for( int i = 0; i < 64; i++ )
+        for( i_list = 0; i_list < num_8x8_lists; i_list++ )
+            for( i = 0; i < 64; i++ )
             {
                 h->dequant8_mf[i_list][q][i] = def_dequant8[q][i] * h->pps->scaling_list[4+i_list][i];
                      quant8_mf[i_list][q][i] = DIV(def_quant8[q][i] * 16, h->pps->scaling_list[4+i_list][i]);
             }
     }
-    for( int q = 0; q <= QP_MAX_SPEC; q++ )
+    for( q = 0; q <= QP_MAX_SPEC; q++ )
     {
         int j;
-        for( int i_list = 0; i_list < 4; i_list++ )
-            for( int i = 0; i < 16; i++ )
+		int i_list;
+
+		for( i_list = 0; i_list < 4; i_list++ )
+            for( i = 0; i < 16; i++ )
             {
                 h->unquant4_mf[i_list][q][i] = (1ULL << (q/6 + 15 + 8)) / quant4_mf[i_list][q%6][i];
                 h->quant4_mf[i_list][q][i] = j = SHIFT(quant4_mf[i_list][q%6][i], q/6 - 1);
@@ -181,8 +188,8 @@ int x264_cqm_init( x264_t *h )
                     max_chroma_qp_err = q;
             }
         if( h->param.analyse.b_transform_8x8 )
-            for( int i_list = 0; i_list < num_8x8_lists; i_list++ )
-                for( int i = 0; i < 64; i++ )
+            for( i_list = 0; i_list < num_8x8_lists; i_list++ )
+                for( i = 0; i < 64; i++ )
                 {
                     h->unquant8_mf[i_list][q][i] = (1ULL << (q/6 + 16 + 8)) / quant8_mf[i_list][q%6][i];
                     j = SHIFT(quant8_mf[i_list][q%6][i], q/6);
@@ -205,47 +212,61 @@ int x264_cqm_init( x264_t *h )
     /* Emergency mode denoising. */
     x264_emms();
     CHECKED_MALLOC( h->nr_offset_emergency, sizeof(*h->nr_offset_emergency)*(QP_MAX-QP_MAX_SPEC) );
-    for( int q = 0; q < QP_MAX - QP_MAX_SPEC; q++ )
-        for( int cat = 0; cat < 3 + CHROMA444; cat++ )
+    for( q = 0; q < QP_MAX - QP_MAX_SPEC; q++ ) {
+		int cat;
+		for( cat = 0; cat < 3 + CHROMA444; cat++ )
         {
             int dct8x8 = cat&1;
-            if( !h->param.analyse.b_transform_8x8 && dct8x8 )
+            int size;
+            udctcoef *nr_offset;
+            /* Denoise chroma first (due to h264's chroma QP offset), then luma, then DC. */
+            int dc_threshold;
+            int luma_threshold;
+            int chroma_threshold;
+
+			if( !h->param.analyse.b_transform_8x8 && dct8x8 )
                 continue;
 
-            int size = dct8x8 ? 64 : 16;
-            udctcoef *nr_offset = h->nr_offset_emergency[q][cat];
+            size = dct8x8 ? 64 : 16;
+            nr_offset = h->nr_offset_emergency[q][cat];
             /* Denoise chroma first (due to h264's chroma QP offset), then luma, then DC. */
-            int dc_threshold =    (QP_MAX-QP_MAX_SPEC)*2/3;
-            int luma_threshold =  (QP_MAX-QP_MAX_SPEC)*2/3;
-            int chroma_threshold = 0;
+            dc_threshold =    (QP_MAX-QP_MAX_SPEC)*2/3;
+            luma_threshold =  (QP_MAX-QP_MAX_SPEC)*2/3;
+            chroma_threshold = 0;
 
-            for( int i = 0; i < size; i++ )
+            for( i = 0; i < size; i++ )
             {
+                int thresh;
                 int max = (1 << (7 + BIT_DEPTH)) - 1;
-                /* True "emergency mode": remove all DCT coefficients */
+                double pos;
+                double start;
+                double bias;
+
+				/* True "emergency mode": remove all DCT coefficients */
                 if( q == QP_MAX - QP_MAX_SPEC - 1 )
                 {
                     nr_offset[i] = max;
                     continue;
                 }
 
-                int thresh = i == 0 ? dc_threshold : cat >= 2 ? chroma_threshold : luma_threshold;
+                thresh = i == 0 ? dc_threshold : cat >= 2 ? chroma_threshold : luma_threshold;
                 if( q < thresh )
                 {
                     nr_offset[i] = 0;
                     continue;
                 }
-                double pos = (double)(q-thresh+1) / (QP_MAX - QP_MAX_SPEC - thresh);
+                pos = (double)(q-thresh+1) / (QP_MAX - QP_MAX_SPEC - thresh);
 
                 /* XXX: this math is largely tuned for /dev/random input. */
-                double start = dct8x8 ? h->unquant8_mf[CQM_8PY][QP_MAX_SPEC][i]
-                                      : h->unquant4_mf[CQM_4PY][QP_MAX_SPEC][i];
+                start = dct8x8 ? h->unquant8_mf[CQM_8PY][QP_MAX_SPEC][i]
+                                 : h->unquant4_mf[CQM_4PY][QP_MAX_SPEC][i];
                 /* Formula chosen as an exponential scale to vaguely mimic the effects
                  * of a higher quantizer. */
-                double bias = (pow( 2, pos*(QP_MAX - QP_MAX_SPEC)/10. )*0.003-0.003) * start;
+                bias = (pow( 2, pos*(QP_MAX - QP_MAX_SPEC)/10. )*0.003-0.003) * start;
                 nr_offset[i] = X264_MIN( bias + 0.5, max );
             }
         }
+	}
 
     if( !h->mb.b_lossless )
     {
@@ -272,7 +293,7 @@ fail:
 }
 
 #define CQM_DELETE( n, max )\
-    for( int i = 0; i < (max); i++ )\
+    for( i = 0; i < (max); i++ )\
     {\
         int j;\
         for( j = 0; j < i; j++ )\
@@ -296,7 +317,8 @@ fail:
 
 void x264_cqm_delete( x264_t *h )
 {
-    CQM_DELETE( 4, 4 );
+	int i;
+	CQM_DELETE( 4, 4 );
     CQM_DELETE( 8, CHROMA444 ? 4 : 2 );
     x264_free( h->nr_offset_emergency );
 }
@@ -305,8 +327,9 @@ static int x264_cqm_parse_jmlist( x264_t *h, const char *buf, const char *name,
                                   uint8_t *cqm, const uint8_t *jvt, int length )
 {
     int i;
-
+    char *nextvar;
     char *p = strstr( buf, name );
+
     if( !p )
     {
         memset( cqm, 16, length );
@@ -317,7 +340,7 @@ static int x264_cqm_parse_jmlist( x264_t *h, const char *buf, const char *name,
     if( *p == 'U' || *p == 'V' )
         p++;
 
-    char *nextvar = strstr( p, "INT" );
+    nextvar = strstr( p, "INT" );
 
     for( i = 0; i < length && (p = strpbrk( p, " \t\n," )) && (p = strpbrk( p, "0123456789" )); i++ )
     {
@@ -349,10 +372,11 @@ int x264_cqm_parse_file( x264_t *h, const char *filename )
 {
     char *p;
     int b_error = 0;
+    char *buf;
 
     h->param.i_cqm_preset = X264_CQM_CUSTOM;
 
-    char *buf = x264_slurp_file( filename );
+    buf = x264_slurp_file( filename );
     if( !buf )
     {
         x264_log( h, X264_LOG_ERROR, "can't open file '%s'\n", filename );

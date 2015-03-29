@@ -82,18 +82,29 @@ typedef struct {
     int64_t dts_max;
 } AVIContext;
 
-
 static const AVOption options[] = {
-    { "use_odml", "use odml index", offsetof(AVIContext, use_odml), AV_OPT_TYPE_INT, {.i64 = 1}, -1, 1, AV_OPT_FLAG_DECODING_PARAM},
-    { NULL },
+#ifdef IDE_COMPILE
+	{ "use_odml", "use odml index", offsetof(AVIContext, use_odml), AV_OPT_TYPE_INT, {1}, -1, 1, AV_OPT_FLAG_DECODING_PARAM},
+#else
+	{ "use_odml", "use odml index", offsetof(AVIContext, use_odml), AV_OPT_TYPE_INT, {.i64 = 1}, -1, 1, AV_OPT_FLAG_DECODING_PARAM},
+#endif
+	{ NULL },
 };
 
 static const AVClass demuxer_class = {
-    .class_name = "avi",
+#ifdef IDE_COMPILE
+    "avi",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+    0, 0, 0, 0, AV_CLASS_CATEGORY_DEMUXER,
+#else
+	.class_name = "avi",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
     .category   = AV_CLASS_CATEGORY_DEMUXER,
+#endif
 };
 
 
@@ -1021,9 +1032,16 @@ static int read_gab2_sub(AVStream *st, AVPacket *pkt)
         avio_rl32(pb);   /* data size */
 
         size = pb->buf_end - pb->buf_ptr;
-        pd = (AVProbeData) { .buf      = av_mallocz(size + AVPROBE_PADDING_SIZE),
+#ifdef IDE_COMPILE
+        {
+			AVProbeData tmpx = { 0, av_mallocz(size + 32), size };
+			pd = tmpx;
+		}
+#else
+		pd = (AVProbeData) { .buf      = av_mallocz(size + AVPROBE_PADDING_SIZE),
                              .buf_size = size };
-        if (!pd.buf)
+#endif
+		if (!pd.buf)
             goto error;
         memcpy(pd.buf, pb->buf_ptr, size);
         sub_demuxer = av_probe_input_format2(&pd, 1, &score);
@@ -1059,16 +1077,30 @@ static AVStream *get_subtitle_pkt(AVFormatContext *s, AVStream *next_st,
     int64_t ts, next_ts, ts_min = INT64_MAX;
     AVStream *st, *sub_st = NULL;
     int i;
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
 
-    next_ts = av_rescale_q(next_ast->frame_offset, next_st->time_base,
+#ifdef IDE_COMPILE
+    tmp.num = 1;
+	tmp.den = AV_TIME_BASE;
+	next_ts = av_rescale_q(next_ast->frame_offset, next_st->time_base,
+                           tmp);
+#else
+	next_ts = av_rescale_q(next_ast->frame_offset, next_st->time_base,
                            AV_TIME_BASE_Q);
+#endif
 
     for (i = 0; i < s->nb_streams; i++) {
         st  = s->streams[i];
         ast = st->priv_data;
         if (st->discard < AVDISCARD_ALL && ast && ast->sub_pkt.data) {
-            ts = av_rescale_q(ast->sub_pkt.dts, st->time_base, AV_TIME_BASE_Q);
-            if (ts <= next_ts && ts < ts_min) {
+#ifdef IDE_COMPILE
+			ts = av_rescale_q(ast->sub_pkt.dts, st->time_base, tmp);
+#else
+			ts = av_rescale_q(ast->sub_pkt.dts, st->time_base, AV_TIME_BASE_Q);
+#endif
+			if (ts <= next_ts && ts < ts_min) {
                 ts_min = ts;
                 sub_st = st;
             }
@@ -1274,6 +1306,9 @@ static int avi_read_packet(AVFormatContext *s, AVPacket *pkt)
             AVIStream *ast = st->priv_data;
             int64_t ts     = ast->frame_offset;
             int64_t last_ts;
+#ifdef IDE_COMPILE
+			AVRational tmp;
+#endif
 
             if (!st->nb_index_entries)
                 continue;
@@ -1282,9 +1317,15 @@ static int avi_read_packet(AVFormatContext *s, AVPacket *pkt)
             if (!ast->remaining && ts > last_ts)
                 continue;
 
-            ts = av_rescale_q(ts, st->time_base,
+#ifdef IDE_COMPILE
+			tmp.num = FFMAX(1, ast->sample_size);
+			tmp.den = AV_TIME_BASE;
+			ts = av_rescale_q(ts, st->time_base, tmp);
+#else
+			ts = av_rescale_q(ts, st->time_base,
                               (AVRational) { FFMAX(1, ast->sample_size),
                                              AV_TIME_BASE });
+#endif
 
             av_dlog(s, "%"PRId64" %d/%d %"PRId64"\n", ts,
                     st->time_base.num, st->time_base.den, ast->frame_offset);
@@ -1456,7 +1497,16 @@ FF_ENABLE_DEPRECATION_WARNINGS
         ast->seek_pos= 0;
 
         if (!avi->non_interleaved && st->nb_index_entries>1 && avi->index_loaded>1) {
-            int64_t dts= av_rescale_q(pkt->dts, st->time_base, AV_TIME_BASE_Q);
+#ifdef IDE_COMPILE
+			int64_t dts;
+            AVRational tmp;
+
+			tmp.num = 1;
+			tmp.den = AV_TIME_BASE;
+			dts = av_rescale_q(pkt->dts, st->time_base, tmp);
+#else
+			int64_t dts= av_rescale_q(pkt->dts, st->time_base, AV_TIME_BASE_Q);
+#endif
 
             if (avi->dts_max - dts > 2*AV_TIME_BASE) {
                 avi->non_interleaved= 1;
@@ -1578,9 +1628,19 @@ static int check_stream_max_drift(AVFormatContext *s)
                 idx[i]++;
             if (idx[i] < n) {
                 int64_t dts;
-                dts = av_rescale_q(st->index_entries[idx[i]].timestamp /
+#ifdef IDE_COMPILE
+                AVRational tmp;
+
+                tmp.num = 1;
+				tmp.den = AV_TIME_BASE;
+				dts = av_rescale_q(st->index_entries[idx[i]].timestamp /
+                                   FFMAX(ast->sample_size, 1),
+                                   st->time_base, tmp);
+#else
+				dts = av_rescale_q(st->index_entries[idx[i]].timestamp /
                                    FFMAX(ast->sample_size, 1),
                                    st->time_base, AV_TIME_BASE_Q);
+#endif
                 min_dts = FFMIN(min_dts, dts);
                 min_pos = FFMIN(min_pos, st->index_entries[idx[i]].pos);
             }
@@ -1591,10 +1651,20 @@ static int check_stream_max_drift(AVFormatContext *s)
 
             if (idx[i] && min_dts != INT64_MAX / 2) {
                 int64_t dts;
-                dts = av_rescale_q(st->index_entries[idx[i] - 1].timestamp /
+#ifdef IDE_COMPILE
+                AVRational tmp;
+				
+				tmp.num = 1;
+				tmp.den = AV_TIME_BASE;
+				dts = av_rescale_q(st->index_entries[idx[i] - 1].timestamp /
+                                   FFMAX(ast->sample_size, 1),
+                                   st->time_base, tmp);
+#else
+				dts = av_rescale_q(st->index_entries[idx[i] - 1].timestamp /
                                    FFMAX(ast->sample_size, 1),
                                    st->time_base, AV_TIME_BASE_Q);
-                max_dts = FFMAX(max_dts, dts);
+#endif
+				max_dts = FFMAX(max_dts, dts);
                 max_buffer = FFMAX(max_buffer,
                                    av_rescale(dts - min_dts,
                                               st->codec->bit_rate,
@@ -1859,7 +1929,19 @@ static int avi_probe(AVProbeData *p)
 }
 
 AVInputFormat ff_avi_demuxer = {
-    .name           = "avi",
+#ifdef IDE_COMPILE
+    "avi",
+    "AVI (Audio Video Interleaved)",
+    0, "avi",
+    0, &demuxer_class,
+    0, 0, 0, sizeof(AVIContext),
+    avi_probe,
+    avi_read_header,
+    avi_read_packet,
+    avi_read_close,
+    avi_read_seek,
+#else
+	.name           = "avi",
     .long_name      = NULL_IF_CONFIG_SMALL("AVI (Audio Video Interleaved)"),
     .priv_data_size = sizeof(AVIContext),
     .extensions     = "avi",
@@ -1869,4 +1951,5 @@ AVInputFormat ff_avi_demuxer = {
     .read_close     = avi_read_close,
     .read_seek      = avi_read_seek,
     .priv_class = &demuxer_class,
+#endif
 };

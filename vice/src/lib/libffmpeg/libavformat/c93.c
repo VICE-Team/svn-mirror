@@ -88,8 +88,13 @@ static int read_header(AVFormatContext *s)
     video->codec->width = 320;
     video->codec->height = 192;
     /* 4:3 320x200 with 8 empty lines */
-    video->sample_aspect_ratio = (AVRational) { 5, 6 };
-    avpriv_set_pts_info(video, 64, 2, 25);
+#ifdef IDE_COMPILE
+	video->sample_aspect_ratio.num = 5;
+	video->sample_aspect_ratio.den = 6;
+#else
+	video->sample_aspect_ratio = (AVRational) { 5, 6 };
+#endif
+	avpriv_set_pts_info(video, 64, 2, 25);
     video->nb_frames = framecount;
     video->duration = framecount;
     video->start_time = 0;
@@ -193,10 +198,19 @@ static int read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_c93_demuxer = {
-    .name           = "c93",
+#ifdef IDE_COMPILE
+    "c93",
+    "Interplay C93",
+    0, 0, 0, 0, 0, 0, 0, sizeof(C93DemuxContext),
+    probe,
+    read_header,
+    read_packet,
+#else
+	.name           = "c93",
     .long_name      = NULL_IF_CONFIG_SMALL("Interplay C93"),
     .priv_data_size = sizeof(C93DemuxContext),
     .read_probe     = probe,
     .read_header    = read_header,
     .read_packet    = read_packet,
+#endif
 };

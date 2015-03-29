@@ -242,7 +242,17 @@ static int idcin_decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_idcin_decoder = {
-    .name           = "idcinvideo",
+#ifdef IDE_COMPILE
+    "idcinvideo",
+    "id Quake II CIN video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_IDCIN,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(IdcinContext),
+    0, 0, 0, 0, 0, idcin_decode_init,
+    0, 0, idcin_decode_frame,
+#else
+	.name           = "idcinvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("id Quake II CIN video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_IDCIN,
@@ -250,4 +260,5 @@ AVCodec ff_idcin_decoder = {
     .init           = idcin_decode_init,
     .decode         = idcin_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

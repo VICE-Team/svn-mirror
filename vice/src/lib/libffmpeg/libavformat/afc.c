@@ -69,11 +69,21 @@ static int afc_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_afc_demuxer = {
-    .name           = "afc",
+#ifdef IDE_COMPILE
+    "afc",
+    "AFC",
+    AVFMT_NOBINSEARCH | AVFMT_NOGENSEARCH | AVFMT_NO_BYTE_SEEK,
+    "afc",
+    0, 0, 0, 0, 0, sizeof(AFCDemuxContext),
+    0, afc_read_header,
+    afc_read_packet,
+#else
+	.name           = "afc",
     .long_name      = NULL_IF_CONFIG_SMALL("AFC"),
     .priv_data_size = sizeof(AFCDemuxContext),
     .read_header    = afc_read_header,
     .read_packet    = afc_read_packet,
     .extensions     = "afc",
     .flags          = AVFMT_NOBINSEARCH | AVFMT_NOGENSEARCH | AVFMT_NO_BYTE_SEEK,
+#endif
 };

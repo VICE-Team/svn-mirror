@@ -225,8 +225,23 @@ static av_cold int xface_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_MONOWHITE, AV_PIX_FMT_NONE };
+#endif
+
 AVCodec ff_xface_encoder = {
-    .name           = "xface",
+#ifdef IDE_COMPILE
+    "xface",
+    "X-face image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_XFACE,
+    0, 0, tmp1,
+    0, 0, 0, 0, 0, 0, sizeof(XFaceContext),
+    0, 0, 0, 0, 0, xface_encode_init,
+    0, xface_encode_frame,
+    0, xface_encode_close,
+#else
+	.name           = "xface",
     .long_name      = NULL_IF_CONFIG_SMALL("X-face image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_XFACE,
@@ -235,4 +250,5 @@ AVCodec ff_xface_encoder = {
     .close          = xface_encode_close,
     .encode2        = xface_encode_frame,
     .pix_fmts       = (const enum PixelFormat[]) { AV_PIX_FMT_MONOWHITE, AV_PIX_FMT_NONE },
+#endif
 };

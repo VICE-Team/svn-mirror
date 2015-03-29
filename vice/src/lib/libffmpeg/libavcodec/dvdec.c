@@ -419,7 +419,18 @@ static int dvvideo_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_dvvideo_decoder = {
-    .name           = "dvvideo",
+#ifdef IDE_COMPILE
+    "dvvideo",
+    "DV (Digital Video)",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_DVVIDEO,
+    CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
+    0, 0, 0, 0, 0, 3,
+    0, 0, sizeof(DVVideoContext),
+    0, 0, 0, 0, 0, dvvideo_decode_init,
+    0, 0, dvvideo_decode_frame,
+#else
+	.name           = "dvvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("DV (Digital Video)"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_DVVIDEO,
@@ -428,4 +439,5 @@ AVCodec ff_dvvideo_decoder = {
     .decode         = dvvideo_decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
     .max_lowres     = 3,
+#endif
 };

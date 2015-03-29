@@ -134,7 +134,18 @@ static int mpl2_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_mpl2_demuxer = {
-    .name           = "mpl2",
+#ifdef IDE_COMPILE
+    "mpl2",
+    "MPL2 subtitles",
+    0, "txt,mpl2",
+    0, 0, 0, 0, 0, sizeof(MPL2Context),
+    mpl2_probe,
+    mpl2_read_header,
+    mpl2_read_packet,
+    mpl2_read_close,
+    0, 0, 0, 0, mpl2_read_seek,
+#else
+	.name           = "mpl2",
     .long_name      = NULL_IF_CONFIG_SMALL("MPL2 subtitles"),
     .priv_data_size = sizeof(MPL2Context),
     .read_probe     = mpl2_probe,
@@ -143,4 +154,5 @@ AVInputFormat ff_mpl2_demuxer = {
     .read_seek2     = mpl2_read_seek,
     .read_close     = mpl2_read_close,
     .extensions     = "txt,mpl2",
+#endif
 };

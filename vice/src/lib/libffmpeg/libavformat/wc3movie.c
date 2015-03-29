@@ -301,11 +301,21 @@ static int wc3_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_wc3_demuxer = {
-    .name           = "wc3movie",
+#ifdef IDE_COMPILE
+    "wc3movie",
+    "Wing Commander III movie",
+    0, 0, 0, 0, 0, 0, 0, sizeof(Wc3DemuxContext),
+    wc3_probe,
+    wc3_read_header,
+    wc3_read_packet,
+    wc3_read_close,
+#else
+	.name           = "wc3movie",
     .long_name      = NULL_IF_CONFIG_SMALL("Wing Commander III movie"),
     .priv_data_size = sizeof(Wc3DemuxContext),
     .read_probe     = wc3_probe,
     .read_header    = wc3_read_header,
     .read_packet    = wc3_read_packet,
     .read_close     = wc3_read_close,
+#endif
 };

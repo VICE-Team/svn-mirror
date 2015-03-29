@@ -75,10 +75,12 @@ static void *x264_threadpool_thread( x264_threadpool_t *pool )
 int x264_threadpool_init( x264_threadpool_t **p_pool, int threads,
                           void (*init_func)(void *), void *init_arg )
 {
-    if( threads <= 0 )
+    x264_threadpool_t *pool;
+	int i;
+
+	if( threads <= 0 )
         return -1;
 
-    x264_threadpool_t *pool;
     CHECKED_MALLOCZERO( pool, sizeof(x264_threadpool_t) );
     *p_pool = pool;
 
@@ -93,13 +95,13 @@ int x264_threadpool_init( x264_threadpool_t **p_pool, int threads,
         x264_sync_frame_list_init( &pool->done, pool->threads ) )
         goto fail;
 
-    for( int i = 0; i < pool->threads; i++ )
+    for( i = 0; i < pool->threads; i++ )
     {
        x264_threadpool_job_t *job;
        CHECKED_MALLOC( job, sizeof(x264_threadpool_job_t) );
        x264_sync_frame_list_push( &pool->uninit, (void*)job );
     }
-    for( int i = 0; i < pool->threads; i++ )
+    for( i = 0; i < pool->threads; i++ )
         if( x264_pthread_create( pool->thread_handle+i, NULL, (void*)x264_threadpool_thread, pool ) )
             goto fail;
 
@@ -118,12 +120,14 @@ void x264_threadpool_run( x264_threadpool_t *pool, void *(*func)(void *), void *
 
 void *x264_threadpool_wait( x264_threadpool_t *pool, void *arg )
 {
+    void *ret;
     x264_threadpool_job_t *job = NULL;
 
     x264_pthread_mutex_lock( &pool->done.mutex );
     while( !job )
     {
-        for( int i = 0; i < pool->done.i_size; i++ )
+		int i;
+		for( i = 0; i < pool->done.i_size; i++ )
         {
             x264_threadpool_job_t *t = (void*)pool->done.list[i];
             if( t->arg == arg )
@@ -137,14 +141,16 @@ void *x264_threadpool_wait( x264_threadpool_t *pool, void *arg )
     }
     x264_pthread_mutex_unlock( &pool->done.mutex );
 
-    void *ret = job->ret;
+    ret = job->ret;
     x264_sync_frame_list_push( &pool->uninit, (void*)job );
     return ret;
 }
 
 static void x264_threadpool_list_delete( x264_sync_frame_list_t *slist )
 {
-    for( int i = 0; slist->list[i]; i++ )
+	int i;
+
+	for( i = 0; slist->list[i]; i++ )
     {
         x264_free( slist->list[i] );
         slist->list[i] = NULL;
@@ -154,11 +160,13 @@ static void x264_threadpool_list_delete( x264_sync_frame_list_t *slist )
 
 void x264_threadpool_delete( x264_threadpool_t *pool )
 {
-    x264_pthread_mutex_lock( &pool->run.mutex );
+	int i;
+	x264_pthread_mutex_lock( &pool->run.mutex );
     pool->exit = 1;
     x264_pthread_cond_broadcast( &pool->run.cv_fill );
     x264_pthread_mutex_unlock( &pool->run.mutex );
-    for( int i = 0; i < pool->threads; i++ )
+
+	for( i = 0; i < pool->threads; i++ )
         x264_pthread_join( pool->thread_handle[i], NULL );
 
     x264_threadpool_list_delete( &pool->uninit );

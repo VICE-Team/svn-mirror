@@ -181,7 +181,7 @@ static int avs_read_packet(AVFormatContext * s, AVPacket * pkt)
 
             case AVS_VIDEO:
                 if (!avs->st_video) {
-                    avs->st_video = avformat_new_stream(s, NULL);
+    				avs->st_video = avformat_new_stream(s, NULL);
                     if (!avs->st_video)
                         return AVERROR(ENOMEM);
                     avs->st_video->codec->codec_type = AVMEDIA_TYPE_VIDEO;
@@ -191,10 +191,18 @@ static int avs_read_packet(AVFormatContext * s, AVPacket * pkt)
                     avs->st_video->codec->bits_per_coded_sample=avs->bits_per_sample;
                     avs->st_video->nb_frames = avs->nb_frames;
 #if FF_API_R_FRAME_RATE
-                    avs->st_video->r_frame_rate =
+#ifndef IDE_COMPILE
+					avs->st_video->r_frame_rate =
 #endif
-                    avs->st_video->avg_frame_rate = (AVRational){avs->fps, 1};
-                }
+#endif
+#ifdef IDE_COMPILE
+					avs->st_video->avg_frame_rate.num = avs->fps;
+					avs->st_video->avg_frame_rate.den = 1;
+					avs->st_video->r_frame_rate = avs->st_video->avg_frame_rate;
+#else
+					avs->st_video->avg_frame_rate = (AVRational){avs->fps, 1};
+#endif
+				}
                 return avs_read_video_packet(s, pkt, type, sub_type, size,
                                              palette, palette_size);
 
@@ -224,11 +232,21 @@ static int avs_read_close(AVFormatContext * s)
 }
 
 AVInputFormat ff_avs_demuxer = {
-    .name           = "avs",
+#ifdef IDE_COMPILE
+    "avs",
+    "AVS",
+    0, 0, 0, 0, 0, 0, 0, sizeof(AvsFormat),
+    avs_probe,
+    avs_read_header,
+    avs_read_packet,
+    avs_read_close,
+#else
+	.name           = "avs",
     .long_name      = NULL_IF_CONFIG_SMALL("AVS"),
     .priv_data_size = sizeof(AvsFormat),
     .read_probe     = avs_probe,
     .read_header    = avs_read_header,
     .read_packet    = avs_read_packet,
     .read_close     = avs_read_close,
+#endif
 };

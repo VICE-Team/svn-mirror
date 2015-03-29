@@ -48,9 +48,15 @@ typedef struct {
 #define CONTEXT SineContext
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
+#ifdef IDE_COMPILE
+#define OPT_GENERIC(name, field, def, min, max, descr, type, deffield, ...) \
+    { name, descr, offsetof(CONTEXT, field), AV_OPT_TYPE_ ## type,          \
+      { def }, min, max, FLAGS, __VA_ARGS__ }
+#else
 #define OPT_GENERIC(name, field, def, min, max, descr, type, deffield, ...) \
     { name, descr, offsetof(CONTEXT, field), AV_OPT_TYPE_ ## type,          \
       { .deffield = def }, min, max, FLAGS, __VA_ARGS__ }
+#endif
 
 #define OPT_INT(name, field, def, min, max, descr, ...) \
     OPT_GENERIC(name, field, def, min, max, descr, INT, i64, __VA_ARGS__)
@@ -62,7 +68,7 @@ typedef struct {
     OPT_GENERIC(name, field, def, min, max, descr, DURATION, str, __VA_ARGS__)
 
 static const AVOption sine_options[] = {
-    OPT_DBL("frequency",         frequency,            440, 0, DBL_MAX,   "set the sine frequency"),
+	OPT_DBL("frequency",         frequency,            440, 0, DBL_MAX,   "set the sine frequency"),
     OPT_DBL("f",                 frequency,            440, 0, DBL_MAX,   "set the sine frequency"),
     OPT_DBL("beep_factor",       beep_factor,            0, 0, DBL_MAX,   "set the beep fequency factor"),
     OPT_DBL("b",                 beep_factor,            0, 0, DBL_MAX,   "set the beep fequency factor"),
@@ -202,16 +208,34 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad sine_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+        config_props,
+#else
+		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .request_frame = request_frame,
         .config_props  = config_props,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_asrc_sine = {
-    .name          = "sine",
+#ifdef IDE_COMPILE
+    "sine",
+    NULL_IF_CONFIG_SMALL("Generate sine wave audio signal."),
+    NULL,
+    sine_outputs,
+    &sine_class,
+    0, init,
+    0, uninit,
+    query_formats,
+    sizeof(SineContext),
+#else
+	.name          = "sine",
     .description   = NULL_IF_CONFIG_SMALL("Generate sine wave audio signal."),
     .query_formats = query_formats,
     .init          = init,
@@ -220,4 +244,5 @@ AVFilter ff_asrc_sine = {
     .inputs        = NULL,
     .outputs       = sine_outputs,
     .priv_class    = &sine_class,
+#endif
 };

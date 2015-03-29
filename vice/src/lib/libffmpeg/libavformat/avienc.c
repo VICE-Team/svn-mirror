@@ -384,10 +384,15 @@ static int avi_write_header(AVFormatContext *s)
             st->sample_aspect_ratio.num > 0 &&
             st->sample_aspect_ratio.den > 0) {
             int vprp       = ff_start_tag(pb, "vprp");
-            AVRational dar = av_mul_q(st->sample_aspect_ratio,
+#ifdef IDE_COMPILE
+			AVRational tmp = {enc->width, enc->height};
+			AVRational dar = av_mul_q(st->sample_aspect_ratio, tmp);
+#else
+			AVRational dar = av_mul_q(st->sample_aspect_ratio,
                                       (AVRational) { enc->width,
                                                      enc->height });
-            int num, den;
+#endif
+			int num, den;
             av_reduce(&num, &den, dar.num, dar.den, 0xFFFF);
 
             avio_wl32(pb, 0); // video format   = unknown
@@ -581,8 +586,15 @@ static int avi_write_packet(AVFormatContext *s, AVPacket *pkt)
         if (ret < 0)
             return ret;
     }
-    av_dlog(s, "dts:%s packet_count:%d stream_index:%d\n", av_ts2str(pkt->dts), avist->packet_count, stream_index);
-    while (enc->block_align == 0 && pkt->dts != AV_NOPTS_VALUE &&
+#ifdef IDE_COMPILE
+	{
+		char tmpx[32] = {0};
+    	av_dlog(s, "dts:%s packet_count:%d stream_index:%d\n", av_ts_make_string(tmpx, pkt->dts), avist->packet_count, stream_index);
+	}
+#else
+	av_dlog(s, "dts:%s packet_count:%d stream_index:%d\n", av_ts2str(pkt->dts), avist->packet_count, stream_index);
+#endif
+	while (enc->block_align == 0 && pkt->dts != AV_NOPTS_VALUE &&
            pkt->dts > avist->packet_count && enc->codec_id != AV_CODEC_ID_XSUB && avist->packet_count) {
         AVPacket empty_packet;
 
@@ -596,8 +608,16 @@ static int avi_write_packet(AVFormatContext *s, AVPacket *pkt)
         empty_packet.data         = NULL;
         empty_packet.stream_index = stream_index;
         avi_write_packet(s, &empty_packet);
-        av_dlog(s, "dup dts:%s packet_count:%d\n", av_ts2str(pkt->dts), avist->packet_count);
-    }
+#ifdef IDE_COMPILE
+		{
+			char tmp2[32] = {0};
+
+			av_dlog(s, "dup dts:%s packet_count:%d\n", av_ts_make_string(tmp2, pkt->dts), avist->packet_count);
+		}
+#else
+		av_dlog(s, "dup dts:%s packet_count:%d\n", av_ts2str(pkt->dts), avist->packet_count);
+#endif
+	}
     avist->packet_count++;
 
     // Make sure to put an OpenDML chunk when the file size exceeds the limits
@@ -711,8 +731,27 @@ static int avi_write_trailer(AVFormatContext *s)
     return res;
 }
 
+#ifdef IDE_COMPILE
+static const AVCodecTag * const tmp3[] = {
+        ff_codec_bmp_tags, ff_codec_wav_tags, 0
+    };
+#endif
+
 AVOutputFormat ff_avi_muxer = {
-    .name           = "avi",
+#ifdef IDE_COMPILE
+    "avi",
+    "AVI (Audio Video Interleaved)",
+    "video/x-msvideo",
+    "avi",
+    CONFIG_LIBMP3LAME ? AV_CODEC_ID_MP3 : AV_CODEC_ID_AC3,
+    AV_CODEC_ID_MPEG4,
+    0, 0, tmp3,
+    0, 0, sizeof(AVIContext),
+    avi_write_header,
+    avi_write_packet,
+    avi_write_trailer,
+#else
+	.name           = "avi",
     .long_name      = NULL_IF_CONFIG_SMALL("AVI (Audio Video Interleaved)"),
     .mime_type      = "video/x-msvideo",
     .extensions     = "avi",
@@ -725,4 +764,5 @@ AVOutputFormat ff_avi_muxer = {
     .codec_tag      = (const AVCodecTag * const []) {
         ff_codec_bmp_tags, ff_codec_wav_tags, 0
     },
+#endif
 };

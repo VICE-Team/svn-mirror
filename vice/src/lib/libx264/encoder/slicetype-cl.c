@@ -56,12 +56,13 @@ do\
 void x264_opencl_flush( x264_t *h )
 {
     x264_opencl_function_t *ocl = h->opencl.ocl;
+	int i;
 
     ocl->clFinish( h->opencl.queue );
 
     /* Finish copies from the GPU by copying from the page-locked buffer to
      * their final destination */
-    for( int i = 0; i < h->opencl.num_copies; i++ )
+    for( i = 0; i < h->opencl.num_copies; i++ )
         memcpy( h->opencl.copies[i].dest, h->opencl.copies[i].src, h->opencl.copies[i].bytes );
     h->opencl.num_copies = 0;
     h->opencl.pl_occupancy = 0;
@@ -69,22 +70,37 @@ void x264_opencl_flush( x264_t *h )
 
 static void *x264_opencl_alloc_locked( x264_t *h, int bytes )
 {
-    if( h->opencl.pl_occupancy + bytes >= PAGE_LOCKED_BUF_SIZE )
+    char *ptr;
+
+	if( h->opencl.pl_occupancy + bytes >= PAGE_LOCKED_BUF_SIZE )
         x264_opencl_flush( h );
     assert( bytes < PAGE_LOCKED_BUF_SIZE );
-    char *ptr = h->opencl.page_locked_ptr + h->opencl.pl_occupancy;
+    ptr = h->opencl.page_locked_ptr + h->opencl.pl_occupancy;
     h->opencl.pl_occupancy += bytes;
     return ptr;
 }
 
 int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
 {
-    if( fenc->b_intra_calculated )
+    x264_opencl_function_t *ocl;
+    int luma_length;
+    int mb_count;
+    cl_int status;
+    char *locked;
+    size_t gdim[2];
+    int stride;
+    cl_uint arg;
+	int i;
+    size_t ldim[2];
+    int slow;
+    int size;
+
+	if( fenc->b_intra_calculated )
         return 0;
     fenc->b_intra_calculated = 1;
 
-    x264_opencl_function_t *ocl = h->opencl.ocl;
-    int luma_length = fenc->i_stride[0] * fenc->i_lines[0];
+    ocl = h->opencl.ocl;
+    luma_length = fenc->i_stride[0] * fenc->i_lines[0];
 
 #define CREATEBUF( out, flags, size )\
     out = ocl->clCreateBuffer( h->opencl.context, (flags), (size), NULL, &status );\
@@ -93,21 +109,21 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
     out = ocl->clCreateImage2D( h->opencl.context, (flags), &pf, width, height, 0, NULL, &status );\
     if( status != CL_SUCCESS ) { h->param.b_opencl = 0; x264_log( h, X264_LOG_ERROR, "clCreateImage2D error '%d'\n", status ); return -1; }
 
-    int mb_count = h->mb.i_mb_count;
-    cl_int status;
+    mb_count = h->mb.i_mb_count;
 
     if( !h->opencl.lowres_mv_costs )
     {
         /* Allocate shared memory buffers */
         int width = h->mb.i_mb_width * 8 * sizeof(pixel);
         int height = h->mb.i_mb_height * 8 * sizeof(pixel);
-
-        cl_image_format pixel_format;
+		int i;
+ 
+		cl_image_format pixel_format;
         pixel_format.image_channel_order = CL_R;
         pixel_format.image_channel_data_type = CL_UNSIGNED_INT32;
         CREATEIMAGE( h->opencl.weighted_luma_hpel, CL_MEM_READ_WRITE, pixel_format, width, height );
 
-        for( int i = 0; i < NUM_IMAGE_SCALES; i++ )
+        for( i = 0; i < NUM_IMAGE_SCALES; i++ )
         {
             pixel_format.image_channel_order = CL_RGBA;
             pixel_format.image_channel_data_type = CL_UNSIGNED_INT8;
@@ -135,13 +151,14 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
         /* Allocate per-frame buffers */
         int width = h->mb.i_mb_width * 8 * sizeof(pixel);
         int height = h->mb.i_mb_height * 8 * sizeof(pixel);
+		int i;
 
         cl_image_format pixel_format;
         pixel_format.image_channel_order = CL_R;
         pixel_format.image_channel_data_type = CL_UNSIGNED_INT32;
         CREATEIMAGE( fenc->opencl.luma_hpel, CL_MEM_READ_WRITE, pixel_format, width, height );
 
-        for( int i = 0; i < NUM_IMAGE_SCALES; i++ )
+        for( i = 0; i < NUM_IMAGE_SCALES; i++ )
         {
             pixel_format.image_channel_order = CL_RGBA;
             pixel_format.image_channel_data_type = CL_UNSIGNED_INT8;
@@ -161,11 +178,10 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
 
     /* Copy image to the GPU, downscale to unpadded 8x8, then continue for all scales */
 
-    char *locked = x264_opencl_alloc_locked( h, luma_length );
+    locked = x264_opencl_alloc_locked( h, luma_length );
     memcpy( locked, fenc->plane[0], luma_length );
     OCLCHECK( clEnqueueWriteBuffer, h->opencl.queue,  h->opencl.luma_16x16_image[h->opencl.last_buf], CL_FALSE, 0, luma_length, locked, 0, NULL, NULL );
 
-    size_t gdim[2];
     if( h->param.rc.i_aq_mode && fenc->i_inv_qscale_factor )
     {
         int size = h->mb.i_mb_count * sizeof(int16_t);
@@ -184,8 +200,8 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
         OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.memset_kernel, 1, NULL, gdim, NULL, 0, NULL, NULL );
     }
 
-    int stride = fenc->i_stride[0];
-    cl_uint arg = 0;
+    stride = fenc->i_stride[0];
+    arg = 0;
     OCLCHECK( clSetKernelArg, h->opencl.downscale_hpel_kernel, arg++, sizeof(cl_mem), &h->opencl.luma_16x16_image[h->opencl.last_buf] );
     OCLCHECK( clSetKernelArg, h->opencl.downscale_hpel_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
     OCLCHECK( clSetKernelArg, h->opencl.downscale_hpel_kernel, arg++, sizeof(cl_mem), &fenc->opencl.luma_hpel );
@@ -194,7 +210,7 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
     gdim[1] = 8 * h->mb.i_mb_height;
     OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.downscale_hpel_kernel, 2, NULL, gdim, NULL, 0, NULL, NULL );
 
-    for( int i = 0; i < NUM_IMAGE_SCALES - 1; i++ )
+    for( i = 0; i < NUM_IMAGE_SCALES - 1; i++ )
     {
         /* Workaround for AMD Southern Island:
          *
@@ -214,7 +230,6 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
         OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, kern, 2, NULL, gdim, NULL, 0, NULL, NULL );
     }
 
-    size_t ldim[2];
     gdim[0] = ((h->mb.i_mb_width + 31)>>5)<<5;
     gdim[1] = 8*h->mb.i_mb_height;
     ldim[0] = 32;
@@ -225,7 +240,7 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
      * C lookahead supports.  For faster presets, only check the most frequent 8
      * modes
      */
-    int slow = h->param.analyse.i_subpel_refine > 7;
+    slow = h->param.analyse.i_subpel_refine > 7;
     OCLCHECK( clSetKernelArg, h->opencl.intra_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
     OCLCHECK( clSetKernelArg, h->opencl.intra_kernel, arg++, sizeof(cl_mem), &fenc->opencl.intra_cost );
     OCLCHECK( clSetKernelArg, h->opencl.intra_kernel, arg++, sizeof(cl_mem), &h->opencl.frame_stats[h->opencl.last_buf] );
@@ -249,7 +264,7 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
     if( h->opencl.num_copies >= MAX_FINISH_COPIES - 4 )
         x264_opencl_flush( h );
 
-    int size = h->mb.i_mb_count * sizeof(int16_t);
+    size = h->mb.i_mb_count * sizeof(int16_t);
     locked = x264_opencl_alloc_locked( h, size );
     OCLCHECK( clEnqueueReadBuffer, h->opencl.queue, fenc->opencl.intra_cost, CL_FALSE, 0, size, locked, 0, NULL, NULL );
     h->opencl.copies[h->opencl.num_copies].dest = fenc->lowres_costs[0][0];
@@ -354,15 +369,37 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
     cl_mem ref_luma_hpel;
     cl_int status;
 
-    if( w && w->weightfn )
+    const int num_iterations[NUM_IMAGE_SCALES] = { 1, 1, 2, 3 };
+    int b_first_iteration;
+    int b_reverse_references;
+    int A;
+    int mb_per_group;
+    int cost_local_size;
+    int mvc_local_size;
+    int mb_width;
+
+    size_t gdims[2];
+    size_t ldims[2];
+
+	int scale;
+
+    int satd_local_size;
+    cl_uint arg;
+
+    int mvlen;
+    char *locked;
+
+	if( w && w->weightfn )
     {
         size_t gdims[2];
+		int i;
+        cl_uint arg;
 
         gdims[0] = 8 * h->mb.i_mb_width;
         gdims[1] = 8 * h->mb.i_mb_height;
 
         /* WeightP: Perform a filter on fref->opencl.scaled_image2Ds[] and fref->opencl.luma_hpel */
-        for( int i = 0; i < NUM_IMAGE_SCALES; i++ )
+        for( i = 0; i < NUM_IMAGE_SCALES; i++ )
         {
             cl_uint arg = 0;
             OCLCHECK( clSetKernelArg, h->opencl.weightp_scaled_images_kernel, arg++, sizeof(cl_mem), &fref->opencl.scaled_image2Ds[i] );
@@ -378,7 +415,7 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
                 break;
         }
 
-        cl_uint arg = 0;
+        arg = 0;
         gdims[0] = 8 * h->mb.i_mb_width;
         gdims[1] = 8 * h->mb.i_mb_height;
 
@@ -390,36 +427,37 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
         OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.weightp_hpel_kernel, 2, NULL, gdims, NULL, 0, NULL, NULL );
 
         /* Use weighted reference planes for motion search */
-        for( int i = 0; i < NUM_IMAGE_SCALES; i++ )
+        for( i = 0; i < NUM_IMAGE_SCALES; i++ )
             ref_scaled_images[i] = h->opencl.weighted_scaled_images[i];
         ref_luma_hpel = h->opencl.weighted_luma_hpel;
     }
     else
     {
-        /* Use unweighted reference planes for motion search */
-        for( int i = 0; i < NUM_IMAGE_SCALES; i++ )
+		int i;
+
+		/* Use unweighted reference planes for motion search */
+        for( i = 0; i < NUM_IMAGE_SCALES; i++ )
             ref_scaled_images[i] = fref->opencl.scaled_image2Ds[i];
         ref_luma_hpel = fref->opencl.luma_hpel;
     }
 
-    const int num_iterations[NUM_IMAGE_SCALES] = { 1, 1, 2, 3 };
-    int b_first_iteration = 1;
-    int b_reverse_references = 1;
-    int A = 1;
+    b_first_iteration = 1;
+    b_reverse_references = 1;
+    A = 1;
 
-
-    int mb_per_group = 0;
-    int cost_local_size = 0;
-    int mvc_local_size = 0;
-    int mb_width;
-
-    size_t gdims[2];
-    size_t ldims[2];
+    mb_per_group = 0;
+    cost_local_size = 0;
+    mvc_local_size = 0;
 
     /* scale 0 is 8x8 */
-    for( int scale = NUM_IMAGE_SCALES-1; scale >= 0; scale-- )
+    for( scale = NUM_IMAGE_SCALES-1; scale >= 0; scale-- )
     {
-        mb_width = h->mb.i_mb_width >> scale;
+        int scaled_me_range;
+        int b_shift_index;
+        cl_uint arg;
+		int iter;
+
+		mb_width = h->mb.i_mb_width >> scale;
         gdims[0] = mb_width;
         gdims[1] = h->mb.i_mb_height >> scale;
         if( gdims[0] < 2 || gdims[1] < 2 )
@@ -430,10 +468,10 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
         mb_per_group = (ldims[0] >> 2) * ldims[1];
         cost_local_size = 4 * mb_per_group * sizeof(int16_t);
         mvc_local_size = 4 * mb_per_group * sizeof(int16_t) * 2;
-        int scaled_me_range = h->param.analyse.i_me_range >> scale;
-        int b_shift_index = 1;
+        scaled_me_range = h->param.analyse.i_me_range >> scale;
+        b_shift_index = 1;
 
-        cl_uint arg = 0;
+        arg = 0;
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[scale] );
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(cl_mem), &ref_scaled_images[scale] );
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(cl_mem), &h->opencl.mv_buffers[A] );
@@ -450,7 +488,7 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(int), &b_first_iteration );
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(int), &b_reverse_references );
 
-        for( int iter = 0; iter < num_iterations[scale]; iter++ )
+        for( iter = 0; iter < num_iterations[scale]; iter++ )
         {
             OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.hme_kernel, 2, NULL, gdims, ldims, 0, NULL, NULL );
 
@@ -472,8 +510,8 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
         }
     }
 
-    int satd_local_size = mb_per_group * sizeof(uint32_t) * 16;
-    cl_uint arg = 0;
+    satd_local_size = mb_per_group * sizeof(uint32_t) * 16;
+    arg = 0;
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &ref_luma_hpel );
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &h->opencl.mv_buffers[A] );
@@ -508,12 +546,12 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
 
     OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.subpel_refine_kernel, 2, NULL, gdims, ldims, 0, NULL, NULL );
 
-    int mvlen = 2 * sizeof(int16_t) * h->mb.i_mb_count;
+    mvlen = 2 * sizeof(int16_t) * h->mb.i_mb_count;
 
     if( h->opencl.num_copies >= MAX_FINISH_COPIES - 1 )
         x264_opencl_flush( h );
 
-    char *locked = x264_opencl_alloc_locked( h, mvlen );
+    locked = x264_opencl_alloc_locked( h, mvlen );
     h->opencl.copies[h->opencl.num_copies].src = locked;
     h->opencl.copies[h->opencl.num_copies].bytes = mvlen;
 
@@ -555,18 +593,26 @@ int x264_opencl_finalize_cost( x264_t *h, int lambda, x264_frame_t **frames, int
     size_t *ldims = NULL;
     int cost_local_size = 4;
     int satd_local_size = 4;
+    cl_uint arg;
+    size_t gdim[2];
+    size_t ldim[2] = { 256, 1 };
+    int size;
+    char *locked;
+
     if( b < p1 )
     {
-        /* For B frames, use 4 threads per MB for BIDIR checks */
+        int mb_per_group;
+
+		/* For B frames, use 4 threads per MB for BIDIR checks */
         ldims = ldim_bidir;
         gdims[0] <<= 2;
         x264_optimal_launch_dims( h, gdims, ldims, h->opencl.mode_select_kernel, h->opencl.device );
-        int mb_per_group = (ldims[0] >> 2) * ldims[1];
+        mb_per_group = (ldims[0] >> 2) * ldims[1];
         cost_local_size = 4 * mb_per_group * sizeof(int16_t);
         satd_local_size = 16 * mb_per_group * sizeof(uint32_t);
     }
 
-    cl_uint arg = 0;
+    arg = 0;
     OCLCHECK( clSetKernelArg, h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
     OCLCHECK( clSetKernelArg, h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fref0->opencl.luma_hpel );
     OCLCHECK( clSetKernelArg, h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fref1->opencl.luma_hpel );
@@ -590,8 +636,8 @@ int x264_opencl_finalize_cost( x264_t *h, int lambda, x264_frame_t **frames, int
     OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.mode_select_kernel, 2, NULL, gdims, ldims, 0, NULL, NULL );
 
     /* Sum costs across rows, atomicAdd down frame */
-    size_t gdim[2] = { 256, h->mb.i_mb_height };
-    size_t ldim[2] = { 256, 1 };
+    gdim[0] = 256;
+	gdim[1] = h->mb.i_mb_height;
 
     arg = 0;
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_inter_kernel, arg++, sizeof(cl_mem), &h->opencl.lowres_costs[h->opencl.last_buf] );
@@ -608,8 +654,8 @@ int x264_opencl_finalize_cost( x264_t *h, int lambda, x264_frame_t **frames, int
     if( h->opencl.num_copies >= MAX_FINISH_COPIES - 4 )
         x264_opencl_flush( h );
 
-    int size =  h->mb.i_mb_count * sizeof(int16_t);
-    char *locked = x264_opencl_alloc_locked( h, size );
+    size =  h->mb.i_mb_count * sizeof(int16_t);
+    locked = x264_opencl_alloc_locked( h, size );
     h->opencl.copies[h->opencl.num_copies].src = locked;
     h->opencl.copies[h->opencl.num_copies].dest = fenc->lowres_costs[b - p0][p1 - b];
     h->opencl.copies[h->opencl.num_copies].bytes = size;
@@ -652,16 +698,20 @@ void x264_opencl_slicetype_prep( x264_t *h, x264_frame_t **frames, int num_frame
 {
     if( h->param.b_opencl )
     {
+        int i;
 #ifdef _WIN32
-        /* Temporarily boost priority of this lookahead thread and the OpenCL
+        x264_opencl_function_t *ocl;
+        cl_int status;
+
+		/* Temporarily boost priority of this lookahead thread and the OpenCL
          * driver's thread until the end of this function.  On AMD GPUs this
          * greatly reduces the latency of enqueuing kernels and getting results
          * on Windows. */
         HANDLE id = GetCurrentThread();
         h->opencl.lookahead_thread_pri = GetThreadPriority( id );
         SetThreadPriority( id, THREAD_PRIORITY_ABOVE_NORMAL );
-        x264_opencl_function_t *ocl = h->opencl.ocl;
-        cl_int status = ocl->clGetCommandQueueInfo( h->opencl.queue, CL_QUEUE_THREAD_HANDLE_AMD, sizeof(HANDLE), &id, NULL );
+        ocl = h->opencl.ocl;
+        status = ocl->clGetCommandQueueInfo( h->opencl.queue, CL_QUEUE_THREAD_HANDLE_AMD, sizeof(HANDLE), &id, NULL );
         if( status == CL_SUCCESS )
         {
             h->opencl.opencl_thread_pri = GetThreadPriority( id );
@@ -670,18 +720,23 @@ void x264_opencl_slicetype_prep( x264_t *h, x264_frame_t **frames, int num_frame
 #endif
 
         /* precalculate intra and I frames */
-        for( int i = 0; i <= num_frames; i++ )
+        for( i = 0; i <= num_frames; i++ )
             x264_opencl_lowres_init( h, frames[i], lambda );
         x264_opencl_flush( h );
 
         if( h->param.i_bframe_adaptive == X264_B_ADAPT_TRELLIS && h->param.i_bframe )
         {
-            /* For trellis B-Adapt, precompute exhaustive motion searches */
-            for( int b = 0; b <= num_frames; b++ )
+			int b;
+
+			/* For trellis B-Adapt, precompute exhaustive motion searches */
+            for( b = 0; b <= num_frames; b++ )
             {
-                for( int j = 1; j < h->param.i_bframe; j++ )
+				int j;
+
+                for( j = 1; j < h->param.i_bframe; j++ )
                 {
                     int p0 = b - j;
+                    int p1;
                     if( p0 >= 0 && frames[b]->lowres_mvs[0][b-p0-1][0][0] == 0x7FFF )
                     {
                         const x264_weight_t *w = x264_weight_none;
@@ -695,7 +750,7 @@ void x264_opencl_slicetype_prep( x264_t *h, x264_frame_t **frames, int num_frame
                         frames[b]->lowres_mvs[0][b-p0-1][0][0] = 0;
                         x264_opencl_motionsearch( h, frames, b, p0, 0, lambda, w );
                     }
-                    int p1 = b + j;
+                    p1 = b + j;
                     if( p1 <= num_frames && frames[b]->lowres_mvs[1][p1-b-1][0][0] == 0x7FFF )
                     {
                         frames[b]->lowres_mvs[1][p1-b-1][0][0] = 0;
@@ -715,10 +770,12 @@ void x264_opencl_slicetype_end( x264_t *h )
 #ifdef _WIN32
     if( h->param.b_opencl )
     {
+        x264_opencl_function_t *ocl;
+        cl_int status;
         HANDLE id = GetCurrentThread();
         SetThreadPriority( id, h->opencl.lookahead_thread_pri );
-        x264_opencl_function_t *ocl = h->opencl.ocl;
-        cl_int status = ocl->clGetCommandQueueInfo( h->opencl.queue, CL_QUEUE_THREAD_HANDLE_AMD, sizeof(HANDLE), &id, NULL );
+        ocl = h->opencl.ocl;
+        status = ocl->clGetCommandQueueInfo( h->opencl.queue, CL_QUEUE_THREAD_HANDLE_AMD, sizeof(HANDLE), &id, NULL );
         if( status == CL_SUCCESS )
             SetThreadPriority( id, h->opencl.opencl_thread_pri );
     }

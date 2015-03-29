@@ -252,7 +252,17 @@ static int read_seek(AVFormatContext *s, int stream_index,
 }
 
 AVInputFormat ff_jv_demuxer = {
-    .name           = "jv",
+#ifdef IDE_COMPILE
+    "jv",
+    "Bitmap Brothers JV",
+    0, 0, 0, 0, 0, 0, 0, sizeof(JVDemuxContext),
+    read_probe,
+    read_header,
+    read_packet,
+    read_close,
+    read_seek,
+#else
+	.name           = "jv",
     .long_name      = NULL_IF_CONFIG_SMALL("Bitmap Brothers JV"),
     .priv_data_size = sizeof(JVDemuxContext),
     .read_probe     = read_probe,
@@ -260,4 +270,5 @@ AVInputFormat ff_jv_demuxer = {
     .read_packet    = read_packet,
     .read_seek      = read_seek,
     .read_close     = read_close,
+#endif
 };

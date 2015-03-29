@@ -25,7 +25,14 @@
 #define AVUTIL_LIBM_H
 
 #include <math.h>
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "attributes.h"
 #include "intfloat.h"
 

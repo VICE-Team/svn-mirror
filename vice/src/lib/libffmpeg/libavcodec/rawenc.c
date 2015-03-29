@@ -75,11 +75,21 @@ static av_cold int raw_close(AVCodecContext *avctx)
 }
 
 AVCodec ff_rawvideo_encoder = {
-    .name           = "rawvideo",
+#ifdef IDE_COMPILE
+    "rawvideo",
+    "raw video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_RAWVIDEO,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, raw_encode_init,
+    0, raw_encode,
+    0, raw_close,
+#else
+	.name           = "rawvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("raw video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_RAWVIDEO,
     .init           = raw_encode_init,
     .encode2        = raw_encode,
     .close          = raw_close,
+#endif
 };

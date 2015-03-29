@@ -55,8 +55,13 @@ static av_cold int tgv_decode_init(AVCodecContext *avctx)
 {
     TgvContext *s = avctx->priv_data;
     s->avctx         = avctx;
-    avctx->time_base = (AVRational){1, 15};
-    avctx->pix_fmt   = AV_PIX_FMT_PAL8;
+#ifdef IDE_COMPILE
+	avctx->time_base.num = 1;
+	avctx->time_base.den = 15;
+#else
+	avctx->time_base = (AVRational){1, 15};
+#endif
+	avctx->pix_fmt   = AV_PIX_FMT_PAL8;
 
     s->last_frame = av_frame_alloc();
     if (!s->last_frame)
@@ -355,7 +360,18 @@ static av_cold int tgv_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_eatgv_decoder = {
-    .name           = "eatgv",
+#ifdef IDE_COMPILE
+    "eatgv",
+    "Electronic Arts TGV video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_TGV,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(TgvContext),
+    0, 0, 0, 0, 0, tgv_decode_init,
+    0, 0, tgv_decode_frame,
+    tgv_decode_end,
+#else
+	.name           = "eatgv",
     .long_name      = NULL_IF_CONFIG_SMALL("Electronic Arts TGV video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_TGV,
@@ -364,4 +380,5 @@ AVCodec ff_eatgv_decoder = {
     .close          = tgv_decode_end,
     .decode         = tgv_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

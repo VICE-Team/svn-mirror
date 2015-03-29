@@ -75,7 +75,18 @@ static AVClassCategory get_category(void *ptr)
 }
 
 static const AVClass av_codec_context_class = {
-    .class_name              = "AVCodecContext",
+#ifdef IDE_COMPILE
+    "AVCodecContext",
+    context_to_name,
+    avcodec_options,
+    LIBAVUTIL_VERSION_INT,
+    offsetof(AVCodecContext, log_level_offset),
+    0, codec_child_next,
+    codec_child_class_next,
+    AV_CLASS_CATEGORY_ENCODER,
+    get_category,
+#else
+	.class_name              = "AVCodecContext",
     .item_name               = context_to_name,
     .option                  = avcodec_options,
     .version                 = LIBAVUTIL_VERSION_INT,
@@ -84,6 +95,7 @@ static const AVClass av_codec_context_class = {
     .child_class_next        = codec_child_class_next,
     .category                = AV_CLASS_CATEGORY_ENCODER,
     .get_category            = get_category,
+#endif
 };
 
 int avcodec_get_context_defaults3(AVCodecContext *s, const AVCodec *codec)
@@ -105,13 +117,24 @@ int avcodec_get_context_defaults3(AVCodecContext *s, const AVCodec *codec)
         flags= AV_OPT_FLAG_SUBTITLE_PARAM;
     av_opt_set_defaults2(s, flags, flags);
 
-    s->time_base           = (AVRational){0,1};
-    s->get_buffer2         = avcodec_default_get_buffer2;
+#ifdef IDE_COMPILE
+	s->time_base.num = 0;
+	s->time_base.den = 1;
+#else
+	s->time_base           = (AVRational){0,1};
+#endif
+
+	s->get_buffer2         = avcodec_default_get_buffer2;
     s->get_format          = avcodec_default_get_format;
     s->execute             = avcodec_default_execute;
     s->execute2            = avcodec_default_execute2;
-    s->sample_aspect_ratio = (AVRational){0,1};
-    s->pix_fmt             = AV_PIX_FMT_NONE;
+#ifdef IDE_COMPILE
+	s->sample_aspect_ratio.num = 0;
+	s->sample_aspect_ratio.den = 1;
+#else
+	s->sample_aspect_ratio = (AVRational){0,1};
+#endif
+	s->pix_fmt             = AV_PIX_FMT_NONE;
     s->sample_fmt          = AV_SAMPLE_FMT_NONE;
     s->timecode_frame_start = -1;
 
@@ -248,23 +271,42 @@ const AVClass *avcodec_get_class(void)
 #define FOFFSET(x) offsetof(AVFrame,x)
 
 static const AVOption frame_options[]={
-{"best_effort_timestamp", "", FOFFSET(best_effort_timestamp), AV_OPT_TYPE_INT64, {.i64 = AV_NOPTS_VALUE }, INT64_MIN, INT64_MAX, 0},
-{"pkt_pos", "", FOFFSET(pkt_pos), AV_OPT_TYPE_INT64, {.i64 = -1 }, INT64_MIN, INT64_MAX, 0},
-{"pkt_size", "", FOFFSET(pkt_size), AV_OPT_TYPE_INT64, {.i64 = -1 }, INT64_MIN, INT64_MAX, 0},
-{"sample_aspect_ratio", "", FOFFSET(sample_aspect_ratio), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, 0, INT_MAX, 0},
-{"width", "", FOFFSET(width), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, INT_MAX, 0},
-{"height", "", FOFFSET(height), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, INT_MAX, 0},
-{"format", "", FOFFSET(format), AV_OPT_TYPE_INT, {.i64 = -1 }, 0, INT_MAX, 0},
-{"channel_layout", "", FOFFSET(channel_layout), AV_OPT_TYPE_INT64, {.i64 = 0 }, 0, INT64_MAX, 0},
-{"sample_rate", "", FOFFSET(sample_rate), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, INT_MAX, 0},
-{NULL},
+#ifdef IDE_COMPILE
+    {"best_effort_timestamp", "", FOFFSET(best_effort_timestamp), AV_OPT_TYPE_INT64, {AV_NOPTS_VALUE}, INT64_MIN, INT64_MAX, 0},
+    {"pkt_pos", "", FOFFSET(pkt_pos), AV_OPT_TYPE_INT64, {-1}, INT64_MIN, INT64_MAX, 0},
+    {"pkt_size", "", FOFFSET(pkt_size), AV_OPT_TYPE_INT64, {-1}, INT64_MIN, INT64_MAX, 0},
+    {"sample_aspect_ratio", "", FOFFSET(sample_aspect_ratio), AV_OPT_TYPE_RATIONAL, {0}, 0, INT_MAX, 0},
+    {"width", "", FOFFSET(width), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, 0},
+    {"height", "", FOFFSET(height), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, 0},
+    {"format", "", FOFFSET(format), AV_OPT_TYPE_INT, {-1}, 0, INT_MAX, 0},
+    {"channel_layout", "", FOFFSET(channel_layout), AV_OPT_TYPE_INT64, {0}, 0, INT64_MAX, 0},
+    {"sample_rate", "", FOFFSET(sample_rate), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, 0},
+#else
+    {"best_effort_timestamp", "", FOFFSET(best_effort_timestamp), AV_OPT_TYPE_INT64, {.i64 = AV_NOPTS_VALUE }, INT64_MIN, INT64_MAX, 0},
+    {"pkt_pos", "", FOFFSET(pkt_pos), AV_OPT_TYPE_INT64, {.i64 = -1 }, INT64_MIN, INT64_MAX, 0},
+    {"pkt_size", "", FOFFSET(pkt_size), AV_OPT_TYPE_INT64, {.i64 = -1 }, INT64_MIN, INT64_MAX, 0},
+    {"sample_aspect_ratio", "", FOFFSET(sample_aspect_ratio), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, 0, INT_MAX, 0},
+    {"width", "", FOFFSET(width), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, INT_MAX, 0},
+    {"height", "", FOFFSET(height), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, INT_MAX, 0},
+    {"format", "", FOFFSET(format), AV_OPT_TYPE_INT, {.i64 = -1 }, 0, INT_MAX, 0},
+    {"channel_layout", "", FOFFSET(channel_layout), AV_OPT_TYPE_INT64, {.i64 = 0 }, 0, INT64_MAX, 0},
+    {"sample_rate", "", FOFFSET(sample_rate), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, INT_MAX, 0},
+#endif
+    {NULL},
 };
 
 static const AVClass av_frame_class = {
-    .class_name              = "AVFrame",
+#ifdef IDE_COMPILE
+    "AVFrame",
+    ((void *)0),
+    frame_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name              = "AVFrame",
     .item_name               = NULL,
     .option                  = frame_options,
     .version                 = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 const AVClass *avcodec_get_frame_class(void)
@@ -275,6 +317,15 @@ const AVClass *avcodec_get_frame_class(void)
 #define SROFFSET(x) offsetof(AVSubtitleRect,x)
 
 static const AVOption subtitle_rect_options[]={
+#ifdef IDE_COMPILE
+    {"x", "", SROFFSET(x), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, 0},
+    {"y", "", SROFFSET(y), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, 0},
+    {"w", "", SROFFSET(w), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, 0},
+    {"h", "", SROFFSET(h), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, 0},
+    {"type", "", SROFFSET(type), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, 0},
+    {"flags", "", SROFFSET(flags), AV_OPT_TYPE_FLAGS, {0}, 0, 1, 0, "flags"},
+    {"forced", "", SROFFSET(flags), AV_OPT_TYPE_FLAGS, {0}, 0, 1, 0},
+#else
 {"x", "", SROFFSET(x), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, INT_MAX, 0},
 {"y", "", SROFFSET(y), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, INT_MAX, 0},
 {"w", "", SROFFSET(w), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, INT_MAX, 0},
@@ -282,14 +333,22 @@ static const AVOption subtitle_rect_options[]={
 {"type", "", SROFFSET(type), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, INT_MAX, 0},
 {"flags", "", SROFFSET(flags), AV_OPT_TYPE_FLAGS, {.i64 = 0}, 0, 1, 0, "flags"},
 {"forced", "", SROFFSET(flags), AV_OPT_TYPE_FLAGS, {.i64 = 0}, 0, 1, 0},
+#endif
 {NULL},
 };
 
 static const AVClass av_subtitle_rect_class = {
-    .class_name             = "AVSubtitleRect",
+#ifdef IDE_COMPILE
+    "AVSubtitleRect",
+    NULL,
+    subtitle_rect_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name             = "AVSubtitleRect",
     .item_name              = NULL,
     .option                 = subtitle_rect_options,
     .version                = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 const AVClass *avcodec_get_subtitle_rect_class(void)

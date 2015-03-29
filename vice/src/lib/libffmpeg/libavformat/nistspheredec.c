@@ -120,7 +120,17 @@ static int nist_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_nistsphere_demuxer = {
-    .name           = "nistsphere",
+#ifdef IDE_COMPILE
+    "nistsphere",
+    "NIST SPeech HEader REsources",
+    AVFMT_GENERIC_INDEX,
+    "nist,sph",
+    0, 0, 0, 0, 0, 0, nist_probe,
+    nist_read_header,
+    ff_pcm_read_packet,
+    0, ff_pcm_read_seek,
+#else
+	.name           = "nistsphere",
     .long_name      = NULL_IF_CONFIG_SMALL("NIST SPeech HEader REsources"),
     .read_probe     = nist_probe,
     .read_header    = nist_read_header,
@@ -128,4 +138,5 @@ AVInputFormat ff_nistsphere_demuxer = {
     .read_seek      = ff_pcm_read_seek,
     .extensions     = "nist,sph",
     .flags          = AVFMT_GENERIC_INDEX,
+#endif
 };

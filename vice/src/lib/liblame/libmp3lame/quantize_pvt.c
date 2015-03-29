@@ -25,11 +25,13 @@
 /* $Id: quantize_pvt.c,v 1.169.2.2 2012/02/07 13:40:37 robert Exp $ */
 #ifdef HAVE_CONFIG_H
 # include <config.h>
+#elif IDE_COMPILE
+# include "lame-config.h"
 #endif
 
 
 #include "lame.h"
-#include "machine.h"
+#include "lame-machine.h"
 #include "encoder.h"
 #include "util.h"
 #include "quantize_pvt.h"

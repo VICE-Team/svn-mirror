@@ -24,6 +24,8 @@
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
+#elif IDE_COMPILE
+# include "lame-config.h"
 #endif
 
 #include <stdlib.h>
@@ -34,7 +36,7 @@
 #include "tabinit.h"
 #include "layer3.h"
 #include "lame.h"
-#include "machine.h"
+#include "lame-machine.h"
 #include "VbrTag.h"
 #include "decode_i386.h"
 

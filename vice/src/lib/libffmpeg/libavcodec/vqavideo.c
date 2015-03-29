@@ -636,7 +636,18 @@ static av_cold int vqa_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_vqa_decoder = {
-    .name           = "vqavideo",
+#ifdef IDE_COMPILE
+    "vqavideo",
+    "Westwood Studios VQA (Vector Quantized Animation) video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_WS_VQA,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(VqaContext),
+    0, 0, 0, 0, 0, vqa_decode_init,
+    0, 0, vqa_decode_frame,
+    vqa_decode_end,
+#else
+	.name           = "vqavideo",
     .long_name      = NULL_IF_CONFIG_SMALL("Westwood Studios VQA (Vector Quantized Animation) video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_WS_VQA,
@@ -645,4 +656,5 @@ AVCodec ff_vqa_decoder = {
     .close          = vqa_decode_end,
     .decode         = vqa_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

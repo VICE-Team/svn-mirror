@@ -112,7 +112,18 @@ static int subviewer1_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_subviewer1_demuxer = {
-    .name           = "subviewer1",
+#ifdef IDE_COMPILE
+    "subviewer1",
+    "SubViewer v1 subtitle format",
+    0, "sub",
+    0, 0, 0, 0, 0, sizeof(SubViewer1Context),
+    subviewer1_probe,
+    subviewer1_read_header,
+    subviewer1_read_packet,
+    subviewer1_read_close,
+    0, 0, 0, 0, subviewer1_read_seek,
+#else
+	.name           = "subviewer1",
     .long_name      = NULL_IF_CONFIG_SMALL("SubViewer v1 subtitle format"),
     .priv_data_size = sizeof(SubViewer1Context),
     .read_probe     = subviewer1_probe,
@@ -121,4 +132,5 @@ AVInputFormat ff_subviewer1_demuxer = {
     .read_seek2     = subviewer1_read_seek,
     .read_close     = subviewer1_read_close,
     .extensions     = "sub",
+#endif
 };

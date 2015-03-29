@@ -45,11 +45,18 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption asetnsamples_options[] = {
-    { "nb_out_samples", "set the number of per-frame output samples", OFFSET(nb_out_samples), AV_OPT_TYPE_INT, {.i64=1024}, 1, INT_MAX, FLAGS },
+#ifdef IDE_COMPILE
+	{ "nb_out_samples", "set the number of per-frame output samples", OFFSET(nb_out_samples), AV_OPT_TYPE_INT, {1024}, 1, INT_MAX, FLAGS },
+    { "n",              "set the number of per-frame output samples", OFFSET(nb_out_samples), AV_OPT_TYPE_INT, {1024}, 1, INT_MAX, FLAGS },
+    { "pad", "pad last frame with zeros", OFFSET(pad), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS },
+    { "p",   "pad last frame with zeros", OFFSET(pad), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS },
+#else
+	{ "nb_out_samples", "set the number of per-frame output samples", OFFSET(nb_out_samples), AV_OPT_TYPE_INT, {.i64=1024}, 1, INT_MAX, FLAGS },
     { "n",              "set the number of per-frame output samples", OFFSET(nb_out_samples), AV_OPT_TYPE_INT, {.i64=1024}, 1, INT_MAX, FLAGS },
     { "pad", "pad last frame with zeros", OFFSET(pad), AV_OPT_TYPE_INT, {.i64=1}, 0, 1, FLAGS },
     { "p",   "pad last frame with zeros", OFFSET(pad), AV_OPT_TYPE_INT, {.i64=1}, 0, 1, FLAGS },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(asetnsamples);
@@ -87,6 +94,9 @@ static int push_samples(AVFilterLink *outlink)
     ASNSContext *asns = outlink->src->priv;
     AVFrame *outsamples = NULL;
     int ret, nb_out_samples, nb_pad_samples;
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
 
     if (asns->pad) {
         nb_out_samples = av_audio_fifo_size(asns->fifo) ? asns->nb_out_samples : 0;
@@ -115,9 +125,15 @@ static int push_samples(AVFilterLink *outlink)
     outsamples->sample_rate    = outlink->sample_rate;
     outsamples->pts = asns->next_out_pts;
 
-    if (asns->next_out_pts != AV_NOPTS_VALUE)
-        asns->next_out_pts += av_rescale_q(nb_out_samples, (AVRational){1, outlink->sample_rate}, outlink->time_base);
-
+    if (asns->next_out_pts != AV_NOPTS_VALUE) {
+#ifdef IDE_COMPILE
+		tmp.num = 1;
+		tmp.den = outlink->sample_rate;
+		asns->next_out_pts += av_rescale_q(nb_out_samples, tmp, outlink->time_base);
+#else
+		asns->next_out_pts += av_rescale_q(nb_out_samples, (AVRational){1, outlink->sample_rate}, outlink->time_base);
+#endif
+	}
     ret = ff_filter_frame(outlink, outsamples);
     if (ret < 0)
         return ret;
@@ -167,25 +183,48 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad asetnsamples_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad asetnsamples_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+        config_props_output,
+#else
+		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .request_frame = request_frame,
         .config_props  = config_props_output,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_af_asetnsamples = {
-    .name        = "asetnsamples",
+#ifdef IDE_COMPILE
+    "asetnsamples",
+    NULL_IF_CONFIG_SMALL("Set the number of samples for each output audio frames."),
+    asetnsamples_inputs,
+    asetnsamples_outputs,
+    &asetnsamples_class,
+    0, init,
+    0, uninit,
+    0, sizeof(ASNSContext),
+#else
+	.name        = "asetnsamples",
     .description = NULL_IF_CONFIG_SMALL("Set the number of samples for each output audio frames."),
     .priv_size   = sizeof(ASNSContext),
     .priv_class  = &asetnsamples_class,
@@ -193,4 +232,5 @@ AVFilter ff_af_asetnsamples = {
     .uninit      = uninit,
     .inputs      = asetnsamples_inputs,
     .outputs     = asetnsamples_outputs,
+#endif
 };

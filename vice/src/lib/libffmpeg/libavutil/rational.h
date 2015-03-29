@@ -28,6 +28,11 @@
 #ifndef AVUTIL_RATIONAL_H
 #define AVUTIL_RATIONAL_H
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#endif
+
 #include <stdint.h>
 #include <limits.h>
 #include "attributes.h"

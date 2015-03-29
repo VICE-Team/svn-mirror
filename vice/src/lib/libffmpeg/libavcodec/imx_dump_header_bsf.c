@@ -53,6 +53,11 @@ static int imx_dump_header(AVBitStreamFilterContext *bsfc, AVCodecContext *avctx
 }
 
 AVBitStreamFilter ff_imx_dump_header_bsf = {
-    .name   = "imxdump",
+#ifdef IDE_COMPILE
+    "imxdump",
+    0, imx_dump_header,
+#else
+	.name   = "imxdump",
     .filter = imx_dump_header,
+#endif
 };

@@ -71,14 +71,24 @@ typedef struct CompandContext {
 #define A AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption compand_options[] = {
-    { "attacks", "set time over which increase of volume is determined", OFFSET(attacks), AV_OPT_TYPE_STRING, { .str = "0.3" }, 0, 0, A },
+#ifdef IDE_COMPILE
+	{ "attacks", "set time over which increase of volume is determined", OFFSET(attacks), AV_OPT_TYPE_STRING, {(intptr_t) "0.3" }, 0, 0, A },
+    { "decays", "set time over which decrease of volume is determined", OFFSET(decays), AV_OPT_TYPE_STRING, {(intptr_t) "0.8" }, 0, 0, A },
+    { "points", "set points of transfer function", OFFSET(points), AV_OPT_TYPE_STRING, { (intptr_t) "-70/-70|-60/-20" }, 0, 0, A },
+    { "soft-knee", "set soft-knee", OFFSET(curve_dB), AV_OPT_TYPE_DOUBLE, {0x3f847ae147ae147b}, 0.01, 900, A },
+    { "gain", "set output gain", OFFSET(gain_dB), AV_OPT_TYPE_DOUBLE, {0}, -900, 900, A },
+    { "volume", "set initial volume", OFFSET(initial_volume), AV_OPT_TYPE_DOUBLE, {0}, -900, 0, A },
+    { "delay", "set delay for samples before sending them to volume adjuster", OFFSET(delay), AV_OPT_TYPE_DOUBLE, {0}, 0, 20, A },
+#else
+	{ "attacks", "set time over which increase of volume is determined", OFFSET(attacks), AV_OPT_TYPE_STRING, { .str = "0.3" }, 0, 0, A },
     { "decays", "set time over which decrease of volume is determined", OFFSET(decays), AV_OPT_TYPE_STRING, { .str = "0.8" }, 0, 0, A },
     { "points", "set points of transfer function", OFFSET(points), AV_OPT_TYPE_STRING, { .str = "-70/-70|-60/-20" }, 0, 0, A },
     { "soft-knee", "set soft-knee", OFFSET(curve_dB), AV_OPT_TYPE_DOUBLE, { .dbl = 0.01 }, 0.01, 900, A },
     { "gain", "set output gain", OFFSET(gain_dB), AV_OPT_TYPE_DOUBLE, { .dbl = 0 }, -900, 900, A },
     { "volume", "set initial volume", OFFSET(initial_volume), AV_OPT_TYPE_DOUBLE, { .dbl = 0 }, -900, 0, A },
     { "delay", "set delay for samples before sending them to volume adjuster", OFFSET(delay), AV_OPT_TYPE_DOUBLE, { .dbl = 0 }, 0, 20, A },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(compand);
@@ -245,7 +255,10 @@ static int compand_delay(AVFilterContext *ctx, AVFrame *frame)
 
             if (count >= s->delay_samples) {
                 if (!out_frame) {
-                    out_frame = ff_get_audio_buffer(inlink, nb_samples - i);
+#ifdef IDE_COMPILE
+					AVRational tmp;
+#endif
+					out_frame = ff_get_audio_buffer(inlink, nb_samples - i);
                     if (!out_frame) {
                         av_frame_free(&frame);
                         return AVERROR(ENOMEM);
@@ -257,10 +270,18 @@ static int compand_delay(AVFilterContext *ctx, AVFrame *frame)
                         return err;
                     }
                     out_frame->pts = s->pts;
-                    s->pts += av_rescale_q(nb_samples - i,
+#ifdef IDE_COMPILE
+					tmp.num = 1;
+					tmp.den = inlink->sample_rate;
+					s->pts += av_rescale_q(nb_samples - i,
+                        tmp,
+                        inlink->time_base);
+#else
+					s->pts += av_rescale_q(nb_samples - i,
                         (AVRational){ 1, inlink->sample_rate },
                         inlink->time_base);
-                }
+#endif
+				}
 
                 dst = (double *)out_frame->extended_data[chan];
                 dst[oindex++] = av_clipd(dbuf[dindex] *
@@ -294,16 +315,26 @@ static int compand_drain(AVFilterLink *outlink)
     const int channels   = outlink->channels;
     AVFrame *frame       = NULL;
     int chan, i, dindex;
+#ifdef IDE_COMPILE
+	AVRational tmp;
+#endif
 
     /* 2048 is to limit output frame size during drain */
     frame = ff_get_audio_buffer(outlink, FFMIN(2048, s->delay_count));
     if (!frame)
         return AVERROR(ENOMEM);
     frame->pts = s->pts;
-    s->pts += av_rescale_q(frame->nb_samples,
+#ifdef IDE_COMPILE
+	tmp.num = 1;
+	tmp.den = outlink->sample_rate;
+	s->pts += av_rescale_q(frame->nb_samples,
+            tmp, outlink->time_base);
+#else
+	s->pts += av_rescale_q(frame->nb_samples,
             (AVRational){ 1, outlink->sample_rate }, outlink->time_base);
+#endif
 
-    av_assert0(channels > 0);
+	av_assert0(channels > 0);
     for (chan = 0; chan < channels; chan++) {
         AVFrame *delay_frame = s->delay_frame;
         double *dbuf = (double *)delay_frame->extended_data[chan];
@@ -552,26 +583,50 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad compand_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad compand_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+        config_output,
+#else
+		.name          = "default",
         .request_frame = request_frame,
         .config_props  = config_output,
         .type          = AVMEDIA_TYPE_AUDIO,
-    },
+#endif
+	},
     { NULL }
 };
 
 
 AVFilter ff_af_compand = {
-    .name           = "compand",
+#ifdef IDE_COMPILE
+    "compand",
+    NULL_IF_CONFIG_SMALL("Compress or expand audio dynamic range."),
+    compand_inputs,
+    compand_outputs,
+    &compand_class,
+    0, init,
+    0, uninit,
+    query_formats,
+    sizeof(CompandContext),
+#else
+	.name           = "compand",
     .description    = NULL_IF_CONFIG_SMALL(
             "Compress or expand audio dynamic range."),
     .query_formats  = query_formats,
@@ -581,4 +636,5 @@ AVFilter ff_af_compand = {
     .uninit         = uninit,
     .inputs         = compand_inputs,
     .outputs        = compand_outputs,
+#endif
 };

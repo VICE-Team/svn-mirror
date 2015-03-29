@@ -671,13 +671,18 @@ static int mxf_read_material_package(void *arg, AVIOContext *pb, int tag, int si
 static int mxf_read_timecode_component(void *arg, AVIOContext *pb, int tag, int size, UID uid, int64_t klv_offset)
 {
     MXFTimecodeComponent *mxf_timecode = arg;
-    switch(tag) {
+	switch(tag) {
     case 0x1501:
         mxf_timecode->start_frame = avio_rb64(pb);
         break;
     case 0x1502:
-        mxf_timecode->rate = (AVRational){avio_rb16(pb), 1};
-        break;
+#ifdef IDE_COMPILE
+		mxf_timecode->rate.num = avio_rb16(pb);
+		mxf_timecode->rate.den = 1;
+#else
+		mxf_timecode->rate = (AVRational){avio_rb16(pb), 1};
+#endif
+		break;
     case 0x1503:
         mxf_timecode->drop_frame = avio_r8(pb);
         break;
@@ -1508,8 +1513,13 @@ static int mxf_parse_structural_metadata(MXFContext *mxf)
                    "defaulting to 25/1\n",
                    material_track->edit_rate.num,
                    material_track->edit_rate.den, st->index);
-            material_track->edit_rate = (AVRational){25, 1};
-        }
+#ifdef IDE_COMPILE
+			material_track->edit_rate.num = 25;
+			material_track->edit_rate.den = 1;
+#else
+			material_track->edit_rate = (AVRational){25, 1};
+#endif
+		}
         avpriv_set_pts_info(st, 64, material_track->edit_rate.den, material_track->edit_rate.num);
 
         /* ensure SourceTrack EditRate == MaterialTrack EditRate since only
@@ -2311,11 +2321,20 @@ static int mxf_compute_sample_count(MXFContext *mxf, int stream_index,
     if ((sample_rate.num / sample_rate.den) == 48000)
         spf = ff_mxf_get_samples_per_frame(mxf->fc, time_base);
     if (!spf) {
-        int remainder = (sample_rate.num * time_base.num) %
+#ifdef IDE_COMPILE
+    AVRational tmp;
+#endif
+		int remainder = (sample_rate.num * time_base.num) %
                         (time_base.den * sample_rate.den);
-        *sample_count = av_q2d(av_mul_q((AVRational){mxf->current_edit_unit, 1},
+#ifdef IDE_COMPILE
+		tmp.num = mxf->current_edit_unit;
+		tmp.den = 1;
+		*sample_count = av_q2d(av_mul_q(tmp, av_mul_q(sample_rate, time_base)));
+#else
+		*sample_count = av_q2d(av_mul_q((AVRational){mxf->current_edit_unit, 1},
                                         av_mul_q(sample_rate, time_base)));
-        if (remainder)
+#endif
+		if (remainder)
             av_log(mxf->fc, AV_LOG_WARNING,
                    "seeking detected on stream #%d with time base (%d/%d) and "
                    "sample rate (%d/%d), audio pts won't be accurate.\n",
@@ -2670,7 +2689,17 @@ static int mxf_read_seek(AVFormatContext *s, int stream_index, int64_t sample_ti
 }
 
 AVInputFormat ff_mxf_demuxer = {
-    .name           = "mxf",
+#ifdef IDE_COMPILE
+    "mxf",
+    "MXF (Material eXchange Format)",
+    0, 0, 0, 0, 0, 0, 0, sizeof(MXFContext),
+    mxf_probe,
+    mxf_read_header,
+    mxf_read_packet,
+    mxf_read_close,
+    mxf_read_seek,
+#else
+	.name           = "mxf",
     .long_name      = NULL_IF_CONFIG_SMALL("MXF (Material eXchange Format)"),
     .priv_data_size = sizeof(MXFContext),
     .read_probe     = mxf_probe,
@@ -2678,4 +2707,5 @@ AVInputFormat ff_mxf_demuxer = {
     .read_packet    = mxf_read_packet,
     .read_close     = mxf_read_close,
     .read_seek      = mxf_read_seek,
+#endif
 };

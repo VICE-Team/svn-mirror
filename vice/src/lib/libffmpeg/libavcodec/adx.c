@@ -23,6 +23,10 @@
 #include "libavutil/mathematics.h"
 #include "adx.h"
 
+#ifdef IDE_COMPILE
+#include "libavutil/libm.h"
+#endif
+
 void ff_adx_calculate_coeffs(int cutoff, int sample_rate, int bits, int *coeff)
 {
     double a, b, c;

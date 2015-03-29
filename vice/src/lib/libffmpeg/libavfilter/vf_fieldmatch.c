@@ -113,7 +113,42 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption fieldmatch_options[] = {
-    { "order", "specify the assumed field order", OFFSET(order), AV_OPT_TYPE_INT, {.i64=FM_PARITY_AUTO}, -1, 1, FLAGS, "order" },
+#ifdef IDE_COMPILE
+	{ "order", "specify the assumed field order", OFFSET(order), AV_OPT_TYPE_INT, {FM_PARITY_AUTO}, -1, 1, FLAGS, "order" },
+    { "auto", "auto detect parity", 0, AV_OPT_TYPE_CONST, {FM_PARITY_AUTO}, INT_MIN, INT_MAX, FLAGS, "order" },
+    { "bff", "assume bottom field first", 0, AV_OPT_TYPE_CONST, {FM_PARITY_BOTTOM}, INT_MIN, INT_MAX, FLAGS, "order" },
+    { "tff", "assume top field first", 0, AV_OPT_TYPE_CONST, {FM_PARITY_TOP}, INT_MIN, INT_MAX, FLAGS, "order" },
+    { "mode", "set the matching mode or strategy to use", OFFSET(mode), AV_OPT_TYPE_INT, {MODE_PC_N}, MODE_PC, NB_MODE-1, FLAGS, "mode" },
+    { "pc", "2-way match (p/c)", 0, AV_OPT_TYPE_CONST, {MODE_PC}, INT_MIN, INT_MAX, FLAGS, "mode" },
+    { "pc_n", "2-way match + 3rd match on combed (p/c + u)", 0, AV_OPT_TYPE_CONST, {MODE_PC_N}, INT_MIN, INT_MAX, FLAGS, "mode" },
+    { "pc_u", "2-way match + 3rd match (same order) on combed (p/c + u)", 0, AV_OPT_TYPE_CONST, {MODE_PC_U}, INT_MIN, INT_MAX, FLAGS, "mode" },
+    { "pc_n_ub", "2-way match + 3rd match on combed + 4th/5th matches if still combed (p/c + u + u/b)",  0, AV_OPT_TYPE_CONST, {MODE_PC_N_UB}, INT_MIN, INT_MAX, FLAGS, "mode" },
+    { "pcn", "3-way match (p/c/n)", 0, AV_OPT_TYPE_CONST, {MODE_PCN}, INT_MIN, INT_MAX, FLAGS, "mode" },
+    { "pcn_ub", "3-way match + 4th/5th matches on combed (p/c/n + u/b)", 0, AV_OPT_TYPE_CONST, {MODE_PCN_UB}, INT_MIN, INT_MAX, FLAGS, "mode" },
+    { "ppsrc", "mark main input as a pre-processed input and activate clean source input stream", OFFSET(ppsrc), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
+    { "field", "set the field to match from", OFFSET(field), AV_OPT_TYPE_INT, {FM_PARITY_AUTO}, -1, 1, FLAGS, "field" },
+    { "auto", "automatic (same value as 'order')", 0, AV_OPT_TYPE_CONST, {FM_PARITY_AUTO}, INT_MIN, INT_MAX, FLAGS, "field" },
+    { "bottom", "bottom field", 0, AV_OPT_TYPE_CONST, {FM_PARITY_BOTTOM}, INT_MIN, INT_MAX, FLAGS, "field" },
+    { "top", "top field", 0, AV_OPT_TYPE_CONST, {FM_PARITY_TOP}, INT_MIN, INT_MAX, FLAGS, "field" },
+    { "mchroma", "set whether or not chroma is included during the match comparisons", OFFSET(mchroma), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS },
+    { "y0", "define an exclusion band which excludes the lines between y0 and y1 from the field matching decision", OFFSET(y0), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, FLAGS },
+    { "y1", "define an exclusion band which excludes the lines between y0 and y1 from the field matching decision", OFFSET(y1), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, FLAGS },
+    { "scthresh", "set scene change detection threshold", OFFSET(scthresh_flt), AV_OPT_TYPE_DOUBLE, {0x4028000000000000}, 0, 100, FLAGS },
+    { "combmatch", "set combmatching mode", OFFSET(combmatch), AV_OPT_TYPE_INT, {COMBMATCH_SC}, COMBMATCH_NONE, NB_COMBMATCH-1, FLAGS, "combmatching" },
+    { "none", "disable combmatching", 0, AV_OPT_TYPE_CONST, {COMBMATCH_NONE}, INT_MIN, INT_MAX, FLAGS, "combmatching" },
+    { "sc", "enable combmatching only on scene change", 0, AV_OPT_TYPE_CONST, {COMBMATCH_SC}, INT_MIN, INT_MAX, FLAGS, "combmatching" },
+    { "full", "enable combmatching all the time", 0, AV_OPT_TYPE_CONST, {COMBMATCH_FULL}, INT_MIN, INT_MAX, FLAGS, "combmatching" },
+    { "combdbg", "enable comb debug", OFFSET(combdbg), AV_OPT_TYPE_INT, {COMBDBG_NONE}, COMBDBG_NONE, NB_COMBDBG-1, FLAGS, "dbglvl" },
+    { "none", "no forced calculation", 0, AV_OPT_TYPE_CONST, {COMBDBG_NONE}, INT_MIN, INT_MAX, FLAGS, "dbglvl" },
+    { "pcn", "calculate p/c/n", 0, AV_OPT_TYPE_CONST, {COMBDBG_PCN}, INT_MIN, INT_MAX, FLAGS, "dbglvl" },
+    { "pcnub", "calculate p/c/n/u/b", 0, AV_OPT_TYPE_CONST, {COMBDBG_PCNUB}, INT_MIN, INT_MAX, FLAGS, "dbglvl" },
+    { "cthresh", "set the area combing threshold used for combed frame detection", OFFSET(cthresh), AV_OPT_TYPE_INT, {9}, -1, 0xff, FLAGS },
+    { "chroma", "set whether or not chroma is considered in the combed frame decision", OFFSET(chroma), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
+    { "blockx", "set the x-axis size of the window used during combed frame detection", OFFSET(blockx), AV_OPT_TYPE_INT, {16}, 4, 1<<9, FLAGS },
+    { "blocky", "set the y-axis size of the window used during combed frame detection", OFFSET(blocky), AV_OPT_TYPE_INT, {16}, 4, 1<<9, FLAGS },
+    { "combpel", "set the number of combed pixels inside any of the blocky by blockx size blocks on the frame for the frame to be detected as combed", OFFSET(combpel), AV_OPT_TYPE_INT, {80}, 0, INT_MAX, FLAGS },
+#else
+	{ "order", "specify the assumed field order", OFFSET(order), AV_OPT_TYPE_INT, {.i64=FM_PARITY_AUTO}, -1, 1, FLAGS, "order" },
         { "auto", "auto detect parity",        0, AV_OPT_TYPE_CONST, {.i64=FM_PARITY_AUTO},    INT_MIN, INT_MAX, FLAGS, "order" },
         { "bff",  "assume bottom field first", 0, AV_OPT_TYPE_CONST, {.i64=FM_PARITY_BOTTOM},  INT_MIN, INT_MAX, FLAGS, "order" },
         { "tff",  "assume top field first",    0, AV_OPT_TYPE_CONST, {.i64=FM_PARITY_TOP},     INT_MIN, INT_MAX, FLAGS, "order" },
@@ -146,7 +181,8 @@ static const AVOption fieldmatch_options[] = {
     { "blockx",  "set the x-axis size of the window used during combed frame detection", OFFSET(blockx),  AV_OPT_TYPE_INT, {.i64=16},  4, 1<<9, FLAGS },
     { "blocky",  "set the y-axis size of the window used during combed frame detection", OFFSET(blocky),  AV_OPT_TYPE_INT, {.i64=16},  4, 1<<9, FLAGS },
     { "combpel", "set the number of combed pixels inside any of the blocky by blockx size blocks on the frame for the frame to be detected as combed", OFFSET(combpel), AV_OPT_TYPE_INT, {.i64=80}, 0, INT_MAX, FLAGS },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(fieldmatch);
@@ -803,9 +839,16 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
      * de-interlacer can take the relay */
     dst->interlaced_frame = combs[match] >= fm->combpel;
     if (dst->interlaced_frame) {
-        av_log(ctx, AV_LOG_WARNING, "Frame #%"PRId64" at %s is still interlaced\n",
+#ifdef IDE_COMPILE
+		char tmp1[32] = {0};
+
+		av_log(ctx, AV_LOG_WARNING, "Frame #%"PRId64" at %s is still interlaced\n",
+               outlink->frame_count, av_ts_make_time_string(tmp1, in->pts, &inlink->time_base));
+#else
+		av_log(ctx, AV_LOG_WARNING, "Frame #%"PRId64" at %s is still interlaced\n",
                outlink->frame_count, av_ts2timestr(in->pts, &inlink->time_base));
-        dst->top_field_first = field;
+#endif
+		dst->top_field_first = field;
     }
 
     av_log(ctx, AV_LOG_DEBUG, "SC:%d | COMBS: %3d %3d %3d %3d %3d (combpel=%d)"
@@ -894,11 +937,18 @@ static av_cold int fieldmatch_init(AVFilterContext *ctx)
 {
     const FieldMatchContext *fm = ctx->priv;
     AVFilterPad pad = {
-        .name         = av_strdup("main"),
+#ifdef IDE_COMPILE
+        av_strdup("main"),
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = av_strdup("main"),
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-    };
+#endif
+	};
 
     if (!pad.name)
         return AVERROR(ENOMEM);
@@ -962,16 +1012,35 @@ static int config_output(AVFilterLink *outlink)
 
 static const AVFilterPad fieldmatch_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+        config_output,
+#else
+		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_output,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_fieldmatch = {
-    .name           = "fieldmatch",
+#ifdef IDE_COMPILE
+    "fieldmatch",
+    NULL_IF_CONFIG_SMALL("Field matching for inverse telecine."),
+    NULL,
+    fieldmatch_outputs,
+    &fieldmatch_class,
+    AVFILTER_FLAG_DYNAMIC_INPUTS,
+    fieldmatch_init,
+    0, fieldmatch_uninit,
+    query_formats,
+    sizeof(FieldMatchContext),
+#else
+	.name           = "fieldmatch",
     .description    = NULL_IF_CONFIG_SMALL("Field matching for inverse telecine."),
     .query_formats  = query_formats,
     .priv_size      = sizeof(FieldMatchContext),
@@ -981,4 +1050,5 @@ AVFilter ff_vf_fieldmatch = {
     .outputs        = fieldmatch_outputs,
     .priv_class     = &fieldmatch_class,
     .flags          = AVFILTER_FLAG_DYNAMIC_INPUTS,
+#endif
 };

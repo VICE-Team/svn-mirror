@@ -58,23 +58,42 @@ static void *child_next(void *obj, void *prev)
 #define OFFSET(x) offsetof(SPPContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption spp_options[] = {
-    { "quality", "set quality", OFFSET(log2_count), AV_OPT_TYPE_INT, {.i64 = 3}, 0, MAX_LEVEL, FLAGS },
+#ifdef IDE_COMPILE
+	{ "quality", "set quality", OFFSET(log2_count), AV_OPT_TYPE_INT, {3}, 0, MAX_LEVEL, FLAGS },
+    { "qp", "force a constant quantizer parameter", OFFSET(qp), AV_OPT_TYPE_INT, {0}, 0, 63, FLAGS },
+    { "mode", "set thresholding mode", OFFSET(mode), AV_OPT_TYPE_INT, {MODE_HARD}, 0, NB_MODES - 1, FLAGS, "mode" },
+    { "hard", "hard thresholding", 0, AV_OPT_TYPE_CONST, {MODE_HARD}, INT_MIN, INT_MAX, FLAGS, "mode" },
+    { "soft", "soft thresholding", 0, AV_OPT_TYPE_CONST, {MODE_SOFT}, INT_MIN, INT_MAX, FLAGS, "mode" },
+    { "use_bframe_qp", "use B-frames' QP", OFFSET(use_bframe_qp), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
+#else
+	{ "quality", "set quality", OFFSET(log2_count), AV_OPT_TYPE_INT, {.i64 = 3}, 0, MAX_LEVEL, FLAGS },
     { "qp", "force a constant quantizer parameter", OFFSET(qp), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 63, FLAGS },
     { "mode", "set thresholding mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64 = MODE_HARD}, 0, NB_MODES - 1, FLAGS, "mode" },
         { "hard", "hard thresholding", 0, AV_OPT_TYPE_CONST, {.i64 = MODE_HARD}, INT_MIN, INT_MAX, FLAGS, "mode" },
         { "soft", "soft thresholding", 0, AV_OPT_TYPE_CONST, {.i64 = MODE_SOFT}, INT_MIN, INT_MAX, FLAGS, "mode" },
     { "use_bframe_qp", "use B-frames' QP", OFFSET(use_bframe_qp), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, FLAGS },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 static const AVClass spp_class = {
-    .class_name       = "spp",
-    .item_name        = av_default_item_name,
+#ifdef IDE_COMPILE
+    "spp",
+    av_default_item_name,
+    spp_options,
+    LIBAVUTIL_VERSION_INT,
+    0, 0, child_next,
+    child_class_next,
+    AV_CLASS_CATEGORY_FILTER,
+#else
+	.class_name       = "spp",
+	.item_name        = av_default_item_name,
     .option           = spp_options,
     .version          = LIBAVUTIL_VERSION_INT,
     .category         = AV_CLASS_CATEGORY_FILTER,
     .child_class_next = child_class_next,
     .child_next       = child_next,
+#endif
 };
 
 // XXX: share between filters?
@@ -438,24 +457,49 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad spp_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad spp_outputs[] = {
     {
-        .name = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+#else
+		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_spp = {
-    .name            = "spp",
+#ifdef IDE_COMPILE
+    "spp",
+    NULL_IF_CONFIG_SMALL("Apply a simple post processing filter."),
+    spp_inputs,
+    spp_outputs,
+    &spp_class,
+    AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
+    0, init_dict,
+    uninit,
+    query_formats,
+    sizeof(SPPContext),
+    0, process_command,
+#else
+	.name            = "spp",
     .description     = NULL_IF_CONFIG_SMALL("Apply a simple post processing filter."),
     .priv_size       = sizeof(SPPContext),
     .init_dict       = init_dict,
@@ -466,4 +510,5 @@ AVFilter ff_vf_spp = {
     .process_command = process_command,
     .priv_class      = &spp_class,
     .flags           = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
+#endif
 };

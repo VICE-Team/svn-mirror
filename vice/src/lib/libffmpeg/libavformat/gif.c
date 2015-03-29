@@ -200,22 +200,48 @@ static int gif_write_trailer(AVFormatContext *s)
 #define OFFSET(x) offsetof(GIFContext, x)
 #define ENC AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-    { "loop", "Number of times to loop the output: -1 - no loop, 0 - infinite loop", OFFSET(loop),
+#ifdef IDE_COMPILE
+	{ "loop", "Number of times to loop the output: -1 - no loop, 0 - infinite loop", OFFSET(loop), AV_OPT_TYPE_INT, {0}, -1, 65535, ENC },
+    { "final_delay", "Force delay (in centiseconds) after the last frame", OFFSET(last_delay), AV_OPT_TYPE_INT, {-1}, -1, 65535, ENC },
+#else
+	{ "loop", "Number of times to loop the output: -1 - no loop, 0 - infinite loop", OFFSET(loop),
       AV_OPT_TYPE_INT, { .i64 = 0 }, -1, 65535, ENC },
     { "final_delay", "Force delay (in centiseconds) after the last frame", OFFSET(last_delay),
       AV_OPT_TYPE_INT, { .i64 = -1 }, -1, 65535, ENC },
-    { NULL },
+#endif
+	{ NULL },
 };
 
 static const AVClass gif_muxer_class = {
-    .class_name = "GIF muxer",
+#ifdef IDE_COMPILE
+    "GIF muxer",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "GIF muxer",
     .item_name  = av_default_item_name,
     .version    = LIBAVUTIL_VERSION_INT,
     .option     = options,
+#endif
 };
 
 AVOutputFormat ff_gif_muxer = {
-    .name           = "gif",
+#ifdef IDE_COMPILE
+    "gif",
+    "GIF Animation",
+    "image/gif",
+    "gif",
+    AV_CODEC_ID_NONE,
+    AV_CODEC_ID_GIF,
+    0, AVFMT_VARIABLE_FPS,
+    0, &gif_muxer_class,
+    0, sizeof(GIFContext),
+    gif_write_header,
+    gif_write_packet,
+    gif_write_trailer,
+#else
+	.name           = "gif",
     .long_name      = NULL_IF_CONFIG_SMALL("GIF Animation"),
     .mime_type      = "image/gif",
     .extensions     = "gif",
@@ -227,4 +253,5 @@ AVOutputFormat ff_gif_muxer = {
     .write_trailer  = gif_write_trailer,
     .priv_class     = &gif_muxer_class,
     .flags          = AVFMT_VARIABLE_FPS,
+#endif
 };

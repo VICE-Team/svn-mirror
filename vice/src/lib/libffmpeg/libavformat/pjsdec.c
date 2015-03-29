@@ -126,7 +126,18 @@ static int pjs_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_pjs_demuxer = {
-    .name           = "pjs",
+#ifdef IDE_COMPILE
+    "pjs",
+    "PJS (Phoenix Japanimation Society) subtitles",
+    0, "pjs",
+    0, 0, 0, 0, 0, sizeof(PJSContext),
+    pjs_probe,
+    pjs_read_header,
+    pjs_read_packet,
+    pjs_read_close,
+    0, 0, 0, 0, pjs_read_seek,
+#else
+	.name           = "pjs",
     .long_name      = NULL_IF_CONFIG_SMALL("PJS (Phoenix Japanimation Society) subtitles"),
     .priv_data_size = sizeof(PJSContext),
     .read_probe     = pjs_probe,
@@ -135,4 +146,5 @@ AVInputFormat ff_pjs_demuxer = {
     .read_seek2     = pjs_read_seek,
     .read_close     = pjs_read_close,
     .extensions     = "pjs",
+#endif
 };

@@ -335,7 +335,19 @@ the_end:
 }
 
 AVCodec ff_mxpeg_decoder = {
-    .name           = "mxpeg",
+#ifdef IDE_COMPILE
+    "mxpeg",
+    "Mobotix MxPEG video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_MXPEG,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 3,
+    0, 0, sizeof(MXpegDecodeContext),
+    0, 0, 0, 0, 0, mxpeg_decode_init,
+    0, 0, mxpeg_decode_frame,
+    mxpeg_decode_end,
+#else
+	.name           = "mxpeg",
     .long_name      = NULL_IF_CONFIG_SMALL("Mobotix MxPEG video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_MXPEG,
@@ -345,4 +357,5 @@ AVCodec ff_mxpeg_decoder = {
     .decode         = mxpeg_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
     .max_lowres     = 3,
+#endif
 };

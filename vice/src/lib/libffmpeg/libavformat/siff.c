@@ -245,11 +245,21 @@ static int siff_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_siff_demuxer = {
-    .name           = "siff",
+#ifdef IDE_COMPILE
+    "siff",
+    "Beam Software SIFF",
+    0, "vb,son",
+    0, 0, 0, 0, 0, sizeof(SIFFContext),
+    siff_probe,
+    siff_read_header,
+    siff_read_packet,
+#else
+	.name           = "siff",
     .long_name      = NULL_IF_CONFIG_SMALL("Beam Software SIFF"),
     .priv_data_size = sizeof(SIFFContext),
     .read_probe     = siff_probe,
     .read_header    = siff_read_header,
     .read_packet    = siff_read_packet,
     .extensions     = "vb,son",
+#endif
 };

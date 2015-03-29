@@ -4484,22 +4484,51 @@ int ff_dct_quantize_c(MpegEncContext *s,
 #define OFFSET(x) offsetof(MpegEncContext, x)
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption h263_options[] = {
-    { "obmc",         "use overlapped block motion compensation.", OFFSET(obmc), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
+#ifdef IDE_COMPILE
+	{ "obmc", "use overlapped block motion compensation.", OFFSET(obmc), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
+    { "structured_slices", "Write slice start position at every GOB header instead of just GOB number.", OFFSET(h263_slice_structured), AV_OPT_TYPE_INT, {0}, 0, 1, VE},
+    { "mb_info", "emit macroblock info for RFC 2190 packetization, the parameter value is the maximum payload size", OFFSET(mb_info), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, VE },
+#else
+	{ "obmc",         "use overlapped block motion compensation.", OFFSET(obmc), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
     { "structured_slices","Write slice start position at every GOB header instead of just GOB number.", OFFSET(h263_slice_structured), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE},
     { "mb_info",      "emit macroblock info for RFC 2190 packetization, the parameter value is the maximum payload size", OFFSET(mb_info), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, INT_MAX, VE },
-    FF_MPV_COMMON_OPTS
+#endif
+	FF_MPV_COMMON_OPTS
     { NULL },
 };
 
 static const AVClass h263_class = {
-    .class_name = "H.263 encoder",
+#ifdef IDE_COMPILE
+    "H.263 encoder",
+    av_default_item_name,
+    h263_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "H.263 encoder",
     .item_name  = av_default_item_name,
     .option     = h263_options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp1[] = {AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE};
+#endif
+
 AVCodec ff_h263_encoder = {
-    .name           = "h263",
+#ifdef IDE_COMPILE
+    "h263",
+    "H.263 / H.263-1996",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_H263,
+    0, 0, tmp1,
+    0, 0, 0, 0, &h263_class,
+    0, sizeof(MpegEncContext),
+    0, 0, 0, 0, 0, ff_mpv_encode_init,
+    0, ff_mpv_encode_picture,
+    0, ff_mpv_encode_end,
+#else
+	.name           = "h263",
     .long_name      = NULL_IF_CONFIG_SMALL("H.263 / H.263-1996"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_H263,
@@ -4509,25 +4538,58 @@ AVCodec ff_h263_encoder = {
     .close          = ff_mpv_encode_end,
     .pix_fmts= (const enum AVPixelFormat[]){AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE},
     .priv_class     = &h263_class,
+#endif
 };
 
 static const AVOption h263p_options[] = {
-    { "umv",        "Use unlimited motion vectors.",    OFFSET(umvplus), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
+#ifdef IDE_COMPILE
+	{ "umv", "Use unlimited motion vectors.", OFFSET(umvplus), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
+    { "aiv", "Use alternative inter VLC.", OFFSET(alt_inter_vlc), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
+    { "obmc", "use overlapped block motion compensation.", OFFSET(obmc), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
+    { "structured_slices", "Write slice start position at every GOB header instead of just GOB number.", OFFSET(h263_slice_structured), AV_OPT_TYPE_INT, {0}, 0, 1, VE},
+#else
+	{ "umv",        "Use unlimited motion vectors.",    OFFSET(umvplus), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
     { "aiv",        "Use alternative inter VLC.",       OFFSET(alt_inter_vlc), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
     { "obmc",       "use overlapped block motion compensation.", OFFSET(obmc), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
     { "structured_slices", "Write slice start position at every GOB header instead of just GOB number.", OFFSET(h263_slice_structured), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE},
-    FF_MPV_COMMON_OPTS
+#endif
+	FF_MPV_COMMON_OPTS
     { NULL },
 };
+
 static const AVClass h263p_class = {
-    .class_name = "H.263p encoder",
+#ifdef IDE_COMPILE
+    "H.263p encoder",
+    av_default_item_name,
+    h263p_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "H.263p encoder",
     .item_name  = av_default_item_name,
     .option     = h263p_options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp2[] = { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE };
+#endif
+
 AVCodec ff_h263p_encoder = {
-    .name           = "h263p",
+#ifdef IDE_COMPILE
+    "h263p",
+    "H.263+ / H.263-1998 / H.263 version 2",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_H263P,
+    CODEC_CAP_SLICE_THREADS,
+    0, tmp2,
+    0, 0, 0, 0, &h263p_class,
+    0, sizeof(MpegEncContext),
+    0, 0, 0, 0, 0, ff_mpv_encode_init,
+    0, ff_mpv_encode_picture,
+    0, ff_mpv_encode_end,
+#else
+	.name           = "h263p",
     .long_name      = NULL_IF_CONFIG_SMALL("H.263+ / H.263-1998 / H.263 version 2"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_H263P,
@@ -4538,12 +4600,29 @@ AVCodec ff_h263p_encoder = {
     .capabilities   = CODEC_CAP_SLICE_THREADS,
     .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
     .priv_class     = &h263p_class,
+#endif
 };
 
 FF_MPV_GENERIC_CLASS(msmpeg4v2)
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp3[] = { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE };
+#endif
+
 AVCodec ff_msmpeg4v2_encoder = {
-    .name           = "msmpeg4v2",
+#ifdef IDE_COMPILE
+    "msmpeg4v2",
+    "MPEG-4 part 2 Microsoft variant version 2",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_MSMPEG4V2,
+    0, 0, tmp3,
+    0, 0, 0, 0, &msmpeg4v2_class,
+    0, sizeof(MpegEncContext),
+    0, 0, 0, 0, 0, ff_mpv_encode_init,
+    0, ff_mpv_encode_picture,
+    0, ff_mpv_encode_end,
+#else
+	.name           = "msmpeg4v2",
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 2"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_MSMPEG4V2,
@@ -4553,12 +4632,29 @@ AVCodec ff_msmpeg4v2_encoder = {
     .close          = ff_mpv_encode_end,
     .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
     .priv_class     = &msmpeg4v2_class,
+#endif
 };
 
 FF_MPV_GENERIC_CLASS(msmpeg4v3)
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp4[] = { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE };
+#endif
+
 AVCodec ff_msmpeg4v3_encoder = {
-    .name           = "msmpeg4",
+#ifdef IDE_COMPILE
+    "msmpeg4",
+    "MPEG-4 part 2 Microsoft variant version 3",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_MSMPEG4V3,
+    0, 0, tmp4,
+    0, 0, 0, 0, &msmpeg4v3_class,
+    0, sizeof(MpegEncContext),
+    0, 0, 0, 0, 0, ff_mpv_encode_init,
+    0, ff_mpv_encode_picture,
+    0, ff_mpv_encode_end,
+#else
+	.name           = "msmpeg4",
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 3"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_MSMPEG4V3,
@@ -4568,12 +4664,27 @@ AVCodec ff_msmpeg4v3_encoder = {
     .close          = ff_mpv_encode_end,
     .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
     .priv_class     = &msmpeg4v3_class,
+#endif
 };
 
 FF_MPV_GENERIC_CLASS(wmv1)
 
+static const enum AVPixelFormat tmp5[] = { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE };
+
 AVCodec ff_wmv1_encoder = {
-    .name           = "wmv1",
+#ifdef IDE_COMPILE
+    "wmv1",
+    "Windows Media Video 7",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_WMV1,
+    0, 0, tmp5,
+    0, 0, 0, 0, &wmv1_class,
+    0, sizeof(MpegEncContext),
+    0, 0, 0, 0, 0, ff_mpv_encode_init,
+    0, ff_mpv_encode_picture,
+    0, ff_mpv_encode_end,
+#else
+	.name           = "wmv1",
     .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 7"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_WMV1,
@@ -4583,4 +4694,5 @@ AVCodec ff_wmv1_encoder = {
     .close          = ff_mpv_encode_end,
     .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
     .priv_class     = &wmv1_class,
+#endif
 };

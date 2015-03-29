@@ -55,12 +55,26 @@ static int xbm_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_MONOWHITE,
+                                                   AV_PIX_FMT_NONE };
+#endif
+
 AVCodec ff_xbm_encoder = {
-    .name         = "xbm",
+#ifdef IDE_COMPILE
+    "xbm",
+    "XBM (X BitMap) image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_XBM,
+    0, 0, tmp1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, xbm_encode_frame,
+#else
+	.name         = "xbm",
     .long_name    = NULL_IF_CONFIG_SMALL("XBM (X BitMap) image"),
     .type         = AVMEDIA_TYPE_VIDEO,
     .id           = AV_CODEC_ID_XBM,
     .encode2      = xbm_encode_frame,
     .pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_MONOWHITE,
                                                    AV_PIX_FMT_NONE },
+#endif
 };

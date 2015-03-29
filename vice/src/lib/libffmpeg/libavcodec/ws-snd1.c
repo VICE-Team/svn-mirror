@@ -171,11 +171,21 @@ static int ws_snd_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_ws_snd1_decoder = {
-    .name           = "ws_snd1",
+#ifdef IDE_COMPILE
+    "ws_snd1",
+    "Westwood Audio (SND1)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_WESTWOOD_SND1,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ws_snd_decode_init,
+    0, 0, ws_snd_decode_frame,
+#else
+	.name           = "ws_snd1",
     .long_name      = NULL_IF_CONFIG_SMALL("Westwood Audio (SND1)"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_WESTWOOD_SND1,
     .init           = ws_snd_decode_init,
     .decode         = ws_snd_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

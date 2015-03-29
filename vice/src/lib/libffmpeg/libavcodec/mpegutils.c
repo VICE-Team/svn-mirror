@@ -24,6 +24,10 @@
 #include "libavutil/frame.h"
 #include "libavutil/pixdesc.h"
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "mpegutils.h"
 

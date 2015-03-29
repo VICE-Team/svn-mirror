@@ -95,7 +95,19 @@ static int sp5x_decode_frame(AVCodecContext *avctx,
 
 #if CONFIG_SP5X_DECODER
 AVCodec ff_sp5x_decoder = {
-    .name           = "sp5x",
+#ifdef IDE_COMPILE
+    "sp5x",
+    "Sunplus JPEG (SP5X)",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_SP5X,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 3,
+    0, 0, sizeof(MJpegDecodeContext),
+    0, 0, 0, 0, 0, ff_mjpeg_decode_init,
+    0, 0, sp5x_decode_frame,
+    ff_mjpeg_decode_end,
+#else
+	.name           = "sp5x",
     .long_name      = NULL_IF_CONFIG_SMALL("Sunplus JPEG (SP5X)"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_SP5X,
@@ -105,11 +117,24 @@ AVCodec ff_sp5x_decoder = {
     .decode         = sp5x_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
     .max_lowres     = 3,
+#endif
 };
 #endif
+
 #if CONFIG_AMV_DECODER
 AVCodec ff_amv_decoder = {
-    .name           = "amv",
+#ifdef IDE_COMPILE
+    "amv",
+    "AMV Video",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_AMV,
+    0, 0, 0, 0, 0, 0, 3,
+    0, 0, sizeof(MJpegDecodeContext),
+    0, 0, 0, 0, 0, ff_mjpeg_decode_init,
+    0, 0, sp5x_decode_frame,
+    ff_mjpeg_decode_end,
+#else
+	.name           = "amv",
     .long_name      = NULL_IF_CONFIG_SMALL("AMV Video"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_AMV,
@@ -118,5 +143,6 @@ AVCodec ff_amv_decoder = {
     .close          = ff_mjpeg_decode_end,
     .decode         = sp5x_decode_frame,
     .max_lowres     = 3,
+#endif
 };
 #endif

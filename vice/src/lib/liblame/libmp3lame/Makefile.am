@@ -66,7 +66,7 @@ noinst_HEADERS= \
 	lame-analysis.h \
 	lame_global_flags.h \
 	lameerror.h \
-	machine.h \
+	lame-machine.h \
 	newmdct.h \
 	psymodel.h \
 	quantize.h  \

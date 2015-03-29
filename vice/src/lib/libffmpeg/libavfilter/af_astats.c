@@ -50,8 +50,12 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption astats_options[] = {
-    { "length", "set the window length", OFFSET(time_constant), AV_OPT_TYPE_DOUBLE, {.dbl=.05}, .01, 10, FLAGS },
-    { NULL }
+#ifdef IDE_COMPILE
+	{ "length", "set the window length", OFFSET(time_constant), AV_OPT_TYPE_DOUBLE, {0x3fa999999999999a}, .01, 10, FLAGS },
+#else
+	{ "length", "set the window length", OFFSET(time_constant), AV_OPT_TYPE_DOUBLE, {.dbl=.05}, .01, 10, FLAGS },
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(astats);
@@ -246,24 +250,46 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad astats_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad astats_outputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_output,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_af_astats = {
-    .name          = "astats",
+#ifdef IDE_COMPILE
+    "astats",
+    NULL_IF_CONFIG_SMALL("Show time domain statistics about audio frames."),
+    astats_inputs,
+    astats_outputs,
+    &astats_class,
+    0, 0, 0, uninit,
+    query_formats,
+    sizeof(AudioStatsContext),
+#else
+	.name          = "astats",
     .description   = NULL_IF_CONFIG_SMALL("Show time domain statistics about audio frames."),
     .query_formats = query_formats,
     .priv_size     = sizeof(AudioStatsContext),
@@ -271,4 +297,5 @@ AVFilter ff_af_astats = {
     .uninit        = uninit,
     .inputs        = astats_inputs,
     .outputs       = astats_outputs,
+#endif
 };

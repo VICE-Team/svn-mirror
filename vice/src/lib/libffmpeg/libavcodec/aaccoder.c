@@ -1111,7 +1111,33 @@ static void search_for_ms(AACEncContext *s, ChannelElement *cpe,
 }
 
 AACCoefficientsEncoder ff_aac_coders[AAC_CODER_NB] = {
-    [AAC_CODER_FAAC] = {
+#ifdef IDE_COMPILE
+    {
+        search_for_quantizers_faac,
+        encode_window_bands_info,
+        quantize_and_encode_band,
+        search_for_ms,
+    },
+    {
+        search_for_quantizers_anmr,
+        encode_window_bands_info,
+        quantize_and_encode_band,
+        search_for_ms,
+    },
+    {
+        search_for_quantizers_twoloop,
+        codebook_trellis_rate,
+        quantize_and_encode_band,
+        search_for_ms,
+    },
+    {
+        search_for_quantizers_fast,
+        encode_window_bands_info,
+        quantize_and_encode_band,
+        search_for_ms,
+    },
+#else
+	[AAC_CODER_FAAC] = {
         search_for_quantizers_faac,
         encode_window_bands_info,
         quantize_and_encode_band,
@@ -1135,4 +1161,5 @@ AACCoefficientsEncoder ff_aac_coders[AAC_CODER_NB] = {
         quantize_and_encode_band,
         search_for_ms,
     },
+#endif
 };

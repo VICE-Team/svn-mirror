@@ -121,11 +121,21 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
 }
 
 AVCodec ff_v210x_decoder = {
-    .name           = "v210x",
+#ifdef IDE_COMPILE
+    "v210x",
+    "Uncompressed 4:2:2 10-bit",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_V210X,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, decode_init,
+    0, 0, decode_frame,
+#else
+	.name           = "v210x",
     .long_name      = NULL_IF_CONFIG_SMALL("Uncompressed 4:2:2 10-bit"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_V210X,
     .init           = decode_init,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

@@ -26,6 +26,7 @@ SOURCE_FILES = \
 	common/macroblock.c \
 	common/mc.c \
 	common/mvpred.c \
+	common/oclobj-msvc.h \
 	common/opencl.c \
 	common/osdep.c \
 	common/pixel.c \

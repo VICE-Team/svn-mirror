@@ -50,11 +50,20 @@ typedef struct PhaseContext {
 
 #define OFFSET(x) offsetof(PhaseContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
+
+#ifdef IDE_COMPILE
+#define CONST(name, help, val, unit) { name, help, 0, AV_OPT_TYPE_CONST, {val}, 0, 0, FLAGS, unit }
+#else
 #define CONST(name, help, val, unit) { name, help, 0, AV_OPT_TYPE_CONST, {.i64=val}, 0, 0, FLAGS, unit }
+#endif
 
 static const AVOption phase_options[] = {
-    { "mode", "set phase mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64=AUTO_ANALYZE}, PROGRESSIVE, AUTO_ANALYZE, FLAGS, "mode" },
-    CONST("p", "progressive",          PROGRESSIVE,          "mode"),
+#ifdef IDE_COMPILE
+	{ "mode", "set phase mode", OFFSET(mode), AV_OPT_TYPE_INT, {AUTO_ANALYZE}, PROGRESSIVE, AUTO_ANALYZE, FLAGS, "mode" },
+#else
+	{ "mode", "set phase mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64=AUTO_ANALYZE}, PROGRESSIVE, AUTO_ANALYZE, FLAGS, "mode" },
+#endif
+	CONST("p", "progressive",          PROGRESSIVE,          "mode"),
     CONST("t", "top first",            TOP_FIRST,            "mode"),
     CONST("b", "bottom first",         BOTTOM_FIRST,         "mode"),
     CONST("T", "top first analyze",    TOP_FIRST_ANALYZE,    "mode"),
@@ -63,7 +72,7 @@ static const AVOption phase_options[] = {
     CONST("U", "full analyze",         FULL_ANALYZE,         "mode"),
     CONST("a", "auto",                 AUTO,                 "mode"),
     CONST("A", "auto analyze",         AUTO_ANALYZE,         "mode"),
-    { NULL }
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(phase);
@@ -300,24 +309,47 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad phase_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+        0, 0, config_input,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad phase_outputs[] = {
     {
-        .name = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+#else
+		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_phase = {
-    .name          = "phase",
+#ifdef IDE_COMPILE
+    "phase",
+    NULL_IF_CONFIG_SMALL("Phase shift fields."),
+    phase_inputs,
+    phase_outputs,
+    &phase_class,
+    AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
+    0, 0, uninit,
+    query_formats,
+    sizeof(PhaseContext),
+#else
+	.name          = "phase",
     .description   = NULL_IF_CONFIG_SMALL("Phase shift fields."),
     .priv_size     = sizeof(PhaseContext),
     .priv_class    = &phase_class,
@@ -326,4 +358,5 @@ AVFilter ff_vf_phase = {
     .inputs        = phase_inputs,
     .outputs       = phase_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
+#endif
 };

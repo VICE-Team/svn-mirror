@@ -112,7 +112,13 @@ static int parse(AVCodecParserContext *ctx,
 }
 
 AVCodecParser ff_vp9_parser = {
-    .codec_ids      = { AV_CODEC_ID_VP9 },
+#ifdef IDE_COMPILE
+    { AV_CODEC_ID_VP9 },
+    sizeof(VP9ParseContext),
+    0, parse,
+#else
+	.codec_ids      = { AV_CODEC_ID_VP9 },
     .priv_data_size = sizeof(VP9ParseContext),
     .parser_parse   = parse,
+#endif
 };

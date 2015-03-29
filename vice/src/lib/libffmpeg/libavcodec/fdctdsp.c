@@ -21,7 +21,13 @@
 #include "dct.h"
 #include "faandct.h"
 #include "fdctdsp.h"
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 av_cold void ff_fdctdsp_init(FDCTDSPContext *c, AVCodecContext *avctx)
 {

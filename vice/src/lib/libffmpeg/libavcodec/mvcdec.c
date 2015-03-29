@@ -266,7 +266,18 @@ static av_cold int mvc_decode_end(AVCodecContext *avctx)
 
 #if CONFIG_MVC1_DECODER
 AVCodec ff_mvc1_decoder = {
-    .name           = "mvc1",
+#ifdef IDE_COMPILE
+    "mvc1",
+    "Silicon Graphics Motion Video Compressor 1",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_MVC1,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(MvcContext),
+    0, 0, 0, 0, 0, mvc_decode_init,
+    0, 0, mvc_decode_frame,
+    mvc_decode_end,
+#else
+	.name           = "mvc1",
     .long_name      = NULL_IF_CONFIG_SMALL("Silicon Graphics Motion Video Compressor 1"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_MVC1,
@@ -275,12 +286,24 @@ AVCodec ff_mvc1_decoder = {
     .close          = mvc_decode_end,
     .decode         = mvc_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };
 #endif
 
 #if CONFIG_MVC2_DECODER
 AVCodec ff_mvc2_decoder = {
-    .name           = "mvc2",
+#ifdef IDE_COMPILE
+    "mvc2",
+    "Silicon Graphics Motion Video Compressor 2",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_MVC2,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(MvcContext),
+    0, 0, 0, 0, 0, mvc_decode_init,
+    0, 0, mvc_decode_frame,
+    mvc_decode_end,
+#else
+	.name           = "mvc2",
     .long_name      = NULL_IF_CONFIG_SMALL("Silicon Graphics Motion Video Compressor 2"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_MVC2,
@@ -289,5 +312,6 @@ AVCodec ff_mvc2_decoder = {
     .close          = mvc_decode_end,
     .decode         = mvc_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };
 #endif

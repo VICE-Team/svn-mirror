@@ -18,7 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "libavcodec/avfft.h"
 #include "libavutil/avassert.h"
 #include "libavutil/channel_layout.h"
@@ -98,7 +104,19 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption showcqt_options[] = {
-    { "volume", "set volume", OFFSET(volume), AV_OPT_TYPE_STRING, { .str = "16" }, CHAR_MIN, CHAR_MAX, FLAGS },
+#ifdef IDE_COMPILE
+	{ "volume", "set volume", OFFSET(volume), AV_OPT_TYPE_STRING, {(intptr_t) "16" }, CHAR_MIN, CHAR_MAX, FLAGS },
+    { "tlength", "set transform length", OFFSET(tlength), AV_OPT_TYPE_STRING, {(intptr_t) TLENGTH_DEFAULT }, CHAR_MIN, CHAR_MAX, FLAGS },
+    { "timeclamp", "set timeclamp", OFFSET(timeclamp), AV_OPT_TYPE_DOUBLE, {0x3fc5c28f5c28f5c3}, 0.1, 1.0, FLAGS },
+    { "coeffclamp", "set coeffclamp", OFFSET(coeffclamp), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, 0.1, 10, FLAGS },
+    { "gamma", "set gamma", OFFSET(gamma), AV_OPT_TYPE_FLOAT, {0x4008000000000000}, 1, 7, FLAGS },
+    { "fullhd", "set full HD resolution", OFFSET(fullhd), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS },
+    { "fps", "set video fps", OFFSET(fps), AV_OPT_TYPE_INT, {25}, 10, 100, FLAGS },
+    { "count", "set number of transform per frame", OFFSET(count), AV_OPT_TYPE_INT, {6}, 1, 30, FLAGS },
+    { "fontfile", "set font file", OFFSET(fontfile), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, CHAR_MIN, CHAR_MAX, FLAGS },
+    { "fontcolor", "set font color", OFFSET(fontcolor), AV_OPT_TYPE_STRING, { (intptr_t) FONTCOLOR_DEFAULT }, CHAR_MIN, CHAR_MAX, FLAGS },
+#else
+	{ "volume", "set volume", OFFSET(volume), AV_OPT_TYPE_STRING, { .str = "16" }, CHAR_MIN, CHAR_MAX, FLAGS },
     { "tlength", "set transform length", OFFSET(tlength), AV_OPT_TYPE_STRING, { .str = TLENGTH_DEFAULT }, CHAR_MIN, CHAR_MAX, FLAGS },
     { "timeclamp", "set timeclamp", OFFSET(timeclamp), AV_OPT_TYPE_DOUBLE, { .dbl = 0.17 }, 0.1, 1.0, FLAGS },
     { "coeffclamp", "set coeffclamp", OFFSET(coeffclamp), AV_OPT_TYPE_FLOAT, { .dbl = 1 }, 0.1, 10, FLAGS },
@@ -108,7 +126,8 @@ static const AVOption showcqt_options[] = {
     { "count", "set number of transform per frame", OFFSET(count), AV_OPT_TYPE_INT, { .i64 = 6 }, 1, 30, FLAGS },
     { "fontfile", "set font file", OFFSET(fontfile), AV_OPT_TYPE_STRING, { .str = NULL }, CHAR_MIN, CHAR_MAX, FLAGS },
     { "fontcolor", "set font color", OFFSET(fontcolor), AV_OPT_TYPE_STRING, { .str = FONTCOLOR_DEFAULT }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { NULL }
+#endif
+	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(showcqt);
@@ -778,25 +797,48 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad showcqt_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad showcqt_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+        config_output,
+#else
+		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_output,
-        .request_frame = request_frame,
-    },
+		.request_frame = request_frame,
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_avf_showcqt = {
-    .name          = "showcqt",
+#ifdef IDE_COMPILE
+    "showcqt",
+    NULL_IF_CONFIG_SMALL("Convert input audio to a CQT (Constant Q Transform) spectrum video output."),
+    showcqt_inputs,
+    showcqt_outputs,
+    &showcqt_class,
+    0, 0, 0, uninit,
+    query_formats,
+    sizeof(ShowCQTContext),
+#else
+	.name          = "showcqt",
     .description   = NULL_IF_CONFIG_SMALL("Convert input audio to a CQT (Constant Q Transform) spectrum video output."),
     .uninit        = uninit,
     .query_formats = query_formats,
@@ -804,4 +846,5 @@ AVFilter ff_avf_showcqt = {
     .inputs        = showcqt_inputs,
     .outputs       = showcqt_outputs,
     .priv_class    = &showcqt_class,
+#endif
 };

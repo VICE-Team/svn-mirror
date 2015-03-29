@@ -429,8 +429,12 @@ static int dnxhd_decode_frame(AVCodecContext *avctx, void *data,
     const uint8_t *buf = avpkt->data;
     int buf_size = avpkt->size;
     DNXHDContext *ctx = avctx->priv_data;
-    ThreadFrame frame = { .f = data };
-    AVFrame *picture = data;
+#ifdef IDE_COMPILE
+    ThreadFrame frame = { data };
+#else
+	ThreadFrame frame = { .f = data };
+#endif
+	AVFrame *picture = data;
     int first_field = 1;
     int ret;
 
@@ -482,7 +486,18 @@ static av_cold int dnxhd_decode_close(AVCodecContext *avctx)
 }
 
 AVCodec ff_dnxhd_decoder = {
-    .name           = "dnxhd",
+#ifdef IDE_COMPILE
+    "dnxhd",
+    "VC3/DNxHD",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_DNXHD,
+    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(DNXHDContext),
+    0, 0, 0, 0, 0, dnxhd_decode_init,
+    0, 0, dnxhd_decode_frame,
+    dnxhd_decode_close,
+#else
+	.name           = "dnxhd",
     .long_name      = NULL_IF_CONFIG_SMALL("VC3/DNxHD"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_DNXHD,
@@ -491,4 +506,5 @@ AVCodec ff_dnxhd_decoder = {
     .close          = dnxhd_decode_close,
     .decode         = dnxhd_decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
+#endif
 };

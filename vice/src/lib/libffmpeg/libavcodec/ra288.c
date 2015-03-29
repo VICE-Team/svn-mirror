@@ -228,7 +228,17 @@ static int ra288_decode_frame(AVCodecContext * avctx, void *data,
 }
 
 AVCodec ff_ra_288_decoder = {
-    .name           = "real_288",
+#ifdef IDE_COMPILE
+    "real_288",
+    "RealAudio 2.0 (28.8K)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_RA_288,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(RA288Context),
+    0, 0, 0, 0, 0, ra288_decode_init,
+    0, 0, ra288_decode_frame,
+#else
+	.name           = "real_288",
     .long_name      = NULL_IF_CONFIG_SMALL("RealAudio 2.0 (28.8K)"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_RA_288,
@@ -236,4 +246,5 @@ AVCodec ff_ra_288_decoder = {
     .init           = ra288_decode_init,
     .decode         = ra288_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

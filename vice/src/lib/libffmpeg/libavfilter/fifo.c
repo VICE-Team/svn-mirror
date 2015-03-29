@@ -121,9 +121,17 @@ static void buffer_offset(AVFilterLink *link, AVFrame *frame,
     frame->nb_samples -= offset;
 
     if (frame->pts != AV_NOPTS_VALUE) {
-        frame->pts += av_rescale_q(offset, (AVRational){1, link->sample_rate},
+#ifdef IDE_COMPILE
+		AVRational tmp;
+
+		tmp.num = 1;
+		tmp.den = link->sample_rate;
+		frame->pts += av_rescale_q(offset, tmp, link->time_base);
+#else
+		frame->pts += av_rescale_q(offset, (AVRational){1, link->sample_rate},
                                    link->time_base);
-    }
+#endif
+	}
 }
 
 static int calc_ptr_alignment(AVFrame *frame)
@@ -252,62 +260,100 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad avfilter_vf_fifo_inputs[] = {
     {
-        .name             = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, add_to_queue,
+#else
+		.name             = "default",
         .type             = AVMEDIA_TYPE_VIDEO,
         .filter_frame     = add_to_queue,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_fifo_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+#else
+		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_fifo = {
-    .name      = "fifo",
+#ifdef IDE_COMPILE
+    "fifo",
+    NULL_IF_CONFIG_SMALL("Buffer input images and send them when they are requested."),
+    avfilter_vf_fifo_inputs,
+    avfilter_vf_fifo_outputs,
+    0, 0, init,
+    0, uninit,
+    0, sizeof(FifoContext),
+#else
+	.name      = "fifo",
     .description = NULL_IF_CONFIG_SMALL("Buffer input images and send them when they are requested."),
-
     .init      = init,
     .uninit    = uninit,
-
     .priv_size = sizeof(FifoContext),
-
     .inputs    = avfilter_vf_fifo_inputs,
     .outputs   = avfilter_vf_fifo_outputs,
+#endif
 };
 
 static const AVFilterPad avfilter_af_afifo_inputs[] = {
     {
-        .name             = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, add_to_queue,
+#else
+		.name             = "default",
         .type             = AVMEDIA_TYPE_AUDIO,
         .filter_frame     = add_to_queue,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_af_afifo_outputs[] = {
     {
-        .name          = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_AUDIO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
+#else
+		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .request_frame = request_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_af_afifo = {
-    .name        = "afifo",
+#ifdef IDE_COMPILE
+    "afifo",
+    NULL_IF_CONFIG_SMALL("Buffer input frames and send them when they are requested."),
+    avfilter_af_afifo_inputs,
+    avfilter_af_afifo_outputs,
+    0, 0, init,
+    0, uninit,
+    0, sizeof(FifoContext),
+#else
+	.name        = "afifo",
     .description = NULL_IF_CONFIG_SMALL("Buffer input frames and send them when they are requested."),
-
     .init      = init,
     .uninit    = uninit,
-
     .priv_size = sizeof(FifoContext),
-
     .inputs    = avfilter_af_afifo_inputs,
     .outputs   = avfilter_af_afifo_outputs,
+#endif
 };

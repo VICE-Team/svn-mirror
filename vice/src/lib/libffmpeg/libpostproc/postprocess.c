@@ -73,7 +73,14 @@ try to unroll inner for(x=0 ... loop to avoid these damn if(x ... checks
 
 //Changelog: use git log
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#include "libavutil/cpu.h"
+#else
 #include "config.h"
+#endif
+
 #include "libavutil/avutil.h"
 #include "libavutil/avassert.h"
 #include <inttypes.h>

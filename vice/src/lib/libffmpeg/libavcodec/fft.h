@@ -31,7 +31,14 @@
 #endif
 
 #include <stdint.h>
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "libavutil/mem.h"
 
 #if FFT_FLOAT

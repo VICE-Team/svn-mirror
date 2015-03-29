@@ -59,7 +59,20 @@ typedef struct {
 #define TINTERLACE_FLAG_VLPF 01
 
 static const AVOption tinterlace_options[] = {
-    {"mode",              "select interlace mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64=MODE_MERGE}, 0, MODE_NB-1, FLAGS, "mode"},
+#ifdef IDE_COMPILE
+	{"mode", "select interlace mode", OFFSET(mode), AV_OPT_TYPE_INT, {MODE_MERGE}, 0, MODE_NB-1, FLAGS, "mode"},
+    {"merge", "merge fields", 0, AV_OPT_TYPE_CONST, {MODE_MERGE}, INT_MIN, INT_MAX, FLAGS, "mode"},
+    {"drop_even", "drop even fields", 0, AV_OPT_TYPE_CONST, {MODE_DROP_EVEN}, INT_MIN, INT_MAX, FLAGS, "mode"},
+    {"drop_odd", "drop odd fields", 0, AV_OPT_TYPE_CONST, {MODE_DROP_ODD}, INT_MIN, INT_MAX, FLAGS, "mode"},
+    {"pad", "pad alternate lines with black", 0, AV_OPT_TYPE_CONST, {MODE_PAD}, INT_MIN, INT_MAX, FLAGS, "mode"},
+    {"interleave_top", "interleave top and bottom fields", 0, AV_OPT_TYPE_CONST, {MODE_INTERLEAVE_TOP}, INT_MIN, INT_MAX, FLAGS, "mode"},
+    {"interleave_bottom", "interleave bottom and top fields", 0, AV_OPT_TYPE_CONST, {MODE_INTERLEAVE_BOTTOM}, INT_MIN, INT_MAX, FLAGS, "mode"},
+    {"interlacex2", "interlace fields from two consecutive frames", 0, AV_OPT_TYPE_CONST, {MODE_INTERLACEX2}, INT_MIN, INT_MAX, FLAGS, "mode"},
+    {"flags", "set flags", OFFSET(flags), AV_OPT_TYPE_FLAGS, {0}, 0, INT_MAX, 0, "flags" },
+    {"low_pass_filter", "enable vertical low-pass filter", 0, AV_OPT_TYPE_CONST, {TINTERLACE_FLAG_VLPF}, INT_MIN, INT_MAX, FLAGS, "flags" },
+    {"vlpf", "enable vertical low-pass filter", 0, AV_OPT_TYPE_CONST, {TINTERLACE_FLAG_VLPF}, INT_MIN, INT_MAX, FLAGS, "flags" },
+#else
+	{"mode",              "select interlace mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64=MODE_MERGE}, 0, MODE_NB-1, FLAGS, "mode"},
     {"merge",             "merge fields",                                 0, AV_OPT_TYPE_CONST, {.i64=MODE_MERGE},             INT_MIN, INT_MAX, FLAGS, "mode"},
     {"drop_even",         "drop even fields",                             0, AV_OPT_TYPE_CONST, {.i64=MODE_DROP_EVEN},         INT_MIN, INT_MAX, FLAGS, "mode"},
     {"drop_odd",          "drop odd fields",                              0, AV_OPT_TYPE_CONST, {.i64=MODE_DROP_ODD},          INT_MIN, INT_MAX, FLAGS, "mode"},
@@ -67,11 +80,10 @@ static const AVOption tinterlace_options[] = {
     {"interleave_top",    "interleave top and bottom fields",             0, AV_OPT_TYPE_CONST, {.i64=MODE_INTERLEAVE_TOP},    INT_MIN, INT_MAX, FLAGS, "mode"},
     {"interleave_bottom", "interleave bottom and top fields",             0, AV_OPT_TYPE_CONST, {.i64=MODE_INTERLEAVE_BOTTOM}, INT_MIN, INT_MAX, FLAGS, "mode"},
     {"interlacex2",       "interlace fields from two consecutive frames", 0, AV_OPT_TYPE_CONST, {.i64=MODE_INTERLACEX2},       INT_MIN, INT_MAX, FLAGS, "mode"},
-
     {"flags",             "set flags", OFFSET(flags), AV_OPT_TYPE_FLAGS, {.i64 = 0}, 0, INT_MAX, 0, "flags" },
     {"low_pass_filter",   "enable vertical low-pass filter",              0, AV_OPT_TYPE_CONST, {.i64 = TINTERLACE_FLAG_VLPF}, INT_MIN, INT_MAX, FLAGS, "flags" },
     {"vlpf",              "enable vertical low-pass filter",              0, AV_OPT_TYPE_CONST, {.i64 = TINTERLACE_FLAG_VLPF}, INT_MIN, INT_MAX, FLAGS, "flags" },
-
+#endif
     {NULL}
 };
 
@@ -146,10 +158,19 @@ static int config_out_props(AVFilterLink *outlink)
         tinterlace->flags &= ~TINTERLACE_FLAG_VLPF;
     }
     if (tinterlace->mode == MODE_INTERLACEX2) {
-        outlink->time_base.num = inlink->time_base.num;
+#ifdef IDE_COMPILE
+		AVRational tmp;
+#endif
+		outlink->time_base.num = inlink->time_base.num;
         outlink->time_base.den = inlink->time_base.den * 2;
-        outlink->frame_rate = av_mul_q(inlink->frame_rate, (AVRational){2,1});
-    }
+#ifdef IDE_COMPILE
+		tmp.num = 2;
+		tmp.den = 1;
+		outlink->frame_rate = av_mul_q(inlink->frame_rate, tmp);
+#else
+		outlink->frame_rate = av_mul_q(inlink->frame_rate, (AVRational){2,1});
+#endif
+	}
 
     av_log(ctx, AV_LOG_VERBOSE, "mode:%d filter:%s h:%d -> h:%d\n",
            tinterlace->mode, (tinterlace->flags & TINTERLACE_FLAG_VLPF) ? "on" : "off",
@@ -370,24 +391,46 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *picref)
 
 static const AVFilterPad tinterlace_inputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, filter_frame,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-    },
+#endif
+	},
     { NULL }
 };
 
 static const AVFilterPad tinterlace_outputs[] = {
     {
-        .name         = "default",
+#ifdef IDE_COMPILE
+        "default",
+        AVMEDIA_TYPE_VIDEO,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_out_props,
+#else
+		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_out_props,
-    },
+#endif
+	},
     { NULL }
 };
 
 AVFilter ff_vf_tinterlace = {
-    .name          = "tinterlace",
+#ifdef IDE_COMPILE
+    "tinterlace",
+    NULL_IF_CONFIG_SMALL("Perform temporal field interlacing."),
+    tinterlace_inputs,
+    tinterlace_outputs,
+    &tinterlace_class,
+    0, 0, 0, uninit,
+    query_formats,
+    sizeof(TInterlaceContext),
+#else
+	.name          = "tinterlace",
     .description   = NULL_IF_CONFIG_SMALL("Perform temporal field interlacing."),
     .priv_size     = sizeof(TInterlaceContext),
     .uninit        = uninit,
@@ -395,4 +438,5 @@ AVFilter ff_vf_tinterlace = {
     .inputs        = tinterlace_inputs,
     .outputs       = tinterlace_outputs,
     .priv_class    = &tinterlace_class,
+#endif
 };

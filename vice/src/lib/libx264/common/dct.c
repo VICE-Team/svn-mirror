@@ -106,8 +106,9 @@ const uint32_t x264_dct8_weight2_tab[64] = {
 static void dct4x4dc( dctcoef d[16] )
 {
     dctcoef tmp[16];
+    int i;
 
-    for( int i = 0; i < 4; i++ )
+    for( i = 0; i < 4; i++ )
     {
         int s01 = d[i*4+0] + d[i*4+1];
         int d01 = d[i*4+0] - d[i*4+1];
@@ -120,7 +121,7 @@ static void dct4x4dc( dctcoef d[16] )
         tmp[3*4+i] = d01 + d23;
     }
 
-    for( int i = 0; i < 4; i++ )
+    for( i = 0; i < 4; i++ )
     {
         int s01 = tmp[i*4+0] + tmp[i*4+1];
         int d01 = tmp[i*4+0] - tmp[i*4+1];
@@ -137,8 +138,9 @@ static void dct4x4dc( dctcoef d[16] )
 static void idct4x4dc( dctcoef d[16] )
 {
     dctcoef tmp[16];
+    int i;
 
-    for( int i = 0; i < 4; i++ )
+    for( i = 0; i < 4; i++ )
     {
         int s01 = d[i*4+0] + d[i*4+1];
         int d01 = d[i*4+0] - d[i*4+1];
@@ -151,7 +153,7 @@ static void idct4x4dc( dctcoef d[16] )
         tmp[3*4+i] = d01 + d23;
     }
 
-    for( int i = 0; i < 4; i++ )
+    for( i = 0; i < 4; i++ )
     {
         int s01 = tmp[i*4+0] + tmp[i*4+1];
         int d01 = tmp[i*4+0] - tmp[i*4+1];
@@ -204,9 +206,12 @@ static void dct2x4dc( dctcoef dct[8], dctcoef dct4x4[8][16] )
 static inline void pixel_sub_wxh( dctcoef *diff, int i_size,
                                   pixel *pix1, int i_pix1, pixel *pix2, int i_pix2 )
 {
-    for( int y = 0; y < i_size; y++ )
+	int y;
+	int x;
+
+	for( y = 0; y < i_size; y++ )
     {
-        for( int x = 0; x < i_size; x++ )
+        for( x = 0; x < i_size; x++ )
             diff[x + y*i_size] = pix1[x] - pix2[x];
         pix1 += i_pix1;
         pix2 += i_pix2;
@@ -217,10 +222,11 @@ static void sub4x4_dct( dctcoef dct[16], pixel *pix1, pixel *pix2 )
 {
     dctcoef d[16];
     dctcoef tmp[16];
+	int i;
 
     pixel_sub_wxh( d, 4, pix1, FENC_STRIDE, pix2, FDEC_STRIDE );
 
-    for( int i = 0; i < 4; i++ )
+    for( i = 0; i < 4; i++ )
     {
         int s03 = d[i*4+0] + d[i*4+3];
         int s12 = d[i*4+1] + d[i*4+2];
@@ -233,7 +239,7 @@ static void sub4x4_dct( dctcoef dct[16], pixel *pix1, pixel *pix2 )
         tmp[3*4+i] =   d03 - 2*d12;
     }
 
-    for( int i = 0; i < 4; i++ )
+    for( i = 0; i < 4; i++ )
     {
         int s03 = tmp[i*4+0] + tmp[i*4+3];
         int s12 = tmp[i*4+1] + tmp[i*4+2];
@@ -266,7 +272,9 @@ static void sub16x16_dct( dctcoef dct[16][16], pixel *pix1, pixel *pix2 )
 static int sub4x4_dct_dc( pixel *pix1, pixel *pix2 )
 {
     int sum = 0;
-    for( int i=0; i<4; i++, pix1 += FENC_STRIDE, pix2 += FDEC_STRIDE )
+	int i;
+
+	for( i=0; i<4; i++, pix1 += FENC_STRIDE, pix2 += FDEC_STRIDE )
         sum += pix1[0] + pix1[1] + pix1[2] + pix1[3]
              - pix2[0] - pix2[1] - pix2[2] - pix2[3];
     return sum;
@@ -274,16 +282,21 @@ static int sub4x4_dct_dc( pixel *pix1, pixel *pix2 )
 
 static void sub8x8_dct_dc( dctcoef dct[4], pixel *pix1, pixel *pix2 )
 {
-    dct[0] = sub4x4_dct_dc( &pix1[0], &pix2[0] );
+    int d0;
+    int d1;
+    int d2;
+    int d3;
+
+	dct[0] = sub4x4_dct_dc( &pix1[0], &pix2[0] );
     dct[1] = sub4x4_dct_dc( &pix1[4], &pix2[4] );
     dct[2] = sub4x4_dct_dc( &pix1[4*FENC_STRIDE+0], &pix2[4*FDEC_STRIDE+0] );
     dct[3] = sub4x4_dct_dc( &pix1[4*FENC_STRIDE+4], &pix2[4*FDEC_STRIDE+4] );
 
     /* 2x2 DC transform */
-    int d0 = dct[0] + dct[1];
-    int d1 = dct[2] + dct[3];
-    int d2 = dct[0] - dct[1];
-    int d3 = dct[2] - dct[3];
+    d0 = dct[0] + dct[1];
+    d1 = dct[2] + dct[3];
+    d2 = dct[0] - dct[1];
+    d3 = dct[2] - dct[3];
     dct[0] = d0 + d1;
     dct[1] = d0 - d1;
     dct[2] = d2 + d3;
@@ -332,8 +345,10 @@ static void add4x4_idct( pixel *p_dst, dctcoef dct[16] )
 {
     dctcoef d[16];
     dctcoef tmp[16];
+    int i;
+	int y;
 
-    for( int i = 0; i < 4; i++ )
+    for( i = 0; i < 4; i++ )
     {
         int s02 =  dct[0*4+i]     +  dct[2*4+i];
         int d02 =  dct[0*4+i]     -  dct[2*4+i];
@@ -346,7 +361,7 @@ static void add4x4_idct( pixel *p_dst, dctcoef dct[16] )
         tmp[i*4+3] = s02 - s13;
     }
 
-    for( int i = 0; i < 4; i++ )
+    for( i = 0; i < 4; i++ )
     {
         int s02 =  tmp[0*4+i]     +  tmp[2*4+i];
         int d02 =  tmp[0*4+i]     -  tmp[2*4+i];
@@ -358,11 +373,11 @@ static void add4x4_idct( pixel *p_dst, dctcoef dct[16] )
         d[2*4+i] = ( d02 - d13 + 32 ) >> 6;
         d[3*4+i] = ( s02 - s13 + 32 ) >> 6;
     }
-
-
-    for( int y = 0; y < 4; y++ )
+	
+    for( y = 0; y < 4; y++ )
     {
-        for( int x = 0; x < 4; x++ )
+		int x;
+		for( x = 0; x < 4; x++ )
             p_dst[x] = x264_clip_pixel( p_dst[x] + d[y*4+x] );
         p_dst += FDEC_STRIDE;
     }
@@ -418,19 +433,20 @@ static void add16x16_idct( pixel *p_dst, dctcoef dct[16][16] )
 static void sub8x8_dct8( dctcoef dct[64], pixel *pix1, pixel *pix2 )
 {
     dctcoef tmp[64];
+	int i;
 
     pixel_sub_wxh( tmp, 8, pix1, FENC_STRIDE, pix2, FDEC_STRIDE );
 
 #define SRC(x) tmp[x*8+i]
 #define DST(x) tmp[x*8+i]
-    for( int i = 0; i < 8; i++ )
+    for( i = 0; i < 8; i++ )
         DCT8_1D
 #undef SRC
 #undef DST
 
 #define SRC(x) tmp[i*8+x]
 #define DST(x) dct[x*8+i]
-    for( int i = 0; i < 8; i++ )
+    for( i = 0; i < 8; i++ )
         DCT8_1D
 #undef SRC
 #undef DST
@@ -473,18 +489,20 @@ static void sub16x16_dct8( dctcoef dct[4][64], pixel *pix1, pixel *pix2 )
 
 static void add8x8_idct8( pixel *dst, dctcoef dct[64] )
 {
-    dct[0] += 32; // rounding for the >>6 at the end
+	int i;
+
+	dct[0] += 32; // rounding for the >>6 at the end
 
 #define SRC(x)     dct[x*8+i]
 #define DST(x,rhs) dct[x*8+i] = (rhs)
-    for( int i = 0; i < 8; i++ )
+    for( i = 0; i < 8; i++ )
         IDCT8_1D
 #undef SRC
 #undef DST
 
 #define SRC(x)     dct[i*8+x]
 #define DST(x,rhs) dst[i + x*FDEC_STRIDE] = x264_clip_pixel( dst[i + x*FDEC_STRIDE] + ((rhs) >> 6) );
-    for( int i = 0; i < 8; i++ )
+    for( i = 0; i < 8; i++ )
         IDCT8_1D
 #undef SRC
 #undef DST
@@ -500,8 +518,10 @@ static void add16x16_idct8( pixel *dst, dctcoef dct[4][64] )
 
 static void inline add4x4_idct_dc( pixel *p_dst, dctcoef dc )
 {
-    dc = (dc + 32) >> 6;
-    for( int i = 0; i < 4; i++, p_dst += FDEC_STRIDE )
+	int i;
+
+	dc = (dc + 32) >> 6;
+    for( i = 0; i < 4; i++, p_dst += FDEC_STRIDE )
     {
         p_dst[0] = x264_clip_pixel( p_dst[0] + dc );
         p_dst[1] = x264_clip_pixel( p_dst[1] + dc );
@@ -520,7 +540,9 @@ static void add8x8_idct_dc( pixel *p_dst, dctcoef dct[4] )
 
 static void add16x16_idct_dc( pixel *p_dst, dctcoef dct[16] )
 {
-    for( int i = 0; i < 4; i++, dct += 4, p_dst += 4*FDEC_STRIDE )
+	int i;
+
+	for( i = 0; i < 4; i++, dct += 4, p_dst += 4*FDEC_STRIDE )
     {
         add4x4_idct_dc( &p_dst[ 0], dct[0] );
         add4x4_idct_dc( &p_dst[ 4], dct[1] );
@@ -911,10 +933,14 @@ static int zigzag_sub_8x8_field( dctcoef level[64], const pixel *p_src, pixel *p
 
 static void zigzag_interleave_8x8_cavlc( dctcoef *dst, dctcoef *src, uint8_t *nnz )
 {
-    for( int i = 0; i < 4; i++ )
+	int i;
+
+	for( i = 0; i < 4; i++ )
     {
         int nz = 0;
-        for( int j = 0; j < 16; j++ )
+		int j;
+
+		for( j = 0; j < 16; j++ )
         {
             nz |= src[i+j*4];
             dst[i*16+j] = src[i+j*4];

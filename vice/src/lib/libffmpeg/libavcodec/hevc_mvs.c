@@ -23,6 +23,10 @@
 
 #include "hevc.h"
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 static const uint8_t l0_l1_cand_idx[12][2] = {
     { 0, 1, },
     { 1, 0, },

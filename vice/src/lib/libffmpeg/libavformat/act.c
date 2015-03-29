@@ -198,10 +198,19 @@ static int read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_act_demuxer = {
-    .name           = "act",
+#ifdef IDE_COMPILE
+    "act",
+    "ACT Voice file format",
+    0, 0, 0, 0, 0, 0, 0, sizeof(ACTContext),
+    probe,
+    read_header,
+    read_packet,
+#else
+	.name           = "act",
     .long_name      = "ACT Voice file format",
     .priv_data_size = sizeof(ACTContext),
     .read_probe     = probe,
     .read_header    = read_header,
     .read_packet    = read_packet,
+#endif
 };

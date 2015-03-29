@@ -1,0 +1,26 @@
+# name of the project
+PROJECTNAME = x264encoder
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	lib\libx264
+	lib\libx264\extras
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	lib\libx264\encoder\analyse.c
+	lib\libx264\encoder\me.c
+	lib\libx264\encoder\ratecontrol.c
+	lib\libx264\encoder\set.c
+	lib\libx264\encoder\macroblock.c
+	lib\libx264\encoder\cabac.c
+	lib\libx264\encoder\cavlc.c
+	lib\libx264\encoder\encoder.c
+	lib\libx264\encoder\lookahead.c
+	lib\libx264\encoder\slicetype-cl.c

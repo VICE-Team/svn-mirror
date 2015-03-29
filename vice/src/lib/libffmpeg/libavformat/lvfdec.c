@@ -142,11 +142,21 @@ static int lvf_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_lvf_demuxer = {
-    .name        = "lvf",
+#ifdef IDE_COMPILE
+    "lvf",
+    "LVF",
+    AVFMT_GENERIC_INDEX,
+    "lvf",
+    0, 0, 0, 0, 0, 0, lvf_probe,
+    lvf_read_header,
+    lvf_read_packet,
+#else
+	.name        = "lvf",
     .long_name   = NULL_IF_CONFIG_SMALL("LVF"),
     .read_probe  = lvf_probe,
     .read_header = lvf_read_header,
     .read_packet = lvf_read_packet,
     .extensions  = "lvf",
     .flags       = AVFMT_GENERIC_INDEX,
+#endif
 };

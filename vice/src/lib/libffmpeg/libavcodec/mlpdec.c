@@ -37,7 +37,13 @@
 #include "mlp_parser.h"
 #include "mlpdsp.h"
 #include "mlp.h"
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 /** number of bits used for VLC lookup - longest Huffman code is 9 */
 #if ARCH_ARM
@@ -1309,7 +1315,17 @@ error:
 
 #if CONFIG_MLP_DECODER
 AVCodec ff_mlp_decoder = {
-    .name           = "mlp",
+#ifdef IDE_COMPILE
+    "mlp",
+    "MLP (Meridian Lossless Packing)",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_MLP,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(MLPDecodeContext),
+    0, 0, 0, 0, 0, mlp_decode_init,
+    0, 0, read_access_unit,
+#else
+	.name           = "mlp",
     .long_name      = NULL_IF_CONFIG_SMALL("MLP (Meridian Lossless Packing)"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_MLP,
@@ -1317,11 +1333,23 @@ AVCodec ff_mlp_decoder = {
     .init           = mlp_decode_init,
     .decode         = read_access_unit,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };
 #endif
+
 #if CONFIG_TRUEHD_DECODER
 AVCodec ff_truehd_decoder = {
-    .name           = "truehd",
+#ifdef IDE_COMPILE
+    "truehd",
+    "TrueHD",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_TRUEHD,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(MLPDecodeContext),
+    0, 0, 0, 0, 0, mlp_decode_init,
+    0, 0, read_access_unit,
+#else
+	.name           = "truehd",
     .long_name      = NULL_IF_CONFIG_SMALL("TrueHD"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_TRUEHD,
@@ -1329,5 +1357,6 @@ AVCodec ff_truehd_decoder = {
     .init           = mlp_decode_init,
     .decode         = read_access_unit,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };
 #endif /* CONFIG_TRUEHD_DECODER */

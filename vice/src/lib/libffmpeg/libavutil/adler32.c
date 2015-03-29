@@ -30,7 +30,13 @@
  * @ingroup lavu_adler32
  */
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
+
 #include "adler32.h"
 #include "common.h"
 #include "intreadwrite.h"

@@ -297,11 +297,21 @@ static int decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_targa_decoder = {
-    .name           = "targa",
+#ifdef IDE_COMPILE
+    "targa",
+    "Truevision Targa image",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_TARGA,
+    CODEC_CAP_DR1,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(TargaContext),
+    0, 0, 0, 0, 0, 0, 0, 0, decode_frame,
+#else
+	.name           = "targa",
     .long_name      = NULL_IF_CONFIG_SMALL("Truevision Targa image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_TARGA,
     .priv_data_size = sizeof(TargaContext),
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
+#endif
 };

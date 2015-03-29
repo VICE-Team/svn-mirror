@@ -85,6 +85,7 @@ static int utf16_to_ansi( const wchar_t *utf16, char *ansi, int size )
  * as a workaround we can try to get an ANSI filename instead. */
 int x264_ansi_filename( const char *filename, char *ansi_filename, int size, int create_file )
 {
+    int short_length;
     wchar_t filename_utf16[MAX_PATH];
     if( utf8_to_utf16( filename, filename_utf16 ) )
     {
@@ -101,7 +102,7 @@ int x264_ansi_filename( const char *filename, char *ansi_filename, int size, int
             return 1;
 
         /* Check for a legacy 8.3 short filename. */
-        int short_length = GetShortPathNameW( filename_utf16, filename_utf16, MAX_PATH );
+        short_length = GetShortPathNameW( filename_utf16, filename_utf16, MAX_PATH );
         if( short_length > 0 && short_length < MAX_PATH )
             if( utf16_to_ansi( filename_utf16, ansi_filename, size ) )
                 return 1;
@@ -119,14 +120,16 @@ static int get_argv_utf8( int *argc_ptr, char ***argv_ptr )
         int argc = *argc_ptr;
         int offset = (argc+1) * sizeof(char*);
         int size = offset;
+		int i;
+        char **argv;
 
-        for( int i = 0; i < argc; i++ )
+        for( i = 0; i < argc; i++ )
             size += WideCharToMultiByte( CP_UTF8, 0, argv_utf16[i], -1, NULL, 0, NULL, NULL );
 
-        char **argv = *argv_ptr = malloc( size );
+        argv = *argv_ptr = malloc( size );
         if( argv )
         {
-            for( int i = 0; i < argc; i++ )
+            for( i = 0; i < argc; i++ )
             {
                 argv[i] = (char*)argv + offset;
                 offset += WideCharToMultiByte( CP_UTF8, 0, argv_utf16[i], -1, argv[i], size-offset, NULL, NULL );
@@ -236,13 +239,23 @@ enum pulldown_type_e
 
 static const cli_pulldown_t pulldown_values[] =
 {
-    [X264_PULLDOWN_22]     = {1,  {TB},                                   1.0},
+#ifdef IDE_COMPILE
+    { 0 }, {1, {TB}, 1.0},
+	{4, {TBT, BT, BTB, TB}, 1.25},
+	{2, {PIC_STRUCT_DOUBLE, PIC_STRUCT_TRIPLE}, 1.0},
+	{1, {PIC_STRUCT_DOUBLE}, 2.0},
+	{1, {PIC_STRUCT_TRIPLE}, 3.0},
+	{24, {TBT, BT, BT, BT, BT, BT, BT, BT, BT, BT, BT, BT,
+                                   BTB, TB, TB, TB, TB, TB, TB, TB, TB, TB, TB, TB}, 25.0/24.0}
+#else
+	[X264_PULLDOWN_22]     = {1,  {TB},                                   1.0},
     [X264_PULLDOWN_32]     = {4,  {TBT, BT, BTB, TB},                     1.25},
     [X264_PULLDOWN_64]     = {2,  {PIC_STRUCT_DOUBLE, PIC_STRUCT_TRIPLE}, 1.0},
     [X264_PULLDOWN_DOUBLE] = {1,  {PIC_STRUCT_DOUBLE},                    2.0},
     [X264_PULLDOWN_TRIPLE] = {1,  {PIC_STRUCT_TRIPLE},                    3.0},
     [X264_PULLDOWN_EURO]   = {24, {TBT, BT, BT, BT, BT, BT, BT, BT, BT, BT, BT, BT,
                                    BTB, TB, TB, TB, TB, TB, TB, TB, TB, TB, TB, TB}, 25.0/24.0}
+#endif
 };
 
 #undef TB
@@ -261,9 +274,11 @@ static int  encode( x264_param_t *param, cli_opt_t *opt );
 static int cli_log_level;
 void x264_cli_log( const char *name, int i_level, const char *fmt, ... )
 {
-    if( i_level > cli_log_level )
+	char *s_level;
+    va_list arg;
+
+	if( i_level > cli_log_level )
         return;
-    char *s_level;
     switch( i_level )
     {
         case X264_LOG_ERROR:
@@ -283,7 +298,6 @@ void x264_cli_log( const char *name, int i_level, const char *fmt, ... )
             break;
     }
     fprintf( stderr, "%s [%s]: ", name, s_level );
-    va_list arg;
     va_start( arg, fmt );
     x264_vfprintf( stderr, fmt, arg );
     va_end( arg );
@@ -291,9 +305,10 @@ void x264_cli_log( const char *name, int i_level, const char *fmt, ... )
 
 void x264_cli_printf( int i_level, const char *fmt, ... )
 {
-    if( i_level > cli_log_level )
-        return;
     va_list arg;
+
+	if( i_level > cli_log_level )
+        return;
     va_start( arg, fmt );
     x264_vfprintf( stderr, fmt, arg );
     va_end( arg );
@@ -415,12 +430,14 @@ static char *stringify_names( char *buf, const char * const names[] )
 
 static void print_csp_names( int longhelp )
 {
-    if( longhelp < 2 )
+	int i;
+
+	if( longhelp < 2 )
         return;
 #   define INDENT "                                "
     printf( "                              - valid csps for `raw' demuxer:\n" );
     printf( INDENT );
-    for( int i = X264_CSP_NONE+1; i < X264_CSP_CLI_MAX; i++ )
+    for( i = X264_CSP_NONE+1; i < X264_CSP_CLI_MAX; i++ )
     {
         if( x264_cli_csps[i].name )
         {
@@ -1180,7 +1197,9 @@ static int select_input( const char *demuxer, char *used_demuxer, char *filename
     int b_auto = !strcasecmp( demuxer, "auto" );
     const char *ext = b_auto ? get_filename_extension( filename ) : "";
     int b_regular = strcmp( filename, "-" );
-    if( !b_regular && b_auto )
+    const char *module;
+
+	if( !b_regular && b_auto )
         ext = "raw";
     b_regular = b_regular && x264_is_regular_file_path( filename );
     if( b_regular )
@@ -1192,7 +1211,7 @@ static int select_input( const char *demuxer, char *used_demuxer, char *filename
             fclose( f );
         }
     }
-    const char *module = b_auto ? ext : demuxer;
+    module = b_auto ? ext : demuxer;
 
     if( !strcasecmp( module, "avs" ) || !strcasecmp( ext, "d2v" ) || !strcasecmp( ext, "dga" ) )
     {
@@ -1253,7 +1272,11 @@ static int select_input( const char *demuxer, char *used_demuxer, char *filename
 
 static int init_vid_filters( char *sequence, hnd_t *handle, video_info_t *info, x264_param_t *param, int output_csp )
 {
-    x264_register_vid_filters();
+	char *p;
+    int csp;
+    char args[20];
+
+	x264_register_vid_filters();
 
     /* intialize baseline filters */
     if( x264_init_vid_filter( "source", handle, &filter, info, param, NULL ) ) /* wrap demuxer into a filter */
@@ -1264,12 +1287,14 @@ static int init_vid_filters( char *sequence, hnd_t *handle, video_info_t *info, 
         return -1;
 
     /* parse filter chain */
-    for( char *p = sequence; p && *p; )
+    for( p = sequence; p && *p; )
     {
         int tok_len = strcspn( p, "/" );
         int p_len = strlen( p );
-        p[tok_len] = 0;
-        int name_len = strcspn( p, ":" );
+        int name_len;
+
+		p[tok_len] = 0;
+        name_len = strcspn( p, ":" );
         p[name_len] = 0;
         name_len += name_len != tok_len;
         if( x264_init_vid_filter( p, handle, &filter, info, param, p + name_len ) )
@@ -1285,7 +1310,7 @@ static int init_vid_filters( char *sequence, hnd_t *handle, video_info_t *info, 
     }
     /* force the output csp to what the user specified (or the default) */
     param->i_csp = info->csp;
-    int csp = info->csp & X264_CSP_MASK;
+    csp = info->csp & X264_CSP_MASK;
     if( output_csp == X264_CSP_I420 && (csp < X264_CSP_I420 || csp > X264_CSP_NV12) )
         param->i_csp = X264_CSP_I420;
     else if( output_csp == X264_CSP_I422 && (csp < X264_CSP_I422 || csp > X264_CSP_V210) )
@@ -1302,7 +1327,6 @@ static int init_vid_filters( char *sequence, hnd_t *handle, video_info_t *info, 
     if( x264_init_vid_filter( "resize", handle, &filter, info, param, NULL ) )
         return -1;
 
-    char args[20];
     sprintf( args, "bit_depth=%d", x264_bit_depth );
 
     if( x264_init_vid_filter( "depth", handle, &filter, info, param, args ) )
@@ -1313,7 +1337,9 @@ static int init_vid_filters( char *sequence, hnd_t *handle, video_info_t *info, 
 
 static int parse_enum_name( const char *arg, const char * const *names, const char **dst )
 {
-    for( int i = 0; names[i]; i++ )
+	int i;
+
+	for( i = 0; names[i]; i++ )
         if( !strcasecmp( arg, names[i] ) )
         {
             *dst = names[i];
@@ -1324,7 +1350,9 @@ static int parse_enum_name( const char *arg, const char * const *names, const ch
 
 static int parse_enum_value( const char *arg, const char * const *names, int *dst )
 {
-    for( int i = 0; names[i]; i++ )
+	int i;
+
+	for( i = 0; names[i]; i++ )
         if( !strcasecmp( arg, names[i] ) )
         {
             *dst = i;
@@ -1352,6 +1380,10 @@ static int parse( int argc, char **argv, x264_param_t *param, cli_opt_t *opt )
     cli_output_opt_t output_opt;
     char *preset = NULL;
     char *tune = NULL;
+    int output_csp;
+    video_info_t info = {0};
+    char demuxername[5];
+    int csp;
 
     x264_param_default( &defaults );
     cli_log_level = defaults.i_log_level;
@@ -1360,7 +1392,7 @@ static int parse( int argc, char **argv, x264_param_t *param, cli_opt_t *opt )
     memset( &output_opt, 0, sizeof(cli_output_opt_t) );
     input_opt.bit_depth = 8;
     input_opt.input_range = input_opt.output_range = param->vui.b_fullrange = RANGE_AUTO;
-    int output_csp = defaults.i_csp;
+    output_csp = defaults.i_csp;
     opt->b_progress = 1;
 
     /* Presets are applied before all other options. */
@@ -1510,13 +1542,15 @@ static int parse( int argc, char **argv, x264_param_t *param, cli_opt_t *opt )
             case OPT_OUTPUT_CSP:
                 FAIL_IF_ERROR( parse_enum_value( optarg, output_csp_names, &output_csp ), "Unknown output csp `%s'\n", optarg )
                 // correct the parsed value to the libx264 csp value
+				{
 #if X264_CHROMA_FORMAT
-                static const uint8_t output_csp_fix[] = { X264_CHROMA_FORMAT, X264_CSP_RGB };
+                    static const uint8_t output_csp_fix[] = { X264_CHROMA_FORMAT, X264_CSP_RGB };
 #else
-                static const uint8_t output_csp_fix[] = { X264_CSP_I420, X264_CSP_I422, X264_CSP_I444, X264_CSP_RGB };
+                    static const uint8_t output_csp_fix[] = { X264_CSP_I420, X264_CSP_I422, X264_CSP_I444, X264_CSP_RGB };
 #endif
-                param->i_csp = output_csp = output_csp_fix[output_csp];
-                break;
+                    param->i_csp = output_csp = output_csp_fix[output_csp];
+				}
+				break;
             case OPT_INPUT_RANGE:
                 FAIL_IF_ERROR( parse_enum_value( optarg, range_names, &input_opt.input_range ), "Unknown input range `%s'\n", optarg )
                 input_opt.input_range += RANGE_AUTO;
@@ -1530,7 +1564,8 @@ generic_option:
             {
                 if( long_options_index < 0 )
                 {
-                    for( int i = 0; long_options[i].name; i++ )
+					int i;
+					for( i = 0; long_options[i].name; i++ )
                         if( long_options[i].val == c )
                         {
                             long_options_index = i;
@@ -1572,8 +1607,6 @@ generic_option:
     FAIL_IF_ERROR( cli_output.open_file( output_filename, &opt->hout, &output_opt ), "could not open output file `%s'\n", output_filename )
 
     input_filename = argv[optind++];
-    video_info_t info = {0};
-    char demuxername[5];
 
     /* set info flags to be overwritten by demuxer as necessary. */
     info.csp        = param->i_csp;
@@ -1701,7 +1734,7 @@ generic_option:
 #endif
     }
     /* if the user never specified the output range and the input is now rgb, default it to pc */
-    int csp = param->i_csp & X264_CSP_MASK;
+    csp = param->i_csp & X264_CSP_MASK;
     if( csp >= X264_CSP_BGR && csp <= X264_CSP_RGB )
     {
         if( input_opt.output_range == RANGE_AUTO )
@@ -1715,7 +1748,9 @@ generic_option:
     if( !b_user_ref )
     {
         int mbs = (((param->i_width)+15)>>4) * (((param->i_height)+15)>>4);
-        for( int i = 0; x264_levels[i].level_idc != 0; i++ )
+		int i;
+
+		for( i = 0; x264_levels[i].level_idc != 0; i++ )
             if( param->i_level_idc == x264_levels[i].level_idc )
             {
                 while( mbs * param->i_frame_reference > x264_levels[i].dpb && param->i_frame_reference > 1 )
@@ -1790,11 +1825,14 @@ static int64_t print_status( int64_t i_start, int64_t i_previous, int i_frame, i
 {
     char buf[200];
     int64_t i_time = x264_mdate();
-    if( i_previous && i_time - i_previous < UPDATE_INTERVAL )
-        return i_previous;
-    int64_t i_elapsed = i_time - i_start;
-    double fps = i_elapsed > 0 ? i_frame * 1000000. / i_elapsed : 0;
+    int64_t i_elapsed;
+    double fps;
     double bitrate;
+
+	if( i_previous && i_time - i_previous < UPDATE_INTERVAL )
+        return i_previous;
+    i_elapsed = i_time - i_start;
+    fps = i_elapsed > 0 ? i_frame * 1000000. / i_elapsed : 0;
     if( last_ts )
         bitrate = (double) i_file * 8 / ( (double) last_ts * 1000 * param->i_timebase_num / param->i_timebase_den );
     else

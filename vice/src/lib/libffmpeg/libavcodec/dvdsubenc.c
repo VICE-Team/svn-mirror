@@ -400,8 +400,12 @@ static int encode_dvd_subtitles(AVCodecContext *avctx,
     qq = outbuf;
     bytestream_put_be16(&qq, q - outbuf);
 
-    av_log(NULL, AV_LOG_DEBUG, "subtitle_packet size=%"PTRDIFF_SPECIFIER"\n", q - outbuf);
-    ret = q - outbuf;
+#ifdef IDE_COMPILE
+    av_log(NULL, AV_LOG_DEBUG, "subtitle_packet size=%""td""\n", q - outbuf);
+#else
+	av_log(NULL, AV_LOG_DEBUG, "subtitle_packet size=%"PTRDIFF_SPECIFIER"\n", q - outbuf);
+#endif
+	ret = q - outbuf;
 
 fail:
     av_free(vrect_data);
@@ -452,19 +456,40 @@ static int dvdsub_encode(AVCodecContext *avctx,
 #define OFFSET(x) offsetof(DVDSubtitleContext, x)
 #define SE AV_OPT_FLAG_SUBTITLE_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-    {"even_rows_fix", "Make number of rows even (workaround for some players)", OFFSET(even_rows_fix), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, SE},
-    { NULL },
+#ifdef IDE_COMPILE
+	{"even_rows_fix", "Make number of rows even (workaround for some players)", OFFSET(even_rows_fix), AV_OPT_TYPE_INT, {0}, 0, 1, SE},
+#else
+	{"even_rows_fix", "Make number of rows even (workaround for some players)", OFFSET(even_rows_fix), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, SE},
+#endif
+	{ NULL },
 };
 
 static const AVClass dvdsubenc_class = {
-    .class_name = "VOBSUB subtitle encoder",
+#ifdef IDE_COMPILE
+    "VOBSUB subtitle encoder",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name = "VOBSUB subtitle encoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 AVCodec ff_dvdsub_encoder = {
-    .name           = "dvdsub",
+#ifdef IDE_COMPILE
+    "dvdsub",
+    "DVD subtitles",
+    AVMEDIA_TYPE_SUBTITLE,
+    AV_CODEC_ID_DVD_SUBTITLE,
+    0, 0, 0, 0, 0, 0, 0, &dvdsubenc_class,
+    0, sizeof(DVDSubtitleContext),
+    0, 0, 0, 0, 0, dvdsub_init,
+    dvdsub_encode,
+#else
+	.name           = "dvdsub",
     .long_name      = NULL_IF_CONFIG_SMALL("DVD subtitles"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
     .id             = AV_CODEC_ID_DVD_SUBTITLE,
@@ -472,4 +497,5 @@ AVCodec ff_dvdsub_encoder = {
     .encode_sub     = dvdsub_encode,
     .priv_class     = &dvdsubenc_class,
     .priv_data_size = sizeof(DVDSubtitleContext),
+#endif
 };

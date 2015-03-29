@@ -45,7 +45,13 @@
 #include "avio_internal.h"
 #include "internal.h"
 #include "mxf.h"
+
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#else
 #include "config.h"
+#endif
 
 extern AVOutputFormat ff_mxf_d10_muxer;
 
@@ -1476,7 +1482,12 @@ AVPacket *pkt)
     }
 
     sc->codec_ul = &mxf_essence_container_uls[sc->index].codec_ul;
-    sc->aspect_ratio = (AVRational){ 16, 9 };
+#ifdef IDE_COMPILE
+	sc->aspect_ratio.num = 16;
+	sc->aspect_ratio.den = 9;
+#else
+	sc->aspect_ratio = (AVRational){ 16, 9 };
+#endif
 
     mxf->edit_unit_byte_count = KAG_SIZE;
     for (i = 0; i < s->nb_streams; i++) {
@@ -1513,11 +1524,21 @@ static int mxf_parse_dv_frame(AVFormatContext *s, AVStream *st, AVPacket *pkt)
     stype    = vs_pack[3] & 0x1f;
     pal      = (vs_pack[3] >> 5) & 0x1;
 
-    if ((vs_pack[2] & 0x07) == 0x02)
-        sc->aspect_ratio = (AVRational){ 16, 9 };
-    else
-        sc->aspect_ratio = (AVRational){ 4, 3 };
-
+    if ((vs_pack[2] & 0x07) == 0x02) {
+#ifdef IDE_COMPILE
+		sc->aspect_ratio.num = 16;
+		sc->aspect_ratio.den = 9;
+#else
+		sc->aspect_ratio = (AVRational){ 16, 9 };
+#endif
+	} else {
+#ifdef IDE_COMPILE
+		sc->aspect_ratio.num = 4;
+		sc->aspect_ratio.den = 3;
+#else
+		sc->aspect_ratio = (AVRational){ 4, 3 };
+#endif
+	}
     sc->interlaced = (vsc_pack[3] >> 4) & 0x01;
     // TODO: fix dv encoder to set proper FF/FS value in VSC pack
     // and set field dominance accordingly
@@ -1625,9 +1646,30 @@ static int mxf_parse_mpeg2_frame(AVFormatContext *s, AVStream *st,
         } else if (c == 0x1b3) { // seq
             e->flags |= 0x40;
             switch ((pkt->data[i+4]>>4) & 0xf) {
-            case 2:  sc->aspect_ratio = (AVRational){  4,  3}; break;
-            case 3:  sc->aspect_ratio = (AVRational){ 16,  9}; break;
-            case 4:  sc->aspect_ratio = (AVRational){221,100}; break;
+            case 2:
+#ifdef IDE_COMPILE
+				sc->aspect_ratio.num = 4;
+				sc->aspect_ratio.den = 3;
+#else
+				sc->aspect_ratio = (AVRational){  4,  3};
+#endif
+				break;
+            case 3:
+#ifdef IDE_COMPILE
+				sc->aspect_ratio.num = 16;
+				sc->aspect_ratio.den = 9;
+#else
+				sc->aspect_ratio = (AVRational){ 16,  9};
+#endif
+				break;
+            case 4:
+#ifdef IDE_COMPILE
+				sc->aspect_ratio.num = 221;
+				sc->aspect_ratio.den = 100;
+#else
+				sc->aspect_ratio = (AVRational){221,100};
+#endif
+				break;
             default:
                 av_reduce(&sc->aspect_ratio.num, &sc->aspect_ratio.den,
                           st->codec->width, st->codec->height, 1024*1024);
@@ -1822,10 +1864,19 @@ static int mxf_write_header(AVFormatContext *s)
         return AVERROR(ENOMEM);
     mxf->timecode_track->index = -1;
 
-    if (!spf)
-        spf = ff_mxf_get_samples_per_frame(s, (AVRational){ 1, 25 });
+    if (!spf) {
+#ifdef IDE_COMPILE
+		AVRational tmp;
 
-    if (ff_audio_interleave_init(s, spf->samples_per_frame, mxf->time_base) < 0)
+		tmp.num = 1;
+		tmp.den = 25;
+		spf = ff_mxf_get_samples_per_frame(s, tmp);
+#else
+		spf = ff_mxf_get_samples_per_frame(s, (AVRational){ 1, 25 });
+#endif
+	}
+
+	if (ff_audio_interleave_init(s, spf->samples_per_frame, mxf->time_base) < 0)
         return -1;
 
     return 0;
@@ -2174,20 +2225,45 @@ static int mxf_interleave(AVFormatContext *s, AVPacket *out, AVPacket *pkt, int 
 }
 
 static const AVOption d10_options[] = {
-    { "d10_channelcount", "Force/set channelcount in generic sound essence descriptor",
+#ifdef IDE_COMPILE
+	{ "d10_channelcount", "Force/set channelcount in generic sound essence descriptor", offsetof(MXFContext, channel_count), AV_OPT_TYPE_INT, {-1}, -1, 8, AV_OPT_FLAG_ENCODING_PARAM},
+#else
+	{ "d10_channelcount", "Force/set channelcount in generic sound essence descriptor",
       offsetof(MXFContext, channel_count), AV_OPT_TYPE_INT, {.i64 = -1}, -1, 8, AV_OPT_FLAG_ENCODING_PARAM},
-    { NULL },
+#endif
+	{ NULL },
 };
 
 static const AVClass mxf_d10_muxer_class = {
-    .class_name     = "MXF-D10 muxer",
+#ifdef IDE_COMPILE
+    "MXF-D10 muxer",
+    av_default_item_name,
+    d10_options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name     = "MXF-D10 muxer",
     .item_name      = av_default_item_name,
     .option         = d10_options,
     .version        = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 AVOutputFormat ff_mxf_muxer = {
-    .name              = "mxf",
+#ifdef IDE_COMPILE
+    "mxf",
+    "MXF (Material eXchange Format)",
+    "application/mxf",
+    "mxf",
+    AV_CODEC_ID_PCM_S16LE,
+    AV_CODEC_ID_MPEG2VIDEO,
+    0, AVFMT_NOTIMESTAMPS,
+    0, 0, 0, sizeof(MXFContext),
+    mxf_write_header,
+    mxf_write_packet,
+    mxf_write_footer,
+    mxf_interleave,
+#else
+	.name              = "mxf",
     .long_name         = NULL_IF_CONFIG_SMALL("MXF (Material eXchange Format)"),
     .mime_type         = "application/mxf",
     .extensions        = "mxf",
@@ -2199,10 +2275,25 @@ AVOutputFormat ff_mxf_muxer = {
     .write_trailer     = mxf_write_footer,
     .flags             = AVFMT_NOTIMESTAMPS,
     .interleave_packet = mxf_interleave,
+#endif
 };
 
 AVOutputFormat ff_mxf_d10_muxer = {
-    .name              = "mxf_d10",
+#ifdef IDE_COMPILE
+    "mxf_d10",
+    "MXF (Material eXchange Format) D-10 Mapping",
+    "application/mxf",
+    0, AV_CODEC_ID_PCM_S16LE,
+    AV_CODEC_ID_MPEG2VIDEO,
+    0, AVFMT_NOTIMESTAMPS,
+    0, &mxf_d10_muxer_class,
+    0, sizeof(MXFContext),
+    mxf_write_header,
+    mxf_write_packet,
+    mxf_write_footer,
+    mxf_interleave,
+#else
+	.name              = "mxf_d10",
     .long_name         = NULL_IF_CONFIG_SMALL("MXF (Material eXchange Format) D-10 Mapping"),
     .mime_type         = "application/mxf",
     .priv_data_size    = sizeof(MXFContext),
@@ -2214,4 +2305,5 @@ AVOutputFormat ff_mxf_d10_muxer = {
     .flags             = AVFMT_NOTIMESTAMPS,
     .interleave_packet = mxf_interleave,
     .priv_class        = &mxf_d10_muxer_class,
+#endif
 };

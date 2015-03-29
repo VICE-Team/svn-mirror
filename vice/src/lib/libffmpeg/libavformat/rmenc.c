@@ -465,9 +465,25 @@ static int rm_write_trailer(AVFormatContext *s)
     return 0;
 }
 
+#ifdef IDE_COMPILE
+static const AVCodecTag* const tmpx[] = { ff_rm_codec_tags, 0 };
+#endif
 
 AVOutputFormat ff_rm_muxer = {
-    .name              = "rm",
+#ifdef IDE_COMPILE
+    "rm",
+    "RealMedia",
+    "application/vnd.rn-realmedia",
+    "rm,ra",
+    AV_CODEC_ID_AC3,
+    AV_CODEC_ID_RV10,
+    0, 0, tmpx,
+    0, 0, sizeof(RMMuxContext),
+    rm_write_header,
+    rm_write_packet,
+    rm_write_trailer,
+#else
+	.name              = "rm",
     .long_name         = NULL_IF_CONFIG_SMALL("RealMedia"),
     .mime_type         = "application/vnd.rn-realmedia",
     .extensions        = "rm,ra",
@@ -478,4 +494,5 @@ AVOutputFormat ff_rm_muxer = {
     .write_packet      = rm_write_packet,
     .write_trailer     = rm_write_trailer,
     .codec_tag         = (const AVCodecTag* const []){ ff_rm_codec_tags, 0 },
+#endif
 };

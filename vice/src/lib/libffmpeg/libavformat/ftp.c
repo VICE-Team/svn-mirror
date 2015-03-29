@@ -59,17 +59,30 @@ typedef struct {
 #define D AV_OPT_FLAG_DECODING_PARAM
 #define E AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-    {"timeout", "set timeout of socket I/O operations", OFFSET(rw_timeout), AV_OPT_TYPE_INT, {.i64 = -1}, -1, INT_MAX, D|E },
+#ifdef IDE_COMPILE
+	{"timeout", "set timeout of socket I/O operations", OFFSET(rw_timeout), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, D|E },
+    {"ftp-write-seekable", "control seekability of connection during encoding", OFFSET(write_seekable), AV_OPT_TYPE_INT, {0}, 0, 1, E },
+    {"ftp-anonymous-password", "password for anonymous login. E-mail address should be used.", OFFSET(anonymous_password), AV_OPT_TYPE_STRING, {0}, 0, 0, D|E },
+#else
+	{"timeout", "set timeout of socket I/O operations", OFFSET(rw_timeout), AV_OPT_TYPE_INT, {.i64 = -1}, -1, INT_MAX, D|E },
     {"ftp-write-seekable", "control seekability of connection during encoding", OFFSET(write_seekable), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, E },
     {"ftp-anonymous-password", "password for anonymous login. E-mail address should be used.", OFFSET(anonymous_password), AV_OPT_TYPE_STRING, { 0 }, 0, 0, D|E },
-    {NULL}
+#endif
+	{NULL}
 };
 
 static const AVClass ftp_context_class = {
-    .class_name     = "ftp",
+#ifdef IDE_COMPILE
+    "ftp",
+    av_default_item_name,
+    options,
+    LIBAVUTIL_VERSION_INT,
+#else
+	.class_name     = "ftp",
     .item_name      = av_default_item_name,
     .option         = options,
     .version        = LIBAVUTIL_VERSION_INT,
+#endif
 };
 
 static int ftp_getc(FTPContext *s)
@@ -787,7 +800,20 @@ static int ftp_shutdown(URLContext *h, int flags)
 }
 
 URLProtocol ff_ftp_protocol = {
-    .name                = "ftp",
+#ifdef IDE_COMPILE
+    "ftp",
+    ftp_open,
+    0, ftp_read,
+    ftp_write,
+    ftp_seek,
+    ftp_close,
+    0, 0, 0, ftp_get_file_handle,
+    0, ftp_shutdown,
+    sizeof(FTPContext),
+    &ftp_context_class,
+    URL_PROTOCOL_FLAG_NETWORK,
+#else
+	.name                = "ftp",
     .url_open            = ftp_open,
     .url_read            = ftp_read,
     .url_write           = ftp_write,
@@ -798,4 +824,5 @@ URLProtocol ff_ftp_protocol = {
     .priv_data_size      = sizeof(FTPContext),
     .priv_data_class     = &ftp_context_class,
     .flags               = URL_PROTOCOL_FLAG_NETWORK,
+#endif
 };

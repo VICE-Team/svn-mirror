@@ -623,8 +623,12 @@ static int wavpack_decode_block(AVCodecContext *avctx, int block_no,
                                 AVFrame *frame, const uint8_t *buf, int buf_size)
 {
     WavpackContext *wc = avctx->priv_data;
-    ThreadFrame tframe = { .f = frame };
-    WavpackFrameContext *s;
+#ifdef IDE_COMPILE
+    ThreadFrame tframe = { frame };
+#else
+	ThreadFrame tframe = { .f = frame };
+#endif
+	WavpackFrameContext *s;
     GetByteContext gb;
     void *samples_l = NULL, *samples_r = NULL;
     int ret;
@@ -1103,7 +1107,20 @@ static int wavpack_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_wavpack_decoder = {
-    .name           = "wavpack",
+#ifdef IDE_COMPILE
+    "wavpack",
+    "WavPack",
+    AVMEDIA_TYPE_AUDIO,
+    AV_CODEC_ID_WAVPACK,
+    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(WavpackContext),
+    0, init_thread_copy,
+    0, 0, 0, wavpack_decode_init,
+    0, 0, wavpack_decode_frame,
+    wavpack_decode_end,
+    wavpack_decode_flush,
+#else
+	.name           = "wavpack",
     .long_name      = NULL_IF_CONFIG_SMALL("WavPack"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_WAVPACK,
@@ -1114,4 +1131,5 @@ AVCodec ff_wavpack_decoder = {
     .flush          = wavpack_decode_flush,
     .init_thread_copy = ONLY_IF_THREADS_ENABLED(init_thread_copy),
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
+#endif
 };

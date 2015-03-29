@@ -56,7 +56,17 @@ static int microdvd_write_packet(AVFormatContext *avf, AVPacket *pkt)
 }
 
 AVOutputFormat ff_microdvd_muxer = {
-    .name           = "microdvd",
+#ifdef IDE_COMPILE
+    "microdvd",
+    "MicroDVD subtitle format",
+    "text/x-microdvd",
+    "sub",
+    0, 0, AV_CODEC_ID_MICRODVD,
+    AVFMT_NOTIMESTAMPS,
+    0, 0, 0, 0, microdvd_write_header,
+    microdvd_write_packet,
+#else
+	.name           = "microdvd",
     .long_name      = NULL_IF_CONFIG_SMALL("MicroDVD subtitle format"),
     .mime_type      = "text/x-microdvd",
     .extensions     = "sub",
@@ -64,4 +74,5 @@ AVOutputFormat ff_microdvd_muxer = {
     .write_packet   = microdvd_write_packet,
     .flags          = AVFMT_NOTIMESTAMPS,
     .subtitle_codec = AV_CODEC_ID_MICRODVD,
+#endif
 };

@@ -1,0 +1,23 @@
+# name of the project
+PROJECTNAME = swresample
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	lib\libffmpeg
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	lib\libffmpeg\libswresample\audioconvert.c
+	lib\libffmpeg\libswresample\dither.c
+	lib\libffmpeg\libswresample\options.c
+	lib\libffmpeg\libswresample\rematrix.c
+	lib\libffmpeg\libswresample\resample.c
+	lib\libffmpeg\libswresample\resample_dsp.c
+	lib\libffmpeg\libswresample\swresample.c
+	lib\libffmpeg\libswresample\swresample_frame.c

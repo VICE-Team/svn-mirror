@@ -25,6 +25,13 @@
 #include "libavutil/avstring.h"
 #include "libavutil/mathematics.h"
 
+#ifdef IDE_COMPILE
+long long int strtoll (const char* str, char** endptr, int base)
+{
+    return _strtoi64(str, endptr, base);
+}
+#endif
+
 static char *check_nan_suffix(char *s)
 {
     char *start = s;

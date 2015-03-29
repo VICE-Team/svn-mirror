@@ -31,7 +31,13 @@
 #include "avcodec.h"
 #include "get_bits.h"
 #include "idctdsp.h"
+
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#else
 #include "internal.h"
+#endif
+
 #include "simple_idct.h"
 #include "proresdec.h"
 #include "proresdata.h"
@@ -677,7 +683,18 @@ static av_cold int decode_close(AVCodecContext *avctx)
 }
 
 AVCodec ff_prores_decoder = {
-    .name           = "prores",
+#ifdef IDE_COMPILE
+    "prores",
+    "ProRes",
+    AVMEDIA_TYPE_VIDEO,
+    AV_CODEC_ID_PRORES,
+    CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
+    0, 0, 0, 0, 0, 0, 0, 0, sizeof(ProresContext),
+    0, 0, 0, 0, 0, decode_init,
+    0, 0, decode_frame,
+    decode_close,
+#else
+	.name           = "prores",
     .long_name      = NULL_IF_CONFIG_SMALL("ProRes"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_PRORES,
@@ -686,4 +703,5 @@ AVCodec ff_prores_decoder = {
     .close          = decode_close,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
+#endif
 };

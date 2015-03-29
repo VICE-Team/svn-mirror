@@ -202,7 +202,19 @@ static int write_trailer(AVFormatContext *s)
 }
 
 AVOutputFormat ff_ass_muxer = {
-    .name           = "ass",
+#ifdef IDE_COMPILE
+    "ass",
+    "SSA (SubStation Alpha) subtitle",
+    "text/x-ssa",
+    "ass,ssa",
+    0, 0, AV_CODEC_ID_SSA,
+    AVFMT_GLOBALHEADER | AVFMT_NOTIMESTAMPS | AVFMT_TS_NONSTRICT,
+    0, 0, 0, sizeof(ASSContext),
+    write_header,
+    write_packet,
+    write_trailer,
+#else
+	.name           = "ass",
     .long_name      = NULL_IF_CONFIG_SMALL("SSA (SubStation Alpha) subtitle"),
     .mime_type      = "text/x-ssa",
     .extensions     = "ass,ssa",
@@ -212,4 +224,5 @@ AVOutputFormat ff_ass_muxer = {
     .write_packet   = write_packet,
     .write_trailer  = write_trailer,
     .flags          = AVFMT_GLOBALHEADER | AVFMT_NOTIMESTAMPS | AVFMT_TS_NONSTRICT,
+#endif
 };
