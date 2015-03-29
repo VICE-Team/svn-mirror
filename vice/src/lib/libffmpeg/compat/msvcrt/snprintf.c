@@ -31,6 +31,10 @@
 #define EOVERFLOW EFBIG
 #endif
 
+#ifndef EOVERFLOW
+#define EOVERFLOW EFBIG
+#endif
+
 int avpriv_snprintf(char *s, size_t n, const char *fmt, ...)
 {
     va_list ap;
