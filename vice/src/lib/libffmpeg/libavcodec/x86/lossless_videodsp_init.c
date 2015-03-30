@@ -37,26 +37,36 @@ void ff_llviddsp_init_x86(LLVidDSPContext *c, AVCodecContext *avctx)
     int cpu_flags = av_get_cpu_flags();
     const AVPixFmtDescriptor *pix_desc = av_pix_fmt_desc_get(avctx->pix_fmt);
 
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags)) {
         c->add_int16 = ff_add_int16_mmx;
         c->diff_int16 = ff_diff_int16_mmx;
     }
+#endif
 
+#if (HAVE_MMXEXT_EXTERNAL == 1)
     if (EXTERNAL_MMXEXT(cpu_flags) && pix_desc->comp[0].depth_minus1<15) {
         c->add_hfyu_median_pred_int16 = ff_add_hfyu_median_pred_int16_mmxext;
         c->sub_hfyu_median_pred_int16 = ff_sub_hfyu_median_pred_int16_mmxext;
     }
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         c->add_int16 = ff_add_int16_sse2;
         c->diff_int16 = ff_diff_int16_sse2;
     }
+#endif
 
+#if (HAVE_SSSE3_EXTERNAL == 1)
     if (EXTERNAL_SSSE3(cpu_flags)) {
         c->add_hfyu_left_pred_int16 = ff_add_hfyu_left_pred_int16_ssse3;
     }
+#endif
 
+#if (HAVE_SSE4_EXTERNAL == 1)
     if (EXTERNAL_SSE4(cpu_flags)) {
         c->add_hfyu_left_pred_int16 = ff_add_hfyu_left_pred_int16_sse4;
     }
+#endif
 }

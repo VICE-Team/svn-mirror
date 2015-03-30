@@ -36,10 +36,16 @@ av_cold void ff_dct_init_x86(DCTContext *s)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_SSE_EXTERNAL == 1) && (ARCH_X86_32 == 1)
     if (ARCH_X86_32 && EXTERNAL_SSE(cpu_flags))
         s->dct32 = ff_dct32_float_sse;
+#endif
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags))
         s->dct32 = ff_dct32_float_sse2;
+#endif
+#if (HAVE_AVX_EXTERNAL == 1)
     if (EXTERNAL_AVX(cpu_flags))
         s->dct32 = ff_dct32_float_avx;
+#endif
 }

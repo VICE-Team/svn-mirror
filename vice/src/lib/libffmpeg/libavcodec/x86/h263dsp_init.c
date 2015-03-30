@@ -32,8 +32,10 @@ av_cold void ff_h263dsp_init_x86(H263DSPContext *c)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags)) {
         c->h263_h_loop_filter = ff_h263_h_loop_filter_mmx;
         c->h263_v_loop_filter = ff_h263_v_loop_filter_mmx;
     }
+#endif
 }

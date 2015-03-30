@@ -63,6 +63,7 @@ av_cold void ff_sbrdsp_init_x86(SBRDSPContext *s)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_SSE_EXTERNAL == 1)
     if (EXTERNAL_SSE(cpu_flags)) {
         s->neg_odd_64 = ff_sbr_neg_odd_64_sse;
         s->sum_square = ff_sbr_sum_square_sse;
@@ -73,7 +74,9 @@ av_cold void ff_sbrdsp_init_x86(SBRDSPContext *s)
         s->qmf_deint_bfly   = ff_sbr_qmf_deint_bfly_sse;
         s->qmf_deint_neg    = ff_sbr_qmf_deint_neg_sse;
     }
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         s->qmf_deint_bfly   = ff_sbr_qmf_deint_bfly_sse2;
         s->qmf_pre_shuffle  = ff_sbr_qmf_pre_shuffle_sse2;
@@ -82,4 +85,5 @@ av_cold void ff_sbrdsp_init_x86(SBRDSPContext *s)
         s->hf_apply_noise[2] = ff_sbr_hf_apply_noise_2_sse2;
         s->hf_apply_noise[3] = ff_sbr_hf_apply_noise_3_sse2;
     }
+#endif
 }

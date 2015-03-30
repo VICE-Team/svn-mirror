@@ -449,6 +449,7 @@ switch(c->dstBpc){ \
                 c->chrToYV12 = ff_ ## x ## ToUV_ ## opt; \
             break
 #if ARCH_X86_32
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags)) {
         ASSIGN_MMX_SCALE_FUNC(c->hyScale, c->hLumFilterSize, mmx, mmx);
         ASSIGN_MMX_SCALE_FUNC(c->hcScale, c->hChrFilterSize, mmx, mmx);
@@ -484,9 +485,12 @@ switch(c->dstBpc){ \
             break;
         }
     }
+#endif
+#if (HAVE_MMXEXT_EXTERNAL == 1)
     if (EXTERNAL_MMXEXT(cpu_flags)) {
         ASSIGN_VSCALEX_FUNC(c->yuv2planeX, mmxext, , 1);
     }
+#endif
 #endif /* ARCH_X86_32 */
 #define ASSIGN_SSE_SCALE_FUNC(hscalefn, filtersize, opt1, opt2) \
     switch (filtersize) { \
@@ -496,6 +500,7 @@ switch(c->dstBpc){ \
              else                ASSIGN_SCALE_FUNC2(hscalefn, X8, opt1, opt2); \
              break; \
     }
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         ASSIGN_SSE_SCALE_FUNC(c->hyScale, c->hLumFilterSize, sse2, sse2);
         ASSIGN_SSE_SCALE_FUNC(c->hcScale, c->hChrFilterSize, sse2, sse2);
@@ -533,6 +538,8 @@ switch(c->dstBpc){ \
             break;
         }
     }
+#endif
+#if (HAVE_SSSE3_EXTERNAL == 1)
     if (EXTERNAL_SSSE3(cpu_flags)) {
         ASSIGN_SSE_SCALE_FUNC(c->hyScale, c->hLumFilterSize, ssse3, ssse3);
         ASSIGN_SSE_SCALE_FUNC(c->hcScale, c->hChrFilterSize, ssse3, ssse3);
@@ -543,6 +550,8 @@ switch(c->dstBpc){ \
             break;
         }
     }
+#endif
+#if (HAVE_SSE4_EXTERNAL == 1)
     if (EXTERNAL_SSE4(cpu_flags)) {
         /* Xto15 don't need special sse4 functions */
         ASSIGN_SSE_SCALE_FUNC(c->hyScale, c->hLumFilterSize, sse4, ssse3);
@@ -553,7 +562,9 @@ switch(c->dstBpc){ \
         if (c->dstBpc == 16 && !isBE(c->dstFormat))
             c->yuv2plane1 = ff_yuv2plane1_16_sse4;
     }
+#endif
 
+#if (HAVE_AVX_EXTERNAL == 1)
     if (EXTERNAL_AVX(cpu_flags)) {
         ASSIGN_VSCALEX_FUNC(c->yuv2planeX, avx, ,
                             HAVE_ALIGNED_STACK || ARCH_X86_64);
@@ -582,4 +593,5 @@ switch(c->dstBpc){ \
             break;
         }
     }
+#endif
 }

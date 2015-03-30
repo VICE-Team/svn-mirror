@@ -40,6 +40,7 @@ av_cold void ff_dcadsp_init_x86(DCADSPContext *s)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_SSE_EXTERNAL == 1)
     if (EXTERNAL_SSE(cpu_flags)) {
 #if ARCH_X86_32
         s->decode_hf = ff_decode_hf_sse;
@@ -47,18 +48,25 @@ av_cold void ff_dcadsp_init_x86(DCADSPContext *s)
         s->lfe_fir[0]        = ff_dca_lfe_fir0_sse;
         s->lfe_fir[1]        = ff_dca_lfe_fir1_sse;
     }
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         s->decode_hf = ff_decode_hf_sse2;
     }
+#endif
 
+#if (HAVE_SSE4_EXTERNAL == 1)
     if (EXTERNAL_SSE4(cpu_flags)) {
         s->decode_hf = ff_decode_hf_sse4;
     }
+#endif
 
+#if (HAVE_FMA3_EXTERNAL == 1)
     if (EXTERNAL_FMA3(cpu_flags)) {
         s->lfe_fir[0]        = ff_dca_lfe_fir0_fma3;
     }
+#endif
 }
 
 

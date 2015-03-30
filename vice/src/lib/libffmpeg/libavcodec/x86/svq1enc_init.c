@@ -39,10 +39,14 @@ av_cold void ff_svq1enc_init_x86(SVQ1EncContext *c)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags)) {
         c->ssd_int8_vs_int16 = ff_ssd_int8_vs_int16_mmx;
     }
+#endif
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         c->ssd_int8_vs_int16 = ff_ssd_int8_vs_int16_sse2;
     }
+#endif
 }

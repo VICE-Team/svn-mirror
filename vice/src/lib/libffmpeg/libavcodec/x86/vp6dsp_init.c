@@ -36,11 +36,15 @@ av_cold void ff_vp6dsp_init_x86(VP56DSPContext* c, enum AVCodecID codec)
     int cpu_flags = av_get_cpu_flags();
 
 #if ARCH_X86_32
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags)) {
         c->vp6_filter_diag4 = ff_vp6_filter_diag4_mmx;
     }
 #endif
+#endif
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         c->vp6_filter_diag4 = ff_vp6_filter_diag4_sse2;
     }
+#endif
 }

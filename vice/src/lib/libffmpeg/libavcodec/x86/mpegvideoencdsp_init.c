@@ -218,19 +218,25 @@ av_cold void ff_mpegvideoencdsp_init_x86(MpegvideoEncDSPContext *c,
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags)) {
         c->pix_sum   = ff_pix_sum16_mmx;
         c->pix_norm1 = ff_pix_norm1_mmx;
     }
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         c->pix_sum     = ff_pix_sum16_sse2;
         c->pix_norm1   = ff_pix_norm1_sse2;
     }
+#endif
 
+#if (HAVE_XOP_EXTERNAL == 1)
     if (EXTERNAL_XOP(cpu_flags)) {
         c->pix_sum     = ff_pix_sum16_xop;
     }
+#endif
 
 #if HAVE_INLINE_ASM
 

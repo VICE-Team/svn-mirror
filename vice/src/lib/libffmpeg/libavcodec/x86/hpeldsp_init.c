@@ -201,10 +201,12 @@ static void hpeldsp_init_mmx(HpelDSPContext *c, int flags, int cpu_flags)
     SET_HPEL_FUNCS(avg_no_rnd,    , 16, mmx);
     SET_HPEL_FUNCS(put,        [1],  8, mmx);
     SET_HPEL_FUNCS(put_no_rnd, [1],  8, mmx);
+#if (HAVE_MMX_EXTERNAL == 1)
     if (HAVE_MMX_EXTERNAL) {
         c->avg_pixels_tab[1][0] = ff_avg_pixels8_mmx;
         c->avg_pixels_tab[1][1] = ff_avg_pixels8_x2_mmx;
     }
+#endif
 #if HAVE_MMX_INLINE
     c->avg_pixels_tab[1][2] = avg_pixels8_y2_mmx;
     c->avg_pixels_tab[1][3] = ff_avg_pixels8_xy2_mmx;
@@ -315,18 +317,28 @@ av_cold void ff_hpeldsp_init_x86(HpelDSPContext *c, int flags)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_MMX_INLINE == 1)
     if (INLINE_MMX(cpu_flags))
         hpeldsp_init_mmx(c, flags, cpu_flags);
+#endif
 
+#if (HAVE_AMD3DNOW_EXTERNAL == 1)
     if (EXTERNAL_AMD3DNOW(cpu_flags))
         hpeldsp_init_3dnow(c, flags, cpu_flags);
+#endif
 
+#if (HAVE_MMXEXT_EXTERNAL == 1)
     if (EXTERNAL_MMXEXT(cpu_flags))
         hpeldsp_init_mmxext(c, flags, cpu_flags);
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags))
         hpeldsp_init_sse2(c, flags, cpu_flags);
+#endif
 
+#if (HAVE_SSSE3_EXTERNAL == 1)
     if (EXTERNAL_SSSE3(cpu_flags))
         hpeldsp_init_ssse3(c, flags, cpu_flags);
+#endif
 }

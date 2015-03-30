@@ -42,24 +42,30 @@ av_cold void ff_xvid_idct_init_x86(IDCTDSPContext *c, AVCodecContext *avctx,
           avctx->idct_algo == FF_IDCT_XVID))
         return;
 
+#if (HAVE_MMX_INLINE == 1)
     if (INLINE_MMX(cpu_flags)) {
         c->idct_put  = ff_xvid_idct_mmx_put;
         c->idct_add  = ff_xvid_idct_mmx_add;
         c->idct      = ff_xvid_idct_mmx;
         c->perm_type = FF_IDCT_PERM_NONE;
     }
+#endif
 
+#if (HAVE_MMXEXT_INLINE == 1)
     if (INLINE_MMXEXT(cpu_flags)) {
         c->idct_put  = ff_xvid_idct_mmxext_put;
         c->idct_add  = ff_xvid_idct_mmxext_add;
         c->idct      = ff_xvid_idct_mmxext;
         c->perm_type = FF_IDCT_PERM_NONE;
     }
+#endif
 
+#if (HAVE_SSE2_INLINE == 1)
     if (INLINE_SSE2(cpu_flags)) {
         c->idct_put  = ff_xvid_idct_sse2_put;
         c->idct_add  = ff_xvid_idct_sse2_add;
         c->idct      = ff_xvid_idct_sse2;
         c->perm_type = FF_IDCT_PERM_SSE2;
     }
+#endif
 }

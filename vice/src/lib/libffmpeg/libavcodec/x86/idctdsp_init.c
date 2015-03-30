@@ -69,6 +69,7 @@ av_cold void ff_idctdsp_init_x86(IDCTDSPContext *c, AVCodecContext *avctx,
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_MMX_INLINE == 1)
     if (INLINE_MMX(cpu_flags)) {
         c->put_pixels_clamped        = ff_put_pixels_clamped_mmx;
         c->add_pixels_clamped        = ff_add_pixels_clamped_mmx;
@@ -84,10 +85,15 @@ av_cold void ff_idctdsp_init_x86(IDCTDSPContext *c, AVCodecContext *avctx,
                 c->perm_type = FF_IDCT_PERM_SIMPLE;
         }
     }
+#endif
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags)) {
         c->put_signed_pixels_clamped = ff_put_signed_pixels_clamped_mmx;
     }
+#endif
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         c->put_signed_pixels_clamped = ff_put_signed_pixels_clamped_sse2;
     }
+#endif
 }

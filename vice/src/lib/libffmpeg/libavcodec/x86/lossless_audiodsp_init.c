@@ -35,13 +35,19 @@ av_cold void ff_llauddsp_init_x86(LLAudDSPContext *c)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_MMXEXT_EXTERNAL == 1)
     if (EXTERNAL_MMXEXT(cpu_flags))
         c->scalarproduct_and_madd_int16 = ff_scalarproduct_and_madd_int16_mmxext;
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags))
         c->scalarproduct_and_madd_int16 = ff_scalarproduct_and_madd_int16_sse2;
+#endif
 
+#if (HAVE_SSSE3_EXTERNAL == 1)
     if (EXTERNAL_SSSE3(cpu_flags) &&
         !(cpu_flags & (AV_CPU_FLAG_SSE42 | AV_CPU_FLAG_3DNOW))) // cachesplit
         c->scalarproduct_and_madd_int16 = ff_scalarproduct_and_madd_int16_ssse3;
+#endif
 }

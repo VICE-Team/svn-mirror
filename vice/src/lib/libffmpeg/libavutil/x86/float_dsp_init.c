@@ -74,9 +74,12 @@ av_cold void ff_float_dsp_init_x86(AVFloatDSPContext *fdsp)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_AMD3DNOWEXT_EXTERNAL == 1)
     if (EXTERNAL_AMD3DNOWEXT(cpu_flags)) {
         fdsp->vector_fmul_window = ff_vector_fmul_window_3dnowext;
     }
+#endif
+#if (HAVE_SSE_EXTERNAL == 1)
     if (EXTERNAL_SSE(cpu_flags)) {
         fdsp->vector_fmul = ff_vector_fmul_sse;
         fdsp->vector_fmac_scalar = ff_vector_fmac_scalar_sse;
@@ -87,9 +90,13 @@ av_cold void ff_float_dsp_init_x86(AVFloatDSPContext *fdsp)
         fdsp->scalarproduct_float = ff_scalarproduct_float_sse;
         fdsp->butterflies_float   = ff_butterflies_float_sse;
     }
+#endif
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         fdsp->vector_dmul_scalar = ff_vector_dmul_scalar_sse2;
     }
+#endif
+#if (HAVE_AVX_EXTERNAL == 1)
     if (EXTERNAL_AVX(cpu_flags)) {
         fdsp->vector_fmul = ff_vector_fmul_avx;
         fdsp->vector_fmac_scalar = ff_vector_fmac_scalar_avx;
@@ -97,8 +104,11 @@ av_cold void ff_float_dsp_init_x86(AVFloatDSPContext *fdsp)
         fdsp->vector_fmul_add    = ff_vector_fmul_add_avx;
         fdsp->vector_fmul_reverse = ff_vector_fmul_reverse_avx;
     }
+#endif
+#if (HAVE_FMA3_EXTERNAL == 1)
     if (EXTERNAL_FMA3(cpu_flags)) {
         fdsp->vector_fmac_scalar = ff_vector_fmac_scalar_fma3;
         fdsp->vector_fmul_add    = ff_vector_fmul_add_fma3;
     }
+#endif
 }

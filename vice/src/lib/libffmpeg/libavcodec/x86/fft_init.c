@@ -33,12 +33,15 @@ av_cold void ff_fft_init_x86(FFTContext *s)
     int cpu_flags = av_get_cpu_flags();
 
 #if ARCH_X86_32
+#if (HAVE_AMD3DNOW_EXTERNAL == 1)
     if (EXTERNAL_AMD3DNOW(cpu_flags)) {
         /* 3DNow! for K6-2/3 */
         s->imdct_calc = ff_imdct_calc_3dnow;
         s->imdct_half = ff_imdct_half_3dnow;
         s->fft_calc   = ff_fft_calc_3dnow;
     }
+#endif
+#if (HAVE_AMD3DNOWEXT_EXTERNAL == 1)
     if (EXTERNAL_AMD3DNOWEXT(cpu_flags)) {
         /* 3DNowEx for K7 */
         s->imdct_calc = ff_imdct_calc_3dnowext;
@@ -46,6 +49,8 @@ av_cold void ff_fft_init_x86(FFTContext *s)
         s->fft_calc   = ff_fft_calc_3dnowext;
     }
 #endif
+#endif
+#if (HAVE_SSE_EXTERNAL == 1)
     if (EXTERNAL_SSE(cpu_flags)) {
         /* SSE for P3/P4/K8 */
         s->imdct_calc  = ff_imdct_calc_sse;
@@ -54,10 +59,13 @@ av_cold void ff_fft_init_x86(FFTContext *s)
         s->fft_calc    = ff_fft_calc_sse;
         s->fft_permutation = FF_FFT_PERM_SWAP_LSBS;
     }
+#endif
+#if (HAVE_AVX_EXTERNAL == 1)
     if (EXTERNAL_AVX(cpu_flags) && s->nbits >= 5) {
         /* AVX for SB */
         s->imdct_half      = ff_imdct_half_avx;
         s->fft_calc        = ff_fft_calc_avx;
         s->fft_permutation = FF_FFT_PERM_AVX;
     }
+#endif
 }

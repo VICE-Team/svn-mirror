@@ -49,42 +49,58 @@ void swri_resample_dsp_x86_init(ResampleContext *c)
 
     switch(c->format){
     case AV_SAMPLE_FMT_S16P:
+#if (ARCH_X86_32 == 1) && (HAVE_MMXEXT_EXTERNAL == 1)
         if (ARCH_X86_32 && EXTERNAL_MMXEXT(mm_flags)) {
             c->dsp.resample = c->linear ? ff_resample_linear_int16_mmxext
                                         : ff_resample_common_int16_mmxext;
         }
+#endif
+#if (HAVE_SSE2_EXTERNAL == 1)
         if (EXTERNAL_SSE2(mm_flags)) {
             c->dsp.resample = c->linear ? ff_resample_linear_int16_sse2
                                         : ff_resample_common_int16_sse2;
         }
+#endif
+#if (HAVE_XOP_EXTERNAL == 1)
         if (EXTERNAL_XOP(mm_flags)) {
             c->dsp.resample = c->linear ? ff_resample_linear_int16_xop
                                         : ff_resample_common_int16_xop;
         }
+#endif
         break;
     case AV_SAMPLE_FMT_FLTP:
+#if (HAVE_SSE_EXTERNAL == 1)
         if (EXTERNAL_SSE(mm_flags)) {
             c->dsp.resample = c->linear ? ff_resample_linear_float_sse
                                         : ff_resample_common_float_sse;
         }
+#endif
+#if (HAVE_AVX_EXTERNAL == 1)
         if (EXTERNAL_AVX(mm_flags)) {
             c->dsp.resample = c->linear ? ff_resample_linear_float_avx
                                         : ff_resample_common_float_avx;
         }
+#endif
+#if (HAVE_FMA3_EXTERNAL == 1)
         if (EXTERNAL_FMA3(mm_flags)) {
             c->dsp.resample = c->linear ? ff_resample_linear_float_fma3
                                         : ff_resample_common_float_fma3;
         }
+#endif
+#if (HAVE_FMA4_EXTERNAL == 1)
         if (EXTERNAL_FMA4(mm_flags)) {
             c->dsp.resample = c->linear ? ff_resample_linear_float_fma4
                                         : ff_resample_common_float_fma4;
         }
+#endif
         break;
     case AV_SAMPLE_FMT_DBLP:
+#if (HAVE_SSE2_EXTERNAL == 1)
         if (EXTERNAL_SSE2(mm_flags)) {
             c->dsp.resample = c->linear ? ff_resample_linear_double_sse2
                                         : ff_resample_common_double_sse2;
         }
+#endif
         break;
     }
 }

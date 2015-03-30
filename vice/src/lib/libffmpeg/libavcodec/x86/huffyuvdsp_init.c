@@ -98,26 +98,34 @@ av_cold void ff_huffyuvdsp_init_x86(HuffYUVDSPContext *c)
         c->add_hfyu_median_pred = add_hfyu_median_pred_cmov;
 #endif
 
+#if (ARCH_X86_32 == 1) && (HAVE_MMX_EXTERNAL == 1)
     if (ARCH_X86_32 && EXTERNAL_MMX(cpu_flags)) {
         c->add_bytes = ff_add_bytes_mmx;
         c->add_hfyu_left_pred_bgr32 = ff_add_hfyu_left_pred_bgr32_mmx;
     }
+#endif
 
+#if (ARCH_X86_32 == 1) && (HAVE_MMXEXT_EXTERNAL == 1)
     if (ARCH_X86_32 && EXTERNAL_MMXEXT(cpu_flags)) {
         /* slower than cmov version on AMD */
         if (!(cpu_flags & AV_CPU_FLAG_3DNOW))
             c->add_hfyu_median_pred = ff_add_hfyu_median_pred_mmxext;
     }
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         c->add_bytes            = ff_add_bytes_sse2;
         c->add_hfyu_median_pred = ff_add_hfyu_median_pred_sse2;
         c->add_hfyu_left_pred_bgr32 = ff_add_hfyu_left_pred_bgr32_sse2;
     }
+#endif
 
+#if (HAVE_SSSE3_EXTERNAL == 1)
     if (EXTERNAL_SSSE3(cpu_flags)) {
         c->add_hfyu_left_pred = ff_add_hfyu_left_pred_ssse3;
         if (cpu_flags & AV_CPU_FLAG_SSE4) // not really SSE4, just slow on Conroe
             c->add_hfyu_left_pred = ff_add_hfyu_left_pred_sse4;
     }
+#endif
 }

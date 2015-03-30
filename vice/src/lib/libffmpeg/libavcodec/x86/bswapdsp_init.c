@@ -30,8 +30,12 @@ av_cold void ff_bswapdsp_init_x86(BswapDSPContext *c)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags))
         c->bswap_buf = ff_bswap32_buf_sse2;
+#endif
+#if (HAVE_SSSE3_EXTERNAL == 1)
     if (EXTERNAL_SSSE3(cpu_flags))
         c->bswap_buf = ff_bswap32_buf_ssse3;
+#endif
 }

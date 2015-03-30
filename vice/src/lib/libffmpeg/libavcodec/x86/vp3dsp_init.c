@@ -113,12 +113,15 @@ av_cold void ff_vp3dsp_init_x86(VP3DSPContext *c, int flags)
 #endif /* HAVE_6REGS && HAVE_MMX_INLINE */
 
 #if ARCH_X86_32
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags)) {
         c->idct_put  = ff_vp3_idct_put_mmx;
         c->idct_add  = ff_vp3_idct_add_mmx;
     }
 #endif
+#endif
 
+#if (HAVE_MMXEXT_EXTERNAL == 1)
     if (EXTERNAL_MMXEXT(cpu_flags)) {
         c->idct_dc_add = ff_vp3_idct_dc_add_mmxext;
 
@@ -127,9 +130,12 @@ av_cold void ff_vp3dsp_init_x86(VP3DSPContext *c, int flags)
             c->h_loop_filter = ff_vp3_h_loop_filter_mmxext;
         }
     }
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         c->idct_put  = ff_vp3_idct_put_sse2;
         c->idct_add  = ff_vp3_idct_add_sse2;
     }
+#endif
 }

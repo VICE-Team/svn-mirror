@@ -51,15 +51,22 @@ av_cold void ff_audiodsp_init_x86(AudioDSPContext *c)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags))
         c->vector_clip_int32 = ff_vector_clip_int32_mmx;
+#endif
 
+#if (HAVE_MMXEXT_EXTERNAL == 1)
     if (EXTERNAL_MMXEXT(cpu_flags))
         c->scalarproduct_int16 = ff_scalarproduct_int16_mmxext;
+#endif
 
+#if (HAVE_SSE_EXTERNAL == 1)
     if (EXTERNAL_SSE(cpu_flags))
         c->vector_clipf = ff_vector_clipf_sse;
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         c->scalarproduct_int16 = ff_scalarproduct_int16_sse2;
         if (cpu_flags & AV_CPU_FLAG_ATOM)
@@ -67,7 +74,10 @@ av_cold void ff_audiodsp_init_x86(AudioDSPContext *c)
         else
             c->vector_clip_int32 = ff_vector_clip_int32_sse2;
     }
+#endif
 
+#if (HAVE_SSE4_EXTERNAL == 1)
     if (EXTERNAL_SSE4(cpu_flags))
         c->vector_clip_int32 = ff_vector_clip_int32_sse4;
+#endif
 }

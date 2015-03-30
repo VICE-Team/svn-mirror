@@ -98,11 +98,15 @@ av_cold void ff_vc1dsp_init_x86(VC1DSPContext *dsp)
 {
     int cpu_flags = av_get_cpu_flags();
 
+#if (HAVE_6REGS == 1) && (HAVE_MMX_INLINE == 1)
     if (HAVE_6REGS && INLINE_MMX(cpu_flags))
         ff_vc1dsp_init_mmx(dsp);
+#endif
 
+#if (HAVE_6REGS == 1) && (HAVE_MMXEXT_INLINE == 1)
     if (HAVE_6REGS && INLINE_MMXEXT(cpu_flags))
         ff_vc1dsp_init_mmxext(dsp);
+#endif
 
 #define ASSIGN_LF(EXT) \
         dsp->vc1_v_loop_filter4  = ff_vc1_v_loop_filter4_ ## EXT; \
