@@ -555,10 +555,14 @@ static av_cold int svq1_encode_init(AVCodecContext *avctx)
                                         s->y_block_height * sizeof(int32_t));
     s->ssd_int8_vs_int16   = ssd_int8_vs_int16_c;
 
+#if (ARCH_PPC == 1)
     if (ARCH_PPC)
         ff_svq1enc_init_ppc(s);
+#endif
+#if (ARCH_X86 == 1)
     if (ARCH_X86)
         ff_svq1enc_init_x86(s);
+#endif
 
     ff_h263_encode_init(&s->m); // mv_penalty
 

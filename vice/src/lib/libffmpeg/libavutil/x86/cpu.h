@@ -48,6 +48,23 @@
 #define X86_FMA4(flags)             CPUEXT(flags, FMA4)
 #define X86_AVX2(flags)             CPUEXT(flags, AVX2)
 
+#ifdef IDE_COMPILE
+#define EXTERNAL_AMD3DNOW(flags)    0
+#define EXTERNAL_AMD3DNOWEXT(flags) 0
+#define EXTERNAL_MMX(flags)         0
+#define EXTERNAL_MMXEXT(flags)      0
+#define EXTERNAL_SSE(flags)         0
+#define EXTERNAL_SSE2(flags)        0
+#define EXTERNAL_SSE3(flags)        0
+#define EXTERNAL_SSSE3(flags)       0
+#define EXTERNAL_SSE4(flags)        0
+#define EXTERNAL_SSE42(flags)       0
+#define EXTERNAL_AVX(flags)         0
+#define EXTERNAL_XOP(flags)         0
+#define EXTERNAL_FMA3(flags)        0
+#define EXTERNAL_FMA4(flags)        0
+#define EXTERNAL_AVX2(flags)        0
+#else
 #define EXTERNAL_AMD3DNOW(flags)    CPUEXT_SUFFIX(flags, _EXTERNAL, AMD3DNOW)
 #define EXTERNAL_AMD3DNOWEXT(flags) CPUEXT_SUFFIX(flags, _EXTERNAL, AMD3DNOWEXT)
 #define EXTERNAL_MMX(flags)         CPUEXT_SUFFIX(flags, _EXTERNAL, MMX)
@@ -63,6 +80,7 @@
 #define EXTERNAL_FMA3(flags)        CPUEXT_SUFFIX(flags, _EXTERNAL, FMA3)
 #define EXTERNAL_FMA4(flags)        CPUEXT_SUFFIX(flags, _EXTERNAL, FMA4)
 #define EXTERNAL_AVX2(flags)        CPUEXT_SUFFIX(flags, _EXTERNAL, AVX2)
+#endif
 
 #define INLINE_AMD3DNOW(flags)      CPUEXT_SUFFIX(flags, _INLINE, AMD3DNOW)
 #define INLINE_AMD3DNOWEXT(flags)   CPUEXT_SUFFIX(flags, _INLINE, AMD3DNOWEXT)

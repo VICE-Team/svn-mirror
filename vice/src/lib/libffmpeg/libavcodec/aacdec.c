@@ -3506,8 +3506,10 @@ static void aacdec_init(AACContext *c)
     c->windowing_and_mdct_ltp                   = windowing_and_mdct_ltp;
     c->update_ltp                               = update_ltp;
 
+#if (ARCH_MIPS == 1)
     if(ARCH_MIPS)
         ff_aacdec_init_mips(c);
+#endif
 }
 /**
  * AVOptions for Japanese DTV specific extensions (ADTS only)

@@ -62,8 +62,10 @@ static av_cold int decode_init(AVCodecContext *avctx)
 
     s->unpack_frame            = v210_planar_unpack_c;
 
+#if (HAVE_MMX == 1)
     if (HAVE_MMX)
         v210_x86_init(s);
+#endif
 
     return 0;
 }

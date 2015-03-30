@@ -153,8 +153,16 @@ av_cold void ff_h264dsp_init(H264DSPContext *c, const int bit_depth,
     }
     c->startcode_find_candidate = ff_startcode_find_candidate_c;
 
+#if (ARCH_AARCH64 == 1)
     if (ARCH_AARCH64) ff_h264dsp_init_aarch64(c, bit_depth, chroma_format_idc);
+#endif
+#if (ARCH_ARM == 1)
     if (ARCH_ARM) ff_h264dsp_init_arm(c, bit_depth, chroma_format_idc);
+#endif
+#if (ARCH_PPC == 1)
     if (ARCH_PPC) ff_h264dsp_init_ppc(c, bit_depth, chroma_format_idc);
+#endif
+#if (ARCH_X86 == 1)
     if (ARCH_X86) ff_h264dsp_init_x86(c, bit_depth, chroma_format_idc);
+#endif
 }

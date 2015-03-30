@@ -1639,9 +1639,11 @@ again:
                     if (h->avctx->hwaccel &&
                         (ret = h->avctx->hwaccel->start_frame(h->avctx, NULL, 0)) < 0)
                         return ret;
+#if (CONFIG_H264_VDPAU_DECODER == 1)
                     if (CONFIG_H264_VDPAU_DECODER &&
                         h->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)
                         ff_vdpau_h264_picture_start(h);
+#endif
                 }
 
                 if (hx->redundant_pic_count == 0) {
@@ -1651,7 +1653,9 @@ again:
                                                            consumed);
                         if (ret < 0)
                             return ret;
-                    } else if (CONFIG_H264_VDPAU_DECODER &&
+                    } else
+#if (CONFIG_H264_VDPAU_DECODER == 1)
+                    if (CONFIG_H264_VDPAU_DECODER &&
                                h->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU) {
                         ff_vdpau_add_data_chunk(h->cur_pic_ptr->f.data[0],
                                                 start_code,
@@ -1660,7 +1664,10 @@ again:
                                                 &buf[buf_index - consumed],
                                                 consumed);
                     } else
+#endif
+                    {
                         context_count++;
+                    }
                 }
                 break;
             case NAL_DPA:

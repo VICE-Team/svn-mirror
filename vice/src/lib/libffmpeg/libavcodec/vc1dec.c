@@ -6063,6 +6063,7 @@ static int vc1_decode_frame(AVCodecContext *avctx, void *data,
     s->me.qpel_put = s->qdsp.put_qpel_pixels_tab;
     s->me.qpel_avg = s->qdsp.avg_qpel_pixels_tab;
 
+#if (CONFIG_VC1_VDPAU_DECODER == 1)
     if ((CONFIG_VC1_VDPAU_DECODER)
         &&s->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU) {
         if (v->field_mode && buf_start_second_field) {
@@ -6071,7 +6072,9 @@ static int vc1_decode_frame(AVCodecContext *avctx, void *data,
         } else {
             ff_vdpau_vc1_decode_picture(s, buf_start, (buf + buf_size) - buf_start);
         }
-    } else if (avctx->hwaccel) {
+    } else
+#endif
+    if (avctx->hwaccel) {
         if (v->field_mode && buf_start_second_field) {
             // decode first field
             s->picture_structure = PICT_BOTTOM_FIELD - v->tff;
