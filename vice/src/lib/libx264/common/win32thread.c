@@ -90,7 +90,12 @@ int x264_pthread_join( x264_pthread_t thread, void **value_ptr )
 
 int x264_pthread_mutex_init( x264_pthread_mutex_t *mutex, const x264_pthread_mutexattr_t *attr )
 {
+#if (_MSC_VER < 1500)
+    InitializeCriticalSection(mutex);
+    return 0;
+#else
     return !InitializeCriticalSectionAndSpinCount( mutex, X264_SPIN_COUNT );
+#endif
 }
 
 int x264_pthread_mutex_destroy( x264_pthread_mutex_t *mutex )

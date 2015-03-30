@@ -47,7 +47,23 @@
 #include <math.h>
 #endif
 
-#if !HAVE_LOG2F
+#ifdef IDE_COMPILE
+#if (_MSC_VER < 1500)
+static double log2(double x)
+{
+	return log(x) / log(2);
+}
+
+static float log2f(float x)
+{
+	return (float)(log2((double)x));
+}
+#define LOG2_DEFINED
+
+#endif
+#endif
+
+#if !HAVE_LOG2F && !defined(LOG2_DEFINED)
 #define log2f(x) (logf(x)/0.693147180559945f)
 #define log2(x) (log(x)/0.693147180559945)
 #endif
