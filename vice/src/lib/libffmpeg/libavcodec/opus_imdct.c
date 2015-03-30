@@ -141,9 +141,10 @@ av_cold int ff_celt_imdct_init(CeltIMDCTContext **ps, int N)
 
     s->imdct_half = celt_imdct_half;
 
+#if (ARCH_AARCH64 == 1)
     if (ARCH_AARCH64)
         ff_celt_imdct_init_aarch64(s);
-
+#endif
     *ps = s;
 
     return 0;

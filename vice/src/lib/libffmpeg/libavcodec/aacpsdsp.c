@@ -215,8 +215,12 @@ av_cold void ff_psdsp_init(PSDSPContext *s)
     s->stereo_interpolate[0]  = ps_stereo_interpolate_c;
     s->stereo_interpolate[1]  = ps_stereo_interpolate_ipdopd_c;
 
+#if (ARCH_ARM == 1)
     if (ARCH_ARM)
         ff_psdsp_init_arm(s);
+#endif
+#if (ARCH_MIPS == 1)
     if (ARCH_MIPS)
         ff_psdsp_init_mips(s);
+#endif
 }

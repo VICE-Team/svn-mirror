@@ -807,6 +807,7 @@ av_cold void ff_me_cmp_init_x86(MECmpContext *c, AVCodecContext *avctx)
 
 #endif /* HAVE_INLINE_ASM */
 
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags)) {
         c->hadamard8_diff[0] = ff_hadamard8_diff16_mmx;
         c->hadamard8_diff[1] = ff_hadamard8_diff_mmx;
@@ -818,13 +819,17 @@ av_cold void ff_me_cmp_init_x86(MECmpContext *c, AVCodecContext *avctx)
         c->nsse[1]           = nsse8_mmx;
 #endif
     }
+#endif
 
+#if (HAVE_MMXEXT_EXTERNAL == 1)
     if (EXTERNAL_MMXEXT(cpu_flags)) {
         c->hadamard8_diff[0] = ff_hadamard8_diff16_mmxext;
         c->hadamard8_diff[1] = ff_hadamard8_diff_mmxext;
         c->sum_abs_dctelem   = ff_sum_abs_dctelem_mmxext;
     }
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags)) {
         c->sse[0] = ff_sse16_sse2;
         c->sum_abs_dctelem   = ff_sum_abs_dctelem_sse2;
@@ -834,7 +839,9 @@ av_cold void ff_me_cmp_init_x86(MECmpContext *c, AVCodecContext *avctx)
         c->hadamard8_diff[1] = ff_hadamard8_diff_sse2;
 #endif
     }
+#endif
 
+#if (HAVE_SSSE3_EXTERNAL == 1)
     if (EXTERNAL_SSSE3(cpu_flags)) {
         c->sum_abs_dctelem   = ff_sum_abs_dctelem_ssse3;
 #if HAVE_ALIGNED_STACK
@@ -842,4 +849,5 @@ av_cold void ff_me_cmp_init_x86(MECmpContext *c, AVCodecContext *avctx)
         c->hadamard8_diff[1] = ff_hadamard8_diff_ssse3;
 #endif
     }
+#endif
 }

@@ -292,10 +292,16 @@ av_cold void ff_sbrdsp_init(SBRDSPContext *s)
     s->hf_apply_noise[2] = sbr_hf_apply_noise_2;
     s->hf_apply_noise[3] = sbr_hf_apply_noise_3;
 
+#if (ARCH_ARM == 1)
     if (ARCH_ARM)
         ff_sbrdsp_init_arm(s);
+#endif
+#if (ARCH_X86 == 1)
     if (ARCH_X86)
         ff_sbrdsp_init_x86(s);
+#endif
+#if (ARCH_MIPS == 1)
     if (ARCH_MIPS)
         ff_sbrdsp_init_mips(s);
+#endif
 }

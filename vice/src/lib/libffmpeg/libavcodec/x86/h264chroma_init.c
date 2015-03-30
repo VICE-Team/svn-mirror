@@ -78,16 +78,21 @@ av_cold void ff_h264chroma_init_x86(H264ChromaContext *c, int bit_depth)
     int high_bit_depth = bit_depth > 8;
     int cpu_flags      = av_get_cpu_flags();
 
+#if (HAVE_MMX_EXTERNAL == 1)
     if (EXTERNAL_MMX(cpu_flags) && !high_bit_depth) {
         c->put_h264_chroma_pixels_tab[0] = ff_put_h264_chroma_mc8_rnd_mmx;
         c->put_h264_chroma_pixels_tab[1] = ff_put_h264_chroma_mc4_mmx;
     }
+#endif
 
+#if (HAVE_AMD3DNOW_EXTERNAL == 1)
     if (EXTERNAL_AMD3DNOW(cpu_flags) && !high_bit_depth) {
         c->avg_h264_chroma_pixels_tab[0] = ff_avg_h264_chroma_mc8_rnd_3dnow;
         c->avg_h264_chroma_pixels_tab[1] = ff_avg_h264_chroma_mc4_3dnow;
     }
+#endif
 
+#if (HAVE_MMXEXT_EXTERNAL == 1)
     if (EXTERNAL_MMXEXT(cpu_flags) && !high_bit_depth) {
         c->avg_h264_chroma_pixels_tab[0] = ff_avg_h264_chroma_mc8_rnd_mmxext;
         c->avg_h264_chroma_pixels_tab[1] = ff_avg_h264_chroma_mc4_mmxext;
@@ -101,23 +106,30 @@ av_cold void ff_h264chroma_init_x86(H264ChromaContext *c, int bit_depth)
         c->put_h264_chroma_pixels_tab[1] = ff_put_h264_chroma_mc4_10_mmxext;
         c->avg_h264_chroma_pixels_tab[1] = ff_avg_h264_chroma_mc4_10_mmxext;
     }
+#endif
 
+#if (HAVE_SSE2_EXTERNAL == 1)
     if (EXTERNAL_SSE2(cpu_flags) && bit_depth > 8 && bit_depth <= 10) {
         c->put_h264_chroma_pixels_tab[0] = ff_put_h264_chroma_mc8_10_sse2;
         c->avg_h264_chroma_pixels_tab[0] = ff_avg_h264_chroma_mc8_10_sse2;
     }
+#endif
 
+#if (HAVE_SSSE3_EXTERNAL == 1)
     if (EXTERNAL_SSSE3(cpu_flags) && !high_bit_depth) {
         c->put_h264_chroma_pixels_tab[0] = ff_put_h264_chroma_mc8_rnd_ssse3;
         c->avg_h264_chroma_pixels_tab[0] = ff_avg_h264_chroma_mc8_rnd_ssse3;
         c->put_h264_chroma_pixels_tab[1] = ff_put_h264_chroma_mc4_ssse3;
         c->avg_h264_chroma_pixels_tab[1] = ff_avg_h264_chroma_mc4_ssse3;
     }
+#endif
 
+#if (HAVE_AVX_EXTERNAL == 1)
     if (EXTERNAL_AVX(cpu_flags) && bit_depth > 8 && bit_depth <= 10) {
         // AVX implies !cache64.
         // TODO: Port cache(32|64) detection from x264.
         c->put_h264_chroma_pixels_tab[0] = ff_put_h264_chroma_mc8_10_avx;
         c->avg_h264_chroma_pixels_tab[0] = ff_avg_h264_chroma_mc8_10_avx;
     }
+#endif
 }

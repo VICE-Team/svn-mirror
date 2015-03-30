@@ -83,14 +83,22 @@ int av_get_cpu_flags(void)
     if (checked)
         return flags;
 
+#if (ARCH_AARCH64 == 1)
     if (ARCH_AARCH64)
         flags = ff_get_cpu_flags_aarch64();
+#endif
+#if (ARCH_ARM == 1)
     if (ARCH_ARM)
         flags = ff_get_cpu_flags_arm();
+#endif
+#if (ARCH_PPC == 1)
     if (ARCH_PPC)
         flags = ff_get_cpu_flags_ppc();
+#endif
+#if (ARCH_X86 == 1)
     if (ARCH_X86)
         flags = ff_get_cpu_flags_x86();
+#endif
 
     checked = 1;
     return flags;

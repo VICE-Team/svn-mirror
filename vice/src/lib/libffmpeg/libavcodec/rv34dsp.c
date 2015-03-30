@@ -136,8 +136,12 @@ av_cold void ff_rv34dsp_init(RV34DSPContext *c)
     c->rv34_idct_add    = rv34_idct_add_c;
     c->rv34_idct_dc_add = rv34_idct_dc_add_c;
 
+#if (ARCH_ARM == 1)
     if (ARCH_ARM)
         ff_rv34dsp_init_arm(c);
+#endif
+#if (ARCH_X86 == 1)
     if (ARCH_X86)
         ff_rv34dsp_init_x86(c);
+#endif
 }

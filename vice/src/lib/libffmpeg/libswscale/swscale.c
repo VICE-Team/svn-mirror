@@ -741,10 +741,14 @@ SwsFunc ff_getSwsFunc(SwsContext *c)
 {
     sws_init_swscale(c);
 
+#if (ARCH_PPC == 1)
     if (ARCH_PPC)
         ff_sws_init_swscale_ppc(c);
+#endif
+#if (ARCH_X86 == 1)
     if (ARCH_X86)
         ff_sws_init_swscale_x86(c);
+#endif
 
     return swscale;
 }
