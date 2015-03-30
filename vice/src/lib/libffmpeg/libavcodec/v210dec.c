@@ -102,8 +102,10 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
     aligned_input = !((uintptr_t)psrc & 0xf) && !(stride & 0xf);
     if (aligned_input != s->aligned_input) {
         s->aligned_input = aligned_input;
+#if (HAVE_MMX == 1)
         if (HAVE_MMX)
             v210_x86_init(s);
+#endif
     }
 
     if ((ret = ff_get_buffer(avctx, pic, 0)) < 0)

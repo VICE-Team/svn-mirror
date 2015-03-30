@@ -1027,12 +1027,20 @@ av_cold void ff_vc1dsp_init(VC1DSPContext *dsp)
 
     dsp->startcode_find_candidate = ff_startcode_find_candidate_c;
 
+#if (ARCH_AARCH64 == 1)
     if (ARCH_AARCH64)
         ff_vc1dsp_init_aarch64(dsp);
+#endif
+#if (ARCH_ARM == 1)
     if (ARCH_ARM)
         ff_vc1dsp_init_arm(dsp);
+#endif
+#if (ARCH_PPC == 1)
     if (ARCH_PPC)
         ff_vc1dsp_init_ppc(dsp);
+#endif
+#if (ARCH_X86 == 1)
     if (ARCH_X86)
         ff_vc1dsp_init_x86(dsp);
+#endif
 }

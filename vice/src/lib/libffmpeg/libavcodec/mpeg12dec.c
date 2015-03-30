@@ -837,7 +837,7 @@ static int mpeg_decode_mb(MpegEncContext *s, int16_t block[12][64])
         }
         s->mb_intra = 1;
         // if 1, we memcpy blocks in xvmcvideo
-#if (CONFIG_MPEG1_XVMC_HWACCEL ==1) || (CONFIG_MPEG2_XVMC_HWACCEL == 1)
+#if (CONFIG_MPEG1_XVMC_HWACCEL == 1) || (CONFIG_MPEG2_XVMC_HWACCEL == 1)
         if ((CONFIG_MPEG1_XVMC_HWACCEL || CONFIG_MPEG2_XVMC_HWACCEL) && s->pack_pblocks)
             ff_xvmc_pack_pblocks(s, -1); // inter are always full blocks
 #endif
@@ -1059,8 +1059,10 @@ static int mpeg_decode_mb(MpegEncContext *s, int16_t block[12][64])
             }
 
             // if 1, we memcpy blocks in xvmcvideo
+#if (CONFIG_MPEG1_XVMC_HWACCEL == 1) || (CONFIG_MPEG2_XVMC_HWACCEL == 1)
             if ((CONFIG_MPEG1_XVMC_HWACCEL || CONFIG_MPEG2_XVMC_HWACCEL) && s->pack_pblocks)
                 ff_xvmc_pack_pblocks(s, cbp);
+#endif
 
             if (s->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
                 if (s->flags2 & CODEC_FLAG2_FAST) {

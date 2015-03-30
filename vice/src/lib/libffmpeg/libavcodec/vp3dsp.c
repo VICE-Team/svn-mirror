@@ -287,10 +287,16 @@ av_cold void ff_vp3dsp_init(VP3DSPContext *c, int flags)
     c->v_loop_filter = vp3_v_loop_filter_c;
     c->h_loop_filter = vp3_h_loop_filter_c;
 
+#if (ARCH_ARM == 1)
     if (ARCH_ARM)
         ff_vp3dsp_init_arm(c, flags);
+#endif
+#if (ARCH_PPC == 1)
     if (ARCH_PPC)
         ff_vp3dsp_init_ppc(c, flags);
+#endif
+#if (ARCH_X86 == 1)
     if (ARCH_X86)
         ff_vp3dsp_init_x86(c, flags);
+#endif
 }

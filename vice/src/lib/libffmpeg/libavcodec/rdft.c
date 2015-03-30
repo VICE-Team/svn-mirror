@@ -123,7 +123,9 @@ av_cold int ff_rdft_init(RDFTContext *s, int nbits, enum RDFTransformType trans)
 #endif
     s->rdft_calc   = rdft_calc_c;
 
+#if (ARCH_ARM == 1)
     if (ARCH_ARM) ff_rdft_init_arm(s);
+#endif
 
     return 0;
 }

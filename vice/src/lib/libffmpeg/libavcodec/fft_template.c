@@ -170,15 +170,27 @@ av_cold int ff_fft_init(FFTContext *s, int nbits, int inverse)
     }
 #else /* FFT_FIXED_32 */
 #if FFT_FLOAT
+#if (ARCH_AARCH64 == 1)
     if (ARCH_AARCH64) ff_fft_init_aarch64(s);
+#endif
+#if (ARCH_ARM == 1)
     if (ARCH_ARM)     ff_fft_init_arm(s);
+#endif
+#if (ARCH_PPC == 1)
     if (ARCH_PPC)     ff_fft_init_ppc(s);
+#endif
+#if (ARCH_X86 == 1)
     if (ARCH_X86)     ff_fft_init_x86(s);
+#endif
     if (CONFIG_MDCT)  s->mdct_calcw = s->mdct_calc;
+#if (HAVE_MIPSFPU == 1)
     if (HAVE_MIPSFPU) ff_fft_init_mips(s);
+#endif
 #else
     if (CONFIG_MDCT)  s->mdct_calcw = ff_mdct_calcw_c;
+#if (ARCH_ARM == 1)
     if (ARCH_ARM)     ff_fft_fixed_init_arm(s);
+#endif
 #endif
     for(j=4; j<=nbits; j++) {
         ff_init_ff_cos_tabs(j);
