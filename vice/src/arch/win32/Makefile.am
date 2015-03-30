@@ -328,6 +328,7 @@ EXTRA_DIST = \
 	generate_msvc70_project.bat \
 	generate_msvc71_project.bat \
 	generate_msvc8_project.bat \
+	generate_msvc9_ffmpeg_project.bat \
 	generate_msvc9_project.bat \
 	generate_msvc10_ffmpeg_project.bat \
 	generate_msvc10_project.bat \
