@@ -5,7 +5,7 @@ if exist vs9-ffmpeg goto removedir
 :makemsvcdir
 mkdir vs9-ffmpeg
 cd vs_tmpl
-mkmsvc.exe -native -9 vice
+mkmsvc.exe -ffmpeg -native -9 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs9-ffmpeg\make-msvc-bindist.bat
 copy msvc\winid*.bat vs9-ffmpeg
