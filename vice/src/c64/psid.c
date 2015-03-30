@@ -212,7 +212,7 @@ int psid_load_file(const char* filename)
     ptr += 4;
     psid->version = psid_extract_word(&ptr);
 
-    if (psid->version < 1 || psid->version > 3) {
+    if (psid->version < 1 || psid->version > 4) {
         log_error(vlog, "Unknown PSID version number: %d.", (int)psid->version);
         goto fail;
     }
@@ -556,7 +556,7 @@ void psid_init_driver(void)
     WORD addr;
     int i;
     int sync;
-    int sid2loc;
+    int sid2loc, sid3loc;
 
     if (!psid) {
         return;
@@ -591,6 +591,15 @@ void psid_init_driver(void)
             && (sid2loc & 0x10) == 0) {
             resources_set_int("SidStereo", 1);
             resources_set_int("SidStereoAddressStart", sid2loc);
+        }
+        sid3loc = 0xd000 | ((psid->reserved << 4) & 0x0ff0);
+        if (sid3loc != 0xd000) {
+            log_message(vlog, "3rd SID at $%04x", sid3loc);
+            if (((sid3loc >= 0xd420 && sid3loc < 0xd800) || sid3loc >= 0xde00)
+                && (sid3loc & 0x10) == 0) {
+                resources_set_int("SidStereo", 2);
+                resources_set_int("SidTripleAddressStart", sid3loc);
+            }
         }
     }
 
