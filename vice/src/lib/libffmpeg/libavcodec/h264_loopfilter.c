@@ -355,8 +355,15 @@ static av_always_inline void h264_filter_mb_fast_internal(H264Context *h,
         }
         return;
     } else {
-        LOCAL_ALIGNED_8(int16_t, bS, [2], [4][4]);
-        int edges;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+		LOCAL_ALIGNED_8(int16_t, bS, [2], [4][4]);
+#else
+		uint8_t la_bS[sizeof(int16_t [2] [4][4]) + (8)];
+		int16_t (*bS) [4][4] = (void *)((((uintptr_t)la_bS)+(8)-1)&~((8)-1));
+#endif
+
+		int edges;
         if( IS_8x8DCT(mb_type) && (h->cbp&7) == 7 && !chroma444 ) {
             edges = 4;
             AV_WN64A(bS[0][0], 0x0002000200020002ULL);

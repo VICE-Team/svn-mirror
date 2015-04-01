@@ -813,12 +813,14 @@ const x264_level_t x264_levels[] =
     { 0 }
 };
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define ERROR(...)\
 {\
     if( verbose )\
         x264_log( h, X264_LOG_WARNING, __VA_ARGS__ );\
     ret = 1;\
 }
+#endif
 
 int x264_validate_levels( x264_t *h, int verbose )
 {
@@ -836,15 +838,43 @@ int x264_validate_levels( x264_t *h, int verbose )
     if( l->frame_size < mbs
         || l->frame_size*8 < h->sps->i_mb_width * h->sps->i_mb_width
         || l->frame_size*8 < h->sps->i_mb_height * h->sps->i_mb_height )
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         ERROR( "frame MB size (%dx%d) > level limit (%d)\n",
                h->sps->i_mb_width, h->sps->i_mb_height, l->frame_size );
-    if( dpb > l->dpb )
+#else
+{
+	if( verbose )
+        x264_log( h, X264_LOG_WARNING, "frame MB size (%dx%d) > level limit (%d)\n",
+               h->sps->i_mb_width, h->sps->i_mb_height, l->frame_size );
+    ret = 1;
+}
+#endif
+	if( dpb > l->dpb )
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         ERROR( "DPB size (%d frames, %d mbs) > level limit (%d frames, %d mbs)\n",
                 h->sps->vui.i_max_dec_frame_buffering, dpb, l->dpb / mbs, l->dpb );
+#else
+{
+	if( verbose )
+        x264_log( h, X264_LOG_WARNING, "DPB size (%d frames, %d mbs) > level limit (%d frames, %d mbs)\n",
+                h->sps->vui.i_max_dec_frame_buffering, dpb, l->dpb / mbs, l->dpb );
+    ret = 1;
+}
+#endif
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define CHECK( name, limit, val ) \
     if( (val) > (limit) ) \
         ERROR( name " (%"PRId64") > level limit (%d)\n", (int64_t)(val), (limit) );
+#else
+#define CHECK( name, limit, val ) \
+    if( (val) > (limit) ) \
+{ \
+	if( verbose ) \
+        x264_log( h, X264_LOG_WARNING, name " (%"PRId64") > level limit (%d)\n", (int64_t)(val), (limit) ); \
+    ret = 1; \
+}
+#endif
 
     CHECK( "VBV bitrate", (l->bitrate * cbp_factor) / 4, h->param.rc.i_vbv_max_bitrate );
     CHECK( "VBV buffer", (l->cpb * cbp_factor) / 4, h->param.rc.i_vbv_buffer_size );

@@ -21,6 +21,8 @@
 #ifndef AVCODEC_X86_CONSTANTS_H
 #define AVCODEC_X86_CONSTANTS_H
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+
 #include <stdint.h>
 
 #include "libavutil/x86/asm.h"
@@ -56,5 +58,7 @@ extern const xmm_reg  ff_pb_F8;
 extern const uint64_t ff_pb_FC;
 
 extern const xmm_reg  ff_ps_neg;
+
+#endif
 
 #endif /* AVCODEC_X86_CONSTANTS_H */

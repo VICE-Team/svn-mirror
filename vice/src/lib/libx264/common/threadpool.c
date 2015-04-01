@@ -66,7 +66,11 @@ static void *x264_threadpool_thread( x264_threadpool_t *pool )
         x264_pthread_mutex_unlock( &pool->run.mutex );
         if( !job )
             continue;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         job->ret = (void*)x264_stack_align( job->func, job->arg ); /* execute the function */
+#else
+        job->ret = (void*)job->func(job->arg ); /* execute the function */
+#endif
         x264_sync_frame_list_push( &pool->done, (void*)job );
     }
     return NULL;

@@ -1037,7 +1037,13 @@ static void count_mantissa_bits_update_ch(AC3EncodeContext *s, int ch,
 static int count_mantissa_bits(AC3EncodeContext *s)
 {
     int ch, max_end_freq;
-    LOCAL_ALIGNED_16(uint16_t, mant_cnt, [AC3_MAX_BLOCKS], [16]);
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(uint16_t, mant_cnt, [AC3_MAX_BLOCKS], [16]);
+#else
+	uint8_t la_mant_cnt[sizeof(uint16_t[6][16]) + (16)];
+	uint16_t (*mant_cnt)[16] = (void *)((((uintptr_t)la_mant_cnt)+(16)-1)&~((16)-1));
+#endif
 
     count_mantissa_bits_init(mant_cnt);
 

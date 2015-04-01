@@ -441,7 +441,11 @@ level_run(16)
     pf->trellis_cabac_dc = x264_trellis_cabac_dc_##cpu;\
     pf->trellis_cabac_chroma_422_dc = x264_trellis_cabac_chroma_422_dc_##cpu;
 #else
-#define INIT_TRELLIS(...)
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+#  define INIT_TRELLIS(...)
+#else
+#  define INIT_TRELLIS var_args_dummy
+#endif
 #endif
 
 void x264_quant_init( x264_t *h, int cpu, x264_quant_function_t *pf )

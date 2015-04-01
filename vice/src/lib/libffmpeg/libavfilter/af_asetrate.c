@@ -31,6 +31,8 @@ typedef struct {
 #define CONTEXT ASetRateContext
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+
 #ifdef IDE_COMPILE
 #define OPT_GENERIC(name, field, def, min, max, descr, type, deffield, ...) \
     { name, descr, offsetof(CONTEXT, field), AV_OPT_TYPE_ ## type,          \
@@ -44,9 +46,16 @@ typedef struct {
 #define OPT_INT(name, field, def, min, max, descr, ...) \
     OPT_GENERIC(name, field, def, min, max, descr, INT, i64, __VA_ARGS__)
 
+#endif
+
 static const AVOption asetrate_options[] = {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	OPT_INT("sample_rate", sample_rate, 44100, 1, INT_MAX, "set the sample rate"),
     OPT_INT("r",           sample_rate, 44100, 1, INT_MAX, "set the sample rate"),
+#else
+ { "sample_rate", "set the sample rate", offsetof (ASetRateContext, sample_rate), AV_OPT_TYPE_INT, { 44100 }, 1, INT_MAX, FLAGS, },
+    { "r", "set the sample rate", offsetof (ASetRateContext, sample_rate), AV_OPT_TYPE_INT, { 44100 }, 1, INT_MAX, FLAGS, },
+#endif
 	{NULL},
 };
 

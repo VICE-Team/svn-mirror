@@ -301,10 +301,14 @@ static av_always_inline void hcscale(SwsContext *c, int16_t *dst1,
         c->chrConvertRange(dst1, dst2, dstWidth);
 }
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define DEBUG_SWSCALE_BUFFERS 0
 #define DEBUG_BUFFERS(...)                      \
     if (DEBUG_SWSCALE_BUFFERS)                  \
         av_log(c, AV_LOG_DEBUG, __VA_ARGS__)
+#else
+#define DEBUG_BUFFERS var_args_dummy
+#endif
 
 static int swscale(SwsContext *c, const uint8_t *src[],
                    int srcStride[], int srcSliceY,

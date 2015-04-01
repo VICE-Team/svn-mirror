@@ -587,6 +587,7 @@ int trellis_coef0_1( uint64_t ssd0, trellis_node_t *nodes_cur, trellis_node_t *n
     return levels_used;
 }
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define COEF(const_level, ctx_hi, j, ...)\
     if( !j || (int64_t)nodes_prev[j].score >= 0 )\
         levels_used = trellis_coef( j, const_level, abs_level, prefix, suffix_cost, __VA_ARGS__,\
@@ -594,6 +595,15 @@ int trellis_coef0_1( uint64_t ssd0, trellis_node_t *nodes_cur, trellis_node_t *n
                                     level_tree, levels_used, lambda2, level_state );\
     else if( !ctx_hi )\
         return levels_used;
+#else
+#define COEF(const_level, ctx_hi, j, a, b, c)\
+    if( !j || (int64_t)nodes_prev[j].score >= 0 )\
+        levels_used = trellis_coef( j, const_level, abs_level, prefix, suffix_cost, a, b, c,\
+                                    j?ssd1:ssd0, cost_siglast, nodes_cur, nodes_prev,\
+                                    level_tree, levels_used, lambda2, level_state );\
+    else if( !ctx_hi )\
+        return levels_used;
+#endif
 
 static NOINLINE
 int trellis_coef1_0( uint64_t ssd0, uint64_t ssd1, int cost_siglast[3],
@@ -665,9 +675,15 @@ int quant_trellis_cabac( x264_t *h, dctcoef *dct,
                          const uint8_t *zigzag, int ctx_block_cat, int lambda2, int b_ac,
                          int b_chroma, int dc, int num_coefs, int idx )
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     ALIGNED_ARRAY_N( dctcoef, orig_coefs, [64] );
     ALIGNED_ARRAY_N( dctcoef, quant_coefs, [64] );
-    const uint32_t *coef_weight1 = num_coefs == 64 ? x264_dct8_weight_tab : x264_dct4_weight_tab;
+#else
+	__declspec(align(32))dctcoef orig_coefs [64];
+    __declspec(align(32))dctcoef quant_coefs [64];
+#endif
+
+	const uint32_t *coef_weight1 = num_coefs == 64 ? x264_dct8_weight_tab : x264_dct4_weight_tab;
     const uint32_t *coef_weight2 = num_coefs == 64 ? x264_dct8_weight2_tab : x264_dct4_weight2_tab;
     const int b_interlaced = MB_INTERLACED;
     uint8_t *cabac_state_sig = &h->cabac.state[ x264_significant_coeff_flag_offset[b_interlaced][ctx_block_cat] ];

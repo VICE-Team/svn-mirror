@@ -23,6 +23,14 @@
 
 #include <windows.h>
 
+#if defined(IDE_COMPILE) && (_MSC_VER < 1400)
+static inline void MemoryBarrier(void)
+{
+    LONG Barrier;
+    __asm{xchg Barrier, eax}
+}
+#endif
+
 #define avpriv_atomic_int_get atomic_int_get_win32
 static inline int atomic_int_get_win32(volatile int *ptr)
 {

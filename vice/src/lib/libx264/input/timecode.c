@@ -24,7 +24,10 @@
  *****************************************************************************/
 
 #include "input.h"
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, "timecode", __VA_ARGS__ )
+#endif
 
 typedef struct
 {
@@ -60,8 +63,15 @@ static double correct_fps( double fps, timecode_hnd_t *h )
     {
         fps_den = i * h->timebase_num;
         fps_num = round( fps_den * fps_sig ) * exponent;
-        FAIL_IF_ERROR( fps_num > UINT32_MAX, "tcfile fps correction failed.\n"
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+		FAIL_IF_ERROR( fps_num > UINT32_MAX, "tcfile fps correction failed.\n"
                        "                  Specify an appropriate timebase manually or remake tcfile.\n" )
+#else
+        if( fps_num > UINT32_MAX ){
+			x264_cli_log( "timecode", 0, "tcfile fps correction failed.\n                  Specify an appropriate timebase manually or remake tcfile.\n" );
+			return -1;
+		}
+#endif
         if( fabs( ((double)fps_num / fps_den) / exponent - fps_sig ) < DOUBLE_EPSILON )
             break;
         ++i;
@@ -89,9 +99,17 @@ static int try_mkv_timebase_den( double *fpss, timecode_hnd_t *h, int loop_num )
         double fps_sig = sigexp10( fpss[num], &exponent );
         fps_den = round( MKV_TIMEBASE_DEN / fps_sig ) / exponent;
         h->timebase_num = fps_den && h->timebase_num ? gcd( h->timebase_num, fps_den ) : fps_den;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( h->timebase_num > UINT32_MAX || !h->timebase_num, "automatic timebase generation failed.\n"
                        "                  Specify timebase manually.\n" )
-    }
+#else
+        if( h->timebase_num > UINT32_MAX || !h->timebase_num ){
+			x264_cli_log( "timecode", 0, "automatic timebase generation failed.\n"
+                       "                  Specify timebase manually.\n" );
+			return -1;
+		}
+#endif
+	}
     return 0;
 }
 
@@ -103,7 +121,14 @@ static int parse_tcfile( FILE *tcfile_in, timecode_hnd_t *h, video_info_t *info 
     double *fpss = NULL;
 
     ret = fscanf( tcfile_in, "# timecode format v%d", &tcfv );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( ret != 1 || (tcfv != 1 && tcfv != 2), "unsupported timecode format\n" )
+#else
+    if( ret != 1 || (tcfv != 1 && tcfv != 2) ){
+		x264_cli_log( "timecode", 0, "unsupported timecode format\n" );
+		return -1;
+	}
+#endif
 #define NO_TIMECODE_LINE (buff[0] == '#' || buff[0] == '\n' || buff[0] == '\r')
     if( tcfv == 1 )
     {
@@ -117,13 +142,27 @@ static int parse_tcfile( FILE *tcfile_in, timecode_hnd_t *h, video_info_t *info 
         {
             if( NO_TIMECODE_LINE )
                 continue;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             FAIL_IF_ERROR( sscanf( buff, "assume %lf", &h->assume_fps ) != 1 && sscanf( buff, "Assume %lf", &h->assume_fps ) != 1,
                            "tcfile parsing error: assumed fps not found\n" )
-            break;
+#else
+    if( sscanf( buff, "assume %lf", &h->assume_fps ) != 1 && sscanf( buff, "Assume %lf", &h->assume_fps ) != 1 ){
+		x264_cli_log( "timecode", 0, "tcfile parsing error: assumed fps not found\n" );
+		return -1;
+	}
+#endif
+			break;
         }
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( h->assume_fps <= 0, "invalid assumed fps %.6f\n", h->assume_fps )
+#else
+    if( h->assume_fps <= 0 ){
+		x264_cli_log( "timecode", 0, "invalid assumed fps %.6f\n", h->assume_fps );
+		return -1;
+	}
+#endif
 
-        file_pos = ftell( tcfile_in );
+		file_pos = ftell( tcfile_in );
         h->stored_pts_num = 0;
         for( seq_num = 0; fgets( buff, sizeof(buff), tcfile_in ) != NULL; num++ )
         {
@@ -134,9 +173,20 @@ static int parse_tcfile( FILE *tcfile_in, timecode_hnd_t *h, video_info_t *info 
                 continue;
             }
             ret = sscanf( buff, "%d,%d,%lf", &start, &end, &seq_fps );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             FAIL_IF_ERROR( ret != 3 && ret != EOF, "invalid input tcfile\n" )
             FAIL_IF_ERROR( start > end || start <= prev_start || end <= prev_end || seq_fps <= 0,
                            "invalid input tcfile at line %d: %s\n", num, buff )
+#else
+    if( ret != 3 && ret != EOF ){
+		x264_cli_log( "timecode", 0, "invalid input tcfile\n" );
+		return -1;
+	}
+    if( start > end || start <= prev_start || end <= prev_end || seq_fps <= 0 ){
+		x264_cli_log( "timecode", 0, "invalid input tcfile at line %d: %s\n", num, buff );
+		return -1;
+	}
+#endif
             prev_start = start;
             prev_end = end;
             if( h->auto_timebase_den || h->auto_timebase_num )
@@ -237,8 +287,15 @@ static int parse_tcfile( FILE *tcfile_in, timecode_hnd_t *h, video_info_t *info 
             h->stored_pts_num++;
         }
         timecodes_num = h->stored_pts_num;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( !timecodes_num, "input tcfile doesn't have any timecodes!\n" )
-        fseek( tcfile_in, file_pos, SEEK_SET );
+#else
+        if( !timecodes_num ){
+			x264_cli_log( "timecode", 0, "input tcfile doesn't have any timecodes!\n" );
+			return -1;
+		}
+#endif
+		fseek( tcfile_in, file_pos, SEEK_SET );
 
         timecodes = malloc( timecodes_num * sizeof(double) );
         if( !timecodes )
@@ -249,19 +306,40 @@ static int parse_tcfile( FILE *tcfile_in, timecode_hnd_t *h, video_info_t *info 
         {
             ret = sscanf( buff, "%lf", &timecodes[0] );
             timecodes[0] *= 1e-3;         /* Timecode format v2 is expressed in milliseconds. */
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             FAIL_IF_ERROR( ret != 1, "invalid input tcfile for frame 0\n" )
-            for( num = 1; num < timecodes_num && fgets( buff, sizeof(buff), tcfile_in ) != NULL; )
+#else
+        if( ret != 1 ){
+			x264_cli_log( "timecode", 0, "invalid input tcfile for frame 0\n" );
+			return -1;
+		}
+#endif
+			for( num = 1; num < timecodes_num && fgets( buff, sizeof(buff), tcfile_in ) != NULL; )
             {
                 if( NO_TIMECODE_LINE )
                     continue;
                 ret = sscanf( buff, "%lf", &timecodes[num] );
                 timecodes[num] *= 1e-3;         /* Timecode format v2 is expressed in milliseconds. */
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 FAIL_IF_ERROR( ret != 1 || timecodes[num] <= timecodes[num - 1],
                                "invalid input tcfile for frame %d\n", num )
-                ++num;
+#else
+        if( ret != 1 || timecodes[num] <= timecodes[num - 1] ){
+			x264_cli_log( "timecode", 0, "invalid input tcfile for frame %d\n", num );
+			return -1;
+		}
+#endif
+				++num;
             }
         }
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( num < timecodes_num, "failed to read input tcfile for frame %d", num )
+#else
+        if( num < timecodes_num ){
+			x264_cli_log( "timecode", 0, "failed to read input tcfile for frame %d", num );
+			return -1;
+		}
+#endif
 
         if( timecodes_num == 1 )
             h->timebase_den = info->fps_num;
@@ -316,17 +394,32 @@ static int parse_tcfile( FILE *tcfile_in, timecode_hnd_t *h, video_info_t *info 
         h->timebase_den /= i;
         x264_cli_log( "timecode", X264_LOG_INFO, "automatic timebase generation %"PRIu64"/%"PRIu64"\n", h->timebase_num, h->timebase_den );
     }
-    else FAIL_IF_ERROR( h->timebase_den > UINT32_MAX || !h->timebase_den, "automatic timebase generation failed.\n"
+    else
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+		FAIL_IF_ERROR( h->timebase_den > UINT32_MAX || !h->timebase_den, "automatic timebase generation failed.\n"
                         "                  Specify an appropriate timebase manually.\n" )
+#else
+    if( h->timebase_den > UINT32_MAX || !h->timebase_den ){
+		x264_cli_log( "timecode", 0, "automatic timebase generation failed.\n                  Specify an appropriate timebase manually.\n" );
+	    return -1;
+	}
+#endif
 
-    h->pts = malloc( h->stored_pts_num * sizeof(int64_t) );
+	h->pts = malloc( h->stored_pts_num * sizeof(int64_t) );
     if( !h->pts )
         goto fail;
     for( num = 0; num < h->stored_pts_num; num++ )
     {
         h->pts[num] = timecodes[num] * ((double)h->timebase_den / h->timebase_num) + 0.5;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( num > 0 && h->pts[num] <= h->pts[num - 1], "invalid timebase or timecode for frame %d\n", num )
-    }
+#else
+    if( num > 0 && h->pts[num] <= h->pts[num - 1] ){
+		x264_cli_log( "timecode", 0, "invalid timebase or timecode for frame %d\n", num );
+	    return -1;
+	}
+#endif
+	}
 
     free( timecodes );
     return 0;
@@ -347,8 +440,15 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     int ret = 0;
     FILE *tcfile_in;
     timecode_hnd_t *h = malloc( sizeof(timecode_hnd_t) );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( !h, "malloc failed\n" )
-    h->input = cli_input;
+#else
+    if( !h ){
+		x264_cli_log( "timecode", 0, "malloc failed\n" );
+	    return -1;
+	}
+#endif
+	h->input = cli_input;
     h->p_handle = *p_handle;
     h->pts = NULL;
     if( opt->timebase )
@@ -359,9 +459,16 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
             h->timebase_num = strtoul( opt->timebase, NULL, 10 );
             h->timebase_den = 0; /* set later by auto timebase generation */
         }
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( h->timebase_num > UINT32_MAX || h->timebase_den > UINT32_MAX,
                        "timebase you specified exceeds H.264 maximum\n" )
-    }
+#else
+    if( h->timebase_num > UINT32_MAX || h->timebase_den > UINT32_MAX ){
+		x264_cli_log( "timecode", 0, "timebase you specified exceeds H.264 maximum\n" );
+	    return -1;
+	}
+#endif
+	}
     h->auto_timebase_num = !ret;
     h->auto_timebase_den = ret < 2;
     if( h->auto_timebase_num )
@@ -372,8 +479,15 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     timecode_input.picture_clean = h->input.picture_clean;
 
     tcfile_in = x264_fopen( psz_filename, "rb" );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( !tcfile_in, "can't open `%s'\n", psz_filename )
-    else if( !x264_is_regular_file( tcfile_in ) )
+#else
+    if( !tcfile_in ){
+		x264_cli_log( "timecode", 0, "can't open `%s'\n", psz_filename );
+	    return -1;
+	}
+#endif
+	else if( !x264_is_regular_file( tcfile_in ) )
     {
         x264_cli_log( "timecode", X264_LOG_ERROR, "tcfile input incompatible with non-regular file `%s'\n", psz_filename );
         fclose( tcfile_in );

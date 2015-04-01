@@ -50,8 +50,15 @@ static av_cold int mpc7_decode_init(AVCodecContext * avctx)
     int i, j;
     MPCContext *c = avctx->priv_data;
     GetBitContext gb;
-    LOCAL_ALIGNED_16(uint8_t, buf, [16]);
-    static int vlc_initialized = 0;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(uint8_t, buf, [16]);
+#else
+	uint8_t la_buf[sizeof(uint8_t [16] ) + (16)];
+	uint8_t (*buf) = (void *)((((uintptr_t)la_buf)+(16)-1)&~((16)-1));
+#endif
+
+	static int vlc_initialized = 0;
 
     static VLC_TYPE scfi_table[1 << MPC7_SCFI_BITS][2];
     static VLC_TYPE dscf_table[1 << MPC7_DSCF_BITS][2];

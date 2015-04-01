@@ -30,9 +30,11 @@
  * Define a structure with extra padding to a fixed size
  * This helps ensuring binary compatibility with future versions.
  */
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FF_PAD_STRUCTURE(size, ...) \
     __VA_ARGS__ \
     char reserved_padding[size - sizeof(struct { __VA_ARGS__ })];
+#endif
 
 /**
  * Buffer to print data progressively
@@ -75,6 +77,7 @@
  * such as the current paragraph.
  */
 typedef struct AVBPrint {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FF_PAD_STRUCTURE(1024,
     char *str;         /**< string so far */
     unsigned len;      /**< length so far */
@@ -82,6 +85,14 @@ typedef struct AVBPrint {
     unsigned size_max; /**< maximum allocated memory */
     char reserved_internal_buffer[1];
     )
+#else
+	char *str;
+	unsigned len;
+	unsigned size;
+	unsigned size_max;
+	char reserved_internal_buffer[1];
+	char reserved_padding[1024 - sizeof(struct { char *str; unsigned len; unsigned size; unsigned size_max; char reserved_internal_buffer[1]; })];
+#endif
 } AVBPrint;
 
 /**

@@ -154,6 +154,11 @@ static av_always_inline av_const int isnan(float x)
 #define sinf(x) ((float)sin(x))
 #endif
 
+#if defined(IDE_COMPILE) && (_MSC_VER < 1400)
+#define fabsf(x) ((float)fabs(x))
+#define sqrtf(x) ((float)sqrt(x))
+#endif
+
 #if !HAVE_RINT
 static inline double rint(double x)
 {

@@ -1259,8 +1259,15 @@ static void sbr_hf_inverse_filter(SBRDSPContext *dsp,
 {
     int k;
     for (k = 0; k < k0; k++) {
-        LOCAL_ALIGNED_16(float, phi, [3], [2][2]);
-        float dk;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+		LOCAL_ALIGNED_16(float, phi, [3], [2][2]);
+#else
+		uint8_t la_phi[sizeof(float[3][2][2]) + (16)];
+		float (*phi)[2][2] = (void *)((((uintptr_t)la_phi)+(16)-1)&~((16)-1));
+#endif
+
+		float dk;
 
         dsp->autocorrelate(X_low[k], phi);
 
@@ -1624,9 +1631,17 @@ static void sbr_hf_assemble(float Y1[38][64][2],
 
     for (e = 0; e < ch_data->bs_num_env; e++) {
         for (i = 2 * ch_data->t_env[e]; i < 2 * ch_data->t_env[e + 1]; i++) {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             LOCAL_ALIGNED_16(float, g_filt_tab, [48]);
             LOCAL_ALIGNED_16(float, q_filt_tab, [48]);
-            float *g_filt, *q_filt;
+#else
+			uint8_t la_g_filt_tab[sizeof(float[48]) + (16)];
+			float (*g_filt_tab) = (void *)((((uintptr_t)la_g_filt_tab)+(16)-1)&~((16)-1));
+            uint8_t la_q_filt_tab[sizeof(float[48]) + (16)];
+			float (*q_filt_tab) = (void *)((((uintptr_t)la_q_filt_tab)+(16)-1)&~((16)-1));
+#endif
+
+			float *g_filt, *q_filt;
 
             if (h_SL && e != e_a[0] && e != e_a[1]) {
                 g_filt = g_filt_tab;

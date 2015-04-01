@@ -25,7 +25,10 @@
 
 #include "video.h"
 #define NAME "depth"
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, NAME, __VA_ARGS__ )
+#endif
 
 cli_vid_filter_t depth_filter;
 
@@ -223,16 +226,34 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info,
             ret = 1;
     }
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( bit_depth != BIT_DEPTH, "this build supports only bit depth %d\n", BIT_DEPTH )
     FAIL_IF_ERROR( ret, "unsupported bit depth conversion.\n" )
+#else
+    if( bit_depth != BIT_DEPTH ){
+		x264_cli_log( "depth", 0, "this build supports only bit depth %d\n", BIT_DEPTH );
+		return -1;
+	}
+    if( ret ){
+		x264_cli_log( "depth", 0, "unsupported bit depth conversion.\n" );
+		return -1;
+	}
+#endif
 
     /* only add the filter to the chain if it's needed */
     if( change_fmt || bit_depth != 8 * x264_cli_csp_depth_factor( csp ) )
     {
         depth_hnd_t *h;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		FAIL_IF_ERROR( !depth_filter_csp_is_supported(csp), "unsupported colorspace.\n" )
-        h = x264_malloc( sizeof(depth_hnd_t) + (info->width+1)*sizeof(int16_t) );
+#else
+    if( !depth_filter_csp_is_supported(csp) ){
+		x264_cli_log( "depth", 0, "unsupported colorspace.\n" );
+		return -1;
+	}
+#endif
+		h = x264_malloc( sizeof(depth_hnd_t) + (info->width+1)*sizeof(int16_t) );
 
         if( !h )
             return -1;

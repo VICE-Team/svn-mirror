@@ -28,6 +28,10 @@
  *  http://wiki.multimedia.cx/index.php?title=Bink_Audio
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/libm.h"
+#endif
+
 #include "libavutil/channel_layout.h"
 #include "avcodec.h"
 #define BITSTREAM_READER_LE

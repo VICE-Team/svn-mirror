@@ -2533,8 +2533,16 @@ static void intra_recon(AVCodecContext *ctx, ptrdiff_t y_off, ptrdiff_t uv_off)
     int tx = 4 * s->lossless + b->tx, uvtx = b->uvtx + 4 * s->lossless;
     int uvstep1d = 1 << b->uvtx, p;
     uint8_t *dst = s->dst[0], *dst_r = s->frames[CUR_FRAME].tf.f->data[0] + y_off;
-    LOCAL_ALIGNED_32(uint8_t, a_buf, [64]);
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_32(uint8_t, a_buf, [64]);
     LOCAL_ALIGNED_32(uint8_t, l, [32]);
+#else
+	uint8_t la_a_buf[sizeof(uint8_t [64] ) + (32)];
+	uint8_t (*a_buf) = (void *)((((uintptr_t)la_a_buf)+(32)-1)&~((32)-1));
+    uint8_t la_l[sizeof(uint8_t [32] ) + (32)];
+	uint8_t (*l) = (void *)((((uintptr_t)la_l)+(32)-1)&~((32)-1));
+#endif
 
     for (n = 0, y = 0; y < end_y; y += step1d) {
         uint8_t *ptr = dst, *ptr_r = dst_r;

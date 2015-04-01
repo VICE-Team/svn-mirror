@@ -326,6 +326,7 @@ EXTRA_DIST = \
 	dirent.c \
 	generate_msvc6_project.bat \
 	generate_msvc70_project.bat \
+	generate_msvc71_ffmpeg_project.bat \
 	generate_msvc71_project.bat \
 	generate_msvc8_ffmpeg_project.bat \
 	generate_msvc8_project.bat \

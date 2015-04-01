@@ -308,7 +308,12 @@ static ALWAYS_INLINE int x264_mb_predict_mv_direct16x16_spatial( x264_t *h, int 
     int mb_y;
     int mb_xy;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	ALIGNED_ARRAY_8( int16_t, mv,[2],[2] );
+#else
+	__declspec(align(8))int16_t mv[2][2];
+#endif
+
     for( i_list = 0; i_list < 2; i_list++ )
     {
         int     i_refa = h->mb.cache.ref[i_list][X264_SCAN8_0 - 1];

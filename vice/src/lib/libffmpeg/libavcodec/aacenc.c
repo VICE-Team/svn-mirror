@@ -47,11 +47,13 @@
 
 #define AAC_MAX_CHANNELS 6
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define ERROR_IF(cond, ...) \
     if (cond) { \
         av_log(avctx, AV_LOG_ERROR, __VA_ARGS__); \
         return AVERROR(EINVAL); \
     }
+#endif
 
 float ff_aac_pow34sf_tab[428];
 
@@ -763,6 +765,7 @@ static av_cold int aac_encode_init(AVCodecContext *avctx)
 
     s->channels = avctx->channels;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     ERROR_IF(i == 16,
              "Unsupported sample rate %d\n", avctx->sample_rate);
     ERROR_IF(s->channels > AAC_MAX_CHANNELS,
@@ -771,6 +774,24 @@ static av_cold int aac_encode_init(AVCodecContext *avctx)
              "Unsupported profile %d\n", avctx->profile);
     ERROR_IF(1024.0 * avctx->bit_rate / avctx->sample_rate > 6144 * s->channels,
              "Too many bits per frame requested\n");
+#else
+    if (i == 16) {
+        av_log(avctx, AV_LOG_ERROR, "Unsupported sample rate %d\n", avctx->sample_rate);
+        return AVERROR(EINVAL);
+    }
+    if (s->channels > AAC_MAX_CHANNELS) {
+        av_log(avctx, AV_LOG_ERROR, "Unsupported number of channels: %d\n", s->channels);
+        return AVERROR(EINVAL);
+    }
+    if (avctx->profile != FF_PROFILE_UNKNOWN && avctx->profile != FF_PROFILE_AAC_LOW) {
+        av_log(avctx, AV_LOG_ERROR, "Unsupported profile %d\n", avctx->profile);
+        return AVERROR(EINVAL);
+    }
+    if (1024.0 * avctx->bit_rate / avctx->sample_rate > 6144 * s->channels) {
+        av_log(avctx, AV_LOG_ERROR, "Too many bits per frame requested\n");
+        return AVERROR(EINVAL);
+    }
+#endif
 
     s->samplerate_index = i;
 

@@ -191,10 +191,16 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
     int omx, omy, pmx, pmy;
     pixel *p_fenc = m->p_fenc[0];
     pixel *p_fref_w = m->p_fref_w;
-    ALIGNED_ARRAY_N( pixel, pix,[16*16] );
-    ALIGNED_ARRAY_8( int16_t, mvc_temp,[16],[2] );
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	ALIGNED_ARRAY_N( pixel, pix,[16*16] );
+    ALIGNED_ARRAY_8( int16_t, mvc_temp,[16],[2] );
     ALIGNED_ARRAY_16( int, costs,[16] );
+#else
+	__declspec(align(32))pixel pix[16*16];
+    __declspec(align(8))int16_t mvc_temp[16][2];
+    __declspec(align(16))int costs[16];
+#endif
 
     int mv_x_min = h->mb.mv_limit_fpel[0][0];
     int mv_y_min = h->mb.mv_limit_fpel[0][1];
@@ -645,9 +651,16 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
             /* successive elimination by comparing DC before a full SAD,
              * because sum(abs(diff)) >= abs(diff(sum)). */
             uint16_t *sums_base = m->integral;
-            ALIGNED_16( static pixel zero[8*FENC_STRIDE] ) = {0};
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+			ALIGNED_16( static pixel zero[8*FENC_STRIDE] ) = {0};
             ALIGNED_ARRAY_16( int, enc_dc,[4] );
-            int sad_size = i_pixel <= PIXEL_8x8 ? PIXEL_8x8 : PIXEL_4x4;
+#else
+			__declspec(align(16))static pixel zero[8*16] = {0};
+            __declspec(align(16))int enc_dc[4];
+#endif
+
+			int sad_size = i_pixel <= PIXEL_8x8 ? PIXEL_8x8 : PIXEL_4x4;
             int delta = x264_pixel_size[sad_size].w;
             int16_t *xs = h->scratch_buffer;
             int xn;
@@ -687,8 +700,14 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
                     {
 						int j;
 						pixel *ref = p_fref_w+min_x+my*stride;
-                        ALIGNED_ARRAY_16( int, sads,[4] ); /* padded to [4] for asm */
-                        h->pixf.sad_x3[i_pixel]( p_fenc, ref+xs[i], ref+xs[i+1], ref+xs[i+2], stride, sads );
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+						ALIGNED_ARRAY_16( int, sads,[4] ); /* padded to [4] for asm */
+#else
+						__declspec(align(16))int sads[4];
+#endif
+
+						h->pixf.sad_x3[i_pixel]( p_fenc, ref+xs[i], ref+xs[i+1], ref+xs[i+2], stride, sads );
                         for( j = 0; j < 3; j++ )
                         {
                             int sad = sads[j] + cost_fpel_mvx[xs[i+j]];
@@ -892,10 +911,15 @@ static void refine_subpel( x264_t *h, x264_me_t *m, int hpel_iters, int qpel_ite
     int chroma_v_shift = CHROMA_V_SHIFT;
     int mvy_offset = chroma_v_shift & MB_INTERLACED & m->i_ref ? (h->mb.i_mb_y & 1)*4 - 2 : 0;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     ALIGNED_ARRAY_N( pixel, pix,[64*18] ); // really 17x17x2, but round up for alignment
     ALIGNED_ARRAY_16( int, costs,[4] );
+#else
+	__declspec(align(32))pixel pix[64*18];
+    __declspec(align(16))int costs[4];
+#endif
 
-    int bmx = m->mv[0];
+	int bmx = m->mv[0];
     int bmy = m->mv[1];
     int bcost = m->cost;
     int odir = -1, bdir;
@@ -1056,10 +1080,18 @@ static void ALWAYS_INLINE x264_me_refine_bidir( x264_t *h, x264_me_t *m0, x264_m
     const int i_pixel = m0->i_pixel;
     const int bw = x264_pixel_size[i_pixel].w;
     const int bh = x264_pixel_size[i_pixel].h;
-    ALIGNED_ARRAY_N( pixel, pixy_buf,[2],[9][16*16] );
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	ALIGNED_ARRAY_N( pixel, pixy_buf,[2],[9][16*16] );
     ALIGNED_ARRAY_N( pixel, pixu_buf,[2],[9][16*16] );
     ALIGNED_ARRAY_N( pixel, pixv_buf,[2],[9][16*16] );
-    pixel *src[3][2][9];
+#else
+	__declspec(align(32))pixel pixy_buf[2][9][16*16];
+    __declspec(align(32))pixel pixu_buf[2][9][16*16];
+    __declspec(align(32))pixel pixv_buf[2][9][16*16];
+#endif
+
+	pixel *src[3][2][9];
     int chromapix = h->luma2chroma_pixel[i_pixel];
     int chroma_v_shift = CHROMA_V_SHIFT;
     int chroma_x = (8 >> CHROMA_H_SHIFT) * x;
@@ -1086,11 +1118,16 @@ static void ALWAYS_INLINE x264_me_refine_bidir( x264_t *h, x264_me_t *m0, x264_m
     const uint16_t *p_cost_m1y;
 	int pass;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	/* each byte of visited represents 8 possible m1y positions, so a 4D array isn't needed */
     ALIGNED_ARRAY_N( uint8_t, visited,[8],[8][8] );
     /* all permutations of an offset in up to 2 of the dimensions */
     ALIGNED_4( static const int8_t dia4d[33][4] ) =
-    {
+#else
+	__declspec(align(32))uint8_t visited[8][8][8];
+    __declspec(align(4))static const int8_t dia4d[33][4] =
+#endif
+	{
         {0,0,0,0},
         {0,0,0,1}, {0,0,0,-1}, {0,0,1,0}, {0,0,-1,0},
         {0,1,0,0}, {0,-1,0,0}, {1,0,0,0}, {-1,0,0,0},

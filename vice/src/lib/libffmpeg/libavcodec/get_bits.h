@@ -689,7 +689,11 @@ static inline int get_xbits_trace(GetBitContext *s, int n, const char *file,
 #define tprintf(p, ...) av_log(p, AV_LOG_DEBUG, __VA_ARGS__)
 
 #else //TRACE
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define tprintf(p, ...) { }
+#else
+#define tprintf var_args_dummy
+#endif
 #define GET_RL_VLC GET_RL_VLC_INTERNAL
 #endif
 

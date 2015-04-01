@@ -26,7 +26,10 @@
  *****************************************************************************/
 
 #include "input.h"
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, "raw", __VA_ARGS__ )
+#endif
 
 typedef struct
 {
@@ -56,22 +59,43 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
     }
     else
         sscanf( opt->resolution, "%dx%d", &info->width, &info->height );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( !info->width || !info->height, "raw input requires a resolution.\n" )
-    if( opt->colorspace )
+#else
+    if( !info->width || !info->height ){
+		x264_cli_log( "raw", 0, "raw input requires a resolution.\n" );
+		return -1;
+	}
+#endif
+	if( opt->colorspace )
     {
         for( info->csp = X264_CSP_CLI_MAX-1; info->csp > X264_CSP_NONE; info->csp-- )
         {
             if( x264_cli_csps[info->csp].name && !strcasecmp( x264_cli_csps[info->csp].name, opt->colorspace ) )
                 break;
         }
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( info->csp == X264_CSP_NONE, "unsupported colorspace `%s'\n", opt->colorspace );
-    }
+#else
+    if( info->csp == X264_CSP_NONE ){
+		x264_cli_log( "raw", 0, "unsupported colorspace `%s'\n", opt->colorspace );
+		return -1;
+	}
+#endif
+	}
     else /* default */
         info->csp = X264_CSP_I420;
 
     h->bit_depth = opt->bit_depth;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( h->bit_depth < 8 || h->bit_depth > 16, "unsupported bit depth `%d'\n", h->bit_depth );
-    if( h->bit_depth > 8 )
+#else
+    if( h->bit_depth < 8 || h->bit_depth > 16 ){
+		x264_cli_log( "raw", 0, "unsupported bit depth `%d'\n", h->bit_depth );
+		return -1;
+	}
+#endif
+	if( h->bit_depth > 8 )
         info->csp |= X264_CSP_HIGH_DEPTH;
 
     if( !strcmp( psz_filename, "-" ) )

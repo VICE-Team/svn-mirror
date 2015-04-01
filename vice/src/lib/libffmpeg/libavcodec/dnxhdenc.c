@@ -624,8 +624,15 @@ static int dnxhd_calc_bits_thread(AVCodecContext *avctx, void *arg,
     DNXHDEncContext *ctx = avctx->priv_data;
     int mb_y = jobnr, mb_x;
     int qscale = ctx->qscale;
-    LOCAL_ALIGNED_16(int16_t, block, [64]);
-    ctx = ctx->thread[threadnr];
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int16_t, block, [64]);
+#else
+	uint8_t la_block[sizeof(int16_t [64] ) + (16)];
+	int16_t (*block) = (void *)((((uintptr_t)la_block)+(16)-1)&~((16)-1));
+#endif
+
+	ctx = ctx->thread[threadnr];
 
     ctx->m.last_dc[0] =
     ctx->m.last_dc[1] =

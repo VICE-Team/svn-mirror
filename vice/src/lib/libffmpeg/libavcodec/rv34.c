@@ -1024,8 +1024,14 @@ static inline void rv34_process_block(RV34DecContext *r,
 
 static void rv34_output_i16x16(RV34DecContext *r, int8_t *intra_types, int cbp)
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(int16_t, block16, [16]);
-    MpegEncContext *s    = &r->s;
+#else
+	uint8_t la_block16[sizeof(int16_t [16] ) + (16)];
+	int16_t (*block16) = (void *)((((uintptr_t)la_block16)+(16)-1)&~((16)-1));
+#endif
+
+	MpegEncContext *s    = &r->s;
     GetBitContext  *gb   = &s->gb;
     int             q_dc = rv34_qscale_tab[ r->luma_dc_quant_i[s->qscale] ],
                     q_ac = rv34_qscale_tab[s->qscale];
@@ -1236,8 +1242,14 @@ static int rv34_decode_inter_macroblock(RV34DecContext *r, int8_t *intra_types)
 
     if(r->is16){
         // Only for RV34_MB_P_MIX16x16
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         LOCAL_ALIGNED_16(int16_t, block16, [16]);
-        memset(block16, 0, 16 * sizeof(*block16));
+#else
+		uint8_t la_block16[sizeof(int16_t [16] ) + (16)];
+		int16_t (*block16) = (void *)((((uintptr_t)la_block16)+(16)-1)&~((16)-1));
+#endif
+
+		memset(block16, 0, 16 * sizeof(*block16));
         q_dc = rv34_qscale_tab[ r->luma_dc_quant_p[s->qscale] ];
         q_ac = rv34_qscale_tab[s->qscale];
         if (rv34_decode_block(block16, gb, r->cur_vlcs, 3, 0, q_dc, q_dc, q_ac))

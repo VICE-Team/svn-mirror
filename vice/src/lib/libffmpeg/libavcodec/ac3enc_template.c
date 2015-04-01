@@ -130,9 +130,20 @@ static void apply_mdct(AC3EncodeContext *s)
  */
 static void apply_channel_coupling(AC3EncodeContext *s)
 {
-    LOCAL_ALIGNED_16(CoefType, cpl_coords,      [AC3_MAX_BLOCKS], [AC3_MAX_CHANNELS][16]);
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(CoefType, cpl_coords,      [AC3_MAX_BLOCKS], [AC3_MAX_CHANNELS][16]);
+#else
+	uint8_t la_cpl_coords[sizeof(CoefType[6][7][16]) + (16)];
+	CoefType (*cpl_coords)[7][16] = (void *)((((uintptr_t)la_cpl_coords)+(16)-1)&~((16)-1));
+#endif
+
 #if CONFIG_AC3ENC_FLOAT
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(int32_t, fixed_cpl_coords, [AC3_MAX_BLOCKS], [AC3_MAX_CHANNELS][16]);
+#else
+	uint8_t la_fixed_cpl_coords[sizeof(int32_t[6][7][16]) + (16)];
+	int32_t (*fixed_cpl_coords)[7][16] = (void *)((((uintptr_t)la_fixed_cpl_coords)+(16)-1)&~((16)-1));
+#endif
 #else
     int32_t (*fixed_cpl_coords)[AC3_MAX_CHANNELS][16] = cpl_coords;
 #endif

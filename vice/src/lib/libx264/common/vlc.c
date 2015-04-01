@@ -849,8 +849,14 @@ void x264_cavlc_init( x264_t *h )
     for( i = 1; i < (1<<16); i++ )
     {
         x264_run_level_t runlevel;
-        ALIGNED_ARRAY_16( dctcoef, dct, [16] );
-        int size = 0;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+		ALIGNED_ARRAY_16( dctcoef, dct, [16] );
+#else
+		__declspec(align(16))dctcoef dct[16];
+#endif
+
+		int size = 0;
         int bits = 0;
 		int j;
         int total;

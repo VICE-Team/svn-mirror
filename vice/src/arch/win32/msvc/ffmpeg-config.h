@@ -206,30 +206,43 @@
 #define HAVE_WINDOWS_H 1
 #define HAVE_WINSOCK2_H 1
 #define HAVE_INTRINSICS_NEON 0
-#define HAVE_ATANF 1
-#define HAVE_ATAN2F 1
 #define HAVE_CBRT 1
 #define HAVE_CBRTF 0
-#define HAVE_COSF 1
 #define HAVE_EXP2 0
 #define HAVE_EXP2F 0
-#define HAVE_EXPF 1
 #define HAVE_FMINF 1
 #define HAVE_ISINF 0
 #define HAVE_ISNAN 0
-#define HAVE_LDEXPF 1
 #define HAVE_LLRINT 0
 #define HAVE_LLRINTF 0
 #define HAVE_LOG2 0
 #define HAVE_LOG2F 0
+
+#if (_MSC_VER < 1400)
+#define HAVE_LOG10F 0
+#define HAVE_POWF 0
+#define HAVE_EXPF 0
+#define HAVE_LDEXPF 0
+#define HAVE_SINF 0
+#define HAVE_COSF 0
+#define HAVE_ATANF 0
+#define HAVE_ATAN2F 0
+#else
 #define HAVE_LOG10F 1
+#define HAVE_POWF 1
+#define HAVE_EXPF 1
+#define HAVE_LDEXPF 1
+#define HAVE_SINF 1
+#define HAVE_COSF 1
+#define HAVE_ATANF 1
+#define HAVE_ATAN2F 1
+#endif
+
 #define HAVE_LRINT 0
 #define HAVE_LRINTF 0
-#define HAVE_POWF 1
 #define HAVE_RINT 0
 #define HAVE_ROUND 0
 #define HAVE_ROUNDF 1
-#define HAVE_SINF 1
 #define HAVE_TRUNC 0
 #define HAVE_TRUNCF 0
 #define HAVE_ACCESS 1
@@ -294,9 +307,9 @@
 #define HAVE_GNU_AS 0
 #define HAVE_GNU_WINDRES 0
 #define HAVE_IBM_ASM 0
-#define HAVE_INLINE_ASM_LABELS 1
-#define HAVE_INLINE_ASM_NONLOCAL_LABELS 1
-#define HAVE_INLINE_ASM_DIRECT_SYMBOL_REFS 1
+#define HAVE_INLINE_ASM_LABELS 0
+#define HAVE_INLINE_ASM_NONLOCAL_LABELS 0
+#define HAVE_INLINE_ASM_DIRECT_SYMBOL_REFS 0
 #define HAVE_PRAGMA_DEPRECATED 1
 #define HAVE_RSYNC_CONTIMEOUT 1
 #define HAVE_SYMVER_ASM_LABEL 1

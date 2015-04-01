@@ -25,7 +25,10 @@
  *****************************************************************************/
 
 #include "input.h"
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, "y4m", __VA_ARGS__ )
+#endif
 
 typedef struct
 {
@@ -191,8 +194,19 @@ static int open_file( char *psz_filename, hnd_t *p_handle, video_info_t *info, c
         h->bit_depth  = 8;
     }
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( colorspace <= X264_CSP_NONE || colorspace >= X264_CSP_MAX, "colorspace unhandled\n" )
     FAIL_IF_ERROR( h->bit_depth < 8 || h->bit_depth > 16, "unsupported bit depth `%d'\n", h->bit_depth );
+#else
+    if( colorspace <= X264_CSP_NONE || colorspace >= X264_CSP_MAX ){
+		x264_cli_log( "y4m", 0, "colorspace unhandled\n" );
+		return -1;
+	}
+    if( h->bit_depth < 8 || h->bit_depth > 16 ){
+		x264_cli_log( "y4m", 0, "unsupported bit depth `%d'\n", h->bit_depth );
+		return -1;
+	}
+#endif
 
     info->thread_safe = 1;
     info->num_frames  = 0;
@@ -241,14 +255,28 @@ static int read_frame_internal( cli_pic_t *pic, y4m_hnd_t *h, int bit_depth_uc )
         return -1;
 
     header[slen] = 0;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( strncmp( header, Y4M_FRAME_MAGIC, slen ), "bad header magic (%"PRIx32" <=> %s)\n",
                    M32(header), header )
+#else
+    if( strncmp( header, Y4M_FRAME_MAGIC, slen ) ){
+		x264_cli_log( "y4m", 0, "bad header magic (%"PRIx32" <=> %s)\n", M32(header), header );
+		return -1;
+	}
+#endif
 
     /* Skip most of it */
     while( i < MAX_FRAME_HEADER && fgetc( h->fh ) != '\n' )
         i++;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( i == MAX_FRAME_HEADER, "bad frame header!\n" )
-    h->frame_size = h->frame_size - h->frame_header_len + i+slen+1;
+#else
+    if( i == MAX_FRAME_HEADER ){
+		x264_cli_log( "y4m", 0, "bad frame header!\n" );
+		return -1;
+	}
+#endif
+	h->frame_size = h->frame_size - h->frame_header_len + i+slen+1;
     h->frame_header_len = i+slen+1;
 
     for( i = 0; i < pic->img.planes && !error; i++ )

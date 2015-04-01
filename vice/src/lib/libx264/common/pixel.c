@@ -539,8 +539,31 @@ void x264_intra_##mbcmp##_x3_8x8##cpu( pixel *fenc, pixel edge[36], int res[3] )
     res[2] = x264_pixel_##mbcmp##_8x8##cpu( pix, FDEC_STRIDE, fenc, FENC_STRIDE );\
 }
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 INTRA_MBCMP_8x8( sad,, _c )
 INTRA_MBCMP_8x8(sa8d,, _c )
+#else
+void x264_intra_sad_x3_8x8( pixel *fenc, pixel edge[36], int res[3] ){
+	__declspec(align(16)) pixel pix [8*32];
+	x264_predict_8x8_v_c( pix, edge );
+	res[0] = x264_pixel_sad_8x8( pix, 32, fenc, 16 );
+	x264_predict_8x8_h_c( pix, edge );
+	res[1] = x264_pixel_sad_8x8( pix, 32, fenc, 16 );
+	x264_predict_8x8_dc_c( pix, edge );
+	res[2] = x264_pixel_sad_8x8( pix, 32, fenc, 16 );
+}
+
+void x264_intra_sa8d_x3_8x8( pixel *fenc, pixel edge[36], int res[3] ){
+	__declspec(align(16)) pixel pix [8*32];
+	x264_predict_8x8_v_c( pix, edge );
+	res[0] = x264_pixel_sa8d_8x8( pix, 32, fenc, 16 );
+	x264_predict_8x8_h_c( pix, edge );
+	res[1] = x264_pixel_sa8d_8x8( pix, 32, fenc, 16 );
+	x264_predict_8x8_dc_c( pix, edge );
+	res[2] = x264_pixel_sa8d_8x8( pix, 32, fenc, 16 );
+}
+#endif
+
 #if HIGH_BIT_DEPTH && HAVE_MMX
 #define x264_predict_8x8_v_sse2 x264_predict_8x8_v_sse
 INTRA_MBCMP_8x8( sad, _mmx2,  _c )

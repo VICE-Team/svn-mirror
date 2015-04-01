@@ -377,6 +377,16 @@ end:
 static void (*av_log_callback)(void*, int, const char*, va_list) =
     av_log_default_callback;
 
+#if defined(IDE_COMPILE) && (_MSC_VER < 1400)
+void var_arg_dummy(const char *fmt, ...)
+{
+}
+
+void var_args_dummy(const char *fmt, ...)
+{
+}
+#endif
+
 void av_log(void* avcl, int level, const char *fmt, ...)
 {
     AVClass* avc = avcl ? *(AVClass **) avcl : NULL;

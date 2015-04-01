@@ -131,8 +131,13 @@ static void x264_mb_encode_i16x16( x264_t *h, int p, int i_qp )
     pixel *p_src = h->mb.pic.p_fenc[p];
     pixel *p_dst = h->mb.pic.p_fdec[p];
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     ALIGNED_ARRAY_N( dctcoef, dct4x4,[16],[16] );
     ALIGNED_ARRAY_N( dctcoef, dct_dc4x4,[16] );
+#else
+	__declspec(align(32))dctcoef dct4x4[16][16];
+    __declspec(align(32))dctcoef dct_dc4x4[16];
+#endif
 
     int nz, block_cbp = 0;
     int decimate_score = h->mb.b_dct_decimate ? 0 : 9;
@@ -275,8 +280,13 @@ static ALWAYS_INLINE void x264_mb_encode_chroma_internal( x264_t *h, int b_inter
     int (*dequant_mf)[16] = h->dequant4_mf[CQM_4IC + b_inter];
 	int ch;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	ALIGNED_ARRAY_16( dctcoef, dct_dc,[8] );
-    h->mb.i_cbp_chroma = 0;
+#else
+	__declspec(align(16))dctcoef dct_dc[8];
+#endif
+
+ h->mb.i_cbp_chroma = 0;
     h->nr_count[2] += h->mb.b_noise_reduction * 4;
 
     M16( &h->mb.cache.non_zero_count[x264_scan8[16]] ) = 0;
@@ -371,7 +381,11 @@ static ALWAYS_INLINE void x264_mb_encode_chroma_internal( x264_t *h, int b_inter
 		int i;
 		int i8x8;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         ALIGNED_ARRAY_N( dctcoef, dct4x4,[8],[16] );
+#else
+		__declspec(align(32))dctcoef dct4x4[8][16];
+#endif
 
         if( h->mb.b_lossless )
         {
@@ -820,8 +834,13 @@ static ALWAYS_INLINE void x264_macroblock_encode_internal( x264_t *h, int plane_
 			}
         else if( h->mb.b_transform_8x8 )
         {
-            ALIGNED_ARRAY_N( dctcoef, dct8x8,[4],[64] );
-            b_decimate &= !h->mb.b_trellis || !h->param.b_cabac; // 8x8 trellis is inherently optimal decimation for CABAC
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+			ALIGNED_ARRAY_N( dctcoef, dct8x8,[4],[64] );
+#else
+			__declspec(align(32))dctcoef dct8x8[4][64];
+#endif
+
+			b_decimate &= !h->mb.b_trellis || !h->param.b_cabac; // 8x8 trellis is inherently optimal decimation for CABAC
 
             for( p = 0; p < plane_count; p++, i_qp = h->mb.i_chroma_qp )
             {
@@ -868,8 +887,13 @@ static ALWAYS_INLINE void x264_macroblock_encode_internal( x264_t *h, int plane_
         }
         else
         {
-            ALIGNED_ARRAY_N( dctcoef, dct4x4,[16],[16] );
-            for( p = 0; p < plane_count; p++, i_qp = h->mb.i_chroma_qp )
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+			ALIGNED_ARRAY_N( dctcoef, dct4x4,[16],[16] );
+#else
+			__declspec(align(32))dctcoef dct4x4[16][16];
+#endif
+
+			for( p = 0; p < plane_count; p++, i_qp = h->mb.i_chroma_qp )
             {
                 int plane_cbp;
 				int i8x8;
@@ -1017,10 +1041,17 @@ void x264_macroblock_encode( x264_t *h )
  *****************************************************************************/
 static ALWAYS_INLINE int x264_macroblock_probe_skip_internal( x264_t *h, int b_bidir, int plane_count, int chroma )
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     ALIGNED_ARRAY_N( dctcoef, dct4x4,[8],[16] );
     ALIGNED_ARRAY_16( dctcoef, dctscan,[16] );
     ALIGNED_4( int16_t mvp[2] );
-    int i_qp = h->mb.i_qp;
+#else
+	__declspec(align(32))dctcoef dct4x4[8][16];
+    __declspec(align(16))dctcoef dctscan[16];
+    __declspec(align(4))int16_t mvp[2];
+#endif
+
+	int i_qp = h->mb.i_qp;
 	int p;
 
     for( p = 0; p < plane_count; p++, i_qp = h->mb.i_chroma_qp )
@@ -1075,7 +1106,12 @@ static ALWAYS_INLINE int x264_macroblock_probe_skip_internal( x264_t *h, int b_b
         int thresh;
         int ssd;
 		int ch;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		ALIGNED_ARRAY_16( dctcoef, dct_dc,[8] );
+#else
+		__declspec(align(16))dctcoef dct_dc[8];
+#endif
 
 		i_qp = h->mb.i_chroma_qp;
         chroma422 = chroma == CHROMA_422;
@@ -1304,7 +1340,11 @@ static ALWAYS_INLINE void x264_macroblock_encode_p8x8_internal( x264_t *h, int i
                 pixel *p_fdec = h->mb.pic.p_fdec[p] + 8*x + 8*y*FDEC_STRIDE;
                 int nnz8x8;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 				ALIGNED_ARRAY_N( dctcoef, dct8x8,[64] );
+#else
+				__declspec(align(32))dctcoef dct8x8[64];
+#endif
 
                 h->dctf.sub8x8_dct8( dct8x8, p_fenc, p_fdec );
                 nnz8x8 = x264_quant_8x8( h, dct8x8, i_qp, ctx_cat_plane[DCT_LUMA_8x8][p], 0, p, i8 );
@@ -1338,8 +1378,14 @@ static ALWAYS_INLINE void x264_macroblock_encode_p8x8_internal( x264_t *h, int i
                 pixel *p_fenc = h->mb.pic.p_fenc[p] + 8*x + 8*y*FENC_STRIDE;
                 pixel *p_fdec = h->mb.pic.p_fdec[p] + 8*x + 8*y*FDEC_STRIDE;
                 int i_decimate_8x8 = b_decimate ? 0 : 4;
-                ALIGNED_ARRAY_N( dctcoef, dct4x4,[4],[16] );
-                int nnz8x8 = 0;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+				ALIGNED_ARRAY_N( dctcoef, dct4x4,[4],[16] );
+#else
+				__declspec(align(32))dctcoef dct4x4[4][16];
+#endif
+
+				int nnz8x8 = 0;
 
                 h->dctf.sub8x8_dct( dct4x4, p_fenc, p_fdec );
                 STORE_8x8_NNZ( p, i8, 0 );
@@ -1404,8 +1450,13 @@ static ALWAYS_INLINE void x264_macroblock_encode_p8x8_internal( x264_t *h, int i
 			i_qp = h->mb.i_chroma_qp;
             for( ch = 0; ch < 2; ch++ )
             {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 ALIGNED_ARRAY_N( dctcoef, dct4x4,[2],[16] );
-                pixel *p_fenc = h->mb.pic.p_fenc[1+ch] + 4*x + (chroma422?8:4)*y*FENC_STRIDE;
+#else
+				__declspec(align(32))dctcoef dct4x4[2][16];
+#endif
+
+				pixel *p_fenc = h->mb.pic.p_fenc[1+ch] + 4*x + (chroma422?8:4)*y*FENC_STRIDE;
                 pixel *p_fdec = h->mb.pic.p_fdec[1+ch] + 4*x + (chroma422?8:4)*y*FDEC_STRIDE;
 				int i4x4;
 
@@ -1473,8 +1524,13 @@ static ALWAYS_INLINE void x264_macroblock_encode_p4x4_internal( x264_t *h, int i
         }
         else
         {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             ALIGNED_ARRAY_N( dctcoef, dct4x4,[16] );
-            h->dctf.sub4x4_dct( dct4x4, p_fenc, p_fdec );
+#else
+			__declspec(align(32))dctcoef dct4x4[16];
+#endif
+
+			h->dctf.sub4x4_dct( dct4x4, p_fenc, p_fdec );
             nz = x264_quant_4x4( h, dct4x4, i_qp, ctx_cat_plane[DCT_LUMA_4x4][p], 0, p, i4 );
             h->mb.cache.non_zero_count[x264_scan8[p*16+i4]] = nz;
             if( nz )

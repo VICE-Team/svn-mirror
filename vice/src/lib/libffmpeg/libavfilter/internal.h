@@ -232,10 +232,14 @@ void ff_command_queue_pop(AVFilterContext *filter);
 
 /* #define FF_AVFILTER_TRACE */
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #ifdef FF_AVFILTER_TRACE
 #    define ff_tlog(pctx, ...) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__)
 #else
 #    define ff_tlog(pctx, ...) do { if (0) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__); } while (0)
+#endif
+#else
+#  define ff_tlog var_args_dummy
 #endif
 
 #define FF_TPRINTF_START(ctx, func) ff_tlog(NULL, "%-16s: ", #func)

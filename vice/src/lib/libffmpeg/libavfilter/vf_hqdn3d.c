@@ -156,6 +156,7 @@ static void denoise_depth(HQDN3DContext *s,
     emms_c();
 }
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define denoise(...) \
     switch (s->depth) {\
         case  8: denoise_depth(__VA_ARGS__,  8); break;\
@@ -163,6 +164,7 @@ static void denoise_depth(HQDN3DContext *s,
         case 10: denoise_depth(__VA_ARGS__, 10); break;\
         case 16: denoise_depth(__VA_ARGS__, 16); break;\
     }
+#endif
 
 static int16_t *precalc_coefs(double dist25, int depth)
 {
@@ -305,6 +307,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     }
 
     for (c = 0; c < 3; c++) {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         denoise(s, in->data[c], out->data[c],
                 s->line, &s->frame_prev[c],
                 FF_CEIL_RSHIFT(in->width,  (!!c * s->hsub)),
@@ -312,7 +315,47 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
                 in->linesize[c], out->linesize[c],
                 s->coefs[c ? CHROMA_SPATIAL : LUMA_SPATIAL],
                 s->coefs[c ? CHROMA_TMP     : LUMA_TMP]);
+#else
+    switch (s->depth) {
+        case 8:
+			denoise_depth(s, in->data[c], out->data[c],
+                s->line, &s->frame_prev[c],
+                FF_CEIL_RSHIFT(in->width,  (!!c * s->hsub)),
+                FF_CEIL_RSHIFT(in->height, (!!c * s->vsub)),
+                in->linesize[c], out->linesize[c],
+                s->coefs[c ? CHROMA_SPATIAL : LUMA_SPATIAL],
+                s->coefs[c ? CHROMA_TMP     : LUMA_TMP], 8);
+		    break;
+        case 9:
+			denoise_depth(s, in->data[c], out->data[c],
+                s->line, &s->frame_prev[c],
+                FF_CEIL_RSHIFT(in->width,  (!!c * s->hsub)),
+                FF_CEIL_RSHIFT(in->height, (!!c * s->vsub)),
+                in->linesize[c], out->linesize[c],
+                s->coefs[c ? CHROMA_SPATIAL : LUMA_SPATIAL],
+                s->coefs[c ? CHROMA_TMP     : LUMA_TMP], 9);
+		    break;
+        case 10:
+			denoise_depth(s, in->data[c], out->data[c],
+                s->line, &s->frame_prev[c],
+                FF_CEIL_RSHIFT(in->width,  (!!c * s->hsub)),
+                FF_CEIL_RSHIFT(in->height, (!!c * s->vsub)),
+                in->linesize[c], out->linesize[c],
+                s->coefs[c ? CHROMA_SPATIAL : LUMA_SPATIAL],
+                s->coefs[c ? CHROMA_TMP     : LUMA_TMP], 10);
+		    break;
+        case 16:
+			denoise_depth(s, in->data[c], out->data[c],
+                s->line, &s->frame_prev[c],
+                FF_CEIL_RSHIFT(in->width,  (!!c * s->hsub)),
+                FF_CEIL_RSHIFT(in->height, (!!c * s->vsub)),
+                in->linesize[c], out->linesize[c],
+                s->coefs[c ? CHROMA_SPATIAL : LUMA_SPATIAL],
+                s->coefs[c ? CHROMA_TMP     : LUMA_TMP], 16);
+		    break;
     }
+#endif
+	}
 
     if (ctx->is_disabled) {
         av_frame_free(&out);

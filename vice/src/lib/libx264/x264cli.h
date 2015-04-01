@@ -70,6 +70,7 @@ int x264_ansi_filename( const char *filename, char *ansi_filename, int size, int
 #define x264_cli_set_console_title( title )
 #endif
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define RETURN_IF_ERR( cond, name, ret, ... )\
 if( cond )\
 {\
@@ -78,6 +79,8 @@ if( cond )\
 }
 
 #define FAIL_IF_ERR( cond, name, ... ) RETURN_IF_ERR( cond, name, -1, __VA_ARGS__ )
+
+#endif
 
 typedef enum
 {

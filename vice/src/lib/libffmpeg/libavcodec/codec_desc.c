@@ -26,7 +26,9 @@
 #include "avcodec.h"
 #include "version.h"
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define MT(...) (const char *const[]){ __VA_ARGS__, NULL }
+#endif
 
 static const char *const tmp0[] = { "image/jpeg", ((void *)0) };
 static const char *const tmp1[] = { "image/x-ms-bmp", ((void *)0) };

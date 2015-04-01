@@ -57,11 +57,15 @@ void     x264_safe_intel_cpu_indicator_init( void );
  * alignment between functions (osdep.h handles manual alignment of arrays
  * if it doesn't).
  */
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+
 #if (ARCH_X86 || STACK_ALIGNMENT > 16) && HAVE_MMX
 intptr_t x264_stack_align( void (*func)(), ... );
 #define x264_stack_align(func,...) x264_stack_align((void (*)())func, __VA_ARGS__)
 #else
 #define x264_stack_align(func,...) func(__VA_ARGS__)
+#endif
+
 #endif
 
 typedef struct

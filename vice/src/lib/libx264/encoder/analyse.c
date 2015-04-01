@@ -34,6 +34,11 @@
 #include "analyse.h"
 #include "rdo.c"
 
+#if defined(IDE_COMPILE) && (_MSC_VER < 1400)
+#define sqrtf(x) ((float)sqrt(x))
+#define fabsf(x) ((float)fabs(x))
+#endif
+
 typedef struct
 {
     /* 16x16 */
@@ -904,8 +909,13 @@ static void x264_mb_analyse_intra( x264_t *h, x264_mb_analysis_t *a, int i_satd_
     /* 8x8 prediction selection */
     if( flags & X264_ANALYSE_I8x8 )
     {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         ALIGNED_ARRAY_32( pixel, edge,[36] );
-        x264_pixel_cmp_t sa8d = (h->pixf.mbcmp[0] == h->pixf.satd[0]) ? h->pixf.sa8d[PIXEL_8x8] : h->pixf.mbcmp[PIXEL_8x8];
+#else
+		__declspec(align(32))pixel edge[36];
+#endif
+
+		x264_pixel_cmp_t sa8d = (h->pixf.mbcmp[0] == h->pixf.satd[0]) ? h->pixf.sa8d[PIXEL_8x8] : h->pixf.mbcmp[PIXEL_8x8];
         int i_satd_thresh = a->i_mbrd ? COST_MAX : X264_MIN( i_satd_inter, a->i_satd_i16x16 );
         static const uint8_t i8x8_thresh[11] = { 4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 6 };
 
@@ -945,8 +955,14 @@ static void x264_mb_analyse_intra( x264_t *h, x264_mb_analysis_t *a, int i_satd_
                 {
 					int i;
                     int favor_vertical;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 					ALIGNED_ARRAY_16( int32_t, satd,[9] );
-                    h->pixf.intra_mbcmp_x3_8x8( p_src_by, edge, satd );
+#else
+					__declspec(align(16))int32_t satd[9];
+#endif
+
+					h->pixf.intra_mbcmp_x3_8x8( p_src_by, edge, satd );
                     favor_vertical = satd[I_PRED_4x4_H] > satd[I_PRED_4x4_V];
                     satd[i_pred_mode] -= 3 * lambda;
                     for( i = 2; i >= 0; i-- )
@@ -1063,8 +1079,14 @@ static void x264_mb_analyse_intra( x264_t *h, x264_mb_analysis_t *a, int i_satd_
                 if( !h->mb.b_lossless && predict_mode[5] >= 0 )
                 {
                     int favor_vertical;
-                    ALIGNED_ARRAY_16( int32_t, satd,[9] );
-                    h->pixf.intra_mbcmp_x3_4x4( p_src_by, p_dst_by, satd );
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+					ALIGNED_ARRAY_16( int32_t, satd,[9] );
+#else
+					__declspec(align(16))int32_t satd[9];
+#endif
+
+					h->pixf.intra_mbcmp_x3_4x4( p_src_by, p_dst_by, satd );
                     favor_vertical = satd[I_PRED_4x4_H] > satd[I_PRED_4x4_V];
                     satd[i_pred_mode] -= 3 * lambda;
                     i_best = satd[I_PRED_4x4_DC]; a->i_predict4x4[idx] = I_PRED_4x4_DC;
@@ -1302,8 +1324,13 @@ static void x264_intra_rd_refine( x264_t *h, x264_mb_analysis_t *a )
     }
     else if( h->mb.i_type == I_8x8 )
     {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         ALIGNED_ARRAY_32( pixel, edge,[4],[32] ); // really [3][36], but they can overlap
-        pixel4 pels_h[3][2] = {{0}};
+#else
+		__declspec(align(32))pixel edge[4][32];
+#endif
+
+		pixel4 pels_h[3][2] = {{0}};
         pixel pels_v[3][7] = {{0}};
         uint16_t nnz[3][2] = {{0}}; //shut up gcc
 		int idx;
@@ -1786,8 +1813,13 @@ static void x264_mb_analyse_inter_p8x16( x264_t *h, x264_mb_analysis_t *a, int i
 static ALWAYS_INLINE int x264_mb_analyse_inter_p4x4_chroma_internal( x264_t *h, x264_mb_analysis_t *a,
                                                                      pixel **p_fref, int i8x8, int size, int chroma )
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     ALIGNED_ARRAY_N( pixel, pix1,[16*16] );
-    pixel *pix2 = pix1+8;
+#else
+	__declspec(align(32))pixel pix1[16*16];
+#endif
+
+	pixel *pix2 = pix1+8;
     int i_stride = h->mb.pic.i_stride[1];
     int chroma_h_shift = chroma <= CHROMA_422;
     int chroma_v_shift = chroma == CHROMA_420;
@@ -1975,9 +2007,15 @@ static void x264_mb_analyse_inter_p4x8( x264_t *h, x264_mb_analysis_t *a, int i8
 
 static ALWAYS_INLINE int x264_analyse_bi_chroma( x264_t *h, x264_mb_analysis_t *a, int idx, int i_pixel )
 {
-    ALIGNED_ARRAY_N( pixel, pix, [4],[16*16] );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	ALIGNED_ARRAY_N( pixel, pix, [4],[16*16] );
     ALIGNED_ARRAY_N( pixel,  bi, [2],[16*16] );
-    int i_chroma_cost = 0;
+#else
+	__declspec(align(32))pixel pix[4][16*16];
+    __declspec(align(32))pixel bi[2][16*16];
+#endif
+
+	int i_chroma_cost = 0;
     int chromapix = h->luma2chroma_pixel[i_pixel];
 
 #define COST_BI_CHROMA( m0, m1, width, height ) \
@@ -2070,13 +2108,25 @@ static void x264_mb_analyse_inter_direct( x264_t *h, x264_mb_analysis_t *a )
 
 static void x264_mb_analyse_inter_b16x16( x264_t *h, x264_mb_analysis_t *a )
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     ALIGNED_ARRAY_N( pixel, pix0,[16*16] );
     ALIGNED_ARRAY_N( pixel, pix1,[16*16] );
-    pixel *src0, *src1;
+#else
+	__declspec(align(32))pixel pix0[16*16];
+    __declspec(align(32))pixel pix1[16*16];
+#endif
+
+	pixel *src0, *src1;
     intptr_t stride0 = 16, stride1 = 16;
     int i_ref, i_mvc;
-    ALIGNED_4( int16_t mvc[9][2] );
-    int try_skip = a->b_try_skip;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	ALIGNED_4( int16_t mvc[9][2] );
+#else
+	__declspec(align(4))int16_t mvc[9][2];
+#endif
+
+	int try_skip = a->b_try_skip;
     int list1_skipped = 0;
     int i_halfpel_thresh[2] = {INT_MAX, INT_MAX};
     int *p_halfpel_thresh[2] = {(a->b_early_terminate && h->mb.pic.i_fref[0]>1) ? &i_halfpel_thresh[0] : NULL,
@@ -2194,7 +2244,11 @@ static void x264_mb_analyse_inter_b16x16( x264_t *h, x264_mb_analysis_t *a )
 
         if( h->mb.b_chroma_me && cost00 < a->i_cost16x16bi )
         {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             ALIGNED_ARRAY_16( pixel, bi, [16*FENC_STRIDE] );
+#else
+			__declspec(align(16))pixel bi [16*16];
+#endif
 
             if( CHROMA444 )
             {
@@ -2209,8 +2263,13 @@ static void x264_mb_analyse_inter_b16x16( x264_t *h, x264_mb_analysis_t *a )
             }
             else
             {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 ALIGNED_ARRAY_16( pixel, pixuv, [2],[16*FENC_STRIDE] );
-                int chromapix = h->luma2chroma_pixel[PIXEL_16x16];
+#else
+				__declspec(align(16))pixel pixuv[2][16*16];
+#endif
+
+				int chromapix = h->luma2chroma_pixel[PIXEL_16x16];
                 int v_shift = CHROMA_V_SHIFT;
 
                 if( v_shift & MB_INTERLACED & a->l0.bi16x16.i_ref )
@@ -2356,8 +2415,13 @@ static inline void x264_mb_cache_mv_b8x16( x264_t *h, x264_mb_analysis_t *a, int
 
 static void x264_mb_analyse_inter_b8x8_mixed_ref( x264_t *h, x264_mb_analysis_t *a )
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     ALIGNED_ARRAY_16( pixel, pix,[2],[8*8] );
-    int i_maxref[2] = {h->mb.pic.i_fref[0]-1, h->mb.pic.i_fref[1]-1};
+#else
+	__declspec(align(16))pixel pix[2][8*8];
+#endif
+
+	int i_maxref[2] = {h->mb.pic.i_fref[0]-1, h->mb.pic.i_fref[1]-1};
 	int l;
 	int i;
 
@@ -2475,7 +2539,12 @@ static void x264_mb_analyse_inter_b8x8( x264_t *h, x264_mb_analysis_t *a )
 	pixel **p_fref[2] =
         { h->mb.pic.p_fref[0][a->l0.me16x16.i_ref],
           h->mb.pic.p_fref[1][a->l1.me16x16.i_ref] };
-    ALIGNED_ARRAY_16( pixel, pix,[2],[8*8] );
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	ALIGNED_ARRAY_16( pixel, pix,[2],[8*8] );
+#else
+	__declspec(align(16))pixel pix[2][8*8];
+#endif
 
     /* XXX Needed for x264_mb_predict_mv */
     h->mb.i_partition = D_8x8;
@@ -2550,8 +2619,14 @@ static void x264_mb_analyse_inter_b8x8( x264_t *h, x264_mb_analysis_t *a )
 
 static void x264_mb_analyse_inter_b16x8( x264_t *h, x264_mb_analysis_t *a, int i_best_satd )
 {
-    ALIGNED_ARRAY_N( pixel, pix,[2],[16*8] );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	ALIGNED_ARRAY_N( pixel, pix,[2],[16*8] );
     ALIGNED_4( int16_t mvc[3][2] );
+#else
+	__declspec(align(32))pixel pix[2][16*8];
+    __declspec(align(4))int16_t mvc[3][2];
+#endif
+
 	int i;
 
     h->mb.i_partition = D_16x8;
@@ -2649,8 +2724,14 @@ static void x264_mb_analyse_inter_b16x8( x264_t *h, x264_mb_analysis_t *a, int i
 
 static void x264_mb_analyse_inter_b8x16( x264_t *h, x264_mb_analysis_t *a, int i_best_satd )
 {
-    ALIGNED_ARRAY_16( pixel, pix,[2],[8*16] );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	ALIGNED_ARRAY_16( pixel, pix,[2],[8*16] );
     ALIGNED_4( int16_t mvc[3][2] );
+#else
+	__declspec(align(16))pixel pix[2][8*16];
+    __declspec(align(4))int16_t mvc[3][2];
+#endif
+
 	int i;
 
     h->mb.i_partition = D_8x16;

@@ -1018,7 +1018,12 @@ static int imc_decode_frame(AVCodecContext *avctx, void *data,
 
     IMCContext *q = avctx->priv_data;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(uint16_t, buf16, [IMC_BLOCK_SIZE / 2 + FF_INPUT_BUFFER_PADDING_SIZE/2]);
+#else
+	uint8_t la_buf16[sizeof(uint16_t [64 / 2 + 32/2] ) + (16)];
+	uint16_t (*buf16) = (void *)((((uintptr_t)la_buf16)+(16)-1)&~((16)-1));
+#endif
 
     if (buf_size < IMC_BLOCK_SIZE * avctx->channels) {
         av_log(avctx, AV_LOG_ERROR, "frame too small!\n");

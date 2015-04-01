@@ -555,7 +555,12 @@ static int hadamard8_intra8x8_c(MpegEncContext *s, uint8_t *src,
 static int dct_sad8x8_c(MpegEncContext *s, uint8_t *src1,
                         uint8_t *src2, int stride, int h)
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(int16_t, temp, [64]);
+#else
+	uint8_t la_temp[sizeof(int16_t [64] ) + (16)];
+	int16_t (*temp) = (void *)((((uintptr_t)la_temp)+(16)-1)&~((16)-1));
+#endif
 
     av_assert2(h == 8);
 
@@ -621,8 +626,14 @@ static int dct264_sad8x8_c(MpegEncContext *s, uint8_t *src1,
 static int dct_max8x8_c(MpegEncContext *s, uint8_t *src1,
                         uint8_t *src2, int stride, int h)
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(int16_t, temp, [64]);
-    int sum = 0, i;
+#else
+	uint8_t la_temp[sizeof(int16_t [64] ) + (16)];
+	int16_t (*temp) = (void *)((((uintptr_t)la_temp)+(16)-1)&~((16)-1));
+#endif
+
+	int sum = 0, i;
 
     av_assert2(h == 8);
 
@@ -638,8 +649,14 @@ static int dct_max8x8_c(MpegEncContext *s, uint8_t *src1,
 static int quant_psnr8x8_c(MpegEncContext *s, uint8_t *src1,
                            uint8_t *src2, int stride, int h)
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(int16_t, temp, [64 * 2]);
-    int16_t *const bak = temp + 64;
+#else
+	uint8_t la_temp[sizeof(int16_t [64 * 2] ) + (16)];
+	int16_t (*temp) = (void *)((((uintptr_t)la_temp)+(16)-1)&~((16)-1));
+#endif
+
+	int16_t *const bak = temp + 64;
     int sum = 0, i;
 
     av_assert2(h == 8);
@@ -664,10 +681,21 @@ static int rd8x8_c(MpegEncContext *s, uint8_t *src1, uint8_t *src2,
                    int stride, int h)
 {
     const uint8_t *scantable = s->intra_scantable.permutated;
-    LOCAL_ALIGNED_16(int16_t, temp, [64]);
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int16_t, temp, [64]);
     LOCAL_ALIGNED_16(uint8_t, lsrc1, [64]);
     LOCAL_ALIGNED_16(uint8_t, lsrc2, [64]);
-    int i, last, run, bits, level, distortion, start_i;
+#else
+	uint8_t la_temp[sizeof(int16_t [64] ) + (16)];
+	int16_t (*temp) = (void *)((((uintptr_t)la_temp)+(16)-1)&~((16)-1));
+    uint8_t la_lsrc1[sizeof(uint8_t [64] ) + (16)];
+	uint8_t (*lsrc1) = (void *)((((uintptr_t)la_lsrc1)+(16)-1)&~((16)-1));
+    uint8_t la_lsrc2[sizeof(uint8_t [64] ) + (16)];
+	uint8_t (*lsrc2) = (void *)((((uintptr_t)la_lsrc2)+(16)-1)&~((16)-1));
+#endif
+
+	int i, last, run, bits, level, distortion, start_i;
     const int esc_length = s->ac_esc_length;
     uint8_t *length, *last_length;
 
@@ -741,8 +769,15 @@ static int bit8x8_c(MpegEncContext *s, uint8_t *src1, uint8_t *src2,
                     int stride, int h)
 {
     const uint8_t *scantable = s->intra_scantable.permutated;
-    LOCAL_ALIGNED_16(int16_t, temp, [64]);
-    int i, last, run, bits, level, start_i;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int16_t, temp, [64]);
+#else
+	uint8_t la_temp[sizeof(int16_t [64] ) + (16)];
+	int16_t (*temp) = (void *)((((uintptr_t)la_temp)+(16)-1)&~((16)-1));
+#endif
+
+	int i, last, run, bits, level, start_i;
     const int esc_length = s->ac_esc_length;
     uint8_t *length, *last_length;
 
@@ -919,7 +954,13 @@ av_cold void ff_me_cmp_init_static(void)
 int ff_check_alignment(void)
 {
     static int did_fail = 0;
-    LOCAL_ALIGNED_16(int, aligned, [4]);
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int, aligned, [4]);
+#else
+	uint8_t la_aligned[sizeof(int [4] ) + (16)];
+	int (*aligned) = (void *)((((uintptr_t)la_aligned)+(16)-1)&~((16)-1));
+#endif
 
     if ((intptr_t)aligned & 15) {
         if (!did_fail) {

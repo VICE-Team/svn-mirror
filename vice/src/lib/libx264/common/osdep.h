@@ -73,7 +73,9 @@ static float log2f(float x)
 #define strcasecmp _stricmp
 #define strncasecmp _strnicmp
 #define snprintf _snprintf
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define strtok_r strtok_s
+#endif
 #define S_ISREG(x) (((x) & S_IFMT) == S_IFREG)
 #endif
 
@@ -81,7 +83,7 @@ static float log2f(float x)
 #define isfinite finite
 #endif
 
-#ifdef _WIN32
+#ifdef _WIN32 || (defined(IDE_COMPILE) && (_MSC_VER < 1400))
 #ifndef strtok_r
 #define strtok_r(str,delim,save) strtok(str,delim)
 #endif
@@ -122,6 +124,7 @@ int x264_is_pipe( const char *path );
 // - Apple gcc only maintains 4 byte alignment
 // - llvm can align the stack, but only in svn and (unrelated) it exposes bugs in all released GNU binutils...
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define ALIGNED_ARRAY_EMU( mask, type, name, sub1, ... )\
     uint8_t name##_u [sizeof(type sub1 __VA_ARGS__) + mask]; \
     type (*name) __VA_ARGS__ = (void*)((intptr_t)(name##_u+mask) & ~mask)
@@ -150,6 +153,7 @@ int x264_is_pipe( const char *path );
 #endif
 
 #define ALIGNED_ARRAY_64( ... ) EXPAND( ALIGNED_ARRAY_EMU( 63, __VA_ARGS__ ) )
+#endif
 
 /* For AVX2 */
 #if ARCH_X86 || ARCH_X86_64

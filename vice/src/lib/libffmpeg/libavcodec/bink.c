@@ -813,9 +813,16 @@ static int binkb_decode_plane(BinkContext *c, AVFrame *frame, GetBitContext *gb,
     int v, col[2];
     const uint8_t *scan;
     int xoff, yoff;
-    LOCAL_ALIGNED_16(int16_t, block, [64]);
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int16_t, block, [64]);
     LOCAL_ALIGNED_16(int32_t, dctblock, [64]);
-    int coordmap[64];
+#else
+	uint8_t la_block[sizeof(int16_t[64]) + (16)];
+	int16_t (*block) = (void *)((((uintptr_t)la_block)+(16)-1)&~((16)-1));
+    uint8_t la_dctblock[sizeof(int32_t[64]) + (16)];
+	int32_t (*dctblock) = (void *)((((uintptr_t)la_dctblock)+(16)-1)&~((16)-1));
+#endif
+	int coordmap[64];
     int ybias = is_key ? -15 : 0;
     int qp;
 
@@ -959,10 +966,19 @@ static int bink_decode_plane(BinkContext *c, AVFrame *frame, GetBitContext *gb,
     int v, col[2];
     const uint8_t *scan;
     int xoff, yoff;
-    LOCAL_ALIGNED_16(int16_t, block, [64]);
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int16_t, block, [64]);
     LOCAL_ALIGNED_16(uint8_t, ublock, [64]);
     LOCAL_ALIGNED_16(int32_t, dctblock, [64]);
-    int coordmap[64];
+#else
+	uint8_t la_block[sizeof(int16_t [64] ) + (16)];
+	int16_t (*block) = (void *)((((uintptr_t)la_block)+(16)-1)&~((16)-1));
+    uint8_t la_ublock[sizeof(uint8_t [64] ) + (16)];
+	uint8_t (*ublock) = (void *)((((uintptr_t)la_ublock)+(16)-1)&~((16)-1));
+    uint8_t la_dctblock[sizeof(int32_t [64] ) + (16)];
+	int32_t (*dctblock) = (void *)((((uintptr_t)la_dctblock)+(16)-1)&~((16)-1));
+#endif
+	int coordmap[64];
 
     const int stride = frame->linesize[plane_idx];
     int bw = is_chroma ? (c->avctx->width  + 15) >> 4 : (c->avctx->width  + 7) >> 3;

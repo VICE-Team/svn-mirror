@@ -25,7 +25,10 @@
  *****************************************************************************/
 
 #include "filters.h"
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define RETURN_IF_ERROR( cond, ... ) RETURN_IF_ERR( cond, "options", NULL, __VA_ARGS__ )
+#endif
 
 char **x264_split_string( char *string, char *sep, int limit )
 {
@@ -140,8 +143,16 @@ char **x264_split_options( const char *opt_str, const char *options[] )
         {
             if( found_named )
                 invalid = 1;
-            else RETURN_IF_ERROR( i > options_count || options[i] == NULL, "Too many options given\n" )
             else
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+				RETURN_IF_ERROR( i > options_count || options[i] == NULL, "Too many options given\n" )
+#else
+            if( i > options_count || options[i] == NULL ) {
+				x264_cli_log( "options", 0, "Too many options given\n" );
+				return NULL;
+			}
+#endif
+		else
             {
                 opts[opt++] = strdup( options[i] );
                 opts[opt++] = strdup( "" );
@@ -151,7 +162,15 @@ char **x264_split_options( const char *opt_str, const char *options[] )
         {
             if( found_named )
                 invalid = 1;
-            else RETURN_IF_ERROR( i > options_count || options[i] == NULL, "Too many options given\n" )
+            else
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+				RETURN_IF_ERROR( i > options_count || options[i] == NULL, "Too many options given\n" )
+#else
+            if( i > options_count || options[i] == NULL ) {
+				x264_cli_log( "options", 0, "Too many options given\n" );
+				return NULL;
+			}
+#endif
             else
             {
                 opts[opt++] = strdup( options[i] );
@@ -167,14 +186,28 @@ char **x264_split_options( const char *opt_str, const char *options[] )
             found_named = 1;
             while( options[j] != NULL && strcmp( arg[0], options[j] ) )
                 ++j;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             RETURN_IF_ERROR( options[j] == NULL, "Invalid option '%s'\n", arg[0] )
+#else
+            if( options[j] == NULL ) {
+				x264_cli_log( "options", 0, "Invalid option '%s'\n", arg[0] );
+				return NULL;
+			}
+#endif
             else
             {
                 opts[opt++] = strdup( arg[0] );
                 opts[opt++] = strdup( arg[1] );
             }
         }
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         RETURN_IF_ERROR( invalid, "Ordered option given after named\n" )
+#else
+            if( invalid ) {
+				x264_cli_log( "options", 0, "Ordered option given after named\n" );
+				return NULL;
+			}
+#endif
         x264_free_string_array( arg );
     }
     x264_free_string_array( split );

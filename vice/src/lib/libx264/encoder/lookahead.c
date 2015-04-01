@@ -69,7 +69,11 @@ static void x264_lookahead_slicetype_decide( x264_t *h )
 {
     int shift_frames;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	x264_stack_align( x264_slicetype_decide, h );
+#else
+	x264_slicetype_decide(h);
+#endif
 
     x264_lookahead_update_last_nonb( h, h->lookahead->next.list[0] );
     shift_frames = h->lookahead->next.list[0]->i_bframes + 1;
@@ -84,8 +88,11 @@ static void x264_lookahead_slicetype_decide( x264_t *h )
 
     /* For MB-tree and VBV lookahead, we have to perform propagation analysis on I-frames too. */
     if( h->lookahead->b_analyse_keyframe && IS_X264_TYPE_I( h->lookahead->last_nonb->i_type ) )
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         x264_stack_align( x264_slicetype_analyse, h, shift_frames );
-
+#else
+        x264_slicetype_analyse(h, shift_frames);
+#endif
     x264_pthread_mutex_unlock( &h->lookahead->ofbuf.mutex );
 }
 
@@ -242,14 +249,22 @@ void x264_lookahead_get_frames( x264_t *h )
         if( h->frames.current[0] || !h->lookahead->next.i_size )
             return;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         x264_stack_align( x264_slicetype_decide, h );
+#else
+        x264_slicetype_decide(h);
+#endif
         x264_lookahead_update_last_nonb( h, h->lookahead->next.list[0] );
         shift_frames = h->lookahead->next.list[0]->i_bframes + 1;
         x264_lookahead_shift( &h->lookahead->ofbuf, &h->lookahead->next, shift_frames );
 
         /* For MB-tree and VBV lookahead, we have to perform propagation analysis on I-frames too. */
         if( h->lookahead->b_analyse_keyframe && IS_X264_TYPE_I( h->lookahead->last_nonb->i_type ) )
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             x264_stack_align( x264_slicetype_analyse, h, shift_frames );
+#else
+            x264_slicetype_analyse(h, shift_frames);
+#endif
 
         x264_lookahead_encoder_shift( h );
     }

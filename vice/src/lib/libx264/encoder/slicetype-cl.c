@@ -39,6 +39,7 @@ void x264_weights_analyse( x264_t *h, x264_frame_t *fenc, x264_frame_t *ref, int
  * able to compile on an NVIDIA machine and run optimally on an AMD GPU. */
 #define CL_QUEUE_THREAD_HANDLE_AMD 0x403E
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define OCLCHECK( method, ... )\
 do\
 {\
@@ -52,6 +53,7 @@ do\
         return -1;\
     }\
 } while( 0 )
+#endif
 
 void x264_opencl_flush( x264_t *h )
 {
@@ -180,37 +182,175 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
 
     locked = x264_opencl_alloc_locked( h, luma_length );
     memcpy( locked, fenc->plane[0], luma_length );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clEnqueueWriteBuffer, h->opencl.queue,  h->opencl.luma_16x16_image[h->opencl.last_buf], CL_FALSE, 0, luma_length, locked, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueWriteBuffer( h->opencl.queue,  h->opencl.luma_16x16_image[h->opencl.last_buf], CL_FALSE, 0, luma_length, locked, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueWriteBuffer error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
     if( h->param.rc.i_aq_mode && fenc->i_inv_qscale_factor )
     {
         int size = h->mb.i_mb_count * sizeof(int16_t);
         locked = x264_opencl_alloc_locked( h, size );
         memcpy( locked, fenc->i_inv_qscale_factor, size );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clEnqueueWriteBuffer, h->opencl.queue, fenc->opencl.inv_qscale_factor, CL_FALSE, 0, size, locked, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueWriteBuffer( h->opencl.queue, fenc->opencl.inv_qscale_factor, CL_FALSE, 0, size, locked, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueWriteBuffer error '%d'\n", status );
+        return -1;
     }
+} while( 0 );
+#endif
+	}
     else
     {
         /* Fill fenc->opencl.inv_qscale_factor with NOP (256) */
         cl_uint arg = 0;
         int16_t value = 256;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clSetKernelArg, h->opencl.memset_kernel, arg++, sizeof(cl_mem), &fenc->opencl.inv_qscale_factor );
         OCLCHECK( clSetKernelArg, h->opencl.memset_kernel, arg++, sizeof(int16_t), &value );
-        gdim[0] = h->mb.i_mb_count;
-        OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.memset_kernel, 1, NULL, gdim, NULL, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.memset_kernel, arg++, sizeof(cl_mem), &fenc->opencl.inv_qscale_factor );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
     }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.memset_kernel, arg++, sizeof(int16_t), &value );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+		gdim[0] = h->mb.i_mb_count;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+        OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.memset_kernel, 1, NULL, gdim, NULL, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, h->opencl.memset_kernel, 1, NULL, gdim, NULL, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueNDRangeKernel error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+	}
 
     stride = fenc->i_stride[0];
     arg = 0;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clSetKernelArg, h->opencl.downscale_hpel_kernel, arg++, sizeof(cl_mem), &h->opencl.luma_16x16_image[h->opencl.last_buf] );
     OCLCHECK( clSetKernelArg, h->opencl.downscale_hpel_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
     OCLCHECK( clSetKernelArg, h->opencl.downscale_hpel_kernel, arg++, sizeof(cl_mem), &fenc->opencl.luma_hpel );
     OCLCHECK( clSetKernelArg, h->opencl.downscale_hpel_kernel, arg++, sizeof(int), &stride );
-    gdim[0] = 8 * h->mb.i_mb_width;
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.downscale_hpel_kernel, arg++, sizeof(cl_mem), &h->opencl.luma_16x16_image[h->opencl.last_buf] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.downscale_hpel_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.downscale_hpel_kernel, arg++, sizeof(cl_mem), &fenc->opencl.luma_hpel );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.downscale_hpel_kernel, arg++, sizeof(int), &stride );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+	gdim[0] = 8 * h->mb.i_mb_width;
     gdim[1] = 8 * h->mb.i_mb_height;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.downscale_hpel_kernel, 2, NULL, gdim, NULL, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, h->opencl.downscale_hpel_kernel, 2, NULL, gdim, NULL, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueNDRangeKernel error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
-    for( i = 0; i < NUM_IMAGE_SCALES - 1; i++ )
+	for( i = 0; i < NUM_IMAGE_SCALES - 1; i++ )
     {
         /* Workaround for AMD Southern Island:
          *
@@ -221,14 +361,56 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
         cl_kernel kern = i & 1 ? h->opencl.downscale_kernel1 : h->opencl.downscale_kernel2;
 
         arg = 0;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clSetKernelArg, kern, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[i] );
         OCLCHECK( clSetKernelArg, kern, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[i+1] );
-        gdim[0] >>= 1;
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( kern, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[i] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( kern, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[i+1] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+		gdim[0] >>= 1;
         gdim[1] >>= 1;
         if( gdim[0] < 16 || gdim[1] < 16 )
             break;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, kern, 2, NULL, gdim, NULL, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, kern, 2, NULL, gdim, NULL, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueNDRangeKernel error '%d'\n", status );
+        return -1;
     }
+} while( 0 );
+#endif
+	}
 
     gdim[0] = ((h->mb.i_mb_width + 31)>>5)<<5;
     gdim[1] = 8*h->mb.i_mb_height;
@@ -241,6 +423,7 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
      * modes
      */
     slow = h->param.analyse.i_subpel_refine > 7;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clSetKernelArg, h->opencl.intra_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
     OCLCHECK( clSetKernelArg, h->opencl.intra_kernel, arg++, sizeof(cl_mem), &fenc->opencl.intra_cost );
     OCLCHECK( clSetKernelArg, h->opencl.intra_kernel, arg++, sizeof(cl_mem), &h->opencl.frame_stats[h->opencl.last_buf] );
@@ -248,42 +431,248 @@ int x264_opencl_lowres_init( x264_t *h, x264_frame_t *fenc, int lambda )
     OCLCHECK( clSetKernelArg, h->opencl.intra_kernel, arg++, sizeof(int), &h->mb.i_mb_width );
     OCLCHECK( clSetKernelArg, h->opencl.intra_kernel, arg++, sizeof(int), &slow );
     OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.intra_kernel, 2, NULL, gdim, ldim, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.intra_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.intra_kernel, arg++, sizeof(cl_mem), &fenc->opencl.intra_cost );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.intra_kernel, arg++, sizeof(cl_mem), &h->opencl.frame_stats[h->opencl.last_buf] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.intra_kernel, arg++, sizeof(int), &lambda );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.intra_kernel, arg++, sizeof(int), &h->mb.i_mb_width );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.intra_kernel, arg++, sizeof(int), &slow );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, h->opencl.intra_kernel, 2, NULL, gdim, ldim, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueNDRangeKernel error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
-    gdim[0] = 256;
+	gdim[0] = 256;
     gdim[1] = h->mb.i_mb_height;
     ldim[0] = 256;
     ldim[1] = 1;
     arg = 0;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_intra_kernel, arg++, sizeof(cl_mem), &fenc->opencl.intra_cost );
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_intra_kernel, arg++, sizeof(cl_mem), &fenc->opencl.inv_qscale_factor );
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_intra_kernel, arg++, sizeof(cl_mem), &h->opencl.row_satds[h->opencl.last_buf] );
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_intra_kernel, arg++, sizeof(cl_mem), &h->opencl.frame_stats[h->opencl.last_buf] );
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_intra_kernel, arg++, sizeof(int), &h->mb.i_mb_width );
     OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.rowsum_intra_kernel, 2, NULL, gdim, ldim, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_intra_kernel, arg++, sizeof(cl_mem), &fenc->opencl.intra_cost );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_intra_kernel, arg++, sizeof(cl_mem), &fenc->opencl.inv_qscale_factor );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_intra_kernel, arg++, sizeof(cl_mem), &h->opencl.row_satds[h->opencl.last_buf] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_intra_kernel, arg++, sizeof(cl_mem), &h->opencl.frame_stats[h->opencl.last_buf] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_intra_kernel, arg++, sizeof(int), &h->mb.i_mb_width );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, h->opencl.rowsum_intra_kernel, 2, NULL, gdim, ldim, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
-    if( h->opencl.num_copies >= MAX_FINISH_COPIES - 4 )
+	if( h->opencl.num_copies >= MAX_FINISH_COPIES - 4 )
         x264_opencl_flush( h );
 
     size = h->mb.i_mb_count * sizeof(int16_t);
     locked = x264_opencl_alloc_locked( h, size );
-    OCLCHECK( clEnqueueReadBuffer, h->opencl.queue, fenc->opencl.intra_cost, CL_FALSE, 0, size, locked, 0, NULL, NULL );
-    h->opencl.copies[h->opencl.num_copies].dest = fenc->lowres_costs[0][0];
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+    OCLCHECK(clEnqueueReadBuffer , h->opencl.queue, fenc->opencl.intra_cost, CL_FALSE, 0, size, locked, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueReadBuffer( h->opencl.queue, fenc->opencl.intra_cost, CL_FALSE, 0, size, locked, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueReadBuffer '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+	h->opencl.copies[h->opencl.num_copies].dest = fenc->lowres_costs[0][0];
     h->opencl.copies[h->opencl.num_copies].src = locked;
     h->opencl.copies[h->opencl.num_copies].bytes = size;
     h->opencl.num_copies++;
 
     size = h->mb.i_mb_height * sizeof(int);
     locked = x264_opencl_alloc_locked( h, size );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clEnqueueReadBuffer, h->opencl.queue, h->opencl.row_satds[h->opencl.last_buf], CL_FALSE, 0, size, locked, 0, NULL, NULL );
-    h->opencl.copies[h->opencl.num_copies].dest = fenc->i_row_satds[0][0];
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueReadBuffer( h->opencl.queue, h->opencl.row_satds[h->opencl.last_buf], CL_FALSE, 0, size, locked, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueReadBuffer '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+	h->opencl.copies[h->opencl.num_copies].dest = fenc->i_row_satds[0][0];
     h->opencl.copies[h->opencl.num_copies].src = locked;
     h->opencl.copies[h->opencl.num_copies].bytes = size;
     h->opencl.num_copies++;
 
     size = sizeof(int) * 4;
     locked = x264_opencl_alloc_locked( h, size );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clEnqueueReadBuffer, h->opencl.queue, h->opencl.frame_stats[h->opencl.last_buf], CL_FALSE, 0, size, locked, 0, NULL, NULL );
-    h->opencl.copies[h->opencl.num_copies].dest = &fenc->i_cost_est[0][0];
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueReadBuffer( h->opencl.queue, h->opencl.frame_stats[h->opencl.last_buf], CL_FALSE, 0, size, locked, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueReadBuffer error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+	h->opencl.copies[h->opencl.num_copies].dest = &fenc->i_cost_est[0][0];
     h->opencl.copies[h->opencl.num_copies].src = locked;
     h->opencl.copies[h->opencl.num_copies].bytes = sizeof(int);
     h->opencl.num_copies++;
@@ -402,13 +791,87 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
         for( i = 0; i < NUM_IMAGE_SCALES; i++ )
         {
             cl_uint arg = 0;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             OCLCHECK( clSetKernelArg, h->opencl.weightp_scaled_images_kernel, arg++, sizeof(cl_mem), &fref->opencl.scaled_image2Ds[i] );
             OCLCHECK( clSetKernelArg, h->opencl.weightp_scaled_images_kernel, arg++, sizeof(cl_mem), &h->opencl.weighted_scaled_images[i] );
             OCLCHECK( clSetKernelArg, h->opencl.weightp_scaled_images_kernel, arg++, sizeof(int32_t), &w->i_offset );
             OCLCHECK( clSetKernelArg, h->opencl.weightp_scaled_images_kernel, arg++, sizeof(int32_t), &w->i_scale );
             OCLCHECK( clSetKernelArg, h->opencl.weightp_scaled_images_kernel, arg++, sizeof(int32_t), &w->i_denom );
             OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.weightp_scaled_images_kernel, 2, NULL, gdims, NULL, 0, NULL, NULL );
-
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.weightp_scaled_images_kernel, arg++, sizeof(cl_mem), &fref->opencl.scaled_image2Ds[i] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.weightp_scaled_images_kernel, arg++, sizeof(cl_mem), &h->opencl.weighted_scaled_images[i] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.weightp_scaled_images_kernel, arg++, sizeof(int32_t), &w->i_offset );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.weightp_scaled_images_kernel, arg++, sizeof(int32_t), &w->i_scale );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.weightp_scaled_images_kernel, arg++, sizeof(int32_t), &w->i_denom );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, h->opencl.weightp_scaled_images_kernel, 2, NULL, gdims, NULL, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueNDRangeKernel error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
             gdims[0] >>= 1;
             gdims[1] >>= 1;
             if( gdims[0] < 16 || gdims[1] < 16 )
@@ -419,14 +882,89 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
         gdims[0] = 8 * h->mb.i_mb_width;
         gdims[1] = 8 * h->mb.i_mb_height;
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clSetKernelArg, h->opencl.weightp_hpel_kernel, arg++, sizeof(cl_mem), &fref->opencl.luma_hpel );
         OCLCHECK( clSetKernelArg, h->opencl.weightp_hpel_kernel, arg++, sizeof(cl_mem), &h->opencl.weighted_luma_hpel );
         OCLCHECK( clSetKernelArg, h->opencl.weightp_hpel_kernel, arg++, sizeof(int32_t), &w->i_offset );
         OCLCHECK( clSetKernelArg, h->opencl.weightp_hpel_kernel, arg++, sizeof(int32_t), &w->i_scale );
         OCLCHECK( clSetKernelArg, h->opencl.weightp_hpel_kernel, arg++, sizeof(int32_t), &w->i_denom );
         OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.weightp_hpel_kernel, 2, NULL, gdims, NULL, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.weightp_hpel_kernel, arg++, sizeof(cl_mem), &fref->opencl.luma_hpel );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.weightp_hpel_kernel, arg++, sizeof(cl_mem), &h->opencl.weighted_luma_hpel );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.weightp_hpel_kernel, arg++, sizeof(int32_t), &w->i_offset );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.weightp_hpel_kernel, arg++, sizeof(int32_t), &w->i_scale );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.weightp_hpel_kernel, arg++, sizeof(int32_t), &w->i_denom );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, h->opencl.weightp_hpel_kernel, 2, NULL, gdims, NULL, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueNDRangeKernel error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
-        /* Use weighted reference planes for motion search */
+		/* Use weighted reference planes for motion search */
         for( i = 0; i < NUM_IMAGE_SCALES; i++ )
             ref_scaled_images[i] = h->opencl.weighted_scaled_images[i];
         ref_luma_hpel = h->opencl.weighted_luma_hpel;
@@ -472,6 +1010,7 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
         b_shift_index = 1;
 
         arg = 0;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[scale] );
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(cl_mem), &ref_scaled_images[scale] );
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(cl_mem), &h->opencl.mv_buffers[A] );
@@ -487,10 +1026,207 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(int), &b_shift_index );
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(int), &b_first_iteration );
         OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg++, sizeof(int), &b_reverse_references );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[scale] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(cl_mem), &ref_scaled_images[scale] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(cl_mem), &h->opencl.mv_buffers[A] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(cl_mem), &h->opencl.mv_buffers[!A] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(cl_mem), &h->opencl.lowres_mv_costs );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(cl_mem), (void*)&h->opencl.mvp_buffer );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, cost_local_size, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, mvc_local_size, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(int), &mb_width );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(int), &lambda );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(int), &scaled_me_range );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(int), &scale );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(int), &b_shift_index );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(int), &b_first_iteration );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg++, sizeof(int), &b_reverse_references );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
-        for( iter = 0; iter < num_iterations[scale]; iter++ )
+		for( iter = 0; iter < num_iterations[scale]; iter++ )
         {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.hme_kernel, 2, NULL, gdims, ldims, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, h->opencl.hme_kernel, 2, NULL, gdims, ldims, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueNDRangeKernel error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
             b_shift_index = 0;
             b_first_iteration = 0;
@@ -502,16 +1238,80 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
             else
                 b_reverse_references = 0;
             A = !A;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, 2, sizeof(cl_mem), &h->opencl.mv_buffers[A] );
             OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, 3, sizeof(cl_mem), &h->opencl.mv_buffers[!A] );
             OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg - 3, sizeof(int), &b_shift_index );
             OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg - 2, sizeof(int), &b_first_iteration );
             OCLCHECK( clSetKernelArg, h->opencl.hme_kernel, arg - 1, sizeof(int), &b_reverse_references );
-        }
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, 2, sizeof(cl_mem), &h->opencl.mv_buffers[A] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, 3, sizeof(cl_mem), &h->opencl.mv_buffers[!A] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg - 3, sizeof(int), &b_shift_index );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg - 2, sizeof(int), &b_first_iteration );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.hme_kernel, arg - 1, sizeof(int), &b_reverse_references );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+		}
     }
 
     satd_local_size = mb_per_group * sizeof(uint32_t) * 16;
     arg = 0;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &ref_luma_hpel );
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &h->opencl.mv_buffers[A] );
@@ -519,32 +1319,264 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, cost_local_size, NULL );
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, satd_local_size, NULL );
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, mvc_local_size, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &ref_luma_hpel );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &h->opencl.mv_buffers[A] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &h->opencl.lowres_mv_costs );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, cost_local_size, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, satd_local_size, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, mvc_local_size, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
     if( b_islist1 )
     {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mvs1 );
         OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mv_costs1 );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mvs1 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
     }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mv_costs1 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+	}
     else
     {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mvs0 );
         OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mv_costs0 );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mvs0 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
     }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mv_costs0 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+	}
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(int), &mb_width );
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(int), &lambda );
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(int), &b );
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(int), &ref );
     OCLCHECK( clSetKernelArg, h->opencl.subpel_refine_kernel, arg++, sizeof(int), &b_islist1 );
-
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(int), &mb_width );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(int), &lambda );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(int), &b );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(int), &ref );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.subpel_refine_kernel, arg++, sizeof(int), &b_islist1 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
     if( h->opencl.b_device_AMD_SI )
     {
         /* workaround for AMD Southern Island driver scheduling bug (fixed in
          * July 2012), perform meaningless small copy to add a data dependency */
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clEnqueueCopyBuffer, h->opencl.queue, h->opencl.mv_buffers[A], h->opencl.mv_buffers[!A], 0, 0, 20, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueCopyBuffer( h->opencl.queue, h->opencl.mv_buffers[A], h->opencl.mv_buffers[!A], 0, 0, 20, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueCopyBuffer error '%d'\n", status );
+        return -1;
     }
+} while( 0 );
+#endif
+	}
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.subpel_refine_kernel, 2, NULL, gdims, ldims, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, h->opencl.subpel_refine_kernel, 2, NULL, gdims, ldims, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueNDRangeKernel error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
     mvlen = 2 * sizeof(int16_t) * h->mb.i_mb_count;
 
@@ -558,14 +1590,44 @@ int x264_opencl_motionsearch( x264_t *h, x264_frame_t **frames, int b, int ref, 
     if( b_islist1 )
     {
         int mvs_offset = mvlen * (ref - b - 1);
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clEnqueueReadBuffer, h->opencl.queue, fenc->opencl.lowres_mvs1, CL_FALSE, mvs_offset, mvlen, locked, 0, NULL, NULL );
-        h->opencl.copies[h->opencl.num_copies].dest = fenc->lowres_mvs[1][ref - b - 1];
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueReadBuffer( h->opencl.queue, fenc->opencl.lowres_mvs1, CL_FALSE, mvs_offset, mvlen, locked, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueReadBuffer error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+		h->opencl.copies[h->opencl.num_copies].dest = fenc->lowres_mvs[1][ref - b - 1];
     }
     else
     {
         int mvs_offset = mvlen * (b - ref - 1);
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clEnqueueReadBuffer, h->opencl.queue, fenc->opencl.lowres_mvs0, CL_FALSE, mvs_offset, mvlen, locked, 0, NULL, NULL );
-        h->opencl.copies[h->opencl.num_copies].dest = fenc->lowres_mvs[0][b - ref - 1];
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueReadBuffer( h->opencl.queue, fenc->opencl.lowres_mvs0, CL_FALSE, mvs_offset, mvlen, locked, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueReadBuffer error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+		h->opencl.copies[h->opencl.num_copies].dest = fenc->lowres_mvs[0][b - ref - 1];
     }
 
     h->opencl.num_copies++;
@@ -613,6 +1675,7 @@ int x264_opencl_finalize_cost( x264_t *h, int lambda, x264_frame_t **frames, int
     }
 
     arg = 0;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clSetKernelArg, h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
     OCLCHECK( clSetKernelArg, h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fref0->opencl.luma_hpel );
     OCLCHECK( clSetKernelArg, h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fref1->opencl.luma_hpel );
@@ -634,12 +1697,267 @@ int x264_opencl_finalize_cost( x264_t *h, int lambda, x264_frame_t **frames, int
     OCLCHECK( clSetKernelArg, h->opencl.mode_select_kernel, arg++, sizeof(int), &p1 );
     OCLCHECK( clSetKernelArg, h->opencl.mode_select_kernel, arg++, sizeof(int), &lambda );
     OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.mode_select_kernel, 2, NULL, gdims, ldims, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fenc->opencl.scaled_image2Ds[0] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fref0->opencl.luma_hpel );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fref1->opencl.luma_hpel );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mvs0 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mvs1 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fref1->opencl.lowres_mvs0 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mv_costs0 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fenc->opencl.lowres_mv_costs1 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &fenc->opencl.intra_cost );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &h->opencl.lowres_costs[h->opencl.last_buf] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(cl_mem), &h->opencl.frame_stats[h->opencl.last_buf] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, cost_local_size, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, satd_local_size, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(int), &h->mb.i_mb_width );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(int), &bipred_weight );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(int), &dist_scale_factor );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(int), &b );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(int), &p0 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(int), &p1 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.mode_select_kernel, arg++, sizeof(int), &lambda );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, h->opencl.mode_select_kernel, 2, NULL, gdims, ldims, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueNDRangeKernel error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
-    /* Sum costs across rows, atomicAdd down frame */
+	/* Sum costs across rows, atomicAdd down frame */
     gdim[0] = 256;
 	gdim[1] = h->mb.i_mb_height;
 
     arg = 0;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_inter_kernel, arg++, sizeof(cl_mem), &h->opencl.lowres_costs[h->opencl.last_buf] );
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_inter_kernel, arg++, sizeof(cl_mem), &fenc->opencl.inv_qscale_factor );
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_inter_kernel, arg++, sizeof(cl_mem), &h->opencl.row_satds[h->opencl.last_buf] );
@@ -650,6 +1968,128 @@ int x264_opencl_finalize_cost( x264_t *h, int lambda, x264_frame_t **frames, int
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_inter_kernel, arg++, sizeof(int), &p0 );
     OCLCHECK( clSetKernelArg, h->opencl.rowsum_inter_kernel, arg++, sizeof(int), &p1 );
     OCLCHECK( clEnqueueNDRangeKernel, h->opencl.queue, h->opencl.rowsum_inter_kernel, 2, NULL, gdim, ldim, 0, NULL, NULL );
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_inter_kernel, arg++, sizeof(cl_mem), &h->opencl.lowres_costs[h->opencl.last_buf] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_inter_kernel, arg++, sizeof(cl_mem), &fenc->opencl.inv_qscale_factor );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_inter_kernel, arg++, sizeof(cl_mem), &h->opencl.row_satds[h->opencl.last_buf] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_inter_kernel, arg++, sizeof(cl_mem), &h->opencl.frame_stats[h->opencl.last_buf] );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_inter_kernel, arg++, sizeof(int), &h->mb.i_mb_width );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_inter_kernel, arg++, sizeof(int), &h->param.i_bframe_bias );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_inter_kernel, arg++, sizeof(int), &b );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_inter_kernel, arg++, sizeof(int), &p0 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clSetKernelArg( h->opencl.rowsum_inter_kernel, arg++, sizeof(int), &p1 );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clSetKernelArg error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueNDRangeKernel( h->opencl.queue, h->opencl.rowsum_inter_kernel, 2, NULL, gdim, ldim, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueNDRangeKernel error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
 
     if( h->opencl.num_copies >= MAX_FINISH_COPIES - 4 )
         x264_opencl_flush( h );
@@ -659,21 +2099,67 @@ int x264_opencl_finalize_cost( x264_t *h, int lambda, x264_frame_t **frames, int
     h->opencl.copies[h->opencl.num_copies].src = locked;
     h->opencl.copies[h->opencl.num_copies].dest = fenc->lowres_costs[b - p0][p1 - b];
     h->opencl.copies[h->opencl.num_copies].bytes = size;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clEnqueueReadBuffer, h->opencl.queue, h->opencl.lowres_costs[h->opencl.last_buf], CL_FALSE, 0, size, locked, 0, NULL, NULL );
-    h->opencl.num_copies++;
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueReadBuffer( h->opencl.queue, h->opencl.lowres_costs[h->opencl.last_buf], CL_FALSE, 0, size, locked, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueReadBuffer error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+
+	h->opencl.num_copies++;
 
     size =  h->mb.i_mb_height * sizeof(int);
     locked = x264_opencl_alloc_locked( h, size );
     h->opencl.copies[h->opencl.num_copies].src = locked;
     h->opencl.copies[h->opencl.num_copies].dest = fenc->i_row_satds[b - p0][p1 - b];
     h->opencl.copies[h->opencl.num_copies].bytes = size;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clEnqueueReadBuffer, h->opencl.queue, h->opencl.row_satds[h->opencl.last_buf], CL_FALSE, 0, size, locked, 0, NULL, NULL );
-    h->opencl.num_copies++;
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueReadBuffer( h->opencl.queue, h->opencl.row_satds[h->opencl.last_buf], CL_FALSE, 0, size, locked, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueReadBuffer error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+	h->opencl.num_copies++;
 
     size =  4 * sizeof(int);
     locked = x264_opencl_alloc_locked( h, size );
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     OCLCHECK( clEnqueueReadBuffer, h->opencl.queue, h->opencl.frame_stats[h->opencl.last_buf], CL_FALSE, 0, size, locked, 0, NULL, NULL );
-    h->opencl.last_buf = !h->opencl.last_buf;
+#else
+do
+{
+    if( h->opencl.b_fatal_error )
+        return -1;
+    status = ocl->clEnqueueReadBuffer( h->opencl.queue, h->opencl.frame_stats[h->opencl.last_buf], CL_FALSE, 0, size, locked, 0, NULL, NULL );
+    if( status != CL_SUCCESS ) {
+        h->param.b_opencl = 0;
+        h->opencl.b_fatal_error = 1;
+        x264_log( h, X264_LOG_ERROR, "clEnqueueReadBuffer error '%d'\n", status );
+        return -1;
+    }
+} while( 0 );
+#endif
+	h->opencl.last_buf = !h->opencl.last_buf;
 
     h->opencl.copies[h->opencl.num_copies].src = locked;
     h->opencl.copies[h->opencl.num_copies].dest = &fenc->i_cost_est[b - p0][p1 - b];

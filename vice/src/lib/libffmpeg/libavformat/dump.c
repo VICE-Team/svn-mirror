@@ -37,6 +37,7 @@
 
 #include "avformat.h"
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define HEXDUMP_PRINT(...)                                                    \
     do {                                                                      \
         if (!f)                                                               \
@@ -44,6 +45,7 @@
         else                                                                  \
             fprintf(f, __VA_ARGS__);                                          \
     } while (0)
+#endif
 
 static void hex_dump_internal(void *avcl, FILE *f, int level,
                               const uint8_t *buf, int size)
@@ -54,22 +56,76 @@ static void hex_dump_internal(void *avcl, FILE *f, int level,
         len = size - i;
         if (len > 16)
             len = 16;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         HEXDUMP_PRINT("%08x ", i);
-        for (j = 0; j < 16; j++) {
+#else
+    do {
+        if (!f)
+            av_log(avcl, level, "%08x ", i);
+        else
+            fprintf(f, "%08x ", i);
+    } while (0);
+#endif
+		for (j = 0; j < 16; j++) {
             if (j < len)
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 HEXDUMP_PRINT(" %02x", buf[i + j]);
-            else
+#else
+    do {
+        if (!f)
+            av_log(avcl, level, " %02x", buf[i + j]);
+        else
+            fprintf(f, " %02x", buf[i + j]);
+    } while (0);
+#endif
+			else
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 HEXDUMP_PRINT("   ");
-        }
+#else
+    do {
+        if (!f)
+            av_log(avcl, level, "   ");
+        else
+            fprintf(f, "   ");
+    } while (0);
+#endif
+		}
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         HEXDUMP_PRINT(" ");
-        for (j = 0; j < len; j++) {
+#else
+    do {
+        if (!f)
+            av_log(avcl, level, " ");
+        else
+            fprintf(f, " ");
+    } while (0);
+#endif
+		for (j = 0; j < len; j++) {
             c = buf[i + j];
             if (c < ' ' || c > '~')
                 c = '.';
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             HEXDUMP_PRINT("%c", c);
-        }
+#else
+    do {
+        if (!f)
+            av_log(avcl, level, "%c", c);
+        else
+            fprintf(f, "%c", c);
+    } while (0);
+#endif
+		}
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         HEXDUMP_PRINT("\n");
-    }
+#else
+    do {
+        if (!f)
+            av_log(avcl, level, "\n");
+        else
+            fprintf(f, "\n");
+    } while (0);
+#endif
+	}
 }
 
 void av_hex_dump(FILE *f, const uint8_t *buf, int size)
@@ -85,24 +141,84 @@ void av_hex_dump_log(void *avcl, int level, const uint8_t *buf, int size)
 static void pkt_dump_internal(void *avcl, FILE *f, int level, const AVPacket *pkt,
                               int dump_payload, AVRational time_base)
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     HEXDUMP_PRINT("stream #%d:\n", pkt->stream_index);
     HEXDUMP_PRINT("  keyframe=%d\n", (pkt->flags & AV_PKT_FLAG_KEY) != 0);
     HEXDUMP_PRINT("  duration=%0.3f\n", pkt->duration * av_q2d(time_base));
     /* DTS is _always_ valid after av_read_frame() */
     HEXDUMP_PRINT("  dts=");
-    if (pkt->dts == AV_NOPTS_VALUE)
+#else
+    do {
+		if (!f) {
+            av_log(avcl, level, "stream #%d:\n", pkt->stream_index);
+            av_log(avcl, level, "  keyframe=%d\n", (pkt->flags & AV_PKT_FLAG_KEY) != 0);
+            av_log(avcl, level, "  duration=%0.3f\n", pkt->duration * av_q2d(time_base));
+            av_log(avcl, level, "  dts=");
+		} else {
+            fprintf(f, "stream #%d:\n", pkt->stream_index);
+            fprintf(f, "  keyframe=%d\n", (pkt->flags & AV_PKT_FLAG_KEY) != 0);
+            fprintf(f, "  duration=%0.3f\n", pkt->duration * av_q2d(time_base));
+            fprintf(f, "  dts=");
+		}
+	} while (0);
+#endif
+	if (pkt->dts == AV_NOPTS_VALUE)
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         HEXDUMP_PRINT("N/A");
-    else
+#else
+    do {
+        if (!f)
+            av_log(avcl, level, "N/A");
+        else
+            fprintf(f, "N/A");
+    } while (0);
+#endif
+	else
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         HEXDUMP_PRINT("%0.3f", pkt->dts * av_q2d(time_base));
     /* PTS may not be known if B-frames are present. */
     HEXDUMP_PRINT("  pts=");
-    if (pkt->pts == AV_NOPTS_VALUE)
+#else
+    do {
+		if (!f) {
+            av_log(avcl, level, "%0.3f", pkt->dts * av_q2d(time_base));
+            av_log(avcl, level, "  pts=");
+		} else {
+            fprintf(f, "%0.3f", pkt->dts * av_q2d(time_base));
+            fprintf(f, "  pts=");
+		}
+	} while (0);
+#endif
+	if (pkt->pts == AV_NOPTS_VALUE)
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         HEXDUMP_PRINT("N/A");
-    else
+#else
+    do {
+        if (!f)
+            av_log(avcl, level, "N/A");
+        else
+            fprintf(f, "N/A");
+    } while (0);
+#endif
+	else
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         HEXDUMP_PRINT("%0.3f", pkt->pts * av_q2d(time_base));
     HEXDUMP_PRINT("\n");
     HEXDUMP_PRINT("  size=%d\n", pkt->size);
-    if (dump_payload)
+#else
+    do {
+		if (!f) {
+            av_log(avcl, level, "%0.3f", pkt->pts * av_q2d(time_base));
+            av_log(avcl, level, "\n");
+            av_log(avcl, level, "  size=%d\n", pkt->size);
+		} else {
+            fprintf(f, "%0.3f", pkt->pts * av_q2d(time_base));
+            fprintf(f, "\n");
+            fprintf(f, "  size=%d\n", pkt->size);
+		}
+	} while (0);
+#endif
+	if (dump_payload)
         av_hex_dump(f, pkt->data, pkt->size);
 }
 

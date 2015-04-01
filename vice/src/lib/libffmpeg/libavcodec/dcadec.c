@@ -1264,9 +1264,15 @@ static int dca_subsubframe(DCAContext *s, int base_channel, int block_index)
 
     /* FIXME */
     float (*subband_samples)[DCA_SUBBANDS][8] = s->subband_samples[block_index];
-    LOCAL_ALIGNED_16(int32_t, block, [8 * DCA_SUBBANDS]);
 
-    /*
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int32_t, block, [8 * DCA_SUBBANDS]);
+#else
+	uint8_t la_block[sizeof(int32_t [8 * 64] ) + (16)];
+	int32_t (*block) = (void *)((((uintptr_t)la_block)+(16)-1)&~((16)-1));
+#endif
+
+	/*
      * Audio data
      */
 

@@ -566,8 +566,14 @@ not_coded:
 
 static int h263_skip_b_part(MpegEncContext *s, int cbp)
 {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(int16_t, dblock, [64]);
-    int i, mbi;
+#else
+	uint8_t la_dblock[sizeof(int16_t [64] ) + (16)];
+	int16_t (*dblock) = (void *)((((uintptr_t)la_dblock)+(16)-1)&~((16)-1));
+#endif
+
+	int i, mbi;
     int bli[6];
 
     /* we have to set s->mb_intra to zero to decode B-part of PB-frame correctly

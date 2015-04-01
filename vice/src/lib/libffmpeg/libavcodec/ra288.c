@@ -140,11 +140,20 @@ static void do_hybrid_window(RA288Context *ractx,
     int i;
     float buffer1[MAX_BACKWARD_FILTER_ORDER + 1];
     float buffer2[MAX_BACKWARD_FILTER_ORDER + 1];
-    LOCAL_ALIGNED(32, float, work, [FFALIGN(MAX_BACKWARD_FILTER_ORDER +
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED(32, float, work, [FFALIGN(MAX_BACKWARD_FILTER_ORDER +
                                             MAX_BACKWARD_FILTER_LEN   +
                                             MAX_BACKWARD_FILTER_NONREC, 16)]);
+#else
+	uint8_t la_work[sizeof(float [(((36 + 40 + 35)+(16)-1)&~((16)-1))] ) + (32)];
+	float (*work) = (void *)((((uintptr_t)la_work)+(32)-1)&~((32)-1));
+#endif
 
-    av_assert2(order>=0);
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	av_assert2(order>=0);
+#endif
 
     ractx->fdsp.vector_fmul(work, window, hist, FFALIGN(order + n + non_rec, 16));
 

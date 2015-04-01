@@ -487,8 +487,15 @@ void ff_hevc_luma_mv_merge_mode(HEVCContext *s, int x0, int y0, int nPbW,
 {
     int singleMCLFlag = 0;
     int nCS = 1 << log2_cb_size;
-    LOCAL_ALIGNED(4, MvField, mergecand_list, [MRG_MAX_NUM_CANDS]);
-    int nPbW2 = nPbW;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED(4, MvField, mergecand_list, [MRG_MAX_NUM_CANDS]);
+#else
+	uint8_t la_mergecand_list[sizeof(MvField [5] ) + (4)];
+	MvField (*mergecand_list) = (void *)((((uintptr_t)la_mergecand_list)+(4)-1)&~((4)-1));
+#endif
+
+	int nPbW2 = nPbW;
     int nPbH2 = nPbH;
     HEVCLocalContext *lc = s->HEVClc;
 

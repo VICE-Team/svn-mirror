@@ -48,6 +48,7 @@ typedef struct {
 #define CONTEXT SineContext
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #ifdef IDE_COMPILE
 #define OPT_GENERIC(name, field, def, min, max, descr, type, deffield, ...) \
     { name, descr, offsetof(CONTEXT, field), AV_OPT_TYPE_ ## type,          \
@@ -66,8 +67,10 @@ typedef struct {
 
 #define OPT_DUR(name, field, def, min, max, descr, ...) \
     OPT_GENERIC(name, field, def, min, max, descr, DURATION, str, __VA_ARGS__)
+#endif
 
 static const AVOption sine_options[] = {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	OPT_DBL("frequency",         frequency,            440, 0, DBL_MAX,   "set the sine frequency"),
     OPT_DBL("f",                 frequency,            440, 0, DBL_MAX,   "set the sine frequency"),
     OPT_DBL("beep_factor",       beep_factor,            0, 0, DBL_MAX,   "set the beep fequency factor"),
@@ -77,7 +80,18 @@ static const AVOption sine_options[] = {
     OPT_DUR("duration",          duration,               0, 0, INT64_MAX, "set the audio duration"),
     OPT_DUR("d",                 duration,               0, 0, INT64_MAX, "set the audio duration"),
     OPT_INT("samples_per_frame", samples_per_frame,   1024, 0, INT_MAX,   "set the number of samples per frame"),
-    {NULL}
+#else
+	{ "frequency", "set the sine frequency", offsetof (SineContext, frequency), AV_OPT_TYPE_DOUBLE, {440}, 0, DBL_MAX, FLAGS, },
+    { "f", "set the sine frequency", offsetof (SineContext, frequency), AV_OPT_TYPE_DOUBLE, {440 }, 0, DBL_MAX, FLAGS, },
+    { "beep_factor", "set the beep fequency factor", offsetof (SineContext, beep_factor), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS, },
+    { "b", "set the beep fequency factor", offsetof (SineContext, beep_factor), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS, },
+    { "sample_rate", "set the sample rate", offsetof (SineContext, sample_rate), AV_OPT_TYPE_INT, {44100}, 1, INT_MAX, FLAGS, },
+    { "r", "set the sample rate", offsetof (SineContext, sample_rate), AV_OPT_TYPE_INT, {44100}, 1, INT_MAX, FLAGS, },
+    { "duration", "set the audio duration", offsetof (SineContext, duration), AV_OPT_TYPE_DURATION, {(intptr_t) 0}, 0, INT64_MAX, FLAGS, },
+    { "d", "set the audio duration", offsetof (SineContext, duration), AV_OPT_TYPE_DURATION, {(intptr_t) 0}, 0, INT64_MAX, FLAGS, },
+    { "samples_per_frame", "set the number of samples per frame", offsetof (SineContext, samples_per_frame), AV_OPT_TYPE_INT, {1024}, 0, INT_MAX, FLAGS, },
+#endif
+	{NULL}
 };
 
 AVFILTER_DEFINE_CLASS(sine);

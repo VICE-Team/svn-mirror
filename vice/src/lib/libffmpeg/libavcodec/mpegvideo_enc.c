@@ -4029,8 +4029,15 @@ static int dct_quantize_refine(MpegEncContext *s, //FIXME breaks denoise?
                         int16_t *block, int16_t *weight, int16_t *orig,
                         int n, int qscale){
     int16_t rem[64];
-    LOCAL_ALIGNED_16(int16_t, d1, [64]);
-    const uint8_t *scantable= s->intra_scantable.scantable;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int16_t, d1, [64]);
+#else
+	uint8_t la_d1[sizeof(int16_t [64] ) + (16)];
+	int16_t (*d1) = (void *)((((uintptr_t)la_d1)+(16)-1)&~((16)-1));
+#endif
+
+	const uint8_t *scantable= s->intra_scantable.scantable;
     const uint8_t *perm_scantable= s->intra_scantable.permutated;
 //    unsigned int threshold1, threshold2;
 //    int bias=0;

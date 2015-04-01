@@ -174,10 +174,21 @@ static int dv_decode_video_segment(AVCodecContext *avctx, void *arg)
     PutBitContext pb, vs_pb;
     GetBitContext gb;
     BlockInfo mb_data[5 * DV_MAX_BPM], *mb, *mb1;
-    LOCAL_ALIGNED_16(int16_t, sblock, [5 * DV_MAX_BPM], [64]);
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int16_t, sblock, [5 * DV_MAX_BPM], [64]);
     LOCAL_ALIGNED_16(uint8_t, mb_bit_buffer, [80     + FF_INPUT_BUFFER_PADDING_SIZE]); /* allow some slack */
     LOCAL_ALIGNED_16(uint8_t, vs_bit_buffer, [80 * 5 + FF_INPUT_BUFFER_PADDING_SIZE]); /* allow some slack */
-    const int log2_blocksize = 3-s->avctx->lowres;
+#else
+	uint8_t la_sblock[sizeof(int16_t [5 * 8] [64]) + (16)];
+	int16_t (*sblock) [64] = (void *)((((uintptr_t)la_sblock)+(16)-1)&~((16)-1));
+    uint8_t la_mb_bit_buffer[sizeof(uint8_t [80 + 32] ) + (16)];
+	uint8_t (*mb_bit_buffer) = (void *)((((uintptr_t)la_mb_bit_buffer)+(16)-1)&~((16)-1));
+    uint8_t la_vs_bit_buffer[sizeof(uint8_t [80 * 5 + 32] ) + (16)];
+	uint8_t (*vs_bit_buffer) = (void *)((((uintptr_t)la_vs_bit_buffer)+(16)-1)&~((16)-1));
+#endif
+
+	const int log2_blocksize = 3-s->avctx->lowres;
     int is_field_mode[5];
 
     av_assert1((((int) mb_bit_buffer) & 7) == 0);

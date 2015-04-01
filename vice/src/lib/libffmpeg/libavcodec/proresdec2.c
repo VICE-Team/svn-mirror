@@ -366,8 +366,15 @@ static int decode_slice_luma(AVCodecContext *avctx, SliceContext *slice,
                              const int16_t *qmat)
 {
     ProresContext *ctx = avctx->priv_data;
-    LOCAL_ALIGNED_16(int16_t, blocks, [8*4*64]);
-    int16_t *block;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int16_t, blocks, [8*4*64]);
+#else
+	uint8_t la_blocks[sizeof(int16_t [8*4*64] ) + (16)];
+	int16_t (*blocks) = (void *)((((uintptr_t)la_blocks)+(16)-1)&~((16)-1));
+#endif
+
+	int16_t *block;
     GetBitContext gb;
     int i, blocks_per_slice = slice->mb_count<<2;
     int ret;
@@ -399,8 +406,15 @@ static int decode_slice_chroma(AVCodecContext *avctx, SliceContext *slice,
                                const int16_t *qmat, int log2_blocks_per_mb)
 {
     ProresContext *ctx = avctx->priv_data;
-    LOCAL_ALIGNED_16(int16_t, blocks, [8*4*64]);
-    int16_t *block;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int16_t, blocks, [8*4*64]);
+#else
+	uint8_t la_blocks[sizeof(int16_t [8*4*64] ) + (16)];
+	int16_t (*blocks) = (void *)((((uintptr_t)la_blocks)+(16)-1)&~((16)-1));
+#endif
+
+	int16_t *block;
     GetBitContext gb;
     int i, j, blocks_per_slice = slice->mb_count << log2_blocks_per_mb;
     int ret;
@@ -481,8 +495,15 @@ static void decode_slice_alpha(ProresContext *ctx,
 {
     GetBitContext gb;
     int i;
-    LOCAL_ALIGNED_16(int16_t, blocks, [8*4*64]);
-    int16_t *block;
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	LOCAL_ALIGNED_16(int16_t, blocks, [8*4*64]);
+#else
+	uint8_t la_blocks[sizeof(int16_t [8*4*64] ) + (16)];
+	int16_t (*blocks) = (void *)((((uintptr_t)la_blocks)+(16)-1)&~((16)-1));
+#endif
+
+	int16_t *block;
 
     for (i = 0; i < blocks_per_slice<<2; i++)
         ctx->bdsp.clear_block(blocks+(i<<6));

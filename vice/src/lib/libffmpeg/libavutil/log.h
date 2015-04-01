@@ -323,7 +323,11 @@ void av_log_format_line(void *ptr, int level, const char *fmt, va_list vl,
 #    define av_dlog(pctx, ...) do { if (0) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__); } while (0)
 #  endif
 #else
-#  define av_dlog(pctx, ...) do { if (0) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__); } while (0)
+#  if (_MSC_VER >= 1400)
+#    define av_dlog(pctx, ...) do { if (0) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__); } while (0)
+#  else
+#    define av_dlog var_arg_dummy
+#  endif
 #endif
 
 /**

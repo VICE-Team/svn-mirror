@@ -113,7 +113,12 @@ static ALWAYS_INLINE void x264_mb_encode_i4x4( x264_t *h, int p, int idx, int i_
     int nz;
     pixel *p_src = &h->mb.pic.p_fenc[p][block_idx_xy_fenc[idx]];
     pixel *p_dst = &h->mb.pic.p_fdec[p][block_idx_xy_fdec[idx]];
-    ALIGNED_ARRAY_N( dctcoef, dct4x4,[16] );
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	ALIGNED_ARRAY_N( dctcoef, dct4x4,[16] );
+#else
+	__declspec(align(32))dctcoef dct4x4 [16];
+#endif
 
     if( b_predict )
     {
@@ -151,10 +156,16 @@ static ALWAYS_INLINE void x264_mb_encode_i8x8( x264_t *h, int p, int idx, int i_
     int nz;
     pixel *p_src = &h->mb.pic.p_fenc[p][8*x + 8*y*FENC_STRIDE];
     pixel *p_dst = &h->mb.pic.p_fdec[p][8*x + 8*y*FDEC_STRIDE];
-    ALIGNED_ARRAY_N( dctcoef, dct8x8,[64] );
-    ALIGNED_ARRAY_32( pixel, edge_buf,[36] );
 
-    if( b_predict )
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
+	ALIGNED_ARRAY_N( dctcoef, dct8x8,[64] );
+    ALIGNED_ARRAY_32( pixel, edge_buf,[36] );
+#else
+	__declspec(align(32))dctcoef dct8x8[64];
+    __declspec(align(32))pixel edge_buf [36];
+#endif
+
+	if( b_predict )
     {
         if( !edge )
         {

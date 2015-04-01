@@ -25,7 +25,10 @@
 
 #include "video.h"
 #define NAME "resize"
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, NAME, __VA_ARGS__ )
+#endif
 
 cli_vid_filter_t resize_filter;
 
@@ -239,8 +242,8 @@ static int handle_opts( const char **optlist, char **opts, video_info_t *info, r
             /* csp bit depth was specified */
             *str_depth++ = '\0';
             depth = x264_otoi( str_depth, -1 );
-            FAIL_IF_ERROR( depth != 8 && depth != 16, "unsupported bit depth %d\n", depth );
-        }
+			FAIL_IF_ERROR( depth != 8 && depth != 16, "unsupported bit depth %d\n", depth );
+		}
         /* now lookup against the list of valid csps */
         int csp;
         if( strlen( str_csp ) == 0 )
@@ -252,7 +255,7 @@ static int handle_opts( const char **optlist, char **opts, video_info_t *info, r
                     break;
             }
         FAIL_IF_ERROR( csp == X264_CSP_NONE, "unsupported colorspace `%s'\n", str_csp );
-        h->dst_csp = csp;
+		h->dst_csp = csp;
         if( depth == 16 )
             h->dst_csp |= X264_CSP_HIGH_DEPTH;
     }
@@ -265,7 +268,7 @@ static int handle_opts( const char **optlist, char **opts, video_info_t *info, r
         FAIL_IF_ERROR( 2 != sscanf( str_sar, "%u:%u", &out_sar_w, &out_sar_h ) &&
                        2 != sscanf( str_sar, "%u/%u", &out_sar_w, &out_sar_h ),
                        "invalid sar `%s'\n", str_sar )
-    }
+	}
     else
         out_sar_w = out_sar_h = 1;
     if( fittobox )
@@ -275,18 +278,19 @@ static int handle_opts( const char **optlist, char **opts, video_info_t *info, r
         {
             FAIL_IF_ERROR( width <= 0 || height <= 0, "invalid box resolution %sx%s\n",
                            x264_otos( str_width, "<unset>" ), x264_otos( str_height, "<unset>" ) )
-        }
+		}
         else if( !strcasecmp( fittobox, "width" ) )
         {
             FAIL_IF_ERROR( width <= 0, "invalid box width `%s'\n", x264_otos( str_width, "<unset>" ) )
-            height = INT_MAX;
+			height = INT_MAX;
         }
         else if( !strcasecmp( fittobox, "height" ) )
         {
             FAIL_IF_ERROR( height <= 0, "invalid box height `%s'\n", x264_otos( str_height, "<unset>" ) )
-            width = INT_MAX;
+			width = INT_MAX;
         }
-        else FAIL_IF_ERROR( 1, "invalid fittobox mode `%s'\n", fittobox )
+        else
+			FAIL_IF_ERROR( 1, "invalid fittobox mode `%s'\n", fittobox )
 
         /* maximally fit the new coded resolution to the box */
         const x264_cli_csp_t *csp = x264_cli_get_csp( h->dst_csp );
@@ -403,7 +407,7 @@ static int check_resizer( resizer_hnd_t *h, cli_pic_t *in )
         h->buffer_allocated = 1;
     }
     FAIL_IF_ERROR( x264_init_sws_context( h ), "swscale init failed\n" )
-    return 0;
+	return 0;
 }
 
 static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x264_param_t *param, char *opt_string )
@@ -436,7 +440,7 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x2
             h->dst_csp = pick_closest_supported_csp( info->csp );
             FAIL_IF_ERROR( h->dst_csp == X264_CSP_NONE,
                            "filter get invalid input pixel format %d (colorspace %d)\n", convert_csp_to_pix_fmt( info->csp ), info->csp )
-        }
+		}
         else if( handle_opts( optlist, opts, info, h ) )
             return -1;
     }
@@ -478,7 +482,8 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x2
     FAIL_IF_ERROR( !sws_isSupportedOutput( h->dst.pix_fmt ), "output colorspace %s is not supported\n", av_get_pix_fmt_name( h->dst.pix_fmt ) )
     FAIL_IF_ERROR( h->dst.height != info->height && info->interlaced,
                    "swscale is not compatible with interlaced vertical resizing\n" )
-    /* confirm that the desired resolution meets the colorspace requirements */
+
+   /* confirm that the desired resolution meets the colorspace requirements */
     const x264_cli_csp_t *csp = x264_cli_get_csp( h->dst_csp );
     FAIL_IF_ERROR( h->dst.width % csp->mod_width || h->dst.height % csp->mod_height,
                    "resolution %dx%d is not compliant with colorspace %s\n", h->dst.width, h->dst.height, csp->name )
@@ -572,8 +577,15 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x2
     }
 
     /* pass if nothing needs to be done, otherwise fail */
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( ret, "not compiled with swscale support\n" )
-    return 0;
+#else
+    if( ret ){
+		x264_cli_log( "resize", 0, "not compiled with swscale support\n" );
+		return -1;
+	}
+#endif
+	return 0;
 }
 
 #define help NULL

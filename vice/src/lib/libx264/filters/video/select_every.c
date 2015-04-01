@@ -25,7 +25,10 @@
 
 #include "video.h"
 #define NAME "select_every"
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, NAME, __VA_ARGS__ )
+#endif
 
 #define MAX_PATTERN_SIZE 100 /* arbitrary */
 
@@ -73,16 +76,45 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x2
         int val = x264_otoi( tok, -1 );
         if( p )
         {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             FAIL_IF_ERROR( val <= 0, "invalid step `%s'\n", tok )
-            h->step_size = val;
+#else
+            if( val <= 0 ){
+				x264_cli_log( "select_every", 0, "invalid step `%s'\n", tok );
+				return -1;
+			}
+#endif
+			h->step_size = val;
             continue;
         }
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( val < 0 || val >= h->step_size, "invalid offset `%s'\n", tok )
         FAIL_IF_ERROR( h->pattern_len >= MAX_PATTERN_SIZE, "max pattern size %d reached\n", MAX_PATTERN_SIZE )
-        offsets[h->pattern_len++] = val;
+#else
+            if( val < 0 || val >= h->step_size ){
+				x264_cli_log( "select_every", 0, "invalid offset `%s'\n", tok );
+				return -1;
+			}
+            if( h->pattern_len >= MAX_PATTERN_SIZE ){
+				x264_cli_log( "select_every", 0, "max pattern size %d reached\n", MAX_PATTERN_SIZE );
+				return -1;
+			}
+#endif
+		offsets[h->pattern_len++] = val;
     }
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( !h->step_size, "no step size provided\n" )
     FAIL_IF_ERROR( !h->pattern_len, "no offsets supplied\n" )
+#else
+            if( !h->step_size ){
+				x264_cli_log( "select_every", 0, "no step size provided\n" );
+				return -1;
+			}
+            if( !h->pattern_len ){
+				x264_cli_log( "select_every", 0, "no offsets supplied\n" );
+				return -1;
+			}
+#endif
 
     h->pattern = malloc( h->pattern_len * sizeof(int) );
     if( !h->pattern )
