@@ -557,50 +557,22 @@ static int ffmpegdrv_fill_rgb_image(screenshot_t *screenshot, AVFrame *pic)
     int bufferoffset;
     int x_dim = screenshot->width;
     int y_dim = screenshot->height;
-    int pix;
-
+    int pix = 0;
     /* center the screenshot in the video */
     dx = (video_width - x_dim) / 2;
     dy = (video_height - y_dim) / 2;
     bufferoffset = screenshot->x_offset + (dx < 0 ? -dx : 0)
         + (screenshot->y_offset + (dy < 0 ? -dy : 0)) * screenshot->draw_buffer_line_size;
 
-    pix = 0;
-
-    for (y = 0; y < dy; y++) {
-        /* black upper border */
+    for (y = 0; y < video_height; y++) {
         for (x = 0; x < video_width; x++) {
-            pic->data[0][pix] = pic->data[0][pix + 1] = pic->data[0][pix + 2] = 0;
-            pix += 3;
-        }
-    }
-
-    for (y = dy; y < dy + y_dim; y++) {
-        for (x = 0; x < dx; x++) {
-            /* black left border */
-            pic->data[0][pix] = pic->data[0][pix + 1] = pic->data[0][pix + 2] = 0;
-            pix += 3;
-        }
-        for (x = 0; x < x_dim; x++) {
             colnum = screenshot->draw_buffer[bufferoffset + x];
-            pic->data[0][pix++] = screenshot->palette->entries[colnum].red;
-            pic->data[0][pix++] = screenshot->palette->entries[colnum].green;
-            pic->data[0][pix++] = screenshot->palette->entries[colnum].blue;
+            pic->data[0][pix + 3*x] = screenshot->palette->entries[colnum].red;
+            pic->data[0][pix + 3*x + 1] = screenshot->palette->entries[colnum].green;
+            pic->data[0][pix + 3*x + 2] = screenshot->palette->entries[colnum].blue;
         }
         bufferoffset += screenshot->draw_buffer_line_size;
-
-        for (x = dx + x_dim; x < video_width; x++) {
-            /* black right border */
-            pic->data[0][pix] = pic->data[0][pix + 1] = pic->data[0][pix + 2] = 0;
-            pix += 3;
-        }
-    }
-    for (y = dy + y_dim; y < video_height; y++) {
-        /* black lower border */
-        for (x = 0; x < video_width; x++) {
-            pic->data[0][pix] = pic->data[0][pix + 1] = pic->data[0][pix + 2] = 0;
-            pix += 3;
-        }
+        pix += pic->linesize[0];
     }
 
     return 0;
@@ -719,13 +691,10 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     /* put sample parameters */
     c->bit_rate = video_bitrate;
     /* resolution should be a multiple of 16 */
-#if 0
-    video_width = c->width = (screenshot->width + 15) & ~0xf;
-    video_height = c->height = (screenshot->height + 15) & ~0xf;
-#else
+    /* ffmpegdrv_fill_rgb_image only implements cutting so */
+    /* adding black border was removed */
     video_width = c->width = screenshot->width & ~0xf;
     video_height = c->height = screenshot->height & ~0xf;
-#endif
     /* frames per second */
     st->time_base = VICE_P_AV_D2Q(machine_get_cycles_per_frame() 
                                     / (double)(video_halve_framerate ? 
