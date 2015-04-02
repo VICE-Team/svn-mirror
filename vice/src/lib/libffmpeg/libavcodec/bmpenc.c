@@ -108,7 +108,7 @@ static int bmp_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
         break;
     }
     if (pal && !pal_entries) pal_entries = 1 << bit_count;
-    n_bytes_per_row = ((int64_t)avctx->width * (int64_t)bit_count + 7LL) >> 3LL;
+    n_bytes_per_row = ((int64_t)avctx->width * (int64_t)bit_count + LLN(7)) >> LLN(3);
     pad_bytes_per_row = (4 - n_bytes_per_row) & 3;
     n_bytes_image = avctx->height * (n_bytes_per_row + pad_bytes_per_row);
 

@@ -83,7 +83,7 @@ static float log2f(float x)
 #define isfinite finite
 #endif
 
-#ifdef _WIN32 || (defined(IDE_COMPILE) && (_MSC_VER < 1400))
+#if defined(_WIN32) || (defined(IDE_COMPILE) && (_MSC_VER < 1400))
 #ifndef strtok_r
 #define strtok_r(str,delim,save) strtok(str,delim)
 #endif

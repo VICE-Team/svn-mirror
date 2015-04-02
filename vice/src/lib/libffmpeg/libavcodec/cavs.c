@@ -269,7 +269,7 @@ static void intra_pred_horiz(uint8_t *d, uint8_t *top, uint8_t *left, int stride
     int y;
     uint64_t a;
     for (y = 0; y < 8; y++) {
-        a = left[y + 1] * 0x0101010101010101ULL;
+        a = left[y + 1] * ULLN(0x0101010101010101);
         *((uint64_t *)(d + y * stride)) = a;
     }
 }
@@ -277,7 +277,7 @@ static void intra_pred_horiz(uint8_t *d, uint8_t *top, uint8_t *left, int stride
 static void intra_pred_dc_128(uint8_t *d, uint8_t *top, uint8_t *left, int stride)
 {
     int y;
-    uint64_t a = 0x8080808080808080ULL;
+    uint64_t a = ULLN(0x8080808080808080);
     for (y = 0; y < 8; y++)
         *((uint64_t *)(d + y * stride)) = a;
 }

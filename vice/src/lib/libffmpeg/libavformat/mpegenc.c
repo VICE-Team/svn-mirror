@@ -661,8 +661,8 @@ static int flush_packet(AVFormatContext *ctx, int stream_index,
                     s->packet_number++;
                     stream->align_iframe = 0;
                     // FIXME: rounding and first few bytes of each packet
-                    scr        += s->packet_size * 90000LL /
-                                  (s->mux_rate * 50LL);
+                    scr        += s->packet_size * LLN(90000) /
+                                  (s->mux_rate * LLN(50));
                     size        = put_pack_header(ctx, buf_ptr, scr);
                     s->last_scr = scr;
                     buf_ptr    += size;
@@ -974,7 +974,7 @@ retry:
         StreamInfo *stream = st->priv_data;
         const int avail_data = av_fifo_size(stream->fifo);
         const int space = stream->max_buffer_size - stream->buffer_index;
-        int rel_space = 1024LL * space / stream->max_buffer_size;
+        int rel_space = LLN(1024) * space / stream->max_buffer_size;
         PacketDesc *next_pkt = stream->premux_packet;
 
         /* for subtitle, a single PES packet must be generated,
@@ -1067,13 +1067,13 @@ retry:
         while ((vcd_pad_bytes = get_vcd_padding_size(ctx, stream->premux_packet->pts)) >= s->packet_size) {
             put_vcd_padding_sector(ctx);
             // FIXME: rounding and first few bytes of each packet
-            s->last_scr += s->packet_size * 90000LL / (s->mux_rate * 50LL);
+            s->last_scr += s->packet_size * LLN(90000) / (s->mux_rate * LLN(50));
         }
     }
 
     stream->buffer_index += es_size;
     // FIXME: rounding and first few bytes of each packet
-    s->last_scr          += s->packet_size * 90000LL / (s->mux_rate * 50LL);
+    s->last_scr          += s->packet_size * LLN(90000) / (s->mux_rate * LLN(50));
 
     while (stream->premux_packet &&
            stream->premux_packet->unwritten_size <= es_size) {

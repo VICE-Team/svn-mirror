@@ -2137,7 +2137,7 @@ static int mxf_read_header(AVFormatContext *s)
             av_log(mxf->fc, AV_LOG_ERROR, "MXF structure loop detected\n");
             return AVERROR_INVALIDDATA;
         }
-        if ((1ULL<<61) % last_pos_index++ == 0)
+        if ((ULLN(1)<<61) % last_pos_index++ == 0)
             last_pos = avio_tell(s->pb);
         if (klv_read_packet(&klv, s->pb) < 0) {
             /* EOF - seek to previous partition or stop */

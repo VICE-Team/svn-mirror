@@ -162,7 +162,7 @@ static int dirac_combine_frame(AVCodecParserContext *s, AVCodecContext *avctx,
         if (!unpack_parse_unit(&pu1, pc, pc->index - 13)                     ||
             !unpack_parse_unit(&pu, pc, pc->index - 13 - pu1.prev_pu_offset) ||
             pu.next_pu_offset != pu1.prev_pu_offset                          ||
-            pc->index < pc->dirac_unit_size + 13LL + pu1.prev_pu_offset
+            pc->index < pc->dirac_unit_size + LLN(13) + pu1.prev_pu_offset
         ) {
             pc->index              -= 9;
             *buf_size               = next - 9;

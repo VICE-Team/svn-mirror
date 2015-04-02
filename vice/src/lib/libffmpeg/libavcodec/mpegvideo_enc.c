@@ -144,7 +144,7 @@ void ff_convert_matrix(MpegEncContext *s, int (*qmat)[64],
         for (i = intra; i < 64; i++) {
             int64_t max = 8191;
             if (fdsp->fdct == ff_fdct_ifast) {
-                max = (8191LL * ff_aanscales[i]) >> 14;
+                max = (LLN(8191) * ff_aanscales[i]) >> 14;
             }
             while (((max * qmat[qscale][i]) >> shift) > INT_MAX) {
                 shift++;
@@ -457,8 +457,8 @@ av_cold int ff_mpv_encode_init(AVCodecContext *avctx)
         s->avctx->rc_min_rate == s->avctx->rc_max_rate &&
         (s->codec_id == AV_CODEC_ID_MPEG1VIDEO ||
          s->codec_id == AV_CODEC_ID_MPEG2VIDEO) &&
-        90000LL * (avctx->rc_buffer_size - 1) >
-            s->avctx->rc_max_rate * 0xFFFFLL) {
+        LLN(90000) * (avctx->rc_buffer_size - 1) >
+            s->avctx->rc_max_rate * LLN(0xFFFF)) {
         av_log(avctx, AV_LOG_INFO,
                "Warning vbv_delay will be set to 0xFFFF (=VBR) as the "
                "specified vbv buffer is too large for the given bitrate!\n");
@@ -1834,8 +1834,8 @@ vbv_retry:
         if (s->avctx->rc_max_rate                          &&
             s->avctx->rc_min_rate == s->avctx->rc_max_rate &&
             s->out_format == FMT_MPEG1                     &&
-            90000LL * (avctx->rc_buffer_size - 1) <=
-                s->avctx->rc_max_rate * 0xFFFFLL) {
+            LLN(90000) * (avctx->rc_buffer_size - 1) <=
+                s->avctx->rc_max_rate * LLN(0xFFFF)) {
             int vbv_delay, min_delay;
             double inbits  = s->avctx->rc_max_rate *
                              av_q2d(s->avctx->time_base);
@@ -1850,7 +1850,7 @@ vbv_retry:
             assert(s->repeat_first_field == 0);
 
             vbv_delay = bits * 90000 / s->avctx->rc_max_rate;
-            min_delay = (minbits * 90000LL + s->avctx->rc_max_rate - 1) /
+            min_delay = (minbits * LLN(90000) + s->avctx->rc_max_rate - 1) /
                         s->avctx->rc_max_rate;
 
             vbv_delay = FFMAX(vbv_delay, min_delay);

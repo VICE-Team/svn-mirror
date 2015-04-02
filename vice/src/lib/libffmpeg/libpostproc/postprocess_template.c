@@ -3347,7 +3347,7 @@ static void RENAME(postProcess)(const uint8_t src[], int srcStride, uint8_t dst[
         if(mode & LEVEL_FIX)        QPCorrecture= (int)(scale*256*256 + 0.5);
         else                        QPCorrecture= 256*256;
     }else{
-        c.packedYScale= 0x0100010001000100LL;
+        c.packedYScale= LLN(0x0100010001000100);
         c.packedYOffset= 0;
         QPCorrecture= 256*256;
     }

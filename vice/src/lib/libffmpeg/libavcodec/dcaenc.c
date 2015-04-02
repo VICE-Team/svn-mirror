@@ -176,8 +176,8 @@ static int encode_init(AVCodecContext *avctx)
         }
 
         for (i = 0; i < 512; i++) {
-            band_interpolation[0][i] = (int32_t)(0x1000000000ULL * fir_32bands_perfect[i]);
-            band_interpolation[1][i] = (int32_t)(0x1000000000ULL * fir_32bands_nonperfect[i]);
+            band_interpolation[0][i] = (int32_t)(ULLN(0x1000000000) * fir_32bands_perfect[i]);
+            band_interpolation[1][i] = (int32_t)(ULLN(0x1000000000) * fir_32bands_nonperfect[i]);
         }
 
         for (i = 0; i < 9; i++) {
@@ -231,7 +231,7 @@ static inline int32_t half32(int32_t a)
 
 static inline int32_t mul32(int32_t a, int32_t b)
 {
-    int64_t r = (int64_t)a * b + 0x80000000ULL;
+    int64_t r = (int64_t)a * b + ULLN(0x80000000);
     return r >> 32;
 }
 

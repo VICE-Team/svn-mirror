@@ -418,7 +418,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
     int res;
 
     ff_init_range_decoder(c, buf, buf_size);
-    ff_build_rac_states(c, 0.05*(1LL<<32), 256-8);
+    ff_build_rac_states(c, 0.05*(LLN(1)<<32), 256-8);
 
     s->current_picture->pict_type= AV_PICTURE_TYPE_I; //FIXME I vs. P
     if ((res = decode_header(s)) < 0)

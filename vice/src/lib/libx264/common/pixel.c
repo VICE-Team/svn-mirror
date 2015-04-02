@@ -497,6 +497,24 @@ static void x264_pixel_satd_x4_##size##cpu( pixel *fenc, pixel *pix0, pixel *pix
     scores[2] = x264_pixel_satd_##size##cpu( fenc, FENC_STRIDE, pix2, i_stride );\
     scores[3] = x264_pixel_satd_##size##cpu( fenc, FENC_STRIDE, pix3, i_stride );\
 }
+
+#define SATD_X_NO_CPU( size ) \
+static void x264_pixel_satd_x3_##size( pixel *fenc, pixel *pix0, pixel *pix1, pixel *pix2,\
+                                            intptr_t i_stride, int scores[3] )\
+{\
+    scores[0] = x264_pixel_satd_##size( fenc, FENC_STRIDE, pix0, i_stride );\
+    scores[1] = x264_pixel_satd_##size( fenc, FENC_STRIDE, pix1, i_stride );\
+    scores[2] = x264_pixel_satd_##size( fenc, FENC_STRIDE, pix2, i_stride );\
+}\
+static void x264_pixel_satd_x4_##size( pixel *fenc, pixel *pix0, pixel *pix1, pixel *pix2, pixel *pix3,\
+                                            intptr_t i_stride, int scores[4] )\
+{\
+    scores[0] = x264_pixel_satd_##size( fenc, FENC_STRIDE, pix0, i_stride );\
+    scores[1] = x264_pixel_satd_##size( fenc, FENC_STRIDE, pix1, i_stride );\
+    scores[2] = x264_pixel_satd_##size( fenc, FENC_STRIDE, pix2, i_stride );\
+    scores[3] = x264_pixel_satd_##size( fenc, FENC_STRIDE, pix3, i_stride );\
+}
+
 #define SATD_X_DECL6( cpu )\
 SATD_X( 16x16, cpu )\
 SATD_X( 16x8, cpu )\
@@ -504,11 +522,24 @@ SATD_X( 8x16, cpu )\
 SATD_X( 8x8, cpu )\
 SATD_X( 8x4, cpu )\
 SATD_X( 4x8, cpu )
+
+#define SATD_X_DECL6_NO_CPU()\
+SATD_X_NO_CPU( 16x16 )\
+SATD_X_NO_CPU( 16x8 )\
+SATD_X_NO_CPU( 8x16 )\
+SATD_X_NO_CPU( 8x8 )\
+SATD_X_NO_CPU( 8x4 )\
+SATD_X_NO_CPU( 4x8 )
+
 #define SATD_X_DECL7( cpu )\
 SATD_X_DECL6( cpu )\
 SATD_X( 4x4, cpu )
 
-SATD_X_DECL7()
+#define SATD_X_DECL7_NO_CPU()\
+SATD_X_DECL6_NO_CPU()\
+SATD_X_NO_CPU( 4x4 )
+
+SATD_X_DECL7_NO_CPU()
 #if HAVE_MMX
 SATD_X_DECL7( _mmx2 )
 #if !HIGH_BIT_DEPTH
@@ -585,14 +616,36 @@ void x264_intra_##mbcmp##_x3_##size##chroma##cpu( pixel *fenc, pixel *fdec, int 
     res[2] = x264_pixel_##mbcmp##_##size##cpu( fdec, FDEC_STRIDE, fenc, FENC_STRIDE );\
 }
 
-INTRA_MBCMP( sad,  4x4,   v, h, dc,  ,, _c )
-INTRA_MBCMP(satd,  4x4,   v, h, dc,  ,, _c )
-INTRA_MBCMP( sad,  8x8,  dc, h,  v, c,, _c )
-INTRA_MBCMP(satd,  8x8,  dc, h,  v, c,, _c )
-INTRA_MBCMP( sad,  8x16, dc, h,  v, c,, _c )
-INTRA_MBCMP(satd,  8x16, dc, h,  v, c,, _c )
-INTRA_MBCMP( sad, 16x16,  v, h, dc,  ,, _c )
-INTRA_MBCMP(satd, 16x16,  v, h, dc,  ,, _c )
+#define INTRA_MBCMP_NO_CPU( mbcmp, size, pred1, pred2, pred3, chroma, cpu2 )\
+void x264_intra_##mbcmp##_x3_##size##chroma( pixel *fenc, pixel *fdec, int res[3] )\
+{\
+    x264_predict_##size##chroma##_##pred1##cpu2( fdec );\
+    res[0] = x264_pixel_##mbcmp##_##size( fdec, FDEC_STRIDE, fenc, FENC_STRIDE );\
+    x264_predict_##size##chroma##_##pred2##cpu2( fdec );\
+    res[1] = x264_pixel_##mbcmp##_##size( fdec, FDEC_STRIDE, fenc, FENC_STRIDE );\
+    x264_predict_##size##chroma##_##pred3##cpu2( fdec );\
+    res[2] = x264_pixel_##mbcmp##_##size( fdec, FDEC_STRIDE, fenc, FENC_STRIDE );\
+}
+
+#define INTRA_MBCMP_NO_CHROMA_NO_CPU( mbcmp, size, pred1, pred2, pred3, cpu2 )\
+void x264_intra_##mbcmp##_x3_##size( pixel *fenc, pixel *fdec, int res[3] )\
+{\
+    x264_predict_##size##_##pred1##cpu2( fdec );\
+    res[0] = x264_pixel_##mbcmp##_##size( fdec, FDEC_STRIDE, fenc, FENC_STRIDE );\
+    x264_predict_##size##_##pred2##cpu2( fdec );\
+    res[1] = x264_pixel_##mbcmp##_##size( fdec, FDEC_STRIDE, fenc, FENC_STRIDE );\
+    x264_predict_##size##_##pred3##cpu2( fdec );\
+    res[2] = x264_pixel_##mbcmp##_##size( fdec, FDEC_STRIDE, fenc, FENC_STRIDE );\
+}
+
+INTRA_MBCMP_NO_CHROMA_NO_CPU( sad,  4x4,   v, h, dc, _c )
+INTRA_MBCMP_NO_CHROMA_NO_CPU(satd,  4x4,   v, h, dc, _c )
+INTRA_MBCMP_NO_CPU( sad,  8x8,  dc, h,  v, c, _c )
+INTRA_MBCMP_NO_CPU(satd,  8x8,  dc, h,  v, c, _c )
+INTRA_MBCMP_NO_CPU( sad,  8x16, dc, h,  v, c, _c )
+INTRA_MBCMP_NO_CPU(satd,  8x16, dc, h,  v, c, _c )
+INTRA_MBCMP_NO_CHROMA_NO_CPU( sad, 16x16,  v, h, dc, _c )
+INTRA_MBCMP_NO_CHROMA_NO_CPU(satd, 16x16,  v, h, dc, _c )
 
 #if HAVE_MMX
 #if HIGH_BIT_DEPTH

@@ -718,7 +718,7 @@ static void parse_id3(AVFormatContext *s, AVIOContext *pb,
                 /* 33-bit MPEG timestamp */
                 int64_t ts = AV_RB64(priv->data);
                 av_log(s, AV_LOG_DEBUG, "HLS ID3 audio timestamp %"PRId64"\n", ts);
-                if ((ts & ~((1ULL << 33) - 1)) == 0)
+                if ((ts & ~((ULLN(1) << 33) - 1)) == 0)
                     *dts = ts;
                 else
                     av_log(s, AV_LOG_ERROR, "Invalid HLS ID3 audio timestamp %"PRId64"\n", ts);
@@ -1544,7 +1544,7 @@ static int compare_ts_with_wrapdetect(int64_t ts_a, struct playlist *pls_a,
     int64_t scaled_ts_b = av_rescale_q(ts_b, get_timebase(pls_b), MPEG_TIME_BASE_Q);
 #endif
 
-    return av_compare_mod(scaled_ts_a, scaled_ts_b, 1LL << 33);
+    return av_compare_mod(scaled_ts_a, scaled_ts_b, LLN(1) << 33);
 }
 
 static int hls_read_packet(AVFormatContext *s, AVPacket *pkt)

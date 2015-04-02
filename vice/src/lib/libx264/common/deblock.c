@@ -484,7 +484,39 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
             }\
         } while(0)
 
-        if( h->mb.i_neighbour & MB_LEFT )
+        #define FILTER_NO_INTRA( dir, edge, qp, chroma_qp )\
+        do\
+        {\
+            if( !(edge & 1) || !transform_8x8 )\
+            {\
+                deblock_edge( h, pixy + 4*edge*(dir?stride2y:1),\
+                                     stride2y, bs[dir][edge], qp, a, b, 0,\
+                                     h->loopf.deblock_luma[dir] );\
+                if( CHROMA_FORMAT == CHROMA_444 )\
+                {\
+                    deblock_edge( h, pixuv          + 4*edge*(dir?stride2uv:1),\
+                                         stride2uv, bs[dir][edge], chroma_qp, a, b, 0,\
+                                         h->loopf.deblock_luma[dir] );\
+                    deblock_edge( h, pixuv + uvdiff + 4*edge*(dir?stride2uv:1),\
+                                         stride2uv, bs[dir][edge], chroma_qp, a, b, 0,\
+                                         h->loopf.deblock_luma[dir] );\
+                }\
+                else if( CHROMA_FORMAT == CHROMA_420 && !(edge & 1) )\
+                {\
+                    deblock_edge( h, pixuv + edge*(dir?2*stride2uv:4),\
+                                         stride2uv, bs[dir][edge], chroma_qp, a, b, 1,\
+                                         h->loopf.deblock_chroma[dir] );\
+                }\
+            }\
+            if( CHROMA_FORMAT == CHROMA_422 && (dir || !(edge & 1)) )\
+            {\
+                deblock_edge( h, pixuv + edge*(dir?4*stride2uv:4),\
+                                     stride2uv, bs[dir][edge], chroma_qp, a, b, 1,\
+                                     h->loopf.deblock_chroma[dir] );\
+            }\
+        } while(0)
+
+		if( h->mb.i_neighbour & MB_LEFT )
         {
             if( b_interlaced && h->mb.field[h->mb.i_mb_left_xy[0]] != MB_INTERLACED )
             {
@@ -558,14 +590,14 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
                 if( intra_deblock )
                     FILTER( _intra, 0, 0, qp_left, qpc_left );
                 else
-                    FILTER(       , 0, 0, qp_left, qpc_left );
+                    FILTER_NO_INTRA(0, 0, qp_left, qpc_left );
             }
         }
         if( !first_edge_only )
         {
-            FILTER( , 0, 1, qp, qpc );
-            FILTER( , 0, 2, qp, qpc );
-            FILTER( , 0, 3, qp, qpc );
+            FILTER_NO_INTRA(0, 1, qp, qpc );
+            FILTER_NO_INTRA(0, 2, qp, qpc );
+            FILTER_NO_INTRA(0, 3, qp, qpc );
         }
 
         if( h->mb.i_neighbour & MB_TOP )
@@ -618,16 +650,16 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
                 {
                     if( intra_deblock )
                         M32( bs[1][0] ) = 0x03030303;
-                    FILTER(       , 1, 0, qp_top, qpc_top );
+                    FILTER_NO_INTRA(1, 0, qp_top, qpc_top );
                 }
             }
         }
 
         if( !first_edge_only )
         {
-            FILTER( , 1, 1, qp, qpc );
-            FILTER( , 1, 2, qp, qpc );
-            FILTER( , 1, 3, qp, qpc );
+            FILTER_NO_INTRA(1, 1, qp, qpc );
+            FILTER_NO_INTRA(1, 2, qp, qpc );
+            FILTER_NO_INTRA(1, 3, qp, qpc );
         }
 
         #undef FILTER

@@ -355,7 +355,7 @@ static void write_mainheader(NUTContext *nut, AVIOContext *bc)
     tmp_pts      = 0;
     tmp_mul      = 1;
     tmp_stream   = 0;
-    tmp_match    = 1 - (1LL << 62);
+    tmp_match    = 1 - (LLN(1) << 62);
     tmp_head_idx = 0;
     for (i = 0; i < 256; ) {
         tmp_fields = 0;
@@ -998,7 +998,7 @@ static int nut_write_packet(AVFormatContext *s, AVPacket *pkt)
         data_size += sm_size;
     }
 
-    if (1LL << (20 + 3 * nut->header_count) <= avio_tell(bc))
+    if (LLN(1) << (20 + 3 * nut->header_count) <= avio_tell(bc))
         write_headers(s, bc);
 
     if (key_frame && !(nus->last_flags & FLAG_KEY))
@@ -1061,7 +1061,7 @@ static int nut_write_packet(AVFormatContext *s, AVPacket *pkt)
         if ((ret = ff_nut_add_sp(nut, nut->last_syncpoint_pos, 0 /*unused*/, pkt->dts)) < 0)
             goto fail;
 
-        if ((1ll<<60) % nut->sp_count == 0)
+        if ((LLN(1)<<60) % nut->sp_count == 0)
             for (i=0; i<s->nb_streams; i++) {
                 int j;
                 StreamContext *nus = &nut->stream[i];

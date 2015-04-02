@@ -1085,11 +1085,11 @@ static av_always_inline int get_dct8x8_allowed(H264Context *h)
     if (h->sps.direct_8x8_inference_flag)
         return !(AV_RN64A(h->sub_mb_type) &
                  ((MB_TYPE_16x8 | MB_TYPE_8x16 | MB_TYPE_8x8) *
-                  0x0001000100010001ULL));
+                  ULLN(0x0001000100010001)));
     else
         return !(AV_RN64A(h->sub_mb_type) &
                  ((MB_TYPE_16x8 | MB_TYPE_8x16 | MB_TYPE_8x8 | MB_TYPE_DIRECT2) *
-                  0x0001000100010001ULL));
+                  ULLN(0x0001000100010001)));
 }
 
 int ff_h264_field_end(H264Context *h, int in_setup);

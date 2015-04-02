@@ -280,8 +280,8 @@ static int swri_resample(ResampleContext *c,
     if (c->filter_length == 1 && c->phase_shift == 0) {
         int index= c->index;
         int frac= c->frac;
-        int64_t index2= (1LL<<32)*c->frac/c->src_incr + (1LL<<32)*index;
-        int64_t incr= (1LL<<32) * c->dst_incr / c->src_incr;
+        int64_t index2= (LLN(1)<<32)*c->frac/c->src_incr + (LLN(1)<<32)*index;
+        int64_t incr= (LLN(1)<<32) * c->dst_incr / c->src_incr;
         int new_size = (src_size * (int64_t)c->src_incr - frac + c->dst_incr - 1) / c->dst_incr;
 
         dst_size= FFMIN(dst_size, new_size);
@@ -296,7 +296,7 @@ static int swri_resample(ResampleContext *c,
             c->index = 0;
         }
     } else {
-        int64_t end_index = (1LL + src_size - c->filter_length) << c->phase_shift;
+        int64_t end_index = (LLN(1) + src_size - c->filter_length) << c->phase_shift;
         int64_t delta_frac = (end_index - c->index) * c->src_incr - c->frac;
         int delta_n = (delta_frac + c->dst_incr - 1) / c->dst_incr;
 

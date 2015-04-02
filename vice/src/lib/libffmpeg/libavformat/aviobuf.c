@@ -1053,7 +1053,7 @@ static int64_t dyn_buf_seek(void *opaque, int64_t offset, int whence)
         offset += d->pos;
     else if (whence == SEEK_END)
         offset += d->size;
-    if (offset < 0 || offset > 0x7fffffffLL)
+    if (offset < 0 || offset > LLN(0x7fffffff))
         return -1;
     d->pos = offset;
     return 0;

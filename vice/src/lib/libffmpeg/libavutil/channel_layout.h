@@ -66,16 +66,16 @@
 #define AV_CH_TOP_BACK_RIGHT         0x00020000
 #define AV_CH_STEREO_LEFT            0x20000000  ///< Stereo downmix.
 #define AV_CH_STEREO_RIGHT           0x40000000  ///< See AV_CH_STEREO_LEFT.
-#define AV_CH_WIDE_LEFT              0x0000000080000000ULL
-#define AV_CH_WIDE_RIGHT             0x0000000100000000ULL
-#define AV_CH_SURROUND_DIRECT_LEFT   0x0000000200000000ULL
-#define AV_CH_SURROUND_DIRECT_RIGHT  0x0000000400000000ULL
-#define AV_CH_LOW_FREQUENCY_2        0x0000000800000000ULL
+#define AV_CH_WIDE_LEFT              ULLN(0x0000000080000000)
+#define AV_CH_WIDE_RIGHT             ULLN(0x0000000100000000)
+#define AV_CH_SURROUND_DIRECT_LEFT   ULLN(0x0000000200000000)
+#define AV_CH_SURROUND_DIRECT_RIGHT  ULLN(0x0000000400000000)
+#define AV_CH_LOW_FREQUENCY_2        ULLN(0x0000000800000000)
 
 /** Channel mask value used for AVCodecContext.request_channel_layout
     to indicate that the user requests the channel order of the decoder output
     to be the native codec channel order. */
-#define AV_CH_LAYOUT_NATIVE          0x8000000000000000ULL
+#define AV_CH_LAYOUT_NATIVE          ULLN(0x8000000000000000)
 
 /**
  * @}

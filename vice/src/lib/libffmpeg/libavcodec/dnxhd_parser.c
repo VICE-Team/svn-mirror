@@ -47,7 +47,7 @@ static int dnxhd_find_frame_end(DNXHDParserContext *dctx,
     if (!pic_found) {
         for (i = 0; i < buf_size; i++) {
             state = (state << 8) | buf[i];
-            if ((state & 0xffffffffff00LL) == DNXHD_HEADER_PREFIX) {
+            if ((state & LLN(0xffffffffff00)) == DNXHD_HEADER_PREFIX) {
                 i++;
                 pic_found = 1;
                 interlaced = (state&2)>>1; /* byte following the 5-byte header prefix */
@@ -62,7 +62,7 @@ static int dnxhd_find_frame_end(DNXHDParserContext *dctx,
             return 0;
         for (; i < buf_size; i++) {
             state = (state << 8) | buf[i];
-            if ((state & 0xffffffffff00LL) == DNXHD_HEADER_PREFIX) {
+            if ((state & LLN(0xffffffffff00)) == DNXHD_HEADER_PREFIX) {
                 if (!interlaced || dctx->cur_field) {
                     pc->frame_start_found = 0;
                     pc->state64 = -1;

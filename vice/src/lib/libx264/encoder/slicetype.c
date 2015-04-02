@@ -711,7 +711,7 @@ static void x264_slicetype_mb_cost( x264_t *h, x264_mb_analysis_t *a,
         CLIP_MV( dmv[0] );
         CLIP_MV( dmv[1] );
         if( h->param.analyse.i_subpel_refine <= 1 )
-            M64( dmv ) &= ~0x0001000100010001ULL; /* mv & ~1 */
+            M64( dmv ) &= ULLN(~0x0001000100010001); /* mv & ~1 */
 
         TRY_BIDIR( dmv[0], dmv[1], 0 );
         if( M64( dmv ) )

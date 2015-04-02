@@ -208,7 +208,7 @@ static char *doubles2str(double *dp, int count, const char *sep)
     char *ap, *ap0;
     uint64_t component_len;
     if (!sep) sep = ", ";
-    component_len = 24LL + strlen(sep);
+	component_len = LLN(24) + strlen(sep);
     if (count >= (INT_MAX - 1)/component_len)
         return NULL;
     ap = av_malloc(component_len * count + 1);

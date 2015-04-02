@@ -253,8 +253,8 @@ static int decode_main_header(NUTContext *nut)
         return AVERROR(ENOMEM);
 
     for (i = 0; i < nut->time_base_count; i++) {
-        GET_V(nut->time_base[i].num, tmp > 0 && tmp < (1ULL << 31));
-        GET_V(nut->time_base[i].den, tmp > 0 && tmp < (1ULL << 31));
+        GET_V(nut->time_base[i].num, tmp > 0 && tmp < (ULLN(1) << 31));
+        GET_V(nut->time_base[i].den, tmp > 0 && tmp < (ULLN(1) << 31));
         if (av_gcd(nut->time_base[i].num, nut->time_base[i].den) != 1) {
             av_log(s, AV_LOG_ERROR, "time base invalid\n");
             return AVERROR_INVALIDDATA;
@@ -577,7 +577,7 @@ static int decode_info_header(NUTContext *nut)
 
             if (stream_id_plus1 && !strcmp(name, "r_frame_rate")) {
                 sscanf(str_value, "%d/%d", &st->r_frame_rate.num, &st->r_frame_rate.den);
-                if (st->r_frame_rate.num >= 1000LL*st->r_frame_rate.den)
+                if (st->r_frame_rate.num >= LLN(1000)*st->r_frame_rate.den)
                     st->r_frame_rate.num = st->r_frame_rate.den = 0;
                 continue;
             }
@@ -1003,7 +1003,7 @@ static int decode_frame_header(NUTContext *nut, int64_t *pts, int *stream_id,
         if (coded_pts < (1 << stc->msb_pts_shift)) {
             *pts = ff_lsb2full(stc, coded_pts);
         } else
-            *pts = coded_pts - (1LL << stc->msb_pts_shift);
+            *pts = coded_pts - (LLN(1) << stc->msb_pts_shift);
     } else
         *pts = stc->last_pts + pts_delta;
     if (flags & FLAG_SIZE_MSB)

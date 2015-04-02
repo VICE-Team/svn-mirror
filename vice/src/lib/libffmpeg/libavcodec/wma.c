@@ -324,7 +324,7 @@ av_cold int ff_wma_init(AVCodecContext *avctx, int flags2)
             unsigned int seed;
             float norm;
             seed = 1;
-            norm = (1.0 / (float) (1LL << 31)) * sqrt(3) * s->noise_mult;
+            norm = (1.0 / (float) (LLN(1) << 31)) * sqrt(3) * s->noise_mult;
             for (i = 0; i < NOISE_TAB_SIZE; i++) {
                 seed              = seed * 314159 + 1;
                 s->noise_table[i] = (float) ((int) seed) * norm;

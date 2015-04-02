@@ -799,7 +799,7 @@ static int parse_script(void *log, char *script, int script_len,
         script,
         {
 
-            0, 0, 0, 0, 0, 0, 0, 0, 0, ((int64_t)0x8000000000000000ULL),
+            0, 0, 0, 0, 0, 0, 0, 0, 0, ((int64_t)ULLN(0x8000000000000000)),
             0, 60 * 1000000,
             0, 0, 44100,
         },

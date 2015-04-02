@@ -116,9 +116,9 @@ void ff_h263_encode_picture_header(MpegEncContext * s, int picture_number)
     if(s->h263_plus){
         for(i=0; i<2; i++){
             int div, error;
-            div= (s->avctx->time_base.num*1800000LL + 500LL*s->avctx->time_base.den) / ((1000LL+i)*s->avctx->time_base.den);
+            div= (s->avctx->time_base.num*LLN(1800000) + LLN(500)*s->avctx->time_base.den) / ((LLN(1000)+i)*s->avctx->time_base.den);
             div= av_clip(div, 1, 127);
-            error= FFABS(s->avctx->time_base.num*1800000LL - (1000LL+i)*s->avctx->time_base.den*div);
+            error= FFABS(s->avctx->time_base.num*LLN(1800000) - (LLN(1000)+i)*s->avctx->time_base.den*div);
             if(error < best_error){
                 best_error= error;
                 best_divisor= div;

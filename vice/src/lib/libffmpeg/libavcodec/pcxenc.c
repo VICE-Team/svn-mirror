@@ -68,7 +68,7 @@ static int pcx_rle_encode(      uint8_t *dst, int dst_size,
     const uint8_t *dst_start = dst;
 
     // check worst-case upper bound on dst_size
-    if (dst_size < 2LL * src_plane_size * nplanes || src_plane_size <= 0)
+    if (dst_size < LLN(2) * src_plane_size * nplanes || src_plane_size <= 0)
         return -1;
 
     for (p = 0; p < nplanes; p++) {

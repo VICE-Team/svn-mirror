@@ -26,11 +26,11 @@
 #include "internal.h"
 #include "metadata.h"
 
-#define      MAIN_STARTCODE (0x7A561F5F04ADULL + (((uint64_t)('N'<<8) + 'M')<<48))
-#define    STREAM_STARTCODE (0x11405BF2F9DBULL + (((uint64_t)('N'<<8) + 'S')<<48))
-#define SYNCPOINT_STARTCODE (0xE4ADEECA4569ULL + (((uint64_t)('N'<<8) + 'K')<<48))
-#define     INDEX_STARTCODE (0xDD672F23E64EULL + (((uint64_t)('N'<<8) + 'X')<<48))
-#define      INFO_STARTCODE (0xAB68B596BA78ULL + (((uint64_t)('N'<<8) + 'I')<<48))
+#define      MAIN_STARTCODE (ULLN(0x7A561F5F04AD) + (((uint64_t)('N'<<8) + 'M')<<48))
+#define    STREAM_STARTCODE (ULLN(0x11405BF2F9DB) + (((uint64_t)('N'<<8) + 'S')<<48))
+#define SYNCPOINT_STARTCODE (ULLN(0xE4ADEECA4569) + (((uint64_t)('N'<<8) + 'K')<<48))
+#define     INDEX_STARTCODE (ULLN(0xDD672F23E64E) + (((uint64_t)('N'<<8) + 'X')<<48))
+#define      INFO_STARTCODE (ULLN(0xAB68B596BA78) + (((uint64_t)('N'<<8) + 'I')<<48))
 
 #define ID_STRING "nut/multimedia container\0"
 

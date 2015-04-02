@@ -190,7 +190,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
         if (!rect->correction[plane]) {
             int i,j;
-            const int64_t r2inv = (4LL<<60) / (w * w + h * h);
+            const int64_t r2inv = (LLN(4)<<60) / (w * w + h * h);
 
             rect->correction[plane] = av_malloc_array(w, h * sizeof(**rect->correction));
             if (!rect->correction[plane])
@@ -200,9 +200,9 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
                 const int off_y2 = off_y * off_y;
                 for (i = 0; i < w; i++) {
                     const int off_x = i - xcenter;
-                    const int64_t r2 = ((off_x * off_x + off_y2) * r2inv + (1LL<<31)) >> 32;
+                    const int64_t r2 = ((off_x * off_x + off_y2) * r2inv + (LLN(1)<<31)) >> 32;
                     const int64_t r4 = (r2 * r2 + (1<<27)) >> 28;
-                    const int radius_mult = (r2 * k1 + r4 * k2 + (1LL<<27) + (1LL<<52))>>28;
+                    const int radius_mult = (r2 * k1 + r4 * k2 + (LLN(1)<<27) + (LLN(1)<<52))>>28;
                     rect->correction[plane][j * w + i] = radius_mult;
                 }
             }

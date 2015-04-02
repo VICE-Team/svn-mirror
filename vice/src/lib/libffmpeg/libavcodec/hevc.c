@@ -717,7 +717,7 @@ static int hls_slice_header(HEVCContext *s)
 
     if (s->pps->slice_header_extension_present_flag) {
         unsigned int length = get_ue_golomb_long(gb);
-        if (length*8LL > get_bits_left(gb)) {
+        if (length*LLN(8) > get_bits_left(gb)) {
             av_log(s->avctx, AV_LOG_ERROR, "too many slice_header_extension_data_bytes\n");
             return AVERROR_INVALIDDATA;
         }

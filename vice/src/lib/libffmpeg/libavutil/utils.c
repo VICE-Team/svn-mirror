@@ -54,7 +54,7 @@ unsigned avutil_version(void)
         abort();
     }
 
-    if (llrint(1LL<<60) != 1LL<<60) {
+    if (llrint(LLN(1)<<60) != LLN(1)<<60) {
         av_log(NULL, AV_LOG_ERROR, "Libavutil has been linked to a broken llrint()\n");
     }
 

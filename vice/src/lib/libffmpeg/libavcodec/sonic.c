@@ -633,7 +633,7 @@ static av_cold int sonic_encode_init(AVCodecContext *avctx)
     s->channels = avctx->channels;
     s->samplerate = avctx->sample_rate;
 
-    s->block_align = 2048LL*s->samplerate/(44100*s->downsampling);
+    s->block_align = LLN(2048)*s->samplerate/(44100*s->downsampling);
     s->frame_size = s->channels*s->block_align*s->downsampling;
 
     s->tail_size = s->num_taps*s->channels;
@@ -724,7 +724,7 @@ static int sonic_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
         return ret;
 
     ff_init_range_encoder(&c, avpkt->data, avpkt->size);
-    ff_build_rac_states(&c, 0.05*(1LL<<32), 256-8);
+    ff_build_rac_states(&c, 0.05*(LLN(1)<<32), 256-8);
     memset(state, 128, sizeof(state));
 
     // short -> internal
@@ -904,7 +904,7 @@ static av_cold int sonic_decode_init(AVCodecContext *avctx)
     if (get_bits1(&gb)) // XXX FIXME
         av_log(avctx, AV_LOG_INFO, "Custom quant table\n");
 
-    s->block_align = 2048LL*s->samplerate/(44100*s->downsampling);
+    s->block_align = LLN(2048)*s->samplerate/(44100*s->downsampling);
     s->frame_size = s->channels*s->block_align*s->downsampling;
 //    avctx->frame_size = s->block_align;
 
@@ -979,7 +979,7 @@ static int sonic_decode_frame(AVCodecContext *avctx,
 
     memset(state, 128, sizeof(state));
     ff_init_range_decoder(&c, buf, buf_size);
-    ff_build_rac_states(&c, 0.05*(1LL<<32), 256-8);
+    ff_build_rac_states(&c, 0.05*(LLN(1)<<32), 256-8);
 
     intlist_read(&c, state, s->predictor_k, s->num_taps, 0);
 

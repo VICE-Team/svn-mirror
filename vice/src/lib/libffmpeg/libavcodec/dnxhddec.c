@@ -200,7 +200,7 @@ static int dnxhd_decode_header(DNXHDContext *ctx, AVFrame *frame,
     for (i = 0; i < ctx->mb_height; i++) {
         ctx->mb_scan_index[i] = AV_RB32(buf + 0x170 + (i << 2));
         av_dlog(ctx->avctx, "mb scan index %d\n", ctx->mb_scan_index[i]);
-        if (buf_size < ctx->mb_scan_index[i] + 0x280LL) {
+        if (buf_size < ctx->mb_scan_index[i] + LLN(0x280)) {
             av_log(ctx->avctx, AV_LOG_ERROR, "invalid mb scan index\n");
             return AVERROR_INVALIDDATA;
         }

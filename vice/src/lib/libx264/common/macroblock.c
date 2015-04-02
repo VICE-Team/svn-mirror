@@ -1823,9 +1823,9 @@ void x264_macroblock_cache_save( x264_t *h )
                                      h->mb.cache.intra4x4_pred_mode[x264_scan8[13] ], 0);
     }
     else if( !h->param.b_constrained_intra || IS_INTRA(i_mb_type) )
-        M64( i4x4 ) = I_PRED_4x4_DC * 0x0101010101010101ULL;
+        M64( i4x4 ) = I_PRED_4x4_DC * ULLN(0x0101010101010101);
     else
-        M64( i4x4 ) = (uint8_t)(-1) * 0x0101010101010101ULL;
+        M64( i4x4 ) = (uint8_t)(-1) * ULLN(0x0101010101010101);
 
 
     if( i_mb_type == I_PCM )

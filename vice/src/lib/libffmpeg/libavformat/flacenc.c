@@ -104,7 +104,7 @@ static int flac_write_header(struct AVFormatContext *s)
 
     /* add the channel layout tag */
     if (codec->channel_layout &&
-        !(codec->channel_layout & ~0x3ffffULL) &&
+        !(codec->channel_layout & ULLN(~0x3ffff)) &&
         !ff_flac_is_native_layout(codec->channel_layout)) {
         AVDictionaryEntry *chmask = av_dict_get(s->metadata, "WAVEFORMATEXTENSIBLE_CHANNEL_MASK",
                                                 NULL, 0);

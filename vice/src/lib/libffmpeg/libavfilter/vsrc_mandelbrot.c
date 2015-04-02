@@ -294,7 +294,7 @@ static void draw_mandelbrot(AVFilterContext *ctx, uint32_t *color, int linesize,
             double zr=cr;
             double zi=ci;
             uint32_t c=0;
-            double dv= mb->dither / (double)(1LL<<32);
+            double dv= mb->dither / (double)(LLN(1)<<32);
             mb->dither= mb->dither*1664525+1013904223;
 
             if(color[x + y*linesize] & 0xFF000000)

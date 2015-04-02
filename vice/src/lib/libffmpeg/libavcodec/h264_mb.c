@@ -676,7 +676,7 @@ static av_always_inline void hl_decode_mb_predict_luma(H264Context *h,
                         av_assert2(h->mb_y || linesize <= block_offset[i]);
                         if (!topright_avail) {
                             if (pixel_shift) {
-                                tr_high  = ((uint16_t *)ptr)[3 - linesize / 2] * 0x0001000100010001ULL;
+                                tr_high  = ((uint16_t *)ptr)[3 - linesize / 2] * ULLN(0x0001000100010001);
                                 topright = (uint8_t *)&tr_high;
                             } else {
                                 tr       = ptr[3 - linesize] * 0x01010101u;

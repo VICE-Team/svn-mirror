@@ -152,7 +152,7 @@ AVRational av_d2q(double d, int max)
 		return (AVRational) { 0,0 };
 #endif
 	}
-	if (fabs(d) > INT_MAX + 3LL) {
+	if (fabs(d) > INT_MAX + LLN(3)) {
 #ifdef IDE_COMPILE
 		AVRational tmp = { d < 0 ? -1 : 1, 0 };
 		return tmp;
@@ -161,7 +161,7 @@ AVRational av_d2q(double d, int max)
 #endif
 	}
 	exponent = FFMAX( (int)(log(fabs(d) + 1e-20)/LOG2), 0);
-    den = 1LL << (61 - exponent);
+    den = LLN(1) << (61 - exponent);
     // (int64_t)rint() and llrint() do not work with gcc on ia64 and sparc64
     av_reduce(&a.num, &a.den, floor(d * den + 0.5), den, max);
     if ((!a.num || !a.den) && d && max>0 && max<INT_MAX)

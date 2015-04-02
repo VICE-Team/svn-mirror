@@ -96,7 +96,7 @@ static void hor_8x8_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 8; y++) {
-        AV_WN64A(dst, left[7 - y] * 0x0101010101010101ULL);
+        AV_WN64A(dst, left[7 - y] * ULLN(0x0101010101010101));
         dst += stride;
     }
 }
@@ -107,7 +107,7 @@ static void hor_16x16_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 16; y++) {
-        uint64_t p8 = left[15 - y] * 0x0101010101010101ULL;
+        uint64_t p8 = left[15 - y] * ULLN(0x0101010101010101);
 
         AV_WN64A(dst + 0, p8);
         AV_WN64A(dst + 8, p8);
@@ -121,7 +121,7 @@ static void hor_32x32_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 32; y++) {
-        uint64_t p8 = left[31 - y] * 0x0101010101010101ULL;
+        uint64_t p8 = left[31 - y] * ULLN(0x0101010101010101);
 
         AV_WN64A(dst +  0, p8);
         AV_WN64A(dst +  8, p8);
@@ -254,7 +254,7 @@ static void dc_4x4_c(uint8_t *dst, ptrdiff_t stride,
 static void dc_8x8_c(uint8_t *dst, ptrdiff_t stride,
                      const uint8_t *left, const uint8_t *top)
 {
-    uint64_t dc = 0x0101010101010101ULL *
+	uint64_t dc = ULLN(0x0101010101010101) *
         ((left[0] + left[1] + left[2] + left[3] + left[4] + left[5] +
           left[6] + left[7] + top[0] + top[1] + top[2] + top[3] +
           top[4] + top[5] + top[6] + top[7] + 8) >> 4);
@@ -269,7 +269,7 @@ static void dc_8x8_c(uint8_t *dst, ptrdiff_t stride,
 static void dc_16x16_c(uint8_t *dst, ptrdiff_t stride,
                        const uint8_t *left, const uint8_t *top)
 {
-    uint64_t dc = 0x0101010101010101ULL *
+    uint64_t dc = ULLN(0x0101010101010101) *
         ((left[0] + left[1] + left[2] + left[3] + left[4] + left[5] + left[6] +
           left[7] + left[8] + left[9] + left[10] + left[11] + left[12] +
           left[13] + left[14] + left[15] + top[0] + top[1] + top[2] + top[3] +
@@ -287,7 +287,7 @@ static void dc_16x16_c(uint8_t *dst, ptrdiff_t stride,
 static void dc_32x32_c(uint8_t *dst, ptrdiff_t stride,
                        const uint8_t *left, const uint8_t *top)
 {
-    uint64_t dc = 0x0101010101010101ULL *
+    uint64_t dc = ULLN(0x0101010101010101) *
         ((left[0] + left[1] + left[2] + left[3] + left[4] + left[5] + left[6] +
           left[7] + left[8] + left[9] + left[10] + left[11] + left[12] +
           left[13] + left[14] + left[15] + left[16] + left[17] + left[18] +
@@ -323,7 +323,7 @@ static void dc_left_4x4_c(uint8_t *dst, ptrdiff_t stride,
 static void dc_left_8x8_c(uint8_t *dst, ptrdiff_t stride,
                           const uint8_t *left, const uint8_t *top)
 {
-    uint64_t dc = 0x0101010101010101ULL *
+    uint64_t dc = ULLN(0x0101010101010101) *
         ((left[0] + left[1] + left[2] + left[3] +
           left[4] + left[5] + left[6] + left[7] + 4) >> 3);
     int y;
@@ -337,7 +337,7 @@ static void dc_left_8x8_c(uint8_t *dst, ptrdiff_t stride,
 static void dc_left_16x16_c(uint8_t *dst, ptrdiff_t stride,
                             const uint8_t *left, const uint8_t *top)
 {
-    uint64_t dc = 0x0101010101010101ULL *
+    uint64_t dc = ULLN(0x0101010101010101) *
         ((left[0] + left[1] + left[2] + left[3] + left[4] + left[5] +
           left[6] + left[7] + left[8] + left[9] + left[10] + left[11] +
           left[12] + left[13] + left[14] + left[15] + 8) >> 4);
@@ -353,7 +353,7 @@ static void dc_left_16x16_c(uint8_t *dst, ptrdiff_t stride,
 static void dc_left_32x32_c(uint8_t *dst, ptrdiff_t stride,
                             const uint8_t *left, const uint8_t *top)
 {
-    uint64_t dc = 0x0101010101010101ULL *
+    uint64_t dc = ULLN(0x0101010101010101) *
         ((left[0] + left[1] + left[2] + left[3] + left[4] + left[5] +
           left[6] + left[7] + left[8] + left[9] + left[10] + left[11] +
           left[12] + left[13] + left[14] + left[15] + left[16] + left[17] +
@@ -385,7 +385,7 @@ static void dc_top_4x4_c(uint8_t *dst, ptrdiff_t stride,
 static void dc_top_8x8_c(uint8_t *dst, ptrdiff_t stride,
                          const uint8_t *left, const uint8_t *top)
 {
-    uint64_t dc = 0x0101010101010101ULL *
+    uint64_t dc = ULLN(0x0101010101010101) *
         ((top[0] + top[1] + top[2] + top[3] +
           top[4] + top[5] + top[6] + top[7] + 4) >> 3);
     int y;
@@ -399,7 +399,7 @@ static void dc_top_8x8_c(uint8_t *dst, ptrdiff_t stride,
 static void dc_top_16x16_c(uint8_t *dst, ptrdiff_t stride,
                            const uint8_t *left, const uint8_t *top)
 {
-    uint64_t dc = 0x0101010101010101ULL *
+    uint64_t dc = ULLN(0x0101010101010101) *
         ((top[0] + top[1] + top[2] + top[3] + top[4] + top[5] +
           top[6] + top[7] + top[8] + top[9] + top[10] + top[11] +
           top[12] + top[13] + top[14] + top[15] + 8) >> 4);
@@ -415,7 +415,7 @@ static void dc_top_16x16_c(uint8_t *dst, ptrdiff_t stride,
 static void dc_top_32x32_c(uint8_t *dst, ptrdiff_t stride,
                            const uint8_t *left, const uint8_t *top)
 {
-    uint64_t dc = 0x0101010101010101ULL *
+    uint64_t dc = ULLN(0x0101010101010101) *
         ((top[0] + top[1] + top[2] + top[3] + top[4] + top[5] +
           top[6] + top[7] + top[8] + top[9] + top[10] + top[11] +
           top[12] + top[13] + top[14] + top[15] + top[16] + top[17] +
@@ -448,7 +448,7 @@ static void dc_128_8x8_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 8; y++) {
-        AV_WN64A(dst, 0x8080808080808080ULL);
+        AV_WN64A(dst, ULLN(0x8080808080808080));
         dst += stride;
     }
 }
@@ -459,8 +459,8 @@ static void dc_128_16x16_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 16; y++) {
-        AV_WN64A(dst + 0, 0x8080808080808080ULL);
-        AV_WN64A(dst + 8, 0x8080808080808080ULL);
+        AV_WN64A(dst + 0, ULLN(0x8080808080808080));
+        AV_WN64A(dst + 8, ULLN(0x8080808080808080));
         dst += stride;
     }
 }
@@ -471,10 +471,10 @@ static void dc_128_32x32_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 32; y++) {
-        AV_WN64A(dst +  0, 0x8080808080808080ULL);
-        AV_WN64A(dst +  8, 0x8080808080808080ULL);
-        AV_WN64A(dst + 16, 0x8080808080808080ULL);
-        AV_WN64A(dst + 24, 0x8080808080808080ULL);
+        AV_WN64A(dst +  0, ULLN(0x8080808080808080));
+        AV_WN64A(dst +  8, ULLN(0x8080808080808080));
+        AV_WN64A(dst + 16, ULLN(0x8080808080808080));
+        AV_WN64A(dst + 24, ULLN(0x8080808080808080));
         dst += stride;
     }
 }
@@ -494,7 +494,7 @@ static void dc_127_8x8_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 8; y++) {
-        AV_WN64A(dst, 0x7F7F7F7F7F7F7F7FULL);
+        AV_WN64A(dst, ULLN(0x7F7F7F7F7F7F7F7F));
         dst += stride;
     }
 }
@@ -505,8 +505,8 @@ static void dc_127_16x16_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 16; y++) {
-        AV_WN64A(dst + 0, 0x7F7F7F7F7F7F7F7FULL);
-        AV_WN64A(dst + 8, 0x7F7F7F7F7F7F7F7FULL);
+        AV_WN64A(dst + 0, ULLN(0x7F7F7F7F7F7F7F7F));
+        AV_WN64A(dst + 8, ULLN(0x7F7F7F7F7F7F7F7F));
         dst += stride;
     }
 }
@@ -517,10 +517,10 @@ static void dc_127_32x32_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 32; y++) {
-        AV_WN64A(dst +  0, 0x7F7F7F7F7F7F7F7FULL);
-        AV_WN64A(dst +  8, 0x7F7F7F7F7F7F7F7FULL);
-        AV_WN64A(dst + 16, 0x7F7F7F7F7F7F7F7FULL);
-        AV_WN64A(dst + 24, 0x7F7F7F7F7F7F7F7FULL);
+        AV_WN64A(dst +  0, ULLN(0x7F7F7F7F7F7F7F7F));
+        AV_WN64A(dst +  8, ULLN(0x7F7F7F7F7F7F7F7F));
+        AV_WN64A(dst + 16, ULLN(0x7F7F7F7F7F7F7F7F));
+        AV_WN64A(dst + 24, ULLN(0x7F7F7F7F7F7F7F7F));
         dst += stride;
     }
 }
@@ -540,7 +540,7 @@ static void dc_129_8x8_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 8; y++) {
-        AV_WN64A(dst, 0x8181818181818181ULL);
+        AV_WN64A(dst, ULLN(0x8181818181818181));
         dst += stride;
     }
 }
@@ -551,8 +551,8 @@ static void dc_129_16x16_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 16; y++) {
-        AV_WN64A(dst + 0, 0x8181818181818181ULL);
-        AV_WN64A(dst + 8, 0x8181818181818181ULL);
+        AV_WN64A(dst + 0, ULLN(0x8181818181818181));
+        AV_WN64A(dst + 8, ULLN(0x8181818181818181));
         dst += stride;
     }
 }
@@ -563,10 +563,10 @@ static void dc_129_32x32_c(uint8_t *dst, ptrdiff_t stride,
     int y;
 
     for (y = 0; y < 32; y++) {
-        AV_WN64A(dst +  0, 0x8181818181818181ULL);
-        AV_WN64A(dst +  8, 0x8181818181818181ULL);
-        AV_WN64A(dst + 16, 0x8181818181818181ULL);
-        AV_WN64A(dst + 24, 0x8181818181818181ULL);
+        AV_WN64A(dst +  0, ULLN(0x8181818181818181));
+        AV_WN64A(dst +  8, ULLN(0x8181818181818181));
+        AV_WN64A(dst + 16, ULLN(0x8181818181818181));
+        AV_WN64A(dst + 24, ULLN(0x8181818181818181));
         dst += stride;
     }
 }

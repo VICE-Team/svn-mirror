@@ -68,7 +68,7 @@ static int subviewer1_read_header(AVFormatContext *s)
 
         if (sscanf(line, "[%d:%d:%d]", &hh, &mm, &ss) == 3) {
             const int64_t pos = avio_tell(s->pb);
-            int64_t pts_start = hh*3600LL + mm*60LL + ss + delay;
+            int64_t pts_start = hh*LLN(3600) + mm*LLN(60) + ss + delay;
 
             len = ff_get_line(s->pb, line, sizeof(line));
             line[strcspn(line, "\r\n")] = 0;

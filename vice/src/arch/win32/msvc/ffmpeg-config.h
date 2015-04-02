@@ -1820,4 +1820,13 @@
 #define CONFIG_LIBRTMPTE_PROTOCOL 0
 #define CONFIG_LIBSSH_PROTOCOL 0
 #define CONFIG_LIBSMBCLIENT_PROTOCOL 0
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
+#define LLN(x) (x ## LL)
+#define ULLN(x) (x ## ULL)
+#else
+#define LLN(x) ((__int64)(x))
+#define ULLN(x) ((unsigned __int64)(x))
+#endif
+
 #endif /* FFMPEG_CONFIG_H */

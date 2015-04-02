@@ -99,13 +99,13 @@ typedef struct AVFilterChannelLayouts {
  * The result is only valid inside AVFilterChannelLayouts and immediately
  * related functions.
  */
-#define FF_COUNT2LAYOUT(c) (0x8000000000000000ULL | (c))
+#define FF_COUNT2LAYOUT(c) (ULLN(0x8000000000000000) | (c))
 
 /**
  * Decode a channel count encoded as a channel layout.
  * Return 0 if the channel layout was a real one.
  */
-#define FF_LAYOUT2COUNT(l) (((l) & 0x8000000000000000ULL) ? \
+#define FF_LAYOUT2COUNT(l) (((l) & ULLN(0x8000000000000000)) ? \
                            (int)((l) & 0x7FFFFFFF) : 0)
 
 /**

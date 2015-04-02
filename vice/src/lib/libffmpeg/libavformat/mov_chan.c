@@ -560,7 +560,7 @@ int ff_mov_read_chan(AVFormatContext *s, AVIOContext *pb, AVStream *st,
     av_dlog(s, "chan: layout=%u bitmap=%u num_descr=%u\n",
             layout_tag, bitmap, num_descr);
 
-    if (size < 12ULL + num_descr * 20ULL)
+    if (size < ULLN(12) + num_descr * ULLN(20))
         return 0;
 
     label_mask = 0;

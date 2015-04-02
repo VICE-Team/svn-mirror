@@ -590,7 +590,7 @@ static int write_root_table(AVFormatContext *s, int64_t sector_pos)
             // update length field
             avio_seek(pb, len_pos, SEEK_SET);
             avio_wl64(pb, 40 + h->header_size + filename_padding + len);
-            avio_wl64(pb, len |(1ULL<<62) | (1ULL<<60));
+            avio_wl64(pb, len |(ULLN(1)<<62) | (ULLN(1)<<60));
             avio_seek(pb, 8 + h->header_size + filename_padding + len, SEEK_CUR);
         } else {
             avio_wl32(pb, w->first_sector);
@@ -795,9 +795,9 @@ static int finish_file(AVFormatContext *s, enum WtvFileIndex index, int64_t star
         w->first_sector = start_pos >> WTV_SECTOR_BITS;
     }
 
-    w->length |= 1ULL<<60;
+    w->length |= ULLN(1)<<60;
     if (sector_bits == WTV_SECTOR_BITS)
-        w->length |= 1ULL<<63;
+        w->length |= ULLN(1)<<63;
 
     return 0;
 }

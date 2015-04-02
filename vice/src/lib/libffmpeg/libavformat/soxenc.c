@@ -94,7 +94,7 @@ static int sox_write_trailer(AVFormatContext *s)
     if (s->pb->seekable) {
         /* update number of samples */
         int64_t file_size = avio_tell(pb);
-        int64_t num_samples = (file_size - sox->header_size - 4LL) >> 2LL;
+        int64_t num_samples = (file_size - sox->header_size - LLN(4)) >> LLN(2);
         avio_seek(pb, 8, SEEK_SET);
         if (enc->codec_id == AV_CODEC_ID_PCM_S32LE) {
             avio_wl64(pb, num_samples);

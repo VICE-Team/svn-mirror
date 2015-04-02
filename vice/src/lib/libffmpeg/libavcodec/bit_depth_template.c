@@ -62,7 +62,7 @@
 #   define AV_WN2P  AV_WN32
 #   define AV_WN4P  AV_WN64
 #   define AV_WN4PA AV_WN64A
-#   define PIXEL_SPLAT_X4(x) ((x)*0x0001000100010001ULL)
+#   define PIXEL_SPLAT_X4(x) ((x)*ULLN(0x0001000100010001))
 
 #   define av_clip_pixel(a) av_clip_uintp2(a, BIT_DEPTH)
 #   define CLIP(a)          av_clip_uintp2(a, BIT_DEPTH)

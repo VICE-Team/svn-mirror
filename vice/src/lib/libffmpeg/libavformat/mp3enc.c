@@ -340,7 +340,7 @@ static void mp3_update_xing(AVFormatContext *s)
 
     for (i = 1; i < XING_TOC_SIZE; ++i) {
         int j = i * mp3->pos / XING_TOC_SIZE;
-        int seek_point = 256LL * mp3->bag[j] / mp3->size;
+        int seek_point = LLN(256) * mp3->bag[j] / mp3->size;
         avio_w8(s->pb, FFMIN(seek_point, 255));
     }
 

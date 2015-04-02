@@ -153,13 +153,13 @@ void ff_eac3_apply_spectral_extension(AC3DecodeContext *s)
 
 
 /** lrint(M_SQRT2*cos(2*M_PI/12)*(1<<23)) */
-#define COEFF_0 10273905LL
+#define COEFF_0 LLN(10273905)
 
 /** lrint(M_SQRT2*cos(0*M_PI/12)*(1<<23)) = lrint(M_SQRT2*(1<<23)) */
-#define COEFF_1 11863283LL
+#define COEFF_1 LLN(11863283)
 
 /** lrint(M_SQRT2*cos(5*M_PI/12)*(1<<23)) */
-#define COEFF_2  3070444LL
+#define COEFF_2  LLN(3070444)
 
 /**
  * Calculate 6-point IDCT of the pre-mantissas.

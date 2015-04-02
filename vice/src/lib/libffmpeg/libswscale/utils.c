@@ -456,7 +456,7 @@ static av_cold int initFilter(int16_t **outFilter, int32_t **filterPos,
     int minFilterSize;
     int64_t *filter    = NULL;
     int64_t *filter2   = NULL;
-    const int64_t fone = 1LL << (54 - FFMIN(av_log2(srcW/dstW), 8));
+    const int64_t fone = LLN(1) << (54 - FFMIN(av_log2(srcW/dstW), 8));
     int ret            = -1;
 
     emms_c(); // FIXME should not be required but IS (even for non-MMX versions)
@@ -481,7 +481,7 @@ static av_cold int initFilter(int16_t **outFilter, int32_t **filterPos,
         FF_ALLOC_ARRAY_OR_GOTO(NULL, filter,
                                dstW, sizeof(*filter) * filterSize, fail);
 
-        xDstInSrc = ((dstPos*(int64_t)xInc)>>8) - ((srcPos*0x8000LL)>>7);
+        xDstInSrc = ((dstPos*(int64_t)xInc)>>8) - ((srcPos*LLN(0x8000))>>7);
         for (i = 0; i < dstW; i++) {
             int xx = (xDstInSrc - ((filterSize - 1) << 15) + (1 << 15)) >> 16;
 
@@ -497,7 +497,7 @@ static av_cold int initFilter(int16_t **outFilter, int32_t **filterPos,
         FF_ALLOC_ARRAY_OR_GOTO(NULL, filter,
                                dstW, sizeof(*filter) * filterSize, fail);
 
-        xDstInSrc = ((dstPos*(int64_t)xInc)>>8) - ((srcPos*0x8000LL)>>7);
+        xDstInSrc = ((dstPos*(int64_t)xInc)>>8) - ((srcPos*LLN(0x8000))>>7);
         for (i = 0; i < dstW; i++) {
             int xx = (xDstInSrc - ((filterSize - 1) << 15) + (1 << 15)) >> 16;
             int j;
@@ -538,7 +538,7 @@ static av_cold int initFilter(int16_t **outFilter, int32_t **filterPos,
         FF_ALLOC_ARRAY_OR_GOTO(NULL, filter,
                                dstW, sizeof(*filter) * filterSize, fail);
 
-        xDstInSrc = ((dstPos*(int64_t)xInc)>>7) - ((srcPos*0x10000LL)>>7);
+        xDstInSrc = ((dstPos*(int64_t)xInc)>>7) - ((srcPos*LLN(0x10000))>>7);
         for (i = 0; i < dstW; i++) {
             int xx = (xDstInSrc - ((int64_t)(filterSize - 2) << 16)) / (1 << 17);
             int j;
@@ -556,13 +556,13 @@ static av_cold int initFilter(int16_t **outFilter, int32_t **filterPos,
                     int64_t B = (param[0] != SWS_PARAM_DEFAULT ? param[0] :   0) * (1 << 24);
                     int64_t C = (param[1] != SWS_PARAM_DEFAULT ? param[1] : 0.6) * (1 << 24);
 
-                    if (d >= 1LL << 31) {
+                    if (d >= LLN(1) << 31) {
                         coeff = 0.0;
                     } else {
                         int64_t dd  = (d  * d) >> 30;
                         int64_t ddd = (dd * d) >> 30;
 
-                        if (d < 1LL << 30)
+                        if (d < LLN(1) << 30)
                             coeff =  (12 * (1 << 24) -  9 * B - 6 * C) * ddd +
                                     (-18 * (1 << 24) + 12 * B + 6 * C) *  dd +
                                       (6 * (1 << 24) -  2 * B)         * (1 << 30);
@@ -572,7 +572,7 @@ static av_cold int initFilter(int16_t **outFilter, int32_t **filterPos,
                                     (-12 * B - 48 * C) * d   +
                                       (8 * B + 24 * C) * (1 << 30);
                     }
-                    coeff /= (1LL<<54)/fone;
+                    coeff /= (LLN(1)<<54)/fone;
                 }
 #if 0
                 else if (flags & SWS_X) {
@@ -596,10 +596,10 @@ static av_cold int initFilter(int16_t **outFilter, int32_t **filterPos,
                     coeff = (c * 0.5 + 0.5) * fone;
                 } else if (flags & SWS_AREA) {
                     int64_t d2 = d - (1 << 29);
-                    if (d2 * xInc < -(1LL << (29 + 16)))
-                        coeff = 1.0 * (1LL << (30 + 16));
-                    else if (d2 * xInc < (1LL << (29 + 16)))
-                        coeff = -d2 * xInc + (1LL << (29 + 16));
+                    if (d2 * xInc < -(LLN(1) << (29 + 16)))
+                        coeff = 1.0 * (LLN(1) << (30 + 16));
+                    else if (d2 * xInc < (LLN(1) << (29 + 16)))
+                        coeff = -d2 * xInc + (LLN(1) << (29 + 16));
                     else
                         coeff = 0.0;
                     coeff *= fone >> (30 + 16);
@@ -706,7 +706,8 @@ static av_cold int initFilter(int16_t **outFilter, int32_t **filterPos,
             minFilterSize = min;
     }
 
-    if (PPC_ALTIVEC(cpu_flags)) {
+#if HAVE_ALTIVEC
+	if (PPC_ALTIVEC(cpu_flags)) {
         // we can handle the special case 4, so we don't want to go the full 8
         if (minFilterSize < 5)
             filterAlign = 4;
@@ -717,6 +718,7 @@ static av_cold int initFilter(int16_t **outFilter, int32_t **filterPos,
         if (minFilterSize < 3)
             filterAlign = 1;
     }
+#endif
 
     if (HAVE_MMX && cpu_flags & AV_CPU_FLAG_MMX) {
         // special case for unscaled vertical filtering
@@ -1206,7 +1208,7 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
     c->lumYInc      = (((int64_t)srcH << 16) + (dstH >> 1)) / dstH;
     c->dstFormatBpp = av_get_bits_per_pixel(desc_dst);
     c->srcFormatBpp = av_get_bits_per_pixel(desc_src);
-    c->vRounder     = 4 * 0x0001000100010001ULL;
+    c->vRounder     = 4 * ULLN(0x0001000100010001);
 
     usesVFilter = (srcFilter->lumV && srcFilter->lumV->length > 1) ||
                   (srcFilter->chrV && srcFilter->chrV->length > 1) ||
@@ -1444,9 +1446,12 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
         } else
 #endif /* HAVE_MMXEXT_INLINE */
         {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
             const int filterAlign = X86_MMX(cpu_flags)     ? 4 :
                                     PPC_ALTIVEC(cpu_flags) ? 8 : 1;
-
+#else
+            const int filterAlign = 1;
+#endif
             if (initFilter(&c->hLumFilter, &c->hLumFilterPos,
                            &c->hLumFilterSize, c->lumXInc,
                            srcW, dstW, filterAlign, 1 << 14,
@@ -1470,8 +1475,12 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
 
     /* precalculate vertical scaler filter coefficients */
     {
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
         const int filterAlign = X86_MMX(cpu_flags)     ? 2 :
                                 PPC_ALTIVEC(cpu_flags) ? 8 : 1;
+#else
+        const int filterAlign = 1;
+#endif
 
         if (initFilter(&c->vLumFilter, &c->vLumFilterPos, &c->vLumFilterSize,
                        c->lumYInc, srcH, dstH, filterAlign, (1 << 12),
@@ -1602,6 +1611,7 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
 #endif
                av_get_pix_fmt_name(dstFormat));
 
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
         if (INLINE_MMXEXT(cpu_flags))
             cpucaps = "MMXEXT";
         else if (INLINE_AMD3DNOW(cpu_flags))
@@ -1611,7 +1621,8 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
         else if (PPC_ALTIVEC(cpu_flags))
             cpucaps = "AltiVec";
         else
-            cpucaps = "C";
+#endif
+			cpucaps = "C";
 
         av_log(c, AV_LOG_INFO, "using %s\n", cpucaps);
 

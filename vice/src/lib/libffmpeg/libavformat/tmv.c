@@ -127,7 +127,7 @@ static int tmv_read_header(AVFormatContext *s)
 
     fps.num = ast->codec->sample_rate * ast->codec->channels;
     fps.den = tmv->audio_chunk_size;
-    av_reduce(&fps.num, &fps.den, fps.num, fps.den, 0xFFFFFFFFLL);
+    av_reduce(&fps.num, &fps.den, fps.num, fps.den, LLN(0xFFFFFFFF));
 
     vst->codec->codec_type = AVMEDIA_TYPE_VIDEO;
     vst->codec->codec_id   = AV_CODEC_ID_TMV;

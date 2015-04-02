@@ -967,11 +967,24 @@ do\
         x264_cabac_encode_decision( cb, ctxidxinc, 0 );\
 } while(0)
 
+#define x264_cabac_block_residual_cbf_internal_no_name( h, cb, ctx_block_cat, i_idx, l, b_intra, b_dc )\
+do\
+{\
+    int ctxidxinc = x264_cabac_cbf_ctxidxinc( h, ctx_block_cat, i_idx, b_intra, b_dc );\
+    if( h->mb.cache.non_zero_count[x264_scan8[i_idx]] )\
+    {\
+        x264_cabac_encode_decision( cb, ctxidxinc, 1 );\
+        x264_cabac_block_residual( h, cb, ctx_block_cat, l );\
+    }\
+    else\
+        x264_cabac_encode_decision( cb, ctxidxinc, 0 );\
+} while(0)
+
 #define x264_cabac_block_residual_dc_cbf( h, cb, ctx_block_cat, i_idx, l, b_intra )\
-    x264_cabac_block_residual_cbf_internal( h, cb, ctx_block_cat, i_idx, l, b_intra, 1, )
+    x264_cabac_block_residual_cbf_internal_no_name( h, cb, ctx_block_cat, i_idx, l, b_intra, 1)
 
 #define x264_cabac_block_residual_cbf( h, cb, ctx_block_cat, i_idx, l, b_intra )\
-    x264_cabac_block_residual_cbf_internal( h, cb, ctx_block_cat, i_idx, l, b_intra, 0, )
+    x264_cabac_block_residual_cbf_internal_no_name( h, cb, ctx_block_cat, i_idx, l, b_intra, 0)
 
 #define x264_cabac_block_residual_8x8_cbf( h, cb, ctx_block_cat, i_idx, l, b_intra )\
     x264_cabac_block_residual_cbf_internal( h, cb, ctx_block_cat, i_idx, l, b_intra, 0, _8x8 )

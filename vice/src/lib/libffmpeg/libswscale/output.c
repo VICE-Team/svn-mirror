@@ -524,8 +524,40 @@ static void name ## ext ## _1_c(SwsContext *c, const int16_t *buf0, \
                                   y, fmt); \
 }
 
-YUV2PACKEDWRAPPER(yuv2mono,, white, AV_PIX_FMT_MONOWHITE)
-YUV2PACKEDWRAPPER(yuv2mono,, black, AV_PIX_FMT_MONOBLACK)
+#define YUV2PACKEDWRAPPER_NO_BASE(name, ext, fmt) \
+static void name ## ext ## _X_c(SwsContext *c, const int16_t *lumFilter, \
+                                const int16_t **lumSrc, int lumFilterSize, \
+                                const int16_t *chrFilter, const int16_t **chrUSrc, \
+                                const int16_t **chrVSrc, int chrFilterSize, \
+                                const int16_t **alpSrc, uint8_t *dest, int dstW, \
+                                int y) \
+{ \
+    name ## _X_c_template(c, lumFilter, lumSrc, lumFilterSize, \
+                                  chrFilter, chrUSrc, chrVSrc, chrFilterSize, \
+                                  alpSrc, dest, dstW, y, fmt); \
+} \
+ \
+static void name ## ext ## _2_c(SwsContext *c, const int16_t *buf[2], \
+                                const int16_t *ubuf[2], const int16_t *vbuf[2], \
+                                const int16_t *abuf[2], uint8_t *dest, int dstW, \
+                                int yalpha, int uvalpha, int y) \
+{ \
+    name ## _2_c_template(c, buf, ubuf, vbuf, abuf, \
+                                  dest, dstW, yalpha, uvalpha, y, fmt); \
+} \
+ \
+static void name ## ext ## _1_c(SwsContext *c, const int16_t *buf0, \
+                                const int16_t *ubuf[2], const int16_t *vbuf[2], \
+                                const int16_t *abuf0, uint8_t *dest, int dstW, \
+                                int uvalpha, int y) \
+{ \
+    name ## _1_c_template(c, buf0, ubuf, vbuf, \
+                                  abuf0, dest, dstW, uvalpha, \
+                                  y, fmt); \
+}
+
+YUV2PACKEDWRAPPER_NO_BASE(yuv2mono, white, AV_PIX_FMT_MONOWHITE)
+YUV2PACKEDWRAPPER_NO_BASE(yuv2mono, black, AV_PIX_FMT_MONOBLACK)
 
 #define output_pixels(pos, Y1, U, Y2, V) \
     if (target == AV_PIX_FMT_YUYV422) { \
@@ -1423,6 +1455,19 @@ static void name ## ext ## _X_c(SwsContext *c, const int16_t *lumFilter, \
                                   alpSrc, dest, dstW, y, fmt, hasAlpha); \
 }
 
+#define YUV2RGBWRAPPERX_NO_BASE(name, ext, fmt, hasAlpha) \
+static void name ## ext ## _X_c(SwsContext *c, const int16_t *lumFilter, \
+                                const int16_t **lumSrc, int lumFilterSize, \
+                                const int16_t *chrFilter, const int16_t **chrUSrc, \
+                                const int16_t **chrVSrc, int chrFilterSize, \
+                                const int16_t **alpSrc, uint8_t *dest, int dstW, \
+                                int y) \
+{ \
+    name ## _X_c_template(c, lumFilter, lumSrc, lumFilterSize, \
+                                  chrFilter, chrUSrc, chrVSrc, chrFilterSize, \
+                                  alpSrc, dest, dstW, y, fmt, hasAlpha); \
+}
+
 #define YUV2RGBWRAPPERX2(name, base, ext, fmt, hasAlpha) \
 YUV2RGBWRAPPERX(name, base, ext, fmt, hasAlpha) \
 static void name ## ext ## _2_c(SwsContext *c, const int16_t *buf[2], \
@@ -1431,6 +1476,17 @@ static void name ## ext ## _2_c(SwsContext *c, const int16_t *buf[2], \
                                 int yalpha, int uvalpha, int y) \
 { \
     name ## base ## _2_c_template(c, buf, ubuf, vbuf, abuf, \
+                                  dest, dstW, yalpha, uvalpha, y, fmt, hasAlpha); \
+}
+
+#define YUV2RGBWRAPPERX2_NO_BASE(name, ext, fmt, hasAlpha) \
+YUV2RGBWRAPPERX_NO_BASE(name, ext, fmt, hasAlpha) \
+static void name ## ext ## _2_c(SwsContext *c, const int16_t *buf[2], \
+                                const int16_t *ubuf[2], const int16_t *vbuf[2], \
+                                const int16_t *abuf[2], uint8_t *dest, int dstW, \
+                                int yalpha, int uvalpha, int y) \
+{ \
+    name ## _2_c_template(c, buf, ubuf, vbuf, abuf, \
                                   dest, dstW, yalpha, uvalpha, y, fmt, hasAlpha); \
 }
 
@@ -1445,25 +1501,36 @@ static void name ## ext ## _1_c(SwsContext *c, const int16_t *buf0, \
                                   dstW, uvalpha, y, fmt, hasAlpha); \
 }
 
+#define YUV2RGBWRAPPER_NO_BASE(name, ext, fmt, hasAlpha) \
+YUV2RGBWRAPPERX2_NO_BASE(name, ext, fmt, hasAlpha) \
+static void name ## ext ## _1_c(SwsContext *c, const int16_t *buf0, \
+                                const int16_t *ubuf[2], const int16_t *vbuf[2], \
+                                const int16_t *abuf0, uint8_t *dest, int dstW, \
+                                int uvalpha, int y) \
+{ \
+    name ## _1_c_template(c, buf0, ubuf, vbuf, abuf0, dest, \
+                                  dstW, uvalpha, y, fmt, hasAlpha); \
+}
+
 #if CONFIG_SMALL
-YUV2RGBWRAPPER(yuv2rgb,,  32_1,  AV_PIX_FMT_RGB32_1,   CONFIG_SWSCALE_ALPHA && c->alpPixBuf)
-YUV2RGBWRAPPER(yuv2rgb,,  32,    AV_PIX_FMT_RGB32,     CONFIG_SWSCALE_ALPHA && c->alpPixBuf)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb,  32_1,  AV_PIX_FMT_RGB32_1,   CONFIG_SWSCALE_ALPHA && c->alpPixBuf)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb,  32,    AV_PIX_FMT_RGB32,     CONFIG_SWSCALE_ALPHA && c->alpPixBuf)
 #else
 #if CONFIG_SWSCALE_ALPHA
-YUV2RGBWRAPPER(yuv2rgb,, a32_1,  AV_PIX_FMT_RGB32_1,   1)
-YUV2RGBWRAPPER(yuv2rgb,, a32,    AV_PIX_FMT_RGB32,     1)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb, a32_1,  AV_PIX_FMT_RGB32_1,   1)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb, a32,    AV_PIX_FMT_RGB32,     1)
 #endif
-YUV2RGBWRAPPER(yuv2rgb,, x32_1,  AV_PIX_FMT_RGB32_1,   0)
-YUV2RGBWRAPPER(yuv2rgb,, x32,    AV_PIX_FMT_RGB32,     0)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb, x32_1,  AV_PIX_FMT_RGB32_1,   0)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb, x32,    AV_PIX_FMT_RGB32,     0)
 #endif
 YUV2RGBWRAPPER(yuv2, rgb, rgb24, AV_PIX_FMT_RGB24,   0)
 YUV2RGBWRAPPER(yuv2, rgb, bgr24, AV_PIX_FMT_BGR24,   0)
-YUV2RGBWRAPPER(yuv2rgb,,  16,    AV_PIX_FMT_RGB565,    0)
-YUV2RGBWRAPPER(yuv2rgb,,  15,    AV_PIX_FMT_RGB555,    0)
-YUV2RGBWRAPPER(yuv2rgb,,  12,    AV_PIX_FMT_RGB444,    0)
-YUV2RGBWRAPPER(yuv2rgb,,   8,    AV_PIX_FMT_RGB8,      0)
-YUV2RGBWRAPPER(yuv2rgb,,   4,    AV_PIX_FMT_RGB4,      0)
-YUV2RGBWRAPPER(yuv2rgb,,   4b,   AV_PIX_FMT_RGB4_BYTE, 0)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb,  16,    AV_PIX_FMT_RGB565,    0)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb,  15,    AV_PIX_FMT_RGB555,    0)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb,  12,    AV_PIX_FMT_RGB444,    0)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb,   8,    AV_PIX_FMT_RGB8,      0)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb,   4,    AV_PIX_FMT_RGB4,      0)
+YUV2RGBWRAPPER_NO_BASE(yuv2rgb,   4b,   AV_PIX_FMT_RGB4_BYTE, 0)
 
 static av_always_inline void yuv2rgb_write_full(SwsContext *c,
     uint8_t *dest, int i, int Y, int A, int U, int V,

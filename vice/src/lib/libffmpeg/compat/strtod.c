@@ -26,10 +26,17 @@
 #include "libavutil/mathematics.h"
 
 #ifdef IDE_COMPILE
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
 long long int strtoll (const char* str, char** endptr, int base)
 {
     return _strtoi64(str, endptr, base);
 }
+#else
+__int64 strtoll (const char* str, char** endptr, int base)
+{
+    return _strtoi64(str, endptr, base);
+}
+#endif
 #endif
 
 static char *check_nan_suffix(char *s)

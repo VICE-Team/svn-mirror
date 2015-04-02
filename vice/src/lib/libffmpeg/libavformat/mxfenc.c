@@ -565,7 +565,7 @@ static void mxf_write_preface(AVFormatContext *s)
 
     mxf_write_metadata_key(pb, 0x012f00);
     PRINT_KEY(s, "preface key", pb->buf_ptr - 16);
-    klv_encode_ber_length(pb, 130 + 16LL * DESCRIPTOR_COUNT(mxf->essence_container_count));
+    klv_encode_ber_length(pb, 130 + LLN(16) * DESCRIPTOR_COUNT(mxf->essence_container_count));
 
     // write preface set uid
     mxf_write_local_tag(pb, 16, 0x3C0A);
@@ -594,7 +594,7 @@ static void mxf_write_preface(AVFormatContext *s)
     avio_write(pb, op1a_ul, 16);
 
     // write essence_container_refs
-    mxf_write_local_tag(pb, 8 + 16LL * DESCRIPTOR_COUNT(mxf->essence_container_count), 0x3B0A);
+    mxf_write_local_tag(pb, 8 + LLN(16) * DESCRIPTOR_COUNT(mxf->essence_container_count), 0x3B0A);
     mxf_write_essence_container_refs(s);
 
     // write dm_scheme_refs
@@ -838,7 +838,7 @@ static void mxf_write_multi_descriptor(AVFormatContext *s)
 
     mxf_write_metadata_key(pb, 0x014400);
     PRINT_KEY(s, "multiple descriptor key", pb->buf_ptr - 16);
-    klv_encode_ber_length(pb, 64 + 16LL * s->nb_streams);
+    klv_encode_ber_length(pb, 64 + LLN(16) * s->nb_streams);
 
     mxf_write_local_tag(pb, 16, 0x3C0A);
     mxf_write_uuid(pb, MultipleDescriptor, 0);
@@ -1197,8 +1197,8 @@ static void mxf_write_index_table_segment(AVFormatContext *s)
     if (mxf->edit_unit_byte_count) {
         klv_encode_ber_length(pb, 80);
     } else {
-        klv_encode_ber_length(pb, 85 + 12+(s->nb_streams+1LL)*6 +
-                              12+mxf->edit_units_count*(11+mxf->slice_count*4LL));
+        klv_encode_ber_length(pb, 85 + 12+(s->nb_streams+LLN(1))*6 +
+                              12+mxf->edit_units_count*(11+mxf->slice_count*LLN(4)));
     }
 
     // instance id
@@ -1359,7 +1359,7 @@ static int mxf_write_partition(AVFormatContext *s, int bodysid,
 
     // write klv
     avio_write(pb, key, 16);
-    klv_encode_ber_length(pb, 88 + 16LL * DESCRIPTOR_COUNT(mxf->essence_container_count));
+    klv_encode_ber_length(pb, 88 + LLN(16) * DESCRIPTOR_COUNT(mxf->essence_container_count));
 
     // write partition value
     avio_wb16(pb, 1); // majorVersion
@@ -1714,7 +1714,7 @@ static void mxf_gen_umid(AVFormatContext *s)
 {
     MXFContext *mxf = s->priv_data;
     uint32_t seed = av_get_random_seed();
-    uint64_t umid = seed + 0x5294713400000000LL;
+    uint64_t umid = seed + LLN(0x5294713400000000);
 
     AV_WB64(mxf->umid  , umid);
     AV_WB64(mxf->umid+8, umid>>8);
@@ -2087,7 +2087,7 @@ static void mxf_write_random_index_pack(AVFormatContext *s)
     int i;
 
     avio_write(pb, random_index_pack_key, 16);
-    klv_encode_ber_length(pb, 28 + 12LL*mxf->body_partitions_count);
+    klv_encode_ber_length(pb, 28 + LLN(12)*mxf->body_partitions_count);
 
     if (mxf->edit_unit_byte_count)
         avio_wb32(pb, 1); // BodySID of header partition

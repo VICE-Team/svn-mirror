@@ -417,7 +417,7 @@ static int mk_flush_frame( mk_writer *w )
         return 0;
 
     delta = w->frame_tc/w->timescale - w->cluster_tc_scaled;
-    if( delta > 32767ll || delta < -32768ll )
+    if( delta > LLN(32767) || delta < LLN(-32768) )
         CHECK( mk_close_cluster( w ) );
 
     if( !w->cluster )

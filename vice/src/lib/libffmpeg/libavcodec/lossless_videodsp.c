@@ -23,8 +23,8 @@
 
 static void add_int16_c(uint16_t *dst, const uint16_t *src, unsigned mask, int w){
     long i;
-    unsigned long pw_lsb = (mask >> 1) * 0x0001000100010001ULL;
-    unsigned long pw_msb = pw_lsb +  0x0001000100010001ULL;
+    unsigned long pw_lsb = (mask >> 1) * ULLN(0x0001000100010001);
+    unsigned long pw_msb = pw_lsb +  ULLN(0x0001000100010001);
     for (i = 0; i <= w - (int)sizeof(long)/2; i += sizeof(long)/2) {
         long a = *(long*)(src+i);
         long b = *(long*)(dst+i);
@@ -47,8 +47,8 @@ static void diff_int16_c(uint16_t *dst, const uint16_t *src1, const uint16_t *sr
     }else
 #endif
     {
-        unsigned long pw_lsb = (mask >> 1) * 0x0001000100010001ULL;
-        unsigned long pw_msb = pw_lsb +  0x0001000100010001ULL;
+        unsigned long pw_lsb = (mask >> 1) * ULLN(0x0001000100010001);
+        unsigned long pw_msb = pw_lsb +  ULLN(0x0001000100010001);
 
         for (i = 0; i <= w - (int)sizeof(long)/2; i += sizeof(long)/2) {
             long a = *(long*)(src1+i);

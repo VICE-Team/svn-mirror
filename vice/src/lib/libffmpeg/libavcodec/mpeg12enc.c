@@ -270,11 +270,11 @@ static void mpeg1_encode_sequence_header(MpegEncContext *s)
         put_sbits(&s->pb, 12, s->height & 0xFFF);
 
         for (i = 1; i < 15; i++) {
-            int64_t error = aspect_ratio.num * (1LL<<32) / aspect_ratio.den;
+            int64_t error = aspect_ratio.num * (LLN(1)<<32) / aspect_ratio.den;
             if (s->codec_id == AV_CODEC_ID_MPEG1VIDEO || i <= 1)
-                error -= (1LL<<32) / ff_mpeg1_aspect[i];
+                error -= (LLN(1)<<32) / ff_mpeg1_aspect[i];
             else
-                error -= (1LL<<32)*ff_mpeg2_aspect[i].num * s->height / s->width / ff_mpeg2_aspect[i].den;
+                error -= (LLN(1)<<32)*ff_mpeg2_aspect[i].num * s->height / s->width / ff_mpeg2_aspect[i].den;
 
             error = FFABS(error);
 

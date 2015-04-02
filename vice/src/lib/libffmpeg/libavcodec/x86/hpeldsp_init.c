@@ -178,6 +178,10 @@ HPELDSP_AVG_PIXELS16(_mmxext)
     if (HAVE_MMX_EXTERNAL)                                                  \
     c->PFX ## _pixels_tab IDX [0] = PFX ## _pixels ## SIZE ## _     ## CPU;
 
+#define SET_HPEL_FUNCS_EXT_NO_IDX(PFX, SIZE, CPU)                             \
+    if (HAVE_MMX_EXTERNAL)                                                  \
+    c->PFX ## _pixels_tab [0] = PFX ## _pixels ## SIZE ## _     ## CPU;
+
 #if HAVE_MMX_INLINE
 #define SET_HPEL_FUNCS(PFX, IDX, SIZE, CPU)                                     \
     do {                                                                        \
@@ -186,10 +190,23 @@ HPELDSP_AVG_PIXELS16(_mmxext)
         c->PFX ## _pixels_tab IDX [2] = PFX ## _pixels ## SIZE ## _y2_  ## CPU; \
         c->PFX ## _pixels_tab IDX [3] = PFX ## _pixels ## SIZE ## _xy2_ ## CPU; \
     } while (0)
+
+#define SET_HPEL_FUNCS_NO_IDX(PFX, SIZE, CPU)                                     \
+    do {                                                                        \
+        SET_HPEL_FUNCS_EXT(PFX, IDX, SIZE, CPU)                                 \
+        c->PFX ## _pixels_tab [1] = PFX ## _pixels ## SIZE ## _x2_  ## CPU; \
+        c->PFX ## _pixels_tab [2] = PFX ## _pixels ## SIZE ## _y2_  ## CPU; \
+        c->PFX ## _pixels_tab [3] = PFX ## _pixels ## SIZE ## _xy2_ ## CPU; \
+    } while (0)
 #else
 #define SET_HPEL_FUNCS(PFX, IDX, SIZE, CPU)                                     \
     do {                                                                        \
         SET_HPEL_FUNCS_EXT(PFX, IDX, SIZE, CPU)                                 \
+    } while (0)
+
+#define SET_HPEL_FUNCS_NO_IDX(PFX, SIZE, CPU)                                     \
+    do {                                                                        \
+        SET_HPEL_FUNCS_EXT_NO_IDX(PFX, SIZE, CPU)                                 \
     } while (0)
 #endif
 
@@ -198,7 +215,7 @@ static void hpeldsp_init_mmx(HpelDSPContext *c, int flags, int cpu_flags)
     SET_HPEL_FUNCS(put,        [0], 16, mmx);
     SET_HPEL_FUNCS(put_no_rnd, [0], 16, mmx);
     SET_HPEL_FUNCS(avg,        [0], 16, mmx);
-    SET_HPEL_FUNCS(avg_no_rnd,    , 16, mmx);
+    SET_HPEL_FUNCS_NO_IDX(avg_no_rnd, 16, mmx);
     SET_HPEL_FUNCS(put,        [1],  8, mmx);
     SET_HPEL_FUNCS(put_no_rnd, [1],  8, mmx);
 #if (HAVE_MMX_EXTERNAL == 1)

@@ -338,7 +338,7 @@ static av_cold int encode_init(AVCodecContext *avctx)
 
     for (i = 0; i < 64; i++) {
         if (a->fdsp.fdct == ff_fdct_ifast) {
-            int q = 32LL * scale * ff_mpeg1_default_intra_matrix[i] * ff_aanscales[i];
+            int q = LLN(32) * scale * ff_mpeg1_default_intra_matrix[i] * ff_aanscales[i];
             a->q_intra_matrix[i] = (((int64_t)a->inv_qscale << 30) + q / 2) / q;
         } else {
             int q = 32 * scale * ff_mpeg1_default_intra_matrix[i];

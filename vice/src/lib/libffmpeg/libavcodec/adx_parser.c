@@ -51,7 +51,7 @@ static int adx_parse(AVCodecParserContext *s1,
         for (i = 0; i < buf_size; i++) {
             state = (state << 8) | buf[i];
             /* check for fixed fields in ADX header for possible match */
-            if ((state & 0xFFFF0000FFFFFF00) == 0x8000000003120400ULL) {
+            if ((state & 0xFFFF0000FFFFFF00) == ULLN(0x8000000003120400)) {
                 int channels    = state & 0xFF;
                 int header_size = ((state >> 32) & 0xFFFF) + 4;
                 if (channels > 0 && header_size >= 8) {

@@ -97,8 +97,8 @@ int ff_interleave_add_packet(AVFormatContext *s, AVPacket *pkt,
 
 void ff_read_frame_flush(AVFormatContext *s);
 
-#define NTP_OFFSET 2208988800ULL
-#define NTP_OFFSET_US (NTP_OFFSET * 1000000ULL)
+#define NTP_OFFSET ULLN(2208988800)
+#define NTP_OFFSET_US (NTP_OFFSET * ULLN(1000000))
 
 /** Get the current time since NTP epoch in microseconds. */
 uint64_t ff_ntp_time(void);

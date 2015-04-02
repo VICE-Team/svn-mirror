@@ -332,7 +332,7 @@ static void do_shiftings(elbg_data *elbg)
         }
 }
 
-#define BIG_PRIME 433494437LL
+#define BIG_PRIME LLN(433494437)
 
 void avpriv_init_elbg(int *points, int dim, int numpoints, int *codebook,
                   int numCB, int max_steps, int *closest_cb,

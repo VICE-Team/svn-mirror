@@ -78,7 +78,7 @@ static av_cold int butterworth_init_coeffs(void *avc,
 
     c->cx[0] = 1;
     for(i = 1; i < (order >> 1) + 1; i++)
-        c->cx[i] = c->cx[i - 1] * (order - i + 1LL) / i;
+        c->cx[i] = c->cx[i - 1] * (order - i + LLN(1)) / i;
 
     p[0][0] = 1.0;
     p[0][1] = 0.0;

@@ -1270,7 +1270,7 @@ static av_cold void binkb_calc_quant(void)
          296244703, 410903207, 387062357, 348346918, 296244703, 232757969, 160326478,  81733730,
     };
     int i, j;
-#define C (1LL<<30)
+#define C (LLN(1)<<30)
     for (i = 0; i < 64; i++)
         inv_bink_scan[bink_scan[i]] = i;
 

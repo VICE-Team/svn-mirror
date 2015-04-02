@@ -715,12 +715,12 @@ static int64_t ogg_calc_pts(AVFormatContext *s, int idx, int64_t *dts)
         os->lastdts = AV_NOPTS_VALUE;
     }
     if (os->page_end) {
-        if (os->granule != -1LL) {
+        if (os->granule != LLN(-1)) {
             if (os->codec && os->codec->granule_is_start)
                 pts = ogg_gptopts(s, idx, os->granule, dts);
             else
                 os->lastpts = ogg_gptopts(s, idx, os->granule, &os->lastdts);
-            os->granule = -1LL;
+            os->granule = LLN(-1);
         }
     }
     return pts;

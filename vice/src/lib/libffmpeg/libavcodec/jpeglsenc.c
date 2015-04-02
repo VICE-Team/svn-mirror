@@ -47,7 +47,7 @@ static inline void ls_encode_regular(JLSState *state, PutBitContext *pb, int Q,
     for (k = 0; (state->N[Q] << k) < state->A[Q]; k++)
         ;
 
-    map = !state->near && !k && (2 * state->B[Q] <= -state->N[Q]);
+    map = !state->nearly && !k && (2 * state->B[Q] <= -state->N[Q]);
 
     if (err < 0)
         err += state->range;
@@ -141,14 +141,14 @@ static inline void ls_encode_line(JLSState *state, PutBitContext *pb,
         D2 = Rc - Ra;
 
         /* run mode */
-        if ((FFABS(D0) <= state->near) &&
-            (FFABS(D1) <= state->near) &&
-            (FFABS(D2) <= state->near)) {
+        if ((FFABS(D0) <= state->nearly) &&
+            (FFABS(D1) <= state->nearly) &&
+            (FFABS(D2) <= state->nearly)) {
             int RUNval, RItype, run;
 
             run    = 0;
             RUNval = Ra;
-            while (x < w && (FFABS(R(cur, x) - RUNval) <= state->near)) {
+            while (x < w && (FFABS(R(cur, x) - RUNval) <= state->nearly)) {
                 run++;
                 W(cur, x, Ra);
                 x += stride;
@@ -157,18 +157,18 @@ static inline void ls_encode_line(JLSState *state, PutBitContext *pb,
             if (x >= w)
                 return;
             Rb     = R(last, x);
-            RItype = FFABS(Ra - Rb) <= state->near;
+            RItype = FFABS(Ra - Rb) <= state->nearly;
             pred   = RItype ? Ra : Rb;
             err    = R(cur, x) - pred;
 
             if (!RItype && Ra > Rb)
                 err = -err;
 
-            if (state->near) {
+            if (state->nearly) {
                 if (err > 0)
-                    err =  (state->near + err) / state->twonear;
+                    err =  (state->nearly + err) / state->twonear;
                 else
-                    err = -(state->near - err) / state->twonear;
+                    err = -(state->nearly - err) / state->twonear;
 
                 if (RItype || (Rb >= Ra))
                     Ra = av_clip(pred + err * state->twonear, 0, state->maxval);
@@ -205,11 +205,11 @@ static inline void ls_encode_line(JLSState *state, PutBitContext *pb,
                 err  = R(cur, x) - pred;
             }
 
-            if (state->near) {
+            if (state->nearly) {
                 if (err > 0)
-                    err =  (state->near + err) / state->twonear;
+                    err =  (state->nearly + err) / state->twonear;
                 else
-                    err = -(state->near - err) / state->twonear;
+                    err = -(state->nearly - err) / state->twonear;
                 if (!sign)
                     Ra = av_clip(pred + err * state->twonear, 0, state->maxval);
                 else
@@ -228,7 +228,7 @@ static void ls_store_lse(JLSState *state, PutBitContext *pb)
     /* Test if we have default params and don't need to store LSE */
     JLSState state2 = { 0 };
     state2.bpp  = state->bpp;
-    state2.near = state->near;
+    state2.nearly = state->nearly;
     ff_jpegls_reset_coding_parameters(&state2, 1);
     if (state->T1 == state2.T1 &&
         state->T2 == state2.T2 &&
@@ -250,7 +250,7 @@ static int encode_picture_ls(AVCodecContext *avctx, AVPacket *pkt,
                              const AVFrame *pict, int *got_packet)
 {
     const AVFrame *const p = pict;
-    const int near         = avctx->prediction_method;
+    const int nearly       = avctx->prediction_method;
     PutBitContext pb, pb2;
     GetBitContext gb;
     uint8_t *buf2, *zero, *cur, *last;
@@ -294,13 +294,13 @@ static int encode_picture_ls(AVCodecContext *avctx, AVPacket *pkt,
         put_bits(&pb, 8, i);   // component ID
         put_bits(&pb, 8, 0);   // mapping index: none
     }
-    put_bits(&pb, 8, near);
+    put_bits(&pb, 8, nearly);
     put_bits(&pb, 8, (comps > 1) ? 1 : 0);  // interleaving: 0 - plane, 1 - line
     put_bits(&pb, 8, 0);  // point transform: none
 
     state = av_mallocz(sizeof(JLSState));
     /* initialize JPEG-LS state from JPEG parameters */
-    state->near = near;
+    state->nearly = nearly;
     state->bpp  = (avctx->pix_fmt == AV_PIX_FMT_GRAY16) ? 16 : 8;
     ff_jpegls_reset_coding_parameters(state, 0);
     ff_jpegls_init_state(state);

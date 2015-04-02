@@ -1107,14 +1107,14 @@ static void generate_noise(G723_1_Context *p)
         b0 = 0;
         for (j = 0; j < 11; j++)
             b0 += tmp[pos[(i / 2) * 11 + j]] * signs[(i / 2) * 11 + j];
-        b0 = b0 * 2 * 2979LL + (1 << 29) >> 30; // approximated division by 11
+        b0 = b0 * 2 * LLN(2979) + (1 << 29) >> 30; // approximated division by 11
 
         c = p->cur_gain * (p->cur_gain * SUBFRAME_LEN >> 5);
         if (shift * 2 + 3 >= 0)
             c >>= shift * 2 + 3;
         else
             c <<= -(shift * 2 + 3);
-        c = (av_clipl_int32(sum << 1) - c) * 2979LL >> 15;
+        c = (av_clipl_int32(sum << 1) - c) * LLN(2979) >> 15;
 
         delta = b0 * b0 * 2 - c;
         if (delta <= 0) {

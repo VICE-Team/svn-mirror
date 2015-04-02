@@ -343,7 +343,13 @@ av_cold void ff_hpeldsp_init(HpelDSPContext *c, int flags)
     c->prefix ## _pixels_tab idx [2] = prefix ## _pixels ## num ## _y2_8_c; \
     c->prefix ## _pixels_tab idx [3] = prefix ## _pixels ## num ## _xy2_8_c
 
-    hpel_funcs(put, [0], 16);
+#define hpel_funcs_no_idx(prefix, num) \
+    c->prefix ## _pixels_tab [0] = prefix ## _pixels ## num ## _8_c; \
+    c->prefix ## _pixels_tab [1] = prefix ## _pixels ## num ## _x2_8_c; \
+    c->prefix ## _pixels_tab [2] = prefix ## _pixels ## num ## _y2_8_c; \
+    c->prefix ## _pixels_tab [3] = prefix ## _pixels ## num ## _xy2_8_c
+
+	hpel_funcs(put, [0], 16);
     hpel_funcs(put, [1],  8);
     hpel_funcs(put, [2],  4);
     hpel_funcs(put, [3],  2);
@@ -353,7 +359,7 @@ av_cold void ff_hpeldsp_init(HpelDSPContext *c, int flags)
     hpel_funcs(avg, [1],  8);
     hpel_funcs(avg, [2],  4);
     hpel_funcs(avg, [3],  2);
-    hpel_funcs(avg_no_rnd,, 16);
+	hpel_funcs_no_idx(avg_no_rnd, 16);
 
 #if (ARCH_AARCH64 == 1)
     if (ARCH_AARCH64)

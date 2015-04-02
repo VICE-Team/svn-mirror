@@ -61,7 +61,7 @@ av_cold void ff_init_range_decoder(RangeCoder *c, const uint8_t *buf,
 
 void ff_build_rac_states(RangeCoder *c, int factor, int max_p)
 {
-    const int64_t one = 1LL << 32;
+    const int64_t one = LLN(1) << 32;
     int64_t p;
     int last_p8, p8, i;
 

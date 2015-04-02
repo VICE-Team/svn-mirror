@@ -542,7 +542,7 @@ static int read_extra_header(FFV1Context *f)
     memset(state, 128, sizeof(state));
 
     ff_init_range_decoder(c, f->avctx->extradata, f->avctx->extradata_size);
-    ff_build_rac_states(c, 0.05 * (1LL << 32), 256 - 8);
+    ff_build_rac_states(c, 0.05 * (LLN(1) << 32), 256 - 8);
 
     f->version = get_symbol(c, state, 0);
     if (f->version < 2) {
@@ -901,7 +901,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame, AVPac
 
     f->avctx = avctx;
     ff_init_range_decoder(c, buf, buf_size);
-    ff_build_rac_states(c, 0.05 * (1LL << 32), 256 - 8);
+    ff_build_rac_states(c, 0.05 * (LLN(1) << 32), 256 - 8);
 
     p->pict_type = AV_PICTURE_TYPE_I; //FIXME I vs. P
     if (get_rac(c, &keystate)) {

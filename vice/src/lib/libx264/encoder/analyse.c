@@ -4201,7 +4201,8 @@ static void x264_analyse_update_cache( x264_t *h, x264_mb_analysis_t *a  )
 #ifndef NDEBUG
     if( h->i_thread_frames > 1 && !IS_INTRA(h->mb.i_type) )
     {
-        for( int l = 0; l <= (h->sh.i_type == SLICE_TYPE_B); l++ )
+        int l;
+		for( l = 0; l <= (h->sh.i_type == SLICE_TYPE_B); l++ )
         {
             int completed;
             int ref = h->mb.cache.ref[l][x264_scan8[0]];

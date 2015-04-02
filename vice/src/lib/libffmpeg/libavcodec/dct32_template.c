@@ -29,7 +29,7 @@
 #   define INTFLOAT float
 #else
 #   define dct32 ff_dct32_fixed
-#   define FIXHR(a)       ((int)((a) * (1LL<<32) + 0.5))
+#   define FIXHR(a)       ((int)((a) * (LLN(1)<<32) + 0.5))
 #   define MULH3(x, y, s) MULH((s)*(x), y)
 #   define INTFLOAT int
 #endif

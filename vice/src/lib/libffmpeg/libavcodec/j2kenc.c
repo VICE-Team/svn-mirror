@@ -35,7 +35,7 @@
 #define NMSEDEC_BITS 7
 #define NMSEDEC_FRACBITS (NMSEDEC_BITS-1)
 #define WMSEDEC_SHIFT 13 ///< must be >= 13
-#define LAMBDA_SCALE (100000000LL << (WMSEDEC_SHIFT - 13))
+#define LAMBDA_SCALE (LLN(100000000) << (WMSEDEC_SHIFT - 13))
 
 static int lut_nmsedec_ref [1<<NMSEDEC_BITS],
            lut_nmsedec_ref0[1<<NMSEDEC_BITS],

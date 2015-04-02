@@ -80,10 +80,10 @@ const char *avformat_license(void)
     return LICENSE_PREFIX FFMPEG_LICENSE + sizeof(LICENSE_PREFIX) - 1;
 }
 
-#define RELATIVE_TS_BASE (INT64_MAX - (1LL<<48))
+#define RELATIVE_TS_BASE (INT64_MAX - (LLN(1)<<48))
 
 static int is_relative(int64_t ts) {
-    return ts > (RELATIVE_TS_BASE - (1LL<<48));
+    return ts > (RELATIVE_TS_BASE - (LLN(1)<<48));
 }
 
 /**
@@ -99,10 +99,10 @@ static int64_t wrap_timestamp(AVStream *st, int64_t timestamp)
         st->pts_wrap_reference != AV_NOPTS_VALUE && timestamp != AV_NOPTS_VALUE) {
         if (st->pts_wrap_behavior == AV_PTS_WRAP_ADD_OFFSET &&
             timestamp < st->pts_wrap_reference)
-            return timestamp + (1ULL << st->pts_wrap_bits);
+            return timestamp + (ULLN(1) << st->pts_wrap_bits);
         else if (st->pts_wrap_behavior == AV_PTS_WRAP_SUB_OFFSET &&
             timestamp >= st->pts_wrap_reference)
-            return timestamp - (1ULL << st->pts_wrap_bits);
+            return timestamp - (ULLN(1) << st->pts_wrap_bits);
     }
     return timestamp;
 }
@@ -558,13 +558,13 @@ static int update_wrap_reference(AVFormatContext *s, AVStream *st, int stream_in
         ref = pkt->pts;
     if (st->pts_wrap_reference != AV_NOPTS_VALUE || st->pts_wrap_bits >= 63 || ref == AV_NOPTS_VALUE || !s->correct_ts_overflow)
         return 0;
-    ref &= (1LL << st->pts_wrap_bits)-1;
+    ref &= (LLN(1) << st->pts_wrap_bits)-1;
 
     // reference time stamp should be 60 s before first time stamp
     pts_wrap_reference = ref - av_rescale(60, st->time_base.den, st->time_base.num);
     // if first time stamp is not more than 1/8 and 60s before the wrap point, subtract rather than add wrap offset
-    pts_wrap_behavior = (ref < (1LL << st->pts_wrap_bits) - (1LL << st->pts_wrap_bits-3)) ||
-        (ref < (1LL << st->pts_wrap_bits) - av_rescale(60, st->time_base.den, st->time_base.num)) ?
+    pts_wrap_behavior = (ref < (LLN(1) << st->pts_wrap_bits) - (LLN(1) << st->pts_wrap_bits-3)) ||
+        (ref < (LLN(1) << st->pts_wrap_bits) - av_rescale(60, st->time_base.den, st->time_base.num)) ?
         AV_PTS_WRAP_ADD_OFFSET : AV_PTS_WRAP_SUB_OFFSET;
 
     first_program = av_find_program_from_stream(s, NULL, stream_index);
@@ -742,10 +742,10 @@ void ff_compute_frame_duration(int *pnum, int *pden, AVStream *st,
         if (st->r_frame_rate.num && !pc) {
             *pnum = st->r_frame_rate.den;
             *pden = st->r_frame_rate.num;
-        } else if (st->time_base.num * 1000LL > st->time_base.den) {
+        } else if (st->time_base.num * LLN(1000) > st->time_base.den) {
             *pnum = st->time_base.num;
             *pden = st->time_base.den;
-        } else if (st->codec->time_base.num * 1000LL > st->codec->time_base.den) {
+        } else if (st->codec->time_base.num * LLN(1000) > st->codec->time_base.den) {
             *pnum = st->codec->time_base.num;
             *pden = st->codec->time_base.den;
             if (pc && pc->repeat_pict) {
@@ -1034,11 +1034,11 @@ static void compute_pkt_fields(AVFormatContext *s, AVStream *st,
 
     if (pkt->pts != AV_NOPTS_VALUE && pkt->dts != AV_NOPTS_VALUE &&
         st->pts_wrap_bits < 63 &&
-        pkt->dts - (1LL << (st->pts_wrap_bits - 1)) > pkt->pts) {
-        if (is_relative(st->cur_dts) || pkt->dts - (1LL<<(st->pts_wrap_bits - 1)) > st->cur_dts) {
-            pkt->dts -= 1LL << st->pts_wrap_bits;
+        pkt->dts - (LLN(1) << (st->pts_wrap_bits - 1)) > pkt->pts) {
+        if (is_relative(st->cur_dts) || pkt->dts - (LLN(1)<<(st->pts_wrap_bits - 1)) > st->cur_dts) {
+            pkt->dts -= LLN(1) << st->pts_wrap_bits;
         } else
-            pkt->pts += 1LL << st->pts_wrap_bits;
+            pkt->pts += LLN(1) << st->pts_wrap_bits;
     }
 
     /* Some MPEG-2 in MPEG-PS lack dts (issue #171 / input_file.mpg).
@@ -1556,8 +1556,8 @@ int av_read_frame(AVFormatContext *s, AVPacket *pkt)
                 int64_t last_dts = next_pkt->dts;
                 while (pktl && next_pkt->pts == AV_NOPTS_VALUE) {
                     if (pktl->pkt.stream_index == next_pkt->stream_index &&
-                        (av_compare_mod(next_pkt->dts, pktl->pkt.dts, 2LL << (wrap_bits - 1)) < 0)) {
-                        if (av_compare_mod(pktl->pkt.pts, pktl->pkt.dts, 2LL << (wrap_bits - 1))) {
+                        (av_compare_mod(next_pkt->dts, pktl->pkt.dts, LLN(2) << (wrap_bits - 1)) < 0)) {
+                        if (av_compare_mod(pktl->pkt.pts, pktl->pkt.dts, LLN(2) << (wrap_bits - 1))) {
                             // not B-frame
                             next_pkt->pts = pktl->pkt.dts;
                         }
@@ -2518,7 +2518,7 @@ static void estimate_timings_from_bit_rate(AVFormatContext *ic)
                "Estimating duration from bitrate, this may be inaccurate\n");
 }
 
-#define DURATION_MAX_READ_SIZE 250000LL
+#define DURATION_MAX_READ_SIZE LLN(250000)
 #define DURATION_MAX_RETRY 4
 
 /* only usable for MPEG-PS streams */
@@ -2592,7 +2592,7 @@ static void estimate_timings_from_pts(AVFormatContext *ic, int64_t old_offset)
                     duration -= st->first_dts;
                 if (duration > 0) {
                     if (st->duration == AV_NOPTS_VALUE || st->info->last_duration<= 0 ||
-                        (st->duration < duration && FFABS(duration - st->info->last_duration) < 60LL*st->time_base.den / st->time_base.num))
+                        (st->duration < duration && FFABS(duration - st->info->last_duration) < LLN(60)*st->time_base.den / st->time_base.num))
                         st->duration = duration;
                     st->info->last_duration = duration;
                 }
@@ -3111,7 +3111,7 @@ void ff_rfps_calculate(AVFormatContext *ic)
         // the check for tb_unreliable() is not completely correct, since this is not about handling
         // a unreliable/inexact time base, but a time base that is finer than necessary, as e.g.
         // ipmovie.c produces.
-        if (tb_unreliable(st->codec) && st->info->duration_count > 15 && st->info->duration_gcd > FFMAX(1, st->time_base.den/(500LL*st->time_base.num)) && !st->r_frame_rate.num)
+        if (tb_unreliable(st->codec) && st->info->duration_count > 15 && st->info->duration_gcd > FFMAX(1, st->time_base.den/(LLN(500)*st->time_base.num)) && !st->r_frame_rate.num)
             av_reduce(&st->r_frame_rate.num, &st->r_frame_rate.den, st->time_base.den, st->time_base.num * st->info->duration_gcd, INT_MAX);
         if (st->info->duration_count>1 && !st->r_frame_rate.num
             && tb_unreliable(st->codec)) {

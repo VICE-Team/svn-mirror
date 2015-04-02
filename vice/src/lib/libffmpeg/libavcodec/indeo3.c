@@ -287,7 +287,7 @@ static int copy_cell(Indeo3DecodeContext *ctx, Plane *plane, Cell *cell)
     AV_WN32A(dst, ((AV_RN32(src) + AV_RN32(ref)) >> 1) & 0x7F7F7F7FUL)
 
 #define AVG_64(dst, src, ref) \
-    AV_WN64A(dst, ((AV_RN64(src) + AV_RN64(ref)) >> 1) & 0x7F7F7F7F7F7F7F7FULL)
+    AV_WN64A(dst, ((AV_RN64(src) + AV_RN64(ref)) >> 1) & ULLN(0x7F7F7F7F7F7F7F7F))
 
 
 /*
@@ -299,7 +299,7 @@ static inline uint64_t replicate64(uint64_t a) {
     a &= 0xFF00FF00FF00FF00ULL;
     a |= a >> 8;
 #else
-    a &= 0x00FF00FF00FF00FFULL;
+    a &= ULLN(0x00FF00FF00FF00FF);
     a |= a << 8;
 #endif
     return a;

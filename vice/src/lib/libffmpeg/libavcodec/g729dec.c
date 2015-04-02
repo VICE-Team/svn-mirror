@@ -203,7 +203,7 @@ static inline uint16_t g729_prng(uint16_t value)
  */
 static inline int get_parity(uint8_t value)
 {
-   return (0x6996966996696996ULL >> (value >> 2)) & 1;
+   return (ULLN(0x6996966996696996) >> (value >> 2)) & 1;
 }
 
 /**

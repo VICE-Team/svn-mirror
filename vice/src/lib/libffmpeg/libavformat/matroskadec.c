@@ -1006,8 +1006,8 @@ static int ebml_read_length(MatroskaDemuxContext *matroska, AVIOContext *pb,
                             uint64_t *number)
 {
     int res = ebml_read_num(matroska, pb, 8, number);
-    if (res > 0 && *number + 1 == 1ULL << (7 * res))
-        *number = 0xffffffffffffffULL;
+    if (res > 0 && *number + 1 == ULLN(1) << (7 * res))
+        *number = ULLN(0xffffffffffffff);
     return res;
 }
 
@@ -1165,7 +1165,7 @@ static int matroska_ebmlnum_sint(MatroskaDemuxContext *matroska,
         return res;
 
     /* make signed (weird way) */
-    *num = unum - ((1LL << (7 * res - 1)) - 1);
+    *num = unum - ((LLN(1) << (7 * res - 1)) - 1);
 
     return res;
 }
@@ -1822,7 +1822,7 @@ static int matroska_parse_flac(AVFormatContext *s,
             chmask = av_dict_get(dict, "WAVEFORMATEXTENSIBLE_CHANNEL_MASK", NULL, 0);
             if (chmask) {
                 uint64_t mask = strtol(chmask->value, NULL, 0);
-                if (!mask || mask & ~0x3ffffULL) {
+                if (!mask || mask & ULLN(~0x3ffff)) {
                     av_log(s, AV_LOG_WARNING,
                            "Invalid value of WAVEFORMATEXTENSIBLE_CHANNEL_MASK\n");
                 } else

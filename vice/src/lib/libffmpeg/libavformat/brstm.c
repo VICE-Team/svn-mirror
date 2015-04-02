@@ -98,7 +98,7 @@ static int read_header(AVFormatContext *s)
     if (h1offset > size)
         return AVERROR_INVALIDDATA;
     avio_skip(s->pb, 12);
-    toffset = avio_rb32(s->pb) + 16LL;
+    toffset = avio_rb32(s->pb) + LLN(16);
     if (toffset > size)
         return AVERROR_INVALIDDATA;
 
@@ -157,7 +157,7 @@ static int read_header(AVFormatContext *s)
         int ch;
 
         avio_skip(s->pb, pos + toffset - avio_tell(s->pb));
-        toffset = avio_rb32(s->pb) + 16LL;
+        toffset = avio_rb32(s->pb) + LLN(16);
         if (toffset > size)
             return AVERROR_INVALIDDATA;
 

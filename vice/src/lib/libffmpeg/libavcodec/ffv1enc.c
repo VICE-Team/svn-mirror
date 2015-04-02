@@ -557,7 +557,7 @@ static int write_extradata(FFV1Context *f)
     if (!f->avctx->extradata)
         return AVERROR(ENOMEM);
     ff_init_range_encoder(c, f->avctx->extradata, f->avctx->extradata_size);
-    ff_build_rac_states(c, 0.05 * (1LL << 32), 256 - 8);
+	ff_build_rac_states(c, 0.05 * (LLN(1) << 32), 256 - 8);
 
     put_symbol(c, state, f->version, 0);
     if (f->version > 2) {
@@ -1193,7 +1193,7 @@ static int encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     uint8_t *buf_p;
     int i, ret;
     int64_t maxsize =   FF_MIN_BUFFER_SIZE
-                      + avctx->width*avctx->height*35LL*4;
+                      + avctx->width*avctx->height*LLN(35)*4;
 
     if(!pict) {
         if (avctx->flags & CODEC_FLAG_PASS1) {
@@ -1241,13 +1241,13 @@ static int encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     }
 
     if (f->version > 3)
-        maxsize = FF_MIN_BUFFER_SIZE + avctx->width*avctx->height*3LL*4;
+        maxsize = FF_MIN_BUFFER_SIZE + avctx->width*avctx->height*LLN(3)*4;
 
     if ((ret = ff_alloc_packet2(avctx, pkt, maxsize)) < 0)
         return ret;
 
     ff_init_range_encoder(c, pkt->data, pkt->size);
-    ff_build_rac_states(c, 0.05 * (1LL << 32), 256 - 8);
+    ff_build_rac_states(c, 0.05 * (LLN(1) << 32), 256 - 8);
 
     av_frame_unref(p);
     if ((ret = av_frame_ref(p, pict)) < 0)

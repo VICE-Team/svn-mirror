@@ -268,7 +268,7 @@ static int avi_write_header(AVFormatContext *s)
 
         if (   enc->codec_type == AVMEDIA_TYPE_VIDEO
             && enc->codec_id != AV_CODEC_ID_XSUB
-            && au_byterate > 1000LL*au_scale) {
+            && au_byterate > LLN(1000)*au_scale) {
             au_byterate = 600;
             au_scale    = 1;
         }

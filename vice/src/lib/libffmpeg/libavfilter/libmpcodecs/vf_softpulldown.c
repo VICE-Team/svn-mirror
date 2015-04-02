@@ -37,8 +37,13 @@
 
 struct vf_priv_s {
     int state;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
     long long in;
     long long out;
+#else
+    __int64 in;
+    __int64 out;
+#endif
 };
 
 static int put_image(struct vf_instance *vf, mp_image_t *mpi, double pts)

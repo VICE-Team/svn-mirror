@@ -337,17 +337,17 @@ uint8_t *av_packet_get_side_data(AVPacket *pkt, enum AVPacketSideDataType type,
     return NULL;
 }
 
-#define FF_MERGE_MARKER 0x8c4d9d108e25e9feULL
+#define FF_MERGE_MARKER ULLN(0x8c4d9d108e25e9fe)
 
 int av_packet_merge_side_data(AVPacket *pkt){
     if(pkt->side_data_elems){
         AVBufferRef *buf;
         int i;
         uint8_t *p;
-        uint64_t size= pkt->size + 8LL + FF_INPUT_BUFFER_PADDING_SIZE;
+        uint64_t size= pkt->size + LLN(8) + FF_INPUT_BUFFER_PADDING_SIZE;
         AVPacket old= *pkt;
         for (i=0; i<old.side_data_elems; i++) {
-            size += old.side_data[i].size + 5LL;
+            size += old.side_data[i].size + LLN(5);
         }
         if (size > INT_MAX)
             return AVERROR(EINVAL);

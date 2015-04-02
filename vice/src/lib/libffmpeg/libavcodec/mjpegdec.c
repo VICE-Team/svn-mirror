@@ -1293,7 +1293,7 @@ static int mjpeg_decode_scan_progressive_ac(MJpegDecodeContext *s, int ss,
     }
 
     if (!Al) {
-        s->coefs_finished[c] |= (2ULL << se) - (1ULL << ss);
+        s->coefs_finished[c] |= (ULLN(2) << se) - (ULLN(1) << ss);
         last_scan = !~s->coefs_finished[c];
     }
 

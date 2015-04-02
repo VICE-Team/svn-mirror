@@ -103,8 +103,8 @@ void ff_acelp_high_pass_filter(int16_t* out, int hpf_f[2],
     int tmp;
 
     for (i = 0; i < length; i++) {
-        tmp  = (hpf_f[0]* 15836LL) >> 13;
-        tmp += (hpf_f[1]* -7667LL) >> 13;
+        tmp  = (hpf_f[0]* LLN(15836)) >> 13;
+        tmp += (hpf_f[1]* LLN(-7667)) >> 13;
         tmp += 7699 * (in[i] - 2*in[i-1] + in[i-2]);
 
         /* With "+0x800" rounding, clipping is needed

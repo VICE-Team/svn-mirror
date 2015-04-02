@@ -149,7 +149,7 @@ static int flac_read_header(AVFormatContext *s)
                 chmask = av_dict_get(s->metadata, "WAVEFORMATEXTENSIBLE_CHANNEL_MASK", NULL, 0);
                 if (chmask) {
                     uint64_t mask = strtol(chmask->value, NULL, 0);
-                    if (!mask || mask & ~0x3ffffULL) {
+                    if (!mask || mask & ULLN(~0x3ffff)) {
                         av_log(s, AV_LOG_WARNING,
                                "Invalid value of WAVEFORMATEXTENSIBLE_CHANNEL_MASK\n");
                     } else {

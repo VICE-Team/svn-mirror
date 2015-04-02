@@ -186,7 +186,7 @@ static void put_ebml_num(AVIOContext *pb, uint64_t num, int bytes)
     int i, needed_bytes = ebml_num_size(num);
 
     // sizes larger than this are currently undefined in EBML
-    av_assert0(num < (1ULL << 56) - 1);
+    av_assert0(num < (ULLN(1) << 56) - 1);
 
     if (bytes == 0)
         // don't care how many bytes are used, so use the min
@@ -195,7 +195,7 @@ static void put_ebml_num(AVIOContext *pb, uint64_t num, int bytes)
     // that we need to use, so write unknown size. This shouldn't happen.
     av_assert0(bytes >= needed_bytes);
 
-    num |= 1ULL << bytes * 7;
+    num |= ULLN(1) << bytes * 7;
     for (i = bytes - 1; i >= 0; i--)
         avio_w8(pb, (uint8_t)(num >> i * 8));
 }
@@ -537,7 +537,7 @@ static int put_flac_codecpriv(AVFormatContext *s,
                               AVIOContext *pb, AVCodecContext *codec)
 {
     int write_comment = (codec->channel_layout &&
-                         !(codec->channel_layout & ~0x3ffffULL) &&
+                         !(codec->channel_layout & ULLN(~0x3ffff)) &&
                          !ff_flac_is_native_layout(codec->channel_layout));
     int ret = ff_flac_write_header(pb, codec->extradata, codec->extradata_size,
                                    !write_comment);
@@ -1402,7 +1402,7 @@ static int mkv_write_header(AVFormatContext *s)
         return ret;
 
     for (i = 0; i < s->nb_chapters; i++)
-        mkv->chapter_id_offset = FFMAX(mkv->chapter_id_offset, 1LL - s->chapters[i]->id);
+        mkv->chapter_id_offset = FFMAX(mkv->chapter_id_offset, LLN(1) - s->chapters[i]->id);
 
     if (mkv->mode != MODE_WEBM) {
         ret = mkv_write_chapters(s);

@@ -777,7 +777,7 @@ static int vobsub_read_header(AVFormatContext *s)
                 ret = AVERROR_INVALIDDATA;
                 goto end;
             }
-            timestamp = (hh*3600LL + mm*60LL + ss) * 1000LL + ms + delay;
+            timestamp = (hh*LLN(3600) + mm*LLN(60) + ss) * LLN(1000) + ms + delay;
             timestamp = av_rescale_q(timestamp, av_make_q(1, 1000), st->time_base);
 
             sub = ff_subtitles_queue_insert(&vobsub->q[s->nb_streams - 1], "", 0, 0);
@@ -809,7 +809,7 @@ static int vobsub_read_header(AVFormatContext *s)
                 p++;
             }
             sscanf(p, "%d:%d:%d:%d", &hh, &mm, &ss, &ms);
-            delay = ((hh*3600LL + mm*60LL + ss) * 1000LL + ms) * sign;
+            delay = ((hh*LLN(3600) + mm*LLN(60) + ss) * LLN(1000) + ms) * sign;
 
         } else if (!strncmp(line, "langidx:", 8)) {
             const char *p = line + 8;

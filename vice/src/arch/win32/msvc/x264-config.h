@@ -27,3 +27,11 @@
 #define HAVE_THP 0
 #define HAVE_LSMASH 0
 #define HAVE_AS_FUNC 0
+
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
+#define LLN(x) (x ## LL)
+#define ULLN(x) (x ## ULL)
+#else
+#define LLN(x) ((__int64)(x))
+#define ULLN(x) ((unsigned __int64)(x))
+#endif

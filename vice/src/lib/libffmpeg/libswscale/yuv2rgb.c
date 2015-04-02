@@ -758,14 +758,14 @@ av_cold int ff_yuv2rgb_c_init_tables(SwsContext *c, const int inv_table[4],
     cgv  = (cgv * contrast * saturation) >> 32;
     oy  -= 256 * brightness;
 
-    c->uOffset = 0x0400040004000400LL;
-    c->vOffset = 0x0400040004000400LL;
-    c->yCoeff  = roundToInt16(cy  * 8192) * 0x0001000100010001ULL;
-    c->vrCoeff = roundToInt16(crv * 8192) * 0x0001000100010001ULL;
-    c->ubCoeff = roundToInt16(cbu * 8192) * 0x0001000100010001ULL;
-    c->vgCoeff = roundToInt16(cgv * 8192) * 0x0001000100010001ULL;
-    c->ugCoeff = roundToInt16(cgu * 8192) * 0x0001000100010001ULL;
-    c->yOffset = roundToInt16(oy  *    8) * 0x0001000100010001ULL;
+    c->uOffset = LLN(0x0400040004000400);
+    c->vOffset = LLN(0x0400040004000400);
+    c->yCoeff  = roundToInt16(cy  * 8192) * ULLN(0x0001000100010001);
+    c->vrCoeff = roundToInt16(crv * 8192) * ULLN(0x0001000100010001);
+    c->ubCoeff = roundToInt16(cbu * 8192) * ULLN(0x0001000100010001);
+    c->vgCoeff = roundToInt16(cgv * 8192) * ULLN(0x0001000100010001);
+    c->ugCoeff = roundToInt16(cgu * 8192) * ULLN(0x0001000100010001);
+    c->yOffset = roundToInt16(oy  *    8) * ULLN(0x0001000100010001);
 
     c->yuv2rgb_y_coeff   = (int16_t)roundToInt16(cy  << 13);
     c->yuv2rgb_y_offset  = (int16_t)roundToInt16(oy  <<  9);

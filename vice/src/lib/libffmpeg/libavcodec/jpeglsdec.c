@@ -156,7 +156,7 @@ static inline int ls_get_code_regular(GetBitContext *gb, JLSState *state, int Q)
         ret >>= 1;
 
     /* for NEAR=0, k=0 and 2*B[Q] <= - N[Q] mapping is reversed */
-    if (!state->near && !k && (2 * state->B[Q] <= -state->N[Q]))
+    if (!state->nearly && !k && (2 * state->B[Q] <= -state->N[Q]))
         ret = -(ret + 1);
 
     ret = ff_jpegls_update_state_regular(state, Q, ret);
@@ -233,9 +233,9 @@ static inline void ls_decode_line(JLSState *state, MJpegDecodeContext *s,
         D1 = Rb - Rc;
         D2 = Rc - Ra;
         /* run mode */
-        if ((FFABS(D0) <= state->near) &&
-            (FFABS(D1) <= state->near) &&
-            (FFABS(D2) <= state->near)) {
+        if ((FFABS(D0) <= state->nearly) &&
+            (FFABS(D1) <= state->nearly) &&
+            (FFABS(D2) <= state->nearly)) {
             int r;
             int RItype;
 
@@ -276,13 +276,13 @@ static inline void ls_decode_line(JLSState *state, MJpegDecodeContext *s,
 
             /* decode run termination value */
             Rb     = R(last, x);
-            RItype = (FFABS(Ra - Rb) <= state->near) ? 1 : 0;
+            RItype = (FFABS(Ra - Rb) <= state->nearly) ? 1 : 0;
             err    = ls_get_code_runterm(&s->gb, state, RItype,
                                          ff_log2_run[state->run_index[comp]]);
             if (state->run_index[comp])
                 state->run_index[comp]--;
 
-            if (state->near && RItype) {
+            if (state->nearly && RItype) {
                 pred = Ra + err;
             } else {
                 if (Rb < Ra)
@@ -316,10 +316,10 @@ static inline void ls_decode_line(JLSState *state, MJpegDecodeContext *s,
             /* we have to do something more for near-lossless coding */
             pred += err;
         }
-        if (state->near) {
-            if (pred < -state->near)
+        if (state->nearly) {
+            if (pred < -state->nearly)
                 pred += state->range * state->twonear;
-            else if (pred > state->maxval + state->near)
+            else if (pred > state->maxval + state->nearly)
                 pred -= state->range * state->twonear;
             pred = av_clip(pred, 0, state->maxval);
         }
@@ -330,7 +330,7 @@ static inline void ls_decode_line(JLSState *state, MJpegDecodeContext *s,
     }
 }
 
-int ff_jpegls_decode_picture(MJpegDecodeContext *s, int near,
+int ff_jpegls_decode_picture(MJpegDecodeContext *s, int nearly,
                              int point_transform, int ilv)
 {
     int i, t = 0;
@@ -344,7 +344,7 @@ int ff_jpegls_decode_picture(MJpegDecodeContext *s, int near,
 
     state = av_mallocz(sizeof(JLSState));
     /* initialize JPEG-LS state from JPEG parameters */
-    state->near   = near;
+    state->nearly   = nearly;
     state->bpp    = (s->bits < 2) ? 2 : s->bits;
     state->maxval = s->maxval;
     state->T1     = s->t1;
@@ -363,7 +363,7 @@ int ff_jpegls_decode_picture(MJpegDecodeContext *s, int near,
         av_log(s->avctx, AV_LOG_DEBUG,
                "JPEG-LS params: %ix%i NEAR=%i MV=%i T(%i,%i,%i) "
                "RESET=%i, LIMIT=%i, qbpp=%i, RANGE=%i\n",
-                s->width, s->height, state->near, state->maxval,
+                s->width, s->height, state->nearly, state->maxval,
                 state->T1, state->T2, state->T3,
                 state->reset, state->limit, state->qbpp, state->range);
         av_log(s->avctx, AV_LOG_DEBUG, "JPEG params: ILV=%i Pt=%i BPP=%i, scan = %i\n",

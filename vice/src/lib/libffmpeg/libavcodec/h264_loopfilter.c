@@ -366,10 +366,10 @@ static av_always_inline void h264_filter_mb_fast_internal(H264Context *h,
 		int edges;
         if( IS_8x8DCT(mb_type) && (h->cbp&7) == 7 && !chroma444 ) {
             edges = 4;
-            AV_WN64A(bS[0][0], 0x0002000200020002ULL);
-            AV_WN64A(bS[0][2], 0x0002000200020002ULL);
-            AV_WN64A(bS[1][0], 0x0002000200020002ULL);
-            AV_WN64A(bS[1][2], 0x0002000200020002ULL);
+            AV_WN64A(bS[0][0], ULLN(0x0002000200020002));
+            AV_WN64A(bS[0][2], ULLN(0x0002000200020002));
+            AV_WN64A(bS[1][0], ULLN(0x0002000200020002));
+            AV_WN64A(bS[1][2], ULLN(0x0002000200020002));
         } else {
             int mask_edge1 = (3*(((5*mb_type)>>5)&1)) | (mb_type>>4); //(mb_type & (MB_TYPE_16x16 | MB_TYPE_8x16)) ? 3 : (mb_type & MB_TYPE_16x8) ? 1 : 0;
             int mask_edge0 = 3*((mask_edge1>>1) & ((5*left_type)>>5)&1); // (mb_type & (MB_TYPE_16x16 | MB_TYPE_8x16)) && (h->left_type[LTOP] & (MB_TYPE_16x16 | MB_TYPE_8x16)) ? 3 : 0;
@@ -379,9 +379,9 @@ static av_always_inline void h264_filter_mb_fast_internal(H264Context *h,
                                               h->list_count==2, edges, step, mask_edge0, mask_edge1, FIELD_PICTURE(h));
         }
         if( IS_INTRA(left_type) )
-            AV_WN64A(bS[0][0], 0x0004000400040004ULL);
+            AV_WN64A(bS[0][0], ULLN(0x0004000400040004));
         if( IS_INTRA(top_type) )
-            AV_WN64A(bS[1][0], FIELD_PICTURE(h) ? 0x0003000300030003ULL : 0x0004000400040004ULL);
+            AV_WN64A(bS[1][0], FIELD_PICTURE(h) ? ULLN(0x0003000300030003) : ULLN(0x0004000400040004));
 
 #define FILTER(hv,dir,edge,intra)\
         if(AV_RN64A(bS[dir][edge])) {                                   \
@@ -502,7 +502,7 @@ static av_always_inline void filter_mb_dir(H264Context *h, int mb_x, int mb_y, u
                 DECLARE_ALIGNED(8, int16_t, bS)[4];
                 int qp;
                 if (IS_INTRA(mb_type | h->cur_pic.mb_type[mbn_xy])) {
-                    AV_WN64A(bS, 0x0003000300030003ULL);
+                    AV_WN64A(bS, ULLN(0x0003000300030003));
                 } else {
                     if (!CABAC(h) && IS_8x8DCT(h->cur_pic.mb_type[mbn_xy])) {
                         bS[0]= 1+((h->cbp_table[mbn_xy] & 0x4000)||h->non_zero_count_cache[scan8[0]+0]);
@@ -540,17 +540,17 @@ static av_always_inline void filter_mb_dir(H264Context *h, int mb_x, int mb_y, u
             int qp;
 
             if( IS_INTRA(mb_type|mbm_type)) {
-                AV_WN64A(bS, 0x0003000300030003ULL);
+                AV_WN64A(bS, ULLN(0x0003000300030003));
                 if (   (!IS_INTERLACED(mb_type|mbm_type))
                     || ((FRAME_MBAFF(h) || (h->picture_structure != PICT_FRAME)) && (dir == 0))
                 )
-                    AV_WN64A(bS, 0x0004000400040004ULL);
+                    AV_WN64A(bS, ULLN(0x0004000400040004));
             } else {
                 int i;
                 int mv_done;
 
                 if( dir && FRAME_MBAFF(h) && IS_INTERLACED(mb_type ^ mbm_type)) {
-                    AV_WN64A(bS, 0x0001000100010001ULL);
+                    AV_WN64A(bS, ULLN(0x0001000100010001));
                     mv_done = 1;
                 }
                 else if( mask_par0 && ((mbm_type & (MB_TYPE_16x16 | (MB_TYPE_8x16 >> dir)))) ) {
@@ -627,7 +627,7 @@ static av_always_inline void filter_mb_dir(H264Context *h, int mb_x, int mb_y, u
             continue;
 
         if( IS_INTRA(mb_type)) {
-            AV_WN64A(bS, 0x0003000300030003ULL);
+            AV_WN64A(bS, ULLN(0x0003000300030003));
         } else {
             int i;
             int mv_done;
@@ -735,8 +735,8 @@ void ff_h264_filter_mb( H264Context *h, int mb_x, int mb_y, uint8_t *img_y, uint
         first_vertical_edge_done = 1;
 
         if( IS_INTRA(mb_type) ) {
-            AV_WN64A(&bS[0], 0x0004000400040004ULL);
-            AV_WN64A(&bS[4], 0x0004000400040004ULL);
+            AV_WN64A(&bS[0], ULLN(0x0004000400040004));
+            AV_WN64A(&bS[4], ULLN(0x0004000400040004));
         } else {
             static const uint8_t offset[2][2][8]={
                 {

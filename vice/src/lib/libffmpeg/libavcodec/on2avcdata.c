@@ -20,6 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifdef IDE_COMPILE
+#include "ffmpeg-config.h"
+#include "ide-config.h"
+#endif
+
 #include "on2avcdata.h"
 
 static const int on2avc_swb_start_long[] = {

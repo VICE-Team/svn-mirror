@@ -64,8 +64,8 @@ static int64_t get_pts(const char **buf, int *duration,
                    &hh1, &mm1, &ss1, &ms1,
                    &hh2, &mm2, &ss2, &ms2,
                    x1, x2, y1, y2) >= 8) {
-            int64_t start = (hh1*3600LL + mm1*60LL + ss1) * 1000LL + ms1;
-            int64_t end   = (hh2*3600LL + mm2*60LL + ss2) * 1000LL + ms2;
+            int64_t start = (hh1*LLN(3600) + mm1*LLN(60) + ss1) * LLN(1000) + ms1;
+            int64_t end   = (hh2*LLN(3600) + mm2*LLN(60) + ss2) * LLN(1000) + ms2;
             *duration = end - start;
             *buf += ff_subtitles_next_line(*buf);
             return start;

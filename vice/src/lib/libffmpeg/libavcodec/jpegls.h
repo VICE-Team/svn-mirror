@@ -40,7 +40,7 @@ typedef struct JLSState {
     int T1, T2, T3;
     int A[367], B[367], C[365], N[367];
     int limit, reset, bpp, qbpp, maxval, range;
-    int near, twonear;
+    int nearly, twonear;
     int run_index[4];
 } JLSState;
 
@@ -63,11 +63,11 @@ static inline int ff_jpegls_quantize(JLSState *s, int v)
             return -3;
         if (v <= -s->T1)
             return -2;
-        if (v < -s->near)
+        if (v < -s->nearly)
             return -1;
         return 0;
     } else {
-        if (v <= s->near)
+        if (v <= s->nearly)
             return 0;
         if (v < s->T1)
             return 1;

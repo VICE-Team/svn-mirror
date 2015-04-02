@@ -44,7 +44,7 @@ static int afc_read_header(AVFormatContext *s)
         return AVERROR(ENOMEM);
     st->codec->extradata[0] = 8 * st->codec->channels;
 
-    c->data_end = avio_rb32(s->pb) + 32LL;
+    c->data_end = avio_rb32(s->pb) + LLN(32);
     st->duration = avio_rb32(s->pb);
     st->codec->sample_rate = avio_rb16(s->pb);
     avio_skip(s->pb, 22);

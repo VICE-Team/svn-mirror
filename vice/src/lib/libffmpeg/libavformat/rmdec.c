@@ -143,7 +143,7 @@ static int rm_read_audio_stream_info(AVFormatContext *s, AVIOContext *pb,
         if ((startpos + header_size) > avio_tell(pb))
             avio_skip(pb, header_size + startpos - avio_tell(pb));
         if (bytes_per_minute)
-            st->codec->bit_rate = 8LL * bytes_per_minute / 60;
+            st->codec->bit_rate = LLN(8) * bytes_per_minute / 60;
         st->codec->sample_rate = 8000;
         st->codec->channels = 1;
         st->codec->channel_layout = AV_CH_LAYOUT_MONO;
@@ -166,7 +166,7 @@ static int rm_read_audio_stream_info(AVFormatContext *s, AVIOContext *pb,
         bytes_per_minute = avio_rb32(pb);
         if (version == 4) {
             if (bytes_per_minute)
-                st->codec->bit_rate = 8LL * bytes_per_minute / 60;
+                st->codec->bit_rate = LLN(8) * bytes_per_minute / 60;
         }
         avio_rb32(pb); /* ??? */
         ast->sub_packet_h = sub_packet_h = avio_rb16(pb); /* 1 */

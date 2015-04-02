@@ -35,7 +35,7 @@
 /* WARNING: only correct for positive numbers */
 #define FIXR_OLD(a)    ((int)((a) * FRAC_ONE + 0.5))
 #define FIXR(a)        ((int)((a) * FRAC_ONE + 0.5))
-#define FIXHR(a)       ((int)((a) * (1LL<<32) + 0.5))
+#define FIXHR(a)       ((int)((a) * (LLN(1)<<32) + 0.5))
 #define MULH3(x, y, s) MULH((s)*(x), y)
 #define MULLx(x, y, s) MULL(x,y,s)
 #define RENAME(a)      a ## _fixed

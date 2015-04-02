@@ -49,7 +49,7 @@ static int64_t read_ts(char **line)
     if (sscanf(*line, "%d:%d:%d.%d%c%n",
                &hh, &mm, &ss, &ms, &c, &len) >= 5) {
         *line += len;
-        return (hh*3600LL + mm*60LL + ss) * 100LL + ms;
+        return (hh*LLN(3600) + mm*LLN(60) + ss) * LLN(100) + ms;
     }
     return AV_NOPTS_VALUE;
 }

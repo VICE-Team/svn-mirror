@@ -82,7 +82,7 @@ void ff_decode_dxt1(GetByteContext *gb, uint8_t *dst,
 
     for (by=0; by < h/4; by++, d += stride-w)
         for (bx = 0; bx < w / 4; bx++, d += 4)
-            dxt1_decode_pixels(gb, d, qstride, 0, 0LL);
+            dxt1_decode_pixels(gb, d, qstride, 0, LLN(0));
 }
 
 void ff_decode_dxt3(GetByteContext *gb, uint8_t *dst,

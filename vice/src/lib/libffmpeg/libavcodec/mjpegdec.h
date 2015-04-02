@@ -73,8 +73,12 @@ typedef struct MJpegDecodeContext {
     int adobe_transform;
 
     int maxval;
+#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
     int near;         ///< near lossless bound (si 0 for lossless)
-    int t1,t2,t3;
+#else
+    int nearly;
+#endif
+	int t1,t2,t3;
     int reset;        ///< context halfing interval ?rename
 
     int width, height;

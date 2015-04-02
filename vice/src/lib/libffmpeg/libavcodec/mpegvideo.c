@@ -2436,7 +2436,7 @@ void ff_print_debug_info2(AVCodecContext *avctx, AVFrame *pict, uint8_t *mbskip_
 #endif
                 if ((avctx->debug & FF_DEBUG_VIS_QP)) {
                     uint64_t c = (qscale_table[mb_index] * 128 / 31) *
-                                 0x0101010101010101ULL;
+                                 ULLN(0x0101010101010101);
                     int y;
                     for (y = 0; y < block_height; y++) {
                         *(uint64_t *)(pict->data[1] + 8 * mb_x +
@@ -2484,8 +2484,8 @@ void ff_print_debug_info2(AVCodecContext *avctx, AVFrame *pict, uint8_t *mbskip_
                         COLOR(300,48)
                     }
 
-                    u *= 0x0101010101010101ULL;
-                    v *= 0x0101010101010101ULL;
+                    u *= ULLN(0x0101010101010101);
+                    v *= ULLN(0x0101010101010101);
                     for (y = 0; y < block_height; y++) {
                         *(uint64_t *)(pict->data[1] + 8 * mb_x +
                                       (block_height * mb_y + y) * pict->linesize[1]) = u;
@@ -2496,9 +2496,9 @@ void ff_print_debug_info2(AVCodecContext *avctx, AVFrame *pict, uint8_t *mbskip_
                     // segmentation
                     if (IS_8X8(mb_type) || IS_16X8(mb_type)) {
                         *(uint64_t *)(pict->data[0] + 16 * mb_x + 0 +
-                                      (16 * mb_y + 8) * pict->linesize[0]) ^= 0x8080808080808080ULL;
+                                      (16 * mb_y + 8) * pict->linesize[0]) ^= ULLN(0x8080808080808080);
                         *(uint64_t *)(pict->data[0] + 16 * mb_x + 8 +
-                                      (16 * mb_y + 8) * pict->linesize[0]) ^= 0x8080808080808080ULL;
+                                      (16 * mb_y + 8) * pict->linesize[0]) ^= ULLN(0x8080808080808080);
                     }
                     if (IS_8X8(mb_type) || IS_8X16(mb_type)) {
                         for (y = 0; y < 16; y++)
@@ -2520,7 +2520,7 @@ void ff_print_debug_info2(AVCodecContext *avctx, AVFrame *pict, uint8_t *mbskip_
                                     pict->data[0][sx + 4 + (sy + y) * pict->linesize[0]] ^= 0x80;
                             if (mv[0] != mv[dm * mv_stride] || mv[dm] != mv[dm * (mv_stride + 1)])
                                 *(uint64_t *)(pict->data[0] + sx + (sy + 4) *
-                                              pict->linesize[0]) ^= 0x8080808080808080ULL;
+                                              pict->linesize[0]) ^= ULLN(0x8080808080808080);
                         }
                     }
 

@@ -200,7 +200,7 @@ static AVIOContext * wtvfile_open_sector(int first_sector, uint64_t length, int 
         av_free(wf);
         return NULL;
     }
-    wf->sector_bits = length & (1ULL<<63) ? WTV_SECTOR_BITS : WTV_BIGSECTOR_BITS;
+    wf->sector_bits = length & (ULLN(1)<<63) ? WTV_SECTOR_BITS : WTV_BIGSECTOR_BITS;
 
     if (!wf->nb_sectors) {
         av_free(wf->sectors);
@@ -385,7 +385,7 @@ static int read_probe(AVProbeData *p)
  */
 static int filetime_to_iso8601(char *buf, int buf_size, int64_t value)
 {
-    time_t t = (value / 10000000LL) - 11644473600LL;
+    time_t t = (value / LLN(10000000)) - LLN(11644473600);
     struct tm *tm = gmtime(&t);
     if (!tm)
         return -1;
@@ -399,7 +399,7 @@ static int filetime_to_iso8601(char *buf, int buf_size, int64_t value)
  */
 static int crazytime_to_iso8601(char *buf, int buf_size, int64_t value)
 {
-    time_t t = (value / 10000000LL) - 719162LL*86400LL;
+    time_t t = (value / LLN(10000000)) - LLN(719162)*LLN(86400);
     struct tm *tm = gmtime(&t);
     if (!tm)
         return -1;

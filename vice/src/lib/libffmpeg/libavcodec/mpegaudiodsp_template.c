@@ -66,7 +66,7 @@ static inline int round_sample(int64_t *sum)
 #   define MULLx(x, y, s) MULL(x,y,s)
 #   define SHR(a,b)       ((a)>>(b))
 #   define FIXR(a)        ((int)((a) * FRAC_ONE + 0.5))
-#   define FIXHR(a)       ((int)((a) * (1LL<<32) + 0.5))
+#   define FIXHR(a)       ((int)((a) * (LLN(1)<<32) + 0.5))
 #endif
 
 /** Window for MDCT. Actually only the elements in [0,17] and
@@ -201,7 +201,7 @@ av_cold void RENAME(ff_mpa_synth_init)(MPA_INT *window)
         INTFLOAT v;
         v = ff_mpa_enwindow[i];
 #if USE_FLOATS
-        v *= 1.0 / (1LL<<(16 + FRAC_BITS));
+        v *= 1.0 / (LLN(1)<<(16 + FRAC_BITS));
 #endif
         window[i] = v;
         if ((i & 63) != 0)
