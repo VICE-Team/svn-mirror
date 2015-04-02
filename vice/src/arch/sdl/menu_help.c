@@ -247,7 +247,8 @@ static void show_text(const char *text)
         first_line = current_line;
         for (y = 0; (y < menu_draw->max_text_y) && (current_line < len); y++) {
             z = 0;
-            for (x = 0; text[current_line + x] != '\n'; x++) {
+            for (x = 0; (text[current_line + x] != '\n') &&
+                        (text[current_line + x] != 0); x++) {
                 switch (text[current_line + x]) {
                     case '`':
                         string[x + z] = '\'';
