@@ -740,6 +740,7 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     unsigned int width, height;
     DWORD adjust_style;
     int aspect_ratio, true_aspect_ratio, keep_aspect_ratio;
+    int menu_height;
 
     w = canvas->hwnd;
     cw = canvas->client_hwnd;
@@ -776,30 +777,35 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     place.length = sizeof(WINDOWPLACEMENT);
     GetWindowPlacement(w, &place);
 
-    GetClientRect(w, &wrect);
-    ClientToScreen(w, (LPPOINT)&wrect);
-    wrect.right = wrect.left + width;
-    wrect.bottom = wrect.top + height + statusbar_get_status_height();
-    wrect.top -= ui_get_menu_height(w);
-    adjust_style = WS_CAPTION | WS_BORDER | WS_DLGFRAME | (GetWindowLong(w, GWL_STYLE) & WS_SIZEBOX);
-	/* As MSDN says, "The AdjustWindowRect function does not add extra space when a menu bar wraps
-	   to two or more rows". Therefore, pass FALSE as argument bMenu of AdjustWindowRect: the menu
-	   height is calculated by ui_get_menu_height() */
-    AdjustWindowRect(&wrect, adjust_style, FALSE);
-    window_padding_x[window_index] = wrect.right - wrect.left - width;
-    window_padding_y[window_index] = wrect.bottom - wrect.top - height;
+    do {
+        menu_height = ui_get_menu_height(w);
+        GetClientRect(w, &wrect);
+        ClientToScreen(w, (LPPOINT)&wrect);
+        wrect.right = wrect.left + width;
+        wrect.bottom = wrect.top + height + statusbar_get_status_height();
+        wrect.top -= ui_get_menu_height(w);
+        adjust_style = WS_CAPTION | WS_BORDER | WS_DLGFRAME | (GetWindowLong(w, GWL_STYLE) & WS_SIZEBOX);
+        /* As MSDN says, "The AdjustWindowRect function does not add extra space when a menu bar wraps
+        to two or more rows". Therefore, pass FALSE as argument bMenu of AdjustWindowRect: the menu
+        height is calculated by ui_get_menu_height() */
+        AdjustWindowRect(&wrect, adjust_style, FALSE);
+        window_padding_x[window_index] = wrect.right - wrect.left - width;
+        window_padding_y[window_index] = wrect.bottom - wrect.top - height;
 
-    if (place.showCmd == SW_SHOWNORMAL) {
-        MoveWindow(w, wrect.left, wrect.top, wrect.right - wrect.left, wrect.bottom - wrect.top, TRUE);
-        if (cw != 0) {
-            MoveWindow(cw, 0, 0, width, height, TRUE);
+        if (place.showCmd == SW_SHOWNORMAL) {
+            MoveWindow(w, wrect.left, wrect.top, wrect.right - wrect.left, wrect.bottom - wrect.top, TRUE);
+            if (cw != 0) {
+                MoveWindow(cw, 0, 0, width, height, TRUE);
+            }
         }
-    } else {
-        place.rcNormalPosition.right = place.rcNormalPosition.left + wrect.right - wrect.left;
-        place.rcNormalPosition.bottom = place.rcNormalPosition.top + wrect.bottom - wrect.top;
-        SetWindowPlacement(w, &place);
-        InvalidateRect(w, NULL, FALSE);
-    }
+        else {
+            place.rcNormalPosition.right = place.rcNormalPosition.left + wrect.right - wrect.left;
+            place.rcNormalPosition.bottom = place.rcNormalPosition.top + wrect.bottom - wrect.top;
+            SetWindowPlacement(w, &place);
+            InvalidateRect(w, NULL, FALSE);
+        }
+        /* resizing may have changed the menu height so we need another resize */
+    } while (menu_height != ui_get_menu_height(w));
 }
 
 static void ui_resize_render_window(video_canvas_t *canvas)
