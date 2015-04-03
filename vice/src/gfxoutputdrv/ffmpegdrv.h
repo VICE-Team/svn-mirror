@@ -33,7 +33,7 @@
 extern void gfxoutput_init_ffmpeg(int help);
 
 /* deprecated access for UIs that do not use the gfxoutputdrv->formatlist yet: */
-extern gfxoutputdrv_format_t ffmpegdrv_formatlist[];
+extern gfxoutputdrv_format_t *ffmpegdrv_formatlist;
 
 #ifdef STATIC_FFMPEG
 #define VICE_P_AV_PACKET_RESCALE_TS              av_packet_rescale_ts
