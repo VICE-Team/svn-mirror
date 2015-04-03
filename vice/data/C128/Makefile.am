@@ -39,7 +39,7 @@ x11_keymaps = \
 	x11_pos.vkm
 
 sdl_keymaps = \
-	sdl_sym.vkm
+	sdl_pos.vkm
 
 extra_keymaps = \
 	amiga_sym.vkm \

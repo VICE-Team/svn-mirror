@@ -347,7 +347,7 @@ _END
                            <QPM:File>kernalse</QPM:File>
                            <QPM:File>kernalch</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
-                           <QPM:File>sdl_sym.vkm</QPM:File>
+                           <QPM:File>sdl_pos.vkm</QPM:File>
                            <QPM:File>vdc_comp.vpl</QPM:File>
                            <QPM:File>vdc_deft.vpl</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
@@ -370,11 +370,11 @@ _END
                            <QPM:File>jpkernal</QPM:File>
                            <QPM:File>kernal</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
-                           <QPM:File>sdl_sym.vkm</QPM:File>
-                           <QPM:File>sdl_sym_da.vkm</QPM:File>
-                           <QPM:File>sdl_sym_de.vkm</QPM:File>
-                           <QPM:File>sdl_sym_fi.vkm</QPM:File>
-                           <QPM:File>sdl_sym_no.vkm</QPM:File>
+                           <QPM:File>sdl_pos.vkm</QPM:File>
+                           <QPM:File>sdl_pos_da.vkm</QPM:File>
+                           <QPM:File>sdl_pos_de.vkm</QPM:File>
+                           <QPM:File>sdl_pos_fi.vkm</QPM:File>
+                           <QPM:File>sdl_pos_no.vkm</QPM:File>
                            <QPM:File>sxkernal</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                         </QPM:Dir>
@@ -392,11 +392,11 @@ _END
                            <QPM:File>scpu64</QPM:File>
                            <QPM:File>jpchrgen</QPM:File>
                            <QPM:File>scpu64mem.sym</QPM:File>
-                           <QPM:File>sdl_sym.vkm</QPM:File>
-                           <QPM:File>sdl_sym_da.vkm</QPM:File>
-                           <QPM:File>sdl_sym_de.vkm</QPM:File>
-                           <QPM:File>sdl_sym_fi.vkm</QPM:File>
-                           <QPM:File>sdl_sym_no.vkm</QPM:File>
+                           <QPM:File>sdl_pos.vkm</QPM:File>
+                           <QPM:File>sdl_pos_da.vkm</QPM:File>
+                           <QPM:File>sdl_pos_de.vkm</QPM:File>
+                           <QPM:File>sdl_pos_fi.vkm</QPM:File>
+                           <QPM:File>sdl_pos_no.vkm</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                         </QPM:Dir>
 
@@ -407,11 +407,11 @@ _END
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>dtvrom.bin</QPM:File>
                            <QPM:File>kernal</QPM:File>
-                           <QPM:File>sdl_sym.vkm</QPM:File>
-                           <QPM:File>sdl_sym_da.vkm</QPM:File>
-                           <QPM:File>sdl_sym_de.vkm</QPM:File>
-                           <QPM:File>sdl_sym_fi.vkm</QPM:File>
-                           <QPM:File>sdl_sym_no.vkm</QPM:File>
+                           <QPM:File>sdl_pos.vkm</QPM:File>
+                           <QPM:File>sdl_pos_da.vkm</QPM:File>
+                           <QPM:File>sdl_pos_de.vkm</QPM:File>
+                           <QPM:File>sdl_pos_fi.vkm</QPM:File>
+                           <QPM:File>sdl_pos_no.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="CBM-II">
@@ -506,7 +506,7 @@ _END
                            <QPM:File>kernal.005</QPM:File>
                            <QPM:File>kernal.232</QPM:File>
                            <QPM:File>kernal.364</QPM:File>
-                           <QPM:File>sdl_sym.vkm</QPM:File>
+                           <QPM:File>sdl_pos.vkm</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                         </QPM:Dir>
 
@@ -524,7 +524,7 @@ _END
                            <QPM:File>default.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>kernal</QPM:File>
-                           <QPM:File>sdl_sym.vkm</QPM:File>
+                           <QPM:File>sdl_pos.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="doc">

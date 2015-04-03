@@ -32,11 +32,11 @@ x11_keymaps = \
 	x11_keyrah_de.vkm
 
 sdl_keymaps = \
-	sdl_sym.vkm \
-	sdl_sym_da.vkm \
-	sdl_sym_de.vkm \
-	sdl_sym_fi.vkm \
-	sdl_sym_no.vkm \
+	sdl_pos.vkm \
+	sdl_pos_da.vkm \
+	sdl_pos_de.vkm \
+	sdl_pos_fi.vkm \
+	sdl_pos_no.vkm \
 	sdl_keyrah.vkm \
 	sdl_keyrah_de.vkm
 

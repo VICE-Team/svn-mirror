@@ -16,7 +16,7 @@ x11_keymaps = \
 	x11_sym.vkm
 
 sdl_keymaps = \
-	sdl_sym.vkm \
+	sdl_pos.vkm \
 	sdl_pos_fi.vkm
 
 extra_keymaps = \
