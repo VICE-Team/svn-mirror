@@ -1359,6 +1359,13 @@ rm conftest.log
 [ "$SRCPATH" != "." ] && ln -sf ${SRCPATH}/Makefile ./Makefile
 mkdir -p common/{aarch64,arm,ppc,x86} encoder extras filters/video input output tools
 
+echo >>config.h "#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))"
+echo >>config.h "#define LLN(x) (x ## LL)"
+echo >>config.h "#define ULLN(x) (x ## ULL)"
+echo >>config.h "#else"
+echo >>config.h "#define LLN(x) ((__int64)(x))"
+echo >>config.h "#define ULLN(x) ((unsigned __int64)(x))"
+echo >>config.h "#endif"
+
 echo
 echo "You can run 'make' or 'make fprofiled' now."
-

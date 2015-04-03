@@ -193,7 +193,7 @@ HPELDSP_AVG_PIXELS16(_mmxext)
 
 #define SET_HPEL_FUNCS_NO_IDX(PFX, SIZE, CPU)                                     \
     do {                                                                        \
-        SET_HPEL_FUNCS_EXT(PFX, IDX, SIZE, CPU)                                 \
+        SET_HPEL_FUNCS_EXT_NO_IDX(PFX, SIZE, CPU)                                 \
         c->PFX ## _pixels_tab [1] = PFX ## _pixels ## SIZE ## _x2_  ## CPU; \
         c->PFX ## _pixels_tab [2] = PFX ## _pixels ## SIZE ## _y2_  ## CPU; \
         c->PFX ## _pixels_tab [3] = PFX ## _pixels ## SIZE ## _xy2_ ## CPU; \
