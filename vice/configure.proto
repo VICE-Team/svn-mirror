@@ -238,6 +238,25 @@ if test x"$host_os" = "xminixvmd"; then
   CFLAGS="$CFLAGS -I/usr/include/bsdcompat"
 fi
 
+dnl check for GNU make for static/shared ffmpeg
+if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
+  make_cmd=""
+  for i in "$MAKE" make gmake gnumake
+  do
+    test -x "$i" && continue
+      if ( sh -c "$i --version" 2>/dev/null | grep GNU >/dev/null )
+      then
+        make_cmd=$i;
+        break;
+      fi
+  done
+  if test x"$make_cmd" = "x"; then
+    AC_MSG_ERROR([When using internal FFMPEG a GNU make command is needed])
+  else
+    MAKE="$make_cmd"
+  fi
+fi
+
 if test x"$host_os" = "xminix"; then
   AC_DEFINE(MINIX_SUPPORT,,[do we need minix support])
   CFLAGS="$CFLAGS -D_MINIX -D_POSIX_SOURCE"
