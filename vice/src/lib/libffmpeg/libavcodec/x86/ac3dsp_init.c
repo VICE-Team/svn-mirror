@@ -74,6 +74,7 @@ void ff_apply_window_int16_ssse3_atom(int16_t *output, const int16_t *input,
 #define IF1(x) x
 #define IF0(x)
 
+#ifndef __NetBSD__
 #define MIX5(mono, stereo)                                      \
     __asm__ volatile (                                          \
         "movss           0(%1), %%xmm5          \n"             \
@@ -113,7 +114,49 @@ void ff_apply_window_int16_ssse3_atom(int16_t *output, const int16_t *input,
                       "%xmm4", "%xmm5", "%xmm6", "%xmm7",)      \
          "memory"                                               \
     );
+#else
+#define MIX5(mono, stereo)                                      \
+    __asm__ volatile (                                          \
+        "movss           0(%1), %%xmm5          \n"             \
+        "movss           8(%1), %%xmm6          \n"             \
+        "movss          24(%1), %%xmm7          \n"             \
+        "shufps     $0, %%xmm5, %%xmm5          \n"             \
+        "shufps     $0, %%xmm6, %%xmm6          \n"             \
+        "shufps     $0, %%xmm7, %%xmm7          \n"             \
+        "1:                                     \n"             \
+        "movups       (%0, %2), %%xmm0          \n"             \
+        "movups       (%0, %3), %%xmm1          \n"             \
+        "movups       (%0, %4), %%xmm2          \n"             \
+        "movups       (%0, %5), %%xmm3          \n"             \
+        "movups       (%0, %6), %%xmm4          \n"             \
+        "mulps          %%xmm5, %%xmm0          \n"             \
+        "mulps          %%xmm6, %%xmm1          \n"             \
+        "mulps          %%xmm5, %%xmm2          \n"             \
+        "mulps          %%xmm7, %%xmm3          \n"             \
+        "mulps          %%xmm7, %%xmm4          \n"             \
+ stereo("addps          %%xmm1, %%xmm0          \n")            \
+        "addps          %%xmm1, %%xmm2          \n"             \
+        "addps          %%xmm3, %%xmm0          \n"             \
+        "addps          %%xmm4, %%xmm2          \n"             \
+   mono("addps          %%xmm2, %%xmm0          \n")            \
+        "movups         %%xmm0, (%0, %2)        \n"             \
+ stereo("movups         %%xmm2, (%0, %3)        \n")            \
+        "add               $16, %0              \n"             \
+        "jl                 1b                  \n"             \
+        : "+&r"(i)                                              \
+        : "r"(matrix),                                          \
+          "r"(samples[0] + len),                                \
+          "r"(samples[1] + len),                                \
+          "r"(samples[2] + len),                                \
+          "r"(samples[3] + len),                                \
+          "r"(samples[4] + len)                                 \
+        : XMM_CLOBBERS("%xmm0", "%xmm1", "%xmm2", "%xmm3",      \
+                      "%xmm4", "%xmm5", "%xmm6", "%xmm7",)      \
+         "memory"                                               \
+    );
+#endif
 
+#ifndef __NetBSD__
 #define MIX_MISC(stereo)                                        \
     __asm__ volatile (                                          \
         "mov              %5, %2            \n"                 \
@@ -146,6 +189,40 @@ void ff_apply_window_int16_ssse3_atom(int16_t *output, const int16_t *input,
           "i"(sizeof(float *)), "i"(sizeof(float *)/4)          \
         : "memory"                                              \
     );
+#else
+#define MIX_MISC(stereo)                                        \
+    __asm__ volatile (                                          \
+        "mov              %5, %2            \n"                 \
+        "1:                                 \n"                 \
+        "mov -%c7(%6, %2, %c8), %3          \n"                 \
+        "movups     (%3, %0), %%xmm0        \n"                 \
+ stereo("movups       %%xmm0, %%xmm1        \n")                \
+        "mulps        %%xmm4, %%xmm0        \n"                 \
+ stereo("mulps        %%xmm5, %%xmm1        \n")                \
+        "2:                                 \n"                 \
+        "mov   (%6, %2, %c8), %1            \n"                 \
+        "movups     (%1, %0), %%xmm2        \n"                 \
+ stereo("movups       %%xmm2, %%xmm3        \n")                \
+        "mulps   (%4, %2, 8), %%xmm2        \n"                 \
+ stereo("mulps 16(%4, %2, 8), %%xmm3        \n")                \
+        "addps        %%xmm2, %%xmm0        \n"                 \
+ stereo("addps        %%xmm3, %%xmm1        \n")                \
+        "add              $4, %2            \n"                 \
+        "jl               2b                \n"                 \
+        "mov              %5, %2            \n"                 \
+ stereo("mov   (%6, %2, %c8), %1            \n")                \
+        "movups       %%xmm0, (%3, %0)      \n"                 \
+ stereo("movups       %%xmm1, (%1, %0)      \n")                \
+        "add             $16, %0            \n"                 \
+        "jl               1b                \n"                 \
+        : "+&r"(i), "=&r"(j), "=&r"(k), "=&r"(m)                \
+        : "r"(matrix_simd + in_ch),                             \
+          "g"((intptr_t) - 4 * (in_ch - 1)),                    \
+          "r"(samp + in_ch),                                    \
+          "i"(sizeof(float *)), "i"(sizeof(float *)/4)          \
+        : "memory"                                              \
+    );
+#endif
 
 static void ac3_downmix_sse(float **samples, float (*matrix)[2],
                             int out_ch, int in_ch, int len)
@@ -165,13 +242,18 @@ static void ac3_downmix_sse(float **samples, float (*matrix)[2],
                matrix_cmp[3][0] == matrix_cmp[4][0]) {
         MIX5(IF1, IF0);
     } else {
+#ifndef __NetBSD__
         DECLARE_ALIGNED(16, float, matrix_simd)[AC3_MAX_CHANNELS][2][4];
+#else
+        float matrix_simd[AC3_MAX_CHANNELS][2][4];
+#endif
         float *samp[AC3_MAX_CHANNELS];
 
         for (j = 0; j < in_ch; j++)
             samp[j] = samples[j] + len;
 
         j = 2 * in_ch * sizeof(float);
+#ifndef __NetBSD__
         __asm__ volatile (
             "1:                                 \n"
             "sub             $8, %0             \n"
@@ -186,6 +268,22 @@ static void ac3_downmix_sse(float **samples, float (*matrix)[2],
             : "r"(matrix_simd), "r"(matrix)
             : "memory"
         );
+#else
+        __asm__ volatile (
+            "1:                                 \n"
+            "sub             $8, %0             \n"
+            "movss     (%2, %0), %%xmm4         \n"
+            "movss    4(%2, %0), %%xmm5         \n"
+            "shufps          $0, %%xmm4, %%xmm4 \n"
+            "shufps          $0, %%xmm5, %%xmm5 \n"
+            "movups      %%xmm4,   (%1, %0, 4)  \n"
+            "movups      %%xmm5, 16(%1, %0, 4)  \n"
+            "jg              1b                 \n"
+            : "+&r"(j)
+            : "r"(matrix_simd), "r"(matrix)
+            : "memory"
+        );
+#endif
         if (out_ch == 2) {
             MIX_MISC(IF1);
         } else {

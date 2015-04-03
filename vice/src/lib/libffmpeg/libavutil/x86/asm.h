@@ -35,6 +35,11 @@
 typedef struct xmm_reg { uint64_t a, b; } xmm_reg;
 typedef struct ymm_reg { uint64_t a, b, c, d; } ymm_reg;
 
+/* avoid SunOS regset.h definition for REG_SP */
+#if defined (__sun) && defined (REG_SP)
+#undef REG_SP
+#endif
+
 #if ARCH_X86_64
 #    define OPSIZE "q"
 #    define REG_a "rax"
