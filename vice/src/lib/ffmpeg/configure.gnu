@@ -48,7 +48,7 @@ do
       extra_ffmpeg_enables="$extra_ffmpeg_enables $i"
       extra_x264_enables="$extra_x264_enables --enable-win32thread"
       ;;
-    --host*)
+    --full-host*)
       host=`echo $i | sed -e 's/^[^=]*=//g'`
       splitcpuos `echo $host | sed 's/-/ /g'`
       ;;
