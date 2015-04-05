@@ -346,7 +346,7 @@ do
     --enable-make-command*)
       argvalid=yes
       ;;
-    --full-host*)
+    --enable-full-host*)
       argvalid=yes
       ;;
     --enable-w32threads)
