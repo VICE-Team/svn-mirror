@@ -471,10 +471,10 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
 #else
     VICE_P_AV_OPT_SET_INT(avr_ctx, "in_channel_count", c->channels, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "in_sample_rate", speed, 0);
-    VICE_P_AV_OPT_SET_SAMPLE_FMT(avr_ctx, "in_sample_fmt", AV_SAMPLE_FMT_S16, 0);
+    VICE_P_AV_OPT_SET_INT(avr_ctx, "in_sample_fmt", AV_SAMPLE_FMT_S16, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "out_channel_count", c->channels, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "out_sample_rate", c->sample_rate, 0);
-    VICE_P_AV_OPT_SET_SAMPLE_FMT(avr_ctx, "out_sample_fmt", c->sample_fmt, 0);
+    VICE_P_AV_OPT_SET_INT(avr_ctx, "out_sample_fmt", c->sample_fmt, 0);
 #endif
 
     /* initialize the resampling context */
@@ -738,10 +738,12 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     c->gop_size = 12; /* emit one intra frame every twelve frames at most */
     c->pix_fmt = AV_PIX_FMT_YUV420P;
 
+#if (LIBAVUTIL_VERSION_MICRO >= 100)
     /* Avoid format conversion which would lead to loss of quality */
     if (c->codec_id == AV_CODEC_ID_FFV1) {
         c->pix_fmt = AV_PIX_FMT_0RGB32;
     }
+#endif
 
     /* Use XVID instead of FMP4 FOURCC for better compatibility */
     if (c->codec_id == AV_CODEC_ID_MPEG4) {

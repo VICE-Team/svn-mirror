@@ -283,7 +283,9 @@ static int load_avutil(ffmpeglib_t *lib)
         GET_SYMBOL_AND_TEST_AVUTIL(av_compare_ts);
         GET_SYMBOL_AND_TEST_AVUTIL(av_get_channel_layout_nb_channels);
         GET_SYMBOL_AND_TEST_AVUTIL(av_opt_set_int);
+#ifndef HAVE_FFMPEG_AVRESAMPLE
         GET_SYMBOL_AND_TEST_AVUTIL(av_opt_set_sample_fmt);
+#endif
         GET_SYMBOL_AND_TEST_AVUTIL(av_rescale_rnd);
         GET_SYMBOL_AND_TEST_AVUTIL(av_rescale_q);
         GET_SYMBOL_AND_TEST_AVUTIL(av_d2q);
@@ -405,9 +407,9 @@ static int load_avresample(ffmpeglib_t *lib)
         }
 
         GET_SYMBOL_AND_TEST_AVRESAMPLE(avresample_alloc_context);
-        GET_SYMBOL_AND_TEST_SWRESAMPLE(avresample_convert);
-        GET_SYMBOL_AND_TEST_SWRESAMPLE(avresample_get_delay);
-        GET_SYMBOL_AND_TEST_SWRESAMPLE(avresample_free);
+        GET_SYMBOL_AND_TEST_AVRESAMPLE(avresample_convert);
+        GET_SYMBOL_AND_TEST_AVRESAMPLE(avresample_get_delay);
+        GET_SYMBOL_AND_TEST_AVRESAMPLE(avresample_free);
     }
 
     return check_version("avresample", avresample_so, "avresample_version", LIBAVRESAMPLE_VERSION_INT);
@@ -422,7 +424,7 @@ static void free_avresample(ffmpeglib_t *lib)
     }
     avresample_so = NULL;
 
-    lib->p_avresample_alloc = NULL;
+    lib->p_avresample_alloc_context = NULL;
     lib->p_avresample_convert = NULL;
     lib->p_avresample_get_delay = NULL;
     lib->p_avresample_free = NULL;
