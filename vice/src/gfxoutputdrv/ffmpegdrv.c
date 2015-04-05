@@ -128,7 +128,12 @@ static AVCodec *avcodecaudio;
 static soundmovie_buffer_t ffmpegdrv_audio_in;
 static int audio_init_done;
 static int audio_is_open;
+
+#ifndef HAVE_FFMPEG_AVRESAMPLE
 static struct SwrContext *swr_ctx;
+#else
+static struct AVAudioResampleContext *avr_ctx;
+#endif
 
 /* video */
 static OutputStream video_st = { 0 };
@@ -378,7 +383,11 @@ static void ffmpegdrv_close_audio(void)
     audio_is_open = 0;
     ffmpegdrv_audio_in.buffer = NULL;
     ffmpegdrv_audio_in.size = 0;
+#ifndef HAVE_FFMPEG_AVRESAMPLE
     VICE_P_SWR_FREE(&swr_ctx);
+#else
+    VICE_P_AVRESAMPLE_FREE(&avr_ctx);
+#endif
 }
 
 static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t ** audio_in)
@@ -440,25 +449,41 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
         c->flags |= CODEC_FLAG_GLOBAL_HEADER;
 
     /* create resampler context */
+#ifndef HAVE_FFMPEG_AVRESAMPLE
     swr_ctx = VICE_P_SWR_ALLOC();
     if (!swr_ctx) {
+#else
+    avr_ctx = VICE_P_AVRESAMPLE_ALLOC_CONTEXT();
+    if (!avr_ctx) {
+#endif
         log_debug("ffmpegdrv: Could not alloc resampler context");
         return -1;
     }
 
     /* set options */
+#ifndef HAVE_FFMPEG_AVRESAMPLE
     VICE_P_AV_OPT_SET_INT(swr_ctx, "in_channel_count", c->channels, 0);
     VICE_P_AV_OPT_SET_INT(swr_ctx, "in_sample_rate", speed, 0);
     VICE_P_AV_OPT_SET_SAMPLE_FMT(swr_ctx, "in_sample_fmt", AV_SAMPLE_FMT_S16, 0);
     VICE_P_AV_OPT_SET_INT(swr_ctx, "out_channel_count", c->channels, 0);
     VICE_P_AV_OPT_SET_INT(swr_ctx, "out_sample_rate", c->sample_rate, 0);
     VICE_P_AV_OPT_SET_SAMPLE_FMT(swr_ctx, "out_sample_fmt", c->sample_fmt, 0);
+#else
+    VICE_P_AV_OPT_SET_INT(avr_ctx, "in_channel_count", c->channels, 0);
+    VICE_P_AV_OPT_SET_INT(avr_ctx, "in_sample_rate", speed, 0);
+    VICE_P_AV_OPT_SET_SAMPLE_FMT(avr_ctx, "in_sample_fmt", AV_SAMPLE_FMT_S16, 0);
+    VICE_P_AV_OPT_SET_INT(avr_ctx, "out_channel_count", c->channels, 0);
+    VICE_P_AV_OPT_SET_INT(avr_ctx, "out_sample_rate", c->sample_rate, 0);
+    VICE_P_AV_OPT_SET_SAMPLE_FMT(avr_ctx, "out_sample_fmt", c->sample_fmt, 0);
+#endif
 
     /* initialize the resampling context */
+#ifndef HAVE_FFMPEG_AVRESAMPLE
     if (VICE_P_SWR_INIT(swr_ctx) < 0) {
         log_debug("ffmpegdrv: Failed to initialize the resampling context");
         return -1;
     }
+#endif
 
     if (video_init_done) {
         ffmpegdrv_init_file();
@@ -493,8 +518,11 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
         if (frame) {
             /* convert samples from native format to destination codec format, using the resampler */
             /* compute destination number of samples */
-            dst_nb_samples = (int)VICE_P_AV_RESCALE_RND(VICE_P_SWR_GET_DELAY(swr_ctx, c->sample_rate) + frame->nb_samples,
-                c->sample_rate, c->sample_rate, AV_ROUND_UP);
+#ifndef HAVE_FFMPEG_AVRESAMPLE
+            dst_nb_samples = (int)VICE_P_AV_RESCALE_RND(VICE_P_SWR_GET_DELAY(swr_ctx, c->sample_rate) + frame->nb_samples, c->sample_rate, c->sample_rate, AV_ROUND_UP);
+#else
+            dst_nb_samples = (int)VICE_P_AV_RESCALE_RND(VICE_P_AVRESAMPLE_GET_DELAY(avr_ctx, c->sample_rate) + frame->nb_samples, c->sample_rate, c->sample_rate, AV_ROUND_UP);
+#endif
 
             /* when we pass a frame to the encoder, it may keep a reference to it
             * internally;
@@ -505,9 +533,11 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
                 return -1;
 
             /* convert to destination format */
-            ret = VICE_P_SWR_CONVERT(swr_ctx,
-                audio_st.frame->data, dst_nb_samples,
-                (const uint8_t **)frame->data, frame->nb_samples);
+#ifndef HAVE_FFMPEG_AVRESAMPLE
+            ret = VICE_P_SWR_CONVERT(swr_ctx, audio_st.frame->data, dst_nb_samples, (const uint8_t **)frame->data, frame->nb_samples);
+#else
+            ret = VICE_P_AVRESAMPLE_CONVERT(avr_ctx, audio_st.frame->data, dst_nb_samples, (const uint8_t **)frame->data, frame->nb_samples);
+#endif
             if (ret < 0) {
                 log_debug("ffmpegdrv_encode_audio: Error while converting audio frame");
                 return -1;
@@ -515,7 +545,7 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
             frame = audio_st.frame;
 #ifdef _MSC_VER
             tmp.num = 1;
-			tmp.den = c->sample_rate;
+            tmp.den = c->sample_rate;
             frame->pts = VICE_P_AV_RESCALE_Q(audio_st.samples_count, tmp, c->time_base);
 #else
             frame->pts = VICE_P_AV_RESCALE_Q(audio_st.samples_count, (AVRational){ 1, c->sample_rate }, c->time_base);

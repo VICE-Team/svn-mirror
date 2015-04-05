@@ -56,18 +56,27 @@
 #ifndef LIBSWRESAMPLE_VERSION_MAJOR
 #define LIBSWRESAMPLE_VERSION_MAJOR  0
 #endif
+#ifndef LIBAVRESAMPLE_VERSION_MAJOR
+#define LIBAVRESAMPLE_VERSION_MAJOR  2
+#endif
 
 #define AVCODEC_SO_NAME     ARCHDEP_MAKE_SO_NAME_VERSION(avcodec, LIBAVCODEC_VERSION_MAJOR)
 #define AVFORMAT_SO_NAME    ARCHDEP_MAKE_SO_NAME_VERSION(avformat, LIBAVFORMAT_VERSION_MAJOR)
 #define AVUTIL_SO_NAME      ARCHDEP_MAKE_SO_NAME_VERSION(avutil, LIBAVUTIL_VERSION_MAJOR)
 #define SWSCALE_SO_NAME     ARCHDEP_MAKE_SO_NAME_VERSION(swscale, LIBSWSCALE_VERSION_MAJOR)
 #define SWRESAMPLE_SO_NAME  ARCHDEP_MAKE_SO_NAME_VERSION(swresample, LIBSWRESAMPLE_VERSION_MAJOR)
+#define AVRESAMPLE_SO_NAME  ARCHDEP_MAKE_SO_NAME_VERSION(avresample, LIBAVRESAMPLE_VERSION_MAJOR)
 
 static void *avcodec_so = NULL;
 static void *avformat_so = NULL;
 static void *avutil_so = NULL;
 static void *swscale_so = NULL;
+
+#ifndef HAVE_FFMPEG_AVRESAMPLE
 static void *swresample_so = NULL;
+#else
+static void *avresample_so = NULL;
+#endif
 
 /* macro for getting functionpointers from avcodec */
 #define GET_SYMBOL_AND_TEST_AVCODEC( _name_ )                              \
@@ -101,6 +110,7 @@ static void *swresample_so = NULL;
         return -1;                                                          \
     }
 
+#ifndef HAVE_FFMPEG_AVRESAMPLE
 /* macro for getting functionpointers from swresample */
 #define GET_SYMBOL_AND_TEST_SWRESAMPLE( _name_ )                                \
     lib->p_##_name_ = (_name_##_t)vice_dynlib_symbol(swresample_so, #_name_);   \
@@ -108,6 +118,15 @@ static void *swresample_so = NULL;
     log_debug("getting symbol " #_name_ " failed!");                            \
     return -1;                                                                  \
 }
+#else
+/* macro for getting functionpointers from avresample */
+#define GET_SYMBOL_AND_TEST_AVRESAMPLE( _name_ )                                \
+    lib->p_##_name_ = (_name_##_t)vice_dynlib_symbol(avresample_so, #_name_);   \
+    if (!lib->p_##_name_) {                                                     \
+    log_debug("getting symbol " #_name_ " failed!");                            \
+    return -1;                                                                  \
+}
+#endif
 
 static int check_version(const char *lib_name, void *handle, const char *symbol, unsigned ver_inc)
 {
@@ -338,6 +357,7 @@ static void free_swscale(ffmpeglib_t *lib)
     lib->p_sws_scale = NULL;
 }
 
+#ifndef HAVE_FFMPEG_AVRESAMPLE
 static int load_swresample(ffmpeglib_t *lib)
 {
     if (!swresample_so) {
@@ -373,6 +393,41 @@ static void free_swresample(ffmpeglib_t *lib)
     lib->p_swr_get_delay = NULL;
     lib->p_swr_free = NULL;
 }
+#else
+static int load_avresample(ffmpeglib_t *lib)
+{
+    if (!avresample_so) {
+        avresample_so = vice_dynlib_open(AVRESAMPLE_SO_NAME);
+
+        if (!avresample_so) {
+            log_debug("opening dynamic library " AVRESAMPLE_SO_NAME " failed! error: %s", vice_dynlib_error());
+            return -1;
+        }
+
+        GET_SYMBOL_AND_TEST_AVRESAMPLE(avresample_alloc_context);
+        GET_SYMBOL_AND_TEST_SWRESAMPLE(avresample_convert);
+        GET_SYMBOL_AND_TEST_SWRESAMPLE(avresample_get_delay);
+        GET_SYMBOL_AND_TEST_SWRESAMPLE(avresample_free);
+    }
+
+    return check_version("avresample", avresample_so, "avresample_version", LIBAVRESAMPLE_VERSION_INT);
+}
+
+static void free_avresample(ffmpeglib_t *lib)
+{
+    if (avresample_so) {
+        if (vice_dynlib_close(avresample_so) != 0) {
+            log_debug("closing dynamic library " AVRESAMPLE_SO_NAME " failed! error: %s", vice_dynlib_error());
+        }
+    }
+    avresample_so = NULL;
+
+    lib->p_avresample_alloc = NULL;
+    lib->p_avresample_convert = NULL;
+    lib->p_avresample_get_delay = NULL;
+    lib->p_avresample_free = NULL;
+}
+#endif
 
 int ffmpeglib_open(ffmpeglib_t *lib)
 {
@@ -408,6 +463,7 @@ int ffmpeglib_open(ffmpeglib_t *lib)
         return result;
     }
 
+#ifndef HAVE_FFMPEG_AVRESAMPLE
     result = load_swresample(lib);
     if (result != 0) {
         free_avformat(lib);
@@ -417,6 +473,17 @@ int ffmpeglib_open(ffmpeglib_t *lib)
         free_swresample(lib);
         return result;
     }
+#else
+    result = load_avresample(lib);
+    if (result != 0) {
+        free_avformat(lib);
+        free_avcodec(lib);
+        free_avutil(lib);
+        free_swscale(lib);
+        free_avresample(lib);
+        return result;
+    }
+#endif
 
     return 0;
 }
@@ -427,7 +494,11 @@ void ffmpeglib_close(ffmpeglib_t *lib)
     free_avcodec(lib);
     free_avutil(lib);
     free_swscale(lib);
+#ifndef HAVE_FFMPEG_AVRESAMPLE
     free_swresample(lib);
+#else
+    free_avresample(lib);
+#endif
 }
 #else
 int ffmpeglib_open(ffmpeglib_t *lib)

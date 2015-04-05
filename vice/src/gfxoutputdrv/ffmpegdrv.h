@@ -45,18 +45,13 @@ extern gfxoutputdrv_format_t *ffmpegdrv_formatlist;
 #define VICE_P_AV_DICT_SET                       av_dict_set
 #define VICE_P_AVCODEC_OPEN2                     avcodec_open2
 #define VICE_P_AV_DICT_FREE                      av_dict_free
-#define VICE_P_SWR_FREE                          swr_free
 #define VICE_P_AVFORMAT_NEW_STREAM               avformat_new_stream
 #define VICE_P_AV_GET_CHANNEL_LAYOUT_NB_CHANNELS av_get_channel_layout_nb_channels
-#define VICE_P_SWR_ALLOC                         swr_alloc
 #define VICE_P_AV_OPT_SET_INT                    av_opt_set_int
 #define VICE_P_AV_OPT_SET_SAMPLE_FMT             av_opt_set_sample_fmt
-#define VICE_P_SWR_INIT                          swr_init
 #define VICE_P_AV_INIT_PACKET                    av_init_packet
 #define VICE_P_AV_RESCALE_RND                    av_rescale_rnd
-#define VICE_P_SWR_GET_DELAY                     swr_get_delay
 #define VICE_P_AV_FRAME_MAKE_WRITABLE            av_frame_make_writable
-#define VICE_P_SWR_CONVERT                       swr_convert
 #define VICE_P_AV_RESCALE_Q                      av_rescale_q
 #define VICE_P_AV_D2Q                            av_d2q
 #define VICE_P_AVCODEC_ENCODE_AUDIO2             avcodec_encode_audio2
@@ -74,6 +69,15 @@ extern gfxoutputdrv_format_t *ffmpegdrv_formatlist;
 #define VICE_P_SWS_SCALE                         sws_scale
 #define VICE_P_AVCODEC_ENCODE_VIDEO2             avcodec_encode_video2
 #define VICE_P_AV_REGISTER_ALL                   av_register_all
+#define VICE_P_SWR_FREE                          swr_free
+#define VICE_P_SWR_ALLOC                         swr_alloc
+#define VICE_P_SWR_INIT                          swr_init
+#define VICE_P_SWR_GET_DELAY                     swr_get_delay
+#define VICE_P_SWR_CONVERT                       swr_convert
+#define VICE_P_AVRESAMPLE_ALLOC_CONTEXT          avresample_alloc_context
+#define VICE_P_AVRESAMPLE_CONVERT                avresample_convert
+#define VICE_P_AVRESAMPLE_FREE                   avresample_free
+#define VICE_P_AVRESAMPLE_GET_DELAY              avresample_get_delay
 #else
 #define VICE_P_AV_PACKET_RESCALE_TS              (*ffmpeglib.p_av_packet_rescale_ts)
 #define VICE_P_AV_INTERLEAVED_WRITE_FRAME        (*ffmpeglib.p_av_interleaved_write_frame)
@@ -84,18 +88,13 @@ extern gfxoutputdrv_format_t *ffmpegdrv_formatlist;
 #define VICE_P_AV_DICT_SET                       (*ffmpeglib.p_av_dict_set)
 #define VICE_P_AVCODEC_OPEN2                     (*ffmpeglib.p_avcodec_open2)
 #define VICE_P_AV_DICT_FREE                      (*ffmpeglib.p_av_dict_free)
-#define VICE_P_SWR_FREE                          (*ffmpeglib.p_swr_free)
 #define VICE_P_AVFORMAT_NEW_STREAM               (*ffmpeglib.p_avformat_new_stream)
 #define VICE_P_AV_GET_CHANNEL_LAYOUT_NB_CHANNELS (*ffmpeglib.p_av_get_channel_layout_nb_channels)
-#define VICE_P_SWR_ALLOC                         (*ffmpeglib.p_swr_alloc)
 #define VICE_P_AV_OPT_SET_INT                    (*ffmpeglib.p_av_opt_set_int)
 #define VICE_P_AV_OPT_SET_SAMPLE_FMT             (*ffmpeglib.p_av_opt_set_sample_fmt)
-#define VICE_P_SWR_INIT                          (*ffmpeglib.p_swr_init)
 #define VICE_P_AV_INIT_PACKET                    (*ffmpeglib.p_av_init_packet)
 #define VICE_P_AV_RESCALE_RND                    (*ffmpeglib.p_av_rescale_rnd)
-#define VICE_P_SWR_GET_DELAY                     (*ffmpeglib.p_swr_get_delay)
 #define VICE_P_AV_FRAME_MAKE_WRITABLE            (*ffmpeglib.p_av_frame_make_writable)
-#define VICE_P_SWR_CONVERT                       (*ffmpeglib.p_swr_convert)
 #define VICE_P_AV_RESCALE_Q                      (*ffmpeglib.p_av_rescale_q)
 #define VICE_P_AV_D2Q                            (*ffmpeglib.p_av_d2q)
 #define VICE_P_AVCODEC_ENCODE_AUDIO2             (*ffmpeglib.p_avcodec_encode_audio2)
@@ -113,6 +112,15 @@ extern gfxoutputdrv_format_t *ffmpegdrv_formatlist;
 #define VICE_P_SWS_SCALE                         (*ffmpeglib.p_sws_scale)
 #define VICE_P_AVCODEC_ENCODE_VIDEO2             (*ffmpeglib.p_avcodec_encode_video2)
 #define VICE_P_AV_REGISTER_ALL                   (*ffmpeglib.p_av_register_all)
+#define VICE_P_SWR_GET_DELAY                     (*ffmpeglib.p_swr_get_delay)
+#define VICE_P_SWR_INIT                          (*ffmpeglib.p_swr_init)
+#define VICE_P_SWR_FREE                          (*ffmpeglib.p_swr_free)
+#define VICE_P_SWR_ALLOC                         (*ffmpeglib.p_swr_alloc)
+#define VICE_P_SWR_CONVERT                       (*ffmpeglib.p_swr_convert)
+#define VICE_P_AVRESAMPLE_ALLOC_CONTEXT          (*ffmpeglib.p_avresample_alloc_context)
+#define VICE_P_AVRESAMPLE_CONVERT                (*ffmpeglib.p_avresample_convert)
+#define VICE_P_AVRESAMPLE_FREE                   (*ffmpeglib.p_avresample_free)
+#define VICE_P_AVRESAMPLE_GET_DELAY              (*ffmpeglib.p_avresample_get_delay)
 #endif
 
 #endif

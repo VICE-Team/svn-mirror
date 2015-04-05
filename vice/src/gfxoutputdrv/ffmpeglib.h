@@ -35,12 +35,20 @@
 #  include "libavutil/rational.h"
 #  include "libavformat/avformat.h"
 #  include "libswscale/swscale.h"
+#ifndef HAVE_FFMPEG_AVRESAMPLE
 #  include "libswresample/swresample.h"
+#else
+#  include "libavresample/avresample.h"
+#endif
 #else
 #  include "rational.h"
 #  include "avformat.h"
 #  include "swscale.h"
+#ifndef HAVE_FFMPEG_AVRESAMPLE
 #  include "swresample.h"
+#else
+#  include "avresample.h"
+#endif
 #endif
 
 /* "libavutil/opt.h" */
@@ -116,66 +124,81 @@ typedef void (*sws_freeContext_t)(struct SwsContext *swsContext);
 typedef int (*sws_scale_t)(struct SwsContext *context, uint8_t* srcSlice[],
                            int srcStride[], int srcSliceY, int srcSliceH, uint8_t* dst[],
                            int dstStride[]);
-typedef int64_t (*swr_get_delay_t)(struct SwrContext*, int64_t);
 
+#ifndef HAVE_FFMPEG_AVRESAMPLE
 /* swresample functions */
 typedef struct SwrContext* (*swr_alloc_t)(void);
 typedef int (*swr_init_t)(struct SwrContext*);
 typedef int (*swr_convert_t)(struct SwrContext*, uint8_t**, int, const uint8_t**, int);
 typedef void (*swr_free_t)(struct SwrContext**);
-
+typedef int64_t (*swr_get_delay_t)(struct SwrContext*, int64_t);
+#else
+/* avresample functions */
+typedef struct AVAudioResampleContext* (*avresample_alloc_context_t)(void);
+typedef int (*avresample_convert_t)(struct AVAudioResampleContext*, uint8_t**, int, const uint8_t**, int);
+typedef void (*avresample_free_t)(struct AVAudioResampleContext**);
+typedef int64_t (*avresample_get_delay_t)(struct AVAudioResampleContext*, int64_t);
+#endif
 
 struct ffmpeglib_s {
     /* avcodec */
-    avcodec_open2_t             p_avcodec_open2;
-    avcodec_close_t             p_avcodec_close;
-    avcodec_find_encoder_t      p_avcodec_find_encoder;
-    avcodec_encode_audio2_t     p_avcodec_encode_audio2;
-    avcodec_encode_video2_t     p_avcodec_encode_video2;
-    avpicture_fill_t            p_avpicture_fill;
-    avpicture_get_size_t        p_avpicture_get_size;
-    av_packet_rescale_ts_t      p_av_packet_rescale_ts;
+    avcodec_open2_t              p_avcodec_open2;
+    avcodec_close_t              p_avcodec_close;
+    avcodec_find_encoder_t       p_avcodec_find_encoder;
+    avcodec_encode_audio2_t      p_avcodec_encode_audio2;
+    avcodec_encode_video2_t      p_avcodec_encode_video2;
+    avpicture_fill_t             p_avpicture_fill;
+    avpicture_get_size_t         p_avpicture_get_size;
+    av_packet_rescale_ts_t       p_av_packet_rescale_ts;
 
     /* avformat */
-    av_init_packet_t            p_av_init_packet;
-    av_register_all_t           p_av_register_all;
-    avformat_alloc_context_t    p_avformat_alloc_context;
-    avformat_new_stream_t	    p_avformat_new_stream;
-    avformat_write_header_t     p_avformat_write_header;
-    av_interleaved_write_frame_t    p_av_interleaved_write_frame;
-    av_write_trailer_t          p_av_write_trailer;
-    avio_open_t                 p_avio_open;
-    avio_close_t                p_avio_close;
-    av_dump_format_t            p_av_dump_format;
-    av_guess_format_t           p_av_guess_format;
+    av_init_packet_t             p_av_init_packet;
+    av_register_all_t            p_av_register_all;
+    avformat_alloc_context_t     p_avformat_alloc_context;
+    avformat_new_stream_t        p_avformat_new_stream;
+    avformat_write_header_t      p_avformat_write_header;
+    av_interleaved_write_frame_t p_av_interleaved_write_frame;
+    av_write_trailer_t           p_av_write_trailer;
+    avio_open_t                  p_avio_open;
+    avio_close_t                 p_avio_close;
+    av_dump_format_t             p_av_dump_format;
+    av_guess_format_t            p_av_guess_format;
 
     /* avutil */
-    av_free_t                   p_av_free;
-    av_frame_alloc_t            p_av_frame_alloc;
-    av_frame_get_buffer_t       p_av_frame_get_buffer;
-    av_compare_ts_t             p_av_compare_ts;
+    av_free_t                    p_av_free;
+    av_frame_alloc_t             p_av_frame_alloc;
+    av_frame_get_buffer_t        p_av_frame_get_buffer;
+    av_compare_ts_t              p_av_compare_ts;
     av_get_channel_layout_nb_channels_t p_av_get_channel_layout_nb_channels;
-    av_opt_set_int_t            p_av_opt_set_int;
-    av_opt_set_sample_fmt_t     p_av_opt_set_sample_fmt;
-    av_rescale_rnd_t            p_av_rescale_rnd;
-    av_rescale_q_t              p_av_rescale_q;
-    av_d2q_t                    p_av_d2q;
-    av_frame_make_writable_t    p_av_frame_make_writable;
-    av_frame_free_t             p_av_frame_free;
-    av_dict_set_t               p_av_dict_set;
-    av_dict_free_t              p_av_dict_free;
+    av_opt_set_int_t             p_av_opt_set_int;
+    av_opt_set_sample_fmt_t      p_av_opt_set_sample_fmt;
+    av_rescale_rnd_t             p_av_rescale_rnd;
+    av_rescale_q_t               p_av_rescale_q;
+    av_d2q_t                     p_av_d2q;
+    av_frame_make_writable_t     p_av_frame_make_writable;
+    av_frame_free_t              p_av_frame_free;
+    av_dict_set_t                p_av_dict_set;
+    av_dict_free_t               p_av_dict_free;
 
     /* swscale */
-    sws_getContext_t            p_sws_getContext;
-    sws_freeContext_t           p_sws_freeContext;
-    sws_scale_t                 p_sws_scale;
+    sws_getContext_t             p_sws_getContext;
+    sws_freeContext_t            p_sws_freeContext;
+    sws_scale_t                  p_sws_scale;
 
+#ifndef HAVE_FFMPEG_AVRESAMPLE
     /* swresample */
-    swr_alloc_t                 p_swr_alloc;
-    swr_init_t                  p_swr_init;
-    swr_convert_t               p_swr_convert;
-    swr_get_delay_t             p_swr_get_delay;
-    swr_free_t                  p_swr_free;
+    swr_alloc_t                  p_swr_alloc;
+    swr_init_t                   p_swr_init;
+    swr_convert_t                p_swr_convert;
+    swr_get_delay_t              p_swr_get_delay;
+    swr_free_t                   p_swr_free;
+#else
+    /* avresample */
+    avresample_alloc_context_t   p_avresample_alloc_context;
+    avresample_convert_t         p_avresample_convert;
+    avresample_free_t            p_avresample_free;
+    avresample_get_delay_t       p_avresample_get_delay;
+#endif
 };
 
 typedef struct ffmpeglib_s ffmpeglib_t;
