@@ -1828,6 +1828,17 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
       [echo "no. disabled."]
     )
     HAVE_EXTERNAL_FFMPEG=yes
+    PKG_CHECK_MODULES(FFMPEG_SWRESAMPLE, [libswresample], [have_swresample=yes], [have_swresample=no])
+    if test x"$have_swresample" = "xyes"; then
+      AC_DEFINE([HAVE_FFMPEG_SWRESAMPLE],,[Have FFMPEG swresample lib available])
+    else
+      PKG_CHECK_MODULES(FFMPEG_AVRESAMPLE, [libavresample], [have_avresample=yes], [have_avresample=no])
+      if test x"$have_avresample" = "xyes"; then
+        AC_DEFINE([HAVE_FFMPEG_AVRESAMPLE],,[Have FFMPEG avresample lib available])
+      else
+        AC_MSG_ERROR([No swresample or avresample library available!])
+      fi
+    fi
   else
     AC_MSG_RESULT([not available])
   fi
