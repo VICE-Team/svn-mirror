@@ -98,8 +98,7 @@ static void vector_fmul_reverse_c(float *dst, const float *src0,
         dst[i] = src0[i] * src1[-i];
 }
 
-static void butterflies_float_c(float *av_restrict v1, float *av_restrict v2,
-                                int len)
+static void butterflies_float_c(float *v1, float *v2, int len)
 {
     int i;
 
