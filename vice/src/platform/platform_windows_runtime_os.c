@@ -289,12 +289,13 @@
 #define VER_EQUAL 1
 #endif
 
-#ifndef VER_SET_CONDITION
-ULONGLONG WINAPI VerSetConditionMask(ULONGLONG,DWORD,BYTE);
-#define VER_SET_CONDITION(ConditionMask, TypeBitMask, ComparisonType) \
-	((ConditionMask) = VerSetConditionMask((ConditionMask), \
-	(TypeBitMask), (ComparisonType)))
+#ifdef VER_SET_CONDITION
+#undef VER_SET_CONDITION
 #endif
+
+#define VER_SET_CONDITION(ConditionMask, TypeBitMask, ComparisonType) \
+	((ConditionMask) = ViceVerSetConditionMask((ConditionMask), \
+	(TypeBitMask), (ComparisonType)))
 
 /* Bit patterns for system metrics */
 #define VICE_SM_SERVERR2        8
@@ -304,6 +305,11 @@ ULONGLONG WINAPI VerSetConditionMask(ULONGLONG,DWORD,BYTE);
 
 typedef BOOL (WINAPI *VGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef void (WINAPI *VGNSI)(LPSYSTEM_INFO);
+
+#if (_MSC_VER >= 1300)
+typedef ULONGLONG (WINAPI *VSCM)(ULONGLONG, DWORD, BYTE);
+typedef BOOL (WINAPI *VVI)(LPOSVERSIONINFOEX, DWORD, DWORDLONG);
+#endif
 
 typedef struct winver_s {
     char *name;
@@ -865,6 +871,11 @@ static BOOL CompareWindowsVersion(DWORD dwMajorVersion, DWORD dwMinorVersion)
 {
     OSVERSIONINFOEX ver;
     DWORDLONG dwlConditionMask = 0;
+    VSCM ViceVerSetConditionMask;
+    VVI ViceVerifyVersionInfo;
+
+    ViceVerSetConditionMask = (VSCM)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "VerSetConditionMask");
+    ViceVerifyVersionInfo = (VVI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "VerifyVersionInfo");
 
     ZeroMemory(&ver, sizeof(OSVERSIONINFOEX));
     ver.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
@@ -874,7 +885,7 @@ static BOOL CompareWindowsVersion(DWORD dwMajorVersion, DWORD dwMinorVersion)
     VER_SET_CONDITION(dwlConditionMask, VER_MAJORVERSION, VER_EQUAL);
     VER_SET_CONDITION(dwlConditionMask, VER_MINORVERSION, VER_EQUAL);
 
-    return VerifyVersionInfo(&ver, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask);
+    return ViceVerifyVersionInfo(&ver, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask);
 }
 #endif
 
