@@ -474,7 +474,7 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
     VICE_P_AV_OPT_SET_INT(avr_ctx, "in_sample_rate", speed, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "in_sample_fmt", AV_SAMPLE_FMT_S16, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "out_channel_count", c->channels, 0);
-    VICE_P_AV_OPT_SET_INT(avr_ctx, "out_channel_layout", AV_CH_LAYOUT_STEREO, 0);
+    VICE_P_AV_OPT_SET_INT(avr_ctx, "out_channel_layout", c->channel_layout, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "out_sample_rate", c->sample_rate, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "out_sample_fmt", c->sample_fmt, 0);
 #endif
