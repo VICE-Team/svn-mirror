@@ -476,19 +476,20 @@ else
 BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
 endif
 
-.PHONY: svnversion.h.indirect
+.PHONY: svnversion.h.indirect $(builddir)/gentranslate $(builddir)/geninfocontrib
+
 svnversion.h.indirect:
 	$(SHELL) $(srcdir)/gensvnversion.sh $(SVNVERSION) $(top_srcdir) $(srcdir)/svnversion.h
 
 svnversion.h: svnversion.h.indirect
 
 if NATIVE_TOOLS
-geninfocontrib:	$(srcdir)/arch/win32/utils/geninfocontrib.c
-	$(NATIVE_TOOLS_COMPILER) -o geninfocontrib $(srcdir)/arch/win32/utils/geninfocontrib.c
+$(builddir)/geninfocontrib:	$(srcdir)/arch/win32/utils/geninfocontrib.c
+	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/geninfocontrib $(srcdir)/arch/win32/utils/geninfocontrib.c
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed geninfocontrib
 	echo "generating infocontrib.h..."
-	./geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html src/arch/os2/dialogs/dialogs.rc man/vice.1
+	$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html src/arch/os2/dialogs/dialogs.rc man/vice.1
 else
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
 	echo "generating infocontrib.h..."
@@ -509,12 +510,12 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
 endif
 
 if NATIVE_TOOLS
-gentranslate:	$(srcdir)/translate.txt $(srcdir)/arch/win32/utils/gentranslate.c
-	$(NATIVE_TOOLS_COMPILER) -o gentranslate $(srcdir)/arch/win32/utils/gentranslate.c
+$(builddir)/gentranslate:	$(srcdir)/translate.txt $(srcdir)/arch/win32/utils/gentranslate.c
+	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/gentranslate $(srcdir)/arch/win32/utils/gentranslate.c
 
-translate.h translate_table.h:	$(srcdir)/translate.txt gentranslate
+translate.h translate_table.h:	$(srcdir)/translate.txt $(builddir)/gentranslate
 	echo "generating translate.h..."
-	./gentranslate $(srcdir)/translate.txt ./translate.h ./translate_table.h
+	$(builddir)/gentranslate $(srcdir)/translate.txt ./translate.h ./translate_table.h
 else
 translate.h:	$(srcdir)/translate.txt ./gentranslate_h.sh
 	echo "generating translate.h..."
