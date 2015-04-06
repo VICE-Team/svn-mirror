@@ -144,7 +144,9 @@ static void ffmpeg_output_driver_changed(GtkWidget *w, gpointer data)
         }
         gtk_widget_set_sensitive(ffmpg_opts, FALSE);
     } else {
-        gtk_widget_hide(ffmpg_opts);
+        if (ffmpg_opts) { 
+	    gtk_widget_hide(ffmpg_opts);
+	}
 #endif
         if (is_native()) {
             int n0 = 0, n1 = 0, n2 = 0, n3 = 0, n4 = 0;
@@ -591,7 +593,7 @@ static GtkWidget *build_screenshot_dialog(void)
     g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(ffmpeg_output_driver_changed), (gpointer)omenu);
 
 #ifdef HAVE_FFMPEG
-    if (!ffmpegdrv_formatlist[0].name) {
+    if (!ffmpegdrv_formatlist || !ffmpegdrv_formatlist[0].name) {
         goto no_ffmpeg;
     }
 
