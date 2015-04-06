@@ -325,8 +325,8 @@ EXTRA_DIST = \
 	c64.ico \
 	dirent.c \
 	generate_msvc6_project.bat \
-	generate_msvc70_project.bat \
 	generate_msvc70_ffmpeg_project.bat \
+	generate_msvc70_project.bat \
 	generate_msvc71_ffmpeg_project.bat \
 	generate_msvc71_project.bat \
 	generate_msvc8_ffmpeg_project.bat \
@@ -335,7 +335,9 @@ EXTRA_DIST = \
 	generate_msvc9_project.bat \
 	generate_msvc10_ffmpeg_project.bat \
 	generate_msvc10_project.bat \
+	generate_msvc11_ffmpeg_project.bat \
 	generate_msvc11_project.bat \
+	generate_msvc12_ffmpeg_project.bat \
 	generate_msvc12_project.bat \
 	genmenuid.sh \
 	genstringid.sh \

@@ -199,12 +199,19 @@ EXTRA_DIST = \
 	archdep_xbox.c \
 	archdep_xbox.h \
 	generate_msvc6_project.bat \
+	generate_msvc70_ffmpeg_project.bat \
 	generate_msvc70_project.bat \
+	generate_msvc71_ffmpeg_project.bat \
 	generate_msvc71_project.bat \
+	generate_msvc8_ffmpeg_project.bat \
 	generate_msvc8_project.bat \
+	generate_msvc9_ffmpeg_project.bat \
 	generate_msvc9_project.bat \
+	generate_msvc10_ffmpeg_project.bat \
 	generate_msvc10_project.bat \
+	generate_msvc11_ffmpeg_project.bat \
 	generate_msvc11_project.bat \
+	generate_msvc12_ffmpeg_project.bat \
 	generate_msvc12_project.bat \
 	generate_msvcmips_project.bat \
 	make-bindist_amiga.sh \
