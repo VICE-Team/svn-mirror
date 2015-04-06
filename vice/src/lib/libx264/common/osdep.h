@@ -35,6 +35,8 @@
 #include <inttypes.h>
 #include <stdarg.h>
 
+#include "x264.h"
+
 #ifdef IDE_COMPILE
 #include "x264-config.h"
 #else

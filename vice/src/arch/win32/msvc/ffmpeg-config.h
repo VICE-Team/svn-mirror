@@ -1829,4 +1829,19 @@
 #define ULLN(x) ((unsigned __int64)(x))
 #endif
 
+/* Disable some MSVC 7.0 warnings for quicker compile */
+#if (_MSC_VER == 1300)
+#pragma warning(disable: 4003) /* not enough actual parameters for macro ... */
+#pragma warning(disable: 4018) /* signed/unsigned mismatch */
+#pragma warning(disable: 4090) /* different 'const' qualifiers */
+#pragma warning(disable: 4101) /* unreferenced local variable */
+#pragma warning(disable: 4116) /* unnamed type definition in parentheses */
+#pragma warning(disable: 4133) /* incompatible types */
+#pragma warning(disable: 4146) /* unary minus operator applied to unsigned type, result still unsigned */
+#pragma warning(disable: 4244) /* conversion from ... to ..., possible loss of data */
+#pragma warning(disable: 4305) /* truncation from 'double' to 'float' */
+#pragma warning(disable: 4554) /* check operator precedence for possible error; use parentheses to clarify precedence */
+#pragma warning(disable: 4700) /* local variable ... used without having been initialized */
+#endif
+
 #endif /* FFMPEG_CONFIG_H */
