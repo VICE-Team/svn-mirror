@@ -407,6 +407,7 @@ static int load_avresample(ffmpeglib_t *lib)
         }
 
         GET_SYMBOL_AND_TEST_AVRESAMPLE(avresample_alloc_context);
+        GET_SYMBOL_AND_TEST_AVRESAMPLE(avresample_open);
         GET_SYMBOL_AND_TEST_AVRESAMPLE(avresample_convert);
         GET_SYMBOL_AND_TEST_AVRESAMPLE(avresample_get_delay);
         GET_SYMBOL_AND_TEST_AVRESAMPLE(avresample_free);
@@ -425,6 +426,7 @@ static void free_avresample(ffmpeglib_t *lib)
     avresample_so = NULL;
 
     lib->p_avresample_alloc_context = NULL;
+    lib->p_avresample_open = NULL;
     lib->p_avresample_convert = NULL;
     lib->p_avresample_get_delay = NULL;
     lib->p_avresample_free = NULL;

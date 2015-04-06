@@ -75,6 +75,7 @@ extern gfxoutputdrv_format_t *ffmpegdrv_formatlist;
 #define VICE_P_SWR_GET_DELAY                     swr_get_delay
 #define VICE_P_SWR_CONVERT                       swr_convert
 #define VICE_P_AVRESAMPLE_ALLOC_CONTEXT          avresample_alloc_context
+#define VICE_P_AVRESAMPLE_OPEN                   avresample_alloc_open
 #define VICE_P_AVRESAMPLE_CONVERT                avresample_convert
 #define VICE_P_AVRESAMPLE_FREE                   avresample_free
 #define VICE_P_AVRESAMPLE_GET_DELAY              avresample_get_delay
@@ -118,6 +119,7 @@ extern gfxoutputdrv_format_t *ffmpegdrv_formatlist;
 #define VICE_P_SWR_ALLOC                         (*ffmpeglib.p_swr_alloc)
 #define VICE_P_SWR_CONVERT                       (*ffmpeglib.p_swr_convert)
 #define VICE_P_AVRESAMPLE_ALLOC_CONTEXT          (*ffmpeglib.p_avresample_alloc_context)
+#define VICE_P_AVRESAMPLE_OPEN                   (*ffmpeglib.p_avresample_open)
 #define VICE_P_AVRESAMPLE_CONVERT                (*ffmpeglib.p_avresample_convert)
 #define VICE_P_AVRESAMPLE_FREE                   (*ffmpeglib.p_avresample_free)
 #define VICE_P_AVRESAMPLE_GET_DELAY              (*ffmpeglib.p_avresample_get_delay)

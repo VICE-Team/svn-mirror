@@ -470,9 +470,11 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
     VICE_P_AV_OPT_SET_SAMPLE_FMT(swr_ctx, "out_sample_fmt", c->sample_fmt, 0);
 #else
     VICE_P_AV_OPT_SET_INT(avr_ctx, "in_channel_count", c->channels, 0);
+    VICE_P_AV_OPT_SET_INT(avr_ctx, "in_channel_layout", c->channel_layout, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "in_sample_rate", speed, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "in_sample_fmt", AV_SAMPLE_FMT_S16, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "out_channel_count", c->channels, 0);
+    VICE_P_AV_OPT_SET_INT(avr_ctx, "out_channel_layout", AV_CH_LAYOUT_STEREO, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "out_sample_rate", c->sample_rate, 0);
     VICE_P_AV_OPT_SET_INT(avr_ctx, "out_sample_fmt", c->sample_fmt, 0);
 #endif
@@ -480,10 +482,12 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
     /* initialize the resampling context */
 #ifndef HAVE_FFMPEG_AVRESAMPLE
     if (VICE_P_SWR_INIT(swr_ctx) < 0) {
+#else
+    if (VICE_P_AVRESAMPLE_OPEN(avr_ctx) < 0) {
+#endif
         log_debug("ffmpegdrv: Failed to initialize the resampling context");
         return -1;
     }
-#endif
 
     if (video_init_done) {
         ffmpegdrv_init_file();
@@ -536,7 +540,7 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
 #ifndef HAVE_FFMPEG_AVRESAMPLE
             ret = VICE_P_SWR_CONVERT(swr_ctx, audio_st.frame->data, dst_nb_samples, (const uint8_t **)frame->data, frame->nb_samples);
 #else
-            ret = VICE_P_AVRESAMPLE_CONVERT(avr_ctx, audio_st.frame->data, dst_nb_samples, (const uint8_t **)frame->data, frame->nb_samples);
+            ret = VICE_P_AVRESAMPLE_CONVERT(avr_ctx, audio_st.frame->data, 0, dst_nb_samples, (const uint8_t **)frame->data, 0, frame->nb_samples);
 #endif
             if (ret < 0) {
                 log_debug("ffmpegdrv_encode_audio: Error while converting audio frame");

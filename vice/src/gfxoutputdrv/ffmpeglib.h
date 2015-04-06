@@ -135,7 +135,8 @@ typedef int64_t (*swr_get_delay_t)(struct SwrContext*, int64_t);
 #else
 /* avresample functions */
 typedef struct AVAudioResampleContext* (*avresample_alloc_context_t)(void);
-typedef int (*avresample_convert_t)(struct AVAudioResampleContext*, uint8_t**, int, const uint8_t**, int);
+typedef int (*avresample_convert_t)(struct AVAudioResampleContext*, uint8_t**, int, int, const uint8_t**, int, int);
+typedef int (*avresample_open_t)(struct AVAudioResampleContext*);
 typedef void (*avresample_free_t)(struct AVAudioResampleContext**);
 typedef int64_t (*avresample_get_delay_t)(struct AVAudioResampleContext*, int64_t);
 #endif
@@ -195,6 +196,7 @@ struct ffmpeglib_s {
 #else
     /* avresample */
     avresample_alloc_context_t   p_avresample_alloc_context;
+    avresample_open_t            p_avresample_open;
     avresample_convert_t         p_avresample_convert;
     avresample_free_t            p_avresample_free;
     avresample_get_delay_t       p_avresample_get_delay;
