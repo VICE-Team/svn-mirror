@@ -58,6 +58,7 @@ do
       ;;
     --host*)
       hostprefix=`echo $i | sed -e 's/^[^=]*=//g'`
+      ;;
 esac
 done
 
@@ -70,13 +71,13 @@ fi
 cd ../liblame
 cur=`pwd`
 if test x"$shared" = "xyes"; then
-  if test x"$host" != "x"; then
+  if test x"$hostprefix" != "x"; then
     config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables --host=$host"
   else
     config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables"
   fi
 else
-  if test x"$host" != "x"; then
+  if test x"$hostprefix" != "x"; then
     config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables --host=$host"
   else
     config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables"
@@ -104,16 +105,16 @@ fi
 cd ../libx264
 cur=`pwd`
 if test x"$shared" = "xyes"; then
-  if test x"$host" != "x"; then
+  if test x"$hostprefix" != "x"; then
     config_line="$srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables --host=$host --cross-prefix=$hostprefix-"
   else
     config_line="$srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables"
   fi
 else
-  if test x"$host" != "x"; then
-    config_line="$srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --enable-win32thread --host=$host --cross-prefix=$hostprefix-"
+  if test x"$hostprefix" != "x"; then
+    config_line="$srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --host=$host --cross-prefix=$hostprefix-"
   else
-    config_line="$srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --enable-win32thread"
+    config_line="$srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg"
   fi
 fi
 
@@ -135,13 +136,13 @@ fi
 cd ../libffmpeg
 cur=`pwd`
 if test x"$shared" = "xyes"; then
-  if test x"$host" != "x"; then
+  if test x"$hostprefix" != "x"; then
     config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables --arch=$cpu --target-os=$os --cross-prefix=$hostprefix-"
   else
     config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables"
   fi
 else
-  if test x"$host" != "x"; then
+  if test x"$hostprefix" != "x"; then
     config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables  --arch=$cpu --target-os=$os --cross-prefix=$hostprefix-"
   else
     config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables"
