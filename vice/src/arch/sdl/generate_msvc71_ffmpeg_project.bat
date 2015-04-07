@@ -15,6 +15,10 @@ copy msvc-files\ide-siddtvdefs.h win32-msvc71-ffmpeg-ffmpeg
 copy msvc-files\inttypes.h win32-msvc71-ffmpeg-ffmpeg
 copy msvc-files\stdint.h win32-msvc71-ffmpeg-ffmpeg
 copy msvc-files\vice.manifest win32-msvc71-ffmpeg-ffmpeg
+copy msvc-files\ffmpeg-config.h win32-msvc71-ffmpeg
+copy msvc-files\lame-config.h win32-msvc71-ffmpeg
+copy msvc-files\x264_config.h win32-msvc71-ffmpeg
+copy msvc-files\x264-config.h win32-msvc71-ffmpeg
 echo MSVC7.1 project files generated in win32-msvc71-ffmpeg-ffmpeg
 goto end
 :missingmkmsvc
