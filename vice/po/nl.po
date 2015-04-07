@@ -1752,9 +1752,8 @@ msgid "Path:"
 msgstr "Pad:"
 
 #: src/arch/unix/gui/uicommands.c:451
-#, fuzzy
 msgid "Media Recording stopped"
-msgstr "Geluidsopname gestopt"
+msgstr "opname gestopt"
 
 #: src/arch/unix/gui/uicommands.c:468 src/arch/win32/res.rc.po.c:1456
 msgid "Record sound to file"
@@ -4922,9 +4921,8 @@ msgid "green"
 msgstr "groen"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:566
-#, fuzzy
 msgid "Media Format"
-msgstr "Beeldformaat"
+msgstr "Media formaat"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:639 src/arch/win32/res.rc.po.c:1294
 #: src/translate_text.c.po.c:1896
