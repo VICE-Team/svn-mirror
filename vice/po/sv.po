@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-03 02:19-0500\n"
+"POT-Creation-Date: 2015-04-07 17:23-0400\n"
 "PO-Revision-Date: 2014-01-13 14:34+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <tp-sv@listor.tp-sv.se>\n"
@@ -792,11 +792,12 @@ msgstr "Läs ny BASIC-ROM"
 msgid "Load new character ROM"
 msgstr "Läs ny teckengenerator-ROM"
 
+#. pop up and run the dialog
 #: src/arch/unix/gui/c64dtvui.c:144 src/arch/unix/gui/c64scui.c:438
 #: src/arch/unix/gui/c64ui.c:499 src/arch/unix/gui/cbm2ui.c:467
 #: src/arch/unix/gui/petui.c:489 src/arch/unix/gui/plus4ui.c:92
-#: src/arch/unix/gui/vic20ui.c:410 src/arch/unix/x11/gnome/uiscreenshot.c:556
-#: src/arch/win32/res.rc.po.c:1069
+#: src/arch/unix/gui/vic20ui.c:410 src/arch/unix/x11/gnome/uiscreenshot.c:558
+#: src/arch/unix/x11/gnome/uiscreenshot.c:751 src/arch/win32/res.rc.po.c:1069
 msgid "Save media file"
 msgstr "Spara mediafil"
 
@@ -1771,9 +1772,9 @@ msgstr "Ange historikkatalog"
 msgid "Path:"
 msgstr "Sökväg:"
 
-#: src/arch/unix/gui/uicommands.c:451 src/arch/win32/res.rc.po.c:1127
-#: src/arch/amigaos/intl_text.c.po.c:11811
-msgid "Sound Recording stopped"
+#: src/arch/unix/gui/uicommands.c:451
+#, fuzzy
+msgid "Media Recording stopped"
 msgstr "Ljudinspelning stoppad"
 
 #: src/arch/unix/gui/uicommands.c:468 src/arch/win32/res.rc.po.c:1456
@@ -2646,7 +2647,7 @@ msgid "Error reading `%s'."
 msgstr "Fel vid läsning av \"%s\"."
 
 #: src/arch/unix/gui/uifliplist.c:102 src/arch/unix/x11/gnome/uicartridge.c:73
-#: src/arch/unix/x11/gnome/uiscreenshot.c:813
+#: src/arch/unix/x11/gnome/uiscreenshot.c:815
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Skrev \"%s\""
@@ -4645,7 +4646,7 @@ msgid "Save cartridge image"
 msgstr "Spara insticksmodulfil"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:66
-#: src/arch/unix/x11/gnome/uiscreenshot.c:759
+#: src/arch/unix/x11/gnome/uiscreenshot.c:761
 #: src/arch/unix/x11/gnome/uisnapshot.c:95
 msgid "Invalid filename"
 msgstr "Ogiltigt filnamn"
@@ -4859,152 +4860,145 @@ msgstr "Inställningar för CRT-emulering"
 msgid "Mixer"
 msgstr "Mixer"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:436
+#: src/arch/unix/x11/gnome/uiscreenshot.c:438
 msgid "Oversize handling"
 msgstr "Hantering av stora bilder"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:439
+#: src/arch/unix/x11/gnome/uiscreenshot.c:441
 msgid "scale down"
 msgstr "skala ned"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:440
+#: src/arch/unix/x11/gnome/uiscreenshot.c:442
 msgid "crop left top"
 msgstr "klipp vänster övre"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:441
+#: src/arch/unix/x11/gnome/uiscreenshot.c:443
 msgid "crop center top"
 msgstr "klipp mitt övre"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:442
+#: src/arch/unix/x11/gnome/uiscreenshot.c:444
 msgid "crop right top"
 msgstr "klipp höger övre"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:443
+#: src/arch/unix/x11/gnome/uiscreenshot.c:445
 msgid "crop left center"
 msgstr "klipp vänster mitten"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:444
+#: src/arch/unix/x11/gnome/uiscreenshot.c:446
 msgid "crop center"
 msgstr "klipp mitten"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:445
+#: src/arch/unix/x11/gnome/uiscreenshot.c:447
 msgid "crop right center"
 msgstr "klipp höger mitten"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:446
+#: src/arch/unix/x11/gnome/uiscreenshot.c:448
 msgid "crop left bottom"
 msgstr "klipp vänster nedre"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:447
+#: src/arch/unix/x11/gnome/uiscreenshot.c:449
 msgid "crop center bottom"
 msgstr "klipp mitten nedre"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:448
+#: src/arch/unix/x11/gnome/uiscreenshot.c:450
 msgid "crop right bottom"
 msgstr "klipp höger nedre"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:461
+#: src/arch/unix/x11/gnome/uiscreenshot.c:463
 msgid "Undersize handling"
 msgstr "Hantering av små bilder"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:463
+#: src/arch/unix/x11/gnome/uiscreenshot.c:465
 msgid "scale up"
 msgstr "skala upp"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:464
+#: src/arch/unix/x11/gnome/uiscreenshot.c:466
 msgid "add borders"
 msgstr "lägg till ramar"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:477
+#: src/arch/unix/x11/gnome/uiscreenshot.c:479
 msgid "Multicolor handling"
 msgstr "Hantering av flerfärg"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:479
+#: src/arch/unix/x11/gnome/uiscreenshot.c:481
 msgid "b&w"
 msgstr "svartvit"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:480
+#: src/arch/unix/x11/gnome/uiscreenshot.c:482
 msgid "2 colors"
 msgstr "2 fäger"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:481
+#: src/arch/unix/x11/gnome/uiscreenshot.c:483
 msgid "4 colors"
 msgstr "4 färger"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:482
+#: src/arch/unix/x11/gnome/uiscreenshot.c:484
 msgid "gray scale"
 msgstr "gråskala"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:483
+#: src/arch/unix/x11/gnome/uiscreenshot.c:485
 msgid "best cell colors"
 msgstr "bästa cellfäger"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:496
+#: src/arch/unix/x11/gnome/uiscreenshot.c:498
 msgid "TED luma handling"
 msgstr "Hantering av TED-luma"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:498
+#: src/arch/unix/x11/gnome/uiscreenshot.c:500
 msgid "ignore"
 msgstr "ignorera"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:499
+#: src/arch/unix/x11/gnome/uiscreenshot.c:501
 msgid "dither"
 msgstr "dithra"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:513
+#: src/arch/unix/x11/gnome/uiscreenshot.c:515
 msgid "CRTC textcolor"
 msgstr "CRTC-textfärg"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:514
+#: src/arch/unix/x11/gnome/uiscreenshot.c:516
 msgid "white"
 msgstr "vit"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:515
+#: src/arch/unix/x11/gnome/uiscreenshot.c:517
 msgid "amber"
 msgstr "bärnstensfärgad"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:516
+#: src/arch/unix/x11/gnome/uiscreenshot.c:518
 msgid "green"
 msgstr "grön"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:564
-#: src/arch/unix/x11/xaw/uiscreenshot.c:180
-msgid "Image Format"
+#: src/arch/unix/x11/gnome/uiscreenshot.c:566
+#, fuzzy
+msgid "Media Format"
 msgstr "Bildformat"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:637 src/arch/win32/res.rc.po.c:1294
+#: src/arch/unix/x11/gnome/uiscreenshot.c:639 src/arch/win32/res.rc.po.c:1294
 #: src/translate_text.c.po.c:1896
 msgid "Format"
 msgstr "Format"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:651 src/arch/win32/res.rc.po.c:1295
+#: src/arch/unix/x11/gnome/uiscreenshot.c:653 src/arch/win32/res.rc.po.c:1295
 msgid "Audio codec"
 msgstr "Ljudomkodare"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:665 src/arch/win32/res.rc.po.c:1297
+#: src/arch/unix/x11/gnome/uiscreenshot.c:667 src/arch/win32/res.rc.po.c:1297
 msgid "Video codec"
 msgstr "Videoomkodare"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:677
+#: src/arch/unix/x11/gnome/uiscreenshot.c:679
 msgid "Audio bitrate"
 msgstr "Ljudbithastighet"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:687
+#: src/arch/unix/x11/gnome/uiscreenshot.c:689
 msgid "Video bitrate"
 msgstr "Videobithastighet"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:702
+#: src/arch/unix/x11/gnome/uiscreenshot.c:704
 msgid "Half Framerate (25/30 fps)"
 msgstr "Halv uppdateringsfrekvens (25/30 bilder/s)"
 
-#. pop up and run the dialog
-#: src/arch/unix/x11/gnome/uiscreenshot.c:749
-#: src/arch/unix/x11/xaw/uiscreenshot.c:108
-#: src/arch/amigaos/intl_text.c.po.c:5466
-msgid "Save screenshot file"
-msgstr "Spara skärmdump"
-
-#: src/arch/unix/x11/gnome/uiscreenshot.c:806
+#: src/arch/unix/x11/gnome/uiscreenshot.c:808
 #: src/arch/unix/x11/xaw/uiscreenshot.c:156
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
@@ -5137,6 +5131,15 @@ msgstr "Kunde inte skapa diskettavbildningsfil"
 #: src/arch/unix/x11/xaw/uiedisk.c:338
 msgid "Disk format:"
 msgstr "Diskettformat:"
+
+#: src/arch/unix/x11/xaw/uiscreenshot.c:108
+#: src/arch/amigaos/intl_text.c.po.c:5466
+msgid "Save screenshot file"
+msgstr "Spara skärmdump"
+
+#: src/arch/unix/x11/xaw/uiscreenshot.c:180
+msgid "Image Format"
+msgstr "Bildformat"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:307
 msgid "Screen Snapshot"
@@ -6186,6 +6189,10 @@ msgstr "Fel vid start av servern."
 #: src/arch/win32/res.rc.po.c:1124 src/arch/amigaos/intl_text.c.po.c:5200
 msgid "An error occured connecting the client."
 msgstr "Fel vid anslutning til klienten."
+
+#: src/arch/win32/res.rc.po.c:1127 src/arch/amigaos/intl_text.c.po.c:11811
+msgid "Sound Recording stopped"
+msgstr "Ljudinspelning stoppad"
 
 #: src/arch/win32/res.rc.po.c:1136 src/arch/amigaos/intl_text.c.po.c:12427
 msgid "Error saving EasyFlash crt file"
