@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-07 21:21-0400\n"
-"PO-Revision-Date: 2015-02-28 12:04+0100\n"
+"PO-Revision-Date: 2015-04-08 16:27+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -1739,9 +1739,8 @@ msgid "Path:"
 msgstr "Pfad:"
 
 #: src/arch/unix/gui/uicommands.c:451
-#, fuzzy
 msgid "Media Recording stopped"
-msgstr "Tonaufnahme gestoppt"
+msgstr "Aufnahme gestoppt"
 
 #: src/arch/unix/gui/uicommands.c:468 src/arch/win32/res.rc.po.c:1456
 msgid "Record sound to file"
@@ -4899,9 +4898,8 @@ msgid "green"
 msgstr "Grün"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:566
-#, fuzzy
 msgid "Media Format"
-msgstr "Image Format"
+msgstr "Medienformat"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:639 src/arch/win32/res.rc.po.c:1294
 #: src/translate_text.c.po.c:1896
