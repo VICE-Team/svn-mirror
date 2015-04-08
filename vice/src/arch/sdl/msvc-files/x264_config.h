@@ -5,8 +5,8 @@
 #define X264_VERSION ""
 #define X264_POINTVER "0.142.x"
 
-/* Disable some MSVC 7.0 warnings for quicker compile */
-#if (_MSC_VER == 1300)
+/* Disable some MSVC 7.x warnings for quicker compile */
+#if (_MSC_VER == 1300) || (_MSC_VER == 1310)
 #pragma warning(disable: 4003) /* not enough actual parameters for macro ... */
 #pragma warning(disable: 4018) /* signed/unsigned mismatch */
 #pragma warning(disable: 4090) /* different 'const' qualifiers */
