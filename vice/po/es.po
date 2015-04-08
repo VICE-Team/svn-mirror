@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>, 2011
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-07 17:23-0400\n"
+"POT-Creation-Date: 2015-04-07 21:21-0400\n"
 "PO-Revision-Date: 2015-01-25 11:14+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"

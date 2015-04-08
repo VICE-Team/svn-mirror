@@ -1,5 +1,2227 @@
 ------------------------------------------------------------------------------
 
+2015-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/monitor/mon_lex.c, src/version.h:
+	VICE 2.4.19
+
+
+2015-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl: Added some svn ignores.
+
+2015-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2015-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/generate_msvc10_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc11_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc12_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc70_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc71_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc8_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc9_ffmpeg_project.bat,
+	src/arch/sdl/msvc-files/Makefile.am,
+	src/arch/sdl/msvc-files/ffmpeg-config.h,
+	src/arch/sdl/msvc-files/lame-config.h,
+	src/arch/sdl/msvc-files/x264-config.h,
+	src/arch/sdl/msvc-files/x264_config.h: Added missing sdl ffmpeg msvc
+	config files.
+
+2015-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Dynload
+	VerSetConditionMask and SetConditionMask only when trying to detect
+	windows 8.1.
+
+2015-04-06  pottendo  <pottendo@aon.at>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: (ffmpegmovie_init_audio): pass
+	`c->channel_layout' - this seems to fix the avresample API.
+
+2015-04-06  pottendo  <pottendo@aon.at>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpegdrv.h,
+	src/gfxoutputdrv/ffmpeglib.c, src/gfxoutputdrv/ffmpeglib.h: Fixed
+	avresample API specifics (still not working).
+
+2015-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32, src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/msvc/x264_config.h, src/lib/libx264/common/osdep.h,
+	src/lib/libx264/x264.h: Added some msvc70 warning suppression and svn
+	ignores.
+
+2015-04-06  pottendo  <pottendo@aon.at>
+
+	* src/lib/libffmpeg/libavutil/float_dsp.c,
+	src/lib/libffmpeg/libavutil/float_dsp.h: Fixed signature of
+	`butterflies_float...'.
+
+2015-04-06  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c:
+	(ffmpeg_output_driver_changed): Added sanity check for ffmpg opts
+	widget. (build_screenshot_dialog): Check for sanity of
+	ffmpegdrv_formatlist
+
+2015-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am,
+	src/arch/sdl/generate_msvc10_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc11_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc12_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc70_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc71_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc8_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc9_ffmpeg_project.bat,
+	src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc11_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc12_ffmpeg_project.bat: Added (untested)
+	ffmpeg msvc project files generation batch files.
+
+2015-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Fixed for out of source tree compiling.
+
+2015-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Some ffmpeg configure fixes.
+
+2015-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4, configure.proto, src/lib/ffmpeg/configure.gnu: Fixed
+	non-canonical host name problem.
+
+2015-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4, configure.proto, src/lib/ffmpeg/configure.gnu: Attempt
+	to fix non-canonical host name issues.
+
+2015-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpeglib.c: Fixed to
+	be able to use libavresample instead of libswresample, fixes ubuntu
+	problem.
+
+2015-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpegdrv.h,
+	src/gfxoutputdrv/ffmpeglib.c, src/gfxoutputdrv/ffmpeglib.h: Added
+	untested avresample support.
+
+2015-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* INSTALL, configure.proto: Added checks for avresample and
+	swresample.
+
+2015-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/x86/ac3dsp_init.c,
+	src/lib/libffmpeg/libavutil/x86/asm.h,
+	src/lib/libffmpeg/libavutil/x86/cpu.c: Some netbsd fixes.
+
+2015-04-03  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpegdrv.h:
+	Determine the supported formats and codecs dynamically from the
+	formats_to_test template.
+
+2015-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added check for a 'gnu make' when compiling with
+	either --enable-static-ffmpeg or --enable-shared-ffmpeg.
+
+2015-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/configure,
+	src/lib/libffmpeg/libavcodec/x86/hpeldsp_init.c,
+	src/lib/libx264/configure: Fixed.
+
+2015-04-02  groepaz <groepaz@gmx.net>
+
+	* data/C128/Makefile.am, data/C128/sdl_pos.vkm, data/C128/sdl_sym.vkm,
+	data/C64/Makefile.am, data/C64/sdl_pos.vkm, data/C64/sdl_pos_da.vkm,
+	data/C64/sdl_pos_de.vkm, data/C64/sdl_pos_fi.vkm,
+	data/C64/sdl_pos_no.vkm, data/C64/sdl_sym.vkm,
+	data/C64/sdl_sym_da.vkm, data/C64/sdl_sym_de.vkm,
+	data/C64/sdl_sym_fi.vkm, data/C64/sdl_sym_no.vkm,
+	data/C64DTV/Makefile.am, data/C64DTV/sdl_pos.vkm,
+	data/C64DTV/sdl_pos_da.vkm, data/C64DTV/sdl_pos_de.vkm,
+	data/C64DTV/sdl_pos_fi.vkm, data/C64DTV/sdl_pos_no.vkm,
+	data/C64DTV/sdl_sym.vkm, data/C64DTV/sdl_sym_da.vkm,
+	data/C64DTV/sdl_sym_de.vkm, data/C64DTV/sdl_sym_fi.vkm,
+	data/C64DTV/sdl_sym_no.vkm, data/PLUS4/Makefile.am,
+	data/PLUS4/sdl_pos.vkm, data/PLUS4/sdl_sym.vkm,
+	data/SCPU64/Makefile.am, data/SCPU64/sdl_pos.vkm,
+	data/SCPU64/sdl_pos_da.vkm, data/SCPU64/sdl_pos_de.vkm,
+	data/SCPU64/sdl_pos_fi.vkm, data/SCPU64/sdl_pos_no.vkm,
+	data/SCPU64/sdl_sym.vkm, data/SCPU64/sdl_sym_da.vkm,
+	data/SCPU64/sdl_sym_de.vkm, data/SCPU64/sdl_sym_fi.vkm,
+	data/SCPU64/sdl_sym_no.vkm, data/VIC20/Makefile.am,
+	data/VIC20/sdl_pos.vkm, data/VIC20/sdl_sym.vkm, src/arch/sdl/kbd.h,
+	src/arch/sdl/make-bindist_qnx6.sh: renamed SDL keymaps from _sym to
+	_pos, see bug #603
+
+2015-04-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_help.c: fix crash when scrolling contributor list
+	to the end, fixes bug #574
+
+2015-04-02  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: updated description of
+	psid format to v4
+
+2015-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc70_ffmpeg_project.bat,
+	src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/msvc/x264-config.h, src/lib/libffmpeg/compat/strtod.c,
+	src/lib/libffmpeg/libavcodec/acelp_filters.c
+	src/lib/libffmpeg/libavcodec/adx_parser.c
+	src/lib/libffmpeg/libavcodec/asvenc.c
+	src/lib/libffmpeg/libavcodec/avpacket.c
+	src/lib/libffmpeg/libavcodec/bink.c
+	src/lib/libffmpeg/libavcodec/bit_depth_template.c
+	src/lib/libffmpeg/libavcodec/bitstream.c
+	src/lib/libffmpeg/libavcodec/bmp.c
+	src/lib/libffmpeg/libavcodec/bmpenc.c
+	src/lib/libffmpeg/libavcodec/cavs.c
+	src/lib/libffmpeg/libavcodec/dcaenc.c
+	src/lib/libffmpeg/libavcodec/dct32_template.c
+	src/lib/libffmpeg/libavcodec/dirac_parser.c
+	src/lib/libffmpeg/libavcodec/dnxhd_parser.c
+	src/lib/libffmpeg/libavcodec/dnxhddec.c
+	src/lib/libffmpeg/libavcodec/eac3dec.c
+	src/lib/libffmpeg/libavcodec/elbg.c
+	src/lib/libffmpeg/libavcodec/ffv1dec.c
+	src/lib/libffmpeg/libavcodec/ffv1enc.c
+	src/lib/libffmpeg/libavcodec/flacenc.c
+	src/lib/libffmpeg/libavcodec/g723_1.c
+	src/lib/libffmpeg/libavcodec/g729dec.c
+	src/lib/libffmpeg/libavcodec/h264.h
+	src/lib/libffmpeg/libavcodec/h264_loopfilter.c
+	src/lib/libffmpeg/libavcodec/h264_mb.c
+	src/lib/libffmpeg/libavcodec/hevc.c
+	src/lib/libffmpeg/libavcodec/hevc_ps.c
+	src/lib/libffmpeg/libavcodec/hpeldsp.c
+	src/lib/libffmpeg/libavcodec/iirfilter.c
+	src/lib/libffmpeg/libavcodec/indeo3.c
+	src/lib/libffmpeg/libavcodec/ituh263enc.c
+	src/lib/libffmpeg/libavcodec/j2kenc.c
+	src/lib/libffmpeg/libavcodec/jpegls.c
+	src/lib/libffmpeg/libavcodec/jpegls.h
+	src/lib/libffmpeg/libavcodec/jpeglsdec.c
+	src/lib/libffmpeg/libavcodec/jpeglsdec.h
+	src/lib/libffmpeg/libavcodec/jpeglsenc.c
+	src/lib/libffmpeg/libavcodec/lagarith.c
+	src/lib/libffmpeg/libavcodec/lossless_videodsp.c
+	src/lib/libffmpeg/libavcodec/mjpegdec.c
+	src/lib/libffmpeg/libavcodec/mjpegdec.h
+	src/lib/libffmpeg/libavcodec/mpeg12enc.c
+	src/lib/libffmpeg/libavcodec/mpegaudio_tablegen.h
+	src/lib/libffmpeg/libavcodec/mpegaudiodec_fixed.c
+	src/lib/libffmpeg/libavcodec/mpegaudiodec_template.c
+	src/lib/libffmpeg/libavcodec/mpegaudiodsp_template.c
+	src/lib/libffmpeg/libavcodec/mpegvideo.c
+	src/lib/libffmpeg/libavcodec/mpegvideo_enc.c
+	src/lib/libffmpeg/libavcodec/on2avcdata.c
+	src/lib/libffmpeg/libavcodec/pcxenc.c
+	src/lib/libffmpeg/libavcodec/qdm2.c
+	src/lib/libffmpeg/libavcodec/rangecoder.c
+	src/lib/libffmpeg/libavcodec/resample2.c
+	src/lib/libffmpeg/libavcodec/s3tc.c
+	src/lib/libffmpeg/libavcodec/snowdec.c
+	src/lib/libffmpeg/libavcodec/snowenc.c
+	src/lib/libffmpeg/libavcodec/sonic.c
+	src/lib/libffmpeg/libavcodec/tiff.c
+	src/lib/libffmpeg/libavcodec/utils.c
+	src/lib/libffmpeg/libavcodec/vp9.c
+	src/lib/libffmpeg/libavcodec/vp9dsp.c
+	src/lib/libffmpeg/libavcodec/wavpack.c
+	src/lib/libffmpeg/libavcodec/wma.c
+	src/lib/libffmpeg/libavcodec/x86/hpeldsp_init.c
+	src/lib/libffmpeg/libavcodec/x86/qpeldsp_init.c
+	src/lib/libffmpeg/libavfilter/formats.h
+	src/lib/libffmpeg/libavfilter/libmpcodecs/vf.h
+	src/lib/libffmpeg/libavfilter/libmpcodecs/vf_softpulldown.c
+	src/lib/libffmpeg/libavfilter/vf_lenscorrection.c
+	src/lib/libffmpeg/libavfilter/vf_vignette.c
+	src/lib/libffmpeg/libavfilter/vsrc_mandelbrot.c
+	src/lib/libffmpeg/libavformat/afc.c
+	src/lib/libffmpeg/libavformat/assdec.c
+	src/lib/libffmpeg/libavformat/avi.h
+	src/lib/libffmpeg/libavformat/avienc.c
+	src/lib/libffmpeg/libavformat/aviobuf.c
+	src/lib/libffmpeg/libavformat/brstm.c
+	src/lib/libffmpeg/libavformat/diracdec.c
+	src/lib/libffmpeg/libavformat/ffmdec.c
+	src/lib/libffmpeg/libavformat/flacdec.c
+	src/lib/libffmpeg/libavformat/flacenc.c
+	src/lib/libffmpeg/libavformat/gif.c
+	src/lib/libffmpeg/libavformat/hls.c
+	src/lib/libffmpeg/libavformat/internal.h
+	src/lib/libffmpeg/libavformat/matroskadec.c
+	src/lib/libffmpeg/libavformat/matroskaenc.c
+	src/lib/libffmpeg/libavformat/mov_chan.c
+	src/lib/libffmpeg/libavformat/mp3enc.c
+	src/lib/libffmpeg/libavformat/mpeg.c
+	src/lib/libffmpeg/libavformat/mpegenc.c
+	src/lib/libffmpeg/libavformat/mxfdec.c
+	src/lib/libffmpeg/libavformat/mxfenc.c
+	src/lib/libffmpeg/libavformat/nut.c
+	src/lib/libffmpeg/libavformat/nut.h
+	src/lib/libffmpeg/libavformat/nutdec.c
+	src/lib/libffmpeg/libavformat/nutenc.c
+	src/lib/libffmpeg/libavformat/oggdec.c
+	src/lib/libffmpeg/libavformat/oggdec.h
+	src/lib/libffmpeg/libavformat/pmpdec.c
+	src/lib/libffmpeg/libavformat/rmdec.c
+	src/lib/libffmpeg/libavformat/rtsp.c
+	src/lib/libffmpeg/libavformat/sbgdec.c
+	src/lib/libffmpeg/libavformat/smoothstreamingenc.c
+	src/lib/libffmpeg/libavformat/soxenc.c
+	src/lib/libffmpeg/libavformat/srtdec.c
+	src/lib/libffmpeg/libavformat/subviewer1dec.c
+	src/lib/libffmpeg/libavformat/subviewerdec.c
+	src/lib/libffmpeg/libavformat/tmv.c
+	src/lib/libffmpeg/libavformat/utils.c
+	src/lib/libffmpeg/libavformat/vplayerdec.c
+	src/lib/libffmpeg/libavformat/webvttdec.c
+	src/lib/libffmpeg/libavformat/wtvdec.c
+	src/lib/libffmpeg/libavformat/wtvenc.c
+	src/lib/libffmpeg/libavformat/xa.c
+	src/lib/libffmpeg/libavutil/channel_layout.c
+	src/lib/libffmpeg/libavutil/channel_layout.h
+	src/lib/libffmpeg/libavutil/crc.c
+	src/lib/libffmpeg/libavutil/libm.h
+	src/lib/libffmpeg/libavutil/parseutils.c
+	src/lib/libffmpeg/libavutil/rational.c
+	src/lib/libffmpeg/libavutil/utils.c
+	src/lib/libffmpeg/libpostproc/postprocess_template.c
+	src/lib/libffmpeg/libswresample/rematrix.c
+	src/lib/libffmpeg/libswresample/resample.c
+	src/lib/libffmpeg/libswscale/output.c
+	src/lib/libffmpeg/libswscale/utils.c
+	src/lib/libffmpeg/libswscale/yuv2rgb.c
+	src/lib/libx264/common/deblock.c, src/lib/libx264/common/macroblock.c,
+	src/lib/libx264/common/osdep.h, src/lib/libx264/common/pixel.c,
+	src/lib/libx264/common/set.c, src/lib/libx264/encoder/analyse.c,
+	src/lib/libx264/encoder/cabac.c, src/lib/libx264/encoder/me.h,
+	src/lib/libx264/encoder/rdo.c, src/lib/libx264/encoder/slicetype.c,
+	src/lib/libx264/output/matroska_ebml.c: Fixed ffmpeg compile for
+	msvc 7.0.
+
+2015-04-02  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/ui.c: Fixed bug #575.
+
+2015-04-02  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/freezemachine.c: fix loading of 32k images
+
+2015-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc71_ffmpeg_project.bat,
+	src/arch/win32/msvc/ffmpeg-config.h
+	src/lib/libffmpeg/libavcodec/aacenc.c
+	src/lib/libffmpeg/libavcodec/aacps.c
+	src/lib/libffmpeg/libavcodec/aacsbr.c
+	src/lib/libffmpeg/libavcodec/ac3enc.c
+	src/lib/libffmpeg/libavcodec/ac3enc_template.c
+	src/lib/libffmpeg/libavcodec/atrac.c
+	src/lib/libffmpeg/libavcodec/bink.c
+	src/lib/libffmpeg/libavcodec/binkaudio.c
+	src/lib/libffmpeg/libavcodec/codec_desc.c
+	src/lib/libffmpeg/libavcodec/dcadec.c
+	src/lib/libffmpeg/libavcodec/dnxhdenc.c
+	src/lib/libffmpeg/libavcodec/dvdec.c
+	src/lib/libffmpeg/libavcodec/get_bits.h
+	src/lib/libffmpeg/libavcodec/h264_loopfilter.c
+	src/lib/libffmpeg/libavcodec/hevc_mvs.c
+	src/lib/libffmpeg/libavcodec/imc.c
+	src/lib/libffmpeg/libavcodec/ituh263dec.c
+	src/lib/libffmpeg/libavcodec/lpc.c
+	src/lib/libffmpeg/libavcodec/me_cmp.c
+	src/lib/libffmpeg/libavcodec/mpc7.c
+	src/lib/libffmpeg/libavcodec/mpegvideo_enc.c
+	src/lib/libffmpeg/libavcodec/mpegvideo_motion.c
+	src/lib/libffmpeg/libavcodec/on2avc.c
+	src/lib/libffmpeg/libavcodec/opus_celt.c
+	src/lib/libffmpeg/libavcodec/proresdec2.c
+	src/lib/libffmpeg/libavcodec/ra288.c
+	src/lib/libffmpeg/libavcodec/rv34.c
+	src/lib/libffmpeg/libavcodec/sinewin.c
+	src/lib/libffmpeg/libavcodec/sipr16k.c
+	src/lib/libffmpeg/libavcodec/vp9.c
+	src/lib/libffmpeg/libavcodec/x86/constants.h
+	src/lib/libffmpeg/libavfilter/af_asetrate.c
+	src/lib/libffmpeg/libavfilter/asrc_sine.c
+	src/lib/libffmpeg/libavfilter/internal.h
+	src/lib/libffmpeg/libavfilter/libmpcodecs/mp_msg.h
+	src/lib/libffmpeg/libavfilter/vf_hqdn3d.c
+	src/lib/libffmpeg/libavformat/dump.c
+	src/lib/libffmpeg/libavutil/atomic_win32.h
+	src/lib/libffmpeg/libavutil/bprint.h
+	src/lib/libffmpeg/libavutil/internal.h
+	src/lib/libffmpeg/libavutil/libm.h
+	src/lib/libffmpeg/libavutil/log.c
+	src/lib/libffmpeg/libavutil/log.h
+	src/lib/libffmpeg/libavutil/x86/asm.h
+	src/lib/libffmpeg/libswscale/swscale.c
+	src/lib/liblame/macosx/English.lproj/InfoPlist.strings
+	src/lib/liblame/vc_solution/vc9_lame.sln,
+	src/lib/liblame/vc_solution/vc9_lame_clients.sln
+	src/lib/liblame/vc_solution/vc9_nasm.rules
+	src/lib/libx264/common/cpu.h, src/lib/libx264/common/frame.c,
+	src/lib/libx264/common/macroblock.c, src/lib/libx264/common/mvpred.c,
+	src/lib/libx264/common/osdep.c, src/lib/libx264/common/osdep.h,
+	src/lib/libx264/common/pixel.c, src/lib/libx264/common/quant.c,
+	src/lib/libx264/common/threadpool.c, src/lib/libx264/common/vlc.c,
+	src/lib/libx264/encoder/analyse.c, src/lib/libx264/encoder/encoder.c,
+	src/lib/libx264/encoder/lookahead.c,
+	src/lib/libx264/encoder/macroblock.c,
+	src/lib/libx264/encoder/macroblock.h, src/lib/libx264/encoder/me.c,
+	src/lib/libx264/encoder/ratecontrol.c, src/lib/libx264/encoder/rdo.c,
+	src/lib/libx264/encoder/set.c, src/lib/libx264/encoder/slicetype-cl.c,
+	src/lib/libx264/encoder/slicetype.c,
+	src/lib/libx264/filters/filters.c,
+	src/lib/libx264/filters/video/crop.c
+	src/lib/libx264/filters/video/depth.c
+	src/lib/libx264/filters/video/internal.c
+	src/lib/libx264/filters/video/resize.c
+	src/lib/libx264/filters/video/select_every.c
+	src/lib/libx264/input/avs.c, src/lib/libx264/input/raw.c,
+	src/lib/libx264/input/thread.c, src/lib/libx264/input/timecode.c,
+	src/lib/libx264/input/y4m.c, src/lib/libx264/x264.c,
+	src/lib/libx264/x264cli.h: Fixed/ported ffmpeg to work with msvc 7.1.
+
+2015-04-01  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Fixed bug #632.
+
+2015-03-30  groepaz <groepaz@gmx.net>
+
+	* src/c64/psid.c: added support for psid v4/3sid tunes
+
+2015-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/vf_field.c: Fixed.
+
+2015-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc8_ffmpeg_project.bat,
+	src/arch/win32/msvc/ffmpeg-config.h, src/lib/libx264/common/osdep.h,
+	src/lib/libx264/common/win32thread.c: Finished msvc 8 ffmpeg
+	fixes/porting.
+
+2015-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/generate_msvc9_ffmpeg_project.bat: Actually generate
+	ffmpeg project files.
+
+2015-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc9_ffmpeg_project.bat: Added msvc9 ffmpeg
+	project generation batch file.
+
+2015-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/x86/ac3dsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/audiodsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/bswapdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/dcadsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/dct_init.c,
+	src/lib/libffmpeg/libavcodec/x86/dnxhdenc_init.c,
+	src/lib/libffmpeg/libavcodec/x86/fdctdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/fft_init.c,
+	src/lib/libffmpeg/libavcodec/x86/h263dsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/hevcdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/hpeldsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/huffyuvdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/idctdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/lossless_audiodsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/lossless_videodsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/mpegvideoencdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/pixblockdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/rv34dsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/sbrdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/svq1enc_init.c,
+	src/lib/libffmpeg/libavcodec/x86/vc1dsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/vorbisdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/vp3dsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/vp6dsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/xvididct_init.c,
+	src/lib/libffmpeg/libavutil/x86/float_dsp_init.c,
+	src/lib/libffmpeg/libavutil/x86/lls_init.c,
+	src/lib/libffmpeg/libswresample/x86/resample_init.c,
+	src/lib/libffmpeg/libswscale/x86/swscale.c: Finished msvc9 ffmpeg
+	porting/fixing.
+
+2015-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/aacpsdsp.c,
+	src/lib/libffmpeg/libavcodec/iirfilter.c,
+	src/lib/libffmpeg/libavcodec/opus_imdct.c,
+	src/lib/libffmpeg/libavcodec/rv34dsp.c,
+	src/lib/libffmpeg/libavcodec/rv40dsp.c,
+	src/lib/libffmpeg/libavcodec/sbrdsp.c,
+	src/lib/libffmpeg/libavcodec/vp56dsp.c,
+	src/lib/libffmpeg/libavcodec/x86/h264_intrapred_init.c,
+	src/lib/libffmpeg/libavcodec/x86/h264chroma_init.c,
+	src/lib/libffmpeg/libavcodec/x86/me_cmp_init.c,
+	src/lib/libffmpeg/libavutil/cpu.c,
+	src/lib/libffmpeg/libavutil/float_dsp.c,
+	src/lib/libffmpeg/libswresample/audioconvert.c,
+	src/lib/libffmpeg/libswresample/rematrix.c,
+	src/lib/libffmpeg/libswscale/swscale.c,
+	src/lib/libffmpeg/libswscale/swscale_unscaled.c,
+	src/lib/libffmpeg/libswscale/utils.c,
+	src/lib/libffmpeg/libswscale/yuv2rgb.c: Some more msvc9 ffmpeg fixes.
+
+2015-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/aacsbr.c,
+	src/lib/libffmpeg/libavcodec/ac3dsp.c,
+	src/lib/libffmpeg/libavcodec/acelp_filters.c,
+	src/lib/libffmpeg/libavcodec/acelp_vectors.c,
+	src/lib/libffmpeg/libavcodec/audiodsp.c,
+	src/lib/libffmpeg/libavcodec/blockdsp.c,
+	src/lib/libffmpeg/libavcodec/celp_filters.c,
+	src/lib/libffmpeg/libavcodec/celp_math.c,
+	src/lib/libffmpeg/libavcodec/dcadsp.c,
+	src/lib/libffmpeg/libavcodec/dirac_dwt.c,
+	src/lib/libffmpeg/libavcodec/diracdsp.c,
+	src/lib/libffmpeg/libavcodec/fdctdsp.c,
+	src/lib/libffmpeg/libavcodec/fft_template.c,
+	src/lib/libffmpeg/libavcodec/flacdsp.c,
+	src/lib/libffmpeg/libavcodec/fmtconvert.c,
+	src/lib/libffmpeg/libavcodec/lossless_audiodsp.c,
+	src/lib/libffmpeg/libavcodec/mlpdsp.c,
+	src/lib/libffmpeg/libavcodec/mpeg12dec.c,
+	src/lib/libffmpeg/libavcodec/mpegaudiodsp.c,
+	src/lib/libffmpeg/libavcodec/mpegvideoencdsp.c,
+	src/lib/libffmpeg/libavcodec/pixblockdsp.c,
+	src/lib/libffmpeg/libavcodec/rdft.c,
+	src/lib/libffmpeg/libavcodec/synth_filter.c,
+	src/lib/libffmpeg/libavcodec/v210dec.c,
+	src/lib/libffmpeg/libavcodec/vc1dsp.c,
+	src/lib/libffmpeg/libavcodec/vorbisdsp.c,
+	src/lib/libffmpeg/libavcodec/vp3dsp.c,
+	src/lib/libffmpeg/libavcodec/vp8dsp.c
+Revision: 29551
+Author: blackystardust
+Date: Sunday, March 29, 2015 9:03:51 PM
+Message:
+Some more msvc9 ffmpeg fixes.
+----
+
+2015-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/aacdec.c,
+	src/lib/libffmpeg/libavcodec/aacenc.c,
+	src/lib/libffmpeg/libavcodec/allcodecs.c,
+	src/lib/libffmpeg/libavcodec/h263dec.c,
+	src/lib/libffmpeg/libavcodec/h264.c,
+	src/lib/libffmpeg/libavcodec/h264_picture.c,
+	src/lib/libffmpeg/libavcodec/h264chroma.c,
+	src/lib/libffmpeg/libavcodec/h264dsp.c,
+	src/lib/libffmpeg/libavcodec/h264pred.c,
+	src/lib/libffmpeg/libavcodec/h264qpel.c,
+	src/lib/libffmpeg/libavcodec/hpeldsp.c,
+	src/lib/libffmpeg/libavcodec/idctdsp.c,
+	src/lib/libffmpeg/libavcodec/me_cmp.c,
+	src/lib/libffmpeg/libavcodec/mpeg12dec.c,
+	src/lib/libffmpeg/libavcodec/mpegvideo.c,
+	src/lib/libffmpeg/libavcodec/mpegvideodsp.c,
+	src/lib/libffmpeg/libavcodec/snow_dwt.c,
+	src/lib/libffmpeg/libavcodec/svq1enc.c,
+	src/lib/libffmpeg/libavcodec/v210dec.c,
+	src/lib/libffmpeg/libavcodec/vc1dec.c,
+	src/lib/libffmpeg/libavcodec/videodsp.c,
+	src/lib/libffmpeg/libavformat/allformats.c,
+	src/lib/libffmpeg/libavformat/rtmpproto.c,
+	src/lib/libffmpeg/libavutil/x86/cpu.h: Some msvc9 ffmpeg fixes.
+
+2015-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/compat/msvcrt/snprintf.c: Define EOVERFLOW if not
+	defined.
+
+2015-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/generate_msvc10_ffmpeg_project.bat,
+	src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Generate ffmpeg projects in differently named directories.
+
+2015-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc10_ffmpeg_project.bat,
+	src/arch/win32/msvc/ide-config.h, src/arch/win32/vs_tmpl/mkmsvc.c,
+	src/arch/win32/vs_tmpl/mkmsvc.exe: Added ffmpeg msvc project files
+	generation for msvc 10.
+
+2015-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/x128.tmpl,
+	src/arch/win32/vs_tmpl/x64dtv.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl:
+	Extended ffmpeg msvc support to the other emulators.
+
+2015-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/compat/w32pthreads.h: Changed the ffmpeg threading
+	for msvc to work on older versions of windows as well.
+
+2015-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/x264-config.h,
+	src/lib/libffmpeg/libavcodec/aacdec.c,
+	src/lib/libx264/encoder/analyse.c,
+	src/lib/libx264/encoder/ratecontrol.c: Static ffmpeg compile support
+	for msvc now works for x64, next step is to complete the support.
+
+2015-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/msvc/x264-config.h, src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/avcodec-x86.tmpl,
+	src/arch/win32/vs_tmpl/avformat.tmpl,
+	src/arch/win32/vs_tmpl/avutil-x86.tmpl,
+	src/arch/win32/vs_tmpl/swresample-x86.tmpl,
+	src/arch/win32/vs_tmpl/swscale-x86.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/lib/libffmpeg/compat/strtod.c,
+	src/lib/libffmpeg/libavcodec/amrnbdec.c,
+	src/lib/libffmpeg/libavcodec/amrwbdec.c,
+	src/lib/libffmpeg/libavcodec/dvbsubdec.c,
+	src/lib/libffmpeg/libavcodec/fft_fixed.c,
+	src/lib/libffmpeg/libavcodec/jpeg2000dec.c,
+	src/lib/libffmpeg/libavcodec/mdct_fixed.c,
+	src/lib/libffmpeg/libavcodec/mdct_fixed_32.c,
+	src/lib/libffmpeg/libavcodec/metasound.c,
+	src/lib/libffmpeg/libavcodec/wmaenc.c,
+	src/lib/libffmpeg/libavcodec/wmavoice.c,
+	src/lib/libffmpeg/libavcodec/x86/audiodsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/blockdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/cavsdsp.c,
+	src/lib/libffmpeg/libavcodec/x86/dct_init.c,
+	src/lib/libffmpeg/libavcodec/x86/fft_init.c,
+	src/lib/libffmpeg/libavcodec/x86/flacdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/h264chroma_init.c,
+	src/lib/libffmpeg/libavcodec/x86/hevcdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/huffyuvdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/idctdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/mpegvideodsp.c,
+	src/lib/libffmpeg/libavcodec/x86/qpeldsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/sbrdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/svq1enc_init.c,
+	src/lib/libffmpeg/libavcodec/x86/ttadsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/vc1dsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/videodsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/vorbisdsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/vp3dsp_init.c,
+	src/lib/libffmpeg/libavcodec/x86/xvididct_init.c,
+	src/lib/libffmpeg/libavformat/avienc.c,
+	src/lib/libffmpeg/libavformat/avio.c,
+	src/lib/libffmpeg/libavformat/rtpdec_mpeg4.c,
+	src/lib/libffmpeg/libavformat/rtpdec_qdm2.c,
+	src/lib/libffmpeg/libavformat/thp.c,
+	src/lib/libffmpeg/libavutil/eval.c,
+	src/lib/libffmpeg/libavutil/log.h,
+	src/lib/libffmpeg/libavutil/rational.c,
+	src/lib/libffmpeg/libavutil/x86/float_dsp_init.c,
+	src/lib/libffmpeg/libswscale/x86/rgb2rgb.c,
+	src/lib/libffmpeg/libswscale/x86/swscale.c,
+	src/lib/libffmpeg/libswscale/x86/yuv2rgb.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/compat.tmpl, src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/lib/libffmpeg/libavcodec/4xm.c,
+	src/lib/libffmpeg/libavcodec/apedec.c,
+	src/lib/libffmpeg/libavcodec/asvdec.c,
+	src/lib/libffmpeg/libavcodec/asvenc.c,
+	src/lib/libffmpeg/libavcodec/dvenc.c,
+	src/lib/libffmpeg/libavcodec/faanidct.c,
+	src/lib/libffmpeg/libavcodec/ffv1dec.c,
+	src/lib/libffmpeg/libavcodec/ffv1enc.c,
+	src/lib/libffmpeg/libavcodec/h264_picture.c,
+	src/lib/libffmpeg/libavcodec/huffyuvdec.c,
+	src/lib/libffmpeg/libavcodec/huffyuvenc.c,
+	src/lib/libffmpeg/libavcodec/imgconvert.c,
+	src/lib/libffmpeg/libavcodec/mpegutils.c,
+	src/lib/libffmpeg/libavcodec/nellymoserenc.c,
+	src/lib/libffmpeg/libavcodec/ratecontrol.c,
+	src/lib/libffmpeg/libavcodec/snowdec.c,
+	src/lib/libffmpeg/libavcodec/snowenc.c,
+	src/lib/libffmpeg/libavcodec/vp3.c,
+	src/lib/libffmpeg/libavcodec/wmalosslessdec.c,
+	src/lib/libffmpeg/libavformat/dump.c,
+	src/lib/libffmpeg/libavutil/opt.c,
+	src/lib/libffmpeg/libavutil/utils.c,
+	src/lib/libffmpeg/libswresample/dither.c,
+	src/lib/libffmpeg/libswresample/rematrix.c,
+	src/lib/libffmpeg/libswresample/resample.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/msvc/ide-config.h,,
+	src/arch/win32/vs_tmpl/avformat.tmpl,
+	src/lib/libffmpeg/libavcodec/adx.c,
+	src/lib/libffmpeg/libavcodec/evrcdec.c,
+	src/lib/libffmpeg/libavcodec/faanidct.c,
+	src/lib/libffmpeg/libavcodec/fmtconvert.c,
+	src/lib/libffmpeg/libavcodec/jpeg2000.c,
+	src/lib/libffmpeg/libavformat/aviobuf.c,
+	src/lib/libffmpeg/libavutil/rational.c,
+	src/lib/libffmpeg/libavutil/samplefmt.c,
+	src/lib/libffmpeg/libavutil/time.c,
+	src/lib/libffmpeg/libavutil/utils.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/avutil.tmpl, src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl,
+	src/lib/libffmpeg/libavutil/adler32.c,
+	src/lib/libffmpeg/libavutil/aes.c,
+	src/lib/libffmpeg/libavutil/atomic.c,
+	src/lib/libffmpeg/libavutil/avstring.c,
+	src/lib/libffmpeg/libavutil/buffer.c,
+	src/lib/libffmpeg/libavutil/channel_layout.c,
+	src/lib/libffmpeg/libavutil/cpu.c,
+	src/lib/libffmpeg/libavutil/crc.c,
+	src/lib/libffmpeg/libavutil/des.c,
+	src/lib/libffmpeg/libavutil/eval.c,
+	src/lib/libffmpeg/libavutil/file.c,
+	src/lib/libffmpeg/libavutil/file_open.c,
+	src/lib/libffmpeg/libavutil/float_dsp.c,
+	src/lib/libffmpeg/libavutil/frame.c,
+	src/lib/libffmpeg/libavutil/hash.c,
+	src/lib/libffmpeg/libavutil/log.c,
+	src/lib/libffmpeg/libavutil/mathematics.c,
+	src/lib/libffmpeg/libavutil/mem.c,
+	src/lib/libffmpeg/libavutil/opt.c,
+	src/lib/libffmpeg/libavutil/pixdesc.c,
+	src/lib/libffmpeg/libavutil/pixelutils.c,
+	src/lib/libffmpeg/libavutil/ppc/cpu.h,
+	src/lib/libffmpeg/libavutil/random_seed.c,
+	src/lib/libffmpeg/libavutil/x86/cpu.h,
+	src/lib/libffmpeg/libswscale/swscale.c,
+	src/lib/libffmpeg/libswscale/swscale_unscaled.c,
+	src/lib/libffmpeg/libswscale/utils.c,
+	src/lib/libffmpeg/libswscale/yuv2rgb.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/swscale.tmpl, src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl,
+	src/lib/libffmpeg/libswresample/options.c,
+	src/lib/libffmpeg/libswresample/resample.c,
+	src/lib/libffmpeg/libswscale/input.c,
+	src/lib/libffmpeg/libswscale/options.c,
+	src/lib/libffmpeg/libswscale/output.c,
+	src/lib/libffmpeg/libswscale/rgb2rgb.c,
+	src/lib/libffmpeg/libswscale/swscale.c,
+	src/lib/libffmpeg/libswscale/swscale_internal.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/avcodec.tmpl,
+	src/arch/win32/vs_tmpl/postproc.tmpl,
+	src/arch/win32/vs_tmpl/swresample.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/lib/libffmpeg/libavcodec/aac_adtstoasc_bsf.c,
+	src/lib/libffmpeg/libavcodec/g726.c,
+	src/lib/libffmpeg/libavcodec/rv10.c,
+	src/lib/libffmpeg/libavcodec/wmv2dec.c,
+	src/lib/libffmpeg/libavcodec/wmv2enc.c,
+	src/lib/libffmpeg/libavcodec/wnv1.c,
+	src/lib/libffmpeg/libavcodec/ws-snd1.c,
+	src/lib/libffmpeg/libavcodec/xan.c,
+	src/lib/libffmpeg/libavcodec/xbmdec.c,
+	src/lib/libffmpeg/libavcodec/xbmenc.c,
+	src/lib/libffmpeg/libavcodec/xfacedec.c,
+	src/lib/libffmpeg/libavcodec/xfaceenc.c,
+	src/lib/libffmpeg/libavcodec/xl.c,
+	src/lib/libffmpeg/libavcodec/xsubdec.c,
+	src/lib/libffmpeg/libavcodec/xsubenc.c,
+	src/lib/libffmpeg/libavcodec/xvididct.c,
+	src/lib/libffmpeg/libavcodec/xwddec.c,
+	src/lib/libffmpeg/libavcodec/xwdenc.c,
+	src/lib/libffmpeg/libavcodec/xxan.c,
+	src/lib/libffmpeg/libavcodec/y41pdec.c,
+	src/lib/libffmpeg/libavcodec/y41penc.c,
+	src/lib/libffmpeg/libavcodec/yop.c,
+	src/lib/libffmpeg/libavcodec/yuv4dec.c,
+	src/lib/libffmpeg/libavcodec/yuv4enc.c,
+	src/lib/libffmpeg/libpostproc/postprocess.c,
+	src/lib/libffmpeg/libswresample/audioconvert.c,
+	src/lib/libffmpeg/libswresample/options.c,
+	src/lib/libffmpeg/libswresample/swresample_internal.h: More libffmpeg
+	msvc porting/fixing.
+
+2015-03-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/vp9_parser.c,
+	src/lib/libffmpeg/libavcodec/vp9dsp.c,
+	src/lib/libffmpeg/libavcodec/vqavideo.c,
+	src/lib/libffmpeg/libavcodec/wavpack.c,
+	src/lib/libffmpeg/libavcodec/wavpackenc.c,
+	src/lib/libffmpeg/libavcodec/webp.c,
+	src/lib/libffmpeg/libavcodec/webvttdec.c,
+	src/lib/libffmpeg/libavcodec/webvttenc.c,
+	src/lib/libffmpeg/libavcodec/wmadec.c,
+	src/lib/libffmpeg/libavcodec/wmaenc.c,
+	src/lib/libffmpeg/libavcodec/wmalosslessdec.c,
+	src/lib/libffmpeg/libavcodec/wmaprodec.c,
+	src/lib/libffmpeg/libavcodec/wmavoice.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/vcr1.c,
+	src/lib/libffmpeg/libavcodec/vima.c,
+	src/lib/libffmpeg/libavcodec/vmdaudio.c,
+	src/lib/libffmpeg/libavcodec/vmdvideo.c,
+	src/lib/libffmpeg/libavcodec/vmnc.c,
+	src/lib/libffmpeg/libavcodec/vorbis_enc_data.h,
+	src/lib/libffmpeg/libavcodec/vorbis_parser.c,
+	src/lib/libffmpeg/libavcodec/vorbisdec.c,
+	src/lib/libffmpeg/libavcodec/vorbisdsp.c,
+	src/lib/libffmpeg/libavcodec/vorbisenc.c,
+	src/lib/libffmpeg/libavcodec/vp3.c,
+	src/lib/libffmpeg/libavcodec/vp3_parser.c,
+	src/lib/libffmpeg/libavcodec/vp5.c,
+	src/lib/libffmpeg/libavcodec/vp56.c,
+	src/lib/libffmpeg/libavcodec/vp6.c,
+	src/lib/libffmpeg/libavcodec/vp8.c,
+	src/lib/libffmpeg/libavcodec/vp8_parser.c,
+	src/lib/libffmpeg/libavcodec/vp8data.h,
+	src/lib/libffmpeg/libavcodec/vp9.c,
+	src/lib/libffmpeg/libavcodec/vp9data.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/utils.c,
+	src/lib/libffmpeg/libavcodec/utvideodec.c,
+	src/lib/libffmpeg/libavcodec/utvideoenc.c,
+	src/lib/libffmpeg/libavcodec/v210dec.c,
+	src/lib/libffmpeg/libavcodec/v210enc.c,
+	src/lib/libffmpeg/libavcodec/v210x.c,
+	src/lib/libffmpeg/libavcodec/v308dec.c,
+	src/lib/libffmpeg/libavcodec/v308enc.c,
+	src/lib/libffmpeg/libavcodec/v408dec.c,
+	src/lib/libffmpeg/libavcodec/v408enc.c,
+	src/lib/libffmpeg/libavcodec/v410dec.c,
+	src/lib/libffmpeg/libavcodec/v410enc.c,
+	src/lib/libffmpeg/libavcodec/vb.c,
+	src/lib/libffmpeg/libavcodec/vble.c,
+	src/lib/libffmpeg/libavcodec/vc1.c,
+	src/lib/libffmpeg/libavcodec/vc1_parser.c,
+	src/lib/libffmpeg/libavcodec/vc1dec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/lib/libffmpeg/libavcodec/targa.c,
+	src/lib/libffmpeg/libavcodec/targa_y216dec.c,
+	src/lib/libffmpeg/libavcodec/targaenc.c,
+	src/lib/libffmpeg/libavcodec/textdec.c,
+	src/lib/libffmpeg/libavcodec/tiertexseqv.c,
+	src/lib/libffmpeg/libavcodec/tiff.c,
+	src/lib/libffmpeg/libavcodec/tiff_common.c,
+	src/lib/libffmpeg/libavcodec/tiffenc.c,
+	src/lib/libffmpeg/libavcodec/tmv.c,
+	src/lib/libffmpeg/libavcodec/truemotion1.c,
+	src/lib/libffmpeg/libavcodec/truemotion2.c,
+	src/lib/libffmpeg/libavcodec/truespeech.c,
+	src/lib/libffmpeg/libavcodec/tscc2.c,
+	src/lib/libffmpeg/libavcodec/tta.c,
+	src/lib/libffmpeg/libavcodec/ttaenc.c,
+	src/lib/libffmpeg/libavcodec/twinvq.c,
+	src/lib/libffmpeg/libavcodec/twinvq_data.h,
+	src/lib/libffmpeg/libavcodec/twinvqdec.c,
+	src/lib/libffmpeg/libavcodec/txd.c,
+	src/lib/libffmpeg/libavcodec/ulti.c,
+	src/lib/libffmpeg/libavcodec/utils.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/srtdec.c
+	src/lib/libffmpeg/libavcodec/srtenc.c
+	src/lib/libffmpeg/libavcodec/startcode.c
+	src/lib/libffmpeg/libavcodec/subviewerdec.c
+	src/lib/libffmpeg/libavcodec/sunrast.c
+	src/lib/libffmpeg/libavcodec/sunrastenc.c
+	src/lib/libffmpeg/libavcodec/svq1dec.c
+	src/lib/libffmpeg/libavcodec/svq1enc.c
+	src/lib/libffmpeg/libavcodec/svq3.c
+	src/lib/libffmpeg/libavcodec/tak_parser.c
+	src/lib/libffmpeg/libavcodec/takdec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/sipr.c,
+	src/lib/libffmpeg/libavcodec/smacker.c,
+	src/lib/libffmpeg/libavcodec/smc.c,
+	src/lib/libffmpeg/libavcodec/smvjpegdec.c,
+	src/lib/libffmpeg/libavcodec/snow.c,
+	src/lib/libffmpeg/libavcodec/snow.h,
+	src/lib/libffmpeg/libavcodec/snowdec.c,
+	src/lib/libffmpeg/libavcodec/snowenc.c,
+	src/lib/libffmpeg/libavcodec/sonic.c,
+	src/lib/libffmpeg/libavcodec/sp5xdec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-24  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/rgcd.c,
+	src/c64/cart/rgcd.h: disable cart until reset when bit 3 was set
+
+2015-03-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/roqvideodec.c,
+	src/lib/libffmpeg/libavcodec/roqvideoenc.c,
+	src/lib/libffmpeg/libavcodec/rpza.c,
+	src/lib/libffmpeg/libavcodec/rv10enc.c,
+	src/lib/libffmpeg/libavcodec/rv20enc.c,
+	src/lib/libffmpeg/libavcodec/rv30.c,
+	src/lib/libffmpeg/libavcodec/rv34.c,
+	src/lib/libffmpeg/libavcodec/rv34_parser.c,
+	src/lib/libffmpeg/libavcodec/rv40.c,
+	src/lib/libffmpeg/libavcodec/s302m.c,
+	src/lib/libffmpeg/libavcodec/s302menc.c,
+	src/lib/libffmpeg/libavcodec/samidec.c,
+	src/lib/libffmpeg/libavcodec/sanm.c,
+	src/lib/libffmpeg/libavcodec/sbrdsp.c,
+	src/lib/libffmpeg/libavcodec/sgidec.c,
+	src/lib/libffmpeg/libavcodec/sgienc.c,
+	src/lib/libffmpeg/libavcodec/sgirledec.c,
+	src/lib/libffmpeg/libavcodec/shorten.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/proresenc_kostya.c,
+	src/lib/libffmpeg/libavcodec/pthread_frame.c,
+	src/lib/libffmpeg/libavcodec/pthread_slice.c,
+	src/lib/libffmpeg/libavcodec/ptx.c,
+	src/lib/libffmpeg/libavcodec/qcelpdec.c,
+	src/lib/libffmpeg/libavcodec/qdm2.c,
+	src/lib/libffmpeg/libavcodec/qdrw.c,
+	src/lib/libffmpeg/libavcodec/qpeg.c,
+	src/lib/libffmpeg/libavcodec/qpeldsp.c,
+	src/lib/libffmpeg/libavcodec/qtrle.c,
+	src/lib/libffmpeg/libavcodec/qtrleenc.c,
+	src/lib/libffmpeg/libavcodec/r210dec.c,
+	src/lib/libffmpeg/libavcodec/r210enc.c,
+	src/lib/libffmpeg/libavcodec/ra144dec.c,
+	src/lib/libffmpeg/libavcodec/ra144enc.c,
+	src/lib/libffmpeg/libavcodec/ra288.c,
+	src/lib/libffmpeg/libavcodec/ralf.c,
+	src/lib/libffmpeg/libavcodec/rawdec.c,
+	src/lib/libffmpeg/libavcodec/rawenc.c,
+	src/lib/libffmpeg/libavcodec/realtextdec.c,
+	src/lib/libffmpeg/libavcodec/remove_extradata_bsf.c,
+	src/lib/libffmpeg/libavcodec/rl2.c,
+	src/lib/libffmpeg/libavcodec/roqaudioenc.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/opus_parser.c,
+	src/lib/libffmpeg/libavcodec/opusdec.c,
+	src/lib/libffmpeg/libavcodec/pafaudio.c,
+	src/lib/libffmpeg/libavcodec/pafvideo.c,
+	src/lib/libffmpeg/libavcodec/pamenc.c,
+	src/lib/libffmpeg/libavcodec/pcm-bluray.c,
+	src/lib/libffmpeg/libavcodec/pcm-dvd.c,
+	src/lib/libffmpeg/libavcodec/pcm.c,
+	src/lib/libffmpeg/libavcodec/pcx.c,
+	src/lib/libffmpeg/libavcodec/pcxenc.c,
+	src/lib/libffmpeg/libavcodec/pgssubdec.c,
+	src/lib/libffmpeg/libavcodec/pictordec.c,
+	src/lib/libffmpeg/libavcodec/pixblockdsp.c,
+	src/lib/libffmpeg/libavcodec/png_parser.c,
+	src/lib/libffmpeg/libavcodec/pnm_parser.c,
+	src/lib/libffmpeg/libavcodec/pnmdec.c,
+	src/lib/libffmpeg/libavcodec/pnmenc.c,
+	src/lib/libffmpeg/libavcodec/proresdec2.c,
+	src/lib/libffmpeg/libavcodec/proresdec_lgpl.c,
+	src/lib/libffmpeg/libavcodec/proresdsp.c,
+	src/lib/libffmpeg/libavcodec/proresenc_anatoliy.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/nellymoserdec.c,
+	src/lib/libffmpeg/libavcodec/nellymoserenc.c,
+	src/lib/libffmpeg/libavcodec/noise_bsf.c,
+	src/lib/libffmpeg/libavcodec/nuv.c,
+	src/lib/libffmpeg/libavcodec/on2avc.c,
+	src/lib/libffmpeg/libavcodec/options.c,
+	src/lib/libffmpeg/libavcodec/options_table.h,
+	src/lib/libffmpeg/libavcodec/opus_imdct.c: More libffmpeg msvc porting
+	fixing.
+
+2015-03-24  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/easyflash.c: added a check for presence of EAPI, print
+	a warning if not found.
+
+2015-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/mpegvideo.c,
+	src/lib/libffmpeg/libavcodec/mpegvideo_enc.c,
+	src/lib/libffmpeg/libavcodec/mpegvideo_parser.c,
+	src/lib/libffmpeg/libavcodec/mpegvideodsp.c,
+	src/lib/libffmpeg/libavcodec/mpegvideoencdsp.c,
+	src/lib/libffmpeg/libavcodec/mpl2dec.c,
+	src/lib/libffmpeg/libavcodec/msmpeg4.c,
+	src/lib/libffmpeg/libavcodec/msmpeg4dec.c,
+	src/lib/libffmpeg/libavcodec/msrle.c,
+	src/lib/libffmpeg/libavcodec/mss1.c,
+	src/lib/libffmpeg/libavcodec/mss2.c,
+	src/lib/libffmpeg/libavcodec/mss3.c,
+	src/lib/libffmpeg/libavcodec/mss4.c,
+	src/lib/libffmpeg/libavcodec/msvideo1.c,
+	src/lib/libffmpeg/libavcodec/msvideo1enc.c,
+	src/lib/libffmpeg/libavcodec/mvcdec.c,
+	src/lib/libffmpeg/libavcodec/mxpegdec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/mjpegbdec.c,
+	src/lib/libffmpeg/libavcodec/mjpegdec.c,
+	src/lib/libffmpeg/libavcodec/mjpegenc.c,
+	src/lib/libffmpeg/libavcodec/mlp_parser.c,
+	src/lib/libffmpeg/libavcodec/mlpdec.c,
+	src/lib/libffmpeg/libavcodec/mlpdsp.c,
+	src/lib/libffmpeg/libavcodec/mmvideo.c,
+	src/lib/libffmpeg/libavcodec/motionpixels.c,
+	src/lib/libffmpeg/libavcodec/movsub_bsf.c,
+	src/lib/libffmpeg/libavcodec/movtextdec.c,
+	src/lib/libffmpeg/libavcodec/movtextenc.c,
+	src/lib/libffmpeg/libavcodec/mp3_header_decompress_bsf.c,
+	src/lib/libffmpeg/libavcodec/mpc7.c,
+	src/lib/libffmpeg/libavcodec/mpc8.c,
+	src/lib/libffmpeg/libavcodec/mpeg12.c,
+	src/lib/libffmpeg/libavcodec/mpeg12dec.c,
+	src/lib/libffmpeg/libavcodec/mpeg12enc.c,
+	src/lib/libffmpeg/libavcodec/mpeg4video_parser.c,
+	src/lib/libffmpeg/libavcodec/mpeg4videodec.c,
+	src/lib/libffmpeg/libavcodec/mpeg4videoenc.c,
+	src/lib/libffmpeg/libavcodec/mpegaudio_parser.c,
+	src/lib/libffmpeg/libavcodec/mpegaudiodec_fixed.c,
+	src/lib/libffmpeg/libavcodec/mpegaudiodec_float.c,
+	src/lib/libffmpeg/libavcodec/mpegaudiodsp.c,
+	src/lib/libffmpeg/libavcodec/mpegaudioenc_fixed.c,
+	src/lib/libffmpeg/libavcodec/mpegaudioenc_float.c,
+	src/lib/libffmpeg/libavcodec/mpegvideo.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/avcodec.tmpl,
+	src/lib/libffmpeg/libavcodec/jpeglsenc.c,
+	src/lib/libffmpeg/libavcodec/jvdec.c,
+	src/lib/libffmpeg/libavcodec/kgv1dec.c,
+	src/lib/libffmpeg/libavcodec/kmvc.c,
+	src/lib/libffmpeg/libavcodec/lagarith.c,
+	src/lib/libffmpeg/libavcodec/latm_parser.c,
+	src/lib/libffmpeg/libavcodec/lcldec.c,
+	src/lib/libffmpeg/libavcodec/libmp3lame.c,
+	src/lib/libffmpeg/libavcodec/libx264.c,
+	src/lib/libffmpeg/libavcodec/ljpegenc.c,
+	src/lib/libffmpeg/libavcodec/loco.c,
+	src/lib/libffmpeg/libavcodec/lpc.c,
+	src/lib/libffmpeg/libavcodec/mace.c,
+	src/lib/libffmpeg/libavcodec/mdec.c,
+	src/lib/libffmpeg/libavcodec/me_cmp.c,
+	src/lib/libffmpeg/libavcodec/metasound.c,
+	src/lib/libffmpeg/libavcodec/microdvddec.c,
+	src/lib/libffmpeg/libavcodec/mimic.c,
+	src/lib/libffmpeg/libavcodec/mjpeg2jpeg_bsf.c,
+	src/lib/libffmpeg/libavcodec/mjpeg_parser.c,
+	src/lib/libffmpeg/libavcodec/mjpega_dump_header_bsf.c: More libffmpeg
+	msvc porting/fixing.
+
+2015-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/imc.c,
+	src/lib/libffmpeg/libavcodec/imx_dump_header_bsf.c,
+	src/lib/libffmpeg/libavcodec/indeo2.c,
+	src/lib/libffmpeg/libavcodec/indeo3.c,
+	src/lib/libffmpeg/libavcodec/indeo3data.h,
+	src/lib/libffmpeg/libavcodec/indeo4.c,
+	src/lib/libffmpeg/libavcodec/indeo5.c,
+	src/lib/libffmpeg/libavcodec/intelh263dec.c,
+	src/lib/libffmpeg/libavcodec/interplayvideo.c,
+	src/lib/libffmpeg/libavcodec/ituh263dec.c,
+	src/lib/libffmpeg/libavcodec/ituh263enc.c,
+	src/lib/libffmpeg/libavcodec/j2kenc.c,
+	src/lib/libffmpeg/libavcodec/jacosubdec.c,
+	src/lib/libffmpeg/libavcodec/jpeg2000dec.c,
+	src/lib/libffmpeg/libavcodec/jpeglsdec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/h263_parser.c,
+	src/lib/libffmpeg/libavcodec/h263dec.c,
+	src/lib/libffmpeg/libavcodec/h263dsp.c,
+	src/lib/libffmpeg/libavcodec/h264.c,
+	src/lib/libffmpeg/libavcodec/h264_cabac.c,
+	src/lib/libffmpeg/libavcodec/h264_mb.c,
+	src/lib/libffmpeg/libavcodec/h264_mp4toannexb_bsf.c,
+	src/lib/libffmpeg/libavcodec/h264_parser.c,
+	src/lib/libffmpeg/libavcodec/h264_slice.c,
+	src/lib/libffmpeg/libavcodec/h264chroma.c,
+	src/lib/libffmpeg/libavcodec/hevc.c,
+	src/lib/libffmpeg/libavcodec/hevc_mvs.c,
+	src/lib/libffmpeg/libavcodec/hevc_parser.c,
+	src/lib/libffmpeg/libavcodec/hevc_ps.c,
+	src/lib/libffmpeg/libavcodec/hnm4video.c,
+	src/lib/libffmpeg/libavcodec/huffyuvdec.c,
+	src/lib/libffmpeg/libavcodec/huffyuvdsp.c,
+	src/lib/libffmpeg/libavcodec/huffyuvenc.c,
+	src/lib/libffmpeg/libavcodec/huffyuvencdsp.c,
+	src/lib/libffmpeg/libavcodec/idcinvideo.c,
+	src/lib/libffmpeg/libavcodec/idctdsp.c,
+	src/lib/libffmpeg/libavcodec/iff.c,
+	src/lib/libffmpeg/libavcodec/iirfilter.c,
+	src/lib/libffmpeg/libavcodec/msmpeg4.h,
+	src/lib/libffmpeg/libavcodec/vdpau_internal.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/lib/libffmpeg/libavcodec/dvdsub_parser.c,
+	src/lib/libffmpeg/libavcodec/dvdsubdec.c,
+	src/lib/libffmpeg/libavcodec/dvdsubenc.c,
+	src/lib/libffmpeg/libavcodec/dvenc.c,
+	src/lib/libffmpeg/libavcodec/dxtory.c,
+	src/lib/libffmpeg/libavcodec/eac3enc.c,
+	src/lib/libffmpeg/libavcodec/eacmv.c,
+	src/lib/libffmpeg/libavcodec/eamad.c,
+	src/lib/libffmpeg/libavcodec/eatgq.c,
+	src/lib/libffmpeg/libavcodec/eatgv.c,
+	src/lib/libffmpeg/libavcodec/eatqi.c,
+	src/lib/libffmpeg/libavcodec/escape124.c,
+	src/lib/libffmpeg/libavcodec/escape130.c,
+	src/lib/libffmpeg/libavcodec/evrcdec.c,
+	src/lib/libffmpeg/libavcodec/fdctdsp.c,
+	src/lib/libffmpeg/libavcodec/ffv1dec.c,
+	src/lib/libffmpeg/libavcodec/ffv1enc.c,
+	src/lib/libffmpeg/libavcodec/ffwavesynth.c,
+	src/lib/libffmpeg/libavcodec/fic.c,
+	src/lib/libffmpeg/libavcodec/flac_parser.c,
+	src/lib/libffmpeg/libavcodec/flacdec.c,
+	src/lib/libffmpeg/libavcodec/flacdsp.c,
+	src/lib/libffmpeg/libavcodec/flacenc.c,
+	src/lib/libffmpeg/libavcodec/flicvideo.c,
+	src/lib/libffmpeg/libavcodec/flvdec.c,
+	src/lib/libffmpeg/libavcodec/flvenc.c,
+	src/lib/libffmpeg/libavcodec/fraps.c,
+	src/lib/libffmpeg/libavcodec/frwu.c,
+	src/lib/libffmpeg/libavcodec/g722dec.c,
+	src/lib/libffmpeg/libavcodec/g722enc.c,
+	src/lib/libffmpeg/libavcodec/g723_1.c,
+	src/lib/libffmpeg/libavcodec/g726.c,
+	src/lib/libffmpeg/libavcodec/g729dec.c,
+	src/lib/libffmpeg/libavcodec/gif.c,
+	src/lib/libffmpeg/libavcodec/gifdec.c,
+	src/lib/libffmpeg/libavcodec/gsm_parser.c,
+	src/lib/libffmpeg/libavcodec/gsmdec.c,
+	src/lib/libffmpeg/libavcodec/h261_parser.c,
+	src/lib/libffmpeg/libavcodec/h261dec.c,
+	src/lib/libffmpeg/libavcodec/h261enc.c,
+	src/lib/libffmpeg/libavcodec/h263.h,
+	src/lib/libffmpeg/libavcodec/mpegvideo.h,
+	src/lib/libffmpeg/libavcodec/rectangle.h,
+	src/lib/libffmpeg/libavutil/internal.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/lib/libffmpeg/libavcodec/dcadec.c,
+	src/lib/libffmpeg/libavcodec/dcadsp.c,
+	src/lib/libffmpeg/libavcodec/dcaenc.c,
+	src/lib/libffmpeg/libavcodec/dfa.c,
+	src/lib/libffmpeg/libavcodec/dirac_arith.c,
+	src/lib/libffmpeg/libavcodec/dirac_parser.c,
+	src/lib/libffmpeg/libavcodec/diracdec.c,
+	src/lib/libffmpeg/libavcodec/dnxhd_parser.c,
+	src/lib/libffmpeg/libavcodec/dnxhddec.c,
+	src/lib/libffmpeg/libavcodec/dnxhdenc.c,
+	src/lib/libffmpeg/libavcodec/dpcm.c,
+	src/lib/libffmpeg/libavcodec/dpx.c,
+	src/lib/libffmpeg/libavcodec/dpx_parser.c,
+	src/lib/libffmpeg/libavcodec/dpxenc.c,
+	src/lib/libffmpeg/libavcodec/dsddec.c,
+	src/lib/libffmpeg/libavcodec/dsicinaudio.c,
+	src/lib/libffmpeg/libavcodec/dsicinvideo.c,
+	src/lib/libffmpeg/libavcodec/dump_extradata_bsf.c,
+	src/lib/libffmpeg/libavcodec/dv_profile.c,
+	src/lib/libffmpeg/libavcodec/dvbsub.c,
+	src/lib/libffmpeg/libavcodec/dvbsub_parser.c,
+	src/lib/libffmpeg/libavcodec/dvbsubdec.c,
+	src/lib/libffmpeg/libavcodec/dvd_nav_parser.c,
+	src/lib/libffmpeg/libavcodec/dvdec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/codec_desc.c,
+	src/lib/libffmpeg/libavcodec/cook.c,
+	src/lib/libffmpeg/libavcodec/cook_parser.c,
+	src/lib/libffmpeg/libavcodec/cpia.c,
+	src/lib/libffmpeg/libavcodec/cscd.c,
+	src/lib/libffmpeg/libavcodec/cyuv.c,
+	src/lib/libffmpeg/libavcodec/dca_parser.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/cavs_parser.c,
+	src/lib/libffmpeg/libavcodec/cavsdec.c,
+	src/lib/libffmpeg/libavcodec/cdgraphics.c,
+	src/lib/libffmpeg/libavcodec/cdxl.c,
+	src/lib/libffmpeg/libavcodec/chomp_bsf.c,
+	src/lib/libffmpeg/libavcodec/cinepak.c,
+	src/lib/libffmpeg/libavcodec/cinepakenc.c,
+	src/lib/libffmpeg/libavcodec/cljrdec.c,
+	src/lib/libffmpeg/libavcodec/cljrenc.c,
+	src/lib/libffmpeg/libavcodec/cllc.c,
+	src/lib/libffmpeg/libavcodec/cngdec.c,
+	src/lib/libffmpeg/libavcodec/cngenc.c,
+	src/lib/libffmpeg/libavcodec/codec_desc.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/avdct.c,
+	src/lib/libffmpeg/libavcodec/avrndec.c,
+	src/lib/libffmpeg/libavcodec/avs.c,
+	src/lib/libffmpeg/libavcodec/avuidec.c,
+	src/lib/libffmpeg/libavcodec/avuienc.c,
+	src/lib/libffmpeg/libavcodec/bethsoftvideo.c,
+	src/lib/libffmpeg/libavcodec/bfi.c,
+	src/lib/libffmpeg/libavcodec/bink.c,
+	src/lib/libffmpeg/libavcodec/binkaudio.c,
+	src/lib/libffmpeg/libavcodec/binkdsp.c,
+	src/lib/libffmpeg/libavcodec/bintext.c,
+	src/lib/libffmpeg/libavcodec/blockdsp.c,
+	src/lib/libffmpeg/libavcodec/bmp.c,
+	src/lib/libffmpeg/libavcodec/bmp_parser.c,
+	src/lib/libffmpeg/libavcodec/bmpenc.c,
+	src/lib/libffmpeg/libavcodec/bmvaudio.c,
+	src/lib/libffmpeg/libavcodec/bmvvideo.c,
+	src/lib/libffmpeg/libavcodec/brenderpix.c,
+	src/lib/libffmpeg/libavcodec/c93.c,
+	src/lib/libffmpeg/libavcodec/cabac_functions.h,
+	src/lib/libffmpeg/libavcodec/x86/cabac.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-22  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Avoid using function 'max'.
+
+2015-03-22  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Allow nonstandard framerates for MPEG1
+	codec. Fixes bug #618.
+
+2015-03-22  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Rewrote ffmpegdrv_fill_rgb_image to
+	center the picture in the media file. Both cutting and adding black
+	border to get sizes of modulo 16 is prepared. Fixes bug #623.
+
+2015-03-22  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpegdrv.h,
+	src/gfxoutputdrv/ffmpeglib.c, src/gfxoutputdrv/ffmpeglib.h: Use av_d2q
+	with a maximum denominator of 2^16-1 for the ffmpeg timebase
+	calculation. Fixes bug #619.
+
+2015-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/alac.c,
+	src/lib/libffmpeg/libavcodec/alacenc.c,
+	src/lib/libffmpeg/libavcodec/aliaspixdec.c,
+	src/lib/libffmpeg/libavcodec/aliaspixenc.c,
+	src/lib/libffmpeg/libavcodec/allcodecs.c,
+	src/lib/libffmpeg/libavcodec/alsdec.c,
+	src/lib/libffmpeg/libavcodec/amrnbdec.c,
+	src/lib/libffmpeg/libavcodec/amrwbdec.c,
+	src/lib/libffmpeg/libavcodec/anm.c,
+	src/lib/libffmpeg/libavcodec/ansi.c,
+	src/lib/libffmpeg/libavcodec/apedec.c,
+	src/lib/libffmpeg/libavcodec/ass_split.c,
+	src/lib/libffmpeg/libavcodec/assdec.c,
+	src/lib/libffmpeg/libavcodec/assenc.c,
+	src/lib/libffmpeg/libavcodec/asvdec.c,
+	src/lib/libffmpeg/libavcodec/asvenc.c,
+	src/lib/libffmpeg/libavcodec/atrac1.c,
+	src/lib/libffmpeg/libavcodec/atrac3.c,
+	src/lib/libffmpeg/libavcodec/atrac3plusdec.c,
+	src/lib/libffmpeg/libavcodec/audio_frame_queue.c,
+	src/lib/libffmpeg/libavcodec/aura.c,
+	src/lib/libffmpeg/libavcodec/avdct.c,
+	src/lib/libffmpeg/libavcodec/mips/amrwbdec_mips.h,
+	src/lib/libffmpeg/libavcodec/rdft.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/avcodec.tmpl,
+	src/lib/libffmpeg/libavcodec/012v.c,
+	src/lib/libffmpeg/libavcodec/4xm.c,
+	src/lib/libffmpeg/libavcodec/8bps.c,
+	src/lib/libffmpeg/libavcodec/8svx.c,
+	src/lib/libffmpeg/libavcodec/a64multienc.c,
+	src/lib/libffmpeg/libavcodec/aac_ac3_parser.c,
+	src/lib/libffmpeg/libavcodec/aac_parser.c,
+	src/lib/libffmpeg/libavcodec/aaccoder.c,
+	src/lib/libffmpeg/libavcodec/aacdec.c,
+	src/lib/libffmpeg/libavcodec/aacenc.c,
+	src/lib/libffmpeg/libavcodec/aacpsdsp.c,
+	src/lib/libffmpeg/libavcodec/aacpsy.c,
+	src/lib/libffmpeg/libavcodec/aasc.c,
+	src/lib/libffmpeg/libavcodec/ac3_parser.c,
+	src/lib/libffmpeg/libavcodec/ac3dec_fixed.c,
+	src/lib/libffmpeg/libavcodec/ac3dec_float.c,
+	src/lib/libffmpeg/libavcodec/ac3enc.c,
+	src/lib/libffmpeg/libavcodec/ac3enc_fixed.c,
+	src/lib/libffmpeg/libavcodec/ac3enc_float.c,
+	src/lib/libffmpeg/libavcodec/ac3enc_opts_template.c,
+	src/lib/libffmpeg/libavcodec/adpcm.c,
+	src/lib/libffmpeg/libavcodec/adpcmenc.c,
+	src/lib/libffmpeg/libavcodec/adx_parser.c,
+	src/lib/libffmpeg/libavcodec/adxdec.c,
+	src/lib/libffmpeg/libavcodec/adxenc.c,
+	src/lib/libffmpeg/libavcodec/aic.c,
+	src/lib/libffmpeg/libavcodec/alac.c,
+	src/lib/libffmpeg/libavcodec/fft.h,
+	src/lib/libffmpeg/libavcodec/sinewin.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Extended mkmsvc to handle even bigger project files.
+
+2015-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/avcodec.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl,
+	src/lib/libffmpeg/libavformat/xwma.c,
+	src/lib/libffmpeg/libavformat/yop.c,
+	src/lib/libffmpeg/libavformat/yuv4mpegdec.c,
+	src/lib/libffmpeg/libavformat/yuv4mpegenc.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/webmdashenc.c,
+	src/lib/libffmpeg/libavformat/webvttdec.c,
+	src/lib/libffmpeg/libavformat/webvttenc.c,
+	src/lib/libffmpeg/libavformat/westwood_aud.c,
+	src/lib/libffmpeg/libavformat/westwood_vqa.c,
+	src/lib/libffmpeg/libavformat/wtvdec.c,
+	src/lib/libffmpeg/libavformat/wtvenc.c,
+	src/lib/libffmpeg/libavformat/wvdec.c,
+	src/lib/libffmpeg/libavformat/wvenc.c,
+	src/lib/libffmpeg/libavformat/xa.c,
+	src/lib/libffmpeg/libavformat/xmv.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/subfile.c,
+	src/lib/libffmpeg/libavformat/subviewer1dec.c,
+	src/lib/libffmpeg/libavformat/subviewerdec.c,
+	src/lib/libffmpeg/libavformat/swf.h,
+	src/lib/libffmpeg/libavformat/swfdec.c,
+	src/lib/libffmpeg/libavformat/swfenc.c,
+	src/lib/libffmpeg/libavformat/takdec.c,
+	src/lib/libffmpeg/libavformat/tcp.c,
+	src/lib/libffmpeg/libavformat/tedcaptionsdec.c,
+	src/lib/libffmpeg/libavformat/tee.c,
+	src/lib/libffmpeg/libavformat/thp.c,
+	src/lib/libffmpeg/libavformat/tiertexseq.c,
+	src/lib/libffmpeg/libavformat/tmv.c,
+	src/lib/libffmpeg/libavformat/tta.c,
+	src/lib/libffmpeg/libavformat/tty.c,
+	src/lib/libffmpeg/libavformat/txd.c,
+	src/lib/libffmpeg/libavformat/udp.c,
+	src/lib/libffmpeg/libavformat/uncodedframecrcenc.c,
+	src/lib/libffmpeg/libavformat/url.c,
+	src/lib/libffmpeg/libavformat/utils.c,
+	src/lib/libffmpeg/libavformat/vc1test.c,
+	src/lib/libffmpeg/libavformat/vc1testenc.c,
+	src/lib/libffmpeg/libavformat/vivo.c,
+	src/lib/libffmpeg/libavformat/vocdec.c,
+	src/lib/libffmpeg/libavformat/vocenc.c,
+	src/lib/libffmpeg/libavformat/vplayerdec.c,
+	src/lib/libffmpeg/libavformat/vqf.c,
+	src/lib/libffmpeg/libavformat/wavdec.c,
+	src/lib/libffmpeg/libavformat/wavenc.c,
+	src/lib/libffmpeg/libavformat/wc3movie.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/rtspdec.c,
+	src/lib/libffmpeg/libavformat/rtspenc.c,
+	src/lib/libffmpeg/libavformat/samidec.c,
+	src/lib/libffmpeg/libavformat/sapdec.c,
+	src/lib/libffmpeg/libavformat/sapenc.c,
+	src/lib/libffmpeg/libavformat/sbgdec.c,
+	src/lib/libffmpeg/libavformat/sdp.c,
+	src/lib/libffmpeg/libavformat/sdr2.c,
+	src/lib/libffmpeg/libavformat/segafilm.c,
+	src/lib/libffmpeg/libavformat/segment.c,
+	src/lib/libffmpeg/libavformat/sierravmd.c,
+	src/lib/libffmpeg/libavformat/siff.c,
+	src/lib/libffmpeg/libavformat/smacker.c,
+	src/lib/libffmpeg/libavformat/smjpegdec.c,
+	src/lib/libffmpeg/libavformat/smjpegenc.c,
+	src/lib/libffmpeg/libavformat/smoothstreamingenc.c,
+	src/lib/libffmpeg/libavformat/smush.c,
+	src/lib/libffmpeg/libavformat/sol.c,
+	src/lib/libffmpeg/libavformat/soxdec.c,
+	src/lib/libffmpeg/libavformat/soxenc.c,
+	src/lib/libffmpeg/libavformat/spdifdec.c,
+	src/lib/libffmpeg/libavformat/spdifenc.c,
+	src/lib/libffmpeg/libavformat/srtdec.c,
+	src/lib/libffmpeg/libavformat/srtenc.c,
+	src/lib/libffmpeg/libavformat/srtpproto.c,
+	src/lib/libffmpeg/libavformat/subfile.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/rtpdec_qcelp.c,
+	src/lib/libffmpeg/libavformat/rtpdec_qdm2.c,
+	src/lib/libffmpeg/libavformat/rtpdec_qt.c,
+	src/lib/libffmpeg/libavformat/rtpdec_svq3.c,
+	src/lib/libffmpeg/libavformat/rtpdec_vp8.c,
+	src/lib/libffmpeg/libavformat/rtpdec_xiph.c,
+	src/lib/libffmpeg/libavformat/rtpenc.c,
+	src/lib/libffmpeg/libavformat/rtpproto.c,
+	src/lib/libffmpeg/libavformat/rtsp.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/rmenc.c,
+	src/lib/libffmpeg/libavformat/rpl.c,
+	src/lib/libffmpeg/libavformat/rsd.c,
+	src/lib/libffmpeg/libavformat/rsodec.c,
+	src/lib/libffmpeg/libavformat/rsoenc.c,
+	src/lib/libffmpeg/libavformat/rtmphttp.c,
+	src/lib/libffmpeg/libavformat/rtmpproto.c,
+	src/lib/libffmpeg/libavformat/rtpdec.c,
+	src/lib/libffmpeg/libavformat/rtpdec_amr.c,
+	src/lib/libffmpeg/libavformat/rtpdec_asf.c,
+	src/lib/libffmpeg/libavformat/rtpdec_g726.c,
+	src/lib/libffmpeg/libavformat/rtpdec_h261.c,
+	src/lib/libffmpeg/libavformat/rtpdec_h263.c,
+	src/lib/libffmpeg/libavformat/rtpdec_h263_rfc2190.c,
+	src/lib/libffmpeg/libavformat/rtpdec_h264.c,
+	src/lib/libffmpeg/libavformat/rtpdec_hevc.c,
+	src/lib/libffmpeg/libavformat/rtpdec_ilbc.c,
+	src/lib/libffmpeg/libavformat/rtpdec_jpeg.c,
+	src/lib/libffmpeg/libavformat/rtpdec_latm.c,
+	src/lib/libffmpeg/libavformat/rtpdec_mpeg12.c,
+	src/lib/libffmpeg/libavformat/rtpdec_mpeg4.c,
+	src/lib/libffmpeg/libavformat/rtpdec_mpegts.c,
+	src/lib/libffmpeg/libavformat/rtspcodes.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/lib/libffmpeg/libavformat/oggparsespeex.c,
+	src/lib/libffmpeg/libavformat/oggparsetheora.c,
+	src/lib/libffmpeg/libavformat/oggparsevorbis.c,
+	src/lib/libffmpeg/libavformat/oggparsevp8.c,
+	src/lib/libffmpeg/libavformat/omadec.c,
+	src/lib/libffmpeg/libavformat/omaenc.c,
+	src/lib/libffmpeg/libavformat/options.c,
+	src/lib/libffmpeg/libavformat/options_table.h,
+	src/lib/libffmpeg/libavformat/os_support.c,
+	src/lib/libffmpeg/libavformat/paf.c,
+	src/lib/libffmpeg/libavformat/pcmdec.c,
+	src/lib/libffmpeg/libavformat/pcmenc.c,
+	src/lib/libffmpeg/libavformat/pjsdec.c,
+	src/lib/libffmpeg/libavformat/pmpdec.c,
+	src/lib/libffmpeg/libavformat/psxstr.c,
+	src/lib/libffmpeg/libavformat/pva.c,
+	src/lib/libffmpeg/libavformat/pvfdec.c,
+	src/lib/libffmpeg/libavformat/qcp.c,
+	src/lib/libffmpeg/libavformat/r3d.c,
+	src/lib/libffmpeg/libavformat/rawdec.c,
+	src/lib/libffmpeg/libavformat/rawenc.c,
+	src/lib/libffmpeg/libavformat/rawvideodec.c,
+	src/lib/libffmpeg/libavformat/rdt.c,
+	src/lib/libffmpeg/libavformat/realtextdec.c,
+	src/lib/libffmpeg/libavformat/redspark.c,
+	src/lib/libffmpeg/libavformat/riffdec.c,
+	src/lib/libffmpeg/libavformat/rl2.c,
+	src/lib/libffmpeg/libavformat/rmdec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-20  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/ui.cc,
+	src/arch/beos/vicemenu.cc: Changes to the BeOS UI: 1. Removed
+	printer-related menu items which are no longer needed. 2. Fixed
+	conflicting menu item constants. 3. Reworked how the UI connects to
+	resources a bit.
+
+2015-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/oggenc.c,
+	src/lib/libffmpeg/libavformat/oggparsecelt.c,
+	src/lib/libffmpeg/libavformat/oggparsedirac.c,
+	src/lib/libffmpeg/libavformat/oggparseflac.c,
+	src/lib/libffmpeg/libavformat/oggparseogm.c,
+	src/lib/libffmpeg/libavformat/oggparseopus.c,
+	src/lib/libffmpeg/libavformat/oggparseskeleton.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/mpegtsenc.c,
+	src/lib/libffmpeg/libavformat/mpjpeg.c,
+	src/lib/libffmpeg/libavformat/mpl2dec.c,
+	src/lib/libffmpeg/libavformat/mpsubdec.c,
+	src/lib/libffmpeg/libavformat/msnwc_tcp.c,
+	src/lib/libffmpeg/libavformat/mtv.c,
+	src/lib/libffmpeg/libavformat/mux.c,
+	src/lib/libffmpeg/libavformat/mvdec.c,
+	src/lib/libffmpeg/libavformat/mvi.c,
+	src/lib/libffmpeg/libavformat/mxf.c,
+	src/lib/libffmpeg/libavformat/mxfdec.c,
+	src/lib/libffmpeg/libavformat/mxfenc.c,
+	src/lib/libffmpeg/libavformat/mxg.c,
+	src/lib/libffmpeg/libavformat/ncdec.c,
+	src/lib/libffmpeg/libavformat/network.c,
+	src/lib/libffmpeg/libavformat/nistspheredec.c,
+	src/lib/libffmpeg/libavformat/nsvdec.c,
+	src/lib/libffmpeg/libavformat/nullenc.c,
+	src/lib/libffmpeg/libavformat/nutdec.c,
+	src/lib/libffmpeg/libavformat/nutenc.c,
+	src/lib/libffmpeg/libavformat/nuv.c,
+	src/lib/libffmpeg/libavformat/oggdec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/mp3dec.c,
+	src/lib/libffmpeg/libavformat/mp3enc.c,
+	src/lib/libffmpeg/libavformat/mpc.c,
+	src/lib/libffmpeg/libavformat/mpc8.c,
+	src/lib/libffmpeg/libavformat/mpeg.c,
+	src/lib/libffmpeg/libavformat/mpegenc.c,
+	src/lib/libffmpeg/libavformat/mpegts.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/mov.c,
+	src/lib/libffmpeg/libavformat/movenc.c,
+	src/lib/libffmpeg/libavformat/rtpenc.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/matroskadec.c,
+	src/lib/libffmpeg/libavformat/matroskaenc.c,
+	src/lib/libffmpeg/libavformat/md5enc.c,
+	src/lib/libffmpeg/libavformat/md5proto.c,
+	src/lib/libffmpeg/libavformat/mgsts.c,
+	src/lib/libffmpeg/libavformat/microdvddec.c,
+	src/lib/libffmpeg/libavformat/microdvdenc.c,
+	src/lib/libffmpeg/libavformat/mkvtimestamp_v2.c,
+	src/lib/libffmpeg/libavformat/mlvdec.c,
+	src/lib/libffmpeg/libavformat/mm.c,
+	src/lib/libffmpeg/libavformat/mmf.c,
+	src/lib/libffmpeg/libavformat/mmsh.c,
+	src/lib/libffmpeg/libavformat/mmst.c,
+	src/lib/libffmpeg/libavformat/mov.c,
+	src/lib/libffmpeg/libavutil/common.h,
+	src/lib/libffmpeg/libavutil/intmath.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/ipmovie.c,
+	src/lib/libffmpeg/libavformat/ircamdec.c,
+	src/lib/libffmpeg/libavformat/ircamenc.c,
+	src/lib/libffmpeg/libavformat/iss.c,
+	src/lib/libffmpeg/libavformat/iv8.c,
+	src/lib/libffmpeg/libavformat/ivfdec.c,
+	src/lib/libffmpeg/libavformat/ivfenc.c,
+	src/lib/libffmpeg/libavformat/jacosubdec.c,
+	src/lib/libffmpeg/libavformat/jacosubenc.c,
+	src/lib/libffmpeg/libavformat/jvdec.c,
+	src/lib/libffmpeg/libavformat/latmenc.c,
+	src/lib/libffmpeg/libavformat/lmlm4.c,
+	src/lib/libffmpeg/libavformat/loasdec.c,
+	src/lib/libffmpeg/libavformat/lrcdec.c,
+	src/lib/libffmpeg/libavformat/lrcenc.c,
+	src/lib/libffmpeg/libavformat/lvfdec.c,
+	src/lib/libffmpeg/libavformat/lxfdec.c,
+	src/lib/libffmpeg/libavformat/matroskadec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/lib/libffmpeg/libavformat/icecast.c,
+	src/lib/libffmpeg/libavformat/icodec.c,
+	src/lib/libffmpeg/libavformat/icoenc.c,
+	src/lib/libffmpeg/libavformat/id3v1.c,
+	src/lib/libffmpeg/libavformat/id3v2.c,
+	src/lib/libffmpeg/libavformat/idcin.c,
+	src/lib/libffmpeg/libavformat/idroqdec.c,
+	src/lib/libffmpeg/libavformat/idroqenc.c,
+	src/lib/libffmpeg/libavformat/iff.c,
+	src/lib/libffmpeg/libavformat/ilbc.c,
+	src/lib/libffmpeg/libavformat/img2_alias_pix.c,
+	src/lib/libffmpeg/libavformat/img2_brender_pix.c,
+	src/lib/libffmpeg/libavformat/img2dec.c,
+	src/lib/libffmpeg/libavformat/img2enc.c,
+	src/lib/libffmpeg/libavformat/ingenientdec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/thread.h,
+	src/lib/libffmpeg/libavformat/flic.c,
+	src/lib/libffmpeg/libavformat/flvdec.c,
+	src/lib/libffmpeg/libavformat/flvenc.c,
+	src/lib/libffmpeg/libavformat/framecrcenc.c,
+	src/lib/libffmpeg/libavformat/frmdec.c,
+	src/lib/libffmpeg/libavformat/ftp.c,
+	src/lib/libffmpeg/libavformat/g722.c,
+	src/lib/libffmpeg/libavformat/g723_1.c,
+	src/lib/libffmpeg/libavformat/g729dec.c,
+	src/lib/libffmpeg/libavformat/gif.c,
+	src/lib/libffmpeg/libavformat/gifdec.c,
+	src/lib/libffmpeg/libavformat/gopher.c,
+	src/lib/libffmpeg/libavformat/gsmdec.c,
+	src/lib/libffmpeg/libavformat/gxf.c,
+	src/lib/libffmpeg/libavformat/gxfenc.c,
+	src/lib/libffmpeg/libavformat/hdsenc.c,
+	src/lib/libffmpeg/libavformat/hls.c,
+	src/lib/libffmpeg/libavformat/hlsenc.c,
+	src/lib/libffmpeg/libavformat/hlsproto.c,
+	src/lib/libffmpeg/libavformat/hnm.c,
+	src/lib/libffmpeg/libavformat/http.c,
+	src/lib/libffmpeg/libavformat/network.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/dvenc.c,
+	src/lib/libffmpeg/libavformat/dxa.c,
+	src/lib/libffmpeg/libavformat/eacdata.c,
+	src/lib/libffmpeg/libavformat/electronicarts.c,
+	src/lib/libffmpeg/libavformat/epafdec.c,
+	src/lib/libffmpeg/libavformat/ffmdec.c,
+	src/lib/libffmpeg/libavformat/ffmenc.c,
+	src/lib/libffmpeg/libavformat/ffmetadec.c,
+	src/lib/libffmpeg/libavformat/ffmetaenc.c,
+	src/lib/libffmpeg/libavformat/file.c,
+	src/lib/libffmpeg/libavformat/filmstripdec.c,
+	src/lib/libffmpeg/libavformat/filmstripenc.c,
+	src/lib/libffmpeg/libavformat/flacdec.c,
+	src/lib/libffmpeg/libavformat/flacenc.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/concatdec.c,
+	src/lib/libffmpeg/libavformat/crcenc.c,
+	src/lib/libffmpeg/libavformat/crypto.c,
+	src/lib/libffmpeg/libavformat/data_uri.c,
+	src/lib/libffmpeg/libavformat/dauddec.c,
+	src/lib/libffmpeg/libavformat/daudenc.c,
+	src/lib/libffmpeg/libavformat/dfa.c,
+	src/lib/libffmpeg/libavformat/dsfdec.c,
+	src/lib/libffmpeg/libavformat/dsicin.c,
+	src/lib/libffmpeg/libavformat/dtsdec.c,
+	src/lib/libffmpeg/libavformat/dtshddec.c,
+	src/lib/libffmpeg/libavformat/dv.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/lib/libffmpeg/libavformat/bit.c,
+	src/lib/libffmpeg/libavformat/bmv.c,
+	src/lib/libffmpeg/libavformat/boadec.c,
+	src/lib/libffmpeg/libavformat/brstm.c,
+	src/lib/libffmpeg/libavformat/c93.c,
+	src/lib/libffmpeg/libavformat/cache.c,
+	src/lib/libffmpeg/libavformat/cafdec.c,
+	src/lib/libffmpeg/libavformat/cafenc.c,
+	src/lib/libffmpeg/libavformat/cdg.c,
+	src/lib/libffmpeg/libavformat/cdxl.c,
+	src/lib/libffmpeg/libavformat/cinedec.c,
+	src/lib/libffmpeg/libavformat/concat.c,
+	src/lib/libffmpeg/libavformat/os_support.h,
+	src/lib/libffmpeg/libavformat/rawdec.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-17  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c, src/fliplist.c, src/rtc/rtc.c: create directory
+	before writing files to it. needed to save autostart image or fliplist
+	on a fresh install, see bug #629
+
+2015-03-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/archdep.c, src/resources.c: some cleanup
+
+2015-03-17  groepaz <groepaz@gmx.net>
+
+	* src/fsdevice/fsdevice-flush.c, src/ioutil.h: proper modes for
+	ioutil_mkdir
+
+2015-03-17  groepaz <groepaz@gmx.net>
+
+	* src/ioutil.c: codestyle fix
+
+2015-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/avidec.c,
+	src/lib/libffmpeg/libavformat/avr.c,
+	src/lib/libffmpeg/libavformat/avs.c,
+	src/lib/libffmpeg/libavformat/bethsoftvid.c,
+	src/lib/libffmpeg/libavformat/bfi.c,
+	src/lib/libffmpeg/libavformat/bink.c,
+	src/lib/libffmpeg/libavformat/bintext.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/internal.h,
+	src/lib/libffmpeg/libavformat/adtsenc.c,
+	src/lib/libffmpeg/libavformat/adxdec.c,
+	src/lib/libffmpeg/libavformat/aea.c,
+	src/lib/libffmpeg/libavformat/afc.c,
+	src/lib/libffmpeg/libavformat/aiffdec.c,
+	src/lib/libffmpeg/libavformat/aiffenc.c,
+	src/lib/libffmpeg/libavformat/amr.c,
+	src/lib/libffmpeg/libavformat/anm.c,
+	src/lib/libffmpeg/libavformat/apc.c,
+	src/lib/libffmpeg/libavformat/ape.c,
+	src/lib/libffmpeg/libavformat/aqtitledec.c,
+	src/lib/libffmpeg/libavformat/asfdec.c,
+	src/lib/libffmpeg/libavformat/asfenc.c,
+	src/lib/libffmpeg/libavformat/assdec.c,
+	src/lib/libffmpeg/libavformat/assenc.c,
+	src/lib/libffmpeg/libavformat/astdec.c,
+	src/lib/libffmpeg/libavformat/astenc.c,
+	src/lib/libffmpeg/libavformat/au.c,
+	src/lib/libffmpeg/libavformat/avidec.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: screenshot->media, see bug
+	621
+
+2015-03-17  groepaz <groepaz@gmx.net>
+
+	* src/vicefeatures.c: added new ffmpeg related features
+
+2015-03-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/beos/ui.cc, src/arch/unix/gui/uicommands.c: sound recording
+	stopped->media recording stopped, see bug 617
+
+2015-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/avformat.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl,
+	src/lib/libffmpeg/libavcodec/mathops.h,
+	src/lib/libffmpeg/libavcodec/x86/mathops.h,
+	src/lib/libffmpeg/libavformat/4xm.c,
+	src/lib/libffmpeg/libavformat/a64.c,
+	src/lib/libffmpeg/libavformat/aacdec.c,
+	src/lib/libffmpeg/libavformat/ac3dec.c,
+	src/lib/libffmpeg/libavformat/act.c,
+	src/lib/libffmpeg/libavformat/adp.c,
+	src/lib/libffmpeg/libavformat/adtsenc.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Extended mkmsvc to handle bigger project files.
+
+2015-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/vf_yadif.c,
+	src/lib/libffmpeg/libavfilter/vf_zoompan.c,
+	src/lib/libffmpeg/libavfilter/vsink_nullsink.c,
+	src/lib/libffmpeg/libavfilter/vsrc_cellauto.c,
+	src/lib/libffmpeg/libavfilter/vsrc_life.c,
+	src/lib/libffmpeg/libavfilter/vsrc_mandelbrot.c,
+	src/lib/libffmpeg/libavfilter/vsrc_mptestsrc.c,
+	src/lib/libffmpeg/libavfilter/vsrc_testsrc.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/libmpcodecs/vf_softpulldown.c,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/vf_uspp.c,
+	src/lib/libffmpeg/libavfilter/unsharp.h,
+	src/lib/libffmpeg/libavfilter/vf_showinfo.c,
+	src/lib/libffmpeg/libavfilter/vf_shuffleplanes.c,
+	src/lib/libffmpeg/libavfilter/vf_signalstats.c,
+	src/lib/libffmpeg/libavfilter/vf_smartblur.c,
+	src/lib/libffmpeg/libavfilter/vf_spp.c,
+	src/lib/libffmpeg/libavfilter/vf_stereo3d.c,
+	src/lib/libffmpeg/libavfilter/vf_super2xsai.c,
+	src/lib/libffmpeg/libavfilter/vf_swapuv.c,
+	src/lib/libffmpeg/libavfilter/vf_telecine.c,
+	src/lib/libffmpeg/libavfilter/vf_thumbnail.c,
+	src/lib/libffmpeg/libavfilter/vf_tile.c,
+	src/lib/libffmpeg/libavfilter/vf_tinterlace.c,
+	src/lib/libffmpeg/libavfilter/vf_transpose.c,
+	src/lib/libffmpeg/libavfilter/vf_unsharp.c,
+	src/lib/libffmpeg/libavfilter/vf_vflip.c,
+	src/lib/libffmpeg/libavfilter/vf_vignette.c,
+	src/lib/libffmpeg/libavfilter/vf_w3fdif.c,
+	src/lib/libffmpeg/libavutil/bswap.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/vf_scale.c,
+	src/lib/libffmpeg/libavfilter/vf_separatefields.c,
+	src/lib/libffmpeg/libavfilter/vf_setfield.c,
+	src/lib/libffmpeg/libavfilter/vf_showinfo.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/libmpcodecs/vf_pp7.c,
+	src/lib/libffmpeg/libavfilter/vf_pad.c,
+	src/lib/libffmpeg/libavfilter/vf_perspective.c,
+	src/lib/libffmpeg/libavfilter/vf_phase.c,
+	src/lib/libffmpeg/libavfilter/vf_pixdesctest.c,
+	src/lib/libffmpeg/libavfilter/vf_pp.c,
+	src/lib/libffmpeg/libavfilter/vf_psnr.c,
+	src/lib/libffmpeg/libavfilter/vf_pullup.c,
+	src/lib/libffmpeg/libavfilter/vf_removelogo.c,
+	src/lib/libffmpeg/libavfilter/vf_rotate.c,
+	src/lib/libffmpeg/libavfilter/vf_sab.c,
+	src/lib/libffmpeg/libavfilter/vf_scale.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/vf_fspp.c,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/vf_ilpack.c,
+	src/lib/libffmpeg/libavfilter/vf_fieldmatch.c,
+	src/lib/libffmpeg/libavfilter/vf_fieldorder.c,
+	src/lib/libffmpeg/libavfilter/vf_format.c,
+	src/lib/libffmpeg/libavfilter/vf_fps.c,
+	src/lib/libffmpeg/libavfilter/vf_framepack.c,
+	src/lib/libffmpeg/libavfilter/vf_framestep.c,
+	src/lib/libffmpeg/libavfilter/vf_geq.c,
+	src/lib/libffmpeg/libavfilter/vf_gradfun.c,
+	src/lib/libffmpeg/libavfilter/vf_hflip.c,
+	src/lib/libffmpeg/libavfilter/vf_histeq.c,
+	src/lib/libffmpeg/libavfilter/vf_histogram.c,
+	src/lib/libffmpeg/libavfilter/vf_hqdn3d.c,
+	src/lib/libffmpeg/libavfilter/vf_hqx.c,
+	src/lib/libffmpeg/libavfilter/vf_hue.c,
+	src/lib/libffmpeg/libavfilter/vf_idet.c,
+	src/lib/libffmpeg/libavfilter/vf_il.c,
+	src/lib/libffmpeg/libavfilter/vf_interlace.c,
+	src/lib/libffmpeg/libavfilter/vf_kerndeint.c,
+	src/lib/libffmpeg/libavfilter/vf_lenscorrection.c,
+	src/lib/libffmpeg/libavfilter/vf_lut.c,
+	src/lib/libffmpeg/libavfilter/vf_lut3d.c,
+	src/lib/libffmpeg/libavfilter/vf_mcdeint.c,
+	src/lib/libffmpeg/libavfilter/vf_mergeplanes.c,
+	src/lib/libffmpeg/libavfilter/vf_mp.c,
+	src/lib/libffmpeg/libavfilter/vf_mpdecimate.c,
+	src/lib/libffmpeg/libavfilter/vf_noise.c,
+	src/lib/libffmpeg/libavfilter/vf_null.c,
+	src/lib/libffmpeg/libavfilter/vf_overlay.c,
+	src/lib/libffmpeg/libavfilter/vf_owdenoise.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/lib/libffmpeg/libavfilter/deshake.h,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/vf_eq.c,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/vf_eq2.c,
+	src/lib/libffmpeg/libavfilter/vf_blackdetect.c,
+	src/lib/libffmpeg/libavfilter/vf_blackframe.c,
+	src/lib/libffmpeg/libavfilter/vf_blend.c,
+	src/lib/libffmpeg/libavfilter/vf_boxblur.c,
+	src/lib/libffmpeg/libavfilter/vf_codecview.c,
+	src/lib/libffmpeg/libavfilter/vf_colorbalance.c,
+	src/lib/libffmpeg/libavfilter/vf_colorchannelmixer.c,
+	src/lib/libffmpeg/libavfilter/vf_colormatrix.c,
+	src/lib/libffmpeg/libavfilter/vf_copy.c,
+	src/lib/libffmpeg/libavfilter/vf_crop.c,
+	src/lib/libffmpeg/libavfilter/vf_cropdetect.c,
+	src/lib/libffmpeg/libavfilter/vf_curves.c,
+	src/lib/libffmpeg/libavfilter/vf_dctdnoiz.c,
+	src/lib/libffmpeg/libavfilter/vf_decimate.c,
+	src/lib/libffmpeg/libavfilter/vf_dejudder.c,
+	src/lib/libffmpeg/libavfilter/vf_delogo.c,
+	src/lib/libffmpeg/libavfilter/vf_deshake.c,
+	src/lib/libffmpeg/libavfilter/vf_drawbox.c,
+	src/lib/libffmpeg/libavfilter/vf_edgedetect.c,
+	src/lib/libffmpeg/libavfilter/vf_elbg.c,
+	src/lib/libffmpeg/libavfilter/vf_extractplanes.c,
+	src/lib/libffmpeg/libavfilter/vf_fade.c,
+	src/lib/libffmpeg/libavfilter/vf_field.c,
+	src/lib/libffmpeg/libavfilter/vf_fieldmatch.c,
+	src/lib/libffmpeg/libavutil/colorspace.h,
+	src/lib/libffmpeg/libavutil/x86/asm.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/avfilter.tmpl,
+	src/lib/libffmpeg/libavfilter/f_ebur128.c,
+	src/lib/libffmpeg/libavfilter/f_interleave.c,
+	src/lib/libffmpeg/libavfilter/f_perms.c,
+	src/lib/libffmpeg/libavfilter/f_select.c,
+	src/lib/libffmpeg/libavfilter/f_sendcmd.c,
+	src/lib/libffmpeg/libavfilter/fifo.c,
+	src/lib/libffmpeg/libavfilter/framesync.c,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/img_format.c,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/img_format.h,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/mp_image.c,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/mp_msg.h,
+	src/lib/libffmpeg/libavfilter/pthread.c,
+	src/lib/libffmpeg/libavfilter/setpts.c,
+	src/lib/libffmpeg/libavfilter/settb.c,
+	src/lib/libffmpeg/libavfilter/split.c,
+	src/lib/libffmpeg/libavfilter/src_movie.c,
+	src/lib/libffmpeg/libavfilter/trim.c,
+	src/lib/libffmpeg/libavfilter/vf_alphamerge.c,
+	src/lib/libffmpeg/libavfilter/vf_aspect.c,
+	src/lib/libffmpeg/libavfilter/vf_bbox.c,
+	src/lib/libffmpeg/libavutil/lfg.h: More libffmpeg msvc porting/fixing.
+
+2015-03-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: System SIMM RAM protection was missing
+
+2015-03-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/af_silenceremove.c,
+	src/lib/libffmpeg/libavfilter/af_volume.c,
+	src/lib/libffmpeg/libavfilter/af_volumedetect.c,
+	src/lib/libffmpeg/libavfilter/allfilters.c,
+	src/lib/libffmpeg/libavfilter/asink_anullsink.c,
+	src/lib/libffmpeg/libavfilter/asrc_anullsrc.c,
+	src/lib/libffmpeg/libavfilter/asrc_sine.c,
+	src/lib/libffmpeg/libavfilter/avf_avectorscope.c,
+	src/lib/libffmpeg/libavfilter/avf_concat.c,
+	src/lib/libffmpeg/libavfilter/avf_showcqt.c,
+	src/lib/libffmpeg/libavfilter/avf_showspectrum.c,
+	src/lib/libffmpeg/libavfilter/avf_showwaves.c,
+	src/lib/libffmpeg/libavfilter/avfilter.c,
+	src/lib/libffmpeg/libavfilter/avfiltergraph.c,
+	src/lib/libffmpeg/libavfilter/buffersink.c,
+	src/lib/libffmpeg/libavfilter/buffersrc.c,
+	src/lib/libffmpeg/libavfilter/opencl_allkernels.h,
+	src/lib/libffmpeg/libavutil/atomic.h: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/af_biquads.c,
+	src/lib/libffmpeg/libavfilter/af_channelmap.c,
+	src/lib/libffmpeg/libavfilter/af_channelsplit.c,
+	src/lib/libffmpeg/libavfilter/af_compand.c,
+	src/lib/libffmpeg/libavfilter/af_earwax.c,
+	src/lib/libffmpeg/libavfilter/af_flanger.c,
+	src/lib/libffmpeg/libavfilter/af_join.c,
+	src/lib/libffmpeg/libavfilter/af_pan.c,
+	src/lib/libffmpeg/libavfilter/af_replaygain.c,
+	src/lib/libffmpeg/libavfilter/af_silencedetect.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-14  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/vicefeatures.c: Stopped UNIX-specific features from being
+	included in the feature list of Haiku builds.
+
+2015-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/af_aphaser.c,
+	src/lib/libffmpeg/libavfilter/af_aresample.c,
+	src/lib/libffmpeg/libavfilter/af_asetnsamples.c,
+	src/lib/libffmpeg/libavfilter/af_asetrate.c,
+	src/lib/libffmpeg/libavfilter/af_ashowinfo.c,
+	src/lib/libffmpeg/libavfilter/af_astats.c,
+	src/lib/libffmpeg/libavfilter/af_astreamsync.c,
+	src/lib/libffmpeg/libavfilter/af_atempo.c,
+	src/lib/libffmpeg/libavfilter/af_biquads.c: More libffmpeg msvc
+	porting/fixing.
+
+2015-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/Makefile.am,
+	src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/avfilter.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/lib/libffmpeg/libavfilter/aeval.c,
+	src/lib/libffmpeg/libavfilter/af_aconvert.c,
+	src/lib/libffmpeg/libavfilter/af_adelay.c,
+	src/lib/libffmpeg/libavfilter/af_aecho.c,
+	src/lib/libffmpeg/libavfilter/af_afade.c,
+	src/lib/libffmpeg/libavfilter/af_aformat.c,
+	src/lib/libffmpeg/libavfilter/af_amerge.c,
+	src/lib/libffmpeg/libavfilter/af_amix.c,
+	src/lib/libffmpeg/libavfilter/af_anull.c,
+	src/lib/libffmpeg/libavfilter/af_apad.c,
+	src/lib/libffmpeg/libavfilter/internal.h,
+	src/lib/libffmpeg/libavutil/avstring.h,
+	src/lib/libffmpeg/libavutil/error.h,
+	src/lib/libffmpeg/libavutil/float_dsp.h,
+	src/lib/libffmpeg/libavutil/internal.h,
+	src/lib/libffmpeg/libavutil/libm.h,
+	src/lib/libffmpeg/libavutil/rational.h,
+	src/lib/libffmpeg/libavutil/timer.h,
+	src/lib/libffmpeg/libavutil/x86/emms.h: Started on libffmpeg msvc
+	porting/fixing.
+
+2015-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/x264common.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/lib/libx264/Makefile,
+	src/lib/libx264/common/bitstream.c, src/lib/libx264/common/cabac.c,
+	src/lib/libx264/common/common.c, src/lib/libx264/common/cpu.c,
+	src/lib/libx264/common/dct.c, src/lib/libx264/common/deblock.c,
+	src/lib/libx264/common/frame.c, src/lib/libx264/common/macroblock.c,
+	src/lib/libx264/common/mc.c, src/lib/libx264/common/mvpred.c,
+	src/lib/libx264/common/oclobj-msvc.h, src/lib/libx264/common/opencl.c,
+	src/lib/libx264/common/pixel.c, src/lib/libx264/common/predict.c,
+	src/lib/libx264/common/quant.c, src/lib/libx264/common/set.c,
+	src/lib/libx264/common/threadpool.c, src/lib/libx264/common/vlc.c,
+	src/lib/libx264/common/win32thread.c,
+	src/lib/libx264/common/x86/mc-c.c,
+	src/lib/libx264/common/x86/predict-c.c: Final x264 msvc
+	porting/fixing.
+
+2015-03-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/x264encoder.tmpl,
+	src/lib/libx264/encoder/slicetype-cl.c: More x264 msvc porting/fixing.
+
+2015-03-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/x264encoder.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/lib/libx264/encoder/analyse.c,
+	src/lib/libx264/encoder/cabac.c, src/lib/libx264/encoder/cavlc.c,
+	src/lib/libx264/encoder/encoder.c,
+	src/lib/libx264/encoder/lookahead.c,
+	src/lib/libx264/encoder/macroblock.c,
+	src/lib/libx264/encoder/macroblock.h, src/lib/libx264/encoder/me.c,
+	src/lib/libx264/encoder/ratecontrol.c, src/lib/libx264/encoder/rdo.c,
+	src/lib/libx264/encoder/set.c, src/lib/libx264/encoder/slicetype.c:
+	More x264 msvc porting/fixing.
+
+2015-03-10  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_lex.c: forgot the generated file
+
+2015-03-09  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_lex.l: fix monitor keybuf command
+
+2015-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/x264filter.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/lib/libx264/filters/filters.c,
+	src/lib/libx264/filters/video/cache.c,
+	src/lib/libx264/filters/video/crop.c,
+	src/lib/libx264/filters/video/depth.c,
+	src/lib/libx264/filters/video/fix_vfr_pts.c,
+	src/lib/libx264/filters/video/internal.c,
+	src/lib/libx264/filters/video/select_every.c,
+	src/lib/libx264/filters/video/video.c: More x264 msvc porting/fixing.
+
+2015-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/output/flv.c,
+	src/lib/libx264/output/flv_bytestream.c,
+	src/lib/libx264/output/matroska.c,
+	src/lib/libx264/output/matroska_ebml.c: More x264 msvc porting/fixing.
+
+2015-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/Makefile.am, src/arch/win32/msvc/x264-config.h,
+	src/arch/win32/msvc/x264_config.h, src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/x264.tmpl,
+	src/arch/win32/vs_tmpl/x264input.tmpl,
+	src/arch/win32/vs_tmpl/x264output.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/lib/libx264/common/common.h,
+	src/lib/libx264/common/osdep.h, src/lib/libx264/input/avs.c,
+	src/lib/libx264/input/input.c, src/lib/libx264/input/raw.c,
+	src/lib/libx264/input/timecode.c, src/lib/libx264/input/y4m.c,
+	src/lib/libx264/x264.c, src/lib/libx264/x264.h: Started on x264 msvc
+	porting/fixing.
+
+2015-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/Makefile.am, src/arch/win32/msvc/lame-config.h,
+	src/arch/win32/vs_tmpl/Makefile.am, src/arch/win32/vs_tmpl/lame.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/lib/liblame/frontend/gtkanal.c, src/lib/liblame/frontend/mp3x.c,
+	src/lib/liblame/libmp3lame/Makefile.am,
+	src/lib/liblame/libmp3lame/Makefile.in,
+	src/lib/liblame/libmp3lame/VbrTag.c,
+	src/lib/liblame/libmp3lame/VbrTag.h,
+	src/lib/liblame/libmp3lame/bitstream.c,
+	src/lib/liblame/libmp3lame/encoder.c,
+	src/lib/liblame/libmp3lame/fft.c,
+	src/lib/liblame/libmp3lame/gain_analysis.c,
+	src/lib/liblame/libmp3lame/id3tag.c,
+	src/lib/liblame/libmp3lame/lame-machine.h,
+	src/lib/liblame/libmp3lame/lame.c,
+	src/lib/liblame/libmp3lame/machine.h,
+	src/lib/liblame/libmp3lame/mpglib_interface.c,
+	src/lib/liblame/libmp3lame/newmdct.c,
+	src/lib/liblame/libmp3lame/presets.c,
+	src/lib/liblame/libmp3lame/psymodel.c,
+	src/lib/liblame/libmp3lame/quantize.c,
+	src/lib/liblame/libmp3lame/quantize_pvt.c,
+	src/lib/liblame/libmp3lame/reservoir.c,
+	src/lib/liblame/libmp3lame/set_get.c,
+	src/lib/liblame/libmp3lame/tables.c,
+	src/lib/liblame/libmp3lame/takehiro.c,
+	src/lib/liblame/libmp3lame/util.c,
+	src/lib/liblame/libmp3lame/vbrquantize.c,
+	src/lib/liblame/libmp3lame/vector/xmm_quantize_sub.c,
+	src/lib/liblame/libmp3lame/version.c,
+	src/lib/liblame/mpglib/interface.c, src/lib/liblame/mpglib/layer3.c:
+	Fixed liblame for msvc.
+
+2015-03-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/cache.c,
+	src/lib/libffmpeg/libavformat/file.c,
+	src/lib/libffmpeg/libavformat/hdsenc.c,
+	src/lib/libffmpeg/libavformat/smoothstreamingenc.c,
+	src/lib/libffmpeg/libavutil/file.c,
+	src/lib/libffmpeg/libavutil/file_open.c,
+	src/lib/libffmpeg/libavutil/log.c,
+	src/lib/libffmpeg/libavutil/random_seed.c,
+	src/lib/libffmpeg/libavutil/time.c: Fixed order of unistd.h include.
+
+2015-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uimediafile.c, src/gfxoutputdrv/ffmpegdrv.c,
+	src/gfxoutputdrv/ffmpeglib.h,
+	src/lib/libffmpeg/libavutil/attributes.h,
+	src/lib/libffmpeg/libavutil/log.h, src/lib/libffmpeg/libavutil/mem.h:
+	Some msvc ffmpeg fixes.
+
+2015-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Some warning fixes.
+
+2015-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Fixed.
+
+2015-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Made some ffmpeg library checks generic.
+
+2015-03-04  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/lib/libffmpeg/common.mak: Back to native "eol-style".
+
+2015-03-04  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/lib/libffmpeg/libavcodec/Makefile,
+	src/lib/libffmpeg/libavcodec/x86/Makefile,
+	src/lib/libffmpeg/libavdevice/Makefile,
+	src/lib/libffmpeg/libavfilter/Makefile,
+	src/lib/libffmpeg/libavformat/Makefile,
+	src/lib/libffmpeg/libavutil/Makefile,
+	src/lib/libffmpeg/libavutil/x86/Makefile,
+	src/lib/libffmpeg/libswresample/Makefile,
+	src/lib/libffmpeg/libswscale/Makefile,
+	src/lib/libffmpeg/libswscale/x86/Makefile: Removed property
+	"eol-style".
+
 2015-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
@@ -12380,4 +14602,4 @@
 	Started a new ChangeLog file.
 
 
-See `ChangeLog.1' for earlier changes.
+See `ChangeLog.1' for earlier 

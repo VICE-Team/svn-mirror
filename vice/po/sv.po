@@ -1,12 +1,12 @@
 # Swedish translation file for VICE
 # Copyright 2000-2014
 # Peter Krefting <peter@softwolves.pp.se>, 2011, 2012, 2014.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-07 17:23-0400\n"
+"POT-Creation-Date: 2015-04-07 21:21-0400\n"
 "PO-Revision-Date: 2014-01-13 14:34+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <tp-sv@listor.tp-sv.se>\n"

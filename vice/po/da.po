@@ -1,12 +1,12 @@
 # Danish translation file for VICE
 # Mikkel Holm Olsen <vice@symlink.dk>
 # Copyright 2009-2012
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-07 17:23-0400\n"
+"POT-Creation-Date: 2015-04-07 21:21-0400\n"
 "PO-Revision-Date: 2012-10-29 17:47+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice@symlink.dk>\n"
 "Language-Team: Danish <vice@symlink.dk>\n"

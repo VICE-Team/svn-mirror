@@ -1,14 +1,14 @@
 # translation of hu.po to Hungarian
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the VICE package.
-#
+# 
 # Czirkos Zoltan <cirix@fw.hu>, 2007.
 # Karai Csaba <cskarai@freemail.hu>, 2006, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-07 17:23-0400\n"
+"POT-Creation-Date: 2015-04-07 21:21-0400\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
