@@ -1830,7 +1830,7 @@
 #endif
 
 /* Disable some MSVC 7.x warnings for quicker compile */
-#if (_MSC_VER == 1300) || (_MSC_VER == 1310)
+#if (_MSC_VER == 1300) || (_MSC_VER == 1310) || (_MSC_VER == 1400)
 #pragma warning(disable: 4003) /* not enough actual parameters for macro ... */
 #pragma warning(disable: 4018) /* signed/unsigned mismatch */
 #pragma warning(disable: 4090) /* different 'const' qualifiers */
