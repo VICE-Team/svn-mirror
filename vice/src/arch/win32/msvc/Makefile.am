@@ -11,6 +11,7 @@ EXTRA_DIST = \
 	make-msvc-bindist-native.bat.proto \
 	stdint.h \
 	system.h \
+	winid_arm.bat \
 	winid_ia64.bat \
 	winid_x64.bat \
 	winid_x86.bat \

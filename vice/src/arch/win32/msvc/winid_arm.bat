@@ -1,0 +1,1 @@
+set WIN64TYPE=ARM

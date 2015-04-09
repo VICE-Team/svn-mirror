@@ -600,18 +600,21 @@ static char *msvc12_pgc_library = "  <PropertyGroup Condition=\"'$(Configuration
 
 /* ---------------------------------------------------------------------- */
 
-static char *msvc11_platform[2] = {
+static char *msvc11_platform[3] = {
     "Win32",
+    "ARM",
     "x64"
 };
 
-static char *msvc11_platform_cap_start[2] = {
+static char *msvc11_platform_cap_start[3] = {
     "Win32",
+    "ARM",
     "X64"
 };
 
-static char *msvc11_winid_copy[2] = {
+static char *msvc11_winid_copy[3] = {
     "winid_x86.bat",
+    "winid_arm.bat",
     "winid_x64.bat"
 };
 
@@ -658,13 +661,13 @@ static char *msvc10_cc_inc_sid = "/I \"..\\msvc\" /I \"..\\..\\../\" /I \"../\" 
 
 static char *msvc10_cc_inc_sid_sdl = "/I \"./\" /I \"..\\..\\../\" /I \"../\" /I \"..\\..\\..\\sid\"";
 
-static char *msvc10_libs_console = "version.lib;wsock32.lib";
+static char *msvc10_libs_console = "version.lib;wsock32.lib;advapi32.lib";
 
 static char *msvc10_libs_console_sdl = "version.lib;wsock32.lib;SDLmain.lib;SDL.lib;opengl32.lib";
 
 static char *msvc10_libs_gui[2] = {
-    "comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib",
-    "comctl32.lib;version.lib;winmm.lib;wsock32.lib"
+    "comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib",
+    "comctl32.lib;version.lib;winmm.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib"
 };
 
 static char *msvc10_libs_gui_sdl = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDLmain.lib;SDL.lib;opengl32.lib";
@@ -840,6 +843,8 @@ static char *msvc10_lib = "    <Lib>\r\n"
                           "      <SuppressStartupBanner>true</SuppressStartupBanner>\r\n"
                           "    </Lib>\r\n";
 
+static char *msvc10_tm_arm = "      <TargetMachine>MachineARM</TargetMachine>\r\n";
+
 static char *msvc10_tm_ia64 = "      <TargetMachine>MachineIA64</TargetMachine>\r\n";
 
 static char *msvc10_tm_x64 = "      <TargetMachine>MachineX64</TargetMachine>\r\n";
@@ -953,7 +958,7 @@ static void generate_msvc10_11_12_sln(int msvc11, int msvc12, int sdl)
 {
     int i, j, k;
     int exc = 0;
-    int max_k = (msvc11) ? 2 : 3;
+    int max_k = 3;
     int max_i = (sdl) ? 2 : 4;
     char **msvc10_11_platform = (msvc11) ? msvc11_platform : msvc_platform;
     char **type_name = (sdl) ? msvc_type_sdl : msvc_type_name;
@@ -1064,7 +1069,7 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
     int i, j, k;
     int index = 0;
     char *temp_string;
-    int max_k = (msvc11) ? 2 : 3;
+    int max_k = 3;
     int max_i = (sdl) ? 2 : 4;
     char **msvc10_11_platform = (msvc11) ? msvc11_platform : msvc_platform;
     char **msvc10_11_platform_cap_start = (msvc11) ? msvc11_platform_cap_start : msvc_platform_cap_start;
@@ -1075,6 +1080,7 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
     char *libs;
     char **msvc10_cc_extra = (ffmpeg) ? msvc10_cc_extra_ffmpeg : msvc10_cc_extra_noffmpeg;
     char **msvc10_predefs = (ffmpeg) ? msvc10_predefs_ffmpeg : msvc10_predefs_noffmpeg;
+    char *msvc10_tm_extra = (msvc11) ? msvc10_tm_arm : msvc10_tm_ia64;
 
     if (!strcmp(fname, "arch_native") || !strcmp(fname, "arch_sdl")) {
         rfname = "arch";
@@ -1245,10 +1251,10 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
                         temp_string = "";
                         break;
                     case 1:
-                        if (max_k == 3) {
+                        if (msvc11) {
                             temp_string = "      <TargetEnvironment>Itanium</TargetEnvironment>\r\n";
                         } else {
-                            temp_string = "      <TargetEnvironment>X64</TargetEnvironment>\r\n";
+                            temp_string = "      <TargetEnvironment>ARM</TargetEnvironment>\r\n";
                         }
                         break;
                     case 2:
@@ -1334,11 +1340,7 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
                         temp_string = "";
                         break;
                     case 1:
-                        if (max_k == 3) {
-                            temp_string = msvc10_tm_ia64;
-                        } else {
-                            temp_string = msvc10_tm_x64;
-                        }
+                        temp_string = msvc10_tm_extra;
                         break;
                     case 2:
                         temp_string = msvc10_tm_x64;
