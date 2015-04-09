@@ -862,6 +862,19 @@ static char *msvc10_link = "    <Link>\r\n"
                            "%s"
                            "    </Link>\r\n";
 
+static char *msvc10_link_arm = "    <Link>\r\n"
+                               "      <AdditionalDependencies>%s;%%(AdditionalDependencies)</AdditionalDependencies>\r\n"
+                               "      <OutputFile>.\\..\\..\\..\\..\\data\\%s.exe</OutputFile>\r\n"
+                               "      <SuppressStartupBanner>true</SuppressStartupBanner>\r\n"
+                               "%s"
+                               "      <ProgramDatabaseFile>.\\..\\..\\..\\..\\data\\%s.pdb</ProgramDatabaseFile>\r\n"
+                               "      <SubSystem>%s</SubSystem>\r\n"
+                               "      <RandomizedBaseAddress>false</RandomizedBaseAddress>\r\n"
+                               "      <DataExecutionPrevention>\r\n"
+                               "      </DataExecutionPrevention>\r\n"
+                               "%s"
+                               "    </Link>\r\n";
+
 static char *msvc10_idg_end = "  </ItemDefinitionGroup>\r\n";
 
 static char *msvc10_ig_start = "  <ItemGroup>\r\n";
@@ -1362,7 +1375,7 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
                             libs = msvc10_libs_gui[i >> 1];
                         }
                     }
-                    fprintf(outfile, msvc10_link, libs, cp_name, (i & 1) ? "" : msvc10_gdi, cp_name, (cp_type == CP_TYPE_GUI) ? "Windows" : "Console", temp_string);
+                    fprintf(outfile, (k == 1 && msvc11) ? msvc10_link_arm : msvc10_link, libs, cp_name, (i & 1) ? "" : msvc10_gdi, cp_name, (cp_type == CP_TYPE_GUI) ? "Windows" : "Console", temp_string);
                 }
                 fprintf(outfile, msvc10_idg_end);
             }
