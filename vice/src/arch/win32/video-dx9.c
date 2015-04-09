@@ -34,6 +34,8 @@
 #include "video.h"
 #include "videoarch.h"
 #include "viewport.h"
+#include "vsync.h"
+#include "vsyncapi.h"
 
 #ifdef HAVE_D3D9_H
 
@@ -258,6 +260,11 @@ int video_canvas_refresh_dx9(video_canvas_t *canvas, unsigned int xs, unsigned i
     HRESULT stretchresult;
     LPDIRECT3DSURFACE9 d3dbackbuffer = NULL;
     D3DLOCKED_RECT lockedrect;
+#ifdef VSYNC_DEBUG
+    unsigned long t1, t2, t3, t4;
+
+    t1 = vsyncarch_gettime();
+#endif
 
     if (canvas->videoconfig->doublesizex) {
         xi *= (canvas->videoconfig->doublesizex + 1);
@@ -288,6 +295,10 @@ int video_canvas_refresh_dx9(video_canvas_t *canvas, unsigned int xs, unsigned i
         return -1;
     }
 
+#ifdef VSYNC_DEBUG
+    t2 = vsyncarch_gettime();
+#endif
+
     do {
         stretchresult = IDirect3DDevice9_StretchRect(canvas->d3ddev, canvas->d3dsurface, NULL, d3dbackbuffer, canvas->dest_rect_ptr, d3dpreffilter);
 
@@ -313,10 +324,21 @@ int video_canvas_refresh_dx9(video_canvas_t *canvas, unsigned int xs, unsigned i
         return -1;
     }
 
+#ifdef VSYNC_DEBUG
+    t3 = vsyncarch_gettime();
+#endif
+
     if (S_OK != IDirect3DDevice9_Present(canvas->d3ddev, NULL, NULL, NULL, NULL)) {
         log_debug("video_dx9: Refresh failed to present the scene!");
         return -1;
     }
+
+#ifdef VSYNC_DEBUG
+    t4 = vsyncarch_gettime();
+    log_debug("canvas-refresh: render:%lu  stretch:%lu  present:%lu  total:%lu",
+                t2-t1, t3-t2, t4-t3, t4-t1);
+#endif
+
     return 0;
 }
 

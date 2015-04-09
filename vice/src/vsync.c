@@ -550,11 +550,10 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     next_frame_start += frame_ticks;
 
     vsyncarch_postsync();
-#if 0
-    FILE *fd = fopen("latencylog.txt", "a");
-    fprintf(fd, "%d %ld %ld %lf\n",
-            vsync_frame_counter, frame_ticks, delay, sound_delay * 1000000);
-    fclose(fd);
+
+#ifdef VSYNC_DEBUG
+    log_debug("vsync: start:%lu  delay:%ld  sound-delay:%lf  end:%lu  next-frame:%lu  frame-ticks:%lu", 
+                now, delay, sound_delay * 1000000, vsyncarch_gettime(), next_frame_start, frame_ticks);
 #endif
     return skip_next_frame;
 }
