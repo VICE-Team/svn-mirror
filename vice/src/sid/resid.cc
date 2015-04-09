@@ -28,6 +28,11 @@
 
 #include "vice.h"
 
+#ifdef _M_ARM
+#undef _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE
+#define _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE 1
+#endif
+
 #ifdef WATCOM_COMPILE
 #define _STDIO_H_INCLUDED
 #include <cstdio>

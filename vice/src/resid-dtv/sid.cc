@@ -20,6 +20,11 @@
 //   Daniel Kahlin <daniel@kahlin.net>
 // Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
+#ifdef _M_ARM
+#undef _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE
+#define _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE 1
+#endif
+
 #include "sid.h"
 #include <math.h>
 
