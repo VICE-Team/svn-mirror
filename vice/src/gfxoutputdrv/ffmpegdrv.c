@@ -1026,7 +1026,7 @@ static gfxoutputdrv_t ffmpeg_drv = {
 
 static void ffmpeg_get_formats_and_codecs(void)
 {
-    int i, j, ai, vi, f;
+    int i, j, ai, vi = 0, f;
     gfxoutputdrv_codec_t *audio_codec_list;
     gfxoutputdrv_codec_t *video_codec_list;
     gfxoutputdrv_codec_t *ac, *vc;
@@ -1034,44 +1034,35 @@ static void ffmpeg_get_formats_and_codecs(void)
     f = 0;
     ffmpegdrv_formatlist = lib_malloc(sizeof(gfxoutputdrv_format_t));
 
-    for (i = 0; formats_to_test[i].name != NULL; i++)
-    {
-        if (VICE_P_AV_GUESS_FORMAT(formats_to_test[i].name, NULL, NULL))
-        {
+    for (i = 0; formats_to_test[i].name != NULL; i++) {
+        if (VICE_P_AV_GUESS_FORMAT(formats_to_test[i].name, NULL, NULL)) {
             audio_codec_list = NULL;
             video_codec_list = NULL;
-            if (formats_to_test[i].audio_codecs != NULL)
-            {
+            if (formats_to_test[i].audio_codecs != NULL) {
                 ai = 0;
                 audio_codec_list = lib_malloc(sizeof(gfxoutputdrv_codec_t));
                 ac = formats_to_test[i].audio_codecs;
-                for (j = 0; ac[j].name != NULL; j++)
-                {
-                    if (ac[j].id == AV_CODEC_ID_NONE || VICE_P_AVCODEC_FIND_ENCODER(ac[j].id))
-                    {
+                for (j = 0; ac[j].name != NULL; j++) {
+                    if ((ac[j].id == AV_CODEC_ID_NONE) || VICE_P_AVCODEC_FIND_ENCODER(ac[j].id)) {
                         audio_codec_list[ai++] = ac[j];
                         audio_codec_list = lib_realloc(audio_codec_list, (ai + 1) * sizeof(gfxoutputdrv_codec_t));
                     }
                 }
                 audio_codec_list[ai].name = NULL;
             }
-            if (formats_to_test[i].video_codecs != NULL)
-            {
+            if (formats_to_test[i].video_codecs != NULL) {
                 vi = 0;
                 video_codec_list = lib_malloc(sizeof(gfxoutputdrv_codec_t));
                 vc = formats_to_test[i].video_codecs;
-                for (j = 0; vc[j].name != NULL; j++)
-                {
-                    if (vc[j].id == AV_CODEC_ID_NONE || VICE_P_AVCODEC_FIND_ENCODER(vc[j].id))
-                    {
+                for (j = 0; vc[j].name != NULL; j++) {
+                    if (vc[j].id == AV_CODEC_ID_NONE || VICE_P_AVCODEC_FIND_ENCODER(vc[j].id)) {
                         video_codec_list[vi++] = formats_to_test[i].video_codecs[j];
                         video_codec_list = lib_realloc(video_codec_list, (vi + 1) * sizeof(gfxoutputdrv_codec_t));
                     }
                 }
                 video_codec_list[vi].name = NULL;
             }
-            if ((audio_codec_list == NULL || ai > 0) && (video_codec_list == NULL || vi > 0))
-            {
+            if (((audio_codec_list == NULL) || (ai > 0)) && ((video_codec_list == NULL) || (vi > 0))) {
                 ffmpegdrv_formatlist[f].name = lib_stralloc(formats_to_test[i].name);
                 ffmpegdrv_formatlist[f].audio_codecs = audio_codec_list;
                 ffmpegdrv_formatlist[f++].video_codecs = video_codec_list;
