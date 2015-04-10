@@ -37,6 +37,11 @@
 #define PLATFORM_NO_X86_ASM
 #endif
 
+/* Do not use for MSVC ARM */
+#ifdef _M_ARM
+#define PLATFORM_NO_X86_ASM
+#endif
+
 /* Do not use for Syllable */
 #ifdef __SYLLABLE__
 #define PLATFORM_NO_X86_ASM

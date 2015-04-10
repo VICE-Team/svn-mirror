@@ -49,8 +49,15 @@
 #        define PLATFORM_CPU "IA64"
 #      endif
 #    else
-#      ifndef PLATFORM_CPU
-#        define PLATFORM_CPU "X64"
+#      ifdef _M_ARM
+#        ifndef PLATFORM_CPU
+#          define PLATFORM_CPU "ARM"
+#          define PLATFORM_OS "WINRT"
+#        endif
+#      else
+#        ifndef PLATFORM_CPU
+#          define PLATFORM_CPU "X64"
+#        endif
 #      endif
 #    endif
 #    ifndef PLATFORM_OS

@@ -14,8 +14,9 @@ copy msvc-files\ide-siddefs.h win32-msvc12
 copy msvc-files\ide-siddtvdefs.h win32-msvc12
 copy msvc-files\inttypes.h win32-msvc12
 copy msvc-files\stdint.h win32-msvc12
+copy msvc-files\ffmpeg-config.h win32-msvc12
 copy msvc-files\vice.manifest win32-msvc12
-copy msvc-files\winid_ia64.bat win32-msvc12
+copy msvc-files\winid_arm.bat win32-msvc12
 copy msvc-files\winid_x64.bat win32-msvc12
 copy msvc-files\winid_x86.bat win32-msvc12
 echo MSVC12 project files generated in win32-msvc12

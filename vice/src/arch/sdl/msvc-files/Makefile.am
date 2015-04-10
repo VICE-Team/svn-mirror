@@ -10,6 +10,7 @@ EXTRA_DIST = \
 	make-bindist.bat.proto \
 	stdint.h \
 	vice.manifest \
+	winid_arm.bat \
 	winid_ia64.bat \
 	winid_x64.bat \
 	winid_x86.bat \

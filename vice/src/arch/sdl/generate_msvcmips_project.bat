@@ -12,6 +12,7 @@ copy msvc-files\dirent.h winmips-msvc
 copy msvc-files\ide-config-mips.h winmips-msvc\ide-config.h
 copy msvc-files\inttypes.h winmips-msvc
 copy msvc-files\stdint.h winmips-msvc
+copy msvc-files\ffmpeg-config.h winmips-msvc
 echo MSVCMIPS project files generated in winmips-msvc
 goto end
 :missingmkmsvc

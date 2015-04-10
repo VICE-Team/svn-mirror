@@ -19,7 +19,11 @@
 #define WIN32_COMPILE          1
 #define HAVE_SDLMAIN           1
 #define HAVE_SDL_NUMJOYSTICKS  1
+
+#ifndef _M_ARM
 #define HAVE_HWSCALE           1
+#endif
+
 #define HAVE_CATWEASELMKIII    1
 #define HAVE_HARDSID           1
 #define HAVE_OPENCBM           1
@@ -72,7 +76,9 @@
 #define HAVE_STRDUP            1
 #define HAVE_WORKING_VSNPRINTF 1
 
+#if !defined(_M_IA64) && !defined(_M_ARM)
 #define __i386__               1
+#endif
 
 #define inline                 _inline
 

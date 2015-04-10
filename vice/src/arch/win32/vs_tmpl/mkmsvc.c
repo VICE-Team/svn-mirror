@@ -672,6 +672,8 @@ static char *msvc10_libs_gui[2] = {
 
 static char *msvc10_libs_gui_sdl = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDLmain.lib;SDL.lib;opengl32.lib";
 
+static char *msvc10_libs_gui_sdl_arm = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDLmain.lib;SDL.lib;advapi32.lib";
+
 static char *msvc10_project_start = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n"
                                     "<Project DefaultTargets=\"Build\" ToolsVersion=\"4.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\r\n"
                                     "  <ItemGroup Label=\"ProjectConfigurations\">\r\n";
@@ -1366,7 +1368,11 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
                         if (cp_type == CP_TYPE_CONSOLE) {
                             libs = msvc10_libs_console_sdl;
                         } else {
-                            libs = msvc10_libs_gui_sdl;
+                            if (k == 1 && msvc11) {
+                                libs = msvc10_libs_gui_sdl_arm;
+                            } else {
+                                libs = msvc10_libs_gui_sdl;
+                            }
                         }
                     } else {
                         if (cp_type == CP_TYPE_CONSOLE) {
