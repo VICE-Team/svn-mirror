@@ -211,8 +211,15 @@
 #define HAVE_EXP2 0
 #define HAVE_EXP2F 0
 #define HAVE_FMINF 1
+
+#if (_MSC_VER >= 1800)
+#define HAVE_ISINF 1
+#define HAVE_ISNAN 1
+#else
 #define HAVE_ISINF 0
 #define HAVE_ISNAN 0
+#endif
+
 #define HAVE_LLRINT 0
 #define HAVE_LLRINTF 0
 #define HAVE_LOG2 0
