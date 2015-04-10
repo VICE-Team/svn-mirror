@@ -666,7 +666,7 @@ static char *msvc10_libs_console = "version.lib;wsock32.lib;advapi32.lib";
 static char *msvc10_libs_console_sdl = "version.lib;wsock32.lib;SDLmain.lib;SDL.lib;opengl32.lib";
 
 static char *msvc10_libs_gui[2] = {
-    "comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib",
+    "comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ole32.lib",
     "comctl32.lib;version.lib;winmm.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib"
 };
 
