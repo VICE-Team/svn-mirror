@@ -476,7 +476,7 @@ else
 BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
 endif
 
-.PHONY: svnversion.h.indirect $(builddir)/gentranslate $(builddir)/geninfocontrib
+.PHONY: svnversion.h.indirect
 
 svnversion.h.indirect:
 	$(SHELL) $(srcdir)/gensvnversion.sh $(SVNVERSION) $(top_srcdir) $(srcdir)/svnversion.h
