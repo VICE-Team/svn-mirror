@@ -210,19 +210,19 @@ static unsigned int scroll_up(const char *text, int first_line, int amount)
     return line;
 }
 
-#define CHARCODE_UMLAUT_A_LOWER         0xe4
-#define CHARCODE_UMLAUT_A_UPPER         0xc4
+#define CHARCODE_UMLAUT_A_LOWER         ((char)0xe4)
+#define CHARCODE_UMLAUT_A_UPPER         ((char)0xc4)
 
-#define CHARCODE_UMLAUT_O_LOWER         0xf6
-#define CHARCODE_UMLAUT_O_UPPER         0xd6
+#define CHARCODE_UMLAUT_O_LOWER         ((char)0xf6)
+#define CHARCODE_UMLAUT_O_UPPER         ((char)0xd6)
 
-#define CHARCODE_UMLAUT_U_LOWER         0xfc
-#define CHARCODE_UMLAUT_U_UPPER         0xdc
+#define CHARCODE_UMLAUT_U_LOWER         ((char)0xfc)
+#define CHARCODE_UMLAUT_U_UPPER         ((char)0xdc)
 
-#define CHARCODE_GRAVE_E_LOWER          0xe8
-#define CHARCODE_AIGU_E_LOWER           0xe9
+#define CHARCODE_GRAVE_E_LOWER          ((char)0xe8)
+#define CHARCODE_AIGU_E_LOWER           ((char)0xe9)
 
-#define CHARCODE_KROUZEK_A_LOWER        0xe5
+#define CHARCODE_KROUZEK_A_LOWER        ((char)0xe5)
 
 static void show_text(const char *text)
 {
@@ -408,11 +408,11 @@ static char *get_compiletime_features(void)
 
 static UI_MENU_CALLBACK(features_callback)
 {
-    menu_draw_t *menu_draw;
+    /* menu_draw_t *menu_draw; */
     char *features;
 
     if (activated) {
-        menu_draw = sdl_ui_get_menu_param();
+        /* menu_draw = sdl_ui_get_menu_param(); */
         features = get_compiletime_features();
         show_text((const char *)features);
         lib_free(features);
