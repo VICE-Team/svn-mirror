@@ -52,6 +52,7 @@ extern CLOCK drivecpu_prevent_clk_overflow(struct drive_context_s *drv, CLOCK su
 extern void drivecpu_shutdown(struct drive_context_s *drv);
 extern void drivecpu_reset_clk(struct drive_context_s *drv);
 extern void drivecpu_trigger_reset(unsigned int dnr);
+extern void drivecpu_set_overflow(struct drive_context_s *drv);
 
 extern void drivecpu_execute(struct drive_context_s *drv, CLOCK clk_value);
 extern int drivecpu_snapshot_write_module(struct drive_context_s *drv,

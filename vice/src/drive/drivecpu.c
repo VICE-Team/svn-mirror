@@ -202,6 +202,12 @@ void drivecpu_trigger_reset(unsigned int dnr)
     interrupt_trigger_reset(drivecpu_int_status_ptr[dnr], drive_clk[dnr] + 1);
 }
 
+void drivecpu_set_overflow(drive_context_t *drv)
+{
+    drivecpu_context_t *cpu = drv->cpu;
+    cpu->cpu_regs.p |= P_OVERFLOW;
+}
+
 void drivecpu_shutdown(drive_context_t *drv)
 {
     drivecpu_context_t *cpu;
@@ -428,11 +434,15 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 #define drivecpu_byte_ready_egde_clear()  \
     do {                                  \
-        rotation_rotate_disk(drv->drive); \
         drv->drive->byte_ready_edge = 0;  \
     } while (0)
 
-#define drivecpu_byte_ready() (rotation_rotate_disk(drv->drive), drv->drive->byte_ready_edge)
+#define drivecpu_rotate()                 \
+    do {                                  \
+        rotation_rotate_disk(drv->drive); \
+    } while (0)
+
+#define drivecpu_byte_ready() (drv->drive->byte_ready_edge)
 
 #define cpu_reset() (cpu_reset)(drv)
 #define bank_limit (cpu->d_bank_limit)

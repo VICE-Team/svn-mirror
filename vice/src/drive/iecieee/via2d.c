@@ -75,6 +75,11 @@ static void set_ca2(via_context_t *via_context, int state)
         rotation_rotate_disk(drv);
         drv->byte_ready_active &= ~(1 << 1);
         drv->byte_ready_active |= state << 1;
+        if (drv->byte_ready_edge) {
+           drive_context_t *drive_context = (drive_context_t *)(via_context->context);
+           drive_cpu_set_overflow(drive_context);
+           drv->byte_ready_edge = 0;
+        }
     }
 #endif
 }
@@ -165,21 +170,21 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
 static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
                       WORD addr)
 {
-    drivevia2_context_t *via2p;
+    drivevia2_context_t *via2p = (drivevia2_context_t *)(via_context->prv);
+    drive_t *drv = via2p->drive;
     int bra;
 
-    via2p = (drivevia2_context_t *)(via_context->prv);
 
     DBG(("VIA2: store_prb (%02x to %02x) clock:%d", poldpb, byte, *(via_context->clk_ptr)));
 
-    rotation_rotate_disk(via2p->drive);
+    rotation_rotate_disk(drv);
 
-    if (via2p->drive->led_status) {
-        via2p->drive->led_active_ticks += *(via_context->clk_ptr)
-                                          - via2p->drive->led_last_change_clk;
+    if (drv->led_status) {
+        drv->led_active_ticks += *(via_context->clk_ptr)
+                                          - drv->led_last_change_clk;
     }
-    via2p->drive->led_last_change_clk = *(via_context->clk_ptr);
-    via2p->drive->led_status = (byte & 8) ? 1 : 0;
+    drv->led_last_change_clk = *(via_context->clk_ptr);
+    drv->led_status = (byte & 8) ? 1 : 0;
 
     /* IF: based on 1540008-01, the original 'Long Board' schematics
        Stepper motor control is the 2 bit value set here demuxed to 4 lines.
@@ -193,7 +198,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     if (byte & 0x4) {
 
         /* vice track numbering starts with 2... we need the real, physical track number */
-        int track_number = via2p->drive->current_half_track - 2;
+        int track_number = drv->current_half_track - 2;
 
         /* the new coil line activated */
         int new_stepper_position = byte & 3;
@@ -221,7 +226,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
          */
 
         /* the steps travelled and the direction */
-        /* int step_count = (via2p->drive->stepper_new_position - old_stepper_position) & 3; */
+        /* int step_count = (drv->stepper_new_position - old_stepper_position) & 3; */
         int step_count = (new_stepper_position - old_stepper_position) & 3;
         if (step_count == 3) {
             step_count = -1;
@@ -249,7 +254,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
             fastest usable stepping speed seems to be around     4096 = 4.1ms 
             min delay so we dont get a step at reset              700 = 0.7ms
          */
-        /* if ((*(via_context->clk_ptr) - via2p->drive->stepper_last_change_clk) >= 2000) */ {
+        /* if ((*(via_context->clk_ptr) - drv->stepper_last_change_clk) >= 2000) */ {
             /* presumably only single steps work */
             /* TODO: the general assumption for the case when opposite coils are active is
                     that the stepper will _not_ move at all. however, that doesnt seem to
@@ -262,14 +267,14 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
             if ((step_count == 1) || (step_count == -1)) {
                 DBG(("VIA2: store_prb drive_move_head(%d) (%02x to %02x) clk:%d delay:%d", 
                      step_count, poldpb, byte, *(via_context->clk_ptr), 
-                     (*(via_context->clk_ptr) - via2p->drive->stepper_last_change_clk)));
-                drive_move_head(step_count, via2p->drive);
+                     (*(via_context->clk_ptr) - drv->stepper_last_change_clk)));
+                drive_move_head(step_count, drv);
             }
         }
 
-        /* if (new_stepper_position != via2p->drive->stepper_new_position) {
-            via2p->drive->stepper_new_position = new_stepper_position;
-            via2p->drive->stepper_last_change_clk = *(via_context->clk_ptr);
+        /* if (new_stepper_position != drv->stepper_new_position) {
+            drv->stepper_new_position = new_stepper_position;
+            drv->stepper_last_change_clk = *(via_context->clk_ptr);
         } */
     }
 
@@ -278,14 +283,20 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     }
     if ((poldpb ^ byte) & 0x04) {   /* Motor on/off */
         drive_sound_update((byte & 4) ? DRIVE_SOUND_MOTOR_ON : DRIVE_SOUND_MOTOR_OFF, via2p->number);
-        bra = via2p->drive->byte_ready_active;
-        via2p->drive->byte_ready_active = (bra & ~0x04) | (byte & 0x04);
+        bra = drv->byte_ready_active;
+        drv->byte_ready_active = (bra & ~0x04) | (byte & 0x04);
         if ((byte & 0x04) != 0) {
-            rotation_begins(via2p->drive);
+            rotation_begins(drv);
+        } else {
+            if (drv->byte_ready_edge) {
+               drive_context_t *drive_context = (drive_context_t *)(via_context->context);
+               drive_cpu_set_overflow(drive_context);
+               drv->byte_ready_edge = 0;
+            }
         }
     }
 
-    via2p->drive->byte_ready_level = 0;
+    drv->byte_ready_level = 0;
 }
 
 static void undump_prb(via_context_t *via_context, BYTE byte)

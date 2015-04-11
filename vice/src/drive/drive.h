@@ -297,6 +297,7 @@ extern void drive_reset(void);
 extern void drive_shutdown(void);
 extern void drive_cpu_execute_one(struct drive_context_s *drv, CLOCK clk_value);
 extern void drive_cpu_execute_all(CLOCK clk_value);
+extern void drive_cpu_set_overflow(struct drive_context_s *drv);
 extern void drive_vsync_hook(void);
 extern int drive_get_disk_drive_type(int dnr);
 extern void drive_enable_update_ui(struct drive_context_s *drv);

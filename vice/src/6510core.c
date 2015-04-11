@@ -128,12 +128,11 @@
 #if defined DRIVE_CPU
 #define LOCAL_SET_OVERFLOW(val)               \
     do {                                      \
-        if (!(val)) {                         \
-            drivecpu_byte_ready_egde_clear(); \
-        }                                     \
         if (val) {                            \
             reg_p |= P_OVERFLOW;              \
         } else {                              \
+            drivecpu_rotate();                \
+            drivecpu_byte_ready_egde_clear(); \
             reg_p &= ~P_OVERFLOW;             \
         }                                     \
     } while (0)
@@ -2144,7 +2143,9 @@ trap_skipped:
 
             case 0x08:          /* PHP */
 #ifdef DRIVE_CPU
+                drivecpu_rotate();
                 if (drivecpu_byte_ready()) {
+                    drivecpu_byte_ready_egde_clear();
                     LOCAL_SET_OVERFLOW(1);
                 }
 #endif
@@ -2421,7 +2422,9 @@ trap_skipped:
             case 0x50:          /* BVC $nnnn */
 #ifdef DRIVE_CPU
                 CLK_ADD(CLK, -1);
+                drivecpu_rotate();
                 if (drivecpu_byte_ready()) {
+                    drivecpu_byte_ready_egde_clear();
                     LOCAL_SET_OVERFLOW(1);
                 }
                 CLK_ADD(CLK, 1);
@@ -2532,7 +2535,9 @@ trap_skipped:
             case 0x70:          /* BVS $nnnn */
 #ifdef DRIVE_CPU
                 CLK_ADD(CLK, -1);
+                drivecpu_rotate();
                 if (drivecpu_byte_ready()) {
+                    drivecpu_byte_ready_egde_clear();
                     LOCAL_SET_OVERFLOW(1);
                 }
                 CLK_ADD(CLK, 1);

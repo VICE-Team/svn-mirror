@@ -810,6 +810,17 @@ void drive_cpu_execute_all(CLOCK clk_value)
     }
 }
 
+void drive_cpu_set_overflow(drive_context_t *drv)
+{
+    drive_t *drive = drv->drive;
+
+    if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+        /* nothing */
+    } else {
+        drivecpu_set_overflow(drv);
+    }
+}
+
 /* This is called at every vsync. */
 void drive_vsync_hook(void)
 {
