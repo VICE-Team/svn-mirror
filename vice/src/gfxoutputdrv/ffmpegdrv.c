@@ -162,6 +162,7 @@ static int set_container_format(const char *val, void *param)
     int i;
 
     format_index = -1;
+
     for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
         if (strcmp(val, ffmpegdrv_formatlist[i].name) == 0) {
             format_index = i;
@@ -1076,17 +1077,17 @@ static void ffmpeg_get_formats_and_codecs(void)
 
 void gfxoutput_init_ffmpeg(int help)
 {
+#ifndef STATIC_FFMPEG
     if (help) {
         gfxoutput_register(&ffmpeg_drv);
         return;
     }
-    if (!help) {
-        if (ffmpeglib_open(&ffmpeglib) < 0) {
-            return;
-        }
-        VICE_P_AV_REGISTER_ALL();
-        ffmpeg_get_formats_and_codecs();
-        gfxoutput_register(&ffmpeg_drv);
+#endif
+    if (ffmpeglib_open(&ffmpeglib) < 0) {
+        return;
     }
+    VICE_P_AV_REGISTER_ALL();
+    ffmpeg_get_formats_and_codecs();
+    gfxoutput_register(&ffmpeg_drv);
 }
 #endif
