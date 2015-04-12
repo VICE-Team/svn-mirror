@@ -1,0 +1,4 @@
+# VICE keyboard mapping file
+
+# use PET graphics mapping as base
+!INCLUDE sdl_grus_sym.vkm
