@@ -503,20 +503,6 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static ui_menu_entry_t keymap_sym_submenu[] = {
-    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_sym.vkm", NULL },
-    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_symger.vkm", NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t keymap_pos_submenu[] = {
-    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_pos.vkm", NULL },
-    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_posger.vkm", NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
 static ui_menu_entry_t c64_menu[] = {
     { N_("Model settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64_model_submenu },
@@ -698,15 +684,14 @@ static void c64ui_dynamic_menu_create(void)
     uisound_menu_create();
     uivicii_menu_create();
     uicart_menu_create();
-
-    memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
-    memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
+    uikeyboard_menu_create();
 }
 
 static void c64ui_dynamic_menu_shutdown(void)
 {
     uivicii_menu_shutdown();
     uisound_menu_shutdown();
+    uikeyboard_menu_shutdown();
 }
 
 int c64ui_init(void)

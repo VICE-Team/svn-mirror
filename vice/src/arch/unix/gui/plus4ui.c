@@ -292,20 +292,6 @@ static ui_menu_entry_t plus4_model_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static ui_menu_entry_t keymap_sym_submenu[] = {
-    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_sym.vkm", NULL },
-    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_sym_de.vkm", NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t keymap_pos_submenu[] = {
-    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_pos.vkm", NULL },
-/*    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_pos_de.vkm", NULL }, */
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
 static ui_menu_entry_t plus4_menu[] = {
     { N_("Model settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, plus4_model_submenu },
@@ -476,15 +462,14 @@ static void plus4ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
     uited_menu_create();
-
-    memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
-    memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
+    uikeyboard_menu_create();
 }
 
 static void plus4ui_dynamic_menu_shutdown(void)
 {
     uited_menu_shutdown();
     uisound_menu_shutdown();
+    uikeyboard_menu_shutdown();
 }
 
 int plus4ui_init(void)

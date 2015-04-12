@@ -24,30 +24,14 @@
  *
  */
 
+/* FIXME: we should perhaps remove this file */
+
 static const resource_string_t resources_string[] = {
-#ifdef COMMON_KBD
-    { "KeymapBusinessUKSymFile", KBD_CBM2_SYM_UK, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[0], keyboard_set_keymap_file, (void *)0 },
-    { "KeymapBusinessUKPosFile", KBD_CBM2_POS_UK, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[1], keyboard_set_keymap_file, (void *)1 },
-    { "KeymapGraphicsSymFile", KBD_CBM2_SYM_GR, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[2], keyboard_set_keymap_file, (void *)2 },
-    { "KeymapGraphicsPosFile", KBD_CBM2_POS_GR, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[3], keyboard_set_keymap_file, (void *)3 },
-    { "KeymapBusinessDESymFile", KBD_CBM2_SYM_DE, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[4], keyboard_set_keymap_file, (void *)4 },
-    { "KeymapBusinessDEPosFile", KBD_CBM2_POS_DE, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[5], keyboard_set_keymap_file, (void *)5 },
-#endif
     { NULL }
 };
 
 static const resource_int_t resources_int[] = {
     { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
-#ifdef COMMON_KBD
-    { "KeymapIndex", KBD_INDEX_CBM2_DEFAULT, RES_EVENT_NO, NULL,
-      &machine_keymap_index, keyboard_set_keymap_index, NULL },
-#endif
     { NULL }
 };

@@ -30,9 +30,7 @@
 #include "uimenu.h"
 
 extern struct ui_menu_entry_s uikeyboard_settings_menu[];
-extern struct ui_menu_entry_s uikeymap_sym_submenu[4];
-extern struct ui_menu_entry_s uikeymap_pos_submenu[4];
-extern UI_CALLBACK(radio_SymKeymap);
-extern UI_CALLBACK(radio_PosKeymap);
+extern void uikeyboard_menu_create(void);
+extern void uikeyboard_menu_shutdown(void);
 
 #endif

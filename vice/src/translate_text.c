@@ -4061,9 +4061,8 @@ translate_t string_table[] = {
 #endif
 
 #ifdef COMMON_KBD
-/* c128/c128-cmdline-options.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX,    N_("Specify index of keymap file (0=symbol, 1=positional)")},
+/* keyboard.c */
+/* en */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX,    N_("Specify index of keymap file (0=symbolic, 1=positional, 2=symbolic (user), 3=positional (user))")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DA, "Angiv indeks for tastaturindstillingsfil (0=symbolsk, 1=positionsbestemt)"},
 /* de */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE, "Index für Kymap Datei festlegen (0=symbol, 1=positional)"},
@@ -4077,6 +4076,42 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_RU, "Specify index of keymap file (0=symbol, 1=positional)"},
 /* sv */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_SV, "Ange index för för tangentbordsinställningsfil (0=symbolisk, 1=positionsriktig)"},
 /* tr */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_TR, "Tuþ haritasý dosyasýnýn indeksini belirt (0=sembol, 1=konumsal)"},
+#endif
+
+/* keyboard.c */
+/* FIXME: generate dynamically */
+/* en */ {IDCLS_SPECIFY_KEYBOARD_TYPE,    N_("Specify emulated keyboard type")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_KEYBOARD_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_KEYBOARD_TYPE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_KEYBOARD_TYPE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_KEYBOARD_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_KEYBOARD_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_KEYBOARD_TYPE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_KEYBOARD_TYPE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_KEYBOARD_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_KEYBOARD_TYPE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_KEYBOARD_TYPE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_KEYBOARD_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_KEYBOARD_TYPE_TR, ""},  /* fuzzy */
+#endif
+
+/* keyboard.c */
+/* FIXME: generate dynamically */
+/* en */ {IDCLS_SPECIFY_KEYBOARD_MAPPING,    N_("Specify host keyboard layout")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_TR, ""},  /* fuzzy */
 #endif
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,

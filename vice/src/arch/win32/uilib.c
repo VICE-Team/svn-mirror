@@ -72,21 +72,19 @@ struct uilib_filefilter_s {
 typedef struct uilib_filefilter_s uilib_filefilter_t;
 
 static uilib_filefilter_t uilib_filefilter[] = {
-    { IDS_ALL_FILES_FILTER, TEXT("*.*") },
-    { IDS_ZIPPED_FILES_FILTER, TEXT("*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z") },
-    { IDS_PALETTE_FILES_FILTER, TEXT("*.vpl") },
-    { IDS_SNAPSHOT_FILES_FILTER, TEXT("*.vsf") },
-    { IDS_PRGP00_FILES_FILTER, TEXT("*.prg;*.p00") },
-    { IDS_TAPE_IMAGE_FILES_FILTER, TEXT("*.t64;*.tap") },
-    { IDS_DISK_IMAGE_FILES_FILTER, TEXT("*.d64;*.d67;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64") },
-    { IDS_CBM_IMAGE_FILES_FILTER, TEXT("*.d64;*.d67;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00") },
-    { IDS_IDE64_IMAGE_FILES_FILTER, TEXT("*.fdd;*.hdd;*.iso;*.cfa") },
-    { IDS_CRT_FILES_FILTER, TEXT("*.crt") },
-    { IDS_RAW_CART_FILES_FILTER, TEXT("*.bin") },
-    { IDS_FLIP_LIST_FILES_FILTER, TEXT("*.vfl") },
-    { IDS_ROMSET_FILES_FILTER, TEXT("*.vrs") },
-    { IDS_ROMSET_ARCHIVES_FILTER, TEXT("*.vra") },
-    { IDS_KEYMAP_FILES_FILTER, TEXT("*.vkm") },
+    /* 0001 */ { IDS_ALL_FILES_FILTER, TEXT("*.*") },
+    /* 0002 */ { IDS_ZIPPED_FILES_FILTER, TEXT("*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z") },
+    /* 0004 */ { IDS_PALETTE_FILES_FILTER, TEXT("*.vpl") },
+    /* 0008 */ { IDS_SNAPSHOT_FILES_FILTER, TEXT("*.vsf") },
+    /* 0010 */ { IDS_PRGP00_FILES_FILTER, TEXT("*.prg;*.p00") },
+    /* 0020 */ { IDS_TAPE_IMAGE_FILES_FILTER, TEXT("*.t64;*.tap") },
+    /* 0040 */ { IDS_DISK_IMAGE_FILES_FILTER, TEXT("*.d64;*.d67;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64") },
+    /* 0080 */ { IDS_CBM_IMAGE_FILES_FILTER, TEXT("*.d64;*.d67;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00") },
+    /* 0100 */ { IDS_IDE64_IMAGE_FILES_FILTER, TEXT("*.fdd;*.hdd;*.iso;*.cfa") },
+    /* 0200 */ { IDS_CRT_FILES_FILTER, TEXT("*.crt") },
+    /* 0400 */ { IDS_RAW_CART_FILES_FILTER, TEXT("*.bin") },
+    /* 0800 */ { IDS_FLIP_LIST_FILES_FILTER, TEXT("*.vfl") },
+    /* 1000 */ { IDS_KEYMAP_FILES_FILTER, TEXT("*.vkm") },
     { 0, NULL }
 };
 
@@ -893,7 +891,6 @@ TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist, unsign
 void uilib_select_browse(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int idc)
 {
     TCHAR *st_name;
-
     st_name = uilib_select_file(hwnd, title, filterlist, type, UILIB_SELECTOR_STYLE_DEFAULT);
     if (st_name != NULL) {
         SetDlgItemText(hwnd, idc, st_name);

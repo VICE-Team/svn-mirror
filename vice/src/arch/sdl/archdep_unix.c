@@ -34,6 +34,7 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <locale.h>
 #include <pwd.h>
 #include "vice_sdl.h"
 #include <sys/stat.h>
@@ -58,6 +59,7 @@
 #include "archdep.h"
 #include "findpath.h"
 #include "ioutil.h"
+#include "keyboard.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -103,7 +105,7 @@ void archdep_network_shutdown(void)
 {
 }
 
-static int archdep_init_extra(int *argc, char **argv)
+int archdep_init_extra(int *argc, char **argv)
 {
     ssize_t read;
 #if !defined(USE_PROC_SELF_EXE)
@@ -730,4 +732,32 @@ char *archdep_get_runtime_cpu(void)
 #else
     return RUNTIME_CPU_CALL();
 #endif
+}
+
+/* returns host keyboard mapping. used to initialize the keyboard map when
+   starting with a black (default) config, so an educated guess works good
+   enough most of the time :)
+
+   FIXME: add more languages
+*/
+int kbd_arch_get_host_mapping(void)
+{
+    int n;
+    char *l;
+    int maps[KBD_MAPPING_NUM] = {
+        KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
+        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT };
+    char str[KBD_MAPPING_NUM][3] = {
+        "us", "uk", "de", "da", "no", "fi", "it"};
+    /* setup the locale */
+    setlocale(LC_ALL, "");
+    l = setlocale(LC_ALL, NULL);
+    if (l && (strlen(l) > 1)) {
+        for (n = 1; n < KBD_MAPPING_NUM; n++) {
+            if (memcmp(l, str[n], 2) == 0) {
+                return maps[n];
+            }
+        }
+    }
+    return KBD_MAPPING_US;
 }

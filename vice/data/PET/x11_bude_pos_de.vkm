@@ -2,7 +2,7 @@
 # for 1:1 keyboard mapping with a German PC keyboard
 
 # use business (de) as base
-!INCLUDE x11_bdep.vkm
+!INCLUDE x11_bude_pos.vkm
 
 # Business (DE) matrix (differences to UK)
 #   +--------+--------+--------+--------+--------+--------+--------+--------+

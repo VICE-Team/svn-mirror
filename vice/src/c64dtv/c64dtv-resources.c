@@ -45,11 +45,6 @@
 #include "vicii-resources.h"
 #include "vicii.h"
 
-
-#define KBD_INDEX_C64_SYM   0
-#define KBD_INDEX_C64_POS   1
-#define KBD_INDEX_C64_SYMDE 2
-
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -139,27 +134,12 @@ static const resource_string_t resources_string[] = {
     { "BasicName", "basic", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &basic_rom_name, set_basic_rom_name, NULL },
-#ifdef COMMON_KBD
-    { "KeymapSymFile", KBD_C64_SYM_US, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[0],
-      keyboard_set_keymap_file, (void *)0 },
-    { "KeymapPosFile", KBD_C64_POS, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[1],
-      keyboard_set_keymap_file, (void *)1 },
-    { "KeymapSymDeFile", KBD_C64_SYM_DE, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[2],
-      keyboard_set_keymap_file, (void *)2 },
-#endif
     { NULL }
 };
 
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-#ifdef COMMON_KBD
-    { "KeymapIndex", KBD_INDEX_C64_DEFAULT, RES_EVENT_NO, NULL,
-      &machine_keymap_index, keyboard_set_keymap_index, NULL },
-#endif
     { "HummerADC", 0, RES_EVENT_SAME, NULL,
       (int *)&c64dtv_hummer_adc_enabled, c64dtv_hummer_adc_set, NULL },
     { NULL }
@@ -179,7 +159,4 @@ void c64dtv_resources_shutdown(void)
     lib_free(chargen_rom_name);
     lib_free(basic_rom_name);
     lib_free(kernal_rom_name);
-    lib_free(machine_keymap_file_list[0]);
-    lib_free(machine_keymap_file_list[1]);
-    lib_free(machine_keymap_file_list[2]);
 }

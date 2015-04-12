@@ -33,8 +33,10 @@
 #include "debug.h"
 #include "icon.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "machine.h"
 #include "machine-video.h"
+#include "pet-resources.h"
 #include "petmodel.h"
 #include "pets.h"
 #include "petui.h"
@@ -80,22 +82,7 @@ UI_MENU_DEFINE_RADIO(IOSize)
 UI_MENU_DEFINE_TOGGLE(Basic1)
 UI_MENU_DEFINE_TOGGLE(Basic1Chars)
 UI_MENU_DEFINE_TOGGLE(EoiBlank)
-
-/* this is partially modeled after the radio_* callbacks */
-static UI_CALLBACK(set_KeyboardType)
-{
-    int current_value, new_value = 2 * vice_ptr_to_int(UI_MENU_CB_PARAM);
-
-    resources_get_int("KeymapIndex", &current_value);
-    if (!CHECK_MENUS) {
-        if ((current_value & ~1) != new_value) {
-            resources_set_int("KeymapIndex", (current_value & 1) + new_value);
-            ui_update_menus();
-        }
-    } else {
-        ui_menu_set_tick(w, (current_value & ~1) == new_value);
-    }
-}
+UI_MENU_DEFINE_RADIO(KeyboardType)
 
 /* ------------------------------------------------------------------------- */
 
@@ -159,16 +146,6 @@ static ui_menu_entry_t pet_iosize_submenu[] = {
       (ui_callback_t)radio_IOSize, (ui_callback_data_t)0x800, NULL },
     { "256 B", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_IOSize, (ui_callback_data_t)0x100, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t pet_keybd_submenu[] = {
-    { N_("Graphics"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_KeyboardType, (ui_callback_data_t)1, NULL },
-    { N_("Business (UK)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_KeyboardType, (ui_callback_data_t)0, NULL },
-    { N_("Business (DE)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_KeyboardType, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
@@ -366,6 +343,9 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { N_("PET model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, model_defaults_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
+      /* Do not change position as position 2 is hard coded. */
+    { N_("Keyboard type"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, NULL },
     { N_("Video size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, pet_video_submenu },
     { N_("Memory size"), UI_MENU_TYPE_NORMAL,
@@ -392,62 +372,6 @@ static ui_menu_entry_t model_settings_submenu[] = {
       (ui_callback_t)toggle_Ram9, NULL, NULL },
     { N_("$A*** as RAM (8296 only)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RamA, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Keyboard type"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, pet_keybd_submenu },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
-static void pet_select_keymap(ui_window_t w, int check, char *name, int sympos)
-{
-    char filename[0x20];
-    const char *resname;
-    int kindex;
-    const char *wd;
-    const char *maps[6] = {"x11_buks", "x11_bukp", "x11_bgrs", "x11_bgrp", "x11_bdes", "x11_bdep"};
-
-    resources_get_int("KeymapIndex", &kindex);
-    strcpy(filename, maps[kindex]);
-    strcat(filename, name);
-    kindex = (kindex & ~1) + sympos;
-    resname = machine_get_keymap_res_name(kindex);
-
-    if (name) {
-        if (!check) {
-            resources_set_string(resname, filename);
-            ui_update_menus();
-        } else {
-            resources_get_string(resname, &wd);
-            if (!strcmp(wd, filename)) {
-                ui_menu_set_tick(w, 1);
-            } else {
-                ui_menu_set_tick(w, 0);
-            }
-        }
-    }
-}
-
-static UI_CALLBACK(radio_SymKeymap_pet)
-{
-    pet_select_keymap(w, CHECK_MENUS, UI_MENU_CB_PARAM, 0);
-}
-
-static UI_CALLBACK(radio_PosKeymap_pet)
-{
-    pet_select_keymap(w, CHECK_MENUS, UI_MENU_CB_PARAM, 1);
-}
-
-static ui_menu_entry_t keymap_sym_submenu[] = {
-    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap_pet, (ui_callback_data_t)".vkm", NULL },
-    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap_pet, (ui_callback_data_t)"_de.vkm", NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t keymap_pos_submenu[] = {
-    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap_pet, (ui_callback_data_t)".vkm", NULL },
-    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap_pet, (ui_callback_data_t)"_de.vkm", NULL },
     { NULL }
 };
 
@@ -637,19 +561,69 @@ static ui_menu_entry_t petui_speed_menu[] = {
     { NULL }
 };
 
+void uipetkeyboard_menu_create(void)
+{
+    unsigned int i, num;
+    ui_menu_entry_t *keyboard_layouttype_submenu;
+    kbdtype_info_t *list;
+
+    num = machine_get_num_keyboard_types();
+
+    if (num == 0) {
+        return;
+    }
+
+    keyboard_layouttype_submenu = lib_calloc((size_t)(num + 1), sizeof(ui_menu_entry_t));
+    list = machine_get_keyboard_info_list();
+
+    for (i = 0; i < num ; i++) {
+        keyboard_layouttype_submenu[i].string = (ui_callback_data_t)lib_msprintf("%s", list->name);
+        keyboard_layouttype_submenu[i].type = UI_MENU_TYPE_TICK;
+        keyboard_layouttype_submenu[i].callback = (ui_callback_t)radio_KeyboardType;
+        keyboard_layouttype_submenu[i].callback_data = (ui_callback_data_t)uint_to_void_ptr(list->type);
+        ++list;
+    }
+
+    model_settings_submenu[2].sub_menu = keyboard_layouttype_submenu;
+}
+
+void uipetkeyboard_menu_shutdown(void)
+{
+    unsigned int i;
+    ui_menu_entry_t *keyboard_layouttype_submenu = NULL;
+
+    keyboard_layouttype_submenu = model_settings_submenu[2].sub_menu;
+
+    if (keyboard_layouttype_submenu == NULL) {
+        return;
+    }
+
+    model_settings_submenu[2].sub_menu = NULL;
+
+    i = 0;
+
+    while (keyboard_layouttype_submenu[i].string != NULL) {
+        lib_free(keyboard_layouttype_submenu[i].string);
+        i++;
+    }
+
+    lib_free(keyboard_layouttype_submenu);
+}
+
 static void petui_dynamic_menu_create(void)
 {
     uisound_menu_create();
     uicrtc_menu_create();
-
-    memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
-    memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
+    uikeyboard_menu_create();
+    uipetkeyboard_menu_create();
 }
 
 static void petui_dynamic_menu_shutdown(void)
 {
     uicrtc_menu_shutdown();
     uisound_menu_shutdown();
+    uikeyboard_menu_shutdown();
+    uipetkeyboard_menu_shutdown();
 }
 
 int petui_init(void)

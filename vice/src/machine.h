@@ -198,4 +198,17 @@ extern const char *machine_get_name(void);
 /* Get keymap res name with range checking */
 extern char *machine_get_keymap_res_name(int val);
 
+/* mapping info for GUIs */
+typedef struct {
+    char *name;
+    int type;
+    unsigned int flags;
+} kbdtype_info_t;
+
+extern int machine_get_num_keyboard_types(void);
+extern kbdtype_info_t *machine_get_keyboard_info_list(void);
+
+extern int machine_get_keyboard_type(void);
+extern char *machine_get_keyboard_type_name(int type);
+
 #endif

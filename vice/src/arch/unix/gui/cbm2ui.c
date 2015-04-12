@@ -393,20 +393,6 @@ static ui_menu_entry_t sid_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static ui_menu_entry_t keymap_sym_submenu[] = {
-    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_buks.vkm", NULL },
-    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_buks_de.vkm", NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t keymap_pos_submenu[] = {
-/*    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_pos.vkm", NULL }, */
-/*    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_posger.vkm", NULL }, */
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
 static ui_menu_entry_t cbm6x0_menu[] = {
     { N_("Model settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm6x0_model_settings_submenu },
@@ -679,9 +665,7 @@ static void cbm2ui_dynamic_menu_create(void)
     } else {
         uicrtc_menu_create();
     }
-
-    memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
-    memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
+    uikeyboard_menu_create();
 }
 
 static void cbm2ui_dynamic_menu_shutdown(void)
@@ -692,6 +676,7 @@ static void cbm2ui_dynamic_menu_shutdown(void)
         uicrtc_menu_shutdown();
     }
     uisound_menu_shutdown();
+    uikeyboard_menu_shutdown();
 }
 
 int cbm2ui_init(void)

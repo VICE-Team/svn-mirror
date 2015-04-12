@@ -364,18 +364,17 @@ IDCLS_DISABLE_ACIA_EMU
 IDCLS_P_NUMBER
 
 #ifdef COMMON_KBD
-/* c128/c128-cmdline-options.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
+/* keyboard.c */
 IDCLS_SPECIFY_KEYMAP_FILE_INDEX
+/* keyboard.c */
+IDCLS_SPECIFY_KEYBOARD_TYPE
+/* keyboard.c */
+IDCLS_SPECIFY_KEYBOARD_MAPPING
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c,
-   scpu64/scpu64-cmdline-options.c */
+/* keyboard.c */
 IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c,
-   scpu64/scpu64-cmdline-options.c */
+/* keyboard.c */
 IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME
 #endif  /* COMMON_KBD */
 

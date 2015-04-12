@@ -42,10 +42,6 @@
 #include "vic20mem.h"
 #include "vic20rom.h"
 
-
-#define KBD_INDEX_VIC20_SYM 0
-#define KBD_INDEX_VIC20_POS 1
-
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -177,12 +173,6 @@ static const resource_string_t resources_string[] =
       &kernal_rom_name, set_kernal_rom_name, NULL },
     { "BasicName", "basic", RES_EVENT_NO, NULL,
       &basic_rom_name, set_basic_rom_name, NULL },
-#ifdef COMMON_KBD
-    { "KeymapSymFile", KBD_VIC20_SYM, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[0], keyboard_set_keymap_file, (void *)0 },
-    { "KeymapPosFile", KBD_VIC20_POS, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[1], keyboard_set_keymap_file, (void *)1 },
-#endif
     {NULL}
 };
 
@@ -200,10 +190,6 @@ static const resource_int_t resources_int[] =
       &ram_block_3_enabled, set_ram_block_3_enabled, NULL },
     { "RAMBlock5", 0, RES_EVENT_SAME, NULL,
       &ram_block_5_enabled, set_ram_block_5_enabled, NULL },
-#ifdef COMMON_KBD
-    { "KeymapIndex", KBD_INDEX_VIC20_DEFAULT, RES_EVENT_NO, NULL,
-      &machine_keymap_index, keyboard_set_keymap_index, NULL },
-#endif
     {NULL}
 };
 
@@ -221,6 +207,4 @@ void vic20_resources_shutdown(void)
     lib_free(chargen_rom_name);
     lib_free(basic_rom_name);
     lib_free(kernal_rom_name);
-    lib_free(machine_keymap_file_list[0]);
-    lib_free(machine_keymap_file_list[1]);
 }

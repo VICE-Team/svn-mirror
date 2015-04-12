@@ -517,12 +517,6 @@ static const resource_string_t resources_string[] = {
       &kernal64_rom_name, set_kernal64_rom_name, NULL },
     { "Basic64Name", "basic64", RES_EVENT_NO, NULL,
       &basic64_rom_name, set_basic64_rom_name, NULL },
-#ifdef COMMON_KBD
-    { "KeymapSymFile", KBD_C128_SYM, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[0], keyboard_set_keymap_file, (void *)0 },
-    { "KeymapPosFile", KBD_C128_POS, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[1], keyboard_set_keymap_file, (void *)1 },
-#endif
     { NULL }
 };
 
@@ -535,10 +529,6 @@ static const resource_int_t resources_int[] = {
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", CIA_MODEL_6526A, RES_EVENT_SAME, NULL,
       &cia2_model, set_cia2_model, NULL },
-#ifdef COMMON_KBD
-    { "KeymapIndex", KBD_INDEX_C128_SYM, RES_EVENT_NO, NULL,
-      &machine_keymap_index, keyboard_set_keymap_index, NULL },
-#endif
     { "SidStereoAddressStart", 0xde00, RES_EVENT_SAME, NULL,
       (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
     { "SidTripleAddressStart", 0xdf00, RES_EVENT_SAME, NULL,
@@ -582,6 +572,4 @@ void c128_resources_shutdown(void)
     lib_free(kernal_ch_rom_name);
     lib_free(basic64_rom_name);
     lib_free(kernal64_rom_name);
-    lib_free(machine_keymap_file_list[0]);
-    lib_free(machine_keymap_file_list[1]);
 }

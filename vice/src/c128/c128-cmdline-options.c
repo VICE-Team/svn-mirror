@@ -193,23 +193,6 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_UNUSED, IDCLS_DISABLE_DEXX_ACIA_RS232_EMU,
       NULL, NULL },
 #endif
-#ifdef COMMON_KBD
-    { "-keymap", SET_RESOURCE, 1,
-      NULL, NULL, "KeymapIndex", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NUMBER, IDCLS_SPECIFY_KEYMAP_FILE_INDEX,
-      NULL, NULL },
-    { "-symkeymap", SET_RESOURCE, 1,
-      NULL, NULL, "KeymapSymFile", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,
-      NULL, NULL },
-    { "-poskeymap", SET_RESOURCE, 1,
-      NULL, NULL, "KeymapPosFile", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
-      NULL, NULL },
-#endif
     { "-ciamodel", CALL_FUNCTION, 1,
       set_cia_model, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,

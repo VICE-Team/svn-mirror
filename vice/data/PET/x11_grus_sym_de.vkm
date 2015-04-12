@@ -1,7 +1,10 @@
-# this is a PET graphics keyboard mapping (positional)
+# VICE keyboard mapping file
 
 # use PET graphics mapping as base
-!INCLUDE x11_bgrs.vkm
+!INCLUDE x11_grus_sym.vkm
+
+# this is a PET graphics keyboard mapping (symbolic)
+# for 1:1 keyboard mapping with a German PC keyboard
 
 #
 # Graphics keyboard matrix:
@@ -28,13 +31,14 @@
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
 # 9 | rvs on |   [    | space  |   <    |  stop  |--------|   .    |   =    |
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
-# 
+#
 # The original gfx keyboard reflects the matrix perfectly:
-# 
+#
 #           !  "  #  $  %  '  &  \  (  )  <-     ^s ^q ^] ^t
 #           q  w  e  r  t  y  u  i  o  p  ^       7  8  9  /
 #           a  s  d  f  g  h  j  k  l  : ^m       4  5  6  *
 #           z  x  c  v  b  n  m  ,  ;  ? ^m       1  2  3  +
 #          LS ^r  @  [  ]  SPACE <  > ^c  RS      0  .  -  =
-# 
+#
 # http://www.6502.org/users/andre/petindex/keyboards.html
+

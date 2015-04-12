@@ -71,27 +71,6 @@
 
 machine_context_t machine_context;
 
-/* FIXME: no keymaps are loaded at all for VSID, the related stuff should get removed */
-#define NUM_KEYBOARD_MAPPINGS 3
-
-static char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
-    "KeymapSymFile",
-    "KeymapPosFile",
-    "KeymapSymDeFile"
-};
-
-char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
-    NULL, NULL, NULL
-};
-
-char *machine_get_keymap_res_name(int val)
-{
-    if (val < 0 || val > NUM_KEYBOARD_MAPPINGS) {
-        return NULL;
-    }
-    return machine_keymap_res_name_list[val];
-}
-
 const char machine_name[] = "C64"; /* FIXME: this must be c64 currently, else the roms can not be loaded */
 /* Moved to c64mem.c/c64memsc.c/vsidmem.c
 int machine_class = VICE_MACHINE_VSID;
@@ -449,11 +428,6 @@ void machine_update_memory_ptrs(void)
     vicii_update_memory_ptrs_external();
 }
 
-int machine_num_keyboard_mappings(void)
-{
-    return NUM_KEYBOARD_MAPPINGS;
-}
-
 struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
 {
     return NULL;
@@ -472,4 +446,9 @@ int machine_addr_in_ram(unsigned int addr)
 const char *machine_get_name(void)
 {
     return "VSID";
+}
+
+char *machine_get_keyboard_type_name(int type)
+{
+    return NULL; /* return 0 if no different types exist */
 }

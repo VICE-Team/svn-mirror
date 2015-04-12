@@ -47,6 +47,7 @@
 #define UILIB_SELECTOR_STYLE_EVENT_END     7
 #define UILIB_SELECTOR_STYLES_NUM          8
 
+/* FIXME: keep in sync with table in uilib.c */
 #define UILIB_FILTER_ALL            (1 << 0)
 #define UILIB_FILTER_ZIP            (1 << 1)
 #define UILIB_FILTER_PALETTE        (1 << 2)

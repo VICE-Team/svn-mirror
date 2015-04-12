@@ -21,8 +21,8 @@ palettes = \
 x11_keymaps = \
 	x11_sym.vkm \
 	x11_pos.vkm \
-	x11_posger.vkm \
-	x11_symger.vkm
+	x11_pos_de.vkm \
+	x11_sym_de.vkm
 
 sdl_keymaps = \
 	sdl_pos.vkm \
@@ -42,10 +42,10 @@ extra_keymaps = \
 	os2_sym.vkm \
 	osx_pos.vkm \
 	osx_sym_de.vkm \
-	osx_sym_us.vkm \
+	osx_sym.vkm \
 	win_sym_de.vkm \
 	win_sym_it.vkm \
-	win_sym_us.vkm \
+	win_sym.vkm \
 	win_pos.vkm
 
 win32_files = \

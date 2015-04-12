@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "machine.h"
+#include "pet-resources.h"
 #include "petmem.h"
 #include "petmodel.h"
 #include "pets.h"
@@ -63,62 +64,62 @@ typedef struct pet_table_s pet_table_t;
 
 static pet_table_t pet_table[] = {
     { "2001",
-      { RAM_8K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_GFX,
+      { RAM_8K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_GRAPHICS_US,
         PATCH_2K_KERNAL, PATCH_2K_CHARGEN, EOI_BLANKS, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL1NAME, PET_EDITOR1G40NAME, PET_BASIC1NAME,
         NULL, NULL, NULL } },
     { "3008",
-      { RAM_8K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_GFX,
+      { RAM_8K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_GRAPHICS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2G40NAME, PET_BASIC2NAME,
         NULL, NULL, NULL } },
     { "3016",
-      { RAM_16K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_GFX,
+      { RAM_16K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_GRAPHICS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2G40NAME, PET_BASIC2NAME,
         NULL, NULL, NULL } },
     { "3032",
-      { RAM_32K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_GFX,
+      { RAM_32K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_GRAPHICS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2G40NAME, PET_BASIC2NAME,
         NULL, NULL, NULL } },
     { "3032B",
-      { RAM_32K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_BUS,
+      { RAM_32K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2B40NAME, PET_BASIC2NAME,
         NULL, NULL, NULL } },
     { "4016",
-      { RAM_16K, IO_256, HAS_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_GFX,
+      { RAM_16K, IO_256, HAS_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_GRAPHICS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4G40NAME, PET_BASIC4NAME,
         NULL, NULL, NULL } },
     { "4032",
-      { RAM_32K, IO_256, HAS_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_GFX,
+      { RAM_32K, IO_256, HAS_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_GRAPHICS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4G40NAME, PET_BASIC4NAME,
         NULL, NULL, NULL } },
     { "4032B",
-      { RAM_32K, IO_256, HAS_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_BUS,
+      { RAM_32K, IO_256, HAS_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B40NAME, PET_BASIC4NAME,
         NULL, NULL, NULL } },
     { "8032",
-      { RAM_32K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_BUS,
+      { RAM_32K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL } },
     { "8096",
-      { RAM_96K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_BUS,
+      { RAM_96K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL } },
     { "8296",
-      { RAM_128K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_BUS,
+      { RAM_128K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL } },
     { "SuperPET",
-      { RAM_32K, IO_2048, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_BUS,
+      { RAM_32K, IO_2048, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, SUPERPET_IO,
         SUPERPET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL,
@@ -133,7 +134,7 @@ static pet_table_t pet_table[] = {
 
 static int petmem_get_conf_info(petinfo_t *pi)
 {
-    int kindex;
+    int ktype;
 
     if ((resources_get_int("RamSize", &pi->ramSize) < 0)
         || (resources_get_int("IOSize", &pi->IOSize) < 0)
@@ -142,19 +143,17 @@ static int petmem_get_conf_info(petinfo_t *pi)
         || (resources_get_int("RamA", &pi->ramselA) < 0)
         || (resources_get_int("EoiBlank", &pi->eoiblank) < 0)
         || (resources_get_int("SuperPET", &pi->superpet) < 0)
-        || (resources_get_int("KeymapIndex", &kindex) < 0)) {
+        || (resources_get_int("KeyboardType", &ktype) < 0)) {
         return -1;
     }
 
     pi->video = petmem_get_screen_columns();
-    pi->kbd_type = kindex >> 1;
+    pi->kbd_type = ktype;
     return 0;
 }
 
 int petmem_set_conf_info(petinfo_t *pi)
 {
-    int kindex;
-
     resources_set_int("RamSize", pi->ramSize);
     resources_set_int("IOSize", pi->IOSize);
     resources_set_int("Crtc", pi->crtc);
@@ -163,9 +162,7 @@ int petmem_set_conf_info(petinfo_t *pi)
     resources_set_int("RamA", pi->ramselA);
     resources_set_int("EoiBlank", pi->eoiblank);
     resources_set_int("SuperPET", pi->superpet);
-
-    resources_get_int("KeymapIndex", &kindex);
-    resources_set_int("KeymapIndex", (kindex & 1) + 2 * pi->kbd_type);
+    resources_set_int("KeyboardType", pi->kbd_type);
     return 0;
 }
 
@@ -235,7 +232,7 @@ static int petmodel_get_temp(petinfo_t *pi)
             && (pet_table[i].info.video == pi->video)
             && (pet_table[i].info.eoiblank == pi->eoiblank)
             && (pet_table[i].info.superpet == pi->superpet)
-            && (pet_table[i].info.kbd_type == (pi->kbd_type & 1))) {
+            && (pet_table[i].info.kbd_type == pi->kbd_type)) {
             if ((pet_table[i].info.ramsel9 != pi->ramsel9)
                 && (i != PETMODEL_8296)) {
                 continue;
@@ -259,7 +256,7 @@ int petmodel_get(void)
         return -1;
     }
     DBG(("ramSize: %d IOSize: %d crtc: %d video: %d eoiblank: %d superpet: %d kbd_type: %d\n",
-           pi.ramSize, pi.IOSize, pi.crtc, pi.video, pi.eoiblank, pi.superpet, (pi.kbd_type & 1)));
+           pi.ramSize, pi.IOSize, pi.crtc, pi.video, pi.eoiblank, pi.superpet, pi.kbd_type));
 
     return petmodel_get_temp(&pi);
 }

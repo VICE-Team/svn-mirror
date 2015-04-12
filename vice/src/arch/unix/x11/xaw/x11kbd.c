@@ -240,3 +240,43 @@ void kbd_initialize_numpad_joykeys(int* joykeys)
     joykeys[7] = XK_KP_8;
     joykeys[8] = XK_KP_9;
 }
+
+/* returns host keyboard mapping. used to initialize the keyboard map when
+   starting with a black (default) config */
+
+/* FIXME: add more languages, then copy to gnomekbd.c */
+int kbd_arch_get_host_mapping(void)
+{
+
+    int n;
+    int maps[KBD_MAPPING_NUM] = {
+        KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
+        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT };
+    char str[KBD_MAPPING_NUM][3] = {
+        "us", "uk", "de", "da", "no", "fi", "it"};
+
+    Display* _display;
+    char* displayName = "";
+    _display = XOpenDisplay(displayName);
+
+    XkbDescRec* _kbdDescPtr = XkbAllocKeyboard();
+    XkbGetNames(_display, XkbSymbolsNameMask, _kbdDescPtr);
+    Atom symName = _kbdDescPtr -> names -> symbols;
+    char* layoutString = XGetAtomName(_display, symName);
+
+    XCloseDisplay(_display);
+    char *p = layoutString;
+
+    if (memcmp(p, "pc+", 3) == 0) {
+        p += 3;
+        if (p && (strlen(p) > 1)) {
+            for (n = 1; n < KBD_MAPPING_NUM; n++) {
+                if (memcmp(p, str[n], 2) == 0) {
+                    return maps[n];
+                }
+            }
+        }
+    }
+    return KBD_MAPPING_US;
+}
+

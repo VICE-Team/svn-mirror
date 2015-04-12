@@ -55,6 +55,14 @@
 #include "video.h"
 #include "vsync.h"
 
+/* #define DBGINIT */
+
+#ifdef DBGINIT
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
+
 void init_resource_fail(const char *module)
 {
     archdep_startup_log_error("Cannot initialize %s resources.\n",
@@ -63,6 +71,7 @@ void init_resource_fail(const char *module)
 
 int init_resources(void)
 {
+    DBG(("init_resources\n"));
     if (resources_init(machine_get_name())) {
         archdep_startup_log_error("Cannot initialize resource handling.\n");
         return -1;
@@ -93,6 +102,10 @@ int init_resources(void)
     }
     if (sound_resources_init() < 0) {
         init_resource_fail("sound");
+        return -1;
+    }
+    if (keyboard_resources_init() < 0) {
+        init_resource_fail("keyboard");
         return -1;
     }
     if (machine_video_resources_init() < 0) {
@@ -170,6 +183,12 @@ int init_cmdline_options(void)
         init_cmdline_options_fail("sound");
         return -1;
     }
+#ifdef COMMON_KBD
+    if (keyboard_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("keyboard");
+        return -1;
+    }
+#endif
     if (video_cmdline_options_init() < 0) {
         init_cmdline_options_fail("video");
         return -1;

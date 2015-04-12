@@ -518,3 +518,14 @@ char *archdep_get_runtime_cpu(void)
     /* TODO: add runtime cpu detection code */
     return "Unknown CPU";
 }
+
+/* returns host keyboard mapping. used to initialize the keyboard map when
+   starting with a black (default) config, so an educated guess works good
+   enough most of the time :)
+
+   FIXME: add more languages/actual detection
+*/
+int kbd_arch_get_host_mapping(void)
+{
+    return KBD_MAPPING_US;
+}

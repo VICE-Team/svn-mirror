@@ -483,34 +483,42 @@ END
 
 // dialog template for all languages
 
+// FIXME: keyboard dialog can be made generic
+
 IDD_C64KBD_MAPPING_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 140
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTORADIOBUTTON "", IDC_C64KBD_MAPPING_SELECT_SYM,
                     10, 10, 54, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "", IDC_C64KBD_MAPPING_SELECT_SYMDE,
-                    10, 30, 54, 10, BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "", IDC_C64KBD_MAPPING_SELECT_POS,
+                    10, 30, 54, 10, BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "", IDC_C64KBD_MAPPING_SELECT_USERSYM,
                     10, 50, 54, 10, BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "", IDC_C64KBD_MAPPING_SELECT_USERPOS,
+                    10, 70, 54, 10, BS_AUTORADIOBUTTON
 
     EDITTEXT        IDC_C64KBD_MAPPING_SYM,
                     65, 9, 110, 12, WS_TABSTOP
     PUSHBUTTON      "", IDC_C64KBD_MAPPING_SYM_BROWSE,
                     185, 9, 50, 14, 0
-    EDITTEXT        IDC_C64KBD_MAPPING_SYMDE,
-                    65, 29, 110, 12, WS_TABSTOP
-    PUSHBUTTON      "", IDC_C64KBD_MAPPING_SYMDE_BROWSE,
-                    185, 29, 50, 14, 0
     EDITTEXT        IDC_C64KBD_MAPPING_POS,
-                    65, 49, 110, 12, WS_TABSTOP
+                    65, 29, 110, 12, WS_TABSTOP
     PUSHBUTTON      "", IDC_C64KBD_MAPPING_POS_BROWSE,
+                    185, 29, 50, 14, 0
+    EDITTEXT        IDC_C64KBD_MAPPING_USERSYM,
+                    65, 49, 110, 12, WS_TABSTOP
+    PUSHBUTTON      "", IDC_C64KBD_MAPPING_USERSYM_BROWSE,
                     185, 49, 50, 14, 0
+    EDITTEXT        IDC_C64KBD_MAPPING_USERPOS,
+                    65, 69, 110, 12, WS_TABSTOP
+    PUSHBUTTON      "", IDC_C64KBD_MAPPING_USERPOS_BROWSE,
+                    185, 69, 50, 14, 0
 
     PUSHBUTTON      "", IDC_C64KBD_MAPPING_DUMP,
-                    10, 74, 60, 14, 0
+                    10, 94, 60, 14, 0
     PUSHBUTTON      "", IDC_KBD_SHORTCUT_DUMP,
-                    80, 74, 60, 14, 0
+                    80, 94, 60, 14, 0
 
     DEFPUSHBUTTON   "", IDOK,
                     20, 120, 50, 14, WS_TABSTOP

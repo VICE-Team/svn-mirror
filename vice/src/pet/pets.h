@@ -85,9 +85,6 @@
 #define NO_RAM_A  0
 #define HAS_RAM_A 1
 
-#define KBD_BUS 0
-#define KBD_GFX 1
-
 #define NO_KERNAL_PATCH 0
 #define PATCH_2K_KERNAL 1
 
@@ -109,7 +106,7 @@ typedef struct petinfo_s {
     int video;                  /* 0 = autodetect, 40, or 80 */
     int ramsel9;                /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
     int ramselA;                /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
-    int kbd_type;               /* 1 = graphics, 0 = business (UK) */
+    int kbd_type;               /* see pet-resources.h */
     int pet2k;                  /* 1 = do PET 2001 kernal patches */
     int pet2kchar;              /* 1 = do PET 2001 chargen patches */
     int eoiblank;               /* 1 = EOI blanks screen */

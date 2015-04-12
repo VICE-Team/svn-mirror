@@ -53,22 +53,44 @@ static UI_CALLBACK(set_keymap_type)
     }
 
     if (!CHECK_MENUS) {
-        if ((kindex & 1) != newindex) {
-            resources_set_int("KeymapIndex", (kindex & ~1) + newindex);
+        if (kindex != newindex) {
+            resources_set_int("KeymapIndex", newindex);
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, (kindex & 1) == newindex);
+        ui_menu_set_tick(w, (kindex == newindex));
     }
 }
 
 static ui_menu_entry_t keyboard_maptype_submenu[] = {
     { N_("Symbolic mapping"), UI_MENU_TYPE_TICK, (ui_callback_t)set_keymap_type,
-      (ui_callback_data_t)0, NULL },
+      (ui_callback_data_t)KBD_INDEX_SYM, NULL },
     { N_("Positional mapping"), UI_MENU_TYPE_TICK, (ui_callback_t)set_keymap_type,
-      (ui_callback_data_t)1, NULL },
+      (ui_callback_data_t)KBD_INDEX_POS, NULL },
+    { N_("Symbolic mapping (User)"), UI_MENU_TYPE_TICK, (ui_callback_t)set_keymap_type,
+      (ui_callback_data_t)KBD_INDEX_USERSYM, NULL },
+    { N_("Positional mapping (User)"), UI_MENU_TYPE_TICK, (ui_callback_t)set_keymap_type,
+      (ui_callback_data_t)KBD_INDEX_USERPOS, NULL },
     { NULL }
 };
+
+static UI_CALLBACK(set_layout_type)
+{
+    int kindex, newindex = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
+    if (resources_get_int("KeyboardMapping", &kindex) < 0) {
+        return;
+    }
+
+    if (!CHECK_MENUS) {
+        if (kindex != newindex) {
+            resources_set_int("KeyboardMapping", newindex);
+            ui_update_menus();
+        }
+    } else {
+        ui_menu_set_tick(w, (kindex == newindex));
+    }
+}
 
 static UI_CALLBACK(select_user_keymap)
 {
@@ -141,51 +163,15 @@ void ui_select_keymap(ui_window_t w, int check, char *name, int sympos)
     }
 }
 
-UI_CALLBACK(radio_SymKeymap)
-{
-    ui_select_keymap(w, CHECK_MENUS, UI_MENU_CB_PARAM, 0);
-}
-
-UI_CALLBACK(radio_PosKeymap)
-{
-    ui_select_keymap(w, CHECK_MENUS, UI_MENU_CB_PARAM, 1);
-}
-
-/* array for the actual data to be copied into */
-struct ui_menu_entry_s uikeymap_sym_submenu[4] = {
-    { NULL },
-    { NULL },
-    { NULL },
-    { NULL }
-};
-struct ui_menu_entry_s uikeymap_pos_submenu[4] = {
-    { NULL },
-    { NULL },
-    { NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t keyboard_sym_submenu[] = {
-    { "", UI_MENU_TYPE_NONE, NULL, NULL, uikeymap_sym_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Set symbolic keymap file"), UI_MENU_TYPE_DOTS, (ui_callback_t)select_user_keymap,
-      (ui_callback_data_t)0, NULL},
-    { NULL }
-};
-
-static ui_menu_entry_t keyboard_pos_submenu[] = {
-    { "", UI_MENU_TYPE_NONE, NULL, NULL, uikeymap_pos_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Set positional keymap file"), UI_MENU_TYPE_DOTS, (ui_callback_t)select_user_keymap,
-      (ui_callback_data_t)1, NULL},
-    { NULL }
-};
-
 static ui_menu_entry_t keyboard_settings_submenu[] = {
     { N_("Keyboard mapping type"), UI_MENU_TYPE_NORMAL, NULL, NULL, keyboard_maptype_submenu },
+      /* Do not change position as position 1 is hard coded. */
+    { N_("Keyboard layout type"), UI_MENU_TYPE_NORMAL, NULL, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Select symbolic keymap"), UI_MENU_TYPE_NORMAL, NULL, NULL, keyboard_sym_submenu},
-    { N_("Select positional keymap"), UI_MENU_TYPE_NORMAL, NULL, NULL, keyboard_pos_submenu},
+    { N_("Set symbolic user keymap file"), UI_MENU_TYPE_DOTS, (ui_callback_t)select_user_keymap,
+      (ui_callback_data_t)0, NULL},
+    { N_("Set positional user keymap file"), UI_MENU_TYPE_DOTS, (ui_callback_t)select_user_keymap,
+      (ui_callback_data_t)1, NULL},
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Dump keymap to file"), UI_MENU_TYPE_DOTS, (ui_callback_t) dump_keymap, NULL, NULL },
     { NULL }
@@ -196,3 +182,53 @@ ui_menu_entry_t uikeyboard_settings_menu[] = {
       NULL, NULL, keyboard_settings_submenu },
     { NULL }
 };
+
+void uikeyboard_menu_create(void)
+{
+    unsigned int i, num;
+    ui_menu_entry_t *keyboard_layouttype_submenu;
+    mapping_info_t *list;
+
+    num = keyboard_get_num_mappings();
+
+    if (num == 0) {
+        return;
+    }
+
+    keyboard_layouttype_submenu = lib_calloc((size_t)(num + 1), sizeof(ui_menu_entry_t));
+    list = keyboard_get_info_list();
+
+    for (i = 0; i < num ; i++) {
+        keyboard_layouttype_submenu[i].string = (ui_callback_data_t)lib_msprintf("%s", list->name);
+        keyboard_layouttype_submenu[i].type = UI_MENU_TYPE_TICK;
+        keyboard_layouttype_submenu[i].callback = (ui_callback_t)set_layout_type;
+        keyboard_layouttype_submenu[i].callback_data = (ui_callback_data_t)uint_to_void_ptr(list->mapping);
+        ++list;
+    }
+
+    keyboard_settings_submenu[1].sub_menu = keyboard_layouttype_submenu;
+}
+
+void uikeyboard_menu_shutdown(void)
+{
+    unsigned int i;
+    ui_menu_entry_t *keyboard_layouttype_submenu = NULL;
+
+    keyboard_layouttype_submenu = keyboard_settings_submenu[1].sub_menu;
+
+    if (keyboard_layouttype_submenu == NULL) {
+        return;
+    }
+
+    keyboard_settings_submenu[1].sub_menu = NULL;
+
+    i = 0;
+
+    while (keyboard_layouttype_submenu[i].string != NULL) {
+        lib_free(keyboard_layouttype_submenu[i].string);
+        i++;
+    }
+
+    lib_free(keyboard_layouttype_submenu);
+}
+

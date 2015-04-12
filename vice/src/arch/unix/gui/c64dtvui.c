@@ -163,20 +163,6 @@ ui_menu_entry_t c64dtv_model_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static ui_menu_entry_t keymap_sym_submenu[] = {
-    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_sym.vkm", NULL },
-/*    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_symger.vkm", NULL }, */
-    { NULL }
-};
-
-static ui_menu_entry_t keymap_pos_submenu[] = {
-    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_pos.vkm", NULL },
-/*    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_posger.vkm", NULL }, */
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
 static ui_menu_entry_t c64_menu[] = {
     { N_("Model settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64dtv_model_submenu },
@@ -354,18 +340,18 @@ static void c64ui_dynamic_menu_create(void)
     uisound_menu_create();
     uivicii_menu_create();
 
-    memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
-    memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
 #ifdef DEBUG
     memcpy(&debug_settings_submenu[UI_DEBUG_SETTINGS_SUBMENU_EXTRA_IDX], &x64dtv_debug_extra_menu[0], sizeof(ui_menu_entry_t));
 #endif
     uiprinter_pruser_enable(0);
+    uikeyboard_menu_create();
 }
 
 static void c64ui_dynamic_menu_shutdown(void)
 {
     uivicii_menu_shutdown();
     uisound_menu_shutdown();
+    uikeyboard_menu_shutdown();
 }
 
 int c64dtvui_init(void)

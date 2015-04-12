@@ -94,26 +94,6 @@
 
 machine_context_t machine_context;
 
-#define NUM_KEYBOARD_MAPPINGS 6
-
-static char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
-    "KeymapBusinessUKSymFile", "KeymapBusinessUKPosFile",
-    "KeymapGraphicsSymFile", "KeymapGraphicsPosFile",
-    "KeymapBusinessDESymFile", "KeymapBusinessDEPosFile"
-};
-
-char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
-    NULL, NULL, NULL, NULL, NULL, NULL
-};
-
-char *machine_get_keymap_res_name(int val)
-{
-    if (val < 0 || val > NUM_KEYBOARD_MAPPINGS) {
-        return NULL;
-    }
-    return machine_keymap_res_name_list[val];
-}
-
 const char machine_name[] = "CBM-II";
 int machine_class = VICE_MACHINE_CBM5x0;
 
@@ -123,6 +103,36 @@ static void machine_vsync_hook(void);
 
 static log_t cbm2_log = LOG_ERR;
 static machine_timing_t machine_timing;
+
+/* FIXME: add different keyboard types */
+int machine_get_keyboard_type(void)
+{
+#if 0
+    int type;
+    if (resources_get_int("KeyboardType", &type) < 0) {
+        return 0;
+    }
+    return type;
+#endif
+    return 0;
+}
+
+char *machine_get_keyboard_type_name(int type)
+{
+    return NULL; /* return 0 if no different types exist */
+}
+
+/* return number of available keyboard types for this machine */
+int machine_get_num_keyboard_types(void)
+{
+    return 1;
+}
+
+kbdtype_info_t *machine_get_keyboard_info_list(void)
+{
+    return NULL; /* return 0 if no different types exist */
+}
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -784,11 +794,6 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
 }
 
 /*-----------------------------------------------------------------------*/
-
-int machine_num_keyboard_mappings(void)
-{
-    return NUM_KEYBOARD_MAPPINGS;
-}
 
 struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
 {

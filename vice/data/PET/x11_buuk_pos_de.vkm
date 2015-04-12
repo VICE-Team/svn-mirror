@@ -1,7 +1,7 @@
 # VICE keyboard mapping file
 
 # use business (uk) as base
-!INCLUDE x11_bukp.vkm
+!INCLUDE x11_buuk_pos.vkm
 
 # this is a PET business (uk) keyboard mapping (positional)
 # for 1:1 keyboard mapping with a German PC keyboard

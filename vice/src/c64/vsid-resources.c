@@ -191,15 +191,16 @@ int c64_resources_init(void)
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
-
+#if 0 /* FIXME: remove? */
 #ifdef COMMON_KBD
     /* Set defaults of keymaps */
-    keyboard_set_keymap_file(KBD_C64_SYM_US, (void *)0);
-    keyboard_set_keymap_file(KBD_C64_POS, (void *)1);
-    keyboard_set_keymap_file(KBD_C64_SYM_DE, (void *)2);
+    keyboard_set_keymap_file(KBD_C64_SYM_US, (void *)KBD_INDEX_SYM);
+    keyboard_set_keymap_file(KBD_C64_POS, (void *)KBD_INDEX_POS);
+    keyboard_set_keymap_file(KBD_C64_SYM_DE, (void *)KBD_INDEX_USERSYM);
+    keyboard_set_keymap_file(KBD_C64_SYM_DE, (void *)KBD_INDEX_USERPOS);
     keyboard_set_keymap_index(KBD_INDEX_C64_DEFAULT, NULL);
 #endif
-
+#endif
     return resources_register_int(resources_int);
 }
 
@@ -208,7 +209,4 @@ void c64_resources_shutdown(void)
     lib_free(chargen_rom_name);
     lib_free(basic_rom_name);
     lib_free(kernal_rom_name);
-    lib_free(machine_keymap_file_list[0]);
-    lib_free(machine_keymap_file_list[1]);
-    lib_free(machine_keymap_file_list[2]);
 }

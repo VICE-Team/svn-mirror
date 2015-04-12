@@ -44,33 +44,6 @@
 #include "resources.h"
 #include "util.h"
 
-/*
-    the following keyboard models exist for the PET:
-
-    - chicklet keyboard (original PET 2001)
-    - graphics keyboard with the 20 key numpad (PET 2001-N)
-
-      "Graphics" (BGRS/BGRP)
-
-    - business keyboard (PET 2001-B)
-
-      For some countries (e.g. Germany) there where some kits for the business
-      keyboard including an changed Exxx-EPROM (editor) with other keyboard
-      mappings and some changeable keyboard caps with the right characters on it.
-
-      "Business (us)"
-      "Business (uk)" (BUKS/BUKP)
-      "Business (de)" (BDES/BDEP)
-      "Business (jp)"
-*/
-
-#define KBD_INDEX_PET_BUKS  0
-#define KBD_INDEX_PET_BUKP  1
-#define KBD_INDEX_PET_BGRS  2
-#define KBD_INDEX_PET_BGRP  3
-#define KBD_INDEX_PET_BDES  4
-#define KBD_INDEX_PET_BDEP  5
-
 static int sync_factor;
 static int set_ramsize(int size, void *param);
 
@@ -414,20 +387,6 @@ static const resource_string_t resources_string[] = {
       &petres.memAname, set_rom_module_a_name, NULL },
     { "RomModuleBName", "", RES_EVENT_NO, NULL,
       &petres.memBname, set_rom_module_b_name, NULL },
-#ifdef COMMON_KBD
-    { "KeymapBusinessUKSymFile", KBD_PET_SYM_UK, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[0], keyboard_set_keymap_file, (void *)0 },
-    { "KeymapBusinessUKPosFile", KBD_PET_POS_UK, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[1], keyboard_set_keymap_file, (void *)1 },
-    { "KeymapGraphicsSymFile", KBD_PET_SYM_GR, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[2], keyboard_set_keymap_file, (void *)2 },
-    { "KeymapGraphicsPosFile", KBD_PET_POS_GR, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[3], keyboard_set_keymap_file, (void *)3 },
-    { "KeymapBusinessDESymFile", KBD_PET_SYM_DE, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[4], keyboard_set_keymap_file, (void *)4 },
-    { "KeymapBusinessDEPosFile", KBD_PET_POS_DE, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[5], keyboard_set_keymap_file, (void *)5 },
-#endif
     { "H6809RomAName", "", RES_EVENT_NO, NULL,
       &petres.h6809romName[0], set_h6809_rom_name, (void *)0 },
     { "H6809RomBName", "", RES_EVENT_NO, NULL,
@@ -467,10 +426,6 @@ static const resource_int_t resources_int[] = {
       &petres.pet2kchar, set_pet2kchar_enabled, NULL },
     { "EoiBlank", 0, RES_EVENT_SAME, NULL,
       &petres.eoiblank, set_eoiblank_enabled, NULL },
-#ifdef COMMON_KBD
-    { "KeymapIndex", KBD_INDEX_PET_BUKS, RES_EVENT_NO, NULL,
-      &machine_keymap_index, keyboard_set_keymap_index, NULL },
-#endif
     { "CPUswitch", SUPERPET_CPU_6502, RES_EVENT_SAME, NULL,
       &petres.superpet_cpu_switch, set_superpet_cpu_switch, NULL },
 /*  { "SuperPETRamWriteProtect", 0, RES_EVENT_SAME, NULL,
@@ -511,12 +466,6 @@ void pet_resources_shutdown(void)
 {
     int i;
 
-    lib_free(machine_keymap_file_list[0]);
-    lib_free(machine_keymap_file_list[1]);
-    lib_free(machine_keymap_file_list[2]);
-    lib_free(machine_keymap_file_list[3]);
-    lib_free(machine_keymap_file_list[4]);
-    lib_free(machine_keymap_file_list[5]);
     lib_free(petres.chargenName);
     lib_free(petres.kernalName);
     lib_free(petres.editorName);

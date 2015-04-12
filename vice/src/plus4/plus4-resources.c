@@ -44,10 +44,6 @@
 #include "util.h"
 #include "vsync.h"
 
-
-#define KBD_INDEX_PLUS4_SYM 0
-#define KBD_INDEX_PLUS4_POS 1
-
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -219,14 +215,6 @@ static const resource_string_t resources_string[] = {
       &c2lo_rom_name, set_c2lo_rom_name, NULL },
     { "c2hiName", "", RES_EVENT_NO, NULL,
       &c2hi_rom_name, set_c2hi_rom_name, NULL },
-#ifdef COMMON_KBD
-    { "KeymapSymFile", KBD_PLUS4_SYM, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[0],
-      keyboard_set_keymap_file, (void *)0 },
-    { "KeymapPosFile", KBD_PLUS4_POS, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[1],
-      keyboard_set_keymap_file, (void *)1 },
-#endif
     { NULL }
 };
 
@@ -235,10 +223,6 @@ static const resource_int_t resources_int[] = {
       &sync_factor, set_sync_factor, NULL },
     { "RamSize", 64, RES_EVENT_SAME, NULL,
       &ram_size_plus4, set_ram_size_plus4, NULL },
-#ifdef COMMON_KBD
-    { "KeymapIndex", KBD_INDEX_PLUS4_DEFAULT, RES_EVENT_NO, NULL,
-      &machine_keymap_index, keyboard_set_keymap_index, NULL },
-#endif
     { NULL }
 };
 
@@ -264,6 +248,4 @@ void plus4_resources_shutdown(void)
     lib_free(c1hi_rom_name);
     lib_free(c2lo_rom_name);
     lib_free(c2hi_rom_name);
-    lib_free(machine_keymap_file_list[0]);
-    lib_free(machine_keymap_file_list[1]);
 }

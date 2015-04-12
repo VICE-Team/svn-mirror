@@ -31,49 +31,13 @@
 #include "uimenu.h"
 
 extern void kbd_arch_init(void);
+extern int kbd_arch_get_host_mapping(void);
 
 extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
-/* FIXME: symbolic keymaps do not exist yet and are not supported either */
-/*
-#define KBD_C64_SYM_US  "sdl_sym.vkm"
-#define KBD_C64_SYM_DE  "sdl_sym.vkm"
-#define KBD_C128_SYM    "sdl_sym.vkm"
-#define KBD_VIC20_SYM   "sdl_sym.vkm"
-#define KBD_PLUS4_SYM   "sdl_sym.vkm"
-*/
-#define KBD_C64_SYM_US  "sdl_pos.vkm"
-#define KBD_C64_SYM_DE  "sdl_pos_de.vkm"
-#define KBD_C128_SYM    "sdl_pos.vkm"
-#define KBD_VIC20_SYM   "sdl_pos.vkm"
-#define KBD_PLUS4_SYM   "sdl_pos.vkm"
-
-#define KBD_C64_POS     "sdl_pos.vkm"
-#define KBD_C128_POS    "sdl_pos.vkm"
-#define KBD_VIC20_POS   "sdl_pos.vkm"
-#define KBD_PLUS4_POS   "sdl_pos.vkm"
-
-#define KBD_PET_SYM_UK  "sdl_buks.vkm"
-#define KBD_PET_POS_UK  "sdl_bukp.vkm"
-#define KBD_PET_SYM_DE  "sdl_bdes.vkm"
-#define KBD_PET_POS_DE  "sdl_bdep.vkm"
-#define KBD_PET_SYM_GR  "sdl_bgrs.vkm"
-#define KBD_PET_POS_GR  "sdl_bgrp.vkm"
-#define KBD_CBM2_SYM_UK "sdl_buks.vkm"
-#define KBD_CBM2_POS_UK "sdl_bukp.vkm"
-#define KBD_CBM2_SYM_DE "sdl_bdes.vkm"
-#define KBD_CBM2_POS_DE "sdl_bdep.vkm"
-#define KBD_CBM2_SYM_GR "sdl_bgrs.vkm"
-#define KBD_CBM2_POS_GR "sdl_bgrp.vkm"
-
-#define KBD_INDEX_C64_DEFAULT   KBD_INDEX_C64_SYM
-#define KBD_INDEX_C128_DEFAULT  KBD_INDEX_C128_SYM
-#define KBD_INDEX_VIC20_DEFAULT KBD_INDEX_VIC20_SYM
-#define KBD_INDEX_PET_DEFAULT   KBD_INDEX_PET_BUKS
-#define KBD_INDEX_PLUS4_DEFAULT KBD_INDEX_PLUS4_SYM
-#define KBD_INDEX_CBM2_DEFAULT  KBD_INDEX_CBM2_BUKS
+#define KBD_PORT_PREFIX "sdl"
 
 extern ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod);
 extern ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod);

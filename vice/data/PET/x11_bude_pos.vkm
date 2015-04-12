@@ -1,9 +1,7 @@
-# VICE keyboard mapping file
+# this is a PET business (de) keyboard mapping (positional)
 
 # use business (uk) as base
-!INCLUDE x11_buks.vkm
-
-# this is a PET business (de) keyboard mapping (symbolic)
+!INCLUDE x11_buuk_pos.vkm
 
 # Business (DE) matrix (differences to UK)
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
@@ -17,4 +15,3 @@
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
 # 5 |        |        |        |        |        |        |   ä    |        |
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
-

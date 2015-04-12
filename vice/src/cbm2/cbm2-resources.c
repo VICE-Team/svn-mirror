@@ -49,14 +49,6 @@
 #include "util.h"
 #include "vsync.h"
 
-
-#define KBD_INDEX_CBM2_BUKS 0
-#define KBD_INDEX_CBM2_BUKP 1
-#define KBD_INDEX_CBM2_BGRS 2
-#define KBD_INDEX_CBM2_BGRP 3
-#define KBD_INDEX_CBM2_BDES 4
-#define KBD_INDEX_CBM2_BDEP 5
-
 static int sync_factor;
 
 static char *kernal_rom_name = NULL;
@@ -237,10 +229,4 @@ void cbm2_resources_shutdown(void)
     lib_free(kernal_rom_name);
     lib_free(chargen_name);
     lib_free(basic_rom_name);
-    lib_free(machine_keymap_file_list[0]);
-    lib_free(machine_keymap_file_list[1]);
-    lib_free(machine_keymap_file_list[2]);
-    lib_free(machine_keymap_file_list[3]);
-    lib_free(machine_keymap_file_list[4]);
-    lib_free(machine_keymap_file_list[5]);
 }
