@@ -394,16 +394,6 @@ void kbd_arch_init(void)
     sdlkbd_hotkeys_load(hotkey_file);
 }
 
-/* FIXME: add archdep code for more platforms */
-#if !defined(UNIX_COMPILE) || defined(CEGCC_COMPILE)
-/* returns host keyboard mapping. used to initialize the keyboard map when
-   starting with a black (default) config */
-int kbd_arch_get_host_mapping(void)
-{
-    return KBD_MAPPING_US;
-}
-#endif
-
 signed long kbd_arch_keyname_to_keynum(char *keyname)
 {
     return (signed long)atoi(keyname);
