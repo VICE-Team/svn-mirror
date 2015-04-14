@@ -46,9 +46,6 @@
 #include "vicii.h"
 #include "util.h"
 
-#define KBD_INDEX_C128_SYM 0
-#define KBD_INDEX_C128_POS 1
-
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is

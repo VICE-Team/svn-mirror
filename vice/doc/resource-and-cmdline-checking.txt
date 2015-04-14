@@ -19246,434 +19246,159 @@ action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
+
 'COMMON_KBD' RESOURCES/CMDLINES:
 ================================
 
-c128/c128-resources.c:
-----------------------
+Note: Keyboard map handling has been reworked, and all parts should get updated
+as described in the wiki: http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
+
+keyboard.c:
+--------------------
 resource type:                  string
 resource name:                  "KeymapSymFile"
 resource range:                 N/A
-resource default:               KBD_C128_SYM
+resource default:               set at runtime
 resource function:              keyboard_set_keymap_file()
 resource var:                   machine_keymap_file_list[0]
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -symkeymap
-platform gui present:           osx/windows/unix
+command-line:                   none
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl
 
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -symkeymap <Name>
-description:    "Specify name of symbolic keymap file"
-resource:       "KeymapSymFile"
-action:         N/A
+note: should not be set directly (see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps)
 
-c128/c128-resources.c:
-----------------------
+keyboard.c:
+--------------------
 resource type:                  string
 resource name:                  "KeymapPosFile"
 resource range:                 N/A
-resource default:               KBD_C128_POS
+resource default:               set at runtime
 resource function:              keyboard_set_keymap_file()
 resource var:                   machine_keymap_file_list[1]
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -poskeymap
-platform gui present:           osx/windows/unix
-platform gui missing:           amigaos/beos/dos/sdl
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -poskeymap <Name>
-description:    "Specify name of positional keymap file"
-resource:       "KeymapPosFile"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "KeymapIndex"
-resource range:                 0/1 (KBD_INDEX_C128_SYM (0), KBD_INDEX_C128_POS (1))
-resource default:               KBD_INDEX_C128_SYM
-resource function:              keyboard_set_keymap_index()
-resource var:                   machine_keymap_index
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -keymap
-platform gui present:           unix/windows
-platform range correct:
-platform range incorrect:
+command-line:                   none
+platform gui present:           windows
 platform gui missing:           amigaos/beos/dos/sdl/osx
 
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -keymap <number>
-description:    "Specify index of keymap file (0=symbol, 1=positional)"
-resource:       "KeymapIndex"
-action:         N/A
+note: should not be set directly (see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps)
 
-c64/c64-resources.c:
+keyboard.c:
 --------------------
 resource type:                  string
-resource name:                  "KeymapSymFile"
+resource name:                  "KeymapUserSymFile"
 resource range:                 N/A
-resource default:               KBD_C64_SYM_US
+resource default:               set at runtime
 resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[0]
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+resource var:                   machine_keymap_file_list[2]
+resource emulators:             x64/x64sc&xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platform gui present:           osx/windows/unix
-platform gui missing:           amigaos/beos/dos/sdl
+platform gui present:           windows/unix
+platform gui missing:           amigaos/beos/dos/sdl/osx
 
-c64/c64-cmdline-options.c:
+keyboard.c:
 --------------------------
 command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
-resource:       "KeymapSymFile"
+resource:       "KeymapUserSymFile"
 action:         N/A
 
-c64/c64-resources.c:
+keyboard.c:
 --------------------
 resource type:                  string
-resource name:                  "KeymapPosFile"
+resource name:                  "KeymapUserPosFile"
 resource range:                 N/A
-resource default:               KBD_C64_POS
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[1]
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -poskeymap
-platform gui present:           osx/unix
-platform gui missing:           amigaos/beos/dos/sdl/windows
-
-c64/c64-cmdline-options.c:
---------------------------
-command line:   -poskeymap <Name>
-description:    "Specify name of positional keymap file"
-resource:       "KeymapPosFile"
-action:         N/A
-
-c64/c64-resources.c:
---------------------
-resource type:                  string
-resource name:                  "KeymapSymDeFile"
-resource range:                 N/A
-resource default:               KBD_C64_SYM_DE
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[2]
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -symdekeymap
-platform gui present:           osx/unix
-platform gui missing:           amigaos/beos/dos/sdl/windows
-
-c64/c64-cmdline-options.c:
---------------------------
-command line:   -symdekeymap <Name>
-description:    "Specify name of symbolic German keymap file"
-resource:       "KeymapSymDeFile"
-action:         N/A
-
-c64/c64-resources.c:
---------------------
-resource type:                  int
-resource name:                  "KeymapIndex"
-resource range:                 0..2 (KBD_INDEX_C64_SYM (0), KBD_INDEX_C64_POS (1), KBD_INDEX_C64_SYMDE (2))
-resource default:               KBD_INDEX_C64_DEFAULT (arch specific)
-resource function:              keyboard_set_keymap_index()
-resource var:                   machine_keymap_index
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -keymap
-platform gui present:           sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:           amigaos/beos/dos
-
-c64/c64-cmdline-options.c:
---------------------------
-command line:   -keymap <number>
-description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
-resource:       "KeymapIndex"
-action:         N/A
-
-c64dtv/c64dtv-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "KeymapSymFile"
-resource range:                 N/A
-resource default:               KBD_C64_SYM_US
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[0]
-resource emulators:             x64dtv
-not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -symkeymap
-platform gui present:           osx/sdl/windows
-platform gui missing:           amigaos/beos/dos
-
-c64dtv/c64dtv-cmdline-options.c:
---------------------------------
-command line:   -symkeymap <Name>
-description:    "Specify name of symbolic keymap file"
-resource:       "KeymapSymFile"
-action:         N/A
-
-c64dtv/c64dtv-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "KeymapPosFile"
-resource range:                 N/A
-resource default:               KBD_C64_POS
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[1]
-resource emulators:             x64dtv
-not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -poskeymap
-platform gui present:           osx/sdl/unix/windows
-platform gui missing:           amigaos/beos/dos
-
-c64dtv/c64dtv-cmdline-options.c:
---------------------------------
-command line:   -poskeymap <Name>
-description:    "Specify name of positional keymap file"
-resource:       "KeymapPosFile"
-action:         N/A
-
-c64dtv/c64dtv-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "KeymapSymDeFile"
-resource range:                 N/A
-resource default:               KBD_C64_SYM_DE
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[2]
-resource emulators:             x64dtv
-not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -symdekeymap
-platform gui present:           osx/sdl/unix/windows
-platform gui missing:           amigaos/beos/dos
-
-c64dtv/c64dtv-cmdline-options.c:
---------------------------------
-command line:   -symdekeymap <Name>
-description:    "Specify name of symbolic German keymap file"
-resource:       "KeymapSymDeFile"
-action:         N/A
-
-c64dtv/c64dtv-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "KeymapIndex"
-resource range:                 0..2 (KBD_INDEX_C64_SYM (0), KBD_INDEX_C64_POS (1), KBD_INDEX_C64_SYMDE (2))
-resource default:               KBD_INDEX_C64_DEFAULT (arch specific)
-resource function:              keyboard_set_keymap_index()
-resource var:                   machine_keymap_index
-resource emulators:             x64dtv
-not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -keymap
-platform gui present:           osx/windows/unix
-platform range correct:
-platform range incorrect:
-platform gui missing:           amigaos/beos/dos/sdl
-
-c64dtv/c64dtv-cmdline-options.c:
---------------------------------
-command line:   -keymap <number>
-description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
-resource:       "KeymapIndex"
-action:         N/A
-
-cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
-cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
-----------------------------------------------------------------------
-resource type:                  string
-resource name:                  "KeymapBusinessUKSymFile"
-resource range:                 N/A
-resource default:               KBD_CBM2_SYM_UK
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[0]
-resource emulators:             xcbm2/xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -buksymkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-cbm2/cbm2-cmdline-options.c:
-----------------------------
-command line:   -buksymkeymap <Name>
-description:    "Specify name of UK business keyboard symbolic keymap file"
-resource:       "KeymapBusinessUKSymFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
-cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
-----------------------------------------------------------------------
-resource type:                  string
-resource name:                  "KeymapBusinessUKPosFile"
-resource range:                 N/A
-resource default:               KBD_CBM2_POS_UK
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[1]
-resource emulators:             xcbm2/xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -bukposkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-cbm2/cbm2-cmdline-options.c:
-----------------------------
-command line:   -bukposkeymap <Name>
-description:    "Specify name of UK business keyboard positional keymap file"
-resource:       "KeymapBusinessUKPosFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
-cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
-----------------------------------------------------------------------
-resource type:                  string
-resource name:                  "KeymapGraphicsSymFile"
-resource range:                 N/A
-resource default:               KBD_CBM2_SYM_GR
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[2]
-resource emulators:             xcbm2/xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -grsymkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-cbm2/cbm2-cmdline-options.c:
-----------------------------
-command line:   -grsymkeymap <Name>
-description:    "Specify name of graphics keyboard symbolic keymap file"
-resource:       "KeymapGraphicsSymFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
-cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
-----------------------------------------------------------------------
-resource type:                  string
-resource name:                  "KeymapGraphicsPosFile"
-resource range:                 N/A
-resource default:               KBD_CBM2_POS_GR
+resource default:               set at runtime
 resource function:              keyboard_set_keymap_file()
 resource var:                   machine_keymap_file_list[3]
-resource emulators:             xcbm2/xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -grposkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
+command-line:                   -poskeymap
+platform gui present:           unix/windows
+platform gui missing:           amigaos/beos/dos/sdl/osx
 
-cbm2/cbm2-cmdline-options.c:
-----------------------------
-command line:   -grposkeymap <Name>
-description:    "Specify name of graphics keyboard positional keymap file"
-resource:       "KeymapGraphicsPosFile"
+keyboard.c:
+--------------------------
+command line:   -poskeymap <Name>
+description:    "Specify name of positional keymap file"
+resource:       "KeymapUserPosFile"
 action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
-cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
-cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
-----------------------------------------------------------------------
-resource type:                  string
-resource name:                  "KeymapBusinessDESymFile"
-resource range:                 N/A
-resource default:               KBD_CBM2_SYM_DE
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[4]
-resource emulators:             xcbm2/xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -bdesymkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-cbm2/cbm2-cmdline-options.c:
-----------------------------
-command line:   -bdesymkeymap <Name>
-description:    "Specify name of German business keyboard symbolic keymap file"
-resource:       "KeymapBusinessDESymFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
-cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
-----------------------------------------------------------------------
-resource type:                  string
-resource name:                  "KeymapBusinessDEPosFile"
-resource range:                 N/A
-resource default:               KBD_CBM2_POS_DE
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[5]
-resource emulators:             xcbm2/xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -bdeposkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-cbm2/cbm2-cmdline-options.c:
-----------------------------
-command line:   -bdeposkeymap <Name>
-description:    "Specify name of German business keyboard positional keymap file"
-resource:       "KeymapBusinessDEPosFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
-cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
-----------------------------------------------------------------------
+keyboard.c:
+--------------------
 resource type:                  int
 resource name:                  "KeymapIndex"
-resource range:                 0..5 (KBD_INDEX_CBM2_BUKS (0), KBD_INDEX_CBM2_BUKP (1), KBD_INDEX_CBM2_BGRS (2), KBD_INDEX_CBM2_BGRP (3),
-                                        KBD_INDEX_CBM2_BDES (4), KBD_INDEX_CBM2_BDEP (5))
-resource default:               KBD_INDEX_CBM2_DEFAULT (arch specific)
+resource range:                 0..3 (KBD_INDEX_SYM (0), KBD_INDEX_POS (1), KBD_INDEX_USERSYM (2), KBD_INDEX_USERPOS (3))
+resource default:               KBD_INDEX_SYM
 resource function:              keyboard_set_keymap_index()
 resource var:                   machine_keymap_index
-resource emulators:             xcbm2/xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
-platform gui present:           windows/unix
-platform range correct:
-platform range incorrect:
-platform gui missing:           amigaos/beos/dos/sdl/osx
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
+platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
+platform gui missing:           sdl/amigaos/beos/dos/osx/windows
 
-cbm2/cbm2-cmdline-options.c:
-----------------------------
+keyboard.c:
+--------------------------
 command line:   -keymap <number>
-description:    "Specify index of keymap file (0: UK business symbolic, 1: UK business positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic, 5: German business positional)"
+description:    "Specify index of keymap file (0: symbolic 1: positional 2: symbolic (user) 3: positional (user)"
 resource:       "KeymapIndex"
 action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
+
+keyboard.c:
+--------------------
+resource type:                  int
+resource name:                  "KeyboardMapping"
+resource range:                 0..6  (0: American 1: British 2: German 3: Danish 4: Norwegian 5: Finnish 6: Italian)
+resource default:               set at runtime
+resource function:              keyboard_set_keyboard_mapping()
+resource var:                   machine_keyboard_mapping
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:                    #ifdef COMMON_KBD
+command-line:                   -keyboardmapping
+platform gui present:           unix
+platform range correct:
+platform range incorrect:
+platform gui missing:           amigaos/beos/dos/sdl/osx/windows
+
+keyboard.c:
+--------------------------
+command line:   -keyboardmapping <number>
+description:    "Specify host keyboard layout (0: American 1: British 2: German 3: Danish 4: Norwegian 5: Finnish 6: Italian)"
+resource:       "KeyboardMapping"
+action:         N/A
+
+FIXME: generate description at runtime (see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps)
+
+keyboard.c:
+--------------------
+resource type:                  int
+resource name:                  "KeyboardType"
+resource range:                 0..
+resource default:               depends on machine type/model
+resource function:              keyboard_set_keyboard_type()
+resource var:                   machine_keyboard_type
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:                    #ifdef COMMON_KBD
+command-line:                   -keyboardtype
+platform gui present:           unix
+platform range correct:
+platform range incorrect:
+platform gui missing:           amigaos/beos/dos/sdl/osx/windows
+
+keyboard.c:
+--------------------------
+command line:   -keyboardtype <number>
+description:    "Specify emulated keyboard type"
+resource:       "KeyboardType"
+action:         N/A
+
+FIXME: generate description at runtime (see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps)
 
 joystick.c:
 -----------
@@ -19958,7 +19683,7 @@ not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keyset / +keyset
 platform gui present:           amigaos/dos/sdl/unix/osx/windows
-platform gui missing:			beos
+platform gui missing:           beos
 
 joystick.c:
 -----------
@@ -19972,403 +19697,6 @@ joystick.c:
 command line:   +keyset
 description:    "Disable keyset"
 resource:       "KeySetEnable" (set to 0)
-action:         N/A
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "KeymapBusinessUKSymFile"
-resource range:                 N/A
-resource default:               KBD_PET_SYM_UK
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[0]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -buksymkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -buksymkeymap <Name>
-description:    "Specify name of UK business keyboard symbolic keymap file"
-resource:       "KeymapBusinessUKSymFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "KeymapBusinessUKPosFile"
-resource range:                 N/A
-resource default:               KBD_PET_POS_UK
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[1]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -bukposkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -bukposkeymap <Name>
-description:    "Specify name of UK business keyboard positional keymap file"
-resource:       "KeymapBusinessUKPosFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "KeymapGraphicsSymFile"
-resource range:                 N/A
-resource default:               KBD_PET_SYM_GR
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[2]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -grsymkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -grsymkeymap <Name>
-description:    "Specify name of graphics keyboard symbolic keymap file"
-resource:       "KeymapGraphicsSymFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "KeymapGraphicsPosFile"
-resource range:                 N/A
-resource default:               KBD_PET_POS_GR
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[3]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -grposkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -grposkeymap <Name>
-description:    "Specify name of graphics keyboard positional keymap file"
-resource:       "KeymapGraphicsPosFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "KeymapBusinessDESymFile"
-resource range:                 N/A
-resource default:               KBD_PET_SYM_DE
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[4]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -bdesymkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -bdesymkeymap <Name>
-description:    "Specify name of German business keyboard symbolic keymap file"
-resource:       "KeymapBusinessDESymFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "KeymapBusinessDEPosFile"
-resource range:                 N/A
-resource default:               KBD_PET_POS_DE
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[5]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -bdeposkeymap
-platform gui present:           osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -bdeposkeymap <Name>
-description:    "Specify name of German business keyboard positional keymap file"
-resource:       "KeymapBusinessDEPosFile"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-resources.c:
---------------------
-resource type:                  int
-resource name:                  "KeymapIndex"
-resource range:                 0..5 (KBD_INDEX_PET_BUKS (0), KBD_INDEX_PET_BUKP (1), KBD_INDEX_PET_BGRS (2), KBD_INDEX_PET_BGRP (3),
-                                        KBD_INDEX_PET_BDES (4), KBD_INDEX_PET_BDEP (5))
-resource default:               KBD_INDEX_PET_BUKS (0)
-resource function:              keyboard_set_keymap_index()
-resource var:                   machine_keymap_index
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -keymap
-platform gui present:           amigaos/beos/dos/sdl/unix/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:           osx
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -keymap <number>
-description:    "Specify index of keymap file (0: UK business symbolic, 1: UK business positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic, 5: German business positional)"
-resource:       "KeymapIndex"
-action:         N/A
-note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
-plus4/plus4-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "KeymapSymFile"
-resource range:                 N/A
-resource default:               KBD_PLUS4_SYM
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[0]
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -symkeymap
-platform gui present:           unix/osx/windows
-platform gui missing:           amigaos/beos/dos/sdl
-
-plus4/plus4-cmdline-options.c:
-------------------------------
-command line:   -symkeymap <Name>
-description:    "Specify name of symbolic keymap file"
-resource:       "KeymapSymFile"
-action:         N/A
-
-plus4/plus4-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "KeymapPosFile"
-resource range:                 N/A
-resource default:               KBD_PLUS4_POS
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[1]
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -poskeymap
-platform gui present:           unix/osx/windows
-platform gui missing:           amigaos/beos/dos/sdl
-
-plus4/plus4-cmdline-options.c:
-------------------------------
-command line:   -poskeymap <Name>
-description:    "Specify name of positional keymap file"
-resource:       "KeymapPosFile"
-action:         N/A
-
-plus4/plus4-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "KeymapIndex"
-resource range:                 0..1 (KBD_INDEX_PLUS4_SYM (0), KBD_INDEX_PLUS4_POS (1))
-resource default:               KBD_INDEX_PLUS4_DEFAULT
-resource function:              keyboard_set_keymap_index()
-resource var:                   machine_keymap_index
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -keymap
-platform gui present:           beos/unix/windows
-platform range correct:
-platform range incorrect:
-platform gui missing:           amigaos/dos/sdl/osx
-
-plus4/plus4-cmdline-options.c:
-------------------------------
-command line:   -keymap <number>
-description:    "Specify index of keymap file (0=symbol, 1=positional)"
-resource:       "KeymapIndex"
-action:         N/A
-
-scpu64/scpu64-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "KeymapSymFile"
-resource range:                 N/A
-resource default:               KBD_C64_SYM_US
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[0]
-resource emulators:             xscpu64
-not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -symkeymap
-platform gui present:           unix/osx/windows
-platform gui missing:           amigaos/beos/dos/sdl
-
-scpu64/scpu64-cmdline-options.c:
---------------------------------
-command line:   -symkeymap <Name>
-description:    "Specify name of symbolic keymap file"
-resource:       "KeymapSymFile"
-action:         N/A
-
-scpu64/scpu64-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "KeymapPosFile"
-resource range:                 N/A
-resource default:               KBD_C64_POS
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[1]
-resource emulators:             xscpu64
-not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -poskeymap
-platform gui present:           unix/osx/windows
-platform gui missing:           amigaos/beos/dos/sdl
-
-scpu64/scpu64-cmdline-options.c:
---------------------------------
-command line:   -poskeymap <Name>
-description:    "Specify name of positional keymap file"
-resource:       "KeymapPosFile"
-action:         N/A
-
-scpu64/scpu64-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "KeymapSymDeFile"
-resource range:                 N/A
-resource default:               KBD_C64_SYM_DE
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[2]
-resource emulators:             xscpu64
-not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -poskeymap
-platform gui present:           unix/osx/windows
-platform gui missing:           amigaos/beos/dos/sdl
-
-scpu64/scpu64-cmdline-options.c:
---------------------------------
-command line:   -symdekeymap <Name>
-description:    "Specify name of symbolic German keymap file"
-resource:       "KeymapSymDeFile"
-action:         N/A
-
-scpu64/scpu64-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "KeymapIndex"
-resource range:                 0..2 (KBD_INDEX_C64_SYM (0), KBD_INDEX_C64_POS (1), KBD_INDEX_C64_SYMDE (2))
-resource default:               KBD_INDEX_C64_DEFAULT
-resource function:              keyboard_set_keymap_index()
-resource var:                   machine_keymap_index
-resource emulators:             xscpu64
-not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -keymap
-platform gui present:           unix/osx/windows
-platform range correct:
-platform range incorrect:
-platform gui missing:           amigaos/beos/dos/sdl
-
-scpu64/scpu64-cmdline-options.c:
---------------------------------
-command line:   -keymap <number>
-description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
-resource:       "KeymapIndex"
-action:         N/A
-
-vic20/vic20-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "KeymapSymFile"
-resource range:                 N/A
-resource default:               KBD_VIC20_SYM
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[0]
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -symkeymap
-platform gui present:			osx/windows/unix
-platform gui missing:           amigaos/beos/dos/sdl
-
-vic20/vic20-cmdline-options.c:
-------------------------------
-command line:   -symkeymap <Name>
-description:    "Specify name of symbolic keymap file"
-resource:       "KeymapSymFile"
-action:         N/A
-
-vic20/vic20-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "KeymapPosFile"
-resource range:                 N/A
-resource default:               KBD_VIC20_POS
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[1]
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -symkeymap
-platform gui present:           osx/windows/unix
-platform gui missing:           amigaos/beos/dos/sdl
-
-vic20/vic20-cmdline-options.c:
-------------------------------
-command line:   -poskeymap <Name>
-description:    "Specify name of positional keymap file"
-resource:       "KeymapPosFile"
-action:         N/A
-
-vic20/vic20-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "KeymapIndex"
-resource range:                 0..1
-resource default:               KBD_INDEX_VIC20_DEFAULT
-resource function:              keyboard_set_keymap_index()
-resource var:                   machine_keymap_index
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -keymap
-platform gui present:           unix/windows
-platform range correct:
-platform range incorrect:
-platform gui missing:           amigaos/dos/beos/sdl/osx
-
-vic20/vic20-cmdline-options.c:
-------------------------------
-command line:   -keymap <number>
-description:    "Specify index of keymap file (0=symbol, 1=positional)"
-resource:       "KeymapIndex"
 action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -22409,12 +21737,16 @@ platform gui missing:
 fixme: default vkm does not exist
 fixme: add to documentation
 
+FIXME: remove
+
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -buksymkeymap <name>
 description:    "Specify the name of the UK business keyboard symbolic keymap file"
 resource:       "KeymapBusinessUKSymFile"
 action:         N/A
+
+FIXME: remove
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -22433,6 +21765,8 @@ platform gui missing:
 fixme: default vkm does not exist
 fixme: add to documentation
 
+FIXME: remove
+
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -bukposkeymap <name>
@@ -22440,6 +21774,8 @@ description:    "Specify the name of the UK business keyboard positional keymap 
 resource:       "KeymapBusinessUKPosFile"
 action:         N/A
 fixme: fix documentation
+
+FIXME: remove
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -22458,12 +21794,16 @@ platform gui missing:
 fixme: default vkm does not exist
 fixme: add to documentation
 
+FIXME: remove
+
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -grsymkeymap <name>
 description:    "Specify the name of the graphics keyboard symbolic keymap file"
 resource:       "KeymapGraphicsSymFile"
 action:         N/A
+
+FIXME: remove
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -22482,6 +21822,8 @@ platform gui missing:
 fixme: default vkm does not exist
 fixme: add to documentation
 
+FIXME: remove
+
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -grposkeymap <name>
@@ -22489,6 +21831,8 @@ description:    "Specify the name of the graphics keyboard positional keymap fil
 resource:       "KeymapGraphicsPosFile"
 action:         N/A
 fixme: fix documentation
+
+FIXME: remove
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -22507,12 +21851,16 @@ platform gui missing:
 fixme: default vkm does not exist
 fixme: add to documentation
 
+FIXME: remove
+
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -bdesymkeymap <name>
 description:    "Specify the name of the German business keyboard symbolic keymap file"
 resource:       "KeymapBusinessDESymFile"
 action:         N/A
+
+FIXME: remove
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -22531,6 +21879,8 @@ platform gui missing:
 fixme: default vkm does not exist
 fixme: add to documentation
 
+FIXME: remove
+
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -bdeposkeymap <name>
@@ -22538,6 +21888,8 @@ description:    "Specify the name of the German business keyboard positional key
 resource:       "KeymapBusinessDEPosFile"
 action:         N/A
 fixme: fix documentation
+
+FIXME: remove
 
 arch/os2/kbd/kmap.c:
 --------------------
