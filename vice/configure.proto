@@ -1180,7 +1180,9 @@ if test x"$with_resid" = "xno"; then
   dnl macro is used.
   dnl Another workaround must be found if other self-contained packages go
   dnl into VICE.
-  no_recursion=yes
+  if test x"$enable_shared_ffmpeg" != "xyes" -a x"$enable_static_ffmpeg" != "xyes"; then
+    no_recursion=yes
+  fi
   dnl A workaround for an autoconf bug when not using/checking the C++
   dnl compiler, we'll define am__fastdepCXX_TRUE as #
   am__fastdepCXX_TRUE=#
