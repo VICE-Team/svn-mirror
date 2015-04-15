@@ -675,10 +675,12 @@ int ide64_resources_shutdown(void)
         drives[i].filename = NULL;
     }
 
+#ifdef HAVE_NETWORK
     if (settings_usbserver_address) {
         lib_free(settings_usbserver_address);
         settings_usbserver_address = NULL;
     }
+#endif
 
     return 0;
 }
