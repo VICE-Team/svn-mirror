@@ -44,7 +44,7 @@
 #include "ui.h"
 #include "uiburstmod.h"
 #include "uic64cart.h"
-#include "uic64memoryhacks.h
+#include "uic64memoryhacks.h"
 #include "uic64model.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
