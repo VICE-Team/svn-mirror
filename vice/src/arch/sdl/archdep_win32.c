@@ -602,6 +602,7 @@ int archdep_file_is_chardev(const char *name)
     return 0;
 }
 
+#ifdef SDL_CHOOSE_DRIVES
 char **archdep_list_drives(void)
 {
     DWORD bits, mask;
@@ -646,6 +647,7 @@ void archdep_set_current_drive(const char *drive)
 {
     _chdir(drive);
 }
+#endif
 
 int archdep_require_vkbd(void)
 {
