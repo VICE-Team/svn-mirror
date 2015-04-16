@@ -58,7 +58,7 @@ void av_register_all(void)
 
     avcodec_register_all();
 
-#if (_MSC_VER < 1600)
+#if defined(_MSC_VER) && (_MSC_VER < 1600)
     /* muxers */
 #if (CONFIG_A64_MUXER == 1)
     REGISTER_MUXER   (A64,              a64);
