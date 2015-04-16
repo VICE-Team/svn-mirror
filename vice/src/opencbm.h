@@ -113,7 +113,7 @@ typedef int intptr_t;
 #endif
 
 /* On Macs we need to define the __u_char */
-#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined (__DragonflyBSD__)
+#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined (__DragonflyBSD__)
 typedef unsigned char __u_char;
 #endif
 
