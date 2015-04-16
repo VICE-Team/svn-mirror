@@ -27,9 +27,20 @@
 #ifndef PLATFORM_X86_GCC_CPUID_H
 #define PLATFORM_X86_GCC_CPUID_H
 
+#ifdef __PIC__
+#define cpuid(func, ax, bx, cx, dx)                                    \
+    __asm__ __volatile__ ("pushl %%ebx\n\t"                            \
+                          ".byte 15; .byte 162\n\t"                    \
+                          "movl %%ebx, %1\n\t"                         \
+                          "popl %%ebx\n\t"                             \
+                          : "=a" (ax), "=r" (bx), "=c" (cx), "=d" (dx) \
+                          : "a" (func)                                 \
+                          : "cc")
+#else
 #define cpuid(func, ax, bx, cx, dx) \
     __asm__ __volatile__ (".byte 15;.byte 162":  \
-    "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (func))
+    "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (func): "cc")
+#endif
 
 inline static int has_cpuid(void)
 {
