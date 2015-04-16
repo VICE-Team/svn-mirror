@@ -401,7 +401,19 @@ static int set_sample_rate(int val, void *param)
 
 static int set_device_name(const char *val, void *param)
 {
-    util_string_set(&device_name, val);
+    if (!val || val[0] == '\0') {
+        /* Use the default sound device */
+#ifdef BEOS_COMPILE
+        if (CheckForHaiku()) {
+            util_string_set(&device_name, "bsp");
+        } else
+#endif
+        {
+            util_string_set(&device_name, sound_register_devices[0].name);
+        }
+    } else {
+        util_string_set(&device_name, val);
+    }
     sound_state_changed = TRUE;
     return 0;
 }
@@ -758,24 +770,17 @@ typedef struct {
 static snddata_t snddata;
 
 /* device registration code */
-static sound_device_t *sound_devices[32];
+#define MAX_SOUND_DEVICES 24
 
-static char *devlist;
+static sound_device_t *sound_devices[MAX_SOUND_DEVICES];
+
+static int sound_device_count = 0;
 
 int sound_register_device(sound_device_t *pdevice)
 {
-    const int max = sizeof(sound_devices) / sizeof(sound_devices[0]);
-    int i;
-    char *tmplist;
-
-    for (i = 0; sound_devices[i] && i < max; i++) {
-    }
-
-    if (i < max) {
-        sound_devices[i] = pdevice;
-        tmplist = lib_msprintf("%s %s", devlist, pdevice->name);
-        lib_free(devlist);
-        devlist = tmplist;
+    if (sound_device_count < MAX_SOUND_DEVICES) {
+        sound_devices[sound_device_count] = pdevice;
+        sound_device_count++;
     } else {
         log_error(sound_log, "available sound devices exceed VICEs storage");
     }
@@ -785,13 +790,7 @@ int sound_register_device(sound_device_t *pdevice)
 
 unsigned int sound_device_num(void)
 {
-    const unsigned int max = sizeof(sound_devices) / sizeof(sound_devices[0]);
-    unsigned int i;
-
-    for (i = 0; sound_devices[i] && i < max; i++) {
-    }
-
-    return i;
+    return sound_device_count;
 }
 
 const char *sound_device_name(unsigned int num)
@@ -1594,6 +1593,7 @@ void sound_set_machine_parameter(long clock_rate, long ticks_per_frame)
 /* initialize sid at program start -time */
 void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 {
+    char *devlist, *tmplist;
     int i;
 
     sound_log = log_open("Sound");
@@ -1612,22 +1612,14 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
     for (i = 0; sound_register_devices[i].name; i++) {
         sound_register_devices[i].init();
+        tmplist = lib_msprintf("%s %s", devlist, sound_devices[i]->name);
+        lib_free(devlist);
+        devlist = tmplist;
     }
 
     log_message(sound_log, "Available sound devices:%s", devlist);
-    lib_free(devlist);
 
-    if (!device_name || device_name[0] == '\0') {
-#ifdef BEOS_COMPILE
-        /* Don't use beos sound device as default for Haiku */
-        if (CheckForHaiku()) {
-            util_string_set(&device_name, "bsp");
-        } else
-#endif
-        {
-            util_string_set(&device_name, sound_devices[0]->name);
-        }
-    }
+    lib_free(devlist);
 }
 
 long sound_sample_position(void)
