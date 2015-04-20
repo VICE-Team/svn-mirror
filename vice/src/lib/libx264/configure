@@ -417,6 +417,9 @@ for opt do
             CFLAGS="$CFLAGS --sysroot=$optarg"
             LDFLAGS="$LDFLAGS --sysroot=$optarg"
             ;;
+        --compiler=*)
+            CC="$optarg"
+            ;;
         --bit-depth=*)
             bit_depth="$optarg"
             if [ "$bit_depth" -lt "8" -o "$bit_depth" -gt "10" ]; then
