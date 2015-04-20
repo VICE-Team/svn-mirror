@@ -25,6 +25,11 @@
 
 #include "libavutil/x86/asm.h"
 
+#ifdef __clang__
+#undef HAVE_6REGS
+#define HAVE_6REGS 0
+#endif
+
 /* A single TEMPLATE_PP_* should be defined (to 1) when this template is
  * included. The following macros will define its dependencies to 1 as well
  * (like MMX2 depending on MMX), and will define to 0 all the others. Every
