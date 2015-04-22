@@ -139,12 +139,12 @@ void ui_dispatch_next_event(void)
     struct locnet_al_event event;
 
     if (Android_PollEvent(&event)) {
-#else		
+#else
     SDL_Event e;
 
     if (SDL_PollEvent(&e)) {
         ui_handle_misc_sdl_event(e);
-#endif	
+#endif
     } else {
         /* Add a small delay to not hog the host CPU when remote
            monitor is being used. */
@@ -183,7 +183,7 @@ ui_menu_action_t ui_dispatch_events(void)
     if (loadf->frameskip) {
         int value = loadf->frameskip;
 
-        loadf->frameskip = 0;		
+        loadf->frameskip = 0;
         resources_set_int("RefreshRate", ((value > 0) && (value <= 10)) ? (value + 1) : 1);
     }
     if (loadf->abort) {
@@ -509,8 +509,16 @@ static int set_confirm_on_exit(int val, void *param)
     return 0;
 }
 
+#ifdef __sortix__
+#define DEFAULT_MENU_KEY SDLK_END
+#endif
+
+#ifndef DEFAULT_MENU_KEY
+#define DEFAULT_MENU_KEY SDLK_F12
+#endif
+
 static const resource_int_t resources_int[] = {
-    { "MenuKey", SDLK_F12, RES_EVENT_NO, NULL,
+    { "MenuKey", DEFAULT_MENU_KEY, RES_EVENT_NO, NULL,
       &sdl_ui_menukeys[0], set_ui_menukey, (void *)MENU_ACTION_NONE },
     { "MenuKeyUp", SDLK_UP, RES_EVENT_NO, NULL,
       &sdl_ui_menukeys[1], set_ui_menukey, (void *)MENU_ACTION_UP },

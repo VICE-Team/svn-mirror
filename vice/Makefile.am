@@ -22,6 +22,7 @@ COMMON_EXTRA_DIST = \
 	INSTALL \
 	NEWS \
 	gcccpu.sh \
+	tixbuildinfo \
 	vice.spec \
 	vice.spec.in \
 	vice-gtk.spec \
