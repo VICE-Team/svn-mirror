@@ -27,6 +27,7 @@ libplatform_a_SOURCES = \
 	platform_macosx.c \
 	platform_macosx.h \
 	platform_minix_runtime_os.c \
+	platform_netbsd_runtime_os.c \
 	platform_netbsd_version.h \
 	platform_nextopenstep_runtime_os.c \
 	platform_openbsd_version.h \
