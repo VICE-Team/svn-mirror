@@ -27,6 +27,7 @@
 /* Tested and confirmed working on:
    cpu | netbsd version
    --------------------
+   x86 | 6.1.5
  */
 
 #include "vice.h"
