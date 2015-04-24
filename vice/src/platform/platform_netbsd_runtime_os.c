@@ -34,6 +34,7 @@
 #ifdef __NetBSD__
 
 #include <stdio.h>
+#include <sys/utsname.h>
 
 #include "archdep.h"
 #include "lib.h"
@@ -46,7 +47,7 @@ static char netbsd_cpu[100];
 static int got_netbsd_version = 0;
 static int got_netbsd_cpu = 0;
 
-char *platform_get_linux_runtime_cpu(void)
+char *platform_get_netbsd_runtime_cpu(void)
 {
     FILE *cpuinfo = NULL;
     char *buffer = NULL;
@@ -54,7 +55,7 @@ char *platform_get_linux_runtime_cpu(void)
     char *loc2 = NULL;
     char *loc3 = NULL;
     char *tempfile = NULL;
-    char *tempsystem = NULL;
+    char tempsystem[512];
     size_t size1 = 0;
     size_t size2 = 0;
     struct utsname name;
@@ -66,7 +67,7 @@ char *platform_get_linux_runtime_cpu(void)
             fclose(cpuinfo);
             cpuinfo = NULL;
             tempfile = archdep_tmpnam();
-            tempsystem = util_concat("cp /proc/cpuinfo ", tempfile, NULL);
+            sprintf(tempsystem, "cat /proc/cpuinfo >%s", tempfile);
             if (system(tempsystem) < 0) {
                 log_warning(LOG_ERR, "`%s' failed.", tempsystem);
             }
@@ -99,7 +100,6 @@ char *platform_get_linux_runtime_cpu(void)
             fclose(cpuinfo);
             unlink(tempfile);
             lib_free(tempfile);
-            lib_free(tempsystem);
             if (buffer) {
                 free(buffer);
             }
@@ -119,7 +119,7 @@ char *platform_get_linux_runtime_cpu(void)
     return netbsd_cpu;
 }
 
-char *platform_get_linux_runtime_os(void)
+char *platform_get_netbsd_runtime_os(void)
 {
     struct utsname name;
 

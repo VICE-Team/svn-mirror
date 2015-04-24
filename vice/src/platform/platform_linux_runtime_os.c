@@ -117,6 +117,7 @@
    x86          | openserver (lxrun)
    x86          | unixware (LKP)
    x86          | solaris (lxrun)
+   x86          | netbsd (emulation layer)
  */
 
 #include "vice.h"
@@ -165,7 +166,7 @@ char *platform_get_linux_runtime_cpu(void)
             fclose(cpuinfo);
             cpuinfo = NULL;
             tempfile = archdep_tmpnam();
-            tempsystem = util_concat("cp /proc/cpuinfo ", tempfile, NULL);
+            tempsystem = util_concat("cat /proc/cpuinfo >", tempfile, NULL);
             if (system(tempsystem) < 0) {
 		log_warning(LOG_ERR, "`%s' failed.", tempsystem);
 	    }
@@ -245,20 +246,44 @@ char *platform_get_linux_runtime_cpu(void)
 char *platform_get_linux_runtime_os(void)
 {
     struct utsname name;
+    FILE *bsd_emul_test;
+    int is_bsd = 0;
 
     if (!got_linux_version) {
-        uname(&name);
-
-        if (!strcasecmp(name.sysname, "SCO_SV")) {
-            if (name.version[0] == '5' || name.version[0] == '6') {
-                sprintf(linux_version, "lxrun openserver %s", name.version);
-            } else if (name.version[0] == '7') {
-                sprintf(linux_version, "lxrun unixware %s", name.version);
-            } else {
-                sprintf(linux_version, "lxrun sco");
+        unlink("emultest.sh");
+        bsd_emul_test = fopen("emultest.sh", "wb");
+        if (bsd_emul_test) {
+            unlink("emultest.result");
+            fprintf(bsd_emul_test, "#!/bin/sh\n");
+            fprintf(bsd_emul_test, "if test -f /proc/self/emul; then\n");
+            fprintf(bsd_emul_test, "  echo emulation >emultest.result\n");
+            fprintf(bsd_emul_test, "fi\n");
+            fclose(bsd_emul_test);
+            system("sh ./emultest.sh");
+            unlink("emultest.sh");
+            bsd_emul_test = fopen("emultest.result", "rb");
+            if (bsd_emul_test) {
+                sprintf(linux_version, "NetBSD");
+                fclose(bsd_emul_test);
+                unlink("emultest.result");
+                is_bsd = 1;
             }
-        } else {
-            sprintf(linux_version, "%s %s", name.sysname, name.release);
+        }
+
+        if (!is_bsd) {
+            uname(&name);
+
+            if (!strcasecmp(name.sysname, "SCO_SV")) {
+                if (name.version[0] == '5' || name.version[0] == '6') {
+                    sprintf(linux_version, "lxrun openserver %s", name.version);
+                } else if (name.version[0] == '7') {
+                    sprintf(linux_version, "lxrun unixware %s", name.version);
+                } else {
+                    sprintf(linux_version, "lxrun sco");
+                }
+            } else {
+                sprintf(linux_version, "%s %s", name.sysname, name.release);
+            }
         }
 
 #ifdef WATCOM_COMPILE
