@@ -25,6 +25,9 @@
  *
  */
 
+/* undefine to use printf instead of OutputDebugString */
+/* #define DEBUGTOCONSOLE */
+
 #include "vice.h"
 
 #include <stdarg.h>
@@ -92,6 +95,11 @@
 #define _spawnvp spawnvp
 #endif
 
+#ifdef DEBUGTOCONSOLE
+#undef OutputDebugString
+#define OutputDebugString printf
+#endif
+
 static char *orig_workdir;
 static char *argv0;
 
@@ -120,6 +128,8 @@ int archdep_init(int *argc, char **argv)
     argv0 = lib_stralloc(argv[0]);
 
     orig_workdir = getcwd(NULL, MAX_PATH);
+
+    log_verbose_init(*argc, argv);
 
     return 0;
 }

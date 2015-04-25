@@ -1191,7 +1191,7 @@ int machine_num_keyboard_mappings(void)
 static int machine_keyboard_mapping = 0;
 static int machine_keyboard_type = 0;
 
-static int try_set_keymap_file(int idx, int mapping, int type);
+static int try_set_keymap_file(int atidx, int idx, int mapping, int type);
 static int switch_keymap_file(int *idxp, int *mapp, int *typep);
 
 /* (re)load keymap at index */
@@ -1384,7 +1384,7 @@ static char *keyboard_get_mapping_name(int mapping)
     return kbdinfo[mapping].mapping_name;
 }
 
-static int try_set_keymap_file(int idx, int mapping, int type)
+static int try_set_keymap_file(int atidx, int idx, int mapping, int type)
 {
     char *sympos[2] = { "sym", "pos"};
     char *mapname;
@@ -1414,7 +1414,7 @@ static int try_set_keymap_file(int idx, int mapping, int type)
                 KBD_PORT_PREFIX, tstr ? tstr : "-", idx, mapping,
                 idx ? "KeymapPosFile" : "KeymapSymFile", name));
 
-    util_string_set(&machine_keymap_file_list[idx], name);
+    util_string_set(&machine_keymap_file_list[atidx], name);
 
     DBG(("try_set_keymap_file calls sysfile_locate(%s)\n", name));
     if (sysfile_locate(name, &complete_path) != 0) {
@@ -1432,23 +1432,24 @@ static int switch_keymap_file(int *idxp, int *mapp, int *typep)
     int type = *typep;
     int mapping = *mapp;
     int idx = *idxp;
+    int atidx = *idxp;
 
     DBG((">switch_keymap_file idx %d mapping %d type %d\n", *idxp, *mapp, *typep));
-    if(try_set_keymap_file(idx, mapping, type) >= 0) {
+    if(try_set_keymap_file(atidx, idx, mapping, type) >= 0) {
         goto ok;
     }
     /* if a positional map was not found, we cant really do any better
        than trying a symbolic map for the same keyboard instead */
     if (idx != KBD_INDEX_SYM) {
         idx = KBD_INDEX_SYM;
-        if(try_set_keymap_file(idx, mapping, type) >= 0) {
+        if(try_set_keymap_file(atidx, idx, mapping, type) >= 0) {
             goto ok;
         }
     }
     /*  as last resort, always use <port>_sym.vkm (which MUST exist)  */
     /* type = -1; */ /* FIXME: use default type? */
     mapping = KBD_MAPPING_US;
-    if(try_set_keymap_file(idx, mapping, -1) >= 0) {
+    if(try_set_keymap_file(atidx, idx, mapping, -1) >= 0) {
         type = 0; /* FIXME */
         goto ok;
     }
@@ -1463,14 +1464,15 @@ ok:
     return 0;
 }
 
+/* called by keyboard_resources_init to create the default keymap(s) */
 static int keyboard_set_default_keymap_file(int idx)
 {
     int mapping = 0;
     int type = 0;
 
-    DBG(("keyboard_set_default_keymap_file(%d)\n", idx));
+    DBG((">keyboard_set_default_keymap_file(%d)\n", idx));
 
-    if (idx > 1) {
+    if ((idx != KBD_INDEX_SYM) && (idx != KBD_INDEX_POS)) {
         return -1;
     }
     if (resources_get_int("KeyboardMapping", &mapping) < 0) {
@@ -1482,6 +1484,7 @@ static int keyboard_set_default_keymap_file(int idx)
 
     if(switch_keymap_file(&idx, &mapping, &type) < 0) {
         /* return -1; */
+        DBG(("<keyboard_set_default_keymap_file(FAILURE: idx: %d type: %d mapping: %d)\n", idx, type, mapping));
         return 0; /* always return success to allow starting up without valid keymap */
     }
 
@@ -1489,7 +1492,8 @@ static int keyboard_set_default_keymap_file(int idx)
     machine_keyboard_type = type;
     machine_keyboard_mapping = mapping;
 
-    return 0; /* always return success to allow starting up without valid keymap */
+    DBG(("<keyboard_set_default_keymap_file(OK: idx: %d type: %d mapping: %d)\n", idx, type, mapping));
+    return 0; /* success */
 }
 
 /*--------------------------------------------------------------------------*/

@@ -24,6 +24,8 @@
  *
  */
 
+#define DBGLOGGING
+
 #include "vice.h"
 
 #include <stdarg.h>
@@ -39,6 +41,11 @@
 #include "translate.h"
 #include "util.h"
 
+#ifdef DBGLOGGING
+#define DBG(x) printf
+#else
+#define DBG(x)
+#endif
 
 static FILE *log_file = NULL;
 
@@ -105,9 +112,14 @@ int log_set_verbose(int n)
 
 int log_verbose_init(int argc, char **argv)
 {
+    int i;
+    DBG(("log_verbose_init: %d %s\n", argc, argv[0]));
     if (argc > 1) {
-        if (!strcmp("-verbose", argv[1])) {
-            log_set_verbose(1);
+        for (i = 1; i < argc; i++) {
+            DBG(("log_verbose_init: %d %s\n", i, argv[i]));
+            if (!strcmp("-verbose", argv[i])) {
+                log_set_verbose(1);
+            }
         }
     }
     return 0;
@@ -187,7 +199,7 @@ int log_init(void)
 
     log_file_open();
 
-    return log_file == NULL ? -1 : 0;
+    return (log_file == NULL) ? -1 : 0;
 }
 
 log_t log_open(const char *id)

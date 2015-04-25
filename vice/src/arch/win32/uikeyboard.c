@@ -85,11 +85,13 @@ static int mapping_index_get(void)
 
 static void enable_mapping_controls(HWND hwnd, int idc_index)
 {
-    int i;
+    int i, enable;
 
     for (i = 0; i < uikeyboard_mapping_num; i++) {
-        EnableWindow(GetDlgItem(hwnd, mapping_entry[i].idc_filename), idc_index == mapping_entry[i].idc_select);
-        EnableWindow(GetDlgItem(hwnd, mapping_entry[i].idc_browse), idc_index == mapping_entry[i].idc_select);
+        /* FIXME: workaround to disallow manual selection of the first two keymaps (see devlog) */
+        enable = (i > 1) && (idc_index == mapping_entry[i].idc_select);
+        EnableWindow(GetDlgItem(hwnd, mapping_entry[i].idc_filename), enable);
+        EnableWindow(GetDlgItem(hwnd, mapping_entry[i].idc_browse), enable);
     }
 }
 
