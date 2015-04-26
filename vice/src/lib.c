@@ -575,6 +575,7 @@ void *lib_malloc(size_t size)
 
 #ifndef __OS2__
     if (ptr == NULL && size > 0) {
+        fprintf(stderr, "error: lib_malloc failed\n");
         exit(-1);
     }
 #endif
@@ -608,6 +609,7 @@ void *lib_AllocVec(unsigned long size, unsigned long attributes)
 
 #ifndef __OS2__
     if (ptr == NULL && size > 0) {
+        fprintf(stderr, "error: lib_AllocVec failed\n");
         exit(-1);
     }
 #endif
@@ -634,6 +636,7 @@ void *lib_AllocMem(unsigned long size, unsigned long attributes)
 
 #ifndef __OS2__
     if (ptr == NULL && size > 0) {
+        fprintf(stderr, "error: lib_AllocMem failed\n");
         exit(-1);
     }
 #endif
@@ -656,6 +659,7 @@ void *lib_calloc(size_t nmemb, size_t size)
 
 #ifndef __OS2__
     if (ptr == NULL && (size * nmemb) > 0) {
+        fprintf(stderr, "error: lib_calloc failed\n");
         exit(-1);
     }
 #endif
@@ -677,6 +681,7 @@ void *lib_realloc(void *ptr, size_t size)
 
 #ifndef __OS2__
     if (new_ptr == NULL) {
+        fprintf(stderr, "error: lib_realloc failed\n");
         exit(-1);
     }
 #endif
@@ -734,6 +739,7 @@ char *lib_stralloc(const char *str)
     char *ptr;
 
     if (str == NULL) {
+        fprintf(stderr, "error: lib_stralloc failed\n");
         exit(-1);
     }
 
