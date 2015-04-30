@@ -162,7 +162,7 @@ BEGIN
   IDS_MMC64_ENABLE           "Attiva l'espansione MMC64"
   IDS_MMC64_REVISION_LABEL   "Revisione BIOS"
   IDS_MMC64_FLASHJUMPER      "Attiva Flash Jumper del BIOS"
-  IDS_MMC64_BIOS_SAVE        "Salva BIOS al cambio"
+  IDS_MMC64_BIOS_SAVE        "Salva BIOS alla modifica"
   IDS_MMC64_BIOS_FILE_LABEL  "File BIOS"
   IDS_MMC64_IMAGE_RO         "Immagine MMC/SD in sola lettura"
   IDS_MMC64_IMAGE_FILE_LABEL "File immagine MMC/SD"

@@ -239,8 +239,8 @@ BEGIN
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "Impostazioni dispositivo IDE64 master sul canale secondario"
     IDS_IDE64_SETTINGS              "Impostazioni IDE64"
     IDS_IDE64_V4                    "Attiva IDE64 V4"
-    IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
-    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
+    IDS_IDE64_USB_SERVER            "Attiva server IDE64 USB"
+    IDS_IDE64_RTC_SAVE              "Salva i dati RTC dell'IDE64 alla modifica"
     IDS_IDE64_IMAGE                 "File immagine dispositivo ATA"
     IDS_IDE64_GEOMETRY              "Geometria"
     IDS_IDE64_AUTODETECT            "Rileva automaticamente immagine"
@@ -249,7 +249,7 @@ BEGIN
     IDS_IDE64_SECTORS               "Settori"
     IDS_IDE64_TOTAL_SIZE            "Dimensione totale: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Seleziona file immagine dispositivo ATA"
-    IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_USB_SERVER_BIND_LABEL "Indirizzo server IDE64 USB a cui collegarsi"
 END
 
 

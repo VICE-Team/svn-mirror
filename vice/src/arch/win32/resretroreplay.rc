@@ -121,7 +121,7 @@ BEGIN
   IDS_RR_FLASH_JUMPER   "Attiva ponticello flash della RR"
   IDS_RR_BANK_JUMPER    "Attiva ponticello bank della RR"
   IDS_RR_REVISION_LABEL "Revisione"
-  IDS_RR_BIOS_SAVE      "Salva la flash della RR al cambio"
+  IDS_RR_BIOS_SAVE      "Salva la flash della RR alla modifica"
 END
 
 

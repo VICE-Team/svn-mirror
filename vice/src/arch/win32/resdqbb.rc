@@ -128,7 +128,7 @@ BEGIN
   IDS_SELECT_FILE_DQBB  "Seleziona file per DQBB"
   IDS_DQBB_CAPTION      "Impostazioni Double Quick Brown Box"
   IDS_DQBB_ENABLE       "Attiva Double Quick Brown Box"
-  IDS_DQBB_WRITE_ENABLE "Salva immagine DQBB al cambio"
+  IDS_DQBB_WRITE_ENABLE "Salva immagine DQBB alla modifica"
   IDS_DQBB_FILE_LABEL   "File DQBB"
 END
 

@@ -2,7 +2,7 @@
 # Copyright (C) 2005-2011
 # This file is distributed under the same license as the PACKAGE package.
 # Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
@@ -10732,7 +10732,9 @@ msgstr "De ACIA emulatie uitschakelen"
 msgid ""
 "Specify index of keymap file (0=symbolic, 1=positional, 2=symbolic (user), "
 "3=positional (user))"
-msgstr "Geef index van het keymapbestand (0=symbolisch, 1=positioneel, 2=symbolisch (gebruiker), 3=positioneel (bebruiker))"
+msgstr ""
+"Geef index van het keymapbestand (0=symbolisch, 1=positioneel, 2=symbolisch "
+"(gebruiker), 3=positioneel (bebruiker))"
 
 #: src/translate_text.c.po.c:4017
 msgid "Specify emulated keyboard type"

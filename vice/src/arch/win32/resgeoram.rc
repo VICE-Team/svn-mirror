@@ -167,7 +167,7 @@ BEGIN
   IDS_GEORAM_CAPTION      "Impostazioni GEO-RAM"
   IDS_GEORAM_ENABLE       "Attiva l'espansione GEO-RAM"
   IDS_GEORAM_SIZE_LABEL   "Dimensione GEO-RAM"
-  IDS_GEORAM_WRITE_ENABLE "Salva immagine GEO-RAM al cambio"
+  IDS_GEORAM_WRITE_ENABLE "Salva immagine GEO-RAM alla modifica"
   IDS_GEORAM_FILE_LABEL   "File GEO-RAM"
 END
 

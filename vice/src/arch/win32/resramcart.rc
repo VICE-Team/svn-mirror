@@ -146,7 +146,7 @@ BEGIN
   IDS_RAMCART_ENABLE       "Attiva l'espansione RamCart"
   IDS_RAMCART_READONLY     "Sola lettura"
   IDS_RAMCART_SIZE         "Dimensione RamCart"
-  IDS_RAMCART_WRITE_ENABLE "Salva immagine RamCart al cambio"
+  IDS_RAMCART_WRITE_ENABLE "Salva immagine RamCart alla modifica"
   IDS_RAMCART_FILE         "File RamCart"
   IDS_RAMCART_SELECT_FILE  "Seleziona file per RamCart"
 END

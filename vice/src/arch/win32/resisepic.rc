@@ -136,7 +136,7 @@ BEGIN
   IDS_ISEPIC_CAPTION      "Impostazioni ISEPIC"
   IDS_ISEPIC_ENABLE       "Attiva la cartuccia ISEPIC"
   IDS_ISEPIC_SWITCH       "Pulsante ISEPIC"
-  IDS_ISEPIC_WRITE_ENABLE "Salva immagine ISEPIC al cambio"
+  IDS_ISEPIC_WRITE_ENABLE "Salva immagine ISEPIC alla modifica"
   IDS_ISEPIC_FILE_LABEL   "File ISEPIC"
 END
 

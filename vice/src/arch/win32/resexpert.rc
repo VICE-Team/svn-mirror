@@ -156,7 +156,7 @@ BEGIN
   IDS_EXPERT_CAPTION      "Impostazioni Expert Cartridge"
   IDS_EXPERT_ENABLE       "Attiva Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Modalità"
-  IDS_EXPERT_WRITE_ENABLE "Salva immagine Expert Cartridge al cambio"
+  IDS_EXPERT_WRITE_ENABLE "Salva immagine Expert Cartridge alla modifica"
   IDS_EXPERT_FILE_LABEL   "File Expert Cartridge"
   IDS_OFF                 "No"
   IDS_PRG                 "Prg"

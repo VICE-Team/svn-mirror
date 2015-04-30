@@ -154,7 +154,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Modalità ripristino"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Tipo card"
   IDS_MMCREPLAY_READ_WRITE          "lettura/scrittura"
-  IDS_MMCREPLAY_WRITE_ENABLE        "Salva immagine EEPROM MMC Replay al cambio"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Salva immagine EEPROM MMC Replay alla modifica"
 END
 
 

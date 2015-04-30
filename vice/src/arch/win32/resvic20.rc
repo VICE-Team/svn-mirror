@@ -977,7 +977,7 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE          "Impostazioni ACIA (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "Impostazioni GEO-RAM (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "Impostazioni DigiMAX (MasC=uerade)..."
-    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "Impostazioni DS12C887 RTC (MasC=uerade)..."
+    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "Impostazioni RTC DS12C887 (MasC=uerade)..."
 #ifdef HAVE_TFE
     IDS_MI_TFE_SETTINGS_MASCUERADE           "Impostazioni Ethernet (MasC=uerade)..."
 #endif

@@ -137,7 +137,7 @@ BEGIN
   IDS_REU_CAPTION      "Impostazioni REU"
   IDS_REU_ENABLE       "Attiva l'espansione di RAM"
   IDS_REU_SIZE         "Dimensione REU"
-  IDS_REU_WRITE_ENABLE "Salva immagine REU al cambio"
+  IDS_REU_WRITE_ENABLE "Salva immagine REU alla modifica"
   IDS_REU_FILE         "File del REU"
   IDS_REU_SELECT_FILE  "Seleziona il file per il REU"
 END

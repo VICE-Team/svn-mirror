@@ -193,7 +193,7 @@ BEGIN
   IDS_INTERPOLATING      "Interpolazione"
   IDS_RESAMPLING         "Ricampionamento"
   IDS_FAST_RESAMPLING    "Ricampionamento veloce"
-  IDS_SID_RESID_GROUP    "reSID options"
+  IDS_SID_RESID_GROUP    "Opzioni reSID"
   IDS_SID_RESID_SAMPLE   "Metodo di campionamento"
   IDS_SID_RESID_PASSBAND "Banda passante (0..90%)"
   IDS_HARDSID_GROUP      "Selezione dispositivo"
