@@ -25,9 +25,14 @@
  */
 
 /* Tested and confirmed working on:
-   cpu | netbsd version
-   --------------------
-   x86 | 6.1.5
+   cpu      | netbsd version
+   -------------------------
+   amd64    | 6.1.5
+   m68k     | 6.1.5
+   mipsel   | 6.1.5
+   mipsel64 | 6.1.5
+   vax      | 6.1.5
+   x86      | 6.1.5
  */
 
 #include "vice.h"
@@ -36,6 +41,7 @@
 
 #include <stdio.h>
 #include <sys/utsname.h>
+#include <sys/sysctl.h>
 
 #include "archdep.h"
 #include "lib.h"
@@ -60,49 +66,110 @@ char *platform_get_netbsd_runtime_cpu(void)
     size_t size1 = 0;
     size_t size2 = 0;
     struct utsname name;
+    char *cpu = NULL;
+    char *machine = NULL;
+    char *model = NULL;
+    size_t len = 0;
 
     if (!got_netbsd_cpu) {
         sprintf(netbsd_cpu, "Unknown CPU");
-        cpuinfo = fopen("/proc/cpuinfo", "rb");
-        if (cpuinfo) {
-            fclose(cpuinfo);
-            cpuinfo = NULL;
-            tempfile = archdep_tmpnam();
-            sprintf(tempsystem, "cat /proc/cpuinfo >%s", tempfile);
-            if (system(tempsystem) < 0) {
-                log_warning(LOG_ERR, "`%s' failed.", tempsystem);
-            }
-            cpuinfo = fopen(tempfile, "rb");
-        }
-        if (cpuinfo) {
-            fseek(cpuinfo, 0L, SEEK_END);
-            size1 = ftell(cpuinfo);
-            fseek(cpuinfo, 0L, SEEK_SET);
-            buffer = (char *)malloc(size1);
-            size2 = fread(buffer, 1, size1, cpuinfo);
-            if (size1 == size2) {
-                loc1 = strstr(buffer, "model name");
+#if !defined(__i386__) && !defined(__amd64__)
+        if (sysctlbyname("hw.machine_arch", NULL, &len, NULL, 0) == 0) {
+            cpu = lib_malloc(len);
+            sysctlbyname("hw.machine_arch", cpu, &len, NULL, 0);
+
+            sysctlbyname("hw.model", NULL, &len, NULL, 0);
+            model = lib_malloc(len);
+            sysctlbyname("hw.model", model, &len, NULL, 0);
+
+            sysctlbyname("hw.machine", NULL, &len, NULL, 0);
+            machine = lib_malloc(len);
+            sysctlbyname("hw.machine", machine, &len, NULL, 0);
+
+            sprintf(netbsd_cpu, "%s", cpu);
+
+            /* Get specific CPU/MMU/FPU for m68k */
+            if (!strcasecmp(cpu, "m68k")) {
+                loc1 = strstr(model, "(");
                 if (loc1) {
-                    loc2 = strstr(loc1, ":");
+                    loc1++;
+                    loc2 = strstr(loc1, ")");
                     if (loc2) {
-                        loc2 += 2;
-                        while (isspace(*loc2)) {
-                            loc2++;
-                        }
-                        loc3 = strstr(loc2, "\n");
-                        if (loc3) {
-                            *loc3 = 0;
-                            sprintf(netbsd_cpu, "%s", loc2);
-                            got_netbsd_cpu = 1;
+                        loc2[0] = 0;
+                        sprintf(netbsd_cpu, "%s", loc1);
+                    }
+                }
+            }
+
+            /* Get specific CPU for hpcmips */
+            if (!strcasecmp(cpu, "mipsel")) {
+                sprintf(netbsd_cpu, "%s", cpu);
+                if (!strcasecmp(machine, "hpcmips")) {
+                    loc1 = strstr(model, "(");
+                    if (loc1) {
+                        loc1++;
+                        loc2 = strstr(loc1, ")");
+                        if (loc2) {
+                            loc2[0] = 0;
+                            sprintf(netbsd_cpu, "%s (%s)", cpu, loc1);
                         }
                     }
                 }
             }
-            fclose(cpuinfo);
-            unlink(tempfile);
-            lib_free(tempfile);
-            if (buffer) {
-                free(buffer);
+
+            if (cpu) {
+                lib_free(cpu);
+            }
+            if (machine) {
+                lib_free(machine);
+            }
+            if (model) {
+                lib_free(model);
+            }
+        } else
+#endif
+        {
+            cpuinfo = fopen("/proc/cpuinfo", "rb");
+            if (cpuinfo) {
+                fclose(cpuinfo);
+                cpuinfo = NULL;
+                tempfile = archdep_tmpnam();
+                sprintf(tempsystem, "cat /proc/cpuinfo >%s", tempfile);
+                if (system(tempsystem) < 0) {
+                    log_warning(LOG_ERR, "`%s' failed.", tempsystem);
+                }
+                cpuinfo = fopen(tempfile, "rb");
+            }
+            if (cpuinfo) {
+                fseek(cpuinfo, 0L, SEEK_END);
+                size1 = ftell(cpuinfo);
+                fseek(cpuinfo, 0L, SEEK_SET);
+                buffer = (char *)malloc(size1);
+                size2 = fread(buffer, 1, size1, cpuinfo);
+                if (size1 == size2) {
+                    loc1 = strstr(buffer, "model name");
+                    if (loc1) {
+                        loc2 = strstr(loc1, ":");
+                        if (loc2) {
+                            loc2 += 2;
+                            while (isspace(*loc2)) {
+                                loc2++;
+                            }
+                            loc3 = strstr(loc2, "\n");
+                            if (loc3) {
+                                *loc3 = 0;
+                                sprintf(netbsd_cpu, "%s", loc2);
+                                got_netbsd_cpu = 1;
+                            }
+                        }
+                    }
+                }
+                fclose(cpuinfo);
+                unlink(tempfile);
+                lib_free(tempfile);
+                if (buffer) {
+                    free(buffer);
+                }
             }
         }
 #ifndef PLATFORM_NO_X86_ASM
