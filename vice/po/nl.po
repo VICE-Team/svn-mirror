@@ -3052,14 +3052,12 @@ msgid "Positional mapping"
 msgstr "Positionele toewijzing"
 
 #: src/arch/unix/gui/uikeyboard.c:70
-#, fuzzy
 msgid "Symbolic mapping (User)"
-msgstr "Symbolische toewijzing"
+msgstr "Symbolische toewijzing (Gebruiker)"
 
 #: src/arch/unix/gui/uikeyboard.c:72
-#, fuzzy
 msgid "Positional mapping (User)"
-msgstr "Positionele toewijzing"
+msgstr "Positionele toewijzing (Gebruiker)"
 
 #: src/arch/unix/gui/uikeyboard.c:109
 msgid "Read Keymap File"
@@ -3075,19 +3073,16 @@ msgstr "Toetsenbord toewijzing type"
 
 #. Do not change position as position 1 is hard coded.
 #: src/arch/unix/gui/uikeyboard.c:169
-#, fuzzy
 msgid "Keyboard layout type"
-msgstr "Toetsenbord type"
+msgstr "Toetsenbord opmaak soort"
 
 #: src/arch/unix/gui/uikeyboard.c:171
-#, fuzzy
 msgid "Set symbolic user keymap file"
-msgstr "Zet symbolische toetsenbordbestand"
+msgstr "Zet symbolische gebruikers toetsenbordbestand"
 
 #: src/arch/unix/gui/uikeyboard.c:173
-#, fuzzy
 msgid "Set positional user keymap file"
-msgstr "Zet positionele toetsenbordbestand"
+msgstr "Zet positionele gebruikers toetsenbordbestand"
 
 #: src/arch/unix/gui/uikeyboard.c:176
 msgid "Dump keymap to file"
@@ -10734,19 +10729,18 @@ msgid "Disable the ACIA emulation"
 msgstr "De ACIA emulatie uitschakelen"
 
 #: src/translate_text.c.po.c:3999
-#, fuzzy
 msgid ""
 "Specify index of keymap file (0=symbolic, 1=positional, 2=symbolic (user), "
 "3=positional (user))"
-msgstr "Geef index van het keymapbestand (0=symbool, 1=positioneel)"
+msgstr "Geef index van het keymapbestand (0=symbolisch, 1=positioneel, 2=symbolisch (gebruiker), 3=positioneel (bebruiker))"
 
 #: src/translate_text.c.po.c:4017
 msgid "Specify emulated keyboard type"
-msgstr ""
+msgstr "Geef emulatie toetsenbord soort"
 
 #: src/translate_text.c.po.c:4035
 msgid "Specify host keyboard layout"
-msgstr ""
+msgstr "Geef host toetsenbord opmaak"
 
 #: src/translate_text.c.po.c:4052
 msgid "Specify name of symbolic keymap file"
