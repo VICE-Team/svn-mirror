@@ -31,6 +31,8 @@
    m68k     | 6.1.5
    mipsel   | 6.1.5
    mipsel64 | 6.1.5
+   sparc    | 6.1.5
+   sparc64  | 6.1.5
    vax      | 6.1.5
    x86      | 6.1.5
  */
@@ -117,6 +119,19 @@ char *platform_get_netbsd_runtime_cpu(void)
                 }
             }
 
+            /* Get specific CPU for sparc or sparc64 */
+            if (!strcasecmp(cpu, "sparc") || !strcasecmp(cpu, "sparc64")) {
+                loc1 = strstr(model, "(");
+                if (loc1) {
+                    loc1++;
+                    loc2 = strstr(loc1, ")");
+                    if (loc2) {
+                        loc2[0] = 0;
+                        sprintf(netbsd_cpu, "%s (%s)", cpu, loc1);
+                    }
+                }
+            }
+
             if (cpu) {
                 lib_free(cpu);
             }
@@ -126,6 +141,7 @@ char *platform_get_netbsd_runtime_cpu(void)
             if (model) {
                 lib_free(model);
             }
+            got_netbsd_cpu = 1;
         } else
 #endif
         {
