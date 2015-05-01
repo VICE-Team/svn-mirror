@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-30 17:27-0700\n"
-"PO-Revision-Date: 2015-04-08 16:27+0200\n"
+"PO-Revision-Date: 2015-05-01 09:19+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -3039,14 +3039,12 @@ msgid "Positional mapping"
 msgstr "Positions Zuordnung"
 
 #: src/arch/unix/gui/uikeyboard.c:70
-#, fuzzy
 msgid "Symbolic mapping (User)"
-msgstr "Symbolische Zuordnung"
+msgstr "Symbolische Zuordnung (Benutzer)"
 
 #: src/arch/unix/gui/uikeyboard.c:72
-#, fuzzy
 msgid "Positional mapping (User)"
-msgstr "Positions Zuordnung"
+msgstr "Positions Zuordnung (Benutzer)"
 
 #: src/arch/unix/gui/uikeyboard.c:109
 msgid "Read Keymap File"
@@ -3062,19 +3060,16 @@ msgstr "Tastatur Mapping"
 
 #. Do not change position as position 1 is hard coded.
 #: src/arch/unix/gui/uikeyboard.c:169
-#, fuzzy
 msgid "Keyboard layout type"
-msgstr "Tastaturtyp"
+msgstr "Tastatur Layout Typ"
 
 #: src/arch/unix/gui/uikeyboard.c:171
-#, fuzzy
 msgid "Set symbolic user keymap file"
-msgstr "Symbolische Keymap Datei definieren"
+msgstr "Symbolische Keymap Datei auswählen"
 
 #: src/arch/unix/gui/uikeyboard.c:173
-#, fuzzy
 msgid "Set positional user keymap file"
-msgstr "Positions Keymap Datei definieren"
+msgstr "Positions Keymap Datei auswählen"
 
 #: src/arch/unix/gui/uikeyboard.c:176
 msgid "Dump keymap to file"
@@ -10699,19 +10694,20 @@ msgid "Disable the ACIA emulation"
 msgstr "ACIA Emulation deaktivieren"
 
 #: src/translate_text.c.po.c:3999
-#, fuzzy
 msgid ""
 "Specify index of keymap file (0=symbolic, 1=positional, 2=symbolic (user), "
 "3=positional (user))"
-msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
+msgstr ""
+"Index für Kymap Datei festlegen (0=symbol, 1=positional), 2=symbolisch\n"
+"(Benutzer), 3=positional (Benutzer))"
 
 #: src/translate_text.c.po.c:4017
 msgid "Specify emulated keyboard type"
-msgstr ""
+msgstr "Emulation für Tastaturtyp auswählen"
 
 #: src/translate_text.c.po.c:4035
 msgid "Specify host keyboard layout"
-msgstr ""
+msgstr "Host Tastatur Layout auswählen"
 
 #: src/translate_text.c.po.c:4052
 msgid "Specify name of symbolic keymap file"
