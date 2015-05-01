@@ -35,6 +35,7 @@
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "via.h"
@@ -245,13 +246,17 @@ void viacore_reset(via_context_t *via_context)
 {
     int i;
 
-    /* clear registers */
+    /* port data/ddr */
     for (i = 0; i < 4; i++) {
         via_context->via[i] = 0;
     }
+    /* timer 1/2 counter/latches */
+#if 0
     for (i = 4; i < 10; i++) {
         via_context->via[i] = 0xff;
     }
+#endif
+    /* omit shift register (10) */
     for (i = 11; i < 16; i++) {
         via_context->via[i] = 0;
     }
@@ -310,7 +315,7 @@ void viacore_signal(via_context_t *via_context, int line, int edge)
                 update_myviairq(via_context);
 #ifdef MYVIA_NEED_LATCHING
                 if (IS_PA_INPUT_LATCH()) {
-                    via_context->ila = (via_context->read_pra)(via_context, addr);
+                    via_context->ila = (via_context->read_pra)(via_context, VIA_PRA);
                 }
 #endif
             }
@@ -383,10 +388,13 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
             if (via_context->ier & (VIA_IM_CA1 | VIA_IM_CA2)) {
                 update_myviairq(via_context);
             }
+            /* fall through */
 
         case VIA_PRA_NHS: /* port A, no handshake */
             via_context->via[VIA_PRA_NHS] = byte;
             addr = VIA_PRA;
+            /* fall through */
+
         case VIA_DDRA:
             via_context->via[addr] = byte;
             byte = via_context->via[VIA_PRA] | ~(via_context->via[VIA_DDRA]);
@@ -410,6 +418,7 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
             if (via_context->ier & (VIA_IM_CB1 | VIA_IM_CB2)) {
                 update_myviairq(via_context);
             }
+            /* fall through */
 
         case VIA_DDRB:
             via_context->via[addr] = byte;
@@ -989,6 +998,8 @@ static void viacore_clk_overflow_callback(CLOCK sub, void *data)
 
 void viacore_setup_context(via_context_t *via_context)
 {
+    int i;
+
     via_context->read_clk = 0;
     via_context->read_offset = 0;
     via_context->last_read = 0;
@@ -998,6 +1009,10 @@ void viacore_setup_context(via_context_t *via_context)
     via_context->my_module_name_alt2 = NULL;
 
     via_context->write_offset = 1;
+    /* assume all registers 0 at powerup */
+    for (i = 0; i < 16; i++) {
+        via_context->via[i] = 0;
+    }
 }
 
 void viacore_init(via_context_t *via_context, alarm_context_t *alarm_context,
@@ -1279,6 +1294,16 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
 
 int viacore_dump(via_context_t *via_context)
 {
-    /* FIXME: dump details using mon_out(). return 0 on success */
-    return -1;
+    mon_out("Port A: %02x DDR: %02x no HS: %02x\n",
+            viacore_peek(via_context, 0x01), viacore_peek(via_context, 0x03), viacore_peek(via_context, 0x0f));
+    mon_out("Port B: %02x DDR: %02x\n", viacore_peek(via_context, 0x00), viacore_peek(via_context, 0x02));
+    mon_out("Timer 1: %04x Latch: %04x\n", viacore_peek(via_context, 0x04) + (viacore_peek(via_context, 0x05) * 256),
+            viacore_peek(via_context, 0x06) + (viacore_peek(via_context, 0x07) * 256));
+    mon_out("Timer 2: %04x\n", viacore_peek(via_context, 0x08) + (viacore_peek(via_context, 0x09) * 256));
+    mon_out("Aux. control: %02x\n", viacore_peek(via_context, 0x0b));
+    mon_out("Per. control: %02x\n", viacore_peek(via_context, 0x0c));
+    mon_out("IRQ flags: %02x\n", viacore_peek(via_context, 0x0d));
+    mon_out("IRQ enable: %02x\n", viacore_peek(via_context, 0x0e));
+    mon_out("\nSynchronous Serial I/O Data Buffer: %02x\n", viacore_peek(via_context, 0x0a));
+    return 0;
 }
