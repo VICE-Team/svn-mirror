@@ -1,5 +1,376 @@
 ------------------------------------------------------------------------------
 
+2015-04-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.20
+	
+
+2015-04-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/es.po, po/fr.po, po/hu.po, po/nl.po, po/sv.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resdqbb.rc, src/arch/win32/resds12c887rtc.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	src/arch/win32/resmmc64.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resramcart.rc, src/arch/win32/resretroreplay.rc,
+	src/arch/win32/resreu.rc, src/arch/win32/ressid.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/resuserportrtc.rc,
+	src/arch/win32/resvic20.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2015-04-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-04-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2015-04-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c: Updated.
+
+2015-04-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c: Updated.
+
+2015-04-27  groepaz <groepaz@gmx.net>
+
+	* data/C64/Makefile.am, data/C64/win_pos_de.vkm: copied win_pos.vkm to
+	win_pos_de.vkm - it really seems to be a map for german layout.
+	win_ps.vkm needs to be fixed for us layout.
+
+2015-04-26  groepaz <groepaz@gmx.net>
+
+	* src/lib.c: on error, print a message to stderr instead of silently
+	exiting
+
+2015-04-25  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/archdep.c, src/arch/win32/uikeyboard.c,
+	src/keyboard.c, src/log.c: changed logic to select default keymap a
+	bit so it will not configure a non existing keymap.
+
+2015-04-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c: Updated.
+
+2015-04-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_runtime_os.c,
+	src/platform/platform_netbsd_runtime_os.c: Fixed netbsd detection.
+
+2015-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am, src/platform/platform_netbsd_runtime_os.c:
+	Added runtime netbsd detection.
+
+2015-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_version.h: Updated slightly.
+
+2015-04-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, config.sub, src/arch/sdl/ui.c, src/opencbm.h,
+	src/vice.h, tixbuildinfo: Ported to sortix.
+
+2015-04-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/x86/ac3dsp_init.c,
+	src/lib/libffmpeg/libpostproc/postprocess_template.c: Some (freebsd)
+	clang fixes.
+
+2015-04-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4, configure.proto, src/lib/ffmpeg/configure.gnu,
+	src/lib/libx264/configure: Fixed for when the default compiler is not
+	gcc and no gcc is present at all on the system.
+
+2015-04-16  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/sound.c: Simplified the code to register sound drivers a bit and
+	made sure "SoundDeviceName" never gets set to an empty string. It was
+	causing the "Default Settings" menu item to use the wrong driver on
+	Haiku.
+
+2015-04-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/allformats.c: Fixed.
+
+2015-04-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_x86_gcc_cpuid.h: Made a 'PIC' version of the
+	cpuid assembly code.
+
+2015-04-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/opencbm.h: Typedef __u_char for openbsd as well.
+
+2015-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uidrivec64.c, src/arch/msdos/uidrivec64dtv.c,
+	src/arch/msdos/uidriveplus4.c, src/arch/msdos/uidrivevic20.c: Fixed
+	some typos.
+
+2015-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c64ui.c: Fixed a typo.
+
+2015-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c: Added missing ifdef section.
+
+2015-04-15  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/archdep_win32.c: added missing include
+
+2015-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed for non-resid/c++ build.
+
+2015-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/x11kbd.c: Added missing 'X11/XKBlib.h'
+	include.
+
+2015-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.c: Added guard incase the windows port
+	ever gets ported to a windows platform that doesn't support drives.
+
+2015-04-14  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/kbd.c: kbd_arch_get_host_mapping should be in archdep
+	only
+
+2015-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.c: Fixed.
+
+2015-04-13  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.pdf, doc/vice.texi,
+	doc/vice.txt, src/c128/c128-resources.c: documentation updates related
+	to keyboard map rework
+
+2015-04-12  groepaz <groepaz@gmx.net>
+
+	* data/PET/sdl_sym.vkm, data/PET/x11_sym.vkm: forgotten PET keymaps
+
+2015-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/winkbd.h: Add some 'backup' language defines in case
+	they are not defined in the windows headers.
+
+2015-04-11  groepaz <groepaz@gmx.net>
+
+	* data/C64/Makefile.am, C64/osx_sym.vkm, data/C64/osx_sym_us.vkm,
+	data/C64/win_sym.vkm, data/C64/win_sym_us.vkm, C64/x11_pos_de.vkm,
+	data/C64/x11_posger.vkm, data/C64/x11_sym_de.vkm,
+	data/C64/x11_symger.vkm, data/C64DTV/Makefile.am,
+	data/C64DTV/osx_sym.vkm, data/C64DTV/osx_sym_us.vkm,
+	data/CBM-II/Makefile.am, data/CBM-II/amiga_bukp.vkm,
+	data/CBM-II/amiga_buks.vkm, data/CBM-II/amiga_pos.vkm,
+	data/CBM-II/amiga_sym.vkm, data/CBM-II/sdl_buks.vkm,
+	data/CBM-II/sdl_sym.vkm, data/CBM-II/win_sym.vkm,
+	data/CBM-II/x11_buks.vkm, data/CBM-II/x11_buks_de.vkm,
+	data/CBM-II/x11_sym.vkm, data/CBM-II/x11_sym_de.vkm,
+	data/PET/Makefile.am, data/PET/amiga_bgrs.vkm,
+	data/PET/amiga_buks.vkm, data/PET/amiga_buuk_sym.vkm,
+	data/PET/amiga_grus_sym.vkm, data/PET/osx_grus_sym.vkm,
+	data/PET/osx_sym_gr.vkm, data/PET/sdl_bgrs.vkm, data/PET/sdl_buks.vkm,
+	data/PET/sdl_buuk_sym.vkm, data/PET/sdl_grus_sym.vkm,
+	data/PET/win_grus_sym.vkm, data/PET/win_sym_gr.vkm,
+	data/PET/x11_bdep.vkm, data/PET/x11_bdep_de.vkm,
+	data/PET/x11_bdes.vkm, data/PET/x11_bdes_de.vkm,
+	data/PET/x11_bgrp.vkm, data/PET/x11_bgrp_de.vkm,
+	data/PET/x11_bgrs.vkm, data/PET/x11_bgrs_de.vkm,
+	data/PET/x11_bude_pos.vkm, data/PET/x11_bude_pos_de.vkm,
+	data/PET/x11_bude_sym.vkm, data/PET/x11_bude_sym_de.vkm,
+	data/PET/x11_bukp.vkm, data/PET/x11_bukp_de.vkm,
+	data/PET/x11_buks.vkm, data/PET/x11_buks_de.vkm,
+	data/PET/x11_buuk_pos.vkm, data/PET/x11_buuk_pos_de.vkm,
+	data/PET/x11_buuk_sym.vkm, data/PET/x11_buuk_sym_de.vkm,
+	data/PET/x11_grus_pos.vkm, data/PET/x11_grus_pos_de.vkm,
+	data/PET/x11_grus_sym.vkm, data/PET/x11_grus_sym_de.vkm,
+	data/SCPU64/Makefile.am, data/SCPU64/osx_sym.vkm,
+	data/SCPU64/osx_sym_us.vkm, vice/data/SCPU64/win_sym.vkm,
+	data/SCPU64/win_sym_us.vkm, data/SCPU64/x11_pos_de.vkm,
+	data/SCPU64/x11_posger.vkm, data/SCPU64/x11_sym_de.vkm,
+	data/SCPU64/x11_symger.vkm, src/arch/amigaos/kbd.c,
+	src/arch/amigaos/kbd.h, src/arch/beos/kbd.c, src/arch/beos/kbd.h,
+	src/arch/msdos/kbd.c, src/arch/msdos/kbd.h, src/arch/os2/kbd.c,
+	src/arch/os2/kbd.h, src/arch/sdl/archdep_amiga.c,
+	src/arch/sdl/archdep_beos.c, src/arch/sdl/archdep_cegcc.c,
+	src/arch/sdl/archdep_dingoo.c, src/arch/sdl/archdep_unix.c,
+	src/arch/sdl/archdep_win32.c, src/arch/sdl/archdep_xbox.c,
+	src/arch/sdl/kbd.c, src/arch/sdl/kbd.h, src/arch/unix/gui/c128ui.c,
+	src/arch/unix/gui/c64dtvui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	src/arch/unix/gui/scpu64ui.c, src/arch/unix/gui/uikeyboard.c,
+	src/arch/unix/gui/uikeyboard.h, src/arch/unix/gui/vic20ui.c,
+	src/arch/unix/kbd.h, src/arch/unix/x11/gnome/gnomekbd.c,
+	src/arch/unix/x11/xaw/x11kbd.c, src/arch/win32/c128ui.c,
+	src/arch/win32/c64dtvui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/cbm5x0ui.c,
+	src/arch/win32/kbd.c, src/arch/win32/kbd.h, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2common.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/uilib.c,
+	src/arch/win32/uilib.h, src/arch/win32/vic20ui.c,
+	src/c128/c128-cmdline-options.c, src/c128/c128-resources.c,
+	src/c128/c128.c, src/c64/c64-cmdline-options.c,
+	src/c64/c64-resources.c, src/c64/c64.c, src/c64/vsid-resources.c,
+	src/c64/vsid.c, src/c64dtv/c64dtv-cmdline-options.c,
+	src/c64dtv/c64dtv-resources.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2-cmdline-options.c, src/cbm2/cbm2-common-resources.c,
+	src/cbm2/cbm2-resources.c, src/cbm2/cbm2.c,
+	src/cbm2/cbm5x0-resources.c, src/cbm2/cbm5x0.c, src/init.c,
+	src/keyboard.c, src/keyboard.h, src/machine.h,
+	src/pet/pet-cmdline-options.c, src/pet/pet-resources.c,
+	src/pet/pet-resources.h, src/pet/pet.c, src/pet/petmodel.c,
+	src/pet/pets.h, src/plus4/plus4-cmdline-options.c,
+	src/plus4/plus4-resources.c, src/plus4/plus4.c, src/resources.c,
+	src/resources.h, src/scpu64/scpu64-cmdline-options.c,
+	src/scpu64/scpu64-resources.c, src/scpu64/scpu64.c, src/sysfile.c,
+	src/translate.txt, src/translate_text.c,
+	src/vic20/vic20-cmdline-options.c, src/vic20/vic20-resources.c,
+	src/vic20/vic20.c: long overdue rework of keyboard map handling, as
+	outlined in the wiki. *nix port is fully updated, SDL and win32
+	partially fixed. others might need (a little bit) more work. updated
+	documentation, devlog etc coming later, bed time :)
+
+2015-04-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c, src/drive/drive.c, src/drive/drive.h,
+	src/drive/drivecpu.c, src/drive/drivecpu.h, src/drive/iecieee/via2d.c:
+	Fix some SO problems when disk is stopped or SO is disabled
+
+2015-04-11  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_help.c: fix warnings
+
+2015-04-10  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/main.c: avoid crash at -help with
+	static ffmpeg
+
+2015-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Removed gentranslate and geninfocontrib .phony
+	elements.
+
+2015-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl, src/arch/sdl/msvc-files/ffmpeg-config.h,
+	src/arch/win32, src/arch/win32/msvc/ffmpeg-config.h,
+	src/lib/libffmpeg/compat/strtod.c: Fixed for msvc12/vs2013.
+
+2015-04-10  Andrea Musuruane <musuruan@gmail.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
+2015-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/generate_msvc10_project.bat,
+	src/arch/sdl/generate_msvc11_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc11_project.bat,
+	src/arch/sdl/generate_msvc12_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc12_project.bat,
+	src/arch/sdl/generate_msvc6_project.bat,
+	src/arch/sdl/generate_msvc70_project.bat,
+	src/arch/sdl/generate_msvc71_project.bat,
+	src/arch/sdl/generate_msvc8_project.bat,
+	src/arch/sdl/generate_msvc9_project.bat,
+	src/arch/sdl/generate_msvcmips_project.bat,
+	src/arch/sdl/msvc-files/Makefile.am,
+	src/arch/sdl/msvc-files/ide-config.h,
+	src/arch/sdl/msvc-files/winid_arm.bat,
+	src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe,
+	src/platform/platform_discovery.h,
+	src/platform/platform_x86_runtime_cpu.h: Some sdl related windows rt
+	fixes.
+
+2015-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ide-config.h, src/arch/win32/vs_tmpl/mkmsvc.c,
+	src/arch/win32/vs_tmpl/mkmsvc.exe: Some dx related windows rt fixes.
+
+2015-04-09  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: fix a warning, codestyle
+
+2015-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Small fix.
+
+2015-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Linker dynamic base fix for windows rt.
+
+2015-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/Makefile.am, src/arch/win32/msvc/winid_arm.bat,
+	src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Some more windows rt fixes.
+
+2015-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ide-config.h, src/resid/dac.cc,
+	src/resid/filter.cc, src/resid/sid.cc, src/resid-dtv/sid.cc,
+	src/sid/resid-dtv.cc, src/sid/resid.cc: Some preliminary windows rt
+	fixes.
+
+2015-04-09  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/video-dx9.c, src/vsync.c, src/vsync.h: Prepared some
+	vsync debugging.
+
+2015-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl, src/arch/win32: Added some svn ignores.
+
+2015-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl, src/arch/win32: Added some svn ignores.
+
+2015-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl, src/arch/sdl/msvc-files/ffmpeg-config.h,
+	src/arch/sdl/msvc-files/lame-config.h,
+	src/arch/sdl/msvc-files/x264_config.h, src/arch/win32,
+	src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/msvc/lame-config.h, src/arch/win32/msvc/x264_config.h,
+	src/lib/libffmpeg/libavutil/internal.h: Some msvc8 and 64bit fixes.
+
+2015-04-08  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2015-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl, src/arch/sdl/generate_msvc71_ffmpeg_project.bat,
+	src/arch/sdl/msvc-files/ffmpeg-config.h,
+	src/arch/sdl/msvc-files/x264_config.h, src/arch/win32,
+	src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/msvc/x264_config.h: Fixed for msvc 7.1
+
 2015-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
@@ -14602,4 +14973,4 @@ Some more msvc9 ffmpeg fixes.
 	Started a new ChangeLog file.
 
 
-See `ChangeLog.1' for earlier 
+See `ChangeLog.1' for earlier
