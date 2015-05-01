@@ -756,16 +756,6 @@ static BYTE get_f(void)
     return F;
 }
 
-static WORD get_w(void)
-{
-    return W;
-}
-
-static DWORD get_q(void)
-{
-    return Q;
-}
-
 static WORD get_v(void)
 {
     return V;
@@ -834,16 +824,6 @@ static void set_e(BYTE val)
 static void set_f(BYTE val)
 {
     F = val;
-}
-
-static void set_w(WORD val)
-{
-    W = val;
-}
-
-static void set_q(DWORD val)
-{
-    Q = val;
 }
 
 static void set_v(WORD val)
