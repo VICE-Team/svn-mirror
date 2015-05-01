@@ -796,7 +796,7 @@ int resources_set_default_int(const char *name, int value)
     return 0;
 }
 
-int resources_set_default_string(const char *name, const char *value)
+int resources_set_default_string(const char *name, char *value)
 {
     resource_ram_t *r = lookup(name);
 
