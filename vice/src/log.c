@@ -24,7 +24,7 @@
  *
  */
 
-#define DBGLOGGING
+/* #define DBGLOGGING */
 
 #include "vice.h"
 
