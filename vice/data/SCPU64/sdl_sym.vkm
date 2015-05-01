@@ -1,0 +1,4 @@
+# VICE keyboard mapping file
+# SDL symbolic map for the C64, the SCPU64, and the C64DTV
+#
+!INCLUDE ../C64/sdl_sym.vkm
