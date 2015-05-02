@@ -168,8 +168,8 @@ char *platform_get_linux_runtime_cpu(void)
             tempfile = archdep_tmpnam();
             tempsystem = util_concat("cat /proc/cpuinfo >", tempfile, NULL);
             if (system(tempsystem) < 0) {
-		log_warning(LOG_ERR, "`%s' failed.", tempsystem);
-	    }
+                log_warning(LOG_ERR, "`%s' failed.", tempsystem);
+            }
             cpuinfo = fopen(tempfile, "rb");
         }
         if (cpuinfo) {
