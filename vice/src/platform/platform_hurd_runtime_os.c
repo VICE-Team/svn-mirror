@@ -36,6 +36,7 @@
 
 #include <sys/utsname.h>
 #include <string.h>
+#include <gnu/libc-version.h>
 
 static char os[200];
 static int got_os = 0;
@@ -47,7 +48,7 @@ char *platform_get_hurd_runtime_os(void)
     if (!got_os) {
         uname(&name);
 
-        sprintf(os, "GNU Hurd %s", name.version);
+        sprintf(os, "GNU Hurd %s (glibc %s)", name.version, gnu_get_libc_version());
 
         got_os = 1;
     }

@@ -351,8 +351,8 @@
 /* GNU Hurd discovery */
 #if defined(__GNU__) && !defined(NEXTSTEP_COMPILE) && !defined(OPENSTEP_COMPILE)
 #  include <hurd/version.h>
-#  include <mach/version.h>
-#  define PLATFORM_OS "GNU Hurd " QUOTE(KERNEL_MAJOR_VERSION) "." QUOTE(KERNEL_MINOR_VERSION) " (" QUOTE(HURD_INTERFACE_VERSION) ")"
+#  include <features.h>
+#  define PLATFORM_OS "GNU Hurd " QUOTE(KERNEL_MAJOR_VERSION) "." QUOTE(KERNEL_MINOR_VERSION) " (glibc " QUOTE(__GLIBC__) "." QUOTE(__GLIBC_MINOR__) ")"
 #endif
 
 
