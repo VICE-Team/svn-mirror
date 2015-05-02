@@ -31,6 +31,7 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t settings_manager_menu[];
+extern ui_menu_entry_t settings_manager_menu[];
+extern void uikeyboard_menu_create(void);
 
 #endif

@@ -501,6 +501,8 @@ vkbd_t vkbd_cbm2 = {
     '\x84'
 };
 
+/* FIXME: support all PET keyboards (see pet-resources.h) */
+
 static const char *keyb_pet_uk[] = {
     "X \x1f 1234567890:-\x1e> r/s  789",
     "tab QWERTYUIOP\x1b\\v del   456",

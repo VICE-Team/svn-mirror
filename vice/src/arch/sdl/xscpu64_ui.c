@@ -156,6 +156,7 @@ int scpu64ui_init(void)
 
     uicart_menu_create();
     uidrive_menu_create();
+    uikeyboard_menu_create();
 
     sdl_ui_set_main_menu(xscpu64_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);

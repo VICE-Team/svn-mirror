@@ -855,6 +855,7 @@ ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_DIALOG,
       attach_c64_cart_callback,
       (ui_callback_data_t)CARTRIDGE_CRT },
+    /* CAUTION: the position of this item is hardcoded above */
     { "Attach raw image",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

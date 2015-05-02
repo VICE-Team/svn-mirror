@@ -342,6 +342,7 @@ int vsid_ui_init(void)
     unsigned int height;
     
     sdl_ui_set_menu_params = NULL;
+    uikeyboard_menu_create();
 
     sdl_ui_set_main_menu(vsid_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);

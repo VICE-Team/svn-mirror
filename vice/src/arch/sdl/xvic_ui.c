@@ -192,6 +192,7 @@ int vic20ui_init(void)
 
     sdl_ui_set_menu_params = vic20ui_set_menu_params;
     uidrive_menu_create();
+    uikeyboard_menu_create();
 
     sdl_ui_set_main_menu(xvic_main_menu);
 

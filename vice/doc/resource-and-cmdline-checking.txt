@@ -19296,8 +19296,8 @@ resource var:                   machine_keymap_file_list[2]
 resource emulators:             x64/x64sc&xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platform gui present:           windows/unix
-platform gui missing:           amigaos/beos/dos/sdl/osx
+platform gui present:           windows/unix/sdl
+platform gui missing:           amigaos/beos/dos/osx
 
 keyboard.c:
 --------------------------
@@ -19317,8 +19317,8 @@ resource var:                   machine_keymap_file_list[3]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -poskeymap
-platform gui present:           unix/windows
-platform gui missing:           amigaos/beos/dos/sdl/osx
+platform gui present:           unix/windows/sdl
+platform gui missing:           amigaos/beos/dos/osx
 
 keyboard.c:
 --------------------------
@@ -19338,10 +19338,10 @@ resource var:                   machine_keymap_index
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
-platform gui present:           unix
+platform gui present:           sdl/unix
 platform range correct:		
 platform range incorrect:		
-platform gui missing:           sdl/amigaos/beos/dos/osx/windows
+platform gui missing:           amigaos/beos/dos/osx/windows
 
 keyboard.c:
 --------------------------
@@ -19361,10 +19361,10 @@ resource var:                   machine_keyboard_mapping
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keyboardmapping
-platform gui present:           unix
+platform gui present:           sdl/unix
 platform range correct:
 platform range incorrect:
-platform gui missing:           amigaos/beos/dos/sdl/osx/windows
+platform gui missing:           amigaos/beos/dos/osx/windows
 
 keyboard.c:
 --------------------------
@@ -19386,10 +19386,10 @@ resource var:                   machine_keyboard_type
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keyboardtype
-platform gui present:           unix
+platform gui present:           sdl/unix
 platform range correct:
 platform range incorrect:
-platform gui missing:           amigaos/beos/dos/sdl/osx/windows
+platform gui missing:           amigaos/beos/dos/osx/windows
 
 keyboard.c:
 --------------------------

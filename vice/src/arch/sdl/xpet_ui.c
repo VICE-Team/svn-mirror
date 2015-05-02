@@ -51,6 +51,7 @@
 #include "menu_tape.h"
 #include "menu_video.h"
 #include "petmem.h"
+#include "pet-resources.h"
 #include "resources.h"
 #include "ui.h"
 #include "uimenu.h"
@@ -154,6 +155,8 @@ static const ui_menu_entry_t xpet_main_menu[] = {
 
 static BYTE *pet_font;
 
+/* FIXME: support all PET keyboards (see pet-resources.h) */
+
 void petui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     static int old_keymap = -1;
@@ -165,11 +168,10 @@ void petui_set_menu_params(int index, menu_draw_t *menu_draw)
     menu_draw->extra_x = 32;
     menu_draw->extra_y = (cols == 40) ? 40 : 28;
 
-    resources_get_int("KeymapIndex", &keymap);
+    resources_get_int("KeyboardType", &keymap);
 
-    keymap &= 2;
     if (keymap != old_keymap) {
-        if (keymap) {
+        if (keymap == KBD_TYPE_GRAPHICS_US) {
             sdl_vkbd_set_vkbd(&vkbd_pet_gr);
         } else {
             sdl_vkbd_set_vkbd(&vkbd_pet_uk);
@@ -188,6 +190,7 @@ int petui_init(void)
 
     sdl_ui_set_menu_params = petui_set_menu_params;
     uidrive_menu_create();
+    uikeyboard_menu_create();
 
     sdl_ui_set_main_menu(xpet_main_menu);
 

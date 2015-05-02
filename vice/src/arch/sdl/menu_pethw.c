@@ -37,6 +37,7 @@
 #include "menu_rom.h"
 #include "pet.h"
 #include "petmodel.h"
+#include "pet-resources.h"
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #include "menu_rs232.h"
@@ -232,17 +233,29 @@ static const ui_menu_entry_t pet_model_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_RADIO(KeymapIndex)
+UI_MENU_DEFINE_RADIO(KeyboardType)
 
 static const ui_menu_entry_t pet_keyboard_menu[] = {
-    { "Graphics",
+    { "Business (US)",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_KeymapIndex_callback,
-      (ui_callback_data_t)2 },
+      radio_KeyboardType_callback,
+      (ui_callback_data_t)KBD_TYPE_BUSINESS_US },
     { "Business (UK)",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_KeymapIndex_callback,
-      (ui_callback_data_t)0 },
+      radio_KeyboardType_callback,
+      (ui_callback_data_t)KBD_TYPE_BUSINESS_UK },
+    { "Business (DE)",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KeyboardType_callback,
+      (ui_callback_data_t)KBD_TYPE_BUSINESS_DE },
+    { "Business (JP)",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KeyboardType_callback,
+      (ui_callback_data_t)KBD_TYPE_BUSINESS_JP },
+    { "Graphics (US)",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KeyboardType_callback,
+      (ui_callback_data_t)KBD_TYPE_GRAPHICS_US },
     SDL_MENU_LIST_END
 };
 
