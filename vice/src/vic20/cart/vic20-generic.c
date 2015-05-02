@@ -27,7 +27,7 @@
  *
  */
 
-/* #define DEBUGCART */
+#define DEBUGCART
 
 #include "vice.h"
 
@@ -347,9 +347,17 @@ static int attach_image(int type, const char *filename)
             memcpy(cart_rom + 0x2000, rawcart, 0x2000);
             generic_rom_blocks |= VIC_CART_BLK1;
             break;
+        case CARTRIDGE_VIC20_16KB_2000:
+            memcpy(cart_rom + 0x2000, rawcart, 0x4000);
+            generic_rom_blocks |= (VIC_CART_BLK1 | VIC_CART_BLK2);
+            break;
         case CARTRIDGE_VIC20_8KB_4000:
             memcpy(cart_rom + 0x4000, rawcart, 0x2000);
             generic_rom_blocks |= VIC_CART_BLK2;
+            break;
+        case CARTRIDGE_VIC20_16KB_4000:
+            memcpy(cart_rom + 0x4000, rawcart, 0x4000);
+            generic_rom_blocks |= (VIC_CART_BLK2 | VIC_CART_BLK3);
             break;
         case CARTRIDGE_VIC20_8KB_6000:
             memcpy(cart_rom + 0x6000, rawcart, 0x2000);
