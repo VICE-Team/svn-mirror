@@ -21,6 +21,7 @@ libplatform_a_SOURCES = \
 	platform_discovery.h \
 	platform_dos_runtime_os.c \
 	platform_freebsd_version.h \
+	platform_hurd_runtime_os.c \
 	platform_interix_runtime_os.c \
 	platform_linux_libc_version.h \
 	platform_linux_runtime_os.c \

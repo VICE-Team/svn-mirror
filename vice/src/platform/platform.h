@@ -85,6 +85,9 @@ extern char *platform_get_syllable_runtime_cpu(void);
 extern char *platform_get_linux_runtime_os(void);
 extern char *platform_get_linux_runtime_cpu(void);
 
+extern char *platform_get_netbsd_runtime_os(void);
+extern char *platform_get_netbsd_runtime_cpu(void);
+
 extern char *platform_get_interix_runtime_os(void);
 
 extern char *platform_get_cygwin_runtime_os(void);
@@ -100,6 +103,8 @@ extern char *platform_get_skyos_runtime_cpu(void);
 
 extern char *platform_get_minix_runtime_os(void);
 extern char *platform_get_minix_runtime_cpu(void);
+
+extern char *platform_get_hurd_runtime_os(void);
 
 /* Set the runtime os call for known platforms */
 
@@ -128,6 +133,11 @@ extern char *platform_get_minix_runtime_cpu(void);
 #define RUNTIME_OS_CALL platform_get_minix_runtime_os
 #endif
 
+/* GNU Hurd */
+#if defined(__GNU__) && !defined(NEXTSTEP_COMPILE) && !defined(OPENSTEP_COMPILE)
+#define RUNTIME_OS_CALL platform_get_hurd_runtime_os
+#endif
+
 /* Syllable */
 #ifdef __SYLLABLE__
 #define RUNTIME_OS_CALL platform_get_syllable_runtime_os
@@ -136,6 +146,11 @@ extern char *platform_get_minix_runtime_cpu(void);
 /* Linux */
 #if defined(__linux) && !defined(__ANDROID__) && !defined(AMIGA_AROS)
 #define RUNTIME_OS_CALL platform_get_linux_runtime_os
+#endif
+
+/* NetBSD */
+#ifdef __NetBSD__
+#define RUNTIME_OS_CALL platform_get_netbsd_runtime_os
 #endif
 
 /* Interix */
@@ -246,6 +261,11 @@ extern char *platform_get_minix_runtime_cpu(void);
 /* Linux */
 #if defined(__linux) && !defined(__ANDROID__)
 #define RUNTIME_CPU_CALL platform_get_linux_runtime_cpu
+#endif
+
+/* NetBSD */
+#ifdef __NetBSD__
+#define RUNTIME_CPU_CALL platform_get_netbsd_runtime_cpu
 #endif
 
 /* x86/amd64/x86_64 */
