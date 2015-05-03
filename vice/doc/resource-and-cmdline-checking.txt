@@ -5968,8 +5968,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -easyflashcrtoptimize / +easyflashcrtoptimize
-platform gui present:           unix/sdl
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui present:           unix/sdl/osx
+platform gui missing:           amigaos/beos/dos/os2/windows
 
 c64/cart/easyflash.c:
 ---------------------
@@ -7580,10 +7580,10 @@ resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -memoryexphack
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/windows
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform range correct:	  amigaos/beos/dos/os2/sdl/unix/windows/osx
 platform range incorrect:		
-platform gui missing:           osx
+platform gui missing:
 
 c64/c64-memory-hacks.c:
 -----------------------
@@ -8381,8 +8381,8 @@ resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    xscpu64/x64dtv/vsid
 prepocessor:
 command-line:                   -dstapewobble
-platform gui missing:           unix/sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           unix/sdl/osx
+platform gui present:           amigaos/beos/dos/os2/windows
 
 datasette.c:
 ------------
@@ -12865,8 +12865,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIvspbug / +VICIIvspbug
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
-platform gui present:           unix/sdl
+platform gui missing:           amigaos/beos/dos/os2/windows
+platform gui present:           unix/sdl/osx
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -17325,10 +17325,10 @@ resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
 command-line:                   -memoryexphack
-platform gui present:           amigaos/sdl/unix/windows
-platform range correct:		amigaos/sdl/unix/windows
+platform gui present:           amigaos/sdl/unix/windows/osx
+platform range correct:	  amigaos/sdl/unix/windows/osx
 platform range incorrect:		
-platform gui missing:           beos/dos/os2/osx
+platform gui missing:           beos/dos/os2
 
 plus4/plus4memhacks.c:
 ----------------------

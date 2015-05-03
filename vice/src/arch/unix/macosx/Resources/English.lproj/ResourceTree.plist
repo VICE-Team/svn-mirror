@@ -50,6 +50,8 @@
 				<string>DatasetteSpeedTuning,E,0,1,2,3,4,5,6,7</string>
 				<key>Zero Gap Delay</key>
 				<string>DatasetteZeroGapDelay,E,1000,2000,5000,10000,20000,50000,100000</string>
+				<key>Tape Wobble</key>
+				<string>DatasetteTapeWobble,i</string>
 			</dict>
 		</dict>
 		<key>_C128_</key>
@@ -82,6 +84,8 @@
 				</dict>
 				<key>EasyFlash</key>
 				<dict>
+					<key>Optimize CRT File</key>
+					<string>EasyFlashOptimizeCRT,e,Disabled,Enabled</string>
 					<key>Jumper</key>
 					<string>EasyFlashJumper,b</string>
 					<key>Save CRT on detach</key>
@@ -347,17 +351,32 @@
 		</dict>
 		<key>_C64_</key>
 		<dict>
-			<key>Cartridges</key>
+			<key>Memory Hack</key>
 			<dict>
+				<key>Enable</key>
+				<string>MemoryHack,e,none,C64 256K,+60K,+256K</string>
+				<key>Plus256k</key>
+				<dict>
+					<key>Image File</key>
+					<string>PLUS256Kfilename,fs</string>
+				</dict>
+				<key>Plus60k</key>
+				<dict>
+					<key>Base Address</key>
+					<string>PLUS60Kbase,E,$D040,$D100</string>
+					<key>Image File</key>
+					<string>PLUS60Kfilename,fs</string>
+				</dict>
 				<key>256K</key>
 				<dict>
 					<key>Base Address</key>
 					<string>C64_256Kbase,E,$DE00,$DE80,$DF00,$DF80</string>
-					<key>Enable</key>
-					<string>C64_256K,b</string>
 					<key>Image File</key>
 					<string>C64_256Kfilename,fs</string>
 				</dict>
+			</dict>
+			<key>Cartridges</key>
+			<dict>
 				<key>ACIA</key>
 				<dict>
 					<key>Base</key>
@@ -382,22 +401,6 @@
 					<string>IsepicSwitch,b</string>
 					<key>Write Image</key>
 					<string>IsepicImageWrite,b</string>
-				</dict>
-				<key>Plus60k</key>
-				<dict>
-					<key>Base Address</key>
-					<string>PLUS60Kbase,E,$D040,$D100</string>
-					<key>Enable</key>
-					<string>PLUS60K,b</string>
-					<key>Image File</key>
-					<string>PLUS60Kfilename,fs</string>
-				</dict>
-				<key>Plus256k</key>
-				<dict>
-					<key>Enable</key>
-					<string>PLUS256K,b</string>
-					<key>Image File</key>
-					<string>PLUS256Kfilename,fs</string>
 				</dict>
 			</dict>
 		</dict>
@@ -428,6 +431,8 @@
 		</dict>
 		<key>_PLUS4_</key>
 		<dict>
+			<key>Memory Hacks</key>
+			<string>MemoryHack,m,none,CS256K,H256K,H1024K,H4096K</string>
 			<key>Cartridges</key>
 			<dict>
 				<key>DigiBlaster</key>
@@ -705,6 +710,8 @@
 			<dict>
 				<key>Model</key>
 				<string>VICIIModel,e,6569 (PAL),8565 (PAL),6569R1 (old PAL),6567 (NTSC),8562 (NTSC),6567R56A (old NTSC),6572 (PAL-N)</string>
+				<key>VSP Bug Emulation</key>
+				<string>VICIIVSPBug,e,Disabled,Enabled</string>
 			</dict>
 		</dict>
 		<key>_C64DTV_</key>

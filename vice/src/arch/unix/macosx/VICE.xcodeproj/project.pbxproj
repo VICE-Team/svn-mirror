@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1E86EF211A5C90B10042700C /* c64dtvcommoncontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF201A5C90B10042700C /* c64dtvcommoncontroller.m */; };
 		1E86EF291A5CA3D20042700C /* controlwindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF241A5CA3D20042700C /* controlwindow.m */; };
 		1E86EF2A1A5CA3D20042700C /* soundview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF261A5CA3D20042700C /* soundview.m */; };
 		1E86EF2B1A5CA3D20042700C /* statusview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF281A5CA3D20042700C /* statusview.m */; };
@@ -36,7 +35,6 @@
 		1E86EF661A5DDCE40042700C /* x11-launcher.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF5A1A5DDCE30042700C /* x11-launcher.sh */; };
 		1E88E6B51A5C8A73003FC867 /* c64commoncontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6921A5C8A73003FC867 /* c64commoncontroller.m */; };
 		1E88E6B61A5C8A73003FC867 /* c64commonmachinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6941A5C8A73003FC867 /* c64commonmachinecontroller.m */; };
-		1E88E6B71A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6961A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m */; };
 		1E88E6B81A5C8A73003FC867 /* c64dtvcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6981A5C8A73003FC867 /* c64dtvcontroller.m */; };
 		1E88E6B91A5C8A73003FC867 /* c64dtvmachinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E69A1A5C8A73003FC867 /* c64dtvmachinecontroller.m */; };
 		1E88E6BA1A5C8A73003FC867 /* c64dtvui.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E69B1A5C8A73003FC867 /* c64dtvui.m */; };
@@ -126,8 +124,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1E86EF1F1A5C90B10042700C /* c64dtvcommoncontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64dtvcommoncontroller.h; sourceTree = "<group>"; };
-		1E86EF201A5C90B10042700C /* c64dtvcommoncontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64dtvcommoncontroller.m; sourceTree = "<group>"; };
 		1E86EF231A5CA3D20042700C /* controlwindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controlwindow.h; sourceTree = "<group>"; };
 		1E86EF241A5CA3D20042700C /* controlwindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = controlwindow.m; sourceTree = "<group>"; };
 		1E86EF251A5CA3D20042700C /* soundview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = soundview.h; sourceTree = "<group>"; };
@@ -168,8 +164,6 @@
 		1E88E6921A5C8A73003FC867 /* c64commoncontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64commoncontroller.m; sourceTree = "<group>"; };
 		1E88E6931A5C8A73003FC867 /* c64commonmachinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64commonmachinecontroller.h; sourceTree = "<group>"; };
 		1E88E6941A5C8A73003FC867 /* c64commonmachinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64commonmachinecontroller.m; sourceTree = "<group>"; };
-		1E88E6951A5C8A73003FC867 /* c64dtvcommonmachinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64dtvcommonmachinecontroller.h; sourceTree = "<group>"; };
-		1E88E6961A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64dtvcommonmachinecontroller.m; sourceTree = "<group>"; };
 		1E88E6971A5C8A73003FC867 /* c64dtvcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64dtvcontroller.h; sourceTree = "<group>"; };
 		1E88E6981A5C8A73003FC867 /* c64dtvcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64dtvcontroller.m; sourceTree = "<group>"; };
 		1E88E6991A5C8A73003FC867 /* c64dtvmachinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64dtvmachinecontroller.h; sourceTree = "<group>"; };
@@ -217,8 +211,8 @@
 		1E88E6E61A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = xpet.nib; sourceTree = "<group>"; };
 		1E88E6E81A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = xplus4.nib; sourceTree = "<group>"; };
 		1E88E6EA1A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = xvic.nib; sourceTree = "<group>"; };
+		1ED89DEC1AF6CC58006F057D /* VICE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VICE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E4997A0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = DriveSettings.nib; sourceTree = "<group>"; };
-		83E499C70DE4CA1B001DE90F /* VICE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = VICE.app; path = /Users/vice/Desktop/vice/trunk/vice/src/arch/unix/macosx/build/Release/VICE.app; sourceTree = "<absolute>"; };
 		83E499E40DE4CCA9001DE90F /* console.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = console.m; sourceTree = "<group>"; };
 		83E499E60DE4CCA9001DE90F /* drivesettingswindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = drivesettingswindowcontroller.h; sourceTree = "<group>"; };
 		83E499E70DE4CCA9001DE90F /* drivesettingswindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = drivesettingswindowcontroller.m; sourceTree = "<group>"; };
@@ -358,6 +352,7 @@
 				83E499E30DE4CCA9001DE90F /* cocoa */,
 				83E499780DE4C8C8001DE90F /* English.lproj */,
 				1E86EFE91A5E02D40042700C /* Frameworks */,
+				1ED89DEC1AF6CC58006F057D /* VICE.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -464,14 +459,10 @@
 		83E49A020DE4CCA9001DE90F /* menu */ = {
 			isa = PBXGroup;
 			children = (
-				1E86EF1F1A5C90B10042700C /* c64dtvcommoncontroller.h */,
-				1E86EF201A5C90B10042700C /* c64dtvcommoncontroller.m */,
 				1E88E6911A5C8A73003FC867 /* c64commoncontroller.h */,
 				1E88E6921A5C8A73003FC867 /* c64commoncontroller.m */,
 				1E88E6931A5C8A73003FC867 /* c64commonmachinecontroller.h */,
 				1E88E6941A5C8A73003FC867 /* c64commonmachinecontroller.m */,
-				1E88E6951A5C8A73003FC867 /* c64dtvcommonmachinecontroller.h */,
-				1E88E6961A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m */,
 				1E88E6971A5C8A73003FC867 /* c64dtvcontroller.h */,
 				1E88E6981A5C8A73003FC867 /* c64dtvcontroller.m */,
 				1E88E6991A5C8A73003FC867 /* c64dtvmachinecontroller.h */,
@@ -574,7 +565,7 @@
 			);
 			name = x64;
 			productName = VICE;
-			productReference = 83E499C70DE4CA1B001DE90F /* VICE.app */;
+			productReference = 1ED89DEC1AF6CC58006F057D /* VICE.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -704,7 +695,6 @@
 				83E49A830DE6B688001DE90F /* recordmediawindowcontroller.m in Sources */,
 				1E88E6B51A5C8A73003FC867 /* c64commoncontroller.m in Sources */,
 				1E88E6B61A5C8A73003FC867 /* c64commonmachinecontroller.m in Sources */,
-				1E88E6B71A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m in Sources */,
 				1E88E6B81A5C8A73003FC867 /* c64dtvcontroller.m in Sources */,
 				1E88E6BA1A5C8A73003FC867 /* c64dtvui.m in Sources */,
 				1E88E6BB1A5C8A73003FC867 /* c64scui.m in Sources */,
@@ -721,7 +711,6 @@
 				1E88E6C61A5C8A73003FC867 /* vic20controller.m in Sources */,
 				1E88E6C71A5C8A73003FC867 /* vic20machinecontroller.m in Sources */,
 				1E88E6C81A5C8A73003FC867 /* vicefilepanel.m in Sources */,
-				1E86EF211A5C90B10042700C /* c64dtvcommoncontroller.m in Sources */,
 				1E86EF291A5CA3D20042700C /* controlwindow.m in Sources */,
 				1E86EF2A1A5CA3D20042700C /* soundview.m in Sources */,
 				1E86EF2B1A5CA3D20042700C /* statusview.m in Sources */,
