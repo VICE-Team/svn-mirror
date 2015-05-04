@@ -61,18 +61,18 @@
 void x264_predict_16x16_dc_c( pixel *src )
 {
     int dc = 0;
-    int i;
+    int i2;
     pixel4 dcsplat;
 
-    for( i = 0; i < 16; i++ )
+    for( i2 = 0; i2 < 16; i2++ )
     {
-        dc += src[-1 + i * FDEC_STRIDE];
-        dc += src[i - FDEC_STRIDE];
+        dc += src[-1 + i2 * FDEC_STRIDE];
+        dc += src[i2 - FDEC_STRIDE];
     }
     dcsplat = PIXEL_SPLAT_X4( ( dc + 16 ) >> 5 );
 
 #ifdef IDE_COMPILE
-	    {
+    {
         int i = 0;
         for(  ; i < 16; i++ ) {
             (((x264_union32_t*)(src+ 0))->i) = dcsplat;
@@ -90,15 +90,25 @@ void x264_predict_16x16_dc_c( pixel *src )
 static void x264_predict_16x16_dc_left_c( pixel *src )
 {
     int dc = 0;
-    int i;
+    int i2;
     pixel4 dcsplat;
 
-    for( i = 0; i < 16; i++ )
-        dc += src[-1 + i * FDEC_STRIDE];
+    for( i2 = 0; i2 < 16; i2++ ) {
+        dc += src[-1 + i2 * FDEC_STRIDE];
+    }
     dcsplat = PIXEL_SPLAT_X4( ( dc + 8 ) >> 4 );
 
 #ifdef IDE_COMPILE
-{ int i = 0; for(  ; i < 16; i++ ) { (((x264_union32_t*)(src+ 0))->i) = dcsplat; (((x264_union32_t*)(src+ 4))->i) = dcsplat; (((x264_union32_t*)(src+ 8))->i) = dcsplat; (((x264_union32_t*)(src+12))->i) = dcsplat; src += 32; }; }
+    {
+        int i = 0;
+        for(  ; i < 16; i++ ) {
+            (((x264_union32_t*)(src+ 0))->i) = dcsplat;
+            (((x264_union32_t*)(src+ 4))->i) = dcsplat;
+            (((x264_union32_t*)(src+ 8))->i) = dcsplat;
+            (((x264_union32_t*)(src+12))->i) = dcsplat;
+            src += 32;
+        };
+    }
 #else
 	PREDICT_16x16_DC( dcsplat );
 #endif
@@ -107,15 +117,24 @@ static void x264_predict_16x16_dc_left_c( pixel *src )
 static void x264_predict_16x16_dc_top_c( pixel *src )
 {
     int dc = 0;
-    int i;
+    int i2;
     pixel4 dcsplat;
 
-    for( i = 0; i < 16; i++ )
-        dc += src[i - FDEC_STRIDE];
+    for( i2 = 0; i2 < 16; i2++ )
+        dc += src[i2 - FDEC_STRIDE];
     dcsplat = PIXEL_SPLAT_X4( ( dc + 8 ) >> 4 );
 
 #ifdef IDE_COMPILE
-    { int i = 0; for(  ; i < 16; i++ ) { (((x264_union32_t*)(src+ 0))->i) = dcsplat; (((x264_union32_t*)(src+ 4))->i) = dcsplat; (((x264_union32_t*)(src+ 8))->i) = dcsplat; (((x264_union32_t*)(src+12))->i) = dcsplat; src += 32; }; }
+    {
+        int i = 0;
+        for(  ; i < 16; i++ ) {
+            (((x264_union32_t*)(src+ 0))->i) = dcsplat;
+            (((x264_union32_t*)(src+ 4))->i) = dcsplat;
+            (((x264_union32_t*)(src+ 8))->i) = dcsplat;
+            (((x264_union32_t*)(src+12))->i) = dcsplat;
+            src += 32;
+        };
+     }
 #else
 	PREDICT_16x16_DC( dcsplat );
 #endif
