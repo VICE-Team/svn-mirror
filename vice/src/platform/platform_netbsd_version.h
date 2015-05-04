@@ -225,27 +225,27 @@
 #define PLATFORM_OS "NetBSD 6.0"
 #endif
 
-#if (__NetBSD_Version__==60010000)
+#if (__NetBSD_Version__==600000100)
 #define PLATFORM_OS "NetBSD 6.0.1"
 #endif
 
-#if (__NetBSD_Version__==60020000)
+#if (__NetBSD_Version__==600000200)
 #define PLATFORM_OS "NetBSD 6.0.2"
 #endif
 
-#if (__NetBSD_Version__==60030000)
+#if (__NetBSD_Version__==600000300)
 #define PLATFORM_OS "NetBSD 6.0.3"
 #endif
 
-#if (__NetBSD_Version__==60040000)
+#if (__NetBSD_Version__==600000400)
 #define PLATFORM_OS "NetBSD 6.0.4"
 #endif
 
-#if (__NetBSD_Version__==60050000)
+#if (__NetBSD_Version__==600000500)
 #define PLATFORM_OS "NetBSD 6.0.5"
 #endif
 
-#if (__NetBSD_Version__==60060000)
+#if (__NetBSD_Version__==600000600)
 #define PLATFORM_OS "NetBSD 6.0.6"
 #endif
 
