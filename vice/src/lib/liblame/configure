@@ -15663,10 +15663,20 @@ $as_echo "${TERMCAP_DEFAULT}" >&6; }
 
 
 WITH_VECTOR=no
+GCC49=no
+
+if test x"$GCC" = "xyes"; then
+	case "${GCC_version}" in
+		4.9*)
+			GCC49=yes;
+			;;
+	esac
+fi
+
 case $host_cpu in
 x86_64|amd64)
 	CPUTYPE="no"
-	if test $ac_cv_header_xmmintrin_h = yes ; then
+	if test $ac_cv_header_xmmintrin_h = yes -a "$GCC49" != "xyes"; then
 		WITH_XMM=yes
 		WITH_VECTOR=yes
 	fi
@@ -15680,7 +15690,7 @@ $as_echo "#define USE_FAST_LOG 1" >>confdefs.h
 	;;
 *86)
 	CPUTYPE="i386"
-	if test $ac_cv_header_xmmintrin_h = yes ; then
+	if test $ac_cv_header_xmmintrin_h = yes -a x"$GCC49" != "xyes"; then
 		WITH_XMM=yes
 		WITH_VECTOR=yes
 	fi
