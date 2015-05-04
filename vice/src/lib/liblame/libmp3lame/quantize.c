@@ -87,21 +87,23 @@ init_xrpow_core_c(gr_info * const cod_info, FLOAT xrpow[576], int upper, FLOAT *
     }
 }
 
-
-
-
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#  if (__GNUC__ == 4) && (__GNUC_MINOR__ == 9)
+#    define DONT_USE_SSE
+#  endif
+#endif
 
 void
 init_xrpow_core_init(lame_internal_flags * const gfc)
 {
     gfc->init_xrpow_core = init_xrpow_core_c;
 
-#if defined(HAVE_XMMINTRIN_H)
+#if defined(HAVE_XMMINTRIN_H) && !defined(DONT_USE_SSE)
     if (gfc->CPU_features.SSE)
         gfc->init_xrpow_core = init_xrpow_core_sse;
 #endif
 #ifndef HAVE_NASM
-#ifdef MIN_ARCH_SSE
+#if defined(MIN_ARCH_SSE) && !defined(DONT_USE_SSE)
     gfc->init_xrpow_core = init_xrpow_core_sse;
 #endif
 #endif
