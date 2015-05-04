@@ -797,14 +797,14 @@ lowres_intra_mb:
         const int intra_penalty = 5 * a->i_lambda;
         int satds[3];
         int pixoff = 4 / sizeof(pixel);
-		int i;
+		int i2;
         int i_icost;
         int i_icost_aq;
 
         /* Avoid store forwarding stalls by writing larger chunks */
         memcpy( pix-FDEC_STRIDE, src-i_stride, 16 * sizeof(pixel) );
-        for( i = -1; i < 8; i++ )
-            M32( &pix[i*FDEC_STRIDE-pixoff] ) = M32( &src[i*i_stride-pixoff] );
+        for( i2 = -1; i2 < 8; i2++ )
+            M32( &pix[i2*FDEC_STRIDE-pixoff] ) = M32( &src[i2*i_stride-pixoff] );
 
         h->pixf.intra_mbcmp_x3_8x8c( h->mb.pic.p_fenc[0], pix, satds );
         i_icost = X264_MIN3( satds[0], satds[1], satds[2] );
@@ -982,7 +982,7 @@ static int x264_slicetype_frame_cost( x264_t *h, x264_mb_analysis_t *a,
         else
 #endif
         {
-			int i;
+			int i2;
 			int *row_satd_inter;
             int *row_satd_intra;
 
@@ -1059,25 +1059,25 @@ static int x264_slicetype_frame_cost( x264_t *h, x264_mb_analysis_t *a,
 
             row_satd_inter = fenc->i_row_satds[b-p0][p1-b];
             row_satd_intra = fenc->i_row_satds[0][0];
-            for( i = 0; i < h->param.i_lookahead_threads; i++ )
+            for( i2 = 0; i2 < h->param.i_lookahead_threads; i2++ )
             {
                 if( b == p1 )
-                    fenc->i_intra_mbs[b-p0] += output_inter[i][INTRA_MBS];
+                    fenc->i_intra_mbs[b-p0] += output_inter[i2][INTRA_MBS];
                 if( !fenc->b_intra_calculated )
                 {
-                    fenc->i_cost_est[0][0] += output_intra[i][COST_EST];
-                    fenc->i_cost_est_aq[0][0] += output_intra[i][COST_EST_AQ];
+                    fenc->i_cost_est[0][0] += output_intra[i2][COST_EST];
+                    fenc->i_cost_est_aq[0][0] += output_intra[i2][COST_EST_AQ];
                 }
 
-                fenc->i_cost_est[b-p0][p1-b] += output_inter[i][COST_EST];
-                fenc->i_cost_est_aq[b-p0][p1-b] += output_inter[i][COST_EST_AQ];
+                fenc->i_cost_est[b-p0][p1-b] += output_inter[i2][COST_EST];
+                fenc->i_cost_est_aq[b-p0][p1-b] += output_inter[i2][COST_EST_AQ];
 
                 if( h->param.rc.i_vbv_buffer_size )
                 {
-                    int row_count = output_inter[i][NUM_ROWS];
-                    memcpy( row_satd_inter, output_inter[i] + NUM_INTS, row_count * sizeof(int) );
+                    int row_count = output_inter[i2][NUM_ROWS];
+                    memcpy( row_satd_inter, output_inter[i2] + NUM_INTS, row_count * sizeof(int) );
                     if( !fenc->b_intra_calculated )
-                        memcpy( row_satd_intra, output_intra[i] + NUM_INTS, row_count * sizeof(int) );
+                        memcpy( row_satd_intra, output_intra[i2] + NUM_INTS, row_count * sizeof(int) );
                     row_satd_inter += row_count;
                     row_satd_intra += row_count;
                 }
@@ -1594,7 +1594,7 @@ void x264_slicetype_analyse( x264_t *h, int intra_minigop )
     int num_bframes;
     int num_analysed_frames;
     int reset_start;
-	int j;
+	int j2;
 
 	/* For determinism we should limit the search to the number of frames lookahead has for sure
      * in h->lookahead->next.list buffer, except at the end of stream.
@@ -1734,17 +1734,17 @@ void x264_slicetype_analyse( x264_t *h, int intra_minigop )
         else
         {
 			num_bframes = X264_MIN(num_frames-1, h->param.i_bframe);
-            for( j = 1; j < num_frames; j++ )
-                frames[j]->i_type = (j%(num_bframes+1)) ? X264_TYPE_B : X264_TYPE_P;
+            for( j2 = 1; j2 < num_frames; j2++ )
+                frames[j2]->i_type = (j2%(num_bframes+1)) ? X264_TYPE_B : X264_TYPE_P;
             frames[num_frames]->i_type = X264_TYPE_P;
         }
 
         /* Check scenecut on the first minigop. */
-        for( j = 1; j < num_bframes+1; j++ )
-            if( h->param.i_scenecut_threshold && scenecut( h, &a, frames, j, j+1, 0, orig_num_frames, i_max_search ) )
+        for( j2 = 1; j2 < num_bframes+1; j2++ )
+            if( h->param.i_scenecut_threshold && scenecut( h, &a, frames, j2, j2+1, 0, orig_num_frames, i_max_search ) )
             {
-                frames[j]->i_type = X264_TYPE_P;
-                num_analysed_frames = j;
+                frames[j2]->i_type = X264_TYPE_P;
+                num_analysed_frames = j2;
                 break;
             }
 
@@ -1752,8 +1752,8 @@ void x264_slicetype_analyse( x264_t *h, int intra_minigop )
     }
     else
     {
-        for( j = 1; j <= num_frames; j++ )
-            frames[j]->i_type = X264_TYPE_P;
+        for( j2 = 1; j2 <= num_frames; j2++ )
+            frames[j2]->i_type = X264_TYPE_P;
         reset_start = !keyframe + 1;
         num_bframes = 0;
     }
@@ -1779,8 +1779,8 @@ void x264_slicetype_analyse( x264_t *h, int intra_minigop )
         x264_vbv_lookahead( h, &a, frames, num_frames, keyframe );
 
     /* Restore frametypes for all frames that haven't actually been decided yet. */
-    for( j = reset_start; j <= num_frames; j++ )
-        frames[j]->i_type = X264_TYPE_AUTO;
+    for( j2 = reset_start; j2 <= num_frames; j2++ )
+        frames[j2]->i_type = X264_TYPE_AUTO;
 
 #if HAVE_OPENCL
     x264_opencl_slicetype_end( h );

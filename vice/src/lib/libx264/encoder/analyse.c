@@ -306,7 +306,7 @@ float *x264_analyse_prepare_costs( x264_t *h )
 int x264_analyse_init_costs( x264_t *h, float *logs, int qp )
 {
     int lambda = x264_lambda_tab[qp];
-	int i;
+	int i2;
     uint16_t *cost_i4x4_mode;
 	
 	if( h->cost_mv[qp] )
@@ -314,16 +314,16 @@ int x264_analyse_init_costs( x264_t *h, float *logs, int qp )
     /* factor of 4 from qpel, 2 from sign, and 2 because mv can be opposite from mvp */
     CHECKED_MALLOC( h->cost_mv[qp], (4*4*2048 + 1) * sizeof(uint16_t) );
     h->cost_mv[qp] += 2*4*2048;
-    for( i = 0; i <= 2*4*2048; i++ )
+    for( i2 = 0; i2 <= 2*4*2048; i2++ )
     {
-        h->cost_mv[qp][-i] =
-        h->cost_mv[qp][i]  = X264_MIN( lambda * logs[i] + .5f, (1<<16)-1 );
+        h->cost_mv[qp][-i2] =
+        h->cost_mv[qp][i2]  = X264_MIN( lambda * logs[i2] + .5f, (1<<16)-1 );
     }
     x264_pthread_mutex_lock( &cost_ref_mutex );
-    for( i = 0; i < 3; i++ ) {
+    for( i2 = 0; i2 < 3; i2++ ) {
 		int j;
 		for( j = 0; j < 33; j++ )
-            x264_cost_ref[qp][i][j] = X264_MIN( i ? lambda * bs_size_te( i, j ) : 0, (1<<16)-1 );
+            x264_cost_ref[qp][i2][j] = X264_MIN( i2 ? lambda * bs_size_te( i2, j ) : 0, (1<<16)-1 );
 	}
 	x264_pthread_mutex_unlock( &cost_ref_mutex );
     if( h->param.analyse.i_me_method >= X264_ME_ESA && !h->cost_mv_fpel[qp][0] )
@@ -339,8 +339,8 @@ int x264_analyse_init_costs( x264_t *h, float *logs, int qp )
         }
     }
     cost_i4x4_mode = (uint16_t*)ALIGN((intptr_t)x264_cost_i4x4_mode,64) + qp*32;
-    for( i = 0; i < 17; i++ )
-        cost_i4x4_mode[i] = 3*lambda*(i!=8);
+    for( i2 = 0; i2 < 17; i2++ )
+        cost_i4x4_mode[i2] = 3*lambda*(i2!=8);
     return 0;
 fail:
     return -1;
@@ -1345,13 +1345,13 @@ static void x264_intra_rd_refine( x264_t *h, x264_mb_analysis_t *a )
             int cbp_luma_new = 0;
             int i_thresh = a->b_early_terminate ? a->i_satd_i8x8_dir[idx][a->i_predict8x8[idx]] * 11/8 : COST_MAX;
             const int8_t *predict_mode;
-			int p;
+			int p2;
 
             i_best = COST_MAX64;
 
             predict_mode = predict_8x8_mode_available( a->b_avoid_topright, h->mb.i_neighbour8[idx], idx );
-            for( p = 0; p < plane_count; p++ )
-                h->predict_8x8_filter( dst[p], edge[p], h->mb.i_neighbour8[idx], ALL_NEIGHBORS );
+            for( p2 = 0; p2 < plane_count; p2++ )
+                h->predict_8x8_filter( dst[p2], edge[p2], h->mb.i_neighbour8[idx], ALL_NEIGHBORS );
 
             for( ; *predict_mode >= 0; predict_mode++ )
             {
@@ -1384,17 +1384,17 @@ static void x264_intra_rd_refine( x264_t *h, x264_mb_analysis_t *a )
                 }
             }
             a->i_cbp_i8x8_luma = cbp_luma_new;
-            for( p = 0; p < plane_count; p++ )
+            for( p2 = 0; p2 < plane_count; p2++ )
             {
-                MPIXEL_X4( dst[p]+7*FDEC_STRIDE+0 ) = pels_h[p][0];
-                MPIXEL_X4( dst[p]+7*FDEC_STRIDE+4 ) = pels_h[p][1];
+                MPIXEL_X4( dst[p2]+7*FDEC_STRIDE+0 ) = pels_h[p2][0];
+                MPIXEL_X4( dst[p2]+7*FDEC_STRIDE+4 ) = pels_h[p2][1];
                 if( !(idx&1) ) {
 					int j;
 					for( j = 0; j < 7; j++ )
-                        dst[p][7+j*FDEC_STRIDE] = pels_v[p][j];
+                        dst[p2][7+j*FDEC_STRIDE] = pels_v[p2][j];
 				}
-				M16( &h->mb.cache.non_zero_count[s8 + 0*8 + p*16] ) = nnz[p][0];
-                M16( &h->mb.cache.non_zero_count[s8 + 1*8 + p*16] ) = nnz[p][1];
+				M16( &h->mb.cache.non_zero_count[s8 + 0*8 + p2*16] ) = nnz[p2][0];
+                M16( &h->mb.cache.non_zero_count[s8 + 1*8 + p2*16] ) = nnz[p2][1];
             }
 
             x264_macroblock_cache_intra8x8_pred( h, 2*x, 2*y, a->i_predict8x8[idx] );
