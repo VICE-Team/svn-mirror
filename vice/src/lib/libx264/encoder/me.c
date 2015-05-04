@@ -444,7 +444,7 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
             int cross_start = 1;
             const uint16_t *p_cost_omvx;
             const uint16_t *p_cost_omvy;
-            int i;
+            int i2;
 
 			/* refine predictors */
             ucost1 = bcost;
@@ -545,7 +545,7 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
             omx = bmx; omy = bmy;
             p_cost_omvx = p_cost_mvx + omx*4;
             p_cost_omvy = p_cost_mvy + omy*4;
-            i = 1;
+            i2 = 1;
             do
             {
                 static const int8_t hex4[16][2] = {
@@ -555,14 +555,14 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
                     {-4, 2}, { 4, 2}, {-2, 3}, { 2, 3},
                 };
 
-                if( 4*i > X264_MIN4( mv_x_max-omx, omx-mv_x_min,
+                if( 4*i2 > X264_MIN4( mv_x_max-omx, omx-mv_x_min,
                                      mv_y_max-omy, omy-mv_y_min ) )
                 {
 					int j;
 					for( j = 0; j < 16; j++ )
                     {
-                        int mx = omx + hex4[j][0]*i;
-                        int my = omy + hex4[j][1]*i;
+                        int mx = omx + hex4[j][0]*i2;
+                        int my = omy + hex4[j][1]*i2;
                         if( CHECK_MVRANGE(mx, my) )
                             COST_MV( mx, my );
                     }
@@ -570,17 +570,17 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
                 else
                 {
                     int dir = 0;
-                    pixel *pix_base = p_fref_w + omx + (omy-4*i)*stride;
-                    int dy = i*stride;
+                    pixel *pix_base = p_fref_w + omx + (omy-4*i2)*stride;
+                    int dy = i2*stride;
 #define SADS(k,x0,y0,x1,y1,x2,y2,x3,y3)\
                     h->pixf.fpelcmp_x4[i_pixel]( p_fenc,\
-                            pix_base x0*i+(y0-2*k+4)*dy,\
-                            pix_base x1*i+(y1-2*k+4)*dy,\
-                            pix_base x2*i+(y2-2*k+4)*dy,\
-                            pix_base x3*i+(y3-2*k+4)*dy,\
+                            pix_base x0*i2+(y0-2*k+4)*dy,\
+                            pix_base x1*i2+(y1-2*k+4)*dy,\
+                            pix_base x2*i2+(y2-2*k+4)*dy,\
+                            pix_base x3*i2+(y3-2*k+4)*dy,\
                             stride, costs+4*k );\
                     pix_base += 2*dy;
-#define ADD_MVCOST(k,x,y) costs[k] += p_cost_omvx[x*4*i] + p_cost_omvy[y*4*i]
+#define ADD_MVCOST(k,x,y) costs[k] += p_cost_omvx[x*4*i2] + p_cost_omvy[y*4*i2]
 #define MIN_MV(k,x,y)     COPY2_IF_LT( bcost, costs[k], dir, x*16+(y&15) )
                     SADS( 0, +0,-4, +0,+4, -2,-3, +2,-3 );
                     SADS( 1, -4,-2, +4,-2, -4,-1, +4,-1 );
@@ -623,11 +623,11 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
 #undef MIN_MV
                     if(dir)
                     {
-                        bmx = omx + i*(dir>>4);
-                        bmy = omy + i*((dir<<28)>>28);
+                        bmx = omx + i2*(dir>>4);
+                        bmy = omy + i2*((dir<<28)>>28);
                     }
                 }
-            } while( ++i <= i_me_range>>2 );
+            } while( ++i2 <= i_me_range>>2 );
             if( bmy <= mv_y_max && bmy >= mv_y_min && bmx <= mv_x_max && bmx >= mv_x_min )
                 goto me_hex2;
             break;
@@ -685,7 +685,7 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
                 int bsad = h->pixf.sad[i_pixel]( p_fenc, FENC_STRIDE, p_fref_w+bmy*stride+bmx, stride )
                          + BITS_MVD( bmx, bmy );
 				int my;
-				int i;
+				int i2;
 
 				for( my = min_y; my <= max_y; my++ )
                 {
@@ -745,13 +745,13 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
 					int j;
 					// halve the range if the domain is too large... eh, close enough
                     sad_thresh = (sad_thresh + bsad) >> 1;
-                    for( i = 0; i < nmvsad && mvsads[i].sad <= sad_thresh; i++ );
-                    for( j = i; j < nmvsad; j++ )
+                    for( i2 = 0; i2 < nmvsad && mvsads[i2].sad <= sad_thresh; i2++ );
+                    for( j = i2; j < nmvsad; j++ )
                     {
                         uint32_t sad;
                         if( WORD_SIZE == 8 && sizeof(mvsad_t) == 8 )
                         {
-                            uint64_t mvsad = M64( &mvsads[i] ) = M64( &mvsads[j] );
+                            uint64_t mvsad = M64( &mvsads[i2] ) = M64( &mvsads[j] );
 #if WORDS_BIGENDIAN
                             mvsad >>= 32;
 #endif
@@ -760,12 +760,12 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
                         else
                         {
                             sad = mvsads[j].sad;
-                            CP32( mvsads[i].mv, mvsads[j].mv );
-                            mvsads[i].sad = sad;
+                            CP32( mvsads[i2].mv, mvsads[j].mv );
+                            mvsads[i2].sad = sad;
                         }
-                        i += (sad - (sad_thresh+1)) >> 31;
+                        i2 += (sad - (sad_thresh+1)) >> 31;
                     }
-                    nmvsad = i;
+                    nmvsad = i2;
                 }
                 while( nmvsad > limit )
                 {
@@ -780,8 +780,8 @@ void x264_me_search_ref( x264_t *h, x264_me_t *m, int16_t (*mvc)[2], int i_mvc, 
                     else
                         mvsads[bi] = mvsads[nmvsad];
                 }
-                for( i = 0; i < nmvsad; i++ )
-                    COST_MV( mvsads[i].mv[0], mvsads[i].mv[1] );
+                for( i2 = 0; i2 < nmvsad; i2++ )
+                    COST_MV( mvsads[i2].mv[0], mvsads[i2].mv[1] );
             }
             else
             {

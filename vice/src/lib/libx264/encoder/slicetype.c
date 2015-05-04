@@ -1794,7 +1794,7 @@ void x264_slicetype_decide( x264_t *h )
     int bframes;
     int brefs;
     int lookahead_size;
-	int i;
+	int i2;
     int i_coded;
 
     if( !h->lookahead->next.i_size )
@@ -1802,32 +1802,32 @@ void x264_slicetype_decide( x264_t *h )
 
     lookahead_size = h->lookahead->next.i_size;
 
-    for( i = 0; i < h->lookahead->next.i_size; i++ )
+    for( i2 = 0; i2 < h->lookahead->next.i_size; i2++ )
     {
         if( h->param.b_vfr_input )
         {
             if( lookahead_size-- > 1 )
-                h->lookahead->next.list[i]->i_duration = 2 * (h->lookahead->next.list[i+1]->i_pts - h->lookahead->next.list[i]->i_pts);
+                h->lookahead->next.list[i2]->i_duration = 2 * (h->lookahead->next.list[i2+1]->i_pts - h->lookahead->next.list[i2]->i_pts);
             else
-                h->lookahead->next.list[i]->i_duration = h->i_prev_duration;
+                h->lookahead->next.list[i2]->i_duration = h->i_prev_duration;
         }
         else
-            h->lookahead->next.list[i]->i_duration = delta_tfi_divisor[h->lookahead->next.list[i]->i_pic_struct];
-        h->i_prev_duration = h->lookahead->next.list[i]->i_duration;
-        h->lookahead->next.list[i]->f_duration = (double)h->lookahead->next.list[i]->i_duration
+            h->lookahead->next.list[i2]->i_duration = delta_tfi_divisor[h->lookahead->next.list[i2]->i_pic_struct];
+        h->i_prev_duration = h->lookahead->next.list[i2]->i_duration;
+        h->lookahead->next.list[i2]->f_duration = (double)h->lookahead->next.list[i2]->i_duration
                                                * h->sps->vui.i_num_units_in_tick
                                                / h->sps->vui.i_time_scale;
 
-        if( h->lookahead->next.list[i]->i_frame > h->i_disp_fields_last_frame && lookahead_size > 0 )
+        if( h->lookahead->next.list[i2]->i_frame > h->i_disp_fields_last_frame && lookahead_size > 0 )
         {
-            h->lookahead->next.list[i]->i_field_cnt = h->i_disp_fields;
-            h->i_disp_fields += h->lookahead->next.list[i]->i_duration;
-            h->i_disp_fields_last_frame = h->lookahead->next.list[i]->i_frame;
+            h->lookahead->next.list[i2]->i_field_cnt = h->i_disp_fields;
+            h->i_disp_fields += h->lookahead->next.list[i2]->i_duration;
+            h->i_disp_fields_last_frame = h->lookahead->next.list[i2]->i_frame;
         }
         else if( lookahead_size == 0 )
         {
-            h->lookahead->next.list[i]->i_field_cnt = h->i_disp_fields;
-            h->lookahead->next.list[i]->i_duration = h->i_prev_duration;
+            h->lookahead->next.list[i2]->i_field_cnt = h->i_disp_fields;
+            h->lookahead->next.list[i2]->i_duration = h->i_prev_duration;
         }
     }
 
@@ -1992,10 +1992,10 @@ void x264_slicetype_decide( x264_t *h )
     if( bframes )
     {
         int idx_list[] = { brefs+1, 1 };
-        for( i = 0; i < bframes; i++ )
+        for( i2 = 0; i2 < bframes; i2++ )
         {
-            int idx = idx_list[h->lookahead->next.list[i]->i_type == X264_TYPE_BREF]++;
-            frames[idx] = h->lookahead->next.list[i];
+            int idx = idx_list[h->lookahead->next.list[i2]->i_type == X264_TYPE_BREF]++;
+            frames[idx] = h->lookahead->next.list[i2];
             frames[idx]->i_reordered_pts = h->lookahead->next.list[idx]->i_pts;
         }
         frames[0] = h->lookahead->next.list[bframes];
@@ -2003,19 +2003,19 @@ void x264_slicetype_decide( x264_t *h )
         memcpy( h->lookahead->next.list, frames, (bframes+1) * sizeof(x264_frame_t*) );
     }
 
-    for( i = 0; i <= bframes; i++ )
+    for( i2 = 0; i2 <= bframes; i2++ )
     {
-        h->lookahead->next.list[i]->i_coded = i_coded++;
-        if( i )
+        h->lookahead->next.list[i2]->i_coded = i_coded++;
+        if( i2 )
         {
-            x264_calculate_durations( h, h->lookahead->next.list[i], h->lookahead->next.list[i-1], &h->i_cpb_delay, &h->i_coded_fields );
-            h->lookahead->next.list[0]->f_planned_cpb_duration[i-1] = (double)h->lookahead->next.list[i-1]->i_cpb_duration *
+            x264_calculate_durations( h, h->lookahead->next.list[i2], h->lookahead->next.list[i2-1], &h->i_cpb_delay, &h->i_coded_fields );
+            h->lookahead->next.list[0]->f_planned_cpb_duration[i2-1] = (double)h->lookahead->next.list[i2-1]->i_cpb_duration *
                                                                       h->sps->vui.i_num_units_in_tick / h->sps->vui.i_time_scale;
         }
         else
-            x264_calculate_durations( h, h->lookahead->next.list[i], NULL, &h->i_cpb_delay, &h->i_coded_fields );
+            x264_calculate_durations( h, h->lookahead->next.list[i2], NULL, &h->i_cpb_delay, &h->i_coded_fields );
 
-        h->lookahead->next.list[0]->f_planned_cpb_duration[i] = (double)h->lookahead->next.list[i]->i_cpb_duration *
+        h->lookahead->next.list[0]->f_planned_cpb_duration[i2] = (double)h->lookahead->next.list[i2]->i_cpb_duration *
                                                                 h->sps->vui.i_num_units_in_tick / h->sps->vui.i_time_scale;
     }
 }
