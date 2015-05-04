@@ -698,7 +698,7 @@ int quant_trellis_cabac( x264_t *h, dctcoef *dct,
     trellis_node_t *nodes_prev;
     trellis_node_t *bnode;
     int i;
-	int j;
+	int j2;
     ALIGNED_4( uint8_t level_state[16] );
     int level;
 
@@ -714,7 +714,7 @@ int quant_trellis_cabac( x264_t *h, dctcoef *dct,
         else
         {
             int nz;
-			int i;
+			int i2;
 
 			memcpy( orig_coefs, dct, sizeof(dctcoef)*num_coefs );
             nz = h->quantf.quant_2x2_dc( &dct[0], quant_mf[0] >> 1, quant_bias[0] << 1 );
@@ -722,8 +722,8 @@ int quant_trellis_cabac( x264_t *h, dctcoef *dct,
                 nz |= h->quantf.quant_2x2_dc( &dct[4], quant_mf[0] >> 1, quant_bias[0] << 1 );
             if( !nz )
                 return 0;
-            for( i = 0; i < num_coefs; i++ )
-                quant_coefs[i] = dct[zigzag[i]];
+            for( i2 = 0; i2 < num_coefs; i2++ )
+                quant_coefs[i2] = dct[zigzag[i2]];
         }
     }
     else
@@ -783,8 +783,8 @@ int quant_trellis_cabac( x264_t *h, dctcoef *dct,
     /* init trellis */
     nodes_cur = nodes[0];
     nodes_prev = nodes[1];
-    for( j = 1; j < 4; j++ )
-        nodes_cur[j].score = TRELLIS_SCORE_MAX;
+    for( j2 = 1; j2 < 4; j2++ )
+        nodes_cur[j2].score = TRELLIS_SCORE_MAX;
     nodes_cur[0].score = TRELLIS_SCORE_BIAS;
     nodes_cur[0].level_idx = 0;
     level_tree[0].abs_level = 0;

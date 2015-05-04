@@ -618,7 +618,7 @@ int x264_param_parse( x264_param_t *p, const char *name, const char *value )
     if(0);
     OPT("asm")
     {
-        p->cpu = isdigit(value[0]) ? atoi(value) :
+        p->cpu = isdigit((int)value[0]) ? atoi(value) :
                  !strcmp(value, "auto") || atobool(value) ? x264_cpu_detect() : 0;
         if( b_error )
         {
