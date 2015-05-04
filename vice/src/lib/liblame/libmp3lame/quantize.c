@@ -1664,7 +1664,7 @@ VBR_new_iteration_loop(lame_internal_flags * gfc, const FLOAT pe[2][2],
     const FLOAT (*const_l3_xmin)[2][SFBMAX] = (const FLOAT (*)[2][SFBMAX])l3_xmin;
     const FLOAT (*const_xrpow)[2][576] = (const FLOAT (*)[2][576])xrpow;
     const int (*const_max_bits)[2] = (const int (*)[2])max_bits;
-    
+
     (void) ms_ener_ratio; /* not used */
 
     memset(xrpow, 0, sizeof(xrpow));
@@ -1737,7 +1737,9 @@ VBR_new_iteration_loop(lame_internal_flags * gfc, const FLOAT pe[2][2],
         /* update Reservoire status */
         int     mean_bits, fullframebits;
         fullframebits = ResvFrameBegin(gfc, &mean_bits);
-        assert(used_bits <= fullframebits);
+        if (used_bits > fullframebits) {
+            assert(used_bits <= fullframebits);
+        }
         for (gr = 0; gr < cfg->mode_gr; gr++) {
             for (ch = 0; ch < cfg->channels_out; ch++) {
                 gr_info const *const cod_info = &l3_side->tt[gr][ch];
