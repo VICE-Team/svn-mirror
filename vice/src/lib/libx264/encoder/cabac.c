@@ -1021,13 +1021,13 @@ static ALWAYS_INLINE void x264_macroblock_write_cabac_internal( x264_t *h, x264_
     if( i_mb_type == I_PCM )
     {
 		int p;
-        int i;
+        int i2;
 		bs_t s;
         bs_init( &s, cb->p, cb->p_end - cb->p );
 
         for( p = 0; p < plane_count; p++ )
-            for( i = 0; i < 256; i++ )
-                bs_write( &s, BIT_DEPTH, h->mb.pic.p_fenc[p][i] );
+            for( i2 = 0; i2 < 256; i2++ )
+                bs_write( &s, BIT_DEPTH, h->mb.pic.p_fenc[p][i2] );
         if( chroma ) {
 			int ch;
             int i;

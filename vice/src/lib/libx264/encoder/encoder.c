@@ -3340,7 +3340,7 @@ int     x264_encoder_encode( x264_t *h,
     x264_t *thread_current, *thread_prev, *thread_oldest;
     int i_nal_type, i_nal_ref_idc, i_global_qp;
     int overhead = NALU_OVERHEAD;
-	int i;
+    int i2;
 
 #if HAVE_OPENCL
     if( h->opencl.b_fatal_error )
@@ -3708,18 +3708,18 @@ int     x264_encoder_encode( x264_t *h,
     }
 
     /* write extra sei */
-    for( i = 0; i < h->fenc->extra_sei.num_payloads; i++ )
+    for( i2 = 0; i2 < h->fenc->extra_sei.num_payloads; i2++ )
     {
         x264_nal_start( h, NAL_SEI, NAL_PRIORITY_DISPOSABLE );
-        x264_sei_write( &h->out.bs, h->fenc->extra_sei.payloads[i].payload, h->fenc->extra_sei.payloads[i].payload_size,
-                        h->fenc->extra_sei.payloads[i].payload_type );
+        x264_sei_write( &h->out.bs, h->fenc->extra_sei.payloads[i2].payload, h->fenc->extra_sei.payloads[i2].payload_size,
+                        h->fenc->extra_sei.payloads[i2].payload_type );
         if( x264_nal_end( h ) )
             return -1;
         overhead += h->out.nal[h->out.i_nal-1].i_payload + SEI_OVERHEAD;
         if( h->fenc->extra_sei.sei_free )
         {
-            h->fenc->extra_sei.sei_free( h->fenc->extra_sei.payloads[i].payload );
-            h->fenc->extra_sei.payloads[i].payload = NULL;
+            h->fenc->extra_sei.sei_free( h->fenc->extra_sei.payloads[i2].payload );
+            h->fenc->extra_sei.payloads[i2].payload = NULL;
         }
     }
 

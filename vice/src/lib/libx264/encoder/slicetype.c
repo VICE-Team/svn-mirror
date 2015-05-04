@@ -989,6 +989,7 @@ static int x264_slicetype_frame_cost( x264_t *h, x264_mb_analysis_t *a,
 			if( h->param.i_lookahead_threads > 1 )
             {
 				int i;
+                                x264_slicetype_slice_t s[X264_LOOKAHEAD_THREAD_MAX];
 
                 for( i = 0; i < h->param.i_lookahead_threads; i++ )
                 {
