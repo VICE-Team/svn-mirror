@@ -120,7 +120,7 @@ uint64_t x264_pixel_ssd_wxh( x264_pixel_function_t *pf, pixel *pix1, intptr_t i_
                                           pix2 + y*i_pix2 + x, i_pix2 );
     for( y = 0; y < i_height-15; y += 16 )
     {
-        int x = 0;
+        x = 0;
         if( align )
             for( ; x < i_width-15; x += 16 )
                 SSD(PIXEL_16x16);
@@ -128,7 +128,6 @@ uint64_t x264_pixel_ssd_wxh( x264_pixel_function_t *pf, pixel *pix1, intptr_t i_
             SSD(PIXEL_8x16);
     }
     if( y < i_height-7 ) {
-		int x;
 		for( x = 0; x < i_width-7; x += 8 )
             SSD(PIXEL_8x8);
 	}

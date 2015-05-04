@@ -268,7 +268,7 @@ int x264_macroblock_cache_allocate( x264_t *h )
     int prealloc_idx;
 	size_t prealloc_size;
 	uint8_t **preallocs[PREALLOC_BUF_SIZE];
-	int i;
+	int i2;
 
     h->mb.i_mb_stride = h->mb.i_mb_width;
     h->mb.i_b8_stride = h->mb.i_mb_width * 2;
@@ -299,16 +299,16 @@ int x264_macroblock_cache_allocate( x264_t *h )
             PREALLOC( h->mb.mvd[1], i_mb_count * sizeof( **h->mb.mvd ) );
     }
 
-    for( i = 0; i < 2; i++ )
+    for( i2 = 0; i2 < 2; i2++ )
     {
-        int i_refs = X264_MIN(X264_REF_MAX, (i ? 1 + !!h->param.i_bframe_pyramid : h->param.i_frame_reference) ) << PARAM_INTERLACED;
+        int i_refs = X264_MIN(X264_REF_MAX, (i2 ? 1 + !!h->param.i_bframe_pyramid : h->param.i_frame_reference) ) << PARAM_INTERLACED;
 		int j;
 
 		if( h->param.analyse.i_weighted_pred == X264_WEIGHTP_SMART )
             i_refs = X264_MIN(X264_REF_MAX, i_refs + 1 + (BIT_DEPTH == 8)); //smart weights add two duplicate frames, one in >8-bit
 
-        for( j = !i; j < i_refs; j++ )
-            PREALLOC( h->mb.mvr[i][j], 2 * (i_mb_count + 1) * sizeof(int16_t) );
+        for( j = !i2; j < i_refs; j++ )
+            PREALLOC( h->mb.mvr[i2][j], 2 * (i_mb_count + 1) * sizeof(int16_t) );
     }
 
     if( h->param.analyse.i_weighted_pred )
@@ -353,18 +353,18 @@ int x264_macroblock_cache_allocate( x264_t *h )
 
     memset( h->mb.slice_table, -1, i_mb_count * sizeof(uint16_t) );
 
-    for( i = 0; i < 2; i++ )
+    for( i2 = 0; i2 < 2; i2++ )
     {
-        int i_refs = X264_MIN(X264_REF_MAX, (i ? 1 + !!h->param.i_bframe_pyramid : h->param.i_frame_reference) ) << PARAM_INTERLACED;
+        int i_refs = X264_MIN(X264_REF_MAX, (i2 ? 1 + !!h->param.i_bframe_pyramid : h->param.i_frame_reference) ) << PARAM_INTERLACED;
 		int j;
 
 		if( h->param.analyse.i_weighted_pred == X264_WEIGHTP_SMART )
             i_refs = X264_MIN(X264_REF_MAX, i_refs + 1 + (BIT_DEPTH == 8)); //smart weights add two duplicate frames, one in >8-bit
 
-        for( j = !i; j < i_refs; j++ )
+        for( j = !i2; j < i_refs; j++ )
         {
-            M32( h->mb.mvr[i][j][0] ) = 0;
-            h->mb.mvr[i][j]++;
+            M32( h->mb.mvr[i2][j][0] ) = 0;
+            h->mb.mvr[i2][j]++;
         }
     }
 
@@ -622,7 +622,7 @@ static void ALWAYS_INLINE x264_macroblock_load_pic_pointers( x264_t *h, int mb_x
     int ref_pix_offset[2] = { i_pix_offset, i_pix_offset };
     pixel *plane_src;
 	pixel **filtered_src;
-	int j;
+	int j2;
 
 	/* ref_pix_offset[0] references the current field and [1] the opposite field. */
     if( mb_interlaced )
@@ -655,55 +655,55 @@ static void ALWAYS_INLINE x264_macroblock_load_pic_pointers( x264_t *h, int mb_x
             else
                 h->mb.pic.p_fdec[i][-1+j*FDEC_STRIDE] = plane_fdec[-1+j*i_stride2];
     }
-    for( j = 0; j < h->mb.pic.i_fref[0]; j++ )
+    for( j2 = 0; j2 < h->mb.pic.i_fref[0]; j2++ )
     {
         // Interpolate between pixels in same field.
         if( mb_interlaced )
         {
-            plane_src = h->fref[0][j>>1]->plane_fld[i];
-            filtered_src = h->fref[0][j>>1]->filtered_fld[i];
+            plane_src = h->fref[0][j2>>1]->plane_fld[i];
+            filtered_src = h->fref[0][j2>>1]->filtered_fld[i];
         }
         else
         {
-            plane_src = h->fref[0][j]->plane[i];
-            filtered_src = h->fref[0][j]->filtered[i];
+            plane_src = h->fref[0][j2]->plane[i];
+            filtered_src = h->fref[0][j2]->filtered[i];
         }
-        h->mb.pic.p_fref[0][j][i*4] = plane_src + ref_pix_offset[j&1];
+        h->mb.pic.p_fref[0][j2][i*4] = plane_src + ref_pix_offset[j2&1];
 
         if( !b_chroma )
         {
 			int k;
 
 			for( k = 1; k < 4; k++ )
-                h->mb.pic.p_fref[0][j][i*4+k] = filtered_src[k] + ref_pix_offset[j&1];
+                h->mb.pic.p_fref[0][j2][i*4+k] = filtered_src[k] + ref_pix_offset[j2&1];
             if( !i )
             {
-                if( h->sh.weight[j][0].weightfn )
-                    h->mb.pic.p_fref_w[j] = &h->fenc->weighted[j >> mb_interlaced][ref_pix_offset[j&1]];
+                if( h->sh.weight[j2][0].weightfn )
+                    h->mb.pic.p_fref_w[j2] = &h->fenc->weighted[j2 >> mb_interlaced][ref_pix_offset[j2&1]];
                 else
-                    h->mb.pic.p_fref_w[j] = h->mb.pic.p_fref[0][j][0];
+                    h->mb.pic.p_fref_w[j2] = h->mb.pic.p_fref[0][j2][0];
             }
         }
     }
     if( h->sh.i_type == SLICE_TYPE_B )
-        for( j = 0; j < h->mb.pic.i_fref[1]; j++ )
+        for( j2 = 0; j2 < h->mb.pic.i_fref[1]; j2++ )
         {
             if( mb_interlaced )
             {
-                plane_src = h->fref[1][j>>1]->plane_fld[i];
-                filtered_src = h->fref[1][j>>1]->filtered_fld[i];
+                plane_src = h->fref[1][j2>>1]->plane_fld[i];
+                filtered_src = h->fref[1][j2>>1]->filtered_fld[i];
             }
             else
             {
-                plane_src = h->fref[1][j]->plane[i];
-                filtered_src = h->fref[1][j]->filtered[i];
+                plane_src = h->fref[1][j2]->plane[i];
+                filtered_src = h->fref[1][j2]->filtered[i];
             }
-            h->mb.pic.p_fref[1][j][i*4] = plane_src + ref_pix_offset[j&1];
+            h->mb.pic.p_fref[1][j2][i*4] = plane_src + ref_pix_offset[j2&1];
 
             if( !b_chroma ) {
 				int k;
 				for( k = 1; k < 4; k++ )
-                    h->mb.pic.p_fref[1][j][i*4+k] = filtered_src[k] + ref_pix_offset[j&1];
+                    h->mb.pic.p_fref[1][j2][i*4+k] = filtered_src[k] + ref_pix_offset[j2&1];
 			}
 		}
 }
