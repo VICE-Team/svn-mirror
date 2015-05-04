@@ -781,8 +781,8 @@ isSameLang(char const *l1, char const *l2)
     int     i;
     setLang(d, l2);
     for (i = 0; i < 3; ++i) {
-        char    a = tolower(l1[i]);
-        char    b = tolower(d[i]);
+        char    a = tolower((int)l1[i]);
+        char    b = tolower((int)d[i]);
         if (a < ' ')
             a = ' ';
         if (b < ' ')
@@ -1140,8 +1140,8 @@ local_strcasecmp(const char *s1, const char *s2)
     unsigned char c1;
     unsigned char c2;
     do {
-        c1 = tolower(*s1);
-        c2 = tolower(*s2);
+        c1 = tolower((int)*s1);
+        c2 = tolower((int)*s2);
         if (!c1) {
             break;
         }
@@ -1156,7 +1156,7 @@ static
 const char* nextUpperAlpha(const char* p, char x)
 {
     char c;
-    for(c = toupper(*p); *p != 0; c = toupper(*++p)) {
+    for(c = toupper((int)*p); *p != 0; c = toupper((int)*++p)) {
         if ('A' <= c && c <= 'Z') {
             if (c != x) {
                 return p;
@@ -1173,8 +1173,8 @@ sloppyCompared(const char* p, const char* q)
     char cp, cq;
     p = nextUpperAlpha(p, 0);
     q = nextUpperAlpha(q, 0);
-    cp = toupper(*p);
-    cq = toupper(*q);
+    cp = toupper((int)*p);
+    cq = toupper((int)*q);
     while (cp == cq) {
         if (cp == 0) {
             return 1;
@@ -1185,8 +1185,8 @@ sloppyCompared(const char* p, const char* q)
         }
         p = nextUpperAlpha(p, cp);
         q = nextUpperAlpha(q, cq);
-        cp = toupper(*p);
-        cq = toupper(*q);
+        cp = toupper((int)*p);
+        cq = toupper((int)*q);
     }
     return 0;
 }

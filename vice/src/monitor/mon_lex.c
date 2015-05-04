@@ -16,12 +16,17 @@
 /* First, we deal with  platform-specific or compiler-specific issues. */
 
 /* begin standard C headers. */
+#ifdef _LIBC
+#include "namespace.h"
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
 
 /* end standard C headers. */
+
+/*	$NetBSD: flexint.h,v 1.1.1.1 2009/10/26 00:26:19 christos Exp $	*/
 
 /* flex integer type definitions */
 
@@ -331,7 +336,7 @@ void yyfree (void *  );
 
 /* Begin user sect3 */
 
-#define yywrap(n) 1
+#define yywrap(n) (/*CONSTCOND*/1)
 #define YY_SKIP_YYWRAP
 
 typedef unsigned char YY_CHAR;
@@ -350,6 +355,9 @@ extern char *yytext;
 static yy_state_type yy_get_previous_state (void );
 static yy_state_type yy_try_NUL_trans (yy_state_type current_state  );
 static int yy_get_next_buffer (void );
+#if defined(__GNUC__) && __GNUC__ >= 3
+__attribute__((__noreturn__))
+#endif
 static void yy_fatal_error (yyconst char msg[]  );
 
 /* Done after the current pattern has been matched and before the
@@ -1600,7 +1608,7 @@ send:
 
 #define YY_NO_INPUT 1
 
-#line 1604 "mon_lex.c"
+#line 1612 "mon_lex.c"
 
 #define INITIAL 0
 #define FNAME 1
@@ -1644,11 +1652,11 @@ void yyset_extra (YY_EXTRA_TYPE user_defined  );
 
 FILE *yyget_in (void );
 
-void yyset_in  (FILE * in_str  );
+void yyset_in  (FILE * _in_str  );
 
 FILE *yyget_out (void );
 
-void yyset_out  (FILE * out_str  );
+void yyset_out  (FILE * _out_str  );
 
 int yyget_leng (void );
 
@@ -1656,7 +1664,7 @@ char *yyget_text (void );
 
 int yyget_lineno (void );
 
-void yyset_lineno (int line_number  );
+void yyset_lineno (int _line_number  );
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -1668,6 +1676,10 @@ extern "C" int yywrap (void );
 #else
 extern int yywrap (void );
 #endif
+#endif
+
+#ifndef YY_NO_UNPUT
+    
 #endif
 
 #ifndef yytext_ptr
@@ -1709,7 +1721,7 @@ static int input (void );
 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
 		{ \
 		int c = '*'; \
-		int n; \
+		size_t n; \
 		for ( n = 0; n < max_size && \
 			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
@@ -1777,7 +1789,7 @@ extern int yylex (void);
 
 /* Code executed at the end of each rule. */
 #ifndef YY_BREAK
-#define YY_BREAK break;
+#define YY_BREAK /*LINTED*/break;
 #endif
 
 #define YY_RULE_SETUP \
@@ -1809,7 +1821,7 @@ YY_DECL
    }
 
 
-#line 1813 "mon_lex.c"
+#line 1825 "mon_lex.c"
 
 	if ( !(yy_init) )
 		{
@@ -1843,7 +1855,7 @@ YY_DECL
 		yy_load_buffer_state( );
 		}
 
-	while ( 1 )		/* loops until end-of-file is reached */
+	while (/*CONSTCOND*/ 1 )		/* loops until end-of-file is reached */
 		{
 		(yy_more_len) = 0;
 		if ( (yy_more_flag) )
@@ -3482,7 +3494,7 @@ YY_RULE_SETUP
 #line 562 "mon_lex.l"
 ECHO;
 	YY_BREAK
-#line 3486 "mon_lex.c"
+#line 3498 "mon_lex.c"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(FNAME):
 			case YY_STATE_EOF(CMD):
@@ -3787,6 +3799,10 @@ static int yy_get_next_buffer (void)
 
 	return yy_is_jam ? 0 : yy_current_state;
 }
+
+#ifndef YY_NO_UNPUT
+
+#endif
 
 #ifndef YY_NO_INPUT
 #ifdef __cplusplus
@@ -4287,29 +4303,29 @@ char *yyget_text  (void)
 }
 
 /** Set the current line number.
- * @param line_number
+ * @param _line_number
  * 
  */
-void yyset_lineno (int  line_number )
+void yyset_lineno (int  _line_number )
 {
     
-    yylineno = line_number;
+    yylineno = _line_number;
 }
 
 /** Set the input stream. This does not discard the current
  * input buffer.
- * @param in_str A readable stream.
+ * @param _in_str A readable stream.
  * 
  * @see yy_switch_to_buffer
  */
-void yyset_in (FILE *  in_str )
+void yyset_in (FILE *  _in_str )
 {
-        yyin = in_str ;
+        yyin = _in_str ;
 }
 
-void yyset_out (FILE *  out_str )
+void yyset_out (FILE *  _out_str )
 {
-        yyout = out_str ;
+        yyout = _out_str ;
 }
 
 int yyget_debug  (void)
@@ -4317,9 +4333,9 @@ int yyget_debug  (void)
         return yy_flex_debug;
 }
 
-void yyset_debug (int  bdebug )
+void yyset_debug (int  _bdebug )
 {
-        yy_flex_debug = bdebug ;
+        yy_flex_debug = _bdebug ;
 }
 
 static int yy_init_globals (void)
