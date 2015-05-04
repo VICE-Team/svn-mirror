@@ -989,7 +989,6 @@ static int x264_slicetype_frame_cost( x264_t *h, x264_mb_analysis_t *a,
 			if( h->param.i_lookahead_threads > 1 )
             {
 				int i;
-				x264_slicetype_slice_t s[X264_LOOKAHEAD_THREAD_MAX];
 
                 for( i = 0; i < h->param.i_lookahead_threads; i++ )
                 {
@@ -1001,14 +1000,6 @@ static int x264_slicetype_frame_cost( x264_t *h, x264_mb_analysis_t *a,
                     t->mb.i_me_method = h->mb.i_me_method;
                     t->mb.i_subpel_refine = h->mb.i_subpel_refine;
                     t->mb.b_chroma_me = h->mb.b_chroma_me;
-
-#ifdef IDE_COMPILE
-                    { x264_slicetype_slice_t tmp__5 = { t, a, frames, p0, p1, b, dist_scale_factor, do_search, w,
-                        output_inter[i], output_intra[i] }; s[i] = tmp__5; }
-#else
-					s[i] = (x264_slicetype_slice_t){ t, a, frames, p0, p1, b, dist_scale_factor, do_search, w,
-                        output_inter[i], output_intra[i] };
-#endif
 
                     t->i_threadslice_start = ((h->mb.i_mb_height *  i    + h->param.i_lookahead_threads/2) / h->param.i_lookahead_threads);
                     t->i_threadslice_end   = ((h->mb.i_mb_height * (i+1) + h->param.i_lookahead_threads/2) / h->param.i_lookahead_threads);
@@ -1040,7 +1031,7 @@ static int x264_slicetype_frame_cost( x264_t *h, x264_mb_analysis_t *a,
                 x264_slicetype_slice_cost( &s );
             }
 #else
-				x264_slicetype_slice_t s = (x264_slicetype_slice_t){ h, a, frames, p0, p1, b, dist_scale_factor, do_search, w,
+		    x264_slicetype_slice_t s = (x264_slicetype_slice_t){ h, a, frames, p0, p1, b, dist_scale_factor, do_search, w,
                     output_inter[0], output_intra[0] };
                 x264_slicetype_slice_cost( &s );
 #endif

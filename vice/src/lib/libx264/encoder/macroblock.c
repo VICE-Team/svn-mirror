@@ -143,8 +143,8 @@ static void x264_mb_encode_i16x16( x264_t *h, int p, int i_qp )
     int decimate_score = h->mb.b_dct_decimate ? 0 : 9;
     int i_quant_cat = p ? CQM_4IC : CQM_4IY;
     int i_mode = h->mb.i_intra16x16_pred_mode;
-	int i;
-	int idx;
+    int i2;
+    int idx2;
 
     if( h->mb.b_lossless )
         x264_predict_lossless_16x16( h, p, i_mode );
@@ -153,12 +153,12 @@ static void x264_mb_encode_i16x16( x264_t *h, int p, int i_qp )
 
     if( h->mb.b_lossless )
     {
-        for( i = 0; i < 16; i++ )
+        for( i2 = 0; i2 < 16; i2++ )
         {
-            int oe = block_idx_xy_fenc[i];
-            int od = block_idx_xy_fdec[i];
-            nz = h->zigzagf.sub_4x4ac( h->dct.luma4x4[16*p+i], p_src+oe, p_dst+od, &dct_dc4x4[block_idx_yx_1d[i]] );
-            h->mb.cache.non_zero_count[x264_scan8[16*p+i]] = nz;
+            int oe = block_idx_xy_fenc[i2];
+            int od = block_idx_xy_fdec[i2];
+            nz = h->zigzagf.sub_4x4ac( h->dct.luma4x4[16*p+i2], p_src+oe, p_dst+od, &dct_dc4x4[block_idx_yx_1d[i2]] );
+            h->mb.cache.non_zero_count[x264_scan8[16*p+i2]] = nz;
             block_cbp |= nz;
         }
         h->mb.i_cbp_luma |= block_cbp * 0xf;
@@ -172,25 +172,25 @@ static void x264_mb_encode_i16x16( x264_t *h, int p, int i_qp )
     h->dctf.sub16x16_dct( dct4x4, p_src, p_dst );
 
     if( h->mb.b_noise_reduction )
-        for( idx = 0; idx < 16; idx++ )
-            h->quantf.denoise_dct( dct4x4[idx], h->nr_residual_sum[0], h->nr_offset[0], 16 );
+        for( idx2 = 0; idx2 < 16; idx2++ )
+            h->quantf.denoise_dct( dct4x4[idx2], h->nr_residual_sum[0], h->nr_offset[0], 16 );
 
-    for( idx = 0; idx < 16; idx++ )
+    for( idx2 = 0; idx2 < 16; idx2++ )
     {
-        dct_dc4x4[block_idx_xy_1d[idx]] = dct4x4[idx][0];
-        dct4x4[idx][0] = 0;
+        dct_dc4x4[block_idx_xy_1d[idx2]] = dct4x4[idx2][0];
+        dct4x4[idx2][0] = 0;
     }
 
     if( h->mb.b_trellis )
     {
-        for( idx = 0; idx < 16; idx++ )
-            if( x264_quant_4x4_trellis( h, dct4x4[idx], i_quant_cat, i_qp, ctx_cat_plane[DCT_LUMA_AC][p], 1, !!p, idx ) )
+        for( idx2 = 0; idx2 < 16; idx2++ )
+            if( x264_quant_4x4_trellis( h, dct4x4[idx2], i_quant_cat, i_qp, ctx_cat_plane[DCT_LUMA_AC][p], 1, !!p, idx2 ) )
             {
                 block_cbp = 0xf;
-                h->zigzagf.scan_4x4( h->dct.luma4x4[16*p+idx], dct4x4[idx] );
-                h->quantf.dequant_4x4( dct4x4[idx], h->dequant4_mf[i_quant_cat], i_qp );
-                if( decimate_score < 6 ) decimate_score += h->quantf.decimate_score15( h->dct.luma4x4[16*p+idx] );
-                h->mb.cache.non_zero_count[x264_scan8[16*p+idx]] = 1;
+                h->zigzagf.scan_4x4( h->dct.luma4x4[16*p+idx2], dct4x4[idx2] );
+                h->quantf.dequant_4x4( dct4x4[idx2], h->dequant4_mf[i_quant_cat], i_qp );
+                if( decimate_score < 6 ) decimate_score += h->quantf.decimate_score15( h->dct.luma4x4[16*p+idx2] );
+                h->mb.cache.non_zero_count[x264_scan8[16*p+idx2]] = 1;
             }
     }
     else
@@ -278,7 +278,7 @@ static ALWAYS_INLINE void x264_mb_encode_chroma_internal( x264_t *h, int b_inter
     int nz, nz_dc;
     int b_decimate = b_inter && h->mb.b_dct_decimate;
     int (*dequant_mf)[16] = h->dequant4_mf[CQM_4IC + b_inter];
-	int ch;
+    int ch2;
 
 #if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	ALIGNED_ARRAY_16( dctcoef, dct_dc,[8] );
@@ -372,10 +372,10 @@ static ALWAYS_INLINE void x264_mb_encode_chroma_internal( x264_t *h, int b_inter
         }
     }
 
-    for( ch = 0; ch < 2; ch++ )
+    for( ch2 = 0; ch2 < 2; ch2++ )
     {
-        pixel *p_src = h->mb.pic.p_fenc[1+ch];
-        pixel *p_dst = h->mb.pic.p_fdec[1+ch];
+        pixel *p_src = h->mb.pic.p_fenc[1+ch2];
+        pixel *p_dst = h->mb.pic.p_fdec[1+ch2];
         int i_decimate_score = b_decimate ? 0 : 7;
         int nz_ac = 0;
 		int i;
@@ -395,12 +395,12 @@ static ALWAYS_INLINE void x264_mb_encode_chroma_internal( x264_t *h, int b_inter
             {
                 int oe = 4*(i&1) + 4*(i>>1)*FENC_STRIDE;
                 int od = 4*(i&1) + 4*(i>>1)*FDEC_STRIDE;
-                nz = h->zigzagf.sub_4x4ac( h->dct.luma4x4[16+i+(chroma422?i&4:0)+ch*16], p_src+oe, p_dst+od,
-                                           &h->dct.chroma_dc[ch][chroma422?chroma422_scan[i]:i] );
-                h->mb.cache.non_zero_count[x264_scan8[16+i+(chroma422?i&4:0)+ch*16]] = nz;
+                nz = h->zigzagf.sub_4x4ac( h->dct.luma4x4[16+i+(chroma422?i&4:0)+ch2*16], p_src+oe, p_dst+od,
+                                           &h->dct.chroma_dc[ch2][chroma422?chroma422_scan[i]:i] );
+                h->mb.cache.non_zero_count[x264_scan8[16+i+(chroma422?i&4:0)+ch2*16]] = nz;
                 h->mb.i_cbp_chroma |= nz;
             }
-            h->mb.cache.non_zero_count[x264_scan8[CHROMA_DC+ch]] = array_non_zero( h->dct.chroma_dc[ch], chroma422?8:4 );
+            h->mb.cache.non_zero_count[x264_scan8[CHROMA_DC+ch2]] = array_non_zero( h->dct.chroma_dc[ch2], chroma422?8:4 );
             continue;
         }
 
