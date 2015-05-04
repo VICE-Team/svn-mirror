@@ -1395,7 +1395,9 @@ static int parse( int argc, char **argv, x264_param_t *param, cli_opt_t *opt )
     x264_param_t defaults;
     char *profile = NULL;
     char *vid_filters = NULL;
+#if HAVE_THREAD
     int b_thread_input = 0;
+#endif
     int b_turbo = 1;
     int b_user_ref = 0;
     int b_user_fps = 0;
@@ -1517,7 +1519,9 @@ static int parse( int argc, char **argv, x264_param_t *param, cli_opt_t *opt )
                 }
                 break;
             case OPT_THREAD_INPUT:
+#if HAVE_THREAD
                 b_thread_input = 1;
+#endif
                 break;
             case OPT_QUIET:
                 cli_log_level = param->i_log_level = X264_LOG_NONE;
