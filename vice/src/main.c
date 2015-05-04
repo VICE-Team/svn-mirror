@@ -227,7 +227,7 @@ int main_program(int argc, char **argv)
     for (i = 0; core_team[i].name; i++) {
         n += strlen(core_team[i].name);
         if (n > 74) {
-            log_message(LOG_DEFAULT, tmp);
+            log_message(LOG_DEFAULT, "%s", tmp);
             n = 0; *tmp = 0;
         }
         strcat(tmp, core_team[i].name);
@@ -235,7 +235,7 @@ int main_program(int argc, char **argv)
             strcat(tmp, ", ");
         } else {
             strcat(tmp, ".");
-            log_message(LOG_DEFAULT, tmp);
+            log_message(LOG_DEFAULT, "%s", tmp);
         }
     }
     lib_free(tmp);
