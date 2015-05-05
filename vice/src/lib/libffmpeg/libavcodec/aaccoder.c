@@ -957,7 +957,7 @@ static void search_for_quantizers_faac(AVCodecContext *avctx, AACEncContext *s,
                 int quant_max;
 
                 for (w2 = 0; w2 < sce->ics.group_len[w]; w2++) {
-                    int b;
+                    int b = 0;
                     dist += quantize_band_cost(s, coefs + w2*128,
                                                scaled + w2*128,
                                                sce->ics.swb_sizes[g],

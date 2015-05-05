@@ -50,7 +50,9 @@ static int smush_read_header(AVFormatContext *ctx)
     AVStream *vst, *ast;
     uint32_t magic, nframes, size, subversion, i;
     uint32_t width = 0, height = 0, got_audio = 0, read = 0;
-    uint32_t sample_rate, channels, palette[256];
+    uint32_t sample_rate =0;
+    uint32_t channels = 0;
+    uint32_t palette[256];
 
     magic = avio_rb32(pb);
     avio_skip(pb, 4); // skip movie size

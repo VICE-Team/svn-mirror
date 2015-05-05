@@ -129,7 +129,7 @@ int ff_srtp_decrypt(struct SRTPContext *s, uint8_t *buf, int *lenptr)
     int len = *lenptr;
     int av_uninit(seq_largest);
     uint32_t ssrc, av_uninit(roc);
-    uint64_t index;
+    uint64_t index = 0;
     int rtcp, hmac_size;
 
     // TODO: Missing replay protection
