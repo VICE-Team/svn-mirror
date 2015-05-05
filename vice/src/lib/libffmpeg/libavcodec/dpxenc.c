@@ -173,7 +173,9 @@ static int encode_frame(AVCodecContext *avctx, AVPacket *pkt,
                         const AVFrame *frame, int *got_packet)
 {
     DPXContext *s = avctx->priv_data;
-    int size, ret, need_align, len;
+    int size, ret;
+    int need_align = 0;
+    int len = 0;
     uint8_t *buf;
 
 #define HEADER_SIZE 1664  /* DPX Generic header */

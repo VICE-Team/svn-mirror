@@ -741,7 +741,7 @@ static int dvvideo_encode_frame(AVCodecContext *c, AVPacket *pkt,
         return ret;
 
     c->pix_fmt                = s->sys->pix_fmt;
-    s->frame                  = frame;
+    s->frame                  = (AVFrame *)frame;
     c->coded_frame->key_frame = 1;
     c->coded_frame->pict_type = AV_PICTURE_TYPE_I;
 

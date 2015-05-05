@@ -907,7 +907,8 @@ static int decode_block(AVCodecContext *avctx, void *tdata,
     for (i = 0;
          i < s->scan_lines_per_block && line + i <= s->ymax;
          i++, ptr += p->linesize[0]) {
-        const uint8_t *r, *g, *b, *a;
+        const uint8_t *r, *g, *b;
+        const uint8_t *a = NULL;
 
         r = channel_buffer[0];
         g = channel_buffer[1];

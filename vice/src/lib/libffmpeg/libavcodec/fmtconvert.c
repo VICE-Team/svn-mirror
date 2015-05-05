@@ -108,7 +108,7 @@ av_cold void ff_fmt_convert_init(FmtConvertContext *c, AVCodecContext *avctx)
 #if (ARCH_X86 == 1)
     if (ARCH_X86) ff_fmt_convert_init_x86(c, avctx);
 #endif
-#if (ARCH_MIPSFPU == 1)
+#if defined(ARCH_MIPSFPU) &&  (ARCH_MIPSFPU == 1)
     if (HAVE_MIPSFPU) ff_fmt_convert_init_mips(c);
 #endif
 }
