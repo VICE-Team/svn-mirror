@@ -249,7 +249,8 @@ static void find_best_vect(float *work, const float *coefs,
                            float *gain)
 {
     int i, j;
-    float g, score, best_score;
+    float g = 0.0f;
+    float score, best_score;
     float vect[BLOCKSIZE];
 
     *idx = *gain = best_score = 0;

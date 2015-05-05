@@ -571,7 +571,18 @@ static inline int h263_mv4_search(MpegEncContext *s, int mx, int my, int shift)
     const int size= 1;
     const int h=8;
     int block;
-    int P[10][2];
+    int P[10][2] = {
+                     {0, 0},
+                     {0, 0},
+                     {0, 0},
+                     {0, 0},
+                     {0, 0},
+                     {0, 0},
+                     {0, 0},
+                     {0, 0},
+                     {0, 0},
+                     {0, 0}
+                 };
     int dmin_sum=0, mx4_sum=0, my4_sum=0, i;
     int same=1;
     const int stride= c->stride;
@@ -739,7 +750,18 @@ static int interlaced_search(MpegEncContext *s, int ref_index,
     const int size=0;
     const int h=8;
     int block;
-    int P[10][2];
+    int P[10][2] = {
+                       {0, 0},
+                       {0, 0},
+                       {0, 0},
+                       {0, 0},
+                       {0, 0},
+                       {0, 0},
+                       {0, 0},
+                       {0, 0},
+                       {0, 0},
+                       {0, 0}
+                   };
     uint8_t * const mv_penalty= c->current_mv_penalty;
     int same=1;
     const int stride= 2*s->linesize;

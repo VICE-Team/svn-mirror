@@ -59,10 +59,10 @@ av_cold void ff_mpadsp_init(MPADSPContext *s)
 #if (ARCH_X86 == 1)
     if (ARCH_X86)     ff_mpadsp_init_x86(s);
 #endif
-#if (ARCH_MIPSFPU == 1)
+#if defined(ARCH_MIPSFPU) && (ARCH_MIPSFPU == 1)
     if (HAVE_MIPSFPU)   ff_mpadsp_init_mipsfpu(s);
 #endif
-#if (ARCH_MIPSDSPR1 == 1)
+#if defined(ARCH_MIPSSDPR1) && (ARCH_MIPSDSPR1 == 1)
     if (HAVE_MIPSDSPR1) ff_mpadsp_init_mipsdspr1(s);
 #endif
 }

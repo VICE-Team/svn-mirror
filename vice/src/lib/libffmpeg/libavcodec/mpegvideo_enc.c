@@ -3032,7 +3032,8 @@ static int encode_thread(AVCodecContext *c, void *arg){
                 if ((s->mpv_flags & FF_MPV_FLAG_QP_RD) && dmin < INT_MAX) {
                     if(best_s.mv_type==MV_TYPE_16X16){ //FIXME move 4mv after QPRD
                         const int last_qp= backup_s.qscale;
-                        int qpi, qp, dc[6];
+                        int qpi, qp;
+                        int dc[6] = { 0, 0, 0, 0, 0, 0 };
                         int16_t ac[6][16];
                         const int mvdir= (best_s.mv_dir&MV_DIR_BACKWARD) ? 1 : 0;
                         static const int dquant_tab[4]={-1,1,-2,2};
