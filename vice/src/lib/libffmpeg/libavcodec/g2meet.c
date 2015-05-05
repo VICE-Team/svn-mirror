@@ -354,7 +354,9 @@ static int kempf_decode_tile(G2MContext *c, int tile_x, int tile_y,
     uLongf dlen = (c->tile_width + 1) * c->tile_height;
     int sub_type;
     int nblocks, cblocks, bstride;
-    int bits, bitbuf, coded;
+    int bits;
+    int bitbuf = 0;
+    int coded;
     uint8_t *dst = c->framebuf + tile_x * c->tile_width * 3 +
                    tile_y * c->tile_height * c->framebuf_stride;
 
