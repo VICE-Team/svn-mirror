@@ -1082,7 +1082,7 @@ void ff_hevc_hls_residual_coding(HEVCContext *s, int x0, int y0,
     int16_t *coeffs = lc->tu.coeffs[c_idx > 0];
     uint8_t significant_coeff_group_flag[8][8] = {{0}};
     int explicit_rdpcm_flag = 0;
-    int explicit_rdpcm_dir_flag;
+    int explicit_rdpcm_dir_flag = 0;
 
     int trafo_size = 1 << log2_trafo_size;
     int i;
@@ -1383,7 +1383,7 @@ void ff_hevc_hls_residual_coding(HEVCContext *s, int x0, int y0,
             uint16_t coeff_sign_flag;
             int sum_abs = 0;
             int sign_hidden;
-            int sb_type;
+            int sb_type = 0;
 
 
             // initialize first elem of coeff_bas_level_greater1_flag

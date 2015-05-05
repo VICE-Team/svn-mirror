@@ -156,7 +156,9 @@ int ff_hevc_output_frame(HEVCContext *s, AVFrame *out, int flush)
     do {
         int nb_output = 0;
         int min_poc   = INT_MAX;
-        int i, min_idx, ret;
+        int i;
+        int min_idx = 0;
+        int ret;
 
         if (s->sh.no_output_of_prior_pics_flag == 1) {
             for (i = 0; i < FF_ARRAY_ELEMS(s->DPB); i++) {
