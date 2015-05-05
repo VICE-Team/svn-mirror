@@ -699,6 +699,8 @@ static int amf_skip_tag(AVIOContext *pb, AMFDataType type)
     return 0;
 }
 
+/* Unused ?? */
+#if 0
 static int flv_data_packet(AVFormatContext *s, AVPacket *pkt,
                            int64_t dts, int64_t next)
 {
@@ -762,6 +764,7 @@ skip:
 
     return ret;
 }
+#endif
 
 static int flv_read_packet(AVFormatContext *s, AVPacket *pkt)
 {
