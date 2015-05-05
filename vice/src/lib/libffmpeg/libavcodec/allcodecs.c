@@ -79,7 +79,7 @@ void avcodec_register_all(void)
         return;
     initialized = 1;
 
-#  if (_MSC_VER < 1600)
+#if defined(_MSC_VER) && (_MSC_VER < 1600)
 #if (CONFIG_H263_VAAPI_HWACCEL == 1)
 REGISTER_HWACCEL(H263_VAAPI, h263_vaapi); 
 #endif

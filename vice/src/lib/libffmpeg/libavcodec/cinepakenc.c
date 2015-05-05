@@ -807,7 +807,8 @@ static int quantize(CinepakEncContext *s, int h, AVPicture *pict,
     int size = v1mode ? info->v1_size : info->v4_size;
     int64_t total_error = 0;
     uint8_t vq_pict_buf[(MB_AREA*3)/2];
-    AVPicture sub_pict, vq_pict;
+    AVPicture sub_pict = { { 0 }, { 0 } };
+    AVPicture vq_pict;
 
     for(mbn = i = y = 0; y < h; y += MB_SIZE) {
         for(x = 0; x < s->w; x += MB_SIZE, ++mbn) {
@@ -920,7 +921,8 @@ static int quantize(CinepakEncContext *s, int h, AVPicture *pict,
 static void calculate_skip_errors(CinepakEncContext *s, int h, AVPicture *last_pict, AVPicture *pict, strip_info *info)
 {
     int x, y, i;
-    AVPicture sub_last, sub_pict;
+    AVPicture sub_last;
+    AVPicture sub_pict = { {0}, {0} };
 
     for(i = y = 0; y < h; y += MB_SIZE) {
         for(x = 0; x < s->w; x += MB_SIZE, i++) {
