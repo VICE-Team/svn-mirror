@@ -1175,7 +1175,10 @@ static int rtmp_handshake(URLContext *s, RTMPContext *rt)
     int i;
     int server_pos, client_pos;
     uint8_t digest[32], signature[32];
-    int ret, type = 0;
+    int ret;
+#if (CONFIG_FFRTMPCRYPT_PROTOCOL == 1)
+    int type = 0;
+#endif
 
     av_log(s, AV_LOG_DEBUG, "Handshaking...\n");
 
@@ -1234,7 +1237,9 @@ static int rtmp_handshake(URLContext *s, RTMPContext *rt)
             return server_pos;
 
         if (!server_pos) {
+#if (CONFIG_FFRTMPCRYPT_PROTOCOL == 1)
             type = 1;
+#endif
             server_pos = rtmp_validate_digest(serverdata + 1, 8);
             if (server_pos < 0)
                 return server_pos;

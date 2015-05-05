@@ -21,6 +21,7 @@
  */
 
 #define _BSD_SOURCE
+#define _DEFAULT_SOURCE
 #include <sys/stat.h>
 #include "libavutil/avstring.h"
 #include "libavutil/log.h"

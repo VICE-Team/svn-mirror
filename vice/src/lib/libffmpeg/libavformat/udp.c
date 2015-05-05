@@ -25,6 +25,7 @@
  */
 
 #define _BSD_SOURCE     /* Needed for using struct ip_mreq with recent glibc */
+#define _DEFAULT_SOURCE
 
 #include "avformat.h"
 #include "avio_internal.h"

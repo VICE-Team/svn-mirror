@@ -741,7 +741,9 @@ static void id3v2_parse(AVIOContext *pb, AVDictionary **metadata,
         int tunsync         = 0;
         int tcomp           = 0;
         int tencr           = 0;
+#if CONFIG_ZLIB
         unsigned long dlen;
+#endif
 
         if (isv34) {
             if (avio_read(pb, tag, 4) < 4)
@@ -778,11 +780,15 @@ static void id3v2_parse(AVIOContext *pb, AVDictionary **metadata,
         if (tflags & ID3v2_FLAG_DATALEN) {
             if (tlen < 4)
                 break;
+#if CONFIG_ZLIB
             dlen = avio_rb32(pb);
+#endif
             tlen -= 4;
-        } else
+        } else {
+#if CONFIG_ZLIB
             dlen = tlen;
-
+#endif
+        }
         tcomp = tflags & ID3v2_FLAG_COMPRESSION;
         tencr = tflags & ID3v2_FLAG_ENCRYPTION;
 
