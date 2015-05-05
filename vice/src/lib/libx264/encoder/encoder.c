@@ -4184,7 +4184,7 @@ void    x264_encoder_close  ( x264_t *h )
 #if HAVE_OPENCL
     x264_opencl_function_t *ocl;
 #endif
-	int i;
+    int i2;
     int i_type;
 	
     x264_lookahead_delete( h );
@@ -4203,11 +4203,11 @@ void    x264_encoder_close  ( x264_t *h )
     {
         x264_t *thread_prev;
 
-		for( i = 0; i < h->i_thread_frames; i++ )
-            if( h->thread[i]->b_thread_active )
+	for( i2 = 0; i2 < h->i_thread_frames; i2++ )
+            if( h->thread[i2]->b_thread_active )
             {
-                assert( h->thread[i]->fenc->i_reference_count == 1 );
-                x264_frame_delete( h->thread[i]->fenc );
+                assert( h->thread[i2]->fenc->i_reference_count == 1 );
+                x264_frame_delete( h->thread[i2]->fenc );
             }
 
         thread_prev = h->thread[h->i_thread_phase];
@@ -4218,10 +4218,10 @@ void    x264_encoder_close  ( x264_t *h )
     h->i_frame++;
 
     /* Slices used and PSNR */
-    for( i = 0; i < 3; i++ )
+    for( i2 = 0; i2 < 3; i2++ )
     {
         static const uint8_t slice_order[] = { SLICE_TYPE_I, SLICE_TYPE_P, SLICE_TYPE_B };
-        int i_slice = slice_order[i];
+        int i_slice = slice_order[i2];
 
         if( h->stat.i_frame_count[i_slice] > 0 )
         {
@@ -4255,18 +4255,18 @@ void    x264_encoder_close  ( x264_t *h )
         char *p = buf;
         int den = 0;
         // weight by number of frames (including the I/P-frames) that are in a sequence of N B-frames
-        for( i = 0; i <= h->param.i_bframe; i++ )
-            den += (i+1) * h->stat.i_consecutive_bframes[i];
-        for( i = 0; i <= h->param.i_bframe; i++ )
-            p += sprintf( p, " %4.1f%%", 100. * (i+1) * h->stat.i_consecutive_bframes[i] / den );
+        for( i2 = 0; i2 <= h->param.i_bframe; i2++ )
+            den += (i2+1) * h->stat.i_consecutive_bframes[i2];
+        for( i2 = 0; i2 <= h->param.i_bframe; i2++ )
+            p += sprintf( p, " %4.1f%%", 100. * (i2+1) * h->stat.i_consecutive_bframes[i2] / den );
         x264_log( h, X264_LOG_INFO, "consecutive B-frames:%s\n", buf );
     }
 
     for( i_type = 0; i_type < 2; i_type++ )
-        for( i = 0; i < X264_PARTTYPE_MAX; i++ )
+        for( i2 = 0; i2 < X264_PARTTYPE_MAX; i2++ )
         {
-            if( i == D_DIRECT_8x8 ) continue; /* direct is counted as its own type */
-            i_mb_count_size[i_type][x264_mb_partition_pixel_table[i]] += h->stat.i_mb_partition[i_type][i];
+            if( i2 == D_DIRECT_8x8 ) continue; /* direct is counted as its own type */
+            i_mb_count_size[i_type][x264_mb_partition_pixel_table[i2]] += h->stat.i_mb_partition[i_type][i2];
         }
 
     /* MB types used */
@@ -4301,14 +4301,14 @@ void    x264_encoder_close  ( x264_t *h )
         int64_t *i_mb_size = i_mb_count_size[SLICE_TYPE_B];
         int64_t list_count[3] = {0}; /* 0 == L0, 1 == L1, 2 == BI */
         x264_print_intra( i_mb_count, i_count, b_print_pcm, buf );
-        for( i = 0; i < X264_PARTTYPE_MAX; i++ ) {
+        for( i2 = 0; i2 < X264_PARTTYPE_MAX; i2++ ) {
             int j;
 			for( j = 0; j < 2; j++ )
             {
-                int l0 = x264_mb_type_list_table[i][0][j];
-                int l1 = x264_mb_type_list_table[i][1][j];
+                int l0 = x264_mb_type_list_table[i2][0][j];
+                int l1 = x264_mb_type_list_table[i2][1][j];
                 if( l0 || l1 )
-                    list_count[l1+l0*l1] += h->stat.i_mb_count[SLICE_TYPE_B][i] * 2;
+                    list_count[l1+l0*l1] += h->stat.i_mb_count[SLICE_TYPE_B][i2] * 2;
             }
 		}
         list_count[0] += h->stat.i_mb_partition[SLICE_TYPE_B][D_L0_8x8];
@@ -4512,32 +4512,32 @@ void    x264_encoder_close  ( x264_t *h )
 
     h = h->thread[0];
 
-    for( i = 0; i < h->i_thread_frames; i++ )
-        if( h->thread[i]->b_thread_active ) {
+    for( i2 = 0; i2 < h->i_thread_frames; i2++ )
+        if( h->thread[i2]->b_thread_active ) {
 			int j;
-			for( j = 0; j < h->thread[i]->i_ref[0]; j++ )
-                if( h->thread[i]->fref[0][j] && h->thread[i]->fref[0][j]->b_duplicate )
-                    x264_frame_delete( h->thread[i]->fref[0][j] );
+			for( j = 0; j < h->thread[i2]->i_ref[0]; j++ )
+                if( h->thread[i2]->fref[0][j] && h->thread[i2]->fref[0][j]->b_duplicate )
+                    x264_frame_delete( h->thread[i2]->fref[0][j] );
 		}
 
 	if( h->param.i_lookahead_threads > 1 )
-        for( i = 0; i < h->param.i_lookahead_threads; i++ )
-            x264_free( h->lookahead_thread[i] );
+        for( i2 = 0; i2 < h->param.i_lookahead_threads; i2++ )
+            x264_free( h->lookahead_thread[i2] );
 
-    for( i = h->param.i_threads - 1; i >= 0; i-- )
+    for( i2 = h->param.i_threads - 1; i2 >= 0; i2-- )
     {
         x264_frame_t **frame;
 
-        if( !h->param.b_sliced_threads || i == 0 )
+        if( !h->param.b_sliced_threads || i2 == 0 )
         {
-            for( frame = h->thread[i]->frames.reference; *frame; frame++ )
+            for( frame = h->thread[i2]->frames.reference; *frame; frame++ )
             {
                 assert( (*frame)->i_reference_count > 0 );
                 (*frame)->i_reference_count--;
                 if( (*frame)->i_reference_count == 0 )
                     x264_frame_delete( *frame );
             }
-            frame = &h->thread[i]->fdec;
+            frame = &h->thread[i2]->fdec;
             if( *frame )
             {
                 assert( (*frame)->i_reference_count > 0 );
@@ -4545,14 +4545,14 @@ void    x264_encoder_close  ( x264_t *h )
                 if( (*frame)->i_reference_count == 0 )
                     x264_frame_delete( *frame );
             }
-            x264_macroblock_cache_free( h->thread[i] );
+            x264_macroblock_cache_free( h->thread[i2] );
         }
-        x264_macroblock_thread_free( h->thread[i], 0 );
-        x264_free( h->thread[i]->out.p_bitstream );
-        x264_free( h->thread[i]->out.nal );
-        x264_pthread_mutex_destroy( &h->thread[i]->mutex );
-        x264_pthread_cond_destroy( &h->thread[i]->cv );
-        x264_free( h->thread[i] );
+        x264_macroblock_thread_free( h->thread[i2], 0 );
+        x264_free( h->thread[i2]->out.p_bitstream );
+        x264_free( h->thread[i2]->out.nal );
+        x264_pthread_mutex_destroy( &h->thread[i2]->mutex );
+        x264_pthread_cond_destroy( &h->thread[i2]->cv );
+        x264_free( h->thread[i2] );
     }
 #if HAVE_OPENCL
     x264_opencl_close_library( ocl );

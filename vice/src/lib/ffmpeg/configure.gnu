@@ -167,7 +167,7 @@ else
 fi
 
 cat <<__END
-Running configure in libffmpeg with $config_line
+Running configure in libffmpeg with $config_line --extra-ldflags="-Llib -Llib64" --extra-cflags="-Iinclude"
 __END
 
 ${NEW_SHELL} $config_line --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64"
