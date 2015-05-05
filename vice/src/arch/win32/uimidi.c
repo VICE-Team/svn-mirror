@@ -34,6 +34,7 @@
 #include <mmsystem.h>
 #include <tchar.h>
 
+#include "machine.h"
 #include "midi.h"
 #include "res.h"
 #include "resources.h"
@@ -49,7 +50,7 @@ static void enable_midi_controls(HWND hwnd)
 
     is_enabled = (IsDlgButtonChecked(hwnd, IDC_MIDI_ENABLE) == BST_CHECKED) ? 1 : 0;
 
-    EnableWindow(GetDlgItem(hwnd, IDC_MIDI_TYPE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_MIDI_TYPE), (machine_class == VICE_MACHINE_VIC20) ? 0 : is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_MIDI_IN_DEVICE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_MIDI_OUT_DEVICE), is_enabled);
 }
@@ -131,12 +132,14 @@ static void init_midi_dialog(HWND hwnd)
     resources_get_int("MIDIEnable", &res_value);
     CheckDlgButton(hwnd, IDC_MIDI_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
-    temp_hwnd = GetDlgItem(hwnd, IDC_MIDI_TYPE);
-    for (i = 0; midi_interface[i].name != NULL; i++) {
-        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)midi_interface[i].name);
+    if (machine_class != VICE_MACHINE_VIC20) {
+        temp_hwnd = GetDlgItem(hwnd, IDC_MIDI_TYPE);
+        for (i = 0; midi_interface[i].name != NULL; i++) {
+            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)midi_interface[i].name);
+        }
+        resources_get_int("MIDIMode", &res_value);
+        SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     }
-    resources_get_int("MIDIMode", &res_value);
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_MIDI_IN_DEVICE);
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
@@ -180,7 +183,9 @@ static void init_midi_dialog(HWND hwnd)
 static void end_midi_dialog(HWND hwnd)
 {
     resources_set_int("MIDIEnable", (IsDlgButtonChecked(hwnd, IDC_MIDI_ENABLE) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("MIDIMode",(int)SendMessage(GetDlgItem(hwnd, IDC_MIDI_TYPE), CB_GETCURSEL, 0, 0));
+    if (machine_class != VICE_MACHINE_VIC20) {
+        resources_set_int("MIDIMode",(int)SendMessage(GetDlgItem(hwnd, IDC_MIDI_TYPE), CB_GETCURSEL, 0, 0));
+    }
     resources_set_int("MIDIInDev",(int)(SendMessage(GetDlgItem(hwnd, IDC_MIDI_IN_DEVICE), CB_GETCURSEL, 0, 0) - 1));
     resources_set_int("MIDIOutDev",(int)(SendMessage(GetDlgItem(hwnd, IDC_MIDI_OUT_DEVICE), CB_GETCURSEL, 0, 0) - 1));
 }
