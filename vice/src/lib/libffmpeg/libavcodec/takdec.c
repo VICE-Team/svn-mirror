@@ -371,7 +371,8 @@ static int decode_subframe(TAKDecContext *s, int32_t *decoded,
                            int subframe_size, int prev_subframe_size)
 {
     GetBitContext *gb = &s->gb;
-    int x, y, i, j, ret = 0;
+    int x= 0;
+    int y, i, j, ret = 0;
     int dshift, size, filter_quant, filter_order;
     int tfilter[MAX_PREDICTORS];
 
@@ -586,7 +587,8 @@ static int decorrelate(TAKDecContext *s, int c1, int c2, int length)
         FFSWAP(int32_t*, p1, p2);
     case 7: {
         int length2, order_half, filter_order, dval1, dval2;
-        int tmp, x, code_size;
+        int tmp, x;
+        int code_size = 0;
 
         if (length < 256)
             return AVERROR_INVALIDDATA;

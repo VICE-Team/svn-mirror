@@ -138,7 +138,7 @@ static int vc1_parse(AVCodecParserContext *s,
         next = 0;
     }
     while (i < buf_size) {
-        uint8_t b;
+        uint8_t b = 0;
         start_code_found = 0;
         while (i < buf_size && unesc_index < UNESCAPED_THRESHOLD) {
             b = buf[i++];

@@ -2684,9 +2684,13 @@ static void inter_recon(AVCodecContext *ctx)
     VP9Context *s = ctx->priv_data;
     VP9Block *b = s->b;
     int row = s->row, col = s->col;
-    ThreadFrame *tref1 = &s->refs[s->refidx[b->ref[0]]], *tref2;
-    AVFrame *ref1 = tref1->f, *ref2;
-    int w1 = ref1->width, h1 = ref1->height, w2, h2;
+    ThreadFrame *tref1 = &s->refs[s->refidx[b->ref[0]]];
+    ThreadFrame *tref2 = NULL;
+    AVFrame *ref1 = tref1->f;
+    AVFrame *ref2 = NULL;
+    int w1 = ref1->width, h1 = ref1->height;
+    int w2 = 0;
+    int h2 = 0;
     ptrdiff_t ls_y = s->y_stride, ls_uv = s->uv_stride;
 
     if (b->comp) {
@@ -3818,7 +3822,9 @@ static int vp9_decode_frame(AVCodecContext *ctx, void *frame,
     const uint8_t *data = pkt->data;
     int size = pkt->size;
     VP9Context *s = ctx->priv_data;
-    int res, tile_row, tile_col, i, ref, row, col;
+    int res, tile_row, tile_col, i;
+    int ref = 0;
+    int row, col;
     ptrdiff_t yoff, uvoff, ls_y, ls_uv;
     AVFrame *f;
 

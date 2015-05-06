@@ -2575,7 +2575,8 @@ static int recode_subtitle(AVCodecContext *avctx,
 #if CONFIG_ICONV
     iconv_t cd = (iconv_t)-1;
     int ret = 0;
-    char *inb, *outb;
+    const char *inb;
+    char *outb;
     size_t inl, outl;
     AVPacket tmp;
 #endif
