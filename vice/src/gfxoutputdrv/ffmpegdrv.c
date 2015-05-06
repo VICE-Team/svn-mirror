@@ -946,7 +946,12 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
 
         if (sws_ctx != NULL) {
             VICE_P_SWS_SCALE(sws_ctx,
-                video_st.tmp_frame->data, video_st.tmp_frame->linesize, 0, c->height,
+#if defined(STATIC_FFMPEG) || defined(SHARED_FFMPEG)
+                (const uint8_t * const *)video_st.tmp_frame->data,
+#else
+                video_st.tmp_frame->data,
+#endif
+                video_st.tmp_frame->linesize, 0, c->height,
                 video_st.frame->data, video_st.frame->linesize);
         }
     } else {

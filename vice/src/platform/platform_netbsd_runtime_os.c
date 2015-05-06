@@ -53,6 +53,9 @@
 #include <stdio.h>
 #include <sys/utsname.h>
 #include <sys/sysctl.h>
+#include <string.h>
+#include <ctype.h>
+#include <unistd.h>
 
 #include "archdep.h"
 #include "lib.h"
@@ -77,10 +80,12 @@ char *platform_get_netbsd_runtime_cpu(void)
     size_t size1 = 0;
     size_t size2 = 0;
     struct utsname name;
+#if !defined(__i386__) && !defined(__amd64__)
     char *cpu = NULL;
     char *machine = NULL;
     char *model = NULL;
     size_t len = 0;
+#endif
 
     if (!got_netbsd_cpu) {
         sprintf(netbsd_cpu, "Unknown CPU");
@@ -177,7 +182,7 @@ char *platform_get_netbsd_runtime_cpu(void)
                         loc2 = strstr(loc1, ":");
                         if (loc2) {
                             loc2 += 2;
-                            while (isspace(*loc2)) {
+                            while (isspace((int)*loc2)) {
                                 loc2++;
                             }
                             loc3 = strstr(loc2, "\n");
