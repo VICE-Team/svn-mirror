@@ -1781,10 +1781,12 @@ int ff_atrac3p_decode_channel_unit(GetBitContext *gb, Atrac3pChanUnitCtx *ctx,
     if ((ret = decode_quant_wordlen(gb, ctx, num_channels, avctx)) < 0)
         return ret;
 
-    ctx->num_subbands       = atrac3p_qu_to_subband[ctx->num_quant_units - 1] + 1;
-    ctx->num_coded_subbands = ctx->used_quant_units
-                              ? atrac3p_qu_to_subband[ctx->used_quant_units - 1] + 1
-                              : 0;
+    if ((ctx->num_quant_units - 1) > 0) {
+        ctx->num_subbands       = atrac3p_qu_to_subband[ctx->num_quant_units - 1] + 1;
+        ctx->num_coded_subbands = ctx->used_quant_units
+                                  ? atrac3p_qu_to_subband[ctx->used_quant_units - 1] + 1
+                                  : 0;
+    }
 
     if ((ret = decode_scale_factors(gb, ctx, num_channels, avctx)) < 0)
         return ret;

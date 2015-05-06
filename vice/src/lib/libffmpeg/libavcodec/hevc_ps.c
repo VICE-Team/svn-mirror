@@ -878,9 +878,11 @@ int ff_hevc_decode_nal_sps(HEVCContext *s)
 
     if (!sublayer_ordering_info) {
         for (i = 0; i < start; i++) {
-            sps->temporal_layer[i].max_dec_pic_buffering = sps->temporal_layer[start].max_dec_pic_buffering;
-            sps->temporal_layer[i].num_reorder_pics      = sps->temporal_layer[start].num_reorder_pics;
-            sps->temporal_layer[i].max_latency_increase  = sps->temporal_layer[start].max_latency_increase;
+            if (i < MAX_SUB_LAYERS) {
+                sps->temporal_layer[i].max_dec_pic_buffering = sps->temporal_layer[start].max_dec_pic_buffering;
+                sps->temporal_layer[i].num_reorder_pics      = sps->temporal_layer[start].num_reorder_pics;
+                sps->temporal_layer[i].max_latency_increase  = sps->temporal_layer[start].max_latency_increase;
+            }
         }
     }
 

@@ -597,7 +597,9 @@ static int decode_residual(H264Context *h, GetBitContext *gb, int16_t *block, in
         } \
         for(;i<total_coeff;i++) { \
             scantable--; \
-            ((type*)block)[*scantable]= level[i]; \
+            if (i < 16) { \
+                ((type*)block)[*scantable]= level[i]; \
+            } \
         } \
     }else{ \
         ((type*)block)[*scantable] = ((int)(level[0] * qmul[*scantable] + 32))>>6; \
