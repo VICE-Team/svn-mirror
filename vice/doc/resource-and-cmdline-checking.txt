@@ -19251,7 +19251,7 @@ action:         N/A
 ================================
 
 Note: Keyboard map handling has been reworked, and all parts should get updated
-as described in the wiki: http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
+as described in the wiki: http://vice-emu.pokefinder.org/index.php/Keymaps
 
 keyboard.c:
 --------------------
@@ -19267,7 +19267,7 @@ command-line:                   none
 platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl
 
-note: should not be set directly (see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps)
+note: should not be set directly (see http://vice-emu.pokefinder.org/index.php/Keymaps)
 
 keyboard.c:
 --------------------
@@ -19283,7 +19283,7 @@ command-line:                   none
 platform gui present:           windows
 platform gui missing:           amigaos/beos/dos/sdl/osx
 
-note: should not be set directly (see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps)
+note: should not be set directly (see http://vice-emu.pokefinder.org/index.php/Keymaps)
 
 keyboard.c:
 --------------------
@@ -19373,7 +19373,7 @@ description:    "Specify host keyboard layout (0: American 1: British 2: German 
 resource:       "KeyboardMapping"
 action:         N/A
 
-FIXME: generate description at runtime (see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps)
+FIXME: generate description at runtime (see http://vice-emu.pokefinder.org/index.php/Keymaps)
 
 keyboard.c:
 --------------------
@@ -19398,7 +19398,7 @@ description:    "Specify emulated keyboard type"
 resource:       "KeyboardType"
 action:         N/A
 
-FIXME: generate description at runtime (see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps)
+FIXME: generate description at runtime (see http://vice-emu.pokefinder.org/index.php/Keymaps)
 
 joystick.c:
 -----------
