@@ -248,6 +248,7 @@ char *platform_get_linux_runtime_os(void)
     struct utsname name;
     FILE *bsd_emul_test;
     int is_bsd = 0;
+    int ret;
 
     if (!got_linux_version) {
         unlink("emultest.sh");
@@ -259,8 +260,10 @@ char *platform_get_linux_runtime_os(void)
             fprintf(bsd_emul_test, "  echo emulation >emultest.result\n");
             fprintf(bsd_emul_test, "fi\n");
             fclose(bsd_emul_test);
-            system("sh ./emultest.sh");
-            unlink("emultest.sh");
+            ret = system("sh ./emultest.sh");
+            if (!ret) {
+                unlink("emultest.sh");
+            }
             bsd_emul_test = fopen("emultest.result", "rb");
             if (bsd_emul_test) {
                 sprintf(linux_version, "NetBSD");

@@ -304,6 +304,7 @@ static void Initialize(Widget request, Widget new)
     XfwfFileSelectorWidget fsw;
     char *str, *initial_file;
     static char *star = "*";
+    char *dummy;
 
     fsw = (XfwfFileSelectorWidget)new;
 
@@ -323,9 +324,12 @@ static void Initialize(Widget request, Widget new)
     str = (char *)XtCalloc((MAXPATHLEN + 2), sizeof(char));
 
     if (FSCurrentDirectory(fsw) != NULL) {
-        strcpy(str,FSCurrentDirectory(fsw));
+        strcpy(str, FSCurrentDirectory(fsw));
     } else {
-        (void)getcwd(str, MAXPATHLEN);
+        dummy = getcwd(str, MAXPATHLEN);
+        if (!dummy) {
+            str[0] = 0;
+        }
     }
     FSCurrentDirectory(fsw) = str;
 
