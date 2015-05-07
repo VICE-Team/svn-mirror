@@ -34,6 +34,7 @@
 
 #if defined(__GNU__) && !defined(NEXTSTEP_COMPILE) && !defined(OPENSTEP_COMPILE)
 
+#include <stdio.h>
 #include <sys/utsname.h>
 #include <string.h>
 #include <gnu/libc-version.h>
