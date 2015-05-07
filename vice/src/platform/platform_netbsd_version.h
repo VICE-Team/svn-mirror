@@ -173,11 +173,11 @@
 #define PLATFORM_OS "NetBSD 5.0"
 #endif
 
-#if (__NetBSD_Version__==500010000)
+#if (__NetBSD_Version__==500000100)
 #define PLATFORM_OS "NetBSD 5.0.1"
 #endif
 
-#if (__NetBSD_Version__==500020000)
+#if (__NetBSD_Version__==500000200)
 #define PLATFORM_OS "NetBSD 5.0.2"
 #endif
 
@@ -185,23 +185,23 @@
 #define PLATFORM_OS "NetBSD 5.1"
 #endif
 
-#if (__NetBSD_Version__==501010000)
+#if (__NetBSD_Version__==501000100)
 #define PLATFORM_OS "NetBSD 5.1.1"
 #endif
 
-#if (__NetBSD_Version__==501020000)
+#if (__NetBSD_Version__==501000200)
 #define PLATFORM_OS "NetBSD 5.1.2"
 #endif
 
-#if (__NetBSD_Version__==501030000)
+#if (__NetBSD_Version__==501000300)
 #define PLATFORM_OS "NetBSD 5.1.3"
 #endif
 
-#if (__NetBSD_Version__==501040000)
+#if (__NetBSD_Version__==501000400)
 #define PLATFORM_OS "NetBSD 5.1.4"
 #endif
 
-#if (__NetBSD_Version__==501040000)
+#if (__NetBSD_Version__==501000500)
 #define PLATFORM_OS "NetBSD 5.1.5"
 #endif
 
@@ -209,15 +209,15 @@
 #define PLATFORM_OS "NetBSD 5.2"
 #endif
 
-#if (__NetBSD_Version__==502010000)
+#if (__NetBSD_Version__==502000100)
 #define PLATFORM_OS "NetBSD 5.2.1"
 #endif
 
-#if (__NetBSD_Version__==502020000)
+#if (__NetBSD_Version__==502000200)
 #define PLATFORM_OS "NetBSD 5.2.2"
 #endif
 
-#if (__NetBSD_Version__==502030000)
+#if (__NetBSD_Version__==502000300)
 #define PLATFORM_OS "NetBSD 5.2.3"
 #endif
 
@@ -225,11 +225,13 @@
 #define PLATFORM_OS "NetBSD 6.0"
 #endif
 
-#if (__NetBSD_Version__==600000100)
+/* NetBSD 6.0.1 seems to be 'mis-versioned' */
+#if (__NetBSD_Version__==600000100) || (__NetBSD_Version__==600000001)
 #define PLATFORM_OS "NetBSD 6.0.1"
 #endif
 
-#if (__NetBSD_Version__==600000200)
+/* NetBSD 6.0.2 seems to be 'mis-versioned' */
+#if (__NetBSD_Version__==600000200) || (__NetBSD_Version__==600000002)
 #define PLATFORM_OS "NetBSD 6.0.2"
 #endif
 

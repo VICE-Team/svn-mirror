@@ -109,6 +109,7 @@
    x86          | glibc-2.17
    x86          | glibc-2.18
    x86          | glibc-2.19
+   x86          | glibc-2.21
    x86          | dietlibc
    x86          | newlib
    x86          | musl
