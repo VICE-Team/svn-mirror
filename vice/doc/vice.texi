@@ -3197,6 +3197,9 @@ default).
 @code{sgi}, for the Silicon Graphics audio device (@code{SoundDeviceArg}
 specifies the audio device, @file{/dev/audio} by default);
 @item
+@code{speed}, like @code{dummy} but also calculating samples (mainly
+used to evaluate the speed of the sample generator);
+@item
 @code{sun}, for the Solaris and NetBDS audio device (unfinished;
 @code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
 default).
@@ -3210,10 +3213,6 @@ default);
 
 These drivers will actually be present only if the VICE configuration
 script detected the corresponding development support at the time of compilation.
-
-@item
-@code{speed}, like @code{dummy} but also calculating samples (mainly
-used to evaluate the speed of the sample generator);
 
 @vindex SoundDeviceArg
 @item SoundDeviceArg
@@ -9598,7 +9597,6 @@ Specify @file{NAME} as the cartridge image to attach.
 @subsubsection VIC20 command-line options
 
 @table @code
-
 
 @end table
 
