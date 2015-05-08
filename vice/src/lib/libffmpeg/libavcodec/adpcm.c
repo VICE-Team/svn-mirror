@@ -599,7 +599,7 @@ static int get_nb_samples(AVCodecContext *avctx, GetByteContext *gb,
     case AV_CODEC_ID_ADPCM_SBPRO_3:
     case AV_CODEC_ID_ADPCM_SBPRO_4:
     {
-        int samples_per_byte;
+        int samples_per_byte = 0;
         switch (avctx->codec->id) {
         case AV_CODEC_ID_ADPCM_SBPRO_2: samples_per_byte = 4; break;
         case AV_CODEC_ID_ADPCM_SBPRO_3: samples_per_byte = 3; break;

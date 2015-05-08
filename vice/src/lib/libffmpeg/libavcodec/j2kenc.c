@@ -430,7 +430,8 @@ static void init_quantization(Jpeg2000EncoderContext *s)
             int nbands, lev = codsty->nreslevels - reslevelno - 1;
             nbands = reslevelno ? 3 : 1;
             for (bandno = 0; bandno < nbands; bandno++, gbandno++){
-                int expn, mant;
+                int expn;
+                int mant = 0;
 
                 if (codsty->transform == FF_DWT97_INT){
                     int bandpos = bandno + (reslevelno>0),

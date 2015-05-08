@@ -178,7 +178,8 @@ static int img_read_probe(AVProbeData *p)
 int ff_img_read_header(AVFormatContext *s1)
 {
     VideoDemuxData *s = s1->priv_data;
-    int first_index, last_index;
+    int first_index;
+    int last_index = 0;
     AVStream *st;
     enum AVPixelFormat pix_fmt = AV_PIX_FMT_NONE;
 

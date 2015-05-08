@@ -212,7 +212,8 @@ static int mpc8_read_header(AVFormatContext *s)
     AVIOContext *pb = s->pb;
     AVStream *st;
     int tag = 0;
-    int64_t size, pos;
+    int64_t size = 0;
+    int64_t pos;
 
     c->header_pos = avio_tell(pb);
     if(avio_rl32(pb) != TAG_MPCK){

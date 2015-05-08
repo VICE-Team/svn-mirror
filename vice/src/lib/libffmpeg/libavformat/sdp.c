@@ -158,7 +158,8 @@ static char *extradata2psets(AVCodecContext *c)
     static const char profile_string[] = "; profile-level-id=";
     uint8_t *orig_extradata = NULL;
     int orig_extradata_size = 0;
-    const uint8_t *sps = NULL, *sps_end;
+    const uint8_t *sps = NULL;
+    const uint8_t *sps_end = NULL;
 
     if (c->extradata_size > MAX_EXTRADATA_SIZE) {
         av_log(c, AV_LOG_ERROR, "Too much extradata!\n");

@@ -836,7 +836,8 @@ static void swap_samplerates_on_filter(AVFilterContext *filter)
 
     for (i = 0; i < filter->nb_outputs; i++) {
         AVFilterLink *outlink = filter->outputs[i];
-        int best_idx, best_diff = INT_MAX;
+        int best_idx = 0;
+        int best_diff = INT_MAX;
 
         if (outlink->type != AVMEDIA_TYPE_AUDIO ||
             outlink->in_samplerates->nb_formats < 2)

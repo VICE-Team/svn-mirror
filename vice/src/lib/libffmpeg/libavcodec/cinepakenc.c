@@ -1139,8 +1139,11 @@ static int write_cvid_header(CinepakEncContext *s, unsigned char *buf, int num_s
 static int rd_frame(CinepakEncContext *s, const AVFrame *frame, int isakeyframe, unsigned char *buf, int buf_size)
 {
     int num_strips, strip, i, y, nexty, size, temp_size;
-    AVPicture last_pict, pict, scratch_pict;
-    int64_t best_score = 0, score, score_temp;
+    AVPicture last_pict = {NULL, 0};
+    AVPicture pict;
+    AVPicture scratch_pict = {NULL, 0};
+    int64_t best_score = 0, score;
+    int64_t score_temp = 0;
 #ifdef CINEPAK_REPORT_SERR
     int64_t best_serr = 0, serr, serr_temp;
 #endif

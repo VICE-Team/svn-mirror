@@ -78,7 +78,8 @@ static int unpack(const uint8_t *src, const uint8_t *src_end,
                   uint8_t *dst, int width, int height)
 {
     uint8_t *dst_end = dst + width*height;
-    int size, size1, size2, offset, run;
+    int size, size1, size2, run;
+    int offset = 0;
     uint8_t *dst_start = dst;
 
     if (src[0] & 0x01)
