@@ -40,6 +40,10 @@
 #include <netdb.h>
 #include <ByteOrder.h>
 
+#ifdef HAVE_NETINET_TCP_H
+#include <netinet/tcp.h>
+#endif
+
 typedef int SOCKET;
 typedef struct timeval TIMEVAL;
 

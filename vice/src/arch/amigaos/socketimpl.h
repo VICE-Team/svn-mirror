@@ -69,6 +69,10 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+#ifdef HAVE_NETINET_TCP_H
+#include <netinet/tcp.h>
+#endif
+
 #include <sys/time.h>
 
 #if !defined(AMIGA_M68K) && !defined(AMIGA_AROS)

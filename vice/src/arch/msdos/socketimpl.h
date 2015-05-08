@@ -45,6 +45,10 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+#ifdef HAVE_NETINET_TCP_H
+#include <netinet/tcp.h>
+#endif
+
 typedef int SOCKET;
 typedef struct timeval TIMEVAL;
 
