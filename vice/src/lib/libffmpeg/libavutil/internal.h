@@ -82,9 +82,12 @@
 #    elif defined(_MSC_VER)
 #        define FF_DISABLE_DEPRECATION_WARNINGS __pragma(warning(push)) __pragma(warning(disable:4996))
 #        define FF_ENABLE_DEPRECATION_WARNINGS  __pragma(warning(pop))
-#    else
+#    elif AV_GCC_VERSION_AT_LEAST(4,2)
 #        define FF_DISABLE_DEPRECATION_WARNINGS _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"")
 #        define FF_ENABLE_DEPRECATION_WARNINGS  _Pragma("GCC diagnostic warning \"-Wdeprecated-declarations\"")
+#    else
+#        define FF_DISABLE_DEPRECATION_WARNINGS
+#        define FF_ENABLE_DEPRECATION_WARNINGS
 #    endif
 #else
 #    define FF_DISABLE_DEPRECATION_WARNINGS
