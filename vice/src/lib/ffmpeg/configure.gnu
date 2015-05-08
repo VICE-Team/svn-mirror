@@ -139,7 +139,7 @@ cat <<__END
 Running configure in libx264 with $config_line --extra-cflags="-Wno-deprecated-declarations"
 __END
 
-${NEW_SHELL} $config_line --extra-cflags="-Wno-deprecated-declaration"
+${NEW_SHELL} $config_line --extra-cflags="-Wno-deprecated-declarations"
 $makecommand install
 
 if [ -f "$cur/../libffmpeg/lib64/libx264.a" ]; then
