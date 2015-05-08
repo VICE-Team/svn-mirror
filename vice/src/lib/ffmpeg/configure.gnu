@@ -136,10 +136,10 @@ else
 fi
 
 cat <<__END
-Running configure in libx264 with $config_line
+Running configure in libx264 with $config_line --extra-cflags="-Wno-deprecated-declarations"
 __END
 
-${NEW_SHELL} $config_line
+${NEW_SHELL} $config_line --extra-cflags="-Wno-deprecated-declaration"
 $makecommand install
 
 if [ -f "$cur/../libffmpeg/lib64/libx264.a" ]; then
@@ -167,7 +167,7 @@ else
 fi
 
 cat <<__END
-Running configure in libffmpeg with $config_line --extra-ldflags="-Llib -Llib64" --extra-cflags="-Iinclude"
+Running configure in libffmpeg with $config_line --extra-ldflags="-Llib -Llib64" --extra-cflags="-Iinclude -Wno-deprecated-declarations"
 __END
 
-${NEW_SHELL} $config_line --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64"
+${NEW_SHELL} $config_line --extra-cflags="-Iinclude -Wno-deprecated-declarations" --extra-ldflags="-Llib -Llib64"
