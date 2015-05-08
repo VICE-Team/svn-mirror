@@ -2920,6 +2920,9 @@ Sound resources
         * `sgi', for the Silicon Graphics audio device (`SoundDeviceArg'
           specifies the audio device, `/dev/audio' by default);
 
+        * `speed', like `dummy' but also calculating samples (mainly
+          used to evaluate the speed of the sample generator);
+
         * `sun', for the Solaris and NetBDS audio device (unfinished;
           `SoundDeviceArg' specifies the audio device, `/dev/audio' by
           default).
@@ -2933,10 +2936,6 @@ Sound resources
      These drivers will actually be present only if the VICE
      configuration script detected the corresponding development
      support at the time of compilation.
-
-`'
-     `speed', like `dummy' but also calculating samples (mainly used to
-     evaluate the speed of the sample generator);
 
 `SoundDeviceArg'
      String specifying an additional parameter for the audio driver (see
