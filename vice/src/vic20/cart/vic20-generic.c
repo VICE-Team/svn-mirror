@@ -267,6 +267,7 @@ static int attach_image(int type, const char *filename)
 
     /* FIXME: the following can probably be shortened and simplified by using the
               file length that was determined above */
+    /* FIXME: some of the defined types are not handled here */
     switch (type) {
         case CARTRIDGE_VIC20_16KB_4000:
             if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
@@ -362,6 +363,11 @@ static int attach_image(int type, const char *filename)
         case CARTRIDGE_VIC20_8KB_6000:
             memcpy(cart_rom + 0x6000, rawcart, 0x2000);
             generic_rom_blocks |= VIC_CART_BLK3;
+            break;
+        case CARTRIDGE_VIC20_16KB_6000:
+            memcpy(cart_rom + 0x6000, rawcart, 0x2000);
+            memcpy(cart_rom + 0x0000, rawcart + 0x2000, 0x2000);
+            generic_rom_blocks |= (VIC_CART_BLK3 | VIC_CART_BLK5);
             break;
         case CARTRIDGE_VIC20_4KB_A000:
             memcpy(cart_rom + 0x0000, rawcart, 0x1000);
