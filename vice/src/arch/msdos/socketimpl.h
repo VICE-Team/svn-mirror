@@ -45,7 +45,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-typedef unsigned int SOCKET;
+typedef int SOCKET;
 typedef struct timeval TIMEVAL;
 
 #ifndef INVALID_SOCKET
