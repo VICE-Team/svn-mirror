@@ -1032,7 +1032,7 @@ static gfxoutputdrv_t ffmpeg_drv = {
 
 static void ffmpeg_get_formats_and_codecs(void)
 {
-    int i, j, ai, vi = 0, f;
+    int i, j, ai = 0, vi = 0, f;
     gfxoutputdrv_codec_t *audio_codec_list;
     gfxoutputdrv_codec_t *video_codec_list;
     gfxoutputdrv_codec_t *ac, *vc;
