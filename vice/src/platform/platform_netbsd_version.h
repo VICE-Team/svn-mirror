@@ -173,12 +173,9 @@
 #define PLATFORM_OS "NetBSD 5.0"
 #endif
 
-#if (__NetBSD_Version__==500000100)
-#define PLATFORM_OS "NetBSD 5.0.1"
-#endif
-
-#if (__NetBSD_Version__==500000200)
-#define PLATFORM_OS "NetBSD 5.0.2"
+/* NetBSD 5.0.x seems to be 'mis-versioned' */
+#if (__NetBSD_Version__==500000100) || (__NetBSD_Version__==500000200) || (__NetBSD_Version__==500000003) || (__NetBSD_Version__==500000002)
+#define PLATFORM_OS "NetBSD 5.0.x"
 #endif
 
 #if (__NetBSD_Version__==501000000)
