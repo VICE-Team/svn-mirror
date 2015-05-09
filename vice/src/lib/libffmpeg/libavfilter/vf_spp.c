@@ -229,6 +229,12 @@ static inline int norm_qscale(int qscale, int type)
     return qscale;
 }
 
+/* type pun fix */
+typedef union {
+    uint64_t t_uint64_t[32];
+    int16_t *t_int16_t;
+} u_uint64_int16_t;
+
 static void filter(SPPContext *p, uint8_t *dst, uint8_t *src,
                    int dst_linesize, int src_linesize, int width, int height,
                    const uint8_t *qp_table, int qp_stride, int is_luma)
@@ -236,9 +242,9 @@ static void filter(SPPContext *p, uint8_t *dst, uint8_t *src,
     int x, y, i;
     const int count = 1 << p->log2_count;
     const int linesize = is_luma ? p->temp_linesize : FFALIGN(width+16, 16);
-    DECLARE_ALIGNED(16, uint64_t, block_align)[32];
-    int16_t *block  = (int16_t *)block_align;
-    int16_t *block2 = (int16_t *)(block_align + 16);
+    DECLARE_ALIGNED(16, u_uint64_int16_t, block_align);
+    int16_t *block = (int16_t *)block_align.t_int16_t;
+    int16_t *block2 = (int16_t *)(block_align.t_int16_t + 16);
 
     for (y = 0; y < height; y++) {
         int index = 8 + 8*linesize + y*linesize;
