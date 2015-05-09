@@ -829,7 +829,7 @@ lowres_intra_mb:
         fenc->i_intra_cost[i_mb_xy] = i_icost;
         i_icost_aq = i_icost;
         if( h->param.rc.i_aq_mode )
-            i_icost_aq = (i_icost_aq * fenc->i_inv_qscale_factor[i_mb_xy] + 128) >> 8;
+            i_icost_aq = (i_icost_aq * fenc->i_inv_qscale_factor.t_uint16_t[i_mb_xy] + 128) >> 8;
         output_intra[ROW_SATD] += i_icost_aq;
         if( b_frame_score_mb )
         {
@@ -859,7 +859,7 @@ lowres_intra_mb:
     {
         int i_bcost_aq = i_bcost;
         if( h->param.rc.i_aq_mode )
-            i_bcost_aq = (i_bcost_aq * fenc->i_inv_qscale_factor[i_mb_xy] + 128) >> 8;
+            i_bcost_aq = (i_bcost_aq * fenc->i_inv_qscale_factor.t_uint16_t[i_mb_xy] + 128) >> 8;
         output_inter[ROW_SATD] += i_bcost_aq;
         if( b_frame_score_mb )
         {
@@ -1101,7 +1101,7 @@ static int x264_slicetype_frame_cost_recalculate( x264_t *h, x264_frame_t **fram
 {
     int i_score = 0;
     int *row_satd = frames[b]->i_row_satds[b-p0][p1-b];
-    float *qp_offset = IS_X264_TYPE_B(frames[b]->i_type) ? frames[b]->f_qp_offset_aq : frames[b]->f_qp_offset;
+    float *qp_offset = IS_X264_TYPE_B(frames[b]->i_type) ? frames[b]->f_qp_offset_aq.t_float : frames[b]->f_qp_offset.t_float;
     x264_emms();
     for( h->mb.i_mb_y = h->mb.i_mb_height - 1; h->mb.i_mb_y >= 0; h->mb.i_mb_y-- )
     {
@@ -1142,25 +1142,25 @@ static void x264_macroblock_tree_finish( x264_t *h, x264_frame_t *frame, float a
     strength = 5.0f * (1.0f - h->param.rc.f_qcompress);
     for( mb_index = 0; mb_index < h->mb.i_mb_count; mb_index++ )
     {
-        int intra_cost = (frame->i_intra_cost[mb_index] * frame->i_inv_qscale_factor[mb_index] + 128) >> 8;
+        int intra_cost = (frame->i_intra_cost[mb_index] * frame->i_inv_qscale_factor.t_uint16_t[mb_index] + 128) >> 8;
         if( intra_cost )
         {
-            int propagate_cost = (frame->i_propagate_cost[mb_index] * fps_factor + 128) >> 8;
+            int propagate_cost = (frame->i_propagate_cost.t_uint16_t[mb_index] * fps_factor + 128) >> 8;
             float log2_ratio = x264_log2(intra_cost + propagate_cost) - x264_log2(intra_cost) + weightdelta;
-            frame->f_qp_offset[mb_index] = frame->f_qp_offset_aq[mb_index] - strength * log2_ratio;
+            frame->f_qp_offset.t_float[mb_index] = frame->f_qp_offset_aq.t_float[mb_index] - strength * log2_ratio;
         }
     }
 }
 
 static void x264_macroblock_tree_propagate( x264_t *h, x264_frame_t **frames, float average_duration, int p0, int p1, int b, int referenced )
 {
-    uint16_t *ref_costs[2] = {frames[p0]->i_propagate_cost,frames[p1]->i_propagate_cost};
+    uint16_t *ref_costs[2] = {frames[p0]->i_propagate_cost.t_uint16_t,frames[p1]->i_propagate_cost.t_uint16_t};
     int dist_scale_factor = ( ((b-p0) << 8) + ((p1-p0) >> 1) ) / (p1-p0);
     int i_bipred_weight = h->param.analyse.b_weighted_bipred ? 64 - (dist_scale_factor>>2) : 32;
     int16_t (*mvs[2])[2] = { frames[b]->lowres_mvs[0][b-p0-1], frames[b]->lowres_mvs[1][p1-b-1] };
     int bipred_weights[2] = {i_bipred_weight, 64 - i_bipred_weight};
     int16_t *buf = h->scratch_buffer;
-    uint16_t *propagate_cost = frames[b]->i_propagate_cost;
+    uint16_t *propagate_cost = frames[b]->i_propagate_cost.t_uint16_t;
     uint16_t *lowres_costs = frames[b]->lowres_costs[b-p0][p1-b];
     float fps_factor;
 
@@ -1169,14 +1169,14 @@ static void x264_macroblock_tree_propagate( x264_t *h, x264_frame_t **frames, fl
 
     /* For non-reffed frames the source costs are always zero, so just memset one row and re-use it. */
     if( !referenced )
-        memset( frames[b]->i_propagate_cost, 0, h->mb.i_mb_width * sizeof(uint16_t) );
+        memset( frames[b]->i_propagate_cost.t_uint16_t, 0, h->mb.i_mb_width * sizeof(uint16_t) );
 
     for( h->mb.i_mb_y = 0; h->mb.i_mb_y < h->mb.i_mb_height; h->mb.i_mb_y++ )
     {
         int mb_index = h->mb.i_mb_y*h->mb.i_mb_stride;
         h->mc.mbtree_propagate_cost( buf, propagate_cost,
             frames[b]->i_intra_cost+mb_index, lowres_costs+mb_index,
-            frames[b]->i_inv_qscale_factor+mb_index, &fps_factor, h->mb.i_mb_width );
+            frames[b]->i_inv_qscale_factor.t_uint16_t+mb_index, &fps_factor, h->mb.i_mb_width );
         if( referenced )
             propagate_cost += h->mb.i_mb_width;
 
@@ -1225,18 +1225,18 @@ static void x264_macroblock_tree( x264_t *h, x264_mb_analysis_t *a, x264_frame_t
     {
         if( b_intra )
         {
-            memset( frames[0]->i_propagate_cost, 0, h->mb.i_mb_count * sizeof(uint16_t) );
-            memcpy( frames[0]->f_qp_offset, frames[0]->f_qp_offset_aq, h->mb.i_mb_count * sizeof(float) );
+            memset( frames[0]->i_propagate_cost.t_uint16_t, 0, h->mb.i_mb_count * sizeof(uint16_t) );
+            memcpy( frames[0]->f_qp_offset.t_float, frames[0]->f_qp_offset_aq.t_float, h->mb.i_mb_count * sizeof(float) );
             return;
         }
-        XCHG( uint16_t*, frames[last_nonb]->i_propagate_cost, frames[0]->i_propagate_cost );
-        memset( frames[0]->i_propagate_cost, 0, h->mb.i_mb_count * sizeof(uint16_t) );
+        XCHG( uint16_t*, frames[last_nonb]->i_propagate_cost.t_uint16_t, frames[0]->i_propagate_cost.t_uint16_t );
+        memset( frames[0]->i_propagate_cost.t_uint16_t, 0, h->mb.i_mb_count * sizeof(uint16_t) );
     }
     else
     {
         if( last_nonb < idx )
             return;
-        memset( frames[last_nonb]->i_propagate_cost, 0, h->mb.i_mb_count * sizeof(uint16_t) );
+        memset( frames[last_nonb]->i_propagate_cost.t_uint16_t, 0, h->mb.i_mb_count * sizeof(uint16_t) );
     }
 
     while( i-- > idx )
@@ -1247,13 +1247,13 @@ static void x264_macroblock_tree( x264_t *h, x264_mb_analysis_t *a, x264_frame_t
         if( cur_nonb < idx )
             break;
         x264_slicetype_frame_cost( h, a, frames, cur_nonb, last_nonb, last_nonb, 0 );
-        memset( frames[cur_nonb]->i_propagate_cost, 0, h->mb.i_mb_count * sizeof(uint16_t) );
+        memset( frames[cur_nonb]->i_propagate_cost.t_uint16_t, 0, h->mb.i_mb_count * sizeof(uint16_t) );
         bframes = last_nonb - cur_nonb - 1;
         if( h->param.i_bframe_pyramid && bframes > 1 )
         {
             int middle = (bframes + 1)/2 + cur_nonb;
             x264_slicetype_frame_cost( h, a, frames, cur_nonb, last_nonb, middle, 0 );
-            memset( frames[middle]->i_propagate_cost, 0, h->mb.i_mb_count * sizeof(uint16_t) );
+            memset( frames[middle]->i_propagate_cost.t_uint16_t, 0, h->mb.i_mb_count * sizeof(uint16_t) );
             while( i > cur_nonb )
             {
                 int p0 = i > middle ? middle : cur_nonb;
@@ -1284,7 +1284,7 @@ static void x264_macroblock_tree( x264_t *h, x264_mb_analysis_t *a, x264_frame_t
     {
         x264_slicetype_frame_cost( h, a, frames, 0, last_nonb, last_nonb, 0 );
         x264_macroblock_tree_propagate( h, frames, average_duration, 0, last_nonb, last_nonb, 1 );
-        XCHG( uint16_t*, frames[last_nonb]->i_propagate_cost, frames[0]->i_propagate_cost );
+        XCHG( uint16_t*, frames[last_nonb]->i_propagate_cost.t_uint16_t, frames[0]->i_propagate_cost.t_uint16_t );
     }
 
     x264_macroblock_tree_finish( h, frames[last_nonb], average_duration, last_nonb );
@@ -2067,7 +2067,7 @@ int x264_rc_analyse_slice( x264_t *h )
                 int inter_cost = h->fenc->lowres_costs[b-p0][p1-b][mb_xy] & LOWRES_COST_MASK;
                 int diff = intra_cost - inter_cost;
                 if( h->param.rc.i_aq_mode )
-                    h->fdec->i_row_satd[y] += (diff * frames[b]->i_inv_qscale_factor[mb_xy] + 128) >> 8;
+                    h->fdec->i_row_satd[y] += (diff * frames[b]->i_inv_qscale_factor.t_uint16_t[mb_xy] + 128) >> 8;
                 else
                     h->fdec->i_row_satd[y] += diff;
                 cost += diff;

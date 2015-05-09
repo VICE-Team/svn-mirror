@@ -93,10 +93,22 @@ typedef struct x264_frame
     struct x264_frame *orig;
 
     /* motion data */
-    int8_t  *mb_type;
+
+    /* type pun fix */
+    union {
+        int8_t  *t_int8_t;
+        uint8_t *t_uint8_t;
+    } mb_type;
+
     uint8_t *mb_partition;
     int16_t (*mv[2])[2];
-    int16_t (*mv16x16)[2];
+
+    /* type pun fix */
+    union {
+        int16_t (*t_int16_t_array)[2];
+        uint8_t *t_uint8_t;
+    } mv16x16;
+
     int16_t (*lowres_mvs[2][X264_BFRAME_MAX+1])[2];
     uint8_t *field;
     uint8_t *effective_qp;
@@ -123,15 +135,52 @@ typedef struct x264_frame
     int     i_intra_mbs[X264_BFRAME_MAX+2];
     int     *i_row_satds[X264_BFRAME_MAX+2][X264_BFRAME_MAX+2];
     int     *i_row_satd;
-    int     *i_row_bits;
-    float   *f_row_qp;
-    float   *f_row_qscale;
-    float   *f_qp_offset;
-    float   *f_qp_offset_aq;
+
+    /* type pun fix */
+    union {
+        int     *t_int;
+        uint8_t *t_uint8_t;
+    } i_row_bits;
+
+    /* type pun fix */
+    union {
+        float   *t_float;
+        uint8_t *t_uint8_t;
+    } f_row_qp;
+
+    /* type pun fix */
+    union {
+        float   *t_float;
+        uint8_t *t_uint8_t;
+    } f_row_qscale;
+
+    /* type pun fix */
+    union {
+        float   *t_float;
+        uint8_t *t_uint8_t;
+    } f_qp_offset;
+
+    /* type pun fix */
+    union {
+        float   *t_float;
+        uint8_t *t_uint8_t;
+    } f_qp_offset_aq;
+
     int     b_intra_calculated;
     uint16_t *i_intra_cost;
-    uint16_t *i_propagate_cost;
-    uint16_t *i_inv_qscale_factor;
+
+    /* type pun fix */
+    union {
+        uint16_t *t_uint16_t;
+        uint8_t *t_uint8_t;
+    } i_propagate_cost;
+
+    /* type pun fix */
+    union {
+        uint16_t *t_uint16_t;
+        uint8_t *t_uint8_t;
+    } i_inv_qscale_factor;
+
     int     b_scenecut; /* Set to zero if the frame cannot possibly be part of a real scenecut. */
     float   f_weighted_cost_delta[X264_BFRAME_MAX+2];
     uint32_t i_pixel_sum[3];

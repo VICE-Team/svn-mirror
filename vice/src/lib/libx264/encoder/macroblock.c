@@ -562,7 +562,7 @@ static void x264_macroblock_encode_skip( x264_t *h )
     }
     h->mb.i_cbp_luma = 0;
     h->mb.i_cbp_chroma = 0;
-    h->mb.cbp[h->mb.i_mb_xy] = 0;
+    h->mb.cbp.t_int16_t[h->mb.i_mb_xy] = 0;
 }
 
 /*****************************************************************************
@@ -1004,7 +1004,7 @@ static ALWAYS_INLINE void x264_macroblock_encode_internal( x264_t *h, int plane_
         cbp |= h->mb.cache.non_zero_count[x264_scan8[LUMA_DC    ]] << 8
             |  h->mb.cache.non_zero_count[x264_scan8[CHROMA_DC+0]] << 9
             |  h->mb.cache.non_zero_count[x264_scan8[CHROMA_DC+1]] << 10;
-    h->mb.cbp[h->mb.i_mb_xy] = cbp;
+    h->mb.cbp.t_int16_t[h->mb.i_mb_xy] = cbp;
 
     /* Check for P_SKIP
      * XXX: in the me perhaps we should take x264_mb_predict_mv_pskip into account

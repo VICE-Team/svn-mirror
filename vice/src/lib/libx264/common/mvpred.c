@@ -188,7 +188,7 @@ static int x264_mb_predict_mv_direct16x16_temporal( x264_t *h )
     int mb_x = h->mb.i_mb_x;
     int mb_y = h->mb.i_mb_y;
     int mb_xy = h->mb.i_mb_xy;
-    int type_col[2] = { h->fref[1][0]->mb_type[mb_xy], h->fref[1][0]->mb_type[mb_xy] };
+    int type_col[2] = { h->fref[1][0]->mb_type.t_int8_t[mb_xy], h->fref[1][0]->mb_type.t_int8_t[mb_xy] };
     int partition_col[2] = { h->fref[1][0]->mb_partition[mb_xy], h->fref[1][0]->mb_partition[mb_xy] };
     int preshift = MB_INTERLACED;
     int postshift = MB_INTERLACED;
@@ -209,8 +209,8 @@ static int x264_mb_predict_mv_direct16x16_temporal( x264_t *h )
         {
             mb_y = h->mb.i_mb_y&~1;
             mb_xy = mb_x + h->mb.i_mb_stride * mb_y;
-            type_col[0] = h->fref[1][0]->mb_type[mb_xy];
-            type_col[1] = h->fref[1][0]->mb_type[mb_xy + h->mb.i_mb_stride];
+            type_col[0] = h->fref[1][0]->mb_type.t_int8_t[mb_xy];
+            type_col[1] = h->fref[1][0]->mb_type.t_int8_t[mb_xy + h->mb.i_mb_stride];
             partition_col[0] = h->fref[1][0]->mb_partition[mb_xy];
             partition_col[1] = h->fref[1][0]->mb_partition[mb_xy + h->mb.i_mb_stride];
             preshift = 0;
@@ -230,7 +230,7 @@ static int x264_mb_predict_mv_direct16x16_temporal( x264_t *h )
                           >= abs(h->fref[1][0]->i_poc + h->fref[1][0]->i_delta_poc[1] - cur_poc);
             mb_y = (h->mb.i_mb_y&~1) + col_parity;
             mb_xy = mb_x + h->mb.i_mb_stride * mb_y;
-            type_col[0] = type_col[1] = h->fref[1][0]->mb_type[mb_xy];
+            type_col[0] = type_col[1] = h->fref[1][0]->mb_type.t_int8_t[mb_xy];
             partition_col[0] = partition_col[1] = h->fref[1][0]->mb_partition[mb_xy];
             preshift = 1;
             yshift = 2;
@@ -364,7 +364,7 @@ static ALWAYS_INLINE int x264_mb_predict_mv_direct16x16_spatial( x264_t *h, int 
     mb_y = h->mb.i_mb_y;
     mb_xy = h->mb.i_mb_xy;
 	{
-    	int type_col[2] = { h->fref[1][0]->mb_type[mb_xy], h->fref[1][0]->mb_type[mb_xy] };
+    	int type_col[2] = { h->fref[1][0]->mb_type.t_int8_t[mb_xy], h->fref[1][0]->mb_type.t_int8_t[mb_xy] };
 		{
             int partition_col[2] = { h->fref[1][0]->mb_partition[mb_xy], h->fref[1][0]->mb_partition[mb_xy] };
             int i_mb_4x4;
@@ -379,8 +379,8 @@ static ALWAYS_INLINE int x264_mb_predict_mv_direct16x16_spatial( x264_t *h, int 
                 {
                     mb_y = h->mb.i_mb_y&~1;
                     mb_xy = mb_x + h->mb.i_mb_stride * mb_y;
-                    type_col[0] = h->fref[1][0]->mb_type[mb_xy];
-                    type_col[1] = h->fref[1][0]->mb_type[mb_xy + h->mb.i_mb_stride];
+                    type_col[0] = h->fref[1][0]->mb_type.t_int8_t[mb_xy];
+                    type_col[1] = h->fref[1][0]->mb_type.t_int8_t[mb_xy + h->mb.i_mb_stride];
                     partition_col[0] = h->fref[1][0]->mb_partition[mb_xy];
                     partition_col[1] = h->fref[1][0]->mb_partition[mb_xy + h->mb.i_mb_stride];
 
@@ -398,7 +398,7 @@ static ALWAYS_INLINE int x264_mb_predict_mv_direct16x16_spatial( x264_t *h, int 
                                   >= abs(h->fref[1][0]->i_poc + h->fref[1][0]->i_delta_poc[1] - cur_poc);
                     mb_y = (h->mb.i_mb_y&~1) + col_parity;
                     mb_xy = mb_x + h->mb.i_mb_stride * mb_y;
-                    type_col[0] = type_col[1] = h->fref[1][0]->mb_type[mb_xy];
+                    type_col[0] = type_col[1] = h->fref[1][0]->mb_type.t_int8_t[mb_xy];
                     partition_col[0] = partition_col[1] = h->fref[1][0]->mb_partition[mb_xy];
                     h->mb.i_partition = partition_col[0];
                 }
@@ -633,8 +633,8 @@ void x264_mb_predict_mv_ref16x16( x264_t *h, int i_list, int i_ref, int16_t mvc[
         { \
             int mb_index = h->mb.i_mb_xy + dx + dy*h->mb.i_mb_stride; \
             int scale = (curpoc - refpoc) * l0->inv_ref_poc[MB_INTERLACED&field]; \
-            mvc[i][0] = (l0->mv16x16[mb_index][0]*scale + 128) >> 8; \
-            mvc[i][1] = (l0->mv16x16[mb_index][1]*scale + 128) >> 8; \
+            mvc[i][0] = (l0->mv16x16.t_int16_t_array[mb_index][0]*scale + 128) >> 8; \
+            mvc[i][1] = (l0->mv16x16.t_int16_t_array[mb_index][1]*scale + 128) >> 8; \
             i++; \
         }
 

@@ -611,7 +611,7 @@ static void x264_mb_analyse_init( x264_t *h, x264_mb_analysis_t *a, int qp )
                 IS_INTRA( h->mb.i_mb_type_top ) ||
                 IS_INTRA( h->mb.i_mb_type_topleft ) ||
                 IS_INTRA( h->mb.i_mb_type_topright ) ||
-                (h->sh.i_type == SLICE_TYPE_P && IS_INTRA( h->fref[0][0]->mb_type[h->mb.i_mb_xy] )) ||
+                (h->sh.i_type == SLICE_TYPE_P && IS_INTRA( h->fref[0][0]->mb_type.t_int8_t[h->mb.i_mb_xy] )) ||
                 (h->mb.i_mb_xy - h->sh.i_first_mb < 3*(h->stat.frame.i_mb_count[I_4x4] + h->stat.frame.i_mb_count[I_8x8] + h->stat.frame.i_mb_count[I_16x16])) ) )
             { /* intra is likely */ }
             else
@@ -3111,7 +3111,7 @@ static inline void x264_mb_analyse_qp_rd( x264_t *h, x264_mb_analysis_t *a )
     int direction;
 
 	origcost = bcost = x264_rd_cost_mb( h, a->i_lambda2 );
-    origcbp = h->mb.cbp[h->mb.i_mb_xy];
+    origcbp = h->mb.cbp.t_int16_t[h->mb.i_mb_xy];
 
     /* If CBP is already zero, don't raise the quantizer any higher. */
     for( direction = origcbp ? 1 : -1; direction >= -1; direction-=2 )
@@ -3147,7 +3147,7 @@ static inline void x264_mb_analyse_qp_rd( x264_t *h, x264_mb_analysis_t *a )
                 h->mb.i_qp = X264_MAX( h->mb.i_qp - threshold - 1, SPEC_QP( h->param.rc.i_qp_min ) );
                 h->mb.i_chroma_qp = h->chroma_qp_table[h->mb.i_qp];
                 already_checked_cost = x264_rd_cost_mb( h, a->i_lambda2 );
-                if( !h->mb.cbp[h->mb.i_mb_xy] )
+                if( !h->mb.cbp.t_int16_t[h->mb.i_mb_xy] )
                 {
                     /* If our empty-CBP block is lower QP than the last QP,
                      * the last QP almost surely doesn't have a CBP either. */
@@ -3184,7 +3184,7 @@ static inline void x264_mb_analyse_qp_rd( x264_t *h, x264_mb_analysis_t *a )
 
             if( failures > threshold )
                 break;
-            if( direction == 1 && !h->mb.cbp[h->mb.i_mb_xy] )
+            if( direction == 1 && !h->mb.cbp.t_int16_t[h->mb.i_mb_xy] )
                 break;
             h->mb.i_qp += direction;
         }

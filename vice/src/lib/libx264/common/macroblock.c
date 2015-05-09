@@ -468,10 +468,10 @@ void x264_macroblock_slice_init( x264_t *h )
 
 	h->mb.mv[0] = h->fdec->mv[0];
     h->mb.mv[1] = h->fdec->mv[1];
-    h->mb.mvr[0][0] = h->fdec->mv16x16;
+    h->mb.mvr[0][0] = h->fdec->mv16x16.t_int16_t_array;
     h->mb.ref[0] = h->fdec->ref[0];
     h->mb.ref[1] = h->fdec->ref[1];
-    h->mb.type = h->fdec->mb_type;
+    h->mb.type = h->fdec->mb_type.t_int8_t;
     h->mb.partition = h->fdec->mb_partition;
     h->mb.field = h->fdec->field;
 

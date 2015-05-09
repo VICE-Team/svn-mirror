@@ -72,7 +72,7 @@ static void x264_cabac_field_decoding_flag( x264_t *h, x264_cabac_t *cb )
     int ctx = 0;
     ctx += h->mb.field_decoding_flag & !!h->mb.i_mb_x;
     ctx += (h->mb.i_mb_top_mbpair_xy >= 0
-            && h->mb.slice_table[h->mb.i_mb_top_mbpair_xy] == h->sh.i_first_mb
+            && h->mb.slice_table.t_uint16_t[h->mb.i_mb_top_mbpair_xy] == h->sh.i_first_mb
             && h->mb.field[h->mb.i_mb_top_mbpair_xy]);
 
     x264_cabac_encode_decision_noup( cb, 70 + ctx, MB_INTERLACED );
@@ -101,9 +101,9 @@ static void x264_cabac_intra_chroma_pred_mode( x264_t *h, x264_cabac_t *cb )
     int ctx = 0;
 
     /* No need to test for I4x4 or I_16x16 as cache_save handle that */
-    if( (h->mb.i_neighbour & MB_LEFT) && h->mb.chroma_pred_mode[h->mb.i_mb_left_xy[0]] != 0 )
+    if( (h->mb.i_neighbour & MB_LEFT) && h->mb.chroma_pred_mode.t_int8_t[h->mb.i_mb_left_xy[0]] != 0 )
         ctx++;
-    if( (h->mb.i_neighbour & MB_TOP) && h->mb.chroma_pred_mode[h->mb.i_mb_top_xy] != 0 )
+    if( (h->mb.i_neighbour & MB_TOP) && h->mb.chroma_pred_mode.t_int8_t[h->mb.i_mb_top_xy] != 0 )
         ctx++;
 
     x264_cabac_encode_decision_noup( cb, 64 + ctx, i_mode > 0 );
@@ -155,7 +155,7 @@ static void x264_cabac_qp_delta( x264_t *h, x264_cabac_t *cb )
     /* Avoid writing a delta quant if we have an empty i16x16 block, e.g. in a completely
      * flat background area. Don't do this if it would raise the quantizer, since that could
      * cause unexpected deblocking artifacts. */
-    if( h->mb.i_type == I_16x16 && !h->mb.cbp[h->mb.i_mb_xy] && h->mb.i_qp > h->mb.i_last_qp )
+    if( h->mb.i_type == I_16x16 && !h->mb.cbp.t_int16_t[h->mb.i_mb_xy] && h->mb.i_qp > h->mb.i_last_qp )
     {
 #if !RDO_SKIP_BS
         h->mb.i_qp = h->mb.i_last_qp;
@@ -163,7 +163,7 @@ static void x264_cabac_qp_delta( x264_t *h, x264_cabac_t *cb )
         i_dqp = 0;
     }
 
-    ctx = h->mb.i_last_dqp && (h->mb.type[h->mb.i_mb_prev_xy] == I_16x16 || (h->mb.cbp[h->mb.i_mb_prev_xy]&0x3f));
+    ctx = h->mb.i_last_dqp && (h->mb.type[h->mb.i_mb_prev_xy] == I_16x16 || (h->mb.cbp.t_int16_t[h->mb.i_mb_prev_xy]&0x3f));
 
     if( i_dqp != 0 )
     {
@@ -1096,7 +1096,7 @@ static ALWAYS_INLINE void x264_macroblock_write_cabac_internal( x264_t *h, x264_
     src = dst;
 
 #define MUNGE_8x8_NNZ( MUNGE )\
-if( (h->mb.i_neighbour & MB_LEFT) && !h->mb.mb_transform_size[h->mb.i_mb_left_xy[0]] )\
+if( (h->mb.i_neighbour & MB_LEFT) && !h->mb.mb_transform_size.t_int8_t[h->mb.i_mb_left_xy[0]] )\
 {\
     MUNGE( nnzbak[0][0], h->mb.cache.non_zero_count[x264_scan8[16*0+ 0] - 1], 0x80 )\
     MUNGE( nnzbak[0][1], h->mb.cache.non_zero_count[x264_scan8[16*0+ 2] - 1], 0x80 )\
@@ -1105,7 +1105,7 @@ if( (h->mb.i_neighbour & MB_LEFT) && !h->mb.mb_transform_size[h->mb.i_mb_left_xy
     MUNGE( nnzbak[2][0], h->mb.cache.non_zero_count[x264_scan8[16*2+ 0] - 1], 0x80 )\
     MUNGE( nnzbak[2][1], h->mb.cache.non_zero_count[x264_scan8[16*2+ 2] - 1], 0x80 )\
 }\
-if( (h->mb.i_neighbour & MB_LEFT) && !h->mb.mb_transform_size[h->mb.i_mb_left_xy[1]] )\
+if( (h->mb.i_neighbour & MB_LEFT) && !h->mb.mb_transform_size.t_int8_t[h->mb.i_mb_left_xy[1]] )\
 {\
     MUNGE( nnzbak[0][2], h->mb.cache.non_zero_count[x264_scan8[16*0+ 8] - 1], 0x80 )\
     MUNGE( nnzbak[0][3], h->mb.cache.non_zero_count[x264_scan8[16*0+10] - 1], 0x80 )\
@@ -1114,7 +1114,7 @@ if( (h->mb.i_neighbour & MB_LEFT) && !h->mb.mb_transform_size[h->mb.i_mb_left_xy
     MUNGE( nnzbak[2][2], h->mb.cache.non_zero_count[x264_scan8[16*2+ 8] - 1], 0x80 )\
     MUNGE( nnzbak[2][3], h->mb.cache.non_zero_count[x264_scan8[16*2+10] - 1], 0x80 )\
 }\
-if( (h->mb.i_neighbour & MB_TOP) && !h->mb.mb_transform_size[h->mb.i_mb_top_xy] )\
+if( (h->mb.i_neighbour & MB_TOP) && !h->mb.mb_transform_size.t_int8_t[h->mb.i_mb_top_xy] )\
 {\
     MUNGE( M32( &nnzbak[0][4] ), M32( &h->mb.cache.non_zero_count[x264_scan8[16*0] - 8] ), 0x80808080U )\
     MUNGE( M32( &nnzbak[1][4] ), M32( &h->mb.cache.non_zero_count[x264_scan8[16*1] - 8] ), 0x80808080U )\

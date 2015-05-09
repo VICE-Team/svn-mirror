@@ -193,10 +193,11 @@ static x264_frame_t *x264_frame_new( x264_t *h, int b_fdec )
 
     if( b_fdec ) /* fdec frame */
     {
-        PREALLOC( frame->mb_type, i_mb_count * sizeof(int8_t) );
+        /* type pun fixes */
+        PREALLOC( frame->mb_type.t_uint8_t, i_mb_count * sizeof(int8_t) );
         PREALLOC( frame->mb_partition, i_mb_count * sizeof(uint8_t) );
         PREALLOC( frame->mv[0], 2*16 * i_mb_count * sizeof(int16_t) );
-        PREALLOC( frame->mv16x16, 2*(i_mb_count+1) * sizeof(int16_t) );
+        PREALLOC( frame->mv16x16.t_uint8_t, 2*(i_mb_count+1) * sizeof(int16_t) );
         PREALLOC( frame->ref[0], 4 * i_mb_count * sizeof(int8_t) );
         if( h->param.i_bframe )
         {
@@ -208,9 +209,10 @@ static x264_frame_t *x264_frame_new( x264_t *h, int b_fdec )
             frame->mv[1]  = NULL;
             frame->ref[1] = NULL;
         }
-        PREALLOC( frame->i_row_bits, i_lines/16 * sizeof(int) );
-        PREALLOC( frame->f_row_qp, i_lines/16 * sizeof(float) );
-        PREALLOC( frame->f_row_qscale, i_lines/16 * sizeof(float) );
+        /* type pun fixes */
+        PREALLOC( frame->i_row_bits.t_uint8_t, i_lines/16 * sizeof(int) );
+        PREALLOC( frame->f_row_qp.t_uint8_t, i_lines/16 * sizeof(float) );
+        PREALLOC( frame->f_row_qscale.t_uint8_t, i_lines/16 * sizeof(float) );
         if( h->param.analyse.i_me_method >= X264_ME_ESA )
             PREALLOC( frame->buffer[3], frame->i_stride[0] * (frame->i_lines[0] + 2*i_padv) * sizeof(uint16_t) << h->frames.b_have_sub8x8_esa );
         if( PARAM_INTERLACED )
@@ -233,7 +235,8 @@ static x264_frame_t *x264_frame_new( x264_t *h, int b_fdec )
                     PREALLOC( frame->lowres_mvs[j][i], 2*h->mb.i_mb_count*sizeof(int16_t) );
                     PREALLOC( frame->lowres_mv_costs[j][i], h->mb.i_mb_count*sizeof(int) );
                 }
-            PREALLOC( frame->i_propagate_cost, (i_mb_count+7) * sizeof(uint16_t) );
+            /* type pun fix */
+            PREALLOC( frame->i_propagate_cost.t_uint8_t, (i_mb_count+7) * sizeof(uint16_t) );
             for( j = 0; j <= h->param.i_bframe+1; j++ )
                 for( i = 0; i <= h->param.i_bframe+1; i++ )
                     PREALLOC( frame->lowres_costs[j][i], (i_mb_count+3) * sizeof(uint16_t) );
@@ -241,10 +244,12 @@ static x264_frame_t *x264_frame_new( x264_t *h, int b_fdec )
         }
         if( h->param.rc.i_aq_mode )
         {
-            PREALLOC( frame->f_qp_offset, h->mb.i_mb_count * sizeof(float) );
-            PREALLOC( frame->f_qp_offset_aq, h->mb.i_mb_count * sizeof(float) );
+            /* type pun fix */
+            PREALLOC( frame->f_qp_offset.t_uint8_t, h->mb.i_mb_count * sizeof(float) );
+            PREALLOC( frame->f_qp_offset_aq.t_uint8_t, h->mb.i_mb_count * sizeof(float) );
             if( h->frames.b_have_lowres )
-                PREALLOC( frame->i_inv_qscale_factor, (h->mb.i_mb_count+3) * sizeof(uint16_t) );
+                /* type pun fix */
+                PREALLOC( frame->i_inv_qscale_factor.t_uint8_t, (h->mb.i_mb_count+3) * sizeof(uint16_t) );
         }
     }
 
@@ -280,8 +285,8 @@ static x264_frame_t *x264_frame_new( x264_t *h, int b_fdec )
 
     if( b_fdec )
     {
-        M32( frame->mv16x16[0] ) = 0;
-        frame->mv16x16++;
+        M32( frame->mv16x16.t_int16_t_array[0] ) = 0;
+        frame->mv16x16.t_int16_t_array++;
 
         if( h->param.analyse.i_me_method >= X264_ME_ESA )
             frame->integral = (uint16_t*)frame->buffer[3] + frame->i_stride[0] * i_padv + PADH;
@@ -305,7 +310,7 @@ static x264_frame_t *x264_frame_new( x264_t *h, int b_fdec )
 
             if( h->param.rc.i_aq_mode )
                 /* shouldn't really be initialized, just silences a valgrind false-positive in x264_mbtree_propagate_cost_sse2 */
-                memset( frame->i_inv_qscale_factor, 0, (h->mb.i_mb_count+3) * sizeof(uint16_t) );
+                memset( frame->i_inv_qscale_factor.t_uint16_t, 0, (h->mb.i_mb_count+3) * sizeof(uint16_t) );
         }
     }
 

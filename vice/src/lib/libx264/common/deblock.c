@@ -392,10 +392,10 @@ static ALWAYS_INLINE void x264_macroblock_cache_load_neighbours_deblock( x264_t 
     }
 
     if( mb_x > 0 && (deblock_on_slice_edges ||
-        h->mb.slice_table[h->mb.i_mb_left_xy[0]] == h->mb.slice_table[h->mb.i_mb_xy]) )
+        h->mb.slice_table.t_uint16_t[h->mb.i_mb_left_xy[0]] == h->mb.slice_table.t_uint16_t[h->mb.i_mb_xy]) )
         h->mb.i_neighbour |= MB_LEFT;
     if( mb_y > MB_INTERLACED && (deblock_on_slice_edges
-        || h->mb.slice_table[h->mb.i_mb_top_xy] == h->mb.slice_table[h->mb.i_mb_xy]) )
+        || h->mb.slice_table.t_uint16_t[h->mb.i_mb_top_xy] == h->mb.slice_table.t_uint16_t[h->mb.i_mb_xy]) )
         h->mb.i_neighbour |= MB_TOP;
 }
 
@@ -433,7 +433,7 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
         x264_macroblock_cache_load_neighbours_deblock( h, mb_x, mb_y );
 
         mb_xy = h->mb.i_mb_xy;
-        transform_8x8 = h->mb.mb_transform_size[mb_xy];
+        transform_8x8 = h->mb.mb_transform_size.t_int8_t[mb_xy];
         intra_cur = IS_INTRA( h->mb.type[mb_xy] );
         bs = h->deblock_strength[mb_y&1][h->param.b_sliced_threads?mb_xy:mb_x];
 
@@ -448,9 +448,9 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
 
         stride2y  = stridey << MB_INTERLACED;
         stride2uv = strideuv << MB_INTERLACED;
-        qp = h->mb.qp[mb_xy];
+        qp = h->mb.qp.t_int8_t[mb_xy];
         qpc = h->chroma_qp_table[qp];
-        first_edge_only = (h->mb.partition[mb_xy] == D_16x16 && !h->mb.cbp[mb_xy] && !intra_cur) || qp <= qp_thresh;
+        first_edge_only = (h->mb.partition[mb_xy] == D_16x16 && !h->mb.cbp.t_int16_t[mb_xy] && !intra_cur) || qp <= qp_thresh;
 
         #define FILTER( intra, dir, edge, qp, chroma_qp )\
         do\
@@ -531,7 +531,7 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
                 int offy;
                 int offuv;
 
-                left_qp[0] = h->mb.qp[h->mb.i_mb_left_xy[0]];
+                left_qp[0] = h->mb.qp.t_int8_t[h->mb.i_mb_left_xy[0]];
                 luma_qp[0] = (qp + left_qp[0] + 1) >> 1;
                 chroma_qp[0] = (qpc + h->chroma_qp_table[left_qp[0]] + 1) >> 1;
                 if( intra_cur || IS_INTRA( h->mb.type[h->mb.i_mb_left_xy[0]] ) )
@@ -551,7 +551,7 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
 
                 offy = MB_INTERLACED ? 4 : 0;
                 offuv = MB_INTERLACED ? 4-CHROMA_V_SHIFT : 0;
-                left_qp[1] = h->mb.qp[h->mb.i_mb_left_xy[1]];
+                left_qp[1] = h->mb.qp.t_int8_t[h->mb.i_mb_left_xy[1]];
                 luma_qp[1] = (qp + left_qp[1] + 1) >> 1;
                 chroma_qp[1] = (qpc + h->chroma_qp_table[left_qp[1]] + 1) >> 1;
                 if( intra_cur || IS_INTRA( h->mb.type[h->mb.i_mb_left_xy[1]] ) )
@@ -571,7 +571,7 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
             }
             else
             {
-                int qpl = h->mb.qp[h->mb.i_mb_xy-1];
+                int qpl = h->mb.qp.t_int8_t[h->mb.i_mb_xy-1];
                 int qp_left = (qp + qpl + 1) >> 1;
                 int qpc_left = (qpc + h->chroma_qp_table[qpl] + 1) >> 1;
                 int intra_left = IS_INTRA( h->mb.type[h->mb.i_mb_xy-1] );
@@ -609,7 +609,7 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
 
                 for( j = 0; j < 2; j++, mbn_xy += h->mb.i_mb_stride )
                 {
-                    int qpt = h->mb.qp[mbn_xy];
+                    int qpt = h->mb.qp.t_int8_t[mbn_xy];
                     int qp_top = (qp + qpt + 1) >> 1;
                     int qpc_top = (qpc + h->chroma_qp_table[qpt] + 1) >> 1;
                     int intra_top = IS_INTRA( h->mb.type[mbn_xy] );
@@ -629,7 +629,7 @@ void x264_frame_deblock_row( x264_t *h, int mb_y )
             }
             else
             {
-                int qpt = h->mb.qp[h->mb.i_mb_top_xy];
+                int qpt = h->mb.qp.t_int8_t[h->mb.i_mb_top_xy];
                 int qp_top = (qp + qpt + 1) >> 1;
                 int qpc_top = (qpc + h->chroma_qp_table[qpt] + 1) >> 1;
                 int intra_top = IS_INTRA( h->mb.type[h->mb.i_mb_top_xy] );
