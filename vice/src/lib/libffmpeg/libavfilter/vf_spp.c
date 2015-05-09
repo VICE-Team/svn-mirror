@@ -242,7 +242,7 @@ static void filter(SPPContext *p, uint8_t *dst, uint8_t *src,
     int x, y, i;
     const int count = 1 << p->log2_count;
     const int linesize = is_luma ? p->temp_linesize : FFALIGN(width+16, 16);
-    DECLARE_ALIGNED(16, u_uint64_int16_t, block_align);
+    DECLARE_ALIGNED(16, u_uint64_int16_t, block_align) = {{0}};
     int16_t *block = (int16_t *)block_align.t_int16_t;
     int16_t *block2 = (int16_t *)(block_align.t_int16_t + 16);
 

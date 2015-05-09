@@ -426,7 +426,7 @@ static void filter(struct vf_priv_s *p, uint8_t *dst, uint8_t *src,
     const int stride= is_luma ? p->temp_stride : (width+16);//((width+16+15)&(~15))
     const int step=6-p->log2_count;
     const int qps= 3 + is_luma;
-    DECLARE_ALIGNED(32, u_int32_t_array_int16_t, block_align);
+    DECLARE_ALIGNED(32, u_int32_t_array_int16_t, block_align) = {{0}};
     int16_t *block= (int16_t *)block_align.t_int16_t;
     int16_t *block3=(int16_t *)(block_align.t_int16_t+4*8*BLOCKSZ);
 
