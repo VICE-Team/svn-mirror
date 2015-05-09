@@ -802,7 +802,8 @@ static int find_slice_quant(AVCodecContext *avctx, const AVFrame *pic,
     int plane_factor[MAX_PLANES], is_chroma[MAX_PLANES];
     const int min_quant = ctx->profile_info->min_quant;
     const int max_quant = ctx->profile_info->max_quant;
-    int error, bits, bits_limit;
+    int error, bits_limit;
+    int bits = 0;
     int mbs, prev, cur, new_score;
     int slice_bits[TRELLIS_WIDTH], slice_score[TRELLIS_WIDTH];
     int overquant;

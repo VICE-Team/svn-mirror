@@ -209,7 +209,8 @@ static int opus_decode_frame(OpusStreamContext *s, const uint8_t *data, int size
 {
     int samples    = s->packet.frame_duration;
     int redundancy = 0;
-    int redundancy_size, redundancy_pos;
+    int redundancy_size = 0;
+    int redundancy_pos = 0;
     int ret, i, consumed;
     int delayed_samples = s->delayed_samples;
 

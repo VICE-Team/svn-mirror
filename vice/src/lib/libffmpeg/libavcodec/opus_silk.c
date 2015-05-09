@@ -789,7 +789,8 @@ static inline void silk_stabilize_lsf(int16_t nlsf[16], int order, const uint16_
 {
     int pass, i;
     for (pass = 0; pass < 20; pass++) {
-        int k, min_diff = 0;
+        int k = 0;
+        int min_diff = 0;
         for (i = 0; i < order+1; i++) {
             int low  = i != 0     ? nlsf[i-1] : 0;
             int high = i != order ? nlsf[i]   : 32768;

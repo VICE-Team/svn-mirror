@@ -1369,7 +1369,8 @@ static void decode_mode(AVCodecContext *ctx)
     int w4 = FFMIN(s->cols - col, bwh_tab[1][b->bs][0]);
     int h4 = FFMIN(s->rows - row, bwh_tab[1][b->bs][1]), y;
     int have_a = row > 0, have_l = col > s->tiling.tile_col_start;
-    int vref, filter_id;
+    int vref = 0;
+    int filter_id = 0;
 
     if (!s->segmentation.enabled) {
         b->seg_id = 0;
@@ -2444,7 +2445,8 @@ static av_always_inline int check_intra_mode(VP9Context *s, int mode, uint8_t **
     av_assert2(mode >= 0 && mode < 10);
     mode = mode_conv[mode][have_left][have_top];
     if (edges[mode].needs_top) {
-        uint8_t *top, *topleft;
+        uint8_t *top = NULL;
+        uint8_t *topleft = NULL;
         int n_px_need = 4 << tx, n_px_have = (((s->cols - col) << !p) - x) * 4;
         int n_px_need_tr = 0;
 

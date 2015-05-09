@@ -338,7 +338,7 @@ static void ra144_encode_subblock(RA144Context *ractx,
     float zero[BLOCKSIZE], cba[BLOCKSIZE], cb1[BLOCKSIZE], cb2[BLOCKSIZE];
     int cba_idx, cb1_idx, cb2_idx, gain;
     int i, n;
-    unsigned m[3];
+    unsigned m[3] = { 0, 0, 0 };
     float g[3];
     float error, best_error;
 

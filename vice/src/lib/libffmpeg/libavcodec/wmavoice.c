@@ -695,7 +695,8 @@ static void wiener_denoise(WMAVoiceContext *s, int fcb_type,
                            float *synth_pf, int size,
                            const float *lpcs)
 {
-    int remainder, lim, n;
+    int remainder = 0;
+    int lim, n;
 
     if (fcb_type != FCB_TYPE_SILENCE) {
         float *tilted_lpcs = s->tilted_lpcs_pf,

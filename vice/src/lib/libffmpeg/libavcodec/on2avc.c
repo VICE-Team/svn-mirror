@@ -143,7 +143,8 @@ static int on2avc_decode_band_types(On2AVCContext *c, GetBitContext *gb)
 // (no intensity stereo, different coding for the first coefficient)
 static int on2avc_decode_band_scales(On2AVCContext *c, GetBitContext *gb)
 {
-    int w, w2, b, scale, first = 1;
+    int w, w2, b, first = 1;
+    int scale = 0;
     int band_off = 0;
 
     for (w = 0; w < c->num_windows; w++) {
