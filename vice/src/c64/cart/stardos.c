@@ -272,7 +272,7 @@ int stardos_romh_phi2_read(WORD addr, BYTE *value)
     return stardos_romh_phi1_read(addr, value);
 }
 
-int stardos_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+int stardos_peek_mem(export_t *export, WORD addr, BYTE *value)
 {
     if (roml_enable) {
         if (addr >= 0x8000 && addr <= 0x9fff) {

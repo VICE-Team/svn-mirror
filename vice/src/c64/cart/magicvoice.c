@@ -1059,10 +1059,10 @@ int magicvoice_peek_mem(WORD addr, BYTE *value)
     return CART_READ_C64MEM;
 }
 
-void magicvoice_passthrough_changed(struct export_s *export)
+void magicvoice_passthrough_changed(export_t *export)
 {
-    mv_extexrom = ((export_t*)export)->exrom;
-    mv_extgame = ((export_t*)export)->game;
+    mv_extexrom = export->exrom;
+    mv_extgame = export->game;
     DBG(("MV passthrough changed exrom: %d game: %d\n", mv_extexrom, mv_extgame));
 
     ga_memconfig_changed(CMODE_READ);
@@ -1327,12 +1327,12 @@ int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
 }
 
 /* called at reset */
-void magicvoice_config_init(struct export_s *export)
+void magicvoice_config_init(export_t *export)
 {
     DBG(("MV: magicvoice_config_init\n"));
 
-    mv_extexrom = ((export_t*)export)->exrom;
-    mv_extgame = ((export_t*)export)->game;
+    mv_extexrom = export->exrom;
+    mv_extgame = export->game;
 
     if (magicvoice_sound_chip.chip_enabled) {
         mv_exrom = 1;

@@ -76,7 +76,7 @@ int exos_romh_phi2_read(WORD addr, BYTE *value)
     return exos_romh_phi1_read(addr, value);
 }
 
-int exos_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+int exos_peek_mem(export_t *export, WORD addr, BYTE *value)
 {
     if (addr >= 0xe000) {
         *value = romh_banks[addr & 0x1fff];

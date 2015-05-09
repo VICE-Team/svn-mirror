@@ -354,7 +354,7 @@ int generic_romh_phi2_read(WORD addr, BYTE *value)
     return generic_romh_phi1_read(addr, value);
 }
 
-int generic_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+int generic_peek_mem(export_t *export, WORD addr, BYTE *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         if (export_ram) {

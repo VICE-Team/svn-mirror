@@ -133,7 +133,7 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-int gamekiller_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+int gamekiller_peek_mem(export_t *export, WORD addr, BYTE *value)
 {
     if (cartridge_disable_flag <= 1) {
         if (addr >= 0xe000) {

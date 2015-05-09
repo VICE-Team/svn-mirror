@@ -61,7 +61,7 @@ BYTE zaxxon_roml_read(WORD addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-int zaxxon_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+int zaxxon_peek_mem(export_t *export, WORD addr, BYTE *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         *value = roml_banks[(addr & 0x1fff) + (roml_bank << 13)];

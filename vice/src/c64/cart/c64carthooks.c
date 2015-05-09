@@ -1843,11 +1843,11 @@ void cartridge_init_config(void)
 
     /* "Slot 0" */
     if (magicvoice_cart_enabled()) {
-        magicvoice_config_init((struct export_s*)&export_passthrough);
+        magicvoice_config_init(&export_passthrough);
     } else if (mmc64_cart_enabled()) {
-        mmc64_config_init((struct export_s*)&export_passthrough);
+        mmc64_config_init(&export_passthrough);
     } else if (tpi_cart_enabled()) {
-        tpi_config_init((struct export_s*)&export_passthrough);
+        tpi_config_init(&export_passthrough);
     }
 }
 

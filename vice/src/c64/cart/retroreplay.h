@@ -38,7 +38,6 @@
 #include "types.h"
 
 struct snapshot_s;
-struct export_s;
 
 #define RR_REV_RETRO_REPLAY  0
 #define RR_REV_NORDIC_REPLAY 1
@@ -48,7 +47,7 @@ extern void retroreplay_roml_store(WORD addr, BYTE value);
 extern int retroreplay_roml_no_ultimax_store(WORD addr, BYTE value);
 extern BYTE retroreplay_romh_read(WORD addr);
 extern void retroreplay_romh_store(WORD addr, BYTE value);
-extern int retroreplay_peek_mem(struct export_s *export, WORD addr, BYTE *value);
+extern int retroreplay_peek_mem(export_t *export, WORD addr, BYTE *value);
 extern void retroreplay_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit);
 
 extern void retroreplay_freeze(void);

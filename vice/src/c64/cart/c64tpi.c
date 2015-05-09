@@ -410,10 +410,10 @@ void tpi_setup_context(machine_context_t *machine_context)
     tpi_context->restore_int = restore_int;
 }
 
-void tpi_passthrough_changed(struct export_s *export)
+void tpi_passthrough_changed(export_t *export)
 {
-    tpi_extexrom = ((export_t*)export)->exrom;
-    tpi_extgame = ((export_t*)export)->game;
+    tpi_extexrom = (export)->exrom;
+    tpi_extgame = (export)->game;
     DBG(("IEEE488 passthrough changed exrom: %d game: %d\n", tpi_extexrom, tpi_extgame));
 
     cart_set_port_game_slot0(tpi_extgame);
@@ -594,12 +594,12 @@ int tpi_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
     return CART_READ_THROUGH;
 }
 
-void tpi_config_init(struct export_s *export)
+void tpi_config_init(export_t *export)
 {
     DBG(("TPI: tpi_config_init\n"));
 
-    tpi_extexrom = ((export_t*)export)->exrom;
-    tpi_extgame = ((export_t*)export)->game;
+    tpi_extexrom = export->exrom;
+    tpi_extgame = export->game;
 
     cart_set_port_exrom_slot0(1);
     cart_set_port_game_slot0(tpi_extgame);

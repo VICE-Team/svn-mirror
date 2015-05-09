@@ -278,13 +278,13 @@ void cart_passthrough_changed(void)
 
     switch (cart_getid_slot0()) {
         case CARTRIDGE_MMC64:
-            mmc64_passthrough_changed((struct export_s*)&export_passthrough);
+            mmc64_passthrough_changed(&export_passthrough);
             break;
         case CARTRIDGE_MAGIC_VOICE:
-            magicvoice_passthrough_changed((struct export_s*)&export_passthrough);
+            magicvoice_passthrough_changed(&export_passthrough);
             break;
         case CARTRIDGE_IEEE488:
-            tpi_passthrough_changed((struct export_s*)&export_passthrough);
+            tpi_passthrough_changed(&export_passthrough);
             break;
         default:
             /* no slot 0 cartridge */
@@ -1852,34 +1852,34 @@ static BYTE cartridge_peek_mem_slotmain(WORD addr)
         case CARTRIDGE_ULTIMAX:
         case CARTRIDGE_GENERIC_8KB:
         case CARTRIDGE_GENERIC_16KB:
-            res = generic_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            res = generic_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_CAPTURE:
-            res = capture_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            res = capture_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_EXOS:
-            res = exos_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            res = exos_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_FINAL_PLUS:
-            res = final_plus_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            res = final_plus_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_FORMEL64:
-            res = formel64_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            res = formel64_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_GAME_KILLER:
-            res = gamekiller_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            res = gamekiller_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_MAGIC_FORMEL:
-            res = magicformel_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            res = magicformel_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_RETRO_REPLAY:
-            res = retroreplay_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            res = retroreplay_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_STARDOS:
-            res = stardos_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            res = stardos_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_ZAXXON:
-            res = zaxxon_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            res = zaxxon_peek_mem(&export_slotmain, addr, &value);
             break;
         default:
             /* generic fallback */

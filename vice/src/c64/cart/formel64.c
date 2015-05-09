@@ -272,7 +272,7 @@ int formel64_romh_phi2_read(WORD addr, BYTE *value)
     return formel64_romh_phi1_read(addr, value);
 }
 
-int formel64_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+int formel64_peek_mem(export_t *export, WORD addr, BYTE *value)
 {
     if (addr >= 0xe000) {
         *value = romh_banks[(addr & 0x1fff) + (romh_bank << 13)];

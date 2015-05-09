@@ -446,13 +446,13 @@ void retroreplay_romh_store(WORD addr, BYTE value)
     }
 }
 
-int retroreplay_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+int retroreplay_peek_mem(export_t *export, WORD addr, BYTE *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         *value = retroreplay_roml_read(addr);
         return CART_READ_VALID;
     }
-    if (!(((export_t*)export)->exrom) && (((export_t*)export)->game)) {
+    if (!(export->exrom) && (export->game)) {
         if (addr >= 0xe000) {
             *value = retroreplay_romh_read(addr);
             return CART_READ_VALID;
