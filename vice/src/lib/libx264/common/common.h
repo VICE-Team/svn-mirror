@@ -733,20 +733,61 @@ struct x264_t
         uint8_t *base;                      /* base pointer for all malloced data in this mb */
         int8_t  *type;                      /* mb type */
         uint8_t *partition;                 /* mb partition */
-        int8_t  *qp;                        /* mb qp */
-        int16_t *cbp;                       /* mb cbp: 0x0?: luma, 0x?0: chroma, 0x100: luma dc, 0x0200 and 0x0400: chroma dc  (all set for PCM)*/
-        int8_t  (*intra4x4_pred_mode)[8];   /* intra4x4 pred mode. for non I4x4 set to I_PRED_4x4_DC(2) */
-                                            /* actually has only 7 entries; set to 8 for write-combining optimizations */
-        uint8_t (*non_zero_count)[16*3];    /* nzc. for I_PCM set to 16 */
-        int8_t  *chroma_pred_mode;          /* chroma_pred_mode. cabac only. for non intra I_PRED_CHROMA_DC(0) */
+        /* type punning fix */
+        union {
+            int8_t  *t_int8_t;             /* mb qp */
+            uint8_t *t_uint8_t;
+        } qp;
+
+        /* type punning fix */
+        union {
+            int16_t *t_int16_t;           /* mb cbp: 0x0?: luma, 0x?0: chroma, 0x100: luma dc, 0x0200 and 0x0400: chroma dc  (all set for PCM)*/
+            uint8_t *t_uint8_t;
+        } cbp;
+
+        /* type punning fix */
+        union {
+             int8_t  (*t_int8_t_array)[8];   /* intra4x4 pred mode. for non I4x4 set to I_PRED_4x4_DC(2) */
+                                             /* actually has only 7 entries; set to 8 for write-combining optimizations */
+             uint8_t *t_uint8_t;
+        } intra4x4_pred_mode;
+
+        /* type pun fix */
+        union {
+            uint8_t (*t_uint8_t_array)[16*3];    /* nzc. for I_PCM set to 16 */
+            uint8_t *t_uint8_t;
+        } non_zero_count;
+
+        /* type pun fix */
+        union {
+            int8_t  *t_int8_t;          /* chroma_pred_mode. cabac only. for non intra I_PRED_CHROMA_DC(0) */
+            uint8_t *t_uint8_t;
+        } chroma_pred_mode;
+
         int16_t (*mv[2])[2];                /* mb mv. set to 0 for intra mb */
         uint8_t (*mvd[2])[8][2];            /* absolute value of mb mv difference with predict, clipped to [0,33]. set to 0 if intra. cabac only */
         int8_t   *ref[2];                   /* mb ref. set to -1 if non used (intra or Lx only) */
         int16_t (*mvr[2][X264_REF_MAX*2])[2];/* 16x16 mv for each possible ref */
-        int8_t  *skipbp;                    /* block pattern for SKIP or DIRECT (sub)mbs. B-frames + cabac only */
-        int8_t  *mb_transform_size;         /* transform_size_8x8_flag of each mb */
-        uint16_t *slice_table;              /* sh->first_mb of the slice that the indexed mb is part of
+
+        /* type pun fix */
+        union {
+            int8_t  *t_int8_t;               /* block pattern for SKIP or DIRECT (sub)mbs. B-frames + cabac only */
+            uint8_t *t_uint8_t;
+        } skipbp;
+
+        /* type pun fix */
+        union {
+            int8_t  *t_int8_t;              /* transform_size_8x8_flag of each mb */
+            uint8_t *t_uint8_t;
+        } mb_transform_size;
+
+        /* type pun fix */
+        union {
+            uint16_t *t_uint16_t;           /* sh->first_mb of the slice that the indexed mb is part of
                                              * NOTE: this will fail on resolutions above 2^16 MBs... */
+            uint8_t *t_uint8_t;
+        } slice_table;
+
         uint8_t *field;
 
          /* buffer for weighted versions of the reference frames */
