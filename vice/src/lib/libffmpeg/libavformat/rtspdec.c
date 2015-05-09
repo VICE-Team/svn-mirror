@@ -508,7 +508,7 @@ static int rtsp_read_play(AVFormatContext *s)
         if (rt->transport == RTSP_TRANSPORT_RTP) {
             for (i = 0; i < rt->nb_rtsp_streams; i++) {
                 RTSPStream *rtsp_st = rt->rtsp_streams[i];
-                RTPDemuxContext *rtpctx = rtsp_st->transport_priv;
+                RTPDemuxContext *rtpctx = rtsp_st->transport_priv.t_void;
                 if (!rtpctx)
                     continue;
                 ff_rtp_reset_packet_queue(rtpctx);
@@ -536,7 +536,7 @@ static int rtsp_read_play(AVFormatContext *s)
             reply->range_start != AV_NOPTS_VALUE) {
             for (i = 0; i < rt->nb_rtsp_streams; i++) {
                 RTSPStream *rtsp_st = rt->rtsp_streams[i];
-                RTPDemuxContext *rtpctx = rtsp_st->transport_priv;
+                RTPDemuxContext *rtpctx = rtsp_st->transport_priv.t_void;
                 AVStream *st = NULL;
 #ifdef IDE_COMPILE
                 AVRational tbq;

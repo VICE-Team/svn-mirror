@@ -427,7 +427,12 @@ typedef struct RTSPSource {
  */
 typedef struct RTSPStream {
     URLContext *rtp_handle;   /**< RTP stream handle (if UDP) */
-    void *transport_priv; /**< RTP/RDT parse context if input, RTP AVFormatContext if output */
+
+    /* type pun fix */
+    union {
+        void *t_void;            /**< RTP/RDT parse context if input, RTP AVFormatContext if output */
+        AVFormatContext *t_AVFC;
+    } transport_priv;
 
     /** corresponding stream index, if any. -1 if none (MPEG2TS case) */
     int stream_index;

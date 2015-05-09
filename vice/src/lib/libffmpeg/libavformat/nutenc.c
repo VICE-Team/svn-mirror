@@ -572,26 +572,33 @@ static int write_chapter(NUTContext *nut, AVIOContext *bc, int id)
     return 0;
 }
 
+typedef union {
+    Syncpoint *SP[2];
+    void **VSP;
+} SP_void_t;
+
 static int write_index(NUTContext *nut, AVIOContext *bc) {
     int i;
 #ifdef IDE_COMPILE
     Syncpoint dummy= {0};
-    Syncpoint *next_node[2] = {NULL};
 #else
 	Syncpoint dummy= { .pos= 0 };
-    Syncpoint *next_node[2] = { NULL };
 #endif
-	int64_t startpos = avio_tell(bc);
+    SP_void_t next_node;
+    int64_t startpos = avio_tell(bc);
     int64_t payload_size;
+
+    next_node.SP[0] = NULL;
+    next_node.SP[1] = NULL;
 
     put_tt(nut, nut->max_pts_tb, bc, nut->max_pts);
 
     ff_put_v(bc, nut->sp_count);
 
     for (i=0; i<nut->sp_count; i++) {
-        av_tree_find(nut->syncpoints, &dummy, (void *) ff_nut_sp_pos_cmp, (void**)next_node);
-        ff_put_v(bc, (next_node[1]->pos >> 4) - (dummy.pos>>4));
-        dummy.pos = next_node[1]->pos;
+        av_tree_find(nut->syncpoints, &dummy, (void *) ff_nut_sp_pos_cmp, (void**)next_node.VSP);
+        ff_put_v(bc, (next_node.SP[1]->pos >> 4) - (dummy.pos>>4));
+        dummy.pos = next_node.SP[1]->pos;
     }
 
     for (i=0; i<nut->avf->nb_streams; i++) {

@@ -411,6 +411,12 @@ static void row_fdct_mmx(int16_t *data,  const uint8_t *pixels,  int line_size, 
 #define row_fdct_s row_fdct_mmx
 #endif // HAVE_MMX
 
+/* type pun fix */
+typedef union {
+    int32_t t_int32_t[4*8*BLOCKSZ + 4*8*BLOCKSZ];
+    int16_t *t_int16_t;
+} u_int32_t_array_int16_t;
+
 static void filter(struct vf_priv_s *p, uint8_t *dst, uint8_t *src,
                    int dst_stride, int src_stride,
                    int width, int height,
@@ -420,9 +426,9 @@ static void filter(struct vf_priv_s *p, uint8_t *dst, uint8_t *src,
     const int stride= is_luma ? p->temp_stride : (width+16);//((width+16+15)&(~15))
     const int step=6-p->log2_count;
     const int qps= 3 + is_luma;
-    DECLARE_ALIGNED(32, int32_t, block_align)[4*8*BLOCKSZ+ 4*8*BLOCKSZ];
-    int16_t *block= (int16_t *)block_align;
-    int16_t *block3=(int16_t *)(block_align+4*8*BLOCKSZ);
+    DECLARE_ALIGNED(32, u_int32_t_array_int16_t, block_align);
+    int16_t *block= (int16_t *)block_align.t_int16_t;
+    int16_t *block3=(int16_t *)(block_align.t_int16_t+4*8*BLOCKSZ);
 
     memset(block3, 0, 4*8*BLOCKSZ);
 

@@ -1183,6 +1183,10 @@ static int64_t nut_read_timestamp(AVFormatContext *s, int stream_index,
     av_assert0(stream_index == -1);
     return pts;
 }
+typedef union {
+    Syncpoint *SP[2];
+    void **VSP;
+} SP_void_t;
 
 static int read_seek(AVFormatContext *s, int stream_index,
                      int64_t pts, int flags)
@@ -1192,14 +1196,17 @@ static int read_seek(AVFormatContext *s, int stream_index,
 #ifdef IDE_COMPILE
     Syncpoint dummy = { 0, 0, pts * av_q2d(st->time_base) * 1000000 };
     Syncpoint nopts_sp = { 0, AV_NOPTS_VALUE, AV_NOPTS_VALUE };
-    Syncpoint *sp, *next_node[2] = { &nopts_sp, &nopts_sp };
 #else
-	Syncpoint dummy    = { .ts = pts * av_q2d(st->time_base) * AV_TIME_BASE };
+    Syncpoint dummy    = { .ts = pts * av_q2d(st->time_base) * AV_TIME_BASE };
     Syncpoint nopts_sp = { .ts = AV_NOPTS_VALUE, .back_ptr = AV_NOPTS_VALUE };
-    Syncpoint *sp, *next_node[2] = { &nopts_sp, &nopts_sp };
 #endif
-	int64_t pos, pos2, ts;
+    Syncpoint *sp;
+    SP_void_t next_node;
+    int64_t pos, pos2, ts;
     int i;
+
+    next_node.SP[0] = &nopts_sp;
+    next_node.SP[1] = &nopts_sp;
 
     if (nut->flags & NUT_PIPE) {
         return AVERROR(ENOSYS);
@@ -1216,23 +1223,23 @@ static int read_seek(AVFormatContext *s, int stream_index,
         ts   = st->index_entries[index].timestamp;
     } else {
         av_tree_find(nut->syncpoints, &dummy, (void *) ff_nut_sp_pts_cmp,
-                     (void **) next_node);
+                     (void **) next_node.VSP);
         av_log(s, AV_LOG_DEBUG, "%"PRIu64"-%"PRIu64" %"PRId64"-%"PRId64"\n",
-               next_node[0]->pos, next_node[1]->pos, next_node[0]->ts,
-               next_node[1]->ts);
-        pos = ff_gen_search(s, -1, dummy.ts, next_node[0]->pos,
-                            next_node[1]->pos, next_node[1]->pos,
-                            next_node[0]->ts, next_node[1]->ts,
+               next_node.SP[0]->pos, next_node.SP[1]->pos, next_node.SP[0]->ts,
+               next_node.SP[1]->ts);
+        pos = ff_gen_search(s, -1, dummy.ts, next_node.SP[0]->pos,
+                            next_node.SP[1]->pos, next_node.SP[1]->pos,
+                            next_node.SP[0]->ts, next_node.SP[1]->ts,
                             AVSEEK_FLAG_BACKWARD, &ts, nut_read_timestamp);
 
         if (!(flags & AVSEEK_FLAG_BACKWARD)) {
             dummy.pos    = pos + 16;
-            next_node[1] = &nopts_sp;
+            next_node.SP[1] = &nopts_sp;
             av_tree_find(nut->syncpoints, &dummy, (void *) ff_nut_sp_pos_cmp,
-                         (void **) next_node);
-            pos2 = ff_gen_search(s, -2, dummy.pos, next_node[0]->pos,
-                                 next_node[1]->pos, next_node[1]->pos,
-                                 next_node[0]->back_ptr, next_node[1]->back_ptr,
+                         (void **) next_node.VSP);
+            pos2 = ff_gen_search(s, -2, dummy.pos, next_node.SP[0]->pos,
+                                 next_node.SP[1]->pos, next_node.SP[1]->pos,
+                                 next_node.SP[0]->back_ptr, next_node.SP[1]->back_ptr,
                                  flags, &ts, nut_read_timestamp);
             if (pos2 >= 0)
                 pos = pos2;

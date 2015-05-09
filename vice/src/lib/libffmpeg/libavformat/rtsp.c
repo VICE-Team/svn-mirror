@@ -717,9 +717,9 @@ void ff_rtsp_undo_setup(AVFormatContext *s, int send_packets)
         RTSPStream *rtsp_st = rt->rtsp_streams[i];
         if (!rtsp_st)
             continue;
-        if (rtsp_st->transport_priv) {
+        if (rtsp_st->transport_priv.t_void) {
             if (s->oformat) {
-                AVFormatContext *rtpctx = rtsp_st->transport_priv;
+                AVFormatContext *rtpctx = rtsp_st->transport_priv.t_AVFC;
                 av_write_trailer(rtpctx);
                 if (rt->lower_transport == RTSP_LOWER_TRANSPORT_TCP) {
                     uint8_t *ptr;
@@ -732,11 +732,11 @@ void ff_rtsp_undo_setup(AVFormatContext *s, int send_packets)
                 }
                 avformat_free_context(rtpctx);
             } else if (rt->transport == RTSP_TRANSPORT_RDT && CONFIG_RTPDEC)
-                ff_rdt_parse_close(rtsp_st->transport_priv);
+                ff_rdt_parse_close(rtsp_st->transport_priv.t_void);
             else if (rt->transport == RTSP_TRANSPORT_RTP && CONFIG_RTPDEC)
-                ff_rtp_parse_close(rtsp_st->transport_priv);
+                ff_rtp_parse_close(rtsp_st->transport_priv.t_void);
         }
-        rtsp_st->transport_priv = NULL;
+        rtsp_st->transport_priv.t_void = NULL;
         if (rtsp_st->rtp_handle)
             ffurl_close(rtsp_st->rtp_handle);
         rtsp_st->rtp_handle = NULL;
@@ -804,28 +804,28 @@ int ff_rtsp_open_transport_ctx(AVFormatContext *s, RTSPStream *rtsp_st)
         rtsp_st->rtp_handle = NULL;
         if (ret < 0)
             return ret;
-        st->time_base = ((AVFormatContext*)rtsp_st->transport_priv)->streams[0]->time_base;
+        st->time_base = ((AVFormatContext*)rtsp_st->transport_priv.t_AVFC)->streams[0]->time_base;
     } else if (rt->transport == RTSP_TRANSPORT_RAW) {
         return 0; // Don't need to open any parser here
     } else if (rt->transport == RTSP_TRANSPORT_RDT && CONFIG_RTPDEC)
-        rtsp_st->transport_priv = ff_rdt_parse_open(s, st->index,
+        rtsp_st->transport_priv.t_void = ff_rdt_parse_open(s, st->index,
                                             rtsp_st->dynamic_protocol_context,
                                             rtsp_st->dynamic_handler);
     else if (CONFIG_RTPDEC)
-        rtsp_st->transport_priv = ff_rtp_parse_open(s, st,
+        rtsp_st->transport_priv.t_void = ff_rtp_parse_open(s, st,
                                          rtsp_st->sdp_payload_type,
                                          reordering_queue_size);
 
-    if (!rtsp_st->transport_priv) {
+    if (!rtsp_st->transport_priv.t_void) {
          return AVERROR(ENOMEM);
     } else if (rt->transport == RTSP_TRANSPORT_RTP && CONFIG_RTPDEC) {
         if (rtsp_st->dynamic_handler) {
-            ff_rtp_parse_set_dynamic_protocol(rtsp_st->transport_priv,
+            ff_rtp_parse_set_dynamic_protocol(rtsp_st->transport_priv.t_void,
                                               rtsp_st->dynamic_protocol_context,
                                               rtsp_st->dynamic_handler);
         }
         if (rtsp_st->crypto_suite[0])
-            ff_rtp_parse_set_crypto(rtsp_st->transport_priv,
+            ff_rtp_parse_set_crypto(rtsp_st->transport_priv.t_void,
                                     rtsp_st->crypto_suite,
                                     rtsp_st->crypto_params);
     }
@@ -988,7 +988,7 @@ static void handle_rtp_info(RTSPState *rt, const char *url,
         return;
     for (i = 0; i < rt->nb_rtsp_streams; i++) {
         RTSPStream *rtsp_st = rt->rtsp_streams[i];
-        RTPDemuxContext *rtpctx = rtsp_st->transport_priv;
+        RTPDemuxContext *rtpctx = rtsp_st->transport_priv.t_void;
         if (!rtpctx)
             continue;
         if (!strcmp(rtsp_st->control_url, url)) {
@@ -1975,7 +1975,7 @@ static int pick_stream(AVFormatContext *s, RTSPStream **rtsp_st,
         if (RTP_PT_IS_RTCP(rt->recvbuf[1])) {
             int no_ssrc = 0;
             for (i = 0; i < rt->nb_rtsp_streams; i++) {
-                RTPDemuxContext *rtpctx = rt->rtsp_streams[i]->transport_priv;
+                RTPDemuxContext *rtpctx = rt->rtsp_streams[i]->transport_priv.t_void;
                 if (!rtpctx)
                     continue;
                 if (rtpctx->ssrc == AV_RB32(&buf[4])) {
@@ -2042,7 +2042,7 @@ redo:
         int i;
         int64_t first_queue_time = 0;
         for (i = 0; i < rt->nb_rtsp_streams; i++) {
-            RTPDemuxContext *rtpctx = rt->rtsp_streams[i]->transport_priv;
+            RTPDemuxContext *rtpctx = rt->rtsp_streams[i]->transport_priv.t_void;
             int64_t queue_time;
             if (!rtpctx)
                 continue;
@@ -2078,8 +2078,8 @@ redo:
     case RTSP_LOWER_TRANSPORT_UDP:
     case RTSP_LOWER_TRANSPORT_UDP_MULTICAST:
         len = udp_read_packet(s, &rtsp_st, rt->recvbuf, RECVBUF_SIZE, wait_end);
-        if (len > 0 && rtsp_st->transport_priv && rt->transport == RTSP_TRANSPORT_RTP)
-            ff_rtp_check_and_send_back_rr(rtsp_st->transport_priv, rtsp_st->rtp_handle, NULL, len);
+        if (len > 0 && rtsp_st->transport_priv.t_void && rt->transport == RTSP_TRANSPORT_RTP)
+            ff_rtp_check_and_send_back_rr(rtsp_st->transport_priv.t_void, rtsp_st->rtp_handle, NULL, len);
         break;
     case RTSP_LOWER_TRANSPORT_CUSTOM:
         if (first_queue_st && rt->transport == RTSP_TRANSPORT_RTP &&
@@ -2088,14 +2088,14 @@ redo:
         else
             len = ffio_read_partial(s->pb, rt->recvbuf, RECVBUF_SIZE);
         len = pick_stream(s, &rtsp_st, rt->recvbuf, len);
-        if (len > 0 && rtsp_st->transport_priv && rt->transport == RTSP_TRANSPORT_RTP)
-            ff_rtp_check_and_send_back_rr(rtsp_st->transport_priv, NULL, s->pb, len);
+        if (len > 0 && rtsp_st->transport_priv.t_void && rt->transport == RTSP_TRANSPORT_RTP)
+            ff_rtp_check_and_send_back_rr(rtsp_st->transport_priv.t_void, NULL, s->pb, len);
         break;
     }
     if (len == AVERROR(EAGAIN) && first_queue_st &&
         rt->transport == RTSP_TRANSPORT_RTP) {
         rtsp_st = first_queue_st;
-        ret = ff_rtp_parse_packet(rtsp_st->transport_priv, pkt, NULL, 0);
+        ret = ff_rtp_parse_packet(rtsp_st->transport_priv.t_void, pkt, NULL, 0);
         goto end;
     }
     if (len < 0)
@@ -2103,19 +2103,19 @@ redo:
     if (len == 0)
         return AVERROR_EOF;
     if (rt->transport == RTSP_TRANSPORT_RDT) {
-        ret = ff_rdt_parse_packet(rtsp_st->transport_priv, pkt, &rt->recvbuf, len);
+        ret = ff_rdt_parse_packet(rtsp_st->transport_priv.t_void, pkt, &rt->recvbuf, len);
     } else if (rt->transport == RTSP_TRANSPORT_RTP) {
-        ret = ff_rtp_parse_packet(rtsp_st->transport_priv, pkt, &rt->recvbuf, len);
+        ret = ff_rtp_parse_packet(rtsp_st->transport_priv.t_void, pkt, &rt->recvbuf, len);
         if (rtsp_st->feedback) {
             AVIOContext *pb = NULL;
             if (rt->lower_transport == RTSP_LOWER_TRANSPORT_CUSTOM)
                 pb = s->pb;
-            ff_rtp_send_rtcp_feedback(rtsp_st->transport_priv, rtsp_st->rtp_handle, pb);
+            ff_rtp_send_rtcp_feedback(rtsp_st->transport_priv.t_void, rtsp_st->rtp_handle, pb);
         }
         if (ret < 0) {
             /* Either bad packet, or a RTCP packet. Check if the
              * first_rtcp_ntp_time field was initialized. */
-            RTPDemuxContext *rtpctx = rtsp_st->transport_priv;
+            RTPDemuxContext *rtpctx = rtsp_st->transport_priv.t_void;
             if (rtpctx->first_rtcp_ntp_time != AV_NOPTS_VALUE) {
                 /* first_rtcp_ntp_time has been initialized for this stream,
                  * copy the same value to all other uninitialized streams,
@@ -2126,7 +2126,7 @@ redo:
                 if (rtsp_st->stream_index >= 0)
                     st = s->streams[rtsp_st->stream_index];
                 for (i = 0; i < rt->nb_rtsp_streams; i++) {
-                    RTPDemuxContext *rtpctx2 = rt->rtsp_streams[i]->transport_priv;
+                    RTPDemuxContext *rtpctx2 = rt->rtsp_streams[i]->transport_priv.t_void;
                     AVStream *st2 = NULL;
                     if (rt->rtsp_streams[i]->stream_index >= 0)
                         st2 = s->streams[rt->rtsp_streams[i]->stream_index];
@@ -2179,7 +2179,7 @@ end:
         goto redo;
     if (ret == 1)
         /* more packets may follow, so we save the RTP context */
-        rt->cur_transport_priv = rtsp_st->transport_priv;
+        rt->cur_transport_priv = rtsp_st->transport_priv.t_void;
 
     return ret;
 }

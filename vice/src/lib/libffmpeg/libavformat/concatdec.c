@@ -319,11 +319,18 @@ static int concat_read_close(AVFormatContext *avf)
     return 0;
 }
 
+/* type pun fix */
+typedef union {
+    uint8_t *t_uint8_t;
+    const char *t_const_char;
+} u_uint8_cchar;
+
 static int concat_read_header(AVFormatContext *avf)
 {
     ConcatContext *cat = avf->priv_data;
     uint8_t buf[4096];
-    uint8_t *cursor, *keyword;
+    uint8_t *keyword;
+    u_uint8_cchar cursor;
     int ret, line = 0, i;
     unsigned nb_files_alloc = 0;
     ConcatFile *file = NULL;
@@ -333,8 +340,8 @@ static int concat_read_header(AVFormatContext *avf)
         if ((ret = ff_get_line(avf->pb, buf, sizeof(buf))) <= 0)
             break;
         line++;
-        cursor = buf;
-        keyword = get_keyword(&cursor);
+        cursor.t_uint8_t = buf;
+        keyword = get_keyword(&cursor.t_uint8_t);
         if (!*keyword || *keyword == '#')
             continue;
 
@@ -347,7 +354,7 @@ static int concat_read_header(AVFormatContext *avf)
             if ((ret = add_file(avf, filename, &file, &nb_files_alloc)) < 0)
                 goto fail;
         } else if (!strcmp(keyword, "duration")) {
-            char *dur_str = get_keyword(&cursor);
+            char *dur_str = get_keyword(&cursor.t_uint8_t);
             int64_t dur;
             if (!file) {
                 av_log(avf, AV_LOG_ERROR, "Line %d: duration without file\n",
@@ -370,10 +377,10 @@ static int concat_read_header(AVFormatContext *avf)
                 FAIL(AVERROR_INVALIDDATA);
             }
             avf->streams[avf->nb_streams - 1]->id =
-                strtol(get_keyword(&cursor), NULL, 0);
+                strtol(get_keyword(&cursor.t_uint8_t), NULL, 0);
         } else if (!strcmp(keyword, "ffconcat")) {
-            char *ver_kw  = get_keyword(&cursor);
-            char *ver_val = get_keyword(&cursor);
+            char *ver_kw  = get_keyword(&cursor.t_uint8_t);
+            char *ver_val = get_keyword(&cursor.t_uint8_t);
             if (strcmp(ver_kw, "version") || strcmp(ver_val, "1.0")) {
                 av_log(avf, AV_LOG_ERROR, "Line %d: invalid version\n", line);
                 FAIL(AVERROR_INVALIDDATA);

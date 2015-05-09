@@ -176,9 +176,24 @@ typedef struct HLSContext {
     int64_t first_timestamp;
     int64_t cur_timestamp;
     AVIOInterruptCB *interrupt_callback;
-    char *user_agent;                    ///< holds HTTP user agent set as an AVOption to the HTTP protocol context
-    char *cookies;                       ///< holds HTTP cookie values set in either the initial response or as an AVOption to the HTTP protocol context
-    char *headers;                       ///< holds HTTP headers set as an AVOption to the HTTP protocol context
+
+    /* type pun fix */
+    union {
+        char *t_char;                    ///< holds HTTP user agent set as an AVOption to the HTTP protocol context
+        uint8_t *t_uint8_t;
+    } user_agent;
+        
+    /* type pun fix */
+    union {
+        char *t_char;                    ///< holds HTTP cookie values set in either the initial response or as an AVOption to the HTTP protocol context
+        uint8_t *t_uint8_t;
+    } cookies;
+
+    /* type pun fix */
+    union {
+        char *t_char;                    ///< holds HTTP headers set as an AVOption to the HTTP protocol context
+        uint8_t *t_uint8_t;
+    } headers;
 } HLSContext;
 
 static int read_chomp_line(AVIOContext *s, char *buf, int maxlen)
@@ -516,9 +531,9 @@ static int parse_playlist(HLSContext *c, const char *url,
         av_dict_set(&opts, "seekable", "0", 0);
 
         // broker prior HTTP options that should be consistent across requests
-        av_dict_set(&opts, "user-agent", c->user_agent, 0);
-        av_dict_set(&opts, "cookies", c->cookies, 0);
-        av_dict_set(&opts, "headers", c->headers, 0);
+        av_dict_set(&opts, "user-agent", c->user_agent.t_char, 0);
+        av_dict_set(&opts, "cookies", c->cookies.t_char, 0);
+        av_dict_set(&opts, "headers", c->headers.t_char, 0);
 
         ret = avio_open2(&in, url, AVIO_FLAG_READ,
                          c->interrupt_callback, &opts);
@@ -908,9 +923,9 @@ static int open_input(HLSContext *c, struct playlist *pls)
     struct segment *seg = pls->segments[pls->cur_seq_no - pls->start_seq_no];
 
     // broker prior HTTP options that should be consistent across requests
-    av_dict_set(&opts, "user-agent", c->user_agent, 0);
-    av_dict_set(&opts, "cookies", c->cookies, 0);
-    av_dict_set(&opts, "headers", c->headers, 0);
+    av_dict_set(&opts, "user-agent", c->user_agent.t_char, 0);
+    av_dict_set(&opts, "cookies", c->cookies.t_char, 0);
+    av_dict_set(&opts, "headers", c->headers.t_char, 0);
     av_dict_set(&opts, "seekable", "0", 0);
 
     // Same opts for key request (ffurl_open mutilates the opts so it cannot be used twice)
@@ -1247,19 +1262,19 @@ static int hls_read_header(AVFormatContext *s)
         // get the previous user agent & set back to null if string size is zero
         av_freep(&c->user_agent);
         av_opt_get(u->priv_data, "user-agent", 0, (uint8_t**)&(c->user_agent));
-        if (c->user_agent && !strlen(c->user_agent))
+        if (c->user_agent.t_char && !strlen(c->user_agent.t_char))
             av_freep(&c->user_agent);
 
         // get the previous cookies & set back to null if string size is zero
         av_freep(&c->cookies);
         av_opt_get(u->priv_data, "cookies", 0, (uint8_t**)&(c->cookies));
-        if (c->cookies && !strlen(c->cookies))
+        if (c->cookies.t_char && !strlen(c->cookies.t_char))
             av_freep(&c->cookies);
 
         // get the previous headers & set back to null if string size is zero
         av_freep(&c->headers);
         av_opt_get(u->priv_data, "headers", 0, (uint8_t**)&(c->headers));
-        if (c->headers && !strlen(c->headers))
+        if (c->headers.t_char && !strlen(c->headers.t_char))
             av_freep(&c->headers);
     }
 

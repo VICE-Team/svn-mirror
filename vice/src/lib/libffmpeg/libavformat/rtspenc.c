@@ -147,7 +147,7 @@ static int rtsp_write_header(AVFormatContext *s)
 int ff_rtsp_tcp_write_packet(AVFormatContext *s, RTSPStream *rtsp_st)
 {
     RTSPState *rt = s->priv_data;
-    AVFormatContext *rtpctx = rtsp_st->transport_priv;
+    AVFormatContext *rtpctx = rtsp_st->transport_priv.t_void;
     uint8_t *buf, *ptr;
     int size;
     uint8_t *interleave_header, *interleaved_packet;
@@ -217,7 +217,7 @@ static int rtsp_write_packet(AVFormatContext *s, AVPacket *pkt)
     if (pkt->stream_index < 0 || pkt->stream_index >= rt->nb_rtsp_streams)
         return AVERROR_INVALIDDATA;
     rtsp_st = rt->rtsp_streams[pkt->stream_index];
-    rtpctx = rtsp_st->transport_priv;
+    rtpctx = rtsp_st->transport_priv.t_void;
 
     ret = ff_write_chained(rtpctx, 0, pkt, s, 0);
     /* ff_write_chained does all the RTP packetization. If using TCP as
