@@ -43,6 +43,7 @@
 #include "libavutil/samplefmt.h"
 #include "libavutil/pixfmt.h"
 #include "libavutil/rational.h"
+#include "libavutil/eval.h"
 
 #include "libavfilter/version.h"
 
@@ -681,7 +682,13 @@ struct AVFilterContext {
     struct AVFilterCommand *command_queue;
 
     char *enable_str;               ///< enable expression string
-    void *enable;                   ///< parsed expression (AVExpr*)
+
+    /* type pun fix */
+    union {
+        void *t_void;               ///< parsed expression (AVExpr*)
+        AVExpr *t_AVE;
+    } enable;
+
     double *var_values;             ///< variable values for the enable expression
     int is_disabled;                ///< the enabled state from the last expression evaluation
 };

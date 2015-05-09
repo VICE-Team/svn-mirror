@@ -63,7 +63,13 @@ typedef struct {
     int nb_in_channels;         ///< number of input channels
     int same_chlayout;          ///< set output as input channel layout
     int64_t pts;
-    AVExpr **expr;
+
+    /* type pun fix */
+    union {
+        AVExpr **t_AVE;
+        void *t_void;
+    } expr;
+
     char *exprs;
     int nb_samples;             ///< number of samples per requested frame
     int64_t duration;
@@ -136,13 +142,13 @@ static int parse_channel_expressions(AVFilterContext *ctx,
     }
 
 #define ADD_EXPRESSION(expr_) do {                                      \
-        if (!av_dynarray2_add((void **)&eval->expr, &eval->nb_channels, \
-                              sizeof(*eval->expr), NULL)) {             \
+        if (!av_dynarray2_add((void **)&eval->expr.t_void, &eval->nb_channels, \
+                              sizeof(*eval->expr.t_AVE), NULL)) {             \
             ret = AVERROR(ENOMEM);                                      \
             goto end;                                                   \
         }                                                               \
-        eval->expr[eval->nb_channels-1] = NULL;                         \
-        ret = av_expr_parse(&eval->expr[eval->nb_channels - 1], expr_,  \
+        eval->expr.t_AVE[eval->nb_channels-1] = NULL;                         \
+        ret = av_expr_parse(&eval->expr.t_AVE[eval->nb_channels - 1], expr_,  \
                             var_names, func1_names, func1,              \
                             NULL, NULL, 0, ctx);                        \
         if (ret < 0)                                                    \
@@ -151,8 +157,8 @@ static int parse_channel_expressions(AVFilterContext *ctx,
 
     /* reset expressions */
     for (i = 0; i < eval->nb_channels; i++) {
-        av_expr_free(eval->expr[i]);
-        eval->expr[i] = NULL;
+        av_expr_free(eval->expr.t_AVE[i]);
+        eval->expr.t_AVE[i] = NULL;
     }
     av_freep(&eval->expr);
     eval->nb_channels = 0;
@@ -225,8 +231,8 @@ static av_cold void uninit(AVFilterContext *ctx)
     int i;
 
     for (i = 0; i < eval->nb_channels; i++) {
-        av_expr_free(eval->expr[i]);
-        eval->expr[i] = NULL;
+        av_expr_free(eval->expr.t_AVE[i]);
+        eval->expr.t_AVE[i] = NULL;
     }
     av_freep(&eval->expr);
 }
@@ -292,7 +298,7 @@ static int request_frame(AVFilterLink *outlink)
 
         for (j = 0; j < eval->nb_channels; j++) {
             *((double *) samplesref->extended_data[j] + i) =
-                av_expr_eval(eval->expr[j], eval->var_values, NULL);
+                av_expr_eval(eval->expr.t_AVE[j], eval->var_values, NULL);
         }
     }
 
@@ -465,7 +471,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
         for (j = 0; j < outlink->channels; j++) {
             eval->var_values[VAR_CH] = j;
             *((double *) out->extended_data[j] + i) =
-                av_expr_eval(eval->expr[j], eval->var_values, eval);
+                av_expr_eval(eval->expr.t_AVE[j], eval->var_values, eval);
         }
     }
 

@@ -410,7 +410,7 @@ static int set_enable_expr(AVFilterContext *ctx, const char *expr)
 {
     int ret;
     char *expr_dup;
-    AVExpr *old = ctx->enable;
+    AVExpr *old = ctx->enable.t_void;
 
     if (!(ctx->filter->flags & AVFILTER_FLAG_SUPPORT_TIMELINE)) {
         av_log(ctx, AV_LOG_ERROR, "Timeline ('enable' option) not supported "
@@ -775,8 +775,8 @@ void avfilter_free(AVFilterContext *filter)
         ff_command_queue_pop(filter);
     }
     av_opt_free(filter);
-    av_expr_free(filter->enable);
-    filter->enable = NULL;
+    av_expr_free(filter->enable.t_void);
+    filter->enable.t_void = NULL;
     av_freep(&filter->var_values);
     av_freep(&filter->internal);
     av_free(filter);
@@ -1128,7 +1128,7 @@ static int ff_filter_frame_framed(AVFilterLink *link, AVFrame *frame)
         dstctx->var_values[VAR_T] = pts == AV_NOPTS_VALUE ? NAN : pts * av_q2d(link->time_base);
         dstctx->var_values[VAR_POS] = pos == -1 ? NAN : pos;
 
-        dstctx->is_disabled = fabs(av_expr_eval(dstctx->enable, dstctx->var_values, NULL)) < 0.5;
+        dstctx->is_disabled = fabs(av_expr_eval(dstctx->enable.t_void, dstctx->var_values, NULL)) < 0.5;
         if (dstctx->is_disabled &&
             (dstctx->filter->flags & AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC))
             filter_frame = default_filter_frame;

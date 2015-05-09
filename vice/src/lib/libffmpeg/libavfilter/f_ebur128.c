@@ -99,7 +99,13 @@ typedef struct {
     double *true_peaks_per_frame;   ///< true peaks in a frame per channel
 #if CONFIG_SWRESAMPLE
     SwrContext *swr_ctx;            ///< over-sampling context for true peak metering
-    double *swr_buf;                ///< resampled audio data for true peak metering
+
+    /* type pun fix */
+    union {
+        double *t_double;           ///< resampled audio data for true peak metering
+        uint8_t *t_uint8_t;
+    } swr_buf;
+
     int swr_linesize;
 #endif
 
@@ -423,11 +429,11 @@ static int config_audio_output(AVFilterLink *outlink)
     if (ebur128->peak_mode & PEAK_MODE_TRUE_PEAKS) {
         int ret;
 
-        ebur128->swr_buf    = av_malloc_array(nb_channels, 19200 * sizeof(double));
+        ebur128->swr_buf.t_double = av_malloc_array(nb_channels, 19200 * sizeof(double));
         ebur128->true_peaks = av_calloc(nb_channels, sizeof(*ebur128->true_peaks));
         ebur128->true_peaks_per_frame = av_calloc(nb_channels, sizeof(*ebur128->true_peaks_per_frame));
         ebur128->swr_ctx    = swr_alloc();
-        if (!ebur128->swr_buf || !ebur128->true_peaks ||
+        if (!ebur128->swr_buf.t_double || !ebur128->true_peaks ||
             !ebur128->true_peaks_per_frame || !ebur128->swr_ctx)
             return AVERROR(ENOMEM);
 
@@ -590,7 +596,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *insamples)
 
 #if CONFIG_SWRESAMPLE
     if (ebur128->peak_mode & PEAK_MODE_TRUE_PEAKS) {
-        const double *swr_samples = ebur128->swr_buf;
+        const double *swr_samples = ebur128->swr_buf.t_double;
         int ret = swr_convert(ebur128->swr_ctx, (uint8_t**)&ebur128->swr_buf, 19200,
                               (const uint8_t **)insamples->data, nb_samples);
         if (ret < 0)
