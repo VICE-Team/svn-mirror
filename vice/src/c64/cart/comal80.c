@@ -24,6 +24,8 @@
  *
  */
 
+/* #define DEBUGCART */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -44,6 +46,12 @@
 #include "util.h"
 #include "crt.h"
 
+#ifdef DEBUGCART
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
 /*
     Comal80 Cartridge
 
@@ -53,30 +61,37 @@
     is located at $DE00 and mirrored throughout the $DE00-$DEFF
     range.
 
-    bit 7 of this register needs to be set for a valid bank value.
+    bit 7   : exrom (A 1 asserts the line, a 0 will deassert it.)
+    bit 6   : game (A 0 will assert it, a 1 will deassert it.)
 
-    bits 1 and 0 control which bank is mapped to both roml and romh.
+    bit 3-5 : unused? (not used by the software)
+
+    bit 2   : unknown function (used by the software however)
+    bit 0-1 : selects bank
 */
 
-static int currbank = 0;
+static int currregval = 0;
 
 static void comal80_io1_store(WORD addr, BYTE value)
 {
-    if (value >= 0x80 && value <= 0x83) {
-        cart_romhbank_set_slotmain(value & 3);
-        cart_romlbank_set_slotmain(value & 3);
-        currbank = value & 3;
-    }
+    int cmode, currbank;
+    currregval = value & 0xc7;
+    currbank = value & 3;
+    cmode = (value >> 6) ^ 3;
+
+    cart_config_changed_slotmain(0, (BYTE)(cmode | (currbank << CMODE_BANK_SHIFT)), CMODE_READ);
 }
 
 static BYTE comal80_io1_peek(WORD addr)
 {
-    return currbank;
+    return currregval;
 }
 
 static int comal80_dump(void)
 {
-    mon_out("bank: %d\n", currbank);
+    mon_out("register value: %d\n", currregval);
+    mon_out(" mode: %d\n", currregval >> 6);
+    mon_out(" bank: %d\n", currregval & 3);
     return 0;
 }
 
@@ -107,7 +122,8 @@ static const c64export_resource_t export_res = {
 
 void comal80_config_init(void)
 {
-    cart_config_changed_slotmain(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_16KGAME, CMODE_16KGAME, CMODE_READ);
+    currregval = 0;
 }
 
 void comal80_config_setup(BYTE *rawcart)
@@ -120,7 +136,7 @@ void comal80_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
     memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -185,7 +201,7 @@ int comal80_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)currbank) < 0)
+        || (SMW_B(m, (BYTE)currregval) < 0)
         || (SMW_BA(m, roml_banks, 0x8000) < 0)
         || (SMW_BA(m, romh_banks, 0x8000) < 0)) {
         snapshot_module_close(m);
@@ -212,7 +228,7 @@ int comal80_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
-        || (SMR_B_INT(m, &currbank) < 0)
+        || (SMR_B_INT(m, &currregval) < 0)
         || (SMR_BA(m, roml_banks, 0x8000) < 0)
         || (SMR_BA(m, romh_banks, 0x8000) < 0)) {
         snapshot_module_close(m);

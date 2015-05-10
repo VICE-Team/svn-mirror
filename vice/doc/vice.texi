@@ -23969,9 +23969,9 @@ C080: 50 DE BC FE C3 C2 CD 38 30 85 07 20 1A AD A5 76  P.?....80Е???неv
 @item Size
 @tab 64Kb (4 banks of 16Kb each)
 @item EXROM
-@tab inactive (hi) (1)
+@tab active (low) (0)
 @item GAME
-@tab inactive (hi) (1)
+@tab active (low) (0)
 @item Load address
 @tab $8000-BFFF
 @end multitable
@@ -23997,15 +23997,18 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @end example
 
 
-    The Comal-80 Cartridge uses $DE00 for bank  selection,  and  uses  16Kb
-    banks ($4000) at $8000-$BFFF. There are 4 banks of ROM memory  and  are
-    referenced by the following values:
+    The Comal-80 Cartridge uses 16Kb banks ($4000) at $8000-$BFFF. There are 4
+    banks of ROM memory and the cart has 1 (write-only) bank control register which
+    is located at $DE00 and mirrored throughout the $DE00-$DEFF range.
 
 @example
-       $80 -> Bank 0
-       $81 -> Bank 1
-       $82 -> Bank 2
-       $83 -> Bank 3
+    bit  meaning
+    ---  -------
+    7   exrom (A 1 asserts the line, a 0 will deassert it.)
+    6   game (A 0 will assert it, a 1 will deassert it.)
+    3-5 unused? (not used by the software)
+    2   unknown function (used by the software however)
+    0-1 selects bank
 @end example
 
 
