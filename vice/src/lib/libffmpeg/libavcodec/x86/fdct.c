@@ -538,10 +538,16 @@ static av_always_inline void fdct_row_mmx(const int16_t *in, int16_t *out, const
         : "r" (in), "r" (table), "r" (fdct_r_row), "r" (out));
 }
 
+/* type pun fix */
+typedef union {
+    int64_t t_int64_t[16];
+    int16_t *t_int16_t;
+} u_int64_int16_t;
+
 void ff_fdct_mmx(int16_t *block)
 {
-    DECLARE_ALIGNED(8, int64_t, align_tmp)[16];
-    int16_t * block1= (int16_t*)align_tmp;
+    DECLARE_ALIGNED(8, u_int64_int16_t, align_tmp);
+    int16_t * block1= (int16_t*)align_tmp.t_int16_t;
     const int16_t *table= tab_frw_01234567;
     int i;
 
@@ -562,8 +568,8 @@ void ff_fdct_mmx(int16_t *block)
 
 void ff_fdct_mmxext(int16_t *block)
 {
-    DECLARE_ALIGNED(8, int64_t, align_tmp)[16];
-    int16_t *block1= (int16_t*)align_tmp;
+    DECLARE_ALIGNED(8, u_int64_int16_t, align_tmp);
+    int16_t *block1= (int16_t*)align_tmp.t_int16_t;
     const int16_t *table= tab_frw_01234567;
     int i;
 
@@ -584,8 +590,8 @@ void ff_fdct_mmxext(int16_t *block)
 
 void ff_fdct_sse2(int16_t *block)
 {
-    DECLARE_ALIGNED(16, int64_t, align_tmp)[16];
-    int16_t * const block1= (int16_t*)align_tmp;
+    DECLARE_ALIGNED(16, u_int64_int16_t, align_tmp);
+    int16_t * const block1= (int16_t*)align_tmp.t_int16_t;
 
     fdct_col_sse2(block, block1, 0);
     fdct_row_sse2(block1, block);

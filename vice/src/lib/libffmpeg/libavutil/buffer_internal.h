@@ -72,7 +72,11 @@ typedef struct BufferPoolEntry {
 } BufferPoolEntry;
 
 struct AVBufferPool {
-    BufferPoolEntry * volatile pool;
+    /* type pun fix */
+    union {
+        BufferPoolEntry * volatile t_BPEv;
+        void * volatile t_vvoid;
+    } pool;
 
     /*
      * This is used to track when the pool is to be freed.

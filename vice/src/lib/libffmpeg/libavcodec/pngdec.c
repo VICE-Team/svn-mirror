@@ -471,6 +471,11 @@ static uint8_t *iso88591_to_utf8(const uint8_t *in, size_t size_in)
     return out;
 }
 
+typedef union {
+    uint8_t *t_uint8_t;
+    char *t_char;
+} u_uint8_char;
+
 static int decode_text_chunk(PNGDecContext *s, uint32_t length, int compressed,
                              AVDictionary **dict)
 {
@@ -479,7 +484,8 @@ static int decode_text_chunk(PNGDecContext *s, uint32_t length, int compressed,
     const uint8_t *data_end    = data + length;
     const uint8_t *keyword     = data;
     const uint8_t *keyword_end = memchr(keyword, 0, data_end - keyword);
-    uint8_t *kw_utf8 = NULL, *text, *txt_utf8 = NULL;
+    uint8_t *kw_utf8 = NULL, *txt_utf8 = NULL;
+    u_uint8_char text;
     unsigned text_len;
     AVBPrint bp;
 
@@ -497,17 +503,17 @@ static int decode_text_chunk(PNGDecContext *s, uint32_t length, int compressed,
             return ret;
         text_len = bp.len;
         av_bprint_finalize(&bp, (char **)&text);
-        if (!text)
+        if (!text.t_uint8_t)
             return AVERROR(ENOMEM);
     } else {
-        text = (uint8_t *)data;
-        text_len = data_end - text;
+        text.t_uint8_t = (uint8_t *)data;
+        text_len = data_end - text.t_uint8_t;
     }
 
     kw_utf8  = iso88591_to_utf8(keyword, keyword_end - keyword);
-    txt_utf8 = iso88591_to_utf8(text, text_len);
-    if (text != data)
-        av_free(text);
+    txt_utf8 = iso88591_to_utf8(text.t_uint8_t, text_len);
+    if (text.t_uint8_t != data)
+        av_free(text.t_uint8_t);
     if (!(kw_utf8 && txt_utf8)) {
         av_free(kw_utf8);
         av_free(txt_utf8);

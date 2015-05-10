@@ -3272,9 +3272,9 @@ static void RENAME(postProcess)(const uint8_t src[], int srcStride, uint8_t dst[
     const int qpVShift= isColor ? 4-c.vChromaSubSample : 4;
 
     //FIXME remove
-    uint64_t * const yHistogram= c.yHistogram;
-    uint8_t * const tempSrc= srcStride > 0 ? c.tempSrc : c.tempSrc - 23*srcStride;
-    uint8_t * const tempDst= (dstStride > 0 ? c.tempDst : c.tempDst - 23*dstStride) + 32;
+    uint64_t * const yHistogram= c.yHistogram.t_uint64_t;
+    uint8_t * const tempSrc= srcStride > 0 ? c.tempSrc.t_uint8_t : c.tempSrc.t_uint8_t - 23*srcStride;
+    uint8_t * const tempDst= (dstStride > 0 ? c.tempDst.t_uint8_t : c.tempDst.t_uint8_t - 23*dstStride) + 32;
     //const int mbWidth= isColor ? (width+7)>>3 : (width+15)>>4;
 
 #if TEMPLATE_PP_MMX
@@ -3412,15 +3412,15 @@ static void RENAME(postProcess)(const uint8_t src[], int srcStride, uint8_t dst[
             if(mode & LINEAR_IPOL_DEINT_FILTER)
                 RENAME(deInterlaceInterpolateLinear)(dstBlock, dstStride);
             else if(mode & LINEAR_BLEND_DEINT_FILTER)
-                RENAME(deInterlaceBlendLinear)(dstBlock, dstStride, c.deintTemp + x);
+                RENAME(deInterlaceBlendLinear)(dstBlock, dstStride, c.deintTemp.t_uint8_t + x);
             else if(mode & MEDIAN_DEINT_FILTER)
                 RENAME(deInterlaceMedian)(dstBlock, dstStride);
             else if(mode & CUBIC_IPOL_DEINT_FILTER)
                 RENAME(deInterlaceInterpolateCubic)(dstBlock, dstStride);
             else if(mode & FFMPEG_DEINT_FILTER)
-                RENAME(deInterlaceFF)(dstBlock, dstStride, c.deintTemp + x);
+                RENAME(deInterlaceFF)(dstBlock, dstStride, c.deintTemp.t_uint8_t + x);
             else if(mode & LOWPASS5_DEINT_FILTER)
-                RENAME(deInterlaceL5)(dstBlock, dstStride, c.deintTemp + x, c.deintTemp + width + x);
+                RENAME(deInterlaceL5)(dstBlock, dstStride, c.deintTemp.t_uint8_t + x, c.deintTemp.t_uint8_t + width + x);
 /*          else if(mode & CUBIC_BLEND_DEINT_FILTER)
                 RENAME(deInterlaceBlendCubic)(dstBlock, dstStride);
 */
@@ -3442,11 +3442,11 @@ static void RENAME(postProcess)(const uint8_t src[], int srcStride, uint8_t dst[
         const uint8_t *srcBlock= &(src[y*srcStride]);
         uint8_t *dstBlock= &(dst[y*dstStride]);
 #if TEMPLATE_PP_MMX
-        uint8_t *tempBlock1= c.tempBlocks;
-        uint8_t *tempBlock2= c.tempBlocks + 8;
+        uint8_t *tempBlock1= c.tempBlocks.t_uint8_t;
+        uint8_t *tempBlock2= c.tempBlocks.t_uint8_t + 8;
 #endif
         const int8_t *QPptr= &QPs[(y>>qpVShift)*QPStride];
-        int8_t *nonBQPptr= &c.nonBQPTable[(y>>qpVShift)*FFABS(QPStride)];
+        int8_t *nonBQPptr= &c.nonBQPTable.t_QPST[(y>>qpVShift)*FFABS(QPStride)];
         int QP=0;
         /* can we mess with a 8x16 block from srcBlock/dstBlock downwards and 1 line upwards
            if not than use a temporary buffer */
@@ -3546,15 +3546,15 @@ static void RENAME(postProcess)(const uint8_t src[], int srcStride, uint8_t dst[
             if(mode & LINEAR_IPOL_DEINT_FILTER)
                 RENAME(deInterlaceInterpolateLinear)(dstBlock, dstStride);
             else if(mode & LINEAR_BLEND_DEINT_FILTER)
-                RENAME(deInterlaceBlendLinear)(dstBlock, dstStride, c.deintTemp + x);
+                RENAME(deInterlaceBlendLinear)(dstBlock, dstStride, c.deintTemp.t_uint8_t + x);
             else if(mode & MEDIAN_DEINT_FILTER)
                 RENAME(deInterlaceMedian)(dstBlock, dstStride);
             else if(mode & CUBIC_IPOL_DEINT_FILTER)
                 RENAME(deInterlaceInterpolateCubic)(dstBlock, dstStride);
             else if(mode & FFMPEG_DEINT_FILTER)
-                RENAME(deInterlaceFF)(dstBlock, dstStride, c.deintTemp + x);
+                RENAME(deInterlaceFF)(dstBlock, dstStride, c.deintTemp.t_uint8_t + x);
             else if(mode & LOWPASS5_DEINT_FILTER)
-                RENAME(deInterlaceL5)(dstBlock, dstStride, c.deintTemp + x, c.deintTemp + width + x);
+                RENAME(deInterlaceL5)(dstBlock, dstStride, c.deintTemp.t_uint8_t + x, c.deintTemp.t_uint8_t + width + x);
 /*          else if(mode & CUBIC_BLEND_DEINT_FILTER)
                 RENAME(deInterlaceBlendCubic)(dstBlock, dstStride);
 */

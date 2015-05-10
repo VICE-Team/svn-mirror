@@ -883,7 +883,7 @@ static void reallocBuffers(PPContext *c, int width, int height, int stride, int 
     reallocAlign((void **)&c->tempBlocks, 8, 2*16*8);
     reallocAlign((void **)&c->yHistogram, 8, 256*sizeof(uint64_t));
     for(i=0; i<256; i++)
-            c->yHistogram[i]= width*height/64*15/256;
+            c->yHistogram.t_uint64_t[i]= width*height/64*15/256;
 
     for(i=0; i<3; i++){
         //Note: The +17*1024 is just there so I do not have to worry about r/w over the end.
@@ -941,14 +941,14 @@ void pp_free_context(void *vc){
     for(i=0; i<3; i++) av_free(c->tempBlurred[i]);
     for(i=0; i<3; i++) av_free(c->tempBlurredPast[i]);
 
-    av_free(c->tempBlocks);
-    av_free(c->yHistogram);
-    av_free(c->tempDst);
-    av_free(c->tempSrc);
-    av_free(c->deintTemp);
-    av_free(c->stdQPTable);
-    av_free(c->nonBQPTable);
-    av_free(c->forcedQPTable);
+    av_free(c->tempBlocks.t_uint8_t);
+    av_free(c->yHistogram.t_uint64_t);
+    av_free(c->tempDst.t_uint8_t);
+    av_free(c->tempSrc.t_uint8_t);
+    av_free(c->deintTemp.t_uint8_t);
+    av_free(c->stdQPTable.t_QPST);
+    av_free(c->nonBQPTable.t_QPST);
+    av_free(c->forcedQPTable.t_QPST);
 
     memset(c, 0, sizeof(PPContext));
 
@@ -976,24 +976,24 @@ void  pp_postprocess(const uint8_t * src[3], const int srcStride[3],
 
     if(!QP_store || (mode->lumMode & FORCE_QUANT)){
         int i;
-        QP_store= c->forcedQPTable;
+        QP_store= c->forcedQPTable.t_QPST;
         absQPStride = QPStride = 0;
         if(mode->lumMode & FORCE_QUANT)
-            for(i=0; i<mbWidth; i++) c->forcedQPTable[i]= mode->forcedQuant;
+            for(i=0; i<mbWidth; i++) c->forcedQPTable.t_QPST[i]= mode->forcedQuant;
         else
-            for(i=0; i<mbWidth; i++) c->forcedQPTable[i]= 1;
+            for(i=0; i<mbWidth; i++) c->forcedQPTable.t_QPST[i]= 1;
     }
 
     if(pict_type & PP_PICT_TYPE_QP2){
         int i;
         const int count= mbHeight * absQPStride;
         for(i=0; i<(count>>2); i++){
-            ((uint32_t*)c->stdQPTable)[i] = (((const uint32_t*)QP_store)[i]>>1) & 0x7F7F7F7F;
+            ((uint32_t*)c->stdQPTable.t_QPST)[i] = (((const uint32_t*)QP_store)[i]>>1) & 0x7F7F7F7F;
         }
         for(i<<=2; i<count; i++){
-            c->stdQPTable[i] = QP_store[i]>>1;
+            c->stdQPTable.t_QPST[i] = QP_store[i]>>1;
         }
-        QP_store= c->stdQPTable;
+        QP_store= c->stdQPTable.t_QPST;
         QPStride= absQPStride;
     }
 
@@ -1013,16 +1013,16 @@ void  pp_postprocess(const uint8_t * src[3], const int srcStride[3],
             int i;
             const int count= mbHeight * QPStride;
             for(i=0; i<(count>>2); i++){
-                ((uint32_t*)c->nonBQPTable)[i] = ((const uint32_t*)QP_store)[i] & 0x3F3F3F3F;
+                ((uint32_t*)c->nonBQPTable.t_QPST)[i] = ((const uint32_t*)QP_store)[i] & 0x3F3F3F3F;
             }
             for(i<<=2; i<count; i++){
-                c->nonBQPTable[i] = QP_store[i] & 0x3F;
+                c->nonBQPTable.t_QPST[i] = QP_store[i] & 0x3F;
             }
         } else {
             int i,j;
             for(i=0; i<mbHeight; i++) {
                 for(j=0; j<absQPStride; j++) {
-                    c->nonBQPTable[i*absQPStride+j] = QP_store[i*QPStride+j] & 0x3F;
+                    c->nonBQPTable.t_QPST[i*absQPStride+j] = QP_store[i*QPStride+j] & 0x3F;
                 }
             }
         }

@@ -28,20 +28,26 @@
 
 #include "parser.h"
 
-static AVCodecParser *av_first_parser = NULL;
+/* type pun fix */
+typedef union {
+    AVCodecParser *t_AVCP;
+    void * volatile t_vvoid;
+} AVCP_t;
+
+static AVCP_t av_first_parser = {NULL};
 
 AVCodecParser *av_parser_next(const AVCodecParser *p)
 {
     if (p)
         return p->next;
     else
-        return av_first_parser;
+        return av_first_parser.t_AVCP;
 }
 
 void av_register_codec_parser(AVCodecParser *parser)
 {
     do {
-        parser->next = av_first_parser;
+        parser->next = av_first_parser.t_AVCP;
     } while (parser->next != avpriv_atomic_ptr_cas((void * volatile *)&av_first_parser, parser->next, parser));
 }
 
@@ -54,7 +60,8 @@ AVCodecParserContext *av_parser_init(int codec_id)
     if (codec_id == AV_CODEC_ID_NONE)
         return NULL;
 
-    for (parser = av_first_parser; parser; parser = parser->next) {
+    for (parser = av_first_parser.t_AVCP; parser; parser = parser->next) 
+{
         if (parser->codec_ids[0] == codec_id ||
             parser->codec_ids[1] == codec_id ||
             parser->codec_ids[2] == codec_id ||

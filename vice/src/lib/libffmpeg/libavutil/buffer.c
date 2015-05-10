@@ -227,9 +227,9 @@ AVBufferPool *av_buffer_pool_init(int size, AVBufferRef* (*alloc)(int size))
  */
 static void buffer_pool_free(AVBufferPool *pool)
 {
-    while (pool->pool) {
-        BufferPoolEntry *buf = pool->pool;
-        pool->pool = buf->next;
+    while (pool->pool.t_BPEv) {
+        BufferPoolEntry *buf = pool->pool.t_BPEv;
+        pool->pool.t_BPEv = buf->next;
 
         buf->free(buf->opaque, buf->data);
         av_freep(&buf);

@@ -119,14 +119,22 @@ typedef struct PPContext{
      */
     const AVClass *av_class;
 
-    uint8_t *tempBlocks; ///<used for the horizontal code
+    /* type pun fix */
+    union {
+        uint8_t *t_uint8_t; ///<used for the horizontal code
+        void *t_void;
+    } tempBlocks;
 
     /**
      * luma histogram.
      * we need 64bit here otherwise we'll going to have a problem
      * after watching a black picture for 5 hours
      */
-    uint64_t *yHistogram;
+    /* type pun fix */
+    union {
+        uint64_t *t_uint64_t;
+        void *t_void;
+    } yHistogram;
 
     DECLARE_ALIGNED(8, uint64_t, packedYOffset);
     DECLARE_ALIGNED(8, uint64_t, packedYScale);
@@ -136,10 +144,23 @@ typedef struct PPContext{
     int32_t *tempBlurredPast[3];
 
     /** Temporary buffers for handling the last row(s) */
-    uint8_t *tempDst;
-    uint8_t *tempSrc;
+    /* type pun fix */
+    union {
+        uint8_t *t_uint8_t;
+        void *t_void;
+    } tempDst;
 
-    uint8_t *deintTemp;
+    /* type pun fix */
+    union {
+        uint8_t *t_uint8_t;
+        void *t_void;
+    } tempSrc;
+
+    /* type pun fix */
+    union {
+        uint8_t *t_uint8_t;
+        void *t_void;
+    } deintTemp;
 
     DECLARE_ALIGNED(8, uint64_t, pQPb);
     DECLARE_ALIGNED(8, uint64_t, pQPb2);
@@ -147,9 +168,23 @@ typedef struct PPContext{
     DECLARE_ALIGNED(8, uint64_t, mmxDcOffset)[64];
     DECLARE_ALIGNED(8, uint64_t, mmxDcThreshold)[64];
 
-    QP_STORE_T *stdQPTable;       ///< used to fix MPEG2 style qscale
-    QP_STORE_T *nonBQPTable;
-    QP_STORE_T *forcedQPTable;
+    /* type pun fix */
+    union {
+        QP_STORE_T *t_QPST;       ///< used to fix MPEG2 style qscale
+        void *t_void;
+    } stdQPTable;
+
+    /* type pun fix */
+    union {
+        QP_STORE_T *t_QPST;
+        void *t_void;
+    } nonBQPTable;
+
+    /* type pun fix */
+    union {
+        QP_STORE_T *t_QPST;
+        void *t_void;
+    } forcedQPTable;
 
     int QP;
     int nonBQP;
