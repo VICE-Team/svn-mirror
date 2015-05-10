@@ -103,11 +103,36 @@ struct sbg_script_event {
 };
 
 struct sbg_script {
-    struct sbg_script_definition *def;
-    struct sbg_script_synth *synth;
-    struct sbg_script_tseq *tseq;
-    struct sbg_script_tseq *block_tseq;
-    struct sbg_script_event *events;
+    /* type pun fix */
+    union {
+        struct sbg_script_definition *t_sst;
+        void *t_void;
+    } def;
+
+    /* type pun fix */
+    union {
+        struct sbg_script_synth *t_sst;
+        void *t_void;
+    } synth;
+
+    /* type pun fix */
+    union {
+        struct sbg_script_tseq *t_sst;
+        void *t_void;
+    } tseq;
+
+    /* type pun fix */
+    union {
+        struct sbg_script_tseq *t_sst;
+        void *t_void;
+    } block_tseq;
+
+    /* type pun fix */
+    union {
+        struct sbg_script_event *t_sst;
+        void *t_void;
+    } events;
+
     int nb_def;
     int nb_tseq;
     int nb_events;
@@ -149,7 +174,12 @@ struct ws_interval {
 };
 
 struct ws_intervals {
-    struct ws_interval *inter;
+    /* type pun fix */
+    union {
+        struct ws_interval *t_sst;
+        void *t_void;
+    } inter;
+
     int nb_inter;
     int max_inter;
 };
@@ -906,7 +936,7 @@ static void expand_timestamps(void *log, struct sbg_script *s)
     int64_t now, cur_ts, delta = 0;
 
     for (i = 0; i < s->nb_tseq; i++)
-        nb_rel += s->tseq[i].ts.type == 'N';
+        nb_rel += s->tseq.t_sst[i].ts.type == 'N';
     if (nb_rel == s->nb_tseq) {
         /* All ts are relative to NOW: consider NOW = 0 */
         now = 0;
@@ -917,7 +947,7 @@ static void expand_timestamps(void *log, struct sbg_script *s)
                s->opt_start_at_first) {
         /* All ts are absolute and start time is specified */
         if (s->start_ts == AV_NOPTS_VALUE)
-            s->start_ts = s->tseq[0].ts.t;
+            s->start_ts = s->tseq.t_sst[0].ts.t;
         now = s->start_ts;
     } else {
         /* Mixed relative/absolute ts: expand */
@@ -936,21 +966,21 @@ static void expand_timestamps(void *log, struct sbg_script *s)
                (int)(now / 3600), (int)(now / 60) % 60, (int)now % 60);
         now *= AV_TIME_BASE;
         for (i = 0; i < s->nb_tseq; i++) {
-            if (s->tseq[i].ts.type == 'N') {
-                s->tseq[i].ts.t += now;
-                s->tseq[i].ts.type = 'T'; /* not necessary */
+            if (s->tseq.t_sst[i].ts.type == 'N') {
+                s->tseq.t_sst[i].ts.t += now;
+                s->tseq.t_sst[i].ts.type = 'T'; /* not necessary */
             }
         }
     }
     if (s->start_ts == AV_NOPTS_VALUE)
-        s->start_ts = s->opt_start_at_first ? s->tseq[0].ts.t : now;
+        s->start_ts = s->opt_start_at_first ? s->tseq.t_sst[0].ts.t : now;
     s->end_ts = s->opt_duration ? s->start_ts + s->opt_duration :
                 AV_NOPTS_VALUE; /* may be overridden later by -E option */
     cur_ts = now;
     for (i = 0; i < s->nb_tseq; i++) {
-        if (s->tseq[i].ts.t + delta < cur_ts)
+        if (s->tseq.t_sst[i].ts.t + delta < cur_ts)
             delta += DAY_TS;
-        cur_ts = s->tseq[i].ts.t += delta;
+        cur_ts = s->tseq.t_sst[i].ts.t += delta;
     }
 }
 
@@ -969,8 +999,8 @@ static int expand_tseq(void *log, struct sbg_script *s, int *nb_ev_max,
     }
     t0 += tseq->ts.t;
     for (i = 0; i < s->nb_def; i++) {
-        if (s->def[i].name_len == tseq->name_len &&
-            !memcmp(s->def[i].name, tseq->name, tseq->name_len))
+        if (s->def.t_sst[i].name_len == tseq->name_len &&
+            !memcmp(s->def.t_sst[i].name, tseq->name, tseq->name_len))
             break;
     }
     if (i >= s->nb_def) {
@@ -978,9 +1008,9 @@ static int expand_tseq(void *log, struct sbg_script *s, int *nb_ev_max,
                tseq->name_len, tseq->name);
         return AVERROR(EINVAL);
     }
-    def = &s->def[i];
+    def = &s->def.t_sst[i];
     if (def->type == 'B') {
-        be = s->block_tseq + def->elements;
+        be = s->block_tseq.t_sst + def->elements;
         for (i = 0; i < def->nb_elements; i++) {
             r = expand_tseq(log, s, nb_ev_max, t0, &be[i]);
             if (r < 0)
@@ -1004,7 +1034,7 @@ static int expand_script(void *log, struct sbg_script *s)
 
     expand_timestamps(log, s);
     for (i = 0; i < s->nb_tseq; i++) {
-        r = expand_tseq(log, s, &nb_events_max, 0, &s->tseq[i]);
+        r = expand_tseq(log, s, &nb_events_max, 0, &s->tseq.t_sst[i]);
         if (r < 0)
             return r;
     }
@@ -1013,7 +1043,7 @@ static int expand_script(void *log, struct sbg_script *s)
         return AVERROR_INVALIDDATA;
     }
     if (s->opt_end_at_last)
-        s->end_ts = s->events[s->nb_events - 1].ts;
+        s->end_ts = s->events.t_sst[s->nb_events - 1].ts;
     return 0;
 }
 
@@ -1025,7 +1055,7 @@ static int add_interval(struct ws_intervals *inter,
     struct ws_interval *i, *ri;
 
     if (ref >= 0) {
-        ri = &inter->inter[ref];
+        ri = &inter->inter.t_sst[ref];
         /* ref and new intervals are constant, identical and adjacent */
         if (ri->type == type && ri->channels == channels &&
             ri->f1 == ri->f2 && ri->f2 == f1 && f1 == f2 &&
@@ -1048,7 +1078,7 @@ static int add_interval(struct ws_intervals *inter,
     i->a1       = a1;
     i->a2       = a2;
     i->phi      = ref >= 0 ? ref | 0x80000000 : 0;
-    return i - inter->inter;
+    return i - inter->inter.t_sst;
 }
 
 static int add_bell(struct ws_intervals *inter, struct sbg_script *s,
@@ -1167,7 +1197,7 @@ static int generate_plateau(void *log, struct sbg_script *s,
     struct sbg_script_synth *s1;
 
     for (i = 0; i < ev1->nb_elements; i++) {
-        s1 = &s->synth[ev1->elements + i];
+        s1 = &s->synth.t_sst[ev1->elements + i];
         r = generate_interval(log, s, inter, ts1, ts2, s1, s1, 0);
         if (r < 0)
             return r;
@@ -1209,8 +1239,8 @@ static int generate_transition(void *log, struct sbg_script *s,
            while keeping the mutual references.
          */
         for (i = 0; i < nb_elements; i++) {
-			s1 = i < ev1->nb_elements ? &s->synth[ev1->elements + i] : &s1mod;
-            s2 = i < ev2->nb_elements ? &s->synth[ev2->elements + i] : &s2mod;
+			s1 = i < ev1->nb_elements ? &s->synth.t_sst[ev1->elements + i] : &s1mod;
+            s2 = i < ev2->nb_elements ? &s->synth.t_sst[ev2->elements + i] : &s2mod;
 #ifdef IDE_COMPILE
             {
 				struct sbg_script_synth tmp0 = { 0 };
@@ -1295,21 +1325,21 @@ static int generate_intervals(void *log, struct sbg_script *s, int sample_rate,
     /* SBaGen handles the time before and after the extremal events,
        and the corresponding transitions, as if the sequence were cyclic
        with a 24-hours period. */
-    period = s->events[s->nb_events - 1].ts - s->events[0].ts;
+    period = s->events.t_sst[s->nb_events - 1].ts - s->events.t_sst[0].ts;
     period = (period + (DAY_TS - 1)) / DAY_TS * DAY_TS;
     period = FFMAX(period, DAY_TS);
 
     /* Prepare timestamps for transitions */
     for (i = 0; i < s->nb_events; i++) {
-        ev1 = &s->events[i];
-        ev2 = &s->events[(i + 1) % s->nb_events];
+        ev1 = &s->events.t_sst[i];
+        ev2 = &s->events.t_sst[(i + 1) % s->nb_events];
         ev1->ts_int   = ev1->ts;
         ev1->ts_trans = ev1->fade.slide ? ev1->ts
                                         : ev2->ts + (ev1 < ev2 ? 0 : period);
     }
     for (i = 0; i < s->nb_events; i++) {
-        ev1 = &s->events[i];
-        ev2 = &s->events[(i + 1) % s->nb_events];
+        ev1 = &s->events.t_sst[i];
+        ev2 = &s->events.t_sst[(i + 1) % s->nb_events];
         if (!ev1->fade.slide) {
             ev1->ts_trans = FFMAX(ev1->ts_int,   ev1->ts_trans - trans_time);
             ev2->ts_int   = FFMIN(ev2->ts_trans, ev2->ts_int   + trans_time);
@@ -1318,14 +1348,14 @@ static int generate_intervals(void *log, struct sbg_script *s, int sample_rate,
     }
 
     /* Pseudo event before the first one */
-    ev0 = s->events[s->nb_events - 1];
+    ev0 = s->events.t_sst[s->nb_events - 1];
     ev0.ts_int   -= period;
     ev0.ts_trans -= period;
     ev0.ts_next  -= period;
 
     /* Convert timestamps */
     for (i = -1; i < s->nb_events; i++) {
-        ev1 = i < 0 ? &ev0 : &s->events[i];
+        ev1 = i < 0 ? &ev0 : &s->events.t_sst[i];
         ev1->ts_int   = av_rescale(ev1->ts_int,   sample_rate, AV_TIME_BASE);
         ev1->ts_trans = av_rescale(ev1->ts_trans, sample_rate, AV_TIME_BASE);
         ev1->ts_next  = av_rescale(ev1->ts_next,  sample_rate, AV_TIME_BASE);
@@ -1333,10 +1363,10 @@ static int generate_intervals(void *log, struct sbg_script *s, int sample_rate,
 
     /* Generate intervals */
     for (i = 0; i < s->nb_synth; i++)
-        s->synth[i].ref.l = s->synth[i].ref.r = -1;
+        s->synth.t_sst[i].ref.l = s->synth.t_sst[i].ref.r = -1;
     for (i = -1; i < s->nb_events; i++) {
-        ev1 = i < 0 ? &ev0 : &s->events[i];
-        ev2 = &s->events[(i + 1) % s->nb_events];
+        ev1 = i < 0 ? &ev0 : &s->events.t_sst[i];
+        ev2 = &s->events.t_sst[(i + 1) % s->nb_events];
         r = generate_plateau(log, s, inter, ev1);
         if (r < 0)
             return r;
@@ -1356,8 +1386,8 @@ static int encode_intervals(struct sbg_script *s, AVCodecContext *avc,
     uint8_t *edata;
 
     for (i = 0; i < inter->nb_inter; i++) {
-        edata_size += inter->inter[i].type == WS_SINE  ? 44 :
-                      inter->inter[i].type == WS_NOISE ? 32 : 0;
+        edata_size += inter->inter.t_sst[i].type == WS_SINE  ? 44 :
+                      inter->inter.t_sst[i].type == WS_NOISE ? 32 : 0;
         if (edata_size < 0)
             return AVERROR(ENOMEM);
     }
@@ -1369,21 +1399,21 @@ static int encode_intervals(struct sbg_script *s, AVCodecContext *avc,
 #define ADD_EDATA64(v) do { AV_WL64(edata, (v)); edata += 8; } while(0)
     ADD_EDATA32(inter->nb_inter);
     for (i = 0; i < inter->nb_inter; i++) {
-        ADD_EDATA64(inter->inter[i].ts1);
-        ADD_EDATA64(inter->inter[i].ts2);
-        ADD_EDATA32(inter->inter[i].type);
-        ADD_EDATA32(inter->inter[i].channels);
-        switch (inter->inter[i].type) {
+        ADD_EDATA64(inter->inter.t_sst[i].ts1);
+        ADD_EDATA64(inter->inter.t_sst[i].ts2);
+        ADD_EDATA32(inter->inter.t_sst[i].type);
+        ADD_EDATA32(inter->inter.t_sst[i].channels);
+        switch (inter->inter.t_sst[i].type) {
             case WS_SINE:
-                ADD_EDATA32(inter->inter[i].f1);
-                ADD_EDATA32(inter->inter[i].f2);
-                ADD_EDATA32(inter->inter[i].a1);
-                ADD_EDATA32(inter->inter[i].a2);
-                ADD_EDATA32(inter->inter[i].phi);
+                ADD_EDATA32(inter->inter.t_sst[i].f1);
+                ADD_EDATA32(inter->inter.t_sst[i].f2);
+                ADD_EDATA32(inter->inter.t_sst[i].a1);
+                ADD_EDATA32(inter->inter.t_sst[i].a2);
+                ADD_EDATA32(inter->inter.t_sst[i].phi);
                 break;
             case WS_NOISE:
-                ADD_EDATA32(inter->inter[i].a1);
-                ADD_EDATA32(inter->inter[i].a2);
+                ADD_EDATA32(inter->inter.t_sst[i].a1);
+                ADD_EDATA32(inter->inter.t_sst[i].a2);
                 break;
         }
     }
@@ -1395,7 +1425,7 @@ static int encode_intervals(struct sbg_script *s, AVCodecContext *avc,
 static av_cold int sbg_read_probe(AVProbeData *p)
 {
     int r, score;
-    struct sbg_script script = { 0 };
+    struct sbg_script script = {{0}};
 
     r = parse_script(NULL, p->buf, p->buf_size, &script);
     score = r < 0 || !script.nb_def || !script.nb_tseq ? 0 :
@@ -1409,9 +1439,9 @@ static av_cold int sbg_read_header(AVFormatContext *avf)
     struct sbg_demuxer *sbg = avf->priv_data;
     int r;
     char *buf = NULL;
-    struct sbg_script script = { 0 };
+    struct sbg_script script = {{0}};
     AVStream *st;
-    struct ws_intervals inter = { 0 };
+    struct ws_intervals inter = {{0}};
 
     r = read_whole_file(avf->pb, sbg->max_file_size, &buf);
     if (r < 0)
@@ -1457,12 +1487,12 @@ static av_cold int sbg_read_header(AVFormatContext *avf)
     if (r < 0)
         goto fail;
 
-    av_free(inter.inter);
+    av_free(inter.inter.t_sst);
     free_script(&script);
     return 0;
 
 fail:
-    av_free(inter.inter);
+    av_free(inter.inter.t_sst);
     free_script(&script);
     av_free(buf);
     return r;

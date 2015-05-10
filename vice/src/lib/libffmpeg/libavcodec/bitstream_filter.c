@@ -24,26 +24,32 @@
 #include "libavutil/atomic.h"
 #include "libavutil/mem.h"
 
-static AVBitStreamFilter *first_bitstream_filter = NULL;
+/* type pun fix */
+typedef union {
+    AVBitStreamFilter *t_AVBSF;
+    void * volatile t_vvoid;
+} AVBSF_t;
+
+static AVBSF_t first_bitstream_filter = {NULL};
 
 AVBitStreamFilter *av_bitstream_filter_next(const AVBitStreamFilter *f)
 {
     if (f)
         return f->next;
     else
-        return first_bitstream_filter;
+        return first_bitstream_filter.t_AVBSF;
 }
 
 void av_register_bitstream_filter(AVBitStreamFilter *bsf)
 {
     do {
-        bsf->next = first_bitstream_filter;
+        bsf->next = first_bitstream_filter.t_AVBSF;
     } while(bsf->next != avpriv_atomic_ptr_cas((void * volatile *)&first_bitstream_filter, bsf->next, bsf));
 }
 
 AVBitStreamFilterContext *av_bitstream_filter_init(const char *name)
 {
-    AVBitStreamFilter *bsf = first_bitstream_filter;
+    AVBitStreamFilter *bsf = first_bitstream_filter.t_AVBSF;
 
     while (bsf) {
         if (!strcmp(name, bsf->name)) {
