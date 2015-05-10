@@ -35,6 +35,7 @@
 #define VICE_MMC64_H
 
 #include "types.h"
+#include "c64cart.h"
 
 #define MMC64_REV_A  0
 #define MMC64_REV_B  1
