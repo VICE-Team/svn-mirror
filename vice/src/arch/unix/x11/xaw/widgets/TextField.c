@@ -520,7 +520,7 @@ static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
         new->text.IntlText = NULL;
     }
     new->text.TextLen = 0;
-    new->text.SelectionText = NULL;
+    new->text.SelectionText.t_char = NULL;
     new->text.TextWidth = new->text.OldTextWidth = 0;
     if (new->text.DefaultString) {
         SetString(new, new->text.DefaultString);
@@ -594,8 +594,8 @@ static void Destroy(TextFieldWidget w)
     XtReleaseGC((Widget) w, w->text.cursorGC);
     XtReleaseGC((Widget) w, w->text.eraseGC);
     XtReleaseGC((Widget) w, w->text.dashGC);
-    if (w->text.SelectionText) {
-        XtFree(w->text.SelectionText);
+    if (w->text.SelectionText.t_char) {
+        XtFree(w->text.SelectionText.t_char);
     }
     XtFree(w->text.Text);
     if (w->text.IntlText) {
@@ -1298,7 +1298,7 @@ static Boolean ConvertSelection(Widget aw, Atom *selection, Atom *target, Atom *
     } else if (w->text.international == False && *target == XA_STRING) { /* Latin-1 */
         *length = (long)w->text.SelectionLen;
         *value = XtMalloc(*length);
-        strncpy(*value, w->text.SelectionText, w->text.SelectionLen);
+        strncpy(*value, w->text.SelectionText.t_char, w->text.SelectionLen);
         *type = XA_STRING;
         *format = 8;
         return True;
@@ -1335,8 +1335,8 @@ static void ExtendEnd(Widget aw, XEvent *event, String *params, Cardinal *num_pa
     len = w->text.HighlightEnd - w->text.HighlightStart;
     if (len > 0) {
         w->text.SelectionLen = len;
-        if (w->text.SelectionText) {
-            XtFree(w->text.SelectionText);
+        if (w->text.SelectionText.t_char) {
+            XtFree(w->text.SelectionText.t_char);
         }
 #ifdef INTERNATIONAL_SUPPORT
         if (w->text.international) {
@@ -1344,18 +1344,18 @@ static void ExtendEnd(Widget aw, XEvent *event, String *params, Cardinal *num_pa
             ptr = (wchar_t *)XtMalloc((len+1) * sizeof(wchar_t));
             wcsncpy(ptr, &w->text.IntlText[w->text.HighlightStart], len);
             ptr[len] = 0;
-            w->text.SelectionText = (char *)ptr;
+            w->text.SelectionText.t_char = (char *)ptr;
         } else
 #endif
         {
-            w->text.SelectionText = XtMalloc(len+1);
-            strncpy(w->text.SelectionText, &w->text.Text[w->text.HighlightStart], len);
-            w->text.SelectionText[len] = 0;
+            w->text.SelectionText.t_char = XtMalloc(len+1);
+            strncpy(w->text.SelectionText.t_char, &w->text.Text[w->text.HighlightStart], len);
+            w->text.SelectionText.t_char[len] = 0;
         }
 
         XtOwnSelection(aw, XA_PRIMARY, event->xbutton.time, ConvertSelection, LoseSelection, NULL);
         if (w->text.international == False) {
-            XChangeProperty(XtDisplay(aw), DefaultRootWindow(XtDisplay(aw)), XA_CUT_BUFFER0, XA_STRING, 8, PropModeReplace, (unsigned char *)w->text.SelectionText, len);
+            XChangeProperty(XtDisplay(aw), DefaultRootWindow(XtDisplay(aw)), XA_CUT_BUFFER0, XA_STRING, 8, PropModeReplace, (unsigned char *)w->text.SelectionText.t_char, len);
         }
     }
 }

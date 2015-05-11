@@ -126,7 +126,12 @@ typedef struct {
     wchar_t *IntlText;          /* wc version of text */
     int IntlTextLen;            /* length in wide characters */
 
-    char *SelectionText;        /* pointer to text selection, when needed */
+    /* type pun fix */
+    union {
+        char *t_char;           /* pointer to text selection, when needed */
+        wchar_t *t_wchar_t;
+    } SelectionText;
+
     int SelectionLen;           /* length */
 
     int FastInsertCursorStart;  /* data storage for some text optimization */
