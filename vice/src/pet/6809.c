@@ -226,8 +226,6 @@ static WORD V;
 #define H6309_NATIVE_MODE() (MD & 1)
 #endif /* H6309 */
 
-/* #define FULL6809 */
-
 static WORD ea = 0;
 static unsigned int irqs_pending = 0;
 static unsigned int firqs_pending = 0;
