@@ -68,6 +68,7 @@
 
 #include <stdio.h>
 #include <sys/utsname.h>
+#include <sys/param.h>
 #include <sys/sysctl.h>
 #include <string.h>
 #include <ctype.h>

@@ -46,7 +46,11 @@
 #include <X11/Xaw/SmeBSB.h>
 #endif
 
+#ifdef HAVE_X11_INTRINSICI_H
 #include <X11/IntrinsicI.h>
+#else
+#include <X11/IntrinsicP.h>
+#endif
 
 #include "checkmark.xbm"
 #include "right_arrow.xbm"
