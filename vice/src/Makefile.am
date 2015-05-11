@@ -487,7 +487,7 @@ if NATIVE_TOOLS
 $(builddir)/geninfocontrib:	$(srcdir)/arch/win32/utils/geninfocontrib.c
 	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/geninfocontrib $(srcdir)/arch/win32/utils/geninfocontrib.c
 
-infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed geninfocontrib
+infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(builddir)/geninfocontrib
 	echo "generating infocontrib.h..."
 	$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html src/arch/os2/dialogs/dialogs.rc man/vice.1
 else
