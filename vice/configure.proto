@@ -848,7 +848,18 @@ dnl All other UN*X systems
     dnl Check for the type of compiler first.
     if test x"$GCC" = "xyes" ; then
 
-      warnings_cxx="-Wall -W -Wno-unused-parameter -Wno-missing-field-initializers -Wno-sign-compare"
+      AC_MSG_CHECKING([if the compiler supports -Wno-missing-field-initializers])
+      ORIG_CFLAGS=$CFLAGS
+      CFLAGS="$CFLAGS -Wno-missing-field-initializers"
+      AC_TRY_COMPILE([],
+                     [int test;],
+                     [ AC_MSG_RESULT(yes)
+                       warn_no_mfi="-Wno-missing-field-initializers" ],
+                     [ AC_MSG_RESULT(no)
+                       warn_no_mfi="" ])
+      CFLAGS=$ORIG_CFLAGS
+
+      warnings_cxx="-Wall -W -Wno-unused-parameter $warn_no_mfi -Wno-sign-compare"
       if test x"$enable_gnomeui" != "xyes" ; then
           warnings_c="-Wstrict-prototypes $warnings_cxx"
       else
