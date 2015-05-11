@@ -24004,11 +24004,13 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @example
     bit  meaning
     ---  -------
-    7   exrom (A 1 asserts the line, a 0 will deassert it.)
-    6   game (A 0 will assert it, a 1 will deassert it.)
-    3-5 unused? (not used by the software)
-    2   unknown function (used by the software however)
-    0-1 selects bank
+    7    exrom?
+    6    game?
+    5    unknown function (used by the software to disable the cartridge)
+    4    unused?
+    3    unused?
+    2    unknown function (used by the software however)
+    0-1  selects bank
 @end example
 
 

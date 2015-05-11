@@ -61,11 +61,11 @@
     is located at $DE00 and mirrored throughout the $DE00-$DEFF
     range.
 
-    bit 7   : exrom (A 1 asserts the line, a 0 will deassert it.)
-    bit 6   : game (A 0 will assert it, a 1 will deassert it.)
-
-    bit 3-5 : unused? (not used by the software)
-
+    bit 7   : exrom?
+    bit 6   : game?
+    bit 5   : unknown function (used by the software to disable the cartridge)
+    bit 4   : unused?
+    bit 3   : unused?
     bit 2   : unknown function (used by the software however)
     bit 0-1 : selects bank
 */
@@ -77,8 +77,17 @@ static void comal80_io1_store(WORD addr, BYTE value)
     int cmode, currbank;
     currregval = value & 0xc7;
     currbank = value & 3;
-    cmode = (value >> 6) ^ 3;
-
+    switch (value & 0xe0) {
+        case 0xe0: cmode = CMODE_RAM; break;
+        case 0x80: cmode = CMODE_16KGAME; break;
+        case 0x40: cmode = CMODE_8KGAME; break;
+        default: cmode = CMODE_16KGAME; break;
+    }
+#ifdef DEBUGCART
+    if ((value != 0x82) && (value != 0x83)) {
+        DBG(("COMAL80: IO1W %04x %02x mode: %d bank: %d\n", addr, value, cmode, currbank));
+    }
+#endif
     cart_config_changed_slotmain(0, (BYTE)(cmode | (currbank << CMODE_BANK_SHIFT)), CMODE_READ);
 }
 
@@ -90,7 +99,6 @@ static BYTE comal80_io1_peek(WORD addr)
 static int comal80_dump(void)
 {
     mon_out("register value: %d\n", currregval);
-    mon_out(" mode: %d\n", currregval >> 6);
     mon_out(" bank: %d\n", currregval & 3);
     return 0;
 }
