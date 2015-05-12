@@ -129,7 +129,7 @@
 #define PLATFORM_OS "NetBSD 2.0"
 #endif
 
-#if (__NetBSD_Version__==200020000)
+#if (__NetBSD_Version__==200000200)
 #define PLATFORM_OS "NetBSD 2.0.2"
 #endif
 

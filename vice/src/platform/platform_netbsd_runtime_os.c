@@ -27,6 +27,10 @@
 /* Tested and confirmed working on:
    cpu      | netbsd version
    -------------------------
+   i386     | 1.6.2
+   i386     | 2.0
+   i386     | 2.0.2
+   i386     | 2.1
    i386     | 3.0
    i386     | 3.0.1
    i386     | 3.0.2
