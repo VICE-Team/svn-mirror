@@ -39,10 +39,28 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
 #define KBD_PORT_PREFIX "sdl"
 
+#ifdef USE_SDLUI2
+#define SDLKey SDL_Keycode
+#define SDLMod SDL_Keymod
+#define SDLK_LAST SDL_NUM_SCANCODES
+#define SDLK_KP0 SDLK_KP_0
+#define SDLK_KP1 SDLK_KP_1
+#define SDLK_KP2 SDLK_KP_2
+#define SDLK_KP3 SDLK_KP_3
+#define SDLK_KP4 SDLK_KP_4
+#define SDLK_KP5 SDLK_KP_5
+#define SDLK_KP6 SDLK_KP_6
+#define SDLK_KP7 SDLK_KP_7
+#define SDLK_KP8 SDLK_KP_8
+#define SDLK_KP9 SDLK_KP_9
+#define KMOD_META KMOD_LGUI
+#endif
+
 extern ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod);
 extern ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod);
 
 extern void sdlkbd_set_hotkey(SDLKey key, SDLMod mod, ui_menu_entry_t *value);
+
 extern int sdlkbd_hotkeys_load(const char *filename);
 extern int sdlkbd_hotkeys_load(const char *filename);
 extern int sdlkbd_hotkeys_dump(const char *filename);
