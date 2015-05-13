@@ -105,7 +105,7 @@ char av_get_picture_type_char(enum AVPictureType pict_type)
 unsigned av_int_list_length_for_size(unsigned elsize,
                                      const void *list, uint64_t term)
 {
-    unsigned i;
+    unsigned i = 0;
 
     if (!list)
         return 0;
