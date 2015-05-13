@@ -858,9 +858,16 @@ dnl All other UN*X systems
                        warn_no_mfi="-Wno-missing-field-initializers" ],
                      [ AC_MSG_RESULT(no)
                        warn_no_mfi="" ])
+      CFLAGS="$ORIG_CFLAGS -Wno-unused-parameter"
+      AC_TRY_COMPILE([],
+                     [int test;],
+                     [ AC_MSG_RESULT(yes)
+                       warn_no_up="-Wno-unused-parameter" ],
+                     [ AC_MSG_RESULT(no)
+                       warn_no_up="" ])
       CFLAGS=$ORIG_CFLAGS
 
-      warnings_cxx="-Wall -W -Wno-unused-parameter $warn_no_mfi -Wno-sign-compare"
+      warnings_cxx="-Wall -W $warn_no_up $warn_no_mfi -Wno-sign-compare"
       if test x"$enable_gnomeui" != "xyes" ; then
           warnings_c="-Wstrict-prototypes $warnings_cxx"
       else
