@@ -796,7 +796,7 @@ static int find_slice_quant(AVCodecContext *avctx, const AVFrame *pic,
 {
     ProresContext *ctx = avctx->priv_data;
     int i, q, pq, xp, yp;
-    const uint16_t *src;
+    const uint16_t *src = NULL;
     int slice_width_factor = av_log2(mbs_per_slice);
     int num_cblocks[MAX_PLANES], pwidth;
     int plane_factor[MAX_PLANES], is_chroma[MAX_PLANES];

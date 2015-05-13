@@ -159,7 +159,7 @@ static const uint8_t string_table[256] = {
 static int svq1_decode_block_intra(GetBitContext *bitbuf, uint8_t *pixels,
                                    int pitch)
 {
-    uint32_t bit_cache;
+    uint32_t bit_cache = 0;
     uint8_t *list[63];
     uint32_t *dst;
     const uint32_t *codebook;
@@ -224,7 +224,7 @@ static int svq1_decode_block_intra(GetBitContext *bitbuf, uint8_t *pixels,
 static int svq1_decode_block_non_intra(GetBitContext *bitbuf, uint8_t *pixels,
                                        int pitch)
 {
-    uint32_t bit_cache;
+    uint32_t bit_cache = 0;
     uint8_t *list[63];
     uint32_t *dst;
     const uint32_t *codebook;

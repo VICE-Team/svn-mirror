@@ -1239,7 +1239,7 @@ static void fill_mv(VP9Context *s,
     if (mode == ZEROMV) {
         AV_ZERO64(mv);
     } else {
-        int hp;
+        int hp = 0;
 
         // FIXME cache this value and reuse for other subblocks
         find_ref_mvs(s, &mv[0], b->ref[0], 0, mode == NEARMV,
