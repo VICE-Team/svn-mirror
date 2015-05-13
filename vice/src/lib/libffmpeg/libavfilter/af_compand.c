@@ -314,7 +314,8 @@ static int compand_drain(AVFilterLink *outlink)
     CompandContext *s    = ctx->priv;
     const int channels   = outlink->channels;
     AVFrame *frame       = NULL;
-    int chan, i, dindex;
+    int chan, i;
+    int dindex = 0;
 #ifdef IDE_COMPILE
 	AVRational tmp;
 #endif

@@ -133,7 +133,9 @@ static void phaser_## name ##p(AudioPhaserContext *p,                  \
                                uint8_t * const *src, uint8_t **dst,    \
                                int nb_samples, int channels)           \
 {                                                                      \
-    int i, c, delay_pos, modulation_pos;                               \
+    int i, c;                                                          \
+    int delay_pos = 0;                                                 \
+    int modulation_pos = 0;                                            \
                                                                        \
     av_assert0(channels > 0);                                          \
     for (c = 0; c < channels; c++) {                                   \
