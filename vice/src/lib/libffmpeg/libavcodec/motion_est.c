@@ -190,7 +190,7 @@ static av_always_inline int cmp_inline(MpegEncContext *s, const int x, const int
     uint8_t * const * const src= c->src[src_index];
     int d;
     //FIXME check chroma 4mv, (no crashes ...)
-        int uvdxy;              /* no, it might not be used uninitialized */
+        int uvdxy = 0;
         if(dxy){
             if(qpel){
                 c->qpel_put[size][dxy](c->temp, ref[0] + x + y*stride, stride); //FIXME prototype (add h)

@@ -1086,7 +1086,8 @@ void ff_hevc_hls_residual_coding(HEVCContext *s, int x0, int y0,
 
     int trafo_size = 1 << log2_trafo_size;
     int i;
-    int qp,shift,add,scale,scale_m;
+    int qp,shift,add,scale;
+    int scale_m = 0;
     const uint8_t level_scale[] = { 40, 45, 51, 57, 64, 72 };
     const uint8_t *scale_matrix = NULL;
     uint8_t dc_scale;

@@ -1309,7 +1309,7 @@ static void silk_decode_frame(SilkContext *s, OpusRangeCoder *rc,
     /* obtain pitch lags, if this is a voiced frame */
     if (voiced) {
         int lag_absolute = (!frame_num || !frame->prev_voiced);
-        int primarylag;         // primary pitch lag for the entire SILK frame
+        int primarylag = 0;         // primary pitch lag for the entire SILK frame
         int ltpfilter;
         const int8_t * offsets;
 

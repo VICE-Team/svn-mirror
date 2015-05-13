@@ -420,7 +420,7 @@ static int rm_read_index(AVFormatContext *s)
 {
     AVIOContext *pb = s->pb;
     unsigned int size, n_pkts, str_id, next_off, n, pos, pts;
-    AVStream *st;
+    AVStream *st = NULL;
 
     do {
         if (avio_rl32(pb) != MKTAG('I','N','D','X'))

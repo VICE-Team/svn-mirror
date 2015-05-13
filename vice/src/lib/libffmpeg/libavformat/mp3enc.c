@@ -118,7 +118,8 @@ static int mp3_write_xing(AVFormatContext *s)
     AVCodecContext *codec = s->streams[mp3->audio_stream_idx]->codec;
     int32_t          header;
     MPADecodeHeader  mpah;
-    int srate_idx, i, channels;
+    int srate_idx = 0;
+    int i, channels;
     int bitrate_idx;
     int best_bitrate_idx = -1;
     int best_bitrate_error = INT_MAX;
