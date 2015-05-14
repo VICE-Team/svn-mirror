@@ -258,15 +258,22 @@ int kbd_arch_get_host_mapping(void)
 
     Display* _display;
     char* displayName = "";
+
+    XkbDescRec* _kbdDescPtr;
+    Atom symName;
+    char* layoutString;
+
+    char *p;
+
     _display = XOpenDisplay(displayName);
 
-    XkbDescRec* _kbdDescPtr = XkbAllocKeyboard();
+    _kbdDescPtr = XkbAllocKeyboard();
     XkbGetNames(_display, XkbSymbolsNameMask, _kbdDescPtr);
-    Atom symName = _kbdDescPtr -> names -> symbols;
-    char* layoutString = XGetAtomName(_display, symName);
+    symName = _kbdDescPtr -> names -> symbols;
+    layoutString = XGetAtomName(_display, symName);
 
     XCloseDisplay(_display);
-    char *p = layoutString;
+    p = layoutString;
 
     if (memcmp(p, "pc+", 3) == 0) {
         p += 3;
@@ -280,4 +287,3 @@ int kbd_arch_get_host_mapping(void)
     }
     return KBD_MAPPING_US;
 }
-
