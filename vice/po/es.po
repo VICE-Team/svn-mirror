@@ -677,12 +677,12 @@ msgstr "Ajustes de impresora"
 #: src/arch/unix/gui/petui.c:519 src/arch/unix/gui/plus4ui.c:416
 #: src/arch/unix/gui/vic20ui.c:640
 msgid "Enable Virtual Devices"
-msgstr "Permirir periféricos virtuales"
+msgstr "Permitir periféricos virtuales"
 
 #: src/arch/unix/gui/c128ui.c:621 src/arch/unix/gui/c64scui.c:567
 #: src/arch/unix/gui/c64ui.c:628
 msgid "Mouse emulation"
-msgstr "Emulacíon de ratón"
+msgstr "Emulacíón de ratón"
 
 #: src/arch/unix/gui/c128ui.c:623 src/arch/unix/gui/c64scui.c:569
 #: src/arch/unix/gui/c64ui.c:630 src/arch/unix/gui/vic20ui.c:647
@@ -1428,7 +1428,7 @@ msgstr "El fichero existe"
 
 #: src/arch/unix/gui/uiattach.c:221
 msgid "Do you want to overwrite it?"
-msgstr "¿Quieres sobreescribirlo?"
+msgstr "¿Quieres sobrescribirlo?"
 
 #: src/arch/unix/gui/uiattach.c:249 src/arch/unix/gui/uiattach.c:282
 #: src/arch/win32/res.rc.po.c:920 src/arch/win32/res.rc.po.c:1384
@@ -2101,7 +2101,7 @@ msgstr "Filtro de renderizado"
 #: src/arch/unix/gui/uivdc.c:181 src/arch/unix/gui/uivic.c:183
 #: src/arch/unix/gui/uivicii.c:217
 msgid "Audio leak emulation"
-msgstr "Emulacion Audio leak"
+msgstr "Emulación Audio leak"
 
 #: src/arch/unix/gui/uicrtc.c:178 src/arch/unix/gui/uited.c:184
 #: src/arch/unix/gui/uivdc.c:185 src/arch/unix/gui/uivic.c:187
@@ -2293,14 +2293,14 @@ msgstr "Extender al acceder"
 #: src/arch/unix/gui/uidrivevic20.c:68 src/arch/win32/res.rc.po.c:1388
 #: src/arch/amigaos/intl_text.c.po.c:2022
 msgid "True drive emulation"
-msgstr "Emulacion unidad disco verdadera"
+msgstr "Emulación unidad disco verdadera"
 
 #: src/arch/unix/gui/uidrive.c:185 src/arch/unix/gui/uidrivec128.c:182
 #: src/arch/unix/gui/uidrivec64.c:47 src/arch/unix/gui/uidrivec64dtv.c:47
 #: src/arch/unix/gui/uidrivepetcbm2.c:107 src/arch/unix/gui/uidriveplus4.c:239
 #: src/arch/unix/gui/uidrivevic20.c:70 src/arch/win32/res.rc.po.c:1389
 msgid "Drive sound emulation"
-msgstr "Emulacion controlador de sonido"
+msgstr "Emulación controlador de sonido"
 
 #: src/arch/unix/gui/uidrive.c:192
 msgid "Select Flash filesystem directory"
@@ -2626,7 +2626,7 @@ msgstr "Lista de ficheros a conmutar"
 #: src/arch/unix/gui/uifliplist.c:96
 #, c-format
 msgid "Successfully read `%s'."
-msgstr "Exito en la lectura `%s'."
+msgstr "Éxito en la lectura `%s'."
 
 #: src/arch/unix/gui/uifliplist.c:98
 #, c-format
@@ -2749,7 +2749,7 @@ msgstr "Intercambio máscara Entrada/Salida"
 #: src/arch/unix/gui/uigeoram.c:101 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:6978
 msgid "GEO-RAM file"
-msgstr "Fihcero GEO-RAM"
+msgstr "Fulcro GEO-RAM"
 
 #: src/arch/unix/gui/uiide64.c:48 src/arch/win32/res.rc.po.c:1405
 #: src/arch/amigaos/intl_text.c.po.c:958
@@ -2896,7 +2896,7 @@ msgstr "Adaptador de puerto de juegos OEM"
 #: src/arch/unix/gui/uijoystick2.c:136 src/arch/win32/res.rc.po.c:1031
 #: src/arch/amigaos/intl_text.c.po.c:1938
 msgid "HIT userport joy adapter"
-msgstr "Adpatador de puerto de juegos HIT"
+msgstr "Adaptador de puerto de juegos HIT"
 
 #: src/arch/unix/gui/uijoystick2.c:138 src/arch/win32/res.rc.po.c:1032
 #: src/arch/amigaos/intl_text.c.po.c:1952
@@ -2912,7 +2912,7 @@ msgstr "Adaptador puerto joy Starbyte"
 #: src/arch/unix/gui/uijoystick2.c:265 src/arch/unix/gui/uijoystick2.c:317
 #: src/arch/amigaos/intl_text.c.po.c:7427
 msgid "Numpad"
-msgstr "Teclado númerico"
+msgstr "Teclado numérico"
 
 #: src/arch/unix/gui/uijoystick2.c:164 src/arch/unix/gui/uijoystick2.c:216
 #: src/arch/unix/gui/uijoystick2.c:268 src/arch/unix/gui/uijoystick2.c:320
@@ -3257,7 +3257,7 @@ msgstr "Puerto 2"
 
 #: src/arch/unix/gui/uimouse.c:74 src/translate_text.c.po.c:14076
 msgid "Enable mouse grab"
-msgstr "Permitir captuar del ratón"
+msgstr "Permitir captura del ratón"
 
 #: src/arch/unix/gui/uimouse.c:76 src/arch/win32/resmouse.rc.po.c:37
 #: src/arch/amigaos/intl_text.c.po.c:12090
@@ -3352,7 +3352,7 @@ msgstr "Camino"
 
 #: src/arch/unix/gui/uiperipheral.c:64
 msgid "Select block device for raw access"
-msgstr "Seleccionar periferico para acceso RAW"
+msgstr "Seleccionar periférico para acceso RAW"
 
 #: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
 #: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
@@ -3504,7 +3504,7 @@ msgstr "Tipo de color PET"
 #: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:8240
 msgid "PET DWW file"
-msgstr "Fihcero DWW PET"
+msgstr "Fichero DWW PET"
 
 #: src/arch/unix/gui/uipetreu.c:40 src/arch/win32/respetreu.rc.po.c:40
 #: src/arch/amigaos/intl_text.c.po.c:8086
@@ -3583,7 +3583,7 @@ msgstr "Salida impresora #4"
 #: src/arch/unix/gui/uiprinteriecplus4.c:53
 #: src/arch/unix/gui/uiprinterieee.c:48
 msgid "Printer #4 text output device"
-msgstr "Periférico salida texto impresoara #4"
+msgstr "Periférico salida texto impresora #4"
 
 #: src/arch/unix/gui/uiprinteriec.c:73
 #: src/arch/unix/gui/uiprinteriecplus4.c:55
@@ -3618,7 +3618,7 @@ msgstr "Salida impresora #5"
 #: src/arch/unix/gui/uiprinteriecplus4.c:67
 #: src/arch/unix/gui/uiprinterieee.c:60
 msgid "Printer #5 text output device"
-msgstr "Periférico salida texto impresoara #5"
+msgstr "Periférico salida texto impresora #5"
 
 #: src/arch/unix/gui/uiprinteriec.c:80
 #: src/arch/unix/gui/uiprinteriecplus4.c:69
@@ -3653,7 +3653,7 @@ msgstr "Salida impresora #6"
 #: src/arch/unix/gui/uiprinteriecplus4.c:81
 #: src/arch/unix/gui/uiprinterieee.c:72
 msgid "Printer #6 text output device"
-msgstr "Periférico salida texto impresoara #6"
+msgstr "Periférico salida texto impresora #6"
 
 #: src/arch/unix/gui/uiprinteriec.c:87
 #: src/arch/unix/gui/uiprinteriecplus4.c:83
@@ -3707,7 +3707,7 @@ msgstr "Fichero RamCart"
 
 #: src/arch/unix/gui/uiretroreplay.c:57
 msgid "Enable bankjumper"
-msgstr "Permitir commutación de bancos"
+msgstr "Permitir conmutación de bancos"
 
 #: src/arch/unix/gui/uireu.c:86 src/arch/win32/resreu.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:8534
@@ -3831,7 +3831,7 @@ msgstr "38400 (sólo Swiftlink/Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:58 src/arch/unix/gui/uirs232.c:94
 msgid "57600 (Turbo232 only)"
-msgstr "57600 (sóloTurbo232)"
+msgstr "57600 (sólo Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:60 src/arch/unix/gui/uirs232.c:96
 msgid "115200 (Turbo232 only)"
@@ -4359,7 +4359,7 @@ msgstr "Rev 0"
 #: src/arch/unix/gui/uivdc.c:158 src/arch/win32/resc128.rc.po.c:742
 #: src/arch/amigaos/intl_text.c.po.c:1784
 msgid "64KB video memory"
-msgstr "Memoria de video 64KB"
+msgstr "Memoria de vídeo 64KB"
 
 #: src/arch/unix/gui/uivic.c:174 src/arch/amigaos/intl_text.c.po.c:3268
 #: src/arch/amigaos/intl_text.c.po.c:8618
@@ -4547,16 +4547,16 @@ msgstr "No utilizar ajustes PSID"
 #: src/arch/win32/resplus4.rc.po.c:223 src/arch/win32/resvic20.rc.po.c:233
 #: src/arch/win32/resvsid.rc.po.c:59 src/arch/amigaos/intl_text.c.po.c:2120
 msgid "Video standard"
-msgstr "Video estandar"
+msgstr "Vídeo estandar"
 
 #: src/arch/unix/gui/vsidui.c:469
 msgid "Default Tune"
-msgstr "Melodia por defecto"
+msgstr "Melodía por defecto"
 
 #: src/arch/unix/gui/vsidui.c:489
 #, c-format
 msgid "Tune %d"
-msgstr "Melodia %d"
+msgstr "Melodía %d"
 
 #: src/arch/unix/gui/vsidui.c:527
 msgid "VSID: The SID emulator"
@@ -4570,7 +4570,7 @@ msgstr "VICE es software libre"
 #: src/arch/win32/res.rc.po.c:1015 src/arch/win32/res.rc.po.c:1538
 #: src/arch/amigaos/intl_text.c.po.c:4472
 msgid "No warranty!"
-msgstr "¡Sin garantias!"
+msgstr "¡Sin garantías!"
 
 #: src/arch/unix/x11/gnome/about.c:57 src/arch/unix/x11/xaw/about.c:113
 msgid "Contributors to the VICE project"
@@ -4710,7 +4710,7 @@ msgstr "Cliente conectado"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:178
 msgid "Couldn't start netplay server."
-msgstr "No puedo iniciar servidro netplay"
+msgstr "No puedo iniciar servidor netplay"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:188
 msgid "Couldn't connect client."
@@ -4957,11 +4957,11 @@ msgstr "Formato"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:653 src/arch/win32/res.rc.po.c:1295
 msgid "Audio codec"
-msgstr "Codec de audio"
+msgstr "Códec de audio"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:667 src/arch/win32/res.rc.po.c:1297
 msgid "Video codec"
-msgstr "Codec de video"
+msgstr "Códec de vídeo"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:679
 msgid "Audio bitrate"
@@ -4969,7 +4969,7 @@ msgstr "Audio bitrate"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:689
 msgid "Video bitrate"
-msgstr "Video bitrate"
+msgstr "Vídeo bitrate"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:704
 msgid "Half Framerate (25/30 fps)"
@@ -4990,13 +4990,13 @@ msgstr "Opciones de Instantánea"
 #: src/arch/unix/x11/xaw/uisnapshot.c:143 src/arch/win32/res.rc.po.c:1190
 #: src/arch/amigaos/intl_text.c.po.c:10564
 msgid "Save currently attached disk images"
-msgstr "Grabar imagenes de disco actualmente insertados"
+msgstr "Grabar imágenes de disco actualmente insertados"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:58
 #: src/arch/unix/x11/xaw/uisnapshot.c:144 src/arch/win32/res.rc.po.c:1191
 #: src/arch/amigaos/intl_text.c.po.c:10578
 msgid "Save currently loaded ROM images"
-msgstr "Grabar imagenes ROM actualmente cargadas"
+msgstr "Grabar imágenes ROM actualmente cargadas"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:103
 #, c-format
@@ -5021,7 +5021,7 @@ msgstr ""
 "Autorr: %s\n"
 "Copyright: %s\n"
 "\n"
-"Melodia: %d of %d (Default: %d)\n"
+"Melodía: %d of %d (Default: %d)\n"
 "%s\n"
 "Modelo: %s\n"
 "IRQ: %s\n"
@@ -5102,7 +5102,7 @@ msgstr "Grabar fichero disco vacio"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:221
 msgid "Couldn't create disk image"
-msgstr "No puedo crar la imagen de disco"
+msgstr "No puedo crear la imagen de disco"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:338
 msgid "Disk format:"
@@ -5166,19 +5166,19 @@ msgstr "Imagen de disco extendida"
 
 #: src/arch/unix/x11/xaw/x11video.c:191
 msgid "Aspect ratio"
-msgstr "razón de aspecto"
+msgstr "Razón de aspecto"
 
 #: src/arch/unix/x11/xaw/x11video.c:193
 msgid "Custom aspect ratio"
-msgstr "Razon de aspecto personalizado"
+msgstr "Razón de aspecto personalizada"
 
 #: src/arch/unix/x11/xaw/x11video.c:259
 msgid "Call `XSync()' after updating the emulation window"
-msgstr "Llamar `XSync()' despues de actualizar la ventana del emulador"
+msgstr "Llamar `XSync()' después de actualizar la ventana del emulador"
 
 #: src/arch/unix/x11/xaw/x11video.c:264
 msgid "Do not call `XSync()' after updating the emulation window"
-msgstr "No llamar `XSync()' despues de actualizar la ventana del emulador"
+msgstr "No llamar `XSync()' después de actualizar la ventana del emulador"
 
 #: src/arch/unix/x11/xaw/x11video.c:269
 msgid "Use shared memory"
@@ -5333,7 +5333,7 @@ msgstr "Seleccionar factor de escala para el movimiento del ratón en el eje Y"
 
 #: src/arch/unix/macosx/cocoa/video.m:170
 msgid "Enable draw synchronization to vertical blank"
-msgstr "Permitir sincronizacione en 'blank' vertical"
+msgstr "Permitir sincronización en 'blank' vertical"
 
 #: src/arch/unix/macosx/cocoa/video.m:175
 msgid "Set number of buffers used for sync draw (0=use default)"
@@ -5421,7 +5421,7 @@ msgstr "Cinta extraida"
 
 #: src/arch/win32/res.rc.po.c:907
 msgid "History recorded with unknown release"
-msgstr "Historial grabado con verión desconocida"
+msgstr "Historial grabado con versión desconocida"
 
 #: src/arch/win32/res.rc.po.c:908
 #, c-format
@@ -5461,7 +5461,7 @@ msgid ""
 "for possible reasons and to activate networking with VICE."
 msgstr ""
 "El soporte TFE/RR-Net no está disponible en su sistema,\n"
-"hay partes importantes perdidas.Echele una\n"
+"hay partes importantes perdidas.Échele una\n"
 "ojeada a la base de soporte  VICE knowledge\n"
 "\n"
 "      http://vicekb.trikaliotis.net/13-005\n"
@@ -5492,7 +5492,7 @@ msgstr "Autoarranque imagen de disco/cinta"
 
 #: src/arch/win32/res.rc.po.c:923 src/arch/amigaos/intl_text.c.po.c:5144
 msgid "Bad cartridge config in UI!"
-msgstr "¡Configuracion erronea del cartucho en UI!"
+msgstr "¡Configuración errónea del cartucho en UI!"
 
 #: src/arch/win32/res.rc.po.c:925
 msgid "Logging console output image"
@@ -5549,7 +5549,7 @@ msgstr "Por favor, introduzca nombre de fichero."
 
 #: src/arch/win32/res.rc.po.c:941 src/arch/amigaos/intl_text.c.po.c:6068
 msgid "Overwrite existing image?"
-msgstr "¿Sobreescribo la imagen actual?"
+msgstr "¿Sobrescribo la imagen actual?"
 
 #: src/arch/win32/res.rc.po.c:942 src/arch/amigaos/intl_text.c.po.c:5172
 #: src/translate_text.c.po.c:41
@@ -5584,7 +5584,7 @@ msgstr "Seleccionar fichero de directorio del sistema"
 
 #: src/arch/win32/res.rc.po.c:949
 msgid "Printer Userport"
-msgstr "Port de impresora"
+msgstr "Puerto de impresora"
 
 #: src/arch/win32/res.rc.po.c:950
 msgid "Printer 4"
@@ -5676,7 +5676,7 @@ msgstr "Fichero de sistema"
 
 #: src/arch/win32/res.rc.po.c:979 src/arch/win32/res.rc.po.c:1147
 msgid "Real IEC device"
-msgstr "Periferico real IEC"
+msgstr "Periférico real IEC"
 
 #: src/arch/win32/res.rc.po.c:981
 #, c-format
@@ -5758,7 +5758,7 @@ msgstr "Seleccionar imagen cartucho"
 
 #: src/arch/win32/res.rc.po.c:1001 src/arch/amigaos/intl_text.c.po.c:5620
 msgid "Select start snapshot for event history"
-msgstr "Selecionar inicio volcado para historial de eventos"
+msgstr "Seleccionar inicio volcado para historial de eventos"
 
 #: src/arch/win32/res.rc.po.c:1002 src/arch/amigaos/intl_text.c.po.c:5634
 msgid "Select end snapshot for event history"
@@ -5802,7 +5802,7 @@ msgstr "¿Qué opciones en tiempo de compilación están disponibles?"
 
 #: src/arch/win32/res.rc.po.c:1016 src/arch/amigaos/intl_text.c.po.c:4990
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
-msgstr "¡VICE se distribuye SIN NINGUNA GARANTIA!"
+msgstr "¡VICE se distribuye SIN NINGUNA GARANTÍA!"
 
 #: src/arch/win32/res.rc.po.c:1017
 msgid "Press key for NorthWest"
@@ -5846,15 +5846,15 @@ msgstr "No hay adaptador joystick en el puerto de usuario"
 
 #: src/arch/win32/res.rc.po.c:1034 src/translate_text.c.po.c:15388
 msgid "Disable SID cartridge joystick"
-msgstr "Deshabilitar joystic cartucho SID"
+msgstr "Deshabilitar joystick cartucho SID"
 
 #: src/arch/win32/res.rc.po.c:1035 src/translate_text.c.po.c:15371
 msgid "Enable SID cartridge joystick"
-msgstr "Permitir joystic cartucho SID"
+msgstr "Permitir joystick cartucho SID"
 
 #: src/arch/win32/res.rc.po.c:1036
 msgid "Numpad + RCtrl"
-msgstr "Teclado númerico+CTRL dcha"
+msgstr "Teclado numérico + CTRL dcha"
 
 #: src/arch/win32/res.rc.po.c:1039
 msgid "All buttons used as fire"
@@ -5862,7 +5862,7 @@ msgstr "Todos los botones como disparo"
 
 #: src/arch/win32/res.rc.po.c:1040
 msgid "numeric (see above)"
-msgstr "numerico (ver arriba)"
+msgstr "numérico (ver arriba)"
 
 #: src/arch/win32/res.rc.po.c:1041
 msgid "No button - Autofire disabled"
@@ -6009,7 +6009,7 @@ msgid ""
 "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Joystick 1, 5: joystick 2)"
 msgstr ""
-"Seleccionar periferico de entrada para emulacion joystick #1: (0: No, 1: "
+"Seleccionar periferico de entrada para Emulación joystick #1: (0: No, 1: "
 "Teclado numerico, 2: Teclado 1, 3: Teclado 2, 4: Joystick 1, 5: joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1078
@@ -6017,7 +6017,7 @@ msgid ""
 "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Joystick 1, 5: joystick 2)"
 msgstr ""
-"Seleccionar periferico de entrada para emulacion joystick #2: (0: No, 1: "
+"Seleccionar periferico de entrada para Emulación joystick #2: (0: No, 1: "
 "Teclado numerico, 2: Teclado 1, 3: Teclado 2, 4: Joystick 1, 5: joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1079
@@ -6025,7 +6025,7 @@ msgid ""
 "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Joystick 1, 5: joystick 2)"
 msgstr ""
-"Seleccionar periferico de entrada para emulacion joystick suplementario #1: "
+"Seleccionar periferico de entrada para Emulación joystick suplementario #1: "
 "(0: No, 1: Teclado numerico, 2: Teclado 1, 3: Teclado 2, 4: Joystick 1, 5: "
 "joystick 2)"
 
@@ -6034,7 +6034,7 @@ msgid ""
 "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Joystick 1, 5: joystick 2)"
 msgstr ""
-"Seleccionar periferico de entrada para emulacion joystick suplementario #1: "
+"Seleccionar periferico de entrada para Emulación joystick suplementario #1: "
 "(0: No, 1: Teclado numerico, 2: Teclado 1, 3: Teclado 2, 4: Joystick 1, 5: "
 "joystick 2)"
 
@@ -6044,7 +6044,7 @@ msgstr "Usar toda la CPU en sistemas SMP"
 
 #: src/arch/win32/res.rc.po.c:1086
 msgid "Use only first CPU on SMP systems"
-msgstr "Usar sólo la primera CPU en sistemes SMP"
+msgstr "Usar sólo la primera CPU en sistemas SMP"
 
 #: src/arch/win32/res.rc.po.c:1087
 msgid "Enable vertical blank sync"
@@ -6104,7 +6104,7 @@ msgstr "No iniciar VICE en modo de pantalla completa"
 
 #: src/arch/win32/res.rc.po.c:1106 src/arch/win32/res.rc.po.c:1464
 msgid "Disable DirectX9 video driver"
-msgstr "Deshabilitar controlador de video DirectX9"
+msgstr "Deshabilitar controlador de vídeo DirectX9"
 
 #: src/arch/win32/res.rc.po.c:1107
 msgid "Enable DirectX9 video driver"
@@ -6125,12 +6125,12 @@ msgstr "Seleccionar periférico pantalla completa"
 #: src/arch/win32/res.rc.po.c:1113
 #, c-format
 msgid "An unexpected error occured. Received signal %d (%s)."
-msgstr "Se ha producido un erros inesperado. Recibida señal %d (%s)."
+msgstr "Se ha producido un error inesperado. Recibida señal %d (%s)."
 
 #: src/arch/win32/res.rc.po.c:1115
 #, c-format
 msgid "An unexpected error occured. Received signal %d."
-msgstr "Se ha producido un erros inesperado. Recibida señal %d."
+msgstr "Se ha producido un error inesperado. Recibida señal %d."
 
 #: src/arch/win32/res.rc.po.c:1123 src/arch/amigaos/intl_text.c.po.c:5186
 msgid "An error occured starting the server."
@@ -6636,7 +6636,7 @@ msgstr "Manejador 40 pistas"
 
 #: src/arch/win32/res.rc.po.c:1323 src/arch/amigaos/intl_text.c.po.c:6866
 msgid "Idle method"
-msgstr "Metodo tiempo inactivo"
+msgstr "Método tiempo inactivo"
 
 #: src/arch/win32/res.rc.po.c:1327 src/arch/amigaos/intl_text.c.po.c:6208
 msgid "Standard"
@@ -6758,11 +6758,11 @@ msgstr "Imagen CRT"
 
 #: src/arch/win32/res.rc.po.c:1394 src/arch/amigaos/intl_text.c.po.c:818
 msgid "Generic 8KB image"
-msgstr "Imagen generica 8KB"
+msgstr "Imagen genérica 8KB"
 
 #: src/arch/win32/res.rc.po.c:1395 src/arch/amigaos/intl_text.c.po.c:832
 msgid "Generic 16KB image"
-msgstr "Imagen generica 16KB"
+msgstr "Imagen genérica 16KB"
 
 #: src/arch/win32/res.rc.po.c:1396 src/arch/amigaos/intl_text.c.po.c:846
 msgid "Action Replay image"
@@ -6846,7 +6846,7 @@ msgstr "Iniciar/finalizar reproducción historial"
 
 #: src/arch/win32/res.rc.po.c:1447 src/arch/amigaos/intl_text.c.po.c:1336
 msgid "Overwrite Playback"
-msgstr "Sobreescribir reproducción"
+msgstr "Sobrescribir reproducción"
 
 #: src/arch/win32/res.rc.po.c:1448 src/arch/amigaos/intl_text.c.po.c:1350
 msgid "Select History files/directory"
@@ -7002,7 +7002,7 @@ msgstr "Ajustes puerto RS232"
 #: src/arch/amigaos/intl_text.c.po.c:3996
 #: src/arch/amigaos/intl_text.c.po.c:7272
 msgid "EasyFlash settings"
-msgstr "Ajuestes EasyFlash"
+msgstr "Ajustes EasyFlash"
 
 #: src/arch/win32/res.rc.po.c:1511 src/arch/win32/ressoundexpander.rc.po.c:42
 #: src/arch/win32/resvic20.rc.po.c:583 src/arch/amigaos/intl_text.c.po.c:3954
@@ -7199,7 +7199,7 @@ msgstr "Retardo aleatorio"
 
 #: src/arch/win32/resautostart.rc.po.c:49
 msgid "Handle true drive emulation"
-msgstr "Manejar emulacion unidad verdadera"
+msgstr "Manejar Emulación unidad verdadera"
 
 #: src/arch/win32/resautostart.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:12314
@@ -7737,7 +7737,7 @@ msgstr "Tamaño total: %iKB"
 
 #: src/arch/win32/reside64.rc.po.c:77
 msgid "Select ATA device image file"
-msgstr "Selecionar fichero imagen periférico ATA"
+msgstr "Seleccionar fichero imagen periférico ATA"
 
 #: src/arch/win32/reside64.rc.po.c:78
 msgid "IDE64 USB Server address to bind to"
@@ -8105,7 +8105,7 @@ msgstr "Seleccionar fichero para REU"
 
 #: src/arch/win32/resrs232user.rc.po.c:35 src/translate_text.c.po.c:11116
 msgid "Enable RS232 userport emulation"
-msgstr "Permitir emulacion puerto RS232"
+msgstr "Permitir Emulación puerto RS232"
 
 #: src/arch/win32/resrs232user.rc.po.c:36
 msgid "Userport device"
@@ -8341,7 +8341,7 @@ msgstr "Permitir grabación en fichero ROM Final Expansion"
 #: src/arch/win32/resvic20.rc.po.c:573 src/arch/amigaos/intl_text.c.po.c:4220
 #: src/translate_text.c.po.c:12369
 msgid "Enable Vic Flash Plugin write back to ROM file"
-msgstr "Permitir grabacion en ROM Vic Flash Plugin"
+msgstr "Permitir grabación en ROM Vic Flash Plugin"
 
 #: src/arch/win32/resvic20.rc.po.c:574 src/arch/amigaos/intl_text.c.po.c:4234
 #: src/translate_text.c.po.c:12335
@@ -8378,7 +8378,7 @@ msgstr "Siguiente melodia"
 
 #: src/arch/win32/resvsid.rc.po.c:128 src/arch/amigaos/intl_text.c.po.c:4822
 msgid "Previous tune"
-msgstr "Melodia previa"
+msgstr "Melodía previa"
 
 #: src/arch/amigaos/intl_text.c.po.c:132
 #: src/arch/amigaos/intl_text.c.po.c:11586
@@ -8463,7 +8463,7 @@ msgstr "Extensión vertical"
 
 #: src/arch/amigaos/intl_text.c.po.c:2036
 msgid "Drive sound emulation settings"
-msgstr "Ajustes emulacion controlador de sonido"
+msgstr "Ajustes Emulación controlador de sonido"
 
 #: src/arch/amigaos/intl_text.c.po.c:2092
 msgid "PAL"
@@ -8651,23 +8651,23 @@ msgstr "CBM510 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3170
 msgid "VICII video settings"
-msgstr "Ajustes de video VIC II"
+msgstr "Ajustes de vídeo VIC II"
 
 #: src/arch/amigaos/intl_text.c.po.c:3184
 msgid "VIC video settings"
-msgstr "Ajustes de video VIC"
+msgstr "Ajustes de vídeo VIC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3198
 msgid "VDC video settings"
-msgstr "Ajustes de video VDC"
+msgstr "Ajustes de vídeo VDC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3212
 msgid "CRTC video settings"
-msgstr "Ajustes video CRTC"
+msgstr "Ajustes vídeo CRTC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3226
 msgid "TED video settings"
-msgstr "Ajustes de video TED"
+msgstr "Ajustes de vídeo TED"
 
 #: src/arch/amigaos/intl_text.c.po.c:3254
 #: src/arch/amigaos/intl_text.c.po.c:8604
@@ -8681,7 +8681,7 @@ msgstr "Ajuste filtro de renderizado"
 
 #: src/arch/amigaos/intl_text.c.po.c:3506
 msgid "Joystick device selection"
-msgstr "Selección periferico joystick"
+msgstr "Selección periférico joystick"
 
 #: src/arch/amigaos/intl_text.c.po.c:3520
 msgid "Joystick fire button selection"
@@ -8728,7 +8728,7 @@ msgstr "Barra estado pantalla completa"
 
 #: src/arch/amigaos/intl_text.c.po.c:4752
 msgid "Video overlay"
-msgstr "Video overlay"
+msgstr "Vídeo overlay"
 
 #: src/arch/amigaos/intl_text.c.po.c:4766
 msgid "Start Sound Record"
@@ -8796,7 +8796,7 @@ msgstr "Graba %s Captura de pantalla"
 #: src/arch/amigaos/intl_text.c.po.c:5522
 #, c-format
 msgid "Detached device %d"
-msgstr "Periférico extraido %d"
+msgstr "Periférico extraído %d"
 
 #: src/arch/amigaos/intl_text.c.po.c:5536
 #, c-format
@@ -8949,7 +8949,7 @@ msgstr "Adelante/Negro"
 
 #: src/arch/amigaos/intl_text.c.po.c:7567
 msgid "Reverse/Charcoal"
-msgstr "Atras/Negro"
+msgstr "Atrás/Negro"
 
 #: src/arch/amigaos/intl_text.c.po.c:7581
 msgid "Play-Pause/Grey"
@@ -8965,11 +8965,11 @@ msgstr "Periférico Joy 2"
 
 #: src/arch/amigaos/intl_text.c.po.c:7623
 msgid "Userport Joy 1 Device"
-msgstr "Puerto periferico joy 1"
+msgstr "Puerto Periférico Joy 1"
 
 #: src/arch/amigaos/intl_text.c.po.c:7637
 msgid "Userport Joy 2 Device"
-msgstr "Puerto periferico joy 2"
+msgstr "Puerto Periférico Joy 2"
 
 #: src/arch/amigaos/intl_text.c.po.c:7651
 msgid "SIDcart Joy Device"
@@ -8977,23 +8977,23 @@ msgstr "Periférico Joy SIDCart"
 
 #: src/arch/amigaos/intl_text.c.po.c:7665
 msgid "Joy 1 Fire"
-msgstr "Joy 1 disparo"
+msgstr "Joy 1 Disparo"
 
 #: src/arch/amigaos/intl_text.c.po.c:7679
 msgid "Joy 2 Fire"
-msgstr "Joy 2 disparo"
+msgstr "Joy 2 Disparo"
 
 #: src/arch/amigaos/intl_text.c.po.c:7693
 msgid "Userport Joy 1 Fire"
-msgstr "Puerto Joy 1 disparo"
+msgstr "Puerto Joy 1 Disparo"
 
 #: src/arch/amigaos/intl_text.c.po.c:7707
 msgid "Userport Joy 2 Fire"
-msgstr "Puerto Joy 2 disparo"
+msgstr "Puerto Joy 2 Disparo"
 
 #: src/arch/amigaos/intl_text.c.po.c:7721
 msgid "SIDcart Joy Fire"
-msgstr "Joy SIDCart disparo"
+msgstr "Joy SIDCart Disparo"
 
 #: src/arch/amigaos/intl_text.c.po.c:7735
 msgid ""
@@ -9006,7 +9006,7 @@ msgstr ""
 msgid ""
 "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 msgstr ""
-"Emulación Joystick #2: (0:No, 1: Teclado númerico, 2: Keyset A/AI, 3: Keyset "
+"Emulación Joystick #2: (0:No, 1: Teclado numérico, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7763
@@ -9014,7 +9014,7 @@ msgid ""
 "Extra joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
 msgstr ""
-"Emulación Joystick suplementario #1: (0:Ninguno, 1: Teclado númerico, 2: "
+"Emulación Joystick suplementario #1: (0:Ninguno, 1: Teclado numérico, 2: "
 "Teclado A/AI, 3: Teclado B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7777
@@ -9022,27 +9022,27 @@ msgid ""
 "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
 msgstr ""
-"Emulación Joystick suplementario #2: (0:No, 1: Teclado númerico, 2: Keyset A/"
+"Emulación Joystick suplementario #2: (0:No, 1: Teclado numérico, 2: Keyset A/"
 "AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7791
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr "Emulación Joystick #1: (0:No, 1: Teclado númerico, 2-5: Amiga Joy0-3 )"
+msgstr "Emulación Joystick #1: (0:No, 1: Teclado numérico, 2-5: Amiga Joy0-3 )"
 
 #: src/arch/amigaos/intl_text.c.po.c:7805
 msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr "Emulación Joystick #2: (0:No, 1: Teclado númerico, 2-5: Amiga Joy0-3 )"
+msgstr "Emulación Joystick #2: (0:No, 1: Teclado numérico, 2-5: Amiga Joy0-3 )"
 
 #: src/arch/amigaos/intl_text.c.po.c:7819
 msgid "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulación Joystick suplementario #1: (0:No, 1: Teclado númerico, 2-5: Amiga "
+"Emulación Joystick suplementario #1: (0:No, 1: Teclado numérico, 2-5: Amiga "
 "Joy0-3 )"
 
 #: src/arch/amigaos/intl_text.c.po.c:7833
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulación Joystick suplementario #2: (0:No, 1: Teclado númerico, 2-5: Amiga "
+"Emulación Joystick suplementario #2: (0:No, 1: Teclado numérico, 2-5: Amiga "
 "Joy0-3 )"
 
 #: src/arch/amigaos/intl_text.c.po.c:7987
@@ -9144,15 +9144,15 @@ msgstr "Tipo salida puerto impresora"
 
 #: src/arch/amigaos/intl_text.c.po.c:8912
 msgid "Printer #4 output device"
-msgstr "Periférico salida impresoara #4"
+msgstr "Periférico salida impresora #4"
 
 #: src/arch/amigaos/intl_text.c.po.c:8926
 msgid "Printer #5 output device"
-msgstr "Periférico salida impresoara #5"
+msgstr "Periférico salida impresora #5"
 
 #: src/arch/amigaos/intl_text.c.po.c:8940
 msgid "Printer #6 output device"
-msgstr "Periférico salida impresoara #6"
+msgstr "Periférico salida impresora #6"
 
 #: src/arch/amigaos/intl_text.c.po.c:8954
 msgid "Userport printer output device"
@@ -9277,7 +9277,7 @@ msgstr "Seleccionar fichero EEPROM"
 
 #: src/arch/amigaos/intl_text.c.po.c:10074
 msgid "Select card image file"
-msgstr "Selecionar fichero imagen tarjeta"
+msgstr "Seleccionar fichero imagen tarjeta"
 
 #: src/arch/amigaos/intl_text.c.po.c:10102
 msgid "Card read/write"
@@ -9523,7 +9523,7 @@ msgstr "Error leyendo inicio fichero Instantánea."
 
 #: src/translate_text.c.po.c:211
 msgid "Sorry. Multiple recording is not supported."
-msgstr "Lo siento, no estan soportadas las grabaciones múltiples."
+msgstr "Lo siento, no están soportadas las grabaciones múltiples."
 
 #: src/translate_text.c.po.c:228
 msgid "write to sound device failed."
@@ -9554,19 +9554,19 @@ msgstr "No existe el periférico %s de grabación "
 
 #: src/translate_text.c.po.c:330
 msgid "Recording device must be different from playback device"
-msgstr "Periferico de grabación y reproducción tienen que ser diferentes"
+msgstr "Periférico de grabación y reproducción tienen que ser diferentes"
 
 #: src/translate_text.c.po.c:347
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
-"¡Precaución! periférico de grabación %s parece ser un periferico en tiempo "
+"¡Precaución! periférico de grabación %s parece ser un periférico en tiempo "
 "real"
 
 #: src/translate_text.c.po.c:364
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
-"El periférico de grabación no soporta los actuales parametros de sonido"
+"El periférico de grabación no soporta los actuales parámetros de sonido"
 
 #: src/translate_text.c.po.c:381
 msgid "Sound buffer overflow (cycle based)"
@@ -9631,7 +9631,7 @@ msgstr "El servidor está esperando al cliente"
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr ""
 "No puedo crear fichero Instantánea. ¡Seleccionar diferente directorio "
-"historico!"
+"histórico!"
 
 #: src/translate_text.c.po.c:637
 #, c-format
@@ -9641,7 +9641,7 @@ msgstr "No puedo resolver %s"
 #: src/translate_text.c.po.c:654
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
-msgstr "No puedo conectar a  %s (Ninguún servidor en puerto %d)."
+msgstr "No puedo conectar a  %s (Ningún servidor en puerto %d)."
 
 #: src/translate_text.c.po.c:671
 msgid "Receiving snapshot from server"
@@ -9649,7 +9649,7 @@ msgstr "Recibiendo Instantánea desde el servidor"
 
 #: src/translate_text.c.po.c:688
 msgid "Network out of sync - disconnecting."
-msgstr "Red fuera de sincronia - desconentando."
+msgstr "Red fuera de sincronía - desconectando."
 
 #: src/translate_text.c.po.c:705
 msgid "Remote host disconnected."
@@ -9661,7 +9661,7 @@ msgstr "Host remoto suspendido"
 
 #: src/translate_text.c.po.c:740
 msgid "ffmpegdrv: Cannot open video stream"
-msgstr "ffmpegdrv: no puedo abrir video stream"
+msgstr "ffmpegdrv: no puedo abrir vídeo stream"
 
 #: src/translate_text.c.po.c:757
 msgid "ffmpegdrv: Cannot open audio stream"
@@ -9769,9 +9769,9 @@ msgid ""
 "If bankname is given set the current bank in the memspace to the given\n"
 "bank."
 msgstr ""
-"Si no se pone el nombre del banco, imprimir los bancos posivles para el "
+"Si no se pone el nombre del banco, imprimir los bancos posibles para el "
 "espacio de memoria.\n"
-"Si se da el nombre de banco se susa como espacio de memoria actual \n"
+"Si se da el nombre de banco se usa como espacio de memoria actual \n"
 "banco."
 
 #: src/translate_text.c.po.c:1131
@@ -9782,7 +9782,7 @@ msgid ""
 msgstr ""
 "Imprimir cadena de llamada JSR (la llamada más reciente primero). Stack "
 "offset\n"
-"relativo a  SP+1 se imprime entre parentesis. Esta es una buena suposición\n"
+"relativo a  SP+1 se imprime entre paréntesis. Esta es una buena suposición\n"
 "sólo."
 
 #: src/translate_text.c.po.c:1148
@@ -9821,7 +9821,7 @@ msgstr "Cambiar el  PC con dirección y continuar la ejecución"
 
 #: src/translate_text.c.po.c:1267
 msgid "Print out the I/O area of the emulated machine."
-msgstr "Imprimir el area de entrada/salida de la máquina emulada."
+msgstr "Imprimir el área de entrada/salida de la máquina emulada."
 
 #: src/translate_text.c.po.c:1284
 msgid "Print out list of attached expansion port devices."
@@ -9844,7 +9844,7 @@ msgid ""
 "Assign respective registers.  With no parameters, display register\n"
 "values."
 msgstr ""
-"Asignar registros respectivos. Sin parametros, mostrar valores\n"
+"Asignar registros respectivos. Sin parámetros, mostrar valores\n"
 "registros."
 
 #: src/translate_text.c.po.c:1369
@@ -9870,7 +9870,7 @@ msgid ""
 "Single-step through instructions.  COUNT allows stepping\n"
 "more than a single instruction at a time."
 msgstr ""
-"Salto simple a traves de la instrucción.  el CONTADOR permite el salto de\n"
+"Salto simple a través de la instrucción.  el CONTADOR permite el salto de\n"
 "más de una instrucción a la vez."
 
 #: src/translate_text.c.po.c:1437
@@ -9904,8 +9904,8 @@ msgid ""
 "be used whenever an address must be specified."
 msgstr ""
 "<espacio memoria> es uno de: C: 8: 9: 10: 11:\n"
-"<dirección>  es la dirección donde estará la etiquetal.\n"
-"<letiqueta>   es el nombre de la etiqueta; debe empezar con un punto (\"."
+"<dirección>  es la dirección donde estará la etiqueta.\n"
+"<etiqueta>   es el nombre de la etiqueta; debe empezar con un punto (\"."
 "\").\n"
 "\n"
 "Mapea la dirección dada a una etiqueta que se usará cuando se inserte\n"
@@ -9920,7 +9920,7 @@ msgid ""
 "Delete a previously defined label."
 msgstr ""
 "<espacio memoria> es uno de: C: 8: 9: 10: 11:\n"
-"<letiqueta>    es el nombre de la etiqueta; y debe comenzar por un punto (\"."
+"<etiqueta>    es el nombre de la etiqueta; y debe comenzar por un punto (\"."
 "\").\n"
 "\n"
 "Borrar una etiqueta previamente definida."
@@ -9937,8 +9937,7 @@ msgstr ""
 "hay espacio de memoria especificado, se usa el espacio por defecto.\n"
 "\n"
 "El formato de fichero es el usado por el comando grabar etiquetas;\n"
-"Consiste en algunos comandos`añadir etiquetal' , grabado uno despues del "
-"otro."
+"Consiste en algunos comandos`añadir etiqueta' , grabado uno después del otro."
 
 #: src/translate_text.c.po.c:1556
 msgid ""
@@ -9980,7 +9979,7 @@ msgid ""
 msgstr ""
 "Ensambla instrucciones en la dirección especificada.  Si sólo se\n"
 "especifica una instrucción, entra en modo ensamblador, (entrar \n"
-"una linea vacia para salir)."
+"una linea vacía para salir)."
 
 #: src/translate_text.c.po.c:1675
 msgid "address_range"
@@ -10081,8 +10080,8 @@ msgid ""
 "is specified, only one character is displayed.  If no addresses are\n"
 "given, the ``dot'' address is used."
 msgstr ""
-"Mostrar el contenido de memoria como datos de caracter. Si sólo se una\n"
-"dirección es especificada, sólo se muestra un caracter. Si no se da\n"
+"Mostrar el contenido de memoria como datos de carácter. Si sólo se una\n"
+"dirección es especificada, sólo se muestra un carácter. Si no se da\n"
 "ninguna dirección, se usa la dirección 'dot'."
 
 #: src/translate_text.c.po.c:1913
@@ -10129,7 +10128,7 @@ msgid ""
 "the destination specified by the address.  The regions may overlap."
 msgstr ""
 "Mueve memoria desde la fuente especificada por rango de direcciones\n"
-"al destino especificado en dirección. La region puede estas superpuesta."
+"al destino especificado en dirección. La región puede estas superpuesta."
 
 #: src/translate_text.c.po.c:2015
 msgid "Checkpoint commands"
@@ -10151,15 +10150,15 @@ msgid ""
 "A conditional expression can also be specified for the breakpoint.\n"
 "For more information on conditions, see the CONDITION command."
 msgstr ""
-"Poner punto de ruptura. Si no se dá dirección, se imprime el actual punto\n"
-"de control. Si se dá una dirección, se activa un punto de ruptura en la "
+"Poner punto de ruptura. Si no se da dirección, se imprime el actual punto\n"
+"de control. Si se da una dirección, se activa un punto de ruptura en la "
 "misma\n"
 "y se imprime el número de punto de ruptura.\n"
 "`load|store|exec' es cualquiera de `load', `store' or `exec' (o combinación\n"
-"de ellos) a especificar en que operacion el monitor se detiene. Si no se\n"
+"de ellos) a especificar en que operación el monitor se detiene. Si no se\n"
 "especifica, el monitor se detiene en `exec'.\n"
-"Se puede especificar tambien una condición para el punto de ruptura.\n"
-"Para más información sobre condiciones, ver el comandoa CONDITION."
+"Se puede especificar también una condición para el punto de ruptura.\n"
+"Para más información sobre condiciones, ver el comando CONDITION."
 
 #: src/translate_text.c.po.c:2085
 msgid ""
@@ -10189,11 +10188,11 @@ msgstr ""
 "evaluará. Si la condición es cierta, se activa el punto de control.\n"
 "Si no, se ignora. Si los registros están especificado en la condición,\n"
 "se usan los valores en el momento en el que se examina el punto\n"
-"de ruptura, no en el momento de poner la condicion.\n"
+"de ruptura, no en el momento de poner la condición.\n"
 "La condición puede usar los registros (.A, .X, .Y, .PC, .SP)  y compararlos\n"
 "m (==, !=, <, >, <=, >=) con otros registros y constantes.\n"
 "Los registros pueden ser de otros periféricos, esto se denota por el\n"
-"prefijo de espacio memoria (ejm., c:, 8:, 9:, 10:, 11:\n"
+"prefijo de espacio memoria (ej., c:, 8:, 9:, 10:, 11:\n"
 "Ejemplos: .A == 0, .X == .Y, 8:.X == .X\n"
 
 #: src/translate_text.c.po.c:2119
@@ -10231,7 +10230,7 @@ msgstr ""
 "Si no se da dirección, se imprime el último punto de ruptura válido.\n"
 "Si se da dirección, se activa un punto de ruptura para la dirección\n"
 "y se imprime el número del punto de ruptura. El control se devuelve al\n"
-"emulador por el comando. El punto de ruputa se borra una vez se encuentra."
+"emulador por el comando. El punto de ruptura se borra una vez se encuentra."
 
 #: src/translate_text.c.po.c:2189
 msgid ""
@@ -10243,10 +10242,10 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor breaks on `load' and `store'.\n"
 msgstr ""
-"Poner punto de visualización. Si no se dá dirección se mostrará el\n"
-"actualmente válido. Si se dá una dirección simple, se pondrá un punto\n"
+"Poner punto de visualización. Si no se da dirección se mostrará el\n"
+"actualmente válido. Si se da una dirección simple, se pondrá un punto\n"
 "de visualización en la misma\n"
-"Si se dán dos direcciones se activará un punto de visualización para las\n"
+"Si se dan dos direcciones se activará un punto de visualización para las\n"
 "localizaciones de memoria entre ambas direcciones.\n"
 "`load|store|exec' es cualquiera de `load', `store' or `exec' (o alguna com-\n"
 "binación de ellos) para especificar en que operación el monitor se detiene\n"
@@ -10262,9 +10261,9 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor traces all three operations.\n"
 msgstr ""
-"Poner punto rastreo. Si no se dá dirección, Se mostrará el actualmente\n"
-"válido. Si se dá una sóla dirección, se activa un punto para esa dirección.\n"
-"Si se dán dos, se activa el punto para las localizaciones de memoria entre\n"
+"Poner punto rastreo. Si no se da dirección, Se mostrará el actualmente\n"
+"válido. Si se da una sola dirección, se activa un punto para esa dirección.\n"
+"Si se dan dos, se activa el punto para las localizaciones de memoria entre\n"
 "las dos direcciones.\n"
 "`load|store|exec' es cualquiera `load', `store' or `exec' (o una combina-\n"
 "ción de ellas) para indicar en cual de ellas se detiene el monitor. Si no "
@@ -10296,9 +10295,9 @@ msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
 msgstr ""
-"Seleccionar sistema númerico por defecto como hex, decimal, octal, o "
+"Seleccionar sistema numérico por defecto como hex, decimal, octal, o "
 "binario.\n"
-"Si no se da argumento, se imprime el sistema númerico en uso."
+"Si no se da argumento, se imprime el sistema numérico en uso."
 
 #: src/translate_text.c.po.c:2310
 msgid ""
@@ -10314,7 +10313,7 @@ msgstr ""
 "causarán\n"
 "efectos colaterales. Si el argumento es 'off' no se causarán efectos "
 "colaterales. Si el\n"
-"argumento es 'intercambiar' se intervambiará el modo en uso. Sin argumentos, "
+"argumento es 'intercambiar' se intercambiara el modo en uso. Sin argumentos, "
 "se \n"
 "mostrará el estado en uso."
 
@@ -10332,7 +10331,7 @@ msgid ""
 "The specified disk command is sent to the drive's channel #15."
 msgstr ""
 "Realiza un comando de disco en el actualmente insertado en unidad disco 8.\n"
-"El comando de disco especificado se envia a traves del canal de control #15."
+"El comando de disco especificado se envía a través del canal de control #15."
 
 #: src/translate_text.c.po.c:2378 src/translate_text.c.po.c:12794
 msgid "device"
@@ -10359,7 +10358,7 @@ msgid ""
 "Load the specified file into memory at the specified address.\n"
 "If device is 0, the file is read from the file system."
 msgstr ""
-"Cargar el fichero especificado en memoria en la direccción indicada en\n"
+"Cargar el fichero especificado en memoria en la dirección indicada en\n"
 "dirección. Si el periférico es 0 el fichero se lee desde sistema."
 
 #: src/translate_text.c.po.c:2480
@@ -10385,7 +10384,7 @@ msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "If device is 0, the file is written to the file system."
 msgstr ""
-"Grabar la memoria entre dirección 1 y dirección2 al fichero indicado.\n"
+"Grabar la memoria entre dirección1 y dirección2 al fichero indicado.\n"
 "Si el periférico es 0, el fichero se graba en el fichero del sistema."
 
 #: src/translate_text.c.po.c:2548
@@ -10439,7 +10438,7 @@ msgid ""
 msgstr ""
 "Graba memoria entre dirección1 y dirección2 al fichero indicado.\n"
 "Graba dirección de carga de dos bytes.\n"
-"Si el periferico es 0, se graba en el sistema."
+"Si el periférico es 0, se graba en el sistema."
 
 #: src/translate_text.c.po.c:2718
 msgid "Other commands"
@@ -10468,14 +10467,14 @@ msgstr "cadena"
 
 #: src/translate_text.c.po.c:2803 src/translate_text.c.po.c:14008
 msgid "Put the specified string into the keyboard buffer."
-msgstr "Introduce la cadena indicada en el bufer de teclado."
+msgstr "Introduce la cadena indicada en el búfer de teclado."
 
 #: src/translate_text.c.po.c:2820
 msgid ""
 "Monitor commands from the specified file are read and executed.  This\n"
 "command stops at the end of file or when a STOP command is read."
 msgstr ""
-"Los comandos de monitor incluidos en el fichero indicado, han sido leidos y "
+"Los comandos de monitor incluidos en el fichero indicado, han sido leídos y "
 "ejecutados\n"
 "Estos comandos se detendrán al finalizar el fichero o cuando se lea un "
 "comando STOP."
@@ -10493,7 +10492,7 @@ msgid ""
 "After this command, all commands entered are written to the specified\n"
 "file until the STOP command is entered."
 msgstr ""
-"Despues de este comando, todos los posteriomente introducidos se grabaran\n"
+"Después de este comando, todos los posteriormente introducidos se grabaran\n"
 "en el fichero indicado hasta que se entre el comando STOP."
 
 #: src/translate_text.c.po.c:2888
@@ -10570,11 +10569,11 @@ msgstr "En autoarranque, carga con ',1'"
 
 #: src/translate_text.c.po.c:3145
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
-msgstr "En autoarranque, usa el comando 'RUN' con dos puntos, ejm. 'RUN:'"
+msgstr "En autoarranque, usa el comando 'RUN' con dos puntos, ej. 'RUN:'"
 
 #: src/translate_text.c.po.c:3162
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
-msgstr "En autoarranque, no usar el comando 'RUN' con dos puntos, ejm.'RUN'"
+msgstr "En autoarranque, no usar el comando 'RUN' con dos puntos, ej.'RUN'"
 
 #: src/translate_text.c.po.c:3196
 msgid "Do not handle True Drive Emulation on autostart"
@@ -10582,11 +10581,11 @@ msgstr "No manejar en autoarranque emulación de disco verdadera"
 
 #: src/translate_text.c.po.c:3213
 msgid "Enable warp mode during autostart"
-msgstr "Permitir modo ultrarápido durante autoarranque"
+msgstr "Permitir modo ultrarrápido durante autoarranque"
 
 #: src/translate_text.c.po.c:3230
 msgid "Disable warp mode during autostart"
-msgstr "Deshabilitar modo ultrarápido durante autoarranque"
+msgstr "Deshabilitar modo ultrarrápido durante autoarranque"
 
 #: src/translate_text.c.po.c:3247
 msgid ""
@@ -10625,7 +10624,7 @@ msgstr "Usar factor sincronización PAL"
 
 #: src/translate_text.c.po.c:3366
 msgid "Use NTSC sync factor"
-msgstr "Usar factor sincronizacion NTSC"
+msgstr "Usar factor sincronización NTSC"
 
 #: src/translate_text.c.po.c:3383
 msgid "Use PAL-N sync factor"
@@ -11049,7 +11048,7 @@ msgstr "Deshabilitar grabar datos puerto usuario RTC cuando cambien"
 
 #: src/translate_text.c.po.c:5262
 msgid "Override PSID settings for Video standard and SID model"
-msgstr "Sobreescrivir ajustes para video standard y modelo SID"
+msgstr "Sobrescribir ajustes para vídeo standard y modelo SID"
 
 #: src/translate_text.c.po.c:5279
 msgid "Specify PSID tune <number>"
@@ -11215,7 +11214,7 @@ msgstr "Deshabilitar modo rescate MMC Replay "
 
 #: src/translate_text.c.po.c:6044
 msgid "Allow writing to MMC Replay image"
-msgstr "Permtir grabación en imagen MMC Replay"
+msgstr "Permitir grabación en imagen MMC Replay"
 
 #: src/translate_text.c.po.c:6061
 msgid "Do not write to MMC Replay image"
@@ -11296,7 +11295,7 @@ msgstr "No reiniciar máquina si un cartucho es insertado o extraido"
 
 #: src/translate_text.c.po.c:6471
 msgid "Attach generic 16kB Ultimax cartridge image"
-msgstr "Insertar imagen cartucho generico Ultimax 16KB"
+msgstr "Insertar imagen cartucho genérico Ultimax 16KB"
 
 #: src/translate_text.c.po.c:6522
 msgid "Attach raw 16kB Action Replay MK2 cartridge image"
@@ -11517,7 +11516,7 @@ msgstr "Seleccionar número de sectores para emulación IDE64"
 
 #: src/translate_text.c.po.c:7678
 msgid "Do not autodetect geometry of formatted images"
-msgstr "No autodetectar formato geometria imagenes"
+msgstr "No autodetectar formato geometría imágenes"
 
 #: src/translate_text.c.po.c:7695
 msgid "Emulate version 4 hardware"
@@ -11525,7 +11524,7 @@ msgstr "Emular versión 4 hardware"
 
 #: src/translate_text.c.po.c:7712
 msgid "Emulate pre version 4 hardware"
-msgstr "Emular preversión 4 hardware"
+msgstr "Emular pre-versión 4 hardware"
 
 #: src/translate_text.c.po.c:7746
 msgid "Disable IDE64 USB server"
@@ -11653,11 +11652,11 @@ msgstr ""
 
 #: src/translate_text.c.po.c:8274
 msgid "Specify name of graphics keyboard symbolic keymap file"
-msgstr "Especificar nombre fichero graficos teclado simbólico"
+msgstr "Especificar nombre fichero gráficos teclado simbólico"
 
 #: src/translate_text.c.po.c:8291
 msgid "Specify name of graphics keyboard positional keymap file"
-msgstr "Especificar nombre fichero graficos teclado posicional"
+msgstr "Especificar nombre fichero gráficos teclado posicional"
 
 #: src/translate_text.c.po.c:8308
 msgid "Specify name of UK business keyboard symbolic keymap file"
@@ -11677,11 +11676,11 @@ msgstr "Especificar nombre fichero teclado Alemán business posicional"
 
 #: src/translate_text.c.po.c:8377
 msgid "Enable hardware-level emulation of disk drives"
-msgstr "Permitir emulacion a nivel hardware unidades de disco"
+msgstr "Permitir Emulación a nivel hardware unidades de disco"
 
 #: src/translate_text.c.po.c:8394
 msgid "Disable hardware-level emulation of disk drives"
-msgstr "No permitir emulacion a nivel hardware unidades de disco"
+msgstr "No permitir Emulación a nivel hardware unidades de disco"
 
 #: src/translate_text.c.po.c:8411
 msgid "Enable sound emulation of disk drives"
@@ -11785,7 +11784,7 @@ msgstr "Especificar nombre imagen 4000 DOS ROM"
 #: src/translate_text.c.po.c:8785
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
-"Seleccionar metodo tiempo inactico (0: sin intercepción, 1:saltar ciclos, 2:"
+"Seleccionar método tiempo inactivo (0: sin intercepción, 1:saltar ciclos, 2:"
 "interceptar tiempos inactivos)"
 
 #: src/translate_text.c.po.c:8802
@@ -11841,7 +11840,7 @@ msgid ""
 "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
 "64)"
 msgstr ""
-"Seleccionar tipo de cable paralelo (0:no, 1:estandar, 2:Dolphin DOS 3, 3:"
+"Seleccionar tipo de cable paralelo (0:no, 1:estándar, 2:Dolphin DOS 3, 3:"
 "Formel 64)"
 
 #: src/translate_text.c.po.c:9040
@@ -12018,7 +12017,7 @@ msgstr "Seleccionar velocidad muestreo para flujo audio en fichero media"
 
 #: src/translate_text.c.po.c:9754
 msgid "Set bitrate for video stream in media file"
-msgstr "Seleccionar velocidad muestreo para flujo video en fichero media"
+msgstr "Seleccionar velocidad muestreo para flujo vídeo en fichero media"
 
 #: src/translate_text.c.po.c:9771
 msgid ""
@@ -12228,7 +12227,7 @@ msgstr "Seleccionar añadido fase trasporte color en lineas impares"
 
 #: src/translate_text.c.po.c:10638
 msgid "Amount of horizontal blur for the CRT emulation."
-msgstr "Cantidad de borrosidad para emulacion CRT."
+msgstr "Cantidad de borrosidad para Emulación CRT."
 
 #: src/translate_text.c.po.c:10655
 msgid "Amount of scan line shading for the CRT emulation"
@@ -12332,11 +12331,11 @@ msgstr ""
 
 #: src/translate_text.c.po.c:11012
 msgid "Enable the video cache"
-msgstr "Permitier caché de video"
+msgstr "Permitir caché de video"
 
 #: src/translate_text.c.po.c:11029
 msgid "Disable the video cache"
-msgstr "Deshabilitar caché de video"
+msgstr "Deshabilitar caché de vídeo"
 
 #: src/translate_text.c.po.c:11047
 msgid "Specify name of first RS232 device"
@@ -12356,7 +12355,7 @@ msgstr "Especificar el nombre del cuarto periférico RS232"
 
 #: src/translate_text.c.po.c:11133
 msgid "Disable RS232 userport emulation"
-msgstr "Deshabilitar emulacion puerto RS232"
+msgstr "Deshabilitar Emulación puerto RS232"
 
 #: src/translate_text.c.po.c:11150
 msgid "baud"
@@ -12364,7 +12363,7 @@ msgstr "baudios"
 
 #: src/translate_text.c.po.c:11167
 msgid "Set the baud rate of the RS232 userport emulation."
-msgstr "Seleccionar velocidad (baudios) para emulacion puerto RS232"
+msgstr "Seleccionar velocidad (baudios) para Emulación puerto RS232"
 
 #: src/translate_text.c.po.c:11184
 msgid "Specify VICE RS232 device for userport"
@@ -12523,7 +12522,7 @@ msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
 msgstr ""
-"reSID metodo sampleado (0: rápido, 1: interpolacion, 2: resampelado, 3: "
+"reSID método sampleado (0: rápido, 1: interpolación, 2: resampelado, 3: "
 "resampleado rápido)"
 
 #: src/translate_text.c.po.c:11873
@@ -12590,7 +12589,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:12097
 msgid "Enable VIC-1112 IEEE488 interface"
-msgstr "Permitier interface VIC-1112 IEEE488"
+msgstr "Permitir interface VIC-1112 IEEE488"
 
 #: src/translate_text.c.po.c:12114
 msgid "Disable VIC-1112 IEEE488 interface"
@@ -12630,7 +12629,7 @@ msgstr "Especificar nombre ROM extendida Final Expansion"
 
 #: src/translate_text.c.po.c:12267
 msgid "Specify Vic Flash Plugin extension ROM name"
-msgstr "Especificar nombre ROM extendidad Vic Flash Plugin"
+msgstr "Especificar nombre ROM extendida Vic Flash Plugin"
 
 #: src/translate_text.c.po.c:12301
 msgid "Disable Final Expansion write back to ROM file"
@@ -12646,7 +12645,7 @@ msgstr "Deshabilitar grabación en Mega-Cart NvRAM"
 
 #: src/translate_text.c.po.c:12386
 msgid "Disable Vic Flash Plugin write back to ROM file"
-msgstr "Deshabilitar grabacion en ROM Vic Flash Plugin"
+msgstr "Deshabilitar grabación en ROM Vic Flash Plugin"
 
 #: src/translate_text.c.po.c:12403
 msgid "Set border display mode (0: normal, 1: full, 2: debug)"
@@ -12757,7 +12756,7 @@ msgstr "Seleccionar modo pantalla completa"
 
 #: src/translate_text.c.po.c:12879
 msgid "Specify RS232 device this ACIA should work on"
-msgstr "Specificar periférico RS232 con el que funcionará esta ACIA"
+msgstr "Especificar periférico RS232 con el que funcionará esta ACIA"
 
 #: src/translate_text.c.po.c:12896
 msgid ""
@@ -13092,7 +13091,7 @@ msgstr "Deshabilitar ratón PS/2 en puerto usuario"
 #: src/translate_text.c.po.c:14213
 msgid "Set the value for the very first RAM address after powerup"
 msgstr ""
-"Seleccionar el valor para la primera dirección RAM despues del encendido"
+"Seleccionar el valor para la primera dirección RAM después del encendido"
 
 #: src/translate_text.c.po.c:14230
 msgid "num of bytes"
@@ -13132,7 +13131,7 @@ msgstr "Seleccionar velocidad de muestreo de sonido en <valor> Hz"
 
 #: src/translate_text.c.po.c:14417
 msgid "Set sound buffer size to <value> msec"
-msgstr "Seleccionar tamaño bufer sonido en <valor>mseg"
+msgstr "Seleccionar tamaño búfer sonido en <valor>mseg"
 
 #: src/translate_text.c.po.c:14434
 msgid ""
@@ -13152,7 +13151,7 @@ msgstr "argumentos"
 
 #: src/translate_text.c.po.c:14485
 msgid "Specify initialization parameters for sound driver"
-msgstr "Especificar parametros de inicialización para el controlador de sonido"
+msgstr "Especificar parámetros de inicialización para el controlador de sonido"
 
 #: src/translate_text.c.po.c:14502
 msgid "Specify recording sound driver"
@@ -13161,7 +13160,7 @@ msgstr "Especificar controlador grabación sonido"
 #: src/translate_text.c.po.c:14519
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
-"Especificar parametros inicialización para el controlador grabación sonido "
+"Especificar parámetros inicialización para el controlador grabación sonido"
 
 #: src/translate_text.c.po.c:14536
 msgid "sync"
@@ -13169,7 +13168,7 @@ msgstr "sincronía"
 
 #: src/translate_text.c.po.c:14553
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
-msgstr "Ajsute velocidad sonido (0: flexible, 1: ajustado, 2: exacto)"
+msgstr "Ajuste velocidad sonido (0: flexible, 1: ajustado, 2: exacto)"
 
 #: src/translate_text.c.po.c:14570
 msgid "output mode"
@@ -13196,7 +13195,7 @@ msgstr "Especificar controlador de sonido"
 
 #: src/translate_text.c.po.c:14655
 msgid "Define search path to locate system files"
-msgstr "Definir camino de busqueda para los ficheros locales de sistema"
+msgstr "Definir camino de búsqueda para los ficheros locales de sistema"
 
 #: src/translate_text.c.po.c:14672
 msgid "Enable general mechanisms for fast disk/tape emulation"
@@ -13216,7 +13215,7 @@ msgstr "Actualizar cada <valor> cuadros (`0' for automatic)"
 
 #: src/translate_text.c.po.c:14757
 msgid "Disable warp mode"
-msgstr "Desabilitar modo Ultrarápido"
+msgstr "Deshabilitar modo Ultrarápido"
 
 #: src/translate_text.c.po.c:14774
 msgid "iso language code"
@@ -13232,7 +13231,7 @@ msgstr "Especificar nombre imagen RAM PLUS256K"
 
 #: src/translate_text.c.po.c:14825
 msgid "Specify name of PLUS60K image"
-msgstr "Especificar nombe imagen PLUS60K"
+msgstr "Especificar nombre imagen PLUS60K"
 
 #: src/translate_text.c.po.c:14842
 msgid "Base address of the PLUS60K expansion. (0xD040/0xD100)"
@@ -13583,9 +13582,6 @@ msgstr "Nombre del periférico de sonido"
 #~ msgid "VICE"
 #~ msgstr "VICE"
 
-#~ msgid "Versatile Commodore Emulator"
-#~ msgstr "Emulador versatil de Commodore"
-
 #~ msgid "Version 0.0"
 #~ msgstr "Versión 0.0"
 
@@ -13670,9 +13666,6 @@ msgstr "Nombre del periférico de sonido"
 #~ msgid "Never confirm quiting VICE"
 #~ msgstr "Nunca confirmar el cierre de VICE"
 
-#~ msgid "Size of the RAM expansion unit"
-#~ msgstr "Tamaño unidad expansion RAM"
-
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "Periférico de entrada para joystick #1"
 
@@ -13696,12 +13689,6 @@ msgstr "Nombre del periférico de sonido"
 
 #~ msgid "Specify baudrate of 4th RS232 device"
 #~ msgstr "Especificar baudios cuarto periférico RS232"
-
-#~ msgid "Disable checkpoint `checknum'."
-#~ msgstr "Deshabilitar punto controlt `número control'."
-
-#~ msgid "Enable checkpoint `checknum'."
-#~ msgstr "Habilitar punto controlt `número control'."
 
 #~ msgid "Double vertical"
 #~ msgstr "Doble vertical"
@@ -13913,14 +13900,8 @@ msgstr "Nombre del periférico de sonido"
 #~ msgid "audio/video recording"
 #~ msgstr "Grabación de audio/video"
 
-#~ msgid "click to stop recording"
-#~ msgstr "Click para detener grabación"
-
 #~ msgid "event playback"
 #~ msgstr "Reproducir eventos"
-
-#~ msgid "click to stop playback"
-#~ msgstr "Click para detener reproducción"
 
 #~ msgid "Drive %d: "
 #~ msgstr "Unidad disco %d: "
@@ -13931,20 +13912,11 @@ msgstr "Nombre del periférico de sonido"
 #~ msgid "Tape %03d"
 #~ msgstr "Cinta %03d"
 
-#~ msgid "Autostart not possible for unit %d"
-#~ msgstr "No se pued inicializar la unidad %d"
-
-#~ msgid "Can't autostart selection %d in image %s"
-#~ msgstr "No puedo autoarrancar seleccion %d en imagen %s"
-
 #~ msgid "NO IMAGE CONTENTS AVAILABLE"
 #~ msgstr "NO DISPONIBLES CONTENIDOS EN IMAGEN"
 
 #~ msgid "Contents"
 #~ msgstr "Contenidos"
-
-#~ msgid "Show hidden files"
-#~ msgstr "Mostar ficheros ocultos"
 
 #, fuzzy
 #~ msgid "IDE64 primary master settings"
@@ -14198,7 +14170,7 @@ msgstr "Nombre del periférico de sonido"
 #~ msgstr "Imagen Expert Cartridge"
 
 #~ msgid "Successfully wrote `%s'."
-#~ msgstr "Exito en la grabación `%s'."
+#~ msgstr "Éxito en la grabación `%s'."
 
 #~ msgid "Write Protect"
 #~ msgstr "Protección anti-grabación"
@@ -15656,7 +15628,7 @@ msgstr "Nombre del periférico de sonido"
 #~ msgstr "Emulación interface IEEE-488"
 
 #~ msgid "PS/2 mouse emulation"
-#~ msgstr "Emulacion ratón PS/2"
+#~ msgstr "Emulación ratón PS/2"
 
 #~ msgid "C64 Model settings..."
 #~ msgstr "Ajustes Modelo C64"
