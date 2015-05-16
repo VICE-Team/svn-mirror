@@ -128,9 +128,11 @@ END-INFO-DIR-ENTRY
 @c Theoretically, this should not be needed.  But my makeinfo does not
 @c understand it.
 @ifinfo
+@ifcommandnotdefined uref
 @macro uref{PARAM}
 \PARAM\
 @end macro
+@end ifcommandnotdefined
 @end ifinfo
 
 @ifinfo
