@@ -38,7 +38,6 @@
 #define PLATFORM_OS "NetBSD 0.9"
 #endif
 
-
 #ifdef NetBSD1_0
 
 #if (NetBSD1_0==1)
@@ -53,32 +52,24 @@
 
 #if !defined(PLATFORM_OS)
 
-#if (__NetBSD_Version__==101000000)
+#ifdef NetBSD1_1
 #define PLATFORM_OS "NetBSD 1.1"
 #endif
 
-#if (__NetBSD_Version__==102000000)
-#define PLATFORM_OS "NetBSD 1.2"
-#endif
-
-#if (__NetBSD_Version__==102000100)
-#define PLATFORM_OS "NetBSD 1.2.1"
-#endif
-
-#if (__NetBSD_Version__==103000000)
-#define PLATFORM_OS "NetBSD 1.3"
-#endif
-
-#if (__NetBSD_Version__==103000100)
-#define PLATFORM_OS "NetBSD 1.3.1"
-#endif
-
-#if (__NetBSD_Version__==103000200)
-#define PLATFORM_OS "NetBSD 1.3.2"
+#ifdef NetBSD1_2
+#define PLATFORM_OS "NetBSD 1.2.x"
 #endif
 
 #if (__NetBSD_Version__==103000300)
 #define PLATFORM_OS "NetBSD 1.3.3"
+#endif
+
+#if defined(NetBSD1_3) && !defined(PLATFORM_OS) && (NetBSD==199712)
+#define PLATFORM_OS "NetBSD 1.3"
+#endif
+
+#if defined(NetBSD1_3) && !defined(PLATFORM_OS)
+#define PLATFORM_OS "NetBSD 1.3.x"
 #endif
 
 #if (__NetBSD_Version__==104000000)
