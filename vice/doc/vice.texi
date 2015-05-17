@@ -125,14 +125,20 @@ END-INFO-DIR-ENTRY
 @set platformwindows
 @end ifset
 
+@ifset txicommandconditionals
+@ifcommanddefined uref
+@set urefdefined
+@end ifcommanddefined
+@end ifset
+
 @c Theoretically, this should not be needed.  But my makeinfo does not
 @c understand it.
 @ifinfo
-@ifcommandnotdefined uref
+@ifclear urefdefined
 @macro uref{PARAM}
 \PARAM\
 @end macro
-@end ifcommandnotdefined
+@end ifclear
 @end ifinfo
 
 @ifinfo
