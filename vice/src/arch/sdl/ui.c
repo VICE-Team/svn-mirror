@@ -666,7 +666,9 @@ int ui_init_finalize(void)
     DBG(("%s", __func__));
 
     sdl_ui_init_finalize();
+#ifndef USE_SDLUI2
     SDL_WM_SetCaption(sdl_active_canvas->viewport->title, "VICE");
+#endif
     sdl_ui_ready = 1;
     return 0;
 }
