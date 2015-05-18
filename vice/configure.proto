@@ -2074,19 +2074,17 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
         fi
     else
 
-        sdl_config="no"
-        sdl2_config="no"
         if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
             dnl check for sdl-config and sdl2-config
-            AC_CHECK_TOOLS(sdl_config, sdl-config, no)
-            AC_CHECK_TOOLS(sdl2_config, sdl2-config, no)
+            AC_CHECK_TOOL(sdl_config, sdl-config, no)
+            AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
         else
           if test x"$enable_sdlui" = "xyes"; then
             dnl check for sdl-config
-            AC_CHECK_TOOLS(sdl_config, sdl-config, no)
+            AC_CHECK_TOOL(sdl_config, sdl-config, no)
           else
             dnl check for sdl2-config
-            AC_CHECK_TOOLS(sdl2_config, sdl2-config, no)
+            AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
           fi
         fi
 
