@@ -858,6 +858,7 @@ dnl All other UN*X systems
                        warn_no_mfi="-Wno-missing-field-initializers" ],
                      [ AC_MSG_RESULT(no)
                        warn_no_mfi="" ])
+      AC_MSG_CHECKING([if the compiler supports -Wno-unused-parameter])
       CFLAGS="$ORIG_CFLAGS -Wno-unused-parameter"
       AC_TRY_COMPILE([],
                      [int test;],
@@ -865,9 +866,17 @@ dnl All other UN*X systems
                        warn_no_up="-Wno-unused-parameter" ],
                      [ AC_MSG_RESULT(no)
                        warn_no_up="" ])
+      AC_MSG_CHECKING([if the compiler supports -Wno-sign-compare])
+      CFLAGS="$ORIG_CFLAGS -Wno-sign-compare"
+      AC_TRY_COMPILE([],
+                     [int test;],
+                     [ AC_MSG_RESULT(yes)
+                       warn_no_sc="-Wno-sign-compare" ],
+                     [ AC_MSG_RESULT(no)
+                       warn_no_sc="" ])
       CFLAGS=$ORIG_CFLAGS
 
-      warnings_cxx="-Wall -W $warn_no_up $warn_no_mfi -Wno-sign-compare"
+      warnings_cxx="-Wall -W $warn_no_up $warn_no_mfi $warn_no_sc"
       if test x"$enable_gnomeui" != "xyes" ; then
           warnings_c="-Wstrict-prototypes $warnings_cxx"
       else
@@ -2086,6 +2095,14 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
             dnl check for sdl2-config
             AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
           fi
+        fi
+
+        if test x"$sdl_config" = "x"; then
+          sdl_config=no
+        fi
+
+        if test x"$sdl2_config" = "x"; then
+          sdl2_config=no;
         fi
 
         old_cflags=$CFLAGS
