@@ -315,6 +315,7 @@ void av_log_format_line(void *ptr, int level, const char *fmt, va_list vl,
  * av_dlog macros
  * Useful to print debug messages that shouldn't get compiled in normally.
  */
+void var_arg_dummy(const char *fmt, ...);
 
 #ifndef _MSC_VER
 #  ifdef DEBUG

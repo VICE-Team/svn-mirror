@@ -202,8 +202,11 @@ void ff_freeaddrinfo(struct addrinfo *res);
 int ff_getnameinfo(const struct sockaddr *sa, int salen,
                    char *host, int hostlen,
                    char *serv, int servlen, int flags);
+#undef getaddrinfo
 #define getaddrinfo ff_getaddrinfo
+#undef freeaddrinfo
 #define freeaddrinfo ff_freeaddrinfo
+#undef getnameinfo
 #define getnameinfo ff_getnameinfo
 #endif /* !HAVE_GETADDRINFO */
 

@@ -33,6 +33,10 @@
  * qualify a file. Refer to wsaud_probe() for the precise parameters.
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/channel_layout.h"
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"

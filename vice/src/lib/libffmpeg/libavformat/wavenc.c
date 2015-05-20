@@ -31,6 +31,10 @@
 #include <stdint.h>
 #include <string.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/avstring.h"
 #include "libavutil/dict.h"
 #include "libavutil/common.h"

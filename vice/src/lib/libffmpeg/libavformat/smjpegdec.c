@@ -26,6 +26,10 @@
 
 #include <inttypes.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avformat.h"
 #include "internal.h"
 #include "riff.h"

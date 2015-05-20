@@ -281,4 +281,10 @@ int avpriv_set_systematic_pal2(uint32_t pal[256], enum AVPixelFormat pix_fmt);
 uint64_t ff_get_channel_layout(const char *name, int compat);
 #endif
 
+#ifdef IDE_COMPILE
+#if (_MSC_VER >= 1310)
+long long int strtoll (const char* str, char** endptr, int base);
+#endif
+#endif
+
 #endif /* AVUTIL_INTERNAL_H */
