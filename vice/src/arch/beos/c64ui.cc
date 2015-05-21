@@ -639,6 +639,16 @@ static void c64_ui_specific(void *msg, void *window)
     }
 }
 
+int c64ui_init_early(void)
+{
+    return 0;
+}
+
+int c64scui_init_early(void)
+{
+    return c64ui_init_early();
+}
+
 static int c64ui_common_init(void)
 {
     ui_register_machine_specific(c64_ui_specific);
@@ -662,4 +672,9 @@ int c64scui_init(void)
 
 void c64ui_shutdown(void)
 {
+}
+
+void c64scui_shutdown(void)
+{
+    c64ui_shutdown();
 }

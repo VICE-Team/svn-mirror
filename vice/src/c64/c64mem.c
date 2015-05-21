@@ -42,6 +42,7 @@
 #include "c64memlimit.h"
 #include "c64memrom.h"
 #include "c64pla.h"
+#include "c64ui.h"
 #include "c64cartmem.h"
 #include "cartio.h"
 #include "cartridge.h"
@@ -1132,4 +1133,24 @@ void mem_color_ram_to_snapshot(BYTE *color_ram)
 void mem_color_ram_from_snapshot(BYTE *color_ram)
 {
     memcpy(mem_color_ram, color_ram, 0x400);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* UI functions (used to distinguish between x64 and x64sc) */
+#ifdef USE_BEOS_UI
+int c64_mem_ui_init_early(void)
+{
+    return c64ui_init_early();
+}
+#endif
+
+int c64_mem_ui_init(void)
+{
+    return c64ui_init();
+}
+
+void c64_mem_ui_shutdown(void)
+{
+    c64ui_shutdown();
 }

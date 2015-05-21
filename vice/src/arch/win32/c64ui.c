@@ -679,7 +679,10 @@ void c64ui_shutdown(void)
 
 int c64scui_init(void)
 {
-	return c64ui_init();
+    return c64ui_init();
 }
 
-extern void c64scui_shutdown(void);
+void c64scui_shutdown(void)
+{
+    c64ui_shutdown();
+}

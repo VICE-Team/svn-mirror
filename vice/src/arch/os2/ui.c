@@ -176,6 +176,10 @@ void c64ui_shutdown(void)
 {
 }
 
+void c64scui_shutdown(void)
+{
+}
+
 void scpu64ui_shutdown(void)
 {
 }

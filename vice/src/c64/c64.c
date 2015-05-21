@@ -52,7 +52,6 @@
 #include "c64mem.h"
 #include "c64memrom.h"
 #include "c64rsuser.h"
-#include "c64ui.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cia.h"
@@ -787,6 +786,15 @@ int machine_specific_init(void)
     /* Initialize autostart.  */
     autostart_init((CLOCK)(delay * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH), 1, 0xcc, 0xd1, 0xd3, 0xd5);
 
+#ifdef USE_BEOS_UI
+    /* Pre-init C64-specific parts of the menus before vicii_init()
+       creates a canvas window with a menubar at the top. This could
+       also be used by other ports, e.g. GTK+...  */
+    if (!console_mode) {
+        c64_mem_ui_init_early();
+    }
+#endif
+
     if (vicii_init(VICII_STANDARD) == NULL && !video_disabled_mode) {
         return -1;
     }
@@ -837,11 +845,7 @@ int machine_specific_init(void)
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {
-        if (machine_class == VICE_MACHINE_C64SC) {
-            c64scui_init();
-        } else {
-            c64ui_init();
-        }
+        c64_mem_ui_init();
     }
 
     /* Initialize glue logic.  */
@@ -954,7 +958,7 @@ void machine_specific_shutdown(void)
 
     sid_cmdline_options_shutdown();
 
-    c64ui_shutdown();
+    c64_mem_ui_shutdown();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

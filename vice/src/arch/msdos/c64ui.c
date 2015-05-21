@@ -377,3 +377,8 @@ int c64scui_init(void)
 void c64ui_shutdown(void)
 {
 }
+
+void c64scui_shutdown(void)
+{
+    c64ui_shutdown();
+}
