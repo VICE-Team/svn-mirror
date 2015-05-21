@@ -1836,8 +1836,8 @@
 #define ULLN(x) ((unsigned __int64)(x))
 #endif
 
-/* Disable some generic MSVC 7.x/8/9 warnings for quicker compile */
-#if (_MSC_VER >= 1300) && (_MSC_VER <= 1500)
+/* Disable some generic MSVC 7+ warnings for quicker compile */
+#if (_MSC_VER >= 1300)
 #pragma warning(disable: 4003) /* not enough actual parameters for macro ... */
 #pragma warning(disable: 4018) /* signed/unsigned mismatch */
 #pragma warning(disable: 4090) /* different 'const' qualifiers */
@@ -1851,8 +1851,8 @@
 #pragma warning(disable: 4700) /* local variable ... used without having been initialized */
 #endif
 
-/* Disable some MSVC 9 specific warnings for quicker compile */
-#if (_MSC_VER == 1500)
+/* Disable some MSVC 9+ specific warnings for quicker compile */
+#if (_MSC_VER >= 1500)
 #pragma warning(disable: 4334) /* result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?) */
 #pragma warning(disable: 4113) /* '...' differs in parameter lists from '...' */
 #endif
