@@ -34,7 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef IDE_COMPILE
+#if defined(IDE_COMPILE) && defined(_MSC_VER) && (_MSC_VER >= 1400)
 #define unlink _unlink
 #endif
 

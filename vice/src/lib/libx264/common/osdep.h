@@ -28,6 +28,8 @@
 #ifndef X264_OSDEP_H
 #define X264_OSDEP_H
 
+#define _CRT_SECURE_NO_DEPRECATE
+
 #define _LARGEFILE_SOURCE 1
 #define _FILE_OFFSET_BITS 64
 #include <stdio.h>
@@ -47,6 +49,10 @@
 #include <mathimf.h>
 #else
 #include <math.h>
+#endif
+
+#if defined(IDE_COMPILE) && defined(_MSC_VER) && (_MSC_VER >= 1400)
+#define fileno _fileno
 #endif
 
 #ifdef IDE_COMPILE
