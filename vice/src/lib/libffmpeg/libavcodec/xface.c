@@ -24,6 +24,10 @@
  * X-Face common data and utilities definition.
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "xface.h"
 
 void ff_big_add(BigInt *b, uint8_t a)

@@ -25,6 +25,10 @@
  * @author Thilo Borgmann <thilo.borgmann _at_ mail.de>
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "exif.h"
 
 

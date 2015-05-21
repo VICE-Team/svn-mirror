@@ -28,6 +28,10 @@
  * @see http://www.w3.org/Graphics/GIF/spec-gif89a.txt
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #define BITSTREAM_WRITER_LE
 #include "libavutil/opt.h"
 #include "libavutil/imgutils.h"

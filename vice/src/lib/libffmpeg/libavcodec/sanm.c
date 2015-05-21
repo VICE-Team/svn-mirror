@@ -20,6 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/avassert.h"
 #include "libavutil/bswap.h"
 #include "libavutil/imgutils.h"

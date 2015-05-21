@@ -37,6 +37,10 @@
 #include <stdint.h>
 #include <string.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/channel_layout.h"
 #include "libavutil/float_dsp.h"
 #include "avcodec.h"

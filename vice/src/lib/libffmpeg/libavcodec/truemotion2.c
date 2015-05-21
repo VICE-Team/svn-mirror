@@ -26,6 +26,10 @@
 
 #include <inttypes.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "bswapdsp.h"
 #include "bytestream.h"

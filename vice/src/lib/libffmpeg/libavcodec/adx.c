@@ -25,6 +25,7 @@
 
 #ifdef IDE_COMPILE
 #include "libavutil/libm.h"
+#include "libavutil/internal.h"
 #endif
 
 void ff_adx_calculate_coeffs(int cutoff, int sample_rate, int bits, int *coeff)

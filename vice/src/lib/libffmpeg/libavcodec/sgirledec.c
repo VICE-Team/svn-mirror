@@ -26,6 +26,10 @@
  * The algorithm and pixfmt are subtly different from SGI images.
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/common.h"
 
 #include "avcodec.h"

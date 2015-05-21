@@ -1,3 +1,4 @@
+
 /*
  * Indeo Video v3 compatible decoder
  * Copyright (c) 2009 - 2011 Maxim Poliakovski
@@ -28,6 +29,10 @@
  *
  * @see http://wiki.multimedia.cx/index.php?title=Indeo_3
  */
+
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
 
 #include "libavutil/imgutils.h"
 #include "libavutil/intreadwrite.h"

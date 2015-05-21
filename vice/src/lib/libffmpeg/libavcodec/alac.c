@@ -47,6 +47,10 @@
 
 #include <inttypes.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/channel_layout.h"
 #include "libavutil/opt.h"
 #include "avcodec.h"

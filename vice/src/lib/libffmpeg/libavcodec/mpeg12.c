@@ -27,6 +27,10 @@
 
 #define UNCHECKED_BITSTREAM_READER 1
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/attributes.h"
 #include "libavutil/avassert.h"
 #include "libavutil/timecode.h"

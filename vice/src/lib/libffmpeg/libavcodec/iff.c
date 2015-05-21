@@ -27,6 +27,10 @@
 
 #include <stdint.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/imgutils.h"
 #include "bytestream.h"
 #include "avcodec.h"

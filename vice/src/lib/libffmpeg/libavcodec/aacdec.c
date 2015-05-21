@@ -83,6 +83,7 @@
 
 #ifdef IDE_COMPILE
 #include "libavutil/libm.h"
+#include "libavutil/internal.h"
 #endif
 
 #include "libavutil/float_dsp.h"

@@ -35,6 +35,10 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #define BITSTREAM_READER_LE
 #include "libavutil/channel_layout.h"
 #include "avcodec.h"

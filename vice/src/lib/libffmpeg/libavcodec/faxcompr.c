@@ -24,6 +24,11 @@
  * CCITT Fax Group 3 and 4 decompression
  * @author Konstantin Shishkov
  */
+
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "get_bits.h"
 #include "put_bits.h"

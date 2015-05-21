@@ -26,6 +26,10 @@
  * VC-1 and WMV3 decoder
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "internal.h"
 #include "avcodec.h"
 #include "error_resilience.h"

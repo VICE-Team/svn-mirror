@@ -41,6 +41,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/mem.h"
 #include "libavutil/pixdesc.h"
 #include "avcodec.h"

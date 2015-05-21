@@ -21,6 +21,10 @@
 
 #include <inttypes.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/intreadwrite.h"
 #include "libavcodec/bytestream.h"
 #include "avformat.h"

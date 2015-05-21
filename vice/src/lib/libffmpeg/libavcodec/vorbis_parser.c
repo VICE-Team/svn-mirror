@@ -25,6 +25,10 @@
  * Determines the duration for each packet.
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "get_bits.h"
 #include "parser.h"
 #include "xiph.h"

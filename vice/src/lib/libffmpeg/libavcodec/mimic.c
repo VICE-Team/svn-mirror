@@ -23,6 +23,10 @@
 #include <string.h>
 #include <stdint.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "blockdsp.h"
 #include "internal.h"

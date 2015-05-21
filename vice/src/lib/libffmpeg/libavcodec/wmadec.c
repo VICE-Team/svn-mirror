@@ -33,6 +33,10 @@
  * should be 4 extra bytes for v1 data and 6 extra bytes for v2 data.
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/attributes.h"
 
 #include "avcodec.h"

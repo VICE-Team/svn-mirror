@@ -26,6 +26,10 @@
  * @see http://www.qzx.com/pc-gpe/pcx.txt
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "bytestream.h"
 #include "libavutil/imgutils.h"

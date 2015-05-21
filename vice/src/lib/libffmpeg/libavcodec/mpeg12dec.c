@@ -28,6 +28,10 @@
 #define UNCHECKED_BITSTREAM_READER 1
 #include <inttypes.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/attributes.h"
 #include "libavutil/internal.h"
 #include "libavutil/stereo3d.h"

@@ -25,6 +25,10 @@
 
 #include <stdint.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avstring.h"
 #include "avutil.h"
 #include "channel_layout.h"

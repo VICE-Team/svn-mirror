@@ -22,6 +22,10 @@
 
 #include <inttypes.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #define BITSTREAM_READER_LE
 #include "avcodec.h"
 #include "bytestream.h"

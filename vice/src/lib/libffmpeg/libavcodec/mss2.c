@@ -23,6 +23,10 @@
  * Microsoft Screen 2 (aka Windows Media Video V9 Screen) decoder
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/avassert.h"
 #include "error_resilience.h"
 #include "internal.h"

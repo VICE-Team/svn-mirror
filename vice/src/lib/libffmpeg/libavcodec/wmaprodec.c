@@ -88,6 +88,10 @@
 
 #include <inttypes.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/float_dsp.h"
 #include "libavutil/intfloat.h"
 #include "libavutil/intreadwrite.h"

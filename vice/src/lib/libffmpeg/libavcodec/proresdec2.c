@@ -28,6 +28,10 @@
 
 #define LONG_BITSTREAM_READER
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "get_bits.h"
 #include "idctdsp.h"

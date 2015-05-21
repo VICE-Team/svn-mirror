@@ -25,6 +25,10 @@
  * @author Stefan Gehrer <stefan.gehrer@gmx.de>
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/avassert.h"
 #include "avcodec.h"
 #include "get_bits.h"

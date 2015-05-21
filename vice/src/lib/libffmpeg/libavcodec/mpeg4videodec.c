@@ -22,6 +22,10 @@
 
 #define UNCHECKED_BITSTREAM_READER 1
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/opt.h"
 #include "error_resilience.h"
 #include "idctdsp.h"

@@ -23,6 +23,10 @@
 #include <assert.h>
 #endif
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "get_bits.h"
 #include "bytestream.h"

@@ -27,6 +27,10 @@
 
 #include <inttypes.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/imgutils.h"
 
 #include "avcodec.h"

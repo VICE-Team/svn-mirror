@@ -25,6 +25,10 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "golomb.h"
 #include "h264.h"

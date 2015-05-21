@@ -25,6 +25,10 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/avassert.h"
 #include "libavutil/imgutils.h"
 #include "libavutil/timer.h"

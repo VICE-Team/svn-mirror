@@ -27,6 +27,10 @@
  * http://www.goice.co.jp/member/mo/formats/au.html
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avformat.h"
 #include "internal.h"
 #include "avio_internal.h"

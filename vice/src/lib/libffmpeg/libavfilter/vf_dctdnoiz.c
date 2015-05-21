@@ -28,6 +28,10 @@
  * Tasche (DOI: 10.1016/j.laa.2004.07.015).
  */
 
+#ifdef IDE_COMPILE
+#include <math.h>
+#endif
+
 #include "libavutil/avassert.h"
 #include "libavutil/eval.h"
 #include "libavutil/opt.h"

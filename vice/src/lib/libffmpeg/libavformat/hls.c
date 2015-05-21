@@ -26,6 +26,10 @@
  * http://tools.ietf.org/html/draft-pantos-http-live-streaming
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/avstring.h"
 #include "libavutil/avassert.h"
 #include "libavutil/intreadwrite.h"

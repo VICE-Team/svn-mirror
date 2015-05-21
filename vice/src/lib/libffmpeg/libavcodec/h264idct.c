@@ -25,6 +25,10 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "h264idct.h"
 
 #define BIT_DEPTH 8

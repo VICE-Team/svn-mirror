@@ -36,6 +36,10 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/attributes.h"
 #include "libavutil/float_dsp.h"
 #include "libavutil/libm.h"

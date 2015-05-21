@@ -24,6 +24,10 @@
  * Winnov WNV1 codec.
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "get_bits.h"
 #include "internal.h"

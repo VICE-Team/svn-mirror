@@ -27,6 +27,10 @@
  *
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/attributes.h"
 #include "internal.h"
 #include "avcodec.h"

@@ -23,6 +23,10 @@
  * filter for selecting which frame passes in the filterchain
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/avstring.h"
 #include "libavutil/eval.h"
 #include "libavutil/fifo.h"

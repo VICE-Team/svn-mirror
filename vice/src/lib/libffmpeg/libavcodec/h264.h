@@ -28,6 +28,10 @@
 #ifndef AVCODEC_H264_H
 #define AVCODEC_H264_H
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/intreadwrite.h"
 #include "cabac.h"
 #include "error_resilience.h"

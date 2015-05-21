@@ -29,6 +29,10 @@
 
 #include <stdlib.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "get_bits.h"
 #include "huffman.h"

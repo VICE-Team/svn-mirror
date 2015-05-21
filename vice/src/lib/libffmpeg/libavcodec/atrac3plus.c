@@ -25,6 +25,10 @@
  * Bitstream parser for ATRAC3+ decoder.
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/avassert.h"
 #include "avcodec.h"
 #include "get_bits.h"

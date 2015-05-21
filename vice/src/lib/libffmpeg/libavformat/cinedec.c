@@ -25,6 +25,10 @@
  * @author Peter Ross <pross@xvid.org>
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/intreadwrite.h"
 #include "libavcodec/bmp.h"
 #include "avformat.h"

@@ -22,6 +22,10 @@
 
 #include <inttypes.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/intreadwrite.h"
 #include "bswapdsp.h"
 #include "get_bits.h"

@@ -199,11 +199,11 @@ do
 } while( 0 );
 #endif
 
-    if( h->param.rc.i_aq_mode && fenc->i_inv_qscale_factor )
+    if( h->param.rc.i_aq_mode && fenc->i_inv_qscale_factor.t_uint16_t )
     {
         int size = h->mb.i_mb_count * sizeof(int16_t);
         locked = x264_opencl_alloc_locked( h, size );
-        memcpy( locked, fenc->i_inv_qscale_factor, size );
+        memcpy( locked, fenc->i_inv_qscale_factor.t_uint16_t, size );
 #if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         OCLCHECK( clEnqueueWriteBuffer, h->opencl.queue, fenc->opencl.inv_qscale_factor, CL_FALSE, 0, size, locked, 0, NULL, NULL );
 #else

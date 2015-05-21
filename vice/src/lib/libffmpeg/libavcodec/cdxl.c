@@ -27,6 +27,10 @@
 
 #define UNCHECKED_BITSTREAM_READER 1
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/intreadwrite.h"
 #include "libavutil/imgutils.h"
 #include "avcodec.h"

@@ -24,6 +24,10 @@
  * Deluxe Paint Animation decoder
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "avcodec.h"
 #include "bytestream.h"
 #include "internal.h"

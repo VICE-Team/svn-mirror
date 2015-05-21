@@ -26,6 +26,10 @@
  * Dedicated to the mastermind behind it, Ralph Wiggum.
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/attributes.h"
 #include "libavutil/channel_layout.h"
 #include "avcodec.h"

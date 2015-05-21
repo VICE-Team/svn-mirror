@@ -26,6 +26,10 @@
 
 #include <stdint.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/error.h"
 
 #include "opus.h"

@@ -27,6 +27,10 @@
  * @see http://www.svatopluk.com/andux/docs/dfvid.html
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/channel_layout.h"
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"

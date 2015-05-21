@@ -23,6 +23,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/avassert.h"
 #include "libavutil/avutil.h"
 #include "libavutil/bswap.h"

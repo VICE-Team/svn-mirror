@@ -25,6 +25,10 @@
  * divided into 32 subbands.
  */
 
+#ifdef IDE_COMPILE
+#include "libavutil/internal.h"
+#endif
+
 #include "libavutil/channel_layout.h"
 #include "libavutil/lfg.h"
 #include "avcodec.h"
