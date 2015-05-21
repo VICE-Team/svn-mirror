@@ -1854,7 +1854,7 @@
 /* Disable some MSVC 9 specific warnings for quicker compile */
 #if (_MSC_VER == 1500)
 #pragma warning(disable: 4334) /* result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?) */
-#pragme warning(disable: 4113) /* '...' differs in parameter lists from '...' */
+#pragma warning(disable: 4113) /* '...' differs in parameter lists from '...' */
 #endif
 
 #endif /* FFMPEG_CONFIG_H */
