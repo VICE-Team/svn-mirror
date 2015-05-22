@@ -27,6 +27,7 @@
 /* Tested and confirmed working on:
  *
  * SunOS 4.1.1 (sun2)
+ * NetBSD (m68k)
  * SunOS 4.1.4 (sun4m)
  * Solaris 2.3 (sparc)
  * Solaris 2.4 (sparc)
@@ -80,17 +81,44 @@ static int got_os = 0;
 char *platform_get_sunos_runtime_os(void)
 {
     struct utsname name;
+    FILE *bsd_emul_test;
+    int ret;
+    int is_bsd = 0;
 
     if (!got_os) {
-        uname(&name);
-        if (name.release[0] == '5') {
-            if (name.release[2] <= '6') {
-                sprintf(osname, "Solaris 2.%s", name.release + 2);
-            } else {
-                sprintf(osname, "Solaris %s", name.release + 2);
+        unlink("emultest.sh");
+        bsd_emul_test = fopen("emultest.sh", "wb");
+        if (bsd_emul_test) {
+            unlink("emultest.result");
+            fprintf(bsd_emul_test, "#!/bin/sh\n");
+            fprintf(bsd_emul_test, "if test -f /proc/self/emul; then\n");
+            fprintf(bsd_emul_test, "  echo emulation >emultest.result\n");
+            fprintf(bsd_emul_test, "fi\n");
+            fclose(bsd_emul_test);
+            ret = system("sh ./emultest.sh");
+            if (!ret) {
+                unlink("emultest.sh");
             }
-        } else {
-            sprintf(osname, "%s %s", name.sysname, name.release);
+            bsd_emul_test = fopen("emultest.result", "rb");
+            if (bsd_emul_test) {
+                sprintf(osname, "NetBSD");
+                fclose(bsd_emul_test);
+                unlink("emultest.result");
+                is_bsd = 1;
+            }
+        }
+
+        if (!is_bsd) {
+            uname(&name);
+            if (name.release[0] == '5') {
+                if (name.release[2] <= '6') {
+                    sprintf(osname, "Solaris 2.%s", name.release + 2);
+                } else {
+                    sprintf(osname, "Solaris %s", name.release + 2);
+                }
+            } else {
+                sprintf(osname, "%s %s", name.sysname, name.release);
+            }
         }
         got_os = 1;
     }
