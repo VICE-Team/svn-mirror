@@ -37,6 +37,7 @@
  * Solaris 8 (sparc)
  * Solaris 9 (sparc)
  * Solaris 10 (sparc)
+ * NetBSD (sparc)
  */
 
 #include "vice.h"
@@ -64,7 +65,7 @@ char *platform_get_sunos_runtime_cpu(void)
             cpu = "68030";
         } else if (!strcmp(name.machine, "sun386") || !strcmp(name.machine, "sun386i")) {
             cpu = "80386";
-        } else if (!strcmp(name.machine, "sun4") || !strcmp(name.machine, "sun4c") || !strcmp(name.machine, "sun4m")) {
+        } else if (!strcmp(name.machine, "sun4") || !strcmp(name.machine, "sun4c") || !strcmp(name.machine, "sun4m") || !strcmp(name.machine, "sparc")) {
             cpu = "Sparc";
         } else if (!strcmp(name.machine, "sun4u")) {
             cpu = "Sparc64";
