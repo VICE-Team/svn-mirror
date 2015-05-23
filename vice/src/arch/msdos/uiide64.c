@@ -33,7 +33,7 @@
 #include "tuimenu.h"
 #include "uiide64.h"
 
-TUI_MENU_DEFINE_TOGGLE(IDE64version4)
+TUI_MENU_DEFINE_RADIO(IDE64version)
 TUI_MENU_DEFINE_TOGGLE(IDE64RTCSave)
 TUI_MENU_DEFINE_TOGGLE(IDE64USBServer)
 TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize1)
@@ -143,6 +143,21 @@ static TUI_MENU_CALLBACK(ui_ide64_usbserver_address_callback)
     return NULL;
 }
 
+static TUI_MENU_CALLBACK(ide64_version_submenu_callback)
+{
+    int value;
+    static char s[10];
+
+    resources_get_int("IDE64version", &value);
+    switch (value) {
+    default:
+    case 0: strcpy(s, "V3"); break;
+    case 1: strcpy(s, "V4.1"); break;
+    case 2: strcpy(s, "V4.2"); break;
+    }
+    return s;
+}
+
 static tui_menu_item_def_t ide64_hd1_menu_items[] = {
     { "IDE64 primary master image file:", "Select the IDE64 primary master image file",
       filename_IDE64Image1_callback, NULL, 20,
@@ -231,10 +246,21 @@ static tui_menu_item_def_t ide64_hd4_menu_items[] = {
     { NULL }
 };
 
+static tui_menu_item_def_t ide64_version_submenu[] = {
+    { "V_3", NULL, radio_IDE64version_callback,
+      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "V4._1", NULL, radio_IDE64version_callback,
+      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "V4._2", NULL, radio_IDE64version_callback,
+      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
 static tui_menu_item_def_t ide64_menu_items[] = {
-    { "_Enable IDE64 V4 support:", "Emulate IDE64 V4 model",
-      toggle_IDE64version4_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "IDE64 _revision:", "Select revision of IDE64",
+      ide64_version_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, ide64_version_submenu,
+      "IDE64 revision" },
     { "Save IDE64 RTC data when changed:", "Save IDE64 RTC data when changed",
       toggle_IDE64RTCSave_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },

@@ -200,7 +200,7 @@ const ui_menu_entry_t ds12c887rtc_c128_menu[] = {
 /* IDE64 CART MENU */
 
 UI_MENU_DEFINE_TOGGLE(IDE64RTCSave)
-UI_MENU_DEFINE_TOGGLE(IDE64version4)
+UI_MENU_DEFINE_RADIO(IDE64version)
 UI_MENU_DEFINE_TOGGLE(IDE64USBServer)
 UI_MENU_DEFINE_STRING(IDE64USBServerAddress)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image1)
@@ -333,10 +333,20 @@ static const ui_menu_entry_t ide64_menu_HD_4[] = {
 };
 
 const ui_menu_entry_t ide64_menu[] = {
-    { "Cartridge version 4",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IDE64version4_callback,
-      NULL },
+    SDL_MENU_ITEM_TITLE("Cartridge version"),
+    { "V3",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_IDE64version_callback,
+      (ui_callback_data_t)0 },
+    { "V4.1",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_IDE64version_callback,
+      (ui_callback_data_t)1 },
+    { "V4.2",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_IDE64version_callback,
+      (ui_callback_data_t)2 },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Save RTC data when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IDE64RTCSave_callback,

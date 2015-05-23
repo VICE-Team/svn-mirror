@@ -577,7 +577,7 @@ static BYTE roml_read_slotmain(WORD addr)
         case CARTRIDGE_FREEZE_MACHINE:
             return freezemachine_roml_read(addr);
         case CARTRIDGE_IDE64:
-            return ide64_roml_read(addr);
+            return ide64_rom_read(addr);
         case CARTRIDGE_KINGSOFT:
             return kingsoft_roml_read(addr);
         case CARTRIDGE_MMC_REPLAY:
@@ -769,7 +769,7 @@ static BYTE romh_read_slotmain(WORD addr)
         case CARTRIDGE_FORMEL64:
             return formel64_romh_read(addr);
         case CARTRIDGE_IDE64:
-            return ide64_romh_read(addr);
+            return ide64_rom_read(addr);
         case CARTRIDGE_KINGSOFT:
             return kingsoft_romh_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
@@ -873,7 +873,7 @@ BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
         case CARTRIDGE_FORMEL64:
             return formel64_romh_read_hirom(addr);
         case CARTRIDGE_IDE64:
-            return ide64_romh_read(addr);
+            return ide64_rom_read(addr);
         case CARTRIDGE_KINGSOFT:
             return kingsoft_romh_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
@@ -1019,6 +1019,9 @@ void romh_no_ultimax_store(WORD addr, BYTE value)
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_romh_store(addr, value);
             break;
+        case CARTRIDGE_IDE64:
+            ide64_rom_store(addr, value);
+            break;
         case CARTRIDGE_CRT: /* invalid */
             DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
             break;
@@ -1068,6 +1071,9 @@ void roml_no_ultimax_store(WORD addr, BYTE value)
             if (retroreplay_roml_no_ultimax_store(addr, value)) {
                 return; /* FIXME: this is weird */
             }
+            break;
+        case CARTRIDGE_IDE64:
+            ide64_rom_store(addr, value);
             break;
         case CARTRIDGE_CRT: /* invalid */
             DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
@@ -1144,7 +1150,7 @@ BYTE ultimax_1000_7fff_read_slot1(WORD addr)
         case CARTRIDGE_CAPTURE:
             return capture_1000_7fff_read(addr);
         case CARTRIDGE_IDE64:
-            return ide64_1000_7fff_read(addr);
+            return ide64_ram_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_1000_7fff_read(addr);
         case CARTRIDGE_FORMEL64:
@@ -1210,7 +1216,7 @@ void ultimax_1000_7fff_store(WORD addr, BYTE value)
     /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
-            ide64_1000_7fff_store(addr, value);
+            ide64_ram_store(addr, value);
             break;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_1000_7fff_store(addr, value);
@@ -1251,7 +1257,7 @@ BYTE ultimax_a000_bfff_read_slot1(WORD addr)
     /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
-            return ide64_a000_bfff_read(addr);
+            return ide64_rom_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_a000_bfff_read(addr);
         case CARTRIDGE_FINAL_PLUS:

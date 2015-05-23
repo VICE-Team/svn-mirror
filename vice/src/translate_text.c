@@ -3311,7 +3311,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DE, "Disk Imagedatei für Autstart definieren"},
 /* es */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_ES, "Seleccionar imagen disco para autoarranque ficheros PRG"},
 /* fr */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_FR, "Régler l'image disque pour autodémarrage de fichiers PRG"},
-/* hu */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_HU, "Lmeez képmás megadása PRG automatikus indításhoz"},
+/* hu */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_HU, "Lemez képmás megadása PRG automatikus indításhoz"},
 /* it */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_IT, "Imposta immagine disco per l'avvio automatico dei file PRG"},
 /* ko */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_NL, "Zet disk bestand voor het autostarten van PRG bestanden"},
@@ -7744,7 +7744,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_DE, "Image Größe automatisch erkennen"},
 /* es */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_ES, "Autodetección del tamaño de la imagen"},
 /* fr */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_FR, "Autodétection de la taille de l'image"},
-/* hu */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_HU, "Formázott képmások geometriájának automatikus felismerése"},
 /* it */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_IT, "Rileva automaticamente immagine"},
 /* ko */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_KO, "ÀÌ¹ÌÁö Å©±â ÀÚµ¿À¸·Î Ã£±â"},
 /* nl */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_NL, "Automatisch detecteren bestandsgrootte"},
@@ -7772,37 +7772,20 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ide64.c */
-/* en */ {IDCLS_IDE64_V4,    N_("Emulate version 4 hardware")},
+/* en */ {IDCLS_IDE64_VERSION,    N_("IDE64 cartridge version")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_IDE64_V4_DA, "Emulér version 4 hardware"},
-/* de */ {IDCLS_IDE64_V4_DE, "Emulation der Version 5 Hardware"},
-/* es */ {IDCLS_IDE64_V4_ES, "Emular versión 4 hardware"},
-/* fr */ {IDCLS_IDE64_V4_FR, "Émuler le matériel version 4"},
-/* hu */ {IDCLS_IDE64_V4_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_IDE64_V4_IT, "Emula hardware versione 4"},
-/* ko */ {IDCLS_IDE64_V4_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_IDE64_V4_NL, "Emuleer versie 4 hardware"},
-/* pl */ {IDCLS_IDE64_V4_PL, "Emuluj sprzêt w wersji 4"},
-/* ru */ {IDCLS_IDE64_V4_RU, "Emulate version 4 hardware"},
-/* sv */ {IDCLS_IDE64_V4_SV, "Emulera version 4-maskinvara"},
-/* tr */ {IDCLS_IDE64_V4_TR, "Versiyon 4 donanýmýný emüle et"},
-#endif
-
-/* c64/cart/ide64.c */
-/* en */ {IDCLS_IDE64_PRE_V4,    N_("Emulate pre version 4 hardware")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_IDE64_PRE_V4_DA, "Emulér hardware før version 4"},
-/* de */ {IDCLS_IDE64_PRE_V4_DE, "Emulation der pre-Version 4 Hardware"},
-/* es */ {IDCLS_IDE64_PRE_V4_ES, "Emular preversión 4 hardware"},
-/* fr */ {IDCLS_IDE64_PRE_V4_FR, "Émuler le matériel pré-version 4"},
-/* hu */ {IDCLS_IDE64_PRE_V4_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_IDE64_PRE_V4_IT, "Emula hardware pre-versione 4"},
-/* ko */ {IDCLS_IDE64_PRE_V4_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_IDE64_PRE_V4_NL, "Emuleer hardware van voor versie 4"},
-/* pl */ {IDCLS_IDE64_PRE_V4_PL, "Emuluj sprzêt sprzed wersji 4"},
-/* ru */ {IDCLS_IDE64_PRE_V4_RU, "Emulate pre version 4 hardware"},
-/* sv */ {IDCLS_IDE64_PRE_V4_SV, "Emulera för-version 4-maskinvara"},
-/* tr */ {IDCLS_IDE64_PRE_V4_TR, "Ön versiyon 4 donanýmýný emüle et"},
+/* da */ {IDCLS_IDE64_VERSION_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_IDE64_VERSION_DE, "IDE64 Karte Version"},
+/* es */ {IDCLS_IDE64_VERSION_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_IDE64_VERSION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_IDE64_VERSION_HU, "IDE64 kártya verzió"},
+/* it */ {IDCLS_IDE64_VERSION_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_IDE64_VERSION_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_IDE64_VERSION_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_IDE64_VERSION_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_IDE64_VERSION_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_IDE64_VERSION_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_IDE64_VERSION_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/ide64.c */
@@ -7812,7 +7795,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_IDE64_USB_SERVER_DE, "IDE64 USB Server aktivieren"},
 /* es */ {IDCLS_ENABLE_IDE64_USB_SERVER_ES, "Permitir IDE64 USB server"},
 /* fr */ {IDCLS_ENABLE_IDE64_USB_SERVER_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_IDE64_USB_SERVER_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_IDE64_USB_SERVER_HU, "IDE64 USB szerver bekapcsolása"},
 /* it */ {IDCLS_ENABLE_IDE64_USB_SERVER_IT, "Attiva server IDE64 USB"},
 /* ko */ {IDCLS_ENABLE_IDE64_USB_SERVER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_IDE64_USB_SERVER_NL, "Activeer IDE64 USB server"},
@@ -7829,7 +7812,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_DISABLE_IDE64_USB_SERVER_DE, "IDE64 USB Server deaktivieren"},
 /* es */ {IDCLS_DISABLE_IDE64_USB_SERVER_ES, "Deshabilitar servidor IDE64 USB"},
 /* fr */ {IDCLS_DISABLE_IDE64_USB_SERVER_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_IDE64_USB_SERVER_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_IDE64_USB_SERVER_HU, "IDE64 USB szerver kikapcsolása"},
 /* it */ {IDCLS_DISABLE_IDE64_USB_SERVER_IT, "Disattiva server IDE64 USB"},
 /* ko */ {IDCLS_DISABLE_IDE64_USB_SERVER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_IDE64_USB_SERVER_NL, "IDE64 USB server uitschakelen"},
@@ -7846,7 +7829,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_IDE64_USB_SERVER_ADDRESS_DE, "IDE64 USB Server Adresse"},
 /* es */ {IDCLS_IDE64_USB_SERVER_ADDRESS_ES, "Seleccionar dirección servidor IDE64 USB"},
 /* fr */ {IDCLS_IDE64_USB_SERVER_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_IDE64_USB_SERVER_ADDRESS_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_IDE64_USB_SERVER_ADDRESS_HU, "IDE64 USB szerver címe"},
 /* it */ {IDCLS_IDE64_USB_SERVER_ADDRESS_IT, "Indirizzo server IDE64 USB"},
 /* ko */ {IDCLS_IDE64_USB_SERVER_ADDRESS_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_IDE64_USB_SERVER_ADDRESS_NL, "IDE64 USB server adres"},
@@ -7863,7 +7846,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_IDE64_RTC_SAVE_DE, "IDE64 RTC Daten bei Änderung speichern."},
 /* es */ {IDCLS_ENABLE_IDE64_RTC_SAVE_ES, "Permitir grabar datos IDE64 RTC cuando cambien"},
 /* fr */ {IDCLS_ENABLE_IDE64_RTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_IDE64_RTC_SAVE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_IDE64_RTC_SAVE_HU, "IDE64 valósidejû óra mentésének bekapcsolása"},
 /* it */ {IDCLS_ENABLE_IDE64_RTC_SAVE_IT, "Attiva il salvataggio dei dati RTC dell'IDE64 alla modifica."},
 /* ko */ {IDCLS_ENABLE_IDE64_RTC_SAVE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_IDE64_RTC_SAVE_NL, "Activeer opslaan van de IDE64 RTC data indien gewijzigd"},
@@ -7880,7 +7863,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_DISABLE_IDE64_RTC_SAVE_DE, "IDE64 RTC Daten bei Änderung nicht speichern."},
 /* es */ {IDCLS_DISABLE_IDE64_RTC_SAVE_ES, "Deshabilitar grabar datos IDE64 RTC cuando cambien"},
 /* fr */ {IDCLS_DISABLE_IDE64_RTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_IDE64_RTC_SAVE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_IDE64_RTC_SAVE_HU, "IDE64 valósidejû óra mentésének kikapcsolása"},
 /* it */ {IDCLS_DISABLE_IDE64_RTC_SAVE_IT, "Disattiva il salvataggio dei dati RTC dell'IDE64 alla modifica."},
 /* ko */ {IDCLS_DISABLE_IDE64_RTC_SAVE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_IDE64_RTC_SAVE_NL, "Opslaan van de IDE64 RTC data indien gewijzigd uitschakelen"},
@@ -7897,7 +7880,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_P_MODELNUMBER_DE, "<Modell Nummer>"},
 /* es */ {IDCLS_P_MODELNUMBER_ES, "<número modelo>"},
 /* fr */ {IDCLS_P_MODELNUMBER_FR, "<numerodemodele>"},
-/* hu */ {IDCLS_P_MODELNUMBER_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_MODELNUMBER_HU, "<modell szám>"},
 /* it */ {IDCLS_P_MODELNUMBER_IT, "<numero di modello>"},
 /* ko */ {IDCLS_P_MODELNUMBER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_MODELNUMBER_NL, "<modelnummer>"},

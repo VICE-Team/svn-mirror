@@ -118,7 +118,6 @@ ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
     { "VICIINewLuminances", MENU_VICII_NEW_LUMINANCES },
     { "IECReset", MENU_IEC_RESET },
-    { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
     { "IDE64RTCSave", MENU_TOGGLE_IDE64_RTC_SAVE },
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
@@ -335,6 +334,13 @@ ui_res_possible_values scpu64_DS12C887RTC_base[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values scpu64ui_IDE64version[] = {
+    { 0, MENU_IDE64_VERSION_V3 },
+    { 1, MENU_IDE64_VERSION_V4_1 },
+    { 2, MENU_IDE64_VERSION_V4_2 },
+    { -1, 0 }
+};
+
 ui_res_value_list scpu64_ui_res_values[] = {
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Dev", scpu64AciaDevice },
@@ -362,6 +368,7 @@ ui_res_value_list scpu64_ui_res_values[] = {
     { "ExpertCartridgeMode", scpu64ui_ExpertModes },
     { "RRrevision", scpu64RRrevs },
     { "DS12C887RTCbase", scpu64_DS12C887RTC_base },
+    { "IDE64version", scpu64ui_IDE64version },
     { NULL, NULL }
 };
 

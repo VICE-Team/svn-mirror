@@ -205,7 +205,9 @@ const uint32 MENU_TOGGLE_USERPORT_RTC             = 'M505';
 const uint32 MENU_TOGGLE_USERPORT_RTC_SAVE        = 'M572';
 
 const uint32 MENU_TOGGLE_MAGICVOICE               = 'M165';
-const uint32 MENU_TOGGLE_IDE64_V4                 = 'M262';
+const uint32 MENU_IDE64_VERSION_V3                = 'M290';
+const uint32 MENU_IDE64_VERSION_V4_1              = 'M291';
+const uint32 MENU_IDE64_VERSION_V4_2              = 'M292';
 const uint32 MENU_TOGGLE_IDE64_RTC_SAVE           = 'M571';
 
 const uint32 MENU_TOGGLE_ISEPIC                   = 'M166';

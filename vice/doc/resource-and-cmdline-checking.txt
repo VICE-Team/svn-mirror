@@ -6645,31 +6645,24 @@ action:         N/A
 
 c64/cart/ide64.c:
 -----------------
-resource type:                  bool
-resource name:                  "IDE64version4"
-resource range:                 0/1
+resource type:                  int
+resource name:                  "IDE64version"
+resource range:                 0..2
 resource default:               0
-resource function:              set_version4()
-resource var:                   settings_version4
+resource function:              set_version()
+resource var:                   settings_version
 resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -IDE64version4 / +IDE64version4
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:           osx
+command-line:                   -IDE64version
+platform gui present:           amigaos/beos/dos/os2/sdl/unix
+platform gui missing:           osx/windows
 
 c64/cart/ide64.c:
 -----------------
-command line:   -IDE64version4
-description:    "Emulate version 4 hardware"
-resource:       "IDE64version4" (set to 1)
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-command line:   +IDE64version4
-description:    "Emulate pre version 4 hardware"
-resource:       "IDE64version4" (set to 0)
+command line:   -IDE64version
+description:    "IDE64 cartridge version"
+resource:       "IDE64version"
 action:         N/A
 
 c64/cart/isepic.c:

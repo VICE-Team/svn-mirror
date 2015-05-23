@@ -709,7 +709,11 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("RamCart File", new BMessage(MENU_RAMCART_FILE)));
 
             menu->AddItem(submenu = new BMenu("IDE64 Options"));
-                submenu->AddItem(new BMenuItem("IDE64 V4 emulation", new BMessage(MENU_TOGGLE_IDE64_V4)));
+                submenu->AddItem(extsubmenu = new BMenu("IDE64 version"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("V3", new BMessage(MENU_IDE64_VERSION_V3)));
+                    extsubmenu->AddItem(new BMenuItem("V4.1", new BMessage(MENU_IDE64_VERSION_V4_1)));
+                    extsubmenu->AddItem(new BMenuItem("V4.2", new BMessage(MENU_IDE64_VERSION_V4_2)));
                 submenu->AddItem(new BMenuItem("Save IDE64 RTC data when changed", new BMessage(MENU_TOGGLE_IDE64_RTC_SAVE)));
                 submenu->AddItem(new BMenuItem("IDE64 device #1 File", new BMessage(MENU_IDE64_FILE1)));
                 submenu->AddItem(new BMenuItem("IDE64 device #1 image size ...", new BMessage(MENU_IDE64_SIZE1)));

@@ -1134,8 +1134,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 
         case IDM_IDE64_VER_3:
-        case IDM_IDE64_VER_4:
-            resources_set_int("IDE64version4", idm - IDM_IDE64_VER_3);
+        case IDM_IDE64_VER_41:
+        case IDM_IDE64_VER_42:
+            resources_set_int("IDE64version", idm - IDM_IDE64_VER_3);
             return;
         case IDM_IDE64_RTC_SAVE:
             toggle("IDE64RTCSave");
@@ -1954,9 +1955,10 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_IDE64_RTC_SAVE, "IDE64RTCSave");
             return;
         case IDM_IDE64_REVISION:
-            resources_get_int("IDE64version4", &val);
+            resources_get_int("IDE64version", &val);
             WinCheckMenuItem(hwnd, IDM_IDE64_VER_3, val == 0);
-            WinCheckMenuItem(hwnd, IDM_IDE64_VER_4, val == 1);
+            WinCheckMenuItem(hwnd, IDM_IDE64_VER_41, val == 1);
+            WinCheckMenuItem(hwnd, IDM_IDE64_VER_42, val == 2);
             return;
         case IDM_IDE64_HD1:
             WinCheckRes(hwnd, IDM_IDE64_AUTO1, "IDE64AutodetectSize1");

@@ -65,8 +65,22 @@ static int ui_sectors_range[] = {
     63
 };
 
+static char *ui_ide64_version[] = {
+    "V3",
+    "V4.1",
+    "V4.2",
+    NULL
+};
+
+static const int ui_ide64_version_values[] = {
+    0,
+    1,
+    2,
+    -1
+};
+
 static ui_to_from_t ui_to_from_v4[] = {
-    { NULL, MUI_TYPE_CYCLE, "IDE64version4", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IDE64version", ui_ide64_version, ui_ide64_version_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "IDE64USBServer", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
     { NULL, MUI_TYPE_TEXT, "IDE64USBServerAddress", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "IDE64RTCSave", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
@@ -281,7 +295,7 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from_v4[0].object, translate_text(IDS_IDE64_V4), ui_ide64_autodetect)
+           CYCLE(ui_to_from_v4[0].object, translate_text(IDS_IDE64_VERSION), ui_ide64_version)
            CYCLE(ui_to_from_v4[1].object, translate_text(IDS_USB_SERVER), ui_ide64_autodetect)
            STRING(ui_to_from_v4[2].object, translate_text(IDS_USB_SERVER_ADDRESS), 50+1)
            CYCLE(ui_to_from_v4[3].object, translate_text(IDS_IDE64_RTC_SAVE), ui_ide64_autodetect)

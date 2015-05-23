@@ -5751,9 +5751,9 @@ contents changed, when detaching or quitting the emulator.
 Integer specifying the state of the expert cartridge switch.
 (0: off, 1: prg, 2: on)
 
-@vindex IDE64version4
-@item IDE64version4
-Boolean specifying whether the emulated card version is V4.1 or V3.4. This is automatically
+@vindex IDE64version
+@item IDE64version
+Integer specifying whether the emulated card version is V3.4, V4.1 or V4.2. This is automatically
 detected most of the time for .crt cartridge images.
 
 @vindex IDE64Image1
@@ -6238,11 +6238,11 @@ Autodetect geometry of formatted image or do not autodetect and use specified ge
 Autodetect geometry of formatted image or do not autodetect and use specified geometry
 (@code{IDE64AutodetectSize4=1}, @code{IDE64AutodetectSize4=0}).
 
-@findex -IDE64version4, +IDE64version4
-@item -IDE64version4
-@itemx +IDE64version4
-Emulate version 4 hardware/Emulate pre version 4 hardware
-(@code{IDE64version4=1}, @code{IDE64version4=0}).
+@findex -IDE64version
+@item -IDE64version <value>
+Select IDE64 version V3 (0), V4.1 (1) or V4.2 (2).
+(@code{IDE64version}).
+(0..2)
 
 @cindex -IDE64USB, +IDE64USB
 @item -IDE64USB

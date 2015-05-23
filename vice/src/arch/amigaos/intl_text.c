@@ -9787,26 +9787,26 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_IDE64_HD_4_SETTINGS_SV, "Inställningar för sekundär IDE64-slavenhet" },
 /* tr */ { IDS_IDE64_HD_4_SETTINGS_TR, "IDE64 ikincil baðýmlý sürücü ayarlarý" },
 
-/* en */ { IDS_IDE64_V4,    "IDE64 V4" },
-/* da */ { IDS_IDE64_V4_DA, "IDE64 V4" },
-/* de */ { IDS_IDE64_V4_DE, "IDE64 V4" },
-/* es */ { IDS_IDE64_V4_ES, "IDE64 V4" },
-/* fr */ { IDS_IDE64_V4_FR, "IDE64 V4" },
-/* hu */ { IDS_IDE64_V4_HU, "" },  /* fuzzy */
-/* it */ { IDS_IDE64_V4_IT, "IDE64 V4" },
-/* ko */ { IDS_IDE64_V4_KO, "" },  /* fuzzy */
-/* nl */ { IDS_IDE64_V4_NL, "IDE64 V4" },
-/* pl */ { IDS_IDE64_V4_PL, "IDE64 V4" },
-/* ru */ { IDS_IDE64_V4_RU, "IDE64 V4" },
-/* sv */ { IDS_IDE64_V4_SV, "IDE64 V4" },
-/* tr */ { IDS_IDE64_V4_TR, "IDE64 V4" },
+/* en */ { IDS_IDE64_VERSION,    "IDE64 version" },
+/* da */ { IDS_IDE64_VERSION_DA, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_VERSION_DE, "IDE64 Version" },  /* fuzzy */
+/* es */ { IDS_IDE64_VERSION_ES, "" },  /* fuzzy */
+/* fr */ { IDS_IDE64_VERSION_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IDE64_VERSION_HU, "IDE64 verzió" },
+/* it */ { IDS_IDE64_VERSION_IT, "" },  /* fuzzy */
+/* ko */ { IDS_IDE64_VERSION_KO, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_VERSION_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_VERSION_PL, "" },  /* fuzzy */
+/* ru */ { IDS_IDE64_VERSION_RU, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_VERSION_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_VERSION_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_USB_SERVER,    "USB Server" },
 /* da */ { IDS_USB_SERVER_DA, "" },  /* fuzzy */
 /* de */ { IDS_USB_SERVER_DE, "USB Server" },
 /* es */ { IDS_USB_SERVER_ES, "Servidor USB" },
 /* fr */ { IDS_USB_SERVER_FR, "" },  /* fuzzy */
-/* hu */ { IDS_USB_SERVER_HU, "" },  /* fuzzy */
+/* hu */ { IDS_USB_SERVER_HU, "USB szerver" },
 /* it */ { IDS_USB_SERVER_IT, "Server USB" },
 /* ko */ { IDS_USB_SERVER_KO, "" },  /* fuzzy */
 /* nl */ { IDS_USB_SERVER_NL, "USB Server" },
@@ -9820,7 +9820,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_USB_SERVER_ADDRESS_DE, "USB Server Adresse" },
 /* es */ { IDS_USB_SERVER_ADDRESS_ES, "Seleccionar dirección servidorUSB" },
 /* fr */ { IDS_USB_SERVER_ADDRESS_FR, "" },  /* fuzzy */
-/* hu */ { IDS_USB_SERVER_ADDRESS_HU, "" },  /* fuzzy */
+/* hu */ { IDS_USB_SERVER_ADDRESS_HU, "USB szerver címe" },
 /* it */ { IDS_USB_SERVER_ADDRESS_IT, "Indirizzo server USB a cui collegarsi" },
 /* ko */ { IDS_USB_SERVER_ADDRESS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_USB_SERVER_ADDRESS_NL, "USB server adres waaraan gebonden moet worden" },

@@ -257,8 +257,9 @@
 
 #define IDM_IDE64_SETTINGS           0x2a0
 #define IDM_IDE64_REVISION           0x2a1
-#define IDM_IDE64_VER_3              0x2a2
-#define IDM_IDE64_VER_4              0x2a3
+#define IDM_IDE64_VER_3              0x740
+#define IDM_IDE64_VER_41             0x741
+#define IDM_IDE64_VER_42             0x742
 #define IDM_IDE64_HD1                0x2a8
 #define IDM_IDE64_IMAGE1             0x2a9
 #define IDM_IDE64_AUTO1              0x2aa

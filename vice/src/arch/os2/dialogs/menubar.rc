@@ -895,7 +895,8 @@ BEGIN
             SUBMENU "IDE64 Revision",                     IDM_IDE64_REVISION,           MIS_TEXT
             BEGIN
                 MENUITEM "Version 3",                     IDM_IDE64_VER_3,              MIS_TEXT
-                MENUITEM "Version 4",                     IDM_IDE64_VER_4,              MIS_TEXT
+                MENUITEM "Version 4.1",                   IDM_IDE64_VER_41,             MIS_TEXT
+                MENUITEM "Version 4.2",                   IDM_IDE64_VER_42,             MIS_TEXT
             END
             SUBMENU "Primary master settings",            IDM_IDE64_HD1,                MIS_TEXT
             BEGIN

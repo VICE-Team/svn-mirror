@@ -41,7 +41,7 @@ UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize1)
 UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize2)
 UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize3)
 UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize4)
-UI_MENU_DEFINE_RADIO(IDE64version4)
+UI_MENU_DEFINE_RADIO(IDE64version)
 
 static UI_CALLBACK(set_ide64_image_name)
 {
@@ -174,10 +174,12 @@ static UI_CALLBACK(usbserver_select_addr)
 }
 
 static ui_menu_entry_t ide64_revision_submenu[] = {
-    { N_("Version 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version4,
+    { N_("Version 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version,
       (ui_callback_data_t)0, NULL },
-    { N_("Version 4"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version4,
+    { N_("Version 4.1"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version,
       (ui_callback_data_t)1, NULL },
+    { N_("Version 4.2"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version,
+      (ui_callback_data_t)2, NULL },
     { NULL }
 };
 

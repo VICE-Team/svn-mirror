@@ -109,7 +109,6 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
     { "MagicVoiceCartridgeEnabled", MENU_TOGGLE_MAGICVOICE },
-    { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
     { "IDE64RTCSave", MENU_TOGGLE_IDE64_RTC_SAVE },
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
@@ -299,6 +298,13 @@ ui_res_possible_values c128_DS12C887RTC_base[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values c128_IDE64version[] = {
+    { 0, MENU_IDE64_VERSION_V3 },
+    { 1, MENU_IDE64_VERSION_V4_1 },
+    { 2, MENU_IDE64_VERSION_V4_2 },
+    { -1, 0 }
+};
+
 ui_res_value_list c128_ui_res_values[] = {
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Dev", c128AciaDevice },
@@ -323,6 +329,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { "InternalFunctionROM", internal_function_rom },
     { "ExternalFunctionROM", external_function_rom },
     { "DS12C887RTCbase", c128_DS12C887RTC_base },
+    { "IDE64version", c128_IDE64version },
     { NULL, NULL }
 };
 
