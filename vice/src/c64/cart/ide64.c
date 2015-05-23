@@ -122,12 +122,7 @@ static int ft245_rxp, ft245_rxl, ft245_txp;
 #define usbserver_activate(a) {}
 #endif
 
-static enum version_e {
-    VERSION_3 = 0,
-    VERSION_4_1 = 1,
-    VERSION_4_2 = 2,
-} settings_version;
-
+static int settings_version;
 static int ide64_rtc_save;
 
 /* ---------------------------------------------------------------------*/
@@ -249,7 +244,7 @@ static int ide64_register(void)
     }
 
     for (i = 0; i < 5; i++) {
-        if (settings_version < VERSION_4_1 && i == 2) {
+        if (settings_version < IDE64_VERSION_4_1 && i == 2) {
             continue;
         }
         if (c64export_add(&export_res[i]) < 0) {
@@ -259,7 +254,7 @@ static int ide64_register(void)
 
     ide64_idebus_list_item = io_source_register(&ide64_idebus_device);
     ide64_io_list_item = io_source_register(&ide64_io_device);
-    if (settings_version >= VERSION_4_1) {
+    if (settings_version >= IDE64_VERSION_4_1) {
         ide64_ft245_list_item = io_source_register(&ide64_ft245_device);
     }
     ide64_ds1302_list_item = io_source_register(&ide64_ds1302_device);
@@ -276,7 +271,7 @@ static void ide64_unregister(void)
     }
 
     for (i = 0; i < 5; i++) {
-        if (settings_version < VERSION_4_1 && i == 2) {
+        if (settings_version < IDE64_VERSION_4_1 && i == 2) {
             continue;
         }
         c64export_remove(&export_res[i]);
@@ -468,11 +463,11 @@ static int ide64_set_rtc_save(int val, void *param)
 
 static int set_version(int value, void *param)
 {
-    enum version_e val;
+    int val;
     switch (value) {
-    default: val = VERSION_3; break;
-    case 1: val = VERSION_4_1; break;
-    case 2: val = VERSION_4_2; break;
+    default: val = IDE64_VERSION_3; break;
+    case 1: val = IDE64_VERSION_4_1; break;
+    case 2: val = IDE64_VERSION_4_2; break;
     }
 
     if (!ide64_rom_list_item) {
@@ -505,7 +500,7 @@ static void usbserver_activate(int mode)
 
     ft245_rxp = ft245_rxl = ft245_txp = 0;
 
-    if (settings_version < VERSION_4_1) {
+    if (settings_version < IDE64_VERSION_4_1) {
         mode = 0;
     }
 
@@ -859,7 +854,7 @@ static BYTE ide64_idebus_read(WORD addr)
 {
     in_d030 = ata_register_read(drives[idrive ^ 1].drv, addr, idebus);
     in_d030 = ata_register_read(drives[idrive].drv, addr, in_d030);
-    if (settings_version >= VERSION_4_1) {
+    if (settings_version >= IDE64_VERSION_4_1) {
         idebus = (in_d030 & 0xff00) | vicii_read_phi1();
         ide64_idebus_device.io_source_valid = 1;
         return in_d030 & 0xff;
@@ -872,7 +867,7 @@ static BYTE ide64_idebus_read(WORD addr)
 
 static BYTE ide64_idebus_peek(WORD addr)
 {
-    if (settings_version >= VERSION_4_1) {
+    if (settings_version >= IDE64_VERSION_4_1) {
         return ata_register_peek(drives[idrive].drv, addr) | ata_register_peek(drives[idrive ^ 1].drv, addr);
     }
     return 0;
@@ -886,7 +881,7 @@ static void ide64_idebus_store(WORD addr, BYTE value)
             idrive = (addr & 1) << 1;
         /* fall through */
         default:
-            if (settings_version >= VERSION_4_1) {
+            if (settings_version >= IDE64_VERSION_4_1) {
                 out_d030 = value | (out_d030 & 0xff00);
             }
             ata_register_store(drives[idrive].drv, addr, out_d030);
@@ -902,7 +897,7 @@ static BYTE ide64_io_read(WORD addr)
 
     switch (addr) {
         case 0:
-            if (settings_version >= VERSION_4_1) {
+            if (settings_version >= IDE64_VERSION_4_1) {
                 break;
             }
             return (BYTE)in_d030;
@@ -910,11 +905,11 @@ static BYTE ide64_io_read(WORD addr)
             return in_d030 >> 8;
         case 2:
             switch (settings_version) {
-            case VERSION_3:
+            case IDE64_VERSION_3:
                 return 0x10 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
-            case VERSION_4_1:
+            case IDE64_VERSION_4_1:
                 return 0x20 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
-            case VERSION_4_2:
+            case IDE64_VERSION_4_2:
                 return 0x80 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
             }
     }
@@ -926,7 +921,7 @@ static BYTE ide64_io_peek(WORD addr)
 {
     switch (addr) {
         case 0:
-            if (settings_version >= VERSION_4_1) {
+            if (settings_version >= IDE64_VERSION_4_1) {
                 break;
             }
             return (BYTE)in_d030;
@@ -934,11 +929,11 @@ static BYTE ide64_io_peek(WORD addr)
             return in_d030 >> 8;
         case 2:
             switch (settings_version) {
-            case VERSION_3:
+            case IDE64_VERSION_3:
                 return 0x10 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
-            case VERSION_4_1:
+            case IDE64_VERSION_4_1:
                 return 0x20 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
-            case VERSION_4_2:
+            case IDE64_VERSION_4_2:
                 return 0x80 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
             }
     }
@@ -949,7 +944,7 @@ static void ide64_io_store(WORD addr, BYTE value)
 {
     switch (addr) {
         case 0:
-            if (settings_version < VERSION_4_1) {
+            if (settings_version < IDE64_VERSION_4_1) {
                 out_d030 = (out_d030 & 0xff00) | value;
             }
             return;
@@ -960,7 +955,7 @@ static void ide64_io_store(WORD addr, BYTE value)
         case 3:
         case 4:
         case 5:
-            if (settings_version < VERSION_4_1 && current_bank != ((addr ^ 2) & 3)) {
+            if (settings_version < IDE64_VERSION_4_1 && current_bank != ((addr ^ 2) & 3)) {
                 current_bank = (addr ^ 2) & 3;
                 cart_config_changed_slotmain(0, (BYTE)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
             }
@@ -1039,7 +1034,7 @@ static void usb_send(void) {
 
 static BYTE ide64_ft245_read(WORD addr)
 {
-    if (settings_version >= VERSION_4_1) {
+    if (settings_version >= IDE64_VERSION_4_1) {
         switch (addr ^ 1) {
             case 0:
 #ifdef HAVE_NETWORK
@@ -1073,7 +1068,7 @@ static BYTE ide64_ft245_read(WORD addr)
 
 static BYTE ide64_ft245_peek(WORD addr)
 {
-    if (settings_version >= VERSION_4_1) {
+    if (settings_version >= IDE64_VERSION_4_1) {
         switch (addr ^ 1) {
             case 0:
 #ifdef HAVE_NETWORK
@@ -1104,7 +1099,7 @@ static BYTE ide64_ft245_peek(WORD addr)
 
 static void ide64_ft245_store(WORD addr, BYTE value)
 {
-    if (settings_version >= VERSION_4_1) {
+    if (settings_version >= IDE64_VERSION_4_1) {
         switch (addr ^ 1) {
             case 0:
 #ifdef HAVE_NETWORK
@@ -1194,7 +1189,7 @@ static void ide64_romio_store(WORD addr, BYTE value)
         case 0x65:
         case 0x66:
         case 0x67:
-            if (settings_version >= VERSION_4_1 && current_bank != (addr & 7)) {
+            if (settings_version >= IDE64_VERSION_4_1 && current_bank != (addr & 7)) {
                 current_bank = addr & 7;
                 break;
             }
@@ -1223,7 +1218,7 @@ static void ide64_romio_store(WORD addr, BYTE value)
         case 0x7d:
         case 0x7e:
         case 0x7f:
-            if (settings_version >= VERSION_4_2 && current_bank != (addr & 31)) {
+            if (settings_version >= IDE64_VERSION_4_2 && current_bank != (addr & 31)) {
                 current_bank = addr & 31;
                 break;
             }
@@ -1378,11 +1373,11 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
     if (detect) {
         for (i = 0x1e60; i < 0x1efd; i++) {
             if (rawcart[i] == 0x8d && ((rawcart[i + 1] - 2) & 0xfc) == 0x30 && rawcart[i + 2] == 0xde) {
-                settings_version = VERSION_3; /* V3 emulation required */
+                settings_version = IDE64_VERSION_3; /* V3 emulation required */
                 break;
             }
             if (rawcart[i] == 0x8d && (rawcart[i + 1] & 0xf8) == 0x60 && rawcart[i + 2] == 0xde) {
-                settings_version = VERSION_4_1; /* V4 emulation required */
+                settings_version = IDE64_VERSION_4_1; /* V4 emulation required */
                 break;
             }
         }
@@ -1452,7 +1447,7 @@ static int ide64_io_dump(void)
     const char *configs[4] = {
         "8k", "16k", "stnd", "open"
     };
-    mon_out("Version: %d, Mode: %s, ", settings_version >= VERSION_4_1 ? 4 : 3, (kill_port & 1) ? "Disabled" : "Enabled");
+    mon_out("Version: %d, Mode: %s, ", settings_version >= IDE64_VERSION_4_1 ? 4 : 3, (kill_port & 1) ? "Disabled" : "Enabled");
     mon_out("ROM bank: %d, Config: %s, Interface: %d\n", current_bank, configs[current_cfg], idrive >> 1);
     return 0;
 }
@@ -1485,9 +1480,9 @@ int ide64_snapshot_write_module(snapshot_t *s)
 
     SMW_DW(m, settings_version);
     switch (settings_version) {
-    case VERSION_3: SMW_BA(m, roml_banks, 0x10000); break;
-    case VERSION_4_1: SMW_BA(m, roml_banks, 0x20000); break;
-    case VERSION_4_2: SMW_BA(m, roml_banks, 0x80000); break;
+    case IDE64_VERSION_3: SMW_BA(m, roml_banks, 0x10000); break;
+    case IDE64_VERSION_4_1: SMW_BA(m, roml_banks, 0x20000); break;
+    case IDE64_VERSION_4_2: SMW_BA(m, roml_banks, 0x80000); break;
     }
     SMW_BA(m, export_ram0, 0x8000);
     SMW_DW(m, current_bank);
@@ -1535,28 +1530,28 @@ int ide64_snapshot_read_module(snapshot_t *s)
     ide64_unregister();
     SMR_DW_INT(m, (int *)&settings_version);
     switch (settings_version) {
-    default: settings_version = VERSION_3; break;
-    case 1: settings_version = VERSION_4_1; break;
-    case 2: settings_version = VERSION_4_2; break;
+    default: settings_version = IDE64_VERSION_3; break;
+    case 1: settings_version = IDE64_VERSION_4_1; break;
+    case 2: settings_version = IDE64_VERSION_4_2; break;
     }
     ide64_register();
     switch (settings_version) {
-    case VERSION_3:
+    case IDE64_VERSION_3:
         SMR_BA(m, roml_banks, 0x10000);
         break;
-    case VERSION_4_1:
+    case IDE64_VERSION_4_1:
         SMR_BA(m, roml_banks, 0x20000);
         break;
-    case VERSION_4_2: 
+    case IDE64_VERSION_4_2:
         SMR_BA(m, roml_banks, 0x80000);
         break;
     }
     SMR_BA(m, export_ram0, 0x8000);
     SMR_DW_INT(m, &current_bank);
     switch (settings_version) {
-    case VERSION_3: current_bank &= 3; break;
-    case VERSION_4_1: current_bank &= 7; break;
-    case VERSION_4_2: current_bank &= 31; break;
+    case IDE64_VERSION_3: current_bank &= 3; break;
+    case IDE64_VERSION_4_1: current_bank &= 7; break;
+    case IDE64_VERSION_4_2: current_bank &= 31; break;
     }
     SMR_DW_INT(m, &current_cfg);
     current_cfg &= 3;

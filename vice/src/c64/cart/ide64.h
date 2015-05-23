@@ -50,4 +50,9 @@ struct snapshot_s;
 extern int ide64_snapshot_read_module(struct snapshot_s *s);
 extern int ide64_snapshot_write_module(struct snapshot_s *s);
 
+/* values to be used with IDE64Version resource */
+#define IDE64_VERSION_3 0
+#define IDE64_VERSION_4_1 1
+#define IDE64_VERSION_4_2 2
+
 #endif

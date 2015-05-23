@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "ide64.h"
 #include "lib.h"
 #include "resources.h"
 #include "uiapi.h"
@@ -175,11 +176,11 @@ static UI_CALLBACK(usbserver_select_addr)
 
 static ui_menu_entry_t ide64_revision_submenu[] = {
     { N_("Version 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version,
-      (ui_callback_data_t)0, NULL },
+      (ui_callback_data_t)IDE64_VERSION_3, NULL },
     { N_("Version 4.1"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version,
-      (ui_callback_data_t)1, NULL },
+      (ui_callback_data_t)IDE64_VERSION_4_1, NULL },
     { N_("Version 4.2"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version,
-      (ui_callback_data_t)2, NULL },
+      (ui_callback_data_t)IDE64_VERSION_4_2, NULL },
     { NULL }
 };
 
