@@ -45,6 +45,13 @@
 #include "winlong.h"
 #include "winmain.h"
 
+static const int ui_ide64_version[] = {
+    0,
+    1,
+    2,
+    -1
+};
+
 static void enable_ide64_controls(HWND hwnd)
 {
     int is_enabled;
@@ -82,7 +89,7 @@ static void update_text(HWND hwnd)
 }
 
 static uilib_localize_dialog_param ide64_v4_dialog[] = {
-    { IDC_IDE64_V4, IDS_IDE64_V4, 0 },
+    { IDC_IDE64_VERSION, IDS_IDE64_VERSION, 0 },
     { IDC_IDE64_USB_SERVER, IDS_IDE64_USB_SERVER, 0 },
     { IDC_IDE64_RTC_SAVE, IDS_IDE64_RTC_SAVE, 0 },
     { IDC_IDE64_USB_SERVER_BIND_LABEL, IDS_IDE64_USB_SERVER_BIND_LABEL, 0 },
@@ -122,6 +129,9 @@ static void init_ide64_v4_dialog(HWND hwnd)
     int xtemp;
     const char *server_bind_address;
     HWND parent_hwnd;
+    HWND temp_hwnd;
+    int res_value_loop;
+    int active_value;
 
     parent_hwnd = GetParent(hwnd);
 
@@ -140,8 +150,18 @@ static void init_ide64_v4_dialog(HWND hwnd)
     /* translate the parent window items */
     uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
 
-    resources_get_int("IDE64version4", &res_value);
-    CheckDlgButton(hwnd, IDC_IDE64_V4, res_value ? BST_CHECKED : BST_UNCHECKED);
+    temp_hwnd = GetDlgItem(hwnd, IDC_IDE64_VERSION);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"V3");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"V4.1");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"V4.2");
+    resources_get_int("IDE64version", &res_value);
+    active_value = 0;
+    for (res_value_loop = 0; ui_ide64_version[res_value_loop] != -1; res_value_loop++) {
+        if (ui_ide64_version[res_value_loop] == res_value) {
+            active_value = res_value_loop;
+        }
+    }
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
     resources_get_int("IDE64USBServer", &res_value);
     CheckDlgButton(hwnd, IDC_IDE64_USB_SERVER, res_value ? BST_CHECKED : BST_UNCHECKED);
@@ -214,7 +234,7 @@ static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
-                resources_set_int("IDE64version4", (IsDlgButtonChecked(hwnd, IDC_IDE64_V4) == BST_CHECKED ? 1 : 0));
+                resources_set_int("IDE64version", ui_ide64_version[SendMessage(GetDlgItem(hwnd, IDC_IDE64_VERSION), CB_GETCURSEL, 0, 0)]);
                 resources_set_int("IDE64USBServer", (IsDlgButtonChecked(hwnd, IDC_IDE64_USB_SERVER) == BST_CHECKED ? 1 : 0));
                 resources_set_int("IDE64RTCSave", (IsDlgButtonChecked(hwnd, IDC_IDE64_RTC_SAVE) == BST_CHECKED ? 1 : 0));
                 GetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, st, MAX_PATH);
@@ -229,7 +249,6 @@ static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
         case WM_COMMAND:
             type = LOWORD(wparam);
             switch (type) {
-                case IDC_IDE64_V4:
                 case IDC_IDE64_USB_SERVER:
                 case IDC_IDE64_RTC_SAVE:
                 case IDC_ID64_USB_SERVER_BIND:
