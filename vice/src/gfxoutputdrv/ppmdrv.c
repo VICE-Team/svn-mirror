@@ -52,20 +52,12 @@ STATIC_PROTOTYPE gfxoutputdrv_t ppm_drv;
 
 static int ppmdrv_write_file_header(screenshot_t *screenshot)
 {
-    gfxoutputdrv_data_t *sdata;
+    FILE *fd = screenshot->gfxoutputdrv_data->fd;
 
-    sdata = screenshot->gfxoutputdrv_data;
-
-    if (fprintf(sdata->fd, "P3\x0a") < 0) {
+    if (fprintf(fd, "P6\012# VICE generated PPM screenshot\012") < 0) {
         return -1;
     }
-    if (fprintf(sdata->fd, "# VICE generated PPM screenshot\x0a") < 0) {
-        return -1;
-    }
-    if (fprintf(sdata->fd, "%d %d\x0a", screenshot->width, screenshot->height) < 0) {
-        return -1;
-    }
-    if (fprintf(sdata->fd, "255\x0a") < 0) {
+    if (fprintf(fd, "%d %d\012255\012", screenshot->width, screenshot->height) < 0) {
         return -1;
     }
 
@@ -103,15 +95,12 @@ static int ppmdrv_open(screenshot_t *screenshot, const char *filename)
 static int ppmdrv_write(screenshot_t *screenshot)
 {
     gfxoutputdrv_data_t *sdata;
-    unsigned int i;
 
     sdata = screenshot->gfxoutputdrv_data;
     (screenshot->convert_line)(screenshot, sdata->data, sdata->line, SCREENSHOT_MODE_RGB24);
 
-    for (i = 0; i < screenshot->width; i++) {
-        if (fprintf(sdata->fd, "%3d %3d %3d\x0a", sdata->data[i * 3], sdata->data[(i * 3) + 1], sdata->data[(i * 3) + 2]) < 0) {
-            return -1;
-        }
+    if (fwrite(sdata->data, 3, screenshot->width, sdata->fd) != screenshot->width) {
+        return -1;
     }
     return 0;
 }
@@ -168,7 +157,7 @@ static int ppmdrv_write_memmap(int line, int x_size, BYTE *gfx, BYTE *palette)
 
     for (i = 0; i < x_size; i++) {
         pixval = gfx[(line * x_size) + i];
-        if (fprintf(ppmdrv_memmap_fd, "%3d %3d %3d\x0a", palette[pixval * 3], palette[(pixval * 3) + 1], palette[(pixval * 3) + 2]) < 0) {
+        if (fwrite(&palette[pixval * 3], 3, 1, ppmdrv_memmap_fd) != 1) {
             return -1;
         }
     }
@@ -177,16 +166,10 @@ static int ppmdrv_write_memmap(int line, int x_size, BYTE *gfx, BYTE *palette)
 
 static int ppmdrv_write_file_header_memmap(int x_size, int y_size)
 {
-    if (fprintf(ppmdrv_memmap_fd, "P3\x0a") < 0) {
+    if (fprintf(ppmdrv_memmap_fd, "P6\012# VICE generated PPM mem map grafix\012") < 0) {
         return -1;
     }
-    if (fprintf(ppmdrv_memmap_fd, "# VICEplus generated PPM mem map grafix\x0a") < 0) {
-        return -1;
-    }
-    if (fprintf(ppmdrv_memmap_fd, "%d %d\x0a", x_size, y_size) < 0) {
-        return -1;
-    }
-    if (fprintf(ppmdrv_memmap_fd, "255\x0a") < 0) {
+    if (fprintf(ppmdrv_memmap_fd, "%d %d\012255\012", x_size, y_size) < 0) {
         return -1;
     }
 
