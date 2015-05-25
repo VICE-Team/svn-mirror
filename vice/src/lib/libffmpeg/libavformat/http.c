@@ -28,6 +28,10 @@
 #endif
 
 #if CONFIG_ZLIB
+#include <zconf.h>
+#ifdef Z_HAVE_STDARG_H
+#include <stdarg.h>
+#endif
 #include <zlib.h>
 #endif /* CONFIG_ZLIB */
 

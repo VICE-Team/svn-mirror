@@ -16,6 +16,10 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include <zconf.h>
+#ifdef Z_HAVE_STDARG_H
+#include <stdarg.h>
+#endif
 #include <zlib.h>
 
 #include "avcodec.h"
