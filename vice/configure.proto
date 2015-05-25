@@ -193,11 +193,6 @@ fi
 
 AC_SUBST(DEBUGBUILD)
 
-dnl check whether to build debug code
-if test x"$enable_debug_code" = "xyes"; then
-  AC_DEFINE(DEBUG,,[Enable debugging code])
-fi
-
 if test x"$enable_gnomeui" = "xyes" ; then
   AC_DEFINE(USE_GNOMEUI,,[Use GNOME UI.])
 fi
