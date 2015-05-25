@@ -357,7 +357,13 @@ console_t *uimon_window_open(void)
             gtk_window_resize_to_geometry (GTK_WINDOW (fixed.window), width, height);
         }
 #endif
+#if GTK_CHECK_VERSION (3, 0, 0)
+        scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,
+            gtk_scrollable_get_vadjustment (GTK_SCROLLABLE(fixed.term)));
+#else
         scrollbar = gtk_vscrollbar_new(vte_terminal_get_adjustment (VTE_TERMINAL(fixed.term)));
+#endif
+
         horizontal_container = gtk_hbox_new(FALSE, 0);
         gtk_container_add(GTK_CONTAINER(fixed.window), horizontal_container);
         gtk_container_add(GTK_CONTAINER(horizontal_container), fixed.term);
