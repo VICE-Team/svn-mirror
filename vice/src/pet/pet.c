@@ -856,6 +856,11 @@ BYTE machine_tape_type_default(void)
     return TAPE_CAS_TYPE_PRG;
 }
 
+BYTE machine_tape_behaviour(void)
+{
+    return TAPE_BEHAVIOUR_NORMAL;
+}
+
 int machine_addr_in_ram(unsigned int addr)
 {
     return addr < 0xb000;

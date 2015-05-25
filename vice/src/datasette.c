@@ -45,6 +45,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tap.h"
+#include "tape.h"
 #include "translate.h"
 #include "types.h"
 #include "uiapi.h"
@@ -413,7 +414,7 @@ static CLOCK datasette_read_gap(int direction)
 
 /*    if (current_image->system != 2 || current_image->version != 1
         || !fullwave) {*/
-    if (current_image->system != 2) {
+    if (machine_tape_behaviour() != TAPE_BEHAVIOUR_C16) {
         if ((direction < 0) && !datasette_move_buffer_back(direction * 4)) {
             return 0;
         }
@@ -437,9 +438,7 @@ static CLOCK datasette_read_gap(int direction)
         }
         next_tap += direction;
         current_image->current_file_seek_position += direction;
-    }
-
-    if (current_image->system == 2 && current_image->version == 1) {
+    } else if (current_image->version == 1) {
         if (!fullwave) {
             if ((direction < 0) && !datasette_move_buffer_back(direction * 4)) {
                 return 0;
@@ -470,7 +469,7 @@ static CLOCK datasette_read_gap(int direction)
             gap = fullwave_gap;
         }
         fullwave ^= 1;
-    } else if (current_image->system == 2 && current_image->version == 2) {
+    } else if (current_image->version == 2) {
         if ((direction < 0) && !datasette_move_buffer_back(direction * 4)) {
             return 0;
         }

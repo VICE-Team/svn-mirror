@@ -438,6 +438,11 @@ BYTE machine_tape_type_default(void)
     return 0;
 }
 
+BYTE machine_tape_behaviour(void)
+{
+    return 0;
+}
+
 int machine_addr_in_ram(unsigned int addr)
 {
     return ((addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)));

@@ -1173,6 +1173,11 @@ BYTE machine_tape_type_default(void)
     return TAPE_CAS_TYPE_PRG;
 }
 
+BYTE machine_tape_behaviour(void)
+{
+    return TAPE_BEHAVIOUR_NORMAL;
+}
+
 static int get_cart_emulation_state(void)
 {
     int value;

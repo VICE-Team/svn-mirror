@@ -1010,6 +1010,11 @@ BYTE machine_tape_type_default(void)
     return 0;
 }
 
+BYTE machine_tape_behaviour(void)
+{
+    return 0;
+}
+
 static int get_cart_emulation_state(void)
 {
     int value;

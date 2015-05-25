@@ -840,6 +840,11 @@ BYTE machine_tape_type_default(void)
     return TAPE_CAS_TYPE_PRG;
 }
 
+BYTE machine_tape_behaviour(void)
+{
+    return TAPE_BEHAVIOUR_NORMAL;
+}
+
 /* to avoid linkage problems */
 void datasette_trigger_flux_change(unsigned int on)
 {

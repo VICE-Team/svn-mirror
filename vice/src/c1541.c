@@ -3280,3 +3280,9 @@ const char *machine_get_name(void)
 {
     return machine_name;
 }
+
+BYTE machine_tape_behaviour(void)
+{
+    return TAPE_BEHAVIOUR_NORMAL;
+}
+
