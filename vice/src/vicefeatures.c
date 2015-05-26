@@ -123,7 +123,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(AMIGA_SUPPORT) || defined(__MSDOS__) || defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (amiga/dos/sdl/unix/windows) */
+#if defined(AMIGA_SUPPORT) || defined(__MSDOS__) || defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (amiga/dos/sdl/unix/windows) */
     { "HAVE_CATWEASELMKIII", "Support for Catweasel MKIII.",
 #ifndef HAVE_CATWEASELMKIII
         0 },
@@ -163,7 +163,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
     { "HAVE_FFMPEG", "Have FFMPEG av* libs available",
 #ifndef HAVE_FFMPEG
         0 },
@@ -171,7 +171,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
     { "HAVE_FFMPEG_HEADER_SUBDIRS", "FFMPEG uses subdirs for headers",
 #ifndef HAVE_FFMPEG_HEADER_SUBDIRS
         0 },
@@ -179,7 +179,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
     { "HAVE_FFMPEG_SWSCALE", "Have FFMPEG swscale lib available",
 #ifndef HAVE_FFMPEG_SWSCALE
         0 },
@@ -187,7 +187,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
     { "SHARED_FFMPEG", "FFMPEG libraries are shared",
 #ifndef SHARED_FFMPEG
         0 },
@@ -195,7 +195,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
     { "STATIC_FFMPEG", "FFMPEG libraries are static",
 #ifndef STATIC_FFMPEG
         0 },
@@ -217,7 +217,7 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(AMIGA_SUPPORT) || defined(__MSDOS__) || defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (amiga/dos/sdl/unix/windows) */
+#if defined(AMIGA_SUPPORT) || defined(__MSDOS__) || defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (amiga/dos/sdl/unix/windows) */
     { "HAVE_HARDSID", "Support for HardSID.",
 #ifndef HAVE_HARDSID
         0 },
@@ -225,7 +225,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(AMIGA_SUPPORT) || defined(USE_SDLUI) || defined(UNIX) || defined(MACOSX_SUPPORT) || defined(WIN32) /* (amiga/sdl/unix/osx/windows) */
+#if defined(AMIGA_SUPPORT) || defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(MACOSX_SUPPORT) || defined(WIN32) /* (amiga/sdl/unix/osx/windows) */
     { "HAVE_HWSCALE", "Enable arbitrary window scaling",
 #ifndef HAVE_HWSCALE
         0 },
@@ -262,7 +262,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) || defined(MACOSX_SUPPORT) || defined(WIN32) /* (sdl/unix/osx/windows) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(MACOSX_SUPPORT) || defined(WIN32) /* (sdl/unix/osx/windows) */
     { "HAVE_MIDI", "Enable MIDI emulation.",
 #ifndef HAVE_MIDI
         0 },
@@ -284,7 +284,7 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
     { "HAVE_OPENCBM", "Support for OpenCBM", /* (former CBM4Linux). */
 #ifndef HAVE_OPENCBM
         0 },
@@ -292,7 +292,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) /* (sdl/unix) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
     { "HAVE_OPENGL_SYNC", "Enable openGL synchronization",
 #ifndef HAVE_OPENGL_SYNC
         0 },
@@ -308,7 +308,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(__MSDOS__) || defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (dos/sdl/unix/windows) */
+#if defined(__MSDOS__) || defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (dos/sdl/unix/windows) */
     { "HAVE_PARSID", "Support for ParSID.",
 #ifndef HAVE_PARSID
         0 },
@@ -398,7 +398,7 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#ifdef USE_SDLUI /* (sdl) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) /* (sdl) */
     { "HAVE_SDL_NUMJOYSTICKS", "Define to 1 if you have the `SDL_NumJoysticks' function.",
 #ifndef HAVE_SDL_NUMJOYSTICKS
         0 },
@@ -406,7 +406,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) /* (sdl/unix) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
     { "HAVE_SYS_AUDIO_H", "Define to 1 if you have the <sys/audio.h> header file.",
 #ifndef HAVE_SYS_AUDIO_H
         0 },
@@ -414,7 +414,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) /* (sdl/unix) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
     { "HAVE_SYS_AUDIOIO_H", "Define to 1 if you have the <sys/audioio.h> header file.",
 #ifndef HAVE_SYS_AUDIOIO_H
         0 },
@@ -476,7 +476,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) /* (sdl/unix) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
     { "USE_AIX_AUDIO", "Enable aix sound support.",
 #ifndef USE_AIX_AUDIO
         0 },
@@ -484,7 +484,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) /* (sdl/unix) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
     { "USE_ALSA", "Enable alsa support.",
 #ifndef USE_ALSA
         0 },
@@ -492,7 +492,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) /* (sdl/unix) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
     { "USE_ARTS", "Enable aRts support.",
 #ifndef USE_ARTS
         0 },
@@ -500,7 +500,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(MACOSX_SUPPORT) /* (sdl/osx) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(MACOSX_SUPPORT) /* (sdl/osx) */
     { "USE_COREAUDIO", "Enable CoreAudio support.",
 #ifndef USE_COREAUDIO
         0 },
@@ -508,7 +508,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) /* (sdl/unix) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
     { "USE_DMEDIA", "Enable sgi sound support.",
 #ifndef USE_DMEDIA
         0 },
@@ -516,7 +516,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(WIN32) /* (sdl/windows) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(WIN32) /* (sdl/windows) */
     { "USE_DXSOUND", "Enable directx sound support.",
 #ifndef USE_DXSOUND
         0 },
@@ -554,7 +554,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(UNIX) /* (sdl/unix) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
     { "USE_OSS", "Enable oss support.",
 #ifndef USE_OSS
         0 },

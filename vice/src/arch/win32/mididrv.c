@@ -40,7 +40,7 @@
 #include "log.h"
 #include "mididrv.h"
 
-#ifndef USE_SDLUI
+#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
 #include "res.h"
 #endif
 
@@ -108,7 +108,7 @@ void mididrv_resources_shutdown(void)
 {
 }
 
-#ifndef USE_SDLUI
+#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
 #define DEFAULT_PARAM USE_PARAM_ID
 #define DEFAULT_DESCR USE_DESCRIPTION_ID
 #else

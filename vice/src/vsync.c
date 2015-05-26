@@ -43,7 +43,7 @@ int vsync_frame_counter;
 #include "vice.h"
 
 /* Port me... */
-#if !defined(__MSDOS__) || defined(USE_SDLUI)
+#if !defined(__MSDOS__) || defined(USE_SDLUI) || defined(USE_SDLUI2)
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,7 +66,7 @@ int vsync_frame_counter;
 #include "sound.h"
 #include "translate.h"
 #include "types.h"
-#if (defined(WIN32) || defined (HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
+#if (defined(WIN32) || defined (HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI) && !defined(USE_SDLUI2)
 #include "videoarch.h"
 #endif
 #include "vsync.h"
@@ -343,7 +343,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     signed long delay;
     long frame_ticks_remainder, frame_ticks_integer, compval;
 
-#if (defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
+#if (defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI) && !defined(USE_SDLUI2)
     float refresh_cmp;
     int refresh_div;
 #endif
@@ -442,7 +442,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
     /* This is the time between the start of the next frame and now. */
     delay = (signed long)(now - next_frame_start);
-#if (defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
+#if (defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI) && !defined(USE_SDLUI2)
     refresh_cmp = (float)(c->refreshrate / refresh_frequency);
     refresh_div = (int)(refresh_cmp + 0.5f);
     refresh_cmp /= (float)refresh_div;
@@ -468,7 +468,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     if (!warp_mode_enabled && timer_speed && delay < 0) {
         vsyncarch_sleep(-delay);
     }
-#if (defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
+#if (defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI) && !defined(USE_SDLUI2)
     vsyncarch_prepare_vbl();
 #endif
     /*
@@ -504,7 +504,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         skip_next_frame = 0;
         skipped_redraw = 0;
     }
-#if (defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
+#if (defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI) && !defined(USE_SDLUI2)
 }
 #endif
 
@@ -558,7 +558,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     return skip_next_frame;
 }
 
-#if defined (HAVE_OPENGL_SYNC) && !defined(USE_SDLUI)
+#if defined (HAVE_OPENGL_SYNC) && !defined(USE_SDLUI) && !defined(USE_SDLUI2)
 
 static unsigned long last = 0;
 static unsigned long nosynccount = 0;
@@ -601,6 +601,6 @@ void vsyncarch_prepare_vbl(void)
     nosynccount = 0;
 }
 
-#endif /* defined (HAVE_OPENGL_SYNC) && !defined(USE_SDLUI) */
+#endif /* defined (HAVE_OPENGL_SYNC) && !defined(USE_SDLUI) && !defined(USE_SDLUI2) */
 
 #endif

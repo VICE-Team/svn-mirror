@@ -227,7 +227,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 #else
 #if defined(MACOSX_BUNDLE)
         /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
-#if defined(MACOSX_COCOA) || defined(USE_SDLUI)
+#if defined(MACOSX_COCOA) || defined(USE_SDLUI) || defined(USE_SDLUI2)
         #define MACOSX_ROMDIR "/../Resources/ROM/"
 #else
         #define MACOSX_ROMDIR "/../ROM/"
