@@ -48,7 +48,10 @@ void sdl_lightpen_update(void)
         return;
     }
 
+/* FIXME for SDL2 */
+#ifndef USE_SDLUI2
     on_screen = SDL_GetAppState() & SDL_APPMOUSEFOCUS;
+#endif
 
     if (on_screen) {
         buttons = SDL_GetMouseState(&x, &y);

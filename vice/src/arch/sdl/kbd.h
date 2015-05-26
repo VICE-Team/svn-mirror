@@ -54,6 +54,8 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 #define SDLK_KP8 SDLK_KP_8
 #define SDLK_KP9 SDLK_KP_9
 #define KMOD_META KMOD_GUI
+#define SDLK_LMETA SDLK_LGUI
+#define SDLK_RMETA SDLK_RGUI
 #endif
 
 extern ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod);

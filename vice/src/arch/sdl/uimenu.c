@@ -33,6 +33,7 @@
 #include "interrupt.h"
 #include "ioutil.h"
 #include "joy.h"
+#include "kbd.h"
 #include "lib.h"
 #include "machine.h"
 #include "menu_common.h"
@@ -610,7 +611,10 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
             case SDL_KEYDOWN:
                 *key = e.key.keysym.sym;
                 *mod = e.key.keysym.mod;
+/* FIXME: fix for SDL2 */
+#ifndef USE_SDLUI2
                 *c_uni = e.key.keysym.unicode;
+#endif
                 got_key = 1;
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
@@ -828,7 +832,9 @@ void sdl_ui_activate_pre_action(void)
         sdl_vsid_close();
     }
 
+#ifndef USE_SDLUI2
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+#endif
     sdl_menu_state = 1;
     ui_check_mouse_cursor();
 }
@@ -839,7 +845,9 @@ void sdl_ui_activate_post_action(void)
 
     sdl_menu_state = 0;
     ui_check_mouse_cursor();
+#ifndef USE_SDLUI2
     SDL_EnableKeyRepeat(0, 0);
+#endif
 
     /* Do not resume sound if in warp mode */
     resources_get_int("WarpMode", &warp_state);
@@ -1087,7 +1095,9 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
     /* draw previous string (if any), initialize size and cursor position */
     size = i = sdl_ui_print_wrap(new_string, pos_x, &pos_y);
 
+#ifndef USE_SDLUI2
     SDL_EnableUNICODE(1);
+#endif
 
     do {
         if (i != prev) {
@@ -1202,7 +1212,9 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
         }
     } while (!done);
 
+#ifndef USE_SDLUI2
     SDL_EnableUNICODE(0);
+#endif
 
     if ((!string_changed && previous) || escaped) {
         lib_free(new_string);

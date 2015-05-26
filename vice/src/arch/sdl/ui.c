@@ -83,6 +83,8 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             DBG(("ui_handle_misc_sdl_event: SDL_QUIT"));
             ui_sdl_quit();
             break;
+/* FIXME: fix for SDL2 */
+#ifndef USE_SDLUI2
         case SDL_VIDEORESIZE:
             DBG(("ui_handle_misc_sdl_event: SDL_VIDEORESIZE (%d,%d)", (unsigned int)e.resize.w, (unsigned int)e.resize.h));
             sdl_video_resize_event((unsigned int)e.resize.w, (unsigned int)e.resize.h);
@@ -98,6 +100,7 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             DBG(("ui_handle_misc_sdl_event: SDL_VIDEOEXPOSE"));
             video_canvas_refresh_all(sdl_active_canvas);
             break;
+#endif
 #ifdef SDL_DEBUG
         case SDL_USEREVENT:
             DBG(("ui_handle_misc_sdl_event: SDL_USEREVENT"));
@@ -458,11 +461,19 @@ ui_menu_action_t ui_dispatch_events(void)
 void ui_check_mouse_cursor(void)
 {
     if (_mouse_enabled && !lightpen_enabled && !sdl_menu_state) {
+#ifndef USE_SDLUI2
         SDL_ShowCursor(SDL_DISABLE);
         SDL_WM_GrabInput(SDL_GRAB_ON);
+#else
+        SDL_SetRelativeMouseMode(SDL_TRUE);
+#endif
     } else {
+#ifndef USE_SDLUI2
         SDL_ShowCursor((sdl_active_canvas->fullscreenconfig->enable && !lightpen_enabled) ? SDL_DISABLE : SDL_ENABLE);
         SDL_WM_GrabInput(SDL_GRAB_OFF);
+#else
+        SDL_SetRelativeMouseMode(SDL_FALSE);
+#endif
     }
 }
 

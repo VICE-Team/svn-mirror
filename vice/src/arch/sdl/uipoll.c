@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "joy.h"
+#include "kbd.h"
 #include "lib.h"
 #include "ui.h"
 #include "uimenu.h"

@@ -81,12 +81,15 @@ void mouse_button(int bnumber, int state)
         case SDL_BUTTON_RIGHT:
             mouse_button_right(state);
             break;
+/* FIXME: fix for SDL2 */
+#ifndef USE_SDLUI2
         case SDL_BUTTON_WHEELUP:
             mouse_button_up(state);
             break;
         case SDL_BUTTON_WHEELDOWN:
             mouse_button_down(state);
             break;
+#endif
         default:
             break;
     }

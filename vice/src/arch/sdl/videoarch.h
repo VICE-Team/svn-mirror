@@ -60,6 +60,17 @@ struct video_canvas_s {
     /* Drawable surface */
     SDL_Surface* screen;
 
+#ifdef USE_SDLUI2
+    /* window */
+    SDL_Window *window;
+
+    /* renderer */
+    SDL_Renderer *renderer;
+
+    /* texture */
+    SDL_Texture *texture;
+#endif
+
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct draw_buffer_s *draw_buffer_vsid;
