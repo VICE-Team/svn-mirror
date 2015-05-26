@@ -8,6 +8,7 @@ cd ..\win32\vs_tmpl
 mkmsvc.exe -sdl -71 vice
 cd ..\..\sdl
 copy msvc-files\make-bindist.bat.proto win32-msvc71\make-msvc-bindist.bat
+copy msvc-files\debug.h win32-msvc71
 copy msvc-files\dirent.h win32-msvc71
 copy msvc-files\ide-config.h win32-msvc71
 copy msvc-files\ide-siddefs.h win32-msvc71

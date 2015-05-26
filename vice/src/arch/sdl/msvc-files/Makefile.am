@@ -1,4 +1,5 @@
 EXTRA_DIST = \
+	debug.h \
 	dirent.h \
 	ffmpeg-config.h \
 	ide-config.h \

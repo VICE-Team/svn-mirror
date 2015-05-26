@@ -8,6 +8,7 @@ cd ..\win32\vs_tmpl
 mkmsvc.exe -sdl -4 vice
 cd ..\..\sdl
 copy msvc-files\make-bindist-mips.bat.proto winmips-msvc\make-msvc-bindist.bat
+copy msvc-files\debug.h winmips-msvc
 copy msvc-files\dirent.h winmips-msvc
 copy msvc-files\ide-config-mips.h winmips-msvc\ide-config.h
 copy msvc-files\inttypes.h winmips-msvc

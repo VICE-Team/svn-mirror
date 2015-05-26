@@ -8,6 +8,7 @@ cd ..\win32\vs_tmpl
 mkmsvc.exe -ffmpeg -sdl -9 vice
 cd ..\..\sdl
 copy msvc-files\make-bindist.bat.proto win32-msvc9-ffmpeg\make-msvc-bindist.bat
+copy msvc-files\debug.h win32-msvc9-ffmpeg
 copy msvc-files\dirent.h win32-msvc9-ffmpeg
 copy msvc-files\ide-config.h win32-msvc9-ffmpeg
 copy msvc-files\ide-siddefs.h win32-msvc9-ffmpeg
