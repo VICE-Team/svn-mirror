@@ -345,7 +345,7 @@ static void init_dialog(HWND hwnd, int num)
         n = IDC_SELECT_DRIVE_TYPE_NONE;
     }
 
-    CheckRadioButton(hwnd, IDC_SELECT_DRIVE_TYPE_1541, IDC_SELECT_DRIVE_TYPE_NONE, n);
+    CheckRadioButton(hwnd, IDC_SELECT_DRIVE_TYPE_1540, IDC_SELECT_DRIVE_TYPE_NONE, n);
 
     enable_controls_for_drive_settings(hwnd, n);
 
