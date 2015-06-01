@@ -131,6 +131,7 @@
 #include <sys/utsname.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 #include "archdep.h"
 #include "lib.h"
@@ -250,26 +251,28 @@ char *platform_get_linux_runtime_os(void)
     FILE *bsd_emul_test;
     int is_bsd = 0;
     int ret;
+    int i = 0;
 
     if (!got_linux_version) {
         unlink("emultest.sh");
+        unlink("emultest.netbsd");
         bsd_emul_test = fopen("emultest.sh", "wb");
         if (bsd_emul_test) {
-            unlink("emultest.result");
             fprintf(bsd_emul_test, "#!/bin/sh\n");
             fprintf(bsd_emul_test, "if test -f /proc/self/emul; then\n");
-            fprintf(bsd_emul_test, "  echo emulation >emultest.result\n");
+            fprintf(bsd_emul_test, "  echo emulation >emultest.netbsd\n");
             fprintf(bsd_emul_test, "fi\n");
             fclose(bsd_emul_test);
-            ret = system("sh ./emultest.sh");
+            chmod("emultest.sh", S_IRWXU);
+            ret = system("./emultest.sh");
             if (!ret) {
                 unlink("emultest.sh");
             }
-            bsd_emul_test = fopen("emultest.result", "rb");
+            bsd_emul_test = fopen("emultest.netbsd", "rb");
             if (bsd_emul_test) {
                 sprintf(linux_version, "NetBSD");
                 fclose(bsd_emul_test);
-                unlink("emultest.result");
+                unlink("emultest.netbsd");
                 is_bsd = 1;
             }
         }
@@ -285,6 +288,12 @@ char *platform_get_linux_runtime_os(void)
                 } else {
                     sprintf(linux_version, "lxrun sco");
                 }
+            } else if (!strncasecmp(name.version, "FreeBSD", 7)) {
+                while (name.version[i] != '-' && name.version[i] != 0) {
+                    linux_version[i] = name.version[i];
+                    i++;
+                }
+                linux_version[i] = 0;
             } else {
                 sprintf(linux_version, "%s %s", name.sysname, name.release);
             }
