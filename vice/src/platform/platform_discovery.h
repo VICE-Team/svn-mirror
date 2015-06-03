@@ -414,7 +414,7 @@
 
 
 /* Ultrix discovery */
-#if defined(ultrix) || defined(__ultrix) || defined(__ultrix)
+#if defined(ultrix) || defined(__ultrix) || defined(__ultrix__)
 #  define PLATFORM_OS "Ultrix"
 #endif
 

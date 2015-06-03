@@ -88,6 +88,9 @@ extern char *platform_get_linux_runtime_cpu(void);
 extern char *platform_get_netbsd_runtime_os(void);
 extern char *platform_get_netbsd_runtime_cpu(void);
 
+extern char *platform_get_freebsd_runtime_os(void);
+extern char *platform_get_freebsd_runtime_cpu(void);
+
 extern char *platform_get_interix_runtime_os(void);
 
 extern char *platform_get_cygwin_runtime_os(void);
@@ -151,6 +154,11 @@ extern char *platform_get_hurd_runtime_os(void);
 /* NetBSD */
 #ifdef __NetBSD__
 #define RUNTIME_OS_CALL platform_get_netbsd_runtime_os
+#endif
+
+/* FreeBSD */
+#ifdef __FreeBSD__
+#define RUNTIME_OS_CALL platform_get_freebsd_runtime_os
 #endif
 
 /* Interix */
@@ -266,6 +274,11 @@ extern char *platform_get_hurd_runtime_os(void);
 /* NetBSD */
 #ifdef __NetBSD__
 #define RUNTIME_CPU_CALL platform_get_netbsd_runtime_cpu
+#endif
+
+/* FreeBSD */
+#ifdef __FreeBSD__
+#define RUNTIME_CPU_CALL platform_get_freebsd_runtime_cpu
 #endif
 
 /* x86/amd64/x86_64 */

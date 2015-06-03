@@ -119,6 +119,7 @@
    x86          | unixware (LKP)
    x86          | solaris (lxrun)
    x86          | netbsd (emulation layer)
+   x86          | freebsd (emulation layer)
  */
 
 #include "vice.h"

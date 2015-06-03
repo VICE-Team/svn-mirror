@@ -20,6 +20,7 @@ libplatform_a_SOURCES = \
 	platform_darwin_runtime_os.c \
 	platform_discovery.h \
 	platform_dos_runtime_os.c \
+	platform_freebsd_runtime_os.c \
 	platform_freebsd_version.h \
 	platform_hurd_runtime_os.c \
 	platform_interix_runtime_os.c \

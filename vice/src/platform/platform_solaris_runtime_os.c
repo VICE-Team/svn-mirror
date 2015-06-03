@@ -35,15 +35,26 @@
  * Solaris 2.6 (sparc)
  * Solaris 7 (intel)
  * Solaris 7 (sparc)
+ * Solaris 7 (sparc64)
  * Solaris 8 (intel)
  * Solaris 8 (sparc)
+ * Solaris 8 (sparc64)
  * Solaris 9 (intel)
  * Solaris 9 (sparc)
- * Solaris 10 (intel 32&64)
+ * Solaris 9 (sparc64)
+ * Solaris 10 (x86)
+ * Solaris 10 (x64)
  * Solaris 10 (sparc)
- * OpenSolaris (intel)
- * Solaris 11(.0) (intel 32&64)
- * Solaris 11.1 (intel 32&64)
+ * Solaris 10 (sparc64)
+ * OpenSolaris (x86)
+ * OpenSolaris (x64)
+ * Solaris 11(.0) (x86)
+ * Solaris 11(.0) (x64)
+ * Solaris 11.1 (x86)
+ * Solaris 11.1 (x64)
+ * Solaris 11.2 (x86)
+ * Solaris 11.2 (x64)
+ * NetBSD (i386)
  */
 
 #include "vice.h"
@@ -84,11 +95,17 @@ char *platform_get_solaris_runtime_os(void)
                 os = "Solaris 11";
             } else if (!strcasecmp(name.version, "11.1")) {
                 os = "Solaris 11.1";
-            else {
+            } else if (!strcasecmp(name.version, "11.2")) {
+                os = "Solaris 11.2";
+            } else {
                 os = "OpenSolaris";
             }
         } else {
-            os = "Unknown Solaris version";
+            if (!strcasecmp(name.sysname, "NetBSD")) {
+                os = "NetBSD";
+            } else {
+                os = "Unknown Solaris version";
+            }
         }
     }
     return os;
@@ -105,7 +122,7 @@ static int got_cpu = 0;
 char *platform_get_solaris_runtime_cpu(void)
 {
     processor_info_t info;
-    int status = 0;
+    int status = -1;
     struct utsname name;
     FILE *infile = NULL;
     size_t size = 0;
@@ -115,36 +132,40 @@ char *platform_get_solaris_runtime_cpu(void)
     char *loc2 = NULL;
 
     if (!got_cpu) {
-        status = processor_info(0, &info);
+        uname(&name);
+        if (strcasecmp(name.sysname, "NetBSD")) {
+            status = processor_info(0, &info);
+        }
         if (status != -1) {
             sprintf(solaris_cpu, "%s", info.pi_processor_type);
         } else {
-            uname(&name);
             sprintf(solaris_cpu, "%s", name.machine);
         }
-        system("dmesg >/tmp/vice.cpu.tmp");
-        infile = fopen("/tmp/vice.cpu.tmp", "rb");
-        if (infile) {
-            fseek(infile, 0L, SEEK_END);
-            size = ftell(infile);
-            fseek(infile, 0L, SEEK_SET);
-            buffer = (char *)malloc(size);
-            size2 = fread(buffer, 1, size, infile);
-            if (size == size2) {
-                loc = strstr(buffer, "cpu0:");
-                if (loc) {
-                    loc += 6;
-                    loc2 = strstr(loc, " (");
-                    if (loc2) {
-                        *loc2 = 0;
-                        sprintf(solaris_cpu, "%s (%s)", solaris_cpu, loc);
+        if (strcasecmp(name.sysname, "NetBSD")) {
+            system("dmesg >/tmp/vice.cpu.tmp");
+            infile = fopen("/tmp/vice.cpu.tmp", "rb");
+            if (infile) {
+                fseek(infile, 0L, SEEK_END);
+                size = ftell(infile);
+                fseek(infile, 0L, SEEK_SET);
+                buffer = (char *)malloc(size);
+                size2 = fread(buffer, 1, size, infile);
+                if (size == size2) {
+                    loc = strstr(buffer, "cpu0:");
+                    if (loc) {
+                        loc += 6;
+                        loc2 = strstr(loc, " (");
+                        if (loc2) {
+                            *loc2 = 0;
+                            sprintf(solaris_cpu, "%s (%s)", solaris_cpu, loc);
+                        }
                     }
                 }
+                fclose(infile);
+                free(buffer);
             }
-            fclose(infile);
-            free(buffer);
+            unlink("/tmp/vice.cpu.tmp");
         }
-        unlink("/tmp/vice.cpu.tmp");
         got_cpu = 1;
     }
     return solaris_cpu;
