@@ -40,6 +40,7 @@ libplatform_a_SOURCES = \
 	platform_sco_runtime_os.c \
 	platform_solaris_runtime_os.c \
 	platform_syllable_runtime_os.c \
+	platform_ultrix_runtime_os.c \
 	platform_windows_runtime_os.c \
 	platform_x86_beos_cpuid.h \
 	platform_x86_gcc_cpuid.h \

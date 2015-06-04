@@ -1,5 +1,5 @@
 /*
- * platform_freebsd_runtime_os.c - FreeBSD runtime version discovery.
+ * platform_ultrix_runtime_os.c - Ultrix runtime version discovery.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -25,27 +25,19 @@
  */
 
 /* Tested and confirmed working on:
-   cpu   | Operating System
-   ------------------------
-   i386  | FreeBSD 9.2
-   i386  | FreeBSD 9.3
-   i386  | FreeBSD 10.0
-   i386  | FreeBSD 10.1
-   amd64 | FreeBSD 10.1
-   i386  | NetBSD (emulation layer)
+   cpu    | Operating System
+   -------------------------
+   mipsel | Ultrix 4.5
+   mipsel | NetBSD (emulation layer)
  */
 
 #include "vice.h"
 
-#ifdef __FreeBSD__
+#if defined(ultrix) || defined(__ultrix) || defined(__ultrix__)
 
 #include <stdio.h>
 #include <sys/utsname.h>
-#include <sys/param.h>
-#include <sys/sysctl.h>
 #include <string.h>
-#include <ctype.h>
-#include <unistd.h>
 
 #include "archdep.h"
 #include "lib.h"
@@ -53,45 +45,50 @@
 #include "util.h"
 #include "log.h"
 
-static char freebsd_version[100];
-static char freebsd_cpu[100];
-static int got_freebsd_version = 0;
-static int got_freebsd_cpu = 0;
+static char ultrix_version[100];
+static char ultrix_cpu[100];
+static int got_ultrix_version = 0;
+static int got_ultrix_cpu = 0;
 
-char *platform_get_freebsd_runtime_cpu(void)
-{
-    char *model = NULL;
-    size_t len = 0;
-
-    if (!got_freebsd_cpu) {
-        sprintf(freebsd_cpu, "Unknown CPU");
-
-        sysctlbyname("hw.model", NULL, &len, NULL, 0);
-        model = lib_malloc(len);
-        sysctlbyname("hw.model", model, &len, NULL, 0);
-
-        sprintf(freebsd_cpu, "%s", model);
-
-        if (model) {
-            lib_free(model);
-        }
-        got_freebsd_cpu = 1;
-    }
-    return freebsd_cpu;
-}
-
-char *platform_get_freebsd_runtime_os(void)
+char *platform_get_ultrix_runtime_cpu(void)
 {
     struct utsname name;
 
-    if (!got_freebsd_version) {
+    if (!got_ultrix_cpu) {
+        uname(&name);
+        if (!strcasecmp(name.machine, "RISC")) {
+            sprintf(ultrix_cpu, "Mipsel");
+        } else if (!strcasecmp(name.machine, "VAX")) {
+            sprintf(ultrix_cpu, "VAX");
+        } else {
+#ifdef __mips__
+            sprintf(ultrix_cpu, "Mipsel (%s)", name.machine);
+#else
+#ifdef __vax__
+            sprintf(ultrix_cpu, "VAX (%s)", name.machine);
+#else
+            sprintf(ultrix_cpu, "%s", name.machine);
+#endif
+#endif
+        }
+
+        got_ultrix_cpu = 1;
+    }
+    return ultrix_cpu;
+}
+
+char *platform_get_ultrix_runtime_os(void)
+{
+    struct utsname name;
+
+    if (!got_ultrix_version) {
         uname(&name);
 
-        sprintf(freebsd_version, "%s %s", name.sysname, name.release);
+        sprintf(ultrix_version, "%s %s", name.sysname, name.release);
 
-        got_freebsd_version = 1;
+        got_ultrix_version = 1;
     }
 
-    return freebsd_version;
+    return ultrix_version;
 }
 #endif

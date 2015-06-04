@@ -270,4 +270,12 @@
 #  endif
 #endif
 
+
+/* Ultrix native compiler discovery */
+#ifndef PLATFORM_COMPILER
+#  if defined(ultrix) || defined(__ultrix) || defined(__ultrix__)
+#    define PLATFORM_COMPILER "DEC C"
+#  endif
+#endif
+
 #endif

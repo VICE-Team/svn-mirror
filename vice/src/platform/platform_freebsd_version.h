@@ -223,7 +223,19 @@
 
 #if (__FreeBSD__==9)
 
-#if (__FreeBSD_version==903000)
+#if (__FreeBSD_version>=900000 && __FreeBSD_version<901000)
+#define PLATFORM_OS "FreeBSD 9.0"
+#endif
+
+#if (__FreeBSD_version>=901000 && __FreeBSD_version<902000)
+#define PLATFORM_OS "FreeBSD 9.1"
+#endif
+
+#if (__FreeBSD_version>=902000 && __FreeBSD_version<903000)
+#define PLATFORM_OS "FreeBSD 9.2"
+#endif
+
+#if (__FreeBSD_version>=903000 && __FreeBSD_version<904000)
 #define PLATFORM_OS "FreeBSD 9.3"
 #endif
 
@@ -235,11 +247,11 @@
 
 #if (__FreeBSD__==10)
 
-#if (__FreeBSD_version<1001000)
+#if (__FreeBSD_version>=1000000 && __FreeBSD_version<1001000)
 #define PLATFORM_OS "FreeBSD 10.0"
 #endif
 
-#if (__FreeBSD_version==1001000)
+#if (__FreeBSD_version>=1001000 && __FreeBSD_version<1002000)
 #define PLATFORM_OS "FreeBSD 10.1"
 #endif
 
