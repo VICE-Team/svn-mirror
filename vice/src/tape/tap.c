@@ -39,6 +39,7 @@
 #include "types.h"
 #include "util.h"
 #include "zfile.h"
+#include "machine.h"
 
 #define TAP_DEBUG 0
 
