@@ -91,6 +91,20 @@
 #  include <ppcinline/powersdl.h>
 #endif
 
+/* Undefine HAVE_HWSCALE for msvc if SDL.dll was compiled without OpenGL support */
+#ifdef IDE_COMPILE
+#  ifndef SDL_VIDEO_OPENGL
+#    undef HAVE_HWSCALE
+#  endif
+#endif
+
+/* Undefine HAVE_SDL_NUMJOYSTICKS for msvc if SDL.dll was compiled without joystick support */
+#ifdef IDE_COMPILE
+#  ifdef SDL_JOYSTICK_DISABLED
+#    undef HAVE_SDL_NUMJOYSTICKS
+#  endif
+#endif
+
 /* restore HAVE_STRDUP definition if it is not defined */
 #ifdef HAVE_VICE_STRDUP
 #ifndef HAVE_STRDUP
