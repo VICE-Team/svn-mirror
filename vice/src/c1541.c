@@ -3239,11 +3239,6 @@ void vsync_suspend_speed_eval(void)
 {
 }
 
-int machine_drive_rom_read(unsigned int type, WORD addr, BYTE *data)
-{
-    return -1;
-}
-
 struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
 {
     return diskcontents_iec_read(unit);

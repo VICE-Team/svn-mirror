@@ -206,38 +206,6 @@ void iecrom_setup_image(drive_t *drive)
     }
 }
 
-int iecrom_read(unsigned int type, WORD addr, BYTE *data)
-{
-    switch (type) {
-        case DRIVE_TYPE_1540:
-            *data = drive_rom1540[addr & (DRIVE_ROM1540_SIZE - 1)];
-            return 0;
-        case DRIVE_TYPE_1541:
-            *data = drive_rom1541[addr & (DRIVE_ROM1541_SIZE - 1)];
-            return 0;
-        case DRIVE_TYPE_1541II:
-            *data = drive_rom1541ii[addr & (DRIVE_ROM1541II_SIZE - 1)];
-            return 0;
-        case DRIVE_TYPE_1570:
-            *data = drive_rom1570[addr & (DRIVE_ROM1570_SIZE - 1)];
-            return 0;
-        case DRIVE_TYPE_1571:
-            *data = drive_rom1571[addr & (DRIVE_ROM1571_SIZE - 1)];
-            return 0;
-        case DRIVE_TYPE_1581:
-            *data = drive_rom1581[addr & (DRIVE_ROM1581_SIZE - 1)];
-            return 0;
-        case DRIVE_TYPE_2000:
-            *data = drive_rom2000[addr & (DRIVE_ROM2000_SIZE - 1)];
-            return 0;
-        case DRIVE_TYPE_4000:
-            *data = drive_rom4000[addr & (DRIVE_ROM4000_SIZE - 1)];
-            return 0;
-    }
-
-    return -1;
-}
-
 int iecrom_check_loaded(unsigned int type)
 {
     switch (type) {
