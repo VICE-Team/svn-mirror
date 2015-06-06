@@ -2819,12 +2819,6 @@ IDGS_MON_SCREENSHOT_DESCRIPTION
 /* monitor/mon_command.c */
 IDGS_MON_TAPECTRL_DESCRIPTION
 
-/* monitor/mon_command.c */
-IDGS_SIZE
-
-/* monitor/mon_command.c */
-IDGS_COMMENT
-
 /* lightpen.c */
 IDCLS_ENABLE_LIGHTPEN_EMULATION
 

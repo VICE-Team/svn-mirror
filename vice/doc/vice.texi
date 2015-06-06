@@ -16783,24 +16783,14 @@ Stop recording commands.  See @code{record}.
 
 @table @code
 
-@item add_label <address> <label> [<data_type> [<size>]] [<comment>]
-@itemx al <address> <label> [<type> [<size>]] [<comment>]
+@item add_label <address> <label>
+@itemx al <address> <label>
 Map a given address to a label.  This label can be used when entering
 assembly code and is shown during disassembly.  Additionally, it can
 be used whenever an address must be specified.
 
 <label> is the name of the label; it must start with a dot (".") in
-order for the monitor to recognize it as a label. The dot alone can
-be used if no label is needed and only the label or data definition
-is important.
-
-<data_type> is the type of the label; code (default), byte, addr, word,
-long, dword, ascii, asciz, asci7
-
-<size> size in bytes, if missing it's guessed.
-
-<comment> comment to be displayed for label; it must start with a
-semicolon (";")
+order for the monitor to recognize it as a label.
 
 @item delete_label [<address_space>] <label>
 @itemx dl [<address_space>] <label>
