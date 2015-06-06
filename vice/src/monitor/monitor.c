@@ -1855,9 +1855,11 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     if (old_name && (WORD)(old_addr) != addr) {
         mon_out("Warning: label(s) for address $%04x already exist.\n", loc);
     }
-    if (old_addr >= 0 && old_addr != loc) {
-        mon_out("Changing address of label %s from $%04x to $%04x\n",
-                name, old_addr, loc);
+    if (old_addr >= 0) {
+        if (old_addr != loc) {
+            mon_out("Changing address of label %s from $%04x to $%04x\n",
+                    name, old_addr, loc);
+        }
         mon_remove_name_from_symbol_table(mem, name);
     }
 
