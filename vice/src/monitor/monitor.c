@@ -726,6 +726,7 @@ void mon_print_convert(int val)
     mon_out("+%d\n", val);
     print_hex(val);
     print_octal(val);
+    mon_out("%%");
     mon_print_bin(val, '1', '0');
     mon_out("\n");
 }
