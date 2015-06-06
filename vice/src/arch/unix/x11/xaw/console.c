@@ -31,6 +31,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#ifdef HAVE_SYS_IOCTL_H
+#include <sys/ioctl.h>
+#endif
 
 #include "console.h"
 #include "lib.h"
@@ -58,33 +61,46 @@ int console_init(void)
 
 console_t *uimon_window_open(void)
 {
-    pid_t mypid;
+#ifdef HAVE_SYS_IOCTL_H
+    struct winsize w;
+#endif
+
     if (!isatty(fileno(stdin))) {
         log_error(LOG_DEFAULT, "console_open: stdin is not a tty.");
         console_log_local = NULL;
+        return NULL;
     }
-    else if (!isatty(fileno(stdout))) {
+    if (!isatty(fileno(stdout))) {
         log_error(LOG_DEFAULT, "console_open: stdout is not a tty.");
         console_log_local = NULL;
+        return NULL;
     }
-    else {
-        mypid = getpid();
-        console_log_local = lib_malloc(sizeof(console_t));
-        /* change window title for console identification purposes */
-        if (getenv("WINDOWID") == NULL) {
-            printf("\033]2;VICE monitor console (%d)\007", (int)mypid); 
-        }
+    console_log_local = lib_malloc(sizeof(console_t));
+    /* change window title for console identification purposes */
+    if (getenv("WINDOWID") == NULL) {
+        printf("\033]2;VICE monitor console (%d)\007", (int)getpid());
+    }
 
 #if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
-        mon_input = stdin;
-        mon_output = stdout;
+    mon_input = stdin;
+    mon_output = stdout;
 #endif
 
+#ifdef HAVE_SYS_IOCTL_H
+    if (ioctl(fileno(stdin), TIOCGWINSZ, &w)) {
         console_log_local->console_xres = 80;
         console_log_local->console_yres = 25;
-        console_log_local->console_can_stay_open = 1;
-        console_log_local->console_cannot_output = 0;
+    } else {
+        console_log_local->console_xres = w.ws_col >= 40 ? w.ws_col : 40;
+        console_log_local->console_yres = w.ws_row >= 22 ? w.ws_row : 22;
     }
+#else
+    console_log_local->console_xres = 80;
+    console_log_local->console_yres = 25;
+#endif
+
+    console_log_local->console_can_stay_open = 1;
+    console_log_local->console_cannot_output = 0;
     ui_focus_monitor();
     return console_log_local;
 }
