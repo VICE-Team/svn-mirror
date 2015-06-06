@@ -191,8 +191,8 @@ void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient, int
         return;
     }
 
-    pixel_width = c->videoconfig->doublesizex + 1 ;
-    pixel_height = c->videoconfig->doublesizey + 1;
+    pixel_width = c->videoconfig->scalex;
+    pixel_height = c->videoconfig->scaley;
 
     for (window_index = 0; window_index < number_of_windows; window_index++) {
         if (window_handles[window_index] == hwnd) {
@@ -286,15 +286,11 @@ void video_canvas_refresh_ddraw(video_canvas_t *canvas, unsigned int xs, unsigne
     int window_index;
     RECT rect;
 
-    if (canvas->videoconfig->doublesizex) {
-        xi *= (canvas->videoconfig->doublesizex + 1);
-        w *= (canvas->videoconfig->doublesizex + 1);
-    }
+    xi *= canvas->videoconfig->scalex;
+    w *= canvas->videoconfig->scalex;
 
-    if (canvas->videoconfig->doublesizey) {
-        yi *= (canvas->videoconfig->doublesizey + 1);
-        h *= (canvas->videoconfig->doublesizey + 1);
-    }
+    yi *= canvas->videoconfig->scaley;
+    h *= canvas->videoconfig->scaley;
 
     for (window_index = 0; window_index < number_of_windows; window_index++) {
         if (window_handles[window_index] == canvas->hwnd) {

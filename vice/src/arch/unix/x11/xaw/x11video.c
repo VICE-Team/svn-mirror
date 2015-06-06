@@ -682,8 +682,8 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 {
     int res;
     XGCValues gc_values;
-    int win_width = canvas->draw_buffer->visible_width * (canvas->videoconfig->doublesizex + 1);
-    int win_height = canvas->draw_buffer->visible_height * (canvas->videoconfig->doublesizey + 1);
+    int win_width = canvas->draw_buffer->visible_width * canvas->videoconfig->scalex;
+    int win_height = canvas->draw_buffer->visible_height * canvas->videoconfig->scaley;
 
     canvas->depth = x11ui_get_display_depth();
 
@@ -798,8 +798,6 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 
 #ifdef HAVE_XVIDEO
     if (canvas->videoconfig->hwscale && canvas->xv_image) {
-        //int doublesize = canvas->videoconfig->doublesizex && canvas->videoconfig->doublesizey;
-
 #if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
 #else
@@ -853,15 +851,11 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
     }
 #endif
 
-    if (canvas->videoconfig->doublesizex) {
-        xi *= (canvas->videoconfig->doublesizex + 1);
-        w *= (canvas->videoconfig->doublesizex + 1);
-    }
+    xi *= canvas->videoconfig->scalex;
+    w *= canvas->videoconfig->scalex;
 
-    if (canvas->videoconfig->doublesizey) {
-        yi *= (canvas->videoconfig->doublesizey + 1);
-        h *= (canvas->videoconfig->doublesizey + 1);
-    }
+    yi *= canvas->videoconfig->scaley;
+    h *= canvas->videoconfig->scaley;
 
 #ifdef HAVE_FULLSCREEN
     if (canvas->video_fullscreen_refresh_func) {

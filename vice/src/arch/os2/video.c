@@ -208,8 +208,8 @@ static int set_stretch_factor(int val, void *param)
             //
             // resize canvas
             //
-            const int dsx = c->videoconfig->doublesizex + 1;
-            const int dsy = c->videoconfig->doublesizey + 1;
+            const int dsx = c->videoconfig->scalex;
+            const int dsy = c->videoconfig->scaley;
 
             c->draw_buffer->canvas_physical_width = c->draw_buffer->canvas_physical_width / dsx;
             c->draw_buffer->canvas_physical_height = c->draw_buffer->canvas_physical_height / dsy;
@@ -943,8 +943,8 @@ void VideoCanvasBlit(video_canvas_t *c, UINT xs, UINT ys, UINT xi, UINT yi, UINT
     ULONG scanlinesize = 0;
     BYTE *targetbuffer = NULL;
 
-    const int dsx = c->videoconfig->doublesizex + 1;
-    const int dsy = c->videoconfig->doublesizey + 1;
+    const int dsx = c->videoconfig->scalex;
+    const int dsy = c->videoconfig->scaley;
 
     const UINT linesz = dsx * c->draw_buffer->draw_buffer_width;
     const UINT bufh = dsy * c->draw_buffer->draw_buffer_height;
@@ -1899,17 +1899,13 @@ void video_canvas_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, u
     // changed, but it doesn't speed up anything
     //
     if (c->vrenabled) {
-        if (c->videoconfig->doublesizex) {
-            xs *= (c->videoconfig->doublesizex + 1);
-            xi *= (c->videoconfig->doublesizex + 1);
-            w *= (c->videoconfig->doublesizex + 1);
-        }
+        xs *= c->videoconfig->scalex;
+        xi *= c->videoconfig->scalex;
+        w *= c->videoconfig->scalex;
 
-        if (c->videoconfig->doublesizey) {
-            ys *= (c->videoconfig->doublesizey + 1);
-            yi *= (c->videoconfig->doublesizey + 1);
-            h *= (c->videoconfig->doublesizey + 1);
-        }
+        ys *= c->videoconfig->scaley;
+        yi *= c->videoconfig->scaley;
+        h *= c->videoconfig->scaley;
         VideoCanvasBlit(c, xs, ys, xi, yi, w, h);
     }
 

@@ -301,8 +301,8 @@ static void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
                     /* DBG(("warp to: x:%d y:%d", ptrx, ptry)); */
                     gdk_display_warp_pointer (display, screen, ptrx + xoff, ptry + yoff);
                 } else {
-                    mouse_dx = (ptrx - mouse_lasteventx) / (canvas->videoconfig->doublesizex + 1);
-                    mouse_dy = (ptry - mouse_lasteventy) / (canvas->videoconfig->doublesizey + 1);
+                    mouse_dx = (ptrx - mouse_lasteventx) / canvas->videoconfig->scalex;
+                    mouse_dy = (ptry - mouse_lasteventy) / canvas->videoconfig->scaley;
                     DBG(("mouse move dx:%8d dy:%8d", mouse_dx, mouse_dy));
                     mouse_move((float)mouse_dx, (float)mouse_dy);
                     mouse_lasteventx = ptrx;

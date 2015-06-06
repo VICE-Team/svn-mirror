@@ -373,8 +373,8 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
                         } else
 #endif
                         {
-                            mouse_dx /= (float)(canvas->videoconfig->doublesizex + 1);
-                            mouse_dy /= (float)(canvas->videoconfig->doublesizey + 1);
+                            mouse_dx /= (float)canvas->videoconfig->scalex;
+                            mouse_dy /= (float)canvas->videoconfig->scaley;
                         }
                         mouse_move(mouse_dx, mouse_dy);
                         mouse_lasteventx = ptrx;

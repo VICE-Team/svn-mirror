@@ -532,17 +532,13 @@ inline void video_canvas_refresh(video_canvas_t *c,
     if (screen == NULL)
         return;
 
-    if (c->videoconfig->doublesizex) {
-        xs *= (c->videoconfig->doublesizex + 1);
-        xi /= (c->videoconfig->doublesizex + 1);
-        w *= (c->videoconfig->doublesizex + 1);
-    }
+    xs *= c->videoconfig->scalex;
+    xi /= c->videoconfig->scalex;
+    w *= c->videoconfig->scalex;
 
-    if (c->videoconfig->doublesizey) {
-        ys *= (c->videoconfig->doublesizey + 1);
-        yi /= (c->videoconfig->doublesizey + 1);
-        h *= (c->videoconfig->doublesizey + 1);
-    }
+    ys *= c->videoconfig->scaley;
+    yi /= c->videoconfig->scaley;
+    h *= c->videoconfig->scaley;
 
     /* this is a hack for F7 change between VICII and VDC */
     if (last_canvas != c) {

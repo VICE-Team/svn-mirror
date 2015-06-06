@@ -153,8 +153,6 @@ static void vidmode_center_canvas(struct video_canvas_s *canvas)
     ui_dispatch_events();
 }
 
-#define EXTRA_BORDER    0
-
 static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
 {
     int status_h = 0;
@@ -174,26 +172,12 @@ static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
     fs_h = vm->vdisplay;
     fs_w = vm->hdisplay;
 
-    if (canvas->videoconfig->doublesizex) {
-        xoffs = ((fs_w) - (vm->hdisplay));
-        fs_w /= (canvas->videoconfig->doublesizex + 1);
-    } else {
-        xoffs = (fs_w / 2) - (vm->hdisplay / 2);
-    }
+    xoffs = 0;
+    fs_w /= canvas->videoconfig->scalex;
 
-    if (canvas->videoconfig->doublesizey) {
-        yoffs = ((fs_h) - (vm->vdisplay));
-        fs_h -= status_h;
-        fs_h /= (canvas->videoconfig->doublesizey + 1);
-    } else {
-        yoffs = (fs_h / 2) - (vm->vdisplay / 2);
-        fs_h -= status_h;
-    }
-
-    fs_w += (EXTRA_BORDER * 2);
-    fs_h += (EXTRA_BORDER * 2);
-    xoffs += EXTRA_BORDER;
-    yoffs += EXTRA_BORDER;
+    yoffs = 0;
+    fs_h -= status_h;
+    fs_h /= canvas->videoconfig->scaley;
 
     canvas->draw_buffer->canvas_width = fs_w;
     canvas->draw_buffer->canvas_height = fs_h;

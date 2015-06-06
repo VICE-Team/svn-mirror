@@ -268,15 +268,11 @@ void video_canvas_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, u
         return;
     }
 
-    if (c->videoconfig->doublesizex) {
-        xi *= 2;
-        w *= 2;
-    }
+    xi *= c->videoconfig->scalex;
+    w *= c->videoconfig->scalex;
 
-    if (c->videoconfig->doublesizey) {
-        yi *= (c->videoconfig->doublesizey + 1);
-        h *= (c->videoconfig->doublesizey + 1);
-    }
+    yi *= c->videoconfig->scaley;
+    h *= c->videoconfig->scaley;
 
     if (!use_direct_window) {
         w = MIN(w, c->draw_buffer->canvas_physical_width - xi);
@@ -315,7 +311,7 @@ void video_canvas_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, u
 
                 /* cut left */
                 if (clip_left > 0) {
-                    xxs = xxs + clip_left / (c->videoconfig->doublesizex ? 2 : 1);
+                    xxs = xxs + clip_left / c->videoconfig->scalex;
                     ww = ww - clip_left; 
                     xxi = xxi + clip_left;
                 }
@@ -327,7 +323,7 @@ void video_canvas_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, u
 
                 /* cut top */
                 if (clip_top > 0) {
-                    yys = yys + clip_top / (c->videoconfig->doublesizey + 1);
+                    yys = yys + clip_top / c->videoconfig->scaley;
                     hh = hh - clip_top;
                     yyi = yyi + clip_top;
                 }

@@ -692,15 +692,11 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 
 #endif
 
-    if (canvas->videoconfig->doublesizex) {
-        xi *= (canvas->videoconfig->doublesizex + 1);
-        w *= (canvas->videoconfig->doublesizex + 1);
-    }
+    xi *= canvas->videoconfig->scalex;
+    w *= canvas->videoconfig->scalex;
 
-    if (canvas->videoconfig->doublesizey) {
-        yi *= (canvas->videoconfig->doublesizey + 1);
-        h *= (canvas->videoconfig->doublesizey + 1);
-    }
+    yi *= canvas->videoconfig->scaley;
+    h *= canvas->videoconfig->scaley;
 
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
     if ((lock = (ULONG)LockBitMapTags(canvas->os->window_bitmap, LBMI_BASEADDRESS, (ULONG)&cgx_base_addy, TAG_DONE))) {

@@ -237,12 +237,9 @@ video_canvas_t *video_canvas_create(struct video_canvas_s *canvas,
 	struct draw_buffer_s *db = canvas->draw_buffer;
     int w = db->visible_width;
     int h = db->visible_height;
-    if (canvas->videoconfig->doublesizex) {
-        w *= (canvas->videoconfig->doublesizex + 1);
-    }
-    if (canvas->videoconfig->doublesizey) {
-        h *= (canvas->videoconfig->doublesizey + 1);
-    }
+
+    w *= canvas->videoconfig->scalex;
+    h *= canvas->videoconfig->scaley;
 
 	// this actually sets the canvas_physical_width/height in canvas->draw_buffer (?!)
 	*width = w;
@@ -290,12 +287,10 @@ void video_canvas_resize(video_canvas_t * canvas, char resize_canvas)
 	struct draw_buffer_s *db = canvas->draw_buffer;	
     int width = db->visible_width;
     int height = db->visible_height;
-    if (canvas->videoconfig->doublesizex) {
-        width *= (canvas->videoconfig->doublesizex + 1);
-    }
-    if (canvas->videoconfig->doublesizey) {
-        height *= (canvas->videoconfig->doublesizey + 1);
-    }
+
+    width *= canvas->videoconfig->scalex;
+    height *= canvas->videoconfig->scaley;
+
 	canvas->width = width;
 	canvas->height = height;
 
@@ -314,15 +309,11 @@ void video_canvas_refresh(video_canvas_t *canvas,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
 {
-    if (canvas->videoconfig->doublesizex) {
-        xi *= (canvas->videoconfig->doublesizex + 1);
-        w *= (canvas->videoconfig->doublesizex + 1);
-    }
+    xi *= canvas->videoconfig->scalex;
+    w *= canvas->videoconfig->scalex;
 
-    if (canvas->videoconfig->doublesizey) {
-        yi *= (canvas->videoconfig->doublesizey + 1);
-        h *= (canvas->videoconfig->doublesizey + 1);
-    }
+    yi *= canvas->videoconfig->scaley;
+    h *= canvas->videoconfig->scaley;
 
     w = MIN(w, canvas->width - xi);
     h = MIN(h, canvas->height - yi);

@@ -542,13 +542,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     new_width = *width;
     new_height = *height;
 
-    if (canvas->videoconfig->doublesizex) {
-        new_width *= (canvas->videoconfig->doublesizex + 1);
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        new_height *= (canvas->videoconfig->doublesizey + 1);
-    }
+    new_width *= canvas->videoconfig->scalex;
+    new_height *= canvas->videoconfig->scaley;
 
     if ((canvas == sdl_active_canvas) && (canvas->fullscreenconfig->enable)) {
         fullscreen = 1;
@@ -805,13 +800,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     new_width = *width;
     new_height = *height;
 
-    if (canvas->videoconfig->doublesizex) {
-        new_width *= (canvas->videoconfig->doublesizex + 1);
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        new_height *= (canvas->videoconfig->doublesizey + 1);
-    }
+    new_width *= canvas->videoconfig->scalex;
+    new_height *= canvas->videoconfig->scaley;
 
     if ((canvas == sdl_active_canvas) && (canvas->fullscreenconfig->enable)) {
         fullscreen = 1;
@@ -962,15 +952,11 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
         uistatusbar_draw();
     }
 
-    if (canvas->videoconfig->doublesizex) {
-        xi *= (canvas->videoconfig->doublesizex + 1);
-        w *= (canvas->videoconfig->doublesizex + 1);
-    }
+    xi *= canvas->videoconfig->scalex;
+    w *= canvas->videoconfig->scalex;
 
-    if (canvas->videoconfig->doublesizey) {
-        yi *= (canvas->videoconfig->doublesizey + 1);
-        h *= (canvas->videoconfig->doublesizey + 1);
-    }
+    yi *= canvas->videoconfig->scaley;
+    h *= canvas->videoconfig->scaley;
 
     w = MIN(w, canvas->width);
     h = MIN(h, canvas->height);

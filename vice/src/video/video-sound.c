@@ -215,8 +215,8 @@ void video_sound_update(video_render_config_t *config, const BYTE *src,
     DBG(("video_sound_update (firstline:%d lastline:%d w:%d h:%d xs:%d ys:%d)",
          chip[chipnum].firstline, chip[chipnum].lastline, width, height, xs, ys));
 
-    width /= (config->doublesizex + 1);
-    /* height /= (config->doublesizey + 1); */
+    width /= config->scalex;
+    /* height /= scaley; */
 
     /* width += xs; */
     ys = chip[chipnum].firstline;

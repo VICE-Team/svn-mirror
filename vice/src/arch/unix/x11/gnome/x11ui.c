@@ -1263,12 +1263,8 @@ static void setup_aspect(video_canvas_t *canvas)
     /* get size of drawing buffer */
     w = canvas->draw_buffer->canvas_width;
     h = canvas->draw_buffer->canvas_height;
-    if (canvas->videoconfig->doublesizex) {
-        w *= (canvas->videoconfig->doublesizex + 1);
-    }
-    if (canvas->videoconfig->doublesizey) {
-        h *= (canvas->videoconfig->doublesizey + 1);
-    }
+    w *= canvas->videoconfig->scalex;
+    h *= canvas->videoconfig->scaley;
     /* calculate unscaled size of window */
     winw = w;
     winh = h + topmenu_get_height(canvas) + statusbar_get_height(canvas) + palctrl_get_height(canvas);
@@ -1685,12 +1681,8 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer clien
     /* This should work, but doesn't... Sigh...
     c->draw_buffer->canvas_width = e->width;
     c->draw_buffer->canvas_height = e->height;
-    if (c->videoconfig->doublesizex) {
-        c->draw_buffer->canvas_width /= 2;
-    }
-    if (c->videoconfig->doublesizey) {
-        c->draw_buffer->canvas_height /= 2;
-    }
+    c->draw_buffer->canvas_width /= c->videoconfig->scalex;
+    c->draw_buffer->canvas_height /= c->videoconfig->scaley;
     video_viewport_resize(c);
     */
 

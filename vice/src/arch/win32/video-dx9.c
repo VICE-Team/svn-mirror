@@ -266,16 +266,12 @@ int video_canvas_refresh_dx9(video_canvas_t *canvas, unsigned int xs, unsigned i
     t1 = vsyncarch_gettime();
 #endif
 
-    if (canvas->videoconfig->doublesizex) {
-        xi *= (canvas->videoconfig->doublesizex + 1);
-        w *= (canvas->videoconfig->doublesizex + 1);
-    }
+    xi *= canvas->videoconfig->scalex;
+    w *= canvas->videoconfig->scalex;
 
-    if (canvas->videoconfig->doublesizey) {
-        yi *= (canvas->videoconfig->doublesizey + 1);
-        h *= (canvas->videoconfig->doublesizey + 1);
-    }
-    
+    yi *= canvas->videoconfig->scaley;
+    h *= canvas->videoconfig->scaley;
+
     if (S_OK != video_canvas_prepare_for_update(canvas)) {
         return -1;
     }

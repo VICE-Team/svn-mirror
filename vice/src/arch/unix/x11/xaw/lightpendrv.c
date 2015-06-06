@@ -121,14 +121,14 @@ void x11_lightpen_update(void)
                         "             width=%3d             height=%3d\n"
                         "      vp->x_offset=%3d           y_offset=%3d border_left=%d\n"
                         "       vp->first_x=%3d     vp->first_line=%3d first_displayed_line=%3d\n"
-                        " dblx=%3d        x=%3d     dbly=%3d     y=%3d\n",
+                        " sclx=%3d        x=%3d     scly=%3d     y=%3d\n",
                 geom->gfx_size.width, geom->gfx_size.height,
                 geom->screen_size.width, geom->screen_size.height,
                 draw_buffer->canvas_width, draw_buffer->canvas_height,
                 c->width, c->height,
                 viewport->x_offset, viewport->y_offset, geom->extra_offscreen_border_left,
                 viewport->first_x, viewport->first_line, geom->first_displayed_line,
-                c->videoconfig->doublesizex, saved_x, c->videoconfig->doublesizey, saved_y
+                c->videoconfig->scalex, saved_x, c->videoconfig->scaley, saved_y
                 );
 #endif
 

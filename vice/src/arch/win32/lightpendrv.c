@@ -95,15 +95,11 @@ void win32_lightpen_update(void)
             y = (int)(y * dy / (cy - statusbar_get_status_height()));
         }
 
-        /* double x size */
-        if (lp_canvas->videoconfig->doublesizex) {
-            x /= (lp_canvas->videoconfig->doublesizex + 1);
-        }
+        /* scale x size */
+        x /= lp_canvas->videoconfig->scalex;
 
-        /* double y size */
-        if (lp_canvas->videoconfig->doublesizey) {
-            y /= (lp_canvas->videoconfig->doublesizey + 1);
-        }
+        /* scale y size */
+        y /= lp_canvas->videoconfig->scaley;
     }
 
     if (!on_screen) {

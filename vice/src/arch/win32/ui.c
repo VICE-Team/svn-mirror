@@ -744,8 +744,8 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
 
     w = canvas->hwnd;
     cw = canvas->client_hwnd;
-    width = canvas->draw_buffer->visible_width * (canvas->videoconfig->doublesizex + 1);
-    height = canvas->draw_buffer->visible_height * (canvas->videoconfig->doublesizey + 1);
+    width = canvas->draw_buffer->visible_width * canvas->videoconfig->scalex;
+    height = canvas->draw_buffer->visible_height * canvas->videoconfig->scaley;
 
     if (video_dx9_enabled()) {
         resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
