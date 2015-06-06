@@ -35,6 +35,10 @@
 #endif
 #include <dirent.h>
 #include <ctype.h>
+#include <unistd.h>
+#ifdef HAVE_SYS_IOCTL_H
+#include <sys/ioctl.h>
+#endif
 
 #if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
 #include <sys/stat.h>
@@ -640,27 +644,48 @@ int console_out(console_t *log, const char *format, ...)
 
 console_t *uimon_window_open(void)
 {
+#ifdef HAVE_SYS_IOCTL_H
+    struct winsize w;
+#endif
+
     if (!isatty(fileno(stdin))) {
         log_error(LOG_DEFAULT, "console_open: stdin is not a tty.");
         console_log_local = NULL;
+        return NULL;
     }
-    else if (!isatty(fileno(stdout))) {
+    if (!isatty(fileno(stdout))) {
         log_error(LOG_DEFAULT, "console_open: stdout is not a tty.");
         console_log_local = NULL;
+        return NULL;
     }
-    else {
-        console_log_local = lib_malloc(sizeof(console_t));
+    console_log_local = lib_malloc(sizeof(console_t));
+    /* change window title for console identification purposes */
+    if (getenv("WINDOWID") == NULL) {
+        printf("\033]2;VICE monitor console (%d)\007", (int)getpid());
+    }
 
 #if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
-        mon_input = stdin;
-        mon_output = stdout;
+    mon_input = stdin;
+    mon_output = stdout;
 #endif
 
+#ifdef HAVE_SYS_IOCTL_H
+    if (ioctl(fileno(stdin), TIOCGWINSZ, &w)) {
         console_log_local->console_xres = 80;
         console_log_local->console_yres = 25;
-        console_log_local->console_can_stay_open = 1;
-        console_log_local->console_cannot_output = 0;
+    } else {
+        console_log_local->console_xres = w.ws_col >= 40 ? w.ws_col : 40;
+        console_log_local->console_yres = w.ws_row >= 22 ? w.ws_row : 22;
     }
+#else
+    console_log_local->console_xres = 80;
+    console_log_local->console_yres = 25;
+#endif
+    console_log_local->console_can_stay_open = 1;
+    console_log_local->console_cannot_output = 0;
+#ifdef HAVE_MOUSE
+    ui_restore_mouse();
+#endif
     ui_focus_monitor();
     return console_log_local;
 }
@@ -684,6 +709,9 @@ void uimon_window_suspend( void )
 console_t *uimon_window_resume(void)
 {
     if (console_log_local) {
+#ifdef HAVE_MOUSE
+        ui_restore_mouse();
+#endif
         ui_focus_monitor();
         return console_log_local;
     }
