@@ -1852,7 +1852,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
 
     old_name = mon_symbol_table_lookup_name(mem, loc);
     old_addr = mon_symbol_table_lookup_addr(mem, name);
-    if (old_name && (WORD)(old_addr) != addr) {
+    if (old_name && addr_location(old_addr) != addr) {
         mon_out("Warning: label(s) for address $%04x already exist.\n", loc);
     }
     if (old_addr >= 0) {
@@ -1950,6 +1950,22 @@ void mon_print_symbol_table(MEMSPACE mem)
     while (sym_ptr) {
         mon_out("$%04x %s\n", sym_ptr->addr, sym_ptr->name);
         sym_ptr = sym_ptr->next;
+    }
+}
+
+void mon_clear_symbol_table(MEMSPACE mem)
+{
+    int i;
+
+    if (mem == e_default_space) {
+        mem = default_memspace;
+    }
+
+    free_symbol_table(mem);
+    monitor_labels[mem].name_list = NULL;
+
+    for (i = 0; i < HASH_ARRAY_SIZE; i++) {
+        monitor_labels[mem].addr_hash_table[i] = NULL;
     }
 }
 

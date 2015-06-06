@@ -1594,13 +1594,13 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_MON_SHOW_LABELS_DESCRIPTION,    N_("Display current label mappings.  If no memory space is specified, show\nall labels.")},
+/* en */ {IDGS_MON_SHOW_LABELS_DESCRIPTION,    N_("Display current label mappings.  If no memory space is specified, show\nall labels from default address space.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DA, "Vis aktuelle etiketter. Hvis der ikke angives et hukommelsesområde vises\nalle etiketter."},
-/* de */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DE, "Zeige aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\nwurde, werden alle Bezeichner gezeigt."},
+/* de */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DE, "Zeige aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\nwurde, werden alle Bezeichner gezeigt von aktualler Speicherbereich."},
 /* es */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_ES, "Muestra mapeado de etiquetas actual. Si no se especifica espacio de\nmemoria, muestra todas las etiquetas."},
 /* fr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_FR, "Affiche les étiquettes mémoires actuelles. Si aucune adresse mémoire\nn'est spécifiée, affichera toutes les étiquettes."},
-/* hu */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_HU, "Az aktuális címke leképezések mutatása.  Ha nincs a memória tér megadva, az\nösszeset mutatja."},
+/* hu */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_HU, "Az aktuális címke leképezések mutatása.  Ha nincs a memória tér megadva, az\nösszeset mutatja az aktuális memória térbõl."},
 /* it */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_IT, "Mostra l'associazione delle etichette correnti. Se non è specificato alcuno\nspazio di memoria, verranno mostrate tutte le etichette."},
 /* ko */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_NL, "Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven\nworden all labels getoont."},
@@ -1608,6 +1608,23 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_RU, "Display current label mappings.  If no memory space is specified, show\nall labels."},
 /* sv */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_SV, "Visar aktuella etiketter. Om inget minnesområde anges visas alla\netiketter."},
 /* tr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_TR, "Geçerli etiket eþleþmelerini görüntüle.  Eðer bellek alaný belirtilmemiþse,\ntüm etiketleri göster."},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION,    N_("Clear current label mappings.  If no memory space is specified, clear\nall labels from default address space.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_DE, "Löscht aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\nwurde, werden alle Bezeichner gelöscht von aktualler Speicherbereich."},
+/* es */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_HU, "Az aktuális címke leképezések törlése.  Ha nincs a memória tér megadva, az\nösszeset törli az aktuális memória térbõl."},
+/* it */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */

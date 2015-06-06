@@ -16820,7 +16820,12 @@ labels are saved.
 @item show_labels [<address_space>]
 @itemx shl [<address_space>]
 Display current label mappings.  If no address space is specified, show
-all labels.
+all labels from default address space.
+
+@item clear_labels [<address_space>]
+@itemx cl [<address_space>]
+Clear current label mappings.  If no address space is specified, clear
+all labels from default address space.
 
 @end table
 

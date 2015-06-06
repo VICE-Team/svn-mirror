@@ -2565,6 +2565,9 @@ IDGS_MON_SAVE_LABELS_DESCRIPTION
 IDGS_MON_SHOW_LABELS_DESCRIPTION
 
 /* monitor/mon_command.c */
+IDGS_MON_CLEAR_LABELS_DESCRIPTION
+
+/* monitor/mon_command.c */
 IDGS_ASSEMBLER_AND_MEMORY_COMMANDS
 
 /* monitor/mon_command.c */
