@@ -136,6 +136,7 @@ extern int cur_len, last_len;
     CONDITIONAL cond_op;
     cond_node_t *cond_node;
     RADIXTYPE rt;
+    LABELDATATYPE ldt;
     ACTION action;
     char *str;
     asm_mode_addr_info_t mode;
@@ -186,6 +187,11 @@ extern int cur_len, last_len;
 %type<str> hunt_list hunt_element
 %type<mode> asm_operand_mode
 %type<i> index_reg index_ureg
+%token<ldt> LABEL_DATA_TYPE
+%type<ldt> opt_data_type
+%type<i> opt_number
+%token<str> COMMENT
+%type<str> opt_comment
 
 %left '+' '-'
 %left '*' '/'
@@ -293,8 +299,8 @@ symbol_table_rules: CMD_LOAD_LABELS memspace opt_sep filename end_cmd
                     { mon_save_symbols($2, $4); }
                   | CMD_SAVE_LABELS filename end_cmd
                     { mon_save_symbols(e_default_space, $2); }
-                  | CMD_ADD_LABEL address opt_sep LABEL end_cmd
-                    { mon_add_name_to_symbol_table($2, $4); }
+                  | CMD_ADD_LABEL address opt_sep LABEL opt_sep opt_data_type opt_sep opt_number opt_comment end_cmd
+                    { mon_add_name_to_symbol_table($2, $4, $6, $8, $9); }
                   | CMD_DEL_LABEL LABEL end_cmd
                     { mon_remove_name_from_symbol_table(e_default_space, $2); }
                   | CMD_DEL_LABEL memspace opt_sep LABEL end_cmd
@@ -303,13 +309,9 @@ symbol_table_rules: CMD_LOAD_LABELS memspace opt_sep filename end_cmd
                     { mon_print_symbol_table($2); }
                   | CMD_SHOW_LABELS end_cmd
                     { mon_print_symbol_table(e_default_space); }
-                  | CMD_LABEL_ASGN EQUALS address end_cmd
+                  | CMD_LABEL_ASGN EQUALS address opt_comment end_cmd
                     {
-                        mon_add_name_to_symbol_table($3, mon_prepend_dot_to_name($1));
-                    }
-                  | CMD_LABEL_ASGN EQUALS address LABEL_ASGN_COMMENT end_cmd
-                    {
-                        mon_add_name_to_symbol_table($3, mon_prepend_dot_to_name($1));
+                        mon_add_name_to_symbol_table($3, mon_prepend_dot_to_name($1), e_label_code, 0, $4);
                     }
                   ;
 
@@ -1032,6 +1034,21 @@ index_reg:
 
 index_ureg:
     REG_U { $$ = (2 << 5); printf("reg_u\n"); }
+  ;
+
+opt_number:
+    number { $$ = $1; }
+  | { $$ = 0; }
+  ;
+ 
+opt_data_type:
+    LABEL_DATA_TYPE { $$ = $1; }
+  | { $$ = e_label_code; }
+  ;
+
+opt_comment:
+    COMMENT { $$ = $1; }
+  | { $$ = NULL; }
   ;
 
 

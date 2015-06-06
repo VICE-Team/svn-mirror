@@ -124,7 +124,7 @@ send:
 
 HDIGIT  [0-9a-f]
 
-%x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN LABEL_ASGN BNAME CTYPE RADIX
+%x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN LABEL_ASGN BNAME CTYPE RADIX LABEL_DEF
 
 %%
 
@@ -149,7 +149,7 @@ HDIGIT  [0-9a-f]
         >               { BEGIN(INITIAL);       return CMD_ENTER_DATA; }
         @               { BEGIN(ROL);           return CMD_DISK; }
         a               { opt_asm = 1; BEGIN(INITIAL); return CMD_ASSEMBLE; }
-        add_label|al    { BEGIN(INITIAL);       return CMD_ADD_LABEL; }
+        add_label|al    { BEGIN(LABEL_DEF);     return CMD_ADD_LABEL; }
         attach          { BEGIN(FNAME);         return CMD_ATTACH; }
         autostart       { BEGIN(FNAME);         return CMD_AUTOSTART; }
         autoload        { BEGIN(FNAME);         return CMD_AUTOLOAD; }
@@ -324,6 +324,21 @@ if		{ BEGIN (COND_MODE); return IF; }
 <BNAME,INITIAL,COND_MODE>9:              { return MEM_DISK9; }
 <BNAME,INITIAL,COND_MODE>10:             { return MEM_DISK10; }
 <BNAME,INITIAL,COND_MODE>11:             { return MEM_DISK11; }
+
+ /* label definition data types */
+<LABEL_DEF>code   { yylval.ldt = e_label_code; return LABEL_DATA_TYPE; }
+<LABEL_DEF>addr   { yylval.ldt = e_label_addr; return LABEL_DATA_TYPE; }
+<LABEL_DEF>byte   { yylval.ldt = e_label_byte; return LABEL_DATA_TYPE; }
+<LABEL_DEF>word   { yylval.ldt = e_label_word; return LABEL_DATA_TYPE; }
+<LABEL_DEF>long   { yylval.ldt = e_label_long; return LABEL_DATA_TYPE; }
+<LABEL_DEF>dword  { yylval.ldt = e_label_dword; return LABEL_DATA_TYPE; }
+<LABEL_DEF>asciz  { yylval.ldt = e_label_asciz; return LABEL_DATA_TYPE; }
+<LABEL_DEF>asci7  { yylval.ldt = e_label_asci7; return LABEL_DATA_TYPE; }
+<LABEL_DEF>ascii  { yylval.ldt = e_label_ascii; return LABEL_DATA_TYPE; }
+<LABEL_DEF>\.     { yylval.str = lib_stralloc(yytext); return LABEL; }
+
+ /* After a label assignment there may be a ; comment to EOL */
+<LABEL_DEF>;.*[^\n]            { yylval.str = lib_stralloc(yytext); return COMMENT; }
 
 <CTYPE>[_a-zA-Z0-9]*      { yylval.str = lib_stralloc(yytext); return CPUTYPE; }
 
@@ -512,8 +527,8 @@ if		{ BEGIN (COND_MODE); return IF; }
 <ASM_MODE>iyh|IYH       { return REG_IYH; }
 <ASM_MODE>iyl|IYL       { return REG_IYL; }
 <ASM_MODE>[a-zA-Z]{2,4}                           { yylval.str = lib_stralloc(yytext); return OPCODE; }
-<ASM_MODE,INITIAL>\.[_a-zA-Z][_a-zA-Z0-9]*        { yylval.str = lib_stralloc(yytext); return LABEL; }
-<ASM_MODE,INITIAL>\.[_@\?:a-zA-Z][_@\?:a-zA-Z0-9]*        { yylval.str = lib_stralloc(yytext); return LABEL; }
+<ASM_MODE,INITIAL,LABEL_DEF>\.[_a-zA-Z][_a-zA-Z0-9]*        { yylval.str = lib_stralloc(yytext); return LABEL; }
+<ASM_MODE,INITIAL,LABEL_DEF>\.[_@\?:a-zA-Z][_@\?:a-zA-Z0-9]*        { yylval.str = lib_stralloc(yytext); return LABEL; }
 
 <ASM_MODE>(a|A)/[ \t]*[:\n]           { if (!dont_match_reg_a) return REG_A;
                                         yylval.i = 0x0a; return H_NUMBER; }
@@ -538,7 +553,7 @@ if		{ BEGIN (COND_MODE); return IF; }
 <ASM_MODE>\+            { return PLUS; }
 <ASM_MODE>-             { return MINUS; }
 
-<ASM_MODE,INITIAL,COND_MODE,REG_ASGN,LABEL_ASGN>{
+<ASM_MODE,INITIAL,COND_MODE,REG_ASGN,LABEL_ASGN,LABEL_DEF>{
     {HDIGIT}{8}             { yylval.str = lib_stralloc(yytext); return H_RANGE_GUESS; }
     1[01]*                  { yylval.str = lib_stralloc(yytext); return B_NUMBER_GUESS; }
     %[01]+                  { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }

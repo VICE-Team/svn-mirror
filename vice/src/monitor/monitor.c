@@ -118,7 +118,10 @@ monitor_cartridge_commands_t mon_cart_cmd;
 
 struct symbol_entry {
     WORD addr;
+    WORD size;
     char *name;
+    LABELDATATYPE type;
+    char *comment;
     struct symbol_entry *next;
 };
 typedef struct symbol_entry symbol_entry_t;
@@ -157,6 +160,18 @@ static int wait_for_return_level;
 
 const char *_mon_space_strings[] = {
     "Default", "Computer", "Disk8", "Disk9", "Disk10", "Disk11", "<<Invalid>>"
+};
+
+const char *mon_label_data_type_strings[e_label_count] = {
+    "code",
+    "byte",
+    "word",
+    "long",
+    "dword",
+    "addr",
+    "ascii",
+    "asciz",
+    "asci7"
 };
 
 static WORD watch_load_array[10][NUM_MEMSPACES];
@@ -1645,8 +1660,44 @@ void mon_save_symbols(MEMSPACE mem, const char *filename)
     sym_ptr = monitor_labels[mem].name_list;
 
     while (sym_ptr) {
-        fprintf(fp, "al %s:%04x %s\n", mon_memspace_string[mem], sym_ptr->addr,
-                sym_ptr->name);
+        fprintf(fp, "al ");
+        if (mem != default_memspace) {
+            fprintf(fp, "%s:", mon_memspace_string[mem]);
+        }
+        fprintf(fp, "%x %s", sym_ptr->addr, sym_ptr->name);
+
+        /* optional parameters, so only print if necessary */
+        if (sym_ptr->type != e_label_code) {
+            int pr;
+            fprintf(fp, " %s", mon_label_data_type_strings[sym_ptr->type]);
+            switch (sym_ptr->type) {
+            case e_label_addr:
+            case e_label_word:
+                pr = sym_ptr->size != 2;
+                break;
+            case e_label_long:
+                pr = sym_ptr->size != 3;
+                break;
+            case e_label_dword:
+                pr = sym_ptr->size != 4;
+                break;
+            case e_label_byte:
+                pr = sym_ptr->size != 1;
+                break;
+            default:
+                pr = 0;
+                break;
+            }
+            if (pr) {
+                fprintf(fp, " %x", sym_ptr->size);
+            }
+        }
+
+        if (sym_ptr->comment) {
+            fprintf(fp, " %s", sym_ptr->comment);
+        }
+        putc('\n', fp);
+
         sym_ptr = sym_ptr->next;
     }
 
@@ -1824,14 +1875,61 @@ int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
 
 char* mon_prepend_dot_to_name(char* name)
 {
-    char* s = malloc(strlen(name) + 2);
+    char* s = lib_malloc(strlen(name) + 2);
     strcpy(s, ".");
     strcat(s, name);
-    free(name);
+    lib_free(name);
     return s;
 }
 
-void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
+static WORD guess_label_size(MEMSPACE mem, WORD loc, LABELDATATYPE type)
+{
+    switch(type) {
+    case e_label_code:
+        return 0;
+    case e_label_addr:
+    case e_label_word:
+        return 2;
+    case e_label_long:
+        return 3;
+    case e_label_dword:
+        return 4;
+    case e_label_byte:
+        return 1;
+    default: {
+            WORD i;
+            WORD end = loc < 0xff00 ? loc + 0x100 : 0xffff; /* max 256 bytes, but no wrapping */
+
+            for (i = loc; i != end; ++i) {
+                BYTE b = mon_get_mem_val(mem, i);
+
+                switch(type) {
+                case e_label_ascii:
+                    if (isprint(b)) {
+                        continue;
+                    }
+                    break;
+                case e_label_asciz:
+                    if (b) {
+                        continue;
+                    }
+                    break;
+                case e_label_asci7:
+                    if (!(b & 0x80)) {
+                        continue;
+                    }
+                    break;
+                default:
+                    break;
+                }
+                return i - loc + (type == e_label_ascii ? 0 : 1);
+            }
+        }
+    }
+    return 0;
+}
+
+void mon_add_name_to_symbol_table(MON_ADDR addr, char *name, LABELDATATYPE type, WORD size, char *comment)
 {
     symbol_entry_t *sym_ptr;
     char *old_name;
@@ -1841,6 +1939,13 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
 
     if (mem == e_default_space) {
         mem = default_memspace;
+    }
+    if (!size) {
+        size = guess_label_size(mem, loc, type);
+    }
+    /* size for data must be at least one byte */
+    if (!size && type != e_label_code) {
+        size = 1;
     }
 
     /* .REGISTER can be used in all commands to refer to the current value of a
@@ -1855,9 +1960,11 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     if (old_name && (WORD)(old_addr) != addr) {
         mon_out("Warning: label(s) for address $%04x already exist.\n", loc);
     }
-    if (old_addr >= 0 && old_addr != loc) {
-        mon_out("Changing address of label %s from $%04x to $%04x\n",
-                name, old_addr, loc);
+    if (old_addr >= 0) {
+        if (old_addr != loc) {
+            mon_out("Changing address of label %s from $%04x to $%04x\n",
+                    name, old_addr, loc);
+        }
         mon_remove_name_from_symbol_table(mem, name);
     }
 
@@ -1865,6 +1972,9 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     sym_ptr = lib_malloc(sizeof(symbol_entry_t));
     sym_ptr->name = name;
     sym_ptr->addr = loc;
+    sym_ptr->type = type;
+    sym_ptr->size = size;
+    sym_ptr->comment = comment;
 
     sym_ptr->next = monitor_labels[mem].name_list;
     monitor_labels[mem].name_list = sym_ptr;
@@ -1873,6 +1983,9 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     sym_ptr = lib_malloc(sizeof(symbol_entry_t));
     sym_ptr->name = name;
     sym_ptr->addr = addr;
+    sym_ptr->type = type;
+    sym_ptr->size = size;
+    sym_ptr->comment = comment;
 
     sym_ptr->next = monitor_labels[mem].addr_hash_table[HASH_ADDR(loc)];
     monitor_labels[mem].addr_hash_table[HASH_ADDR(loc)] = sym_ptr;
@@ -1903,7 +2016,7 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
     prev_ptr = NULL;
     while (sym_ptr) {
         if (strcmp(sym_ptr->name, name) == 0) {
-            /* Name memory is freed below. */
+            /* Name and comment memory is freed below. */
             addr = sym_ptr->addr;
             if (prev_ptr) {
                 prev_ptr->next = sym_ptr->next;
@@ -1922,7 +2035,8 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
     prev_ptr = NULL;
     while (sym_ptr) {
         if (addr == sym_ptr->addr) {
-            lib_free(sym_ptr->name);
+            if (sym_ptr->name) lib_free(sym_ptr->name);
+            if (sym_ptr->comment) lib_free(sym_ptr->comment);
             if (prev_ptr) {
                 prev_ptr->next = sym_ptr->next;
             } else {
@@ -1946,7 +2060,40 @@ void mon_print_symbol_table(MEMSPACE mem)
 
     sym_ptr = monitor_labels[mem].name_list;
     while (sym_ptr) {
-        mon_out("$%04x %s\n", sym_ptr->addr, sym_ptr->name);
+        mon_out("$%04x %s", sym_ptr->addr, sym_ptr->name);
+
+        /* optional parameters, so only print if necessary */
+        if (sym_ptr->type != e_label_code) {
+            int pr;
+            mon_out(" %s", mon_label_data_type_strings[sym_ptr->type]);
+            switch (sym_ptr->type) {
+            case e_label_addr:
+            case e_label_word:
+                pr = sym_ptr->size != 2;
+                break;
+            case e_label_long:
+                pr = sym_ptr->size != 3;
+                break;
+            case e_label_dword:
+                pr = sym_ptr->size != 4;
+                break;
+            case e_label_byte:
+                pr = sym_ptr->size != 1;
+                break;
+            default:
+                pr = 0;
+                break;
+            }
+            if (pr) {
+                mon_out(" $%x", sym_ptr->size);
+            }
+        }
+
+        if (sym_ptr->comment) {
+            mon_out(" %s", sym_ptr->comment);
+        }
+
+        mon_out("\n");
         sym_ptr = sym_ptr->next;
     }
 }

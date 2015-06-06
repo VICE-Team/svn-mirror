@@ -1526,20 +1526,20 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_MON_ADD_LABEL_DESCRIPTION,    N_("<memspace> is one of: C: 8: 9: 10: 11:\n<address>  is the address which should get the label.\n<label>    is the name of the label; it must start with a dot (\".\").\n\nMap a given address to a label.  This label can be used when entering\nassembly code and is shown during disassembly.  Additionally, it can\nbe used whenever an address must be specified.")},
+/* en */ {IDGS_MON_ADD_LABEL_DESCRIPTION,    N_("<memspace>  is one of: C: 8: 9: 10: 11:\n<address>   is the address which should get the label.\n<label>     is the name of the label; it must start with a dot (\".\").\n<data_type> is the type of the label. code (default), byte, addr, word, long, dword, ascii, asciz, asci7\n<size>      size in bytes, if missing it's guessed\n<comment>   is an optional comment; it must start with a semicolon (\";\")\n\nMap a given address to a label.  This label can be used when entering\nassembly code and is shown during disassembly.  Additionally, it can\nbe used whenever an address must be specified.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DA, "<huk.område>   er en af C: 8: 9: 10: eller 11:\n<adresse>      Er adressen som skal have etiketten.\n<etiket>       er navnet på etiketten; skal starte med punktum (\".\").\n\nSæt en etiket for en adresse. Etiketten kan angives når der indtastes\nassemblerkode, og vises ved disassemblering. Desuden kan den bruges\nhvor en adresse skal angives."},
-/* de */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DE, "<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n<Adresse>         bezeichnet die Adresse welche mit dem Bezeichner assoziert werden soll.\n<Bezeichner>      Name des Bezeichners; Muss mit einem Punkt (\".\") starten.\n\nAssoziiert einen Bezeichner mit einer Adresse. Dieser Bezeichner kann \nbei der Eingabe von Asssmblercode benutzt werden und wird auch beim\nDisassemblieren gezeigt. Darüber hinaus kann der Bezeichner überall\ndort genutzt werden, wo eine Adresseingabe nötig ist."},
-/* es */ {IDGS_MON_ADD_LABEL_DESCRIPTION_ES, "<espacio memoria> es uno de: C: 8: 9: 10: 11:\n<dirección>  es la dirección donde estará la etiquetal.\n<letiqueta>   es el nombre de la etiqueta; debe empezar con un punto (\".\").\n\nMapea la dirección dada a una etiqueta que se usará cuando se inserte\ncódigo ensamblador y se mostrará durante el desensamblado.  Adicionalmente\npuede ser usada siempre que se deba especificar una dirección."},
-/* fr */ {IDGS_MON_ADD_LABEL_DESCRIPTION_FR, "<memspace> est un des choix suivants (C: 8: 9: 10: 11:)\n<address>  est l'adresse qui devrait prendre le label.\n<label>    est le nom de l'étiquette; il doit commencer par un point (\".\").\n\nAssocie une adresse a une étiquette. Cette étiquette peut être utilisé en entrant\ndu code assembleur et est montré durant le déassemblement. Aussi, vous pouvez\nl'utiliser à tout moment ou une adresse doit être entrée."},
-/* hu */ {IDGS_MON_ADD_LABEL_DESCRIPTION_HU, "A <memória tér> ezek közül: C: 8: 9: 10: 11:\n<cím>  amelyik címhez a címkét rendelje.\n<címke>    a címke neve; ponttal kell kezdõdjön (\".\").\n\nAz adott cím rendelése a címkéhez.  Ez a címke használható assembly\nprogram beírásakor, és visszafejtéskor megjelenik.  Mindig használható,\namikor valamilyen címet kell megadni."},
-/* it */ {IDGS_MON_ADD_LABEL_DESCRIPTION_IT, "<spazio di memoria> è uno tra: C: 8: 9: 10: 11:\n<indirizzo> è l'indirizzo a cui deve essere associata l'etichettal.\n<etichetta> è il nome dell'etichetta; deve iniziare con un punto (\".\").\n\nAssocia l'indirizzo specificato all'etichetta. Questa etichetta può\nessere usata quando si inserisce codice assembly ed è mostrata\nnella disassemblazione. In aggiunta, può essere usata ogni volta che\ndeve essere specificato un indirizzo."},
+/* da */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DA, "<huk.område>   er en af C: 8: 9: 10: eller 11:\n<adresse>      Er adressen som skal have etiketten.\n<etiket>       er navnet på etiketten; skal starte med punktum (\".\").\n\nSæt en etiket for en adresse. Etiketten kan angives når der indtastes\nassemblerkode, og vises ved disassemblering. Desuden kan den bruges\nhvor en adresse skal angives."},  /* fuzzy */
+/* de */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DE, "<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n<Adresse>         bezeichnet die Adresse welche mit dem Bezeichner assoziert werden soll.\n<Bezeichner>      Name des Bezeichners; Muss mit einem Punkt (\".\") starten.\n\nAssoziiert einen Bezeichner mit einer Adresse. Dieser Bezeichner kann \nbei der Eingabe von Asssmblercode benutzt werden und wird auch beim\nDisassemblieren gezeigt. Darüber hinaus kann der Bezeichner überall\ndort genutzt werden, wo eine Adresseingabe nötig ist."},  /* fuzzy */
+/* es */ {IDGS_MON_ADD_LABEL_DESCRIPTION_ES, "<espacio memoria> es uno de: C: 8: 9: 10: 11:\n<dirección>  es la dirección donde estará la etiquetal.\n<letiqueta>   es el nombre de la etiqueta; debe empezar con un punto (\".\").\n\nMapea la dirección dada a una etiqueta que se usará cuando se inserte\ncódigo ensamblador y se mostrará durante el desensamblado.  Adicionalmente\npuede ser usada siempre que se deba especificar una dirección."},  /* fuzzy */
+/* fr */ {IDGS_MON_ADD_LABEL_DESCRIPTION_FR, "<memspace> est un des choix suivants (C: 8: 9: 10: 11:)\n<address>  est l'adresse qui devrait prendre le label.\n<label>    est le nom de l'étiquette; il doit commencer par un point (\".\").\n\nAssocie une adresse a une étiquette. Cette étiquette peut être utilisé en entrant\ndu code assembleur et est montré durant le déassemblement. Aussi, vous pouvez\nl'utiliser à tout moment ou une adresse doit être entrée."},  /* fuzzy */
+/* hu */ {IDGS_MON_ADD_LABEL_DESCRIPTION_HU, "A <memória tér> ezek közül: C: 8: 9: 10: 11:\n<cím>  amelyik címhez a címkét rendelje.\n<címke>    a címke neve; ponttal kell kezdõdjön (\".\").\n\nAz adott cím rendelése a címkéhez.  Ez a címke használható assembly\nprogram beírásakor, és visszafejtéskor megjelenik.  Mindig használható,\namikor valamilyen címet kell megadni."},  /* fuzzy */
+/* it */ {IDGS_MON_ADD_LABEL_DESCRIPTION_IT, "<spazio di memoria> è uno tra: C: 8: 9: 10: 11:\n<indirizzo> è l'indirizzo a cui deve essere associata l'etichettal.\n<etichetta> è il nome dell'etichetta; deve iniziare con un punto (\".\").\n\nAssocia l'indirizzo specificato all'etichetta. Questa etichetta può\nessere usata quando si inserisce codice assembly ed è mostrata\nnella disassemblazione. In aggiunta, può essere usata ogni volta che\ndeve essere specificato un indirizzo."},  /* fuzzy */
 /* ko */ {IDGS_MON_ADD_LABEL_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_NL, "<geheugenruimte> is een van: C: 8: 9: 10: 11:\n<adres>          is het adres waaraan de label gekoppelt moet worden.\n<label>          is de naam van de label; de naam moet beginnen met een punt\n                 (\".\").\n\nKoppel een opgegeven adres aan een label. Dit label kan worden gebruikt bij\nhet invoeren van assembleer code en wordt getoont bij een disassemblering.\nTevens kan de label gebruikt worden in plaats van het adres."},
-/* pl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_PL, "<memspace> to jeden z: C: 8: 9: 10: 11:\n<address> to adres, pod który ma i¶æ notatka.\n<label> to nazwa notatki, musi zaczynaæ siê kropk± (\".\").\n\nMapuje dany adres pod notatkê. Tej notatki mo¿na u¿ywaæ\nprzy wprowadzaniu kodu asemblowania, a pokazywana jest\npodczas deasemblowania. Do tego mo¿na jest u¿ywaæ\nzawsze gdy trzeba okre¶liæ adres."},
-/* ru */ {IDGS_MON_ADD_LABEL_DESCRIPTION_RU, "<memspace> is one of: C: 8: 9: 10: 11:\n<address>  is the address which should get the label.\n<label>    is the name of the label; it must start with a dot (\".\").\n\nMap a given address to a label.  This label can be used when entering\nassembly code and is shown during disassembly.  Additionally, it can\nbe used whenever an address must be specified."},
-/* sv */ {IDGS_MON_ADD_LABEL_DESCRIPTION_SV, "<minnesområde> är en av: C: 8: 9: 10: 11:\n<adress>       är adressen som ska få etiketten.\n<etikett>      är namnet på etiketten; måste starta med punkt (\".\").\n\nKoppla en adress till en etikett. Etiketten kan anges när assemblerkod\nmatas in och visas vid disassemblering. I tillägg kan den användas\nnärhelst en adress måste anges."},
-/* tr */ {IDGS_MON_ADD_LABEL_DESCRIPTION_TR, "<bellekalaný> bunlardan biridir: C: 8: 9: 10: 11:\n<adres>       etiketin duracaðý adresi belirler.\n<etiket>      etiketin ismidir; nokta karakteriyle baþlamalýdýr (\".\").\n\nEtiketi verilen adrese eþleþtir.  Bu etiket assembly kod girilirken kullanýlýr\nve disassembly sýrasýnda gösterilir.  Ek olarak, ne zaman bir adres\nbelirtilmesi gerekse kullanýlabilir."},
+/* nl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_NL, "<geheugenruimte> is een van: C: 8: 9: 10: 11:\n<adres>          is het adres waaraan de label gekoppelt moet worden.\n<label>          is de naam van de label; de naam moet beginnen met een punt\n                 (\".\").\n\nKoppel een opgegeven adres aan een label. Dit label kan worden gebruikt bij\nhet invoeren van assembleer code en wordt getoont bij een disassemblering.\nTevens kan de label gebruikt worden in plaats van het adres."},  /* fuzzy */
+/* pl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_PL, "<memspace> to jeden z: C: 8: 9: 10: 11:\n<address> to adres, pod który ma i¶æ notatka.\n<label> to nazwa notatki, musi zaczynaæ siê kropk± (\".\").\n\nMapuje dany adres pod notatkê. Tej notatki mo¿na u¿ywaæ\nprzy wprowadzaniu kodu asemblowania, a pokazywana jest\npodczas deasemblowania. Do tego mo¿na jest u¿ywaæ\nzawsze gdy trzeba okre¶liæ adres."},  /* fuzzy */
+/* ru */ {IDGS_MON_ADD_LABEL_DESCRIPTION_RU, "<memspace> is one of: C: 8: 9: 10: 11:\n<address>  is the address which should get the label.\n<label>    is the name of the label; it must start with a dot (\".\").\n\nMap a given address to a label.  This label can be used when entering\nassembly code and is shown during disassembly.  Additionally, it can\nbe used whenever an address must be specified."},  /* fuzzy */
+/* sv */ {IDGS_MON_ADD_LABEL_DESCRIPTION_SV, "<minnesområde> är en av: C: 8: 9: 10: 11:\n<adress>       är adressen som ska få etiketten.\n<etikett>      är namnet på etiketten; måste starta med punkt (\".\").\n\nKoppla en adress till en etikett. Etiketten kan anges när assemblerkod\nmatas in och visas vid disassemblering. I tillägg kan den användas\nnärhelst en adress måste anges."},  /* fuzzy */
+/* tr */ {IDGS_MON_ADD_LABEL_DESCRIPTION_TR, "<bellekalaný> bunlardan biridir: C: 8: 9: 10: 11:\n<adres>       etiketin duracaðý adresi belirler.\n<etiket>      etiketin ismidir; nokta karakteriyle baþlamalýdýr (\".\").\n\nEtiketi verilen adrese eþleþtir.  Bu etiket assembly kod girilirken kullanýlýr\nve disassembly sýrasýnda gösterilir.  Ek olarak, ne zaman bir adres\nbelirtilmesi gerekse kullanýlabilir."},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
@@ -3079,6 +3079,40 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_TAPECTRL_DESCRIPTION_RU, "Control the datasette. Valid commands:\n0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n5 = reset, 6 = reset counter."},
 /* sv */ {IDGS_MON_TAPECTRL_DESCRIPTION_SV, "Styr bandspelaren. Giltiga kommandon:\n0 = stoppa, 1 = starta, 2 = spola framåt, 3 = spola bakåt,\n4 = spela in, 5 = återställ, 6 = nollställ räknare."},
 /* tr */ {IDGS_MON_TAPECTRL_DESCRIPTION_TR, "Teybi kontrol et. Geçerli komutlar:\n0 = durdur, 1 = baþlat, 2 = ileri, 3 = geri, 4 = kayýt,\n5 = reset, 6 = reset sayacý."},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_SIZE,    N_("size")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SIZE_DE, "Größe"},
+/* es */ {IDGS_SIZE_ES, "tamaño"},
+/* fr */ {IDGS_SIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SIZE_HU, "méret"},
+/* it */ {IDGS_SIZE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SIZE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SIZE_NL, "grootte"},
+/* pl */ {IDGS_SIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SIZE_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_COMMENT,    N_("comment")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_COMMENT_DA, ""},  /* fuzzy */
+/* de */ {IDGS_COMMENT_DE, "Kommentar"},
+/* es */ {IDGS_COMMENT_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_COMMENT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_COMMENT_HU, "megjegyzés"},
+/* it */ {IDGS_COMMENT_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_COMMENT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_COMMENT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_COMMENT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_COMMENT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_COMMENT_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_COMMENT_TR, ""},  /* fuzzy */
 #endif
 
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
@@ -5004,7 +5038,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_P_SIZE_DE, "<Größe>"},
 /* es */ {IDCLS_P_SIZE_ES, "<Tamaño>"},
 /* fr */ {IDCLS_P_SIZE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_SIZE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_SIZE_HU, "<méret>"},
 /* it */ {IDCLS_P_SIZE_IT, "<dimensione>"},
 /* ko */ {IDCLS_P_SIZE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_SIZE_NL, "<grootte>"},

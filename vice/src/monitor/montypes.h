@@ -143,6 +143,22 @@ enum t_action {
 };
 typedef enum t_action ACTION;
 
+enum t_labeldatatype {
+    e_label_code,
+    e_label_byte,
+    e_label_word,
+    e_label_long,
+    e_label_dword,
+    e_label_addr,
+    e_label_ascii,
+    e_label_asciz,
+    e_label_asci7,
+    e_label_count
+};
+typedef enum t_labeldatatype LABELDATATYPE;
+
+extern const char *mon_label_data_type_strings[e_label_count];
+
 struct cond_node_s {
     int operation;
     int value;
@@ -319,7 +335,7 @@ extern void mon_keyboard_feed(const char *string);
 extern char *mon_symbol_table_lookup_name(MEMSPACE mem, WORD addr);
 extern int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name);
 extern char* mon_prepend_dot_to_name(char *name);
-extern void mon_add_name_to_symbol_table(MON_ADDR addr, char *name);
+extern void mon_add_name_to_symbol_table(MON_ADDR addr, char *name, LABELDATATYPE type, WORD size, char *comment);
 extern void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name);
 extern void mon_print_symbol_table(MEMSPACE mem);
 extern void mon_load_symbols(MEMSPACE mem, const char *filename);
