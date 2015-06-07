@@ -508,7 +508,7 @@
 
 
 /* Generic vax cpu discovery */
-#if !defined(PLATFORM_CPU) && defined(__vax__)
+#if !defined(PLATFORM_CPU) && (defined(__vax__) || defined(__vax))
 #  define PLATFORM_CPU "VAX"
 #endif
 

@@ -29,7 +29,8 @@
    - SCO Openserver 5.0.7
    - SCO Openserver 6.0.0
    - SCO Unixware 7.1.3
-   - NetBSD
+   - NetBSD (Emulation layer)
+   - FreeBSD (Emulation layer)
 */
 
 #include "vice.h"
@@ -108,7 +109,9 @@ char *platform_get_sco_runtime_os(void)
                 lib_free(tempfile);
                 lib_free(tempsystem);
             }
-            if (buffer[0] == '2') {
+            if (!retval && !strcasecmp(name.sysname, "FreeBSD")) {
+                sprintf(platform_os, "FreeBSD");
+            } else if (buffer[0] == '2') {
                 sprintf(platform_os, "SCO Unix v4.x");
             } else if (buffer[0] == '5' || buffer[0] == '6') {
                 sprintf(platform_os, "SCO Openserver %s", buffer);

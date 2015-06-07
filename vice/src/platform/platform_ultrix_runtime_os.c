@@ -64,7 +64,7 @@ char *platform_get_ultrix_runtime_cpu(void)
 #ifdef __mips__
             sprintf(ultrix_cpu, "Mipsel (%s)", name.machine);
 #else
-#ifdef __vax__
+#if defined(__vax__) || defined(__vax)
             sprintf(ultrix_cpu, "VAX (%s)", name.machine);
 #else
             sprintf(ultrix_cpu, "%s", name.machine);

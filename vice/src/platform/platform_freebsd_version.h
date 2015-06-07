@@ -101,124 +101,181 @@
 #define PLATFORM_OS "FreeBSD 3.5"
 #endif
 
-#if (__FreeBSD_version>=400000 && __FreeBSD_version<=409999)
+#if (__FreeBSD__==4)
+
+#if (__FreeBSD_version>=400000 && __FreeBSD_version<410000)
 #define PLATFORM_OS "FreeBSD 4.0"
 #endif
 
-#if (__FreeBSD_version>=410000 && __FreeBSD_version<=410999)
+#if (__FreeBSD_version>=410000 && __FreeBSD_version<411000)
 #define PLATFORM_OS "FreeBSD 4.1"
 #endif
 
-#if (__FreeBSD_version>=411000 && __FreeBSD_version<=419999)
+#if (__FreeBSD_version>=411000 && __FreeBSD_version<420000)
 #define PLATFORM_OS "FreeBSD 4.1.1"
 #endif
 
-#if (__FreeBSD_version>=420000 && __FreeBSD_version<=429999)
+#if (__FreeBSD_version>=420000 && __FreeBSD_version<430000)
 #define PLATFORM_OS "FreeBSD 4.2"
 #endif
 
-#if (__FreeBSD_version>=430000 && __FreeBSD_version<=439999)
+#if (__FreeBSD_version>=430000 && __FreeBSD_version<440000)
 #define PLATFORM_OS "FreeBSD 4.3"
 #endif
 
-#if (__FreeBSD_version>=440000 && __FreeBSD_version<=449999)
+#if (__FreeBSD_version>=440000 && __FreeBSD_version<450000)
 #define PLATFORM_OS "FreeBSD 4.4"
 #endif
 
-#if (__FreeBSD_version>=450000 && __FreeBSD_version<=459999)
+#if (__FreeBSD_version>=450000 && __FreeBSD_version<460000)
 #define PLATFORM_OS "FreeBSD 4.5"
 #endif
 
-#if (__FreeBSD_version>=460000 && __FreeBSD_version<=469999)
+#if (__FreeBSD_version>=460000 && __FreeBSD_version<470000)
 #define PLATFORM_OS "FreeBSD 4.6"
 #endif
 
-#if (__FreeBSD_version>=470000 && __FreeBSD_version<=479999)
+#if (__FreeBSD_version>=470000 && __FreeBSD_version<480000)
 #define PLATFORM_OS "FreeBSD 4.7"
 #endif
 
-#if (__FreeBSD_version>=480000 && __FreeBSD_version<=489999)
+#if (__FreeBSD_version>=480000 && __FreeBSD_version<490000)
 #define PLATFORM_OS "FreeBSD 4.8"
 #endif
 
-#if (__FreeBSD_version>=490000 && __FreeBSD_version<=490999)
+#if (__FreeBSD_version>=490000 && __FreeBSD_version<491000)
 #define PLATFORM_OS "FreeBSD 4.9"
 #endif
 
-#if (__FreeBSD_version>=491000 && __FreeBSD_version<=491999)
+#if (__FreeBSD_version>=491000 && __FreeBSD_version<492000)
 #define PLATFORM_OS "FreeBSD 4.10"
 #endif
 
-#if (__FreeBSD_version>=492000 && __FreeBSD_version<=499999)
+#if (__FreeBSD_version>=492000 && __FreeBSD_version<493000)
 #define PLATFORM_OS "FreeBSD 4.11"
 #endif
 
-#if (__FreeBSD_version>=500000 && __FreeBSD_version<=500999)
+#endif
+
+#if (__FreeBSD__==5)
+
+#if (__FreeBSD_version>=500000 && __FreeBSD_version<501000)
 #define PLATFORM_OS "FreeBSD 5.0"
 #endif
 
-#if (__FreeBSD_version>=501000 && __FreeBSD_version<=501999)
+#if (__FreeBSD_version>=501000 && __FreeBSD_version<502000)
 #define PLATFORM_OS "FreeBSD 5.1"
 #endif
 
-#if (__FreeBSD_version>=502000 && __FreeBSD_version<=502999)
+#if (__FreeBSD_version>=502000 && __FreeBSD_version<503000)
 #define PLATFORM_OS "FreeBSD 5.2"
 #endif
 
-#if (__FreeBSD_version>=503000 && __FreeBSD_version<=503999)
+#if (__FreeBSD_version>=503000 && __FreeBSD_version<504000)
 #define PLATFORM_OS "FreeBSD 5.3"
 #endif
 
-#if (__FreeBSD_version>=504000 && __FreeBSD_version<=504999)
+#if (__FreeBSD_version>=504000 && __FreeBSD_version<505000)
 #define PLATFORM_OS "FreeBSD 5.4"
 #endif
 
-#if (__FreeBSD_version>=505000 && __FreeBSD_version<=599999)
+#if (__FreeBSD_version>=505000 && __FreeBSD_version<=506000)
 #define PLATFORM_OS "FreeBSD 5.5"
 #endif
 
-#if (__FreeBSD_version>=600000 && __FreeBSD_version<=600999)
+#if (__FreeBSD_version==502010)
+#undef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 5.2.1"
+#endif
+
+#ifndef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 5.x"
+#endif
+
+#endif
+
+#if (__FreeBSD__==6)
+
+#if (__FreeBSD_version>=600000 && __FreeBSD_version<601000)
 #define PLATFORM_OS "FreeBSD 6.0"
 #endif
 
-#if (__FreeBSD_version>=601000 && __FreeBSD_version<=601999)
+#if (__FreeBSD_version>=601000 && __FreeBSD_version<602000)
 #define PLATFORM_OS "FreeBSD 6.1"
 #endif
 
-#if (__FreeBSD_version>=602000 && __FreeBSD_version<=602999)
+#if (__FreeBSD_version>=602000 && __FreeBSD_version<603000)
 #define PLATFORM_OS "FreeBSD 6.2"
 #endif
 
-#if (__FreeBSD_version>=603000 && __FreeBSD_version<=603999)
+#if (__FreeBSD_version>=603000 && __FreeBSD_version<=604000)
 #define PLATFORM_OS "FreeBSD 6.3"
 #endif
 
-#if (__FreeBSD_version>=604000 && __FreeBSD_version<=699999)
+#if (__FreeBSD_version>=604000 && __FreeBSD_version<=605000)
 #define PLATFORM_OS "FreeBSD 6.4"
 #endif
 
-#if (__FreeBSD_version>=700000 && __FreeBSD_version<=700999)
+#ifndef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 6.x"
+#endif
+
+#endif
+
+#if (__FreeBSD__==7)
+
+#if (__FreeBSD_version>=700000 && __FreeBSD_version<701000)
 #define PLATFORM_OS "FreeBSD 7.0"
 #endif
 
-#if (__FreeBSD_version>=701000 && __FreeBSD_version<=701999)
+#if (__FreeBSD_version>=701000 && __FreeBSD_version<702000)
 #define PLATFORM_OS "FreeBSD 7.1"
 #endif
 
-#if (__FreeBSD_version>=702000 && __FreeBSD_version<=702999)
+#if (__FreeBSD_version>=702000 && __FreeBSD_version<703000)
 #define PLATFORM_OS "FreeBSD 7.2"
 #endif
 
-#if (__FreeBSD_version>=703000 && __FreeBSD_version<=799999)
+#if (__FreeBSD_version>=703000 && __FreeBSD_version<704000)
 #define PLATFORM_OS "FreeBSD 7.3"
 #endif
 
-#if (__FreeBSD_version>=800000 && __FreeBSD_version<=800999)
+#if (__FreeBSD_version>=704000 && __FreeBSD_version<705000)
+#define PLATFORM_OS "FreeBSD 7.4"
+#endif
+
+#ifndef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 7.x"
+#endif
+
+#endif
+
+#if (__FreeBSD__==8)
+
+#if (__FreeBSD_version>=800000 && __FreeBSD_version<801000)
 #define PLATFORM_OS "FreeBSD 8.0"
 #endif
 
-#if (__FreeBSD_version>=801000 && __FreeBSD_version<=899999)
+#if (__FreeBSD_version>=801000 && __FreeBSD_version<802000)
 #define PLATFORM_OS "FreeBSD 8.1"
+#endif
+
+#if (__FreeBSD_version>=802000 && __FreeBSD_version<803000)
+#define PLATFORM_OS "FreeBSD 8.2"
+#endif
+
+#if (__FreeBSD_version>=803000 && __FreeBSD_version<804000)
+#define PLATFORM_OS "FreeBSD 8.3"
+#endif
+
+#if (__FreeBSD_version>=804000 && __FreeBSD_version<805000)
+#define PLATFORM_OS "FreeBSD 8.4"
+#endif
+
+#ifndef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 8.x"
+#endif
+
 #endif
 
 #if (__FreeBSD__==9)

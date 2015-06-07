@@ -27,6 +27,31 @@
 /* Tested and confirmed working on:
    cpu   | Operating System
    ------------------------
+   i386  | FreeBSD 4.11
+   i386  | FreeBSD 5.0
+   i386  | FreeBSD 5.1
+   i386  | FreeBSD 5.2
+   i386  | FreeBSD 5.2.1
+   i386  | FreeBSD 5.3
+   i386  | FreeBSD 5.4
+   i386  | FreeBSD 5.5
+   i386  | FreeBSD 6.0
+   i386  | FreeBSD 6.1
+   i386  | FreeBSD 6.2
+   i386  | FreeBSD 6.3
+   i386  | FreeBSD 6.4
+   i386  | FreeBSD 7.0
+   i386  | FreeBSD 7.1
+   i386  | FreeBSD 7.2
+   i386  | FreeBSD 7.3
+   i386  | FreeBSD 7.4
+   i386  | FreeBSD 8.0
+   i386  | FreeBSD 8.1
+   i386  | FreeBSD 8.2
+   i386  | FreeBSD 8.3
+   i386  | FreeBSD 8.4
+   i386  | FreeBSD 9.0
+   i386  | FreeBSD 9.1
    i386  | FreeBSD 9.2
    i386  | FreeBSD 9.3
    i386  | FreeBSD 10.0
