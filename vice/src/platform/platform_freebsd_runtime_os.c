@@ -27,6 +27,41 @@
 /* Tested and confirmed working on:
    cpu   | Operating System
    ------------------------
+   i386  | FreeBSD 2.0
+   i386  | FreeBSD 2.0.5
+   i386  | FreeBSD 2.1
+   i386  | FreeBSD 2.1.5
+   i386  | FreeBSD 2.1.6
+   i386  | FreeBSD 2.1.7
+   i386  | FreeBSD 2.1.7.1
+   i386  | FreeBSD 2.2
+   i386  | FreeBSD 2.2.1
+   i386  | FreeBSD 2.2.2
+   i386  | FreeBSD 2.2.5
+   i386  | FreeBSD 2.2.6
+   i386  | FreeBSD 2.2.7
+   i386  | FreeBSD 2.2.8
+   i386  | FreeBSD 2.2.9
+   i386  | FreeBSD 3.0
+   i386  | FreeBSD 3.1
+   i386  | FreeBSD 3.2
+   i386  | FreeBSD 3.3
+   i386  | FreeBSD 3.4
+   i386  | FreeBSD 3.5
+   i386  | FreeBSD 3.5.1
+   i386  | FreeBSD 4.0
+   i386  | FreeBSD 4.1
+   i386  | FreeBSD 4.1.1
+   i386  | FreeBSD 4.2
+   i386  | FreeBSD 4.3
+   i386  | FreeBSD 4.4
+   i386  | FreeBSD 4.5
+   i386  | FreeBSD 4.6
+   i386  | FreeBSD 4.6.2
+   i386  | FreeBSD 4.7
+   i386  | FreeBSD 4.8
+   i386  | FreeBSD 4.9
+   i386  | FreeBSD 4.10
    i386  | FreeBSD 4.11
    i386  | FreeBSD 5.0
    i386  | FreeBSD 5.1
@@ -83,6 +118,28 @@ static char freebsd_cpu[100];
 static int got_freebsd_version = 0;
 static int got_freebsd_cpu = 0;
 
+#if (__FreeBSD_version<=222000)
+static int sysctlbyname(const char *name, void *oldp, size_t *oldlenp, void *newp, size_t newlen)
+{
+    int name2oid_oid[2];
+    int real_oid[CTL_MAXNAME+2];
+    int error;
+    size_t oidlen;
+
+    name2oid_oid[0] = 0;	/* This is magic & undocumented! */
+    name2oid_oid[1] = 3;
+
+    oidlen = sizeof(real_oid);
+    error = sysctl(name2oid_oid, 2, real_oid, &oidlen, (void *)name, strlen(name));
+    if (error < 0) {
+        return error;
+    }
+    oidlen /= sizeof (int);
+    error = sysctl(real_oid, oidlen, oldp, oldlenp, newp, newlen);
+    return (error);
+}
+#endif
+
 char *platform_get_freebsd_runtime_cpu(void)
 {
     char *model = NULL;
@@ -96,6 +153,12 @@ char *platform_get_freebsd_runtime_cpu(void)
         sysctlbyname("hw.model", model, &len, NULL, 0);
 
         sprintf(freebsd_cpu, "%s", model);
+
+#ifndef PLATFORM_NO_X86_ASM
+        if (strstr(freebsd_cpu, "Unknown") || !strlen(freebsd_cpu)) {
+            sprintf(freebsd_cpu, "%s", platform_get_x86_runtime_cpu());
+        }
+#endif
 
         if (model) {
             lib_free(model);

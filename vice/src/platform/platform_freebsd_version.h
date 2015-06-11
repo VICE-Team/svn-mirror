@@ -27,13 +27,33 @@
 #ifndef VICE_PLATFORM_FREEBSD_VERSION_H
 #define VICE_PLATFORM_FREEBSD_VERSION_H
 
-#if (__FreeBSD__==1)
-#define PLATFORM_OS "FreeBSD 1.x"
-#else
-
 #include <sys/param.h>
 
-#if (__FreeBSD_version==119411)
+#if (__FreeBSD__==1)
+
+#include <machine/console.h>
+
+#ifdef NUM_FKEYS
+#  define PLATFORM_OS "FreeBSD 1.1.5.1"
+#else
+#  ifdef MAXSSAVER
+#    define PLATFORM_OS "FreeBSD 1.1"
+#  else
+#    define PLATFORM_OS "FreeBSD 1.0"
+#  endif
+#endif
+
+#ifndef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 1.x"
+#endif
+
+#endif
+
+#if (__FreeBSD__==2)
+
+#include <osreldate.h>
+
+#if (__FreeBSD_version==199411)
 #define PLATFORM_OS "FreeBSD 2.0"
 #endif
 
@@ -50,55 +70,93 @@
 #endif
 
 #if (__FreeBSD_version==199612)
-#define PLATFORM_OS "FreeBSD 2.1.6"
+#  include <dialog.h>
+#  ifdef DITEM_NO_ECHO
+#    define PLATFORM_OS "FreeBSD 2.1.7"
+#  else
+#    define PLATFORM_OS "FreeBSD 2.1.6"
+#  endif
 #endif
 
-#if (__FreeBSD_version==199508) || (__FreeBSD_version==199512) || (__FreeBSD_version==199608) || (__FreeBSD_version>=220000 && __FreeBSD_version<=221999)
-#define PLATFORM_OS "FreeBSD 2.2"
+#if (__FreeBSD_version>=220000 && __FreeBSD_version<221000)
+#  include <fcntl.h>
+#  if (O_NOCTTY==0x8000)
+#    define PLATFORM_OS "FreeBSD 2.2.1"
+#  else
+#    define PLATFORM_OS "FreeBSD 2.2"
+#  endif
 #endif
 
-#if (__FreeBSD_version>=222000 && __FreeBSD_version<=224999)
+#if (__FreeBSD_version>=221000 && __FreeBSD_version<222000)
+#define PLATFORM_OS "FreeBSD 2.2.1"
+#endif
+
+#if (__FreeBSD_version>=222000 && __FreeBSD_version<223000)
 #define PLATFORM_OS "FreeBSD 2.2.2"
 #endif
 
-#if (__FreeBSD_version>=225000 && __FreeBSD_version<=225999)
+#if (__FreeBSD_version>=225000 && __FreeBSD_version<226000)
 #define PLATFORM_OS "FreeBSD 2.2.5"
 #endif
 
-#if (__FreeBSD_version>=226000 && __FreeBSD_version<=226999)
+#if (__FreeBSD_version>=226000 && __FreeBSD_version<227000)
 #define PLATFORM_OS "FreeBSD 2.2.6"
 #endif
 
-#if (__FreeBSD_version>=227000 && __FreeBSD_version<=227999)
+#if (__FreeBSD_version>=227000 && __FreeBSD_version<228000)
 #define PLATFORM_OS "FreeBSD 2.2.7"
 #endif
 
-#if (__FreeBSD_version>=228000 && __FreeBSD_version<=299999)
+#if (__FreeBSD_version>=228000 && __FreeBSD_version<229000)
 #define PLATFORM_OS "FreeBSD 2.2.8"
 #endif
 
-#if (__FreeBSD_version>=300000 && __FreeBSD_version<=309999)
+#if (__FreeBSD_version==228001)
+#undef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 2.2.9"
+#endif
+
+#ifndef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 2.x"
+#endif
+
+#endif
+
+#if (__FreeBSD__==3)
+
+#if (__FreeBSD_version>=300000 && __FreeBSD_version<310000)
 #define PLATFORM_OS "FreeBSD 3.0"
 #endif
 
-#if (__FreeBSD_version>=310000 && __FreeBSD_version<=319999)
+#if (__FreeBSD_version>=310000 && __FreeBSD_version<320000)
 #define PLATFORM_OS "FreeBSD 3.1"
 #endif
 
-#if (__FreeBSD_version>=320000 && __FreeBSD_version<=329999)
+#if (__FreeBSD_version>=320000 && __FreeBSD_version<330000)
 #define PLATFORM_OS "FreeBSD 3.2"
 #endif
 
-#if (__FreeBSD_version>=330000 && __FreeBSD_version<=339999)
+#if (__FreeBSD_version>=330000 && __FreeBSD_version<340000)
 #define PLATFORM_OS "FreeBSD 3.3"
 #endif
 
-#if (__FreeBSD_version>=340000 && __FreeBSD_version<=349999)
+#if (__FreeBSD_version>=340000 && __FreeBSD_version<350000)
 #define PLATFORM_OS "FreeBSD 3.4"
 #endif
 
-#if (__FreeBSD_version>=350000 && __FreeBSD_version<=399999)
+#if (__FreeBSD_version>=350000 && __FreeBSD_version<=360000)
 #define PLATFORM_OS "FreeBSD 3.5"
+#endif
+
+#if (__FreeBSD_version==350001)
+#undef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 3.5.1"
+#endif
+
+#ifndef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 3.x"
+#endif
+
 #endif
 
 #if (__FreeBSD__==4)
@@ -153,6 +211,15 @@
 
 #if (__FreeBSD_version>=492000 && __FreeBSD_version<493000)
 #define PLATFORM_OS "FreeBSD 4.11"
+#endif
+
+#if (__FreeBSD_version==460002)
+#undef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 4.6.2"
+#endif
+
+#ifndef PLATFORM_OS
+#define PLATFORM_OS "FreeBSD 4.x"
 #endif
 
 #endif
@@ -317,8 +384,6 @@
 #endif
 
 #endif
-
-#endif /* __FreeBSD__==1 */
 
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "FreeBSD"
