@@ -203,10 +203,10 @@ static BYTE via_peek(WORD addr)
         BYTE temp_bus = 0xff;
 
         if (addr & 0x10) {          /* $911x (VIA2) */
-            temp_bus &= via2_read(addr);
+            temp_bus &= via2_peek(addr);
         }
         if (addr & 0x20) {          /* $912x (VIA1) */
-            temp_bus &= via1_read(addr);
+            temp_bus &= via1_peek(addr);
         }
         return temp_bus;
     }
@@ -676,10 +676,10 @@ static int mem_dump_io(WORD addr)
 {
     if ((addr >= 0x9000) && (addr <= 0x900f)) {
         return vic_dump();
-    } else if ((addr >= 0x9120) && (addr <= 0x912f)) {
-        return viacore_dump(machine_context.via1);
     } else if ((addr >= 0x9110) && (addr <= 0x911f)) {
         return viacore_dump(machine_context.via2);
+    } else if ((addr >= 0x9120) && (addr <= 0x912f)) {
+        return viacore_dump(machine_context.via1);
     }
     return -1;
 }
@@ -689,8 +689,8 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
     mon_ioreg_add_list(&mem_ioreg_list, "VIC", 0x9000, 0x900f, mem_dump_io);
-    mon_ioreg_add_list(&mem_ioreg_list, "VIA1", 0x9120, 0x912f, mem_dump_io);
-    mon_ioreg_add_list(&mem_ioreg_list, "VIA2", 0x9110, 0x911f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIA1", 0x9110, 0x911f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIA2", 0x9120, 0x912f, mem_dump_io);
 
     io_source_ioreg_add_list(&mem_ioreg_list);
 

@@ -436,6 +436,7 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
                 update_myviairq(via_context);
                 via_context->shift_state = 0;
             }
+
             (via_context->store_sr)(via_context, byte);
             break;
 
@@ -467,7 +468,19 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
         case VIA_T1LH:          /* Write timer A high order latch */
             via_context->via[addr] = byte;
             update_myviatal(via_context, rclk);
-            /* IF: Does not change T1 interrupt, see Synertek notes */
+
+            /* CAUTION: according to the synertek notes, writing to T1LH does
+               NOT change the interrupt flags. however, not doing so breaks eg
+               the VIC20 game "bandits". also in a seperare test program it was
+               verified that indeed writing to the high order latch clears the
+               interrupt flag. (and also that writing to the low order latch
+               does not.) this means that either the synertek notes are wrong,
+               or the synertek VIAs are really different in this regard. as usual,
+               more testing needed :) */
+
+            /* Clear T1 interrupt */
+            via_context->ifr &= ~VIA_IM_T1;
+            update_myviairq(via_context);
             break;
 
         case VIA_T2LL:          /* Write timer 2 low latch */
@@ -622,7 +635,7 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
 
         default:
             via_context->via[addr] = byte;
-    }                           /* switch */
+    }
 }
 
 
@@ -734,23 +747,23 @@ BYTE viacore_read_(via_context_t *via_context, WORD addr)
 
         /* Timers */
 
-        case VIA_T1CL /*TIMER_AL */:    /* timer A low */
+        case VIA_T1CL /*TIMER_AL */:    /* timer A low counter */
             via_context->ifr &= ~VIA_IM_T1;
             update_myviairq(via_context);
             via_context->last_read = (BYTE)(myviata(via_context) & 0xff);
             return via_context->last_read;
 
-        case VIA_T1CH /*TIMER_AH */:    /* timer A high */
+        case VIA_T1CH /*TIMER_AH */:    /* timer A high counter */
             via_context->last_read = (BYTE)((myviata(via_context) >> 8) & 0xff);
             return via_context->last_read;
 
-        case VIA_T2CL /*TIMER_BL */:    /* timer B low */
+        case VIA_T2CL /*TIMER_BL */:    /* timer B low counter */
             via_context->ifr &= ~VIA_IM_T2;
             update_myviairq(via_context);
             via_context->last_read = (BYTE)(myviatb(via_context) & 0xff);
             return via_context->last_read;
 
-        case VIA_T2CH /*TIMER_BH */:    /* timer B high */
+        case VIA_T2CH /*TIMER_BH */:    /* timer B high counter */
             via_context->last_read = (BYTE)((myviatb(via_context) >> 8) & 0xff);
             return via_context->last_read;
 
@@ -779,31 +792,41 @@ BYTE viacore_read_(via_context_t *via_context, WORD addr)
         case VIA_IER:           /* 6522 Interrupt Control Register */
             via_context->last_read = (via_context->ier /*[VIA_IER] */ | 0x80);
             return via_context->last_read;
-    }                           /* switch */
+    }
 
     via_context->last_read = via_context->via[addr];
 
     return via_context->via[addr];
 }
 
+/* return value of a register without side effects */
+/* FIXME: this is buggy/incomplete */
 BYTE viacore_peek(via_context_t *via_context, WORD addr)
 {
-    CLOCK rclk = *(via_context->clk_ptr);
 
     addr &= 0xf;
 
-    if (via_context->tai && (via_context->tai <= *(via_context->clk_ptr))) {
-        viacore_intt1(*(via_context->clk_ptr) - via_context->tai,
-                      (void *)via_context);
-    }
-    if (via_context->tbi && (via_context->tbi <= *(via_context->clk_ptr))) {
-        viacore_intt2(*(via_context->clk_ptr) - via_context->tbi,
-                      (void *)via_context);
-    }
-
     switch (addr) {
         case VIA_PRA:
-            return viacore_read(via_context, VIA_PRA_NHS);
+        case VIA_PRA_NHS: /* port A, no handshake */
+            {
+                BYTE byte;
+                /* WARNING: this pin reads the voltage of the output pins, not
+                the ORA value as the other port. Value read might be different
+                from what is expected due to excessive load. */
+#ifdef MYVIA_NEED_LATCHING
+                if (IS_PA_INPUT_LATCH()) {
+                    byte = via_context->ila;
+                } else {
+                    /* FIXME: side effects ? */
+                    byte = (via_context->read_pra)(via_context, addr);
+                }
+#else
+                /* FIXME: side effects ? */
+                byte = (via_context->read_pra)(via_context, addr);
+#endif
+                return byte;
+            }
 
         case VIA_PRB:           /* port B */
             {
@@ -812,36 +835,58 @@ BYTE viacore_peek(via_context_t *via_context, WORD addr)
                 if (IS_PB_INPUT_LATCH()) {
                     byte = via_context->ilb;
                 } else {
+                    /* FIXME: side effects ? */
                     byte = (via_context->read_prb)(via_context);
                 }
 #else
+                /* FIXME: side effects ? */
                 byte = (via_context->read_prb)(via_context);
 #endif
                 byte = (byte & ~(via_context->via[VIA_DDRB]))
                        | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
                 if (via_context->via[VIA_ACR] & 0x80) {
-                    update_myviatal(via_context, rclk);
+                    /* update_myviatal(via_context, rclk); */
                     byte = (byte & 0x7f) | (((via_context->pb7 ^ via_context->pb7x)
                                              | via_context->pb7o) ? 0x80 : 0);
                 }
                 return byte;
             }
+        case VIA_DDRA:
+        case VIA_DDRB:
+            break;
 
         /* Timers */
 
         case VIA_T1CL /*TIMER_AL */:    /* timer A low */
             return (BYTE)(myviata(via_context) & 0xff);
 
+        case VIA_T1CH /*TIMER_AH */:    /* timer A high */
+            return (BYTE)((myviata(via_context) >> 8) & 0xff);
+
+        case VIA_T1LL: /* timer A low order latch */
+        case VIA_T1LH: /* timer A high order latch */
+            break;
+
         case VIA_T2CL /*TIMER_BL */:    /* timer B low */
             return (BYTE)(myviatb(via_context) & 0xff);
 
-        default:
+        case VIA_T2CH /*TIMER_BH */:    /* timer B high */
+            return (BYTE)((myviatb(via_context) >> 8) & 0xff);
+
+        case VIA_IFR:           /* Interrupt Flag Register */
+            return via_context->ifr;
+
+        case VIA_IER:           /* 6522 Interrupt Control Register */
+            return via_context->ier | 0x80;
+
+        case VIA_PCR:
+        case VIA_ACR:
+        case VIA_SR:
             break;
-    }                           /* switch */
+    }
 
-    return viacore_read(via_context, addr);
+    return via_context->via[addr];
 }
-
 
 /* ------------------------------------------------------------------------- */
 
