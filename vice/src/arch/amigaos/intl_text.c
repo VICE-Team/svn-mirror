@@ -27,6 +27,10 @@
 intl_translate_t intl_string_table[] = {
 
 
+
+
+
+
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
@@ -842,7 +846,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_GENERIC_8KB_IMAGE,    "Generic 8KB image..." },
 /* da */ { IDMS_GENERIC_8KB_IMAGE_DA, "Standard 8KB-image..." },
 /* de */ { IDMS_GENERIC_8KB_IMAGE_DE, "Generisches 8kB Image..." },
-/* es */ { IDMS_GENERIC_8KB_IMAGE_ES, "Imagen generica 8KB..." },
+/* es */ { IDMS_GENERIC_8KB_IMAGE_ES, "Imagen genérica 8KB..." },
 /* fr */ { IDMS_GENERIC_8KB_IMAGE_FR, "Image générique 8 ko..." },
 /* hu */ { IDMS_GENERIC_8KB_IMAGE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_GENERIC_8KB_IMAGE_IT, "Immagine generica di 8KB..." },
@@ -856,7 +860,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_GENERIC_16KB_IMAGE,    "Generic 16KB image..." },
 /* da */ { IDMS_GENERIC_16KB_IMAGE_DA, "Standard 16KB-image..." },
 /* de */ { IDMS_GENERIC_16KB_IMAGE_DE, "Generisches 16kB Image..." },
-/* es */ { IDMS_GENERIC_16KB_IMAGE_ES, "Imagen generica 16KB..." },
+/* es */ { IDMS_GENERIC_16KB_IMAGE_ES, "Imagen genérica 16KB..." },
 /* fr */ { IDMS_GENERIC_16KB_IMAGE_FR, "Image générique 16 ko..." },
 /* hu */ { IDMS_GENERIC_16KB_IMAGE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_GENERIC_16KB_IMAGE_IT, "Immagine generica di 16KB..." },
@@ -1360,7 +1364,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_OVERWRITE_PLAYBACK,    "Overwrite Playback" },
 /* da */ { IDMS_OVERWRITE_PLAYBACK_DA, "Overskriv afspilning" },
 /* de */ { IDMS_OVERWRITE_PLAYBACK_DE, "Laufende Aufnahme überschreiben" },
-/* es */ { IDMS_OVERWRITE_PLAYBACK_ES, "Sobreescribir reproducción" },
+/* es */ { IDMS_OVERWRITE_PLAYBACK_ES, "Sobrescribir reproducción" },
 /* fr */ { IDMS_OVERWRITE_PLAYBACK_FR, "Écraser la lecture actuelle" },
 /* hu */ { IDMS_OVERWRITE_PLAYBACK_HU, "Visszajátszás felülírása" },
 /* it */ { IDMS_OVERWRITE_PLAYBACK_IT, "Sovrascrivi riproduzione" },
@@ -1808,7 +1812,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_64KB_VIDEO_MEMORY,    "64KB video memory" },
 /* da */ { IDMS_64KB_VIDEO_MEMORY_DA, "64KB grafikhukommelse" },
 /* de */ { IDMS_64KB_VIDEO_MEMORY_DE, "64KB Bildschirm Speicher" },
-/* es */ { IDMS_64KB_VIDEO_MEMORY_ES, "Memoria de video 64KB" },
+/* es */ { IDMS_64KB_VIDEO_MEMORY_ES, "Memoria de vídeo 64KB" },
 /* fr */ { IDMS_64KB_VIDEO_MEMORY_FR, "Mémoire vidéo de 64Ko" },
 /* hu */ { IDMS_64KB_VIDEO_MEMORY_HU, "64KB képernyõ memória" },
 /* it */ { IDMS_64KB_VIDEO_MEMORY_IT, "Memoria video di 64KB" },
@@ -1962,7 +1966,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_HIT_USERPORT_JOY_ADAPTER,    "HIT userport joy adapter" },
 /* da */ { IDMS_HIT_USERPORT_JOY_ADAPTER_DA, "HIT brugerportjoystickadapter" },
 /* de */ { IDMS_HIT_USERPORT_JOY_ADAPTER_DE, "HIT Userport Joystick Adapter" },
-/* es */ { IDMS_HIT_USERPORT_JOY_ADAPTER_ES, "Adpatador de puerto de juegos HIT" },
+/* es */ { IDMS_HIT_USERPORT_JOY_ADAPTER_ES, "Adaptador de puerto de juegos HIT" },
 /* fr */ { IDMS_HIT_USERPORT_JOY_ADAPTER_FR, "Adaptateur joystick port utilisateur HIT" },
 /* hu */ { IDMS_HIT_USERPORT_JOY_ADAPTER_HU, "HIT userport botkormány adapter" },
 /* it */ { IDMS_HIT_USERPORT_JOY_ADAPTER_IT, "Adattatore joystick HIT su userport" },
@@ -2046,7 +2050,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_TRUE_DRIVE_EMU,    "True drive emulation" },
 /* da */ { IDMS_TRUE_DRIVE_EMU_DA, "Ægte drev-emulering" },
 /* de */ { IDMS_TRUE_DRIVE_EMU_DE, "Präzise Floppy Emulation" },
-/* es */ { IDMS_TRUE_DRIVE_EMU_ES, "Emulacion unidad disco verdadera" },
+/* es */ { IDMS_TRUE_DRIVE_EMU_ES, "Emulación unidad disco verdadera" },
 /* fr */ { IDMS_TRUE_DRIVE_EMU_FR, "Activer l'émulation réelle des lecteurs" },
 /* hu */ { IDMS_TRUE_DRIVE_EMU_HU, "Valós lemezegység emuláció" },
 /* it */ { IDMS_TRUE_DRIVE_EMU_IT, "Attiva emulazione hardware dei drive" },
@@ -2060,7 +2064,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_DRIVE_SOUND_SETTINGS,    "Drive sound emulation settings" },
 /* da */ { IDMS_DRIVE_SOUND_SETTINGS_DA, "" },  /* fuzzy */
 /* de */ { IDMS_DRIVE_SOUND_SETTINGS_DE, "Laufwerk Geräuschemulation Einstellungen" },
-/* es */ { IDMS_DRIVE_SOUND_SETTINGS_ES, "Ajustes emulacion controlador de sonido" },
+/* es */ { IDMS_DRIVE_SOUND_SETTINGS_ES, "Ajustes Emulación controlador de sonido" },
 /* fr */ { IDMS_DRIVE_SOUND_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_DRIVE_SOUND_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_DRIVE_SOUND_SETTINGS_IT, "Impostazione emulazione suoni del drive" },
@@ -2144,7 +2148,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_VIDEO_STANDARD,    "Video standard" },
 /* da */ { IDMS_VIDEO_STANDARD_DA, "TV-standard" },
 /* de */ { IDMS_VIDEO_STANDARD_DE, "Video Standard" },
-/* es */ { IDMS_VIDEO_STANDARD_ES, "Video estandar" },
+/* es */ { IDMS_VIDEO_STANDARD_ES, "Vídeo estandar" },
 /* fr */ { IDMS_VIDEO_STANDARD_FR, "Standard vidéo" },
 /* hu */ { IDMS_VIDEO_STANDARD_HU, "Videó szabvány" },
 /* it */ { IDMS_VIDEO_STANDARD_IT, "Standard video" },
@@ -3194,7 +3198,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_VICII_VIDEO_SETTINGS,    "VICII video settings..." },
 /* da */ { IDMS_VICII_VIDEO_SETTINGS_DA, "VICII grafikindstillinger..." },
 /* de */ { IDMS_VICII_VIDEO_SETTINGS_DE, "VICII Video Einstellungen..." },
-/* es */ { IDMS_VICII_VIDEO_SETTINGS_ES, "Ajustes de video VIC II..." },
+/* es */ { IDMS_VICII_VIDEO_SETTINGS_ES, "Ajustes de vídeo VIC II..." },
 /* fr */ { IDMS_VICII_VIDEO_SETTINGS_FR, "Paramètres vidéo VICII..." },
 /* hu */ { IDMS_VICII_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VICII_VIDEO_SETTINGS_IT, "Impostazioni video VICII..." },
@@ -3208,7 +3212,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_VIC_VIDEO_SETTINGS,    "VIC video settings..." },
 /* da */ { IDMS_VIC_VIDEO_SETTINGS_DA, "VIC grafikindstillinger..." },
 /* de */ { IDMS_VIC_VIDEO_SETTINGS_DE, "VIC Video Einstellungen..." },
-/* es */ { IDMS_VIC_VIDEO_SETTINGS_ES, "Ajustes de video VIC..." },
+/* es */ { IDMS_VIC_VIDEO_SETTINGS_ES, "Ajustes de vídeo VIC..." },
 /* fr */ { IDMS_VIC_VIDEO_SETTINGS_FR, "Paramètres vidéo VIC..." },
 /* hu */ { IDMS_VIC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VIC_VIDEO_SETTINGS_IT, "Impostazioni video VIC..." },
@@ -3222,7 +3226,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_VDC_VIDEO_SETTINGS,    "VDC video settings..." },
 /* da */ { IDMS_VDC_VIDEO_SETTINGS_DA, "VDC grafikindstillinger..." },
 /* de */ { IDMS_VDC_VIDEO_SETTINGS_DE, "VDC Video Einstellungen..." },
-/* es */ { IDMS_VDC_VIDEO_SETTINGS_ES, "Ajustes de video VDC..." },
+/* es */ { IDMS_VDC_VIDEO_SETTINGS_ES, "Ajustes de vídeo VDC..." },
 /* fr */ { IDMS_VDC_VIDEO_SETTINGS_FR, "Paramètres vidéo VDC..." },
 /* hu */ { IDMS_VDC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VDC_VIDEO_SETTINGS_IT, "Impostazioni video VDC..." },
@@ -3236,7 +3240,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_CRTC_VIDEO_SETTINGS,    "CRTC video settings..." },
 /* da */ { IDMS_CRTC_VIDEO_SETTINGS_DA, "CRTC grafikindstillinger..." },
 /* de */ { IDMS_CRTC_VIDEO_SETTINGS_DE, "CRTC Video Einstellungen..." },
-/* es */ { IDMS_CRTC_VIDEO_SETTINGS_ES, "Ajustes video CRTC..." },
+/* es */ { IDMS_CRTC_VIDEO_SETTINGS_ES, "Ajustes vídeo CRTC..." },
 /* fr */ { IDMS_CRTC_VIDEO_SETTINGS_FR, "Paramètres vidéo CRTC..." },
 /* hu */ { IDMS_CRTC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_CRTC_VIDEO_SETTINGS_IT, "Impostazioni video  CRTC..." },
@@ -3250,7 +3254,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_TED_VIDEO_SETTINGS,    "TED video settings..." },
 /* da */ { IDMS_TED_VIDEO_SETTINGS_DA, "TED grafikindstillinger..." },
 /* de */ { IDMS_TED_VIDEO_SETTINGS_DE, "TED Video Einstellungen..." },
-/* es */ { IDMS_TED_VIDEO_SETTINGS_ES, "Ajustes de video TED..." },
+/* es */ { IDMS_TED_VIDEO_SETTINGS_ES, "Ajustes de vídeo TED..." },
 /* fr */ { IDMS_TED_VIDEO_SETTINGS_FR, "Paramètres vidéo TED..." },
 /* hu */ { IDMS_TED_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_TED_VIDEO_SETTINGS_IT, "Impostazioni video TED..." },
@@ -3530,7 +3534,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_JOYSTICK_DEVICE_SELECT,    "Joystick device selection" },
 /* da */ { IDMS_JOYSTICK_DEVICE_SELECT_DA, "Joystick enheds-valg" },
 /* de */ { IDMS_JOYSTICK_DEVICE_SELECT_DE, "Joystick Geräte Auswahl" },
-/* es */ { IDMS_JOYSTICK_DEVICE_SELECT_ES, "Selección periferico joystick" },
+/* es */ { IDMS_JOYSTICK_DEVICE_SELECT_ES, "Selección periférico joystick" },
 /* fr */ { IDMS_JOYSTICK_DEVICE_SELECT_FR, "Sélection des périphériques Joystick" },
 /* hu */ { IDMS_JOYSTICK_DEVICE_SELECT_HU, "Botkormány eszköz kiválasztása" },
 /* it */ { IDMS_JOYSTICK_DEVICE_SELECT_IT, "Selezione dispositivo joystick" },
@@ -4020,7 +4024,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_EASYFLASH_SETTINGS,    "EasyFlash settings..." },
 /* da */ { IDMS_EASYFLASH_SETTINGS_DA, "EasyFlash-indstillinger..." },
 /* de */ { IDMS_EASYFLASH_SETTINGS_DE, "EasyFlash Einstellungen..." },
-/* es */ { IDMS_EASYFLASH_SETTINGS_ES, "Ajuestes EasyFlash..." },
+/* es */ { IDMS_EASYFLASH_SETTINGS_ES, "Ajustes EasyFlash..." },
 /* fr */ { IDMS_EASYFLASH_SETTINGS_FR, "Paramètres datassette..." },
 /* hu */ { IDMS_EASYFLASH_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_EASYFLASH_SETTINGS_IT, "Impostazioni EasyFlash..." },
@@ -4244,7 +4248,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_FP_WRITEBACK,    "Enable Vic Flash Plugin write back to ROM file" },
 /* da */ { IDMS_FP_WRITEBACK_DA, "Aktivér Vic Flash Plugin tilbageskrivning til ROM-fil" },
 /* de */ { IDMS_FP_WRITEBACK_DE, "Vic Flash Plugin Rückschreiben auf ROM Datei aktivieren" },
-/* es */ { IDMS_FP_WRITEBACK_ES, "Permitir grabacion en ROM Vic Flash Plugin" },
+/* es */ { IDMS_FP_WRITEBACK_ES, "Permitir grabación en ROM Vic Flash Plugin" },
 /* fr */ { IDMS_FP_WRITEBACK_FR, "Activer la réécriture du fichier ROM Vic Flash Plugin" },
 /* hu */ { IDMS_FP_WRITEBACK_HU, "" },  /* fuzzy */
 /* it */ { IDMS_FP_WRITEBACK_IT, "Attiva write back per Vic Flash Plugin su file ROM" },
@@ -4496,7 +4500,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_NO_WARRANTY,    "No warranty!" },
 /* da */ { IDMS_NO_WARRANTY_DA, "Ingen garanti!" },
 /* de */ { IDMS_NO_WARRANTY_DE, "Keine Garantie!" },
-/* es */ { IDMS_NO_WARRANTY_ES, "¡Sin garantias!" },
+/* es */ { IDMS_NO_WARRANTY_ES, "¡Sin garantías!" },
 /* fr */ { IDMS_NO_WARRANTY_FR, "Aucune garantie!" },
 /* hu */ { IDMS_NO_WARRANTY_HU, "Nincs garancia!" },
 /* it */ { IDMS_NO_WARRANTY_IT, "Nessuna garanzia!" },
@@ -4776,7 +4780,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_VIDEO_OVERLAY,    "Video overlay" },
 /* da */ { IDMS_VIDEO_OVERLAY_DA, "Video-overlay" },
 /* de */ { IDMS_VIDEO_OVERLAY_DE, "Video Overlay" },
-/* es */ { IDMS_VIDEO_OVERLAY_ES, "Video overlay" },
+/* es */ { IDMS_VIDEO_OVERLAY_ES, "Vídeo overlay" },
 /* fr */ { IDMS_VIDEO_OVERLAY_FR, "Superposition vidéo" },
 /* hu */ { IDMS_VIDEO_OVERLAY_HU, "Videó overlay" },
 /* it */ { IDMS_VIDEO_OVERLAY_IT, "Overlay video" },
@@ -4846,7 +4850,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_PREVIOUS_TUNE,    "Previous tune" },
 /* da */ { IDMS_PREVIOUS_TUNE_DA, "Forrige sang" },
 /* de */ { IDMS_PREVIOUS_TUNE_DE, "Vorheriger Titel " },
-/* es */ { IDMS_PREVIOUS_TUNE_ES, "Melodia previa" },
+/* es */ { IDMS_PREVIOUS_TUNE_ES, "Melodía previa" },
 /* fr */ { IDMS_PREVIOUS_TUNE_FR, "Clip précédent" },
 /* hu */ { IDMS_PREVIOUS_TUNE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_PREVIOUS_TUNE_IT, "Melodia precedente" },
@@ -5014,7 +5018,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMES_VICE_DIST_NO_WARRANTY,    "VICE is distributed WITHOUT ANY WARRANTY!" },
 /* da */ { IDMES_VICE_DIST_NO_WARRANTY_DA, "VICE distribueres UDEN NOGEN SOM HELST GARANTI!" },
 /* de */ { IDMES_VICE_DIST_NO_WARRANTY_DE, "VICE ist ohne Garantie" },
-/* es */ { IDMES_VICE_DIST_NO_WARRANTY_ES, "¡VICE se distribuye SIN NINGUNA GARANTIA!" },
+/* es */ { IDMES_VICE_DIST_NO_WARRANTY_ES, "¡VICE se distribuye SIN NINGUNA GARANTÍA!" },
 /* fr */ { IDMES_VICE_DIST_NO_WARRANTY_FR, "VICE est distribué SANS AUCUN GARANTIE!" },
 /* hu */ { IDMES_VICE_DIST_NO_WARRANTY_HU, "A VICE-t garancia nélkül terjesztjük!" },
 /* it */ { IDMES_VICE_DIST_NO_WARRANTY_IT, "VICE è distribuito SENZA NESSUNA GARANZIA!" },
@@ -5168,7 +5172,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMES_BAD_CART_CONFIG_IN_UI,    "Bad cartridge config in UI!" },
 /* da */ { IDMES_BAD_CART_CONFIG_IN_UI_DA, "Ugyldig cartridgekonfiguration i brugergrænseflade!" },
 /* de */ { IDMES_BAD_CART_CONFIG_IN_UI_DE, "Fehlerhafte Modul Konfiguration im UI!" },
-/* es */ { IDMES_BAD_CART_CONFIG_IN_UI_ES, "¡Configuracion erronea del cartucho en UI!" },
+/* es */ { IDMES_BAD_CART_CONFIG_IN_UI_ES, "¡Configuración errónea del cartucho en UI!" },
 /* fr */ { IDMES_BAD_CART_CONFIG_IN_UI_FR, "Mauvaise configuration de la cartouche dans l'interface utilisateur!" },
 /* hu */ { IDMES_BAD_CART_CONFIG_IN_UI_HU, "Rossz cartridge konfiguráció!" },
 /* it */ { IDMES_BAD_CART_CONFIG_IN_UI_IT, "Configurazione della cartuccia errata nell'IU!" },
@@ -5546,7 +5550,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_DETACHED_DEVICE_D,    "Detached device %d" },
 /* da */ { IDS_DETACHED_DEVICE_D_DA, "Frakoblet enhed %d" },
 /* de */ { IDS_DETACHED_DEVICE_D_DE, "Gerät %d entfernt" },
-/* es */ { IDS_DETACHED_DEVICE_D_ES, "Periférico extraido %d" },
+/* es */ { IDS_DETACHED_DEVICE_D_ES, "Periférico extraído %d" },
 /* fr */ { IDS_DETACHED_DEVICE_D_FR, "Périphérique détaché %d" },
 /* hu */ { IDS_DETACHED_DEVICE_D_HU, "%d eszköz leválasztva" },
 /* it */ { IDS_DETACHED_DEVICE_D_IT, "Rimosso dispositivo %d" },
@@ -5644,7 +5648,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SELECT_START_SNAPSHOT,    "Select start snapshot for event history" },
 /* da */ { IDS_SELECT_START_SNAPSHOT_DA, "Vælg start-snapshot for hændelseshistorik" },
 /* de */ { IDS_SELECT_START_SNAPSHOT_DE, "Startsnapshot für Ereignishistory festlegen" },
-/* es */ { IDS_SELECT_START_SNAPSHOT_ES, "Selecionar inicio volcado para historial de eventos" },
+/* es */ { IDS_SELECT_START_SNAPSHOT_ES, "Seleccionar inicio volcado para historial de eventos" },
 /* fr */ { IDS_SELECT_START_SNAPSHOT_FR, "Sélectionner l'instantané de départ pour l'historique des événements" },
 /* hu */ { IDS_SELECT_START_SNAPSHOT_HU, "Válasszon kezdeti pillanatképet az esemény rögzítéshez" },
 /* it */ { IDS_SELECT_START_SNAPSHOT_IT, "Seleziona snapshot iniziale per la cronologia degli eventi" },
@@ -6092,7 +6096,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_OVERWRITE_EXISTING_IMAGE,    "Overwrite existing image?" },
 /* da */ { IDS_OVERWRITE_EXISTING_IMAGE_DA, "Overskriv eksisterende image?" },
 /* de */ { IDS_OVERWRITE_EXISTING_IMAGE_DE, "Existierende Datei überschreiben?" },
-/* es */ { IDS_OVERWRITE_EXISTING_IMAGE_ES, "¿Sobreescribo la imagen actual?" },
+/* es */ { IDS_OVERWRITE_EXISTING_IMAGE_ES, "¿Sobrescribo la imagen actual?" },
 /* fr */ { IDS_OVERWRITE_EXISTING_IMAGE_FR, "Écraser les images existantes?" },
 /* hu */ { IDS_OVERWRITE_EXISTING_IMAGE_HU, "Felülírjam a meglévõ képmást?" },
 /* it */ { IDS_OVERWRITE_EXISTING_IMAGE_IT, "Sovrascrivo l'immagine esistente?" },
@@ -6890,7 +6894,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_IDLE_METHOD,    "Idle method" },
 /* da */ { IDS_IDLE_METHOD_DA, "Tomgangsmetode" },
 /* de */ { IDS_IDLE_METHOD_DE, "Idle Methode" },
-/* es */ { IDS_IDLE_METHOD_ES, "Metodo tiempo inactivo" },
+/* es */ { IDS_IDLE_METHOD_ES, "Método tiempo inactivo" },
 /* fr */ { IDS_IDLE_METHOD_FR, "Méthode d'idle" },
 /* hu */ { IDS_IDLE_METHOD_HU, "Üresjárat mód" },
 /* it */ { IDS_IDLE_METHOD_IT, "Rileva inattività" },
@@ -7002,7 +7006,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_GEORAM_FILENAME,    "GEO-RAM file" },
 /* da */ { IDS_GEORAM_FILENAME_DA, "GEO-RAM-fil" },
 /* de */ { IDS_GEORAM_FILENAME_DE, "GEO-RAM Datei" },
-/* es */ { IDS_GEORAM_FILENAME_ES, "Fihcero GEO-RAM" },
+/* es */ { IDS_GEORAM_FILENAME_ES, "Fulcro GEO-RAM" },
 /* fr */ { IDS_GEORAM_FILENAME_FR, "Fichier GEO-RAM" },
 /* hu */ { IDS_GEORAM_FILENAME_HU, "" },  /* fuzzy */
 /* it */ { IDS_GEORAM_FILENAME_IT, "File GEO-RAM" },
@@ -7296,7 +7300,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_EASYFLASH_SETTINGS,    "EasyFlash settings" },
 /* da */ { IDS_EASYFLASH_SETTINGS_DA, "EasyFlash-indstillinger" },
 /* de */ { IDS_EASYFLASH_SETTINGS_DE, "EasyFlash Einstellungen" },
-/* es */ { IDS_EASYFLASH_SETTINGS_ES, "Ajuestes EasyFlash" },
+/* es */ { IDS_EASYFLASH_SETTINGS_ES, "Ajustes EasyFlash" },
 /* fr */ { IDS_EASYFLASH_SETTINGS_FR, "Paramètres datassette" },
 /* hu */ { IDS_EASYFLASH_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_EASYFLASH_SETTINGS_IT, "Impostazioni EasyFlash" },
@@ -7451,7 +7455,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_KEYPAD,    "Numpad" },
 /* da */ { IDS_KEYPAD_DA, "Numerisk tastatur" },
 /* de */ { IDS_KEYPAD_DE, "Ziffernblock" },
-/* es */ { IDS_KEYPAD_ES, "Teclado númerico" },
+/* es */ { IDS_KEYPAD_ES, "Teclado numérico" },
 /* fr */ { IDS_KEYPAD_FR, "Pavé num." },
 /* hu */ { IDS_KEYPAD_HU, "Numerikus billentyûk" },
 /* it */ { IDS_KEYPAD_IT, "Tastierino numerico" },
@@ -7591,7 +7595,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_REVERSE_CHARCOAL,    "Reverse/Charcoal" },
 /* da */ { IDS_REVERSE_CHARCOAL_DA, "Bagud/Grafit" },
 /* de */ { IDS_REVERSE_CHARCOAL_DE, "Rückwärts/Kohle" },
-/* es */ { IDS_REVERSE_CHARCOAL_ES, "Atras/Negro" },
+/* es */ { IDS_REVERSE_CHARCOAL_ES, "Atrás/Negro" },
 /* fr */ { IDS_REVERSE_CHARCOAL_FR, "Reculer/Charcoal" },
 /* hu */ { IDS_REVERSE_CHARCOAL_HU, "Vissza/Fekete" },
 /* it */ { IDS_REVERSE_CHARCOAL_IT, "Indietro/Carboncino" },
@@ -7647,7 +7651,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_USERPORT_JOY_1_DEVICE,    "Userport Joy 1 Device" },
 /* da */ { IDS_USERPORT_JOY_1_DEVICE_DA, "Brugerport Joystick 1 enhed" },
 /* de */ { IDS_USERPORT_JOY_1_DEVICE_DE, "Userport Joystick 1 Gerät" },
-/* es */ { IDS_USERPORT_JOY_1_DEVICE_ES, "Puerto periferico joy 1" },
+/* es */ { IDS_USERPORT_JOY_1_DEVICE_ES, "Puerto Periférico Joy 1" },
 /* fr */ { IDS_USERPORT_JOY_1_DEVICE_FR, "Périphérique Joystick 1 port utilisateur" },
 /* hu */ { IDS_USERPORT_JOY_1_DEVICE_HU, "Userport 1-es botkormány eszköz" },
 /* it */ { IDS_USERPORT_JOY_1_DEVICE_IT, "Dispositivo joystick 1 su userport" },
@@ -7661,7 +7665,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_USERPORT_JOY_2_DEVICE,    "Userport Joy 2 Device" },
 /* da */ { IDS_USERPORT_JOY_2_DEVICE_DA, "Brugerport Joystick 2 enhed" },
 /* de */ { IDS_USERPORT_JOY_2_DEVICE_DE, "Userport Joystick 2 Gerät" },
-/* es */ { IDS_USERPORT_JOY_2_DEVICE_ES, "Puerto periferico joy 2" },
+/* es */ { IDS_USERPORT_JOY_2_DEVICE_ES, "Puerto Periférico Joy 2" },
 /* fr */ { IDS_USERPORT_JOY_2_DEVICE_FR, "Périphérique Joystick 2 port utilisateur" },
 /* hu */ { IDS_USERPORT_JOY_2_DEVICE_HU, "Userport 2-es botkormány eszköz" },
 /* it */ { IDS_USERPORT_JOY_2_DEVICE_IT, "Dispositivo joystick 2 su userport" },
@@ -7689,7 +7693,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_JOY_1_FIRE,    "Joy 1 Fire" },
 /* da */ { IDS_JOY_1_FIRE_DA, "Joystick 1 skydeknap" },
 /* de */ { IDS_JOY_1_FIRE_DE, "Joystick 1 Feuer" },
-/* es */ { IDS_JOY_1_FIRE_ES, "Joy 1 disparo" },
+/* es */ { IDS_JOY_1_FIRE_ES, "Joy 1 Disparo" },
 /* fr */ { IDS_JOY_1_FIRE_FR, "Jeu joystick 1" },
 /* hu */ { IDS_JOY_1_FIRE_HU, "1-es botkormány tûz" },
 /* it */ { IDS_JOY_1_FIRE_IT, "Fuoco Joystick 1" },
@@ -7703,7 +7707,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_JOY_2_FIRE,    "Joy 2 Fire" },
 /* da */ { IDS_JOY_2_FIRE_DA, "Joystick 2 skydeknap" },
 /* de */ { IDS_JOY_2_FIRE_DE, "Joystick 2 Feuer" },
-/* es */ { IDS_JOY_2_FIRE_ES, "Joy 2 disparo" },
+/* es */ { IDS_JOY_2_FIRE_ES, "Joy 2 Disparo" },
 /* fr */ { IDS_JOY_2_FIRE_FR, "Jeu joystick 2" },
 /* hu */ { IDS_JOY_2_FIRE_HU, "2-es botkormány tûz" },
 /* it */ { IDS_JOY_2_FIRE_IT, "Fuoco Joystick 2" },
@@ -7717,7 +7721,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_USERPORT_JOY_1_FIRE,    "Userport Joy 1 Fire" },
 /* da */ { IDS_USERPORT_JOY_1_FIRE_DA, "Brugerport joystick 1 skydeknap" },
 /* de */ { IDS_USERPORT_JOY_1_FIRE_DE, "Userport Joystick 1 Feuer" },
-/* es */ { IDS_USERPORT_JOY_1_FIRE_ES, "Puerto Joy 1 disparo" },
+/* es */ { IDS_USERPORT_JOY_1_FIRE_ES, "Puerto Joy 1 Disparo" },
 /* fr */ { IDS_USERPORT_JOY_1_FIRE_FR, "FEU Joystick port utilisateur 1" },
 /* hu */ { IDS_USERPORT_JOY_1_FIRE_HU, "1-es userport botkormány tûz" },
 /* it */ { IDS_USERPORT_JOY_1_FIRE_IT, "Fuoco joystick 1 su userport" },
@@ -7731,7 +7735,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_USERPORT_JOY_2_FIRE,    "Userport Joy 2 Fire" },
 /* da */ { IDS_USERPORT_JOY_2_FIRE_DA, "Brugerport joystick 2 skydeknap" },
 /* de */ { IDS_USERPORT_JOY_2_FIRE_DE, "Userport Joystick 2 Feuer" },
-/* es */ { IDS_USERPORT_JOY_2_FIRE_ES, "Puerto Joy 2 disparo" },
+/* es */ { IDS_USERPORT_JOY_2_FIRE_ES, "Puerto Joy 2 Disparo" },
 /* fr */ { IDS_USERPORT_JOY_2_FIRE_FR, "FEU Joystick port utilisateur 2" },
 /* hu */ { IDS_USERPORT_JOY_2_FIRE_HU, "2-es userport botkormány tûz" },
 /* it */ { IDS_USERPORT_JOY_2_FIRE_IT, "Fuoco joystick 2 su userport" },
@@ -7745,7 +7749,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SIDCART_JOY_FIRE,    "SIDcart Joy Fire" },
 /* da */ { IDS_SIDCART_JOY_FIRE_DA, "SIDcart joystick skydeknap" },
 /* de */ { IDS_SIDCART_JOY_FIRE_DE, "SIDcart Joystick Feuer" },
-/* es */ { IDS_SIDCART_JOY_FIRE_ES, "Joy SIDCart disparo" },
+/* es */ { IDS_SIDCART_JOY_FIRE_ES, "Joy SIDCart Disparo" },
 /* fr */ { IDS_SIDCART_JOY_FIRE_FR, "FEU du Joystick SIDcart" },
 /* hu */ { IDS_SIDCART_JOY_FIRE_HU, "SIDcart botkormány tûz" },
 /* it */ { IDS_SIDCART_JOY_FIRE_IT, "Fuoco joystick su SIDcart" },
@@ -7773,7 +7777,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SET_INPUT_JOYSTICK_2,    "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* da */ { IDS_SET_INPUT_JOYSTICK_2_DA, "Emulering af Joystick 2: (0: ingen, 1: numerisk, 2: tastesæt A/AI, 3: tastesæt B/AI)" },
 /* de */ { IDS_SET_INPUT_JOYSTICK_2_DE, "Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)" },
-/* es */ { IDS_SET_INPUT_JOYSTICK_2_ES, "Emulación Joystick #2: (0:No, 1: Teclado númerico, 2: Keyset A/AI, 3: Keyset B/AI)" },
+/* es */ { IDS_SET_INPUT_JOYSTICK_2_ES, "Emulación Joystick #2: (0:No, 1: Teclado numérico, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* fr */ { IDS_SET_INPUT_JOYSTICK_2_FR, "Émulation joystick #2: (0: Aucune, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* hu */ { IDS_SET_INPUT_JOYSTICK_2_HU, "#2-es botkormány emuláció: (0: Nincs, 1: numerikus, 2: 'A' gombkészlet, 3: 'B' gombkészlet)" },
 /* it */ { IDS_SET_INPUT_JOYSTICK_2_IT, "Emulazione joystick #2: (0: Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: Keyset B/AI)" },
@@ -7787,7 +7791,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1,    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* da */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_DA, "" },  /* fuzzy */
 /* de */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_DE, "Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)" },
-/* es */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_ES, "Emulación Joystick suplementario #1: (0:Ninguno, 1: Teclado númerico, 2: Teclado A/AI, 3: Teclado B/AI)" },
+/* es */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_ES, "Emulación Joystick suplementario #1: (0:Ninguno, 1: Teclado numérico, 2: Teclado A/AI, 3: Teclado B/AI)" },
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_HU, "" },  /* fuzzy */
 /* it */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_IT, "Emulazione joystick supplementare #1: (0: Nessuno, 1: Tastierino numerico, 2: Keyset A/AI, 3: Keyset B/AI)" },
@@ -7801,7 +7805,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2,    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* da */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_DA, "Emulering af Joystick 2: (0: ingen, 1: numerisk, 2: tastesæt A/AI, 3: tastesæt B/AI)" },
 /* de */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_DE, "Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)" },
-/* es */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_ES, "Emulación Joystick suplementario #2: (0:No, 1: Teclado númerico, 2: Keyset A/AI, 3: Keyset B/AI)" },
+/* es */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_ES, "Emulación Joystick suplementario #2: (0:No, 1: Teclado numérico, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_FR, "Émulation Joystick supplémentaire 2: (0: Aucune, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_HU, "" },  /* fuzzy */
 /* it */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_IT, "Emulazione joystick supplementare #2: (0: Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: Keyset B/AI)" },
@@ -7815,7 +7819,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SET_INPUT_JOYLL_1,    "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* da */ { IDS_SET_INPUT_JOYLL_1_DA, "Joystick 1 emularing: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)" },
 /* de */ { IDS_SET_INPUT_JOYLL_1_DE, "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)" },
-/* es */ { IDS_SET_INPUT_JOYLL_1_ES, "Emulación Joystick #1: (0:No, 1: Teclado númerico, 2-5: Amiga Joy0-3 )" },
+/* es */ { IDS_SET_INPUT_JOYLL_1_ES, "Emulación Joystick #1: (0:No, 1: Teclado numérico, 2-5: Amiga Joy0-3 )" },
 /* fr */ { IDS_SET_INPUT_JOYLL_1_FR, "Émulation Joystick 1: (0: Aucune, 1: Pav.Num., 2-5: Amiga Joy 0-3)" },
 /* hu */ { IDS_SET_INPUT_JOYLL_1_HU, "#1-es botkormány emuláció: (0: nincs, 1: numerikus billentyûk, 2-5: amiga botkormány 0-3)" },
 /* it */ { IDS_SET_INPUT_JOYLL_1_IT, "Emulazione joystick #1: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3)" },
@@ -7829,7 +7833,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SET_INPUT_JOYLL_2,    "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* da */ { IDS_SET_INPUT_JOYLL_2_DA, "Joystick 2 emularing: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)" },
 /* de */ { IDS_SET_INPUT_JOYLL_2_DE, "Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)" },
-/* es */ { IDS_SET_INPUT_JOYLL_2_ES, "Emulación Joystick #2: (0:No, 1: Teclado númerico, 2-5: Amiga Joy0-3 )" },
+/* es */ { IDS_SET_INPUT_JOYLL_2_ES, "Emulación Joystick #2: (0:No, 1: Teclado numérico, 2-5: Amiga Joy0-3 )" },
 /* fr */ { IDS_SET_INPUT_JOYLL_2_FR, "Émulation Joystick 2: (0: Aucune, 1: Numpad, 2-5: Amiga Joy 0-33)" },
 /* hu */ { IDS_SET_INPUT_JOYLL_2_HU, "#2-es botkormány emuláció: (0: nincs, 1: numerikus billentyûk, 2-5: amiga botkormány 0-3)" },
 /* it */ { IDS_SET_INPUT_JOYLL_2_IT, "Emulazione joystick #2: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3)" },
@@ -7843,7 +7847,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SET_INPUT_EXTRA_JOYLL_1,    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* da */ { IDS_SET_INPUT_EXTRA_JOYLL_1_DA, "Ekstra joystick 1 emulering: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)" },
 /* de */ { IDS_SET_INPUT_EXTRA_JOYLL_1_DE, "Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)" },
-/* es */ { IDS_SET_INPUT_EXTRA_JOYLL_1_ES, "Emulación Joystick suplementario #1: (0:No, 1: Teclado númerico, 2-5: Amiga Joy0-3 )" },
+/* es */ { IDS_SET_INPUT_EXTRA_JOYLL_1_ES, "Emulación Joystick suplementario #1: (0:No, 1: Teclado numérico, 2-5: Amiga Joy0-3 )" },
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYLL_1_FR, "Émulation Joystick supplémentaire 1: (0: Aucune, 1: Pav.Num., 2-5: Amiga Joy 0-3)" },
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYLL_1_HU, "#1-es extra botkormány emuláció (0: Nincs, 1: numerikus, 2-5: Amiga botkormány 0-3)" },
 /* it */ { IDS_SET_INPUT_EXTRA_JOYLL_1_IT, "Emulazione joystick supplementare #1: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3)" },
@@ -7857,7 +7861,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SET_INPUT_EXTRA_JOYLL_2,    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* da */ { IDS_SET_INPUT_EXTRA_JOYLL_2_DA, "Ekstra joystick 2 emulering: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)" },
 /* de */ { IDS_SET_INPUT_EXTRA_JOYLL_2_DE, "Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)" },
-/* es */ { IDS_SET_INPUT_EXTRA_JOYLL_2_ES, "Emulación Joystick suplementario #2: (0:No, 1: Teclado númerico, 2-5: Amiga Joy0-3 )" },
+/* es */ { IDS_SET_INPUT_EXTRA_JOYLL_2_ES, "Emulación Joystick suplementario #2: (0:No, 1: Teclado numérico, 2-5: Amiga Joy0-3 )" },
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYLL_2_FR, "Émulation Joystick supplémentaire 2: (0: Aucune, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYLL_2_HU, "#2-es extra botkormány emuláció (0: Nincs, 1: numerikus, 2-5: Amiga botkormány 0-3)" },
 /* it */ { IDS_SET_INPUT_EXTRA_JOYLL_2_IT, "Emulazione joystick supplementare #2: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3)" },
@@ -8264,7 +8268,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_PET_DWW_FILENAME,    "PET DWW file" },
 /* da */ { IDS_PET_DWW_FILENAME_DA, "PET DWW fil" },
 /* de */ { IDS_PET_DWW_FILENAME_DE, "PET DWW Datei" },
-/* es */ { IDS_PET_DWW_FILENAME_ES, "Fihcero DWW PET" },
+/* es */ { IDS_PET_DWW_FILENAME_ES, "Fichero DWW PET" },
 /* fr */ { IDS_PET_DWW_FILENAME_FR, "Fichier PET DWW" },
 /* hu */ { IDS_PET_DWW_FILENAME_HU, "" },  /* fuzzy */
 /* it */ { IDS_PET_DWW_FILENAME_IT, "File PET DWW" },
@@ -8936,7 +8940,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_PRINTER_4_OUTPUT_DEVICE,    "Printer #4 output device" },
 /* da */ { IDS_PRINTER_4_OUTPUT_DEVICE_DA, "Printer #4 uddataenhed" },
 /* de */ { IDS_PRINTER_4_OUTPUT_DEVICE_DE, "Drucker #4 Ausgabegerät" },
-/* es */ { IDS_PRINTER_4_OUTPUT_DEVICE_ES, "Periférico salida impresoara #4" },
+/* es */ { IDS_PRINTER_4_OUTPUT_DEVICE_ES, "Periférico salida impresora #4" },
 /* fr */ { IDS_PRINTER_4_OUTPUT_DEVICE_FR, "Périphérique de sortie de l'imprimante 4" },
 /* hu */ { IDS_PRINTER_4_OUTPUT_DEVICE_HU, "" },  /* fuzzy */
 /* it */ { IDS_PRINTER_4_OUTPUT_DEVICE_IT, "Dispositivo di output stampante #4" },
@@ -8950,7 +8954,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_PRINTER_5_OUTPUT_DEVICE,    "Printer #5 output device" },
 /* da */ { IDS_PRINTER_5_OUTPUT_DEVICE_DA, "Printer #5 uddataenhed" },
 /* de */ { IDS_PRINTER_5_OUTPUT_DEVICE_DE, "Drucker #5 Ausgabegerät" },
-/* es */ { IDS_PRINTER_5_OUTPUT_DEVICE_ES, "Periférico salida impresoara #5" },
+/* es */ { IDS_PRINTER_5_OUTPUT_DEVICE_ES, "Periférico salida impresora #5" },
 /* fr */ { IDS_PRINTER_5_OUTPUT_DEVICE_FR, "Périphérique de sortie de l'imprimante 5" },
 /* hu */ { IDS_PRINTER_5_OUTPUT_DEVICE_HU, "" },  /* fuzzy */
 /* it */ { IDS_PRINTER_5_OUTPUT_DEVICE_IT, "Dispositivo di output stampante #5" },
@@ -8964,7 +8968,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_PRINTER_6_OUTPUT_DEVICE,    "Printer #6 output device" },
 /* da */ { IDS_PRINTER_6_OUTPUT_DEVICE_DA, "" },  /* fuzzy */
 /* de */ { IDS_PRINTER_6_OUTPUT_DEVICE_DE, "Drucker #6 Ausgabegerät" },
-/* es */ { IDS_PRINTER_6_OUTPUT_DEVICE_ES, "Periférico salida impresoara #6" },
+/* es */ { IDS_PRINTER_6_OUTPUT_DEVICE_ES, "Periférico salida impresora #6" },
 /* fr */ { IDS_PRINTER_6_OUTPUT_DEVICE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PRINTER_6_OUTPUT_DEVICE_HU, "" },  /* fuzzy */
 /* it */ { IDS_PRINTER_6_OUTPUT_DEVICE_IT, "Dispositivo di output stampante #6" },
@@ -9789,10 +9793,10 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_IDE64_VERSION,    "IDE64 version" },
 /* da */ { IDS_IDE64_VERSION_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_VERSION_DE, "IDE64 Version" },  /* fuzzy */
+/* de */ { IDS_IDE64_VERSION_DE, "" },  /* fuzzy */
 /* es */ { IDS_IDE64_VERSION_ES, "" },  /* fuzzy */
 /* fr */ { IDS_IDE64_VERSION_FR, "" },  /* fuzzy */
-/* hu */ { IDS_IDE64_VERSION_HU, "IDE64 verzió" },
+/* hu */ { IDS_IDE64_VERSION_HU, "" },  /* fuzzy */
 /* it */ { IDS_IDE64_VERSION_IT, "" },  /* fuzzy */
 /* ko */ { IDS_IDE64_VERSION_KO, "" },  /* fuzzy */
 /* nl */ { IDS_IDE64_VERSION_NL, "" },  /* fuzzy */
@@ -9806,7 +9810,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_USB_SERVER_DE, "USB Server" },
 /* es */ { IDS_USB_SERVER_ES, "Servidor USB" },
 /* fr */ { IDS_USB_SERVER_FR, "" },  /* fuzzy */
-/* hu */ { IDS_USB_SERVER_HU, "USB szerver" },
+/* hu */ { IDS_USB_SERVER_HU, "" },  /* fuzzy */
 /* it */ { IDS_USB_SERVER_IT, "Server USB" },
 /* ko */ { IDS_USB_SERVER_KO, "" },  /* fuzzy */
 /* nl */ { IDS_USB_SERVER_NL, "USB Server" },
@@ -9820,7 +9824,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_USB_SERVER_ADDRESS_DE, "USB Server Adresse" },
 /* es */ { IDS_USB_SERVER_ADDRESS_ES, "Seleccionar dirección servidorUSB" },
 /* fr */ { IDS_USB_SERVER_ADDRESS_FR, "" },  /* fuzzy */
-/* hu */ { IDS_USB_SERVER_ADDRESS_HU, "USB szerver címe" },
+/* hu */ { IDS_USB_SERVER_ADDRESS_HU, "" },  /* fuzzy */
 /* it */ { IDS_USB_SERVER_ADDRESS_IT, "Indirizzo server USB a cui collegarsi" },
 /* ko */ { IDS_USB_SERVER_ADDRESS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_USB_SERVER_ADDRESS_NL, "USB server adres waaraan gebonden moet worden" },
@@ -10098,7 +10102,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SELECT_CARD_IMAGE_FILE,    "Select card image file" },
 /* da */ { IDS_SELECT_CARD_IMAGE_FILE_DA, "Angiv kortimagefil" },
 /* de */ { IDS_SELECT_CARD_IMAGE_FILE_DE, "Card Image Datei auswählen" },
-/* es */ { IDS_SELECT_CARD_IMAGE_FILE_ES, "Selecionar fichero imagen tarjeta" },
+/* es */ { IDS_SELECT_CARD_IMAGE_FILE_ES, "Seleccionar fichero imagen tarjeta" },
 /* fr */ { IDS_SELECT_CARD_IMAGE_FILE_FR, "Sélectionnez le fichier image carte" },
 /* hu */ { IDS_SELECT_CARD_IMAGE_FILE_HU, "" },  /* fuzzy */
 /* it */ { IDS_SELECT_CARD_IMAGE_FILE_IT, "Seleziona file immagine card" },
@@ -10588,7 +10592,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS,    "Save currently attached disk images" },
 /* da */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_DA, "Gem tilsluttede disk-images" },
 /* de */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_DE, "Aktuell eingelegte Diskimages speichern" },
-/* es */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_ES, "Grabar imagenes de disco actualmente insertados" },
+/* es */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_ES, "Grabar imágenes de disco actualmente insertados" },
 /* fr */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_FR, "Sauvegarder les disques présentement attachés" },
 /* hu */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_HU, "A jelenleg csatolt lemezek mentése" },
 /* it */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_IT, "Salva immagini dischi attualmente selezionati" },
@@ -10602,7 +10606,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS,    "Save currently loaded ROM images" },
 /* da */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_DA, "Gem tilsluttede ROM-images" },
 /* de */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_DE, "Aktuelle ROMs speichern" },
-/* es */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_ES, "Grabar imagenes ROM actualmente cargadas" },
+/* es */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_ES, "Grabar imágenes ROM actualmente cargadas" },
 /* fr */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_FR, "Sauvegarder les images ROM présentement chargés" },
 /* hu */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_HU, "A jelenleg betöltött ROM-ok mentése" },
 /* it */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_IT, "Salva immagini ROM attualmente caricate" },

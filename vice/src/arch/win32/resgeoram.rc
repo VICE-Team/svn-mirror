@@ -120,7 +120,7 @@ BEGIN
   IDS_GEORAM_ENABLE       "Permitir unidad expansión GEO-RAM"
   IDS_GEORAM_SIZE_LABEL   "Tamaño GEO-RAM"
   IDS_GEORAM_WRITE_ENABLE "Grabar imagen GEO-RAM cuando cambie"
-  IDS_GEORAM_FILE_LABEL   "Fihcero GEO-RAM"
+  IDS_GEORAM_FILE_LABEL   "Fulcro GEO-RAM"
 END
 
 

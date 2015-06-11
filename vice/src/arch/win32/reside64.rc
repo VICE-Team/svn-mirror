@@ -164,7 +164,7 @@ BEGIN
     IDS_IDE64_HEADS                 "Cabezas"
     IDS_IDE64_SECTORS               "Sectores"
     IDS_IDE64_TOTAL_SIZE            "Tamaño total: %iKB"
-    IDS_IDE64_SELECT_IMAGE          "Selecionar fichero imagen periférico ATA"
+    IDS_IDE64_SELECT_IMAGE          "Seleccionar fichero imagen periférico ATA"
     IDS_IDE64_USB_SERVER_BIND_LABEL "Direccion servidor IDE64 USB para enlazar"
 END
 

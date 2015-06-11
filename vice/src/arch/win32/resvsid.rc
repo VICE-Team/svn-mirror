@@ -190,7 +190,7 @@ BEGIN
   IDS_MI_LOAD_PSID_FILE   "Cargar fichero PSID"
   IDS_MI_SELECT_TUNE      "Seleccionar melodia"
   IDS_MI_NEXT_TUNE        "Siguiente melodia"
-  IDS_MI_PREVIOUS_TUNE    "Melodia previa"
+  IDS_MI_PREVIOUS_TUNE    "Melodía previa"
   IDS_MI_PSID_OVERRIDE    "No utilizar ajustes PSID"
   IDS_MP_TUNES            "Melodias"
   IDS_MP_SOUND_RECORDING  "Grabación sonido"

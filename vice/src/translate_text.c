@@ -27,6 +27,10 @@
 translate_t string_table[] = {
 
 
+
+
+
+
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -236,7 +240,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SORRY_NO_MULTI_RECORDING_DA, "Kun en optagelse kan foretages ad gangen."},
 /* de */ {IDGS_SORRY_NO_MULTI_RECORDING_DE, "Eine Aufnahme ist zur Zeit aktiv. Mehrfache Aufnahme ist nicht möglich."},
-/* es */ {IDGS_SORRY_NO_MULTI_RECORDING_ES, "Lo siento, no estan soportadas las grabaciones múltiples."},
+/* es */ {IDGS_SORRY_NO_MULTI_RECORDING_ES, "Lo siento, no están soportadas las grabaciones múltiples."},
 /* fr */ {IDGS_SORRY_NO_MULTI_RECORDING_FR, "Désolé. De multiples enregistrements ne sont pas supporté."},
 /* hu */ {IDGS_SORRY_NO_MULTI_RECORDING_HU, "Sajnálom: többszörös felvétel nem támogatott."},
 /* it */ {IDGS_SORRY_NO_MULTI_RECORDING_IT, "Le registrazioni multiple non sono supportate."},
@@ -355,7 +359,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_RECORD_DIFFERENT_PLAYBACK_DA, "Indspilningsenhed og optagelsesenhed skal være forskellige"},
 /* de */ {IDGS_RECORD_DIFFERENT_PLAYBACK_DE, "Aufnahmegerät muss unterschiedlich vom Abspielgerät sein"},
-/* es */ {IDGS_RECORD_DIFFERENT_PLAYBACK_ES, "Periferico de grabación y reproducción tienen que ser diferentes"},
+/* es */ {IDGS_RECORD_DIFFERENT_PLAYBACK_ES, "Periférico de grabación y reproducción tienen que ser diferentes"},
 /* fr */ {IDGS_RECORD_DIFFERENT_PLAYBACK_FR, "Le périphérique de son d'enregistrement doivent être différents"},
 /* hu */ {IDGS_RECORD_DIFFERENT_PLAYBACK_HU, "A felvevõ és lejátszó eszközöknek különböznie kell"},
 /* it */ {IDGS_RECORD_DIFFERENT_PLAYBACK_IT, "Il dispositivo di registrazione deve essere differente da quello di riproduzione"},
@@ -372,7 +376,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_WARNING_RECORDING_REALTIME_DA, "Advarsel! Optageenheden %s ser ud til at være en realtidsenhed!"},
 /* de */ {IDGS_WARNING_RECORDING_REALTIME_DE, "Warnung! Aufnahmegerät %s scheint ein Echtzeitgerät zu sein!"},
-/* es */ {IDGS_WARNING_RECORDING_REALTIME_ES, "¡Precaución! periférico de grabación %s parece ser un periferico en tiempo real"},
+/* es */ {IDGS_WARNING_RECORDING_REALTIME_ES, "¡Precaución! periférico de grabación %s parece ser un periférico en tiempo real"},
 /* fr */ {IDGS_WARNING_RECORDING_REALTIME_FR, "Attention! Le périphérique d'enregistrement %s semble être un périphérique temps réel"},
 /* hu */ {IDGS_WARNING_RECORDING_REALTIME_HU, "Figyelem! A %s felvevõ eszköz úgy tûnik, valós idejû eszköz!"},
 /* it */ {IDGS_WARNING_RECORDING_REALTIME_IT, "Attenzione! Il dispositivo di registrazione %s sembra essere di tipo realtime!"},
@@ -389,7 +393,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_DA, "Optageenheden understøtter ikke de valgte lydparametre"},
 /* de */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_DE, "Aufnahmegerät unterstützt derzeitige Soundeinstellungen nicht"},
-/* es */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_ES, "El periférico de grabación no soporta los actuales parametros de sonido"},
+/* es */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_ES, "El periférico de grabación no soporta los actuales parámetros de sonido"},
 /* fr */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_FR, "Le périphérique d'enregistrement ne supporte pas les paramètres actuels"},
 /* hu */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_HU, "A felvevõ eszköz nem támogatja az aktuális hangbeállításokat"},
 /* it */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_IT, "Il dispositivo di registrazione non supporta i parametri attuali"},
@@ -645,7 +649,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DA, "Kunne ikke oprette snapshot-fil. Vælg et andet historik-katalog!"},
 /* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DE, "Kann Snapshot Datei nicht erzeugen. Verwende ein anderes Verzeichnis!"},
-/* es */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_ES, "No puedo crear fichero Instantánea. ¡Seleccionar diferente directorio historico!"},
+/* es */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_ES, "No puedo crear fichero Instantánea. ¡Seleccionar diferente directorio histórico!"},
 /* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_FR, "Impossible de créer le fichier d'instantané. Sélectionnez un répertoire d'historique différent"},
 /* hu */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_HU, "Nem sikerült pillanatkép fájlt létrehozni. Kérem válasszon más könyvtárat!"},
 /* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_IT, "Non è possibile creare il file di snapshot. Seleziona una directory diversa per la cronologia."},
@@ -679,7 +683,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_CONNECT_TO_S_DA, "Kan ikke forbinde til %s (ingen server på port %d)."},
 /* de */ {IDGS_CANNOT_CONNECT_TO_S_DE, "Kann zu %s nicht verbinden (Kein Server aktiv auf Port %d)."},
-/* es */ {IDGS_CANNOT_CONNECT_TO_S_ES, "No puedo conectar a  %s (Ninguún servidor en puerto %d)."},
+/* es */ {IDGS_CANNOT_CONNECT_TO_S_ES, "No puedo conectar a  %s (Ningún servidor en puerto %d)."},
 /* fr */ {IDGS_CANNOT_CONNECT_TO_S_FR, "Impossible de se connecter à %s (aucun serveur sur le port %d)."},
 /* hu */ {IDGS_CANNOT_CONNECT_TO_S_HU, "Nem sikerült %s-hez kapcsolódni (a %d porton nem fut kiszolgáló)"},
 /* it */ {IDGS_CANNOT_CONNECT_TO_S_IT, "Non è possibile connettersi a %s (nessun server è attivo sulla porta %d)."},
@@ -713,7 +717,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_NETWORK_OUT_OF_SYNC_DA, "Netværk ude af synk - afbryder forbindelsen."},
 /* de */ {IDGS_NETWORK_OUT_OF_SYNC_DE, "Netzwerksynchronisationsproblem - Trenne Verbindung."},
-/* es */ {IDGS_NETWORK_OUT_OF_SYNC_ES, "Red fuera de sincronia - desconentando."},
+/* es */ {IDGS_NETWORK_OUT_OF_SYNC_ES, "Red fuera de sincronía - desconectando."},
 /* fr */ {IDGS_NETWORK_OUT_OF_SYNC_FR, "Le réseau n'est pas synchronisé (out of sync error). Déconnexion."},
 /* hu */ {IDGS_NETWORK_OUT_OF_SYNC_HU, "A hálózat kiesett a szinkronból - szétkapcsolódás"},
 /* it */ {IDGS_NETWORK_OUT_OF_SYNC_IT, "Rete non sincronizzata - disconnesione in corso."},
@@ -765,7 +769,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_DA, "ffmpegdrv: Kan ikke åbne video-strøm"},
 /* de */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_DE, "ffmpegdrv: Kann video stream nicht öffnen"},
-/* es */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_ES, "ffmpegdrv: no puedo abrir video stream"},
+/* es */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_ES, "ffmpegdrv: no puedo abrir vídeo stream"},
 /* fr */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_FR, "ffmpegdrv: Impossible d'ouvrir le flux vidéo"},
 /* hu */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_HU, "ffmpegdrv: Nem sikerült megnyitni a videó adatfolyamot"},
 /* it */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_IT, "ffmpegdrv: Non è possibile aprire il flusso video"},
@@ -1139,7 +1143,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_BANK_DESCRIPTION_DA, "Hvis banknavn ikke angives vises mulige banker for hukommelsesområdet.\nHvis banknavn angives sættes aktuel bank i hukommelsesområdet til den\nangivne bank."},
 /* de */ {IDGS_MON_BANK_DESCRIPTION_DE, "Falls `bankname' nicht angegeben wird, Ausgabe der möglichen Bänke in `memspace'.\nFalls `bankname' angegeben wird, setze aktuelle Bank in `memspace' mit angegebener Bank."},
-/* es */ {IDGS_MON_BANK_DESCRIPTION_ES, "Si no se pone el nombre del banco, imprimir los bancos posivles para el espacio de memoria.\nSi se da el nombre de banco se susa como espacio de memoria actual \nbanco."},
+/* es */ {IDGS_MON_BANK_DESCRIPTION_ES, "Si no se pone el nombre del banco, imprimir los bancos posibles para el espacio de memoria.\nSi se da el nombre de banco se usa como espacio de memoria actual \nbanco."},
 /* fr */ {IDGS_MON_BANK_DESCRIPTION_FR, "Si le nom de la banque n'est pas donné, afficher les banques possible pour\ncet espace mémoire. Si le nom de la banque est donnée, régler la banques\ncourante de l'espace mémoire à cette banque sélectionnée."},
 /* hu */ {IDGS_MON_BANK_DESCRIPTION_HU, "Ha a lap száma nincs megadva, kiírja a lehetséges lapokat a memória térbõl.\nHa meg van adva, az aktuális lap számot a memória térben a megadott lapra állítja."},
 /* it */ {IDGS_MON_BANK_DESCRIPTION_IT, "Se non viene specificato il nome del banco, stampa tutti i banchi\npossibili per lo spazio di memoria.\nSe viene specificato il nome del banco, imposta il banco attuale nello\nspazio di memoria specificato."},
@@ -1156,7 +1160,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_BACKTRACE_DESCRIPTION_DA, "Vis JSR-kaldekæde (seneste kald øverst). Stakafstand\nrelativ til SP+1 vises i parantes. Dette er kun et\ngæt."},
 /* de */ {IDGS_MON_BACKTRACE_DESCRIPTION_DE, "Zeige JSR Aufrufkette (letzter Aufruf zuerst). Stack offset\nwird relative zu SP+1 in Klammern gezeigt. Dies ist jedoch nur\neine Schätzung."},
-/* es */ {IDGS_MON_BACKTRACE_DESCRIPTION_ES, "Imprimir cadena de llamada JSR (la llamada más reciente primero). Stack offset\nrelativo a  SP+1 se imprime entre parentesis. Esta es una buena suposición\nsólo."},
+/* es */ {IDGS_MON_BACKTRACE_DESCRIPTION_ES, "Imprimir cadena de llamada JSR (la llamada más reciente primero). Stack offset\nrelativo a  SP+1 se imprime entre paréntesis. Esta es una buena suposición\nsólo."},
 /* fr */ {IDGS_MON_BACKTRACE_DESCRIPTION_FR, "Afficher la chaine d'appels JSR (plus récent appel en premier)\nL'emplacement de la pile relatif à SP+1 est affiché entre\nparanthèses. Il ne s'agit que de la meilleure estimation possible."},
 /* hu */ {IDGS_MON_BACKTRACE_DESCRIPTION_HU, "JSR hívás lista kiírása (legutóbbi elõször). A verem SP+1\nhelyen lévõ tartalma zárójelben. Ez csak\negy legjobb becslés."},
 /* it */ {IDGS_MON_BACKTRACE_DESCRIPTION_IT, "Stampa la catena di chiamate JSR (la chiamata più recente per prima).\nL'offset dello stack relativo a SP+1 è stampato tra parentesi. Questo è\nsolo l'ipotesi migliore."},
@@ -1292,7 +1296,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_IO_DESCRIPTION_DA, "Udskriv I/O-området for den emulerede maskine."},
 /* de */ {IDGS_MON_IO_DESCRIPTION_DE, "Zeige den I/O Bereich der emulierten Maschine."},
-/* es */ {IDGS_MON_IO_DESCRIPTION_ES, "Imprimir el area de entrada/salida de la máquina emulada."},
+/* es */ {IDGS_MON_IO_DESCRIPTION_ES, "Imprimir el área de entrada/salida de la máquina emulada."},
 /* fr */ {IDGS_MON_IO_DESCRIPTION_FR, "Afficher la zone d'E/S de la machine émulée."},
 /* hu */ {IDGS_MON_IO_DESCRIPTION_HU, "Az emulált gép I/O tartományának mutatása."},
 /* it */ {IDGS_MON_IO_DESCRIPTION_IT, "Stampa l'area di I/O del computer emulato."},
@@ -1377,7 +1381,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_REGISTERS_DESCRIPTION_DA, "Tildel værdi til registre. Uden parametre vises nuværende værdier\ni registrene."},
 /* de */ {IDGS_MON_REGISTERS_DESCRIPTION_DE, "Zuweisung auf entsprechende Register. Ohne Parameter, zeige Register Werte."},
-/* es */ {IDGS_MON_REGISTERS_DESCRIPTION_ES, "Asignar registros respectivos. Sin parametros, mostrar valores\nregistros."},
+/* es */ {IDGS_MON_REGISTERS_DESCRIPTION_ES, "Asignar registros respectivos. Sin parámetros, mostrar valores\nregistros."},
 /* fr */ {IDGS_MON_REGISTERS_DESCRIPTION_FR, "Assigner des registres respectifs. Sans paramètres, affichera\nles valeurs des registres."},
 /* hu */ {IDGS_MON_REGISTERS_DESCRIPTION_HU, "Megadott regiszterek beállítása. Paraméterek nélkül, a regiszterek\ntartalmának kiírása."},
 /* it */ {IDGS_MON_REGISTERS_DESCRIPTION_IT, "Assegna i rispettivi registri. Senza parametri, mostra i valori dei\nregistri."},
@@ -1445,7 +1449,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_STEP_DESCRIPTION_DA, "Gå skridtvis gennem instruktioner. Hvis ANTAL angives kan\nflere instruktioner udføres i hvert skridt."},
 /* de */ {IDGS_MON_STEP_DESCRIPTION_DE, "Einzelschritt Ausführung durch Instruktionen. COUNT erlaubt die Ausführung\nmehrerer Instruktionen auf einmal."},
-/* es */ {IDGS_MON_STEP_DESCRIPTION_ES, "Salto simple a traves de la instrucción.  el CONTADOR permite el salto de\nmás de una instrucción a la vez."},
+/* es */ {IDGS_MON_STEP_DESCRIPTION_ES, "Salto simple a través de la instrucción.  el CONTADOR permite el salto de\nmás de una instrucción a la vez."},
 /* fr */ {IDGS_MON_STEP_DESCRIPTION_FR, "Instructions à étape-unique. COUNT permet de faire pas-à-pas plus qu'une seule instruction à la fois."},
 /* hu */ {IDGS_MON_STEP_DESCRIPTION_HU, "Lépkedés egyesével az utasításokon.  A DARAB-bal beállítható,\nha több utasítást kell ugrani egyszerre."},
 /* it */ {IDGS_MON_STEP_DESCRIPTION_IT, "Modalità single step attraverso le istruzioni. Il CONTATORE permette\ndi attraversare più di una singola istruzione per volta."},
@@ -1530,7 +1534,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DA, "<huk.område>   er en af C: 8: 9: 10: eller 11:\n<adresse>      Er adressen som skal have etiketten.\n<etiket>       er navnet på etiketten; skal starte med punktum (\".\").\n\nSæt en etiket for en adresse. Etiketten kan angives når der indtastes\nassemblerkode, og vises ved disassemblering. Desuden kan den bruges\nhvor en adresse skal angives."},
 /* de */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DE, "<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n<Adresse>         bezeichnet die Adresse welche mit dem Bezeichner assoziert werden soll.\n<Bezeichner>      Name des Bezeichners; Muss mit einem Punkt (\".\") starten.\n\nAssoziiert einen Bezeichner mit einer Adresse. Dieser Bezeichner kann \nbei der Eingabe von Asssmblercode benutzt werden und wird auch beim\nDisassemblieren gezeigt. Darüber hinaus kann der Bezeichner überall\ndort genutzt werden, wo eine Adresseingabe nötig ist."},
-/* es */ {IDGS_MON_ADD_LABEL_DESCRIPTION_ES, "<espacio memoria> es uno de: C: 8: 9: 10: 11:\n<dirección>  es la dirección donde estará la etiquetal.\n<letiqueta>   es el nombre de la etiqueta; debe empezar con un punto (\".\").\n\nMapea la dirección dada a una etiqueta que se usará cuando se inserte\ncódigo ensamblador y se mostrará durante el desensamblado.  Adicionalmente\npuede ser usada siempre que se deba especificar una dirección."},
+/* es */ {IDGS_MON_ADD_LABEL_DESCRIPTION_ES, "<espacio memoria> es uno de: C: 8: 9: 10: 11:\n<dirección>  es la dirección donde estará la etiqueta.\n<etiqueta>   es el nombre de la etiqueta; debe empezar con un punto (\".\").\n\nMapea la dirección dada a una etiqueta que se usará cuando se inserte\ncódigo ensamblador y se mostrará durante el desensamblado.  Adicionalmente\npuede ser usada siempre que se deba especificar una dirección."},
 /* fr */ {IDGS_MON_ADD_LABEL_DESCRIPTION_FR, "<memspace> est un des choix suivants (C: 8: 9: 10: 11:)\n<address>  est l'adresse qui devrait prendre le label.\n<label>    est le nom de l'étiquette; il doit commencer par un point (\".\").\n\nAssocie une adresse a une étiquette. Cette étiquette peut être utilisé en entrant\ndu code assembleur et est montré durant le déassemblement. Aussi, vous pouvez\nl'utiliser à tout moment ou une adresse doit être entrée."},
 /* hu */ {IDGS_MON_ADD_LABEL_DESCRIPTION_HU, "A <memória tér> ezek közül: C: 8: 9: 10: 11:\n<cím>  amelyik címhez a címkét rendelje.\n<címke>    a címke neve; ponttal kell kezdõdjön (\".\").\n\nAz adott cím rendelése a címkéhez.  Ez a címke használható assembly\nprogram beírásakor, és visszafejtéskor megjelenik.  Mindig használható,\namikor valamilyen címet kell megadni."},
 /* it */ {IDGS_MON_ADD_LABEL_DESCRIPTION_IT, "<spazio di memoria> è uno tra: C: 8: 9: 10: 11:\n<indirizzo> è l'indirizzo a cui deve essere associata l'etichettal.\n<etichetta> è il nome dell'etichetta; deve iniziare con un punto (\".\").\n\nAssocia l'indirizzo specificato all'etichetta. Questa etichetta può\nessere usata quando si inserisce codice assembly ed è mostrata\nnella disassemblazione. In aggiunta, può essere usata ogni volta che\ndeve essere specificato un indirizzo."},
@@ -1547,7 +1551,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_DA, "<huk.område>   er en af C: 8: 9: 10: eller 11:\n<etiket>       er navnet på etiketten; skal starte med punktum (\".\").\n\nFjern en tidligere oprettet etiket."},
 /* de */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_DE, "<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n<Bezeichner>      Name des Bezeichners; Muss mit einem Punkt (\".\") starten.\n\nLöscht einen zuvor definierten Bezeichner."},
-/* es */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_ES, "<espacio memoria> es uno de: C: 8: 9: 10: 11:\n<letiqueta>    es el nombre de la etiqueta; y debe comenzar por un punto (\".\").\n\nBorrar una etiqueta previamente definida."},
+/* es */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_ES, "<espacio memoria> es uno de: C: 8: 9: 10: 11:\n<etiqueta>    es el nombre de la etiqueta; y debe comenzar por un punto (\".\").\n\nBorrar una etiqueta previamente definida."},
 /* fr */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_FR, "<memspace> est un des choix suivants (C: 8: 9: 10: 11:)\n<label>    est le nom de l'étiquette et commence par un point (\".\").\n\nDétruit une étiquette préalablement créée."},
 /* hu */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_HU, "<memória tér> egy ezek közül: C: 8: 9: 10: 11:\n<címke>    a címke neve; ponttal kell kezdõdjön (\".\").\n\nElõzõleg megadott címke törlése."},
 /* it */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_IT, "<spazio di memoria> è uno tra: C: 8: 9: 10: 11:\n<etichetta> è il nome dell'etichetta; deve iniziare con un punto (\".\").\n\nCancella una etichetta definita precedentemente."},
@@ -1564,7 +1568,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_DA, "Indlæs en fil som indeholder mapning fra labels til adresser.\nHvis der ikke angives hukommelsesområde, anvendes det normale læseområde.\n\nFormatet på filen er det, som skrives af \"save_labels\"-kommandoen;\ndet består af \"add_label\"-kommandoer efter hinanden."},
 /* de */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_DE, "Lädt eine Datei mit Zuordnung von Adressen zu Bezeichnern. Wenn kein \nSpeicherbereich angegeben wurde, wird der Standard Speicherplatz\nverwendet. Das Format der Datei wird durch das Kommande `save_lables'\ndefiniert. Es besteht aus eine Reihe von `add_label' Kommandos,\nhintereinander angeordnet."},
-/* es */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_ES, "Carga fichero conteniendo mapeado de etiquetas de direcciones.  Si no\nhay espacio de memoria especificado, se usa el espacio por defecto.\n\nEl formato de fichero es el usado por el comando grabar etiquetas;\nConsiste en algunos comandos`añadir etiquetal' , grabado uno despues del otro."},
+/* es */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_ES, "Carga fichero conteniendo mapeado de etiquetas de direcciones.  Si no\nhay espacio de memoria especificado, se usa el espacio por defecto.\n\nEl formato de fichero es el usado por el comando grabar etiquetas;\nConsiste en algunos comandos`añadir etiqueta' , grabado uno después del otro."},
 /* fr */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_FR, "Charge un fichier contenant des étiquettes d'adresses. Si aucune adresse\nmémoire n'est spécifiée, l'adressage par défaut est utilisé.\n\nLe format du fichier est celui utilisé par la commande `save_labels';\nIl consiste de quelques commandes `add_label', écrites l'une après l'autre."},
 /* hu */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_HU, "Címkékrõl címekre leképezéseket tartalmazó fájl betöltése.  Ha nincs memória\ntér megadva, az alap tér lesz használva.\n\nA fájl formátuma megegyezik a `save_labels' parancs által kiírtéval;\nnéhány egymás után írt `add_label' parancsból áll."},
 /* it */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_IT, "Carica un file che contiente l'associazione tra le etichette e gli indirizzi.\nSe non è specificato alcuno spazio di memoria, viene usato lo spazio\ndi lettura predefinito.\n\nIl formato del file è quello dato in output dal comando `save_labels';\nè composto da alcuni comandi `add_label', scritti uno di seguito all'altro."},
@@ -1596,28 +1600,28 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_SHOW_LABELS_DESCRIPTION,    N_("Display current label mappings.  If no memory space is specified, show\nall labels from default address space.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DA, "Vis aktuelle etiketter. Hvis der ikke angives et hukommelsesområde vises\nalle etiketter."},
-/* de */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DE, "Zeige aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\nwurde, werden alle Bezeichner gezeigt von aktualler Speicherbereich."},
-/* es */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_ES, "Muestra mapeado de etiquetas actual. Si no se especifica espacio de\nmemoria, muestra todas las etiquetas."},
-/* fr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_FR, "Affiche les étiquettes mémoires actuelles. Si aucune adresse mémoire\nn'est spécifiée, affichera toutes les étiquettes."},
-/* hu */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_HU, "Az aktuális címke leképezések mutatása.  Ha nincs a memória tér megadva, az\nösszeset mutatja az aktuális memória térbõl."},
-/* it */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_IT, "Mostra l'associazione delle etichette correnti. Se non è specificato alcuno\nspazio di memoria, verranno mostrate tutte le etichette."},
+/* da */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_NL, "Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven\nworden all labels getoont."},
-/* pl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_PL, "Pokazuje obecne mapowania notatek. Je¶li nie okre¶lono obszaru pamiêci,\npokazuje wszystkie notatki."},
-/* ru */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_RU, "Display current label mappings.  If no memory space is specified, show\nall labels."},
-/* sv */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_SV, "Visar aktuella etiketter. Om inget minnesområde anges visas alla\netiketter."},
-/* tr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_TR, "Geçerli etiket eþleþmelerini görüntüle.  Eðer bellek alaný belirtilmemiþse,\ntüm etiketleri göster."},
+/* nl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION,    N_("Clear current label mappings.  If no memory space is specified, clear\nall labels from default address space.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_DE, "Löscht aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\nwurde, werden alle Bezeichner gelöscht von aktualler Speicherbereich."},
+/* de */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_DE, ""},  /* fuzzy */
 /* es */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_HU, "Az aktuális címke leképezések törlése.  Ha nincs a memória tér megadva, az\nösszeset törli az aktuális memória térbõl."},
+/* hu */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_CLEAR_LABELS_DESCRIPTION_NL, ""},  /* fuzzy */
@@ -1700,7 +1704,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_ASSEMBLE_DESCRIPTION_DA, "Skriv assemblerinstruktioner til adresse. Hvis kun en instruktion\nangives, skiftes til assembler-tilstand (indtast en tom linje for\nat afslutte assembler-tilstanden)."},
 /* de */ {IDGS_MON_ASSEMBLE_DESCRIPTION_DE, "Assmbler Instruktionen zur angebenen Adresse. Wenn nur eine Instruktion\nangegeben wurde, wird der assemblier Modus aktiviert (Eingabe einer leeren\nZeile beendet den assemblier Modus)."},
-/* es */ {IDGS_MON_ASSEMBLE_DESCRIPTION_ES, "Ensambla instrucciones en la dirección especificada.  Si sólo se\nespecifica una instrucción, entra en modo ensamblador, (entrar \nuna linea vacia para salir)."},
+/* es */ {IDGS_MON_ASSEMBLE_DESCRIPTION_ES, "Ensambla instrucciones en la dirección especificada.  Si sólo se\nespecifica una instrucción, entra en modo ensamblador, (entrar \nuna linea vacía para salir)."},
 /* fr */ {IDGS_MON_ASSEMBLE_DESCRIPTION_FR, "Assembler les instructions à l'adresse spécifiée. Si seulement\nune instruction est spécifiée, entrez le mode assembleur (entrez\nune ligne vide pour quitter le mode assembleur)."},
 /* hu */ {IDGS_MON_ASSEMBLE_DESCRIPTION_HU, "Utasítások fordítása a megadott címre. Ha csak egy utasítás\nvan, fordító módba lép (üres sort kell beírni a kilépéshez)."},
 /* it */ {IDGS_MON_ASSEMBLE_DESCRIPTION_IT, "Assembla le istruzioni a partire dall'indirizzo specificato. Se solo una\nistruzione è specificata, entra in modalità assembly (inserire una\nlinea vuota per uscire da questa modalità)."},
@@ -1921,7 +1925,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_MEMCHAR_DESCRIPTION_DA, "Vis hukommelsens indhold som tegndata. Hvis kun en adresse\nangives, vises kun et tegn. Hvis ingen adresse angives benyttes\n\"punktum\"-adressen."},
 /* de */ {IDGS_MON_MEMCHAR_DESCRIPTION_DE, "Zeige den Inhalt von Speicher als Character Daten. Wenn nur eine Adresse\nangegeben wurde, wird nur ein Zeichen gezeigt. Wenn keine Adresse angegeben\nwurde, wird die aktuelle Adresse verwendet."},
-/* es */ {IDGS_MON_MEMCHAR_DESCRIPTION_ES, "Mostrar el contenido de memoria como datos de caracter. Si sólo se una\ndirección es especificada, sólo se muestra un caracter. Si no se da\nninguna dirección, se usa la dirección 'dot'."},
+/* es */ {IDGS_MON_MEMCHAR_DESCRIPTION_ES, "Mostrar el contenido de memoria como datos de carácter. Si sólo se una\ndirección es especificada, sólo se muestra un carácter. Si no se da\nninguna dirección, se usa la dirección 'dot'."},
 /* fr */ {IDGS_MON_MEMCHAR_DESCRIPTION_FR, "Affiche le contenu de la mémoire en tant que caractères. Si une seule\nadresse est spécifiée, un seul caractère est donné. si aucune adresse\nn'est spécifiée, alors l'adresse marquée d'un point est utilisée."},
 /* hu */ {IDGS_MON_MEMCHAR_DESCRIPTION_HU, "A memória tartalmának megjelenítése karakter grafikaként.  Ha csak egy cím\nadott, egyetlen karakter rajzolódik ki.  Ha nincs cím megadva,\na ``pont'' címet használja."},
 /* it */ {IDGS_MON_MEMCHAR_DESCRIPTION_IT, "Mosta il contenuto della memoria come dati caratteri. Se è specificato\nsolo un indirizzo, verrà visualizzato solo un carattere. Se non è\nspecificato alcun indirizzo, varrà utilizzato l'indirizzo ``dot'' ."},
@@ -2040,7 +2044,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_MOVE_DESCRIPTION_DA, "Kopiér data fra kilden angivet af hukommelsesområdet til destinationen\nsom angives af adressen. Regionerne kan overlappe."},
 /* de */ {IDGS_MON_MOVE_DESCRIPTION_DE, "Verschiebe Speicher von Startadresse definiert durch den Adressbereich zum\nZielbereich definiert durch die Adresse. Die Bereiche können überlappend sein."},
-/* es */ {IDGS_MON_MOVE_DESCRIPTION_ES, "Mueve memoria desde la fuente especificada por rango de direcciones\nal destino especificado en dirección. La region puede estas superpuesta."},
+/* es */ {IDGS_MON_MOVE_DESCRIPTION_ES, "Mueve memoria desde la fuente especificada por rango de direcciones\nal destino especificado en dirección. La región puede estas superpuesta."},
 /* fr */ {IDGS_MON_MOVE_DESCRIPTION_FR, "Déplacer la mémoire de la source spécifiée par la plage d'adresses\nà la destination spécifiée par l'adresse. Les régions peuvent se\nchevaucher."},
 /* hu */ {IDGS_MON_MOVE_DESCRIPTION_HU, "Memória másolása a forrás területrõl a cél cím által meghatározott\nterületre. A tartományok átfedése megengedett."},
 /* it */ {IDGS_MON_MOVE_DESCRIPTION_IT, "Sposta la memoria dalla sorgente specificata dall'intervallo di indirizzi\nalla destinazione specificata dall'indirizzo. Le regioni possono\nsovrapporsi."},
@@ -2099,7 +2103,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_BREAK_DESCRIPTION_DA, "Sæt et breakpoint. Hvis der ikke angives en adresse vises en liste\nover nuværende gyldige breakpoints.\nHvis der angives en adresse vil der blive sat et breakpoint på\ndenne, og breakpointets nummer udskrives.\n`load|store|exec' er enten `load', `store' eller `exec' (eller en\nvilkårlig kombination), og angiver på hvilken operation monitoren\nafbryder. Hvis intet angives vil monitoren afbryde på `exec'.\nDer kan også angives en betingelse for det angivne breakpoint. For\nyderligere information om betingede udtryk, se kommandoen CONDITION."},
 /* de */ {IDGS_MON_BREAK_DESCRIPTION_DE, "Setze einen Breakpoint. Wenn keine Adresse angegeben wurde, werden die\naktuellen gültigen Breakpoints gezeigt. \nWenn eine Adresse angegebene wurde, wird ein Breakpoint auf diese Adresse\ngesetzt und die Breakpoint Nummer wird ausgegeben.\n`load|store|exec' ist entweder `load', `store' oder `exec' (oder eine\nKombination) und dient zur Angabe, bei welcher Operation der Monitor\nanhalten soll. Wenn keine Angabe gemacht wird, stoppt der Monitor bei\n`exec'.\nEin bedingter Ausdruck kann zu Breakpoints zugeordnet werden. Für\nmehr Informations über bedingte Ausdrücke, bitte Kommando CONDITION\nansehen."},
-/* es */ {IDGS_MON_BREAK_DESCRIPTION_ES, "Poner punto de ruptura. Si no se dá dirección, se imprime el actual punto\nde control. Si se dá una dirección, se activa un punto de ruptura en la misma\ny se imprime el número de punto de ruptura.\n`load|store|exec' es cualquiera de `load', `store' or `exec' (o combinación\nde ellos) a especificar en que operacion el monitor se detiene. Si no se\nespecifica, el monitor se detiene en `exec'.\nSe puede especificar tambien una condición para el punto de ruptura.\nPara más información sobre condiciones, ver el comandoa CONDITION."},
+/* es */ {IDGS_MON_BREAK_DESCRIPTION_ES, "Poner punto de ruptura. Si no se da dirección, se imprime el actual punto\nde control. Si se da una dirección, se activa un punto de ruptura en la misma\ny se imprime el número de punto de ruptura.\n`load|store|exec' es cualquiera de `load', `store' or `exec' (o combinación\nde ellos) a especificar en que operación el monitor se detiene. Si no se\nespecifica, el monitor se detiene en `exec'.\nSe puede especificar también una condición para el punto de ruptura.\nPara más información sobre condiciones, ver el comando CONDITION."},
 /* fr */ {IDGS_MON_BREAK_DESCRIPTION_FR, "Créer un point d'arrêt. Si aucune adresse n'est spécifiée, les points\nd'arrêt valides sont affichés.\nsi une adresse est spécifiée, un point d'arrêt est créé pour cette\nadresse et le numéro de point d'arrêt est affiché.\n`load|store|exec' est soit `load', `store' ou `exec' (ou toute\ncombinaison) pour spécifier à quelle opération le moniteur arrête.\nSi aucun n'est spécifié, le moniteur arrête à `exec'.\nUne expression conditionnelle peut aussi être spécifiée pour le\npoint d'arrêt. Pour plus d'informations sur les conditions,\nvoir la commande CONDITION."},
 /* hu */ {IDGS_MON_BREAK_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_BREAK_DESCRIPTION_IT, "Imposta un breakpoint. Se non viene specificato alcun indirizzo,\nvengono stampati i breakpoint attuali.\nSe viene specificato un indirizzo, viene impostato un breakpoint\nper tale indirizzo e viene stampato il suo numero.\n`load|store|exec' è uno tra `load', `store' o `exec' (or una qualunque\ncombinazione di questi) per specificare su quale operazione il monitor\ninterromperà. Se non specificato, il monitor interrompe su `exec'.\nPuò anche essere specificata una condizione per il breakpoint.\nPer ulteriori informazioni, vedere il comando CONDITION."},
@@ -2150,7 +2154,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_CONDITION_DESCRIPTION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_MON_CONDITION_DESCRIPTION_DE, "Bei jeder Überprüfung des Checkpoints, wird die Bedingung evaluiert.\nIst das Ergebnis `Wahr', wird der Checkpoint aktiviert, sonst ingnoriert.\nWenn Register benutzt werden, werden deren Werte zum Zeitpunkt der \nÜberprüfung herangezogen, nicht zum Zeitpunkt des Setzens der Bedingung.\nDie Bedingung kann Register benutzen (A, X, Y, PC, SP, FL und andere\nCPU spezifische Register (siehe Handbuch)) und gegen andere Register oder\nKonstanten vergleichen (==, !=, <, >, <=, >=).\nRegister können auch Geräteregister sein; dazu wird die memspace Prefix-syntax \nverwendet: c:, 8:, 9:, 10:, 11:\nBeispiel: A == 0, X == Y, 8:X == X\n"},
-/* es */ {IDGS_MON_CONDITION_DESCRIPTION_ES, "Cada vez que un punto de control se examine, la condición se\nevaluará. Si la condición es cierta, se activa el punto de control.\nSi no, se ignora. Si los registros están especificado en la condición,\nse usan los valores en el momento en el que se examina el punto\nde ruptura, no en el momento de poner la condicion.\nLa condición puede usar los registros (.A, .X, .Y, .PC, .SP)  y compararlos\nm (==, !=, <, >, <=, >=) con otros registros y constantes.\nLos registros pueden ser de otros periféricos, esto se denota por el\nprefijo de espacio memoria (ejm., c:, 8:, 9:, 10:, 11:\nEjemplos: .A == 0, .X == .Y, 8:.X == .X\n"},
+/* es */ {IDGS_MON_CONDITION_DESCRIPTION_ES, "Cada vez que un punto de control se examine, la condición se\nevaluará. Si la condición es cierta, se activa el punto de control.\nSi no, se ignora. Si los registros están especificado en la condición,\nse usan los valores en el momento en el que se examina el punto\nde ruptura, no en el momento de poner la condición.\nLa condición puede usar los registros (.A, .X, .Y, .PC, .SP)  y compararlos\nm (==, !=, <, >, <=, >=) con otros registros y constantes.\nLos registros pueden ser de otros periféricos, esto se denota por el\nprefijo de espacio memoria (ej., c:, 8:, 9:, 10:, 11:\nEjemplos: .A == 0, .X == .Y, 8:.X == .X\n"},
 /* fr */ {IDGS_MON_CONDITION_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_CONDITION_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_CONDITION_DESCRIPTION_IT, "Ogni volta che si esamina il punto di controllo specificato, viene valutata\nla condizione. Se è vera, il punto di controllo è attivato.\nAltrimenti viene ignorato. Se nell'espressione sono specificati i registri,\nquesti valori sono quelli usati quando viene esaminato il punto di controllo,\nnon quando viene impostata la condizione.\nLa condizione può fare uso dei registri (A, X, Y, PC, SP, FL e altri registri\nspecifici della cpu (vedi manuale)) e confrontarli (==, !=, <, >, <=, >=)\ncon altri registri o costanti.\nI registri possono essere registri di altre periferiche; questo è denotato da\nun prefisso che specifica lo spazio di memoria (cioé, c:, 8:, 9:, 10:, 11:)\nAlcuni esempi: A == 0, X == Y, 8:X == X)\n"},
@@ -2218,7 +2222,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_UNTIL_DESCRIPTION_DA, "Hvis ingen adresse angives vises de aktuelle breakpoints. Hvis en\nadresse angives sættes et midlertidigt breakpoint, og nummeret på\nbreakpointet vises. Kontrollen returneres til emulatoren af denne\nkommando. Breakpointet fjernes når det nås."},
 /* de */ {IDGS_MON_UNTIL_DESCRIPTION_DE, "Wenn keine Adresse angegeben wurde, werden die aktuell gültigen \nBreakpoints angezeigt. Wenn eine Adresse angegeben wurde, wird ein \ntemporärer Breakpoint auf dieser Adresse gesetzt und die Breakpoint Nummer wird\nangezeigt. Die Kontrolle wirdd bei diesem Kommando an die Emulation gegeben.\nDer Breakpoint wird gelöscht, wenn er einmal getroffen wurde."},
-/* es */ {IDGS_MON_UNTIL_DESCRIPTION_ES, "Si no se da dirección, se imprime el último punto de ruptura válido.\nSi se da dirección, se activa un punto de ruptura para la dirección\ny se imprime el número del punto de ruptura. El control se devuelve al\nemulador por el comando. El punto de ruputa se borra una vez se encuentra."},
+/* es */ {IDGS_MON_UNTIL_DESCRIPTION_ES, "Si no se da dirección, se imprime el último punto de ruptura válido.\nSi se da dirección, se activa un punto de ruptura para la dirección\ny se imprime el número del punto de ruptura. El control se devuelve al\nemulador por el comando. El punto de ruptura se borra una vez se encuentra."},
 /* fr */ {IDGS_MON_UNTIL_DESCRIPTION_FR, "Si aucune adresse n'est donnée, les points d'arrêts présentement valides\nseront affichés. Si aucune adresse n'est donnée, un point d'arrêt\ntemporaire est créé pour cette adresse et le numéro de point d'arrêt\nest affiché. Le contrôle retourne à l'émulateur suite à cette commande.\nLe point d'arrêt est supprimé une fois atteint."},
 /* hu */ {IDGS_MON_UNTIL_DESCRIPTION_HU, "Ha nincs cím megadva, a jelenleg érvényes töréspontokat írja ki.\nHa van adott cím, egy ideiglenes töréspontot helyez el az adott címre,\nés a töréspont száma kiíródik.  A vezérlés visszakerül az emulátorhoz\ne parancs által. A töréspont elérésekor törlõdik."},
 /* it */ {IDGS_MON_UNTIL_DESCRIPTION_IT, "Se non viene specificato alcun indirizzo, vengono stampati i\nbreakpoint attualmente validi. Se viene specificato un indirizzo,\nviene impostato un breakpoint temporaneo per tale indirizzo e\nviene stampato il suo numero. Il controllo ritorna all'emulatore\nper mezzo di questo comando. Il breakpoint è cancellato quando\nviene incontrato."},
@@ -2244,7 +2248,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_WATCH_DESCRIPTION_DA, "Sæt et watchpoint. Hvis der ikke angives en adresse vises en liste\nover nuværende gyldige watchpoints. Hvis der angives en enkelt\nadresse sættes et watchpoint på adressen. Hvis der angives to adresser\nsættes et watchpoint for hukommelsesområdet mellem adresserne.\n`load|store|exec' er enten `load', `store' eller `exec' (eller en\nvilkårlig kombination), og angiver på hvilken operation monitoren\nafbryder. Hvis intet angives vil monitoren afbryde på `load' og\n`store'.\n"},
 /* de */ {IDGS_MON_WATCH_DESCRIPTION_DE, "Setze einen Watchpoint. Wenn eine einzelne Adresse angegeben wurde, setze \nden Watchpoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \nsetze den Watchpoint auf die Adressen zwischen den beiden Adressen.\n`load|store|exec' ist entweder `load', `store' oder `exec' (oder eine\nKombination) und dient zur Angabe, bei welcher Operation der Monitor\nanhalten soll. Wenn keine Angabe gemacht wird, stoppt der Monitor bei\n`exec'.\nWenn keine Angabe gemacht wurde, hält der Monitor bei bei `load' und\n`store' Operationen an.\n"},
-/* es */ {IDGS_MON_WATCH_DESCRIPTION_ES, "Poner punto de visualización. Si no se dá dirección se mostrará el\nactualmente válido. Si se dá una dirección simple, se pondrá un punto\nde visualización en la misma\nSi se dán dos direcciones se activará un punto de visualización para las\nlocalizaciones de memoria entre ambas direcciones.\n`load|store|exec' es cualquiera de `load', `store' or `exec' (o alguna com-\nbinación de ellos) para especificar en que operación el monitor se detiene\nSi no se especifica, Se detiene en  `load' y `store'.\n"},
+/* es */ {IDGS_MON_WATCH_DESCRIPTION_ES, "Poner punto de visualización. Si no se da dirección se mostrará el\nactualmente válido. Si se da una dirección simple, se pondrá un punto\nde visualización en la misma\nSi se dan dos direcciones se activará un punto de visualización para las\nlocalizaciones de memoria entre ambas direcciones.\n`load|store|exec' es cualquiera de `load', `store' or `exec' (o alguna com-\nbinación de ellos) para especificar en que operación el monitor se detiene\nSi no se especifica, Se detiene en  `load' y `store'.\n"},
 /* fr */ {IDGS_MON_WATCH_DESCRIPTION_FR, "Crée un point de surveillance. Si aucune adresse n'est spécifiée, les\npoints de surveillance valides sont affichés. Si une adresse est\nspécifiée, crée un point de surveillance à cette adresse. Si deux\nadresses sont spécifiés, crée un point de surveillance pour les\nadresses mémoire situées entre les deux adresses.\n`load|store|exec' est soit `load', `store' ou `exec' (or toute\ncombinaison) pour spécifier à quelle opération le moniteur arrête. Si\naucune n'est spécifié, le moniteur arrête à `load' et `store'.\n"},
 /* hu */ {IDGS_MON_WATCH_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_WATCH_DESCRIPTION_IT, "Imposta un watchpoint. Se non viene specificato alcun indirizzo,\nvengono stampati i watchpoint attuali. Se viene specificato solo un\nsolo indirizzo, imposta un watchpoint per tale indirizzo. Se vengono\nspecificati due indirizzi, imposta un watchpoint per le locazioni di \nmemoria comprese tra i due indirizzi.\n`load|store|exec' è uno tra `load', `store' o `exec' (or una qualunque\ncombinazione di questi) per specificare su quale operazione il monitor\ninterromperà. Se non specificato, il monitor interrompe su `load' e\n`store'.\n"},
@@ -2270,7 +2274,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_TRACE_DESCRIPTION_DA, "Sæt et tracepoint. Hvis der ikke angives en adresse vises en liste\nover nuværende gyldige tracepoints. Hvis der angives en enkelt\nadresse sættes et tracepoint på adressen. Hvis der angives to adresser\nsættes et tracepoint for hukommelsesområdet mellem adresserne.\n`load|store|exec' er enten `load', `store' eller `exec' (eller en\nvilkårlig kombination), og angiver på hvilken operation monitoren\ntracer. Hvis intet angives vil monitoren trace alle 3 operationer.\n"},
 /* de */ {IDGS_MON_TRACE_DESCRIPTION_DE, "Setze einen Tracepoint. Wenn keine Adresse angegeben wird, werden die\naktuellen gültigen Tracepoints ausgegeben. Wenn eine einzelne Adresse\nangegeben wurde, setze den Watchpoint für diese Adresse. Wenn zwei\nAdressen angegeben wurden, setze den Watchpoint auf die Adressen\nzwischen den beiden Adressen.\n`load|store|exec' ist entweder `load', `store' oder `exec' (oder eine\nKombination) und dient zur Angabe, bei welcher Operation der Monitor\nanhalten soll. Wenn keine Angabe gemacht wird, beobachtet der Monitor\nalle Operationen.\n"},
-/* es */ {IDGS_MON_TRACE_DESCRIPTION_ES, "Poner punto rastreo. Si no se dá dirección, Se mostrará el actualmente\nválido. Si se dá una sóla dirección, se activa un punto para esa dirección.\nSi se dán dos, se activa el punto para las localizaciones de memoria entre\nlas dos direcciones.\n`load|store|exec' es cualquiera `load', `store' or `exec' (o una combina-\nción de ellas) para indicar en cual de ellas se detiene el monitor. Si no se\nespecifican el monitor rastrea todas las tres operaciones.\n"},
+/* es */ {IDGS_MON_TRACE_DESCRIPTION_ES, "Poner punto rastreo. Si no se da dirección, Se mostrará el actualmente\nválido. Si se da una sola dirección, se activa un punto para esa dirección.\nSi se dan dos, se activa el punto para las localizaciones de memoria entre\nlas dos direcciones.\n`load|store|exec' es cualquiera `load', `store' or `exec' (o una combina-\nción de ellas) para indicar en cual de ellas se detiene el monitor. Si no se\nespecifican el monitor rastrea todas las tres operaciones.\n"},
 /* fr */ {IDGS_MON_TRACE_DESCRIPTION_FR, "Crée un point de trace. Si aucune adresse n'est spécifiée, les\npoints de trace valides sont affichés. Si une adresse est spécifiée,\ncrée un point de trace à cette adresse. Si deux adresses sont\nspécifiés, crée un point de trace pour les adresses mémoire situées\nentre les deux adresses.\n`load|store|exec' est soit `load', `store' ou `exec' (or toute\ncombinaison) pour spécifier à quelle opération le moniteur arrête. Si\naucune n'est spécifié, le moniteur trace toutes les opérations.\n"},
 /* hu */ {IDGS_MON_TRACE_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_TRACE_DESCRIPTION_IT, "Imposta un tracepoint. Se non viene specificato alcun indirizzo,\nvengono stampati i tracepoint attuali. Se viene specificato solo un\nsolo indirizzo, imposta un tracepoint per tale indirizzo. Se vengono\nspecificati due indirizzi, imposta un tracepoint per le locazioni di \nmemoria comprese tra i due indirizzi.\n`load|store|exec' è uno tra `load', `store' o `exec' (or una qualunque\ncombinazione di questi) per specificare su quale operazione il monitor\ninterromperà. Se non specificato, il monitor traccerà tutte e tre le\noperazioni.\n"},
@@ -2355,7 +2359,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_RADIX_DESCRIPTION_DA, "Sæt standardradix til hex, decimal, oktal eller binær. Hvis der\nikke angives et argument vises det aktuelle radix."},
 /* de */ {IDGS_MON_RADIX_DESCRIPTION_DE, "Setze die Standardzahlenbasis auf Hexadezimal, Dezimal, Oktal oder Binär.\nBei keinem Argument wird die akteulle Zahlenbasis ausgegeben."},
-/* es */ {IDGS_MON_RADIX_DESCRIPTION_ES, "Seleccionar sistema númerico por defecto como hex, decimal, octal, o binario.\nSi no se da argumento, se imprime el sistema númerico en uso."},
+/* es */ {IDGS_MON_RADIX_DESCRIPTION_ES, "Seleccionar sistema numérico por defecto como hex, decimal, octal, o binario.\nSi no se da argumento, se imprime el sistema numérico en uso."},
 /* fr */ {IDGS_MON_RADIX_DESCRIPTION_FR, "Règle la base par défaut à hex, decimal, octal ou binary. Avec\naucun argument, la base actuelle est affiché."},
 /* hu */ {IDGS_MON_RADIX_DESCRIPTION_HU, "Az alap számrendszer hexadecimális, decimális, oktális vagy bináris.\nParaméter nélkül az aktuálisat mutatja."},
 /* it */ {IDGS_MON_RADIX_DESCRIPTION_IT, "Imposta la radice predefinita a esadecimale, decimale, ottale o\nbinaria. Senza parametro viene stampata la radice attuale."},
@@ -2372,7 +2376,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_SIDEFX_DESCRIPTION_DA, "Bestemmer hvordan læsninger i monitoren påvirker hukommelsesområder,\nder har sedeeffekter ved læsning. Hvis argumentet er \"on\" kan læsninger\nforesage sideeffekter. Hvis argumentet er \"off\" vil læsninger ikke\nforesage sideeffekter. Hvis argumentet er \"toggle\" skiftes\nden nuværende tilstand. Hvis der ikke angives noget argument vises\nden nuværende tilstand."},
 /* de */ {IDGS_MON_SIDEFX_DESCRIPTION_DE, "Steuerung, wie die vom Monitor erzeugten Lesezugriffe die Speicherzellen\nmit Lese-Seiteneffekten betreffen.\nBei Argument \"on\" werden Lese-Seiteneffekte erzeugt.\nBei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt.\nBei Argument \"toggle\" wird das Verhalten vertauscht.\nBei keinem Argument wird das aktuelle Verhalten ausgegeben."},
-/* es */ {IDGS_MON_SIDEFX_DESCRIPTION_ES, "Controla como manejar las lecturas de localizaciones de memoria generadas por el\nmonitor que tengan efectos colaterales, Si el argumento es 'on' las lecturas causarán\nefectos colaterales. Si el argumento es 'off' no se causarán efectos colaterales. Si el\nargumento es 'intercambiar' se intervambiará el modo en uso. Sin argumentos, se \nmostrará el estado en uso."},
+/* es */ {IDGS_MON_SIDEFX_DESCRIPTION_ES, "Controla como manejar las lecturas de localizaciones de memoria generadas por el\nmonitor que tengan efectos colaterales, Si el argumento es 'on' las lecturas causarán\nefectos colaterales. Si el argumento es 'off' no se causarán efectos colaterales. Si el\nargumento es 'intercambiar' se intercambiara el modo en uso. Sin argumentos, se \nmostrará el estado en uso."},
 /* fr */ {IDGS_MON_SIDEFX_DESCRIPTION_FR, "Contrôle comment les lectures du moniteur affecte les emplacements\nmémoire ayant des effets secondaires de lecture. Si l'argument est\n'on' alors les lectures peuvent causer des effets secondaires. Si\nl'argument est 'off' les lectures n'en causeront pas. Si l'argument\nest 'toggle' alors le mode actuel est commuté. Aucun argument ne peut\nafficher le mode en cours."},
 /* hu */ {IDGS_MON_SIDEFX_DESCRIPTION_HU, "Beállítja, hogyan hatnak a monitorprogram memória olvasásai azokra a\nmemóriahelyekre, amelyeknek olvasás-mellékhatásai vannak. Ha a paraméter\n'on', az olvasások okozhatnak mellékhatásokat. Ha a paraméter 'off', akkor pedig\nnem okoznak. Ha a paraméter 'toggle', az aktuális módot átkapcsolja.\nParaméter nélküli hívás kiírja az aktuális módot."},
 /* it */ {IDGS_MON_SIDEFX_DESCRIPTION_IT, "Controlla come le letture generate dal monitor affliggono le locazioni\ndi memoria che hanno degli effetti collaterali sulla lettura.\nSe il paremetro è 'on', le letture possono causare effetti collaterali.\nSe il parametro è 'off', le letture non causano effetti collaterali.\nSe il parametro è 'scambia', la modalità attuale viene invertita.\nNessun parametro mostra lo stato attuale."},
@@ -2423,7 +2427,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_AT_DESCRIPTION_DA, "Udfører en diskkommando på det diskette-image, der er tilsluttet\ndrev 8. Diskkommandoen sendes til drevets kanal #15."},
 /* de */ {IDGS_MON_AT_DESCRIPTION_DE, "Führe ein Diskkommando auf dem aktuell eingelegtem Diskimage auf Laufwerk 8\naus.\nDas angegebene Kommando wird auf dem Laufwerks Kommandokanal #15 geschickt."},
-/* es */ {IDGS_MON_AT_DESCRIPTION_ES, "Realiza un comando de disco en el actualmente insertado en unidad disco 8.\nEl comando de disco especificado se envia a traves del canal de control #15."},
+/* es */ {IDGS_MON_AT_DESCRIPTION_ES, "Realiza un comando de disco en el actualmente insertado en unidad disco 8.\nEl comando de disco especificado se envía a través del canal de control #15."},
 /* fr */ {IDGS_MON_AT_DESCRIPTION_FR, "Performe une commande disque à l'image disque actuellement attachée au\nlecteur #8. La commande spécifiée est envoyée au canal #15 du lecteur."},
 /* hu */ {IDGS_MON_AT_DESCRIPTION_HU, "Lemez parancs végrehajtása az aktuálisan csatolt lemezen, a 8-as egységen.\nA megadott lemez parancsot a meghajtó #15-ös csatornájára küldi."},
 /* it */ {IDGS_MON_AT_DESCRIPTION_IT, "Esegue un comando disco sull'immagine disco attualmente presente nel\ndrive 8. Il comando specificato è inviato al canale #15 del drive."},
@@ -2525,7 +2529,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_BLOAD_DESCRIPTION_DA, "Indlæs den angivne fil til hukommelsen på den angivne adresse.\nHvis enhed er 0 læses fra filsystemet."},
 /* de */ {IDGS_MON_BLOAD_DESCRIPTION_DE, "Lade angegebene Datei in den Speicher an die angegebene Adresse.\nBei Gerät 0, wird die Datei vom Dateisystem gelesen."},
-/* es */ {IDGS_MON_BLOAD_DESCRIPTION_ES, "Cargar el fichero especificado en memoria en la direccción indicada en\ndirección. Si el periférico es 0 el fichero se lee desde sistema."},
+/* es */ {IDGS_MON_BLOAD_DESCRIPTION_ES, "Cargar el fichero especificado en memoria en la dirección indicada en\ndirección. Si el periférico es 0 el fichero se lee desde sistema."},
 /* fr */ {IDGS_MON_BLOAD_DESCRIPTION_FR, "Charge le fichier spécifié en mémoire à l'adresse spécifiée.\nSi le périphérique est 0, le fichier est lu du système de fichier."},
 /* hu */ {IDGS_MON_BLOAD_DESCRIPTION_HU, "A megadott fájl betöltése a memóriába a megadott címre.\nHa az eszköz 0, a fájlt a fájlrendszerbõl olvassa."},
 /* it */ {IDGS_MON_BLOAD_DESCRIPTION_IT, "Carica il file specificato in memoria all'indirizzo specificato.\nSe la periferica è 0, il file è letto dal file system."},
@@ -2593,7 +2597,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_BSAVE_DESCRIPTION_DA, "Gem hukommelsen fra adresse1 til adresse2 til den angivne fil.\nHvis enhed er 0 skrives til filsystemet."},
 /* de */ {IDGS_MON_BSAVE_DESCRIPTION_DE, "Speichere den Speicherinhalt von Adresse1 zu Adresse2 in die angegebene Datei.\nWenn das Gerät 0 angegeben wurde, speichere im Dateisystem."},
-/* es */ {IDGS_MON_BSAVE_DESCRIPTION_ES, "Grabar la memoria entre dirección 1 y dirección2 al fichero indicado.\nSi el periférico es 0, el fichero se graba en el fichero del sistema."},
+/* es */ {IDGS_MON_BSAVE_DESCRIPTION_ES, "Grabar la memoria entre dirección1 y dirección2 al fichero indicado.\nSi el periférico es 0, el fichero se graba en el fichero del sistema."},
 /* fr */ {IDGS_MON_BSAVE_DESCRIPTION_FR, "Sauvegarde la mémoire depuis adress1 jusqu'à adress2 dans le\nfichier spécifié. Si le périphérique est 0, alors le fichier\nest écrit dans le système de fichier."},
 /* hu */ {IDGS_MON_BSAVE_DESCRIPTION_HU, "A memória cím1 és cím2 közötti részének fájlba mentése.\nHa az eszköz 0, a fájl a fájlrendszerbe kerül."},
 /* it */ {IDGS_MON_BSAVE_DESCRIPTION_IT, "Salva la memoria compresa tra indirizzo1 e indirizzo2 sul file specificato.\nSe la periferica è 0, il file è scritto sul file system."},
@@ -2763,7 +2767,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_SAVE_DESCRIPTION_DA, "Gem hukommelsen fra  adresse1 til adresse2 til den angivne fil.\nSkriv 2-byte loadadresse i starten af filen.\nHvis enhed er 0 skrives til filsystemet."},
 /* de */ {IDGS_MON_SAVE_DESCRIPTION_DE, "Speichere den Speicher von Adresse1 bis Adresse2 in die angegebene Datei.\nSchreibe eine zwei-Byte Lade Adresse.\nBei Gerät 0, wird dei Datei in das Dateisystem geschrieben."},
-/* es */ {IDGS_MON_SAVE_DESCRIPTION_ES, "Graba memoria entre dirección1 y dirección2 al fichero indicado.\nGraba dirección de carga de dos bytes.\nSi el periferico es 0, se graba en el sistema."},
+/* es */ {IDGS_MON_SAVE_DESCRIPTION_ES, "Graba memoria entre dirección1 y dirección2 al fichero indicado.\nGraba dirección de carga de dos bytes.\nSi el periférico es 0, se graba en el sistema."},
 /* fr */ {IDGS_MON_SAVE_DESCRIPTION_FR, "Sauvegarde la mémoire depuis adress1 jusqu'à adress2 dans le\nfichier spécifié. Écrit l'adresse à deux bits de chargement dans\nle fichier. Si le périphérique est 0, le fichier est écrit dans\nle système de fichier."},
 /* hu */ {IDGS_MON_SAVE_DESCRIPTION_HU, "A memória cím1 és cím2 közötti tartományának fájlba mentése.\nA kétbájtos betöltési címet is kiírja.\nHa az eszköz 0, a fájlt a fájlrendszeren hozza létre."},
 /* it */ {IDGS_MON_SAVE_DESCRIPTION_IT, "Salva la memoria compresa tra indirizzo1 e indirizzo2 sul file\nspecificato.\nScrive l'indirizzo di caricamento su due byte.\nSe la periferica è 0, il file è scritto sul file system."},
@@ -2865,7 +2869,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_KEYBUF_DESCRIPTION_DA, "Indsæt den angivne streng i tastatur-bufferen."},
 /* de */ {IDGS_MON_KEYBUF_DESCRIPTION_DE, "Definierte Eingabe in Tastaturpuffer bereitstellen."},
-/* es */ {IDGS_MON_KEYBUF_DESCRIPTION_ES, "Introduce la cadena indicada en el bufer de teclado."},
+/* es */ {IDGS_MON_KEYBUF_DESCRIPTION_ES, "Introduce la cadena indicada en el búfer de teclado."},
 /* fr */ {IDGS_MON_KEYBUF_DESCRIPTION_FR, "Placer la chaîne spécifiée dans le tampon clavier."},
 /* hu */ {IDGS_MON_KEYBUF_DESCRIPTION_HU, "A megadott sztring elhelyezése a billentyûzet pufferben."},
 /* it */ {IDGS_MON_KEYBUF_DESCRIPTION_IT, "Metti la stringa specificata nel buffer di tastiera."},
@@ -2882,7 +2886,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_PLAYBACK_DESCRIPTION_DA, "Monitorkommandoer indlæses fra den angivne fil og udføres. Kommandoen\nstopper når slutningen af filen nås, eller når der opdages en STOP-kommando."},
 /* de */ {IDGS_MON_PLAYBACK_DESCRIPTION_DE, "Monitor Kommandos aus der angegebenen Datei werden gelesen und ausgeführt.\nDieses Kommando stoppt, wenn das Ende der Datei erreicht wurde, oder das\nKommando STOP gelesen wurde."},
-/* es */ {IDGS_MON_PLAYBACK_DESCRIPTION_ES, "Los comandos de monitor incluidos en el fichero indicado, han sido leidos y ejecutados\nEstos comandos se detendrán al finalizar el fichero o cuando se lea un comando STOP."},
+/* es */ {IDGS_MON_PLAYBACK_DESCRIPTION_ES, "Los comandos de monitor incluidos en el fichero indicado, han sido leídos y ejecutados\nEstos comandos se detendrán al finalizar el fichero o cuando se lea un comando STOP."},
 /* fr */ {IDGS_MON_PLAYBACK_DESCRIPTION_FR, "Les commandes moniteur du fichier spécifié sont lues et éxécutées.\nCette commande s'arrête à la fin du fichier ou lorsqu'une commande\nSTOP est lue."},
 /* hu */ {IDGS_MON_PLAYBACK_DESCRIPTION_HU, "A monitor parancsokat beolvassa és végrehajtja a megadott fájlból.\nA fájl végéig halad, vagy egy beolvasott STOP parancsig."},
 /* it */ {IDGS_MON_PLAYBACK_DESCRIPTION_IT, "I comandi del monitor sono letti ed eseguiti dal file specificato. Questo\ncomando si arresta alla fine del file o quando viene letto il comando\nSTOP."},
@@ -2933,7 +2937,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_RECORD_DESCRIPTION_DA, "Efter denne kommando skrives alle kommandoer til den angivne fil,\nindtil der angives en STOP-kommando."},
 /* de */ {IDGS_MON_RECORD_DESCRIPTION_DE, "Nach diesem Kommando werden alle eingebenen Kommands in die angegebene\nDatei gespeicher solang bis das Kommando STOP eingegeben wurde."},
-/* es */ {IDGS_MON_RECORD_DESCRIPTION_ES, "Despues de este comando, todos los posteriomente introducidos se grabaran\nen el fichero indicado hasta que se entre el comando STOP."},
+/* es */ {IDGS_MON_RECORD_DESCRIPTION_ES, "Después de este comando, todos los posteriormente introducidos se grabaran\nen el fichero indicado hasta que se entre el comando STOP."},
 /* fr */ {IDGS_MON_RECORD_DESCRIPTION_FR, "Après cette commande, toutes les commandes entrées sont écrites au\nfichier spécifié jusqu'à ce qu'une commande STOP soit entrée."},
 /* hu */ {IDGS_MON_RECORD_DESCRIPTION_HU, "Ezután a parancs után az összes parancsot a megadott fájlba\nírja, amíg STOP parancs nem érkezik."},
 /* it */ {IDGS_MON_RECORD_DESCRIPTION_IT, "Dopo questo comando, tutti i comandi inseriti saranno scritti sul file\nspecificato fino a quando verrà inserito il comando STOP."},
@@ -3207,7 +3211,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_DA, "Brug \"RUN\"-kommando med kolon ved autostart, dvs. \"RUN:\""},
 /* de */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_DE, "Bei Autostart soll 'RUN' mit Doppelpunkt ausgeführt werden ('RUN:')"},
-/* es */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_ES, "En autoarranque, usa el comando 'RUN' con dos puntos, ejm. 'RUN:'"},
+/* es */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_ES, "En autoarranque, usa el comando 'RUN' con dos puntos, ej. 'RUN:'"},
 /* fr */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_FR, "À l'autodémarrage, utiliser la commande 'RUN' avec le deux-points (soit 'RUN:')"},
 /* hu */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_HU, "Automatikus indításnál a 'RUN' parancs kettõsponttal, vagyis 'RUN:'"},
 /* it */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_IT, "All'avvio automatico, usa il comando 'RUN' con i due punti; cioè 'RUN:'"},
@@ -3224,7 +3228,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_DA, "Brug ikke \"RUN\"-kommando med kolon ved autostart, dvs. \"RUN\""},
 /* de */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_DE, "Bei Autostart soll 'RUN' ohne Doppelpunkt ausgeführt werden ('RUN')"},
-/* es */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_ES, "En autoarranque, no usar el comando 'RUN' con dos puntos, ejm.'RUN'"},
+/* es */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_ES, "En autoarranque, no usar el comando 'RUN' con dos puntos, ej.'RUN'"},
 /* fr */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_FR, "À l'autodémarrage, NE PAS utiliser le deux-points avec la commande 'RUN'"},
 /* hu */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_HU, "Automatikus indításnak a 'RUN' parancs kettõspont nélkül, vagyis 'RUN'"},
 /* it */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_IT, "All'avvio automatico, non usare il comando 'RUN' con i due punti; cioè 'RUN'"},
@@ -3275,7 +3279,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_DA, "Aktivér warp-tilstand under autostart"},
 /* de */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_DE, "Warp Mode während Autostart aktivieren"},
-/* es */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_ES, "Permitir modo ultrarápido durante autoarranque"},
+/* es */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_ES, "Permitir modo ultrarrápido durante autoarranque"},
 /* fr */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_FR, "Activer Mode Turbo durant l'autodémarrage"},
 /* hu */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_HU, "Hipergyors mód engedélyezése autostartnál"},
 /* it */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_IT, "Attiva la modalità turbo all'avvio automatico"},
@@ -3292,7 +3296,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_DA, "Deaktivér warp-tilstand under autostart"},
 /* de */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_DE, "Warp Mode währen Autostart deaktivieren"},
-/* es */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_ES, "Deshabilitar modo ultrarápido durante autoarranque"},
+/* es */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_ES, "Deshabilitar modo ultrarrápido durante autoarranque"},
 /* fr */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_FR, "Désactiver le mode Turbo"},
 /* hu */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_HU, "Hipergyors mód tiltása autostartnál"},
 /* it */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_IT, "Disattiva la modalità turbo all'avvio automatico"},
@@ -3328,7 +3332,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DE, "Disk Imagedatei für Autstart definieren"},
 /* es */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_ES, "Seleccionar imagen disco para autoarranque ficheros PRG"},
 /* fr */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_FR, "Régler l'image disque pour autodémarrage de fichiers PRG"},
-/* hu */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_HU, "Lemez képmás megadása PRG automatikus indításhoz"},
+/* hu */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_HU, "Lmeez képmás megadása PRG automatikus indításhoz"},
 /* it */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_IT, "Imposta immagine disco per l'avvio automatico dei file PRG"},
 /* ko */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_NL, "Zet disk bestand voor het autostarten van PRG bestanden"},
@@ -3432,7 +3436,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_NTSC_SYNC_FACTOR_DA, "Anvend NTSC-synkfaktor"},
 /* de */ {IDCLS_USE_NTSC_SYNC_FACTOR_DE, "NTSC Sync Faktor benutzen"},
-/* es */ {IDCLS_USE_NTSC_SYNC_FACTOR_ES, "Usar factor sincronizacion NTSC"},
+/* es */ {IDCLS_USE_NTSC_SYNC_FACTOR_ES, "Usar factor sincronización NTSC"},
 /* fr */ {IDCLS_USE_NTSC_SYNC_FACTOR_FR, "Utiliser NTSC"},
 /* hu */ {IDCLS_USE_NTSC_SYNC_FACTOR_HU, "NTSC szinkron faktor használata"},
 /* it */ {IDCLS_USE_NTSC_SYNC_FACTOR_IT, "Usa fattore di sincronizzazione NTSC"},
@@ -4082,7 +4086,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX,    N_("Specify index of keymap file (0=symbolic, 1=positional, 2=symbolic (user), 3=positional (user))")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE, "Index für Kymap Datei festlegen (0=symbol, 1=positional), 2=symbolisch\n(Benutzer), 3=positional (Benutzer))"},
 /* es */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_HU, ""},  /* fuzzy */
@@ -4100,7 +4104,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_KEYBOARD_TYPE,    N_("Specify emulated keyboard type")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_KEYBOARD_TYPE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_KEYBOARD_TYPE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_KEYBOARD_TYPE_DE, "Emulation für Tastaturtyp auswählen"},
 /* es */ {IDCLS_SPECIFY_KEYBOARD_TYPE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_KEYBOARD_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_KEYBOARD_TYPE_HU, ""},  /* fuzzy */
@@ -4118,7 +4122,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_KEYBOARD_MAPPING,    N_("Specify host keyboard layout")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_DE, "Host Tastatur Layout auswählen"},
 /* es */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_KEYBOARD_MAPPING_HU, ""},  /* fuzzy */
@@ -4673,8 +4677,8 @@ translate_t string_table[] = {
    scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME,    N_("Specify name of character generator ROM image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DA, "Angiv navn på BASIC-ROM-image"},
-/* de */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE, "Name von Druckerausgabe Datei definieren (print.dump)"},
+/* da */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DA, "Angiv navn på Character-ROM-image"},
+/* de */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE, "Name von Character ROM Datei definieren"},
 /* es */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_ES, "Especificar el nombre de la imagen ROM generador de caracteres"},
 /* fr */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères"},
 /* hu */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_HU, "Adja meg a karaktergenerátor ROM képmás nevét"},
@@ -5359,7 +5363,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_OVERWRITE_PSID_SETTINGS_DA, "Overstyr PSID-indstillinger for Video-standard og SID-model"},
 /* de */ {IDCLS_OVERWRITE_PSID_SETTINGS_DE, "PSID Einstellung für Video Standard und SID Modell verändern"},
-/* es */ {IDCLS_OVERWRITE_PSID_SETTINGS_ES, "Sobreescrivir ajustes para video standard y modelo SID"},
+/* es */ {IDCLS_OVERWRITE_PSID_SETTINGS_ES, "Sobrescribir ajustes para vídeo standard y modelo SID"},
 /* fr */ {IDCLS_OVERWRITE_PSID_SETTINGS_FR, "Écraser les paramètres PSID pour le standard vidéo et le modèle SID"},
 /* hu */ {IDCLS_OVERWRITE_PSID_SETTINGS_HU, "A videó szabvány és a SID modell PSID beállításainak felülbírálása"},
 /* it */ {IDCLS_OVERWRITE_PSID_SETTINGS_IT, "Non tener conto delle impostazioni del PSID per lo standard video e il modello di SID"},
@@ -6141,7 +6145,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_DA, "Tillad skrivning til MMC Replay-image"},
 /* de */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_DE, "Erlaube Schreibzugriff auf MMC Replay Image"},
-/* es */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_ES, "Permtir grabación en imagen MMC Replay"},
+/* es */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_ES, "Permitir grabación en imagen MMC Replay"},
 /* fr */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_FR, "Permetre l'écriture à l'image MMC Replay"},
 /* hu */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_IT, "Attiva scrittura su immagine MMC Replay"},
@@ -6568,7 +6572,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_DA, "Tilslut standard 16kB Ultimax cartridge image"},
 /* de */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_DE, "Generisches 16kB Ultimax Erweiterungsmodul Image einlegen"},
-/* es */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_ES, "Insertar imagen cartucho generico Ultimax 16KB"},
+/* es */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_ES, "Insertar imagen cartucho genérico Ultimax 16KB"},
 /* fr */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_FR, "Attacher une cartouche générique 16 ko Ultimax"},
 /* hu */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_IT, "Seleziona immagine cartuccia Ultimax generica di 16kB"},
@@ -7761,7 +7765,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_DE, "Image Größe automatisch erkennen"},
 /* es */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_ES, "Autodetección del tamaño de la imagen"},
 /* fr */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_FR, "Autodétection de la taille de l'image"},
-/* hu */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_HU, "Formázott képmások geometriájának automatikus felismerése"},
+/* hu */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_IT, "Rileva automaticamente immagine"},
 /* ko */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_KO, "ÀÌ¹ÌÁö Å©±â ÀÚµ¿À¸·Î Ã£±â"},
 /* nl */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_NL, "Automatisch detecteren bestandsgrootte"},
@@ -7776,7 +7780,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_DA, "Autodetektér ikke geometri fra formatterede images"},
 /* de */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_DE, "Geometrie von formatierten Image Dateien nicht automatisch erkennen"},
-/* es */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_ES, "No autodetectar formato geometria imagenes"},
+/* es */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_ES, "No autodetectar formato geometría imágenes"},
 /* fr */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_FR, "Ne pas détecter automatiquement la géométrie des images formattées"},
 /* hu */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_HU, "Formázott képmások geometriáját ne ismerje fel automatikusan"},
 /* it */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_IT, "Non rilevare automaticamente la geometrica delle immagini formattate"},
@@ -7792,10 +7796,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_IDE64_VERSION,    N_("IDE64 cartridge version")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_IDE64_VERSION_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_IDE64_VERSION_DE, "IDE64 Karte Version"},
+/* de */ {IDCLS_IDE64_VERSION_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_IDE64_VERSION_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_IDE64_VERSION_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_IDE64_VERSION_HU, "IDE64 kártya verzió"},
+/* hu */ {IDCLS_IDE64_VERSION_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_IDE64_VERSION_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_IDE64_VERSION_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_IDE64_VERSION_NL, ""},  /* fuzzy */
@@ -7812,7 +7816,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_IDE64_USB_SERVER_DE, "IDE64 USB Server aktivieren"},
 /* es */ {IDCLS_ENABLE_IDE64_USB_SERVER_ES, "Permitir IDE64 USB server"},
 /* fr */ {IDCLS_ENABLE_IDE64_USB_SERVER_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_IDE64_USB_SERVER_HU, "IDE64 USB szerver bekapcsolása"},
+/* hu */ {IDCLS_ENABLE_IDE64_USB_SERVER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_IDE64_USB_SERVER_IT, "Attiva server IDE64 USB"},
 /* ko */ {IDCLS_ENABLE_IDE64_USB_SERVER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_IDE64_USB_SERVER_NL, "Activeer IDE64 USB server"},
@@ -7829,7 +7833,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_DISABLE_IDE64_USB_SERVER_DE, "IDE64 USB Server deaktivieren"},
 /* es */ {IDCLS_DISABLE_IDE64_USB_SERVER_ES, "Deshabilitar servidor IDE64 USB"},
 /* fr */ {IDCLS_DISABLE_IDE64_USB_SERVER_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_IDE64_USB_SERVER_HU, "IDE64 USB szerver kikapcsolása"},
+/* hu */ {IDCLS_DISABLE_IDE64_USB_SERVER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_IDE64_USB_SERVER_IT, "Disattiva server IDE64 USB"},
 /* ko */ {IDCLS_DISABLE_IDE64_USB_SERVER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_IDE64_USB_SERVER_NL, "IDE64 USB server uitschakelen"},
@@ -7846,7 +7850,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_IDE64_USB_SERVER_ADDRESS_DE, "IDE64 USB Server Adresse"},
 /* es */ {IDCLS_IDE64_USB_SERVER_ADDRESS_ES, "Seleccionar dirección servidor IDE64 USB"},
 /* fr */ {IDCLS_IDE64_USB_SERVER_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_IDE64_USB_SERVER_ADDRESS_HU, "IDE64 USB szerver címe"},
+/* hu */ {IDCLS_IDE64_USB_SERVER_ADDRESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_IDE64_USB_SERVER_ADDRESS_IT, "Indirizzo server IDE64 USB"},
 /* ko */ {IDCLS_IDE64_USB_SERVER_ADDRESS_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_IDE64_USB_SERVER_ADDRESS_NL, "IDE64 USB server adres"},
@@ -7863,7 +7867,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_IDE64_RTC_SAVE_DE, "IDE64 RTC Daten bei Änderung speichern."},
 /* es */ {IDCLS_ENABLE_IDE64_RTC_SAVE_ES, "Permitir grabar datos IDE64 RTC cuando cambien"},
 /* fr */ {IDCLS_ENABLE_IDE64_RTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_IDE64_RTC_SAVE_HU, "IDE64 valósidejû óra mentésének bekapcsolása"},
+/* hu */ {IDCLS_ENABLE_IDE64_RTC_SAVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_IDE64_RTC_SAVE_IT, "Attiva il salvataggio dei dati RTC dell'IDE64 alla modifica."},
 /* ko */ {IDCLS_ENABLE_IDE64_RTC_SAVE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_IDE64_RTC_SAVE_NL, "Activeer opslaan van de IDE64 RTC data indien gewijzigd"},
@@ -7880,7 +7884,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_DISABLE_IDE64_RTC_SAVE_DE, "IDE64 RTC Daten bei Änderung nicht speichern."},
 /* es */ {IDCLS_DISABLE_IDE64_RTC_SAVE_ES, "Deshabilitar grabar datos IDE64 RTC cuando cambien"},
 /* fr */ {IDCLS_DISABLE_IDE64_RTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_IDE64_RTC_SAVE_HU, "IDE64 valósidejû óra mentésének kikapcsolása"},
+/* hu */ {IDCLS_DISABLE_IDE64_RTC_SAVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_IDE64_RTC_SAVE_IT, "Disattiva il salvataggio dei dati RTC dell'IDE64 alla modifica."},
 /* ko */ {IDCLS_DISABLE_IDE64_RTC_SAVE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_IDE64_RTC_SAVE_NL, "Opslaan van de IDE64 RTC data indien gewijzigd uitschakelen"},
@@ -7897,7 +7901,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_P_MODELNUMBER_DE, "<Modell Nummer>"},
 /* es */ {IDCLS_P_MODELNUMBER_ES, "<número modelo>"},
 /* fr */ {IDCLS_P_MODELNUMBER_FR, "<numerodemodele>"},
-/* hu */ {IDCLS_P_MODELNUMBER_HU, "<modell szám>"},
+/* hu */ {IDCLS_P_MODELNUMBER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_MODELNUMBER_IT, "<numero di modello>"},
 /* ko */ {IDCLS_P_MODELNUMBER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_MODELNUMBER_NL, "<modelnummer>"},
@@ -8355,7 +8359,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_DA, "Angiv fil for symbolsk tastaturemulering for \"graphics\"-tastatur"},
 /* de */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_DE, "Keymap Datei für graphics keyboard symbolic definieren"},
-/* es */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_ES, "Especificar nombre fichero graficos teclado simbólico"},
+/* es */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_ES, "Especificar nombre fichero gráficos teclado simbólico"},
 /* fr */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique"},
 /* hu */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_HU, "Adja meg a grafikus és szimbolikus billentyûzet leképzési fájl nevét."},
 /* it */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_IT, "Specifica il nome del file della mappa simbolica della tastiera grafica"},
@@ -8372,7 +8376,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_DA, "Angiv fil for positionsbestemt tastaturemulering for \"graphics\"-tastatur"},
 /* de */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_DE, "Keymap Datei für graphics keyboard positional definieren"},
-/* es */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_ES, "Especificar nombre fichero graficos teclado posicional"},
+/* es */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_ES, "Especificar nombre fichero gráficos teclado posicional"},
 /* fr */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel"},
 /* hu */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_HU, "Adja meg a grafikus és pozíció szerinti billentyûzet leképzési fájl nevét."},
 /* it */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_IT, "Specifica il nome del file della mappa posizionale della tastiera grafica"},
@@ -8458,7 +8462,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TRUE_DRIVE_DA, "Aktivér emulering af diskettedrev på hardware-niveau"},
 /* de */ {IDCLS_ENABLE_TRUE_DRIVE_DE, "Hardware Emulation für Disklaufwerke aktivieren"},
-/* es */ {IDCLS_ENABLE_TRUE_DRIVE_ES, "Permitir emulacion a nivel hardware unidades de disco"},
+/* es */ {IDCLS_ENABLE_TRUE_DRIVE_ES, "Permitir Emulación a nivel hardware unidades de disco"},
 /* fr */ {IDCLS_ENABLE_TRUE_DRIVE_FR, "Activer l'émulation de disques au niveau physique"},
 /* hu */ {IDCLS_ENABLE_TRUE_DRIVE_HU, "Lemezegységek hardver szintû emulációjának engedélyezése"},
 /* it */ {IDCLS_ENABLE_TRUE_DRIVE_IT, "Attiva emulazione hardware dei disk drive"},
@@ -8475,7 +8479,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TRUE_DRIVE_DA, "Deaktivér emulering af diskettedrev på hardware-niveau"},
 /* de */ {IDCLS_DISABLE_TRUE_DRIVE_DE, "Hardware Emulation für Disklaufwerke deaktivieren"},
-/* es */ {IDCLS_DISABLE_TRUE_DRIVE_ES, "No permitir emulacion a nivel hardware unidades de disco"},
+/* es */ {IDCLS_DISABLE_TRUE_DRIVE_ES, "No permitir Emulación a nivel hardware unidades de disco"},
 /* fr */ {IDCLS_DISABLE_TRUE_DRIVE_FR, "Désactiver l'émulation de disques au niveau physique"},
 /* hu */ {IDCLS_DISABLE_TRUE_DRIVE_HU, "Lemezegységek hardver szintû emulációjának tiltása"},
 /* it */ {IDCLS_DISABLE_TRUE_DRIVE_IT, "Disattiva emulazione hardware dei disk drive"},
@@ -8871,7 +8875,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_IDLE_METHOD_DA, "Vælg tomgangsmetode for diskettedrev (0: ingen traps, 1: spring over cykler, 2: trap ledig)"},
 /* de */ {IDCLS_SET_IDLE_METHOD_DE, "Laufwerks idling Methode (0: kein Traps, 1: Zyklen verwerfen, 2: trap idle)"},
-/* es */ {IDCLS_SET_IDLE_METHOD_ES, "Seleccionar metodo tiempo inactico (0: sin intercepción, 1:saltar ciclos, 2:interceptar tiempos inactivos)"},
+/* es */ {IDCLS_SET_IDLE_METHOD_ES, "Seleccionar método tiempo inactivo (0: sin intercepción, 1:saltar ciclos, 2:interceptar tiempos inactivos)"},
 /* fr */ {IDCLS_SET_IDLE_METHOD_FR, "Spécifier la méthode d'idle (0: pas de traps, 1: sauter des cycles, 2: trap idle)"},
 /* hu */ {IDCLS_SET_IDLE_METHOD_HU, "Lemezegység üresjárási módja (0: folytonos emuláció, 1: ciklusok kihagyása, 2: üres DOS ciklusok kihagyása)"},
 /* it */ {IDCLS_SET_IDLE_METHOD_IT, "Imposta il metodo per rilevare l'inattività del drive (0: non rilevare, 1: salta cicli, 2: rileva inattività)"},
@@ -9092,7 +9096,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PAR_CABLE_C64EXP_TYPE_DA, "Vælg typen af parallelkabel (0: ingen, 1: standard, 2: Dolphin DOS 3 3: Formel 64)"},
 /* de */ {IDCLS_PAR_CABLE_C64EXP_TYPE_DE, "Parallel Kabel Typ (0: Kein, 1: Standard, 2: Dolphin DOS 3, 3: Formel 64)"},
-/* es */ {IDCLS_PAR_CABLE_C64EXP_TYPE_ES, "Seleccionar tipo de cable paralelo (0:no, 1:estandar, 2:Dolphin DOS 3, 3:Formel 64)"},
+/* es */ {IDCLS_PAR_CABLE_C64EXP_TYPE_ES, "Seleccionar tipo de cable paralelo (0:no, 1:estándar, 2:Dolphin DOS 3, 3:Formel 64)"},
 /* fr */ {IDCLS_PAR_CABLE_C64EXP_TYPE_FR, "Définir le type de câble parallèle (0: aucun, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"},
 /* hu */ {IDCLS_PAR_CABLE_C64EXP_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_PAR_CABLE_C64EXP_TYPE_IT, "Imposta il tipo di cavo parallelo (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"},
@@ -9840,7 +9844,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_VIDEO_STREAM_BITRATE_DA, "Angiv bitrate for videostrøm i mediefil"},
 /* de */ {IDCLS_SET_VIDEO_STREAM_BITRATE_DE, "Bitrate für Video Stream für Media Datei setzen"},
-/* es */ {IDCLS_SET_VIDEO_STREAM_BITRATE_ES, "Seleccionar velocidad muestreo para flujo video en fichero media"},
+/* es */ {IDCLS_SET_VIDEO_STREAM_BITRATE_ES, "Seleccionar velocidad muestreo para flujo vídeo en fichero media"},
 /* fr */ {IDCLS_SET_VIDEO_STREAM_BITRATE_FR, "Régler le bitrate vidéo du fichier média"},
 /* hu */ {IDCLS_SET_VIDEO_STREAM_BITRATE_HU, "Adja meg az videó bitrátát a média fájlhoz"},
 /* it */ {IDCLS_SET_VIDEO_STREAM_BITRATE_IT, "Imposta il bitrate per il flusso video nel file multimediale"},
@@ -10724,7 +10728,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BLUR_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_BLUR_DE, "Wert für horizontale Unschärfe für CRT Emulation."},
-/* es */ {IDCLS_SET_BLUR_ES, "Cantidad de borrosidad para emulacion CRT."},
+/* es */ {IDCLS_SET_BLUR_ES, "Cantidad de borrosidad para Emulación CRT."},
 /* fr */ {IDCLS_SET_BLUR_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_BLUR_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_BLUR_IT, "Valore della sfuocatura orizzontale per l'emulazione CRT"},
@@ -11098,7 +11102,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_VIDEO_CACHE_DA, "Aktivér videocache"},
 /* de */ {IDCLS_ENABLE_VIDEO_CACHE_DE, "Video Cache aktivieren"},
-/* es */ {IDCLS_ENABLE_VIDEO_CACHE_ES, "Permitier caché de video"},
+/* es */ {IDCLS_ENABLE_VIDEO_CACHE_ES, "Permitir caché de video"},
 /* fr */ {IDCLS_ENABLE_VIDEO_CACHE_FR, "Activer le cache vidéo"},
 /* hu */ {IDCLS_ENABLE_VIDEO_CACHE_HU, "Videó gyorsítótár engedélyezése"},
 /* it */ {IDCLS_ENABLE_VIDEO_CACHE_IT, "Attiva la cache video"},
@@ -11115,7 +11119,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_VIDEO_CACHE_DA, "Deaktivér videocache"},
 /* de */ {IDCLS_DISABLE_VIDEO_CACHE_DE, "Video Cache deaktivieren"},
-/* es */ {IDCLS_DISABLE_VIDEO_CACHE_ES, "Deshabilitar caché de video"},
+/* es */ {IDCLS_DISABLE_VIDEO_CACHE_ES, "Deshabilitar caché de vídeo"},
 /* fr */ {IDCLS_DISABLE_VIDEO_CACHE_FR, "Désactiver le cache vidéo"},
 /* hu */ {IDCLS_DISABLE_VIDEO_CACHE_HU, "Videó gyorsítótár tiltása"},
 /* it */ {IDCLS_DISABLE_VIDEO_CACHE_IT, "Disattiva la cache video"},
@@ -11202,7 +11206,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_RS232_USERPORT_DA, "Aktivér RS232-emulering på brugerporten"},
 /* de */ {IDCLS_ENABLE_RS232_USERPORT_DE, "RS232 Userport Emulation aktivieren"},
-/* es */ {IDCLS_ENABLE_RS232_USERPORT_ES, "Permitir emulacion puerto RS232"},
+/* es */ {IDCLS_ENABLE_RS232_USERPORT_ES, "Permitir Emulación puerto RS232"},
 /* fr */ {IDCLS_ENABLE_RS232_USERPORT_FR, "Activer l'émulation de périphérique RS232 userport"},
 /* hu */ {IDCLS_ENABLE_RS232_USERPORT_HU, "RS232 userport emuláció engedélyezése"},
 /* it */ {IDCLS_ENABLE_RS232_USERPORT_IT, "Attiva l'emulazione della RS232 su userport"},
@@ -11219,7 +11223,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_RS232_USERPORT_DA, "Deaktivér RS232-emulering på brugerporten"},
 /* de */ {IDCLS_DISABLE_RS232_USERPORT_DE, "RS232 Userport Emulation deaktivieren"},
-/* es */ {IDCLS_DISABLE_RS232_USERPORT_ES, "Deshabilitar emulacion puerto RS232"},
+/* es */ {IDCLS_DISABLE_RS232_USERPORT_ES, "Deshabilitar Emulación puerto RS232"},
 /* fr */ {IDCLS_DISABLE_RS232_USERPORT_FR, "Désactiver l'émulation de périphérique RS232 userport"},
 /* hu */ {IDCLS_DISABLE_RS232_USERPORT_HU, "RS232 userport emuláció tiltása"},
 /* it */ {IDCLS_DISABLE_RS232_USERPORT_IT, "Disattiva l'emulazione della RS232 su userport"},
@@ -11253,7 +11257,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BAUD_RS232_USERPORT_DA, "Angiv baudhastighet for RS232-emuleringen på brugerporten."},
 /* de */ {IDCLS_SET_BAUD_RS232_USERPORT_DE, "Baudrate für RS232 Userport Emulation setzen"},
-/* es */ {IDCLS_SET_BAUD_RS232_USERPORT_ES, "Seleccionar velocidad (baudios) para emulacion puerto RS232"},
+/* es */ {IDCLS_SET_BAUD_RS232_USERPORT_ES, "Seleccionar velocidad (baudios) para Emulación puerto RS232"},
 /* fr */ {IDCLS_SET_BAUD_RS232_USERPORT_FR, "Spécifiez la vitesse en baud du périphérique RS232 userport"},
 /* hu */ {IDCLS_SET_BAUD_RS232_USERPORT_HU, "Bitráta megadása az RS232 userport emulációhoz."},
 /* it */ {IDCLS_SET_BAUD_RS232_USERPORT_IT, "Imposta la velocità della RS232 su userport (in baud)"},
@@ -11942,7 +11946,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_RESID_SAMPLING_METHOD_DA, "reSID-samplingmetode (0: hurtig, 1: interpolerende, 2: omsampling, 3: hurtig omsampling)"},
 /* de */ {IDCLS_RESID_SAMPLING_METHOD_DE, "reSID Sample Methode (0: schnell, 1: interpolierend, 2: resampling, 3: schnelles resampling)"},
-/* es */ {IDCLS_RESID_SAMPLING_METHOD_ES, "reSID metodo sampleado (0: rápido, 1: interpolacion, 2: resampelado, 3: resampleado rápido)"},
+/* es */ {IDCLS_RESID_SAMPLING_METHOD_ES, "reSID método sampleado (0: rápido, 1: interpolación, 2: resampelado, 3: resampleado rápido)"},
 /* fr */ {IDCLS_RESID_SAMPLING_METHOD_FR, "Méthode échantillonnage reSID (0: rapide, 1: interpolation, 2: rééch., 3: rééch. rapide)"},
 /* hu */ {IDCLS_RESID_SAMPLING_METHOD_HU, "reSID mintavételezési mód (0: gyors, 1: interpoláló, 2: újramintavételezõ, 3: gyors újramintavételezõ)"},
 /* it */ {IDCLS_RESID_SAMPLING_METHOD_IT, "Metodo di campionamento del reSID (0: veloce, 1: interpolato, 2: ricampionato 3: ricampionamento veloce)"},
@@ -12183,7 +12187,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_VIC1112_IEEE488_DA, "Aktivér VIC-1112-IEEE488-interface"},
 /* de */ {IDCLS_ENABLE_VIC1112_IEEE488_DE, "VIC-1112 IEEE488 Schnittstelle aktivieren"},
-/* es */ {IDCLS_ENABLE_VIC1112_IEEE488_ES, "Permitier interface VIC-1112 IEEE488"},
+/* es */ {IDCLS_ENABLE_VIC1112_IEEE488_ES, "Permitir interface VIC-1112 IEEE488"},
 /* fr */ {IDCLS_ENABLE_VIC1112_IEEE488_FR, "Activer l'interface VIC-1112 IEEE488"},
 /* hu */ {IDCLS_ENABLE_VIC1112_IEEE488_HU, "VIC-1112 IEEE488 interfész engedélyezése"},
 /* it */ {IDCLS_ENABLE_VIC1112_IEEE488_IT, "Attiva interfaccia IEEE488 VIC-1112"},
@@ -12353,7 +12357,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_DA, "Angiv navn på Vic Flash Plugin udviddelses-ROM"},
 /* de */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_DE, "Name für Vic Flash Plugin Erweiterungs ROM definieren"},
-/* es */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_ES, "Especificar nombre ROM extendidad Vic Flash Plugin"},
+/* es */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_ES, "Especificar nombre ROM extendida Vic Flash Plugin"},
 /* fr */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_FR, "Spécifier le nom de l'extension ROM Vic Flash Plugin"},
 /* hu */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_IT, "Specifica il nome dell'estensione ROM Vic Flash Plugin"},
@@ -12455,7 +12459,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_VICFP_ROM_WRITE_DA, "Aktivér Vic Flash Plugin tilbageskrivning til ROM-fil"},
 /* de */ {IDCLS_ENABLE_VICFP_ROM_WRITE_DE, "Vic Flash Plugin Rückschreiben auf ROM Datei aktivieren"},
-/* es */ {IDCLS_ENABLE_VICFP_ROM_WRITE_ES, "Permitir grabacion en ROM Vic Flash Plugin"},
+/* es */ {IDCLS_ENABLE_VICFP_ROM_WRITE_ES, "Permitir grabación en ROM Vic Flash Plugin"},
 /* fr */ {IDCLS_ENABLE_VICFP_ROM_WRITE_FR, "Activer la réécriture du fichier ROM Vic Flash Plugin"},
 /* hu */ {IDCLS_ENABLE_VICFP_ROM_WRITE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_VICFP_ROM_WRITE_IT, "Attiva write back per Vic Flash Plugin su file ROM"},
@@ -12472,7 +12476,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_VICFP_ROM_WRITE_DA, "Deaktivér Vic Flash Plugin tilbageskrivning til ROM-fil"},
 /* de */ {IDCLS_DISABLE_VICFP_ROM_WRITE_DE, "Vic Flash Plugin Rückschreiben auf ROM Datei deaktivieren"},
-/* es */ {IDCLS_DISABLE_VICFP_ROM_WRITE_ES, "Deshabilitar grabacion en ROM Vic Flash Plugin"},
+/* es */ {IDCLS_DISABLE_VICFP_ROM_WRITE_ES, "Deshabilitar grabación en ROM Vic Flash Plugin"},
 /* fr */ {IDCLS_DISABLE_VICFP_ROM_WRITE_FR, "Désactiver la réécriture du fichier ROM Vic Flash Plugin"},
 /* hu */ {IDCLS_DISABLE_VICFP_ROM_WRITE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_VICFP_ROM_WRITE_IT, "Disattiva write back per Vic Flash Plugin su file ROM"},
@@ -12965,7 +12969,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_DA, "Angiv RS232-enhed denne ACIA skal bruge"},
 /* de */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_DE, "RS232 Gerät für welches ACIA funktionieren soll ist zu spezifizieren"},
-/* es */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_ES, "Specificar periférico RS232 con el que funcionará esta ACIA"},
+/* es */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_ES, "Especificar periférico RS232 con el que funcionará esta ACIA"},
 /* fr */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_FR, "Spécifier le périphérique RS232 sur lequel cet ACIA doit fonctionner"},
 /* hu */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_HU, "Adja meg az RS232-es egységet, amivel az ACIA mûködni fog"},
 /* it */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_IT, "Specifica il dispositivo RS232 con il quale questa ACIA dovrebbe funzionare"},
@@ -14094,7 +14098,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PUT_STRING_INTO_KEYBUF_DA, "Indsæt den angivne streng i tastatur-bufferen."},
 /* de */ {IDCLS_PUT_STRING_INTO_KEYBUF_DE, "Definierte Eingabe in Tastaturpuffer bereitstellen."},
-/* es */ {IDCLS_PUT_STRING_INTO_KEYBUF_ES, "Introduce la cadena indicada en el bufer de teclado."},
+/* es */ {IDCLS_PUT_STRING_INTO_KEYBUF_ES, "Introduce la cadena indicada en el búfer de teclado."},
 /* fr */ {IDCLS_PUT_STRING_INTO_KEYBUF_FR, "Placer la chaîne spécifiée dans le tampon clavier."},
 /* hu */ {IDCLS_PUT_STRING_INTO_KEYBUF_HU, "A megadott sztring elhelyezése a billentyûzet pufferben."},
 /* it */ {IDCLS_PUT_STRING_INTO_KEYBUF_IT, "Metti la stringa specificata nel buffer di tastiera."},
@@ -14162,7 +14166,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_MOUSE_GRAB_DA, "Aktivér overtagelse af mus"},
 /* de */ {IDCLS_ENABLE_MOUSE_GRAB_DE, "Maus aktivieren"},
-/* es */ {IDCLS_ENABLE_MOUSE_GRAB_ES, "Permitir captuar del ratón"},
+/* es */ {IDCLS_ENABLE_MOUSE_GRAB_ES, "Permitir captura del ratón"},
 /* fr */ {IDCLS_ENABLE_MOUSE_GRAB_FR, "Saisir la souris"},
 /* hu */ {IDCLS_ENABLE_MOUSE_GRAB_HU, "Egér elkapás engedélyezése"},
 /* it */ {IDCLS_ENABLE_MOUSE_GRAB_IT, "Attiva cattura mouse"},
@@ -14299,7 +14303,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_DA, "Angiv værdien for den allerførste RAM adresse efter power-up"},
 /* de */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_DE, "Wert für erstes Byte im RAM nach Kaltstart setzen"},
-/* es */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_ES, "Seleccionar el valor para la primera dirección RAM despues del encendido"},
+/* es */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_ES, "Seleccionar el valor para la primera dirección RAM después del encendido"},
 /* fr */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_FR, "Spécifier la valeur de la première adresse RAM après la mise sous tension"},
 /* hu */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_HU, "Adja meg a legelsõ RAM cím értékét bekapcsolás után"},
 /* it */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_IT, "Imposta il valore del primissimo indirizzo della RAM dopo l'accensione"},
@@ -14503,7 +14507,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_DA, "Sæt lydbufferstørrelse til <værdi> ms"},
 /* de */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_DE, "Setze Source Buffer Größe zu <Wert> msek"},
-/* es */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_ES, "Seleccionar tamaño bufer sonido en <valor>mseg"},
+/* es */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_ES, "Seleccionar tamaño búfer sonido en <valor>mseg"},
 /* fr */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_FR, "Régler la taille du tampon son à <valeur> ms"},
 /* hu */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_HU, "A hangpuffer méretét <érték> mp-re állítja"},
 /* it */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_IT, "Imposta la dimensione del buffer audio a <valore> msec"},
@@ -14571,7 +14575,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_DA, "Angiv initialiseringsparametre for lyddriver"},
 /* de */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_DE, "Initialisierungsparameter des Sound Treibers spezifizieren"},
-/* es */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_ES, "Especificar parametros de inicialización para el controlador de sonido"},
+/* es */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_ES, "Especificar parámetros de inicialización para el controlador de sonido"},
 /* fr */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_FR, "Spécifier les paramètres d'initialisation pour le pilote son"},
 /* hu */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_HU, "Adja meg a hangmodul indulási paramétereit"},
 /* it */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_IT, "Specifica i parametri di inizializzazione del driver audio"},
@@ -14605,7 +14609,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_DA, "Angiv initialiseringsparametre for driver til lydoptagelse"},
 /* de */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_DE, "Initialisierungsparameter für Aufnahme Sound Treiber spezifieren"},
-/* es */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_ES, "Especificar parametros inicialización para el controlador grabación sonido "},
+/* es */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_ES, "Especificar parámetros inicialización para el controlador grabación sonido"},
 /* fr */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_FR, "Spécifier les paramètres d'initialisation pour le pilote d'enregistrement"},
 /* hu */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_HU, "Adja meg a felvételhez használt hangmodul indulási paramétereit"},
 /* it */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_IT, "Specifica i parametri di inizializzazione per il driver audio di registrazione"},
@@ -14639,7 +14643,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_SOUND_SPEED_ADJUST_DA, "Indstil lydjusteringshastighed (0: fleksibel, 1: justerende, 2: nøjagtig)"},
 /* de */ {IDCLS_SET_SOUND_SPEED_ADJUST_DE, "Setze Sound Geschwindigkeit Anpassung (0: flexibel, 1: anpassend, 2: exakt)"},
-/* es */ {IDCLS_SET_SOUND_SPEED_ADJUST_ES, "Ajsute velocidad sonido (0: flexible, 1: ajustado, 2: exacto)"},
+/* es */ {IDCLS_SET_SOUND_SPEED_ADJUST_ES, "Ajuste velocidad sonido (0: flexible, 1: ajustado, 2: exacto)"},
 /* fr */ {IDCLS_SET_SOUND_SPEED_ADJUST_FR, "Choisir la méthode d'ajustement du son (0: flexible, 1: ajusté 2: exact)"},
 /* hu */ {IDCLS_SET_SOUND_SPEED_ADJUST_HU, "Adja meg a zene sebesség igazítását (0: rugalmas. 1: igazodó, 2: pontos)"},
 /* it */ {IDCLS_SET_SOUND_SPEED_ADJUST_IT, "Imposta il tipo di adattamento della velocità audio (0: flessibile, 1: adattabile, 2: esatta)"},
@@ -14741,7 +14745,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_DA, "Angiv sti til systemfiler"},
 /* de */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_DE, "Suchpfad für Systemdateien definieren"},
-/* es */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_ES, "Definir camino de busqueda para los ficheros locales de sistema"},
+/* es */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_ES, "Definir camino de búsqueda para los ficheros locales de sistema"},
 /* fr */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_FR, "Définir le chemin de recherche pour trouver les fichiers systèmes"},
 /* hu */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_HU, "Keresési útvonal megadása a rendszerfájlok megtalálására"},
 /* it */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_IT, "Definisci il path di ricerca per cercare i file di sistema"},
@@ -14843,7 +14847,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_WARP_MODE_DA, "Deaktivér warp-tilstand"},
 /* de */ {IDCLS_DISABLE_WARP_MODE_DE, "Warp Mode deaktivieren"},
-/* es */ {IDCLS_DISABLE_WARP_MODE_ES, "Desabilitar modo Ultrarápido"},
+/* es */ {IDCLS_DISABLE_WARP_MODE_ES, "Deshabilitar modo Ultrarápido"},
 /* fr */ {IDCLS_DISABLE_WARP_MODE_FR, "Désactiver le Mode Turbo"},
 /* hu */ {IDCLS_DISABLE_WARP_MODE_HU, "Hipergyors mód tiltása"},
 /* it */ {IDCLS_DISABLE_WARP_MODE_IT, "Disattiva modalità turbo"},
@@ -14911,7 +14915,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PLUS60K_NAME_DA, "Angiv navn på PLUS60K-image"},
 /* de */ {IDCLS_SPECIFY_PLUS60K_NAME_DE, "Name der PLUS60K Image Datei definieren"},
-/* es */ {IDCLS_SPECIFY_PLUS60K_NAME_ES, "Especificar nombe imagen PLUS60K"},
+/* es */ {IDCLS_SPECIFY_PLUS60K_NAME_ES, "Especificar nombre imagen PLUS60K"},
 /* fr */ {IDCLS_SPECIFY_PLUS60K_NAME_FR, "Spécifier le nom de l'image PLUS60K RAM"},
 /* hu */ {IDCLS_SPECIFY_PLUS60K_NAME_HU, "Adja meg a nevét a PLUS60K képmásnak"},
 /* it */ {IDCLS_SPECIFY_PLUS60K_NAME_IT, "Specifica il nome immagine PLUS60K"},
@@ -15457,7 +15461,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SIDCARTJOY_DA, "Aktivér SID-cartridge joystick"},
 /* de */ {IDCLS_ENABLE_SIDCARTJOY_DE, "SIDcart Modul aktivieren"},
-/* es */ {IDCLS_ENABLE_SIDCARTJOY_ES, "Permitir joystic cartucho SID"},
+/* es */ {IDCLS_ENABLE_SIDCARTJOY_ES, "Permitir joystick cartucho SID"},
 /* fr */ {IDCLS_ENABLE_SIDCARTJOY_FR, "Activer Joystick cartouche SID"},
 /* hu */ {IDCLS_ENABLE_SIDCARTJOY_HU, "SID cartridge botkormány engedélyezése"},
 /* it */ {IDCLS_ENABLE_SIDCARTJOY_IT, "Attiva joystick su cartuccia SID"},
@@ -15474,7 +15478,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SIDCARTJOY_DA, "Deaktivér SID-cartridge joystick"},
 /* de */ {IDCLS_DISABLE_SIDCARTJOY_DE, "SIDcart Modul deaktivieren"},
-/* es */ {IDCLS_DISABLE_SIDCARTJOY_ES, "Deshabilitar joystic cartucho SID"},
+/* es */ {IDCLS_DISABLE_SIDCARTJOY_ES, "Deshabilitar joystick cartucho SID"},
 /* fr */ {IDCLS_DISABLE_SIDCARTJOY_FR, "Désactiver Joystick cartouche SID"},
 /* hu */ {IDCLS_DISABLE_SIDCARTJOY_HU, "SID cartridge botkormány tiltása"},
 /* it */ {IDCLS_DISABLE_SIDCARTJOY_IT, "Disattiva joystick su cartuccia SID"},

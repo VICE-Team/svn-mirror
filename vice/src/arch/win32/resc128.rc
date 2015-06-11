@@ -940,7 +940,7 @@ BEGIN
   IDS_C128MODEL                          "Modelo C128"
   IDS_MP_VDC_SETTINGS                    "Ajustes VDC"
   IDS_MP_VDC_REVISION                    "Revisión VDC"
-  IDS_MI_TOGGLE_VDC64KB                  "Memoria de video 64KB"
+  IDS_MI_TOGGLE_VDC64KB                  "Memoria de vídeo 64KB"
   IDS_MI_IEEE488                         "Emulación de interface IEEE488"
   IDS_MI_C128_SETTINGS                   "Ajustes C128..."
   IDS_MI_C128MODEL_SETTINGS              "Ajustes modelo C128..."

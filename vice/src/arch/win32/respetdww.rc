@@ -67,7 +67,7 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PETDWW_CAPTION     "Ajustes PET DWW"
   IDS_PETDWW_ENABLE      "Permitir tablero de alta resolución PET DWW"
-  IDS_PETDWW_FILE        "Fihcero DWW PET"
+  IDS_PETDWW_FILE        "Fichero DWW PET"
   IDS_PETDWW_SELECT_FILE "Seleccionar fichero para DWW PET"
 END
 

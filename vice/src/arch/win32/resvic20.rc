@@ -785,7 +785,7 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000               "4KB imagen en $B000..."
     IDS_MI_VIC20_SETTINGS                    "Ajustes VIC20..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK         "Permitir grabación en fichero ROM Final Expansion"
-    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK        "Permitir grabacion en ROM Vic Flash Plugin"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK        "Permitir grabación en ROM Vic Flash Plugin"
     IDS_MI_MEGACART_WRITEBACK                "Permitir respuesta Mega-Cart NvRAM"
     IDS_MI_MEGACART_WRITEBACK_FILE           "Seleccionar fichero RAM Mega-Cart no volatil"
     IDS_MI_ACIA_SETTINGS_MASCUERADE          "Ajustes ACIA (MasC=uerade)..."

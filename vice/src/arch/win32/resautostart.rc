@@ -114,7 +114,7 @@ BEGIN
     IDS_AUTOSTART_COLON_RUN                     "Usar ':' con RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC                 "Cargar a inicio BASIC"
     IDS_AUTOSTART_RANDOM_DELAY                  "Retardo aleatorio"
-    IDS_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION   "Manejar emulacion unidad verdadera"
+    IDS_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION   "Manejar Emulación unidad verdadera"
     IDS_AUTOSTART_PRG_MODE                      "Modo autoarranque PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE                "Autoarranque imagen disco PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE    "Seleccionar fichero par autorranque disco para PRG"
