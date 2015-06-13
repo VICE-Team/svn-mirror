@@ -38,6 +38,7 @@
 #include "vic.h"
 #include "victypes.h"
 #include "vic-mem.h"
+#include "vic20.h"
 #include "vic20mem.h"
 #include "vic20sound.h"
 #include "viewport.h"
@@ -217,16 +218,35 @@ void vic_store(WORD addr, BYTE value)
     }
 }
 
+static inline unsigned vic_read_rasterline(void)
+{
+    unsigned ypos = VIC_RASTER_Y(maincpu_clk + vic.cycle_offset);
+
+    /* HACK: on NTSC, rasterline 0 seems to start 33 cycles late. when interlace
+     *       is enabled, this seems to happen only on the first half frame.
+     */
+    /* TODO: examine/verify what exactly happens, and in what cycles. the over-
+     *       all frame timing must be correct (as hardcoded timer values in
+     *       games work) so the only way it makes sense is that when rasterline 0
+     *       is "shorter", the last rasterline has to be "longer".
+     */
+    if ((ypos == 0) && (vic.cycles_per_line == VIC20_NTSC_CYCLES_PER_LINE)) {
+        if (VIC_RASTER_CYCLE(maincpu_clk + vic.cycle_offset) < 33) {
+            return vic.screen_height - 1; /* confirm this */
+        }
+    }
+    return ypos;
+}
+
 BYTE vic_read(WORD addr)
 {
     addr &= 0xf;
 
     switch (addr) {
         case 3:
-            return ((VIC_RASTER_Y(maincpu_clk + vic.cycle_offset) & 1) << 7)
-                   | (vic.regs[3] & ~0x80);
+            return ((vic_read_rasterline() & 1) << 7) | (vic.regs[3] & ~0x80);
         case 4:
-            return VIC_RASTER_Y(maincpu_clk + vic.cycle_offset) >> 1;
+            return vic_read_rasterline() >> 1;
         case 6:
             return vic.light_pen.x;
         case 7:
