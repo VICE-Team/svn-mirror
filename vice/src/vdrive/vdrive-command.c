@@ -1110,8 +1110,6 @@ int vdrive_command_memory_exec(vdrive_t *vdrive, const BYTE *buf, WORD addr, uns
 int vdrive_command_memory_read(vdrive_t *vdrive, const BYTE *buf, WORD addr, unsigned int length)
 {
     unsigned int len = buf[0];
-    unsigned int i;
-    BYTE val;
 
     log_warning(vdrive_command_log, "M-R %04x %u (+%d) (might need TDE)", addr, len, length - 6);
     if (length < 6) {
