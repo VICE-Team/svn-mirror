@@ -63,6 +63,7 @@ applications folder (/Applications) and copy all files there.
 
 If you like, you can move the Application binaries anywhere you want.
 
+Note: Install the fonts that ship with VICE into your system.
 
 1.4 Create Bundles for each Emulator (Optional; Only for X11/Xaw and Gtk+ Port)
 
