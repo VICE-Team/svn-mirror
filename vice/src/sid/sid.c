@@ -250,6 +250,7 @@ void sid_store(WORD addr, BYTE byte)
         && addr >= sid_triple_address_start
         && addr < sid_triple_address_end) {
         sid_store_chip(addr, byte, 2);
+        return;
     }
     sid_store_chip(addr, byte, 0);
 }
