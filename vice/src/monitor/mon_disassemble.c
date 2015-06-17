@@ -195,7 +195,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                 default:
                     break;
             }
-            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (WORD)ival))) {
                 switch (addr_mode) {
                     case ASM_ADDR_MODE_ABSOLUTE_LONG:
                     case ASM_ADDR_MODE_ABSOLUTE_LONG_X:
@@ -285,7 +285,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             ival += 2;
             ival &= 0xffff;
             *buffp++ = ' ';
-            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (WORD)ival))) {
                 sprintf(buffp, (hex_mode ? "$%04X" : "%5d"), ival);
             } else {
                 sprintf(buffp, "%s", addr_name);
@@ -301,7 +301,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             ival += 3;
             ival &= 0xffff;
             *buffp++ = ' ';
-            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (WORD)ival))) {
                 sprintf(buffp, (hex_mode ? "$%04X" : "%5d"), ival);
             } else {
                 sprintf(buffp, "%s", addr_name);
@@ -316,7 +316,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             ival2 += addr;
             ival2 += 3;
             *buffp++ = ' ';
-            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (WORD)ival))) {
                 buffp += sprintf(buffp, (hex_mode ? "$%02X" : "%3d"), ival);
             } else {
                 buffp += sprintf(buffp, "%s", addr_name);
