@@ -1,5 +1,5 @@
 /*
- * statusbar.h - Implementation of the BeVICE's statusbar
+ * statusbar.h - Implementation of the BeVICE statusbar.
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -27,13 +27,9 @@
 #ifndef VICE_STATUSBAR_H
 #define VICE_STATUSBAR_H
 
-extern "C" {
-#include "ui.h"
-}
-
-#include <Bitmap.h>
 #include <View.h>
 
+class BBitmap;
 
 class ViceStatusbar : public BView {
     public:
@@ -48,7 +44,13 @@ class ViceStatusbar : public BView {
         void DisplayJoyport(int port_num, int status);
         void DisplayMessage(const char *text);
     private:
+        void OffsetPoints(const BPoint *in_array, int count, BPoint *out_array);
         BBitmap *statusbitmap;
         BView *drawview;
+        BRect speed_rect;
+        BRect status_rect;
+        BRect led_rect;
+        BRect image_rect;
+        float str_x, str2_x;
 };
 #endif
