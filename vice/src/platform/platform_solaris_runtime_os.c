@@ -25,33 +25,36 @@
  */
 
 /* Tested and confirmed working on:
- *
- * Solaris 2.3 (sparc)
- * Solaris 2.4 (intel)
- * Solaris 2.4 (sparc)
- * Solaris 2.5.1 (intel)
- * Solaris 2.5.1 (sparc)
- * Solaris 2.6 (intel)
- * Solaris 2.6 (sparc)
- * Solaris 7 (intel)
- * Solaris 7 (sparc)
- * Solaris 7 (sparc64)
- * Solaris 8 (intel)
- * Solaris 8 (sparc)
- * Solaris 8 (sparc64)
- * Solaris 9 (intel)
+   cpu     | Operating System
+   --------------------------
+   sparc   | Solaris 2.2
+   sparc   | Solaris 2.3
+   intel   | Solaris 2.4
+   sparc   | Solaris 2.4
+   intel   | Solaris 2.5.1
+   ppc     | Solaris 2.5.1
+   sparc   | Solaris 2.5.1
+   intel   | Solaris 2.6
+   sparc   | Solaris 2.6
+   intel   | Solaris 7
+   sparc   | Solaris 7
+   sparc64 | Solaris 7
+   intel   | Solaris 8
+   sparc   | Solaris 8
+   sparc64 | Solaris 8
+   intel   | Solaris 9
+   intel   | Solaris 10
+   x86     | OpenSolaris
+   x64     | OpenSolaris
+   x86     | Solaris 11
+   x64     | Solaris 11
+   x86     | Solaris 11.1
+   x64     | Solaris 11.1
+
  * Solaris 9 (sparc)
  * Solaris 9 (sparc64)
- * Solaris 10 (x86)
- * Solaris 10 (x64)
  * Solaris 10 (sparc)
  * Solaris 10 (sparc64)
- * OpenSolaris (x86)
- * OpenSolaris (x64)
- * Solaris 11(.0) (x86)
- * Solaris 11(.0) (x64)
- * Solaris 11.1 (x86)
- * Solaris 11.1 (x64)
  * Solaris 11.2 (x86)
  * Solaris 11.2 (x64)
  * NetBSD (i386)
@@ -111,7 +114,7 @@ char *platform_get_solaris_runtime_os(void)
     return os;
 }
 
-#if defined(__sparc64__) || defined(sparc64) || defined(__sparc__) || defined(sparc)
+#if defined(__sparc64__) || defined(sparc64) || defined(__sparc__) || defined(sparc) || defined(__PPC__) || defined(__ppc)
 #include <sys/types.h>
 #include <sys/processor.h>
 #include <stdio.h>

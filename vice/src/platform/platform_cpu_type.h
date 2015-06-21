@@ -460,7 +460,7 @@
 
 
 /* Generic powerpc cpu discovery */
-#if !defined(PLATFORM_CPU) && (defined(__powerpc__) || defined(__ppc__)) && !defined(__powerpc64__)
+#if !defined(PLATFORM_CPU) && (defined(__powerpc__) || defined(__ppc__) || defined(__PPC__) || defined(__ppc)) && !defined(__powerpc64__)
 #  define PLATFORM_CPU "PPC"
 #endif
 

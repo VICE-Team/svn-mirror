@@ -329,7 +329,7 @@
 /* SunOS and Solaris discovery */
 #if defined(sun) || defined(__sun)
 #  if defined(__SVR4) || defined(__svr4__)
-#    define PLATFORM_OS "Solaris"
+#    include "platform_solaris_version.h"
 #  else
 #    define PLATFORM_OS "SunOS"
 #  endif
