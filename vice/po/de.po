@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-12 00:52+0200\n"
-"PO-Revision-Date: 2015-05-01 09:19+0200\n"
+"PO-Revision-Date: 2015-06-22 20:47+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -2768,14 +2768,12 @@ msgid "Version 3"
 msgstr "Version 3"
 
 #: src/arch/unix/gui/uiide64.c:180
-#, fuzzy
 msgid "Version 4.1"
-msgstr "Version 4"
+msgstr "Version 4.1"
 
 #: src/arch/unix/gui/uiide64.c:182
-#, fuzzy
 msgid "Version 4.2"
-msgstr "Version 4"
+msgstr "Version 4.2"
 
 #: src/arch/unix/gui/uiide64.c:188
 msgid "Device 1 image name"
@@ -4473,9 +4471,8 @@ msgid "Memory expansions"
 msgstr "Speicher Erweiterungen"
 
 #: src/arch/unix/gui/vic20ui.c:489
-#, fuzzy
 msgid "VIC-1112 IEEE488 interface"
-msgstr "VIC-1112 IEEE488 Schnittstelle aktivieren"
+msgstr "VIC-1112 IEEE488 Schnittstelle"
 
 #: src/arch/unix/gui/vic20ui.c:503
 msgid "Ethernet emulation (MasC=uerade)"
@@ -9190,9 +9187,8 @@ msgid "Select HD image file"
 msgstr "HD Image Datei auswählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:9769
-#, fuzzy
 msgid "IDE64 version"
-msgstr "IDE64 Sektoren"
+msgstr "IDE64 Version"
 
 #: src/arch/amigaos/intl_text.c.po.c:9783
 msgid "USB Server"
@@ -9897,22 +9893,20 @@ msgstr ""
 "angegeben wurde, werden alle Bezeichner gespeichert."
 
 #: src/translate_text.c.po.c:1576
-#, fuzzy
 msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels from default address space."
 msgstr ""
 "Zeige aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\n"
-"wurde, werden alle Bezeichner gezeigt."
+"wurde, werden alle Bezeichner im Standard Adressraum gezeigt."
 
 #: src/translate_text.c.po.c:1593
-#, fuzzy
 msgid ""
 "Clear current label mappings.  If no memory space is specified, clear\n"
 "all labels from default address space."
 msgstr ""
-"Zeige aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\n"
-"wurde, werden alle Bezeichner gezeigt."
+"Lösche aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\n"
+"wurde, werden alle Bezeichner im Standard Adressraum gelöscht."
 
 #: src/translate_text.c.po.c:1610
 msgid "Assembler and memory commands"
@@ -11475,9 +11469,8 @@ msgid "Do not autodetect geometry of formatted images"
 msgstr "Geometrie von formatierten Image Dateien nicht automatisch erkennen"
 
 #: src/translate_text.c.po.c:7715
-#, fuzzy
 msgid "IDE64 cartridge version"
-msgstr "SID Modul"
+msgstr "IDE64 Modul Version"
 
 #: src/translate_text.c.po.c:7749
 msgid "Disable IDE64 USB server"
