@@ -207,6 +207,7 @@ inline static void update_myviatal(via_context_t *via_context, CLOCK rclk)
                   / (via_context->tal + 2);
 
         if (!(via_context->via[VIA_ACR] & 0x40)) {
+            /* one shot mode */
             if (((nuf - via_context->pb7sx) > 1) || (!(via_context->pb7))) {
                 via_context->pb7o = 1;
                 via_context->pb7sx = 0;
@@ -473,10 +474,7 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
                NOT change the interrupt flags. however, not doing so breaks eg
                the VIC20 game "bandits". also in a seperare test program it was
                verified that indeed writing to the high order latch clears the
-               interrupt flag. (and also that writing to the low order latch
-               does not.) this means that either the synertek notes are wrong,
-               or the synertek VIAs are really different in this regard. as usual,
-               more testing needed :) */
+               interrupt flag, also on synertek VIAs. (see via_t1irqack) */
 
             /* Clear T1 interrupt */
             via_context->ifr &= ~VIA_IM_T1;
@@ -927,8 +925,9 @@ static void viacore_intt1(CLOCK offset, void *data)
     /*(viaier & VIA_IM_T1) ? 1:0; */
 }
 
-/* T2 can be switched between 8 and 16 bit modes ad-hoc, any time, by setting the shifter to be 
-   controlled by T2 via selecting the relevant ACR shift register operating mode. 
+/* T2 can be switched between 8 and 16 bit modes ad-hoc, any time, by setting
+   the shifter to be controlled by T2 via selecting the relevant ACR shift
+   register operating mode.
    This change affects how the next T2 low underflow is handled */
 static void viacore_intt2(CLOCK offset, void *data)
 {
