@@ -28,40 +28,40 @@
 #define VICE_PLATFORM_SOLARIS_VERSION_H
 
 /* sys/syscall.h:
-   syscall			number	SOL1	SOL2	SOL3	SOL4	SOL5	SOL6	SOL7	SOL8	SOL9	SOL10
-   SYS_p_online		198		----	XXXX	XXXX	XXXX	XXXX	XXXX	XXXX	XXXX	XXXX	XXXXX
-   SYS_nanosleep	199		----	----	XXXX	XXXX	XXXX	XXXX	XXXX	XXXX	XXXX	XXXXX
-   SYS_facl		200		----	----	----	XXXX	XXXX	XXXX	XXXX	XXXX	XXXX	XXXXX
-   SYS_lwp_alarm	212		----	----	----	----	XXXX	XXXX	XXXX	XXXX	XXXX	XXXXX
-   SYS_ntp_adjtime	249		----	----	----	----	----	XXXX	XXXX	XXXX	XXXX	XXXXX
-   SYS_lwp_mutex_init	252		----	----	----	----	----	----	XXXX	XXXX	XXXX	XXXXX
-   SYS_umount2		255		----	----	----	-----	----	----	----	XXXX	XXXX	XXXXX
+   syscall            number SOL1 SOL2 SOL3 SOL4 SOL5 SOL6 SOL7 SOL8 SOL9 SOL10 OSOL SOL11.0 SOL11.1 SOL11.2
+   SYS_p_online       198    ---- XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXXX XXXX XXXXXXX XXXXXXX XXXXXXX
+   SYS_nanosleep      199    ---- ---- XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXXX XXXX XXXXXXX XXXXXXX XXXXXXX
+   SYS_facl           200    ---- ---- ---- XXXX XXXX XXXX XXXX XXXX XXXX XXXXX XXXX XXXXXXX XXXXXXX XXXXXXX
+   SYS_lwp_alarm      212    ---- ---- ---- ---- XXXX XXXX XXXX XXXX XXXX XXXXX XXXX XXXXXXX XXXXXXX XXXXXXX
+   SYS_ntp_adjtime    249    ---- ---- ---- ---- ---- XXXX XXXX XXXX XXXX XXXXX XXXX XXXXXXX XXXXXXX XXXXXXX
+   SYS_lwp_mutex_init 252    ---- ---- ---- ---- ---- ---- XXXX XXXX XXXX XXXXX XXXX XXXXXXX XXXXXXX XXXXXXX
+   SYS_umount2        255    ---- ---- ---- ---- ---- ---- ---- XXXX XXXX XXXXX XXXX XXXXXXX XXXXXXX XXXXXXX
 */
 
 /* limits.h:
-				SOL8	SOL9	SOL10
-   ATEXIT_MAX	   	XXXX	----	-----
-   _XOPEN_NAME_MAX	----	----	XXXXX
+                   SOL8 SOL9 SOL10 OSOL SOL11.0 SOL11.1 SOL11.2
+   ATEXIT_MAX      XXXX ---- ----- ---- ------- ------- -------
+   _XOPEN_NAME_MAX ---- ---- XXXXX XXXX XXXXXXX XXXXXXX XXXXXXX
 */
 
 /* arpa/nameser.h:
-   SOL10	__NAMESER	19991006
-   OSOL+	__NAMESER	20090302
+             SOL10    OSOL     SOL11.0  SOL11.1  SOL11.2
+   __NAMESER 19991006 20090302 20090302 20090302 20090302
 */
 
 /* fnmatch.h:
-				OSOL	SOL11.0	SOL11.1	SOL11.2
-   FNM_LEADING_DIR	----	 XXXX		 XXXX		 XXXX
+                   OSOL SOL11.0 SOL11.1 SOL11.2
+   FNM_LEADING_DIR ---- XXXXXXX XXXXXXX XXXXXXX
 */
 
 /* glob.h:
-				SOL11.0	SOL11.1	SOL11.2
-   GLOB_LIMIT		 ----		 XXXX		 XXXX
+              SOL11.0 SOL11.1 SOL11.2
+   GLOB_LIMIT ------- XXXXXXX XXXXXXX
 */
 
 /* inet/ip.h:
-				SOL11.1	SOL11.2
-   CONN_PATH_LOOKUP	 ----		 XXXX
+                    SOL11.1 SOL11.2
+   CONN_PATH_LOOKUP ------- XXXXXXX
 */
 
 #include <sys/syscall.h>

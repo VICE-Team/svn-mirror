@@ -91,6 +91,9 @@ extern char *platform_get_netbsd_runtime_cpu(void);
 extern char *platform_get_freebsd_runtime_os(void);
 extern char *platform_get_freebsd_runtime_cpu(void);
 
+extern char *platform_get_openbsd_runtime_os(void);
+extern char *platform_get_openbsd_runtime_cpu(void);
+
 extern char *platform_get_ultrix_runtime_os(void);
 extern char *platform_get_ultrix_runtime_cpu(void);
 
@@ -162,6 +165,11 @@ extern char *platform_get_hurd_runtime_os(void);
 /* FreeBSD */
 #ifdef __FreeBSD__
 #define RUNTIME_OS_CALL platform_get_freebsd_runtime_os
+#endif
+
+/* OpenBSD */
+#ifdef __OpenBSD__
+#define RUNTIME_OS_CALL platform_get_openbsd_runtime_os
 #endif
 
 /* Ultrix */
@@ -287,6 +295,11 @@ extern char *platform_get_hurd_runtime_os(void);
 /* FreeBSD */
 #ifdef __FreeBSD__
 #define RUNTIME_CPU_CALL platform_get_freebsd_runtime_cpu
+#endif
+
+/* OpenBSD */
+#ifdef __OpenBSD__
+#define RUNTIME_CPU_CALL platform_get_openbsd_runtime_cpu
 #endif
 
 /* Ultrix */

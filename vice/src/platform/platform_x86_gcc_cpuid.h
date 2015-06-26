@@ -27,7 +27,7 @@
 #ifndef PLATFORM_X86_GCC_CPUID_H
 #define PLATFORM_X86_GCC_CPUID_H
 
-#ifdef __PIC__
+#if defined(__PIC__) && !defined(__OpenBSD__)
 #define cpuid(func, ax, bx, cx, dx)                                    \
     __asm__ __volatile__ ("pushl %%ebx\n\t"                            \
                           ".byte 15; .byte 162\n\t"                    \

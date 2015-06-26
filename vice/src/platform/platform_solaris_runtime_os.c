@@ -43,6 +43,8 @@
    sparc   | Solaris 8
    sparc64 | Solaris 8
    intel   | Solaris 9
+   sparc   | Solaris 9
+   sparc64 | Solaris 9
    intel   | Solaris 10
    x86     | OpenSolaris
    x64     | OpenSolaris
@@ -50,13 +52,11 @@
    x64     | Solaris 11
    x86     | Solaris 11.1
    x64     | Solaris 11.1
+   x86     | Solaris 11.2
+   x64     | Solaris 11.2
 
- * Solaris 9 (sparc)
- * Solaris 9 (sparc64)
  * Solaris 10 (sparc)
  * Solaris 10 (sparc64)
- * Solaris 11.2 (x86)
- * Solaris 11.2 (x64)
  * NetBSD (i386)
  */
 

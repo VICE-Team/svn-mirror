@@ -120,6 +120,7 @@
    x86          | solaris (lxrun)
    x86          | netbsd (emulation layer)
    x86          | freebsd (emulation layer)
+   x86          | openbsd (emulation layer)
  */
 
 #include "vice.h"
