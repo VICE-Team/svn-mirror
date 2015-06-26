@@ -1975,7 +1975,7 @@ msgstr "Default (Grün)"
 
 #: src/arch/unix/gui/uicrtc.c:62
 msgid "Amber"
-msgstr "Amber"
+msgstr "Bernstein"
 
 #: src/arch/unix/gui/uicrtc.c:64
 msgid "White"
@@ -4897,7 +4897,7 @@ msgstr "Weiß"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:517
 msgid "amber"
-msgstr "Amber"
+msgstr "Bernstein"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:518
 msgid "green"
@@ -10919,7 +10919,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:4891
 msgid "Swap io mapping (map cart I/O to VIC20 I/O-2)"
-msgstr "Vertasuche IO Zuordnung (cart I/O auf VIC20 I/O-2)"
+msgstr "Vertausche IO Zuordnung (cart I/O auf VIC20 I/O-2)"
 
 #: src/translate_text.c.po.c:4908
 msgid "Don't swap io mapping (map cart I/O to VIC20 I/O-3)"
@@ -11679,7 +11679,7 @@ msgid ""
 "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 "
 "colors, 2: 4 colors, 3: gray scale,  4: best cell colors)"
 msgstr ""
-"Wähle, wie Mulitcolore zu Hochauflösung behandelte werden soll, (0: S&W, 1: "
+"Wähle, wie Multicolor zu Hochauflösung behandelte werden soll, (0: s&w, 1: "
 "2 Farben, 2: 4 Farben, 4 Graustufen, 4: Beste Zellenfarben)"
 
 #: src/translate_text.c.po.c:8601
@@ -11690,7 +11690,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:8618
 msgid "Select the CRTC text color (0: white, 1: amber, 2: green)"
-msgstr "Wähle CRTC Textfarbe (0: weiß, 1: Amberbraun, 2: Grün)"
+msgstr "Wähle CRTC Textfarbe (0: weiß, 1: Bernstein, 2: grün)"
 
 #: src/translate_text.c.po.c:8635
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"

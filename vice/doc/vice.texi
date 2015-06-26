@@ -1027,7 +1027,7 @@ it is possible to connect real drives like Commodore 1541 to the
 printer port of the host using the XA1541 or XM1541 cable. Currently
 this only works on Linux or Windows using the OpenCBM library. You can
 get it from @uref{http://www.lb.shuttle.de/puffin/cbm4linux} (cbm4linux,
-Linux version) or from @uref{http://cbm4win.sf.net/} (cbm4win, Windows
+Linux version) or from @uref{http://cbm4win.sf.net} (cbm4win, Windows
 version).
 
 @item
@@ -5390,7 +5390,7 @@ Fun Play
 @item
 Game Killer
 @item
-IDE64 (@code{http://www.ide64.org/})
+IDE64 (@code{http://www.ide64.org})
 @item
 KCS Power Cartridge
 @item
@@ -6556,7 +6556,7 @@ Attach raw Silverrock 128 cartridge image.
 
 @findex -cartsimon
 @item -cartsimon <name>
-Attach raw 16kB Simons Basic cartridge image.
+Attach raw 16kB Simons' Basic cartridge image.
 
 @findex -cartss4
 @item -cartss4 <name>
@@ -10922,7 +10922,7 @@ to 16 K, so even in a 80 columns PET the resolution will be the same.
 @subsection HRE high resolution grapics
 
 This information comes from @email{kontakt@@michau.name, Michal Pleban},
-@uref{http://www.cbm-ii.com/}.
+@uref{http://www.cbm-ii.com}.
 
 @cindex HRE
 This is a short information about the HRE (HiRes Emulator) graphics
@@ -17428,7 +17428,7 @@ Basic v2.0 with Mighty Basic by Craig Bruce (VIC20)
 @item a
 Basic v2.0 with AtBasic (C64)
 @item simon
-Basic v2.0 with Simon's Basic extension (C64)
+Basic v2.0 with Simons' Basic extension (C64)
 @item speech
 Basic v2.0 with Speech Basic v2.7 (C64)
 @item F
@@ -17494,7 +17494,7 @@ Basic v10.0 program (C64DX)
 @item petcat -2 -o outputfile.txt -- inputfile.prg
 Convert inputfile.prg to a text file in outputfile.txt, using BASIC V2 only
 @item petcat -wsimon -o outputfile.prg -- inputfile.txt
-Convert inputfile.txt to a PRG file in outputfile.prg, using Simon's BASIC
+Convert inputfile.txt to a PRG file in outputfile.prg, using Simons' BASIC
 @end table
 
 
@@ -27073,7 +27073,7 @@ You can find the latest news about VICE at the official VICE
 home page:
 
 @example
-@uref{http://vice-emu.sourceforge.net/}
+@uref{http://vice-emu.sourceforge.net}
 @end example
 
 VICE has moved its source repository to public services provided by
@@ -27151,7 +27151,7 @@ the VICE documentation (you are reading it!);
 @item
 the VICE FAQ (it is available on the Internet, and reachable from the
 VICE home page:
-@uref{http://vice-emu.sourceforge.net/});
+@uref{http://vice-emu.sourceforge.net});
 @item
 the @code{comp.emulators.cbm} and @code{comp.sys.cbm} FAQs (@pxref{FAQs
 you should read}).
