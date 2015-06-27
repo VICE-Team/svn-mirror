@@ -3685,7 +3685,7 @@ elif test x"$is_win32" = "xyes"; then
   fi
   AC_DEFINE(WIN32_COMPILE,,[Are we compiling for win32?])
 
-  if test x"$enable_sdlui" = "xyes" - o x"$enable_sdlui2" = "xyes"; then
+  if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
     if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
       SDL_EXTRA_LIBS="$UI_LIBS -lwinmm -lws2_32"
     else
