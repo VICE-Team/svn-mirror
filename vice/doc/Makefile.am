@@ -115,10 +115,12 @@ endif
 
 $(builddir)/vice.inf:	$(srcdir)/vice.texi
 if BUILD_IPF
-	$(TEXI2IPF) -Dplatformos2 $(srcdir)/vice.texi >temp.ipf
+	cp $(srcdir)/vice.texi tmp.texi
+	$(srcdir)/fixdox.sh ipf
+	$(TEXI2IPF) $(srcdir)/vicetmp.texi >temp.ipf
 	$(IPFC) -i temp.ipf
 	mv temp.inf $(builddir)/vice.inf
-	rm -f temp.ipf
+	rm -f temp.ipf vicetmp.texi
 
 IPF_DEPS=$(builddir)/vice.inf
 else

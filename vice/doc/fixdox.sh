@@ -120,7 +120,8 @@ fixpdf()
 
 fixipf()
 {
-  echo not implemented yet
+  sed <tmp.texi >vicetmp.texi -e 's/@firstparagraphindent//g' -e 's/@paragraphindent//g' -e 's/@exampleindent//g' -e 's/@ifcommanddefined//g' -e 's/@end ifcommanddefined//g'
+  rm -f -r tmp.texi
 }
 
 if test x"$FORMAT" = "xtxt"; then

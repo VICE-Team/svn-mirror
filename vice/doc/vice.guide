@@ -11,7 +11,7 @@ the input file vicetmp.texi.
    START-INFO-DIR-ENTRY * VICE: (vice).        VICE, the Versatile
 Commodore Emulator.  END-INFO-DIR-ENTRY
 
-\PARAM\  macro
+\PARAM\  ifclear
 
 VICE Manual
 
@@ -868,7 +868,7 @@ in one of four ways:
      Currently this only works on Linux or Windows using the OpenCBM
      library. You can get it from
      http://www.lb.shuttle.de/puffin/cbm4linux (cbm4linux, Linux
-     version) or from http://cbm4win.sf.net/ (cbm4win, Windows version).
+     version) or from http://cbm4win.sf.net (cbm4win, Windows version).
 
    * directly using the disk drive of the host. The 3.5" disk drive of
      the host can be used to read or write Commodore 1581 formatted
@@ -4795,7 +4795,7 @@ The following cartridges are emulated in this slot:
 
    * Game Killer
 
-   * IDE64 (`http://www.ide64.org/')
+   * IDE64 (`http://www.ide64.org')
 
    * KCS Power Cartridge
 
@@ -5152,9 +5152,9 @@ C64 cartridge resources
      Integer specifying the state of the expert cartridge switch.  (0:
      off, 1: prg, 2: on)
 
-`IDE64version4'
-     Boolean specifying whether the emulated card version is V4.1 or
-     V3.4. This is automatically detected most of the time for .crt
+`IDE64version'
+     Integer specifying whether the emulated card version is V3.4, V4.1
+     or V4.2. This is automatically detected most of the time for .crt
      cartridge images.
 
 `IDE64Image1'
@@ -5533,10 +5533,9 @@ C64 cartridge command-line options
      use specified geometry (`IDE64AutodetectSize4=1',
      `IDE64AutodetectSize4=0').
 
-`-IDE64version4'
-`+IDE64version4'
-     Emulate version 4 hardware/Emulate pre version 4 hardware
-     (`IDE64version4=1', `IDE64version4=0').
+`-IDE64version <value>'
+     Select IDE64 version V3 (0), V4.1 (1) or V4.2 (2).
+     (`IDE64version').  (0..2)
 
 `-IDE64USB'
 `+IDE64USB'
@@ -5764,7 +5763,7 @@ C64 cartridge command-line options
      Attach raw Silverrock 128 cartridge image.
 
 `-cartsimon <name>'
-     Attach raw 16kB Simons Basic cartridge image.
+     Attach raw 16kB Simons' Basic cartridge image.
 
 `-cartss4 <name>'
      Attach raw 32KB Super Snapshot V4 cartridge image.
@@ -9324,7 +9323,7 @@ HRE high resolution grapics
 ---------------------------
 
 This information comes from kontakt@michau.name, Michal Pleban,
-http://www.cbm-ii.com/.
+http://www.cbm-ii.com.
 
 This is a short information about the HRE (HiRes Emulator) graphics
 board for PET 8296. This is a small board that is installed on the
@@ -13909,7 +13908,12 @@ Label commands
 `show_labels [<address_space>]'
 `shl [<address_space>]'
      Display current label mappings.  If no address space is specified,
-     show all labels.
+     show all labels from default address space.
+
+`clear_labels [<address_space>]'
+`cl [<address_space>]'
+     Clear current label mappings.  If no address space is specified,
+     clear all labels from default address space.
 
 
 @EndNode
@@ -14589,7 +14593,7 @@ BASIC Versions:
      Basic v2.0 with AtBasic (C64)
 
 `simon'
-     Basic v2.0 with Simon's Basic extension (C64)
+     Basic v2.0 with Simons' Basic extension (C64)
 
 `speech'
      Basic v2.0 with Speech Basic v2.7 (C64)
@@ -14684,7 +14688,7 @@ petcat examples
 
 `petcat -wsimon -o outputfile.prg -- inputfile.txt'
      Convert inputfile.txt to a PRG file in outputfile.prg, using
-     Simon's BASIC
+     Simons' BASIC
 
 
 @EndNode
@@ -18260,8 +18264,8 @@ The control Register is the I/O-1 range when writing:
 21 - Comal-80
 .............
 
-.3 .7  Size  64Kb (4 banks of 16Kb each)  EXROM  inactive (hi) (1)  GAME
-inactive (hi) (1)  Load address  $8000-BFFF  multitable
+.3 .7  Size  64Kb (4 banks of 16Kb each)  EXROM  active (low) (0)  GAME
+active (low) (0)  Load address  $8000-BFFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
@@ -18281,14 +18285,20 @@ inactive (hi) (1)  Load address  $8000-BFFF  multitable
      C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP??@?????.?@?
      C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 
-The Comal-80 Cartridge uses $DE00 for bank  selection,  and  uses  16Kb
-   banks ($4000) at $8000-$BFFF. There are 4 banks of ROM memory  and
-are     referenced by the following values:
+The Comal-80 Cartridge uses 16Kb banks ($4000) at $8000-$BFFF. There
+are 4     banks of ROM memory and the cart has 1 (write-only) bank
+control register which     is located at $DE00 and mirrored throughout
+the $DE00-$DEFF range.
 
-            $80 -> Bank 0
-            $81 -> Bank 1
-            $82 -> Bank 2
-            $83 -> Bank 3
+         bit  meaning
+         ---  -------
+         7    exrom?
+         6    game?
+         5    unknown function (used by the software to disable the cartridge)
+         4    unused?
+         3    unused?
+         2    unknown function (used by the software however)
+         0-1  selects bank
 
 22 - Structured Basic
 .....................
@@ -20583,7 +20593,7 @@ VICE home page
 
 You can find the latest news about VICE at the official VICE home page:
 
-     http://vice-emu.sourceforge.net/
+     http://vice-emu.sourceforge.net
 
 VICE has moved its source repository to public services provided by
 SourceForge. You can find it at
@@ -20648,7 +20658,7 @@ please read these few notes before sending mail to anybody in the team.
         * the VICE documentation (you are reading it!);
 
         * the VICE FAQ (it is available on the Internet, and reachable
-          from the VICE home page: http://vice-emu.sourceforge.net/);
+          from the VICE home page: http://vice-emu.sourceforge.net);
 
         * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (see
           @{"FAQs you should read" Link "FAQs you should read"}).
@@ -21299,7 +21309,7 @@ Index of Resources
  @{" IDE64Sectors4 " Link "C64 cartridges"}                        C64 cartridges
  @{" IDE64USBServer " Link "C64 cartridges"}                       C64 cartridges
  @{" IDE64USBServerAddress " Link "C64 cartridges"}                C64 cartridges
- @{" IDE64version4 " Link "C64 cartridges"}                        C64 cartridges
+ @{" IDE64version " Link "C64 cartridges"}                         C64 cartridges
  @{" IECDevice10 " Link "File system device resources"}                          File system device resources
  @{" IECDevice11 " Link "File system device resources"}                          File system device resources
  @{" IECDevice4 " Link "Printer resources"}                           Printer resources
@@ -22231,7 +22241,7 @@ Index of Command-line options
  @{" -IDE64sec2 " Link "C64 cartridges"}                           C64 cartridges
  @{" -IDE64sec3 " Link "C64 cartridges"}                           C64 cartridges
  @{" -IDE64sec4 " Link "C64 cartridges"}                           C64 cartridges
- @{" -IDE64version4, +IDE64version4 " Link "C64 cartridges"}       C64 cartridges
+ @{" -IDE64version " Link "C64 cartridges"}                        C64 cartridges
  @{" -iecdevice10, +iecdevice10 " Link "File system device options"}           File system device options
  @{" -iecdevice11, +iecdevice11 " Link "File system device options"}           File system device options
  @{" -iecdevice4, +iecdevice4 " Link "Printer options"}             Printer options
