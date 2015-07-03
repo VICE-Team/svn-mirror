@@ -55,6 +55,7 @@
 #include "util.h"
 #include "vice-event.h"
 #include "vsync.h"
+#include "vsyncapi.h"
 #include "vicemaxpath.h"
 
 #ifdef USE_GNOMEUI
@@ -311,7 +312,7 @@ UI_MENU_DEFINE_TOGGLE(WarpMode)
 
 static UI_CALLBACK(toggle_pause)
 {
-    static int pause = 0;
+    int pause = ui_emulation_is_paused();
 
     if (!CHECK_MENUS) {
         pause = !pause;
@@ -321,6 +322,19 @@ static UI_CALLBACK(toggle_pause)
     }
 
     ui_menu_set_tick(w, pause);
+}
+
+static UI_CALLBACK(do_frame_advance)
+{
+    if (!CHECK_MENUS) {
+        ui_update_menus();
+        if (ui_emulation_is_paused()) {
+            vsyncarch_advance_frame();
+        } else {
+            ui_pause_emulation(1);
+            ui_update_menus();
+        }
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -730,6 +744,8 @@ ui_menu_entry_t ui_run_commands_menu[] = {
 ui_menu_entry_t ui_runmode_commands_menu[] = {
     { N_("Pause"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_pause, NULL, NULL, KEYSYM_p, UI_HOTMOD_META },
+    { N_("Advance frame"), UI_MENU_TYPE_NORMAL, (ui_callback_t)do_frame_advance,
+      NULL, NULL, KEYSYM_p, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { N_("Enable warp mode"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_WarpMode, NULL, NULL, KEYSYM_w, UI_HOTMOD_META },
     { NULL }

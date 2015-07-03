@@ -63,6 +63,9 @@ extern void vsyncarch_presync(void);
 /* this is called after vsync_do_vsync did the synchroniation */
 extern void vsyncarch_postsync(void);
 
+/* called to advance the emulation by one frame */
+extern void vsyncarch_advance_frame(void);
+
 /* set ui dispatcher function */
 extern void_hook_t vsync_set_event_dispatcher(void_hook_t hook);
 

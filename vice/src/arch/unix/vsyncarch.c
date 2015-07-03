@@ -49,6 +49,7 @@
 
 /* hook to ui event dispatcher */
 static void_hook_t ui_dispatch_hook;
+static int pause_pending = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -116,6 +117,7 @@ void vsyncarch_presync(void)
 #ifdef HAS_JOYSTICK
     joystick();
 #endif
+
 }
 
 void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
@@ -129,6 +131,19 @@ void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
 void vsyncarch_postsync(void)
 {
     (*ui_dispatch_hook)();
+
+    /* this function is called once a frame, so this
+       handles single frame advance */
+    if (pause_pending) {
+        ui_pause_emulation(1);
+        pause_pending = 0;
+    }
+}
+
+void vsyncarch_advance_frame(void)
+{
+    ui_pause_emulation(0);
+    pause_pending = 1;
 }
 
 #ifdef HAVE_OPENGL_SYNC
