@@ -25,11 +25,13 @@
  */
 
 /* Tested and confirmed working on:
-   cpu   | Operating System
-   ------------------------
-   amd64 | OpenBSD 5.7
-   i386  | OpenBSD 5.7
-
+   cpu    | Operating System
+   -------------------------
+   mipsel | OpenBSD 2.8
+   i386   | OpenBSD 5.5
+   i386   | OpenBSD 5.6
+   amd64  | OpenBSD 5.7
+   i386   | OpenBSD 5.7
  */
 
 #include "vice.h"
@@ -59,7 +61,7 @@ static char *GetModelSysCtl(void)
 {
     int Query[2];
     static char Model[128];
-    size_t	Length = sizeof(Model);
+    size_t Length = sizeof(Model);
 
     Query[0] = CTL_HW;
     Query[1] = HW_MODEL;
@@ -74,6 +76,7 @@ char *platform_get_openbsd_runtime_cpu(void)
 {
     char *model = NULL;
     size_t len = 0;
+    char *loc1 = NULL;
 
     if (!got_openbsd_cpu) {
         sprintf(openbsd_cpu, "Unknown CPU");
@@ -81,6 +84,10 @@ char *platform_get_openbsd_runtime_cpu(void)
         model = GetModelSysCtl();
 
         if (model) {
+            loc1 = strstr(model, " (");
+            if (loc1) {
+                *loc1 = 0;
+            }
             sprintf(openbsd_cpu, "%s", model);
         }
 
