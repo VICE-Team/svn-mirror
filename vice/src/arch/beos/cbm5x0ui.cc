@@ -192,6 +192,11 @@ void cbm5x0_ui_specific(void *msg, void *window)
     }
 }
 
+int cbm5x0ui_init_early(void)
+{
+    return 0;
+}
+
 int cbm5x0ui_init(void)
 {
     ui_register_machine_specific(cbm5x0_ui_specific);

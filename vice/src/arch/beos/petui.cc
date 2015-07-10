@@ -28,7 +28,6 @@
 
 #include <FilePanel.h>
 #include <Menu.h>
-#include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
 #include <stdio.h>
@@ -213,6 +212,11 @@ void pet_ui_specific(void *msg, void *window)
         default:
             break;
     }
+}
+
+int petui_init_early(void)
+{
+    return 0;
 }
 
 int petui_init(void)

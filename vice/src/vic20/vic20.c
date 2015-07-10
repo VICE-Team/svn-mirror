@@ -635,6 +635,13 @@ int machine_specific_init(void)
                    (delay * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH),
                    1, 0xcc, 0xd1, 0xd3, 0xd5);
 
+#ifdef USE_BEOS_UI
+    /* Pre-init VIC20-specific parts of the menus before vic_init()
+       creates a canvas window with a menubar at the top. This could
+       also be used by other ports, e.g. GTK+...  */
+    vic20ui_init_early();
+#endif
+
     /* Initialize the VIC-I emulation.  */
     if (vic_init() == NULL) {
         return -1;
@@ -689,7 +696,7 @@ int machine_specific_init(void)
 #ifdef HAVE_MOUSE
     mouse_init();
 
-    /* Initialize lightpen support and register VICII callbacks */
+    /* Initialize lightpen support and register VIC-I callbacks */
     lightpen_init();
     lightpen_register_timing_callback(vic_lightpen_timing, 0);
     lightpen_register_trigger_callback(vic_trigger_light_pen);

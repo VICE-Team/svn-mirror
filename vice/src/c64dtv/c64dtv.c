@@ -228,7 +228,7 @@ static const trap_t c64dtv_flash_traps[] = {
 
 /* ------------------------------------------------------------------------ */
 
-/* C64-specific resource initialization.  This is called before initializing
+/* C64DTV-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
@@ -354,7 +354,7 @@ void machine_resources_shutdown(void)
     disk_image_resources_shutdown();
 }
 
-/* C64-specific command-line option initialization.  */
+/* C64DTV-specific command-line option initialization.  */
 int machine_cmdline_options_init(void)
 {
     if (traps_cmdline_options_init() < 0) {
@@ -496,7 +496,7 @@ void machine_setup_context(void)
     machine_printer_setup_context(&machine_context);
 }
 
-/* C64-specific initialization.  */
+/* C64DTV-specific initialization.  */
 int machine_specific_init(void)
 {
     int delay;
@@ -550,6 +550,15 @@ int machine_specific_init(void)
     autostart_init((CLOCK)(delay * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH),
                    1, 0xcc, 0xd1, 0xd3, 0xd5);
 
+#ifdef USE_BEOS_UI
+    /* Pre-init C64DTV-specific parts of the menus before vicii_init()
+       creates a canvas window with a menubar at the top. This could
+       also be used by other ports, e.g. GTK+...  */
+    if (!console_mode) {
+        c64dtvui_init_early();
+    }
+#endif
+
     if (vicii_init(VICII_DTV) == NULL && !console_mode) {
         return -1;
     }
@@ -586,7 +595,7 @@ int machine_specific_init(void)
     /* Initialize keyboard buffer.  */
     kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
 
-    /* Initialize the C64-specific part of the UI.  */
+    /* Initialize the C64DTV-specific part of the UI.  */
     if (!console_mode) {
         c64dtvui_init();
     }
@@ -618,7 +627,7 @@ int machine_specific_init(void)
     return 0;
 }
 
-/* C64-specific reset sequence.  */
+/* C64DTV-specific reset sequence.  */
 void machine_specific_reset(void)
 {
     serial_traps_reset();

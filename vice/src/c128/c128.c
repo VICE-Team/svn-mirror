@@ -854,6 +854,13 @@ int machine_specific_init(void)
     }
     autostart_init((CLOCK)(delay * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH), 1, 0xa27, 0xe0, 0xec, 0xee);
 
+#ifdef USE_BEOS_UI
+    /* Pre-init C128-specific parts of the menus before vdc_init() and
+       vicii_init() create canvas windows with menubars at the top. This
+       could also be used by other ports, e.g. GTK+...  */
+    c128ui_init_early();
+#endif
+
     if (vdc_init() == NULL) {
         return -1;
     }

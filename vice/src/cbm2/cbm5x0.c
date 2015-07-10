@@ -499,6 +499,13 @@ int machine_specific_init(void)
     /* initialize print devices */
     printer_init();
 
+#ifdef USE_BEOS_UI
+    /* Pre-init CBM-II-specific parts of the menus before vicii_init()
+       creates a canvas window with a menubar at the top. This could
+       also be used by other ports, e.g. GTK+...  */
+    cbm5x0ui_init_early();
+#endif
+
     if (vicii_init(VICII_STANDARD) == NULL) {
         return -1;
     }

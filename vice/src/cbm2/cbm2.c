@@ -445,6 +445,13 @@ int machine_specific_init(void)
     /* initialize print devices */
     printer_init();
 
+#ifdef USE_BEOS_UI
+    /* Pre-init CBM-II-specific parts of the menus before crtc_init()
+       creates a canvas window with a menubar at the top. This could
+       also be used by other ports, e.g. GTK+...  */
+    cbm2ui_init_early();
+#endif
+
     if (crtc_init() == NULL) {
         return -1;
     }

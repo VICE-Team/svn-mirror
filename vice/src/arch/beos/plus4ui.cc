@@ -30,7 +30,6 @@
 
 #include <FilePanel.h>
 #include <Menu.h>
-#include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
 #include <stdio.h>
@@ -229,6 +228,11 @@ static void plus4_ui_specific(void *msg, void *window)
         default:
             break;
     }
+}
+
+int plus4ui_init_early(void)
+{
+    return 0;
 }
 
 int plus4ui_init(void)

@@ -36,6 +36,7 @@ extern int c64scui_init_early(void);
 extern int c64scui_init(void);
 extern void c64scui_shutdown(void);
 
+extern int c64dtvui_init_early(void);
 extern int c64dtvui_init(void);
 extern void c64dtvui_shutdown(void);
 

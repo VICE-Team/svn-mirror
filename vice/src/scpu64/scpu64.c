@@ -668,6 +668,15 @@ int machine_specific_init(void)
     /* Initialize autostart.  */
     autostart_init((CLOCK)(delay * SCPU64_PAL_RFSH_PER_SEC * SCPU64_PAL_CYCLES_PER_RFSH), 1, 0xcc, 0xd1, 0xd3, 0xd5);
 
+#ifdef USE_BEOS_UI
+    /* Pre-init C64-specific parts of the menus before vicii_init()
+       creates a canvas window with a menubar at the top. This could
+       also be used by other ports, e.g. GTK+...  */
+    if (!console_mode) {
+        scpu64ui_init_early();
+    }
+#endif
+
     if (vicii_init(VICII_STANDARD) == NULL && !video_disabled_mode) {
         return -1;
     }

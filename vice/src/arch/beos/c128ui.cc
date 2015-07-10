@@ -28,7 +28,6 @@
 
 #include <FilePanel.h>
 #include <Menu.h>
-#include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
 #include <stdio.h>
@@ -520,6 +519,11 @@ static void c128_ui_specific(void *msg, void *window)
         default:
             break;
     }
+}
+
+int c128ui_init_early(void)
+{
+    return 0;
 }
 
 int c128ui_init(void)

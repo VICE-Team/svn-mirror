@@ -28,7 +28,6 @@
 
 #include <FilePanel.h>
 #include <Menu.h>
-#include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
 #include <stdio.h>
@@ -353,6 +352,11 @@ void vic20_ui_specific(void *msg, void *window)
         default:
             break;
     }
+}
+
+int vic20ui_init_early(void)
+{
+    return 0;
 }
 
 int vic20ui_init(void)

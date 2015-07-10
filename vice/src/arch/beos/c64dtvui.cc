@@ -28,7 +28,6 @@
 
 #include <FilePanel.h>
 #include <Menu.h>
-#include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
 #include <stdio.h>
@@ -177,7 +176,11 @@ void c64dtv_ui_specific(void *msg, void *window)
     }
 }
 
-extern "C" {
+int c64dtvui_init_early(void)
+{
+    return 0;
+}
+
 int c64dtvui_init(void)
 {
     ui_register_machine_specific(c64dtv_ui_specific);
@@ -189,6 +192,4 @@ int c64dtvui_init(void)
 
 void c64dtvui_shutdown(void)
 {
-}
-
 }

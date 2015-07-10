@@ -28,7 +28,6 @@
 
 #include <FilePanel.h>
 #include <Menu.h>
-#include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
 #include <stdio.h>
@@ -596,6 +595,11 @@ static void scpu64_ui_specific(void *msg, void *window)
         default:
             break;
     }
+}
+
+int scpu64ui_init_early(void)
+{
+    return 0;
 }
 
 int scpu64ui_init(void)

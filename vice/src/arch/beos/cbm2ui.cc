@@ -209,6 +209,11 @@ void cbm2_ui_specific(void *msg, void *window)
     }
 }
 
+int cbm2ui_init_early(void)
+{
+    return 0;
+}
+
 int cbm2ui_init(void)
 {
     ui_register_machine_specific(cbm2_ui_specific);
