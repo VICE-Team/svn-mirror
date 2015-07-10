@@ -83,7 +83,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
     char *buffp, *addr_name;
     int addr_mode;
     unsigned opc_size;
-    DWORD ival;
+    unsigned int ival;    /* Use unsigned int because DWORD may be a long. */
     WORD ival2;
     const asm_opcode_info_t *opinfo;
     int prefix = 0;
