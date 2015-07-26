@@ -403,48 +403,49 @@ int ui_menu_create(video_canvas_t *canvas)
     }
 
     for (i = 0, j = 0; machine_specific_translation_menu[i].nm_Type != NM_END; i++) {
+        if (machine_class == VICE_MACHINE_C64SC) {
+            switch (machine_specific_translation_menu[i].nm_Label) {
+                /* disable video standard menu for x64sc, and skip item seperator */
+                case IDMS_OLD_NTSC_M:
+                    i++;
+                /* disable video standard menu for x64sc */
+                case IDMS_NTSC_M:
+                case IDMS_PAL_G:
+                case IDMS_VIDEO_STANDARD:
+                    continue;
+            }
+        } else {
+            switch (machine_specific_translation_menu[i].nm_Label) {
+                /* enable c64 model settings menu item for x64sc only */
+                case IDMS_C64_MODEL_SETTINGS:
+                case IDMS_C64_PAL:
+                case IDMS_C64C_PAL:
+                case IDMS_C64_OLD_PAL:
+                case IDMS_C64_NTSC:
+                case IDMS_C64C_NTSC:
+                case IDMS_C64_OLD_NTSC:
+                case IDMS_DREAN:
+                case IDMS_C64SX_PAL:
+                case IDMS_C64SX_NTSC:
+                case IDMS_C64_JAP:
+                case IDMS_C64_GS:
+                case IDMS_PET64_PAL:
+                case IDMS_PET64_NTSC:
+                case IDMS_ULTIMAX:
+                case IDMS_CUSTOM_C64_MODEL:
+                    continue;
+            }
+        }
         machine_specific_menu[j].nm_Type = machine_specific_translation_menu[i].nm_Type;
         machine_specific_menu[j].nm_CommKey = machine_specific_translation_menu[i].nm_CommKey;
         machine_specific_menu[j].nm_Flags = machine_specific_translation_menu[i].nm_Flags;
         machine_specific_menu[j].nm_MutualExclude = machine_specific_translation_menu[i].nm_MutualExclude;
         machine_specific_menu[j].nm_UserData = machine_specific_translation_menu[i].nm_UserData;
-        switch (machine_specific_translation_menu[i].nm_Label) {
-            case 0:
-                machine_specific_menu[j++].nm_Label = (STRPTR)NM_BARLABEL;
-                break;
-            /* disable video standard menu for x64sc */
-            case IDMS_NTSC_M:
-            case IDMS_PAL_G:
-            case IDMS_VIDEO_STANDARD:
-                if (machine_class != VICE_MACHINE_C64SC) {
-                    machine_specific_menu[j++].nm_Label = translate_text(machine_specific_translation_menu[i].nm_Label);
-                }
-                break;
-            /* disable video standard menu for x64sc, and skip item seperator */
-            case IDMS_OLD_NTSC_M:
-                if (machine_class == VICE_MACHINE_C64SC) {
-                    i++;
-                } else {
-                    machine_specific_menu[j++].nm_Label = translate_text(machine_specific_translation_menu[i].nm_Label);
-                }
-                break;
-            /* enable c64 model settings menu item for x64sc only */
-            case IDMS_C64_MODEL_SETTINGS:
-            case IDMS_C64_PAL:
-            case IDMS_C64C_PAL:
-            case IDMS_C64_OLD_PAL:
-            case IDMS_C64_NTSC:
-            case IDMS_C64C_NTSC:
-            case IDMS_C64_OLD_NTSC:
-            case IDMS_DREAN:
-            case IDMS_CUSTOM_C64_MODEL:
-                if (machine_class == VICE_MACHINE_C64SC) {
-                    machine_specific_menu[j++].nm_Label = translate_text(machine_specific_translation_menu[i].nm_Label);
-                }
-                break;
-            default:
-                machine_specific_menu[j++].nm_Label = translate_text(machine_specific_translation_menu[i].nm_Label);
-                break;
+
+        if (machine_specific_translation_menu[i].nm_Label == 0) {
+            machine_specific_menu[j++].nm_Label = (STRPTR)NM_BARLABEL;
+        } else {
+            machine_specific_menu[j++].nm_Label = translate_text(machine_specific_translation_menu[i].nm_Label);
         }
     }
     machine_specific_menu[i].nm_Type = NM_END;
@@ -885,95 +886,43 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
             ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STOPPED), 1);
             break;
         case IDM_LANGUAGE_ENGLISH:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "en")) {
-                resources_set_value("Language", (resource_value_t *)"en");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"en");
             break;
         case IDM_LANGUAGE_DANISH:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "da")) {
-                resources_set_value("Language", (resource_value_t *)"da");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"da");
             break;
         case IDM_LANGUAGE_GERMAN:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "de")) {
-                resources_set_value("Language", (resource_value_t *)"de");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"de");
             break;
         case IDM_LANGUAGE_SPANISH:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "es")) {
-                resources_set_value("Language", (resource_value_t *)"es");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"es");
             break;
         case IDM_LANGUAGE_FRENCH:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "fr")) {
-                resources_set_value("Language", (resource_value_t *)"fr");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"fr");
             break;
         case IDM_LANGUAGE_ITALIAN:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "it")) {
-                resources_set_value("Language", (resource_value_t *)"it");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"it");
             break;
         case IDM_LANGUAGE_KOREAN:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "ko")) {
-                resources_set_value("Language", (resource_value_t *)"ko");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"ko");
             break;
         case IDM_LANGUAGE_DUTCH:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "nl")) {
-                resources_set_value("Language", (resource_value_t *)"nl");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"nl");
             break;
         case IDM_LANGUAGE_POLISH:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "pl")) {
-                resources_set_value("Language", (resource_value_t *)"pl");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"pl");
             break;
         case IDM_LANGUAGE_HUNGARIAN:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "hu")) {
-                resources_set_value("Language", (resource_value_t *)"hu");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"hu");
             break;
         case IDM_LANGUAGE_RUSSIAN:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "ru")) {
-                resources_set_value("Language", (resource_value_t *)"ru");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"ru");
             break;
         case IDM_LANGUAGE_SWEDISH:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "sv")) {
-                resources_set_value("Language", (resource_value_t *)"sv");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"sv");
             break;
         case IDM_LANGUAGE_TURKISH:
-            resources_get_value("Language", (void *)&curlang);
-            if (strcasecmp(curlang, "tr")) {
-                resources_set_value("Language", (resource_value_t *)"tr");
-                ui_menu_destroy(canvas);
-            }
+            resources_set_value("Language", (resource_value_t *)"tr");
             break;
         default:
             {
@@ -1036,6 +985,8 @@ void ui_event_handle(void)
             struct Window *window;
             struct IntuiMessage *imsg;
             int mousex, mousey;
+            char *curlang;
+            char oldlang[4];
 
             window = canvas->os->window;
 
@@ -1056,11 +1007,20 @@ void ui_event_handle(void)
                 switch (imClass) {
                     case IDCMP_MENUPICK:
                         pointer_to_default();
+                        resources_get_value("Language", (void *)&curlang);
+                        strncpy(oldlang, curlang, sizeof(oldlang));
                         while (imCode != MENUNULL) {
                             struct MenuItem *n = ItemAddress(canvas->os->menu, imCode);
 
                             ui_menu_handle(canvas, (int)GTMENUITEM_USERDATA(n));
                             imCode = n->NextSelect;
+                        }
+                        resources_get_value("Language", (void *)&curlang);
+                        if (strcasecmp(curlang, oldlang)) {
+                            ui_menu_destroy(canvas);
+                            if (ui_menu_create(canvas) == -1) {
+                                exit(-1);
+                            }
                         }
                         ui_menu_update(canvas);
                         done = 1;

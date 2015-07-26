@@ -360,6 +360,15 @@ static void ai_exit(void)
         DeleteMsgPort(ai_port);
         ai_port = NULL;
     }
+    if (IAIN) {
+        DropInterface((struct Interface *)IAIN);
+        IAIN = NULL;
+    }
+    if (AIN_Base) {
+        CloseLibrary(AIN_Base);
+        AIN_Base = NULL;
+    }
+    amigainput_lib_loaded = 0;
 }
 
 static int ai_init(void)
@@ -368,12 +377,17 @@ static int ai_init(void)
         return -1;
     }
 
-    if ((ai_port = CreateMsgPort())) {
-        struct TagItem tags[] = { { AINCC_Port, (ULONG)ai_port}, { TAG_DONE, TAG_DONE } };
+    /* load_libs is called by ui_init_finish, which is too late for us */
+    if ((AIN_Base = OpenLibrary("AmigaInput.library", 51))) {
+        if ((IAIN = GetInterface(AIN_Base, "main", 1, NULL))) {
+            if ((ai_port = CreateMsgPort())) {
+                struct TagItem tags[] = { { AINCC_Port, (ULONG)ai_port}, { TAG_DONE, TAG_DONE } };
 
-        CTX = AIN_CreateContext(1, tags);
-        if (CTX != NULL) {
-            return 0;
+                CTX = AIN_CreateContext(1, tags);
+                if (CTX != NULL) {
+                    return 0;
+                }
+            }
         }
     }
 

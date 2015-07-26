@@ -29,6 +29,7 @@
 #include <string.h>
 
 #include "kbd.h"
+#include "keyboard.h"
 
 void kbd_arch_init(void)
 {

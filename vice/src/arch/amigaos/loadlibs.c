@@ -98,8 +98,8 @@
 #ifdef AMIGA_OS4
 struct Library *GadToolsBase = NULL;
 struct GadToolsIFace *IGadTools = NULL;
-struct Library *SocketBase  = NULL;
-struct SocketIFace *ISocket = NULL;
+/*struct Library *SocketBase  = NULL;*/
+/*struct SocketIFace *ISocket = NULL;*/
 struct MUIMasterIFace *IMUIMaster = NULL;
 struct Library *ExpansionBase = NULL;
 struct ExpansionIFace *IExpansion = NULL;
@@ -177,10 +177,10 @@ static amiga_libs_t amiga_libs[] = {
     { "locale.library", &LocaleBase, 39L, NULL, LIBS_ACTION_ERROR, NULL },
 #endif
 #ifdef AMIGA_OS4
-    { "bsdsocket.library", &SocketBase, 4, &ISocket, LIBS_ACTION_ERROR, NULL },
+    /*{ "bsdsocket.library", &SocketBase, 4, &ISocket, LIBS_ACTION_ERROR, NULL },*/
     { "gadtools.library", &GadToolsBase, 39, &IGadTools, LIBS_ACTION_ERROR, NULL },
     { "expansion.library", &ExpansionBase, 50, &IExpansion, LIBS_ACTION_WARNING, &pci_lib_loaded },
-    { "AmigaInput.library", &AIN_Base, 51, &IAIN, LIBS_ACTION_WARNING, &amigainput_lib_loaded },
+    /*{ "AmigaInput.library", &AIN_Base, 51, &IAIN, LIBS_ACTION_WARNING, &amigainput_lib_loaded },*/
     { MUIMASTER_NAME, &MUIMasterBase, MUIMASTER_VMIN, &IMUIMaster, LIBS_ACTION_ERROR, NULL },
 #endif
 #if defined(AMIGA_M68K) && !defined(HAVE_PROTO_CYBERGRAPHICS_H)
@@ -208,6 +208,15 @@ int load_libs(void)
 
     while (amiga_libs[i].lib_name) {
         amiga_libs[i].lib_base[0] = OpenLibrary(amiga_libs[i].lib_name, amiga_libs[i].lib_version);
+#ifdef AMIGA_OS4
+        if (amiga_libs[i].lib_base[0]) {
+            amiga_libs[i].interface_base[0] = GetInterface(amiga_libs[i].lib_base[0], "main", 1, NULL);
+            if (amiga_libs[i].interface_base[0] == NULL) {
+                CloseLibrary(amiga_libs[i].lib_base[0]);
+                amiga_libs[i].lib_base[0] = NULL;
+            }
+        }
+#endif
         if (amiga_libs[i].lib_base[0]) {
             log_message(LOG_DEFAULT, "Loaded %s (%d).", amiga_libs[i].lib_name, amiga_libs[i].lib_version);
         } else {

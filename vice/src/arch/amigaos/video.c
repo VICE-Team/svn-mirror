@@ -698,6 +698,13 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
     yi *= canvas->videoconfig->scaley;
     h *= canvas->videoconfig->scaley;
 
+#ifdef AMIGA_OS4
+    /* this has to be done before locking the bitmap to avoid disk accesses when the lock is held */
+    if (!canvas->videoconfig->color_tables.updated) {
+        video_color_update_palette(canvas);
+    }
+#endif
+
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
     if ((lock = (ULONG)LockBitMapTags(canvas->os->window_bitmap, LBMI_BASEADDRESS, (ULONG)&cgx_base_addy, TAG_DONE))) {
 #else
