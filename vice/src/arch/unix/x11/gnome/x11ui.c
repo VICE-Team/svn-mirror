@@ -102,9 +102,10 @@
 #include "ui-threads.h"
 #endif
 
-#ifdef USE_XF86_EXTENSIONS
+#if defined(USE_XF86_EXTENSIONS) || !defined(HAVE_VTE)
 #include <gdk/gdkx.h>
 #endif
+
 #include "x11ui.h"
 
 #ifdef DEBUG_X11UI
