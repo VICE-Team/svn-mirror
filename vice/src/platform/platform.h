@@ -67,6 +67,9 @@ extern char *platform_get_beosppc_runtime_cpu(void);
 extern char *platform_get_sunos_runtime_os(void);
 extern char *platform_get_sunos_runtime_cpu(void);
 
+extern char *platform_get_amix_runtime_os(void);
+extern char *platform_get_amix_runtime_cpu(void);
+
 extern char *platform_get_solaris_runtime_os(void);
 extern char *platform_get_solaris_runtime_cpu(void);
 
@@ -125,6 +128,11 @@ extern char *platform_get_hurd_runtime_os(void);
 /* MacOSX */
 #if defined(MACOSX_COCOA)
 #define RUNTIME_OS_CALL platform_get_macosx_runtime_os
+#endif
+
+/* AMIX */
+#ifdef __AMIX__
+#define RUNTIME_OS_CALL platform_get_amix_runtime_os
 #endif
 
 /* SunOS */
@@ -233,6 +241,11 @@ extern char *platform_get_hurd_runtime_os(void);
 /* Unixware 7.x */
 #ifdef UNIXWARE_COMPILE
 #define RUNTIME_CPU_CALL platform_get_sco_runtime_cpu
+#endif
+
+/* AMIX */
+#ifdef __AMIX__
+#define RUNTIME_CPU_CALL platform_get_amix_runtime_cpu
 #endif
 
 /* SunOS */

@@ -28,10 +28,22 @@
    cpu    | Operating System
    -------------------------
    mipsel | OpenBSD 2.8
+   m68k   | OpenBSD 3.2
+   i386   | OpenBSD 4.7
+   i386   | OpenBSD 4.8
+   i386   | OpenBSD 4.9
+   i386   | OpenBSD 5.0
+   i386   | OpenBSD 5.1
+   i386   | OpenBSD 5.2
+   i386   | OpenBSD 5.3
+   i386   | OpenBSD 5.4
    i386   | OpenBSD 5.5
    i386   | OpenBSD 5.6
    amd64  | OpenBSD 5.7
    i386   | OpenBSD 5.7
+   sh4    | OpenBSD 5.7
+   sparc  | OpenBSD 5.7
+   vax    | OpenBSD 5.7
  */
 
 #include "vice.h"
@@ -77,6 +89,7 @@ char *platform_get_openbsd_runtime_cpu(void)
     char *model = NULL;
     size_t len = 0;
     char *loc1 = NULL;
+    char *loc2 = NULL;
 
     if (!got_openbsd_cpu) {
         sprintf(openbsd_cpu, "Unknown CPU");
@@ -87,8 +100,17 @@ char *platform_get_openbsd_runtime_cpu(void)
             loc1 = strstr(model, " (");
             if (loc1) {
                 *loc1 = 0;
+                loc1 += 2;
+                loc2 = strstr(loc1, ")");
+                if (loc2) {
+                    *loc2 = 0;
+                }
             }
-            sprintf(openbsd_cpu, "%s", model);
+            if (!strncasecmp(model, "AMIGA", 5)) {
+                sprintf(openbsd_cpu, "%s", loc1);
+            } else {
+                sprintf(openbsd_cpu, "%s", model);
+            }
         }
 
         got_openbsd_cpu = 1;

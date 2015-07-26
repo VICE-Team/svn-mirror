@@ -336,6 +336,11 @@
 #endif
 
 
+/* AMIX discovery */
+#ifdef __AMIX__
+#  define PLATFORM_OS "AMIX"
+#endif
+
 /* Linux discovery */
 #if defined(__linux) && !defined(__ANDROID__) && !defined(AMIGA_AROS)
 #  include "platform_linux_libc_version.h"

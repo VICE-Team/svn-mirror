@@ -12,6 +12,7 @@ libplatform_a_SOURCES = \
 	platform_amd64_msvc_cpuid.h \
 	platform_amigaos3_runtime_os.c \
 	platform_amigaos4_runtime_os.c \
+	platform_amix_runtime_os.c \
 	platform_aros_runtime_os.c \
 	platform_beos_runtime_os.c \
 	platform_compiler.h \

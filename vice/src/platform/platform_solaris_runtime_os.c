@@ -46,6 +46,8 @@
    sparc   | Solaris 9
    sparc64 | Solaris 9
    intel   | Solaris 10
+   sparc   | Solaris 10
+   sparc64 | Solaris 10
    x86     | OpenSolaris
    x64     | OpenSolaris
    x86     | Solaris 11
@@ -54,10 +56,7 @@
    x64     | Solaris 11.1
    x86     | Solaris 11.2
    x64     | Solaris 11.2
-
- * Solaris 10 (sparc)
- * Solaris 10 (sparc64)
- * NetBSD (i386)
+   i386    | NetBSD (emulation layer)
  */
 
 #include "vice.h"
