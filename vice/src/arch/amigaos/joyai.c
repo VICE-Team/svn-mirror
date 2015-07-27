@@ -432,6 +432,9 @@ int joyai_open(void)
         return -1;
     }
 
+    /* HACK: try to load the ini file, so we don't fall back to the defaults */
+    resources_load(NULL);
+
     ai_attach();
 
     return 0;
@@ -894,7 +897,8 @@ int joyai_update(int joy, int dst)
     }
 
     if (AIN_ReadDevice(CTX, ai_handle[joy - 1], &ptr) == TRUE) {
-        unsigned int i, *data = ptr;
+        unsigned int i;
+        int32 *data = ptr;
 
         for (i = 0; i < NUM_KEYSYM; i++) {
             switch (keysym[i].type) {
@@ -904,30 +908,22 @@ int joyai_update(int joy, int dst)
                  * values between 0 and 32767.
                  */
                 case TYPE_BUTTON:
-                    value = (1 << keysym[i].bitnum);
                     if (data[keysym[i].offset]) {
-                        joystick_set_value_or(dst, value);
-                    } else {
-                        joystick_set_value_and(dst, (BYTE) ~value);
+                        value |= (1 << keysym[i].bitnum);
                     }
                     break;
                 case TYPE_AXES:
-                    value = (1 << keysym[i].bitnum);
                     switch (keysym[i].bitnum) {
                         case DIGITAL_UP: /* neg value */
                         case DIGITAL_LEFT: /* neg value */
                             if (data[keysym[i].offset] <= (-(ONOFF_VALUE))) {
-                                joystick_set_value_or(dst, value);
-                            } else {
-                                joystick_set_value_and(dst, (BYTE) ~value);
+                                value |= (1 << keysym[i].bitnum);
                             }
                             break;
                         case DIGITAL_DOWN: /* pos value */
                         case DIGITAL_RIGHT: /* pos value */
                             if (data[keysym[i].offset] >= (ONOFF_VALUE)) {
-                                joystick_set_value_or(dst, value);
-                            } else {
-                                joystick_set_value_and(dst, (BYTE) ~value);
+                                value |= (1 << keysym[i].bitnum);
                             }
                             break;
                         default:
@@ -935,42 +931,41 @@ int joyai_update(int joy, int dst)
                     }
                     break;
                 case TYPE_HAT:
-                    value = 0;
                     switch (data[keysym[i].offset]) {
                         case 1: /* N */
-                            value = (1 << DIGITAL_UP);
+                            value |= (1 << DIGITAL_UP);
                             break;
                         case 2: /* NE */
-                            value = ((1 << DIGITAL_UP) | (1 << DIGITAL_RIGHT));
+                            value |= ((1 << DIGITAL_UP) | (1 << DIGITAL_RIGHT));
                             break;
                         case 3: /* E */
-                            value = (1 << DIGITAL_RIGHT);
+                            value |= (1 << DIGITAL_RIGHT);
                             break;
                         case 4: /* SE */
-                            value = ((1 << DIGITAL_DOWN) | (1 << DIGITAL_RIGHT));
+                            value |= ((1 << DIGITAL_DOWN) | (1 << DIGITAL_RIGHT));
                             break;
                         case 5: /* S */
-                            value = (1 << DIGITAL_DOWN);
+                            value |= (1 << DIGITAL_DOWN);
                             break;
                         case 6: /* SW */
-                            value = ((1 << DIGITAL_DOWN) | (1 << DIGITAL_LEFT));
+                            value |= ((1 << DIGITAL_DOWN) | (1 << DIGITAL_LEFT));
                             break;
                         case 7: /* W */
-                            value = (1 << DIGITAL_LEFT);
+                            value |= (1 << DIGITAL_LEFT);
                             break;
                         case 8: /* NW */
-                            value = ((1 << DIGITAL_UP) | (1 << DIGITAL_LEFT));
+                            value |= ((1 << DIGITAL_UP) | (1 << DIGITAL_LEFT));
                             break;
                         default: /* none */
                             break;
                     }
-
-                    joystick_set_value_absolute(dst, value);
                     break;
                 default:
                     break;
             }
         }
+
+        joystick_set_value_absolute(dst, value);
 
         return 0;
     }
