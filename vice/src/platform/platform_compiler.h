@@ -288,6 +288,9 @@
 #  if (_MSC_VER == 1800)
 #    define PLATFORM_COMPILER "msvc12/vs2013"
 #  endif
+#  if (_MSC_VER == 1900)
+#    define PLATFORM_COMPILER "msvc14/vs2015"
+#  endif
 #  ifndef PLATFORM_COMPILER
 #    define PLATFORM_COMPILER "msvc"
 #  endif

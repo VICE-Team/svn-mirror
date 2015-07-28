@@ -110,7 +110,9 @@
 #define strcasecmp(s1, s2)      _stricmp(s1, s2)
 #define HAVE_STRCASECMP         1
 
+#if defined _MSC_VER && _MSC_VER < 1900 
 #define snprintf _snprintf
+#endif
 
 /* begin: for FFMPEG: common.h */
 #define CONFIG_WIN32
