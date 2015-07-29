@@ -85,6 +85,7 @@
 #define CP_CUSTOM_MSG_STRING          "CUSTOMMSG = "
 #define CP_CUSTOM_MSG_SIZE            sizeof(CP_CUSTOM_MSG_STRING) - 1
 
+
 #define CP_CUSTOM_SRC_STRING          "CUSTOMSOURCE = "
 #define CP_CUSTOM_SRC_SIZE            sizeof(CP_CUSTOM_SRC_STRING) - 1
 
@@ -572,6 +573,31 @@ static char *msvc_winid_copy[3] = {
     "winid_ia64.bat",
     "winid_x64.bat"
 };
+
+/* ---------------------------------------------------------------------- */
+
+static char *msvc14_project_start = "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n"
+                                    "<Project DefaultTargets=\"Build\" ToolsVersion=\"14.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\r\n"
+                                    "  <ItemGroup Label=\"ProjectConfigurations\">\r\n";
+
+static char *msvc14_pgc_gui = "  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='%s|%s'\" Label=\"Configuration\">\r\n"
+                              "    <ConfigurationType>Application</ConfigurationType>\r\n"
+                              "    <UseOfMfc>false</UseOfMfc>\r\n"
+                              "    <PlatformToolset>v140</PlatformToolset>\r\n"
+                              "  </PropertyGroup>\r\n";
+
+static char *msvc14_pgc_console = "  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='%s|%s'\" Label=\"Configuration\">\r\n"
+                                  "    <ConfigurationType>Application</ConfigurationType>\r\n"
+                                  "    <UseOfMfc>false</UseOfMfc>\r\n"
+                                  "    <PlatformToolset>v140</PlatformToolset>\r\n"
+                                  "    <CharacterSet>MultiByte</CharacterSet>\r\n"
+                                  "  </PropertyGroup>\r\n";
+
+static char *msvc14_pgc_library = "  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='%s|%s'\" Label=\"Configuration\">\r\n"
+                                  "    <ConfigurationType>StaticLibrary</ConfigurationType>\r\n"
+                                  "    <UseOfMfc>false</UseOfMfc>\r\n"
+                                  "    <PlatformToolset>v140</PlatformToolset>\r\n"
+                                  "  </PropertyGroup>\r\n";
 
 /* ---------------------------------------------------------------------- */
 
@@ -1076,7 +1102,7 @@ static void close_msvc10_11_12_main_project(int msvc11, int msvc12, int sdl)
     fclose(mainfile);
 }
 
-static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int msvc12, int sdl)
+static int output_msvc10_11_12_14_file(char *fname, int filelist, int msvc11, int msvc12, int msvc14, int sdl)
 {
     char *filename;
     int retval = 0;
@@ -1176,7 +1202,9 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
     }
 
     if (!retval) {
-        if (msvc12) {
+        if (msvc14) {
+            fprintf(outfile, msvc14_project_start);
+        } if (msvc12) {
             fprintf(outfile, msvc12_project_start);
         } else {
             fprintf(outfile, msvc10_project_start);
@@ -1194,7 +1222,9 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
                     default:
                     case CP_TYPE_GUI:
                         if (msvc11) {
-                            if (msvc12) {
+                            if (msvc14) {
+                                fprintf(outfile, msvc14_pgc_gui, type_name[i], msvc10_11_platform[k]);
+                            } else if (msvc12) {
                                 fprintf(outfile, msvc12_pgc_gui, type_name[i], msvc10_11_platform[k]);
                             } else {
                                 fprintf(outfile, msvc11_pgc_gui, type_name[i], msvc10_11_platform[k]);
@@ -1205,7 +1235,9 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
                         break;
                     case CP_TYPE_CONSOLE:
                         if (msvc11) {
-                            if (msvc12) {
+                            if (msvc14) {
+                                fprintf(outfile, msvc14_pgc_console, type_name[i], msvc10_11_platform[k]);
+                            } else if (msvc12) {
                                 fprintf(outfile, msvc12_pgc_console, type_name[i], msvc10_11_platform[k]);
                             } else {
                                 fprintf(outfile, msvc11_pgc_console, type_name[i], msvc10_11_platform[k]);
@@ -1216,10 +1248,12 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
                         break;
                     case CP_TYPE_LIBRARY:
                         if (msvc11) {
-                            if (msvc12) {
+                            if (msvc14) {
+                                fprintf(outfile, msvc14_pgc_library, type_name[i], msvc10_11_platform[k]);
+                            } else if (msvc12) {
                                 fprintf(outfile, msvc12_pgc_library, type_name[i], msvc10_11_platform[k]);
                             } else {
-								fprintf(outfile, msvc11_pgc_library, type_name[i], msvc10_11_platform[k]);
+                                fprintf(outfile, msvc11_pgc_library, type_name[i], msvc10_11_platform[k]);
                             }
                         } else {
                             fprintf(outfile, msvc10_pgc_library, type_name[i], msvc10_11_platform[k]);
@@ -5698,6 +5732,7 @@ int main(int argc, char *argv[])
     int msvc10 = 0;
     int msvc11 = 0;
     int msvc12 = 0;
+    int msvc14 = 0;
     int native = 0;
     int sdl = 0;
     int error = 0;
@@ -5742,6 +5777,9 @@ int main(int argc, char *argv[])
                 }
                 if (!strcmp(argv[i], "-12")) {
                     msvc12 = 1;
+                }
+                if (!strcmp(argv[i], "-14")) {
+                    msvc14 = 1;
                 }
                 if (!strcmp(argv[i], "-native")) {
                     native = 1;
@@ -6048,7 +6086,7 @@ int main(int argc, char *argv[])
                             printf("Parse done\n");
 #endif
                             if (!error) {
-                                error = output_msvc10_11_12_file(project_names[i], 1, 0, 0, sdl);
+                                error = output_msvc10_11_12_14_file(project_names[i], 1, 0, 0, 0, sdl);
 #if MKMSVC_DEBUG
                                 printf("Output done\n");
 #endif
@@ -6059,7 +6097,7 @@ int main(int argc, char *argv[])
                                 for (i = 0; project_names_sdl[i] && !error; i++) {
                                     error = read_template_file(project_names_sdl[i], sdl);
                                     if (!error) {
-                                        error = output_msvc10_11_12_file(project_names_sdl[i], 1, 0, 0, sdl);
+                                        error = output_msvc10_11_12_14_file(project_names_sdl[i], 1, 0, 0, 0, sdl);
                                     }
                                 }
                             }
@@ -6068,14 +6106,14 @@ int main(int argc, char *argv[])
                                 for (i = 0; project_names_native[i] && !error; i++) {
                                     error = read_template_file(project_names_native[i], sdl);
                                     if (!error) {
-                                        error = output_msvc10_11_12_file(project_names_native[i], 1, 0, 0, sdl);
+                                        error = output_msvc10_11_12_14_file(project_names_native[i], 1, 0, 0, 0, sdl);
                                     }
                                 }
                             }
                         }
                         close_msvc10_11_12_main_project(0, 0, sdl);
                     } else {
-                        error = output_msvc10_11_12_file(filename, 0, 0, 0, sdl);
+                        error = output_msvc10_11_12_14_file(filename, 0, 0, 0, 0, sdl);
                     }
                     if (!error) {
                         free_buffers();
@@ -6091,7 +6129,7 @@ int main(int argc, char *argv[])
                             printf("Parse done\n");
 #endif
                             if (!error) {
-                                error = output_msvc10_11_12_file(project_names[i], 1, 1, 0, sdl);
+                                error = output_msvc10_11_12_14_file(project_names[i], 1, 1, 0, 0, sdl);
 #if MKMSVC_DEBUG
                                 printf("Output done\n");
 #endif
@@ -6102,7 +6140,7 @@ int main(int argc, char *argv[])
                                 for (i = 0; project_names_sdl[i] && !error; i++) {
                                     error = read_template_file(project_names_sdl[i], sdl);
                                     if (!error) {
-                                        error = output_msvc10_11_12_file(project_names_sdl[i], 1, 1, 0, sdl);
+                                        error = output_msvc10_11_12_14_file(project_names_sdl[i], 1, 1, 0, 0, sdl);
                                     }
                                 }
                             }
@@ -6111,19 +6149,22 @@ int main(int argc, char *argv[])
                                 for (i = 0; project_names_native[i] && !error; i++) {
                                     error = read_template_file(project_names_native[i], sdl);
                                     if (!error) {
-                                        error = output_msvc10_11_12_file(project_names_native[i], 1, 1, 0, sdl);
+                                        error = output_msvc10_11_12_14_file(project_names_native[i], 1, 1, 0, 0, sdl);
                                     }
                                 }
                             }
                         }
                         close_msvc10_11_12_main_project(1, 0, sdl);
                     } else {
-                        error = output_msvc10_11_12_file(filename, 0, 1, 0, sdl);
+                        error = output_msvc10_11_12_14_file(filename, 0, 1, 0, 0, sdl);
                     }
                     if (!error) {
                         free_buffers();
                     }
                 }
+
+
+
                 if (!error && msvc12) {
                     current_level = 120;
                     if (project_names[0]) {
@@ -6134,7 +6175,7 @@ int main(int argc, char *argv[])
                             printf("Parse done\n");
 #endif
                             if (!error) {
-                                error = output_msvc10_11_12_file(project_names[i], 1, 1, 1, sdl);
+                                error = output_msvc10_11_12_14_file(project_names[i], 1, 1, 1, 0, sdl);
 #if MKMSVC_DEBUG
                                 printf("Output done\n");
 #endif
@@ -6145,7 +6186,7 @@ int main(int argc, char *argv[])
                                 for (i = 0; project_names_sdl[i] && !error; i++) {
                                     error = read_template_file(project_names_sdl[i], sdl);
                                     if (!error) {
-                                        error = output_msvc10_11_12_file(project_names_sdl[i], 1, 1, 1, sdl);
+                                        error = output_msvc10_11_12_14_file(project_names_sdl[i], 1, 1, 1, 0, sdl);
                                     }
                                 }
                             }
@@ -6154,14 +6195,57 @@ int main(int argc, char *argv[])
                                 for (i = 0; project_names_native[i] && !error; i++) {
                                     error = read_template_file(project_names_native[i], sdl);
                                     if (!error) {
-                                        error = output_msvc10_11_12_file(project_names_native[i], 1, 1, 1, sdl);
+                                        error = output_msvc10_11_12_14_file(project_names_native[i], 1, 1, 1, 0, sdl);
                                     }
                                 }
                             }
                         }
                         close_msvc10_11_12_main_project(1, 1, sdl);
                     } else {
-                        error = output_msvc10_11_12_file(filename, 0, 1, 1, sdl);
+                        error = output_msvc10_11_12_14_file(filename, 0, 1, 1, 0, sdl);
+                    }
+                    if (!error) {
+                        free_buffers();
+                    }
+                }
+                if (!error && msvc14) {
+                    current_level = 140;
+                    if (project_names[0]) {
+                        error = open_msvc10_11_12_main_project(1, 1, sdl);
+                        for (i = 0; project_names[i] && !error; i++) {
+                            error = read_template_file(project_names[i], sdl);
+#if MKMSVC_DEBUG
+                            printf("Parse done\n");
+#endif
+                            if (!error) {
+                                error = output_msvc10_11_12_14_file(project_names[i], 1, 1, 1, 1, sdl);
+#if MKMSVC_DEBUG
+                                printf("Output done\n");
+#endif
+                            }
+                        }
+                        if (sdl) {
+                            if (project_names_sdl[0] && !error) {
+                                for (i = 0; project_names_sdl[i] && !error; i++) {
+                                    error = read_template_file(project_names_sdl[i], sdl);
+                                    if (!error) {
+                                        error = output_msvc10_11_12_14_file(project_names_sdl[i], 1, 1, 1, 1, sdl);
+                                    }
+                                }
+                            }
+                        } else {
+                            if (project_names_native[0] && !error) {
+                                for (i = 0; project_names_native[i] && !error; i++) {
+                                    error = read_template_file(project_names_native[i], sdl);
+                                    if (!error) {
+                                        error = output_msvc10_11_12_14_file(project_names_native[i], 1, 1, 1, 1, sdl);
+                                    }
+                                }
+                            }
+                        }
+                        close_msvc10_11_12_main_project(1, 1, sdl);
+                    } else {
+                        error = output_msvc10_11_12_14_file(filename, 0, 1, 1, 1, sdl);
                     }
                     if (!error) {
                         free_buffers();

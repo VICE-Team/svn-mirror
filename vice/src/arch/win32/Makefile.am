@@ -339,6 +339,8 @@ EXTRA_DIST = \
 	generate_msvc11_project.bat \
 	generate_msvc12_ffmpeg_project.bat \
 	generate_msvc12_project.bat \
+	generate_msvc14_ffmpeg_project.bat \
+	generate_msvc14_project.bat \
 	genmenuid.sh \
 	genstringid.sh \
 	genwinres.sh \
