@@ -502,6 +502,8 @@ static winver_t windows_versions[] = {
       6, 2, 10, VER_NT_SERVER, 0, 0, -1 },
     { "Windows 8.1 (Home/Pro)", VER_PLATFORM_WIN32_NT,
       6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
+    { "Windows 10 (Home/Pro/Enterprise)", VER_PLATFORM_WIN32_NT,
+      10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
     { NULL, 0,
       0, 0, 0, 0, 0, 0, 0 }
 };
@@ -866,28 +868,39 @@ static int is_storage_server(void)
     return 0;
 }
 
-#if (_MSC_VER >= 1300)
-static BOOL CompareWindowsVersion(DWORD dwMajorVersion, DWORD dwMinorVersion)
+
+/* Check for windows 8.1 and 10
+   0 = 8.0 or below
+   1 = 8.1
+   2 = 10.0
+*/
+static int IsWindows8plus(void)
 {
-    OSVERSIONINFOEX ver;
-    DWORDLONG dwlConditionMask = 0;
-    VSCM ViceVerSetConditionMask;
-    VVI ViceVerifyVersionInfo;
+    HKEY hKey;
+    char PT[128];
+    DWORD PTlen = 128;
+    LONG ret;
 
-    ViceVerSetConditionMask = (VSCM)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "VerSetConditionMask");
-    ViceVerifyVersionInfo = (VVI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "VerifyVersionInfo");
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret != ERROR_SUCCESS) {
+        return 0;
+    }
 
-    ZeroMemory(&ver, sizeof(OSVERSIONINFOEX));
-    ver.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-    ver.dwMajorVersion = dwMajorVersion;
-    ver.dwMinorVersion = dwMinorVersion;
+    ret = RegQueryValueEx(hKey, "CurrentVersion", NULL, NULL, (LPBYTE)PT, &PTlen);
+    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
+        return 0;
+    }
 
-    VER_SET_CONDITION(dwlConditionMask, VER_MAJORVERSION, VER_EQUAL);
-    VER_SET_CONDITION(dwlConditionMask, VER_MINORVERSION, VER_EQUAL);
+    RegCloseKey(hKey);
 
-    return ViceVerifyVersionInfo(&ver, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask);
+    if (lstrcmpi("6.3", PT) == 0) {
+        return 1;
+    }
+    if (lstrcmpi("10.0", PT) == 0) {
+        return 2;
+    }
+    return 0;
 }
-#endif
 
 char *platform_get_windows_runtime_os(void)
 {
@@ -915,13 +928,14 @@ char *platform_get_windows_runtime_os(void)
         windows_versions[0].realos = GetRealOS();
 
         /* check for windows 8.1 when windows 8 was found */
-#if (_MSC_VER >= 1300)
         if (windows_versions[0].majorver == 6 && windows_versions[0].minorver == 2) {
-            if (CompareWindowsVersion(6, 3)) {
+            if (IsWindows8plus() == 1) {
                 windows_versions[0].minorver = (DWORD)3;
+            } else if (IsWindows8plus() == 2) {
+                windows_versions[0].majorver = (DWORD)10;
+                windows_versions[0].minorver = (DWORD)0;
             }
         }
-#endif
 
         if (windows_versions[0].platformid == VER_PLATFORM_WIN32_NT) {
             if (GetVersionEx((LPOSVERSIONINFOA)&os_version_ex_info)) {
