@@ -280,6 +280,8 @@ int cbm2ui_init(void)
     cbm2_font_8 = lib_malloc(8 * 256);
     cbm2_font_14 = lib_malloc(14 * 256);
 
+    uikeyboard_menu_create();
+
     sdl_ui_set_menu_params = cbm2ui_set_menu_params;
     sdl_ui_set_main_menu(xcbm6x0_7x0_main_menu);
 

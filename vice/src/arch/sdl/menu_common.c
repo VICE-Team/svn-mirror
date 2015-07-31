@@ -68,7 +68,7 @@ UI_MENU_CALLBACK(submenu_radio_callback)
     const char *src = NULL;
     ui_menu_entry_t *item = (ui_menu_entry_t *)param;
 
-    while (item && (item->string != NULL)) {
+    while (item->string != NULL) {
         if (item->callback(0, item->data) != NULL) {
             src = item->string;
             break;
