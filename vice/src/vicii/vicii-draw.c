@@ -1493,23 +1493,16 @@ static void init_drawing_tables(void)
 {
     DWORD i;
     unsigned int f, b;
+    BYTE *p = (BYTE *)hr_table;
 
-    for (i = 0; i <= 0xf; i++) {
-        for (f = 0; f <= 0xf; f++) {
-            for (b = 0; b <= 0xf; b++) {
-                BYTE fp, bp;
-                BYTE *p;
-                int offset;
-
-                fp = f;
-                bp = b;
-                offset = (f << 8) | (b << 4);
-                p = (BYTE *)(hr_table + offset + i);
-
-                p[0] = i & 0x8 ? fp : bp;
-                p[1] = i & 0x4 ? fp : bp;
-                p[2] = i & 0x2 ? fp : bp;
-                p[3] = i & 0x1 ? fp : bp;
+    for (f = 0; f <= 0xf; f++) {
+        for (b = 0; b <= 0xf; b++) {
+            for (i = 0; i <= 0xf; i++) {
+                p[0] = i & 0x8 ? f : b;
+                p[1] = i & 0x4 ? f : b;
+                p[2] = i & 0x2 ? f : b;
+                p[3] = i & 0x1 ? f : b;
+                p += 4;
             }
         }
     }
