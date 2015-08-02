@@ -515,27 +515,22 @@ inline static void _draw_mc_text(BYTE *p, unsigned int xs, unsigned int xe,
     ptmp = (WORD *)(p + xs * 8);
 
     for (i = xs; i <= xe; i++) {
-        if (vicii.cbuf[i] & 0x8) {
-            unsigned int d;
-
-            c[7] = c[6] = vicii.cbuf[i] & 0x7;
-
-            d = char_ptr[vicii.vbuf[i] * 8];
-
-            msk_ptr[i] = mcmsktable[d];
-
+        unsigned int d = char_ptr[vicii.vbuf[i] * 8];
+        BYTE c3 = vicii.cbuf[i];
+        if (c3 & 0x8) {
+            c[7] = c[6] = c3 & 0x7;
             ptmp[0] = ((WORD *)c)[mc_table[d]];
             ptmp[1] = ((WORD *)c)[mc_table[0x100 + d]];
             ptmp[2] = ((WORD *)c)[mc_table[0x200 + d]];
             ptmp[3] = ((WORD *)c)[d & 3];
             ptmp += 4;
+            msk_ptr[i] = mcmsktable[d];
         } else {
-            DWORD *ptr = table_ptr + (vicii.cbuf[i] << 8);
-            int d = msk_ptr[i] = char_ptr[vicii.vbuf[i] * 8];
-
+            DWORD *ptr = table_ptr + (c3 << 8);
             *((DWORD *)ptmp) = ptr[d >> 4];
             *((DWORD *)(ptmp + 2)) = ptr[d & 0xf];
             ptmp += 4;
+            msk_ptr[i] = d;
         }
     }
 }
@@ -560,27 +555,22 @@ inline static void _draw_mc_text_cached(BYTE *p, unsigned int xs, unsigned int x
     ptmp = (WORD *)(p + xs * 8);
 
     for (i = xs; i <= xe; i++) {
-        if (color_data_3[i] & 0x8) {
-            unsigned int d;
-
-            c[7] = c[6] = color_data_3[i] & 0x7;
-
-            d = foreground_data[i];
-
-            msk_ptr[i] = mcmsktable[d];
-
+        unsigned int d = foreground_data[i];
+        BYTE c3 = color_data_3[i];
+        if (c3 & 0x8) {
+            c[7] = c[6] = c3 & 0x7;
             ptmp[0] = ((WORD *)c)[mc_table[d]];
             ptmp[1] = ((WORD *)c)[mc_table[0x100 + d]];
             ptmp[2] = ((WORD *)c)[mc_table[0x200 + d]];
             ptmp[3] = ((WORD *)c)[d & 3];
             ptmp += 4;
+            msk_ptr[i] = mcmsktable[d];
         } else {
-            DWORD *ptr = table_ptr + (color_data_3[i] << 8);
-            int d = msk_ptr[i] = foreground_data[i];
-
+            DWORD *ptr = table_ptr + (c3 << 8);
             *((DWORD *)ptmp) = ptr[d >> 4];
             *((DWORD *)(ptmp + 2)) = ptr[d & 0xf];
             ptmp += 4;
+            msk_ptr[i] = d;
         }
     }
 }
