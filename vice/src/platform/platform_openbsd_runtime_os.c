@@ -27,8 +27,33 @@
 /* Tested and confirmed working on:
    cpu    | Operating System
    -------------------------
+   i386   | OpenBSD 2.2
+   i386   | OpenBSD 2.3
+   i386   | OpenBSD 2.4
+   i386   | OpenBSD 2.5
+   i386   | OpenBSD 2.6
+   i386   | OpenBSD 2.7
+   i386   | OpenBSD 2.8
    mipsel | OpenBSD 2.8
+   i386   | OpenBSD 2.9
+   i386   | OpenBSD 3.0
+   i386   | OpenBSD 3.1
+   i386   | OpenBSD 3.2
    m68k   | OpenBSD 3.2
+   i386   | OpenBSD 3.3
+   i386   | OpenBSD 3.4
+   i386   | OpenBSD 3.5
+   i386   | OpenBSD 3.6
+   i386   | OpenBSD 3.7
+   i386   | OpenBSD 3.8
+   i386   | OpenBSD 3.9
+   i386   | OpenBSD 4.0
+   i386   | OpenBSD 4.1
+   i386   | OpenBSD 4.2
+   i386   | OpenBSD 4.3
+   i386   | OpenBSD 4.4
+   i386   | OpenBSD 4.5
+   i386   | OpenBSD 4.6
    i386   | OpenBSD 4.7
    i386   | OpenBSD 4.8
    i386   | OpenBSD 4.9

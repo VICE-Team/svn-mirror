@@ -230,13 +230,13 @@
 
 /* DragonFly BSD discovery */
 #ifdef __DragonFly__
-#  define PLATFORM_OS "DragonFly BSD"
 #  define FIND_X86_CPU
+#  include "platform_dragonfly_version.h"
 #endif
 
 
 /* FreeBSD discovery */
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) && !defined(__DragonFly__)
 #  include "platform_freebsd_version.h"
 #endif
 

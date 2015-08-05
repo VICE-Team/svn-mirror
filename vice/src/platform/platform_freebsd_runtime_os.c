@@ -97,7 +97,7 @@
 
 #include "vice.h"
 
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) && !defined(__DragonFly__)
 
 #include <stdio.h>
 #include <sys/utsname.h>

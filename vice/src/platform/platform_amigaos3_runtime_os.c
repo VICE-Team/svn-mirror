@@ -25,6 +25,12 @@
  */
 
 /* Tested and confirmed working on the following CPU types:
+ * 68000
+ * 68010
+ * 68020
+ * 68030
+ * 68040
+ * 68060
  */
 
 /* Tested and confirmed working on the following WorkBench versions:
@@ -70,6 +76,8 @@
  * 3.1 (40.70)
  * 3.2 (43.1)
  * AROS KickStart ROM (51.51)
+ * 4.0 (m68k emulation)
+ * 4.1 (m68k emulation)
  */
 
 #include "vice.h"
@@ -88,7 +96,8 @@ struct Library *VersionBase = NULL;
 static char *wbretval = NULL;
 static char *ksretval = NULL;
 static char osretval[100];
-static char *cpuretval = NULL;
+static int got_cpu = 0;
+static char cpu_retval[100];
 
 typedef struct ksver_s {
     char *name;
@@ -118,6 +127,8 @@ static ksver_t ks_versions[] = {
     { "3.2", 43, -1, -1 },
     { "3.5", 45, -1, -1 },
     { "AROS", 51, -1, -1 },
+    { "OS4x", 52, -1, -1 },
+    { "OS4x", 53, -1, -1 },
     { NULL, 0, 0, 0 }
 };
 
@@ -176,6 +187,10 @@ static wbver_t wb_versions[] = {
     { "3.9", 45, 1 },
     { "3.9-BB1", 45, 2 },
     { "3.9-BB2", 45, 3 },
+    { "4.0", 50, -1 },
+    { "4.0", 51, -1 },
+    { "4.0", 52, -1 },
+    { "4.1", 53, -1 },
     { NULL, 0, 0 }
 };
 
@@ -223,6 +238,8 @@ char *platform_get_amigaos3_runtime_os(void)
         sprintf(osretval, "AROS");
     } else if (ksretval && ksretval[0] == 'A') {
         sprintf(osretval, "WorkBench %s (AROS KickStart ROM)", wbretval ? wbretval : "Unknown");
+    } else if (ksretval && ksretval[0] == 'O') {
+        sprintf(osretval, "WorkBench %s (BlackBox/Petunia)", wbretval ? wbretval : "Unknown");
     } else {
         sprintf(osretval, "WorkBench %s (KickStart %s)", wbretval ? wbretval : "Unknown", ksretval ? ksretval : "Unknown");
     }
@@ -238,25 +255,67 @@ char *platform_get_amigaos3_runtime_os(void)
 #define AFF_68060 (1<<AFB_68060)
 #endif
 
+#ifndef AFF_603
+#define AFF_603 (1<<8)
+#endif
+
+#ifndef AFF_604
+#define AFF_604 (1<< 9)
+#endif
+
+#ifndef AFF_750
+#define AFF_750 (1<<10)
+#endif
+
+#ifndef AFF_7400
+#define AFF_7400 (1<<11)
+#endif
+
+#ifndef AFF_4XX
+#define AFF_4XX (1<<13)
+#endif
+
 char *platform_get_amigaos3_runtime_cpu(void)
 {
     UWORD attn = SysBase->AttnFlags;
+    char *ppc = NULL;
+    char *m68k = NULL;
 
-    if (attn & AFF_68060) {
-        return "68060";
+    if (!got_cpu) {
+        if (attn & AFF_4XX) {
+            ppc = "PPC4xx";
+        } else if (attn & AFF_7400) {
+            ppc = "PPC7400";
+        } else if (attn & AFF_750) {
+            ppc = "PPC750";
+        } else if (attn & AFF_604) {
+            ppc = "PPC604";
+        } else if (attn & AFF_603) {
+            ppc = "PPC603";
+        }
+
+        if (attn & AFF_68060) {
+            m68k = "68060";
+        } else if (attn & AFF_68040) {
+            m68k = "68040";
+        } else if (attn & AFF_68030) {
+            m68k = "68030";
+        } else if (attn & AFF_68020) {
+            m68k = "68020";
+        } else if (attn & AFF_68010) {
+            m68k = "68010";
+        } else {
+            m68k = "68000";
+        }
+
+        if (ppc) {
+            sprintf(cpu_retval, "%s (emulated on %s)", m68k, ppc);
+        } else {
+            sprintf(cpu_retval, "%s", m68k);
+        }
+
+        got_cpu = 1;
     }
-    if (attn & AFF_68040) {
-        return "68040";
-    }
-    if (attn & AFF_68030) {
-        return "68030";
-    }
-    if (attn & AFF_68020) {
-        return "68020";
-    }
-    if (attn & AFF_68010) {
-        return "68010";
-    }
-    return "68000";
+    return cpu_retval;
 }
 #endif

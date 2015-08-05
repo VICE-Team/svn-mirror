@@ -42,7 +42,12 @@
 #endif
 
 #ifdef OpenBSD2_3
-#define PLATFORM_OS "OpenBSD 2.3"
+#  include <dev/eisa/eisadevs.h>
+#  ifdef EISA_PRODUCT_DTI0000
+#    define PLATFORM_OS "OpenBSD 2.4"
+#  else
+#    define PLATFORM_OS "OpenBSD 2.3"
+#  endif
 #endif
 
 #ifdef OpenBSD2_4

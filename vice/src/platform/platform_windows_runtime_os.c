@@ -503,19 +503,13 @@ static winver_t windows_versions[] = {
     { "Windows 8.1 (Home/Pro)", VER_PLATFORM_WIN32_NT,
       6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
     { "Windows 10 (Home/Pro/Enterprise)", VER_PLATFORM_WIN32_NT,
-      10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
+      10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
+    { "Windows 10 (Home/Pro/Enterprise)", VER_PLATFORM_WIN32_NT,
+      6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
     { NULL, 0,
       0, 0, 0, 0, 0, 0, 0 }
 };
 
-/*
-        DWORD dwOSVersionInfoSize;
-        DWORD dwMajorVersion;
-        DWORD dwMinorVersion;
-        DWORD dwBuildNumber;
-        DWORD dwPlatformId;
-        CHAR szCSDVersion[128];
-*/
 static OSVERSIONINFO os_version_info;
 
 /* define our own structure since the windows headers
