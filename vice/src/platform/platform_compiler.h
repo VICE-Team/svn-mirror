@@ -322,4 +322,10 @@
 #  endif
 #endif
 
+
+/* VBCC discovery */
+#ifdef __VBCC__
+#define PLATFORM_COMPILER "VBCC"
+#endif
+
 #endif

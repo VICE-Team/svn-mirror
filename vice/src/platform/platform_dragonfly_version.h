@@ -84,6 +84,10 @@
 #  endif
 #endif
 
+#if (__DragonFly_version==200600)
+#define PLATFORM_OS "DragonFly BSD 2.6.x"
+#endif
+
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "DragonFly BSD"
 #endif

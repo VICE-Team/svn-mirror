@@ -169,7 +169,16 @@
 
 /* AmigaOS 3.x discovery */
 #ifdef AMIGA_M68K
-#  define PLATFORM_OS "AmigaOS 3.x"
+#  if defined(__VBCC__) && defined(__PPC__)
+#    include <proto/powerpc.h>
+#    ifdef _VBCCINLINE_POWERPC_H
+#      define PLATFORM_OS "WarpOS (AmigaOS 3.x)"
+#    else
+#      define PLATFORM_OS "PowerUP (AmigaOS 3.x)"
+#    endif
+#  else
+#    define PLATFORM_OS "AmigaOS 3.x"
+#  endif
 #endif
 
 

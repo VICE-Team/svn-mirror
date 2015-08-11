@@ -46,6 +46,10 @@
    amd64 | DragonFly BSD 2.4.0
    i386  | DragonFly BSD 2.4.0
    amd64 | DragonFly BSD 2.4.1
+   i386  | DragonFly BSD 2.4.1
+   amd64 | DragonFly BSD 2.6.1
+   i386  | DragonFly BSD 2.6.1
+   i386  | DragonFly BSD 2.6.2
  */
 
 #include "vice.h"
