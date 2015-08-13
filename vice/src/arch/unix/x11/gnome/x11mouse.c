@@ -57,9 +57,6 @@
 #endif
 
 static GdkCursor *blankCursor;
-/* Left-button and right-button menu.  */
-static GtkWidget *left_menu, *right_menu;
-
 static gint mouse_dx = 0, mouse_dy = 0;
 static gint mouse_lasteventx = 0, mouse_lasteventy = 0;
 static gint mouse_warped = 0;
@@ -188,14 +185,6 @@ static void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
         if (_mouse_enabled || lightpen_enabled) {
             mouse_button(bevent->button-1, TRUE);
             gtk_lightpen_setbutton(bevent->button, TRUE);
-        } else {
-            if (bevent->button == 1) {
-                ui_menu_update_all_GTK();
-                gtk_menu_popup(GTK_MENU(left_menu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
-            } else if (bevent->button == 3) {
-                ui_menu_update_all_GTK();
-                gtk_menu_popup(GTK_MENU(right_menu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
-            }
         }
     } else if (event->type == GDK_BUTTON_RELEASE && (_mouse_enabled || lightpen_enabled)) {
         GdkEventButton *bevent = (GdkEventButton*)event;
@@ -342,62 +331,15 @@ static gboolean mouse_handler_wrap(GtkWidget *w, GdkEventCrossing *e, gpointer p
 }
  
 
-/* Attach `w' as the left menu of all the current open windows.  */
+/* dummy functions, popup menus when clicking into the windows are unusual for
+   GTK apps and they cause more problems than they solve (eg when clicking into
+   the window to switch focus */
 void ui_set_left_menu(ui_menu_entry_t *menu)
 {
-    int i;
-    static GtkAccelGroup *accel;
-    int num_app_shells = get_num_shells();
-
-    DBG(("ui_set_left_menu"));
-
-    ui_block_shells();
-
-    if (accel) {
-        g_object_unref(accel);
-    }
-
-    accel = gtk_accel_group_new();
-    for (i = 0; i < num_app_shells; i++) {
-        gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
-    }
-
-    if (left_menu != NULL) {
-        gtk_widget_destroy(left_menu);
-    }
-    left_menu = gtk_menu_new();
-    ui_menu_create(left_menu, accel, "LeftMenu", menu);
-
-    ui_unblock_shells();
 }
 
-/* Attach `w' as the right menu of all the current open windows.  */
 void ui_set_right_menu(ui_menu_entry_t *menu)
 {
-    int i;
-    static GtkAccelGroup *accel;
-    int num_app_shells = get_num_shells();
-
-    DBG(("ui_set_right_menu"));
-
-    ui_block_shells();
-
-    if (accel) {
-        g_object_unref(accel);
-    }
-
-    accel = gtk_accel_group_new();
-    for (i = 0; i < num_app_shells; i++) {
-        gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
-    }
-
-    if (right_menu != NULL) {
-        gtk_widget_destroy(right_menu);
-    }
-    right_menu = gtk_menu_new();
-    ui_menu_create(right_menu, accel, "RightMenu", menu);
-
-    ui_unblock_shells();
 }
 
 void mouse_connect_handler(GtkWidget *widget, void *data)
