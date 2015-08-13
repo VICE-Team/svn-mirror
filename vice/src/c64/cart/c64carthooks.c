@@ -2265,8 +2265,14 @@ void cartridge_sound_chip_init(void)
 void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     int res = CART_READ_THROUGH;
+#if 0
+    /* disable all the mmu translation stuff for testing */
+    *base = NULL;
+    *start = 0;
+    *limit = 0;
+    return;
+#endif
     /* "Slot 0" */
-
     if (mmc64_cart_enabled()) {
         if ((res = mmc64_mmu_translate(addr, base, start, limit)) == CART_READ_VALID) {
             return;

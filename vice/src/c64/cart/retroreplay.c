@@ -244,6 +244,24 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                 Bit 7 controls bank-address 15 for ROM banking
              */
             case 0:
+
+                if (rr_hw_flashjumper) {
+                    /* HACK: what really happens in flash mode is that the bits
+                             in de00 _only_ affect the mapping in 8000-9fff range,
+                             all other areas remain untouched as if no cartridge
+                             is active. that means for flashing it will actually
+                             use ultimax mode (both bits set in de00) to get the
+                             write accesses for the ROML area.
+                             another quirk is that in nordic power mode, writes
+                             to a000-bfff area will also go to cartridge ram, reads
+                             will return c64 ram though.
+                     */
+                    if ((value & 3) != 2) {
+                        /* in flash mode always use 8k game, unless cart is disabled */
+                        value &= ~3;
+                    }
+                }
+
                 rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4); /* bit 3-4, 7 */
                 cmode = (value & 3);  /* bit 0-1 */
                 if ((rr_revision > 0) && ((value & 0xe7) == 0x22)) {
@@ -260,16 +278,6 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                         mode |= CMODE_EXPORT_RAM;
                     }
                 }
-#if 0
-                if (rr_hw_flashjumper) {
-                    /* FIXME: what exactly is really happening ? */
-                    if ((value & 3) == 3) {
-                        value = 0;
-                    } else if ((value & 3) == 1) {
-                        value = 0;
-                    }
-                }
-#endif
                 cart_config_changed_slotmain(0, (BYTE)(cmode | (rr_bank << CMODE_BANK_SHIFT)), mode);
 
                 if (value & 4) { /* bit 2 */
