@@ -125,6 +125,8 @@
 #define B_WARSAW        35
 #define B_EXPBAS20      36
 #define B_SUPERGRA      37
+#define B_KIPPER        38
+#define B_BOB           39
 
 /* Limits */
 
@@ -173,6 +175,10 @@
 
 #define NUM_SUPERGRACC  50      /* Supergrafik 64 (c64) */
 
+#define NUM_KIPPERE1    18      /* Kipper Basic (c64) */
+
+#define NUM_BOBE1       16      /* Basic on Bails (c64) */
+
 #define MAX_COMM        0xCB    /* common for all versions */
 #define MAX_SECC        0xDD    /* VIC-20 extension */
 #define MAX_TUCC        0xED    /* VIC-20 Turtle Basic extension */
@@ -215,6 +221,10 @@
 #define MAX_SXCFE       0x1F
 
 #define MAX_SUPERGRACC  0xFE    /* Supergrafik 64 (c64) */
+
+#define MAX_KIPPERE1    0xF2    /* Kipper Basic (c64) */
+
+#define MAX_BOBE1       0xF0    /* Basic on Bails (c64) */
 
 #define KW_NONE         0xFE    /* flag unused token */
 
@@ -877,6 +887,20 @@ const char *supergrakw[] = {
     "if#",    "paint"
 };
 
+/* Kipper Basic (c64) Keywords (Tokens E1 - F2) -- Marco van den Heuvel */
+
+const char *kipperkwe1[] = {
+    "ipcfg",   "dhcp",  "ping",   "myip",       "netmask", "gateway",   "dns",     "tftp",
+    "tfget",   "tfput", "netcat", "tcpconnect", "poll",    "tcplisten", "tcpsend", "tcpclose",
+    "tcpblat", "mac"
+};
+
+/* Basic on Bails (c64) Keywords (Tokens E1 - F0) -- Marco van den Heuvel */
+
+const char *bobkwe1[] = {
+    "ipcfg", "dhcp",  "ping", "myip",  "netmask", "gateway", "dns",   "hook",
+    "yield", "xsend", "!",    "httpd", "type",    "status",  "flush", "mac"
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -1264,7 +1288,9 @@ void usage(char *progname)
             "\t70\tBasic v7.0 program (C128)\n"
             "\t71\tBasic v7.1 program (C128)\n"
             "\t10\tBasic v10.0 program (C64DX)\n"
-            "\tsupergra\tBasic v2.0 with Supergrafik 64 (C64)\n\n");
+            "\tsupergra\tBasic v2.0 with Supergrafik 64 (C64)\n"
+            "\tk\tBasic v2.0 with Kipper Basic (C64)\n"
+            "\tbb\tBasic v2.0 with Basic on Bails (C64)\n\n");
 
     fprintf(stdout, "\tUsage examples:\n"
             "\tpetcat -2 -o outputfile.txt -- inputfile.prg\n"
@@ -1336,6 +1362,9 @@ static int parse_version(char *str)
 
         case 'B':
             switch (util_toupper(str[1])) {
+                case 'B':
+                    version = B_BOB;
+                    break;
                 case 'L':
                     version = B_BLARG;
                     break;
@@ -1390,6 +1419,10 @@ static int parse_version(char *str)
                 default:
                     fprintf (stderr, "Please, select one of the following: graphics, game\n");
             }
+            break;
+
+        case 'K':
+            version = B_KIPPER;
             break;
 
         case 'L':
@@ -1735,6 +1768,18 @@ static void list_keywords(int version)
             case B_SUPERGRA:
                 for (n = 0; n < NUM_SUPERGRACC; n++) {
                     printf("%s\t", supergrakw[n] /*, n + 0xcc*/);
+                }
+                break;
+
+            case B_KIPPER:
+                for (n = 0; n < NUM_KIPPERE1; n++) {
+                    printf("%s\t", kipperkwe1[n] /*, n + 0xe1*/);
+                }
+                break;
+
+            case B_BOB:
+                for (n = 0; n < NUM_BOBE1; n++) {
+                    printf("%s\t", bobkwe1[n] /*, n + 0xe1*/);
                 }
                 break;
         }  /* switch */
@@ -2202,6 +2247,18 @@ static int p_expand(int version, int addr, int ctrls)
                         }
                         break;
 
+                    case B_KIPPER:
+                        if (c >= 0xe1 && c <= MAX_KIPPERE1) {
+                            fprintf(dest, "%s", kipperkwe1[c - 0xe1]);
+                        }
+                        break;
+
+                    case B_BOB:
+                        if (c >= 0xe1 && c <= MAX_BOBE1) {
+                            fprintf(dest, "%s", bobkwe1[c - 0xe1]);
+                        }
+                        break;
+
                     default:              /* C128 */
                         fprintf(dest, "%s", keyword[c & 0x7f]);
                 }
@@ -2496,6 +2553,22 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         case B_BLARG:
                             if ((c = sstrcmp(p2, blargkwe0, 0, NUM_BLARGE0)) != KW_NONE) {
                                 *p1++ = c + 0xe0;
+                                p2 += kwlen;
+                                match++;
+                            }
+                            break;
+
+                        case B_KIPPER:
+                            if ((c = sstrcmp(p2, kipperkwe1, 0, NUM_KIPPERE1)) != KW_NONE) {
+                                *p1++ = c + 0xe1;
+                                p2 += kwlen;
+                                match++;
+                            }
+                            break;
+
+                        case B_BOB:
+                            if ((c = sstrcmp(p2, bobkwe1, 0, NUM_BOBE1)) != KW_NONE) {
+                                *p1++ = c + 0xe1;
                                 p2 += kwlen;
                                 match++;
                             }
