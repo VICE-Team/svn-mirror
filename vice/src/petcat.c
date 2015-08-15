@@ -83,7 +83,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-#define PETCATVERSION   2.20
+#define PETCATVERSION   2.21
 #define PETCATLEVEL     1
 
 #define B_1              1
@@ -415,7 +415,7 @@ const char *c_ctrl2[0x20] = {
 
 /* ------------------------------------------------------------------------- */
 
-#define NUM_VERSIONS  35
+#define NUM_VERSIONS  37
 
 const char *VersNames[] = {
     "Basic 1.0",
@@ -459,7 +459,9 @@ const char *VersNames[] = {
     "Basic 2.0 with expanded basic 64",
     "Basic 2.0 with super expander chip",
     "Basic 2.0 with Warsaw Basic",
-    "Basic 2.0 with Supergrafik 64"
+    "Basic 2.0 with Supergrafik 64",
+    "Basic 2.0 with Kipper Basic",
+    "Basic 2.0 with Basic on Bails",
     ""
 };
 
