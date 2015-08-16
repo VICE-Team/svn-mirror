@@ -128,56 +128,66 @@
 #define B_KIPPER        38
 #define B_BOB           39
 
+typedef struct basic_list_s {
+    BYTE version;
+    BYTE num_tokens;
+    char *name;
+//  BYTE token_start;
+//  BYTE max_token;
+//  WORD load_address;
+//  char *version_key;
+//  char *tokens;
+} basic_list_t;
+
+static basic_list_t basic_list[] = {
+    { B_1,        75, "Basic 1.0" },
+    { B_2,        76, "Basic 2.0" },
+    { B_SUPEREXP, 18, "Basic 2.0 with Super Expander" },
+    { B_TURTLE,   34, "Basic 2.0 with Turtle Basic v1.0" },
+    { B_SIMON,   128, "Basic 2.0 with Simon's Basic" },
+    { B_SPEECH,   27, "Basic 2.0 with Speech Basic v2.7" },
+    { B_ATBAS,    43, "Basic 2.0 with @Basic" },
+    { B_4,        15, "Basic 4.0" },
+    { B_4E,       24, "Basic 4.0 extension for C64" },
+    { B_35,      126, "Basic 3.5" },
+    { B_7,        39, "Basic 7.0" },
+    { B_10,       62, "Basic 10.0" },
+    { B_FC3,      29, "Basic 2.0 with Final Cartridge III" },
+    { B_ULTRA,    51, "Basic 2.0 with Ultrabasic-64" },
+    { B_GRAPH,    51, "Basic 2.0 with graphics basic" },
+    { B_WS,       51, "Basic 2.0 with WS basic" },
+    { B_MIGHTY,   51, "Basic 2.0 with Mighty basic" },
+    { B_PEG,      33, "Basic 2.0 with Pegasus basic 4.0" },
+    { B_X,        33, "Basic 2.0 with Xbasic" },
+    { B_DRAGO,    13, "Basic 2.0 with Drago basic 2.2" },
+    { B_REU,      14, "Basic 2.0 with REU-basic" },
+    { B_BASL,     51, "Basic 2.0 with Basic Lightning" },
+    { B_71,       56, "Basic 7.1 extension" },
+    { B_MAGIC,    50, "Basic 2.0 with Magic Basic" },
+    { B_EASY,     51, "Basic 2.0 with Easy Basic" },
+    { B_BLARG,    11, "Basic 2.0 with Blarg" },
+    { B_VIC4,     20, "Basic 4.0 extension for VIC20" },
+    { B_VIC5,     38, "Basic 5.0 extension for VIC20" },
+    { B_WSF,      51, "Basic 2.0 with WS basic final" },
+    { B_GB,       29, "Basic 2.0 with Game Basic" },
+    { B_BSX,      31, "Basic 2.0 with Basex" },
+    { B_SUPERBAS, 36, "Basic 2.0 with super basic" },
+    { B_EXPBAS64, 42, "Basic 2.0 with expanded basic 64" },
+    { B_SXC,      32, "Basic 2.0 with super expander chip" },
+    { B_WARSAW,   36, "Basic 2.0 with Warsaw Basic" },
+    { B_EXPBAS20, 24, "Basic 2.0 with expanded basic 20" },
+    { B_SUPERGRA, 50, "Basic 2.0 with Supergrafik 64" },
+    { B_KIPPER,   18, "Basic 2.0 with Kipper Basic" },
+    { B_BOB,      16, "Basic 2.0 with Basic on Bails" },
+    { -1,         -1, NULL }
+};
+
+#define NUM_VERSIONS ((sizeof(basic_list) / sizeof(basic_list[0])) - 1)
+
+
 /* Limits */
 
-#define NUM_B_1         75      /* Basic 1.0 */
-
-#define NUM_COMM        76      /* common for all versions 2.0 ... 10.0 */
-#define NUM_SECC        18      /* VIC-20 extension */
-#define NUM_TUCC        34      /* VIC-20 Turtle Basic extension */
-
-#define NUM_V4CC        15      /* PET 4.0 */
-#define NUM_4ECC        24      /* 4.0 extension (C64) */
-#define NUM_VIC4        20      /* 4.0 extension (VIC20) */
-#define NUM_VIC5        38      /* 5.0 extension (VIC20) */
-#define NUM_SPECC       27      /* Speech Basic */
-#define NUM_ATBCC       43      /* Atbasic */
-
-#define NUM_FC3CC       29      /* Final Cartridge III */
-
 #define NUM_KWCE        11
-#define NUM_V7FE        39
-#define NUM_V71FE       56
-#define NUM_V10FE       62
-#define NUM_SXCFE       32
-
-#define NUM_ULTRCC      51      /* Ultrabasic-64 */
-#define NUM_GRAPHCC     51      /* graphics basic (c64) */
-#define NUM_WSCC        51      /* WS basic (c64) */
-#define NUM_MIGHTYCC    51      /* Mighty basic (vic20) */
-#define NUM_PEGCC       33      /* Pegasus basic 4.0 (c64) */
-#define NUM_XCC         33      /* Xbasic (c64) */
-#define NUM_DRAGOCC     13      /* Drago basic 2.2 (c64) */
-#define NUM_REUCC       14      /* REU-basic (c64) */
-#define NUM_BASLCC      51      /* Basic Lightning (c64) */
-#define NUM_MAGICCC     50      /* Magic Basic (c64) */
-#define NUM_EASYCC      51      /* Easy Basic (vic20) */
-#define NUM_WSFCC       51      /* WS basic final (c64) */
-#define NUM_GBCC        29
-#define NUM_BSXCC       31      /* Basex (c64) */
-#define NUM_EXPBAS64CC  42      /* Expanded Basic (c64) */
-#define NUM_EXPBAS20CC  24      /* Expanded Basic (vic20) */
-
-#define NUM_BLARGE0     11      /* Blarg (c64) */
-
-#define NUM_SUPERBASDB  36      /* Superbasic (c64) */
-#define NUM_WARSAWDB    36      /* Warsaw Basic (c64) */
-
-#define NUM_SUPERGRACC  50      /* Supergrafik 64 (c64) */
-
-#define NUM_KIPPERE1    18      /* Kipper Basic (c64) */
-
-#define NUM_BOBE1       16      /* Basic on Bails (c64) */
 
 #define MAX_COMM        0xCB    /* common for all versions */
 #define MAX_SECC        0xDD    /* VIC-20 extension */
@@ -414,56 +424,6 @@ const char *c_ctrl2[0x20] = {
 };
 
 /* ------------------------------------------------------------------------- */
-
-#define NUM_VERSIONS  37
-
-const char *VersNames[] = {
-    "Basic 1.0",
-    "Basic 2.0",
-    "Basic 2.0 with Super Expander",
-    "Basic 2.0 with Turtle Basic v1.0",
-
-    "Basic 2.0 with Simon's Basic",
-    "Basic 2.0 with Speech Basic v2.7",
-    "Basic 2.0 with @Basic",
-
-    "Basic 4.0",
-    "Basic 4.0 extension for C64",
-    "Basic 3.5",
-    "Basic 7.0",
-    "Basic 10.0",
-
-    "Basic 2.0 with Final Cartridge III",
-    "Basic 2.0 with Ultrabasic-64",
-    "Basic 2.0 with graphics basic",
-    "Basic 2.0 with WS basic",
-    "Basic 2.0 with Mighty basic",
-    "Basic 2.0 with Pegasus basic 4.0",
-    "Basic 2.0 with Xbasic",
-    "Basic 2.0 with Drago basic 2.2",
-    "Basic 2.0 with REU-basic",
-    "Basic 2.0 with Basic Lightning",
-
-    "Basic 7.1 extension",
-
-    "Basic 2.0 with Magic Basic",
-    "Basic 2.0 with Easy Basic",
-    "Basic 2.0 with Blarg",
-    "Basic 4.0 extension for VIC20",
-    "Basic 5.0 extension for VIC20",
-    "Basic 2.0 with WS basic final",
-    "Basic 2.0 with Game Basic",
-    "Basic 2.0 with Basex",
-    "Basic 2.0 with super basic",
-    "Basic 2.0 with expanded basic 20"
-    "Basic 2.0 with expanded basic 64",
-    "Basic 2.0 with super expander chip",
-    "Basic 2.0 with Warsaw Basic",
-    "Basic 2.0 with Supergrafik 64",
-    "Basic 2.0 with Kipper Basic",
-    "Basic 2.0 with Basic on Bails",
-    ""
-};
 
 /*
  * Two BASIC tokens which need some special care
@@ -1541,21 +1501,21 @@ static void list_keywords(int version)
     if (version <= 0 || version > NUM_VERSIONS) {
         printf("\n  The following versions are supported on  %s V%4.2f\n\n", "petcat", (float)PETCATVERSION );
 
-        for (n = 0; n < NUM_VERSIONS; n++) {
-            printf("\t%s\n", VersNames[n]);
+        for (n = 0; basic_list[n].name; n++) {
+            printf("\t%s\n", basic_list[n].name);
         }
         printf("\n");
         return;
     }
 
-    printf("\n  Available Keywords on %s\n\n", VersNames[version - 1]);
+    printf("\n  Available Keywords on %s\n\n", basic_list[version - 1].name);
 
     if (version == B_1) {
-        max = NUM_B_1;
+        max = basic_list[B_1 - 1].num_tokens;
     } else if (version == B_35 || version == B_7 || version == B_71 || version == B_10) {
-        max = 0x7E;
+        max = basic_list[B_35 - 1].num_tokens;
     } else {
-        max = NUM_COMM;
+        max = basic_list[B_2 - 1].num_tokens;
     }
 
     for (n = 0; n < max; n++) {
@@ -1569,23 +1529,23 @@ static void list_keywords(int version)
     if (version == B_7 || version == B_71 || version == B_10 || version == B_SXC) {
         switch (version) {
             case B_10:
-                for (n = 2; n < NUM_V10FE; n++) {
+                for (n = 2; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", kwfe[n] /*, 0xfe, n*/);
                 }
                 break;
             case B_71:
-                for (n = 2; n < NUM_V71FE; n++) {
+                for (n = 2; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", kwfe71[n] /*, 0xfe, n*/);
                 }
                 break;
             default:
             case B_7:
-                for (n = 2; n < NUM_V7FE; n++) {
+                for (n = 2; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", kwfe[n] /*, 0xfe, n*/);
                 }
                 break;
             case B_SXC:
-                for (n = 0; n < NUM_SXCFE; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", sxckwfe[n] /*, 0xfe, n*/);
                 }
                 break;
@@ -1599,188 +1559,188 @@ static void list_keywords(int version)
     } else {
         switch (version) {
             case B_SUPEREXP:
-                for (n = 0; n < NUM_SECC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", superexpkwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_TURTLE:
-                for (n = 0; n < NUM_TUCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", turtlekwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_MIGHTY:
-                for (n = 0; n < NUM_MIGHTYCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", mightykwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_MAGIC:
-                for (n = 0; n < NUM_MAGICCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", magickwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_EASY:
-                for (n = 0; n < NUM_EASYCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", easykwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_BLARG:
-                for (n = 0; n < NUM_BLARGE0; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", blargkwe0[n] /*, n + 0xe0*/);
                 }
                 break;
 
             case B_SUPERBAS:
-                for (n = 0; n < NUM_SUPERBASDB; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", superbaskwdb[n] /*, n + 0xdb*/);
                 }
                 break;
 
             case B_WARSAW:
-                for (n = 0; n < NUM_WARSAWDB; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", warsawkwdb[n] /*, n + 0xdb*/);
                 }
                 break;
 
             case B_EXPBAS20:
-                for (n = 0; n < NUM_EXPBAS20CC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", expbas20kwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_EXPBAS64:
-                for (n = 0; n < NUM_EXPBAS64CC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", expbas64kwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_GB:
-                for (n = 0; n < NUM_GBCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", gbkwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_BSX:
-                for (n = 0; n < NUM_BSXCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", bsxkwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_4:
             case B_4E:
-                for (n = 0; n < ((version == B_4) ? NUM_V4CC : NUM_4ECC); n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", petkwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_VIC4:
-                for (n = 0; n < NUM_VIC4; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", vic4kwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_VIC5:
-                for (n = 0; n < NUM_VIC5; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", vic5kwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_SIMON:
-                for (n = 1; n < 0x80; n++) {
+                for (n = 1; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", simonskw[n] /*, 0x64, n*/);
                 }
                 break;
 
             case B_SPEECH:
-                for (n = 0; n < NUM_SPECC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", speechkwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_ATBAS:
-                for (n = 0; n < NUM_ATBCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", atbasickwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_ULTRA:
-                for (n = 0; n < NUM_ULTRCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", ultrabasic64kwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_GRAPH:
-                for (n = 0; n < NUM_GRAPHCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", graphicsbasickwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_WS:
-                for (n = 0; n < NUM_WSCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", wsbasickwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_WSF:
-                for (n = 0; n < NUM_WSFCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", wsfbasickwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_PEG:
-                for (n = 0; n < NUM_PEGCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", pegbasickwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_X:
-                for (n = 0; n < NUM_XCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", xbasickwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_DRAGO:
-                for (n = 0; n < NUM_DRAGOCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", dragobasickwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_REU:
-                for (n = 0; n < NUM_REUCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", reubasickwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_FC3:
-                for (n = 0; n < NUM_FC3CC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", fc3kw[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_BASL:
-                for (n = 0; n < NUM_BASLCC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", baslkwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_SUPERGRA:
-                for (n = 0; n < NUM_SUPERGRACC; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", supergrakw[n] /*, n + 0xcc*/);
                 }
                 break;
 
             case B_KIPPER:
-                for (n = 0; n < NUM_KIPPERE1; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", kipperkwe1[n] /*, n + 0xe1*/);
                 }
                 break;
 
             case B_BOB:
-                for (n = 0; n < NUM_BOBE1; n++) {
+                for (n = 0; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", bobkwe1[n] /*, n + 0xe1*/);
                 }
                 break;
@@ -2440,7 +2400,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                 if (version == B_7 || version == B_71 || version == B_10 || version == B_SXC) {
                     switch (version) {
                         case B_10:
-                            if ((c = sstrcmp(p2, kwfe, 2, NUM_V10FE)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, kwfe, 2, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = 0xfe;
                                 *p1++ = c;
                                 p2 += kwlen;
@@ -2453,7 +2413,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             }
                             break;
                         case B_71:
-                            if ((c = sstrcmp(p2, kwfe, 2, NUM_V71FE)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, kwfe, 2, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = 0xfe;
                                 *p1++ = c;
                                 p2 += kwlen;
@@ -2466,7 +2426,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             }
                             break;
                         case B_7:
-                            if ((c = sstrcmp(p2, kwfe, 2, NUM_V7FE)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, kwfe, 2, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = 0xfe;
                                 *p1++ = c;
                                 p2 += kwlen;
@@ -2479,7 +2439,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             }
                             break;
                         case B_SXC:
-                            if ((c = sstrcmp(p2, sxckwfe, 2, NUM_SXCFE)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, sxckwfe, 2, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = 0xfe;
                                 *p1++ = c;
                                 p2 += kwlen;
@@ -2496,12 +2456,12 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     int max;
 
                     if (version == B_1) {
-                        max = NUM_B_1;
+                        max = basic_list[B_1 - 1].num_tokens;
                     } else if ((version == B_35) || (version == B_7) || (version == B_71) ||
                                (version == B_10) || (version == B_SXC)) {
-                        max = 0x7E;
+                        max = basic_list[B_35 - 1].num_tokens;
                     } else {
-                        max = NUM_COMM;
+                        max = basic_list[B_2 - 1].num_tokens;
                     }
 
                     if ((c = sstrcmp(p2, keyword, 0, max)) != KW_NONE) {
@@ -2529,7 +2489,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                 if (!match) {
                     switch (version) {
                         case B_SUPEREXP:
-                            if ((c = sstrcmp(p2, superexpkwcc, 0, NUM_SECC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, superexpkwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2537,7 +2497,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_TURTLE:
-                            if ((c = sstrcmp(p2, turtlekwcc, 0, NUM_TUCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, turtlekwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2545,7 +2505,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_EASY:
-                            if ((c = sstrcmp(p2, easykwcc, 0, NUM_EASYCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, easykwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2553,7 +2513,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_BLARG:
-                            if ((c = sstrcmp(p2, blargkwe0, 0, NUM_BLARGE0)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, blargkwe0, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xe0;
                                 p2 += kwlen;
                                 match++;
@@ -2561,7 +2521,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_KIPPER:
-                            if ((c = sstrcmp(p2, kipperkwe1, 0, NUM_KIPPERE1)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, kipperkwe1, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xe1;
                                 p2 += kwlen;
                                 match++;
@@ -2569,7 +2529,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_BOB:
-                            if ((c = sstrcmp(p2, bobkwe1, 0, NUM_BOBE1)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, bobkwe1, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xe1;
                                 p2 += kwlen;
                                 match++;
@@ -2577,7 +2537,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_SUPERBAS:
-                            if ((c = sstrcmp(p2, superbaskwdb, 0, NUM_SUPERBASDB)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, superbaskwdb, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xdb;
                                 p2 += kwlen;
                                 match++;
@@ -2585,7 +2545,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_WARSAW:
-                            if ((c = sstrcmp(p2, warsawkwdb, 0, NUM_WARSAWDB)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, warsawkwdb, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xdb;
                                 p2 += kwlen;
                                 match++;
@@ -2593,7 +2553,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_EXPBAS20:
-                            if ((c = sstrcmp(p2, expbas20kwcc, 0, NUM_EXPBAS20CC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, expbas20kwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2601,7 +2561,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_EXPBAS64:
-                            if ((c = sstrcmp(p2, expbas64kwcc, 0, NUM_EXPBAS64CC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, expbas64kwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2609,7 +2569,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_GB:
-                            if ((c = sstrcmp(p2, gbkwcc, 0, NUM_GBCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, gbkwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p1 += kwlen;
                                 match++;
@@ -2617,7 +2577,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_BSX:
-                            if ((c = sstrcmp(p2, bsxkwcc, 0, NUM_BSXCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, bsxkwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p1 += kwlen;
                                 match++;
@@ -2625,7 +2585,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_MIGHTY:
-                            if ((c = sstrcmp(p2, mightykwcc, 0, NUM_MIGHTYCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, mightykwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2633,7 +2593,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_MAGIC:
-                            if ((c = sstrcmp(p2, magickwcc, 0, NUM_MAGICCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, magickwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2642,7 +2602,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                         case B_4:
                         case B_4E:
-                            if ((c = sstrcmp(p2, petkwcc, 0, ((version == B_4) ? NUM_V4CC : NUM_4ECC))) != KW_NONE) {
+                            if ((c = sstrcmp(p2, petkwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2650,7 +2610,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_VIC4:
-                            if ((c = sstrcmp(p2, vic4kwcc, 0, NUM_VIC4)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, vic4kwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2658,7 +2618,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_VIC5:
-                            if ((c = sstrcmp(p2, vic5kwcc, 0, NUM_VIC5)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, vic5kwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2666,7 +2626,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_SIMON:
-                            if ((c = sstrcmp(p2, simonskw, 1, 0x80)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, simonskw, 1, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = 0x64;
                                 *p1++ = c;
                                 p2 += kwlen;
@@ -2675,7 +2635,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_SPEECH:
-                            if ((c = sstrcmp(p2, speechkwcc, 0, NUM_SPECC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, speechkwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2683,7 +2643,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_ATBAS:
-                            if ((c = sstrcmp(p2, atbasickwcc, 0, NUM_ATBCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, atbasickwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2691,7 +2651,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_FC3:
-                            if ((c = sstrcmp(p2, fc3kw, 0, NUM_FC3CC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, fc3kw, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2699,7 +2659,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_ULTRA:
-                            if ((c = sstrcmp(p2, ultrabasic64kwcc, 0, NUM_ULTRCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, ultrabasic64kwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2707,7 +2667,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_GRAPH:
-                            if ((c = sstrcmp(p2, graphicsbasickwcc, 0, NUM_GRAPHCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, graphicsbasickwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2715,7 +2675,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_WS:
-                            if ((c = sstrcmp(p2, wsbasickwcc, 0, NUM_WSCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, wsbasickwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2723,7 +2683,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_WSF:
-                            if ((c = sstrcmp(p2, wsfbasickwcc, 0, NUM_WSCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, wsfbasickwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2731,7 +2691,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_PEG:
-                            if ((c = sstrcmp(p2, pegbasickwcc, 0, NUM_PEGCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, pegbasickwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2739,7 +2699,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_X:
-                            if ((c = sstrcmp(p2, xbasickwcc, 0, NUM_XCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, xbasickwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2747,7 +2707,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_DRAGO:
-                            if ((c = sstrcmp(p2, dragobasickwcc, 0, NUM_DRAGOCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, dragobasickwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2755,7 +2715,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_REU:
-                            if ((c = sstrcmp(p2, reubasickwcc, 0, NUM_REUCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, reubasickwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2763,7 +2723,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_BASL:
-                            if ((c = sstrcmp(p2, baslkwcc, 0, NUM_BASLCC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, baslkwcc, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
@@ -2771,7 +2731,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             break;
 
                         case B_SUPERGRA:
-                            if ((c = sstrcmp(p2, supergrakw, 0, NUM_SUPERGRACC)) != KW_NONE) {
+                            if ((c = sstrcmp(p2, supergrakw, 0, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = c + 0xcc;
                                 p2 += kwlen;
                                 match++;
