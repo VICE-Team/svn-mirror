@@ -127,6 +127,7 @@
 #define B_SUPERGRA      37
 #define B_KIPPER        38
 #define B_BOB           39
+#define B_EVE           40
 
 /* Super Expander (VIC20) -- Tokens 0xCC - 0xDD */
 
@@ -149,22 +150,28 @@ const char *turtlekwcc[] = {
 /* Simon's Basic (C64) -- Tokens 0x6400 - 0x647F */
 
 const char *simonskw[] = {
-    "",        "hires",    "plot",   "line",     "block",    "fchr",    "fcol",     "fill",
-    "rec",     "rot",      "draw",   "char",     "hi col",   "inv",     "frac",     "move",
-    "place",   "upb",      "upw",    "leftw",    "leftb",    "downb",   "downw",    "rightb",
-    "rightw",  "multi",    "colour", "mmob",     "bflash",   "mob set", "music",    "flash",
-    "repeat",  "play",     ">>",     "centre",   "envelope", "cgoto",   "wave",     "fetch",
-    "at(",     "until",    ">>",     ">>",       "use",      ">>",      "global",   ">>",
-    "reset",   "proc",     "call",   "exec",     "end proc", "exit",    "end loop", "on key",
-    "disable", "resume",   "loop",   "delay",    ">>",       ">>",      ">>",       ">>",
-    "secure",  "disapa",   "circle", "on error", "no error", "local",   "rcomp",    "else",
-    "retrace", "trace",    "dir",    "page",     "dump",     "find",    "option",   "auto",
-    "old",     "joy",      "mod",    "div",      ">>",       "dup",     "inkey",    "inst",
-    "test",    "lin",      "exor",   "insert",   "pot",      "penx",    ">>",       "peny",
-    "sound",   "graphics", "design", "rlocmob",  "cmob",     "bckgnds", "pause",    "nrm",
-    "mob off", "off",      "angl",   "arc",      "cold",     "scrsv",   "scrld",    "text",
-    "cset",    "vol",      "disk",   "hrdcpy",   "key",      "paint",   "low col",  "copy",
-    "merge",   "renumber", "mem",    "detect",   "check",    "display", "err",      "out"
+    "",         "hires",    "plot",     "line",    "block",    "fchr",
+    "fcol",     "fill",     "rec",      "rot",     "draw",     "char",
+    "hi col",   "inv",      "frac",     "move",    "place",    "upb",
+    "upw",      "leftw",    "leftb",    "downb",   "downw",    "rightb",
+    "rightw",   "multi",    "colour",   "mmob",    "bflash",   "mob set",
+    "music",    "flash",    "repeat",   "play",    ">>",       "centre",
+    "envelope", "cgoto",    "wave",     "fetch",   "at(",      "until",
+    ">>",       ">>",       "use",      ">>",      "global",   ">>",
+    "reset",    "proc",     "call",     "exec",    "end proc", "exit",
+    "end loop", "on key",   "disable",  "resume",  "loop",     "delay",
+    ">>",       ">>",       ">>",       ">>",      "secure",   "disapa",
+    "circle",   "on error", "no error", "local",   "rcomp",    "else",
+    "retrace",  "trace",    "dir",      "page",    "dump",     "find",
+    "option",   "auto",     "old",      "joy",     "mod",      "div",
+    ">>",       "dup",      "inkey",    "inst",    "test",     "lin",
+    "exor",     "insert",   "pot",      "penx",    ">>",       "peny",
+    "sound",    "graphics", "design",   "rlocmob", "cmob",     "bckgnds",
+    "pause",    "nrm",      "mob off",  "off",     "angl",     "arc",
+    "cold",     "scrsv",    "scrld",    "text",    "cset",     "vol",
+    "disk",     "hrdcpy",   "key",      "paint",   "low col",  "copy",
+    "merge",    "renumber", "mem",      "detect",  "check",    "display",
+    "err",      "out"
 };
 
 /* Speech Basic v2.7 (C64) - Tokens 0xCC - 0xE6 */
@@ -179,18 +186,21 @@ const char *speechkwcc[] = {
 /* @Basic (C64) by Andre Fachat -- Tokens 0xCC - 0xF6 */
 
 const char *atbasickwcc[] = {
-    "trace",  "delete",  "auto",      "old",     "dump",    "find",    "renumber", "dload",
-    "dsave",  "dverify", "directory", "catalog", "scratch", "collect", "rename",   "copy",
-    "backup", "disk",    "header",    "append",  "merge",   "mload",   "mverify",  "msave",
-    "key",    "basic",   "reset",     "exit",    "enter",   "doke",    "set",      "help",
-    "screen", "lomem",   "himem",     "colour",  "type",    "time",    "deek",     "hex$",
-    "bin$",   "off",     "alarm"
+    "trace",    "delete",  "auto",   "old",     "dump",      "find",
+    "renumber", "dload",   "dsave",  "dverify", "directory", "catalog",
+    "scratch",  "collect", "rename", "copy",    "backup",    "disk",
+    "header",   "append",  "merge",  "mload",   "mverify",   "msave",
+    "key",      "basic",   "reset",  "exit",    "enter",     "doke",
+    "set",      "help",    "screen", "lomem",   "himem",     "colour",
+    "type",     "time",    "deek",   "hex$",    "bin$",      "off",
+    "alarm"
 };
 
 /* Basic v4.0 (PET) -- TOKENS 0xCC - 0xDA / Basic v4.0 extension (C64) -- Tokens 0xCC - 0xE3 */
 const char *petkwcc[] = {
-    "concat", "dopen", "dclose", "record",  "header", "collect", "backup",    "copy",
-    "append", "dsave", "dload",  "catalog", "rename", "scratch", "directory",
+    "concat",    "dopen",  "dclose", "record", "header",  "collect", "backup",
+    "copy",      "append", "dsave",  "dload",  "catalog", "rename",  "scratch",
+    "directory",
 
     /* Basic 4 Extension for C64 (0xdb - 0xe3) */
     "color",  "cold", "key", "dverify", "delete", "auto", "merge", "old",
@@ -200,10 +210,11 @@ const char *petkwcc[] = {
 /* Final Cartridge III (C64) by Matti 'ccr' Hamalainen -- Tokens 0xCC - 0xE8 */
 
 const char *fc3kw[] = {
-    "off",     "auto",  "del",     "renum",   "?ERROR?", "find", "old",   "dload",
-    "dverify", "dsave", "append",  "dappend", "dos",     "kill", "mon",   "pdir",
-    "plist",   "bar",   "desktop", "dump",    "array",   "mem",  "trace", "replace",
-    "order",   "pack",  "unpack",  "mread",   "mwrite"
+    "off",   "auto",    "del",     "renum",  "?ERROR?", "find",   "old",
+    "dload", "dverify", "dsave",   "append", "dappend", "dos",    "kill",
+    "mon",   "pdir",    "plist",   "bar",    "desktop", "dump",   "array",
+    "mem",   "trace",   "replace", "order",  "pack",    "unpack", "mread",
+    "mwrite"
 };
 
 /* Ultrabasic-64 (C64) by Marco van den Heuvel - Tokens 0xCC - 0xFE */
@@ -221,57 +232,62 @@ const char *ultrabasic64kwcc[] = {
 /* Graphics basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xFE */
 
 const char *graphicsbasickwcc[] = {
-    "background", "border",  "dir",    "disk", "fill",   "key",    "circle", "procedure",
-    "dot",        "find",    "change", "ren",  "else",   "copy",   "scroll", "roll",
-    "box",        "scale",   "do",     "line", "sprite", "color",  "hires",  "clear",
-    "text",       "window",  "off",    "at",   "shape",  "xysize", "speed",  "from",
-    "setorigin",  "animate", "multi",  "eze",  "move",   "under",  "edit",   "reset",
-    "xpos",       "gprint",  "voice",  "adsr", "wave",   "ne",     "volume", "play",
-    "ypos",       "sound",   "joy"
+    "background", "border", "dir",   "disk",   "fill",      "key",     "circle",
+    "procedure",  "dot",    "find",  "change", "ren",       "else",    "copy",
+    "scroll",     "roll",   "box",   "scale",  "do",        "line",    "sprite",
+    "color",      "hires",  "clear", "text",   "window",    "off",     "at",
+    "shape",      "xysize", "speed", "from",   "setorigin", "animate", "multi",
+    "eze",        "move",   "under", "edit",   "reset",     "xpos",    "gprint",
+    "voice",      "adsr",   "wave",  "ne",     "volume",    "play",    "ypos",
+    "sound",      "joy"
 };
 
 /* WS (WohnzimmerSoft) basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xFE */
 
 const char *wsbasickwcc[] = {
-    "copy",  "old",    "port",    "doke",   "vpoke",  "fill",   "error", "send",
-    "call",  "bit",    "dir",     "bload",  "bsave",  "find",   "speed", "pitch",
-    "say",   "fast",   "slow",    "talk",   "shutup", "stash",  "fetch", "swap",
-    "off",   "screen", "device",  "object", "vstash", "vfetch", "quiet", "color",
-    "cls",   "curpos", "monitor", "subend", "do",     "loop",   "exit",  "deek",
-    "rsc",   "rsm",    "dec",     "hex$",   "hi",     "lo",     "ds$",   "line",
-    "vpeek", "row",    "joy"
+    "copy",   "old",    "port",  "doke",  "vpoke",  "fill",   "error",
+    "send",   "call",   "bit",   "dir",   "bload",  "bsave",  "find",
+    "speed",  "pitch",  "say",   "fast",  "slow",   "talk",   "shutup",
+    "stash",  "fetch",  "swap",  "off",   "screen", "device", "object",
+    "vstash", "vfetch", "quiet", "color", "cls",    "curpos", "monitor",
+    "subend", "do",     "loop",  "exit",  "deek",   "rsc",    "rsm",
+    "dec",    "hex$",   "hi",   "lo",    "ds$",    "line",   "vpeek",
+    "row",    "joy"
 };
 
 /* Mighty Basic (VIC20) -- Tokens 0xCC - 0xFE */
 
 const char *mightykwcc[] = {
-    "delete", "old",    "renumber", "help",    "header",  "move",    "trace",     "kill",
-    "dump",   "dsave",  "dload",    "dverify", "dresave", "scratch", "directory", "key",
-    "send",   "pop",    "off",      "bsave",   "bload",   "find",    "auto",      "pprint",
-    "accept", "reset",  "else",     "color",   "take",    "pause",   "base",      "copychr",
-    "char",   "beep",   "cls",      "fill",    "merge",   "sound",   "give",      "plist",
-    "put",    "volume", "rtime",    "msb",     "lsb",     "vector",  "joy",       "dec",
-    "hex$",   "grab",   "ds$"
+    "delete",  "old",     "renumber",  "help",   "header", "move",
+    "trace",   "kill",    "dump",      "dsave",  "dload",  "dverify",
+    "dresave", "scratch", "directory", "key",    "send",   "pop",
+    "off",     "bsave",   "bload",     "find",   "auto",   "pprint",
+    "accept",  "reset",   "else",      "color",  "take",   "pause",
+    "base",    "copychr", "char",      "beep",   "cls",    "fill",
+    "merge",   "sound",   "give",      "plist",  "put",    "volume",
+    "rtime",   "msb",     "lsb",       "vector", "joy",    "dec",
+    "hex$",    "grab",    "ds$"
 };
 
 /* Pegasus basic v4.0 (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xEC */
 
 const char *pegbasickwcc[] = {
-    "off",      "asc(",     "sin(",    "cos(",  "tan(",     "atn(",     "deg(",     "rad(",
-    "frac(",    "mod(",     "round(",  "dec(",  "bin(",     "deek(",    "instr(",   "joy(",
-    "pot(",     "screen(",  "test(",   "using", "ds$",      "hex$(",    "bin$(",    "space$(",
-    "ucase$(",  "string$(", "input$(", "time$", "spritex(", "spritey(", "turtlex(", "turtley(",
-    "turtleang"
+    "off",      "asc(",     "sin(",    "cos(",  "tan(",     "atn(",
+    "deg(",     "rad(",     "frac(",   "mod(",  "round(",   "dec(",
+    "bin(",     "deek(",    "instr(",  "joy(",  "pot(",     "screen(",
+    "test(",    "using",    "ds$",     "hex$(", "bin$(",    "space$(",
+    "ucase$(",  "string$(", "input$(", "time$", "spritex(", "spritey(",
+    "turtlex(", "turtley(", "turtleang"
 };
 
 /* Xbasic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xEC */
 
 const char *xbasickwcc[] = {
-    "sprat",   "brdr",   "screen",   "quit", "sprmult", "move",  "sprite", "asprite",
-    "dsprite", "sid",    "envelope", "gate", "frq",     "wave",  "vol",    "fcut",
-    "fmode",   "filter", "frsn",     "cset", "multi",   "extnd", "locate", "center",
-    "hires",   "line",   "hprnt",    "plot", "text",    "clear", "colr",   "stick",
-    "btn"
+    "sprat",   "brdr",    "screen", "quit",     "sprmult", "move",  "sprite",
+    "asprite", "dsprite", "sid",    "envelope", "gate",    "frq",   "wave",
+    "vol",     "fcut",    "fmode",  "filter",   "frsn",    "cset",  "multi",
+    "extnd",   "locate",  "center", "hires",    "line",    "hprnt", "plot",
+    "text",    "clear",   "colr",   "stick",    "btn"
 };
 
 /* Drago basic v2.2 (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xD8 */
@@ -284,44 +300,48 @@ const char *dragobasickwcc[] = {
 /* REU-basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xDA */
 
 const char *reubasickwcc[] = {
-    "push", "pull", "flip", "rec",  "stash", "fetch", "swap", "reu",
-    "size", "dir",  "@",    "kill", "rom",   "ram",   "move"
+    "push", "pull", "flip", "rec", "stash", "fetch", "swap", "reu", "size",
+    "dir",  "@",    "kill", "rom", "ram",   "move"
 };
 
 /* Basic Lightning (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xFE */
 
 const char *baslkwcc[] = {
-    "else",  "hex$",  "deek",  "true",    "import",  "cfn",      "size",    "false",
-    "ver$",  "lpx",   "lpy",   "common%", "crow",    "ccol",     "atr",     "inc",
-    "num",   "row2",  "col2",  "spn2",    "hgt",     "wid",      "row",     "col",
-    "spn",   "task",  "halt",  "repeat",  "until",   "while",    "wend",    "cif",
-    "celse", "cend",  "label", "doke",    "exit",    "allocate", "disable", "pull",
-    "dload", "dsave", "var",   "local",   "procend", "proc",     "casend",  "of",
-    "case",  "rpt",   "setatr"
+    "else",  "hex$",  "deek",     "true",    "import",  "cfn",   "size",
+    "false", "ver$",  "lpx",      "lpy",     "common%", "crow",  "ccol",
+    "atr",   "inc",   "num",      "row2",    "col2",    "spn2",  "hgt",
+    "wid",   "row",   "col",      "spn",     "task",    "halt",  "repeat",
+    "until", "while", "wend",     "cif",     "celse",   "cend",  "label",
+    "doke",  "exit",  "allocate", "disable", "pull",    "dload", "dsave",
+    "var",   "local", "procend",  "proc",    "casend",  "of",    "case",
+    "rpt",   "setatr"
 };
 
 /* Magic Basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xFD */
 
 const char *magickwcc[] = {
-    "assembler", "auto",    "cdrive",  "cat",    "dappend", "delete", "dez",    "dir",
-    "dload",     "dsave",   "dverify", "config", "find",    " ",      " ",      "help",
-    "hex",       "jump",    "llist",   "lprint", "off",     "old",    "renum",  "crun",
-    "send",      "status",  "hires",   "multi",  "clear",   "plot",   "invert", "line",
-    "text",      "graphik", "page",    "box",    "draw",    "mix",    "copy",   "circle",
-    "gsave",     "gload",   "frame",   "hprint", "vprint",  "block",  "fill",   " ",
-    "replace",   "lrun"
+    "assembler", "auto",   "cdrive", "cat",     "dappend", "delete",  "dez",
+    "dir",       "dload",  "dsave",  "dverify", "config",  "find",    " ",
+    " ",         "help",   "hex",    "jump",    "llist",   "lprint",  "off",
+    "old",       "renum",  "crun",   "send",    "status",  "hires",   "multi",
+    "clear",     "plot",   "invert", "line",    "text",    "graphik", "page",
+    "box",       "draw",   "mix",    "copy",    "circle",  "gsave",   "gload",
+    "frame",     "hprint", "vprint", "block",   "fill",    " ",       "replace",
+    "lrun"
 };
 
 /* Easy Basic (VIC20) -- Tokens 0xCC - 0xFE */
 
 const char *easykwcc[] = {
-    "delete", "old",    "renumber", "dump",    "merge",  "plot",   "trace",     "kill",
-    "help",   "dload",  "dsave",    "dverify", "append", "screen", "directory", "key",
-    "send",   "pop",    "off",      "pout",    "header", "find",   "auto",      "pprint",
-    "accept", "reset",  "scratch",  "color",   "take",   "pause",  "base",      "copychr",
-    "char",   "clk",    "cls",      "fill",    "retime", "sound",  "poff",      "plist",
-    "put",    "volume", "joy",      "msb",     "lsb",    "vector", "rkey",      "dec",
-    "hex$",   "grab",   "ds$"
+    "delete", "old",     "renumber",  "dump",   "merge", "plot",
+    "trace",  "kill",    "help",      "dload",  "dsave", "dverify",
+    "append", "screen",  "directory", "key",    "send",  "pop",
+    "off",    "pout",    "header",    "find",   "auto",  "pprint",
+    "accept", "reset",   "scratch",   "color",  "take",  "pause",
+    "base",   "copychr", "char",      "clk",    "cls",   "fill",
+    "retime", "sound",   "poff",      "plist",  "put",   "volume",
+    "joy",    "msb",     "lsb",       "vector", "rkey",  "dec",
+    "hex$",   "grab",    "ds$"
 };
 
 /* Blarg (C64) by Marco van den Heuvel -- Tokens 0xE0 - 0xEA */
@@ -334,89 +354,99 @@ const char *blargkwe0[] = {
 /* Basic 4.0 extension (VIC20) -- Tokens 0xCC - 0xDF */
 
 const char *vic4kwcc[] = {
-    "concat", "dopen",    "dclose",  "record",  "header", "collect", "backup",    "copy",
-    "append", "dsave",    "dload",   "catalog", "rename", "scratch", "directory", "ieee",
-    "serial", "parallel", "monitor", "modem"
+    "concat",  "dopen",   "dclose",    "record", "header", "collect",
+    "backup",  "copy",    "append",    "dsave",  "dload",  "catalog",
+    "rename",  "scratch", "directory", "ieee",   "serial", "parallel",
+    "monitor", "modem"
 };
 
 /* Basic 5.0 extension (VIC20) -- Tokens 0xCC - 0xF1 */
 
 const char *vic5kwcc[] = {
-    "concat",  "dopen",  "dclose", "record",   "header", "collect", "backup",    "copy",
-    "append",  "dsave",  "dload",  "catalog",  "rename", "scratch", "directory", "dverify",
-    "monitor", "repeat", "bell",   "commands", "renew",  "`",       "key",       "auto",
-    "off",     "",       "merge",  "color",    "mem",    "enter",   "delete",    "find",
-    "number",  "else",   "call",   "graphic",  "alpha",  "dmerge"
+    "concat", "dopen",    "dclose",    "record",  "header",  "collect",
+    "backup", "copy",     "append",    "dsave",   "dload",   "catalog",
+    "rename", "scratch",  "directory", "dverify", "monitor", "repeat",
+    "bell",   "commands", "renew",     "`",       "key",     "auto",
+    "off",    "",         "merge",     "color",   "mem",     "enter",
+    "delete", "find",     "number",    "else",    "call",    "graphic",
+    "alpha",  "dmerge"
 };
 
 /* WS (WohnzimmerSoft) Basic final (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xFE */
 
 const char *wsfbasickwcc[] = {
-    "copy", "bank",   "old",     "doke",   "display", "fill",   "error", "send",
-    "call", "bit",    "dir",     "bload",  "bsave",   "find",   "speed", "pitch",
-    "say",  "fast",   "slow",    "talk",   "shutup",  "stash",  "fetch", "swap",
-    "off",  "mode",   "device",  "object", "vstash",  "vfetch", "latch", "color",
-    "cls",  "curpos", "monitor", "subend", "do",      "loop",   "exit",  "deek",
-    "col",  "rsm",    "dec",     "hex$",   "hi",      "lo",     "ds$",   "line",
-    "bnk",  "ypos",   "joy"
+    "copy",   "bank",   "old",   "doke",  "display", "fill",   "error",
+    "send",   "call",   "bit",   "dir",   "bload",   "bsave",  "find",
+    "speed",  "pitch",  "say",   "fast",  "slow",    "talk",   "shutup",
+    "stash",  "fetch",  "swap",  "off",   "mode",    "device", "object",
+    "vstash", "vfetch", "latch", "color", "cls",     "curpos", "monitor",
+    "subend", "do",     "loop",  "exit",  "deek",    "col",    "rsm",
+    "dec",    "hex$",   "hi",    "lo",    "ds$",     "line",   "bnk",
+    "ypos",   "joy"
 };
 
 /* Game Basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xE8 */
 
 const char *gbkwcc[] = {
-    "window", "bfile",   "upper",   "lower",  "cls",  "screen", "parse",   "proc",
-    "else",   "scratch", "replace", "device", "dir",  "repeat", "until",   "disk",
-    "fetch#", "put#",    "prompt",  "pop",    "help", "exit",   "disable", "enter",
-    "reset",  "warm",    "num",     "type",   "text$"
+    "window", "bfile",   "upper",   "lower",   "cls",    "screen", "parse",
+    "proc",   "else",    "scratch", "replace", "device", "dir",    "repeat",
+    "until",  "disk",    "fetch#",  "put#",    "prompt", "pop",    "help",
+    "exit",   "disable", "enter",   "reset",   "warm",   "num",    "type",
+    "text$"
 };
 
 /* Basex (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xEA */
 
 const char *bsxkwcc[] = {
-    "append", "auto",  "bar",   "circle",   "clg",  "cls",      "csr",    "delete",
-    "disk",   "draw",  "edge",  "envelope", "fill", "key",      "mob",    "mode",
-    "move",   "old",   "pic",   "dump",     "plot", "renumber", "repeat", "scroll",
-    "sound",  "while", "until", "voice",    "ass",  "dis",      "mem"
+    "append",   "auto",   "bar",    "circle", "clg",      "cls",   "csr",
+    "delete",   "disk",   "draw",   "edge",   "envelope", "fill",  "key",
+    "mob",      "mode",   "move",   "old",    "pic",      "dump",  "plot",
+    "renumber", "repeat", "scroll", "sound",  "while",    "until", "voice",
+    "ass",      "dis",    "mem"
 };
 
 /* Super Basic (C64) by Marco van den Heuvel -- Tokens 0xDB - 0xFE */
 
 const char *superbaskwdb[] = {
-    "volume",  "reset",  "mem",    "trace",   "basic",  "resume", "letter",   "help",
-    "coke",    "ground", "matrix", "dispose", "print@", "himem",  "hardcopy", "inputform",
-    "lock",    "swap",   "using",  "sec",     "else",   "error",  "round",    "deek",
-    "string$", "point",  "instr",  "ceek",    "min",    "max",    "varptr",   "frac",
-    "odd",     "dec",    "hex$",   "eval"
+    "volume",   "reset",     "mem",    "trace",   "basic",   "resume", "letter",
+    "help",     "coke",      "ground", "matrix",  "dispose", "print@", "himem",
+    "hardcopy", "inputform", "lock",   "swap",    "using",   "sec",    "else",
+    "error",    "round",     "deek",   "string$", "point",   "instr",  "ceek",
+    "min",      "max",       "varptr", "frac",    "odd",     "dec",    "hex$",
+    "eval"
 };
 
 /* Expanded Basic (C64) by Marco van den Heuvel - Tokens 0xCC - 0xF5 */
 
 const char *expbas64kwcc[] = {
-    "hires",    "norm",     "graph",   "set",        "line",     "circle",   "fill",   "mode",
-    "cls",      "text",     "color",   "gsave",      "gload",    "inverse",  "frame",  "move",
-    "using",    "renumber", "delete",  "box",        "mobdef",   "sprite",   "mobset", "modsize",
-    "mobcolor", "mobmulti", "mobmove", "doke",       "allclose", "old",      "auto",   "volume",
-    "envelope", "wave",     "play",    "case error", "resume",   "no error", "find",   "inkey",
-    "merge",    "hardcopy"
+    "hires",    "norm",     "graph",    "set",    "line",     "circle",
+    "fill",     "mode",     "cls",      "text",   "color",    "gsave",
+    "gload",    "inverse",  "frame",    "move",   "using",    "renumber",
+    "delete",   "box",      "mobdef",   "sprite", "mobset",   "modsize",
+    "mobcolor", "mobmulti", "mobmove",  "doke",   "allclose", "old",
+    "auto",     "volume",   "envelope", "wave",   "play",     "case error",
+    "resume",   "no error", "find",     "inkey",  "merge",    "hardcopy"
 };
 
 /* Super Expander Chip (C64) -- Tokens 0xFE00 - 0xFE1F */
 
 const char *sxckwfe[] = {
-    "key",   "color",  "graphic", "scnclr", "locate", "scale",  "box",    "circle",
-    "char",  "draw",   "gshape",  "paint",  "sshape", "tune",   "filter", "sprdef",
-    "tempo", "movspr", "sprcol",  "sprite", "colint", "sprsav", "rbump",  "rclr",
-    "rdot",  "rgr",    "rjoy",    "rpen",   "rpot",   "rspcol", "rsppos", "rspr"
+    "key",    "color",  "graphic", "scnclr", "locate", "scale",  "box",
+    "circle", "char",   "draw",    "gshape", "paint",  "sshape", "tune",
+    "filter", "sprdef", "tempo",   "movspr", "sprcol", "sprite", "colint",
+    "sprsav", "rbump",  "rclr",    "rdot",   "rgr",    "rjoy",   "rpen",
+    "rpot",   "rspcol", "rsppos",  "rspr"
 };
 
 /* Warsaw Basic Keywords (C64) by Marco van den Heuvel -- Tokens 0xDB - 0xFE */
 
 const char *warsawkwdb[] = {
-    "hisave",  "sline",  "mem",    "trace",   "beep",   "resume", "letter", "help",
-    "*****",   "ground", "revers", "dispose", "print@", "himem",  "*****",  "line",
-    "proc",    "axis",   "using",  "sec",     "else",   "error",  "round",  "****",
-    "*******", "*****",  "*****",  "pound",   "min",    "max",    "******", "frac",
-    "odd",     "***",    "heek",   "eval"
+    "hisave", "sline", "mem",    "trace",   "beep",    "resume", "letter",
+    "help",   "*****", "ground", "revers",  "dispose", "print@", "himem",
+    "*****",  "line",  "proc",   "axis",    "using",   "sec",    "else",
+    "rror",   "round", "****",   "*******", "*****",   "*****",  "pound",
+    "min",    "max",   "******", "frac",    "odd",     "***",    "heek",
+    "eval"
 };
 
 /* Expanded Basic (VIC20) by Marco van den Heuvel -- Tokens 0xCC - 0xE3 */
@@ -430,21 +460,22 @@ const char *expbas20kwcc[] = {
 /* Data Becker Supergrafik 64 (C64) by Sven Droll -- Tokens 0xCC - 0xFD */
 
 const char *supergrakw[] = {
-    " ",      " ",      "   ",   " ",         " ",      " ",     " ",       " ",
-    " ",      " ",      " ",     "directory", "spower", "gcomb", "dtaset",  "merge",
-    "renum",  "key",    "trans", " ",         "tune",   "sound", "volume=", "filter",
-    "sread",  "define", "set",   "swait",     "smode",  "gmode", "gclear",  "gmove",
-    "plot",   "draw",   "fill",  "frame",     "invers", "text",  "circle",  "paddle",
-    "scale=", "color=", "scol=", "pcol=",     "gsave",  "gload", "hcopy",   "ireturn",
-    "if#",    "paint"
+    " ",      " ",       "   ",    " ",      " ",         " ",       " ",
+    " ",      " ",       " ",      " ",      "directory", "spower",  "gcomb",
+    "dtaset", "merge",   "renum",  "key",    "trans",     " ",       "tune",
+    "sound",  "volume=", "filter", "sread",  "define",    "set",     "swait",
+    "smode",  "gmode",   "gclear", "gmove",  "plot",      "draw",    "fill",
+    "frame",  "invers",  "text",   "circle", "paddle",    "scale=",  "color=",
+    "scol=",  "pcol=",   "gsave",  "gload",  "hcopy",     "ireturn", "if#",
+    "paint"
 };
 
 /* Kipper Basic (C64) by Marco van den Heuvel -- Tokens 0xE1 - 0xF2 */
 
 const char *kipperkwe1[] = {
-    "ipcfg",   "dhcp",  "ping",   "myip",       "netmask", "gateway",   "dns",     "tftp",
-    "tfget",   "tfput", "netcat", "tcpconnect", "poll",    "tcplisten", "tcpsend", "tcpclose",
-    "tcpblat", "mac"
+    "ipcfg", "dhcp",      "ping",    "myip",     "netmask", "gateway",
+    "dns",   "tftp",      "tfget",   "tfput",    "netcat",  "tcpconnect",
+    "poll",  "tcplisten", "tcpsend", "tcpclose", "tcpblat", "mac"
 };
 
 /* Basic on Bails (C64) by Marco van den Heuvel -- Tokens 0xE1 - 0xF0 */
@@ -452,6 +483,18 @@ const char *kipperkwe1[] = {
 const char *bobkwe1[] = {
     "ipcfg", "dhcp",  "ping", "myip",  "netmask", "gateway", "dns",   "hook",
     "yield", "xsend", "!",    "httpd", "type",    "status",  "flush", "mac"
+};
+
+/* Eve Basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xF9 */
+
+const char *evekwcc[] = {
+    "else",     "page",    "paper",  "ink",    "locate", "erase",    "graphic",
+    "scale",    "pen",     "point",  "line",   "paint",  "write",    "draw",
+    "image",    "sprite",  "sprpic", "sprcol", "sprloc", "sprmulti", "tone",
+    "envelope", "wave",    "vol",    "filter", "dos",    "dvc",      "dir",
+    "cat",      "record#", "swap",   "exit",   "do",     "loop",     "while",
+    "until",    "cur",     "bin$",   "mak$",   "input$", "fmt$",     "infix$",
+    "instr",    "ds$",     "ds",     "sd"
 };
 
 typedef struct basic_list_s {
@@ -506,6 +549,7 @@ static basic_list_t basic_list[] = {
     { B_SUPERGRA, 50, 0xFE, 0x0801, 0, 0xCC, supergrakw,        "supergra",  "Basic v2.0 with Supergrafik 64 (C64)" },
     { B_KIPPER,   18, 0xF2, 0x0801, 0, 0xE1, kipperkwe1,        "k",         "Basic v2.0 with Kipper Basic (C64)" },
     { B_BOB,      16, 0xF0, 0x0801, 0, 0xE1, bobkwe1,           "bb",        "Basic v2.0 with Basic on Bails (C64)" },
+    { B_EVE,      46, 0xCC, 0x0801, 0, 0xF9, evekwcc,           "eve",       "Basic v2.0 with Eve Basic (C64)" },
     { -1,         -1, -1,   -1,     0, 0,    NULL,              NULL,        NULL }
 };
 
@@ -1224,6 +1268,7 @@ static void list_keywords(int version)
             case B_SUPERGRA:
             case B_KIPPER:
             case B_BOB:
+            case B_EVE:
             case B_SIMON:
                 for (n = basic_list[version - 1].token_offset; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", basic_list[version -1].tokens[n] /*, n + 0xcc*/);
@@ -1556,6 +1601,7 @@ static int p_expand(int version, int addr, int ctrls)
                     case B_WARSAW:
                     case B_KIPPER:
                     case B_BOB:
+                    case B_EVE:
                         if (c >= basic_list[version - 1].token_start && c <= basic_list[version - 1].max_token) {
                             fprintf(dest, "%s", basic_list[version - 1].tokens[c - basic_list[version - 1].token_start]);
                         }
@@ -1833,6 +1879,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         case B_BLARG:
                         case B_KIPPER:
                         case B_BOB:
+                        case B_EVE:
                         case B_WARSAW:
                         case B_SUPERBAS:
                             if ((c = sstrcmp(p2, basic_list[version - 1].tokens, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
