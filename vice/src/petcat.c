@@ -128,6 +128,7 @@
 #define B_KIPPER        38
 #define B_BOB           39
 #define B_EVE           40
+#define B_TT64          41
 
 /* Super Expander (VIC20) -- Tokens 0xCC - 0xDD */
 
@@ -497,6 +498,15 @@ const char *evekwcc[] = {
     "instr",    "ds$",     "ds",     "sd"
 };
 
+/* The Tool 64 (C64) by Marco van den Heuvel -- Tokens 0xDB - 0xF4 */
+
+const char *tt64kwdb[] = {
+    " ",       "sort",  "extract", "carget", " ",    " ",     "screen",
+    "graphic", "text",  "auto",    "find",   "dump", "error", "renu",
+    "delete",  "plot",  "point",   "draw",   "move", "color", "else",
+    "display", "trace", "off",     "hcopy",  "joy"
+};
+
 typedef struct basic_list_s {
     BYTE version;
     BYTE num_tokens;
@@ -549,7 +559,8 @@ static basic_list_t basic_list[] = {
     { B_SUPERGRA, 50, 0xFE, 0x0801, 0, 0xCC, supergrakw,        "supergra",  "Basic v2.0 with Supergrafik 64 (C64)" },
     { B_KIPPER,   18, 0xF2, 0x0801, 0, 0xE1, kipperkwe1,        "k",         "Basic v2.0 with Kipper Basic (C64)" },
     { B_BOB,      16, 0xF0, 0x0801, 0, 0xE1, bobkwe1,           "bb",        "Basic v2.0 with Basic on Bails (C64)" },
-    { B_EVE,      46, 0xCC, 0x0801, 0, 0xF9, evekwcc,           "eve",       "Basic v2.0 with Eve Basic (C64)" },
+    { B_EVE,      46, 0xF9, 0x0801, 0, 0xCC, evekwcc,           "eve",       "Basic v2.0 with Eve Basic (C64)" },
+    { B_TT64,     26, 0xF4, 0x5b01, 0, 0xDB, tt64kwdb,          "tt64",      "Basic v2.0 with The Tool 64 (C64)" },
     { -1,         -1, -1,   -1,     0, 0,    NULL,              NULL,        NULL }
 };
 
@@ -1270,6 +1281,7 @@ static void list_keywords(int version)
             case B_BOB:
             case B_EVE:
             case B_SIMON:
+            case B_TT64:
                 for (n = basic_list[version - 1].token_offset; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", basic_list[version -1].tokens[n] /*, n + 0xcc*/);
                 }
@@ -1602,6 +1614,7 @@ static int p_expand(int version, int addr, int ctrls)
                     case B_KIPPER:
                     case B_BOB:
                     case B_EVE:
+                    case B_TT64:
                         if (c >= basic_list[version - 1].token_start && c <= basic_list[version - 1].max_token) {
                             fprintf(dest, "%s", basic_list[version - 1].tokens[c - basic_list[version - 1].token_start]);
                         }
@@ -1880,6 +1893,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         case B_KIPPER:
                         case B_BOB:
                         case B_EVE:
+                        case B_TT64:
                         case B_WARSAW:
                         case B_SUPERBAS:
                             if ((c = sstrcmp(p2, basic_list[version - 1].tokens, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
