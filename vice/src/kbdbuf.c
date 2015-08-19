@@ -33,10 +33,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "alarm.h"
 #include "charset.h"
 #include "cmdline.h"
 #include "kbdbuf.h"
 #include "lib.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
@@ -76,6 +78,12 @@ static int kbd_buf_enabled = 0;
 static char *kbd_buf_string = NULL;
 
 static int KbdbufDelay = 0;
+
+static int use_kbdbuf_flush_alarm = 0;
+
+static alarm_t *kbdbuf_flush_alarm = NULL;
+
+CLOCK kbdbuf_flush_alarm_time = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -194,6 +202,16 @@ int kbdbuf_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+static void kbdbuf_flush_alarm_triggered(CLOCK offset, void *data)
+{
+    alarm_unset(kbdbuf_flush_alarm);
+    kbdbuf_flush_alarm_time = 0;
+
+    mem_inject((WORD)(buffer_location), 13);
+    mem_inject((WORD)(num_pending_location), 1);
+    --num_pending;
+}
+
 void kbdbuf_reset(int location, int plocation, int size, CLOCK mincycles)
 {
     buffer_location = location;
@@ -211,10 +229,13 @@ void kbdbuf_reset(int location, int plocation, int size, CLOCK mincycles)
 /* Initialization.  */
 void kbdbuf_init(int location, int plocation, int size, CLOCK mincycles)
 {
+    kbdbuf_flush_alarm = alarm_new(maincpu_alarm_context, "Keybuf", kbdbuf_flush_alarm_triggered, NULL);
     kbdbuf_reset(location, plocation, size, mincycles + KbdbufDelay);
 
     if (kbd_buf_string != NULL) {
-        kbdbuf_feed(kbd_buf_string);
+        /* this is used for the string given on commandline, we use
+           kbdbuf_feed_runcmd here to get a random delay */
+        kbdbuf_feed_runcmd(kbd_buf_string);
     }
 }
 
@@ -230,7 +251,7 @@ int kbdbuf_is_empty(void)
 }
 
 /* Feed `string' into the queue.  */
-int kbdbuf_feed(const char *string)
+static int _kbdbuf_feed(const char *string)
 {
     const int num = (int)strlen(string);
     int i, p;
@@ -251,23 +272,44 @@ int kbdbuf_feed(const char *string)
     return 0;
 }
 
-/* Flush pending characters into the kernal's queue if possible.  */
+int kbdbuf_feed(const char *string)
+{
+    use_kbdbuf_flush_alarm = 0;
+    return _kbdbuf_feed(string);
+}
+
+int kbdbuf_feed_runcmd(const char *string)
+{
+    use_kbdbuf_flush_alarm = 1;
+    return _kbdbuf_feed(string);
+}
+
+/* Flush pending characters into the kernal's queue if possible.
+   This is called once per frame in vsync handler */
 void kbdbuf_flush(void)
 {
     unsigned int i, n;
 
     if ((!kbd_buf_enabled)
         || (num_pending == 0)
+        || !kbdbuf_is_empty()
         || (maincpu_clk < kernal_init_cycles)
-        || !kbdbuf_is_empty()) {
+        || (kbdbuf_flush_alarm_time != 0)) {
         return;
     }
 
     n = num_pending > buffer_size ? buffer_size : num_pending;
     for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++) {
+        /* use an alarm to randomly delay RETURN for up to one frame */
+        if ((queue[head_idx] == 13) && (use_kbdbuf_flush_alarm == 1)) {
+            /* we actually need to wait _at least_ one frame to not overrun the buffer */
+            kbdbuf_flush_alarm_time = maincpu_clk + machine_get_cycles_per_frame();
+            kbdbuf_flush_alarm_time += lib_unsigned_rand(1, machine_get_cycles_per_frame());
+            alarm_set(kbdbuf_flush_alarm, kbdbuf_flush_alarm_time);
+            return;
+        }
         mem_inject((WORD)(buffer_location + i), queue[head_idx]);
+        mem_inject((WORD)(num_pending_location), (BYTE)(i + 1));
+        --num_pending;
     }
-
-    mem_inject((WORD)(num_pending_location), (BYTE)(n));
-    num_pending -= n;
 }

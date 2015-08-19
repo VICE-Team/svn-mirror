@@ -282,7 +282,7 @@ static void machine_vsync_hook(void)
                 mem_inject((WORD)(vsid_autostart_load_addr + i), vsid_autostart_data[i]);
             }
             mem_set_basic_text(vsid_autostart_load_addr, (WORD)(vsid_autostart_load_addr + vsid_autostart_length));
-            kbdbuf_feed("RUN\r");
+            kbdbuf_feed_runcmd("RUN\r");
         }
     }
 
