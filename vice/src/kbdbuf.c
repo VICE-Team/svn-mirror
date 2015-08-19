@@ -233,9 +233,11 @@ void kbdbuf_init(int location, int plocation, int size, CLOCK mincycles)
     kbdbuf_reset(location, plocation, size, mincycles + KbdbufDelay);
 
     if (kbd_buf_string != NULL) {
-        /* this is used for the string given on commandline, we use
-           kbdbuf_feed_runcmd here to get a random delay */
-        kbdbuf_feed_runcmd(kbd_buf_string);
+        if (KbdbufDelay) {
+            kbdbuf_feed_runcmd(kbd_buf_string);
+        } else {
+            kbdbuf_feed(kbd_buf_string);
+        }
     }
 }
 

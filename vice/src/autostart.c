@@ -625,7 +625,11 @@ static void autostart_finish(void)
         if ((machine_class == VICE_MACHINE_C128) && (c128_column4080_key == 0)) {
             kbdbuf_feed("GRAPHIC5:");
         }
-        kbdbuf_feed_runcmd(AutostartRunCommand);
+        if (AutostartDelayRandom) {
+            kbdbuf_feed_runcmd(AutostartRunCommand);
+        } else {
+            kbdbuf_feed(AutostartRunCommand);
+        }
     } else {
         log_message(autostart_log, "Program loaded.");
         if ((machine_class == VICE_MACHINE_C128) && (c128_column4080_key == 0)) {
