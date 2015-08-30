@@ -220,7 +220,7 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
 #endif
 
     /* if there is no change, don't bother with anything else */
-    if (canvas->current_fullscreen == fullscreen &&
+    if ((canvas->current_fullscreen == fullscreen || width == 0 || height == 0) &&
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
         canvas->current_overlay == overlay &&
 #endif
@@ -305,7 +305,7 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
         unsigned long cmodels = RGBFF_R5G5B5 | RGBFF_R5G6B5 | RGBFF_R5G5B5PC | RGBFF_R5G6B5PC;
         dispid = p96BestModeIDTags(P96BIDTAG_NominalWidth, width,
         /* FIXME: only ask for statusbar height if it should be shown */
-                                   P96BIDTAG_NominalHeight, (height + statusbar_get_status_height()),
+                                   P96BIDTAG_NominalHeight, height + (fullscreenstatusbar ? statusbar_get_status_height() : 0),
                                    P96BIDTAG_FormatsAllowed, cmodels,
                                    TAG_DONE);
 #endif
@@ -326,7 +326,11 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
 #else
         amiga_width = p96GetModeIDAttr(dispid, P96IDA_WIDTH);
         amiga_height = p96GetModeIDAttr(dispid, P96IDA_HEIGHT);
+#ifdef AMIGA_OS4
+        amiga_depth = p96GetModeIDAttr(dispid, P96IDA_DEPTH);
+#else
         amiga_depth = 8;
+#endif
 #endif
 
         /* open screen */
