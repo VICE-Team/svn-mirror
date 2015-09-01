@@ -128,6 +128,7 @@ void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
     return t;
 }
 
+/* FIXME: ui_pause_emulation is not implemented in the OSX port */
 void vsyncarch_postsync(void)
 {
     (*ui_dispatch_hook)();
@@ -135,14 +136,18 @@ void vsyncarch_postsync(void)
     /* this function is called once a frame, so this
        handles single frame advance */
     if (pause_pending) {
+#if !defined(MACOSX_COCOA)
         ui_pause_emulation(1);
+#endif
         pause_pending = 0;
     }
 }
 
 void vsyncarch_advance_frame(void)
 {
+#if !defined(MACOSX_COCOA)
     ui_pause_emulation(0);
+#endif
     pause_pending = 1;
 }
 
