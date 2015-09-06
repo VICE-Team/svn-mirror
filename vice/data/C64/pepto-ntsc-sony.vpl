@@ -36,7 +36,7 @@ CF BE 6F C
 89 4A 26 4
 
 # Brown
-5B 33 6D 4
+5B 33 0 4
 
 # Light Red
 AF 64 59 8
@@ -55,18 +55,3 @@ A0 CB 84 8
 
 # Light Gray
 95 95 95 C
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

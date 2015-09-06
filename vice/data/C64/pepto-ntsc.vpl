@@ -6,7 +6,7 @@
 #
 
 # this palette was calculated for NTSC according to http://www.pepto.de/projects/colorvic/
-# note: this is almost identical to the PAL palette!
+# using the FCC sanctioned decoder matrix - this is almost identical to the PAL palette!
 
 # Black
 0  0  0  0
@@ -18,10 +18,10 @@ FF FF FF E
 67 37 2B 4
 
 # Cyan
-6F A3 B1 C
+70 A3 B1 C
 
 # Purple
-6F 3C 85 8
+6F 3D 86 8
 
 # Green
 58 8C 42 4
@@ -30,13 +30,13 @@ FF FF FF E
 34 28 79 4
 
 # Yellow
-B8 C6 6E C
+B7 C6 6E C
 
 # Orange
-6F 4F 25 4
+6F 4E 25 4
 
 # Brown
-43 39 0  4
+42 38 0  4
 
 # Light Red
 99 66 59 8
@@ -51,7 +51,7 @@ B8 C6 6E C
 9A D1 83 8
 
 # Light Blue
-6B 5E B4 8
+6B 5E B5 8
 
 # Light Gray
 95 95 95 C
