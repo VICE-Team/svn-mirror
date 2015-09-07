@@ -50,6 +50,38 @@
    amd64 | DragonFly BSD 2.6.1
    i386  | DragonFly BSD 2.6.1
    i386  | DragonFly BSD 2.6.2
+   amd64 | DragonFly BSD 2.6.3
+   i386  | DragonFly BSD 2.6.3
+   amd64 | DragonFly BSD 2.8.1
+   i386  | DragonFly BSD 2.8.1
+   amd64 | DragonFly BSD 2.8.1A
+   i386  | DragonFly BSD 2.8.1A
+   amd64 | DragonFly BSD 2.8.2
+   i386  | DragonFly BSD 2.8.2
+   amd64 | DragonFly BSD 2.10.1
+   i386  | DragonFly BSD 2.10.1
+   amd64 | DragonFly BSD 3.0.1
+   i386  | DragonFly BSD 3.0.1
+   amd64 | DragonFly BSD 3.0.2
+   i386  | DragonFly BSD 3.0.2
+   amd64 | DragonFly BSD 3.0.3
+   i386  | DragonFly BSD 3.0.3
+   amd64 | DragonFly BSD 3.2.1
+   i386  | DragonFly BSD 3.2.1
+   amd64 | DragonFly BSD 3.2.2
+   i386  | DragonFly BSD 3.2.2
+   amd64 | DragonFly BSD 3.4.1
+   i386  | DragonFly BSD 3.4.1
+   amd64 | DragonFly BSD 3.4.2
+   i386  | DragonFly BSD 3.4.2
+   amd64 | DragonFly BSD 3.4.3
+   i386  | DragonFly BSD 3.4.3
+   amd64 | DragonFly BSD 3.6.0
+   i386  | DragonFly BSD 3.6.0
+   amd64 | DragonFly BSD 3.6.1
+   i386  | DragonFly BSD 3.6.1
+   amd64 | DragonFly BSD 3.6.2
+   i386  | DragonFly BSD 3.6.2
  */
 
 #include "vice.h"

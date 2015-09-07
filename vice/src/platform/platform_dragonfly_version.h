@@ -88,6 +88,69 @@
 #define PLATFORM_OS "DragonFly BSD 2.6.x"
 #endif
 
+#if (__DragonFly_version==200800)
+#  include <arpa/inet.h>
+#  ifdef _STRUCT_IN6_ADDR_DECLARED
+#    undef _SYS_MOUNT_H_
+#    include <sys/imgact.h>
+#    ifdef _SYS_MOUNT_H_
+#      define PLATFORM_OS "DragonFly BSD 2.8.2"
+#    else
+#      define PLATFORM_OS "DragonFly BSD 2.8.1A"
+#    endif
+#  else
+#    define PLATFORM_OS "DragonFly BSD 2.8.1"
+#  endif
+#endif
+
+#if (__DragonFly_version==201000)
+#define PLATFORM_OS "DragonFly BSD 2.10.1"
+#endif
+
+#if (__DragonFly_version==300000)
+#  include <machine/specialreg.h>
+#  ifdef CPUID2_VMM
+#    define PLATFORM_OS "DragonFly BSD 3.0.2"
+#  else
+#    define PLATFORM_OS "DragonFly BSD 3.0.1"
+#  endif
+#endif
+
+#if (__DragonFly_version==300003)
+#define PLATFORM_OS "DragonFly BSD 3.0.3"
+#endif
+
+#if (__DragonFly_version==300200)
+#  include <sys/user.h>
+#  ifdef LWP_MP_VNLRU
+#    define PLATFORM_OS "DragonFly BSD 3.2.2"
+#  else
+#    define PLATFORM_OS "DragonFly BSD 3.2.1"
+#  endif
+#endif
+
+#if (__DragonFly_version==300400)
+#  include <net/if.h>
+#  if (IFQ_MAXLEN==250)
+#    define PLATFORM_OS "DragonFly BSD 3.4.3"
+#  else
+#    define PLATFORM_OS "DragonFly BSD 3.4.1/3.4.2"
+#  endif
+#endif
+
+#if (__DragonFly_version==300600)
+#  include <openssl/opensslv.h>
+#  if (OPENSSL_VERSION_NUMBER==0x1000107fL)
+#     define PLATFORM_OS "DragonFly BSD 3.6.2"
+#  else
+#    if (OPENSSL_VERSION_NUMBER==0x1000108fL)
+#      define PLATFORM_OS "DragonFly BSD 3.6.3"
+#    else
+#      define PLATFORM_OS "DragonFly BSD 3.6.0/3.6.1"
+#    endif
+#  endif
+#endif
+
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "DragonFly BSD"
 #endif

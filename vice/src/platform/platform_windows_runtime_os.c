@@ -88,6 +88,7 @@
    - Windows 7 Professional (x86/x64)
    - Windows 7 Enterprise (x86/x64)
    - Windows 7 Ultimate (x86/x64)
+   - Windows 8 Core (x64)
    - HXDOS
    - ReactOS
    - Wine
@@ -166,73 +167,131 @@
 #endif
 
 
+
+
 /* platform product ids */
 #ifndef PRODUCT_ULTIMATE
-#define PRODUCT_ULTIMATE                 0x00000001
+#define PRODUCT_ULTIMATE                         0x00000001
 #endif
 
 #ifndef PRODUCT_HOME_BASIC
-#define PRODUCT_HOME_BASIC               0x00000002
+#define PRODUCT_HOME_BASIC                       0x00000002
 #endif
 
 #ifndef PRODUCT_HOME_PREMIUM
-#define PRODUCT_HOME_PREMIUM             0x00000003
+#define PRODUCT_HOME_PREMIUM                     0x00000003
 #endif
 
 #ifndef PRODUCT_ENTERPRISE
-#define PRODUCT_ENTERPRISE               0x00000004
+#define PRODUCT_ENTERPRISE                       0x00000004
 #endif
 
 #ifndef PRODUCT_BUSINESS
-#define PRODUCT_BUSINESS                 0x00000006
+#define PRODUCT_BUSINESS                         0x00000006
 #endif
 
 #ifndef PRODUCT_STANDARD_SERVER
-#define PRODUCT_STANDARD_SERVER          0x00000007
+#define PRODUCT_STANDARD_SERVER                  0x00000007
 #endif
 
 #ifndef PRODUCT_DATACENTER_SERVER
-#define PRODUCT_DATACENTER_SERVER        0x00000008
+#define PRODUCT_DATACENTER_SERVER                0x00000008
 #endif
 
 #ifndef PRODUCT_SMALLBUSINESS_SERVER
-#define PRODUCT_SMALLBUSINESS_SERVER     0x00000009
+#define PRODUCT_SMALLBUSINESS_SERVER             0x00000009
 #endif
 
 #ifndef PRODUCT_ENTERPRISE_SERVER
-#define PRODUCT_ENTERPRISE_SERVER        0x0000000A
+#define PRODUCT_ENTERPRISE_SERVER                0x0000000A
 #endif
 
 #ifndef PRODUCT_STARTER
-#define PRODUCT_STARTER                  0x0000000B
+#define PRODUCT_STARTER                          0x0000000B
 #endif
 
 #ifndef PRODUCT_ENTERPRISE_SERVER_IA64
-#define PRODUCT_ENTERPRISE_SERVER_IA64   0x0000000F
+#define PRODUCT_ENTERPRISE_SERVER_IA64           0x0000000F
 #endif
 
 #ifndef PRODUCT_WEB_SERVER
-#define PRODUCT_WEB_SERVER               0x00000011
+#define PRODUCT_WEB_SERVER                       0x00000011
 #endif
 
 #ifndef PRODUCT_CLUSTER_SERVER
-#define PRODUCT_CLUSTER_SERVER           0x00000012
+#define PRODUCT_CLUSTER_SERVER                   0x00000012
+#endif
+
+#ifndef PRODUCT_HOME_SERVER
+#define PRODUCT_HOME_SERVER                      0x00000013
+#endif
+
+#ifndef PRODUCT_STORAGE_EXPRESS_SERVER
+#define PRODUCT_STORAGE_EXPRESS_SERVER           0x00000014
+#endif
+
+#ifndef PRODUCT_STORAGE_STANDARD_SERVER
+#define PRODUCT_STORAGE_STANDARD_SERVER          0x00000015
+#endif
+
+#ifndef PRODUCT_STORAGE_WORKGROUP_SERVER
+#define PRODUCT_STORAGE_WORKGROUP_SERVER         0x00000016
+#endif
+
+#ifndef PRODUCT_STORAGE_ENTERPRISE_SERVER
+#define PRODUCT_STORAGE_ENTERPRISE_SERVER        0x00000017
 #endif
 
 #ifndef PRODUCT_SERVER_FOR_SMALLBUSINESS
-#define PRODUCT_SERVER_FOR_SMALLBUSINESS 0x00000018
+#define PRODUCT_SERVER_FOR_SMALLBUSINESS         0x00000018
+#endif
+
+#ifndef PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT
+#define PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT 0x0000001E
+#endif
+
+#ifndef PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY
+#define PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY   0x0000001F
+#endif
+
+#ifndef PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING
+#define PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING  0x00000020
 #endif
 
 #ifndef PRODUCT_SERVER_FOUNDATION
-#define PRODUCT_SERVER_FOUNDATION        0x00000021
+#define PRODUCT_SERVER_FOUNDATION                0x00000021
+#endif
+
+#ifndef PRODUCT_HOME_PREMIUM_SERVER
+#define PRODUCT_HOME_PREMIUM_SERVER              0x00000022
+#endif
+
+#ifndef PRODUCT_SERVER_FOR_SMALLBUSINESS_V
+#define PRODUCT_SERVER_FOR_SMALLBUSINESS_V       0x00000023
+#endif
+
+#ifndef PRODUCT_STANDARD_SERVER_V
+#define PRODUCT_STANDARD_SERVER_V                0x00000024
+#endif
+
+#ifndef PRODUCT_DATACENTER_SERVER_V
+#define PRODUCT_DATACENTER_SERVER_V              0x00000025
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_SERVER_V
+#define PRODUCT_ENTERPRISE_SERVER_V              0x00000026
 #endif
 
 #ifndef PRODUCT_PROFESSIONAL
-#define PRODUCT_PROFESSIONAL             0x00000030
+#define PRODUCT_PROFESSIONAL                     0x00000030
+#endif
+
+#ifndef PRODUCT_SB_SOLUTION_SERVER
+#define PRODUCT_SB_SOLUTION_SERVER               0x00000032
 #endif
 
 #ifndef PRODUCT_SOLUTION_EMBEDDEDSERVER
-#define PRODUCT_SOLUTION_EMBEDDEDSERVER             0x00000038
+#define PRODUCT_SOLUTION_EMBEDDEDSERVER          0x00000038
 #endif
 
 /* System metrics */
@@ -303,6 +362,14 @@
 #define VICE_SM_STARTER         2
 #define VICE_SM_TABLETPC        1
 
+#ifndef KEY_WOW64_64KEY
+#define KEY_WOW64_64KEY 0x0100
+#endif
+
+#ifndef KEY_WOW64_32KEY
+#define KEY_WOW64_32KEY 0x0200
+#endif
+
 typedef BOOL (WINAPI *VGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef void (WINAPI *VGNSI)(LPSYSTEM_INFO);
 
@@ -364,8 +431,6 @@ static winver_t windows_versions[] = {
       4, 0, 1, VER_NT_SERVER, 0, -1, -1 },
     { "Windows 2000 Professional", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_WORKSTATION, 0, -1, -1 },
-    { "Windows 2000", VER_PLATFORM_WIN32_NT,
-      5, 0, 6, -1, 0, -1, -1 },
     { "Windows 2000 Powered", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, VER_SUITE_BLADE, -1, -1 },
     { "Windows 2000 Datacenter Server", VER_PLATFORM_WIN32_NT,
@@ -374,6 +439,10 @@ static winver_t windows_versions[] = {
       5, 0, 6, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
     { "Windows 2000 Server", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, 0, -1, -1 },
+    { "Windows 2000", VER_PLATFORM_WIN32_NT,
+      5, 0, 6, -1, 0, -1, -1 },
+    { "ODIN32 (OS/2 / EComStation)", VER_PLATFORM_WIN32_NT,
+      5, 0, 0, 0, 0, -1, -1 },
     { "Windows XP Starter", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, VICE_SM_STARTER },
     { "Windows XP Home", VER_PLATFORM_WIN32_NT,
@@ -438,8 +507,10 @@ static winver_t windows_versions[] = {
       6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_ENTERPRISE, -1 },
     { "Windows Vista Ultimate", VER_PLATFORM_WIN32_NT,
       6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_ULTIMATE, -1 },
-    { "Windows 2008 Storage Server", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1 -1 },
+    { "Windows 2008 Enterprise Storage Server", VER_PLATFORM_WIN32_NT,
+      6, 0, 10, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER | VER_SUITE_SINGLEUSERTS | VER_SUITE_TERMINAL, -1, 3 },
+    { "Windows 2008 Workgroup Storage Server", VER_PLATFORM_WIN32_NT,
+      6, 0, 10, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER | VER_SUITE_SINGLEUSERTS | VER_SUITE_TERMINAL, -1, -1 },
     { "Windows 2008 Web Server", VER_PLATFORM_WIN32_NT,
       6, 0, 10, VER_NT_SERVER, VER_SUITE_BLADE, PRODUCT_WEB_SERVER, -1 },
     { "Windows 2008 Enterprise Server", VER_PLATFORM_WIN32_NT,
@@ -460,6 +531,8 @@ static winver_t windows_versions[] = {
       6, 0, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOUNDATION, -1 },
     { "Windows Thin PC", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, 1, -1 },
+    { "Windows 7 Embedded POSReady", VER_PLATFORM_WIN32_NT,
+      6, 1, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, 2, -1 },
     { "Windows 7 Embedded", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows 7 Starter", VER_PLATFORM_WIN32_NT,
@@ -494,18 +567,22 @@ static winver_t windows_versions[] = {
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_CLUSTER_SERVER, -1 },
     { "Windows 2011 Premium Multipoint Server", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_SOLUTION_EMBEDDEDSERVER, -1 },
+    { "Windows 8 Embedded Standard", VER_PLATFORM_WIN32_NT,
+      6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, 4, -1 },
+    { "Windows 8 Core", VER_PLATFORM_WIN32_NT,
+      6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
     { "Windows 8 Enterprise", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
-    { "Windows 8 (Home/Pro)", VER_PLATFORM_WIN32_NT,
-      6, 2, 10, VER_NT_WORKSTATION, 0, 0, -1 },
     { "Windows 2012 Server (Foundation/Essentials/Standard/Datacenter)", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_SERVER, 0, 0, -1 },
     { "Windows 8.1 (Home/Pro)", VER_PLATFORM_WIN32_NT,
       6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
-    { "Windows 10 (Home/Pro/Enterprise)", VER_PLATFORM_WIN32_NT,
+    { "Windows 2012 R2 Standard Storage Server", VER_PLATFORM_WIN32_NT,
+      6, 3, 10, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER | VER_SUITE_SINGLEUSERTS | VER_SUITE_TERMINAL, PRODUCT_STORAGE_STANDARD_SERVER, 0 },
+    { "Windows 10 Pro", VER_PLATFORM_WIN32_NT,
+      10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, 2 },
+    { "Windows 10 (Home/Enterprise/Education)", VER_PLATFORM_WIN32_NT,
       10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
-    { "Windows 10 (Home/Pro/Enterprise)", VER_PLATFORM_WIN32_NT,
-      6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
     { NULL, 0,
       0, 0, 0, 0, 0, 0, 0 }
 };
@@ -530,6 +607,31 @@ typedef struct _VICE_OSVERSIONINFOEX {
 } VICE_OSVERSIONINFOEX;
 
 static VICE_OSVERSIONINFOEX os_version_ex_info;
+
+/* RegOpenKeyEx wrapper for smart access to both 32bit and 64bit registry entries */
+static LONG RegOpenKeyEx3264(HKEY hKey, LPCTSTR lpSubKey, DWORD ulOptions, REGSAM samDesired, PHKEY phkResult)
+{
+    LONG retval = 0;
+
+    /* Check 64bit first */
+    retval = RegOpenKeyEx(hKey, lpSubKey, ulOptions, samDesired | KEY_WOW64_64KEY, phkResult);
+
+    if (retval == ERROR_SUCCESS) {
+        return retval;
+    }
+
+    /* Check 32bit second */
+    retval = RegOpenKeyEx(hKey, lpSubKey, ulOptions, samDesired | KEY_WOW64_32KEY, phkResult);
+
+    if (retval == ERROR_SUCCESS) {
+        return retval;
+    }
+
+    /* Fallback to normal open */
+    retval = RegOpenKeyEx(hKey, lpSubKey, ulOptions, samDesired, phkResult);
+
+    return retval;
+}
 
 /*
 0: NT3, 1: NT4, 2: 95, 3: 95OSR2, 4: 98, 5: ME, 6: 2000, 7: XP, 8: XPSP1, 9: 2003, 10: VISTA+
@@ -594,7 +696,7 @@ static int IsReactOS(void)
     HKEY hKey;
     LONG ret;
 
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\ReactOS", 0, KEY_QUERY_VALUE, &hKey);
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\ReactOS", 0, KEY_QUERY_VALUE, &hKey);
     if (ret == ERROR_SUCCESS) {
         RegCloseKey(hKey);
         return 1;
@@ -685,7 +787,7 @@ static int get_product_type_from_reg(void)
     DWORD PTlen = 128;
     LONG ret;
 
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\ProductOptions", 0, KEY_QUERY_VALUE, &hKey);
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\ProductOptions", 0, KEY_QUERY_VALUE, &hKey);
     if (ret != ERROR_SUCCESS) {
         return 0;
     }
@@ -702,16 +804,16 @@ static int get_product_type_from_reg(void)
     }
 
     if (lstrcmpi("SERVERNT", PT) == 0 || lstrcmpi("LANMANNT", PT) == 0) {
-        ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\ProductOptions", 0, KEY_QUERY_VALUE, &hKey);
+        ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\ProductOptions", 0, KEY_QUERY_VALUE, &hKey);
         ret = RegQueryValueEx(hKey, "ProductSuite", NULL, NULL, NULL, NULL);
         if (ret == ERROR_SUCCESS) {
             RegCloseKey(hKey);
-            ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", 0, KEY_QUERY_VALUE, &hKey);
+            ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", 0, KEY_QUERY_VALUE, &hKey);
             if (ret == ERROR_SUCCESS) {
                 RegCloseKey(hKey);
                 return 4;
             }
-            ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\LicenseInfoSuites\\SmallBusiness", 0, KEY_QUERY_VALUE, &hKey);
+            ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\LicenseInfoSuites\\SmallBusiness", 0, KEY_QUERY_VALUE, &hKey);
             if (ret == ERROR_SUCCESS) {
                 RegCloseKey(hKey);
                 return 5;
@@ -751,7 +853,7 @@ static int sp_is_nt4_6a(void)
     HKEY hKey;
     LONG ret;
 
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix\\Q246009", 0, KEY_QUERY_VALUE, &hKey);
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix\\Q246009", 0, KEY_QUERY_VALUE, &hKey);
     if (ret == ERROR_SUCCESS) {
         RegCloseKey(hKey);
         return 1;
@@ -764,7 +866,7 @@ static int is_pe_builder(void)
     HKEY hKey;
     LONG ret;
 
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\PE Builder", 0, KEY_QUERY_VALUE, &hKey);
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\PE Builder", 0, KEY_QUERY_VALUE, &hKey);
     if (ret == ERROR_SUCCESS) {
         RegCloseKey(hKey);
         return 1;
@@ -777,7 +879,7 @@ static int is_flp(void)
     HKEY hKey;
     LONG ret;
 
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\WPA\\Fundamentals", 0, KEY_QUERY_VALUE, &hKey);
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SYSTEM\\WPA\\Fundamentals", 0, KEY_QUERY_VALUE, &hKey);
     if (ret == ERROR_SUCCESS) {
         RegCloseKey(hKey);
         return 1;
@@ -790,7 +892,7 @@ static int is_cluster(void)
     HKEY hKey;
     LONG ret;
 
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\Compute Cluster", 0, KEY_QUERY_VALUE, &hKey);
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\Compute Cluster", 0, KEY_QUERY_VALUE, &hKey);
     if (ret == ERROR_SUCCESS) {
         RegCloseKey(hKey);
         return 1;
@@ -803,7 +905,7 @@ static int is_thin_pc(void)
     HKEY hKey;
     LONG ret;
 
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\ThinPC", 0, KEY_QUERY_VALUE, &hKey);
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\ThinPC", 0, KEY_QUERY_VALUE, &hKey);
     if (ret == ERROR_SUCCESS) {
         RegCloseKey(hKey);
         return 1;
@@ -818,7 +920,7 @@ static int is_posready(void)
     DWORD PTlen = 128;
     LONG ret;
 
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\POSReady", 0, KEY_QUERY_VALUE, &hKey);
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\POSReady", 0, KEY_QUERY_VALUE, &hKey);
     if (ret != ERROR_SUCCESS) {
         return 0;
     }
@@ -836,6 +938,32 @@ static int is_posready(void)
     return 1;
 }
 
+/* 0 = None, 1 = Standard, 2 = Industry Pro, 3 = Industry Enterprise */
+static int is_windows8_embedded(void)
+{
+    HKEY hKey;
+    char PT[128];
+    DWORD PTlen = 128;
+    LONG ret;
+
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret != ERROR_SUCCESS) {
+        return 0;
+    }
+
+    ret = RegQueryValueEx(hKey, "ProductName", NULL, NULL, (LPBYTE)PT, &PTlen);
+    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
+        return 0;
+    }
+
+    RegCloseKey(hKey);
+
+    if (lstrcmpi("Windows Embedded 8 Standard", PT) == 0) {
+        return 1;
+    }
+    return 0;
+}
+
 /* 0 = None, 1 = Workstation, 2 = Standard, 3 = Enterprise */
 static int is_storage_server(void)
 {
@@ -844,7 +972,7 @@ static int is_storage_server(void)
     DWORD PTlen = 128;
     LONG ret;
 
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE, &hKey);
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE, &hKey);
     if (ret != ERROR_SUCCESS) {
         return 0;
     }
@@ -859,9 +987,11 @@ static int is_storage_server(void)
     if (lstrcmpi("Windows Storage Server 2008 R2 Standard", PT) == 0) {
         return 2;
     }
+    if (lstrcmpi("Windows (R) Storage Server 2008 Enterprise", PT) == 0) {
+        return 3;
+    }
     return 0;
 }
-
 
 /* Check for windows 8.1 and 10
    0 = 8.0 or below
@@ -875,7 +1005,7 @@ static int IsWindows8plus(void)
     DWORD PTlen = 128;
     LONG ret;
 
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE, &hKey);
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE, &hKey);
     if (ret != ERROR_SUCCESS) {
         return 0;
     }
@@ -891,6 +1021,38 @@ static int IsWindows8plus(void)
         return 1;
     }
     if (lstrcmpi("10.0", PT) == 0) {
+        return 2;
+    }
+    return 0;
+}
+
+/* Check windows 10 edition
+   0 = Unknown
+   1 = Home
+   2 = Pro
+   3 = Enterprise
+   4 = Education
+*/
+static int get_windows_10_edition(void)
+{
+    HKEY hKey;
+    char PT[128];
+    DWORD PTlen = 128;
+    LONG ret;
+
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret != ERROR_SUCCESS) {
+        return 0;
+    }
+
+    ret = RegQueryValueEx(hKey, "ProductName", NULL, NULL, (LPBYTE)PT, &PTlen);
+    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
+        return 0;
+    }
+
+    RegCloseKey(hKey);
+
+    if (lstrcmpi("Windows 10 Pro", PT) == 0) {
         return 2;
     }
     return 0;
@@ -973,8 +1135,8 @@ char *platform_get_windows_runtime_os(void)
                 windows_versions[0].pt6 = is_posready();
             } else {
                 if (windows_versions[0].majorver >= 6) {
-                    if ((windows_versions[0].suite | VER_SUITE_EMBEDDEDNT) == VER_SUITE_EMBEDDEDNT) {
-                        windows_versions[0].pt6 = is_thin_pc();
+                    if ((windows_versions[0].suite & VER_SUITE_EMBEDDEDNT) == VER_SUITE_EMBEDDEDNT) {
+                        windows_versions[0].pt6 = is_thin_pc() | (is_posready() << 1) | is_windows8_embedded() << 2;
                     } else {
                         ViceGetProductInfo = (VGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
                         ViceGetProductInfo(os_version_ex_info.dwMajorVersion, os_version_ex_info.dwMinorVersion, 0, 0, &PT);
@@ -1027,6 +1189,27 @@ char *platform_get_windows_runtime_os(void)
         if (i) {
             windows_versions[0].metrics = i;
         }
+
+        if (windows_versions[0].majorver == 10 || (windows_versions[0].majorver == 6 && windows_versions[0].minorver == 3)) {
+            i = get_windows_10_edition();
+            if (i) {
+                windows_versions[0].majorver = 10;
+                windows_versions[0].minorver = 0;
+                windows_versions[0].metrics = i;
+            }
+        }
+
+#ifdef DEBUG_PLATFORM
+        printf("current parameters: (%d %d %d %d %d %d)\n",
+                    windows_versions[0].platformid,
+                    windows_versions[0].majorver,
+                    windows_versions[0].minorver,
+                    windows_versions[0].realos,
+                    windows_versions[0].producttype,
+                    windows_versions[0].suite);
+#endif
+
+
 
         for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
 #ifdef DEBUG_PLATFORM

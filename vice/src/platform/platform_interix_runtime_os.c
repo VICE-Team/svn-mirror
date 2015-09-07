@@ -60,61 +60,66 @@ typedef struct winver_s {
 } winver_t;
 
 static winver_t windows_versions[] = {
-    { "Windows NT 4 Workstation", "Microsoft Windows NT 4", 0, 0 },
-    { "Windows NT 4 Server", "Microsoft Windows NT 4", 1, 0 },
-    { "Windows NT 4 Small Business Server", "Microsoft Windows NT 4", 3, 0 },
-    { "Windows NT 4 Enterprise Server", "Microsoft Windows NT 4", 5, 0 },
-    { "Windows 2000 Pro", "Microsoft Windows 2000", 0, 0 },
-    { "Windows 2000 Server", "Microsoft Windows 2000", 1, 0 },
-    { "Windows 2000 Advanced Server", "Microsoft Windows 2000", 5, 0 },
-    { "Windows 2000 Datacenter Server", "Microsoft Windows 2000", 6, 0 },
-    { "Windows 2000 Powered", "Microsoft Windows 2000", 4, 0 },
-    { "Windows XP Pro", "Microsoft Windows XP", 0, 0 },
-    { "Windows XP Tablet PC", "Microsoft Windows XP", 0, 1 },
-    { "Windows XP Media Center", "Microsoft Windows XP", 0, 2 },
-    { "Windows Fundamentals for Legacy PCs", "Microsoft Windows XP", 0, 3 },
-    { "Windows POSReady 2009", "Microsoft Windows XP", 0, 5 },
-    { "Windows 2003 Web Server", "Microsoft Windows Server 2003", 2, 0 },
-    { "Windows 2003 Standard Server", "Microsoft Windows Server 2003", 1, 0 },
-    { "Windows 2003 Small Business Server", "Microsoft Windows Server 2003", 3, 0 },
-    { "Windows 2003 Enterprise Server", "Microsoft Windows Server 2003", 5, 0 },
-    { "Windows 2003 Datacenter Server", "Microsoft Windows Server 2003", 6, 0 },
-    { "Windows 2003 R2 Standard Server", "Microsoft Windows Server 2003 R2", 1, 0 },
-    { "Windows 2003 R2 Enterprise Server", "Microsoft Windows Server 2003 R2", 5, 0 },
-    { "Windows 2003 R2 Datacenter Server", "Microsoft Windows Server 2003 R2", 6, 0 },
-    { "Windows Vista Enterprise", "Windows (TM) Vista Enterprise", 0, 0 },
-    { "Windows Vista Enterprise", "Windows Vista (TM) Enterprise", 0, 0 },
-    { "Windows Vista Ultimate", "Windows (TM) Vista Ultimate", 0, 0 },
-    { "Windows Vista Ultimate", "Windows Vista (TM) Ultimate", 0, 0 },
-    { "Windows 2008 Standard Server", "Windows (R) Standard Server 2008", 1, 0 },
-    { "Windows 2008 Standard Server", "Windows Server (R) 2008 Standard", 1, 0 },
-    { "Windows 2008 Enterprise Server", "Windows (R) Enterprise Server 2008", 5, 0 },
-    { "Windows 2008 Enterprise Server", "Windows Server (R) 2008 Enterprise", 5, 0 },
-    { "Windows 2008 Datacenter Server", "Windows (R) Datacenter Server 2008", 6, 0 },
-    { "Windows 2008 Datacenter Server", "Windows Server (R) 2008 Datacenter", 6, 0 },
-    { "Windows 2008 HPC Server", "Windows Server (R) 2008 HPC Edition", 1, 0 },
-    { "Windows Thin PC", "Windows Embedded Standard", 0, 1 },
-    { "Windows 7 Enterprise", "Windows 7 Enterprise", 0, 0 },
-    { "Windows 7 Ultimate", "Windows 7 Ultimate", 0, 0 },
-    { "Windows 2008 R2 Standard Server", "Windows Server 2008 R2 Standard", 1, 0 },
-    { "Windows 2008 R2 Enterprise Server", "Windows Server 2008 R2 Enterprise", 5, 0 },
-    { "Windows 2008 R2 Datacenter Server", "Windows Server 2008 R2 Datacenter", 6, 0 },
-    { "Windows 2008 R2 Workgroup Storage Server", "Windows Storage Server 2008 R2 Workgroup", 1, 0 },
-    { "Windows 2008 R2 Workgroup Storage Server", "Windows Storage Server 2008 R2 Workgroup", 5, 0 },
-    { "Windows 2008 R2 Workgroup Storage Server", "Windows Storage Server 2008 R2 Workgroup", 6, 0 },
-    { "Windows 2008 R2 Standard Storage Server", "Windows Storage Server 2008 R2 Standard", 1, 0 },
-    { "Windows 2008 R2 Standard Storage Server", "Windows Storage Server 2008 R2 Standard", 5, 0 },
-    { "Windows 2008 R2 Standard Storage Server", "Windows Storage Server 2008 R2 Standard", 6, 0 },
-    { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise", 1, 0 },
-    { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise", 5, 0 },
-    { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise", 6, 0 },
-    { "Windows 2008 R2 Foundation Server", "Windows Server 2008 R2 Foundation", 1, 0 },
-    { "Windows 2008 R2 Foundation Server", "Windows Server 2008 R2 Foundation", 5, 0 },
-    { "Windows 2008 R2 Foundation Server", "Windows Server 2008 R2 Foundation", 6, 0 },
-    { "Windows 2011 Premium Multipoint Server", "Windows MultiPoint Server 2011", 1, 0 },
-    { "Windows 2011 Premium Multipoint Server", "Windows MultiPoint Server 2011", 5, 0 },
-    { "Windows 2011 Premium Multipoint Server", "Windows MultiPoint Server 2011", 6, 0 },
-    { NULL, NULL, 0, 0 }
+    { "Windows NT 4 Workstation",                  "Microsoft Windows NT 4",                     0, 0 },
+    { "Windows NT 4 Server",                       "Microsoft Windows NT 4",                     1, 0 },
+    { "Windows NT 4 Small Business Server",        "Microsoft Windows NT 4",                     3, 0 },
+    { "Windows NT 4 Enterprise Server",            "Microsoft Windows NT 4",                     5, 0 },
+    { "Windows 2000 Pro",                          "Microsoft Windows 2000",                     0, 0 },
+    { "Windows 2000 Server",                       "Microsoft Windows 2000",                     1, 0 },
+    { "Windows 2000 Advanced Server",              "Microsoft Windows 2000",                     5, 0 },
+    { "Windows 2000 Datacenter Server",            "Microsoft Windows 2000",                     6, 0 },
+    { "Windows 2000 Powered",                      "Microsoft Windows 2000",                     4, 0 },
+    { "Windows XP Pro",                            "Microsoft Windows XP",                       0, 0 },
+    { "Windows XP Tablet PC",                      "Microsoft Windows XP",                       0, 1 },
+    { "Windows XP Media Center",                   "Microsoft Windows XP",                       0, 2 },
+    { "Windows Fundamentals for Legacy PCs",       "Microsoft Windows XP",                       0, 3 },
+    { "Windows POSReady 2009",                     "Microsoft Windows XP",                       0, 5 },
+    { "Windows 2003 Web Server",                   "Microsoft Windows Server 2003",              2, 0 },
+    { "Windows 2003 Standard Server",              "Microsoft Windows Server 2003",              1, 0 },
+    { "Windows 2003 Small Business Server",        "Microsoft Windows Server 2003",              3, 0 },
+    { "Windows 2003 Enterprise Server",            "Microsoft Windows Server 2003",              5, 0 },
+    { "Windows 2003 Datacenter Server",            "Microsoft Windows Server 2003",              6, 0 },
+    { "Windows Home Server",                       "Microsoft Windows Server 2003",              7, 0 },
+    { "Windows 2003 R2 Standard Server",           "Microsoft Windows Server 2003 R2",           1, 0 },
+    { "Windows 2003 R2 Enterprise Server",         "Microsoft Windows Server 2003 R2",           5, 0 },
+    { "Windows 2003 R2 Datacenter Server",         "Microsoft Windows Server 2003 R2",           6, 0 },
+    { "Windows Vista Enterprise",                  "Windows (TM) Vista Enterprise",              0, 0 },
+    { "Windows Vista Enterprise",                  "Windows Vista (TM) Enterprise",              0, 0 },
+    { "Windows Vista Ultimate",                    "Windows (TM) Vista Ultimate",                0, 0 },
+    { "Windows Vista Ultimate",                    "Windows Vista (TM) Ultimate",                0, 0 },
+    { "Windows 2008 Standard Server",              "Windows (R) Standard Server 2008",           1, 0 },
+    { "Windows 2008 Standard Server",              "Windows Server (R) 2008 Standard",           1, 0 },
+    { "Windows 2008 Enterprise Server",            "Windows (R) Enterprise Server 2008",         5, 0 },
+    { "Windows 2008 Enterprise Server",            "Windows Server (R) 2008 Enterprise",         5, 0 },
+    { "Windows 2008 Datacenter Server",            "Windows (R) Datacenter Server 2008",         6, 0 },
+    { "Windows 2008 Datacenter Server",            "Windows Server (R) 2008 Datacenter",         6, 0 },
+    { "Windows 2008 HPC Server",                   "Windows Server (R) 2008 HPC Edition",        1, 0 },
+    { "Windows 2008 Workgroup Storage Server",     "Windows (R) Storage Server 2008 Workgroup",  1, 0 },
+    { "Windows 2008 Enterprise Storage Server",    "Windows (R) Storage Server 2008 Enterprise", 1, 0 },
+    { "Windows Thin PC",                           "Windows Embedded Standard",                  0, 1 },
+    { "Windows 7 Embedded POSReady",               "Windows Embedded Standard",                  0, 4 },
+    { "Windows 7 Embedded",                        "Windows Embedded Standard",                  0, 0 },
+    { "Windows 7 Enterprise",                      "Windows 7 Enterprise",                       0, 0 },
+    { "Windows 7 Ultimate",                        "Windows 7 Ultimate",                         0, 0 },
+    { "Windows 2008 R2 Standard Server",           "Windows Server 2008 R2 Standard",            1, 0 },
+    { "Windows 2008 R2 Enterprise Server",         "Windows Server 2008 R2 Enterprise",          5, 0 },
+    { "Windows 2008 R2 Datacenter Server",         "Windows Server 2008 R2 Datacenter",          6, 0 },
+    { "Windows 2008 R2 Workgroup Storage Server",  "Windows Storage Server 2008 R2 Workgroup",   1, 0 },
+    { "Windows 2008 R2 Workgroup Storage Server",  "Windows Storage Server 2008 R2 Workgroup",   5, 0 },
+    { "Windows 2008 R2 Workgroup Storage Server",  "Windows Storage Server 2008 R2 Workgroup",   6, 0 },
+    { "Windows 2008 R2 Standard Storage Server",   "Windows Storage Server 2008 R2 Standard",    1, 0 },
+    { "Windows 2008 R2 Standard Storage Server",   "Windows Storage Server 2008 R2 Standard",    5, 0 },
+    { "Windows 2008 R2 Standard Storage Server",   "Windows Storage Server 2008 R2 Standard",    6, 0 },
+    { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise",  1, 0 },
+    { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise",  5, 0 },
+    { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise",  6, 0 },
+    { "Windows 2008 R2 Foundation Server",         "Windows Server 2008 R2 Foundation",          1, 0 },
+    { "Windows 2008 R2 Foundation Server",         "Windows Server 2008 R2 Foundation",          5, 0 },
+    { "Windows 2008 R2 Foundation Server",         "Windows Server 2008 R2 Foundation",          6, 0 },
+    { "Windows 2011 Premium Multipoint Server",    "Windows MultiPoint Server 2011",             1, 0 },
+    { "Windows 2011 Premium Multipoint Server",    "Windows MultiPoint Server 2011",             5, 0 },
+    { "Windows 2011 Premium Multipoint Server",    "Windows MultiPoint Server 2011",             6, 0 },
+    { NULL,                                        NULL,                                         0, 0 }
 };
 
 static int widelen(char *text)
@@ -216,7 +221,9 @@ static char *get_windows_version(void)
        3 = small business server
        4 = appliance server
        5 = enterprise server
-       6 = datacenter server */
+       6 = datacenter server
+       7 = home server
+    */
     rcode = getreg_strvalue((PCWSTR)NT_SERVER_KEY, (PCWSTR)NT_SERVER_VALUE, server_name, 20);
     if (!rcode) {
         if (!strcmp("ServerNT", server_name) || !strcmp("LanmanNT", server_name)) {
@@ -242,13 +249,18 @@ static char *get_windows_version(void)
                     if (!strcmp(temp, "DataCenter")) {
                         suite |= 16;
                     }
+                    if (!strcmp(temp, "WH Server")) {
+                        suite |= 32;
+                    }
                     p += widelen(p);
                     p += 2;
                     if (p[0] == 0 && p[1] == 0) {
                         found = 1;
                     }
                 }
-                if (suite >= 16) {
+                if (suite >= 32) {
+                    windows_server = 7;
+                } else if (suite >= 16) {
                     windows_server = 6;
                 } else if (suite >= 8) {
                     windows_server = 5;
@@ -275,6 +287,10 @@ static char *get_windows_version(void)
             }
         }
     }
+
+#ifdef INTERIX_DEBUG
+    printf("name: %s, server: %d, flags: %d\n", windows_name, windows_server, windows_flags);
+#endif
 
     return "Unknown Windows version";
 }
