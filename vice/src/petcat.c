@@ -847,7 +847,7 @@ static int parse_version(char *str);
 static void list_keywords(int version);
 static void pet_2_asc (int ctrls);
 static void asc_2_pet (int ctrls);
-static void _p_toascii(int c, int ctrls);
+static void _p_toascii(int c, int ctrls, int quote);
 static int p_expand(int version, int addr, int ctrls);
 static void p_tokenize(int version, unsigned int addr, int ctrls);
 static unsigned char sstrcmp(unsigned char *line, const char **wordlist, int token, int maxitems);
@@ -858,6 +858,7 @@ static int sstrcmp_codes(unsigned char *line, const char **wordlist, int token, 
 static FILE *source, *dest;
 static unsigned int kwlen = 0;
 static int codesnocase = 0; /* flag, =1 if controlcodes should be interpreted case insensitive */
+static int quotedcodes = 0; /* flag, =1 if non alphanumeric characters inside quotes should always be converted to controlcodes */
 static int dec = 0;         /* flag, =1 if output control codes in decimal */
 static int verbose = 0;     /* flag, =1 for verbose output */
 
@@ -901,6 +902,11 @@ int main(int argc, char **argv)
 
         if (!strcmp(argv[0], "-ic")) {
             codesnocase = 1;
+            continue;
+        }
+
+        if (!strcmp(argv[0], "-qc")) {
+            quotedcodes = 1;
             continue;
         }
 
@@ -1146,6 +1152,7 @@ void usage(char *progname)
             "   -nc\t\tno controls (suppress control codes in printout)\n"
             "   \t\t<default if non-textmode>\n"
             "   -ic\t\tinterpret control codes case-insensitive\n"
+            "   -qc\t\tconvert all non alphanumeric characters inside quotes into controlcodes\n"
             "   -d\t\toutput raw codes in decimal\n"
             "   -h\t\twrite header <default if output is stdout>\n"
             "   -nh\t\tno header <default if output is a file>\n"
@@ -1186,7 +1193,6 @@ void usage(char *progname)
 
 static int parse_version(char *str)
 {
-    int version = -1;
     int i;
 
     if (str == NULL || !*str) {
@@ -1299,12 +1305,13 @@ static void list_keywords(int version)
  * Conversion Routines
  */
 
+/* used in text mode */
 static void pet_2_asc(int ctrls)
 {
     int c;
 
     while ((c = getc(source)) != EOF) {
-        _p_toascii(c, ctrls);           /* convert character */
+        _p_toascii(c, ctrls, 0);           /* convert character */
     }      /* line */
 }
 
@@ -1326,38 +1333,54 @@ static void out_ctrl(unsigned char c)
     }
 }
 
-static void _p_toascii(int c, int ctrls)
+static void _p_fputc(int c, int p, int quote)
+{
+   if (quote && quotedcodes) {
+        /* if enabled, output all quoted non alphanumeric characters as control codes */
+        if (!(((c >= 'a') && (c <= 'A')) ||
+              ((c >= 'A') && (c <= 'Z')) ||
+              ((c >= '0') && (c <= '9')) ||
+              (c == '"') /* needed so the leading quote does NOT get converted into a control code */
+           )) {
+            out_ctrl((unsigned char)(p & 0xff));
+            return;
+        }
+    }
+    fputc(c, dest);
+}
+
+static void _p_toascii(int c, int ctrls, int quote)
 {
     /* fprintf(stderr, "<%02x:%d>", c, ctrls); */
     switch (c) {
         case 0x00: /* 00 for SEQ */
         case 0x0a:
             if (!ctrls) {
-                fputc('\n', dest);
+                _p_fputc('\n', c, quote);
             } else {
                 out_ctrl((unsigned char)(c & 0xff));
             }
             break;
         case 0x0d: /* CBM carriage return */
-            fputc('\n', dest);
+            _p_fputc('\n', c, quote);
             break;
         case 0x40:
-            fputc('@', dest);
+            _p_fputc('@', c, quote);
             break;
         case 0x5b:
-            fputc('[', dest);
+            _p_fputc('[', c, quote);
             break;
         case 0x5c:
-            fputc('\\', dest);
+            _p_fputc('\\', c, quote);
             break;
         case 0x5d:
-            fputc(']', dest);
+            _p_fputc(']', c, quote);
             break;
         case 0x5e:
-            fputc('^', dest);
+            _p_fputc('^', c, quote);
             break;
         case 0x5f: /* left arrow */
-            fputc('_', dest);
+            _p_fputc('_', c, quote);
             break;
         case 0x60: /* produces the same screencode as $c0! */
             out_ctrl((unsigned char)(c & 0xff));
@@ -1393,40 +1416,40 @@ static void _p_toascii(int c, int ctrls)
         case 0xa0: /* shifted Space */
         case 0xe0: /* produces the same screencode as $a0! */
             if (!ctrls) {
-                fputc(' ', dest);
+                _p_fputc(' ', c, quote);
             } else {
                 out_ctrl((unsigned char)(c & 0xff));
             }
             break;
         case 0xff: /* (*) PI produces the same screencode as $7e and $de! */
-            fputc(0x7e, dest); /*  '~' is ASCII for 'pi' */
+            _p_fputc(0x7e, c, quote); /*  '~' is ASCII for 'pi' */
             break;
 
         default:
             switch (c & 0xe0) {
-                case 0x40:                /* 41 - 5F */
-                    fputc(c ^ 0x20, dest);
+                case 0x40:                /* 41 - 5F (no duplicated set exists) */
+                    _p_fputc(c ^ 0x20, c, quote);
                     break;
                 case 0x60:                /* 61 - 7F (produces same screencodes as C1...) */
                     if (ctrls) {
                         out_ctrl((unsigned char)(c & 0xff));
                     } else {
-                        fputc(c ^ 0x20, dest);
+                        _p_fputc(c ^ 0x20, c, quote);
                     }
                     break;
-                case 0xa0:                /* (*) A1 - BF (produces same screencodes as E1...) */
+                case 0xa0:                /* (primary set) A1 - BF (produces same screencodes as E1...) */
                     fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, cbmkeys[c & 0x1f]);
                     break;
                 case 0xe0:                /* E1 - FE (produces same screencodes as A1...) */
                     out_ctrl((unsigned char)(c & 0xff));
                     break;
-                case 0xc0:                /* (*) C0 - DF (produces same screencodes as 61...) */
-                    fputc(c ^ 0x80, dest);
+                case 0xc0:                /* (primary set) C0 - DF (produces same screencodes as 61...) */
+                    _p_fputc(c ^ 0x80, c, quote);
                     break;
 
                 default:
                     if ((c > 0x1f) && isprint(c)) {
-                        fputc(c, dest);
+                        _p_fputc(c, c, quote);
                     } else if (ctrls) {
                         if ((c < 0x20) && *ctrl1[c]) {
                             fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl1[c]);
@@ -1631,7 +1654,7 @@ static int p_expand(int version, int addr, int ctrls)
                 continue;
             }
 
-            _p_toascii((int)c, ctrls);  /* convert character */
+            _p_toascii((int)c, ctrls, quote);  /* convert character */
         } while ((c = getc(source)) != EOF && c);
         fprintf(dest, "\n");
     }      /* line */
