@@ -35,7 +35,6 @@ libarch_a_SOURCES = \
 	cbm2ui.cc \
 	cbm5x0ui.cc \
 	console.c \
-	constants.h \
 	joy.cc \
 	joy.h \
 	kbd.c \
@@ -107,6 +106,21 @@ libarch_a_SOURCES = \
 	vsyncarch.c
 
 EXTRA_DIST = \
+	constants.txt \
+	genconstants.c \
 	make-bindist.sh \
 	ppc-ar.sh \
 	ppc-cc.sh
+
+BUILT_SOURCES = constants.h
+
+if NATIVE_TOOLS
+genconstants:	$(srcdir)/genconstants.c
+	$(NATIVE_TOOLS_COMPILER) -o genconstants $(srcdir)/genconstants.c
+
+constants.h:	$(srcdir)/constants.txt genconstants
+	./genconstants $(srcdir)/constants.txt constants.h
+else
+constants.h:	$(srcdir)/constants.txt
+	echo "cannot generate "$@
+endif
