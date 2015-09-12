@@ -25,8 +25,6 @@
  *
  */
 
-/* #define DBGRESOURCES */
-
 /* This implements simple facilities to handle the resources and command-line
    options.  All the resources for the emulators can be stored in a single
    file, and they are separated by an `emulator identifier', i.e. the machine
@@ -36,6 +34,8 @@
    ResourceValue unless it is put between quotes (").  */
 
 #include "vice.h"
+
+/* #define DBGRESOURCES */
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -1186,6 +1186,39 @@ static void write_resource_item(FILE *f, int num)
     }
 }
 
+/* check if a resource contains its default value */
+static int resource_item_isdefault(int num)
+{
+    int i1, i2;
+    char *s1, *s2;
+    resource_value_t v;
+
+    switch (resources[num].type) {
+        case RES_INTEGER:
+            v = (resource_value_t) uint_to_void_ptr(*(int *)resources[num].value_ptr);
+            i1 = vice_ptr_to_int(v);
+            i2 = vice_ptr_to_int(resources[num].factory_value);
+            if (i1 == i2) {
+                return 1;
+            }
+            DBG(("%s = (int) default: \"%d\" is: \"%d\"\n", resources[num].name, i2, i1));
+            break;
+        case RES_STRING:
+            v = *resources[num].value_ptr;
+            s1 = (char *)v == NULL ? "" : (char *)v;
+            s2 = (char *)resources[num].factory_value == NULL ? "" : (char *)resources[num].factory_value;
+            if (!strcmp(s1, s2)) {
+                return 1;
+            }
+            DBG(("%s = (string) default: \"%s\" is: \"%s\"\n", resources[num].name, s2, s1));
+            break;
+        default:
+            log_error(LOG_DEFAULT, "Unknown value type for resource `%s'.", resources[num].name);
+            break;
+    }
+    return 0;
+}
+
 /* Save all the resources into file `fname'.  If `fname' is NULL, save them
    in the default resource file.  Writing the resources does not destroy the
    resources for the other emulators.  */
@@ -1278,7 +1311,10 @@ int resources_save(const char *fname)
     /* Write our current configuration.  */
     fprintf(out_file, "[%s]\n", machine_id);
     for (i = 0; i < num_resources; i++) {
-        write_resource_item(out_file, i);
+        /* only dump into the file what is different to the default config */
+        if (!resource_item_isdefault(i)) {
+            write_resource_item(out_file, i);
+        }
     }
     fprintf(out_file, "\n");
 
