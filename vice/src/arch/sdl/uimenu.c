@@ -247,6 +247,11 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
     int *value_offsets = NULL;
     ui_menu_retval_t menu_retval = MENU_RETVAL_DEFAULT;
 
+    /* SDL mode: prevent core dump - pressing menu key in -console mode causes menu to be NULL */
+    if (menu == NULL) {
+        return MENU_RETVAL_EXIT_UI;
+    }
+
     while (menu[num_items].string != NULL) {
         ++num_items;
     }
@@ -860,7 +865,10 @@ void sdl_ui_activate_post_action(void)
     }
 
     /* Force a video refresh */
-    raster_force_repaint(sdl_active_canvas->parent_raster);
+    /* SDL mode: prevent core dump - pressing menu key in -console mode causes parent_raster to be NULL */
+    if (sdl_active_canvas->parent_raster) {
+        raster_force_repaint(sdl_active_canvas->parent_raster);
+    }
 }
 
 void sdl_ui_init_draw_params(void)
