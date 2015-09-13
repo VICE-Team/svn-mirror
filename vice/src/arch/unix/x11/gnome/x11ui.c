@@ -1051,7 +1051,10 @@ void ui_dispatch_events(void)
     FIXME: this is still buggy when changing mode rapidly, eg by holding ALT-D
 *******************************************************************************/
 static volatile int fslock = 0;
+
+#ifdef HAVE_FULLSCREEN
 static int fsoldx = 0, fsoldy = 0, fsoldw = WINDOW_MINW, fsoldh = WINDOW_MINH;
+#endif
 
 int x11ui_fullscreen(int enable)
 {
