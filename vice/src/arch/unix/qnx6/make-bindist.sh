@@ -497,11 +497,9 @@ _END
                            <QPM:File>dos1571</QPM:File>
                            <QPM:File>d1571cr</QPM:File>
                            <QPM:File>dos1581</QPM:File>
-                           <QPM:File>dos2000</QPM:File>
                            <QPM:File>dos2031</QPM:File>
                            <QPM:File>dos2040</QPM:File>
                            <QPM:File>dos3040</QPM:File>
-                           <QPM:File>dos4000</QPM:File>
                            <QPM:File>dos4040</QPM:File>
                         </QPM:Dir>
 

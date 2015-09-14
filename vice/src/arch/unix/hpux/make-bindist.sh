@@ -270,8 +270,6 @@ installfile data/DRIVES/dos1570 vice/vice-RUN runtmp /usr/local/lib/vice/DRIVES/
 installfile data/DRIVES/dos1571 vice/vice-RUN runtmp /usr/local/lib/vice/DRIVES/dos1571 run 0644
 installfile data/DRIVES/d1571cr vice/vice-RUN runtmp /usr/local/lib/vice/DRIVES/d1571cr run 0644
 installfile data/DRIVES/dos1581 vice/vice-RUN runtmp /usr/local/lib/vice/DRIVES/dos1581 run 0644
-installfile data/DRIVES/dos2000 vice/vice-RUN runtmp /usr/local/lib/vice/DRIVES/dos2000 run 0644
-installfile data/DRIVES/dos4000 vice/vice-RUN runtmp /usr/local/lib/vice/DRIVES/dos4000 run 0644
 installfile data/DRIVES/dos2031 vice/vice-RUN runtmp /usr/local/lib/vice/DRIVES/dos2031 run 0644
 installfile data/DRIVES/dos2040 vice/vice-RUN runtmp /usr/local/lib/vice/DRIVES/dos2040 run 0644
 installfile data/DRIVES/dos3040 vice/vice-RUN runtmp /usr/local/lib/vice/DRIVES/dos3040 run 0644

@@ -391,8 +391,6 @@ EMBEDDED_H_FILES = \
 	drivedos1570.h \
 	drivedos1571.h \
 	drivedos1581.h \
-	drivedos2000.h \
-	drivedos4000.h \
 	drivedos2031.h \
 	drivedos2040.h \
 	drivedos3040.h \
@@ -645,11 +643,11 @@ drivedos1571.h: $(EMBEDDED_DEPENDS) bin2c
 drivedos1581.h: $(EMBEDDED_DEPENDS) bin2c
 	./bin2c $(top_srcdir)/data/DRIVES/dos1581 drivedos1581.h "static BYTE drive_rom1581[DRIVE_ROM1581_SIZE]"
 
-drivedos2000.h: $(EMBEDDED_DEPENDS) bin2c
-	./bin2c $(top_srcdir)/data/DRIVES/dos2000 drivedos2000.h "static BYTE drive_rom2000[DRIVE_ROM2000_SIZE]"
-
-drivedos4000.h: $(EMBEDDED_DEPENDS) bin2c
-	./bin2c $(top_srcdir)/data/DRIVES/dos4000 drivedos4000.h "static BYTE drive_rom4000[DRIVE_ROM4000_SIZE]"
+#drivedos2000.h: $(EMBEDDED_DEPENDS) bin2c
+#	./bin2c $(top_srcdir)/data/DRIVES/dos2000 drivedos2000.h "static BYTE drive_rom2000[DRIVE_ROM2000_SIZE]"
+#
+#drivedos4000.h: $(EMBEDDED_DEPENDS) bin2c
+#	./bin2c $(top_srcdir)/data/DRIVES/dos4000 drivedos4000.h "static BYTE drive_rom4000[DRIVE_ROM4000_SIZE]"
 
 drivedos2031.h: $(EMBEDDED_DEPENDS) bin2c
 	./bin2c $(top_srcdir)/data/DRIVES/dos2031 drivedos2031.h "static BYTE drive_rom2031[DRIVE_ROM2031_SIZE]"
@@ -908,11 +906,11 @@ drivedos1571.h: $(EMBEDDED_DEPENDS)
 drivedos1581.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1581 drivedos1581.h "static BYTE drive_rom1581[DRIVE_ROM1581_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
-drivedos2000.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos2000 drivedos2000.h "static BYTE drive_rom2000[DRIVE_ROM2000_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
-
-drivedos4000.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos4000 drivedos4000.h "static BYTE drive_rom4000[DRIVE_ROM4000_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
+#drivedos2000.h: $(EMBEDDED_DEPENDS)
+#	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos2000 drivedos2000.h "static BYTE drive_rom2000[DRIVE_ROM2000_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
+#
+#drivedos4000.h: $(EMBEDDED_DEPENDS)
+#	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos4000 drivedos4000.h "static BYTE drive_rom4000[DRIVE_ROM4000_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos2031.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos2031 drivedos2031.h "static BYTE drive_rom2031[DRIVE_ROM2031_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)

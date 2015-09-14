@@ -204,8 +204,6 @@ copy ..\..\..\data\DRIVES\dos1570       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1571       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1571cr     Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1581       Vice2\DRIVES
-copy ..\..\..\data\DRIVES\dos2000       Vice2\DRIVES
-copy ..\..\..\data\DRIVES\dos4000       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos2031       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos2040       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos3040       Vice2\DRIVES

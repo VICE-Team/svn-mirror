@@ -224,8 +224,6 @@ copy ..\..\..\..\data\DRIVES\dos1570 %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos1571 %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\d1571cr %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos1581 %VICEDIR%\DRIVES
-copy ..\..\..\..\data\DRIVES\dos2000 %VICEDIR%\DRIVES
-copy ..\..\..\..\data\DRIVES\dos4000 %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos2031 %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos2040 %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos3040 %VICEDIR%\DRIVES
