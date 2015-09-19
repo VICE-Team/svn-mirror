@@ -2962,6 +2962,9 @@ LIBS="$old_LIBS"
 AC_SUBST(GFXOUTPUT_DRIVERS)
 AC_SUBST(GFXOUTPUT_LIBS)
 
+AC_CHECK_HEADERS(portaudio.h,[AC_CHECK_LIB(libportaudio, Pa_Initialize,
+                     [LIBS="$LIBS -llibportaudio";
+                      AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,)])
 
 dnl Check for libraries and header files
 if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then

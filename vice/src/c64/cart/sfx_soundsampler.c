@@ -35,6 +35,8 @@
 #include "cartridge.h"
 #include "cmdline.h"
 #include "lib.h"
+#include "log.h"
+#include "machine-video.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
@@ -44,6 +46,192 @@
 #include "sound.h"
 #include "uiapi.h"
 #include "translate.h"
+
+/* Testing audio input using a file */
+/* #define SFX_SAMPLE_TEST */
+
+#ifdef USE_PORTAUDIO
+#include <portaudio.h>
+
+static int stream_started;
+static PaStream *stream = NULL;
+
+static unsigned int sound_sample_counter;
+static unsigned int sound_sample_cycle;
+static unsigned int sound_frames_per_sec;
+static unsigned int sound_cycles_per_frame;
+static unsigned int sound_samples_per_frame;
+
+static WORD *stream_buffer = NULL;
+
+static void sfx_soundsampler_start_sampling(void)
+{
+    PaStreamParameters inputParameters;
+    PaError err = paNoError;
+
+    stream_started = 0;
+
+    err = Pa_Initialize();
+
+    if (err == paNoError ) {
+        inputParameters.device = Pa_GetDefaultInputDevice();
+        if (inputParameters.device != paNoDevice) {
+            inputParameters.channelCount = 1;
+            inputParameters.sampleFormat = paInt16;
+            inputParameters.suggestedLatency = Pa_GetDeviceInfo( inputParameters.device )->defaultHighInputLatency ;
+            inputParameters.hostApiSpecificStreamInfo = NULL;
+            sound_cycles_per_frame = machine_get_cycles_per_frame();
+            sound_frames_per_sec = machine_get_cycles_per_second() / sound_cycles_per_frame;
+            sound_samples_per_frame = 44100 / sound_frames_per_sec;
+            err = Pa_OpenStream(&stream, &inputParameters, NULL, 44100, sound_samples_per_frame, paClipOff, NULL, NULL);
+            if (err == paNoError) {
+                err = Pa_StartStream(stream);
+                if (err == paNoError) {
+                    stream_started = 1;
+                    stream_buffer = lib_malloc(sound_samples_per_frame * 2);
+                    memset(stream_buffer, 0, sound_samples_per_frame * 2);
+                    sound_sample_cycle = maincpu_clk;
+                    sound_sample_counter = 0;
+                } else {
+                    log_warning(LOG_DEFAULT, "Could not start stream");
+                }
+            } else {
+                log_warning(LOG_DEFAULT, "Could not open stream");
+            }
+        } else {
+            log_warning(LOG_DEFAULT, "Could not find a default input device");
+        }
+    } else {
+        log_warning(LOG_DEFAULT, "Could not init portaudio");
+    }
+}
+
+static void sfx_soundsampler_stop_sampling(void)
+{
+    Pa_AbortStream(stream);
+    Pa_CloseStream(stream);
+    stream = NULL;
+    if (stream_buffer) {
+        lib_free(stream_buffer);
+        stream_buffer = NULL;
+    }
+    Pa_Terminate();
+}
+
+static BYTE sfx_soundsampler_get_sample(BYTE sample)
+{
+    int cycle_diff;
+    int frame_diff;
+    int sample_diff;
+    int new_cycle_diff;
+    BYTE retval;
+
+    if (!stream_buffer) {
+        return 0x80;
+    }
+    cycle_diff = maincpu_clk - sound_sample_cycle;
+    frame_diff = cycle_diff / sound_cycles_per_frame;
+    if (frame_diff) {
+        sound_sample_counter += frame_diff * sound_samples_per_frame;
+        cycle_diff -= frame_diff * sound_cycles_per_frame;
+    }
+    sample_diff = cycle_diff * sound_samples_per_frame / sound_cycles_per_frame;
+    new_cycle_diff = sample_diff * sound_cycles_per_frame / sound_samples_per_frame;
+
+    sound_sample_counter += sample_diff;
+    while (sound_sample_counter >= sound_samples_per_frame) {
+        sound_sample_counter -= sound_samples_per_frame;
+        if (Pa_GetStreamReadAvailable(stream) >= sound_samples_per_frame) {
+            Pa_ReadStream(stream, stream_buffer, sound_samples_per_frame);
+        } else {
+            return sample;
+        }
+    }
+    sound_sample_cycle += new_cycle_diff;
+    retval = (BYTE)((stream_buffer[sound_sample_counter] >> 8) + 0x80);
+    if (retval - sample > 128 || sample - retval > 128) {
+        log_warning(LOG_DEFAULT, "sample difference too big : new: %2X, old: %2X", retval, sample);
+    }
+    return retval;
+}
+#endif
+
+#ifdef SFX_SAMPLE_TEST
+#define SFX_SAMPLE_NAME "inputsound.raw"
+
+static DWORD sample_size = 0;
+static int sound_sampling_started = 0;
+static unsigned int sound_sample_counter;
+static unsigned int sound_sample_cycle;
+static unsigned int sound_frames_per_sec;
+static unsigned int sound_cycles_per_frame;
+static unsigned int sound_samples_per_frame;
+
+static BYTE *sample_buffer = NULL;
+
+static void sfx_soundsampler_load_sample(void)
+{
+    FILE *sample_file = NULL;
+
+    sample_file = fopen(SFX_SAMPLE_NAME, "rb");
+    if (sample_file) {
+        fseek(sample_file, 0, SEEK_END);
+        sample_size = ftell(sample_file);
+        fseek(sample_file, 0, SEEK_SET);
+        sample_buffer = lib_malloc(sample_size);
+        fread(sample_buffer, 1, sample_size, sample_file);
+        fclose(sample_file);
+        sound_sampling_started = 0;
+        sound_cycles_per_frame = machine_get_cycles_per_frame();
+        sound_frames_per_sec = machine_get_cycles_per_second() / sound_cycles_per_frame;
+        sound_samples_per_frame = 44100 / sound_frames_per_sec;
+        log_warning(LOG_DEFAULT, "Loaded sample, size: %d, cycles per frame: %d, frames per sec: %d, samples per frame: %d", sample_size, sound_cycles_per_frame, sound_frames_per_sec, sound_samples_per_frame);
+    }
+}
+
+static void sfx_soundsampler_free_sample(void)
+{
+    if (sample_buffer) {
+        lib_free(sample_buffer);
+        sample_buffer = NULL;
+    }
+}
+
+static BYTE sfx_soundsampler_get_sample(void)
+{
+    int cycle_diff;
+    int frame_diff;
+    int sample_diff;
+    int new_cycle_diff;
+
+    if (!sample_buffer) {
+        return 0;
+    }
+    if (!sound_sampling_started) {
+        sound_sampling_started = 1;
+        sound_sample_counter = 0;
+        sound_sample_cycle = maincpu_clk;
+        return sample_buffer[0];
+    }
+    cycle_diff = maincpu_clk - sound_sample_cycle;
+    frame_diff = cycle_diff / sound_cycles_per_frame;
+    if (frame_diff) {
+        sound_sample_counter += frame_diff * sound_samples_per_frame;
+        cycle_diff -= frame_diff * sound_cycles_per_frame;
+    }
+    sample_diff = cycle_diff * sound_samples_per_frame / sound_cycles_per_frame;
+    new_cycle_diff = sample_diff * sound_cycles_per_frame / sound_samples_per_frame;
+
+    sound_sample_counter += sample_diff;
+    if (sound_sample_counter > sample_size) {
+        sound_sample_counter -= sample_size;
+    }
+    sound_sample_cycle += new_cycle_diff;
+    return sample_buffer[sound_sample_counter];
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
 
 static BYTE current_sample = 0;
 
@@ -74,7 +262,7 @@ static io_source_t sfx_soundsampler_io2_device = {
     IO_DETACH_RESOURCE,
     "SFXSoundSampler",
     0xdf00, 0xdfff, 0x01,
-    0,
+    1,
     sfx_soundsampler_sound_store,
     sfx_soundsampler_sample_read,
     NULL, /* TODO: peek */
@@ -165,6 +353,12 @@ static int set_sfx_soundsampler_enabled(int value, void *param)
             sfx_soundsampler_io1_list_item = io_source_register(&sfx_soundsampler_io1_device);
             sfx_soundsampler_io2_list_item = io_source_register(&sfx_soundsampler_io2_device);
             sfx_soundsampler_sound_chip.chip_enabled = 1;
+#ifdef USE_PORTAUDIO
+            sfx_soundsampler_start_sampling();
+#endif
+#ifdef SFX_SAMPLE_TEST
+            sfx_soundsampler_load_sample();
+#endif
         } else {
             c64export_remove(&export_res);
             io_source_unregister(sfx_soundsampler_io1_list_item);
@@ -172,6 +366,12 @@ static int set_sfx_soundsampler_enabled(int value, void *param)
             sfx_soundsampler_io1_list_item = NULL;
             sfx_soundsampler_io2_list_item = NULL;
             sfx_soundsampler_sound_chip.chip_enabled = 0;
+#ifdef USE_PORTAUDIO
+            sfx_soundsampler_stop_sampling();
+#endif
+#ifdef SFX_SAMPLE_TEST
+            sfx_soundsampler_free_sample();
+#endif
         }
     }
     return 0;
@@ -282,9 +482,11 @@ int sfx_soundsampler_cmdline_options_init(void)
 
 static void sfx_soundsampler_latch_sample(WORD addr, BYTE value)
 {
-#if 0
-    /* To be implemented */
-    current_sample = VICE_audio_get_sample();
+#ifdef USE_PORTAUDIO
+    current_sample = sfx_soundsampler_get_sample(current_sample);
+#endif
+#ifdef SFX_SAMPLE_TEST
+    current_sample = sfx_soundsampler_get_sample();
 #endif
 }
 
