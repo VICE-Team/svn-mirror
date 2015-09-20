@@ -197,3 +197,10 @@ z 1 4 8
 # Restore key mappings
 #Page_Up -3 0
 #Prior -3 1
+
+# Dead keys support for those using US-International keyboard layout.
+dead_acute      6 1 8  # *
+dead_grave      6 4 8  # ESC
+dead_circumflex 2 3 8  # &
+dead_tilde      6 4 8  # ESC
+dead_diaeresis  6 1 8  # Horizontal bar

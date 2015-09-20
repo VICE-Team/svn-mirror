@@ -226,3 +226,9 @@ z 1 4 8
 Page_Up -3 0
 Prior -3 1
 
+# Dead keys support for those using US-International keyboard layout.
+dead_circumflex 2 7 8  # &
+dead_tilde      0 1 8  # A_LFT <-
+dead_grave      0 1 8  # A_LFT <-
+dead_acute      6 2 8  # ;
+dead_diaeresis  6 2 8  # ]

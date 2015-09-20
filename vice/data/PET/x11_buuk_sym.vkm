@@ -243,3 +243,9 @@ c -2 2
 v -2 3
 space -2 0
 
+# Dead keys support for those using US-International keyboard layout.
+dead_grave      1 5 0  # ^
+dead_circumflex 1 5 0  # ^
+dead_tilde      1 5 1  # shift ^
+dead_diaeresis  0 0 1  # "
+dead_acute      1 2 1

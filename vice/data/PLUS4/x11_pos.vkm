@@ -197,3 +197,10 @@ space -2 0
 # Restore key mappings
 Page_Up -3 0
 Prior -3 1
+
+# Dead keys support for those using US-International keyboard layout.
+dead_circumflex 2 3 8  # &
+dead_tilde      7 1 8  # A_LFT <-
+dead_grave      7 1 8  # A_LFT <-
+dead_acute      6 2 8  # ;
+dead_diaeresis  6 2 8  # ]

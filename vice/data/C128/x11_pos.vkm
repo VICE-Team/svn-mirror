@@ -244,3 +244,10 @@ KP_Subtract 9 1 8
 KP_Separator 10 2 8
 KP_Decimal 10 2 8
 KP_Add 9 2 8
+
+# Dead keys support for those using US-International keyboard layout.
+dead_circumflex 2 3 8  # &
+dead_tilde      7 1 8  # A_LFT <-
+dead_grave      7 1 8  # A_LFT <-
+dead_acute      6 2 8  # ;
+dead_diaeresis  6 2 8  # ]

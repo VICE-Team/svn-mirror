@@ -227,3 +227,10 @@ F7 14 0 8
 F8 15 0 8
 F9 0 0 8
 F10 1 0 8
+
+# Dead keys support for those using US-International keyboard layout.
+dead_grave      8 1 1  # escape
+dead_circumflex 2 5 8  # pi
+dead_tilde      2 5 8  # pi
+dead_acute      1 5 0  # '
+dead_diaeresis  1 5 1  # "
