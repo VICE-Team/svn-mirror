@@ -61,52 +61,58 @@ static unsigned int sound_sample_cycle;
 static unsigned int sound_frames_per_sec;
 static unsigned int sound_cycles_per_frame;
 static unsigned int sound_samples_per_frame;
+static unsigned int same_sample = 0;
 
 static WORD *stream_buffer = NULL;
 
-static void sfx_soundsampler_start_sampling(void)
+static void sfx_soundsampler_start_stream(void)
 {
     PaStreamParameters inputParameters;
     PaError err = paNoError;
 
-    stream_started = 0;
+    inputParameters.device = Pa_GetDefaultInputDevice();
+    if (inputParameters.device != paNoDevice) {
+        inputParameters.channelCount = 1;
+        inputParameters.sampleFormat = paInt16;
+        inputParameters.suggestedLatency = Pa_GetDeviceInfo( inputParameters.device )->defaultHighInputLatency ;
+        inputParameters.hostApiSpecificStreamInfo = NULL;
+        sound_cycles_per_frame = machine_get_cycles_per_frame();
+        sound_frames_per_sec = machine_get_cycles_per_second() / sound_cycles_per_frame;
+        sound_samples_per_frame = 44100 / sound_frames_per_sec;
+        err = Pa_OpenStream(&stream, &inputParameters, NULL, 44100, sound_samples_per_frame, paClipOff, NULL, NULL);
+        if (err == paNoError) {
+            err = Pa_StartStream(stream);
+            if (err == paNoError) {
+                stream_started = 1;
+                stream_buffer = lib_malloc(sound_samples_per_frame * 2);
+                memset(stream_buffer, 0, sound_samples_per_frame * 2);
+                sound_sample_cycle = maincpu_clk;
+                sound_sample_counter = 0;
+            } else {
+                log_warning(LOG_DEFAULT, "Could not start stream");
+            }
+        } else {
+            log_warning(LOG_DEFAULT, "Could not open stream");
+        }
+    } else {
+        log_warning(LOG_DEFAULT, "Could not find a default input device");
+    }
+}
+
+static void sfx_soundsampler_start_sampling(void)
+{
+    PaError err = paNoError;
 
     err = Pa_Initialize();
 
     if (err == paNoError ) {
-        inputParameters.device = Pa_GetDefaultInputDevice();
-        if (inputParameters.device != paNoDevice) {
-            inputParameters.channelCount = 1;
-            inputParameters.sampleFormat = paInt16;
-            inputParameters.suggestedLatency = Pa_GetDeviceInfo( inputParameters.device )->defaultHighInputLatency ;
-            inputParameters.hostApiSpecificStreamInfo = NULL;
-            sound_cycles_per_frame = machine_get_cycles_per_frame();
-            sound_frames_per_sec = machine_get_cycles_per_second() / sound_cycles_per_frame;
-            sound_samples_per_frame = 44100 / sound_frames_per_sec;
-            err = Pa_OpenStream(&stream, &inputParameters, NULL, 44100, sound_samples_per_frame, paClipOff, NULL, NULL);
-            if (err == paNoError) {
-                err = Pa_StartStream(stream);
-                if (err == paNoError) {
-                    stream_started = 1;
-                    stream_buffer = lib_malloc(sound_samples_per_frame * 2);
-                    memset(stream_buffer, 0, sound_samples_per_frame * 2);
-                    sound_sample_cycle = maincpu_clk;
-                    sound_sample_counter = 0;
-                } else {
-                    log_warning(LOG_DEFAULT, "Could not start stream");
-                }
-            } else {
-                log_warning(LOG_DEFAULT, "Could not open stream");
-            }
-        } else {
-            log_warning(LOG_DEFAULT, "Could not find a default input device");
-        }
+        sfx_soundsampler_start_stream();
     } else {
         log_warning(LOG_DEFAULT, "Could not init portaudio");
     }
 }
 
-static void sfx_soundsampler_stop_sampling(void)
+static void sfx_soundsampler_stop_stream(void)
 {
     Pa_AbortStream(stream);
     Pa_CloseStream(stream);
@@ -115,6 +121,12 @@ static void sfx_soundsampler_stop_sampling(void)
         lib_free(stream_buffer);
         stream_buffer = NULL;
     }
+    stream_started = 0;
+}
+
+static void sfx_soundsampler_stop_sampling(void)
+{
+    sfx_soundsampler_stop_stream();
     Pa_Terminate();
 }
 
@@ -124,7 +136,6 @@ static BYTE sfx_soundsampler_get_sample(BYTE sample)
     int frame_diff;
     int sample_diff;
     int new_cycle_diff;
-    BYTE retval;
 
     if (!stream_buffer) {
         return 0x80;
@@ -139,20 +150,23 @@ static BYTE sfx_soundsampler_get_sample(BYTE sample)
     new_cycle_diff = sample_diff * sound_cycles_per_frame / sound_samples_per_frame;
 
     sound_sample_counter += sample_diff;
+    sound_sample_cycle += new_cycle_diff;
     while (sound_sample_counter >= sound_samples_per_frame) {
         sound_sample_counter -= sound_samples_per_frame;
         if (Pa_GetStreamReadAvailable(stream) >= sound_samples_per_frame) {
             Pa_ReadStream(stream, stream_buffer, sound_samples_per_frame);
+            same_sample = 0;
         } else {
+            ++same_sample;
+            if (same_sample >= sound_samples_per_frame) {
+                same_sample = 0;
+                sfx_soundsampler_stop_stream();
+                sfx_soundsampler_start_stream();
+            }
             return sample;
         }
     }
-    sound_sample_cycle += new_cycle_diff;
-    retval = (BYTE)((stream_buffer[sound_sample_counter] >> 8) + 0x80);
-    if (retval - sample > 128 || sample - retval > 128) {
-        log_warning(LOG_DEFAULT, "sample difference too big : new: %2X, old: %2X", retval, sample);
-    }
-    return retval;
+    return (BYTE)((stream_buffer[sound_sample_counter] >> 8) + 0x80);
 }
 #endif
 
