@@ -49,6 +49,7 @@ static unsigned int sound_samples_per_frame;
 static unsigned int same_sample = 0;
 
 static WORD *stream_buffer = NULL;
+static BYTE old_sample = 0x80;
 
 static void portaudio_start_stream(void)
 {
@@ -70,7 +71,7 @@ static void portaudio_start_stream(void)
             if (err == paNoError) {
                 stream_started = 1;
                 stream_buffer = lib_malloc(sound_samples_per_frame * 2);
-                memset(stream_buffer, 0, sound_samples_per_frame * 2);
+                memset(stream_buffer, 0x80, sound_samples_per_frame * 2);
                 sound_sample_cycle = maincpu_clk;
                 sound_sample_counter = 0;
             } else {
@@ -120,7 +121,7 @@ void portaudio_stop_sampling(void)
     Pa_Terminate();
 }
 
-BYTE portaudio_get_sample(BYTE sample)
+BYTE portaudio_get_sample(void)
 {
     int cycle_diff;
     int frame_diff;
@@ -152,10 +153,12 @@ BYTE portaudio_get_sample(BYTE sample)
                 same_sample = 0;
                 portaudio_stop_stream();
                 portaudio_start_stream();
+                log_warning(LOG_DEFAULT, "Had to restart the stream");
             }
-            return sample;
+            return old_sample;
         }
     }
-    return (BYTE)((stream_buffer[sound_sample_counter] >> 8) + 0x80);
+    old_sample = (BYTE)((stream_buffer[sound_sample_counter] >> 8) + 0x80);
+    return old_sample;
 }
 #endif

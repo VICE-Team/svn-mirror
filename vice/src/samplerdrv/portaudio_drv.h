@@ -31,6 +31,6 @@
 
 extern void portaudio_start_sampling(void);
 extern void portaudio_soundsampler_stop_sampling(void);
-extern BYTE portaudio_get_sample(BYTE sample);
+extern BYTE portaudio_get_sample(void);
 
 #endif

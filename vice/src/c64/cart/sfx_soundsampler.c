@@ -297,7 +297,7 @@ int sfx_soundsampler_cmdline_options_init(void)
 static void sfx_soundsampler_latch_sample(WORD addr, BYTE value)
 {
 #ifdef USE_PORTAUDIO
-    current_sample = portaudio_get_sample(current_sample);
+    current_sample = portaudio_get_sample();
 #endif
 }
 
