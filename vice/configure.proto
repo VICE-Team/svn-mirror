@@ -4228,6 +4228,7 @@ AC_OUTPUT([Makefile
            src/raster/Makefile
            src/rs232drv/Makefile
            src/rtc/Makefile
+           src/samplerdrv/Makefile
            src/serial/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
