@@ -38,7 +38,7 @@
 #ifdef USE_PORTAUDIO
 #include <portaudio.h>
 
-static int stream_started;
+static int stream_started = 0;
 static PaStream *stream = NULL;
 
 static unsigned int sound_sample_counter;
@@ -84,19 +84,6 @@ static void portaudio_start_stream(void)
     }
 }
 
-void portaudio_start_sampling(void)
-{
-    PaError err = paNoError;
-
-    err = Pa_Initialize();
-
-    if (err == paNoError ) {
-        portaudio_start_stream();
-    } else {
-        log_warning(LOG_DEFAULT, "Could not init portaudio");
-    }
-}
-
 static void portaudio_stop_stream(void)
 {
     Pa_AbortStream(stream);
@@ -107,6 +94,24 @@ static void portaudio_stop_stream(void)
         stream_buffer = NULL;
     }
     stream_started = 0;
+}
+
+void portaudio_start_sampling(void)
+{
+    PaError err = paNoError;
+
+    if (stream_started) {
+        log_warning(LOG_DEFAULT, "Attempted to start portaudio twice");
+    } else {
+
+        err = Pa_Initialize();
+
+        if (err == paNoError ) {
+            portaudio_start_stream();
+        } else {
+            log_warning(LOG_DEFAULT, "Could not init portaudio");
+        }
+    }
 }
 
 void portaudio_stop_sampling(void)
