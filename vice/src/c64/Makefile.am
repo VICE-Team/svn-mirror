@@ -15,7 +15,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/viciivsid \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/video \
-	-I$(top_srcdir)/src/rtc
+	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/samplerdrv
 
 noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a libc64scpu64.a
 

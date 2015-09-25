@@ -13,7 +13,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/vdc \
-	-I$(top_srcdir)/src/rtc
+	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/samplerdrv
 
 if SUPPORT_XSCPU64
 noinst_LIBRARIES = libscpu64.a

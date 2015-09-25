@@ -34,6 +34,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "portaudio_drv.h"
+#include "sampler.h"
 
 #ifdef USE_PORTAUDIO
 #include <portaudio.h>
@@ -160,5 +161,19 @@ BYTE portaudio_get_sample(void)
     }
     old_sample = (BYTE)((stream_buffer[sound_sample_counter] >> 8) + 0x80);
     return old_sample;
+}
+
+static sampler_device_t portaudio_device =
+{
+    "portaudio",
+    portaudio_start_sampling,
+    portaudio_stop_sampling,
+    portaudio_get_sample
+};
+
+
+void portaudio_init(void)
+{
+    sampler_device_register(&portaudio_device);
 }
 #endif

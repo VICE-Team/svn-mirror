@@ -40,16 +40,13 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "sampler.h"
 #include "sfx_soundsampler.h"
 #include "sid.h"
 #include "snapshot.h"
 #include "sound.h"
 #include "uiapi.h"
 #include "translate.h"
-
-#ifdef USE_PORTAUDIO
-#include "portaudio_drv.h"
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -173,9 +170,7 @@ static int set_sfx_soundsampler_enabled(int value, void *param)
             sfx_soundsampler_io1_list_item = io_source_register(&sfx_soundsampler_io1_device);
             sfx_soundsampler_io2_list_item = io_source_register(&sfx_soundsampler_io2_device);
             sfx_soundsampler_sound_chip.chip_enabled = 1;
-#ifdef USE_PORTAUDIO
-            portaudio_start_sampling();
-#endif
+            sampler_start();
         } else {
             c64export_remove(&export_res);
             io_source_unregister(sfx_soundsampler_io1_list_item);
@@ -183,9 +178,7 @@ static int set_sfx_soundsampler_enabled(int value, void *param)
             sfx_soundsampler_io1_list_item = NULL;
             sfx_soundsampler_io2_list_item = NULL;
             sfx_soundsampler_sound_chip.chip_enabled = 0;
-#ifdef USE_PORTAUDIO
-            portaudio_stop_sampling();
-#endif
+            sampler_stop();
         }
     }
     return 0;
@@ -296,9 +289,7 @@ int sfx_soundsampler_cmdline_options_init(void)
 
 static void sfx_soundsampler_latch_sample(WORD addr, BYTE value)
 {
-#ifdef USE_PORTAUDIO
-    current_sample = portaudio_get_sample();
-#endif
+    current_sample = sampler_get_sample();
 }
 
 static BYTE sfx_soundsampler_sample_read(WORD addr)

@@ -65,6 +65,7 @@
 #include "printer.h"
 #include "rs232drv.h"
 #include "rsuser.h"
+#include "sampler.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "sid.h"
@@ -598,6 +599,8 @@ int machine_specific_init(void)
     }
 
     gfxoutput_init();
+
+    sampler_init();
 
     /* Initialize serial traps.  If user does not want them, or if the
        ``drive'' emulation is used, do not install them.  */

@@ -79,6 +79,7 @@
 #include "resources.h"
 #include "rs232drv.h"
 #include "rsuser.h"
+#include "sampler.h"
 #include "scpu64-cmdline-options.h"
 #include "scpu64-resources.h"
 #include "scpu64-snapshot.h"
@@ -639,6 +640,8 @@ int machine_specific_init(void)
     }
 
     gfxoutput_init();
+
+    sampler_init();
 
     /* Initialize serial traps.  */
     if (serial_init(scpu64_serial_traps) < 0) {

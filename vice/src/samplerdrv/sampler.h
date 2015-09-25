@@ -1,5 +1,5 @@
 /*
- * portaudio_drv.h
+ * sampler.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,15 +24,23 @@
  *
  */
 
-#ifndef VICE_PORTAUDIO_DRV_H
-#define VICE_PORTAUDIO_DRV_H
+#ifndef VICE_SAMPLER_H
+#define VICE_SAMPLER_H
 
 #include "types.h"
 
-extern void portaudio_start_sampling(void);
-extern void portaudio_stop_sampling(void);
-extern BYTE portaudio_get_sample(void);
+typedef struct sampler_device_s {
+    const char *name;
+    void (*open)(void);
+    void (*close)(void);
+    BYTE (*get_sample)(void);
+} sampler_device_t;
 
-extern void portaudio_init(void);
+extern void sampler_init(void);
+extern void sampler_start(void);
+extern void sampler_stop(void);
+extern BYTE sampler_get_sample(void);
+
+extern void sampler_device_register(sampler_device_t *device);
 
 #endif

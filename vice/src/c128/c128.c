@@ -87,6 +87,7 @@
 #include "printer.h"
 #include "rs232drv.h"
 #include "rsuser.h"
+#include "sampler.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "sid-cmdline-options.h"
@@ -828,6 +829,8 @@ int machine_specific_init(void)
     }
 
     gfxoutput_init();
+
+    sampler_init();
 
     /* initialize RS232 handler */
     rs232drv_init();

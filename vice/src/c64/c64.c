@@ -89,6 +89,7 @@
 #include "resources.h"
 #include "rs232drv.h"
 #include "rsuser.h"
+#include "sampler.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "sid-cmdline-options.h"
@@ -842,6 +843,8 @@ int machine_specific_init(void)
     }
 
     gfxoutput_init();
+
+    sampler_init();
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {
