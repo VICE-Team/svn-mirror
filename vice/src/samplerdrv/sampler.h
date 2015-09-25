@@ -43,4 +43,8 @@ extern BYTE sampler_get_sample(void);
 
 extern void sampler_device_register(sampler_device_t *device);
 
+extern int sampler_resources_init(void);
+extern void sampler_resources_shutdown(void);
+extern int sampler_cmdline_options_init(void);
+
 #endif

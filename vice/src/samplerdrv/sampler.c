@@ -84,3 +84,20 @@ void sampler_device_register(sampler_device_t *device)
     devices[i].close = device->close;
     devices[i].get_sample = device->get_sample;
 }
+
+/* Currently unused, provided for future expansion */
+int sampler_resources_init(void)
+{
+    return 0;
+}
+
+/* Currently unused, provided for future expansion */
+void sampler_resources_shutdown(void)
+{
+}
+
+/* Currently unused, provided for future expansion */
+int sampler_cmdline_options_init(void)
+{
+    return 0;
+}

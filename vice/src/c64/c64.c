@@ -451,6 +451,10 @@ int machine_resources_init(void)
         init_resource_fail("gfxoutput");
         return -1;
     }
+    if (sampler_resources_init() < 0) {
+        init_resource_fail("samplerdrv");
+        return -1;
+    }
     if (fliplist_resources_init() < 0) {
         init_resource_fail("flip list");
         return -1;
@@ -555,6 +559,7 @@ void machine_resources_shutdown(void)
     cartio_shutdown();
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
+    sampler_resources_shutdown();
 }
 
 /* C64-specific command-line option initialization.  */
@@ -618,6 +623,10 @@ int machine_cmdline_options_init(void)
     }
     if (gfxoutput_cmdline_options_init() < 0) {
         init_cmdline_options_fail("gfxoutput");
+        return -1;
+    }
+    if (sampler_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("samplerdrv");
         return -1;
     }
     if (fliplist_cmdline_options_init() < 0) {
