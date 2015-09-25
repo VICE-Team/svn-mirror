@@ -29,10 +29,6 @@
 
 #include "types.h"
 
-extern void portaudio_start_sampling(void);
-extern void portaudio_stop_sampling(void);
-extern BYTE portaudio_get_sample(void);
-
 extern void portaudio_init(void);
 
 #endif

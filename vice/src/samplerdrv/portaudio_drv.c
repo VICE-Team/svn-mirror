@@ -98,7 +98,7 @@ static void portaudio_stop_stream(void)
     stream_started = 0;
 }
 
-void portaudio_start_sampling(void)
+static void portaudio_start_sampling(void)
 {
     PaError err = paNoError;
 
@@ -116,13 +116,13 @@ void portaudio_start_sampling(void)
     }
 }
 
-void portaudio_stop_sampling(void)
+static void portaudio_stop_sampling(void)
 {
     portaudio_stop_stream();
     Pa_Terminate();
 }
 
-BYTE portaudio_get_sample(void)
+static BYTE portaudio_get_sample(void)
 {
     int cycle_diff;
     int frame_diff;
