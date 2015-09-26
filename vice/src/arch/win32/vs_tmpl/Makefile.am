@@ -64,6 +64,7 @@ EXTRA_DIST = \
 	residdtv.tmpl \
 	rs232drv.tmpl \
 	rtc.tmpl \
+	samplerdrv.tmpl \
 	scpu64.tmpl \
 	serial.tmpl \
 	sid.tmpl \
