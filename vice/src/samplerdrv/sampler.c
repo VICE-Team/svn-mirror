@@ -30,20 +30,30 @@
 
 #include "sampler.h"
 
+#include "file_drv.h"
+
 #ifdef USE_PORTAUDIO
 #include "portaudio_drv.h"
 #endif
 
 #define MAX_DEVICE 10
 
-/* stays at 0 for now, but will become configurable in the future */
-static int current_sampler = 0;
+#ifdef USE_PORTAUDIO
+#define DEFAULT_DEVICE 1
+#else
+#define DEFAULT_DEVICE 0
+#endif
+
+/* stays at 'DEFAULT_DEVICE' for now, but will become configurable in the future */
+static int current_sampler = DEFAULT_DEVICE;
 
 static sampler_device_t devices[MAX_DEVICE];
 
 void sampler_init(void)
 {
     memset(devices, 0, sizeof(devices));
+
+    fileaudio_init();
 
 #ifdef USE_PORTAUDIO
     portaudio_init();
