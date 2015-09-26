@@ -60,10 +60,10 @@ void sampler_init(void)
 #endif
 }
 
-void sampler_start()
+void sampler_start(int channels)
 {
     if (devices[current_sampler].open) {
-        devices[current_sampler].open();
+        devices[current_sampler].open(channels);
     }
 }
 
@@ -74,10 +74,10 @@ void sampler_stop(void)
     }
 }
 
-BYTE sampler_get_sample(void)
+BYTE sampler_get_sample(int channel)
 {
     if (devices[current_sampler].get_sample) {
-        return devices[current_sampler].get_sample();
+        return devices[current_sampler].get_sample(channel);
     }
     return 0x80;
 }

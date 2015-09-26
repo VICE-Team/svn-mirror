@@ -48,7 +48,8 @@ static unsigned int sound_samples_per_frame;
 
 static BYTE *sample_buffer = NULL;
 
-static void file_load_sample(void)
+/* For now channels is ignored */
+static void file_load_sample(int channels)
 {
     FILE *sample_file = NULL;
 
@@ -78,7 +79,8 @@ static void file_free_sample(void)
     }
 }
 
-static BYTE file_get_sample(void)
+/* For now channel is ignored */
+static BYTE file_get_sample(int channel)
 {
     unsigned int current_frame = 0;
     unsigned int current_cycle = 0;

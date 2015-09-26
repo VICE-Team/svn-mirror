@@ -29,17 +29,24 @@
 
 #include "types.h"
 
+#define SAMPLER_CHANNEL_DEFAULT 0
+#define SAMPLER_CHANNEL_1       1
+#define SAMPLER_CHANNEL_2       2
+
+#define SAMPLER_OPEN_MONO   1
+#define SAMPLER_OPEN_STEREO 2
+
 typedef struct sampler_device_s {
     const char *name;
-    void (*open)(void);
+    void (*open)(int channels);
     void (*close)(void);
-    BYTE (*get_sample)(void);
+    BYTE (*get_sample)(int channel);
 } sampler_device_t;
 
 extern void sampler_init(void);
-extern void sampler_start(void);
+extern void sampler_start(int channels);
 extern void sampler_stop(void);
-extern BYTE sampler_get_sample(void);
+extern BYTE sampler_get_sample(int channel);
 
 extern void sampler_device_register(sampler_device_t *device);
 

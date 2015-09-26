@@ -170,7 +170,7 @@ static int set_sfx_soundsampler_enabled(int value, void *param)
             sfx_soundsampler_io1_list_item = io_source_register(&sfx_soundsampler_io1_device);
             sfx_soundsampler_io2_list_item = io_source_register(&sfx_soundsampler_io2_device);
             sfx_soundsampler_sound_chip.chip_enabled = 1;
-            sampler_start();
+            sampler_start(SAMPLER_OPEN_MONO);
         } else {
             c64export_remove(&export_res);
             io_source_unregister(sfx_soundsampler_io1_list_item);
@@ -289,7 +289,7 @@ int sfx_soundsampler_cmdline_options_init(void)
 
 static void sfx_soundsampler_latch_sample(WORD addr, BYTE value)
 {
-    current_sample = sampler_get_sample();
+    current_sample = sampler_get_sample(SAMPLER_CHANNEL_DEFAULT);
 }
 
 static BYTE sfx_soundsampler_sample_read(WORD addr)

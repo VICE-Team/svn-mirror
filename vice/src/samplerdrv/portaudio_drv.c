@@ -1,3 +1,4 @@
+
 /*
  * portaudio_drv.c - PortAudio audio input driver.
  *
@@ -48,6 +49,8 @@ static unsigned int sound_cycles_per_frame;
 static unsigned int sound_samples_per_frame;
 static unsigned int same_sample = 0;
 
+static int current_channels = 0;
+
 static WORD *stream_buffer = NULL;
 static BYTE old_sample = 0x80;
 
@@ -58,7 +61,7 @@ static void portaudio_start_stream(void)
 
     inputParameters.device = Pa_GetDefaultInputDevice();
     if (inputParameters.device != paNoDevice) {
-        inputParameters.channelCount = 1;
+        inputParameters.channelCount = current_channels;
         inputParameters.sampleFormat = paInt16;
         inputParameters.suggestedLatency = Pa_GetDeviceInfo( inputParameters.device )->defaultHighInputLatency ;
         inputParameters.hostApiSpecificStreamInfo = NULL;
@@ -70,8 +73,8 @@ static void portaudio_start_stream(void)
             err = Pa_StartStream(stream);
             if (err == paNoError) {
                 stream_started = 1;
-                stream_buffer = lib_malloc(sound_samples_per_frame * 2);
-                memset(stream_buffer, 0, sound_samples_per_frame * 2);
+                stream_buffer = lib_malloc(sound_samples_per_frame * 2 * current_channels);
+                memset(stream_buffer, 0, sound_samples_per_frame * 2 * current_channels);
                 old_frame = (maincpu_clk / sound_cycles_per_frame) + 1;
             } else {
                 log_warning(LOG_DEFAULT, "Could not start stream");
@@ -96,7 +99,7 @@ static void portaudio_stop_stream(void)
     stream_started = 0;
 }
 
-static void portaudio_start_sampling(void)
+static void portaudio_start_sampling(int channels)
 {
     PaError err = paNoError;
 
@@ -107,6 +110,7 @@ static void portaudio_start_sampling(void)
         err = Pa_Initialize();
 
         if (err == paNoError ) {
+            current_channels = channels;
             portaudio_start_stream();
         } else {
             log_warning(LOG_DEFAULT, "Could not init portaudio");
@@ -120,7 +124,7 @@ static void portaudio_stop_sampling(void)
     Pa_Terminate();
 }
 
-static BYTE portaudio_get_sample(void)
+static BYTE portaudio_get_sample(int channel)
 {
     unsigned int current_frame;
     unsigned int current_cycle;
@@ -155,7 +159,19 @@ static BYTE portaudio_get_sample(void)
     }
     frame_sample = current_cycle * sound_samples_per_frame / sound_cycles_per_frame;
 
-    old_sample = (BYTE)((stream_buffer[frame_sample] >> 8) + 0x80);
+    switch (channel) {
+        case SAMPLER_CHANNEL_1:
+            old_sample = (BYTE)((stream_buffer[frame_sample * 2] >> 8) + 0x80);
+            break;
+        case SAMPLER_CHANNEL_2:
+            old_sample = (BYTE)((stream_buffer[(frame_sample * 2) + 1] >> 8) + 0x80);
+            break;
+        case SAMPLER_CHANNEL_DEFAULT:
+        default:
+            old_sample = (BYTE)((stream_buffer[frame_sample] >> 8) + 0x80);
+            break;
+    }
+
     return old_sample;
 }
 
