@@ -42,8 +42,7 @@
 static int stream_started = 0;
 static PaStream *stream = NULL;
 
-static unsigned int sound_sample_counter;
-static unsigned int sound_sample_cycle;
+static unsigned int old_frame;
 static unsigned int sound_frames_per_sec;
 static unsigned int sound_cycles_per_frame;
 static unsigned int sound_samples_per_frame;
@@ -72,9 +71,8 @@ static void portaudio_start_stream(void)
             if (err == paNoError) {
                 stream_started = 1;
                 stream_buffer = lib_malloc(sound_samples_per_frame * 2);
-                memset(stream_buffer, 0x80, sound_samples_per_frame * 2);
-                sound_sample_cycle = maincpu_clk;
-                sound_sample_counter = 0;
+                memset(stream_buffer, 0, sound_samples_per_frame * 2);
+                old_frame = (maincpu_clk / sound_cycles_per_frame) + 1;
             } else {
                 log_warning(LOG_DEFAULT, "Could not start stream");
             }
@@ -124,42 +122,40 @@ static void portaudio_stop_sampling(void)
 
 static BYTE portaudio_get_sample(void)
 {
-    int cycle_diff;
-    int frame_diff;
-    int sample_diff;
-    int new_cycle_diff;
+    unsigned int current_frame;
+    unsigned int current_cycle;
+    unsigned int frame_diff;
+    unsigned int frame_sample;
 
     if (!stream_buffer) {
         return 0x80;
     }
-    cycle_diff = maincpu_clk - sound_sample_cycle;
-    frame_diff = cycle_diff / sound_cycles_per_frame;
-    if (frame_diff) {
-        sound_sample_counter += frame_diff * sound_samples_per_frame;
-        cycle_diff -= frame_diff * sound_cycles_per_frame;
-    }
-    sample_diff = cycle_diff * sound_samples_per_frame / sound_cycles_per_frame;
-    new_cycle_diff = sample_diff * sound_cycles_per_frame / sound_samples_per_frame;
+    current_frame = maincpu_clk / sound_cycles_per_frame;
+    current_cycle = maincpu_clk % sound_cycles_per_frame;
 
-    sound_sample_counter += sample_diff;
-    sound_sample_cycle += new_cycle_diff;
-    while (sound_sample_counter >= sound_samples_per_frame) {
-        sound_sample_counter -= sound_samples_per_frame;
-        if (Pa_GetStreamReadAvailable(stream) >= sound_samples_per_frame) {
-            Pa_ReadStream(stream, stream_buffer, sound_samples_per_frame);
-            same_sample = 0;
-        } else {
-            ++same_sample;
-            if (same_sample >= sound_samples_per_frame) {
+    if (current_frame > old_frame) {
+        frame_diff = current_frame - old_frame;
+        while (frame_diff) {
+            --frame_diff;
+            ++old_frame;
+            if (Pa_GetStreamReadAvailable(stream) >= sound_samples_per_frame) {
+                Pa_ReadStream(stream, stream_buffer, sound_samples_per_frame);
                 same_sample = 0;
-                portaudio_stop_stream();
-                portaudio_start_stream();
-                log_warning(LOG_DEFAULT, "Had to restart the stream");
+            } else {
+                ++same_sample;
+                if (same_sample >= sound_samples_per_frame) {
+                    same_sample = 0;
+                    portaudio_stop_stream();
+                    portaudio_start_stream();
+                    log_warning(LOG_DEFAULT, "Had to restart the stream");
+                }
+                return old_sample;
             }
-            return old_sample;
         }
     }
-    old_sample = (BYTE)((stream_buffer[sound_sample_counter] >> 8) + 0x80);
+    frame_sample = current_cycle * sound_samples_per_frame / sound_cycles_per_frame;
+
+    old_sample = (BYTE)((stream_buffer[frame_sample] >> 8) + 0x80);
     return old_sample;
 }
 
