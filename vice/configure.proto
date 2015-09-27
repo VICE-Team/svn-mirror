@@ -395,19 +395,21 @@ fi
 
 AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
 if test x"$YACC" = "xno"; then
-  AC_MSG_ERROR([byacc yacc or bison not found!])
+  AC_MSG_ERROR([Could not find byacc, yacc or bison!])
 fi
 
-AC_CHECK_PROGS(LEX, 'flex --noyywrap', [no])
+dnl do not use --noyywrap option with flex as older versions do not support
+dnl it. FIXME: We should really have a compatibility test here.
+dnl AC_CHECK_PROGS(LEX, 'flex --noyywrap', [no])
 
-if test x"$LEX" = "xno"; then
-  unset LEX
-fi
+dnl if test x"$LEX" = "xno"; then
+dnl   unset LEX
+dnl fi
 
 AC_PROG_LEX
 
 if test x"$LEX" = "x:"; then
-  AC_MSG_ERROR([flex or lex not found!])
+  AC_MSG_ERROR([Could not find either flex or lex!])
 fi
 
 AM_PROG_AS
