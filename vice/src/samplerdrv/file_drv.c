@@ -56,6 +56,8 @@
 
 #define AUDIO_TYPE_PCM   0
 #define AUDIO_TYPE_FLOAT 1
+#define AUDIO_TYPE_ALAW  2
+#define AUDIO_TYPE_ULAW  3
 
 static unsigned sample_size = 0;
 static int sound_sampling_started = 0;
@@ -77,8 +79,105 @@ static unsigned int sound_audio_channels = 0;
 static unsigned int sound_audio_rate = 0;
 static unsigned int sound_audio_bits = 0;
 
+static int wav_fmt_extension_bytes = 0;
+
 static BYTE *sample_buffer1 = NULL;
 static BYTE *sample_buffer2 = NULL;
+
+static SWORD decode_ulaw(BYTE sample)
+{
+    SWORD t;
+
+    sample = ~sample;
+
+    t = ((sample & 0xf) << 3) + 0x84;
+    t <<= ((unsigned)sample & 0x70) >> 4;
+
+    return ((sample & 0x80) ? (0x84 - t) : (t - 0x84));
+}
+
+static SWORD decode_alaw(BYTE sample)
+{
+    SWORD t;
+    SWORD seg;
+
+    sample ^= 0x55;
+
+    t = (sample & 0xf) << 4;
+    seg = ((unsigned)sample & 0x70) >> 4;
+    switch (seg) {
+        case 0:
+            t += 8;
+            break;
+        case 1:
+            t += 0x108;
+            break;
+        default:
+            t += 0x108;
+            t <<= seg - 1;
+    }
+    return ((sample & 0x80) ? t : -t);
+}
+
+static int convert_alaw_buffer(int size, int channels)
+{
+    unsigned int frame_size = sound_audio_bits * sound_audio_channels / 8;
+    unsigned int i;
+    signed char sample;
+
+    sample_size = size / frame_size;
+
+    sample_buffer1 = lib_malloc(sample_size);
+    if (channels == SAMPLER_OPEN_STEREO) {
+        if (sound_audio_channels == 2) {
+            sample_buffer2 = lib_malloc(sample_size);
+        } else {
+            sample_buffer2 = sample_buffer1;
+        }
+    }
+
+    for (i = 0; i < sample_size; ++i) {
+        sample = file_buffer[file_pointer + (i * frame_size)];
+        sample_buffer1[i] = (BYTE)(decode_alaw(sample) >> 8) + 0x80;
+        if (sound_audio_channels == 2 && channels == SAMPLER_OPEN_STEREO) {
+            sample = file_buffer[file_pointer + (i * frame_size) + 1];
+            sample_buffer2[i] = (BYTE)(decode_alaw(sample) >> 4) + 0x80;
+        }
+    }
+    lib_free(file_buffer);
+    file_buffer = NULL;
+    return 0;
+}
+
+static int convert_ulaw_buffer(int size, int channels)
+{
+    unsigned int frame_size = sound_audio_bits * sound_audio_channels / 8;
+    unsigned int i;
+    signed char sample;
+
+    sample_size = size / frame_size;
+
+    sample_buffer1 = lib_malloc(sample_size);
+    if (channels == SAMPLER_OPEN_STEREO) {
+        if (sound_audio_channels == 2) {
+            sample_buffer2 = lib_malloc(sample_size);
+        } else {
+            sample_buffer2 = sample_buffer1;
+        }
+    }
+
+    for (i = 0; i < sample_size; ++i) {
+        sample = file_buffer[file_pointer + (i * frame_size)];
+        sample_buffer1[i] = (BYTE)(decode_ulaw(sample) >> 8) + 0x80;
+        if (sound_audio_channels == 2 && channels == SAMPLER_OPEN_STEREO) {
+            sample = file_buffer[file_pointer + (i * frame_size) + 1];
+            sample_buffer2[i] = (BYTE)(decode_ulaw(sample) >> 3) + 0x80;
+        }
+    }
+    lib_free(file_buffer);
+    file_buffer = NULL;
+    return 0;
+}
 
 static int convert_pcm_buffer(int size, int channels)
 {
@@ -241,6 +340,23 @@ static void check_and_skip_chunk(void)
     }
 }
 
+static int valid_wav_ftm_chunk_size(void)
+{
+    if (file_buffer[file_pointer] == 0x10 && file_buffer[file_pointer + 1] == 0 && file_buffer[file_pointer + 2] == 0 && file_buffer[file_pointer + 3] == 0) {
+        wav_fmt_extension_bytes = 0;
+        return 1;
+    }
+    if (file_buffer[file_pointer] == 0x12 && file_buffer[file_pointer + 1] == 0 && file_buffer[file_pointer + 2] == 0 && file_buffer[file_pointer + 3] == 0) {
+        wav_fmt_extension_bytes = 2;
+        return 1;
+    }
+    if (file_buffer[file_pointer] == 0x28 && file_buffer[file_pointer + 1] == 0 && file_buffer[file_pointer + 2] == 0 && file_buffer[file_pointer + 3] == 0) {
+        wav_fmt_extension_bytes = 24;
+        return 1;
+    }
+    return 0;
+}
+
 static int handle_wav_file(int channels)
 {
     unsigned int size = 0;
@@ -276,17 +392,21 @@ static int handle_wav_file(int channels)
     file_pointer += 4;
 
     /* chunk size needs to be 0x10 */
-    if (file_buffer[file_pointer] != 0x10 || file_buffer[file_pointer + 1] != 0 || file_buffer[file_pointer + 2] != 0 || file_buffer[file_pointer + 3] != 0) {
+    if (!valid_wav_ftm_chunk_size()) {
         log_warning(LOG_DEFAULT, "unexpected chunk size %2X%2X%2X%2X", file_buffer[file_pointer + 3], file_buffer[file_pointer + 2], file_buffer[file_pointer + 1], file_buffer[file_pointer]);
         return -1;
     }
     file_pointer += 4;
 
-    /* get the audio format 1: PCM (8/16/24/32bit), 3: float (32/64bit) */
+    /* get the audio format 1: PCM (8/16/24/32bit), 3: float (32/64bit), 6: Alaw, 7: Ulaw */
     if (file_buffer[file_pointer] == 1 && file_buffer[file_pointer + 1] == 0) {
         sound_audio_type = AUDIO_TYPE_PCM;
     } else if (file_buffer[file_pointer] == 3 && file_buffer[file_pointer + 1] == 0) {
         sound_audio_type = AUDIO_TYPE_FLOAT;
+    } else if (file_buffer[file_pointer] == 6 && file_buffer[file_pointer + 1] == 0) {
+        sound_audio_type = AUDIO_TYPE_ALAW;
+    } else if (file_buffer[file_pointer] == 7 && file_buffer[file_pointer + 1] == 0) {
+        sound_audio_type = AUDIO_TYPE_ULAW;
     } else {
         log_warning(LOG_DEFAULT, "unexpected audio format : %2X%2X", file_buffer[file_pointer + 1], file_buffer[file_pointer]);
         return -1;
@@ -331,6 +451,10 @@ static int handle_wav_file(int channels)
     }
     file_pointer += 2;
 
+    if (wav_fmt_extension_bytes) {
+        file_pointer += wav_fmt_extension_bytes;
+    }
+
     check_and_skip_chunk();
     check_and_skip_chunk();
     check_and_skip_chunk();
@@ -363,6 +487,10 @@ static int handle_wav_file(int channels)
                     log_warning(LOG_DEFAULT, "Unhandled float format : %d", sound_audio_bits);
                     return -1;
             }
+        case AUDIO_TYPE_ALAW:
+            return convert_alaw_buffer(size, channels);
+        case AUDIO_TYPE_ULAW:
+            return convert_ulaw_buffer(size, channels);
         default:
             log_warning(LOG_DEFAULT, "unhandled audio type");
             return -1;
