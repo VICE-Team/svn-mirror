@@ -24,6 +24,22 @@
  *
  */
 
+/* WAV files tested and working:
+ - 22050 Hz, 8bit PCM, stereo
+ - 11025 Hz, 16bit PCM, mono
+ - 22050 Hz, 16bit PCM, mono
+ - 23456 Hz, 16bit PCM, mono
+ - 44100 Hz, 16bit PCM, mono
+ - 11025 Hz, 16bit PCM, stereo
+ - 22050 Hz, 16bit PCM, stereo
+ - 23456 Hz, 16bit PCM, stereo
+ - 44100 Hz, 16bit PCM, stereo
+ - 22050 Hz, 24bit PCM, stereo
+ - 22050 Hz, 32bit PCM, stereo
+ - 22050 Hz, 32bit float, stereo
+ - 22050 Hz, 64bit float, stereo
+ */
+
 #include "vice.h"
 
 #include "types.h"
@@ -35,7 +51,11 @@
 #include "maincpu.h"
 #include "sampler.h"
 
-#define SAMPLE_NAME "inputsound.raw"
+/* In the future the filename can be set from either commandline or gui */
+#define SAMPLE_NAME "inputsound"
+
+#define AUDIO_TYPE_PCM   0
+#define AUDIO_TYPE_FLOAT 1
 
 static unsigned sample_size = 0;
 static int sound_sampling_started = 0;
@@ -46,36 +66,366 @@ static unsigned int sound_frames_per_sec;
 static unsigned int sound_cycles_per_frame;
 static unsigned int sound_samples_per_frame;
 
-static BYTE *sample_buffer = NULL;
+static int current_channels = 0;
 
-/* For now channels is ignored */
+static BYTE *file_buffer = NULL;
+static unsigned int file_pointer = 0;
+static unsigned int file_size = 0;
+
+static int sound_audio_type = 0;
+static unsigned int sound_audio_channels = 0;
+static unsigned int sound_audio_rate = 0;
+static unsigned int sound_audio_bits = 0;
+
+static BYTE *sample_buffer1 = NULL;
+static BYTE *sample_buffer2 = NULL;
+
+static int convert_pcm_buffer(int size, int channels)
+{
+    unsigned int frame_size = sound_audio_bits * sound_audio_channels / 8;
+    unsigned int i;
+    sample_size = size / frame_size;
+
+    sample_buffer1 = lib_malloc(sample_size);
+    if (channels == SAMPLER_OPEN_STEREO) {
+        if (sound_audio_channels == 2) {
+            sample_buffer2 = lib_malloc(sample_size);
+        } else {
+            sample_buffer2 = sample_buffer1;
+        }
+    }
+
+    for (i = 0; i < sample_size; ++i) {
+        sample_buffer1[i] = file_buffer[file_pointer + (i * frame_size) + (sound_audio_bits / 8) - 1];
+        if (sound_audio_bits != 8) {
+            sample_buffer1[i] += 0x80;
+        }
+        if (sound_audio_channels == 2 && channels == SAMPLER_OPEN_STEREO) {
+            sample_buffer2[i] = file_buffer[file_pointer + (i * frame_size) + (frame_size / 2) + (sound_audio_bits / 8) - 1];
+            if (sound_audio_bits != 8) {
+                sample_buffer2[i] += 0x80;
+            }
+        }
+    }
+    lib_free(file_buffer);
+    file_buffer = NULL;
+    return 0;
+}
+
+/* FIXME: endianess */
+static int convert_float_buffer(int size, int channels)
+{
+    unsigned int frame_size = sound_audio_bits * sound_audio_channels / 8;
+    unsigned int i;
+    unsigned char c[sizeof(float)];
+    float f;
+    SDWORD sample;
+
+    sample_size = size / frame_size;
+
+    sample_buffer1 = lib_malloc(sample_size);
+    if (channels == SAMPLER_OPEN_STEREO) {
+        if (sound_audio_channels == 2) {
+            sample_buffer2 = lib_malloc(sample_size);
+        } else {
+            sample_buffer2 = sample_buffer1;
+        }
+    }
+
+    for (i = 0; i < sample_size; ++i) {
+        c[0] = file_buffer[file_pointer + (i * frame_size)];
+        c[1] = file_buffer[file_pointer + (i * frame_size) + 1];
+        c[2] = file_buffer[file_pointer + (i * frame_size) + 2];
+        c[3] = file_buffer[file_pointer + (i * frame_size) + 3];
+        memcpy(&f, c, sizeof(float));
+        f *= 0x7fffffff;
+        sample = (SDWORD)f;
+        sample_buffer1[i] = (sample >> 24) + 0x80;
+        if (sound_audio_channels == 2 && channels == SAMPLER_OPEN_STEREO) {
+            c[0] = file_buffer[file_pointer + (i * frame_size) + 4];
+            c[1] = file_buffer[file_pointer + (i * frame_size) + 5];
+            c[2] = file_buffer[file_pointer + (i * frame_size) + 6];
+            c[3] = file_buffer[file_pointer + (i * frame_size) + 7];
+            memcpy(&f, c, sizeof(float));
+            f *= 0x7fffffff;
+            sample = (SDWORD)f;
+            sample_buffer2[i] = (sample >> 24) + 0x80;
+        }
+    }
+    lib_free(file_buffer);
+    file_buffer = NULL;
+    return 0;
+}
+
+/* FIXME: endianess */
+static int convert_double_buffer(int size, int channels)
+{
+    unsigned int frame_size = sound_audio_bits * sound_audio_channels / 8;
+    unsigned int i;
+    unsigned char c[sizeof(double)];
+    double f;
+    SDWORD sample;
+
+    sample_size = size / frame_size;
+
+    sample_buffer1 = lib_malloc(sample_size);
+    if (channels == SAMPLER_OPEN_STEREO) {
+        if (sound_audio_channels == 2) {
+            sample_buffer2 = lib_malloc(sample_size);
+        } else {
+            sample_buffer2 = sample_buffer1;
+        }
+    }
+
+    for (i = 0; i < sample_size; ++i) {
+        c[0] = file_buffer[file_pointer + (i * frame_size)];
+        c[1] = file_buffer[file_pointer + (i * frame_size) + 1];
+        c[2] = file_buffer[file_pointer + (i * frame_size) + 2];
+        c[3] = file_buffer[file_pointer + (i * frame_size) + 3];
+        c[4] = file_buffer[file_pointer + (i * frame_size) + 4];
+        c[5] = file_buffer[file_pointer + (i * frame_size) + 5];
+        c[6] = file_buffer[file_pointer + (i * frame_size) + 6];
+        c[7] = file_buffer[file_pointer + (i * frame_size) + 7];
+
+        memcpy(&f, c, sizeof(double));
+        f *= 0x7fffffff;
+        sample = (SDWORD)f;
+        sample_buffer1[i] = (sample >> 24) + 0x80;
+        if (sound_audio_channels == 2 && channels == SAMPLER_OPEN_STEREO) {
+            c[0] = file_buffer[file_pointer + (i * frame_size) + 8];
+            c[1] = file_buffer[file_pointer + (i * frame_size) + 9];
+            c[2] = file_buffer[file_pointer + (i * frame_size) + 10];
+            c[3] = file_buffer[file_pointer + (i * frame_size) + 11];
+            c[4] = file_buffer[file_pointer + (i * frame_size) + 12];
+            c[5] = file_buffer[file_pointer + (i * frame_size) + 13];
+            c[6] = file_buffer[file_pointer + (i * frame_size) + 14];
+            c[7] = file_buffer[file_pointer + (i * frame_size) + 15];
+            memcpy(&f, c, sizeof(double));
+            f *= 0x7fffffff;
+            sample = (SDWORD)f;
+            sample_buffer2[i] = (sample >> 24) + 0x80;
+        }
+    }
+    lib_free(file_buffer);
+    file_buffer = NULL;
+    return 0;
+}
+
+static void check_and_skip_chunk(void)
+{
+    unsigned int size = 0;
+    int skip_chunk = 0;
+
+    /* if the current chunk is of type 'LIST' we need to skip it */
+    if (file_buffer[file_pointer] == 0x4C && file_buffer[file_pointer + 1] == 0x49 && file_buffer[file_pointer + 2] == 0x53 && file_buffer[file_pointer + 3] == 0x54) {
+        skip_chunk = 1;
+        log_warning(LOG_DEFAULT, "LIST chunk found, skipping");
+    }
+
+    /* if the current chunk is of type 'PEAK' we need to skip it */
+    if (file_buffer[file_pointer] == 0x50 && file_buffer[file_pointer + 1] == 0x45 && file_buffer[file_pointer + 2] == 0x41 && file_buffer[file_pointer + 3] == 0x4B) {
+        skip_chunk = 1;
+        log_warning(LOG_DEFAULT, "PEAK chunk found, skipping");
+    }
+
+    /* if the current chunk is of type 'fact' we need to skip it */
+    if (file_buffer[file_pointer] == 0x66 && file_buffer[file_pointer + 1] == 0x61 && file_buffer[file_pointer + 2] == 0x63 && file_buffer[file_pointer + 3] == 0x74) {
+        skip_chunk = 1;
+        log_warning(LOG_DEFAULT, "fact chunk found, skipping");
+    }
+
+    if (skip_chunk) {
+        file_pointer += 4;
+        size = (file_buffer[file_pointer + 3] << 24) | (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+        file_pointer += size + 4;
+    }
+}
+
+static int handle_wav_file(int channels)
+{
+    unsigned int size = 0;
+    unsigned int bps = 0;
+
+    if (file_size < 8) {
+        log_warning(LOG_DEFAULT, "file size smaller than 8 bytes.");
+        return -1;
+    }
+
+    /* sanity check header indicated size with loaded size */
+    size = (file_buffer[7] << 24) | (file_buffer[6] << 16) | (file_buffer[5] << 8) | file_buffer[4];
+    if (size != file_size - 8) {
+        log_warning(LOG_DEFAULT, "header reported size not what was expected: header says: %d, filesize - 8 is %d.", size, file_size - 8);
+        return -1;
+    }
+
+    /* next needs to be 'WAVE' */
+    if (file_buffer[8] != 0x57 || file_buffer[9] != 0x41 || file_buffer[10] != 0x56 || file_buffer[11] != 0x45) {
+        log_warning(LOG_DEFAULT, "WAVE not found at expected header position, found: %X %X %X %X.", file_buffer[8], file_buffer[9], file_buffer[10], file_buffer[11]);
+        return -1;
+    }
+
+    file_pointer = 12;
+
+    check_and_skip_chunk();
+
+    /* current chunk now needs to be 'fmt ' */
+    if (file_buffer[file_pointer] != 0x66 || file_buffer[file_pointer + 1] != 0x6D || file_buffer[file_pointer + 2] != 0x74 || file_buffer[file_pointer + 3] != 0x20) {
+        log_warning(LOG_DEFAULT, "'fmt ' chunk not found in the expected header position, %X %X %X %X", file_buffer[file_pointer], file_buffer[file_pointer + 1], file_buffer[file_pointer + 2], file_buffer[file_pointer + 3]);
+        return -1;
+    }
+    file_pointer += 4;
+
+    /* chunk size needs to be 0x10 */
+    if (file_buffer[file_pointer] != 0x10 || file_buffer[file_pointer + 1] != 0 || file_buffer[file_pointer + 2] != 0 || file_buffer[file_pointer + 3] != 0) {
+        log_warning(LOG_DEFAULT, "unexpected chunk size %2X%2X%2X%2X", file_buffer[file_pointer + 3], file_buffer[file_pointer + 2], file_buffer[file_pointer + 1], file_buffer[file_pointer]);
+        return -1;
+    }
+    file_pointer += 4;
+
+    /* get the audio format 1: PCM (8/16/24/32bit), 3: float (32/64bit) */
+    if (file_buffer[file_pointer] == 1 && file_buffer[file_pointer + 1] == 0) {
+        sound_audio_type = AUDIO_TYPE_PCM;
+    } else if (file_buffer[file_pointer] == 3 && file_buffer[file_pointer + 1] == 0) {
+        sound_audio_type = AUDIO_TYPE_FLOAT;
+    } else {
+        log_warning(LOG_DEFAULT, "unexpected audio format : %2X%2X", file_buffer[file_pointer + 1], file_buffer[file_pointer]);
+        return -1;
+    }
+    file_pointer += 2;
+
+    /* channels used in the file */
+    sound_audio_channels = (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (sound_audio_channels == 0 || sound_audio_channels > 2) {
+        log_warning(LOG_DEFAULT, "unexpected amount of audio channels : %d", sound_audio_channels);
+        return -1;
+    }
+    file_pointer +=2;
+
+    /* sample rate used in file */
+    sound_audio_rate = (file_buffer[file_pointer + 3] << 24) | (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (sound_audio_rate == 0) {
+        log_warning(LOG_DEFAULT, "audio rate is 0");
+        return -1;
+    }
+    file_pointer += 4;
+
+    /* get 1st instance of bits per sample */
+    bps = (file_buffer[file_pointer + 3] << 24) | (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    sound_audio_bits = (bps / (sound_audio_rate * sound_audio_channels)) * 8;
+    file_pointer += 4;
+
+    /* get 2nd instance of bits per sample */
+    bps = (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    bps = bps * 8 / sound_audio_channels;
+    if (bps != sound_audio_bits) {
+        log_warning(LOG_DEFAULT, "1st instance of bps does not match second instance: %d %d", sound_audio_bits, bps);
+        return -1;
+    }
+    file_pointer += 2;
+
+    /* get real instance of bits per sample */
+    bps = (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (bps != sound_audio_bits) {
+        log_warning(LOG_DEFAULT, "1st instance of bps does not match real instance: %d %d", sound_audio_bits, bps);
+        return -1;
+    }
+    file_pointer += 2;
+
+    check_and_skip_chunk();
+    check_and_skip_chunk();
+    check_and_skip_chunk();
+
+    /* current chunk now needs to be 'data' */
+    if (file_buffer[file_pointer] != 0x64 || file_buffer[file_pointer + 1] != 0x61 || file_buffer[file_pointer + 2] != 0x74 || file_buffer[file_pointer + 3] != 0x61) {
+        log_warning(LOG_DEFAULT, "data chunk not found at expected header position: %X%X%X%X", file_buffer[file_pointer], file_buffer[file_pointer + 1], file_buffer[file_pointer + 2], file_buffer[file_pointer + 3]);
+        return -1;
+    }
+    file_pointer += 4;
+
+    /* get remaining size */
+    size = (file_buffer[file_pointer + 3] << 24) | (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (size != file_size - (file_pointer + 4)) {
+        log_warning(LOG_DEFAULT, "data chunk size does not match remaining file size: %d %d", size, file_size - (file_pointer + 4));
+        return -1;
+    }
+    file_pointer += 4;
+
+    switch (sound_audio_type) {
+        case AUDIO_TYPE_PCM:
+            return convert_pcm_buffer(size, channels);
+        case AUDIO_TYPE_FLOAT:
+            switch (sound_audio_bits) {
+                case 32:
+                    return convert_float_buffer(size, channels);
+                case 64:
+                    return convert_double_buffer(size, channels);
+                default:
+                    log_warning(LOG_DEFAULT, "Unhandled float format : %d", sound_audio_bits);
+                    return -1;
+            }
+        default:
+            log_warning(LOG_DEFAULT, "unhandled audio type");
+            return -1;
+    }
+    return -1;
+}
+
+static int handle_file_type(int channels)
+{
+    if (file_size < 4) {
+        return -1;
+    }
+
+    /* Check for wav header signature */
+    if (file_buffer[0] == 0x52 && file_buffer[1] == 0x49 && file_buffer[2] == 0x46 && file_buffer[3] == 0x46) {
+        log_warning(LOG_DEFAULT, "filetype recognized as a WAVE file, starting parsing.");
+        return handle_wav_file(channels);
+    }
+    log_warning(LOG_DEFAULT, "filetype was not handled.");
+    return -1;
+}
+
 static void file_load_sample(int channels)
 {
     FILE *sample_file = NULL;
+    int err = 0;
 
     sample_file = fopen(SAMPLE_NAME, "rb");
     if (sample_file) {
         fseek(sample_file, 0, SEEK_END);
-        sample_size = ftell(sample_file);
+        file_size = ftell(sample_file);
         fseek(sample_file, 0, SEEK_SET);
-        sample_buffer = lib_malloc(sample_size);
-        fread(sample_buffer, 1, sample_size, sample_file);
+        file_buffer = lib_malloc(file_size);
+        fread(file_buffer, 1, file_size, sample_file);
         fclose(sample_file);
-        sound_sampling_started = 0;
-        sound_cycles_per_frame = machine_get_cycles_per_frame();
-        sound_frames_per_sec = machine_get_cycles_per_second() / sound_cycles_per_frame;
-        sound_samples_per_frame = 44100 / sound_frames_per_sec;
-        log_warning(LOG_DEFAULT, "Loaded sample, size: %d, cycles per frame: %d, frames per sec: %d, samples per frame: %d", sample_size, sound_cycles_per_frame, sound_frames_per_sec, sound_samples_per_frame);
+        err = handle_file_type(channels);
+        if (!err) {
+            sound_sampling_started = 0;
+            sound_cycles_per_frame = machine_get_cycles_per_frame();
+            sound_frames_per_sec = machine_get_cycles_per_second() / sound_cycles_per_frame;
+            sound_samples_per_frame = sound_audio_rate / sound_frames_per_sec;
+            current_channels = channels;
+        } else {
+            lib_free(file_buffer);
+            file_buffer = NULL;
+            log_warning(LOG_DEFAULT, "Unknown file type for %s", SAMPLE_NAME);
+        }
     } else {
-        log_warning(LOG_DEFAULT, "Cannot open sample : %s", SAMPLE_NAME);
+        log_warning(LOG_DEFAULT, "Cannot open sampler file: %s", SAMPLE_NAME);
     }
 }
 
 static void file_free_sample(void)
 {
-    if (sample_buffer) {
-        lib_free(sample_buffer);
-        sample_buffer = NULL;
+    if (sample_buffer1) {
+        if (sample_buffer2) {
+            if (sample_buffer1 != sample_buffer2) {
+                lib_free(sample_buffer2);
+            }
+            sample_buffer2 = NULL;
+        }
+        lib_free(sample_buffer1);
+        sample_buffer1 = NULL;
     }
 }
 
@@ -87,13 +437,13 @@ static BYTE file_get_sample(int channel)
     unsigned int frame_diff = 0;
     unsigned int frame_sample = 0;
 
-    if (!sample_buffer) {
+    if (!sample_buffer1) {
         return 0x80;
     }
     if (!sound_sampling_started) {
         sound_sampling_started = 1;
         old_frame = maincpu_clk / sound_cycles_per_frame;
-        return sample_buffer[0];
+        return sample_buffer1[0];
     }
     current_frame = maincpu_clk / sound_cycles_per_frame;
     current_cycle = maincpu_clk % sound_cycles_per_frame;
@@ -111,7 +461,7 @@ static BYTE file_get_sample(int channel)
     }
     frame_sample = current_cycle * sound_samples_per_frame / sound_cycles_per_frame;
 
-    return sample_buffer[(frame_sample + sound_sample_frame_start) % sample_size];
+    return sample_buffer1[(frame_sample + sound_sample_frame_start) % sample_size];
 }
 
 static sampler_device_t file_device =
