@@ -1064,7 +1064,6 @@ static void uiperipheral_dialog(HWND hwnd)
 
 #ifdef HAVE_OPENCBM
     if (EXTRA_DEVICES) {
-        i++;
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
