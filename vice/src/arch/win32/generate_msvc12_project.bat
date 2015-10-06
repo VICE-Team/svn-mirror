@@ -9,6 +9,7 @@ mkmsvc.exe -native -12 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs12\make-msvc-bindist.bat
 copy msvc\winid*.bat vs12
+copy msvc\debug.h vs12\debug.h
 echo MSVC12 project files generated in vs12
 goto end
 :missingmkmsvc

@@ -9,6 +9,7 @@ mkmsvc.exe -native -10 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs10\make-msvc-bindist.bat
 copy msvc\winid*.bat vs10
+copy msvc\debug.h vs10\debug.h
 echo MSVC10 project files generated in vs10
 goto end
 :missingmkmsvc

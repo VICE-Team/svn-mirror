@@ -8,6 +8,7 @@ cd vs_tmpl
 mkmsvc.exe -ffmpeg -native -70 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs70-ffmpeg\make-msvc-bindist.bat
+copy msvc\debug.h vs70-ffmpeg\debug.h
 echo MSVC7.0 project files generated in vs70-ffmpeg
 goto end
 :missingmkmsvc

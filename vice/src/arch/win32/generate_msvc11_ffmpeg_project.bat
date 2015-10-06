@@ -9,6 +9,7 @@ mkmsvc.exe -ffmpeg -native -11 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs11-ffmpeg\make-msvc-bindist.bat
 copy msvc\winid*.bat vs11-ffmpeg
+copy msvc\debug.h vs11-ffmpeg\debug.h
 echo MSVC11 project files generated in vs11-ffmpeg
 goto end
 :missingmkmsvc

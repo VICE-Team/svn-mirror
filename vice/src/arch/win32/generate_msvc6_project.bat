@@ -8,6 +8,7 @@ cd vs_tmpl
 mkmsvc.exe -native -6 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs6\make-msvc-bindist.bat
+copy msvc\debug.h vs6\debug.h
 echo MSVC6 project files generated in vs6
 goto end
 :missingmkmsvc

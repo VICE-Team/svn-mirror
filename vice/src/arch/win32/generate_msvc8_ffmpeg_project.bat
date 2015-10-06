@@ -9,6 +9,7 @@ mkmsvc.exe -ffmpeg -native -8 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs8-ffmpeg\make-msvc-bindist.bat
 copy msvc\winid*.bat vs8-ffmpeg
+copy msvc\debug.h vs8-ffmpeg\debug.h
 echo MSVC8 project files generated in vs8-ffmpeg
 goto end
 :missingmkmsvc

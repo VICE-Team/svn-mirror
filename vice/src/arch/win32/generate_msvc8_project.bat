@@ -9,6 +9,7 @@ mkmsvc.exe -native -8 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs8\make-msvc-bindist.bat
 copy msvc\winid*.bat vs8
+copy msvc\debug.h vs8\debug.h
 echo MSVC8 project files generated in vs8
 goto end
 :missingmkmsvc
