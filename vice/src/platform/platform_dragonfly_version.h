@@ -151,6 +151,32 @@
 #  endif
 #endif
 
+#if (__DragonFly_version==300800)
+#  include <openssl/opensslv.h>
+#  if (OPENSSL_VERSION_NUMBER==0x1000108fL)
+#    define PLATFORM_OS "DragonFly BSD 3.8.1"
+#  else
+#    if (OPENSSL_VERSION_NUMBER==0x1000109fL)
+#      define PLATFORM_OS "DragonFly BSD 3.8.2"
+#    else
+#      define PLATFORM_OS "DragonFly BSD 3.8.0"
+#    endif
+#  endif
+#endif
+
+#if (__DragonFly_version==400000)
+#  include <openssl/opensslv.h>
+#  if (OPENSSL_VERSION_NUMBER==0x100010cfL)
+#    define PLATFORM_OS "DragonFly BSD 4.0.3/4.0.4"
+#  else
+#    if (OPENSSL_VERSION_NUMBER==0x100010dfL)
+#      define PLATFORM_OS "DragonFly BSD 4.0.5"
+#    else
+#      define PLATFORM_OS "DragonFly BSD 4.0.1/4.0.2"
+#    endif
+#  endif
+#endif
+
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "DragonFly BSD"
 #endif

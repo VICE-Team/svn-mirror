@@ -25,6 +25,31 @@
  */
 
 /* Tested and confirmed working on:
+ - Windows NT 4.0 Workstation
+ - Windows NT 4.0 Small Business Server 4.5 (x86)
+ - Windows NT 4.0 Enterprise Server (x86)
+ - Windows 2000 Pro (x86)
+ - Windows 2000 Server (x86)
+ - Windows 2000 Small Business Server (x86)
+ - Windows 2003 Enterprise Server (x86)
+ - Windows 2003 Datacenter Server (x86)
+ - Windows Home Server (x86)
+ - Windows 2003 R2 Small Business Server (x86)
+ - Windows 2003 R2 Enterprise Server (x86/x64)
+ - Windows 2003 R2 Datacenter Server (x64)
+ - Windows Vista Enterprise (x86)
+ - Windows 2008 Foundation Server (x64)
+ - Windows 2008 Standard Server (x86/x64)
+ - Windows 2008 Enterprise Server (x86)
+ - Windows 2008 Datacenter Server (x64)
+ - Windows 2008 Basic Storage Server (x64)
+ - Windows Thin PC (x86)
+ - Windows 7 Embedded POSReady (x86)
+ - Windows 7 Embedded Standard (x86)
+ - Windows 7 Enterprise (x64)
+ - Windows 2008 R2 Foundation Server (x64)
+ - Windows Home Server 2011 (x64)
+ - Windows 2011 Standard Multipoint Server (x64)
 */
 
 #include "vice.h"
@@ -41,6 +66,9 @@
 
 #define POSREADY_KEY L"\\Registry\\Machine\\Software\\Microsoft\\POSReady"
 #define POSREADY_VALUE L"Version"
+
+#define NTSBS_KEY L"\\Registry\\Machine\\Software\\Microsoft\\BackOffice"
+#define NTSBS_VALUE L"SuiteVersion"
 
 #define NT_PRODUCT_SUITE_PATH "\\Registry\\Machine\\System\\CurrentControlSet\\Control\\ProductOptions\\ProductSuite"
 
@@ -61,14 +89,16 @@ typedef struct winver_s {
 
 static winver_t windows_versions[] = {
     { "Windows NT 4 Workstation",                  "Microsoft Windows NT 4",                     0, 0 },
+    { "Windows NT 4 Embedded Server",              "Microsoft Windows NT 4",                     8, 0 },
     { "Windows NT 4 Server",                       "Microsoft Windows NT 4",                     1, 0 },
-    { "Windows NT 4 Small Business Server",        "Microsoft Windows NT 4",                     3, 0 },
+    { "Windows NT 4 Small Business Server 4.5",    "Microsoft Windows NT 4",                     1, 2 },
     { "Windows NT 4 Enterprise Server",            "Microsoft Windows NT 4",                     5, 0 },
     { "Windows 2000 Pro",                          "Microsoft Windows 2000",                     0, 0 },
     { "Windows 2000 Server",                       "Microsoft Windows 2000",                     1, 0 },
     { "Windows 2000 Advanced Server",              "Microsoft Windows 2000",                     5, 0 },
     { "Windows 2000 Datacenter Server",            "Microsoft Windows 2000",                     6, 0 },
     { "Windows 2000 Powered",                      "Microsoft Windows 2000",                     4, 0 },
+    { "Windows 2000 Small Business Server",        "Microsoft Windows 2000",                     3, 0 },
     { "Windows XP Pro",                            "Microsoft Windows XP",                       0, 0 },
     { "Windows XP Tablet PC",                      "Microsoft Windows XP",                       0, 1 },
     { "Windows XP Media Center",                   "Microsoft Windows XP",                       0, 2 },
@@ -87,6 +117,7 @@ static winver_t windows_versions[] = {
     { "Windows Vista Enterprise",                  "Windows Vista (TM) Enterprise",              0, 0 },
     { "Windows Vista Ultimate",                    "Windows (TM) Vista Ultimate",                0, 0 },
     { "Windows Vista Ultimate",                    "Windows Vista (TM) Ultimate",                0, 0 },
+    { "Windows 2008 Foundation Server",            "Windows (R) Small Business Server 2008",     1, 0 },
     { "Windows 2008 Standard Server",              "Windows (R) Standard Server 2008",           1, 0 },
     { "Windows 2008 Standard Server",              "Windows Server (R) 2008 Standard",           1, 0 },
     { "Windows 2008 Enterprise Server",            "Windows (R) Enterprise Server 2008",         5, 0 },
@@ -94,11 +125,12 @@ static winver_t windows_versions[] = {
     { "Windows 2008 Datacenter Server",            "Windows (R) Datacenter Server 2008",         6, 0 },
     { "Windows 2008 Datacenter Server",            "Windows Server (R) 2008 Datacenter",         6, 0 },
     { "Windows 2008 HPC Server",                   "Windows Server (R) 2008 HPC Edition",        1, 0 },
+    { "Windows 2008 Basic Storage Server",         "Windows (R) Storage Server 2008 Basic",      1, 0 },
     { "Windows 2008 Workgroup Storage Server",     "Windows (R) Storage Server 2008 Workgroup",  1, 0 },
     { "Windows 2008 Enterprise Storage Server",    "Windows (R) Storage Server 2008 Enterprise", 1, 0 },
     { "Windows Thin PC",                           "Windows Embedded Standard",                  0, 1 },
-    { "Windows 7 Embedded POSReady",               "Windows Embedded Standard",                  0, 4 },
-    { "Windows 7 Embedded",                        "Windows Embedded Standard",                  0, 0 },
+    { "Windows 7 Embedded POSReady",               "Windows Embedded Standard",                  0, 2 },
+    { "Windows 7 Embedded Standard",               "Windows Embedded Standard",                  0, 0 },
     { "Windows 7 Enterprise",                      "Windows 7 Enterprise",                       0, 0 },
     { "Windows 7 Ultimate",                        "Windows 7 Ultimate",                         0, 0 },
     { "Windows 2008 R2 Standard Server",           "Windows Server 2008 R2 Standard",            1, 0 },
@@ -116,9 +148,11 @@ static winver_t windows_versions[] = {
     { "Windows 2008 R2 Foundation Server",         "Windows Server 2008 R2 Foundation",          1, 0 },
     { "Windows 2008 R2 Foundation Server",         "Windows Server 2008 R2 Foundation",          5, 0 },
     { "Windows 2008 R2 Foundation Server",         "Windows Server 2008 R2 Foundation",          6, 0 },
-    { "Windows 2011 Premium Multipoint Server",    "Windows MultiPoint Server 2011",             1, 0 },
-    { "Windows 2011 Premium Multipoint Server",    "Windows MultiPoint Server 2011",             5, 0 },
-    { "Windows 2011 Premium Multipoint Server",    "Windows MultiPoint Server 2011",             6, 0 },
+    { "Windows Home Server 2011",                  "Windows Home Server 2011",                   1, 0 },
+    { "Windows 2011 Multipoint Server",            "Windows MultiPoint Server 2011",             1, 0 },
+    { "Windows 2011 Multipoint Server",            "Windows MultiPoint Server 2011",             5, 0 },
+    { "Windows 2011 Multipoint Server",            "Windows MultiPoint Server 2011",             6, 0 },
+    { "Windows 8 Enterprise",                      "Windows 8 Enterprise",                       0, 0 },
     { NULL,                                        NULL,                                         0, 0 }
 };
 
@@ -207,13 +241,30 @@ static char *get_windows_version(void)
         }
     }
 
-    /* 0 = embedded, 1 = thin pc */
+    /* 0 = embedded, 1 = thin pc, 2 = posready */
     if (!strcmp(windows_name, "Windows Embedded Standard")) {
         rcode = getreg(NT_THINPC_PATH, &type, &temp, &size);
         if (!rcode) {
             windows_flags = 1;
         }
+        rcode = getreg_strvalue((PCWSTR)POSREADY_KEY, (PCWSTR)POSREADY_VALUE, nt_version, 10);
+        if (!rcode) {
+            windows_flags = 2;
+        }
     }
+
+    /* 1 = nt4 SBS 4.0, 2 = nt4 SBS 4.5 */
+    if (!strcmp(windows_name, "Microsoft Windows NT 4")) {
+        rcode = getreg_strvalue((PCWSTR)NTSBS_KEY, (PCWSTR)NTSBS_VALUE, nt_version, 10);
+        if (!rcode) {
+            if (!strcmp("4.0", nt_version)) {
+                windows_flags = 1;
+            } else if (!strcmp("4.5", nt_version)) {
+                windows_flags = 2;
+            }
+        }
+    }
+    
 
     /* 0 = workstation
        1 = standard server
@@ -223,6 +274,7 @@ static char *get_windows_version(void)
        5 = enterprise server
        6 = datacenter server
        7 = home server
+       8 = embedded server
     */
     rcode = getreg_strvalue((PCWSTR)NT_SERVER_KEY, (PCWSTR)NT_SERVER_VALUE, server_name, 20);
     if (!rcode) {
@@ -252,13 +304,18 @@ static char *get_windows_version(void)
                     if (!strcmp(temp, "WH Server")) {
                         suite |= 32;
                     }
+                    if (!strcmp(temp, "EmbeddedNT")) {
+                        suite |= 64;
+                    }
                     p += widelen(p);
                     p += 2;
                     if (p[0] == 0 && p[1] == 0) {
                         found = 1;
                     }
                 }
-                if (suite >= 32) {
+                if (suite >= 64) {
+                    windows_server = 8;
+                } else if (suite >= 32) {
                     windows_server = 7;
                 } else if (suite >= 16) {
                     windows_server = 6;
@@ -288,7 +345,7 @@ static char *get_windows_version(void)
         }
     }
 
-#ifdef INTERIX_DEBUG
+#ifdef DEBUG_PLATFORM
     printf("name: %s, server: %d, flags: %d\n", windows_name, windows_server, windows_flags);
 #endif
 

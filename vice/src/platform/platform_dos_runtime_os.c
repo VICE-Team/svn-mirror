@@ -26,65 +26,77 @@
 
 /* Tested and confirmed working on the following DOS systems:
  - Compaq DOS 3.31
- - Compaq DOS 5.0
- - DR DOS 3.40
- - DR DOS 6.0
- - DR DOS 7.03
- - DR DOS 8.0
+ - Concurrent DOS XM 6.0
+ - DOSBox 0.74
+ - DR-DOS 7.03
+ - DR-DOS 8.1
  - FreeDOS 0.4
- - FreeDOS 0.5
- - FreeDOS 0.7
  - FreeDOS 0.9
  - FreeDOS 1.1
+ - MSDOS 3.10 (Compaq OEM)
+ - MSDOS 3.10 (Epson OEM)
+ - MSDOS 3.10 (Olivetti OEM)
  - MSDOS 3.20 (Generic)
- - MSDOS 3.20 (Apricot OEM)
- - MSDOS 3.20 (Zenith OEM)
- - MSDOS 3.21 (Generic)
- - MSDOS 3.30 (Generic)
- - MSDOS 3.30a (AT&T)
- - MSDOS 5.0 (Amstrad OEM)
- - MSDOS 5.0 (AST OEM)
- - MSDOS 6.0 (Generic)
- - MSDOS 6.21 (Generic)
- - MSDOS 8.0 (Stand Alone)
- - Novell DOS 7.0
- - PCDOS 3.10
- - PCDOS 3.30
- - PCDOS 4.0
- - PCDOS 5.00
- - REAL/32 7.x
+ - MSDOS 3.20 (Amstrad OEM)
+ - MSDOS 3.20 (Data General OEM)
+ - MSDOS 3.21 (Hyosung OEM)
+ - MSDOS 3.21 (Kaypro OEM)
+ - MSDOS 3.30 (Toshiba OEM)
+ - MSDOS 3.30 (OEM)
+ - MSDOS 3.30A (AT&T OEM)
+ - MSDOS 3.30A (Generic)
+ - MSDOS 5.00 (Generic)
+ - MSDOS 5.00 (Compaq OEM)
+ - MSDOS 6.00 (Generic)
+ - MSDOS 7.10 (Stand Alone)
+ - PCDOS 4.00
+ - PCDOS 5.02
+ - REAL32 7.6
 */
 
 /* Tested and confirmed working on the following DOS GUI's:
- - DESQView
- - Windows For Workgroups 3.10
+ - DesqView 2.70
+ - Windows 3.11 (Windows For Workgroups)
 */
 
 /* Tested and confirmed working on the following DOS on Windows systems:
  - Windows 95 Original
- - Windows NT 3.50 Server
- - Windows NT 3.51 Server
- - Windows NT 4.0 Embedded
+ - Windows 95A
+ - Windows 95B
+ - Windows 95C
+ - Windows 98
+ - Windows 98 Secure
+ - Windows ME Secure
+ - Windows NT 3.51 Workstation
  - Windows NT 4.0 Workstation
+ - Windows NT 4.0 Embedded Server
  - Windows NT 4.0 Terminal Server
- - Windows 2000 Advanced Server
- - Windows XP Embedded
- - Windows XP PE
+ - Windows NT 4.0 Small Business Server 4.5
+ - Windows NT 4.0 Enterprise Server
+ - Windows Neptune
+ - Windows 2000 Pro
+ - Windows 2000 Server
+ - Windows 2000 Small Business Server
  - Windows XP Starter
- - Windows XP Pro
- - Windows 2003 Small Business Server
+ - Windows XP Home
+ - Windows 2003 Enterprise Server
+ - Windows 2003 Datacenter Server
  - Windows Home Server
- - Windows 2003 R2 Standard Server
- - Windows 2003 R2 Datacenter Server
- - Windows Vista Home Premium
- - Windows 10 Pro
+ - Windows 2003 R2 Small Business Server
+ - Windows 2003 R2 Enterprise Server
+ - Windows Vista Home Basic
+ - Windows 7 Starter
+ - Windows 2009 Embedded Standard
+ - Windows 8
+ - Windows 8.1 Embedded Industry Enterprise
+ - Windows 8.1 Pro
 */
 
 /* Tested and confirmed working on the following other DOS emulations:
+ - OS/2 2.1
  - OS/2 3.0
- - OS/2 4.0
- - OS/2 4.5
- - EComStation 2.0 RC4
+ - OS/2 4.52
+ - EComStation 2.0 RC7 Silver Release
 */
 
 #include "vice.h"
@@ -108,45 +120,48 @@ typedef struct dos_version_s {
     int major;
     int minor;
     int oem;
+    char *command_string;
     char *ver_string;
+    char *comspec_string;
+    char *env_string;
 } dos_version_t;
 
 static dos_version_t dos_versions[] = {
-    { "Compaq DOS 3.31",          "IBMPcDos",    3, 31,  -1, "The COMPAQ Personal Computer MS-DOS " },
-    { "Compaq DOS 5.0",           "IBMPcDos",    5,  0,   0, "COMPAQ MS-DOS Version 5.00   " },
-    { "DR DOS 3.40",              "IBMPcDos",    3, 31,  -1, "DR DOS Release 3.40" },
-    { "DR DOS 6.0",               "IBMPcDos",    3, 31,  -1, "DR DOS Release 6.0" },
-    { "DR DOS 7.03",              "IBMPcDos",    6,  0,   0, "Caldera DR-DOS 7.03" },
-    { "DR DOS 8.0",               "IBMPcDos",    6,  0,   0, "DeviceLogics DR-DOS 8.0 " },
-    { "REAL/32",                  "IBMPcDos",    3, 31,  -1, "C:\\REAL32\\BIN\\COMMAND.COM" },
-    { "FreeDOS 0.4",              "??Unknown??", 4,  0,  -1, "FreeCom version 0.76b [Mar 24 1999]" },
-    { "FreeDOS 0.5",              "??Unknown??", 4,  0,  -1, "FreeCom version 0.79a [Mar 31 2000]" },
-    { "FreeDOS 0.7",              "??Unknown??", 5,  0, 254, "FreeCom version 0.83 Beta 28 [Aug 15 2001]" },
-    { "FreeDOS 0.9",              "??Unknown??", 7, 10, 253, "FreeDOS 0.9" },
-    { "FreeDOS 1.1",              "??Unknown??", 7, 10, 253, NULL },
-    { "MSDOS 3.20",               "MS-DOS",      3, 20,  -1, "Microsoft MS-DOS Version 3.20" },
-    { "MSDOS 3.20 (Apricot OEM)", "MS-DOS",      3, 20,  -1, "Microsoft(R) MS-DOS(R)  Version 3.20" },
-    { "MSDOS 3.20 (Zenith OEM)",  "ZenitDOS",    3, 20,  -1, NULL },
-    { "MSDOS 3.21",               "MS-DOS",      3, 21,  -1, "Microsoft(R) MS-DOS(R)  Version 3.21" },
-    { "MSDOS 3.30",               "IBMPcDos",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30" },
-    { "MSDOS 3.30A (AT&T OEM)",   "OlivtDOS",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30a" },
-    { "MSDOS 5.0 (Amstrad OEM)",  "MS-DOS",      5,  0, 255, "Microsoft(R) MS-DOS(R) Version 5.00" },
-    { "MSDOS 5.0 (AST OEM)",      "IBMPcDos",    5,  0,   0, "Microsoft(R) MS-DOS(R) Version 5.00 from AST RESEARCH INC." },
-    { "MSDOS 6.0",                "MS-DOS",      6,  0, 255, NULL },
-    { "MSDOS 6.21",               "MS-DOS",      6, 20, 255, "Microsoft(R) MS-DOS(R) Version 6.21" },
-    { "MSDOS 7.0",                "MS-DOS",      7,  0, 255, NULL },
-    { "MSDOS 8.0",                "MS-DOS",      8,  0, 255, NULL },
-    { "Novell DOS 7.0",           "IBMPcDos",    6,  0,   0, "Novell DOS 7" },
-    { "OS/2 3.0",                 "IBMPcDos",   20, 30,   0, NULL },
-    { "OS/2 4.0",                 "IBMPcDos",   20, 40,   0, NULL },
-    { "OS/2 4.5",                 "IBMPcDos",   20, 45,   0, "The Operating System/2 Version is 4.50 " },
-    { "EComStation 2.0 RC4",      "IBMPcDos",   20, 45,   0, NULL },
-    { "PCDOS 3.10",               "IBMPcDos",    3, 10,  -1, "The IBM Personal Computer DOS" },
-    { "PCDOS 3.30",               "IBMPcDos",    3, 30,  -1, "The IBM Personal Computer DOS" },
-    { "PCDOS 3.31",               "IBMPcDos",    3, 31,  -1, NULL },
-    { "PCDOS 4.0",                "IBMPcDos",    4,  0,  -1, "IBM DOS Version 4.00" },
-    { "PCDOS 5.00",               "IBMPcDos",    5,  0,   0, "IBM DOS Version 5.00" },
-    { NULL,                       NULL,         -1, -1,  -1, NULL }
+    { "Compaq DOS 3.31",               "IBMPcDos",    3, 31,  -1, "The COMPAQ Personal Computer MS-DOS ",  "COMPAQ Personal Computer DOS Version  3.31 ",            NULL, NULL },
+    { "Concurrent DOS XM 6.0",         "IBMPcDos",    3, 30,  -1, NULL,                                    NULL,                                                     NULL, "CDOS 6.0" },
+    { "DOSBox 0.74",                   "MS-DOS",      5,  0, 255, NULL,                                    "DOSBox version 0.74. Reported DOS version 5.00.",        NULL, NULL },
+    { "DR-DOS 7.03",                   "IBMPcDos",    6,  0,   0, NULL,                                    "Caldera DR-DOS 7.03",                                    NULL, NULL },
+    { "DR-DOS 8.1",                    "IBMPcDos",    6,  0,   0, NULL,                                    NULL,                                                     NULL, "DrDOS 8.1" },
+    { "FreeDOS 0.4",                   "??Unknown??", 4,  0,  -1, NULL,                                    "FreeCom version 0.76b [Mar 24 1999]",                    NULL, NULL },
+    { "FreeDOS 0.9",                   "??Unknown??", 7, 10, 253, NULL,                                    NULL,                                                     NULL, NULL },
+    { "FreeDOS 1.1",                   "??Unknown??", 7, 10, 254, NULL,                                    NULL,                                                     NULL, NULL },
+    { "MSDOS 3.10 (Compaq OEM)",       "IBMPcDos",    3, 10,  -1, "The COMPAQ Personal Computer MS-DOS",   "COMPAQ Personal Computer DOS Version  3.10 ",            NULL, NULL },
+    { "MSDOS 3.10 (Epson OEM)",        "MS-DOS",      3, 10,  -1, "Microsoft MS-DOS Version 3.10",         "MS-DOS Version 3.10",                                    NULL, NULL },
+    { "MSDOS 3.10 (Olivetti OEM)",     "MS-DOS",      3, 10,  -1, "Microsoft MS-DOS",                      "Microsoft MS-DOS Version 3.10 ",                         NULL, NULL },
+    { "MSDOS 3.20 (Amstrad OEM)",      "MS-DOS",      3, 20,  -1, "Microsoft(R) MS-DOS(R)  Version 3.20",  "MS-DOS Version 3.20",                                    NULL, NULL },
+    { "MSDOS 3.20 (Data General OEM)", "MS-DOS",      3, 20,  -1, "Data General Corporation MS-DOS",       "Data General Corp MS-DOS  Version  3.20 ",               NULL, NULL },
+    { "MSDOS 3.20 (Generic)",          "MS-DOS",      3, 20,  -1, "Microsoft MS-DOS Version 3.20",         "MS-DOS Version 3.20",                                    NULL, NULL },
+    { "MSDOS 3.21 (Hyosung OEM)",      "MS-DOS",      3, 21,  -1, "HYOSUNG MS-DOS Ver 3.21",               "HYOSUNG MS-DOS Ver 3.21",                                NULL, NULL },
+    { "MSDOS 3.21 (Kaypro OEM)",       "MS-DOS",      3, 21,  -1, "Microsoft(R) MS-DOS(R)  Version 3.21",  "MS-DOS Version 3.21",                                    NULL, NULL },
+    { "MSDOS 3.30 (Toshiba OEM)",      "IBMPcDos",    3, 30,  -1, "MS-DOS(R) Version 3.30 ",               "Toshiba MS-DOS Version 3.30 / R3CE0US      ",            NULL, NULL },
+    { "MSDOS 3.30 (OEM)",              "IBMPcDos",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30",  "MS-DOS Version 3.30                     ",               NULL, NULL },
+    { "MSDOS 3.30A (AT&T OEM)",        "OlivtDOS",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30a", "AT&T Personal Computer MS-DOS Version 3.30a  Rev. 1.01", NULL, NULL },
+    { "MSDOS 3.30A (Generic)",         "IBMPcDos",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30A", "MS-DOS Version 3.30                     ",               NULL, NULL },
+    { "MSDOS 5.00 (Generic)",          "MS-DOS",      5,  0, 255, "Microsoft(R) MS-DOS(R) Version 5.00",   "MS-DOS Version 5.00",                                    NULL, NULL },
+    { "MSDOS 5.00 (Compaq OEM)",       "IBMPcDos",    5,  0,   0, "COMPAQ MS-DOS Version 5.00   ",         "COMPAQ MS-DOS Version 5.00   ",                          NULL, NULL },
+    { "MSDOS 6.0",                     "MS-DOS",      6,  0, 255, "Microsoft(R) MS-DOS(R) Version 6",      "MS-DOS Version 6.00",                                    NULL, NULL },
+    { "MSDOS 7.0",                     "MS-DOS",      7,  0, 255, NULL,                                    "Windows 95. [Version 4.00.950]",                         NULL, NULL },
+    { "MSDOS 7.10",                    "MS-DOS",      7, 10, 255, NULL,                                    "MS-DOS 7.1 [Version 7.10.1999]",                         NULL, NULL },
+    { "MSDOS 7.10",                    "MS-DOS",      7, 10, 255, NULL,                                    "Windows 95. [Version 4.00.1111]",                        NULL, NULL },
+    { "MSDOS 7.10",                    "MS-DOS",      7, 10, 255, NULL,                                    "Windows 98 [Version 4.10.1998]",                         NULL, NULL },
+    { "MSDOS 8.0",                     "MS-DOS",      8,  0, 255, NULL,                                    "Windows Millennium [Version 4.90.3000]",                 NULL, NULL },
+    { "OS/2 2.1",                      "IBMPcDos",   20, 10,   0, NULL,                                    "The Operating System/2 Version is 2.10 ",                NULL, NULL },
+    { "OS/2 3.0",                      "IBMPcDos",   20, 30,   0, NULL,                                    "The Operating System/2 Version is 3.00 ",                NULL, NULL },
+    { "OS/2 4.52 / EComStation",       "IBMPcDos",   20, 45,   0, NULL,                                    "The Operating System/2 Version is 4.50 ",                NULL, NULL },
+    { "PCDOS 4.00",                    "IBMPcDos",    4,  0,  -1, "IBM DOS Version 4.00",                  "IBM DOS Version 4.00",                                   NULL, NULL },
+    { "PCDOS 5.02",                    "IBMPcDos",    5,  2,   0, NULL,                                    "IBM DOS Version 5.02",                                   NULL, NULL },
+    { "REAL32 7.6",                    "IBMPcDos",    3, 31,  -1, NULL,                                    NULL,                                                     NULL, "REAL32 7.6" },
+    { NULL,                            NULL,         -1, -1,  -1, NULL,                                    NULL,                                                     NULL, NULL }
 };
 
 typedef struct dos_win_version_s {
@@ -156,20 +171,21 @@ typedef struct dos_win_version_s {
 } dos_win_version_t;
 
 static dos_win_version_t dos_win_versions[] = {
-    { "Windows NT 3.50",                                          "Windows NT Version 3.50 ",                   NULL },
-    { "Windows NT 3.51",                                          "Windows NT Version 3.51 ",                   NULL },
-    { "Windows NT 4.0 Workstation",                               "Windows NT Version 4.0 ",                    "Windows NT Workstation" },
-    { "Windows NT 4.0 Terminal Server",                           "Windows NT Version 4.0  ",                   "Windows NT Server, Terminal Server Edition" },
-    { "Windows 2000 Advanced Server",                             "Microsoft Windows 2000 [Version 5.00.2195]", "Windows 2000 Advanced Server" },
-    { "Windows XP Starter/Home",                                  "Microsoft Windows XP [Version 5.1.2600]",    "Windows XP Home Edition" },
-    { "Windows XP Pro",                                           "Microsoft Windows XP [Version 5.1.2600]",    "Windows XP Professional" },
-    { "Windows XP",                                               "Microsoft Windows XP [Version 5.1.2600]",    NULL },
-    { "Windows 2003 Small Business Server / Windows Home Server", "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003 for Small Business Server" },
-    { "Windows 2003 R2 Standard Server",                          "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003, Standard Edition" },
-    { "Windows 2003 R2 Datacenter Server",                        "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003, Datacenter Edition" },
-    { "Windows Vista Home Basic",                                 "Microsoft Windows [Version 6.0.6000]",       NULL },
-    { "Windows 10",                                               "Microsoft Windows [Version 10.0.10240]",     NULL },
-    { NULL,                                                       NULL,                                         NULL }
+    { "Windows NT 3.51 Workstation",               "Windows NT Version 3.51 ",                   NULL },
+    { "Windows NT 4.0",                            "Windows NT Version 4.0  ",                   NULL },
+    { "Windows Neptune",                           "Microsoft Windows 2000 [Version 5.00.5111]", "Windows 2000 Professional" },
+    { "Windows 2000 Pro",                          "Microsoft Windows 2000 [Version 5.00.2195]", "Windows 2000 Professional" },
+    { "Windows 2000 Server",                       "Microsoft Windows 2000 [Version 5.00.2195]", "Windows 2000 Server" },
+    { "Windows XP Starter / Home",                 "Microsoft Windows XP [Version 5.1.2600]",    "Windows XP Home Edition" },
+    { "Windows 2003 Datacenter Server",            "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003, Datacenter Edition" },
+    { "Windows 2003 R2 SBS / Home Server",         "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003 for Small Business Server"},
+    { "Windows 2003 Enterprise Server",            "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003, Enterprise Edition" },
+    { "Windows Vista Home Basic",                  "Microsoft Windows [Version 6.0.6000]",       NULL },
+    { "Windows 7 Starter",                         "Microsoft Windows [Version 6.1.7601]",       NULL },
+    { "Windows 2009 Embedded Standard",            "Microsoft Windows XP [Version 5.1.2600]",    NULL },
+    { "Windows 8",                                 "Microsoft Windows [Version 6.2.9200]",       NULL },
+    { "Windows 8.1",                               "Microsoft Windows [Version 6.3.9600]",       NULL },
+    { NULL,                                        NULL,                                         NULL }
 };
 
 static char *illegal_strings[] = {
@@ -333,7 +349,9 @@ static char *get_version_from_env(void)
     char *ver = getenv("VER");
     char *retval = NULL;
 
-    if (!os && !ver) {
+    printf("getting os and ver from env\n");
+    if (os && ver) {
+        printf("os: %s, ver: %s\n", os, ver);
         retval = util_concat(os, " ", ver, NULL);
     } else {
         printf("env returns no OS and VERSION\n");
@@ -376,7 +394,7 @@ static void get_desqview_version(int *major, int *minor)
     r.h.ah = 0x2b;
     r.x.bx = 0;
     r.x.cx = 0x4445;
-    r.x.dx = 0x5451;
+    r.x.dx = 0x5351;
     r.h.al = 0x01;
     __dpmi_int(0x21, &r);
 
@@ -431,6 +449,9 @@ char *platform_get_dos_runtime_os(void)
     int real32_version = 0;
     const char *version_flavor = _os_flavor;
     char *version_ver_string = NULL;
+    char *command_ver_string = NULL;
+    char *comspec_ver_string = NULL;
+    char *env_ver_string = NULL;
     char *cmd_ver_string = NULL;
     char *prodver_string = NULL;
     char *systemroot = NULL;
@@ -449,22 +470,17 @@ char *platform_get_dos_runtime_os(void)
             version_oem = get_dos_oem_nr();
         }
 
-        version_ver_string = get_command_com_string();
+        comspec_ver_string = getenv("COMSPEC");
 
-        if (!version_ver_string) {
+        command_ver_string = get_command_com_string();
+        if (version_oem != 253 && comspec_ver_string && strcmp(comspec_ver_string, "C:\\CDOS.COM")) {
             version_ver_string = get_cmd_ver_string("ver");
         }
+        env_ver_string = get_version_from_env();
 
-        if (!version_ver_string) {
-            version_ver_string = get_version_from_env();
-        }
-
-        if (!version_ver_string) {
-            version_ver_string = getenv("COMSPEC");
-            if (version_ver_string) {
-                printf("comspec string is %s\n", version_ver_string);
-                version_ver_string = lib_stralloc(version_ver_string);
-            }
+        if (comspec_ver_string) {
+            printf("comspec string is %s\n", comspec_ver_string);
+            comspec_ver_string = lib_stralloc(comspec_ver_string);
         }
 
         if (version_major == 5 && version_minor == 50) {
@@ -515,8 +531,16 @@ char *platform_get_dos_runtime_os(void)
                 if (!strcmp(version_flavor, dos_versions[i].flavor)) {
                     if (version_major == dos_versions[i].major) {
                         if (version_minor == dos_versions[i].minor) {
-                            if ((dos_versions[i].ver_string && version_ver_string && !strcmp(dos_versions[i].ver_string, version_ver_string)) || !dos_versions[i].ver_string) {
-                                found = 1;
+                            if (version_oem == dos_versions[i].oem) {
+                                if ((dos_versions[i].command_string && command_ver_string && !strcmp(dos_versions[i].command_string, command_ver_string)) || !dos_versions[i].command_string) {
+                                    if ((dos_versions[i].ver_string && version_ver_string && !strcmp(dos_versions[i].ver_string, version_ver_string)) || !dos_versions[i].ver_string) {
+                                        if ((dos_versions[i].comspec_string && comspec_ver_string && !strcmp(dos_versions[i].comspec_string, comspec_ver_string)) || !dos_versions[i].comspec_string) {
+                                            if ((dos_versions[i].env_string && env_ver_string && !strcmp(dos_versions[i].env_string, env_ver_string)) || !dos_versions[i].env_string) {
+                                                found = 1;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -524,7 +548,15 @@ char *platform_get_dos_runtime_os(void)
             }
 
             if (!found) {
-                sprintf(archdep_os_version, "Unknown DOS version: %s %d %d %d %s", version_flavor, version_major, version_minor, version_oem, (version_ver_string) ? version_ver_string : "(N/A)");
+                sprintf(archdep_os_version, "Unknown DOS version: %s %d %d %d %s %s %s %s",
+                    version_flavor,
+                    version_major,
+                    version_minor,
+                    version_oem,
+                    (command_ver_string) ? command_ver_string : "(N/A)",
+                    (version_ver_string) ? version_ver_string : "(N/A)",
+                    (env_ver_string) ? env_ver_string : "(N/A)",
+                    (comspec_ver_string) ? comspec_ver_string : "(N/A)");
             } else {
                 sprintf(archdep_os_version, dos_versions[i - 1].name);
                 if (desqview_present()) {
@@ -537,7 +569,11 @@ char *platform_get_dos_runtime_os(void)
                 }
                 if (get_windows_version(&win_major, &win_minor, &win_mode)) {
                     if (win_major == 4 && win_minor == 0) {
-                        sprintf(archdep_os_version, "%s [Windows 95 Original]", archdep_os_version);
+                        sprintf(archdep_os_version, "%s [Windows 95]", archdep_os_version);
+                    } else if (win_major == 4 && win_minor == 10) {
+                        sprintf(archdep_os_version, "%s [Windows 98]", archdep_os_version);
+                    } else if (win_major == 4 && win_minor == 90) {
+                        sprintf(archdep_os_version, "%s [Windows ME]", archdep_os_version);
                     } else {
                         sprintf(archdep_os_version, "%s [Windows %d.%d]", archdep_os_version, win_major, win_minor);
                     }
@@ -582,9 +618,21 @@ char *platform_get_dos_runtime_os(void)
             }
         }
         got_os = 1;
+        if (command_ver_string) {
+            lib_free(command_ver_string);
+            command_ver_string = NULL;
+        }
         if (version_ver_string) {
             lib_free(version_ver_string);
             version_ver_string = NULL;
+        }
+        if (env_ver_string) {
+            lib_free(env_ver_string);
+            env_ver_string = NULL;
+        }
+        if (comspec_ver_string) {
+            lib_free(comspec_ver_string);
+            comspec_ver_string = NULL;
         }
     }
     return archdep_os_version;

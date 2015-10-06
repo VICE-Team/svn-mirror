@@ -114,7 +114,12 @@
 #    ifndef REGVAL_ENABLE_SU_TO_ROOT
 #      define PLATFORM_OS "Interix 5.2"
 #    else
-#      define PLATFORM_OS "Interix 6.x"
+#      include <net/if.h>
+#      if (IF_NAMESIZE==127)
+#        define PLATFORM_OS "Interix 6.0"
+#      else
+#        define PLATFORM_OS "Interix 6.1/6.2"
+#      endif
 #    endif
 #  endif
 #  define FIND_X86_CPU

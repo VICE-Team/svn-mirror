@@ -38,6 +38,8 @@
  - 22050 Hz, 32bit PCM, stereo
  - 22050 Hz, 32bit float, stereo
  - 22050 Hz, 64bit float, stereo
+ - 44010 Hz, a-law, stereo
+ - 44010 Hz, u-law, stereo
  */
 
 #include "vice.h"
@@ -54,10 +56,11 @@
 /* In the future the filename can be set from either commandline or gui */
 #define SAMPLE_NAME "inputsound"
 
-#define AUDIO_TYPE_PCM   0
-#define AUDIO_TYPE_FLOAT 1
-#define AUDIO_TYPE_ALAW  2
-#define AUDIO_TYPE_ULAW  3
+#define AUDIO_TYPE_UNKNOWN -1
+#define AUDIO_TYPE_PCM      0
+#define AUDIO_TYPE_FLOAT    1
+#define AUDIO_TYPE_ALAW     2
+#define AUDIO_TYPE_ULAW     3
 
 static unsigned sample_size = 0;
 static int sound_sampling_started = 0;
@@ -78,6 +81,8 @@ static int sound_audio_type = 0;
 static unsigned int sound_audio_channels = 0;
 static unsigned int sound_audio_rate = 0;
 static unsigned int sound_audio_bits = 0;
+
+/* ---------------------------------------------------------------------- */
 
 static int wav_fmt_extension_bytes = 0;
 
@@ -498,20 +503,457 @@ static int handle_wav_file(int channels)
     return -1;
 }
 
-static int handle_file_type(int channels)
+static int is_wav_file(void)
 {
     if (file_size < 4) {
-        return -1;
+        return 0;
     }
 
     /* Check for wav header signature */
     if (file_buffer[0] == 0x52 && file_buffer[1] == 0x49 && file_buffer[2] == 0x46 && file_buffer[3] == 0x46) {
+        return 1;
+    }
+    return 0;
+}
+
+/* ---------------------------------------------------------------------- */
+
+static BYTE *voc_buffer1 = NULL;
+static BYTE *voc_buffer2 = NULL;
+static unsigned int voc_buffer_size;
+
+static int voc_handle_sound_1(int channels)
+{
+    unsigned int size;
+    BYTE fd;
+    BYTE codec;
+
+    if (file_pointer + 6 > file_size) {
+        return -1;
+    }
+
+    ++file_pointer;
+
+    size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (file_pointer + size > file_size) {
+        return -1;
+    }
+    file_pointer += 3;
+
+    if (!sound_audio_rate) {
+        fd = file_buffer[file_pointer];
+        codec = file_buffer[file_pointer + 1];
+
+        switch (codec) {
+            case 0:
+                sound_audio_type = AUDIO_TYPE_PCM;
+                sound_audio_bits = 8;
+                break;
+            case 4:
+                sound_audio_type = AUDIO_TYPE_PCM;
+                sound_audio_bits = 16;
+                break;
+            case 6:
+                sound_audio_type = AUDIO_TYPE_ALAW;
+                sound_audio_bits = 16;
+                break;
+            case 7:
+                sound_audio_type = AUDIO_TYPE_ULAW;
+                sound_audio_bits = 16;
+                break;
+            default:
+                return -1;
+                break;
+        }
+        sound_audio_rate = 1000000 / (256 - fd);
+    }
+    file_pointer += 2;
+    size -= 2;
+
+    if (voc_buffer1) {
+        lib_free(voc_buffer1);
+        voc_buffer1 = NULL;
+        return -1;
+    }
+
+    voc_buffer1 = lib_malloc(size);
+    memcpy(voc_buffer1, file_buffer + file_pointer, size);
+    file_pointer += size;
+    voc_buffer_size = size;
+
+    return 0;
+}
+
+static int voc_handle_sound_2(int channels)
+{
+    unsigned int size;
+
+    if (file_pointer + 6 > file_size) {
+        return -1;
+    }
+
+    ++file_pointer;
+
+    size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (file_pointer + size > file_size) {
+        return -1;
+    }
+    file_pointer += 5;
+    size -= 2;
+    
+    if (!voc_buffer1) {
+        return -1;
+    }
+    voc_buffer2 = lib_malloc(voc_buffer_size + size);
+    memcpy(voc_buffer2, voc_buffer1, voc_buffer_size);
+    memcpy(voc_buffer2 + voc_buffer_size, file_buffer + file_pointer, size);
+    lib_free(voc_buffer1);
+    voc_buffer1 = voc_buffer2;
+    voc_buffer2 = NULL;
+    voc_buffer_size += size;
+    file_pointer += size;
+
+    return 0;
+}
+
+static int voc_handle_silence(int channels)
+{
+    unsigned int size;
+
+    if (file_pointer + 7 > file_size) {
+        return -1;
+    }
+
+    ++file_pointer;
+
+    size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (size != 3) {
+        return -1;
+    }
+
+    file_pointer += 3;
+
+    size = (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+
+    if (sound_audio_type == AUDIO_TYPE_UNKNOWN) {
+        return -1;
+    }
+
+    if (sound_audio_type == AUDIO_TYPE_PCM) {
+        size *= (sound_audio_bits / 8);
+    }
+    size *= sound_audio_channels;
+
+    voc_buffer2 = lib_malloc(voc_buffer_size + size);
+
+    if (sound_audio_bits == 8) {
+        memset(voc_buffer2 + voc_buffer_size, 0x80, size);
+    } else {
+        memset(voc_buffer2 + voc_buffer_size, 0, size);
+    }
+
+    if (voc_buffer1) {
+        memcpy(voc_buffer2, voc_buffer1, voc_buffer_size);
+        lib_free(voc_buffer1);
+    }
+    voc_buffer1 = voc_buffer2;
+    voc_buffer2 = NULL;
+    voc_buffer_size += size;
+    file_pointer += 3;
+    return 0;
+}
+
+static int voc_handle_sound_9(int channels)
+{
+    unsigned int size;
+    WORD codec;
+
+    if (file_pointer + 16 > file_size) {
+        return -1;
+    }
+
+    ++file_pointer;
+
+    size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (size + file_pointer > file_size) {
+        return -1;
+    }
+
+    file_pointer += 3;
+
+    sound_audio_rate = (file_buffer[file_pointer + 3] << 24) | (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (!sound_audio_rate) {
+        return -1;
+    }
+
+    file_pointer += 4;
+    size -= 4;
+
+    sound_audio_bits = file_buffer[file_pointer];
+
+    switch (sound_audio_bits) {
+        case 8:
+        case 16:
+        case 24:
+        case 32:
+            break;
+        default:
+            return -1;
+    }
+
+    ++file_pointer;
+    --size;
+
+    sound_audio_channels = file_buffer[file_pointer];
+    if (sound_audio_channels < 1 || sound_audio_channels > 2) {
+        return -1;
+    }
+
+    ++file_pointer;
+    --size;
+
+    codec = (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+
+    switch (codec) {
+        case 0:
+        case 4:
+            sound_audio_type = AUDIO_TYPE_PCM;
+            break;
+        case 6:
+            sound_audio_type = AUDIO_TYPE_ALAW;
+            break;
+        case 7:
+            sound_audio_type = AUDIO_TYPE_ULAW;
+            break;
+        default:
+            return -1;
+            break;
+    }
+
+    file_pointer += 6;
+    size -= 6;
+
+    voc_buffer2 = lib_malloc(voc_buffer_size + size);
+
+    if (voc_buffer1) {
+        memcpy(voc_buffer2, voc_buffer1, voc_buffer_size);
+        memcpy(voc_buffer2 + voc_buffer_size, file_buffer + file_pointer, size);
+        lib_free(voc_buffer1);
+    }
+    voc_buffer1 = voc_buffer2;
+    voc_buffer2 = NULL;
+    voc_buffer_size += size;
+    file_pointer += size;
+
+    return 0;
+}
+
+static int voc_handle_extra_info(int channels)
+{
+    unsigned int size;
+    WORD fd;
+    BYTE codec;
+
+    if (file_pointer + 8 > file_size) {
+        return -1;
+    }
+
+    ++file_pointer;
+
+    size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (size != 4) {
+        return -1;
+    }
+    file_pointer += 3;
+
+    fd = (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    codec = file_buffer[file_pointer + 2];
+
+    switch (codec) {
+        case 0:
+            sound_audio_type = AUDIO_TYPE_PCM;
+            sound_audio_bits = 8;
+            break;
+        case 4:
+            sound_audio_type = AUDIO_TYPE_PCM;
+            sound_audio_bits = 16;
+            break;
+        case 6:
+            sound_audio_type = AUDIO_TYPE_ALAW;
+            sound_audio_bits = 16;
+            break;
+        case 7:
+            sound_audio_type = AUDIO_TYPE_ULAW;
+            sound_audio_bits = 16;
+            break;
+        default:
+            return -1;
+            break;
+    }
+    sound_audio_channels = file_buffer[file_pointer + 3] + 1;
+    sound_audio_rate = 256000000 / (sound_audio_channels * (65536 - fd));
+    file_pointer += 4;
+    return 0;
+}
+
+static int voc_handle_text(void)
+{
+    unsigned int size;
+
+    if (file_pointer + 4 > file_size) {
+        return -1;
+    }
+    ++file_pointer;
+    size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    file_pointer += 3;
+
+    if (file_pointer + size > file_size) {
+        return -1;
+    }
+    if (size) {
+        file_pointer += size;
+    }
+    return 0;
+}
+
+static int voc_handle_ignore(unsigned int amount)
+{
+    unsigned int size;
+
+    if (amount + 4 + file_pointer > file_size) {
+        return -1;
+    }
+    ++file_pointer;
+    size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
+    if (size != amount) {
+        return -1;
+    }
+    file_pointer += 3;
+    if (amount) {
+        file_pointer += amount;
+    }
+    return 0;
+}
+
+static int handle_voc_file(int channels)
+{
+    WORD version;
+    WORD check;
+    int end_of_stream = 0;
+    int err = 0;
+
+    sound_audio_channels = 0;
+    sound_audio_rate = 0;
+    sound_audio_bits = 0;
+    sound_audio_type = AUDIO_TYPE_UNKNOWN;
+
+    if (file_buffer[19] != 0x1A) {
+        log_warning(LOG_DEFAULT, "$1A signature not found");
+        return -1;
+    }
+
+    if (file_buffer[20] != 0x1A || file_buffer[21] != 0) {
+        log_warning(LOG_DEFAULT, "Incorrect voc file header length : %X", (file_buffer[21] << 8) | file_buffer[20]);
+        return -1;
+    }
+
+    version = (file_buffer[23] << 8) | file_buffer[22];
+    check = (file_buffer[25] << 8) | file_buffer[24];
+
+    if (check != ~version + 0x1234) {
+        log_warning(LOG_DEFAULT, "VOC file header checksum incorrect: %4X %4X", check, version);
+        return -1;
+    }
+
+    file_pointer = 26;
+
+    while (file_pointer <= file_size && !end_of_stream) {
+        switch (file_buffer[file_pointer]) {
+            case 0:
+                end_of_stream = 1;
+                break;
+            case 1:
+                err = voc_handle_sound_1(channels);
+                break;
+            case 2:
+                err = voc_handle_sound_2(channels);
+                break;
+            case 3:
+                err = voc_handle_silence(channels);
+                break;
+            case 4:
+            case 6:
+                err = voc_handle_ignore(2);
+                break;
+            case 5:
+                err = voc_handle_text();
+                break;
+            case 7:
+                err = voc_handle_ignore(0);
+                break;
+            case 8:
+                err = voc_handle_extra_info(channels);
+                break;
+            case 9:
+                err = voc_handle_sound_9(channels);
+                break;
+            default:
+                log_warning(LOG_DEFAULT, "Unknown VOC block type : %2X", file_buffer[file_pointer]);
+                return -1;
+        }
+        if (err) {
+            if (voc_buffer1) {
+                lib_free(voc_buffer1);
+                voc_buffer1 = NULL;
+            }
+            return -1;
+        }
+    }
+
+    /* This is a wip, the actual decoding of the resulting buffer still needs to be made */
+
+    return 0;
+}
+
+static int is_voc_file(void)
+{
+    char header[] = { 0x43, 0x72, 0x65, 0x61, 0x74, 0x69, 0x76, 0x65, 0x20, 0x56, 0x6F, 0x69, 0x63, 0x65, 0x20, 0x46, 0x69, 0x6C, 0x65 };
+    int i;
+
+    if (file_size < 26) {
+        return 0;
+    }
+
+    /* Check for voc header signature */
+    for (i = 0; i < sizeof(header); ++i) {
+        if (file_buffer[i] != header[i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/* ---------------------------------------------------------------------- */
+
+static int handle_file_type(int channels)
+{
+    /* Check for wav file */
+    if (is_wav_file()) {
         log_warning(LOG_DEFAULT, "filetype recognized as a WAVE file, starting parsing.");
         return handle_wav_file(channels);
     }
+
+    /* Check for voc file */
+    if (is_voc_file()) {
+        log_warning(LOG_DEFAULT, "filetype recognized as a VOC file, starting parsing.");
+        return handle_voc_file(channels);
+    }
+
     log_warning(LOG_DEFAULT, "filetype was not handled.");
     return -1;
 }
+
+/* ---------------------------------------------------------------------- */
 
 static void file_load_sample(int channels)
 {

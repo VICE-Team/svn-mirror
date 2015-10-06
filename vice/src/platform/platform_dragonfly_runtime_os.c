@@ -82,6 +82,19 @@
    i386  | DragonFly BSD 3.6.1
    amd64 | DragonFly BSD 3.6.2
    i386  | DragonFly BSD 3.6.2
+   amd64 | DragonFly BSD 3.6.3
+   i386  | DragonFly BSD 3.6.3
+   amd64 | DragonFly BSD 3.8.0
+   i386  | DragonFly BSD 3.8.0
+   amd64 | DragonFly BSD 3.8.1
+   i386  | DragonFly BSD 3.8.1
+   amd64 | DragonFly BSD 3.8.2
+   i386  | DragonFly BSD 3.8.2
+   amd64 | DragonFly BSD 4.0.1
+   amd64 | DragonFly BSD 4.0.2
+   amd64 | DragonFly BSD 4.0.3
+   amd64 | DragonFly BSD 4.0.4
+   amd64 | DragonFly BSD 4.0.5
  */
 
 #include "vice.h"

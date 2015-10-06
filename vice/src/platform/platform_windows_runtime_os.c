@@ -25,73 +25,60 @@
  */
 
 /* Tested and confirmed working on:
-   - Windows 95 (x86)
+   - ReactOS 0.2.9 (x86)
+   - ReactOS 0.3.3 (x86)
+   - ReactOS 0.3.14 (x86)
+   - Windows 95 Original (x86)
    - Windows 95A (x86)
    - Windows 95B (x86)
    - Windows 95C (x86)
    - Windows 98 (x86)
-   - Windows 98 Security (x86)
-   - Windows 98 Second Edition (x86)
-   - Windows 98 Second Edition Security (x86)
-   - Windows Millennium Edition (x86)
-   - Windows Millennium Edition Security (x86)
-   - Windows NT 3.50 Workstation (x86)
-   - Windows NT 3.50 Server (x86)
+   - Windows 98 Secure (x86)
+   - Windows ME Secure (x86)
    - Windows NT 3.51 Workstation (x86)
-   - Windows NT 3.51 Server (x86)
-   - Windows NT 4 Workstation (x86)
-   - Windows NT 4 Workstation Embedded (x86)
-   - Windows NT 4 Server Embedded (x86)
-   - Windows NT 4 Server (x86)
-   - Windows NT 4 Terminal Server (x86)
-   - Windows NT 4 Enterprise Server (x86)
-   - Windows NT 4 Small Business Server (x86)
-   - Windows 2000 Professional (x86)
+   - Windows NT 4.0 Workstation (x86)
+   - Windows NT 4.0 Embedded Server (x86)
+   - Windows NT 4.0 Terminal Server (x86)
+   - Windows NT 4.0 Small Business Server 4.0 (x86)
+   - Windows NT 4.0 Enterprise Server (x86)
+   - Windows Neptune (x86)
+   - Windows 2000 Pro (x86)
    - Windows 2000 Server (x86)
-   - Windows 2000 Advanced Server (x86)
-   - Windows 2000 Datacenter Server (x86)
-   - Windows 2000 Powered (x86)
-   - Windows XP PE (x86)
-   - Windows XP Embedded (x86)
-   - Windows XP FLP (x86)
+   - Windows 2000 Small Business Server (x86)
    - Windows XP Starter (x86)
    - Windows XP Home (x86)
-   - Windows XP Professional (x86/x64)
-   - Windows XP Tablet PC Edition (x86)
-   - Windows XP Media Center Edition (x86)
-   - Windows 2003 Server PE (x86)
-   - Windows 2003 Web Server (x86)
-   - Windows 2003 Standard Server (x86/x64)
-   - Windows 2003 R2 Standard Server (x86/x64)
+   - Windows XP Pro (x64)
    - Windows 2003 Enterprise Server (x86/x64)
-   - Windows 2003 R2 Enterprise Server (x86/x64)
-   - Windows 2003 Datacenter Server (x86/x64)
-   - Windows 2003 R2 Datacenter Server (x86/x64)
-   - Windows 2003 Small Business Server (x86)
-   - Windows 2003 Compute Cluster Server (x64)
+   - Windows 2003 Datacenter Server (x86)
    - Windows Home Server (x86)
-   - Windows Vista Starter (x86)
+   - Windows 2003 R2 Small Business Server (x86)
+   - Windows 2003 R2 Enterprise Server (x86/x64)
+   - Windows 2003 R2 Datacenter Server (x64)
    - Windows Vista Home Basic (x86/x64)
-   - Windows Vista Home Premium (x86/x64)
-   - Windows Vista Business (x86/x64)
-   - Windows Vista Enterprise (x86/x64)
-   - Windows Vista Ultimate (x86/x64)
+   - Windows Vista Enterprise (x86)
+   - Windows 2008 Foundation Server (x64)
    - Windows 2008 Web Server (x86/x64)
    - Windows 2008 Standard Server (x86/x64)
-   - Windows 2008 Enterprise Server (x86/x64)
-   - Windows 2008 Datacenter Server (x86/x64)
-   - Windows 2008 HPC Server (x64)
+   - Windows 2008 Enterprise Server (x86)
+   - Windows 2008 Datacenter Server (x64)
+   - Windows 2008 Basic Storage Server (x64)
    - Windows Thin PC (x86)
+   - Windows 7 Embedded POSReady (x86)
+   - Windows 7 Embedded Standard (x86)
    - Windows 7 Starter (x86)
-   - Windows 7 Home Basic (x86/x64)
-   - Windows 7 Home Premium (x86/x64)
-   - Windows 7 Professional (x86/x64)
-   - Windows 7 Enterprise (x86/x64)
-   - Windows 7 Ultimate (x86/x64)
-   - Windows 8 Core (x64)
-   - HXDOS
-   - ReactOS
-   - Wine
+   - Windows 7 Home Basic (x64)
+   - Windows 7 Enterprise (x64)
+   - Windows 2008 R2 Foundation Server (x64)
+   - Windows 2008 R2 Web Server (x64)
+   - Windows 2009 Embedded Standard (x86)
+   - Windows Home Server 2011 (x64)
+   - Windows 2011 Standard Multipoint Server (x64)
+   - Windows 2012 Datacenter Server (x64)
+   - Windows 8 Embedded Standard (x64)
+   - Windows 8 (x86/x64)
+   - Windows 8.1 Embedded Industry Enterprise (x86)
+   - Windows 8.1 Pro (x86)
+   - Windows 10 Home (x64)
 */
 
 #include "vice.h"
@@ -103,10 +90,14 @@
 #include <windows.h>
 #include <stdio.h>
 
+#include "lib.h"
+
+
 /* platform ids */
 #ifndef VER_NT_WORKSTATION
 #define VER_NT_WORKSTATION       0x00000001
 #endif
+
 
 #ifndef VER_NT_DOMAIN_CONTROLLER
 #define VER_NT_DOMAIN_CONTROLLER 0x00000002
@@ -167,131 +158,493 @@
 #endif
 
 
+/* product ids */
+#ifndef PRODUCT_UNDEFINED
+#define PRODUCT_UNDEFINED                           0x00000000
+#endif
 
-
-/* platform product ids */
 #ifndef PRODUCT_ULTIMATE
-#define PRODUCT_ULTIMATE                         0x00000001
+#define PRODUCT_ULTIMATE                            0x00000001
 #endif
 
 #ifndef PRODUCT_HOME_BASIC
-#define PRODUCT_HOME_BASIC                       0x00000002
+#define PRODUCT_HOME_BASIC                          0x00000002
 #endif
 
 #ifndef PRODUCT_HOME_PREMIUM
-#define PRODUCT_HOME_PREMIUM                     0x00000003
+#define PRODUCT_HOME_PREMIUM                        0x00000003
 #endif
 
 #ifndef PRODUCT_ENTERPRISE
-#define PRODUCT_ENTERPRISE                       0x00000004
+#define PRODUCT_ENTERPRISE                          0x00000004
+#endif
+
+#ifndef PRODUCT_HOME_BASIC_N
+#define PRODUCT_HOME_BASIC_N                        0x00000005
 #endif
 
 #ifndef PRODUCT_BUSINESS
-#define PRODUCT_BUSINESS                         0x00000006
+#define PRODUCT_BUSINESS                            0x00000006
 #endif
 
 #ifndef PRODUCT_STANDARD_SERVER
-#define PRODUCT_STANDARD_SERVER                  0x00000007
+#define PRODUCT_STANDARD_SERVER                     0x00000007
 #endif
 
 #ifndef PRODUCT_DATACENTER_SERVER
-#define PRODUCT_DATACENTER_SERVER                0x00000008
+#define PRODUCT_DATACENTER_SERVER                   0x00000008
 #endif
 
 #ifndef PRODUCT_SMALLBUSINESS_SERVER
-#define PRODUCT_SMALLBUSINESS_SERVER             0x00000009
+#define PRODUCT_SMALLBUSINESS_SERVER                0x00000009
 #endif
 
 #ifndef PRODUCT_ENTERPRISE_SERVER
-#define PRODUCT_ENTERPRISE_SERVER                0x0000000A
+#define PRODUCT_ENTERPRISE_SERVER                   0x0000000A
 #endif
 
 #ifndef PRODUCT_STARTER
-#define PRODUCT_STARTER                          0x0000000B
+#define PRODUCT_STARTER                             0x0000000B
+#endif
+
+#ifndef PRODUCT_DATACENTER_SERVER_CORE
+#define PRODUCT_DATACENTER_SERVER_CORE              0x0000000C
+#endif
+
+#ifndef PRODUCT_STANDARD_SERVER_CORE
+#define PRODUCT_STANDARD_SERVER_CORE                0x0000000D
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_SERVER_CORE
+#define PRODUCT_ENTERPRISE_SERVER_CORE              0x0000000E
 #endif
 
 #ifndef PRODUCT_ENTERPRISE_SERVER_IA64
-#define PRODUCT_ENTERPRISE_SERVER_IA64           0x0000000F
+#define PRODUCT_ENTERPRISE_SERVER_IA64              0x0000000F
+#endif
+
+#ifndef PRODUCT_BUSINESS_N
+#define PRODUCT_BUSINESS_N                          0x00000010
 #endif
 
 #ifndef PRODUCT_WEB_SERVER
-#define PRODUCT_WEB_SERVER                       0x00000011
+#define PRODUCT_WEB_SERVER                          0x00000011
 #endif
 
 #ifndef PRODUCT_CLUSTER_SERVER
-#define PRODUCT_CLUSTER_SERVER                   0x00000012
+#define PRODUCT_CLUSTER_SERVER                      0x00000012
 #endif
 
 #ifndef PRODUCT_HOME_SERVER
-#define PRODUCT_HOME_SERVER                      0x00000013
+#define PRODUCT_HOME_SERVER                         0x00000013
 #endif
 
 #ifndef PRODUCT_STORAGE_EXPRESS_SERVER
-#define PRODUCT_STORAGE_EXPRESS_SERVER           0x00000014
+#define PRODUCT_STORAGE_EXPRESS_SERVER              0x00000014
 #endif
 
 #ifndef PRODUCT_STORAGE_STANDARD_SERVER
-#define PRODUCT_STORAGE_STANDARD_SERVER          0x00000015
+#define PRODUCT_STORAGE_STANDARD_SERVER             0x00000015
 #endif
 
 #ifndef PRODUCT_STORAGE_WORKGROUP_SERVER
-#define PRODUCT_STORAGE_WORKGROUP_SERVER         0x00000016
+#define PRODUCT_STORAGE_WORKGROUP_SERVER            0x00000016
 #endif
 
 #ifndef PRODUCT_STORAGE_ENTERPRISE_SERVER
-#define PRODUCT_STORAGE_ENTERPRISE_SERVER        0x00000017
+#define PRODUCT_STORAGE_ENTERPRISE_SERVER           0x00000017
 #endif
 
 #ifndef PRODUCT_SERVER_FOR_SMALLBUSINESS
-#define PRODUCT_SERVER_FOR_SMALLBUSINESS         0x00000018
+#define PRODUCT_SERVER_FOR_SMALLBUSINESS            0x00000018
+#endif
+
+#ifndef PRODUCT_SMALLBUSINESS_SERVER_PREMIUM
+#define PRODUCT_SMALLBUSINESS_SERVER_PREMIUM        0x00000019
+#endif
+
+#ifndef PRODUCT_HOME_PREMIUM_N
+#define PRODUCT_HOME_PREMIUM_N                      0x0000001A
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_N
+#define PRODUCT_ENTERPRISE_N                        0x0000001B
+#endif
+
+#ifndef PRODUCT_ULTIMATE_N
+#define PRODUCT_ULTIMATE_N                          0x0000001C
+#endif
+
+#ifndef PRODUCT_WEB_SERVER_CORE
+#define PRODUCT_WEB_SERVER_CORE                     0x0000001D
 #endif
 
 #ifndef PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT
-#define PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT 0x0000001E
+#define PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT    0x0000001E
 #endif
 
 #ifndef PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY
-#define PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY   0x0000001F
+#define PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY      0x0000001F
 #endif
 
 #ifndef PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING
-#define PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING  0x00000020
+#define PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING     0x00000020
 #endif
 
 #ifndef PRODUCT_SERVER_FOUNDATION
-#define PRODUCT_SERVER_FOUNDATION                0x00000021
+#define PRODUCT_SERVER_FOUNDATION                   0x00000021
 #endif
 
 #ifndef PRODUCT_HOME_PREMIUM_SERVER
-#define PRODUCT_HOME_PREMIUM_SERVER              0x00000022
+#define PRODUCT_HOME_PREMIUM_SERVER                 0x00000022
 #endif
 
 #ifndef PRODUCT_SERVER_FOR_SMALLBUSINESS_V
-#define PRODUCT_SERVER_FOR_SMALLBUSINESS_V       0x00000023
+#define PRODUCT_SERVER_FOR_SMALLBUSINESS_V          0x00000023
 #endif
 
 #ifndef PRODUCT_STANDARD_SERVER_V
-#define PRODUCT_STANDARD_SERVER_V                0x00000024
+#define PRODUCT_STANDARD_SERVER_V                   0x00000024
 #endif
 
 #ifndef PRODUCT_DATACENTER_SERVER_V
-#define PRODUCT_DATACENTER_SERVER_V              0x00000025
+#define PRODUCT_DATACENTER_SERVER_V                 0x00000025
 #endif
 
 #ifndef PRODUCT_ENTERPRISE_SERVER_V
-#define PRODUCT_ENTERPRISE_SERVER_V              0x00000026
+#define PRODUCT_ENTERPRISE_SERVER_V                 0x00000026
+#endif
+
+#ifndef PRODUCT_DATACENTER_SERVER_CORE_V
+#define PRODUCT_DATACENTER_SERVER_CORE_V            0x00000027
+#endif
+
+#ifndef PRODUCT_STANDARD_SERVER_CORE_V
+#define PRODUCT_STANDARD_SERVER_CORE_V              0x00000028
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_SERVER_CORE_V
+#define PRODUCT_ENTERPRISE_SERVER_CORE_V            0x00000029
+#endif
+
+#ifndef PRODUCT_HYPERV
+#define PRODUCT_HYPERV                              0x0000002A
+#endif
+
+#ifndef PRODUCT_STORAGE_EXPRESS_SERVER_CORE
+#define PRODUCT_STORAGE_EXPRESS_SERVER_CORE         0x0000002B
+#endif
+
+#ifndef PRODUCT_STORAGE_STANDARD_SERVER_CORE
+#define PRODUCT_STORAGE_STANDARD_SERVER_CORE        0x0000002C
+#endif
+
+#ifndef PRODUCT_STORAGE_WORKGROUP_SERVER_CORE
+#define PRODUCT_STORAGE_WORKGROUP_SERVER_CORE       0x0000002D
+#endif
+
+#ifndef PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE
+#define PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE      0x0000002E
+#endif
+
+#ifndef PRODUCT_STARTER_N
+#define PRODUCT_STARTER_N                           0x0000002F
 #endif
 
 #ifndef PRODUCT_PROFESSIONAL
-#define PRODUCT_PROFESSIONAL                     0x00000030
+#define PRODUCT_PROFESSIONAL                        0x00000030
+#endif
+
+#ifndef PRODUCT_PROFESSIONAL_N
+#define PRODUCT_PROFESSIONAL_N                      0x00000031
 #endif
 
 #ifndef PRODUCT_SB_SOLUTION_SERVER
-#define PRODUCT_SB_SOLUTION_SERVER               0x00000032
+#define PRODUCT_SB_SOLUTION_SERVER                  0x00000032
+#endif
+
+#ifndef PRODUCT_SERVER_FOR_SB_SOLUTIONS
+#define PRODUCT_SERVER_FOR_SB_SOLUTIONS             0x00000033
+#endif
+
+#ifndef PRODUCT_STANDARD_SERVER_SOLUTIONS
+#define PRODUCT_STANDARD_SERVER_SOLUTIONS           0x00000034
+#endif
+
+#ifndef PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE
+#define PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE      0x00000035
+#endif
+
+#ifndef PRODUCT_SB_SOLUTION_SERVER_EM
+#define PRODUCT_SB_SOLUTION_SERVER_EM               0x00000036
+#endif
+
+#ifndef PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM
+#define PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM          0x00000037
 #endif
 
 #ifndef PRODUCT_SOLUTION_EMBEDDEDSERVER
-#define PRODUCT_SOLUTION_EMBEDDEDSERVER          0x00000038
+#define PRODUCT_SOLUTION_EMBEDDEDSERVER             0x00000038
+#endif
+
+#ifndef PRODUCT_SOLUTION_EMBEDDEDSERVER_CORE
+#define PRODUCT_SOLUTION_EMBEDDEDSERVER_CORE        0x00000039
+#endif
+
+#ifndef PRODUCT_PROFESSIONAL_EMBEDDED
+#define PRODUCT_PROFESSIONAL_EMBEDDED               0x0000003A
+#endif
+
+#ifndef PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT       0x0000003B
+#endif
+
+#ifndef PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL       0x0000003C
+#endif
+
+#ifndef PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC    0x0000003D
+#endif
+
+#ifndef PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC    0x0000003E
+#endif
+
+#ifndef PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE
+#define PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE   0x0000003F
+#endif
+
+#ifndef PRODUCT_CLUSTER_SERVER_V
+#define PRODUCT_CLUSTER_SERVER_V                    0x00000040
+#endif
+
+#ifndef PRODUCT_EMBEDDED
+#define PRODUCT_EMBEDDED                            0x00000041
+#endif
+
+#ifndef PRODUCT_STARTER_E
+#define PRODUCT_STARTER_E                           0x00000042
+#endif
+
+#ifndef PRODUCT_HOME_BASIC_E
+#define PRODUCT_HOME_BASIC_E                        0x00000043
+#endif
+
+#ifndef PRODUCT_HOME_PREMIUM_E
+#define PRODUCT_HOME_PREMIUM_E                      0x00000044
+#endif
+
+#ifndef PRODUCT_PROFESSIONAL_E
+#define PRODUCT_PROFESSIONAL_E                      0x00000045
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_E
+#define PRODUCT_ENTERPRISE_E                        0x00000046
+#endif
+
+#ifndef PRODUCT_ULTIMATE_E
+#define PRODUCT_ULTIMATE_E                          0x00000047
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_EVALUATION
+#define PRODUCT_ENTERPRISE_EVALUATION               0x00000048
+#endif
+
+#ifndef PRODUCT_MULTIPOINT_STANDARD_SERVER
+#define PRODUCT_MULTIPOINT_STANDARD_SERVER          0x0000004C
+#endif
+
+#ifndef PRODUCT_MULTIPOINT_PREMIUM_SERVER
+#define PRODUCT_MULTIPOINT_PREMIUM_SERVER           0x0000004D
+#endif
+
+#ifndef PRODUCT_STANDARD_EVALUATION_SERVER
+#define PRODUCT_STANDARD_EVALUATION_SERVER          0x0000004F
+#endif
+
+#ifndef PRODUCT_DATACENTER_EVALUATION_SERVER
+#define PRODUCT_DATACENTER_EVALUATION_SERVER        0x00000050
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_N_EVALUATION
+#define PRODUCT_ENTERPRISE_N_EVALUATION             0x00000054
+#endif
+
+#ifndef PRODUCT_EMBEDDED_AUTOMOTIVE
+#define PRODUCT_EMBEDDED_AUTOMOTIVE                 0x00000055
+#endif
+
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_A
+#define PRODUCT_EMBEDDED_INDUSTRY_A                 0x00000056
+#endif
+
+#ifndef PRODUCT_THINPC
+#define PRODUCT_THINPC                              0x00000057
+#endif
+
+#ifndef PRODUCT_EMBEDDED_A
+#define PRODUCT_EMBEDDED_A                          0x00000058
+#endif
+
+#ifndef PRODUCT_EMBEDDED_INDUSTRY
+#define PRODUCT_EMBEDDED_INDUSTRY                   0x00000059
+#endif
+
+#ifndef PRODUCT_EMBEDDED_E
+#define PRODUCT_EMBEDDED_E                          0x0000005A
+#endif
+
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_E
+#define PRODUCT_EMBEDDED_INDUSTRY_E                 0x0000005B
+#endif
+
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_A_E
+#define PRODUCT_EMBEDDED_INDUSTRY_A_E               0x0000005C
+#endif
+
+#ifndef PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER
+#define PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER 0x0000005F
+#endif
+
+#ifndef PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER
+#define PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER  0x00000060
+#endif
+
+#ifndef PRODUCT_CORE_ARM
+#define PRODUCT_CORE_ARM                            0x00000061
+#endif
+
+#ifndef PRODUCT_CORE_N
+#define PRODUCT_CORE_N                              0x00000062
+#endif
+
+#ifndef PRODUCT_CORE_COUNTRYSPECIFIC
+#define PRODUCT_CORE_COUNTRYSPECIFIC                0x00000063
+#endif
+
+#ifndef PRODUCT_CORE_SINGLELANGUAGE
+#define PRODUCT_CORE_SINGLELANGUAGE                 0x00000064
+#endif
+
+#ifndef PRODUCT_CORE_LANGUAGESPECIFIC
+#define PRODUCT_CORE_LANGUAGESPECIFIC               0x00000064
+#endif
+
+#ifndef PRODUCT_CORE
+#define PRODUCT_CORE                                0x00000065
+#endif
+
+#ifndef PRODUCT_PROFESSIONAL_WMC
+#define PRODUCT_PROFESSIONAL_WMC                    0x00000067
+#endif
+
+#ifndef PRODUCT_MOBILE_CORE
+#define PRODUCT_MOBILE_CORE                         0x00000068
+#endif
+
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_EVAL
+#define PRODUCT_EMBEDDED_INDUSTRY_EVAL              0x00000069
+#endif
+
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_E_EVAL
+#define PRODUCT_EMBEDDED_INDUSTRY_E_EVAL            0x0000006A
+#endif
+
+#ifndef PRODUCT_EMBEDDED_EVAL
+#define PRODUCT_EMBEDDED_EVAL                       0x0000006B
+#endif
+
+#ifndef PRODUCT_EMBEDDED_E_EVAL
+#define PRODUCT_EMBEDDED_E_EVAL                     0x0000006C
+#endif
+
+#ifndef PRODUCT_NANO_SERVER
+#define PRODUCT_NANO_SERVER                         0x0000006D
+#endif
+
+#ifndef PRODUCT_CLOUD_STORAGE_SERVER
+#define PRODUCT_CLOUD_STORAGE_SERVER                0x0000006E
+#endif
+
+#ifndef PRODUCT_CORE_CONNECTED
+#define PRODUCT_CORE_CONNECTED                      0x0000006F
+#endif
+
+#ifndef PRODUCT_PROFESSIONAL_STUDENT
+#define PRODUCT_PROFESSIONAL_STUDENT                0x00000070
+#endif
+
+#ifndef PRODUCT_CORE_CONNECTED_N
+#define PRODUCT_CORE_CONNECTED_N                    0x00000071
+#endif
+
+#ifndef PRODUCT_PROFESSIONAL_STUDENT_N
+#define PRODUCT_PROFESSIONAL_STUDENT_N              0x00000072
+#endif
+
+#ifndef PRODUCT_CORE_CONNECTED_SINGLELANGUAGE
+#define PRODUCT_CORE_CONNECTED_SINGLELANGUAGE       0x00000073
+#endif
+
+#ifndef PRODUCT_CORE_CONNECTED_COUNTRYSPECIFIC
+#define PRODUCT_CORE_CONNECTED_COUNTRYSPECIFIC      0x00000074
+#endif
+
+#ifndef PRODUCT_CONNECTED_CAR
+#define PRODUCT_CONNECTED_CAR                       0x00000075
+#endif
+
+#ifndef PRODUCT_INDUSTRY_HANDHELD
+#define PRODUCT_INDUSTRY_HANDHELD                   0x00000076
+#endif
+
+#ifndef PRODUCT_PPI_PRO
+#define PRODUCT_PPI_PRO                             0x00000077
+#endif
+
+#ifndef PRODUCT_ARM64_SERVER
+#define PRODUCT_ARM64_SERVER                        0x00000078
+#endif
+
+#ifndef PRODUCT_EDUCATION
+#define PRODUCT_EDUCATION                           0x00000079
+#endif
+
+#ifndef PRODUCT_EDUCATION_N
+#define PRODUCT_EDUCATION_N                         0x0000007A
+#endif
+
+#ifndef PRODUCT_IOTUAP
+#define PRODUCT_IOTUAP                              0x0000007B
+#endif
+
+#ifndef PRODUCT_CLOUD_HOST_INFRASTRUCTURE_SERVER
+#define PRODUCT_CLOUD_HOST_INFRASTRUCTURE_SERVER    0x0000007C
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_S
+#define PRODUCT_ENTERPRISE_S                        0x0000007D
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_S_N
+#define PRODUCT_ENTERPRISE_S_N                      0x0000007E
+#endif
+
+#ifndef PRODUCT_PROFESSIONAL_S
+#define PRODUCT_PROFESSIONAL_S                      0x0000007F
+#endif
+
+#ifndef PRODUCT_PROFESSIONAL_S_N
+#define PRODUCT_PROFESSIONAL_S_N                    0x00000080
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_S_EVALUATION
+#define PRODUCT_ENTERPRISE_S_EVALUATION             0x00000081
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_S_N_EVALUATION
+#define PRODUCT_ENTERPRISE_S_N_EVALUATION           0x00000082
 #endif
 
 /* System metrics */
@@ -423,12 +776,12 @@ static winver_t windows_versions[] = {
       4, 0, 1, VER_NT_SERVER, VER_SUITE_TERMINAL, -1, -1 },
     { "Windows NT 4.0 Enterprise Server", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
-    { "Windows NT 4.0 Small Business Server", VER_PLATFORM_WIN32_NT,
-      4, 0, 1, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1, -1 },
-    { "Windows NT 4.0 Small Business Server", VER_PLATFORM_WIN32_NT,
-      4, 0, 1, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS | VER_SUITE_SMALLBUSINESS_RESTRICTED, -1, -1 },
+    { "Windows NT 4.0 Small Business Server 4.5", VER_PLATFORM_WIN32_NT,
+      4, 0, 1, VER_NT_SERVER, 0, -1, 2 },
     { "Windows NT 4.0 Server", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_SERVER, 0, -1, -1 },
+    { "Windows Neptune", VER_PLATFORM_WIN32_NT,
+      5, 0, 6, VER_NT_WORKSTATION, 0, -1, 1 },
     { "Windows 2000 Professional", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_WORKSTATION, 0, -1, -1 },
     { "Windows 2000 Powered", VER_PLATFORM_WIN32_NT,
@@ -437,6 +790,8 @@ static winver_t windows_versions[] = {
       5, 0, 6, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, -1 },
     { "Windows 2000 Advanced Server", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
+    { "Windows 2000 Small Business Server", VER_PLATFORM_WIN32_NT,
+      5, 0, 6, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1, -1 },
     { "Windows 2000 Server", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, 0, -1, -1 },
     { "Windows 2000", VER_PLATFORM_WIN32_NT,
@@ -455,6 +810,8 @@ static winver_t windows_versions[] = {
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT | VER_SUITE_SINGLEUSERTS, -1, -1 },
     { "Windows Embedded POSReady 2009", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, 2, -1 },
+    { "Windows Embedded Standard 2009", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, 16 },
     { "Windows XP Embedded", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows XP Professional", VER_PLATFORM_WIN32_NT,
@@ -509,6 +866,8 @@ static winver_t windows_versions[] = {
       6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_ULTIMATE, -1 },
     { "Windows 2008 Enterprise Storage Server", VER_PLATFORM_WIN32_NT,
       6, 0, 10, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER | VER_SUITE_SINGLEUSERTS | VER_SUITE_TERMINAL, -1, 3 },
+    { "Windows 2008 Basic Storage Server", VER_PLATFORM_WIN32_NT,
+      6, 0, 10, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER | VER_SUITE_SINGLEUSERTS | VER_SUITE_TERMINAL, -1, 4 },
     { "Windows 2008 Workgroup Storage Server", VER_PLATFORM_WIN32_NT,
       6, 0, 10, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER | VER_SUITE_SINGLEUSERTS | VER_SUITE_TERMINAL, -1, -1 },
     { "Windows 2008 Web Server", VER_PLATFORM_WIN32_NT,
@@ -533,7 +892,7 @@ static winver_t windows_versions[] = {
       6, 1, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, 1, -1 },
     { "Windows 7 Embedded POSReady", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, 2, -1 },
-    { "Windows 7 Embedded", VER_PLATFORM_WIN32_NT,
+    { "Windows 7 Embedded Standard", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows 7 Starter", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_STARTER, -1 },
@@ -565,23 +924,37 @@ static winver_t windows_versions[] = {
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOUNDATION, -1 },
     { "Windows 2008 R2 HPC Server", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_CLUSTER_SERVER, -1 },
-    { "Windows 2011 Premium Multipoint Server", VER_PLATFORM_WIN32_NT,
+    { "Windows Home Server 2011", VER_PLATFORM_WIN32_NT,
+      6, 1, 10, VER_NT_SERVER, VER_SUITE_WH_SERVER, PRODUCT_HOME_PREMIUM_SERVER, -1 },
+    { "Windows 2011 Multipoint Server", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_SOLUTION_EMBEDDEDSERVER, -1 },
     { "Windows 8 Embedded Standard", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, 4, -1 },
-    { "Windows 8 Core", VER_PLATFORM_WIN32_NT,
+    { "Windows 8", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
     { "Windows 8 Enterprise", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
-    { "Windows 2012 Server (Foundation/Essentials/Standard/Datacenter)", VER_PLATFORM_WIN32_NT,
+    { "Windows 2012 Datacenter Server", VER_PLATFORM_WIN32_NT,
+      6, 2, 10, VER_NT_SERVER, VER_SUITE_DATACENTER, PRODUCT_DATACENTER_SERVER, -1 },
+    { "Windows 2012 Server (Foundation/Essentials/Standard)", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_SERVER, 0, 0, -1 },
-    { "Windows 8.1 (Home/Pro)", VER_PLATFORM_WIN32_NT,
+    { "Windows 8.1 Embedded Industry Enterprise", VER_PLATFORM_WIN32_NT,
+      6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, PRODUCT_EMBEDDED_INDUSTRY_E, -1 },
+    { "Windows 8.1 Home", VER_PLATFORM_WIN32_NT,
       6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
+    { "Windows 8.1 Pro", VER_PLATFORM_WIN32_NT,
+      6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, PRODUCT_PROFESSIONAL, -1 },
+    { "Windows 2012 R2 Essentials Server", VER_PLATFORM_WIN32_NT,
+      6, 3, 10, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, PRODUCT_SB_SOLUTION_SERVER, 0 },
+    { "Windows 2012 R2 Foundation Server", VER_PLATFORM_WIN32_NT,
+      6, 3, 10, VER_NT_SERVER, VER_SUITE_SINGLEUSERTS | VER_SUITE_TERMINAL, PRODUCT_SERVER_FOUNDATION, 0 },
     { "Windows 2012 R2 Standard Storage Server", VER_PLATFORM_WIN32_NT,
       6, 3, 10, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER | VER_SUITE_SINGLEUSERTS | VER_SUITE_TERMINAL, PRODUCT_STORAGE_STANDARD_SERVER, 0 },
+    { "Windows 10 Home", VER_PLATFORM_WIN32_NT,
+      10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, 1 },
     { "Windows 10 Pro", VER_PLATFORM_WIN32_NT,
       10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, 2 },
-    { "Windows 10 (Home/Enterprise/Education)", VER_PLATFORM_WIN32_NT,
+    { "Windows 10 (Enterprise/Education)", VER_PLATFORM_WIN32_NT,
       10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
     { NULL, 0,
       0, 0, 0, 0, 0, 0, 0 }
@@ -704,6 +1077,28 @@ static int IsReactOS(void)
     return 0;
 }
 
+static void get_ReactOS_ver_string(char **retval)
+{
+    OSVERSIONINFO RosVersionInfo;
+    unsigned RosVersionLen;
+    LPTSTR RosVersion;
+
+    RosVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+
+    memset(RosVersionInfo.szCSDVersion, 0, sizeof(RosVersionInfo.szCSDVersion));
+    if (GetVersionEx(&RosVersionInfo)) {
+        RosVersion = RosVersionInfo.szCSDVersion + strlen(RosVersionInfo.szCSDVersion) + 1;
+        RosVersionLen = sizeof(RosVersionInfo.szCSDVersion) / sizeof(RosVersionInfo.szCSDVersion[0]) - (RosVersion - RosVersionInfo.szCSDVersion);
+        if (7 <= RosVersionLen && 0 == strncmp(RosVersion, "ReactOS", 7)) {
+            sprintf(*retval, "%s", RosVersion);
+        } else {
+            sprintf(*retval, "ReactOS");
+        }
+    } else {
+        sprintf(*retval, "ReactOS");
+    }
+}
+
 static int IsWine(void)
 {
     if (GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "wine_get_unix_file_name") != NULL) {
@@ -730,6 +1125,11 @@ static int IsHxDos(void)
 
 static char *get_win95_version(void)
 {
+    HKEY hKey;
+    char PT[128];
+    DWORD PTlen = 128;
+    LONG ret;
+
     if (!strncmp(os_version_info.szCSDVersion, " A", 2)) {
         return "A";
     }
@@ -739,6 +1139,29 @@ static char *get_win95_version(void)
     if (!strncmp(os_version_info.szCSDVersion, " C", 2)) {
         return "C";
     }
+
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret != ERROR_SUCCESS) {
+        return "";
+    }
+
+    ret = RegQueryValueEx(hKey, "SubVersionNumber", NULL, NULL, (LPBYTE)PT, &PTlen);
+    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
+        return "";
+    }
+
+    RegCloseKey(hKey);
+
+    if (lstrcmpi("a", PT) == 0) {
+        return "A";
+    }
+    if (lstrcmpi("b", PT) == 0) {
+        return "B";
+    }
+    if (lstrcmpi("c", PT) == 0) {
+        return "C";
+    }
+
     return "";
 }
 
@@ -749,6 +1172,9 @@ static char *get_win98_version(void)
     }
     if (!strncmp(os_version_info.szCSDVersion, " A", 2)) {
         return "SE";
+    }
+    if (!strncmp(os_version_info.szCSDVersion, "B", 1)) {
+        return "SE (Security)";
     }
     return "";
 }
@@ -913,6 +1339,31 @@ static int is_thin_pc(void)
     return 0;
 }
 
+static int is_embedded_2009(void)
+{
+    HKEY hKey;
+    char PT[128];
+    DWORD PTlen = 128;
+    LONG ret;
+
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\WindowsEmbedded\\ProductVersion", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret != ERROR_SUCCESS) {
+        return 0;
+    }
+
+    ret = RegQueryValueEx(hKey, "FeaturePackVersion", NULL, NULL, (LPBYTE)PT, &PTlen);
+    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
+        return 0;
+    }
+
+    RegCloseKey(hKey);
+
+    if (lstrcmpi("Windows Embedded Standard 2009", PT) == 0) {
+        return 1;
+    }
+    return 0;
+}
+
 static int is_posready(void)
 {
     HKEY hKey;
@@ -964,7 +1415,7 @@ static int is_windows8_embedded(void)
     return 0;
 }
 
-/* 0 = None, 1 = Workstation, 2 = Standard, 3 = Enterprise */
+/* 0 = None, 1 = Workstation, 2 = Standard, 3 = Enterprise, 4 = Basic */
 static int is_storage_server(void)
 {
     HKEY hKey;
@@ -989,6 +1440,9 @@ static int is_storage_server(void)
     }
     if (lstrcmpi("Windows (R) Storage Server 2008 Enterprise", PT) == 0) {
         return 3;
+    }
+    if (lstrcmpi("Windows (R) Storage Server 2008 Basic", PT) == 0) {
+        return 4;
     }
     return 0;
 }
@@ -1055,6 +1509,42 @@ static int get_windows_10_edition(void)
     if (lstrcmpi("Windows 10 Pro", PT) == 0) {
         return 2;
     }
+    if (lstrcmpi("Windows 10 Home", PT) == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+/* Get Windows NT 4.0 Small Business Server version:
+   0 = None
+   1 = 4.0
+   2 = 4.5
+*/
+static int get_sbs_4x(void)
+{
+    HKEY hKey;
+    char PT[128];
+    DWORD PTlen = 128;
+    LONG ret;
+
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\BackOffice", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret != ERROR_SUCCESS) {
+        return 0;
+    }
+
+    ret = RegQueryValueEx(hKey, "SuiteVersion", NULL, NULL, (LPBYTE)PT, &PTlen);
+    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
+        return 0;
+    }
+
+    RegCloseKey(hKey);
+
+    if (lstrcmpi("4.5", PT) == 0) {
+        return 2;
+    }
+    if (lstrcmpi("4.0", PT) == 0) {
+        return 1;
+    }
     return 0;
 }
 
@@ -1068,6 +1558,7 @@ char *platform_get_windows_runtime_os(void)
     DWORD PT;
     int sp;
     int exinfo_valid = 0;
+    char *reactos_ver = NULL;
 
     if (!got_os) {
         ZeroMemory(&os_version_info, sizeof(os_version_info));
@@ -1175,6 +1666,9 @@ char *platform_get_windows_runtime_os(void)
             if (is_flp() == 0) {
                 windows_versions[0].suite = VER_SUITE_EMBEDDEDNT;
             }
+            if (is_embedded_2009()) {
+                windows_versions[0].metrics |= 16;
+            }
         }
 
         if (is_pe_builder() && windows_versions[0].majorver == 5 && windows_versions[0].minorver == 2) {
@@ -1199,14 +1693,27 @@ char *platform_get_windows_runtime_os(void)
             }
         }
 
+        if (windows_versions[0].majorver == 4 && windows_versions[0].minorver == 0 && windows_versions[0].producttype == VER_NT_SERVER) {
+            i = get_sbs_4x();
+            if (i) {
+                windows_versions[0].metrics = i;
+            }
+        }
+
+        if (windows_versions[0].majorver == 5 && windows_versions[0].minorver == 0 && os_version_info.dwBuildNumber == 5111) {
+            windows_versions[0].metrics = 1;
+        }
+
 #ifdef DEBUG_PLATFORM
-        printf("current parameters: (%d %d %d %d %d %d)\n",
+        printf("current parameters: (%d %d %d %d %d %d %d %d)\n",
                     windows_versions[0].platformid,
                     windows_versions[0].majorver,
                     windows_versions[0].minorver,
                     windows_versions[0].realos,
                     windows_versions[0].producttype,
-                    windows_versions[0].suite);
+                    windows_versions[0].suite,
+                    windows_versions[0].pt6,
+                    windows_versions[0].metrics);
 #endif
 
 
@@ -1331,7 +1838,8 @@ char *platform_get_windows_runtime_os(void)
                 }
             }
             if (IsReactOS()) {
-                sprintf(windows_version, "%s (ReactOS)", windows_version);
+                reactos_ver = windows_version;
+                get_ReactOS_ver_string(&reactos_ver);
             }
             if (IsWine()) {
                 sprintf(windows_version, "%s (Wine)", windows_version);
