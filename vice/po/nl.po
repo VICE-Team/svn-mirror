@@ -1970,7 +1970,7 @@ msgstr "Pauze"
 
 #: src/arch/unix/gui/uicommands.c:747
 msgid "Advance frame"
-msgstr ""
+msgstr "Ga een frame vooruit"
 
 #: src/arch/unix/gui/uicommands.c:749 src/translate_text.c.po.c:14744
 msgid "Enable warp mode"
@@ -2785,14 +2785,12 @@ msgid "Version 3"
 msgstr "Versie 3"
 
 #: src/arch/unix/gui/uiide64.c:180
-#, fuzzy
 msgid "Version 4.1"
-msgstr "Versie 4"
+msgstr "Versie 4.1"
 
 #: src/arch/unix/gui/uiide64.c:182
-#, fuzzy
 msgid "Version 4.2"
-msgstr "Versie 4"
+msgstr "Versie 4.2"
 
 #: src/arch/unix/gui/uiide64.c:188
 msgid "Device 1 image name"
@@ -4498,9 +4496,8 @@ msgid "Memory expansions"
 msgstr "Geheugen uitbreidingen"
 
 #: src/arch/unix/gui/vic20ui.c:489
-#, fuzzy
 msgid "VIC-1112 IEEE488 interface"
-msgstr "Activeer VIC-1112 IEEE488 interface"
+msgstr "VIC-1112 IEEE488 interface"
 
 #: src/arch/unix/gui/vic20ui.c:503
 msgid "Ethernet emulation (MasC=uerade)"
@@ -9217,9 +9214,8 @@ msgid "Select HD image file"
 msgstr "Selecteer HD bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:9771
-#, fuzzy
 msgid "IDE64 version"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 versie"
 
 #: src/arch/amigaos/intl_text.c.po.c:9785
 msgid "USB Server"
@@ -9923,22 +9919,20 @@ msgstr ""
 "worden alle labels opgeslagen."
 
 #: src/translate_text.c.po.c:1577
-#, fuzzy
 msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels from default address space."
 msgstr ""
 "Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven\n"
-"worden all labels getoont."
+"worden all labels van de standaard geheugenruimte getoont."
 
 #: src/translate_text.c.po.c:1594
-#, fuzzy
 msgid ""
 "Clear current label mappings.  If no memory space is specified, clear\n"
 "all labels from default address space."
 msgstr ""
-"Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven\n"
-"worden all labels getoont."
+"Verwijder huidige label koppelingen. Als er geen geheugenruimte is opgegeven\n"
+"worden all labels van de standaard geheugenruimte verwijderd."
 
 #: src/translate_text.c.po.c:1611
 msgid "Assembler and memory commands"
@@ -11516,9 +11510,8 @@ msgid "Do not autodetect geometry of formatted images"
 msgstr "Niet automatisch de grootte van de geformateerde bestanden detecteren"
 
 #: src/translate_text.c.po.c:7716
-#, fuzzy
 msgid "IDE64 cartridge version"
-msgstr "SID cartridge"
+msgstr "SID cartridge versie"
 
 #: src/translate_text.c.po.c:7750
 msgid "Disable IDE64 USB server"
