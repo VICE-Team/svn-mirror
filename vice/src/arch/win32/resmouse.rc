@@ -186,9 +186,9 @@ BEGIN
   IDS_MOUSE_TYPE_LABEL        "Typ myszy"
   IDS_MOUSE_PORT_LABEL        "Port myszy"
   IDS_P_SENSITIVITY           "<czu³o¶æ>"
-  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse."
+  IDS_DESC_MOUSE_SENSITIVITY  "czu³o¶æ myszy."
   IDS_MOUSE_SENSITIVITY_LABEL "Czu³o¶æ myszy"
-  IDS_SMART_MOUSE_RTC_SAVE    "Save Smart Mouse RTC data when changed"
+  IDS_SMART_MOUSE_RTC_SAVE    "Zapisuj dane zegara czasu rzeczywistego Smart Mouse przy zmianie"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

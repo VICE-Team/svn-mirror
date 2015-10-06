@@ -165,9 +165,9 @@ LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_DS12C887RTC_CAPTION "Ustawienia DS12C887 RTC"
   IDS_DS12C887RTC_ENABLE  "W³±cz rozszerzenie DS12C887 RTC"
-  IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
+  IDS_DS12C887RTC_RUNMODE "Rozpocznij z w³±czonym oscylatorem"
   IDS_DS12C887RTC_BASE    "Baza DS12C887 RTC"
-  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
+  IDS_DS12C887RTC_SAVE    "Zapisuj dane RTC przy zmianie"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

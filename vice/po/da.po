@@ -1,7 +1,7 @@
 # Danish translation file for VICE
 # Mikkel Holm Olsen <vice@symlink.dk>
 # Copyright 2009-2012
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"

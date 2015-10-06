@@ -326,8 +326,8 @@ BEGIN
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "Ustawienia drugiego urz±dzenia slave IDE64"
     IDS_IDE64_SETTINGS              "Ustawienia IDE64"
     IDS_IDE64_VERSION               "W³±cz IDE64 V4"
-    IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
-    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
+    IDS_IDE64_USB_SERVER            "W³±cz serwer USB IDE64"
+    IDS_IDE64_RTC_SAVE              "Zapisuj dane zegara czasu rzeczywistego IDE64 przy zmianie"
     IDS_IDE64_IMAGE                 "Plik obrazu urz±dzenia ATA"
     IDS_IDE64_GEOMETRY              "Geometria"
     IDS_IDE64_AUTODETECT            "Automatycznie wykrywaj rozmiar obrazu"
@@ -336,7 +336,7 @@ BEGIN
     IDS_IDE64_SECTORS               "Sektory"
     IDS_IDE64_TOTAL_SIZE            "Ca³kowity rozmiar: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Wybierz plik obrazu urz±dzenia ATA"
-    IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_USB_SERVER_BIND_LABEL "Adres serwera USB IDE64"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

@@ -139,9 +139,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_USERPORT_RTC_CAPTION "Userport RTC settings"
+  IDS_USERPORT_RTC_CAPTION "Ustawienia userportu RTC"
   IDS_USERPORT_RTC_ENABLE  "W³±cz rozszerzenie Userport RTC"
-  IDS_USERPORT_RTC_SAVE    "Save RTC data when changed"
+  IDS_USERPORT_RTC_SAVE    "Zapisuj dane RTC przy zmianie"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

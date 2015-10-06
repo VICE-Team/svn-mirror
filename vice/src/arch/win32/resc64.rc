@@ -939,7 +939,7 @@ BEGIN
   IDS_PET64_PAL                    "PET64 PAL"
   IDS_PET64_NTSC                   "PET64 NTSC"
   IDS_MAX_MACHINE                  "MAX Machine"
-  IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
+  IDS_MI_C64_MEMORY_HACKS_SETTINGS "Ustawienia hacków rozszerzenia pamiêci..."
   IDS_MI_C64BURSTMOD_SETTINGS      "Ustawienia trybu synchronicznego napêdu C64..."
 END
 #ifndef WINDRES_CP_IGNORE
