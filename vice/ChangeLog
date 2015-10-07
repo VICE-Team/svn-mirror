@@ -1,5 +1,1629 @@
 ------------------------------------------------------------------------------
 
+2015-10-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po,
+	po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml, src/monitor/mon_lex.c,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h, src/version.h: VICE
+	2.4.21
+
+2015-10-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/generate_msvc10_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc10_project.bat,
+	src/arch/win32/generate_msvc11_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc11_project.bat,
+	src/arch/win32/generate_msvc12_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc12_project.bat,
+	src/arch/win32/generate_msvc14_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc14_project.bat,
+	src/arch/win32/generate_msvc6_project.bat,
+	src/arch/win32/generate_msvc70_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc70_project.bat,
+	src/arch/win32/generate_msvc71_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc71_project.bat,
+	src/arch/win32/generate_msvc8_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc8_project.bat,
+	src/arch/win32/generate_msvc9_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc9_project.bat,
+	src/arch/win32/vice-version.bat: Added copy of msvc debug.h to the
+	win32 msvc project generation batch files.
+
+2015-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/sv.po, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64memoryhacks.rc,
+	src/arch/win32/resds12c887rtc.rc, src/arch/win32/reside64.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/resuserportrtc.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2015-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2015-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_discovery.h,
+	src/platform/platform_dos_runtime_os.c,
+	src/platform/platform_dragonfly_runtime_os.c,
+	src/platform/platform_dragonfly_version.h,
+	src/platform/platform_interix_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c, src/samplerdrv/file_drv.c:
+	Some updates.
+
+2015-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_x86_gcc_cpuid.h: Fixed for 'PIC' x86_64/amd64
+	compile.
+
+2015-10-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiperipheral.c: Applied fix as pointed out by
+	'Zefram Cochrane' to fix the 'Drive Tabs Missing in (or Crash)
+	Peripheral Settings' issue.
+
+2015-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/file_drv.c: Added u-law and a-law decoding.
+
+2015-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/file_drv.c: Added '.wav' file loader/decoder,
+	currently works with pcm (8/16/24/32bit) and float (32/64bit) encoded
+	files.
+
+2015-09-27  Marcus Sutton <loggedoubt@gmail.com>
+
+	* configure.proto: Disable use of --noyywrap option with flex for now,
+	as it breaks compatibility with older versions.
+
+2015-09-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/sfx_soundsampler.c, src/samplerdrv/file_drv.c,
+	src/samplerdrv/portaudio_drv.c, src/samplerdrv/sampler.c,
+	src/samplerdrv/sampler.h: Added support for (future) stereo sampling.
+
+2015-09-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/c128.tmpl, src/arch/win32/vs_tmpl/c64.tmpl,
+	src/arch/win32/vs_tmpl/c64commoncart.tmpl,
+	src/arch/win32/vs_tmpl/c64sc.tmpl,
+	src/arch/win32/vs_tmpl/samplerdrv.tmpl,
+	src/arch/win32/vs_tmpl/scpu64.tmpl, src/arch/win32/vs_tmpl/vic20.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/x128.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl:
+	Added the samplerdrv files to the msvc templates.
+
+2015-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/Makefile.am, src/samplerdrv/file_drv.c,
+	src/samplerdrv/file_drv.h, src/samplerdrv/sampler.c: Added
+	experimental file loader sampler device, portaudio still the default
+	device if compiled in.
+
+2015-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/portaudio_drv.c: Fixed sampler timing issues.
+
+2015-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/portaudio_drv.c, src/samplerdrv/portaudio_drv.h: Some
+	small fixes.
+
+2015-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/samplerdrv/sampler.c,
+	src/samplerdrv/sampler.h, src/scpu64/scpu64.c, src/vic20/vic20.c:
+	Added empty resource and cmdline options init code to the sampler
+	driver for future usage.
+
+2015-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/Makefile.am, src/c128/c128.c, src/c64/Makefile.am,
+	src/c64/c64.c, src/c64/cart/sfx_soundsampler.c,
+	src/samplerdrv/Makefile.am, src/samplerdrv/portaudio_drv.c,
+	src/samplerdrv/portaudio_drv.h, src/samplerdrv/sampler.c,
+	src/samplerdrv/sampler.h, src/scpu64/Makefile.am, src/scpu64/scpu64.c,
+	src/vic20/Makefile.am, src/vic20/vic20.c: Started on a generic audio
+	input driver system.
+
+2015-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/portaudio_drv.h: Fixed a prototype.
+
+2015-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/sfx_soundsampler.c, src/samplerdrv/portaudio_drv.c,
+	src/samplerdrv/portaudio_drv.h: Made current sample tracking internal
+	to the portaudio driver.
+
+2015-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/portaudio_drv.c: Don't allow the portaudio driver to
+	be started twice.
+
+2015-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/c64/cart/Makefile.am,
+	src/c64/cart/sfx_soundsampler.c, src/samplerdrv,
+	src/samplerdrv/Makefile.am, src/samplerdrv/portaudio_drv.c,
+	src/samplerdrv/portaudio_drv.h: Generalized the portaudio sampler
+	driver a bit.
+
+2015-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/sfx_soundsampler.c: Fixed audio input freeze up.
+
+2015-09-19  groepaz <groepaz@gmx.net>
+
+	* data/C128/x11_pos.vkm, data/C128/x11_sym.vkm, data/C64/x11_pos.vkm,
+	data/C64/x11_sym.vkm, data/C64DTV/x11_pos.vkm,
+	data/C64DTV/x11_sym.vkm, data/CBM-II/x11_sym.vkm,
+	data/PET/x11_buuk_sym.vkm, data/PLUS4/x11_pos.vkm,
+	data/PLUS4/x11_sym.vkm, data/SCPU64/x11_pos.vkm,
+	data/SCPU64/x11_sym.vkm, data/VIC20/x11_pos.vkm,
+	data/VIC20/x11_sym.vkm: added support for dead keys in X11, patch by
+	Hans Deragon
+
+2015-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/c64/cart/sfx_soundsampler.c: Added sound
+	sampling support (using portaudio) for the sfx sound sampler
+	cartridge.
+
+2015-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/sfx_soundsampler.c: Started on fixing the sfx sound
+	sampler emulation.
+
+2015-09-14  groepaz <groepaz@gmx.net>
+
+	* data/DRIVES/Makefile.am, data/DRIVES/dos2000, data/DRIVES/dos4000,
+	src/Makefile.am, src/arch/os2/makedist.cmd,
+	src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/make-bindist_qnx6.sh, src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/qnx6/make-bindist.sh, src/embedded.c: remove dummy
+	FD2000 and FD4000 drive ROMs
+
+2015-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added '_BSD_SOURCE' define filter for linux
+	glibc-2.20+
+
+2015-09-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Warning fix.
+
+2015-09-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/uimenu.c: Applied patch #114 by Uffe Jakobsen: x64
+	(SDL) prevent coredump when pressing menu key in -console mode.
+
+2015-09-12  groepaz <groepaz@gmx.net>
+
+	* src/resources.c: when writing a config file, omit the resources that
+	contain their default value. this should remove some problems when
+	using older config files with newer emulators. it also breaks eg the
+	checkdocs scripts, we will need to add a seperate option for dumping
+	all resources with their defaults for this kind of stuff.
+
+2015-09-10  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/constants.h,
+	src/arch/beos/constants.txt, src/arch/beos/genconstants.c: Added
+	genconstants.c: a program (based on gentranslate.c) to autogenerate
+	arch/beos/constants.h from a list of menu items in a text file. (Only
+	about a decade overdue!)
+
+2015-09-08  groepaz <groepaz@gmx.net>
+
+	* src/petcat.c: added option to convert all non alphanumeric
+	characters inside quotes into control codes
+
+2015-09-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_dos_runtime_os.c,
+	src/platform/platform_dragonfly_runtime_os.c,
+	src/platform/platform_dragonfly_version.h,
+	src/platform/platform_interix_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c,
+	src/platform/platform_x86_gcc_cpuid.h: Some updates.
+
+2015-09-06  groepaz <groepaz@gmx.net>
+
+	* data/C64/pepto-ntsc-sony.vpl, data/C64/pepto-ntsc.vpl: fixed typos,
+	make brown actually brown :)
+
+2015-09-02  groepaz <groepaz@gmx.net>
+
+	* data/C64/Makefile.am, data/C64/pepto-ntsc-sony.vpl,
+	data/C64/pepto-ntsc.vpl, data/C64/vice.vpl: added Sony CXA2025AS NTSC
+	palette for those who insist on wrong colors :)
+
+2015-09-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/vsyncarch.c: workaround to make OSX port compile again
+
+2015-08-31  BSzili <col.lawrence@gmail.com>
+
+	* src/arch/amigaos/mui/filereq.c: open amiga ASL requesters on the
+	correct screen
+
+2015-08-30  BSzili <col.lawrence@gmail.com>
+
+	* src/arch/amigaos/video.c: fixed full screen mode in AmigaOS4
+
+2015-08-19  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c, src/kbdbuf.c: only use random delay when
+	KbdbufDelay or respectivly AutostartDelayRandom are true
+
+2015-08-19  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c, src/c64/vsid.c, src/kbdbuf.c, src/kbdbuf.h: add up
+	to one frame random delay before RETURN after RUN on autostart.
+	greetings to iAN_CooG :)
+
+2015-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Added 'The Tool 64' support to petcat.
+
+2015-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Added Eve Basic support to petcat.
+
+2015-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: More improvements.
+
+2015-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Some more progress.
+
+2015-08-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Started on a slight re-origination of petcat.
+
+2015-08-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Updated.
+
+2015-08-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Added 'Kipper Basic' and 'Basic on Bails' support.
+
+2015-08-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11mouse.c: remove the popup menus when
+	clicking into the menu in the GTK port, not only is it unusual for GTK
+	applications, it also causes more problems than it solves, eg when
+	clicking into the window to switch focus
+
+2015-08-13  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/retroreplay.c: fixed retro
+	replay flash mode
+
+2015-08-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_amigaos3_runtime_os.c,
+	src/platform/platform_amigaos4_runtime_os.c,
+	src/platform/platform_compiler.h, src/platform/platform_cpu_type.h,
+	src/platform/platform_discovery.h,
+	src/platform/platform_dragonfly_runtime_os.c,
+	src/platform/platform_dragonfly_version.h: Some more updates.
+
+2015-08-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_openbsd_runtime_os.c,
+	src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_freebsd_runtime_os.c,
+	src/platform/platform_openbsd_version.h,
+	src/platform/platform_discovery.h,
+	src/platform/platform_amigaos3_runtime_os.c,
+	src/platform/platform_dragonfly_runtime_os.c,
+	src/platform/platform_dragonfly_version.h,
+	src/platform/platform_windows_runtime_os.c: Some updates.
+
+2015-08-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-draw.c: Small optim
+
+2015-08-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-draw.c: Simplify
+
+2015-08-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-draw.c: Small optim
+
+2015-07-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/clipboard.c, src/clipboard.h: Added missing const.
+
+2015-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_common.c, src/arch/sdl/xcbm2_ui.c: Applied patch
+	(#113) by Greg King, which gets to the root problem that the previous
+	patch attempted to fix: xcbm2 fails when we try to open the
+	"Keyboard mapping" menu because that dynamic menu isn't created.
+
+2015-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc14_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc14_project.bat,
+	src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Added msvc14/vs2015 project file generation.
+
+2015-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Added windows 10
+	support.
+
+2015-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/wpcap/pcap-stdinc.h: Another VS2015 fix.
+
+2015-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_common.c: Applied patch (#113) by  Uffe Jakobsen:
+	fixes core dump in xcbm2 (SDL) when entering "Settings management"
+	menu.
+
+2015-07-28  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* src/platform/platform_windows_runtime_os.c: typo
+
+2015-07-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_compiler.h,
+	src/arch/sdl/msvc-files/ide-config.h,
+	src/arch/win32/msvc/ide-config.h: Some VS2015 fixes.
+
+2015-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joyai.c: Applied patch (#112) by BSzili: Fixed
+	AmigaInput joystick support - Axis values were treated as unsigned
+	values, and the joystick settings were read before the ini file was
+	loaded.
+
+2015-07-26  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c, src/c64/cart/final3.c: added support for
+	'Final Cartridge III+'
+
+2015-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_openbsd_runtime_os.c,
+	src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_solaris_runtime_os.c,
+	src/platform/platform_discovery.h,
+	src/platform/platform_amix_runtime_os.c,
+	src/platform/platform_aros_runtime_os.c: Some updates.
+
+2015-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/amigaos/video.c,
+	src/arch/amigaos/joyai.c, src/arch/amigaos/archdep.c,
+	src/arch/amigaos/kbd.c, src/arch/amigaos/loadlibs.c,
+	src/arch/amigaos/ui.c: (Re-)Applied patch (#111) by BSzili: I fixed
+	the AmigaOS4 port, which had the following issues: library interfaces
+	weren't obtained at all or too late in some cases (AmigaInput),
+	skipped menu items corrupted every field of the last item, except
+	nm_Label, language selection caused a crash, because it destroyed the
+	menu while it was still iterated, loading the palette off-disk while
+	the bitmap was locked (which can cause stalls), some minor adjustments
+	to the latest OS4 SDK.
+
+2015-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/x11ui.c, src/monitor/mon_lex.c,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h: Also include
+	'gdk/gdkx.h' if 'HAVE_VTE' is not defined.
+
+2015-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/pl.po, po/translations-status.txt: Updated.
+
+2015-07-09  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/monitor/mon_disassemble.c: Fixed mingw32 warnings.
+
+2015-07-09  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/cbm2ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/petui.cc, src/arch/beos/plus4ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/vic20ui.cc, src/c128/c128.c,
+	src/c128ui.h, src/c64dtv/c64dtv.c, src/c64ui.h, src/cbm2/cbm2.c,
+	src/cbm2/cbm5x0.c, src/cbm2ui.h, src/pet/pet.c, src/petui.h,
+	src/plus4/plus4.c, src/plus4ui.h, src/scpu64/scpu64.c, src/scpu64ui.h,
+	src/vic20/vic20.c, src/vic20ui.h: Added the rest of the calls needed
+	for machine-specific BeVICE menu items (as in items not created in
+	arch/beos/vicemenu.cc.) No actual items yet.
+
+2015-07-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_openbsd_runtime_os.c,
+	src/platform/platform_x86_gcc_cpuid.h: Updated.
+
+2015-07-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c, src/arch/unix/vsyncarch.c,
+	src/vsyncapi.h: added common vsyncarch_advance_frame function and
+	added single frame advance to unix guis
+
+2015-06-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/fixdox.sh, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.txt: Updated.
+
+2015-06-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Applied patch by Magnus Lind: Fix for
+	config.proto so that the mingw32 SDL 1.x target builds will link
+	without missing symbols.
+
+2015-06-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_openbsd_runtime_os.c,
+	src/platform/platform_x86_gcc_cpuid.h, src/platform/Makefile.am,
+	src/platform/platform.h, src/platform/platform_compiler.h,
+	src/platform/platform_linux_runtime_os.c,
+	src/platform/platform_openbsd_version.h,
+	src/platform/platform_solaris_runtime_os.c,
+	src/platform/platform_solaris_version.h: Updated.
+
+2015-06-26  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* doc/vice.texi, po/de.po: typos
+
+2015-06-25  groepaz <groepaz@gmx.net>
+
+	* src/core/viacore.c: updated comment, synertek VIAs do indeed behave
+	differently to what is written in the synertek notes
+
+2015-06-22  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2015-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am,
+	src/platform/platform_solaris_runtime_os.c,
+	src/platform/platform_solaris_version.h,
+	src/platform/platform_cpu_type.h, src/platform/platform_discovery.h:
+	Updated.
+
+2015-06-18  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/statusbar.cc, src/arch/beos/statusbar.h: Make
+	horizontal positions of BeVICE statusbar elements depend on the size
+	of the font being used.
+
+2015-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/sid.c: Don't mirror for sid #3 (aka missing return), should
+	fix bug #650.
+
+2015-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_disassemble.c: Fixed some warnings.
+
+2015-06-15  groepaz <groepaz@gmx.net>
+
+	* doc/readmes/Readme-MacOSX.txt: added hint on installing fonts
+
+2015-06-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdrive/vdrive-command.c: Fix warning
+
+2015-06-13  groepaz <groepaz@gmx.net>
+
+	* src/vic20/vic-mem.c: fix start of frame on NTSC
+
+2015-06-11  groepaz <groepaz@gmx.net>
+
+	* po/pl.po, po/de.po, po/da.po, po/es.po, po/fr.po, po/hu.po,
+	po/it.po, po/ko.po, po/nl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/reseasyflash.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/respetdww.rc,
+	src/arch/win32/resrs232user.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvsid.rc, src/translate_text.c: fix
+	IDCLS_SPECIFY_CHARGEN_ROM_NAME
+
+2015-06-11  groepaz <groepaz@gmx.net>
+
+	* src/core/viacore.c, src/vic20/vic20mem.c: fixed VIA 'peek' for
+	VIC20, fixed 'peek' in VIA core. acknowledge timer 1 irq when high
+	order latch is being written to, as proven by test program (and
+	contrarily to the synertek notes). fixes bug #642
+
+2015-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_freebsd_runtime_os.c,
+	src/platform/platform_freebsd_version.h: Updated.
+
+2015-06-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_freebsd_runtime_os.c,
+	src/platform/platform_cpu_type.h,
+	src/platform/platform_freebsd_version.h,
+	src/platform/platform_sco_runtime_os.c,
+	src/platform/platform_ultrix_runtime_os.c: Updated.
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/gnome/x11ui.c, src/arch/amigaos/video.c,
+	src/arch/beos/video.cc, src/arch/msdos/video.c, src/arch/os2/video.c,
+	src/arch/sdl/video.c, src/arch/unix/macosx/cocoa/video.m,
+	src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/x11mouse.c, src/arch/unix/x11/vidmode.c,
+	src/arch/unix/x11/xaw/lightpendrv.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/arch/unix/x11/xaw/x11video.c, src/arch/win32/lightpendrv.c,
+	src/arch/win32/ui.c, src/arch/win32/video-ddraw.c,
+	src/arch/win32/video-dx9.c, src/raster/raster.c,
+	src/video/video-canvas.c, src/video/video-resources.c,
+	src/video/video-sound.c, src/video/video-viewport.c, src/video.h:
+	Change doublesize to scale
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/renderscale2x.c: Faster scale2x
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdrive/vdrive-command.c, src/c128/c128drive.c, src/c1541.c,
+	src/c64/c64drive.c, src/cbm2/cbm2drive.c, src/drive/iec/iec.c,
+	src/drive/iec/iecrom.c, src/drive/iec/iecrom.h, src/drive/iec.h,
+	src/drive/iec128dcr/iec128dcr.c, src/drive/iec128dcr/iec128dcrrom.c,
+	src/drive/iec128dcr/iec128dcrrom.h, src/drive/iec128dcr.h,
+	src/drive/ieee/ieee.c, src/drive/ieee/ieeerom.c,
+	src/drive/ieee/ieeerom.h, src/drive/ieee.h, src/drive/tcbm/tcbm.c,
+	src/drive/tcbm/tcbmrom.c, src/drive/tcbm/tcbmrom.h, src/drive/tcbm.h,
+	src/machine-drive.h, src/pet/petdrive.c, src/plus4/plus4drive.c,
+	src/vic20/vic20drive.c: No vdrive ROM reading. It's not a real drive
+	to execute code. Returning the ROM content is fooling autodetection in
+	user programs which incorrectly apply a fastloader. The problem
+	started when I fixed the ROM loading some time ago and it started to
+	return ROM content instead of zeros. Now back to zeros for
+	compatibility.
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/tape/tap.c: Fix warning
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/gnome/uimon.c: Sync no VTE fallback code
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/console.c: Fix mouse/repeat on trap to monitor
+	(XAW)
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/console.c: Query monitor window size for XAW
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_memory.c: also this...
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_memory.c: Spaces after 4 for dec/oct too
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/monitor.c: Print % for binary
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, doc/vice.texi, src/translate_text.c,
+	src/monitor/monitor.c, src/monitor/mon_command.c,
+	src/monitor/mon_lex.l, src/monitor/mon_parse.y,
+	src/monitor/montypes.h, src/translate.txt: Clear labels command.
+	(feature #130)
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/monitor.c: Fix duplicate symbol adding
+
+2015-06-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_util.c: Missing %
+
+2015-06-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, doc/vice.texi, src/translate_text.c,
+	src/monitor/monitor.c, src/monitor/mon_command.c,
+	src/monitor/mon_lex.l, src/monitor/mon_parse.y,
+	src/monitor/montypes.h, src/translate.txt, src/monitor/mon_util.c:
+	Wrong approach, revert.
+
+2015-06-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, doc/vice.texi, src/translate_text.c,
+	src/monitor/monitor.c, src/monitor/mon_command.c,
+	src/monitor/mon_lex.l, src/monitor/mon_parse.y,
+	src/monitor/montypes.h, src/translate.txt, src/monitor/mon_util.c:
+	Start adding extended label data types. Based on patch #49 by Daniel
+	Santos. This patch only adds the basics, more is comming later.
+
+2015-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vice_sdl.h: Some msvc sdl fixes.
+
+2015-06-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_disassemble.c: Simplify. The +1 hack is gone for
+	now.
+
+2015-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_compiler.h,
+	src/platform/platform_freebsd_runtime_os.c,
+	src/platform/platform_freebsd_version.h,
+	src/platform/platform_ultrix_runtime_os.c: Updated.
+
+2015-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_linux_runtime_os.c,
+	src/platform/platform_freebsd_runtime_os.c,
+	src/platform/platform_solaris_runtime_os.c,
+	src/platform/platform_discovery.h,
+	src/platform/platform_freebsd_version.h: Updated.
+
+2015-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_runtime_os.c: Updated.
+
+2015-05-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/uidrivec128.c, src/arch/win32/uidrivec64.c,
+	src/arch/win32/uidrivec64dtv.c, src/arch/win32/uidriveplus4.c: fixed
+	drive selection, should fix bug #648
+
+2015-05-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Simplify
+
+2015-05-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vic20ui.c: added missing option for iee488
+	interface
+
+2015-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vsyncapi.h, src/raster/raster.c, src/video/video-resources.c,
+	src/arch/sdl/archdep_unix.c, src/arch/win32/mididrv.c, src/c64/vsid.c,
+	src/findhacks.sh, src/platform/platform.c, src/sid/sid.h,
+	src/sounddrv/sounddx.c, src/vice.h, src/vicefeatures.c,
+	src/video/video-cmdline-options.c, src/vsync.c: More SDL2 progress.
+
+2015-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/video.c, src/arch/sdl/joy.c, src/arch/sdl/kbd.h,
+	src/arch/sdl/lightpendrv.c, src/arch/sdl/mousedrv.c,
+	src/arch/sdl/ui.c, src/arch/sdl/uimenu.c, src/arch/sdl/uipoll.c,
+	src/arch/sdl/videoarch.h, src/info.c, src/info.h: Some SDL2 progress,
+	not working yet.
+
+2015-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/generate_msvc10_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc10_project.bat,
+	src/arch/sdl/generate_msvc11_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc11_project.bat,
+	src/arch/sdl/generate_msvc12_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc12_project.bat,
+	src/arch/sdl/generate_msvc6_project.bat,
+	src/arch/sdl/generate_msvc70_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc70_project.bat,
+	src/arch/sdl/generate_msvc71_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc71_project.bat,
+	src/arch/sdl/generate_msvc8_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc8_project.bat,
+	src/arch/sdl/generate_msvc9_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc9_project.bat,
+	src/arch/sdl/generate_msvcmips_project.bat,
+	src/arch/sdl/msvc-files/Makefile.am, src/arch/sdl/msvc-files/debug.h,
+	src/arch/win32/msvc/Makefile.am, src/arch/win32/msvc/debug.h: Added
+	debug.h for msvc compile.
+
+2015-05-25  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.proto, src/arch/unix/x11/gnome/uimon.c: Support VTE 2.91
+
+2015-05-25  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.proto: Remove duplicate configure option:
+	--enable-debug-code had the same practical effect as --enable-debug
+
+2015-05-25  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/c128/c128.c, src/c64dtv/c64dtv.c, src/cbm2/cbm2.c,
+	src/cbm2/cbm5x0.c, src/pet/pet.c, src/plus4/plus4.c,
+	src/scpu64/scpu64.c, src/vic20/vic20.c, src/c1541.c, src/tape/tap.c,
+	src/c64/vsid.c, src/c64/c64.c, src/datasette.c, src/machine.h,
+	src/tape.h: Whether tape supports half waves or not depends on whether
+	C16/+4 emulator is running
+
+2015-05-25  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/core/ciacore.c: Add details about interrupt status
+	(write-only register) in CIA dump
+
+2015-05-25  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/debug.h: debug.h is automatically generated from debug.h.in, no
+	need for it to be in revision control
+
+2015-05-25  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/lib/libffmpeg/libavcodec/exr.c,
+	src/lib/libffmpeg/libavcodec/g2meet.c,
+	src/lib/libffmpeg/libavcodec/tiff.c,
+	src/lib/libffmpeg/libavcodec/tiffenc.c,
+	src/lib/libffmpeg/libavcodec/zerocodec.c,
+	src/lib/libffmpeg/libavformat/http.c,
+	src/lib/libffmpeg/libavformat/id3v2.c: Patch over a deficiency in
+	zlib.h: uses va_list woithout includeing stdarg.h itself
+
+2015-05-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/win32/reside64.rc: Update rc as well
+
+2015-05-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/win32/resstrings.txt: Fix resstrings
+
+2015-05-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/win32/reside64.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/uiide64.c: Try to update gui for IDE64 v4.2
+
+2015-05-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/gfxoutputdrv/ppmdrv.c: Use P6 instead of P3, better supported.
+
+2015-05-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_sunos_runtime_os.c: Updated.
+
+2015-05-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/uiide64.c,
+	src/c64/cart/ide64.c, src/c64/cart/ide64.h: made global/public defines
+	for IDE64 version
+
+2015-05-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/scpu64ui.cc, doc/vice.texi,
+	src/arch/amigaos/intl_text.c, src/translate_text.c, src/translate.txt,
+	src/arch/unix/gui/uiide64.c, src/c64/cart/ide64.c,
+	src/c64/cart/ide64.h, doc/resource-and-cmdline-checking.txt,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/mui/uiide64.c,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x128,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64sc,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xscpu64,
+	src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/vicemenu.cc, src/arch/msdos/uiide64.c,
+	src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc, src/arch/sdl/dingoo-files/sdl-vicerc,
+	src/arch/sdl/dingoo-files/vicerc-native,
+	src/arch/sdl/menu_c64_common_expansions.c, src/c64/cart/c64cartmem.c,
+	src/cartconv.c: IDE64 v4.2 support
+
+2015-05-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_sunos_runtime_os.c: Updated.
+
+2015-05-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/c64ui.h, src/c64/c64.c, src/arch/beos/c64ui.cc,
+	src/arch/amigaos/c64ui.c, src/arch/msdos/c64ui.c, src/arch/os2/ui.c,
+	src/arch/win32/c64ui.c, src/c64/c64mem.c, src/c64/c64mem.h,
+	src/c64/c64memsc.c: Fixed a really long-standing link issue by making
+	calls to c64(sc)ui_*() functions come from c64mem(sc).c so the x64 and
+	x64sc UIs get properly separated (on ports that want that.) Also added
+	calls in preparation for genuinely c64(sc)-specific menu items for
+	BeVICE.
+
+2015-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h,
+	src/arch/win32/msvc/x264_config.h: Updated.
+
+2015-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h: Fixed typo.
+
+2015-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ffmpeg-config.h: Updated.
+
+2015-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c,
+	src/lib/libx264/common/osdep.h: More warning fixes.
+
+2015-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c,
+	src/arch/win32/utils/genmsvcver.c,
+	src/arch/win32/utils/gentranslate.c, src/arch/win32/utils/genwinres.c:
+	A few more warning fixes.
+
+2015-05-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/tiff.c,
+	src/lib/libffmpeg/libavformat/http.c,
+	src/lib/libffmpeg/libavcodec/012v.c,
+	src/lib/libffmpeg/libavcodec/aac_adtstoasc_bsf.c,
+	src/lib/libffmpeg/libavcodec/aacdec.c,
+	src/lib/libffmpeg/libavcodec/adpcm.c,
+	src/lib/libffmpeg/libavcodec/adx.c,
+	src/lib/libffmpeg/libavcodec/alac.c,
+	src/lib/libffmpeg/libavcodec/alsdec.c,
+	src/lib/libffmpeg/libavcodec/amrnbdec.c,
+	src/lib/libffmpeg/libavcodec/amrwbdec.c,
+	src/lib/libffmpeg/libavcodec/anm.c,
+	src/lib/libffmpeg/libavcodec/atrac3.c,
+	src/lib/libffmpeg/libavcodec/atrac3plus.c,
+	src/lib/libffmpeg/libavcodec/atrac3plusdec.c,
+	src/lib/libffmpeg/libavcodec/bmpenc.c,
+	src/lib/libffmpeg/libavcodec/brenderpix.c,
+	src/lib/libffmpeg/libavcodec/c93.c,
+	src/lib/libffmpeg/libavcodec/cavsdec.c,
+	src/lib/libffmpeg/libavcodec/cdxl.c,
+	src/lib/libffmpeg/libavcodec/cinepak.c,
+	src/lib/libffmpeg/libavcodec/cllc.c,
+	src/lib/libffmpeg/libavcodec/cook.c,
+	src/lib/libffmpeg/libavcodec/cpia.c,
+	src/lib/libffmpeg/libavcodec/dpx.c,
+	src/lib/libffmpeg/libavcodec/dvbsubdec.c,
+	src/lib/libffmpeg/libavcodec/dxtory.c,
+	src/lib/libffmpeg/libavcodec/exif.c,
+	src/lib/libffmpeg/libavcodec/faxcompr.c,
+	src/lib/libffmpeg/libavcodec/flacdec.c,
+	src/lib/libffmpeg/libavcodec/flicvideo.c,
+	src/lib/libffmpeg/libavcodec/g726.c,
+	src/lib/libffmpeg/libavcodec/gif.c,
+	src/lib/libffmpeg/libavcodec/h264.h,
+	src/lib/libffmpeg/libavcodec/h264_ps.c,
+	src/lib/libffmpeg/libavcodec/h264_refs.c,
+	src/lib/libffmpeg/libavcodec/h264_sei.c,
+	src/lib/libffmpeg/libavcodec/h264_slice.c,
+	src/lib/libffmpeg/libavcodec/h264idct.c,
+	src/lib/libffmpeg/libavcodec/hevc_ps.c,
+	src/lib/libffmpeg/libavcodec/iff.c,
+	src/lib/libffmpeg/libavcodec/indeo3.c,
+	src/lib/libffmpeg/libavcodec/indeo4.c,
+	src/lib/libffmpeg/libavcodec/indeo5.c,
+	src/lib/libffmpeg/libavcodec/ivi_common.c,
+	src/lib/libffmpeg/libavcodec/jpeg2000dec.c,
+	src/lib/libffmpeg/libavcodec/lagarith.c,
+	src/lib/libffmpeg/libavcodec/lcldec.c,
+	src/lib/libffmpeg/libavcodec/loco.c,
+	src/lib/libffmpeg/libavcodec/mimic.c,
+	src/lib/libffmpeg/libavcodec/mpc8.c,
+	src/lib/libffmpeg/libavcodec/mpeg12.c,
+	src/lib/libffmpeg/libavcodec/mpeg12dec.c,
+	src/lib/libffmpeg/libavcodec/mpeg4videodec.c,
+	src/lib/libffmpeg/libavcodec/mss2.c,
+	src/lib/libffmpeg/libavcodec/mvcdec.c,
+	src/lib/libffmpeg/libavcodec/on2avc.c,
+	src/lib/libffmpeg/libavcodec/opus.c,
+	src/lib/libffmpeg/libavcodec/pafvideo.c,
+	src/lib/libffmpeg/libavcodec/pcxenc.c,
+	src/lib/libffmpeg/libavcodec/pictordec.c,
+	src/lib/libffmpeg/libavcodec/proresdec2.c,
+	src/lib/libffmpeg/libavcodec/proresenc_kostya.c,
+	src/lib/libffmpeg/libavcodec/ptx.c,
+	src/lib/libffmpeg/libavcodec/qcelpdec.c,
+	src/lib/libffmpeg/libavcodec/qdm2.c,
+	src/lib/libffmpeg/libavcodec/ralf.c,
+	src/lib/libffmpeg/libavcodec/resample.c,
+	src/lib/libffmpeg/libavcodec/rv10.c,
+	src/lib/libffmpeg/libavcodec/sanm.c,
+	src/lib/libffmpeg/libavcodec/sgirledec.c,
+	src/lib/libffmpeg/libavcodec/smc.c,
+	src/lib/libffmpeg/libavcodec/sunrast.c,
+	src/lib/libffmpeg/libavcodec/svq3.c,
+	src/lib/libffmpeg/libavcodec/truemotion2.c,
+	src/lib/libffmpeg/libavcodec/truespeech.c,
+	src/lib/libffmpeg/libavcodec/utvideodec.c,
+	src/lib/libffmpeg/libavcodec/vc1.c,
+	src/lib/libffmpeg/libavcodec/vc1dec.c,
+	src/lib/libffmpeg/libavcodec/vorbis_parser.c,
+	src/lib/libffmpeg/libavcodec/vp6.c,
+	src/lib/libffmpeg/libavcodec/vqavideo.c,
+	src/lib/libffmpeg/libavcodec/wmadec.c,
+	src/lib/libffmpeg/libavcodec/wmaprodec.c,
+	src/lib/libffmpeg/libavcodec/wmavoice.c,
+	src/lib/libffmpeg/libavcodec/wnv1.c,
+	src/lib/libffmpeg/libavcodec/xan.c,
+	src/lib/libffmpeg/libavcodec/xface.c,
+	src/lib/libffmpeg/libavcodec/xwddec.c,
+	src/lib/libffmpeg/libavfilter/avfilter.c,
+	src/lib/libffmpeg/libavfilter/f_select.c,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/mp_image.c,
+	src/lib/libffmpeg/libavfilter/vf_dctdnoiz.c,
+	src/lib/libffmpeg/libavfilter/video.c,
+	src/lib/libffmpeg/libavformat/anm.c,
+	src/lib/libffmpeg/libavformat/astdec.c,
+	src/lib/libffmpeg/libavformat/au.c,
+	src/lib/libffmpeg/libavformat/avr.c,
+	src/lib/libffmpeg/libavformat/bethsoftvid.c,
+	src/lib/libffmpeg/libavformat/brstm.c,
+	src/lib/libffmpeg/libavformat/cinedec.c,
+	src/lib/libffmpeg/libavformat/dsfdec.c,
+	src/lib/libffmpeg/libavformat/electronicarts.c,
+	src/lib/libffmpeg/libavformat/epafdec.c,
+	src/lib/libffmpeg/libavformat/filmstripdec.c,
+	src/lib/libffmpeg/libavformat/flvdec.c,
+	src/lib/libffmpeg/libavformat/ftp.c,
+	src/lib/libffmpeg/libavformat/gif.c,
+	src/lib/libffmpeg/libavformat/hls.c,
+	src/lib/libffmpeg/libavformat/icodec.c,
+	src/lib/libffmpeg/libavformat/iff.c,
+	src/lib/libffmpeg/libavformat/lvfdec.c,
+	src/lib/libffmpeg/libavformat/lxfdec.c,
+	src/lib/libffmpeg/libavformat/mlvdec.c,
+	src/lib/libffmpeg/libavformat/mpegts.c,
+	src/lib/libffmpeg/libavutil/channel_layout.c,
+	src/lib/libffmpeg/libavutil/internal.h,
+	src/lib/libffmpeg/libavutil/opt.c,
+	src/lib/libffmpeg/libswscale/swscale.c,
+	src/lib/libx264/encoder/slicetype-cl.c: Some more warning fixes.
+
+2015-05-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavutil/internal.h,
+	src/lib/libffmpeg/libavformat/mtv.c,
+	src/lib/libffmpeg/libavformat/mvdec.c,
+	src/lib/libffmpeg/libavformat/mxfdec.c,
+	src/lib/libffmpeg/libavformat/network.h,
+	src/lib/libffmpeg/libavformat/nistspheredec.c,
+	src/lib/libffmpeg/libavformat/oggdec.c,
+	src/lib/libffmpeg/libavformat/omadec.c,
+	src/lib/libffmpeg/libavformat/rpl.c,
+	src/lib/libffmpeg/libavformat/rsd.c,
+	src/lib/libffmpeg/libavformat/rsodec.c,
+	src/lib/libffmpeg/libavformat/rtpdec_hevc.c,
+	src/lib/libffmpeg/libavformat/rtpdec_latm.c,
+	src/lib/libffmpeg/libavformat/rtpdec_qt.c,
+	src/lib/libffmpeg/libavformat/smjpegdec.c,
+	src/lib/libffmpeg/libavformat/wavenc.c,
+	src/lib/libffmpeg/libavformat/westwood_aud.c,
+	src/lib/libffmpeg/libavformat/xmv.c,
+	src/lib/libffmpeg/libavformat/xwma.c,
+	src/lib/libffmpeg/libavutil/log.h: Some warning fixes.
+
+2015-05-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Updated.
+
+2015-05-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_sco_runtime_os.c: Updated.
+
+2015-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed the sdl-config issue.
+
+2015-05-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/ui.c: For SDL2 window title is set during creation of
+	the window.
+
+2015-05-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Fixed for pre-5.0 makeinfo.
+
+2015-05-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/kbd.h: Fixed.
+
+2015-05-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c,
+	src/platform/platform_netbsd_version.h: Updated.
+
+2015-05-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Applied patch by Moiree: Fix for makeinfo warning:
+	doc/vice.texi:131: warning: redefining Texinfo language
+	command: @uref.
+
+2015-05-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/es.po: Applied patch by Imagonem: Fixed several typos and
+	misspellings in the spanish translations.
+
+2015-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/x11kbd.c: Fixed.
+
+2015-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavutil, src/lib/libffmpeg/libavutil/utils.c:
+	Some more warnings fixed.
+
+2015-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec, src/lib/libffmpeg/libavformat,
+	src/lib/libffmpeg/libswscale, src/lib/libffmpeg/libpostproc,
+	src/lib/libffmpeg/libswresample: Added some svn ignores.
+
+2015-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/proresenc_kostya.c,
+	src/lib/libffmpeg/libavcodec/svq1dec.c,
+	src/lib/libffmpeg/libavcodec/vp9.c: Even more warning fixes.
+
+2015-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/hevc_cabac.c,
+	src/lib/libffmpeg/libavcodec/lpc.h,
+	src/lib/libffmpeg/libavcodec/motion_est.c,
+	src/lib/libffmpeg/libavcodec/opus_silk.c,
+	src/lib/libffmpeg/libavformat/mp3enc.c,
+	src/lib/libffmpeg/libavformat/rmdec.c: Some more warning fixes.
+
+2015-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/af_aphaser.c,
+	src/lib/libffmpeg/libavfilter/af_compand.c: Some more warning fixes.
+
+2015-05-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added another warning check.
+
+2015-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/vice_sdl.h, src/arch/sdl/kbd.h: Started on
+	(currently very incomplete) SDL2 support.
+
+2015-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c,
+	src/platform/platform_netbsd_version.h: Updated.
+
+2015-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Fixed.
+
+2015-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter, src/lib/libffmpeg/libavdevice,
+	src/viciivsid: Added some svn ignores.
+
+2015-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c,
+	src/platform/platform_netbsd_version.h: Updated.
+
+2015-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c, src/pet/6809.h: Made 'full6809' the default.
+
+2015-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4: Added AC_TYPE_SSIZE_T macro to the acinclude.m4 file.
+
+2015-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/platform/platform_netbsd_runtime_os.c,
+	src/arch/unix/x11/xaw/uimenu.c: Some fixes.
+
+2015-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264, src/lib/liblame/libmp3lame, src/lib/liblame/mpglib:
+	Added some svn ignores.
+
+2015-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added a warning support check.
+
+2015-05-10  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.txt, doc/vice.texi, src/c64/cart/comal80.c:
+	fix comal 80 again, makes 'basic' command work
+
+2015-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/TextField.c,
+	src/arch/unix/x11/xaw/widgets/TextFieldP.h: Fixed another type punning
+	warning.
+
+2015-05-10  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.txt, doc/vice.texi, src/c64/cart/comal80.c:
+	fix comal80 cart, fixes bug #644
+
+2015-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/parser.c,
+	src/lib/libffmpeg/libavcodec/pngdec.c,
+	src/lib/libffmpeg/libavcodec/x86/fdct.c,
+	src/lib/libffmpeg/libavutil/buffer.c,
+	src/lib/libffmpeg/libavutil/buffer_internal.h,
+	src/lib/libffmpeg/libpostproc/postprocess.c,
+	src/lib/libffmpeg/libpostproc/postprocess_internal.h,
+	src/lib/libffmpeg/libpostproc/postprocess_template.c: Some more type
+	punning fixes.
+
+2015-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/bitstream_filter.c,
+	src/lib/libffmpeg/libavformat/sbgdec.c: Some more type punning fixes.
+
+2015-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/mmc64.h: Added missing include.
+
+2015-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/libmpcodecs/vf_fspp.c,
+	src/lib/libffmpeg/libavfilter/vf_spp.c: Some warning fixes.
+
+2015-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/avfilter.c,
+	src/lib/libffmpeg/libavfilter/aeval.c,
+	src/lib/libffmpeg/libavfilter/avfilter.h,
+	src/lib/libffmpeg/libavfilter/f_ebur128.c: Some more type punning
+	fixes.
+
+2015-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/mmc64.h,
+	src/c64/cart/c64-generic.c, src/c64/cart/c64-generic.h,
+	src/c64/cart/c64carthooks.c, src/c64/cart/c64tpi.c,
+	src/c64/cart/c64tpi.h, src/c64/cart/capture.c, src/c64/cart/capture.h,
+	src/c64/cart/exos.c, src/c64/cart/exos.h, src/c64/cart/finalplus.c,
+	src/c64/cart/finalplus.h, src/c64/cart/formel64.c,
+	src/c64/cart/formel64.h, src/c64/cart/gamekiller.c,
+	src/c64/cart/gamekiller.h, src/c64/cart/magicformel.c,
+	src/c64/cart/magicformel.h, src/c64/cart/magicvoice.c,
+	src/c64/cart/magicvoice.h, src/c64/cart/mmc64.c,
+	src/c64/cart/retroreplay.c, src/c64/cart/retroreplay.h,
+	src/c64/cart/stardos.c, src/c64/cart/stardos.h, src/c64/cart/zaxxon.c,
+	src/c64/cart/zaxxon.h: Fixed the c64 export_s/export_t issues.
+
+2015-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/hls.c,
+	src/lib/libffmpeg/libavfilter/libmpcodecs/vf_fspp.c,
+	src/lib/libffmpeg/libavformat/concatdec.c,
+	src/lib/libffmpeg/libavformat/nutdec.c,
+	src/lib/libffmpeg/libavformat/nutenc.c,
+	src/lib/libffmpeg/libavformat/rtsp.c,
+	src/lib/libffmpeg/libavformat/rtsp.h,
+	src/lib/libffmpeg/libavformat/rtspdec.c,
+	src/lib/libffmpeg/libavformat/rtspenc.c: More type punning fixes.
+
+2015-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavfilter/vf_spp.c: More type punning fixes.
+
+2015-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/common/deblock.c, src/lib/libx264/common/frame.c,
+	src/lib/libx264/common/frame.h, src/lib/libx264/common/macroblock.c,
+	src/lib/libx264/common/mvpred.c, src/lib/libx264/encoder/analyse.c,
+	src/lib/libx264/encoder/cabac.c, src/lib/libx264/encoder/macroblock.c,
+	src/lib/libx264/encoder/ratecontrol.c,
+	src/lib/libx264/encoder/slicetype.c: More type punning fixes.
+
+2015-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/common/macroblock.c,
+	src/lib/libx264/common/common.h: Some type punning fixes.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c,
+	src/platform/platform_netbsd_version.h: Updated.
+
+2015-05-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/keyedobjects.nib:
+	fixed drive settings dialog, added 1540. should fix bug #607
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/on2avc.c,
+	src/lib/libffmpeg/libavcodec/proresenc_kostya.c,
+	src/lib/libffmpeg/libavcodec/wmavoice.c,
+	src/lib/libffmpeg/libavcodec/vp9.c,
+	src/lib/libffmpeg/libavcodec/opus_silk.c,
+	src/lib/libffmpeg/libavcodec/opusdec.c,
+	src/lib/libffmpeg/libavcodec/pnm.c,
+	src/lib/libffmpeg/libavcodec/ra144enc.c: Fixed some more warnings.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt: Updated.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Fixed a typo.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c: Updated.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Fixed.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/cinepakenc.c: Fixed.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/adpcm.c,
+	src/lib/libffmpeg/libavcodec/cinepakenc.c,
+	src/lib/libffmpeg/libavcodec/eatgv.c,
+	src/lib/libffmpeg/libavcodec/j2kenc.c,
+	src/lib/libffmpeg/libavfilter/avfiltergraph.c,
+	src/lib/libffmpeg/libavformat/img2dec.c,
+	src/lib/libffmpeg/libavformat/mpc8.c,
+	src/lib/libffmpeg/libavformat/sdp.c: Some more warning fixes.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/socketimpl.h, src/arch/beos/socketimpl.h,
+	src/arch/msdos/socketimpl.h: Added 'netinet/tcp.h' include to other
+	platforms.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/socketimpl.h: Fixed type of 'SOCKET' for the dos
+	port.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/uiedit.c, src/gfxoutputdrv/ffmpegdrv.c: Some
+	warning fixes.
+
+2015-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavutil/internal.h: Use warning disable/enable
+	pragma only for gcc 4.2 and up.
+
+2015-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Added '-Wno-deprecated-declarations'
+	to the libx264/libffmpeg configure lines.
+
+2015-05-07  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/vic20-generic.c: attach 16k cart at 0x6000 to block 3
+	and block 5
+
+2015-05-07  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/resource-and-cmdline-checking.txt,
+	doc/html/amigaos.html, doc/html/beos.html, doc/html/index.html,
+	doc/html/macosx.html, doc/html/qnx.html, doc/html/sco.html,
+	doc/html/sitemap.xml, doc/html/solaris.html: updated WIKI url
+
+2015-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_discovery.h,
+	src/platform/platform_hurd_runtime_os.c: Some hurd fixes.
+
+2015-05-07  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/acia.h: DSR/DCD mixed up. See
+	http://codebase64.org/doku.php?id=magazines:chacking10
+
+2015-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_runtime_os.c,
+	src/platform/platform_netbsd_runtime_os.c,
+	src/platform/platform_netbsd_version.h: Updated.
+
+2015-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_runtime_os.c,
+	src/arch/unix/x11/xaw/widgets/FileSel.c: Some more warnings fixed.
+
+2015-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/doc: Added some svn ignores.
+
+2015-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libswscale/utils.c: Fixed a warning.
+
+2015-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c,
+	src/gfxoutputdrv/ffmpegdrv.c: More warning fixes.
+
+2015-05-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/utils.c: Better iconv warning fix.
+
+2015-05-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/utils.c: Reverted a warning fix.
+
+2015-05-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/atrac3plus.c,
+	src/lib/libffmpeg/libavcodec/hevc_ps.c,
+	src/lib/libffmpeg/libavcodec/h264_cavlc.c: More warning fixes.
+
+2015-05-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/xface.c,
+	src/lib/libffmpeg/libavcodec/vp9.c,
+	src/lib/libffmpeg/libavcodec/utils.c,
+	src/lib/libffmpeg/libavcodec/takdec.c,
+	src/lib/libffmpeg/libavcodec/tscc.c,
+	src/lib/libffmpeg/libavcodec/vc1_parser.c,
+	src/lib/libffmpeg/libavcodec/x86/videodsp_init.c: More warnings fixed.
+
+2015-05-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/dvenc.c,
+	src/lib/libffmpeg/libavcodec/libx264.c: Warning fixes.
+
+2015-05-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/uimidi.c: remove MIDIMODE from xvic ui
+
+2015-05-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/motion_est.c,
+	src/lib/libffmpeg/libavcodec/ra144enc.c,
+	src/lib/libffmpeg/libavcodec/mpegaudiodsp.c,
+	src/lib/libffmpeg/libavcodec/mpegvideo_enc.c,
+	src/lib/libffmpeg/libavcodec/pngenc.c,
+	src/lib/libffmpeg/libavcodec/snowenc.c: More warnings fixed.
+
+2015-05-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/hevc_cabac.c,
+	src/lib/libffmpeg/libavcodec/hevc.c,
+	src/lib/libffmpeg/libavcodec/hevc_refs.c: Some more warning fixes.
+
+2015-05-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/id3v2.c,
+	src/lib/libffmpeg/libavformat/img2dec.c,
+	src/lib/libffmpeg/libavformat/os_support.c,
+	src/lib/libffmpeg/libavformat/rtmpproto.c,
+	src/lib/libffmpeg/libavformat/udp.c: More warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/g2meet.c: More warnings fixed.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/exr.c,
+	src/lib/libffmpeg/libavcodec/dvenc.c,
+	src/lib/libffmpeg/libavcodec/dpxenc.c,
+	src/lib/libffmpeg/libavcodec/fmtconvert.c: More warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/cinepakenc.c,
+	src/lib/libffmpeg/libavcodec/allcodecs.c: Again more warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/aaccoder.c,
+	src/lib/libffmpeg/libavformat/mpegtsenc.c,
+	src/lib/libffmpeg/libavformat/smush.c,
+	src/lib/libffmpeg/libavformat/srtp.c,
+	src/lib/libffmpeg/libavformat/yuv4mpegdec.c: Even more warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/flvdec.c,
+	src/lib/libffmpeg/libavformat/format.c: Yet more warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavformat/flvdec.c: Fixed some more warnings.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu, src/lib/libx264/encoder/encoder.c:
+	More warning fixes.
+
+2015-05-04  groepaz <groepaz@gmx.net>
+
+	* src/main.c: fix warning
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/encoder/cabac.c,
+	src/lib/libx264/encoder/macroblock.c,
+	src/lib/libx264/encoder/slicetype.c,
+	src/lib/libx264/encoder/encoder.c: More warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/encoder/macroblock.c,
+	src/lib/libx264/encoder/ratecontrol.c,
+	src/lib/libx264/encoder/slicetype.c,
+	src/lib/libx264/encoder/macroblock.h: More warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/encoder/slicetype.c, src/lib/libx264/encoder/me.c:
+	More warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/encoder/analyse.c,
+	src/lib/libx264/encoder/slicetype.c: More warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/common/common.c, src/lib/libx264/encoder/cavlc.c,
+	src/lib/libx264/encoder/rdo.c: More warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/common/macroblock.c, src/lib/libx264/common/pixel.c:
+	More warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/common/predict.c: More warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/lib/liblame/libmp3lame/id3tag.c: More
+	warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/x264.c: Some more warning fixes.
+
+2015-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/liblame/libmp3lame/quantize.c: Warning fix.
+
+2015-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c,
+	src/platform/platform_netbsd_version.h: Updated.
+
+2015-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/liblame/libmp3lame/quantize.c: Some more gcc4.9* fixes.
+
+2015-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/liblame/configure: Fixed internal liblame configure for
+	gcc4.9*
+
+2015-05-03  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/keyedobjects.nib
+	src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/VICE.xcodeproj/project.pbxproj: some OSX gui
+	fixes
+
+2015-05-03  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/cocoa/kbd.h, src/arch/unix/macosx/cocoa/kbd.m:
+	make osx port compile again
+
+2015-05-02  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/vic20-generic.c: oops
+
+2015-05-02  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/vic20-generic.c: enable attaching of raw 16k
+	cartridges at block 1/2 and block 2/3
+
+2015-05-02  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/sdl/xcbm2_ui.c,
+	src/arch/sdl/menu_c64cart.c, src/arch/sdl/menu_pethw.c,
+	src/arch/sdl/menu_settings.c, src/arch/sdl/menu_settings.h,
+	src/arch/sdl/vkbd.c, src/arch/sdl/vsidui.c, src/arch/sdl/x128_ui.c,
+	src/arch/sdl/x64_ui.c, src/arch/sdl/x64dtv_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xscpu64_ui.c,
+	src/arch/sdl/xvic_ui.c: full support for the new keymap handling in
+	SDL port
+
+2015-05-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_discovery.h,
+	src/platform/platform_hurd_runtime_os.c: Some improvements.
+
+2015-05-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_discovery.h,
+	src/platform/platform_hurd_runtime_os.c: Fixed and added gnu hurd
+	support.
+
+2015-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_runtime_os.c: Coding style fixes.
+
+2015-05-01  groepaz <groepaz@gmx.net>
+
+	* data/C64/Makefile.am, data/C64/sdl_sym.vkm, data/C64DTV/Makefile.am,
+	data/C64DTV/sdl_sym.vkm, data/SCPU64/Makefile.am,
+	data/SCPU64/sdl_sym.vkm: added symbolic keymaps for SDL port
+
+2015-05-01  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/vic20-generic.c: allow attaching of raw cartridge to
+	the selected block. also allows to attach files with load address to
+	arbitrary blocks. fixes bug #641
+
+2015-05-01  groepaz <groepaz@gmx.net>
+
+	* src/resources.c, src/resources.h: fix warning
+
+2015-05-01  groepaz <groepaz@gmx.net>
+
+	* src/log.c: also disable debug :)
+
+2015-05-01  groepaz <groepaz@gmx.net>
+
+	* src/log.c: fixed typo
+
+2015-05-01  groepaz <groepaz@gmx.net>
+
+	* src/core/viacore.c: added i/o dump for VIA
+
+2015-04-30  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2015-04-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Removed unused code.
+
 2015-04-30  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
