@@ -44,6 +44,8 @@
 
 #include "vice.h"
 
+#include <string.h> /* for memcpy */
+
 #include "types.h"
 
 #include "file_drv.h"
@@ -966,7 +968,9 @@ static void file_load_sample(int channels)
         file_size = ftell(sample_file);
         fseek(sample_file, 0, SEEK_SET);
         file_buffer = lib_malloc(file_size);
-        fread(file_buffer, 1, file_size, sample_file);
+        if (fread(file_buffer, 1, file_size, sample_file) != file_size) {
+            log_warning(LOG_DEFAULT, "Unexpected end of data in '%s'.", SAMPLE_NAME);
+        }
         fclose(sample_file);
         err = handle_file_type(channels);
         if (!err) {
@@ -978,10 +982,10 @@ static void file_load_sample(int channels)
         } else {
             lib_free(file_buffer);
             file_buffer = NULL;
-            log_warning(LOG_DEFAULT, "Unknown file type for %s", SAMPLE_NAME);
+            log_warning(LOG_DEFAULT, "Unknown file type for '%s'.", SAMPLE_NAME);
         }
     } else {
-        log_warning(LOG_DEFAULT, "Cannot open sampler file: %s", SAMPLE_NAME);
+        log_warning(LOG_DEFAULT, "Cannot open sampler file: '%s'.", SAMPLE_NAME);
     }
 }
 
