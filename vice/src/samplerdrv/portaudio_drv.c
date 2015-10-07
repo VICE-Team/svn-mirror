@@ -175,12 +175,20 @@ static BYTE portaudio_get_sample(int channel)
     return old_sample;
 }
 
+static void portaudio_shutdown(void)
+{
+    if (stream_started) {
+        portaudio_stop_sampling();
+    }
+}
+
 static sampler_device_t portaudio_device =
 {
     "portaudio",
     portaudio_start_sampling,
     portaudio_stop_sampling,
-    portaudio_get_sample
+    portaudio_get_sample,
+    portaudio_shutdown
 };
 
 

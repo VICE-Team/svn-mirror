@@ -93,6 +93,7 @@ void sampler_device_register(sampler_device_t *device)
     devices[i].open = device->open;
     devices[i].close = device->close;
     devices[i].get_sample = device->get_sample;
+    devices[i].shutdown = device->shutdown;
 }
 
 /* Currently unused, provided for future expansion */
@@ -101,9 +102,12 @@ int sampler_resources_init(void)
     return 0;
 }
 
-/* Currently unused, provided for future expansion */
+/* Currently only used for device shutdown */
 void sampler_resources_shutdown(void)
 {
+    if (devices[current_sampler].shutdown) {
+        devices[current_sampler].shutdown();
+    }
 }
 
 /* Currently unused, provided for future expansion */

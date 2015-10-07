@@ -42,6 +42,17 @@
  - 44010 Hz, u-law, stereo
  */
 
+/* VOC files tested and working:
+ - 22050 Hz, 8bit PCM, stereo
+ - 22050 Hz, 16bit PCM, mono
+ - 11025 Hz, 16bit PCM, stereo
+ - 22050 Hz, 16bit PCM, stereo
+ - 23456 Hz, 16bit PCM, stereo
+ - 44100 Hz, 16bit PCM, stereo
+ - 22050 Hz, a-law, stereo
+ - 22050 Hz, u-law, stereo
+ */
+
 #include "vice.h"
 
 #include <string.h> /* for memcpy */
@@ -317,6 +328,8 @@ static int convert_double_buffer(int size, int channels)
     return 0;
 }
 
+/* ---------------------------------------------------------------------- */
+
 static void check_and_skip_chunk(void)
 {
     unsigned int size = 0;
@@ -529,6 +542,7 @@ static int voc_handle_sound_1(int channels)
     unsigned int size;
     BYTE fd;
     BYTE codec;
+    unsigned int rem;
 
     if (file_pointer + 6 > file_size) {
         return -1;
@@ -541,6 +555,14 @@ static int voc_handle_sound_1(int channels)
         return -1;
     }
     file_pointer += 3;
+
+    log_warning(LOG_DEFAULT, "VOC block 1, size : %X, remainder : %X", size, file_size - file_pointer);
+
+    rem = (file_size - file_pointer) % 0x1000000;
+
+    if (rem == size || rem == size - 1 || rem == size + 1) {
+        size = (file_size - file_pointer) - 1;
+    }
 
     if (!sound_audio_rate) {
         fd = file_buffer[file_pointer];
@@ -669,6 +691,7 @@ static int voc_handle_sound_9(int channels)
 {
     unsigned int size;
     WORD codec;
+    unsigned int rem;
 
     if (file_pointer + 16 > file_size) {
         return -1;
@@ -682,6 +705,14 @@ static int voc_handle_sound_9(int channels)
     }
 
     file_pointer += 3;
+
+    log_warning(LOG_DEFAULT, "VOC block 9, size : %X, remainder : %X", size, file_size - file_pointer);
+
+    rem = (file_size - file_pointer) % 0x1000000;
+
+    if (rem == size || rem == size - 1 || rem == size + 1) {
+        size = (file_size - file_pointer) - 1;
+    }
 
     sound_audio_rate = (file_buffer[file_pointer + 3] << 24) | (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (!sound_audio_rate) {
@@ -739,9 +770,9 @@ static int voc_handle_sound_9(int channels)
 
     if (voc_buffer1) {
         memcpy(voc_buffer2, voc_buffer1, voc_buffer_size);
-        memcpy(voc_buffer2 + voc_buffer_size, file_buffer + file_pointer, size);
         lib_free(voc_buffer1);
     }
+    memcpy(voc_buffer2 + voc_buffer_size, file_buffer + file_pointer, size);
     voc_buffer1 = voc_buffer2;
     voc_buffer2 = NULL;
     voc_buffer_size += size;
@@ -912,9 +943,27 @@ static int handle_voc_file(int channels)
         }
     }
 
-    /* This is a wip, the actual decoding of the resulting buffer still needs to be made */
+    lib_free(file_buffer);
+    file_buffer = NULL;
 
-    return 0;
+    file_buffer = voc_buffer1;
+    voc_buffer1 = NULL;
+
+    file_pointer = 0;
+    file_size = voc_buffer_size;
+
+    switch (sound_audio_type) {
+        case AUDIO_TYPE_PCM:
+            return convert_pcm_buffer(file_size, channels);
+        case AUDIO_TYPE_ALAW:
+            return convert_alaw_buffer(file_size, channels);
+        case AUDIO_TYPE_ULAW:
+            return convert_ulaw_buffer(file_size, channels);
+        default:
+            log_warning(LOG_DEFAULT, "unhandled audio type");
+            return -1;
+    }
+    return -1;
 }
 
 static int is_voc_file(void)
@@ -1038,12 +1087,20 @@ static BYTE file_get_sample(int channel)
     return sample_buffer1[(frame_sample + sound_sample_frame_start) % sample_size];
 }
 
+static void file_shutdown(void)
+{
+    if (sample_buffer1) {
+        file_free_sample();
+    }
+}
+
 static sampler_device_t file_device =
 {
     "file",
     file_load_sample,
     file_free_sample,
-    file_get_sample
+    file_get_sample,
+    file_shutdown
 };
 
 void fileaudio_init(void)
