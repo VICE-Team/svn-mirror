@@ -53,6 +53,14 @@
  - 22050 Hz, u-law, stereo
  */
 
+/* IFF files tested and working:
+ - 22050 Hz, 8bit PCM, mono
+ - 11025 Hz, 8bit PCM, stereo
+ - 22050 Hz, 8bit PCM, stereo
+ - 23456 Hz, 8bit PCM, stereo
+ - 44100 Hz, 8bit PCM, stereo
+ */
+
 #include "vice.h"
 
 #include <string.h> /* for memcpy */
@@ -69,11 +77,12 @@
 /* In the future the filename can be set from either commandline or gui */
 #define SAMPLE_NAME "inputsound"
 
-#define AUDIO_TYPE_UNKNOWN -1
-#define AUDIO_TYPE_PCM      0
-#define AUDIO_TYPE_FLOAT    1
-#define AUDIO_TYPE_ALAW     2
-#define AUDIO_TYPE_ULAW     3
+#define AUDIO_TYPE_UNKNOWN  -1
+#define AUDIO_TYPE_PCM       0
+#define AUDIO_TYPE_FLOAT     1
+#define AUDIO_TYPE_ALAW      2
+#define AUDIO_TYPE_ULAW      3
+#define AUDIO_TYPE_PCM_AMIGA 4
 
 static unsigned sample_size = 0;
 static int sound_sampling_started = 0;
@@ -201,6 +210,7 @@ static int convert_pcm_buffer(int size, int channels)
 {
     unsigned int frame_size = sound_audio_bits * sound_audio_channels / 8;
     unsigned int i;
+
     sample_size = size / frame_size;
 
     sample_buffer1 = lib_malloc(sample_size);
@@ -214,12 +224,12 @@ static int convert_pcm_buffer(int size, int channels)
 
     for (i = 0; i < sample_size; ++i) {
         sample_buffer1[i] = file_buffer[file_pointer + (i * frame_size) + (sound_audio_bits / 8) - 1];
-        if (sound_audio_bits != 8) {
+        if (sound_audio_bits != 8 || sound_audio_type == AUDIO_TYPE_PCM_AMIGA) {
             sample_buffer1[i] += 0x80;
         }
         if (sound_audio_channels == 2 && channels == SAMPLER_OPEN_STEREO) {
             sample_buffer2[i] = file_buffer[file_pointer + (i * frame_size) + (frame_size / 2) + (sound_audio_bits / 8) - 1];
-            if (sound_audio_bits != 8) {
+            if (sound_audio_bits != 8 || sound_audio_type == AUDIO_TYPE_PCM_AMIGA) {
                 sample_buffer2[i] += 0x80;
             }
         }
@@ -556,8 +566,6 @@ static int voc_handle_sound_1(int channels)
     }
     file_pointer += 3;
 
-    log_warning(LOG_DEFAULT, "VOC block 1, size : %X, remainder : %X", size, file_size - file_pointer);
-
     rem = (file_size - file_pointer) % 0x1000000;
 
     if (rem == size || rem == size - 1 || rem == size + 1) {
@@ -705,8 +713,6 @@ static int voc_handle_sound_9(int channels)
     }
 
     file_pointer += 3;
-
-    log_warning(LOG_DEFAULT, "VOC block 9, size : %X, remainder : %X", size, file_size - file_pointer);
 
     rem = (file_size - file_pointer) % 0x1000000;
 
@@ -986,6 +992,151 @@ static int is_voc_file(void)
 
 /* ---------------------------------------------------------------------- */
 
+static unsigned int iff_samples = 0;
+
+static int iff_handle_chan(void)
+{
+    DWORD stereo;
+
+    file_pointer += 4;
+
+    if (file_buffer[file_pointer] != 0 || file_buffer[file_pointer + 1] != 0 || file_buffer[file_pointer + 2] != 0 || file_buffer[file_pointer + 3] != 4) {
+        return -1;
+    }
+
+    file_pointer += 4;
+
+    stereo = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+
+    if (stereo == 6 || stereo == 0x6000000) {
+        sound_audio_channels = 2;
+    }
+
+    file_pointer += 4;
+
+    return 0;
+}
+
+static int iff_handle_body(int channels)
+{
+    DWORD size;
+
+    file_pointer += 4;
+
+    size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+
+    if (!size) {
+        return -1;
+    }
+
+    file_pointer += 4;
+
+    return convert_pcm_buffer(size, channels);
+}
+
+static int handle_iff_file(int channels)
+{
+    DWORD size;
+    DWORD header;
+    int body_found = 0;
+    int err = 0;
+
+    sound_audio_type = AUDIO_TYPE_PCM_AMIGA;
+    sound_audio_channels = 1;
+    sound_audio_bits = 8;
+
+    size = (file_buffer[4] << 24) | (file_buffer[5] << 16) | (file_buffer[6] << 8) | file_buffer[7];
+
+    if (size != file_size - 8) {
+        return -1;
+    }
+
+    size = (file_buffer[16] << 24) | (file_buffer[17] << 16) | (file_buffer[18] << 8) | file_buffer[19];
+    if (size != 20) {
+        return -1;
+    }
+
+    iff_samples = (file_buffer[20] << 24) | (file_buffer[21] << 16) | (file_buffer[22] << 8) | file_buffer[23];
+    if (!iff_samples) {
+        return -1;
+    }
+
+    if (file_buffer[24] != 0 || file_buffer[25] != 0 || file_buffer[26] != 0 || file_buffer[27] != 0) {
+        return -1;
+    }
+
+    if (file_buffer[28] != 0 || file_buffer[29] != 0 || file_buffer[30] != 0 || file_buffer[31] != 0) {
+        return -1;
+    }
+
+    sound_audio_rate = (file_buffer[32] << 8) | file_buffer[33];
+    if (!sound_audio_rate) {
+        return -1;
+    }
+
+    if (file_buffer[34] != 1) {
+        return -1;
+    }
+
+    if (file_buffer[35]) {
+        return -1;
+    }
+
+    file_pointer = 40;
+
+    while (file_pointer <= file_size && !body_found) {
+        if (file_pointer + 8 > file_size) {
+            return -1;
+        }
+
+        header = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+
+        switch (header) {
+            case 0x424F4459:
+                err = iff_handle_body(channels);
+                body_found = 1;
+                break;
+            case 0x4348414E:
+                err = iff_handle_chan();
+                break;
+            default:
+                file_pointer += 4;
+                size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+                file_pointer += 4;
+                if (file_pointer + size > file_size) {
+                    return -1;
+                }
+                file_pointer += size;
+        }
+        if (err) {
+            return -1;
+        }
+    }
+    if (!body_found) {
+        return -1;
+    }
+    return 0;
+}
+
+static int is_iff_file(void)
+{
+    if (file_size < 16) {
+        return 0;
+    }
+
+    /* Check for iff header signature */
+    if (file_buffer[0] == 0x46 && file_buffer[1] == 0x4F && file_buffer[2] == 0x52 && file_buffer[3] == 0x4D) {
+        if (file_buffer[8] == 0x38 && file_buffer[9] == 0x53 && file_buffer[10] == 0x56 && file_buffer[11] == 0x58) {
+            if (file_buffer[12] == 0x56 && file_buffer[13] == 0x48 && file_buffer[14] == 0x44 && file_buffer[15] == 0x52) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+/* ---------------------------------------------------------------------- */
+
 static int handle_file_type(int channels)
 {
     /* Check for wav file */
@@ -998,6 +1149,12 @@ static int handle_file_type(int channels)
     if (is_voc_file()) {
         log_warning(LOG_DEFAULT, "filetype recognized as a VOC file, starting parsing.");
         return handle_voc_file(channels);
+    }
+
+    /* Check for iff file */
+    if (is_iff_file()) {
+        log_warning(LOG_DEFAULT, "filetype recognized as an IFF file, starting parsing.");
+        return handle_iff_file(channels);
     }
 
     log_warning(LOG_DEFAULT, "filetype was not handled.");
