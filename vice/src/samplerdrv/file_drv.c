@@ -71,6 +71,14 @@
  - 22050 Hz, 32bit PCM, stereo
  */
 
+/* AIFC files tested and working:
+ - 22050 Hz, 8bit PCM, stereo
+ - 22050 Hz, 32bit float, stereo
+ - 22050 Hz, 64bit float, stereo
+ - 22050 Hz, a-law, stereo
+ - 22050 Hz, u-law, stereo
+ */
+
 #include "vice.h"
 
 #include <string.h> /* for memcpy */
@@ -95,6 +103,7 @@
 #define AUDIO_TYPE_ULAW      3
 #define AUDIO_TYPE_PCM_AMIGA 4
 #define AUDIO_TYPE_PCM_BE    5
+#define AUDIO_TYPE_FLOAT_BE  6
 
 static unsigned sample_size = 0;
 static int sound_sampling_started = 0;
@@ -280,19 +289,33 @@ static int convert_float_buffer(int size, int channels)
     }
 
     for (i = 0; i < sample_size; ++i) {
-        c[0] = file_buffer[file_pointer + (i * frame_size)];
-        c[1] = file_buffer[file_pointer + (i * frame_size) + 1];
-        c[2] = file_buffer[file_pointer + (i * frame_size) + 2];
-        c[3] = file_buffer[file_pointer + (i * frame_size) + 3];
+        if (sound_audio_type == AUDIO_TYPE_FLOAT_BE) {
+            c[3] = file_buffer[file_pointer + (i * frame_size)];
+            c[2] = file_buffer[file_pointer + (i * frame_size) + 1];
+            c[1] = file_buffer[file_pointer + (i * frame_size) + 2];
+            c[0] = file_buffer[file_pointer + (i * frame_size) + 3];
+        } else {
+            c[0] = file_buffer[file_pointer + (i * frame_size)];
+            c[1] = file_buffer[file_pointer + (i * frame_size) + 1];
+            c[2] = file_buffer[file_pointer + (i * frame_size) + 2];
+            c[3] = file_buffer[file_pointer + (i * frame_size) + 3];
+        }
         memcpy(&f, c, sizeof(float));
         f *= 0x7fffffff;
         sample = (SDWORD)f;
         sample_buffer1[i] = (sample >> 24) + 0x80;
         if (sound_audio_channels == 2 && channels == SAMPLER_OPEN_STEREO) {
-            c[0] = file_buffer[file_pointer + (i * frame_size) + 4];
-            c[1] = file_buffer[file_pointer + (i * frame_size) + 5];
-            c[2] = file_buffer[file_pointer + (i * frame_size) + 6];
-            c[3] = file_buffer[file_pointer + (i * frame_size) + 7];
+            if (sound_audio_type == AUDIO_TYPE_FLOAT_BE) {
+                c[3] = file_buffer[file_pointer + (i * frame_size) + 4];
+                c[2] = file_buffer[file_pointer + (i * frame_size) + 5];
+                c[1] = file_buffer[file_pointer + (i * frame_size) + 6];
+                c[0] = file_buffer[file_pointer + (i * frame_size) + 7];
+            } else {
+                c[0] = file_buffer[file_pointer + (i * frame_size) + 4];
+                c[1] = file_buffer[file_pointer + (i * frame_size) + 5];
+                c[2] = file_buffer[file_pointer + (i * frame_size) + 6];
+                c[3] = file_buffer[file_pointer + (i * frame_size) + 7];
+            }
             memcpy(&f, c, sizeof(float));
             f *= 0x7fffffff;
             sample = (SDWORD)f;
@@ -325,28 +348,49 @@ static int convert_double_buffer(int size, int channels)
     }
 
     for (i = 0; i < sample_size; ++i) {
-        c[0] = file_buffer[file_pointer + (i * frame_size)];
-        c[1] = file_buffer[file_pointer + (i * frame_size) + 1];
-        c[2] = file_buffer[file_pointer + (i * frame_size) + 2];
-        c[3] = file_buffer[file_pointer + (i * frame_size) + 3];
-        c[4] = file_buffer[file_pointer + (i * frame_size) + 4];
-        c[5] = file_buffer[file_pointer + (i * frame_size) + 5];
-        c[6] = file_buffer[file_pointer + (i * frame_size) + 6];
-        c[7] = file_buffer[file_pointer + (i * frame_size) + 7];
-
+        if (sound_audio_type == AUDIO_TYPE_FLOAT_BE) {
+            c[7] = file_buffer[file_pointer + (i * frame_size)];
+            c[6] = file_buffer[file_pointer + (i * frame_size) + 1];
+            c[5] = file_buffer[file_pointer + (i * frame_size) + 2];
+            c[4] = file_buffer[file_pointer + (i * frame_size) + 3];
+            c[3] = file_buffer[file_pointer + (i * frame_size) + 4];
+            c[2] = file_buffer[file_pointer + (i * frame_size) + 5];
+            c[1] = file_buffer[file_pointer + (i * frame_size) + 6];
+            c[0] = file_buffer[file_pointer + (i * frame_size) + 7];
+        } else {
+            c[0] = file_buffer[file_pointer + (i * frame_size)];
+            c[1] = file_buffer[file_pointer + (i * frame_size) + 1];
+            c[2] = file_buffer[file_pointer + (i * frame_size) + 2];
+            c[3] = file_buffer[file_pointer + (i * frame_size) + 3];
+            c[4] = file_buffer[file_pointer + (i * frame_size) + 4];
+            c[5] = file_buffer[file_pointer + (i * frame_size) + 5];
+            c[6] = file_buffer[file_pointer + (i * frame_size) + 6];
+            c[7] = file_buffer[file_pointer + (i * frame_size) + 7];
+        }
         memcpy(&f, c, sizeof(double));
         f *= 0x7fffffff;
         sample = (SDWORD)f;
         sample_buffer1[i] = (sample >> 24) + 0x80;
         if (sound_audio_channels == 2 && channels == SAMPLER_OPEN_STEREO) {
-            c[0] = file_buffer[file_pointer + (i * frame_size) + 8];
-            c[1] = file_buffer[file_pointer + (i * frame_size) + 9];
-            c[2] = file_buffer[file_pointer + (i * frame_size) + 10];
-            c[3] = file_buffer[file_pointer + (i * frame_size) + 11];
-            c[4] = file_buffer[file_pointer + (i * frame_size) + 12];
-            c[5] = file_buffer[file_pointer + (i * frame_size) + 13];
-            c[6] = file_buffer[file_pointer + (i * frame_size) + 14];
-            c[7] = file_buffer[file_pointer + (i * frame_size) + 15];
+            if (sound_audio_type == AUDIO_TYPE_FLOAT_BE) {
+                c[7] = file_buffer[file_pointer + (i * frame_size) + 8];
+                c[6] = file_buffer[file_pointer + (i * frame_size) + 9];
+                c[5] = file_buffer[file_pointer + (i * frame_size) + 10];
+                c[4] = file_buffer[file_pointer + (i * frame_size) + 11];
+                c[3] = file_buffer[file_pointer + (i * frame_size) + 12];
+                c[2] = file_buffer[file_pointer + (i * frame_size) + 13];
+                c[1] = file_buffer[file_pointer + (i * frame_size) + 14];
+                c[0] = file_buffer[file_pointer + (i * frame_size) + 15];
+            } else {
+                c[0] = file_buffer[file_pointer + (i * frame_size) + 8];
+                c[1] = file_buffer[file_pointer + (i * frame_size) + 9];
+                c[2] = file_buffer[file_pointer + (i * frame_size) + 10];
+                c[3] = file_buffer[file_pointer + (i * frame_size) + 11];
+                c[4] = file_buffer[file_pointer + (i * frame_size) + 12];
+                c[5] = file_buffer[file_pointer + (i * frame_size) + 13];
+                c[6] = file_buffer[file_pointer + (i * frame_size) + 14];
+                c[7] = file_buffer[file_pointer + (i * frame_size) + 15];
+            }
             memcpy(&f, c, sizeof(double));
             f *= 0x7fffffff;
             sample = (SDWORD)f;
@@ -1346,6 +1390,205 @@ static int is_aiff_file(void)
 
 /* ---------------------------------------------------------------------- */
 
+static int aifc_handle_ssnd(int channels)
+{
+    DWORD size;
+    int i;
+
+    file_pointer += 4;
+
+    size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+    file_pointer += 4;
+    if (file_pointer + size > file_size) {
+        log_warning(LOG_DEFAULT, "SSND chunk bigger than remaining size : %X %X", size, file_size - file_pointer);
+        return -1;
+    }
+
+    for (i = 0; i < 8; ++i) {
+        if (file_buffer[file_pointer + i]) {
+            log_warning(LOG_DEFAULT, "SSND secondary parameters not 0");
+            return -1;
+        }
+    }
+
+    file_pointer += 8;
+    size -= 8;
+
+    switch (sound_audio_type) {
+        case AUDIO_TYPE_PCM:
+            return convert_pcm_buffer(size, channels);
+        case AUDIO_TYPE_FLOAT_BE:
+            switch (sound_audio_bits) {
+                case 32:
+                    return convert_float_buffer(size, channels);
+                case 64:
+                    return convert_double_buffer(size, channels);
+                default:
+                    log_warning(LOG_DEFAULT, "Unhandled float format : %d", sound_audio_bits);
+                    return -1;
+            }
+        case AUDIO_TYPE_ALAW:
+            return convert_alaw_buffer(size, channels);
+        case AUDIO_TYPE_ULAW:
+            return convert_ulaw_buffer(size, channels);
+        default:
+            log_warning(LOG_DEFAULT, "unhandled audio type");
+            return -1;
+    }
+    return -1;
+}
+
+static int aifc_handle_comm(void)
+{
+    DWORD size;
+    DWORD type;
+    double f64;
+    unsigned char f80[10];
+    int i;
+
+    file_pointer += 4;
+
+    size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+    file_pointer += 4;
+    if (size + file_pointer > file_size) {
+        return -1;
+    }
+
+    sound_audio_channels = (file_buffer[file_pointer] << 8) | file_buffer[file_pointer + 1];
+    if (sound_audio_channels < 1 || sound_audio_channels > 2) {
+        log_warning(LOG_DEFAULT, "COMM channels not 1 or 2 : %d", sound_audio_channels);
+        return -1;
+    }
+
+    file_pointer += 6;
+    size -= 6;
+
+    sound_audio_bits = (file_buffer[file_pointer] << 8) | file_buffer[file_pointer + 1];
+    switch (sound_audio_bits) {
+        case 8:
+        case 16:
+        case 24:
+        case 32:
+        case 64:
+            break;
+        default:
+            log_warning(LOG_DEFAULT, "COMM bits not 8, 16, 24, 32 or 64 : %d", sound_audio_bits);
+            return -1;
+    }
+
+    file_pointer += 2;
+    size -= 2;
+
+    for (i = 0; i < 10; ++i) {
+        f80[i] = file_buffer[file_pointer + i];  
+    }
+
+    f64 = float80tofloat64(f80);
+    sound_audio_rate = (unsigned int)f64;
+    if (!sound_audio_rate) {
+        log_warning(LOG_DEFAULT, "COMM audio rate is 0");
+        return -1;
+    }
+
+    file_pointer += 10;
+    size -= 10;
+
+    type = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+
+    switch (type) {
+        case 0x616C6177:
+            sound_audio_type = AUDIO_TYPE_ALAW;
+            break;
+        case 0x464C3332:
+        case 0x464C3634:
+            sound_audio_type = AUDIO_TYPE_FLOAT_BE;
+            break;
+        case 0x72617720:
+            sound_audio_type = AUDIO_TYPE_PCM;
+            break;
+        case 0x756C6177:
+            sound_audio_type = AUDIO_TYPE_ULAW;
+            break;
+        default:
+            return -1;
+    }
+    file_pointer += size;
+
+    return 0;
+}
+
+static int handle_aifc_file(int channels)
+{
+    DWORD size;
+    DWORD header;
+    int ssnd_found = 0;
+    int err = 0;
+
+    size = (file_buffer[4] << 24) | (file_buffer[5] << 16) | (file_buffer[6] << 8) | file_buffer[7];
+
+    if (size != file_size - 8) {
+        log_warning(LOG_DEFAULT, "AIFC size is wrong : %X %X", size, file_size - 8);
+        return -1;
+    }
+
+    file_pointer = 12;
+
+    while (file_pointer <= file_size && !ssnd_found) {
+        if (file_pointer + 8 > file_size) {
+            return -1;
+        }
+
+        header = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+
+        switch (header) {
+            case 0x53534E44:
+                log_warning(LOG_DEFAULT, "handling AIFC SSND chunk");
+                err = aifc_handle_ssnd(channels);
+                ssnd_found = 1;
+                break;
+            case 0x434F4D4D:
+                log_warning(LOG_DEFAULT, "handling AIFC COMM chunk");
+                err = aifc_handle_comm();
+                break;
+            default:
+                file_pointer += 4;
+                size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+                if (size % 2) {
+                    ++size;
+                }
+                file_pointer += 4;
+                if (file_pointer + size > file_size) {
+                    return -1;
+                }
+                file_pointer += size;
+        }
+        if (err) {
+            return -1;
+        }
+    }
+    if (!ssnd_found) {
+        return -1;
+    }
+    return 0;
+}
+
+static int is_aifc_file(void)
+{
+    if (file_size < 12) {
+        return 0;
+    }
+
+    /* Check for aifc header signature */
+    if (file_buffer[0] == 0x46 && file_buffer[1] == 0x4F && file_buffer[2] == 0x52 && file_buffer[3] == 0x4D) {
+        if (file_buffer[8] == 0x41 && file_buffer[9] == 0x49 && file_buffer[10] == 0x46 && file_buffer[11] == 0x43) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/* ---------------------------------------------------------------------- */
+
 static int handle_file_type(int channels)
 {
     /* Check for wav file */
@@ -1370,6 +1613,12 @@ static int handle_file_type(int channels)
     if (is_aiff_file()) {
         log_warning(LOG_DEFAULT, "filetype recognized as an AIFF file, starting parsing.");
         return handle_aiff_file(channels);
+    }
+
+    /* Check for aiff file */
+    if (is_aifc_file()) {
+        log_warning(LOG_DEFAULT, "filetype recognized as an AIFC file, starting parsing.");
+        return handle_aifc_file(channels);
     }
 
     log_warning(LOG_DEFAULT, "filetype was not handled.");
