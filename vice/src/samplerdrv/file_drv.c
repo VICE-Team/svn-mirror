@@ -61,9 +61,20 @@
  - 44100 Hz, 8bit PCM, stereo
  */
 
+/* AIFF files tested and working:
+ - 22050 Hz, 8bit PCM, stereo
+ - 22050 Hz, 16bit PCM, mono
+ - 11025 Hz, 16bit PCM, stereo
+ - 22050 Hz, 16bit PCM, stereo
+ - 44100 Hz, 16bit PCM, stereo
+ - 22050 Hz, 24bit PCM, stereo
+ - 22050 Hz, 32bit PCM, stereo
+ */
+
 #include "vice.h"
 
 #include <string.h> /* for memcpy */
+#include <math.h>
 
 #include "types.h"
 
@@ -83,6 +94,7 @@
 #define AUDIO_TYPE_ALAW      2
 #define AUDIO_TYPE_ULAW      3
 #define AUDIO_TYPE_PCM_AMIGA 4
+#define AUDIO_TYPE_PCM_BE    5
 
 static unsigned sample_size = 0;
 static int sound_sampling_started = 0;
@@ -223,13 +235,21 @@ static int convert_pcm_buffer(int size, int channels)
     }
 
     for (i = 0; i < sample_size; ++i) {
-        sample_buffer1[i] = file_buffer[file_pointer + (i * frame_size) + (sound_audio_bits / 8) - 1];
-        if (sound_audio_bits != 8 || sound_audio_type == AUDIO_TYPE_PCM_AMIGA) {
+        if (sound_audio_type == AUDIO_TYPE_PCM_BE) {
+            sample_buffer1[i] = file_buffer[file_pointer + (i * frame_size)];
+        } else {
+            sample_buffer1[i] = file_buffer[file_pointer + (i * frame_size) + (sound_audio_bits / 8) - 1];
+        }
+        if (sound_audio_bits != 8 || sound_audio_type == AUDIO_TYPE_PCM_AMIGA || sound_audio_type == AUDIO_TYPE_PCM_BE) {
             sample_buffer1[i] += 0x80;
         }
         if (sound_audio_channels == 2 && channels == SAMPLER_OPEN_STEREO) {
-            sample_buffer2[i] = file_buffer[file_pointer + (i * frame_size) + (frame_size / 2) + (sound_audio_bits / 8) - 1];
-            if (sound_audio_bits != 8 || sound_audio_type == AUDIO_TYPE_PCM_AMIGA) {
+            if (sound_audio_type == AUDIO_TYPE_PCM_BE) {
+                sample_buffer2[i] = file_buffer[file_pointer + (i * frame_size) + (frame_size / 2)];
+            } else {
+                sample_buffer2[i] = file_buffer[file_pointer + (i * frame_size) + (frame_size / 2) + (sound_audio_bits / 8) - 1];
+            }
+            if (sound_audio_bits != 8 || sound_audio_type == AUDIO_TYPE_PCM_AMIGA || sound_audio_type == AUDIO_TYPE_PCM_BE) {
                 sample_buffer2[i] += 0x80;
             }
         }
@@ -1137,6 +1157,195 @@ static int is_iff_file(void)
 
 /* ---------------------------------------------------------------------- */
 
+#define U2F(u) (((double)((long)(u - 2147483647L - 1))) + 2147483648.0)
+
+#ifndef HUGE_VAL
+#define HUGE_VAL HUGE
+#endif
+
+double float80tofloat64(unsigned char* bytes)
+{
+    double f;
+    int expon;
+    unsigned long hiMant, loMant;
+    
+    expon = ((bytes[0] & 0x7F) << 8) | (bytes[1] & 0xFF);
+    hiMant = ((unsigned long)(bytes[2] & 0xFF) << 24) | ((unsigned long)(bytes[3] & 0xFF) << 16) | ((unsigned long)(bytes[4] & 0xFF) << 8) | ((unsigned long)(bytes[5] & 0xFF));
+    loMant = ((unsigned long)(bytes[6] & 0xFF) << 24) | ((unsigned long)(bytes[7] & 0xFF) << 16) | ((unsigned long)(bytes[8] & 0xFF) << 8) | ((unsigned long)(bytes[9] & 0xFF));
+
+    if (!expon && !hiMant && !loMant) {
+        f = 0;
+    } else {
+        if (expon == 0x7FFF) {
+            f = HUGE_VAL;
+        } else {
+            expon -= 16383;
+            f  = ldexp(U2F(hiMant), expon -= 31);
+            f += ldexp(U2F(loMant), expon -= 32);
+        }
+    }
+
+    if (bytes[0] & 0x80) {
+        return -f;
+    }
+    return f;
+}
+
+static int aiff_handle_ssnd(int channels)
+{
+    DWORD size;
+    int i;
+
+    file_pointer += 4;
+
+    size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+    file_pointer += 4;
+    if (file_pointer + size > file_size) {
+        log_warning(LOG_DEFAULT, "SSND chunk bigger than remaining size : %X %X", size, file_size - file_pointer);
+        return -1;
+    }
+
+    for (i = 0; i < 8; ++i) {
+        if (file_buffer[file_pointer + i]) {
+            log_warning(LOG_DEFAULT, "SSND secondary parameters not 0");
+            return -1;
+        }
+    }
+
+    file_pointer += 8;
+    size -= 8;
+
+    return convert_pcm_buffer(size, channels);
+}
+
+static int aiff_handle_comm(void)
+{
+    DWORD size;
+    double f64;
+    unsigned char f80[10];
+    int i;
+
+    file_pointer += 4;
+
+    size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+    if (size != 18) {
+        log_warning(LOG_DEFAULT, "COMM chunk size not 18: %d", size);
+        return -1;
+    }
+
+    file_pointer += 4;
+
+    sound_audio_channels = (file_buffer[file_pointer] << 8) | file_buffer[file_pointer + 1];
+    if (sound_audio_channels < 1 || sound_audio_channels > 2) {
+        log_warning(LOG_DEFAULT, "COMM channels not 1 or 2 : %d", sound_audio_channels);
+        return -1;
+    }
+
+    file_pointer += 6;
+
+    sound_audio_bits = (file_buffer[file_pointer] << 8) | file_buffer[file_pointer + 1];
+    switch (sound_audio_bits) {
+        case 8:
+        case 16:
+        case 24:
+        case 32:
+            break;
+        default:
+            log_warning(LOG_DEFAULT, "COMM bits not 8, 16, 24 or 32 : %d", sound_audio_bits);
+            return -1;
+    }
+
+    file_pointer += 2;
+
+    for (i = 0; i < 10; ++i) {
+        f80[i] = file_buffer[file_pointer + i];  
+    }
+
+    f64 = float80tofloat64(f80);
+    sound_audio_rate = (unsigned int)f64;
+    if (!sound_audio_rate) {
+        log_warning(LOG_DEFAULT, "COMM audio rate is 0");
+        return -1;
+    }
+
+    file_pointer += 10;
+    sound_audio_type = AUDIO_TYPE_PCM_BE;
+
+    return 0;
+}
+
+static int handle_aiff_file(int channels)
+{
+    DWORD size;
+    DWORD header;
+    int ssnd_found = 0;
+    int err = 0;
+
+    size = (file_buffer[4] << 24) | (file_buffer[5] << 16) | (file_buffer[6] << 8) | file_buffer[7];
+
+    if (size != file_size - 8) {
+        log_warning(LOG_DEFAULT, "AIFF size is wrong : %X %X", size, file_size - 8);
+        return -1;
+    }
+
+    file_pointer = 12;
+
+    while (file_pointer <= file_size && !ssnd_found) {
+        if (file_pointer + 8 > file_size) {
+            return -1;
+        }
+
+        header = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+
+        switch (header) {
+            case 0x53534E44:
+                log_warning(LOG_DEFAULT, "handling AIFF SSND chunk");
+                err = aiff_handle_ssnd(channels);
+                ssnd_found = 1;
+                break;
+            case 0x434F4D4D:
+                log_warning(LOG_DEFAULT, "handling AIFF COMM chunk");
+                err = aiff_handle_comm();
+                break;
+            default:
+                file_pointer += 4;
+                size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
+                if (size % 2) {
+                    ++size;
+                }
+                file_pointer += 4;
+                if (file_pointer + size > file_size) {
+                    return -1;
+                }
+                file_pointer += size;
+        }
+        if (err) {
+            return -1;
+        }
+    }
+    if (!ssnd_found) {
+        return -1;
+    }
+    return 0;
+}
+
+static int is_aiff_file(void)
+{
+    if (file_size < 12) {
+        return 0;
+    }
+
+    /* Check for aiff header signature */
+    if (file_buffer[0] == 0x46 && file_buffer[1] == 0x4F && file_buffer[2] == 0x52 && file_buffer[3] == 0x4D) {
+        if (file_buffer[8] == 0x41 && file_buffer[9] == 0x49 && file_buffer[10] == 0x46 && file_buffer[11] == 0x46) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/* ---------------------------------------------------------------------- */
+
 static int handle_file_type(int channels)
 {
     /* Check for wav file */
@@ -1155,6 +1364,12 @@ static int handle_file_type(int channels)
     if (is_iff_file()) {
         log_warning(LOG_DEFAULT, "filetype recognized as an IFF file, starting parsing.");
         return handle_iff_file(channels);
+    }
+
+    /* Check for aiff file */
+    if (is_aiff_file()) {
+        log_warning(LOG_DEFAULT, "filetype recognized as an AIFF file, starting parsing.");
+        return handle_aiff_file(channels);
     }
 
     log_warning(LOG_DEFAULT, "filetype was not handled.");
