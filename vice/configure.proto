@@ -2968,6 +2968,10 @@ AC_CHECK_HEADERS(portaudio.h,[AC_CHECK_LIB(libportaudio, Pa_Initialize,
                      [LIBS="$LIBS -llibportaudio";
                       AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,)])
 
+AC_CHECK_HEADERS(mpg123.h,[AC_CHECK_LIB(libmpg123, mpg123_init,
+                     [LIBS="$LIBS -llibmpg123";
+                      AC_DEFINE(USE_MPG123,,[Enable mpg123 mp3 decoding support.])],,)])
+
 dnl Check for libraries and header files
 if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
   X_LIBS=""

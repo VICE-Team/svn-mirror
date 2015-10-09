@@ -84,6 +84,10 @@
 #include <string.h> /* for memcpy */
 #include <math.h>
 
+#ifdef USE_MPG123
+#include <mpg123.h>
+#endif
+
 #include "types.h"
 
 #include "file_drv.h"
@@ -1245,7 +1249,7 @@ static int aiff_handle_ssnd(int channels)
     size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
     file_pointer += 4;
     if (file_pointer + size > file_size) {
-        log_warning(LOG_DEFAULT, "SSND chunk bigger than remaining size : %X %X", size, file_size - file_pointer);
+        log_warning(LOG_DEFAULT, "SSND chunk bigger than remaining size : %X %X", (unsigned int)size, file_size - file_pointer);
         return -1;
     }
 
@@ -1273,7 +1277,7 @@ static int aiff_handle_comm(void)
 
     size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
     if (size != 18) {
-        log_warning(LOG_DEFAULT, "COMM chunk size not 18: %d", size);
+        log_warning(LOG_DEFAULT, "COMM chunk size not 18: %d", (int)size);
         return -1;
     }
 
@@ -1328,7 +1332,7 @@ static int handle_aiff_file(int channels)
     size = (file_buffer[4] << 24) | (file_buffer[5] << 16) | (file_buffer[6] << 8) | file_buffer[7];
 
     if (size != file_size - 8) {
-        log_warning(LOG_DEFAULT, "AIFF size is wrong : %X %X", size, file_size - 8);
+        log_warning(LOG_DEFAULT, "AIFF size is wrong : %X %X", (unsigned int)size, file_size - 8);
         return -1;
     }
 
@@ -1400,7 +1404,7 @@ static int aifc_handle_ssnd(int channels)
     size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
     file_pointer += 4;
     if (file_pointer + size > file_size) {
-        log_warning(LOG_DEFAULT, "SSND chunk bigger than remaining size : %X %X", size, file_size - file_pointer);
+        log_warning(LOG_DEFAULT, "SSND chunk bigger than remaining size : %X %X", (unsigned int)size, file_size - file_pointer);
         return -1;
     }
 
@@ -1527,7 +1531,7 @@ static int handle_aifc_file(int channels)
     size = (file_buffer[4] << 24) | (file_buffer[5] << 16) | (file_buffer[6] << 8) | file_buffer[7];
 
     if (size != file_size - 8) {
-        log_warning(LOG_DEFAULT, "AIFC size is wrong : %X %X", size, file_size - 8);
+        log_warning(LOG_DEFAULT, "AIFC size is wrong : %X %X", (unsigned int)size, file_size - 8);
         return -1;
     }
 
@@ -1589,6 +1593,86 @@ static int is_aifc_file(void)
 
 /* ---------------------------------------------------------------------- */
 
+#ifdef USE_MPG123
+static int mp3_err = MPG123_OK;
+static mpg123_handle *mh = NULL;
+
+static int handle_mp3_file(int channels)
+{
+    int mp3_channels = 0;
+    int mp3_encoding = 0;
+    long mp3_rate = 0;
+    BYTE *buffer = NULL;
+    BYTE *new_buffer = NULL;
+    off_t buffer_size = 0;
+    size_t done = 0;
+
+    mp3_err = mpg123_getformat(mh, &mp3_rate, &mp3_channels, &mp3_encoding);
+    if (mp3_err != MPG123_OK) {
+        mpg123_close(mh);
+        mpg123_delete(mh);
+        mpg123_exit();
+        return -1;
+    }
+
+    /* Should not happen, but just in case */
+    if (mp3_encoding != MPG123_ENC_SIGNED_16) {
+        mpg123_close(mh);
+        mpg123_delete(mh);
+        mpg123_exit();
+        return -1;
+    }
+
+    /* lock format */
+    mpg123_format_none(mh);
+    mpg123_format(mh, mp3_rate, mp3_channels, mp3_encoding);
+
+    mpg123_scan(mh);
+    buffer_size = mpg123_length(mh);
+
+    lib_free(file_buffer);
+    file_size = buffer_size * 2 * mp3_channels;
+    file_buffer = lib_malloc(file_size);
+
+    mp3_err = mpg123_read(mh, file_buffer, file_size, &done);
+
+    mpg123_close(mh);
+    mpg123_delete(mh);
+    mpg123_exit();
+
+    file_pointer = 0;
+
+    sound_audio_type = AUDIO_TYPE_PCM;
+    sound_audio_channels = mp3_channels;
+    sound_audio_rate = mp3_rate;
+    sound_audio_bits = 16;
+
+    return convert_pcm_buffer(file_size, channels);
+}
+
+static int is_mp3_file(void)
+{
+    mp3_err = mpg123_init();
+    if (mp3_err != MPG123_OK) {
+        return 0;
+    }
+    mh = mpg123_new(NULL, &mp3_err);
+    if (!mh) {
+        mpg123_exit();
+        return 0;
+    }
+    mp3_err = mpg123_open(mh, SAMPLE_NAME);
+    if (mp3_err != MPG123_OK) {
+        mpg123_delete(mh);
+        mpg123_exit();
+        return 0;
+    }
+    return 1;
+}
+#endif
+
+/* ---------------------------------------------------------------------- */
+
 static int handle_file_type(int channels)
 {
     /* Check for wav file */
@@ -1620,6 +1704,14 @@ static int handle_file_type(int channels)
         log_warning(LOG_DEFAULT, "filetype recognized as an AIFC file, starting parsing.");
         return handle_aifc_file(channels);
     }
+
+#ifdef USE_MPG123
+    /* Check for mp3 file */
+    if (is_mp3_file()) {
+        log_warning(LOG_DEFAULT, "filetype recognized as an MP3 file, starting parsing.");
+        return handle_mp3_file(channels);
+    }
+#endif
 
     log_warning(LOG_DEFAULT, "filetype was not handled.");
     return -1;
