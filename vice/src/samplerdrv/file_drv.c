@@ -88,6 +88,10 @@
 #include <mpg123.h>
 #endif
 
+#ifdef USE_FLAC
+#include <FLAC/stream_decoder.h>
+#endif
+
 #include "types.h"
 
 #include "file_drv.h"
@@ -1602,8 +1606,6 @@ static int handle_mp3_file(int channels)
     int mp3_channels = 0;
     int mp3_encoding = 0;
     long mp3_rate = 0;
-    BYTE *buffer = NULL;
-    BYTE *new_buffer = NULL;
     off_t buffer_size = 0;
     size_t done = 0;
 
@@ -1673,6 +1675,167 @@ static int is_mp3_file(void)
 
 /* ---------------------------------------------------------------------- */
 
+#ifdef USE_FLAC
+static FLAC__uint64 flac_total_samples = 0;
+static unsigned int flac_sample_rate = 0;
+static unsigned int flac_channels = 0;
+static unsigned int flac_bps = 0;
+
+static FLAC__uint32 flac_total_size = 0;
+static BYTE *flac_buffer = NULL;
+static unsigned int flac_size = 0;
+
+static void flac_buffer_add(FLAC__uint32 raw)
+{
+    WORD sample = 0;
+
+    switch (flac_bps) {
+        case 8:
+            sample = (WORD)((raw & 0xFF) << 8);
+            break;
+        case 16:
+            sample = (WORD)(raw & 0xFFFF);
+            break;
+        case 24:
+            sample = (WORD)((raw & 0xFFFF00) >> 8);
+            break;
+        case 32:
+            sample = (WORD)((raw & 0xFFFF0000) >> 16);
+            break;
+    }
+    if (flac_size + 2 > flac_total_size) {
+        log_warning(LOG_DEFAULT, "flac buffer overflow");       
+    } else {
+        flac_buffer[flac_size + 1] = (BYTE)(sample >> 8);
+        flac_buffer[flac_size] = (BYTE)(sample & 0xFF);
+        flac_size += 2;
+    }
+}
+
+static FLAC__StreamDecoderWriteStatus flac_write_callback(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
+{
+    size_t i;
+
+    if(frame->header.number.sample_number == 0) {
+        flac_total_size = (FLAC__uint32)(flac_total_samples * flac_channels * (flac_bps / 8));
+
+        if (!flac_total_samples) {
+            return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
+        }
+
+        if (flac_channels < 1 || flac_channels > 2) {
+            return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
+        }
+
+        switch (flac_bps) {
+            case 8:
+            case 16:
+            case 24:
+            case 32:
+                break;
+            default:
+                return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
+        }
+
+        if (frame->header.channels != flac_channels) {
+            return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
+        }
+
+        flac_buffer = lib_malloc(flac_total_size);
+        flac_size = 0;
+    }
+
+    if (buffer[0] == NULL) {
+        return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
+    }
+
+    if (flac_channels == 2) {
+        if (buffer [1] == NULL) {
+            return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
+        }
+    }
+
+    for (i = 0; i < frame->header.blocksize; ++i) {
+        flac_buffer_add(buffer[0][i]);
+        if (flac_channels == 2) {
+            flac_buffer_add(buffer[1][i]);
+        }
+    }
+
+    return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
+}
+
+static void flac_metadata_callback(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)
+{
+    if (metadata->type == FLAC__METADATA_TYPE_STREAMINFO) {
+        flac_total_samples = metadata->data.stream_info.total_samples;
+        flac_sample_rate = metadata->data.stream_info.sample_rate;
+        flac_channels = metadata->data.stream_info.channels;
+        flac_bps = metadata->data.stream_info.bits_per_sample;
+    }
+}
+
+static void flac_error_callback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)
+{
+}
+
+static int handle_flac_file(int channels)
+{
+    FLAC__bool ok = true;
+    FLAC__StreamDecoder *decoder = NULL;
+    FLAC__StreamDecoderInitStatus init_status;
+
+    decoder = FLAC__stream_decoder_new();
+    if (!decoder) {
+        return -1;
+    }
+
+    (void)FLAC__stream_decoder_set_md5_checking(decoder, true);
+
+    init_status = FLAC__stream_decoder_init_file(decoder, SAMPLE_NAME, flac_write_callback, flac_metadata_callback, flac_error_callback, NULL);
+    if (init_status != FLAC__STREAM_DECODER_INIT_STATUS_OK) {
+        FLAC__stream_decoder_delete(decoder);
+        return -1;
+    }
+
+    ok = FLAC__stream_decoder_process_until_end_of_stream(decoder);
+    FLAC__stream_decoder_delete(decoder);
+
+    if (!ok) {
+        if (flac_buffer) {
+            lib_free(flac_buffer);
+            flac_buffer = NULL;
+        }
+        return -1;
+    }
+
+    lib_free(file_buffer);
+    file_buffer = flac_buffer;
+    flac_buffer = NULL;
+    file_size = flac_total_size;
+    file_pointer = 0;
+    sound_audio_type = AUDIO_TYPE_PCM;
+    sound_audio_channels = flac_channels;
+    sound_audio_rate = flac_sample_rate;
+    sound_audio_bits = 16;
+    
+    return convert_pcm_buffer(file_size, channels);
+}
+
+static int is_flac_file(void)
+{
+    if (file_size < 4) {
+        return 0;
+    }
+    if (file_buffer[0] == 0x66 && file_buffer[1] == 0x4C && file_buffer[2] == 0x61 && file_buffer[3] == 0x43) {
+        return 1;
+    }
+    return 0;
+}
+#endif
+
+/* ---------------------------------------------------------------------- */
+
 static int handle_file_type(int channels)
 {
     /* Check for wav file */
@@ -1704,6 +1867,14 @@ static int handle_file_type(int channels)
         log_warning(LOG_DEFAULT, "filetype recognized as an AIFC file, starting parsing.");
         return handle_aifc_file(channels);
     }
+
+#ifdef USE_FLAC
+    /* Check for flac file */
+    if (is_flac_file()) {
+        log_warning(LOG_DEFAULT, "filetype recognized as a FLAC file, starting parsing.");
+        return handle_flac_file(channels);
+    }
+#endif
 
 #ifdef USE_MPG123
     /* Check for mp3 file */

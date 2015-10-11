@@ -354,6 +354,7 @@ static void init_sound_record_dialog(HWND hwnd)
     TCHAR *st_sound_record_file;
     int xpos;
     RECT rect;
+    unsigned int elements = 0;
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, sound_record_dialog_trans);
@@ -385,17 +386,22 @@ static void init_sound_record_dialog(HWND hwnd)
 
     temp_hwnd = GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT);
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"AIFF");
+    ++elements;
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"IFF");
+    ++elements;
 #ifdef USE_LAMEMP3
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"MP3");
+    ++elements;
+#endif
+#ifdef USE_FLAC
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"FLAC");
+    ++elements;
 #endif
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"VOC");
+    ++elements;
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"WAV");
-#ifdef USE_LAMEMP3
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)4, 0);
-#else
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)3, 0);
-#endif
+    ++elements;
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)elements - 1, 0);
 
     resources_get_string("SoundRecordDeviceArg", &sound_record_file);
     st_sound_record_file = system_mbstowcs_alloc(sound_record_file);
@@ -410,6 +416,9 @@ static char *sound_format[] = {
     "iff",
 #ifdef USE_LAMEMP3
     "mp3",
+#endif
+#ifdef USE_FLAC
+    "flac",
 #endif
     "voc",
     "wav"

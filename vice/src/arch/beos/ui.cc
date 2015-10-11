@@ -882,6 +882,12 @@ void ui_dispatch_events(void)
                 ui_select_file(B_SAVE_PANEL, MP3_FILE, (void*)0);
                 break;
 #endif
+#ifdef USE_FLAC
+            case MENU_SOUND_RECORD_FLAC:
+                resources_set_string("SoundRecordDeviceName", "");
+                ui_select_file(B_SAVE_PANEL, FLAC_FILE, (void*)0);
+                break;
+#endif
             case MENU_SOUND_RECORD_VOC:
                 resources_set_string("SoundRecordDeviceName", "");
                 ui_select_file(B_SAVE_PANEL, VOC_FILE, (void*)0);

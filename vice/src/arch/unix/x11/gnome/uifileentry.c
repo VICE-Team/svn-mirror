@@ -76,6 +76,7 @@ static uilib_file_filter_t voc_filter[] = { { "*.voc", 0 }, { NULL } };
 static uilib_file_filter_t iff_filter[] = { { "*.iff", 0 }, { NULL } };
 static uilib_file_filter_t aiff_filter[] = { { "*.aiff", 0 }, { NULL } };
 static uilib_file_filter_t mp3_filter[] = { { "*.mp3", 0 }, { NULL } };
+static uilib_file_filter_t flac_filter[] = { { "*.flac", 0 }, { NULL } };
 static uilib_file_filter_t serial_filter[] = { { "ttyS*", 1 }, { NULL } };
 static uilib_file_filter_t vic20cart_filter[] = { { "*.prg", 0 }, { NULL } };
 static uilib_file_filter_t sid_filter[] = { { "*.psid", 0 }, { "*.sid", 0 }, { NULL } };
@@ -118,6 +119,7 @@ struct {
     { "IFF files", iff_filter },
     { "AIFF files", aiff_filter },
     { "MP3 files", mp3_filter },
+    { "FLAC files", flac_filter },
     { "Serial ports", serial_filter },
     { "VIC20 cartridges", vic20cart_filter },
     { "SID files", sid_filter },

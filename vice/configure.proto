@@ -2663,6 +2663,11 @@ if test x"$is_beos" = "xyes" -o x"$is_beos_x11" = "xyes"; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundbeos.o soundbsp.o"
 fi
 
+AC_CHECK_HEADERS(FLAC/stream_decoder.h,[AC_CHECK_LIB(libFLAC, FLAC__stream_decoder_get_channels,
+                     [LIBS="$LIBS -llibFLAC";
+                      SOUND_DRIVERS="$SOUND_DRIVERS soundflac.o";
+                      AC_DEFINE(USE_FLAC,,[Enable FLAC support.])],,)])
+
 if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
 
   dnl --- check for CoreAudio ---

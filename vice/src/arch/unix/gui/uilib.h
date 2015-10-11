@@ -46,6 +46,7 @@ typedef enum uilib_file_filter_enum_s {
     UILIB_FILTER_IFF,
     UILIB_FILTER_AIFF,
     UILIB_FILTER_MP3,
+    UILIB_FILTER_FLAC,
     UILIB_FILTER_SERIAL,
     UILIB_FILTER_VIC20CART,
     UILIB_FILTER_SID,

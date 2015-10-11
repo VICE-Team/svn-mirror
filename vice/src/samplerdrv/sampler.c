@@ -38,8 +38,12 @@
 
 #define MAX_DEVICE 10
 
+#if 0
 #ifdef USE_PORTAUDIO
 #define DEFAULT_DEVICE 1
+#else
+#define DEFAULT_DEVICE 0
+#endif
 #else
 #define DEFAULT_DEVICE 0
 #endif

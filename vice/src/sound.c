@@ -175,6 +175,10 @@ static sound_register_devices_t sound_register_devices[] = {
     { "mp3", sound_init_mp3_device, SOUND_RECORD_DEVICE },
 #endif
 
+#ifdef USE_FLAC
+    { "flac", sound_init_flac_device, SOUND_RECORD_DEVICE },
+#endif
+
     { "soundmovie", sound_init_movie_device, SOUND_RECORD_DEVICE },
     { NULL, NULL, 0 }
 };

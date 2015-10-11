@@ -318,6 +318,12 @@ static const ui_menu_entry_t sound_record_menu[] = {
       start_recording_callback,
       (ui_callback_data_t)"mp3" },
 #endif
+#ifdef USE_FLAC
+    { "Start recording FLAC audio file",
+      MENU_ENTRY_DIALOG,
+      start_recording_callback,
+      (ui_callback_data_t)"flac" },
+#endif
     { "Start recording VOC audio file",
       MENU_ENTRY_DIALOG,
       start_recording_callback,

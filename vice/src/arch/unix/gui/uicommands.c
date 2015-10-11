@@ -521,6 +521,13 @@ static UI_CALLBACK(sound_record_mp3)
 }
 #endif
 
+#ifdef USE_FLAC
+static UI_CALLBACK(sound_record_flac)
+{
+    sound_record_start("flac", UILIB_FILTER_FLAC);
+}
+#endif
+
 /* ------------------------------------------------------------------------- */
 UI_MENU_DEFINE_RADIO(JAMAction)
 
@@ -632,6 +639,10 @@ ui_menu_entry_t ui_sound_record_commands_submenu[] = {
 #ifdef USE_LAMEMP3
     { N_("Sound record MP3"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)sound_record_mp3, NULL, NULL },
+#endif
+#ifdef USE_FLAC
+    { N_("Sound record FLAC"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)sound_record_flac, NULL, NULL },
 #endif
     { N_("Stop Sound record"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uicommands_sound_record_stop, NULL, NULL },

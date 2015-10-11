@@ -77,6 +77,7 @@ enum filetype_t {
     AIFF_FILE,
     IFF_FILE,
     MP3_FILE,
+    FLAC_FILE,
     VOC_FILE,
     WAV_FILE,
     PRINTER_OUTPUT_FILE1,

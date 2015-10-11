@@ -386,6 +386,11 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
         sprintf(title, "Select MP3 Sound Recording file");
     }
 #endif
+#ifdef USE_FLAC
+    if (filetype == FLAC_FILE) {
+        sprintf(title, "Select FLAC Sound Recording file");
+    }
+#endif
     if (filetype == VOC_FILE) {
         sprintf(title, "Select VOC Sound Recording file");
     }
@@ -734,6 +739,10 @@ void ui_select_file_action(BMessage *msg)
 #ifdef USE_LAMEMP3
         } else if (last_filetype[1] == MP3_FILE) {
             ui_sound_record_action(fullpath, "mp3");
+#endif
+#ifdef USE_FLAC
+        } else if (last_filetype[1] == FLAC_FILE) {
+            ui_sound_record_action(fullpath, "flac");
 #endif
         } else if (last_filetype[1] == VOC_FILE) {
             ui_sound_record_action(fullpath, "voc");
