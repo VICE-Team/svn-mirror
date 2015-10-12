@@ -528,6 +528,13 @@ static UI_CALLBACK(sound_record_flac)
 }
 #endif
 
+#ifdef USE_VORBIS
+static UI_CALLBACK(sound_record_vorbis)
+{
+    sound_record_start("ogg", UILIB_FILTER_VORBIS);
+}
+#endif
+
 /* ------------------------------------------------------------------------- */
 UI_MENU_DEFINE_RADIO(JAMAction)
 
@@ -643,6 +650,10 @@ ui_menu_entry_t ui_sound_record_commands_submenu[] = {
 #ifdef USE_FLAC
     { N_("Sound record FLAC"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)sound_record_flac, NULL, NULL },
+#endif
+#ifdef USE_VORBIS
+    { N_("Sound record ogg/vorbis"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)sound_record_vorbis, NULL, NULL },
 #endif
     { N_("Stop Sound record"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uicommands_sound_record_stop, NULL, NULL },

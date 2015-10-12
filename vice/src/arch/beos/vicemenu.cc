@@ -347,6 +347,9 @@ BMenuBar *menu_create(int machine_class)
 #ifdef USE_FLAC
         menu->AddItem(new BMenuItem("Sound Record FLAC", new BMessage(MENU_SOUND_RECORD_FLAC)));
 #endif
+#ifdef USE_VORBIS
+        menu->AddItem(new BMenuItem("Sound Record OGG/VORBIS", new BMessage(MENU_SOUND_RECORD_VORBIS)));
+#endif
         menu->AddItem(new BMenuItem("Sound Record VOC", new BMessage(MENU_SOUND_RECORD_VOC)));
         menu->AddItem(new BMenuItem("Sound Record WAV", new BMessage(MENU_SOUND_RECORD_WAV)));
     uppermenu->AddSeparatorItem();

@@ -391,6 +391,11 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
         sprintf(title, "Select FLAC Sound Recording file");
     }
 #endif
+#ifdef USE_VORBIS
+    if (filetype == FLAC_FILE) {
+        sprintf(title, "Select OGG/VORBIS Sound Recording file");
+    }
+#endif
     if (filetype == VOC_FILE) {
         sprintf(title, "Select VOC Sound Recording file");
     }
@@ -743,6 +748,10 @@ void ui_select_file_action(BMessage *msg)
 #ifdef USE_FLAC
         } else if (last_filetype[1] == FLAC_FILE) {
             ui_sound_record_action(fullpath, "flac");
+#endif
+#ifdef USE_VORBIS
+        } else if (last_filetype[1] == VORBIS_FILE) {
+            ui_sound_record_action(fullpath, "ogg");
 #endif
         } else if (last_filetype[1] == VOC_FILE) {
             ui_sound_record_action(fullpath, "voc");

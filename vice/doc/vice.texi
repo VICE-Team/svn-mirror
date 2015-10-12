@@ -3249,6 +3249,8 @@ Implemented drivers are:
 @item
 @code{flac}, for the FLAC sound recorder driver.
 @item
+@code{ogg}, for the ogg/vorbis sound recorder driver.
+@item
 @code{voc}, for the Creative Voice (VOC) sound recorder driver.
 @item
 @code{wav}, for the RIFF/WAV sound recorder driver.
@@ -3337,7 +3339,7 @@ Specifies an additional parameter for the audio device
 @item -soundrecdev <name>
 Specify recording sound driver
 (@code{SoundRecordDeviceName}).
-(aiff/dump/fs/iff/mp3/flac/speed/voc/wav)
+(aiff/dump/fs/iff/mp3/flac/ogg/speed/voc/wav)
 
 @findex -soundrecarg
 @item -soundrecarg <args>

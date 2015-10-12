@@ -888,6 +888,12 @@ void ui_dispatch_events(void)
                 ui_select_file(B_SAVE_PANEL, FLAC_FILE, (void*)0);
                 break;
 #endif
+#ifdef USE_VORBIS
+            case MENU_SOUND_RECORD_VORBIS:
+                resources_set_string("SoundRecordDeviceName", "");
+                ui_select_file(B_SAVE_PANEL, VORBIS_FILE, (void*)0);
+                break;
+#endif
             case MENU_SOUND_RECORD_VOC:
                 resources_set_string("SoundRecordDeviceName", "");
                 ui_select_file(B_SAVE_PANEL, VOC_FILE, (void*)0);

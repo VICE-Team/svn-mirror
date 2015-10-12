@@ -29,6 +29,7 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundsgi.c \
 	soundsun.c \
 	sounduss.c \
+	soundvorbis.c \
 	soundwmm.c \
 	lamelib.c
 

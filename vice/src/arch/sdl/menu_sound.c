@@ -324,6 +324,12 @@ static const ui_menu_entry_t sound_record_menu[] = {
       start_recording_callback,
       (ui_callback_data_t)"flac" },
 #endif
+#ifdef USE_VORBIS
+    { "Start recording ogg/vorbis audio file",
+      MENU_ENTRY_DIALOG,
+      start_recording_callback,
+      (ui_callback_data_t)"ogg" },
+#endif
     { "Start recording VOC audio file",
       MENU_ENTRY_DIALOG,
       start_recording_callback,

@@ -215,6 +215,7 @@ extern int sound_init_iff_device(void);
 extern int sound_init_aiff_device(void);
 extern int sound_init_mp3_device(void);
 extern int sound_init_flac_device(void);
+extern int sound_init_vorbis_device(void);
 extern int sound_init_pulse_device(void);
 
 /* internal function for sound device registration */

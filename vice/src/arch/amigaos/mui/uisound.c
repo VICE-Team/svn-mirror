@@ -133,8 +133,11 @@ static char *ui_sound_formats[] = {
 #ifdef USE_LAMEMP3
     "mp3",
 #endif
-#ifdef USE_LAMEMP3
+#ifdef USE_FLAC
     "flac",
+#endif
+#ifdef USE_VORBIS
+    "ogg",
 #endif
     NULL
 };

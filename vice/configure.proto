@@ -2668,6 +2668,31 @@ AC_CHECK_HEADERS(FLAC/stream_decoder.h,[AC_CHECK_LIB(libFLAC, FLAC__stream_decod
                       SOUND_DRIVERS="$SOUND_DRIVERS soundflac.o";
                       AC_DEFINE(USE_FLAC,,[Enable FLAC support.])],,)])
 
+VORBIS_PRESENT=yes
+AC_CHECK_HEADERS(vorbis/vorbisfile.h,,[VORBIS_PRESENT=no],)
+
+if test x"$VORBIS_PRESENT" = "xyes"; then
+  AC_CHECK_LIB(libvorbisfile, ov_open_callbacks,, [VORBIS_PRESENT=no])
+fi
+
+if test x"$VORBIS_PRESENT" = "xyes"; then
+  AC_CHECK_LIB(libogg, ogg_stream_flush,, [VORBIS_PRESENT=no])
+fi
+
+if test x"$VORBIS_PRESENT" = "xyes"; then
+  AC_CHECK_LIB(libvorbis, vorbis_info_clear,, [VORBIS_PRESENT=no])
+fi
+
+if test x"$VORBIS_PRESENT" = "xyes"; then
+  AC_CHECK_LIB(libvorbisenc, vorbis_encode_init_vbr,, [VORBIS_PRESENT=no])
+fi
+
+if test x"$VORBIS_PRESENT" = "xyes"; then
+  SOUND_DRIVERS="$SOUND_DRIVERS soundvorbis.o";
+  LIBS="$LIBS -llibvorbisfile -llibogg -llibvorbis -llibvorbisenc"
+  AC_DEFINE(USE_VORBIS,,[Enable ogg/vorbis support.])
+fi
+
 if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
 
   dnl --- check for CoreAudio ---

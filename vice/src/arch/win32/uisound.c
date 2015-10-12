@@ -397,6 +397,10 @@ static void init_sound_record_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"FLAC");
     ++elements;
 #endif
+#ifdef USE_VORBIS
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"ogg/vorbis");
+    ++elements;
+#endif
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"VOC");
     ++elements;
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"WAV");
@@ -419,6 +423,9 @@ static char *sound_format[] = {
 #endif
 #ifdef USE_FLAC
     "flac",
+#endif
+#ifdef USE_VORBIS
+    "ogg",
 #endif
     "voc",
     "wav"

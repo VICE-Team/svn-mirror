@@ -179,6 +179,10 @@ static sound_register_devices_t sound_register_devices[] = {
     { "flac", sound_init_flac_device, SOUND_RECORD_DEVICE },
 #endif
 
+#ifdef USE_VORBIS
+    { "ogg", sound_init_vorbis_device, SOUND_RECORD_DEVICE },
+#endif
+
     { "soundmovie", sound_init_movie_device, SOUND_RECORD_DEVICE },
     { NULL, NULL, 0 }
 };

@@ -92,6 +92,10 @@
 #include <FLAC/stream_decoder.h>
 #endif
 
+#ifdef USE_VORBIS
+#include <vorbis/vorbisfile.h>
+#endif
+
 #include "types.h"
 
 #include "file_drv.h"
@@ -1836,6 +1840,85 @@ static int is_flac_file(void)
 
 /* ---------------------------------------------------------------------- */
 
+#ifdef USE_VORBIS
+static int handle_vorbis_file(int channels)
+{
+    OggVorbis_File ov;
+    int i;
+    ogg_int64_t pcmlength;
+    BYTE *vorbis_buffer;
+    int dummy;
+    int error;
+    vorbis_info *vi;
+
+    error = ov_fopen(SAMPLE_NAME, &ov);
+    if (error < 0) {
+        return -1;
+    }
+
+    if (!ov_seekable(&ov)) {
+        ov_clear(&ov);
+        return -1;
+    }
+
+    for (i = 0; i < ov.links; i++) {
+        vi = ov_info(&ov, i);
+        sound_audio_channels = vi->channels;
+        if (sound_audio_channels < 1 || sound_audio_channels > 2) {
+            ov_clear(&ov);
+            return -1;
+        }
+        sound_audio_rate = vi->rate;
+        sound_audio_bits = 16;
+        sound_audio_type = AUDIO_TYPE_PCM;
+    }
+
+    pcmlength = ov_pcm_total(&ov, -1);
+    vorbis_buffer = lib_malloc(pcmlength * sound_audio_channels * 2);
+    i = 0;
+    while (i < pcmlength * sound_audio_channels * 2){
+        int ret = ov_read(&ov, vorbis_buffer + i, (pcmlength * 2 * sound_audio_channels) - i, 0, 2, 1, &dummy);
+        if (ret < 0) {
+            ov_clear(&ov);
+            lib_free(vorbis_buffer);
+	    vorbis_buffer = NULL;
+            return -1;
+        }
+        if (ret) {
+            i += ret;
+        } else {
+            pcmlength = i / (2 * sound_audio_channels);
+        }
+    }
+
+    ov_clear(&ov);
+
+    lib_free(file_buffer);
+    file_buffer = vorbis_buffer;
+    file_size = pcmlength * 2 * sound_audio_channels;
+    file_pointer = 0;
+
+    return convert_pcm_buffer(file_size, channels);
+}
+
+static int is_vorbis_file(void)
+{
+    if (file_size < 36) {
+        return 0;
+    }
+    if (file_buffer[0] == 0x4F && file_buffer[1] == 0x67 && file_buffer[2] == 0x67 && file_buffer[3] == 0x53) {
+        if (file_buffer[29] == 0x76 && file_buffer[30] == 0x6F && file_buffer[31] == 0x72) {
+            if (file_buffer[32] == 0x62 && file_buffer[33] == 0x69 && file_buffer[34] == 0x73) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+#endif
+
+/* ---------------------------------------------------------------------- */
+
 static int handle_file_type(int channels)
 {
     /* Check for wav file */
@@ -1873,6 +1956,14 @@ static int handle_file_type(int channels)
     if (is_flac_file()) {
         log_warning(LOG_DEFAULT, "filetype recognized as a FLAC file, starting parsing.");
         return handle_flac_file(channels);
+    }
+#endif
+
+#ifdef USE_VORBIS
+    /* Check for ogg/vorbis file */
+    if (is_vorbis_file()) {
+        log_warning(LOG_DEFAULT, "filetype recognized as an ogg/vorbis file, starting parsing.");
+        return handle_vorbis_file(channels);
     }
 #endif
 

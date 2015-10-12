@@ -145,6 +145,12 @@ static char *vsid_sound_formats[] = {
 #ifdef USE_LAMEMP3
     "mp3",
 #endif
+#ifdef USE_FLAC
+    "flac",
+#endif
+#ifdef USE_VORBIS
+    "ogg",
+#endif
     NULL
 };
 
@@ -403,6 +409,8 @@ static void vsid_menu_rebuild(void)
 static int vsid_menu_handle(int idm)
 {
     char *fname = NULL;
+    char *ext = NULL;
+    char *tmp = NULL;
     char *curlang;
     int i;
 
@@ -562,11 +570,27 @@ static int vsid_menu_handle(int idm)
             break;
 #endif
         case IDM_SOUND_RECORD_START:
-#ifndef USE_LAMEMP3
-            i = vsid_requester(translate_text(IDS_SOUND_RECORD_FORMAT), translate_text(IDS_SOUND_RECORD_FORMAT), "AIFF | VOC | WAV | IFF", 0);
-#else
-            i = vsid_requester(translate_text(IDS_SOUND_RECORD_FORMAT), translate_text(IDS_SOUND_RECORD_FORMAT), "AIFF | VOC | WAV | MP3 | IFF", 0);
+            ext = lib_stralloc("AIFF | VOC | WAV";
+#ifdef USE_LAMEMP3
+            tmp = util_concat(ext, " | MP3", NULL);
+            lib_free(ext);
+            ext = tmp;
 #endif
+#ifdef USE_FLAC
+            tmp = util_concat(ext, " | FLAC", NULL);
+            lib_free(ext);
+            ext = tmp;
+#endif
+#ifdef USE_VORBIS
+            tmp = util_concat(ext, " | OGG", NULL);
+            lib_free(ext);
+            ext = tmp;
+#endif
+            tmp = util_concat(ext, " | IFF", NULL);
+            lib_free(ext);
+            ext = tmp;
+
+            i = vsid_requester(translate_text(IDS_SOUND_RECORD_FORMAT), translate_text(IDS_SOUND_RECORD_FORMAT), ext, 0);
             resources_set_string("SoundRecordDeviceName", "");
             resources_set_string("SoundRecordDeviceName", vsid_sound_formats[i]);
             break;
