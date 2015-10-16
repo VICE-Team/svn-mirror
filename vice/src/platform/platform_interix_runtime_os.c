@@ -25,12 +25,18 @@
  */
 
 /* Tested and confirmed working on:
+ - Windows NT 4.0 Embedded Workstation
  - Windows NT 4.0 Workstation
+ - Windows NT 4.0 Embedded Server
  - Windows NT 4.0 Small Business Server 4.5 (x86)
  - Windows NT 4.0 Enterprise Server (x86)
  - Windows 2000 Pro (x86)
  - Windows 2000 Server (x86)
  - Windows 2000 Small Business Server (x86)
+ - Windows XP FLP (x86)
+ - Windows XP Pro (x86)
+ - Windows XP MCE 2005 (x86)
+ - Windows XP MCE 2005 R2 (x86)
  - Windows 2003 Enterprise Server (x86)
  - Windows 2003 Datacenter Server (x86)
  - Windows Home Server (x86)
@@ -46,10 +52,14 @@
  - Windows Thin PC (x86)
  - Windows 7 Embedded POSReady (x86)
  - Windows 7 Embedded Standard (x86)
- - Windows 7 Enterprise (x64)
+ - Windows 7 Enterprise (x86/x64)
  - Windows 2008 R2 Foundation Server (x64)
+ - Windows 2008 R2 Datacenter Server (x64)
+ - Windows 2008 R2 Workgroup Storage Server (x64)
+ - Windows 2008 R2 Enterprise Storage Server (x64)
  - Windows Home Server 2011 (x64)
  - Windows 2011 Standard Multipoint Server (x64)
+ - Windows 8 Enterprise (x64)
 */
 
 #include "vice.h"
@@ -78,6 +88,9 @@
 
 #define NT_MCE_PATH "\\Registry\\Machine\\System\\WPA\\MediaCenter\\Installed"
 
+#define MCE_VERSION_KEY L"\\Registry\\Machine\\Software\\Microsoft\\Windows\\CurrentVersion\\Media Center"
+#define MCE_VERSION_VALUE L"Ident"
+
 #define NT_THINPC_PATH "\\Registry\\Machine\\Software\\Microsoft\\ThinPC\\Version"
 
 typedef struct winver_s {
@@ -88,6 +101,7 @@ typedef struct winver_s {
 } winver_t;
 
 static winver_t windows_versions[] = {
+    { "Windows NT 4 Embedded Workstation",         "Microsoft Windows NT 4",                     0, 1 },
     { "Windows NT 4 Workstation",                  "Microsoft Windows NT 4",                     0, 0 },
     { "Windows NT 4 Embedded Server",              "Microsoft Windows NT 4",                     8, 0 },
     { "Windows NT 4 Server",                       "Microsoft Windows NT 4",                     1, 0 },
@@ -101,7 +115,8 @@ static winver_t windows_versions[] = {
     { "Windows 2000 Small Business Server",        "Microsoft Windows 2000",                     3, 0 },
     { "Windows XP Pro",                            "Microsoft Windows XP",                       0, 0 },
     { "Windows XP Tablet PC",                      "Microsoft Windows XP",                       0, 1 },
-    { "Windows XP Media Center",                   "Microsoft Windows XP",                       0, 2 },
+    { "Windows XP Media Center 2005",              "Microsoft Windows XP",                       0, 7 },
+    { "Windows XP Media Center 2005 R2",           "Microsoft Windows XP",                       0, 9 },
     { "Windows Fundamentals for Legacy PCs",       "Microsoft Windows XP",                       0, 3 },
     { "Windows POSReady 2009",                     "Microsoft Windows XP",                       0, 5 },
     { "Windows 2003 Web Server",                   "Microsoft Windows Server 2003",              2, 0 },
@@ -205,7 +220,17 @@ static char *get_windows_version(void)
         }
     }
 
-    /* 0 = professional, 1 = tablet pc, 2 = media center, 3 = flp, 4 = POSReady 7, 5 = POSReady 2009 */
+    /* 0 = professional
+       1 = tablet pc
+       2 = MCE 2002
+       3 = flp
+       4 = POSReady 7
+       5 = POSReady 2009
+       6 = MCE 2004
+       7 = MCE 2005
+       8 = MCE 2005 R1
+       9 = MCE 2005 R2
+     */
     if (!strcmp(windows_name, "Microsoft Windows XP")) {
         rcode = getreg(NT_FLP_PATH, &type, &wpa, &wpa_size);
         if (!rcode) {
@@ -237,6 +262,22 @@ static char *get_windows_version(void)
                 windows_flags = 5;
             } else {
                 windows_flags = 4;
+            }
+        }
+        if (windows_flags == 2) {
+            rcode = getreg_strvalue((PCWSTR)MCE_VERSION_KEY, (PCWSTR)MCE_VERSION_VALUE, nt_version, 10);
+            if (!rcode) {
+                if (!strcmp("2.7", nt_version)) {
+                    windows_flags = 6;
+                } else if (!strcmp("2.8", nt_version)) {
+                    windows_flags = 6;
+                } else if (!strcmp("3.0", nt_version)) {
+                    windows_flags = 7;
+                } else if (!strcmp("3.1", nt_version)) {
+                    windows_flags = 8;
+                } else if (!strcmp("4.0", nt_version)) {
+                    windows_flags = 9;
+                }
             }
         }
     }
@@ -329,6 +370,25 @@ static char *get_windows_version(void)
                     windows_server = 2;
                 } else {
                     windows_server = 1;
+                }
+            }
+        } else {
+            rcode = getreg(NT_PRODUCT_SUITE_PATH, &type, &product_suite, &size);
+            if (!rcode) {
+                p = product_suite;
+                while (!found) {
+                    wide2single(p, temp);
+                    if (!strcmp(temp, "EmbeddedNT") && windows_flags != 3) {
+                        suite |= 1;
+                    }
+                    p += widelen(p);
+                    p += 2;
+                    if (p[0] == 0 && p[1] == 0) {
+                        found = 1;
+                    }
+                }
+                if (suite == 1) {
+                    windows_flags = 1;
                 }
             }
         }

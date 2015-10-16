@@ -26,6 +26,7 @@
 
 /* Tested and confirmed working on:
    - ReactOS 0.2.9 (x86)
+   - ReactOS 0.3.0 (x86)
    - ReactOS 0.3.3 (x86)
    - ReactOS 0.3.14 (x86)
    - Windows 95 Original (x86)
@@ -34,8 +35,11 @@
    - Windows 95C (x86)
    - Windows 98 (x86)
    - Windows 98 Secure (x86)
+   - Windows 98SE (x86)
    - Windows ME Secure (x86)
+   - Windows NT 3.50 Server (x86)
    - Windows NT 3.51 Workstation (x86)
+   - Windows NT 4.0 Embedded Workstation (x86)
    - Windows NT 4.0 Workstation (x86)
    - Windows NT 4.0 Embedded Server (x86)
    - Windows NT 4.0 Terminal Server (x86)
@@ -45,9 +49,12 @@
    - Windows 2000 Pro (x86)
    - Windows 2000 Server (x86)
    - Windows 2000 Small Business Server (x86)
+   - Windows XP FLP (x86)
    - Windows XP Starter (x86)
    - Windows XP Home (x86)
-   - Windows XP Pro (x64)
+   - Windows XP Pro (x86/x64)
+   - Windows XP MCE 2005 (x86)
+   - Windows XP MCE 2005 R2 (x86)
    - Windows 2003 Enterprise Server (x86/x64)
    - Windows 2003 Datacenter Server (x86)
    - Windows Home Server (x86)
@@ -55,6 +62,7 @@
    - Windows 2003 R2 Enterprise Server (x86/x64)
    - Windows 2003 R2 Datacenter Server (x64)
    - Windows Vista Home Basic (x86/x64)
+   - Windows Vista Home Premium (x86/x64)
    - Windows Vista Enterprise (x86)
    - Windows 2008 Foundation Server (x64)
    - Windows 2008 Web Server (x86/x64)
@@ -63,22 +71,28 @@
    - Windows 2008 Datacenter Server (x64)
    - Windows 2008 Basic Storage Server (x64)
    - Windows Thin PC (x86)
-   - Windows 7 Embedded POSReady (x86)
+   - Windows 7 Embedded POSReady (x86/x64)
    - Windows 7 Embedded Standard (x86)
    - Windows 7 Starter (x86)
    - Windows 7 Home Basic (x64)
-   - Windows 7 Enterprise (x64)
+   - Windows 7 Enterprise (x86/x64)
    - Windows 2008 R2 Foundation Server (x64)
    - Windows 2008 R2 Web Server (x64)
+   - Windows 2008 R2 Datacenter Server (x64)
+   - Windows 2008 R2 Workgroup Storage Server (x64)
+   - Windows 2008 R2 Standard Storage Server (x64)
+   - Windows 2008 R2 Enterprise Storage Server (x64)
    - Windows 2009 Embedded Standard (x86)
    - Windows Home Server 2011 (x64)
    - Windows 2011 Standard Multipoint Server (x64)
    - Windows 2012 Datacenter Server (x64)
    - Windows 8 Embedded Standard (x64)
    - Windows 8 (x86/x64)
+   - Windows 8 Enterprise (x64)
    - Windows 8.1 Embedded Industry Enterprise (x86)
    - Windows 8.1 Pro (x86)
    - Windows 10 Home (x64)
+   - Windows 10 Pro (x86)
 */
 
 #include "vice.h"
@@ -804,8 +818,12 @@ static winver_t windows_versions[] = {
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, -1, -1 },
     { "Windows XP Tablet PC", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, 0, -1, VICE_SM_TABLETPC },
-    { "Windows XP Media Center", VER_PLATFORM_WIN32_NT,
-      5, 1, 8, VER_NT_WORKSTATION, 0, -1, VICE_SM_MEDIACENTER },
+    { "Windows XP Media Center 2002", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, 0, 1, VICE_SM_MEDIACENTER },
+    { "Windows XP Media Center 2005", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, 0, 3, VICE_SM_MEDIACENTER },
+    { "Windows XP Media Center 2005 R2", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, 0, 5, VICE_SM_MEDIACENTER },
     { "Windows XP Fundamentals for Legacy PCs", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT | VER_SUITE_SINGLEUSERTS, -1, -1 },
     { "Windows Embedded POSReady 2009", VER_PLATFORM_WIN32_NT,
@@ -902,6 +920,8 @@ static winver_t windows_versions[] = {
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_HOME_PREMIUM, -1 },
     { "Windows 7 Professional", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_PROFESSIONAL, -1 },
+
+
     { "Windows 7 Enterprise", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_ENTERPRISE, -1 },
     { "Windows 7 Business", VER_PLATFORM_WIN32_NT,
@@ -910,8 +930,12 @@ static winver_t windows_versions[] = {
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_ULTIMATE, -1 },
     { "Windows 2008 R2 Web Server", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_WEB_SERVER, -1 },
+    { "Windows 2008 R2 Workgroup Storage Server", VER_PLATFORM_WIN32_NT,
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_STANDARD_SERVER, 1 },
     { "Windows 2008 R2 Standard Storage Server", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_STANDARD_SERVER, 2 },
+    { "Windows 2008 R2 Enterprise Storage Server", VER_PLATFORM_WIN32_NT,
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_ENTERPRISE_SERVER, 3 },
     { "Windows 2008 R2 Standard Server", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_STANDARD_SERVER, -1 },
     { "Windows 2008 R2 Enterprise Server", VER_PLATFORM_WIN32_NT,
@@ -1415,7 +1439,7 @@ static int is_windows8_embedded(void)
     return 0;
 }
 
-/* 0 = None, 1 = Workstation, 2 = Standard, 3 = Enterprise, 4 = Basic */
+/* 0 = None, 1 = Workgroup, 2 = Standard, 3 = Enterprise, 4 = Basic */
 static int is_storage_server(void)
 {
     HKEY hKey;
@@ -1435,8 +1459,14 @@ static int is_storage_server(void)
 
     RegCloseKey(hKey);
 
+    if (lstrcmpi("Windows Storage Server 2008 R2 Workgroup", PT) == 0) {
+        return 1;
+    }
     if (lstrcmpi("Windows Storage Server 2008 R2 Standard", PT) == 0) {
         return 2;
+    }
+    if (lstrcmpi("Windows Storage Server 2008 R2 Enterprise", PT) == 0) {
+        return 3;
     }
     if (lstrcmpi("Windows (R) Storage Server 2008 Enterprise", PT) == 0) {
         return 3;
@@ -1546,6 +1576,60 @@ static int get_sbs_4x(void)
         return 1;
     }
     return 0;
+}
+
+/* Get MCE version:
+   0 = Unknown
+   1 = 2002
+   2 = 2004
+   3 = 2005
+   4 = 2005 R1
+   5 = 2005 R2
+*/
+static int get_mce_version(void)
+{
+    HKEY hKey;
+    char PT[128];
+    DWORD PTlen = 128;
+    LONG ret;
+
+    ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Media Center", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret != ERROR_SUCCESS) {
+        return 0;
+    }
+
+    ret = RegQueryValueEx(hKey, "Ident", NULL, NULL, (LPBYTE)PT, &PTlen);
+    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
+        return 0;
+    }
+
+    RegCloseKey(hKey);
+
+    if (lstrcmpi("2.7", PT) == 0) {
+        return 2;
+    }
+    if (lstrcmpi("2.8", PT) == 0) {
+        return 2;
+    }
+    if (lstrcmpi("3.0", PT) == 0) {
+        return 3;
+    }
+    if (lstrcmpi("3.1", PT) == 0) {
+        return 4;
+    }
+    if (lstrcmpi("4.0", PT) == 0) {
+        return 5;
+    }
+    if (lstrcmpi("5.0", PT) == 0) {
+        return 0;
+    }
+    if (lstrcmpi("5.1", PT) == 0) {
+        return 0;
+    }
+    if (lstrcmpi("6.0", PT) == 0) {
+        return 0;
+    }
+    return 1;
 }
 
 char *platform_get_windows_runtime_os(void)
@@ -1660,6 +1744,10 @@ char *platform_get_windows_runtime_os(void)
         }
         if (GetSystemMetrics(SM_SERVERR2)) {
             windows_versions[0].metrics |= 8;
+        }
+
+        if (windows_versions[0].metrics & 4 && windows_versions[0].majorver == 5 && windows_versions[0].minorver == 1) {
+            windows_versions[0].pt6 = get_mce_version();
         }
 
         if (windows_versions[0].suite == (VER_SUITE_EMBEDDEDNT | VER_SUITE_SINGLEUSERTS)) {
