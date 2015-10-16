@@ -1,5 +1,5 @@
 /*
- * video-sound.h - Video to Audio leak emulation
+ * video-sound.c - Video to Audio leak emulation
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
