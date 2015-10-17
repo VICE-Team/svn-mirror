@@ -173,7 +173,9 @@ static BYTE read_ciapa(cia_context_t *cia_context)
                     cia_context->c_cia[CIA_DDRA], byte);
     }
     byte = ((byte & ~(cia_context->c_cia[CIA_DDRA]))
-            | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]));
+            | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]))
+           & ~(((joystick_value[1] & 0x10) ? 0x40 : 0)
+               | ((joystick_value[2] & 0x10) ? 0x80 : 0));
     return byte;
 }
 
@@ -182,11 +184,10 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte = 0xff;
 
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
-    byte = userport_joystick_read_pbx(byte);
-
-    byte &= ((0xff & ~(cia_context->c_cia[CIA_DDRB]))
-             | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]));
+    byte = ((0xff & ~(cia_context->c_cia[CIA_DDRB]))
+            | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]))
+           & ~((joystick_value[1] & 0x0f)
+               | ((joystick_value[2] & 0x0f) << 4));
     return byte;
 }
 
@@ -231,7 +232,7 @@ void cia1_setup_context(machine_context_t *machine_context)
     cia->rmw_flag = &maincpu_rmw_flag;
     cia->clk_ptr = &maincpu_clk;
 
-    cia1_set_timing(cia, C610_NTSC_CYCLES_PER_SEC, 60);
+    cia1_set_timing(cia, C500_NTSC_CYCLES_PER_SEC, 60);
 
     ciacore_setup_context(cia);
 

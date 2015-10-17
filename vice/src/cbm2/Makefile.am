@@ -68,7 +68,7 @@ libcbm5x0_a_SOURCES = \
 	cbm2cart.c \
 	cbm2cart.h \
 	cbm2cia.h \
-	cbm2cia1.c \
+	cbm5x0cia1.c \
 	cbm2cpu.c \
 	cbm2datasette.c \
 	cbm2drive.c \
