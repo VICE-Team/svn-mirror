@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-06 04:06-0700\n"
-"PO-Revision-Date: 2015-06-22 20:47+0200\n"
+"PO-Revision-Date: 2015-10-18 15:06+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -1957,7 +1957,7 @@ msgstr "Pause"
 
 #: src/arch/unix/gui/uicommands.c:747
 msgid "Advance frame"
-msgstr ""
+msgstr "1 Frame weiter"
 
 #: src/arch/unix/gui/uicommands.c:749 src/translate_text.c.po.c:14739
 msgid "Enable warp mode"
@@ -4017,7 +4017,7 @@ msgstr "Einstellungen beim Beenden speichern"
 #: src/arch/amigaos/intl_text.c.po.c:4373
 #: src/arch/amigaos/intl_text.c.po.c:7874
 msgid "Confirm quitting VICE"
-msgstr "Bestätige beenden von VICE"
+msgstr "Bestätige Beenden von VICE"
 
 #: src/arch/unix/gui/uisettings.c:420
 msgid "Enter auto playback frames"
