@@ -380,8 +380,15 @@ int drive_resources_init(void)
         }
     }
 
-    return machine_drive_resources_init()
-           | resources_register_int(resources_int);
+    if (resources_register_int(resources_int) < 0) {
+        return -1;
+    }
+
+    /* make sure machine_drive_resources_init() is called last here, as that
+       will also initialize the default drive type and if it fails to do that
+       because other drive related resources are not initialized yet then we
+       end up with a non functioning drive at startup */
+    return machine_drive_resources_init();
 }
 
 void drive_resources_shutdown(void)
