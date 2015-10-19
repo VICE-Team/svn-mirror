@@ -140,6 +140,7 @@ extern int resources_get_default_value(const char *name, void *value_return);
 extern resource_type_t resources_query_type(const char *name);
 extern int resources_save(const char *fname);
 extern int resources_load(const char *fname);
+extern int resources_dump(const char *fname);
 
 extern int resources_write_item_to_file(FILE *fp, const char *name);
 extern int resources_read_item_from_file(FILE *fp);

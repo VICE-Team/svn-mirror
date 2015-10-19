@@ -13936,6 +13936,23 @@ translate_t string_table[] = {
 #endif
 
 /* initcmdline.c */
+/* en */ {IDCLS_SPECIFY_DUMPCONFIG_FILE,    N_("Dump all resources to specified config file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_TR, ""},  /* fuzzy */
+#endif
+
+/* initcmdline.c */
 /* en */ {IDCLS_LIMIT_CYCLES,    N_("Specify number of cycles to run before quitting with an error.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_LIMIT_CYCLES_DA, ""},  /* fuzzy */

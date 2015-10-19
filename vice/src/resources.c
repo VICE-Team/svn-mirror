@@ -1351,6 +1351,32 @@ int resources_save(const char *fname)
     return 0;
 }
 
+/* dump ALL resources of the current machine into a file */
+int resources_dump(const char *fname)
+{
+    FILE *out_file;
+    int i;
+
+    log_message(LOG_DEFAULT, "Dumping %d resources to file `%s'.", num_resources, fname);
+
+    out_file = fopen(fname, MODE_WRITE_TEXT);
+    if (!out_file) {
+        return RESERR_CANNOT_CREATE_FILE;
+    }
+
+    setbuf(out_file, NULL);
+
+    /* Write our current configuration.  */
+    fprintf(out_file, "[%s]\n", machine_id);
+    for (i = 0; i < num_resources; i++) {
+        write_resource_item(out_file, i);
+    }
+    fprintf(out_file, "\n");
+
+    fclose(out_file);
+    return 0;
+}
+
 int resources_register_callback(const char *name,
                                 resource_callback_func_t *callback,
                                 void *callback_param)

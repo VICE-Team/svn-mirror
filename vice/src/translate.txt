@@ -2093,6 +2093,9 @@ IDCLS_P_FILE
 IDCLS_SPECIFY_CONFIG_FILE
 
 /* initcmdline.c */
+IDCLS_SPECIFY_DUMPCONFIG_FILE
+
+/* initcmdline.c */
 IDCLS_LIMIT_CYCLES
 
 /* initcmdline.c */

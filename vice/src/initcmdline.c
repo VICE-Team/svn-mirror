@@ -114,6 +114,11 @@ static int cmdline_config(const char *param, void *extra_param)
     return 0;
 }
 
+static int cmdline_dumpconfig(const char *param, void *extra_param)
+{
+    return resources_dump(param);
+}
+
 static int cmdline_default(const char *param, void *extra_param)
 {
     return resources_set_defaults();
@@ -209,6 +214,11 @@ static const cmdline_option_t common_cmdline_options[] = {
       cmdline_config, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_FILE, IDCLS_SPECIFY_CONFIG_FILE,
+      NULL, NULL },
+    { "-dumpconfig", CALL_FUNCTION, 1,
+      cmdline_dumpconfig, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_FILE, IDCLS_SPECIFY_DUMPCONFIG_FILE,
       NULL, NULL },
     { "-chdir", CALL_FUNCTION, 1,
       cmdline_chdir, NULL, NULL, NULL,
