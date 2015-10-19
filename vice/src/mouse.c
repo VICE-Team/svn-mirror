@@ -48,6 +48,7 @@
 
 #include "alarm.h"
 #include "cmdline.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "log.h"
 #include "machine.h"
@@ -114,6 +115,7 @@ static int last_mouse_x = 0;
 static int last_mouse_y = 0;
 static rtc_ds1202_1302_t *ds1202; /* smartmouse */
 static int ds1202_rtc_save; /* smartmouse rtc data save */
+static BYTE mouse_digital_val = 0;
 
 /*
     note: for the expected behaviour look at testprogs/SID/paddles/readme.txt
@@ -131,32 +133,36 @@ static int ds1202_rtc_save; /* smartmouse rtc data save */
 
 static BYTE mouse_get_1351_x(void)
 {
-    switch (input_port) {
-        case 3: /* both */
-            mouse_poll();
-            return (last_mouse_x & 0x7f) + 0x40; /* HACK: see above */
-        case 1: /* port1 */
-        case 2: /* port2 */
-            if (input_port == mouse_port) {
+    if (_mouse_enabled) {
+        switch (input_port) {
+            case 3: /* both */
                 mouse_poll();
-                return (last_mouse_x & 0x7f) + 0x40;
-            }
+                return (last_mouse_x & 0x7f) + 0x40; /* HACK: see above */
+            case 1: /* port1 */
+            case 2: /* port2 */
+                if (input_port == mouse_port) {
+                    mouse_poll();
+                    return (last_mouse_x & 0x7f) + 0x40;
+                }
+        }
     }
     return 0xff;
 }
 
 static BYTE mouse_get_1351_y(void)
 {
-    switch (input_port) {
-        case 3: /* both */
-            mouse_poll();
-            return (last_mouse_y & 0x7f) + 0x40; /* HACK: see above */
-        case 1: /* port1 */
-        case 2: /* port2 */
-            if (input_port == mouse_port) {
+    if (_mouse_enabled) {
+        switch (input_port) {
+            case 3: /* both */
                 mouse_poll();
-                return (last_mouse_y & 0x7f) + 0x40;
-            }
+                return (last_mouse_y & 0x7f) + 0x40; /* HACK: see above */
+            case 1: /* port1 */
+            case 2: /* port2 */
+                if (input_port == mouse_port) {
+                    mouse_poll();
+                    return (last_mouse_y & 0x7f) + 0x40;
+                }
+        }
     }
     return 0xff;
 }
@@ -468,6 +474,7 @@ BYTE micromys_mouse_read(void)
     }
     return 0xff;
 }
+
 /* --------------------------------------------------------- */
 /* Paddle support */
 
@@ -515,7 +522,7 @@ static BYTE mouse_get_paddle_x(void)
     int i = input_port & mouse_port;
 
     /* DBG(("mouse_get_paddle_x: %x", i)); */
-    if (i != 0) {
+    if (i != 0 && _mouse_enabled) {
         i = i << 1;
         /* one of the ports is selected */
         paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), (SWORD)mousedrv_get_x());
@@ -528,13 +535,233 @@ static BYTE mouse_get_paddle_y(void)
 {
     int i = input_port & mouse_port;
 
-    if (i != 0) {
+    if (i != 0 && _mouse_enabled) {
         i = (i << 1) + 1;
         /* one of the ports is selected */
         paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), (SWORD)mousedrv_get_y());
         return 0xff - paddle_val[i];
     }
     return 0xff;
+}
+
+/*--------------------------------------------------------------------------*/
+
+static int joyport_mouse_enable(int val)
+{
+    mousedrv_mouse_changed();
+    latest_x = last_mouse_x = mousedrv_get_x();
+    latest_y = last_mouse_y = mousedrv_get_y();
+    neos_lastx = (BYTE)(mousedrv_get_x() >> 1);
+    neos_lasty = (BYTE)(mousedrv_get_y() >> 1);
+    latest_os_ts = 0;
+
+    if (val == mouse_type) {
+        return 0;
+    }
+
+    if (!val) {
+        if (ds1202) {
+            ds1202_1302_destroy(ds1202, ds1202_rtc_save);
+            ds1202 = NULL;
+        }
+        mouse_type = -1;
+        return 0;
+    }
+
+    switch (val) {
+        case JOYPORT_ID_PADDLES:
+            mouse_type = MOUSE_TYPE_PADDLE;
+            break;
+        case JOYPORT_ID_MOUSE_1351:
+            mouse_type = MOUSE_TYPE_1351;
+            break;
+        case JOYPORT_ID_MOUSE_NEOS:
+            mouse_type = MOUSE_TYPE_NEOS;
+            break;
+        case JOYPORT_ID_MOUSE_AMIGA:
+            mouse_type = MOUSE_TYPE_AMIGA;
+            break;
+        case JOYPORT_ID_MOUSE_CX22:
+            mouse_type = MOUSE_TYPE_CX22;
+            break;
+        case JOYPORT_ID_MOUSE_ST:
+            mouse_type = MOUSE_TYPE_ST;
+            break;
+        case JOYPORT_ID_MOUSE_SMART:
+            mouse_type = MOUSE_TYPE_SMART;
+            ds1202 = ds1202_1302_init("SM", 1202);
+            break;
+        case JOYPORT_ID_MOUSE_MICROMYS:
+            mouse_type = MOUSE_TYPE_MICROMYS;
+            break;
+        case JOYPORT_ID_KOALAPAD:
+            mouse_type = MOUSE_TYPE_KOALAPAD;
+            break;
+        default:
+            return -1;
+    }
+
+    return 0;
+}
+
+static BYTE joyport_mouse_value(void)
+{
+    return _mouse_enabled ? ~mouse_digital_val : 0xff;
+}
+
+static joyport_t paddles_joyport_device = {
+    "Paddles",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_mouse_enable,
+    joyport_mouse_value,
+    NULL,				/* no store digital */
+    mouse_get_paddle_x,
+    mouse_get_paddle_y
+};
+
+static joyport_t mouse_1351_joyport_device = {
+    "Mouse (1351)",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_mouse_enable,
+    joyport_mouse_value,
+    NULL,				/* no store digital */
+    mouse_get_1351_x,
+    mouse_get_1351_y
+};
+
+static BYTE joyport_mouse_neos_value(void)
+{
+    return _mouse_enabled ? (~mouse_digital_val) & neos_mouse_read() : 0xff;
+}
+
+static BYTE joyport_mouse_neos_amiga_st_read_potx(void)
+{
+    return _mouse_enabled ? ((neos_and_amiga_buttons & 1) ? 0xff : 0) : 0xff;
+}
+
+
+static joyport_t mouse_neos_joyport_device = {
+    "Mouse (neos)",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_mouse_enable,
+    joyport_mouse_neos_value,
+    neos_mouse_store,
+    joyport_mouse_neos_amiga_st_read_potx,
+    NULL				/* no read pot y */
+};
+
+static BYTE joyport_mouse_poll_value(void)
+{
+    return _mouse_enabled ? (~mouse_digital_val) & mouse_poll() : 0xff;
+}
+
+static BYTE joyport_mouse_amiga_st_read_poty(void)
+{
+    return _mouse_enabled ? ((neos_and_amiga_buttons & 2) ? 0xff : 0) : 0xff;
+}
+
+static joyport_t mouse_amiga_joyport_device = {
+    "Mouse (amiga)",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_mouse_enable,
+    joyport_mouse_poll_value,
+    NULL,				/* no store digital */
+    joyport_mouse_neos_amiga_st_read_potx,
+    joyport_mouse_amiga_st_read_poty
+};
+
+static joyport_t mouse_cx22_joyport_device = {
+    "Mouse (cx22)",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_mouse_enable,
+    joyport_mouse_poll_value,
+    NULL,				/* no store digital */
+    NULL,				/* no read pot x */
+    NULL				/* no read pot y */
+};
+
+static joyport_t mouse_st_joyport_device = {
+    "Mouse (atari st)",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_mouse_enable,
+    joyport_mouse_poll_value,
+    NULL,				/* no store digital */
+    joyport_mouse_neos_amiga_st_read_potx,
+    joyport_mouse_amiga_st_read_poty
+};
+
+static BYTE joyport_mouse_smart_value(void)
+{
+    return _mouse_enabled ? (~mouse_digital_val) & smart_mouse_read() : 0xff;
+}
+
+static joyport_t mouse_smart_joyport_device = {
+    "Mouse (smart)",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_mouse_enable,
+    joyport_mouse_smart_value,
+    smart_mouse_store,
+    mouse_get_1351_x,
+    mouse_get_1351_y
+};
+
+static BYTE joyport_mouse_micromys_value(void)
+{
+    return _mouse_enabled ? (~mouse_digital_val) & micromys_mouse_read() : 0xff;
+}
+
+static joyport_t mouse_micromys_joyport_device = {
+    "Mouse (Micromys)",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_mouse_enable,
+    joyport_mouse_micromys_value,
+    NULL,				/* no store digital */
+    mouse_get_1351_x,
+    mouse_get_1351_y
+};
+
+static BYTE joyport_koalapad_pot_x(void)
+{
+    return _mouse_enabled ? 255 - mouse_get_paddle_x() : 0xff;
+}
+
+static joyport_t koalapad_joyport_device = {
+    "KoalaPad",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_mouse_enable,
+    joyport_mouse_value,
+    NULL,				/* no store digital */
+    joyport_koalapad_pot_x,
+    mouse_get_paddle_y
+};
+
+static int mouse_joyport_register(void)
+{
+    if (joyport_register(JOYPORT_ID_PADDLES, &paddles_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_MOUSE_1351, &mouse_1351_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_MOUSE_NEOS, &mouse_neos_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_MOUSE_AMIGA, &mouse_amiga_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_MOUSE_CX22, &mouse_cx22_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_MOUSE_ST, &mouse_st_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_MOUSE_SMART, &mouse_smart_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_MOUSE_MICROMYS, &mouse_micromys_joyport_device) < 0) {
+        return -1;
+    }
+    return joyport_register(JOYPORT_ID_KOALAPAD, &koalapad_joyport_device);
 }
 
 /* --------------------------------------------------------- */
@@ -634,6 +861,9 @@ static const resource_int_t resources_extra_int[] = {
 
 int mouse_resources_init(void)
 {
+    if (mouse_joyport_register() < 0) {
+        return -1;
+    }
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
@@ -735,9 +965,9 @@ void mouse_button_left(int pressed)
     BYTE joypin = (((mouse_type == MOUSE_TYPE_PADDLE) || (mouse_type == MOUSE_TYPE_KOALAPAD)) ? 4 : 16);
 
     if (pressed) {
-        joystick_set_value_or(mouse_port, joypin);
+        mouse_digital_val |= joypin;
     } else {
-        joystick_set_value_and(mouse_port, (BYTE)~joypin);
+        mouse_digital_val &= (BYTE)~joypin;
     }
 }
 
@@ -749,18 +979,18 @@ void mouse_button_right(int pressed)
         case MOUSE_TYPE_MICROMYS:
             /* "joystick up" */
             if (pressed) {
-                joystick_set_value_or(mouse_port, 1);
+                mouse_digital_val |= 1;
             } else {
-                joystick_set_value_and(mouse_port, ~1);
+                mouse_digital_val &= (BYTE)~1;
             }
             break;
         case MOUSE_TYPE_KOALAPAD:
         case MOUSE_TYPE_PADDLE:
             /* "joystick right" */
             if (pressed) {
-                joystick_set_value_or(mouse_port, 8);
+                mouse_digital_val |= 8;
             } else {
-                joystick_set_value_and(mouse_port, ~8);
+                mouse_digital_val &= (BYTE)~8;
             }
             break;
         case MOUSE_TYPE_NEOS:
@@ -783,8 +1013,10 @@ void mouse_button_middle(int pressed)
         case MOUSE_TYPE_MICROMYS:
             if (pressed) {
                 joystick_set_value_or(mouse_port, 2);
+                mouse_digital_val |= 2;
             } else {
                 joystick_set_value_and(mouse_port, ~2);
+                mouse_digital_val &= (BYTE)~2;
             }
             break;
         case MOUSE_TYPE_AMIGA:

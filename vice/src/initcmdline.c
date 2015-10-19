@@ -25,7 +25,7 @@
  *
  */
 
-/* #define DEBUG_CMDLINE */
+#define DEBUG_CMDLINE
 
 #include "vice.h"
 

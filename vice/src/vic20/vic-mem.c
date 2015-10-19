@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "joyport.h"
 #include "maincpu.h"
 #include "raster-changes.h"
 #include "types.h"
@@ -251,30 +252,10 @@ BYTE vic_read(WORD addr)
             return vic.light_pen.x;
         case 7:
             return vic.light_pen.y;
-#ifdef HAVE_MOUSE
         case 8:
-            if (_mouse_enabled) {
-                return mouse_get_x();
-            } else if (lightpen_enabled) {
-                return lightpen_read_button_x();
-            } else {
-                return 0xff;
-            }
-            break;
+            return read_joyport_potx();
         case 9:
-            if (_mouse_enabled) {
-                return mouse_get_y();
-            } else if (lightpen_enabled) {
-                return lightpen_read_button_y();
-            } else {
-                return 0xff;
-            }
-            break;
-#else
-        case 8:
-        case 9:
-            return 0xff;
-#endif
+            return read_joyport_poty();
         default:
             return vic.regs[addr];
     }

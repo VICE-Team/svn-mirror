@@ -158,6 +158,7 @@ noinst_HEADERS = \
 	initcmdline.h \
 	interrupt.h \
 	ioutil.h \
+	joyport.h \
 	joystick.h \
 	kbdbuf.h \
 	keyboard.h \
@@ -275,6 +276,7 @@ base_sources = \
 	initcmdline.c \
 	interrupt.c \
 	ioutil.c \
+	joyport.c \
 	joystick.c \
 	kbdbuf.c \
 	keyboard.c \

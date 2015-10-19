@@ -40,6 +40,7 @@
 #include "cmdline.h"
 #include "keyboard.h"
 #include "joy.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "kbd.h"
 #include "lib.h"
@@ -492,9 +493,54 @@ void joystick_joypad_clear(void)
 
 /*-----------------------------------------------------------------------*/
 
+static BYTE read_joystick1(void)
+{
+    return ~joystick_value[1];
+}
+
+static joyport_t joystick1 = {
+    "Joystick 1",
+    JOYPORT_RES_ID_NONE,
+    NULL,
+    read_joystick1,
+    NULL,
+    NULL,
+    NULL
+};
+
+static BYTE read_joystick2(void)
+{
+    return ~joystick_value[2];
+}
+
+static joyport_t joystick2 = {
+    "Joystick 2",
+    JOYPORT_RES_ID_NONE,
+    NULL,				/* no enable */
+    read_joystick2,
+    NULL,				/* no store digital */
+    NULL,				/* no read potx */
+    NULL				/* no read poty */
+};
+
+static int joystick_joyport_register(void)
+{
+    if (joyport_register(JOYPORT_ID_JOY1, &joystick1) < 0) {
+        return -1;
+    }
+    return joyport_register(JOYPORT_ID_JOY2, &joystick2);
+}
+
+/*--------------------------------------------------------------------------*/
+
 int joystick_resources_init(void)
 {
-    resources_register_int(resources_int);
+    if (joystick_joyport_register() < 0) {
+        return -1;
+    }
+    if (resources_register_int(resources_int) < 0) {
+        return -1;
+    }
 
     return joystick_arch_init_resources();
 }
@@ -507,9 +553,10 @@ static const resource_int_t resources_int[] = {
 
 int joystick_extra_init_resources(void)
 {
-    resources_register_int(resources_int);
-
-    return 0;
+    if (joystick_joyport_register() < 0) {
+        return -1;
+    }
+    return resources_register_int(resources_int);
 }
 #endif /* COMMON_KBD */
 

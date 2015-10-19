@@ -37,6 +37,7 @@
 #include "cia.h"
 #include "interrupt.h"
 #include "drive.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -131,7 +132,7 @@ static void do_reset_cia(cia_context_t *cia_context)
 static void cia1_internal_lightpen_check(BYTE pa, BYTE pb)
 {
     BYTE val = 0xff;
-    BYTE msk = pa & ~joystick_value[2];
+    BYTE msk = pa & read_joyport_dig(JOYPORT_2);
     BYTE m;
     int i;
 
@@ -141,7 +142,7 @@ static void cia1_internal_lightpen_check(BYTE pa, BYTE pb)
         }
     }
 
-    m = val & pb & ~joystick_value[1];
+    m = val & pb & read_joyport_dig(JOYPORT_1);
 
     vicii_set_light_pen(maincpu_clk, !(m & 0x10));
 }
@@ -155,17 +156,9 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 {
     cia1_internal_lightpen_check(b, machine_context.cia1->old_pb);
 
-#ifdef HAVE_MOUSE
-    mouse_set_input((b >> 6) & 0x03);
+    set_joyport_pot_mask((b >> 6) & 3);
 
-    if (_mouse_enabled && (mouse_port == 2)) {
-        if (mouse_type == MOUSE_TYPE_NEOS) {
-            neos_mouse_store(b);
-        } else if (mouse_type == MOUSE_TYPE_SMART) {
-            smart_mouse_store(b);
-        }
-    }
-#endif
+    store_joyport_dig(JOYPORT_2, b);
 }
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
@@ -176,15 +169,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     cia1_internal_lightpen_check(machine_context.cia1->old_pa, byte);
 
-#ifdef HAVE_MOUSE
-    if (_mouse_enabled && (mouse_port == 1)) {
-        if (mouse_type == MOUSE_TYPE_NEOS) {
-            neos_mouse_store(byte);
-        } else if (mouse_type == MOUSE_TYPE_SMART) {
-            smart_mouse_store(byte);
-        }
-    }
-#endif
+    store_joyport_dig(JOYPORT_1, byte);
 }
 
 static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
@@ -301,7 +286,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     /* loop over columns,
        pull down all bits connected to a column which is output and active.
      */
-    msk = cia_context->old_pb & ~joystick_value[1];
+    msk = cia_context->old_pb & read_joyport_dig(JOYPORT_1);
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
         if (!(msk & m)) {
             tmp = matrix_get_active_columns_by_column(i);
@@ -325,7 +310,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
        pull down all bits connected to a row which is output and active.
        handles the case when port a is used for both input and output
      */
-    msk = cia_context->old_pa & ~joystick_value[2];
+    msk = cia_context->old_pa & read_joyport_dig(JOYPORT_2);
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
         if (!(msk & m)) {
             val &= ~matrix_get_active_rows_by_row(i);
@@ -333,32 +318,9 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     }
     DBGA((" val:%02x", val));
 
-    byte = (val & (cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
+    byte = (val & (cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))) & read_joyport_dig(JOYPORT_2);
 
     DBGA((" out:%02x\n", byte));
-
-#ifdef HAVE_MOUSE
-    if (_mouse_enabled && (mouse_port == 2)) {
-        switch (mouse_type) {
-        case MOUSE_TYPE_NEOS:
-            byte &= neos_mouse_read();
-            break;
-        case MOUSE_TYPE_SMART:
-            byte &= smart_mouse_read();
-            break;
-        case MOUSE_TYPE_ST:
-        case MOUSE_TYPE_AMIGA:
-        case MOUSE_TYPE_CX22:
-            byte &= mouse_poll();
-            break;
-        case MOUSE_TYPE_MICROMYS:
-            byte &= micromys_mouse_read();
-            break;
-        default:
-            break;
-        }
-    }
-#endif
 
     return byte;
 }
@@ -402,7 +364,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
           cia_context->c_cia[CIA_DDRA], cia_context->c_cia[CIA_PRA],
           cia_context->c_cia[CIA_DDRB], cia_context->c_cia[CIA_PRB]));
 
-    msk = cia_context->old_pa & ~joystick_value[2];
+    msk = cia_context->old_pa & read_joyport_dig(JOYPORT_2);
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
         if (!(msk & m)) {
             tmp = matrix_get_active_columns_by_row(i);
@@ -432,7 +394,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
        pull down all bits connected to a column which is output and active.
        handles the case when port b is used for both input and output
      */
-    msk = cia_context->old_pb & ~joystick_value[1];
+    msk = cia_context->old_pb & read_joyport_dig(JOYPORT_1);
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
         if (!(msk & m)) {
             val &= ~matrix_get_active_columns_by_column(i);
@@ -442,32 +404,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
     byte = val & (cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]));
     byte |= val_outhi;
-    byte &= ~joystick_value[1];
+    byte &= read_joyport_dig(JOYPORT_1);
 
     DBGB((" out:%02x\n", byte));
-
-#ifdef HAVE_MOUSE
-    if (_mouse_enabled && (mouse_port == 1)) {
-        switch (mouse_type) {
-        case MOUSE_TYPE_NEOS:
-            byte &= neos_mouse_read();
-            break;
-        case MOUSE_TYPE_SMART:
-            byte &= smart_mouse_read();
-            break;
-        case MOUSE_TYPE_ST:
-        case MOUSE_TYPE_AMIGA:
-        case MOUSE_TYPE_CX22:
-            byte &= mouse_poll();
-            break;
-        case MOUSE_TYPE_MICROMYS:
-            byte &= micromys_mouse_read();
-            break;
-        default:
-            break;
-        }
-    }
-#endif
 
     return byte;
 }
@@ -559,4 +498,3 @@ void cia1_set_timing(cia_context_t *cia_context, int tickspersec, int powerfreq)
     cia_context->power_tickcounter = 0;
     cia_context->power_ticks = 0;
 }
-

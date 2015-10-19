@@ -32,6 +32,7 @@
 
 #include "datasette.h"
 #include "interrupt.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -93,7 +94,7 @@ void via2_set_tape_sense(int v)
 
 static void via2_internal_lightpen_check(BYTE pa)
 {
-    BYTE b = ~(joystick_value[1] | joystick_value[2]);
+    BYTE b = read_joyport_dig(JOYPORT_1);
 
     b &= pa;
 
@@ -216,7 +217,7 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
        of both joysticks so that it works with every joystick
        setting.  This is a bit slow... we might think of a
        faster method.  */
-    joy_bits = ~(joystick_value[1] | joystick_value[2]);
+    joy_bits = read_joyport_dig(JOYPORT_1);
     joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
 
     joy_bits |= tape_sense ? 0 : 0x40;

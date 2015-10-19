@@ -41,6 +41,7 @@
 #include "cia.h"
 #include "drive.h"
 #include "interrupt.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -132,8 +133,10 @@ static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 
 static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    /* FIXME: PA0 and PA1 are used as selector for the
-       Paddle 1/2 selection for the A/D converter. */
+    set_joyport_pot_mask((byte >> 6) & 3);
+
+    store_joyport_dig(JOYPORT_2, byte);
+
     parallel_cpu_set_bus((BYTE)(cia1_ieee_is_output ? byte : 0xff));
 }
 
@@ -152,6 +155,8 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     printer_userport_write_strobe(0);
     printer_userport_write_strobe(1);
 
+    store_joyport_dig(JOYPORT_1, byte);
+
     /* FIXME: in the upcoming userport system this call needs to be conditional */
     userport_joystick_store_pbx(byte);
 }
@@ -160,6 +165,8 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
     BYTE byte;
+    BYTE joy1 = ~read_joyport_dig(JOYPORT_1);
+    BYTE joy2 = ~read_joyport_dig(JOYPORT_2);
 
     drive_cpu_execute_all(maincpu_clk);
 
@@ -174,8 +181,8 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     }
     byte = ((byte & ~(cia_context->c_cia[CIA_DDRA]))
             | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]))
-           & ~(((joystick_value[1] & 0x10) ? 0x40 : 0)
-               | ((joystick_value[2] & 0x10) ? 0x80 : 0));
+           & ~(((joy1 & 0x10) ? 0x40 : 0)
+               | ((joy2 & 0x10) ? 0x80 : 0));
     return byte;
 }
 
@@ -183,11 +190,13 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte = 0xff;
+    BYTE joy1 = ~read_joyport_dig(JOYPORT_1);
+    BYTE joy2 = ~read_joyport_dig(JOYPORT_2);
 
     byte = ((0xff & ~(cia_context->c_cia[CIA_DDRB]))
             | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]))
-           & ~((joystick_value[1] & 0x0f)
-               | ((joystick_value[2] & 0x0f) << 4));
+           & ~((joy1 & 0x0f)
+               | ((joy2 & 0x0f) << 4));
     return byte;
 }
 

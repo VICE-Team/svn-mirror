@@ -70,6 +70,7 @@
 #include "gfxoutput.h"
 #include "imagecontents.h"
 #include "init.h"
+#include "joyport.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -506,6 +507,10 @@ int machine_resources_init(void)
         init_resource_fail("userport printer");
         return -1;
     }
+    if (joyport_resources_init(1, 2) < 0) {
+        init_resource_fail("joyport");
+        return -1;
+    }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
         return -1;
@@ -668,6 +673,10 @@ int machine_cmdline_options_init(void)
     }
     if (printer_userport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport printer");
+        return -1;
+    }
+    if (joyport_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("joyport");
         return -1;
     }
     if (joystick_cmdline_options_init() < 0) {

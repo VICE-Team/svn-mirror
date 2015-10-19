@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -48,6 +49,8 @@ int lightpen_type;
 /* static variables/functions */
 
 #define MAX_WINDOW_NUM 1
+
+static BYTE lightpen_value = 0;
 
 static int lightpen_buttons;
 static int lightpen_button_y;
@@ -98,9 +101,9 @@ static inline void lightpen_check_button_mask(BYTE mask, int pressed)
     }
 
     if (pressed) {
-        joystick_set_value_or(1, mask);
+        lightpen_value |= mask;
     } else {
-        joystick_set_value_and(1, (BYTE)~mask);
+        lightpen_value &= (BYTE)~mask;
     }
 }
 
@@ -118,6 +121,127 @@ static inline void lightpen_update_buttons(int buttons)
 
     lightpen_check_button_mask((BYTE)(lp_type[lightpen_type].button1 & 0xf), buttons & LP_HOST_BUTTON_1);
     lightpen_check_button_mask((BYTE)(lp_type[lightpen_type].button2 & 0xf), buttons & LP_HOST_BUTTON_2);
+}
+
+/* --------------------------------------------------------- */
+
+static int joyport_lightpen_enable(int val)
+{
+    lightpen_enabled = val ? 1 : 0;
+
+    if (!val) {
+        lightpen_type = -1;
+        return 0;
+    }
+
+    switch (val) {
+        case JOYPORT_ID_LIGHTPEN_U:
+            lightpen_type = LIGHTPEN_TYPE_PEN_U;
+            break;
+        case JOYPORT_ID_LIGHTPEN_L:
+            lightpen_type = LIGHTPEN_TYPE_PEN_L;
+            break;
+        case JOYPORT_ID_LIGHTPEN_DATEL:
+            lightpen_type = LIGHTPEN_TYPE_PEN_DATEL;
+            break;
+        case JOYPORT_ID_LIGHTGUN_Y:
+            lightpen_type = LIGHTPEN_TYPE_GUN_Y;
+            break;
+        case JOYPORT_ID_LIGHTGUN_L:
+            lightpen_type = LIGHTPEN_TYPE_GUN_L;
+            break;
+        case JOYPORT_ID_LIGHTPEN_INKWELL:
+            lightpen_type = LIGHTPEN_TYPE_INKWELL;
+            break;
+        default:
+            return -1;
+    }
+    return 0;
+}
+
+static BYTE lightpen_digital_val(void)
+{
+    return ~lightpen_value;
+}
+
+static joyport_t lightpen_u_joyport_device = {
+    "Lightpen (up trigger)",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_lightpen_enable,
+    lightpen_digital_val,
+    NULL,				/* no store digital */
+    lightpen_read_button_x,
+    lightpen_read_button_y
+};
+
+static joyport_t lightpen_l_joyport_device = {
+    "Lightpen (left trigger)",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_lightpen_enable,
+    lightpen_digital_val,
+    NULL,				/* no store digital */
+    lightpen_read_button_x,
+    lightpen_read_button_y
+};
+
+static joyport_t lightpen_datel_joyport_device = {
+    "Datel Lightpen",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_lightpen_enable,
+    lightpen_digital_val,
+    NULL,				/* no store digital */
+    lightpen_read_button_x,
+    lightpen_read_button_y
+};
+
+static joyport_t magnum_light_phaser_joyport_device = {
+    "Magnum Light Phaser",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_lightpen_enable,
+    lightpen_digital_val,
+    NULL,				/* no store digital */
+    lightpen_read_button_x,
+    lightpen_read_button_y
+};
+
+static joyport_t stack_light_rifle_joyport_device = {
+    "Stack Light Rifle",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_lightpen_enable,
+    lightpen_digital_val,
+    NULL,				/* no store digital */
+    lightpen_read_button_x,
+    lightpen_read_button_y
+};
+
+static joyport_t inkwell_lightpen_joyport_device = {
+    "Inkwell Lightpen",
+    JOYPORT_RES_ID_MOUSE,
+    joyport_lightpen_enable,
+    lightpen_digital_val,
+    NULL,				/* no store digital */
+    lightpen_read_button_x,
+    lightpen_read_button_y
+};
+
+static int lightpen_joyport_register(void)
+{
+    if (joyport_register(JOYPORT_ID_LIGHTPEN_U, &lightpen_u_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_LIGHTPEN_L, &lightpen_l_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_LIGHTPEN_DATEL, &lightpen_datel_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_LIGHTGUN_Y, &magnum_light_phaser_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_register(JOYPORT_ID_LIGHTGUN_L, &stack_light_rifle_joyport_device) < 0) {
+        return -1;
+    }
+    return joyport_register(JOYPORT_ID_LIGHTPEN_INKWELL, &inkwell_lightpen_joyport_device);
 }
 
 /* --------------------------------------------------------- */
@@ -159,6 +283,9 @@ static const resource_int_t resources_int[] = {
 
 int lightpen_resources_init(void)
 {
+    if (lightpen_joyport_register() < 0) {
+        return -1;
+    }
     return resources_register_int(resources_int);
 }
 

@@ -35,6 +35,7 @@
 #include "catweaselmkiii.h"
 #include "fastsid.h"
 #include "hardsid.h"
+#include "joyport.h"
 #include "lib.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -115,25 +116,14 @@ static BYTE sid_read_chip(WORD addr, int chipno)
 
     machine_handle_pending_alarms(0);
 
-#ifdef HAVE_MOUSE
     if (chipno == 0 && (addr == 0x19 || addr == 0x1a)) {
         if ((maincpu_clk ^ pot_cycle) & ~511) {
             pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
-            if (_mouse_enabled) {
-                val_pot_x = mouse_get_x();
-                val_pot_y = mouse_get_y();
-            } else if (lightpen_enabled) {
-                val_pot_x = lightpen_read_button_x();
-                val_pot_y = lightpen_read_button_y();
-            } else {
-                val_pot_x = 0xff;
-                val_pot_y = 0xff;
-            }
+            val_pot_x = read_joyport_potx();
+            val_pot_y = read_joyport_poty();
         }
         val = (addr == 0x19) ? val_pot_x : val_pot_y;
-    } else
-#endif
-    {
+    } else {
         if (machine_class == VICE_MACHINE_C64SC
             || machine_class == VICE_MACHINE_SCPU64) {
             /* On x64sc, the read/write calls both happen before incrementing
