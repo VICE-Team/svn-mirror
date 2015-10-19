@@ -23,7 +23,6 @@ TEXI_TOOLS = \
 DOC_TOOLS = \
 	checkdoc.c \
 	checkdoc.mak \
-	checkdoc.mon \
 	Doxyfile \
 	mainpage.dox \
 	mkdoxy.sh \

@@ -2,22 +2,24 @@
 
 .SILENT:
 
-PROGS= \
-	../src/petcat \
-	../src/cartconv \
-	../src/c1541 \
-	../src/vsid \
-	../src/x64 \
-	../src/x64sc \
-	../src/x64dtv \
-	../src/x128 \
-	../src/xcbm2 \
-	../src/xvic \
-	../src/xplus4 \
-	../src/xpet \
-	../src/xscpu64
+VICESRC=../src
 
-all: help
+PROGS= \
+	$(VICESRC)/petcat \
+	$(VICESRC)/cartconv \
+	$(VICESRC)/c1541 \
+	$(VICESRC)/vsid \
+	$(VICESRC)/x64 \
+	$(VICESRC)/x64sc \
+	$(VICESRC)/x64dtv \
+	$(VICESRC)/x128 \
+	$(VICESRC)/xcbm2 \
+	$(VICESRC)/xvic \
+	$(VICESRC)/xplus4 \
+	$(VICESRC)/xpet \
+	$(VICESRC)/xscpu64
+
+VICEDUMPOPT=-console -default -dumpconfig vice.rc.tmp -limitcycles 10 2>&1 > /dev/null
 
 help:
 	echo -ne "check vice.texi\n\n"
@@ -33,49 +35,50 @@ help:
 	echo -ne "clean\tremove temp files\n"
 	echo -ne "update\tgenerate documentation\n"
 
-vice.opts.tmp: $(PROGS) checkdoc.mak checkdoc.mon
+vice.opts.tmp: $(PROGS) checkdoc.mak
 	echo "creating vice.opts.tmp"
 	echo "[C64]" > vice.opts.tmp
-	LANGUAGE="en" x64 -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/x64 -help >> vice.opts.tmp
 	echo "[C64SC]" >> vice.opts.tmp
-	LANGUAGE="en" x64sc -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/x64sc -help >> vice.opts.tmp
 	echo "[C64DTV]" >> vice.opts.tmp
-	LANGUAGE="en" x64dtv -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/x64dtv -help >> vice.opts.tmp
 	echo "[C128]" >> vice.opts.tmp
-	LANGUAGE="en" x128 -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/x128 -help >> vice.opts.tmp
 	echo "[VSID]" >> vice.opts.tmp
-	LANGUAGE="en" vsid -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/vsid -help >> vice.opts.tmp
 	echo "[CBM-II]" >> vice.opts.tmp
-	LANGUAGE="en" xcbm2 -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/xcbm2 -help >> vice.opts.tmp
 	echo "[CBM-II-5x0]" >> vice.opts.tmp
-	LANGUAGE="en" xcbm2 -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/xcbm2 -help >> vice.opts.tmp
 	echo "[VIC20]" >> vice.opts.tmp
-	LANGUAGE="en" xvic -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/xvic -help >> vice.opts.tmp
 	echo "[PLUS4]" >> vice.opts.tmp
-	LANGUAGE="en" xplus4 -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/xplus4 -help >> vice.opts.tmp
 	echo "[PET]" >> vice.opts.tmp
-	LANGUAGE="en" xpet -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/xpet -help >> vice.opts.tmp
 	echo "[SCPU64]" >> vice.opts.tmp
-	LANGUAGE="en" xscpu64 -help >> vice.opts.tmp
+	LANGUAGE="en" $(VICESRC)/xscpu64 -help >> vice.opts.tmp
 	echo "[petcat]" >> vice.opts.tmp
-	-LANGUAGE="en" petcat -help | tr '[]' '()' >> vice.opts.tmp
+	-LANGUAGE="en" $(VICESRC)/petcat -help | tr '[]' '()' >> vice.opts.tmp
 	echo "[cartconv]" >> vice.opts.tmp
-	-LANGUAGE="en" cartconv -help >> vice.opts.tmp
+	-LANGUAGE="en" $(VICESRC)/cartconv -help >> vice.opts.tmp
 
-vice.rc.tmp: $(PROGS) checkdoc.mak checkdoc.mon
+vice.rc.tmp: $(PROGS) checkdoc.mak
 	echo "creating vice.rc.tmp"
-	rm -f vice.rc.tmp
-	x64 -config vice.rc.tmp -initbreak 0xfce2 -moncommands checkdoc.mon
-	x64sc -config vice.rc.tmp -initbreak 0xfce2 -moncommands checkdoc.mon
-	x64dtv -config vice.rc.tmp -initbreak 0xfce2 -moncommands checkdoc.mon
-	x128 -config vice.rc.tmp -initbreak 0xff3d -moncommands checkdoc.mon
-	vsid -config vice.rc.tmp -initbreak 0xfce2 -moncommands checkdoc.mon
-	xcbm5x0 -config vice.rc.tmp -initbreak 0xf99e -moncommands checkdoc.mon
-	xcbm2 -config vice.rc.tmp -initbreak 0xf997 -moncommands checkdoc.mon
-	xvic -config vice.rc.tmp -initbreak 0xfd22 -moncommands checkdoc.mon
-	xplus4 -config vice.rc.tmp -initbreak 0xfff6 -moncommands checkdoc.mon
-	xpet -config vice.rc.tmp -initbreak 0xfd16 -moncommands checkdoc.mon
-	xscpu64 -config vice.rc.tmp -initbreak 0xfce2 -moncommands checkdoc.mon
+	rm -f vice.rc.tmp vice.rcall.tmp
+	-$(VICESRC)/x64     $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	-$(VICESRC)/x64sc   $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	-$(VICESRC)/x64dtv  $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	-$(VICESRC)/x128    $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	-$(VICESRC)/vsid    $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	-$(VICESRC)/xcbm5x0 $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	-$(VICESRC)/xcbm2   $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	-$(VICESRC)/xvic    $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	-$(VICESRC)/xplus4  $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	-$(VICESRC)/xpet    $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	-$(VICESRC)/xscpu64 $(VICEDUMPOPT) ; cat vice.rc.tmp >> vice.rcall.tmp
+	mv vice.rcall.tmp vice.rc.tmp
 	
 checkdoc: checkdoc.c
 	echo "creating checkdoc"
@@ -99,7 +102,9 @@ listopt: checkdoc vice.opts.tmp vice.rc.tmp
 update: vice.texi
 	make --silent
 
-.PHONY: fixme
+all: full
+
+.PHONY: fixme todo nodes clean
 
 fixme:
 	echo -ne "list of FIXMEs ("
@@ -109,7 +114,6 @@ fixme:
 	echo -ne "\n"
 
 todo: fixme
-all: full
 
 nodes:
 	echo -ne "nodes that need fixing ("
@@ -122,3 +126,4 @@ clean:
 	rm -f ./checkdoc
 	rm -f vice.opts.tmp
 	rm -f vice.rc.tmp
+	rm -f vice.rcall.tmp
