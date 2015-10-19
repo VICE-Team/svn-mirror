@@ -41,6 +41,7 @@
 #include <signal.h>
 #endif
 
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "main.h"
@@ -54,12 +55,6 @@ int winmain_cmd_show;
 #ifndef IDE_COMPILE
 #  if !defined(__MSVCRT__) && !defined(_MSC_VER) && !defined(_WIN64) && !defined(__WATCOMC__) && !defined(WATCOM_COMPILE)
 extern void __GetMainArgs(int *, char ***, char ***, int);
-#  else
-typedef struct {
-    int newmode;
-} _startupinfo;
-
-extern void __wgetmainargs(int *, wchar_t ***, wchar_t ***, int, _startupinfo *);
 #  endif
 #endif
 
@@ -87,16 +82,19 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance, TCHAR *cmd_line,
 #  endif
 #  ifndef IDE_COMPILE
     if (!__argc) {
-        _startupinfo start_info;
+        TCHAR *vice_cmdline;
+        TCHAR *vice_argv[4096] ;
         int vice_argc = 0;
-        char **vice_argv = 0;
-        char **dummy = 0;
 
-        start_info.newmode = 0;
+        vice_cmdline = lib_stralloc(GetCommandLine());
 
-        __wgetmainargs(&vice_argc, &vice_argv, &dummy, -1, &start_info);
-
+        vice_argv[vice_argc] = _tcstok(vice_cmdline, TEXT(" \t"));
+        while (vice_argv[vice_argc] != 0) {
+            vice_argc++;
+            vice_argv[vice_argc] = _tcstok(0, TEXT(" \t"));
+        }
         main_program(vice_argc, vice_argv);
+        lib_free(vice_cmdline);
     } else {
         main_program(__argc, __argv);
     }
