@@ -115,18 +115,18 @@ int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
         return 0;
     }
 
-    /* Make sure serial code assumes there are no traps installed.  */
-    /* serial_remove_traps(); */
-    /* we also need the TAPE traps!!! therefore -> */
-    /* disable traps before saving the ROM */
+    /* disable traps before loading the ROM */
     if (machine_class != VICE_MACHINE_VSID) {
         resources_get_int("VirtualDevices", &trapfl);
-        resources_set_int("VirtualDevices", 1);
+        resources_set_int("VirtualDevices", 0);
     }
 
     /* Load Kernal ROM.  */
     if (cartkernal == NULL) {
         if (c64rom_cartkernal_active == 1) {
+            if (machine_class != VICE_MACHINE_VSID) {
+                resources_set_int("VirtualDevices", trapfl);
+            }
             return -1;
         }
 
@@ -148,9 +148,7 @@ int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
         rev =  C64_KERNAL_UNKNOWN;
     } else {
         log_verbose("loaded known kernal revision:%d chksum: %d", id, sum);
-        if (rev == C64_KERNAL_UNKNOWN) {
-            rev = id;
-        }
+        rev = id;
     }
     resources_set_int("KernalRev", rev);
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
