@@ -21392,6 +21392,13 @@ action:         N/A
 
 initcmdline.c:
 --------------
+command line:   -dumpconfig <file>
+description:    "Dump all resources to specified config file"
+resource:       N/A
+action:         cmdline_dumpconfig()
+
+initcmdline.c:
+--------------
 command line:   -help
 description:    "Show a list of the available options and exit normally"
 resource:       N/A
