@@ -271,7 +271,7 @@ static feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
-    { "HAVE_MOUSE", "Enable 1351 mouse support",
+    { "HAVE_MOUSE", "Enable mouse/paddle/lightpen support",
 #ifndef HAVE_MOUSE
         0 },
 #else
@@ -532,8 +532,36 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 /* (all) */
-    { "USE_LAMEMP3", "Enable lamemp3 support.",
+    { "USE_LAMEMP3", "Enable lamemp3 encoding support.",
 #ifndef USE_LAMEMP3
+        0 },
+#else
+        1 },
+#endif
+/* (all) */
+    { "USE_PORTAUDIO", "Enable portaudio sound input support.",
+#ifndef USE_PORTAUDIO
+        0 },
+#else
+        1 },
+#endif
+/* (all) */
+    { "USE_MPG123", "Enable mp3 decoding support.",
+#ifndef USE_MPG123
+        0 },
+#else
+        1 },
+#endif
+/* (all) */
+    { "USE_FLAC", "Enable flac support.",
+#ifndef USE_FLAC
+        0 },
+#else
+        1 },
+#endif
+/* (all) */
+    { "USE_VORBIS", "Enable ogg/vorbis support.",
+#ifndef USE_VORBIS
         0 },
 #else
         1 },
