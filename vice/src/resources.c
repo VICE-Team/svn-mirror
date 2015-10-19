@@ -1355,7 +1355,7 @@ int resources_save(const char *fname)
 int resources_dump(const char *fname)
 {
     FILE *out_file;
-    int i;
+    unsigned int i;
 
     log_message(LOG_DEFAULT, "Dumping %d resources to file `%s'.", num_resources, fname);
 
