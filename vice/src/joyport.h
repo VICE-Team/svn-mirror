@@ -66,6 +66,12 @@
 #define JOYPORT_1    0
 #define JOYPORT_2    1
 
+#define JOYPORT_POT_NONE      0
+#define JOYPORT_POT_PRESENT   1
+
+#define JOYPORT_PORTS_1       1
+#define JOYPORT_PORTS_2       2
+
 typedef struct joyport_s {
     char *name;
     int resource_id;

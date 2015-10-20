@@ -320,7 +320,7 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-    if (joyport_resources_init(0, 2) < 0) {
+    if (joyport_resources_init(JOYPORT_POT_NONE, JOYPORT_PORTS_2) < 0) {
         init_resource_fail("joyport");
         return -1;
     }

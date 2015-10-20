@@ -293,7 +293,7 @@ int machine_resources_init(void)
         init_resource_fail("userport printer");
         return -1;
     }
-    if (joyport_resources_init(1, 1) < 0) {
+    if (joyport_resources_init(JOYPORT_POT_PRESENT, JOYPORT_PORTS_1) < 0) {
         init_resource_fail("joyport");
         return -1;
     }

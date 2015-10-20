@@ -238,9 +238,13 @@ static int set_joyport2_device(int val, void *param)
     return joyport_set_device(1, val);
 }
 
-static const resource_int_t resources_int[] = {
+static const resource_int_t resources_int_port1[] = {
     { "JoyPort1Device", 0, RES_EVENT_NO, (resource_value_t)JOYPORT_ID_NONE,
       &joy_port[0], set_joyport1_device, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int_port2[] = {
     { "JoyPort2Device", 0, RES_EVENT_NO, (resource_value_t)JOYPORT_ID_NONE,
       &joy_port[1], set_joyport2_device, NULL },
     { NULL }
@@ -256,18 +260,29 @@ int joyport_resources_init(int pot_present, int ports)
         memset(joyport_device, 0, sizeof(joyport_device));
     }
 
-    return resources_register_int(resources_int);
+    if (ports == JOYPORT_PORTS_2) {
+        if (resources_register_int(resources_int_port2) < 0) {
+            return -1;
+        }
+    }
+
+    return resources_register_int(resources_int_port1);
 }
 
 /* ------------------------------------------------------------------------- */
 
-static const cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options_port1[] =
 {
     { "-joyport1device", SET_RESOURCE, 1,
       NULL, NULL, "JoyPort1Device", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       T_("Device"), T_("Set joyport 1 device") },
+    { NULL }
+};
+
+static const cmdline_option_t cmdline_options_port2[] =
+{
     { "-joyport2device", SET_RESOURCE, 1,
       NULL, NULL, "JoyPort2Device", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
@@ -278,5 +293,11 @@ static const cmdline_option_t cmdline_options[] =
 
 int joyport_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
+    if (max_ports == JOYPORT_PORTS_2) {
+        if (cmdline_register_options(cmdline_options_port2) < 0) {
+            return -1;
+        }
+    }
+
+    return cmdline_register_options(cmdline_options_port1);
 }
