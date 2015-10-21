@@ -82,6 +82,11 @@ typedef struct joyport_s {
     BYTE (*read_poty)(void);
 } joyport_t;
 
+typedef struct joyport_desc_s {
+    char *name;
+    int id;
+} joyport_desc_t;
+
 extern int joyport_register(int id, joyport_t *device);
 
 extern BYTE read_joyport_dig(int port);
@@ -99,5 +104,7 @@ extern int bbrtc_joyport_register(void);
 
 extern int joyport_resources_init(int pot_present, int ports);
 extern int joyport_cmdline_options_init(void);
+
+extern joyport_desc_t *joyport_get_valid_devices(void);
 
 #endif

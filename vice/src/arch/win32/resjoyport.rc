@@ -1,0 +1,204 @@
+// MOUSE specific resources.
+//
+
+#include "vice.h"
+
+#include "res.h"
+#include "rescommon.h"
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+// template of dialog for all languages
+
+IDD_JOYPORT2_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "", IDC_JOYPORT1_LABEL,
+                    9, 6, 53, 8
+    COMBOBOX        IDC_JOYPORT1,
+                    70, 5, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT2_LABEL,
+                    9, 24, 53, 8
+    COMBOBOX        IDC_JOYPORT2,
+                    70, 23, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 83, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 83, 50, 14, WS_TABSTOP
+END
+
+IDD_JOYPORT1_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "", IDC_JOYPORT1_LABEL,
+                    9, 6, 53, 8
+    COMBOBOX        IDC_JOYPORT1,
+                    70, 5, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 83, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 83, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+
+
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+
+
+// HUNGARIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// ITALIAN text
+
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+
+
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// DUTCH text
+
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// SWEDISH text
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+
+
+// TURKISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28599)
+#endif
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_JOYPORT1_LABEL          "Joyport 1 device"
+  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif

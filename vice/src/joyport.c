@@ -30,6 +30,7 @@
 
 #include "cmdline.h"
 #include "joyport.h"
+#include "lib.h"
 #include "resources.h"
 #include "translate.h"
 #include "uiapi.h"
@@ -212,6 +213,7 @@ int joyport_register(int id, joyport_t *device)
     if (!joyport_set_done) {
         joyport_set_done = 1;
         memset(joyport_device, 0, sizeof(joyport_device));
+        joyport_device[0].name = "None";
     }
     if (id < 1 || id > JOYPORT_MAX_DEVICES) {
         return -1;
@@ -224,6 +226,32 @@ int joyport_register(int id, joyport_t *device)
     joyport_device[id].read_potx = device->read_potx;
     joyport_device[id].read_poty = device->read_poty;
     return 0;
+}
+
+joyport_desc_t *joyport_get_valid_devices(void)
+{
+    joyport_desc_t *retval = NULL;
+    int i;
+    int valid = 0;
+    int j = 0;
+
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        if (joyport_device[i].name) {
+            ++valid;
+        }
+    }
+
+    retval = lib_malloc((valid + 1) * sizeof(joyport_desc_t));
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        if (joyport_device[i].name) {
+            retval[j].name = joyport_device[i].name;
+            retval[j].id = i;
+            ++j;
+        }
+    }
+    retval[j].name = NULL;
+
+    return retval;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -258,6 +286,7 @@ int joyport_resources_init(int pot_present, int ports)
     if (!joyport_set_done) {
         joyport_set_done = 1;
         memset(joyport_device, 0, sizeof(joyport_device));
+        joyport_device[0].name = "None";
     }
 
     if (ports == JOYPORT_PORTS_2) {

@@ -45,6 +45,7 @@
 #include "uidrivevic20.h"
 #include "uids12c887rtc.h"
 #include "uigeoram.h"
+#include "uijoyport.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
@@ -291,6 +292,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
+    { IDM_JOYPORT_SETTINGS, IDS_MI_JOYPORT_SETTINGS },
     { IDM_JOY_SETTINGS, IDS_MI_JOY_SETTINGS },
     { IDM_EXTRA_JOY_SETTINGS, IDS_MI_USERPORT_JOY_SETTINGS },
     { IDM_KEYBOARD_SETTINGS, IDS_MI_KEYBOARD_SETTINGS },
@@ -586,6 +588,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             ui_midi_settings_dialog(hwnd);
             break;
 #endif
+        case IDM_JOYPORT_SETTINGS:
+            ui_joyport_settings_dialog(hwnd, 1);
+            break;
         case IDM_JOY_SETTINGS:
             ui_joystick_settings_dialog(hwnd);
             break;
