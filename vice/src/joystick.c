@@ -500,6 +500,7 @@ static BYTE read_joystick1(void)
 
 static joyport_t joystick1 = {
     "Joystick 1",
+    IDGS_JOYSTICK_1,
     JOYPORT_RES_ID_NONE,
     NULL,
     read_joystick1,
@@ -515,6 +516,7 @@ static BYTE read_joystick2(void)
 
 static joyport_t joystick2 = {
     "Joystick 2",
+    IDGS_JOYSTICK_2,
     JOYPORT_RES_ID_NONE,
     NULL,				/* no enable */
     read_joystick2,

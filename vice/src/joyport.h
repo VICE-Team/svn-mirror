@@ -74,6 +74,7 @@
 
 typedef struct joyport_s {
     char *name;
+    int trans_name;
     int resource_id;
     int (*enable)(int val);
     BYTE (*read_digital)(void);
@@ -84,6 +85,7 @@ typedef struct joyport_s {
 
 typedef struct joyport_desc_s {
     char *name;
+    int trans_name;
     int id;
 } joyport_desc_t;
 

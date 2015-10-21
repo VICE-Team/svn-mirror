@@ -161,12 +161,12 @@ static void init_joyport_dialog(HWND hwnd)
     }
 
     for (i = 0; devices[i].name; ++i) {
-        SendMessage(temp_hwnd1, CB_ADDSTRING, 0, (LPARAM)devices[i].name);
+        SendMessage(temp_hwnd1, CB_ADDSTRING, 0, (LPARAM)translate_text(devices[i].trans_name));
         if (devices[i].id == joy1) {
             res_value1 = i;
         }
         if (ports == 2) {
-            SendMessage(temp_hwnd2, CB_ADDSTRING, 0, (LPARAM)devices[i].name);
+            SendMessage(temp_hwnd2, CB_ADDSTRING, 0, (LPARAM)translate_text(devices[i].trans_name));
             if (devices[i].id == joy2) {
                 res_value2 = i;
             }

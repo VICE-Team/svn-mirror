@@ -3097,6 +3097,398 @@ translate_t string_table[] = {
 /* tr */ {IDGS_MON_TAPECTRL_DESCRIPTION_TR, "Teybi kontrol et. Geçerli komutlar:\n0 = durdur, 1 = baþlat, 2 = ileri, 3 = geri, 4 = kayýt,\n5 = reset, 6 = reset sayacý."},
 #endif
 
+/* joyport.c */
+/* en */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG,    N_("Selected joyport device %d is not registered")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED,    N_("Selected joyport device %s on port %d is already attached to port %d")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES,    N_("Selected joyport device %s on port %d uses same input resource as the device attached to port %d")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_NONE,    N_("None")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_NONE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_NONE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_NONE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_NONE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_NONE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_NONE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_NONE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_NONE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_NONE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_NONE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_NONE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_NONE_TR, ""},  /* fuzzy */
+#endif
+
+/* joystick.c */
+/* en */ {IDGS_JOYSTICK_1,    N_("Joystick 1")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_JOYSTICK_1_DA, ""},  /* fuzzy */
+/* de */ {IDGS_JOYSTICK_1_DE, ""},  /* fuzzy */
+/* es */ {IDGS_JOYSTICK_1_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_JOYSTICK_1_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_JOYSTICK_1_HU, ""},  /* fuzzy */
+/* it */ {IDGS_JOYSTICK_1_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_JOYSTICK_1_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_JOYSTICK_1_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_JOYSTICK_1_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_JOYSTICK_1_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_JOYSTICK_1_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_JOYSTICK_1_TR, ""},  /* fuzzy */
+#endif
+
+/* joystick.c */
+/* en */ {IDGS_JOYSTICK_2,    N_("Joystick 2")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_JOYSTICK_2_DA, ""},  /* fuzzy */
+/* de */ {IDGS_JOYSTICK_2_DE, ""},  /* fuzzy */
+/* es */ {IDGS_JOYSTICK_2_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_JOYSTICK_2_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_JOYSTICK_2_HU, ""},  /* fuzzy */
+/* it */ {IDGS_JOYSTICK_2_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_JOYSTICK_2_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_JOYSTICK_2_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_JOYSTICK_2_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_JOYSTICK_2_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_JOYSTICK_2_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_JOYSTICK_2_TR, ""},  /* fuzzy */
+#endif
+
+/* mouse.c */
+/* en */ {IDGS_PADDLES,    N_("Paddles")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_PADDLES_DA, ""},  /* fuzzy */
+/* de */ {IDGS_PADDLES_DE, ""},  /* fuzzy */
+/* es */ {IDGS_PADDLES_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_PADDLES_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_PADDLES_HU, ""},  /* fuzzy */
+/* it */ {IDGS_PADDLES_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_PADDLES_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_PADDLES_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_PADDLES_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_PADDLES_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_PADDLES_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_PADDLES_TR, ""},  /* fuzzy */
+#endif
+
+/* mouse.c */
+/* en */ {IDGS_MOUSE_1351,    N_("Mouse (1351)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MOUSE_1351_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MOUSE_1351_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MOUSE_1351_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MOUSE_1351_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MOUSE_1351_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MOUSE_1351_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MOUSE_1351_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_1351_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MOUSE_1351_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MOUSE_1351_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MOUSE_1351_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MOUSE_1351_TR, ""},  /* fuzzy */
+#endif
+
+/* mouse.c */
+/* en */ {IDGS_MOUSE_NEOS,    N_("Mouse (NEOS)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MOUSE_NEOS_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MOUSE_NEOS_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MOUSE_NEOS_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MOUSE_NEOS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MOUSE_NEOS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MOUSE_NEOS_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MOUSE_NEOS_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_NEOS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MOUSE_NEOS_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MOUSE_NEOS_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MOUSE_NEOS_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MOUSE_NEOS_TR, ""},  /* fuzzy */
+#endif
+
+/* mouse.c */
+/* en */ {IDGS_MOUSE_AMIGA,    N_("Mouse (Amiga)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MOUSE_AMIGA_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MOUSE_AMIGA_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MOUSE_AMIGA_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MOUSE_AMIGA_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MOUSE_AMIGA_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MOUSE_AMIGA_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MOUSE_AMIGA_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_AMIGA_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MOUSE_AMIGA_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MOUSE_AMIGA_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MOUSE_AMIGA_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MOUSE_AMIGA_TR, ""},  /* fuzzy */
+#endif
+
+/* mouse.c */
+/* en */ {IDGS_MOUSE_CX22,    N_("Mouse (CX-22)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MOUSE_CX22_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MOUSE_CX22_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MOUSE_CX22_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MOUSE_CX22_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MOUSE_CX22_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MOUSE_CX22_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MOUSE_CX22_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_CX22_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MOUSE_CX22_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MOUSE_CX22_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MOUSE_CX22_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MOUSE_CX22_TR, ""},  /* fuzzy */
+#endif
+
+/* mouse.c */
+/* en */ {IDGS_MOUSE_ATARI_ST,    N_("Mouse (Atari ST)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MOUSE_ATARI_ST_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MOUSE_ATARI_ST_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MOUSE_ATARI_ST_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MOUSE_ATARI_ST_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MOUSE_ATARI_ST_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MOUSE_ATARI_ST_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MOUSE_ATARI_ST_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_ATARI_ST_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MOUSE_ATARI_ST_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MOUSE_ATARI_ST_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MOUSE_ATARI_ST_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MOUSE_ATARI_ST_TR, ""},  /* fuzzy */
+#endif
+
+/* mouse.c */
+/* en */ {IDGS_MOUSE_SMART,    N_("Mouse (SmartMouse)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MOUSE_SMART_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MOUSE_SMART_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MOUSE_SMART_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MOUSE_SMART_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MOUSE_SMART_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MOUSE_SMART_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MOUSE_SMART_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_SMART_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MOUSE_SMART_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MOUSE_SMART_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MOUSE_SMART_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MOUSE_SMART_TR, ""},  /* fuzzy */
+#endif
+
+/* mouse.c */
+/* en */ {IDGS_MOUSE_MICROMYS,    N_("Mouse (Micromys)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MOUSE_MICROMYS_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MOUSE_MICROMYS_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MOUSE_MICROMYS_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MOUSE_MICROMYS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MOUSE_MICROMYS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MOUSE_MICROMYS_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MOUSE_MICROMYS_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_MICROMYS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MOUSE_MICROMYS_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MOUSE_MICROMYS_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MOUSE_MICROMYS_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MOUSE_MICROMYS_TR, ""},  /* fuzzy */
+#endif
+
+/* mouse.c */
+/* en */ {IDGS_KOALAPAD,    N_("KoalaPad")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_KOALAPAD_DA, ""},  /* fuzzy */
+/* de */ {IDGS_KOALAPAD_DE, ""},  /* fuzzy */
+/* es */ {IDGS_KOALAPAD_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_KOALAPAD_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_KOALAPAD_HU, ""},  /* fuzzy */
+/* it */ {IDGS_KOALAPAD_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_KOALAPAD_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_KOALAPAD_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_KOALAPAD_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_KOALAPAD_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_KOALAPAD_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_KOALAPAD_TR, ""},  /* fuzzy */
+#endif
+
+/* lightpen.c */
+/* en */ {IDGS_LIGHTPEN_UP,    N_("Light Pen (up trigger)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_LIGHTPEN_UP_DA, ""},  /* fuzzy */
+/* de */ {IDGS_LIGHTPEN_UP_DE, ""},  /* fuzzy */
+/* es */ {IDGS_LIGHTPEN_UP_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_LIGHTPEN_UP_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_LIGHTPEN_UP_HU, ""},  /* fuzzy */
+/* it */ {IDGS_LIGHTPEN_UP_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_LIGHTPEN_UP_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_LIGHTPEN_UP_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_LIGHTPEN_UP_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_LIGHTPEN_UP_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_LIGHTPEN_UP_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_LIGHTPEN_UP_TR, ""},  /* fuzzy */
+#endif
+
+/* lightpen.c */
+/* en */ {IDGS_LIGHTPEN_LEFT,    N_("Light Pen (left trigger)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_LIGHTPEN_LEFT_DA, ""},  /* fuzzy */
+/* de */ {IDGS_LIGHTPEN_LEFT_DE, ""},  /* fuzzy */
+/* es */ {IDGS_LIGHTPEN_LEFT_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_LIGHTPEN_LEFT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_LIGHTPEN_LEFT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_LIGHTPEN_LEFT_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_LIGHTPEN_LEFT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_LIGHTPEN_LEFT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_LIGHTPEN_LEFT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_LIGHTPEN_LEFT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_LIGHTPEN_LEFT_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_LIGHTPEN_LEFT_TR, ""},  /* fuzzy */
+#endif
+
+/* lightpen.c */
+/* en */ {IDGS_DATEL_LIGHTPEN,    N_("Datel Light Pen")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_DATEL_LIGHTPEN_DA, ""},  /* fuzzy */
+/* de */ {IDGS_DATEL_LIGHTPEN_DE, ""},  /* fuzzy */
+/* es */ {IDGS_DATEL_LIGHTPEN_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_DATEL_LIGHTPEN_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_DATEL_LIGHTPEN_HU, ""},  /* fuzzy */
+/* it */ {IDGS_DATEL_LIGHTPEN_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_DATEL_LIGHTPEN_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_DATEL_LIGHTPEN_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_DATEL_LIGHTPEN_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_DATEL_LIGHTPEN_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_DATEL_LIGHTPEN_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_DATEL_LIGHTPEN_TR, ""},  /* fuzzy */
+#endif
+
+/* lightpen.c */
+/* en */ {IDGS_MAGNUM_LIGHT_PHASER,    N_("Magnum Light Phaser")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MAGNUM_LIGHT_PHASER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MAGNUM_LIGHT_PHASER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MAGNUM_LIGHT_PHASER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MAGNUM_LIGHT_PHASER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MAGNUM_LIGHT_PHASER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MAGNUM_LIGHT_PHASER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MAGNUM_LIGHT_PHASER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MAGNUM_LIGHT_PHASER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MAGNUM_LIGHT_PHASER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MAGNUM_LIGHT_PHASER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MAGNUM_LIGHT_PHASER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MAGNUM_LIGHT_PHASER_TR, ""},  /* fuzzy */
+#endif
+
+/* lightpen.c */
+/* en */ {IDGS_STACK_LIGHT_RIFLE,    N_("Stack Light Rifle")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_STACK_LIGHT_RIFLE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_STACK_LIGHT_RIFLE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_STACK_LIGHT_RIFLE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_STACK_LIGHT_RIFLE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_STACK_LIGHT_RIFLE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_STACK_LIGHT_RIFLE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_STACK_LIGHT_RIFLE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_STACK_LIGHT_RIFLE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_STACK_LIGHT_RIFLE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_STACK_LIGHT_RIFLE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_STACK_LIGHT_RIFLE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_STACK_LIGHT_RIFLE_TR, ""},  /* fuzzy */
+#endif
+
+/* lightpen.c */
+/* en */ {IDGS_INKWELL_LIGHTPEN,    N_("Inkwell Light Pen")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_INKWELL_LIGHTPEN_DA, ""},  /* fuzzy */
+/* de */ {IDGS_INKWELL_LIGHTPEN_DE, ""},  /* fuzzy */
+/* es */ {IDGS_INKWELL_LIGHTPEN_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_INKWELL_LIGHTPEN_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_INKWELL_LIGHTPEN_HU, ""},  /* fuzzy */
+/* it */ {IDGS_INKWELL_LIGHTPEN_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_INKWELL_LIGHTPEN_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_INKWELL_LIGHTPEN_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_INKWELL_LIGHTPEN_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_INKWELL_LIGHTPEN_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_INKWELL_LIGHTPEN_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_INKWELL_LIGHTPEN_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_SET_JOYPORT1_DEVICE,    N_("Set joyport 1 device (0: None")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SET_JOYPORT1_DEVICE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SET_JOYPORT1_DEVICE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SET_JOYPORT1_DEVICE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SET_JOYPORT1_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SET_JOYPORT1_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SET_JOYPORT1_DEVICE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SET_JOYPORT1_DEVICE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SET_JOYPORT1_DEVICE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SET_JOYPORT1_DEVICE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SET_JOYPORT1_DEVICE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SET_JOYPORT1_DEVICE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SET_JOYPORT1_DEVICE_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_SET_JOYPORT2_DEVICE,    N_("Set joyport 2 device (0: None")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SET_JOYPORT2_DEVICE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SET_JOYPORT2_DEVICE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SET_JOYPORT2_DEVICE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SET_JOYPORT2_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SET_JOYPORT2_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SET_JOYPORT2_DEVICE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SET_JOYPORT2_DEVICE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SET_JOYPORT2_DEVICE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SET_JOYPORT2_DEVICE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SET_JOYPORT2_DEVICE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SET_JOYPORT2_DEVICE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SET_JOYPORT2_DEVICE_TR, ""},  /* fuzzy */
+#endif
+
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */

@@ -611,6 +611,7 @@ static BYTE joyport_mouse_value(void)
 
 static joyport_t paddles_joyport_device = {
     "Paddles",
+    IDGS_PADDLES,
     JOYPORT_RES_ID_MOUSE,
     joyport_mouse_enable,
     joyport_mouse_value,
@@ -621,6 +622,7 @@ static joyport_t paddles_joyport_device = {
 
 static joyport_t mouse_1351_joyport_device = {
     "Mouse (1351)",
+    IDGS_MOUSE_1351,
     JOYPORT_RES_ID_MOUSE,
     joyport_mouse_enable,
     joyport_mouse_value,
@@ -641,7 +643,8 @@ static BYTE joyport_mouse_neos_amiga_st_read_potx(void)
 
 
 static joyport_t mouse_neos_joyport_device = {
-    "Mouse (neos)",
+    "Mouse (NEOS)",
+    IDGS_MOUSE_NEOS,
     JOYPORT_RES_ID_MOUSE,
     joyport_mouse_enable,
     joyport_mouse_neos_value,
@@ -661,7 +664,8 @@ static BYTE joyport_mouse_amiga_st_read_poty(void)
 }
 
 static joyport_t mouse_amiga_joyport_device = {
-    "Mouse (amiga)",
+    "Mouse (Amiga)",
+    IDGS_MOUSE_AMIGA,
     JOYPORT_RES_ID_MOUSE,
     joyport_mouse_enable,
     joyport_mouse_poll_value,
@@ -671,7 +675,8 @@ static joyport_t mouse_amiga_joyport_device = {
 };
 
 static joyport_t mouse_cx22_joyport_device = {
-    "Mouse (cx22)",
+    "Mouse (CX-22)",
+    IDGS_MOUSE_CX22,
     JOYPORT_RES_ID_MOUSE,
     joyport_mouse_enable,
     joyport_mouse_poll_value,
@@ -681,7 +686,8 @@ static joyport_t mouse_cx22_joyport_device = {
 };
 
 static joyport_t mouse_st_joyport_device = {
-    "Mouse (atari st)",
+    "Mouse (Atari ST)",
+    IDGS_MOUSE_ATARI_ST,
     JOYPORT_RES_ID_MOUSE,
     joyport_mouse_enable,
     joyport_mouse_poll_value,
@@ -696,7 +702,8 @@ static BYTE joyport_mouse_smart_value(void)
 }
 
 static joyport_t mouse_smart_joyport_device = {
-    "Mouse (smart)",
+    "Mouse (SmartMouse)",
+    IDGS_MOUSE_SMART,
     JOYPORT_RES_ID_MOUSE,
     joyport_mouse_enable,
     joyport_mouse_smart_value,
@@ -712,6 +719,7 @@ static BYTE joyport_mouse_micromys_value(void)
 
 static joyport_t mouse_micromys_joyport_device = {
     "Mouse (Micromys)",
+    IDGS_MOUSE_MICROMYS,
     JOYPORT_RES_ID_MOUSE,
     joyport_mouse_enable,
     joyport_mouse_micromys_value,
@@ -727,6 +735,7 @@ static BYTE joyport_koalapad_pot_x(void)
 
 static joyport_t koalapad_joyport_device = {
     "KoalaPad",
+    IDGS_KOALAPAD,
     JOYPORT_RES_ID_MOUSE,
     joyport_mouse_enable,
     joyport_mouse_value,

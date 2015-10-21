@@ -170,6 +170,443 @@ IDGS_ERROR_WRITING_TO_FILE_S
 /* c64dtv/c64dtvflash.c */
 IDGS_DTV_ROM_CREATED
 
+/* monitor/mon_command.c */
+IDGS_COMMAND_S_UNKNOWN
+
+/* monitor/mon_command.c */
+IDGS_NO_HELP_AVAILABLE_FOR_S
+
+/* monitor/mon_command.c */
+IDGS_SYNTAX_S_S
+
+/* monitor/mon_command.c */
+IDGS_ABBREVIATION_S
+
+/* monitor/mon_command.c */
+IDGS_AVAILABLE_COMMANDS_ARE
+
+/* monitor/mon_command.c */
+IDGS_MACHINE_STATE_COMMANDS
+
+/* monitor/mon_command.c */
+IDGS_MEMSPACE
+
+/* monitor/mon_command.c */
+IDGS_BANKNAME
+
+/* monitor/mon_command.c */
+IDGS_MON_BANK_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_BACKTRACE_DESCRIPTION
+
+IDGS_MON_CPU_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_COUNT
+
+/* monitor/mon_command.c */
+IDGS_MON_CPUHISTORY_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_FILENAME
+
+/* monitor/mon_command.c */
+IDGS_MON_DUMP_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_ADDRESS
+
+/* monitor/mon_command.c */
+IDGS_MON_GOTO_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_IO_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_EXPORT_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_NEXT_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_REG_NAME
+
+/* monitor/mon_command.c */
+IDGS_NUMBER
+
+/* monitor/mon_command.c */
+IDGS_MON_REGISTERS_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_RESET_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_RETURN_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_SCREEN_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_STEP_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_STOPWATCH_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_UNDUMP_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_SYMBOL_TABLE_COMMANDS
+
+/* monitor/mon_command.c */
+IDGS_LABEL
+
+/* monitor/mon_command.c */
+IDGS_MON_ADD_LABEL_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_DELETE_LABEL_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_LOAD_LABELS_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_SAVE_LABELS_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_SHOW_LABELS_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_CLEAR_LABELS_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_ASSEMBLER_AND_MEMORY_COMMANDS
+
+/* monitor/mon_command.c */
+IDGS_DATA_LIST
+
+/* monitor/mon_command.c */
+IDGS_MON_WRITE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_INSTRUCTION
+
+/* monitor/mon_command.c */
+IDGS_MON_ASSEMBLE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_ADDRESS_RANGE
+
+/* monitor/mon_command.c */
+IDGS_MON_COMPARE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_CHECKNUM
+
+/* monitor/mon_command.c */
+IDGS_MON_DELETE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_DISASS_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_FILL_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_HUNT_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_ADDRESS_OPT_RANGE
+
+/* monitor/mon_command.c */
+IDGS_MON_I_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_II_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_DATA_TYPE
+
+/* monitor/mon_command.c */
+IDGS_MON_MEM_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_MEMCHAR_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_FORMAT
+
+/* monitor/mon_command.c */
+IDGS_MON_MEMMAPSAVE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MASK
+
+/* monitor/mon_command.c */
+IDGS_MON_MEMMAPSHOW_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_MEMMAPZAP_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_MEMSPRITE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_MOVE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_CHECKPOINT_COMMANDS
+
+/* monitor/mon_command.c */
+IDGS_COND_EXPR
+
+/* monitor/mon_command.c */
+IDGS_MON_BREAK_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_COMMAND
+
+/* monitor/mon_command.c */
+IDGS_MON_COMMAND_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_CONDITION_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_DISABLE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_ENABLE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_IGNORE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_UNTIL_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_WATCH_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_TRACE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MONITOR_STATE_COMMANDS
+
+/* monitor/mon_command.c */
+IDGS_MON_DEVICE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_EXIT_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_QUIT_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_RADIX_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_SIDEFX_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_DISK_COMMANDS
+
+/* monitor/mon_command.c */
+IDGS_DISK_COMMAND
+
+/* monitor/mon_command.c */
+IDGS_MON_AT_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_DEVICE
+
+/* monitor/mon_command.c */
+IDGS_FILE_INDEX
+
+/* monitor/mon_command.c */
+IDGS_MON_AUTOSTART_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_AUTOLOAD_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_ATTACH_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_BLOAD_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_TRACK
+
+/* monitor/mon_command.c */
+IDGS_SECTOR
+
+/* monitor/mon_command.c */
+IDGS_MON_BLOCK_READ_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_BSAVE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_BLOCK_WRITE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_DIRECTORY
+
+/* monitor/mon_command.c */
+IDGS_P_DIRECTORY
+
+/* monitor/mon_command.c */
+IDGS_MON_CD_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_DETACH_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_DIR_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_LIST_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_LOAD_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_PWD_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_SAVE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_OTHER_COMMANDS
+
+/* monitor/mon_command.c */
+IDGS_MON_DISPLAY_NUMBER_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_CARTFREEZE_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_HELP_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_STRING
+
+/* monitor/mon_command.c */
+IDGS_MON_KEYBUF_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_PLAYBACK_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_EXPRESSION
+
+/* monitor/mon_command.c */
+IDGS_MON_PRINT_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_RECORD_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_RESOURCE
+
+/* monitor/mon_command.c */
+IDGS_MON_RESOURCEGET_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_VALUE
+
+/* monitor/mon_command.c */
+IDGS_MON_RESOURCESET_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_LOAD_RESOURCES_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_SAVE_RESOURCES_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_STOP_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_SCREENSHOT_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_TAPECTRL_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_TYPE
+
+/* joyport.c */
+IDGS_SELECTED_JOYPORT_DEV_NOT_REG
+
+/* joyport.c */
+IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED
+
+/* joyport.c */
+IDGS_SELECTED_JOYPORT_SAME_INPUT_RES
+
+/* joyport.c */
+IDGS_NONE
+
+/* joystick.c */
+IDGS_JOYSTICK_1
+
+/* joystick.c */
+IDGS_JOYSTICK_2
+
+/* mouse.c */
+IDGS_PADDLES
+
+/* mouse.c */
+IDGS_MOUSE_1351
+
+/* mouse.c */
+IDGS_MOUSE_NEOS
+
+/* mouse.c */
+IDGS_MOUSE_AMIGA
+
+/* mouse.c */
+IDGS_MOUSE_CX22
+
+/* mouse.c */
+IDGS_MOUSE_ATARI_ST
+
+/* mouse.c */
+IDGS_MOUSE_SMART
+
+/* mouse.c */
+IDGS_MOUSE_MICROMYS
+
+/* mouse.c */
+IDGS_KOALAPAD
+
+/* lightpen.c */
+IDGS_LIGHTPEN_UP
+
+/* lightpen.c */
+IDGS_LIGHTPEN_LEFT
+
+/* lightpen.c */
+IDGS_DATEL_LIGHTPEN
+
+/* lightpen.c */
+IDGS_MAGNUM_LIGHT_PHASER
+
+/* lightpen.c */
+IDGS_STACK_LIGHT_RIFLE
+
+/* lightpen.c */
+IDGS_INKWELL_LIGHTPEN
+
+/* joyport.c */
+IDGS_SET_JOYPORT1_DEVICE
+
+/* joyport.c */
+IDGS_SET_JOYPORT2_DEVICE
+
 
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
@@ -1131,9 +1568,6 @@ IDCLS_P_VOLUME
    attach.c, lightpen.c, c128/functionrom.c, userport/userport_joystick.c,
    c64/c64gluelogic.c, c64/cart/sfx_soundexpander.c */
 IDCLS_P_TYPE
-
-/* monitor/mon_command.c */
-IDGS_TYPE
 
 /* drive/drive-cmdline-options.c */
 IDCLS_SET_DRIVE_TYPE
@@ -2459,371 +2893,6 @@ IDCLS_DISABLE_MIDI_EMU
 
 /* c64/cart/c64-midi.c */
 IDCLS_SPECIFY_C64_MIDI_TYPE
-
-/* monitor/mon_command.c */
-IDGS_COMMAND_S_UNKNOWN
-
-/* monitor/mon_command.c */
-IDGS_NO_HELP_AVAILABLE_FOR_S
-
-/* monitor/mon_command.c */
-IDGS_SYNTAX_S_S
-
-/* monitor/mon_command.c */
-IDGS_ABBREVIATION_S
-
-/* monitor/mon_command.c */
-IDGS_AVAILABLE_COMMANDS_ARE
-
-/* monitor/mon_command.c */
-IDGS_MACHINE_STATE_COMMANDS
-
-/* monitor/mon_command.c */
-IDGS_MEMSPACE
-
-/* monitor/mon_command.c */
-IDGS_BANKNAME
-
-/* monitor/mon_command.c */
-IDGS_MON_BANK_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_BACKTRACE_DESCRIPTION
-
-IDGS_MON_CPU_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_COUNT
-
-/* monitor/mon_command.c */
-IDGS_MON_CPUHISTORY_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_FILENAME
-
-/* monitor/mon_command.c */
-IDGS_MON_DUMP_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_ADDRESS
-
-/* monitor/mon_command.c */
-IDGS_MON_GOTO_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_IO_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_EXPORT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_NEXT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_REG_NAME
-
-/* monitor/mon_command.c */
-IDGS_NUMBER
-
-/* monitor/mon_command.c */
-IDGS_MON_REGISTERS_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_RESET_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_RETURN_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SCREEN_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_STEP_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_STOPWATCH_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_UNDUMP_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_SYMBOL_TABLE_COMMANDS
-
-/* monitor/mon_command.c */
-IDGS_LABEL
-
-/* monitor/mon_command.c */
-IDGS_MON_ADD_LABEL_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_DELETE_LABEL_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_LOAD_LABELS_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SAVE_LABELS_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SHOW_LABELS_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_CLEAR_LABELS_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_ASSEMBLER_AND_MEMORY_COMMANDS
-
-/* monitor/mon_command.c */
-IDGS_DATA_LIST
-
-/* monitor/mon_command.c */
-IDGS_MON_WRITE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_INSTRUCTION
-
-/* monitor/mon_command.c */
-IDGS_MON_ASSEMBLE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_ADDRESS_RANGE
-
-/* monitor/mon_command.c */
-IDGS_MON_COMPARE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_CHECKNUM
-
-/* monitor/mon_command.c */
-IDGS_MON_DELETE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_DISASS_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_FILL_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_HUNT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_ADDRESS_OPT_RANGE
-
-/* monitor/mon_command.c */
-IDGS_MON_I_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_II_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_DATA_TYPE
-
-/* monitor/mon_command.c */
-IDGS_MON_MEM_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_MEMCHAR_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_FORMAT
-
-/* monitor/mon_command.c */
-IDGS_MON_MEMMAPSAVE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MASK
-
-/* monitor/mon_command.c */
-IDGS_MON_MEMMAPSHOW_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_MEMMAPZAP_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_MEMSPRITE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_MOVE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_CHECKPOINT_COMMANDS
-
-/* monitor/mon_command.c */
-IDGS_COND_EXPR
-
-/* monitor/mon_command.c */
-IDGS_MON_BREAK_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_COMMAND
-
-/* monitor/mon_command.c */
-IDGS_MON_COMMAND_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_CONDITION_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_DISABLE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_ENABLE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_IGNORE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_UNTIL_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_WATCH_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_TRACE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MONITOR_STATE_COMMANDS
-
-/* monitor/mon_command.c */
-IDGS_MON_DEVICE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_EXIT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_QUIT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_RADIX_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SIDEFX_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_DISK_COMMANDS
-
-/* monitor/mon_command.c */
-IDGS_DISK_COMMAND
-
-/* monitor/mon_command.c */
-IDGS_MON_AT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_DEVICE
-
-/* monitor/mon_command.c */
-IDGS_FILE_INDEX
-
-/* monitor/mon_command.c */
-IDGS_MON_AUTOSTART_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_AUTOLOAD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_ATTACH_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_BLOAD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_TRACK
-
-/* monitor/mon_command.c */
-IDGS_SECTOR
-
-/* monitor/mon_command.c */
-IDGS_MON_BLOCK_READ_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_BSAVE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_BLOCK_WRITE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_DIRECTORY
-
-/* monitor/mon_command.c */
-IDGS_P_DIRECTORY
-
-/* monitor/mon_command.c */
-IDGS_MON_CD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_DETACH_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_DIR_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_LIST_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_LOAD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_PWD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SAVE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_OTHER_COMMANDS
-
-/* monitor/mon_command.c */
-IDGS_MON_DISPLAY_NUMBER_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_CARTFREEZE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_HELP_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_STRING
-
-/* monitor/mon_command.c */
-IDGS_MON_KEYBUF_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_PLAYBACK_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_EXPRESSION
-
-/* monitor/mon_command.c */
-IDGS_MON_PRINT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_RECORD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_RESOURCE
-
-/* monitor/mon_command.c */
-IDGS_MON_RESOURCEGET_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_VALUE
-
-/* monitor/mon_command.c */
-IDGS_MON_RESOURCESET_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_LOAD_RESOURCES_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SAVE_RESOURCES_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_STOP_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SCREENSHOT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_TAPECTRL_DESCRIPTION
 
 /* lightpen.c */
 IDCLS_ENABLE_LIGHTPEN_EMULATION

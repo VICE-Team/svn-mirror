@@ -148,6 +148,7 @@ src/arch/win32/resexpert.rc.po.c
 src/arch/win32/resgeoram.rc.po.c
 src/arch/win32/reside64.rc.po.c
 src/arch/win32/resisepic.rc.po.c
+src/arch/win32/resjoyport.rc.po.c
 src/arch/win32/reslightpen.rc.po.c
 src/arch/win32/resmagicvoice.rc.po.c
 src/arch/win32/resmidi.rc.po.c

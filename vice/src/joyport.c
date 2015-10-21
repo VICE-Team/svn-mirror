@@ -34,6 +34,7 @@
 #include "resources.h"
 #include "translate.h"
 #include "uiapi.h"
+#include "util.h"
 
 static joyport_t joyport_device[JOYPORT_MAX_DEVICES];
 
@@ -65,19 +66,19 @@ static int joyport_set_device(int port, int id)
 
     /* check if id is registered */
     if (id != JOYPORT_ID_NONE && !joyport_device[id].name) {
-        ui_error(T_("Selected joyport device %d is not registered"), id);
+        ui_error(translate_text(IDGS_SELECTED_JOYPORT_DEV_NOT_REG), id);
         return -1;
     }
 
     /* check if id conflicts with device on the other port */
     if (id != JOYPORT_ID_NONE && max_ports != 1 && joy_port[!port] == id) {
-        ui_error(T_("Selected joyport device %s on port %d is already attached to port %d"), joyport_device[id].name, port + 1, (!port) + 1);
+        ui_error(translate_text(IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED), joyport_device[id].name, port + 1, (!port) + 1);
         return -1;
     }
 
     /* check if input resource conflicts with device on the other port */
     if (id != JOYPORT_ID_NONE && max_ports != 1 && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE && joyport_device[id].resource_id == joyport_device[joy_port[!port]].resource_id) {
-        ui_error(T_("Selected joyport device %s on port %d uses same input resource as the device attached to port %d"), joyport_device[id].name, port + 1, (!port) + 1);
+        ui_error(translate_text(IDGS_SELECTED_JOYPORT_SAME_INPUT_RES), joyport_device[id].name, port + 1, (!port) + 1);
         return -1;
     }
 
@@ -214,11 +215,13 @@ int joyport_register(int id, joyport_t *device)
         joyport_set_done = 1;
         memset(joyport_device, 0, sizeof(joyport_device));
         joyport_device[0].name = "None";
+        joyport_device[0].trans_name = IDGS_NONE;
     }
     if (id < 1 || id > JOYPORT_MAX_DEVICES) {
         return -1;
     }
     joyport_device[id].name = device->name;
+    joyport_device[id].trans_name = device->trans_name;
     joyport_device[id].resource_id = device->resource_id;
     joyport_device[id].enable = device->enable;
     joyport_device[id].read_digital = device->read_digital;
@@ -245,6 +248,7 @@ joyport_desc_t *joyport_get_valid_devices(void)
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
             retval[j].name = joyport_device[i].name;
+            retval[j].trans_name = joyport_device[i].trans_name;
             retval[j].id = i;
             ++j;
         }
@@ -287,6 +291,7 @@ int joyport_resources_init(int pot_present, int ports)
         joyport_set_done = 1;
         memset(joyport_device, 0, sizeof(joyport_device));
         joyport_device[0].name = "None";
+        joyport_device[0].trans_name = IDGS_NONE;
     }
 
     if (ports == JOYPORT_PORTS_2) {
@@ -300,33 +305,68 @@ int joyport_resources_init(int pot_present, int ports)
 
 /* ------------------------------------------------------------------------- */
 
-static const cmdline_option_t cmdline_options_port1[] =
+static char *build_joyport_string(int id)
+{
+    int i = 0;
+    char *tmp1;
+    char *tmp2;
+    char number[4];
+
+    if (id == 1) {
+        tmp1 = lib_stralloc(translate_text(IDGS_SET_JOYPORT1_DEVICE));
+    } else {
+        tmp1 = lib_stralloc(translate_text(IDGS_SET_JOYPORT1_DEVICE));
+    }
+
+    for (i = 1; i < JOYPORT_MAX_DEVICES; ++i) {
+        if (joyport_device[i].name) {
+            sprintf(number, "%d", i);
+            tmp2 = util_concat(tmp1, ", ", number, ": ", translate_text(joyport_device[i].trans_name), NULL);
+            lib_free(tmp1);
+            tmp1 = tmp2;
+        }
+    }
+    tmp2 = util_concat(tmp1, ")", NULL);
+    lib_free(tmp1);
+    return tmp2;
+}
+
+static cmdline_option_t cmdline_options_port1[] =
 {
     { "-joyport1device", SET_RESOURCE, 1,
       NULL, NULL, "JoyPort1Device", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      T_("Device"), T_("Set joyport 1 device") },
+      USE_PARAM_ID, USE_DESCRIPTION_DYN,
+      IDGS_DEVICE, 1,
+      NULL, NULL },
     { NULL }
 };
 
-static const cmdline_option_t cmdline_options_port2[] =
+static cmdline_option_t cmdline_options_port2[] =
 {
     { "-joyport2device", SET_RESOURCE, 1,
       NULL, NULL, "JoyPort2Device", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      T_("Device"), T_("Set joyport 2 device") },
+      USE_PARAM_ID, USE_DESCRIPTION_DYN,
+      IDGS_DEVICE, 2,
+      NULL, NULL },
     { NULL }
 };
 
 int joyport_cmdline_options_init(void)
 {
+    union char_func cf;
+
+    cf.f = build_joyport_string;
+    cmdline_options_port1[0].description = cf.c;
+    if (cmdline_register_options(cmdline_options_port1) < 0) {
+        return -1;
+    }
+
     if (max_ports == JOYPORT_PORTS_2) {
+        cf.f = build_joyport_string;
+        cmdline_options_port2[0].description = cf.c;
         if (cmdline_register_options(cmdline_options_port2) < 0) {
             return -1;
         }
     }
-
-    return cmdline_register_options(cmdline_options_port1);
+    return 0;
 }
