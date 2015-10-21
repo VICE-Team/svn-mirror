@@ -114,6 +114,7 @@ void generate_translate_h(char *in_filename, char *out_filename)
     fprintf(outfile, "#define USE_PARAM_STRING   0\n");
     fprintf(outfile, "#define USE_PARAM_ID       1\n");
     fprintf(outfile, "#define USE_DESCRIPTION_COMBO    2\n");
+    fprintf(outfile, "#define USE_DESCRIPTION_DYN      3\n");
     fprintf(outfile, "\n");
     fprintf(outfile, "#define USE_DESCRIPTION_STRING   0\n");
     fprintf(outfile, "#define USE_DESCRIPTION_ID       1\n");
