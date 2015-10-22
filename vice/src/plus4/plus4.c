@@ -92,6 +92,10 @@
 #include "video-sound.h"
 #include "vsync.h"
 
+#ifdef HAVE_MOUSE
+#include "mouse.h"
+#endif
+
 machine_context_t machine_context;
 
 const char machine_name[] = "PLUS4";
@@ -373,6 +377,12 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
+#ifdef HAVE_MOUSE
+    if (mouse_resources_init() < 0) {
+        init_resource_fail("mouse");
+        return -1;
+    }
+#endif
 #ifndef COMMON_KBD
     if (kbd_resources_init() < 0) {
         init_resource_fail("kbd");
@@ -509,6 +519,12 @@ int machine_cmdline_options_init(void)
         return -1;
     }
 #endif
+#ifdef HAVE_MOUSE
+    if (mouse_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("mouse");
+        return -1;
+    }
+#endif
 #ifndef COMMON_KBD
     if (kbd_cmdline_options_init() < 0) {
         init_cmdline_options_fail("kbd");
@@ -576,6 +592,11 @@ int machine_specific_init(void)
     }
 
     gfxoutput_init();
+
+#ifdef HAVE_MOUSE
+    /* Initialize mouse support (if present).  */
+    mouse_init();
+#endif
 
     /* Initialize serial traps.  */
     if (serial_init(plus4_serial_traps) < 0) {
@@ -716,6 +737,10 @@ void machine_specific_shutdown(void)
 
     cs256k_shutdown();
     h256k_shutdown();
+
+#ifdef HAVE_MOUSE
+    mouse_shutdown();
+#endif
 
     plus4ui_shutdown();
 }

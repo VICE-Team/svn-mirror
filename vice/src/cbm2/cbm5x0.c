@@ -93,6 +93,10 @@
 #include "video-sound.h"
 #include "vsync.h"
 
+#ifdef HAVE_MOUSE
+#include "mouse.h"
+#endif
+
 machine_context_t machine_context;
 
 const char machine_name[] = "CBM-II";
@@ -238,6 +242,19 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
+#ifdef HAVE_MOUSE
+    if (mouse_resources_init() < 0) {
+        init_resource_fail("mouse");
+        return -1;
+    }
+/* FIXME: add lightpen support for xcbm5x0 */
+#if 0
+    if (lightpen_resources_init() < 0) {
+        init_resource_fail("lightpen");
+        return -1;
+    }
+#endif
+#endif
 #ifndef COMMON_KBD
     if (pet_kbd_resources_init() < 0) {
         init_resource_fail("pet kbd");
@@ -355,6 +372,18 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("debug");
         return -1;
     }
+#endif
+#ifdef HAVE_MOUSE
+    if (mouse_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("mouse");
+        return -1;
+    }
+#if 0
+    if (lightpen_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("lightpen");
+        return -1;
+    }
+#endif
 #endif
 #ifndef COMMON_KBD
     if (pet_kbd_cmdline_options_init() < 0) {
@@ -503,6 +532,18 @@ int machine_specific_init(void)
 
     gfxoutput_init();
 
+#ifdef HAVE_MOUSE
+    /* Initialize mouse support (if present).  */
+    mouse_init();
+
+#if 0
+    /* Initialize lightpen support and register VICII callbacks */
+    lightpen_init();
+    lightpen_register_timing_callback(vicii_lightpen_timing, 0);
+    lightpen_register_trigger_callback(vicii_trigger_light_pen);
+#endif
+#endif
+
     rs232drv_init();
 
     /* initialize print devices */
@@ -630,6 +671,10 @@ void machine_specific_shutdown(void)
     ciacore_shutdown(machine_context.cia1);
     tpicore_shutdown(machine_context.tpi1);
     tpicore_shutdown(machine_context.tpi2);
+
+#ifdef HAVE_MOUSE
+    mouse_shutdown();
+#endif
 
     /* close the video chip(s) */
     vicii_shutdown();
