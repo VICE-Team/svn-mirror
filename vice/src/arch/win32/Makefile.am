@@ -56,6 +56,8 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
+	lightpendrv.c \
+	lightpendrv.h \
 	mididrv.c \
 	mousedrv.c \
 	mousedrv.h \
@@ -401,7 +403,7 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resmagicvoice.rc $(srcdir)/resexpert.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc \
 	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
-	$(srcdir)/rescia.rc $(srcdir)/resds12c887rtc.rc
+	$(srcdir)/rescia.rc $(srcdir)/resds12c887rtc.rc \
 	$(srcdir)/resjoyport.rc $(srcdir)/resuserportrtc.rc
 
 resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
