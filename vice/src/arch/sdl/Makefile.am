@@ -87,6 +87,8 @@ libarch_a_SOURCES = \
 	menu_help.h \
 	menu_jam.c \
 	menu_jam.h \
+	menu_joyport.c \
+	menu_joyport.h \
 	menu_joystick.c \
 	menu_joystick.h \
 	menu_lightpen.c \

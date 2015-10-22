@@ -35,6 +35,7 @@
 #include "cia.h"
 #include "menu_cbm2hw.h"
 #include "menu_common.h"
+#include "menu_joyport.h"
 #include "menu_joystick.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
@@ -206,6 +207,10 @@ const ui_menu_entry_t cbm5x0_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)cbm5x0_model_menu },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Joyport settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)joyport2_menu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

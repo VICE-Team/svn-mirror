@@ -35,6 +35,7 @@
 #include "menu_c64_expansions.h"
 #include "menu_c64model.h"
 #include "menu_common.h"
+#include "menu_joyport.h"
 #include "menu_joystick.h"
 
 #ifdef HAVE_MIDI
@@ -87,6 +88,10 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c64_model_menu },
+    { "Joyport settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)joyport2_menu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -157,6 +162,10 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c64sc_model_menu },
+    { "Joyport settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)joyport2_menu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

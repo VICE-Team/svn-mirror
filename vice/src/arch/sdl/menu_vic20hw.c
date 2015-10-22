@@ -33,6 +33,7 @@
 #include "cartridge.h"
 
 #include "menu_common.h"
+#include "menu_joyport.h"
 #include "menu_joystick.h"
 
 #ifdef HAVE_MOUSE
@@ -176,6 +177,10 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)vic20_model_submenu },
+    { "Joyport settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)joyport1_menu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

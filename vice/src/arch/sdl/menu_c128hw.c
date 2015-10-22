@@ -35,6 +35,7 @@
 #include "cia.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_common.h"
+#include "menu_joyport.h"
 #include "menu_joystick.h"
 
 #ifdef HAVE_MIDI
@@ -141,6 +142,10 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)c128_model_menu },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Joyport settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)joyport2_menu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
