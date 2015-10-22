@@ -564,7 +564,7 @@ static ui_menu_entry_t cbm5x0_settings_menu[] = {
     { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
       (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, joyport2_settings_menu },
+      NULL, NULL, ui_joyport2_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_cbm5x0_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,

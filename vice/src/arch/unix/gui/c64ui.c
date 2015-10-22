@@ -624,7 +624,7 @@ static ui_menu_entry_t x64_settings_submenu[] = {
     { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
       (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, joyport_settings_menu },
+      NULL, NULL, ui_joyport2_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_c64_menu },
 #ifdef HAVE_MOUSE
