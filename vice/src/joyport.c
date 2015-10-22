@@ -220,6 +220,12 @@ int joyport_register(int id, joyport_t *device)
     if (id < 1 || id > JOYPORT_MAX_DEVICES) {
         return -1;
     }
+
+    /* skip pot devices if not pot is present */
+    if ((device->read_potx || device->read_poty) && !joy_pot_present) {
+        return 0;
+    }
+
     joyport_device[id].name = device->name;
     joyport_device[id].trans_name = device->trans_name;
     joyport_device[id].resource_id = device->resource_id;
