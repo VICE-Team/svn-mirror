@@ -42,6 +42,7 @@ src/arch/unix/gui/uifullscreen-menu.h
 src/arch/unix/gui/uigeoram.c
 src/arch/unix/gui/uiide64.c
 src/arch/unix/gui/uiisepic.c
+src/arch/unix/gui/uijoyport.c
 src/arch/unix/gui/uijoystick2.c
 src/arch/unix/gui/uikeyboard.c
 src/arch/unix/gui/uilightpen.c

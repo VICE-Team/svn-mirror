@@ -95,6 +95,8 @@ libarchgui_a_SOURCES = \
 	uiide64.h \
 	uiisepic.c \
 	uiisepic.h \
+	uijoyport.c \
+	uijoyport.h \
 	uijoystick2.c \
 	uijoystick2.h \
 	uijoystickkeys.h \

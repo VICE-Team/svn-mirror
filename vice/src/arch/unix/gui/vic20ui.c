@@ -51,6 +51,7 @@
 #include "uids12c887rtc.h"
 #include "uiedit.h"
 #include "uigeoram.h"
+#include "uijoyport.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uilib.h"
@@ -644,6 +645,8 @@ static ui_menu_entry_t vic20_settings_menu[] = {
     { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
       (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, joyport1_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_vic20_menu },
     { N_("Paddle emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mouse_vic20_submenu },
@@ -697,6 +700,7 @@ static void vic20ui_dynamic_menu_create(void)
     uisound_menu_create();
     uivic_menu_create();
     uikeyboard_menu_create();
+    uijoyport_menu_create(1);
 }
 
 static void vic20ui_dynamic_menu_shutdown(void)
@@ -704,6 +708,7 @@ static void vic20ui_dynamic_menu_shutdown(void)
     uivic_menu_shutdown();
     uisound_menu_shutdown();
     uikeyboard_menu_shutdown();
+    uijoyport_menu_shutdown(1);
 }
 
 int vic20ui_init(void)

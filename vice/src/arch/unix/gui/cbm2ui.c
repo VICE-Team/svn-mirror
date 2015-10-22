@@ -48,6 +48,7 @@
 #include "uidrive.h"
 #include "uidrivepetcbm2.h"
 #include "uiedit.h"
+#include "uijoyport.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uiperipheralieee.h"
@@ -563,6 +564,8 @@ static ui_menu_entry_t cbm5x0_settings_menu[] = {
     { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
       (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, joyport2_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_cbm5x0_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, cbm5x0_menu },
@@ -666,6 +669,7 @@ static void cbm2ui_dynamic_menu_create(void)
         uicrtc_menu_create();
     }
     uikeyboard_menu_create();
+    uijoyport_menu_create(2);
 }
 
 static void cbm2ui_dynamic_menu_shutdown(void)
@@ -677,6 +681,7 @@ static void cbm2ui_dynamic_menu_shutdown(void)
     }
     uisound_menu_shutdown();
     uikeyboard_menu_shutdown();
+    uijoyport_menu_shutdown(2);
 }
 
 int cbm2ui_init(void)

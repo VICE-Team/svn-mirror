@@ -42,6 +42,7 @@
 #include "uidrivec64dtv.h"
 #include "uidrivec64vic20.h"
 #include "uiedit.h"
+#include "uijoyport.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
@@ -269,6 +270,8 @@ static ui_menu_entry_t x64_settings_submenu[] = {
     { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
       (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, joyport2_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_c64dtv_menu },
 #ifdef HAVE_MOUSE
     { "", UI_MENU_TYPE_NONE,
@@ -345,6 +348,7 @@ static void c64ui_dynamic_menu_create(void)
 #endif
     uiprinter_pruser_enable(0);
     uikeyboard_menu_create();
+    uijoyport_menu_create(2);
 }
 
 static void c64ui_dynamic_menu_shutdown(void)
@@ -352,6 +356,7 @@ static void c64ui_dynamic_menu_shutdown(void)
     uivicii_menu_shutdown();
     uisound_menu_shutdown();
     uikeyboard_menu_shutdown();
+    uijoyport_menu_shutdown(2);
 }
 
 int c64dtvui_init(void)
