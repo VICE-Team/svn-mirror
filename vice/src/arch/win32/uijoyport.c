@@ -237,6 +237,6 @@ void ui_joyport_settings_dialog(HWND hwnd, int amount)
     if (ports == 2) {
         DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_JOYPORT2_SETTINGS_DIALOG, hwnd, dialog_proc);
     } else {
-        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_JOYPORT2_SETTINGS_DIALOG, hwnd, dialog_proc);
+        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_JOYPORT1_SETTINGS_DIALOG, hwnd, dialog_proc);
     }
 }
