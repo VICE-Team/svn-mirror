@@ -42,14 +42,10 @@
 
 static void enable_mouse_controls(HWND hwnd)
 {
-    EnableWindow(GetDlgItem(hwnd, IDC_MOUSE_TYPE), 1);
-    EnableWindow(GetDlgItem(hwnd, IDC_MOUSE_PORT), 1);
     EnableWindow(GetDlgItem(hwnd, IDC_SMART_MOUSE_RTC_SAVE), 1);
 }
 
 static uilib_localize_dialog_param mouse_dialog_trans[] = {
-    { IDC_MOUSE_TYPE_LABEL, IDS_MOUSE_TYPE_LABEL, 0 },
-    { IDC_MOUSE_PORT_LABEL, IDS_MOUSE_PORT_LABEL, 0 },
     { IDC_MOUSE_SENSITIVITY_LABEL, IDS_MOUSE_SENSITIVITY_LABEL, 0 },
     { IDC_SMART_MOUSE_RTC_SAVE, IDS_SMART_MOUSE_RTC_SAVE, 0 },
     { IDOK, IDS_OK, 0 },
@@ -58,15 +54,11 @@ static uilib_localize_dialog_param mouse_dialog_trans[] = {
 };
 
 static uilib_dialog_group mouse_left_group[] = {
-    { IDC_MOUSE_TYPE_LABEL, 0 },
-    { IDC_MOUSE_PORT_LABEL, 0 },
     { IDC_MOUSE_SENSITIVITY_LABEL, 0 },
     { 0, 0 }
 };
 
 static uilib_dialog_group mouse_right_group[] = {
-    { IDC_MOUSE_TYPE, 0 },
-    { IDC_MOUSE_PORT, 0 },
     { IDC_MOUSE_SENSITIVITY, 0 },
     { 0, 0 }
 };
@@ -106,26 +98,6 @@ static void init_mouse_dialog(HWND hwnd)
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(hwnd, move_buttons_group, 0);
 
-    temp_hwnd = GetDlgItem(hwnd, IDC_MOUSE_TYPE);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"1351");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"NEOS");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"AMIGA");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Paddle");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Atari CX-22");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Atari ST");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Smart");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"MicroMys");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Koalapad");
-    resources_get_int("Mousetype", &res_value);
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
-
-    temp_hwnd = GetDlgItem(hwnd, IDC_MOUSE_PORT);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Joy1");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Joy2");
-    resources_get_int("Mouseport", &res_value);
-    res_value--;
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
-
     temp_hwnd = GetDlgItem(hwnd, IDC_MOUSE_SENSITIVITY);
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"5");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"10");
@@ -153,8 +125,6 @@ static void init_mouse_dialog(HWND hwnd)
 
 static void end_mouse_dialog(HWND hwnd)
 {
-    resources_set_int("Mousetype",(int)SendMessage(GetDlgItem(hwnd, IDC_MOUSE_TYPE), CB_GETCURSEL, 0, 0));
-    resources_set_int("Mouseport",(int)SendMessage(GetDlgItem(hwnd, IDC_MOUSE_PORT), CB_GETCURSEL, 0, 0) + 1);
     resources_set_int("MouseSensitivity",((int)SendMessage(GetDlgItem(hwnd, IDC_MOUSE_SENSITIVITY), CB_GETCURSEL, 0, 0) + 1) * 5);
     resources_set_int("SmartMouseRTCSave", (IsDlgButtonChecked(hwnd, IDC_SMART_MOUSE_RTC_SAVE) == BST_CHECKED ? 1 : 0 ));
 }

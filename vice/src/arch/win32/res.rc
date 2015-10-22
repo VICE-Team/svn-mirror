@@ -1632,7 +1632,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX settings..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Lightpen settings..."
   IDS_MI_IDE64_SETTINGS                "IDE64 settings..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Ethernet settings..."
@@ -2316,7 +2315,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX-indstillinger..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC-indstillinger..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Lyspenindstillinger..."
   IDS_MI_IDE64_SETTINGS                "IDE64-indstillinger..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Ethernetindstillinger..."
@@ -3000,7 +2998,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX Einstellungen..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC Einstellungen..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Lichtgriffel Einstellungen..."
   IDS_MI_IDE64_SETTINGS                "IDE64 Einstellungen..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Ethernet Einstellungen..."
@@ -3684,7 +3681,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "Ajustes DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Ajustes DS12C887 RTC..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Ajustes lápiz óptico..."
   IDS_MI_IDE64_SETTINGS                "Ajustes IDE64..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Ajustes Ethernet..."
@@ -4368,7 +4364,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "Paramètres DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Paramètres DS12C887 RTC..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Paramètres crayon optique..."
   IDS_MI_IDE64_SETTINGS                "Paramètres IDE64..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Paramètres Ethernet..."
@@ -5055,7 +5050,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX settings..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Lightpen settings..."
   IDS_MI_IDE64_SETTINGS                "IDE64 beállításai..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Ethernet settings..."
@@ -5742,7 +5736,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "Impostazioni DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Impostazioni RTC DS12C887..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Impostazioni penna ottica..."
   IDS_MI_IDE64_SETTINGS                "Impostazioni IDE64..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Impostazioni Ethernet..."
@@ -6429,7 +6422,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX ¼³Á¤..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Lightpen settings..."
   IDS_MI_IDE64_SETTINGS                "IDE64 ¼³Á¤..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "ÀÌ´õ³Ý ¼³Á¤..."
@@ -7116,7 +7108,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX instellingen..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC instellingen..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Lichtpen instellingen..."
   IDS_MI_IDE64_SETTINGS                "IDE64 instellingen..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Ethernet instellingen..."
@@ -7803,7 +7794,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "Ustawienia DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Ustawienia DS12C887 RTC..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Ustawienia pióra ¶wietlnego..."
   IDS_MI_IDE64_SETTINGS                "Ustawienia IDE64..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Ustawienia Ethernet..."
@@ -8493,7 +8483,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX settings..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Lightpen settings..."
   IDS_MI_IDE64_SETTINGS                "IDE64 settings..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Ethernet settings..."
@@ -9180,7 +9169,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX-inställningar..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC-inställningar..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Inställningar för ljuspenna..."
   IDS_MI_IDE64_SETTINGS                "IDE64-inställningar..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Ethernetinställningar..."
@@ -9867,7 +9855,6 @@ BEGIN
 #endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX ayarlarý..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC ayarlarý..."
-  IDS_MI_LIGHTPEN_SETTINGS             "Iþýklý Kalem ayarlarý..."
   IDS_MI_IDE64_SETTINGS                "IDE64 ayarlarý..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS                  "Ethernet Ayarlarý..."

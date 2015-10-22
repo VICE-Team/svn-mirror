@@ -52,7 +52,6 @@
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
-#include "uilightpen.h"
 #include "uimagicvoice.h"
 #include "uimidi.h"
 #include "uimmc64.h"
@@ -311,7 +310,6 @@ ui_menu_translation_table_t scpu64ui_menu_translation_table[] = {
     { IDM_VICII_SETTINGS, IDS_MI_VICII_SETTINGS },
     { IDM_SCPU64_SETTINGS, IDS_MI_SCPU64_SETTINGS },
     { IDM_MOUSE_SETTINGS, IDS_MI_MOUSE_SETTINGS },
-    { IDM_LIGHTPEN_SETTINGS, IDS_MI_LIGHTPEN_SETTINGS },
     { IDM_SID_SETTINGS, IDS_MI_SID_SETTINGS },
     { IDM_CIA_SETTINGS, IDS_MI_CIA_SETTINGS },
     { IDM_RS232_SETTINGS, IDS_MI_RS232_SETTINGS },
@@ -592,9 +590,6 @@ static void scpu64_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_USERPORT_RTC_SETTINGS:
             ui_userport_rtc_settings_dialog(hwnd);
-            break;
-        case IDM_LIGHTPEN_SETTINGS:
-            ui_lightpen_settings_dialog(hwnd);
             break;
         case IDM_EASYFLASH_SETTINGS:
             ui_easyflash_settings_dialog(hwnd);

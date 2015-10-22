@@ -49,7 +49,6 @@
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
-#include "uilightpen.h"
 #include "uimidi.h"
 #include "uirom.h"
 #include "uirs232user.h"
@@ -296,7 +295,6 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_JOY_SETTINGS, IDS_MI_JOY_SETTINGS },
     { IDM_EXTRA_JOY_SETTINGS, IDS_MI_USERPORT_JOY_SETTINGS },
     { IDM_KEYBOARD_SETTINGS, IDS_MI_KEYBOARD_SETTINGS },
-    { IDM_LIGHTPEN_SETTINGS, IDS_MI_LIGHTPEN_SETTINGS },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
     { IDM_ROM_SETTINGS, IDS_MI_ROM_SETTINGS },
     { IDM_RAM_SETTINGS, IDS_MI_RAM_SETTINGS },
@@ -593,9 +591,6 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_JOY_SETTINGS:
             ui_joystick_settings_dialog(hwnd);
-            break;
-        case IDM_LIGHTPEN_SETTINGS:
-            ui_lightpen_settings_dialog(hwnd);
             break;
         case IDM_EXTRA_JOY_SETTINGS:
             ui_extra_joystick_settings_dialog(hwnd);
