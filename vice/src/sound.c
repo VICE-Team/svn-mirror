@@ -1620,7 +1620,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
     for (i = 0; sound_register_devices[i].name; i++) {
         sound_register_devices[i].init();
-        tmplist = lib_msprintf("%s %s", devlist, sound_devices[i]->name);
+        tmplist = lib_msprintf("%s %s", devlist, sound_register_devices[i].name);
         lib_free(devlist);
         devlist = tmplist;
     }
