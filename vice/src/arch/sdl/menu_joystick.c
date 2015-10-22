@@ -267,11 +267,11 @@ static const ui_menu_entry_t define_joy_misc_menu[] = {
 #endif
 
 const ui_menu_entry_t joystick_menu[] = {
-    { "Joystick device in port 1",
+    { "Joystick device 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port1_device_menu },
-    { "Joystick device in port 2",
+    { "Joystick device 2",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port2_device_menu },
@@ -362,11 +362,11 @@ static const ui_menu_entry_t joystick_extra_joy_type_no_hit_menu[] = {
 };
 
 const ui_menu_entry_t joystick_c64_menu[] = {
-    { "Joystick device in port 1",
+    { "Joystick device 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port1_device_menu },
-    { "Joystick device in port 2",
+    { "Joystick device 2",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port2_device_menu },
@@ -431,11 +431,11 @@ const ui_menu_entry_t joystick_c64_menu[] = {
 };
 
 const ui_menu_entry_t joystick_c64dtv_menu[] = {
-    { "Joystick device in port 1",
+    { "Joystick device 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port1_device_menu },
-    { "Joystick device in port 2",
+    { "Joystick device 2",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port2_device_menu },
@@ -502,11 +502,11 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
 UI_MENU_DEFINE_TOGGLE(SIDCartJoy)
 
 const ui_menu_entry_t joystick_plus4_menu[] = {
-    { "Joystick device in port 1",
+    { "Joystick device 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port1_device_menu },
-    { "Joystick device in port 2",
+    { "Joystick device 2",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port2_device_menu },
@@ -559,7 +559,7 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
 };
 
 const ui_menu_entry_t joystick_vic20_menu[] = {
-    { "Joystick device in port 1",
+    { "Joystick device 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port1_device_menu },

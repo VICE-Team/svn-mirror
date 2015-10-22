@@ -43,7 +43,6 @@
 #endif
 
 #ifdef HAVE_MOUSE
-#include "menu_lightpen.h"
 #include "menu_mouse.h"
 #endif
 
@@ -101,10 +100,6 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)mouse_menu },
-    { "Lightpen emulation",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)lightpen_menu },
 #endif
     { "RAM pattern settings",
       MENU_ENTRY_SUBMENU,
@@ -175,10 +170,6 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)mouse_menu },
-    { "Lightpen emulation",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)lightpen_menu },
 #endif
     { "RAM pattern settings",
       MENU_ENTRY_SUBMENU,

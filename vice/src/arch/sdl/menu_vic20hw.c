@@ -36,10 +36,6 @@
 #include "menu_joyport.h"
 #include "menu_joystick.h"
 
-#ifdef HAVE_MOUSE
-#include "menu_lightpen.h"
-#endif
-
 #ifdef HAVE_MIDI
 #include "menu_midi.h"
 #endif
@@ -224,10 +220,6 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_Mouse_callback,
       NULL },
-    { "Lightpen emulation",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)lightpen_menu },
 #endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Memory expansions"),
