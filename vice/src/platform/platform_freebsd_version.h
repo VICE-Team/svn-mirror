@@ -27,8 +27,6 @@
 #ifndef VICE_PLATFORM_FREEBSD_VERSION_H
 #define VICE_PLATFORM_FREEBSD_VERSION_H
 
-#include <sys/param.h>
-
 #if (__FreeBSD__==1)
 
 #include <machine/console.h>
@@ -47,7 +45,9 @@
 #define PLATFORM_OS "FreeBSD 1.x"
 #endif
 
-#endif
+#else
+
+#include <sys/param.h>
 
 #if (__FreeBSD__==2)
 
@@ -79,12 +79,7 @@
 #endif
 
 #if (__FreeBSD_version>=220000 && __FreeBSD_version<221000)
-#  include <fcntl.h>
-#  if (O_NOCTTY==0x8000)
-#    define PLATFORM_OS "FreeBSD 2.2.1"
-#  else
-#    define PLATFORM_OS "FreeBSD 2.2"
-#  endif
+#define PLATFORM_OS "FreeBSD 2.2"
 #endif
 
 #if (__FreeBSD_version>=221000 && __FreeBSD_version<222000)
@@ -379,11 +374,17 @@
 #define PLATFORM_OS "FreeBSD 10.1"
 #endif
 
+#if (__FreeBSD_version>=1002000 && __FreeBSD_version<1003000)
+#define PLATFORM_OS "FreeBSD 10.2"
+#endif
+
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "FreeBSD 10.x"
 #endif
 
 #endif
+
+#endif /* __FreeBSD__==1 */
 
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "FreeBSD"
