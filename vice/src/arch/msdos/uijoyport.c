@@ -92,12 +92,6 @@ void uijoyport_init(struct tui_menu *parent_submenu, int ports)
 
     ui_joyport_submenu = tui_menu_create("Joyport settings", 1);
 
-    if (ports == 2) {
-        tui_menu_add(ui_joyport_submenu, joyport2_menu_items);
-    } else {
-        tui_menu_add(ui_joyport_submenu, joyport1_menu_items);
-    }
-
     for (i = 0; devices[i].name; ++i) {
         joyport1_submenu[i].label = devices[i].name;
         joyport1_submenu[i].help_string = NULL;
@@ -136,6 +130,12 @@ void uijoyport_init(struct tui_menu *parent_submenu, int ports)
         joyport2_submenu[i].behavior = 0;
         joyport2_submenu[i].submenu = NULL;
         joyport2_submenu[i].submenu_title = NULL;
+    }
+
+    if (ports == 2) {
+        tui_menu_add(ui_joyport_submenu, joyport2_menu_items);
+    } else {
+        tui_menu_add(ui_joyport_submenu, joyport1_menu_items);
     }
 
     tui_menu_add_submenu(parent_submenu, "_Joyport settings...",
