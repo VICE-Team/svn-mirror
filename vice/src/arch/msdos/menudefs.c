@@ -1116,9 +1116,9 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps, int 
 
     if (number_joysticks) {
         uijoyport_init(ui_main_menu, number_joysticks);
+    } else {
+        uijoystick_init(ui_main_menu);
     }
-
-    uijoystick_init(ui_main_menu);
 
     ui_rom_submenu = tui_menu_create("Firmware ROM Settings", 1);
     tui_menu_add(ui_rom_submenu, rom_submenu);

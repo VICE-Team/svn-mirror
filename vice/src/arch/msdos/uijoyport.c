@@ -29,10 +29,12 @@
 #include <stdio.h>
 
 #include "joyport.h"
+#include "lib.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
 #include "uijoyport.h"
+#include "uijoystick.h"
 
 TUI_MENU_DEFINE_RADIO(JoyPort1Device)
 TUI_MENU_DEFINE_RADIO(JoyPort2Device)
@@ -138,9 +140,13 @@ void uijoyport_init(struct tui_menu *parent_submenu, int ports)
         tui_menu_add(ui_joyport_submenu, joyport1_menu_items);
     }
 
+    lib_free(devices);
+
     tui_menu_add_submenu(parent_submenu, "_Joyport settings...",
                          "Joyport settings",
                          ui_joyport_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
+
+    uijoystick_init(ui_joyport_submenu);
 }
