@@ -64,6 +64,7 @@
 #endif
 #include "uivideo.h"
 
+TUI_MENU_DEFINE_TOGGLE(C128FullBanks)
 TUI_MENU_DEFINE_TOGGLE(InternalFunctionROMRTCSave)
 TUI_MENU_DEFINE_TOGGLE(ExternalFunctionROMRTCSave)
 
