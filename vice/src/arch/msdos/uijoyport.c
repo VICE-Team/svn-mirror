@@ -64,22 +64,6 @@ static TUI_MENU_CALLBACK(joyport2_submenu_callback)
 static tui_menu_item_def_t joyport1_submenu[JOYPORT_MAX_DEVICES];
 static tui_menu_item_def_t joyport2_submenu[JOYPORT_MAX_DEVICES];
 
-static tui_menu_item_def_t lightpen_type_submenu[] = {
-    { "Pen with button Up", NULL, radio_LightpenType_callback,
-      (void *)LIGHTPEN_TYPE_PEN_U, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Pen with button Left", NULL, radio_LightpenType_callback,
-      (void *)LIGHTPEN_TYPE_PEN_L, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Datel Pen", NULL, radio_LightpenType_callback,
-      (void *)LIGHTPEN_TYPE_PEN_DATEL, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Magnum Light Phaser", NULL, radio_LightpenType_callback,
-      (void *)LIGHTPEN_TYPE_GUN_Y, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Stack Light Rifle", NULL, radio_LightpenType_callback,
-      (void *)LIGHTPEN_TYPE_GUN_L, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Inkwell Pen", NULL, radio_LightpenType_callback,
-      (void *)LIGHTPEN_TYPE_INKWELL, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
 static tui_menu_item_def_t joyport1_menu_items[] = {
     { "Joyport _1 device:", "Select the device for joyport 1",
       joyport1_submenu_callback, NULL, 11,
@@ -102,11 +86,11 @@ static tui_menu_item_def_t joyport2_menu_items[] = {
 
 void uijoyport_init(struct tui_menu *parent_submenu, int ports)
 {
-    tui_menu_t ui_lightpen_submenu;
+    tui_menu_t ui_joyport_submenu;
     joyport_desc_t *devices = joyport_get_valid_devices();
     int i;
 
-    ui_lightpen_submenu = tui_menu_create("Joyport settings", 1);
+    ui_joyport_submenu = tui_menu_create("Joyport settings", 1);
 
     if (ports == 2) {
         tui_menu_add(ui_joyport_submenu, joyport2_menu_items);
