@@ -66,7 +66,7 @@ static tui_menu_item_def_t joyport2_submenu[JOYPORT_MAX_DEVICES];
 
 static tui_menu_item_def_t joyport1_menu_items[] = {
     { "Joyport _1 device:", "Select the device for joyport 1",
-      joyport1_submenu_callback, NULL, 11,
+      joyport1_submenu_callback, NULL, 25,
       TUI_MENU_BEH_CONTINUE, joyport1_submenu,
       "Joyport 1 device" },
     { NULL }
@@ -74,11 +74,11 @@ static tui_menu_item_def_t joyport1_menu_items[] = {
 
 static tui_menu_item_def_t joyport2_menu_items[] = {
     { "Joyport _1 device:", "Select the device for joyport 1",
-      joyport1_submenu_callback, NULL, 11,
+      joyport1_submenu_callback, NULL, 25,
       TUI_MENU_BEH_CONTINUE, joyport1_submenu,
       "Joyport 1 device" },
     { "Joyport _2 device:", "Select the device for joyport 2",
-      joyport2_submenu_callback, NULL, 11,
+      joyport2_submenu_callback, NULL, 25,
       TUI_MENU_BEH_CONTINUE, joyport2_submenu,
       "Joyport 2 device" },
     { NULL }
