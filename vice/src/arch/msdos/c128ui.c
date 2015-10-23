@@ -51,7 +51,6 @@
 #include "uiexpert.h"
 #include "uigeoram.h"
 #include "uiide64.h"
-#include "uilightpen.h"
 #include "uimagicvoice.h"
 #include "uimmc64.h"
 #include "uimmcreplay.h"
@@ -353,8 +352,6 @@ int c128ui_init(void)
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 
     uiciamodel_double_init(ui_ioextensions_submenu);
-
-    uilightpen_init(ui_ioextensions_submenu);
 
     uireu_init(ui_ioextensions_submenu);
 

@@ -46,7 +46,6 @@
 #include "uidrive.h"
 #include "uids12c887rtc.h"
 #include "uigeoram.h"
-#include "uilightpen.h"
 #include "uisidcart.h"
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
@@ -480,7 +479,6 @@ int vic20ui_init(void)
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
-    uilightpen_init(ui_ioextensions_submenu);
     uisidcart_init(ui_ioextensions_submenu, "$9800", "$9C00", "VIC20", 0x9800, 0x9c00);
 
     ui_final_expansion_submenu = tui_menu_create("Final Expansion settings", 1);
