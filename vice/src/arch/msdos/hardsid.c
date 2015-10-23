@@ -34,6 +34,8 @@
 typedef unsigned short uint16;
 typedef unsigned long uint32;
 
+static int hs_available = 0;
+
 static int base;
 
 /* buffer containing current register state of SIDs */
@@ -253,4 +255,18 @@ void hardsid_set_machine_parameter(long cycles_per_sec)
 
 void hardsid_set_device(unsigned int chipno, unsigned int device)
 {
+}
+
+int hardsid_available(void)
+{
+    if (hs_available) {
+        return 1;
+    }
+
+    if (hardsid_open() < 0) {
+        return 0;
+    }
+    hardsid_close();
+    hs_available = 1;
+    return 1;
 }
