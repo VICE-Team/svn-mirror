@@ -130,6 +130,8 @@ libarch_a_SOURCES = \
 	uiide64.h \
 	uiisepic.c \
 	uiisepic.h \
+	uijoyport.c \
+	uijoyport.h \
 	uijoystick.c \
 	uijoystick.h \
 	uilightpen.c \

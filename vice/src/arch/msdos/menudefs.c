@@ -62,6 +62,7 @@
 #include "ui.h"
 #include "uiattach.h"
 #include "uidrive.h"
+#include "uijoyport.h"
 #include "uijoystick.h"
 
 #ifdef HAVE_NETWORK
@@ -1112,6 +1113,10 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps, int 
     }
 
     uisound_init(ui_main_menu);
+
+    if (number_joysticks) {
+        uijoyport_init(ui_main_menu, number_joysticks);
+    }
 
     uijoystick_init(ui_main_menu);
 
