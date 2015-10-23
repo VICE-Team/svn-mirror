@@ -38,6 +38,7 @@
 #define PLATFORM_OS "NetBSD 0.9"
 #endif
 
+
 #ifdef NetBSD1_0
 
 #if (NetBSD1_0==1)
@@ -140,8 +141,7 @@
 #define PLATFORM_OS "NetBSD 3.0.2"
 #endif
 
-/* NetBSD 3.0.3 seems to be 'mis-versioned' */
-#if (__NetBSD_Version__==300003000) || (__NetBSD_Version__==301003000)
+#if (__NetBSD_Version__==301003000) || (__NetBSD_Version__==300003000)
 #define PLATFORM_OS "NetBSD 3.0.3"
 #endif
 
@@ -153,13 +153,17 @@
 #define PLATFORM_OS "NetBSD 3.1.1"
 #endif
 
-/* NetBSD 4.0.x seems to be 'mis-versioned' */
-#if (__NetBSD_Version__==400000000) || (__NetBSD_Version__==400010000) || (__NetBSD_Version__==400000003)
+/* NetBSD 4.0.1 seems to be 'mis-versioned' */
+#if (__NetBSD_Version__==400010000) || (__NetBSD_Version__==400000003)
 #define PLATFORM_OS "NetBSD 4.0.x"
 #endif
 
+#if (__NetBSD_Version__==500000000)
+#define PLATFORM_OS "NetBSD 5.0"
+#endif
+
 /* NetBSD 5.0.x seems to be 'mis-versioned' */
-#if (__NetBSD_Version__==500000000) || (__NetBSD_Version__==500000100) || (__NetBSD_Version__==500000200) || (__NetBSD_Version__==500000003) || (__NetBSD_Version__==500000002)
+#if (__NetBSD_Version__==500000100) || (__NetBSD_Version__==500000200) || (__NetBSD_Version__==500000003) || (__NetBSD_Version__==500000002)
 #define PLATFORM_OS "NetBSD 5.0.x"
 #endif
 
@@ -255,6 +259,10 @@
 
 #if (__NetBSD_Version__==601000500)
 #define PLATFORM_OS "NetBSD 6.1.5"
+#endif
+
+#if (__NetBSD_Version__==700000001)
+#define PLATFORM_OS "NetBSD 7.0"
 #endif
 
 #endif /* !PLATFORM_OS */
