@@ -59,7 +59,6 @@
 #include "uimidi.h"
 #include "uimouse.h"
 #include "uinetplay.h"
-#include "uilightpen.h"
 #include "uiperipheraliec.h"
 #include "uiprinteriec.h"
 #include "uiram.h"
@@ -648,11 +647,9 @@ static ui_menu_entry_t vic20_settings_menu[] = {
       NULL, NULL, ui_joyport1_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_vic20_menu },
-    { N_("Paddle emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, mouse_vic20_submenu },
-#if defined(HAVE_MOUSE)
-    { N_("Lightpen emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, lightpen_submenu },
+#ifdef HAVE_MOUSE
+    { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, mouse_submenu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, vic20_menu },

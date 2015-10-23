@@ -45,7 +45,6 @@ src/arch/unix/gui/uiisepic.c
 src/arch/unix/gui/uijoyport.c
 src/arch/unix/gui/uijoystick2.c
 src/arch/unix/gui/uikeyboard.c
-src/arch/unix/gui/uilightpen.c
 src/arch/unix/gui/uimagicvoice.c
 src/arch/unix/gui/uimidi.c
 src/arch/unix/gui/uimmc64.c

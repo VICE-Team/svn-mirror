@@ -363,9 +363,9 @@ static ui_menu_entry_t set_joystick_device_4_submenu[] = {
 };
 
 static ui_menu_entry_t joystick_settings_c64_submenu[] = {
-    { N_("Joystick in port #1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_1_submenu },
-    { N_("Joystick in port #2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
@@ -394,9 +394,9 @@ static ui_menu_entry_t joystick_settings_c64_submenu[] = {
 };
 
 static ui_menu_entry_t joystick_settings_c64dtv_submenu[] = {
-    { N_("Joystick in port #1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_1_submenu },
-    { N_("Joystick in port #2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
@@ -425,9 +425,9 @@ static ui_menu_entry_t joystick_settings_c64dtv_submenu[] = {
 };
 
 static ui_menu_entry_t joystick_settings_cbm5x0_submenu[] = {
-    { N_("Joystick in port #1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_1_submenu },
-    { N_("Joystick in port #2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
@@ -469,7 +469,7 @@ static ui_menu_entry_t joystick_settings_pet_submenu[] = {
 };
 
 static ui_menu_entry_t joystick_settings_vic20_submenu[] = {
-    { N_("Joystick in port #1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_1_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
@@ -496,9 +496,9 @@ static ui_menu_entry_t joystick_settings_vic20_submenu[] = {
 };
 
 static ui_menu_entry_t joystick_settings_plus4_submenu[] = {
-    { N_("Joystick in port #1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_1_submenu },
-    { N_("Joystick in port #2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
