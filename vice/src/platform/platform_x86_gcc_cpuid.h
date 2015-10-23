@@ -27,7 +27,31 @@
 #ifndef PLATFORM_X86_GCC_CPUID_H
 #define PLATFORM_X86_GCC_CPUID_H
 
-#if defined(__PIC__) && !defined(OpenBSD5_7) && !defined(__CYGWIN32__) && !defined(__CYGWIN__) && !defined(WIN32_COMPILE) && !defined(__x86_64__)
+#ifdef __PIC__
+
+#ifdef OpenBSD5_7
+#define NOPIC
+#endif
+
+#ifdef __CYGWIN32__
+#define NOPIC
+#endif
+
+#ifdef __CYGWIN__
+#define NOPIC
+#endif
+
+#ifdef WIN32_COMPILE
+#define NOPIC
+#endif
+
+#ifdef __x86_64__
+#define NOPIC
+#endif
+
+#endif
+
+#if defined(__PIC__) && !defined(NOPIC)
 
 #define cpuid(func, ax, bx, cx, dx)                                    \
     __asm__ __volatile__ ("pushl %%ebx\n\t"                            \
