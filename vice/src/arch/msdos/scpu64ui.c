@@ -33,7 +33,6 @@
 #include "lib.h"
 #include "machine.h"
 #include "menudefs.h"
-#include "mouse.h"
 #include "resources.h"
 #include "scpu64ui.h"
 #include "tui.h"
@@ -65,119 +64,6 @@
 #include "uitfe.h"
 #endif
 #include "uivideo.h"
-
-TUI_MENU_DEFINE_TOGGLE(Mouse)
-TUI_MENU_DEFINE_RADIO(Mousetype)
-TUI_MENU_DEFINE_TOGGLE(SmartMouseRTCSave)
-
-static TUI_MENU_CALLBACK(MouseType_callback)
-{
-    int value;
-
-    resources_get_int("Mousetype", &value);
-
-    switch (value) {
-        case MOUSE_TYPE_1351:
-            return "1351";
-        case MOUSE_TYPE_NEOS:
-            return "NEOS";
-        case MOUSE_TYPE_AMIGA:
-            return "AMIGA";
-        case MOUSE_TYPE_PADDLE:
-            return "PADDLE";
-        case MOUSE_TYPE_CX22:
-            return "Atari CX-22";
-        case MOUSE_TYPE_ST:
-            return "Atari ST";
-        case MOUSE_TYPE_SMART:
-            return "Smart";
-        case MOUSE_TYPE_MICROMYS:
-            return "MicroMys";
-        case MOUSE_TYPE_KOALAPAD:
-            return "Koalapad";
-        default:
-            return "unknown";
-    }
-}
-
-static tui_menu_item_def_t mouse_type_submenu[] = {
-    { "1351", NULL, radio_Mousetype_callback,
-      (void *)MOUSE_TYPE_1351, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "NEOS", NULL, radio_Mousetype_callback,
-      (void *)MOUSE_TYPE_NEOS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "AMIGA", NULL, radio_Mousetype_callback,
-      (void *)MOUSE_TYPE_AMIGA, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "PADDLE", NULL, radio_Mousetype_callback,
-      (void *)MOUSE_TYPE_PADDLE, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Atari CX-22", NULL, radio_Mousetype_callback,
-      (void *)MOUSE_TYPE_CX22, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Atari ST", NULL, radio_Mousetype_callback,
-      (void *)MOUSE_TYPE_ST, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Smart", NULL, radio_Mousetype_callback,
-      (void *)MOUSE_TYPE_SMART, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "MicroMys", NULL, radio_Mousetype_callback,
-      (void *)MOUSE_TYPE_MICROMYS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Koalapad", NULL, radio_Mousetype_callback,
-      (void *)MOUSE_TYPE_KOALAPAD, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-TUI_MENU_DEFINE_RADIO(Mouseport)
-
-static TUI_MENU_CALLBACK(MousePort_callback)
-{
-    int value;
-
-    resources_get_int("Mouseport", &value);
-    value--;
-
-    if (been_activated) {
-        value = (value + 1) % 2;
-        resources_set_int("Mouseport", value + 1);
-    }
-
-    switch (value) {
-        case 0:
-            return "Joy1";
-        case 1:
-            return "Joy2";
-        default:
-            return "unknown";
-    }
-}
-
-static tui_menu_item_def_t mouse_port_submenu[] = {
-    { "Joy1", NULL, radio_Mouseport_callback,
-      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Joy2", NULL, radio_Mouseport_callback,
-      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-static tui_menu_item_def_t ioextenstions_menu_items[] = {
-    { "--" },
-    { "Mouse Type:",
-      "Change Mouse Type",
-      MouseType_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, mouse_type_submenu,
-      "Mouse Type" },
-    { "Mouse Port:",
-      "Change Mouse Port",
-      MousePort_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, mouse_port_submenu,
-      "Mouse Port" },
-    { "Save Smart Mouse RTC data when changed",
-      "Save Smart Mouse RTC data when changed",
-      toggle_SmartMouseRTCSave_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Grab mouse events:",
-      "Emulate a mouse",
-      toggle_Mouse_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
 
 static TUI_MENU_CALLBACK(load_rom_file_callback)
 {
@@ -289,7 +175,6 @@ int scpu64ui_init(void)
     uiscpu64model_init(ui_special_submenu);
 
     ui_ioextensions_submenu = tui_menu_create("I/O extensions", 1);
-    tui_menu_add(ui_ioextensions_submenu, ioextenstions_menu_items);
 
     tui_menu_add_submenu(ui_special_submenu, "_I/O extensions...",
                          "Configure I/O extensions",

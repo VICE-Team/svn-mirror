@@ -30,12 +30,15 @@
 
 #include "joyport.h"
 #include "lib.h"
+#include "mouse.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
 #include "uijoyport.h"
 #include "uijoystick.h"
 
+TUI_MENU_DEFINE_TOGGLE(Mouse)
+TUI_MENU_DEFINE_TOGGLE(SmartMouseRTCSave)
 TUI_MENU_DEFINE_RADIO(JoyPort1Device)
 TUI_MENU_DEFINE_RADIO(JoyPort2Device)
 
@@ -71,6 +74,14 @@ static tui_menu_item_def_t joyport1_menu_items[] = {
       joyport1_submenu_callback, NULL, 25,
       TUI_MENU_BEH_CONTINUE, joyport1_submenu,
       "Joyport 1 device" },
+    { "Save Smart Mouse RTC data when changed",
+      "Save Smart Mouse RTC data when changed",
+      toggle_SmartMouseRTCSave_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Grab mouse events:",
+      "Emulate a mouse",
+      toggle_Mouse_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
 
@@ -83,6 +94,14 @@ static tui_menu_item_def_t joyport2_menu_items[] = {
       joyport2_submenu_callback, NULL, 25,
       TUI_MENU_BEH_CONTINUE, joyport2_submenu,
       "Joyport 2 device" },
+    { "Save Smart Mouse RTC data when changed",
+      "Save Smart Mouse RTC data when changed",
+      toggle_SmartMouseRTCSave_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Grab mouse events:",
+      "Emulate a mouse",
+      toggle_Mouse_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
 
