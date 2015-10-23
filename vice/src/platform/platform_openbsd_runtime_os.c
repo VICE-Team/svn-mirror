@@ -69,6 +69,8 @@
    sh4    | OpenBSD 5.7
    sparc  | OpenBSD 5.7
    vax    | OpenBSD 5.7
+   amd64  | OpenBSD 5.8
+   i386   | OpenBSD 5.8
  */
 
 #include "vice.h"

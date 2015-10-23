@@ -28,15 +28,20 @@
  - Windows NT 4.0 Embedded Workstation
  - Windows NT 4.0 Workstation
  - Windows NT 4.0 Embedded Server
+ - Windows NT 4.0 Small Business Server 4.0 (x86)
  - Windows NT 4.0 Small Business Server 4.5 (x86)
  - Windows NT 4.0 Enterprise Server (x86)
  - Windows 2000 Pro (x86)
  - Windows 2000 Server (x86)
  - Windows 2000 Small Business Server (x86)
+ - Windows 2000 Advanced Server (x86)
  - Windows XP FLP (x86)
  - Windows XP Pro (x86)
  - Windows XP MCE 2005 (x86)
  - Windows XP MCE 2005 R2 (x86)
+ - Windows 2003 Web Server (x86)
+ - Windows 2003 Standard Server (x86)
+ - Windows 2003 Small Business Server (x86)
  - Windows 2003 Enterprise Server (x86)
  - Windows 2003 Datacenter Server (x86)
  - Windows Home Server (x86)
@@ -46,17 +51,20 @@
  - Windows Vista Enterprise (x86)
  - Windows 2008 Foundation Server (x64)
  - Windows 2008 Standard Server (x86/x64)
- - Windows 2008 Enterprise Server (x86)
+ - Windows 2008 Enterprise Server (x86/x64)
  - Windows 2008 Datacenter Server (x64)
  - Windows 2008 Basic Storage Server (x64)
  - Windows Thin PC (x86)
  - Windows 7 Embedded POSReady (x86)
  - Windows 7 Embedded Standard (x86)
  - Windows 7 Enterprise (x86/x64)
+ - Windows 7 Ultimate (x64)
  - Windows 2008 R2 Foundation Server (x64)
+ - Windows 2008 R2 Enterprise Server (x64)
  - Windows 2008 R2 Datacenter Server (x64)
  - Windows 2008 R2 Workgroup Storage Server (x64)
  - Windows 2008 R2 Enterprise Storage Server (x64)
+ - Windows 2009 POSReady (x86)
  - Windows Home Server 2011 (x64)
  - Windows 2011 Standard Multipoint Server (x64)
  - Windows 8 Enterprise (x64)
@@ -105,6 +113,7 @@ static winver_t windows_versions[] = {
     { "Windows NT 4 Workstation",                  "Microsoft Windows NT 4",                     0, 0 },
     { "Windows NT 4 Embedded Server",              "Microsoft Windows NT 4",                     8, 0 },
     { "Windows NT 4 Server",                       "Microsoft Windows NT 4",                     1, 0 },
+    { "Windows NT 4 Small Business Server 4.0",    "Microsoft Windows NT 4",                     3, 0 },
     { "Windows NT 4 Small Business Server 4.5",    "Microsoft Windows NT 4",                     1, 2 },
     { "Windows NT 4 Enterprise Server",            "Microsoft Windows NT 4",                     5, 0 },
     { "Windows 2000 Pro",                          "Microsoft Windows 2000",                     0, 0 },
@@ -378,7 +387,7 @@ static char *get_windows_version(void)
                 p = product_suite;
                 while (!found) {
                     wide2single(p, temp);
-                    if (!strcmp(temp, "EmbeddedNT") && windows_flags != 3) {
+                    if (!strcmp(temp, "EmbeddedNT") && windows_flags != 3 && windows_flags != 5) {
                         suite |= 1;
                     }
                     p += widelen(p);

@@ -28,12 +28,15 @@
  - Compaq DOS 3.31
  - Concurrent DOS XM 6.0
  - DOSBox 0.71
+ - DOSBox 0.73
  - DOSBox 0.74
  - DR-DOS 7.03
  - DR-DOS 7.05
+ - DR-DOS 8.0
  - DR-DOS 8.1
  - FreeDOS 0.4
  - FreeDOS 0.5
+ - FreeDOS 0.6
  - FreeDOS 0.8
  - FreeDOS 0.9
  - FreeDOS 1.1
@@ -43,6 +46,7 @@
  - MSDOS 3.20 (Generic)
  - MSDOS 3.20 (Amstrad OEM)
  - MSDOS 3.20 (Data General OEM)
+ - MSDOS 3.20 (HP OEM)
  - MSDOS 3.20 (Zenith OEM)
  - MSDOS 3.21 (Hyosung OEM)
  - MSDOS 3.21 (Kaypro OEM)
@@ -51,10 +55,12 @@
  - MSDOS 3.30 (OEM)
  - MSDOS 3.30A (AT&T OEM)
  - MSDOS 3.30A (Generic)
+ - MSDOS 4.01 (Generic)
  - MSDOS 5.00 (Generic)
  - MSDOS 5.00 (Compaq OEM)
  - MSDOS 5.00 (Toshiba OEM)
  - MSDOS 6.00 (Generic)
+ - MSDOS 6.20 (Generic)
  - MSDOS 6.21 (Generic)
  - MSDOS 7.00 (Stand Alone)
  - MSDOS 7.10 (Stand Alone)
@@ -63,6 +69,7 @@
  - PCDOS 4.00
  - PCDOS 5.00
  - PCDOS 5.02
+ - PCDOS 6.10
  - PCDOS 7.10
  - REAL32 7.6
  - ROMDOS 6.22
@@ -83,24 +90,32 @@
  - Windows 98
  - Windows 98 Secure
  - Windows 98SE
+ - Windows ME
  - Windows ME Secure
+ - Windows NT 3.50 Workstation
  - Windows NT 3.50 Server
  - Windows NT 3.51 Workstation
+ - Windows NT 3.51 Server
  - Windows NT 4.0 Embedded Workstation
  - Windows NT 4.0 Workstation
  - Windows NT 4.0 Embedded Server
  - Windows NT 4.0 Terminal Server
+ - Windows NT 4.0 Small Business Server 4.0
  - Windows NT 4.0 Small Business Server 4.5
  - Windows NT 4.0 Enterprise Server
  - Windows Neptune
  - Windows 2000 Pro
  - Windows 2000 Server
  - Windows 2000 Small Business Server
+ - Windows 2000 Advanced Server
  - Windows XP FLP
  - Windows XP Starter
  - Windows XP Home
  - Windows XP Pro
  - Windows XP MCE 2005
+ - Windows 2003 Web Server
+ - Windows 2003 Standard Server
+ - Windows 2003 Small Business Server
  - Windows 2003 Enterprise Server
  - Windows 2003 Datacenter Server
  - Windows Home Server
@@ -109,16 +124,21 @@
  - Windows Vista Home Basic
  - Windows Vista Home Premium
  - Windows 7 Starter
+ - Windows 7 Pro
  - Windows 2009 Embedded Standard
+ - Windows 2009 Embedded POSReady
  - Windows 8
+ - Windows 8 Pro
  - Windows 8.1 Embedded Industry Enterprise
  - Windows 8.1 Pro
  - Windows 10 Pro
 */
 
 /* Tested and confirmed working on the following other DOS emulations:
+ - OS/2 2.0
  - OS/2 2.1
  - OS/2 3.0
+ - OS/2 4.0
  - OS/2 4.52
  - EComStation 2.0 RC6a
  - EComStation 2.0 RC7 Silver Release
@@ -155,12 +175,15 @@ static dos_version_t dos_versions[] = {
     { "Compaq DOS 3.31",               "IBMPcDos",    3, 31,  -1, "The COMPAQ Personal Computer MS-DOS ",           "COMPAQ Personal Computer DOS Version  3.31 ",            NULL, NULL },
     { "Concurrent DOS XM 6.0",         "IBMPcDos",    3, 30,  -1, NULL,                                             NULL,                                                     NULL, "CDOS 6.0" },
     { "DOSBox 0.71",                   "MS-DOS",      5,  0, 255, NULL,                                             "DOSBox version 0.71. Reported DOS version 5.0.",         NULL, NULL },
+    { "DOSBox 0.73",                   "MS-DOS",      5,  0, 255, NULL,                                             "DOSBox version 0.73. Reported DOS version 5.00.",        NULL, NULL },
     { "DOSBox 0.74",                   "MS-DOS",      5,  0, 255, NULL,                                             "DOSBox version 0.74. Reported DOS version 5.00.",        NULL, NULL },
     { "DR-DOS 7.03",                   "IBMPcDos",    6,  0,   0, NULL,                                             "Caldera DR-DOS 7.03",                                    NULL, NULL },
     { "DR-DOS 7.05",                   "IBMPcDos",    7, 10,   0, NULL,                                             "Caldera DR-DOS 7.05",                                    NULL, NULL },
+    { "DR-DOS 8.0",                    "IBMPcDos",    6,  0,   0, NULL,                                             "DeviceLogics DR-DOS 8.0 ",                               NULL, NULL },
     { "DR-DOS 8.1",                    "IBMPcDos",    6,  0,   0, NULL,                                             NULL,                                                     NULL, "DrDOS 8.1" },
     { "FreeDOS 0.4",                   "??Unknown??", 4,  0,  -1, NULL,                                             "FreeCom version 0.76b [Mar 24 1999]",                    NULL, NULL },
     { "FreeDOS 0.5",                   "??Unknown??", 4,  0,  -1, NULL,                                             "FreeCom version 0.79a [Mar 31 2000]",                    NULL, NULL },
+    { "FreeDOS 0.6",                   "??Unknown??", 5,  0, 253, NULL,                                             "FreeCom version 0.82 [Mar 10 2001]",                     NULL, NULL },
     { "FreeDOS 0.8",                   "??Unknown??", 5,  0, 253, NULL,                                             NULL,                                                     NULL, NULL },
     { "FreeDOS 0.9",                   "??Unknown??", 7, 10, 253, NULL,                                             NULL,                                                     NULL, NULL },
     { "FreeDOS 1.1",                   "??Unknown??", 7, 10, 254, NULL,                                             NULL,                                                     NULL, NULL },
@@ -169,6 +192,7 @@ static dos_version_t dos_versions[] = {
     { "MSDOS 3.10 (Olivetti OEM)",     "MS-DOS",      3, 10,  -1, "Microsoft MS-DOS",                               "Microsoft MS-DOS Version 3.10 ",                         NULL, NULL },
     { "MSDOS 3.20 (Amstrad OEM)",      "MS-DOS",      3, 20,  -1, "Microsoft(R) MS-DOS(R)  Version 3.20",           "MS-DOS Version 3.20",                                    NULL, NULL },
     { "MSDOS 3.20 (Data General OEM)", "MS-DOS",      3, 20,  -1, "Data General Corporation MS-DOS",                "Data General Corp MS-DOS  Version  3.20 ",               NULL, NULL },
+    { "MSDOS 3.20 (HP OEM)",           "IBMPcDos",    3, 20,  -1, "Microsoft(R) MS-DOS(R)  Version 3.20",           "MS-DOS Version 3.20",                                    NULL, NULL },
     { "MSDOS 3.20 (Zenith OEM)",       "ZenitDOS",    3, 20,  -1, "MS-DOS Version 3.20",                            NULL,                                                     NULL, NULL },
     { "MSDOS 3.20 (Generic)",          "MS-DOS",      3, 20,  -1, "Microsoft MS-DOS Version 3.20",                  "MS-DOS Version 3.20",                                    NULL, NULL },
     { "MSDOS 3.21 (Hyosung OEM)",      "MS-DOS",      3, 21,  -1, "HYOSUNG MS-DOS Ver 3.21",                        "HYOSUNG MS-DOS Ver 3.21",                                NULL, NULL },
@@ -177,10 +201,12 @@ static dos_version_t dos_versions[] = {
     { "MSDOS 3.30 (OEM)",              "IBMPcDos",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30",           "MS-DOS Version 3.30                     ",               NULL, NULL },
     { "MSDOS 3.30A (AT&T OEM)",        "OlivtDOS",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30a",          "AT&T Personal Computer MS-DOS Version 3.30a  Rev. 1.01", NULL, NULL },
     { "MSDOS 3.30A (Generic)",         "IBMPcDos",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30A",          "MS-DOS Version 3.30                     ",               NULL, NULL },
+    { "MSDOS 4.01 (Generic)",          "MS-DOS",      4,  0,  -1, "Microsoft(R) MS-DOS(R) Version 4.01",            "MS-DOS Version 4.01",                                    NULL, NULL },
     { "MSDOS 5.00 (Generic)",          "MS-DOS",      5,  0, 255, "Microsoft(R) MS-DOS(R) Version 5.00",            "MS-DOS Version 5.00",                                    NULL, NULL },
     { "MSDOS 5.00 (Compaq OEM)",       "IBMPcDos",    5,  0,   0, "COMPAQ MS-DOS Version 5.00   ",                  "COMPAQ MS-DOS Version 5.00   ",                          NULL, NULL },
     { "MSDOS 5.00 (Toshiba OEM)",      "MS-DOS",      5,  0, 255, "TOSHIBA Personal Computer  MS-DOS Version 5.00", "Toshiba MS-DOS Version 5.00 / R5B80SC   ",               NULL, NULL },
     { "MSDOS 6.0",                     "MS-DOS",      6,  0, 255, "Microsoft(R) MS-DOS(R) Version 6",               "MS-DOS Version 6.00",                                    NULL, NULL },
+    { "MSDOS 6.20",                    "MS-DOS",      6, 20, 255, "Microsoft(R) MS-DOS(R) Version 6.20",            "MS-DOS Version 6.20",                                    NULL, NULL },
     { "MSDOS 6.21",                    "MS-DOS",      6, 20, 255, "Microsoft(R) MS-DOS(R) Version 6.21",            "MS-DOS Version 6.21",                                    NULL, NULL },
     { "MSDOS 7.0",                     "MS-DOS",      7,  0, 255, NULL,                                             "Windows 95. [Version 4.00.950]",                         NULL, NULL },
     { "MSDOS 7.10",                    "MS-DOS",      7, 10, 255, NULL,                                             "MS-DOS 7.1 [Version 7.10.1999]",                         NULL, NULL },
@@ -188,13 +214,16 @@ static dos_version_t dos_versions[] = {
     { "MSDOS 7.10",                    "MS-DOS",      7, 10, 255, NULL,                                             "Windows 98 [Version 4.10.1998]",                         NULL, NULL },
     { "MSDOS 7.10",                    "MS-DOS",      7, 10, 255, NULL,                                             "Windows 98 [Version 4.10.2222]",                         NULL, NULL },
     { "MSDOS 8.0",                     "MS-DOS",      8,  0, 255, NULL,                                             "Windows Millennium [Version 4.90.3000]",                 NULL, NULL },
+    { "OS/2 2.0",                      "IBMPcDos",   20,  0,   0, NULL,                                             "The Operating System/2 Version is 2.00 ",                NULL, NULL },
     { "OS/2 2.1",                      "IBMPcDos",   20, 10,   0, NULL,                                             "The Operating System/2 Version is 2.10 ",                NULL, NULL },
     { "OS/2 3.0",                      "IBMPcDos",   20, 30,   0, NULL,                                             "The Operating System/2 Version is 3.00 ",                NULL, NULL },
+    { "OS/2 4.0",                      "IBMPcDos",   20, 40,   0, NULL,                                             "The Operating System/2 Version is 4.00 ",                NULL, NULL },
     { "OS/2 4.52 / EComStation",       "IBMPcDos",   20, 45,   0, NULL,                                             "The Operating System/2 Version is 4.50 ",                NULL, NULL },
     { "PCDOS 3.00",                    "IBMPcDos",    3,  0,  -1, "The IBM Personal Computer DOS",                  "IBM Personal Computer DOS Version  3.00 ",               NULL, NULL },
     { "PCDOS 4.00",                    "IBMPcDos",    4,  0,  -1, "IBM DOS Version 4.00",                           "IBM DOS Version 4.00",                                   NULL, NULL },
     { "PCDOS 5.00",                    "IBMPcDos",    5,  0,   0, "IBM DOS Version 5.00",                           "IBM DOS Version 5.00",                                   NULL, NULL },
     { "PCDOS 5.02",                    "IBMPcDos",    5,  2,   0, NULL,                                             "IBM DOS Version 5.02",                                   NULL, NULL },
+    { "PCDOS 6.10",                    "IBMPcDos",    6,  0,   0, "IBM DOS Version 6.10",                           "IBM DOS Version 6.1",                                    NULL, NULL },
     { "PCDOS 7.10",                    "IBMPcDos",    7, 10,   0, "PC DOS Version 7.10",                            "PC DOS Version 7.1",                                     NULL, NULL },
     { "REAL32 7.6",                    "IBMPcDos",    3, 31,  -1, NULL,                                             NULL,                                                     NULL, "REAL32 7.6" },
     { "ROMDOS 6.22",                   "MS-DOS",      6, 22, 255, NULL,                                             "Datalight ROM-DOS Version 6.22SU",                       NULL, NULL },
@@ -209,20 +238,23 @@ typedef struct dos_win_version_s {
 } dos_win_version_t;
 
 static dos_win_version_t dos_win_versions[] = {
-    { "Windows NT 3.50 Server",                    "Windows NT Version 3.50 ",                   NULL },
-    { "Windows NT 3.51 Workstation",               "Windows NT Version 3.51 ",                   NULL },
+    { "Windows NT 3.50",                           "Windows NT Version 3.50 ",                   NULL },
+    { "Windows NT 3.51",                           "Windows NT Version 3.51 ",                   NULL },
     { "Windows NT 4.0",                            "Windows NT Version 4.0  ",                   NULL },
     { "Windows Neptune",                           "Microsoft Windows 2000 [Version 5.00.5111]", "Windows 2000 Professional" },
     { "Windows 2000 Pro",                          "Microsoft Windows 2000 [Version 5.00.2195]", "Windows 2000 Professional" },
     { "Windows 2000 Server",                       "Microsoft Windows 2000 [Version 5.00.2195]", "Windows 2000 Server" },
+    { "Windows 2000 Advanced Server",              "Microsoft Windows 2000 [Version 5.00.2195]", "Windows 2000 Advanced Server" },
     { "Windows XP Starter / Home",                 "Microsoft Windows XP [Version 5.1.2600]",    "Windows XP Home Edition" },
     { "Windows XP Pro",                            "Microsoft Windows XP [Version 5.1.2600]",    "Windows XP Professional" },
-    { "Windows 2003 Datacenter Server",            "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003, Datacenter Edition" },
-    { "Windows 2003 R2 SBS / Home Server",         "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003 for Small Business Server"},
+    { "Windows 2003 Web Server",                   "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003, Web Edition" },
+    { "Windows 2003 Standard Server",              "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003, Standard Edition" },
+    { "Windows 2003 SBS / Home Server",            "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003 for Small Business Server"},
     { "Windows 2003 Enterprise Server",            "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003, Enterprise Edition" },
+    { "Windows 2003 Datacenter Server",            "Microsoft Windows [Version 5.2.3790]",       "Windows Server 2003, Datacenter Edition" },
     { "Windows Vista",                             "Microsoft Windows [Version 6.0.6000]",       NULL },
-    { "Windows 7 Starter",                         "Microsoft Windows [Version 6.1.7601]",       NULL },
-    { "Windows XP FLP / 2009 Embedded Standard",   "Microsoft Windows XP [Version 5.1.2600]",    NULL },
+    { "Windows 7",                                 "Microsoft Windows [Version 6.1.7601]",       NULL },
+    { "Windows XP FLP / 2009 Embedded",            "Microsoft Windows XP [Version 5.1.2600]",    NULL },
     { "Windows 8",                                 "Microsoft Windows [Version 6.2.9200]",       NULL },
     { "Windows 8.1",                               "Microsoft Windows [Version 6.3.9600]",       NULL },
     { "Windows 10 Pro",                            "Microsoft Windows [Version 10.0.10240]",     NULL },
@@ -514,7 +546,7 @@ char *platform_get_dos_runtime_os(void)
         comspec_ver_string = getenv("COMSPEC");
 
         command_ver_string = get_command_com_string();
-        if (version_oem != 253 && comspec_ver_string && strcmp(comspec_ver_string, "C:\\CDOS.COM")) {
+        if ((version_major != 7 || version_minor != 10 || version_oem != 253) && comspec_ver_string && strcmp(comspec_ver_string, "C:\\CDOS.COM")) {
             version_ver_string = get_cmd_ver_string("ver");
         }
         env_ver_string = get_version_from_env();

@@ -25,9 +25,13 @@
  */
 
 /* Tested and confirmed working on:
+   - Wine (x86)
+   - ReactOS 0.2.7 (x86)
    - ReactOS 0.2.9 (x86)
    - ReactOS 0.3.0 (x86)
    - ReactOS 0.3.3 (x86)
+   - ReactOS 0.3.6 (x86)
+   - ReactOS 0.3.11 (x86)
    - ReactOS 0.3.14 (x86)
    - Windows 95 Original (x86)
    - Windows 95A (x86)
@@ -36,25 +40,32 @@
    - Windows 98 (x86)
    - Windows 98 Secure (x86)
    - Windows 98SE (x86)
+   - Windows ME (x86)
    - Windows ME Secure (x86)
    - Windows NT 3.50 Server (x86)
    - Windows NT 3.51 Workstation (x86)
+   - Windows NT 3.51 Server (x86)
    - Windows NT 4.0 Embedded Workstation (x86)
    - Windows NT 4.0 Workstation (x86)
    - Windows NT 4.0 Embedded Server (x86)
    - Windows NT 4.0 Terminal Server (x86)
    - Windows NT 4.0 Small Business Server 4.0 (x86)
+   - Windows NT 4.0 Small Business Server 4.5 (x86)
    - Windows NT 4.0 Enterprise Server (x86)
    - Windows Neptune (x86)
    - Windows 2000 Pro (x86)
    - Windows 2000 Server (x86)
    - Windows 2000 Small Business Server (x86)
+   - Windows 2000 Advanced Server (x86)
    - Windows XP FLP (x86)
    - Windows XP Starter (x86)
    - Windows XP Home (x86)
    - Windows XP Pro (x86/x64)
    - Windows XP MCE 2005 (x86)
    - Windows XP MCE 2005 R2 (x86)
+   - Windows 2003 Web Server (x86)
+   - Windows 2003 Standard Server (x86)
+   - Windows 2003 Small Business Server (x86)
    - Windows 2003 Enterprise Server (x86/x64)
    - Windows 2003 Datacenter Server (x86)
    - Windows Home Server (x86)
@@ -67,7 +78,7 @@
    - Windows 2008 Foundation Server (x64)
    - Windows 2008 Web Server (x86/x64)
    - Windows 2008 Standard Server (x86/x64)
-   - Windows 2008 Enterprise Server (x86)
+   - Windows 2008 Enterprise Server (x86/x64)
    - Windows 2008 Datacenter Server (x64)
    - Windows 2008 Basic Storage Server (x64)
    - Windows Thin PC (x86)
@@ -75,24 +86,33 @@
    - Windows 7 Embedded Standard (x86)
    - Windows 7 Starter (x86)
    - Windows 7 Home Basic (x64)
+   - Windows 7 Home Premium (x64)
+   - Windows 7 Pro (x86)
    - Windows 7 Enterprise (x86/x64)
+   - Windows 7 Ultimate (x64)
    - Windows 2008 R2 Foundation Server (x64)
    - Windows 2008 R2 Web Server (x64)
+   - Windows 2008 R2 Enterprise Server (x64)
    - Windows 2008 R2 Datacenter Server (x64)
    - Windows 2008 R2 Workgroup Storage Server (x64)
    - Windows 2008 R2 Standard Storage Server (x64)
    - Windows 2008 R2 Enterprise Storage Server (x64)
    - Windows 2009 Embedded Standard (x86)
+   - Windows 2009 Embedded POSReady (x86)
    - Windows Home Server 2011 (x64)
    - Windows 2011 Standard Multipoint Server (x64)
    - Windows 2012 Datacenter Server (x64)
    - Windows 8 Embedded Standard (x64)
    - Windows 8 (x86/x64)
+   - Windows 8 Pro (x86)
    - Windows 8 Enterprise (x64)
+   - Windows 8.1 Home (x64)
    - Windows 8.1 Embedded Industry Enterprise (x86)
    - Windows 8.1 Pro (x86)
+   - Windows 2012 R2 Datacenter Server (x64)
    - Windows 10 Home (x64)
-   - Windows 10 Pro (x86)
+   - Windows 10 Education (x64)
+   - Windows 10 Pro (x86/x64)
 */
 
 #include "vice.h"
@@ -790,6 +810,8 @@ static winver_t windows_versions[] = {
       4, 0, 1, VER_NT_SERVER, VER_SUITE_TERMINAL, -1, -1 },
     { "Windows NT 4.0 Enterprise Server", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
+    { "Windows NT 4.0 Small Business Server 4.0", VER_PLATFORM_WIN32_NT,
+      4, 0, 1, VER_NT_SERVER, 0, -1, 1 },
     { "Windows NT 4.0 Small Business Server 4.5", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_SERVER, 0, -1, 2 },
     { "Windows NT 4.0 Server", VER_PLATFORM_WIN32_NT,
@@ -920,8 +942,6 @@ static winver_t windows_versions[] = {
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_HOME_PREMIUM, -1 },
     { "Windows 7 Professional", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_PROFESSIONAL, -1 },
-
-
     { "Windows 7 Enterprise", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_ENTERPRISE, -1 },
     { "Windows 7 Business", VER_PLATFORM_WIN32_NT,
@@ -956,6 +976,8 @@ static winver_t windows_versions[] = {
       6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, 4, -1 },
     { "Windows 8", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
+    { "Windows 8 Pro", VER_PLATFORM_WIN32_NT,
+      6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, PRODUCT_PROFESSIONAL, -1 },
     { "Windows 8 Enterprise", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
     { "Windows 2012 Datacenter Server", VER_PLATFORM_WIN32_NT,
@@ -972,14 +994,18 @@ static winver_t windows_versions[] = {
       6, 3, 10, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, PRODUCT_SB_SOLUTION_SERVER, 0 },
     { "Windows 2012 R2 Foundation Server", VER_PLATFORM_WIN32_NT,
       6, 3, 10, VER_NT_SERVER, VER_SUITE_SINGLEUSERTS | VER_SUITE_TERMINAL, PRODUCT_SERVER_FOUNDATION, 0 },
+    { "Windows 2012 R2 Datacenter Server", VER_PLATFORM_WIN32_NT,
+      6, 3, 10, VER_NT_SERVER, VER_SUITE_DATACENTER, PRODUCT_DATACENTER_SERVER, 0 },
     { "Windows 2012 R2 Standard Storage Server", VER_PLATFORM_WIN32_NT,
       6, 3, 10, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER | VER_SUITE_SINGLEUSERTS | VER_SUITE_TERMINAL, PRODUCT_STORAGE_STANDARD_SERVER, 0 },
     { "Windows 10 Home", VER_PLATFORM_WIN32_NT,
       10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, 1 },
     { "Windows 10 Pro", VER_PLATFORM_WIN32_NT,
       10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, 2 },
-    { "Windows 10 (Enterprise/Education)", VER_PLATFORM_WIN32_NT,
-      10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
+    { "Windows 10 Education", VER_PLATFORM_WIN32_NT,
+      10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, 4 },
+    { "Windows 10 Enterprise", VER_PLATFORM_WIN32_NT,
+      10, 0, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, 3 },
     { NULL, 0,
       0, 0, 0, 0, 0, 0, 0 }
 };
@@ -1542,6 +1568,13 @@ static int get_windows_10_edition(void)
     if (lstrcmpi("Windows 10 Home", PT) == 0) {
         return 1;
     }
+    if (lstrcmpi("Windows 10 Enterprise", PT) == 0) {
+        return 3;
+    }
+    if (lstrcmpi("Windows 10 Education", PT) == 0) {
+        return 4;
+    }
+
     return 0;
 }
 
@@ -1556,26 +1589,44 @@ static int get_sbs_4x(void)
     char PT[128];
     DWORD PTlen = 128;
     LONG ret;
+    LONG retval = 0;
 
     ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\BackOffice", 0, KEY_QUERY_VALUE, &hKey);
-    if (ret != ERROR_SUCCESS) {
-        return 0;
+    if (ret == ERROR_SUCCESS) {
+        ret = RegQueryValueEx(hKey, "SuiteVersion", NULL, NULL, (LPBYTE)PT, &PTlen);
+        if ((ret == ERROR_SUCCESS) || (PTlen > 128)) {
+            if (lstrcmpi("4.5", PT) == 0) {
+                retval = 2;
+            }
+            if (lstrcmpi("4.0", PT) == 0) {
+                retval = 1;
+            }
+        }
+        RegCloseKey(hKey);
     }
 
-    ret = RegQueryValueEx(hKey, "SuiteVersion", NULL, NULL, (LPBYTE)PT, &PTlen);
-    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
-        return 0;
+    if (!retval) {
+        ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Small Business", 0, KEY_QUERY_VALUE, &hKey);
+        if (ret != ERROR_SUCCESS) {
+            return 0;
+        }
+        ret = RegQueryValueEx(hKey, "Version", NULL, NULL, (LPBYTE)PT, &PTlen);
+        if (ret != ERROR_SUCCESS) {
+            return 0;
+        }
+        RegCloseKey(hKey);
+        if (lstrcmpi("4.5", PT) == 0) {
+            retval = 2;
+        }
+        if (lstrcmpi("4.0", PT) == 0) {
+            retval = 1;
+        }
+        if (lstrcmpi("4.0a", PT) == 0) {
+            retval = 1;
+        }        
     }
 
-    RegCloseKey(hKey);
-
-    if (lstrcmpi("4.5", PT) == 0) {
-        return 2;
-    }
-    if (lstrcmpi("4.0", PT) == 0) {
-        return 1;
-    }
-    return 0;
+    return retval;
 }
 
 /* Get MCE version:
