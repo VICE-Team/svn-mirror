@@ -117,22 +117,21 @@ void uijoyport_menu_shutdown(int ports)
         joyport2_settings_submenu[1].sub_menu = NULL;
     } else {
         devices_submenu1 = joyport1_settings_submenu[0].sub_menu;
-        joyport2_settings_submenu[0].sub_menu = NULL;
+        joyport1_settings_submenu[0].sub_menu = NULL;
     }
 
     i = 0;
 
     while (devices_submenu1[i].string != NULL) {
         lib_free(devices_submenu1[i].string);
-        lib_free(devices_submenu1[i].callback_data);
         if (ports == 2) {
             lib_free(devices_submenu2[i].string);
-            lib_free(devices_submenu2[i].callback_data);
         }
         i++;
     }
 
     lib_free(devices_submenu1);
+
     if (ports == 2) {
         lib_free(devices_submenu2);
     }
