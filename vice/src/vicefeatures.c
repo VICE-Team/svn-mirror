@@ -271,8 +271,15 @@ static feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
-    { "HAVE_MOUSE", "Enable mouse/paddle/lightpen support",
+    { "HAVE_MOUSE", "Enable mouse/paddle support",
 #ifndef HAVE_MOUSE
+        0 },
+#else
+        1 },
+#endif
+/* (all) */
+    { "HAVE_LIGHTPEN", "Enable lightpen support",
+#if !defined(HAVE_MOUSE) || !defined(HAVE_LIGHTPEN)
         0 },
 #else
         1 },

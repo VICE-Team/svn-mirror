@@ -487,6 +487,7 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   dnl We always have a joystick and mouse on MSDOS.
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   AC_DEFINE(HAS_SINGLE_CANVAS,,[Is only one canvas supported?])
   AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
   AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
@@ -603,6 +604,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
 
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
   AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
   AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
@@ -687,6 +689,7 @@ elif test x"$enable_dingoo" = "xyes"; then
   CFLAGS="$CFLAGS -fdelayed-branch"
   LIBS="-Wl,-z,muldefs -static -nodefaultlibs -nostdlib -Wl,--script,$DINGOO_SDK/lib/dingoo.xn -L$DINGOO_SDK/lib -lm -lSDL -lfgl -lsml -lc -ljz4740 -lgcc"
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   AC_DEFINE(DINGOO_NATIVE,,[Enable native DINGOO compilation])
   AC_DEFINE(DINGOO,,[Enable DINGOO compilation])
   if test x"$enable_platformdox" = "xyes"; then
@@ -710,6 +713,7 @@ elif test x"$host_os" = "xdingux" -o x"$host_os" = "xdingoo" -o x"$host_os" = "x
 
   if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
     AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+    AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
     AC_DEFINE(DEBUG_ZFILE,,[Use debugging of the zfile])
     AC_DEFINE(DINGUX,,[Enable DINGUX compilation])
   else
@@ -910,6 +914,7 @@ dnl All other UN*X systems
 
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   if test x"$is_beos_x11" != "xyes"; then
     if test x"$enable_midi" != "xno"; then
       AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
@@ -3481,6 +3486,7 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   fi
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   AM_CONDITIONAL(SDL_COMPILE, true)
 else
   AM_CONDITIONAL(SDL_COMPILE, false)

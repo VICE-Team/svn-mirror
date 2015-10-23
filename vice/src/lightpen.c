@@ -289,9 +289,11 @@ static const resource_int_t resources_int[] = {
 
 int lightpen_resources_init(void)
 {
+#if defined(HAVE_MOUSE) && defined(HAVE_LIGHTPEN)
     if (lightpen_joyport_register() < 0) {
         return -1;
     }
+#endif
     return resources_register_int(resources_int);
 }
 
