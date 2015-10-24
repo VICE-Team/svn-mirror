@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "ui_file.h"
+#include "vicemenu.h"
 
 extern "C" {
 #include "cartridge.h"
@@ -200,6 +201,7 @@ void cbm5x0_ui_specific(void *msg, void *window)
 
 int cbm5x0ui_init_early(void)
 {
+    vicemenu_set_joyport_func(joyport_get_valid_devices);
     return 0;
 }
 
@@ -221,7 +223,6 @@ static void build_joyport_values(void)
 
 int cbm5x0ui_init(void)
 {
-    vicemenu_set_joyport_func(joyport_get_valid_devices);
     build_joyport_values();
     ui_register_machine_specific(cbm5x0_ui_specific);
     ui_register_menu_toggles(cbm5x0_ui_menu_toggles);
