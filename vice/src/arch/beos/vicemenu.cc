@@ -38,6 +38,12 @@
 #include "vicemenu.h"
 
 static BMenu *vsid_tune_menu;
+static joyport_desc_t *(*get_devices)(void) = NULL;
+
+void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(void))
+{
+    get_devices = gd;
+}
 
 void vicemenu_free_tune_menu(void)
 {
@@ -1063,9 +1069,9 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("TED ...", new BMessage(MENU_TED_SETTINGS)));
     }
 
-    if (machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PET) {
+    if (get_devices != NULL) {
         uppermenu->AddItem(menu = new BMenu("Joyport"));
-            devices = joyport_get_valid_devices();
+            devices = get_devices();
             menu->AddItem(submenu = new BMenu("Joyport 1 device"));
                 submenu->SetRadioMode(true);
                 for (i = 0; devices[i].name; ++i) {

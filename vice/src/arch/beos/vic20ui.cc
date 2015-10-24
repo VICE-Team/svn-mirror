@@ -377,6 +377,7 @@ static void build_joyport_values(void)
 
 int vic20ui_init(void)
 {
+    vicemenu_set_joyport_func(joyport_get_valid_devices);
     build_joyport_values();
     ui_register_machine_specific(vic20_ui_specific);
     ui_register_menu_toggles(vic20_ui_menu_toggles);

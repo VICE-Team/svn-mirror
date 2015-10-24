@@ -32,6 +32,10 @@
 extern BMenuBar *menu_create(int machine_class);
 
 extern "C" {
+
+#include "joyport.h"
+
+extern void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(void))
 extern void vicemenu_free_tune_menu(void);
 extern void vicemenu_tune_menu_add(int tune);
 }

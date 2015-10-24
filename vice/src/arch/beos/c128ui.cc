@@ -550,6 +550,7 @@ static void build_joyport_values(void)
 
 int c128ui_init(void)
 {
+    vicemenu_set_joyport_func(joyport_get_valid_devices);
     build_joyport_values();
     ui_register_machine_specific(c128_ui_specific);
     ui_register_menu_toggles(c128_ui_menu_toggles);

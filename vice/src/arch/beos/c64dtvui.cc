@@ -205,6 +205,7 @@ static void build_joyport_values(void)
 
 int c64dtvui_init(void)
 {
+    vicemenu_set_joyport_func(joyport_get_valid_devices);
     build_joyport_values();
     ui_register_machine_specific(c64dtv_ui_specific);
     ui_register_menu_toggles(c64dtv_ui_menu_toggles);
