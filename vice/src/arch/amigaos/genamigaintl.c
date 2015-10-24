@@ -213,6 +213,8 @@ static void generate_intl(char *in_filename, char *out_filename, char *table_fil
     fprintf(outfile, "};\n");
     fprintf(outfile, "#endif\n");
     fclose(outfile);
+
+    fprintf(outfile_table, "};\n");
     fclose(outfile_table);
     fclose(infile);
 }

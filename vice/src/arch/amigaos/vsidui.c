@@ -570,7 +570,7 @@ static int vsid_menu_handle(int idm)
             break;
 #endif
         case IDM_SOUND_RECORD_START:
-            ext = lib_stralloc("AIFF | VOC | WAV";
+            ext = lib_stralloc("AIFF | VOC | WAV");
 #ifdef USE_LAMEMP3
             tmp = util_concat(ext, " | MP3", NULL);
             lib_free(ext);
