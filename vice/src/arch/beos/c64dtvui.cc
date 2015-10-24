@@ -46,6 +46,7 @@ extern "C" {
 #include "c64dtvmodel.h"
 #include "cartridge.h"
 #include "constants.h"
+#include "joyport.h"
 #include "keyboard.h"
 #include "resources.h"
 #include "types.h"
@@ -83,6 +84,9 @@ ui_menu_toggle  c64dtv_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+ui_res_possible_values c64dtv_JoyPort1Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values c64dtv_JoyPort2Device[JOYPORT_MAX_DEVICES + 1];
+
 ui_res_possible_values C64DTVRenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
     { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
@@ -99,6 +103,8 @@ ui_res_possible_values C64DTVRevision[] = {
 ui_res_value_list c64dtv_ui_res_values[] = {
     { "VICIIFilter", C64DTVRenderFilters },
     { "DtvRevision", C64DTVRevision },
+    { "JoyPort1Device", c64dtv_JoyPort1Device },
+    { "JoyPort2Device", c64dtv_JoyPort2Device },
     { NULL, NULL }
 };
 
@@ -181,8 +187,25 @@ int c64dtvui_init_early(void)
     return 0;
 }
 
+static void build_joyport_values(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        c64dtv_JoyPort1Device[i].value = i;
+        c64dtv_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
+        c64dtv_JoyPort2Device[i].value = i;
+        c64dtv_JoyPort2Device[i].item_id = MENU_JOYPORT2_00 + i;
+    }
+    c64dtv_JoyPort1Device[i].value = -1;
+    c64dtv_JoyPort1Device[i].item_id = 0;
+    c64dtv_JoyPort2Device[i].value = -1;
+    c64dtv_JoyPort2Device[i].item_id = 0;
+}
+
 int c64dtvui_init(void)
 {
+    build_joyport_values();
     ui_register_machine_specific(c64dtv_ui_specific);
     ui_register_menu_toggles(c64dtv_ui_menu_toggles);
     ui_register_res_values(c64dtv_ui_res_values);

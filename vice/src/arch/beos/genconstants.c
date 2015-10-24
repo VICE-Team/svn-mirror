@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "joyport.h"
+
 /* found definitions */
 #define UNKNOWN  -1
 #define FOUND_MENU_ID 0
@@ -58,6 +60,7 @@ int main(int argc, char *argv[])
     FILE *infile, *outfile;
     int found = UNKNOWN;
     int counter = 0;
+    int i;
 
     if (argc < 2) {
         printf("too few arguments\n");
@@ -122,6 +125,13 @@ int main(int argc, char *argv[])
     fprintf(outfile, "const uint32 PLAY_VSID                            = 'MA00';\n");
     fprintf(outfile, "const uint32 ATTACH_C64_CART                      = 'MA01';\n");
     fprintf(outfile, "const uint32 ATTACH_VIC20_CART                    = 'MA02';\n");
+    fprintf(outfile, "\n");
+
+    /* Generate MJ00-MJxx & MK00-MKxx for joyport usage */
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        fprintf(outfile, "const uint32 MENU_JOYPORT1_%02d = 'MJ%02d';\n", i, i);
+        fprintf(outfile, "const uint32 MENU_JOYPORT2_%02d = 'MK%02d';\n", i, i);
+    }
     fprintf(outfile, "\n");
 
     while (!feof(infile)) {

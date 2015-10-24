@@ -37,6 +37,7 @@ extern "C" {
 #include "cbm2model.h"
 #include "cbm2ui.h"
 #include "constants.h"
+#include "joyport.h"
 #include "ui.h"
 #include "ui_cbm5x0.h"
 #include "ui_drive.h"
@@ -75,6 +76,9 @@ ui_res_possible_values cbm5x0AciaDevice[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values cbm5x0_JoyPort1Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values cbm5x0_JoyPort2Device[JOYPORT_MAX_DEVICES + 1];
+
 ui_res_possible_values cbm5x0RenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
     { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
@@ -92,6 +96,8 @@ ui_res_value_list cbm5x0_ui_res_values[] = {
     { "Acia1Dev", cbm5x0AciaDevice },
     { "VICIIFilter", cbm5x0RenderFilters },
     { "CIA1Model", cbm5x0_cia1models },
+    { "JoyPort1Device", cbm5x0_JoyPort1Device },
+    { "JoyPort2Device", cbm5x0_JoyPort2Device },
     { NULL, NULL }
 };
 
@@ -197,8 +203,25 @@ int cbm5x0ui_init_early(void)
     return 0;
 }
 
+static void build_joyport_values(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        cbm5x0_JoyPort1Device[i].value = i;
+        cbm5x0_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
+        cbm5x0_JoyPort2Device[i].value = i;
+        cbm5x0_JoyPort2Device[i].item_id = MENU_JOYPORT2_00 + i;
+    }
+    cbm5x0_JoyPort1Device[i].value = -1;
+    cbm5x0_JoyPort1Device[i].item_id = 0;
+    cbm5x0_JoyPort2Device[i].value = -1;
+    cbm5x0_JoyPort2Device[i].item_id = 0;
+}
+
 int cbm5x0ui_init(void)
 {
+    build_joyport_values();
     ui_register_machine_specific(cbm5x0_ui_specific);
     ui_register_menu_toggles(cbm5x0_ui_menu_toggles);
     ui_register_res_values(cbm5x0_ui_res_values);

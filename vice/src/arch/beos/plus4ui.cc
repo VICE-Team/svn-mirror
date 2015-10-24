@@ -44,6 +44,7 @@
 extern "C" {
 #include "cartridge.h"
 #include "constants.h"
+#include "joyport.h"
 #include "plus4cart.h"
 #include "plus4model.h"
 #include "plus4ui.h"
@@ -82,6 +83,9 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+ui_res_possible_values plus4_JoyPort1Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values plus4_JoyPort2Device[JOYPORT_MAX_DEVICES + 1];
+
 ui_res_possible_values plus4AciaDevice[] = {
     { 1, MENU_ACIA_RS323_DEVICE_1 },
     { 2, MENU_ACIA_RS323_DEVICE_2 },
@@ -100,6 +104,8 @@ ui_res_possible_values plus4_RenderFilters[] = {
 ui_res_value_list plus4_ui_res_values[] = {
     { "Acia1Dev", plus4AciaDevice },
     { "TEDFilter", plus4_RenderFilters },
+    { "JoyPort1Device", plus4_JoyPort1Device },
+    { "JoyPort2Device", plus4_JoyPort2Device },
     { NULL, NULL }
 };
 
@@ -235,8 +241,25 @@ int plus4ui_init_early(void)
     return 0;
 }
 
+static void build_joyport_values(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        plus4_JoyPort1Device[i].value = i;
+        plus4_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
+        plus4_JoyPort2Device[i].value = i;
+        plus4_JoyPort2Device[i].item_id = MENU_JOYPORT2_00 + i;
+    }
+    plus4_JoyPort1Device[i].value = -1;
+    plus4_JoyPort1Device[i].item_id = 0;
+    plus4_JoyPort2Device[i].value = -1;
+    plus4_JoyPort2Device[i].item_id = 0;
+}
+
 int plus4ui_init(void)
 {
+    build_joyport_values();
     ui_register_machine_specific(plus4_ui_specific);
     ui_register_menu_toggles(plus4_ui_menu_toggles);
     ui_register_res_values(plus4_ui_res_values);

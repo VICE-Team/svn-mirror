@@ -33,6 +33,7 @@
 #include <stdio.h>
 
 #include "constants.h"
+#include "joyport.h"
 #include "machine.h"
 #include "vicemenu.h"
 
@@ -79,6 +80,8 @@ BMenuBar *menu_create(int machine_class)
     BMenuBar *menubar;
     BMenu *uppermenu, *menu, *submenu, *extsubmenu;
     BMenuItem *item;
+    uint32 i;
+    joyport_desc_t *devices = NULL;
 
     menubar = new BMenuBar(BRect(0, 0, 10, 10), "Menubar");
 
@@ -1058,6 +1061,23 @@ BMenuBar *menu_create(int machine_class)
 
     if (machine_class == VICE_MACHINE_PLUS4) {
         uppermenu->AddItem(new BMenuItem("TED ...", new BMessage(MENU_TED_SETTINGS)));
+    }
+
+    if (machine_class != VICE_MACHINE_CBM2 && machine_class != VICE_MACHINE_PET) {
+        uppermenu->AddItem(menu = new BMenu("Joyport"));
+            devices = joyport_get_valid_devices();
+            menu->AddItem(submenu = new BMenu("Joyport 1 device"));
+                submenu->SetRadioMode(true);
+                for (i = 0; devices[i].name; ++i) {
+                    submenu->AddItem(new BMenuItem(devices[i].name, new BMessage(MENU_JOYPORT1_00 + devices[i].id)));
+                }
+            if (machine_class != VICE_MACHINE_VIC20) {
+                menu->AddItem(submenu = new BMenu("Joyport 2 device"));
+                    submenu->SetRadioMode(true);
+                    for (i = 0; devices[i].name; ++i) {
+                        submenu->AddItem(new BMenuItem(devices[i].name, new BMessage(MENU_JOYPORT2_00 + devices[i].id)));
+                    }
+            }
     }
 
     if (machine_class != VICE_MACHINE_VSID) {

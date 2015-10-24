@@ -44,6 +44,7 @@ extern "C" {
 #include "c64model.h"
 #include "cartridge.h"
 #include "constants.h"
+#include "joyport.h"
 #include "keyboard.h"
 #include "mouse.h"
 #include "resources.h"
@@ -140,6 +141,9 @@ ui_res_possible_values scpu64AciaDevice[] = {
     { 4, MENU_ACIA_RS323_DEVICE_4 },
     { -1, 0 }
 };
+
+ui_res_possible_values scpu64_JoyPort1Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values scpu64_JoyPort2Device[JOYPORT_MAX_DEVICES + 1];
 
 ui_res_possible_values scpu64AciaBase[] = {
     { 0xde00, MENU_ACIA_BASE_DE00 },
@@ -368,6 +372,8 @@ ui_res_value_list scpu64_ui_res_values[] = {
     { "RRrevision", scpu64RRrevs },
     { "DS12C887RTCbase", scpu64_DS12C887RTC_base },
     { "IDE64version", scpu64ui_IDE64version },
+    { "JoyPort1Device", scpu64_JoyPort1Device },
+    { "JoyPort2Device", scpu64_JoyPort2Device },
     { NULL, NULL }
 };
 
@@ -602,8 +608,25 @@ int scpu64ui_init_early(void)
     return 0;
 }
 
+static void build_joyport_values(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        scpu64_JoyPort1Device[i].value = i;
+        scpu64_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
+        scpu64_JoyPort2Device[i].value = i;
+        scpu64_JoyPort2Device[i].item_id = MENU_JOYPORT2_00 + i;
+    }
+    scpu64_JoyPort1Device[i].value = -1;
+    scpu64_JoyPort1Device[i].item_id = 0;
+    scpu64_JoyPort2Device[i].value = -1;
+    scpu64_JoyPort2Device[i].item_id = 0;
+}
+
 int scpu64ui_init(void)
 {
+    build_joyport_values();
     ui_register_machine_specific(scpu64_ui_specific);
     ui_register_menu_toggles(scpu64_ui_menu_toggles);
     ui_register_res_values(scpu64_ui_res_values);

@@ -43,6 +43,7 @@ extern "C" {
 #include "archdep.h"
 #include "cartridge.h"
 #include "constants.h"
+#include "joyport.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -133,6 +134,8 @@ ui_res_possible_values vic20AciaMode[] = {
 };
 #endif
 
+ui_res_possible_values vic20_JoyPort1Device[JOYPORT_MAX_DEVICES + 1];
+
 ui_res_possible_values vic20GeoRAMSize[] = {
     { 64, MENU_GEORAM_SIZE_64 },
     { 128, MENU_GEORAM_SIZE_128 },
@@ -195,6 +198,7 @@ ui_res_value_list vic20_ui_res_values[] = {
     { "SFXSoundExpanderChip", vic20SFXSoundExpanderChip },
     { "VICFilter", vic20_RenderFilters },
     { "DS12C887RTCbase", vic20_DS12C887RTC_base },
+    { "JoyPort1Device", vic20_JoyPort1Device },
     { NULL, NULL }
 };
 
@@ -359,8 +363,21 @@ int vic20ui_init_early(void)
     return 0;
 }
 
+static void build_joyport_values(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        vic20_JoyPort1Device[i].value = i;
+        vic20_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
+    }
+    vic20_JoyPort1Device[i].value = -1;
+    vic20_JoyPort1Device[i].item_id = 0;
+}
+
 int vic20ui_init(void)
 {
+    build_joyport_values();
     ui_register_machine_specific(vic20_ui_specific);
     ui_register_menu_toggles(vic20_ui_menu_toggles);
     ui_register_res_values(vic20_ui_res_values);

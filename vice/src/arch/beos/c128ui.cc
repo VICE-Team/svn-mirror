@@ -45,6 +45,7 @@ extern "C" {
 #include "c128ui.h"
 #include "cartridge.h"
 #include "constants.h"
+#include "joyport.h"
 #include "mouse.h"
 #include "resources.h"
 #include "types.h"
@@ -153,6 +154,9 @@ ui_res_possible_values c128AciaMode[] = {
     { -1, 0 }
 };
 #endif
+
+ui_res_possible_values c128_JoyPort1Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values c128_JoyPort2Device[JOYPORT_MAX_DEVICES + 1];
 
 ui_res_possible_values c128ReuSize[] = {
     { 128, MENU_REU_SIZE_128 },
@@ -329,6 +333,8 @@ ui_res_value_list c128_ui_res_values[] = {
     { "ExternalFunctionROM", external_function_rom },
     { "DS12C887RTCbase", c128_DS12C887RTC_base },
     { "IDE64version", c128_IDE64version },
+    { "JoyPort1Device", c128_JoyPort1Device },
+    { "JoyPort2Device", c128_JoyPort2Device },
     { NULL, NULL }
 };
 
@@ -526,8 +532,25 @@ int c128ui_init_early(void)
     return 0;
 }
 
+static void build_joyport_values(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        c128_JoyPort1Device[i].value = i;
+        c128_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
+        c128_JoyPort2Device[i].value = i;
+        c128_JoyPort2Device[i].item_id = MENU_JOYPORT2_00 + i;
+    }
+    c128_JoyPort1Device[i].value = -1;
+    c128_JoyPort1Device[i].item_id = 0;
+    c128_JoyPort2Device[i].value = -1;
+    c128_JoyPort2Device[i].item_id = 0;
+}
+
 int c128ui_init(void)
 {
+    build_joyport_values();
     ui_register_machine_specific(c128_ui_specific);
     ui_register_menu_toggles(c128_ui_menu_toggles);
     ui_register_res_values(c128_ui_res_values);
