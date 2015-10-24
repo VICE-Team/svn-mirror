@@ -1063,7 +1063,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("TED ...", new BMessage(MENU_TED_SETTINGS)));
     }
 
-    if (machine_class != VICE_MACHINE_CBM2 && machine_class != VICE_MACHINE_PET) {
+    if (machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PET) {
         uppermenu->AddItem(menu = new BMenu("Joyport"));
             devices = joyport_get_valid_devices();
             menu->AddItem(submenu = new BMenu("Joyport 1 device"));

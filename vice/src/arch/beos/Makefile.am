@@ -116,7 +116,7 @@ BUILT_SOURCES = constants.h
 
 if NATIVE_TOOLS
 genconstants:	$(srcdir)/genconstants.c
-	$(NATIVE_TOOLS_COMPILER) -o genconstants $(srcdir)/genconstants.c
+	$(NATIVE_TOOLS_COMPILER) -o genconstants $(srcdir)/genconstants.c -I$(top_srcdir)/src @ARCH_INCLUDES@
 
 constants.h:	$(srcdir)/constants.txt genconstants
 	./genconstants $(srcdir)/constants.txt constants.h
