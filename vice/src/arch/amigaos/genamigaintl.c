@@ -210,6 +210,8 @@ static void generate_intl(char *in_filename, char *out_filename, char *table_fil
         line_size = get_line(infile);
     }
 
+    fprintf(outfile, "};\n");
+    fprintf(outfile, "#endif\n");
     fclose(outfile);
     fclose(outfile_table);
     fclose(infile);
