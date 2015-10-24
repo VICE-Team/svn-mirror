@@ -507,8 +507,7 @@ int machine_specific_init(void)
 
     machine_drive_stub();
 
-#if defined (USE_XF86_EXTENSIONS) && \
-    (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
+#if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {
         /* set fullscreen if user used `-fullscreen' on cmdline */
         int fs;
