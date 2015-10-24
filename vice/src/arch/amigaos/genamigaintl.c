@@ -186,18 +186,18 @@ static void generate_intl(char *in_filename, char *out_filename, char *table_fil
             fprintf(outfile, "%s_SV,", line_buffer);
             fprintf(outfile, "%s_TR,", line_buffer);
             fprintf(outfile_table, "/* en */ {%s,\n", line_buffer);
-            fprintf(outfile_table, "/* da */ {%s_DA,\n", line_buffer);
-            fprintf(outfile_table, "/* de */ {%s_DE,\n", line_buffer);
-            fprintf(outfile_table, "/* es */ {%s_ES,\n", line_buffer);
-            fprintf(outfile_table, "/* fr */ {%s_FR,\n", line_buffer);
-            fprintf(outfile_table, "/* hu */ {%s_HU,\n", line_buffer);
-            fprintf(outfile_table, "/* it */ {%s_IT,\n", line_buffer);
-            fprintf(outfile_table, "/* ko */ {%s_KO,\n", line_buffer);
-            fprintf(outfile_table, "/* nl */ {%s_NL,\n", line_buffer);
-            fprintf(outfile_table, "/* pl */ {%s_PL,\n", line_buffer);
-            fprintf(outfile_table, "/* ru */ {%s_RU,\n", line_buffer);
-            fprintf(outfile_table, "/* sv */ {%s_SV,\n", line_buffer);
-            fprintf(outfile_table, "/* tr */ {%s_TR},\n\n", line_buffer);
+            fprintf(outfile_table, "/* da */ %s_DA,\n", line_buffer);
+            fprintf(outfile_table, "/* de */ %s_DE,\n", line_buffer);
+            fprintf(outfile_table, "/* es */ %s_ES,\n", line_buffer);
+            fprintf(outfile_table, "/* fr */ %s_FR,\n", line_buffer);
+            fprintf(outfile_table, "/* hu */ %s_HU,\n", line_buffer);
+            fprintf(outfile_table, "/* it */ %s_IT,\n", line_buffer);
+            fprintf(outfile_table, "/* ko */ %s_KO,\n", line_buffer);
+            fprintf(outfile_table, "/* nl */ %s_NL,\n", line_buffer);
+            fprintf(outfile_table, "/* pl */ %s_PL,\n", line_buffer);
+            fprintf(outfile_table, "/* ru */ %s_RU,\n", line_buffer);
+            fprintf(outfile_table, "/* sv */ %s_SV,\n", line_buffer);
+            fprintf(outfile_table, "/* tr */ %s_TR},\n\n", line_buffer);
         } else {
             if (line_size) {
                 fprintf(outfile, "%s\n", line_buffer);
