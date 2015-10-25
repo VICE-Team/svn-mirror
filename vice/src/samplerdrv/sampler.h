@@ -36,6 +36,11 @@
 #define SAMPLER_OPEN_MONO   1
 #define SAMPLER_OPEN_STEREO 2
 
+#define SAMPLER_DEVICE_FILE        0
+#define SAMPLER_DEVICE_PORTAUDIO   1
+
+#define SAMPLER_MAX_DEVICES        2
+
 typedef struct sampler_device_s {
     const char *name;
     void (*open)(int channels);
@@ -48,7 +53,7 @@ extern void sampler_start(int channels);
 extern void sampler_stop(void);
 extern BYTE sampler_get_sample(int channel);
 
-extern void sampler_device_register(sampler_device_t *device);
+extern void sampler_device_register(sampler_device_t *device, int id);
 
 extern int sampler_resources_init(void);
 extern void sampler_resources_shutdown(void);

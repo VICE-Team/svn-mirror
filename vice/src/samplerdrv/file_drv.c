@@ -2080,5 +2080,5 @@ static sampler_device_t file_device =
 
 void fileaudio_init(void)
 {
-    sampler_device_register(&file_device);
+    sampler_device_register(&file_device, SAMPLER_DEVICE_FILE);
 }

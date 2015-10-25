@@ -84,18 +84,17 @@ BYTE sampler_get_sample(int channel)
     return 0x80;
 }
 
-void sampler_device_register(sampler_device_t *device)
+void sampler_device_register(sampler_device_t *device, int id)
 {
-    int i;
-
-    for (i = 0; devices[i].name; ++i) {
+    if (id >= SAMPLER_MAX_DEVICES || id < 0) {
+        return;
     }
 
-    devices[i].name = device->name;
-    devices[i].open = device->open;
-    devices[i].close = device->close;
-    devices[i].get_sample = device->get_sample;
-    devices[i].shutdown = device->shutdown;
+    devices[id].name = device->name;
+    devices[id].open = device->open;
+    devices[id].close = device->close;
+    devices[id].get_sample = device->get_sample;
+    devices[id].shutdown = device->shutdown;
 }
 
 /* Currently unused, provided for future expansion */

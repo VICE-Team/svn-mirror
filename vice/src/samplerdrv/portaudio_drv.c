@@ -193,6 +193,6 @@ static sampler_device_t portaudio_device =
 
 void portaudio_init(void)
 {
-    sampler_device_register(&portaudio_device);
+    sampler_device_register(&portaudio_device, SAMPLER_DEVICE_PORTAUDIO);
 }
 #endif
