@@ -51,4 +51,12 @@ const ui_menu_entry_t mouse_menu[] = {
       NULL },
     SDL_MENU_LIST_END
 };
+
+const ui_menu_entry_t mouse_grab_menu[] = {
+    { "Grab mouse events",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_Mouse_callback,
+      NULL },
+    SDL_MENU_LIST_END
+};
 #endif
