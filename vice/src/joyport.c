@@ -311,6 +311,100 @@ int joyport_resources_init(int pot_present, int ports)
 
 /* ------------------------------------------------------------------------- */
 
+struct joyport_opt_s {
+    const char *name;
+    int id;
+};
+
+static struct joyport_opt_s id_match[] = {
+    { "0",               JOYPORT_ID_NONE },
+    { "none",            JOYPORT_ID_NONE },
+    { "1",               JOYPORT_ID_JOY1 },
+    { "joy1",            JOYPORT_ID_JOY1 },
+    { "2",               JOYPORT_ID_JOY2 },
+    { "joy2",            JOYPORT_ID_JOY2 },
+    { "3",               JOYPORT_ID_JOY3 },
+    { "joy3",            JOYPORT_ID_JOY3 },
+    { "4",               JOYPORT_ID_JOY4 },
+    { "joy4",            JOYPORT_ID_JOY4 },
+    { "5",               JOYPORT_ID_PADDLES },
+    { "paddles",         JOYPORT_ID_PADDLES },
+    { "6",               JOYPORT_ID_MOUSE_1351 },
+    { "1351",            JOYPORT_ID_MOUSE_1351 },
+    { "1351mouse",       JOYPORT_ID_MOUSE_1351 },
+    { "7",               JOYPORT_ID_MOUSE_NEOS },
+    { "neos",            JOYPORT_ID_MOUSE_NEOS },
+    { "neosmouse",       JOYPORT_ID_MOUSE_NEOS },
+    { "8",               JOYPORT_ID_MOUSE_AMIGA },
+    { "amiga",           JOYPORT_ID_MOUSE_AMIGA },
+    { "amigamouse",      JOYPORT_ID_MOUSE_AMIGA },
+    { "9",               JOYPORT_ID_MOUSE_CX22 },
+    { "cx22",            JOYPORT_ID_MOUSE_CX22 },
+    { "cx22mouse",       JOYPORT_ID_MOUSE_CX22 },
+    { "10",              JOYPORT_ID_MOUSE_ST },
+    { "st",              JOYPORT_ID_MOUSE_ST },
+    { "atarist",         JOYPORT_ID_MOUSE_ST },
+    { "stmouse",         JOYPORT_ID_MOUSE_ST },
+    { "ataristmouse",    JOYPORT_ID_MOUSE_ST },
+    { "11",              JOYPORT_ID_MOUSE_SMART },
+    { "smart",           JOYPORT_ID_MOUSE_SMART },
+    { "smartmouse",      JOYPORT_ID_MOUSE_SMART },
+    { "12",              JOYPORT_ID_MOUSE_MICROMYS },
+    { "micromys",        JOYPORT_ID_MOUSE_MICROMYS },
+    { "micromysmouse",   JOYPORT_ID_MOUSE_MICROMYS },
+    { "13",              JOYPORT_ID_KOALAPAD },
+    { "koalapad",        JOYPORT_ID_KOALAPAD },
+    { "14",              JOYPORT_ID_LIGHTPEN_U },
+    { "lpup",            JOYPORT_ID_LIGHTPEN_U },
+    { "lightpenup",      JOYPORT_ID_LIGHTPEN_U },
+    { "15",              JOYPORT_ID_LIGHTPEN_L },
+    { "lpleft",          JOYPORT_ID_LIGHTPEN_L },
+    { "lightpenleft",    JOYPORT_ID_LIGHTPEN_L },
+    { "16",              JOYPORT_ID_LIGHTPEN_DATEL },
+    { "lpdatel",         JOYPORT_ID_LIGHTPEN_DATEL },
+    { "lightpendatel",   JOYPORT_ID_LIGHTPEN_DATEL },
+    { "datellightpen",   JOYPORT_ID_LIGHTPEN_DATEL },
+    { "17",              JOYPORT_ID_LIGHTGUN_Y },
+    { "magnum",          JOYPORT_ID_LIGHTGUN_Y },
+    { "18",              JOYPORT_ID_LIGHTGUN_L },
+    { "stack",           JOYPORT_ID_LIGHTGUN_L },
+    { "slr",             JOYPORT_ID_LIGHTGUN_L },
+    { "19",              JOYPORT_ID_LIGHTPEN_INKWELL },
+    { "lpinkwell",       JOYPORT_ID_LIGHTPEN_INKWELL },
+    { "lightpeninkwell", JOYPORT_ID_LIGHTPEN_INKWELL },
+    { "inkwelllightpen", JOYPORT_ID_LIGHTPEN_INKWELL },
+    { NULL, -1 }
+};
+
+static int set_joyport_cmdline_device(const char *param, void *extra_param)
+{
+    int temp = -1;
+    int i = 0;
+    int port = (int)extra_param;
+
+    if (!param) {
+        return -1;
+    }
+
+    do {
+        if (strcmp(id_match[i].name, param) == 0) {
+            temp = id_match[i].id;
+        }
+        i++;
+    } while ((temp == -1) && (id_match[i].name != NULL));
+
+    if (temp == -1) {
+        return -1;
+    }
+
+    if (port == 1) {
+        return set_joyport1_device(temp, NULL);
+    }
+    return set_joyport2_device(temp, NULL);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static char *build_joyport_string(int id)
 {
     int i = 0;
@@ -339,8 +433,8 @@ static char *build_joyport_string(int id)
 
 static cmdline_option_t cmdline_options_port1[] =
 {
-    { "-joyport1device", SET_RESOURCE, 1,
-      NULL, NULL, "JoyPort1Device", NULL,
+    { "-joyport1device", CALL_FUNCTION, 1,
+      set_joyport_cmdline_device, (void *)1, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, 1,
       NULL, NULL },
@@ -349,8 +443,8 @@ static cmdline_option_t cmdline_options_port1[] =
 
 static cmdline_option_t cmdline_options_port2[] =
 {
-    { "-joyport2device", SET_RESOURCE, 1,
-      NULL, NULL, "JoyPort2Device", NULL,
+    { "-joyport2device", CALL_FUNCTION, 1,
+      set_joyport_cmdline_device, (void *)2, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, 2,
       NULL, NULL },
