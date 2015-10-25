@@ -45,6 +45,7 @@
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
+#include "mui/uimouse.h"
 #include "mui/uiprinter.h"
 #include "mui/uiromvic20settings.h"
 #include "mui/uirs232user.h"
@@ -65,6 +66,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "FinalExpansionWriteBack", IDM_FINAL_EXPANSION_WRITEBACK },
     { "MegaCartNvRAMWriteBack", IDM_MEGACART_WRITEBACK },
     { "VicFlashPluginWriteBack", IDM_FP_WRITEBACK },
+    { "Mouse", IDM_MOUSE },
     { NULL, 0 }
 };
 
@@ -194,6 +196,9 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_SFX_SS_SETTINGS:
             ui_soundsampler_settings_dialog(canvas);
+            break;
+        case IDM_MOUSE_SETTINGS:
+            ui_mouse_settings_dialog();
             break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

@@ -45,6 +45,7 @@
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
+#include "mui/uimouse.h"
 #include "mui/uiprinter.h"
 #include "mui/uiromcbm2settings.h"
 #include "mui/uisid.h"
@@ -56,6 +57,7 @@ static const ui_menu_toggle_t cbm5x0_ui_menu_toggles[] = {
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "VICIIAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { "Mouse", IDM_MOUSE },
     { NULL, 0 }
 };
 
@@ -156,6 +158,9 @@ static int cbm5x0_ui_specific(video_canvas_t *canvas, int idm)
             ui_joystick_fire_cbm5x0_dialog();
             break;
 #endif
+        case IDM_MOUSE_SETTINGS:
+            ui_mouse_settings_dialog();
+            break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
             break;

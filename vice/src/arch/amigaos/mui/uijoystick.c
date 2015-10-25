@@ -160,12 +160,12 @@ static APTR build_gui_c64(void)
                    MUIA_Group_Horiz, TRUE,
                    Child, GroupObject,
                      MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_1),
                      CYCLE(ui_to_from[0].object, "", ui_joystick)
                    End,
                    Child, GroupObject,
                      MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_2),
                      CYCLE(ui_to_from[1].object, "", ui_joystick)
                    End,
                  End,
@@ -227,12 +227,12 @@ static APTR build_gui_c64dtv(void)
                    MUIA_Group_Horiz, TRUE,
                    Child, GroupObject,
                      MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_1),
                      CYCLE(ui_to_from[0].object, "", ui_joystick)
                    End,
                    Child, GroupObject,
                      MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_2),
                      CYCLE(ui_to_from[1].object, "", ui_joystick)
                    End,
                  End,
@@ -294,12 +294,12 @@ static APTR build_gui_cbm5x0(void)
                    MUIA_Group_Horiz, TRUE,
                    Child, GroupObject,
                      MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_1),
                      CYCLE(ui_to_from[0].object, "", ui_joystick)
                    End,
                    Child, GroupObject,
                      MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_2),
                      CYCLE(ui_to_from[1].object, "", ui_joystick)
                    End,
                  End,
@@ -386,7 +386,7 @@ static APTR build_gui_vic20(void)
                    MUIA_Group_Horiz, TRUE,
                    Child, GroupObject,
                      MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_1),
                      CYCLE(ui_to_from[0].object, "", ui_joystick)
                    End,
                  End,
@@ -448,12 +448,12 @@ static APTR build_gui_plus4(void)
                    MUIA_Group_Horiz, TRUE,
                    Child, GroupObject,
                      MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_1),
                      CYCLE(ui_to_from_plus4[0].object, "", ui_joystick)
                    End,
                    Child, GroupObject,
                      MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_2),
                      CYCLE(ui_to_from_plus4[1].object, "", ui_joystick)
                    End,
                  End,

@@ -46,6 +46,7 @@
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
+#include "mui/uimouse.h"
 #include "mui/uiplus4settings.h"
 #include "mui/uiprinter.h"
 #include "mui/uiromplus4settings.h"
@@ -60,6 +61,7 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "TEDAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { "Mouse", IDM_MOUSE },
     { NULL, 0 }
 };
 

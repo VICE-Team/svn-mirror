@@ -2210,20 +2210,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_VIC_1112_IEEE_488_SV, "VIC-1112 IEEE-488-modul" },
 /* tr */ { IDMS_VIC_1112_IEEE_488_TR, "VIC-1112 IEEE-488 modülü" },
 
-/* en */ { IDMS_ENABLE_PADDLES,    "Enable paddles" },
-/* da */ { IDMS_ENABLE_PADDLES_DA, "Aktivér paddles" },
-/* de */ { IDMS_ENABLE_PADDLES_DE, "Paddles aktivieren" },
-/* es */ { IDMS_ENABLE_PADDLES_ES, "Permitir paddles" },
-/* fr */ { IDMS_ENABLE_PADDLES_FR, "Activer paddles" },
-/* hu */ { IDMS_ENABLE_PADDLES_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ENABLE_PADDLES_IT, "Attiva paddle" },
-/* ko */ { IDMS_ENABLE_PADDLES_KO, "ÆÐµð½º »ç¿ë°¡´ÉÇÏ°Ô ÇÏ±â" },
-/* nl */ { IDMS_ENABLE_PADDLES_NL, "Activeer paddles" },
-/* pl */ { IDMS_ENABLE_PADDLES_PL, "W³±cz pokrêt³a steruj±ce" },
-/* ru */ { IDMS_ENABLE_PADDLES_RU, "Enable paddles" },
-/* sv */ { IDMS_ENABLE_PADDLES_SV, "Aktivera paddlar" },
-/* tr */ { IDMS_ENABLE_PADDLES_TR, "Paddlelarý aktif et" },
-
 /* en */ { IDMS_IEEE_488_INTERFACE,    "IEEE488 Interface emulation" },
 /* da */ { IDMS_IEEE_488_INTERFACE_DA, "Emulering af IEEE488-interface" },
 /* de */ { IDMS_IEEE_488_INTERFACE_DE, "IEEE488 Schnittstellen-Emulation" },
@@ -7334,33 +7320,33 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_CONFIG_FILENAME_SELECT_SV, "Ange inställningsfil" },
 /* tr */ { IDS_CONFIG_FILENAME_SELECT_TR, "Konfigürasyon dosyasýný seçin" },
 
-/* en */ { IDS_JOYSTICK_IN_PORT_1,    "Joystick in port #1" },
-/* da */ { IDS_JOYSTICK_IN_PORT_1_DA, "Joystick i port 1" },
-/* de */ { IDS_JOYSTICK_IN_PORT_1_DE, "Joystick in Port #1" },
-/* es */ { IDS_JOYSTICK_IN_PORT_1_ES, "Joystick en puerto #1" },
-/* fr */ { IDS_JOYSTICK_IN_PORT_1_FR, "Joystick dans le port #1" },
-/* hu */ { IDS_JOYSTICK_IN_PORT_1_HU, "Botkormány az 1-es porton" },
-/* it */ { IDS_JOYSTICK_IN_PORT_1_IT, "Joystick nella porta #1" },
-/* ko */ { IDS_JOYSTICK_IN_PORT_1_KO, "1¹ø Æ÷Æ® Á¶ÀÌ½ºÆ½" },
-/* nl */ { IDS_JOYSTICK_IN_PORT_1_NL, "Joystick in poort #1" },
-/* pl */ { IDS_JOYSTICK_IN_PORT_1_PL, "Joystick w porcie #1" },
-/* ru */ { IDS_JOYSTICK_IN_PORT_1_RU, "´ÖÞÙáâØÚ Ò ßÞàâÕ 1" },
-/* sv */ { IDS_JOYSTICK_IN_PORT_1_SV, "Styrspak i spelport 1" },
-/* tr */ { IDS_JOYSTICK_IN_PORT_1_TR, "Joystick port #1'de" },
+/* en */ { IDS_JOYSTICK_1,    "Joystick #1" },
+/* da */ { IDS_JOYSTICK_1_DA, "" },  /* fuzzy */
+/* de */ { IDS_JOYSTICK_1_DE, "" },  /* fuzzy */
+/* es */ { IDS_JOYSTICK_1_ES, "" },  /* fuzzy */
+/* fr */ { IDS_JOYSTICK_1_FR, "" },  /* fuzzy */
+/* hu */ { IDS_JOYSTICK_1_HU, "" },  /* fuzzy */
+/* it */ { IDS_JOYSTICK_1_IT, "" },  /* fuzzy */
+/* ko */ { IDS_JOYSTICK_1_KO, "" },  /* fuzzy */
+/* nl */ { IDS_JOYSTICK_1_NL, "" },  /* fuzzy */
+/* pl */ { IDS_JOYSTICK_1_PL, "" },  /* fuzzy */
+/* ru */ { IDS_JOYSTICK_1_RU, "" },  /* fuzzy */
+/* sv */ { IDS_JOYSTICK_1_SV, "" },  /* fuzzy */
+/* tr */ { IDS_JOYSTICK_1_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_JOYSTICK_IN_PORT_2,    "Joystick in port #2" },
-/* da */ { IDS_JOYSTICK_IN_PORT_2_DA, "Joystick i port 2" },
-/* de */ { IDS_JOYSTICK_IN_PORT_2_DE, "Joystick in Port #2" },
-/* es */ { IDS_JOYSTICK_IN_PORT_2_ES, "Joystick en puerto #2" },
-/* fr */ { IDS_JOYSTICK_IN_PORT_2_FR, "Joystick dans le port #2" },
-/* hu */ { IDS_JOYSTICK_IN_PORT_2_HU, "Botkormány a 2-es porton" },
-/* it */ { IDS_JOYSTICK_IN_PORT_2_IT, "Joystick nella porta #2" },
-/* ko */ { IDS_JOYSTICK_IN_PORT_2_KO, "2¹ø Æ÷Æ® Á¶ÀÌ½ºÆ½" },
-/* nl */ { IDS_JOYSTICK_IN_PORT_2_NL, "Joystick in poort #2" },
-/* pl */ { IDS_JOYSTICK_IN_PORT_2_PL, "Joystick w porcie #2" },
-/* ru */ { IDS_JOYSTICK_IN_PORT_2_RU, "´ÖÞÙáâØÚ Ò ßÞàâÕ 2" },
-/* sv */ { IDS_JOYSTICK_IN_PORT_2_SV, "Styrspak i spelport 2" },
-/* tr */ { IDS_JOYSTICK_IN_PORT_2_TR, "Joystick port #2'de" },
+/* en */ { IDS_JOYSTICK_2,    "Joystick #2" },
+/* da */ { IDS_JOYSTICK_2_DA, "" },  /* fuzzy */
+/* de */ { IDS_JOYSTICK_2_DE, "" },  /* fuzzy */
+/* es */ { IDS_JOYSTICK_2_ES, "" },  /* fuzzy */
+/* fr */ { IDS_JOYSTICK_2_FR, "" },  /* fuzzy */
+/* hu */ { IDS_JOYSTICK_2_HU, "" },  /* fuzzy */
+/* it */ { IDS_JOYSTICK_2_IT, "" },  /* fuzzy */
+/* ko */ { IDS_JOYSTICK_2_KO, "" },  /* fuzzy */
+/* nl */ { IDS_JOYSTICK_2_NL, "" },  /* fuzzy */
+/* pl */ { IDS_JOYSTICK_2_PL, "" },  /* fuzzy */
+/* ru */ { IDS_JOYSTICK_2_RU, "" },  /* fuzzy */
+/* sv */ { IDS_JOYSTICK_2_SV, "" },  /* fuzzy */
+/* tr */ { IDS_JOYSTICK_2_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_USERPORT_ADAPTER,    "Userport joystick adapter" },
 /* da */ { IDS_USERPORT_ADAPTER_DA, "Brugerportjoystickadapter" },
@@ -12222,132 +12208,6 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_SMART_MOUSE_RTC_SAVE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SMART_MOUSE_RTC_SAVE_SV, "" },  /* fuzzy */
 /* tr */ { IDS_SMART_MOUSE_RTC_SAVE_TR, "" },  /* fuzzy */
-
-/* en */ { IDS_MOUSE_1351,    "1351 mouse" },
-/* da */ { IDS_MOUSE_1351_DA, "1351-mus" },
-/* de */ { IDS_MOUSE_1351_DE, "1351 Maus" },
-/* es */ { IDS_MOUSE_1351_ES, "Ratón 1531" },
-/* fr */ { IDS_MOUSE_1351_FR, "Souris 1351" },
-/* hu */ { IDS_MOUSE_1351_HU, "1351 egér" },
-/* it */ { IDS_MOUSE_1351_IT, "Mouse 1351" },
-/* ko */ { IDS_MOUSE_1351_KO, "1351 ¸¶¿ì½º" },
-/* nl */ { IDS_MOUSE_1351_NL, "1351 muis" },
-/* pl */ { IDS_MOUSE_1351_PL, "Mysz 1351" },
-/* ru */ { IDS_MOUSE_1351_RU, "1351 mouse" },
-/* sv */ { IDS_MOUSE_1351_SV, "1351-mus" },
-/* tr */ { IDS_MOUSE_1351_TR, "1351 mouse" },
-
-/* en */ { IDS_MOUSE_NEOS,    "NEOS mouse" },
-/* da */ { IDS_MOUSE_NEOS_DA, "NEOS-mus" },
-/* de */ { IDS_MOUSE_NEOS_DE, "NEOS Maus" },
-/* es */ { IDS_MOUSE_NEOS_ES, "Ratón NEOS" },
-/* fr */ { IDS_MOUSE_NEOS_FR, "Souris NEOS" },
-/* hu */ { IDS_MOUSE_NEOS_HU, "NEOS egér" },
-/* it */ { IDS_MOUSE_NEOS_IT, "Mouse NEOS" },
-/* ko */ { IDS_MOUSE_NEOS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MOUSE_NEOS_NL, "NEOS muis" },
-/* pl */ { IDS_MOUSE_NEOS_PL, "Mysz NEOS" },
-/* ru */ { IDS_MOUSE_NEOS_RU, "NEOS mouse" },
-/* sv */ { IDS_MOUSE_NEOS_SV, "NEOS-mus" },
-/* tr */ { IDS_MOUSE_NEOS_TR, "NEOS mouse" },
-
-/* en */ { IDS_MOUSE_AMIGA,    "Amiga mouse" },
-/* da */ { IDS_MOUSE_AMIGA_DA, "Amigamus" },
-/* de */ { IDS_MOUSE_AMIGA_DE, "Amiga Maus" },
-/* es */ { IDS_MOUSE_AMIGA_ES, "Ratón Amiga" },
-/* fr */ { IDS_MOUSE_AMIGA_FR, "Souris Amiga" },
-/* hu */ { IDS_MOUSE_AMIGA_HU, "Amiga egér" },
-/* it */ { IDS_MOUSE_AMIGA_IT, "Mouse Amiga" },
-/* ko */ { IDS_MOUSE_AMIGA_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MOUSE_AMIGA_NL, "Amiga muis" },
-/* pl */ { IDS_MOUSE_AMIGA_PL, "Mysz z Amigi" },
-/* ru */ { IDS_MOUSE_AMIGA_RU, "Amiga mouse" },
-/* sv */ { IDS_MOUSE_AMIGA_SV, "Amigamus" },
-/* tr */ { IDS_MOUSE_AMIGA_TR, "Amiga mouse" },
-
-/* en */ { IDS_MOUSE_PADDLES,    "Paddles" },
-/* da */ { IDS_MOUSE_PADDLES_DA, "Paddles" },
-/* de */ { IDS_MOUSE_PADDLES_DE, "Paddles" },
-/* es */ { IDS_MOUSE_PADDLES_ES, "Paddles" },
-/* fr */ { IDS_MOUSE_PADDLES_FR, "Paddles" },
-/* hu */ { IDS_MOUSE_PADDLES_HU, "" },  /* fuzzy */
-/* it */ { IDS_MOUSE_PADDLES_IT, "Paddle" },
-/* ko */ { IDS_MOUSE_PADDLES_KO, "ÆÐµé" },
-/* nl */ { IDS_MOUSE_PADDLES_NL, "Paddles" },
-/* pl */ { IDS_MOUSE_PADDLES_PL, "Pokrêt³a steruj±ce" },
-/* ru */ { IDS_MOUSE_PADDLES_RU, "Paddles" },
-/* sv */ { IDS_MOUSE_PADDLES_SV, "Paddlar" },
-/* tr */ { IDS_MOUSE_PADDLES_TR, "Paddlelar" },
-
-/* en */ { IDS_MOUSE_CX22,    "Atari CX-22 trackball" },
-/* da */ { IDS_MOUSE_CX22_DA, "Atari CX-22 trackball" },
-/* de */ { IDS_MOUSE_CX22_DE, "Atari CX-22 Trackball" },
-/* es */ { IDS_MOUSE_CX22_ES, "Trackball Atari CX-22" },
-/* fr */ { IDS_MOUSE_CX22_FR, "Trackball Atari CX-22" },
-/* hu */ { IDS_MOUSE_CX22_HU, "" },  /* fuzzy */
-/* it */ { IDS_MOUSE_CX22_IT, "Trackball Atari CX-22" },
-/* ko */ { IDS_MOUSE_CX22_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MOUSE_CX22_NL, "Atari CX-22 trackball" },
-/* pl */ { IDS_MOUSE_CX22_PL, "Trackball Atari CX-22" },
-/* ru */ { IDS_MOUSE_CX22_RU, "Atari CX-22 trackball" },
-/* sv */ { IDS_MOUSE_CX22_SV, "Atari CX-22-styrkula" },
-/* tr */ { IDS_MOUSE_CX22_TR, "Atari CX-22 trackball" },
-
-/* en */ { IDS_MOUSE_ST,    "Atari ST mouse" },
-/* da */ { IDS_MOUSE_ST_DA, "Atari ST mus" },
-/* de */ { IDS_MOUSE_ST_DE, "Amiga ST Maus" },
-/* es */ { IDS_MOUSE_ST_ES, "Ratón Atari ST" },
-/* fr */ { IDS_MOUSE_ST_FR, "Souris Atari ST" },
-/* hu */ { IDS_MOUSE_ST_HU, "" },  /* fuzzy */
-/* it */ { IDS_MOUSE_ST_IT, "Mouse Atari ST" },
-/* ko */ { IDS_MOUSE_ST_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MOUSE_ST_NL, "Atari ST muis" },
-/* pl */ { IDS_MOUSE_ST_PL, "Mysz z Atari ST" },
-/* ru */ { IDS_MOUSE_ST_RU, "Atari ST mouse" },
-/* sv */ { IDS_MOUSE_ST_SV, "Atari ST-mus" },
-/* tr */ { IDS_MOUSE_ST_TR, "Atari ST mouse" },
-
-/* en */ { IDS_MOUSE_SMART,    "Smart mouse" },
-/* da */ { IDS_MOUSE_SMART_DA, "Smart-mus" },
-/* de */ { IDS_MOUSE_SMART_DE, "Smart Maus" },
-/* es */ { IDS_MOUSE_SMART_ES, "Ratón inteligente" },
-/* fr */ { IDS_MOUSE_SMART_FR, "Souris Smart Mouse" },
-/* hu */ { IDS_MOUSE_SMART_HU, "" },  /* fuzzy */
-/* it */ { IDS_MOUSE_SMART_IT, "Smart mouse" },
-/* ko */ { IDS_MOUSE_SMART_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MOUSE_SMART_NL, "Smart muis" },
-/* pl */ { IDS_MOUSE_SMART_PL, "Mysz Smart" },
-/* ru */ { IDS_MOUSE_SMART_RU, "" },  /* fuzzy */
-/* sv */ { IDS_MOUSE_SMART_SV, "Smartmus" },
-/* tr */ { IDS_MOUSE_SMART_TR, "Smart mouse" },
-
-/* en */ { IDS_MOUSE_MICROMYS,    "MicroMys mouse" },
-/* da */ { IDS_MOUSE_MICROMYS_DA, "MicroMys mus" },
-/* de */ { IDS_MOUSE_MICROMYS_DE, "MicroMys Maus" },
-/* es */ { IDS_MOUSE_MICROMYS_ES, "Ratón MicroMys" },
-/* fr */ { IDS_MOUSE_MICROMYS_FR, "Souris MicroMys" },
-/* hu */ { IDS_MOUSE_MICROMYS_HU, "" },  /* fuzzy */
-/* it */ { IDS_MOUSE_MICROMYS_IT, "Mouse MicroMys" },
-/* ko */ { IDS_MOUSE_MICROMYS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MOUSE_MICROMYS_NL, "MicroMys muis" },
-/* pl */ { IDS_MOUSE_MICROMYS_PL, "Mysz MicroMys" },
-/* ru */ { IDS_MOUSE_MICROMYS_RU, "MicroMys mouse" },
-/* sv */ { IDS_MOUSE_MICROMYS_SV, "MicroMys-mus" },
-/* tr */ { IDS_MOUSE_MICROMYS_TR, "MicroMys mouse" },
-
-/* en */ { IDS_MOUSE_KOALAPAD,    "Koalapad" },
-/* da */ { IDS_MOUSE_KOALAPAD_DA, "" },  /* fuzzy */
-/* de */ { IDS_MOUSE_KOALAPAD_DE, "Koalapad" },
-/* es */ { IDS_MOUSE_KOALAPAD_ES, "Koalapad" },
-/* fr */ { IDS_MOUSE_KOALAPAD_FR, "" },  /* fuzzy */
-/* hu */ { IDS_MOUSE_KOALAPAD_HU, "" },  /* fuzzy */
-/* it */ { IDS_MOUSE_KOALAPAD_IT, "Koalapad" },
-/* ko */ { IDS_MOUSE_KOALAPAD_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MOUSE_KOALAPAD_NL, "Koalapad" },
-/* pl */ { IDS_MOUSE_KOALAPAD_PL, "Koalapad" },
-/* ru */ { IDS_MOUSE_KOALAPAD_RU, "" },  /* fuzzy */
-/* sv */ { IDS_MOUSE_KOALAPAD_SV, "Koalapad" },
-/* tr */ { IDS_MOUSE_KOALAPAD_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_AUTOSTART_VIRTUAL_FS,    "Virtual FS" },
 /* da */ { IDS_AUTOSTART_VIRTUAL_FS_DA, "Virtuelt FS" },
