@@ -30,5 +30,6 @@
 #include "uimenu.h"
 
 extern struct ui_menu_entry_s mouse_submenu[];
+extern struct ui_menu_entry_s mouse_grab_submenu[];
 
 #endif

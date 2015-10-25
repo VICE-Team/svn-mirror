@@ -44,4 +44,10 @@ ui_menu_entry_t mouse_submenu[] = {
       (ui_callback_t)toggle_SmartMouseRTCSave, NULL },
     { NULL }
 };
+
+ui_menu_entry_t mouse_grab_submenu[] = {
+    { N_("Enable mouse grab"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Mouse, NULL, NULL, KEYSYM_m, UI_HOTMOD_META },
+    { NULL }
+};
 #endif

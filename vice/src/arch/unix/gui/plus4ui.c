@@ -49,6 +49,7 @@
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
+#include "uimouse.h"
 #include "uinetplay.h"
 #include "uiperipheraliec.h"
 #include "uiplus4cart.h"
@@ -420,6 +421,10 @@ static ui_menu_entry_t plus4_settings_menu[] = {
       NULL, NULL, ui_joyport2_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_plus4_menu },
+#ifdef HAVE_MOUSE
+    { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, mouse_grab_submenu },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, plus4_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,

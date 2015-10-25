@@ -51,6 +51,7 @@
 #include "uijoyport.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
+#include "uimouse.h"
 #include "uiperipheralieee.h"
 #include "uiprinterieee.h"
 #include "uiram.h"
@@ -567,6 +568,10 @@ static ui_menu_entry_t cbm5x0_settings_menu[] = {
       NULL, NULL, ui_joyport2_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_cbm5x0_menu },
+#ifdef HAVE_MOUSE
+    { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, mouse_submenu },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, cbm5x0_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
