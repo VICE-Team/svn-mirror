@@ -34,6 +34,7 @@
 
 #include "constants.h"
 #include "joyport.h"
+#include "lib.h"
 #include "machine.h"
 #include "vicemenu.h"
 
@@ -557,16 +558,9 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("NTSC", new BMessage(MENU_SYNC_FACTOR_NTSC)));
     }
 
-    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
-        machine_class == VICE_MACHINE_C64DTV || machine_class == VICE_MACHINE_C128 ||
-        machine_class == VICE_MACHINE_SCPU64) {
+    if (get_devices != NULL) {
         uppermenu->AddSeparatorItem();
         uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
-    }
-
-    if (machine_class == VICE_MACHINE_VIC20) {
-        uppermenu->AddSeparatorItem();
-        uppermenu->AddItem(new BMenuItem("Enable Paddles", new BMessage(MENU_TOGGLE_MOUSE)));
     }
 
     if (machine_class == VICE_MACHINE_C64DTV) {
@@ -595,25 +589,8 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Enable speed switch", new BMessage(MENU_TOGGLE_SCPU64_SPEED_ENABLE)));
     }
 
-    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
-        machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_SCPU64) {
+    if (get_devices != NULL) {
         uppermenu->AddItem(menu = new BMenu("Mouse Options"));
-            menu->AddItem(submenu = new BMenu("Mouse Type"));
-                submenu->SetRadioMode(true);
-                submenu->AddItem(new BMenuItem("1351", new BMessage(MENU_MOUSE_TYPE_1351)));
-                submenu->AddItem(new BMenuItem("NEOS", new BMessage(MENU_MOUSE_TYPE_NEOS)));
-                submenu->AddItem(new BMenuItem("AMIGA", new BMessage(MENU_MOUSE_TYPE_AMIGA)));
-                submenu->AddItem(new BMenuItem("PADDLE", new BMessage(MENU_MOUSE_TYPE_PADDLE)));
-                submenu->AddItem(new BMenuItem("Atari CX-22", new BMessage(MENU_MOUSE_TYPE_CX22)));
-                submenu->AddItem(new BMenuItem("Atari ST", new BMessage(MENU_MOUSE_TYPE_ST)));
-                submenu->AddItem(new BMenuItem("Smart", new BMessage(MENU_MOUSE_TYPE_SMART)));
-                submenu->AddItem(new BMenuItem("MicroMys", new BMessage(MENU_MOUSE_TYPE_MICROMYS)));
-                submenu->AddItem(new BMenuItem("Koalapad", new BMessage(MENU_MOUSE_TYPE_KOALAPAD)));
-
-            menu->AddItem(submenu = new BMenu("Mouse Port"));
-                submenu->SetRadioMode(true);
-                submenu->AddItem(new BMenuItem("Joy1", new BMessage(MENU_MOUSE_PORT_JOY1)));
-                submenu->AddItem(new BMenuItem("Joy2", new BMessage(MENU_MOUSE_PORT_JOY2)));
             menu->AddItem(new BMenuItem("Save Smart Mouse RTC data when changed", new BMessage(MENU_TOGGLE_SMART_MOUSE_RTC_SAVE)));
         uppermenu->AddSeparatorItem();
     }
@@ -1084,13 +1061,14 @@ BMenuBar *menu_create(int machine_class)
                         submenu->AddItem(new BMenuItem(devices[i].name, new BMessage(MENU_JOYPORT2_00 + devices[i].id)));
                     }
             }
+            menu->AddItem(submenu = new BMenu("Joystick"));
+                submenu->AddItem(new BMenuItem("Joystick/Keyset settings ...", new BMessage(MENU_JOYSTICK_SETTINGS)));
+                submenu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
+        lib_free(devices);
     }
 
     if (machine_class != VICE_MACHINE_VSID) {
-        uppermenu->AddItem(menu = new BMenu("Joystick"));
-        if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM6x0) {
-            menu->AddItem(new BMenuItem("Joystick/Keyset settings ...", new BMessage(MENU_JOYSTICK_SETTINGS)));
-        }
+        uppermenu->AddItem(menu = new BMenu("Extra Joystick"));
         if (machine_class == VICE_MACHINE_PLUS4) {
             menu->AddItem(new BMenuItem("SID cart joystick emulation", new BMessage(MENU_TOGGLE_SIDCART_JOY)));
             menu->AddItem(new BMenuItem("SID cart joystick settings ...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
@@ -1113,7 +1091,9 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("Starbyte", new BMessage(MENU_USERPORT_JOY_STARBYTE)));
             }
         }
+        if (get_devices == NULL) {
             menu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
+        }
     }
 
     uppermenu->AddItem(new BMenuItem("Sound ...", new BMessage(MENU_SOUND_SETTINGS)));

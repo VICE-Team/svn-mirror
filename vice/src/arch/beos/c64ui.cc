@@ -274,25 +274,6 @@ ui_res_possible_values MMCRCardType[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values c64mousetypes[] = {
-    { MOUSE_TYPE_1351, MENU_MOUSE_TYPE_1351 },
-    { MOUSE_TYPE_NEOS, MENU_MOUSE_TYPE_NEOS },
-    { MOUSE_TYPE_AMIGA, MENU_MOUSE_TYPE_AMIGA },
-    { MOUSE_TYPE_PADDLE, MENU_MOUSE_TYPE_PADDLE },
-    { MOUSE_TYPE_CX22, MENU_MOUSE_TYPE_CX22 },
-    { MOUSE_TYPE_ST, MENU_MOUSE_TYPE_ST },
-    { MOUSE_TYPE_SMART, MENU_MOUSE_TYPE_SMART },
-    { MOUSE_TYPE_MICROMYS, MENU_MOUSE_TYPE_MICROMYS },
-    { MOUSE_TYPE_KOALAPAD, MENU_MOUSE_TYPE_KOALAPAD },
-    { -1, 0 }
-};
-
-ui_res_possible_values c64mouseports[] = {
-    { 1, MENU_MOUSE_PORT_JOY1 },
-    { 2, MENU_MOUSE_PORT_JOY2 },
-    { -1, 0 }
-};
-
 ui_res_possible_values viciimodels[] = {
     { VICII_MODEL_6569, MENU_VICII_MODEL_6569_PAL },
     { VICII_MODEL_8565, MENU_VICII_MODEL_8565_PAL },
@@ -378,8 +359,6 @@ ui_res_value_list c64_ui_res_values[] = {
     { "MMC64_revision", MMC64Revision },
     { "MMC64_sd_type", MMC64CardType },
     { "MMCRSDType", MMCRCardType },
-    { "Mousetype", c64mousetypes },
-    { "Mouseport", c64mouseports },
     { "CIA1Model", cia1models },
     { "CIA2Model", cia2models },
     { "GlueLogic", gluelogic },

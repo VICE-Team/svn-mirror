@@ -261,25 +261,6 @@ ui_res_possible_values scpu64ui_MMCRCardType[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values scpu64ui_mousetypes[] = {
-    { MOUSE_TYPE_1351, MENU_MOUSE_TYPE_1351 },
-    { MOUSE_TYPE_NEOS, MENU_MOUSE_TYPE_NEOS },
-    { MOUSE_TYPE_AMIGA, MENU_MOUSE_TYPE_AMIGA },
-    { MOUSE_TYPE_PADDLE, MENU_MOUSE_TYPE_PADDLE },
-    { MOUSE_TYPE_CX22, MENU_MOUSE_TYPE_CX22 },
-    { MOUSE_TYPE_ST, MENU_MOUSE_TYPE_ST },
-    { MOUSE_TYPE_SMART, MENU_MOUSE_TYPE_SMART },
-    { MOUSE_TYPE_MICROMYS, MENU_MOUSE_TYPE_MICROMYS },
-    { MOUSE_TYPE_KOALAPAD, MENU_MOUSE_TYPE_KOALAPAD },
-    { -1, 0 }
-};
-
-ui_res_possible_values scpu64ui_mouseports[] = {
-    { 1, MENU_MOUSE_PORT_JOY1 },
-    { 2, MENU_MOUSE_PORT_JOY2 },
-    { -1, 0 }
-};
-
 ui_res_possible_values scpu64ui_viciimodels[] = {
     { VICII_MODEL_6569, MENU_VICII_MODEL_6569_PAL },
     { VICII_MODEL_8565, MENU_VICII_MODEL_8565_PAL },
@@ -363,8 +344,6 @@ ui_res_value_list scpu64_ui_res_values[] = {
     { "MMC64_revision", scpu64ui_MMC64Revision },
     { "MMC64_sd_type", scpu64ui_MMC64CardType },
     { "MMCRSDType", scpu64ui_MMCRCardType },
-    { "Mousetype", scpu64ui_mousetypes },
-    { "Mouseport", scpu64ui_mouseports },
     { "CIA1Model", scpu64ui_cia1models },
     { "CIA2Model", scpu64ui_cia2models },
     { "GlueLogic", scpu64ui_gluelogic },

@@ -222,25 +222,6 @@ ui_res_possible_values c128VDCrev[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values c128mousetypes[] = {
-    { MOUSE_TYPE_1351, MENU_MOUSE_TYPE_1351 },
-    { MOUSE_TYPE_NEOS, MENU_MOUSE_TYPE_NEOS },
-    { MOUSE_TYPE_AMIGA, MENU_MOUSE_TYPE_AMIGA },
-    { MOUSE_TYPE_PADDLE, MENU_MOUSE_TYPE_PADDLE },
-    { MOUSE_TYPE_CX22, MENU_MOUSE_TYPE_CX22 },
-    { MOUSE_TYPE_ST, MENU_MOUSE_TYPE_ST },
-    { MOUSE_TYPE_SMART, MENU_MOUSE_TYPE_SMART },
-    { MOUSE_TYPE_MICROMYS, MENU_MOUSE_TYPE_MICROMYS },
-    { MOUSE_TYPE_KOALAPAD, MENU_MOUSE_TYPE_KOALAPAD },
-    { -1, 0 }
-};
-
-ui_res_possible_values c128mouseports[] = {
-    { 1, MENU_MOUSE_PORT_JOY1 },
-    { 2, MENU_MOUSE_PORT_JOY2 },
-    { -1, 0 }
-};
-
 ui_res_possible_values c128viciiRenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
     { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
@@ -324,8 +305,6 @@ ui_res_value_list c128_ui_res_values[] = {
     { "VICIIFilter", c128viciiRenderFilters },
     { "VDCFilter", c128VDCRenderFilters },
     { "VDCRevision", c128VDCrev },
-    { "Mousetype", c128mousetypes },
-    { "Mouseport", c128mouseports },
     { "ExpertCartridgeMode", c128ExpertModes },
     { "RRrevision", c128RRrevs },
     { "CIA1Model", c128_cia1models },
