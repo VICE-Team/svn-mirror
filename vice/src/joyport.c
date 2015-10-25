@@ -415,7 +415,7 @@ static char *build_joyport_string(int id)
     if (id == 1) {
         tmp1 = lib_stralloc(translate_text(IDGS_SET_JOYPORT1_DEVICE));
     } else {
-        tmp1 = lib_stralloc(translate_text(IDGS_SET_JOYPORT1_DEVICE));
+        tmp1 = lib_stralloc(translate_text(IDGS_SET_JOYPORT2_DEVICE));
     }
 
     for (i = 1; i < JOYPORT_MAX_DEVICES; ++i) {
