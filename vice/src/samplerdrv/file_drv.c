@@ -106,6 +106,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "sampler.h"
+#include "translate.h"
 #include "util.h"
 
 static char *sample_name = NULL;
@@ -2071,6 +2072,23 @@ static int sampler_file_resources_init(void)
 
 /* ---------------------------------------------------------------------- */
 
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-samplename", SET_RESOURCE, 1,
+      NULL, NULL, "SampleName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_SAMPLE_NAME,
+      NULL, NULL },
+    { NULL }
+};
+
+int sampler_file_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
+/* ---------------------------------------------------------------------- */
+
 /* For now channel is ignored */
 static BYTE file_get_sample(int channel)
 {
@@ -2121,7 +2139,7 @@ static sampler_device_t file_device =
     file_get_sample,
     file_shutdown,
     sampler_file_resources_init,
-    NULL
+    sampler_file_cmdline_options_init
 };
 
 void fileaudio_init(void)

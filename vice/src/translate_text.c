@@ -5233,6 +5233,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_TR, "IEEE488 arabirimi imaj ismini belirleyin"},
 #endif
 
+/* samplerdrv/file_drv.c */
+/* en */ {IDCLS_SPECIFY_SAMPLE_NAME,    N_("Specify name of sample file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SAMPLE_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SAMPLE_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_SAMPLE_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SAMPLE_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SAMPLE_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SAMPLE_NAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_SAMPLE_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SAMPLE_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_SAMPLE_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_SAMPLE_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SAMPLE_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SAMPLE_NAME_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/georam.c */
 /* en */ {IDCLS_ENABLE_GEORAM,    N_("Enable the GEO-RAM expansion unit")},
 #ifdef HAS_TRANSLATION
