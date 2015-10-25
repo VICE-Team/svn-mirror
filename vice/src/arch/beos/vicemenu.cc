@@ -34,9 +34,12 @@
 
 #include "constants.h"
 #include "joyport.h"
-#include "lib.h"
 #include "machine.h"
 #include "vicemenu.h"
+
+extern "C" {
+#include "lib.h"
+}
 
 static BMenu *vsid_tune_menu;
 static joyport_desc_t *(*get_devices)(void) = NULL;
