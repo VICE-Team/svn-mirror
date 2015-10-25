@@ -50,6 +50,7 @@
 #include "uikeyboard.h"
 #include "uilib.h"
 #include "uimidi.h"
+#include "uimouse.h"
 #include "uirom.h"
 #include "uirs232user.h"
 #include "uisidcart.h"
@@ -66,11 +67,11 @@
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "IEEE488", IDM_IEEE488 },
-    { "Mouse", IDM_PADDLES },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "FinalExpansionWriteBack", IDM_FINAL_EXPANSION_WRITEBACK },
     { "VicFlashPluginWriteBack", IDM_VIC_FLASH_PLUGIN_WRITEBACK },
     { "MegaCartNvRAMWriteBack", IDM_MEGACART_WRITEBACK },
+    { "Mouse", IDM_MOUSE },
     { NULL, 0 }
 };
 
@@ -286,7 +287,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
     { IDM_IEEE488, IDS_MI_IEEE488 },
-    { IDM_PADDLES, IDS_MI_MOUSE },
+    { IDM_MOUSE, IDS_MI_MOUSE },
     { IDM_VIC20MODEL_SETTINGS, IDS_MI_VIC20MODEL_SETTINGS },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
@@ -296,6 +297,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_EXTRA_JOY_SETTINGS, IDS_MI_USERPORT_JOY_SETTINGS },
     { IDM_KEYBOARD_SETTINGS, IDS_MI_KEYBOARD_SETTINGS },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
+    { IDM_MOUSE_SETTINGS, IDS_MI_MOUSE_SETTINGS },
     { IDM_ROM_SETTINGS, IDS_MI_ROM_SETTINGS },
     { IDM_RAM_SETTINGS, IDS_MI_RAM_SETTINGS },
     { IDM_DATASETTE_SETTINGS, IDS_MI_DATASETTE_SETTINGS },
@@ -387,7 +389,7 @@ ui_popup_translation_table_t vic20ui_popup_translation_table[] = {
     { 2, IDS_MP_SOUND_SETTINGS },
     { 2, IDS_MP_DRIVE_SETTINGS },
     { 2, IDS_MP_JOYSTICK_SETTINGS },
-/*    { 2, IDS_MP_MOUSE_SETTINGS },*/
+    { 2, IDS_MP_MOUSE_SETTINGS },
     { 2, IDS_MP_VIDEO_STANDARD },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },
     { 2, IDS_MP_RS232_SETTINGS },
@@ -594,6 +596,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_EXTRA_JOY_SETTINGS:
             ui_extra_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_MOUSE_SETTINGS:
+            ui_mouse_settings_dialog(hwnd);
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_VIC20ROM_SETTINGS_DIALOG, IDD_VIC20DRIVEROM_SETTINGS_DIALOG,

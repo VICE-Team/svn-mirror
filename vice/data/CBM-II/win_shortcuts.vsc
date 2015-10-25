@@ -32,6 +32,7 @@ ALT             'K'         IDM_FLIP_REMOVE                   K
 ALT             'N'         IDM_FLIP_NEXT                     N
 ALT             'B'         IDM_FLIP_PREVIOUS                 B
 ALT             'J'         IDM_SWAP_JOYSTICK                 J
+ALT             'Q'         IDM_MOUSE                         Q
 ALT             'C'         IDM_MEDIAFILE                     C
 ALT             'G'         IDM_EVENT_SETMILESTONE            G
 ALT             'H'         IDM_EVENT_RESETMILESTONE          H

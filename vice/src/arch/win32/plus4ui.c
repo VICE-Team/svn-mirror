@@ -43,6 +43,7 @@
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
+#include "uimouse.h"
 #include "uiplus4cart.h"
 #include "uiplus4mem.h"
 #include "uiplus4model.h"
@@ -57,6 +58,7 @@
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "DIGIBLASTER", IDM_TOGGLE_DIGIBLASTER },
+    { "Mouse", IDM_MOUSE },
     { NULL, 0 }
 };
 
@@ -267,6 +269,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_ALLOW_JOY_OPPOSITE_TOGGLE, IDS_MI_ALLOW_JOY_OPPOSITE },
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
+    { IDM_MOUSE, IDS_MI_MOUSE },
     { IDM_PLUS4MODEL_SETTINGS, IDS_MI_PLUS4MODEL_SETTINGS },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
@@ -279,6 +282,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_ROM_SETTINGS, IDS_MI_ROM_SETTINGS },
     { IDM_RAM_SETTINGS, IDS_MI_RAM_SETTINGS },
     { IDM_DATASETTE_SETTINGS, IDS_MI_DATASETTE_SETTINGS },
+    { IDM_MOUSE_SETTINGS, IDS_MI_MOUSE_SETTINGS },
     { IDM_TED_SETTINGS, IDS_MI_TED_SETTINGS },
     { IDM_RS232_SETTINGS, IDS_MI_RS232_SETTINGS },
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
@@ -341,7 +345,7 @@ ui_popup_translation_table_t plus4ui_popup_translation_table[] = {
     { 2, IDS_MP_SOUND_SETTINGS },
     { 2, IDS_MP_DRIVE_SETTINGS },
     { 2, IDS_MP_JOYSTICK_SETTINGS },
-/*    { 2, IDS_MP_MOUSE_SETTINGS },*/
+    { 2, IDS_MP_MOUSE_SETTINGS },
     { 2, IDS_MP_VIDEO_STANDARD },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },
     { 2, IDS_MP_RS232_SETTINGS },
@@ -498,6 +502,9 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_KEYBOARD_SETTINGS:
             uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
+        case IDM_MOUSE_SETTINGS:
+            ui_mouse_settings_dialog(hwnd);
             break;
     }
 }
