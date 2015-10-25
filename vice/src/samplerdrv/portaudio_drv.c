@@ -187,7 +187,9 @@ static sampler_device_t portaudio_device =
     portaudio_start_sampling,
     portaudio_stop_sampling,
     portaudio_get_sample,
-    portaudio_shutdown
+    portaudio_shutdown,
+    NULL,
+    NULL
 };
 
 

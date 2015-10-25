@@ -30,9 +30,11 @@
 
 #include "cmdline.h"
 #include "file_drv.h"
+#include "lib.h"
 #include "resources.h"
 #include "sampler.h"
 #include "translate.h"
+#include "util.h"
 
 #ifdef USE_PORTAUDIO
 #include "portaudio_drv.h"
@@ -100,6 +102,8 @@ void sampler_device_register(sampler_device_t *device, int id)
     devices[id].close = device->close;
     devices[id].get_sample = device->get_sample;
     devices[id].shutdown = device->shutdown;
+    devices[id].resources_init = device->resources_init;
+    devices[id].cmdline_options_init = device->cmdline_options_init;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -141,25 +145,83 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-/* Currently unused, provided for future expansion */
 int sampler_resources_init(void)
 {
+    int i;
     sampler_init();
+
+    for (i = 0; i < SAMPLER_MAX_DEVICES; ++i) {
+        if (devices[i].resources_init) {
+            if (devices[i].resources_init() < 0) {
+                return -1;
+            }
+        }
+    }
+
     return resources_register_int(resources_int);
 }
 
-/* Currently only used for device shutdown */
 void sampler_resources_shutdown(void)
 {
-    if (devices[current_sampler].shutdown) {
-        devices[current_sampler].shutdown();
+    int i;
+
+    for (i = 0; i < SAMPLER_MAX_DEVICES; ++i) {
+        if (devices[i].shutdown) {
+            devices[i].shutdown();
+        }
     }
 }
 
 /* ------------------------------------------------------------------------- */
 
-/* Currently unused, provided for future expansion */
+static char *cmdline_devices = NULL;
+
+
+static cmdline_option_t cmdline_options[] =
+{
+    { "-samplerdev", SET_RESOURCE, 1,
+      NULL, NULL, "SamplerDevice", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      IDGS_DEVICE, IDCLS_SPECIFY_SAMPLER_DEVICE,
+      NULL, NULL },
+    { NULL }
+};
+
 int sampler_cmdline_options_init(void)
 {
-    return 0;
+    int i;
+    int started = 0;
+    char *temp = NULL;
+    char number[4];
+
+    cmdline_devices = lib_stralloc(". (");
+
+    for (i = 0; i < SAMPLER_MAX_DEVICES; ++i) {
+        if (devices[i].name) {
+            sprintf(number, "%d", i);
+            if (!started) {
+                temp = util_concat(cmdline_devices, number, ": ", devices[i].name, NULL);
+                started = 1;
+            } else {
+                temp = util_concat(cmdline_devices, ", ", number, ": ", devices[i].name, NULL);
+            }
+            lib_free(cmdline_devices);
+            cmdline_devices = temp;
+        }
+    }
+    temp = util_concat(cmdline_devices, ")", NULL);
+    lib_free(cmdline_devices);
+    cmdline_devices = temp;
+
+    cmdline_options[0].description = cmdline_devices;
+
+    for (i = 0; i < SAMPLER_MAX_DEVICES; ++i) {
+        if (devices[i].cmdline_options_init) {
+            if (devices[i].cmdline_options_init() < 0) {
+                return -1;
+            }
+        }
+    }
+
+    return cmdline_register_options(cmdline_options);
 }

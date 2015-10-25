@@ -2075,7 +2075,9 @@ static sampler_device_t file_device =
     file_load_sample,
     file_free_sample,
     file_get_sample,
-    file_shutdown
+    file_shutdown,
+    NULL,
+    NULL
 };
 
 void fileaudio_init(void)

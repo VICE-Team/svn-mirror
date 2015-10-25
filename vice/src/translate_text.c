@@ -14957,6 +14957,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_SOUND_DRIVER_TR, "Ses sürücüsü belirt"},
 #endif
 
+/* sampler/sampler.c */
+/* en */ {IDCLS_SPECIFY_SAMPLER_DEVICE,    N_("Specify sampler device")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SAMPLER_DEVICE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SAMPLER_DEVICE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_SAMPLER_DEVICE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SAMPLER_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SAMPLER_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SAMPLER_DEVICE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_SAMPLER_DEVICE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SAMPLER_DEVICE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_SAMPLER_DEVICE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_SAMPLER_DEVICE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SAMPLER_DEVICE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SAMPLER_DEVICE_TR, ""},  /* fuzzy */
+#endif
+
 /* sound.c */
 /* en */ {IDCLS_P_ARGS,    N_("<args>")},
 #ifdef HAS_TRANSLATION
