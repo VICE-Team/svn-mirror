@@ -220,7 +220,6 @@ BEGIN
         END
         POPUP "Mouse settings"
         BEGIN
-            MENUITEM "", IDM_MOUSE_SETTINGS
             MENUITEM "", IDM_MOUSE
         END
         MENUITEM SEPARATOR
