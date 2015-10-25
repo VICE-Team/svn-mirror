@@ -38,18 +38,17 @@
 #include "portaudio_drv.h"
 #endif
 
-#define MAX_DEVICE 10
-
 #ifdef USE_PORTAUDIO
-#define DEFAULT_DEVICE 1
+#define DEFAULT_DEVICE SAMPLER_DEVICE_PORTAUDIO
 #else
-#define DEFAULT_DEVICE 0
+#define DEFAULT_DEVICE SAMPLER_DEVICE_FILE
 #endif
 
 /* stays at 'DEFAULT_DEVICE' for now, but will become configurable in the future */
 static int current_sampler = DEFAULT_DEVICE;
+static int sampler_status = SAMPLER_CLOSED;
 
-static sampler_device_t devices[MAX_DEVICE];
+static sampler_device_t devices[SAMPLER_MAX_DEVICES];
 
 static void sampler_init(void)
 {
@@ -62,10 +61,13 @@ static void sampler_init(void)
 #endif
 }
 
+/* ------------------------------------------------------------------------- */
+
 void sampler_start(int channels)
 {
     if (devices[current_sampler].open) {
         devices[current_sampler].open(channels);
+        sampler_status = SAMPLER_STARTED | (channels << 1);
     }
 }
 
@@ -73,6 +75,7 @@ void sampler_stop(void)
 {
     if (devices[current_sampler].close) {
         devices[current_sampler].close();
+        sampler_status = SAMPLER_CLOSED;
     }
 }
 
@@ -83,6 +86,8 @@ BYTE sampler_get_sample(int channel)
     }
     return 0x80;
 }
+
+/* ------------------------------------------------------------------------- */
 
 void sampler_device_register(sampler_device_t *device, int id)
 {
@@ -97,11 +102,50 @@ void sampler_device_register(sampler_device_t *device, int id)
     devices[id].shutdown = device->shutdown;
 }
 
+/* ------------------------------------------------------------------------- */
+
+static int set_sampler_device(int id, void *param)
+{
+    int channels;
+
+    /* 1st some sanity checks */
+    if (id < 0 || id >= SAMPLER_MAX_DEVICES) {
+        return -1;
+    }
+
+    /* Nothing changes */
+    if (id == current_sampler) {
+        return 0;
+    }
+
+    /* check if id is registered */
+    if (!devices[id].name) {
+        return -1;
+    }
+
+    if (sampler_status & SAMPLER_STARTED) {
+        channels = sampler_status >> 1;
+        sampler_stop();
+        current_sampler = id;
+        sampler_start(channels);
+    } else {
+        current_sampler = id;
+    }
+
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "SamplerDevice", 0, RES_EVENT_NO, (resource_value_t)DEFAULT_DEVICE,
+      &current_sampler, set_sampler_device, NULL },
+    { NULL }
+};
+
 /* Currently unused, provided for future expansion */
 int sampler_resources_init(void)
 {
     sampler_init();
-    return 0;
+    return resources_register_int(resources_int);
 }
 
 /* Currently only used for device shutdown */
@@ -111,6 +155,8 @@ void sampler_resources_shutdown(void)
         devices[current_sampler].shutdown();
     }
 }
+
+/* ------------------------------------------------------------------------- */
 
 /* Currently unused, provided for future expansion */
 int sampler_cmdline_options_init(void)
