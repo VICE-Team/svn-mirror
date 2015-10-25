@@ -3512,6 +3512,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_TED_SETTINGS_SV, "TED-inställningar..." },
 /* tr */ { IDMS_TED_SETTINGS_TR, "TED ayarlarý..." },
 
+/* en */ { IDMS_JOYPORT_SETTINGS,    "Joyport settings..." },
+/* da */ { IDMS_JOYPORT_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_JOYPORT_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_JOYPORT_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_JOYPORT_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_JOYPORT_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_JOYPORT_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_JOYPORT_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_JOYPORT_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_JOYPORT_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_JOYPORT_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_JOYPORT_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_JOYPORT_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_JOYSTICK_SETTINGS,    "Joystick settings..." },
 /* da */ { IDMS_JOYSTICK_SETTINGS_DA, "Joystick indstillinger..." },
 /* de */ { IDMS_JOYSTICK_SETTINGS_DE, "Joystick Einstellungen..." },
@@ -11592,6 +11606,48 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_QUIT_EMULATOR_RU, "" },  /* fuzzy */
 /* sv */ { IDS_QUIT_EMULATOR_SV, "" },  /* fuzzy */
 /* tr */ { IDS_QUIT_EMULATOR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_JOYPORT_1_DEVICE,    "Joyport 1 device" },
+/* da */ { IDS_JOYPORT_1_DEVICE_DA, "" },  /* fuzzy */
+/* de */ { IDS_JOYPORT_1_DEVICE_DE, "" },  /* fuzzy */
+/* es */ { IDS_JOYPORT_1_DEVICE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_JOYPORT_1_DEVICE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_JOYPORT_1_DEVICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_JOYPORT_1_DEVICE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_JOYPORT_1_DEVICE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_JOYPORT_1_DEVICE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_JOYPORT_1_DEVICE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_JOYPORT_1_DEVICE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_JOYPORT_1_DEVICE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_JOYPORT_1_DEVICE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_JOYPORT_2_DEVICE,    "Joyport 2 device" },
+/* da */ { IDS_JOYPORT_2_DEVICE_DA, "" },  /* fuzzy */
+/* de */ { IDS_JOYPORT_2_DEVICE_DE, "" },  /* fuzzy */
+/* es */ { IDS_JOYPORT_2_DEVICE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_JOYPORT_2_DEVICE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_JOYPORT_2_DEVICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_JOYPORT_2_DEVICE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_JOYPORT_2_DEVICE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_JOYPORT_2_DEVICE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_JOYPORT_2_DEVICE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_JOYPORT_2_DEVICE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_JOYPORT_2_DEVICE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_JOYPORT_2_DEVICE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_JOYPORT_SETTINGS,    "Joyport settings" },
+/* da */ { IDS_JOYPORT_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_JOYPORT_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_JOYPORT_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_JOYPORT_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_JOYPORT_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_JOYPORT_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_JOYPORT_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_JOYPORT_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_JOYPORT_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_JOYPORT_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_JOYPORT_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_JOYPORT_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_DEFAULT_JAM_ACTION,    "Default CPU JAM action" },
 /* da */ { IDS_DEFAULT_JAM_ACTION_DA, "" },  /* fuzzy */

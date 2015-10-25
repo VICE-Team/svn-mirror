@@ -47,6 +47,7 @@
 #include "mui/uiexpert.h"
 #include "mui/uigeoram.h"
 #include "mui/uiide64.h"
+#include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uimagicvoice.h"
@@ -213,6 +214,9 @@ static int scpu64_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
+        case IDM_JOYPORT_SETTINGS:
+            ui_joyport_settings_dialog(2);
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:

@@ -80,6 +80,8 @@ libarchmui_a_SOURCES = \
 	uiisepic.h \
 	uijamaction.c \
 	uijamaction.h \
+	uijoyport.c \
+	uijoyport.h \
 	uijoystick.c \
 	uijoystick.h \
 	uijoystickll.c \

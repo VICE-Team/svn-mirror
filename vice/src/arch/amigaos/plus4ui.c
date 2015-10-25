@@ -43,6 +43,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uidriveplus4.h"
+#include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uiplus4settings.h"
@@ -188,6 +189,9 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_V364_SPEECH_SETTINGS:
             ui_v364_speech_settings_dialog(canvas);
+            break;
+        case IDM_JOYPORT_SETTINGS:
+            ui_joyport_settings_dialog(2);
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:

@@ -42,6 +42,7 @@
 #include "mui/uidrivevic20.h"
 #include "mui/uids12c887rtc.h"
 #include "mui/uigeoram.h"
+#include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uiprinter.h"
@@ -154,6 +155,9 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_SIDCART_SETTINGS:
             ui_sidcart_settings_dialog("$9800", "$9C00", "VIC20", 0x9800, 0x9c00);
+            break;
+        case IDM_JOYPORT_SETTINGS:
+            ui_joyport_settings_dialog(1);
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:

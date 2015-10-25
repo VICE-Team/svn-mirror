@@ -42,6 +42,7 @@
 #include "mui/uicbm5x0settings.h"
 #include "mui/uiciamodel.h"
 #include "mui/uidrivepetcbm2.h"
+#include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uiprinter.h"
@@ -139,6 +140,9 @@ static int cbm5x0_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_ACIA_SETTINGS:
             ui_acia_settings_dialog();
+            break;
+        case IDM_JOYPORT_SETTINGS:
+            ui_joyport_settings_dialog(2);
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:

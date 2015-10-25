@@ -38,6 +38,7 @@
 
 #include "mui/uic64dtv.h"
 #include "mui/uidrivec64dtv.h"
+#include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uiprinter.h"
@@ -106,6 +107,9 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_PRINTER_SETTINGS:
             ui_printer_settings_dialog(canvas, 0, 0);
+            break;
+        case IDM_JOYPORT_SETTINGS:
+            ui_joyport_settings_dialog(2);
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:
