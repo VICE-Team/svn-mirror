@@ -1,4 +1,3 @@
-
 /*
  * portaudio_drv.c - PortAudio audio input driver.
  *

@@ -848,8 +848,6 @@ int machine_specific_init(void)
 
     gfxoutput_init();
 
-    sampler_init();
-
     /* initialize RS232 handler */
     rs232drv_init();
     c64_rsuser_init();

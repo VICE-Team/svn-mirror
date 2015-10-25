@@ -862,8 +862,6 @@ int machine_specific_init(void)
 
     gfxoutput_init();
 
-    sampler_init();
-
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {
         c64_mem_ui_init();

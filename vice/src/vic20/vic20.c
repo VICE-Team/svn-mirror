@@ -618,8 +618,6 @@ int machine_specific_init(void)
 
     gfxoutput_init();
 
-    sampler_init();
-
     /* Initialize serial traps.  If user does not want them, or if the
        ``drive'' emulation is used, do not install them.  */
     if (serial_init(vic20_serial_traps) < 0) {

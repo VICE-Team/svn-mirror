@@ -44,7 +44,6 @@ typedef struct sampler_device_s {
     void (*shutdown)(void);
 } sampler_device_t;
 
-extern void sampler_init(void);
 extern void sampler_start(int channels);
 extern void sampler_stop(void);
 extern BYTE sampler_get_sample(int channel);

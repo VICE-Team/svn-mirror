@@ -28,9 +28,11 @@
 
 #include <string.h>
 
-#include "sampler.h"
-
+#include "cmdline.h"
 #include "file_drv.h"
+#include "resources.h"
+#include "sampler.h"
+#include "translate.h"
 
 #ifdef USE_PORTAUDIO
 #include "portaudio_drv.h"
@@ -49,7 +51,7 @@ static int current_sampler = DEFAULT_DEVICE;
 
 static sampler_device_t devices[MAX_DEVICE];
 
-void sampler_init(void)
+static void sampler_init(void)
 {
     memset(devices, 0, sizeof(devices));
 
@@ -99,6 +101,7 @@ void sampler_device_register(sampler_device_t *device)
 /* Currently unused, provided for future expansion */
 int sampler_resources_init(void)
 {
+    sampler_init();
     return 0;
 }
 

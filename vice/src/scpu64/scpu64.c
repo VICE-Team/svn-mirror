@@ -659,8 +659,6 @@ int machine_specific_init(void)
 
     gfxoutput_init();
 
-    sampler_init();
-
     /* Initialize serial traps.  */
     if (serial_init(scpu64_serial_traps) < 0) {
         return -1;
