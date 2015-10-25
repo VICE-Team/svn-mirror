@@ -19984,6 +19984,54 @@ description:    "Set the base address of the ACIA cartridge. [list of addresses]
 resource:       "Acia1Base"
 action:         N/A
 
+joyport.c:
+----------
+resource type:                  int
+resource name:                  "JoyPort1Device"
+resource range:                 0..JOYPORT_MAX_DEVICES
+resource default:               0 (JOYPORT_ID_NONE)
+resource function:              set_joyport1_device()
+resource var:                   joy_port[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:                    
+command-line:                   -joyport1device
+platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform gui missing:           os2/osx
+fixme: add to documentation
+
+joyport.c:
+----------
+command line:   -joyport1device <device>
+description:    "Set joyport 1 device. [list of id's]"
+resource:       "JoyPort1Device"
+action:         N/A
+fixme: add to documentation
+
+joyport.c:
+----------
+resource type:                  int
+resource name:                  "JoyPort2Device"
+resource range:                 0..JOYPORT_MAX_DEVICES
+resource default:               0 (JOYPORT_ID_NONE)
+resource function:              set_joyport2_device()
+resource var:                   joy_port[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:                    
+command-line:                   -joyport2device
+platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform gui missing:           os2/osx
+fixme: add to documentation
+
+joyport.c:
+----------
+command line:   -joyport2device <device>
+description:    "Set joyport 2 device. [list of id's]"
+resource:       "JoyPort2Device"
+action:         N/A
+fixme: add to documentation
+
 c64/cart/ide64.c:
 -----------------
 resource type:                  string
