@@ -98,12 +98,17 @@
 
 #include "types.h"
 
+#include "cmdline.h"
 #include "file_drv.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "resources.h"
 #include "sampler.h"
+#include "util.h"
+
+static char *sample_name = NULL;
 
 /* In the future the filename can be set from either commandline or gui */
 #define SAMPLE_NAME "inputsound"
@@ -1667,7 +1672,7 @@ static int is_mp3_file(void)
         mpg123_exit();
         return 0;
     }
-    mp3_err = mpg123_open(mh, SAMPLE_NAME);
+    mp3_err = mpg123_open(mh, sample_name);
     if (mp3_err != MPG123_OK) {
         mpg123_delete(mh);
         mpg123_exit();
@@ -1796,7 +1801,7 @@ static int handle_flac_file(int channels)
 
     (void)FLAC__stream_decoder_set_md5_checking(decoder, true);
 
-    init_status = FLAC__stream_decoder_init_file(decoder, SAMPLE_NAME, flac_write_callback, flac_metadata_callback, flac_error_callback, NULL);
+    init_status = FLAC__stream_decoder_init_file(decoder, sample_name, flac_write_callback, flac_metadata_callback, flac_error_callback, NULL);
     if (init_status != FLAC__STREAM_DECODER_INIT_STATUS_OK) {
         FLAC__stream_decoder_delete(decoder);
         return -1;
@@ -1851,7 +1856,7 @@ static int handle_vorbis_file(int channels)
     int error;
     vorbis_info *vi;
 
-    error = ov_fopen(SAMPLE_NAME, &ov);
+    error = ov_fopen(sample_name, &ov);
     if (error < 0) {
         return -1;
     }
@@ -1986,14 +1991,14 @@ static void file_load_sample(int channels)
     FILE *sample_file = NULL;
     int err = 0;
 
-    sample_file = fopen(SAMPLE_NAME, "rb");
+    sample_file = fopen(sample_name, "rb");
     if (sample_file) {
         fseek(sample_file, 0, SEEK_END);
         file_size = ftell(sample_file);
         fseek(sample_file, 0, SEEK_SET);
         file_buffer = lib_malloc(file_size);
         if (fread(file_buffer, 1, file_size, sample_file) != file_size) {
-            log_warning(LOG_DEFAULT, "Unexpected end of data in '%s'.", SAMPLE_NAME);
+            log_warning(LOG_DEFAULT, "Unexpected end of data in '%s'.", sample_name);
         }
         fclose(sample_file);
         err = handle_file_type(channels);
@@ -2006,10 +2011,10 @@ static void file_load_sample(int channels)
         } else {
             lib_free(file_buffer);
             file_buffer = NULL;
-            log_warning(LOG_DEFAULT, "Unknown file type for '%s'.", SAMPLE_NAME);
+            log_warning(LOG_DEFAULT, "Unknown file type for '%s'.", sample_name);
         }
     } else {
-        log_warning(LOG_DEFAULT, "Cannot open sampler file: '%s'.", SAMPLE_NAME);
+        log_warning(LOG_DEFAULT, "Cannot open sampler file: '%s'.", sample_name);
     }
 }
 
@@ -2025,7 +2030,46 @@ static void file_free_sample(void)
         lib_free(sample_buffer1);
         sample_buffer1 = NULL;
     }
+    sound_sampling_started = 0;
 }
+
+/* ---------------------------------------------------------------------- */
+
+static int set_sample_name(const char *name, void *param)
+{
+    if (sample_name != NULL && name != NULL && strcmp(name, sample_name) == 0) {
+        return 0;
+    }
+
+    if (name != NULL && *name != '\0') {
+        if (util_check_filename_access(name) < 0) {
+            return -1;
+        }
+    }
+
+    if (sample_buffer1) {
+        file_free_sample();
+        util_string_set(&sample_name, name);
+        file_load_sample(current_channels);
+    } else {
+        util_string_set(&sample_name, name);
+    }
+
+    return 0;
+}
+
+static const resource_string_t resources_string[] = {
+    { "SampleName", "", RES_EVENT_NO, NULL,
+      &sample_name, set_sample_name, NULL },
+    { NULL }
+};
+
+static int sampler_file_resources_init(void)
+{
+    return resources_register_string(resources_string);
+}
+
+/* ---------------------------------------------------------------------- */
 
 /* For now channel is ignored */
 static BYTE file_get_sample(int channel)
@@ -2076,7 +2120,7 @@ static sampler_device_t file_device =
     file_free_sample,
     file_get_sample,
     file_shutdown,
-    NULL,
+    sampler_file_resources_init,
     NULL
 };
 
