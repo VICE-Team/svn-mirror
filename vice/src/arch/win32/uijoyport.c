@@ -102,7 +102,7 @@ static int move_buttons_group[] = {
 static void init_joyport_dialog(HWND hwnd)
 {
     HWND temp_hwnd1;
-    HWND temp_hwnd2;
+    HWND temp_hwnd2 = 0;
     int res_value1 = 0;
     int res_value2 = 0;
     int xpos;
