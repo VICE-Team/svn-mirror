@@ -16030,57 +16030,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_SFX_SS_TR, "SFX Sound Sampler kartuþunu pasifleþtir"},
 #endif
 
-/* lightpen.c */
-/* en */ {IDCLS_ENABLE_LIGHTPEN_EMULATION,    N_("Enable lightpen emulation")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_DA, "Aktivér lyspen-emulering"},
-/* de */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_DE, "Lichtgriffel Emulation aktivieren"},
-/* es */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_ES, "Permitir emulación lápiz óptico"},
-/* fr */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_FR, "Activer l'émulation du stylet optique"},
-/* hu */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_HU, "Fényceruza emuláció engedélyezése"},
-/* it */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_IT, "Attiva emulazione della penna ottica"},
-/* ko */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_KO, "¶óÀÌÆ®Ææ ¿¡¹°·¹¾îÅÍ »ç¿ë°¡´ÉÄÉ ÇÏ±â"},
-/* nl */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_NL, "Activeer de lichtpen emulatie"},
-/* pl */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_PL, "W³±cz emulacjê pióra ¶wietlnego"},
-/* ru */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_RU, "Enable lightpen emulation"},
-/* sv */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_SV, "Aktivera emulering av ljuspenna"},
-/* tr */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_TR, "Iþýklý Kalem emülasyonunu aktif et"},
-#endif
-
-/* lightpen.c */
-/* en */ {IDCLS_DISABLE_LIGHTPEN_EMULATION,    N_("Disable lightpen emulation")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_DA, "Deaktivér lyspen-emulering"},
-/* de */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_DE, "Lichtgriffel Emulation deaktivieren"},
-/* es */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_ES, "Deshabilitar emulación lápiz óptico"},
-/* fr */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_FR, "Désactiver l'émulation de stylet optique"},
-/* hu */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_HU, "Fényceruza emuláció tiltása"},
-/* it */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_IT, "Disattiva emulazione della penna ottica"},
-/* ko */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_NL, "De lichtpen emulatie uitschakelen"},
-/* pl */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_PL, "Wy³±cz emulacjê pióra ¶wietlnego"},
-/* ru */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_RU, "Disable lightpen emulation"},
-/* sv */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_SV, "Inaktivera emulering ljuspenna"},
-/* tr */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_TR, "Iþýklý Kalem emülasyonunu pasifleþtir"},
-#endif
-
-/* lightpen.c */
-/* en */ {IDCLS_SET_LIGHTPEN_TYPE,    N_("Set lightpen type. (0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_LIGHTPEN_TYPE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_LIGHTPEN_TYPE_DE, "Lichtgriffel Typ. (0: Griffel mit Taste oben, 1: Griffel mit Taste links, 2: Datel Griffel, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Griffel)"},
-/* es */ {IDCLS_SET_LIGHTPEN_TYPE_ES, "Seleccionar tipo de lápiz óptico  (0: botón arriba, 1: botón izquierda, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)"},
-/* fr */ {IDCLS_SET_LIGHTPEN_TYPE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_LIGHTPEN_TYPE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_LIGHTPEN_TYPE_IT, "Imposta il tupo di penna ottica. (0: Penna con tasto su, 1: Penna con tasto sinistra, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)"},
-/* ko */ {IDCLS_SET_LIGHTPEN_TYPE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_LIGHTPEN_TYPE_NL, "Zet lichtpen soort. (0: Pen met knop omhoog, 1: Pen met knop links, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light geweer, 5: Inkwell Pen)"},
-/* pl */ {IDCLS_SET_LIGHTPEN_TYPE_PL, "Okre¶l rodzaj pióra ¶wietlnego (0: Pióro z przyciskiem Góra, 1: Pióro z przyckiem Lewo, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)"},
-/* ru */ {IDCLS_SET_LIGHTPEN_TYPE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_LIGHTPEN_TYPE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SET_LIGHTPEN_TYPE_TR, ""},  /* fuzzy */
-#endif
-
 /* c64/cart/easyflash.c */
 /* en */ {IDCLS_ENABLE_EASYFLASH_JUMPER,    N_("Enable EasyFlash jumper")},
 #ifdef HAS_TRANSLATION

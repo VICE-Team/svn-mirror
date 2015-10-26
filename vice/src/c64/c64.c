@@ -688,10 +688,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("mouse");
         return -1;
     }
-    if (lightpen_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("lightpen");
-        return -1;
-    }
 #endif
 #ifndef COMMON_KBD
     if (kbd_cmdline_options_init() < 0) {

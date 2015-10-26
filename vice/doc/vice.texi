@@ -2929,17 +2929,6 @@ Integer that specifies the type of emulated mouse. (0=1351, 1=NEOS, 2=Amiga,
 Integer that specifies the joystick port the emulated mouse is connected to.
 (1=port 1, 2=port 2)
 
-@vindex Lightpen
-@item Lightpen
-Boolean to enable/disable lightpen emulation
-(x64, x64sc, xscpu64, x128 and xvic only).
-
-@vindex LightpenType
-@item LightpenType
-Integer specifying the type of lightpen
-(x64, x64sc, xscpu64, x128 and xvic only).
-(0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifle)
-
 @vindex KeySet1NorthWest
 @vindex KeySet1North
 @vindex KeySet1NorthEast
@@ -3044,20 +3033,6 @@ Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 
 @cindex -mouseport
 @item -mouseport <value>
 Select the joystick port the mouse is attached to
-
-@findex -lightpen, +lightpen
-@item -lightpen
-@itemx +lightpen
-Enable/disable lightpen emulation
-(@code{Lightpen=1}, @code{Lightpen=0})
-(x64, x64sc, xscpu64, x128 and xvic only).
-
-@findex -lightpentype
-@item -lightpentype <type>
-Set lightpen type
-(@code{LightpenType})
-(x64, x64sc, xscpu64, x128 and xvic only).
-(0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifle)
 
 @findex -keyset, +keyset
 @item -keyset

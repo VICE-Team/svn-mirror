@@ -30,11 +30,9 @@
 #include "types.h"
 
 extern int lightpen_resources_init(void);
-extern int lightpen_cmdline_options_init(void);
 extern void lightpen_init(void);
 
 extern int lightpen_enabled;
-extern int lightpen_type;
 #define LIGHTPEN_TYPE_PEN_U       0
 #define LIGHTPEN_TYPE_PEN_L       1
 #define LIGHTPEN_TYPE_PEN_DATEL   2

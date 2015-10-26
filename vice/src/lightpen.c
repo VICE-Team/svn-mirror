@@ -42,8 +42,6 @@
 /* extern variables */
 
 int lightpen_enabled = 0;
-int lightpen_type;
-
 
 /* --------------------------------------------------------- */
 /* static variables/functions */
@@ -51,6 +49,8 @@ int lightpen_type;
 #define MAX_WINDOW_NUM 1
 
 static BYTE lightpen_value = 0;
+
+static int lightpen_type;
 
 static int lightpen_buttons;
 static int lightpen_button_y;
@@ -251,41 +251,6 @@ static int lightpen_joyport_register(void)
 }
 
 /* --------------------------------------------------------- */
-/* Resources & cmdline */
-
-static int set_lightpen_enabled(int val, void *param)
-{
-    lightpen_enabled = val ? 1 : 0;
-
-    return 0;
-}
-
-static int set_lightpen_type(int val, void *param)
-{
-    switch (val) {
-        case LIGHTPEN_TYPE_PEN_U:
-        case LIGHTPEN_TYPE_PEN_L:
-        case LIGHTPEN_TYPE_PEN_DATEL:
-        case LIGHTPEN_TYPE_GUN_Y:
-        case LIGHTPEN_TYPE_GUN_L:
-        case LIGHTPEN_TYPE_INKWELL:
-            break;
-        default:
-            return -1;
-    }
-
-    lightpen_type = val;
-
-    return 0;
-}
-
-static const resource_int_t resources_int[] = {
-    { "Lightpen", 0, RES_EVENT_SAME, NULL,
-      &lightpen_enabled, set_lightpen_enabled, NULL },
-    { "LightpenType", LIGHTPEN_TYPE_PEN_U, RES_EVENT_SAME, NULL,
-      &lightpen_type, set_lightpen_type, NULL },
-    { NULL }
-};
 
 int lightpen_resources_init(void)
 {
@@ -294,31 +259,7 @@ int lightpen_resources_init(void)
         return -1;
     }
 #endif
-    return resources_register_int(resources_int);
-}
-
-static const cmdline_option_t cmdline_options[] = {
-    { "-lightpen", SET_RESOURCE, 0,
-      NULL, NULL, "Lightpen", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_LIGHTPEN_EMULATION,
-      NULL, NULL },
-    { "+lightpen", SET_RESOURCE, 0,
-      NULL, NULL, "Lightpen", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_LIGHTPEN_EMULATION,
-      NULL, NULL },
-    { "-lightpentype", SET_RESOURCE, 1,
-      NULL, NULL, "LightpenType", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_TYPE, IDCLS_SET_LIGHTPEN_TYPE,
-      NULL, NULL },
-    { NULL }
-};
-
-int lightpen_cmdline_options_init(void)
-{
-    return cmdline_register_options(cmdline_options);
+    return 0;
 }
 
 /* --------------------------------------------------------- */
