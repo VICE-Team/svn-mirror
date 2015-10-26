@@ -37,6 +37,7 @@
  - Windows 2000 Advanced Server (x86)
  - Windows XP FLP (x86)
  - Windows XP Pro (x86)
+ - Windows XP MCE 2004 (x86)
  - Windows XP MCE 2005 (x86)
  - Windows XP MCE 2005 R2 (x86)
  - Windows 2003 Web Server (x86)
@@ -52,7 +53,7 @@
  - Windows 2008 Foundation Server (x64)
  - Windows 2008 Standard Server (x86/x64)
  - Windows 2008 Enterprise Server (x86/x64)
- - Windows 2008 Datacenter Server (x64)
+ - Windows 2008 Datacenter Server (x86/x64)
  - Windows 2008 Basic Storage Server (x64)
  - Windows Thin PC (x86)
  - Windows 7 Embedded POSReady (x86)
@@ -67,7 +68,7 @@
  - Windows 2009 POSReady (x86)
  - Windows Home Server 2011 (x64)
  - Windows 2011 Standard Multipoint Server (x64)
- - Windows 8 Enterprise (x64)
+ - Windows 8 Enterprise (x86/x64)
 */
 
 #include "vice.h"
@@ -124,6 +125,7 @@ static winver_t windows_versions[] = {
     { "Windows 2000 Small Business Server",        "Microsoft Windows 2000",                     3, 0 },
     { "Windows XP Pro",                            "Microsoft Windows XP",                       0, 0 },
     { "Windows XP Tablet PC",                      "Microsoft Windows XP",                       0, 1 },
+    { "Windows XP Media Center 2004",              "Microsoft Windows XP",                       0, 6 },
     { "Windows XP Media Center 2005",              "Microsoft Windows XP",                       0, 7 },
     { "Windows XP Media Center 2005 R2",           "Microsoft Windows XP",                       0, 9 },
     { "Windows Fundamentals for Legacy PCs",       "Microsoft Windows XP",                       0, 3 },

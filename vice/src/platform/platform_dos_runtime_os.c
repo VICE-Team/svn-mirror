@@ -52,7 +52,7 @@
  - MSDOS 3.21 (Kaypro OEM)
  - MSDOS 3.21 (Generic)
  - MSDOS 3.30 (Toshiba OEM)
- - MSDOS 3.30 (OEM)
+ - MSDOS 3.30 (Generic)
  - MSDOS 3.30A (AT&T OEM)
  - MSDOS 3.30A (Generic)
  - MSDOS 4.01 (Generic)
@@ -66,6 +66,7 @@
  - MSDOS 7.10 (Stand Alone)
  - MSDOS 8.0 (Stand Alone)
  - PCDOS 3.00
+ - PCDOS 3.10
  - PCDOS 4.00
  - PCDOS 5.00
  - PCDOS 5.02
@@ -79,6 +80,7 @@
 /* Tested and confirmed working on the following DOS GUI's:
  - DesqView 2.70
  - DesqView 2.71
+ - Windows 3.0
  - Windows 3.11 (Windows For Workgroups)
 */
 
@@ -112,7 +114,9 @@
  - Windows XP Starter
  - Windows XP Home
  - Windows XP Pro
+ - Windows XP MCE 2004
  - Windows XP MCE 2005
+ - Windows XP MCE 2005 R2
  - Windows 2003 Web Server
  - Windows 2003 Standard Server
  - Windows 2003 Small Business Server
@@ -198,7 +202,7 @@ static dos_version_t dos_versions[] = {
     { "MSDOS 3.21 (Hyosung OEM)",      "MS-DOS",      3, 21,  -1, "HYOSUNG MS-DOS Ver 3.21",                        "HYOSUNG MS-DOS Ver 3.21",                                NULL, NULL },
     { "MSDOS 3.21 (Generic)",          "MS-DOS",      3, 21,  -1, "Microsoft(R) MS-DOS(R)  Version 3.21",           "MS-DOS Version 3.21",                                    NULL, NULL },
     { "MSDOS 3.30 (Toshiba OEM)",      "IBMPcDos",    3, 30,  -1, "MS-DOS(R) Version 3.30 ",                        "Toshiba MS-DOS Version 3.30 / R3CE0US      ",            NULL, NULL },
-    { "MSDOS 3.30 (OEM)",              "IBMPcDos",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30",           "MS-DOS Version 3.30                     ",               NULL, NULL },
+    { "MSDOS 3.30",                    "IBMPcDos",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30",           "MS-DOS Version 3.30                     ",               NULL, NULL },
     { "MSDOS 3.30A (AT&T OEM)",        "OlivtDOS",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30a",          "AT&T Personal Computer MS-DOS Version 3.30a  Rev. 1.01", NULL, NULL },
     { "MSDOS 3.30A (Generic)",         "IBMPcDos",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30A",          "MS-DOS Version 3.30                     ",               NULL, NULL },
     { "MSDOS 4.01 (Generic)",          "MS-DOS",      4,  0,  -1, "Microsoft(R) MS-DOS(R) Version 4.01",            "MS-DOS Version 4.01",                                    NULL, NULL },
@@ -220,6 +224,7 @@ static dos_version_t dos_versions[] = {
     { "OS/2 4.0",                      "IBMPcDos",   20, 40,   0, NULL,                                             "The Operating System/2 Version is 4.00 ",                NULL, NULL },
     { "OS/2 4.52 / EComStation",       "IBMPcDos",   20, 45,   0, NULL,                                             "The Operating System/2 Version is 4.50 ",                NULL, NULL },
     { "PCDOS 3.00",                    "IBMPcDos",    3,  0,  -1, "The IBM Personal Computer DOS",                  "IBM Personal Computer DOS Version  3.00 ",               NULL, NULL },
+    { "PCDOS 3.10",                    "IBMPcDos",    3, 10,  -1, "The IBM Personal Computer DOS",                  "IBM Personal Computer DOS Version  3.10 ",               NULL, NULL },
     { "PCDOS 4.00",                    "IBMPcDos",    4,  0,  -1, "IBM DOS Version 4.00",                           "IBM DOS Version 4.00",                                   NULL, NULL },
     { "PCDOS 5.00",                    "IBMPcDos",    5,  0,   0, "IBM DOS Version 5.00",                           "IBM DOS Version 5.00",                                   NULL, NULL },
     { "PCDOS 5.02",                    "IBMPcDos",    5,  2,   0, NULL,                                             "IBM DOS Version 5.02",                                   NULL, NULL },
@@ -493,20 +498,50 @@ static int get_dos_oem_nr(void)
 static int get_windows_version(int *major, int *minor, int *mode)
 {
     __dpmi_regs r;
-    int retval = 0;
 
     printf("Getting windows version\n");
 
     r.x.ax = 0x160a;
     __dpmi_int(0x2f, &r);
 
-    if (r.x.ax == 0) {
+    if (r.x.cx == 2 || r.x.cx == 3) {
         *major = r.h.bh;
         *minor = r.h.bl;
         *mode = r.x.cx;
-        retval = 1;
+        return 1;
     }
-    return retval;
+
+    r.x.ax = 0x4680;
+    __dpmi_int(0x2f, &r);
+    if (r.x.ax == 0) {
+        r.x.ax = 0x4B02;
+        r.x.bx = 0;
+        r.x.es = 0;
+        r.x.di = 0;
+        __dpmi_int(0x2f, &r);
+        if (r.x.es == 0 && r.x.di == 0) {
+            *major = 3;
+            *minor = 0;
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    r.x.ax = 0x1600;
+    __dpmi_int(0x2f, &r);
+    if (r.h.al == 1 || r.h.al == 0xff) {
+        *major = 2;
+        *minor = 0;
+        return 1;
+    }
+    if (r.h.al & 0x7f) {
+        *major = 3;
+        *minor = 0;
+        return 1;
+    }
+
+    return 0;
 }
 
 char *platform_get_dos_runtime_os(void)
