@@ -64,6 +64,7 @@
  - Windows 2008 R2 Enterprise Server (x64)
  - Windows 2008 R2 Datacenter Server (x64)
  - Windows 2008 R2 Workgroup Storage Server (x64)
+ - Windows 2008 R2 Standard Storage Sever (x64)
  - Windows 2008 R2 Enterprise Storage Server (x64)
  - Windows 2009 POSReady (x86)
  - Windows Home Server 2011 (x64)
