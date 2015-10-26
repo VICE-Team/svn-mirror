@@ -10,6 +10,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/vicii \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/raster \
+	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/c64

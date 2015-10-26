@@ -8,6 +8,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/video \
+	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/raster
 
