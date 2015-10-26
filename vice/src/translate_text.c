@@ -3352,6 +3352,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_KOALAPAD_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/sampler2bit.c */
+/* en */ {IDGS_SAMPLER_2BIT,    N_("Sampler (2bit)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SAMPLER_2BIT_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SAMPLER_2BIT_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SAMPLER_2BIT_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SAMPLER_2BIT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SAMPLER_2BIT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SAMPLER_2BIT_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SAMPLER_2BIT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SAMPLER_2BIT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SAMPLER_2BIT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SAMPLER_2BIT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SAMPLER_2BIT_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SAMPLER_2BIT_TR, ""},  /* fuzzy */
+#endif
+
 /* lightpen.c */
 /* en */ {IDGS_LIGHTPEN_UP,    N_("Light Pen (up trigger)")},
 #ifdef HAS_TRANSLATION

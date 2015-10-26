@@ -9,6 +9,7 @@ SUBDIRS = \
 	@RESID_DIR@ \
 	@RESID_DTV_DIR@ \
 	samplerdrv \
+	joyport \
 	sounddrv \
 	drive \
 	vdrive \
@@ -50,6 +51,7 @@ SUBDIRS = \
 DIST_SUBDIRS = \
 	sounddrv \
 	samplerdrv \
+	joyport \
 	drive \
 	vdrive \
 	fsdevice \
@@ -1089,6 +1091,7 @@ fileio_lib = $(top_builddir)/src/fileio/libfileio.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
+joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 p64_lib = $(top_builddir)/src/lib/p64/libp64.a
@@ -1127,7 +1130,7 @@ ffmpeg_libs = @FFMPEG_LIBS@
 # external libraries required for all emulators
 emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
 
-driver_libs = $(samplerdrv_lib) $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -1204,7 +1207,6 @@ vsid_libs =  \
 	$(vsid_lib) \
 	$(sid_lib) \
 	$(monitor_lib) \
-	$(samplerdrv_lib) \
 	$(sounddrv_lib) \
 	$(serial_lib) \
 	$(core_lib) \
@@ -1229,7 +1231,6 @@ vsid-all: \
 	libvsid \
 	libraster \
 	libsid \
-	libsamplerdrv \
 	libsounddrv \
 	libviciivsid \
 	libvideo \
@@ -1295,6 +1296,7 @@ x64-all: \
 	libraster \
 	libsid \
 	libsamplerdrv \
+	libjoyport \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1371,6 +1373,7 @@ x64sc-all: \
 	libraster \
 	libsid \
 	libsamplerdrv \
+	libjoyport \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1445,6 +1448,7 @@ x64dtv-all: \
 	libraster \
 	libsid \
 	libsamplerdrv \
+	libjoyport \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1511,6 +1515,7 @@ xscpu64-all: \
 	libc64cart \
 	libc64commoncart \
 	libsamplerdrv \
+	libjoyport \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1591,6 +1596,7 @@ x128-all: \
 	libc64cart \
 	libc64commoncart \
 	libsamplerdrv \
+	libjoyport \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1671,6 +1677,7 @@ xvic-all: \
 	libvdrive \
 	libraster \
 	libsamplerdrv \
+	libjoyport \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1738,7 +1745,6 @@ xpet-all: \
 	libvdrive \
 	libraster \
 	libcrtc \
-	libsamplerdrv \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1804,6 +1810,7 @@ xplus4-all: \
 	libvdrive \
 	libraster \
 	libsamplerdrv \
+	libjoyport \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1861,7 +1868,6 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xcbm2-all: \
 	$(BUILT_SOURCES) \
 	libcbm2 \
-	libsamplerdrv \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1926,6 +1932,7 @@ xcbm5x0-all: \
 	$(BUILT_SOURCES) \
 	libcbm5x0 \
 	libsamplerdrv \
+	libjoyport \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -2053,11 +2060,11 @@ DISTCLEANFILES = $(BUILT_SOURCES)
 
 .PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20
 	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv
-	librs232drv libgfxoutputdrv libsamplerdrv libsounddrv libdiskimage
-	libfsdevice libtape libarch libvicii libviciisc libviciidtv
-	libviciivsid libvdc libsid libcrtc libvideo libserial libparallel
-	libcore libiecbus libfileio librtc libuserport libp64 libscpu64
-	@RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
+	librs232drv libgfxoutputdrv libsamplerdrv libjoyport libsounddrv
+	libdiskimage libfsdevice libtape libarch libvicii libviciisc
+	libviciidtv libviciivsid libvdc libsid libcrtc libvideo libserial
+	libparallel libcore libiecbus libfileio librtc libuserport libp64
+	libscpu64 @RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -2151,6 +2158,8 @@ libresiddtv:
 	(cd resid-dtv && $(MAKE) libresiddtv.a)
 libsamplerdrv:
 	(cd samplerdrv && $(MAKE))
+libjoyport:
+	(cd joyport && $(MAKE))
 libserial:
 	(cd serial && $(MAKE))
 libsid:

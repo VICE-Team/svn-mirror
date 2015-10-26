@@ -89,6 +89,7 @@
 #include "rs232drv.h"
 #include "rsuser.h"
 #include "sampler.h"
+#include "sampler2bit.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "sid-cmdline-options.h"
@@ -509,6 +510,10 @@ int machine_resources_init(void)
     }
     if (joyport_resources_init(JOYPORT_POT_PRESENT, JOYPORT_PORTS_2) < 0) {
         init_resource_fail("joyport");
+        return -1;
+    }
+    if (joyport_sampler2bit_resources_init() < 0) {
+        init_resource_fail("joyport 2bit sampler");
         return -1;
     }
     if (joystick_resources_init() < 0) {

@@ -49,7 +49,7 @@
 #define JOYPORT_ID_LIGHTGUN_Y         17
 #define JOYPORT_ID_LIGHTGUN_L         18
 #define JOYPORT_ID_LIGHTPEN_INKWELL   19
-#define JOYPORT_ID_SAMPLER            20
+#define JOYPORT_ID_SAMPLER_2BIT       20
 #define JOYPORT_ID_COPLIN_KEYPAD      21
 #define JOYPORT_ID_CARDCO_KEYPAD      22
 #define JOYPORT_ID_CX85_KEYPAD        23
@@ -98,7 +98,6 @@ extern BYTE read_joyport_poty(void);
 
 extern void set_joyport_pot_mask(int mask);
 
-extern int sampler_joyport_register(void);
 extern int keypad_coplin_joyport_register(void);
 extern int keypad_cardco_joyport_register(void);
 extern int keypad_cx85_joyport_register(void);

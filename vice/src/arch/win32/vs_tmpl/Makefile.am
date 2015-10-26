@@ -44,6 +44,7 @@ EXTRA_DIST = \
 	iecieee.tmpl \
 	ieee.tmpl \
 	imagecontents.tmpl \
+	joyport.tmpl \
 	lame.tmpl \
 	mkmsvc.c \
 	mkmsvc.dsp \

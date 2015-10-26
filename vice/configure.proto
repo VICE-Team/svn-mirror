@@ -4258,6 +4258,7 @@ AC_OUTPUT([Makefile
            src/gfxoutputdrv/Makefile
            src/iecbus/Makefile
            src/imagecontents/Makefile
+           src/joyport/Makefile
            src/lib/Makefile
            src/lib/ffmpeg/Makefile
            src/lib/p64/Makefile
