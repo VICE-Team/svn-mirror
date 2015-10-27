@@ -87,12 +87,12 @@ void uijoyport_menu_create(int ports)
         devices_submenu1[i].string = (ui_callback_data_t)lib_msprintf("%s", translate_text(devices[i].trans_name));
         devices_submenu1[i].type = UI_MENU_TYPE_TICK;
         devices_submenu1[i].callback = (ui_callback_t)radio_JoyPort1Device;
-        devices_submenu1[i].callback_data = (ui_callback_data_t)devices[i].id;
+        devices_submenu1[i].callback_data = (ui_callback_data_t)(unsigned long)devices[i].id;
         if (ports == 2) {
             devices_submenu2[i].string = (ui_callback_data_t)lib_msprintf("%s", translate_text(devices[i].trans_name));
             devices_submenu2[i].type = UI_MENU_TYPE_TICK;
             devices_submenu2[i].callback = (ui_callback_t)radio_JoyPort2Device;
-            devices_submenu2[i].callback_data = (ui_callback_data_t)devices[i].id;
+            devices_submenu2[i].callback_data = (ui_callback_data_t)(unsigned long)devices[i].id;
         }
     }
 
