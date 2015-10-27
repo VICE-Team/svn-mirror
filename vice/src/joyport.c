@@ -380,7 +380,7 @@ static int set_joyport_cmdline_device(const char *param, void *extra_param)
 {
     int temp = -1;
     int i = 0;
-    int port = (int)extra_param;
+    int port = vice_ptr_to_int(extra_param);
 
     if (!param) {
         return -1;
