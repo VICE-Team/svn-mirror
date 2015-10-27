@@ -927,7 +927,7 @@ static char *msvc10_res_cc = "      <Command Condition=\"'$(Configuration)|$(Pla
 static char *msvc10_res_cc_end = "%s /b\r\n"
                                  "</Command>\r\n";
 
-static char *msvc10_res_aic = "      <AdditionalInputs Condition=\"'$(Configuration)|$(Platform)'=='%s|%s'\">..\\..\\..\\debug.h;";
+static char *msvc10_res_aic = "      <AdditionalInputs Condition=\"'$(Configuration)|$(Platform)'=='%s|%s'\">.\\debug.h;";
 
 static char *msvc10_res_aic_end = "%%(AdditionalInputs)</AdditionalInputs>\r\n";
 
@@ -2157,7 +2157,7 @@ static int output_msvc9_file(char *fname, int filelist, int sdl)
                         }
                     }
                     fprintf(outfile, "%s /b&#x0D;&#x0A;\"\r\n", cp_res_output_name);
-                    fprintf(outfile, "\t\t\t\t\tAdditionalDependencies=\"..\\..\\..\\debug.h;");
+                    fprintf(outfile, "\t\t\t\t\tAdditionalDependencies=\".\\debug.h;");
                     for (j = 0; cp_res_deps[j]; j++) {
                         fprintf(outfile, "..\\%s;", cp_res_deps[j]);
                     }
@@ -2550,7 +2550,7 @@ static char *msvc8_res_conf = "\t\t\t<FileConfiguration\r\n"
                               "\t\t\t\t\tCommandLine=\"copy /b ";
 
 static char *msvc8_res_conf2 = "%s /b&#x0D;&#x0A;\"\r\n"
-                               "\t\t\t\t\tAdditionalDependencies=\"..\\..\\..\\debug.h;";
+                               "\t\t\t\t\tAdditionalDependencies=\".\\debug.h;";
 
 static char *msvc8_res_conf3 = "\"\r\n"
                                "\t\t\t\t\tOutputs=\"%s\"\r\n"
@@ -3377,7 +3377,7 @@ static char *msvc70_res_fc = "\t\t\t<FileConfiguration\r\n"
                              "\t\t\t\t\tName=\"VCCustomBuildTool\"\r\n"
                              "\t\t\t\t\tCommandLine=\"copy /b ";
 
-static char *msvc70_res_deps = "\t\t\t\t\tAdditionalDependencies=\"..\\..\\..\\debug.h;";
+static char *msvc70_res_deps = "\t\t\t\t\tAdditionalDependencies=\".\\debug.h;";
 
 static char *msvc70_res_output = "\"\r\n"
                                  "\t\t\t\t\tOutputs=\"%s\"/>\r\n"
@@ -4120,7 +4120,7 @@ static char *msvc6_res_source_start = "# Begin Source File\r\n"
                                       "\r\n";
 
 static char *msvc6_res_source_part1 = "# PROP Ignore_Default_Tool 1\r\n"
-                                      "USERDEP__RESC6=\"..\\..\\..\\debug.h\"";
+                                      "USERDEP__RESC6=\".\\debug.h\"";
 
 static char *msvc6_res_source_part2 = "\r\n"
                                       "# Begin Custom Build\r\n"
