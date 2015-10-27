@@ -10,7 +10,8 @@ AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	@RESID_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/joyport
 
 noinst_LIBRARIES = libsid.a
 

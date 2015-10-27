@@ -28,6 +28,8 @@
 
 #include <stdio.h>
 
+#if defined(HAVE_MOUSE) && defined(HAVE_LIGHTPEN)
+
 #include "cmdline.h"
 #include "joyport.h"
 #include "joystick.h"
@@ -254,11 +256,9 @@ static int lightpen_joyport_register(void)
 
 int lightpen_resources_init(void)
 {
-#if defined(HAVE_MOUSE) && defined(HAVE_LIGHTPEN)
     if (lightpen_joyport_register() < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
@@ -341,3 +341,4 @@ BYTE lightpen_read_button_x(void)
 {
     return (lightpen_enabled && lightpen_button_x) ? 0x00 : 0xff;
 }
+#endif

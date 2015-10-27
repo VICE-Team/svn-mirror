@@ -166,7 +166,6 @@ noinst_HEADERS = \
 	keyboard.h \
 	lib.h \
 	libm_math.h \
-	lightpen.h \
 	log.h \
 	machine-bus.h \
 	machine-drive.h \
@@ -284,7 +283,6 @@ base_sources = \
 	keyboard.c \
 	lib.c \
 	libm_math.c \
-	lightpen.c \
 	log.c \
 	machine-bus.c \
 	machine.c \
@@ -1216,6 +1214,7 @@ vsid_libs =  \
 	$(common_libs) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
+	$(joyport_lib) \
 	$(platform_lib)
 
 vsid_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
@@ -1422,6 +1421,7 @@ x64dtv_libs =  \
 	$(resid_dtv_libs) \
 	$(ffmpeg_libs) \
 	$(c64dtvstubs_lib) \
+	$(joyport_lib) \
 	$(platform_lib)
 
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
@@ -1725,6 +1725,7 @@ xpet_libs =  \
 	$(sid_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(joyport_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
 	$(platform_lib)
@@ -1789,6 +1790,7 @@ xplus4_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(joyport_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
 	$(platform_lib)
@@ -1855,6 +1857,7 @@ xcbm2_libs = \
 	$(userport_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(joyport_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
 	$(platform_lib)
@@ -1918,6 +1921,7 @@ xcbm5x0_libs = \
 	$(userport_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(joyport_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
 	$(platform_lib)
