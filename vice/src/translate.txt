@@ -548,6 +548,12 @@ IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED
 IDGS_SELECTED_JOYPORT_SAME_INPUT_RES
 
 /* joyport.c */
+IDGS_HOST_MOUSE
+
+/* joyport.c */
+IDGS_HOST_SAMPLER
+
+/* joyport.c */
 IDGS_NONE
 
 /* joystick.c */

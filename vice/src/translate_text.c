@@ -3132,7 +3132,7 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES,    N_("Selected joyport device %s on port %d uses same input resource as the device attached to port %d")},
+/* en */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES,    N_("Selected joyport device %s on port %d uses same host input resource (%s) as the device attached to port %d")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DE, ""},  /* fuzzy */
@@ -3146,6 +3146,40 @@ translate_t string_table[] = {
 /* ru */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_SV, ""},  /* fuzzy */
 /* tr */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_HOST_MOUSE,    N_("host mouse")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_HOST_MOUSE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_HOST_MOUSE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_HOST_MOUSE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_HOST_MOUSE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_HOST_MOUSE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_HOST_MOUSE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_HOST_MOUSE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_HOST_MOUSE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_HOST_MOUSE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_HOST_MOUSE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_HOST_MOUSE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_HOST_MOUSE_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_HOST_SAMPLER,    N_("host sampler (audio input device)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_HOST_SAMPLER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_HOST_SAMPLER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_HOST_SAMPLER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_HOST_SAMPLER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_HOST_SAMPLER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_HOST_SAMPLER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_HOST_SAMPLER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_HOST_SAMPLER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_HOST_SAMPLER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_HOST_SAMPLER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_HOST_SAMPLER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_HOST_SAMPLER_TR, ""},  /* fuzzy */
 #endif
 
 /* joyport.c */

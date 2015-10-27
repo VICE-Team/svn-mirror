@@ -44,6 +44,30 @@ static int pot_port_mask = 1;
 static int max_ports = 2;
 static int joyport_set_done = 0;
 
+typedef struct resid2transid_s {
+    int resid;
+    int transid;
+} resid2transid_t;
+
+static resid2transid_t ids[] = {
+    { JOYPORT_RES_ID_MOUSE, IDGS_HOST_MOUSE },
+    { JOYPORT_RES_ID_SAMPLER, IDGS_HOST_SAMPLER },
+    { -1, -1 }
+};
+
+static char *res2text(int id)
+{
+    int i;
+    char *retval = "Unknown joyport resource";
+
+    for (i = 0; ids[i].resid != -1; ++i) {
+        if (ids[i].resid == id) {
+            retval = translate_text(ids[i].transid);
+        }
+    }
+    return retval;
+}
+
 void set_joyport_pot_mask(int mask)
 {
     pot_port_mask = mask;
@@ -78,7 +102,7 @@ static int joyport_set_device(int port, int id)
 
     /* check if input resource conflicts with device on the other port */
     if (id != JOYPORT_ID_NONE && max_ports != 1 && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE && joyport_device[id].resource_id == joyport_device[joy_port[!port]].resource_id) {
-        ui_error(translate_text(IDGS_SELECTED_JOYPORT_SAME_INPUT_RES), joyport_device[id].name, port + 1, (!port) + 1);
+        ui_error(translate_text(IDGS_SELECTED_JOYPORT_SAME_INPUT_RES), joyport_device[id].name, port + 1, res2text(joyport_device[id].resource_id), (!port) + 1);
         return -1;
     }
 
