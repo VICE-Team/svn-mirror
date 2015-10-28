@@ -96,6 +96,45 @@ static const lp_type_t lp_type[LIGHTPEN_TYPE_NUM] = {
     { GUN, 0x04, 0x20, 20, 0 }
 };
 
+typedef struct lp_id_s {
+    int lp;
+    int id;
+} lp_id_t;
+
+static lp_id_t lp_id[] = {
+    { LIGHTPEN_TYPE_PEN_U,     JOYPORT_ID_LIGHTPEN_U },
+    { LIGHTPEN_TYPE_PEN_L,     JOYPORT_ID_LIGHTPEN_L },
+    { LIGHTPEN_TYPE_PEN_DATEL, JOYPORT_ID_LIGHTPEN_DATEL },
+    { LIGHTPEN_TYPE_GUN_Y,     JOYPORT_ID_LIGHTGUN_Y },
+    { LIGHTPEN_TYPE_GUN_L,     JOYPORT_ID_LIGHTGUN_L },
+    { LIGHTPEN_TYPE_INKWELL,   JOYPORT_ID_LIGHTPEN_INKWELL },
+    { -1,                      -1 }
+};
+
+static inline int joyport_id_to_lighpen_type(int id)
+{
+    int i;
+
+    for (i = 0; lp_id[i].lp != -1; ++i) {
+        if (lp_id[i].id == id) {
+            return lp_id[i].lp;
+        }
+    }
+    return -1;
+}
+
+static inline int lighpen_type_to_joyport_id(int lp)
+{
+    int i;
+
+    for (i = 0; lp_id[i].lp != -1; ++i) {
+        if (lp_id[i].lp == lp) {
+            return lp_id[i].id;
+        }
+    }
+    return -1;
+}
+
 static inline void lightpen_check_button_mask(BYTE mask, int pressed)
 {
     if (!mask) {
@@ -136,28 +175,12 @@ static int joyport_lightpen_enable(int val)
         return 0;
     }
 
-    switch (val) {
-        case JOYPORT_ID_LIGHTPEN_U:
-            lightpen_type = LIGHTPEN_TYPE_PEN_U;
-            break;
-        case JOYPORT_ID_LIGHTPEN_L:
-            lightpen_type = LIGHTPEN_TYPE_PEN_L;
-            break;
-        case JOYPORT_ID_LIGHTPEN_DATEL:
-            lightpen_type = LIGHTPEN_TYPE_PEN_DATEL;
-            break;
-        case JOYPORT_ID_LIGHTGUN_Y:
-            lightpen_type = LIGHTPEN_TYPE_GUN_Y;
-            break;
-        case JOYPORT_ID_LIGHTGUN_L:
-            lightpen_type = LIGHTPEN_TYPE_GUN_L;
-            break;
-        case JOYPORT_ID_LIGHTPEN_INKWELL:
-            lightpen_type = LIGHTPEN_TYPE_INKWELL;
-            break;
-        default:
-            return -1;
+    lightpen_type = joyport_id_to_lighpen_type(val);
+
+    if (lightpen_type == -1) {
+        return -1;
     }
+
     return 0;
 }
 
