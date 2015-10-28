@@ -188,6 +188,15 @@ static void end_joyport_dialog(HWND hwnd)
     int id1 = 0;
     int id2 = 0;
 
+    /* Because both ports need to be set at the same time,
+       and actually they are set one at a time,
+       set both ports to 'NONE' so there are 'fake' conflicts.
+     */
+    if (ports == 2) {
+        resources_set_int("JoyPort1Device", JOYPORT_ID_NONE);
+        resources_set_int("JoyPort2Device", JOYPORT_ID_NONE);
+    }
+
     if (joy1) {
         id1 = devices[joy1].id;
     }
