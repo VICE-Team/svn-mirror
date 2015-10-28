@@ -1044,10 +1044,8 @@ void mouse_button_middle(int pressed)
     switch (mouse_type) {
         case MOUSE_TYPE_MICROMYS:
             if (pressed) {
-                joystick_set_value_or(mouse_port, 2);
                 mouse_digital_val |= 2;
             } else {
-                joystick_set_value_and(mouse_port, ~2);
                 mouse_digital_val &= (BYTE)~2;
             }
             break;
