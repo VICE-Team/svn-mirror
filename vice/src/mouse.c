@@ -546,18 +546,58 @@ static BYTE mouse_get_paddle_y(void)
 
 /*--------------------------------------------------------------------------*/
 
+typedef struct mt_id_s {
+    int mt;
+    int id;
+} mt_id_t;
+
+static mt_id_t mt_id[] = {
+    { MOUSE_TYPE_PADDLE,   JOYPORT_ID_PADDLES },
+    { MOUSE_TYPE_1351,     JOYPORT_ID_MOUSE_1351 },
+    { MOUSE_TYPE_NEOS,     JOYPORT_ID_MOUSE_NEOS },
+    { MOUSE_TYPE_AMIGA,    JOYPORT_ID_MOUSE_AMIGA },
+    { MOUSE_TYPE_CX22,     JOYPORT_ID_MOUSE_CX22 },
+    { MOUSE_TYPE_ST,       JOYPORT_ID_MOUSE_ST },
+    { MOUSE_TYPE_SMART,    JOYPORT_ID_MOUSE_SMART },
+    { MOUSE_TYPE_MICROMYS, JOYPORT_ID_MOUSE_MICROMYS },
+    { MOUSE_TYPE_KOALAPAD, JOYPORT_ID_KOALAPAD },
+    { -1,                  -1 }
+};
+
+static int id_to_mt(int id)
+{
+    int i;
+
+    for (i = 0; mt_id[i].mt != -1; ++i) {
+        if (mt_id[i].id == id) {
+            return mt_id[i].mt;
+        }
+    }
+    return -1;
+}
+
+static int mt_to_id(int mt)
+{
+    int i;
+
+    for (i = 0; mt_id[i].mt != -1; ++i) {
+        if (mt_id[i].mt == mt) {
+            return mt_id[i].id;
+        }
+    }
+    return -1;
+}
+
 static int joyport_mouse_enable(int val)
 {
+    int mt;
+
     mousedrv_mouse_changed();
     latest_x = last_mouse_x = mousedrv_get_x();
     latest_y = last_mouse_y = mousedrv_get_y();
     neos_lastx = (BYTE)(mousedrv_get_x() >> 1);
     neos_lasty = (BYTE)(mousedrv_get_y() >> 1);
     latest_os_ts = 0;
-
-    if (val == mouse_type) {
-        return 0;
-    }
 
     if (!val) {
         if (ds1202) {
@@ -568,37 +608,20 @@ static int joyport_mouse_enable(int val)
         return 0;
     }
 
-    switch (val) {
-        case JOYPORT_ID_PADDLES:
-            mouse_type = MOUSE_TYPE_PADDLE;
-            break;
-        case JOYPORT_ID_MOUSE_1351:
-            mouse_type = MOUSE_TYPE_1351;
-            break;
-        case JOYPORT_ID_MOUSE_NEOS:
-            mouse_type = MOUSE_TYPE_NEOS;
-            break;
-        case JOYPORT_ID_MOUSE_AMIGA:
-            mouse_type = MOUSE_TYPE_AMIGA;
-            break;
-        case JOYPORT_ID_MOUSE_CX22:
-            mouse_type = MOUSE_TYPE_CX22;
-            break;
-        case JOYPORT_ID_MOUSE_ST:
-            mouse_type = MOUSE_TYPE_ST;
-            break;
-        case JOYPORT_ID_MOUSE_SMART:
-            mouse_type = MOUSE_TYPE_SMART;
-            ds1202 = ds1202_1302_init("SM", 1202);
-            break;
-        case JOYPORT_ID_MOUSE_MICROMYS:
-            mouse_type = MOUSE_TYPE_MICROMYS;
-            break;
-        case JOYPORT_ID_KOALAPAD:
-            mouse_type = MOUSE_TYPE_KOALAPAD;
-            break;
-        default:
-            return -1;
+    mt = id_to_mt(val);    
+
+    if (mt == -1) {
+        return -1;
+    }
+
+    if (mt == mouse_type) {
+        return 0;
+    }
+
+    mouse_type = mt;
+
+    if (mt == MOUSE_TYPE_SMART) {
+        ds1202 = ds1202_1302_init("SM", 1202);
     }
 
     return 0;
