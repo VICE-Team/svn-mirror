@@ -352,7 +352,7 @@ int ui_resources_init(void)
 
     if (machine_class == VICE_MACHINE_VSID) {
         for (i = 0; i < 6; i++) {
-            set_initial_dir("", (void *)i);
+            set_initial_dir("", int_to_void_ptr(i));
         }
     } else {
         if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_SCPU64) {

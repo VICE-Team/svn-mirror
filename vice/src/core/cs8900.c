@@ -1366,7 +1366,7 @@ BYTE cs8900_read(WORD io_address)
         word_value = tfe_packetpage_ptr;
     } else {
         /* read a register from packet page */
-        WORD ppaddress;
+        WORD ppaddress = 0;
 
         /* determine read addr in packet page */
         switch (reg_base) {
@@ -1452,7 +1452,7 @@ BYTE cs8900_peek(WORD io_address)
         word_value = tfe_packetpage_ptr;
     } else {
         /* read a register from packet page */
-        WORD ppaddress;
+        WORD ppaddress = 0;
 
         /* determine read addr in packet page */
         switch (reg_base) {

@@ -186,7 +186,7 @@ int kbd_arch_get_host_mapping(void)
         MAKELANGID(LANG_FINNISH,   SUBLANG_FINNISH_FINLAND),
         MAKELANGID(LANG_ITALIAN,   SUBLANG_ITALIAN)
     };
-    int lang = (int)GetKeyboardLayout(0);
+    int lang = (int)LOWORD(GetKeyboardLayout(0));
 
     /* try full match first */
     lang &= 0xffff; /* lower 16 bit contain the language id */
