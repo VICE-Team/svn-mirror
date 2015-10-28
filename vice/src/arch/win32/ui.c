@@ -441,6 +441,41 @@ int ui_init_finish(void)
     return 0;
 }
 
+static int size_set[2] = { 0, 0 };
+
+static void ui_set_size(void)
+{
+    int widthres, heightres;
+    int width, height;
+    int i;
+    WINDOWPLACEMENT place;
+    RECT rect;
+
+    for (i = 0; i < number_of_windows; i++) {
+        resources_get_int_sprintf("Window%dWidth", &widthres, i);
+        resources_get_int_sprintf("Window%dHeight", &heightres, i);
+        if (widthres != CW_USEDEFAULT || heightres != CW_USEDEFAULT) {
+            place.length = sizeof(WINDOWPLACEMENT);
+            GetWindowPlacement(window_handles[i], &place);
+            GetWindowRect(window_handles[i], &rect);
+            if (place.showCmd == SW_SHOWNORMAL) {
+                if (widthres == CW_USEDEFAULT) {
+                    width = rect.right;
+                } else {
+                    width = widthres;
+                }
+                if (heightres == CW_USEDEFAULT) {
+                    height = rect.bottom;
+                } else {
+                    height = heightres;
+                }
+                SetWindowPos(window_handles[i], NULL, 0, 0, width, height, SWP_NOMOVE);
+            }
+        }
+        size_set[i] = 1;
+    }
+}
+
 int ui_init_finalize(void)
 {
     int alwaysontop;
@@ -448,6 +483,7 @@ int ui_init_finalize(void)
     fullscreen_setup_finished();
     resources_get_int("AlwaysOnTop", &alwaysontop);
     ui_set_alwaysontop(alwaysontop);
+    ui_set_size();
     return 0;
 }
 
@@ -1807,6 +1843,26 @@ static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg, WPARAM wparam, LP
     return DefWindowProc(window, msg, wparam, lparam);
 }
 
+static void ui_wm_size(HWND window, int window_index)
+{
+    if (window_index<number_of_windows) {
+        WINDOWPLACEMENT place;
+        RECT rect;
+
+        if (!size_set[window_index]) {
+            return;
+        }
+
+        place.length = sizeof(WINDOWPLACEMENT);
+        GetWindowPlacement(window, &place);
+        GetWindowRect(window, &rect);
+        if (place.showCmd == SW_SHOWNORMAL) {
+            resources_set_int_sprintf("Window%dWidth", rect.right - rect.left, window_index);
+            resources_set_int_sprintf("Window%dHeight", rect.bottom - rect.top, window_index);
+        }
+    }
+}
+
 static void ui_wm_move(HWND window, int window_index)
 {
     if (window_index<number_of_windows) {
@@ -1945,6 +2001,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
                 statusbar_handle_WMSIZE(msg, wparam, lparam, window_index);
             }
             ui_resize_render_window(video_canvas_for_hwnd(window));
+            ui_wm_size(window, window_index);
             return 0;
         case WM_SIZING:
             ui_handle_aspect_ratio(window_index, wparam, lparam);

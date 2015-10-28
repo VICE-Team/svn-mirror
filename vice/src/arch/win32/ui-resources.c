@@ -58,6 +58,8 @@ struct {
     int vblank_sync;
     int window_xpos[2];
     int window_ypos[2];
+    int window_width[2];
+    int window_height[2];
     char *monitor_dimensions;
     char *initialdir[UILIB_SELECTOR_STYLES_NUM];
     int alwaysontop;
@@ -177,6 +179,18 @@ static int set_window_xpos(int val, void *param)
 static int set_window_ypos(int val, void *param)
 {
     ui_resources.window_ypos[vice_ptr_to_int(param)] = val;
+    return 0;
+}
+
+static int set_window_width(int val, void *param)
+{
+    ui_resources.window_width[vice_ptr_to_int(param)] = val;
+    return 0;
+}
+
+static int set_window_height(int val, void *param)
+{
+    ui_resources.window_height[vice_ptr_to_int(param)] = val;
     return 0;
 }
 
@@ -323,6 +337,10 @@ static const resource_int_t window0_resources_int[] = {
       &ui_resources.window_xpos[0], set_window_xpos, (void *)0 },
     { "Window0Ypos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
       &ui_resources.window_ypos[0], set_window_ypos, (void *)0 },
+    { "Window0Width", CW_USEDEFAULT, RES_EVENT_NO, NULL,
+      &ui_resources.window_width[0], set_window_width, (void *)0 },
+    { "Window0Height", CW_USEDEFAULT, RES_EVENT_NO, NULL,
+      &ui_resources.window_height[0], set_window_height, (void *)0 },
     { NULL }
 };
 
@@ -331,6 +349,10 @@ static const resource_int_t window1_resources_int[] = {
       &ui_resources.window_xpos[1], set_window_xpos, (void *)1 },
     { "Window1Ypos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
       &ui_resources.window_ypos[1], set_window_ypos, (void *)1 },
+    { "Window1Width", CW_USEDEFAULT, RES_EVENT_NO, NULL,
+      &ui_resources.window_width[1], set_window_width, (void *)1 },
+    { "Window1Height", CW_USEDEFAULT, RES_EVENT_NO, NULL,
+      &ui_resources.window_height[1], set_window_height, (void *)1 },
     { NULL }
 };
 
