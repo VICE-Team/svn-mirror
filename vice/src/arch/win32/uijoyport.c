@@ -209,7 +209,10 @@ static void end_joyport_dialog(HWND hwnd)
         }
         resources_set_int("JoyPort2Device", id2);
     }
-    lib_free(devices);
+    if (devices) {
+        lib_free(devices);
+        devices = NULL;
+    }
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -223,13 +226,19 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                 case IDOK:
                     end_joyport_dialog(hwnd);
                 case IDCANCEL:
-                    lib_free(devices);
+                    if (devices) {
+                        lib_free(devices);
+                        devices = NULL;
+                    }
                     EndDialog(hwnd, 0);
                     return TRUE;
             }
             return FALSE;
         case WM_CLOSE:
-            lib_free(devices);
+            if (devices) {
+                lib_free(devices);
+                devices = NULL;
+            }
             EndDialog(hwnd, 0);
             return TRUE;
         case WM_INITDIALOG:
