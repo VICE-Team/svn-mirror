@@ -788,6 +788,7 @@ darwin*)
 
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
   if test "x$enable_bundle" != "xno" -o "x$enable_sdlui" = "xyes" -o "x$enable_sdlui2" = "xyes"; then
