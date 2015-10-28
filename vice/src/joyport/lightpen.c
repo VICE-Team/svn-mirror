@@ -189,6 +189,16 @@ static BYTE lightpen_digital_val(void)
     return ~lightpen_value;
 }
 
+static BYTE lightpen_read_button_y(void)
+{
+    return (lightpen_enabled && lightpen_button_y) ? 0x00 : 0xff;
+}
+
+static BYTE lightpen_read_button_x(void)
+{
+    return (lightpen_enabled && lightpen_button_x) ? 0x00 : 0xff;
+}
+
 static joyport_t lightpen_u_joyport_device = {
     "Light Pen (up trigger)",
     IDGS_LIGHTPEN_UP,
@@ -353,15 +363,5 @@ void lightpen_update(int window, int x, int y, int buttons)
     if (pulse_time > 0) {
         chip_trigger_callback(pulse_time);
     }
-}
-
-BYTE lightpen_read_button_y(void)
-{
-    return (lightpen_enabled && lightpen_button_y) ? 0x00 : 0xff;
-}
-
-BYTE lightpen_read_button_x(void)
-{
-    return (lightpen_enabled && lightpen_button_x) ? 0x00 : 0xff;
 }
 #endif

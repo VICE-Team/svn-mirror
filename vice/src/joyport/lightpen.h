@@ -54,7 +54,4 @@ extern void lightpen_update(int window, int x, int y, int buttons);
 #define LP_HOST_BUTTON_1    1
 #define LP_HOST_BUTTON_2    4
 
-extern BYTE lightpen_read_button_y(void);
-extern BYTE lightpen_read_button_x(void);
-
 #endif
