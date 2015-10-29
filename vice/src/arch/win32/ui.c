@@ -1197,7 +1197,10 @@ void ui_display_statustext(const char *text, int fade_out)
 }
 
 /* ------------------------------------------------------------------------- */
-/* Dispay the drive status.  */
+/* Display the drive status.  */
+
+static unsigned int old_pwm1[DRIVE_NUM];
+static unsigned int new_pwm1[DRIVE_NUM];
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
@@ -1214,10 +1217,28 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
     statusbar_display_drive_track(drive_number, drive_base, track_number);
 }
 
+static int frame = 0;
+
+void ui_frame_update_gui(void)
+{
+    int i;
+
+    frame = !frame;
+
+    if (frame) {
+        for (i = 0; i < DRIVE_NUM; ++i) {
+            if (old_pwm1[i] != new_pwm1[i]) {
+                statusbar_display_drive_led(i, new_pwm1[i]);
+                old_pwm1[i] = new_pwm1[i];
+            }
+        }
+    }
+}
+
 /* Toggle displaying of the drive LED.  */
 void ui_display_drive_led(int drivenum, unsigned int led_pwm1, unsigned int led_pwm2)
 {
-    statusbar_display_drive_led(drivenum, led_pwm1);
+    new_pwm1[drivenum] = led_pwm1;
 }
 
 /* display current image */

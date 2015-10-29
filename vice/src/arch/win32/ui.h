@@ -120,6 +120,7 @@ extern void ui_exit(void);
 extern void ui_display_speed(float percent, float framerate, int warp_flag);
 extern void ui_display_paused(int flag);
 extern void ui_dispatch_events(void);
+extern void ui_frame_update_gui(void);
 extern void ui_error_string(const char *text);
 
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);

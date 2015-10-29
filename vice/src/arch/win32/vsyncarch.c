@@ -126,6 +126,8 @@ void vsyncarch_postsync(void)
     /* prevent screensaver */
     win32_mouse_jitter();
 #endif
+
+    ui_frame_update_gui();
 }
 
 int vsyncarch_vbl_sync_enabled(void)
