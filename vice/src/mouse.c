@@ -74,30 +74,7 @@ int _mouse_enabled = 0;
 
 /* Use xvic defaults, if resources get registered the factory
    default will overwrite these */
-int mouse_port = 1;
 int mouse_type = MOUSE_TYPE_PADDLE;
-
-/* --------------------------------------------------------- */
-/* POT input selection */
-
-/* POT input port. Defaults to 1 for xvic.
-
-    For C64 this actually represents the upper two bits of CIA1 port A
-    00 - no paddle selected
-    01 - paddle port 1 selected
-    10 - paddle port 2 selected
-    11 - both paddle ports selected
-
-    For Vic20 (and possibly others?) it must be 1
-*/
-static BYTE input_port = 1;
-
-/* this is called from c64cia1.c/c128cia1.c */
-void mouse_set_input(int port)
-{
-    input_port = port & 3;
-    DBG(("mouse_set_input: %x", input_port));
-}
 
 /* --------------------------------------------------------- */
 /* 1351 mouse */
@@ -135,17 +112,8 @@ static BYTE mouse_digital_val = 0;
 static BYTE mouse_get_1351_x(void)
 {
     if (_mouse_enabled) {
-        switch (input_port) {
-            case 3: /* both */
-                mouse_poll();
-                return (last_mouse_x & 0x7f) + 0x40; /* HACK: see above */
-            case 1: /* port1 */
-            case 2: /* port2 */
-                if (input_port == mouse_port) {
-                    mouse_poll();
-                    return (last_mouse_x & 0x7f) + 0x40;
-                }
-        }
+        mouse_poll();
+        return (last_mouse_x & 0x7f) + 0x40;
     }
     return 0xff;
 }
@@ -153,17 +121,8 @@ static BYTE mouse_get_1351_x(void)
 static BYTE mouse_get_1351_y(void)
 {
     if (_mouse_enabled) {
-        switch (input_port) {
-            case 3: /* both */
-                mouse_poll();
-                return (last_mouse_y & 0x7f) + 0x40; /* HACK: see above */
-            case 1: /* port1 */
-            case 2: /* port2 */
-                if (input_port == mouse_port) {
-                    mouse_poll();
-                    return (last_mouse_y & 0x7f) + 0x40;
-                }
-        }
+        mouse_poll();
+        return (last_mouse_y & 0x7f) + 0x40;
     }
     return 0xff;
 }
@@ -520,27 +479,18 @@ static inline BYTE mouse_paddle_update(BYTE paddle_v, SWORD *old_v, SWORD new_v)
 
 static BYTE mouse_get_paddle_x(void)
 {
-    int i = input_port & mouse_port;
-
-    /* DBG(("mouse_get_paddle_x: %x", i)); */
-    if (i != 0 && _mouse_enabled) {
-        i = i << 1;
-        /* one of the ports is selected */
-        paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), (SWORD)mousedrv_get_x());
-        return 0xff - paddle_val[i];
+    if (_mouse_enabled) {
+        paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (SWORD)mousedrv_get_x());
+        return 0xff - paddle_val[2];
     }
     return 0xff;
 }
 
 static BYTE mouse_get_paddle_y(void)
 {
-    int i = input_port & mouse_port;
-
-    if (i != 0 && _mouse_enabled) {
-        i = (i << 1) + 1;
-        /* one of the ports is selected */
-        paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), (SWORD)mousedrv_get_y());
-        return 0xff - paddle_val[i];
+    if (_mouse_enabled) {
+        paddle_val[3] = mouse_paddle_update(paddle_val[3], &(paddle_old[3]), (SWORD)mousedrv_get_y());
+        return 0xff - paddle_val[3];
     }
     return 0xff;
 }
@@ -858,21 +808,6 @@ static int set_smart_mouse_rtc_save(int val, void *param)
     return 0;
 }
 
-static int set_mouse_port(int val, void *param)
-{
-    switch (val) {
-        case 1:
-        case 2:
-            break;
-        default:
-            return -1;
-    }
-
-    mouse_port = val;
-
-    return 0;
-}
-
 #ifdef ANDROID_COMPILE
 #define MOUSE_ENABLE_DEFAULT  1
 #else
@@ -886,8 +821,6 @@ static const resource_int_t resources_int[] = {
 };
 
 static const resource_int_t resources_extra_int[] = {
-    { "Mouseport", 1, RES_EVENT_SAME, NULL,
-      &mouse_port, set_mouse_port, NULL },
     { "SmartMouseRTCSave", 0, RES_EVENT_SAME, NULL,
       &ds1202_rtc_save, set_smart_mouse_rtc_save, NULL },
     { NULL }
@@ -927,11 +860,6 @@ static const cmdline_option_t cmdline_options[] = {
 };
 
 static const cmdline_option_t cmdline_extra_option[] = {
-    { "-mouseport", SET_RESOURCE, 1,
-      NULL, NULL, "Mouseport", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_VALUE, IDCLS_SELECT_MOUSE_JOY_PORT,
-      NULL, NULL },
     { "-smartmousertcsave", SET_RESOURCE, 0,
       NULL, NULL, "SmartMouseRTCSave", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,

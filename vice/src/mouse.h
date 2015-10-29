@@ -43,14 +43,11 @@ extern void mouse_button_middle(int pressed);
 extern void mouse_button_up(int pressed);
 extern void mouse_button_down(int pressed);
 
-extern void mouse_set_input(int port);
-
 extern BYTE mouse_get_x(void);
 extern BYTE mouse_get_y(void);
 
 extern int _mouse_enabled;
 extern int mouse_type;
-extern int mouse_port;
 
 extern void neos_mouse_store(BYTE val);
 extern BYTE neos_mouse_read(void);

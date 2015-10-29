@@ -20962,31 +20962,6 @@ action:         N/A
 
 mouse.c:
 --------
-resource type:                  int
-resource name:                  "Mouseport"
-resource range:                 1..2
-resource default:               1
-resource function:              set_mouse_port()
-resource var:                   mouse_port
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef HAVE_MOUSE
-command-line:                   -mouseport
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-mouse.c:
---------
-command line:   -mouseport <value>
-description:    "Select the joystick port the mouse is attached to. (1/2)"
-resource:       "Mouseport"
-action:         N/A
-fixme: fix documentation, range
-
-mouse.c:
---------
 resource type:                  bool
 resource name:                  "SmartMouseRTCSave"
 resource range:                 0/1

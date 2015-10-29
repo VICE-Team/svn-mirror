@@ -2920,10 +2920,6 @@ Integer specifying the type of adapter used for the extra joysticks
 @vindex Mouse
 @item Mouse
 Boolean, enables mouse emulation
-@vindex Mouseport
-@item Mouseport
-Integer that specifies the joystick port the emulated mouse is connected to.
-(1=port 1, 2=port 2)
 
 @vindex KeySet1NorthWest
 @vindex KeySet1North
@@ -3023,9 +3019,6 @@ Set extra joystick type
 @item -mouse
 @itemx +mouse
 Enable/Disable mouse grab
-@cindex -mouseport
-@item -mouseport <value>
-Select the joystick port the mouse is attached to
 
 @findex -keyset, +keyset
 @item -keyset

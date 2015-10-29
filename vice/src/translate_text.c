@@ -14736,23 +14736,6 @@ translate_t string_table[] = {
 #endif
 
 /* mouse.c */
-/* en */ {IDCLS_SELECT_MOUSE_JOY_PORT,    N_("Select the joystick port the mouse is attached to. (1/2)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SELECT_MOUSE_JOY_PORT_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SELECT_MOUSE_JOY_PORT_DE, "Joystickport für Maus auswählen (1/2)"},
-/* es */ {IDCLS_SELECT_MOUSE_JOY_PORT_ES, "Seleccionar el puerto de joystick en el que esta insertado el ratón. (1/2)"},
-/* fr */ {IDCLS_SELECT_MOUSE_JOY_PORT_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SELECT_MOUSE_JOY_PORT_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SELECT_MOUSE_JOY_PORT_IT, "Seleziona la porta joystick a cui è collegato il mouse. (1/2)"},
-/* ko */ {IDCLS_SELECT_MOUSE_JOY_PORT_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_MOUSE_JOY_PORT_NL, "Selecteer de joystickpoort waar de muis aan gekoppelt is. (1/2)"},
-/* pl */ {IDCLS_SELECT_MOUSE_JOY_PORT_PL, "Wybierz port joysticka, do którego pod³±czona jest mysz. (1/2)"},
-/* ru */ {IDCLS_SELECT_MOUSE_JOY_PORT_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_MOUSE_JOY_PORT_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SELECT_MOUSE_JOY_PORT_TR, ""},  /* fuzzy */
-#endif
-
-/* mouse.c */
 /* en */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE,    N_("Enable saving of smart mouse RTC data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_DA, ""},  /* fuzzy */
