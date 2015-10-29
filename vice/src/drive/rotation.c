@@ -945,6 +945,11 @@ static void rotation_1541_simple(drive_t *dptr)
     CLOCK delta;
     int tdelta;
     int bits_moved = 0;
+#ifdef _MSC_VER
+    __int64 tmp = 1000000UL;
+#else
+	unsigned long long tmp = 1000000UL;
+#endif
     unsigned long rpmscale;
     int wobble;
 
@@ -958,7 +963,9 @@ static void rotation_1541_simple(drive_t *dptr)
     rptr->rotation_last_clk = *(dptr->clk);
 
     wobble = dptr->rpm_wobble ? lib_unsigned_rand(0, dptr->rpm_wobble) - (dptr->rpm_wobble / 2) : 0;
-    rpmscale = (1000000UL * 30000UL) / (dptr->rpm + wobble);
+    tmp *= 30000UL;
+    tmp /= (dptr->rpm + wobble);
+    rpmscale = (unsigned long)(tmp);
 
     while (delta > 0) {
         tdelta = delta > 1000 ? 1000 : delta;
