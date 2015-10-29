@@ -106,6 +106,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/platform \
+	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/rtc
 
 noinst_HEADERS = \
@@ -160,7 +161,6 @@ noinst_HEADERS = \
 	initcmdline.h \
 	interrupt.h \
 	ioutil.h \
-	joyport.h \
 	joystick.h \
 	kbdbuf.h \
 	keyboard.h \
@@ -277,7 +277,6 @@ base_sources = \
 	initcmdline.c \
 	interrupt.c \
 	ioutil.c \
-	joyport.c \
 	joystick.c \
 	kbdbuf.c \
 	keyboard.c \

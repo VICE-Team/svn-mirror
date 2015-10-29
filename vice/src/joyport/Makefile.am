@@ -10,6 +10,8 @@ noinst_LIBRARIES = libjoyport.a
 
 # These sources are always built.
 libjoyport_a_SOURCES = \
+	joyport.c \
+	joyport.h \
 	lightpen.c \
 	lightpen.h \
 	sampler2bit.c \
