@@ -108,4 +108,6 @@ extern int joyport_cmdline_options_init(void);
 
 extern joyport_desc_t *joyport_get_valid_devices(void);
 
+extern void joyport_display_joyport(int id, BYTE status);
+
 #endif

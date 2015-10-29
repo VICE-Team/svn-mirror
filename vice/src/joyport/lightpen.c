@@ -137,6 +137,9 @@ static inline int lighpen_type_to_joyport_id(int lp)
 
 static inline void lightpen_check_button_mask(BYTE mask, int pressed)
 {
+    int id;
+    BYTE old_value = lightpen_value;
+
     if (!mask) {
         return;
     }
@@ -146,6 +149,16 @@ static inline void lightpen_check_button_mask(BYTE mask, int pressed)
     } else {
         lightpen_value &= (BYTE)~mask;
     }
+
+    if (lightpen_value == old_value) {
+        return;
+    }
+
+    id = lighpen_type_to_joyport_id(lightpen_type);
+    if (id == -1) {
+        return;
+    }
+    joyport_display_joyport(id, lightpen_value);
 }
 
 static inline void lightpen_update_buttons(int buttons)

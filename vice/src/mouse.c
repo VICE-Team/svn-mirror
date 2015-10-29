@@ -656,7 +656,15 @@ static joyport_t mouse_1351_joyport_device = {
 
 static BYTE joyport_mouse_neos_value(void)
 {
-    return _mouse_enabled ? (~mouse_digital_val) & neos_mouse_read() : 0xff;
+    BYTE retval = 0xff;
+
+    if (_mouse_enabled) {
+        retval = (~mouse_digital_val) & neos_mouse_read();
+        if (retval != ~mouse_digital_val) {
+            joyport_display_joyport(mt_to_id(mouse_type), (BYTE)(~retval));
+        }
+    }
+    return retval;
 }
 
 static BYTE joyport_mouse_neos_amiga_st_read_potx(void)
@@ -678,7 +686,15 @@ static joyport_t mouse_neos_joyport_device = {
 
 static BYTE joyport_mouse_poll_value(void)
 {
-    return _mouse_enabled ? (~mouse_digital_val) & mouse_poll() : 0xff;
+    BYTE retval = 0xff;
+
+    if (_mouse_enabled) {
+        retval = (~mouse_digital_val) & mouse_poll();
+        if (retval != ~mouse_digital_val) {
+            joyport_display_joyport(mt_to_id(mouse_type), (BYTE)(~retval));
+        }
+    }
+    return retval;
 }
 
 static BYTE joyport_mouse_amiga_st_read_poty(void)
@@ -721,7 +737,15 @@ static joyport_t mouse_st_joyport_device = {
 
 static BYTE joyport_mouse_smart_value(void)
 {
-    return _mouse_enabled ? (~mouse_digital_val) & smart_mouse_read() : 0xff;
+    BYTE retval = 0xff;
+
+    if (_mouse_enabled) {
+        retval = (~mouse_digital_val) & smart_mouse_read();
+        if (retval != ~mouse_digital_val) {
+            joyport_display_joyport(mt_to_id(mouse_type), (BYTE)(~retval));
+        }
+    }
+    return retval;
 }
 
 static joyport_t mouse_smart_joyport_device = {
@@ -737,7 +761,15 @@ static joyport_t mouse_smart_joyport_device = {
 
 static BYTE joyport_mouse_micromys_value(void)
 {
-    return _mouse_enabled ? (~mouse_digital_val) & micromys_mouse_read() : 0xff;
+    BYTE retval = 0xff;
+
+    if (_mouse_enabled) {
+        retval = (~mouse_digital_val) & micromys_mouse_read();
+        if (retval != ~mouse_digital_val) {
+            joyport_display_joyport(mt_to_id(mouse_type), (BYTE)(~retval));
+        }
+    }
+    return retval;
 }
 
 static joyport_t mouse_micromys_joyport_device = {
@@ -812,6 +844,9 @@ static int set_mouse_enabled(int val, void *param)
     neos_lastx = (BYTE)(mousedrv_get_x() >> 1);
     neos_lasty = (BYTE)(mousedrv_get_y() >> 1);
     latest_os_ts = 0;
+    if (mouse_type != -1) {
+        joyport_display_joyport(mt_to_id(mouse_type), 0);
+    }
     return 0;
 }
 
@@ -994,6 +1029,7 @@ void mouse_shutdown(void)
 
 void mouse_button_left(int pressed)
 {
+    BYTE old_val = mouse_digital_val;
     BYTE joypin = (((mouse_type == MOUSE_TYPE_PADDLE) || (mouse_type == MOUSE_TYPE_KOALAPAD)) ? 4 : 16);
 
     if (pressed) {
@@ -1001,10 +1037,16 @@ void mouse_button_left(int pressed)
     } else {
         mouse_digital_val &= (BYTE)~joypin;
     }
+    if (old_val == mouse_digital_val || mouse_type == -1) {
+        return;
+    }
+    joyport_display_joyport(mt_to_id(mouse_type), mouse_digital_val);
 }
 
 void mouse_button_right(int pressed)
 {
+    BYTE old_val = mouse_digital_val;
+
     switch (mouse_type) {
         case MOUSE_TYPE_1351:
         case MOUSE_TYPE_SMART:
@@ -1037,10 +1079,16 @@ void mouse_button_right(int pressed)
         default:
             break;
     }
+    if (old_val == mouse_digital_val || mouse_type == -1) {
+        return;
+    }
+    joyport_display_joyport(mt_to_id(mouse_type), mouse_digital_val);
 }
 
 void mouse_button_middle(int pressed)
 {
+    BYTE old_val = mouse_digital_val;
+
     switch (mouse_type) {
         case MOUSE_TYPE_MICROMYS:
             if (pressed) {
@@ -1060,6 +1108,10 @@ void mouse_button_middle(int pressed)
         default:
             break;
     }
+    if (old_val == mouse_digital_val || mouse_type == -1) {
+        return;
+    }
+    joyport_display_joyport(mt_to_id(mouse_type), mouse_digital_val);
 }
 
 void mouse_button_up(int pressed)

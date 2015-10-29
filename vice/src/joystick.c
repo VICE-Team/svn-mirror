@@ -74,6 +74,9 @@
 #define JOYPAD_NW   (JOYPAD_N | JOYPAD_W)
 #define JOYPAD_NE   (JOYPAD_N | JOYPAD_E)
 
+static int joyport_joystick1 = 0;
+static int joyport_joystick2 = 0;
+
 /* Global joystick value.  */
 /*! \todo SRT: document: what are these values joystick_value[0, 1, 2, ..., 5] used for? */
 BYTE joystick_value[JOYSTICK_NUM + 1] = { 0 };
@@ -139,6 +142,12 @@ static void joystick_latch_matrix(CLOCK offset)
         joystick_machine_func();
     }
 
+    if (joyport_joystick1) {
+        joyport_display_joyport(JOYPORT_ID_JOY1, joystick_value[1]);
+    }
+    if (joyport_joystick2) {
+        joyport_display_joyport(JOYPORT_ID_JOY2, joystick_value[2]);
+    }
     ui_display_joyport(joystick_value);
 }
 
@@ -493,6 +502,12 @@ void joystick_joypad_clear(void)
 
 /*-----------------------------------------------------------------------*/
 
+static int joyport_enable_joystick1(int val)
+{
+    joyport_joystick1 = (val) ? 1 : 0;
+    return 0;
+}
+
 static BYTE read_joystick1(void)
 {
     return ~joystick_value[1];
@@ -502,12 +517,18 @@ static joyport_t joystick1 = {
     "Joystick 1",
     IDGS_JOYSTICK_1,
     JOYPORT_RES_ID_NONE,
-    NULL,
+    joyport_enable_joystick1,
     read_joystick1,
-    NULL,
-    NULL,
-    NULL
+    NULL,				/* no store digital */
+    NULL,				/* no read potx */
+    NULL				/* no read poty */
 };
+
+static int joyport_enable_joystick2(int val)
+{
+    joyport_joystick1 = (val) ? 1 : 0;
+    return 0;
+}
 
 static BYTE read_joystick2(void)
 {
@@ -518,7 +539,7 @@ static joyport_t joystick2 = {
     "Joystick 2",
     IDGS_JOYSTICK_2,
     JOYPORT_RES_ID_NONE,
-    NULL,				/* no enable */
+    joyport_enable_joystick1,
     read_joystick2,
     NULL,				/* no store digital */
     NULL,				/* no read potx */

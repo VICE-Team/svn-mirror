@@ -37,6 +37,7 @@
 #include "util.h"
 
 static joyport_t joyport_device[JOYPORT_MAX_DEVICES];
+static BYTE joyport_display[3] = { 0, 0, 0};
 
 static int joy_port[2] = { JOYPORT_ID_NONE , JOYPORT_ID_NONE };
 static int joy_pot_present = 0;
@@ -286,6 +287,25 @@ joyport_desc_t *joyport_get_valid_devices(void)
     retval[j].name = NULL;
 
     return retval;
+}
+
+void joyport_display_joyport(int id, BYTE status)
+{
+    int changed = 0;
+
+    if (id != joy_port[0] && id != joy_port[1]) {
+        return;
+    }
+
+    if (id == joy_port[0]) {
+        joyport_display[1] = status;
+    }
+
+    if (id == joy_port[1]) {
+        joyport_display[2] = status;
+    }
+
+    ui_display_joyport(joyport_display);
 }
 
 /* ------------------------------------------------------------------------- */
