@@ -1,3 +1,4 @@
+
 /*
  * mouse.c - Common mouse handling
  *
@@ -872,38 +873,6 @@ static int set_mouse_port(int val, void *param)
     return 0;
 }
 
-static int set_mouse_type(int val, void *param)
-{
-    if (val == mouse_type) {
-        return 0;
-    }
-
-    switch (val) {
-        case MOUSE_TYPE_1351:
-        case MOUSE_TYPE_NEOS:
-        case MOUSE_TYPE_AMIGA:
-        case MOUSE_TYPE_PADDLE:
-        case MOUSE_TYPE_CX22:
-        case MOUSE_TYPE_ST:
-        case MOUSE_TYPE_MICROMYS:
-        case MOUSE_TYPE_KOALAPAD:
-            if (mouse_type == MOUSE_TYPE_SMART && ds1202) {
-                ds1202_1302_destroy(ds1202, ds1202_rtc_save);
-                ds1202 = NULL;
-            }
-            break;
-        case MOUSE_TYPE_SMART:
-            ds1202 = ds1202_1302_init("SM", 1202);
-            break;
-        default:
-            return -1;
-    }
-
-    mouse_type = val;
-
-    return 0;
-}
-
 #ifdef ANDROID_COMPILE
 #define MOUSE_ENABLE_DEFAULT  1
 #else
@@ -917,8 +886,6 @@ static const resource_int_t resources_int[] = {
 };
 
 static const resource_int_t resources_extra_int[] = {
-    { "Mousetype", MOUSE_TYPE_1351, RES_EVENT_SAME, NULL,
-      &mouse_type, set_mouse_type, NULL },
     { "Mouseport", 1, RES_EVENT_SAME, NULL,
       &mouse_port, set_mouse_port, NULL },
     { "SmartMouseRTCSave", 0, RES_EVENT_SAME, NULL,
@@ -960,11 +927,6 @@ static const cmdline_option_t cmdline_options[] = {
 };
 
 static const cmdline_option_t cmdline_extra_option[] = {
-    { "-mousetype", SET_RESOURCE, 1,
-      NULL, NULL, "Mousetype", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_VALUE, IDCLS_SELECT_MOUSE_TYPE,
-      NULL, NULL },
     { "-mouseport", SET_RESOURCE, 1,
       NULL, NULL, "Mouseport", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,

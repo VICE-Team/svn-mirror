@@ -20963,32 +20963,6 @@ action:         N/A
 mouse.c:
 --------
 resource type:                  int
-resource name:                  "Mousetype"
-resource range:                 0..8 (MOUSE_TYPE_1351 (0), MOUSE_TYPE_NEOS (1), MOUSE_TYPE_AMIGA (2), MOUSE_TYPE_PADDLE (3), MOUSE_TYPE_CX22 (4),
-                                        MOUSE_TYPE_ST (5), MOUSE_TYPE_SMART (6), MOUSE_TYPE_MICROMYS (7), MOUSE_TYPE_KOALAPAD (8))
-resource default:               MOUSE_TYPE_1351 (0) x64/x64sc/xscpu64/x128 / MOUSE_TYPE_PADDLE (3) xvic
-resource function:              set_mouse_type()
-resource var:                   mouse_type
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef HAVE_MOUSE
-command-line:                   -mousetype
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-mouse.c:
---------
-command line:   -mousetype <value>
-description:    "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"
-resource:       "Mousetype"
-action:         N/A
-fixme: fix documentation, range
-
-mouse.c:
---------
-resource type:                  int
 resource name:                  "Mouseport"
 resource range:                 1..2
 resource default:               1

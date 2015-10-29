@@ -2920,10 +2920,6 @@ Integer specifying the type of adapter used for the extra joysticks
 @vindex Mouse
 @item Mouse
 Boolean, enables mouse emulation
-@vindex Mousetype
-@item Mousetype
-Integer that specifies the type of emulated mouse. (0=1351, 1=NEOS, 2=Amiga,
-3=Paddles, 4=Atari CX-22, 5=Atari ST, 6=Smart, 7=Micromys 8 = Koalapad)
 @vindex Mouseport
 @item Mouseport
 Integer that specifies the joystick port the emulated mouse is connected to.
@@ -3027,9 +3023,6 @@ Set extra joystick type
 @item -mouse
 @itemx +mouse
 Enable/Disable mouse grab
-@cindex -mousetype
-@item -mousetype <value>
-Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart))
 @cindex -mouseport
 @item -mouseport <value>
 Select the joystick port the mouse is attached to
