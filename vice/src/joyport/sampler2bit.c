@@ -57,8 +57,12 @@ static int joyport_sampler_enable(int value)
 
 static BYTE joyport_sampler_read(void)
 {
+    BYTE retval = 0;
+
     if (sampler_enabled) {
-        return ~(sampler_get_sample(SAMPLER_CHANNEL_DEFAULT) >> 6);
+        retval = sampler_get_sample(SAMPLER_CHANNEL_DEFAULT) >> 6;
+        joyport_display_joyport(JOYPORT_ID_SAMPLER_2BIT, retval);
+        return (BYTE)(~retval);
     }
     return 0xff;
 }
