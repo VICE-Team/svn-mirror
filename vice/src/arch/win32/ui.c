@@ -1217,24 +1217,6 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
     statusbar_display_drive_track(drive_number, drive_base, track_number);
 }
 
-static int frame = 0;
-
-void ui_frame_update_gui(void)
-{
-    int i;
-
-    frame = !frame;
-
-    if (frame) {
-        for (i = 0; i < DRIVE_NUM; ++i) {
-            if (old_pwm1[i] != new_pwm1[i]) {
-                statusbar_display_drive_led(i, new_pwm1[i]);
-                old_pwm1[i] = new_pwm1[i];
-            }
-        }
-    }
-}
-
 /* Toggle displaying of the drive LED.  */
 void ui_display_drive_led(int drivenum, unsigned int led_pwm1, unsigned int led_pwm2)
 {
@@ -1338,14 +1320,37 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 /* ------------------------------------------------------------------------- */
 
 /* Dispay the joystick status.  */
-static BYTE ui_joyport[3] = { 0, 0, 0 };
+static BYTE ui_new_joyport[3] = { 0, 0, 0 };
+static BYTE ui_old_joyport[3] = { 0, 0, 0 };
 
 void ui_display_joyport(BYTE *joyport)
 {
-    if (ui_joyport[1] != joyport[1] || ui_joyport[2] != joyport[2]) {
-        ui_joyport[1] = joyport[1];
-        ui_joyport[2] = joyport[2];
-        statusbar_display_joyport(ui_joyport);
+    ui_new_joyport[1] = joyport[1];
+    ui_new_joyport[2] = joyport[2];
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int frame = 0;
+
+void ui_frame_update_gui(void)
+{
+    int i;
+
+    frame = !frame;
+
+    if (frame) {
+        for (i = 0; i < DRIVE_NUM; ++i) {
+            if (old_pwm1[i] != new_pwm1[i]) {
+                statusbar_display_drive_led(i, new_pwm1[i]);
+                old_pwm1[i] = new_pwm1[i];
+            }
+        }
+        if (ui_new_joyport[1] != ui_old_joyport[1] || ui_new_joyport[2] != ui_old_joyport[2]) {
+            statusbar_display_joyport(ui_new_joyport);
+            ui_old_joyport[1] = ui_new_joyport[1];
+            ui_old_joyport[2] = ui_new_joyport[2];
+        }
     }
 }
 
