@@ -9014,6 +9014,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_P_VOLUME_TR, "<Ses Düzeyi>"},
 #endif
 
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_P_RPM,    N_("<RPM>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_RPM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_RPM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_RPM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_RPM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_RPM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_RPM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_RPM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_RPM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_RPM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_RPM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_RPM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_RPM_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_P_WOBBLE, N_("<Wobble>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_WOBBLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_WOBBLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_WOBBLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_WOBBLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_WOBBLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_WOBBLE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_WOBBLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_WOBBLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_WOBBLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_WOBBLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_WOBBLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_WOBBLE_TR, ""},  /* fuzzy */
+#endif
+
 /* drive/drive-cmdline-options.c, drive/iec/plus4exp/plus4exp-cmdline-options.c,
    drive/iec/c64exp/c64exp-cmdline-options.c, printerdrv/interface-serial.c,
    attach.c, lightpen.c, c128/functionrom.c, userport/userport_joystick.c,
@@ -9049,6 +9083,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SET_DRIVE_TYPE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DRIVE_TYPE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_DRIVE_TYPE_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_SET_DRIVE_RPM,    N_("Set drive rpm (30000 = 300rpm")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DRIVE_RPM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DRIVE_RPM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DRIVE_RPM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DRIVE_RPM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DRIVE_RPM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DRIVE_RPM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_DRIVE_RPM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_RPM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DRIVE_RPM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DRIVE_RPM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DRIVE_RPM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DRIVE_RPM_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_SET_DRIVE_WOBBLE,    N_("Set drive wobble (100 = +/-0.5rpm")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DRIVE_WOBBLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DRIVE_WOBBLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DRIVE_WOBBLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DRIVE_WOBBLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DRIVE_WOBBLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DRIVE_WOBBLE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_DRIVE_WOBBLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_WOBBLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DRIVE_WOBBLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DRIVE_WOBBLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DRIVE_WOBBLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DRIVE_WOBBLE_TR, ""},  /* fuzzy */
 #endif
 
 /* drive/drive-cmdline-options.c,

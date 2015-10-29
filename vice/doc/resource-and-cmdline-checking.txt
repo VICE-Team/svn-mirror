@@ -8720,6 +8720,187 @@ description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap i
 resource:       "Drive11IdleMethod"
 action:         N/A
 
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive8RPM"
+resource range:                 >0
+resource default:               30000
+resource function:              set_drive_rpm()
+resource var:                   drive->rpm
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive8rpm
+platform gui present:           unix
+platform range correct:         unix
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive8rpm <rpm>
+description:    "Set drive RPM"
+resource:       "Drive8RPM"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive9RPM"
+resource range:                 >0
+resource default:               30000
+resource function:              set_drive_rpm()
+resource var:                   drive->rpm
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x129/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive9rpm
+platform gui present:           unix
+platform range correct:         unix
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive9rpm <rpm>
+description:    "Set drive RPM"
+resource:       "Drive9RPM"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive10RPM"
+resource range:                 >0
+resource default:               30000
+resource function:              set_drive_rpm()
+resource var:                   drive->rpm
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x1210/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive10rpm
+platform gui present:           unix
+platform range correct:         unix
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive10rpm <rpm>
+description:    "Set drive RPM"
+resource:       "Drive10RPM"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive11RPM"
+resource range:                 >0
+resource default:               30000
+resource function:              set_drive_rpm()
+resource var:                   drive->rpm
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x1211/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive11rpm
+platform gui present:           unix
+platform range correct:         unix
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive11rpm <rpm>
+description:    "Set drive RPM"
+resource:       "Drive11RPM"
+action:         N/A
+
+
+
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive8Wobble"
+resource range:                 >0
+resource default:               30000
+resource function:              set_drive_rpm_wobble()
+resource var:                   drive->rpm_wobble
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive8wobble
+platform gui present:           unix
+platform range correct:         unix
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive8wobble <rpm>
+description:    "Set drive Wobble"
+resource:       "Drive8Wobble"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive9Wobble"
+resource range:                 >0
+resource default:               30000
+resource function:              set_drive_rpm_wobble()
+resource var:                   drive->rpm_wobble
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x129/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive9wobble
+platform gui present:           unix
+platform range correct:         unix
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive9wobble <rpm>
+description:    "Set drive Wobble"
+resource:       "Drive9Wobble"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive10Wobble"
+resource range:                 >0
+resource default:               30000
+resource function:              set_drive_rpm_wobble()
+resource var:                   drive->rpm_wobble
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x1210/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive10wobble
+platform gui present:           unix
+platform range correct:         unix
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive10wobble <rpm>
+description:    "Set drive Wobble"
+resource:       "Drive10Wobble"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive11Wobble"
+resource range:                 >0
+resource default:               30000
+resource function:              set_drive_rpm_wobble()
+resource var:                   drive->rpm_wobble
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x1211/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive11wobble
+platform gui present:           unix
+platform range correct:         unix
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive11wobble <rpm>
+description:    "Set drive Wobble"
+resource:       "Drive11Wobble"
+action:         N/A
+
+
 drive/iec/iec-resources.c:
 --------------------------
 resource type:                  string

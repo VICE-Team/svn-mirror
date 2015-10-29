@@ -44,4 +44,7 @@ extern UI_CALLBACK(radio_Drive9Type);
 extern UI_CALLBACK(radio_Drive10Type);
 extern UI_CALLBACK(radio_Drive11Type);
 
+extern UI_CALLBACK(drive_rpm_settings);
+extern UI_CALLBACK(drive_wobble_settings);
+
 #endif

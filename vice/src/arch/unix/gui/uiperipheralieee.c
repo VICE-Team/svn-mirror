@@ -33,6 +33,7 @@
 #include "attach.h"
 #include "lib.h"
 #include "resources.h"
+#include "uidrive.h"
 #include "uimenu.h"
 #include "uiperipheral.h"
 #include "vsync.h"
@@ -66,6 +67,11 @@ static ui_menu_entry_t fsdevice_drive8_submenu[] = {
       NULL, NULL },
     { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8HideCBMFiles,
       NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)8, NULL },
+    { N_("Drive Wobble"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)8, NULL },
     { NULL }
 };
 
@@ -81,6 +87,11 @@ static ui_menu_entry_t fsdevice_drive9_submenu[] = {
       NULL, NULL },
     { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9HideCBMFiles,
       NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)9, NULL },
+    { N_("Drive Wobble"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)9, NULL },
     { NULL }
 };
 
@@ -96,6 +107,11 @@ static ui_menu_entry_t fsdevice_drive10_submenu[] = {
       (ui_callback_t)toggle_FSDevice10SaveP00, NULL, NULL },
     { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice10HideCBMFiles, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)10, NULL },
+    { N_("Drive Wobble"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)10, NULL },
     { NULL }
 };
 
@@ -111,6 +127,11 @@ static ui_menu_entry_t fsdevice_drive11_submenu[] = {
       (ui_callback_t)toggle_FSDevice11SaveP00, NULL, NULL },
     { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice11HideCBMFiles, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)11, NULL },
+    { N_("Drive Wobble"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)11, NULL },
     { NULL }
 };
 

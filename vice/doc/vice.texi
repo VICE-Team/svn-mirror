@@ -3674,6 +3674,27 @@ Integers specifying the idling method for the drive CPU.
 @xref{Drive settings}.
 (0: none, 1: skip cycles, 2: trap idle)
 
+@vindex Drive8RPM
+@vindex Drive9RPM
+@vindex Drive10RPM
+@vindex Drive11RPM
+@item Drive8RPM
+@itemx Drive9RPM
+@itemx Drive10RPM
+@itemx Drive11RPM
+Integers specifying the rotation speed of the drive, multiplied by 100 so 300rpm
+equal 30000.
+
+@vindex Drive8Wobble
+@vindex Drive9Wobble
+@vindex Drive10Wobble
+@vindex Drive11Wobble
+@item Drive8Wobble
+@itemx Drive9Wobble
+@itemx Drive10Wobble
+@itemx Drive11Wobble
+Integers specifying the random wobble that will be added the rotation speed.
+
 @vindex DosName1540
 @vindex DosName1541
 @vindex DosName1541ii
@@ -3843,6 +3864,27 @@ Specifies <method> as the track 40 extend policy in drives 8-11 respectively
 (@code{Drive8ExtendImagePolicy}, @code{Drive9ExtendImagePolicy},
 @code{Drive10ExtendImagePolicy}, @code{Drive11ExtendImagePolicy}).
 (0: never extend, 1: ask on extend, 2: extend on access)
+
+@findex -drive8rpm
+@findex -drive9rpm
+@findex -drive10rpm
+@findex -drive11rpm
+@item -drive8rpm <rpm>
+@itemx -drive9rpm <rpm>
+@itemx -drive10rpm <rpm>
+@itemx -drive11rpm <rpm>
+Specifies the rotation speed of the drive, multiplied by 100 so 300rpm
+equal 30000.
+
+@findex -drive8wobble
+@findex -drive9wobble
+@findex -drive10wobble
+@findex -drive11wobble
+@item -drive8wobble <wobble>
+@itemx -drive9wobble <wobble>
+@itemx -drive10wobble <wobble>
+@itemx -drive11wobble <wobble>
+Specifies random amount of wobble added to the rotation speed.
 
 @findex -dos1540
 @item -dos1540 <name>

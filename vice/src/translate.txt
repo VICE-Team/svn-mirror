@@ -1575,6 +1575,12 @@ IDCLS_SET_DRIVE_SOUND_VOLUME
 /* drive/drive-cmdline-options.c */
 IDCLS_P_VOLUME
 
+/* drive/drive-cmdline-options.c */
+IDCLS_P_RPM
+
+/* drive/drive-cmdline-options.c */
+IDCLS_P_WOBBLE
+
 /* drive/drive-cmdline-options.c, drive/iec/plus4exp/plus4exp-cmdline-options.c,
    drive/iec/c64exp/c64exp-cmdline-options.c, printerdrv/interface-serial.c,
    attach.c, lightpen.c, c128/functionrom.c, userport/userport_joystick.c,
@@ -1583,6 +1589,12 @@ IDCLS_P_TYPE
 
 /* drive/drive-cmdline-options.c */
 IDCLS_SET_DRIVE_TYPE
+
+/* drive/drive-cmdline-options.c */
+IDCLS_SET_DRIVE_RPM
+
+/* drive/drive-cmdline-options.c */
+IDCLS_SET_DRIVE_WOBBLE
 
 /* drive/drive-cmdline-options.c, gfxoutputdrv/doodledrv.c */
 IDCLS_P_METHOD

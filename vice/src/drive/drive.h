@@ -73,6 +73,11 @@
 
 #define DRIVE_TYPE_NUM    17
 
+/* max. half tracks */
+#define DRIVE_HALFTRACKS_1541   84
+/* FIXME: this constant is at some places used unconditionally for all 2-sided drives */
+#define DRIVE_HALFTRACKS_1571   70
+
 /* Possible colors of the drive active LED.  */
 #define DRIVE_LED1_RED     0
 #define DRIVE_LED1_GREEN   1
@@ -272,6 +277,10 @@ typedef struct drive_s {
 
     /* Drive RAM */
     BYTE drive_ram[DRIVE_RAM_SIZE];
+
+    /* rotations per minute (300rpm = 30000) */
+    int rpm;
+    int rpm_wobble;
 } drive_t;
 
 

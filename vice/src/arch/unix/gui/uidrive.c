@@ -33,6 +33,7 @@
 #include "uiapi.h"
 #include "uidrive.h"
 #include "uimenu.h"
+#include "util.h"
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_TOGGLE(DriveSoundEmulation)
@@ -176,6 +177,64 @@ UI_CALLBACK(radio_Drive11Type)
         } else {
             ui_menu_set_sensitive(w, 0);
         }
+    }
+}
+
+UI_CALLBACK(drive_rpm_settings)
+{
+    int what = vice_ptr_to_int(UI_MENU_CB_PARAM);
+    char *prompt, *title, resource[14];
+    char buf[50];
+    ui_button_t button;
+    int current;
+    long res;
+
+    prompt = title = _("Drive RPM");
+    sprintf(resource, "Drive%dRPM", what);
+
+    resources_get_int(resource, &current);
+
+    sprintf(buf, "%d", current);
+    button = ui_input_string(title, prompt, buf, 50);
+    switch (button) {
+        case UI_BUTTON_OK:
+            if (util_string_to_long(buf, NULL, 10, &res) != 0) {
+                ui_error(_("Invalid value: %s"), buf);
+                return;
+            }
+            resources_set_int(resource, (int)res);
+            break;
+        default:
+            break;
+    }
+}
+
+UI_CALLBACK(drive_wobble_settings)
+{
+    int what = vice_ptr_to_int(UI_MENU_CB_PARAM);
+    char *prompt, *title, resource[14];
+    char buf[50];
+    ui_button_t button;
+    int current;
+    long res;
+
+    prompt = title = _("Drive wobble");
+    sprintf(resource, "Drive%dWobble", what);
+
+    resources_get_int(resource, &current);
+
+    sprintf(buf, "%d", current);
+    button = ui_input_string(title, prompt, buf, 50);
+    switch (button) {
+        case UI_BUTTON_OK:
+            if (util_string_to_long(buf, NULL, 10, &res) != 0) {
+                ui_error(_("Invalid value: %s"), buf);
+                return;
+            }
+            resources_set_int(resource, (int)res);
+            break;
+        default:
+            break;
     }
 }
 
