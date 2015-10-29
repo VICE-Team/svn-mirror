@@ -291,8 +291,6 @@ joyport_desc_t *joyport_get_valid_devices(void)
 
 void joyport_display_joyport(int id, BYTE status)
 {
-    int changed = 0;
-
     if (id != joy_port[0] && id != joy_port[1]) {
         return;
     }
