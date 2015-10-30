@@ -75,6 +75,7 @@
 #include "parallel.h"
 #include "patchrom.h"
 #include "printer.h"
+#include "ps2mouse.h"
 #include "resources.h"
 #include "rs232drv.h"
 #include "sampler.h"

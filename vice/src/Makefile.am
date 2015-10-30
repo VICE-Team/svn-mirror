@@ -185,7 +185,6 @@ noinst_HEADERS = \
 	monitor.h \
 	mos6510.h \
 	mos6510dtv.h \
-	mouse.h \
 	network.h \
 	opencbm.h \
 	opencbmlib.h \
@@ -306,9 +305,6 @@ base_sources = \
 	vsync.c \
 	zfile.c \
 	zipcode.c
-
-mouse_sources = \
-	mouse.c
 
 ps2mouse_sources = \
 	ps2mouse.c
@@ -1216,7 +1212,7 @@ vsid_libs =  \
 	$(joyport_lib) \
 	$(platform_lib)
 
-vsid_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
+vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 vsid_DEPENDENCIES = $(vsid_libs)
 vsid_LDFLAGS = @vsid_LDFLAGS@
@@ -1269,7 +1265,7 @@ x64_libs =  \
 	$(ffmpeg_libs) \
 	$(platform_lib)
 
-x64_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
+x64_SOURCES = $(base_sources) $(midi_sources)
 x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
@@ -1346,7 +1342,7 @@ x64sc_libs =  \
 	$(ffmpeg_libs) \
 	$(platform_lib)
 
-x64sc_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
+x64sc_SOURCES = $(base_sources) $(midi_sources)
 x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 x64sc_DEPENDENCIES = $(x64sc_libs)
 x64sc_LDFLAGS = @x64_LDFLAGS@
@@ -1500,7 +1496,7 @@ xscpu64_libs =  \
 	$(ffmpeg_libs) \
 	$(platform_lib)
 
-xscpu64_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
+xscpu64_SOURCES = $(base_sources) $(midi_sources)
 xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xscpu64_DEPENDENCIES = $(xscpu64_libs)
 xscpu64_LDFLAGS = @xscpu64_LDFLAGS@
@@ -1581,7 +1577,7 @@ x128_libs =  \
 	$(ffmpeg_libs) \
 	$(platform_lib)
 
-x128_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
+x128_SOURCES = $(base_sources) $(midi_sources)
 x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
@@ -1659,7 +1655,7 @@ xvic_libs =  \
 	$(ffmpeg_libs) \
 	$(platform_lib)
 
-xvic_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
+xvic_SOURCES = $(base_sources) $(midi_sources)
 xvic_LDADD = $(xvic_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
@@ -1718,7 +1714,6 @@ xpet_libs =  \
 	$(driver_libs) \
 	$(crtc_lib) \
 	$(raster_lib) \
-	$(rtc_lib) \
 	$(userport_lib) \
 	$(video_lib) \
 	$(sid_lib) \
@@ -1727,9 +1722,10 @@ xpet_libs =  \
 	$(joyport_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
-	$(platform_lib)
+	$(platform_lib) \
+	$(rtc_lib)
 
-xpet_SOURCES = $(base_sources) $(mouse_sources)
+xpet_SOURCES = $(base_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
@@ -1794,7 +1790,7 @@ xplus4_libs =  \
 	$(ffmpeg_libs) \
 	$(platform_lib)
 
-xplus4_SOURCES = $(base_sources) $(mouse_sources)
+xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
@@ -1851,7 +1847,6 @@ xcbm2_libs = \
 	$(sid_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
-	$(rtc_lib) \
 	$(video_lib) \
 	$(userport_lib) \
 	$(common_libs) \
@@ -1859,9 +1854,10 @@ xcbm2_libs = \
 	$(joyport_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
-	$(platform_lib)
+	$(platform_lib) \
+	$(rtc_lib)
 
-xcbm2_SOURCES = $(base_sources) $(mouse_sources)
+xcbm2_SOURCES = $(base_sources)
 xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xcbm2_DEPENDENCIES = $(xcbm2_libs) 
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
@@ -1925,7 +1921,7 @@ xcbm5x0_libs = \
 	$(ffmpeg_libs) \
 	$(platform_lib)
 
-xcbm5x0_SOURCES = $(base_sources) $(mouse_sources)
+xcbm5x0_SOURCES = $(base_sources)
 xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs) 
 xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@
