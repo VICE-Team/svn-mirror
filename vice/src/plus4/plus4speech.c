@@ -690,7 +690,11 @@ static void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     DBG(("SPEECH: speech_sound_machine_init: speed %d cycles/sec: %d\n", speed, cycles_per_sec));
-    t6721_sound_machine_init(t6721, speed, cycles_per_sec);
+    if (cycles_per_sec == PLUS4_PAL_CYCLES_PER_SEC) {
+        t6721_sound_machine_init_vbr(t6721, speed, cycles_per_sec, 1800);
+    } else {
+        t6721_sound_machine_init_vbr(t6721, speed, cycles_per_sec, 1750);
+    }
 
     return 1;
 }
