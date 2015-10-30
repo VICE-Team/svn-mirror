@@ -40,6 +40,8 @@ extern "C" {
 #include "vsyncapi.h"
 }
 
+static mouse_func_t mouse_funcs;
+
 int _mouse_x, _mouse_y;
 static unsigned long mouse_timestamp = 0;
 /* ------------------------------------------------------------------------- */
@@ -48,8 +50,13 @@ void mousedrv_mouse_changed(void)
 {
 }
 
-int mousedrv_resources_init(void)
+int mousedrv_resources_init(mouse_func_t *funcs)
 {
+    mouse_funcs.mbl = funcs->mbl;
+    mouse_funcs.mbr = funcs->mbr;
+    mouse_funcs.mbm = funcs->mbm;
+    mouse_funcs.mbu = funcs->mbu;
+    mouse_funcs.mbd = funcs->mbd;
     return 0;
 }
 
@@ -116,4 +123,19 @@ int mousedrv_get_y(void)
 unsigned long mousedrv_get_timestamp(void)
 {
     return mouse_timestamp;
+}
+
+void mousedrv_button_left(int pressed)
+{
+    mouse_funcs.mbl(pressed);
+}
+
+void mousedrv_button_right(int pressed)
+{
+    mouse_funcs.mbr(pressed);
+}
+
+void mousedrv_button_middle(int pressed)
+{
+    mouse_funcs.mbm(pressed);
 }

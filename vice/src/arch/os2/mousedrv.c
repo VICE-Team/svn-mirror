@@ -36,6 +36,7 @@
 #include "translate.h"
 #include "vsyncapi.h"
 
+static mouse_func_t mouse_funcs;
 static int hide_mouseptr;
 static int visible=TRUE;
 static SHORT _mouse_x, _mouse_y; // [-32768, 32768]
@@ -46,8 +47,8 @@ static unsigned long mouse_timestamp = 0;
 void mousedrv_mouse_changed(void)
 {
     /* -- FIXME: rash while startup --
-     mouse_button_left(0);
-     mouse_button_right(0);
+     mouse_funcs.mbl(0);
+     mouse_funcs.mbr(0);
      */
 }
 
@@ -69,8 +70,13 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-int mousedrv_resources_init(void)
+int mousedrv_resources_init(mouse_func_t *funcs)
 {
+    mouse_funcs.mbl = funcs->mbl;
+    mouse_funcs.mbr = funcs->mbr;
+    mouse_funcs.mbm = funcs->mbm;
+    mouse_funcs.mbu = funcs->mbu;
+    mouse_funcs.mbd = funcs->mbd;
     return resources_register_int(resources_int);
 }
 
@@ -193,22 +199,37 @@ void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
             }
             return;
         case WM_BUTTON1DOWN:
-            mouse_button_left(1);
+            mouse_funcs.mbl(1);
             return;
         case WM_BUTTON1UP:
-            mouse_button_left(0);
+            mouse_funcs.mbl(0);
             return;
         case WM_BUTTON2DOWN:
-            mouse_button_right(1);
+            mouse_funcs.mbr(1);
             return;
         case WM_BUTTON2UP:
-            mouse_button_right(0);
+            mouse_funcs.mbr(0);
             return;
         case WM_BUTTON3DOWN:
-            mouse_button_middle(1);
+            mouse_funcs.mbm(1);
             return;
         case WM_BUTTON3UP:
-            mouse_button_middle(0);
+            mouse_funcs.mbm(0);
             return;
     }
+}
+
+void mousedrv_button_left(int pressed)
+{
+    mouse_funcs.mbl(pressed);
+}
+
+void mousedrv_button_right(int pressed)
+{
+    mouse_funcs.mbr(pressed);
+}
+
+void mousedrv_button_middle(int pressed)
+{
+    mouse_funcs.mbm(pressed);
 }

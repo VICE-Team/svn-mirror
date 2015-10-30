@@ -32,19 +32,18 @@
 
 #include "types.h"
 
+typedef struct mouse_func_s {
+    void (*mbl)(int pressed);
+    void (*mbr)(int pressed);
+    void (*mbm)(int pressed);
+    void (*mbu)(int pressed);
+    void (*mbd)(int pressed);
+} mouse_func_t;
+
 extern int mouse_resources_init(void);
 extern int mouse_cmdline_options_init(void);
 extern void mouse_init(void);
 extern void mouse_shutdown(void);
-
-extern void mouse_button_left(int pressed);
-extern void mouse_button_right(int pressed);
-extern void mouse_button_middle(int pressed);
-extern void mouse_button_up(int pressed);
-extern void mouse_button_down(int pressed);
-
-extern BYTE mouse_get_x(void);
-extern BYTE mouse_get_y(void);
 
 extern int _mouse_enabled;
 extern int mouse_type;

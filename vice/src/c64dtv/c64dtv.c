@@ -333,7 +333,7 @@ int machine_resources_init(void)
     }
 #endif
 #ifdef HAVE_MOUSE
-    if (mouse_resources_init() < 0) {
+    if (mouse_ps2_resources_init() < 0) {
         init_resource_fail("mouse");
         return -1;
     }
@@ -466,7 +466,7 @@ int machine_cmdline_options_init(void)
     }
 #endif
 #ifdef HAVE_MOUSE
-    if (mouse_cmdline_options_init() < 0) {
+    if (mouse_ps2_cmdline_options_init() < 0) {
         init_cmdline_options_fail("mouse");
         return -1;
     }
@@ -629,7 +629,7 @@ int machine_specific_init(void)
 
 #ifdef HAVE_MOUSE
     /* Initialize mouse support (if present).  */
-    mouse_init();
+    mouse_ps2_init();
 #endif
 
     c64iec_init();
@@ -685,7 +685,7 @@ void machine_specific_shutdown(void)
     ciacore_shutdown(machine_context.cia2);
 
 #ifdef HAVE_MOUSE
-    mouse_shutdown();
+    mouse_ps2_shutdown();
 #endif
 
     /* close the video chip(s) */

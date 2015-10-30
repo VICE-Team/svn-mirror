@@ -48,6 +48,7 @@
 #include "interrupt.h"
 #include "tape.h"
 #include "mouse.h"
+#include "mousedrv.h"
 #include "clipboard.h"
 #include "datasette.h"
 #include "vdrive-internal.h"
@@ -654,9 +655,9 @@ extern void mouse_move_f(float x, float y);
 -(void)mouseButton:(BOOL)left withState:(BOOL)pressed
 {
     if(left)
-        mouse_button_left(pressed);
+        mousedrv_button_left(pressed);
     else
-        mouse_button_right(pressed);
+        mousedrv_button_right(pressed);
 }
 
 -(void)lightpenUpdateOnScreen:(int)screen toX:(int)x andY:(int)y 

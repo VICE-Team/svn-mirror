@@ -56,6 +56,8 @@ static int mouse_acquired = 0;
 static LPDIRECTINPUTDEVICE di_mouse = NULL;
 #endif
 
+static mouse_func_t mouse_funcs;
+
 /* ------------------------------------------------------------------------- */
 
 void mousedrv_mouse_changed(void)
@@ -84,8 +86,14 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-int mousedrv_resources_init(void)
+int mousedrv_resources_init(mouse_func_t *funcs)
 {
+    mouse_funcs.mbl = funcs->mbl;
+    mouse_funcs.mbr = funcs->mbr;
+    mouse_funcs.mbm = funcs->mbm;
+    mouse_funcs.mbu = funcs->mbu;
+    mouse_funcs.mbd = funcs->mbd;
+
     return resources_register_int(resources_int);
 }
 
@@ -132,12 +140,12 @@ void mouse_update_mouse(void)
         _mouse_timestamp = vsyncarch_gettime();
     }
 
-    mouse_button_left((int)(state.rgbButtons[0] & 0x80));
-    mouse_button_right((int)(state.rgbButtons[1] & 0x80));
-    mouse_button_middle((int)(state.rgbButtons[2] & 0x80));
+    mouse_funcs.mbl((int)(state.rgbButtons[0] & 0x80));
+    mouse_funcs.mbr((int)(state.rgbButtons[1] & 0x80));
+    mouse_funcs.mbm((int)(state.rgbButtons[2] & 0x80));
     /* FIXME: back/forward buttons as up/down? Or state.lZ increase/decrease?
-    mouse_button_up((int)(state.rgbButtons[3] & 0x80));
-    mouse_button_down((int)(state.rgbButtons[4] & 0x80));
+    mouse_funcs.mbu((int)(state.rgbButtons[3] & 0x80));
+    mouse_funcs.mbd((int)(state.rgbButtons[4] & 0x80));
     */
 #endif
 }
@@ -222,4 +230,19 @@ int mousedrv_get_y(void)
 unsigned long mousedrv_get_timestamp(void)
 {
     return _mouse_timestamp;
+}
+
+void mousedrv_button_left(int pressed)
+{
+    mouse_funcs.mbl(pressed);
+}
+
+void mousedrv_button_right(int pressed)
+{
+    mouse_funcs.mbr(pressed);
+}
+
+void mousedrv_button_middle(int pressed)
+{
+    mouse_funcs.mbm(pressed);
 }

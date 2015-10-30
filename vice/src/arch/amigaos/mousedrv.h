@@ -28,8 +28,9 @@
 #define VICE_MOUSEDRV_H
 
 #include "types.h"
+#include "mouse.h"
 
-extern int mousedrv_resources_init(void);
+extern int mousedrv_resources_init(mouse_func_t *funcs);
 extern int mousedrv_cmdline_options_init(void);
 extern void mousedrv_init(void);
 extern void rem_inputhandler(void);
@@ -41,5 +42,11 @@ extern int mousedrv_get_y(void);
 extern unsigned long mousedrv_get_timestamp(void);
 
 extern void mousedrv_sync(void);
+
+extern void mousedrv_button_left(int pressed);
+extern void mousedrv_button_right(int pressed);
+extern void mousedrv_button_middle(int pressed);
+extern void mousedrv_button_up(int pressed);
+extern void mousedrv_button_down(int pressed);
 
 #endif

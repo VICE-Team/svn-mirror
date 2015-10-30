@@ -49,6 +49,8 @@
 
 #ifndef MACOSX_COCOA
 
+static mouse_func_t mouse_funcs;
+
 static float mouse_x = 0.0, mouse_y = 0.0;
 static unsigned long mouse_timestamp = 0;
 
@@ -57,8 +59,13 @@ void mousedrv_mouse_changed(void)
     ui_check_mouse_cursor();
 }
 
-int mousedrv_resources_init(void)
+int mousedrv_resources_init(mouse_func_t *funcs)
 {
+    mouse_funcs.mbl = funcs->mbl;
+    mouse_funcs.mbr = funcs->mbr;
+    mouse_funcs.mbm = funcs->mbm;
+    mouse_funcs.mbu = funcs->mbu;
+    mouse_funcs.mbd = funcs->mbd;
     return 0;
 }
 
@@ -81,19 +88,19 @@ void mouse_button(int bnumber, int state)
 {
     switch (bnumber) {
     case 0:
-        mouse_button_left(state);
+        mouse_funcs.mbl(state);
         break;
     case 1:
-        mouse_button_middle(state);
+        mouse_funcs.mbm(state);
         break;
     case 2:
-        mouse_button_right(state);
+        mouse_funcs.mbr(state);
         break;
     case 3:
-        mouse_button_up(state);
+        mouse_funcs.mbu(state);
         break;
     case 4:
-        mouse_button_down(state);
+        mouse_funcs.mbd(state);
         break;
     default:
         break;
@@ -131,4 +138,18 @@ unsigned long mousedrv_get_timestamp(void)
     return mouse_timestamp;
 }
 
+void mousedrv_button_left(int pressed)
+{
+    mouse_funcs.mbl(pressed);
+}
+
+void mousedrv_button_right(int pressed)
+{
+    mouse_funcs.mbr(pressed);
+}
+
+void mousedrv_button_middle(int pressed)
+{
+    mouse_funcs.mbm(pressed);
+}
 #endif

@@ -51,6 +51,8 @@ static unsigned long mouse_timestamp = 0;
 #define MB_RIGHT (1 << 1)
 #define MB_MIDDLE (1 << 2)
 
+static mouse_func_t mouse_funcs;
+
 #ifdef AMIGA_MORPHOS
 static struct InputEvent *_MyInputHandler(void);
 static const struct EmulLibEntry gate_MyInputHandler = {
@@ -215,8 +217,13 @@ int add_inputhandler(void)
 
 static int mouse_acquired = 0;
 
-int mousedrv_resources_init(void)
+int mousedrv_resources_init(mouse_func_t *funcs)
 {
+    mouse_funcs.mbl = funcs->mbl;
+    mouse_funcs.mbr = funcs->mbr;
+    mouse_funcs.mbm = funcs->mbm;
+    mouse_funcs.mbu = funcs->mbu;
+    mouse_funcs.mbd = funcs->mbd;
     return 0;
 }
 
@@ -277,13 +284,28 @@ void mousedrv_sync(void)
         Forbid();
         mb = g_mb;
         Permit();
-        mouse_button_left(mb & MB_LEFT);
-        mouse_button_right(mb & MB_RIGHT);
-        mouse_button_middle(mb & MB_MIDDLE);
+        mouse_funcs.mbl(mb & MB_LEFT);
+        mouse_funcs.mbr(mb & MB_RIGHT);
+        mouse_funcs.mbm(mb & MB_MIDDLE);
     }
 }
 
 unsigned long mousedrv_get_timestamp(void)
 {
     return mouse_timestamp;
+}
+
+void mousedrv_button_left(int pressed)
+{
+    mouse_funcs.mbl(pressed);
+}
+
+void mousedrv_button_right(int pressed)
+{
+    mouse_funcs.mbr(pressed);
+}
+
+void mousedrv_button_middle(int pressed)
+{
+    mouse_funcs.mbm(pressed);
 }

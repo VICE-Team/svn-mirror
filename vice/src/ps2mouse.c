@@ -37,6 +37,12 @@
 #include "mousedrv.h"
 #include "translate.h"
 
+static void mouse_button_left(int pressed);
+static void mouse_button_right(int pressed);
+static void mouse_button_middle(int pressed);
+static void mouse_button_up(int pressed);
+static void mouse_button_down(int pressed);
+
 static log_t ps2mouse_log = LOG_ERR;
 
 #if 0
@@ -486,16 +492,25 @@ static const cmdline_option_t cmdline_options[] =
 
 /* ------------------------------------------------------------------------- */
 
-int mouse_resources_init(void)
+static mouse_func_t mouse_funcs =
+{
+    mouse_button_left,    
+    mouse_button_right,
+    mouse_button_middle,
+    mouse_button_up,
+    mouse_button_down
+};
+
+int mouse_ps2_resources_init(void)
 {
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
 
-    return mousedrv_resources_init();
+    return mousedrv_resources_init(&mouse_funcs);
 }
 
-int mouse_cmdline_options_init(void)
+int mouse_ps2_cmdline_options_init(void)
 {
     if (cmdline_register_options(cmdline_options) < 0) {
         return -1;
@@ -504,7 +519,7 @@ int mouse_cmdline_options_init(void)
     return mousedrv_cmdline_options_init();
 }
 
-void mouse_init(void)
+void mouse_ps2_init(void)
 {
     if (ps2mouse_log == LOG_ERR) {
         ps2mouse_log = log_open("ps2mouse");
@@ -516,11 +531,11 @@ void mouse_init(void)
     mousedrv_init();
 }
 
-void mouse_shutdown(void)
+void mouse_ps2_shutdown(void)
 {
 }
 
-void mouse_button_left(int pressed)
+static void mouse_button_left(int pressed)
 {
     if (pressed) {
         ps2mouse_buttons |= PS2_MDATA_LB;
@@ -529,7 +544,7 @@ void mouse_button_left(int pressed)
     }
 }
 
-void mouse_button_middle(int pressed)
+static void mouse_button_middle(int pressed)
 {
     if (pressed) {
         ps2mouse_buttons |= PS2_MDATA_MB;
@@ -538,7 +553,7 @@ void mouse_button_middle(int pressed)
     }
 }
 
-void mouse_button_right(int pressed)
+static void mouse_button_right(int pressed)
 {
     if (pressed) {
         ps2mouse_buttons |= PS2_MDATA_RB;
@@ -547,20 +562,10 @@ void mouse_button_right(int pressed)
     }
 }
 
-void mouse_button_up(int pressed)
+static void mouse_button_up(int pressed)
 {
 }
 
-void mouse_button_down(int pressed)
+static void mouse_button_down(int pressed)
 {
-}
-
-BYTE mouse_get_x(void)
-{
-    return 0; /*mousedrv_get_x();*/
-}
-
-BYTE mouse_get_y(void)
-{
-    return 0; /*mousedrv_get_y();*/
 }

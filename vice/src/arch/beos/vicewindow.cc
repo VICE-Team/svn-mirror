@@ -175,7 +175,7 @@ void ViceView::MouseDown(BPoint point)
     msg = Window()->CurrentMessage();
     msg->FindInt32("buttons", &buttons);
     if (buttons & B_PRIMARY_MOUSE_BUTTON) {
-        mouse_button_left(1);
+        mousedrv_button_left(1);
     }
 }
 
@@ -185,7 +185,7 @@ void ViceView::MouseUp(BPoint point)
         return;
     }
 
-    mouse_button_left(0);
+    mousedrv_button_left(0);
 }
 
 ViceWindow::ViceWindow(unsigned int width, unsigned int height, char const *title) 

@@ -1,4 +1,3 @@
-
 /*
  * mouse.c - Common mouse handling
  *
@@ -66,6 +65,12 @@
 #ifdef DEBUG_MOUSE
 static log_t mouse_log = LOG_ERR;
 #endif
+
+static void mouse_button_left(int pressed);
+static void mouse_button_right(int pressed);
+static void mouse_button_middle(int pressed);
+static void mouse_button_up(int pressed);
+static void mouse_button_down(int pressed);
 
 /* --------------------------------------------------------- */
 /* extern variables */
@@ -826,6 +831,15 @@ static const resource_int_t resources_extra_int[] = {
     { NULL }
 };
 
+static mouse_func_t mouse_funcs =
+{
+    mouse_button_left,    
+    mouse_button_right,
+    mouse_button_middle,
+    mouse_button_up,
+    mouse_button_down
+};
+
 int mouse_resources_init(void)
 {
     if (mouse_joyport_register() < 0) {
@@ -842,7 +856,7 @@ int mouse_resources_init(void)
         }
     }
 
-    return mousedrv_resources_init();
+    return mousedrv_resources_init(&mouse_funcs);
 }
 
 static const cmdline_option_t cmdline_options[] = {
@@ -917,7 +931,7 @@ void mouse_shutdown(void)
 /* --------------------------------------------------------- */
 /* Main API */
 
-void mouse_button_left(int pressed)
+static void mouse_button_left(int pressed)
 {
     BYTE old_val = mouse_digital_val;
     BYTE joypin = (((mouse_type == MOUSE_TYPE_PADDLE) || (mouse_type == MOUSE_TYPE_KOALAPAD)) ? 4 : 16);
@@ -933,7 +947,7 @@ void mouse_button_left(int pressed)
     joyport_display_joyport(mt_to_id(mouse_type), mouse_digital_val);
 }
 
-void mouse_button_right(int pressed)
+static void mouse_button_right(int pressed)
 {
     BYTE old_val = mouse_digital_val;
 
@@ -975,7 +989,7 @@ void mouse_button_right(int pressed)
     joyport_display_joyport(mt_to_id(mouse_type), mouse_digital_val);
 }
 
-void mouse_button_middle(int pressed)
+static void mouse_button_middle(int pressed)
 {
     BYTE old_val = mouse_digital_val;
 
@@ -1004,7 +1018,7 @@ void mouse_button_middle(int pressed)
     joyport_display_joyport(mt_to_id(mouse_type), mouse_digital_val);
 }
 
-void mouse_button_up(int pressed)
+static void mouse_button_up(int pressed)
 {
     switch (mouse_type) {
         case MOUSE_TYPE_MICROMYS:
@@ -1020,7 +1034,7 @@ void mouse_button_up(int pressed)
     }
 }
 
-void mouse_button_down(int pressed)
+static void mouse_button_down(int pressed)
 {
     switch (mouse_type) {
         case MOUSE_TYPE_MICROMYS:
@@ -1034,63 +1048,6 @@ void mouse_button_down(int pressed)
         default:
             break;
     }
-}
-
-BYTE mouse_get_x(void)
-{
-    /* DBG(("mouse_get_x: %d", mouse_type)); */
-    switch (mouse_type) {
-        case MOUSE_TYPE_1351:
-        case MOUSE_TYPE_SMART:
-        case MOUSE_TYPE_MICROMYS:
-            return mouse_get_1351_x();
-        case MOUSE_TYPE_PADDLE:
-            return mouse_get_paddle_x();
-        case MOUSE_TYPE_KOALAPAD:
-            return 255 - mouse_get_paddle_x();
-        case MOUSE_TYPE_NEOS:
-        case MOUSE_TYPE_AMIGA:
-        case MOUSE_TYPE_ST:
-            /* Real Amiga and Atari ST mice probably needs this mod
-             * http://www.mssiah-forum.com/viewtopic.php?pid=15208
-             * for their right buttons to be read using pot_x. */
-            return (neos_and_amiga_buttons & 1) ? 0xff : 0;
-        case MOUSE_TYPE_CX22:
-            /* CX22 has no right button */
-            break;
-        default:
-            DBG(("mouse_get_x: invalid mouse_type"));
-            break;
-    }
-    return 0xff;
-}
-
-BYTE mouse_get_y(void)
-{
-    switch (mouse_type) {
-        case MOUSE_TYPE_1351:
-        case MOUSE_TYPE_SMART:
-        case MOUSE_TYPE_MICROMYS:
-            return mouse_get_1351_y();
-        case MOUSE_TYPE_KOALAPAD:
-        case MOUSE_TYPE_PADDLE:
-            return mouse_get_paddle_y();
-        case MOUSE_TYPE_ST:
-        case MOUSE_TYPE_AMIGA:
-            /* Real Amiga and Atari ST mice probably needs this mod
-             * http://www.mssiah-forum.com/viewtopic.php?pid=15208
-             * for their middle buttons to be read using pot_y. */
-            return (neos_and_amiga_buttons & 2) ? 0xff : 0;
-        case MOUSE_TYPE_CX22:
-        case MOUSE_TYPE_NEOS:
-            /* CX22 has no middle button */
-            /* NEOS has no middle button */
-            break;
-        default:
-            DBG(("mouse_get_y: invalid mouse_type"));
-            break;
-    }
-    return 0xff;
 }
 
 void smart_mouse_store(BYTE val)

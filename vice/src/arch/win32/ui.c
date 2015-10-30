@@ -2136,34 +2136,34 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             break;
         case WM_LBUTTONDOWN:
             if (_mouse_enabled) {
-                mouse_button_left(1);
+                mousedrv_button_left(1);
             }
             break;
         case WM_MBUTTONDOWN:
             if (_mouse_enabled) {
-                mouse_button_middle(1);
+                mousedrv_button_middle(1);
             }
             break;
         case WM_RBUTTONDOWN:
             if (_mouse_enabled) {
-                mouse_button_right(1);
+                mousedrv_button_right(1);
             } else {
                 ui_paste_clipboard_text(window);
             }
             break;
         case WM_LBUTTONUP:
             if (_mouse_enabled) {
-                mouse_button_left(0);
+                mousedrv_button_left(0);
             }
             break;
         case WM_MBUTTONUP:
             if (_mouse_enabled) {
-                mouse_button_middle(0);
+                mousedrv_button_middle(0);
             }
             break;
         case WM_RBUTTONUP:
             if (_mouse_enabled) {
-                mouse_button_right(0);
+                mousedrv_button_right(0);
             }
             break;
 #else
