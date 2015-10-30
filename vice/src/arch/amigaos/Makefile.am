@@ -41,6 +41,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/platform \
+	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarch.a
