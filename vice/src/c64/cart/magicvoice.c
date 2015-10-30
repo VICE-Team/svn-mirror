@@ -1385,7 +1385,7 @@ int magicvoice_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
 
-        if (crt_read_chip(rawcart, chip.start & 0x2000, &chip, fd)) {
+        if (crt_read_chip(rawcart, (chip.bank << 13), &chip, fd)) {
             return -1;
         }
     }
@@ -1449,7 +1449,7 @@ static int magicvoice_sound_machine_calculate_samples(sound_t **psid, SWORD *pbu
     int i;
     SWORD *buffer;
 
-    buffer = lib_malloc(nr * 2);
+    buffer = lib_malloc(nr * sizeof(SWORD));
 
     t6721_update_output(t6721, buffer, nr);
 
