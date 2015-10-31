@@ -472,7 +472,11 @@ static void ui_set_size(void)
                 SetWindowPos(window_handles[i], NULL, 0, 0, width, height, SWP_NOMOVE);
             }
         }
-        size_set[i] = 1;
+        if (machine_class == VICE_MACHINE_C128 && (widthres != CW_USEDEFAULT || heightres != CW_USEDEFAULT)) {
+            size_set[i] = 2;
+        } else {
+            size_set[i] = 1;
+        }
     }
 }
 
@@ -1336,10 +1340,41 @@ static int frame = 0;
 void ui_frame_update_gui(void)
 {
     int i;
+    int widthres, heightres;
+    int width, height;
+    WINDOWPLACEMENT place;
+    RECT rect;
 
     frame = !frame;
 
     if (frame) {
+        /* FIXME: this is a big hack, some-1 with more knowledge needs to fix this properly */
+        if (machine_class == VICE_MACHINE_C128 && (size_set[0] == 2 || size_set[1] == 2)) {
+            for (i = 0; i < number_of_windows; i++) {
+                resources_get_int_sprintf("Window%dWidth", &widthres, i);
+                resources_get_int_sprintf("Window%dHeight", &heightres, i);
+                if (widthres != CW_USEDEFAULT || heightres != CW_USEDEFAULT) {
+                    place.length = sizeof(WINDOWPLACEMENT);
+                    GetWindowPlacement(window_handles[i], &place);
+                    GetWindowRect(window_handles[i], &rect);
+                    if (place.showCmd == SW_SHOWNORMAL) {
+                        if (widthres == CW_USEDEFAULT) {
+                            width = rect.right;
+                        } else {
+                            width = widthres;
+                        }
+                        if (heightres == CW_USEDEFAULT) {
+                            height = rect.bottom;
+                        } else {
+                            height = heightres;
+                        }
+                        SetWindowPos(window_handles[i], NULL, 0, 0, width, height, SWP_NOMOVE);
+                    }
+                }
+                size_set[i] = 1;
+            }
+        }
+
         for (i = 0; i < DRIVE_NUM; ++i) {
             if (old_pwm1[i] != new_pwm1[i]) {
                 statusbar_display_drive_led(i, new_pwm1[i]);
@@ -1875,7 +1910,7 @@ static void ui_wm_size(HWND window, int window_index)
         WINDOWPLACEMENT place;
         RECT rect;
 
-        if (!size_set[window_index]) {
+        if (size_set[window_index] != 1) {
             return;
         }
 
