@@ -40,6 +40,7 @@
 #include "nativedrv.h"
 #include "pcxdrv.h"
 #include "ppmdrv.h"
+#include "godotdrv.h"
 
 #ifdef HAVE_PNG
 #include "pngdrv.h"
@@ -123,6 +124,7 @@ int gfxoutput_early_init(int help)
 #ifdef HAVE_QUICKTIME
     gfxoutput_init_quicktime(help);
 #endif
+    gfxoutput_init_godot(help);
     return 0;
 }
 

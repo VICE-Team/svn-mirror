@@ -38,7 +38,9 @@ libgfxoutputdrv_a_SOURCES = \
 	pcxdrv.c \
 	pcxdrv.h \
 	ppmdrv.c \
-	ppmdrv.h
+	ppmdrv.h \
+	godotdrv.c \
+	godotdrv.h
 
 libgfxoutputdrv_a_DEPENDENCIES = @GFXOUTPUT_DRIVERS@
 libgfxoutputdrv_a_LIBADD = @GFXOUTPUT_DRIVERS@
