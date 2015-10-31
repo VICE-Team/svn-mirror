@@ -40,6 +40,7 @@
 #include "uitfe.h"
 #include "winmain.h"
 #include "uilib.h"
+#include "util.h"
 
 static BOOL get_tfename(int number, char **ppname, char **ppdescription)
 {
@@ -185,8 +186,9 @@ static void init_tfe_dialog(HWND hwnd)
 
         char *pname;
         char *pdescription;
+        char *combined;
 
-        temp_hwnd=GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE);
+        temp_hwnd = GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE);
 
         for (cnt = 0; rawnet_enumadapter(&pname, &pdescription); cnt++) {
             BOOL this_entry = FALSE;
@@ -194,10 +196,11 @@ static void init_tfe_dialog(HWND hwnd)
             if (strcmp(pname, interface_name) == 0) {
                 this_entry = TRUE;
             }
-
             SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME), pname);
             SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC), pdescription);
-            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)pname);
+            combined = util_concat(pdescription, " (", pname, ")", NULL);
+            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)combined);
+            lib_free(combined);
             lib_free(pname);
             lib_free(pdescription);
 
