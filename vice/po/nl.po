@@ -11775,14 +11775,12 @@ msgid "Set drive type (0: no drive"
 msgstr "Zet drive soort (0: geen drive"
 
 #: src/translate_text.c.po.c:9006
-#, fuzzy
 msgid "Set drive rpm (30000 = 300rpm)"
-msgstr "Zet drive rpm (30000 = 300rpm"
+msgstr "Zet drive rpm (30000 = 300rpm)"
 
 #: src/translate_text.c.po.c:9023
-#, fuzzy
 msgid "Set drive wobble (100 = +/-0.5rpm)"
-msgstr "Zet drive wiebel (100 = +/-0.5rpm"
+msgstr "Zet drive wiebel (100 = +/-0.5rpm)"
 
 #: src/translate_text.c.po.c:9040
 msgid "method"
@@ -13535,92 +13533,3 @@ msgstr "PET High Res Emulation bord uitschakelen"
 #: src/translate_text.c.po.c:16512
 msgid "Set raw drive device name"
 msgstr "Zet binair drive bestandsnaam"
-
-#~ msgid "Drive Wobble"
-#~ msgstr "Drive Wiebel"
-
-#~ msgid "Lightpen emulation"
-#~ msgstr "Lichtpen emulatie"
-
-#~ msgid "Pen with button Up"
-#~ msgstr "Pen met knop boven"
-
-#~ msgid "Pen with button Left"
-#~ msgstr "Pen met knop links"
-
-#~ msgid "Enable lightpen emulation"
-#~ msgstr "Activeer de lichtpen emulatie"
-
-#~ msgid "Lightpen type"
-#~ msgstr "Lichtpen model"
-
-#~ msgid "Port 1"
-#~ msgstr "Poort 1"
-
-#~ msgid "Port 2"
-#~ msgstr "Poort 2"
-
-#~ msgid "Enable paddles"
-#~ msgstr "Activeer paddles"
-
-#~ msgid "Paddle emulation"
-#~ msgstr "Paddle emulatie"
-
-#~ msgid "1351 mouse"
-#~ msgstr "1351 muis"
-
-#~ msgid "NEOS mouse"
-#~ msgstr "NEOS muis"
-
-#~ msgid "Amiga mouse"
-#~ msgstr "Amiga muis"
-
-#~ msgid "Atari CX-22 trackball"
-#~ msgstr "Atari CX-22 trackball"
-
-#~ msgid "Atari ST mouse"
-#~ msgstr "Atari ST muis"
-
-#~ msgid "MicroMys mouse"
-#~ msgstr "MicroMys muis"
-
-#~ msgid "Select the joystick port the mouse is attached to. (1/2)"
-#~ msgstr "Selecteer de joystickpoort waar de muis aan gekoppelt is. (1/2)"
-
-#~ msgid ""
-#~ "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
-#~ "CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"
-#~ msgstr ""
-#~ "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
-#~ "CX-22, 5 = ST, 6 = Smart, 7 = Micromys, 8 = Koalapad)"
-
-#~ msgid "Disable lightpen emulation"
-#~ msgstr "De lichtpen emulatie uitschakelen"
-
-#~ msgid ""
-#~ "Set lightpen type. (0: Pen with button Up, 1: Pen with button Left, 2: "
-#~ "Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)"
-#~ msgstr ""
-#~ "Zet lichtpen soort. (0: Pen met knop omhoog, 1: Pen met knop links, 2: "
-#~ "Datel Pen, 3: Magnum Light Phaser, 4: Stack Light geweer, 5: Inkwell Pen)"
-
-#~ msgid "IDE64 V4"
-#~ msgstr "IDE64 V4"
-
-#~ msgid "Emulate version 4 hardware"
-#~ msgstr "Emuleer versie 4 hardware"
-
-#~ msgid "Emulate pre version 4 hardware"
-#~ msgstr "Emuleer hardware van voor versie 4"
-
-#~ msgid "Business (DE)"
-#~ msgstr "Zakelijk (DE)"
-
-#~ msgid "Select symbolic keymap"
-#~ msgstr "Zet symbolische toetsenbordbestand"
-
-#~ msgid "Select positional keymap"
-#~ msgstr "Zet positionele toetsenbordbestand"
-
-#~ msgid "Specify index of keymap file"
-#~ msgstr "Geef de index van het keymapbestand"
