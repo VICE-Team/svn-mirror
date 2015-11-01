@@ -487,7 +487,9 @@ int ui_init_finalize(void)
     fullscreen_setup_finished();
     resources_get_int("AlwaysOnTop", &alwaysontop);
     ui_set_alwaysontop(alwaysontop);
-    ui_set_size();
+    if (machine_class != VICE_MACHINE_VSID) {
+        ui_set_size();
+    }
     return 0;
 }
 
@@ -2062,7 +2064,9 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
                 statusbar_handle_WMSIZE(msg, wparam, lparam, window_index);
             }
             ui_resize_render_window(video_canvas_for_hwnd(window));
-            ui_wm_size(window, window_index);
+            if (machine_class != VICE_MACHINE_VSID) {
+                ui_wm_size(window, window_index);
+            }
             return 0;
         case WM_SIZING:
             ui_handle_aspect_ratio(window_index, wparam, lparam);
