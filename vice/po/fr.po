@@ -1,17 +1,17 @@
 # French Translation File for VICE
 # Copyright (C) 2004-2013 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Vice Emulator package.
-#
+# 
 # Note to myself: /cry  *This is WAY TOO long!!*  ;-)
 # Long Live To Vice and to all it's developpers and contributors!  Thanks to you all!
 # The C64 started my addiction ;)
 # - Paul (: DubePaul @t 0utl0ok d0t.com :)
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-31 23:45-0700\n"
+"POT-Creation-Date: 2015-11-01 10:32-0800\n"
 "PO-Revision-Date: 2013-01-02 02:17-0500\n"
 "Last-Translator: Paul Dubé <: DubePaul @t 0utl0ok d0t.com :>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -2330,7 +2330,14 @@ msgstr "Étendre à l'accès"
 msgid "Drive RPM"
 msgstr "Lecteur #8"
 
-#: src/arch/unix/gui/uidrive.c:221
+#: src/arch/unix/gui/uidrive.c:221 src/arch/unix/gui/uiperipheraliec.c:83
+#: src/arch/unix/gui/uiperipheraliec.c:108
+#: src/arch/unix/gui/uiperipheraliec.c:133
+#: src/arch/unix/gui/uiperipheraliec.c:158
+#: src/arch/unix/gui/uiperipheralieee.c:73
+#: src/arch/unix/gui/uiperipheralieee.c:93
+#: src/arch/unix/gui/uiperipheralieee.c:113
+#: src/arch/unix/gui/uiperipheralieee.c:133
 #, fuzzy
 msgid "Drive wobble"
 msgstr "Ressources des lecteurs"
@@ -3457,18 +3464,6 @@ msgstr "Créer des fichiers P00 lors de sauvegardes"
 #: src/arch/unix/gui/uiperipheralieee.c:128 src/arch/win32/res.rc.po.c:1155
 msgid "Hide non-P00 files"
 msgstr "Cacher les fichiers non-P00"
-
-#: src/arch/unix/gui/uiperipheraliec.c:83
-#: src/arch/unix/gui/uiperipheraliec.c:108
-#: src/arch/unix/gui/uiperipheraliec.c:133
-#: src/arch/unix/gui/uiperipheraliec.c:158
-#: src/arch/unix/gui/uiperipheralieee.c:73
-#: src/arch/unix/gui/uiperipheralieee.c:93
-#: src/arch/unix/gui/uiperipheralieee.c:113
-#: src/arch/unix/gui/uiperipheralieee.c:133
-#, fuzzy
-msgid "Drive Wobble"
-msgstr "Ressources des lecteurs"
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:191
@@ -12007,12 +12002,13 @@ msgstr "Spécifier le type de lecteur de disque (0: pas de lecteur)"
 
 #: src/translate_text.c.po.c:9006
 #, fuzzy
-msgid "Set drive rpm (30000 = 300rpm"
+msgid "Set drive rpm (30000 = 300rpm)"
 msgstr "Spécifier le type de lecteur de disque (0: pas de lecteur)"
 
 #: src/translate_text.c.po.c:9023
-msgid "Set drive wobble (100 = +/-0.5rpm"
-msgstr ""
+#, fuzzy
+msgid "Set drive wobble (100 = +/-0.5rpm)"
+msgstr "Spécifier le type de lecteur de disque (0: pas de lecteur)"
 
 #: src/translate_text.c.po.c:9040
 msgid "method"
@@ -13836,6 +13832,10 @@ msgstr "Activer la carte d'émulation PET Haute Résolution"
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Nom du périphérique son"
+
+#, fuzzy
+#~ msgid "Drive Wobble"
+#~ msgstr "Ressources des lecteurs"
 
 #~ msgid "Lightpen emulation"
 #~ msgstr "Émulation de stylet optique"

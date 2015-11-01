@@ -1,12 +1,12 @@
 # Swedish translation file for VICE
 # Copyright 2000-2014
 # Peter Krefting <peter@softwolves.pp.se>, 2011, 2012, 2014.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-31 23:45-0700\n"
+"POT-Creation-Date: 2015-11-01 10:32-0800\n"
 "PO-Revision-Date: 2014-01-13 14:34+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <tp-sv@listor.tp-sv.se>\n"
@@ -2316,7 +2316,14 @@ msgstr "Utöka vid åtkomst"
 msgid "Drive RPM"
 msgstr "Enhet 8"
 
-#: src/arch/unix/gui/uidrive.c:221
+#: src/arch/unix/gui/uidrive.c:221 src/arch/unix/gui/uiperipheraliec.c:83
+#: src/arch/unix/gui/uiperipheraliec.c:108
+#: src/arch/unix/gui/uiperipheraliec.c:133
+#: src/arch/unix/gui/uiperipheraliec.c:158
+#: src/arch/unix/gui/uiperipheralieee.c:73
+#: src/arch/unix/gui/uiperipheralieee.c:93
+#: src/arch/unix/gui/uiperipheralieee.c:113
+#: src/arch/unix/gui/uiperipheralieee.c:133
 #, fuzzy
 msgid "Drive wobble"
 msgstr "Volym för enheter"
@@ -3443,18 +3450,6 @@ msgstr "Skapa P00 då filer sparas"
 #: src/arch/unix/gui/uiperipheralieee.c:128 src/arch/win32/res.rc.po.c:1155
 msgid "Hide non-P00 files"
 msgstr "Göm icke-P00-filer"
-
-#: src/arch/unix/gui/uiperipheraliec.c:83
-#: src/arch/unix/gui/uiperipheraliec.c:108
-#: src/arch/unix/gui/uiperipheraliec.c:133
-#: src/arch/unix/gui/uiperipheraliec.c:158
-#: src/arch/unix/gui/uiperipheralieee.c:73
-#: src/arch/unix/gui/uiperipheralieee.c:93
-#: src/arch/unix/gui/uiperipheralieee.c:113
-#: src/arch/unix/gui/uiperipheralieee.c:133
-#, fuzzy
-msgid "Drive Wobble"
-msgstr "Volym för enheter"
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:191
@@ -11960,12 +11955,13 @@ msgstr "Ange enhetstyp (0: ingen enhet)"
 
 #: src/translate_text.c.po.c:9006
 #, fuzzy
-msgid "Set drive rpm (30000 = 300rpm"
+msgid "Set drive rpm (30000 = 300rpm)"
 msgstr "Ange enhetstyp (0: ingen enhet)"
 
 #: src/translate_text.c.po.c:9023
-msgid "Set drive wobble (100 = +/-0.5rpm"
-msgstr ""
+#, fuzzy
+msgid "Set drive wobble (100 = +/-0.5rpm)"
+msgstr "Ange enhetstyp (0: ingen enhet)"
 
 #: src/translate_text.c.po.c:9040
 msgid "method"
@@ -13744,6 +13740,10 @@ msgstr "högupplösningsemuleringskort Inaktivera"
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Namn på ljudenhet"
+
+#, fuzzy
+#~ msgid "Drive Wobble"
+#~ msgstr "Volym för enheter"
 
 #~ msgid "Lightpen emulation"
 #~ msgstr "Emulering av ljuspenna"

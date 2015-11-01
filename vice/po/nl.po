@@ -2,12 +2,12 @@
 # Copyright (C) 2005-2011
 # This file is distributed under the same license as the PACKAGE package.
 # Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-31 23:45-0700\n"
+"POT-Creation-Date: 2015-11-01 10:32-0800\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -2288,7 +2288,14 @@ msgstr "Uitbreiden bij toegang"
 msgid "Drive RPM"
 msgstr "Drive RPM"
 
-#: src/arch/unix/gui/uidrive.c:221
+#: src/arch/unix/gui/uidrive.c:221 src/arch/unix/gui/uiperipheraliec.c:83
+#: src/arch/unix/gui/uiperipheraliec.c:108
+#: src/arch/unix/gui/uiperipheraliec.c:133
+#: src/arch/unix/gui/uiperipheraliec.c:158
+#: src/arch/unix/gui/uiperipheralieee.c:73
+#: src/arch/unix/gui/uiperipheralieee.c:93
+#: src/arch/unix/gui/uiperipheralieee.c:113
+#: src/arch/unix/gui/uiperipheralieee.c:133
 msgid "Drive wobble"
 msgstr "Drive wiebel"
 
@@ -3394,17 +3401,6 @@ msgstr "Maak P00 bestanden bij opslaan"
 #: src/arch/unix/gui/uiperipheralieee.c:128 src/arch/win32/res.rc.po.c:1155
 msgid "Hide non-P00 files"
 msgstr "Verberg non-P00 bestanden"
-
-#: src/arch/unix/gui/uiperipheraliec.c:83
-#: src/arch/unix/gui/uiperipheraliec.c:108
-#: src/arch/unix/gui/uiperipheraliec.c:133
-#: src/arch/unix/gui/uiperipheraliec.c:158
-#: src/arch/unix/gui/uiperipheralieee.c:73
-#: src/arch/unix/gui/uiperipheralieee.c:93
-#: src/arch/unix/gui/uiperipheralieee.c:113
-#: src/arch/unix/gui/uiperipheralieee.c:133
-msgid "Drive Wobble"
-msgstr "Drive Wiebel"
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:191
@@ -5925,7 +5921,9 @@ msgstr "Geluid stuurprogramma: WMM"
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.flac;*."
 "ogg;*.avi;*.mpg)"
-msgstr "Mediabestanden (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.flac,*.ogg,*.avi;*.mpg)"
+msgstr ""
+"Mediabestanden (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.flac,"
+"*.ogg,*.avi;*.mpg)"
 
 #: src/arch/win32/res.rc.po.c:1066
 msgid " kB"
@@ -10506,14 +10504,17 @@ msgstr "Geselelecteerde joyport apparaat %d is niet geregistreerd"
 #: src/translate_text.c.po.c:3074
 #, c-format
 msgid "Selected joyport device %s on port %d is already attached to port %d"
-msgstr "Geselecteerde joyport apparaat %s op poort %d is al gekoppelt aan poort %d"
+msgstr ""
+"Geselecteerde joyport apparaat %s op poort %d is al gekoppelt aan poort %d"
 
 #: src/translate_text.c.po.c:3091
 #, c-format
 msgid ""
 "Selected joyport device %s on port %d uses same host input resource (%s) as "
 "the device attached to port %d"
-msgstr "Geselecteerde joyport apparaat %s op poort %d gebruikt dezelfde fyskieke invoer instelling (%s) als het apparaat op poort %d"
+msgstr ""
+"Geselecteerde joyport apparaat %s op poort %d gebruikt dezelfde fyskieke "
+"invoer instelling (%s) als het apparaat op poort %d"
 
 #: src/translate_text.c.po.c:3108
 msgid "host mouse"
@@ -11774,11 +11775,13 @@ msgid "Set drive type (0: no drive"
 msgstr "Zet drive soort (0: geen drive"
 
 #: src/translate_text.c.po.c:9006
-msgid "Set drive rpm (30000 = 300rpm"
+#, fuzzy
+msgid "Set drive rpm (30000 = 300rpm)"
 msgstr "Zet drive rpm (30000 = 300rpm"
 
 #: src/translate_text.c.po.c:9023
-msgid "Set drive wobble (100 = +/-0.5rpm"
+#, fuzzy
+msgid "Set drive wobble (100 = +/-0.5rpm)"
 msgstr "Zet drive wiebel (100 = +/-0.5rpm"
 
 #: src/translate_text.c.po.c:9040
@@ -13532,6 +13535,9 @@ msgstr "PET High Res Emulation bord uitschakelen"
 #: src/translate_text.c.po.c:16512
 msgid "Set raw drive device name"
 msgstr "Zet binair drive bestandsnaam"
+
+#~ msgid "Drive Wobble"
+#~ msgstr "Drive Wiebel"
 
 #~ msgid "Lightpen emulation"
 #~ msgstr "Lichtpen emulatie"

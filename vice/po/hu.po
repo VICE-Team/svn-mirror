@@ -1,14 +1,14 @@
 # translation of hu.po to Hungarian
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the VICE package.
-#
+# 
 # Czirkos Zoltan <cirix@fw.hu>, 2007.
 # Karai Csaba <cskarai@freemail.hu>, 2006, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-31 23:45-0700\n"
+"POT-Creation-Date: 2015-11-01 10:32-0800\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -2438,7 +2438,14 @@ msgstr "Kiterjesztés hozzáféréskor"
 msgid "Drive RPM"
 msgstr "#8-as lemezegység"
 
-#: src/arch/unix/gui/uidrive.c:221
+#: src/arch/unix/gui/uidrive.c:221 src/arch/unix/gui/uiperipheraliec.c:83
+#: src/arch/unix/gui/uiperipheraliec.c:108
+#: src/arch/unix/gui/uiperipheraliec.c:133
+#: src/arch/unix/gui/uiperipheraliec.c:158
+#: src/arch/unix/gui/uiperipheralieee.c:73
+#: src/arch/unix/gui/uiperipheralieee.c:93
+#: src/arch/unix/gui/uiperipheralieee.c:113
+#: src/arch/unix/gui/uiperipheralieee.c:133
 #, fuzzy
 msgid "Drive wobble"
 msgstr "Lemezegység erõforrásai"
@@ -3647,18 +3654,6 @@ msgstr "*P00 fájlok készítése mentésnél"
 #, fuzzy
 msgid "Hide non-P00 files"
 msgstr "Nem P00 fájlok &elrejtése"
-
-#: src/arch/unix/gui/uiperipheraliec.c:83
-#: src/arch/unix/gui/uiperipheraliec.c:108
-#: src/arch/unix/gui/uiperipheraliec.c:133
-#: src/arch/unix/gui/uiperipheraliec.c:158
-#: src/arch/unix/gui/uiperipheralieee.c:73
-#: src/arch/unix/gui/uiperipheralieee.c:93
-#: src/arch/unix/gui/uiperipheralieee.c:113
-#: src/arch/unix/gui/uiperipheralieee.c:133
-#, fuzzy
-msgid "Drive Wobble"
-msgstr "Lemezegység erõforrásai"
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:191
@@ -12748,12 +12743,13 @@ msgstr "Adja meg a lemezegység típusát (0: nincs)"
 
 #: src/translate_text.c.po.c:9006
 #, fuzzy
-msgid "Set drive rpm (30000 = 300rpm"
+msgid "Set drive rpm (30000 = 300rpm)"
 msgstr "Adja meg a lemezegység típusát (0: nincs)"
 
 #: src/translate_text.c.po.c:9023
-msgid "Set drive wobble (100 = +/-0.5rpm"
-msgstr ""
+#, fuzzy
+msgid "Set drive wobble (100 = +/-0.5rpm)"
+msgstr "Adja meg a lemezegység típusát (0: nincs)"
 
 #: src/translate_text.c.po.c:9040
 #, fuzzy
@@ -14580,6 +14576,10 @@ msgstr "Fényceruza emuláció engedélyezése"
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Hangeszköz neve"
+
+#, fuzzy
+#~ msgid "Drive Wobble"
+#~ msgstr "Lemezegység erõforrásai"
 
 #, fuzzy
 #~ msgid "Lightpen emulation"

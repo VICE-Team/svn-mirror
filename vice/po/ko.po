@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-31 23:45-0700\n"
+"POT-Creation-Date: 2015-11-01 10:32-0800\n"
 "PO-Revision-Date: 2012-12-29 13:44-0800\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: ko <ko@li.org>\n"
@@ -2225,7 +2225,14 @@ msgstr "엑세스 연장하기"
 msgid "Drive RPM"
 msgstr ""
 
-#: src/arch/unix/gui/uidrive.c:221
+#: src/arch/unix/gui/uidrive.c:221 src/arch/unix/gui/uiperipheraliec.c:83
+#: src/arch/unix/gui/uiperipheraliec.c:108
+#: src/arch/unix/gui/uiperipheraliec.c:133
+#: src/arch/unix/gui/uiperipheraliec.c:158
+#: src/arch/unix/gui/uiperipheralieee.c:73
+#: src/arch/unix/gui/uiperipheralieee.c:93
+#: src/arch/unix/gui/uiperipheralieee.c:113
+#: src/arch/unix/gui/uiperipheralieee.c:133
 msgid "Drive wobble"
 msgstr ""
 
@@ -3328,17 +3335,6 @@ msgstr "저장 메뉴에 P00 파일 생성하기"
 #: src/arch/unix/gui/uiperipheralieee.c:108
 #: src/arch/unix/gui/uiperipheralieee.c:128 src/arch/win32/res.rc.po.c:1155
 msgid "Hide non-P00 files"
-msgstr ""
-
-#: src/arch/unix/gui/uiperipheraliec.c:83
-#: src/arch/unix/gui/uiperipheraliec.c:108
-#: src/arch/unix/gui/uiperipheraliec.c:133
-#: src/arch/unix/gui/uiperipheraliec.c:158
-#: src/arch/unix/gui/uiperipheralieee.c:73
-#: src/arch/unix/gui/uiperipheralieee.c:93
-#: src/arch/unix/gui/uiperipheralieee.c:113
-#: src/arch/unix/gui/uiperipheralieee.c:133
-msgid "Drive Wobble"
 msgstr ""
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
@@ -11380,11 +11376,11 @@ msgid "Set drive type (0: no drive"
 msgstr ""
 
 #: src/translate_text.c.po.c:9006
-msgid "Set drive rpm (30000 = 300rpm"
+msgid "Set drive rpm (30000 = 300rpm)"
 msgstr ""
 
 #: src/translate_text.c.po.c:9023
-msgid "Set drive wobble (100 = +/-0.5rpm"
+msgid "Set drive wobble (100 = +/-0.5rpm)"
 msgstr ""
 
 #: src/translate_text.c.po.c:9040

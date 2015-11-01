@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-31 23:45-0700\n"
+"POT-Creation-Date: 2015-11-01 10:32-0800\n"
 "PO-Revision-Date: 2015-07-16 12:04+0200\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -2296,7 +2296,14 @@ msgstr "Rozszerz przy dostępie"
 msgid "Drive RPM"
 msgstr "Napęd 8"
 
-#: src/arch/unix/gui/uidrive.c:221
+#: src/arch/unix/gui/uidrive.c:221 src/arch/unix/gui/uiperipheraliec.c:83
+#: src/arch/unix/gui/uiperipheraliec.c:108
+#: src/arch/unix/gui/uiperipheraliec.c:133
+#: src/arch/unix/gui/uiperipheraliec.c:158
+#: src/arch/unix/gui/uiperipheralieee.c:73
+#: src/arch/unix/gui/uiperipheralieee.c:93
+#: src/arch/unix/gui/uiperipheralieee.c:113
+#: src/arch/unix/gui/uiperipheralieee.c:133
 #, fuzzy
 msgid "Drive wobble"
 msgstr "Głośność napędów"
@@ -3408,18 +3415,6 @@ msgstr "Stwórz plik P00 podczas zapisu"
 #: src/arch/unix/gui/uiperipheralieee.c:128 src/arch/win32/res.rc.po.c:1155
 msgid "Hide non-P00 files"
 msgstr "Ukryj pliki inne niż P00"
-
-#: src/arch/unix/gui/uiperipheraliec.c:83
-#: src/arch/unix/gui/uiperipheraliec.c:108
-#: src/arch/unix/gui/uiperipheraliec.c:133
-#: src/arch/unix/gui/uiperipheraliec.c:158
-#: src/arch/unix/gui/uiperipheralieee.c:73
-#: src/arch/unix/gui/uiperipheralieee.c:93
-#: src/arch/unix/gui/uiperipheralieee.c:113
-#: src/arch/unix/gui/uiperipheralieee.c:133
-#, fuzzy
-msgid "Drive Wobble"
-msgstr "Głośność napędów"
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:191
@@ -11769,12 +11764,13 @@ msgstr "Ustaw typ stacji (0: brak stacji"
 
 #: src/translate_text.c.po.c:9006
 #, fuzzy
-msgid "Set drive rpm (30000 = 300rpm"
+msgid "Set drive rpm (30000 = 300rpm)"
 msgstr "Ustaw typ stacji (0: brak stacji"
 
 #: src/translate_text.c.po.c:9023
-msgid "Set drive wobble (100 = +/-0.5rpm"
-msgstr ""
+#, fuzzy
+msgid "Set drive wobble (100 = +/-0.5rpm)"
+msgstr "Ustaw typ stacji (0: brak stacji"
 
 #: src/translate_text.c.po.c:9040
 msgid "method"
@@ -13514,6 +13510,10 @@ msgstr "Wyłącz kartę emulacji HiRes"
 #: src/translate_text.c.po.c:16512
 msgid "Set raw drive device name"
 msgstr "Wprowadź nazwę urządzenia surowego napędu"
+
+#, fuzzy
+#~ msgid "Drive Wobble"
+#~ msgstr "Głośność napędów"
 
 #~ msgid "Lightpen emulation"
 #~ msgstr "Emulacja pióra świetlnego"

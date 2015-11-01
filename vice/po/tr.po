@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-31 23:45-0700\n"
+"POT-Creation-Date: 2015-11-01 10:32-0800\n"
 "PO-Revision-Date: 2012-10-19 11:36+0300\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -2324,7 +2324,14 @@ msgstr "Eriþildiðinde geniþlet"
 msgid "Drive RPM"
 msgstr "Sürücü 8"
 
-#: src/arch/unix/gui/uidrive.c:221
+#: src/arch/unix/gui/uidrive.c:221 src/arch/unix/gui/uiperipheraliec.c:83
+#: src/arch/unix/gui/uiperipheraliec.c:108
+#: src/arch/unix/gui/uiperipheraliec.c:133
+#: src/arch/unix/gui/uiperipheraliec.c:158
+#: src/arch/unix/gui/uiperipheralieee.c:73
+#: src/arch/unix/gui/uiperipheralieee.c:93
+#: src/arch/unix/gui/uiperipheralieee.c:113
+#: src/arch/unix/gui/uiperipheralieee.c:133
 #, fuzzy
 msgid "Drive wobble"
 msgstr "Sürücü kaynaklarý"
@@ -3452,18 +3459,6 @@ msgstr "Kaydederken P00 dosyalarýný oluþtur"
 #: src/arch/unix/gui/uiperipheralieee.c:128 src/arch/win32/res.rc.po.c:1155
 msgid "Hide non-P00 files"
 msgstr "P00 harici dosyalarý gizle"
-
-#: src/arch/unix/gui/uiperipheraliec.c:83
-#: src/arch/unix/gui/uiperipheraliec.c:108
-#: src/arch/unix/gui/uiperipheraliec.c:133
-#: src/arch/unix/gui/uiperipheraliec.c:158
-#: src/arch/unix/gui/uiperipheralieee.c:73
-#: src/arch/unix/gui/uiperipheralieee.c:93
-#: src/arch/unix/gui/uiperipheralieee.c:113
-#: src/arch/unix/gui/uiperipheralieee.c:133
-#, fuzzy
-msgid "Drive Wobble"
-msgstr "Sürücü kaynaklarý"
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:191
@@ -11985,12 +11980,13 @@ msgstr "Sürücü tipini ayarlayýn (0: sürücü yok)"
 
 #: src/translate_text.c.po.c:9006
 #, fuzzy
-msgid "Set drive rpm (30000 = 300rpm"
+msgid "Set drive rpm (30000 = 300rpm)"
 msgstr "Sürücü tipini ayarlayýn (0: sürücü yok)"
 
 #: src/translate_text.c.po.c:9023
-msgid "Set drive wobble (100 = +/-0.5rpm"
-msgstr ""
+#, fuzzy
+msgid "Set drive wobble (100 = +/-0.5rpm)"
+msgstr "Sürücü tipini ayarlayýn (0: sürücü yok)"
 
 #: src/translate_text.c.po.c:9040
 msgid "method"
@@ -13795,6 +13791,10 @@ msgstr "Iþýklý Kalem emülasyonunu aktif et"
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Ses sürücüsü ismi"
+
+#, fuzzy
+#~ msgid "Drive Wobble"
+#~ msgstr "Sürücü kaynaklarý"
 
 #~ msgid "Lightpen emulation"
 #~ msgstr "Iþýklý Kalem emülasyonu"

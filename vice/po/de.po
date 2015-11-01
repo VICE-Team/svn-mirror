@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-31 23:45-0700\n"
+"POT-Creation-Date: 2015-11-01 10:32-0800\n"
 "PO-Revision-Date: 2015-10-18 15:06+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2278,7 +2278,14 @@ msgstr "Erweitern wenn nötig"
 msgid "Drive RPM"
 msgstr "Laufwerk 8"
 
-#: src/arch/unix/gui/uidrive.c:221
+#: src/arch/unix/gui/uidrive.c:221 src/arch/unix/gui/uiperipheraliec.c:83
+#: src/arch/unix/gui/uiperipheraliec.c:108
+#: src/arch/unix/gui/uiperipheraliec.c:133
+#: src/arch/unix/gui/uiperipheraliec.c:158
+#: src/arch/unix/gui/uiperipheralieee.c:73
+#: src/arch/unix/gui/uiperipheralieee.c:93
+#: src/arch/unix/gui/uiperipheralieee.c:113
+#: src/arch/unix/gui/uiperipheralieee.c:133
 #, fuzzy
 msgid "Drive wobble"
 msgstr "Floppy Geräuschlautstärke"
@@ -3388,18 +3395,6 @@ msgstr "P00 Dateien beim Speichern erzeugen"
 #: src/arch/unix/gui/uiperipheralieee.c:128 src/arch/win32/res.rc.po.c:1155
 msgid "Hide non-P00 files"
 msgstr "Non-P00 Dateien ausblenden"
-
-#: src/arch/unix/gui/uiperipheraliec.c:83
-#: src/arch/unix/gui/uiperipheraliec.c:108
-#: src/arch/unix/gui/uiperipheraliec.c:133
-#: src/arch/unix/gui/uiperipheraliec.c:158
-#: src/arch/unix/gui/uiperipheralieee.c:73
-#: src/arch/unix/gui/uiperipheralieee.c:93
-#: src/arch/unix/gui/uiperipheralieee.c:113
-#: src/arch/unix/gui/uiperipheralieee.c:133
-#, fuzzy
-msgid "Drive Wobble"
-msgstr "Floppy Geräuschlautstärke"
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:191
@@ -11751,12 +11746,13 @@ msgstr "Setze Laufwerkstyp (0: kein Laufwerk"
 
 #: src/translate_text.c.po.c:9006
 #, fuzzy
-msgid "Set drive rpm (30000 = 300rpm"
+msgid "Set drive rpm (30000 = 300rpm)"
 msgstr "Setze Laufwerkstyp (0: kein Laufwerk"
 
 #: src/translate_text.c.po.c:9023
-msgid "Set drive wobble (100 = +/-0.5rpm"
-msgstr ""
+#, fuzzy
+msgid "Set drive wobble (100 = +/-0.5rpm)"
+msgstr "Setze Laufwerkstyp (0: kein Laufwerk"
 
 #: src/translate_text.c.po.c:9040
 msgid "method"
@@ -13479,6 +13475,10 @@ msgstr "HiRes Emulation Board aktivieren"
 #: src/translate_text.c.po.c:16512
 msgid "Set raw drive device name"
 msgstr "Raw Laufwerk Gerätename setzen"
+
+#, fuzzy
+#~ msgid "Drive Wobble"
+#~ msgstr "Floppy Geräuschlautstärke"
 
 #~ msgid "Lightpen emulation"
 #~ msgstr "Lichtgriffel Emulation"
