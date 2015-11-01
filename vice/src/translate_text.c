@@ -9086,7 +9086,7 @@ translate_t string_table[] = {
 #endif
 
 /* drive/drive-cmdline-options.c */
-/* en */ {IDCLS_SET_DRIVE_RPM,    N_("Set drive rpm (30000 = 300rpm")},
+/* en */ {IDCLS_SET_DRIVE_RPM,    N_("Set drive rpm (30000 = 300rpm)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DRIVE_RPM_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_DRIVE_RPM_DE, ""},  /* fuzzy */
@@ -9103,7 +9103,7 @@ translate_t string_table[] = {
 #endif
 
 /* drive/drive-cmdline-options.c */
-/* en */ {IDCLS_SET_DRIVE_WOBBLE,    N_("Set drive wobble (100 = +/-0.5rpm")},
+/* en */ {IDCLS_SET_DRIVE_WOBBLE,    N_("Set drive wobble (100 = +/-0.5rpm)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DRIVE_WOBBLE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_DRIVE_WOBBLE_DE, ""},  /* fuzzy */
