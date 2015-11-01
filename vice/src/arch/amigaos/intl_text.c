@@ -3506,7 +3506,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_JOYPORT_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_JOYPORT_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_JOYPORT_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_JOYPORT_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_JOYPORT_SETTINGS_NL, "Joyport instellingen..." },
 /* pl */ { IDMS_JOYPORT_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_JOYPORT_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_JOYPORT_SETTINGS_SV, "" },  /* fuzzy */
@@ -4396,7 +4396,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_CONFIRM_ON_EXIT,    "Confirm quitting VICE" },
 /* da */ { IDMS_CONFIRM_ON_EXIT_DA, "Bekræft programafslutning" },
-/* de */ { IDMS_CONFIRM_ON_EXIT_DE, "Bestätige beenden von VICE" },
+/* de */ { IDMS_CONFIRM_ON_EXIT_DE, "Bestätige Beenden von VICE" },
 /* es */ { IDMS_CONFIRM_ON_EXIT_ES, "Confirmar cierre de VICE" },
 /* fr */ { IDMS_CONFIRM_ON_EXIT_FR, "Confirmer avant de quitter VICE" },
 /* hu */ { IDMS_CONFIRM_ON_EXIT_HU, "" },  /* fuzzy */
@@ -7328,7 +7328,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_JOYSTICK_1_HU, "" },  /* fuzzy */
 /* it */ { IDS_JOYSTICK_1_IT, "" },  /* fuzzy */
 /* ko */ { IDS_JOYSTICK_1_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYSTICK_1_NL, "" },  /* fuzzy */
+/* nl */ { IDS_JOYSTICK_1_NL, "Joystick #1" },
 /* pl */ { IDS_JOYSTICK_1_PL, "" },  /* fuzzy */
 /* ru */ { IDS_JOYSTICK_1_RU, "" },  /* fuzzy */
 /* sv */ { IDS_JOYSTICK_1_SV, "" },  /* fuzzy */
@@ -7342,7 +7342,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_JOYSTICK_2_HU, "" },  /* fuzzy */
 /* it */ { IDS_JOYSTICK_2_IT, "" },  /* fuzzy */
 /* ko */ { IDS_JOYSTICK_2_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYSTICK_2_NL, "" },  /* fuzzy */
+/* nl */ { IDS_JOYSTICK_2_NL, "Joystick #2" },
 /* pl */ { IDS_JOYSTICK_2_PL, "" },  /* fuzzy */
 /* ru */ { IDS_JOYSTICK_2_RU, "" },  /* fuzzy */
 /* sv */ { IDS_JOYSTICK_2_SV, "" },  /* fuzzy */
@@ -7897,7 +7897,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CONFIRM_QUITING_VICE,    "Confirm quitting VICE" },
 /* da */ { IDS_CONFIRM_QUITING_VICE_DA, "Bekræft programafslutning" },
-/* de */ { IDS_CONFIRM_QUITING_VICE_DE, "Bestätige beenden von VICE" },
+/* de */ { IDS_CONFIRM_QUITING_VICE_DE, "Bestätige Beenden von VICE" },
 /* es */ { IDS_CONFIRM_QUITING_VICE_ES, "Confirmar cierre de VICE" },
 /* fr */ { IDS_CONFIRM_QUITING_VICE_FR, "Confirmer avant de quitter VICE" },
 /* hu */ { IDS_CONFIRM_QUITING_VICE_HU, "" },  /* fuzzy */
@@ -8091,7 +8091,6 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DISABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DISABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
 /* tr */ { IDS_DISABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
-#endif
 
 /* en */ { IDS_PET_REU_SIZE,    "PET REU size" },
 /* da */ { IDS_PET_REU_SIZE_DA, "PET REU størrelse" },
@@ -11601,7 +11600,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_JOYPORT_1_DEVICE_HU, "" },  /* fuzzy */
 /* it */ { IDS_JOYPORT_1_DEVICE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_JOYPORT_1_DEVICE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYPORT_1_DEVICE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_JOYPORT_1_DEVICE_NL, "Joyport 1 apparaat" },
 /* pl */ { IDS_JOYPORT_1_DEVICE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_JOYPORT_1_DEVICE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_JOYPORT_1_DEVICE_SV, "" },  /* fuzzy */
@@ -11615,7 +11614,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_JOYPORT_2_DEVICE_HU, "" },  /* fuzzy */
 /* it */ { IDS_JOYPORT_2_DEVICE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_JOYPORT_2_DEVICE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYPORT_2_DEVICE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_JOYPORT_2_DEVICE_NL, "Joyport 2 apparaat" },
 /* pl */ { IDS_JOYPORT_2_DEVICE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_JOYPORT_2_DEVICE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_JOYPORT_2_DEVICE_SV, "" },  /* fuzzy */
@@ -11629,7 +11628,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_JOYPORT_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_JOYPORT_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_JOYPORT_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYPORT_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_JOYPORT_SETTINGS_NL, "Joyport instellingen" },
 /* pl */ { IDS_JOYPORT_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_JOYPORT_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_JOYPORT_SETTINGS_SV, "" },  /* fuzzy */
@@ -12683,6 +12682,6 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_PSID_SELECT_PL, "Wybierz plik SID do wczytania" },
 /* ru */ { IDS_PSID_SELECT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PSID_SELECT_SV, "Välj SID-fil att läsa in" },
-/* tr */ { IDS_PSID_SELECT_TR, "Yüklenecek SID dosyasýný seçin" }
+/* tr */ { IDS_PSID_SELECT_TR, "Yüklenecek SID dosyasýný seçin" },
 
 };

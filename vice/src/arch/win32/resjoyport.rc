@@ -141,8 +141,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Joyport 1 apparaat"
+  IDS_JOYPORT2_LABEL          "Joyport 2 apparaat"
 END
 
 

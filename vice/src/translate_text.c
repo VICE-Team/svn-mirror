@@ -3107,7 +3107,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_NL, "Geselelecteerde joyport apparaat %d is niet geregistreerd"},
 /* pl */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_SV, ""},  /* fuzzy */
@@ -3124,7 +3124,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_NL, "Geselecteerde joyport apparaat %s op poort %d is al gekoppelt aan poort %d"},
 /* pl */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_SV, ""},  /* fuzzy */
@@ -3141,7 +3141,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_NL, "Geselecteerde joyport apparaat %s op poort %d gebruikt dezelfde fyskieke invoer instelling (%s) als het apparaat op poort %d"},
 /* pl */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_SV, ""},  /* fuzzy */
@@ -3158,7 +3158,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_HOST_MOUSE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_HOST_MOUSE_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_HOST_MOUSE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_HOST_MOUSE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_HOST_MOUSE_NL, "fysieke muis"},
 /* pl */ {IDGS_HOST_MOUSE_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_HOST_MOUSE_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_HOST_MOUSE_SV, ""},  /* fuzzy */
@@ -3175,7 +3175,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_HOST_SAMPLER_HU, ""},  /* fuzzy */
 /* it */ {IDGS_HOST_SAMPLER_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_HOST_SAMPLER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_HOST_SAMPLER_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_HOST_SAMPLER_NL, "fysieke sampler (geluidsinvoer apparaat)"},
 /* pl */ {IDGS_HOST_SAMPLER_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_HOST_SAMPLER_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_HOST_SAMPLER_SV, ""},  /* fuzzy */
@@ -3185,69 +3185,69 @@ translate_t string_table[] = {
 /* joyport.c */
 /* en */ {IDGS_NONE,    N_("None")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_NONE_DA, ""},  /* fuzzy */
-/* de */ {IDGS_NONE_DE, ""},  /* fuzzy */
-/* es */ {IDGS_NONE_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_NONE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_NONE_HU, ""},  /* fuzzy */
-/* it */ {IDGS_NONE_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_NONE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_NONE_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_NONE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_NONE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_NONE_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_NONE_TR, ""},  /* fuzzy */
+/* da */ {IDGS_NONE_DA, "Ingen"},
+/* de */ {IDGS_NONE_DE, "Kein"},
+/* es */ {IDGS_NONE_ES, "No"},
+/* fr */ {IDGS_NONE_FR, "Aucun"},
+/* hu */ {IDGS_NONE_HU, "Nincs"},
+/* it */ {IDGS_NONE_IT, "Nessuno"},
+/* ko */ {IDGS_NONE_KO, "æ¯¿Ω"},
+/* nl */ {IDGS_NONE_NL, "Geen"},
+/* pl */ {IDGS_NONE_PL, "Brak"},
+/* ru */ {IDGS_NONE_RU, "None"},
+/* sv */ {IDGS_NONE_SV, "Ingen"},
+/* tr */ {IDGS_NONE_TR, "Yok"},
 #endif
 
 /* joystick.c */
 /* en */ {IDGS_JOYSTICK_1,    N_("Joystick 1")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_JOYSTICK_1_DA, ""},  /* fuzzy */
-/* de */ {IDGS_JOYSTICK_1_DE, ""},  /* fuzzy */
-/* es */ {IDGS_JOYSTICK_1_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_JOYSTICK_1_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_JOYSTICK_1_HU, ""},  /* fuzzy */
-/* it */ {IDGS_JOYSTICK_1_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_JOYSTICK_1_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_JOYSTICK_1_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_JOYSTICK_1_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_JOYSTICK_1_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_JOYSTICK_1_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_JOYSTICK_1_TR, ""},  /* fuzzy */
+/* da */ {IDGS_JOYSTICK_1_DA, "Joystick 1"},
+/* de */ {IDGS_JOYSTICK_1_DE, "Joystick 1"},
+/* es */ {IDGS_JOYSTICK_1_ES, "Joystick 1"},
+/* fr */ {IDGS_JOYSTICK_1_FR, "Joystick 2"},
+/* hu */ {IDGS_JOYSTICK_1_HU, "Botkorm·ny 1"},
+/* it */ {IDGS_JOYSTICK_1_IT, "Joystick 1"},
+/* ko */ {IDGS_JOYSTICK_1_KO, "¡∂¿ÃΩ∫∆Ω 1"},
+/* nl */ {IDGS_JOYSTICK_1_NL, "Joystick 1"},
+/* pl */ {IDGS_JOYSTICK_1_PL, "Joystick 1"},
+/* ru */ {IDGS_JOYSTICK_1_RU, "¥÷ﬁŸ·‚ÿ⁄ 1"},
+/* sv */ {IDGS_JOYSTICK_1_SV, "Styrspak 1"},
+/* tr */ {IDGS_JOYSTICK_1_TR, "Joystick 1"},
 #endif
 
 /* joystick.c */
 /* en */ {IDGS_JOYSTICK_2,    N_("Joystick 2")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_JOYSTICK_2_DA, ""},  /* fuzzy */
-/* de */ {IDGS_JOYSTICK_2_DE, ""},  /* fuzzy */
-/* es */ {IDGS_JOYSTICK_2_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_JOYSTICK_2_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_JOYSTICK_2_HU, ""},  /* fuzzy */
-/* it */ {IDGS_JOYSTICK_2_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_JOYSTICK_2_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_JOYSTICK_2_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_JOYSTICK_2_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_JOYSTICK_2_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_JOYSTICK_2_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_JOYSTICK_2_TR, ""},  /* fuzzy */
+/* da */ {IDGS_JOYSTICK_2_DA, "Joystick 2"},
+/* de */ {IDGS_JOYSTICK_2_DE, "Joystick 2"},
+/* es */ {IDGS_JOYSTICK_2_ES, "Joystick 2"},
+/* fr */ {IDGS_JOYSTICK_2_FR, "Joystick 2"},
+/* hu */ {IDGS_JOYSTICK_2_HU, "Botkorm·ny 2"},
+/* it */ {IDGS_JOYSTICK_2_IT, "Joystick 2"},
+/* ko */ {IDGS_JOYSTICK_2_KO, "¡∂¿ÃΩ∫∆Ω 2"},
+/* nl */ {IDGS_JOYSTICK_2_NL, "Joystick 2"},
+/* pl */ {IDGS_JOYSTICK_2_PL, "Joystick 2"},
+/* ru */ {IDGS_JOYSTICK_2_RU, "¥÷ﬁŸ·‚ÿ⁄ 2"},
+/* sv */ {IDGS_JOYSTICK_2_SV, "Styrspak 2"},
+/* tr */ {IDGS_JOYSTICK_2_TR, "Joystick 2"},
 #endif
 
 /* mouse.c */
 /* en */ {IDGS_PADDLES,    N_("Paddles")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_PADDLES_DA, ""},  /* fuzzy */
-/* de */ {IDGS_PADDLES_DE, ""},  /* fuzzy */
-/* es */ {IDGS_PADDLES_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_PADDLES_FR, ""},  /* fuzzy */
+/* da */ {IDGS_PADDLES_DA, "Paddles"},
+/* de */ {IDGS_PADDLES_DE, "Paddles"},
+/* es */ {IDGS_PADDLES_ES, "Paddles"},
+/* fr */ {IDGS_PADDLES_FR, "Paddles"},
 /* hu */ {IDGS_PADDLES_HU, ""},  /* fuzzy */
-/* it */ {IDGS_PADDLES_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_PADDLES_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_PADDLES_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_PADDLES_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_PADDLES_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_PADDLES_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_PADDLES_TR, ""},  /* fuzzy */
+/* it */ {IDGS_PADDLES_IT, "Paddle"},
+/* ko */ {IDGS_PADDLES_KO, "∆–µÈ"},
+/* nl */ {IDGS_PADDLES_NL, "Paddles"},
+/* pl */ {IDGS_PADDLES_PL, "PokrÍt≥a steruj±ce"},
+/* ru */ {IDGS_PADDLES_RU, "Paddles"},
+/* sv */ {IDGS_PADDLES_SV, "Paddlar"},
+/* tr */ {IDGS_PADDLES_TR, "Paddlelar"},
 #endif
 
 /* mouse.c */
@@ -3260,7 +3260,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MOUSE_1351_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MOUSE_1351_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MOUSE_1351_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MOUSE_1351_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_1351_NL, "Muis (1351)"},
 /* pl */ {IDGS_MOUSE_1351_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MOUSE_1351_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MOUSE_1351_SV, ""},  /* fuzzy */
@@ -3277,7 +3277,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MOUSE_NEOS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MOUSE_NEOS_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MOUSE_NEOS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MOUSE_NEOS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_NEOS_NL, "Muis (NEOS)"},
 /* pl */ {IDGS_MOUSE_NEOS_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MOUSE_NEOS_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MOUSE_NEOS_SV, ""},  /* fuzzy */
@@ -3294,7 +3294,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MOUSE_AMIGA_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MOUSE_AMIGA_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MOUSE_AMIGA_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MOUSE_AMIGA_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_AMIGA_NL, "Muis (Amiga)"},
 /* pl */ {IDGS_MOUSE_AMIGA_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MOUSE_AMIGA_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MOUSE_AMIGA_SV, ""},  /* fuzzy */
@@ -3311,7 +3311,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MOUSE_CX22_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MOUSE_CX22_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MOUSE_CX22_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MOUSE_CX22_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_CX22_NL, "Muis (CX-22)"},
 /* pl */ {IDGS_MOUSE_CX22_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MOUSE_CX22_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MOUSE_CX22_SV, ""},  /* fuzzy */
@@ -3328,7 +3328,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MOUSE_ATARI_ST_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MOUSE_ATARI_ST_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MOUSE_ATARI_ST_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MOUSE_ATARI_ST_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_ATARI_ST_NL, "Muis (Atari ST)"},
 /* pl */ {IDGS_MOUSE_ATARI_ST_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MOUSE_ATARI_ST_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MOUSE_ATARI_ST_SV, ""},  /* fuzzy */
@@ -3345,7 +3345,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MOUSE_SMART_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MOUSE_SMART_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MOUSE_SMART_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MOUSE_SMART_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_SMART_NL, "Muis (SmartMouse)"},
 /* pl */ {IDGS_MOUSE_SMART_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MOUSE_SMART_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MOUSE_SMART_SV, ""},  /* fuzzy */
@@ -3362,7 +3362,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MOUSE_MICROMYS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MOUSE_MICROMYS_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MOUSE_MICROMYS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MOUSE_MICROMYS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MOUSE_MICROMYS_NL, "Muis (Micromys)"},
 /* pl */ {IDGS_MOUSE_MICROMYS_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MOUSE_MICROMYS_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MOUSE_MICROMYS_SV, ""},  /* fuzzy */
@@ -3379,7 +3379,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_KOALAPAD_HU, ""},  /* fuzzy */
 /* it */ {IDGS_KOALAPAD_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_KOALAPAD_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_KOALAPAD_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_KOALAPAD_NL, "KoalaPad"},
 /* pl */ {IDGS_KOALAPAD_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_KOALAPAD_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_KOALAPAD_SV, ""},  /* fuzzy */
@@ -3396,7 +3396,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SAMPLER_2BIT_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SAMPLER_2BIT_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SAMPLER_2BIT_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SAMPLER_2BIT_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SAMPLER_2BIT_NL, "Sampler (2bit)"},
 /* pl */ {IDGS_SAMPLER_2BIT_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SAMPLER_2BIT_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SAMPLER_2BIT_SV, ""},  /* fuzzy */
@@ -3413,7 +3413,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_LIGHTPEN_UP_HU, ""},  /* fuzzy */
 /* it */ {IDGS_LIGHTPEN_UP_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_LIGHTPEN_UP_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_LIGHTPEN_UP_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_LIGHTPEN_UP_NL, "Lightpen (omhoog activeren)"},
 /* pl */ {IDGS_LIGHTPEN_UP_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_LIGHTPEN_UP_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_LIGHTPEN_UP_SV, ""},  /* fuzzy */
@@ -3430,7 +3430,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_LIGHTPEN_LEFT_HU, ""},  /* fuzzy */
 /* it */ {IDGS_LIGHTPEN_LEFT_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_LIGHTPEN_LEFT_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_LIGHTPEN_LEFT_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_LIGHTPEN_LEFT_NL, "Lichtpen (links activeren)"},
 /* pl */ {IDGS_LIGHTPEN_LEFT_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_LIGHTPEN_LEFT_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_LIGHTPEN_LEFT_SV, ""},  /* fuzzy */
@@ -3447,7 +3447,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_DATEL_LIGHTPEN_HU, ""},  /* fuzzy */
 /* it */ {IDGS_DATEL_LIGHTPEN_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_DATEL_LIGHTPEN_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_DATEL_LIGHTPEN_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_DATEL_LIGHTPEN_NL, "Datel lightpen"},
 /* pl */ {IDGS_DATEL_LIGHTPEN_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_DATEL_LIGHTPEN_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_DATEL_LIGHTPEN_SV, ""},  /* fuzzy */
@@ -3457,35 +3457,35 @@ translate_t string_table[] = {
 /* lightpen.c */
 /* en */ {IDGS_MAGNUM_LIGHT_PHASER,    N_("Magnum Light Phaser")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MAGNUM_LIGHT_PHASER_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MAGNUM_LIGHT_PHASER_DE, ""},  /* fuzzy */
-/* es */ {IDGS_MAGNUM_LIGHT_PHASER_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_MAGNUM_LIGHT_PHASER_FR, ""},  /* fuzzy */
+/* da */ {IDGS_MAGNUM_LIGHT_PHASER_DA, "Magnum Light Phaser"},
+/* de */ {IDGS_MAGNUM_LIGHT_PHASER_DE, "Magnum Light Phaser"},
+/* es */ {IDGS_MAGNUM_LIGHT_PHASER_ES, "Magnum Light Phaser"},
+/* fr */ {IDGS_MAGNUM_LIGHT_PHASER_FR, "Magnum Light Phaser"},
 /* hu */ {IDGS_MAGNUM_LIGHT_PHASER_HU, ""},  /* fuzzy */
-/* it */ {IDGS_MAGNUM_LIGHT_PHASER_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_MAGNUM_LIGHT_PHASER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MAGNUM_LIGHT_PHASER_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_MAGNUM_LIGHT_PHASER_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_MAGNUM_LIGHT_PHASER_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_MAGNUM_LIGHT_PHASER_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_MAGNUM_LIGHT_PHASER_TR, ""},  /* fuzzy */
+/* it */ {IDGS_MAGNUM_LIGHT_PHASER_IT, "Magnum Light Phaser"},
+/* ko */ {IDGS_MAGNUM_LIGHT_PHASER_KO, "Magnum ∂Û¿Ã∆Æ ∆‰¿Ã¡Æ"},
+/* nl */ {IDGS_MAGNUM_LIGHT_PHASER_NL, "Magnum Light Phaser"},
+/* pl */ {IDGS_MAGNUM_LIGHT_PHASER_PL, "Magnum Light Phaser"},
+/* ru */ {IDGS_MAGNUM_LIGHT_PHASER_RU, "Magnum Light Phaser"},
+/* sv */ {IDGS_MAGNUM_LIGHT_PHASER_SV, "Magnum Light Phaser"},
+/* tr */ {IDGS_MAGNUM_LIGHT_PHASER_TR, "Magnum Light Phaser"},
 #endif
 
 /* lightpen.c */
 /* en */ {IDGS_STACK_LIGHT_RIFLE,    N_("Stack Light Rifle")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_STACK_LIGHT_RIFLE_DA, ""},  /* fuzzy */
-/* de */ {IDGS_STACK_LIGHT_RIFLE_DE, ""},  /* fuzzy */
-/* es */ {IDGS_STACK_LIGHT_RIFLE_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_STACK_LIGHT_RIFLE_FR, ""},  /* fuzzy */
+/* da */ {IDGS_STACK_LIGHT_RIFLE_DA, "Stack Light Rifle"},
+/* de */ {IDGS_STACK_LIGHT_RIFLE_DE, "Stack Light Rifle"},
+/* es */ {IDGS_STACK_LIGHT_RIFLE_ES, "Stack Light Rifle"},
+/* fr */ {IDGS_STACK_LIGHT_RIFLE_FR, "Stack Light Rifle"},
 /* hu */ {IDGS_STACK_LIGHT_RIFLE_HU, ""},  /* fuzzy */
-/* it */ {IDGS_STACK_LIGHT_RIFLE_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_STACK_LIGHT_RIFLE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_STACK_LIGHT_RIFLE_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_STACK_LIGHT_RIFLE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_STACK_LIGHT_RIFLE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_STACK_LIGHT_RIFLE_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_STACK_LIGHT_RIFLE_TR, ""},  /* fuzzy */
+/* it */ {IDGS_STACK_LIGHT_RIFLE_IT, "Stack Light Rifle"},
+/* ko */ {IDGS_STACK_LIGHT_RIFLE_KO, "Stack ∂Û¿Ã∆Æ ∂Û¿Ã«√"},
+/* nl */ {IDGS_STACK_LIGHT_RIFLE_NL, "Stack Light Rifle"},
+/* pl */ {IDGS_STACK_LIGHT_RIFLE_PL, "Stack Light Rifle"},
+/* ru */ {IDGS_STACK_LIGHT_RIFLE_RU, "Stack Light Rifle"},
+/* sv */ {IDGS_STACK_LIGHT_RIFLE_SV, "Stack Light Rifle"},
+/* tr */ {IDGS_STACK_LIGHT_RIFLE_TR, "Stack I˛˝n T¸fei"},
 #endif
 
 /* lightpen.c */
@@ -3498,7 +3498,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_INKWELL_LIGHTPEN_HU, ""},  /* fuzzy */
 /* it */ {IDGS_INKWELL_LIGHTPEN_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_INKWELL_LIGHTPEN_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_INKWELL_LIGHTPEN_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_INKWELL_LIGHTPEN_NL, "Inkwell lightpen"},
 /* pl */ {IDGS_INKWELL_LIGHTPEN_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_INKWELL_LIGHTPEN_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_INKWELL_LIGHTPEN_SV, ""},  /* fuzzy */
@@ -3515,7 +3515,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SET_JOYPORT1_DEVICE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SET_JOYPORT1_DEVICE_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SET_JOYPORT1_DEVICE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SET_JOYPORT1_DEVICE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SET_JOYPORT1_DEVICE_NL, "Zet joyport 1 apparaat (0: Geen"},
 /* pl */ {IDGS_SET_JOYPORT1_DEVICE_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SET_JOYPORT1_DEVICE_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SET_JOYPORT1_DEVICE_SV, ""},  /* fuzzy */
@@ -3532,7 +3532,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SET_JOYPORT2_DEVICE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SET_JOYPORT2_DEVICE_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SET_JOYPORT2_DEVICE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SET_JOYPORT2_DEVICE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SET_JOYPORT2_DEVICE_NL, "Zet joyport 2 apparaat (0: Geen"},
 /* pl */ {IDGS_SET_JOYPORT2_DEVICE_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SET_JOYPORT2_DEVICE_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SET_JOYPORT2_DEVICE_SV, ""},  /* fuzzy */
@@ -5294,7 +5294,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_SAMPLE_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SAMPLE_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_SAMPLE_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SAMPLE_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SAMPLE_NAME_NL, "Geef naam van het samplebestand"},
 /* pl */ {IDCLS_SPECIFY_SAMPLE_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_SAMPLE_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SAMPLE_NAME_SV, ""},  /* fuzzy */
@@ -9024,7 +9024,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_P_RPM_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_RPM_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_P_RPM_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_RPM_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_RPM_NL, "<RPM>"},
 /* pl */ {IDCLS_P_RPM_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_RPM_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_RPM_SV, ""},  /* fuzzy */
@@ -9032,7 +9032,7 @@ translate_t string_table[] = {
 #endif
 
 /* drive/drive-cmdline-options.c */
-/* en */ {IDCLS_P_WOBBLE, N_("<Wobble>")},
+/* en */ {IDCLS_P_WOBBLE,    N_("<Wobble>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_WOBBLE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_P_WOBBLE_DE, ""},  /* fuzzy */
@@ -9041,7 +9041,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_P_WOBBLE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_WOBBLE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_P_WOBBLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_WOBBLE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_WOBBLE_NL, "<Wiebel>"},
 /* pl */ {IDCLS_P_WOBBLE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_WOBBLE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_WOBBLE_SV, ""},  /* fuzzy */
@@ -9095,7 +9095,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DRIVE_RPM_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DRIVE_RPM_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DRIVE_RPM_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DRIVE_RPM_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_RPM_NL, "Zet drive rpm (30000 = 300rpm)"},
 /* pl */ {IDCLS_SET_DRIVE_RPM_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DRIVE_RPM_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DRIVE_RPM_SV, ""},  /* fuzzy */
@@ -9112,7 +9112,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DRIVE_WOBBLE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DRIVE_WOBBLE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DRIVE_WOBBLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DRIVE_WOBBLE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_WOBBLE_NL, "Zet drive wiebel (100 = +/-0.5rpm)"},
 /* pl */ {IDCLS_SET_DRIVE_WOBBLE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DRIVE_WOBBLE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DRIVE_WOBBLE_SV, ""},  /* fuzzy */
@@ -14473,7 +14473,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_NL, "Sla alle huidige instellingen op naar opgegeven configuratiebestand"},
 /* pl */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_DUMPCONFIG_FILE_SV, ""},  /* fuzzy */
@@ -15068,7 +15068,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_SAMPLER_DEVICE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SAMPLER_DEVICE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_SAMPLER_DEVICE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SAMPLER_DEVICE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SAMPLER_DEVICE_NL, "Geef samplerapparaat op"},
 /* pl */ {IDCLS_SPECIFY_SAMPLER_DEVICE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_SAMPLER_DEVICE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SAMPLER_DEVICE_SV, ""},  /* fuzzy */
