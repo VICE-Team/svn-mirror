@@ -142,6 +142,7 @@
  - Windows Vista Home Premium
  - Windows 7 Starter
  - Windows 7 Home Basic
+ - Windows 7 Home Premium
  - Windows 7 Pro
  - Windows 2009 Embedded Standard
  - Windows 2009 Embedded POSReady

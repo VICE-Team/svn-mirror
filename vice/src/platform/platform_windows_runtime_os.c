@@ -97,7 +97,7 @@
    - Windows 7 Embedded Standard (x86)
    - Windows 7 Starter (x86)
    - Windows 7 Home Basic (x86/x64)
-   - Windows 7 Home Premium (x64)
+   - Windows 7 Home Premium (x86/x64)
    - Windows 7 Pro (x86)
    - Windows 7 Enterprise (x86/x64)
    - Windows 7 Ultimate (x86/x64)

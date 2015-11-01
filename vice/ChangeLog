@@ -1,5 +1,903 @@
 ------------------------------------------------------------------------------
 
+2015-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat,
+	src/platform/platform_dos_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c, src/version.h: VICE 2.4.22
+
+
+
+2015-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui.c: Exclude vsid from the position/resize restore
+	code.
+
+2015-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resjoyport.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2015-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated again.
+
+2015-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did another 'make update-po'.
+
+2015-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate_text.c: Added missing ')' parts.
+
+2015-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uiperipheraliec.c,
+	src/arch/unix/gui/uiperipheralieee.c: Unify "Drive wobble" and
+	"Drive Wobble" texts.
+
+2015-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2015-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_dos_runtime_os.c,
+	src/platform/platform_interix_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: Some updates.
+
+2015-10-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/gfxoutputdrv/Makefile.am, src/gfxoutputdrv/gfxoutput.c,
+	src/gfxoutputdrv/godotdrv.c, src/gfxoutputdrv/godotdrv.h: Add godot
+	output
+
+2015-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/restfe.rc, src/arch/win32/uitfe.c: Improved user
+	readability of the ethernet adapter name in the tfe dialog for the
+	windows port.
+
+2015-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui.c: Added a 'hack' to make x128 also support
+	'size restore' for the windows port (some-1 with more knowledge of the
+	windows port will need to come up with a proper solution, for now this
+	does the job).
+
+2015-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/beos/Makefile.am: Fixed.
+
+2015-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/video/video-sound.c: fix audio leak sound generation, fixes bug
+	#566 
+
+2015-10-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/Makefile.am: fix unix compilation
+
+2015-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/win32/vs_tmpl/joyport.tmpl,
+	src/arch/win32/vs_tmpl/vsid.tmpl, src/arch/win32/vs_tmpl/x128.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/arch/win32/vs_tmpl/x64dtv.tmpl,
+	src/arch/win32/vs_tmpl/x64sc.tmpl, src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl,
+	src/c64dtv/c64dtv.c, src/joyport/Makefile.am, src/joyport/mouse.c,
+	src/joyport/mouse.h, src/mouse.c, src/mouse.h: Moved mouse.c and
+	mouse.h into the joyport directory.
+
+2015-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/core/t6721.c, src/core/t6721.h, src/plus4/plus4speech.c: Fixed
+	v364 speech slowness.
+
+2015-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mousedrv.c, src/arch/amigaos/mousedrv.h,
+	src/arch/beos/mousedrv.cc, src/arch/beos/mousedrv.h,
+	src/arch/beos/vicewindow.cc, src/arch/msdos/mousedrv.c,
+	src/arch/msdos/mousedrv.h, src/arch/os2/mousedrv.c,
+	src/arch/os2/mousedrv.h, src/arch/sdl/mousedrv.c,
+	src/arch/sdl/mousedrv.h,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/arch/unix/macosx/cocoa/mousedrv.m, src/arch/unix/mousedrv.c,
+	src/arch/unix/mousedrv.h, src/arch/win32/mousedrv.c,
+	src/arch/win32/mousedrv.h, src/arch/win32/ui.c, src/c64dtv/c64dtv.c,
+	src/mouse.c, src/mouse.h, src/ps2mouse.c, src/ps2mouse.h: 'untangled'
+	mouse.c and ps2mouse.c
+
+2015-10-29  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/magicvoice.c: fix loading of the crt file
+
+2015-10-29  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/gui/Makefile.am, src/joyport/joyport.c: added
+	'-I$(top_srcdir)/src/joyport' to fix Unix compilation again, and
+	removed unused var.
+
+2015-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/win32/vs_tmpl/base.tmpl,
+	src/arch/win32/vs_tmpl/c64scpu64.tmpl,
+	src/arch/win32/vs_tmpl/joyport.tmpl, src/arch/win32/vs_tmpl/vsid.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64sc.tmpl, src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl,
+	src/joyport/Makefile.am, src/joyport/joyport.c, src/joyport/joyport.h,
+	src/joyport.c, src/joyport.h: Moved joyport.* into the joyport
+	directory.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi, src/mouse.c,
+	src/mouse.h, src/translate.txt, src/translate_text.c: Removed
+	(now obsolete) mouse port resources and commandline options.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/rotation.c: Fixed for 32bit systems, fix works for both
+	32bit and 64bit systems.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi, src/mouse.c,
+	src/translate.txt, src/translate_text.c: Removed (now obsolete)
+	mousetype resource and commandline option.
+
+2015-10-28  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	src/arch/unix/gui/uidrive.c, src/arch/unix/gui/uidrive.h,
+	src/arch/unix/gui/uiperipheraliec.c,
+	src/arch/unix/gui/uiperipheralieee.c, src/diskimage.h,
+	src/drive/drive-cmdline-options.c, src/drive/drive-resources.c,
+	src/drive/drive-snapshot.c, src/drive/drive.c, src/drive/drive.h,
+	src/drive/rotation.c, src/drive/rotation.h, src/translate.txt,
+	src/translate_text.c, src/vdrive/vdrive.c: added RPM and wobble
+	setting for drives, see devlog
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/sampler2bit.c: Added 2bit joyport sampler data to the
+	joyport gui activity.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/lightpen.c, src/joyport.c, src/joyport.h,
+	src/joystick.c, src/mouse.c: joystick gui elements now show joyport
+	device activity.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui.c: Changed the joystick gui update for windows to
+	happen only once per 2 frames.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui.c, src/arch/win32/ui.h,
+	src/arch/win32/vsyncarch.c: Changed the drive led update for the
+	windows gui to happen only once per 2 frames, produces the same
+	graphical effect without too much performance penalty.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/mouse.c: Removed joystick_set_value_or() /
+	joystick_set_value_and() calls.
+
+2015-10-28  groepaz <groepaz@gmx.net>
+
+	* src/event.c: use machine_get_name() to get name inside snapshot,
+	fixes (part of) bug #666
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/mouse.c: Easier way to convert between 'mouse type' and
+	'joyport id'.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/lightpen.c, src/joyport/lightpen.h: Made
+	'lightpen_read_button_x/y' static, since they are not used outside of
+	the source file.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/lightpen.c: Easier way to convert between
+	'lightpen type' and 'joyport id'.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Define HAVE_LIGHTPEN for osx as well.
+
+2015-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/cocoa/menu/Makefile.am: Fix for osx build
+	problem.
+
+2015-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui-resources.c, src/arch/win32/ui.c: Added saving of
+	window size for the windows port (fixes bug #664).
+
+2015-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uijoyport.c: Fixed bug #665.
+
+2015-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/kbd.c, src/arch/win32/ui-resources.c,
+	src/core/cs8900.c: Some warning fixes.
+
+2015-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uijoyport.c: Fix for 'needing' to set both joy ports
+	at the same time, when only 1 port at a time can be set (fixes error
+	dialog part of bug #665).
+
+2015-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/msdos/Makefile.am,
+	src/arch/sdl/Makefile.am, src/arch/unix/x11/gnome/Makefile.am,
+	src/arch/unix/x11/xaw/Makefile.am, src/arch/win32/Makefile.am,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl,
+	src/arch/win32/vs_tmpl/base.tmpl, src/arch/win32/vs_tmpl/joyport.tmpl,
+	src/arch/win32/vs_tmpl/mkmsvc.dsp, src/arch/win32/vs_tmpl/sid.tmpl,
+	src/arch/win32/vs_tmpl/vsid.tmpl, src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xpet.tmpl, src/joyport/Makefile.am,
+	src/joyport/lightpen.c, src/joyport/lightpen.h, src/lightpen.c,
+	src/lightpen.h, src/sid/Makefile.am: Moved 'lighpen.c/.h' into the
+	joyport directory.
+
+2015-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport.c, src/translate.txt, src/translate_text.c: Made the
+	'input resource conflict' error message a bit more descriptive.
+
+2015-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport.c: Fixed a warning.
+
+2015-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uijoyport.c: Warning fixes (used uic64cart.c as
+	example).
+
+2015-10-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Fixed the path to debug.h for the msvc project files generation.
+
+2015-10-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	src/c128/c128.c, src/c64/c64.c, src/cbm2/cbm5x0.c, src/lightpen.c,
+	src/lightpen.h, src/scpu64/scpu64.c, src/translate.txt,
+	src/translate_text.c, src/vic20/vic20.c: Removed (now obsolete)
+	lightpen resource and command-line options.
+
+2015-10-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_interix_runtime_os.c: Updated.
+
+2015-10-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/msvc-files/ide-config-mips.h,
+	src/arch/sdl/msvc-files/ide-config.h,
+	src/arch/win32/msvc/ide-config.h: Added 'HAVE_LIGHTPEN' define to the
+	msvc config files.
+
+2015-10-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am,
+	src/arch/win32/vs_tmpl/Makefile.am, src/arch/win32/vs_tmpl/c128.tmpl,
+	src/arch/win32/vs_tmpl/c64.tmpl, src/arch/win32/vs_tmpl/c64dtv.tmpl,
+	src/arch/win32/vs_tmpl/c64sc.tmpl, src/arch/win32/vs_tmpl/cbm5x0.tmpl,
+	src/arch/win32/vs_tmpl/joyport.tmpl,
+	src/arch/win32/vs_tmpl/plus4.tmpl, src/arch/win32/vs_tmpl/scpu64.tmpl,
+	src/arch/win32/vs_tmpl/vic20.tmpl, src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64dtv.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl,
+	src/c128/Makefile.am, src/c128/c128.c, src/c64/Makefile.am,
+	src/c64/c64.c, src/c64dtv/Makefile.am, src/c64dtv/c64dtv.c,
+	src/cbm2/Makefile.am, src/cbm2/cbm5x0.c, src/joyport,
+	src/joyport/Makefile.am, src/joyport/sampler2bit.c,
+	src/joyport/sampler2bit.h, src/joyport.h, src/plus4/Makefile.am,
+	src/plus4/plus4.c, src/scpu64/Makefile.am, src/scpu64/scpu64.c,
+	src/translate.txt, src/translate_text.c, src/vic20/Makefile.am,
+	src/vic20/vic20.c: Added 2bit sampler joyport device.
+
+2015-10-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uijoyport.c: Fixed a warning.
+
+2015-10-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_dos_runtime_os.c,
+	src/platform/platform_interix_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: Some updates.
+
+2015-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/c64dtv.tmpl,
+	src/arch/win32/vs_tmpl/cbm5x0.tmpl, src/arch/win32/vs_tmpl/plus4.tmpl,
+	src/arch/win32/vs_tmpl/x64dtv.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl, src/c64dtv/Makefile.am,
+	src/c64dtv/c64dtv.c, src/cbm2/Makefile.am, src/cbm2/cbm5x0.c,
+	src/plus4/Makefile.am, src/plus4/plus4.c: Extended sampler init calls
+	to xcbm5x0, x64dtv and xplus4 for the upcoming joyports 2bit sampler
+	emulation.
+
+2015-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/file_drv.c, src/translate.txt, src/translate_text.c:
+	Added '-samplename' commandline option to the 'file' sampler device.
+
+2015-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/file_drv.c: Added sample file name resource to the
+	'file' sampler device.
+
+2015-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/file_drv.c, src/samplerdrv/portaudio_drv.c,
+	src/samplerdrv/sampler.c, src/samplerdrv/sampler.h, src/translate.txt,
+	src/translate_text.c: Added (optional) resource and cmdline inits for
+	sampler devices.
+
+2015-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport.c: Fixed a typo.
+
+2015-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/sampler.c, src/samplerdrv/sampler.h: Added the
+	'SamplerDevice' resource to the audio input system.
+
+2015-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/file_drv.c, src/samplerdrv/portaudio_drv.c,
+	src/samplerdrv/sampler.c, src/samplerdrv/sampler.h: Use device id when
+	registering a sampler device.
+
+2015-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/samplerdrv/portaudio_drv.c,
+	src/samplerdrv/sampler.c, src/samplerdrv/sampler.h,
+	src/scpu64/scpu64.c, src/vic20/vic20.c: Use resource init to init the
+	sampler code (earlier).
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport.c: Added 'nicer' commandline option arguments for the
+	new joyport system.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt: Added joyport resources and
+	cmdline-options to the resource/cmdline checking file.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/cbm5x0ui.c, src/arch/amigaos/cbm5x0uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uijoystick.c, src/arch/amigaos/mui/uimouse.c,
+	src/arch/amigaos/plus4ui.c, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Removed
+	(now obsolete) joystick and mouse elements in the amiga gui.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/plus4ui.c,
+	src/arch/unix/gui/uimouse.c, src/arch/unix/gui/uimouse.h: Added grab
+	mouse events to xcbm5x0 and xplus4 in the unix port.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_cbm2hw.c, src/arch/sdl/menu_mouse.c,
+	src/arch/sdl/menu_mouse.h, src/arch/sdl/menu_plus4hw.c,
+	src/arch/sdl/menu_vic20hw.c: Added grab mouse events to xcbm5x0,
+	xplus4 and xvic in the sdl port.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/plus4ui.c, src/arch/win32/resplus4.rc: Removed mouse
+	dialog from xplus4 in the windows gui.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/CBM-II/win_shortcuts.vsc, data/PLUS4/win_shortcuts.vsc,
+	data/VIC20/win_shortcuts.vsc, src/arch/win32/cbm5x0ui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/resplus4.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/vic20ui.c: Added grab mouse
+	events to xcbm5x0, xplus4 and xvic in the windows port.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/vicemenu.cc: Force c-linkage of lib_free().
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64dtvui.c, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/cbm5x0ui.c, src/arch/amigaos/cbm5x0uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/Makefile.am, src/arch/amigaos/mui/uijoyport.c,
+	src/arch/amigaos/mui/uijoyport.h, src/arch/amigaos/plus4ui.c,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/scpu64ui.c,
+	src/arch/amigaos/scpu64uires.h, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Added
+	joyport dialog to the amiga gui.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.txt, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vicemenu.cc: Removed (now obsolete) mouse menus from the
+	beos gui, and moved the joystick menu as a submenu of the joyport
+	menu.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos, src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.h: Fixed.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/initcmdline.c: Comment cmdline debug define.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc,
+	src/arch/beos/vicemenu.h: Added code to set a function pointer.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/vicemenu.cc,
+	src/monitor/mon_lex.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h: Fixed.
+
+2015-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/genconstants.c, src/arch/beos/plus4ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc: Added joyport menus to the beos port.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/genamigaintl.c, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/vsidui.c: Fixed.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/genamigaintl.c: Fixed for correct intl_table.h
+	generation.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_beos_runtime_os.c: Fixed for ppc beos.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/genamigaintl.c: Fixed for correct intl.h
+	generation.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/pet/pet.c,
+	src/plus4/plus4.c, src/vic20/vic20.c: Some fixes.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_dos_runtime_os.c,
+	src/platform/platform_freebsd_runtime_os.c,
+	src/platform/platform_interix_runtime_os.c,
+	src/platform/platform_netbsd_runtime_os.c,
+	src/platform/platform_openbsd_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: Some updates.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_freebsd_version.h: Updated for FreeBSD 10.2.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_x86_gcc_cpuid.h: Restructured.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_openbsd_version.h: Updated for OpenBSD 5.8.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_version.h: Updated for NetBSD 7.0.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/lightpen.c, src/vicefeatures.c: Added a
+	'HAVE_LIGHPEN' define for platforms that have a lightpen driver, and
+	made the joyport lightpen registration depend on that define.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/scpu64ui.c,
+	src/arch/msdos/uilightpen.c, src/arch/msdos/uilightpen.h,
+	src/arch/msdos/vic20ui.c: Removed (now obsolete) light pen menu from
+	the dos tui.
+
+2015-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c: Fixed.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c, src/arch/msdos/c64dtvui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/scpu64ui.c,
+	src/arch/msdos/uijoyport.c, src/arch/msdos/vic20ui.c: Moved the
+	'mouse settings' elements to the 'joyport settings' menu for machines
+	that have native joyports.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/menudefs.c, src/arch/msdos/uijoyport.c,
+	src/arch/msdos/uijoystick.c: Made the 'joystick settings' menu a
+	submenu of the 'joyport settings' menu for machines that have native
+	joyports.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uijoyport.c: Extended the length of the 'show' string
+	length.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uijoyport.c: Fixed the order of adding menu items.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uijoyport.c: Fixed.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/cbm5x0ui.c,
+	src/arch/msdos/menudefs.c, src/arch/msdos/petui.c,
+	src/arch/msdos/plus4ui.c, src/arch/msdos/uijoyport.c,
+	src/arch/msdos/uijoyport.h: Added joyport menus to the dos tui,
+	duplicated functionality currently exists, the old system will be
+	removed in a future commit.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/hardsid.c: Added missing 'hardsid_available' function
+	to the dos port.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/unix/gui/Makefile.am,
+	src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uijoystick2.c, src/arch/unix/gui/uilightpen.c,
+	src/arch/unix/gui/uilightpen.h, src/arch/unix/gui/uimouse.c,
+	src/arch/unix/gui/uimouse.h, src/arch/unix/gui/vic20ui.c: Removed
+	obsolete menus and menu items related to lightpen and mouse from the
+	unix gui.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uijoyport.c: removed unneeded lib_free calls.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/plus4ui.c,
+	src/arch/unix/gui/scpu64ui.c, src/arch/unix/gui/uijoyport.c,
+	src/arch/unix/gui/vic20ui.c: Fixed.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/unix/gui/Makefile.am,
+	src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/plus4ui.c,
+	src/arch/unix/gui/scpu64ui.c, src/arch/unix/gui/uijoyport.c,
+	src/arch/unix/gui/uijoyport.h, src/arch/unix/gui/vic20ui.c: Added
+	joyport menus to the unix gui, duplicated functionality currently
+	exists, the old system will be removed in a future commit.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.c: Fixed a crash.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Fixed.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_c128hw.c,
+	src/arch/sdl/menu_c64hw.c, src/arch/sdl/menu_joystick.c,
+	src/arch/sdl/menu_lightpen.c, src/arch/sdl/menu_lightpen.h,
+	src/arch/sdl/menu_mouse.c, src/arch/sdl/menu_scpu64hw.c,
+	src/arch/sdl/menu_vic20hw.c, src/arch/win32/vs_tmpl/arch_sdl.tmpl:
+	Removed obsolete menus and menu items related to lightpen and mouse
+	from the sdl gui.
+
+2015-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_c128hw.c,
+	src/arch/sdl/menu_c64dtvhw.c, src/arch/sdl/menu_c64hw.c,
+	src/arch/sdl/menu_cbm2hw.c, src/arch/sdl/menu_joyport.c,
+	src/arch/sdl/menu_joyport.h, src/arch/sdl/menu_plus4hw.c,
+	src/arch/sdl/menu_scpu64hw.c, src/arch/sdl/menu_vic20hw.c,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl: Added joyport menus to the sdl
+	gui, duplicated functionality currently exists, the old system will be
+	removed in a future commit.
+
+2015-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/vic20ui.c: Changed 'enable paddles' to
+	'grab mouse events' in the xvic windows gui.
+
+2015-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uijoyport.c: Fixed.
+
+2015-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm5x0.c, src/plus4/plus4.c: Extended mouse support to
+	xcbm5x0 and xplus4, for xplus4 this means only the cx22 (which doesn't
+	use pot lines) is available.
+
+2015-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport.c: Skip registration of pot dependent devices for
+	machines that don't support pots.
+
+2015-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/reslightpen.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/resmouse.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/uilightpen.c, src/arch/win32/uilightpen.h,
+	src/arch/win32/uimouse.c, src/arch/win32/vic20ui.c,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl:
+	Removed (now obsolete) lightpen settings dialog from the windows gui,
+	and got rid of (now obsolete) elements in the windows mouse settings
+	dialog.
+
+2015-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/uijoyport.c, src/joyport.c,
+	src/joyport.h, src/joystick.c, src/lightpen.c, src/mouse.c,
+	src/translate.txt, src/translate_text.c: Added intl support to the new
+	joyport system.
+
+2015-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/gentranslate.c, src/cmdline.c,
+	src/gentranslate_h.sh, src/gentranslate_h.sh.in,
+	src/translate_funcs.h: Added dynamic translation feature.
+
+2015-10-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	src/arch/win32/c64dtvui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resjoyport.rc, src/arch/win32/resmenu.txt,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/uijoyport.c,
+	src/arch/win32/uijoyport.h, src/arch/win32/vic20ui.c,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64dtv.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl,
+	src/joyport.c, src/joyport.h: Added joyport gui support to the windows
+	port, duplicated functionality currently present, old system will be
+	removed in a future commit.
+
+2015-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/cbm2/cbm5x0.c, src/joyport.c,
+	src/joyport.h, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/vic20/vic20.c: Improved joyport system port amount handling.
+
+2015-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/win32/vs_tmpl/base.tmpl,
+	src/arch/win32/vs_tmpl/vsid.tmpl, src/arch/win32/vs_tmpl/x128.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl,
+	src/c128/c128.c, src/c128/c128cia1.c, src/c64/c64.c,
+	src/c64/c64cia1.c, src/c64dtv/c64dtv.c, src/c64dtv/c64dtvcia1.c,
+	src/cbm2/cbm5x0.c, src/cbm2/cbm5x0cia1.c, src/initcmdline.c,
+	src/joyport.c, src/joyport.h, src/joystick.c, src/lightpen.c,
+	src/mouse.c, src/plus4/plus4.c, src/plus4/ted-mem.c,
+	src/scpu64/scpu64.c, src/sid/sid.c, src/vic20/vic-mem.c,
+	src/vic20/vic20.c, src/vic20/vic20via1.c, src/vic20/vic20via2.c:
+	Started on a new joyport management system, meant to be modular, and
+	easier to maintain. The new system allows only 1 device per port
+	(or none) and manages conflicts and needed input resources. The GUI's
+	have not been updated yet and the parts of the old system still needs
+	to be removed, so from the GUI perspective the joystick/mouse/lightpen
+	system will 'look' broken till I am finished with the new joyport
+	system.
+
+2015-10-19  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128rom.c, src/c64/c64-resources.c, src/c64/c64rom.c,
+	src/plus4/plus4rom.c, src/traps.c, src/vic20/vic20rom.c: disable
+	device traps before switching kernal -versions and -roms. should fix
+	bug #646, #633, #601 (perhaps :))
+
+2015-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resources.c: Warning fix.
+
+2015-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt: Updated with new commandline
+	option.
+
+2015-10-19  groepaz <groepaz@gmx.net>
+
+	* doc/Makefile.am, doc/checkdoc.mak, doc/checkdoc.mon: make checkdoc
+	script work again
+
+2015-10-19  groepaz <groepaz@gmx.net>
+
+	* src/initcmdline.c, src/resources.c, src/resources.h,
+	src/translate.txt, src/translate_text.c: added option to dump all
+	resources into a file
+
+2015-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive-resources.c: Applied gpz fix for drive resource init
+	order issue (bug #663).
+
+2015-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vicefeatures.c: Updated with new optional features.
+
+2015-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/winmain.c: Fixed windows argc/argv issues.
+
+2015-10-18  pottendo  <pottendo@aon.at>
+
+	* po/de.po: updated.
+
+2015-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/cbm2.tmpl,
+	src/arch/win32/vs_tmpl/cbm2common.tmpl,
+	src/arch/win32/vs_tmpl/cbm5x0.tmpl, src/cbm2/Makefile.am,
+	src/cbm2/cbm2cia1.c, src/cbm2/cbm5x0cia1.c: Split cbm2cia1.c into
+	cbm2cia1.c and cbm5x0cia1.c
+
+2015-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/video/video-sound.c: cosmetic fix.
+
+2015-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_dos_runtime_os.c,
+	src/platform/platform_interix_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: Updated.
+
+2015-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/sampler.c: Fixed.
+
+2015-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, doc/vice.texi, src/arch/amigaos/mui/uisound.c,
+	src/arch/amigaos/vsidui.c, src/arch/beos/constants.txt,
+	src/arch/beos/ui.cc, src/arch/beos/ui_file.cc,
+	src/arch/beos/ui_file.h, src/arch/beos/vicemenu.cc,
+	src/arch/sdl/menu_sound.c, src/arch/unix/gui/uicommands.c,
+	src/arch/unix/gui/uilib.h, src/arch/unix/x11/gnome/uifileentry.c,
+	src/arch/unix/x11/xaw/x11ui.c, src/arch/win32/res.rc,
+	src/arch/win32/uimediafile.c, src/arch/win32/uisound.c,
+	src/samplerdrv/file_drv.c, src/sound.c, src/sound.h,
+	src/sounddrv/Makefile.am, src/sounddrv/soundvorbis.c: Added ogg/vorbis
+	support, both sound input (sampler-file) and output, and updated the
+	various gui's.
+
+2015-10-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, doc/vice.texi, src/arch/amigaos/mui/uisound.c,
+	src/arch/beos/constants.txt, src/arch/beos/ui.cc,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vicemenu.cc, src/arch/sdl/menu_sound.c,
+	src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uilib.h,
+	src/arch/unix/x11/gnome/uifileentry.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/arch/win32/res.rc, src/arch/win32/uimediafile.c,
+	src/arch/win32/uisound.c, src/samplerdrv/file_drv.c,
+	src/samplerdrv/sampler.c, src/sound.c, src/sound.h,
+	src/sounddrv/Makefile.am, src/sounddrv/soundflac.c: Added flac
+	support, both sound input (sampler-file) and output, and updated the
+	various gui's.
+
+2015-10-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/samplerdrv/file_drv.c: Added mp3 loader.
+
+2015-10-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/file_drv.c: Added aifc loader.
+
+2015-10-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/file_drv.c: Added aiff loader.
+
+2015-10-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/file_drv.c: Added iff loader.
+
+2015-10-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/samplerdrv/file_drv.c, src/samplerdrv/portaudio_drv.c,
+	src/samplerdrv/sampler.c, src/samplerdrv/sampler.h: Completed the voc
+	file loader support and added device shutdown code.
+
+2015-10-07  groepaz <groepaz@gmx.net>
+
+	* src/samplerdrv/file_drv.c: fixed warnings
+
 2015-10-06  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
@@ -16597,4 +17495,4 @@ Some more msvc9 ffmpeg fixes.
 	Started a new ChangeLog file.
 
 
-See `ChangeLog.1' for earlier
+See `ChangeLog.1' for earlierr

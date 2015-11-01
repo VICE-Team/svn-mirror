@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-01 10:32-0800\n"
+"POT-Creation-Date: 2015-11-01 12:10-0800\n"
 "PO-Revision-Date: 2012-12-29 13:44-0800\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: ko <ko@li.org>\n"
@@ -202,7 +202,7 @@ msgstr ""
 #: src/arch/unix/gui/cbm2ui.c:382 src/arch/unix/gui/petui.c:118
 #: src/arch/unix/gui/plus4ui.c:146 src/arch/unix/gui/vic20ui.c:165
 #: src/arch/unix/gui/vsidui.c:240 src/arch/win32/res.rc.po.c:1339
-#: src/arch/amigaos/intl_text.c.po.c:9346
+#: src/arch/amigaos/intl_text.c.po.c:9345
 msgid "SID filters"
 msgstr "SID 필터"
 
@@ -263,7 +263,7 @@ msgstr "function ROM 이미지 '%s' 을 불러올수 없습니다"
 msgid "Internal Function ROM type"
 msgstr ""
 
-#: src/arch/unix/gui/c128ui.c:209 src/arch/amigaos/intl_text.c.po.c:11320
+#: src/arch/unix/gui/c128ui.c:209 src/arch/amigaos/intl_text.c.po.c:11319
 msgid "Internal Function ROM file"
 msgstr "인터널 Function ROM 파일"
 
@@ -275,7 +275,7 @@ msgstr ""
 msgid "External Function ROM type"
 msgstr ""
 
-#: src/arch/unix/gui/c128ui.c:217 src/arch/amigaos/intl_text.c.po.c:11348
+#: src/arch/unix/gui/c128ui.c:217 src/arch/amigaos/intl_text.c.po.c:11347
 msgid "External Function ROM file"
 msgstr "외부함수 ROM 파일"
 
@@ -476,13 +476,13 @@ msgstr ""
 #: src/arch/unix/gui/c64scui.c:173 src/arch/unix/gui/c64scui.c:183
 #: src/arch/unix/gui/c64ui.c:245 src/arch/unix/gui/c64ui.c:255
 #: src/arch/unix/gui/cbm2ui.c:266 src/arch/win32/rescia.rc.po.c:51
-#: src/arch/amigaos/intl_text.c.po.c:12496
+#: src/arch/amigaos/intl_text.c.po.c:12495
 msgid "6526 (old)"
 msgstr "6526 (오래된)"
 
 #: src/arch/unix/gui/c128ui.c:459 src/arch/unix/gui/c128ui.c:468
 #: src/arch/unix/gui/cbm2ui.c:268 src/arch/win32/rescia.rc.po.c:52
-#: src/arch/amigaos/intl_text.c.po.c:12510
+#: src/arch/amigaos/intl_text.c.po.c:12509
 msgid "6526A (new)"
 msgstr "6526A (새로운)"
 
@@ -491,14 +491,14 @@ msgid "C128 model"
 msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:477 src/arch/win32/resc128.rc.po.c:702
-#: src/arch/amigaos/intl_text.c.po.c:11292
+#: src/arch/amigaos/intl_text.c.po.c:11291
 msgid "Machine type"
 msgstr "머신 종류"
 
 #: src/arch/unix/gui/c128ui.c:479 src/arch/unix/gui/c64dtvui.c:158
 #: src/arch/unix/gui/c64scui.c:226 src/arch/unix/gui/c64ui.c:288
 #: src/arch/unix/gui/cbm2ui.c:284 src/arch/win32/resvicii.rc.po.c:92
-#: src/arch/amigaos/intl_text.c.po.c:12552
+#: src/arch/amigaos/intl_text.c.po.c:12551
 msgid "VIC-II model"
 msgstr "VIC-II 모델"
 
@@ -507,7 +507,7 @@ msgstr "VIC-II 모델"
 #: src/arch/unix/gui/cbm2ui.c:286 src/arch/unix/gui/cbm2ui.c:319
 #: src/arch/unix/gui/petui.c:116 src/arch/unix/gui/plus4ui.c:144
 #: src/arch/unix/gui/vic20ui.c:163 src/arch/unix/gui/vsidui.c:235
-#: src/arch/win32/res.rc.po.c:1338 src/arch/amigaos/intl_text.c.po.c:10312
+#: src/arch/win32/res.rc.po.c:1338 src/arch/amigaos/intl_text.c.po.c:10311
 msgid "SID model"
 msgstr "SID 모델"
 
@@ -517,13 +517,13 @@ msgstr "VDC 모델"
 
 #: src/arch/unix/gui/c128ui.c:485 src/arch/unix/gui/c64scui.c:228
 #: src/arch/unix/gui/c64ui.c:290 src/arch/unix/gui/cbm2ui.c:321
-#: src/arch/win32/rescia.rc.po.c:49 src/arch/amigaos/intl_text.c.po.c:12566
+#: src/arch/win32/rescia.rc.po.c:49 src/arch/amigaos/intl_text.c.po.c:12565
 msgid "CIA 1 model"
 msgstr "CIA 1 모델"
 
 #: src/arch/unix/gui/c128ui.c:487 src/arch/unix/gui/c64scui.c:229
 #: src/arch/unix/gui/c64ui.c:291 src/arch/win32/rescia.rc.po.c:50
-#: src/arch/amigaos/intl_text.c.po.c:12580
+#: src/arch/amigaos/intl_text.c.po.c:12579
 msgid "CIA 2 model"
 msgstr "CIA 2 모델"
 
@@ -559,7 +559,7 @@ msgstr "ROM 설정"
 #: src/arch/unix/gui/c64scui.c:452 src/arch/unix/gui/c64ui.c:513
 #: src/arch/unix/gui/cbm2ui.c:425 src/arch/win32/res.rc.po.c:1485
 #: src/arch/win32/resvicii.rc.po.c:82 src/arch/amigaos/intl_text.c.po.c:3421
-#: src/arch/amigaos/intl_text.c.po.c:9612
+#: src/arch/amigaos/intl_text.c.po.c:9611
 msgid "VIC-II settings"
 msgstr "VIC-II 설정"
 
@@ -574,7 +574,7 @@ msgstr "VDC 설정"
 #: src/arch/unix/gui/vsidui.c:363 src/arch/win32/res.rc.po.c:1487
 #: src/arch/win32/ressid.rc.po.c:81 src/arch/win32/ressiddtv.rc.po.c:55
 #: src/arch/amigaos/intl_text.c.po.c:3575
-#: src/arch/amigaos/intl_text.c.po.c:9430
+#: src/arch/amigaos/intl_text.c.po.c:9429
 msgid "SID settings"
 msgstr "SID 설정"
 
@@ -600,7 +600,7 @@ msgstr "RS232 설정"
 #: src/arch/unix/gui/cbm2ui.c:563 src/arch/unix/gui/cbm2ui.c:597
 #: src/arch/unix/gui/petui.c:517 src/arch/unix/gui/plus4ui.c:416
 #: src/arch/unix/gui/vic20ui.c:642 src/arch/amigaos/intl_text.c.po.c:3379
-#: src/arch/amigaos/intl_text.c.po.c:9122
+#: src/arch/amigaos/intl_text.c.po.c:9121
 msgid "Printer settings"
 msgstr "프린터 셋팅"
 
@@ -687,7 +687,7 @@ msgstr "설정"
 #: src/arch/win32/rescbm2.rc.po.c:105 src/arch/win32/rescbm5x0.rc.po.c:105
 #: src/arch/win32/respet.rc.po.c:94 src/arch/win32/resplus4.rc.po.c:107
 #: src/arch/win32/resscpu64.rc.po.c:107 src/arch/win32/resvic20.rc.po.c:115
-#: src/arch/amigaos/intl_text.c.po.c:12048
+#: src/arch/amigaos/intl_text.c.po.c:12047
 msgid "Debug"
 msgstr "디벅"
 
@@ -775,13 +775,13 @@ msgstr "C64 올드 NTSC"
 
 #: src/arch/unix/gui/c64scui.c:157 src/arch/win32/resc64.rc.po.c:548
 #: src/arch/win32/resscpu64.rc.po.c:561
-#: src/arch/amigaos/intl_text.c.po.c:12426
+#: src/arch/amigaos/intl_text.c.po.c:12425
 msgid "6569R1 (old PAL)"
 msgstr "6569R1 (올드 PAL)"
 
 #: src/arch/unix/gui/c64scui.c:163 src/arch/win32/resc64.rc.po.c:551
 #: src/arch/win32/resscpu64.rc.po.c:564
-#: src/arch/amigaos/intl_text.c.po.c:12468
+#: src/arch/amigaos/intl_text.c.po.c:12467
 msgid "6567R56A (old NTSC)"
 msgstr "6567R56A (올드 NTSC)"
 
@@ -791,12 +791,12 @@ msgid "6526 (new)"
 msgstr "6526 (새로운)"
 
 #: src/arch/unix/gui/c64scui.c:193 src/arch/win32/resvicii.rc.po.c:94
-#: src/arch/amigaos/intl_text.c.po.c:12524
+#: src/arch/amigaos/intl_text.c.po.c:12523
 msgid "Discrete"
 msgstr "다른"
 
 #: src/arch/unix/gui/c64scui.c:195 src/arch/win32/resvicii.rc.po.c:95
-#: src/arch/amigaos/intl_text.c.po.c:12538
+#: src/arch/amigaos/intl_text.c.po.c:12537
 msgid "Custom IC"
 msgstr "커스텀 IC"
 
@@ -842,7 +842,7 @@ msgid "C64 model"
 msgstr "C64 모델"
 
 #: src/arch/unix/gui/c64scui.c:230 src/arch/win32/resvicii.rc.po.c:93
-#: src/arch/amigaos/intl_text.c.po.c:12594
+#: src/arch/amigaos/intl_text.c.po.c:12593
 msgid "Glue logic"
 msgstr "글루 로직"
 
@@ -930,12 +930,12 @@ msgid "Basic 256k, high chars"
 msgstr "Basic 256k, high chars"
 
 #: src/arch/unix/gui/cbm2ui.c:255 src/arch/win32/respet.rc.po.c:519
-#: src/arch/amigaos/intl_text.c.po.c:11054
+#: src/arch/amigaos/intl_text.c.po.c:11053
 msgid "Graphics"
 msgstr "그래픽"
 
 #: src/arch/unix/gui/cbm2ui.c:257 src/arch/win32/respet.rc.po.c:520
-#: src/arch/amigaos/intl_text.c.po.c:11082
+#: src/arch/amigaos/intl_text.c.po.c:11081
 msgid "Business (UK)"
 msgstr "비지니스(UK)"
 
@@ -999,7 +999,7 @@ msgstr "CRTC 설정"
 #: src/arch/unix/gui/cbm2ui.c:421 src/arch/unix/gui/plus4ui.c:290
 #: src/arch/win32/res.rc.po.c:1247 src/arch/win32/res.rc.po.c:1483
 #: src/arch/win32/respet.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:3631
-#: src/arch/amigaos/intl_text.c.po.c:8394
+#: src/arch/amigaos/intl_text.c.po.c:8393
 msgid "RAM settings"
 msgstr "RAM 셋팅"
 
@@ -1023,29 +1023,29 @@ msgstr "작동시키다"
 
 #: src/arch/unix/gui/petui.c:120 src/arch/unix/gui/plus4ui.c:148
 #: src/arch/unix/gui/vic20ui.c:167 src/arch/win32/ressidcart.rc.po.c:139
-#: src/arch/amigaos/intl_text.c.po.c:10326
+#: src/arch/amigaos/intl_text.c.po.c:10325
 msgid "SID address"
 msgstr "SID 주소"
 
 #. Translators: "SID clock" as in "CPU Frequency"
 #: src/arch/unix/gui/petui.c:123 src/arch/unix/gui/plus4ui.c:151
 #: src/arch/unix/gui/vic20ui.c:170 src/arch/win32/ressidcart.rc.po.c:140
-#: src/arch/amigaos/intl_text.c.po.c:10340
+#: src/arch/amigaos/intl_text.c.po.c:10339
 msgid "SID clock"
 msgstr "SID 클락"
 
 #: src/arch/unix/gui/petui.c:153 src/arch/win32/respet.rc.po.c:511
-#: src/arch/amigaos/intl_text.c.po.c:10984
+#: src/arch/amigaos/intl_text.c.po.c:10983
 msgid "Auto (from ROM)"
 msgstr "자동 (ROM 에서)"
 
 #: src/arch/unix/gui/petui.c:155 src/arch/win32/respet.rc.po.c:512
-#: src/arch/amigaos/intl_text.c.po.c:10998
+#: src/arch/amigaos/intl_text.c.po.c:10997
 msgid "40 Columns"
 msgstr "40칸"
 
 #: src/arch/unix/gui/petui.c:157 src/arch/win32/respet.rc.po.c:513
-#: src/arch/amigaos/intl_text.c.po.c:11012
+#: src/arch/amigaos/intl_text.c.po.c:11011
 msgid "80 Columns"
 msgstr "80칸"
 
@@ -1070,7 +1070,7 @@ msgid "PET HRE hi-res graphics"
 msgstr ""
 
 #: src/arch/unix/gui/petui.c:236 src/arch/unix/gui/plus4ui.c:261
-#: src/arch/unix/gui/vic20ui.c:487 src/arch/amigaos/intl_text.c.po.c:10270
+#: src/arch/unix/gui/vic20ui.c:487 src/arch/amigaos/intl_text.c.po.c:10269
 msgid "SID cartridge"
 msgstr "SID 카트리지"
 
@@ -1166,11 +1166,11 @@ msgstr ""
 msgid "PET model"
 msgstr ""
 
-#: src/arch/unix/gui/petui.c:349 src/arch/amigaos/intl_text.c.po.c:11110
+#: src/arch/unix/gui/petui.c:349 src/arch/amigaos/intl_text.c.po.c:11109
 msgid "Video size"
 msgstr "비디오 크기"
 
-#: src/arch/unix/gui/petui.c:353 src/arch/amigaos/intl_text.c.po.c:11124
+#: src/arch/unix/gui/petui.c:353 src/arch/amigaos/intl_text.c.po.c:11123
 msgid "I/O size"
 msgstr "I/O 크기"
 
@@ -1183,7 +1183,7 @@ msgid "EOI blanks screen"
 msgstr ""
 
 #: src/arch/unix/gui/petui.c:360 src/arch/win32/respet.rc.po.c:522
-#: src/arch/amigaos/intl_text.c.po.c:11166
+#: src/arch/amigaos/intl_text.c.po.c:11165
 msgid "SuperPET I/O enable (disables 8x96)"
 msgstr "SuperPET I/O 사용하기 (사용하지않기 8x96)"
 
@@ -1235,7 +1235,7 @@ msgstr ""
 msgid "ACIA"
 msgstr ""
 
-#: src/arch/unix/gui/plus4ui.c:259 src/arch/amigaos/intl_text.c.po.c:10354
+#: src/arch/unix/gui/plus4ui.c:259 src/arch/amigaos/intl_text.c.po.c:10353
 msgid "Digiblaster add-on"
 msgstr "Digiblaster 에드 온"
 
@@ -1255,7 +1255,7 @@ msgstr "TED 모델"
 
 #: src/arch/unix/gui/plus4ui.c:304 src/arch/win32/resplus4.rc.po.c:508
 #: src/arch/win32/rested.rc.po.c:33 src/arch/amigaos/intl_text.c.po.c:3463
-#: src/arch/amigaos/intl_text.c.po.c:9640
+#: src/arch/amigaos/intl_text.c.po.c:9639
 msgid "TED settings"
 msgstr "TED 셋팅"
 
@@ -1360,7 +1360,7 @@ msgstr "덮어쓰길 원하십니까?"
 #: src/arch/unix/gui/uiattach.c:249 src/arch/unix/gui/uiattach.c:282
 #: src/arch/win32/res.rc.po.c:920 src/arch/win32/res.rc.po.c:1384
 #: src/arch/amigaos/intl_text.c.po.c:243
-#: src/arch/amigaos/intl_text.c.po.c:9654
+#: src/arch/amigaos/intl_text.c.po.c:9653
 msgid "Attach tape image"
 msgstr "테이프 이미지 붙여넣기"
 
@@ -1389,7 +1389,7 @@ msgstr "디스크/테이프 스마트 붙어넣기"
 #: src/arch/unix/gui/uiattach.c:356 src/arch/win32/res.rc.po.c:1473
 #: src/arch/win32/resautostart.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:3141
-#: src/arch/amigaos/intl_text.c.po.c:12328
+#: src/arch/amigaos/intl_text.c.po.c:12327
 msgid "Autostart settings"
 msgstr "자동시작 셋팅"
 
@@ -1414,18 +1414,18 @@ msgid "Autostart delay"
 msgstr ""
 
 #: src/arch/unix/gui/uiautostart.c:86 src/arch/win32/resautostart.rc.po.c:53
-#: src/arch/amigaos/intl_text.c.po.c:12188
+#: src/arch/amigaos/intl_text.c.po.c:12187
 msgid "Virtual FS"
 msgstr "버추얼 파일스타일"
 
 #: src/arch/unix/gui/uiautostart.c:88 src/arch/win32/resautostart.rc.po.c:54
-#: src/arch/amigaos/intl_text.c.po.c:12202
+#: src/arch/amigaos/intl_text.c.po.c:12201
 msgid "Inject to RAM"
 msgstr "RAM 에 주입하기"
 
 #: src/arch/unix/gui/uiautostart.c:90 src/arch/win32/res.rc.po.c:1144
 #: src/arch/win32/resautostart.rc.po.c:55
-#: src/arch/amigaos/intl_text.c.po.c:12216
+#: src/arch/amigaos/intl_text.c.po.c:12215
 msgid "Disk image"
 msgstr "디스크 이미지"
 
@@ -1435,11 +1435,11 @@ msgid "Handle True Drive Emulation on autostart"
 msgstr ""
 
 #: src/arch/unix/gui/uiautostart.c:98 src/arch/win32/resautostart.rc.po.c:45
-#: src/arch/amigaos/intl_text.c.po.c:12244
+#: src/arch/amigaos/intl_text.c.po.c:12243
 msgid "Autostart warp"
 msgstr "자동 시작 warp"
 
-#: src/arch/unix/gui/uiautostart.c:100 src/arch/amigaos/intl_text.c.po.c:12258
+#: src/arch/unix/gui/uiautostart.c:100 src/arch/amigaos/intl_text.c.po.c:12257
 msgid "Autostart random delay"
 msgstr ""
 
@@ -1448,22 +1448,22 @@ msgid "Maximum random autostart delay"
 msgstr ""
 
 #: src/arch/unix/gui/uiautostart.c:105 src/arch/win32/resautostart.rc.po.c:46
-#: src/arch/amigaos/intl_text.c.po.c:12272
+#: src/arch/amigaos/intl_text.c.po.c:12271
 msgid "Use ':' with RUN"
 msgstr "':' 를 RUN 과 사용하기"
 
 #: src/arch/unix/gui/uiautostart.c:107 src/arch/win32/resautostart.rc.po.c:47
-#: src/arch/amigaos/intl_text.c.po.c:12300
+#: src/arch/amigaos/intl_text.c.po.c:12299
 msgid "Load to BASIC start"
 msgstr "BASIC 시작 에 로드하기"
 
 #: src/arch/unix/gui/uiautostart.c:109 src/arch/win32/resautostart.rc.po.c:50
-#: src/arch/amigaos/intl_text.c.po.c:12286
+#: src/arch/amigaos/intl_text.c.po.c:12285
 msgid "PRG autostart mode"
 msgstr "PRG 오토스마트 모드"
 
 #: src/arch/unix/gui/uiautostart.c:111 src/arch/win32/resautostart.rc.po.c:51
-#: src/arch/amigaos/intl_text.c.po.c:12314
+#: src/arch/amigaos/intl_text.c.po.c:12313
 msgid "PRG autostart disk image"
 msgstr "PRG 오토스마트 디스크 이미지"
 
@@ -1474,7 +1474,7 @@ msgstr "PRG 오토스마트 디스크 이미지"
 #: src/arch/win32/rescbm5x0.rc.po.c:69 src/arch/win32/resplus4.rc.po.c:70
 #: src/arch/win32/resscpu64.rc.po.c:57 src/arch/win32/resvic20.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:383
-#: src/arch/amigaos/intl_text.c.po.c:10522
+#: src/arch/amigaos/intl_text.c.po.c:10521
 msgid "Attach cartridge image"
 msgstr "카트리지 이미지 붙이기"
 
@@ -1647,7 +1647,7 @@ msgstr "HTML 브라우저를 돌릴수 없습니다."
 #: src/arch/unix/gui/uicommands.c:358 src/arch/unix/gui/uicommands.c:597
 #: src/arch/win32/res.rc.po.c:969 src/arch/win32/res.rc.po.c:1436
 #: src/arch/amigaos/intl_text.c.po.c:1195
-#: src/arch/amigaos/intl_text.c.po.c:10550
+#: src/arch/amigaos/intl_text.c.po.c:10549
 msgid "Load snapshot image"
 msgstr "스냅샷 이미지 불러오기"
 
@@ -1687,7 +1687,7 @@ msgid "Record sound to file"
 msgstr "레코딩 사운드 를 파일로"
 
 #: src/arch/unix/gui/uicommands.c:491 src/arch/win32/res.rc.po.c:1126
-#: src/arch/amigaos/intl_text.c.po.c:11866
+#: src/arch/amigaos/intl_text.c.po.c:11865
 msgid "Sound Recording started"
 msgstr "사운드 레코딩이 시작했습니다"
 
@@ -1702,17 +1702,17 @@ msgid "Hard"
 msgstr "단단한"
 
 #: src/arch/unix/gui/uicommands.c:561 src/arch/win32/res.rc.po.c:1449
-#: src/arch/amigaos/intl_text.c.po.c:11502
+#: src/arch/amigaos/intl_text.c.po.c:11501
 msgid "Ask"
 msgstr ""
 
 #: src/arch/unix/gui/uicommands.c:563 src/arch/win32/res.rc.po.c:1450
-#: src/arch/amigaos/intl_text.c.po.c:11516
+#: src/arch/amigaos/intl_text.c.po.c:11515
 msgid "Continue"
 msgstr "계속"
 
 #: src/arch/unix/gui/uicommands.c:565 src/arch/win32/res.rc.po.c:1451
-#: src/arch/amigaos/intl_text.c.po.c:11530
+#: src/arch/amigaos/intl_text.c.po.c:11529
 msgid "Start monitor"
 msgstr ""
 
@@ -1730,12 +1730,12 @@ msgid "Reset"
 msgstr "리셋"
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/win32/res.rc.po.c:1453
-#: src/arch/amigaos/intl_text.c.po.c:11544
+#: src/arch/amigaos/intl_text.c.po.c:11543
 msgid "Hard reset"
 msgstr ""
 
 #: src/arch/unix/gui/uicommands.c:571 src/arch/win32/res.rc.po.c:1454
-#: src/arch/amigaos/intl_text.c.po.c:11558
+#: src/arch/amigaos/intl_text.c.po.c:11557
 msgid "Quit emulator"
 msgstr ""
 
@@ -1762,7 +1762,7 @@ msgstr "진행중인 플레이백 덮어쓰기"
 #: src/arch/unix/x11/xaw/uisnapshot.c:102
 #: src/arch/unix/x11/xaw/uisnapshot.c:319 src/arch/win32/res.rc.po.c:967
 #: src/arch/win32/res.rc.po.c:1437 src/arch/amigaos/intl_text.c.po.c:1209
-#: src/arch/amigaos/intl_text.c.po.c:10536
+#: src/arch/amigaos/intl_text.c.po.c:10535
 msgid "Save snapshot image"
 msgstr "스냅샷 이미지 저장"
 
@@ -1955,14 +1955,14 @@ msgstr "걸러지지않은"
 #: src/arch/unix/gui/uicrtc.c:77 src/arch/unix/gui/uited.c:87
 #: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:87
 #: src/arch/unix/gui/uivicii.c:104 src/arch/win32/res.rc.po.c:973
-#: src/arch/amigaos/intl_text.c.po.c:10648
+#: src/arch/amigaos/intl_text.c.po.c:10647
 msgid "CRT emulation"
 msgstr "케토드 레이 터미널 에뮬레이터"
 
 #: src/arch/unix/gui/uicrtc.c:80 src/arch/unix/gui/uited.c:89
 #: src/arch/unix/gui/uivdc.c:76 src/arch/unix/gui/uivic.c:89
 #: src/arch/unix/gui/uivicii.c:106 src/arch/win32/res.rc.po.c:975
-#: src/arch/amigaos/intl_text.c.po.c:10662
+#: src/arch/amigaos/intl_text.c.po.c:10661
 msgid "Scale2x"
 msgstr "Scale2x"
 
@@ -2020,7 +2020,7 @@ msgstr "섹상"
 #: src/arch/unix/gui/uicrtc.c:171 src/arch/unix/gui/uited.c:175
 #: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:178
 #: src/arch/unix/gui/uivicii.c:212 src/arch/win32/res.rc.po.c:974
-#: src/arch/amigaos/intl_text.c.po.c:10676
+#: src/arch/amigaos/intl_text.c.po.c:10675
 msgid "Render filter"
 msgstr "랜더 필터"
 
@@ -2614,13 +2614,13 @@ msgstr "이전 이미지 (Unit 8) 붙이기"
 
 #: src/arch/unix/gui/uifliplist.c:128 src/arch/win32/res.rc.po.c:928
 #: src/arch/win32/res.rc.po.c:1413 src/arch/amigaos/intl_text.c.po.c:215
-#: src/arch/amigaos/intl_text.c.po.c:10382
+#: src/arch/amigaos/intl_text.c.po.c:10381
 msgid "Load flip list file"
 msgstr "플립 리스트 파일 불러오기"
 
 #: src/arch/unix/gui/uifliplist.c:130 src/arch/win32/res.rc.po.c:930
 #: src/arch/win32/res.rc.po.c:1414 src/arch/amigaos/intl_text.c.po.c:229
-#: src/arch/amigaos/intl_text.c.po.c:10410
+#: src/arch/amigaos/intl_text.c.po.c:10409
 msgid "Save flip list file"
 msgstr "플립 리스트 파일 저장하기"
 
@@ -2635,7 +2635,7 @@ msgid "Detach #%d"
 msgstr "#%d 때어내기"
 
 #: src/arch/unix/gui/uifliplist.c:205 src/arch/unix/gui/uiramcart.c:58
-#: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:8422
+#: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:8421
 msgid "Read-only"
 msgstr "읽기 전용"
 
@@ -2711,7 +2711,7 @@ msgstr "신린더 의 숫자를 넣으시오"
 #: src/arch/unix/gui/uiide64.c:80 src/arch/unix/gui/uiide64.c:194
 #: src/arch/unix/gui/uiide64.c:213 src/arch/unix/gui/uiide64.c:232
 #: src/arch/unix/gui/uiide64.c:251 src/arch/win32/reside64.rc.po.c:73
-#: src/arch/amigaos/intl_text.c.po.c:9836
+#: src/arch/amigaos/intl_text.c.po.c:9835
 msgid "Cylinders"
 msgstr "실린더"
 
@@ -2722,7 +2722,7 @@ msgstr "머리 의 숫자를 넣으시오"
 #: src/arch/unix/gui/uiide64.c:120 src/arch/unix/gui/uiide64.c:197
 #: src/arch/unix/gui/uiide64.c:216 src/arch/unix/gui/uiide64.c:235
 #: src/arch/unix/gui/uiide64.c:254 src/arch/win32/reside64.rc.po.c:74
-#: src/arch/amigaos/intl_text.c.po.c:9850
+#: src/arch/amigaos/intl_text.c.po.c:9849
 msgid "Heads"
 msgstr "헤드"
 
@@ -2733,7 +2733,7 @@ msgstr "섹터 숫자를 넣으시오"
 #: src/arch/unix/gui/uiide64.c:160 src/arch/unix/gui/uiide64.c:200
 #: src/arch/unix/gui/uiide64.c:219 src/arch/unix/gui/uiide64.c:238
 #: src/arch/unix/gui/uiide64.c:257 src/arch/win32/reside64.rc.po.c:75
-#: src/arch/amigaos/intl_text.c.po.c:9864
+#: src/arch/amigaos/intl_text.c.po.c:9863
 msgid "Sectors"
 msgstr "섹터"
 
@@ -2763,7 +2763,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:192 src/arch/unix/gui/uiide64.c:211
 #: src/arch/unix/gui/uiide64.c:230 src/arch/unix/gui/uiide64.c:249
-#: src/arch/win32/reside64.rc.po.c:72 src/arch/amigaos/intl_text.c.po.c:9822
+#: src/arch/win32/reside64.rc.po.c:72 src/arch/amigaos/intl_text.c.po.c:9821
 #: src/translate_text.c.po.c:8137
 msgid "Autodetect image size"
 msgstr "이미지 크기 자동으로 찾기"
@@ -2827,18 +2827,18 @@ msgstr "ISEPIC 이미지"
 
 #: src/arch/unix/gui/uijoyport.c:42 src/arch/unix/gui/uijoyport.c:48
 #: src/arch/win32/resjoyport.rc.po.c:42
-#: src/arch/amigaos/intl_text.c.po.c:11572
+#: src/arch/amigaos/intl_text.c.po.c:11571
 msgid "Joyport 1 device"
 msgstr ""
 
 #: src/arch/unix/gui/uijoyport.c:50 src/arch/win32/resjoyport.rc.po.c:43
-#: src/arch/amigaos/intl_text.c.po.c:11586
+#: src/arch/amigaos/intl_text.c.po.c:11585
 msgid "Joyport 2 device"
 msgstr ""
 
 #: src/arch/unix/gui/uijoyport.c:56 src/arch/unix/gui/uijoyport.c:62
 #: src/arch/win32/res.rc.po.c:1476 src/arch/amigaos/intl_text.c.po.c:3477
-#: src/arch/amigaos/intl_text.c.po.c:11600
+#: src/arch/amigaos/intl_text.c.po.c:11599
 msgid "Joyport settings"
 msgstr ""
 
@@ -3083,7 +3083,7 @@ msgid "Keyboard settings"
 msgstr "키보드 설정"
 
 #: src/arch/unix/gui/uimagicvoice.c:43 src/arch/win32/resmagicvoice.rc.po.c:26
-#: src/arch/amigaos/intl_text.c.po.c:9136
+#: src/arch/amigaos/intl_text.c.po.c:9135
 msgid "Magic Voice file"
 msgstr ""
 
@@ -3128,7 +3128,7 @@ msgstr "플레쉬점퍼 사용가능케하기"
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:91 src/arch/unix/gui/uimmcreplay.c:76
 #: src/arch/win32/resmmcreplay.rc.po.c:48
-#: src/arch/amigaos/intl_text.c.po.c:10088
+#: src/arch/amigaos/intl_text.c.po.c:10087
 msgid "Card image file"
 msgstr "카드 이미지 파일"
 
@@ -3140,7 +3140,7 @@ msgstr "카드 이미지에 쓰기 가능하게 하기"
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:98 src/arch/unix/gui/uimmcreplay.c:83
 #: src/arch/win32/resmmc64.rc.po.c:59 src/arch/win32/resmmcreplay.rc.po.c:51
-#: src/arch/amigaos/intl_text.c.po.c:10018
+#: src/arch/amigaos/intl_text.c.po.c:10017
 msgid "Card type"
 msgstr "카드 종류"
 
@@ -3157,7 +3157,7 @@ msgid "Enable rescue mode"
 msgstr "구조 모드 가능하게하기"
 
 #: src/arch/unix/gui/uimmcreplay.c:86 src/arch/win32/resmmcreplay.rc.po.c:49
-#: src/arch/amigaos/intl_text.c.po.c:10116
+#: src/arch/amigaos/intl_text.c.po.c:10115
 msgid "EEPROM image file"
 msgstr "EEPROM 이미지 파일"
 
@@ -3392,22 +3392,22 @@ msgid ""
 msgstr ""
 
 #: src/arch/unix/gui/uipetcolour.c:64 src/arch/unix/gui/uipetcolour.c:83
-#: src/arch/amigaos/intl_text.c.po.c:8170
+#: src/arch/amigaos/intl_text.c.po.c:8169
 msgid "PET Colour background"
 msgstr ""
 
 #: src/arch/unix/gui/uipetcolour.c:81 src/arch/win32/respetcolour.rc.po.c:25
-#: src/arch/amigaos/intl_text.c.po.c:8156
+#: src/arch/amigaos/intl_text.c.po.c:8155
 msgid "PET Colour type"
 msgstr ""
 
 #: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
-#: src/arch/amigaos/intl_text.c.po.c:8240
+#: src/arch/amigaos/intl_text.c.po.c:8239
 msgid "PET DWW file"
 msgstr "PET DWW 파일"
 
 #: src/arch/unix/gui/uipetreu.c:40 src/arch/win32/respetreu.rc.po.c:40
-#: src/arch/amigaos/intl_text.c.po.c:8086
+#: src/arch/amigaos/intl_text.c.po.c:8085
 msgid "PET REU file"
 msgstr "PET REU 파일"
 
@@ -3426,7 +3426,7 @@ msgstr ""
 msgid "Printer 3 (exec)"
 msgstr ""
 
-#: src/arch/unix/gui/uiprinter.c:184 src/arch/amigaos/intl_text.c.po.c:8730
+#: src/arch/unix/gui/uiprinter.c:184 src/arch/amigaos/intl_text.c.po.c:8729
 msgid "Select printer dump file"
 msgstr "프린터 덤프 파일을 선택하세요"
 
@@ -3435,12 +3435,12 @@ msgid "Command to execute for printing (preceed with '|')"
 msgstr ""
 
 #: src/arch/unix/gui/uiprinteriec.c:48 src/arch/unix/gui/uiprinterieee.c:83
-#: src/arch/amigaos/intl_text.c.po.c:8786
+#: src/arch/amigaos/intl_text.c.po.c:8785
 msgid "Userport printer emulation"
 msgstr "유져포트 프린터 에뮬레이션"
 
 #: src/arch/unix/gui/uiprinteriec.c:49 src/arch/unix/gui/uiprinterieee.c:85
-#: src/arch/amigaos/intl_text.c.po.c:8842
+#: src/arch/amigaos/intl_text.c.po.c:8841
 msgid "Userport printer driver"
 msgstr "유져포트 프린터 드라이버"
 
@@ -3458,7 +3458,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiprinteriec.c:68
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
-#: src/arch/unix/gui/uiprinterieee.c:42 src/arch/amigaos/intl_text.c.po.c:8744
+#: src/arch/unix/gui/uiprinterieee.c:42 src/arch/amigaos/intl_text.c.po.c:8743
 msgid "Printer #4 emulation"
 msgstr "프린터 #4 에뮬레이션"
 
@@ -3469,7 +3469,7 @@ msgstr "프린터 #4 가 IEC 디바이스 를 사용가능케 하다"
 
 #: src/arch/unix/gui/uiprinteriec.c:70
 #: src/arch/unix/gui/uiprinteriecplus4.c:49
-#: src/arch/unix/gui/uiprinterieee.c:44 src/arch/amigaos/intl_text.c.po.c:8800
+#: src/arch/unix/gui/uiprinterieee.c:44 src/arch/amigaos/intl_text.c.po.c:8799
 msgid "Printer #4 driver"
 msgstr "프린터 #4 드라이버"
 
@@ -3493,7 +3493,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiprinteriec.c:75
 #: src/arch/unix/gui/uiprinteriecplus4.c:59
-#: src/arch/unix/gui/uiprinterieee.c:54 src/arch/amigaos/intl_text.c.po.c:8758
+#: src/arch/unix/gui/uiprinterieee.c:54 src/arch/amigaos/intl_text.c.po.c:8757
 msgid "Printer #5 emulation"
 msgstr "프린터 #5 에뮬레이션"
 
@@ -3504,7 +3504,7 @@ msgstr "프린터 #5 가 IEC 디바이스 를 사용가능케 하다"
 
 #: src/arch/unix/gui/uiprinteriec.c:77
 #: src/arch/unix/gui/uiprinteriecplus4.c:63
-#: src/arch/unix/gui/uiprinterieee.c:56 src/arch/amigaos/intl_text.c.po.c:8814
+#: src/arch/unix/gui/uiprinterieee.c:56 src/arch/amigaos/intl_text.c.po.c:8813
 msgid "Printer #5 driver"
 msgstr "IEC 프린터 #5 드라이버"
 
@@ -3528,7 +3528,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiprinteriec.c:82
 #: src/arch/unix/gui/uiprinteriecplus4.c:73
-#: src/arch/unix/gui/uiprinterieee.c:66 src/arch/amigaos/intl_text.c.po.c:8772
+#: src/arch/unix/gui/uiprinterieee.c:66 src/arch/amigaos/intl_text.c.po.c:8771
 msgid "Printer #6 emulation"
 msgstr ""
 
@@ -3539,7 +3539,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiprinteriec.c:84
 #: src/arch/unix/gui/uiprinteriecplus4.c:77
-#: src/arch/unix/gui/uiprinterieee.c:68 src/arch/amigaos/intl_text.c.po.c:8828
+#: src/arch/unix/gui/uiprinterieee.c:68 src/arch/amigaos/intl_text.c.po.c:8827
 msgid "Printer #6 driver"
 msgstr ""
 
@@ -3601,7 +3601,7 @@ msgid "PS/2 mouse on Userport"
 msgstr "유저포트에 PS/S 마우스 "
 
 #: src/arch/unix/gui/uiramcart.c:77 src/arch/win32/resramcart.rc.po.c:46
-#: src/arch/amigaos/intl_text.c.po.c:8464
+#: src/arch/amigaos/intl_text.c.po.c:8463
 msgid "RamCart file"
 msgstr "RamCart 파일"
 
@@ -3610,7 +3610,7 @@ msgid "Enable bankjumper"
 msgstr "벙크점퍼 사용가능하게 하기"
 
 #: src/arch/unix/gui/uireu.c:86 src/arch/win32/resreu.rc.po.c:43
-#: src/arch/amigaos/intl_text.c.po.c:8534
+#: src/arch/amigaos/intl_text.c.po.c:8533
 msgid "REU file"
 msgstr "REU 파일"
 
@@ -3750,7 +3750,7 @@ msgstr ""
 #: src/arch/unix/gui/uirs232c64c128.c:55 src/arch/unix/gui/uisettings.c:434
 #: src/arch/unix/gui/uited.c:71 src/arch/unix/gui/uivic.c:71
 #: src/arch/unix/gui/uivicii.c:88 src/arch/win32/res.rc.po.c:1428
-#: src/arch/win32/resacia.rc.po.c:81 src/arch/amigaos/intl_text.c.po.c:12020
+#: src/arch/win32/resacia.rc.po.c:81 src/arch/amigaos/intl_text.c.po.c:12019
 msgid "Normal"
 msgstr "보통"
 
@@ -3796,14 +3796,14 @@ msgstr ""
 #: src/arch/unix/gui/uirs232c64c128.c:109
 #: src/arch/unix/gui/uirs232c64c128.c:146
 #: src/arch/unix/gui/uirs232c64c128.c:183
-#: src/arch/amigaos/intl_text.c.po.c:9206
+#: src/arch/amigaos/intl_text.c.po.c:9205
 msgid "Userport RS232 baud rate"
 msgstr ""
 
 #: src/arch/unix/gui/uirs232c64c128.c:111
 #: src/arch/unix/gui/uirs232c64c128.c:148
 #: src/arch/unix/gui/uirs232c64c128.c:185
-#: src/arch/amigaos/intl_text.c.po.c:9192
+#: src/arch/amigaos/intl_text.c.po.c:9191
 msgid "Userport RS232 device"
 msgstr ""
 
@@ -3958,7 +3958,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uisettings.c:435 src/arch/unix/gui/uisound.c:93
 #: src/arch/win32/res.rc.po.c:1185 src/arch/win32/res.rc.po.c:1429
-#: src/arch/amigaos/intl_text.c.po.c:11950
+#: src/arch/amigaos/intl_text.c.po.c:11949
 msgid "Small"
 msgstr "작다"
 
@@ -4027,22 +4027,22 @@ msgid "ParSID Port 3"
 msgstr "ParSID 포트3"
 
 #: src/arch/unix/gui/uisid.c:164 src/arch/win32/ressid.rc.po.c:82
-#: src/arch/win32/ressiddtv.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:9234
+#: src/arch/win32/ressiddtv.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:9233
 msgid "Fast"
 msgstr "빠른"
 
 #: src/arch/unix/gui/uisid.c:166 src/arch/win32/ressid.rc.po.c:83
-#: src/arch/win32/ressiddtv.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:9248
+#: src/arch/win32/ressiddtv.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:9247
 msgid "Interpolating"
 msgstr "보간하다"
 
 #: src/arch/unix/gui/uisid.c:168 src/arch/win32/ressid.rc.po.c:84
-#: src/arch/win32/ressiddtv.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:9262
+#: src/arch/win32/ressiddtv.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:9261
 msgid "Resampling"
 msgstr "리샘플링"
 
 #: src/arch/unix/gui/uisid.c:170 src/arch/win32/ressid.rc.po.c:85
-#: src/arch/win32/ressiddtv.rc.po.c:59 src/arch/amigaos/intl_text.c.po.c:9276
+#: src/arch/win32/ressiddtv.rc.po.c:59 src/arch/amigaos/intl_text.c.po.c:9275
 msgid "Fast resampling"
 msgstr "빠른 리셈블링"
 
@@ -4073,22 +4073,22 @@ msgid "Argument:"
 msgstr ""
 
 #: src/arch/unix/gui/uisound.c:91 src/arch/win32/res.rc.po.c:1184
-#: src/arch/amigaos/intl_text.c.po.c:11936
+#: src/arch/amigaos/intl_text.c.po.c:11935
 msgid "Very small"
 msgstr ""
 
 #: src/arch/unix/gui/uisound.c:95 src/arch/win32/res.rc.po.c:1186
-#: src/arch/amigaos/intl_text.c.po.c:11964
+#: src/arch/amigaos/intl_text.c.po.c:11963
 msgid "Medium"
 msgstr "중간"
 
 #: src/arch/unix/gui/uisound.c:97 src/arch/win32/res.rc.po.c:1187
-#: src/arch/amigaos/intl_text.c.po.c:11978
+#: src/arch/amigaos/intl_text.c.po.c:11977
 msgid "Large"
 msgstr "큰"
 
 #: src/arch/unix/gui/uisound.c:99 src/arch/win32/res.rc.po.c:1188
-#: src/arch/amigaos/intl_text.c.po.c:11992
+#: src/arch/amigaos/intl_text.c.po.c:11991
 msgid "Very large"
 msgstr ""
 
@@ -4113,32 +4113,32 @@ msgid "10 s suspend"
 msgstr "10초 지연"
 
 #: src/arch/unix/gui/uisound.c:119 src/arch/win32/res.rc.po.c:1057
-#: src/arch/amigaos/intl_text.c.po.c:9444
+#: src/arch/amigaos/intl_text.c.po.c:9443
 msgid "Flexible"
 msgstr "유연한"
 
 #: src/arch/unix/gui/uisound.c:122 src/arch/win32/res.rc.po.c:1058
-#: src/arch/amigaos/intl_text.c.po.c:9458
+#: src/arch/amigaos/intl_text.c.po.c:9457
 msgid "Adjusting"
 msgstr "적응"
 
 #: src/arch/unix/gui/uisound.c:125 src/arch/win32/res.rc.po.c:1059
-#: src/arch/amigaos/intl_text.c.po.c:9472
+#: src/arch/amigaos/intl_text.c.po.c:9471
 msgid "Exact"
 msgstr "정확한"
 
 #: src/arch/unix/gui/uisound.c:132 src/arch/win32/res.rc.po.c:1062
-#: src/arch/amigaos/intl_text.c.po.c:12090
+#: src/arch/amigaos/intl_text.c.po.c:12089
 msgid "System"
 msgstr ""
 
 #: src/arch/unix/gui/uisound.c:135 src/arch/win32/res.rc.po.c:1063
-#: src/arch/amigaos/intl_text.c.po.c:12104
+#: src/arch/amigaos/intl_text.c.po.c:12103
 msgid "Mono"
 msgstr ""
 
 #: src/arch/unix/gui/uisound.c:138 src/arch/win32/res.rc.po.c:1064
-#: src/arch/amigaos/intl_text.c.po.c:12118
+#: src/arch/amigaos/intl_text.c.po.c:12117
 msgid "Stereo"
 msgstr ""
 
@@ -4160,15 +4160,15 @@ msgid "Sound synchronization"
 msgstr "사운드 동기화"
 
 #: src/arch/unix/gui/uisound.c:160 src/arch/win32/res.rc.po.c:1181
-#: src/arch/amigaos/intl_text.c.po.c:9486
+#: src/arch/amigaos/intl_text.c.po.c:9485
 msgid "Sample rate"
 msgstr "샘플 래이트"
 
-#: src/arch/unix/gui/uisound.c:162 src/arch/amigaos/intl_text.c.po.c:9500
+#: src/arch/unix/gui/uisound.c:162 src/arch/amigaos/intl_text.c.po.c:9499
 msgid "Buffer size"
 msgstr "버퍼 사이즈"
 
-#: src/arch/unix/gui/uisound.c:164 src/arch/amigaos/intl_text.c.po.c:9514
+#: src/arch/unix/gui/uisound.c:164 src/arch/amigaos/intl_text.c.po.c:9513
 msgid "Fragment size"
 msgstr ""
 
@@ -4183,7 +4183,7 @@ msgstr "시간 종료"
 #: src/arch/win32/respet.rc.po.c:172 src/arch/win32/resplus4.rc.po.c:185
 #: src/arch/win32/resscpu64.rc.po.c:185 src/arch/win32/resvic20.rc.po.c:193
 #: src/arch/amigaos/intl_text.c.po.c:3561
-#: src/arch/amigaos/intl_text.c.po.c:9542
+#: src/arch/amigaos/intl_text.c.po.c:9541
 msgid "Sound settings"
 msgstr "소리 설정"
 
@@ -4199,14 +4199,14 @@ msgid "Default"
 msgstr "디폴트"
 
 #: src/arch/unix/gui/uited.c:73 src/arch/unix/gui/uivic.c:73
-#: src/arch/unix/gui/uivicii.c:90 src/arch/amigaos/intl_text.c.po.c:12034
+#: src/arch/unix/gui/uivicii.c:90 src/arch/amigaos/intl_text.c.po.c:12033
 msgid "Full"
 msgstr "가득"
 
 #: src/arch/unix/gui/uited.c:178 src/arch/unix/gui/uivic.c:181
 #: src/arch/unix/gui/uivicii.c:215 src/arch/win32/rested.rc.po.c:34
 #: src/arch/win32/resvic.rc.po.c:34 src/arch/win32/resvicii.rc.po.c:83
-#: src/arch/amigaos/intl_text.c.po.c:12006
+#: src/arch/amigaos/intl_text.c.po.c:12005
 msgid "Border mode"
 msgstr "보더 모드"
 
@@ -4250,22 +4250,22 @@ msgid "64KB video memory"
 msgstr "64KB 비디오 메모리"
 
 #: src/arch/unix/gui/uivic.c:174 src/arch/amigaos/intl_text.c.po.c:3253
-#: src/arch/amigaos/intl_text.c.po.c:8618
+#: src/arch/amigaos/intl_text.c.po.c:8617
 msgid "Color settings"
 msgstr ""
 
 #: src/arch/unix/gui/uivicii.c:207 src/arch/win32/resvicii.rc.po.c:91
-#: src/arch/amigaos/intl_text.c.po.c:9598
+#: src/arch/amigaos/intl_text.c.po.c:9597
 msgid "New luminances"
 msgstr "세로운 밝기"
 
 #: src/arch/unix/gui/uivicii.c:220 src/arch/win32/resvicii.rc.po.c:89
-#: src/arch/amigaos/intl_text.c.po.c:9570
+#: src/arch/amigaos/intl_text.c.po.c:9569
 msgid "Sprite-sprite collisions"
 msgstr "스프라이트-스프라이트 충돌"
 
 #: src/arch/unix/gui/uivicii.c:222 src/arch/win32/resvicii.rc.po.c:90
-#: src/arch/amigaos/intl_text.c.po.c:9584
+#: src/arch/amigaos/intl_text.c.po.c:9583
 msgid "Sprite-background collisions"
 msgstr "스프라이트-배경 충돌"
 
@@ -4411,7 +4411,7 @@ msgstr "이더넷 에뮬레이터 (MasC=uerade)"
 
 #: src/arch/unix/gui/vic20ui.c:528 src/arch/win32/resvic.rc.po.c:33
 #: src/arch/win32/resvic20.rc.po.c:588 src/arch/amigaos/intl_text.c.po.c:3449
-#: src/arch/amigaos/intl_text.c.po.c:9626
+#: src/arch/amigaos/intl_text.c.po.c:9625
 msgid "VIC settings"
 msgstr "VIC 셋팅"
 
@@ -4552,7 +4552,7 @@ msgid "Paste"
 msgstr "붙여넣기"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:56 src/arch/win32/res.rc.po.c:1278
-#: src/arch/win32/respet.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:11138
+#: src/arch/win32/respet.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:11137
 msgid "Keyboard"
 msgstr "키보드"
 
@@ -4636,48 +4636,48 @@ msgid "Client"
 msgstr "클라이언트"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:65 src/arch/win32/res.rc.po.c:1211
-#: src/arch/amigaos/intl_text.c.po.c:10956
+#: src/arch/amigaos/intl_text.c.po.c:10955
 msgid "Brightness"
 msgstr "밝기"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:66 src/arch/win32/res.rc.po.c:1210
-#: src/arch/amigaos/intl_text.c.po.c:10942
+#: src/arch/amigaos/intl_text.c.po.c:10941
 msgid "Contrast"
 msgstr "명암"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:67 src/arch/win32/res.rc.po.c:1209
-#: src/arch/amigaos/intl_text.c.po.c:10928
+#: src/arch/amigaos/intl_text.c.po.c:10927
 msgid "Saturation"
 msgstr "포화도"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:68 src/arch/win32/res.rc.po.c:1208
-#: src/arch/amigaos/intl_text.c.po.c:10746
+#: src/arch/amigaos/intl_text.c.po.c:10745
 msgid "Tint"
 msgstr "틴트"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:69 src/arch/win32/res.rc.po.c:1207
-#: src/arch/amigaos/intl_text.c.po.c:10704
+#: src/arch/amigaos/intl_text.c.po.c:10703
 msgid "Gamma"
 msgstr "감마"
 
 #. PAL/CRT related settings
 #: src/arch/unix/x11/gnome/uipalcontrol.c:71 src/arch/win32/res.rc.po.c:1213
-#: src/arch/amigaos/intl_text.c.po.c:10732
+#: src/arch/amigaos/intl_text.c.po.c:10731
 msgid "Blur"
 msgstr "흐릿함"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:72 src/arch/win32/res.rc.po.c:1212
-#: src/arch/amigaos/intl_text.c.po.c:10718
+#: src/arch/amigaos/intl_text.c.po.c:10717
 msgid "Scanline shade"
 msgstr "주사선 가리게"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:73 src/arch/win32/res.rc.po.c:1214
-#: src/arch/amigaos/intl_text.c.po.c:10760
+#: src/arch/amigaos/intl_text.c.po.c:10759
 msgid "Odd lines phase"
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:74 src/arch/win32/res.rc.po.c:1215
-#: src/arch/amigaos/intl_text.c.po.c:10774
+#: src/arch/amigaos/intl_text.c.po.c:10773
 msgid "Odd lines offset"
 msgstr "홀수 라인 오프셋"
 
@@ -4716,7 +4716,7 @@ msgstr ""
 #. leading space instead
 #: src/arch/unix/x11/gnome/uipalcontrol.c:238
 #: src/arch/amigaos/intl_text.c.po.c:3281
-#: src/arch/amigaos/intl_text.c.po.c:8646
+#: src/arch/amigaos/intl_text.c.po.c:8645
 msgid "CRT emulation settings"
 msgstr "케토드 레이 터미널 설정"
 
@@ -4874,13 +4874,13 @@ msgstr "스냅샷 옵션"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:54
 #: src/arch/unix/x11/xaw/uisnapshot.c:143 src/arch/win32/res.rc.po.c:1190
-#: src/arch/amigaos/intl_text.c.po.c:10564
+#: src/arch/amigaos/intl_text.c.po.c:10563
 msgid "Save currently attached disk images"
 msgstr "현제 붙어있는 디스크 이미지 저장"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:58
 #: src/arch/unix/x11/xaw/uisnapshot.c:144 src/arch/win32/res.rc.po.c:1191
-#: src/arch/amigaos/intl_text.c.po.c:10578
+#: src/arch/amigaos/intl_text.c.po.c:10577
 msgid "Save currently loaded ROM images"
 msgstr "현제 불러오기 된 ROM 이미지 저장"
 
@@ -5340,7 +5340,7 @@ msgid "Settings loaded successfully."
 msgstr "셋팅이 성공적으로 불러오기 됬습니다"
 
 #: src/arch/win32/res.rc.po.c:921 src/arch/win32/res.rc.po.c:1377
-#: src/arch/amigaos/intl_text.c.po.c:19 src/arch/amigaos/intl_text.c.po.c:9668
+#: src/arch/amigaos/intl_text.c.po.c:19 src/arch/amigaos/intl_text.c.po.c:9667
 msgid "Autostart disk/tape image"
 msgstr "자동 시작 디스크/테이프 이미지"
 
@@ -5361,11 +5361,11 @@ msgstr "VICE 콘솔 로깅 파일 (*.dbg)"
 msgid "Cannot write log file `%s'."
 msgstr "로그 파일  '%s' 를 쓸수 없습니다."
 
-#: src/arch/win32/res.rc.po.c:929 src/arch/amigaos/intl_text.c.po.c:10396
+#: src/arch/win32/res.rc.po.c:929 src/arch/amigaos/intl_text.c.po.c:10395
 msgid "Cannot read flip list file"
 msgstr "플립 리스트 파일을 읽을수 없습니다"
 
-#: src/arch/win32/res.rc.po.c:931 src/arch/amigaos/intl_text.c.po.c:10424
+#: src/arch/win32/res.rc.po.c:931 src/arch/amigaos/intl_text.c.po.c:10423
 msgid "Cannot write flip list file"
 msgstr "플립 리스트 파일을 쓸수 없습니다"
 
@@ -5485,7 +5485,7 @@ msgstr "주변장치 셋팅"
 msgid "Can't write snapshot file."
 msgstr "스냅샷 파일을 쓸수 없습니다."
 
-#: src/arch/win32/res.rc.po.c:962 src/arch/amigaos/intl_text.c.po.c:10606
+#: src/arch/win32/res.rc.po.c:962 src/arch/amigaos/intl_text.c.po.c:10605
 msgid "Cannot read snapshot image"
 msgstr "스탭샷 파일을 읽을수 없습니다"
 
@@ -5502,7 +5502,7 @@ msgstr "컴퓨터"
 msgid "Drive"
 msgstr "드라이브"
 
-#: src/arch/win32/res.rc.po.c:968 src/arch/amigaos/intl_text.c.po.c:10592
+#: src/arch/win32/res.rc.po.c:968 src/arch/amigaos/intl_text.c.po.c:10591
 #, c-format
 msgid "Cannot write snapshot file `%s'."
 msgstr "스냅샷 파일 `%s' 를 쓸수 없습니다."
@@ -5520,7 +5520,7 @@ msgid "Fullscreen/DirectX"
 msgstr "전체화면/DirectX"
 
 #: src/arch/win32/res.rc.po.c:976 src/arch/win32/res.rc.po.c:1474
-#: src/arch/amigaos/intl_text.c.po.c:10970
+#: src/arch/amigaos/intl_text.c.po.c:10969
 msgid "Video settings"
 msgstr "비디로 셋팅"
 
@@ -5606,7 +5606,7 @@ msgstr "64KB Super Snapshot V5 카트리지 이미지를 붙이세요"
 msgid "Attach raw Structured Basic cartridge image"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:998 src/arch/amigaos/intl_text.c.po.c:10256
+#: src/arch/win32/res.rc.po.c:998 src/arch/amigaos/intl_text.c.po.c:10255
 msgid "Select cartridge file"
 msgstr ""
 
@@ -5976,11 +5976,11 @@ msgstr "서버를 시작하던중 에러가 발생했습니다"
 msgid "An error occured connecting the client."
 msgstr "크라이언트에 접속중 에러가 발생했습니다"
 
-#: src/arch/win32/res.rc.po.c:1127 src/arch/amigaos/intl_text.c.po.c:11852
+#: src/arch/win32/res.rc.po.c:1127 src/arch/amigaos/intl_text.c.po.c:11851
 msgid "Sound Recording stopped"
 msgstr "사운드 레코딩 멈춤"
 
-#: src/arch/win32/res.rc.po.c:1136 src/arch/amigaos/intl_text.c.po.c:12342
+#: src/arch/win32/res.rc.po.c:1136 src/arch/amigaos/intl_text.c.po.c:12341
 msgid "Error saving EasyFlash crt file"
 msgstr "EasyFlash crt 파일 저장 에러가 발생했습니다"
 
@@ -6103,7 +6103,7 @@ msgstr "DirextX 드라이버"
 msgid "WMM driver"
 msgstr "WMM 드라이버"
 
-#: src/arch/win32/res.rc.po.c:1180 src/arch/amigaos/intl_text.c.po.c:12076
+#: src/arch/win32/res.rc.po.c:1180 src/arch/amigaos/intl_text.c.po.c:12075
 msgid "Sound output mode"
 msgstr ""
 
@@ -6277,15 +6277,15 @@ msgstr "외장 팔레트"
 msgid "Initialization at powerup"
 msgstr "전원이 들어오때 초기화를 합니다"
 
-#: src/arch/win32/res.rc.po.c:1249 src/arch/amigaos/intl_text.c.po.c:8352
+#: src/arch/win32/res.rc.po.c:1249 src/arch/amigaos/intl_text.c.po.c:8351
 msgid "Value of first byte"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1250 src/arch/amigaos/intl_text.c.po.c:8366
+#: src/arch/win32/res.rc.po.c:1250 src/arch/amigaos/intl_text.c.po.c:8365
 msgid "Length of constant values"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1251 src/arch/amigaos/intl_text.c.po.c:8380
+#: src/arch/win32/res.rc.po.c:1251 src/arch/amigaos/intl_text.c.po.c:8379
 msgid "Length of constant pattern"
 msgstr ""
 
@@ -6389,15 +6389,15 @@ msgstr "FFMPEG 셋팅"
 msgid "bitrate"
 msgstr "비트 심도"
 
-#: src/arch/win32/res.rc.po.c:1298 src/arch/amigaos/intl_text.c.po.c:11922
+#: src/arch/win32/res.rc.po.c:1298 src/arch/amigaos/intl_text.c.po.c:11921
 msgid "Sound record settings"
 msgstr "사운드 레코드 셋팅"
 
-#: src/arch/win32/res.rc.po.c:1299 src/arch/amigaos/intl_text.c.po.c:11894
+#: src/arch/win32/res.rc.po.c:1299 src/arch/amigaos/intl_text.c.po.c:11893
 msgid "Sound Record Format"
 msgstr "사운드 레코드 포맷"
 
-#: src/arch/win32/res.rc.po.c:1300 src/arch/amigaos/intl_text.c.po.c:11908
+#: src/arch/win32/res.rc.po.c:1300 src/arch/amigaos/intl_text.c.po.c:11907
 msgid "Sound Record File"
 msgstr "사운드 레코드 파일"
 
@@ -6466,7 +6466,7 @@ msgid "DE Pos."
 msgstr "DE Pos."
 
 #: src/arch/win32/res.rc.po.c:1317 src/arch/win32/res.rc.po.c:1337
-#: src/arch/amigaos/intl_text.c.po.c:11096
+#: src/arch/amigaos/intl_text.c.po.c:11095
 msgid "Memory"
 msgstr "메모리"
 
@@ -6528,7 +6528,7 @@ msgstr ""
 #: src/arch/win32/rescbm2.rc.po.c:95 src/arch/win32/rescbm5x0.rc.po.c:95
 #: src/arch/win32/respet.rc.po.c:84 src/arch/win32/resplus4.rc.po.c:97
 #: src/arch/win32/resscpu64.rc.po.c:97 src/arch/win32/resvic20.rc.po.c:105
-#: src/arch/amigaos/intl_text.c.po.c:11614
+#: src/arch/amigaos/intl_text.c.po.c:11613
 msgid "Default CPU JAM action"
 msgstr ""
 
@@ -6550,7 +6550,7 @@ msgstr "선택"
 #: src/arch/win32/resc64dtv.rc.po.c:195 src/arch/win32/rescbm5x0.rc.po.c:211
 #: src/arch/win32/resplus4.rc.po.c:214 src/arch/win32/resscpu64.rc.po.c:214
 #: src/arch/win32/resvic20.rc.po.c:222 src/arch/amigaos/intl_text.c.po.c:3547
-#: src/arch/amigaos/intl_text.c.po.c:12146
+#: src/arch/amigaos/intl_text.c.po.c:12145
 msgid "Mouse settings"
 msgstr "마우스 셋팅"
 
@@ -6727,7 +6727,7 @@ msgstr "가상 디바이스 트랩"
 
 #: src/arch/win32/res.rc.po.c:1472 src/arch/win32/resc64.rc.po.c:553
 #: src/arch/win32/resscpu64.rc.po.c:566 src/arch/amigaos/intl_text.c.po.c:2245
-#: src/arch/amigaos/intl_text.c.po.c:12622
+#: src/arch/amigaos/intl_text.c.po.c:12621
 msgid "C64 model settings"
 msgstr "C64 모델 셋팅"
 
@@ -6740,7 +6740,7 @@ msgid "Sidcart joystick settings"
 msgstr "Sidcart 조이스틱 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1489 src/arch/amigaos/intl_text.c.po.c:3687
-#: src/arch/amigaos/intl_text.c.po.c:8576
+#: src/arch/amigaos/intl_text.c.po.c:8575
 msgid "REU settings"
 msgstr "REU 셋팅"
 
@@ -6753,7 +6753,7 @@ msgstr "GEO-RAM 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1491 src/arch/win32/resramcart.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:3743
-#: src/arch/amigaos/intl_text.c.po.c:8506
+#: src/arch/amigaos/intl_text.c.po.c:8505
 msgid "RamCart settings"
 msgstr "RamCart 셋팅"
 
@@ -6776,24 +6776,24 @@ msgid "ISEPIC settings"
 msgstr "ISEPIC 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1495 src/arch/amigaos/intl_text.c.po.c:3855
-#: src/arch/amigaos/intl_text.c.po.c:10046
+#: src/arch/amigaos/intl_text.c.po.c:10045
 msgid "MMC64 settings"
 msgstr "MMC64 설정"
 
 #: src/arch/win32/res.rc.po.c:1496 src/arch/win32/resmmcreplay.rc.po.c:47
 #: src/arch/amigaos/intl_text.c.po.c:3869
-#: src/arch/amigaos/intl_text.c.po.c:10172
+#: src/arch/amigaos/intl_text.c.po.c:10171
 msgid "MMC Replay settings"
 msgstr "MMC Replay 설정"
 
 #: src/arch/win32/res.rc.po.c:1497 src/arch/amigaos/intl_text.c.po.c:3883
-#: src/arch/amigaos/intl_text.c.po.c:10186
+#: src/arch/amigaos/intl_text.c.po.c:10185
 msgid "Retro Replay settings"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1498 src/arch/win32/resmagicvoice.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:3701
-#: src/arch/amigaos/intl_text.c.po.c:9164
+#: src/arch/amigaos/intl_text.c.po.c:9163
 msgid "Magic Voice settings"
 msgstr "Magic Voice 설정"
 
@@ -6804,20 +6804,20 @@ msgstr "MIDI 설정"
 #: src/arch/win32/res.rc.po.c:1502 src/arch/win32/resdigimax.rc.po.c:22
 #: src/arch/win32/resvic20.rc.po.c:581 src/arch/amigaos/intl_text.c.po.c:3897
 #: src/arch/amigaos/intl_text.c.po.c:3911
-#: src/arch/amigaos/intl_text.c.po.c:11488
+#: src/arch/amigaos/intl_text.c.po.c:11487
 msgid "DigiMAX settings"
 msgstr "DigiMAX 설정"
 
 #: src/arch/win32/res.rc.po.c:1503 src/arch/win32/resds12c887rtc.rc.po.c:26
 #: src/arch/win32/resvic20.rc.po.c:582 src/arch/amigaos/intl_text.c.po.c:3925
 #: src/arch/amigaos/intl_text.c.po.c:3939
-#: src/arch/amigaos/intl_text.c.po.c:11712
+#: src/arch/amigaos/intl_text.c.po.c:11711
 msgid "DS12C887 RTC settings"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1504 src/arch/win32/reside64.rc.po.c:66
 #: src/arch/amigaos/intl_text.c.po.c:3841
-#: src/arch/amigaos/intl_text.c.po.c:9878
+#: src/arch/amigaos/intl_text.c.po.c:9877
 msgid "IDE64 settings"
 msgstr "IDE64 설정"
 
@@ -6835,7 +6835,7 @@ msgstr "ACIA 설정"
 
 #: src/arch/win32/res.rc.po.c:1509 src/arch/win32/resrs232user.rc.po.c:34
 #: src/arch/amigaos/intl_text.c.po.c:4275
-#: src/arch/amigaos/intl_text.c.po.c:9220
+#: src/arch/amigaos/intl_text.c.po.c:9219
 msgid "RS232 userport settings"
 msgstr "RS232 유져포트 설정"
 
@@ -6848,7 +6848,7 @@ msgstr "EasyFlash 설정"
 #: src/arch/win32/res.rc.po.c:1511 src/arch/win32/ressoundexpander.rc.po.c:42
 #: src/arch/win32/resvic20.rc.po.c:586 src/arch/amigaos/intl_text.c.po.c:3953
 #: src/arch/amigaos/intl_text.c.po.c:3967
-#: src/arch/amigaos/intl_text.c.po.c:11768
+#: src/arch/amigaos/intl_text.c.po.c:11767
 msgid "SFX Sound Expander settings"
 msgstr "SFX Sound Expander 설정"
 
@@ -6922,7 +6922,7 @@ msgid "Fullscreen"
 msgstr "전체화면"
 
 #: src/arch/win32/res.rc.po.c:1542 src/arch/amigaos/intl_text.c.po.c:4163
-#: src/arch/amigaos/intl_text.c.po.c:10368
+#: src/arch/amigaos/intl_text.c.po.c:10367
 msgid "SID cart settings"
 msgstr "SID 카트 설정"
 
@@ -7043,7 +7043,7 @@ msgid "Handle true drive emulation"
 msgstr ""
 
 #: src/arch/win32/resautostart.rc.po.c:52
-#: src/arch/amigaos/intl_text.c.po.c:12230
+#: src/arch/amigaos/intl_text.c.po.c:12229
 msgid "Select file for PRG autostart disk"
 msgstr ""
 
@@ -7052,11 +7052,11 @@ msgstr ""
 msgid "VDC revision"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:700 src/arch/amigaos/intl_text.c.po.c:11264
+#: src/arch/win32/resc128.rc.po.c:700 src/arch/amigaos/intl_text.c.po.c:11263
 msgid "Select Internal Function ROM file"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:701 src/arch/amigaos/intl_text.c.po.c:11278
+#: src/arch/win32/resc128.rc.po.c:701 src/arch/amigaos/intl_text.c.po.c:11277
 msgid "Select External Function ROM file"
 msgstr ""
 
@@ -7066,7 +7066,7 @@ msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:705 src/arch/win32/resc128.rc.po.c:744
 #: src/arch/amigaos/intl_text.c.po.c:3659
-#: src/arch/amigaos/intl_text.c.po.c:11404
+#: src/arch/amigaos/intl_text.c.po.c:11403
 msgid "C128 settings"
 msgstr ""
 
@@ -7138,11 +7138,11 @@ msgstr ""
 msgid "Basic C64"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:731 src/arch/amigaos/intl_text.c.po.c:11306
+#: src/arch/win32/resc128.rc.po.c:731 src/arch/amigaos/intl_text.c.po.c:11305
 msgid "Internal Function ROM"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:734 src/arch/amigaos/intl_text.c.po.c:11334
+#: src/arch/win32/resc128.rc.po.c:734 src/arch/amigaos/intl_text.c.po.c:11333
 msgid "External Function ROM"
 msgstr ""
 
@@ -7163,27 +7163,27 @@ msgid "C128 model settings"
 msgstr ""
 
 #: src/arch/win32/resc64.rc.po.c:546 src/arch/win32/resscpu64.rc.po.c:559
-#: src/arch/amigaos/intl_text.c.po.c:12398
+#: src/arch/amigaos/intl_text.c.po.c:12397
 msgid "6569 (PAL)"
 msgstr ""
 
 #: src/arch/win32/resc64.rc.po.c:547 src/arch/win32/resscpu64.rc.po.c:560
-#: src/arch/amigaos/intl_text.c.po.c:12412
+#: src/arch/amigaos/intl_text.c.po.c:12411
 msgid "8565 (PAL)"
 msgstr ""
 
 #: src/arch/win32/resc64.rc.po.c:549 src/arch/win32/resscpu64.rc.po.c:562
-#: src/arch/amigaos/intl_text.c.po.c:12440
+#: src/arch/amigaos/intl_text.c.po.c:12439
 msgid "6567 (NTSC)"
 msgstr ""
 
 #: src/arch/win32/resc64.rc.po.c:550 src/arch/win32/resscpu64.rc.po.c:563
-#: src/arch/amigaos/intl_text.c.po.c:12454
+#: src/arch/amigaos/intl_text.c.po.c:12453
 msgid "8562 (NTSC)"
 msgstr ""
 
 #: src/arch/win32/resc64.rc.po.c:552 src/arch/win32/resscpu64.rc.po.c:565
-#: src/arch/amigaos/intl_text.c.po.c:12482
+#: src/arch/amigaos/intl_text.c.po.c:12481
 msgid "6572 (PAL-N)"
 msgstr ""
 
@@ -7253,7 +7253,7 @@ msgstr ""
 #: src/arch/win32/resc64.rc.po.c:571
 #: src/arch/win32/resc64memoryhacks.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:3799
-#: src/arch/amigaos/intl_text.c.po.c:8338
+#: src/arch/amigaos/intl_text.c.po.c:8337
 msgid "Memory expansion hacks settings"
 msgstr ""
 
@@ -7317,7 +7317,7 @@ msgid "True flash filesystem"
 msgstr ""
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:50
-#: src/arch/amigaos/intl_text.c.po.c:8282
+#: src/arch/amigaos/intl_text.c.po.c:8281
 msgid "Memory expansion hack device"
 msgstr ""
 
@@ -7455,7 +7455,7 @@ msgid "Enable the DigiMAX cartridge"
 msgstr ""
 
 #: src/arch/win32/resdigimax.rc.po.c:24
-#: src/arch/amigaos/intl_text.c.po.c:11474
+#: src/arch/amigaos/intl_text.c.po.c:11473
 msgid "DigiMAX base"
 msgstr ""
 
@@ -7480,12 +7480,12 @@ msgid "Start with running oscillator"
 msgstr ""
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:29
-#: src/arch/amigaos/intl_text.c.po.c:11684
+#: src/arch/amigaos/intl_text.c.po.c:11683
 msgid "DS12C887 RTC base"
 msgstr ""
 
 #: src/arch/win32/reseasyflash.rc.po.c:30
-#: src/arch/amigaos/intl_text.c.po.c:12356
+#: src/arch/amigaos/intl_text.c.po.c:12355
 msgid "EasyFlash jumper"
 msgstr ""
 
@@ -7529,19 +7529,19 @@ msgstr ""
 msgid "IDE64 V4 settings"
 msgstr ""
 
-#: src/arch/win32/reside64.rc.po.c:62 src/arch/amigaos/intl_text.c.po.c:9710
+#: src/arch/win32/reside64.rc.po.c:62 src/arch/amigaos/intl_text.c.po.c:9709
 msgid "IDE64 primary master device settings"
 msgstr ""
 
-#: src/arch/win32/reside64.rc.po.c:63 src/arch/amigaos/intl_text.c.po.c:9724
+#: src/arch/win32/reside64.rc.po.c:63 src/arch/amigaos/intl_text.c.po.c:9723
 msgid "IDE64 primary slave device settings"
 msgstr ""
 
-#: src/arch/win32/reside64.rc.po.c:64 src/arch/amigaos/intl_text.c.po.c:9738
+#: src/arch/win32/reside64.rc.po.c:64 src/arch/amigaos/intl_text.c.po.c:9737
 msgid "IDE64 secondary master device settings"
 msgstr ""
 
-#: src/arch/win32/reside64.rc.po.c:65 src/arch/amigaos/intl_text.c.po.c:9752
+#: src/arch/win32/reside64.rc.po.c:65 src/arch/amigaos/intl_text.c.po.c:9751
 msgid "IDE64 secondary slave device settings"
 msgstr ""
 
@@ -7603,7 +7603,7 @@ msgid "Enable Magic Voice"
 msgstr ""
 
 #: src/arch/win32/resmagicvoice.rc.po.c:27
-#: src/arch/amigaos/intl_text.c.po.c:9150
+#: src/arch/amigaos/intl_text.c.po.c:9149
 msgid "Select file for Magic Voice"
 msgstr ""
 
@@ -7619,7 +7619,7 @@ msgstr ""
 msgid "Enable the MMC64 expansion"
 msgstr ""
 
-#: src/arch/win32/resmmc64.rc.po.c:53 src/arch/amigaos/intl_text.c.po.c:9892
+#: src/arch/win32/resmmc64.rc.po.c:53 src/arch/amigaos/intl_text.c.po.c:9891
 msgid "BIOS Revision"
 msgstr ""
 
@@ -7627,29 +7627,29 @@ msgstr ""
 msgid "Enable BIOS Flash Jumper"
 msgstr ""
 
-#: src/arch/win32/resmmc64.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:9948
+#: src/arch/win32/resmmc64.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:9947
 msgid "Save BIOS when changed"
 msgstr ""
 
-#: src/arch/win32/resmmc64.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:9962
+#: src/arch/win32/resmmc64.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:9961
 msgid "BIOS File"
 msgstr ""
 
-#: src/arch/win32/resmmc64.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:9990
+#: src/arch/win32/resmmc64.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:9989
 msgid "MMC/SD Image read-only"
 msgstr ""
 
-#: src/arch/win32/resmmc64.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:10004
+#: src/arch/win32/resmmc64.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:10003
 msgid "MMC/SD Image File"
 msgstr ""
 
 #: src/arch/win32/resmmcreplay.rc.po.c:50
-#: src/arch/amigaos/intl_text.c.po.c:10158
+#: src/arch/amigaos/intl_text.c.po.c:10157
 msgid "Rescue mode"
 msgstr ""
 
 #: src/arch/win32/resmmcreplay.rc.po.c:52
-#: src/arch/amigaos/intl_text.c.po.c:8408
+#: src/arch/amigaos/intl_text.c.po.c:8407
 msgid "read/write"
 msgstr "읽기/쓰기"
 
@@ -7679,7 +7679,7 @@ msgstr "입력/출력"
 
 #: src/arch/win32/respet.rc.po.c:505 src/arch/win32/respet.rc.po.c:527
 #: src/arch/amigaos/intl_text.c.po.c:3337
-#: src/arch/amigaos/intl_text.c.po.c:11208
+#: src/arch/amigaos/intl_text.c.po.c:11207
 msgid "PET settings"
 msgstr ""
 
@@ -7707,11 +7707,11 @@ msgstr "비디오"
 msgid "IO Size"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:11026
+#: src/arch/win32/respet.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:11025
 msgid "256 Byte"
 msgstr "256 byte"
 
-#: src/arch/win32/respet.rc.po.c:516 src/arch/amigaos/intl_text.c.po.c:11040
+#: src/arch/win32/respet.rc.po.c:516 src/arch/amigaos/intl_text.c.po.c:11039
 msgid "2 kByte"
 msgstr "2 kbyte"
 
@@ -7719,11 +7719,11 @@ msgstr "2 kbyte"
 msgid "IO Settings"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:11180
+#: src/arch/win32/respet.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:11179
 msgid "$9*** as RAM"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:11194
+#: src/arch/win32/respet.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:11193
 msgid "$A*** as RAM"
 msgstr ""
 
@@ -7734,13 +7734,13 @@ msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:529 src/arch/win32/respetdww.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4177
-#: src/arch/amigaos/intl_text.c.po.c:8268
+#: src/arch/amigaos/intl_text.c.po.c:8267
 msgid "PET DWW settings"
 msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:530 src/arch/win32/respetreu.rc.po.c:37
 #: src/arch/amigaos/intl_text.c.po.c:4135
-#: src/arch/amigaos/intl_text.c.po.c:8114
+#: src/arch/amigaos/intl_text.c.po.c:8113
 msgid "PET REU settings"
 msgstr ""
 
@@ -7758,7 +7758,7 @@ msgid "PET model settings"
 msgstr "PET 모델 셋팅"
 
 #: src/arch/win32/respetcolour.rc.po.c:27
-#: src/arch/amigaos/intl_text.c.po.c:8142
+#: src/arch/amigaos/intl_text.c.po.c:8141
 msgid "Analog"
 msgstr ""
 
@@ -7770,7 +7770,7 @@ msgstr ""
 msgid "Enable the PET DWW hi-res board"
 msgstr ""
 
-#: src/arch/win32/respetdww.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:8254
+#: src/arch/win32/respetdww.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:8253
 msgid "Select file for PET DWW"
 msgstr ""
 
@@ -7778,41 +7778,41 @@ msgstr ""
 msgid "Enable the PET Ram and Expansion Unit"
 msgstr ""
 
-#: src/arch/win32/respetreu.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:8072
+#: src/arch/win32/respetreu.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:8071
 msgid "PET REU size"
 msgstr ""
 
-#: src/arch/win32/respetreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:8100
+#: src/arch/win32/respetreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:8099
 msgid "Select file for PET REU"
 msgstr ""
 
 #: src/arch/win32/resplus4.rc.po.c:395 src/arch/win32/resplus4.rc.po.c:490
 #: src/arch/win32/resplus4.rc.po.c:505 src/arch/amigaos/intl_text.c.po.c:3407
-#: src/arch/amigaos/intl_text.c.po.c:11250
+#: src/arch/amigaos/intl_text.c.po.c:11249
 msgid "Plus4 settings"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:482 src/arch/amigaos/intl_text.c.po.c:10438
+#: src/arch/win32/resplus4.rc.po.c:482 src/arch/amigaos/intl_text.c.po.c:10437
 msgid "Attach cartridge image for Cartridge0 Low"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:483 src/arch/amigaos/intl_text.c.po.c:10452
+#: src/arch/win32/resplus4.rc.po.c:483 src/arch/amigaos/intl_text.c.po.c:10451
 msgid "Attach cartridge image for Cartridge0 High"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:484 src/arch/amigaos/intl_text.c.po.c:10466
+#: src/arch/win32/resplus4.rc.po.c:484 src/arch/amigaos/intl_text.c.po.c:10465
 msgid "Attach cartridge image for Cartridge1 Low"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:485 src/arch/amigaos/intl_text.c.po.c:10480
+#: src/arch/win32/resplus4.rc.po.c:485 src/arch/amigaos/intl_text.c.po.c:10479
 msgid "Attach cartridge image for Cartridge1 High"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:486 src/arch/amigaos/intl_text.c.po.c:10494
+#: src/arch/win32/resplus4.rc.po.c:486 src/arch/amigaos/intl_text.c.po.c:10493
 msgid "Attach cartridge image for Cartridge2 Low"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:487 src/arch/amigaos/intl_text.c.po.c:10508
+#: src/arch/win32/resplus4.rc.po.c:487 src/arch/amigaos/intl_text.c.po.c:10507
 msgid "Attach cartridge image for Cartridge2 High"
 msgstr ""
 
@@ -7878,7 +7878,7 @@ msgstr ""
 
 #: src/arch/win32/resplus4.rc.po.c:506 src/arch/win32/resv364speech.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4149
-#: src/arch/amigaos/intl_text.c.po.c:8226
+#: src/arch/amigaos/intl_text.c.po.c:8225
 msgid "V364 Speech settings"
 msgstr ""
 
@@ -7894,7 +7894,7 @@ msgstr ""
 msgid "Enable the RamCart expansion"
 msgstr ""
 
-#: src/arch/win32/resramcart.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:8450
+#: src/arch/win32/resramcart.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:8449
 msgid "RamCart size"
 msgstr ""
 
@@ -7902,7 +7902,7 @@ msgstr ""
 msgid "Save to RamCart image when changed"
 msgstr ""
 
-#: src/arch/win32/resramcart.rc.po.c:47 src/arch/amigaos/intl_text.c.po.c:8492
+#: src/arch/win32/resramcart.rc.po.c:47 src/arch/amigaos/intl_text.c.po.c:8491
 msgid "Select file for RamCart"
 msgstr ""
 
@@ -7926,15 +7926,15 @@ msgstr ""
 msgid "Enable the RAM Expansion Unit"
 msgstr ""
 
-#: src/arch/win32/resreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:8520
+#: src/arch/win32/resreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:8519
 msgid "REU size"
 msgstr ""
 
-#: src/arch/win32/resreu.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:8548
+#: src/arch/win32/resreu.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:8547
 msgid "Save REU image when changed"
 msgstr ""
 
-#: src/arch/win32/resreu.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:8562
+#: src/arch/win32/resreu.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:8561
 msgid "Select file for REU"
 msgstr ""
 
@@ -7952,12 +7952,12 @@ msgstr ""
 
 #: src/arch/win32/resscpu64.rc.po.c:570 src/arch/win32/resscpu64.rc.po.c:575
 #: src/arch/amigaos/intl_text.c.po.c:3435
-#: src/arch/amigaos/intl_text.c.po.c:11838
+#: src/arch/amigaos/intl_text.c.po.c:11837
 msgid "SuperCPU64 settings"
 msgstr ""
 
 #: src/arch/win32/resscpu64.rc.po.c:571
-#: src/arch/amigaos/intl_text.c.po.c:11824
+#: src/arch/amigaos/intl_text.c.po.c:11823
 msgid "SIMM size"
 msgstr ""
 
@@ -7994,20 +7994,20 @@ msgid "reSID options"
 msgstr ""
 
 #: src/arch/win32/ressid.rc.po.c:91 src/arch/win32/ressiddtv.rc.po.c:61
-#: src/arch/amigaos/intl_text.c.po.c:9360
+#: src/arch/amigaos/intl_text.c.po.c:9359
 msgid "Sample method"
 msgstr ""
 
 #: src/arch/win32/ressid.rc.po.c:92 src/arch/win32/ressiddtv.rc.po.c:62
-#: src/arch/amigaos/intl_text.c.po.c:9374
+#: src/arch/amigaos/intl_text.c.po.c:9373
 msgid "Passband"
 msgstr ""
 
-#: src/arch/win32/ressid.rc.po.c:93 src/arch/amigaos/intl_text.c.po.c:9388
+#: src/arch/win32/ressid.rc.po.c:93 src/arch/amigaos/intl_text.c.po.c:9387
 msgid "Gain"
 msgstr ""
 
-#: src/arch/win32/ressid.rc.po.c:94 src/arch/amigaos/intl_text.c.po.c:9402
+#: src/arch/win32/ressid.rc.po.c:94 src/arch/amigaos/intl_text.c.po.c:9401
 msgid "Filter bias"
 msgstr ""
 
@@ -8045,7 +8045,7 @@ msgstr ""
 
 #: src/arch/win32/ressoundsampler.rc.po.c:20
 #: src/arch/win32/resvic20.rc.po.c:587 src/arch/amigaos/intl_text.c.po.c:3981
-#: src/arch/amigaos/intl_text.c.po.c:11782
+#: src/arch/amigaos/intl_text.c.po.c:11781
 msgid "SFX Sound Sampler settings"
 msgstr ""
 
@@ -8086,7 +8086,7 @@ msgid "Enable the v364 speech add-on"
 msgstr ""
 
 #: src/arch/win32/resv364speech.rc.po.c:26
-#: src/arch/amigaos/intl_text.c.po.c:8198
+#: src/arch/amigaos/intl_text.c.po.c:8197
 msgid "V364 Speech ROM file"
 msgstr ""
 
@@ -8096,7 +8096,7 @@ msgstr ""
 
 #: src/arch/win32/resvic20.rc.po.c:539 src/arch/win32/resvic20.rc.po.c:574
 #: src/arch/amigaos/intl_text.c.po.c:3295
-#: src/arch/amigaos/intl_text.c.po.c:9556
+#: src/arch/amigaos/intl_text.c.po.c:9555
 msgid "VIC20 settings"
 msgstr ""
 
@@ -8104,19 +8104,19 @@ msgstr ""
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:552 src/arch/amigaos/intl_text.c.po.c:10200
+#: src/arch/win32/resvic20.rc.po.c:552 src/arch/amigaos/intl_text.c.po.c:10199
 msgid "Select generic cartridge image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:553 src/arch/amigaos/intl_text.c.po.c:10228
+#: src/arch/win32/resvic20.rc.po.c:553 src/arch/amigaos/intl_text.c.po.c:10227
 msgid "Select Mega-Cart image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:554 src/arch/amigaos/intl_text.c.po.c:10242
+#: src/arch/win32/resvic20.rc.po.c:554 src/arch/amigaos/intl_text.c.po.c:10241
 msgid "Select Final Expansion image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:555 src/arch/amigaos/intl_text.c.po.c:10214
+#: src/arch/win32/resvic20.rc.po.c:555 src/arch/amigaos/intl_text.c.po.c:10213
 msgid "Select Vic Flash Plugin image"
 msgstr ""
 
@@ -8216,7 +8216,7 @@ msgid "Previous tune"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:131
-#: src/arch/amigaos/intl_text.c.po.c:11628
+#: src/arch/amigaos/intl_text.c.po.c:11627
 msgid "CPU JAM action settings"
 msgstr ""
 
@@ -8505,12 +8505,12 @@ msgid "TED video settings"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:3239
-#: src/arch/amigaos/intl_text.c.po.c:8604
+#: src/arch/amigaos/intl_text.c.po.c:8603
 msgid "Palette settings"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:3267
-#: src/arch/amigaos/intl_text.c.po.c:8632
+#: src/arch/amigaos/intl_text.c.po.c:8631
 msgid "Render filter settings"
 msgstr ""
 
@@ -8523,12 +8523,12 @@ msgid "Joystick fire button selection"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:3603
-#: src/arch/amigaos/intl_text.c.po.c:11432
+#: src/arch/amigaos/intl_text.c.po.c:11431
 msgid "Computer ROM settings"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:3617
-#: src/arch/amigaos/intl_text.c.po.c:11446
+#: src/arch/amigaos/intl_text.c.po.c:11445
 msgid "Drive ROM settings"
 msgstr ""
 
@@ -8549,7 +8549,7 @@ msgid "Enable saving the Userport RTC data"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:4051
-#: src/arch/amigaos/intl_text.c.po.c:8590
+#: src/arch/amigaos/intl_text.c.po.c:8589
 msgid "Drive burst modification settings"
 msgstr ""
 
@@ -8890,377 +8890,377 @@ msgstr ""
 msgid "Disable video overlay."
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8128
+#: src/arch/amigaos/intl_text.c.po.c:8127
 msgid "RGBI"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8184
+#: src/arch/amigaos/intl_text.c.po.c:8183
 msgid "PET Colour settings"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8212
+#: src/arch/amigaos/intl_text.c.po.c:8211
 msgid "Select file for V364 Speech"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8296
+#: src/arch/amigaos/intl_text.c.po.c:8295
 msgid "PLUS60K base address"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8310
+#: src/arch/amigaos/intl_text.c.po.c:8309
 msgid "PLUS60K file"
 msgstr "PLUS60K 파일"
 
-#: src/arch/amigaos/intl_text.c.po.c:8324
+#: src/arch/amigaos/intl_text.c.po.c:8323
 msgid "Select file for PLUS60K"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8436
+#: src/arch/amigaos/intl_text.c.po.c:8435
 msgid "RamCart Read/Write"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8478
+#: src/arch/amigaos/intl_text.c.po.c:8477
 msgid "Save RamCart image when changed"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8660
-#: src/arch/amigaos/intl_text.c.po.c:10858
+#: src/arch/amigaos/intl_text.c.po.c:8659
+#: src/arch/amigaos/intl_text.c.po.c:10857
 msgid "VICII palette file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8674
-#: src/arch/amigaos/intl_text.c.po.c:10872
+#: src/arch/amigaos/intl_text.c.po.c:8673
+#: src/arch/amigaos/intl_text.c.po.c:10871
 msgid "VIC palette file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8688
-#: src/arch/amigaos/intl_text.c.po.c:10900
+#: src/arch/amigaos/intl_text.c.po.c:8687
+#: src/arch/amigaos/intl_text.c.po.c:10899
 msgid "VDC palette file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8702
-#: src/arch/amigaos/intl_text.c.po.c:10914
+#: src/arch/amigaos/intl_text.c.po.c:8701
+#: src/arch/amigaos/intl_text.c.po.c:10913
 msgid "CRTC palette file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8716
-#: src/arch/amigaos/intl_text.c.po.c:10886
+#: src/arch/amigaos/intl_text.c.po.c:8715
+#: src/arch/amigaos/intl_text.c.po.c:10885
 msgid "TED palette file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8856
+#: src/arch/amigaos/intl_text.c.po.c:8855
 msgid "Printer #4 output type"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8870
+#: src/arch/amigaos/intl_text.c.po.c:8869
 msgid "Printer #5 output type"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8884
+#: src/arch/amigaos/intl_text.c.po.c:8883
 msgid "Printer #6 output type"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8898
+#: src/arch/amigaos/intl_text.c.po.c:8897
 msgid "Userport printer output type"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8912
+#: src/arch/amigaos/intl_text.c.po.c:8911
 msgid "Printer #4 output device"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8926
+#: src/arch/amigaos/intl_text.c.po.c:8925
 msgid "Printer #5 output device"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8940
+#: src/arch/amigaos/intl_text.c.po.c:8939
 msgid "Printer #6 output device"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8954
+#: src/arch/amigaos/intl_text.c.po.c:8953
 msgid "Userport printer output device"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8968
+#: src/arch/amigaos/intl_text.c.po.c:8967
 msgid "Send formfeed to printer #4"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8982
+#: src/arch/amigaos/intl_text.c.po.c:8981
 msgid "Send formfeed to printer #5"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8996
+#: src/arch/amigaos/intl_text.c.po.c:8995
 msgid "Send formfeed to printer #6"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9010
+#: src/arch/amigaos/intl_text.c.po.c:9009
 msgid "Send formfeed to userport printer"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9024
+#: src/arch/amigaos/intl_text.c.po.c:9023
 msgid "Printer device #1 output"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9038
+#: src/arch/amigaos/intl_text.c.po.c:9037
 msgid "Printer device #2 output"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9052
+#: src/arch/amigaos/intl_text.c.po.c:9051
 msgid "Printer device #3 output"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9066
+#: src/arch/amigaos/intl_text.c.po.c:9065
 msgid "IEC emulation for printer #4"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9080
+#: src/arch/amigaos/intl_text.c.po.c:9079
 msgid "IEC emulation for printer #5"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9094
+#: src/arch/amigaos/intl_text.c.po.c:9093
 msgid "IEC emulation for printer #6"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9108
+#: src/arch/amigaos/intl_text.c.po.c:9107
 msgid "IEC emulation for device #7"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9178
+#: src/arch/amigaos/intl_text.c.po.c:9177
 msgid "Userport RS232"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9290
+#: src/arch/amigaos/intl_text.c.po.c:9289
 msgid "SID Stereo"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9304
+#: src/arch/amigaos/intl_text.c.po.c:9303
 msgid "Amount of extra sids"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9318
+#: src/arch/amigaos/intl_text.c.po.c:9317
 msgid "Stereo SID at"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9332
+#: src/arch/amigaos/intl_text.c.po.c:9331
 msgid "Triple SID at"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9416
+#: src/arch/amigaos/intl_text.c.po.c:9415
 msgid "Not implemented yet!"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9528
+#: src/arch/amigaos/intl_text.c.po.c:9527
 msgid "Speed Adjustment"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9682
+#: src/arch/amigaos/intl_text.c.po.c:9681
 msgid "HD image file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9696
+#: src/arch/amigaos/intl_text.c.po.c:9695
 msgid "Select HD image file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9766
+#: src/arch/amigaos/intl_text.c.po.c:9765
 msgid "IDE64 version"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9780
+#: src/arch/amigaos/intl_text.c.po.c:9779
 msgid "USB Server"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9794
+#: src/arch/amigaos/intl_text.c.po.c:9793
 msgid "USB Server address to bind to"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9808
+#: src/arch/amigaos/intl_text.c.po.c:9807
 msgid "Enable saving of the IDE64 RTC data"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9906
-#: src/arch/amigaos/intl_text.c.po.c:9920
+#: src/arch/amigaos/intl_text.c.po.c:9905
+#: src/arch/amigaos/intl_text.c.po.c:9919
 msgid "BIOS Flash Jumper"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9934
+#: src/arch/amigaos/intl_text.c.po.c:9933
 msgid "Bank jumper"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9976
+#: src/arch/amigaos/intl_text.c.po.c:9975
 msgid "Select BIOS file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10032
+#: src/arch/amigaos/intl_text.c.po.c:10031
 msgid "Select MMC/SD image file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10060
+#: src/arch/amigaos/intl_text.c.po.c:10059
 msgid "Select EEPROM file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10074
+#: src/arch/amigaos/intl_text.c.po.c:10073
 msgid "Select card image file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10102
+#: src/arch/amigaos/intl_text.c.po.c:10101
 msgid "Card read/write"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10130
+#: src/arch/amigaos/intl_text.c.po.c:10129
 msgid "Save EEPROM image when changed"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10144
+#: src/arch/amigaos/intl_text.c.po.c:10143
 msgid "EEPROM read/write"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10284
+#: src/arch/amigaos/intl_text.c.po.c:10283
 msgid "SID engine and model"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10298
+#: src/arch/amigaos/intl_text.c.po.c:10297
 msgid "SID engine"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10620
+#: src/arch/amigaos/intl_text.c.po.c:10619
 msgid "snapshot file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10634
+#: src/arch/amigaos/intl_text.c.po.c:10633
 msgid "Select snapshot file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10690
+#: src/arch/amigaos/intl_text.c.po.c:10689
 msgid "Select External Palette file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10788
+#: src/arch/amigaos/intl_text.c.po.c:10787
 msgid "External VICII palette"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10802
+#: src/arch/amigaos/intl_text.c.po.c:10801
 msgid "External VIC palette"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10816
+#: src/arch/amigaos/intl_text.c.po.c:10815
 msgid "External TED palette"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10830
+#: src/arch/amigaos/intl_text.c.po.c:10829
 msgid "External VDC palette"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:10844
+#: src/arch/amigaos/intl_text.c.po.c:10843
 msgid "External CRTC palette"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11068
+#: src/arch/amigaos/intl_text.c.po.c:11067
 msgid "Text"
 msgstr "텍스트"
 
-#: src/arch/amigaos/intl_text.c.po.c:11152
+#: src/arch/amigaos/intl_text.c.po.c:11151
 msgid "CRTC chip"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11222
+#: src/arch/amigaos/intl_text.c.po.c:11221
 msgid "Current Model"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11236
+#: src/arch/amigaos/intl_text.c.po.c:11235
 msgid "PET Model"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11362
+#: src/arch/amigaos/intl_text.c.po.c:11361
 msgid "RAM banks 2 & 3"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11376
+#: src/arch/amigaos/intl_text.c.po.c:11375
 msgid "Enable Internal Function RTC data saving"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11390
+#: src/arch/amigaos/intl_text.c.po.c:11389
 msgid "Enable External Function RTC data saving"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11418
+#: src/arch/amigaos/intl_text.c.po.c:11417
 msgid "Select ROM file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11460
+#: src/arch/amigaos/intl_text.c.po.c:11459
 msgid "DigiMAX Enabled"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11642
+#: src/arch/amigaos/intl_text.c.po.c:11641
 msgid "Drive sound enabled"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11656
+#: src/arch/amigaos/intl_text.c.po.c:11655
 msgid "Drive sound settings"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11670
+#: src/arch/amigaos/intl_text.c.po.c:11669
 msgid "DS12C887 RTC Enabled"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11698
+#: src/arch/amigaos/intl_text.c.po.c:11697
 msgid "Enable DS12C887 RTC data saving"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11726
+#: src/arch/amigaos/intl_text.c.po.c:11725
 msgid "SFX Sound Expander Enabled"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11740
+#: src/arch/amigaos/intl_text.c.po.c:11739
 msgid "SFX Sound Expander Chip"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11754
+#: src/arch/amigaos/intl_text.c.po.c:11753
 msgid "SFX Sound Sampler Enabled"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11796
+#: src/arch/amigaos/intl_text.c.po.c:11795
 msgid "Jiffy switch enabled"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11810
+#: src/arch/amigaos/intl_text.c.po.c:11809
 msgid "Speed switch enabled"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11880
+#: src/arch/amigaos/intl_text.c.po.c:11879
 msgid "Select Sound Record File"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:12062
+#: src/arch/amigaos/intl_text.c.po.c:12061
 msgid "Volume (0-100%)"
 msgstr "볼륨 (0-100%)"
 
-#: src/arch/amigaos/intl_text.c.po.c:12132
+#: src/arch/amigaos/intl_text.c.po.c:12131
 msgid "Mouse type"
 msgstr "마우스 타입"
 
-#: src/arch/amigaos/intl_text.c.po.c:12160
+#: src/arch/amigaos/intl_text.c.po.c:12159
 msgid "Mouse port"
 msgstr "마우스 포트"
 
-#: src/arch/amigaos/intl_text.c.po.c:12174
+#: src/arch/amigaos/intl_text.c.po.c:12173
 msgid "Enable Smart Mouse RTC saving"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:12370
+#: src/arch/amigaos/intl_text.c.po.c:12369
 msgid "Save to EasyFlash CRT file on detach"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:12384
+#: src/arch/amigaos/intl_text.c.po.c:12383
 msgid "Save to EasyFlash CRT now"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:12608
+#: src/arch/amigaos/intl_text.c.po.c:12607
 msgid "Reset IEC bus with computer"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:12636
+#: src/arch/amigaos/intl_text.c.po.c:12635
 msgid "CIA model settings"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:12650
+#: src/arch/amigaos/intl_text.c.po.c:12649
 msgid "Select SID file to load"
 msgstr ""
 

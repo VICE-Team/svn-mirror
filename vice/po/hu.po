@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-01 10:32-0800\n"
+"POT-Creation-Date: 2015-11-01 12:10-0800\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -252,7 +252,7 @@ msgstr "*Második SID báziscíme"
 #: src/arch/unix/gui/cbm2ui.c:382 src/arch/unix/gui/petui.c:118
 #: src/arch/unix/gui/plus4ui.c:146 src/arch/unix/gui/vic20ui.c:165
 #: src/arch/unix/gui/vsidui.c:240 src/arch/win32/res.rc.po.c:1339
-#: src/arch/amigaos/intl_text.c.po.c:9346
+#: src/arch/amigaos/intl_text.c.po.c:9345
 #, fuzzy
 msgid "SID filters"
 msgstr "SID szûrõk"
@@ -318,7 +318,7 @@ msgstr ""
 msgid "Internal Function ROM type"
 msgstr "Belsõ Function ROM"
 
-#: src/arch/unix/gui/c128ui.c:209 src/arch/amigaos/intl_text.c.po.c:11320
+#: src/arch/unix/gui/c128ui.c:209 src/arch/amigaos/intl_text.c.po.c:11319
 msgid "Internal Function ROM file"
 msgstr "Belsõ Function ROM fájl"
 
@@ -332,7 +332,7 @@ msgstr "Belsõ Function ROM engedélyezése"
 msgid "External Function ROM type"
 msgstr "Belsõ Function ROM"
 
-#: src/arch/unix/gui/c128ui.c:217 src/arch/amigaos/intl_text.c.po.c:11348
+#: src/arch/unix/gui/c128ui.c:217 src/arch/amigaos/intl_text.c.po.c:11347
 msgid "External Function ROM file"
 msgstr "Külsõ Function ROM fájl"
 
@@ -551,14 +551,14 @@ msgstr ""
 #: src/arch/unix/gui/c64scui.c:173 src/arch/unix/gui/c64scui.c:183
 #: src/arch/unix/gui/c64ui.c:245 src/arch/unix/gui/c64ui.c:255
 #: src/arch/unix/gui/cbm2ui.c:266 src/arch/win32/rescia.rc.po.c:51
-#: src/arch/amigaos/intl_text.c.po.c:12496
+#: src/arch/amigaos/intl_text.c.po.c:12495
 #, fuzzy
 msgid "6526 (old)"
 msgstr "6581 (régi)"
 
 #: src/arch/unix/gui/c128ui.c:459 src/arch/unix/gui/c128ui.c:468
 #: src/arch/unix/gui/cbm2ui.c:268 src/arch/win32/rescia.rc.po.c:52
-#: src/arch/amigaos/intl_text.c.po.c:12510
+#: src/arch/amigaos/intl_text.c.po.c:12509
 #, fuzzy
 msgid "6526A (new)"
 msgstr "8580 (új)"
@@ -569,14 +569,14 @@ msgid "C128 model"
 msgstr "ACIA mód"
 
 #: src/arch/unix/gui/c128ui.c:477 src/arch/win32/resc128.rc.po.c:702
-#: src/arch/amigaos/intl_text.c.po.c:11292
+#: src/arch/amigaos/intl_text.c.po.c:11291
 msgid "Machine type"
 msgstr "Gép típus"
 
 #: src/arch/unix/gui/c128ui.c:479 src/arch/unix/gui/c64dtvui.c:158
 #: src/arch/unix/gui/c64scui.c:226 src/arch/unix/gui/c64ui.c:288
 #: src/arch/unix/gui/cbm2ui.c:284 src/arch/win32/resvicii.rc.po.c:92
-#: src/arch/amigaos/intl_text.c.po.c:12552
+#: src/arch/amigaos/intl_text.c.po.c:12551
 #, fuzzy
 msgid "VIC-II model"
 msgstr "SID modell"
@@ -586,7 +586,7 @@ msgstr "SID modell"
 #: src/arch/unix/gui/cbm2ui.c:286 src/arch/unix/gui/cbm2ui.c:319
 #: src/arch/unix/gui/petui.c:116 src/arch/unix/gui/plus4ui.c:144
 #: src/arch/unix/gui/vic20ui.c:163 src/arch/unix/gui/vsidui.c:235
-#: src/arch/win32/res.rc.po.c:1338 src/arch/amigaos/intl_text.c.po.c:10312
+#: src/arch/win32/res.rc.po.c:1338 src/arch/amigaos/intl_text.c.po.c:10311
 msgid "SID model"
 msgstr "SID modell"
 
@@ -597,14 +597,14 @@ msgstr "SID modell"
 
 #: src/arch/unix/gui/c128ui.c:485 src/arch/unix/gui/c64scui.c:228
 #: src/arch/unix/gui/c64ui.c:290 src/arch/unix/gui/cbm2ui.c:321
-#: src/arch/win32/rescia.rc.po.c:49 src/arch/amigaos/intl_text.c.po.c:12566
+#: src/arch/win32/rescia.rc.po.c:49 src/arch/amigaos/intl_text.c.po.c:12565
 #, fuzzy
 msgid "CIA 1 model"
 msgstr "ACIA mód"
 
 #: src/arch/unix/gui/c128ui.c:487 src/arch/unix/gui/c64scui.c:229
 #: src/arch/unix/gui/c64ui.c:291 src/arch/win32/rescia.rc.po.c:50
-#: src/arch/amigaos/intl_text.c.po.c:12580
+#: src/arch/amigaos/intl_text.c.po.c:12579
 #, fuzzy
 msgid "CIA 2 model"
 msgstr "ACIA mód"
@@ -642,7 +642,7 @@ msgstr "ROM-ok beállításai"
 #: src/arch/unix/gui/c64scui.c:452 src/arch/unix/gui/c64ui.c:513
 #: src/arch/unix/gui/cbm2ui.c:425 src/arch/win32/res.rc.po.c:1485
 #: src/arch/win32/resvicii.rc.po.c:82 src/arch/amigaos/intl_text.c.po.c:3421
-#: src/arch/amigaos/intl_text.c.po.c:9612
+#: src/arch/amigaos/intl_text.c.po.c:9611
 msgid "VIC-II settings"
 msgstr "VIC-II beállításai"
 
@@ -657,7 +657,7 @@ msgstr "VDC beállításai"
 #: src/arch/unix/gui/vsidui.c:363 src/arch/win32/res.rc.po.c:1487
 #: src/arch/win32/ressid.rc.po.c:81 src/arch/win32/ressiddtv.rc.po.c:55
 #: src/arch/amigaos/intl_text.c.po.c:3575
-#: src/arch/amigaos/intl_text.c.po.c:9430
+#: src/arch/amigaos/intl_text.c.po.c:9429
 msgid "SID settings"
 msgstr "SID beállításai"
 
@@ -683,7 +683,7 @@ msgstr "RS232 beállításai"
 #: src/arch/unix/gui/cbm2ui.c:563 src/arch/unix/gui/cbm2ui.c:597
 #: src/arch/unix/gui/petui.c:517 src/arch/unix/gui/plus4ui.c:416
 #: src/arch/unix/gui/vic20ui.c:642 src/arch/amigaos/intl_text.c.po.c:3379
-#: src/arch/amigaos/intl_text.c.po.c:9122
+#: src/arch/amigaos/intl_text.c.po.c:9121
 msgid "Printer settings"
 msgstr "Nyomtató beállításai"
 
@@ -772,7 +772,7 @@ msgstr "Beállítások"
 #: src/arch/win32/rescbm2.rc.po.c:105 src/arch/win32/rescbm5x0.rc.po.c:105
 #: src/arch/win32/respet.rc.po.c:94 src/arch/win32/resplus4.rc.po.c:107
 #: src/arch/win32/resscpu64.rc.po.c:107 src/arch/win32/resvic20.rc.po.c:115
-#: src/arch/amigaos/intl_text.c.po.c:12048
+#: src/arch/amigaos/intl_text.c.po.c:12047
 msgid "Debug"
 msgstr "Nyomkövetés"
 
@@ -866,14 +866,14 @@ msgstr "Régi NTSC-M"
 
 #: src/arch/unix/gui/c64scui.c:157 src/arch/win32/resc64.rc.po.c:548
 #: src/arch/win32/resscpu64.rc.po.c:561
-#: src/arch/amigaos/intl_text.c.po.c:12426
+#: src/arch/amigaos/intl_text.c.po.c:12425
 #, fuzzy
 msgid "6569R1 (old PAL)"
 msgstr "6581 (régi)"
 
 #: src/arch/unix/gui/c64scui.c:163 src/arch/win32/resc64.rc.po.c:551
 #: src/arch/win32/resscpu64.rc.po.c:564
-#: src/arch/amigaos/intl_text.c.po.c:12468
+#: src/arch/amigaos/intl_text.c.po.c:12467
 #, fuzzy
 msgid "6567R56A (old NTSC)"
 msgstr "6581 (régi)"
@@ -885,13 +885,13 @@ msgid "6526 (new)"
 msgstr "8580 (új)"
 
 #: src/arch/unix/gui/c64scui.c:193 src/arch/win32/resvicii.rc.po.c:94
-#: src/arch/amigaos/intl_text.c.po.c:12524
+#: src/arch/amigaos/intl_text.c.po.c:12523
 #, fuzzy
 msgid "Discrete"
 msgstr "Szétkapcsolódás"
 
 #: src/arch/unix/gui/c64scui.c:195 src/arch/win32/resvicii.rc.po.c:95
-#: src/arch/amigaos/intl_text.c.po.c:12538
+#: src/arch/amigaos/intl_text.c.po.c:12537
 #, fuzzy
 msgid "Custom IC"
 msgstr "Egyéni"
@@ -941,7 +941,7 @@ msgid "C64 model"
 msgstr "C64 mód kernal"
 
 #: src/arch/unix/gui/c64scui.c:230 src/arch/win32/resvicii.rc.po.c:93
-#: src/arch/amigaos/intl_text.c.po.c:12594
+#: src/arch/amigaos/intl_text.c.po.c:12593
 msgid "Glue logic"
 msgstr ""
 
@@ -1037,12 +1037,12 @@ msgid "Basic 256k, high chars"
 msgstr "256k Basic, magas karakterek"
 
 #: src/arch/unix/gui/cbm2ui.c:255 src/arch/win32/respet.rc.po.c:519
-#: src/arch/amigaos/intl_text.c.po.c:11054
+#: src/arch/amigaos/intl_text.c.po.c:11053
 msgid "Graphics"
 msgstr "Grafikus"
 
 #: src/arch/unix/gui/cbm2ui.c:257 src/arch/win32/respet.rc.po.c:520
-#: src/arch/amigaos/intl_text.c.po.c:11082
+#: src/arch/amigaos/intl_text.c.po.c:11081
 msgid "Business (UK)"
 msgstr "Hivatalos (UK)"
 
@@ -1114,7 +1114,7 @@ msgstr "VDC beállításai"
 #: src/arch/unix/gui/cbm2ui.c:421 src/arch/unix/gui/plus4ui.c:290
 #: src/arch/win32/res.rc.po.c:1247 src/arch/win32/res.rc.po.c:1483
 #: src/arch/win32/respet.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:3631
-#: src/arch/amigaos/intl_text.c.po.c:8394
+#: src/arch/amigaos/intl_text.c.po.c:8393
 msgid "RAM settings"
 msgstr "RAM beállításai"
 
@@ -1138,29 +1138,29 @@ msgstr "Engedélyezés"
 
 #: src/arch/unix/gui/petui.c:120 src/arch/unix/gui/plus4ui.c:148
 #: src/arch/unix/gui/vic20ui.c:167 src/arch/win32/ressidcart.rc.po.c:139
-#: src/arch/amigaos/intl_text.c.po.c:10326
+#: src/arch/amigaos/intl_text.c.po.c:10325
 msgid "SID address"
 msgstr "SID cím"
 
 #. Translators: "SID clock" as in "CPU Frequency"
 #: src/arch/unix/gui/petui.c:123 src/arch/unix/gui/plus4ui.c:151
 #: src/arch/unix/gui/vic20ui.c:170 src/arch/win32/ressidcart.rc.po.c:140
-#: src/arch/amigaos/intl_text.c.po.c:10340
+#: src/arch/amigaos/intl_text.c.po.c:10339
 msgid "SID clock"
 msgstr "SID órajel"
 
 #: src/arch/unix/gui/petui.c:153 src/arch/win32/respet.rc.po.c:511
-#: src/arch/amigaos/intl_text.c.po.c:10984
+#: src/arch/amigaos/intl_text.c.po.c:10983
 msgid "Auto (from ROM)"
 msgstr "Automatikus (ROM-ból)"
 
 #: src/arch/unix/gui/petui.c:155 src/arch/win32/respet.rc.po.c:512
-#: src/arch/amigaos/intl_text.c.po.c:10998
+#: src/arch/amigaos/intl_text.c.po.c:10997
 msgid "40 Columns"
 msgstr "40 Oszlop"
 
 #: src/arch/unix/gui/petui.c:157 src/arch/win32/respet.rc.po.c:513
-#: src/arch/amigaos/intl_text.c.po.c:11012
+#: src/arch/amigaos/intl_text.c.po.c:11011
 msgid "80 Columns"
 msgstr "80 Oszlop"
 
@@ -1185,7 +1185,7 @@ msgid "PET HRE hi-res graphics"
 msgstr ""
 
 #: src/arch/unix/gui/petui.c:236 src/arch/unix/gui/plus4ui.c:261
-#: src/arch/unix/gui/vic20ui.c:487 src/arch/amigaos/intl_text.c.po.c:10270
+#: src/arch/unix/gui/vic20ui.c:487 src/arch/amigaos/intl_text.c.po.c:10269
 msgid "SID cartridge"
 msgstr "SID cartridge"
 
@@ -1292,11 +1292,11 @@ msgstr "Új $9*** ROM betöltése"
 msgid "PET model"
 msgstr "PET modell"
 
-#: src/arch/unix/gui/petui.c:349 src/arch/amigaos/intl_text.c.po.c:11110
+#: src/arch/unix/gui/petui.c:349 src/arch/amigaos/intl_text.c.po.c:11109
 msgid "Video size"
 msgstr "Videó méret"
 
-#: src/arch/unix/gui/petui.c:353 src/arch/amigaos/intl_text.c.po.c:11124
+#: src/arch/unix/gui/petui.c:353 src/arch/amigaos/intl_text.c.po.c:11123
 msgid "I/O size"
 msgstr "I/O méret"
 
@@ -1310,7 +1310,7 @@ msgid "EOI blanks screen"
 msgstr "EOI törli a képernyõt"
 
 #: src/arch/unix/gui/petui.c:360 src/arch/win32/respet.rc.po.c:522
-#: src/arch/amigaos/intl_text.c.po.c:11166
+#: src/arch/amigaos/intl_text.c.po.c:11165
 msgid "SuperPET I/O enable (disables 8x96)"
 msgstr "SuperPET I/O engedélyezése (8x96-ot tiltja)"
 
@@ -1369,7 +1369,7 @@ msgstr "Új Basic Hi ROM betöltése"
 msgid "ACIA"
 msgstr "ACIA mód"
 
-#: src/arch/unix/gui/plus4ui.c:259 src/arch/amigaos/intl_text.c.po.c:10354
+#: src/arch/unix/gui/plus4ui.c:259 src/arch/amigaos/intl_text.c.po.c:10353
 msgid "Digiblaster add-on"
 msgstr "Digiblaster kiterjesztés"
 
@@ -1391,7 +1391,7 @@ msgstr "SID modell"
 
 #: src/arch/unix/gui/plus4ui.c:304 src/arch/win32/resplus4.rc.po.c:508
 #: src/arch/win32/rested.rc.po.c:33 src/arch/amigaos/intl_text.c.po.c:3463
-#: src/arch/amigaos/intl_text.c.po.c:9640
+#: src/arch/amigaos/intl_text.c.po.c:9639
 msgid "TED settings"
 msgstr "TED beállításai"
 
@@ -1503,7 +1503,7 @@ msgstr "Valóban ki szeretne lépni?"
 #: src/arch/unix/gui/uiattach.c:249 src/arch/unix/gui/uiattach.c:282
 #: src/arch/win32/res.rc.po.c:920 src/arch/win32/res.rc.po.c:1384
 #: src/arch/amigaos/intl_text.c.po.c:243
-#: src/arch/amigaos/intl_text.c.po.c:9654
+#: src/arch/amigaos/intl_text.c.po.c:9653
 msgid "Attach tape image"
 msgstr "Szalag képmás csatolása"
 
@@ -1533,7 +1533,7 @@ msgstr "Lemez/szalag gyors-csatolása..."
 #: src/arch/unix/gui/uiattach.c:356 src/arch/win32/res.rc.po.c:1473
 #: src/arch/win32/resautostart.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:3141
-#: src/arch/amigaos/intl_text.c.po.c:12328
+#: src/arch/amigaos/intl_text.c.po.c:12327
 msgid "Autostart settings"
 msgstr "Autostart beállításai"
 
@@ -1559,19 +1559,19 @@ msgid "Autostart delay"
 msgstr "Lemezképmás automatikus indítása"
 
 #: src/arch/unix/gui/uiautostart.c:86 src/arch/win32/resautostart.rc.po.c:53
-#: src/arch/amigaos/intl_text.c.po.c:12188
+#: src/arch/amigaos/intl_text.c.po.c:12187
 msgid "Virtual FS"
 msgstr "Virtuális fájlrendszer"
 
 #: src/arch/unix/gui/uiautostart.c:88 src/arch/win32/resautostart.rc.po.c:54
-#: src/arch/amigaos/intl_text.c.po.c:12202
+#: src/arch/amigaos/intl_text.c.po.c:12201
 #, fuzzy
 msgid "Inject to RAM"
 msgstr "Kapcsolódás"
 
 #: src/arch/unix/gui/uiautostart.c:90 src/arch/win32/res.rc.po.c:1144
 #: src/arch/win32/resautostart.rc.po.c:55
-#: src/arch/amigaos/intl_text.c.po.c:12216
+#: src/arch/amigaos/intl_text.c.po.c:12215
 msgid "Disk image"
 msgstr "Lemez képmás"
 
@@ -1581,11 +1581,11 @@ msgid "Handle True Drive Emulation on autostart"
 msgstr "Valós lemezegység emuláció kezelése autostartnál"
 
 #: src/arch/unix/gui/uiautostart.c:98 src/arch/win32/resautostart.rc.po.c:45
-#: src/arch/amigaos/intl_text.c.po.c:12244
+#: src/arch/amigaos/intl_text.c.po.c:12243
 msgid "Autostart warp"
 msgstr "Automatikus indítás hipergyors"
 
-#: src/arch/unix/gui/uiautostart.c:100 src/arch/amigaos/intl_text.c.po.c:12258
+#: src/arch/unix/gui/uiautostart.c:100 src/arch/amigaos/intl_text.c.po.c:12257
 #, fuzzy
 msgid "Autostart random delay"
 msgstr "Lemezképmás automatikus indítása"
@@ -1596,24 +1596,24 @@ msgid "Maximum random autostart delay"
 msgstr "Hipergyors mód engedélyezése autostartnál"
 
 #: src/arch/unix/gui/uiautostart.c:105 src/arch/win32/resautostart.rc.po.c:46
-#: src/arch/amigaos/intl_text.c.po.c:12272
+#: src/arch/amigaos/intl_text.c.po.c:12271
 #, fuzzy
 msgid "Use ':' with RUN"
 msgstr "':' használata a run-hoz"
 
 #: src/arch/unix/gui/uiautostart.c:107 src/arch/win32/resautostart.rc.po.c:47
-#: src/arch/amigaos/intl_text.c.po.c:12300
+#: src/arch/amigaos/intl_text.c.po.c:12299
 #, fuzzy
 msgid "Load to BASIC start"
 msgstr "Új BASIC ROM betöltése"
 
 #: src/arch/unix/gui/uiautostart.c:109 src/arch/win32/resautostart.rc.po.c:50
-#: src/arch/amigaos/intl_text.c.po.c:12286
+#: src/arch/amigaos/intl_text.c.po.c:12285
 msgid "PRG autostart mode"
 msgstr "PRG automatikus indítás mód"
 
 #: src/arch/unix/gui/uiautostart.c:111 src/arch/win32/resautostart.rc.po.c:51
-#: src/arch/amigaos/intl_text.c.po.c:12314
+#: src/arch/amigaos/intl_text.c.po.c:12313
 msgid "PRG autostart disk image"
 msgstr "PRG automatikus indítás képmás"
 
@@ -1624,7 +1624,7 @@ msgstr "PRG automatikus indítás képmás"
 #: src/arch/win32/rescbm5x0.rc.po.c:69 src/arch/win32/resplus4.rc.po.c:70
 #: src/arch/win32/resscpu64.rc.po.c:57 src/arch/win32/resvic20.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:383
-#: src/arch/amigaos/intl_text.c.po.c:10522
+#: src/arch/amigaos/intl_text.c.po.c:10521
 msgid "Attach cartridge image"
 msgstr "Cartridge képmás csatolása"
 
@@ -1812,7 +1812,7 @@ msgstr "Nem sikerült a HTML böngészõt futtatni."
 #: src/arch/unix/gui/uicommands.c:358 src/arch/unix/gui/uicommands.c:597
 #: src/arch/win32/res.rc.po.c:969 src/arch/win32/res.rc.po.c:1436
 #: src/arch/amigaos/intl_text.c.po.c:1195
-#: src/arch/amigaos/intl_text.c.po.c:10550
+#: src/arch/amigaos/intl_text.c.po.c:10549
 msgid "Load snapshot image"
 msgstr "Pillanatkép betöltése"
 
@@ -1854,7 +1854,7 @@ msgid "Record sound to file"
 msgstr "Hangfájl felvétele"
 
 #: src/arch/unix/gui/uicommands.c:491 src/arch/win32/res.rc.po.c:1126
-#: src/arch/amigaos/intl_text.c.po.c:11866
+#: src/arch/amigaos/intl_text.c.po.c:11865
 #, fuzzy
 msgid "Sound Recording started"
 msgstr "Hangfelvétel elindítva..."
@@ -1870,17 +1870,17 @@ msgid "Hard"
 msgstr "Hideg"
 
 #: src/arch/unix/gui/uicommands.c:561 src/arch/win32/res.rc.po.c:1449
-#: src/arch/amigaos/intl_text.c.po.c:11502
+#: src/arch/amigaos/intl_text.c.po.c:11501
 msgid "Ask"
 msgstr ""
 
 #: src/arch/unix/gui/uicommands.c:563 src/arch/win32/res.rc.po.c:1450
-#: src/arch/amigaos/intl_text.c.po.c:11516
+#: src/arch/amigaos/intl_text.c.po.c:11515
 msgid "Continue"
 msgstr "Folytatás"
 
 #: src/arch/unix/gui/uicommands.c:565 src/arch/win32/res.rc.po.c:1451
-#: src/arch/amigaos/intl_text.c.po.c:11530
+#: src/arch/amigaos/intl_text.c.po.c:11529
 #, fuzzy
 msgid "Start monitor"
 msgstr "Monitor indítása"
@@ -1899,13 +1899,13 @@ msgid "Reset"
 msgstr "Reset"
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/win32/res.rc.po.c:1453
-#: src/arch/amigaos/intl_text.c.po.c:11544
+#: src/arch/amigaos/intl_text.c.po.c:11543
 #, fuzzy
 msgid "Hard reset"
 msgstr "Hidegindítás"
 
 #: src/arch/unix/gui/uicommands.c:571 src/arch/win32/res.rc.po.c:1454
-#: src/arch/amigaos/intl_text.c.po.c:11558
+#: src/arch/amigaos/intl_text.c.po.c:11557
 #, fuzzy
 msgid "Quit emulator"
 msgstr "Kilépés az emulátorból"
@@ -1934,7 +1934,7 @@ msgstr "*A futó visszajátszás felülírása"
 #: src/arch/unix/x11/xaw/uisnapshot.c:102
 #: src/arch/unix/x11/xaw/uisnapshot.c:319 src/arch/win32/res.rc.po.c:967
 #: src/arch/win32/res.rc.po.c:1437 src/arch/amigaos/intl_text.c.po.c:1209
-#: src/arch/amigaos/intl_text.c.po.c:10536
+#: src/arch/amigaos/intl_text.c.po.c:10535
 msgid "Save snapshot image"
 msgstr "Pillanatkép fájl mentése"
 
@@ -2148,7 +2148,7 @@ msgstr ""
 #: src/arch/unix/gui/uicrtc.c:77 src/arch/unix/gui/uited.c:87
 #: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:87
 #: src/arch/unix/gui/uivicii.c:104 src/arch/win32/res.rc.po.c:973
-#: src/arch/amigaos/intl_text.c.po.c:10648
+#: src/arch/amigaos/intl_text.c.po.c:10647
 #, fuzzy
 msgid "CRT emulation"
 msgstr "PAL emuláció"
@@ -2156,7 +2156,7 @@ msgstr "PAL emuláció"
 #: src/arch/unix/gui/uicrtc.c:80 src/arch/unix/gui/uited.c:89
 #: src/arch/unix/gui/uivdc.c:76 src/arch/unix/gui/uivic.c:89
 #: src/arch/unix/gui/uivicii.c:106 src/arch/win32/res.rc.po.c:975
-#: src/arch/amigaos/intl_text.c.po.c:10662
+#: src/arch/amigaos/intl_text.c.po.c:10661
 msgid "Scale2x"
 msgstr "Élsimítás"
 
@@ -2215,7 +2215,7 @@ msgstr "Színek"
 #: src/arch/unix/gui/uicrtc.c:171 src/arch/unix/gui/uited.c:175
 #: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:178
 #: src/arch/unix/gui/uivicii.c:212 src/arch/win32/res.rc.po.c:974
-#: src/arch/amigaos/intl_text.c.po.c:10676
+#: src/arch/amigaos/intl_text.c.po.c:10675
 msgid "Render filter"
 msgstr ""
 
@@ -2843,13 +2843,13 @@ msgstr "Elõzõ képmás csatolása (8-as egység)"
 
 #: src/arch/unix/gui/uifliplist.c:128 src/arch/win32/res.rc.po.c:928
 #: src/arch/win32/res.rc.po.c:1413 src/arch/amigaos/intl_text.c.po.c:215
-#: src/arch/amigaos/intl_text.c.po.c:10382
+#: src/arch/amigaos/intl_text.c.po.c:10381
 msgid "Load flip list file"
 msgstr "Lemezlista betöltése"
 
 #: src/arch/unix/gui/uifliplist.c:130 src/arch/win32/res.rc.po.c:930
 #: src/arch/win32/res.rc.po.c:1414 src/arch/amigaos/intl_text.c.po.c:229
-#: src/arch/amigaos/intl_text.c.po.c:10410
+#: src/arch/amigaos/intl_text.c.po.c:10409
 msgid "Save flip list file"
 msgstr "Lemezlista mentése fájlba"
 
@@ -2864,7 +2864,7 @@ msgid "Detach #%d"
 msgstr "#%d leválasztása"
 
 #: src/arch/unix/gui/uifliplist.c:205 src/arch/unix/gui/uiramcart.c:58
-#: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:8422
+#: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:8421
 #, fuzzy
 msgid "Read-only"
 msgstr "*Csak olvasható"
@@ -2948,7 +2948,7 @@ msgstr "Adja meg a cilinderek számát"
 #: src/arch/unix/gui/uiide64.c:80 src/arch/unix/gui/uiide64.c:194
 #: src/arch/unix/gui/uiide64.c:213 src/arch/unix/gui/uiide64.c:232
 #: src/arch/unix/gui/uiide64.c:251 src/arch/win32/reside64.rc.po.c:73
-#: src/arch/amigaos/intl_text.c.po.c:9836
+#: src/arch/amigaos/intl_text.c.po.c:9835
 msgid "Cylinders"
 msgstr "Sávok"
 
@@ -2959,7 +2959,7 @@ msgstr "Adja meg a fejek számát"
 #: src/arch/unix/gui/uiide64.c:120 src/arch/unix/gui/uiide64.c:197
 #: src/arch/unix/gui/uiide64.c:216 src/arch/unix/gui/uiide64.c:235
 #: src/arch/unix/gui/uiide64.c:254 src/arch/win32/reside64.rc.po.c:74
-#: src/arch/amigaos/intl_text.c.po.c:9850
+#: src/arch/amigaos/intl_text.c.po.c:9849
 msgid "Heads"
 msgstr "Fejek"
 
@@ -2970,7 +2970,7 @@ msgstr "Adja meg a szektorok számát"
 #: src/arch/unix/gui/uiide64.c:160 src/arch/unix/gui/uiide64.c:200
 #: src/arch/unix/gui/uiide64.c:219 src/arch/unix/gui/uiide64.c:238
 #: src/arch/unix/gui/uiide64.c:257 src/arch/win32/reside64.rc.po.c:75
-#: src/arch/amigaos/intl_text.c.po.c:9864
+#: src/arch/amigaos/intl_text.c.po.c:9863
 msgid "Sectors"
 msgstr "Szektorok"
 
@@ -3006,7 +3006,7 @@ msgstr "IDE64 képmás név..."
 
 #: src/arch/unix/gui/uiide64.c:192 src/arch/unix/gui/uiide64.c:211
 #: src/arch/unix/gui/uiide64.c:230 src/arch/unix/gui/uiide64.c:249
-#: src/arch/win32/reside64.rc.po.c:72 src/arch/amigaos/intl_text.c.po.c:9822
+#: src/arch/win32/reside64.rc.po.c:72 src/arch/amigaos/intl_text.c.po.c:9821
 #: src/translate_text.c.po.c:8137
 #, fuzzy
 msgid "Autodetect image size"
@@ -3083,20 +3083,20 @@ msgstr "Szalag képmás csatolása..."
 
 #: src/arch/unix/gui/uijoyport.c:42 src/arch/unix/gui/uijoyport.c:48
 #: src/arch/win32/resjoyport.rc.po.c:42
-#: src/arch/amigaos/intl_text.c.po.c:11572
+#: src/arch/amigaos/intl_text.c.po.c:11571
 #, fuzzy
 msgid "Joyport 1 device"
 msgstr "1-es botkormány eszköz"
 
 #: src/arch/unix/gui/uijoyport.c:50 src/arch/win32/resjoyport.rc.po.c:43
-#: src/arch/amigaos/intl_text.c.po.c:11586
+#: src/arch/amigaos/intl_text.c.po.c:11585
 #, fuzzy
 msgid "Joyport 2 device"
 msgstr "2-es botkormány eszköz"
 
 #: src/arch/unix/gui/uijoyport.c:56 src/arch/unix/gui/uijoyport.c:62
 #: src/arch/win32/res.rc.po.c:1476 src/arch/amigaos/intl_text.c.po.c:3477
-#: src/arch/amigaos/intl_text.c.po.c:11600
+#: src/arch/amigaos/intl_text.c.po.c:11599
 #, fuzzy
 msgid "Joyport settings"
 msgstr "Modell beállításai"
@@ -3370,7 +3370,7 @@ msgid "Keyboard settings"
 msgstr "Billentyûzet beállításai"
 
 #: src/arch/unix/gui/uimagicvoice.c:43 src/arch/win32/resmagicvoice.rc.po.c:26
-#: src/arch/amigaos/intl_text.c.po.c:9136
+#: src/arch/amigaos/intl_text.c.po.c:9135
 #, fuzzy
 msgid "Magic Voice file"
 msgstr "Fõ eszköz"
@@ -3422,7 +3422,7 @@ msgstr "MMC64 flashjumper engedélyezése"
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:91 src/arch/unix/gui/uimmcreplay.c:76
 #: src/arch/win32/resmmcreplay.rc.po.c:48
-#: src/arch/amigaos/intl_text.c.po.c:10088
+#: src/arch/amigaos/intl_text.c.po.c:10087
 #, fuzzy
 msgid "Card image file"
 msgstr "Képmás létrehozása"
@@ -3436,7 +3436,7 @@ msgstr "DTV ROM képmásba írás &engedélyezése"
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:98 src/arch/unix/gui/uimmcreplay.c:83
 #: src/arch/win32/resmmc64.rc.po.c:59 src/arch/win32/resmmcreplay.rc.po.c:51
-#: src/arch/amigaos/intl_text.c.po.c:10018
+#: src/arch/amigaos/intl_text.c.po.c:10017
 #, fuzzy
 msgid "Card type"
 msgstr "Midi cartridge típusa"
@@ -3456,7 +3456,7 @@ msgid "Enable rescue mode"
 msgstr "MMC64 flashjumper engedélyezése"
 
 #: src/arch/unix/gui/uimmcreplay.c:86 src/arch/win32/resmmcreplay.rc.po.c:49
-#: src/arch/amigaos/intl_text.c.po.c:10116
+#: src/arch/amigaos/intl_text.c.po.c:10115
 #, fuzzy
 msgid "EEPROM image file"
 msgstr "GEORAM képmás neve"
@@ -3718,23 +3718,23 @@ msgid ""
 msgstr ""
 
 #: src/arch/unix/gui/uipetcolour.c:64 src/arch/unix/gui/uipetcolour.c:83
-#: src/arch/amigaos/intl_text.c.po.c:8170
+#: src/arch/amigaos/intl_text.c.po.c:8169
 msgid "PET Colour background"
 msgstr ""
 
 #: src/arch/unix/gui/uipetcolour.c:81 src/arch/win32/respetcolour.rc.po.c:25
-#: src/arch/amigaos/intl_text.c.po.c:8156
+#: src/arch/amigaos/intl_text.c.po.c:8155
 msgid "PET Colour type"
 msgstr ""
 
 #: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
-#: src/arch/amigaos/intl_text.c.po.c:8240
+#: src/arch/amigaos/intl_text.c.po.c:8239
 #, fuzzy
 msgid "PET DWW file"
 msgstr "PET REU képmás neve"
 
 #: src/arch/unix/gui/uipetreu.c:40 src/arch/win32/respetreu.rc.po.c:40
-#: src/arch/amigaos/intl_text.c.po.c:8086
+#: src/arch/amigaos/intl_text.c.po.c:8085
 msgid "PET REU file"
 msgstr "PET REU fájl"
 
@@ -3756,7 +3756,7 @@ msgstr "*Nyomtató 2 (végrehajtás)"
 msgid "Printer 3 (exec)"
 msgstr "*Nyomtató 3 (végrehajtás)"
 
-#: src/arch/unix/gui/uiprinter.c:184 src/arch/amigaos/intl_text.c.po.c:8730
+#: src/arch/unix/gui/uiprinter.c:184 src/arch/amigaos/intl_text.c.po.c:8729
 msgid "Select printer dump file"
 msgstr "Válassza ki a nyomtató kimeneti fájlt"
 
@@ -3765,13 +3765,13 @@ msgid "Command to execute for printing (preceed with '|')"
 msgstr "Nyomtatáshoz használandó parancs (kezdõdjön '|' jellel)"
 
 #: src/arch/unix/gui/uiprinteriec.c:48 src/arch/unix/gui/uiprinterieee.c:83
-#: src/arch/amigaos/intl_text.c.po.c:8786
+#: src/arch/amigaos/intl_text.c.po.c:8785
 #, fuzzy
 msgid "Userport printer emulation"
 msgstr "*Userport-os nyomtató emulációja"
 
 #: src/arch/unix/gui/uiprinteriec.c:49 src/arch/unix/gui/uiprinterieee.c:85
-#: src/arch/amigaos/intl_text.c.po.c:8842
+#: src/arch/amigaos/intl_text.c.po.c:8841
 msgid "Userport printer driver"
 msgstr "Userport-os nyomtató meghajtó"
 
@@ -3790,7 +3790,7 @@ msgstr "Userport-os nyomtató lapemelés"
 
 #: src/arch/unix/gui/uiprinteriec.c:68
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
-#: src/arch/unix/gui/uiprinterieee.c:42 src/arch/amigaos/intl_text.c.po.c:8744
+#: src/arch/unix/gui/uiprinterieee.c:42 src/arch/amigaos/intl_text.c.po.c:8743
 #, fuzzy
 msgid "Printer #4 emulation"
 msgstr "Nyomtató emuláció"
@@ -3803,7 +3803,7 @@ msgstr "*IEC nyomtató #4 IEC eszköz engedélyezése"
 
 #: src/arch/unix/gui/uiprinteriec.c:70
 #: src/arch/unix/gui/uiprinteriecplus4.c:49
-#: src/arch/unix/gui/uiprinterieee.c:44 src/arch/amigaos/intl_text.c.po.c:8800
+#: src/arch/unix/gui/uiprinterieee.c:44 src/arch/amigaos/intl_text.c.po.c:8799
 #, fuzzy
 msgid "Printer #4 driver"
 msgstr "Nyomtató meghajtó"
@@ -3831,7 +3831,7 @@ msgstr "IEC nyomtató #4 lapemelés"
 
 #: src/arch/unix/gui/uiprinteriec.c:75
 #: src/arch/unix/gui/uiprinteriecplus4.c:59
-#: src/arch/unix/gui/uiprinterieee.c:54 src/arch/amigaos/intl_text.c.po.c:8758
+#: src/arch/unix/gui/uiprinterieee.c:54 src/arch/amigaos/intl_text.c.po.c:8757
 #, fuzzy
 msgid "Printer #5 emulation"
 msgstr "Nyomtató emuláció"
@@ -3844,7 +3844,7 @@ msgstr "*IEC nyomtató #5 IEC eszköz engedélyezése"
 
 #: src/arch/unix/gui/uiprinteriec.c:77
 #: src/arch/unix/gui/uiprinteriecplus4.c:63
-#: src/arch/unix/gui/uiprinterieee.c:56 src/arch/amigaos/intl_text.c.po.c:8814
+#: src/arch/unix/gui/uiprinterieee.c:56 src/arch/amigaos/intl_text.c.po.c:8813
 #, fuzzy
 msgid "Printer #5 driver"
 msgstr "Nyomtató meghajtó"
@@ -3872,7 +3872,7 @@ msgstr "IEC nyomtató #5 lapemelés"
 
 #: src/arch/unix/gui/uiprinteriec.c:82
 #: src/arch/unix/gui/uiprinteriecplus4.c:73
-#: src/arch/unix/gui/uiprinterieee.c:66 src/arch/amigaos/intl_text.c.po.c:8772
+#: src/arch/unix/gui/uiprinterieee.c:66 src/arch/amigaos/intl_text.c.po.c:8771
 #, fuzzy
 msgid "Printer #6 emulation"
 msgstr "Nyomtató emuláció"
@@ -3885,7 +3885,7 @@ msgstr "*IEC nyomtató #4 IEC eszköz engedélyezése"
 
 #: src/arch/unix/gui/uiprinteriec.c:84
 #: src/arch/unix/gui/uiprinteriecplus4.c:77
-#: src/arch/unix/gui/uiprinterieee.c:68 src/arch/amigaos/intl_text.c.po.c:8828
+#: src/arch/unix/gui/uiprinterieee.c:68 src/arch/amigaos/intl_text.c.po.c:8827
 #, fuzzy
 msgid "Printer #6 driver"
 msgstr "Nyomtató meghajtó"
@@ -3956,7 +3956,7 @@ msgid "PS/2 mouse on Userport"
 msgstr "PS/2 egér a userporton"
 
 #: src/arch/unix/gui/uiramcart.c:77 src/arch/win32/resramcart.rc.po.c:46
-#: src/arch/amigaos/intl_text.c.po.c:8464
+#: src/arch/amigaos/intl_text.c.po.c:8463
 #, fuzzy
 msgid "RamCart file"
 msgstr "ROM készlet fájl"
@@ -3967,7 +3967,7 @@ msgid "Enable bankjumper"
 msgstr "MMC64 flashjumper engedélyezése"
 
 #: src/arch/unix/gui/uireu.c:86 src/arch/win32/resreu.rc.po.c:43
-#: src/arch/amigaos/intl_text.c.po.c:8534
+#: src/arch/amigaos/intl_text.c.po.c:8533
 msgid "REU file"
 msgstr "REU fájl"
 
@@ -4117,7 +4117,7 @@ msgstr "*Nincs IRQ/NMI"
 #: src/arch/unix/gui/uirs232c64c128.c:55 src/arch/unix/gui/uisettings.c:434
 #: src/arch/unix/gui/uited.c:71 src/arch/unix/gui/uivic.c:71
 #: src/arch/unix/gui/uivicii.c:88 src/arch/win32/res.rc.po.c:1428
-#: src/arch/win32/resacia.rc.po.c:81 src/arch/amigaos/intl_text.c.po.c:12020
+#: src/arch/win32/resacia.rc.po.c:81 src/arch/amigaos/intl_text.c.po.c:12019
 msgid "Normal"
 msgstr "Normál"
 
@@ -4167,14 +4167,14 @@ msgstr "*Userport RS232 emuláció"
 #: src/arch/unix/gui/uirs232c64c128.c:109
 #: src/arch/unix/gui/uirs232c64c128.c:146
 #: src/arch/unix/gui/uirs232c64c128.c:183
-#: src/arch/amigaos/intl_text.c.po.c:9206
+#: src/arch/amigaos/intl_text.c.po.c:9205
 msgid "Userport RS232 baud rate"
 msgstr "Userport RS232 átviteli ráta"
 
 #: src/arch/unix/gui/uirs232c64c128.c:111
 #: src/arch/unix/gui/uirs232c64c128.c:148
 #: src/arch/unix/gui/uirs232c64c128.c:185
-#: src/arch/amigaos/intl_text.c.po.c:9192
+#: src/arch/amigaos/intl_text.c.po.c:9191
 msgid "Userport RS232 device"
 msgstr "Userport RS232 eszköz"
 
@@ -4342,7 +4342,7 @@ msgstr "Esemény visszajátszás leállítása"
 
 #: src/arch/unix/gui/uisettings.c:435 src/arch/unix/gui/uisound.c:93
 #: src/arch/win32/res.rc.po.c:1185 src/arch/win32/res.rc.po.c:1429
-#: src/arch/amigaos/intl_text.c.po.c:11950
+#: src/arch/amigaos/intl_text.c.po.c:11949
 msgid "Small"
 msgstr "Kicsi"
 
@@ -4425,25 +4425,25 @@ msgid "ParSID Port 3"
 msgstr "*ParSID 3-as port"
 
 #: src/arch/unix/gui/uisid.c:164 src/arch/win32/ressid.rc.po.c:82
-#: src/arch/win32/ressiddtv.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:9234
+#: src/arch/win32/ressiddtv.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:9233
 #, fuzzy
 msgid "Fast"
 msgstr "*Gyors"
 
 #: src/arch/unix/gui/uisid.c:166 src/arch/win32/ressid.rc.po.c:83
-#: src/arch/win32/ressiddtv.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:9248
+#: src/arch/win32/ressiddtv.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:9247
 #, fuzzy
 msgid "Interpolating"
 msgstr "*Interpoláló"
 
 #: src/arch/unix/gui/uisid.c:168 src/arch/win32/ressid.rc.po.c:84
-#: src/arch/win32/ressiddtv.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:9262
+#: src/arch/win32/ressiddtv.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:9261
 #, fuzzy
 msgid "Resampling"
 msgstr "*Újramintavételezõ"
 
 #: src/arch/unix/gui/uisid.c:170 src/arch/win32/ressid.rc.po.c:85
-#: src/arch/win32/ressiddtv.rc.po.c:59 src/arch/amigaos/intl_text.c.po.c:9276
+#: src/arch/win32/ressiddtv.rc.po.c:59 src/arch/amigaos/intl_text.c.po.c:9275
 #, fuzzy
 msgid "Fast resampling"
 msgstr "gyors újramintavételezõ"
@@ -4479,22 +4479,22 @@ msgid "Argument:"
 msgstr "Argumentum:"
 
 #: src/arch/unix/gui/uisound.c:91 src/arch/win32/res.rc.po.c:1184
-#: src/arch/amigaos/intl_text.c.po.c:11936
+#: src/arch/amigaos/intl_text.c.po.c:11935
 msgid "Very small"
 msgstr ""
 
 #: src/arch/unix/gui/uisound.c:95 src/arch/win32/res.rc.po.c:1186
-#: src/arch/amigaos/intl_text.c.po.c:11964
+#: src/arch/amigaos/intl_text.c.po.c:11963
 msgid "Medium"
 msgstr "Közepes"
 
 #: src/arch/unix/gui/uisound.c:97 src/arch/win32/res.rc.po.c:1187
-#: src/arch/amigaos/intl_text.c.po.c:11978
+#: src/arch/amigaos/intl_text.c.po.c:11977
 msgid "Large"
 msgstr "Nagy"
 
 #: src/arch/unix/gui/uisound.c:99 src/arch/win32/res.rc.po.c:1188
-#: src/arch/amigaos/intl_text.c.po.c:11992
+#: src/arch/amigaos/intl_text.c.po.c:11991
 msgid "Very large"
 msgstr ""
 
@@ -4524,33 +4524,33 @@ msgid "10 s suspend"
 msgstr "*Felfüggesztés 10 mp után"
 
 #: src/arch/unix/gui/uisound.c:119 src/arch/win32/res.rc.po.c:1057
-#: src/arch/amigaos/intl_text.c.po.c:9444
+#: src/arch/amigaos/intl_text.c.po.c:9443
 msgid "Flexible"
 msgstr "Rugalmas"
 
 #: src/arch/unix/gui/uisound.c:122 src/arch/win32/res.rc.po.c:1058
-#: src/arch/amigaos/intl_text.c.po.c:9458
+#: src/arch/amigaos/intl_text.c.po.c:9457
 msgid "Adjusting"
 msgstr "Igazodó"
 
 #: src/arch/unix/gui/uisound.c:125 src/arch/win32/res.rc.po.c:1059
-#: src/arch/amigaos/intl_text.c.po.c:9472
+#: src/arch/amigaos/intl_text.c.po.c:9471
 msgid "Exact"
 msgstr "Pontos"
 
 #: src/arch/unix/gui/uisound.c:132 src/arch/win32/res.rc.po.c:1062
-#: src/arch/amigaos/intl_text.c.po.c:12090
+#: src/arch/amigaos/intl_text.c.po.c:12089
 #, fuzzy
 msgid "System"
 msgstr "Fájlrendszer"
 
 #: src/arch/unix/gui/uisound.c:135 src/arch/win32/res.rc.po.c:1063
-#: src/arch/amigaos/intl_text.c.po.c:12104
+#: src/arch/amigaos/intl_text.c.po.c:12103
 msgid "Mono"
 msgstr ""
 
 #: src/arch/unix/gui/uisound.c:138 src/arch/win32/res.rc.po.c:1064
-#: src/arch/amigaos/intl_text.c.po.c:12118
+#: src/arch/amigaos/intl_text.c.po.c:12117
 #, fuzzy
 msgid "Stereo"
 msgstr "SID sztereó"
@@ -4574,15 +4574,15 @@ msgid "Sound synchronization"
 msgstr "Hang szinkronizáció"
 
 #: src/arch/unix/gui/uisound.c:160 src/arch/win32/res.rc.po.c:1181
-#: src/arch/amigaos/intl_text.c.po.c:9486
+#: src/arch/amigaos/intl_text.c.po.c:9485
 msgid "Sample rate"
 msgstr "Mintavételezési ráta"
 
-#: src/arch/unix/gui/uisound.c:162 src/arch/amigaos/intl_text.c.po.c:9500
+#: src/arch/unix/gui/uisound.c:162 src/arch/amigaos/intl_text.c.po.c:9499
 msgid "Buffer size"
 msgstr "Puffer méret"
 
-#: src/arch/unix/gui/uisound.c:164 src/arch/amigaos/intl_text.c.po.c:9514
+#: src/arch/unix/gui/uisound.c:164 src/arch/amigaos/intl_text.c.po.c:9513
 msgid "Fragment size"
 msgstr "Töredék mérete"
 
@@ -4597,7 +4597,7 @@ msgstr "Felfüggesztés ideje"
 #: src/arch/win32/respet.rc.po.c:172 src/arch/win32/resplus4.rc.po.c:185
 #: src/arch/win32/resscpu64.rc.po.c:185 src/arch/win32/resvic20.rc.po.c:193
 #: src/arch/amigaos/intl_text.c.po.c:3561
-#: src/arch/amigaos/intl_text.c.po.c:9542
+#: src/arch/amigaos/intl_text.c.po.c:9541
 msgid "Sound settings"
 msgstr "Hang beállításai"
 
@@ -4614,14 +4614,14 @@ msgid "Default"
 msgstr "*Alapértelmezett"
 
 #: src/arch/unix/gui/uited.c:73 src/arch/unix/gui/uivic.c:73
-#: src/arch/unix/gui/uivicii.c:90 src/arch/amigaos/intl_text.c.po.c:12034
+#: src/arch/unix/gui/uivicii.c:90 src/arch/amigaos/intl_text.c.po.c:12033
 msgid "Full"
 msgstr "Teljes"
 
 #: src/arch/unix/gui/uited.c:178 src/arch/unix/gui/uivic.c:181
 #: src/arch/unix/gui/uivicii.c:215 src/arch/win32/rested.rc.po.c:34
 #: src/arch/win32/resvic.rc.po.c:34 src/arch/win32/resvicii.rc.po.c:83
-#: src/arch/amigaos/intl_text.c.po.c:12006
+#: src/arch/amigaos/intl_text.c.po.c:12005
 msgid "Border mode"
 msgstr "Keret mód"
 
@@ -4670,25 +4670,25 @@ msgid "64KB video memory"
 msgstr "64KB képernyõ memória"
 
 #: src/arch/unix/gui/uivic.c:174 src/arch/amigaos/intl_text.c.po.c:3253
-#: src/arch/amigaos/intl_text.c.po.c:8618
+#: src/arch/amigaos/intl_text.c.po.c:8617
 #, fuzzy
 msgid "Color settings"
 msgstr "Modell beállításai"
 
 #: src/arch/unix/gui/uivicii.c:207 src/arch/win32/resvicii.rc.po.c:91
-#: src/arch/amigaos/intl_text.c.po.c:9598
+#: src/arch/amigaos/intl_text.c.po.c:9597
 #, fuzzy
 msgid "New luminances"
 msgstr "Új fényerõk"
 
 #: src/arch/unix/gui/uivicii.c:220 src/arch/win32/resvicii.rc.po.c:89
-#: src/arch/amigaos/intl_text.c.po.c:9570
+#: src/arch/amigaos/intl_text.c.po.c:9569
 #, fuzzy
 msgid "Sprite-sprite collisions"
 msgstr "*Sprite-sprite ütközések"
 
 #: src/arch/unix/gui/uivicii.c:222 src/arch/win32/resvicii.rc.po.c:90
-#: src/arch/amigaos/intl_text.c.po.c:9584
+#: src/arch/amigaos/intl_text.c.po.c:9583
 #, fuzzy
 msgid "Sprite-background collisions"
 msgstr "*Sprite-háttér ütközések"
@@ -4853,7 +4853,7 @@ msgstr "Ethernet emuláció"
 
 #: src/arch/unix/gui/vic20ui.c:528 src/arch/win32/resvic.rc.po.c:33
 #: src/arch/win32/resvic20.rc.po.c:588 src/arch/amigaos/intl_text.c.po.c:3449
-#: src/arch/amigaos/intl_text.c.po.c:9626
+#: src/arch/amigaos/intl_text.c.po.c:9625
 msgid "VIC settings"
 msgstr "VIC beállításai"
 
@@ -5003,7 +5003,7 @@ msgid "Paste"
 msgstr "Beilleszt"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:56 src/arch/win32/res.rc.po.c:1278
-#: src/arch/win32/respet.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:11138
+#: src/arch/win32/respet.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:11137
 msgid "Keyboard"
 msgstr "Billentyûzet"
 
@@ -5087,51 +5087,51 @@ msgid "Client"
 msgstr "Kliens"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:65 src/arch/win32/res.rc.po.c:1211
-#: src/arch/amigaos/intl_text.c.po.c:10956
+#: src/arch/amigaos/intl_text.c.po.c:10955
 msgid "Brightness"
 msgstr "Fényesség"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:66 src/arch/win32/res.rc.po.c:1210
-#: src/arch/amigaos/intl_text.c.po.c:10942
+#: src/arch/amigaos/intl_text.c.po.c:10941
 msgid "Contrast"
 msgstr "Kontraszt"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:67 src/arch/win32/res.rc.po.c:1209
-#: src/arch/amigaos/intl_text.c.po.c:10928
+#: src/arch/amigaos/intl_text.c.po.c:10927
 msgid "Saturation"
 msgstr "Telítettség"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:68 src/arch/win32/res.rc.po.c:1208
-#: src/arch/amigaos/intl_text.c.po.c:10746
+#: src/arch/amigaos/intl_text.c.po.c:10745
 msgid "Tint"
 msgstr "Szín"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:69 src/arch/win32/res.rc.po.c:1207
-#: src/arch/amigaos/intl_text.c.po.c:10704
+#: src/arch/amigaos/intl_text.c.po.c:10703
 msgid "Gamma"
 msgstr "Gamma"
 
 #. PAL/CRT related settings
 #: src/arch/unix/x11/gnome/uipalcontrol.c:71 src/arch/win32/res.rc.po.c:1213
-#: src/arch/amigaos/intl_text.c.po.c:10732
+#: src/arch/amigaos/intl_text.c.po.c:10731
 #, fuzzy
 msgid "Blur"
 msgstr "PAL elmosás (0..1)"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:72 src/arch/win32/res.rc.po.c:1212
-#: src/arch/amigaos/intl_text.c.po.c:10718
+#: src/arch/amigaos/intl_text.c.po.c:10717
 #, fuzzy
 msgid "Scanline shade"
 msgstr "Pászta árnyalás"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:73 src/arch/win32/res.rc.po.c:1214
-#: src/arch/amigaos/intl_text.c.po.c:10760
+#: src/arch/amigaos/intl_text.c.po.c:10759
 #, fuzzy
 msgid "Odd lines phase"
 msgstr "Páratlan sor fázis"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:74 src/arch/win32/res.rc.po.c:1215
-#: src/arch/amigaos/intl_text.c.po.c:10774
+#: src/arch/amigaos/intl_text.c.po.c:10773
 #, fuzzy
 msgid "Odd lines offset"
 msgstr "Páratlan sor offszet"
@@ -5175,7 +5175,7 @@ msgstr ""
 #. leading space instead
 #: src/arch/unix/x11/gnome/uipalcontrol.c:238
 #: src/arch/amigaos/intl_text.c.po.c:3281
-#: src/arch/amigaos/intl_text.c.po.c:8646
+#: src/arch/amigaos/intl_text.c.po.c:8645
 #, fuzzy
 msgid "CRT emulation settings"
 msgstr "PAL Emuláció beállításai"
@@ -5345,13 +5345,13 @@ msgstr "Pillanatkép opciók"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:54
 #: src/arch/unix/x11/xaw/uisnapshot.c:143 src/arch/win32/res.rc.po.c:1190
-#: src/arch/amigaos/intl_text.c.po.c:10564
+#: src/arch/amigaos/intl_text.c.po.c:10563
 msgid "Save currently attached disk images"
 msgstr "A jelenleg csatolt lemezek mentése"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:58
 #: src/arch/unix/x11/xaw/uisnapshot.c:144 src/arch/win32/res.rc.po.c:1191
-#: src/arch/amigaos/intl_text.c.po.c:10578
+#: src/arch/amigaos/intl_text.c.po.c:10577
 msgid "Save currently loaded ROM images"
 msgstr "A jelenleg betöltött ROM-ok mentése"
 
@@ -5854,7 +5854,7 @@ msgid "Settings loaded successfully."
 msgstr "Beállítások sikeresen elmentve."
 
 #: src/arch/win32/res.rc.po.c:921 src/arch/win32/res.rc.po.c:1377
-#: src/arch/amigaos/intl_text.c.po.c:19 src/arch/amigaos/intl_text.c.po.c:9668
+#: src/arch/amigaos/intl_text.c.po.c:19 src/arch/amigaos/intl_text.c.po.c:9667
 msgid "Autostart disk/tape image"
 msgstr "Lemez/szalag képmás automatikus indítása"
 
@@ -5875,11 +5875,11 @@ msgstr "VICE konzol napló fájlok (*.dbg)"
 msgid "Cannot write log file `%s'."
 msgstr "Nem sikerült a(z) %s naplófájlba írni"
 
-#: src/arch/win32/res.rc.po.c:929 src/arch/amigaos/intl_text.c.po.c:10396
+#: src/arch/win32/res.rc.po.c:929 src/arch/amigaos/intl_text.c.po.c:10395
 msgid "Cannot read flip list file"
 msgstr "Nem lehet olvasni a lemezlista fájlt"
 
-#: src/arch/win32/res.rc.po.c:931 src/arch/amigaos/intl_text.c.po.c:10424
+#: src/arch/win32/res.rc.po.c:931 src/arch/amigaos/intl_text.c.po.c:10423
 msgid "Cannot write flip list file"
 msgstr "Nem sikerült a lemezlistát fájlba írni"
 
@@ -6001,7 +6001,7 @@ msgstr "Perifériák beállításai"
 msgid "Can't write snapshot file."
 msgstr "Nem sikerült a pillanatkép fájl írása."
 
-#: src/arch/win32/res.rc.po.c:962 src/arch/amigaos/intl_text.c.po.c:10606
+#: src/arch/win32/res.rc.po.c:962 src/arch/amigaos/intl_text.c.po.c:10605
 msgid "Cannot read snapshot image"
 msgstr "A pillanatkép fájl nem olvasható"
 
@@ -6018,7 +6018,7 @@ msgstr "Számítógép"
 msgid "Drive"
 msgstr "Lemezegység"
 
-#: src/arch/win32/res.rc.po.c:968 src/arch/amigaos/intl_text.c.po.c:10592
+#: src/arch/win32/res.rc.po.c:968 src/arch/amigaos/intl_text.c.po.c:10591
 #, c-format
 msgid "Cannot write snapshot file `%s'."
 msgstr "Nem sikerült a pillanatkép írása %s fájlba."
@@ -6036,7 +6036,7 @@ msgid "Fullscreen/DirectX"
 msgstr "Teljes képernyõ/DirectX"
 
 #: src/arch/win32/res.rc.po.c:976 src/arch/win32/res.rc.po.c:1474
-#: src/arch/amigaos/intl_text.c.po.c:10970
+#: src/arch/amigaos/intl_text.c.po.c:10969
 msgid "Video settings"
 msgstr "Videó beállításai"
 
@@ -6130,7 +6130,7 @@ msgstr "64KB-os Super Snapshot cartridge képmás csatolása"
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Structured Basic cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:998 src/arch/amigaos/intl_text.c.po.c:10256
+#: src/arch/win32/res.rc.po.c:998 src/arch/amigaos/intl_text.c.po.c:10255
 msgid "Select cartridge file"
 msgstr "Cartridge fájl kiválasztása"
 
@@ -6542,12 +6542,12 @@ msgstr "Hiba történt a játék kiszolgáló indításakor."
 msgid "An error occured connecting the client."
 msgstr "Hiba történt a kapcsolódáskor."
 
-#: src/arch/win32/res.rc.po.c:1127 src/arch/amigaos/intl_text.c.po.c:11852
+#: src/arch/win32/res.rc.po.c:1127 src/arch/amigaos/intl_text.c.po.c:11851
 #, fuzzy
 msgid "Sound Recording stopped"
 msgstr "Hangfelvétel leállítva..."
 
-#: src/arch/win32/res.rc.po.c:1136 src/arch/amigaos/intl_text.c.po.c:12342
+#: src/arch/win32/res.rc.po.c:1136 src/arch/amigaos/intl_text.c.po.c:12341
 msgid "Error saving EasyFlash crt file"
 msgstr "Hiba az EasyFlash crt fájl mentése közben"
 
@@ -6688,7 +6688,7 @@ msgstr "DirectX meghajtó"
 msgid "WMM driver"
 msgstr "WMM meghajtó"
 
-#: src/arch/win32/res.rc.po.c:1180 src/arch/amigaos/intl_text.c.po.c:12076
+#: src/arch/win32/res.rc.po.c:1180 src/arch/amigaos/intl_text.c.po.c:12075
 #, fuzzy
 msgid "Sound output mode"
 msgstr "Kimenet"
@@ -6895,15 +6895,15 @@ msgstr "Külsõ paletta:"
 msgid "Initialization at powerup"
 msgstr "Alaphelyzetbe állítás bekapcsoláskor"
 
-#: src/arch/win32/res.rc.po.c:1249 src/arch/amigaos/intl_text.c.po.c:8352
+#: src/arch/win32/res.rc.po.c:1249 src/arch/amigaos/intl_text.c.po.c:8351
 msgid "Value of first byte"
 msgstr "Elsõ bájt értéke"
 
-#: src/arch/win32/res.rc.po.c:1250 src/arch/amigaos/intl_text.c.po.c:8366
+#: src/arch/win32/res.rc.po.c:1250 src/arch/amigaos/intl_text.c.po.c:8365
 msgid "Length of constant values"
 msgstr "Állandó értékek hossza"
 
-#: src/arch/win32/res.rc.po.c:1251 src/arch/amigaos/intl_text.c.po.c:8380
+#: src/arch/win32/res.rc.po.c:1251 src/arch/amigaos/intl_text.c.po.c:8379
 msgid "Length of constant pattern"
 msgstr "Állandó minta hossza"
 
@@ -7008,15 +7008,15 @@ msgstr "FFMPEG beállításai"
 msgid "bitrate"
 msgstr "bitráta"
 
-#: src/arch/win32/res.rc.po.c:1298 src/arch/amigaos/intl_text.c.po.c:11922
+#: src/arch/win32/res.rc.po.c:1298 src/arch/amigaos/intl_text.c.po.c:11921
 msgid "Sound record settings"
 msgstr "Hangfelvétel beállításai"
 
-#: src/arch/win32/res.rc.po.c:1299 src/arch/amigaos/intl_text.c.po.c:11894
+#: src/arch/win32/res.rc.po.c:1299 src/arch/amigaos/intl_text.c.po.c:11893
 msgid "Sound Record Format"
 msgstr "Hangfelvétel formátuma"
 
-#: src/arch/win32/res.rc.po.c:1300 src/arch/amigaos/intl_text.c.po.c:11908
+#: src/arch/win32/res.rc.po.c:1300 src/arch/amigaos/intl_text.c.po.c:11907
 msgid "Sound Record File"
 msgstr "Hangfelvétel fájl"
 
@@ -7095,7 +7095,7 @@ msgid "DE Pos."
 msgstr "D&E poz."
 
 #: src/arch/win32/res.rc.po.c:1317 src/arch/win32/res.rc.po.c:1337
-#: src/arch/amigaos/intl_text.c.po.c:11096
+#: src/arch/amigaos/intl_text.c.po.c:11095
 msgid "Memory"
 msgstr "Memória"
 
@@ -7166,7 +7166,7 @@ msgstr "BIOS &mentése változás után"
 #: src/arch/win32/rescbm2.rc.po.c:95 src/arch/win32/rescbm5x0.rc.po.c:95
 #: src/arch/win32/respet.rc.po.c:84 src/arch/win32/resplus4.rc.po.c:97
 #: src/arch/win32/resscpu64.rc.po.c:97 src/arch/win32/resvic20.rc.po.c:105
-#: src/arch/amigaos/intl_text.c.po.c:11614
+#: src/arch/amigaos/intl_text.c.po.c:11613
 msgid "Default CPU JAM action"
 msgstr ""
 
@@ -7189,7 +7189,7 @@ msgstr "Opciók"
 #: src/arch/win32/resc64dtv.rc.po.c:195 src/arch/win32/rescbm5x0.rc.po.c:211
 #: src/arch/win32/resplus4.rc.po.c:214 src/arch/win32/resscpu64.rc.po.c:214
 #: src/arch/win32/resvic20.rc.po.c:222 src/arch/amigaos/intl_text.c.po.c:3547
-#: src/arch/amigaos/intl_text.c.po.c:12146
+#: src/arch/amigaos/intl_text.c.po.c:12145
 #, fuzzy
 msgid "Mouse settings"
 msgstr "Egér beállítások"
@@ -7387,7 +7387,7 @@ msgstr "Virtuális eszközök ciklus kihagyása"
 
 #: src/arch/win32/res.rc.po.c:1472 src/arch/win32/resc64.rc.po.c:553
 #: src/arch/win32/resscpu64.rc.po.c:566 src/arch/amigaos/intl_text.c.po.c:2245
-#: src/arch/amigaos/intl_text.c.po.c:12622
+#: src/arch/amigaos/intl_text.c.po.c:12621
 #, fuzzy
 msgid "C64 model settings"
 msgstr "PET modell beállításai"
@@ -7403,7 +7403,7 @@ msgid "Sidcart joystick settings"
 msgstr "&Sidcart botkormány beállításai..."
 
 #: src/arch/win32/res.rc.po.c:1489 src/arch/amigaos/intl_text.c.po.c:3687
-#: src/arch/amigaos/intl_text.c.po.c:8576
+#: src/arch/amigaos/intl_text.c.po.c:8575
 #, fuzzy
 msgid "REU settings"
 msgstr "REU beállításai"
@@ -7418,7 +7418,7 @@ msgstr "GEORAM beállításai"
 
 #: src/arch/win32/res.rc.po.c:1491 src/arch/win32/resramcart.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:3743
-#: src/arch/amigaos/intl_text.c.po.c:8506
+#: src/arch/amigaos/intl_text.c.po.c:8505
 #, fuzzy
 msgid "RamCart settings"
 msgstr "&Cartridge beállításai"
@@ -7445,26 +7445,26 @@ msgid "ISEPIC settings"
 msgstr "SID beállításai"
 
 #: src/arch/win32/res.rc.po.c:1495 src/arch/amigaos/intl_text.c.po.c:3855
-#: src/arch/amigaos/intl_text.c.po.c:10046
+#: src/arch/amigaos/intl_text.c.po.c:10045
 msgid "MMC64 settings"
 msgstr "MMC64 beállításai"
 
 #: src/arch/win32/res.rc.po.c:1496 src/arch/win32/resmmcreplay.rc.po.c:47
 #: src/arch/amigaos/intl_text.c.po.c:3869
-#: src/arch/amigaos/intl_text.c.po.c:10172
+#: src/arch/amigaos/intl_text.c.po.c:10171
 #, fuzzy
 msgid "MMC Replay settings"
 msgstr "MMC64 emuláció"
 
 #: src/arch/win32/res.rc.po.c:1497 src/arch/amigaos/intl_text.c.po.c:3883
-#: src/arch/amigaos/intl_text.c.po.c:10186
+#: src/arch/amigaos/intl_text.c.po.c:10185
 #, fuzzy
 msgid "Retro Replay settings"
 msgstr "MMC64 emuláció"
 
 #: src/arch/win32/res.rc.po.c:1498 src/arch/win32/resmagicvoice.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:3701
-#: src/arch/amigaos/intl_text.c.po.c:9164
+#: src/arch/amigaos/intl_text.c.po.c:9163
 #, fuzzy
 msgid "Magic Voice settings"
 msgstr "Fõ eszköz"
@@ -7477,7 +7477,7 @@ msgstr "SID beállításai"
 #: src/arch/win32/res.rc.po.c:1502 src/arch/win32/resdigimax.rc.po.c:22
 #: src/arch/win32/resvic20.rc.po.c:581 src/arch/amigaos/intl_text.c.po.c:3897
 #: src/arch/amigaos/intl_text.c.po.c:3911
-#: src/arch/amigaos/intl_text.c.po.c:11488
+#: src/arch/amigaos/intl_text.c.po.c:11487
 #, fuzzy
 msgid "DigiMAX settings"
 msgstr "Digimax beállításai"
@@ -7485,14 +7485,14 @@ msgstr "Digimax beállításai"
 #: src/arch/win32/res.rc.po.c:1503 src/arch/win32/resds12c887rtc.rc.po.c:26
 #: src/arch/win32/resvic20.rc.po.c:582 src/arch/amigaos/intl_text.c.po.c:3925
 #: src/arch/amigaos/intl_text.c.po.c:3939
-#: src/arch/amigaos/intl_text.c.po.c:11712
+#: src/arch/amigaos/intl_text.c.po.c:11711
 #, fuzzy
 msgid "DS12C887 RTC settings"
 msgstr "VDC beállításai"
 
 #: src/arch/win32/res.rc.po.c:1504 src/arch/win32/reside64.rc.po.c:66
 #: src/arch/amigaos/intl_text.c.po.c:3841
-#: src/arch/amigaos/intl_text.c.po.c:9878
+#: src/arch/amigaos/intl_text.c.po.c:9877
 msgid "IDE64 settings"
 msgstr "IDE64 beállításai"
 
@@ -7512,7 +7512,7 @@ msgstr "ACIA beállításai"
 
 #: src/arch/win32/res.rc.po.c:1509 src/arch/win32/resrs232user.rc.po.c:34
 #: src/arch/amigaos/intl_text.c.po.c:4275
-#: src/arch/amigaos/intl_text.c.po.c:9220
+#: src/arch/amigaos/intl_text.c.po.c:9219
 #, fuzzy
 msgid "RS232 userport settings"
 msgstr "RS232 userport beállításai..."
@@ -7527,7 +7527,7 @@ msgstr "EasyFlash beállításai"
 #: src/arch/win32/res.rc.po.c:1511 src/arch/win32/ressoundexpander.rc.po.c:42
 #: src/arch/win32/resvic20.rc.po.c:586 src/arch/amigaos/intl_text.c.po.c:3953
 #: src/arch/amigaos/intl_text.c.po.c:3967
-#: src/arch/amigaos/intl_text.c.po.c:11768
+#: src/arch/amigaos/intl_text.c.po.c:11767
 #, fuzzy
 msgid "SFX Sound Expander settings"
 msgstr "SFX Sounder Expander beállítások"
@@ -7605,7 +7605,7 @@ msgid "Fullscreen"
 msgstr "Teljes képernyõ"
 
 #: src/arch/win32/res.rc.po.c:1542 src/arch/amigaos/intl_text.c.po.c:4163
-#: src/arch/amigaos/intl_text.c.po.c:10368
+#: src/arch/amigaos/intl_text.c.po.c:10367
 msgid "SID cart settings"
 msgstr "SID kártya beállításai..."
 
@@ -7749,7 +7749,7 @@ msgid "Handle true drive emulation"
 msgstr "Valós lemezegység emuláció"
 
 #: src/arch/win32/resautostart.rc.po.c:52
-#: src/arch/amigaos/intl_text.c.po.c:12230
+#: src/arch/amigaos/intl_text.c.po.c:12229
 msgid "Select file for PRG autostart disk"
 msgstr "Válasszon lemezfájlt a PRG automatikus indításhoz"
 
@@ -7758,11 +7758,11 @@ msgstr "Válasszon lemezfájlt a PRG automatikus indításhoz"
 msgid "VDC revision"
 msgstr "VDC változat"
 
-#: src/arch/win32/resc128.rc.po.c:700 src/arch/amigaos/intl_text.c.po.c:11264
+#: src/arch/win32/resc128.rc.po.c:700 src/arch/amigaos/intl_text.c.po.c:11263
 msgid "Select Internal Function ROM file"
 msgstr "Adja meg a belsõ Function ROM képmás nevét"
 
-#: src/arch/win32/resc128.rc.po.c:701 src/arch/amigaos/intl_text.c.po.c:11278
+#: src/arch/win32/resc128.rc.po.c:701 src/arch/amigaos/intl_text.c.po.c:11277
 msgid "Select External Function ROM file"
 msgstr "Adja meg a külsõ Function ROM képmás nevét"
 
@@ -7772,7 +7772,7 @@ msgstr "RAM bankok"
 
 #: src/arch/win32/resc128.rc.po.c:705 src/arch/win32/resc128.rc.po.c:744
 #: src/arch/amigaos/intl_text.c.po.c:3659
-#: src/arch/amigaos/intl_text.c.po.c:11404
+#: src/arch/amigaos/intl_text.c.po.c:11403
 msgid "C128 settings"
 msgstr "C128 beállításai"
 
@@ -7845,11 +7845,11 @@ msgstr "Kernal C64"
 msgid "Basic C64"
 msgstr "Basic C64"
 
-#: src/arch/win32/resc128.rc.po.c:731 src/arch/amigaos/intl_text.c.po.c:11306
+#: src/arch/win32/resc128.rc.po.c:731 src/arch/amigaos/intl_text.c.po.c:11305
 msgid "Internal Function ROM"
 msgstr "Belsõ Function ROM"
 
-#: src/arch/win32/resc128.rc.po.c:734 src/arch/amigaos/intl_text.c.po.c:11334
+#: src/arch/win32/resc128.rc.po.c:734 src/arch/amigaos/intl_text.c.po.c:11333
 msgid "External Function ROM"
 msgstr "Külsõ Function ROM"
 
@@ -7873,28 +7873,28 @@ msgid "C128 model settings"
 msgstr "CBM-II modell beállításai"
 
 #: src/arch/win32/resc64.rc.po.c:546 src/arch/win32/resscpu64.rc.po.c:559
-#: src/arch/amigaos/intl_text.c.po.c:12398
+#: src/arch/amigaos/intl_text.c.po.c:12397
 #, fuzzy
 msgid "6569 (PAL)"
 msgstr "6581 (régi)"
 
 #: src/arch/win32/resc64.rc.po.c:547 src/arch/win32/resscpu64.rc.po.c:560
-#: src/arch/amigaos/intl_text.c.po.c:12412
+#: src/arch/amigaos/intl_text.c.po.c:12411
 msgid "8565 (PAL)"
 msgstr ""
 
 #: src/arch/win32/resc64.rc.po.c:549 src/arch/win32/resscpu64.rc.po.c:562
-#: src/arch/amigaos/intl_text.c.po.c:12440
+#: src/arch/amigaos/intl_text.c.po.c:12439
 msgid "6567 (NTSC)"
 msgstr ""
 
 #: src/arch/win32/resc64.rc.po.c:550 src/arch/win32/resscpu64.rc.po.c:563
-#: src/arch/amigaos/intl_text.c.po.c:12454
+#: src/arch/amigaos/intl_text.c.po.c:12453
 msgid "8562 (NTSC)"
 msgstr ""
 
 #: src/arch/win32/resc64.rc.po.c:552 src/arch/win32/resscpu64.rc.po.c:565
-#: src/arch/amigaos/intl_text.c.po.c:12482
+#: src/arch/amigaos/intl_text.c.po.c:12481
 msgid "6572 (PAL-N)"
 msgstr ""
 
@@ -7973,7 +7973,7 @@ msgstr "&NTSC"
 #: src/arch/win32/resc64.rc.po.c:571
 #: src/arch/win32/resc64memoryhacks.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:3799
-#: src/arch/amigaos/intl_text.c.po.c:8338
+#: src/arch/amigaos/intl_text.c.po.c:8337
 #, fuzzy
 msgid "Memory expansion hacks settings"
 msgstr "&Userport botkormány beállításai..."
@@ -8045,7 +8045,7 @@ msgid "True flash filesystem"
 msgstr "&Igazi flash fájlrendszer"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:50
-#: src/arch/amigaos/intl_text.c.po.c:8282
+#: src/arch/amigaos/intl_text.c.po.c:8281
 #, fuzzy
 msgid "Memory expansion hack device"
 msgstr "Memória bõvítések"
@@ -8205,7 +8205,7 @@ msgid "Enable the DigiMAX cartridge"
 msgstr "Digimax cartridge engedélyezése"
 
 #: src/arch/win32/resdigimax.rc.po.c:24
-#: src/arch/amigaos/intl_text.c.po.c:11474
+#: src/arch/amigaos/intl_text.c.po.c:11473
 #, fuzzy
 msgid "DigiMAX base"
 msgstr "Digimax báziscím"
@@ -8234,12 +8234,12 @@ msgid "Start with running oscillator"
 msgstr "Indulás RESET-tel"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:29
-#: src/arch/amigaos/intl_text.c.po.c:11684
+#: src/arch/amigaos/intl_text.c.po.c:11683
 msgid "DS12C887 RTC base"
 msgstr ""
 
 #: src/arch/win32/reseasyflash.rc.po.c:30
-#: src/arch/amigaos/intl_text.c.po.c:12356
+#: src/arch/amigaos/intl_text.c.po.c:12355
 msgid "EasyFlash jumper"
 msgstr "EasyFlash jumper"
 
@@ -8293,22 +8293,22 @@ msgstr "BIOS &mentése változás után"
 msgid "IDE64 V4 settings"
 msgstr "IDE64 beállításai"
 
-#: src/arch/win32/reside64.rc.po.c:62 src/arch/amigaos/intl_text.c.po.c:9710
+#: src/arch/win32/reside64.rc.po.c:62 src/arch/amigaos/intl_text.c.po.c:9709
 #, fuzzy
 msgid "IDE64 primary master device settings"
 msgstr "IDE64 beállításai"
 
-#: src/arch/win32/reside64.rc.po.c:63 src/arch/amigaos/intl_text.c.po.c:9724
+#: src/arch/win32/reside64.rc.po.c:63 src/arch/amigaos/intl_text.c.po.c:9723
 #, fuzzy
 msgid "IDE64 primary slave device settings"
 msgstr "IDE64 beállításai"
 
-#: src/arch/win32/reside64.rc.po.c:64 src/arch/amigaos/intl_text.c.po.c:9738
+#: src/arch/win32/reside64.rc.po.c:64 src/arch/amigaos/intl_text.c.po.c:9737
 #, fuzzy
 msgid "IDE64 secondary master device settings"
 msgstr "SID cartridge beállításai"
 
-#: src/arch/win32/reside64.rc.po.c:65 src/arch/amigaos/intl_text.c.po.c:9752
+#: src/arch/win32/reside64.rc.po.c:65 src/arch/amigaos/intl_text.c.po.c:9751
 #, fuzzy
 msgid "IDE64 secondary slave device settings"
 msgstr "Beállítások betöltése"
@@ -8384,7 +8384,7 @@ msgid "Enable Magic Voice"
 msgstr "SID cartridge engedélyezése"
 
 #: src/arch/win32/resmagicvoice.rc.po.c:27
-#: src/arch/amigaos/intl_text.c.po.c:9150
+#: src/arch/amigaos/intl_text.c.po.c:9149
 #, fuzzy
 msgid "Select file for Magic Voice"
 msgstr "Válasszon fájlt a REU-hoz"
@@ -8402,7 +8402,7 @@ msgstr "Egér típusa"
 msgid "Enable the MMC64 expansion"
 msgstr "MMC64 bõvítés engedélyezése"
 
-#: src/arch/win32/resmmc64.rc.po.c:53 src/arch/amigaos/intl_text.c.po.c:9892
+#: src/arch/win32/resmmc64.rc.po.c:53 src/arch/amigaos/intl_text.c.po.c:9891
 msgid "BIOS Revision"
 msgstr "BIOS változat"
 
@@ -8411,30 +8411,30 @@ msgstr "BIOS változat"
 msgid "Enable BIOS Flash Jumper"
 msgstr "BIOS &Flash jumper engedélyezése"
 
-#: src/arch/win32/resmmc64.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:9948
+#: src/arch/win32/resmmc64.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:9947
 msgid "Save BIOS when changed"
 msgstr "BIOS mentése változás után"
 
-#: src/arch/win32/resmmc64.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:9962
+#: src/arch/win32/resmmc64.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:9961
 msgid "BIOS File"
 msgstr "BIOS fájl"
 
-#: src/arch/win32/resmmc64.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:9990
+#: src/arch/win32/resmmc64.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:9989
 msgid "MMC/SD Image read-only"
 msgstr "MMC/SD képmás csak olvasható"
 
-#: src/arch/win32/resmmc64.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:10004
+#: src/arch/win32/resmmc64.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:10003
 msgid "MMC/SD Image File"
 msgstr "MMC/SD képmás fájl"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:50
-#: src/arch/amigaos/intl_text.c.po.c:10158
+#: src/arch/amigaos/intl_text.c.po.c:10157
 #, fuzzy
 msgid "Rescue mode"
 msgstr "*Hipergyors mód engedélyezése"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:52
-#: src/arch/amigaos/intl_text.c.po.c:8408
+#: src/arch/amigaos/intl_text.c.po.c:8407
 msgid "read/write"
 msgstr "írható/olvasható"
 
@@ -8468,7 +8468,7 @@ msgstr "Bemenet/Kimenet"
 
 #: src/arch/win32/respet.rc.po.c:505 src/arch/win32/respet.rc.po.c:527
 #: src/arch/amigaos/intl_text.c.po.c:3337
-#: src/arch/amigaos/intl_text.c.po.c:11208
+#: src/arch/amigaos/intl_text.c.po.c:11207
 msgid "PET settings"
 msgstr "PET beállításai"
 
@@ -8498,11 +8498,11 @@ msgstr "&Videó"
 msgid "IO Size"
 msgstr "&I/O méret"
 
-#: src/arch/win32/respet.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:11026
+#: src/arch/win32/respet.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:11025
 msgid "256 Byte"
 msgstr "256 Bájt"
 
-#: src/arch/win32/respet.rc.po.c:516 src/arch/amigaos/intl_text.c.po.c:11040
+#: src/arch/win32/respet.rc.po.c:516 src/arch/amigaos/intl_text.c.po.c:11039
 msgid "2 kByte"
 msgstr "2 kBájt"
 
@@ -8511,11 +8511,11 @@ msgstr "2 kBájt"
 msgid "IO Settings"
 msgstr "&IO beállításai"
 
-#: src/arch/win32/respet.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:11180
+#: src/arch/win32/respet.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:11179
 msgid "$9*** as RAM"
 msgstr "$9*** RAM-ként"
 
-#: src/arch/win32/respet.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:11194
+#: src/arch/win32/respet.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:11193
 msgid "$A*** as RAM"
 msgstr "$A*** RAM-ként"
 
@@ -8527,14 +8527,14 @@ msgstr "Modell beállításai"
 
 #: src/arch/win32/respet.rc.po.c:529 src/arch/win32/respetdww.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4177
-#: src/arch/amigaos/intl_text.c.po.c:8268
+#: src/arch/amigaos/intl_text.c.po.c:8267
 #, fuzzy
 msgid "PET DWW settings"
 msgstr "PET REU beállításai"
 
 #: src/arch/win32/respet.rc.po.c:530 src/arch/win32/respetreu.rc.po.c:37
 #: src/arch/amigaos/intl_text.c.po.c:4135
-#: src/arch/amigaos/intl_text.c.po.c:8114
+#: src/arch/amigaos/intl_text.c.po.c:8113
 #, fuzzy
 msgid "PET REU settings"
 msgstr "PET REU beállításai"
@@ -8555,7 +8555,7 @@ msgid "PET model settings"
 msgstr "PET modell beállításai"
 
 #: src/arch/win32/respetcolour.rc.po.c:27
-#: src/arch/amigaos/intl_text.c.po.c:8142
+#: src/arch/amigaos/intl_text.c.po.c:8141
 msgid "Analog"
 msgstr ""
 
@@ -8569,7 +8569,7 @@ msgstr "*Sprite-háttér ütközések"
 msgid "Enable the PET DWW hi-res board"
 msgstr "Isepic cartridge tiltása"
 
-#: src/arch/win32/respetdww.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:8254
+#: src/arch/win32/respetdww.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:8253
 #, fuzzy
 msgid "Select file for PET DWW"
 msgstr "Válasszon fájlt a PET REU-hoz"
@@ -8578,43 +8578,43 @@ msgstr "Válasszon fájlt a PET REU-hoz"
 msgid "Enable the PET Ram and Expansion Unit"
 msgstr "PET RAM and Expansion Unit engedélyezése"
 
-#: src/arch/win32/respetreu.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:8072
+#: src/arch/win32/respetreu.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:8071
 msgid "PET REU size"
 msgstr "PET REU mérete"
 
-#: src/arch/win32/respetreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:8100
+#: src/arch/win32/respetreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:8099
 msgid "Select file for PET REU"
 msgstr "Válasszon fájlt a PET REU-hoz"
 
 #: src/arch/win32/resplus4.rc.po.c:395 src/arch/win32/resplus4.rc.po.c:490
 #: src/arch/win32/resplus4.rc.po.c:505 src/arch/amigaos/intl_text.c.po.c:3407
-#: src/arch/amigaos/intl_text.c.po.c:11250
+#: src/arch/amigaos/intl_text.c.po.c:11249
 msgid "Plus4 settings"
 msgstr "Plus4 beállításai"
 
-#: src/arch/win32/resplus4.rc.po.c:482 src/arch/amigaos/intl_text.c.po.c:10438
+#: src/arch/win32/resplus4.rc.po.c:482 src/arch/amigaos/intl_text.c.po.c:10437
 #, fuzzy
 msgid "Attach cartridge image for Cartridge0 Low"
 msgstr "Cartridge képmás csatolása alsó Cartridge1-hez"
 
-#: src/arch/win32/resplus4.rc.po.c:483 src/arch/amigaos/intl_text.c.po.c:10452
+#: src/arch/win32/resplus4.rc.po.c:483 src/arch/amigaos/intl_text.c.po.c:10451
 #, fuzzy
 msgid "Attach cartridge image for Cartridge0 High"
 msgstr "Cartridge képmás csatolása felsõ Cartridge1-hez"
 
-#: src/arch/win32/resplus4.rc.po.c:484 src/arch/amigaos/intl_text.c.po.c:10466
+#: src/arch/win32/resplus4.rc.po.c:484 src/arch/amigaos/intl_text.c.po.c:10465
 msgid "Attach cartridge image for Cartridge1 Low"
 msgstr "Cartridge képmás csatolása alsó Cartridge1-hez"
 
-#: src/arch/win32/resplus4.rc.po.c:485 src/arch/amigaos/intl_text.c.po.c:10480
+#: src/arch/win32/resplus4.rc.po.c:485 src/arch/amigaos/intl_text.c.po.c:10479
 msgid "Attach cartridge image for Cartridge1 High"
 msgstr "Cartridge képmás csatolása felsõ Cartridge1-hez"
 
-#: src/arch/win32/resplus4.rc.po.c:486 src/arch/amigaos/intl_text.c.po.c:10494
+#: src/arch/win32/resplus4.rc.po.c:486 src/arch/amigaos/intl_text.c.po.c:10493
 msgid "Attach cartridge image for Cartridge2 Low"
 msgstr "Cartridge képmás csatolása alsó Cartridge2-höz"
 
-#: src/arch/win32/resplus4.rc.po.c:487 src/arch/amigaos/intl_text.c.po.c:10508
+#: src/arch/win32/resplus4.rc.po.c:487 src/arch/amigaos/intl_text.c.po.c:10507
 msgid "Attach cartridge image for Cartridge2 High"
 msgstr "Cartridge képmás csatolása felsõ Cartridge2-höz"
 
@@ -8695,7 +8695,7 @@ msgstr "C2 felsõ képmás..."
 
 #: src/arch/win32/resplus4.rc.po.c:506 src/arch/win32/resv364speech.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4149
-#: src/arch/amigaos/intl_text.c.po.c:8226
+#: src/arch/amigaos/intl_text.c.po.c:8225
 #, fuzzy
 msgid "V364 Speech settings"
 msgstr "PET modell beállításai"
@@ -8715,7 +8715,7 @@ msgstr "Digiblaster engedélyezése"
 msgid "Enable the RamCart expansion"
 msgstr "RAMCART bõvítés engedélyezése"
 
-#: src/arch/win32/resramcart.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:8450
+#: src/arch/win32/resramcart.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:8449
 #, fuzzy
 msgid "RamCart size"
 msgstr "Töredék mérete"
@@ -8725,7 +8725,7 @@ msgstr "Töredék mérete"
 msgid "Save to RamCart image when changed"
 msgstr "MMC64 BIOS mentése változás után"
 
-#: src/arch/win32/resramcart.rc.po.c:47 src/arch/amigaos/intl_text.c.po.c:8492
+#: src/arch/win32/resramcart.rc.po.c:47 src/arch/amigaos/intl_text.c.po.c:8491
 #, fuzzy
 msgid "Select file for RamCart"
 msgstr "Válasszon fájlt a REU-hoz"
@@ -8754,16 +8754,16 @@ msgstr "REU beállításai"
 msgid "Enable the RAM Expansion Unit"
 msgstr "RAM Expansion Unit engedélyezése"
 
-#: src/arch/win32/resreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:8520
+#: src/arch/win32/resreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:8519
 msgid "REU size"
 msgstr "REU mérete"
 
-#: src/arch/win32/resreu.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:8548
+#: src/arch/win32/resreu.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:8547
 #, fuzzy
 msgid "Save REU image when changed"
 msgstr "BIOS &mentése változás után"
 
-#: src/arch/win32/resreu.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:8562
+#: src/arch/win32/resreu.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:8561
 msgid "Select file for REU"
 msgstr "Válasszon fájlt a REU-hoz"
 
@@ -8781,13 +8781,13 @@ msgstr "Userport átviteli ráta"
 
 #: src/arch/win32/resscpu64.rc.po.c:570 src/arch/win32/resscpu64.rc.po.c:575
 #: src/arch/amigaos/intl_text.c.po.c:3435
-#: src/arch/amigaos/intl_text.c.po.c:11838
+#: src/arch/amigaos/intl_text.c.po.c:11837
 #, fuzzy
 msgid "SuperCPU64 settings"
 msgstr "MMC64 beállításai"
 
 #: src/arch/win32/resscpu64.rc.po.c:571
-#: src/arch/amigaos/intl_text.c.po.c:11824
+#: src/arch/amigaos/intl_text.c.po.c:11823
 #, fuzzy
 msgid "SIMM size"
 msgstr "RAM mérete"
@@ -8831,21 +8831,21 @@ msgid "reSID options"
 msgstr "reSID/reSIP-fp opciók"
 
 #: src/arch/win32/ressid.rc.po.c:91 src/arch/win32/ressiddtv.rc.po.c:61
-#: src/arch/amigaos/intl_text.c.po.c:9360
+#: src/arch/amigaos/intl_text.c.po.c:9359
 msgid "Sample method"
 msgstr "Mintavételezés módja"
 
 #: src/arch/win32/ressid.rc.po.c:92 src/arch/win32/ressiddtv.rc.po.c:62
-#: src/arch/amigaos/intl_text.c.po.c:9374
+#: src/arch/amigaos/intl_text.c.po.c:9373
 #, fuzzy
 msgid "Passband"
 msgstr "Áteresztõság (0-90%)"
 
-#: src/arch/win32/ressid.rc.po.c:93 src/arch/amigaos/intl_text.c.po.c:9388
+#: src/arch/win32/ressid.rc.po.c:93 src/arch/amigaos/intl_text.c.po.c:9387
 msgid "Gain"
 msgstr ""
 
-#: src/arch/win32/ressid.rc.po.c:94 src/arch/amigaos/intl_text.c.po.c:9402
+#: src/arch/win32/ressid.rc.po.c:94 src/arch/amigaos/intl_text.c.po.c:9401
 #, fuzzy
 msgid "Filter bias"
 msgstr "SID szûrõk"
@@ -8886,7 +8886,7 @@ msgstr "SFX soundexpander engedélyezése"
 
 #: src/arch/win32/ressoundsampler.rc.po.c:20
 #: src/arch/win32/resvic20.rc.po.c:587 src/arch/amigaos/intl_text.c.po.c:3981
-#: src/arch/amigaos/intl_text.c.po.c:11782
+#: src/arch/amigaos/intl_text.c.po.c:11781
 #, fuzzy
 msgid "SFX Sound Sampler settings"
 msgstr "SFX Sounder Expander beállítások"
@@ -8936,7 +8936,7 @@ msgid "Enable the v364 speech add-on"
 msgstr "Digiblaster engedélyezése"
 
 #: src/arch/win32/resv364speech.rc.po.c:26
-#: src/arch/amigaos/intl_text.c.po.c:8198
+#: src/arch/amigaos/intl_text.c.po.c:8197
 #, fuzzy
 msgid "V364 Speech ROM file"
 msgstr "Válasszon ROM fájlt"
@@ -8948,7 +8948,7 @@ msgstr "Válasszon fájlt a 256K-hoz"
 
 #: src/arch/win32/resvic20.rc.po.c:539 src/arch/win32/resvic20.rc.po.c:574
 #: src/arch/amigaos/intl_text.c.po.c:3295
-#: src/arch/amigaos/intl_text.c.po.c:9556
+#: src/arch/amigaos/intl_text.c.po.c:9555
 #, fuzzy
 msgid "VIC20 settings"
 msgstr "VIC beállításai"
@@ -8958,20 +8958,20 @@ msgstr "VIC beállításai"
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr "&Mindegyik (blokk 0/1/2/3/5)"
 
-#: src/arch/win32/resvic20.rc.po.c:552 src/arch/amigaos/intl_text.c.po.c:10200
+#: src/arch/win32/resvic20.rc.po.c:552 src/arch/amigaos/intl_text.c.po.c:10199
 #, fuzzy
 msgid "Select generic cartridge image"
 msgstr "Általános cartridge fájl kiválasztása"
 
-#: src/arch/win32/resvic20.rc.po.c:553 src/arch/amigaos/intl_text.c.po.c:10228
+#: src/arch/win32/resvic20.rc.po.c:553 src/arch/amigaos/intl_text.c.po.c:10227
 msgid "Select Mega-Cart image"
 msgstr "Válassza ki a Mega-Cart képmást"
 
-#: src/arch/win32/resvic20.rc.po.c:554 src/arch/amigaos/intl_text.c.po.c:10242
+#: src/arch/win32/resvic20.rc.po.c:554 src/arch/amigaos/intl_text.c.po.c:10241
 msgid "Select Final Expansion image"
 msgstr "Válassza ki a Final Expansion képmást"
 
-#: src/arch/win32/resvic20.rc.po.c:555 src/arch/amigaos/intl_text.c.po.c:10214
+#: src/arch/win32/resvic20.rc.po.c:555 src/arch/amigaos/intl_text.c.po.c:10213
 #, fuzzy
 msgid "Select Vic Flash Plugin image"
 msgstr "Válassza ki a Final Expansion képmást"
@@ -9092,7 +9092,7 @@ msgid "Previous tune"
 msgstr "Elõzõ: "
 
 #: src/arch/amigaos/intl_text.c.po.c:131
-#: src/arch/amigaos/intl_text.c.po.c:11628
+#: src/arch/amigaos/intl_text.c.po.c:11627
 #, fuzzy
 msgid "CPU JAM action settings"
 msgstr "PAL Emuláció beállításai"
@@ -9412,13 +9412,13 @@ msgid "TED video settings"
 msgstr "Videó beállításai"
 
 #: src/arch/amigaos/intl_text.c.po.c:3239
-#: src/arch/amigaos/intl_text.c.po.c:8604
+#: src/arch/amigaos/intl_text.c.po.c:8603
 #, fuzzy
 msgid "Palette settings"
 msgstr "Magnó beállításai"
 
 #: src/arch/amigaos/intl_text.c.po.c:3267
-#: src/arch/amigaos/intl_text.c.po.c:8632
+#: src/arch/amigaos/intl_text.c.po.c:8631
 #, fuzzy
 msgid "Render filter settings"
 msgstr "Nyomtató beállításai"
@@ -9432,12 +9432,12 @@ msgid "Joystick fire button selection"
 msgstr "Botkormány tûzgomb kiválasztás"
 
 #: src/arch/amigaos/intl_text.c.po.c:3603
-#: src/arch/amigaos/intl_text.c.po.c:11432
+#: src/arch/amigaos/intl_text.c.po.c:11431
 msgid "Computer ROM settings"
 msgstr "Számítógép ROM beállításai"
 
 #: src/arch/amigaos/intl_text.c.po.c:3617
-#: src/arch/amigaos/intl_text.c.po.c:11446
+#: src/arch/amigaos/intl_text.c.po.c:11445
 msgid "Drive ROM settings"
 msgstr "Lemezegység ROM beállításai"
 
@@ -9460,7 +9460,7 @@ msgid "Enable saving the Userport RTC data"
 msgstr "RAMCART bõvítés engedélyezése"
 
 #: src/arch/amigaos/intl_text.c.po.c:4051
-#: src/arch/amigaos/intl_text.c.po.c:8590
+#: src/arch/amigaos/intl_text.c.po.c:8589
 #, fuzzy
 msgid "Drive burst modification settings"
 msgstr "Automatikus tûz beállításai"
@@ -9837,434 +9837,434 @@ msgstr "Videó overlay"
 msgid "Disable video overlay."
 msgstr "Videó overlay"
 
-#: src/arch/amigaos/intl_text.c.po.c:8128
+#: src/arch/amigaos/intl_text.c.po.c:8127
 msgid "RGBI"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8184
+#: src/arch/amigaos/intl_text.c.po.c:8183
 #, fuzzy
 msgid "PET Colour settings"
 msgstr "Modell beállításai"
 
-#: src/arch/amigaos/intl_text.c.po.c:8212
+#: src/arch/amigaos/intl_text.c.po.c:8211
 #, fuzzy
 msgid "Select file for V364 Speech"
 msgstr "Válasszon fájlt a 256K-hoz"
 
-#: src/arch/amigaos/intl_text.c.po.c:8296
+#: src/arch/amigaos/intl_text.c.po.c:8295
 msgid "PLUS60K base address"
 msgstr "PLUS60K báziscíme"
 
-#: src/arch/amigaos/intl_text.c.po.c:8310
+#: src/arch/amigaos/intl_text.c.po.c:8309
 msgid "PLUS60K file"
 msgstr "PLUS60K fájl"
 
-#: src/arch/amigaos/intl_text.c.po.c:8324
+#: src/arch/amigaos/intl_text.c.po.c:8323
 msgid "Select file for PLUS60K"
 msgstr "Válasszon fájlt a PLUS60K-hoz"
 
-#: src/arch/amigaos/intl_text.c.po.c:8436
+#: src/arch/amigaos/intl_text.c.po.c:8435
 #, fuzzy
 msgid "RamCart Read/Write"
 msgstr "írható/olvasható"
 
-#: src/arch/amigaos/intl_text.c.po.c:8478
+#: src/arch/amigaos/intl_text.c.po.c:8477
 #, fuzzy
 msgid "Save RamCart image when changed"
 msgstr "MMC64 BIOS mentése változás után"
 
-#: src/arch/amigaos/intl_text.c.po.c:8660
-#: src/arch/amigaos/intl_text.c.po.c:10858
+#: src/arch/amigaos/intl_text.c.po.c:8659
+#: src/arch/amigaos/intl_text.c.po.c:10857
 #, fuzzy
 msgid "VICII palette file"
 msgstr "VICII paletta fájl"
 
-#: src/arch/amigaos/intl_text.c.po.c:8674
-#: src/arch/amigaos/intl_text.c.po.c:10872
+#: src/arch/amigaos/intl_text.c.po.c:8673
+#: src/arch/amigaos/intl_text.c.po.c:10871
 #, fuzzy
 msgid "VIC palette file"
 msgstr "VICII paletta fájl"
 
-#: src/arch/amigaos/intl_text.c.po.c:8688
-#: src/arch/amigaos/intl_text.c.po.c:10900
+#: src/arch/amigaos/intl_text.c.po.c:8687
+#: src/arch/amigaos/intl_text.c.po.c:10899
 #, fuzzy
 msgid "VDC palette file"
 msgstr "VDC paletta fájl"
 
-#: src/arch/amigaos/intl_text.c.po.c:8702
-#: src/arch/amigaos/intl_text.c.po.c:10914
+#: src/arch/amigaos/intl_text.c.po.c:8701
+#: src/arch/amigaos/intl_text.c.po.c:10913
 #, fuzzy
 msgid "CRTC palette file"
 msgstr "VDC paletta fájl"
 
-#: src/arch/amigaos/intl_text.c.po.c:8716
-#: src/arch/amigaos/intl_text.c.po.c:10886
+#: src/arch/amigaos/intl_text.c.po.c:8715
+#: src/arch/amigaos/intl_text.c.po.c:10885
 #, fuzzy
 msgid "TED palette file"
 msgstr "VDC paletta fájl"
 
-#: src/arch/amigaos/intl_text.c.po.c:8856
+#: src/arch/amigaos/intl_text.c.po.c:8855
 #, fuzzy
 msgid "Printer #4 output type"
 msgstr "IEC nyomtató #4 szöveg kimenetes eszköz"
 
-#: src/arch/amigaos/intl_text.c.po.c:8870
+#: src/arch/amigaos/intl_text.c.po.c:8869
 #, fuzzy
 msgid "Printer #5 output type"
 msgstr "IEC nyomtató #5 szöveg kimenetes eszköz"
 
-#: src/arch/amigaos/intl_text.c.po.c:8884
+#: src/arch/amigaos/intl_text.c.po.c:8883
 #, fuzzy
 msgid "Printer #6 output type"
 msgstr "IEC nyomtató #4 szöveg kimenetes eszköz"
 
-#: src/arch/amigaos/intl_text.c.po.c:8898
+#: src/arch/amigaos/intl_text.c.po.c:8897
 #, fuzzy
 msgid "Userport printer output type"
 msgstr "Userport-os nyomtató szöveg kimenetes eszköz"
 
-#: src/arch/amigaos/intl_text.c.po.c:8912
+#: src/arch/amigaos/intl_text.c.po.c:8911
 #, fuzzy
 msgid "Printer #4 output device"
 msgstr "IEC nyomtató #4 szöveg kimenetes eszköz"
 
-#: src/arch/amigaos/intl_text.c.po.c:8926
+#: src/arch/amigaos/intl_text.c.po.c:8925
 #, fuzzy
 msgid "Printer #5 output device"
 msgstr "IEC nyomtató #5 szöveg kimenetes eszköz"
 
-#: src/arch/amigaos/intl_text.c.po.c:8940
+#: src/arch/amigaos/intl_text.c.po.c:8939
 #, fuzzy
 msgid "Printer #6 output device"
 msgstr "IEC nyomtató #4 szöveg kimenetes eszköz"
 
-#: src/arch/amigaos/intl_text.c.po.c:8954
+#: src/arch/amigaos/intl_text.c.po.c:8953
 #, fuzzy
 msgid "Userport printer output device"
 msgstr "Userport-os nyomtató szöveg kimenetes eszköz"
 
-#: src/arch/amigaos/intl_text.c.po.c:8968
+#: src/arch/amigaos/intl_text.c.po.c:8967
 #, fuzzy
 msgid "Send formfeed to printer #4"
 msgstr "Lapdobás küldése"
 
-#: src/arch/amigaos/intl_text.c.po.c:8982
+#: src/arch/amigaos/intl_text.c.po.c:8981
 #, fuzzy
 msgid "Send formfeed to printer #5"
 msgstr "Lapdobás küldése"
 
-#: src/arch/amigaos/intl_text.c.po.c:8996
+#: src/arch/amigaos/intl_text.c.po.c:8995
 #, fuzzy
 msgid "Send formfeed to printer #6"
 msgstr "Lapdobás küldése"
 
-#: src/arch/amigaos/intl_text.c.po.c:9010
+#: src/arch/amigaos/intl_text.c.po.c:9009
 #, fuzzy
 msgid "Send formfeed to userport printer"
 msgstr "Adja meg a kimeneti eszköz nevét a userport nyomtatóhoz"
 
-#: src/arch/amigaos/intl_text.c.po.c:9024
+#: src/arch/amigaos/intl_text.c.po.c:9023
 #, fuzzy
 msgid "Printer device #1 output"
 msgstr "Szöveg nyomtató eszköz 1..."
 
-#: src/arch/amigaos/intl_text.c.po.c:9038
+#: src/arch/amigaos/intl_text.c.po.c:9037
 #, fuzzy
 msgid "Printer device #2 output"
 msgstr "Szöveg nyomtató eszköz 2..."
 
-#: src/arch/amigaos/intl_text.c.po.c:9052
+#: src/arch/amigaos/intl_text.c.po.c:9051
 #, fuzzy
 msgid "Printer device #3 output"
 msgstr "Szöveg nyomtató eszköz 3..."
 
-#: src/arch/amigaos/intl_text.c.po.c:9066
+#: src/arch/amigaos/intl_text.c.po.c:9065
 #, fuzzy
 msgid "IEC emulation for printer #4"
 msgstr "IEC eszköz #4 emulációjának engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:9080
+#: src/arch/amigaos/intl_text.c.po.c:9079
 #, fuzzy
 msgid "IEC emulation for printer #5"
 msgstr "IEC eszköz #5 emulációjának engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:9094
+#: src/arch/amigaos/intl_text.c.po.c:9093
 #, fuzzy
 msgid "IEC emulation for printer #6"
 msgstr "IEC eszköz #4 emulációjának engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:9108
+#: src/arch/amigaos/intl_text.c.po.c:9107
 #, fuzzy
 msgid "IEC emulation for device #7"
 msgstr "IEC eszköz #4 emulációjának engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:9178
+#: src/arch/amigaos/intl_text.c.po.c:9177
 msgid "Userport RS232"
 msgstr "Userport RS232"
 
-#: src/arch/amigaos/intl_text.c.po.c:9290
+#: src/arch/amigaos/intl_text.c.po.c:9289
 msgid "SID Stereo"
 msgstr "SID sztereó"
 
-#: src/arch/amigaos/intl_text.c.po.c:9304
+#: src/arch/amigaos/intl_text.c.po.c:9303
 #, fuzzy
 msgid "Amount of extra sids"
 msgstr "SID &engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:9318
+#: src/arch/amigaos/intl_text.c.po.c:9317
 msgid "Stereo SID at"
 msgstr "Sztereó SID itt:"
 
-#: src/arch/amigaos/intl_text.c.po.c:9332
+#: src/arch/amigaos/intl_text.c.po.c:9331
 #, fuzzy
 msgid "Triple SID at"
 msgstr "*Második SID báziscíme"
 
-#: src/arch/amigaos/intl_text.c.po.c:9416
+#: src/arch/amigaos/intl_text.c.po.c:9415
 msgid "Not implemented yet!"
 msgstr "Még nem implementált!"
 
-#: src/arch/amigaos/intl_text.c.po.c:9528
+#: src/arch/amigaos/intl_text.c.po.c:9527
 msgid "Speed Adjustment"
 msgstr "Sebesség beállítás"
 
-#: src/arch/amigaos/intl_text.c.po.c:9682
+#: src/arch/amigaos/intl_text.c.po.c:9681
 msgid "HD image file"
 msgstr "Merevlemez képmás fájl"
 
-#: src/arch/amigaos/intl_text.c.po.c:9696
+#: src/arch/amigaos/intl_text.c.po.c:9695
 msgid "Select HD image file"
 msgstr "Válassza ki a merevlemez képmás fájlt"
 
-#: src/arch/amigaos/intl_text.c.po.c:9766
+#: src/arch/amigaos/intl_text.c.po.c:9765
 #, fuzzy
 msgid "IDE64 version"
 msgstr "IDE64 szektorok"
 
-#: src/arch/amigaos/intl_text.c.po.c:9780
+#: src/arch/amigaos/intl_text.c.po.c:9779
 #, fuzzy
 msgid "USB Server"
 msgstr "Kiszolgáló"
 
-#: src/arch/amigaos/intl_text.c.po.c:9794
+#: src/arch/amigaos/intl_text.c.po.c:9793
 #, fuzzy
 msgid "USB Server address to bind to"
 msgstr "Válasszon meghajtót"
 
-#: src/arch/amigaos/intl_text.c.po.c:9808
+#: src/arch/amigaos/intl_text.c.po.c:9807
 msgid "Enable saving of the IDE64 RTC data"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:9906
-#: src/arch/amigaos/intl_text.c.po.c:9920
+#: src/arch/amigaos/intl_text.c.po.c:9905
+#: src/arch/amigaos/intl_text.c.po.c:9919
 msgid "BIOS Flash Jumper"
 msgstr "BIOS Flash jumper"
 
-#: src/arch/amigaos/intl_text.c.po.c:9934
+#: src/arch/amigaos/intl_text.c.po.c:9933
 #, fuzzy
 msgid "Bank jumper"
 msgstr "MMC64 flashjumper engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:9976
+#: src/arch/amigaos/intl_text.c.po.c:9975
 msgid "Select BIOS file"
 msgstr "Válasszon BIOS fájlt"
 
-#: src/arch/amigaos/intl_text.c.po.c:10032
+#: src/arch/amigaos/intl_text.c.po.c:10031
 msgid "Select MMC/SD image file"
 msgstr "Válassza ki az MMC/SD képmás fájlt"
 
-#: src/arch/amigaos/intl_text.c.po.c:10060
+#: src/arch/amigaos/intl_text.c.po.c:10059
 #, fuzzy
 msgid "Select EEPROM file"
 msgstr "Válasszon ROM fájlt"
 
-#: src/arch/amigaos/intl_text.c.po.c:10074
+#: src/arch/amigaos/intl_text.c.po.c:10073
 #, fuzzy
 msgid "Select card image file"
 msgstr "Válassza ki a merevlemez képmás fájlt"
 
-#: src/arch/amigaos/intl_text.c.po.c:10102
+#: src/arch/amigaos/intl_text.c.po.c:10101
 #, fuzzy
 msgid "Card read/write"
 msgstr "írható/olvasható"
 
-#: src/arch/amigaos/intl_text.c.po.c:10130
+#: src/arch/amigaos/intl_text.c.po.c:10129
 #, fuzzy
 msgid "Save EEPROM image when changed"
 msgstr "BIOS &mentése változás után"
 
-#: src/arch/amigaos/intl_text.c.po.c:10144
+#: src/arch/amigaos/intl_text.c.po.c:10143
 #, fuzzy
 msgid "EEPROM read/write"
 msgstr "írható/olvasható"
 
-#: src/arch/amigaos/intl_text.c.po.c:10284
+#: src/arch/amigaos/intl_text.c.po.c:10283
 #, fuzzy
 msgid "SID engine and model"
 msgstr "<motor és modell>"
 
-#: src/arch/amigaos/intl_text.c.po.c:10298
+#: src/arch/amigaos/intl_text.c.po.c:10297
 #, fuzzy
 msgid "SID engine"
 msgstr "SID beállításai"
 
-#: src/arch/amigaos/intl_text.c.po.c:10620
+#: src/arch/amigaos/intl_text.c.po.c:10619
 msgid "snapshot file"
 msgstr "pillanatkép fájl"
 
-#: src/arch/amigaos/intl_text.c.po.c:10634
+#: src/arch/amigaos/intl_text.c.po.c:10633
 msgid "Select snapshot file"
 msgstr "Válasszon pillanatkép fájlt"
 
-#: src/arch/amigaos/intl_text.c.po.c:10690
+#: src/arch/amigaos/intl_text.c.po.c:10689
 msgid "Select External Palette file"
 msgstr "Válasszon külsõ paletta fájlt"
 
-#: src/arch/amigaos/intl_text.c.po.c:10788
+#: src/arch/amigaos/intl_text.c.po.c:10787
 #, fuzzy
 msgid "External VICII palette"
 msgstr "Külsõ paletta"
 
-#: src/arch/amigaos/intl_text.c.po.c:10802
+#: src/arch/amigaos/intl_text.c.po.c:10801
 #, fuzzy
 msgid "External VIC palette"
 msgstr "Külsõ paletta"
 
-#: src/arch/amigaos/intl_text.c.po.c:10816
+#: src/arch/amigaos/intl_text.c.po.c:10815
 #, fuzzy
 msgid "External TED palette"
 msgstr "Külsõ paletta"
 
-#: src/arch/amigaos/intl_text.c.po.c:10830
+#: src/arch/amigaos/intl_text.c.po.c:10829
 #, fuzzy
 msgid "External VDC palette"
 msgstr "Külsõ paletta"
 
-#: src/arch/amigaos/intl_text.c.po.c:10844
+#: src/arch/amigaos/intl_text.c.po.c:10843
 #, fuzzy
 msgid "External CRTC palette"
 msgstr "Külsõ paletta"
 
-#: src/arch/amigaos/intl_text.c.po.c:11068
+#: src/arch/amigaos/intl_text.c.po.c:11067
 #, fuzzy
 msgid "Text"
 msgstr "Következõ: "
 
-#: src/arch/amigaos/intl_text.c.po.c:11152
+#: src/arch/amigaos/intl_text.c.po.c:11151
 msgid "CRTC chip"
 msgstr "CRTC csip"
 
-#: src/arch/amigaos/intl_text.c.po.c:11222
+#: src/arch/amigaos/intl_text.c.po.c:11221
 msgid "Current Model"
 msgstr "Jelenlegi modell"
 
-#: src/arch/amigaos/intl_text.c.po.c:11236
+#: src/arch/amigaos/intl_text.c.po.c:11235
 msgid "PET Model"
 msgstr "PET modell"
 
-#: src/arch/amigaos/intl_text.c.po.c:11362
+#: src/arch/amigaos/intl_text.c.po.c:11361
 msgid "RAM banks 2 & 3"
 msgstr "2-es és 3-as RAM bankok"
 
-#: src/arch/amigaos/intl_text.c.po.c:11376
+#: src/arch/amigaos/intl_text.c.po.c:11375
 #, fuzzy
 msgid "Enable Internal Function RTC data saving"
 msgstr "Belsõ Function ROM engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:11390
+#: src/arch/amigaos/intl_text.c.po.c:11389
 #, fuzzy
 msgid "Enable External Function RTC data saving"
 msgstr "Külsõ Function ROM engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:11418
+#: src/arch/amigaos/intl_text.c.po.c:11417
 msgid "Select ROM file"
 msgstr "Válasszon ROM fájlt"
 
-#: src/arch/amigaos/intl_text.c.po.c:11460
+#: src/arch/amigaos/intl_text.c.po.c:11459
 #, fuzzy
 msgid "DigiMAX Enabled"
 msgstr "Digimax engedélyezve"
 
-#: src/arch/amigaos/intl_text.c.po.c:11642
+#: src/arch/amigaos/intl_text.c.po.c:11641
 #, fuzzy
 msgid "Drive sound enabled"
 msgstr "Nyomtató emuláció"
 
-#: src/arch/amigaos/intl_text.c.po.c:11656
+#: src/arch/amigaos/intl_text.c.po.c:11655
 #, fuzzy
 msgid "Drive sound settings"
 msgstr "Lemezegység beállításai"
 
-#: src/arch/amigaos/intl_text.c.po.c:11670
+#: src/arch/amigaos/intl_text.c.po.c:11669
 msgid "DS12C887 RTC Enabled"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11698
+#: src/arch/amigaos/intl_text.c.po.c:11697
 #, fuzzy
 msgid "Enable DS12C887 RTC data saving"
 msgstr "SID kártya *engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:11726
+#: src/arch/amigaos/intl_text.c.po.c:11725
 msgid "SFX Sound Expander Enabled"
 msgstr "SFX Sound Expander engedélyezve"
 
-#: src/arch/amigaos/intl_text.c.po.c:11740
+#: src/arch/amigaos/intl_text.c.po.c:11739
 msgid "SFX Sound Expander Chip"
 msgstr "SFX Sound Expander csip"
 
-#: src/arch/amigaos/intl_text.c.po.c:11754
+#: src/arch/amigaos/intl_text.c.po.c:11753
 #, fuzzy
 msgid "SFX Sound Sampler Enabled"
 msgstr "SFX Sound Expander engedélyezve"
 
-#: src/arch/amigaos/intl_text.c.po.c:11796
+#: src/arch/amigaos/intl_text.c.po.c:11795
 msgid "Jiffy switch enabled"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11810
+#: src/arch/amigaos/intl_text.c.po.c:11809
 msgid "Speed switch enabled"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:11880
+#: src/arch/amigaos/intl_text.c.po.c:11879
 msgid "Select Sound Record File"
 msgstr "Válassza ki a hangfelvétel kimeneti fájlt"
 
-#: src/arch/amigaos/intl_text.c.po.c:12062
+#: src/arch/amigaos/intl_text.c.po.c:12061
 msgid "Volume (0-100%)"
 msgstr "Hangerõ (0-100%)"
 
-#: src/arch/amigaos/intl_text.c.po.c:12132
+#: src/arch/amigaos/intl_text.c.po.c:12131
 msgid "Mouse type"
 msgstr "Egér típusa"
 
-#: src/arch/amigaos/intl_text.c.po.c:12160
+#: src/arch/amigaos/intl_text.c.po.c:12159
 msgid "Mouse port"
 msgstr "Egér port"
 
-#: src/arch/amigaos/intl_text.c.po.c:12174
+#: src/arch/amigaos/intl_text.c.po.c:12173
 #, fuzzy
 msgid "Enable Smart Mouse RTC saving"
 msgstr "Hardver átméretezés engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:12370
+#: src/arch/amigaos/intl_text.c.po.c:12369
 msgid "Save to EasyFlash CRT file on detach"
 msgstr "EasyFlash CRT fájl mentése leválasztáskor"
 
-#: src/arch/amigaos/intl_text.c.po.c:12384
+#: src/arch/amigaos/intl_text.c.po.c:12383
 msgid "Save to EasyFlash CRT now"
 msgstr "EasyFlash CRT fájl mentése most"
 
-#: src/arch/amigaos/intl_text.c.po.c:12608
+#: src/arch/amigaos/intl_text.c.po.c:12607
 #, fuzzy
 msgid "Reset IEC bus with computer"
 msgstr "Számláló nullázása"
 
-#: src/arch/amigaos/intl_text.c.po.c:12636
+#: src/arch/amigaos/intl_text.c.po.c:12635
 #, fuzzy
 msgid "CIA model settings"
 msgstr "PET modell beállításai"
 
-#: src/arch/amigaos/intl_text.c.po.c:12650
+#: src/arch/amigaos/intl_text.c.po.c:12649
 #, fuzzy
 msgid "Select SID file to load"
 msgstr "Válasszon BIOS fájlt"
