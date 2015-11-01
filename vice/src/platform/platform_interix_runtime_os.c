@@ -35,6 +35,8 @@
  - Windows 2000 Server (x86)
  - Windows 2000 Small Business Server (x86)
  - Windows 2000 Advanced Server (x86)
+ - Windows 2000 Datacenter Server (x86)
+ - Windows XP Embedded (x86)
  - Windows XP FLP (x86)
  - Windows XP Pro (x86)
  - Windows XP MCE 2004 (x86)
@@ -46,6 +48,7 @@
  - Windows 2003 Enterprise Server (x86)
  - Windows 2003 Datacenter Server (x86)
  - Windows Home Server (x86)
+ - Windows 2003 R2 Standard Server (x86)
  - Windows 2003 R2 Small Business Server (x86)
  - Windows 2003 R2 Enterprise Server (x86/x64)
  - Windows 2003 R2 Datacenter Server (x64)
@@ -55,11 +58,13 @@
  - Windows 2008 Enterprise Server (x86/x64)
  - Windows 2008 Datacenter Server (x86/x64)
  - Windows 2008 Basic Storage Server (x64)
+ - Windows 2008 Workgroup Storage Server (x64)
+ - Windows 2008 Enterprise Storage Server (x64)
  - Windows Thin PC (x86)
  - Windows 7 Embedded POSReady (x86)
  - Windows 7 Embedded Standard (x86)
  - Windows 7 Enterprise (x86/x64)
- - Windows 7 Ultimate (x64)
+ - Windows 7 Ultimate (x86/x64)
  - Windows 2008 R2 Foundation Server (x64)
  - Windows 2008 R2 Enterprise Server (x64)
  - Windows 2008 R2 Datacenter Server (x64)
@@ -124,6 +129,7 @@ static winver_t windows_versions[] = {
     { "Windows 2000 Datacenter Server",            "Microsoft Windows 2000",                     6, 0 },
     { "Windows 2000 Powered",                      "Microsoft Windows 2000",                     4, 0 },
     { "Windows 2000 Small Business Server",        "Microsoft Windows 2000",                     3, 0 },
+    { "Windows XP Embedded",                       "Microsoft Windows XP",                       0, 10 },
     { "Windows XP Pro",                            "Microsoft Windows XP",                       0, 0 },
     { "Windows XP Tablet PC",                      "Microsoft Windows XP",                       0, 1 },
     { "Windows XP Media Center 2004",              "Microsoft Windows XP",                       0, 6 },
@@ -242,6 +248,7 @@ static char *get_windows_version(void)
        7 = MCE 2005
        8 = MCE 2005 R1
        9 = MCE 2005 R2
+      10 = Embedded
      */
     if (!strcmp(windows_name, "Microsoft Windows XP")) {
         rcode = getreg(NT_FLP_PATH, &type, &wpa, &wpa_size);
@@ -274,6 +281,21 @@ static char *get_windows_version(void)
                 windows_flags = 5;
             } else {
                 windows_flags = 4;
+            }
+        }
+        rcode = getreg(NT_PRODUCT_SUITE_PATH, &type, &product_suite, &size);
+        if (!rcode) {
+            p = product_suite;
+            while (!found) {
+                wide2single(p, temp);
+                if (!strcmp(temp, "EmbeddedNT") && windows_flags != 3 && windows_flags != 5) {
+                    windows_flags = 10;
+                }
+                p += widelen(p);
+                p += 2;
+                if (p[0] == 0 && p[1] == 0) {
+                    found = 1;
+                }
             }
         }
         if (windows_flags == 2) {
@@ -390,7 +412,7 @@ static char *get_windows_version(void)
                 p = product_suite;
                 while (!found) {
                     wide2single(p, temp);
-                    if (!strcmp(temp, "EmbeddedNT") && windows_flags != 3 && windows_flags != 5) {
+                    if (!strcmp(temp, "EmbeddedNT") && windows_flags != 3 && windows_flags != 5 && windows_flags != 10) {
                         suite |= 1;
                     }
                     p += widelen(p);
