@@ -70,7 +70,7 @@ static ui_menu_entry_t fsdevice_drive8_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)8, NULL },
-    { N_("Drive Wobble"), UI_MENU_TYPE_DOTS,
+    { N_("Drive wobble"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)8, NULL },
     { NULL }
 };
@@ -90,7 +90,7 @@ static ui_menu_entry_t fsdevice_drive9_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)9, NULL },
-    { N_("Drive Wobble"), UI_MENU_TYPE_DOTS,
+    { N_("Drive wobble"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)9, NULL },
     { NULL }
 };
@@ -110,7 +110,7 @@ static ui_menu_entry_t fsdevice_drive10_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)10, NULL },
-    { N_("Drive Wobble"), UI_MENU_TYPE_DOTS,
+    { N_("Drive wobble"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)10, NULL },
     { NULL }
 };
@@ -130,7 +130,7 @@ static ui_menu_entry_t fsdevice_drive11_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)11, NULL },
-    { N_("Drive Wobble"), UI_MENU_TYPE_DOTS,
+    { N_("Drive wobble"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)11, NULL },
     { NULL }
 };
