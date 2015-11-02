@@ -81,6 +81,8 @@
 
 #include "vice.h"
 
+/* #define DEBUG_FILEDRV 1 */
+
 #include <string.h> /* for memcpy */
 #include <math.h>
 
@@ -108,6 +110,8 @@
 #include "sampler.h"
 #include "translate.h"
 #include "util.h"
+
+static log_t filedrv_log = LOG_ERR;
 
 static char *sample_name = NULL;
 
@@ -430,19 +434,25 @@ static void check_and_skip_chunk(void)
     /* if the current chunk is of type 'LIST' we need to skip it */
     if (file_buffer[file_pointer] == 0x4C && file_buffer[file_pointer + 1] == 0x49 && file_buffer[file_pointer + 2] == 0x53 && file_buffer[file_pointer + 3] == 0x54) {
         skip_chunk = 1;
-        log_warning(LOG_DEFAULT, "LIST chunk found, skipping");
+#if DEBUG_FILEDRV
+        log_warning(filedrv_log, "LIST chunk found, skipping");
+#endif
     }
 
     /* if the current chunk is of type 'PEAK' we need to skip it */
     if (file_buffer[file_pointer] == 0x50 && file_buffer[file_pointer + 1] == 0x45 && file_buffer[file_pointer + 2] == 0x41 && file_buffer[file_pointer + 3] == 0x4B) {
         skip_chunk = 1;
-        log_warning(LOG_DEFAULT, "PEAK chunk found, skipping");
+#if DEBUG_FILEDRV
+        log_warning(filedrv_log, "PEAK chunk found, skipping");
+#endif
     }
 
     /* if the current chunk is of type 'fact' we need to skip it */
     if (file_buffer[file_pointer] == 0x66 && file_buffer[file_pointer + 1] == 0x61 && file_buffer[file_pointer + 2] == 0x63 && file_buffer[file_pointer + 3] == 0x74) {
         skip_chunk = 1;
-        log_warning(LOG_DEFAULT, "fact chunk found, skipping");
+#if DEBUG_FILEDRV
+        log_warning(filedrv_log, "fact chunk found, skipping");
+#endif
     }
 
     if (skip_chunk) {
@@ -475,20 +485,20 @@ static int handle_wav_file(int channels)
     unsigned int bps = 0;
 
     if (file_size < 8) {
-        log_warning(LOG_DEFAULT, "file size smaller than 8 bytes.");
+        log_error(filedrv_log, "file size smaller than 8 bytes.");
         return -1;
     }
 
     /* sanity check header indicated size with loaded size */
     size = (file_buffer[7] << 24) | (file_buffer[6] << 16) | (file_buffer[5] << 8) | file_buffer[4];
     if (size != file_size - 8) {
-        log_warning(LOG_DEFAULT, "header reported size not what was expected: header says: %d, filesize - 8 is %d.", size, file_size - 8);
+        log_error(filedrv_log, "header reported size not what was expected: header says: %d, filesize - 8 is %d.", size, file_size - 8);
         return -1;
     }
 
     /* next needs to be 'WAVE' */
     if (file_buffer[8] != 0x57 || file_buffer[9] != 0x41 || file_buffer[10] != 0x56 || file_buffer[11] != 0x45) {
-        log_warning(LOG_DEFAULT, "WAVE not found at expected header position, found: %X %X %X %X.", file_buffer[8], file_buffer[9], file_buffer[10], file_buffer[11]);
+        log_error(filedrv_log, "WAVE not found at expected header position, found: %X %X %X %X.", file_buffer[8], file_buffer[9], file_buffer[10], file_buffer[11]);
         return -1;
     }
 
@@ -498,14 +508,14 @@ static int handle_wav_file(int channels)
 
     /* current chunk now needs to be 'fmt ' */
     if (file_buffer[file_pointer] != 0x66 || file_buffer[file_pointer + 1] != 0x6D || file_buffer[file_pointer + 2] != 0x74 || file_buffer[file_pointer + 3] != 0x20) {
-        log_warning(LOG_DEFAULT, "'fmt ' chunk not found in the expected header position, %X %X %X %X", file_buffer[file_pointer], file_buffer[file_pointer + 1], file_buffer[file_pointer + 2], file_buffer[file_pointer + 3]);
+        log_error(filedrv_log, "'fmt ' chunk not found in the expected header position, %X %X %X %X", file_buffer[file_pointer], file_buffer[file_pointer + 1], file_buffer[file_pointer + 2], file_buffer[file_pointer + 3]);
         return -1;
     }
     file_pointer += 4;
 
     /* chunk size needs to be 0x10 */
     if (!valid_wav_ftm_chunk_size()) {
-        log_warning(LOG_DEFAULT, "unexpected chunk size %2X%2X%2X%2X", file_buffer[file_pointer + 3], file_buffer[file_pointer + 2], file_buffer[file_pointer + 1], file_buffer[file_pointer]);
+        log_error(filedrv_log, "unexpected chunk size %2X%2X%2X%2X", file_buffer[file_pointer + 3], file_buffer[file_pointer + 2], file_buffer[file_pointer + 1], file_buffer[file_pointer]);
         return -1;
     }
     file_pointer += 4;
@@ -520,7 +530,7 @@ static int handle_wav_file(int channels)
     } else if (file_buffer[file_pointer] == 7 && file_buffer[file_pointer + 1] == 0) {
         sound_audio_type = AUDIO_TYPE_ULAW;
     } else {
-        log_warning(LOG_DEFAULT, "unexpected audio format : %2X%2X", file_buffer[file_pointer + 1], file_buffer[file_pointer]);
+        log_error(filedrv_log, "unexpected audio format : %2X%2X", file_buffer[file_pointer + 1], file_buffer[file_pointer]);
         return -1;
     }
     file_pointer += 2;
@@ -528,7 +538,7 @@ static int handle_wav_file(int channels)
     /* channels used in the file */
     sound_audio_channels = (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (sound_audio_channels == 0 || sound_audio_channels > 2) {
-        log_warning(LOG_DEFAULT, "unexpected amount of audio channels : %d", sound_audio_channels);
+        log_error(filedrv_log, "unexpected amount of audio channels : %d", sound_audio_channels);
         return -1;
     }
     file_pointer +=2;
@@ -536,7 +546,7 @@ static int handle_wav_file(int channels)
     /* sample rate used in file */
     sound_audio_rate = (file_buffer[file_pointer + 3] << 24) | (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (sound_audio_rate == 0) {
-        log_warning(LOG_DEFAULT, "audio rate is 0");
+        log_error(filedrv_log, "audio rate is 0");
         return -1;
     }
     file_pointer += 4;
@@ -550,7 +560,7 @@ static int handle_wav_file(int channels)
     bps = (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     bps = bps * 8 / sound_audio_channels;
     if (bps != sound_audio_bits) {
-        log_warning(LOG_DEFAULT, "1st instance of bps does not match second instance: %d %d", sound_audio_bits, bps);
+        log_error(filedrv_log, "First instance of bps does not match second instance: %d %d", sound_audio_bits, bps);
         return -1;
     }
     file_pointer += 2;
@@ -558,7 +568,7 @@ static int handle_wav_file(int channels)
     /* get real instance of bits per sample */
     bps = (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (bps != sound_audio_bits) {
-        log_warning(LOG_DEFAULT, "1st instance of bps does not match real instance: %d %d", sound_audio_bits, bps);
+        log_error(filedrv_log, "First instance of bps does not match real instance: %d %d", sound_audio_bits, bps);
         return -1;
     }
     file_pointer += 2;
@@ -573,7 +583,7 @@ static int handle_wav_file(int channels)
 
     /* current chunk now needs to be 'data' */
     if (file_buffer[file_pointer] != 0x64 || file_buffer[file_pointer + 1] != 0x61 || file_buffer[file_pointer + 2] != 0x74 || file_buffer[file_pointer + 3] != 0x61) {
-        log_warning(LOG_DEFAULT, "data chunk not found at expected header position: %X%X%X%X", file_buffer[file_pointer], file_buffer[file_pointer + 1], file_buffer[file_pointer + 2], file_buffer[file_pointer + 3]);
+        log_error(filedrv_log, "data chunk not found at expected header position: %X%X%X%X", file_buffer[file_pointer], file_buffer[file_pointer + 1], file_buffer[file_pointer + 2], file_buffer[file_pointer + 3]);
         return -1;
     }
     file_pointer += 4;
@@ -581,7 +591,7 @@ static int handle_wav_file(int channels)
     /* get remaining size */
     size = (file_buffer[file_pointer + 3] << 24) | (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (size != file_size - (file_pointer + 4)) {
-        log_warning(LOG_DEFAULT, "data chunk size does not match remaining file size: %d %d", size, file_size - (file_pointer + 4));
+        log_error(filedrv_log, "data chunk size does not match remaining file size: %d %d", size, file_size - (file_pointer + 4));
         return -1;
     }
     file_pointer += 4;
@@ -596,7 +606,7 @@ static int handle_wav_file(int channels)
                 case 64:
                     return convert_double_buffer(size, channels);
                 default:
-                    log_warning(LOG_DEFAULT, "Unhandled float format : %d", sound_audio_bits);
+                    log_error(filedrv_log, "Unhandled float format : %d", sound_audio_bits);
                     return -1;
             }
         case AUDIO_TYPE_ALAW:
@@ -604,7 +614,7 @@ static int handle_wav_file(int channels)
         case AUDIO_TYPE_ULAW:
             return convert_ulaw_buffer(size, channels);
         default:
-            log_warning(LOG_DEFAULT, "unhandled audio type");
+            log_error(filedrv_log, "unhandled audio type");
             return -1;
     }
     return -1;
@@ -637,6 +647,7 @@ static int voc_handle_sound_1(int channels)
     unsigned int rem;
 
     if (file_pointer + 6 > file_size) {
+        log_error(filedrv_log, "Voc file size too small");
         return -1;
     }
 
@@ -644,6 +655,7 @@ static int voc_handle_sound_1(int channels)
 
     size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (file_pointer + size > file_size) {
+        log_error(filedrv_log, "Reported voc file size too big: %X %X", file_size, size);
         return -1;
     }
     file_pointer += 3;
@@ -676,6 +688,7 @@ static int voc_handle_sound_1(int channels)
                 sound_audio_bits = 16;
                 break;
             default:
+                log_error(filedrv_log, "Unhandled voc file codec: %X", codec);
                 return -1;
                 break;
         }
@@ -703,6 +716,7 @@ static int voc_handle_sound_2(int channels)
     unsigned int size;
 
     if (file_pointer + 6 > file_size) {
+        log_error(filedrv_log, "Voc file too small");
         return -1;
     }
 
@@ -710,6 +724,7 @@ static int voc_handle_sound_2(int channels)
 
     size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (file_pointer + size > file_size) {
+        log_error(filedrv_log, "Reported voc sound 2 block size too big: %X %X", size, file_size);
         return -1;
     }
     file_pointer += 5;
@@ -735,6 +750,7 @@ static int voc_handle_silence(int channels)
     unsigned int size;
 
     if (file_pointer + 7 > file_size) {
+        log_error(filedrv_log, "Voc file too small");
         return -1;
     }
 
@@ -742,6 +758,7 @@ static int voc_handle_silence(int channels)
 
     size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (size != 3) {
+        log_error(filedrv_log, "Voc silence block size mismatch: %X", size);
         return -1;
     }
 
@@ -750,6 +767,7 @@ static int voc_handle_silence(int channels)
     size = (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
 
     if (sound_audio_type == AUDIO_TYPE_UNKNOWN) {
+        log_error(filedrv_log, "Found voc silence block before any information headers");
         return -1;
     }
 
@@ -784,6 +802,7 @@ static int voc_handle_sound_9(int channels)
     unsigned int rem;
 
     if (file_pointer + 16 > file_size) {
+        log_error(filedrv_log, "Voc file too small");
         return -1;
     }
 
@@ -791,6 +810,7 @@ static int voc_handle_sound_9(int channels)
 
     size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (size + file_pointer > file_size) {
+        log_error(filedrv_log, "Reported voc block 9 size too big: %X %X", size, file_size - file_pointer);
         return -1;
     }
 
@@ -804,6 +824,7 @@ static int voc_handle_sound_9(int channels)
 
     sound_audio_rate = (file_buffer[file_pointer + 3] << 24) | (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (!sound_audio_rate) {
+        log_error(filedrv_log, "Reported voc sound block audio rate is 0");
         return -1;
     }
 
@@ -819,6 +840,7 @@ static int voc_handle_sound_9(int channels)
         case 32:
             break;
         default:
+            log_error(filedrv_log, "Reported voc bits per sample is not 8, 16, 24 or 32");
             return -1;
     }
 
@@ -827,6 +849,7 @@ static int voc_handle_sound_9(int channels)
 
     sound_audio_channels = file_buffer[file_pointer];
     if (sound_audio_channels < 1 || sound_audio_channels > 2) {
+        log_error(filedrv_log, "Reported voc channels not 1 or 2");
         return -1;
     }
 
@@ -847,6 +870,7 @@ static int voc_handle_sound_9(int channels)
             sound_audio_type = AUDIO_TYPE_ULAW;
             break;
         default:
+            log_error(filedrv_log, "Unknown voc sound block codec");
             return -1;
             break;
     }
@@ -876,6 +900,7 @@ static int voc_handle_extra_info(int channels)
     BYTE codec;
 
     if (file_pointer + 8 > file_size) {
+        log_error(filedrv_log, "Voc file too small");
         return -1;
     }
 
@@ -883,6 +908,7 @@ static int voc_handle_extra_info(int channels)
 
     size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (size != 4) {
+        log_error(filedrv_log, "Reported voc extra info block size is not 4");
         return -1;
     }
     file_pointer += 3;
@@ -908,6 +934,7 @@ static int voc_handle_extra_info(int channels)
             sound_audio_bits = 16;
             break;
         default:
+            log_error(filedrv_log, "Reported voc extra info block codec is unknown");
             return -1;
             break;
     }
@@ -922,6 +949,7 @@ static int voc_handle_text(void)
     unsigned int size;
 
     if (file_pointer + 4 > file_size) {
+        log_error(filedrv_log, "Voc file too small");
         return -1;
     }
     ++file_pointer;
@@ -929,6 +957,7 @@ static int voc_handle_text(void)
     file_pointer += 3;
 
     if (file_pointer + size > file_size) {
+        log_error(filedrv_log, "Reported voc text block size too big");
         return -1;
     }
     if (size) {
@@ -942,11 +971,13 @@ static int voc_handle_ignore(unsigned int amount)
     unsigned int size;
 
     if (amount + 4 + file_pointer > file_size) {
+        log_error(filedrv_log, "Voc file too small");
         return -1;
     }
     ++file_pointer;
     size = (file_buffer[file_pointer + 2] << 16) | (file_buffer[file_pointer + 1] << 8) | file_buffer[file_pointer];
     if (size != amount) {
+        log_error(filedrv_log, "Unexpected voc block size: %X", size);
         return -1;
     }
     file_pointer += 3;
@@ -969,12 +1000,12 @@ static int handle_voc_file(int channels)
     sound_audio_type = AUDIO_TYPE_UNKNOWN;
 
     if (file_buffer[19] != 0x1A) {
-        log_warning(LOG_DEFAULT, "$1A signature not found");
+        log_error(filedrv_log, "Voc file $1A signature not found");
         return -1;
     }
 
     if (file_buffer[20] != 0x1A || file_buffer[21] != 0) {
-        log_warning(LOG_DEFAULT, "Incorrect voc file header length : %X", (file_buffer[21] << 8) | file_buffer[20]);
+        log_error(filedrv_log, "Incorrect voc file header length : %X", (file_buffer[21] << 8) | file_buffer[20]);
         return -1;
     }
 
@@ -982,7 +1013,7 @@ static int handle_voc_file(int channels)
     check = (file_buffer[25] << 8) | file_buffer[24];
 
     if (check != ~version + 0x1234) {
-        log_warning(LOG_DEFAULT, "VOC file header checksum incorrect: %4X %4X", check, version);
+        log_error(filedrv_log, "VOC file header checksum incorrect: %4X %4X", check, version);
         return -1;
     }
 
@@ -1019,7 +1050,7 @@ static int handle_voc_file(int channels)
                 err = voc_handle_sound_9(channels);
                 break;
             default:
-                log_warning(LOG_DEFAULT, "Unknown VOC block type : %2X", file_buffer[file_pointer]);
+                log_error(filedrv_log, "Unknown VOC block type : %2X", file_buffer[file_pointer]);
                 return -1;
         }
         if (err) {
@@ -1048,7 +1079,7 @@ static int handle_voc_file(int channels)
         case AUDIO_TYPE_ULAW:
             return convert_ulaw_buffer(file_size, channels);
         default:
-            log_warning(LOG_DEFAULT, "unhandled audio type");
+            log_error(filedrv_log, "unhandled audio type");
             return -1;
     }
     return -1;
@@ -1083,6 +1114,7 @@ static int iff_handle_chan(void)
     file_pointer += 4;
 
     if (file_buffer[file_pointer] != 0 || file_buffer[file_pointer + 1] != 0 || file_buffer[file_pointer + 2] != 0 || file_buffer[file_pointer + 3] != 4) {
+        log_error(filedrv_log, "Reported iff chan chunk size is not 4");
         return -1;
     }
 
@@ -1108,6 +1140,7 @@ static int iff_handle_body(int channels)
     size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
 
     if (!size) {
+        log_error(filedrv_log, "Reported iff body chunk size is 0");
         return -1;
     }
 
@@ -1130,16 +1163,19 @@ static int handle_iff_file(int channels)
     size = (file_buffer[4] << 24) | (file_buffer[5] << 16) | (file_buffer[6] << 8) | file_buffer[7];
 
     if (size != file_size - 8) {
+        log_error(filedrv_log, "Reported iff total size mismatch : %X, %X", size, file_size - 8);
         return -1;
     }
 
     size = (file_buffer[16] << 24) | (file_buffer[17] << 16) | (file_buffer[18] << 8) | file_buffer[19];
     if (size != 20) {
+        log_error(filedrv_log, "Reported iff header size is not 20");
         return -1;
     }
 
     iff_samples = (file_buffer[20] << 24) | (file_buffer[21] << 16) | (file_buffer[22] << 8) | file_buffer[23];
     if (!iff_samples) {
+        log_error(filedrv_log, "Reported iff amount of samples is 0");
         return -1;
     }
 
@@ -1153,6 +1189,7 @@ static int handle_iff_file(int channels)
 
     sound_audio_rate = (file_buffer[32] << 8) | file_buffer[33];
     if (!sound_audio_rate) {
+        log_error(filedrv_log, "Reported iff bitrate  is 0");
         return -1;
     }
 
@@ -1168,6 +1205,7 @@ static int handle_iff_file(int channels)
 
     while (file_pointer <= file_size && !body_found) {
         if (file_pointer + 8 > file_size) {
+            log_error(filedrv_log, "Iff file too small");
             return -1;
         }
 
@@ -1186,6 +1224,7 @@ static int handle_iff_file(int channels)
                 size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
                 file_pointer += 4;
                 if (file_pointer + size > file_size) {
+                    log_error(filedrv_log, "Iff file too small");
                     return -1;
                 }
                 file_pointer += size;
@@ -1263,13 +1302,13 @@ static int aiff_handle_ssnd(int channels)
     size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
     file_pointer += 4;
     if (file_pointer + size > file_size) {
-        log_warning(LOG_DEFAULT, "SSND chunk bigger than remaining size : %X %X", (unsigned int)size, file_size - file_pointer);
+        log_error(filedrv_log, "SSND chunk bigger than remaining size : %X %X", (unsigned int)size, file_size - file_pointer);
         return -1;
     }
 
     for (i = 0; i < 8; ++i) {
         if (file_buffer[file_pointer + i]) {
-            log_warning(LOG_DEFAULT, "SSND secondary parameters not 0");
+            log_error(filedrv_log, "SSND secondary parameters not 0");
             return -1;
         }
     }
@@ -1291,7 +1330,7 @@ static int aiff_handle_comm(void)
 
     size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
     if (size != 18) {
-        log_warning(LOG_DEFAULT, "COMM chunk size not 18: %d", (int)size);
+        log_error(filedrv_log, "COMM chunk size not 18: %d", (int)size);
         return -1;
     }
 
@@ -1299,7 +1338,7 @@ static int aiff_handle_comm(void)
 
     sound_audio_channels = (file_buffer[file_pointer] << 8) | file_buffer[file_pointer + 1];
     if (sound_audio_channels < 1 || sound_audio_channels > 2) {
-        log_warning(LOG_DEFAULT, "COMM channels not 1 or 2 : %d", sound_audio_channels);
+        log_error(filedrv_log, "COMM channels not 1 or 2 : %d", sound_audio_channels);
         return -1;
     }
 
@@ -1313,7 +1352,7 @@ static int aiff_handle_comm(void)
         case 32:
             break;
         default:
-            log_warning(LOG_DEFAULT, "COMM bits not 8, 16, 24 or 32 : %d", sound_audio_bits);
+            log_error(filedrv_log, "COMM bits not 8, 16, 24 or 32 : %d", sound_audio_bits);
             return -1;
     }
 
@@ -1326,7 +1365,7 @@ static int aiff_handle_comm(void)
     f64 = float80tofloat64(f80);
     sound_audio_rate = (unsigned int)f64;
     if (!sound_audio_rate) {
-        log_warning(LOG_DEFAULT, "COMM audio rate is 0");
+        log_error(filedrv_log, "COMM audio rate is 0");
         return -1;
     }
 
@@ -1346,7 +1385,7 @@ static int handle_aiff_file(int channels)
     size = (file_buffer[4] << 24) | (file_buffer[5] << 16) | (file_buffer[6] << 8) | file_buffer[7];
 
     if (size != file_size - 8) {
-        log_warning(LOG_DEFAULT, "AIFF size is wrong : %X %X", (unsigned int)size, file_size - 8);
+        log_error(filedrv_log, "AIFF size is wrong : %X %X", (unsigned int)size, file_size - 8);
         return -1;
     }
 
@@ -1354,6 +1393,7 @@ static int handle_aiff_file(int channels)
 
     while (file_pointer <= file_size && !ssnd_found) {
         if (file_pointer + 8 > file_size) {
+            log_error(filedrv_log, "Aiff file too small");
             return -1;
         }
 
@@ -1361,12 +1401,16 @@ static int handle_aiff_file(int channels)
 
         switch (header) {
             case 0x53534E44:
-                log_warning(LOG_DEFAULT, "handling AIFF SSND chunk");
+#ifdef DEBUG_FILEDRV
+                log_warning(filedrv_log, "handling AIFF SSND chunk");
+#endif
                 err = aiff_handle_ssnd(channels);
                 ssnd_found = 1;
                 break;
             case 0x434F4D4D:
-                log_warning(LOG_DEFAULT, "handling AIFF COMM chunk");
+#ifdef DEBUG_FILEDRV
+                log_warning(filedrv_log, "handling AIFF COMM chunk");
+#endif
                 err = aiff_handle_comm();
                 break;
             default:
@@ -1377,6 +1421,7 @@ static int handle_aiff_file(int channels)
                 }
                 file_pointer += 4;
                 if (file_pointer + size > file_size) {
+                    log_error(filedrv_log, "Aiff file too small");
                     return -1;
                 }
                 file_pointer += size;
@@ -1418,13 +1463,13 @@ static int aifc_handle_ssnd(int channels)
     size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
     file_pointer += 4;
     if (file_pointer + size > file_size) {
-        log_warning(LOG_DEFAULT, "SSND chunk bigger than remaining size : %X %X", (unsigned int)size, file_size - file_pointer);
+        log_error(filedrv_log, "SSND chunk bigger than remaining size : %X %X", (unsigned int)size, file_size - file_pointer);
         return -1;
     }
 
     for (i = 0; i < 8; ++i) {
         if (file_buffer[file_pointer + i]) {
-            log_warning(LOG_DEFAULT, "SSND secondary parameters not 0");
+            log_error(filedrv_log, "SSND secondary parameters not 0");
             return -1;
         }
     }
@@ -1442,7 +1487,7 @@ static int aifc_handle_ssnd(int channels)
                 case 64:
                     return convert_double_buffer(size, channels);
                 default:
-                    log_warning(LOG_DEFAULT, "Unhandled float format : %d", sound_audio_bits);
+                    log_error(filedrv_log, "Unhandled float format : %d", sound_audio_bits);
                     return -1;
             }
         case AUDIO_TYPE_ALAW:
@@ -1450,7 +1495,7 @@ static int aifc_handle_ssnd(int channels)
         case AUDIO_TYPE_ULAW:
             return convert_ulaw_buffer(size, channels);
         default:
-            log_warning(LOG_DEFAULT, "unhandled audio type");
+            log_error(filedrv_log, "unhandled audio type");
             return -1;
     }
     return -1;
@@ -1469,12 +1514,13 @@ static int aifc_handle_comm(void)
     size = (file_buffer[file_pointer] << 24) | (file_buffer[file_pointer + 1] << 16) | (file_buffer[file_pointer + 2] << 8) | file_buffer[file_pointer + 3];
     file_pointer += 4;
     if (size + file_pointer > file_size) {
+        log_error(filedrv_log, "Aifc file too small");
         return -1;
     }
 
     sound_audio_channels = (file_buffer[file_pointer] << 8) | file_buffer[file_pointer + 1];
     if (sound_audio_channels < 1 || sound_audio_channels > 2) {
-        log_warning(LOG_DEFAULT, "COMM channels not 1 or 2 : %d", sound_audio_channels);
+        log_error(filedrv_log, "COMM channels not 1 or 2 : %d", sound_audio_channels);
         return -1;
     }
 
@@ -1490,7 +1536,7 @@ static int aifc_handle_comm(void)
         case 64:
             break;
         default:
-            log_warning(LOG_DEFAULT, "COMM bits not 8, 16, 24, 32 or 64 : %d", sound_audio_bits);
+            log_error(filedrv_log, "COMM bits not 8, 16, 24, 32 or 64 : %d", sound_audio_bits);
             return -1;
     }
 
@@ -1504,7 +1550,7 @@ static int aifc_handle_comm(void)
     f64 = float80tofloat64(f80);
     sound_audio_rate = (unsigned int)f64;
     if (!sound_audio_rate) {
-        log_warning(LOG_DEFAULT, "COMM audio rate is 0");
+        log_error(filedrv_log, "COMM audio rate is 0");
         return -1;
     }
 
@@ -1528,6 +1574,7 @@ static int aifc_handle_comm(void)
             sound_audio_type = AUDIO_TYPE_ULAW;
             break;
         default:
+            log_error(filedrv_log, "Unknown aifc audio type");
             return -1;
     }
     file_pointer += size;
@@ -1545,7 +1592,7 @@ static int handle_aifc_file(int channels)
     size = (file_buffer[4] << 24) | (file_buffer[5] << 16) | (file_buffer[6] << 8) | file_buffer[7];
 
     if (size != file_size - 8) {
-        log_warning(LOG_DEFAULT, "AIFC size is wrong : %X %X", (unsigned int)size, file_size - 8);
+        log_error(filedrv_log, "AIFC size is wrong : %X %X", (unsigned int)size, file_size - 8);
         return -1;
     }
 
@@ -1553,6 +1600,7 @@ static int handle_aifc_file(int channels)
 
     while (file_pointer <= file_size && !ssnd_found) {
         if (file_pointer + 8 > file_size) {
+            log_error(filedrv_log, "Aifc file too small");
             return -1;
         }
 
@@ -1560,12 +1608,16 @@ static int handle_aifc_file(int channels)
 
         switch (header) {
             case 0x53534E44:
-                log_warning(LOG_DEFAULT, "handling AIFC SSND chunk");
+#ifdef DEBUG_FILEDRV
+                log_warning(filedrv_log, "handling AIFC SSND chunk");
+#endif
                 err = aifc_handle_ssnd(channels);
                 ssnd_found = 1;
                 break;
             case 0x434F4D4D:
-                log_warning(LOG_DEFAULT, "handling AIFC COMM chunk");
+#ifdef DEBUG_FILEDRV
+                log_warning(filedrv_log, "handling AIFC COMM chunk");
+#endif
                 err = aifc_handle_comm();
                 break;
             default:
@@ -1576,6 +1628,7 @@ static int handle_aifc_file(int channels)
                 }
                 file_pointer += 4;
                 if (file_pointer + size > file_size) {
+                    log_error(filedrv_log, "Aifc file too small");
                     return -1;
                 }
                 file_pointer += size;
@@ -1624,6 +1677,7 @@ static int handle_mp3_file(int channels)
         mpg123_close(mh);
         mpg123_delete(mh);
         mpg123_exit();
+        log_error(filedrv_log, "Unknown mp3 format");
         return -1;
     }
 
@@ -1632,6 +1686,7 @@ static int handle_mp3_file(int channels)
         mpg123_close(mh);
         mpg123_delete(mh);
         mpg123_exit();
+        log_error(filedrv_log, "Mp3 encoding is not signed 16bit");
         return -1;
     }
 
@@ -1714,7 +1769,9 @@ static void flac_buffer_add(FLAC__uint32 raw)
             break;
     }
     if (flac_size + 2 > flac_total_size) {
-        log_warning(LOG_DEFAULT, "flac buffer overflow");       
+#ifdef DEBUG_FILEDRV
+        log_warning(filedrv_log, "flac buffer overflow");       
+#endif
     } else {
         flac_buffer[flac_size + 1] = (BYTE)(sample >> 8);
         flac_buffer[flac_size] = (BYTE)(sample & 0xFF);
@@ -1797,6 +1854,7 @@ static int handle_flac_file(int channels)
 
     decoder = FLAC__stream_decoder_new();
     if (!decoder) {
+        log_error(filedrv_log, "Cannot init flac decoder");
         return -1;
     }
 
@@ -1805,6 +1863,7 @@ static int handle_flac_file(int channels)
     init_status = FLAC__stream_decoder_init_file(decoder, sample_name, flac_write_callback, flac_metadata_callback, flac_error_callback, NULL);
     if (init_status != FLAC__STREAM_DECODER_INIT_STATUS_OK) {
         FLAC__stream_decoder_delete(decoder);
+        log_error(filedrv_log, "Cannot init flac decoder");
         return -1;
     }
 
@@ -1816,6 +1875,7 @@ static int handle_flac_file(int channels)
             lib_free(flac_buffer);
             flac_buffer = NULL;
         }
+        log_error(filedrv_log, "Error during flac stream decode");
         return -1;
     }
 
@@ -1859,11 +1919,13 @@ static int handle_vorbis_file(int channels)
 
     error = ov_fopen(sample_name, &ov);
     if (error < 0) {
+        log_error(filedrv_log, "Unable to open ogg/vorbis file");
         return -1;
     }
 
     if (!ov_seekable(&ov)) {
         ov_clear(&ov);
+        log_error(filedrv_log, "The ogg/vorbis file is not seekable");
         return -1;
     }
 
@@ -1872,6 +1934,7 @@ static int handle_vorbis_file(int channels)
         sound_audio_channels = vi->channels;
         if (sound_audio_channels < 1 || sound_audio_channels > 2) {
             ov_clear(&ov);
+            log_error(filedrv_log, "The ogg/vorbis file channels is not 1 or 2");
             return -1;
         }
         sound_audio_rate = vi->rate;
@@ -1887,7 +1950,8 @@ static int handle_vorbis_file(int channels)
         if (ret < 0) {
             ov_clear(&ov);
             lib_free(vorbis_buffer);
-	    vorbis_buffer = NULL;
+            vorbis_buffer = NULL;
+            log_error(filedrv_log, "Error reading ogg/vorbis stream");
             return -1;
         }
         if (ret) {
@@ -1929,38 +1993,50 @@ static int handle_file_type(int channels)
 {
     /* Check for wav file */
     if (is_wav_file()) {
-        log_warning(LOG_DEFAULT, "filetype recognized as a WAVE file, starting parsing.");
+#ifdef DEBUG_FILEDRV
+        log_warning(filedrv_log, "filetype recognized as a WAVE file, starting parsing.");
+#endif
         return handle_wav_file(channels);
     }
 
     /* Check for voc file */
     if (is_voc_file()) {
-        log_warning(LOG_DEFAULT, "filetype recognized as a VOC file, starting parsing.");
+#ifdef DEBUG_FILEDRV
+        log_warning(filedrv_log, "filetype recognized as a VOC file, starting parsing.");
+#endif
         return handle_voc_file(channels);
     }
 
     /* Check for iff file */
     if (is_iff_file()) {
-        log_warning(LOG_DEFAULT, "filetype recognized as an IFF file, starting parsing.");
+#ifdef DEBUG_FILEDRV
+        log_warning(filedrv_log, "filetype recognized as an IFF file, starting parsing.");
+#endif
         return handle_iff_file(channels);
     }
 
     /* Check for aiff file */
     if (is_aiff_file()) {
-        log_warning(LOG_DEFAULT, "filetype recognized as an AIFF file, starting parsing.");
+#ifdef DEBUG_FILEDRV
+        log_warning(filedrv_log, "filetype recognized as an AIFF file, starting parsing.");
+#endif
         return handle_aiff_file(channels);
     }
 
     /* Check for aiff file */
     if (is_aifc_file()) {
-        log_warning(LOG_DEFAULT, "filetype recognized as an AIFC file, starting parsing.");
+#ifdef DEBUG_FILEDRV
+        log_warning(filedrv_log, "filetype recognized as an AIFC file, starting parsing.");
+#endif
         return handle_aifc_file(channels);
     }
 
 #ifdef USE_FLAC
     /* Check for flac file */
     if (is_flac_file()) {
-        log_warning(LOG_DEFAULT, "filetype recognized as a FLAC file, starting parsing.");
+#ifdef DEBUG_FILEDRV
+        log_warning(filedrv_log, "filetype recognized as a FLAC file, starting parsing.");
+#endif
         return handle_flac_file(channels);
     }
 #endif
@@ -1968,7 +2044,9 @@ static int handle_file_type(int channels)
 #ifdef USE_VORBIS
     /* Check for ogg/vorbis file */
     if (is_vorbis_file()) {
-        log_warning(LOG_DEFAULT, "filetype recognized as an ogg/vorbis file, starting parsing.");
+#ifdef DEBUG_FILEDRV
+        log_warning(filedrv_log, "filetype recognized as an ogg/vorbis file, starting parsing.");
+#endif
         return handle_vorbis_file(channels);
     }
 #endif
@@ -1976,12 +2054,14 @@ static int handle_file_type(int channels)
 #ifdef USE_MPG123
     /* Check for mp3 file */
     if (is_mp3_file()) {
-        log_warning(LOG_DEFAULT, "filetype recognized as an MP3 file, starting parsing.");
+#ifdef DEBUG_FILEDRV
+        log_warning(filedrv_log, "filetype recognized as an MP3 file, starting parsing.");
+#endif
         return handle_mp3_file(channels);
     }
 #endif
 
-    log_warning(LOG_DEFAULT, "filetype was not handled.");
+    log_error(filedrv_log, "filetype was not handled.");
     return -1;
 }
 
@@ -1999,7 +2079,7 @@ static void file_load_sample(int channels)
         fseek(sample_file, 0, SEEK_SET);
         file_buffer = lib_malloc(file_size);
         if (fread(file_buffer, 1, file_size, sample_file) != file_size) {
-            log_warning(LOG_DEFAULT, "Unexpected end of data in '%s'.", sample_name);
+            log_warning(filedrv_log, "Unexpected end of data in '%s'.", sample_name);
         }
         fclose(sample_file);
         err = handle_file_type(channels);
@@ -2012,10 +2092,10 @@ static void file_load_sample(int channels)
         } else {
             lib_free(file_buffer);
             file_buffer = NULL;
-            log_warning(LOG_DEFAULT, "Unknown file type for '%s'.", sample_name);
+            log_error(filedrv_log, "Unknown file type for '%s'.", sample_name);
         }
     } else {
-        log_warning(LOG_DEFAULT, "Cannot open sampler file: '%s'.", sample_name);
+        log_error(filedrv_log, "Cannot open sampler file: '%s'.", sample_name);
     }
 }
 
@@ -2144,5 +2224,7 @@ static sampler_device_t file_device =
 
 void fileaudio_init(void)
 {
+    filedrv_log = log_open("Sampler Filedrv");
+
     sampler_device_register(&file_device, SAMPLER_DEVICE_FILE);
 }

@@ -39,6 +39,8 @@
 #ifdef USE_PORTAUDIO
 #include <portaudio.h>
 
+static log_t portaudio_log = LOG_ERR;
+
 static int stream_started = 0;
 static PaStream *stream = NULL;
 
@@ -76,13 +78,13 @@ static void portaudio_start_stream(void)
                 memset(stream_buffer, 0, sound_samples_per_frame * 2 * current_channels);
                 old_frame = (maincpu_clk / sound_cycles_per_frame) + 1;
             } else {
-                log_warning(LOG_DEFAULT, "Could not start stream");
+                log_error(portaudio_log, "Could not start stream");
             }
         } else {
-            log_warning(LOG_DEFAULT, "Could not open stream");
+            log_error(portaudio_log, "Could not open stream");
         }
     } else {
-        log_warning(LOG_DEFAULT, "Could not find a default input device");
+        log_error(portaudio_log, "Could not find a default input device");
     }
 }
 
@@ -103,7 +105,7 @@ static void portaudio_start_sampling(int channels)
     PaError err = paNoError;
 
     if (stream_started) {
-        log_warning(LOG_DEFAULT, "Attempted to start portaudio twice");
+        log_error(portaudio_log, "Attempted to start portaudio twice");
     } else {
 
         err = Pa_Initialize();
@@ -112,7 +114,7 @@ static void portaudio_start_sampling(int channels)
             current_channels = channels;
             portaudio_start_stream();
         } else {
-            log_warning(LOG_DEFAULT, "Could not init portaudio");
+            log_error(portaudio_log, "Could not init portaudio");
         }
     }
 }
@@ -150,7 +152,7 @@ static BYTE portaudio_get_sample(int channel)
                     same_sample = 0;
                     portaudio_stop_stream();
                     portaudio_start_stream();
-                    log_warning(LOG_DEFAULT, "Had to restart the stream");
+                    log_warning(portaudio_log, "Had to restart the stream");
                 }
                 return old_sample;
             }
@@ -195,6 +197,8 @@ static sampler_device_t portaudio_device =
 
 void portaudio_init(void)
 {
+    portaudio_log = log_open("Sampler PortAudio");
+
     sampler_device_register(&portaudio_device, SAMPLER_DEVICE_PORTAUDIO);
 }
 #endif
