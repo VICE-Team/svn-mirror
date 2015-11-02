@@ -1888,9 +1888,9 @@ fi
 
 if test x"$FFMPEG_DO_SUBDIRS" = "xyes"; then
   if test x"$is_win32" = "xyes"; then
-      ac_configure_args="$ac_configure_args --enable-make-command=${MAKE-make} --enable-w32threads --enable-full-host=${ac_cv_host} --enable-compiler=${CC}"
+      ac_configure_args="$ac_configure_args --enable-make-command=${MAKE-make} --enable-w32threads --enable-full-host=${ac_cv_host} --enable-compiler=${CC} --prefix=${prefix}"
   else
-      ac_configure_args="$ac_configure_args --enable-make-command=${MAKE-make} --enable-full-host=${ac_cv_host} --enable-compiler=${CC}"
+      ac_configure_args="$ac_configure_args --enable-make-command=${MAKE-make} --enable-full-host=${ac_cv_host} --enable-compiler=${CC} --prefix=${prefix}"
   fi
   AC_CONFIG_SUBDIRS(src/lib/ffmpeg)
 fi
