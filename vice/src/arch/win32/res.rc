@@ -1193,7 +1193,7 @@ BEGIN
   IDS_SYSTEM                           "System"
   IDS_MONO                             "Mono"
   IDS_STEREO                           "Stereo"
-  IDS_MEDIA_FILES_FILTER               "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.flac;*.ogg;*.avi;*.mpg)"
+  IDS_MEDIA_FILES_FILTER               "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.koa;*.gg;*.dd;*.jj;*.4bt;*.wav;*.mp3;*.flac;*.ogg;*.avi;*.mpg)"
   IDS_SPACE_KB                         " kB"
   IDS_CONFIGURE_KEYSET_A               "Configure Keyset A"
   IDS_CONFIGURE_KEYSET_B               "Configure Keyset B"
