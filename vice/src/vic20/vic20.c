@@ -356,10 +356,12 @@ int machine_resources_init(void)
     }
 #endif
 #ifdef HAVE_MOUSE
+#ifdef HAVE_LIGHTPEN
     if (lightpen_resources_init() < 0) {
         init_resource_fail("lightpen");
         return -1;
     }
+#endif
     if (mouse_resources_init() < 0) {
         init_resource_fail("mouse");
         return -1;
@@ -716,10 +718,12 @@ int machine_specific_init(void)
 #ifdef HAVE_MOUSE
     mouse_init();
 
+#ifdef HAVE_LIGHTPEN
     /* Initialize lightpen support and register VIC-I callbacks */
     lightpen_init();
     lightpen_register_timing_callback(vic_lightpen_timing, 0);
     lightpen_register_trigger_callback(vic_trigger_light_pen);
+#endif
 #endif
 
     /* Register joystick callback (for lightpen triggering via fire button) */

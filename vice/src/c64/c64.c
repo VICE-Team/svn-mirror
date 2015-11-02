@@ -71,7 +71,6 @@
 #include "joyport.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
-#include "lightpen.h"
 #include "log.h"
 #include "machine-drive.h"
 #include "machine-printer.h"
@@ -111,6 +110,7 @@
 #include "vsync.h"
 
 #ifdef HAVE_MOUSE
+#include "lightpen.h"
 #include "mouse.h"
 #endif
 
@@ -511,10 +511,12 @@ int machine_resources_init(void)
         init_resource_fail("mouse");
         return -1;
     }
+#ifdef HAVE_LIGHTPEN
     if (lightpen_resources_init() < 0) {
         init_resource_fail("lightpen");
         return -1;
     }
+#endif
 #endif
 #ifndef COMMON_KBD
     if (kbd_resources_init() < 0) {
@@ -884,10 +886,12 @@ int machine_specific_init(void)
     /* Initialize mouse support (if present).  */
     mouse_init();
 
+#ifdef HAVE_LIGHTPEN
     /* Initialize lightpen support and register VICII callbacks */
     lightpen_init();
     lightpen_register_timing_callback(vicii_lightpen_timing, 0);
     lightpen_register_trigger_callback(vicii_trigger_light_pen);
+#endif
 #endif
     c64iec_init();
     c64fastiec_init();

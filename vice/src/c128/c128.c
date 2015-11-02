@@ -177,12 +177,14 @@ void plus256k_ram_high_store(WORD addr, BYTE byte)
     mem_ram[addr] = byte;
 }
 
+#if defined(HAVE_MOUSE) && defined(HAVE_LIGHTPEN)
 /* Lightpen trigger function; needs to trigger both VICII and VDC */
 void c128_trigger_light_pen(CLOCK mclk)
 {
     vicii_trigger_light_pen(mclk);
     vdc_trigger_light_pen(mclk);
 }
+#endif
 
 machine_context_t machine_context;
 
@@ -570,10 +572,12 @@ int machine_resources_init(void)
     }
 #endif
 #ifdef HAVE_MOUSE
+#ifdef HAVE_LIGHTPEN
     if (lightpen_resources_init() < 0) {
         init_resource_fail("lightpen");
         return -1;
     }
+#endif
     if (mouse_resources_init() < 0) {
         init_resource_fail("mouse");
         return -1;
@@ -933,11 +937,13 @@ int machine_specific_init(void)
     /* Initialize mouse support (if present).  */
     mouse_init();
 
+#ifdef HAVE_LIGHTPEN
     /* Initialize lightpen support and register VICII/VDC callbacks */
     lightpen_init();
     lightpen_register_timing_callback(vicii_lightpen_timing, 1);
     lightpen_register_timing_callback(vdc_lightpen_timing, 0);
     lightpen_register_trigger_callback(c128_trigger_light_pen);
+#endif
 #endif
 
     c64iec_init();
