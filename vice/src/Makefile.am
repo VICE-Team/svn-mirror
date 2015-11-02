@@ -1232,6 +1232,7 @@ vsid-all: \
 	libmonitor \
 	libserial \
 	libcore \
+	libjoyport \
 	libplatform \
 	vsid$(EXEEXT)
 
@@ -1759,6 +1760,7 @@ xpet-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libjoyport \
 	libplatform \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1893,6 +1895,7 @@ xcbm2-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libjoyport \
 	libplatform \
 	xcbm2$(EXEEXT)
 
