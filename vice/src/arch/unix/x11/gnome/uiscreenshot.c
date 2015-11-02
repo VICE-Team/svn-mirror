@@ -87,7 +87,9 @@ enum { DRV_NAME, DRV_INDEX, DRV_ACMENU, DRV_VCMENU, DRV_N };
 #endif
 
 /******************************************************************************/
-static int is_koala(void) {
+
+static int is_koala(void)
+{
     int d = gtk_combo_box_get_active(GTK_COMBO_BOX(drv_menu));
     if ((strcmp(buttons[d].driver, "KOALA") == 0) ||
         (strcmp(buttons[d].driver, "KOALA_COMPRESSED") == 0)) {
@@ -96,7 +98,8 @@ static int is_koala(void) {
     return 0;
 }
 
-static int is_doodle(void) {
+static int is_doodle(void)
+{
     int d = gtk_combo_box_get_active(GTK_COMBO_BOX(drv_menu));
     if ((strcmp(buttons[d].driver, "DOODLE") == 0) ||
         (strcmp(buttons[d].driver, "DOODLE_COMPRESSED") == 0)) {
@@ -104,7 +107,8 @@ static int is_doodle(void) {
     }
     return 0;
 }
-static int is_native(void) {
+static int is_native(void)
+{
     return is_koala() || is_doodle();
 }
 
