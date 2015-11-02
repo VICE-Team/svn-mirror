@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-01 12:10-0800\n"
-"PO-Revision-Date: 2015-10-18 15:06+0200\n"
+"PO-Revision-Date: 2015-11-02 17:04+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -1884,14 +1884,12 @@ msgid "Sound record MP3"
 msgstr "Tonaufnahme MP3"
 
 #: src/arch/unix/gui/uicommands.c:651
-#, fuzzy
 msgid "Sound record FLAC"
-msgstr "Tonaufnahme WAV"
+msgstr "Tonaufnahme FLAC"
 
 #: src/arch/unix/gui/uicommands.c:655
-#, fuzzy
 msgid "Sound record ogg/vorbis"
-msgstr "Tonaufnahme"
+msgstr "Tonaufnahme ogg/vorbis"
 
 #: src/arch/unix/gui/uicommands.c:658 src/arch/win32/res.rc.po.c:1457
 #: src/arch/amigaos/intl_text.c.po.c:4779
@@ -2274,9 +2272,8 @@ msgstr "Erweitern wenn nötig"
 #: src/arch/unix/gui/uiperipheralieee.c:91
 #: src/arch/unix/gui/uiperipheralieee.c:111
 #: src/arch/unix/gui/uiperipheralieee.c:131
-#, fuzzy
 msgid "Drive RPM"
-msgstr "Laufwerk 8"
+msgstr "Laufwerk RPM"
 
 #: src/arch/unix/gui/uidrive.c:221 src/arch/unix/gui/uiperipheraliec.c:83
 #: src/arch/unix/gui/uiperipheraliec.c:108
@@ -2286,9 +2283,8 @@ msgstr "Laufwerk 8"
 #: src/arch/unix/gui/uiperipheralieee.c:93
 #: src/arch/unix/gui/uiperipheralieee.c:113
 #: src/arch/unix/gui/uiperipheralieee.c:133
-#, fuzzy
 msgid "Drive wobble"
-msgstr "Floppy Geräuschlautstärke"
+msgstr "Laufwerkschwankung"
 
 #: src/arch/unix/gui/uidrive.c:242 src/arch/unix/gui/uidrivec128.c:180
 #: src/arch/unix/gui/uidrivec64.c:45 src/arch/unix/gui/uidrivec64dtv.c:45
@@ -2882,22 +2878,19 @@ msgstr "ISEPIC Imagedatei"
 #: src/arch/unix/gui/uijoyport.c:42 src/arch/unix/gui/uijoyport.c:48
 #: src/arch/win32/resjoyport.rc.po.c:42
 #: src/arch/amigaos/intl_text.c.po.c:11571
-#, fuzzy
 msgid "Joyport 1 device"
-msgstr "Joystick 1 Gerät"
+msgstr "Joyport 1 Gerät"
 
 #: src/arch/unix/gui/uijoyport.c:50 src/arch/win32/resjoyport.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:11585
-#, fuzzy
 msgid "Joyport 2 device"
-msgstr "Joystick 2 Gerät"
+msgstr "Joyport 2 Gerät"
 
 #: src/arch/unix/gui/uijoyport.c:56 src/arch/unix/gui/uijoyport.c:62
 #: src/arch/win32/res.rc.po.c:1476 src/arch/amigaos/intl_text.c.po.c:3477
 #: src/arch/amigaos/intl_text.c.po.c:11599
-#, fuzzy
 msgid "Joyport settings"
-msgstr "Farb Einstellungen"
+msgstr "Joyport Einstellungen"
 
 #: src/arch/unix/gui/uijoystick2.c:128 src/arch/unix/gui/uijoystick2.c:146
 #: src/arch/win32/res.rc.po.c:1027 src/arch/amigaos/intl_text.c.po.c:1881
@@ -3005,16 +2998,14 @@ msgstr "USB Joystick 1"
 #: src/arch/unix/gui/uijoystick2.c:366 src/arch/unix/gui/uijoystick2.c:397
 #: src/arch/unix/gui/uijoystick2.c:428 src/arch/unix/gui/uijoystick2.c:472
 #: src/arch/unix/gui/uijoystick2.c:499 src/arch/amigaos/intl_text.c.po.c:7299
-#, fuzzy
 msgid "Joystick #1"
-msgstr "Joystick 1"
+msgstr "Joystick #1"
 
 #: src/arch/unix/gui/uijoystick2.c:368 src/arch/unix/gui/uijoystick2.c:399
 #: src/arch/unix/gui/uijoystick2.c:430 src/arch/unix/gui/uijoystick2.c:501
 #: src/arch/amigaos/intl_text.c.po.c:7313
-#, fuzzy
 msgid "Joystick #2"
-msgstr "Joystick 2"
+msgstr "Joystick #2"
 
 #: src/arch/unix/gui/uijoystick2.c:372 src/arch/unix/gui/uijoystick2.c:403
 #: src/arch/unix/gui/uijoystick2.c:434 src/arch/unix/gui/uijoystick2.c:449
@@ -5899,13 +5890,10 @@ msgid "Sound driver: WMM"
 msgstr "Sound Treiber: WMM"
 
 #: src/arch/win32/res.rc.po.c:1065
-#, fuzzy
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.flac;*."
 "ogg;*.avi;*.mpg)"
-msgstr ""
-"Media Dateien (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
-"mpg)"
+msgstr "Media Dateien (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.flac;*.ogg;*.avi;*.mpg)"
 
 #: src/arch/win32/res.rc.po.c:1066
 msgid " kB"
@@ -10479,12 +10467,12 @@ msgstr ""
 #: src/translate_text.c.po.c:3057
 #, c-format
 msgid "Selected joyport device %d is not registered"
-msgstr ""
+msgstr "Ausgewähltes Joyport Gerät %d ist nicht registriert"
 
 #: src/translate_text.c.po.c:3074
 #, c-format
 msgid "Selected joyport device %s on port %d is already attached to port %d"
-msgstr ""
+msgstr "Ausgewähltes Joyport Gerät %s auf Port %d ist schon in Port %d in Verwendung"
 
 #: src/translate_text.c.po.c:3091
 #, c-format
@@ -10492,15 +10480,16 @@ msgid ""
 "Selected joyport device %s on port %d uses same host input resource (%s) as "
 "the device attached to port %d"
 msgstr ""
+"Ausgewähltes Joyport Gerät %s auf Port %d benutzt die gleiche Host\n"
+"Input Resource (%s) wie das auf port %d benutzte Gerät"
 
 #: src/translate_text.c.po.c:3108
-#, fuzzy
 msgid "host mouse"
-msgstr "Smart Maus"
+msgstr "Host Maus"
 
 #: src/translate_text.c.po.c:3125
 msgid "host sampler (audio input device)"
-msgstr ""
+msgstr "Host Sampler (Audio Input Gerät)"
 
 #: src/translate_text.c.po.c:3193
 msgid "Paddles"
@@ -10508,56 +10497,51 @@ msgstr "Paddles"
 
 #: src/translate_text.c.po.c:3210
 msgid "Mouse (1351)"
-msgstr ""
+msgstr "Maus (1351)"
 
 #: src/translate_text.c.po.c:3227
 msgid "Mouse (NEOS)"
-msgstr ""
+msgstr "Maus (NEOS)"
 
 #: src/translate_text.c.po.c:3244
 msgid "Mouse (Amiga)"
-msgstr ""
+msgstr "Maus (Amiga)"
 
 #: src/translate_text.c.po.c:3261
 msgid "Mouse (CX-22)"
-msgstr ""
+msgstr "Maus (CX-22)"
 
 #: src/translate_text.c.po.c:3278
 msgid "Mouse (Atari ST)"
-msgstr ""
+msgstr "Maus (Atari ST)"
 
 #: src/translate_text.c.po.c:3295
-#, fuzzy
 msgid "Mouse (SmartMouse)"
-msgstr "Smart Maus"
+msgstr "Maus (SmartMouse)"
 
 #: src/translate_text.c.po.c:3312
 msgid "Mouse (Micromys)"
-msgstr ""
+msgstr "Maus (Micromys)"
 
 #: src/translate_text.c.po.c:3329
-#, fuzzy
 msgid "KoalaPad"
-msgstr "Koalapad"
+msgstr "KoalaPad"
 
 #: src/translate_text.c.po.c:3346
-#, fuzzy
 msgid "Sampler (2bit)"
-msgstr "Sample Rate"
+msgstr "Sampler (2bit)"
 
 #: src/translate_text.c.po.c:3363
 msgid "Light Pen (up trigger)"
-msgstr ""
+msgstr "Lichgriffel (Up Trigger)"
 
 #: src/translate_text.c.po.c:3380
-#, fuzzy
 msgid "Light Pen (left trigger)"
-msgstr "Lichtgriffel Einstellungen"
+msgstr "Lichtgriffel (Left Trigger)"
 
 #: src/translate_text.c.po.c:3397
-#, fuzzy
 msgid "Datel Light Pen"
-msgstr "Datel Stift"
+msgstr "Datel Lichtgriffel"
 
 #: src/translate_text.c.po.c:3414
 msgid "Magnum Light Phaser"
@@ -10568,19 +10552,16 @@ msgid "Stack Light Rifle"
 msgstr "Stack Light Rifle"
 
 #: src/translate_text.c.po.c:3448
-#, fuzzy
 msgid "Inkwell Light Pen"
-msgstr "Inkwell Stift"
+msgstr "Inkwell Lichgriffel"
 
 #: src/translate_text.c.po.c:3465
-#, fuzzy
 msgid "Set joyport 1 device (0: None"
-msgstr "Gerätetyp für Gerät #7 (0: Kein, 2: Real) setzen"
+msgstr "Joyport 1 Gerät (0: Kein"
 
 #: src/translate_text.c.po.c:3482
-#, fuzzy
 msgid "Set joyport 2 device (0: None"
-msgstr "Gerätetyp für Gerät #7 (0: Kein, 2: Real) setzen"
+msgstr "Joyport 2 Gerät (0: Kein"
 
 #: src/translate_text.c.po.c:3502
 msgid "Enable opposite joystick directions"
@@ -10971,9 +10952,8 @@ msgid "specify IEEE488 interface image name"
 msgstr "IEEE488 Schnittstellenmodul Imagename"
 
 #: src/translate_text.c.po.c:5211
-#, fuzzy
 msgid "Specify name of sample file"
-msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+msgstr "Namen für Sample Datei definieren"
 
 #: src/translate_text.c.po.c:5245
 msgid "Disable the GEO-RAM expansion unit"
@@ -11734,25 +11714,23 @@ msgstr "Lautstärke für Floppygeräusch Emulation (0-4000)"
 
 #: src/translate_text.c.po.c:8938
 msgid "RPM"
-msgstr ""
+msgstr "RPM"
 
 #: src/translate_text.c.po.c:8955
 msgid "Wobble"
-msgstr ""
+msgstr "Schwankung"
 
 #: src/translate_text.c.po.c:8989
 msgid "Set drive type (0: no drive"
 msgstr "Setze Laufwerkstyp (0: kein Laufwerk"
 
 #: src/translate_text.c.po.c:9006
-#, fuzzy
 msgid "Set drive rpm (30000 = 300rpm)"
-msgstr "Setze Laufwerkstyp (0: kein Laufwerk"
+msgstr "Setze Laufwerk RPM (30000 = 300rpm)"
 
 #: src/translate_text.c.po.c:9023
-#, fuzzy
 msgid "Set drive wobble (100 = +/-0.5rpm)"
-msgstr "Setze Laufwerkstyp (0: kein Laufwerk"
+msgstr "Setze Laufwaerkschwankung (100 = +/-0.5rpm)"
 
 #: src/translate_text.c.po.c:9040
 msgid "method"
@@ -13017,9 +12995,8 @@ msgid "Specify config file"
 msgstr "Konfigurationsdateiname definieren"
 
 #: src/translate_text.c.po.c:14382
-#, fuzzy
 msgid "Dump all resources to specified config file"
-msgstr "Speichere Einstellungen in angegebene Datei"
+msgstr "Exportiere sämtliche Resourcen in angegebene Datei"
 
 #: src/translate_text.c.po.c:14399
 msgid "Specify number of cycles to run before quitting with an error."
@@ -13144,9 +13121,8 @@ msgid "Specify sound driver"
 msgstr "Sound Treiber spezifieren"
 
 #: src/translate_text.c.po.c:14977
-#, fuzzy
 msgid "Specify sampler device"
-msgstr "Vollbild Gerät auswählen"
+msgstr "Sample Gerät auswählen"
 
 #: src/translate_text.c.po.c:14994
 msgid "args"
