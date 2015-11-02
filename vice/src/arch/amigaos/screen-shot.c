@@ -58,7 +58,8 @@ enum {
 #ifdef HAVE_PNG
     SS_PNG,
 #endif
-    SS_PPM
+    SS_PPM,
+    SS_4BT
 };
 
 #ifndef HAVE_GIF
@@ -134,6 +135,7 @@ void ui_screenshot_dialog(video_canvas_t *canvas)
     strcat(choices, "PNG|");
 #endif
     strcat(choices, "PPM|");
+    strcat(choices, "4BT|");
     strcat(choices, translate_text(IDS_CANCEL));
 
     format = ui_requester(translate_text(IDS_SAVE_SCREENSHOT), translate_text(IDS_CHOOSE_SCREENSHOT_FORMAT), choices, 0);
@@ -171,6 +173,9 @@ void ui_screenshot_dialog(video_canvas_t *canvas)
             break;
         case SS_PPM:
             save_screenshot_file("#?.ppm", "PPM", canvas);
+            break;
+        case SS_4BT:
+            save_screenshot_file("#?.4bt", "4BT", canvas);
             break;
         default:
             break;
