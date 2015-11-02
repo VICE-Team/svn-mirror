@@ -67,6 +67,9 @@ static TUI_MENU_CALLBACK(write_ppm_screenshot_callback);
 static TUI_MENU_CALLBACK(iff_file_name_callback);
 static TUI_MENU_CALLBACK(write_iff_screenshot_callback);
 
+static TUI_MENU_CALLBACK(godot_file_name_callback);
+static TUI_MENU_CALLBACK(write_godot_screenshot_callback);
+
 #ifdef HAVE_GIF
 static TUI_MENU_CALLBACK(write_gif_screenshot_callback);
 static TUI_MENU_CALLBACK(gif_file_name_callback);
@@ -180,6 +183,18 @@ static tui_menu_item_def_t write_iff_screenshot_menu_def[] = {
     { NULL }
 };
 
+static tui_menu_item_def_t write_godot_screenshot_menu_def[] = {
+    { "_File name:",
+      "Specify godot screenshot file name",
+      godot_file_name_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Do it!",
+      "Save godot screenshot with the specified name",
+      write_godot_screenshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
 #ifdef HAVE_GIF
 static tui_menu_item_def_t write_gif_screenshot_menu_def[] = {
     { "_File name:",
@@ -273,6 +288,10 @@ tui_menu_item_def_t ui_screenshot_menu_def[] = {
       "Write a PPM screenshot file",
       NULL, NULL, 0,
       TUI_MENU_BEH_CONTINUE, write_ppm_screenshot_menu_def, NULL },
+    { "Wri_te godot Screenshot",
+      "Write a godot screenshot file",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, write_godot_screenshot_menu_def, NULL },
     { NULL }
 };
 
@@ -409,6 +428,14 @@ static TUI_MENU_CALLBACK(iff_file_name_callback)
     return file_name;
 }
 
+static TUI_MENU_CALLBACK(godot_file_name_callback)
+{
+    if (been_activated) {
+        return screenshot_filename("Save godot screenshot", "Save godot screenshot file", "*.4bt", "4bt");
+    }
+    return file_name;
+}
+
 #ifdef HAVE_GIF
 static TUI_MENU_CALLBACK(gif_file_name_callback)
 {
@@ -516,6 +543,14 @@ static TUI_MENU_CALLBACK(write_iff_screenshot_callback)
 {
     if (been_activated) {
         return screenshot_save_file("IFF", "Cannot save IFF screenshot.", "IFF screenshot save successfully.");
+    }
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(write_godot_screenshot_callback)
+{
+    if (been_activated) {
+        return screenshot_save_file("4BT", "Cannot save godot screenshot.", "godot screenshot save successfully.");
     }
     return NULL;
 }
