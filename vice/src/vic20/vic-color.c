@@ -38,9 +38,9 @@
 
 /* base saturation of all colors */
 
-/* must stay below 64 to not result in overflows in the CRT renderer (and maybe
-   elsewhere) */
-#define VIC_SATURATION    63.0f
+/* must stay below ~50 to not result in overflows in the CRT renderer (and maybe
+   elsewhere). especially the NTSC mode seems to be an edge case */
+#define VIC_SATURATION    50.0f
 
 /* phase shift of all colors */
 
