@@ -22,6 +22,46 @@ splitcpuos()
   fi
 }
 
+get_last_part()
+{
+  for i in $*
+  do
+    part="$i"
+  done
+}
+
+change_host()
+{
+  host=""
+  part=""
+
+  for i in $*
+  do
+    if test x"$part" != "x"; then
+      if test x"$host" = "x"; then
+        host="$part"
+      else
+        host="$host-$part"
+      fi
+    fi
+    part="$i"
+  done
+}
+
+check_compiler()
+{
+  if test x"$compiler" != "x"; then
+    if test x"$host" != "x"; then
+      get_last_part `echo $compiler | sed 's/-/ /g'`
+      if test x"$compiler" != x"$part"; then
+        if test x"$compiler" != x"$host-$part"; then
+          change_host `echo $compiler | sed 's/-/ /g'`
+        fi
+      fi
+    fi
+  fi
+}
+
 srcdir=""
 shared=no
 static=no
@@ -33,6 +73,7 @@ host=""
 cpu=""
 os=""
 compiler=""
+part=""
 prefix=""
 
 for i in $*
@@ -46,6 +87,7 @@ do
       ;;
     --enable-compiler*)
       compiler=`echo $i | sed -e 's/^[^=]*=//g'`
+      check_compiler
       ;;
     --enable-shared-ffmpeg)
       shared=yes
@@ -60,6 +102,7 @@ do
     --enable-full-host*)
       host=`echo $i | sed -e 's/^[^=]*=//g'`
       splitcpuos `echo $host | sed 's/-/ /g'`
+      check_compiler
       ;;
     --host*)
       hostprefix=`echo $i | sed -e 's/^[^=]*=//g'`
