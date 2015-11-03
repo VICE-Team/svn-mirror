@@ -23,7 +23,8 @@ palettes = \
 	pc64.vpl \
 	vice.vpl \
 	pepto-ntsc-sony.vpl \
-	pepto-ntsc.vpl
+	pepto-ntsc.vpl \
+	rgb.vpl
 
 x11_keymaps = \
 	x11_sym.vkm \
