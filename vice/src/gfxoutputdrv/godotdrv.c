@@ -47,6 +47,8 @@ typedef struct gfxoutputdrv_data_s {
     char *ext_filename;
     BYTE *data;
     unsigned int line;
+    unsigned int count;
+    unsigned int byte;
 } gfxoutputdrv_data_t;
 
 STATIC_PROTOTYPE gfxoutputdrv_t godot_drv;
@@ -55,7 +57,13 @@ static int godotdrv_write_file_header(screenshot_t *screenshot)
 {
     FILE *fd = screenshot->gfxoutputdrv_data->fd;
 
-    if (fprintf(fd, "GOD\x11%c%c%c%c", 0, 0, screenshot->width / 8, screenshot->height / 8) < 0) {
+    if (screenshot->width == 320 &&  screenshot->height == 200) {
+        if (fprintf(fd, "GOD0") < 0) {
+            return -1;
+        }
+        return 0;
+    }
+    if (fprintf(fd, "GOD1%c%c%c%c", 0, 0, screenshot->width / 8, screenshot->height / 8) < 0) {
         return -1;
     }
     return 0;
@@ -68,6 +76,8 @@ static int godotdrv_open(screenshot_t *screenshot, const char *filename)
     sdata = lib_malloc(sizeof(gfxoutputdrv_data_t));
     screenshot->gfxoutputdrv_data = sdata;
     sdata->line = 0;
+    sdata->count = 0;
+    sdata->byte = 0;
     sdata->ext_filename = util_add_extension_const(filename, godot_drv.default_extension);
     sdata->fd = fopen(sdata->ext_filename, "wb");
 
@@ -84,7 +94,7 @@ static int godotdrv_open(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    sdata->data = lib_malloc(screenshot->width * 12);
+    sdata->data = lib_malloc(screenshot->width * 8);
 
     return 0;
 }
@@ -98,15 +108,15 @@ static int godotdrv_write(screenshot_t *screenshot)
     gfxoutputdrv_data_t *sdata;
 
     sdata = screenshot->gfxoutputdrv_data;
-    (screenshot->convert_line)(screenshot, sdata->data + ((sdata->line & 7) + 4) * screenshot->width, sdata->line, SCREENSHOT_MODE_PALETTE);
+    (screenshot->convert_line)(screenshot, sdata->data + (sdata->line & 7) * screenshot->width, sdata->line, SCREENSHOT_MODE_PALETTE);
 
     if ((sdata->line & 7) == 7) {
         native_data_t native;
-        int x, y;
+        int x, y, x1;
 
         native.xsize = screenshot->width;
         native.ysize = 8;
-        native.colormap = &sdata->data[4 * screenshot->width];
+        native.colormap = sdata->data;
         if (!(strcmp(screenshot->chipid, "VICII"))) {
             /* nothing */
         } else if (!(strcmp(screenshot->chipid, "VDC"))) {
@@ -119,17 +129,26 @@ static int godotdrv_write(screenshot_t *screenshot)
             /* nothing */
         }
 
-        for (y = 0; y < 8; y++) {
-            unsigned char *p1, *p2;
-            p1 = &sdata->data[y * 4];
-            p2 = &sdata->data[(y + 4) * screenshot->width];
-            for (x = 0; x < (screenshot->width & ~7); x += 2) {
-                p1[(x/8)*32 + ((x / 2) & 3)] = godotpalette[p2[x + 1] & 15] | (godotpalette[p2[x] & 15] << 4);
+        for (x1 = 0; x1 < screenshot->width / 8; x1++) {
+            for (y = 0; y < 8; y++) {
+                unsigned char *p1 = &sdata->data[y * screenshot->width + x1 * 8];
+                for (x = 0; x < 8; x += 2) {
+                    unsigned char c = godotpalette[p1[x + 1] & 15] | (godotpalette[p1[x] & 15] << 4);
+                    if (c == sdata->byte && sdata->count < 256) {
+                        sdata->count++;
+                        continue;
+                    }
+                    if (sdata->count < 4 && sdata->byte != 0xad) {
+                        while (sdata->count--) putc(sdata->byte, sdata->fd);
+                    } else {
+                        putc(0xad, sdata->fd);
+                        putc(sdata->count, sdata->fd);
+                        putc(sdata->byte, sdata->fd);
+                    }
+                    sdata->byte = c;
+                    sdata->count = 1;
+                }
             }
-        }
-
-        if (fwrite(sdata->data, 1, screenshot->width * 4, sdata->fd) != screenshot->width * 4) {
-            return -1;
         }
     }
     return 0;
@@ -140,6 +159,15 @@ static int godotdrv_close(screenshot_t *screenshot)
     gfxoutputdrv_data_t *sdata;
 
     sdata = screenshot->gfxoutputdrv_data;
+
+    if (sdata->count < 4 && sdata->byte != 0xad) {
+        while (sdata->count--) putc(sdata->byte, sdata->fd);
+    } else {
+        putc(0xad, sdata->fd);
+        putc(sdata->count, sdata->fd);
+        putc(sdata->byte, sdata->fd);
+    }
+    putc(0xad, sdata->fd);
 
     fclose(sdata->fd);
     lib_free(sdata->data);
