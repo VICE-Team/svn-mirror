@@ -627,7 +627,7 @@ static const int scpu64_sid_baseaddress[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf
 
 static void scpu64_ui_specific(WPARAM wparam, HWND hwnd)
 {
-    uic64cart_proc(wparam, hwnd, 0, 0); /* marcofix */
+    uic64cart_proc(wparam, hwnd, cart_min_id, cart_max_id);
 
     switch (wparam) {
         case IDM_C64BURSTMOD_SETTINGS:
