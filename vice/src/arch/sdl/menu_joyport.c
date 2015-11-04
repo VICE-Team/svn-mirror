@@ -107,7 +107,7 @@ UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
     for (i = 0; devices[i].name; ++i) {
         joyport2_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
         joyport2_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
-        joyport2_dyn_menu[i].callback = radio_JoyPort1Device_callback;
+        joyport2_dyn_menu[i].callback = radio_JoyPort2Device_callback;
         joyport2_dyn_menu[i].data = (ui_callback_data_t)devices[i].id;
     }
 
