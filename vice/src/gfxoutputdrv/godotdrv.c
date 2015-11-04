@@ -129,7 +129,7 @@ static int godotdrv_write(screenshot_t *screenshot)
             /* nothing */
         }
 
-        for (x1 = 0; x1 < screenshot->width / 8; x1++) {
+        for (x1 = 0; x1 < (int)screenshot->width / 8; x1++) {
             for (y = 0; y < 8; y++) {
                 unsigned char *p1 = &sdata->data[y * screenshot->width + x1 * 8];
                 for (x = 0; x < 8; x += 2) {
