@@ -425,9 +425,9 @@ static void video_convert_renderer_to_rgb_gamma(video_ycbcr_color_t *src, float 
 
     /* do gamma correction */
     factor = pow(255.0f, 1.0f - gam);
-    rf = video_gamma(r, factor, gam, bri, con);
-    gf = video_gamma(g, factor, gam, bri, con);
-    bf = video_gamma(b, factor, gam, bri, con);
+    rf = video_gamma((float)r, factor, gam, bri, con);
+    gf = video_gamma((float)g, factor, gam, bri, con);
+    bf = video_gamma((float)b, factor, gam, bri, con);
 
     /* convert to int and clip to 8 bit boundaries */
 
@@ -565,8 +565,8 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
             color_tab->cvtable[i] = (SDWORD)(0.877283f * (primary->cr + val) * 256.0); /* convert Cr to V */
         } else {
             /* FIXME: tint for NTSC */
-            color_tab->cbtable[i] = (SDWORD)(primary->cb) * sat;
-            color_tab->crtable[i] = (SDWORD)(primary->cr + val) * sat;
+            color_tab->cbtable[i] = (SDWORD)((primary->cb) * sat);
+            color_tab->crtable[i] = (SDWORD)((primary->cr + val) * sat);
             /* FIXME: convert IQ to UV (used by YUV renderers) */
             color_tab->cutable[i] = (SDWORD)(primary->cb * 256.0);
             color_tab->cvtable[i] = (SDWORD)((primary->cr + val) * 256.0);
