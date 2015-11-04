@@ -1082,7 +1082,7 @@ static const ui_menu_entry_t autostart_settings_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_AutostartDelayRandom_callback,
       NULL },
-    { "Use ',1' with LOAD",
+    { "Load to BASIC start (without ',1')",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_AutostartBasicLoad_callback,
       NULL },
