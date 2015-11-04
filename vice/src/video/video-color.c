@@ -44,6 +44,7 @@
 #include "machine.h"
 #include "palette.h"
 #include "resources.h"
+#include "viewport.h"
 #include "video-canvas.h"
 #include "video-color.h"
 #include "video.h"
