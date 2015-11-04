@@ -28,6 +28,7 @@
 #define VICE_UIC64CART_H
 
 extern void uic64cart_init(void);
-extern void uic64cart_proc(WPARAM wparam, HWND hwnd);
+extern void uic64cart_proc(WPARAM wparam, HWND hwnd, int min_id, int max_id);
+extern void uic64cart_build_carts(int start_id);
 
 #endif

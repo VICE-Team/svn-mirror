@@ -45,24 +45,93 @@
 #include "uilib.h"
 
 static const uicart_params_t c64_ui_cartridges[] = {
-    { IDM_CART_ATTACH_CRT, CARTRIDGE_CRT, IDS_ATTACH_CRT_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_CRT },
-    { IDM_CART_ATTACH_8KB, CARTRIDGE_GENERIC_8KB, IDS_ATTACH_RAW_8KB_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_16KB, CARTRIDGE_GENERIC_16KB, IDS_ATTACH_RAW_16KB_CART_IMG, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_AR, CARTRIDGE_ACTION_REPLAY, IDS_ATTACH_AR_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_AR3, CARTRIDGE_ACTION_REPLAY3, IDS_ATTACH_AR3_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_AR4, CARTRIDGE_ACTION_REPLAY4, IDS_ATTACH_AR4_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_STARDOS, CARTRIDGE_STARDOS, IDS_ATTACH_STARDOS_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_AT, CARTRIDGE_ATOMIC_POWER, IDS_ATTACH_ATOMIC_P_CART_IMG, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_EPYX, CARTRIDGE_EPYX_FASTLOAD, IDS_ATTACH_EPYX_FL_CART_IMG, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_IEEE488, CARTRIDGE_IEEE488, IDS_ATTACH_IEEE488_CART_IMG, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_RR, CARTRIDGE_RETRO_REPLAY, IDS_ATTACH_RETRO_R_CART_IMG, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_MMC_REPLAY, CARTRIDGE_MMC_REPLAY, IDS_ATTACH_MMC_REPLAY_CART_IMG, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_IDE64, CARTRIDGE_IDE64, IDS_ATTACH_IDE64_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_SS4, CARTRIDGE_SUPER_SNAPSHOT, IDS_ATTACH_SS4_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_SS5, CARTRIDGE_SUPER_SNAPSHOT_V5, IDS_ATTACH_SS5_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { IDM_CART_ATTACH_STB, CARTRIDGE_STRUCTURED_BASIC, IDS_ATTACH_STB_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
-    { 0, 0, 0, 0 }
+    { IDM_CART_ATTACH_CRT, CARTRIDGE_CRT, IDS_ATTACH_CRT_CART_IMAGE, NULL, UILIB_FILTER_ALL | UILIB_FILTER_CRT },
+    { 0, 0, 0, NULL, 0 }
 };
+
+static uicart_params_t *built_cartridges = NULL;
+
+void uic64cart_build_carts(int start_id)
+{
+    int i;
+    int j = 0;
+    cartridge_info_t *cart_info = cartridge_get_info_list();
+
+    if (built_cartridges) {
+        lib_free(built_cartridges);
+        built_cartridges = NULL;
+    }
+
+    /* count */
+    for (i = 0; cart_info[i].name; ++i) { }
+
+    built_cartridges = lib_malloc((i + 1) * sizeof(uicart_params_t));
+
+    /* generic */
+    for (i = 0; cart_info[i].name; ++i) {
+        if (cart_info[i].flags == CARTRIDGE_GROUP_GENERIC) {
+            built_cartridges[j].wparam = start_id + j;
+            built_cartridges[j].type = cart_info[i].crtid;
+            built_cartridges[j].title = 0;
+            built_cartridges[j].trans_title = cart_info[i].name;
+            built_cartridges[j].filter = UILIB_FILTER_ALL | UILIB_FILTER_BIN;
+            ++j;
+        }
+    }
+
+    /* ramex */
+    for (i = 0; cart_info[i].name; ++i) {
+        if (cart_info[i].flags == CARTRIDGE_GROUP_RAMEX) {
+            built_cartridges[j].wparam = start_id + j;
+            built_cartridges[j].type = cart_info[i].crtid;
+            built_cartridges[j].title = 0;
+            built_cartridges[j].trans_title = cart_info[i].name;
+            built_cartridges[j].filter = UILIB_FILTER_ALL | UILIB_FILTER_BIN;
+            ++j;
+        }
+    }
+
+    /* freezer */
+    for (i = 0; cart_info[i].name; ++i) {
+        if (cart_info[i].flags == CARTRIDGE_GROUP_FREEZER) {
+            built_cartridges[j].wparam = start_id + j;
+            built_cartridges[j].type = cart_info[i].crtid;
+            built_cartridges[j].title = 0;
+            built_cartridges[j].trans_title = cart_info[i].name;
+            built_cartridges[j].filter = UILIB_FILTER_ALL | UILIB_FILTER_BIN;
+            ++j;
+        }
+    }
+
+    /* game */
+    for (i = 0; cart_info[i].name; ++i) {
+        if (cart_info[i].flags == CARTRIDGE_GROUP_GAME) {
+            built_cartridges[j].wparam = start_id + j;
+            built_cartridges[j].type = cart_info[i].crtid;
+            built_cartridges[j].title = 0;
+            built_cartridges[j].trans_title = cart_info[i].name;
+            built_cartridges[j].filter = UILIB_FILTER_ALL | UILIB_FILTER_BIN;
+            ++j;
+        }
+    }
+
+    /* util */
+    for (i = 0; cart_info[i].name; ++i) {
+        if (cart_info[i].flags == CARTRIDGE_GROUP_UTIL) {
+            built_cartridges[j].wparam = start_id + j;
+            built_cartridges[j].type = cart_info[i].crtid;
+            built_cartridges[j].title = 0;
+            built_cartridges[j].trans_title = cart_info[i].name;
+            built_cartridges[j].filter = UILIB_FILTER_ALL | UILIB_FILTER_BIN;
+            ++j;
+        }
+    }
+    built_cartridges[j].wparam = 0;
+    built_cartridges[j].type = 0;
+    built_cartridges[j].title = 0;
+    built_cartridges[j].trans_title = NULL;
+    built_cartridges[j].filter = 0;
+}
 
 static void uic64cart_attach(WPARAM wparam, HWND hwnd,
                              const uicart_params_t *cartridges)
@@ -70,25 +139,14 @@ static void uic64cart_attach(WPARAM wparam, HWND hwnd,
     uicart_attach(wparam, hwnd, cartridges);
 }
 
-void uic64cart_proc(WPARAM wparam, HWND hwnd)
+void uic64cart_proc(WPARAM wparam, HWND hwnd, int min_id, int max_id)
 {
+    if ((wparam & 0xffff) >= (unsigned int)min_id && (wparam & 0xffff) <= (unsigned int)max_id) {
+        uic64cart_attach(wparam, hwnd, built_cartridges);
+    }
+
     switch (wparam & 0xffff) {
         case IDM_CART_ATTACH_CRT:
-        case IDM_CART_ATTACH_8KB:
-        case IDM_CART_ATTACH_16KB:
-        case IDM_CART_ATTACH_AR:
-        case IDM_CART_ATTACH_AR3:
-        case IDM_CART_ATTACH_AR4:
-        case IDM_CART_ATTACH_STARDOS:
-        case IDM_CART_ATTACH_AT:
-        case IDM_CART_ATTACH_EPYX:
-        case IDM_CART_ATTACH_IEEE488:
-        case IDM_CART_ATTACH_RR:
-        case IDM_CART_ATTACH_MMC_REPLAY:
-        case IDM_CART_ATTACH_IDE64:
-        case IDM_CART_ATTACH_SS4:
-        case IDM_CART_ATTACH_SS5:
-        case IDM_CART_ATTACH_STB:
             uic64cart_attach(wparam, hwnd, c64_ui_cartridges);
             break;
         case IDM_CART_SET_DEFAULT:

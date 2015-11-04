@@ -34,6 +34,7 @@ struct uicart_params_s {
     WPARAM wparam;
     int type;
     int title;
+    char *trans_title;
     DWORD filter;
 };
 typedef struct uicart_params_s uicart_params_t;

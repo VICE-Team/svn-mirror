@@ -33,7 +33,9 @@
 #include <windows.h>
 
 #include "c64ui.h"
+#include "cartridge.h"
 #include "debug.h"
+#include "lib.h"
 #include "res.h"
 #include "translate.h"
 #include "ui.h"
@@ -72,7 +74,21 @@
 #include "uiuserportrtc.h"
 #include "uivicii.h"
 #include "uivideo.h"
+#include "util.h"
 #include "videoarch.h"
+
+/* prototype */
+static void dynmenu_reset(HMENU menu);
+static void cart_generic_dynmenu(HMENU menu);
+static void cart_ramex_dynmenu(HMENU menu);
+static void cart_freezer_dynmenu(HMENU menu);
+static void cart_game_dynmenu(HMENU menu);
+static void cart_util_dynmenu(HMENU menu);
+
+static int cart_min_id = 0xf000;
+static int cart_max_id = 0xf000;
+
+static int current_dyn_id = 0xf000;
 
 static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
@@ -386,34 +402,39 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
 };
 
 ui_popup_translation_table_t c64ui_popup_translation_table[] = {
-    { 1, IDS_MP_FILE },
-    { 2, IDS_MP_ATTACH_DISK_IMAGE },
-    { 2, IDS_MP_DETACH_DISK_IMAGE },
-    { 2, IDS_MP_FLIP_LIST },
-    { 2, IDS_MP_DATASETTE_CONTROL },
-    { 2, IDS_MP_ATTACH_CARTRIDGE_IMAGE },
-    { 2, IDS_MP_RESET },
-    { 2, IDS_MP_DEFAULT_CPU_JAM_ACTION },
+    { 1, IDS_MP_FILE, dynmenu_reset },
+    { 2, IDS_MP_ATTACH_DISK_IMAGE, NULL },
+    { 2, IDS_MP_DETACH_DISK_IMAGE, NULL },
+    { 2, IDS_MP_FLIP_LIST, NULL },
+    { 2, IDS_MP_DATASETTE_CONTROL, NULL },
+    { 2, IDS_MP_ATTACH_CARTRIDGE_IMAGE, NULL },
+    { 3, IDS_MP_GENERIC_CARTS, cart_generic_dynmenu },
+    { 3, IDS_MP_RAMEX_CARTS, cart_ramex_dynmenu },
+    { 3, IDS_MP_FREEZER_CARTS, cart_freezer_dynmenu },
+    { 3, IDS_MP_GAME_CARTS, cart_game_dynmenu },
+    { 3, IDS_MP_UTIL_CARTS, cart_util_dynmenu },
+    { 2, IDS_MP_RESET, NULL },
+    { 2, IDS_MP_DEFAULT_CPU_JAM_ACTION, NULL },
 #ifdef DEBUG
-    { 2, IDS_MP_DEBUG },
-    { 3, IDS_MP_MODE },
+    { 2, IDS_MP_DEBUG, NULL },
+    { 3, IDS_MP_MODE, NULL },
 #endif
-    { 1, IDS_MP_EDIT },
-    { 1, IDS_MP_SNAPSHOT },
-    { 2, IDS_MP_RECORDING_START_MODE },
-/*    { 1, IDS_MP_OPTIONS },*/
-    { 1, IDS_MP_SETTINGS },
-    { 2, IDS_MP_REFRESH_RATE },
-    { 2, IDS_MP_MAXIMUM_SPEED },
-    { 2, IDS_MP_SOUND_SETTINGS },
-    { 2, IDS_MP_DRIVE_SETTINGS },
-    { 2, IDS_MP_JOYSTICK_SETTINGS },
-    { 2, IDS_MP_MOUSE_SETTINGS },
-    { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },
-    { 2, IDS_MP_RS232_SETTINGS },
-    { 1, IDS_MP_LANGUAGE },
-    { 1, IDS_MP_HELP },
-    { 0, 0 }
+    { 1, IDS_MP_EDIT, NULL },
+    { 1, IDS_MP_SNAPSHOT, NULL },
+    { 2, IDS_MP_RECORDING_START_MODE, NULL },
+/*    { 1, IDS_MP_OPTIONS, NULL },*/
+    { 1, IDS_MP_SETTINGS, NULL },
+    { 2, IDS_MP_REFRESH_RATE, NULL },
+    { 2, IDS_MP_MAXIMUM_SPEED, NULL },
+    { 2, IDS_MP_SOUND_SETTINGS, NULL },
+    { 2, IDS_MP_DRIVE_SETTINGS, NULL },
+    { 2, IDS_MP_JOYSTICK_SETTINGS, NULL },
+    { 2, IDS_MP_MOUSE_SETTINGS, NULL },
+    { 2, IDS_MP_CARTRIDGE_IO_SETTINGS, NULL },
+    { 2, IDS_MP_RS232_SETTINGS, NULL },
+    { 1, IDS_MP_LANGUAGE, NULL },
+    { 1, IDS_MP_HELP, NULL },
+    { 0, 0, NULL }
 };
 
 static uilib_localize_dialog_param c64_main_trans[] = {
@@ -542,11 +563,106 @@ static generic_trans_table_t c64_generic_trans[] = {
     { 0, NULL }
 };
 
+static void dynmenu_reset(HMENU menu)
+{
+    current_dyn_id = 0xf000;
+}
+
+static void cart_generic_dynmenu(HMENU menu)
+{
+    cartridge_info_t *cart_info = cartridge_get_info_list();
+    int i;
+    char *name;
+
+    cart_min_id = current_dyn_id;
+
+    uic64cart_build_carts(cart_min_id);
+
+    DeleteMenu(menu, 0, MF_BYPOSITION);
+
+    for (i = 0; cart_info[i].name; ++i) {
+        if (cart_info[i].flags == CARTRIDGE_GROUP_GENERIC) {
+            name = util_concat(cart_info[i].name, " ", translate_text(IDS_IMAGE), "...", NULL);
+            AppendMenu(menu, MF_STRING, current_dyn_id++, name);
+            lib_free(name);
+        }
+    }
+}
+
+static void cart_ramex_dynmenu(HMENU menu)
+{
+    cartridge_info_t *cart_info = cartridge_get_info_list();
+    int i;
+    char *name;
+
+    DeleteMenu(menu, 0, MF_BYPOSITION);
+
+    for (i = 0; cart_info[i].name; ++i) {
+        if (cart_info[i].flags == CARTRIDGE_GROUP_RAMEX) {
+            name = util_concat(cart_info[i].name, " ", translate_text(IDS_IMAGE), "...", NULL);
+            AppendMenu(menu, MF_STRING, current_dyn_id++, name);
+            lib_free(name);
+        }
+    }
+}
+
+static void cart_freezer_dynmenu(HMENU menu)
+{
+    cartridge_info_t *cart_info = cartridge_get_info_list();
+    int i;
+    char *name;
+
+    DeleteMenu(menu, 0, MF_BYPOSITION);
+
+    for (i = 0; cart_info[i].name; ++i) {
+        if (cart_info[i].flags == CARTRIDGE_GROUP_FREEZER) {
+            name = util_concat(cart_info[i].name, " ", translate_text(IDS_IMAGE), "...", NULL);
+            AppendMenu(menu, MF_STRING, current_dyn_id++, name);
+            lib_free(name);
+        }
+    }
+}
+
+static void cart_game_dynmenu(HMENU menu)
+{
+    cartridge_info_t *cart_info = cartridge_get_info_list();
+    int i;
+    char *name;
+
+    DeleteMenu(menu, 0, MF_BYPOSITION);
+
+    for (i = 0; cart_info[i].name; ++i) {
+        if (cart_info[i].flags == CARTRIDGE_GROUP_GAME) {
+            name = util_concat(cart_info[i].name, " ", translate_text(IDS_IMAGE), "...", NULL);
+            AppendMenu(menu, MF_STRING, current_dyn_id++, name);
+            lib_free(name);
+        }
+    }
+}
+
+static void cart_util_dynmenu(HMENU menu)
+{
+    cartridge_info_t *cart_info = cartridge_get_info_list();
+    int i;
+    char *name;
+
+    DeleteMenu(menu, 0, MF_BYPOSITION);
+
+    for (i = 0; cart_info[i].name; ++i) {
+        if (cart_info[i].flags == CARTRIDGE_GROUP_UTIL) {
+            name = util_concat(cart_info[i].name, " ", translate_text(IDS_IMAGE), "...", NULL);
+            AppendMenu(menu, MF_STRING, current_dyn_id++, name);
+            lib_free(name);
+        }
+    }
+    cart_max_id = current_dyn_id - 1;
+}
+
 static const int c64_sid_baseaddress[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
 
 static void c64_ui_specific(WPARAM wparam, HWND hwnd)
 {
-    uic64cart_proc(wparam, hwnd);
+    uic64cart_proc(wparam, hwnd, cart_min_id, cart_max_id);
 
     switch (wparam) {
         case IDM_C64BURSTMOD_SETTINGS:

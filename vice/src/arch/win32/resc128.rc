@@ -81,24 +81,44 @@ BEGIN
         POPUP "Attach cartridge image..."
         BEGIN
             MENUITEM "", IDM_CART_ATTACH_CRT
+            POPUP "Generic cartridges..."
+            BEGIN
+                MENUITEM SEPARATOR
+            END
+            POPUP "Ram expansion cartridges..."
+            BEGIN
+                MENUITEM SEPARATOR
+            END
+            POPUP "Freezer cartridges..."
+            BEGIN
+                MENUITEM SEPARATOR
+            END
+            POPUP "Game cartridges..."
+            BEGIN
+                MENUITEM SEPARATOR
+            END
+            POPUP "Utility cartridges..."
+            BEGIN
+                MENUITEM SEPARATOR
+            END
             MENUITEM SEPARATOR
-            MENUITEM "", IDM_CART_ATTACH_8KB
-            MENUITEM "", IDM_CART_ATTACH_16KB
-            MENUITEM SEPARATOR
-            MENUITEM "", IDM_CART_ATTACH_AR
-            MENUITEM "", IDM_CART_ATTACH_AR3
-            MENUITEM "", IDM_CART_ATTACH_AR4
-            MENUITEM "", IDM_CART_ATTACH_AT
-            MENUITEM "", IDM_CART_ATTACH_EPYX
-            MENUITEM "", IDM_CART_ATTACH_IDE64
-            MENUITEM "", IDM_CART_ATTACH_IEEE488
-            MENUITEM "", IDM_CART_ATTACH_MMC_REPLAY
-            MENUITEM "", IDM_CART_ATTACH_RR
-            MENUITEM "", IDM_CART_ATTACH_STARDOS
-            MENUITEM "", IDM_CART_ATTACH_STB
-            MENUITEM "", IDM_CART_ATTACH_SS4
-            MENUITEM "", IDM_CART_ATTACH_SS5
-            MENUITEM SEPARATOR
+//            MENUITEM "", IDM_CART_ATTACH_8KB
+//            MENUITEM "", IDM_CART_ATTACH_16KB
+//            MENUITEM SEPARATOR
+//            MENUITEM "", IDM_CART_ATTACH_AR
+//            MENUITEM "", IDM_CART_ATTACH_AR3
+//            MENUITEM "", IDM_CART_ATTACH_AR4
+//            MENUITEM "", IDM_CART_ATTACH_AT
+//            MENUITEM "", IDM_CART_ATTACH_EPYX
+//            MENUITEM "", IDM_CART_ATTACH_IDE64
+//            MENUITEM "", IDM_CART_ATTACH_IEEE488
+//            MENUITEM "", IDM_CART_ATTACH_MMC_REPLAY
+//            MENUITEM "", IDM_CART_ATTACH_RR
+//            MENUITEM "", IDM_CART_ATTACH_STARDOS
+//            MENUITEM "", IDM_CART_ATTACH_STB
+//            MENUITEM "", IDM_CART_ATTACH_SS4
+//            MENUITEM "", IDM_CART_ATTACH_SS5
+//            MENUITEM SEPARATOR
             MENUITEM "", IDM_CART_SET_DEFAULT
         END
         MENUITEM "", IDM_CART_DETACH

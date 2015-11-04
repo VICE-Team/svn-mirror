@@ -519,6 +519,7 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
     HMENU menu1 = NULL;
     HMENU menu2 = NULL;
     HMENU menu3 = NULL;
+    HMENU menux = NULL;
 
     int i = 0;
 
@@ -536,6 +537,9 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
                 }
                 if (trans_table[i].ids != 0) {
                     ModifyMenu(menu, (UINT)pos1, MF_BYPOSITION | MF_STRING | MF_POPUP, vice_ptr_to_uint(menu1), translate_text(trans_table[i].ids));
+                    if (trans_table[i].dynmenu) {
+                        trans_table[i].dynmenu(menu1);
+                    }
                 }
                 pos2 = -1;
                 pos3 = -1;
@@ -547,6 +551,9 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
                     menu2 = GetSubMenu(menu1, pos2);
                 }
                 ModifyMenu(menu1, (UINT)pos2, MF_BYPOSITION | MF_STRING | MF_POPUP, vice_ptr_to_uint(menu2), translate_text(trans_table[i].ids));
+                if (trans_table[i].dynmenu) {
+                    trans_table[i].dynmenu(menu2);
+                }
                 pos3 = -1;
                 break;
             case 3:
@@ -556,6 +563,9 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
                     menu3 = GetSubMenu(menu2, pos3);
                 }
                 ModifyMenu(menu2, (UINT)pos3, MF_BYPOSITION | MF_STRING | MF_POPUP, vice_ptr_to_uint(menu3), translate_text(trans_table[i].ids));
+                if (trans_table[i].dynmenu) {
+                    trans_table[i].dynmenu(menu3);
+                }
                 break;
         }
         i++;

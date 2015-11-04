@@ -43,6 +43,8 @@ void uicart_attach(WPARAM wparam, HWND hwnd, const uicart_params_t *cartridges)
 {
     int i;
     TCHAR *st_name;
+    char *title;
+    char *trans_title = NULL;
 
     i = 0;
 
@@ -55,7 +57,14 @@ void uicart_attach(WPARAM wparam, HWND hwnd, const uicart_params_t *cartridges)
         return;
     }
 
-    if ((st_name = uilib_select_file(hwnd, translate_text(cartridges[i].title), cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_CART)) != NULL) {
+    if (cartridges[i].title) {
+        title = translate_text(cartridges[i].title);
+    } else {
+        trans_title = lib_msprintf(translate_text(IDS_ATTACH_S_IMAGE), cartridges[i].trans_title);
+        title = trans_title;
+    }
+
+    if ((st_name = uilib_select_file(hwnd, title, cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_CART)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
@@ -64,6 +73,9 @@ void uicart_attach(WPARAM wparam, HWND hwnd, const uicart_params_t *cartridges)
         }
         system_wcstombs_free(name);
         lib_free(st_name);
+    }
+    if (trans_title) {
+        lib_free(trans_title);
     }
 }
 

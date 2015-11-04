@@ -157,6 +157,7 @@ typedef struct ui_menu_translation_table_s ui_menu_translation_table_t;
 struct ui_popup_translation_table_s {
     int level;
     int ids;
+    void (*dynmenu)(HMENU menu);
 };
 typedef struct ui_popup_translation_table_s ui_popup_translation_table_t;
 

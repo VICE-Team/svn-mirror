@@ -294,31 +294,31 @@ ui_menu_translation_table_t c64dtvui_menu_translation_table[] = {
 };
 
 ui_popup_translation_table_t c64dtvui_popup_translation_table[] = {
-    { 1, IDS_MP_FILE },
-    { 2, IDS_MP_ATTACH_DISK_IMAGE },
-    { 2, IDS_MP_DETACH_DISK_IMAGE },
-    { 2, IDS_MP_FLIP_LIST },
-    { 2, IDS_MP_DTV_FLASH_ROM_IMAGE },
-    { 2, IDS_MP_RESET },
-    { 2, IDS_MP_DEFAULT_CPU_JAM_ACTION },
+    { 1, IDS_MP_FILE, NULL },
+    { 2, IDS_MP_ATTACH_DISK_IMAGE, NULL },
+    { 2, IDS_MP_DETACH_DISK_IMAGE, NULL },
+    { 2, IDS_MP_FLIP_LIST, NULL },
+    { 2, IDS_MP_DTV_FLASH_ROM_IMAGE, NULL },
+    { 2, IDS_MP_RESET, NULL },
+    { 2, IDS_MP_DEFAULT_CPU_JAM_ACTION, NULL },
 #ifdef DEBUG
-    { 2, IDS_MP_DEBUG },
-    { 3, IDS_MP_MODE },
+    { 2, IDS_MP_DEBUG, NULL },
+    { 3, IDS_MP_MODE, NULL },
 #endif
-    { 1, IDS_MP_EDIT },
-    { 1, IDS_MP_SNAPSHOT },
-    { 2, IDS_MP_RECORDING_START_MODE },
-/*    { 1, IDS_MP_OPTIONS },*/
-    { 1, IDS_MP_SETTINGS },
-    { 2, IDS_MP_REFRESH_RATE },
-    { 2, IDS_MP_MAXIMUM_SPEED },
-    { 2, IDS_MP_SOUND_SETTINGS },
-    { 2, IDS_MP_DRIVE_SETTINGS },
-    { 2, IDS_MP_JOYSTICK_SETTINGS },
-    { 2, IDS_MP_MOUSE_SETTINGS },
-    { 1, IDS_MP_LANGUAGE },
-    { 1, IDS_MP_HELP },
-    { 0, 0 }
+    { 1, IDS_MP_EDIT, NULL },
+    { 1, IDS_MP_SNAPSHOT, NULL },
+    { 2, IDS_MP_RECORDING_START_MODE, NULL },
+/*    { 1, IDS_MP_OPTIONS, NULL },*/
+    { 1, IDS_MP_SETTINGS, NULL },
+    { 2, IDS_MP_REFRESH_RATE, NULL },
+    { 2, IDS_MP_MAXIMUM_SPEED, NULL },
+    { 2, IDS_MP_SOUND_SETTINGS, NULL },
+    { 2, IDS_MP_DRIVE_SETTINGS, NULL },
+    { 2, IDS_MP_JOYSTICK_SETTINGS, NULL },
+    { 2, IDS_MP_MOUSE_SETTINGS, NULL },
+    { 1, IDS_MP_LANGUAGE, NULL },
+    { 1, IDS_MP_HELP, NULL },
+    { 0, 0, NULL }
 };
 
 static uilib_localize_dialog_param c64dtv_main_trans[] = {

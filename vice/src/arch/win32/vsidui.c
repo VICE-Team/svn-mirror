@@ -196,18 +196,18 @@ static ui_menu_translation_table_t vsidui_menu_translation_table[] = {
 };
 
 static ui_popup_translation_table_t vsidui_popup_translation_table[] = {
-    { 1, IDS_MP_FILE },
-    { 2, IDS_MP_SOUND_RECORDING },
-    { 2, IDS_MP_RESET },
-    { 1, IDS_MP_TUNES },
-/*    { 1, IDS_MP_OPTIONS },*/
-    { 1, IDS_MP_SETTINGS },
-/*    { 2, IDS_MP_REFRESH_RATE }, */
-/*    { 2, IDS_MP_MAXIMUM_SPEED },*/
-    { 2, IDS_MP_VIDEO_STANDARD },
-    { 1, IDS_MP_LANGUAGE },
-    { 1, IDS_MP_HELP },
-    { 0, 0 }
+    { 1, IDS_MP_FILE, NULL },
+    { 2, IDS_MP_SOUND_RECORDING, NULL },
+    { 2, IDS_MP_RESET, NULL },
+    { 1, IDS_MP_TUNES, NULL },
+/*    { 1, IDS_MP_OPTIONS, NULL },*/
+    { 1, IDS_MP_SETTINGS, NULL },
+/*    { 2, IDS_MP_REFRESH_RATE, NULL }, */
+/*    { 2, IDS_MP_MAXIMUM_SPEED, NULL },*/
+    { 2, IDS_MP_VIDEO_STANDARD, NULL },
+    { 1, IDS_MP_LANGUAGE, NULL },
+    { 1, IDS_MP_HELP, NULL },
+    { 0, 0, NULL }
 };
 
 /* List of resources that can be switched on and off from the menus.  */
