@@ -99,7 +99,7 @@ static int godotdrv_open(screenshot_t *screenshot, const char *filename)
     return 0;
 }
 
-const static unsigned char godotpalette[16]={
+static const unsigned char godotpalette[16]={
     0, 15, 4, 12, 5, 10, 1, 13, 6, 2, 9, 3, 7, 14, 8, 11
 };
 

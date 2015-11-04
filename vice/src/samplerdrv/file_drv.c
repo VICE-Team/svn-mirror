@@ -1163,7 +1163,7 @@ static int handle_iff_file(int channels)
     size = (file_buffer[4] << 24) | (file_buffer[5] << 16) | (file_buffer[6] << 8) | file_buffer[7];
 
     if (size != file_size - 8) {
-        log_error(filedrv_log, "Reported iff total size mismatch : %lX, %X", size, file_size - 8);
+        log_error(filedrv_log, "Reported iff total size mismatch : %X, %X", (unsigned int)size, file_size - 8);
         return -1;
     }
 
