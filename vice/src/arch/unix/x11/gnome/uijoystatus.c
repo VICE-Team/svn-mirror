@@ -152,7 +152,7 @@ void ui_display_joystick_status_widget(int joystick_number, int status)
 
     DBG(("ui_display_joystick_status_widget (%d, %02x)", joystick_number, status));
 
-    if (machine_class != VICE_MACHINE_PLUS4) {
+    if (machine_class != VICE_MACHINE_PLUS4 && machine_class != VICE_MACHINE_CBM5x0) {
         resources_get_int("UserportJoy", &upjoy);
     }
     if (machine_class == VICE_MACHINE_PLUS4) {
