@@ -1007,7 +1007,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
                                  unsigned int runmode)
 {
     int rnd;
-    char *temp_name, *temp;
+    char *temp_name = NULL, *temp;
 
     if (!autostart_enabled) {
         return;

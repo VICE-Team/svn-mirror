@@ -76,7 +76,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     /* check range */
     end = prg->start_addr + prg->size - 1;
     if (end > 0xffff) {
-        log_error(log, "Invalid size of '%s': %d", file_name, prg->size);
+        log_error(log, "Invalid size of '%s': %ld", file_name, prg->size);
         return NULL;
     }
 
@@ -328,7 +328,7 @@ int autostart_prg_perform_injection(log_t log)
         return -1;
     }
 
-    log_message(log, "Injecting program data at $%04x (size $%04x)",
+    log_message(log, "Injecting program data at $%04x (size $%04lx)",
                 prg->start_addr,
                 prg->size);
 
