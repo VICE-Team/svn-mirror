@@ -849,11 +849,8 @@ int mouse_resources_init(void)
         return -1;
     }
 
-    /* FIXME ugly kludge to remove port and type setting from xvic */
-    if (machine_class != VICE_MACHINE_VIC20) {
-        if (resources_register_int(resources_extra_int) < 0) {
-            return -1;
-        }
+    if (resources_register_int(resources_extra_int) < 0) {
+        return -1;
     }
 
     return mousedrv_resources_init(&mouse_funcs);
@@ -893,11 +890,8 @@ int mouse_cmdline_options_init(void)
         return -1;
     }
 
-    /* FIXME ugly kludge to remove port and type setting from xvic */
-    if (machine_class != VICE_MACHINE_VIC20) {
-        if (cmdline_register_options(cmdline_extra_option) < 0) {
-            return -1;
-        }
+    if (cmdline_register_options(cmdline_extra_option) < 0) {
+        return -1;
     }
 
     return mousedrv_cmdline_options_init();
