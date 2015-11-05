@@ -52,9 +52,11 @@ void yuv_to_rgb(SDWORD y, SDWORD u, SDWORD v, SWORD *red, SWORD *grn, SWORD *blu
 # pragma warning( push )
 # pragma warning( disable: 4244 )
 #endif
-    *red = (y + ((417 * u + 81  * v) >> 8)) >> 16;
-    *grn = (y - ((97  * u + 118 * v) >> 8)) >> 16;
-    *blu = (y - ((279 * u - 429 * v) >> 8)) >> 16;
+
+    *red = (y + ((209 * u +  41 * v) >> 7)) >> 15;
+    *grn = (y - (( 48 * u +  69 * v) >> 7)) >> 15;
+    *blu = (y - ((139 * u - 215 * v) >> 7)) >> 15;
+
 #ifdef _MSC_VER
 # pragma warning( pop )
 #endif

@@ -410,16 +410,20 @@ static void video_convert_renderer_to_rgb_gamma(video_ycbcr_color_t *src, float 
     tmp.cr = src->cr;
     tmp.y = src->y;
 
-    /* apply saturation */
-    tmp.cb *= sat;
-    tmp.cr *= sat;
-
     if (video) {
         tmp.cr += tin; /* apply tint */
+        /* apply saturation */
+        tmp.cb *= sat;
+        tmp.cr *= sat;
+
         video_convert_ycbcr_to_rgb(&tmp, &r, &g, &b);
     } else {
         /* FIXME: tint for ntsc */
         tmp.cr += tin; /* apply tint */
+        /* apply saturation */
+        tmp.cb *= sat;
+        tmp.cr *= sat;
+
         video_convert_yiq_to_rgb(&tmp, &r, &g, &b);
     }
 
@@ -553,20 +557,26 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
 
         /* create primary table */
         primary = &p->entries[i];
-        val = (SDWORD)(primary->y * 256.0f);
-        color_tab->ytablel[i] = val * lf;
-        color_tab->ytableh[i] = val * hf;
-        /* tint, add to cr in odd lines */
-        val = (SDWORD)(tin);
         if (video) {
+            val = (SDWORD)(primary->y * 256.0f);
+            color_tab->ytablel[i] = val * lf;
+            color_tab->ytableh[i] = val * hf;
+            /* tint, add to cr in odd lines */
+            val = (SDWORD)(tin);
             color_tab->cbtable[i] = (SDWORD)((primary->cb) * sat);
             color_tab->crtable[i] = (SDWORD)((primary->cr + val) * sat);
             color_tab->cutable[i] = (SDWORD)(0.493111f * primary->cb * 256.0); /* convert Cb to U */
             color_tab->cvtable[i] = (SDWORD)(0.877283f * (primary->cr + val) * 256.0); /* convert Cr to V */
         } else {
+            /* for NTSC use one bit less for the fraction in the tables to avoid
+               integer overflows in the CRT renderer */
+            val = (SDWORD)(primary->y * 128.0f);
+            color_tab->ytablel[i] = (val * lf);
+            color_tab->ytableh[i] = (val * hf);
             /* FIXME: tint for NTSC */
-            color_tab->cbtable[i] = (SDWORD)((primary->cb) * sat);
-            color_tab->crtable[i] = (SDWORD)((primary->cr + val) * sat);
+            val = (SDWORD)(tin);
+            color_tab->cbtable[i] = (SDWORD)((primary->cb) * sat) >> 1;
+            color_tab->crtable[i] = (SDWORD)((primary->cr + val) * sat) >> 1;
             /* FIXME: convert IQ to UV (used by YUV renderers) */
             color_tab->cutable[i] = (SDWORD)(primary->cb * 256.0);
             color_tab->cvtable[i] = (SDWORD)((primary->cr + val) * 256.0);
