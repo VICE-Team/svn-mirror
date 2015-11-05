@@ -611,15 +611,15 @@
     }                                                    \
     addr = (tmpa + reg_y) & 0xffff;
 /* like above, for SHA_IND_Y */
-#define INT_IND_Y_W_NOADDR()                             \
-    unsigned int tmpa;                                   \
-    tmpa = LOAD_ZERO(p1);                                \
-    CLK_INC();                                           \
-    tmpa |= (LOAD_ZERO(p1 + 1) << 8);                    \
-    CLK_INC();                                           \
-    if (!SKIP_CYCLE) {                                   \
-        LOAD((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff)); \
-        CLK_INC();                                       \
+#define INT_IND_Y_W_NOADDR()                                          \
+    unsigned int tmpa;                                                \
+    tmpa = LOAD_ZERO(p1);                                             \
+    CLK_INC();                                                        \
+    tmpa |= (LOAD_ZERO(p1 + 1) << 8);                                 \
+    CLK_INC();                                                        \
+    if (!SKIP_CYCLE) {                                                \
+        LOAD_CHECK_BA_LOW((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff)); \
+        CLK_INC();                                                    \
     }
 
 #define GET_IND_Y(dest) \
@@ -1380,14 +1380,14 @@
         INC_PC(2);                                     \
     } while (0)
 
-#define SH_ABS_I(reg_and, reg_i)                           \
-    do {                                                   \
-        if (!SKIP_CYCLE) {                                 \
-            LOAD(((p2 + reg_i) & 0xff) | ((p2) & 0xff00)); \
-            CLK_INC();                                     \
-        }                                                  \
-        SET_ABS_SH_I(p2, reg_and, reg_i);                  \
-        INC_PC(3);                                         \
+#define SH_ABS_I(reg_and, reg_i)                                        \
+    do {                                                                \
+        if (!SKIP_CYCLE) {                                              \
+            LOAD_CHECK_BA_LOW(((p2 + reg_i) & 0xff) | ((p2) & 0xff00)); \
+            CLK_INC();                                                  \
+        }                                                               \
+        SET_ABS_SH_I(p2, reg_and, reg_i);                               \
+        INC_PC(3);                                                      \
     } while (0)
 
 #define SHS_ABS_Y()                          \
