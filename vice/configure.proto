@@ -1204,6 +1204,9 @@ LINKCC='$(CC)'
 
 dnl disable reSID for certain platforms
 
+RESIDSUB=""
+RESIDDTVSUB=""
+
 if test x"$with_resid" = "xno"; then
   dnl Do not attempt to configure reSID.
   dnl NOTE: no_recursion is set because directories specified with
@@ -1273,6 +1276,7 @@ else
     RESID_LIBS="\$(top_builddir)/src/resid/libresid.a"
     RESID_INCLUDES="-I\$(top_builddir)/src/resid"
     RESID_DEP=libresid
+    RESIDSUB=resid
 
     AC_DEFINE(HAVE_RESID_DTV,,[This version provides ReSID-DTV support.])
     AC_CONFIG_SUBDIRS(src/resid-dtv)
@@ -1280,9 +1284,18 @@ else
     RESID_DTV_LIBS="\$(top_builddir)/src/resid-dtv/libresiddtv.a"
     RESID_DTV_INCLUDES="-I\$(top_builddir)/src/resid-dtv"
     RESID_DTV_DEP=libresiddtv
+    RESIDDTVSUB=resid-dtv
   fi
-
   AC_LANG_RESTORE
+fi
+
+AC_SUBST(RESIDSUB)
+AC_SUBST(RESIDDTVSUB)
+
+if test x"$RESIDSUB" = "xresid"; then
+  AM_CONDITIONAL(RESID_DIR_USED, true)
+else
+  AM_CONDITIONAL(RESID_DIR_USED, false)
 fi
 
 AC_SUBST(LINKCC)

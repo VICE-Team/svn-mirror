@@ -86,8 +86,8 @@ DIST_SUBDIRS = \
 	plus4 \
 	cbm2 \
 	arch \
-	resid \
-	resid-dtv \
+	@RESIDSUB@ \
+	@RESIDDTVSUB@ \
 	lib \
 	platform
 
@@ -320,7 +320,7 @@ cpucore_sources = \
 cpudtvcore_sources = \
 	6510dtvcore.c
 
-EXTRA_DIST = \
+COMMON_EXTRA_DIST = \
 	6510core.c \
 	65816core.c \
 	65c02core.c \
@@ -350,6 +350,108 @@ EXTRA_DIST = \
 	piacore.c \
 	sedinfocontrib_h.sh \
 	translate.txt
+
+# RESID_EXTRA_DIST is a list of files in the resid directory that need to be
+# included in the source archive, this list was added to fix the fact that
+# 'make dist' only produced a proper/workable source archive when done on a
+# platform with a c++ compiler and resid enabled.
+
+RESID_EXTRA_DIST = \
+	resid/aclocal.m4 \
+	resid/AUTHORS \
+	resid/ChangeLog \
+	resid/configure \
+	resid/configure.in \
+	resid/COPYING \
+	resid/dac.cc \
+	resid/dac.h \
+	resid/envelope.cc \
+	resid/envelope.h \
+	resid/extfilt.cc \
+	resid/extfilt.h \
+	resid/filter.cc \
+	resid/filter.h \
+	resid/INSTALL \
+	resid/Makefile.am \
+	resid/Makefile.in \
+	resid/NEWS \
+	resid/pot.cc \
+	resid/pot.h \
+	resid/README \
+	resid/README.VICE \
+	resid/resid-config.h \
+	resid/samp2src.pl \
+	resid/sid.cc \
+	resid/sid.h \
+	resid/siddefs.h.in \
+	resid/spline.h \
+	resid/THANKS \
+	resid/TODO \
+	resid/version.cc \
+	resid/voice.cc \
+	resid/voice.h \
+	resid/wave.cc \
+	resid/wave.h \
+	resid/wave6581__ST.dat \
+	resid/wave6581__ST.h \
+	resid/wave6581_P_T.dat \
+	resid/wave6581_P_T.h \
+	resid/wave6581_PS_.dat \
+	resid/wave6581_PS_.h \
+	resid/wave6581_PST.dat \
+	resid/wave6581_PST.h \
+	resid/wave8580__ST.dat \
+	resid/wave8580__ST.h \
+	resid/wave8580_P_T.dat \
+	resid/wave8580_P_T.h \
+	resid/wave8580_PS_.dat \
+	resid/wave8580_PS_.h \
+	resid/wave8580_PST.dat \
+	resid/wave8580_PST.h
+
+# RESIDDTV_EXTRA_DIST is a list of files in the resid directory that need to be
+# included in the source archive, this list was added to fix the fact that
+# 'make dist' only produced a proper/workable source archive when done on a
+# platform with a c++ compiler and resid enabled.
+
+RESIDDTV_EXTRA_DIST = \
+	resid-dtv/aclocal.m4 \
+	resid-dtv/AUTHORS \
+	resid-dtv/bittrain.h \
+	resid-dtv/ChangeLog \
+	resid-dtv/configure \
+	resid-dtv/configure.in \
+	resid-dtv/COPYING \
+	resid-dtv/envelope.cc \
+	resid-dtv/envelope.h \
+	resid-dtv/extfilt.cc \
+	resid-dtv/extfilt.h \
+	resid-dtv/filter.cc \
+	resid-dtv/filter.h \
+	resid-dtv/INSTALL \
+	resid-dtv/Makefile.am \
+	resid-dtv/Makefile.in \
+	resid-dtv/NEWS \
+	resid-dtv/README \
+	resid-dtv/residdtv-config.h \
+	resid-dtv/sid.cc \
+	resid-dtv/sid.h \
+	resid-dtv/siddtvdefs.h.in \
+	resid-dtv/version.cc \
+	resid-dtv/voice.cc \
+	resid-dtv/voice.h \
+	resid-dtv/wave.cc \
+	resid-dtv/wave.h
+
+if RESID_DIR_USED
+
+EXTRA_DIST = $(COMMON_EXTRA_DIST)
+
+else
+
+EXTRA_DIST = $(COMMON_EXTRA_DIST) $(RESID_EXTRA_DIST) $(RESIDDTV_EXTRA_DIST)
+
+endif
 
 if EMBEDDED
 EMBEDDED_H_FILES = \
