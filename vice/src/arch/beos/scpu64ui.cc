@@ -413,10 +413,6 @@ static void scpu64_ui_specific(void *msg, void *window)
         case MENU_CART_DETACH:
             cartridge_detach_image(-1);
             break;
-        case MENU_CART_FREEZE:
-            keyboard_clear_keymatrix();
-            cartridge_trigger_freeze();
-            break;
         case ATTACH_C64_CART:
             {
                 const char *filename;

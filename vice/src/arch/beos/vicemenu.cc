@@ -163,7 +163,9 @@ BMenuBar *menu_create(int machine_class)
             menu->AddSeparatorItem();
             menu->AddItem(new BMenuItem("Set cartridge as default", new BMessage(MENU_CART_SET_DEFAULT)));
         uppermenu->AddItem(new BMenuItem("Detach cartridge image", new BMessage(MENU_CART_DETACH)));
-        uppermenu->AddItem(new BMenuItem("Cartridge freeze", new BMessage(MENU_CART_FREEZE), 'Z'));
+        if (machine_class != VICE_MACHINE_SCPU64) {
+            uppermenu->AddItem(new BMenuItem("Cartridge freeze", new BMessage(MENU_CART_FREEZE), 'Z'));
+        }
         uppermenu->AddSeparatorItem();
     }
 
