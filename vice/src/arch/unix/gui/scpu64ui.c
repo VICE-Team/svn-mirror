@@ -476,7 +476,7 @@ static ui_menu_entry_t xscpu64_file_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uiattach_disk_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_c64cart_commands_menu },
+      NULL, NULL, ui_c64scpucart_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_directory_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,

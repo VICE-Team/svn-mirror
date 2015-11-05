@@ -132,6 +132,14 @@ ui_menu_entry_t ui_c64cart_commands_menu[] = {
     { NULL }
 };
 
+ui_menu_entry_t ui_c64scpucart_commands_menu[] = {
+    { N_("Attach cartridge image"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, attach_cartridge_image_submenu },
+    { N_("Detach cartridge image(s)"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)detach_cartridge, NULL, NULL },
+    { NULL }
+};
+
 ui_menu_entry_t ui_c64cart_entry = {
     NULL, UI_MENU_TYPE_DOTS, (ui_callback_t)attach_cartridge,
     (ui_callback_data_t)0, NULL
