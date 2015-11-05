@@ -1471,14 +1471,11 @@ unsigned char *convert_utf8(unsigned char *s)
 }
 
 /* Update the menu items with a checkmark according to the current resource
-   values.
-
-   Note: ui_menu_update_all actually is empty (?)
-*/
+   values. */
 void ui_update_menus(void)
 {
     DBG(("ui_update_menus"));
-    ui_menu_update_all();
+    ui_menu_update_all_GTK();
     if (machine_class != VICE_MACHINE_VSID) {
         ui_update_palctrl();
     }
