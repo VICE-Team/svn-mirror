@@ -32,6 +32,7 @@
 #include "cartridge.h"
 #include "keyboard.h"
 #include "lib.h"
+#include "machine.h"
 #include "menudefs.h"
 #include "tui.h"
 #include "tuifs.h"
@@ -216,5 +217,7 @@ void uic64cart_init(struct tui_menu *parent_submenu)
 {
     tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
-    tui_menu_add(ui_reset_submenu, freeze_cartridge_menu_items);
+    if (machine_class != VICE_MACHINE_SCPU64) {
+        tui_menu_add(ui_reset_submenu, freeze_cartridge_menu_items);
+    }
 }
