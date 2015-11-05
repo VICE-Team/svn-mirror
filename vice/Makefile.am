@@ -37,23 +37,32 @@ COMMON_EXTRA_DIST = \
 # 'make dist' only produced a proper/workable source archive when done on a
 # *nix platform with nls.
 
-PO_EXTRA_DIST = po/ChangeLog \
+PO_EXTRA_DIST = \
+	po/ChangeLog \
+	po/ChangeLog.1 \
 	po/Makefile.in.in \
 	po/POTFILES.in \
+	po/check_obsolete.sh \
 	po/da.po \
 	po/de.po \
 	po/es.po \
 	po/fr.po \
+	po/gen_amiga_intl_c.c \
+	po/gen_translate_c.c \
+	po/gen_win32_files.sh \
+	po/gen_win32_rc.c \
 	po/hu.po \
 	po/intl2po.c \
 	po/it.po \
 	po/ko.po \
 	po/nl.po \
 	po/pl.po \
+	po/po2table.c \
 	po/po2tbl.sed \
 	po/ru.po \
 	po/sv.po \
-	po/tr.po
+	po/tr.po \
+	po/translations-status.txt
 
 if PO_SUBDIR_USED
 
