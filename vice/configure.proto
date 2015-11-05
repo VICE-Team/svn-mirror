@@ -1920,6 +1920,20 @@ else
   AM_CONDITIONAL(HAVE_STATIC_FFMPEG, false)
 fi
 
+if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
+  LAMEMP3SUB=liblame
+else
+  LAMEMP3SUB=""
+fi
+
+AC_SUBST(LAMEMP3SUB)
+
+if test x"$LAMEMP3SUB" = "xliblame"; then
+  AM_CONDITIONAL(LAMEMP3_DIR_USED, true)
+else
+  AM_CONDITIONAL(LAMEMP3_DIR_USED, false)
+fi
+
 dnl ----- Apple QuickTime -----
 QUICKTIME_INCLUDES=
 QUICKTIME_LIBS=
