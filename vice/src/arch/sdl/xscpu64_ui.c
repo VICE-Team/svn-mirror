@@ -66,7 +66,7 @@ static const ui_menu_entry_t xscpu64_main_menu[] = {
     { "Cartridge",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c64cart_menu },
+      (ui_callback_data_t)scpu64cart_menu },
     { "Printer",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
