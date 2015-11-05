@@ -2886,7 +2886,9 @@ EXTRA_FILES = \
 	version.sh
 
 MAIN_MAKEFILE=1
+ifdef VICEBUILD
 include config.mak
+endif
 
 vpath %.c    $(SRC_PATH)
 vpath %.cpp  $(SRC_PATH)
@@ -2942,7 +2944,9 @@ EXAMPLES_FILES := $(wildcard $(SRC_PATH)/doc/examples/*.c) $(SRC_PATH)/doc/examp
 
 SKIPHEADERS = cmdutils_common_opts.h compat/w32pthreads.h
 
+ifdef VICEBUILD
 include $(SRC_PATH)/common.mak
+endif
 
 FF_EXTRALIBS := $(FFEXTRALIBS)
 FF_DEP_LIBS  := $(DEP_LIBS)
@@ -2983,9 +2987,11 @@ include $(SRC_PATH)/$(1)/Makefile
 include $(SRC_PATH)/library.mak
 endef
 
+ifdef VICEBUILD
 $(foreach D,$(FFLIBS),$(eval $(call DOSUBDIR,lib$(D))))
 
 include $(SRC_PATH)/doc/Makefile
+endif
 
 define DOPROG
 OBJS-$(1) += $(1).o $(EXEOBJS) $(OBJS-$(1)-yes)

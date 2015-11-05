@@ -8,10 +8,10 @@ libp64:
 	(cd p64; $(MAKE))
 
 libffmpeg:
-	(cd libffmpeg; $(MAKE))
+	(cd libffmpeg; $(MAKE) VICEBUILD=1)
 
 ffmpeglibs-install:
-	(cd libffmpeg; $(MAKE) install-libs)
+	(cd libffmpeg; $(MAKE) install-libs VICEBUILD=1)
 
 if LAMEMP3_DIR_USED
 
