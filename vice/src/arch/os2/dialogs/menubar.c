@@ -674,9 +674,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_CARTRIDGEDET:
             cartridge_detach_image(-1);
             return;
+#ifndef __XSCPU64__
         case IDM_CRTFREEZE:
             cartridge_trigger_freeze();
             return;
+#endif
         case IDM_CRTSAVEIMG:
             ViceFileDialog(hwnd, 0x0601, FDS_ENABLEFILELB | FDS_SAVEAS_DIALOG);
             return;
@@ -2017,6 +2019,7 @@ void menu_select(HWND hwnd, USHORT item)
 
         case IDM_FILE:
             resources_get_int("CartridgeType", &val);
+#ifndef __XSCPU64__
             WinEnableMenuItem(hwnd, IDM_CRTFREEZE, val == CARTRIDGE_ACTION_REPLAY ||
                                                    val == CARTRIDGE_KCS_POWER ||
                                                    val == CARTRIDGE_FINAL_III ||
@@ -2024,6 +2027,7 @@ void menu_select(HWND hwnd, USHORT item)
                                                    val == CARTRIDGE_SUPER_SNAPSHOT_V5 ||
                                                    val == CARTRIDGE_ATOMIC_POWER ||
                                                    val == CARTRIDGE_FINAL_I);
+#endif
             WinEnableMenuItem(hwnd, IDM_CRTSAVEIMG, val == CARTRIDGE_EXPERT);
             return;
         case IDM_CARTRIDGE:

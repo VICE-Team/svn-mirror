@@ -112,7 +112,9 @@ BEGIN
             MENUITEM "~CBM IEEE-488 Interface",           IDM_CRTIEEE,                  MIS_TEXT
             MENUITEM "I~DE64",                            IDM_CRTIDE64,                 MIS_TEXT
         END
+#ifndef __XSCPU64__
         MENUITEM "Press Free~ze Button",                  IDM_CRTFREEZE,                MIS_TEXT
+#endif
         MENUITEM "Save Cartridge ~Image",                 IDM_CRTSAVEIMG,               MIS_TEXT
 #endif
 
