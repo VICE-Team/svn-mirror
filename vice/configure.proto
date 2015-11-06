@@ -1835,8 +1835,19 @@ fi
 dnl external ffmpeg
 if test x"$enable_external_ffmpeg" = "xyes"; then
   PKG_PROG_PKG_CONFIG
-  if test x"$is_unix" = "xyes" -a x"$dynlib_support" = "xyes" ; then
+
+  valid_ffmpeg_platform="no"
+
+  if test x"$is_unix" = "xyes"; then
     dnl --- unix (requires dynlib support) ---
+    if test x"$dynlib_support" = "xyes"; then
+      valid_ffmpeg_platform="yes"
+    fi
+  else
+    valid_ffmpeg_platform="yes"
+  fi
+
+  if test x"$valid_ffmpeg_platform" = "xyes"; then
     AC_MSG_RESULT([via pkg-config])
     PKG_CHECK_MODULES(FFMPEG_AV,  [libavcodec libavformat libavutil], 
       [old_CFLAGS=$CFLAGS
