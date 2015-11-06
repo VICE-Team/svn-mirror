@@ -280,15 +280,15 @@ static const struct {
     { NULL, 0}
 };
 
-ui_menu_translation_table_t monitor_trans_popup_table[] = {
-    { 1, IDS_MP_FILE },
-    { 1, IDS_MP_DEBUG },
-    { 1, IDS_MP_VIEW },
-    { 1, IDS_MP_WINDOW },
+ui_popup_translation_table_t monitor_trans_popup_table[] = {
+    { 1, IDS_MP_FILE, NULL },
+    { 1, IDS_MP_DEBUG, NULL },
+    { 1, IDS_MP_VIEW, NULL },
+    { 1, IDS_MP_WINDOW, NULL },
     { 0, 0 }
 };
 
-ui_popup_translation_table_t monitor_trans_item_table[] = {
+ui_menu_translation_table_t monitor_trans_item_table[] = {
     { IDM_MON_OPEN, IDS_MI_MON_OPEN },
     { IDM_MON_SAVE, IDS_MI_MON_SAVE },
     { IDM_MON_PRINT, IDS_MI_MON_PRINT },
