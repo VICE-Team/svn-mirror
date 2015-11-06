@@ -142,18 +142,18 @@ void uijoyport_menu_shutdown(int ports)
     }
 
     i = 0;
-
     while (devices_submenu1[i].string != NULL) {
         lib_free(devices_submenu1[i].string);
-        if (ports == 2) {
-            lib_free(devices_submenu2[i].string);
-        }
         i++;
     }
-
     lib_free(devices_submenu1);
 
+    i = 0;
     if (ports == 2) {
+        while (devices_submenu2[i].string != NULL) {
+            lib_free(devices_submenu2[i].string);
+            i++;
+        }
         lib_free(devices_submenu2);
     }
 }
