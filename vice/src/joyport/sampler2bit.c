@@ -71,6 +71,7 @@ static joyport_t joyport_sampler_device = {
     "Sampler (2bit)",
     IDGS_SAMPLER_2BIT,
     JOYPORT_RES_ID_SAMPLER,
+    JOYPORT_MASK_12,
     joyport_sampler_enable,
     joyport_sampler_read,
     NULL,				/* no store digital */

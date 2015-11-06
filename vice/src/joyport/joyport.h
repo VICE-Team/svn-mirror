@@ -72,10 +72,15 @@
 #define JOYPORT_PORTS_1       1
 #define JOYPORT_PORTS_2       2
 
+#define JOYPORT_MASK_1   1 << 0
+#define JOYPORT_MASK_2   1 << 1
+#define JOYPORT_MASK_12  JOYPORT_MASK_1 | JOYPORT_MASK_2
+
 typedef struct joyport_s {
     char *name;
     int trans_name;
     int resource_id;
+    int port_mask;
     int (*enable)(int val);
     BYTE (*read_digital)(void);
     void (*store_digital)(BYTE val);
@@ -106,7 +111,7 @@ extern int bbrtc_joyport_register(void);
 extern int joyport_resources_init(int pot_present, int ports);
 extern int joyport_cmdline_options_init(void);
 
-extern joyport_desc_t *joyport_get_valid_devices(void);
+extern joyport_desc_t *joyport_get_valid_devices(int port);
 
 extern void joyport_display_joyport(int id, BYTE status);
 

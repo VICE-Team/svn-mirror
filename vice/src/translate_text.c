@@ -3149,6 +3149,24 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
+/* en */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT,    N_("Selected joyport device %s cannot be attached to port %d")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_TR, ""},  /* fuzzy */
+#endif
+
+
+/* joyport.c */
 /* en */ {IDGS_HOST_MOUSE,    N_("host mouse")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_HOST_MOUSE_DA, ""},  /* fuzzy */

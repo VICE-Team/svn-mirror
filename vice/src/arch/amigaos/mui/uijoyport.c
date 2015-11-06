@@ -36,17 +36,20 @@
 #include "machine.h"
 #include "translate.h"
 
-static char *ui_joyport[JOYPORT_MAX_DEVICES + 1];
-static const int ui_joyport_values[JOYPORT_MAX_DEVICES + 1];
+static char *ui_joyport_1[JOYPORT_MAX_DEVICES + 1];
+static const int ui_joyport_1_values[JOYPORT_MAX_DEVICES + 1];
+
+static char *ui_joyport_2[JOYPORT_MAX_DEVICES + 1];
+static const int ui_joyport_2_values[JOYPORT_MAX_DEVICES + 1];
 
 static ui_to_from_t ui_to_from1[] = {
-    { NULL, MUI_TYPE_CYCLE, "JoyPort1Device", ui_joyport, ui_joyport_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyPort1Device", ui_joyport_1, ui_joyport_1_values, NULL },
     UI_END /* mandatory */
 };
 
 static ui_to_from_t ui_to_from2[] = {
-    { NULL, MUI_TYPE_CYCLE, "JoyPort1Device", ui_joyport, ui_joyport_values, NULL },
-    { NULL, MUI_TYPE_CYCLE, "JoyPort2Device", ui_joyport, ui_joyport_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyPort1Device", ui_joyport_1, ui_joyport_1_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyPort2Device", ui_joyport_2, ui_joyport_2_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -57,7 +60,7 @@ static APTR build_gui1(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from1[0].object, translate_text(IDS_JOYPORT_1_DEVICE), ui_joyport)
+           CYCLE(ui_to_from1[0].object, translate_text(IDS_JOYPORT_1_DEVICE), ui_joyport_1)
            OK_CANCEL_BUTTON
          End;
 
@@ -79,8 +82,8 @@ static APTR build_gui2(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from2[0].object, translate_text(IDS_JOYPORT_1_DEVICE), ui_joyport)
-           CYCLE(ui_to_from2[1].object, translate_text(IDS_JOYPORT_2_DEVICE), ui_joyport)
+           CYCLE(ui_to_from2[0].object, translate_text(IDS_JOYPORT_1_DEVICE), ui_joyport_1)
+           CYCLE(ui_to_from2[1].object, translate_text(IDS_JOYPORT_2_DEVICE), ui_joyport_2)
            OK_CANCEL_BUTTON
          End;
 
@@ -99,18 +102,28 @@ void ui_joyport_settings_dialog(int ports)
 {
     APTR window;
     int i;
-    joyport_desc_t *devices = joyport_get_valid_devices();
+    joyport_desc_t *devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
+    joyport_desc_t *devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
 
-    for (i = 0; devices[i].name; ++i) {
-        ui_joyport[i] = translate_text(devices[i].trans_name);
-        ui_joyport_values[i] = devices[i].id;
+    for (i = 0; devices_port_1[i].name; ++i) {
+        ui_joyport_1[i] = translate_text(devices_port_1[i].trans_name);
+        ui_joyport_1_values[i] = devices_port_1[i].id;
     }
-    ui_joyport[i] = NULL;
-    ui_joyport_values[i] = -1;
+    ui_joyport_1[i] = NULL;
+    ui_joyport_1_values[i] = -1;
 
-    lib_free(devices);
+    lib_free(devices_port_1);
 
     if (ports == 2) {
+        for (i = 0; devices_port_2[i].name; ++i) {
+            ui_joyport_2[i] = translate_text(devices_port_2[i].trans_name);
+            ui_joyport_2_values[i] = devices_port_2[i].id;
+        }
+        ui_joyport_2[i] = NULL;
+        ui_joyport_2_values[i] = -1;
+
+        lib_free(devices_port_2);
+
         window = mui_make_simple_window(build_gui2(), translate_text(IDS_JOYPORT_SETTINGS));
 
         if (window != NULL) {

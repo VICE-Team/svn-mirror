@@ -42,9 +42,9 @@ extern "C" {
 }
 
 static BMenu *vsid_tune_menu;
-static joyport_desc_t *(*get_devices)(void) = NULL;
+static joyport_desc_t *(*get_devices)(int port) = NULL;
 
-void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(void))
+void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(int port))
 {
     get_devices = gd;
 }
@@ -91,7 +91,8 @@ BMenuBar *menu_create(int machine_class)
     BMenu *uppermenu, *menu, *submenu, *extsubmenu;
     BMenuItem *item;
     uint32 i;
-    joyport_desc_t *devices = NULL;
+    joyport_desc_t *devices_port_1 = NULL;
+    joyport_desc_t *devices_port_2 = NULL;
 
     menubar = new BMenuBar(BRect(0, 0, 10, 10), "Menubar");
 
@@ -1053,23 +1054,25 @@ BMenuBar *menu_create(int machine_class)
 
     if (get_devices != NULL) {
         uppermenu->AddItem(menu = new BMenu("Joyport"));
-            devices = get_devices();
+            devices_port_1 = get_devices(JOYPORT_1);
             menu->AddItem(submenu = new BMenu("Joyport 1 device"));
                 submenu->SetRadioMode(true);
-                for (i = 0; devices[i].name; ++i) {
-                    submenu->AddItem(new BMenuItem(devices[i].name, new BMessage(MENU_JOYPORT1_00 + devices[i].id)));
+                for (i = 0; devices_port_1[i].name; ++i) {
+                    submenu->AddItem(new BMenuItem(devices_port_1[i].name, new BMessage(MENU_JOYPORT1_00 + devices_port_1[i].id)));
                 }
             if (machine_class != VICE_MACHINE_VIC20) {
+                devices_port_2 = get_devices(JOYPORT_2);
                 menu->AddItem(submenu = new BMenu("Joyport 2 device"));
                     submenu->SetRadioMode(true);
-                    for (i = 0; devices[i].name; ++i) {
-                        submenu->AddItem(new BMenuItem(devices[i].name, new BMessage(MENU_JOYPORT2_00 + devices[i].id)));
+                    for (i = 0; devices_port_2[i].name; ++i) {
+                        submenu->AddItem(new BMenuItem(devices_port_2[i].name, new BMessage(MENU_JOYPORT2_00 + devices_port_2[i].id)));
                     }
             }
             menu->AddItem(submenu = new BMenu("Joystick"));
                 submenu->AddItem(new BMenuItem("Joystick/Keyset settings ...", new BMessage(MENU_JOYSTICK_SETTINGS)));
                 submenu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
-        lib_free(devices);
+        lib_free(devices_port_1);
+        lib_free(devices_port_2);
     }
 
     if (machine_class != VICE_MACHINE_VSID) {

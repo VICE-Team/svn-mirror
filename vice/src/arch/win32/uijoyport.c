@@ -46,7 +46,8 @@
 #include "winmain.h"
 
 static int ports = 2;
-static joyport_desc_t *devices = NULL;
+static joyport_desc_t *devices_port_1 = NULL;
+static joyport_desc_t *devices_port_2 = NULL;
 
 static void enable_joyport_controls(HWND hwnd)
 {
@@ -111,7 +112,8 @@ static void init_joyport_dialog(HWND hwnd)
     int joy1 = 0;
     int joy2 = 0;
 
-    devices = joyport_get_valid_devices();
+    devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
+    devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
 
     if (ports == 2) {
         /* translate all dialog items */
@@ -160,14 +162,17 @@ static void init_joyport_dialog(HWND hwnd)
         resources_get_int("JoyPort2Device", &joy2);
     }
 
-    for (i = 0; devices[i].name; ++i) {
-        SendMessage(temp_hwnd1, CB_ADDSTRING, 0, (LPARAM)translate_text(devices[i].trans_name));
-        if (devices[i].id == joy1) {
+    for (i = 0; devices_port_1[i].name; ++i) {
+        SendMessage(temp_hwnd1, CB_ADDSTRING, 0, (LPARAM)translate_text(devices_port_1[i].trans_name));
+        if (devices_port_1[i].id == joy1) {
             res_value1 = i;
         }
-        if (ports == 2) {
-            SendMessage(temp_hwnd2, CB_ADDSTRING, 0, (LPARAM)translate_text(devices[i].trans_name));
-            if (devices[i].id == joy2) {
+    }
+
+    if (ports == 2) {
+        for (i = 0; devices_port_2[i].name; ++i) {
+            SendMessage(temp_hwnd2, CB_ADDSTRING, 0, (LPARAM)translate_text(devices_port_2[i].trans_name));
+            if (devices_port_2[i].id == joy2) {
                 res_value2 = i;
             }
         }
@@ -198,20 +203,24 @@ static void end_joyport_dialog(HWND hwnd)
     }
 
     if (joy1) {
-        id1 = devices[joy1].id;
+        id1 = devices_port_1[joy1].id;
     }
     resources_set_int("JoyPort1Device", id1);
 
     if (ports == 2) {
         joy2 = (int)SendMessage(GetDlgItem(hwnd, IDC_JOYPORT2), CB_GETCURSEL, 0, 0);
         if (joy2) {
-            id2 = devices[joy2].id;
+            id2 = devices_port_2[joy2].id;
         }
         resources_set_int("JoyPort2Device", id2);
     }
-    if (devices) {
-        lib_free(devices);
-        devices = NULL;
+    if (devices_port_1) {
+        lib_free(devices_port_1);
+        devices_port_1 = NULL;
+    }
+    if (devices_port_2) {
+        lib_free(devices_port_2);
+        devices_port_2 = NULL;
     }
 }
 
@@ -226,18 +235,26 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                 case IDOK:
                     end_joyport_dialog(hwnd);
                 case IDCANCEL:
-                    if (devices) {
-                        lib_free(devices);
-                        devices = NULL;
+                    if (devices_port_1) {
+                        lib_free(devices_port_1);
+                        devices_port_1 = NULL;
+                    }
+                    if (devices_port_2) {
+                        lib_free(devices_port_2);
+                        devices_port_2 = NULL;
                     }
                     EndDialog(hwnd, 0);
                     return TRUE;
             }
             return FALSE;
         case WM_CLOSE:
-            if (devices) {
-                lib_free(devices);
-                devices = NULL;
+            if (devices_port_1) {
+                lib_free(devices_port_1);
+                devices_port_1 = NULL;
+            }
+            if (devices_port_2) {
+                lib_free(devices_port_2);
+                devices_port_2 = NULL;
             }
             EndDialog(hwnd, 0);
             return TRUE;

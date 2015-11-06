@@ -46,7 +46,7 @@ static TUI_MENU_CALLBACK(joyport1_submenu_callback)
 {
     int value;
     char *s;
-    joyport_desc_t *devices = joyport_get_valid_devices();
+    joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_1);
 
     resources_get_int("JoyPort1Device", &value);
     s = devices[value].name;
@@ -58,7 +58,7 @@ static TUI_MENU_CALLBACK(joyport2_submenu_callback)
 {
     int value;
     char *s;
-    joyport_desc_t *devices = joyport_get_valid_devices();
+    joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_2);
 
     resources_get_int("JoyPort2Device", &value);
     s = devices[value].name;
@@ -108,25 +108,26 @@ static tui_menu_item_def_t joyport2_menu_items[] = {
 void uijoyport_init(struct tui_menu *parent_submenu, int ports)
 {
     tui_menu_t ui_joyport_submenu;
-    joyport_desc_t *devices = joyport_get_valid_devices();
+    joyport_desc_t *devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
+    joyport_desc_t *devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
     int i;
 
     ui_joyport_submenu = tui_menu_create("Joyport settings", 1);
 
     for (i = 0; devices[i].name; ++i) {
-        joyport1_submenu[i].label = devices[i].name;
+        joyport1_submenu[i].label = devices_port_1[i].name;
         joyport1_submenu[i].help_string = NULL;
         joyport1_submenu[i].callback = radio_JoyPort1Device_callback;
-        joyport1_submenu[i].callback_param = (void *)devices[i].id;
+        joyport1_submenu[i].callback_param = (void *)devices_port_1[i].id;
         joyport1_submenu[i].par_string_max_len = 20;
         joyport1_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
         joyport1_submenu[i].submenu = NULL;
         joyport1_submenu[i].submenu_title = NULL;
         if (ports == 2) {
-            joyport2_submenu[i].label = devices[i].name;
+            joyport2_submenu[i].label = devices_port_2[i].name;
             joyport2_submenu[i].help_string = NULL;
             joyport2_submenu[i].callback = radio_JoyPort2Device_callback;
-            joyport2_submenu[i].callback_param = (void *)devices[i].id;
+            joyport2_submenu[i].callback_param = (void *)devices_port_2[i].id;
             joyport2_submenu[i].par_string_max_len = 20;
             joyport2_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
             joyport2_submenu[i].submenu = NULL;
@@ -159,7 +160,8 @@ void uijoyport_init(struct tui_menu *parent_submenu, int ports)
         tui_menu_add(ui_joyport_submenu, joyport1_menu_items);
     }
 
-    lib_free(devices);
+    lib_free(devices_port_1);
+    lib_free(devices_port_2);
 
     tui_menu_add_submenu(parent_submenu, "_Joyport settings...",
                          "Joyport settings",

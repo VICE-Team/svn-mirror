@@ -65,7 +65,7 @@ static void sdl_menu_joyport2_free(void)
 
 UI_MENU_CALLBACK(JoyPort1Device_dynmenu_callback)
 {
-    joyport_desc_t *devices = joyport_get_valid_devices();
+    joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_1);
     int i;
 
     /* rebuild menu if it already exists. */
@@ -94,7 +94,7 @@ UI_MENU_CALLBACK(JoyPort1Device_dynmenu_callback)
 
 UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
 {
-    joyport_desc_t *devices = joyport_get_valid_devices();
+    joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_2);
     int i;
 
     /* rebuild menu if it already exists. */

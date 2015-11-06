@@ -69,9 +69,10 @@ void uijoyport_menu_create(int ports)
     unsigned int i, num;
     ui_menu_entry_t *devices_submenu1;
     ui_menu_entry_t *devices_submenu2;
-    joyport_desc_t *devices = joyport_get_valid_devices();
+    joyport_desc_t *devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
+    joyport_desc_t *devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
 
-    for (i = 0; devices[i].name; ++i) {}
+    for (i = 0; devices_port_1[i].name; ++i) {}
     num = i;
 
     if (!num) {
@@ -84,10 +85,10 @@ void uijoyport_menu_create(int ports)
     }
 
     for (i = 0; i < num ; i++) {
-        devices_submenu1[i].string = (ui_callback_data_t)lib_msprintf("%s", translate_text(devices[i].trans_name));
+        devices_submenu1[i].string = (ui_callback_data_t)lib_msprintf("%s", translate_text(devices_port_1[i].trans_name));
         devices_submenu1[i].type = UI_MENU_TYPE_TICK;
         devices_submenu1[i].callback = (ui_callback_t)radio_JoyPort1Device;
-        devices_submenu1[i].callback_data = (ui_callback_data_t)(unsigned long)devices[i].id;
+        devices_submenu1[i].callback_data = (ui_callback_data_t)(unsigned long)devices_port_1[i].id;
         if (ports == 2) {
             devices_submenu2[i].string = (ui_callback_data_t)lib_msprintf("%s", translate_text(devices[i].trans_name));
             devices_submenu2[i].type = UI_MENU_TYPE_TICK;
@@ -97,11 +98,31 @@ void uijoyport_menu_create(int ports)
     }
 
     if (ports == 2) {
+        for (i = 0; devices_port_2[i].name; ++i) {}
+        num = i;
+
+        if (!num) {
+            return;
+        }
+
+        if (ports == 2) {
+            devices_submenu2 = lib_calloc((size_t)(num + 1), sizeof(ui_menu_entry_t));
+        }
+
+        for (i = 0; i < num ; i++) {
+            devices_submenu2[i].string = (ui_callback_data_t)lib_msprintf("%s", translate_text(devices_port_2[i].trans_name));
+            devices_submenu2[i].type = UI_MENU_TYPE_TICK;
+            devices_submenu2[i].callback = (ui_callback_t)radio_JoyPort2Device;
+            devices_submenu2[i].callback_data = (ui_callback_data_t)(unsigned long)devices_port_2[i].id;
+        }
+
         joyport2_settings_submenu[0].sub_menu = devices_submenu1;
         joyport2_settings_submenu[1].sub_menu = devices_submenu2;
     } else {
         joyport1_settings_submenu[0].sub_menu = devices_submenu1;
     }
+    lib_free(devices_port_1);
+    lib_free(devices_port_2);
 }
 
 void uijoyport_menu_shutdown(int ports)

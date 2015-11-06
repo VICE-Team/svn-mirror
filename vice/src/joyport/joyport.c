@@ -107,6 +107,12 @@ static int joyport_set_device(int port, int id)
         return -1;
     }
 
+    /* check if device can be connected to this port */
+    if (id != JOYPORT_ID_NONE && !(joyport_device[id].port_mask & (1 << port))) {
+        ui_error(translate_text(IDGS_SELECTED_DEVICE_NOT_THIS_PORT), joyport_device[id].name, port + 1);
+        return -1;
+    }
+
     /* all checks done, now disable the current device and enable the new device */
     if (joyport_device[joy_port[port]].enable) {
         joyport_device[joy_port[port]].enable(0);
@@ -254,6 +260,7 @@ int joyport_register(int id, joyport_t *device)
     joyport_device[id].name = device->name;
     joyport_device[id].trans_name = device->trans_name;
     joyport_device[id].resource_id = device->resource_id;
+    joyport_device[id].port_mask = device->port_mask;
     joyport_device[id].enable = device->enable;
     joyport_device[id].read_digital = device->read_digital;
     joyport_device[id].store_digital = device->store_digital;
@@ -262,7 +269,7 @@ int joyport_register(int id, joyport_t *device)
     return 0;
 }
 
-joyport_desc_t *joyport_get_valid_devices(void)
+joyport_desc_t *joyport_get_valid_devices(int port)
 {
     joyport_desc_t *retval = NULL;
     int i;
@@ -278,10 +285,12 @@ joyport_desc_t *joyport_get_valid_devices(void)
     retval = lib_malloc((valid + 1) * sizeof(joyport_desc_t));
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            retval[j].name = joyport_device[i].name;
-            retval[j].trans_name = joyport_device[i].trans_name;
-            retval[j].id = i;
-            ++j;
+            if (joyport_device[i].port_mask & (1 << port)) {
+                retval[j].name = joyport_device[i].name;
+                retval[j].trans_name = joyport_device[i].trans_name;
+                retval[j].id = i;
+                ++j;
+            }
         }
     }
     retval[j].name = NULL;
@@ -340,6 +349,7 @@ int joyport_resources_init(int pot_present, int ports)
         memset(joyport_device, 0, sizeof(joyport_device));
         joyport_device[0].name = "None";
         joyport_device[0].trans_name = IDGS_NONE;
+        joyport_device[0].port_mask = JOYPORT_MASK_12;
     }
 
     if (ports == JOYPORT_PORTS_2) {
@@ -447,14 +457,14 @@ static int set_joyport_cmdline_device(const char *param, void *extra_param)
 
 /* ------------------------------------------------------------------------- */
 
-static char *build_joyport_string(int id)
+static char *build_joyport_string(int port)
 {
     int i = 0;
     char *tmp1;
     char *tmp2;
     char number[4];
 
-    if (id == 1) {
+    if (port == JOYPORT_1) {
         tmp1 = lib_stralloc(translate_text(IDGS_SET_JOYPORT1_DEVICE));
     } else {
         tmp1 = lib_stralloc(translate_text(IDGS_SET_JOYPORT2_DEVICE));
@@ -462,10 +472,12 @@ static char *build_joyport_string(int id)
 
     for (i = 1; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            sprintf(number, "%d", i);
-            tmp2 = util_concat(tmp1, ", ", number, ": ", translate_text(joyport_device[i].trans_name), NULL);
-            lib_free(tmp1);
-            tmp1 = tmp2;
+            if (joyport_device[i].port_mask & (1 << port)) {
+                sprintf(number, "%d", i);
+                tmp2 = util_concat(tmp1, ", ", number, ": ", translate_text(joyport_device[i].trans_name), NULL);
+                lib_free(tmp1);
+                tmp1 = tmp2;
+            }
         }
     }
     tmp2 = util_concat(tmp1, ")", NULL);
@@ -476,7 +488,7 @@ static char *build_joyport_string(int id)
 static cmdline_option_t cmdline_options_port1[] =
 {
     { "-joyport1device", CALL_FUNCTION, 1,
-      set_joyport_cmdline_device, (void *)1, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_1, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, 1,
       NULL, NULL },
@@ -486,7 +498,7 @@ static cmdline_option_t cmdline_options_port1[] =
 static cmdline_option_t cmdline_options_port2[] =
 {
     { "-joyport2device", CALL_FUNCTION, 1,
-      set_joyport_cmdline_device, (void *)2, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_2, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, 2,
       NULL, NULL },

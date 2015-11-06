@@ -517,6 +517,7 @@ static joyport_t joystick1 = {
     "Joystick 1",
     IDGS_JOYSTICK_1,
     JOYPORT_RES_ID_NONE,
+    JOYPORT_MASK_12,
     joyport_enable_joystick1,
     read_joystick1,
     NULL,				/* no store digital */
@@ -539,6 +540,7 @@ static joyport_t joystick2 = {
     "Joystick 2",
     IDGS_JOYSTICK_2,
     JOYPORT_RES_ID_NONE,
+    JOYPORT_MASK_12,
     joyport_enable_joystick2,
     read_joystick2,
     NULL,				/* no store digital */
