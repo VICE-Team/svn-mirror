@@ -47,7 +47,7 @@ END
 
 // template of dialog for all languages
 
-IDD_VICIISC_DIALOG DIALOG DISCARDABLE 0, 0, 145, 205
+IDD_VICIISC_DIALOG DIALOG DISCARDABLE 0, 0, 145, 220
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -79,8 +79,11 @@ BEGIN
     COMBOBOX        IDC_C64GLUELOGIC_LIST,
                     45, 156, 70, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
-    DEFPUSHBUTTON   "", IDOK, 15, 185, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL, 70, 185, 50, 14, WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_TOGGLE_VICII_VSP_BUG,
+                    15, 172, 115, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 15, 200, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 70, 200, 50, 14, WS_TABSTOP
 END
 
 
@@ -100,6 +103,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
     IDS_VICII_LUMINANCE     "New luminances"
     IDS_VICII_MODEL         "VIC-II model"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Discrete"
     IDS_CUSTOM_IC           "Custom IC"
@@ -122,6 +126,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-til-baggrunds-kollision"
     IDS_VICII_LUMINANCE     "Nye lysstyrker"
     IDS_VICII_MODEL         "VIC-II-model"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Diskret"
     IDS_CUSTOM_IC           "Egen IC"
@@ -144,6 +149,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-Hintergrund Kollisionen"
     IDS_VICII_LUMINANCE     "Neue Helligkeitsemulation"
     IDS_VICII_MODEL         "VIC-II Modell"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue Logik"
     IDS_DISCRETE            "Diskret"
     IDS_CUSTOM_IC           "Benutzerdefinierte IC"
@@ -166,6 +172,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Colisiones sprite-fondo"
     IDS_VICII_LUMINANCE     "Nuevas luminancias"
     IDS_VICII_MODEL         "Modelo VIC-II"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Discreto"
     IDS_CUSTOM_IC           "IC habitual"
@@ -188,6 +195,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Collisions sprite-arrière-plan"
     IDS_VICII_LUMINANCE     "Nouvelles luminescences"
     IDS_VICII_MODEL         "Modèle VIC-II"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Discrète"
     IDS_CUSTOM_IC           "IC Personnalisé"
@@ -213,6 +221,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
     IDS_VICII_LUMINANCE     "New luminances"
     IDS_VICII_MODEL         "VIC-II model"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Discrete"
     IDS_CUSTOM_IC           "Custom IC"
@@ -238,6 +247,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Collisioni sprite-sfondo"
     IDS_VICII_LUMINANCE     "Nuove luminanze"
     IDS_VICII_MODEL         "Modello VIC-II"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Discreto"
     IDS_CUSTOM_IC           "IC personalizzato"
@@ -263,6 +273,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "½ºÇÁ¶óÀÌÆ®-¹è°æ Ãæµ¹"
     IDS_VICII_LUMINANCE     "¼¼·Î¿î ¹à±â"
     IDS_VICII_MODEL         "VIC-II ¸ðµ¨"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "±Û·ç ·ÎÁ÷"
     IDS_DISCRETE            "´Ù¸¥"
     IDS_CUSTOM_IC           "Ä¿½ºÅÒ IC"
@@ -288,6 +299,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-achtergrond botsingen"
     IDS_VICII_LUMINANCE     "Nieuwe kleuren"
     IDS_VICII_MODEL         "VIC-II model"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Diskreet"
     IDS_CUSTOM_IC           "Aangepast IC"
@@ -313,6 +325,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Kolizje duszków z t³em"
     IDS_VICII_LUMINANCE     "Nowy typ jaskrawo¶ci"
     IDS_VICII_MODEL         "Model VIC-II"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Dyskretny"
     IDS_CUSTOM_IC           "W³asne IC"
@@ -341,6 +354,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
     IDS_VICII_LUMINANCE     "New luminances"
     IDS_VICII_MODEL         "¼ÞÔÕÛì VIC-II"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Discrete"
     IDS_CUSTOM_IC           "Custom IC"
@@ -366,6 +380,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-till-bakgrund-kollision"
     IDS_VICII_LUMINANCE     "Nya ljusstyrkor"
     IDS_VICII_MODEL         "VIC II-modell"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Klisterlogik"
     IDS_DISCRETE            "Diskret"
     IDS_CUSTOM_IC           "Egen krets"
@@ -391,6 +406,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Yaratýk-arkaplan çarpýþmalarý"
     IDS_VICII_LUMINANCE     "Yeni parlaklýklar"
     IDS_VICII_MODEL         "VIC-II modeli"
+    IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Baðlantýyý kes"
     IDS_CUSTOM_IC           "Özel IC"
@@ -398,5 +414,3 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-

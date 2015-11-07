@@ -69,6 +69,7 @@ static uilib_localize_dialog_param viciisc_dialog[] = {
     { IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0 },
     { IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0 },
     { IDC_TOGGLE_VICII_NEWLUM, IDS_VICII_LUMINANCE, 0 },
+    { IDC_TOGGLE_VICII_VSP_BUG, IDS_VICII_VSP_BUG, 0 },
     { IDC_C64VICII_LABEL, IDS_VICII_MODEL, 0 },
     { IDC_C64GLUELOGIC_LABEL, IDS_GLUE_LOGIC, 0 },
     { IDOK, IDS_OK, 0 },
@@ -200,6 +201,11 @@ static void init_vicii_dialog(HWND hwnd)
 
     resources_get_int("VICIINewLuminances", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_NEWLUM, n ? BST_CHECKED : BST_UNCHECKED);
+
+    if (machine_class == VICE_MACHINE_C64SC) {
+        resources_get_int("VICIIVSPBug", &n);
+        CheckDlgButton(hwnd, IDC_TOGGLE_VICII_VSP_BUG, n ? BST_CHECKED : BST_UNCHECKED);
+    }
 }
 
 static void end_vicii_dialog(HWND hwnd)
@@ -216,12 +222,10 @@ static void end_vicii_dialog(HWND hwnd)
 
     if (machine_class == VICE_MACHINE_C64SC) {
         resources_set_int("VICIIModel", ui_c64vicii_values[(int)SendMessage(GetDlgItem(hwnd, IDC_C64VICII_LIST), CB_GETCURSEL, 0, 0)]);
+        resources_set_int("VICIIVSPBug", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_VSP_BUG) == BST_CHECKED ? 1 : 0 ));
+        resources_set_int("GlueLogic", ui_c64gluelogic_values[(int)SendMessage(GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST), CB_GETCURSEL, 0, 0)]);
     } else {
         resources_set_int("MachineVideoStandard", ui_c64video_standard_values[(int)SendMessage(GetDlgItem(hwnd, IDC_C64VICII_LIST), CB_GETCURSEL, 0, 0)]);
-    }
-
-    if (machine_class == VICE_MACHINE_C64SC) {
-        resources_set_int("GlueLogic", ui_c64gluelogic_values[(int)SendMessage(GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST), CB_GETCURSEL, 0, 0)]);
     }
 }
 
