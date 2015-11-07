@@ -1,5 +1,5 @@
 /*
- * joyport.h - joyport abstraction system.
+ * joyport.h - control port abstraction system.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -63,8 +63,11 @@
 #define JOYPORT_RES_ID_KEYPAD    3
 #define JOYPORT_RES_ID_RTC       4
 
-#define JOYPORT_1    0
-#define JOYPORT_2    1
+#define JOYPORT_1    0	/* c64/c128/cbm5x0/plus4 control port 1, vic20 control port */
+#define JOYPORT_2    1	/* c64/c128/cbm5x0/plus4 control port 2 */
+#define JOYPORT_3    2	/* plus4 sidcart control port */
+#define JOYPORT_4    3	/* userport cga/pet/hummer/oem/hit/kingsoft/starbyte control port 1 */
+#define JOYPORT_5    4	/* userport cga/pet/oem/hit/kingsoft/starbyte control port 2 */
 
 #define JOYPORT_POT_NONE      0
 #define JOYPORT_POT_PRESENT   1
