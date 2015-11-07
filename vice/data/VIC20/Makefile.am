@@ -9,7 +9,9 @@ romsets = \
 	default.vrs
 
 palettes = \
-	default.vpl
+	default.vpl \
+	mike-pal.vpl \
+	mike-ntsc.vpl
 
 x11_keymaps = \
 	x11_pos.vkm \
