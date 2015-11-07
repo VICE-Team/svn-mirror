@@ -70,10 +70,10 @@ static tui_menu_item_def_t joyport1_submenu[JOYPORT_MAX_DEVICES];
 static tui_menu_item_def_t joyport2_submenu[JOYPORT_MAX_DEVICES];
 
 static tui_menu_item_def_t joyport1_menu_items[] = {
-    { "Joyport _1 device:", "Select the device for joyport 1",
+    { "Control port _1 device:", "Select the device for control port 1",
       joyport1_submenu_callback, NULL, 25,
       TUI_MENU_BEH_CONTINUE, joyport1_submenu,
-      "Joyport 1 device" },
+      "Control port 1 device" },
     { "Save Smart Mouse RTC data when changed",
       "Save Smart Mouse RTC data when changed",
       toggle_SmartMouseRTCSave_callback, NULL, 3,
@@ -86,14 +86,14 @@ static tui_menu_item_def_t joyport1_menu_items[] = {
 };
 
 static tui_menu_item_def_t joyport2_menu_items[] = {
-    { "Joyport _1 device:", "Select the device for joyport 1",
+    { "Control port _1 device:", "Select the device for control port 1",
       joyport1_submenu_callback, NULL, 25,
       TUI_MENU_BEH_CONTINUE, joyport1_submenu,
-      "Joyport 1 device" },
-    { "Joyport _2 device:", "Select the device for joyport 2",
+      "Control port 1 device" },
+    { "Control port _2 device:", "Select the device for control port 2",
       joyport2_submenu_callback, NULL, 25,
       TUI_MENU_BEH_CONTINUE, joyport2_submenu,
-      "Joyport 2 device" },
+      "Control port 2 device" },
     { "Save Smart Mouse RTC data when changed",
       "Save Smart Mouse RTC data when changed",
       toggle_SmartMouseRTCSave_callback, NULL, 3,
@@ -112,7 +112,7 @@ void uijoyport_init(struct tui_menu *parent_submenu, int ports)
     joyport_desc_t *devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
     int i;
 
-    ui_joyport_submenu = tui_menu_create("Joyport settings", 1);
+    ui_joyport_submenu = tui_menu_create("Control port settings", 1);
 
     for (i = 0; devices[i].name; ++i) {
         joyport1_submenu[i].label = devices_port_1[i].name;
@@ -163,8 +163,8 @@ void uijoyport_init(struct tui_menu *parent_submenu, int ports)
     lib_free(devices_port_1);
     lib_free(devices_port_2);
 
-    tui_menu_add_submenu(parent_submenu, "_Joyport settings...",
-                         "Joyport settings",
+    tui_menu_add_submenu(parent_submenu, "_Control port settings...",
+                         "Control port settings",
                          ui_joyport_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);

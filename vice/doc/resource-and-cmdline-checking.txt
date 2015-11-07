@@ -20151,15 +20151,15 @@ resource var:                   joy_port[0]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
 not used in:                    xcbm2/xpet/vsid
 prepocessor:                    
-command-line:                   -joyport1device
+command-line:                   -controlport1device
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:           os2/osx
 fixme: add to documentation
 
 joyport.c:
 ----------
-command line:   -joyport1device <device>
-description:    "Set joyport 1 device. [list of id's]"
+command line:   -controlport1device <device>
+description:    "Set control port 1 device. [list of id's]"
 resource:       "JoyPort1Device"
 action:         N/A
 fixme: add to documentation
@@ -20175,15 +20175,15 @@ resource var:                   joy_port[1]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
 not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:                    
-command-line:                   -joyport2device
+command-line:                   -controlport2device
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:           os2/osx
 fixme: add to documentation
 
 joyport.c:
 ----------
-command line:   -joyport2device <device>
-description:    "Set joyport 2 device. [list of id's]"
+command line:   -controlport2device <device>
+description:    "Set control port 2 device. [list of id's]"
 resource:       "JoyPort2Device"
 action:         N/A
 fixme: add to documentation

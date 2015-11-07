@@ -1055,14 +1055,14 @@ BMenuBar *menu_create(int machine_class)
     if (get_devices != NULL) {
         uppermenu->AddItem(menu = new BMenu("Joyport"));
             devices_port_1 = get_devices(JOYPORT_1);
-            menu->AddItem(submenu = new BMenu("Joyport 1 device"));
+            menu->AddItem(submenu = new BMenu("Control port 1 device"));
                 submenu->SetRadioMode(true);
                 for (i = 0; devices_port_1[i].name; ++i) {
                     submenu->AddItem(new BMenuItem(devices_port_1[i].name, new BMessage(MENU_JOYPORT1_00 + devices_port_1[i].id)));
                 }
             if (machine_class != VICE_MACHINE_VIC20) {
                 devices_port_2 = get_devices(JOYPORT_2);
-                menu->AddItem(submenu = new BMenu("Joyport 2 device"));
+                menu->AddItem(submenu = new BMenu("Control port 2 device"));
                     submenu->SetRadioMode(true);
                     for (i = 0; devices_port_2[i].name; ++i) {
                         submenu->AddItem(new BMenuItem(devices_port_2[i].name, new BMessage(MENU_JOYPORT2_00 + devices_port_2[i].id)));

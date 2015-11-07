@@ -122,7 +122,7 @@ UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
 }
 
 const ui_menu_entry_t joyport1_menu[] = {
-    { "Joyport 1 device",
+    { "Control port 1 device",
       MENU_ENTRY_DYNAMIC_SUBMENU,
       JoyPort1Device_dynmenu_callback,
       (ui_callback_data_t)joyport1_dyn_menu },
@@ -130,11 +130,11 @@ const ui_menu_entry_t joyport1_menu[] = {
 };
 
 const ui_menu_entry_t joyport2_menu[] = {
-    { "Joyport 1 device",
+    { "Control port 1 device",
       MENU_ENTRY_DYNAMIC_SUBMENU,
       JoyPort1Device_dynmenu_callback,
       (ui_callback_data_t)joyport1_dyn_menu },
-    { "Joyport 2 device",
+    { "Control port 2 device",
       MENU_ENTRY_DYNAMIC_SUBMENU,
       JoyPort2Device_dynmenu_callback,
       (ui_callback_data_t)joyport2_dyn_menu },

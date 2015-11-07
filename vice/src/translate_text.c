@@ -3098,7 +3098,7 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG,    N_("Selected joyport device %d is not registered")},
+/* en */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG,    N_("Selected control port device %d is not registered")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_DE, ""},  /* fuzzy */
@@ -3115,7 +3115,7 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED,    N_("Selected joyport device %s on port %d is already attached to port %d")},
+/* en */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED,    N_("Selected control port device %s on port %d is already attached to port %d")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_DE, ""},  /* fuzzy */
@@ -3132,7 +3132,7 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES,    N_("Selected joyport device %s on port %d uses same host input resource (%s) as the device attached to port %d")},
+/* en */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES,    N_("Selected control port device %s on port %d uses same host input resource (%s) as the device attached to port %d")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DE, ""},  /* fuzzy */
@@ -3149,7 +3149,7 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT,    N_("Selected joyport device %s cannot be attached to port %d")},
+/* en */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT,    N_("Selected control port device %s cannot be attached to port %d")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_DE, ""},  /* fuzzy */
@@ -3524,7 +3524,7 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SET_JOYPORT1_DEVICE,    N_("Set joyport 1 device (0: None")},
+/* en */ {IDGS_SET_JOYPORT1_DEVICE,    N_("Set control port 1 device (0: None")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SET_JOYPORT1_DEVICE_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SET_JOYPORT1_DEVICE_DE, ""},  /* fuzzy */
@@ -3533,7 +3533,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SET_JOYPORT1_DEVICE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SET_JOYPORT1_DEVICE_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SET_JOYPORT1_DEVICE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SET_JOYPORT1_DEVICE_NL, "Zet joyport 1 apparaat (0: Geen"},
+/* nl */ {IDGS_SET_JOYPORT1_DEVICE_NL, "Zet control port 1 apparaat (0: Geen"},
 /* pl */ {IDGS_SET_JOYPORT1_DEVICE_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SET_JOYPORT1_DEVICE_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SET_JOYPORT1_DEVICE_SV, ""},  /* fuzzy */
@@ -3541,7 +3541,7 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SET_JOYPORT2_DEVICE,    N_("Set joyport 2 device (0: None")},
+/* en */ {IDGS_SET_JOYPORT2_DEVICE,    N_("Set control port 2 device (0: None")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SET_JOYPORT2_DEVICE_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SET_JOYPORT2_DEVICE_DE, ""},  /* fuzzy */
@@ -3550,7 +3550,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SET_JOYPORT2_DEVICE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SET_JOYPORT2_DEVICE_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SET_JOYPORT2_DEVICE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SET_JOYPORT2_DEVICE_NL, "Zet joyport 2 apparaat (0: Geen"},
+/* nl */ {IDGS_SET_JOYPORT2_DEVICE_NL, "Zet control port 2 apparaat (0: Geen"},
 /* pl */ {IDGS_SET_JOYPORT2_DEVICE_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SET_JOYPORT2_DEVICE_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SET_JOYPORT2_DEVICE_SV, ""},  /* fuzzy */

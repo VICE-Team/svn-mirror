@@ -49,8 +49,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 
 
@@ -59,8 +59,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 
 
@@ -69,8 +69,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 
 
@@ -79,8 +79,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 
 
@@ -89,8 +89,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 
 
@@ -102,8 +102,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -115,8 +115,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 
 
@@ -128,8 +128,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -141,8 +141,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 apparaat"
-  IDS_JOYPORT2_LABEL          "Joyport 2 apparaat"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 
 
@@ -154,8 +154,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -170,8 +170,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -183,8 +183,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 
 
@@ -196,8 +196,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT1_LABEL          "Joyport 1 device"
-  IDS_JOYPORT2_LABEL          "Joyport 2 device"
+  IDS_JOYPORT1_LABEL          "Control port 1 device"
+  IDS_JOYPORT2_LABEL          "Control port 2 device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

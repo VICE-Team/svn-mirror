@@ -487,7 +487,7 @@ static char *build_joyport_string(int port)
 
 static cmdline_option_t cmdline_options_port1[] =
 {
-    { "-joyport1device", CALL_FUNCTION, 1,
+    { "-controlport1device", CALL_FUNCTION, 1,
       set_joyport_cmdline_device, (void *)JOYPORT_1, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, 1,
@@ -497,7 +497,7 @@ static cmdline_option_t cmdline_options_port1[] =
 
 static cmdline_option_t cmdline_options_port2[] =
 {
-    { "-joyport2device", CALL_FUNCTION, 1,
+    { "-controlport2device", CALL_FUNCTION, 1,
       set_joyport_cmdline_device, (void *)JOYPORT_2, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, 2,

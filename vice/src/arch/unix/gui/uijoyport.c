@@ -39,27 +39,27 @@ UI_MENU_DEFINE_RADIO(JoyPort1Device)
 UI_MENU_DEFINE_RADIO(JoyPort2Device)
 
 ui_menu_entry_t joyport1_settings_submenu[] = {
-    { N_("Joyport 1 device"), UI_MENU_TYPE_NORMAL,
+    { N_("Control port 1 device"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, NULL },
     { NULL },
 };
 
 ui_menu_entry_t joyport2_settings_submenu[] = {
-    { N_("Joyport 1 device"), UI_MENU_TYPE_NORMAL,
+    { N_("Control port 1 device"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, NULL },
-    { N_("Joyport 2 device"), UI_MENU_TYPE_NORMAL,
+    { N_("Control port 2 device"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, NULL },
     { NULL },
 };
 
 ui_menu_entry_t ui_joyport1_settings_menu[] = {
-    { N_("Joyport settings"), UI_MENU_TYPE_NORMAL,
+    { N_("Control port settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, joyport1_settings_submenu },
     { NULL }
 };
 
 ui_menu_entry_t ui_joyport2_settings_menu[] = {
-    { N_("Joyport settings"), UI_MENU_TYPE_NORMAL,
+    { N_("Control port settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, joyport2_settings_submenu },
     { NULL }
 };
