@@ -87,16 +87,6 @@ static UI_CALLBACK(freeze_cartridge)
     cartridge_trigger_freeze();
 }
 
-/*
-    FIXME: ideally attaching a binary image should be done
-           through an extended file selector, which lets you
-           pick the actual cart type from a list.
-
-           since there are some many (>50) different carts, it
-           is pointless to put them all here, for this reason
-           only a handful of commonly used "Main Slot" carts are
-           here.
-*/
 static ui_menu_entry_t *attach_cartridge_image_freezer_submenu;
 static ui_menu_entry_t *attach_cartridge_image_game_submenu;
 static ui_menu_entry_t *attach_cartridge_image_util_submenu;

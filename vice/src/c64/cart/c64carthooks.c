@@ -541,6 +541,7 @@ int cart_cmdline_options_init(void)
         || ide64_cmdline_options_init() < 0
         || mmcreplay_cmdline_options_init() < 0
         || retroreplay_cmdline_options_init() < 0
+        || supersnapshot_v5_cmdline_options_init() < 0
         ) {
         return -1;
     }
@@ -584,6 +585,7 @@ int cart_resources_init(void)
         || ide64_resources_init() < 0
         || mmcreplay_resources_init() < 0
         || retroreplay_resources_init() < 0
+        || supersnapshot_v5_resources_init() < 0
         ) {
         return -1;
     }
@@ -614,6 +616,7 @@ void cart_resources_shutdown(void)
     ide64_resources_shutdown();
     mmcreplay_resources_shutdown();
     retroreplay_resources_shutdown();
+    supersnapshot_v5_resources_shutdown();
 
     /* "Slot 1" */
     expert_resources_shutdown();

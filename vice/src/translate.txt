@@ -1174,6 +1174,12 @@ IDCLS_UNSET_RR_FLASH_JUMPER
 /* c64/cart/retroplay.c */
 IDCLS_RR_REVISION
 
+/* c64/cart/supersnapshot.c */
+IDCLS_ENABLE_SS_RAM_EXPANSION
+
+/* c64/cart/supersnapshot.c */
+IDCLS_DISABLE_SS_RAM_EXPANSION
+
 /* c64/cart/reu.c */
 IDCLS_ENABLE_REU
 

@@ -5974,6 +5974,11 @@ Boolean specifying whether the RR bank jumper is set or not.
 @item RRBiosWrite
 Boolean, if true write back the RR Flash ROM image file automatically, incase the
 contents changed, when detaching or quitting the emulator.
+
+@vindex SSRamExpansion
+@item SSRamExpansion
+Boolean, if true enable the 32k addon RAM of the Supersnapshot V5
+
 @end table
 
 @c @node FIXME
@@ -6578,6 +6583,12 @@ Attach raw 32KB Super Snapshot V4 cartridge image.
 @findex -cartss5
 @item -cartss5 <name>
 Attach raw 64KB Super Snapshot V5 cartridge image.
+
+@findex -ssramexpansion, +ssramexpansion
+@item -ssramexpansion
+@itemx +ssramexpansion
+Enable/disable 32k addon RAM.
+(@code{SSRamExpansion=1}, @code{SSRamExpansion=0}).
 
 @findex -cartstar
 @item -cartstar <name>

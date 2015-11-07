@@ -14323,6 +14323,35 @@ description:    "Don't swap io mapping (map cart I/O to VIC20 I/O-3)"
 resource:       "SFXSoundSamplerIOSwap" (set to 0)
 action:         N/A
 
+c64/cart/supersnapshot.c:
+-----------------------
+resource type:                  bool
+resource name:                  "SSRamExpansion"
+resource range:                 0/1
+resource default:               0
+resource function:              set_32k_enabled()
+resource var:                   ss_32k_enabled
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -ssramexpansion / +ssramexpansion
+platform gui present:           unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/windows/osx
+
+c64/cart/supersnapshot.c:
+-----------------------
+command line:   -ssramexpansion
+description:    "Enable 32k RAM expansion"
+resource:       "SSRamExpansion" (set to 1)
+action:         N/A
+
+c64/cart/supersnapshot.c:
+-----------------------
+command line:   +ssramexpansion
+description:    "Disable 32k RAM expansion"
+resource:       "SSRamExpansion" (set to 0)
+action:         N/A
+
 c64/psid.c:
 -----------
 resource type:                  bool

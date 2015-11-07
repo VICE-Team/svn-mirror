@@ -36,9 +36,12 @@
 #include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "cmdline.h"
 #include "monitor.h"
+#include "resources.h"
 #include "snapshot.h"
 #include "supersnapshot.h"
+#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "crt.h"
@@ -47,7 +50,9 @@
     Super Snapshot v5
 
     - 64K ROM,8*8K Banks (4*16k)
-    - 32K RAM,4*8K Banks
+    - 32K RAM,4*8K Banks (8k stock, 32k optional)
+
+    note: apparently the hardware supports 128k ROMs too, but no such dump exists.
 
     io1: (read)
         cart rom
@@ -66,6 +71,7 @@
 /* Super Snapshot configuration flags.  */
 static BYTE romconfig = 9;
 static int ram_bank = 0; /* Version 5 supports 4 - 8Kb RAM banks. */
+static int ss_32k_enabled = 0;
 
 /* ---------------------------------------------------------------------*/
 
@@ -157,7 +163,7 @@ static void supersnapshot_v5_io1_store(WORD addr, BYTE value)
 
         /* RAM ~OE set? */
         if (((value >> 1) & 1) == 0) {
-            ram_bank = currbank;          /* Select RAM banknr. */
+            ram_bank = ss_32k_enabled ? currbank : 0; /* Select RAM banknr. */
             mode |= CMODE_EXPORT_RAM;   /* export_ram */
             romconfig |= (1 << 1);      /* exrom */
         }
@@ -168,7 +174,7 @@ static void supersnapshot_v5_io1_store(WORD addr, BYTE value)
 static int supersnapshot_v5_dump(void)
 {
     mon_out("Bank: %d, ROM/RAM: %s\n",
-            currbank,
+            (export_ram) ? ram_bank : currbank,
             (export_ram) ? "RAM" : "ROM");
     return 0;
 }
@@ -287,6 +293,53 @@ void supersnapshot_v5_detach(void)
     ss5_list_item = NULL;
 }
 
+/* ---------------------------------------------------------------------*/
+
+static int set_32k_enabled(int val, void *param)
+{
+    ss_32k_enabled = val ? 1 : 0;
+    /* the ROM code stores in RAM if the RAM expansion is available, so clear
+       it here to make sure it checks again */
+    memset(export_ram0, 0, 0x8000);
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "SSRamExpansion", 0, RES_EVENT_NO, NULL,
+      &ss_32k_enabled, set_32k_enabled, NULL },
+    { NULL }
+};
+
+int supersnapshot_v5_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
+
+void supersnapshot_v5_resources_shutdown(void)
+{
+}
+
+/* ---------------------------------------------------------------------*/
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-ssramexpansion", SET_RESOURCE, 0,
+      NULL, NULL, "SSRamExpansion", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_SS_RAM_EXPANSION,
+      NULL, NULL },
+    { "+ssramexpansion", SET_RESOURCE, 0,
+      NULL, NULL, "SSRamExpansion", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_SS_RAM_EXPANSION,
+      NULL, NULL },
+    { NULL }
+};
+
+int supersnapshot_v5_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0

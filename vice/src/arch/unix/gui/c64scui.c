@@ -86,6 +86,7 @@
 #include "uisid.h"
 #include "uisound.h"
 #include "uisoundexpander.h"
+#include "uisupersnapshot.h"
 #include "uitfe.h"
 #include "uitpi.h"
 #include "uiuserportrtc.h"
@@ -347,6 +348,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, mmcreplay_submenu },
     { CARTRIDGE_NAME_RETRO_REPLAY, UI_MENU_TYPE_NORMAL,
       NULL, NULL, retroreplay_submenu },
+    { CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, supersnapshot_v5_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef HAVE_TFE
     { N_("Ethernet emulation"), UI_MENU_TYPE_NORMAL,

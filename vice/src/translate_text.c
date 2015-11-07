@@ -6766,6 +6766,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_RR_REVISION_TR, ""},  /* fuzzy */
 #endif
 
+/* c64/cart/supersnapshot.c */
+/* en */ {IDCLS_ENABLE_SS_RAM_EXPANSION,    N_("Enable SS 32k RAM expansion")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SS_RAM_EXPANSION_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SS_RAM_EXPANSION_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_SS_RAM_EXPANSION_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SS_RAM_EXPANSION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SS_RAM_EXPANSION_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SS_RAM_EXPANSION_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_SS_RAM_EXPANSION_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SS_RAM_EXPANSION_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_SS_RAM_EXPANSION_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_SS_RAM_EXPANSION_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SS_RAM_EXPANSION_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SS_RAM_EXPANSION_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/supersnapshot.c */
+/* en */ {IDCLS_DISABLE_SS_RAM_EXPANSION,    N_("Disable SS 32k RAM expansion")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SS_RAM_EXPANSION_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SS_RAM_EXPANSION_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_SS_RAM_EXPANSION_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SS_RAM_EXPANSION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SS_RAM_EXPANSION_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SS_RAM_EXPANSION_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_SS_RAM_EXPANSION_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SS_RAM_EXPANSION_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_SS_RAM_EXPANSION_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_SS_RAM_EXPANSION_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SS_RAM_EXPANSION_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SS_RAM_EXPANSION_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/reu.c */
 /* en */ {IDCLS_ENABLE_REU,    N_("Enable the RAM Expansion Unit")},
 #ifdef HAS_TRANSLATION
