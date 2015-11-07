@@ -54,6 +54,7 @@ static uilib_localize_dialog_param datasette_dialog[] = {
     { IDC_DATASETTE_RESET_WITH_CPU, IDS_DATASETTE_RESET_WITH_CPU, 0 },
     { IDC_DATASETTE_DELAY_TRIGGER, IDS_DATASETTE_DELAY_TRIGGER, 0 },
     { IDC_DATASETTE_DELAY_AT_ZERO, IDS_DATASETTE_DELAY_AT_ZERO, 0 },
+    { IDC_DATASETTE_TAPE_WOBBLE_LABEL, IDS_DATASETTE_TAPE_WOBBLE, 0 },
     { IDC_DATASETTE_MOTOR_GROUP, IDS_DATASETTE_MOTOR_GROUP, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
@@ -72,6 +73,13 @@ static uilib_dialog_group datasette_sub_group[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group datasette_size_group[] = {
+    { IDC_DATASETTE_DELAY_TRIGGER, 0 },
+    { IDC_DATASETTE_DELAY_AT_ZERO, 0 },
+    { IDC_DATASETTE_TAPE_WOBBLE, 0 },
+    { 0, 0 }
+};
+
 static int move_buttons_group[] = {
     IDOK,
     IDCANCEL,
@@ -80,12 +88,14 @@ static int move_buttons_group[] = {
 
 static void init_datasette_dialog(HWND hwnd)
 {
+    TCHAR st[256];
     HWND snd_hwnd;
     int res_value;
     int res_value_loop;
     int active_value;
     int xpos_max;
     int group_max;
+    int wobble;
     RECT rect;
 
     /* translate all dialog items */
@@ -94,14 +104,23 @@ static void init_datasette_dialog(HWND hwnd)
     /* adjust the size of the elements in the datasette_sub_group */
     uilib_adjust_group_width(hwnd, datasette_sub_group);
 
+    /* adjust the size of the 'tape wobble' label element */
+    uilib_adjust_element_width(hwnd, IDC_DATASETTE_TAPE_WOBBLE_LABEL);
+
+    /* get the max x of the 'tape wobble' label element */
+    uilib_get_element_max_x(hwnd, IDC_DATASETTE_TAPE_WOBBLE_LABEL, &xpos_max);
+
+    /* move the 'tape wobble' input element */
+    uilib_move_element(hwnd, IDC_DATASETTE_TAPE_WOBBLE, xpos_max + 10);
+
     /* adjust the size of the  'reset with cpu' element */
     uilib_adjust_element_width(hwnd, IDC_DATASETTE_RESET_WITH_CPU);
 
     /* adjust the size of the motor group element */
     uilib_adjust_element_width(hwnd, IDC_DATASETTE_MOTOR_GROUP);
 
-    /* get the max x of the datasette_sub_group */
-    uilib_get_group_max_x(hwnd, datasette_sub_group, &xpos_max);
+    /* get the max x of the datasette_size_group */
+    uilib_get_group_max_x(hwnd, datasette_size_group, &xpos_max);
 
     /* get the max x of the motor group element */
     uilib_get_element_max_x(hwnd, IDC_DATASETTE_MOTOR_GROUP, &group_max);
@@ -125,6 +144,10 @@ static void init_datasette_dialog(HWND hwnd)
 
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(hwnd, move_buttons_group, 0);
+
+    resources_get_int("DatasetteTapeWobble", &wobble);
+    _stprintf(st, TEXT("%d"), wobble);
+    SetDlgItemText(hwnd, IDC_DATASETTE_TAPE_WOBBLE, st);
 
     resources_get_int("DatasetteResetWithCPU", &res_value);
     CheckDlgButton(hwnd, IDC_DATASETTE_RESET_WITH_CPU, res_value ? BST_CHECKED : BST_UNCHECKED);
@@ -157,9 +180,16 @@ static void init_datasette_dialog(HWND hwnd)
 
 static void end_datasette_dialog(HWND hwnd)
 {
+    TCHAR st[MAX_PATH];
+    int wobble;
+
     resources_set_int("DatasetteResetWithCPU", (IsDlgButtonChecked(hwnd, IDC_DATASETTE_RESET_WITH_CPU) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("DatasetteSpeedTuning", (int)SendDlgItemMessage(hwnd, IDC_DATASETTE_SPEED_TUNING, CB_GETCURSEL, 0, 0));
     resources_set_int("DatasetteZeroGapDelay", ui_datasette_zero_gap_delay[SendDlgItemMessage(hwnd, IDC_DATASETTE_ZERO_GAP_DELAY, CB_GETCURSEL, 0, 0)]);
+
+    GetDlgItemText(hwnd, IDC_DATASETTE_TAPE_WOBBLE, st, MAX_PATH);
+    wobble = atoi(st);
+    resources_set_int("DatasetteTapeWobble", wobble);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

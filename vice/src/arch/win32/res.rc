@@ -276,14 +276,14 @@ END
 
 // dialog template for all languages
 
-IDD_DATASETTE_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 170, 110
+IDD_DATASETTE_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 170, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX  "", IDC_DATASETTE_RESET_WITH_CPU,
                   7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     GROUPBOX      "", IDC_DATASETTE_MOTOR_GROUP,
-                  5, 25, 160, 60
+                  5, 25, 160, 80
     LTEXT         "", IDC_DATASETTE_DELAY_TRIGGER,
                   42, 42, 120, 8
     COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
@@ -292,10 +292,16 @@ BEGIN
                   60, 62, 100, 8
     COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
                   9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "", IDC_DATASETTE_TAPE_WOBBLE_LABEL,
+                  9, 82, 60, 8
+    EDITTEXT      IDC_DATASETTE_TAPE_WOBBLE,
+                  75, 81, 25, 12, WS_TABSTOP
+
+
     DEFPUSHBUTTON "", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
+                  30, 110, 50, 14, WS_TABSTOP
     PUSHBUTTON    "", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
+                  90, 110, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -1271,6 +1277,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Speed of motor while reading"
   IDS_DATASETTE_DELAY_TRIGGER          "cycle(s) additional delay each trigger"
   IDS_DATASETTE_DELAY_AT_ZERO          "Datasette zero gap delay"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "Use IEC Device"
   IDS_SELECTDISK                       "Disk image"
   IDS_SELECTDIR                        "Directory"
@@ -1946,6 +1953,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Datasettehastighed under læsning"
   IDS_DATASETTE_DELAY_TRIGGER          "klok ekstra forsinkelse per puls"
   IDS_DATASETTE_DELAY_AT_ZERO          "Datasette nulgabs-forsinkelse"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "Anvend IEC-enhed"
   IDS_SELECTDISK                       "Diskimage"
   IDS_SELECTDIR                        "Katalog"
@@ -2621,6 +2629,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Motorgeschwindigkeit beim Lesen"
   IDS_DATASETTE_DELAY_TRIGGER          "Zyklen zusätzliche Verzögerung bei jedem Trigger"
   IDS_DATASETTE_DELAY_AT_ZERO          "Bandlaufwerk Zero Gap Verzögerung"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "IEC Gerät aktivieren"
   IDS_SELECTDISK                       "Disk Image"
   IDS_SELECTDIR                        "Verzeichnis"
@@ -3296,6 +3305,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Velocidad del motor durante la lectura"
   IDS_DATASETTE_DELAY_TRIGGER          "ciclos(s) adicionales de retardo para cada pulsación"
   IDS_DATASETTE_DELAY_AT_ZERO          "Retardo datasette zero gap"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "Use periférico IEC"
   IDS_SELECTDISK                       "Imag. disco"
   IDS_SELECTDIR                        "Directorio"
@@ -3971,6 +3981,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Vitesse du moteur lors de la lecture"
   IDS_DATASETTE_DELAY_TRIGGER          "cycle(s) additionnel(s) délai après trigger"
   IDS_DATASETTE_DELAY_AT_ZERO          "Délai du datassette lors de la lecture des groupes de zéros"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "Utiliser le périphérique IEC"
   IDS_SELECTDISK                       "Image de disque"
   IDS_SELECTDIR                        "Répertoire"
@@ -4649,6 +4660,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Motor sebessége olvasás közben"
   IDS_DATASETTE_DELAY_TRIGGER          "cycle(s) additional delay each trigger"
   IDS_DATASETTE_DELAY_AT_ZERO          "Magnó üres rés késleltetés"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "Use IEC Device"
   IDS_SELECTDISK                       "Lemez képmás"
   IDS_SELECTDIR                        "Directory"
@@ -5327,6 +5339,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Velocità del motore durante la lettura"
   IDS_DATASETTE_DELAY_TRIGGER          "ciclo/i addizionali di ritardo per ogni trigger"
   IDS_DATASETTE_DELAY_AT_ZERO          "Ritardo del gap di zero del registratore"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "Usa periferica IEC"
   IDS_SELECTDISK                       "Immagine disco"
   IDS_SELECTDIR                        "Directory"
@@ -6005,6 +6018,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "ÀÐ±âÁß ¸ð´ÏÅÍÀÇ ¼Óµµ"
   IDS_DATASETTE_DELAY_TRIGGER          "Æ®¸®°Å ¸¶´Ù °É¸®´Â ¼øÈ¯ ÁÖ±â "
   IDS_DATASETTE_DELAY_AT_ZERO          "µ¥ÀÌÅ¸¼Â ¿µ Â÷ÀÌ µô·¹ÀÌ"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "IEC µð¹ÙÀÌ½º¸¦ »ç¿ëÇÏ¼¼¿ä"
   IDS_SELECTDISK                       "µð½ºÅ© ÀÌ¹ÌÁö"
   IDS_SELECTDIR                        "µð·ºÅä¸®"
@@ -6683,6 +6697,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Snelheid van de motor tijdens lezen"
   IDS_DATASETTE_DELAY_TRIGGER          "Additionele aantal cycli vertraging per gebeurtenis"
   IDS_DATASETTE_DELAY_AT_ZERO          "Datasette zero gap vertraging"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "Gebruik IEC Apparaat"
   IDS_SELECTDISK                       "Disk bestand"
   IDS_SELECTDIR                        "Directory"
@@ -7361,6 +7376,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Prêdko¶æ motorka przy odczycie"
   IDS_DATASETTE_DELAY_TRIGGER          "Dodatkowe opó¼nienie cyklów przy ka¿dym wywo³aniu."
   IDS_DATASETTE_DELAY_AT_ZERO          "Opó¼nienie pocz±tkowej przerwy magnetofonu"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "U¿yj urz±dzenia IEC"
   IDS_SELECTDISK                       "Obraz dyskietki"
   IDS_SELECTDIR                        "Katalog"
@@ -8042,6 +8058,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Speed of motor while reading"
   IDS_DATASETTE_DELAY_TRIGGER          "cycle(s) additional delay each trigger"
   IDS_DATASETTE_DELAY_AT_ZERO          "Datasette zero gap delay"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "Use IEC Device"
   IDS_SELECTDISK                       "¾ÑàÐ× ÔØáÚÐ"
   IDS_SELECTDIR                        "¿ÐßÚÐ"
@@ -8720,6 +8737,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Motorhastighet vid läsning"
   IDS_DATASETTE_DELAY_TRIGGER          "cykler ytterligare fördröjning per puls"
   IDS_DATASETTE_DELAY_AT_ZERO          "Datasette nollgapsfördröjning"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "Använd IEC-enhet"
   IDS_SELECTDISK                       "Diskavbildning"
   IDS_SELECTDIR                        "Katalog"
@@ -9398,6 +9416,7 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP            "Motorun okurkenki hýzý"
   IDS_DATASETTE_DELAY_TRIGGER          "cycle(lar) her tetiklemede eklenen gecikme"
   IDS_DATASETTE_DELAY_AT_ZERO          "Teyp sýfýr ara beklemesi"
+  IDS_DATASETTE_TAPE_WOBBLE            "Datasette random tape wobble"
   IDS_TOGGLE_USEIECDEVICE              "IEC Aygýtý Kullan"
   IDS_SELECTDISK                       "Disk imajý"
   IDS_SELECTDIR                        "Dizin"
