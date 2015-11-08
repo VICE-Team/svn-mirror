@@ -2225,7 +2225,7 @@ libdriveieee:
 libdrivetcbm:
 	(cd drive && $(MAKE) libdrivetcbm)
 libffmpeg:
-	(cd lib/libffmpeg && $(MAKE))
+	(cd lib/libffmpeg && $(MAKE) VICEBUILD=1)
 libfileio:
 	(cd fileio && $(MAKE))
 libfsdevice:
