@@ -363,13 +363,13 @@ static int set_joyport_device(int val, void *param)
 }
 
 static const resource_int_t resources_int_port1[] = {
-    { "JoyPort1Device", 0, RES_EVENT_NO, (resource_value_t)JOYPORT_ID_NONE,
+    { "JoyPort1Device", JOYPORT_ID_JOY1, RES_EVENT_NO, NULL,
       &joy_port[0], set_joyport_device, (void *)JOYPORT_1 },
     { NULL }
 };
 
 static const resource_int_t resources_int_port2[] = {
-    { "JoyPort2Device", 0, RES_EVENT_NO, (resource_value_t)JOYPORT_ID_NONE,
+    { "JoyPort2Device", JOYPORT_ID_JOY2, RES_EVENT_NO, NULL,
       &joy_port[1], set_joyport_device, (void *)JOYPORT_2 },
     { NULL }
 };
