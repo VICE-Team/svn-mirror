@@ -560,10 +560,7 @@ IDGS_HOST_SAMPLER
 IDGS_NONE
 
 /* joystick.c */
-IDGS_JOYSTICK_1
-
-/* joystick.c */
-IDGS_JOYSTICK_2
+IDGS_JOYSTICK
 
 /* mouse.c */
 IDGS_PADDLES

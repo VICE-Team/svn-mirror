@@ -36,7 +36,7 @@
 
 static int sampler_enabled = 0;
 
-static int joyport_sampler_enable(int value)
+static int joyport_sampler_enable(int port, int value)
 {
     int val = value ? 1 : 0;
 
@@ -55,7 +55,7 @@ static int joyport_sampler_enable(int value)
     return 0;
 }
 
-static BYTE joyport_sampler_read(void)
+static BYTE joyport_sampler_read(int port)
 {
     BYTE retval = 0;
 

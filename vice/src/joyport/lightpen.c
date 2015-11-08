@@ -179,7 +179,7 @@ static inline void lightpen_update_buttons(int buttons)
 
 /* --------------------------------------------------------- */
 
-static int joyport_lightpen_enable(int val)
+static int joyport_lightpen_enable(int port, int val)
 {
     lightpen_enabled = val ? 1 : 0;
 
@@ -197,7 +197,7 @@ static int joyport_lightpen_enable(int val)
     return 0;
 }
 
-static BYTE lightpen_digital_val(void)
+static BYTE lightpen_digital_val(int port)
 {
     return ~lightpen_value;
 }

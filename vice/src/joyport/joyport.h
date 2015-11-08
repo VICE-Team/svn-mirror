@@ -29,33 +29,33 @@
 
 #include "types.h"
 
-#define JOYPORT_ID_NONE                0
-#define JOYPORT_ID_JOY1                1
-#define JOYPORT_ID_JOY2                2
-#define JOYPORT_ID_JOY3                3
-#define JOYPORT_ID_JOY4                4
-#define JOYPORT_ID_PADDLES             5
-#define JOYPORT_ID_MOUSE_1351          6
-#define JOYPORT_ID_MOUSE_NEOS          7
-#define JOYPORT_ID_MOUSE_AMIGA         8
-#define JOYPORT_ID_MOUSE_CX22          9
-#define JOYPORT_ID_MOUSE_ST           10
-#define JOYPORT_ID_MOUSE_SMART        11
-#define JOYPORT_ID_MOUSE_MICROMYS     12
-#define JOYPORT_ID_KOALAPAD           13
-#define JOYPORT_ID_LIGHTPEN_U         14
-#define JOYPORT_ID_LIGHTPEN_L         15
-#define JOYPORT_ID_LIGHTPEN_DATEL     16
-#define JOYPORT_ID_LIGHTGUN_Y         17
-#define JOYPORT_ID_LIGHTGUN_L         18
-#define JOYPORT_ID_LIGHTPEN_INKWELL   19
-#define JOYPORT_ID_SAMPLER_2BIT       20
-#define JOYPORT_ID_COPLIN_KEYPAD      21
-#define JOYPORT_ID_CARDCO_KEYPAD      22
-#define JOYPORT_ID_CX85_KEYPAD        23
-#define JOYPORT_ID_BBRTC              24
+#define JOYPORT_ID_JOY1               -1
+#define JOYPORT_ID_JOY2               -2
 
-#define JOYPORT_MAX_DEVICES           25
+#define JOYPORT_ID_NONE                0
+#define JOYPORT_ID_JOYSTICK            1
+#define JOYPORT_ID_PADDLES             2
+#define JOYPORT_ID_MOUSE_1351          3
+#define JOYPORT_ID_MOUSE_NEOS          4
+#define JOYPORT_ID_MOUSE_AMIGA         5
+#define JOYPORT_ID_MOUSE_CX22          6
+#define JOYPORT_ID_MOUSE_ST            7
+#define JOYPORT_ID_MOUSE_SMART         8
+#define JOYPORT_ID_MOUSE_MICROMYS      9
+#define JOYPORT_ID_KOALAPAD           10
+#define JOYPORT_ID_LIGHTPEN_U         11
+#define JOYPORT_ID_LIGHTPEN_L         12
+#define JOYPORT_ID_LIGHTPEN_DATEL     13
+#define JOYPORT_ID_LIGHTGUN_Y         14
+#define JOYPORT_ID_LIGHTGUN_L         15
+#define JOYPORT_ID_LIGHTPEN_INKWELL   16
+#define JOYPORT_ID_SAMPLER_2BIT       17
+#define JOYPORT_ID_COPLIN_KEYPAD      18
+#define JOYPORT_ID_CARDCO_KEYPAD      19
+#define JOYPORT_ID_CX85_KEYPAD        20
+#define JOYPORT_ID_BBRTC              21
+
+#define JOYPORT_MAX_DEVICES           22
 
 #define JOYPORT_RES_ID_NONE      0
 #define JOYPORT_RES_ID_MOUSE     1
@@ -92,8 +92,8 @@ typedef struct joyport_s {
     int trans_name;
     int resource_id;
     int port_mask;
-    int (*enable)(int val);
-    BYTE (*read_digital)(void);
+    int (*enable)(int port, int val);
+    BYTE (*read_digital)(int port);
     void (*store_digital)(BYTE val);
     BYTE (*read_potx)(void);
     BYTE (*read_poty)(void);

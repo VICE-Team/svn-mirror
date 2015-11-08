@@ -544,7 +544,7 @@ static int mt_to_id(int mt)
     return -1;
 }
 
-static int joyport_mouse_enable(int val)
+static int joyport_mouse_enable(int port, int val)
 {
     int mt;
 
@@ -583,7 +583,7 @@ static int joyport_mouse_enable(int val)
     return 0;
 }
 
-static BYTE joyport_mouse_value(void)
+static BYTE joyport_mouse_value(int port)
 {
     return _mouse_enabled ? ~mouse_digital_val : 0xff;
 }
@@ -612,7 +612,7 @@ static joyport_t mouse_1351_joyport_device = {
     mouse_get_1351_y
 };
 
-static BYTE joyport_mouse_neos_value(void)
+static BYTE joyport_mouse_neos_value(int port)
 {
     BYTE retval = 0xff;
 
@@ -643,7 +643,7 @@ static joyport_t mouse_neos_joyport_device = {
     NULL				/* no read pot y */
 };
 
-static BYTE joyport_mouse_poll_value(void)
+static BYTE joyport_mouse_poll_value(int port)
 {
     BYTE retval = 0xff;
 
@@ -697,7 +697,7 @@ static joyport_t mouse_st_joyport_device = {
     joyport_mouse_amiga_st_read_poty
 };
 
-static BYTE joyport_mouse_smart_value(void)
+static BYTE joyport_mouse_smart_value(int port)
 {
     BYTE retval = 0xff;
 
@@ -722,7 +722,7 @@ static joyport_t mouse_smart_joyport_device = {
     mouse_get_1351_y
 };
 
-static BYTE joyport_mouse_micromys_value(void)
+static BYTE joyport_mouse_micromys_value(int port)
 {
     BYTE retval = 0xff;
 

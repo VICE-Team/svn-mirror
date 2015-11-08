@@ -3218,37 +3218,20 @@ translate_t string_table[] = {
 #endif
 
 /* joystick.c */
-/* en */ {IDGS_JOYSTICK_1,    N_("Joystick 1")},
+/* en */ {IDGS_JOYSTICK,    N_("Joystick")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_JOYSTICK_1_DA, "Joystick 1"},
-/* de */ {IDGS_JOYSTICK_1_DE, "Joystick 1"},
-/* es */ {IDGS_JOYSTICK_1_ES, "Joystick 1"},
-/* fr */ {IDGS_JOYSTICK_1_FR, "Joystick 2"},
-/* hu */ {IDGS_JOYSTICK_1_HU, "Botkorm·ny 1"},
-/* it */ {IDGS_JOYSTICK_1_IT, "Joystick 1"},
-/* ko */ {IDGS_JOYSTICK_1_KO, "¡∂¿ÃΩ∫∆Ω 1"},
-/* nl */ {IDGS_JOYSTICK_1_NL, "Joystick 1"},
-/* pl */ {IDGS_JOYSTICK_1_PL, "Joystick 1"},
-/* ru */ {IDGS_JOYSTICK_1_RU, "¥÷ﬁŸ·‚ÿ⁄ 1"},
-/* sv */ {IDGS_JOYSTICK_1_SV, "Styrspak 1"},
-/* tr */ {IDGS_JOYSTICK_1_TR, "Joystick 1"},
-#endif
-
-/* joystick.c */
-/* en */ {IDGS_JOYSTICK_2,    N_("Joystick 2")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_JOYSTICK_2_DA, "Joystick 2"},
-/* de */ {IDGS_JOYSTICK_2_DE, "Joystick 2"},
-/* es */ {IDGS_JOYSTICK_2_ES, "Joystick 2"},
-/* fr */ {IDGS_JOYSTICK_2_FR, "Joystick 2"},
-/* hu */ {IDGS_JOYSTICK_2_HU, "Botkorm·ny 2"},
-/* it */ {IDGS_JOYSTICK_2_IT, "Joystick 2"},
-/* ko */ {IDGS_JOYSTICK_2_KO, "¡∂¿ÃΩ∫∆Ω 2"},
-/* nl */ {IDGS_JOYSTICK_2_NL, "Joystick 2"},
-/* pl */ {IDGS_JOYSTICK_2_PL, "Joystick 2"},
-/* ru */ {IDGS_JOYSTICK_2_RU, "¥÷ﬁŸ·‚ÿ⁄ 2"},
-/* sv */ {IDGS_JOYSTICK_2_SV, "Styrspak 2"},
-/* tr */ {IDGS_JOYSTICK_2_TR, "Joystick 2"},
+/* da */ {IDGS_JOYSTICK_DA, "Joystick 1"},
+/* de */ {IDGS_JOYSTICK_DE, "Joystick 1"},
+/* es */ {IDGS_JOYSTICK_ES, "Joystick 1"},
+/* fr */ {IDGS_JOYSTICK_FR, "Joystick 2"},
+/* hu */ {IDGS_JOYSTICK_HU, "Botkorm·ny 1"},
+/* it */ {IDGS_JOYSTICK_IT, "Joystick 1"},
+/* ko */ {IDGS_JOYSTICK_KO, "¡∂¿ÃΩ∫∆Ω 1"},
+/* nl */ {IDGS_JOYSTICK_NL, "Joystick 1"},
+/* pl */ {IDGS_JOYSTICK_PL, "Joystick 1"},
+/* ru */ {IDGS_JOYSTICK_RU, "¥÷ﬁŸ·‚ÿ⁄ 1"},
+/* sv */ {IDGS_JOYSTICK_SV, "Styrspak 1"},
+/* tr */ {IDGS_JOYSTICK_TR, "Joystick 1"},
 #endif
 
 /* mouse.c */

@@ -102,7 +102,7 @@ static int joyport_set_device(int port, int id)
     }
 
     /* check if id conflicts with device on the other port */
-    if (id != JOYPORT_ID_NONE) {
+    if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joy_port[i] == id) {
                 ui_error(translate_text(IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED), joyport_device[id].name, port + 1, i + 1);
@@ -112,7 +112,7 @@ static int joyport_set_device(int port, int id)
     }
 
     /* check if input resource conflicts with device on the other port */
-    if (id != JOYPORT_ID_NONE && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE) {
+    if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joyport_device[id].resource_id == joyport_device[joy_port[i]].resource_id) {
                 ui_error(translate_text(IDGS_SELECTED_JOYPORT_SAME_INPUT_RES), joyport_device[id].name, port + 1, res2text(joyport_device[id].resource_id), i + 1);
@@ -122,17 +122,17 @@ static int joyport_set_device(int port, int id)
     }
 
     /* check if device can be connected to this port */
-    if (id != JOYPORT_ID_NONE && !(joyport_device[id].port_mask & (1 << port))) {
+    if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && !(joyport_device[id].port_mask & (1 << port))) {
         ui_error(translate_text(IDGS_SELECTED_DEVICE_NOT_THIS_PORT), joyport_device[id].name, port + 1);
         return -1;
     }
 
     /* all checks done, now disable the current device and enable the new device */
     if (joyport_device[joy_port[port]].enable) {
-        joyport_device[joy_port[port]].enable(0);
+        joyport_device[joy_port[port]].enable(port, 0);
     }
     if (joyport_device[id].enable) {
-        joyport_device[id].enable(id);
+        joyport_device[id].enable(port, id);
     }
     joy_port[port] = id;
 
@@ -150,7 +150,7 @@ BYTE read_joyport_dig(int port)
     if (!joyport_device[id].read_digital) {
         return 0xff;
     }
-    return joyport_device[id].read_digital();
+    return joyport_device[id].read_digital(port);
 }
 
 void store_joyport_dig(int port, BYTE val)
@@ -338,18 +338,26 @@ joyport_desc_t *joyport_get_valid_devices(int port)
 
 void joyport_display_joyport(int id, BYTE status)
 {
-    if (id != joy_port[0] && id != joy_port[1]) {
-        return;
-    }
+    if (id == JOYPORT_ID_JOY1 || id == JOYPORT_ID_JOY2) {
+        if (id == JOYPORT_ID_JOY1 && joy_port[0] == JOYPORT_ID_JOYSTICK) {
+            joyport_display[1] = status;
+        }
+        if (id == JOYPORT_ID_JOY2 && joy_port[1] == JOYPORT_ID_JOYSTICK) {
+            joyport_display[2] = status;
+        }
+    } else {
+        if (id != joy_port[0] && id != joy_port[1]) {
+            return;
+        }
 
-    if (id == joy_port[0]) {
-        joyport_display[1] = status;
-    }
+        if (id == joy_port[0]) {
+            joyport_display[1] = status;
+        }
 
-    if (id == joy_port[1]) {
-        joyport_display[2] = status;
+        if (id == joy_port[1]) {
+            joyport_display[2] = status;
+        }
     }
-
     ui_display_joyport(joyport_display);
 }
 
@@ -363,13 +371,13 @@ static int set_joyport_device(int val, void *param)
 }
 
 static const resource_int_t resources_int_port1[] = {
-    { "JoyPort1Device", JOYPORT_ID_JOY1, RES_EVENT_NO, NULL,
+    { "JoyPort1Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
       &joy_port[0], set_joyport_device, (void *)JOYPORT_1 },
     { NULL }
 };
 
 static const resource_int_t resources_int_port2[] = {
-    { "JoyPort2Device", JOYPORT_ID_JOY2, RES_EVENT_NO, NULL,
+    { "JoyPort2Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
       &joy_port[1], set_joyport_device, (void *)JOYPORT_2 },
     { NULL }
 };
@@ -411,57 +419,52 @@ struct joyport_opt_s {
 static struct joyport_opt_s id_match[] = {
     { "0",               JOYPORT_ID_NONE },
     { "none",            JOYPORT_ID_NONE },
-    { "1",               JOYPORT_ID_JOY1 },
-    { "joy1",            JOYPORT_ID_JOY1 },
-    { "2",               JOYPORT_ID_JOY2 },
-    { "joy2",            JOYPORT_ID_JOY2 },
-    { "3",               JOYPORT_ID_JOY3 },
-    { "joy3",            JOYPORT_ID_JOY3 },
-    { "4",               JOYPORT_ID_JOY4 },
-    { "joy4",            JOYPORT_ID_JOY4 },
-    { "5",               JOYPORT_ID_PADDLES },
+    { "1",               JOYPORT_ID_PADDLES },
+    { "joy",             JOYPORT_ID_JOYSTICK },
+    { "joystick",        JOYPORT_ID_JOYSTICK },
+    { "2",               JOYPORT_ID_PADDLES },
     { "paddles",         JOYPORT_ID_PADDLES },
-    { "6",               JOYPORT_ID_MOUSE_1351 },
+    { "3",               JOYPORT_ID_MOUSE_1351 },
     { "1351",            JOYPORT_ID_MOUSE_1351 },
     { "1351mouse",       JOYPORT_ID_MOUSE_1351 },
-    { "7",               JOYPORT_ID_MOUSE_NEOS },
+    { "4",               JOYPORT_ID_MOUSE_NEOS },
     { "neos",            JOYPORT_ID_MOUSE_NEOS },
     { "neosmouse",       JOYPORT_ID_MOUSE_NEOS },
-    { "8",               JOYPORT_ID_MOUSE_AMIGA },
+    { "5",               JOYPORT_ID_MOUSE_AMIGA },
     { "amiga",           JOYPORT_ID_MOUSE_AMIGA },
     { "amigamouse",      JOYPORT_ID_MOUSE_AMIGA },
-    { "9",               JOYPORT_ID_MOUSE_CX22 },
+    { "6",               JOYPORT_ID_MOUSE_CX22 },
     { "cx22",            JOYPORT_ID_MOUSE_CX22 },
     { "cx22mouse",       JOYPORT_ID_MOUSE_CX22 },
-    { "10",              JOYPORT_ID_MOUSE_ST },
+    { "7",               JOYPORT_ID_MOUSE_ST },
     { "st",              JOYPORT_ID_MOUSE_ST },
     { "atarist",         JOYPORT_ID_MOUSE_ST },
     { "stmouse",         JOYPORT_ID_MOUSE_ST },
     { "ataristmouse",    JOYPORT_ID_MOUSE_ST },
-    { "11",              JOYPORT_ID_MOUSE_SMART },
+    { "8",               JOYPORT_ID_MOUSE_SMART },
     { "smart",           JOYPORT_ID_MOUSE_SMART },
     { "smartmouse",      JOYPORT_ID_MOUSE_SMART },
-    { "12",              JOYPORT_ID_MOUSE_MICROMYS },
+    { "9",               JOYPORT_ID_MOUSE_MICROMYS },
     { "micromys",        JOYPORT_ID_MOUSE_MICROMYS },
     { "micromysmouse",   JOYPORT_ID_MOUSE_MICROMYS },
-    { "13",              JOYPORT_ID_KOALAPAD },
+    { "10",              JOYPORT_ID_KOALAPAD },
     { "koalapad",        JOYPORT_ID_KOALAPAD },
-    { "14",              JOYPORT_ID_LIGHTPEN_U },
+    { "11",              JOYPORT_ID_LIGHTPEN_U },
     { "lpup",            JOYPORT_ID_LIGHTPEN_U },
     { "lightpenup",      JOYPORT_ID_LIGHTPEN_U },
-    { "15",              JOYPORT_ID_LIGHTPEN_L },
+    { "12",              JOYPORT_ID_LIGHTPEN_L },
     { "lpleft",          JOYPORT_ID_LIGHTPEN_L },
     { "lightpenleft",    JOYPORT_ID_LIGHTPEN_L },
-    { "16",              JOYPORT_ID_LIGHTPEN_DATEL },
+    { "13",              JOYPORT_ID_LIGHTPEN_DATEL },
     { "lpdatel",         JOYPORT_ID_LIGHTPEN_DATEL },
     { "lightpendatel",   JOYPORT_ID_LIGHTPEN_DATEL },
     { "datellightpen",   JOYPORT_ID_LIGHTPEN_DATEL },
-    { "17",              JOYPORT_ID_LIGHTGUN_Y },
+    { "14",              JOYPORT_ID_LIGHTGUN_Y },
     { "magnum",          JOYPORT_ID_LIGHTGUN_Y },
-    { "18",              JOYPORT_ID_LIGHTGUN_L },
+    { "15",              JOYPORT_ID_LIGHTGUN_L },
     { "stack",           JOYPORT_ID_LIGHTGUN_L },
     { "slr",             JOYPORT_ID_LIGHTGUN_L },
-    { "19",              JOYPORT_ID_LIGHTPEN_INKWELL },
+    { "16",              JOYPORT_ID_LIGHTPEN_INKWELL },
     { "lpinkwell",       JOYPORT_ID_LIGHTPEN_INKWELL },
     { "lightpeninkwell", JOYPORT_ID_LIGHTPEN_INKWELL },
     { "inkwelllightpen", JOYPORT_ID_LIGHTPEN_INKWELL },
