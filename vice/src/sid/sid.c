@@ -119,8 +119,8 @@ static BYTE sid_read_chip(WORD addr, int chipno)
     if (chipno == 0 && (addr == 0x19 || addr == 0x1a)) {
         if ((maincpu_clk ^ pot_cycle) & ~511) {
             pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
-            val_pot_x = read_joyport_potx();
-            val_pot_y = read_joyport_poty();
+            val_pot_x = read_joyport_potx(JOYPORT_1);
+            val_pot_y = read_joyport_poty(JOYPORT_1);
         }
         val = (addr == 0x19) ? val_pot_x : val_pot_y;
     } else {

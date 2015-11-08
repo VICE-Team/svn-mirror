@@ -69,15 +69,23 @@
 #define JOYPORT_4    3	/* userport cga/pet/hummer/oem/hit/kingsoft/starbyte control port 1 */
 #define JOYPORT_5    4	/* userport cga/pet/oem/hit/kingsoft/starbyte control port 2 */
 
+#define JOYPORT_MAX_PORTS     5
+
 #define JOYPORT_POT_NONE      0
 #define JOYPORT_POT_PRESENT   1
 
-#define JOYPORT_PORTS_1       1
-#define JOYPORT_PORTS_2       2
+#define JOYPORT_MASK_1   1 << JOYPORT_1
+#define JOYPORT_MASK_2   1 << JOYPORT_2
+#define JOYPORT_MASK_3   1 << JOYPORT_3
+#define JOYPORT_MASK_4   1 << JOYPORT_4
+#define JOYPORT_MASK_5   1 << JOYPORT_5
 
-#define JOYPORT_MASK_1   1 << 0
-#define JOYPORT_MASK_2   1 << 1
-#define JOYPORT_MASK_12  JOYPORT_MASK_1 | JOYPORT_MASK_2
+#define JOYPORT_MASK_12     JOYPORT_MASK_1 | JOYPORT_MASK_2
+#define JOYPORT_MASK_45     JOYPORT_MASK_4 | JOYPORT_MASK_5
+#define JOYPORT_MASK_123    JOYPORT_MASK_1 | JOYPORT_MASK_2 | JOYPORT_MASK_3
+#define JOYPORT_MASK_145    JOYPORT_MASK_1 | JOYPORT_MASK_4 | JOYPORT_MASK_5
+#define JOYPORT_MASK_1245   JOYPORT_MASK_1 | JOYPORT_MASK_2 | JOYPORT_MASK_4 | JOYPORT_MASK_5
+
 
 typedef struct joyport_s {
     char *name;
@@ -101,8 +109,8 @@ extern int joyport_register(int id, joyport_t *device);
 
 extern BYTE read_joyport_dig(int port);
 extern void store_joyport_dig(int port, BYTE val);
-extern BYTE read_joyport_potx(void);
-extern BYTE read_joyport_poty(void);
+extern BYTE read_joyport_potx(int port);
+extern BYTE read_joyport_poty(int port);
 
 extern void set_joyport_pot_mask(int mask);
 
@@ -111,7 +119,7 @@ extern int keypad_cardco_joyport_register(void);
 extern int keypad_cx85_joyport_register(void);
 extern int bbrtc_joyport_register(void);
 
-extern int joyport_resources_init(int pot_present, int ports);
+extern int joyport_resources_init(int int_pot_present, int ext_pot_present, int pmask);
 extern int joyport_cmdline_options_init(void);
 
 extern joyport_desc_t *joyport_get_valid_devices(int port);

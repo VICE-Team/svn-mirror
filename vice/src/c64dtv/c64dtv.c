@@ -272,7 +272,7 @@ int machine_resources_init(void)
         init_resource_fail("printer");
         return -1;
     }
-    if (joyport_resources_init(JOYPORT_POT_NONE, JOYPORT_PORTS_2) < 0) {
+    if (joyport_resources_init(JOYPORT_POT_NONE, JOYPORT_POT_NONE, JOYPORT_MASK_12) < 0) {
         init_resource_fail("joyport");
         return -1;
     }
