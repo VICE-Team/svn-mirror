@@ -1812,9 +1812,13 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
     fi
     if test x"$win32_pthreads" = "xno"; then
       AC_CHECK_LIB(pthread, _imp__pthread_self, [ win32_pthreads=yes ])
+    else
+      LIBS="$LIBS -lpthreadGC2"
     fi
     if test x"$win32_pthreads" = "xno"; then
       AC_MSG_ERROR([Needed pthread lib missing])
+    else
+      LIBS="$LIBS -lpthread"
     fi
     dnl Add -lws2_32
     LIBS="$LIBS -lws2_32"
