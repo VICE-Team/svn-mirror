@@ -205,15 +205,15 @@ cd ../libffmpeg
 cur=`pwd`
 if test x"$shared" = "xyes"; then
   if test x"$hostprefix" != "x"; then
-    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables --disable-sse2 --arch=$cpu --target-os=$os --cross-prefix=$hostprefix- --prefix=$prefix"
+    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables --arch=$cpu --target-os=$os --cross-prefix=$hostprefix- --prefix=$prefix"
   else
-    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables --disable-sse2 --cc=${compiler} --prefix=$prefix"
+    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables --cc=${compiler} --prefix=$prefix"
   fi
 else
   if test x"$hostprefix" != "x"; then
-    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables --disable-sse2 --arch=$cpu --target-os=$os --cross-prefix=$hostprefix-"
+    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables --arch=$cpu --target-os=$os --cross-prefix=$hostprefix-"
   else
-    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables --disable-sse2 --cc=${compiler}"
+    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl $extra_ffmpeg_enables $extra_generic_enables --cc=${compiler}"
   fi
 fi
 
