@@ -3098,6 +3098,125 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
+/* en */ {IDGS_CONTROL_PORT,    N_("Control port")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CONTROL_PORT_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CONTROL_PORT_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CONTROL_PORT_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CONTROL_PORT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CONTROL_PORT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CONTROL_PORT_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CONTROL_PORT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CONTROL_PORT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CONTROL_PORT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CONTROL_PORT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CONTROL_PORT_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CONTROL_PORT_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_CONTROL_PORT_1,    N_("Control port 1")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CONTROL_PORT_1_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CONTROL_PORT_1_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CONTROL_PORT_1_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CONTROL_PORT_1_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CONTROL_PORT_1_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CONTROL_PORT_1_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CONTROL_PORT_1_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CONTROL_PORT_1_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CONTROL_PORT_1_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CONTROL_PORT_1_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CONTROL_PORT_1_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CONTROL_PORT_1_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_CONTROL_PORT_2,    N_("Control port 2")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CONTROL_PORT_2_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CONTROL_PORT_2_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CONTROL_PORT_2_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CONTROL_PORT_2_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CONTROL_PORT_2_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CONTROL_PORT_2_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CONTROL_PORT_2_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CONTROL_PORT_2_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CONTROL_PORT_2_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CONTROL_PORT_2_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CONTROL_PORT_2_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CONTROL_PORT_2_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_SIDCARD_CONTROL_PORT,    N_("SIDCard control port")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SIDCARD_CONTROL_PORT_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SIDCARD_CONTROL_PORT_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SIDCARD_CONTROL_PORT_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SIDCARD_CONTROL_PORT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SIDCARD_CONTROL_PORT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SIDCARD_CONTROL_PORT_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SIDCARD_CONTROL_PORT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SIDCARD_CONTROL_PORT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SIDCARD_CONTROL_PORT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SIDCARD_CONTROL_PORT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SIDCARD_CONTROL_PORT_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SIDCARD_CONTROL_PORT_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1,    N_("Userport joystick adapter port 1")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_DA, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_DE, ""},  /* fuzzy */
+/* es */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_HU, ""},  /* fuzzy */
+/* it */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2,    N_("Userport joystick adapter port 2")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_DA, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_DE, ""},  /* fuzzy */
+/* es */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_HU, ""},  /* fuzzy */
+/* it */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
+/* en */ {IDGS_SELECTED_PORT_NOT_PRESENT,    N_("Selected port (%d) is not present on this emulator")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SELECTED_PORT_NOT_PRESENT_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SELECTED_PORT_NOT_PRESENT_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SELECTED_PORT_NOT_PRESENT_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SELECTED_PORT_NOT_PRESENT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SELECTED_PORT_NOT_PRESENT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SELECTED_PORT_NOT_PRESENT_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SELECTED_PORT_NOT_PRESENT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SELECTED_PORT_NOT_PRESENT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SELECTED_PORT_NOT_PRESENT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SELECTED_PORT_NOT_PRESENT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SELECTED_PORT_NOT_PRESENT_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SELECTED_PORT_NOT_PRESENT_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport.c */
 /* en */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG,    N_("Selected control port device %d is not registered")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_DA, ""},  /* fuzzy */
@@ -3115,7 +3234,7 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED,    N_("Selected control port device %s on port %d is already attached to port %d")},
+/* en */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED,    N_("Selected control port device %s on %s is already attached to %s")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_DE, ""},  /* fuzzy */
@@ -3124,7 +3243,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_NL, "Geselecteerde joyport apparaat %s op poort %d is al gekoppelt aan poort %d"},
+/* nl */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_NL, ""},  /* fuzzy */
 /* pl */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_SV, ""},  /* fuzzy */
@@ -3132,7 +3251,7 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES,    N_("Selected control port device %s on port %d uses same host input resource (%s) as the device attached to port %d")},
+/* en */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES,    N_("Selected control port device %s on %s uses same host input resource (%s) as the device attached to %s")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DE, ""},  /* fuzzy */
@@ -3141,7 +3260,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_NL, "Geselecteerde joyport apparaat %s op poort %d gebruikt dezelfde fyskieke invoer instelling (%s) als het apparaat op poort %d"},
+/* nl */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_NL, ""},  /* fuzzy */
 /* pl */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_SV, ""},  /* fuzzy */
@@ -3149,7 +3268,7 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT,    N_("Selected control port device %s cannot be attached to port %d")},
+/* en */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT,    N_("Selected control port device %s cannot be attached to %s")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_DE, ""},  /* fuzzy */

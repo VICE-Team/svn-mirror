@@ -515,7 +515,7 @@ static joyport_t joystick_device = {
     "Joystick",
     IDGS_JOYSTICK,
     JOYPORT_RES_ID_NONE,
-    JOYPORT_MASK_12,
+    JOYPORT_IS_NOT_LIGHTPEN,
     joyport_enable_joystick,
     read_joystick,
     NULL,				/* no store digital */
@@ -525,7 +525,7 @@ static joyport_t joystick_device = {
 
 static int joystick_joyport_register(void)
 {
-    return joyport_register(JOYPORT_ID_JOYSTICK, &joystick_device);
+    return joyport_device_register(JOYPORT_ID_JOYSTICK, &joystick_device);
 }
 
 /*--------------------------------------------------------------------------*/

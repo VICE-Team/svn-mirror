@@ -253,9 +253,9 @@ BYTE vic_read(WORD addr)
         case 7:
             return vic.light_pen.y;
         case 8:
-            return read_joyport_potx(JOYPORT_1);
+            return read_joyport_potx();
         case 9:
-            return read_joyport_poty(JOYPORT_1);
+            return read_joyport_poty();
         default:
             return vic.regs[addr];
     }

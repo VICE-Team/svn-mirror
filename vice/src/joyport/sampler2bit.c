@@ -71,7 +71,7 @@ static joyport_t joyport_sampler_device = {
     "Sampler (2bit)",
     IDGS_SAMPLER_2BIT,
     JOYPORT_RES_ID_SAMPLER,
-    JOYPORT_MASK_12,
+    JOYPORT_IS_NOT_LIGHTPEN,
     joyport_sampler_enable,
     joyport_sampler_read,
     NULL,				/* no store digital */
@@ -82,5 +82,5 @@ static joyport_t joyport_sampler_device = {
 /* currently only used to register the joyport device */
 int joyport_sampler2bit_resources_init(void)
 {
-    return joyport_register(JOYPORT_ID_SAMPLER_2BIT, &joyport_sampler_device);
+    return joyport_device_register(JOYPORT_ID_SAMPLER_2BIT, &joyport_sampler_device);
 }

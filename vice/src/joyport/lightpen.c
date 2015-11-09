@@ -216,7 +216,7 @@ static joyport_t lightpen_u_joyport_device = {
     "Light Pen (up trigger)",
     IDGS_LIGHTPEN_UP,
     JOYPORT_RES_ID_MOUSE,
-    JOYPORT_MASK_1,
+    JOYPORT_IS_LIGHTPEN,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -228,7 +228,7 @@ static joyport_t lightpen_l_joyport_device = {
     "Light Pen (left trigger)",
     IDGS_LIGHTPEN_LEFT,
     JOYPORT_RES_ID_MOUSE,
-    JOYPORT_MASK_1,
+    JOYPORT_IS_LIGHTPEN,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -240,7 +240,7 @@ static joyport_t lightpen_datel_joyport_device = {
     "Datel Light Pen",
     IDGS_DATEL_LIGHTPEN,
     JOYPORT_RES_ID_MOUSE,
-    JOYPORT_MASK_1,
+    JOYPORT_IS_LIGHTPEN,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -252,7 +252,7 @@ static joyport_t magnum_light_phaser_joyport_device = {
     "Magnum Light Phaser",
     IDGS_MAGNUM_LIGHT_PHASER,
     JOYPORT_RES_ID_MOUSE,
-    JOYPORT_MASK_1,
+    JOYPORT_IS_LIGHTPEN,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -264,7 +264,7 @@ static joyport_t stack_light_rifle_joyport_device = {
     "Stack Light Rifle",
     IDGS_STACK_LIGHT_RIFLE,
     JOYPORT_RES_ID_MOUSE,
-    JOYPORT_MASK_1,
+    JOYPORT_IS_LIGHTPEN,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -276,7 +276,7 @@ static joyport_t inkwell_lightpen_joyport_device = {
     "Inkwell Light Pen",
     IDGS_INKWELL_LIGHTPEN,
     JOYPORT_RES_ID_MOUSE,
-    JOYPORT_MASK_1,
+    JOYPORT_IS_LIGHTPEN,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -286,22 +286,22 @@ static joyport_t inkwell_lightpen_joyport_device = {
 
 static int lightpen_joyport_register(void)
 {
-    if (joyport_register(JOYPORT_ID_LIGHTPEN_U, &lightpen_u_joyport_device) < 0) {
+    if (joyport_device_register(JOYPORT_ID_LIGHTPEN_U, &lightpen_u_joyport_device) < 0) {
         return -1;
     }
-    if (joyport_register(JOYPORT_ID_LIGHTPEN_L, &lightpen_l_joyport_device) < 0) {
+    if (joyport_device_register(JOYPORT_ID_LIGHTPEN_L, &lightpen_l_joyport_device) < 0) {
         return -1;
     }
-    if (joyport_register(JOYPORT_ID_LIGHTPEN_DATEL, &lightpen_datel_joyport_device) < 0) {
+    if (joyport_device_register(JOYPORT_ID_LIGHTPEN_DATEL, &lightpen_datel_joyport_device) < 0) {
         return -1;
     }
-    if (joyport_register(JOYPORT_ID_LIGHTGUN_Y, &magnum_light_phaser_joyport_device) < 0) {
+    if (joyport_device_register(JOYPORT_ID_LIGHTGUN_Y, &magnum_light_phaser_joyport_device) < 0) {
         return -1;
     }
-    if (joyport_register(JOYPORT_ID_LIGHTGUN_L, &stack_light_rifle_joyport_device) < 0) {
+    if (joyport_device_register(JOYPORT_ID_LIGHTGUN_L, &stack_light_rifle_joyport_device) < 0) {
         return -1;
     }
-    return joyport_register(JOYPORT_ID_LIGHTPEN_INKWELL, &inkwell_lightpen_joyport_device);
+    return joyport_device_register(JOYPORT_ID_LIGHTPEN_INKWELL, &inkwell_lightpen_joyport_device);
 }
 
 /* --------------------------------------------------------- */

@@ -76,6 +76,7 @@
 #include "sid-resources.h"
 #include "sound.h"
 #include "tape.h"
+#include "translate.h"
 #include "traps.h"
 #include "types.h"
 #include "userport_joystick.h"
@@ -254,6 +255,20 @@ static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */
 
+static joyport_port_props_t control_port = 
+{
+    "Control port",
+    IDGS_CONTROL_PORT,
+    1,				/* has a potentiometer connected to this port */
+    1,				/* has lightpen support on this port */
+    1					/* port is always active */
+};
+
+static int init_joyport_ports(void)
+{
+    return joyport_port_register(JOYPORT_1, &control_port);
+}
+
 /* VIC20-specific resource initialization.  This is called before
    initializing the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
@@ -294,8 +309,12 @@ int machine_resources_init(void)
         init_resource_fail("userport printer");
         return -1;
     }
-    if (joyport_resources_init(JOYPORT_POT_PRESENT, JOYPORT_POT_NONE, JOYPORT_MASK_1) < 0) {
-        init_resource_fail("joyport");
+    if (init_joyport_ports() < 0) {
+        init_resource_fail("joyport ports");
+        return -1;
+    }
+    if (joyport_resources_init() < 0) {
+        init_resource_fail("joyport devices");
         return -1;
     }
     if (joyport_sampler2bit_resources_init() < 0) {

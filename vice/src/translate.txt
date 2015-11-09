@@ -539,6 +539,27 @@ IDGS_MON_TAPECTRL_DESCRIPTION
 IDGS_TYPE
 
 /* joyport.c */
+IDGS_CONTROL_PORT
+
+/* joyport.c */
+IDGS_CONTROL_PORT_1
+
+/* joyport.c */
+IDGS_CONTROL_PORT_2
+
+/* joyport.c */
+IDGS_SIDCARD_CONTROL_PORT
+
+/* joyport.c */
+IDGS_USERPORT_JOY_ADAPTER_PORT_1
+
+/* joyport.c */
+IDGS_USERPORT_JOY_ADAPTER_PORT_2
+
+/* joyport.c */
+IDGS_SELECTED_PORT_NOT_PRESENT
+
+/* joyport.c */
 IDGS_SELECTED_JOYPORT_DEV_NOT_REG
 
 /* joyport.c */

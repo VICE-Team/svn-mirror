@@ -63,35 +63,21 @@
 #define JOYPORT_RES_ID_KEYPAD    3
 #define JOYPORT_RES_ID_RTC       4
 
-#define JOYPORT_1    0	/* c64/c128/cbm5x0/plus4 control port 1, vic20 control port */
-#define JOYPORT_2    1	/* c64/c128/cbm5x0/plus4 control port 2 */
-#define JOYPORT_3    2	/* plus4 sidcart control port */
-#define JOYPORT_4    3	/* userport cga/pet/hummer/oem/hit/kingsoft/starbyte control port 1 */
-#define JOYPORT_5    4	/* userport cga/pet/oem/hit/kingsoft/starbyte control port 2 */
+#define JOYPORT_1    0	/* c64/c128/cbm5x0/plus4 control port 1, vic20 control port, cbm2/pet userport joy adapter port 1 */
+#define JOYPORT_2    1	/* c64/c128/cbm5x0/plus4 control port 2, vic20 userport joy adapter port 1, cbm2/pet userport joy adapter port 2 */
+#define JOYPORT_3    2	/* c64/c128 userport joy adapter port 1, plus4 sidcart control port, vic20 userport joy adapter port 2 */
+#define JOYPORT_4    3	/* c64/c128 userport joy adapter port 2 */
 
-#define JOYPORT_MAX_PORTS     5
+#define JOYPORT_MAX_PORTS     4
 
-#define JOYPORT_POT_NONE      0
-#define JOYPORT_POT_PRESENT   1
-
-#define JOYPORT_MASK_1   1 << JOYPORT_1
-#define JOYPORT_MASK_2   1 << JOYPORT_2
-#define JOYPORT_MASK_3   1 << JOYPORT_3
-#define JOYPORT_MASK_4   1 << JOYPORT_4
-#define JOYPORT_MASK_5   1 << JOYPORT_5
-
-#define JOYPORT_MASK_12     JOYPORT_MASK_1 | JOYPORT_MASK_2
-#define JOYPORT_MASK_45     JOYPORT_MASK_4 | JOYPORT_MASK_5
-#define JOYPORT_MASK_123    JOYPORT_MASK_1 | JOYPORT_MASK_2 | JOYPORT_MASK_3
-#define JOYPORT_MASK_145    JOYPORT_MASK_1 | JOYPORT_MASK_4 | JOYPORT_MASK_5
-#define JOYPORT_MASK_1245   JOYPORT_MASK_1 | JOYPORT_MASK_2 | JOYPORT_MASK_4 | JOYPORT_MASK_5
-
+#define JOYPORT_IS_NOT_LIGHTPEN   0
+#define JOYPORT_IS_LIGHTPEN       1
 
 typedef struct joyport_s {
     char *name;
     int trans_name;
     int resource_id;
-    int port_mask;
+    int is_lp;
     int (*enable)(int port, int val);
     BYTE (*read_digital)(int port);
     void (*store_digital)(BYTE val);
@@ -105,22 +91,27 @@ typedef struct joyport_desc_s {
     int id;
 } joyport_desc_t;
 
-extern int joyport_register(int id, joyport_t *device);
+typedef struct joyport_port_props_s {
+    char *name;
+    int trans_name;
+    int has_pot;
+    int has_lp_support;
+    int active;
+} joyport_port_props_t;
+
+extern int joyport_device_register(int id, joyport_t *device);
 
 extern BYTE read_joyport_dig(int port);
 extern void store_joyport_dig(int port, BYTE val);
-extern BYTE read_joyport_potx(int port);
-extern BYTE read_joyport_poty(int port);
+extern BYTE read_joyport_potx(void);
+extern BYTE read_joyport_poty(void);
 
 extern void set_joyport_pot_mask(int mask);
 
-extern int keypad_coplin_joyport_register(void);
-extern int keypad_cardco_joyport_register(void);
-extern int keypad_cx85_joyport_register(void);
-extern int bbrtc_joyport_register(void);
-
-extern int joyport_resources_init(int int_pot_present, int ext_pot_present, int pmask);
+extern int joyport_resources_init(void);
 extern int joyport_cmdline_options_init(void);
+
+extern int joyport_port_register(int port, joyport_port_props_t *props);
 
 extern joyport_desc_t *joyport_get_valid_devices(int port);
 
