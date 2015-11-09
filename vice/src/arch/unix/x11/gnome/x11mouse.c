@@ -55,7 +55,6 @@
 #else
 #define DBG(_x_)
 #endif
-
 static GdkCursor *blankCursor;
 static gint mouse_dx = 0, mouse_dy = 0;
 static gint mouse_lasteventx = 0, mouse_lasteventy = 0;
@@ -331,15 +330,70 @@ static gboolean mouse_handler_wrap(GtkWidget *w, GdkEventCrossing *e, gpointer p
 }
  
 
-/* dummy functions, popup menus when clicking into the windows are unusual for
+/* dummy menus for hotkeys (AccelGroups) are needed - this seems ugly here, but it works
+   a better way could be to make the toplevel menu accelgroup active/inactive depending 
+   on fullscreen on/off and not showing/hiding the toplevel menu in fullscreen/window mode
+   -> then the code doesn't belong here in ..mouse.c!
+   
+   popup menus when clicking into the windows are unusual for
    GTK apps and they cause more problems than they solve (eg when clicking into
-   the window to switch focus */
+   the window to switch focus, so popup is not done */
 void ui_set_left_menu(ui_menu_entry_t *menu)
 {
+    int i;
+    static GtkAccelGroup *accel;
+    static GtkWidget *left_menu;
+    int num_app_shells = get_num_shells();
+    
+    DBG(("ui_set_left_menu"));
+
+    ui_block_shells();
+
+    if (accel) {
+	g_object_unref(accel);
+    }
+
+    accel = gtk_accel_group_new();
+    for (i = 0; i < num_app_shells; i++) {
+	gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
+    }
+
+    if (left_menu != NULL) {
+	gtk_widget_destroy(left_menu);
+    }
+    left_menu = gtk_menu_new();
+    ui_menu_create(left_menu, accel, "LeftMenu", menu);
+
+    ui_unblock_shells();
 }
 
 void ui_set_right_menu(ui_menu_entry_t *menu)
 {
+    int i;
+    static GtkAccelGroup *accel;
+    static GtkWidget *right_menu;
+    int num_app_shells = get_num_shells();
+
+    DBG(("ui_set_right_menu"));
+
+    ui_block_shells();
+
+    if (accel) {
+	g_object_unref(accel);
+    }
+
+    accel = gtk_accel_group_new();
+    for (i = 0; i < num_app_shells; i++) {
+	gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
+    }
+
+    if (right_menu != NULL) {
+	gtk_widget_destroy(right_menu);
+    }
+    right_menu = gtk_menu_new();
+    ui_menu_create(right_menu, accel, "RightMenu", menu);
+
+    ui_unblock_shells();    
 }
 
 void mouse_connect_handler(GtkWidget *widget, void *data)
