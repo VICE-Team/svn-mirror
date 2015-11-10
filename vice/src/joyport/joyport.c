@@ -558,7 +558,7 @@ static int set_joyport_cmdline_device(const char *param, void *extra_param)
         return -1;
     }
 
-    return set_joyport_device(temp, (void *)port);
+    return set_joyport_device(temp, int_to_void_ptr(port));
 }
 
 /* ------------------------------------------------------------------------- */
