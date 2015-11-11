@@ -328,7 +328,7 @@ static void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
     wobble = dptr->rpm_wobble ? lib_unsigned_rand(0, dptr->rpm_wobble) - (dptr->rpm_wobble / 2) : 0;
     tmp *= clk_ref_per_rev;
     tmp /= dptr->rpm + wobble;
-    clk_ref_per_rev = tmp;
+    clk_ref_per_rev = (int)tmp;
 
     /* cell cycles for the actual flux reversal period, it is 1 now, but could be different with variable density */
     cyc_act_frv = 1;
