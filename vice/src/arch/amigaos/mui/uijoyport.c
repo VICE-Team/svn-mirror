@@ -42,6 +42,9 @@ static const int ui_joyport_1_values[JOYPORT_MAX_DEVICES + 1];
 static char *ui_joyport_2[JOYPORT_MAX_DEVICES + 1];
 static const int ui_joyport_2_values[JOYPORT_MAX_DEVICES + 1];
 
+static char *ui_joyport_3[JOYPORT_MAX_DEVICES + 1];
+static const int ui_joyport_3_values[JOYPORT_MAX_DEVICES + 1];
+
 static ui_to_from_t ui_to_from1[] = {
     { NULL, MUI_TYPE_CYCLE, "JoyPort1Device", ui_joyport_1, ui_joyport_1_values, NULL },
     UI_END /* mandatory */
@@ -53,6 +56,13 @@ static ui_to_from_t ui_to_from2[] = {
     UI_END /* mandatory */
 };
 
+static ui_to_from_t ui_to_from3[] = {
+    { NULL, MUI_TYPE_CYCLE, "JoyPort1Device", ui_joyport_1, ui_joyport_1_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyPort2Device", ui_joyport_2, ui_joyport_2_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyPort3Device", ui_joyport_3, ui_joyport_3_values, NULL },
+    UI_END /* mandatory */
+};
+
 static APTR build_gui1(void)
 {
     APTR app, ui, ok, cancel;
@@ -60,7 +70,7 @@ static APTR build_gui1(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from1[0].object, translate_text(IDS_JOYPORT_1_DEVICE), ui_joyport_1)
+           CYCLE(ui_to_from1[0].object, translate_text(IDS_JOYPORT_CONTROL_PORT_DEVICE), ui_joyport_1)
            OK_CANCEL_BUTTON
          End;
 
@@ -82,8 +92,32 @@ static APTR build_gui2(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from2[0].object, translate_text(IDS_JOYPORT_1_DEVICE), ui_joyport_1)
-           CYCLE(ui_to_from2[1].object, translate_text(IDS_JOYPORT_2_DEVICE), ui_joyport_2)
+           CYCLE(ui_to_from2[0].object, translate_text(IDS_JOYPORT_CONTROL_PORT_1_DEVICE), ui_joyport_1)
+           CYCLE(ui_to_from2[1].object, translate_text(IDS_JOYPORT_CONTROL_PORT_2_DEVICE), ui_joyport_2)
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+    }
+
+    return ui;
+}
+
+static APTR build_gui3(void)
+{
+    APTR app, ui, ok, cancel;
+
+    app = mui_get_app();
+
+    ui = GroupObject,
+           CYCLE(ui_to_from3[0].object, translate_text(IDS_JOYPORT_CONTROL_PORT_1_DEVICE), ui_joyport_1)
+           CYCLE(ui_to_from3[1].object, translate_text(IDS_JOYPORT_CONTROL_PORT_2_DEVICE), ui_joyport_2)
+           CYCLE(ui_to_from3[2].object, translate_text(IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE), ui_joyport_3)
            OK_CANCEL_BUTTON
          End;
 
@@ -104,6 +138,8 @@ void ui_joyport_settings_dialog(int ports)
     int i;
     joyport_desc_t *devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
     joyport_desc_t *devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
+    joyport_desc_t *devices_port_3 = joyport_get_valid_devices(JOYPORT_3);
+    ui_to_from_t *ui_to_from = NULL;
 
     for (i = 0; devices_port_1[i].name; ++i) {
         ui_joyport_1[i] = translate_text(devices_port_1[i].trans_name);
@@ -114,7 +150,7 @@ void ui_joyport_settings_dialog(int ports)
 
     lib_free(devices_port_1);
 
-    if (ports == 2) {
+    if (ports > 1) {
         for (i = 0; devices_port_2[i].name; ++i) {
             ui_joyport_2[i] = translate_text(devices_port_2[i].trans_name);
             ui_joyport_2_values[i] = devices_port_2[i].id;
@@ -123,33 +159,43 @@ void ui_joyport_settings_dialog(int ports)
         ui_joyport_2_values[i] = -1;
 
         lib_free(devices_port_2);
+    }
 
-        window = mui_make_simple_window(build_gui2(), translate_text(IDS_JOYPORT_SETTINGS));
-
-        if (window != NULL) {
-            mui_add_window(window);
-            ui_get_to(ui_to_from2);
-            set(window, MUIA_Window_Open, TRUE);
-            if (mui_run() == BTN_OK) {
-                ui_get_from(ui_to_from2);
-            }
-            set(window, MUIA_Window_Open, FALSE);
-            mui_rem_window(window);
-            MUI_DisposeObject(window);
+    if (ports > 2) {
+        for (i = 0; devices_port_3[i].name; ++i) {
+            ui_joyport_3[i] = translate_text(devices_port_3[i].trans_name);
+            ui_joyport_3_values[i] = devices_port_3[i].id;
         }
-    } else {
-        window = mui_make_simple_window(build_gui1(), translate_text(IDS_JOYPORT_SETTINGS));
+        ui_joyport_3[i] = NULL;
+        ui_joyport_3_values[i] = -1;
 
-        if (window != NULL) {
-            mui_add_window(window);
-            ui_get_to(ui_to_from1);
-            set(window, MUIA_Window_Open, TRUE);
-            if (mui_run() == BTN_OK) {
-                ui_get_from(ui_to_from1);
-            }
-            set(window, MUIA_Window_Open, FALSE);
-            mui_rem_window(window);
-            MUI_DisposeObject(window);
+        lib_free(devices_port_3);
+    }
+
+    switch (ports) {
+        case 1:
+            window = mui_make_simple_window(build_gui1(), translate_text(IDS_JOYPORT_SETTINGS));
+            ui_to_from = ui_to_from1;
+            break;
+        case 2:
+            window = mui_make_simple_window(build_gui2(), translate_text(IDS_JOYPORT_SETTINGS));
+            ui_to_from = ui_to_from2;
+            break;
+        case 3:
+            window = mui_make_simple_window(build_gui3(), translate_text(IDS_JOYPORT_SETTINGS));
+            ui_to_from = ui_to_from3;
+            break;
+    }
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from);
         }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
     }
 }
