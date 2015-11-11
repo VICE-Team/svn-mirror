@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "joyport.h"
 #include "keyboard.h"
 #include "plus4.h"
 #include "resources.h"
@@ -208,15 +209,12 @@ int sidcart_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* dummy function for now, since only joystick support
-   has been added, might be expanded when other devices
-   get supported */
-
 void sidcartjoy_store(WORD addr, BYTE value)
 {
+    store_joyport_dig(JOYPORT_3, value);
 }
 
 BYTE sidcartjoy_read(WORD addr)
 {
-    return ~joystick_value[3];
+    return read_joyport_dig(JOYPORT_3);
 }

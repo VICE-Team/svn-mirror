@@ -424,6 +424,16 @@ void joyport_display_joyport(int id, BYTE status)
     ui_display_joyport(joyport_display);
 }
 
+int joyport_get_port_trans_name(int port)
+{
+    return port_props[port].trans_name;
+}
+
+char *joyport_get_port_name(int port)
+{
+    return port_props[port].name;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static int set_joyport_device(int val, void *param)
@@ -445,6 +455,12 @@ static const resource_int_t resources_int_port2[] = {
     { NULL }
 };
 
+static const resource_int_t resources_int_port3[] = {
+    { "JoyPort3Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
+      &joy_port[2], set_joyport_device, (void *)JOYPORT_3 },
+    { NULL }
+};
+
 int joyport_resources_init(void)
 {
     int i;
@@ -462,7 +478,13 @@ int joyport_resources_init(void)
         ++ports;
     }
 
-    if (ports >= 2) {
+    if (ports > 2) {
+        if (resources_register_int(resources_int_port3) < 0) {
+            return -1;
+        }
+    }
+
+    if (ports > 1) {
         if (resources_register_int(resources_int_port2) < 0) {
             return -1;
         }
@@ -567,11 +589,7 @@ static char *build_joyport_string(int port)
     char number[4];
     joyport_desc_t *devices = joyport_get_valid_devices(port);
 
-    if (port == JOYPORT_1) {
-        tmp1 = lib_stralloc(translate_text(IDGS_SET_JOYPORT1_DEVICE));
-    } else {
-        tmp1 = lib_stralloc(translate_text(IDGS_SET_JOYPORT2_DEVICE));
-    }
+    tmp1 = lib_msprintf(translate_text(IDGS_SET_JOYPORT_S_DEVICE), translate_text(port_props[port].trans_name));
 
     for (i = 1; devices[i].name; ++i) {
         sprintf(number, "%d", devices[i].id);
@@ -605,6 +623,16 @@ static cmdline_option_t cmdline_options_port2[] =
     { NULL }
 };
 
+static cmdline_option_t cmdline_options_port3[] =
+{
+    { "-controlport3device", CALL_FUNCTION, 1,
+      set_joyport_cmdline_device, (void *)JOYPORT_3, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_DYN,
+      IDGS_DEVICE, 3,
+      NULL, NULL },
+    { NULL }
+};
+
 int joyport_cmdline_options_init(void)
 {
     union char_func cf;
@@ -621,10 +649,18 @@ int joyport_cmdline_options_init(void)
         ++ports;
     }
 
-    if (ports >= 2) {
+    if (ports > 1) {
         cf.f = build_joyport_string;
         cmdline_options_port2[0].description = cf.c;
         if (cmdline_register_options(cmdline_options_port2) < 0) {
+            return -1;
+        }
+    }
+
+    if (ports > 2) {
+        cf.f = build_joyport_string;
+        cmdline_options_port3[0].description = cf.c;
+        if (cmdline_register_options(cmdline_options_port3) < 0) {
             return -1;
         }
     }

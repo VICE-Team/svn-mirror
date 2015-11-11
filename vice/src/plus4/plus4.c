@@ -291,7 +291,6 @@ static joyport_port_props_t control_port_2 =
 };
 
 /* for now this part is commented, but will be used soon */
-#if 0
 static joyport_port_props_t sidcard_port = 
 {
     "SIDCard control port",
@@ -300,21 +299,17 @@ static joyport_port_props_t sidcard_port =
     0,				/* has NO lightpen support on this port */
     0					/* port can be switched on/off */
 };
-#endif
 
 static int init_joyport_ports(void)
 {
     if (joyport_port_register(JOYPORT_1, &control_port_1) < 0) {
         return -1;
     }
-#if 0
     if (joyport_port_register(JOYPORT_3, &sidcard_port) < 0) {
         return -1;
     }
-#endif
     return joyport_port_register(JOYPORT_2, &control_port_2);
 }
-
 
 /* Plus4-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */

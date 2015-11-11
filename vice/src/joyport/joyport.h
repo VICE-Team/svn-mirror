@@ -117,4 +117,7 @@ extern joyport_desc_t *joyport_get_valid_devices(int port);
 
 extern void joyport_display_joyport(int id, BYTE status);
 
+extern int joyport_get_port_trans_name(int port);
+extern char *joyport_get_port_name(int port);
+
 #endif

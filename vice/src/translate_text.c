@@ -3626,37 +3626,20 @@ translate_t string_table[] = {
 #endif
 
 /* joyport.c */
-/* en */ {IDGS_SET_JOYPORT1_DEVICE,    N_("Set control port 1 device (0: None")},
+/* en */ {IDGS_SET_JOYPORT_S_DEVICE,    N_("Set %s device (0: None")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_SET_JOYPORT1_DEVICE_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SET_JOYPORT1_DEVICE_DE, ""},  /* fuzzy */
-/* es */ {IDGS_SET_JOYPORT1_DEVICE_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_SET_JOYPORT1_DEVICE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_SET_JOYPORT1_DEVICE_HU, ""},  /* fuzzy */
-/* it */ {IDGS_SET_JOYPORT1_DEVICE_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_SET_JOYPORT1_DEVICE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SET_JOYPORT1_DEVICE_NL, "Zet control port 1 apparaat (0: Geen"},
-/* pl */ {IDGS_SET_JOYPORT1_DEVICE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_SET_JOYPORT1_DEVICE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_SET_JOYPORT1_DEVICE_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_SET_JOYPORT1_DEVICE_TR, ""},  /* fuzzy */
-#endif
-
-/* joyport.c */
-/* en */ {IDGS_SET_JOYPORT2_DEVICE,    N_("Set control port 2 device (0: None")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_SET_JOYPORT2_DEVICE_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SET_JOYPORT2_DEVICE_DE, ""},  /* fuzzy */
-/* es */ {IDGS_SET_JOYPORT2_DEVICE_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_SET_JOYPORT2_DEVICE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_SET_JOYPORT2_DEVICE_HU, ""},  /* fuzzy */
-/* it */ {IDGS_SET_JOYPORT2_DEVICE_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_SET_JOYPORT2_DEVICE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SET_JOYPORT2_DEVICE_NL, "Zet control port 2 apparaat (0: Geen"},
-/* pl */ {IDGS_SET_JOYPORT2_DEVICE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_SET_JOYPORT2_DEVICE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_SET_JOYPORT2_DEVICE_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_SET_JOYPORT2_DEVICE_TR, ""},  /* fuzzy */
+/* da */ {IDGS_SET_JOYPORT_S_DEVICE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SET_JOYPORT_S_DEVICE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SET_JOYPORT_S_DEVICE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SET_JOYPORT_S_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SET_JOYPORT_S_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SET_JOYPORT_S_DEVICE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SET_JOYPORT_S_DEVICE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SET_JOYPORT_S_DEVICE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SET_JOYPORT_S_DEVICE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SET_JOYPORT_S_DEVICE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SET_JOYPORT_S_DEVICE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SET_JOYPORT_S_DEVICE_TR, ""},  /* fuzzy */
 #endif
 
 
