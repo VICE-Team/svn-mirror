@@ -105,10 +105,8 @@ static int joyport_set_device(int port, int id)
     if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joy_port[i] == id) {
-                if (port_props[i].active) {
-                    ui_error(translate_text(IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED), joyport_device[id].name, translate_text(port_props[port].trans_name), translate_text(port_props[i].trans_name));
-                    return -1;
-                }
+                ui_error(translate_text(IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED), joyport_device[id].name, translate_text(port_props[port].trans_name), translate_text(port_props[i].trans_name));
+                return -1;
             }
         }
     }
@@ -117,10 +115,8 @@ static int joyport_set_device(int port, int id)
     if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joyport_device[id].resource_id == joyport_device[joy_port[i]].resource_id) {
-                if (port_props[i].active) {
-                    ui_error(translate_text(IDGS_SELECTED_JOYPORT_SAME_INPUT_RES), joyport_device[id].name, translate_text(port_props[port].trans_name), res2text(joyport_device[id].resource_id), translate_text(port_props[i].trans_name));
-                    return -1;
-                }
+                ui_error(translate_text(IDGS_SELECTED_JOYPORT_SAME_INPUT_RES), joyport_device[id].name, translate_text(port_props[port].trans_name), res2text(joyport_device[id].resource_id), translate_text(port_props[i].trans_name));
+                return -1;
             }
         }
     }
