@@ -38,12 +38,15 @@
 
 UI_MENU_DEFINE_RADIO(JoyPort1Device)
 UI_MENU_DEFINE_RADIO(JoyPort2Device)
+UI_MENU_DEFINE_RADIO(JoyPort3Device)
 
 static ui_menu_entry_t joyport1_dyn_menu[JOYPORT_MAX_DEVICES];
 static ui_menu_entry_t joyport2_dyn_menu[JOYPORT_MAX_DEVICES];
+static ui_menu_entry_t joyport3_dyn_menu[JOYPORT_MAX_DEVICES];
 
 static int joyport1_dyn_menu_init = 0;
 static int joyport2_dyn_menu_init = 0;
+static int joyport3_dyn_menu_init = 0;
 
 static void sdl_menu_joyport1_free(void)
 {
@@ -60,6 +63,15 @@ static void sdl_menu_joyport2_free(void)
 
     for (i = 0; joyport2_dyn_menu[i].string != NULL; i++) {
         lib_free(joyport2_dyn_menu[i].string);
+    }
+}
+
+static void sdl_menu_joyport3_free(void)
+{
+    int i;
+
+    for (i = 0; joyport3_dyn_menu[i].string != NULL; i++) {
+        lib_free(joyport3_dyn_menu[i].string);
     }
 }
 
@@ -121,8 +133,37 @@ UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
     return "->";
 }
 
+UI_MENU_CALLBACK(JoyPort3Device_dynmenu_callback)
+{
+    joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_3);
+    int i;
+
+    /* rebuild menu if it already exists. */
+    if (joyport3_dyn_menu_init != 0) {
+        sdl_menu_joyport3_free();
+    } else {
+        joyport3_dyn_menu_init = 1;
+    }
+
+    for (i = 0; devices[i].name; ++i) {
+        joyport3_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
+        joyport3_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+        joyport3_dyn_menu[i].callback = radio_JoyPort3Device_callback;
+        joyport3_dyn_menu[i].data = (ui_callback_data_t)devices[i].id;
+    }
+
+    joyport3_dyn_menu[i].string = NULL;
+    joyport3_dyn_menu[i].type = 0;
+    joyport3_dyn_menu[i].callback = NULL;
+    joyport3_dyn_menu[i].data = NULL;
+
+    lib_free(devices);
+
+    return "->";
+}
+
 const ui_menu_entry_t joyport1_menu[] = {
-    { "Control port 1 device",
+    { "Control port device",
       MENU_ENTRY_DYNAMIC_SUBMENU,
       JoyPort1Device_dynmenu_callback,
       (ui_callback_data_t)joyport1_dyn_menu },
@@ -138,5 +179,21 @@ const ui_menu_entry_t joyport2_menu[] = {
       MENU_ENTRY_DYNAMIC_SUBMENU,
       JoyPort2Device_dynmenu_callback,
       (ui_callback_data_t)joyport2_dyn_menu },
+    SDL_MENU_LIST_END
+};
+
+const ui_menu_entry_t joyport3_menu[] = {
+    { "Control port 1 device",
+      MENU_ENTRY_DYNAMIC_SUBMENU,
+      JoyPort1Device_dynmenu_callback,
+      (ui_callback_data_t)joyport1_dyn_menu },
+    { "Control port 2 device",
+      MENU_ENTRY_DYNAMIC_SUBMENU,
+      JoyPort2Device_dynmenu_callback,
+      (ui_callback_data_t)joyport2_dyn_menu },
+    { "SIDCard control port device",
+      MENU_ENTRY_DYNAMIC_SUBMENU,
+      JoyPort3Device_dynmenu_callback,
+      (ui_callback_data_t)joyport3_dyn_menu },
     SDL_MENU_LIST_END
 };

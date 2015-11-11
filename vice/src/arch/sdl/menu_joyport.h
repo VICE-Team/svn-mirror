@@ -33,5 +33,6 @@
 
 extern const ui_menu_entry_t joyport1_menu[];
 extern const ui_menu_entry_t joyport2_menu[];
+extern const ui_menu_entry_t joyport3_menu[];
 
 #endif
