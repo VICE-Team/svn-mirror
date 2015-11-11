@@ -583,7 +583,7 @@ svnversion.h.indirect:
 svnversion.h: svnversion.h.indirect
 
 if NATIVE_TOOLS
-$(builddir)/geninfocontrib:	$(srcdir)/arch/win32/utils/geninfocontrib.c
+$(builddir)/geninfocontrib:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(srcdir)/arch/win32/utils/geninfocontrib.c
 	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/geninfocontrib $(srcdir)/arch/win32/utils/geninfocontrib.c
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(builddir)/geninfocontrib
