@@ -304,6 +304,11 @@ static void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
     DWORD count_new_bitcell, cyc_sum_frv /*, sum_new_bitcell*/;
     unsigned int dnr = dptr->mynumber;
     int wobble;
+#ifdef _MSC_VER
+    __int64 tmp = 30000UL;
+#else
+    unsigned long long tmp = 30000UL;
+#endif
 
     rptr = &rotation[dptr->mynumber];
 
@@ -321,7 +326,9 @@ static void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
      *    change a lot over time, so the random offset is rather small.
      */
     wobble = dptr->rpm_wobble ? lib_unsigned_rand(0, dptr->rpm_wobble) - (dptr->rpm_wobble / 2) : 0;
-    clk_ref_per_rev = (clk_ref_per_rev * 30000UL) / (dptr->rpm + wobble);
+    tmp *= clk_ref_per_rev;
+    tmp /= dptr->rpm + wobble;
+    clk_ref_per_rev = tmp;
 
     /* cell cycles for the actual flux reversal period, it is 1 now, but could be different with variable density */
     cyc_act_frv = 1;
@@ -948,7 +955,7 @@ static void rotation_1541_simple(drive_t *dptr)
 #ifdef _MSC_VER
     __int64 tmp = 1000000UL;
 #else
-	unsigned long long tmp = 1000000UL;
+    unsigned long long tmp = 1000000UL;
 #endif
     unsigned long rpmscale;
     int wobble;
