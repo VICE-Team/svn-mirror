@@ -541,7 +541,7 @@ static av_always_inline void fdct_row_mmx(const int16_t *in, int16_t *out, const
 /* type pun fix */
 typedef union {
     int64_t t_int64_t[16];
-    int16_t *t_int16_t;
+    int16_t t_int16_t[16 * 4];
 } u_int64_int16_t;
 
 void ff_fdct_mmx(int16_t *block)
@@ -598,3 +598,4 @@ void ff_fdct_sse2(int16_t *block)
 }
 
 #endif /* HAVE_SSE2_INLINE */
+
