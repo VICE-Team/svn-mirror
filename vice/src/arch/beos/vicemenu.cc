@@ -93,6 +93,7 @@ BMenuBar *menu_create(int machine_class)
     uint32 i;
     joyport_desc_t *devices_port_1 = NULL;
     joyport_desc_t *devices_port_2 = NULL;
+    joyport_desc_t *devices_port_3 = NULL;
 
     menubar = new BMenuBar(BRect(0, 0, 10, 10), "Menubar");
 
@@ -1055,7 +1056,11 @@ BMenuBar *menu_create(int machine_class)
     if (get_devices != NULL) {
         uppermenu->AddItem(menu = new BMenu("Joyport"));
             devices_port_1 = get_devices(JOYPORT_1);
-            menu->AddItem(submenu = new BMenu("Control port 1 device"));
+            if (machine_class == VICE_MACHINE_VIC20) {
+                menu->AddItem(submenu = new BMenu("Control port device"));
+            } else {
+                menu->AddItem(submenu = new BMenu("Control port 1 device"));
+            }
                 submenu->SetRadioMode(true);
                 for (i = 0; devices_port_1[i].name; ++i) {
                     submenu->AddItem(new BMenuItem(devices_port_1[i].name, new BMessage(MENU_JOYPORT1_00 + devices_port_1[i].id)));
@@ -1068,11 +1073,21 @@ BMenuBar *menu_create(int machine_class)
                         submenu->AddItem(new BMenuItem(devices_port_2[i].name, new BMessage(MENU_JOYPORT2_00 + devices_port_2[i].id)));
                     }
             }
+            if (machine_class == VICE_MACHINE_PLUS4) {
+                devices_port_3 = get_devices(JOYPORT_3);
+                menu->AddItem(submenu = new BMenu("SIDCard control port device"));
+                    submenu->SetRadioMode(true);
+                    for (i = 0; devices_port_3[i].name; ++i) {
+                        submenu->AddItem(new BMenuItem(devices_port_3[i].name, new BMessage(MENU_JOYPORT3_00 + devices_port_3[i].id)));
+                    }
+            }
+
             menu->AddItem(submenu = new BMenu("Joystick"));
                 submenu->AddItem(new BMenuItem("Joystick/Keyset settings ...", new BMessage(MENU_JOYSTICK_SETTINGS)));
                 submenu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
         lib_free(devices_port_1);
         lib_free(devices_port_2);
+        lib_free(devices_port_3);
     }
 
     if (machine_class != VICE_MACHINE_VSID) {

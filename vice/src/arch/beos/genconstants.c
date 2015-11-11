@@ -127,10 +127,11 @@ int main(int argc, char *argv[])
     fprintf(outfile, "const uint32 ATTACH_VIC20_CART                    = 'MA02';\n");
     fprintf(outfile, "\n");
 
-    /* Generate MJ00-MJxx & MK00-MKxx for joyport usage */
+    /* Generate MJ00-MJxx, MK00-MKxx & ML00-MLxx for joyport usage */
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         fprintf(outfile, "const uint32 MENU_JOYPORT1_%02d = 'MJ%02d';\n", i, i);
         fprintf(outfile, "const uint32 MENU_JOYPORT2_%02d = 'MK%02d';\n", i, i);
+        fprintf(outfile, "const uint32 MENU_JOYPORT3_%02d = 'ML%02d';\n", i, i);
     }
     fprintf(outfile, "\n");
 
