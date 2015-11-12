@@ -175,7 +175,7 @@ static void find_pot_ports(void)
 {
     int i;
 
-    for (i = 0; port_props[i].name; ++i) {
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         if (port_props[i].has_pot) {
             if (pot_port1 == -1) {
                 pot_port1 = i;
@@ -300,7 +300,7 @@ int joyport_device_register(int id, joyport_t *device)
 
     /* check for pot ports if needed */
     if (pot_present == -1) {
-        for (i = 0; port_props[i].name && pot_present == -1; ++i) {
+        for (i = 0; i < JOYPORT_MAX_PORTS && pot_present == -1; ++i) {
             if (port_props[i].has_pot) {
                 pot_present = 1;
             }
@@ -445,19 +445,25 @@ static int set_joyport_device(int val, void *param)
 
 static const resource_int_t resources_int_port1[] = {
     { "JoyPort1Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
-      &joy_port[0], set_joyport_device, (void *)JOYPORT_1 },
+      &joy_port[JOYPORT_1], set_joyport_device, (void *)JOYPORT_1 },
     { NULL }
 };
 
 static const resource_int_t resources_int_port2[] = {
     { "JoyPort2Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
-      &joy_port[1], set_joyport_device, (void *)JOYPORT_2 },
+      &joy_port[JOYPORT_2], set_joyport_device, (void *)JOYPORT_2 },
     { NULL }
 };
 
 static const resource_int_t resources_int_port3[] = {
     { "JoyPort3Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
-      &joy_port[2], set_joyport_device, (void *)JOYPORT_3 },
+      &joy_port[JOYPORT_3], set_joyport_device, (void *)JOYPORT_3 },
+    { NULL }
+};
+
+static const resource_int_t resources_int_port4[] = {
+    { "JoyPort4Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
+      &joy_port[JOYPORT_4], set_joyport_device, (void *)JOYPORT_4 },
     { NULL }
 };
 
@@ -474,23 +480,31 @@ int joyport_resources_init(void)
         joy_port[i] = JOYPORT_ID_NONE;
     }
 
-    for (i = 0; port_props[i].name; ++i) {
-        ++ports;
+    if (port_props[JOYPORT_4].name) {
+        if (resources_register_int(resources_int_port4) < 0) {
+            return -1;
+        }
     }
 
-    if (ports > 2) {
+    if (port_props[JOYPORT_3].name) {
         if (resources_register_int(resources_int_port3) < 0) {
             return -1;
         }
     }
 
-    if (ports > 1) {
+    if (port_props[JOYPORT_2].name) {
         if (resources_register_int(resources_int_port2) < 0) {
             return -1;
         }
     }
 
-    return resources_register_int(resources_int_port1);
+    if (port_props[JOYPORT_1].name) {
+        if (resources_register_int(resources_int_port1) < 0) {
+            return -1;
+        }
+    }
+
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -633,23 +647,29 @@ static cmdline_option_t cmdline_options_port3[] =
     { NULL }
 };
 
+static cmdline_option_t cmdline_options_port4[] =
+{
+    { "-controlport4device", CALL_FUNCTION, 1,
+      set_joyport_cmdline_device, (void *)JOYPORT_4, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_DYN,
+      IDGS_DEVICE, 4,
+      NULL, NULL },
+    { NULL }
+};
+
 int joyport_cmdline_options_init(void)
 {
     union char_func cf;
-    int i;
-    int ports = 0;
 
-    cf.f = build_joyport_string;
-    cmdline_options_port1[0].description = cf.c;
-    if (cmdline_register_options(cmdline_options_port1) < 0) {
-        return -1;
+    if (port_props[JOYPORT_1].name) {
+        cf.f = build_joyport_string;
+        cmdline_options_port1[0].description = cf.c;
+        if (cmdline_register_options(cmdline_options_port1) < 0) {
+            return -1;
+        }
     }
 
-    for (i = 0; port_props[i].name; ++i) {
-        ++ports;
-    }
-
-    if (ports > 1) {
+    if (port_props[JOYPORT_2].name) {
         cf.f = build_joyport_string;
         cmdline_options_port2[0].description = cf.c;
         if (cmdline_register_options(cmdline_options_port2) < 0) {
@@ -657,10 +677,18 @@ int joyport_cmdline_options_init(void)
         }
     }
 
-    if (ports > 2) {
+    if (port_props[JOYPORT_3].name) {
         cf.f = build_joyport_string;
         cmdline_options_port3[0].description = cf.c;
         if (cmdline_register_options(cmdline_options_port3) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_4].name) {
+        cf.f = build_joyport_string;
+        cmdline_options_port4[0].description = cf.c;
+        if (cmdline_register_options(cmdline_options_port4) < 0) {
             return -1;
         }
     }
