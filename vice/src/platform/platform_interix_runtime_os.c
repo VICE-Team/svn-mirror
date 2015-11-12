@@ -25,13 +25,15 @@
  */
 
 /* Tested and confirmed working on:
- - Windows NT 4.0 Embedded Workstation
- - Windows NT 4.0 Workstation
- - Windows NT 4.0 Embedded Server
+ - Windows NT 4.0 Embedded Workstation (x86)
+ - Windows NT 4.0 Workstation (x86)
+ - Windows NT 4.0 Embedded Server (x86)
+ - Windows NT 4.0 Server (x86)
  - Windows NT 4.0 Small Business Server 4.0 (x86)
  - Windows NT 4.0 Small Business Server 4.5 (x86)
  - Windows NT 4.0 Enterprise Server (x86)
  - Windows 2000 Pro (x86)
+ - Windows 2000 Powered (x86)
  - Windows 2000 Server (x86)
  - Windows 2000 Small Business Server (x86)
  - Windows 2000 Advanced Server (x86)
@@ -39,8 +41,10 @@
  - Windows XP Embedded (x86)
  - Windows XP FLP (x86)
  - Windows XP Pro (x86)
+ - Windows XP Tablet PC (x86)
  - Windows XP MCE 2004 (x86)
  - Windows XP MCE 2005 (x86)
+ - Windows XP MCE 2005 R1 (x86)
  - Windows XP MCE 2005 R2 (x86)
  - Windows 2003 Web Server (x86)
  - Windows 2003 Standard Server (x86)
@@ -53,6 +57,7 @@
  - Windows 2003 R2 Enterprise Server (x86/x64)
  - Windows 2003 R2 Datacenter Server (x64)
  - Windows Vista Enterprise (x86)
+ - Windows Vista Ultimate (x86)
  - Windows 2008 Foundation Server (x64)
  - Windows 2008 Standard Server (x86/x64)
  - Windows 2008 Enterprise Server (x86/x64)
@@ -74,6 +79,7 @@
  - Windows 2009 POSReady (x86)
  - Windows Home Server 2011 (x64)
  - Windows 2011 Standard Multipoint Server (x64)
+ - Windows 2012 Standard Server (x64)
  - Windows 8 Enterprise (x86/x64)
 */
 
@@ -134,6 +140,7 @@ static winver_t windows_versions[] = {
     { "Windows XP Tablet PC",                      "Microsoft Windows XP",                       0, 1 },
     { "Windows XP Media Center 2004",              "Microsoft Windows XP",                       0, 6 },
     { "Windows XP Media Center 2005",              "Microsoft Windows XP",                       0, 7 },
+    { "Windows XP Media Center 2005 R1",           "Microsoft Windows XP",                       0, 8 },
     { "Windows XP Media Center 2005 R2",           "Microsoft Windows XP",                       0, 9 },
     { "Windows Fundamentals for Legacy PCs",       "Microsoft Windows XP",                       0, 3 },
     { "Windows POSReady 2009",                     "Microsoft Windows XP",                       0, 5 },
@@ -186,6 +193,7 @@ static winver_t windows_versions[] = {
     { "Windows 2011 Multipoint Server",            "Windows MultiPoint Server 2011",             5, 0 },
     { "Windows 2011 Multipoint Server",            "Windows MultiPoint Server 2011",             6, 0 },
     { "Windows 8 Enterprise",                      "Windows 8 Enterprise",                       0, 0 },
+    { "Windows 2012 Standard Server",              "Windows Server 2012 Standard",               1, 0 },
     { NULL,                                        NULL,                                         0, 0 }
 };
 

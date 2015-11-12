@@ -32,11 +32,14 @@
    - ReactOS 0.3.3 (x86)
    - ReactOS 0.3.4 (x86)
    - ReactOS 0.3.6 (x86)
+   - ReactOS 0.3.7 (x86)
    - ReactOS 0.3.11 (x86)
    - ReactOS 0.3.12 (x86)
    - ReactOS 0.3.13 (x86)
    - ReactOS 0.3.14 (x86)
    - ReactOS 0.3.15 (x86)
+   - ReactOS 0.3.16 (x86)
+   - ReactOS 0.3.17 (x86)
    - Windows 95 Original (x86)
    - Windows 95A (x86)
    - Windows 95B (x86)
@@ -44,6 +47,7 @@
    - Windows 98 (x86)
    - Windows 98 Secure (x86)
    - Windows 98SE (x86)
+   - Windows 98SE Secure (x86)
    - Windows ME (x86)
    - Windows ME Secure (x86)
    - Windows NT 3.50 Server (x86)
@@ -52,12 +56,14 @@
    - Windows NT 4.0 Embedded Workstation (x86)
    - Windows NT 4.0 Workstation (x86)
    - Windows NT 4.0 Embedded Server (x86)
+   - Windows NT 4.0 Server (x86)
    - Windows NT 4.0 Terminal Server (x86)
    - Windows NT 4.0 Small Business Server 4.0 (x86)
    - Windows NT 4.0 Small Business Server 4.5 (x86)
    - Windows NT 4.0 Enterprise Server (x86)
    - Windows Neptune (x86)
    - Windows 2000 Pro (x86)
+   - Windows 2000 Powered (x86)
    - Windows 2000 Server (x86)
    - Windows 2000 Small Business Server (x86)
    - Windows 2000 Advanced Server (x86)
@@ -68,22 +74,27 @@
    - Windows XP Starter (x86)
    - Windows XP Home (x86)
    - Windows XP Pro (x86/x64)
+   - Windows XP Tablet PC (x86)
    - Windows XP MCE 2004 (x86)
    - Windows XP MCE 2005 (x86)
+   - Windows XP MCE 2005 R1 (x86)
    - Windows XP MCE 2005 R2 (x86)
    - Windows 2003 Web Server (x86)
    - Windows 2003 Standard Server (x86/x64)
    - Windows 2003 Small Business Server (x86)
    - Windows 2003 Enterprise Server (x86/x64)
    - Windows 2003 Datacenter Server (x86)
+   - Windows 2003 Compute Cluster Server (x64)
    - Windows Home Server (x86)
-   - Windows 2003 R2 Standard Server (x86)
+   - Windows 2003 R2 Standard Server (x86/x64)
    - Windows 2003 R2 Small Business Server (x86)
    - Windows 2003 R2 Enterprise Server (x86/x64)
    - Windows 2003 R2 Datacenter Server (x64)
+   - Windows Vista Starter (x86)
    - Windows Vista Home Basic (x86/x64)
    - Windows Vista Home Premium (x86/x64)
    - Windows Vista Enterprise (x86)
+   - Windows Vista Ultimate (x86)
    - Windows 2008 Foundation Server (x64)
    - Windows 2008 Web Server (x86/x64)
    - Windows 2008 Standard Server (x86/x64)
@@ -112,20 +123,22 @@
    - Windows 2009 Embedded POSReady (x86)
    - Windows Home Server 2011 (x64)
    - Windows 2011 Standard Multipoint Server (x64)
+   - Windows 2012 Standard Server (x64)
    - Windows 2012 Datacenter Server (x64)
    - Windows 8 Embedded Standard (x64)
    - Windows 8 (x86/x64)
-   - Windows 8 Pro (x86)
+   - Windows 8 Pro (x86/x64)
    - Windows 8 Enterprise (x86/x64)
    - Windows 8.1 Home (x64)
    - Windows 8.1 Embedded Industry Pro (x86)
-   - Windows 8.1 Embedded Industry Enterprise (x86)
+   - Windows 8.1 Embedded Industry Enterprise (x86/x64)
    - Windows 8.1 Pro (x86)
+   - Windows 8.1 Enterprise (x86)
    - Windows 2012 R2 Foundation Server (x64)
    - Windows 2012 R2 Standard Server (x64)
    - Windows 2012 R2 Datacenter Server (x64)
    - Windows 10 Home (x64)
-   - Windows 10 Education (x64)
+   - Windows 10 Education (x86/x64)
    - Windows 10 Pro (x86/x64)
 */
 
@@ -860,6 +873,8 @@ static winver_t windows_versions[] = {
       5, 1, 8, VER_NT_WORKSTATION, 0, 2, VICE_SM_MEDIACENTER },
     { "Windows XP Media Center 2005", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, 0, 3, VICE_SM_MEDIACENTER },
+    { "Windows XP Media Center 2005 R1", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, 0, 4, VICE_SM_MEDIACENTER },
     { "Windows XP Media Center 2005 R2", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, 0, 5, VICE_SM_MEDIACENTER },
     { "Windows XP Fundamentals for Legacy PCs", VER_PLATFORM_WIN32_NT,
@@ -996,9 +1011,11 @@ static winver_t windows_versions[] = {
       6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, PRODUCT_PROFESSIONAL, -1 },
     { "Windows 8 Enterprise", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
+    { "Windows 2012 Standard Server", VER_PLATFORM_WIN32_NT,
+      6, 2, 10, VER_NT_SERVER, VER_SUITE_SINGLEUSERTS, PRODUCT_STANDARD_SERVER, -1 },
     { "Windows 2012 Datacenter Server", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_SERVER, VER_SUITE_DATACENTER, PRODUCT_DATACENTER_SERVER, -1 },
-    { "Windows 2012 Server (Foundation/Essentials/Standard)", VER_PLATFORM_WIN32_NT,
+    { "Windows 2012 Server (Foundation/Essentials)", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_SERVER, 0, 0, -1 },
     { "Windows 8.1 Embedded Industry Pro", VER_PLATFORM_WIN32_NT,
       6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, PRODUCT_EMBEDDED_INDUSTRY, -1 },
@@ -1008,6 +1025,8 @@ static winver_t windows_versions[] = {
       6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
     { "Windows 8.1 Pro", VER_PLATFORM_WIN32_NT,
       6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, PRODUCT_PROFESSIONAL, -1 },
+    { "Windows 8.1 Enterprise", VER_PLATFORM_WIN32_NT,
+      6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, PRODUCT_ENTERPRISE, -1 },
     { "Windows 2012 R2 Essentials Server", VER_PLATFORM_WIN32_NT,
       6, 3, 10, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, PRODUCT_SB_SOLUTION_SERVER, 0 },
     { "Windows 2012 R2 Foundation Server", VER_PLATFORM_WIN32_NT,
@@ -1162,7 +1181,7 @@ static void get_ReactOS_ver_string(char **retval)
         if (7 <= RosVersionLen && 0 == strncmp(RosVersion, "ReactOS", 7)) {
             sprintf(*retval, "%s", RosVersion);
         } else {
-            sprintf(*retval, "ReactOS");
+            sprintf(*retval, "ReactOS %s", RosVersion);
         }
     } else {
         sprintf(*retval, "ReactOS");
