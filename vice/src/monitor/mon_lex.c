@@ -141,7 +141,15 @@ typedef unsigned int flex_uint32_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k.
+ * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
+ * Ditto for the __ia64__ case accordingly.
+ */
+#define YY_BUF_SIZE 32768
+#else
 #define YY_BUF_SIZE 16384
+#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -1607,7 +1615,7 @@ send:
 
 #define YY_NO_INPUT 1
 
-#line 1611 "mon_lex.c"
+#line 1619 "mon_lex.c"
 
 #define INITIAL 0
 #define FNAME 1
@@ -1697,7 +1705,12 @@ static int input (void );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k */
+#define YY_READ_BUF_SIZE 16384
+#else
 #define YY_READ_BUF_SIZE 8192
+#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -1849,7 +1862,7 @@ YY_DECL
    }
 
 
-#line 1853 "mon_lex.c"
+#line 1866 "mon_lex.c"
 
 	while ( 1 )		/* loops until end-of-file is reached */
 		{
@@ -3495,7 +3508,7 @@ YY_RULE_SETUP
 #line 563 "mon_lex.l"
 ECHO;
 	YY_BREAK
-#line 3499 "mon_lex.c"
+#line 3512 "mon_lex.c"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(FNAME):
 			case YY_STATE_EOF(CMD):
@@ -4438,7 +4451,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 563 "mon_lex.l"
+#line 562 "mon_lex.l"
 
 
 
