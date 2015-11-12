@@ -51,6 +51,7 @@
 #include "gfxoutput.h"
 #include "iecdrive.h"
 #include "init.h"
+#include "joyport.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -82,6 +83,7 @@
 #include "printer.h"
 #include "resources.h"
 #include "rs232drv.h"
+#include "sampler2bit.h"
 #include "screenshot.h"
 #include "sid.h"
 #include "sid-cmdline-options.h"
@@ -89,6 +91,7 @@
 #include "sidcart.h"
 #include "sound.h"
 #include "tape.h"
+#include "translate.h"
 #include "traps.h"
 #include "types.h"
 #include "userport_dac.h"
@@ -154,6 +157,32 @@ kbdtype_info_t *machine_get_keyboard_info_list(void)
 
 /* ------------------------------------------------------------------------ */
 
+static joyport_port_props_t userport_joy_control_port_1 = 
+{
+    "Userport joystick adapter control port 1",
+    IDGS_USERPORT_JOY_ADAPTER_PORT_1,
+    0,				/* has NO potentiometer connected to this port */
+    0,				/* has NO lightpen support on this port */
+    0					/* port can be switched on/off */
+};
+
+static joyport_port_props_t userport_joy_control_port_2 = 
+{
+    "Userport joystick adapter control port 2",
+    IDGS_USERPORT_JOY_ADAPTER_PORT_2,
+    0,				/* has NO potentiometer connected to this port */
+    0,				/* has NO lightpen support on this port */
+    0					/* port can be switched on/off */
+};
+
+static int init_joyport_ports(void)
+{
+    if (joyport_port_register(JOYPORT_3, &userport_joy_control_port_1) < 0) {
+        return -1;
+    }
+    return joyport_port_register(JOYPORT_4, &userport_joy_control_port_2);
+}
+
 /* PET-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
@@ -216,6 +245,18 @@ int machine_resources_init(void)
     }
     if (printer_userport_resources_init() < 0) {
         init_resource_fail("userport printer");
+        return -1;
+    }
+    if (init_joyport_ports() < 0) {
+        init_resource_fail("joyport ports");
+        return -1;
+    }
+    if (joyport_resources_init() < 0) {
+        init_resource_fail("joyport devices");
+        return -1;
+    }
+    if (joyport_sampler2bit_resources_init() < 0) {
+        init_resource_fail("joyport 2bit sampler");
         return -1;
     }
     if (joystick_resources_init() < 0) {
@@ -354,6 +395,10 @@ int machine_cmdline_options_init(void)
     }
     if (printer_userport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport printer");
+        return -1;
+    }
+    if (joyport_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("joyport");
         return -1;
     }
     if (joystick_cmdline_options_init() < 0) {

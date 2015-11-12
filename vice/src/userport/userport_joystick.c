@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "machine.h"
 #include "resources.h"
@@ -141,10 +142,10 @@ void userport_joystick_store_sdr(BYTE value)
         switch (userport_joystick_type) {
             case USERPORT_JOYSTICK_HIT:
             case USERPORT_JOYSTICK_KINGSOFT:
-                userport_joystick_button_sp2 = (get_joystick_value(4) & 0x10) ? 0 : 0xff;
+                userport_joystick_button_sp2 = ((~read_joyport_dig(JOYPORT_4)) & 0x10) ? 0 : 0xff;
                 break;
             case USERPORT_JOYSTICK_STARBYTE:
-                userport_joystick_button_sp2 = (get_joystick_value(3) & 0x10) ? 0 : 0xff;
+                userport_joystick_button_sp2 = ((~read_joyport_dig(JOYPORT_3)) & 0x10) ? 0 : 0xff;
                 break;
         }
     }
@@ -159,13 +160,13 @@ BYTE userport_joystick_read_pa2(BYTE orig)
         retval &= 0xfb;
         switch (userport_joystick_type) {
             case USERPORT_JOYSTICK_HIT:
-                retval |= (BYTE)((get_joystick_value(3) & 0x10) ? 0 : 4);
+                retval |= (BYTE)(((~read_joyport_dig(JOYPORT_3)) & 0x10) ? 0 : 4);
                 break;
             case USERPORT_JOYSTICK_KINGSOFT:
-                retval |= (BYTE)((get_joystick_value(3) & 0x01) ? 0 : 4);
+                retval |= (BYTE)(((~read_joyport_dig(JOYPORT_3)) & 0x01) ? 0 : 4);
                 break;
             case USERPORT_JOYSTICK_STARBYTE:
-                retval |= (BYTE)((get_joystick_value(4) & 0x01) ? 0 : 4);
+                retval |= (BYTE)(((~read_joyport_dig(JOYPORT_4)) & 0x01) ? 0 : 4);
                 break;
         }
     }
@@ -179,14 +180,14 @@ BYTE userport_joystick_read_pbx(BYTE orig)
     BYTE jv4;
 
     if (userport_joystick_enable) {
-        jv3 = get_joystick_value(3);
-        jv4 = get_joystick_value(4);
+        jv3 = ~read_joyport_dig(JOYPORT_3);
+        jv4 = ~read_joyport_dig(JOYPORT_4);
         switch (userport_joystick_type) {
             case USERPORT_JOYSTICK_HIT:
                 retval = (BYTE)~((jv3 & 0xf) | ((jv4 & 0xf) << 4));
                 break;
             case USERPORT_JOYSTICK_CGA:
-                retval = (BYTE)~((jv3 & 0x10) | ((jv4 & 0x10) << 1) | (get_joystick_value(userport_joystick_cga_select + 3) & 0xf));
+                retval = (BYTE)~((jv3 & 0x10) | ((jv4 & 0x10) << 1) | ((~read_joyport_dig((userport_joystick_cga_select) ? JOYPORT_4 : JOYPORT_3)) & 0xf));
                 break;
             case USERPORT_JOYSTICK_PET:
                 retval = ((jv3 & 0xf) | ((jv4 & 0xf) << 4));

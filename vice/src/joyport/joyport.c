@@ -621,7 +621,7 @@ static cmdline_option_t cmdline_options_port1[] =
     { "-controlport1device", CALL_FUNCTION, 1,
       set_joyport_cmdline_device, (void *)JOYPORT_1, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
-      IDGS_DEVICE, 1,
+      IDGS_DEVICE, JOYPORT_1,
       NULL, NULL },
     { NULL }
 };
@@ -631,7 +631,7 @@ static cmdline_option_t cmdline_options_port2[] =
     { "-controlport2device", CALL_FUNCTION, 1,
       set_joyport_cmdline_device, (void *)JOYPORT_2, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
-      IDGS_DEVICE, 2,
+      IDGS_DEVICE, JOYPORT_2,
       NULL, NULL },
     { NULL }
 };
@@ -641,7 +641,7 @@ static cmdline_option_t cmdline_options_port3[] =
     { "-controlport3device", CALL_FUNCTION, 1,
       set_joyport_cmdline_device, (void *)JOYPORT_3, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
-      IDGS_DEVICE, 3,
+      IDGS_DEVICE, JOYPORT_3,
       NULL, NULL },
     { NULL }
 };
@@ -651,7 +651,7 @@ static cmdline_option_t cmdline_options_port4[] =
     { "-controlport4device", CALL_FUNCTION, 1,
       set_joyport_cmdline_device, (void *)JOYPORT_4, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
-      IDGS_DEVICE, 4,
+      IDGS_DEVICE, JOYPORT_4,
       NULL, NULL },
     { NULL }
 };

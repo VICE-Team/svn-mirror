@@ -251,12 +251,24 @@ static joyport_port_props_t control_port_2 =
     1					/* port is always active */
 };
 
+static joyport_port_props_t userport_joy_control_port = 
+{
+    "Userport joystick adapter control port 1",
+    IDGS_USERPORT_JOY_ADAPTER_PORT_1,
+    0,				/* has NO potentiometer connected to this port */
+    0,				/* has NO lightpen support on this port */
+    0					/* port can be switched on/off */
+};
+
 static int init_joyport_ports(void)
 {
     if (joyport_port_register(JOYPORT_1, &control_port_1) < 0) {
         return -1;
     }
-    return joyport_port_register(JOYPORT_2, &control_port_2);
+    if (joyport_port_register(JOYPORT_2, &control_port_2) < 0) {
+        return -1;
+    }
+    return joyport_port_register(JOYPORT_3, &userport_joy_control_port);
 }
 
 /* C64DTV-specific resource initialization.  This is called before initializing
