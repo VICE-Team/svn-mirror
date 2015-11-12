@@ -470,7 +470,6 @@ static const resource_int_t resources_int_port4[] = {
 int joyport_resources_init(void)
 {
     int i;
-    int ports = 0;
 
     memset(joyport_device, 0, sizeof(joyport_device));
     joyport_device[0].name = "None";
