@@ -80,7 +80,8 @@ cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $TOPSRCDIR/data/C64DTV $WINVICE
 cp -a $TOPSRCDIR/data/CBM-II $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $WINVICE
 cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/PRINTER $WINVICE
 cp -a $TOPSRCDIR/data/VIC20 $TOPSRCDIR/data/fonts $TOPSRCDIR/doc/html $WINVICE
-cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $WINVICE
+cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $TOPSRCDIR/COPYING $WINVICE
+cp $TOPSRCDIR/NEWS $WINVICE
 rm -f `find $WINVICE -name "Makefile*"`
 rm `find $WINVICE -name "amiga_*.vkm"`
 rm `find $WINVICE -name "dos_*.vkm"`
@@ -90,6 +91,8 @@ rm `find $WINVICE -name "beos_*.vkm"`
 rm `find $WINVICE -name "sdl*.vkm"`
 rm `find $WINVICE -name "x11_*.vkm"`
 rm $WINVICE/html/texi2html
+rm $WINVICE/html/checklinks.sh
+rm $WINVICE/html/favicon.ico
 mkdir $WINVICE/doc
 cp $TOPSRCDIR/doc/vice.chm $WINVICE/doc
 cp $TOPSRCDIR/doc/vice.hlp $WINVICE/doc
