@@ -294,29 +294,18 @@ static int compare_elements(const void *op1, const void *op2)
     return strcmp(p1->opt, p2->opt);
 }
 
-static void usage(void)
+static void usage_types(void)
 {
     int i = 1, n = 0;
     int amount;
     sorted_cart_t *sorted_option_elements;
 
     cleanup();
-    printf("convert:    cartconv [-r] [-q] [-t cart type] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
-    printf("print info: cartconv [-r] -f \"input name\"\n\n");
-    printf("-f <name>    print info on file\n");
-    printf("-r           repair mode (accept broken input files)\n");
-    printf("-p           accept non padded binaries as input\n");
-    printf("-t <type>    output cart type\n");
-    printf("-i <name>    input filename\n");
-    printf("-o <name>    output filename\n");
-    printf("-n <name>    crt cart name\n");
-    printf("-l <addr>    load address\n");
-    printf("-q           quiet\n");
-    printf("\ncart types:\n");
+    printf("supported cart types:\n\n");
 
     printf("bin      Binary .bin file (Default crt->bin)\n");
+    printf("prg      Binary C64 .prg file with load-address\n\n");
     printf("normal   Generic 8kb/12kb/16kb .crt file (Default bin->crt)\n");
-    printf("prg      Binary C64 .prg file with load-address\n");
     printf("ulti     Ultimax mode 4kb/8kb/16kb .crt file\n\n");
 
     /* get the amount of valid options, excluding crt id 0 */
@@ -354,6 +343,24 @@ static void usage(void)
         printf("%-8s %s .crt file%s\n", sorted_option_elements[i].opt, sorted_option_elements[i].name, n ? ", extra files can be inserted" : "");
     }
     free(sorted_option_elements);
+    exit(1);
+}
+
+static void usage(void)
+{
+    cleanup();
+    printf("convert:    cartconv [-r] [-q] [-t cart type] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
+    printf("print info: cartconv [-r] -f \"input name\"\n\n");
+    printf("-f <name>    print info on file\n");
+    printf("-r           repair mode (accept broken input files)\n");
+    printf("-p           accept non padded binaries as input\n");
+    printf("-t <type>    output cart type\n");
+    printf("-i <name>    input filename\n");
+    printf("-o <name>    output filename\n");
+    printf("-n <name>    crt cart name\n");
+    printf("-l <addr>    load address\n");
+    printf("-q           quiet\n");
+    printf("--types      show the supported cart types\n");
     exit(1);
 }
 
@@ -448,7 +455,7 @@ static int checkflag(char *flg, char *arg)
 {
     int i;
 
-    switch (tolower((int)flg[1])) {
+    switch (tolower(flg[1])) {
         case 'f':
             printinfo(arg);
             return 2;
@@ -524,6 +531,7 @@ static int checkflag(char *flg, char *arg)
             return 2;
         default:
             usage();
+            break;
     }
     return 1;
 }
@@ -1621,6 +1629,10 @@ int main(int argc, char *argv[])
     int i;
     int arg_counter = 1;
     char *flag, *argument;
+
+    if(!strcmp(argv[1], "--types")) {
+        usage_types();
+    }
 
     if (argc < 3) {
         usage();
