@@ -609,7 +609,6 @@ _END
                   <QPM:Union link="../\$(PROCESSOR)/opt/bin">bin</QPM:Union>
                   <QPM:Dir name="lib">
                      <QPM:Dir name="vice">
-                        <QPM:Union link="../../../opt/lib/vice/fonts">fonts</QPM:Union>
                         <QPM:Union link="../../../opt/lib/vice/doc">doc</QPM:Union>
                         <QPM:Union link="../../../opt/lib/vice/VIC20">VIC20</QPM:Union>
                         <QPM:Union link="../../../opt/lib/vice/PRINTER">PRINTER</QPM:Union>

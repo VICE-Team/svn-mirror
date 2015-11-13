@@ -92,7 +92,6 @@ rm `find $WINVICE -name "sdl*.vkm"`
 rm `find $WINVICE -name "x11_*.vkm"`
 rm $WINVICE/html/texi2html
 rm $WINVICE/html/checklinks.sh
-rm $WINVICE/html/favicon.ico
 mkdir $WINVICE/doc
 cp $TOPSRCDIR/doc/vice.chm $WINVICE/doc
 cp $TOPSRCDIR/doc/vice.hlp $WINVICE/doc

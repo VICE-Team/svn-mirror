@@ -46,6 +46,7 @@ cp -a $TOPSRCDIR/data/PET $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $TOPSRCD
 cp -a $TOPSRCDIR/data/fonts dosvice
 cp -a $TOPSRCDIR/doc/html dosvice
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README dosvice
+cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS dosvice
 cp $TOPSRCDIR/doc/readmes/Readme-DOS.txt dosvice/Readme.dos
 rm `find dosvice -name "Makefile*"`
 rm `find dosvice -name "amiga_*.vkm"`
@@ -57,6 +58,7 @@ rm `find dosvice -name "x11_*.vkm"`
 rm `find dosvice -name "sdl*.vkm"`
 rm `find dosvice -name "*.vsc"`
 rm dosvice/html/texi2html
+rm dosvice/html/checklinks.sh
 mkdir dosvice/doc
 cp $TOPSRCDIR/doc/vice.txt dosvice/doc
 if test x"$ZIPKIND" = "xzip"; then

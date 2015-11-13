@@ -123,6 +123,7 @@ copy ..\..\..\..\NEWS %VICEDIR%\html
 copy ..\..\..\..\doc\html\*.txt %VICEDIR%\html
 copy ..\..\..\..\doc\html\*.xml %VICEDIR%\html
 copy ..\..\..\..\doc\html\*.css %VICEDIR%\html
+copy ..\..\..\..\doc\html\*.ico %VICEDIR%\html
 mkdir %VICEDIR%\html\images
 copy ..\..\..\..\doc\html\images\* %VICEDIR%\html\images
 copy ..\..\..\..\FEEDBACK %VICEDIR%

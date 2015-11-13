@@ -66,11 +66,13 @@ done
 cp -a $TOPSRCDIR/doc/html BeVICE-$VICEVERSION.$BEOSCPU
 cp $TOPSRCDIR/doc/readmes/Readme-BeOS.txt BeVICE-$VICEVERSION.$BEOSCPU
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README BeVICE-$VICEVERSION.$BEOSCPU
+cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS BeVICE-$VICEVERSION.$BEOSCPU
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "Makefile*"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vkm" -and ! -name "beos*.vkm"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vsc"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "win_*.v*"`
 rm BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html
+rm BeVICE-$VICEVERSION.$BEOSCPU/html/checklinks.sh
 
 # just in case ...
 rm -f -r `find BeVICE-$VICEVERSION.$BEOSCPU -name ".svn"`
