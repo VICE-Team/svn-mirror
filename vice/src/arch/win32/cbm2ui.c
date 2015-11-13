@@ -44,6 +44,7 @@
 #include "uicbm2set.h"
 #include "uicia.h"
 #include "uidrivepetcbm2.h"
+#include "uijoyport.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
@@ -268,6 +269,7 @@ ui_menu_translation_table_t cbm2ui_menu_translation_table[] = {
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
+    { IDM_JOYPORT_SETTINGS, IDS_MI_JOYPORT_SETTINGS },
     { IDM_JOY_SETTINGS, IDS_MI_USERPORT_JOY_SETTINGS },
     { IDM_KEYBOARD_SETTINGS, IDS_MI_KEYBOARD_SETTINGS },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
@@ -445,6 +447,9 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_CBM2_SETTINGS:
             ui_cbm2_settings_dialog(hwnd);
+            break;
+        case IDM_JOYPORT_SETTINGS:
+            ui_joyport_settings_dialog(hwnd, 0, 0, 1, 1);
             break;
         case IDM_JOY_SETTINGS:
             ui_extra_joystick_settings_dialog(hwnd);

@@ -454,7 +454,7 @@ static void cbm5x0_ui_specific(WPARAM wparam, HWND hwnd)
             ui_cbm5x0_settings_dialog(hwnd);
             break;
         case IDM_JOYPORT_SETTINGS:
-            ui_joyport_settings_dialog(hwnd, 2);
+            ui_joyport_settings_dialog(hwnd, 1, 1, 0, 0);
             break;
         case IDM_JOY_SETTINGS:
             ui_joystick_settings_dialog(hwnd);

@@ -472,11 +472,11 @@ resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/resautostart.rc \
-	$(srcdir)/rescia.rc $(top_builddir)/src/debug.h
+	$(srcdir)/rescia.rc $(srcdir)/resjoyport.rc $(top_builddir)/src/debug.h
 	cat >rescbm2cat.rc $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/ressiddtv.rc $(srcdir)/resautostart.rc \
-	$(srcdir)/rescia.rc
+	$(srcdir)/rescia.rc $(srcdir)/resjoyport.rc
 
 rescbm5x0cat.rc: $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
@@ -492,12 +492,12 @@ respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
 	$(srcdir)/respetdww.rc $(srcdir)/respetcolour.rc \
-	$(top_builddir)/src/debug.h
+	$(srcdir)/resjoyport.rc $(top_builddir)/src/debug.h
 	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc \
 	$(srcdir)/respetdww.rc $(srcdir)/respetcolour.rc \
-	$(srcdir)/resautostart.rc
+	$(srcdir)/resautostart.rc $(srcdir)/resjoyport.rc
 
 resplus4cat.rc: $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \

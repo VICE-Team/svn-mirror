@@ -1,4 +1,4 @@
-// MOUSE specific resources.
+// Joyport specific resources.
 //
 
 #include "vice.h"
@@ -12,7 +12,35 @@
 
 // template of dialog for all languages
 
-IDD_JOYPORT3_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
+IDD_JOYPORT1234_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "", IDC_JOYPORT1_LABEL,
+                    9, 6, 53, 8
+    COMBOBOX        IDC_JOYPORT1,
+                    70, 5, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT2_LABEL,
+                    9, 24, 53, 8
+    COMBOBOX        IDC_JOYPORT2,
+                    70, 23, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT3_LABEL,
+                    9, 42, 53, 8
+    COMBOBOX        IDC_JOYPORT3,
+                    70, 41, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT4_LABEL,
+                    9, 60, 53, 8
+    COMBOBOX        IDC_JOYPORT4,
+                    70, 59, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 83, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 83, 50, 14, WS_TABSTOP
+END
+
+
+// template of dialog for all languages
+
+IDD_JOYPORT123_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -33,9 +61,34 @@ BEGIN
     PUSHBUTTON      "", IDCANCEL, 90, 83, 50, 14, WS_TABSTOP
 END
 
+
 // template of dialog for all languages
 
-IDD_JOYPORT2_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
+IDD_JOYPORT134_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "", IDC_JOYPORT1_LABEL,
+                    9, 6, 53, 8
+    COMBOBOX        IDC_JOYPORT1,
+                    70, 5, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT3_LABEL,
+                    9, 42, 53, 8
+    COMBOBOX        IDC_JOYPORT3,
+                    70, 41, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT4_LABEL,
+                    9, 60, 53, 8
+    COMBOBOX        IDC_JOYPORT4,
+                    70, 59, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 83, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 83, 50, 14, WS_TABSTOP
+END
+
+
+// template of dialog for all languages
+
+IDD_JOYPORT12_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -54,14 +107,18 @@ END
 
 // template of dialog for all languages
 
-IDD_JOYPORT1_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
+IDD_JOYPORT34_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "", IDC_JOYPORT1_LABEL,
-                    9, 6, 53, 8
-    COMBOBOX        IDC_JOYPORT1,
-                    70, 5, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT3_LABEL,
+                    9, 42, 53, 8
+    COMBOBOX        IDC_JOYPORT3,
+                    70, 41, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT4_LABEL,
+                    9, 60, 53, 8
+    COMBOBOX        IDC_JOYPORT4,
+                    70, 59, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "", IDOK, 30, 83, 50, 14, WS_TABSTOP
     PUSHBUTTON      "", IDCANCEL, 90, 83, 50, 14, WS_TABSTOP
@@ -74,10 +131,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 
 
@@ -86,10 +140,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 
 
@@ -98,10 +149,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 
 
@@ -110,10 +158,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 
 
@@ -122,10 +167,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 
 
@@ -137,10 +179,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -152,10 +191,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 
 
@@ -167,10 +203,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -182,10 +215,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 
 
@@ -197,10 +227,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -215,10 +242,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -230,10 +254,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 
 
@@ -245,10 +266,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_CONTROL_PORT_LABEL           "Control port device"
-  IDS_JOYPORT_CONTROL_PORT1_LABEL          "Control port 1 device"
-  IDS_JOYPORT_CONTROL_PORT2_LABEL          "Control port 2 device"
-  IDS_JOYPORT_SIDCARD_CONTROL_PORT_LABEL   "SIDCard control port device"
+  IDS_JOYPORT_S_DEVICE   "%s device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
