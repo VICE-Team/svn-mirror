@@ -68,7 +68,6 @@ copy ..\..\..\..\data\SCPU64\scpu64mem.sym %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\sdl*.* %VICEDIR%\SCPU64
 mkdir %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\basic %VICEDIR%\C64DTV
-copy ..\..\..\..\data\C64DTV\*.vpl %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\c64mem.sym %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\chargen %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\*.vrs %VICEDIR%\C64DTV
@@ -122,11 +121,11 @@ copy ..\..\..\..\FEEDBACK %VICEDIR%
 copy ..\..\..\..\README %VICEDIR%
 copy ..\..\..\..\COPYING %VICEDIR%
 copy ..\..\..\..\NEWS %VICEDIR%
-copy ..\..\..\..\doc\readmes\ReadmeSDL.txt %VICEDIR%
+copy ..\..\..\..\doc\readmes\Readme-SDL.txt %VICEDIR%
 mkdir %VICEDIR%\doc
-copy ..\..\..\..\doc\vice.chm %VICEDIR\doc
-copy ..\..\..\..\doc\vice.hlp %VICEDIR\doc
-copy ..\..\..\..\doc\vice.pdf %VICEDIR\doc
+copy ..\..\..\..\doc\vice.chm %VICEDIR%\doc
+copy ..\..\..\..\doc\vice.hlp %VICEDIR%\doc
+copy ..\..\..\..\doc\vice.pdf %VICEDIR%\doc
 echo MSVC SDL WIN32 port binary distribution directory generated as %VICEDIR%
 goto end
 :missingmsvc

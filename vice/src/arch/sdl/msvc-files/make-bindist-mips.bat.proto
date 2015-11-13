@@ -95,11 +95,11 @@ copy ..\..\..\..\FEEDBACK %VICEDIR%
 copy ..\..\..\..\README %VICEDIR%
 copy ..\..\..\..\COPYING %VICEDIR%
 copy ..\..\..\..\NEWS %VICEDIR%
-copy ..\..\..\..\doc\readmes\ReadmeSDL.txt %VICEDIR%
+copy ..\..\..\..\doc\readmes\Readme-SDL.txt %VICEDIR%
 mkdir %VICEDIR%\doc
-copy ..\..\..\..\doc\vice.chm %VICEDIR\doc
-copy ..\..\..\..\doc\vice.hlp %VICEDIR\doc
-copy ..\..\..\..\doc\vice.pdf %VICEDIR\doc
+copy ..\..\..\..\doc\vice.chm %VICEDIR%\doc
+copy ..\..\..\..\doc\vice.hlp %VICEDIR%\doc
+copy ..\..\..\..\doc\vice.pdf %VICEDIR%\doc
 echo MSVC SDL WINMIPS port binary distribution directory generated as %VICEDIR%
 goto end
 :missingmsvc
