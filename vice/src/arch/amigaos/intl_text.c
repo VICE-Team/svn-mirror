@@ -11592,61 +11592,19 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_QUIT_EMULATOR_SV, "" },  /* fuzzy */
 /* tr */ { IDS_QUIT_EMULATOR_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_JOYPORT_CONTROL_PORT_DEVICE,    "Control port device" },
-/* da */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_DA, "" },  /* fuzzy */
-/* de */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_DE, "" },  /* fuzzy */
-/* es */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_ES, "" },  /* fuzzy */
-/* fr */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_FR, "" },  /* fuzzy */
-/* hu */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_HU, "" },  /* fuzzy */
-/* it */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_IT, "" },  /* fuzzy */
-/* ko */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_NL, "" },  /* fuzzy */
-/* pl */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_PL, "" },  /* fuzzy */
-/* ru */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_SV, "" },  /* fuzzy */
-/* tr */ { IDS_JOYPORT_CONTROL_PORT_DEVICE_TR, "" },  /* fuzzy */
-
-/* en */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE,    "Control port 1 device" },
-/* da */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_DA, "" },  /* fuzzy */
-/* de */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_DE, "" },  /* fuzzy */
-/* es */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_ES, "" },  /* fuzzy */
-/* fr */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_FR, "" },  /* fuzzy */
-/* hu */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_HU, "" },  /* fuzzy */
-/* it */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_IT, "" },  /* fuzzy */
-/* ko */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_NL, "Control port 1 apparaat" },
-/* pl */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_PL, "" },  /* fuzzy */
-/* ru */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_SV, "" },  /* fuzzy */
-/* tr */ { IDS_JOYPORT_CONTROL_PORT_1_DEVICE_TR, "" },  /* fuzzy */
-
-/* en */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE,    "Control port 2 device" },
-/* da */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_DA, "" },  /* fuzzy */
-/* de */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_DE, "" },  /* fuzzy */
-/* es */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_ES, "" },  /* fuzzy */
-/* fr */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_FR, "" },  /* fuzzy */
-/* hu */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_HU, "" },  /* fuzzy */
-/* it */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_IT, "" },  /* fuzzy */
-/* ko */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_NL, "Control port 2 apparaat" },
-/* pl */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_PL, "" },  /* fuzzy */
-/* ru */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_SV, "" },  /* fuzzy */
-/* tr */ { IDS_JOYPORT_CONTROL_PORT_2_DEVICE_TR, "" },  /* fuzzy */
-
-/* en */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE,    "SIDCard control port device" },
-/* da */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_DA, "" },  /* fuzzy */
-/* de */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_DE, "" },  /* fuzzy */
-/* es */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_ES, "" },  /* fuzzy */
-/* fr */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_FR, "" },  /* fuzzy */
-/* hu */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_HU, "" },  /* fuzzy */
-/* it */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_IT, "" },  /* fuzzy */
-/* ko */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_NL, "" },  /* fuzzy */
-/* pl */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_PL, "" },  /* fuzzy */
-/* ru */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_SV, "" },  /* fuzzy */
-/* tr */ { IDS_JOYPORT_SIDCART_CONTROL_PORT_DEVICE_TR, "" },  /* fuzzy */
+/* en */ { IDS_JOYPORT_S_DEVICE,    "%s device" },
+/* da */ { IDS_JOYPORT_S_DEVICE_DA, "" },  /* fuzzy */
+/* de */ { IDS_JOYPORT_S_DEVICE_DE, "" },  /* fuzzy */
+/* es */ { IDS_JOYPORT_S_DEVICE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_JOYPORT_S_DEVICE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_JOYPORT_S_DEVICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_JOYPORT_S_DEVICE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_JOYPORT_S_DEVICE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_JOYPORT_S_DEVICE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_JOYPORT_S_DEVICE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_JOYPORT_S_DEVICE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_JOYPORT_S_DEVICE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_JOYPORT_S_DEVICE_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_JOYPORT_SETTINGS,    "Control port settings" },
 /* da */ { IDS_JOYPORT_SETTINGS_DA, "" },  /* fuzzy */

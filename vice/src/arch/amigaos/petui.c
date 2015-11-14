@@ -38,6 +38,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uidrivepetcbm2.h"
+#include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uipetdww.h"
@@ -139,6 +140,9 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_PETCOLOUR_SETTINGS:
             ui_petcolour_settings_dialog();
+            break;
+        case IDM_JOYPORT_SETTINGS:
+            ui_joyport_settings_dialog(0, 0, 1, 1);
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:

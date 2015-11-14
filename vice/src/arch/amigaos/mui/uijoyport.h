@@ -27,6 +27,6 @@
 #ifndef VICE_UIJOYPORT_H
 #define VICE_UIJOYPORT_H
 
-extern void ui_joyport_settings_dialog(int ports);
+extern void ui_joyport_settings_dialog(int port1, int port2, int port3, int port4);
 
 #endif

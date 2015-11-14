@@ -109,7 +109,7 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
             ui_printer_settings_dialog(canvas, 0, 0);
             break;
         case IDM_JOYPORT_SETTINGS:
-            ui_joyport_settings_dialog(2);
+            ui_joyport_settings_dialog(1, 1, 1, 0);
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:
