@@ -365,7 +365,7 @@ void vic20_ui_specific(void *msg, void *window)
 
 int vic20ui_init_early(void)
 {
-    vicemenu_set_joyport_func(joyport_get_valid_devices, 1, 0, 1, 1);
+    vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 1, 0, 1, 1);
     return 0;
 }
 

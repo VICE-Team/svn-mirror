@@ -43,11 +43,13 @@ extern "C" {
 
 static BMenu *vsid_tune_menu;
 static joyport_desc_t *(*get_devices)(int port) = NULL;
+static char *(*get_name)(int port) = NULL;
 static int joyport_ports[JOYPORT_MAX_PORTS];
 
-void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(int port), int port1, int port2, int port3, int port4)
+void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(int port), char *(*gn)(int port), int port1, int port2, int port3, int port4)
 {
     get_devices = gd;
+    get_name = gn;
     joyport_ports[JOYPORT_1] = port1;
     joyport_ports[JOYPORT_2] = port2;
     joyport_ports[JOYPORT_3] = port3;
@@ -1064,7 +1066,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(menu = new BMenu("Joyport"));
             if (joyport_ports[JOYPORT_1]) {
                 devices_port_1 = get_devices(JOYPORT_1);
-                tmp_text = lib_msprintf("%s device", joyport_get_port_name(JOYPORT_1));
+                tmp_text = lib_msprintf("%s device", get_name(JOYPORT_1));
                 menu->AddItem(submenu = new BMenu(tmp_text));
                 submenu->SetRadioMode(true);
                 for (i = 0; devices_port_1[i].name; ++i) {
@@ -1074,7 +1076,7 @@ BMenuBar *menu_create(int machine_class)
             }
             if (joyport_ports[JOYPORT_2]) {
                 devices_port_2 = get_devices(JOYPORT_2);
-                tmp_text = lib_msprintf("%s device", joyport_get_port_name(JOYPORT_2));
+                tmp_text = lib_msprintf("%s device", get_name(JOYPORT_2));
                 menu->AddItem(submenu = new BMenu(tmp_text));
                 submenu->SetRadioMode(true);
                 for (i = 0; devices_port_2[i].name; ++i) {
@@ -1084,7 +1086,7 @@ BMenuBar *menu_create(int machine_class)
             }
             if (joyport_ports[JOYPORT_3]) {
                 devices_port_3 = get_devices(JOYPORT_3);
-                tmp_text = lib_msprintf("%s device", joyport_get_port_name(JOYPORT_3));
+                tmp_text = lib_msprintf("%s device", get_name(JOYPORT_3));
                 menu->AddItem(submenu = new BMenu(tmp_text));
                 submenu->SetRadioMode(true);
                 for (i = 0; devices_port_3[i].name; ++i) {
@@ -1094,7 +1096,7 @@ BMenuBar *menu_create(int machine_class)
             }
             if (joyport_ports[JOYPORT_4]) {
                 devices_port_4 = get_devices(JOYPORT_4);
-                tmp_text = lib_msprintf("%s device", joyport_get_port_name(JOYPORT_4));
+                tmp_text = lib_msprintf("%s device", get_name(JOYPORT_4));
                 menu->AddItem(submenu = new BMenu(tmp_text));
                 submenu->SetRadioMode(true);
                 for (i = 0; devices_port_4[i].name; ++i) {

@@ -513,7 +513,7 @@ static void c128_ui_specific(void *msg, void *window)
 
 int c128ui_init_early(void)
 {
-    vicemenu_set_joyport_func(joyport_get_valid_devices, 1, 1, 1, 1);
+    vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 1, 1, 1, 1);
     return 0;
 }
 
