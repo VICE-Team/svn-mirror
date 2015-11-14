@@ -158,6 +158,8 @@ ui_res_possible_values c128AciaMode[] = {
 
 ui_res_possible_values c128_JoyPort1Device[JOYPORT_MAX_DEVICES + 1];
 ui_res_possible_values c128_JoyPort2Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values c128_JoyPort3Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values c128_JoyPort4Device[JOYPORT_MAX_DEVICES + 1];
 
 ui_res_possible_values c128ReuSize[] = {
     { 128, MENU_REU_SIZE_128 },
@@ -315,6 +317,8 @@ ui_res_value_list c128_ui_res_values[] = {
     { "IDE64version", c128_IDE64version },
     { "JoyPort1Device", c128_JoyPort1Device },
     { "JoyPort2Device", c128_JoyPort2Device },
+    { "JoyPort3Device", c128_JoyPort3Device },
+    { "JoyPort4Device", c128_JoyPort4Device },
     { NULL, NULL }
 };
 
@@ -509,7 +513,7 @@ static void c128_ui_specific(void *msg, void *window)
 
 int c128ui_init_early(void)
 {
-    vicemenu_set_joyport_func(joyport_get_valid_devices);
+    vicemenu_set_joyport_func(joyport_get_valid_devices, 1, 1, 1, 1);
     return 0;
 }
 
@@ -522,11 +526,19 @@ static void build_joyport_values(void)
         c128_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
         c128_JoyPort2Device[i].value = i;
         c128_JoyPort2Device[i].item_id = MENU_JOYPORT2_00 + i;
+        c128_JoyPort3Device[i].value = i;
+        c128_JoyPort3Device[i].item_id = MENU_JOYPORT3_00 + i;
+        c128_JoyPort4Device[i].value = i;
+        c128_JoyPort4Device[i].item_id = MENU_JOYPORT4_00 + i;
     }
     c128_JoyPort1Device[i].value = -1;
     c128_JoyPort1Device[i].item_id = 0;
     c128_JoyPort2Device[i].value = -1;
     c128_JoyPort2Device[i].item_id = 0;
+    c128_JoyPort3Device[i].value = -1;
+    c128_JoyPort3Device[i].item_id = 0;
+    c128_JoyPort4Device[i].value = -1;
+    c128_JoyPort4Device[i].item_id = 0;
 }
 
 int c128ui_init(void)

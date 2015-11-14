@@ -201,7 +201,7 @@ void cbm5x0_ui_specific(void *msg, void *window)
 
 int cbm5x0ui_init_early(void)
 {
-    vicemenu_set_joyport_func(joyport_get_valid_devices);
+    vicemenu_set_joyport_func(joyport_get_valid_devices, 1, 1, 0, 0);
     return 0;
 }
 

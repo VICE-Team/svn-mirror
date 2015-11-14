@@ -136,6 +136,8 @@ ui_res_possible_values vic20AciaMode[] = {
 #endif
 
 ui_res_possible_values vic20_JoyPort1Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values vic20_JoyPort3Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values vic20_JoyPort4Device[JOYPORT_MAX_DEVICES + 1];
 
 ui_res_possible_values vic20GeoRAMSize[] = {
     { 64, MENU_GEORAM_SIZE_64 },
@@ -200,6 +202,8 @@ ui_res_value_list vic20_ui_res_values[] = {
     { "VICFilter", vic20_RenderFilters },
     { "DS12C887RTCbase", vic20_DS12C887RTC_base },
     { "JoyPort1Device", vic20_JoyPort1Device },
+    { "JoyPort3Device", vic20_JoyPort3Device },
+    { "JoyPort4Device", vic20_JoyPort4Device },
     { NULL, NULL }
 };
 
@@ -361,7 +365,7 @@ void vic20_ui_specific(void *msg, void *window)
 
 int vic20ui_init_early(void)
 {
-    vicemenu_set_joyport_func(joyport_get_valid_devices);
+    vicemenu_set_joyport_func(joyport_get_valid_devices, 1, 0, 1, 1);
     return 0;
 }
 
@@ -372,9 +376,17 @@ static void build_joyport_values(void)
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         vic20_JoyPort1Device[i].value = i;
         vic20_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
+        vic20_JoyPort3Device[i].value = i;
+        vic20_JoyPort3Device[i].item_id = MENU_JOYPORT3_00 + i;
+        vic20_JoyPort4Device[i].value = i;
+        vic20_JoyPort4Device[i].item_id = MENU_JOYPORT4_00 + i;
     }
     vic20_JoyPort1Device[i].value = -1;
     vic20_JoyPort1Device[i].item_id = 0;
+    vic20_JoyPort3Device[i].value = -1;
+    vic20_JoyPort3Device[i].item_id = 0;
+    vic20_JoyPort4Device[i].value = -1;
+    vic20_JoyPort4Device[i].item_id = 0;
 }
 
 int vic20ui_init(void)

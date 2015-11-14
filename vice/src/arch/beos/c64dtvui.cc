@@ -87,6 +87,7 @@ ui_menu_toggle  c64dtv_ui_menu_toggles[] = {
 
 ui_res_possible_values c64dtv_JoyPort1Device[JOYPORT_MAX_DEVICES + 1];
 ui_res_possible_values c64dtv_JoyPort2Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values c64dtv_JoyPort3Device[JOYPORT_MAX_DEVICES + 1];
 
 ui_res_possible_values C64DTVRenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
@@ -106,6 +107,7 @@ ui_res_value_list c64dtv_ui_res_values[] = {
     { "DtvRevision", C64DTVRevision },
     { "JoyPort1Device", c64dtv_JoyPort1Device },
     { "JoyPort2Device", c64dtv_JoyPort2Device },
+    { "JoyPort3Device", c64dtv_JoyPort3Device },
     { NULL, NULL }
 };
 
@@ -184,7 +186,7 @@ void c64dtv_ui_specific(void *msg, void *window)
 }
 
 int c64dtvui_init_early(void) {
-    vicemenu_set_joyport_func(joyport_get_valid_devices);
+    vicemenu_set_joyport_func(joyport_get_valid_devices, 1, 1, 1, 0);
     return 0;
 }
 
@@ -197,11 +199,15 @@ static void build_joyport_values(void)
         c64dtv_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
         c64dtv_JoyPort2Device[i].value = i;
         c64dtv_JoyPort2Device[i].item_id = MENU_JOYPORT2_00 + i;
+        c64dtv_JoyPort3Device[i].value = i;
+        c64dtv_JoyPort3Device[i].item_id = MENU_JOYPORT3_00 + i;
     }
     c64dtv_JoyPort1Device[i].value = -1;
     c64dtv_JoyPort1Device[i].item_id = 0;
     c64dtv_JoyPort2Device[i].value = -1;
     c64dtv_JoyPort2Device[i].item_id = 0;
+    c64dtv_JoyPort3Device[i].value = -1;
+    c64dtv_JoyPort3Device[i].item_id = 0;
 }
 
 int c64dtvui_init(void)

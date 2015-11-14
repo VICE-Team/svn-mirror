@@ -37,6 +37,7 @@ extern "C" {
 #include "cbm2model.h"
 #include "cbm2ui.h"
 #include "constants.h"
+#include "joyport.h"
 #include "ui.h"
 #include "ui_cbm2.h"
 #include "ui_drive.h"
@@ -58,7 +59,7 @@ static ui_drive_type_t cbm2_drive_types[] = {
     { NULL, 0 }
 };
 
-ui_menu_toggle  cbm2_ui_menu_toggles[] = {
+ui_menu_toggle cbm2_ui_menu_toggles[] = {
     { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "CrtcStretchVertical", MENU_TOGGLE_STRETCHVERTICAL },
     { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
@@ -66,6 +67,9 @@ ui_menu_toggle  cbm2_ui_menu_toggles[] = {
     { "CartridgeReset", MENU_CART_CBM2_RESET_ON_CHANGE },
     { NULL, 0 }
 };
+
+ui_res_possible_values cbm2_JoyPort3Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values cbm2_JoyPort4Device[JOYPORT_MAX_DEVICES + 1];
 
 ui_res_possible_values cbm2AciaDevice[] = {
     { 1, MENU_ACIA_RS323_DEVICE_1 },
@@ -91,6 +95,8 @@ ui_res_value_list cbm2_ui_res_values[] = {
     { "Acia1Dev", cbm2AciaDevice },
     { "CrtcFilter", cbm2RenderFilters },
     { "CIA1Model", cbm2_cia1models },
+    { "JoyPort3Device", cbm2_JoyPort3Device },
+    { "JoyPort4Device", cbm2_JoyPort4Device },
     { NULL, NULL }
 };
 
@@ -211,11 +217,29 @@ void cbm2_ui_specific(void *msg, void *window)
 
 int cbm2ui_init_early(void)
 {
+    vicemenu_set_joyport_func(joyport_get_valid_devices, 0, 0, 1, 1);
     return 0;
+}
+
+static void build_joyport_values(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        cbm2_JoyPort3Device[i].value = i;
+        cbm2_JoyPort3Device[i].item_id = MENU_JOYPORT3_00 + i;
+        cbm2_JoyPort4Device[i].value = i;
+        cbm2_JoyPort4Device[i].item_id = MENU_JOYPORT4_00 + i;
+    }
+    cbm2_JoyPort3Device[i].value = -1;
+    cbm2_JoyPort3Device[i].item_id = 0;
+    cbm2_JoyPort4Device[i].value = -1;
+    cbm2_JoyPort4Device[i].item_id = 0;
 }
 
 int cbm2ui_init(void)
 {
+    build_joyport_values();
     ui_register_machine_specific(cbm2_ui_specific);
     ui_register_menu_toggles(cbm2_ui_menu_toggles);
     ui_register_res_values(cbm2_ui_res_values);

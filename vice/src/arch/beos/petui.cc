@@ -42,6 +42,7 @@
 extern "C" {
 #include "archdep.h"
 #include "constants.h"
+#include "joyport.h"
 #include "petmodel.h"
 #include "petui.h"
 #include "resources.h"
@@ -80,6 +81,9 @@ ui_menu_toggle  pet_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+ui_res_possible_values pet_JoyPort3Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values pet_JoyPort4Device[JOYPORT_MAX_DEVICES + 1];
+
 ui_res_possible_values petAciaDevice[] = {
     { 1, MENU_ACIA_RS323_DEVICE_1 },
     { 2, MENU_ACIA_RS323_DEVICE_2 },
@@ -106,6 +110,8 @@ ui_res_value_list pet_ui_res_values[] = {
     { "Acia1Dev", petAciaDevice },
     { "PETREUsize", PETREUSize},
     { "CrtcFilter", pet_RenderFilters },
+    { "JoyPort3Device", cbm2_JoyPort3Device },
+    { "JoyPort4Device", cbm2_JoyPort4Device },
     { NULL, NULL }
 };
 
@@ -216,11 +222,29 @@ void pet_ui_specific(void *msg, void *window)
 
 int petui_init_early(void)
 {
+    vicemenu_set_joyport_func(joyport_get_valid_devices, 0, 0, 1, 1);
     return 0;
+}
+
+static void build_joyport_values(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
+        pet_JoyPort3Device[i].value = i;
+        pet_JoyPort3Device[i].item_id = MENU_JOYPORT3_00 + i;
+        pet_JoyPort4Device[i].value = i;
+        pet_JoyPort4Device[i].item_id = MENU_JOYPORT4_00 + i;
+    }
+    pet_JoyPort3Device[i].value = -1;
+    pet_JoyPort3Device[i].item_id = 0;
+    pet_JoyPort4Device[i].value = -1;
+    pet_JoyPort4Device[i].item_id = 0;
 }
 
 int petui_init(void)
 {
+    build_joyport_values();
     ui_register_machine_specific(pet_ui_specific);
     ui_register_menu_toggles(pet_ui_menu_toggles);
     ui_register_res_values(pet_ui_res_values);
