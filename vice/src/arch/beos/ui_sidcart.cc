@@ -53,6 +53,20 @@ static const char *samplingmode[] = {
     NULL
 };
 
+typedef struct slider_res_s {
+    const char *name;
+    const char *res_name;
+    int min_val;
+    int max_val;
+} slider_res_t;
+
+static slider_res_t sliders[] = {
+    { "Passband", "SidResidPassband", 0, 90 },
+    { "Gain", "SidResidGain", 90, 100 },
+    { "Bias", "SidResidFilterBias", -5000, 5000 },
+    { NULL, NULL, 0, 0 }
+};
+
 static sid_engine_model_t **sid_engine_model_list;
 
 static const char **sidaddresstextpair;
@@ -61,9 +75,6 @@ static const int *sidaddressintpair;
 
 class SidCartWindow : public BWindow {
         BOptionPopUp *engine_model_popup;
-        BSlider *passbandslider;
-        BSlider *gainslider;
-        BSlider *biasslider;
         BBox *addressbox;
         BBox *clockbox;
         BBox *residbox;
@@ -116,13 +127,15 @@ void SidCartWindow::EnableControls()
 }
 
 SidCartWindow::SidCartWindow() 
-    : BWindow(BRect(250, 50, 500, 340), "SID cartridge settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(250, 50, 500, 410), "SID cartridge settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BMessage *msg;
     BCheckBox *checkbox;
     BRect r;
     BRadioButton *radiobutton;
+    BSlider *slider;
     BView *background;
+    char st[12], st2[12];
     int engine, res_val, i;
 
     r = Bounds();
@@ -192,15 +205,15 @@ SidCartWindow::SidCartWindow()
         checkbox->SetValue(res_val);
         background->AddChild(checkbox);
     } else {
-        ResizeTo(250, 265);
+        ResizeTo(250, 335);
     }
 
     /* reSID settings */
     r = Bounds();
     r.InsetBy(10, 10);
-    r.top = r.bottom - 100;
+    r.top = r.bottom - 170;
     residbox = new BBox(r, "reSID settings");
-    residbox->SetViewColor(220, 220, 220, 0);
+    //~ residbox->SetViewColor(220, 220, 220, 0);
     residbox->SetLabel("reSID settings");
     background->AddChild(residbox);
     r = residbox->Bounds();
@@ -210,34 +223,28 @@ SidCartWindow::SidCartWindow()
     for (i = 0; samplingmode[i] != NULL; i++) {
         msg = new BMessage(MESSAGE_SIDCART_RESIDSAMPLING);
         msg->AddInt32("mode", i);
-        radiobutton = new BRadioButton(BRect(10, 15 + i * 20, r.Width() / 2 - 10, 30 + i * 20), samplingmode[i], samplingmode[i], msg);
+        radiobutton = new BRadioButton(BRect(10, 15 + i * 25, r.Width() / 2 - 10, 30 + i * 25), samplingmode[i], samplingmode[i], msg);
         radiobutton->SetValue(res_val == i);
         residbox->AddChild(radiobutton);
     }
 
-    resources_get_int("SidResidPassband", &res_val);
-    passbandslider = new BSlider(BRect(r.Width() / 2 + 10, 20, r.Width() - 10, 60), "Passband", "Passband", new BMessage(MESSAGE_SIDCART_RESIDPASSBAND), 0, 90, B_TRIANGLE_THUMB);
-    passbandslider->SetValue(res_val);
-    passbandslider->SetHashMarkCount(10);
-    passbandslider->SetHashMarks(B_HASH_MARKS_BOTTOM);
-    passbandslider->SetLimitLabels("0", "90");
-    residbox->AddChild(passbandslider);
-
-    resources_get_int("SidResidGain", &res_val);
-    gainslider = new BSlider(BRect(r.Width() / 2 + 10, 20, r.Width() - 10, 60), "Gain", "Gain", new BMessage(MESSAGE_SIDCART_RESIDGAIN), 0, 90, B_TRIANGLE_THUMB);
-    gainslider->SetValue(res_val);
-    gainslider->SetHashMarkCount(10);
-    gainslider->SetHashMarks(B_HASH_MARKS_BOTTOM);
-    gainslider->SetLimitLabels("90", "100");
-    residbox->AddChild(gainslider);
-
-    resources_get_int("SidResidFilterBias", &res_val);
-    biasslider = new BSlider(BRect(r.Width() / 2 + 10, 20, r.Width() - 10, 60), "Bias", "Bias", new BMessage(MESSAGE_SIDCART_RESIDBIAS), 0, 90, B_TRIANGLE_THUMB);
-    biasslider->SetValue(res_val);
-    biasslider->SetHashMarkCount(10);
-    biasslider->SetHashMarks(B_HASH_MARKS_BOTTOM);
-    biasslider->SetLimitLabels("-5000", "5000");
-    residbox->AddChild(biasslider);
+    r.left = r.Width() / 2 - 10;
+    r.bottom = 80;
+    r.InsetBy(10, 15);
+    for (i = 0; sliders[i].name; i++) {
+        resources_get_int(sliders[i].res_name, &res_val);
+        msg = new BMessage(MESSAGE_SIDCART_RESIDSLIDER);
+        slider = new BSlider(r, sliders[i].res_name, sliders[i].name, msg, sliders[i].min_val, sliders[i].max_val, B_TRIANGLE_THUMB);
+        slider->SetValue(res_val);
+        slider->SetHashMarkCount(11);
+        slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+        sprintf(st, "%d", sliders[i].min_val);
+        sprintf(st2, "%d", sliders[i].max_val);
+        slider->SetLimitLabels(st, st2);
+        residbox->AddChild(slider);
+        //~ DBG_RECT((sliders[i].name, slider->Frame()));
+        r.OffsetBy(0, 50);
+    }
 
     EnableControls();
 
@@ -251,6 +258,7 @@ SidCartWindow::~SidCartWindow()
 
 void SidCartWindow::MessageReceived(BMessage *msg)
 {
+    BSlider *slider;
     int32 engine, val;
 
     switch (msg->what) {
@@ -283,14 +291,11 @@ void SidCartWindow::MessageReceived(BMessage *msg)
             val = msg->FindInt32("mode");
             resources_set_int("SidResidSampling", val);
             break;
-        case MESSAGE_SIDCART_RESIDPASSBAND:
-            resources_set_int("SidResidPassband", passbandslider->Value());
-            break;
-        case MESSAGE_SIDCART_RESIDGAIN:
-            resources_set_int("SidResidGain", gainslider->Value());
-            break;
-        case MESSAGE_SIDCART_RESIDBIAS:
-            resources_set_int("SidResidFilterBias", biasslider->Value());
+        case MESSAGE_SIDCART_RESIDSLIDER:
+            msg->FindPointer("source", (void **)&slider);
+            if (slider) {
+                resources_set_int(slider->Name(), slider->Value());
+            }
             break;
         default:
             BWindow::MessageReceived(msg);
