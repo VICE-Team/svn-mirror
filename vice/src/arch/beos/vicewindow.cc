@@ -43,7 +43,7 @@
 extern "C" {
 #include "constants.h"
 #include "log.h"
-#include "mouse.h"
+#include "mousedrv.h"
 #include "lib.h"
 #include "machine.h"
 #include "platform.h"
