@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "ui_file.h"
+#include "vicemenu.h"
 
 extern "C" {
 #include "cartridge.h"

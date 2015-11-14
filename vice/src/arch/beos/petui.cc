@@ -38,6 +38,7 @@
 #endif
 
 #include "ui_file.h"
+#include "vicemenu.h"
 
 extern "C" {
 #include "archdep.h"
@@ -110,8 +111,8 @@ ui_res_value_list pet_ui_res_values[] = {
     { "Acia1Dev", petAciaDevice },
     { "PETREUsize", PETREUSize},
     { "CrtcFilter", pet_RenderFilters },
-    { "JoyPort3Device", cbm2_JoyPort3Device },
-    { "JoyPort4Device", cbm2_JoyPort4Device },
+    { "JoyPort3Device", pet_JoyPort3Device },
+    { "JoyPort4Device", pet_JoyPort4Device },
     { NULL, NULL }
 };
 
