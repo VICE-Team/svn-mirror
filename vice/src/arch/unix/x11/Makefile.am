@@ -11,6 +11,7 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/lib/p64 \
+	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/arch/unix/gui
 
 noinst_LIBRARIES = libx11ui.a
