@@ -598,7 +598,7 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             ui_extra_joystick_settings_dialog(hwnd);
             break;
         case IDM_MOUSE_SETTINGS:
-            ui_mouse_settings_dialog(hwnd);
+            ui_mouse_settings_dialog(hwnd, 1);
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_VIC20ROM_SETTINGS_DIALOG, IDD_VIC20DRIVEROM_SETTINGS_DIALOG,

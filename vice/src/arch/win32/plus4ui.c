@@ -43,6 +43,7 @@
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
+#include "uimouse.h"
 #include "uiplus4cart.h"
 #include "uiplus4mem.h"
 #include "uiplus4model.h"
@@ -277,6 +278,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_JOY_SETTINGS, IDS_MI_JOY_SETTINGS },
     { IDM_EXTRA_JOY_SETTINGS, IDS_MI_SIDCART_JOY_SETTINGS },
     { IDM_KEYBOARD_SETTINGS, IDS_MI_KEYBOARD_SETTINGS },
+    { IDM_MOUSE_SETTINGS, IDS_MI_MOUSE_SETTINGS },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
     { IDM_ROM_SETTINGS, IDS_MI_ROM_SETTINGS },
     { IDM_RAM_SETTINGS, IDS_MI_RAM_SETTINGS },
@@ -500,6 +502,9 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_KEYBOARD_SETTINGS:
             uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
+        case IDM_MOUSE_SETTINGS:
+            ui_mouse_settings_dialog(hwnd, 1);
             break;
     }
 }

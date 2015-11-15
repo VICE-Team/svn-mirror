@@ -40,12 +40,22 @@
 #include "uimouse.h"
 #include "winmain.h"
 
+static int smart = 0;
+
 static void enable_mouse_controls(HWND hwnd)
 {
     EnableWindow(GetDlgItem(hwnd, IDC_SMART_MOUSE_RTC_SAVE), 1);
 }
 
 static uilib_localize_dialog_param mouse_dialog_trans[] = {
+    { IDC_MOUSE_SENSITIVITY_LABEL, IDS_MOUSE_SENSITIVITY_LABEL, 0 },
+    { IDC_SMART_MOUSE_RTC_SAVE, IDS_SMART_MOUSE_RTC_SAVE, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_localize_dialog_param mouse_no_smart_dialog_trans[] = {
     { IDC_MOUSE_SENSITIVITY_LABEL, IDS_MOUSE_SENSITIVITY_LABEL, 0 },
     { IDC_SMART_MOUSE_RTC_SAVE, IDS_SMART_MOUSE_RTC_SAVE, 0 },
     { IDOK, IDS_OK, 0 },
@@ -77,7 +87,11 @@ static void init_mouse_dialog(HWND hwnd)
     RECT rect;
 
     /* translate all dialog items */
-    uilib_localize_dialog(hwnd, mouse_dialog_trans);
+    if (smart) {
+        uilib_localize_dialog(hwnd, mouse_dialog_trans);
+    } else {
+        uilib_localize_dialog(hwnd, mouse_no_smart_dialog_trans);
+    }
 
     /* adjust the size of the elements in the left group */
     uilib_adjust_group_width(hwnd, mouse_left_group);
@@ -117,16 +131,19 @@ static void init_mouse_dialog(HWND hwnd)
     }   
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)(res_value / 5) - 1, 0);
 
-    resources_get_int("SmartMouseRTCSave", &res_value);
-    CheckDlgButton(hwnd, IDC_SMART_MOUSE_RTC_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
-
-    enable_mouse_controls(hwnd);
+    if (smart) {
+        resources_get_int("SmartMouseRTCSave", &res_value);
+        CheckDlgButton(hwnd, IDC_SMART_MOUSE_RTC_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
+        enable_mouse_controls(hwnd);
+    }
 }
 
 static void end_mouse_dialog(HWND hwnd)
 {
     resources_set_int("MouseSensitivity",((int)SendMessage(GetDlgItem(hwnd, IDC_MOUSE_SENSITIVITY), CB_GETCURSEL, 0, 0) + 1) * 5);
-    resources_set_int("SmartMouseRTCSave", (IsDlgButtonChecked(hwnd, IDC_SMART_MOUSE_RTC_SAVE) == BST_CHECKED ? 1 : 0 ));
+    if (smart) {
+        resources_set_int("SmartMouseRTCSave", (IsDlgButtonChecked(hwnd, IDC_SMART_MOUSE_RTC_SAVE) == BST_CHECKED ? 1 : 0 ));
+    }
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -154,7 +171,13 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
     return FALSE;
 }
 
-void ui_mouse_settings_dialog(HWND hwnd)
+void ui_mouse_settings_dialog(HWND hwnd, int smartmouse)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_MOUSE_SETTINGS_DIALOG, hwnd, dialog_proc);
+    smart = smartmouse;
+
+    if (smart) {
+        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_MOUSE_SETTINGS_DIALOG, hwnd, dialog_proc);
+    } else {
+        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_MOUSE_SETTINGS_NO_SMART_DIALOG, hwnd, dialog_proc);
+    }
 }

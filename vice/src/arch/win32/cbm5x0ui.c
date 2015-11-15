@@ -488,7 +488,7 @@ static void cbm5x0_ui_specific(WPARAM wparam, HWND hwnd)
             uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
             break;
         case IDM_MOUSE_SETTINGS:
-            ui_mouse_settings_dialog(hwnd);
+            ui_mouse_settings_dialog(hwnd, 1);
             break;
     }
 }

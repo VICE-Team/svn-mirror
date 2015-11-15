@@ -472,42 +472,45 @@ resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/resautostart.rc \
-	$(srcdir)/rescia.rc $(srcdir)/resjoyport.rc $(top_builddir)/src/debug.h
+	$(srcdir)/rescia.rc $(srcdir)/resjoyport.rc $(srcdir)/resmouse.rc \
+	$(top_builddir)/src/debug.h
 	cat >rescbm2cat.rc $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/ressiddtv.rc $(srcdir)/resautostart.rc \
-	$(srcdir)/rescia.rc $(srcdir)/resjoyport.rc
+	$(srcdir)/rescia.rc $(srcdir)/resjoyport.rc $(srcdir)/resmouse.rc
 
 rescbm5x0cat.rc: $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/resautostart.rc \
 	$(srcdir)/resvicii.rc $(srcdir)/rescia.rc $(srcdir)/resjoyport.rc \
-	$(top_builddir)/src/debug.h
+	$(srcdir)/resmouse.rc $(top_builddir)/src/debug.h
 	cat >rescbm5x0cat.rc $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc $(srcdir)/resautostart.rc \
-	$(srcdir)/resjoyport.rc $(srcdir)/rescia.rc
+	$(srcdir)/resjoyport.rc $(srcdir)/rescia.rc $(srcdir)/resmouse.rc
 
 respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
 	$(srcdir)/respetdww.rc $(srcdir)/respetcolour.rc \
-	$(srcdir)/resjoyport.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resjoyport.rc $(srcdir)/resmouse.rc \
+	$(top_builddir)/src/debug.h
 	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc \
 	$(srcdir)/respetdww.rc $(srcdir)/respetcolour.rc \
-	$(srcdir)/resautostart.rc $(srcdir)/resjoyport.rc
+	$(srcdir)/resautostart.rc $(srcdir)/resjoyport.rc $(srcdir)/resmouse.rc
 
 resplus4cat.rc: $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
 	$(srcdir)/resv364speech.rc $(srcdir)/rested.rc $(srcdir)/resjoyport.rc \
-	$(top_builddir)/src/debug.h
+	$(srcdir)/resmouse.rc $(top_builddir)/src/debug.h
 	cat >resplus4cat.rc $(srcdir)/resplus4.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/resv364speech.rc $(srcdir)/ressidcart.rc \
-	$(srcdir)/resautostart.rc $(srcdir)/resjoyport.rc $(srcdir)/rested.rc
+	$(srcdir)/resautostart.rc $(srcdir)/resjoyport.rc $(srcdir)/rested.rc \
+	$(srcdir)/resmouse.rc
 
 resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resrs232user.rc $(srcdir)/resdrivevic20.rc \
@@ -516,14 +519,16 @@ resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/ressoundsampler.rc \
 	$(srcdir)/resvic.rc $(srcdir)/resds12c887rtc.rc \
-	$(srcdir)/resjoyport.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resjoyport.rc $(srcdir)/resmouse.rc \
+	$(top_builddir)/src/debug.h
 	cat >resvic20cat.rc $(srcdir)/resvic20.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivevic20.rc $(srcdir)/resrs232user.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resacia.rc $(srcdir)/resgeoram.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/ressoundsampler.rc \
-	$(srcdir)/resvic.rc $(srcdir)/resjoyport.rc $(srcdir)/resds12c887rtc.rc
+	$(srcdir)/resvic.rc $(srcdir)/resjoyport.rc $(srcdir)/resds12c887rtc.rc \
+	$(srcdir)/resmouse.rc
 
 resvsidcat.rc: $(srcdir)/resvsid.rc $(srcdir)/res.rc res.h $(srcdir)/ressid.rc \
 	$(srcdir)/resvicii.rc $(top_builddir)/src/debug.h

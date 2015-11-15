@@ -215,6 +215,11 @@ BEGIN
             MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
             MENUITEM "", IDM_JOYKEYS_TOGGLE
         END
+        POPUP "Mouse settings"
+        BEGIN
+            MENUITEM "", IDM_MOUSE_SETTINGS
+            MENUITEM "", IDM_MOUSE
+        END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_VIDEO_SETTINGS
 #ifdef HAVE_D3D9_H

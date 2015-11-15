@@ -48,6 +48,7 @@
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
+#include "uimouse.h"
 #include "uirom.h"
 #include "uisiddtv.h"
 #include "uivideo.h"
@@ -56,6 +57,7 @@
 
 static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { "Mouse", IDM_MOUSE },
     { NULL, 0 }
 };
 
@@ -266,6 +268,7 @@ ui_menu_translation_table_t cbm2ui_menu_translation_table[] = {
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
     { IDM_CBM2MODEL_SETTINGS, IDS_MI_CBM2MODEL_SETTINGS },
+    { IDM_MOUSE, IDS_MI_MOUSE },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
@@ -276,6 +279,7 @@ ui_menu_translation_table_t cbm2ui_menu_translation_table[] = {
     { IDM_ROM_SETTINGS, IDS_MI_ROM_SETTINGS },
     { IDM_RAM_SETTINGS, IDS_MI_RAM_SETTINGS },
     { IDM_DATASETTE_SETTINGS, IDS_MI_DATASETTE_SETTINGS },
+    { IDM_MOUSE_SETTINGS, IDS_MI_MOUSE_SETTINGS },
     { IDM_SID_SETTINGS, IDS_MI_SID_SETTINGS },
     { IDM_CIA_SETTINGS, IDS_MI_CIA_SETTINGS },
     { IDM_RS232_SETTINGS, IDS_MI_RS232_SETTINGS },
@@ -336,7 +340,7 @@ ui_popup_translation_table_t cbm2ui_popup_translation_table[] = {
     { 2, IDS_MP_SOUND_SETTINGS, NULL },
     { 2, IDS_MP_DRIVE_SETTINGS, NULL },
     { 2, IDS_MP_JOYSTICK_SETTINGS, NULL },
-/*    { 2, IDS_MP_MOUSE_SETTINGS, NULL }, */
+    { 2, IDS_MP_MOUSE_SETTINGS, NULL },
     { 2, IDS_MP_DRIVE_SYNC_FACTOR, NULL },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS, NULL },
     { 2, IDS_MP_RS232_SETTINGS, NULL },
@@ -478,6 +482,9 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_KEYBOARD_SETTINGS:
             uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
+        case IDM_MOUSE_SETTINGS:
+            ui_mouse_settings_dialog(hwnd, 0);
             break;
     }
 }

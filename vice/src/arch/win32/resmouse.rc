@@ -27,6 +27,22 @@ BEGIN
     PUSHBUTTON      "", IDCANCEL, 90, 47, 50, 14, WS_TABSTOP
 END
 
+
+// template of dialog for all languages
+
+IDD_MOUSE_SETTINGS_NO_SMART_DIALOG DIALOG DISCARDABLE  0, 0, 200, 72
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "", IDC_MOUSE_SENSITIVITY_LABEL,
+                    9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_SENSITIVITY,
+                    70, 5, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 47, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 47, 50, 14, WS_TABSTOP
+END
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH text
