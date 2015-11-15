@@ -38,6 +38,7 @@
 #include "menu_ffmpeg.h"
 #include "menu_help.h"
 #include "menu_jam.h"
+#include "menu_joyport.h"
 #include "menu_network.h"
 #include "menu_plus4cart.h"
 #include "menu_plus4hw.h"
@@ -170,6 +171,7 @@ int plus4ui_init(void)
 #endif
 
     sdl_ui_set_menu_params = plus4ui_set_menu_params;
+    uijoyport_menu_create(1, 1, 1, 0);
     uidrive_menu_create();
     uikeyboard_menu_create();
 

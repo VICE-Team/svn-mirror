@@ -43,6 +43,7 @@
 #include "menu_ffmpeg.h"
 #include "menu_help.h"
 #include "menu_jam.h"
+#include "menu_joyport.h"
 #include "menu_network.h"
 #include "menu_printer.h"
 #include "menu_reset.h"
@@ -280,6 +281,7 @@ int cbm2ui_init(void)
     cbm2_font_8 = lib_malloc(8 * 256);
     cbm2_font_14 = lib_malloc(14 * 256);
 
+    uijoyport_menu_create(0, 0, 1, 1);
     uikeyboard_menu_create();
 
     sdl_ui_set_menu_params = cbm2ui_set_menu_params;
@@ -314,6 +316,7 @@ int cbm5x0ui_init(void)
 
     sdl_ui_set_menu_params = NULL;
 
+    uijoyport_menu_create(1, 1, 0, 0);
     uidrive_menu_create();
     uikeyboard_menu_create();
 

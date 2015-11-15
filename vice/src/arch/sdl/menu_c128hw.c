@@ -144,7 +144,7 @@ const ui_menu_entry_t c128_hardware_menu[] = {
     { "Joyport settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)joyport2_menu },
+      (ui_callback_data_t)joyport_menu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

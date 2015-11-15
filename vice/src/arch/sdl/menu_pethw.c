@@ -32,6 +32,7 @@
 
 #include "machine.h"
 #include "menu_common.h"
+#include "menu_joyport.h"
 #include "menu_joystick.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
@@ -273,6 +274,10 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)pet_keyboard_menu },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Joyport settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)joyport_menu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

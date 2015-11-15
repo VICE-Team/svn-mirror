@@ -38,6 +38,7 @@
 #include "menu_ffmpeg.h"
 #include "menu_help.h"
 #include "menu_jam.h"
+#include "menu_joyport.h"
 #include "menu_network.h"
 #include "menu_petcart.h"
 #include "menu_pethw.h"
@@ -189,6 +190,7 @@ int petui_init(void)
 #endif
 
     sdl_ui_set_menu_params = petui_set_menu_params;
+    uijoyport_menu_create(0, 0, 1, 1);
     uidrive_menu_create();
     uikeyboard_menu_create();
 

@@ -40,6 +40,7 @@
 #include "menu_ffmpeg.h"
 #include "menu_help.h"
 #include "menu_jam.h"
+#include "menu_joyport.h"
 #include "menu_midi.h"
 #include "menu_network.h"
 #include "menu_printer.h"
@@ -166,6 +167,7 @@ int c64scui_init(void)
 
     sdl_ui_set_menu_params = c64scui_set_menu_params;
 
+    uijoyport_menu_create(1, 1, 1, 1);
     uicart_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
