@@ -124,7 +124,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 int plus4ui_init(void)
 {
-    ui_create_main_menu(0, 1, 0, 3, 1, driveplus4_settings_submenu);
+    ui_create_main_menu(0, 1, 0, 0x2e, 1, driveplus4_settings_submenu);
 
     tui_menu_add_separator(ui_special_submenu);
 

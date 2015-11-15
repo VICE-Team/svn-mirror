@@ -104,7 +104,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 int cbm2ui_init(void)
 {
-    ui_create_main_menu(0, 1, 0, 0, 1, driveieee_settings_submenu);
+    ui_create_main_menu(0, 1, 0, 3, 1, driveieee_settings_submenu);
 
     tui_menu_add_separator(ui_video_submenu);
     tui_menu_add(ui_sound_submenu, sid_cbm2_ui_menu_items);

@@ -29,6 +29,6 @@
 
 struct tui_menu;
 
-extern void uijoyport_init(struct tui_menu *parent_submenu, int ports);
+extern void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int port3, int port4);
 
 #endif

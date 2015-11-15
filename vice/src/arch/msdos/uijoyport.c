@@ -42,6 +42,7 @@ TUI_MENU_DEFINE_TOGGLE(SmartMouseRTCSave)
 TUI_MENU_DEFINE_RADIO(JoyPort1Device)
 TUI_MENU_DEFINE_RADIO(JoyPort2Device)
 TUI_MENU_DEFINE_RADIO(JoyPort3Device)
+TUI_MENU_DEFINE_RADIO(JoyPort4Device)
 
 static TUI_MENU_CALLBACK(joyport1_submenu_callback)
 {
@@ -79,90 +80,77 @@ static TUI_MENU_CALLBACK(joyport3_submenu_callback)
     return s;
 }
 
+static TUI_MENU_CALLBACK(joyport4_submenu_callback)
+{
+    int value;
+    char *s;
+    joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_4);
+
+    resources_get_int("JoyPort4Device", &value);
+    s = devices[value].name;
+    lib_free(devices);
+    return s;
+}
+
 static tui_menu_item_def_t joyport1_submenu[JOYPORT_MAX_DEVICES];
 static tui_menu_item_def_t joyport2_submenu[JOYPORT_MAX_DEVICES];
 static tui_menu_item_def_t joyport3_submenu[JOYPORT_MAX_DEVICES];
+static tui_menu_item_def_t joyport4_submenu[JOYPORT_MAX_DEVICES];
 
-static tui_menu_item_def_t joyport1_menu_items[] = {
-    { "Control port device:", "Select the device for the control port",
-      joyport1_submenu_callback, NULL, 25,
-      TUI_MENU_BEH_CONTINUE, joyport1_submenu,
-      "Control port device" },
-    { "Save Smart Mouse RTC data when changed",
-      "Save Smart Mouse RTC data when changed",
-      toggle_SmartMouseRTCSave_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Grab mouse events:",
-      "Emulate a mouse",
-      toggle_Mouse_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
+static int joyport_ports[JOYPORT_MAX_PORTS];
+static tui_menu_item_def_t joyport_menu_items[JOYPORT_MAX_PORTS + 3];
 
-static tui_menu_item_def_t joyport2_menu_items[] = {
-    { "Control port _1 device:", "Select the device for control port 1",
-      joyport1_submenu_callback, NULL, 25,
-      TUI_MENU_BEH_CONTINUE, joyport1_submenu,
-      "Control port 1 device" },
-    { "Control port _2 device:", "Select the device for control port 2",
-      joyport2_submenu_callback, NULL, 25,
-      TUI_MENU_BEH_CONTINUE, joyport2_submenu,
-      "Control port 2 device" },
-    { "Save Smart Mouse RTC data when changed",
-      "Save Smart Mouse RTC data when changed",
-      toggle_SmartMouseRTCSave_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Grab mouse events:",
-      "Emulate a mouse",
-      toggle_Mouse_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
-
-static tui_menu_item_def_t joyport3_menu_items[] = {
-    { "Control port _1 device:", "Select the device for control port 1",
-      joyport1_submenu_callback, NULL, 25,
-      TUI_MENU_BEH_CONTINUE, joyport1_submenu,
-      "Control port 1 device" },
-    { "Control port _2 device:", "Select the device for control port 2",
-      joyport2_submenu_callback, NULL, 25,
-      TUI_MENU_BEH_CONTINUE, joyport2_submenu,
-      "Control port 2 device" },
-    { "SIDCard control port device:", "Select the device for the SIDCard control port",
-      joyport3_submenu_callback, NULL, 25,
-      TUI_MENU_BEH_CONTINUE, joyport3_submenu,
-      "SIDCard control port device" },
-    { "Save Smart Mouse RTC data when changed",
-      "Save Smart Mouse RTC data when changed",
-      toggle_SmartMouseRTCSave_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Grab mouse events:",
-      "Emulate a mouse",
-      toggle_Mouse_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
-
-void uijoyport_init(struct tui_menu *parent_submenu, int ports)
+void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int port3, int port4)
 {
     tui_menu_t ui_joyport_submenu;
-    joyport_desc_t *devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
-    joyport_desc_t *devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
-    joyport_desc_t *devices_port_3 = joyport_get_valid_devices(JOYPORT_3);
+    joyport_desc_t *devices_port_1 = NULL;
+    joyport_desc_t *devices_port_2 = NULL;
+    joyport_desc_t *devices_port_3 = NULL;
+    joyport_desc_t *devices_port_4 = NULL;
     int i;
+    int j = 0;
+
+    joyport_ports[JOYPORT_1] = port1;
+    joyport_ports[JOYPORT_2] = port2;
+    joyport_ports[JOYPORT_3] = port3;
+    joyport_ports[JOYPORT_4] = port4;
 
     ui_joyport_submenu = tui_menu_create("Control port settings", 1);
 
-    for (i = 0; devices[i].name; ++i) {
-        joyport1_submenu[i].label = devices_port_1[i].name;
+    if (joyport_port[JOYPORT_1]) {
+        devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
+        for (i = 0; devices_port_1[i].name; ++i) {
+            joyport1_submenu[i].label = devices_port_1[i].name;
+            joyport1_submenu[i].help_string = NULL;
+            joyport1_submenu[i].callback = radio_JoyPort1Device_callback;
+            joyport1_submenu[i].callback_param = (void *)devices_port_1[i].id;
+            joyport1_submenu[i].par_string_max_len = 20;
+            joyport1_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
+            joyport1_submenu[i].submenu = NULL;
+            joyport1_submenu[i].submenu_title = NULL;
+        }
+        joyport1_submenu[i].label = NULL;
         joyport1_submenu[i].help_string = NULL;
-        joyport1_submenu[i].callback = radio_JoyPort1Device_callback;
-        joyport1_submenu[i].callback_param = (void *)devices_port_1[i].id;
-        joyport1_submenu[i].par_string_max_len = 20;
-        joyport1_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
+        joyport1_submenu[i].callback = NULL;
+        joyport1_submenu[i].callback_param = NULL;
+        joyport1_submenu[i].par_string_max_len = 0;
+        joyport1_submenu[i].behavior = 0;
         joyport1_submenu[i].submenu = NULL;
         joyport1_submenu[i].submenu_title = NULL;
-        if (ports > 1) {
+        joyport_menu_items[j].label = joyport_get_port_name(JOYPORT_1);
+        joyport_menu_items[j].help_string = "Select the device for this control port";
+        joyport_menu_items[j].callback = joyport1_submenu_callback;
+        joyport_menu_items[j].callback_param = NULL;
+        joyport_menu_items[j].par_string_max_len = 25;
+        joyport_menu_items[j].behavior = TUI_MENU_BEH_CONTINUE;
+        joyport_menu_items[j].submenu = joyport1_submenu;
+        joyport_menu_items[j].submenu_title = joyport_get_port_name(JOYPORT_1);
+        ++j;
+    }
+
+    if (joyport_port[JOYPORT_2]) {
+        devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
+        for (i = 0; devices_port_2[i].name; ++i) {
             joyport2_submenu[i].label = devices_port_2[i].name;
             joyport2_submenu[i].help_string = NULL;
             joyport2_submenu[i].callback = radio_JoyPort2Device_callback;
@@ -172,7 +160,28 @@ void uijoyport_init(struct tui_menu *parent_submenu, int ports)
             joyport2_submenu[i].submenu = NULL;
             joyport2_submenu[i].submenu_title = NULL;
         }
-        if (ports > 2) {
+        joyport2_submenu[i].label = NULL;
+        joyport2_submenu[i].help_string = NULL;
+        joyport2_submenu[i].callback = NULL;
+        joyport2_submenu[i].callback_param = NULL;
+        joyport2_submenu[i].par_string_max_len = 0;
+        joyport2_submenu[i].behavior = 0;
+        joyport2_submenu[i].submenu = NULL;
+        joyport2_submenu[i].submenu_title = NULL;
+        joyport_menu_items[j].label = joyport_get_port_name(JOYPORT_2);
+        joyport_menu_items[j].help_string = "Select the device for this control port";
+        joyport_menu_items[j].callback = joyport2_submenu_callback;
+        joyport_menu_items[j].callback_param = NULL;
+        joyport_menu_items[j].par_string_max_len = 25;
+        joyport_menu_items[j].behavior = TUI_MENU_BEH_CONTINUE;
+        joyport_menu_items[j].submenu = joyport2_submenu;
+        joyport_menu_items[j].submenu_title = joyport_get_port_name(JOYPORT_2);
+        ++j;
+    }
+
+    if (joyport_port[JOYPORT_3]) {
+        devices_port_3 = joyport_get_valid_devices(JOYPORT_3);
+        for (i = 0; devices_port_3[i].name; ++i) {
             joyport3_submenu[i].label = devices_port_3[i].name;
             joyport3_submenu[i].help_string = NULL;
             joyport3_submenu[i].callback = radio_JoyPort3Device_callback;
@@ -182,27 +191,6 @@ void uijoyport_init(struct tui_menu *parent_submenu, int ports)
             joyport3_submenu[i].submenu = NULL;
             joyport3_submenu[i].submenu_title = NULL;
         }
-    }
-
-    joyport1_submenu[i].label = NULL;
-    joyport1_submenu[i].help_string = NULL;
-    joyport1_submenu[i].callback = NULL;
-    joyport1_submenu[i].callback_param = NULL;
-    joyport1_submenu[i].par_string_max_len = 0;
-    joyport1_submenu[i].behavior = 0;
-    joyport1_submenu[i].submenu = NULL;
-    joyport1_submenu[i].submenu_title = NULL;
-    if (ports > 1) {
-        joyport2_submenu[i].label = NULL;
-        joyport2_submenu[i].help_string = NULL;
-        joyport2_submenu[i].callback = NULL;
-        joyport2_submenu[i].callback_param = NULL;
-        joyport2_submenu[i].par_string_max_len = 0;
-        joyport2_submenu[i].behavior = 0;
-        joyport2_submenu[i].submenu = NULL;
-        joyport2_submenu[i].submenu_title = NULL;
-    }
-    if (ports > 2) {
         joyport3_submenu[i].label = NULL;
         joyport3_submenu[i].help_string = NULL;
         joyport3_submenu[i].callback = NULL;
@@ -211,23 +199,93 @@ void uijoyport_init(struct tui_menu *parent_submenu, int ports)
         joyport3_submenu[i].behavior = 0;
         joyport3_submenu[i].submenu = NULL;
         joyport3_submenu[i].submenu_title = NULL;
+        joyport_menu_items[j].label = joyport_get_port_name(JOYPORT_3);
+        joyport_menu_items[j].help_string = "Select the device for this control port";
+        joyport_menu_items[j].callback = joyport3_submenu_callback;
+        joyport_menu_items[j].callback_param = NULL;
+        joyport_menu_items[j].par_string_max_len = 25;
+        joyport_menu_items[j].behavior = TUI_MENU_BEH_CONTINUE;
+        joyport_menu_items[j].submenu = joyport3_submenu;
+        joyport_menu_items[j].submenu_title = joyport_get_port_name(JOYPORT_3);
+        ++j;
     }
 
-    switch (ports) {
-        case 1:
-            tui_menu_add(ui_joyport_submenu, joyport1_menu_items);
-            break;
-        case 2:
-            tui_menu_add(ui_joyport_submenu, joyport2_menu_items);
-            break;
-        case 3:
-            tui_menu_add(ui_joyport_submenu, joyport3_menu_items);
-            break;
+    if (joyport_port[JOYPORT_4]) {
+        devices_port_4 = joyport_get_valid_devices(JOYPORT_4);
+        for (i = 0; devices_port_4[i].name; ++i) {
+            joyport4_submenu[i].label = devices_port_4[i].name;
+            joyport4_submenu[i].help_string = NULL;
+            joyport4_submenu[i].callback = radio_JoyPort4Device_callback;
+            joyport4_submenu[i].callback_param = (void *)devices_port_4[i].id;
+            joyport4_submenu[i].par_string_max_len = 20;
+            joyport4_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
+            joyport4_submenu[i].submenu = NULL;
+            joyport4_submenu[i].submenu_title = NULL;
+        }
+        joyport4_submenu[i].label = NULL;
+        joyport4_submenu[i].help_string = NULL;
+        joyport4_submenu[i].callback = NULL;
+        joyport4_submenu[i].callback_param = NULL;
+        joyport4_submenu[i].par_string_max_len = 0;
+        joyport4_submenu[i].behavior = 0;
+        joyport4_submenu[i].submenu = NULL;
+        joyport4_submenu[i].submenu_title = NULL;
+        joyport_menu_items[j].label = joyport_get_port_name(JOYPORT_4);
+        joyport_menu_items[j].help_string = "Select the device for this control port";
+        joyport_menu_items[j].callback = joyport4_submenu_callback;
+        joyport_menu_items[j].callback_param = NULL;
+        joyport_menu_items[j].par_string_max_len = 25;
+        joyport_menu_items[j].behavior = TUI_MENU_BEH_CONTINUE;
+        joyport_menu_items[j].submenu = joyport4_submenu;
+        joyport_menu_items[j].submenu_title = joyport_get_port_name(JOYPORT_4);
+        ++j;
     }
 
-    lib_free(devices_port_1);
-    lib_free(devices_port_2);
-    lib_free(devices_port_3);
+    if (joyport_ports[JOYPORT_1] == 2 || joyport_ports[JOYPORT_2] == 2 || joyport_ports[JOYPORT_3] == 2 || joyport_ports[JOYPORT_4] == 2) {
+        joyport_menu_items[j].label = "Save Smart Mouse RTC data when changed";
+        joyport_menu_items[j].help_string = "Save Smart Mouse RTC data when changed";
+        joyport_menu_items[j].callback = toggle_SmartMouseRTCSave_callback;
+        joyport_menu_items[j].callback_param = NULL;
+        joyport_menu_items[j].par_string_max_len = 3;
+        joyport_menu_items[j].behavior = TUI_MENU_BEH_CONTINUE;
+        joyport_menu_items[j].submenu = NULL;
+        joyport_menu_items[j].submenu_title = NULL;
+        ++j;
+    }
+
+    joyport_menu_items[j].label = "Grab mouse events:";
+    joyport_menu_items[j].help_string = "Emulate a mouse";
+    joyport_menu_items[j].callback = toggle_Mouse_callback;
+    joyport_menu_items[j].callback_param = NULL;
+    joyport_menu_items[j].par_string_max_len = 3;
+    joyport_menu_items[j].behavior = TUI_MENU_BEH_CONTINUE;
+    joyport_menu_items[j].submenu = NULL;
+    joyport_menu_items[j].submenu_title = NULL;
+    ++j;
+
+    joyport_menu_items[j].label = NULL;
+    joyport_menu_items[j].help_string = NULL;
+    joyport_menu_items[j].callback = NULL;
+    joyport_menu_items[j].callback_param = NULL;
+    joyport_menu_items[j].par_string_max_len = 0;
+    joyport_menu_items[j].behavior = 0;
+    joyport_menu_items[j].submenu = NULL;
+    joyport_menu_items[j].submenu_title = NULL;
+
+    tui_menu_add(ui_joyport_submenu, joyport_menu_items);
+
+    if (devices_port_1) {
+        lib_free(devices_port_1);
+    }
+    if (devices_port_2) {
+        lib_free(devices_port_2);
+    }
+    if (devices_port_3) {
+        lib_free(devices_port_3);
+    }
+    if (devices_port_4) {
+        lib_free(devices_port_4);
+    }
 
     tui_menu_add_submenu(parent_submenu, "_Control port settings...",
                          "Control port settings",
