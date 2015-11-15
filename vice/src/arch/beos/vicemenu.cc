@@ -1104,7 +1104,8 @@ BMenuBar *menu_create(int machine_class)
                 }
                 lib_free(tmp_text);
             }
-            menu->AddItem(submenu = new BMenu("Joystick"));
+            menu->AddSeparatorItem();
+            menu->AddItem(submenu = new BMenu("Joystick settings"));
                 submenu->AddItem(new BMenuItem("Joystick/Keyset settings ...", new BMessage(MENU_JOYSTICK_SETTINGS)));
                 submenu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
         if (devices_port_1) {
@@ -1122,7 +1123,7 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if (machine_class != VICE_MACHINE_VSID) {
-        uppermenu->AddItem(menu = new BMenu("Extra Joystick"));
+        uppermenu->AddItem(menu = new BMenu("Extra Joystick settings"));
         if (machine_class == VICE_MACHINE_PLUS4) {
             menu->AddItem(new BMenuItem("SID cart joystick emulation", new BMessage(MENU_TOGGLE_SIDCART_JOY)));
             menu->AddItem(new BMenuItem("SID cart joystick settings ...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
