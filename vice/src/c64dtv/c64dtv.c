@@ -253,7 +253,7 @@ static joyport_port_props_t control_port_2 =
 
 static joyport_port_props_t userport_joy_control_port = 
 {
-    "Userport joystick adapter control port 1",
+    "Userport joystick adapter port 1",
     IDGS_USERPORT_JOY_ADAPTER_PORT_1,
     0,				/* has NO potentiometer connected to this port */
     0,				/* has NO lightpen support on this port */
