@@ -44,6 +44,12 @@ UI_MENU_DEFINE_RADIO(JoyPort4Device)
 
 ui_menu_entry_t joyport_settings_submenu[JOYPORT_MAX_PORTS + 1];
 
+ui_menu_entry_t ui_joyport_settings_menu[] = {
+    { N_("Control port settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, joyport_settings_submenu },
+    { NULL }
+};
+
 void uijoyport_menu_create(int port1, int port2, int port3, int port4)
 {
     unsigned int i, num;
