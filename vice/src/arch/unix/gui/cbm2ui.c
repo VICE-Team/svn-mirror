@@ -565,7 +565,7 @@ static ui_menu_entry_t cbm5x0_settings_menu[] = {
     { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
       (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_joyport2_settings_menu },
+      NULL, NULL, ui_joyport_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_cbm5x0_menu },
 #ifdef HAVE_MOUSE
@@ -599,6 +599,8 @@ static ui_menu_entry_t cbm6x0_settings_menu[] = {
     { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
       (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_joyport_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_pet_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, cbm6x0_menu },
@@ -670,11 +672,12 @@ static void cbm2ui_dynamic_menu_create(void)
     uisound_menu_create();
     if (machine_class == VICE_MACHINE_CBM5x0) {
         uivicii_menu_create();
+        uijoyport_menu_create(1, 1, 0, 0);
     } else {
         uicrtc_menu_create();
+        uijoyport_menu_create(0, 0, 1, 1);
     }
     uikeyboard_menu_create();
-    uijoyport_menu_create(2);
 }
 
 static void cbm2ui_dynamic_menu_shutdown(void)
@@ -686,7 +689,7 @@ static void cbm2ui_dynamic_menu_shutdown(void)
     }
     uisound_menu_shutdown();
     uikeyboard_menu_shutdown();
-    uijoyport_menu_shutdown(2);
+    uijoyport_menu_shutdown();
 }
 
 int cbm2ui_init(void)

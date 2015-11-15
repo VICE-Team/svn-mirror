@@ -29,11 +29,9 @@
 
 #include "uimenu.h"
 
-extern struct ui_menu_entry_s ui_joyport1_settings_menu[];
-extern struct ui_menu_entry_s ui_joyport2_settings_menu[];
-extern struct ui_menu_entry_s ui_joyport3_settings_menu[];
+extern struct ui_menu_entry_s ui_joyport_settings_menu[];
 
-extern void uijoyport_menu_create(int ports);
-extern void uijoyport_menu_shutdown(int ports);
+extern void uijoyport_menu_create(int port1, int port2, int port3, int port4);
+extern void uijoyport_menu_shutdown(void);
 
 #endif

@@ -418,7 +418,7 @@ static ui_menu_entry_t plus4_settings_menu[] = {
     { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
       (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_joyport3_settings_menu },
+      NULL, NULL, ui_joyport_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_plus4_menu },
 #ifdef HAVE_MOUSE
@@ -471,7 +471,7 @@ static void plus4ui_dynamic_menu_create(void)
     uisound_menu_create();
     uited_menu_create();
     uikeyboard_menu_create();
-    uijoyport_menu_create(3);
+    uijoyport_menu_create(1, 1, 1, 0);
 }
 
 static void plus4ui_dynamic_menu_shutdown(void)
@@ -479,7 +479,7 @@ static void plus4ui_dynamic_menu_shutdown(void)
     uited_menu_shutdown();
     uisound_menu_shutdown();
     uikeyboard_menu_shutdown();
-    uijoyport_menu_shutdown(2);
+    uijoyport_menu_shutdown();
 }
 
 int plus4ui_init(void)
