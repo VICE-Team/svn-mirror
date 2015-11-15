@@ -519,7 +519,6 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
     HMENU menu1 = NULL;
     HMENU menu2 = NULL;
     HMENU menu3 = NULL;
-    HMENU menux = NULL;
 
     int i = 0;
 
