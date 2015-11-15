@@ -95,6 +95,10 @@
 #include "video-sound.h"
 #include "vsync.h"
 
+#ifdef HAVE_MOUSE
+#include "mouse.h"
+#endif
+
 machine_context_t machine_context;
 
 const char machine_name[] = "CBM-II";
@@ -278,6 +282,12 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
+#ifdef HAVE_MOUSE
+    if (mouse_resources_init() < 0) {
+        init_resource_fail("mouse");
+        return -1;
+    }
+#endif
 #ifndef COMMON_KBD
     if (pet_kbd_resources_init() < 0) {
         init_resource_fail("pet kbd");
@@ -397,6 +407,12 @@ int machine_cmdline_options_init(void)
 #ifdef DEBUG
     if (debug_cmdline_options_init() < 0) {
         init_cmdline_options_fail("debug");
+        return -1;
+    }
+#endif
+#ifdef HAVE_MOUSE
+    if (mouse_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("mouse");
         return -1;
     }
 #endif
@@ -550,6 +566,11 @@ int machine_specific_init(void)
 
     cbm2iec_init();
 
+#ifdef HAVE_MOUSE
+    /* Initialize mouse support (if present).  */
+    mouse_init();
+#endif
+
     machine_drive_stub();
 
 #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
@@ -602,6 +623,10 @@ void machine_specific_shutdown(void)
 
     /* close the video chip(s) */
     crtc_shutdown();
+
+#ifdef HAVE_MOUSE
+    mouse_shutdown();
+#endif
 
     cbm2ui_shutdown();
 }
