@@ -5,7 +5,8 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/samplerdrv \
-	-I$(top_srcdir)/src/rtc
+	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/userport
 
 noinst_LIBRARIES = libjoyport.a
 
@@ -13,6 +14,8 @@ noinst_LIBRARIES = libjoyport.a
 libjoyport_a_SOURCES = \
 	joyport.c \
 	joyport.h \
+	joystick.c \
+	joystick.h \
 	lightpen.c \
 	lightpen.h \
 	mouse.c \
