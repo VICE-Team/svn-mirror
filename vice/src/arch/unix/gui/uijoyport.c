@@ -42,7 +42,7 @@ UI_MENU_DEFINE_RADIO(JoyPort2Device)
 UI_MENU_DEFINE_RADIO(JoyPort3Device)
 UI_MENU_DEFINE_RADIO(JoyPort4Device)
 
-ui_menu_entry_t joyport_settings_submenu[JOYPORT_MAX_PORTS + 1] = {
+ui_menu_entry_t joyport_settings_submenu[JOYPORT_MAX_PORTS + 1];
 
 void uijoyport_menu_create(int port1, int port2, int port3, int port4)
 {
@@ -77,10 +77,9 @@ void uijoyport_menu_create(int port1, int port2, int port3, int port4)
             devices_submenu1[i].callback = (ui_callback_t)radio_JoyPort1Device;
             devices_submenu1[i].callback_data = (ui_callback_data_t)(unsigned long)devices_port_1[i].id;
         }
-        joyport_settings_submenu[j].string = translate_text(joyport_get_port_id(JOYPORT_1));
+        joyport_settings_submenu[j].string = translate_text(joyport_get_port_trans_name(JOYPORT_1));
         joyport_settings_submenu[j].type = UI_MENU_TYPE_NORMAL;
-        joyport_settings_submenu[j].callback = devices_submenu1;
-        joyport_settings_submenu[j].callback_data = NULL;
+        joyport_settings_submenu[j].sub_menu = devices_submenu1;
         ++j;
     }
 
@@ -97,10 +96,9 @@ void uijoyport_menu_create(int port1, int port2, int port3, int port4)
             devices_submenu2[i].callback = (ui_callback_t)radio_JoyPort2Device;
             devices_submenu2[i].callback_data = (ui_callback_data_t)(unsigned long)devices_port_2[i].id;
         }
-        joyport_settings_submenu[j].string = translate_text(joyport_get_port_id(JOYPORT_2));
+        joyport_settings_submenu[j].string = translate_text(joyport_get_port_trans_name(JOYPORT_2));
         joyport_settings_submenu[j].type = UI_MENU_TYPE_NORMAL;
-        joyport_settings_submenu[j].callback = devices_submenu2;
-        joyport_settings_submenu[j].callback_data = NULL;
+        joyport_settings_submenu[j].sub_menu = devices_submenu2;
         ++j;
     }
 
@@ -117,10 +115,9 @@ void uijoyport_menu_create(int port1, int port2, int port3, int port4)
             devices_submenu3[i].callback = (ui_callback_t)radio_JoyPort3Device;
             devices_submenu3[i].callback_data = (ui_callback_data_t)(unsigned long)devices_port_3[i].id;
         }
-        joyport_settings_submenu[j].string = translate_text(joyport_get_port_id(JOYPORT_3));
+        joyport_settings_submenu[j].string = translate_text(joyport_get_port_trans_name(JOYPORT_3));
         joyport_settings_submenu[j].type = UI_MENU_TYPE_NORMAL;
-        joyport_settings_submenu[j].callback = devices_submenu3;
-        joyport_settings_submenu[j].callback_data = NULL;
+        joyport_settings_submenu[j].sub_menu = devices_submenu3;
         ++j;
     }
 
@@ -137,13 +134,12 @@ void uijoyport_menu_create(int port1, int port2, int port3, int port4)
             devices_submenu4[i].callback = (ui_callback_t)radio_JoyPort4Device;
             devices_submenu4[i].callback_data = (ui_callback_data_t)(unsigned long)devices_port_4[i].id;
         }
-        joyport_settings_submenu[j].string = translate_text(joyport_get_port_id(JOYPORT_4));
+        joyport_settings_submenu[j].string = translate_text(joyport_get_port_trans_name(JOYPORT_4));
         joyport_settings_submenu[j].type = UI_MENU_TYPE_NORMAL;
-        joyport_settings_submenu[j].callback = devices_submenu4;
-        joyport_settings_submenu[j].callback_data = NULL;
+        joyport_settings_submenu[j].sub_menu = devices_submenu4;
         ++j;
     }
-    
+
     if (devices_port_1) {
         lib_free(devices_port_1);
     }
