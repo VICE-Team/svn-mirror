@@ -761,25 +761,25 @@ void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
 
 static int ui_get_menu_height(HWND w)
 {
-	RECT rect;
+    RECT rect;
     int i;
     LONG min_y = LONG_MAX, max_y = LONG_MIN;
-	HMENU hmenu = GetMenu(w);
+    HMENU hmenu = GetMenu(w);
  
     for(i = 0; i < GetMenuItemCount(hmenu); i++)
     {
         GetMenuItemRect(w, hmenu, i, &rect);
         if (rect.top < min_y) {
-			min_y = rect.top;
-		}
+            min_y = rect.top;
+        }
         if (rect.bottom > max_y) {
-			max_y = rect.bottom;
-		}
+            max_y = rect.bottom;
+        }
     }
-	if (max_y < min_y) {
-		return 0;
-	}
-	return (int)(max_y - min_y + 1);
+    if (max_y < min_y) {
+        return 0;
+    }
+    return (int)(max_y - min_y + 1);
 }
 
 /* Resize `w' so that the client rectangle is of the requested size.  */
