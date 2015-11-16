@@ -15,7 +15,6 @@ EXTRA_DIST = \
 	c64commonscdtv128scpu.tgt \
 	c64commonscdtvscpu.tgt \
 	c64commonscscpu.tgt \
-	c64commonscvsid.tgt \
 	c64commonscvsid128.tgt \
 	c64commonvsidsc128scpu.tgt \
 	c64commonvsidscdtv.tgt \

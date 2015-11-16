@@ -3,7 +3,8 @@
 
 #define UNSTABLE
 
-#pragma warning(disable:4996)
+#pragma warning 202 10
+#pragma warning 201 10
 #pragma enum int
 
 #define HAVE_ALLOCA           1
