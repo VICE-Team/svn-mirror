@@ -117,11 +117,13 @@ BUILT_SOURCES = constants.h
 
 if NATIVE_TOOLS
 genconstants:	$(srcdir)/genconstants.c
-	$(NATIVE_TOOLS_COMPILER) -o genconstants $(srcdir)/genconstants.c -I$(top_builddir)/src -I$(top_srcdir)/src/joyport @ARCH_INCLUDES@
+	$(NATIVE_TOOLS_COMPILER) -o genconstants $(srcdir)/genconstants.c \
+		-I$(top_builddir)/src -I$(top_srcdir)/src \
+		-I$(top_srcdir)/src/joyport @ARCH_INCLUDES@
 
 constants.h:	$(srcdir)/constants.txt genconstants
 	./genconstants $(srcdir)/constants.txt constants.h
 else
 constants.h:	$(srcdir)/constants.txt
-	echo "cannot generate "$@
+	echo "need native tools suppot to generate "$@
 endif
