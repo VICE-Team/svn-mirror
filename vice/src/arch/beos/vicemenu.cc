@@ -574,11 +574,6 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("NTSC", new BMessage(MENU_SYNC_FACTOR_NTSC)));
     }
 
-    if (get_devices != NULL) {
-        uppermenu->AddSeparatorItem();
-        uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
-    }
-
     if (machine_class == VICE_MACHINE_C64DTV) {
         uppermenu->AddItem(new BMenuItem("PS/2 mouse", new BMessage(MENU_TOGGLE_PS2MOUSE)));
         uppermenu->AddSeparatorItem();
@@ -603,12 +598,6 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("16 MB", new BMessage(MENU_SCPU64_SIMM_SIZE_16)));
             menu->AddItem(new BMenuItem("Enable jiffy switch", new BMessage(MENU_TOGGLE_SCPU64_JIFFY_ENABLE)));
             menu->AddItem(new BMenuItem("Enable speed switch", new BMessage(MENU_TOGGLE_SCPU64_SPEED_ENABLE)));
-    }
-
-    if (get_devices != NULL) {
-        uppermenu->AddItem(menu = new BMenu("Mouse Options"));
-            menu->AddItem(new BMenuItem("Save Smart Mouse RTC data when changed", new BMessage(MENU_TOGGLE_SMART_MOUSE_RTC_SAVE)));
-        uppermenu->AddSeparatorItem();
     }
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -1149,6 +1138,18 @@ BMenuBar *menu_create(int machine_class)
         if (get_devices == NULL) {
             menu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
         }
+    }
+
+    if (get_devices != NULL) {
+        if (machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PET) {
+            uppermenu->AddItem(menu = new BMenu("Mouse Options"));
+                menu->AddItem(new BMenuItem("Save Smart Mouse RTC data when changed", new BMessage(MENU_TOGGLE_SMART_MOUSE_RTC_SAVE)));
+        }
+    }
+
+    if (get_devices != NULL) {
+        uppermenu->AddSeparatorItem();
+        uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
     }
 
     uppermenu->AddItem(new BMenuItem("Sound ...", new BMessage(MENU_SOUND_SETTINGS)));

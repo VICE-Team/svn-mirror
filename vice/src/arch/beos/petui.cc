@@ -79,6 +79,7 @@ ui_menu_toggle  pet_ui_menu_toggles[] = {
     { "PETDWW", MENU_TOGGLE_PETDWW },
     { "PETHRE", MENU_TOGGLE_PETHRE },
     { "UserportDAC", MENU_TOGGLE_PET_USERPORT_DAC },
+    { "Mouse", MENU_TOGGLE_MOUSE },
     { NULL, 0 }
 };
 

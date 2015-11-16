@@ -66,6 +66,8 @@ ui_menu_toggle  cbm5x0_ui_menu_toggles[] = {
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "CartridgeReset", MENU_CART_CBM2_RESET_ON_CHANGE },
+    { "Mouse", MENU_TOGGLE_MOUSE },
+    { "SmartMouseRTCSave", MENU_TOGGLE_SMART_MOUSE_RTC_SAVE },
     { NULL, 0 }
 };
 

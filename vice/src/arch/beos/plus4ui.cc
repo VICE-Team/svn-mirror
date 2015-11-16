@@ -81,6 +81,8 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "SIDCartJoy", MENU_TOGGLE_SIDCART_JOY },
     { "SpeechEnabled", MENU_TOGGLE_V364SPEECH },
     { "CartridgeReset", MENU_CART_PLUS4_RESET_ON_CHANGE },
+    { "Mouse", MENU_TOGGLE_MOUSE },
+    { "SmartMouseRTCSave", MENU_TOGGLE_SMART_MOUSE_RTC_SAVE },
     { NULL, 0 }
 };
 

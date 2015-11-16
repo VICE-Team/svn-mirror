@@ -66,6 +66,7 @@ ui_menu_toggle cbm2_ui_menu_toggles[] = {
     { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "CartridgeReset", MENU_CART_CBM2_RESET_ON_CHANGE },
+    { "Mouse", MENU_TOGGLE_MOUSE },
     { NULL, 0 }
 };
 
