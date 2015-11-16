@@ -134,7 +134,7 @@ const ui_menu_entry_t plus4_hardware_menu[] = {
     { "Mouse emulation",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)mouse_grab_menu },
+      (ui_callback_data_t)mouse_menu },
 #endif
     { "SID cart settings",
       MENU_ENTRY_SUBMENU,
