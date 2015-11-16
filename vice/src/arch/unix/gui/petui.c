@@ -53,6 +53,7 @@
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
+#include "uimouse.h"
 #include "uinetplay.h"
 #include "uiperipheralieee.h"
 #include "uipetcolour.h"
@@ -523,6 +524,10 @@ static ui_menu_entry_t petui_settings_menu[] = {
       NULL, NULL, ui_joyport_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_pet_menu },
+#ifdef HAVE_MOUSE
+    { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, mouse_grab_submenu },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, pet_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,

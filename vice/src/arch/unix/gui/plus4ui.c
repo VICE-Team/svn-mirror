@@ -423,7 +423,7 @@ static ui_menu_entry_t plus4_settings_menu[] = {
       NULL, NULL, joystick_settings_plus4_menu },
 #ifdef HAVE_MOUSE
     { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, mouse_grab_submenu },
+      NULL, NULL, mouse_submenu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, plus4_menu },
