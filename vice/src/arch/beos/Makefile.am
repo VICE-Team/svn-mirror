@@ -125,5 +125,5 @@ constants.h:	$(srcdir)/constants.txt genconstants
 	./genconstants $(srcdir)/constants.txt constants.h
 else
 constants.h:	$(srcdir)/constants.txt
-	echo "need native tools suppot to generate "$@
+	echo "need native tools support to generate "$@
 endif
