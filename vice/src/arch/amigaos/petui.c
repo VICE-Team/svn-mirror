@@ -41,6 +41,7 @@
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
+#include "mui/uimouse.h"
 #include "mui/uipetdww.h"
 #include "mui/uipetreu.h"
 #include "mui/uipetsettings.h"
@@ -57,6 +58,7 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "CrtcStretchVertical", IDM_TOGGLE_VERTICAL_STRETCH },
     { "PETHRE", IDM_ENABLE_PETHRE },
     { "UserportDAC", IDM_TOGGLE_USERPORT_DAC },
+    { "Mouse", IDM_MOUSE },
     { NULL, 0 }
 };
 

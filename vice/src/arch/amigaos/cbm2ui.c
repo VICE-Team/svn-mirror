@@ -45,6 +45,7 @@
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
+#include "mui/uimouse.h"
 #include "mui/uiprinter.h"
 #include "mui/uiromcbm2settings.h"
 #include "mui/uisid.h"
@@ -57,6 +58,7 @@ static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "CrtcAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "CrtcStretchVertical", IDM_TOGGLE_VERTICAL_STRETCH },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { "Mouse", IDM_MOUSE },
     { NULL, 0 }
 };
 

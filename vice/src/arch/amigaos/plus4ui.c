@@ -207,6 +207,9 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             ui_joystick_fire_plus4_dialog();
             break;
 #endif
+        case IDM_MOUSE_SETTINGS:
+            ui_mouse_settings_dialog();
+            break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
             break;

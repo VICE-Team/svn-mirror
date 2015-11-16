@@ -28,6 +28,7 @@
 #define VICE_PLUS4UIRES_H_
 
 #include "uires.h"
+
 #include "intl.h"
 
 static struct TranslateNewMenu UI_MENU_NAME[] = {
@@ -202,6 +203,7 @@ static struct TranslateNewMenu UI_MENU_NAME[] = {
 #if 0		/* FIXME: unimplemented */
     ITEM(IDMS_KEYBOARD_SETTINGS,          NULL, IDM_KEYBOARD_SETTINGS)
 #endif
+    ITEM(IDMS_MOUSE_SETTINGS,             NULL, IDM_MOUSE_SETTINGS)
     ITEM(IDMS_SOUND_SETTINGS,             NULL, IDM_SOUND_SETTINGS)
     ITEM(IDMS_COMPUTER_ROM_SETTINGS,      NULL, IDM_COMPUTER_ROM_SETTINGS)
     ITEM(IDMS_DRIVE_ROM_SETTINGS,         NULL, IDM_DRIVE_ROM_SETTINGS)
