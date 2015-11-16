@@ -34,8 +34,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined(IDE_COMPILE) && defined(_MSC_VER) && (_MSC_VER >= 1400)
-#define unlink _unlink
+#ifdef IDE_COMPILE
+#  ifdef _MSC_VER
+#    if (_MSC_VER >= 1400)
+#      define unlink _unlink
+#    endif
+#  else
+#    include <io.h>
+#  endif
 #endif
 
 static char line_buffer[512];
