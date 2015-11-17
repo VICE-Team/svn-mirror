@@ -47,6 +47,7 @@ EXTRA_DIST = \
 	iecieee.tgt \
 	ieee.tgt \
 	imagecontents.tgt \
+	joyport.tgt \
 	maincpu.tgt \
 	make-watcom-bindist.bat \
 	monitor.tgt \
@@ -62,6 +63,8 @@ EXTRA_DIST = \
 	resid.tgt \
 	residdtv.tgt \
 	rs232drv.tgt \
+	rtc.tgt \
+	samplerdrv.tgt \
 	scpu64.tgt \
 	serial.tgt \
 	sid.tgt \
@@ -78,6 +81,7 @@ EXTRA_DIST = \
 	viciicommon.tgt \
 	viciidtv.tgt \
 	viciinew.tgt \
+	viciivsid.tgt \
 	video.tgt \
 	vsid.tgt \
 	vsidlib.tgt \
