@@ -76,6 +76,7 @@
 #include "printer.h"
 #include "resources.h"
 #include "rs232drv.h"
+#include "sampler.h"
 #include "sampler2bit.h"
 #include "screenshot.h"
 #include "serial.h"
@@ -237,6 +238,10 @@ int machine_resources_init(void)
         init_resource_fail("joystick");
         return -1;
     }
+    if (sampler_resources_init() < 0) {
+        init_resource_fail("samplerdrv");
+        return -1;
+    }
     if (gfxoutput_resources_init() < 0) {
         init_resource_fail("gfxoutput");
         return -1;
@@ -309,6 +314,7 @@ void machine_resources_shutdown(void)
     drive_resources_shutdown();
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
+    sampler_resources_shutdown();
 }
 
 /* CBM-II-specific command-line option initialization.  */
@@ -368,6 +374,10 @@ int machine_cmdline_options_init(void)
     }
     if (gfxoutput_cmdline_options_init() < 0) {
         init_cmdline_options_fail("gfxoutput");
+        return -1;
+    }
+    if (sampler_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("samplerdrv");
         return -1;
     }
     if (fliplist_cmdline_options_init() < 0) {

@@ -10,7 +10,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/lib/p64 \
-	-I$(top_srcdir)/src/joyport
+	-I$(top_srcdir)/src/joyport \
+	-I$(top_srcdir)/src/samplerdrv
 
 noinst_LIBRARIES = libpet.a
 
