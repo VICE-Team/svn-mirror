@@ -15,6 +15,8 @@ libdriveiec_a_SOURCES = \
 	cia1571d.c \
 	cia1581d.c \
 	ciad.h \
+	fdd.c \
+	fdd.h \
 	glue1571.c \
 	glue1571.h \
 	iec-cmdline-options.c \
@@ -26,16 +28,14 @@ libdriveiec_a_SOURCES = \
 	iecrom.h \
 	memiec.c \
 	memiec.h \
+	pc8477.c \
+	pc8477.h \
 	via1d1541.c \
 	via1d1541.h \
-	wd1770.c \
-	wd1770.h \
 	via4000.c \
 	via4000.h \
-	fdd.c \
-	fdd.h \
-	pc8477.c \
-	pc8477.h
+	wd1770.c \
+	wd1770.h
 
 .PHONY: libdriveiecc64exp libdriveiecplus4exp
 

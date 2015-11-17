@@ -40,9 +40,9 @@ libsounddrv_a_SOURCES = \
 	sounddump.c \
 	soundfs.c \
 	soundiff.c \
+	soundmovie.c \
 	soundvoc.c \
-	soundwav.c \
-	soundmovie.c
+	soundwav.c
 
 noinst_HEADERS = \
   soundmovie.h

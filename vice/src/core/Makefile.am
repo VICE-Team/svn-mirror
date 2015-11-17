@@ -6,6 +6,8 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libcore.a
 
 libcore_a_SOURCES = \
+	ata.c \
+	ata.h \
 	ciacore.c \
 	ciatimer.c \
 	ciatimer.h \
@@ -24,6 +26,4 @@ libcore_a_SOURCES = \
 	t6721.c \
 	t6721.h \
 	tpicore.c \
-	viacore.c \
-	ata.c \
-	ata.h
+	viacore.c

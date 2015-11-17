@@ -26,6 +26,8 @@ libdrive_a_SOURCES = \
 	drive-resources.h \
 	drive-snapshot.c \
 	drive-snapshot.h \
+	drive-sound.c \
+	drive-sound.h \
 	drive-writeprotect.c \
 	drive-writeprotect.h \
 	drive.c \
@@ -34,9 +36,9 @@ libdrive_a_SOURCES = \
 	drivecpu.h \
 	drivecpu65c02.c \
 	drivecpu65c02.h \
-	drivemem.c \
 	driveimage.c \
 	driveimage.h \
+	drivemem.c \
 	drivemem.h \
 	driverom.c \
 	driverom.h \
@@ -49,8 +51,6 @@ libdrive_a_SOURCES = \
 	iec128dcr.h \
 	iecieee.h \
 	ieee.h \
-	drive-sound.c \
-	drive-sound.h \
 	rotation.c \
 	rotation.h \
 	tcbm.h \

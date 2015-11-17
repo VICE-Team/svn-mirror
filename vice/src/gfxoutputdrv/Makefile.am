@@ -30,6 +30,8 @@ libgfxoutputdrv_a_SOURCES = \
 	bmpdrv.h \
 	doodledrv.c \
 	gfxoutput.c \
+	godotdrv.c \
+	godotdrv.h \
 	iffdrv.c \
 	iffdrv.h \
 	koaladrv.c \
@@ -38,9 +40,7 @@ libgfxoutputdrv_a_SOURCES = \
 	pcxdrv.c \
 	pcxdrv.h \
 	ppmdrv.c \
-	ppmdrv.h \
-	godotdrv.c \
-	godotdrv.h
+	ppmdrv.h
 
 libgfxoutputdrv_a_DEPENDENCIES = @GFXOUTPUT_DRIVERS@
 libgfxoutputdrv_a_LIBADD = @GFXOUTPUT_DRIVERS@
