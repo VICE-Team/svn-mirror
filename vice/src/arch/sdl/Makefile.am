@@ -144,11 +144,11 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	parsid.c \
+	rawnetarch.c \
 	rs232dev.c \
 	sdlmain.c \
 	signals.c \
 	socketimpl.h \
-	rawnetarch.c \
 	types.h \
 	ui.c \
 	ui.h \

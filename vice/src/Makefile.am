@@ -254,12 +254,12 @@ base_sources = \
 	attach.c \
 	autostart.c \
 	autostart-prg.c \
-	charset.c \
-	clkguard.c \
-	clipboard.c \
-	cmdline.c \
 	cbmdos.c \
 	cbmimage.c \
+	charset.c \
+	clipboard.c \
+	clkguard.c \
+	cmdline.c \
 	color.c \
 	crc32.c \
 	datasette.c \

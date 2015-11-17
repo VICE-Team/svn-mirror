@@ -52,10 +52,10 @@ libc64cart_a_SOURCES = \
 	delaep7x8.h \
 	diashowmaker.c \
 	diashowmaker.h \
-	dqbb.c \
-	dqbb.h \
 	dinamic.c \
 	dinamic.h \
+	dqbb.c \
+	dqbb.h \
 	easyflash.c \
 	easyflash.h \
 	epyxfastload.c \
@@ -106,10 +106,10 @@ libc64cart_a_SOURCES = \
 	mmc64.h \
 	ocean.c \
 	ocean.h \
-	prophet64.c \
-	prophet64.h \
 	pagefox.c \
 	pagefox.h \
+	prophet64.c \
+	prophet64.h \
 	ramcart.c \
 	ramcart.h \
 	retroreplay.c \
