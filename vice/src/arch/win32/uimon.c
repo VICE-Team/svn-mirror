@@ -821,7 +821,7 @@ static PWindowDimensions LoadMonitorDimensions(HWND hwnd)
     do {
         BYTE *p = buffer;
 
-        if (len <= 0 ) {
+        if (len == 0 ) {
             break;
         }
 
