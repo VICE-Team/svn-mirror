@@ -66,6 +66,7 @@ libarch_a_SOURCES = \
 	parsid.c \
 	petui.c \
 	plus4ui.c \
+	rawnetarch.c \
 	res.rc \
 	resacia.rc \
 	resautostart.rc \
@@ -73,8 +74,8 @@ libarch_a_SOURCES = \
 	resc64.rc \
 	resc64dtv.rc \
 	resc64memoryhacks.rc \
-	rescbm2common.rc \
 	rescbm2.rc \
+	rescbm2common.rc \
 	rescbm5x0.rc \
 	rescia.rc \
 	rescommon.h \
@@ -127,7 +128,6 @@ libarch_a_SOURCES = \
 	socketimpl.h \
 	statusbar.c \
 	statusbar.h \
-	rawnetarch.c \
 	types.h \
 	ui-resources.c \
 	ui.c \
@@ -158,10 +158,10 @@ libarch_a_SOURCES = \
 	uicart.h \
 	uicbm2model.c \
 	uicbm2model.h \
-	uicbm5x0model.c \
-	uicbm5x0model.h \
 	uicbm2set.c \
 	uicbm2set.h \
+	uicbm5x0model.c \
+	uicbm5x0model.h \
 	uicbm5x0set.c \
 	uicbm5x0set.h \
 	uicia.c \
@@ -272,8 +272,8 @@ libarch_a_SOURCES = \
 	uisidcart.h \
 	uisiddtv.c \
 	uisiddtv.h \
-	uisnapshot.h \
 	uisnapshot.c \
+	uisnapshot.h \
 	uisound.c \
 	uisound.h \
 	uisoundexpander.c \
@@ -296,8 +296,8 @@ libarch_a_SOURCES = \
 	uivic20model.h \
 	uivicii.h \
 	uivicii.c \
-	uivicset.h \
 	uivicset.c \
+	uivicset.h \
 	uivideo.c \
 	uivideo.h \
 	vic20ui.c \
