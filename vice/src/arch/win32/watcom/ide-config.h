@@ -9,6 +9,7 @@
 #define RETSIGTYPE                 void
 #define HAS_JOYSTICK               1
 #define HAVE_MOUSE                 1
+#define HAVE_LIGHTPEN              1
 #define HAVE_HARDSID               1
 #define HAVE_RS232DEV              1
 #define HAVE_RS232NET              1
@@ -41,9 +42,6 @@
 #define HAVE_WINIOCTL_H            1
 #define DWORD_IS_LONG              1
 #define HAVE_OPENCBM               1
-#define HAVE_FFMPEG                1
-#define HAVE_FFMPEG_SWSCALE        1
-#define HAVE_FFMPEG_HEADER_SUBDIRS 1
 #define HAVE_MIDI                  1
 #define HAVE_CRTDBG                1
 #define HAS_TRANSLATION            1
