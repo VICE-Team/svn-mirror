@@ -8,12 +8,14 @@ EXTRA_DIST = \
 	c64commonall.tgt \
 	c64commoncart.tgt \
 	c64commonsc.tgt \
+	c64commonsc128.tgt \
 	c64commonsc128scpu.tgt \
 	c64commonscdtv128scpu.tgt \
 	c64commonscdtvscpu.tgt \
 	c64commonscscpu.tgt \
 	c64commonscvsid.tgt \
 	c64commonscvsid128.tgt \
+	c64commonvsid.tgt \
 	c64commonvsidscdtv.tgt \
 	c64commonvsidscdtvscpu.tgt \
 	c64commonvsidscscpu.tgt \
@@ -49,6 +51,7 @@ EXTRA_DIST = \
 	iecieee.tgt \
 	ieee.tgt \
 	imagecontents.tgt \
+	joyport.tgt \
 	maincpu.tgt \
 	make-watcom-bindist.bat \
 	monitor.tgt \
@@ -64,6 +67,8 @@ EXTRA_DIST = \
 	resid.tgt \
 	resid-dtv.tgt \
 	rs232drv.tgt \
+	rtc.tgt \
+	samplerdrv.tgt \
 	scpu64.tgt \
 	serial.tgt \
 	sid.tgt \
@@ -81,6 +86,7 @@ EXTRA_DIST = \
 	viciicommon.tgt \
 	viciidtv.tgt \
 	viciinew.tgt \
+	viciivsid.tgt \
 	video.tgt \
 	vsid.tgt \
 	vsidlib.tgt \
