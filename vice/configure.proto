@@ -321,6 +321,9 @@ if test x"$CC" = "xowcc"; then
   CFLAGS="$CFLAGS -O2"
   AM_CONDITIONAL(OWCC, true)
   AC_DEFINE(WATCOM_COMPILE,,[owcc is being used.])
+  toolchain_check=no
+  ar_check=no
+  nowarnings=yes
 else
   AM_CONDITIONAL(OWCC, false)
 fi
@@ -655,9 +658,11 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   fi
 
   dnl warnings_cxx="-Wall -W -Wno-unused-parameter -Wno-missing-field-initializers -Wno-sign-compare"
-  warnings_cxx="-Wall -Wno-unused-parameter -Wno-sign-compare"
-  CFLAGS="$CFLAGS $warnings_cxx"
-  CXXFLAGS="$CXXFLAGS $warnings_cxx"
+  if test x"$nowarnings" != "xyes"; then
+      warnings_cxx="-Wall -Wno-unused-parameter -Wno-sign-compare"
+      CFLAGS="$CFLAGS $warnings_cxx"
+      CXXFLAGS="$CXXFLAGS $warnings_cxx"
+  fi
 
 elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
 
