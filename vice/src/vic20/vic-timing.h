@@ -27,6 +27,7 @@
 #ifndef VICE_VIC_TIMING_H
 #define VICE_VIC_TIMING_H
 
+/* PAL: total screen dimension of 224x283 + 284th rasterline in bordercolor */
 #define VIC_PAL_NORMAL_FIRST_DISPLAYED_LINE         28
 #define VIC_PAL_NORMAL_LAST_DISPLAYED_LINE          311
 #define VIC_PAL_NORMAL_DISPLAY_WIDTH                224
@@ -47,7 +48,9 @@
     FIXME: in NTSC the text window is (by default) not centered on the line,
            some way to do that is needed to make "no border" work correctly.
  */
-#define VIC_NTSC_NORMAL_FIRST_DISPLAYED_LINE        8
+
+/* NTSC: total screen dimension of 200x233 + 234th rasterline in bordercolor */
+#define VIC_NTSC_NORMAL_FIRST_DISPLAYED_LINE        27
 #define VIC_NTSC_NORMAL_LAST_DISPLAYED_LINE         260
 #define VIC_NTSC_NORMAL_DISPLAY_WIDTH               200
 
