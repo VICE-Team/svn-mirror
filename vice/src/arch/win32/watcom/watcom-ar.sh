@@ -1,4 +1,4 @@
 #!/bin/sh
 
 shift
-wlib -b -fa $*
+wlib -b -fo $*

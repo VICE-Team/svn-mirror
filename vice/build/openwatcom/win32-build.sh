@@ -12,6 +12,6 @@ fi
 
 curdir=`pwd`
 
-CC=owcc CXX=owcc RANLIB=true STRIP=wstrip AR="/bin/sh $curdir/src/arch/win32/watcom/watcom-ar.sh" ./configure --host=i686-pc-mingw32 --enable-native-tools=owcc
+CC=owcc CXX=owcc RANLIB=true STRIP=wstrip AR="/bin/sh $curdir/src/arch/win32/watcom/watcom-ar.sh" ./configure -v --host=i686-pc-mingw32 --enable-native-tools=owcc --disable-dependency-tracking
 make
 make bindist

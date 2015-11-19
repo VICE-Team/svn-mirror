@@ -324,6 +324,7 @@ if test x"$CC" = "xowcc"; then
   toolchain_check=no
   ar_check=no
   nowarnings=yes
+  norpath=yes
 else
   AM_CONDITIONAL(OWCC, false)
 fi
@@ -4126,7 +4127,9 @@ AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR",
 
 
 # Add path with private dynamic ffmpeg libs to the search path
-LDFLAGS="$LDFLAGS -Wl,-rpath,$VICEDIR/lib"
+if test x"$norpath" != "xyes"; then
+  LDFLAGS="$LDFLAGS -Wl,-rpath,$VICEDIR/lib"
+fi
 
 AC_OUTPUT([Makefile
            vice.spec

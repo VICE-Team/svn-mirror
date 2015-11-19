@@ -91,7 +91,9 @@
 #define STDERR_FILENO 2
 
 #if defined(__WATCOMC__) || defined(WATCOM_COMPILE)
+#ifndef _P_WAIT
 #define _P_WAIT P_WAIT
+#endif
 #define _spawnvp spawnvp
 #endif
 
@@ -198,6 +200,9 @@ typedef DWORD (WINAPI *_GetModuleFileNameEx) (
 
 static BOOL verify_exe(char *file_name)
 {
+#ifdef WATCOM_COMPILE
+    return TRUE;
+#else
     DWORD version_info_size;
     BOOL bResult = FALSE;
     char *company_name = NULL;
@@ -222,6 +227,7 @@ static BOOL verify_exe(char *file_name)
     }
 
     return bResult;
+#endif
 }
 
 const char *archdep_boot_path(void)
