@@ -13165,38 +13165,38 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_VICFP_ROM_WRITE_TR, "Flash Plugin ROM dosyasýna geri yazmayý pasifleþtir"},
 #endif
 
-/* vic20/cart/vic-fp.c */
-/* en */ {IDCLS_ENABLE_VICBI_ROM_WRITE,    N_("Enable UltiMem write back to ROM file")},
+/* vic20/cart/ultimem.c */
+/* en */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE,    N_("Enable UltiMem write back to ROM file")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_VICBI_ROM_WRITE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_VICBI_ROM_WRITE_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_ENABLE_VICBI_ROM_WRITE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_VICBI_ROM_WRITE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_VICBI_ROM_WRITE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_VICBI_ROM_WRITE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_VICBI_ROM_WRITE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_VICBI_ROM_WRITE_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_ENABLE_VICBI_ROM_WRITE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_VICBI_ROM_WRITE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_VICBI_ROM_WRITE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_VICBI_ROM_WRITE_TR, ""},  /* fuzzy */
+/* da */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_DA, "Aktivér UltiMem tilbageskrivning til ROM-fil"},
+/* de */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_DE, "UltiMem Rückschreiben auf ROM Datei aktivieren"},
+/* es */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_ES, "Permitir grabación en ROM UltiMem"},
+/* fr */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_FR, "Activer la réécriture du fichier ROM UltiMem"},
+/* hu */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_IT, "Attiva write back per UltiMem su file ROM"},
+/* ko */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_NL, "Activeer terug schrijven naar ROM bestand voor UltiMem"},
+/* pl */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_PL, "W³±cz zapis do pliku ROM UltiMem"},
+/* ru */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_RU, "Enable UltiMem write back to ROM file"},
+/* sv */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_SV, "Aktivera återskrivning till ROM-fil för UltiMem"},
+/* tr */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_TR, "UltiMem ROM dosyasýna geri yazmayý aktif et"},
 #endif
 
-/* vic20/cart/vic-fp.c */
-/* en */ {IDCLS_DISABLE_VICBI_ROM_WRITE,    N_("Disable UltiMem write back to ROM file")},
+/* vic20/cart/ultimem.c */
+/* en */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE,    N_("Disable UltiMem write back to ROM file")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_VICBI_ROM_WRITE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_VICBI_ROM_WRITE_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_DISABLE_VICBI_ROM_WRITE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_VICBI_ROM_WRITE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_VICBI_ROM_WRITE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_VICBI_ROM_WRITE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_DISABLE_VICBI_ROM_WRITE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_VICBI_ROM_WRITE_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_DISABLE_VICBI_ROM_WRITE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_DISABLE_VICBI_ROM_WRITE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_VICBI_ROM_WRITE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_VICBI_ROM_WRITE_TR, ""},  /* fuzzy */
+/* da */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_DA, "Deaktivér UltiMem tilbageskrivning til ROM-fil"},
+/* de */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_DE, "UltiMem Rückschreiben auf ROM Datei deaktivieren"},
+/* es */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_ES, "Deshabilitar grabación en ROM UltiMem"},
+/* fr */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_FR, "Désactiver la réécriture du fichier ROM UltiMem"},
+/* hu */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_IT, "Disattiva write back per UltiMem su file ROM"},
+/* ko */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_NL, "Terug schrijven naar ROM bestand voor UltiMem uitschakelen"},
+/* pl */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_PL, "Wy³±cz zapis do pliku ROM UltiMem"},
+/* ru */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_RU, "Disable UltiMem write back to ROM file"},
+/* sv */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_SV, "Inaktivera återskrivning till ROM-fil för UltiMem"},
+/* tr */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_TR, "UltiMem ROM dosyasýna geri yazmayý pasifleþtir"},
 #endif
 
 /* vicii/vicii-cmdline-options.c */

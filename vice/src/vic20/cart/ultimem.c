@@ -515,15 +515,15 @@ void vic_um_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-biwriteback", SET_RESOURCE, 0,
-      NULL, NULL, "VicFlashPluginWriteBack", (resource_value_t)1,
+    { "-umwriteback", SET_RESOURCE, 0,
+      NULL, NULL, "UltiMemWriteBack", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_VICBI_ROM_WRITE,
+      IDCLS_UNUSED, IDCLS_ENABLE_VIC_UM_ROM_WRITE,
       NULL, NULL },
-    { "+biwriteback", SET_RESOURCE, 0,
-      NULL, NULL, "VicFlashPluginWriteBack", (resource_value_t)0,
+    { "+umwriteback", SET_RESOURCE, 0,
+      NULL, NULL, "UltiMemWriteBack", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_VICBI_ROM_WRITE,
+      IDCLS_UNUSED, IDCLS_DISABLE_VIC_UM_ROM_WRITE,
       NULL, NULL },
     { NULL }
 };
