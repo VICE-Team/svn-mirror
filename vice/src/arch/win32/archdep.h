@@ -149,6 +149,8 @@ extern struct console_s *uimon_console_open_mdi(const char *id, void *,
 #define STATIC_PROTOTYPE static
 
 /* define if the platform supports the monitor in a seperate window */
+#ifndef WATCOM_COMPILE
 #define ARCHDEP_SEPERATE_MONITOR_WINDOW
+#endif
 
 #endif
