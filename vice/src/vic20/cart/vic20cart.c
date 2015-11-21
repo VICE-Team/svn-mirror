@@ -54,6 +54,7 @@
 #include "lib.h"
 #include "log.h"
 #include "mem.h"
+#include "ultimem.h"
 #include "vic-fp.h"
 #include "megacart.h"
 #include "monitor.h"
@@ -115,6 +116,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_VIC20_GENERIC:
         case CARTRIDGE_VIC20_MEGACART:
         case CARTRIDGE_VIC20_FINAL_EXPANSION:
+        case CARTRIDGE_VIC20_UM:
         case CARTRIDGE_VIC20_FP:
         case CARTRIDGE_VIC20_IEEE488:
         case CARTRIDGE_VIC20_SIDCART:
@@ -280,6 +282,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME,
       NULL, NULL },
+    { "-ultimem", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_UM, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_VIC_UM_ROM_NAME,
+      NULL, NULL },
     { "-cartfp", CALL_FUNCTION, 1,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_FP, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -381,6 +388,9 @@ int cartridge_attach_image(int type, const char *filename)
         case CARTRIDGE_VIC20_GENERIC:
             ret = generic_bin_attach(type_orig, filename);
             break;
+        case CARTRIDGE_VIC20_UM:
+            ret = vic_um_bin_attach(filename);
+            break;
         case CARTRIDGE_VIC20_FP:
             ret = vic_fp_bin_attach(filename);
             break;
@@ -466,6 +476,10 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
             ret = generic_snapshot_write_module(s);
             break;
 
+        case CARTRIDGE_VIC20_UM:
+            ret = vic_um_snapshot_write_module(s);
+            break;
+
         case CARTRIDGE_VIC20_FP:
             ret = vic_fp_snapshot_write_module(s);
             break;
@@ -525,6 +539,10 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     switch (vic20cart_type) {
         case CARTRIDGE_VIC20_GENERIC:
             ret = generic_snapshot_read_module(s);
+            break;
+
+        case CARTRIDGE_VIC20_UM:
+            ret = vic_um_snapshot_read_module(s);
             break;
 
         case CARTRIDGE_VIC20_FP:

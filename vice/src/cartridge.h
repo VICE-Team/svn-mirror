@@ -310,6 +310,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_FP              4   /* vic-fp.c */
 #define CARTRIDGE_VIC20_IEEE488         5   /* vic20-ieee488.c */
 #define CARTRIDGE_VIC20_SIDCART         6   /* vic20-sidcart.c */
+#define CARTRIDGE_VIC20_UM              7   /* ultimem.c */
 
 /*
  * VIC20 Generic cartridges
@@ -339,6 +340,7 @@ extern void cartridge_sound_chip_init(void);
 /* list of canonical names for the VIC20 cartridges: */
 #define CARTRIDGE_VIC20_NAME_FINAL_EXPANSION "Final Expansion"
 #define CARTRIDGE_VIC20_NAME_MEGACART        "Mega-Cart" /* http://mega-cart.com/ */
+#define CARTRIDGE_VIC20_NAME_UM              "UltiMem"
 #define CARTRIDGE_VIC20_NAME_FP              "Vic Flash Plugin" /* http://www.ktverkko.fi/~msmakela/8bit/vfp/index.en.html */
 
 

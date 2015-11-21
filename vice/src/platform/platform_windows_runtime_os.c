@@ -25,12 +25,14 @@
  */
 
 /* Tested and confirmed working on:
+   - OS/2 / EcomStation using odin32 (x86)
    - Wine (x86)
    - ReactOS 0.2.7 (x86)
    - ReactOS 0.2.9 (x86)
    - ReactOS 0.3.0 (x86)
    - ReactOS 0.3.3 (x86)
    - ReactOS 0.3.4 (x86)
+   - ReactOS 0.3.5 (x86)
    - ReactOS 0.3.6 (x86)
    - ReactOS 0.3.7 (x86)
    - ReactOS 0.3.11 (x86)
@@ -75,6 +77,7 @@
    - Windows XP Home (x86)
    - Windows XP Pro (x86/x64)
    - Windows XP Tablet PC (x86)
+   - Windows XP MCE 2002 (x86)
    - Windows XP MCE 2004 (x86)
    - Windows XP MCE 2005 (x86)
    - Windows XP MCE 2005 R1 (x86)
@@ -868,7 +871,7 @@ static winver_t windows_versions[] = {
     { "Windows XP Tablet PC", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, 0, -1, VICE_SM_TABLETPC },
     { "Windows XP Media Center 2002", VER_PLATFORM_WIN32_NT,
-      5, 1, 8, VER_NT_WORKSTATION, 0, 1, VICE_SM_MEDIACENTER },
+      5, 1, 8, VER_NT_WORKSTATION, 0, 0, VICE_SM_MEDIACENTER },
     { "Windows XP Media Center 2004", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, 0, 2, VICE_SM_MEDIACENTER },
     { "Windows XP Media Center 2005", VER_PLATFORM_WIN32_NT,

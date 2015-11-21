@@ -93,6 +93,13 @@ static flash_types_t flash_types[FLASH040_TYPE_NUM] = {
       0x3f0000, 0x10000, 16,
       0x556, 0x2a9, 0x7ff, 0x7ff,
       0x44 },
+    /* MX29LV640E */
+    { 0xc2, 0xc9,
+      0x1000000,
+      /* FIXME: the high-end 64k sector is divided into 8*8k */
+      0x0ff0000, 0x10000, 16,
+      0x555, 0x2aa, 0x7ff, 0x7ff,
+      0x44 },
 };
 
 /* -------------------------------------------------------------------------- */

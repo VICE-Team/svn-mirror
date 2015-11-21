@@ -38,6 +38,8 @@ enum flash040_type_s {
     FLASH040_TYPE_010,
     /* 29F032B, A0/1 swapped */
     FLASH040_TYPE_032B_A0_1_SWAP,
+    /* MX29LV640E */
+    FLASH040_TYPE_640,
     FLASH040_TYPE_NUM
 };
 typedef enum flash040_type_s flash040_type_t;

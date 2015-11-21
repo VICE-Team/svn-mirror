@@ -259,6 +259,9 @@ void vic20_ui_specific(void *msg, void *window)
         case MENU_CART_VIC20_GENERIC:
             ui_select_file(B_SAVE_PANEL, VIC20_GENERIC_CART_FILE, (void*)0);
             break;
+        case MENU_CART_VIC20_UM:
+            ui_select_file(B_SAVE_PANEL, VIC20_UM_FILE, (void*)0);
+            break;
         case MENU_CART_VIC20_FP:
             ui_select_file(B_SAVE_PANEL, VIC20_FP_FILE, (void*)0);
             break;

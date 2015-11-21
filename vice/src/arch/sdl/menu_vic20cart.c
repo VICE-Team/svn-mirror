@@ -48,6 +48,9 @@ static UI_MENU_CALLBACK(attach_cart_callback)
 
     if (activated) {
         switch (vice_ptr_to_int(param)) {
+            case CARTRIDGE_VIC20_UM:
+                title = "Select " CARTRIDGE_VIC20_NAME_UM " image";
+                break;
             case CARTRIDGE_VIC20_FP:
                 title = "Select " CARTRIDGE_VIC20_NAME_FP " image";
                 break;
@@ -55,7 +58,7 @@ static UI_MENU_CALLBACK(attach_cart_callback)
                 title = "Select " CARTRIDGE_VIC20_NAME_MEGACART " image";
                 break;
             case CARTRIDGE_VIC20_FINAL_EXPANSION:
-                title = "Select " CARTRIDGE_VIC20_NAME_FP " image";
+                title = "Select " CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " image";
                 break;
             case CARTRIDGE_VIC20_DETECT:
             case CARTRIDGE_VIC20_GENERIC:
@@ -391,6 +394,7 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
+UI_MENU_DEFINE_TOGGLE(UltiMemWriteBack)
 UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
 UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
 UI_MENU_DEFINE_FILE_STRING(MegaCartNvRAMfilename)
@@ -408,6 +412,10 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_VIC20_FINAL_EXPANSION },
+    { "Attach " CARTRIDGE_VIC20_NAME_UM " image",
+      MENU_ENTRY_DIALOG,
+      attach_cart_callback,
+      (ui_callback_data_t)CARTRIDGE_VIC20_UM },
     { "Attach " CARTRIDGE_VIC20_NAME_FP " image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
@@ -438,6 +446,10 @@ const ui_menu_entry_t vic20cart_menu[] = {
     { CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " write back",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_FinalExpansionWriteBack_callback,
+      NULL },
+    { CARTRIDGE_VIC20_NAME_UM " write back",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UltiMemWriteBack_callback,
       NULL },
     { CARTRIDGE_VIC20_NAME_FP " write back",
       MENU_ENTRY_RESOURCE_TOGGLE,

@@ -405,6 +405,9 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
     if (filetype == VIC20_GENERIC_CART_FILE) {
         sprintf(title, "Select generic cartridge file");
     }
+    if (filetype == VIC20_UM_FILE) {
+        sprintf(title, "Select UltiMem file");
+    }
     if (filetype == VIC20_FP_FILE) {
         sprintf(title, "Select Vic Flash Plugin file");
     }
@@ -761,6 +764,10 @@ void ui_select_file_action(BMessage *msg)
             ui_sound_record_action(fullpath, "wav");
         } else if (last_filetype[1] == VIC20_GENERIC_CART_FILE) {
             if (cartridge_attach_image(CARTRIDGE_VIC20_GENERIC, fullpath) < 0) {
+                ui_error("Invalid cartridge image");
+            }
+        } else if (last_filetype[1] == VIC20_UM_FILE) {
+            if (cartridge_attach_image(CARTRIDGE_VIC20_UM, fullpath) < 0) {
                 ui_error("Invalid cartridge image");
             }
         } else if (last_filetype[1] == VIC20_FP_FILE) {

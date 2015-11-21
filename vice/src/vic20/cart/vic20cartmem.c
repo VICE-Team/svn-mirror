@@ -51,6 +51,7 @@
 #include "vic20mem.h"
 #include "vic20cartmem.h"
 #include "vic20-generic.h"
+#include "ultimem.h"
 #include "vic-fp.h"
 
 /* ------------------------------------------------------------------------- */
@@ -65,6 +66,9 @@ BYTE cartridge_read_ram123(WORD addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             vic20_cpu_last_data = generic_ram123_read(addr);
+            break;
+        case CARTRIDGE_VIC20_UM:
+            vic20_cpu_last_data = vic_um_ram123_read(addr);
             break;
         case CARTRIDGE_VIC20_FP:
             vic20_cpu_last_data = vic_fp_ram123_read(addr);
@@ -88,6 +92,8 @@ BYTE cartridge_peek_ram123(WORD addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             return generic_ram123_read(addr);
+        case CARTRIDGE_VIC20_UM:
+            return vic_um_ram123_read(addr);
         case CARTRIDGE_VIC20_FP:
             return vic_fp_ram123_read(addr);
         case CARTRIDGE_VIC20_MEGACART:
@@ -106,6 +112,9 @@ void cartridge_store_ram123(WORD addr, BYTE value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             generic_ram123_store(addr, value);
+            break;
+        case CARTRIDGE_VIC20_UM:
+            vic_um_ram123_store(addr, value);
             break;
         case CARTRIDGE_VIC20_FP:
             vic_fp_ram123_store(addr, value);
@@ -126,6 +135,9 @@ BYTE cartridge_read_blk1(WORD addr)
         case CARTRIDGE_VIC20_GENERIC:
             vic20_cpu_last_data = generic_blk1_read(addr);
             break;
+        case CARTRIDGE_VIC20_UM:
+            vic20_cpu_last_data = vic_um_blk1_read(addr);
+            break;
         case CARTRIDGE_VIC20_FP:
             vic20_cpu_last_data = vic_fp_blk1_read(addr);
             break;
@@ -144,6 +156,8 @@ BYTE cartridge_peek_blk1(WORD addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             return generic_blk1_read(addr);
+        case CARTRIDGE_VIC20_UM:
+            return vic_um_blk1_read(addr);
         case CARTRIDGE_VIC20_FP:
             return vic_fp_blk1_read(addr);
         case CARTRIDGE_VIC20_MEGACART:
@@ -160,6 +174,9 @@ void cartridge_store_blk1(WORD addr, BYTE value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             generic_blk1_store(addr, value);
+            break;
+        case CARTRIDGE_VIC20_UM:
+            vic_um_blk1_store(addr, value);
             break;
         case CARTRIDGE_VIC20_FP:
             vic_fp_blk1_store(addr, value);
@@ -179,6 +196,9 @@ BYTE cartridge_read_blk2(WORD addr)
         case CARTRIDGE_VIC20_GENERIC:
             vic20_cpu_last_data = generic_blk2_read(addr);
             break;
+        case CARTRIDGE_VIC20_UM:
+            vic20_cpu_last_data = vic_um_blk23_read(addr);
+            break;
         case CARTRIDGE_VIC20_FP:
             vic20_cpu_last_data = vic_fp_blk23_read(addr);
             break;
@@ -197,6 +217,8 @@ BYTE cartridge_peek_blk2(WORD addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             return generic_blk2_read(addr);
+        case CARTRIDGE_VIC20_UM:
+            return vic_um_blk23_read(addr);
         case CARTRIDGE_VIC20_FP:
             return vic_fp_blk23_read(addr);
         case CARTRIDGE_VIC20_MEGACART:
@@ -213,6 +235,9 @@ void cartridge_store_blk2(WORD addr, BYTE value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             generic_blk2_store(addr, value);
+            break;
+        case CARTRIDGE_VIC20_UM:
+            vic_um_blk23_store(addr, value);
             break;
         case CARTRIDGE_VIC20_FP:
             vic_fp_blk23_store(addr, value);
@@ -232,6 +257,9 @@ BYTE cartridge_read_blk3(WORD addr)
         case CARTRIDGE_VIC20_GENERIC:
             vic20_cpu_last_data = generic_blk3_read(addr);
             break;
+        case CARTRIDGE_VIC20_UM:
+            vic20_cpu_last_data = vic_um_blk23_read(addr);
+            break;
         case CARTRIDGE_VIC20_FP:
             vic20_cpu_last_data = vic_fp_blk23_read(addr);
             break;
@@ -250,6 +278,8 @@ BYTE cartridge_peek_blk3(WORD addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             return generic_blk3_read(addr);
+        case CARTRIDGE_VIC20_UM:
+            return vic_um_blk23_read(addr);
         case CARTRIDGE_VIC20_FP:
             return vic_fp_blk23_read(addr);
         case CARTRIDGE_VIC20_MEGACART:
@@ -266,6 +296,9 @@ void cartridge_store_blk3(WORD addr, BYTE value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             generic_blk3_store(addr, value);
+            break;
+        case CARTRIDGE_VIC20_UM:
+            vic_um_blk23_store(addr, value);
             break;
         case CARTRIDGE_VIC20_FP:
             vic_fp_blk23_store(addr, value);
@@ -285,6 +318,9 @@ BYTE cartridge_read_blk5(WORD addr)
         case CARTRIDGE_VIC20_GENERIC:
             vic20_cpu_last_data = generic_blk5_read(addr);
             break;
+        case CARTRIDGE_VIC20_UM:
+            vic20_cpu_last_data = vic_um_blk5_read(addr);
+            break;
         case CARTRIDGE_VIC20_FP:
             vic20_cpu_last_data = vic_fp_blk5_read(addr);
             break;
@@ -303,6 +339,8 @@ BYTE cartridge_peek_blk5(WORD addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             return generic_blk5_read(addr);
+        case CARTRIDGE_VIC20_UM:
+            return vic_um_blk5_read(addr);
         case CARTRIDGE_VIC20_FP:
             return vic_fp_blk5_read(addr);
         case CARTRIDGE_VIC20_MEGACART:
@@ -319,6 +357,9 @@ void cartridge_store_blk5(WORD addr, BYTE value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             generic_blk5_store(addr, value);
+            break;
+        case CARTRIDGE_VIC20_UM:
+            vic_um_blk5_store(addr, value);
             break;
         case CARTRIDGE_VIC20_FP:
             vic_fp_blk5_store(addr, value);
@@ -352,6 +393,9 @@ void cartridge_reset(void)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
             generic_reset();
+            break;
+        case CARTRIDGE_VIC20_UM:
+            vic_um_reset();
             break;
         case CARTRIDGE_VIC20_FP:
             vic_fp_reset();
@@ -398,6 +442,9 @@ void cartridge_attach(int type, BYTE *rawcart)
         case CARTRIDGE_VIC20_GENERIC:
             generic_config_setup(rawcart);
             break;
+        case CARTRIDGE_VIC20_UM:
+            vic_um_config_setup(rawcart);
+            break;
         case CARTRIDGE_VIC20_FP:
             vic_fp_config_setup(rawcart);
             break;
@@ -427,6 +474,9 @@ void cartridge_detach(int type)
     switch (type) {
         case CARTRIDGE_VIC20_GENERIC:
             generic_detach();
+            break;
+        case CARTRIDGE_VIC20_UM:
+            vic_um_detach();
             break;
         case CARTRIDGE_VIC20_FP:
             vic_fp_detach();

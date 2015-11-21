@@ -13029,6 +13029,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_TR, "Vic Flash Plugin uzantýsý ROM ismini belirt"},
 #endif
 
+/* vic20/cart/vic20cart.c */
+/* en */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME,    N_("Specify UltiMem extension ROM name")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_DA, "Angiv navn på UltiMem udviddelses-ROM"},
+/* de */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_DE, "Name für UltiMem Erweiterungs ROM definieren"},
+/* es */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_ES, "Especificar nombre ROM extendida UltiMem"},
+/* fr */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_FR, "Spécifier le nom de l'extension ROM UltiMem"},
+/* hu */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_IT, "Specifica il nome dell'estensione ROM UltiMem"},
+/* ko */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_NL, "Geef de naam van het bestand voor de UltiMem ROM"},
+/* pl */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_PL, "Okre¶l nazwê rozszerzenia ROM UltiMem"},
+/* ru */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_RU, "Specify UltiMem extension ROM name"},
+/* sv */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_SV, "Ange namn på UltiMem-ROM"},
+/* tr */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_TR, "UltiMem uzantýsý ROM ismini belirt"},
+#endif
+
 /* vic20/cart/finalexpansion.c */
 /* en */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK,    N_("Enable Final Expansion write back to ROM file")},
 #ifdef HAS_TRANSLATION
@@ -13146,6 +13163,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_VICFP_ROM_WRITE_RU, "Disable Vic Flash Plugin write back to ROM file"},
 /* sv */ {IDCLS_DISABLE_VICFP_ROM_WRITE_SV, "Inaktivera återskrivning till ROM-fil för Vic Flash-insticksmodul"},
 /* tr */ {IDCLS_DISABLE_VICFP_ROM_WRITE_TR, "Flash Plugin ROM dosyasýna geri yazmayý pasifleþtir"},
+#endif
+
+/* vic20/cart/vic-fp.c */
+/* en */ {IDCLS_ENABLE_VICBI_ROM_WRITE,    N_("Enable UltiMem write back to ROM file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_VICBI_ROM_WRITE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_VICBI_ROM_WRITE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_VICBI_ROM_WRITE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_VICBI_ROM_WRITE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_VICBI_ROM_WRITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_VICBI_ROM_WRITE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_VICBI_ROM_WRITE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_VICBI_ROM_WRITE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_VICBI_ROM_WRITE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_VICBI_ROM_WRITE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_VICBI_ROM_WRITE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_VICBI_ROM_WRITE_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/cart/vic-fp.c */
+/* en */ {IDCLS_DISABLE_VICBI_ROM_WRITE,    N_("Disable UltiMem write back to ROM file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_VICBI_ROM_WRITE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_VICBI_ROM_WRITE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_VICBI_ROM_WRITE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_VICBI_ROM_WRITE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_VICBI_ROM_WRITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_VICBI_ROM_WRITE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_VICBI_ROM_WRITE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_VICBI_ROM_WRITE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_VICBI_ROM_WRITE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_VICBI_ROM_WRITE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_VICBI_ROM_WRITE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_VICBI_ROM_WRITE_TR, ""},  /* fuzzy */
 #endif
 
 /* vicii/vicii-cmdline-options.c */

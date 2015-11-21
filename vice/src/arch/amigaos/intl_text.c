@@ -10234,6 +10234,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SELECT_GENERIC_SV, "Välj generisk insticksmodulavbildning" },
 /* tr */ { IDS_SELECT_GENERIC_TR, "Jenerik kartuþ imajý seç" },
 
+/* en */ { IDS_SELECT_UM,    "Select UltiMem image" },
+/* da */ { IDS_SELECT_UM_DA, "Vælg UltiMem-image" },
+/* de */ { IDS_SELECT_UM_DE, "UltiMem Image auswählen" },
+/* es */ { IDS_SELECT_UM_ES, "Seleccionar imagen UltiMem" },
+/* fr */ { IDS_SELECT_UM_FR, "Sélectionner l'image UltiMem" },
+/* hu */ { IDS_SELECT_UM_HU, "" },  /* fuzzy */
+/* it */ { IDS_SELECT_UM_IT, "Seleziona immagine UltiMem " },
+/* ko */ { IDS_SELECT_UM_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SELECT_UM_NL, "Selecteer UltiMem bestand" },
+/* pl */ { IDS_SELECT_UM_PL, "Wybierz obraz UltiMem" },
+/* ru */ { IDS_SELECT_UM_RU, "Select UltiMem image" },
+/* sv */ { IDS_SELECT_UM_SV, "Välj avbildning för UltiMem" },
+/* tr */ { IDS_SELECT_UM_TR, "UltiMem imajý seç" },
+
 /* en */ { IDS_SELECT_FP,    "Select Vic Flash Plugin image" },
 /* da */ { IDS_SELECT_FP_DA, "Vælg Vic Flash Plugin-image" },
 /* de */ { IDS_SELECT_FP_DE, "Vic Flash Plugin Image auswählen" },

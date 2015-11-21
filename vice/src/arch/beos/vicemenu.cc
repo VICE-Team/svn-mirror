@@ -185,6 +185,7 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Generic cartridge image", new BMessage(MENU_CART_VIC20_GENERIC)));
             menu->AddItem(new BMenuItem("Mega-Cart image", new BMessage(MENU_CART_VIC20_MEGACART)));
             menu->AddItem(new BMenuItem("Final Expansion image", new BMessage(MENU_CART_VIC20_FINAL_EXPANSION)));
+            menu->AddItem(new BMenuItem("UltiMem image", new BMessage(MENU_CART_VIC20_UM)));
             menu->AddItem(new BMenuItem("Vic Flash Plugin image", new BMessage(MENU_CART_VIC20_FP)));
             menu->AddItem(submenu = new BMenu("Add to generic"));
                 submenu->AddItem(new BMenuItem("Smart Attach", new BMessage(MENU_CART_VIC20_SMART_ATTACH)));

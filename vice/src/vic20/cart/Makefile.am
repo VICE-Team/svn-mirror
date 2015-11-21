@@ -15,6 +15,8 @@ libvic20cart_a_SOURCES = \
 	finalexpansion.h \
 	megacart.c \
 	megacart.h \
+	ultimem.c \
+	ultimem.h \
 	vic-fp.c \
 	vic-fp.h \
 	vic20-generic.c \

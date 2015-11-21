@@ -134,6 +134,7 @@
  - Windows XP Home
  - Windows XP Pro
  - Windows XP Tablet PC
+ - Windows XP MCE 2002
  - Windows XP MCE 2004
  - Windows XP MCE 2005
  - Windows XP MCE 2005 R1
@@ -172,6 +173,7 @@
  - OS/2 3.0
  - OS/2 4.0
  - OS/2 4.52
+ - EComStation 2.0 RC5
  - EComStation 2.0 RC6a
  - EComStation 2.0 RC7 Silver Release
 */
