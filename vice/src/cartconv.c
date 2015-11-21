@@ -1630,8 +1630,10 @@ int main(int argc, char *argv[])
     int arg_counter = 1;
     char *flag, *argument;
 
-    if(!strcmp(argv[1], "--types")) {
-        usage_types();
+    if (argc > 1) {
+        if(!strcmp(argv[1], "--types")) {
+            usage_types();
+        }
     }
 
     if (argc < 3) {
