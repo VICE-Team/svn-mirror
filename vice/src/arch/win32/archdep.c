@@ -200,9 +200,6 @@ typedef DWORD (WINAPI *_GetModuleFileNameEx) (
 
 static BOOL verify_exe(char *file_name)
 {
-#ifdef WATCOM_COMPILE
-    return TRUE;
-#else
     DWORD version_info_size;
     BOOL bResult = FALSE;
     char *company_name = NULL;
@@ -227,7 +224,6 @@ static BOOL verify_exe(char *file_name)
     }
 
     return bResult;
-#endif
 }
 
 const char *archdep_boot_path(void)
