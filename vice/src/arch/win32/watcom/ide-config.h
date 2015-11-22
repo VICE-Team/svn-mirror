@@ -83,6 +83,7 @@
 #define _WIN32
 #define WIN32
 
+#define WIN32_COMPILE           1
 #define WATCOM_COMPILE          1
 #define _MSC_VER                1
 
