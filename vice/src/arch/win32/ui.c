@@ -103,10 +103,8 @@
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
-#if
-
 #define VICE_WIN_LONG_MAX 2147483647L
-#define VICE_WIN_LONG_MIN −2147483648L
+#define VICE_WIN_LONG_MIN -2147483648L
 
 static TCHAR *hwnd_titles[2];
 
@@ -878,8 +876,8 @@ static void ui_resize_render_window(video_canvas_t *canvas)
         video_canvas_reset_dx9(canvas);
     }
     else if (wrect.right > wrect.left && wrect.bottom > wrect.top) {
-		canvas->draw_buffer->canvas_physical_width = wrect.right - wrect.left;
-		canvas->draw_buffer->canvas_physical_height = wrect.bottom - wrect.top - statusbar_get_status_height();
+                canvas->draw_buffer->canvas_physical_width = wrect.right - wrect.left;
+                canvas->draw_buffer->canvas_physical_height = wrect.bottom - wrect.top - statusbar_get_status_height();
         video_viewport_resize(canvas, 0);
     }
 }
