@@ -2323,6 +2323,18 @@ IDCLS_ENABLE_VICFP_ROM_WRITE
 /* vic20/cart/vic-fp.c */
 IDCLS_DISABLE_VICFP_ROM_WRITE
 
+/* vic20/cart/ioramcart.c */
+IDCLS_ENABLE_IO2_RAM
+
+/* vic20/cart/ioramcart.c */
+IDCLS_DISABLE_IO2_RAM
+
+/* vic20/cart/ioramcart.c */
+IDCLS_ENABLE_IO3_RAM
+
+/* vic20/cart/ioramcart.c */
+IDCLS_DISABLE_IO3_RAM
+
 /* vicii/vicii-cmdline-options.c */
 IDCLS_SET_BORDER_MODE
 

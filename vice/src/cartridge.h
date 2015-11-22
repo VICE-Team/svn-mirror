@@ -311,6 +311,8 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_IEEE488         5   /* vic20-ieee488.c */
 #define CARTRIDGE_VIC20_SIDCART         6   /* vic20-sidcart.c */
 #define CARTRIDGE_VIC20_UM              7   /* ultimem.c */
+#define CARTRIDGE_VIC20_IO2_RAM         8   /* ioramcart.c */
+#define CARTRIDGE_VIC20_IO3_RAM         9   /* ioramcart.c */
 
 /*
  * VIC20 Generic cartridges

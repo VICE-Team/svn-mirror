@@ -13,6 +13,8 @@ noinst_LIBRARIES = libvic20cart.a libmascuerade.a
 libvic20cart_a_SOURCES = \
 	finalexpansion.c \
 	finalexpansion.h \
+	ioramcart.c \
+	ioramcart.h \
 	megacart.c \
 	megacart.h \
 	ultimem.c \

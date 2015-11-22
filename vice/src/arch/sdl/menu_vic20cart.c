@@ -399,6 +399,9 @@ UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
 UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
 UI_MENU_DEFINE_FILE_STRING(MegaCartNvRAMfilename)
 
+UI_MENU_DEFINE_TOGGLE(IO2RAM)
+UI_MENU_DEFINE_TOGGLE(IO3RAM)
+
 const ui_menu_entry_t vic20cart_menu[] = {
     { "Attach generic cartridge image",
       MENU_ENTRY_DIALOG,
@@ -463,6 +466,14 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_MegaCartNvRAMfilename_callback,
       (ui_callback_data_t)"Select " CARTRIDGE_VIC20_NAME_MEGACART " NvRAM image" },
+    { "I/O-2 RAM",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IO2RAM_callback,
+      NULL },
+    { "I/O-3 RAM",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IO3RAM_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("MasC=uerade specific cart settings"),
     { CARTRIDGE_NAME_GEORAM,

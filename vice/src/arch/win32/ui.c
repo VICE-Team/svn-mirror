@@ -104,7 +104,7 @@
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
 #define VICE_WIN_LONG_MAX 2147483647L
-#define VICE_WIN_LONG_MIN -2147483648L
+#define VICE_WIN_LONG_MIN (-2147483647L - 1)
 
 static TCHAR *hwnd_titles[2];
 

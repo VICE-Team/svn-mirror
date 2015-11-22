@@ -51,6 +51,7 @@
 #include "ds12c887rtc.h"
 #include "finalexpansion.h"
 #include "georam.h"
+#include "ioramcart.h"
 #include "lib.h"
 #include "log.h"
 #include "mem.h"
@@ -189,6 +190,7 @@ int cartridge_resources_init(void)
         || ds12c887rtc_resources_init() < 0
         || sfx_soundexpander_resources_init() < 0
         || sfx_soundsampler_resources_init() < 0
+        || ioramcart_resources_init() < 0
         || georam_resources_init() < 0) {
         return -1;
     }
@@ -317,6 +319,7 @@ int cartridge_cmdline_options_init(void)
         || ds12c887rtc_cmdline_options_init() < 0
         || sfx_soundexpander_cmdline_options_init() < 0
         || sfx_soundsampler_cmdline_options_init() < 0
+        || ioramcart_cmdline_options_init() < 0
         || georam_cmdline_options_init() < 0) {
         return -1;
     }

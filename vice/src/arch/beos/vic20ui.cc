@@ -102,6 +102,8 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "VicFlashPluginWriteBack", MENU_TOGGLE_VFP_WRITE_BACK },
     { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
     { "DS12C887RTCSave", MENU_TOGGLE_DS12C887_RTC_SAVE },
+    { "IO2RAM", MENU_TOGGLE_IO2_RAM },
+    { "IO3RAM", MENU_TOGGLE_IO3_RAM },
     { NULL, 0 }
 };
 

@@ -67,6 +67,8 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "MegaCartNvRAMWriteBack", IDM_MEGACART_WRITEBACK },
     { "VicFlashPluginWriteBack", IDM_FP_WRITEBACK },
     { "Mouse", IDM_MOUSE },
+    { "IO2RAM", IDM_IO2_RAM_ENABLE },
+    { "IO3RAM", IDM_IO3_RAM_ENABLE },
     { NULL, 0 }
 };
 

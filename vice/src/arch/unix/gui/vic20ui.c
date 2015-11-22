@@ -339,6 +339,9 @@ UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
 UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
 UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
 
+UI_MENU_DEFINE_TOGGLE(IO2RAM)
+UI_MENU_DEFINE_TOGGLE(IO3RAM)
+
 UI_CALLBACK(set_mc_nvram_image_name)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("Mega-Cart NvRAM image"), UILIB_FILTER_ALL);
@@ -362,6 +365,14 @@ static ui_menu_entry_t megacart_submenu[] = {
     { N_("NvRAM image file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_mc_nvram_image_name,
       (ui_callback_data_t)"MegaCartNvRAMfilename", NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t io_ram_submenu[] = {
+    { N_("Enable I/O-2 RAM"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_IO2RAM, NULL, NULL },
+    { N_("Enable I/O-3 RAM"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_IO3RAM, NULL, NULL },
     { NULL }
 };
 
@@ -491,6 +502,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, sidcart_submenu },
     { N_("VIC-1112 IEEE488 interface"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IEEE488, NULL, NULL },
+    { N_("I/O RAM"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, io_ram_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_DIGIMAX " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
       NULL, NULL, digimax_vic20_submenu },

@@ -13199,6 +13199,74 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_TR, "UltiMem ROM dosyasýna geri yazmayý pasifleþtir"},
 #endif
 
+/* vic20/cart/ioramcart.c */
+/* en */ {IDCLS_ENABLE_IO2_RAM,    N_("Enable I/O-2 RAM")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_IO2_RAM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IO2_RAM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_IO2_RAM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IO2_RAM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_IO2_RAM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IO2_RAM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_IO2_RAM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IO2_RAM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_IO2_RAM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_IO2_RAM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IO2_RAM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_IO2_RAM_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/cart/ioramcart.c */
+/* en */ {IDCLS_DISABLE_IO2_RAM,    N_("Disable I/O-2 RAM")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_IO2_RAM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IO2_RAM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_IO2_RAM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IO2_RAM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_IO2_RAM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IO2_RAM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_IO2_RAM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IO2_RAM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_IO2_RAM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_IO2_RAM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IO2_RAM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_IO2_RAM_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/cart/ioramcart.c */
+/* en */ {IDCLS_ENABLE_IO3_RAM,    N_("Enable I/O-3 RAM")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_IO3_RAM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IO3_RAM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_IO3_RAM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IO3_RAM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_IO3_RAM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IO3_RAM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_IO3_RAM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IO3_RAM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_IO3_RAM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_IO3_RAM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IO3_RAM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_IO3_RAM_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/cart/ioramcart.c */
+/* en */ {IDCLS_DISABLE_IO3_RAM,    N_("Disable I/O-3 RAM")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_IO3_RAM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IO3_RAM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_IO3_RAM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IO3_RAM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_IO3_RAM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IO3_RAM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_IO3_RAM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IO3_RAM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_IO3_RAM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_IO3_RAM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IO3_RAM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_IO3_RAM_TR, ""},  /* fuzzy */
+#endif
+
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_BORDER_MODE,    N_("Set border display mode (0: normal, 1: full, 2: debug)")},
 #ifdef HAS_TRANSLATION

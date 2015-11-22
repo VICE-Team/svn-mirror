@@ -4282,6 +4282,34 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_MEGACART_WRITEBACK_FILE_SV, "Välj NvRAM-fil för Mega-Cart" },
 /* tr */ { IDMS_MEGACART_WRITEBACK_FILE_TR, "Mega-Cart non-volatile RAM dosyasýný seç" },
 
+/* en */ { IDMS_IO2_RAM_ENABLE,    "Enable I/O-2 RAM" },
+/* da */ { IDMS_IO2_RAM_ENABLE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_IO2_RAM_ENABLE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_IO2_RAM_ENABLE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_IO2_RAM_ENABLE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_IO2_RAM_ENABLE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_IO2_RAM_ENABLE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_IO2_RAM_ENABLE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_IO2_RAM_ENABLE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_IO2_RAM_ENABLE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_IO2_RAM_ENABLE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_IO2_RAM_ENABLE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_IO2_RAM_ENABLE_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_IO3_RAM_ENABLE,    "Enable I/O-3 RAM" },
+/* da */ { IDMS_IO3_RAM_ENABLE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_IO3_RAM_ENABLE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_IO3_RAM_ENABLE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_IO3_RAM_ENABLE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_IO3_RAM_ENABLE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_IO3_RAM_ENABLE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_IO3_RAM_ENABLE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_IO3_RAM_ENABLE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_IO3_RAM_ENABLE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_IO3_RAM_ENABLE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_IO3_RAM_ENABLE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_IO3_RAM_ENABLE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_C64DTV_SETTINGS,    "C64DTV settings..." },
 /* da */ { IDMS_C64DTV_SETTINGS_DA, "C64DTV-indstillinger..." },
 /* de */ { IDMS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen..." },
