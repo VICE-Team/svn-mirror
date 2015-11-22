@@ -20162,6 +20162,7 @@ command line:   -umwriteback
 description:    "Enable UltiMem write back to ROM file"
 resource:       "UltiMemWriteBack" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 vic20/cart/ultimem.c:
 ---------------------
@@ -20169,6 +20170,71 @@ command line:   +umwriteback
 description:    "Disable UltiMem write back to ROM file"
 resource:       "UltiMemWriteBack" (set to 0)
 action:         N/A
+fixme: add to documentation
+
+vic20/cart/ioramcart.c:
+-----------------------
+resource type:                  int
+resource name:                  "IO2RAM"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ram_io2_enabled()
+resource var:                   ram_io2_enabled
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:                    
+command-line:                   -io2ram / +io2ram
+platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform gui missing:           os2/osx
+fixme: add to documentation
+
+vic20/cart/ioramcart.c:
+-----------------------
+command line:   -io2ram
+description:    "Enable I/O-2 RAM"
+resource:       "IO2RAM" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+vic20/cart/ioramcart.c:
+-----------------------
+command line:   +io2ram
+description:    "Disable I/O-2 RAM"
+resource:       "IO2RAM" (set to 0)
+action:         N/A
+fixme: add to documentation
+
+vic20/cart/ioramcart.c:
+-----------------------
+resource type:                  int
+resource name:                  "IO3RAM"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ram_io3_enabled()
+resource var:                   ram_io3_enabled
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:                    
+command-line:                   -io3ram / +io3ram
+platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform gui missing:           os2/osx
+fixme: add to documentation
+
+vic20/cart/ioramcart.c:
+-----------------------
+command line:   -io3ram
+description:    "Enable I/O-3 RAM"
+resource:       "IO3RAM" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+vic20/cart/ioramcart.c:
+-----------------------
+command line:   +io3ram
+description:    "Disable I/O-3 RAM"
+resource:       "IO3RAM" (set to 0)
+action:         N/A
+fixme: add to documentation
 
 joyport.c:
 ----------
