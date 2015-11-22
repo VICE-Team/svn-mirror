@@ -103,6 +103,11 @@
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
+#if
+
+#define VICE_WIN_LONG_MAX 2147483647L
+#define VICE_WIN_LONG_MIN −2147483648L
+
 static TCHAR *hwnd_titles[2];
 
 /* Exposure handler.  */
@@ -762,7 +767,7 @@ static int ui_get_menu_height(HWND w)
 {
     RECT rect;
     int i;
-    LONG min_y = LONG_MAX, max_y = LONG_MIN;
+    LONG min_y = VICE_WIN_LONG_MAX, max_y = VICE_WIN_LONG_MIN;
     HMENU hmenu = GetMenu(w);
  
     for(i = 0; i < GetMenuItemCount(hmenu); i++)
