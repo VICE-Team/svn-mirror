@@ -20140,6 +20140,36 @@ description:    "Set the base address of the ACIA cartridge. [list of addresses]
 resource:       "Acia1Base"
 action:         N/A
 
+vic20/cart/ultimem.c:
+---------------------
+resource type:                  int
+resource name:                  "UltiMemWriteBack"
+resource range:                 0/1
+resource default:               0
+resource function:              set_vic_um_writeback()
+resource var:                   vic_um_writeback
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:                    
+command-line:                   -umwriteback / +umwriteback
+platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform gui missing:           os2/osx
+fixme: add to documentation
+
+vic20/cart/ultimem.c:
+---------------------
+command line:   -umwriteback
+description:    "Enable UltiMem write back to ROM file"
+resource:       "UltiMemWriteBack" (set to 1)
+action:         N/A
+
+vic20/cart/ultimem.c:
+---------------------
+command line:   +umwriteback
+description:    "Disable UltiMem write back to ROM file"
+resource:       "UltiMemWriteBack" (set to 0)
+action:         N/A
+
 joyport.c:
 ----------
 resource type:                  int
