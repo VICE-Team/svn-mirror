@@ -337,6 +337,7 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
 UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
+UI_MENU_DEFINE_TOGGLE(UltiMemWriteBack)
 UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
 
 UI_MENU_DEFINE_TOGGLE(IO2RAM)
@@ -356,6 +357,12 @@ static ui_menu_entry_t fexp_submenu[] = {
 static ui_menu_entry_t vicflash_submenu[] = {
     { N_("Enable image write back"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VicFlashPluginWriteBack, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t ultimem_submenu[] = {
+    { N_("Enable image write back"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UltiMemWriteBack, NULL, NULL },
     { NULL }
 };
 
@@ -498,6 +505,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, fexp_submenu },
     { CARTRIDGE_VIC20_NAME_FP, UI_MENU_TYPE_NORMAL,
       NULL, NULL, vicflash_submenu },
+    { CARTRIDGE_VIC20_NAME_UM, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ultimem_submenu },
     { N_("SID cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_submenu },
     { N_("VIC-1112 IEEE488 interface"), UI_MENU_TYPE_TICK,

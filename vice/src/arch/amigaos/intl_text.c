@@ -4254,6 +4254,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_FP_WRITEBACK_SV, "Aktivera återskrivning till ROM-fil för Vic Flash-insticksmodul" },
 /* tr */ { IDMS_FP_WRITEBACK_TR, "Flash Plugin ROM dosyasýna geri yazmayý aktif et" },
 
+/* en */ { IDMS_UM_WRITEBACK,    "Enable UltiMem write back to ROM file" },
+/* da */ { IDMS_UM_WRITEBACK_DA, "" },  /* fuzzy */
+/* de */ { IDMS_UM_WRITEBACK_DE, "" },  /* fuzzy */
+/* es */ { IDMS_UM_WRITEBACK_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_UM_WRITEBACK_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_UM_WRITEBACK_HU, "" },  /* fuzzy */
+/* it */ { IDMS_UM_WRITEBACK_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_UM_WRITEBACK_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_UM_WRITEBACK_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_UM_WRITEBACK_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_UM_WRITEBACK_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_UM_WRITEBACK_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_UM_WRITEBACK_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_MEGACART_WRITEBACK,    "Enable Mega-Cart NvRAM writeback" },
 /* da */ { IDMS_MEGACART_WRITEBACK_DA, "Aktivér Mega-Cart NvRAM tilbageskrivning" },
 /* de */ { IDMS_MEGACART_WRITEBACK_DE, "Mega-Cart NvRAM Rückschreiben aktivieren" },

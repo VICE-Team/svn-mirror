@@ -422,6 +422,15 @@ static tui_menu_item_def_t vic_flash_plugin_menu_items[] = {
     { NULL }
 };
 
+TUI_MENU_DEFINE_TOGGLE(UltiMemWriteBack)
+
+static tui_menu_item_def_t ultimem_menu_items[] = {
+    { "_Enable write-back to cart file:", "Enable write-back to cart file",
+      toggle_UltiMemWriteBack_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
 TUI_MENU_DEFINE_TOGGLE(IO2RAM)
 TUI_MENU_DEFINE_TOGGLE(IO3RAM)
 
@@ -478,6 +487,7 @@ int vic20ui_init(void)
     tui_menu_t ui_ioextensions_submenu;
     tui_menu_t ui_final_expansion_submenu;
     tui_menu_t ui_vic_flash_plugin_submenu;
+    tui_menu_t ui_ultimem_submenu;
     tui_menu_t ui_megacart_submenu;
     tui_menu_t ui_io_ram_submenu;
 
@@ -519,6 +529,16 @@ int vic20ui_init(void)
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
+    ui_ultimem_submenu = tui_menu_create("UltiMem settings", 1);
+
+    tui_menu_add(ui_ultimem_submenu, ultimem_menu_items);
+
+    tui_menu_add_submenu(ui_ioextensions_submenu, "_UltiMem settings...",
+                         "UltiMem settings",
+                         ui_ultimem_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+
     ui_megacart_submenu = tui_menu_create("Mega-Cart settings", 1);
 
     tui_menu_add(ui_megacart_submenu, megacart_menu_items);
@@ -532,6 +552,12 @@ int vic20ui_init(void)
     ui_io_ram_submenu = tui_menu_create("I/O RAM settings", 1);
 
     tui_menu_add(ui_io_ram_submenu, io_ram_menu_items);
+
+    tui_menu_add_submenu(ui_ioextensions_submenu, "_I/O RAM settings...",
+                         "I/O RAM settings",
+                         ui_io_ram_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
 
     uidigimax_vic20_init(ui_ioextensions_submenu);
     uids12c887rtc_vic20_init(ui_ioextensions_submenu);

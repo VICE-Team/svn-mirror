@@ -957,6 +957,8 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("Select nvram file", new BMessage(MENU_MC_NVRAM_FILE)));
             menu->AddItem(submenu = new BMenu("Vic Flash Plugin Options"));
                 submenu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_VFP_WRITE_BACK)));
+            menu->AddItem(submenu = new BMenu("UltiMem Options"));
+                submenu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_UM_WRITE_BACK)));
             menu->AddItem(submenu = new BMenu("I/O RAM Options"));
                 submenu->AddItem(new BMenuItem("Enable I/O-2 RAM", new BMessage(MENU_TOGGLE_IO2_RAM)));
                 submenu->AddItem(new BMenuItem("Enable I/O-3 RAM", new BMessage(MENU_TOGGLE_IO3_RAM)));

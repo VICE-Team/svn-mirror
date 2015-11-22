@@ -71,6 +71,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "FinalExpansionWriteBack", IDM_FINAL_EXPANSION_WRITEBACK },
     { "VicFlashPluginWriteBack", IDM_VIC_FLASH_PLUGIN_WRITEBACK },
     { "MegaCartNvRAMWriteBack", IDM_MEGACART_WRITEBACK },
+    { "UltiMemWriteBack", IDM_ULTIMEM_WRITEBACK },
     { "Mouse", IDM_MOUSE },
     { "IO2RAM", IDM_IO2_RAM_ENABLE },
     { "IO3RAM", IDM_IO3_RAM_ENABLE },
@@ -339,6 +340,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
 #endif
     { IDM_FINAL_EXPANSION_WRITEBACK, IDS_MI_FINAL_EXPANSION_WRITEBACK },
     { IDM_VIC_FLASH_PLUGIN_WRITEBACK, IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK },
+    { IDM_ULTIMEM_WRITEBACK, IDS_MI_ULTIMEM_WRITEBACK },
     { IDM_MEGACART_WRITEBACK, IDS_MI_MEGACART_WRITEBACK },
     { IDM_MEGACART_WRITEBACK_FILE, IDS_MI_MEGACART_WRITEBACK_FILE },
     { IDM_IO2_RAM_ENABLE, IDS_MI_IO2_RAM_ENABLE },
