@@ -117,6 +117,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "SmartMouseRTCSave", MENU_TOGGLE_SMART_MOUSE_RTC_SAVE },
     { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
+    { "CPMCart", MENU_TOGGLE_CPM_CART },
     { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
     { "VICIINewLuminances", MENU_VICII_NEW_LUMINANCES },

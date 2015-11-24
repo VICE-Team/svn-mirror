@@ -800,6 +800,10 @@ BMenuBar *menu_create(int machine_class)
                 if (machine_class == VICE_MACHINE_VIC20) {
                     submenu->AddItem(new BMenuItem("I/O Swap", new BMessage(MENU_TOGGLE_SFX_SS_IO_SWAP)));
                 }
+            if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) {
+                menu->AddItem(submenu = new BMenu("CP/M Cartridge Options"));
+                submenu->AddItem(new BMenuItem("CP/M Cartridge emulation", new BMessage(MENU_TOGGLE_CPM_CART)));
+            }
             if (machine_class == VICE_MACHINE_VIC20) {
                 menu->AddItem(submenu = new BMenu("DS12C887 RTC Options (MasC=uerade)"));
             } else {
