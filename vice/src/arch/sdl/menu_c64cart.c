@@ -102,10 +102,12 @@ void uicart_menu_create(void)
     num = countgroup(cartlist, CARTRIDGE_GROUP_GENERIC | CARTRIDGE_GROUP_FREEZER | CARTRIDGE_GROUP_GAME | CARTRIDGE_GROUP_UTIL);
     attach_raw_cart_menu = lib_malloc(sizeof(ui_menu_entry_t) * (num + 1));
     makegroup(cartlist, attach_raw_cart_menu, CARTRIDGE_GROUP_GENERIC | CARTRIDGE_GROUP_FREEZER | CARTRIDGE_GROUP_GAME | CARTRIDGE_GROUP_UTIL);
-    if (machine_class != VICE_MACHINE_SCPU64) {
-        c64cart_menu[1].data = attach_raw_cart_menu;
-    } else {
+    if (machine_class == VICE_MACHINE_SCPU64) {
         scpu64cart_menu[1].data = attach_raw_cart_menu;
+    } else if (machine_class == VICE_MACHINE_C128) {
+        c128cart_menu[1].data = attach_raw_cart_menu;
+    } else {
+        c64cart_menu[1].data = attach_raw_cart_menu;
     }
 }
 
@@ -854,8 +856,105 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
+UI_MENU_DEFINE_TOGGLE(CPMCart)
 
 ui_menu_entry_t c64cart_menu[] = {
+    { "Attach CRT image",
+      MENU_ENTRY_DIALOG,
+      attach_c64_cart_callback,
+      (ui_callback_data_t)CARTRIDGE_CRT },
+    /* CAUTION: the position of this item is hardcoded above */
+    { "Attach raw image",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      NULL },
+    { "Detach cartridge image",
+      MENU_ENTRY_OTHER,
+      detach_c64_cart_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Cartridge freeze",
+      MENU_ENTRY_OTHER,
+      c64_cart_freeze_callback,
+      NULL },
+    { "Set current cartridge as default",
+      MENU_ENTRY_OTHER,
+      set_c64_cart_default_callback,
+      NULL },
+    { "I/O collision handling",
+      MENU_ENTRY_SUBMENU,
+      iocollision_show_type_callback,
+      (ui_callback_data_t)iocollision_menu },
+    { "Reset on cartridge change",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_CartridgeReset_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Cartridge specific settings"),
+    { CARTRIDGE_NAME_RAMCART,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ramcart_menu },
+    { CARTRIDGE_NAME_REU,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)reu_menu },
+    { CARTRIDGE_NAME_GEORAM,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)georam_menu },
+    { CARTRIDGE_NAME_IDE64,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ide64_menu },
+    { CARTRIDGE_NAME_EXPERT,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)expert_cart_menu },
+    { CARTRIDGE_NAME_ISEPIC,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)isepic_cart_menu },
+    { CARTRIDGE_NAME_DQBB,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)dqbb_cart_menu },
+    { CARTRIDGE_NAME_EASYFLASH,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)easyflash_cart_menu },
+    { CARTRIDGE_NAME_MMC64,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)mmc64_cart_menu },
+    { CARTRIDGE_NAME_MMC_REPLAY,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)mmcreplay_cart_menu },
+    { CARTRIDGE_NAME_RETRO_REPLAY,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)retroreplay_cart_menu },
+    { CARTRIDGE_NAME_MAGIC_VOICE,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)magicvoice_cart_menu },
+    { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)soundexpander_menu },
+    { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SFXSoundSampler_callback,
+      NULL },
+    { "CP/M Cartridge",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_CPMCart_callback,
+      NULL },
+    SDL_MENU_LIST_END
+};
+
+ui_menu_entry_t c128cart_menu[] = {
     { "Attach CRT image",
       MENU_ENTRY_DIALOG,
       attach_c64_cart_callback,

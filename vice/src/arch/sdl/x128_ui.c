@@ -75,7 +75,7 @@ static const ui_menu_entry_t x128_main_menu[] = {
     { "Cartridge",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c64cart_menu },
+      (ui_callback_data_t)c128cart_menu },
     { "Printer",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
