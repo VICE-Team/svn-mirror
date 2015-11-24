@@ -74,6 +74,7 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
+    { "CPMCart", IDM_TOGGLE_CPM_CART },
     { "UserportRTC", IDM_TOGGLE_USERPORT_RTC },
     { "UserportRTCSave", IDM_TOGGLE_USERPORT_RTC_SAVE },
     { NULL, 0 }

@@ -4044,6 +4044,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_SFX_SS_SV, "Aktivera SFX Sound Sampler-insticksmodul" },
 /* tr */ { IDMS_ENABLE_SFX_SS_TR, "SFX Sound Sampler kartuþunu aktif et" },
 
+/* en */ { IDMS_ENABLE_CPM_CART,    "Enable the CP/M cartridge" },
+/* da */ { IDMS_ENABLE_CPM_CART_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_CPM_CART_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ENABLE_CPM_CART_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_CPM_CART_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_CPM_CART_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_CPM_CART_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ENABLE_CPM_CART_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_CPM_CART_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_CPM_CART_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ENABLE_CPM_CART_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_CPM_CART_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_CPM_CART_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_ENABLE_USERPORT_RTC,    "Enable the Userport RTC" },
 /* da */ { IDMS_ENABLE_USERPORT_RTC_DA, "" },  /* fuzzy */
 /* de */ { IDMS_ENABLE_USERPORT_RTC_DE, "Userport RTC aktivieren" },
