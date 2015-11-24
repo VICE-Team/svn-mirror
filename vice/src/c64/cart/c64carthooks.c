@@ -43,6 +43,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "cpmcart.h"
 #include "crt.h"
 #include "interrupt.h"
 #include "lib.h"
@@ -96,6 +97,7 @@
 #include "kcs.h"
 #include "kingsoft.h"
 #include "mach5.h"
+#include "machine.h"
 #include "magicdesk.h"
 #include "magicformel.h"
 #include "magicvoice.h"
@@ -171,6 +173,7 @@ extern export_t export_passthrough; /* slot1 and main combined, goes into slot0 
         CARTRIDGE_MIDI_MAPLIN
         CARTRIDGE_TFE
         CARTRIDGE_TURBO232
+        CARTRIDGE_CPM
 
     all other carts should get a commandline option here like this:
 
@@ -545,6 +548,14 @@ int cart_cmdline_options_init(void)
         ) {
         return -1;
     }
+
+    /* only for x64 for now */
+    if (machine_class == VICE_MACHINE_C64) {
+        if (cpmcart_cmdline_options_init() < 0) {
+            return -1;
+        }
+    }
+
     return cmdline_register_options(cmdline_options);
 }
 
@@ -589,6 +600,14 @@ int cart_resources_init(void)
         ) {
         return -1;
     }
+
+    /* only for x64 for now */
+    if (machine_class == VICE_MACHINE_C64) {
+        if (cpmcart_resources_init() < 0) {
+            return -1;
+        }
+    }
+
     return 0;
 }
 
@@ -1965,6 +1984,9 @@ void cartridge_reset(void)
     }
     if (mmc64_cart_enabled()) {
         mmc64_reset();
+    }
+    if (cpmcart_cart_enabled()) {
+        cpmcart_reset();
     }
 }
 

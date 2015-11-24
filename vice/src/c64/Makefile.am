@@ -82,7 +82,7 @@ libc64_a_SOURCES = \
 	c64cia.h \
 	c64cia1.c \
 	c64cia2.c \
-	vsidcpu.c \
+	c64cpu.c \
 	c64datasette.c \
 	c64drive.c \
 	c64embedded.c \
@@ -121,6 +121,8 @@ libc64_a_SOURCES = \
 	c64rsuser.h \
 	c64sound.c \
 	c64video.c \
+	daa.c \
+	daa.h \
 	patchrom.c \
 	patchrom.h \
 	plus256k.c \
@@ -151,7 +153,7 @@ libc64sc_a_SOURCES = \
 	c64cia.h \
 	c64cia1.c \
 	c64cia2.c \
-	c64cpu.c \
+	c64cpusc.c \
 	c64datasette.c \
 	c64drive.c \
 	c64embedded.c \
@@ -190,6 +192,7 @@ libc64sc_a_SOURCES = \
 	c64rsuser.h \
 	c64sound.c \
 	c64video.c \
+	daa.c \
 	patchrom.c \
 	patchrom.h \
 	plus256k.c \
@@ -247,6 +250,8 @@ libc64c128_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64sound.c \
+	daa.c \
+	daa.h \
 	patchrom.c \
 	patchrom.h
 

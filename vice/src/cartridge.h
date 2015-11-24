@@ -124,6 +124,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_PLUS60K            -120 /* plus60k.c */
 #define CARTRIDGE_PLUS256K           -121 /* plus256k.c */
 #define CARTRIDGE_C64_256K           -122 /* c64_256k.c */
+#define CARTRIDGE_CPM                -123 /* cpmcart.c */
 
 /* Known cartridge types.  */
 /* TODO: cartconv (4k and 12k binaries) */

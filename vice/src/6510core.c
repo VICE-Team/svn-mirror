@@ -1972,6 +1972,11 @@ static const BYTE rewind_fetch_tab[] = {
     /* handle 8502 fast mode refresh cycles */
     CPU_REFRESH_CLK
 
+    /* handle any extra cpu switches */
+#ifdef CHECK_AND_RUN_ALTERNATE_CPU
+    CHECK_AND_RUN_ALTERNATE_CPU
+#endif
+
     CPU_DELAY_CLK
 
     PROCESS_ALARMS

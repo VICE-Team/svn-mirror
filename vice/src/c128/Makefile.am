@@ -52,8 +52,6 @@ libc128_a_SOURCES = \
 	c128rom.h \
 	c128romset.c \
 	c128video.c \
-	daa.c \
-	daa.h \
 	functionrom.c \
 	functionrom.h \
 	z80.c \

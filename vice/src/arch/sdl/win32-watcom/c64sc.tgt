@@ -159,8 +159,8 @@ WVList
 0
 39
 MItem
-21
-..\..\..\c64\c64cpu.c
+23
+..\..\..\c64\c64cpusc.c
 40
 WString
 4

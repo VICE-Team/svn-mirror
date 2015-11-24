@@ -786,17 +786,24 @@ int machine_cmdline_options_init(void)
 static void c64_monitor_init(void)
 {
     unsigned int dnr;
-    monitor_cpu_type_t asm6502, asmR65C02;
+    monitor_cpu_type_t asm6502, asmR65C02, asmz80;
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
-    monitor_cpu_type_t *asmarray[3];
+    monitor_cpu_type_t *asmarray[4];
+    int i = 0;
 
-    asmarray[0] = &asm6502;
-    asmarray[1] = &asmR65C02;
-    asmarray[2] = NULL;
+    asmarray[i++] = &asm6502;
+    if (machine_class != VICE_MACHINE_C64SC) {
+        asmarray[i++] = &asmz80;
+    }
+    asmarray[i++] = &asmR65C02;
+    asmarray[i] = NULL;
 
     asm6502_init(&asm6502);
     asmR65C02_init(&asmR65C02);
 
+    if (machine_class != VICE_MACHINE_C64SC) {
+        asmz80_init(&asmz80);
+    }
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_interface_init[dnr] = drive_cpu_monitor_interface_get(dnr);
     }

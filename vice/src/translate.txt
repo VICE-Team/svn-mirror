@@ -2917,6 +2917,12 @@ IDCLS_ENABLE_SFX_SS
 /* c64/cart/sfx_soundsampler.c */
 IDCLS_DISABLE_SFX_SS
 
+/* c64/cart/cpmcart.c */
+IDCLS_ENABLE_CPM_CART
+
+/* c64/cart/cpmcart.c */
+IDCLS_DISABLE_CPM_CART
+
 /* c64dtv/c64dtvblitter.c */
 IDCLS_SPECIFY_DTV_REVISION
 

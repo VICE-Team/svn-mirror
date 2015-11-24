@@ -16353,6 +16353,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_SFX_SS_TR, "SFX Sound Sampler kartuþunu pasifleþtir"},
 #endif
 
+/* c64/cart/cpmcart.c */
+/* en */ {IDCLS_ENABLE_CPM_CART,    N_("Enable the CP/M cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_CPM_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_CPM_CART_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_CPM_CART_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_CPM_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_CPM_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_CPM_CART_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_CPM_CART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_CPM_CART_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_CPM_CART_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_CPM_CART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_CPM_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_CPM_CART_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/cpmcart.c */
+/* en */ {IDCLS_DISABLE_CPM_CART,    N_("Disable the CP/M cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_CPM_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_CPM_CART_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_CPM_CART_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_CPM_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_CPM_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_CPM_CART_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_CPM_CART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_CPM_CART_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_CPM_CART_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_CPM_CART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_CPM_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_CPM_CART_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/easyflash.c */
 /* en */ {IDCLS_ENABLE_EASYFLASH_JUMPER,    N_("Enable EasyFlash jumper")},
 #ifdef HAS_TRANSLATION
