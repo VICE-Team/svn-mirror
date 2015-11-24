@@ -287,6 +287,7 @@ BEGIN
 #endif
             MENUITEM "", IDM_SFX_SE_SETTINGS
             MENUITEM "", IDM_TOGGLE_SFX_SS
+            MENUITEM "", IDM_TOGGLE_CPM_CART
             MENUITEM SEPARATOR
             MENUITEM "", IDM_DS12C887RTC_SETTINGS
             MENUITEM "", IDM_USERPORT_RTC_SETTINGS
@@ -605,6 +606,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64 drive burst modification settings..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 
 
@@ -641,6 +643,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64-drev burst-modifikationsindstillinger..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 
 
@@ -677,6 +680,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Speicher Erweiterungshack Einstellungen..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64 Laufwerk Burstmodifkation Einstellungen..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 
 
@@ -713,6 +717,7 @@ BEGIN
   IDS_MAX_MACHINE                  "Máquina MAX"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
   IDS_MI_C64BURSTMOD_SETTINGS      "Ajuste modificación Burst en controlador C64..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 
 
@@ -749,6 +754,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
   IDS_MI_C64BURSTMOD_SETTINGS      "Paramètres de l'émulation de Burst Lecteur C64..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 
 
@@ -788,6 +794,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64 drive burst modification settings..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -827,6 +834,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
   IDS_MI_C64BURSTMOD_SETTINGS      "Impostazioni modifica burst del drive C64..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 
 
@@ -866,6 +874,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64 drive burst modification settings..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -905,6 +914,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Geheugen uitbreiding hacks instellingen..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64 drive burst modificatie instellingen..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 
 
@@ -944,6 +954,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Ustawienia hacków rozszerzenia pamiêci..."
   IDS_MI_C64BURSTMOD_SETTINGS      "Ustawienia trybu synchronicznego napêdu C64..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -986,6 +997,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64 drive burst modification settings..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1025,6 +1037,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX-maskin"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
   IDS_MI_C64BURSTMOD_SETTINGS      "Inställningar för C64 diskettburstmodifiering..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 
 
@@ -1064,9 +1077,8 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64 sürücüsü atlama modifikasyon ayarlarý..."
+  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-
