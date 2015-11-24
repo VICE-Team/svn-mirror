@@ -46,6 +46,8 @@ libc64cart_a_SOURCES = \
 	comal80.h \
 	cpmcart.c \
 	cpmcart.h \
+	daa.c \
+	daa.h \
 	delaep256.c \
 	delaep256.h \
 	delaep64.c \

@@ -121,8 +121,6 @@ libc64_a_SOURCES = \
 	c64rsuser.h \
 	c64sound.c \
 	c64video.c \
-	daa.c \
-	daa.h \
 	patchrom.c \
 	patchrom.h \
 	plus256k.c \
@@ -192,7 +190,6 @@ libc64sc_a_SOURCES = \
 	c64rsuser.h \
 	c64sound.c \
 	c64video.c \
-	daa.c \
 	patchrom.c \
 	patchrom.h \
 	plus256k.c \
@@ -250,8 +247,6 @@ libc64c128_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64sound.c \
-	daa.c \
-	daa.h \
 	patchrom.c \
 	patchrom.h
 
