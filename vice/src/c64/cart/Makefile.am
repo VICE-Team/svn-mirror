@@ -44,6 +44,8 @@ libc64cart_a_SOURCES = \
 	capture.h \
 	comal80.c \
 	comal80.h \
+	cpmcart.c \
+	cpmcart.h \
 	delaep256.c \
 	delaep256.h \
 	delaep64.c \
