@@ -17,7 +17,7 @@ do
     *asm*.c|*mon_*.c)
       cpufile=no
       ;;
-    *c64cpu.c|*c64dtvcpu.c|*z80.c)
+    *c64cpu.c|*c64dtvcpu.c|*z80.c|*cpmcart.c|*c64cpusc.c)
       cpufile=yes
       cpuopt=-O1
       ;;
