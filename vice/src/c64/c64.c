@@ -792,18 +792,14 @@ static void c64_monitor_init(void)
     int i = 0;
 
     asmarray[i++] = &asm6502;
-    if (machine_class != VICE_MACHINE_C64SC) {
-        asmarray[i++] = &asmz80;
-    }
+    asmarray[i++] = &asmz80;
     asmarray[i++] = &asmR65C02;
     asmarray[i] = NULL;
 
     asm6502_init(&asm6502);
     asmR65C02_init(&asmR65C02);
+    asmz80_init(&asmz80);
 
-    if (machine_class != VICE_MACHINE_C64SC) {
-        asmz80_init(&asmz80);
-    }
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_interface_init[dnr] = drive_cpu_monitor_interface_get(dnr);
     }

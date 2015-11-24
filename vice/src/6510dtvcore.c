@@ -1505,6 +1505,10 @@ static const BYTE fetch_tab[] = {
 /* Here, the CPU is emulated. */
 
 {
+#ifdef CHECK_AND_RUN_ALTERNATE_CPU
+    CHECK_AND_RUN_ALTERNATE_CPU
+#endif
+
     while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
         alarm_context_dispatch(ALARM_CONTEXT, CLK);
     }

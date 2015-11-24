@@ -150,6 +150,7 @@ int mem_reg_simm;               /* simm configuration */
 int mem_pport;                  /* processor "port" */
 
 /* ------------------------------------------------------------------------- */
+
 inline static void check_ba_read(void)
 {
     if (!scpu64_fastmode && maincpu_ba_low_flags) {

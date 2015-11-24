@@ -262,6 +262,29 @@ int cpmcart_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
+struct cpmcart_ba_s {
+    cpmcart_ba_check_callback_t *check;
+    cpmcart_ba_steal_callback_t *steal;
+    int *cpu_ba;
+    int cpu_ba_mask;
+    int enabled;
+};
+
+static struct cpmcart_ba_s cpmcart_ba = {
+    NULL, NULL, NULL, 0, 0
+};
+
+void cpmcart_ba_register(cpmcart_ba_check_callback_t *ba_check,
+                         cpmcart_ba_steal_callback_t *ba_steal,
+                         int *ba_var, int ba_mask)
+{
+    cpmcart_ba.check = ba_check;
+    cpmcart_ba.steal = ba_steal;
+    cpmcart_ba.cpu_ba = ba_var;
+    cpmcart_ba.cpu_ba_mask = ba_mask;
+    cpmcart_ba.enabled = 1;
+}
+
 void cpmcart_reset(void)
 {
     z80_reg_pc = 0;
@@ -318,7 +341,14 @@ inline static CLOCK z80cpu_clock_add(CLOCK clock, int amount)
         if (left >= (2 - z80_half_cycle)) {
             left -= (2 - z80_half_cycle);
             z80_half_cycle = 0;
-            tmp_clock++;
+            if (cpmcart_ba.enabled) {
+                tmp_clock++;
+                if (cpmcart_ba.check()) {
+                    cpmcart_ba.steal();
+                }
+            } else {
+                tmp_clock++;
+            }
         } else {
             z80_half_cycle += left;
         }
@@ -329,8 +359,15 @@ inline static CLOCK z80cpu_clock_add(CLOCK clock, int amount)
 
 void cpmcart_clock_stretch(void)
 {
-    CLK++;
     z80_half_cycle = 0;
+    if (cpmcart_ba.enabled) {
+        CLK++;
+        if (cpmcart_ba.check()) {
+            cpmcart_ba.steal();
+        }
+    } else {
+        CLK++;
+    }
 }
 #endif
 

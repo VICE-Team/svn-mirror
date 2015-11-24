@@ -48,4 +48,11 @@ extern void cpmcart_clock_stretch(void);
 
 extern void cpmcart_check_and_run_z80(void);
 
+typedef int cpmcart_ba_check_callback_t (void);
+typedef void cpmcart_ba_steal_callback_t (void);
+
+extern void cpmcart_ba_register(cpmcart_ba_check_callback_t *ba_check,
+                                cpmcart_ba_steal_callback_t *ba_steal,
+                                int *ba_var, int ba_mask);
+
 #endif

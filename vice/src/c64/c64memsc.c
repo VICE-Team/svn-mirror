@@ -48,6 +48,7 @@
 #include "cartridge.h"
 #include "cia.h"
 #include "clkguard.h"
+#include "cpmcart.h"
 #include "machine.h"
 #include "mainc64cpu.h"
 #include "maincpu.h"
@@ -204,6 +205,9 @@ void c64_mem_init(void)
 
     /* Initialize REU BA low interface (FIXME find a better place for this) */
     reu_ba_register(vicii_cycle, vicii_steal_cycles, &maincpu_ba_low_flags, MAINCPU_BA_LOW_REU);
+
+    /* Initialize CP/M cart BA low interface (FIXME find a better place for this) */
+    cpmcart_ba_register(vicii_cycle, vicii_steal_cycles, &maincpu_ba_low_flags, MAINCPU_BA_LOW_VICII);
 }
 
 void mem_pla_config_changed(void)
