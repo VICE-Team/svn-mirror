@@ -379,6 +379,7 @@ static ui_menu_entry_t iocollision_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
+UI_MENU_DEFINE_TOGGLE(CPMCart)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
@@ -433,6 +434,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, soundexpander_c64_submenu },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER, UI_MENU_TYPE_NORMAL,
       (ui_callback_t)toggle_SFXSoundSampler, NULL, NULL },
+    { "CP/M Cartridge", UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)toggle_CPMCart, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_DS12C887RTC, UI_MENU_TYPE_NORMAL,
       NULL, NULL, ds12c887rtc_c64_submenu },
