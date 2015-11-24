@@ -590,7 +590,7 @@ int ui_resources_init(void)
 void ui_resources_shutdown(void)
 {
     DBG(("%s", __func__));
-    joystick_arch_resources_shutdown();
+    joy_arch_resources_shutdown();
     sdlkbd_resources_shutdown();
 }
 

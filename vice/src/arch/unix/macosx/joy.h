@@ -141,7 +141,6 @@ extern joystick_descriptor_t joy_a;
 extern joystick_descriptor_t joy_b;
 
 /* functions */
-extern int joy_arch_init(void);
 extern void joystick_close(void);
 extern void joystick(void);
 

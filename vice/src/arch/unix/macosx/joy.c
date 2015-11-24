@@ -30,10 +30,10 @@
 
 #include "cmdline.h"
 #include "joy.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
-#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
@@ -63,26 +63,6 @@ static void setup_button_mapping(joystick_descriptor_t *joy);
 static void setup_auto_button_mapping(joystick_descriptor_t *joy);
 static void setup_hat_switch_mapping(joystick_descriptor_t *joy);
 static void setup_auto(void);
-
-static int joyportselect(int val, void *param)
-{
-    int nr = vice_ptr_to_int(param);
-
-    switch (val) {
-        case JOYDEV_NONE:
-        case JOYDEV_NUMPAD:
-        case JOYDEV_KEYSET1:
-        case JOYDEV_KEYSET2:
-        case JOYDEV_HID_0:
-        case JOYDEV_HID_1:
-            break;
-        default:
-            return -1;
-    }
-
-    joystick_port_map[nr] = val;
-    return 0;
-}
 
 /* HID settings */
 
@@ -429,30 +409,6 @@ static const resource_string_t resources_string[] = {
     { NULL }
 };
 
-static const resource_int_t joy1_resources_int[] = {
-    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[0], joyportselect, (void *)0 },
-    { NULL }
-};
-
-static const resource_int_t joy2_resources_int[] = {
-    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[1], joyportselect, (void *)1 },
-    { NULL }
-};
-
-static const resource_int_t joy3_resources_int[] = {
-    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[2], joyportselect, (void *)2 },
-    { NULL }
-};
-
-static const resource_int_t joy4_resources_int[] = {
-    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[3], joyportselect, (void *)3 },
-    { NULL }
-};
-
 static const resource_int_t resources_int[] = {
     /* Axis ... Threshold */
     { "JoyAXThreshold", 50, RES_EVENT_NO, NULL,
@@ -500,6 +456,15 @@ static const resource_int_t resources_int[] = {
       &joy_b.hat_switch.id, set_joy_b_hat_switch, NULL },
     { NULL }
 };
+
+int joy_arch_resources_init(void)
+{
+    if (resources_register_string(resources_string) < 0) {
+        return -1;
+    }
+
+    return resources_register_int(resources_int);
+}
 
 /* ----- VICE Command-line options ----- */
 
@@ -623,147 +588,38 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { NULL },
 };
 
-int joystick_arch_init_resources(void)
+int joy_arch_cmdline_options_init(void)
 {
-    int ok = resources_register_string(resources_string);
+    int num_ports = 0, num_extra_ports = 0;
 
-    if (ok < 0) {
-        return ok;
+    if (joyport_get_port_name(JOYPORT_1)) {
+        if (cmdline_register_options(joydev1cmdline_options) < 0) {
+            return -1;
+        }
+        num_ports++;
+    }
+    if (joyport_get_port_name(JOYPORT_2)) {
+        if (cmdline_register_options(joydev2cmdline_options) < 0) {
+            return -1;
+        }
+        num_ports++;
+    }
+    if (joyport_get_port_name(JOYPORT_3)) {
+        if (cmdline_register_options(joydev3cmdline_options) < 0) {
+            return -1;
+        }
+        num_extra_ports++;
+    }
+    if (joyport_get_port_name(JOYPORT_4)) {
+        if (cmdline_register_options(joydev4cmdline_options) < 0) {
+            return -1;
+        }
+        num_extra_ports++;
     }
 
-    switch (machine_class) {
-        case VICE_MACHINE_C64:
-        case VICE_MACHINE_C128:
-        case VICE_MACHINE_C64DTV:
-        case VICE_MACHINE_C64SC:
-        case VICE_MACHINE_SCPU64: 
-           if (resources_register_int(joy1_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy2_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy3_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy4_resources_int) < 0) {
-                return -1;
-            }
-            break;
-        case VICE_MACHINE_PET:
-        case VICE_MACHINE_CBM6x0:
-            if (resources_register_int(joy3_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy4_resources_int) < 0) {
-                return -1;
-            }
-            break;
-        case VICE_MACHINE_CBM5x0:
-            if (resources_register_int(joy1_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy2_resources_int) < 0) {
-                return -1;
-            }
-            break;
-        case VICE_MACHINE_PLUS4:
-            if (resources_register_int(joy1_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy2_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy3_resources_int) < 0) {
-                return -1;
-            }
-            break;
-        case VICE_MACHINE_VIC20:
-            if (resources_register_int(joy1_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy3_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy4_resources_int) < 0) {
-                return -1;
-            }
-            break;
-    }
-    return resources_register_int(resources_int);
-}
+    joy_num_ports = num_ports;
+    joy_num_extra_ports = num_extra_ports;
 
-int joystick_arch_cmdline_options_init(void)
-{
-    switch (machine_class) {
-        case VICE_MACHINE_C64:
-        case VICE_MACHINE_C128:
-        case VICE_MACHINE_C64DTV:
-        case VICE_MACHINE_C64SC:
-        case VICE_MACHINE_SCPU64:
-           if (cmdline_register_options(joydev1cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev2cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev3cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev4cmdline_options) < 0) {
-                return -1;
-            }
-            joy_num_ports = 2;
-            joy_num_extra_ports = 2;
-            break;
-        case VICE_MACHINE_PET:
-        case VICE_MACHINE_CBM6x0:
-            if (cmdline_register_options(joydev3cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev4cmdline_options) < 0) {
-                return -1;
-            }
-            joy_num_ports = 0;
-            joy_num_extra_ports = 2;
-            break;
-        case VICE_MACHINE_CBM5x0:
-            if (cmdline_register_options(joydev1cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev2cmdline_options) < 0) {
-                return -1;
-            }
-            joy_num_ports = 2;
-            joy_num_extra_ports = 0;
-            break;
-        case VICE_MACHINE_PLUS4:
-            if (cmdline_register_options(joydev1cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev2cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev3cmdline_options) < 0) {
-                return -1;
-            }
-            joy_num_ports = 2;
-            joy_num_extra_ports = 1;
-            break;
-        case VICE_MACHINE_VIC20:
-            if (cmdline_register_options(joydev1cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev3cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev4cmdline_options) < 0) {
-                return -1;
-            }
-            joy_num_ports = 1;
-            joy_num_extra_ports = 2;
-            break;
-    }
     return cmdline_register_options(cmdline_options);
 }
 
@@ -783,7 +639,7 @@ static void setup_axis_mapping(joystick_descriptor_t *joy)
 {
     int i;
 
-    for(i=0;i<2;i++) {
+    for (i = 0; i < 2; i++) {
         joy_axis_t *axis = &joy->axis[i];
         
         /* map axis name to HID usage */
@@ -848,7 +704,7 @@ static void setup_button_mapping(joystick_descriptor_t *joy)
     int ids[HID_NUM_BUTTONS];
     
     /* preset button id */
-    for(i = 0 ; i < HID_NUM_BUTTONS; i++) {
+    for (i = 0; i < HID_NUM_BUTTONS; i++) {
         ids[i] = (i<2) ? i+1 : HID_INVALID_BUTTON;
     }
 
@@ -883,7 +739,7 @@ static void setup_auto_button_mapping(joystick_descriptor_t *joy)
     
     /* preset button id */
     int offset = HID_NUM_AUTO_BUTTONS;
-    for(i = 0 ; i < HID_NUM_AUTO_BUTTONS; i++) {
+    for (i = 0; i < HID_NUM_AUTO_BUTTONS; i++) {
         ids[i] = i+3;
         ids[offset++] = 5 * (i+1);
         ids[offset++] = 5 * (i+1);
@@ -990,7 +846,7 @@ static void setup_auto(void)
     /* walk through all enumerated devices */
     log_message(LOG_DEFAULT, "mac_joy: (auto) found %d HID devices. HID A='%s' B='%s'", 
                 num_devices, joy_a.device_name, joy_b.device_name);
-    for(i=0;i<num_devices;i++) {
+    for (i = 0; i < num_devices; i++) {
         joy_hid_device_t *dev = &devices->devices[i];
         
         log_message(LOG_DEFAULT, "mac_joy: found #%d joystick/gamepad: %04x:%04x:%d %s",
@@ -1031,6 +887,24 @@ static void setup_auto(void)
 }
 
 /* ----- API ----- */
+
+/* check if a new joystick mapping is valid */
+int joy_arch_set_device(int port, int new_dev)
+{
+    switch (new_dev) {
+        case JOYDEV_NONE:
+        case JOYDEV_NUMPAD:
+        case JOYDEV_KEYSET1:
+        case JOYDEV_KEYSET2:
+        case JOYDEV_HID_0:
+        case JOYDEV_HID_1:
+            break;
+        default:
+            return -1;
+    }
+
+    return 0;
+}
 
 /* helper for UI to reload device list */
 void joy_reload_device_list(void)

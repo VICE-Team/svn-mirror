@@ -27,15 +27,15 @@
 #ifndef VICE_JOYLL_H
 #define VICE_JOYLL_H
 
-#define JOYDEV_NONE   0
-#define JOYDEV_NUMPAD 1
-#define JOYDEV_JOY0   2
-#define JOYDEV_JOY1   3
-#define JOYDEV_JOY2   4
-#define JOYDEV_JOY3   5
+#define JOYDEV_NONE    0
+#define JOYDEV_NUMPAD  1
+#define JOYDEV_KEYSET1 2
+#define JOYDEV_KEYSET2 3
+#define JOYDEV_JOY0    4
+#define JOYDEV_JOY1    5
+#define JOYDEV_JOY2    6
+#define JOYDEV_JOY3    7
 
-extern int joy_arch_init(void);
-extern int joystick_arch_init_resources(void);
 extern int joystick_handle_key(unsigned long kcode, int pressed);
 extern int joystick_update(void);
 

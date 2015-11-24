@@ -34,7 +34,6 @@
 #ifndef VICE_JOY_H
 #define VICE_JOY_H
 
-extern int joy_arch_init(void);
 extern void joystick_close(void);
 extern void joystick(void);
 extern void old_joystick_init(void);
@@ -43,7 +42,6 @@ extern void old_joystick(void);
 extern void new_joystick_init(void);
 extern void new_joystick_close(void);
 extern void new_joystick(void);
-extern int joystick_arch_init_resources(void);
 
 #ifdef HAS_USB_JOYSTICK
 extern int usb_joystick_init(void);
@@ -65,6 +63,8 @@ extern void usb_joystick(void);
 #define JOYDEV_DIGITAL_1 11
 #define JOYDEV_USB_0     12
 #define JOYDEV_USB_1     13
+
+#define JOYDEV_DEFAULT   JOYDEV_NUMPAD
 
 #ifdef HAS_JOYSTICK
 #  ifdef HAS_USB_JOYSTICK

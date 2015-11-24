@@ -53,8 +53,6 @@ typedef struct _hardware_joystick {
     int axes;
 } hardware_joystick_t;
 
-extern int joy_arch_init(void);
-extern int joystick_arch_init_resources(void);
 extern int joystick_close(void);
 extern void joystick_update(void);
 extern int joystick_handle_key(kbd_code_t kcode, int pressed);

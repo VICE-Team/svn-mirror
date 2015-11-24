@@ -437,6 +437,7 @@ void keyboard_key_pressed(signed long key)
         return;
     }
 
+#ifdef COMMON_JOYKEYS
     for (i = 0; i < JOYSTICK_NUM; ++i) {
         if (joystick_port_map[i] == JOYDEV_NUMPAD
             || joystick_port_map[i] == JOYDEV_KEYSET1
@@ -446,6 +447,7 @@ void keyboard_key_pressed(signed long key)
             }
         }
     }
+#endif
 
     if (keyconvmap == NULL) {
         return;
@@ -552,6 +554,7 @@ void keyboard_key_released(signed long key)
         return;
     }
 
+#ifdef COMMON_JOYKEYS
     for (i = 0; i < JOYSTICK_NUM; ++i) {
         if (joystick_port_map[i] == JOYDEV_NUMPAD
             || joystick_port_map[i] == JOYDEV_KEYSET1
@@ -561,6 +564,7 @@ void keyboard_key_released(signed long key)
             }
         }
     }
+#endif
 
     if (keyconvmap == NULL) {
         return;

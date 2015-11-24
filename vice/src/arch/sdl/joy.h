@@ -37,10 +37,9 @@
 
 #include "uimenu.h"
 
-extern int joy_arch_init(void);
 extern void joystick_close(void);
-extern int joystick_arch_init_resources(void);
-extern void joystick_arch_resources_shutdown(void);
+
+extern void joy_arch_resources_shutdown(void);
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
 extern void joy_arch_init_default_mapping(int joynum);
@@ -66,6 +65,10 @@ extern void sdljoy_swap_ports(void);
 #define JOYDEV_KEYSET1  2
 #define JOYDEV_KEYSET2  3
 #define JOYDEV_JOYSTICK 4
+
+#ifdef ANDROID_COMPILE
+#define JOYDEV_DEFAULT JOYDEV_JOYSTICK
+#endif
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
 #define JOYDEV_MAX            JOYDEV_JOYSTICK

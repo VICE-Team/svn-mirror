@@ -348,7 +348,7 @@ int video_arch_resources_init(void)
     DBG(("%s", __func__));
 
     if (machine_class == VICE_MACHINE_VSID) {
-        if (joystick_arch_init_resources() < 0) {
+        if (joy_arch_resources_init() < 0) {
             return -1;
         }
     }
@@ -365,7 +365,7 @@ void video_arch_resources_shutdown(void)
     DBG(("%s", __func__));
 
     if (machine_class == VICE_MACHINE_VSID) {
-        joystick_arch_resources_shutdown();
+        joy_arch_resources_shutdown();
     }
 
 #if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)

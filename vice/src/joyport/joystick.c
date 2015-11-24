@@ -116,7 +116,7 @@ static alarm_t *joystick_alarm = NULL;
 
 static CLOCK joystick_delay;
 
-#ifdef COMMON_KBD
+#ifdef COMMON_JOYKEYS
 int joykeys[JOYSTICK_KEYSET_NUM][JOYSTICK_KEYSET_NUM_KEYS];
 #endif
 
@@ -265,18 +265,9 @@ BYTE get_joystick_value(int index)
     return joystick_value[index];
 }
 
-/*-----------------------------------------------------------------------*/
-
-static int set_joystick_opposite_enable(int val, void *param)
-{
-    joystick_opposite_enable = val ? 1 : 0;
-
-    return 0;
-}
-
 /*--------------------------------------------------------------------------*/
 
-#ifdef COMMON_KBD
+#ifdef COMMON_JOYKEYS
 
 /* the order of values in joypad_bits is the same as in joystick_direction_t */
 static int joypad_bits[JOYSTICK_KEYSET_NUM_KEYS] = {
@@ -333,7 +324,7 @@ static int set_joykeys_enable(int val, void *param)
 DEFINE_SET_KEYSET(1)
 DEFINE_SET_KEYSET(2)
 
-static const resource_int_t resources_int[] = {
+static const resource_int_t joykeys_resources_int[] = {
     { "KeySet1NorthWest", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[JOYSTICK_KEYSET_IDX_A][JOYSTICK_KEYSET_NW], set_keyset1, (void *)JOYSTICK_KEYSET_NW },
     { "KeySet1North", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
@@ -372,8 +363,6 @@ static const resource_int_t resources_int[] = {
       &joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_FIRE], set_keyset2, (void *)JOYSTICK_KEYSET_FIRE },
     { "KeySetEnable", 1, RES_EVENT_NO, NULL,
       &joykeys_enable, set_joykeys_enable, NULL },
-    { "JoyOpposite", 0, RES_EVENT_NO, NULL,
-      &joystick_opposite_enable, set_joystick_opposite_enable, NULL },
     { NULL }
 };
 
@@ -497,6 +486,7 @@ void joystick_joypad_clear(void)
 {
     memset(joypad_status, 0, sizeof(joypad_status));
 }
+#endif /* COMMON_JOYKEYS */
 
 /*-----------------------------------------------------------------------*/
 
@@ -530,32 +520,115 @@ static int joystick_joyport_register(void)
 
 /*--------------------------------------------------------------------------*/
 
-int joystick_resources_init(void)
+static int set_joystick_opposite_enable(int val, void *param)
 {
-    if (joystick_joyport_register() < 0) {
-        return -1;
-    }
-    if (resources_register_int(resources_int) < 0) {
+    joystick_opposite_enable = val ? 1 : 0;
+
+    return 0;
+}
+
+static int set_joystick_device(int val, void *param)
+{
+    int port_idx = vice_ptr_to_int(param);
+
+    if (joy_arch_set_device(port_idx, val) < 0) {
         return -1;
     }
 
-    return joystick_arch_init_resources();
+    joystick_port_map[port_idx] = val;
+
+    return 0;
 }
-#else
-static const resource_int_t resources_int[] = {
+
+static const resource_int_t joyopposite_resources_int[] = {
     { "JoyOpposite", 0, RES_EVENT_NO, NULL,
       &joystick_opposite_enable, set_joystick_opposite_enable, NULL },
     { NULL }
 };
 
-int joystick_extra_init_resources(void)
+static resource_int_t joy1_resources_int[] = {
+    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[JOYPORT_1], set_joystick_device, (void *)JOYPORT_1 },
+    { NULL },
+};
+
+static resource_int_t joy2_resources_int[] = {
+    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[JOYPORT_2], set_joystick_device, (void *)JOYPORT_2 },
+    { NULL },
+};
+
+static resource_int_t joy3_resources_int[] = {
+    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[JOYPORT_3], set_joystick_device, (void *)JOYPORT_3 },
+    { NULL },
+};
+
+static resource_int_t joy4_resources_int[] = {
+    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[JOYPORT_4], set_joystick_device, (void *)JOYPORT_4 },
+    { NULL },
+};
+
+int joystick_resources_init(void)
 {
     if (joystick_joyport_register() < 0) {
         return -1;
     }
-    return resources_register_int(resources_int);
+
+#ifdef COMMON_JOYKEYS
+    if (resources_register_int(joykeys_resources_int) < 0) {
+        return -1;
+    }
+#endif
+
+    if (resources_register_int(joyopposite_resources_int) < 0) {
+        return -1;
+    }
+
+#ifdef JOYDEV_DEFAULT
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_SCPU64:
+            joy2_resources_int[0].factory_value = JOYDEV_DEFAULT;
+            break;
+        case VICE_MACHINE_PLUS4:
+        case VICE_MACHINE_VIC20:
+        case VICE_MACHINE_CBM5x0:
+            joy1_resources_int[0].factory_value = JOYDEV_DEFAULT;
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            break;
+    }
+#endif
+
+    if (joyport_get_port_name(JOYPORT_1)) {
+        if (resources_register_int(joy1_resources_int) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_2)) {
+        if (resources_register_int(joy2_resources_int) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_3)) {
+        if (resources_register_int(joy3_resources_int) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_4)) {
+        if (resources_register_int(joy4_resources_int) < 0) {
+            return -1;
+        }
+    }
+
+    return joy_arch_resources_init();
 }
-#endif /* COMMON_KBD */
 
 /* ------------------------------------------------------------------------- */
 
@@ -571,7 +644,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_JOY_OPPOSITE,
       NULL, NULL },
-#ifdef COMMON_KBD
+#ifdef COMMON_JOYKEYS
     { "-keyset", SET_RESOURCE, 0,
       NULL, NULL, "KeySetEnable", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -588,11 +661,11 @@ static const cmdline_option_t cmdline_options[] =
 
 int joystick_cmdline_options_init(void)
 {
-    if (joystick_arch_cmdline_options_init() < 0) {
+    if (cmdline_register_options(cmdline_options) < 0) {
         return -1;
     }
 
-    return cmdline_register_options(cmdline_options);
+    return joy_arch_cmdline_options_init();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -602,7 +675,7 @@ int joystick_init(void)
     joystick_alarm = alarm_new(maincpu_alarm_context, "Joystick",
                                joystick_latch_handler, NULL);
 
-#ifdef COMMON_KBD
+#ifdef COMMON_JOYKEYS
     kbd_initialize_numpad_joykeys(joykeys[0]);
 #endif
 

@@ -44,53 +44,31 @@
 
 #include "cmdline.h"
 #include "joy.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
-#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
 
 #ifndef MAC_JOYSTICK
 
-/* Resources.  */
-
-static int joyportselect(int val, void *param)
+int joy_arch_set_device(int port, int new_dev)
 {
-    int nr = vice_ptr_to_int(param);
-
-    if (val < 0 || val > JOYDEV_MAX) {
+    if (new_dev < 0 || new_dev > JOYDEV_MAX) {
         return -1;
     }
 
-    joystick_port_map[nr] = val;
     return 0;
 }
 
-static resource_int_t joy1_resources_int[] = {
-    { "JoyDevice1", 0, RES_EVENT_NO, NULL,
-      &joystick_port_map[0], joyportselect, (void *)0 },
-    { NULL },
-};
+/* Resources.  */
 
-static resource_int_t joy2_resources_int[] = {
-    { "JoyDevice2", 0, RES_EVENT_NO, NULL,
-      &joystick_port_map[1], joyportselect, (void *)1 },
-    { NULL },
-};
-
-static resource_int_t joy3_resources_int[] = {
-    { "JoyDevice3", 0, RES_EVENT_NO, NULL,
-      &joystick_port_map[2], joyportselect, (void *)2 },
-    { NULL },
-};
-
-static resource_int_t joy4_resources_int[] = {
-    { "JoyDevice4", 0, RES_EVENT_NO, NULL,
-      &joystick_port_map[3], joyportselect, (void *)3 },
-    { NULL },
-};
+int joy_arch_resources_init(void)
+{
+    return 0;
+}
 
 /* Command-line options.  */
 
@@ -178,126 +156,30 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { NULL },
 };
 
-int joystick_arch_init_resources(void)
+int joy_arch_cmdline_options_init(void)
 {
-    switch (machine_class) {
-        case VICE_MACHINE_C64:
-        case VICE_MACHINE_C64SC:
-        case VICE_MACHINE_C128:
-        case VICE_MACHINE_C64DTV:
-        case VICE_MACHINE_SCPU64:
-            joy2_resources_int[0].factory_value = 1;
-            if (resources_register_int(joy1_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy2_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy3_resources_int) < 0) {
-                return -1;
-            }
-            return resources_register_int(joy4_resources_int);
-            break;
-        case VICE_MACHINE_PET:
-        case VICE_MACHINE_CBM6x0:
-            if (resources_register_int(joy3_resources_int) < 0) {
-                return -1;
-            }
-            return resources_register_int(joy4_resources_int);
-            break;
-        case VICE_MACHINE_CBM5x0:
-            joy1_resources_int[0].factory_value = 1;
-            if (resources_register_int(joy1_resources_int) < 0) {
-                return -1;
-            }
-            return resources_register_int(joy2_resources_int);
-            break;
-        case VICE_MACHINE_PLUS4:
-            joy1_resources_int[0].factory_value = 1;
-            if (resources_register_int(joy1_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy2_resources_int) < 0) {
-                return -1;
-            }
-            return resources_register_int(joy3_resources_int);
-            break;
-        case VICE_MACHINE_VIC20:
-            joy1_resources_int[0].factory_value = 1;
-            if (resources_register_int(joy1_resources_int) < 0) {
-                return -1;
-            }
-            if (resources_register_int(joy3_resources_int) < 0) {
-                return -1;
-            }
-            return resources_register_int(joy4_resources_int);
-            break;
-        case VICE_MACHINE_NONE:
-            return 0;
-            break;
+    if (joyport_get_port_name(JOYPORT_1)) {
+        if (cmdline_register_options(joydev1cmdline_options) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_2)) {
+        if (cmdline_register_options(joydev2cmdline_options) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_3)) {
+        if (cmdline_register_options(joydev3cmdline_options) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_4)) {
+        if (cmdline_register_options(joydev4cmdline_options) < 0) {
+            return -1;
+        }
     }
 
-    /* Unknown machine, indicate an error */
-    return -1;
-}
-
-int joystick_arch_cmdline_options_init(void)
-{
-    switch (machine_class) {
-        case VICE_MACHINE_C64:
-        case VICE_MACHINE_C64SC:
-        case VICE_MACHINE_C128:
-        case VICE_MACHINE_C64DTV:
-        case VICE_MACHINE_SCPU64:
-            if (cmdline_register_options(joydev1cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev2cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev3cmdline_options) < 0) {
-                return -1;
-            }
-            return cmdline_register_options(joydev4cmdline_options);
-            break;
-        case VICE_MACHINE_PET:
-        case VICE_MACHINE_CBM6x0:
-            if (cmdline_register_options(joydev3cmdline_options) < 0) {
-                return -1;
-            }
-            return cmdline_register_options(joydev4cmdline_options);
-            break;
-        case VICE_MACHINE_CBM5x0:
-            if (cmdline_register_options(joydev1cmdline_options) < 0) {
-                return -1;
-            }
-            return cmdline_register_options(joydev2cmdline_options);
-            break;
-        case VICE_MACHINE_PLUS4:
-            if (cmdline_register_options(joydev1cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev2cmdline_options) < 0) {
-                return -1;
-            }
-            return cmdline_register_options(joydev3cmdline_options);
-            break;
-        case VICE_MACHINE_VIC20:
-            if (cmdline_register_options(joydev1cmdline_options) < 0) {
-                return -1;
-            }
-            if (cmdline_register_options(joydev3cmdline_options) < 0) {
-                return -1;
-            }
-            return cmdline_register_options(joydev4cmdline_options);
-            break;
-        case VICE_MACHINE_NONE:
-            return 0;
-            break;
-    }
-
-    /* Unknown machine, indicate an error */
-    return -1;
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -33,10 +33,13 @@ struct snapshot_s;
 
 extern int joystick_init(void);
 extern int joystick_resources_init(void);
-extern int joystick_extra_init_resources(void);
-
 extern int joystick_cmdline_options_init(void);
-extern int joystick_arch_cmdline_options_init(void);
+
+/* These joy_arch_* functions need to be defined in every port. */
+extern int joy_arch_init(void);
+extern int joy_arch_resources_init(void);
+extern int joy_arch_cmdline_options_init(void);
+extern int joy_arch_set_device(int port_idx, int new_dev);
 
 extern int joystick_check_set(signed long key, int keysetnum, unsigned int joyport);
 extern int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport);
@@ -66,7 +69,9 @@ extern int joystick_snapshot_read_module(struct snapshot_s *s);
 /* virtual joystick mapping */
 extern int joystick_port_map[JOYSTICK_NUM];
 
-#ifdef COMMON_KBD
+#if (!defined(__OS2__) && !defined(AMIGA_OS4)) || defined(USE_SDLUI) || defined(USE_SDLUI2)
+#define COMMON_JOYKEYS
+
 #define JOYSTICK_KEYSET_NUM 3
 #define JOYSTICK_KEYSET_NUM_KEYS 9
 #define JOYSTICK_KEYSET_IDX_NUMBLOCK 0
