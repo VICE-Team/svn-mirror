@@ -540,7 +540,6 @@ int cart_cmdline_options_init(void)
         || tfe_cmdline_options_init() < 0
 #endif
         /* "Main Slot" */
-        || cpmcart_cmdline_options_init() < 0
         || easyflash_cmdline_options_init() < 0
         || ide64_cmdline_options_init() < 0
         || mmcreplay_cmdline_options_init() < 0
@@ -548,6 +547,12 @@ int cart_cmdline_options_init(void)
         || supersnapshot_v5_cmdline_options_init() < 0
         ) {
         return -1;
+    }
+
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) {
+        if (cpmcart_cmdline_options_init() < 0) {
+            return -1;
+        }
     }
 
     return cmdline_register_options(cmdline_options);
@@ -586,7 +591,6 @@ int cart_resources_init(void)
         || aciacart_resources_init() < 0
 #endif
         /* "Main Slot" */
-        || cpmcart_resources_init() < 0
         || easyflash_resources_init() < 0
         || ide64_resources_init() < 0
         || mmcreplay_resources_init() < 0
@@ -594,6 +598,12 @@ int cart_resources_init(void)
         || supersnapshot_v5_resources_init() < 0
         ) {
         return -1;
+    }
+
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) {
+        if (cpmcart_resources_init() < 0) {
+            return -1;
+        }
     }
 
     return 0;
