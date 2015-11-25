@@ -116,8 +116,13 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
 static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
                       WORD addr)
 {
+    BYTE joy_bits = 0;
+
     via2_internal_lightpen_check(byte);
     iec_pa_write(byte);
+
+    joy_bits = ((byte & 0x20) >> 1) | ((byte & 0x1c) >> 2);
+    store_joyport_dig(JOYPORT_1, joy_bits);
 }
 
 static void undump_prb(via_context_t *via_context, BYTE byte)
