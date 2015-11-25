@@ -102,7 +102,7 @@ typedef struct joyport_port_props_s {
 extern int joyport_device_register(int id, joyport_t *device);
 
 extern BYTE read_joyport_dig(int port);
-extern void store_joyport_dig(int port, BYTE val);
+extern void store_joyport_dig(int port, BYTE val, BYTE mask);
 extern BYTE read_joyport_potx(void);
 extern BYTE read_joyport_poty(void);
 

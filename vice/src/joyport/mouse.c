@@ -170,37 +170,39 @@ static void neos_get_new_movement(void)
 
 void neos_mouse_store(BYTE val)
 {
-    switch (neos_state) {
-        case NEOS_IDLE:
-            if ((val ^ neos_prev) & neos_prev & 16) {
+    if ((neos_prev & 16) != (val & 16)) {
+        switch (neos_state) {
+            case NEOS_IDLE:
+                if ((val ^ neos_prev) & neos_prev & 16) {
+                    ++neos_state;
+                    neos_get_new_movement();
+                }
+                break;
+            case NEOS_XH:
+                if ((val ^ neos_prev) & val & 16) {
+                    ++neos_state;
+                }
+                break;
+            case NEOS_XL:
+                if ((val ^ neos_prev) & neos_prev & 16) {
+                    ++neos_state;
+                }
+                break;
+            case NEOS_YH:
+                if ((val ^ neos_prev) & val & 16) {
+                    ++neos_state;
+                    alarm_set(neosmouse_alarm, maincpu_clk + NEOS_RESET_CLK);
+                }
+                break;
+            case NEOS_YL:
                 ++neos_state;
-                neos_get_new_movement();
-            }
-            break;
-        case NEOS_XH:
-            if ((val ^ neos_prev) & val & 16) {
-                ++neos_state;
-            }
-            break;
-        case NEOS_XL:
-            if ((val ^ neos_prev) & neos_prev & 16) {
-                ++neos_state;
-            }
-            break;
-        case NEOS_YH:
-            if ((val ^ neos_prev) & val & 16) {
-                ++neos_state;
-                alarm_set(neosmouse_alarm, maincpu_clk + NEOS_RESET_CLK);
-            }
-            break;
-        case NEOS_YL:
-            ++neos_state;
-            break;
-        case NEOS_DONE:
-        default:
-            break;
+                break;
+            case NEOS_DONE:
+            default:
+                break;
+        }
+        neos_prev = val;
     }
-    neos_prev = val;
 }
 
 BYTE neos_mouse_read(void)

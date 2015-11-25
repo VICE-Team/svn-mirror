@@ -153,7 +153,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 
     set_joyport_pot_mask((b >> 6) & 3);
 
-    store_joyport_dig(JOYPORT_2, b);
+    store_joyport_dig(JOYPORT_2, b, 0xff);
 }
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
@@ -164,7 +164,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     cia1_internal_lightpen_check(machine_context.cia1->old_pa, byte);
 
-    store_joyport_dig(JOYPORT_1, byte);
+    store_joyport_dig(JOYPORT_1, byte, 0xff);
 }
 
 static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)

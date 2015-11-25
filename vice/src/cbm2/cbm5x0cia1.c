@@ -135,7 +135,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     set_joyport_pot_mask((byte >> 6) & 3);
 
-    store_joyport_dig(JOYPORT_2, byte);
+    store_joyport_dig(JOYPORT_2, byte, 0xff);
 
     parallel_cpu_set_bus((BYTE)(cia1_ieee_is_output ? byte : 0xff));
 }
@@ -155,7 +155,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     printer_userport_write_strobe(0);
     printer_userport_write_strobe(1);
 
-    store_joyport_dig(JOYPORT_1, byte);
+    store_joyport_dig(JOYPORT_1, byte, 0xff);
 
     /* FIXME: in the upcoming userport system this call needs to be conditional */
     userport_joystick_store_pbx(byte);

@@ -211,7 +211,7 @@ int sidcart_cmdline_options_init(void)
 
 void sidcartjoy_store(WORD addr, BYTE value)
 {
-    store_joyport_dig(JOYPORT_3, value);
+    store_joyport_dig(JOYPORT_3, value, 0xff);
 }
 
 BYTE sidcartjoy_read(WORD addr)

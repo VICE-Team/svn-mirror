@@ -109,9 +109,12 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
                       WORD addr)
 {
+    BYTE joy_bit = (byte & 0x80) >> 4;
+
     if ((byte ^ myoldpb) & 8) {
         datasette_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte) & 0x8);
     }
+    store_joyport_dig(JOYPORT_1, joy_bit, 8);
 }
 
 static void undump_pcr(via_context_t *via_context, BYTE byte)

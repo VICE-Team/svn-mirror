@@ -43,6 +43,8 @@ static int joy_port[JOYPORT_MAX_PORTS];
 static joyport_port_props_t port_props[JOYPORT_MAX_PORTS];
 static int pot_port_mask = 1;
 
+static BYTE joyport_dig_stored[JOYPORT_MAX_PORTS];
+
 typedef struct resid2transid_s {
     int resid;
     int transid;
@@ -153,9 +155,13 @@ BYTE read_joyport_dig(int port)
     return joyport_device[id].read_digital(port);
 }
 
-void store_joyport_dig(int port, BYTE val)
+void store_joyport_dig(int port, BYTE val, BYTE mask)
 {
     int id = joy_port[port];
+    BYTE store_val;
+
+    store_val &= ~mask;
+    store_val |= val;
 
     if (id == JOYPORT_ID_NONE) {
         return;
@@ -165,7 +171,14 @@ void store_joyport_dig(int port, BYTE val)
         return;
     }
 
-    joyport_device[id].store_digital(val);
+    store_val = joyport_dig_stored[port];
+
+    store_val &= ~mask;
+    store_val |= val;
+
+    joyport_device[id].store_digital(store_val);
+
+    joyport_dig_stored[port] = store_val;
 }
 
 static int pot_port1 = -1;

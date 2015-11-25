@@ -122,7 +122,7 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
     iec_pa_write(byte);
 
     joy_bits = ((byte & 0x20) >> 1) | ((byte & 0x1c) >> 2);
-    store_joyport_dig(JOYPORT_1, joy_bits);
+    store_joyport_dig(JOYPORT_1, joy_bits, 0x17);
 }
 
 static void undump_prb(via_context_t *via_context, BYTE byte)
