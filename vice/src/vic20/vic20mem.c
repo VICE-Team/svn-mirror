@@ -216,37 +216,12 @@ static BYTE via_peek(WORD addr)
 
 static BYTE io3_peek(WORD addr)
 {
-#if 0
-    /* TODO */
-    if (sidcart_enabled && sidcart_address == 1 && addr >= 0x9c00 && addr <= 0x9c1f) {
-        return sid_peek(addr);
-    }
-#endif
-
-#ifdef HAVE_MIDI
-#if 0
-    /* TODO */
-    if (midi_enabled && (addr & 0xff00) == 0x9c00) {
-        if (midi_test_peek((WORD)(addr & 0xff))) {
-            return midi_peek((WORD)(addr & 0xff));
-        }
-    }
-#endif
-#endif
-
-    return vic20_v_bus_last_data;
+    return vic20io3_peek(addr);
 }
 
 static BYTE io2_peek(WORD addr)
 {
-#if 0
-    /* TODO */
-    if (sidcart_enabled && sidcart_address == 0 && addr >= 0x9800 && addr <= 0x981f) {
-        return sid_peek(addr);
-    }
-#endif
-
-    return vic20_v_bus_last_data;
+    return vic20io2_peek(addr);
 }
 
 /*-------------------------------------------------------------------*/
