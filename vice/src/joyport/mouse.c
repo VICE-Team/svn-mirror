@@ -135,9 +135,6 @@ static BYTE mouse_get_1351_y(void)
 /* --------------------------------------------------------- */
 /* NEOS mouse */
 
-#define NEOS_RESET_CLK 100
-struct alarm_s *neosmouse_alarm;
-
 static int neos_and_amiga_buttons;
 static int neos_prev;
 
@@ -147,13 +144,11 @@ static BYTE neos_lastx;
 static BYTE neos_lasty;
 
 enum {
-    NEOS_IDLE = 0,
-    NEOS_XH,
+    NEOS_XH = 0,
     NEOS_XL,
     NEOS_YH,
-    NEOS_YL,
-    NEOS_DONE
-} neos_state = NEOS_IDLE;
+    NEOS_YL
+} neos_state = NEOS_YH;
 
 static void neos_get_new_movement(void)
 {
@@ -172,9 +167,9 @@ void neos_mouse_store(BYTE val)
 {
     if ((neos_prev & 16) != (val & 16)) {
         switch (neos_state) {
-            case NEOS_IDLE:
+            case NEOS_YL:
                 if ((val ^ neos_prev) & neos_prev & 16) {
-                    ++neos_state;
+                    neos_state = NEOS_XH;
                     neos_get_new_movement();
                 }
                 break;
@@ -191,14 +186,7 @@ void neos_mouse_store(BYTE val)
             case NEOS_YH:
                 if ((val ^ neos_prev) & val & 16) {
                     ++neos_state;
-                    alarm_set(neosmouse_alarm, maincpu_clk + NEOS_RESET_CLK);
                 }
-                break;
-            case NEOS_YL:
-                ++neos_state;
-                break;
-            case NEOS_DONE:
-            default:
                 break;
         }
         neos_prev = val;
@@ -220,18 +208,10 @@ BYTE neos_mouse_read(void)
         case NEOS_YL:
             return (neos_y & 0xf) | 0xf0;
             break;
-        case NEOS_IDLE:
-        case NEOS_DONE:
         default:
             return 0xff;
             break;
     }
-}
-
-static void neosmouse_alarm_handler(CLOCK offset, void *data)
-{
-    alarm_unset(neosmouse_alarm);
-    neos_state = NEOS_IDLE;
 }
 
 /* --------------------------------------------------------- */
@@ -920,7 +900,6 @@ void mouse_init(void)
 
     neos_and_amiga_buttons = 0;
     neos_prev = 0xff;
-    neosmouse_alarm = alarm_new(maincpu_alarm_context, "NEOSMOUSEAlarm", neosmouse_alarm_handler, NULL);
     mousedrv_init();
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 }
