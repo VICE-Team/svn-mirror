@@ -141,6 +141,3 @@ BYTE colorram_read(WORD addr)
 void colorram_store(WORD addr, BYTE value)
 {
 }
-
-const BYTE daa_reg_a[1];
-const BYTE daa_reg_f[1];

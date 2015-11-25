@@ -160,9 +160,6 @@ void store_joyport_dig(int port, BYTE val, BYTE mask)
     int id = joy_port[port];
     BYTE store_val;
 
-    store_val &= ~mask;
-    store_val |= val;
-
     if (id == JOYPORT_ID_NONE) {
         return;
     }
