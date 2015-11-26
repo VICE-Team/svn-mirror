@@ -3506,7 +3506,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_JOYPORT_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_JOYPORT_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_JOYPORT_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_JOYPORT_SETTINGS_NL, "Control port instellingen..." },
+/* nl */ { IDMS_JOYPORT_SETTINGS_NL, "Spel connector instellingen..." },
 /* pl */ { IDMS_JOYPORT_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_JOYPORT_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_JOYPORT_SETTINGS_SV, "" },  /* fuzzy */
@@ -4052,7 +4052,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_ENABLE_CPM_CART_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ENABLE_CPM_CART_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_ENABLE_CPM_CART_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_CPM_CART_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_CPM_CART_NL, "Activeer de CP/M cartridge" },
 /* pl */ { IDMS_ENABLE_CPM_CART_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ENABLE_CPM_CART_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_CPM_CART_SV, "" },  /* fuzzy */
@@ -4276,7 +4276,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_UM_WRITEBACK_HU, "" },  /* fuzzy */
 /* it */ { IDMS_UM_WRITEBACK_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_UM_WRITEBACK_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_UM_WRITEBACK_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_UM_WRITEBACK_NL, "Activeer terug schrijven naar ROM bestand voor UltiMem" },
 /* pl */ { IDMS_UM_WRITEBACK_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_UM_WRITEBACK_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_UM_WRITEBACK_SV, "" },  /* fuzzy */
@@ -4318,7 +4318,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_IO2_RAM_ENABLE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_IO2_RAM_ENABLE_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_IO2_RAM_ENABLE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_IO2_RAM_ENABLE_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_IO2_RAM_ENABLE_NL, "Activeer I/O-2 RAM" },
 /* pl */ { IDMS_IO2_RAM_ENABLE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_IO2_RAM_ENABLE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_IO2_RAM_ENABLE_SV, "" },  /* fuzzy */
@@ -4332,7 +4332,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_IO3_RAM_ENABLE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_IO3_RAM_ENABLE_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_IO3_RAM_ENABLE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_IO3_RAM_ENABLE_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_IO3_RAM_ENABLE_NL, "Activeer I/O-3 RAM" },
 /* pl */ { IDMS_IO3_RAM_ENABLE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_IO3_RAM_ENABLE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_IO3_RAM_ENABLE_SV, "" },  /* fuzzy */
@@ -7378,7 +7378,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_JOYSTICK_1,    "Joystick #1" },
 /* da */ { IDS_JOYSTICK_1_DA, "" },  /* fuzzy */
-/* de */ { IDS_JOYSTICK_1_DE, "" },  /* fuzzy */
+/* de */ { IDS_JOYSTICK_1_DE, "Joystick #1" },
 /* es */ { IDS_JOYSTICK_1_ES, "" },  /* fuzzy */
 /* fr */ { IDS_JOYSTICK_1_FR, "" },  /* fuzzy */
 /* hu */ { IDS_JOYSTICK_1_HU, "" },  /* fuzzy */
@@ -7392,7 +7392,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_JOYSTICK_2,    "Joystick #2" },
 /* da */ { IDS_JOYSTICK_2_DA, "" },  /* fuzzy */
-/* de */ { IDS_JOYSTICK_2_DE, "" },  /* fuzzy */
+/* de */ { IDS_JOYSTICK_2_DE, "Joystick #2" },
 /* es */ { IDS_JOYSTICK_2_ES, "" },  /* fuzzy */
 /* fr */ { IDS_JOYSTICK_2_FR, "" },  /* fuzzy */
 /* hu */ { IDS_JOYSTICK_2_HU, "" },  /* fuzzy */
@@ -10291,18 +10291,18 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_SELECT_GENERIC_TR, "Jenerik kartuþ imajý seç" },
 
 /* en */ { IDS_SELECT_UM,    "Select UltiMem image" },
-/* da */ { IDS_SELECT_UM_DA, "Vælg UltiMem-image" },
-/* de */ { IDS_SELECT_UM_DE, "UltiMem Image auswählen" },
-/* es */ { IDS_SELECT_UM_ES, "Seleccionar imagen UltiMem" },
-/* fr */ { IDS_SELECT_UM_FR, "Sélectionner l'image UltiMem" },
+/* da */ { IDS_SELECT_UM_DA, "" },  /* fuzzy */
+/* de */ { IDS_SELECT_UM_DE, "" },  /* fuzzy */
+/* es */ { IDS_SELECT_UM_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SELECT_UM_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SELECT_UM_HU, "" },  /* fuzzy */
-/* it */ { IDS_SELECT_UM_IT, "Seleziona immagine UltiMem " },
+/* it */ { IDS_SELECT_UM_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SELECT_UM_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SELECT_UM_NL, "Selecteer UltiMem bestand" },
-/* pl */ { IDS_SELECT_UM_PL, "Wybierz obraz UltiMem" },
-/* ru */ { IDS_SELECT_UM_RU, "Select UltiMem image" },
-/* sv */ { IDS_SELECT_UM_SV, "Välj avbildning för UltiMem" },
-/* tr */ { IDS_SELECT_UM_TR, "UltiMem imajý seç" },
+/* pl */ { IDS_SELECT_UM_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SELECT_UM_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SELECT_UM_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SELECT_UM_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SELECT_FP,    "Select Vic Flash Plugin image" },
 /* da */ { IDS_SELECT_FP_DA, "Vælg Vic Flash Plugin-image" },
@@ -11670,7 +11670,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_JOYPORT_S_DEVICE_HU, "" },  /* fuzzy */
 /* it */ { IDS_JOYPORT_S_DEVICE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_JOYPORT_S_DEVICE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYPORT_S_DEVICE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_JOYPORT_S_DEVICE_NL, "%s apparaat" },
 /* pl */ { IDS_JOYPORT_S_DEVICE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_JOYPORT_S_DEVICE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_JOYPORT_S_DEVICE_SV, "" },  /* fuzzy */
@@ -11684,7 +11684,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_JOYPORT_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_JOYPORT_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_JOYPORT_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_JOYPORT_SETTINGS_NL, "Control port instellingen" },
+/* nl */ { IDS_JOYPORT_SETTINGS_NL, "Spel connector instellingen" },
 /* pl */ { IDS_JOYPORT_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_JOYPORT_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_JOYPORT_SETTINGS_SV, "" },  /* fuzzy */

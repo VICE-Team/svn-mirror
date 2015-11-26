@@ -914,7 +914,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Geheugen uitbreiding hacks instellingen..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64 drive burst modificatie instellingen..."
-  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
+  IDS_MI_TOGGLE_CPM_CART           "Activeer de CP/M cartridge"
 END
 
 
@@ -1082,3 +1082,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

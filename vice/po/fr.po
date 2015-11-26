@@ -1,12 +1,12 @@
 # French Translation File for VICE
 # Copyright (C) 2004-2013 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Vice Emulator package.
-#
+# 
 # Note to myself: /cry  *This is WAY TOO long!!*  ;-)
 # Long Live To Vice and to all it's developpers and contributors!  Thanks to you all!
 # The C64 started my addiction ;)
 # - Paul (: DubePaul @t 0utl0ok d0t.com :)
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"

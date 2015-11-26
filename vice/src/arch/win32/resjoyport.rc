@@ -215,7 +215,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_S_DEVICE   "%s device"
+  IDS_JOYPORT_S_DEVICE   "%s apparaat"
 END
 
 
@@ -271,3 +271,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+
