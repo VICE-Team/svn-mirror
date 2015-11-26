@@ -2892,9 +2892,8 @@ msgstr "ISEPIC bestand"
 #: src/arch/unix/gui/uijoyport.c:49 src/arch/win32/res.rc.po.c:1475
 #: src/arch/amigaos/intl_text.c.po.c:3477
 #: src/arch/amigaos/intl_text.c.po.c:11655
-#, fuzzy
 msgid "Control port settings"
-msgstr "Kleur instellingen"
+msgstr "Spel connector instellingen"
 
 #: src/arch/unix/gui/uijoystick2.c:128 src/arch/unix/gui/uijoystick2.c:146
 #: src/arch/win32/res.rc.po.c:1033 src/arch/amigaos/intl_text.c.po.c:1881
@@ -4440,9 +4439,8 @@ msgid "Attach Final Expansion image"
 msgstr "Koppel Final Expansion bestand"
 
 #: src/arch/unix/gui/vic20ui.c:322
-#, fuzzy
 msgid "Attach UltiMem image"
-msgstr "Koppel tapebestand aan"
+msgstr "Koppel UltiMem bestand"
 
 #: src/arch/unix/gui/vic20ui.c:325
 msgid "Attach Vic Flash Plugin image"
@@ -4473,12 +4471,12 @@ msgstr "NvRAM bestandsnaam"
 #: src/arch/unix/gui/vic20ui.c:379 src/arch/win32/resvic20.rc.po.c:586
 #: src/arch/amigaos/intl_text.c.po.c:4289 src/translate_text.c.po.c:13118
 msgid "Enable I/O-2 RAM"
-msgstr ""
+msgstr "Activeer I/O-2 RAM"
 
 #: src/arch/unix/gui/vic20ui.c:381 src/arch/win32/resvic20.rc.po.c:587
 #: src/arch/amigaos/intl_text.c.po.c:4303 src/translate_text.c.po.c:13152
 msgid "Enable I/O-3 RAM"
-msgstr ""
+msgstr "Activeer I/O-3 RAM"
 
 #: src/arch/unix/gui/vic20ui.c:480
 msgid "VIC model"
@@ -4494,7 +4492,7 @@ msgstr "VIC-1112 IEEE488 interface"
 
 #: src/arch/unix/gui/vic20ui.c:514
 msgid "I/O RAM"
-msgstr ""
+msgstr "I/O RAM"
 
 #: src/arch/unix/gui/vic20ui.c:528
 msgid "Ethernet emulation (MasC=uerade)"
@@ -5928,13 +5926,12 @@ msgid "Sound driver: WMM"
 msgstr "Geluid stuurprogramma: WMM"
 
 #: src/arch/win32/res.rc.po.c:1071
-#, fuzzy
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.koa;*.gg;*.dd;*.jj;"
 "*.4bt;*.wav;*.mp3;*.flac;*.ogg;*.avi;*.mpg)"
 msgstr ""
-"Mediabestanden (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.flac,"
-"*.ogg,*.avi;*.mpg)"
+"Mediabestanden (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.koa;*.gg;*.dd;*.jj;"
+"*.4bt;*.wav;*.mp3;*.flac;*.ogg;*.avi;*.mpg)"
 
 #: src/arch/win32/res.rc.po.c:1072
 msgid " kB"
@@ -6146,9 +6143,8 @@ msgid "cycle(s) additional delay each trigger"
 msgstr "Additionele aantal cycli vertraging per gebeurtenis"
 
 #: src/arch/win32/res.rc.po.c:1149
-#, fuzzy
 msgid "Datasette random tape wobble"
-msgstr "Datasette tape wiebel"
+msgstr "Willekeurige datasette tape wiebel"
 
 #: src/arch/win32/res.rc.po.c:1150
 msgid "Use IEC Device"
@@ -6506,14 +6502,13 @@ msgid "New Image"
 msgstr "Nieuw Bestand"
 
 #: src/arch/win32/res.rc.po.c:1293
-#, fuzzy
 msgid "image"
-msgstr "CRT bestand"
+msgstr "bestand"
 
 #: src/arch/win32/res.rc.po.c:1294
-#, fuzzy, c-format
+#, c-format
 msgid "Attach %s image file"
-msgstr "Koppel schijfbestand aan"
+msgstr "Koppel %s bestand"
 
 #: src/arch/win32/res.rc.po.c:1296
 msgid "ID"
@@ -6675,32 +6670,27 @@ msgstr "Sla de RTC data op indien gewijzigd"
 
 #: src/arch/win32/res.rc.po.c:1355 src/arch/win32/resc128.rc.po.c:77
 #: src/arch/win32/resc64.rc.po.c:73 src/arch/win32/resscpu64.rc.po.c:60
-#, fuzzy
 msgid "Generic cartridges"
-msgstr "Voeg toe aan algemeen cartridge"
+msgstr "Algemene cartridges"
 
 #: src/arch/win32/res.rc.po.c:1356
-#, fuzzy
 msgid "RAM expansion cartridges"
-msgstr "Voeg toe aan algemeen cartridge"
+msgstr "RAM uitbreiding cartridges"
 
 #: src/arch/win32/res.rc.po.c:1357 src/arch/win32/resc128.rc.po.c:85
 #: src/arch/win32/resc64.rc.po.c:81 src/arch/win32/resscpu64.rc.po.c:68
-#, fuzzy
 msgid "Freezer cartridges"
-msgstr "SID cartridge"
+msgstr "Freezer cartridges"
 
 #: src/arch/win32/res.rc.po.c:1358 src/arch/win32/resc128.rc.po.c:89
 #: src/arch/win32/resc64.rc.po.c:85 src/arch/win32/resscpu64.rc.po.c:72
-#, fuzzy
 msgid "Game cartridges"
-msgstr "SID cartridge"
+msgstr "Spel cartridges"
 
 #: src/arch/win32/res.rc.po.c:1359 src/arch/win32/resc128.rc.po.c:93
 #: src/arch/win32/resc64.rc.po.c:89 src/arch/win32/resscpu64.rc.po.c:76
-#, fuzzy
 msgid "Utility cartridges"
-msgstr "Gebruiksprogrammas"
+msgstr "Gebruiksprogramma cartridges"
 
 #: src/arch/win32/res.rc.po.c:1360 src/arch/win32/resc128.rc.po.c:117
 #: src/arch/win32/resc64.rc.po.c:113 src/arch/win32/resc64dtv.rc.po.c:77
@@ -7173,9 +7163,8 @@ msgstr "Selecteer bestand voor PRG autostart disk"
 
 #: src/arch/win32/resc128.rc.po.c:81 src/arch/win32/resc64.rc.po.c:77
 #: src/arch/win32/resscpu64.rc.po.c:64
-#, fuzzy
 msgid "Ram expansion cartridges"
-msgstr "Final Expansion bestand"
+msgstr "RAM uitbreiding cartridges"
 
 #: src/arch/win32/resc128.rc.po.c:257 src/arch/win32/resc128.rc.po.c:744
 #: src/arch/amigaos/intl_text.c.po.c:1797
@@ -7388,9 +7377,8 @@ msgid "Memory expansion hacks settings"
 msgstr "Geheugen uitbreiding hacks instellingen"
 
 #: src/arch/win32/resc64.rc.po.c:577
-#, fuzzy
 msgid "Enable the CP/M Cartridge"
-msgstr "Activeer de SID cartridge"
+msgstr "Activeer de CP/M cartridge"
 
 #: src/arch/win32/resc64dtv.rc.po.c:56 src/arch/win32/resc64dtv.rc.po.c:463
 #: src/arch/win32/resc64dtv.rc.po.c:474
@@ -7735,9 +7723,9 @@ msgstr "ISEPIC bestand"
 
 #: src/arch/win32/resjoyport.rc.po.c:114
 #: src/arch/amigaos/intl_text.c.po.c:11641
-#, fuzzy, c-format
+#, c-format
 msgid "%s device"
-msgstr "apparaat"
+msgstr "%s apparaat"
 
 #: src/arch/win32/resmagicvoice.rc.po.c:25
 msgid "Enable Magic Voice"
@@ -8258,9 +8246,8 @@ msgid "Select Final Expansion image"
 msgstr "Selecteer Final Expansion bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:559 src/arch/amigaos/intl_text.c.po.c:10269
-#, fuzzy
 msgid "Select UltiMem image"
-msgstr "Selecteer Mega-Cart bestand"
+msgstr "Selecteer UltiMem bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:560 src/arch/amigaos/intl_text.c.po.c:10283
 msgid "Select Vic Flash Plugin image"
@@ -8291,9 +8278,8 @@ msgid "Final Expansion image"
 msgstr "Final Expansion bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:572
-#, fuzzy
 msgid "UltiMem image"
-msgstr "Disk bestand"
+msgstr "UltiMem bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:573 src/arch/amigaos/intl_text.c.po.c:439
 msgid "Vic Flash Plugin image"
@@ -8331,9 +8317,8 @@ msgstr "Activeer terug schrijven naar ROM bestand voor Vic Flash Plugin"
 
 #: src/arch/win32/resvic20.rc.po.c:583 src/arch/amigaos/intl_text.c.po.c:4247
 #: src/translate_text.c.po.c:13084
-#, fuzzy
 msgid "Enable UltiMem write back to ROM file"
-msgstr "Activeer terug schrijven naar ROM bestand voor Final Expansion"
+msgstr "Activeer terug schrijven naar ROM bestand voor UltiMem"
 
 #: src/arch/win32/resvic20.rc.po.c:584 src/arch/amigaos/intl_text.c.po.c:4261
 #: src/translate_text.c.po.c:13016
@@ -8354,7 +8339,7 @@ msgstr "Sprite Botsingen"
 
 #: src/arch/win32/resvicii.rc.po.c:96
 msgid "VSP bug"
-msgstr ""
+msgstr "VSP bug"
 
 #: src/arch/win32/resvsid.rc.po.c:123
 msgid "Select PSID file"
@@ -8750,9 +8735,8 @@ msgid "Select file for PLUS256K"
 msgstr "Selecteer bestand voor PLUS256K"
 
 #: src/arch/amigaos/intl_text.c.po.c:4023 src/translate_text.c.po.c:16272
-#, fuzzy
 msgid "Enable the CP/M cartridge"
-msgstr "Activeer de SID cartridge"
+msgstr "Activeer de CP/M cartridge"
 
 #: src/arch/amigaos/intl_text.c.po.c:4037
 msgid "Enable the Userport RTC"
@@ -10579,64 +10563,56 @@ msgstr ""
 "5 = reset, 6 = reset teller."
 
 #: src/translate_text.c.po.c:3057
-#, fuzzy
 msgid "Control port"
-msgstr "Bediening"
+msgstr "Spel connector"
 
 #: src/translate_text.c.po.c:3074
-#, fuzzy
 msgid "Control port 1"
-msgstr "Bediening"
+msgstr "Spel connector 1"
 
 #: src/translate_text.c.po.c:3091
-#, fuzzy
 msgid "Control port 2"
-msgstr "Bediening"
+msgstr "Spel connector 2"
 
 #: src/translate_text.c.po.c:3108
 msgid "SIDCard control port"
-msgstr ""
+msgstr "SIDCard spel connector"
 
 #: src/translate_text.c.po.c:3125
-#, fuzzy
 msgid "Userport joystick adapter port 1"
-msgstr "Userport joystick adapter"
+msgstr "Userport joystick adapter poort 1"
 
 #: src/translate_text.c.po.c:3142
-#, fuzzy
 msgid "Userport joystick adapter port 2"
-msgstr "Userport joystick adapter"
+msgstr "Userport joystick adapter poort 2"
 
 #: src/translate_text.c.po.c:3159
-#, fuzzy, c-format
+#, c-format
 msgid "Selected port (%d) is not present on this emulator"
-msgstr "Geselelecteerde joyport apparaat %d is niet geregistreerd"
+msgstr "Geselelecteerde poort (%d) is niet aanwezig in deze emulator"
 
 #: src/translate_text.c.po.c:3176
-#, fuzzy, c-format
+#, c-format
 msgid "Selected control port device %d is not registered"
-msgstr "Geselelecteerde joyport apparaat %d is niet geregistreerd"
+msgstr "Geselelecteerde spel connector apparaat %d is niet geregistreerd"
 
 #: src/translate_text.c.po.c:3193
-#, fuzzy, c-format
+#, c-format
 msgid "Selected control port device %s on %s is already attached to %s"
-msgstr ""
-"Geselecteerde joyport apparaat %s op poort %d is al gekoppelt aan poort %d"
+msgstr "Geselecteerde spel connector apparaat %s op %s is al gekoppelt aan %s"
 
 #: src/translate_text.c.po.c:3210
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Selected control port device %s on %s uses same host input resource (%s) as "
 "the device attached to %s"
-msgstr ""
-"Geselecteerde joyport apparaat %s op poort %d gebruikt dezelfde fyskieke "
-"invoer instelling (%s) als het apparaat op poort %d"
+msgstr "Geselecteerde spel connector apparaat %s op %s gebruikt dezelfde fyskieke invoer instelling (%s) als het apparaat gekoppelt aan %s"
 
 #: src/translate_text.c.po.c:3227
-#, fuzzy, c-format
+#, c-format
 msgid "Selected control port device %s cannot be attached to %s"
 msgstr ""
-"Geselecteerde joyport apparaat %s op poort %d is al gekoppelt aan poort %d"
+"Geselecteerde spel connector apparaat %s kan niet worden gekoppelt aan %s"
 
 #: src/translate_text.c.po.c:3245
 msgid "host mouse"
@@ -10711,9 +10687,9 @@ msgid "Inkwell Light Pen"
 msgstr "Inkwell lightpen"
 
 #: src/translate_text.c.po.c:3585
-#, fuzzy, c-format
+#, c-format
 msgid "Set %s device (0: None"
-msgstr "Zet joyport 1 apparaat (0: Geen"
+msgstr "Zet %s apparaat (0: Geen"
 
 #: src/translate_text.c.po.c:3605
 msgid "Enable opposite joystick directions"
@@ -11424,14 +11400,12 @@ msgid "Set RR Revision (0: Retro Replay, 1: Nordic Replay)"
 msgstr "Zet RR Revisie (0: Retro Replay, 1: Nordic Replay)"
 
 #: src/translate_text.c.po.c:6776
-#, fuzzy
 msgid "Enable SS 32k RAM expansion"
-msgstr "Activeer de MMC64 uitbreiding"
+msgstr "Activeer de SS 32k RAM uitbreiding"
 
 #: src/translate_text.c.po.c:6793
-#, fuzzy
 msgid "Disable SS 32k RAM expansion"
-msgstr "De MMC64 uitbreiding uitschakelen"
+msgstr "De SS 32k RAM uitbreiding uitschakelen"
 
 #: src/translate_text.c.po.c:6827
 msgid "Disable the RAM Expansion Unit"
@@ -12838,9 +12812,8 @@ msgid "Specify Vic Flash Plugin extension ROM name"
 msgstr "Geef de naam van het bestand voor de Vic Flash Plugin ROM"
 
 #: src/translate_text.c.po.c:12948
-#, fuzzy
 msgid "Specify UltiMem extension ROM name"
-msgstr "Geef de naam van het bestand voor de Mega-Cart ROM"
+msgstr "Geef de naam van het bestand voor de UltiMem ROM"
 
 #: src/translate_text.c.po.c:12982
 msgid "Disable Final Expansion write back to ROM file"
@@ -12859,19 +12832,16 @@ msgid "Disable Vic Flash Plugin write back to ROM file"
 msgstr "Terug schrijven naar ROM bestand voor Vic Flash Plugin uitschakelen"
 
 #: src/translate_text.c.po.c:13101
-#, fuzzy
 msgid "Disable UltiMem write back to ROM file"
-msgstr "Terug schrijven naar ROM bestand voor Final Expansion uitschakelen"
+msgstr "Terug schrijven naar ROM bestand voor UltiMem uitschakelen"
 
 #: src/translate_text.c.po.c:13135
-#, fuzzy
 msgid "Disable I/O-2 RAM"
-msgstr "CRTC uitschakelen"
+msgstr "I/O-2 RAM uitschakelen"
 
 #: src/translate_text.c.po.c:13169
-#, fuzzy
 msgid "Disable I/O-3 RAM"
-msgstr "CRTC uitschakelen"
+msgstr "I/O-3 RAM uitschakelen"
 
 #: src/translate_text.c.po.c:13186
 msgid "Set border display mode (0: normal, 1: full, 2: debug)"
@@ -13565,9 +13535,8 @@ msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "De SFX Sound Sampler cartridge uitschakelen"
 
 #: src/translate_text.c.po.c:16289
-#, fuzzy
 msgid "Disable the CP/M cartridge"
-msgstr "De SID cartridge uitschakelen"
+msgstr "De CP/M cartridge uitschakelen"
 
 #: src/translate_text.c.po.c:16306
 msgid "Enable EasyFlash jumper"
