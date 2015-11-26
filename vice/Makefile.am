@@ -12,6 +12,7 @@ SUBDIRS = $(POSUB) src build data man doc
 COMMON_EXTRA_DIST = \
 	.descr \
 	AUTHORS \
+	autogen.sh \
 	build.minix \
 	configure.proto \
 	ChangeLog.1 \
