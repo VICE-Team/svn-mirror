@@ -224,6 +224,7 @@ static int set_cpmcart_enabled(int value, void *param)
             io_source_unregister(cpmcart_list_item);
             cpmcart_list_item = NULL;
             cpmcart_enabled = 0;
+            z80_started = 0;
         }
     }
     return 0;
