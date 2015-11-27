@@ -89,7 +89,7 @@ static io_source_t ram_io3_device = {
     1, /* read is always valid */
     ram_io3_store,
     ram_io3_read,
-    ram_io2_read,
+    ram_io3_read,
     NULL, /* TODO: dump */
     CARTRIDGE_VIC20_IO3_RAM,
     0,
