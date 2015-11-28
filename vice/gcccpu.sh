@@ -4,7 +4,7 @@
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #            Marcus Sutton <loggedoubt@gmail.com>
 #
-# This script compiles certain *cpu.c files with -O0 or -O1
+# This script compiles certain "cpu" files with -O0 or -O1
 
 cpufile=no
 cpuopt=no
@@ -17,7 +17,7 @@ do
     *asm*.c|*mon_*.c)
       cpufile=no
       ;;
-    *c64cpu.c|*c64dtvcpu.c|*z80.c|*cpmcart.c|*c64cpusc.c)
+    *c64cpusc.c|*c64dtvcpu.c|*z80.c|*cpmcart.c)
       cpufile=yes
       cpuopt=-O1
       ;;
