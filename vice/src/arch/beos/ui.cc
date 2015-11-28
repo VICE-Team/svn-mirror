@@ -576,19 +576,6 @@ static void ui_paste_clipboard_text(void)
     }
 } 
 
-/* here the stuff for queueing and dispatching ui commands */
-/*---------------------------------------------------------*/
-#define MAX_MESSAGE_QUEUE_SIZE  256
-static BMessage message_queue[MAX_MESSAGE_QUEUE_SIZE];
-static int num_queued_messages;
-
-void ui_add_event(void *msg)
-{
-    if (num_queued_messages < MAX_MESSAGE_QUEUE_SIZE) {
-        message_queue[num_queued_messages++] = *(BMessage*)msg;
-    }
-}
-
 static char *get_compiletime_features(void)
 {
     feature_list_t *list;
@@ -611,6 +598,19 @@ static char *get_compiletime_features(void)
     return str;
 }
 
+/* here the stuff for queueing and dispatching ui commands */
+/*---------------------------------------------------------*/
+#define MAX_MESSAGE_QUEUE_SIZE  256
+static BMessage message_queue[MAX_MESSAGE_QUEUE_SIZE];
+static int num_queued_messages;
+
+void ui_add_event(void *msg)
+{
+    if (num_queued_messages < MAX_MESSAGE_QUEUE_SIZE) {
+        message_queue[num_queued_messages++] = *(BMessage*)msg;
+    }
+}
+
 int ui_handle_toggle_items(ui_menu_toggle *toggles, int msg_item_id)
 {
     int m;
@@ -618,6 +618,7 @@ int ui_handle_toggle_items(ui_menu_toggle *toggles, int msg_item_id)
     for (m = 0; toggles[m].name != NULL; m++) {
         if (toggles[m].item_id == msg_item_id) {
             resources_toggle(toggles[m].name, NULL);
+            ui_update_menus();
             return 1;
         }
     }
@@ -635,6 +636,7 @@ int ui_handle_value_items(ui_res_value_list *values, int msg_item_id)
         for (; vl->item_id > 0; vl++) {
             if (vl->item_id == msg_item_id) {
                 resources_set_int(values[m].name, vl->value);
+                ui_update_menus();
                 return 1;
             }
         }
@@ -653,6 +655,7 @@ int ui_handle_string_items(ui_res_string_list *string_list, int msg_item_id)
         for (; vl->item_id > 0; vl++) {
             if (vl->item_id == msg_item_id) {
                 resources_set_string(string_list[m].name, vl->string);
+                ui_update_menus();
                 return 1;
             }
         }
@@ -1067,8 +1070,6 @@ void ui_dispatch_events(void)
                             break;
                         }
                     }
-
-                    ui_update_menus();
                 }
                 break;
         }
