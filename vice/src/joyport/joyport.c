@@ -526,7 +526,7 @@ struct joyport_opt_s {
 static struct joyport_opt_s id_match[] = {
     { "0",               JOYPORT_ID_NONE },
     { "none",            JOYPORT_ID_NONE },
-    { "1",               JOYPORT_ID_PADDLES },
+    { "1",               JOYPORT_ID_JOYSTICK },
     { "joy",             JOYPORT_ID_JOYSTICK },
     { "joystick",        JOYPORT_ID_JOYSTICK },
     { "2",               JOYPORT_ID_PADDLES },

@@ -237,7 +237,7 @@ static void set_io_source_mode(int mode)
             acia_device.start_address = acia_base;
             acia_device.end_address = acia_base + 3;
             acia_device.address_mask = 3;
-            acia_device.cart_id = CARTRIDGE_TURBO232;
+            acia_device.cart_id = CARTRIDGE_ACIA;
             break;
         case ACIA_MODE_SWIFTLINK:
             acia_device.name = CARTRIDGE_NAME_SWIFTLINK;
