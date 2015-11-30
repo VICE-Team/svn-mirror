@@ -81,8 +81,8 @@ static BYTE *cart_rom = NULL;
 
 #define CART_CFG_DISABLE (ultimem[0] & ultimem_reg0_regs_disable)
 
-/** Configuration registers */
-static BYTE ultimem[16];
+/** Configuration registers, plus state for re-enabling the registers */
+static BYTE ultimem[17];
 /** Used bits in ultimem[] */
 static const BYTE ultimem_mask[16] = {
     ultimem_reg0_regs_disable | ultimem_reg0_led,
@@ -134,28 +134,45 @@ static log_t um_log = LOG_ERR;
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static BYTE vic_um_io_read(WORD addr);
-static BYTE vic_um_io_peek(WORD addr);
-static void vic_um_io_store(WORD addr, BYTE value);
+static BYTE vic_um_io2_read(WORD addr);
+static BYTE vic_um_io2_peek(WORD addr);
+static void vic_um_io2_store(WORD addr, BYTE value);
+static BYTE vic_um_io3_read(WORD addr);
+static BYTE vic_um_io3_peek(WORD addr);
+static void vic_um_io3_store(WORD addr, BYTE value);
 static int vic_um_mon_dump(void);
 
-static io_source_t vbi_device = {
+static io_source_t ultimem_io2 = {
     CARTRIDGE_VIC20_NAME_UM,
     IO_DETACH_CART,
-    NULL,
+    "I/O2",
     0x9800, 0x9bff, 0x3ff,
     0,
-    vic_um_io_store,
-    vic_um_io_read,
-    vic_um_io_peek,
+    vic_um_io2_store,
+    vic_um_io2_read,
+    vic_um_io2_peek,
+    NULL,
+    CARTRIDGE_VIC20_UM,
+    0,
+    0
+};
+
+static io_source_t ultimem_io3 = {
+    CARTRIDGE_VIC20_NAME_UM,
+    IO_DETACH_CART,
+    "I/O3",
+    0x9c00, 0x9fff, 0x3ff,
+    0,
+    vic_um_io3_store,
+    vic_um_io3_read,
+    vic_um_io3_peek,
     vic_um_mon_dump,
     CARTRIDGE_VIC20_UM,
     0,
     0
 };
 
-static io_source_list_t *vbi_list_item = NULL;
-
+static io_source_list_t *io2_list_item, *io3_list_item;
 
 /* ------------------------------------------------------------------------- */
 
@@ -309,33 +326,27 @@ void vic_um_blk5_store(WORD addr, BYTE value)
     }
 }
 
-/* read 0x9800-0x9fff */
-static BYTE vic_um_io_read(WORD addr)
+/* read 0x9800-0x9bff */
+static BYTE vic_um_io2_read(WORD addr)
 {
-    unsigned io;
-
-    vbi_device.io_source_valid = 0;
+    ultimem_io2.io_source_valid = 0;
 
     if (CART_CFG_DISABLE) {
-        return vic20_cpu_last_data;
-    } else if ((addr & 0x7f0) == 0x3f0) {
-        vbi_device.io_source_valid = 1;
-        return ultimem[addr & 0xf];
+        /* Reading outside 0x9fxx resets the state machine. */
+        ultimem[16] = 0;
     }
 
-    io = addr & 0x200 ? 3 : 2;
-
-    switch (CART_CFG_IO(io)) {
+    switch (CART_CFG_IO(2)) {
     case BLK_STATE_DISABLED:
         break;
     case BLK_STATE_ROM:
-        vbi_device.io_source_valid = 1;
+        ultimem_io2.io_source_valid = 1;
         return flash040core_read(&flash_state,
                                  ((addr & 0x1fff) + CART_IO_ADDR) &
                                  (CART_ROM_SIZE - 1));
     case BLK_STATE_RAM_RO:
     case BLK_STATE_RAM_RW:
-        vbi_device.io_source_valid = 1;
+        ultimem_io2.io_source_valid = 1;
         return cart_ram[((addr & 0x1fff) + CART_IO_ADDR) &
                         (CART_RAM_SIZE - 1)];
     }
@@ -343,27 +354,135 @@ static BYTE vic_um_io_read(WORD addr)
     return vic20_v_bus_last_data;
 }
 
-static BYTE vic_um_io_peek(WORD addr)
+/* peek 0x9800-0x9bff */
+static BYTE vic_um_io2_peek(WORD addr)
 {
-    return ultimem[addr & 0xf];
+    switch (CART_CFG_IO(2)) {
+    case BLK_STATE_DISABLED:
+        break;
+    case BLK_STATE_ROM:
+        return cart_rom[((addr & 0x1fff) + CART_IO_ADDR) &
+                        (CART_ROM_SIZE - 1)];
+    case BLK_STATE_RAM_RO:
+    case BLK_STATE_RAM_RW:
+        return cart_ram[((addr & 0x1fff) + CART_IO_ADDR) &
+                        (CART_RAM_SIZE - 1)];
+    }
+
+    return vic20_v_bus_last_data;
 }
 
-/* store 0x9800-0x9fff */
-static void vic_um_io_store(WORD addr, BYTE value)
+/* store 0x9800-0x9bff */
+static void vic_um_io2_store(WORD addr, BYTE value)
 {
-    unsigned io;
+    /* reset the state machine for re-enabling */
+    ultimem[16] = 0;
+
+    switch (CART_CFG_IO(2)) {
+    case BLK_STATE_DISABLED:
+    case BLK_STATE_RAM_RO:
+        break;
+    case BLK_STATE_ROM:
+        flash040core_store(&flash_state,
+                           ((addr & 0x1fff) + CART_IO_ADDR) &
+                           (CART_ROM_SIZE - 1),
+                           value);
+        break;
+    case BLK_STATE_RAM_RW:
+        cart_ram[((addr & 0x1fff) + CART_IO_ADDR) & (CART_RAM_SIZE - 1)] =
+            value;
+    }
+}
+
+/* read 0x9c00-0x9fff */
+static BYTE vic_um_io3_read(WORD addr)
+{
+    ultimem_io3.io_source_valid = 0;
+
     if (CART_CFG_DISABLE) {
-        /* ignore */
-        return;
-    } else if ((addr & 0x7f0) == 0x3f0) {
-        addr &= 0xf;
-        ultimem[addr] = ultimem_mask[addr] & value;
+        /* Implement the state machine for re-enabling the register. */
+        switch (addr) {
+        case 0x355: /* Read from 0x9f55 */
+            /* Advance the state if this is the 1st read, else reset. */
+            ultimem[16] = ultimem[16] == 0 ? 1 : 0;
+            break;
+        case 0x3aa: /* Read from 0x9faa */
+            /* Advance the state if this is the 2nd read, else reset. */
+            ultimem[16] = ultimem[16] == 1 ? 2 : 0;
+            break;
+        case 0x301: /* Read from 0x9f01 */
+            /* Advance the state if this is the 3rd read, else reset. */
+            ultimem[16] = ultimem[16] == 2 ? 3 : 0;
+            break;
+        default: /* Read from 0x9c00..0x9fff */
+            if (ultimem[16] == 3 && addr >= 0x3f0) {
+                ultimem[16] = 0;
+                ultimem[0] &= ~ultimem_reg0_regs_disable;
+                ultimem_io3.io_source_valid = 1;
+                return ultimem[addr & 0xf];
+            }
+            ultimem[16] = 0;
+        }
+        return vic20_cpu_last_data;
+    } else if (addr >= 0x3f0) {
+        ultimem_io3.io_source_valid = 1;
+        return ultimem[addr & 0xf];
+    }
+
+    switch (CART_CFG_IO(3)) {
+    case BLK_STATE_DISABLED:
+        break;
+    case BLK_STATE_ROM:
+        ultimem_io3.io_source_valid = 1;
+        return flash040core_read(&flash_state,
+                                 ((addr & 0x1fff) + CART_IO_ADDR) &
+                                 (CART_ROM_SIZE - 1));
+    case BLK_STATE_RAM_RO:
+    case BLK_STATE_RAM_RW:
+        ultimem_io3.io_source_valid = 1;
+        return cart_ram[((addr & 0x1fff) + CART_IO_ADDR) &
+                        (CART_RAM_SIZE - 1)];
+    }
+
+    return vic20_v_bus_last_data;
+}
+
+/* peek 0x9c00-0x9fff */
+static BYTE vic_um_io3_peek(WORD addr)
+{
+    if (addr >= 0x3f0)
+        return ultimem[addr & 0xf];
+
+    switch (CART_CFG_IO(3)) {
+    case BLK_STATE_DISABLED:
+        break;
+    case BLK_STATE_ROM:
+        return cart_rom[((addr & 0x1fff) + CART_IO_ADDR) &
+                        (CART_ROM_SIZE - 1)];
+    case BLK_STATE_RAM_RO:
+    case BLK_STATE_RAM_RW:
+        return cart_ram[((addr & 0x1fff) + CART_IO_ADDR) &
+                        (CART_RAM_SIZE - 1)];
+    }
+
+    return vic20_v_bus_last_data;
+}
+
+/* store 0x9c00-0x9fff */
+static void vic_um_io3_store(WORD addr, BYTE value)
+{
+    /* reset the state machine for re-enabling */
+    ultimem[16] = 0;
+
+    if (addr >= 0x3f0) {
+        if (!CART_CFG_DISABLE) {
+            addr &= 0xf;
+            ultimem[addr] = ultimem_mask[addr] & value;
+        }
         return;
     }
 
-    io = addr & 0x200 ? 3 : 2;
-
-    switch (CART_CFG_IO(io)) {
+    switch (CART_CFG_IO(3)) {
     case BLK_STATE_DISABLED:
     case BLK_STATE_RAM_RO:
         break;
@@ -441,7 +560,8 @@ int vic_um_bin_attach(const char *filename)
                       VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
 
-    vbi_list_item = io_source_register(&vbi_device);
+    io2_list_item = io_source_register(&ultimem_io2);
+    io3_list_item = io_source_register(&ultimem_io3);
 
     return 0;
 }
@@ -483,9 +603,13 @@ void vic_um_detach(void)
     cart_rom = NULL;
     cartfile = NULL;
 
-    if (vbi_list_item != NULL) {
-        io_source_unregister(vbi_list_item);
-        vbi_list_item = NULL;
+    if (io2_list_item != NULL) {
+        io_source_unregister(io2_list_item);
+        io2_list_item = NULL;
+    }
+    if (io3_list_item != NULL) {
+        io_source_unregister(io3_list_item);
+        io3_list_item = NULL;
     }
 }
 
