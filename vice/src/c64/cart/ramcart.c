@@ -132,6 +132,9 @@ static char *ramcart_filename = NULL;
 
 static int ramcart_write_image = 0;
 
+/* x128 exrom active */
+static int ramcart_exrom_active = 0;
+
 /* ------------------------------------------------------------------------- */
 
 static BYTE ramcart_io1_peek(WORD addr);
@@ -180,6 +183,24 @@ static const c64export_resource_t export_res = {
 
 /* ------------------------------------------------------------------------- */
 
+/* x128 exrom check */
+static void ramcart_exrom_check(void)
+{
+    if (ramcart_exrom_active) {
+        if (ramcart_size_kb != 128 || !ramcart_readonly || !ramcart_enabled || (ramcart[1] & 0x80)) {
+            cart_set_port_exrom_slot1(0);
+            cart_port_config_changed_slot1();
+            ramcart_exrom_active = 0;
+        }
+    } else {
+        if (ramcart_size_kb == 128 && ramcart_readonly && ramcart_enabled && !(ramcart[1] & 0x80)) {
+            cart_set_port_exrom_slot1(1);
+            cart_port_config_changed_slot1();
+            ramcart_exrom_active = 1;
+        }
+    }
+}
+
 int ramcart_cart_enabled(void)
 {
     return ramcart_enabled;
@@ -208,6 +229,9 @@ static void ramcart_io1_store(WORD addr, BYTE byte)
 {
     if (addr == 1 && ramcart_size_kb == 128) {
         ramcart[1] = byte & 0x81;
+        if (machine_class == VICE_MACHINE_C128) {
+            ramcart_exrom_check();
+        }
     }
     if (addr == 0) {
         ramcart[0] = byte;
@@ -324,8 +348,12 @@ static int set_ramcart_enabled(int value, void *param)
         ramcart_io1_list_item = io_source_register(&ramcart_io1_device);
         ramcart_io2_list_item = io_source_register(&ramcart_io2_device);
         ramcart_enabled = 1;
-        cart_set_port_exrom_slot1(1);
-        cart_port_config_changed_slot1();
+        if (machine_class == VICE_MACHINE_C128) {
+            ramcart_exrom_check();
+        } else {
+            cart_set_port_exrom_slot1(1);
+            cart_port_config_changed_slot1();
+        }
     } else if (ramcart_enabled && !val) {
         cart_power_off();
         if (ramcart_deactivate() < 0) {
@@ -337,8 +365,12 @@ static int set_ramcart_enabled(int value, void *param)
         ramcart_io2_list_item = NULL;
         c64export_remove(&export_res);
         ramcart_enabled = 0;
-        cart_set_port_exrom_slot1(0);
-        cart_port_config_changed_slot1();
+        if (machine_class == VICE_MACHINE_C128) {
+            ramcart_exrom_check();
+        } else {
+            cart_set_port_exrom_slot1(0);
+            cart_port_config_changed_slot1();
+        }
     }
     return 0;
 }
@@ -346,6 +378,10 @@ static int set_ramcart_enabled(int value, void *param)
 static int set_ramcart_readonly(int val, void *param)
 {
     ramcart_readonly = val ? 1 : 0;
+
+    if (machine_class == VICE_MACHINE_C128) {
+        ramcart_exrom_check();
+    }
 
     return 0;
 }
@@ -370,6 +406,9 @@ static int set_ramcart_size(int val, void *param)
         ramcart_size_kb = val;
         ramcart_size = ramcart_size_kb << 10;
         ramcart_activate();
+        if (machine_class == VICE_MACHINE_C128) {
+            ramcart_exrom_check();
+        }
     } else {
         ramcart_size_kb = val;
         ramcart_size = ramcart_size_kb << 10;
@@ -518,8 +557,10 @@ void ramcart_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limi
 void ramcart_init_config(void)
 {
     if (ramcart_enabled) {
-        cart_set_port_exrom_slot1(1);
-        cart_port_config_changed_slot1();
+        if (machine_class != VICE_MACHINE_C128) {
+            cart_set_port_exrom_slot1(1);
+            cart_port_config_changed_slot1();
+        }
     }
 }
 
