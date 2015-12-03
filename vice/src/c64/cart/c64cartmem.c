@@ -699,6 +699,11 @@ void roml_store(WORD addr, BYTE value)
         ramcart_roml_store(addr, value);
         return;
     }
+    if (isepic_cart_active()) {
+        isepic_page_store(addr, value);
+        return;
+    }
+
     /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_ACTION_REPLAY:

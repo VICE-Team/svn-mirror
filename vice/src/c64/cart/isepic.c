@@ -84,6 +84,7 @@
  * with the registers mapped, and the current page being mapped into any unmapped ultimax
  * memory space, it will also generate an NMI. Which activates the freezer.
  *
+ * FIXME: the way this cart is emulated is most likely NOT how the real cartridge works.
  */
 
 /* #define DEBUGISEPIC */
@@ -118,6 +119,13 @@ static const char STRING_ISEPIC[] = CARTRIDGE_NAME_ISEPIC;
 #define ISEPIC_RAM_SIZE 2048
 
 static int isepic_load_image(void);
+
+#define ISEPIC_STATE_PROGRAMMING   0
+#define ISEPIC_STATE_NMI_WAITING   1
+#define ISEPIC_STATE_NMI_EXECUTING 2
+
+/* isepic state */
+static int isepic_state = ISEPIC_STATE_NMI_WAITING;
 
 /* ------------------------------------------------------------------------- */
 
@@ -302,12 +310,14 @@ static int set_isepic_switch(int value, void *param)
         if (isepic_enabled) {
             cart_config_changed_slot1(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
+        isepic_state = ISEPIC_STATE_NMI_WAITING;
     } else if (!isepic_switch && val) {
         isepic_switch = 1;
         if (isepic_enabled) {
             cartridge_trigger_freeze();
             cart_config_changed_slot1(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
+        isepic_state = ISEPIC_STATE_NMI_EXECUTING;
     }
     return 0;
 }
@@ -495,33 +505,33 @@ static int isepic_dump(void)
 
 BYTE isepic_romh_read(WORD addr)
 {
-    switch (addr) {
-        case 0xfffa:
-        case 0xfffb:
-            return isepic_ram[(isepic_page * 256) + (addr & 0xff)];
-            break;
-        default:
-            return mem_read_without_ultimax(addr);
-            break;
+    if (isepic_state == ISEPIC_STATE_NMI_EXECUTING) {
+       switch (addr) {
+            case 0xfffa:
+            case 0xfffb:
+                return isepic_ram[(isepic_page * 256) + (addr & 0xff)];
+                break;
+        }
     }
+    return mem_read_without_ultimax(addr);
 }
 
 void isepic_romh_store(WORD addr, BYTE byte)
 {
-    switch (addr) {
-        case 0xfffa:
-        case 0xfffb:
-            isepic_ram[(isepic_page * 256) + (addr & 0xff)] = byte;
-            break;
-        default:
-            mem_store_without_ultimax(addr, byte);
-            break;
-    }
+    if (isepic_state == ISEPIC_STATE_NMI_EXECUTING) {
+        switch (addr) {
+            case 0xfffa:
+            case 0xfffb:
+                isepic_ram[(isepic_page * 256) + (addr & 0xff)] = byte;
+                break;
+		}
+	}
+    mem_store_without_ultimax(addr, byte);
 }
 
 BYTE isepic_page_read(WORD addr)
 {
-    if (isepic_switch) {
+    if (isepic_switch && addr >= 0x8000 && addr < 0xa000 && isepic_state == ISEPIC_STATE_NMI_EXECUTING) {
         return isepic_ram[(isepic_page * 256) + (addr & 0xff)];
     } else {
         return mem_read_without_ultimax(addr);
@@ -530,7 +540,7 @@ BYTE isepic_page_read(WORD addr)
 
 void isepic_page_store(WORD addr, BYTE value)
 {
-    if (isepic_switch) {
+    if (isepic_switch && addr >= 0x8000 && addr < 0xa000 && isepic_state == ISEPIC_STATE_NMI_EXECUTING) {
         isepic_ram[(isepic_page * 256) + (addr & 0xff)] = value;
     } else {
         mem_store_without_ultimax(addr, value);
@@ -539,11 +549,13 @@ void isepic_page_store(WORD addr, BYTE value)
 
 int isepic_romh_phi1_read(WORD addr, BYTE *value)
 {
-    switch (addr) {
-        case 0xfffa:
-        case 0xfffb:
-            *value = isepic_ram[(isepic_page * 256) + (addr & 0xff)];
-            return CART_READ_VALID;
+    if (isepic_state == ISEPIC_STATE_NMI_EXECUTING) {
+        switch (addr) {
+            case 0xfffa:
+            case 0xfffb:
+                *value = isepic_ram[(isepic_page * 256) + (addr & 0xff)];
+                return CART_READ_VALID;
+        }
     }
     return CART_READ_C64MEM;
 }
@@ -581,6 +593,7 @@ const char *isepic_get_file_name(void)
 
 void isepic_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
+#if 0
     switch (addr & 0xf000) {
         case 0xc000:
         case 0xb000:
@@ -601,6 +614,7 @@ void isepic_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit
         default:
             break;
     }
+#endif
     *base = NULL;
     *start = 0;
     *limit = 0;
@@ -613,7 +627,10 @@ void isepic_config_init(void)
 
 void isepic_reset(void)
 {
-    /* TODO: do nothing ? */
+    if (isepic_state == ISEPIC_STATE_NMI_EXECUTING) {
+        cart_config_changed_slot1(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
+        isepic_state = ISEPIC_STATE_PROGRAMMING;
+    }
 }
 
 void isepic_config_setup(BYTE *rawcart)
