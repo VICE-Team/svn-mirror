@@ -557,9 +557,10 @@ void vic_um_config_setup(BYTE *rawcart)
 
 int vic_um_bin_attach(const char *filename)
 {
+    FILE *fd = zfile_fopen(filename, MODE_READ);
+
     util_string_set(&cartfile, filename);
 
-    FILE *fd = zfile_fopen(filename, MODE_READ);
     if (!fd) {
         vic_um_detach();
         return -1;
