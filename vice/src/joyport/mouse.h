@@ -48,6 +48,7 @@ extern void mouse_shutdown(void);
 extern int _mouse_enabled;
 extern int mouse_type;
 
+extern void neos_mouse_set_machine_parameter(long clock_rate);
 extern void neos_mouse_store(BYTE val);
 extern BYTE neos_mouse_read(void);
 extern BYTE mouse_poll(void);

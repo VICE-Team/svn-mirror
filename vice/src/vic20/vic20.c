@@ -953,6 +953,9 @@ void machine_change_timing(int timeval)
                                 machine_timing.screen_lines);
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
     serial_iec_device_set_machine_parameter(machine_timing.cycles_per_sec);
+#ifdef HAVE_MOUSE
+    neos_mouse_set_machine_parameter(machine_timing.cycles_per_sec);
+#endif
     clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     vic_change_timing(&machine_timing, border_mode);

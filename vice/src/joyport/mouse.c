@@ -135,6 +135,9 @@ static BYTE mouse_get_1351_y(void)
 /* --------------------------------------------------------- */
 /* NEOS mouse */
 
+static CLOCK neos_last_trigger = 0;
+static CLOCK neos_time_out_cycles = 232;
+
 static int neos_and_amiga_buttons;
 static int neos_prev;
 
@@ -148,7 +151,13 @@ enum {
     NEOS_XL,
     NEOS_YH,
     NEOS_YL
-} neos_state = NEOS_YH;
+} neos_state = NEOS_YL;
+
+
+void neos_mouse_set_machine_parameter(long clock_rate)
+{
+    neos_time_out_cycles = (clock_rate / 10000) * 2;
+}
 
 static void neos_get_new_movement(void)
 {
@@ -176,6 +185,7 @@ void neos_mouse_store(BYTE val)
             case NEOS_XH:
                 if ((val ^ neos_prev) & val & 16) {
                     ++neos_state;
+                    neos_last_trigger = maincpu_clk;
                 }
                 break;
             case NEOS_XL:
@@ -189,12 +199,18 @@ void neos_mouse_store(BYTE val)
                 }
                 break;
         }
+        neos_last_trigger = maincpu_clk;
         neos_prev = val;
     }
 }
 
 BYTE neos_mouse_read(void)
 {
+    if (neos_state != NEOS_XH && maincpu_clk > neos_last_trigger + neos_time_out_cycles) {
+        neos_state = NEOS_XH;
+        neos_get_new_movement();
+    }
+
     switch (neos_state) {
         case NEOS_XH:
             return ((neos_x >> 4) & 0xf) | 0xf0;
