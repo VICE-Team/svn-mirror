@@ -992,18 +992,17 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("CBM 5x0 ...", new BMessage(MENU_CBM5X0_SETTINGS)));
     }
 
-    if (machine_class == VICE_MACHINE_C128) {
-        uppermenu->AddItem(new BMenuItem("Video (VIC-II) ...", new BMessage(MENU_VIDEO_SETTINGS)));
-        uppermenu->AddItem(new BMenuItem("Video (VDC) ...", new BMessage(MENU_VIDEO_VDC_SETTINGS)));
-    }
-
-    if (machine_class != VICE_MACHINE_C128 && machine_class != VICE_MACHINE_VSID) {
+    if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("Video ...", new BMessage(MENU_VIDEO_SETTINGS)));
     }
 
+    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID) {
+        uppermenu->AddItem(new BMenuItem("Datasette ...", new BMessage(MENU_DATASETTE_SETTINGS)));
+    }
+
     if (machine_class != VICE_MACHINE_VSID) {
-        uppermenu->AddItem(new BMenuItem("Device ...", new BMessage(MENU_DEVICE_SETTINGS)));
         uppermenu->AddItem(new BMenuItem("Drive ...", new BMessage(MENU_DRIVE_SETTINGS)));
+        uppermenu->AddItem(new BMenuItem("Device ...", new BMessage(MENU_DEVICE_SETTINGS)));
 
         uppermenu->AddItem(menu = new BMenu("Printer"));
             menu->AddItem(new BMenuItem("Printer settings ...", new BMessage(MENU_PRINTER_SETTINGS)));
@@ -1041,10 +1040,6 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Output device 1", new BMessage(MENU_OUTPUT_DEVICE_1)));
             menu->AddItem(new BMenuItem("Output device 2", new BMessage(MENU_OUTPUT_DEVICE_2)));
             menu->AddItem(new BMenuItem("Output device 3", new BMessage(MENU_OUTPUT_DEVICE_3)));
-    }
-
-    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID) {
-        uppermenu->AddItem(new BMenuItem("Datasette ...", new BMessage(MENU_DATASETTE_SETTINGS)));
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||

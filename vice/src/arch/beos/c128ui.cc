@@ -340,10 +340,7 @@ static void c128_ui_specific(void *msg, void *window)
             c128model_set(C128MODEL_C128DCR_NTSC);
             break;
         case MENU_VIDEO_SETTINGS:
-            ui_video(UI_VIDEO_CHIP_VICII);
-            break;
-        case MENU_VIDEO_VDC_SETTINGS:
-            ui_video(UI_VIDEO_CHIP_VDC);
+            ui_video_two_chip(UI_VIDEO_CHIP_VDC, UI_VIDEO_CHIP_VICII);
             break;
         case MENU_VICII_SETTINGS:
             ui_vicii();
