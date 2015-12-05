@@ -172,7 +172,12 @@ int maincpu_ba_low_flags = 0;
 
 #endif /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
 
-#define CHECK_AND_RUN_ALTERNATE_CPU cpmcart_check_and_run_z80();
+static void check_and_run_alternate_cpu(void)
+{
+    cpmcart_check_and_run_z80();
+}
+
+#define CHECK_AND_RUN_ALTERNATE_CPU check_and_run_alternate_cpu();
 
 #define HAVE_Z80_REGS
 
