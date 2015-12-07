@@ -1,5 +1,5 @@
 /*
- * c64_256k.c - 256K EXPANSION emulation.
+ * c64_256k.c - 256K Expansion emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
