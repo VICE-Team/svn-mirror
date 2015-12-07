@@ -1371,6 +1371,27 @@ int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
     return magicvoice_common_attach();
 }
 
+/*
+ * (old) wrong formats:
+ *
+ * cartconv produced this until 2011:
+ *
+ * offset  sig  type  bank start size  chunklen
+ * $000040 CHIP ROM   #000 $8000 $2000 $2010
+ * $002050 CHIP ROM   #001 $8000 $2000 $2010
+ *
+ * cartconv produced this from 2011 to 12/2015:
+ *
+ * offset  sig  type  bank start size  chunklen
+ * $000040 CHIP ROM   #000 $8000 $2000 $2010
+ * $002050 CHIP ROM   #000 $a000 $2000 $2010
+ *
+ * (new) correct format (since 12/2015):
+ *
+ * offset  sig  type  bank start size  chunklen
+ * $000040 CHIP ROM   #000 $8000 $4000 $4010
+ *
+ */
 int magicvoice_crt_attach(FILE *fd, BYTE *rawcart)
 {
     int i;
@@ -1378,18 +1399,25 @@ int magicvoice_crt_attach(FILE *fd, BYTE *rawcart)
 
     for (i = 0; i < 2; i++) {
         if (crt_read_chip_header(&chip, fd)) {
+            break;
+        }
+
+        if ((chip.size == 0x4000) && (chip.start == 0x8000)) {
+            if (crt_read_chip(rawcart, 0, &chip, fd)) {
+                return -1;
+            }
+        } else if ((chip.size == 0x2000) && ((chip.start == 0x8000) || (chip.start == 0xa000))) {
+            if (crt_read_chip(rawcart, (chip.start & 0x2000) + (chip.bank << 13), &chip, fd)) {
+                return -1;
+            }
+        } else {
             return -1;
         }
 
-        if (chip.size != 0x2000 || (chip.start != 0x8000 && chip.start != 0xa000)) {
-            return -1;
-        }
-
-        if (crt_read_chip(rawcart, (chip.bank << 13), &chip, fd)) {
-            return -1;
-        }
     }
-
+    if (i != 1 && i != 2) {
+        return -1;
+    }
     return magicvoice_common_attach();
 }
 

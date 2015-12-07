@@ -37,6 +37,7 @@
 #include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "log.h"
 #include "snapshot.h"
 #include "supersnapshot4.h"
 #include "types.h"
@@ -302,25 +303,87 @@ int supersnapshot_v4_bin_attach(const char *filename, BYTE *rawcart)
     return supersnapshot_v4_common_attach();
 }
 
+/*
+ * (old) wrong formats:
+ *
+ * cartconv produced this until 2011:
+ *
+ * offset  sig  type  bank start size  chunklen
+ * $000040 CHIP ROM   #000 $8000 $2000 $2010
+ * $002050 CHIP ROM   #001 $8000 $2000 $2010
+ * $004060 CHIP ROM   #002 $8000 $2000 $2010
+ * $006070 CHIP ROM   #003 $8000 $2000 $2010
+ *
+ * cartconv produced this from 2011 to 12/2015:
+ * 
+ * offset  sig  type  bank start size  chunklen
+ * $000040 CHIP ROM   #000 $8000 $2000 $2010
+ * $002050 CHIP ROM   #000 $a000 $2000 $2010
+ * $004060 CHIP ROM   #001 $8000 $2000 $2010
+ * $006070 CHIP ROM   #001 $a000 $2000 $2010
+ *
+ * (new) correct format (since 12/2015):
+ *
+ * offset  sig  type  bank start size  chunklen
+ * $000040 CHIP ROM   #000 $8000 $4000 $4010
+ * $004050 CHIP ROM   #001 $8000 $4000 $4010
+ *
+ */
 int supersnapshot_v4_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    int i;
+    int i, pos, banks, chips;
     crt_chip_header_t chip;
 
-    for (i = 0; i < 4; i++) {
+    /* find out how many banks and chips are in the file */
+    /* FIXME: this is kindof ugly, perhaps make it a generic function */
+    banks = 0;
+    pos = ftell(fd);
+    for (chips = 0; chips < 4; chips++) {
+        if (crt_read_chip_header(&chip, fd)) {
+            break;
+        }
+        if (crt_read_chip(rawcart, 0, &chip, fd)) {
+            return -1;
+        }
+        if (chip.bank > banks) {
+            banks = chip.bank;
+        }
+    }
+    banks++;
+    if ((chips != 2) && (chips != 4)) {
+        return -1;
+    }
+    fseek(fd, pos, SEEK_SET);
+
+    for (i = 0; i < chips; i++) {
         if (crt_read_chip_header(&chip, fd)) {
             return -1;
         }
-
-        if (chip.bank > 3 || chip.size != 0x2000) {
-            return -1;
-        }
-
-        if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
+        if ((chips == 2) && (banks == 2) && (chip.size == 0x4000)) {
+            if ((chip.bank > 1) || (chip.start != 0x8000)) {
+                return -1;
+            }
+            if (crt_read_chip(rawcart, (chip.bank << 14), &chip, fd)) {
+                return -1;
+            }
+        } else if ((chips == 4) && (banks == 2) && (chip.size == 0x2000)) {
+            if ((chip.bank > 1) || ((chip.start != 0x8000) && (chip.start != 0xa000))) {
+                return -1;
+            }
+            if (crt_read_chip(rawcart, (chip.start & 0x2000) + (chip.bank << 14), &chip, fd)) {
+                return -1;
+            }
+        } else if ((chips == 4) && (banks == 4) && (chip.size == 0x2000)) {
+            if ((chip.bank > 3) || (chip.start != 0x8000)) {
+                return -1;
+            }
+            if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
+                return -1;
+            }
+        } else {
             return -1;
         }
     }
-
     return supersnapshot_v4_common_attach();
 }
 

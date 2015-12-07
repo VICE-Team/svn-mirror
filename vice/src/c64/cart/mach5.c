@@ -47,6 +47,9 @@
 
     The $9E00-$9EFF range is mirrored at $DE00-$DEFF.
     The $9F00-$9FFF range is mirrored at $DF00-$DFFF.
+
+    a write to IO1 selects 8K Game mode
+    a write to IO2 disables the cartridge
 */
 
 /* #define DEBUGMACH5 */
