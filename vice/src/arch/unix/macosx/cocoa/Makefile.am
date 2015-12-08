@@ -15,6 +15,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/raster \
+	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarchmacosxcocoa.a
