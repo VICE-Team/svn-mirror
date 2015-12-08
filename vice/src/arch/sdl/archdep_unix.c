@@ -670,7 +670,7 @@ static void archdep_shutdown_extra(void)
 
 /* Fetch Platform Stuff for Mac OS X */
 #ifdef MACOSX_BUNDLE
-#include "../unix/macosx/platform_macosx.c"
+#include "../platform/platform_macosx.c"
 #endif
 
 /******************************************************************************/
