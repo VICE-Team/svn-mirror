@@ -25067,33 +25067,32 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb (4 banks of 8Kb)
+@tab 32Kb (2 banks of 16Kb)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Load address
-@tab $8000-$9FFF
+@tab $8000-$BFFF
 @end multitable
+
+    Note: cartconv has produced (at least) two slightly differently broken variations
+    of .crt files for this type of cartridge. We are sorry for the inconvenience,
+    the emulators will still accept the old files, but cartconv will only output
+    the correct format which looks like this:
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
-0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 28 00 01 00 00 00 00 00 00  ???@@???(????????
-0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
-0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
-0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
-0050: 80 AD B5 80 C3 C2 CD 38 30 08 48 A9 06 8D 00 DF  .µ....80?P.?ç??
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CART RIDGE
+0010: 00 00 00 40 01 00 00 28 00 01 00 00 00 00 00 00  ...@...( ........
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CAR T.......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ........ ........
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@. ......@.
+0050: 80 ad b5 80 c3 c2 cd 38 30 08 48 a9 06 8d 00 df  .......8 0.H.....
 @dots{}
-2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP????????†???
-2060: 4C FA A0 A9 07 8D 00 DD 2C 00 DD 50 FB 2C 00 DD  L?†.?ç?.,?.P.,?.
-@dots{}
-4060: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
-4070: 13 80 BC FE C3 C2 CD 38 30 08 48 A9 02 8D 00 DF  ?.?....80?H.?ç??
-@dots{}
-6070: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIP????????†???
-6080: F0 8A 48 A9 00 85 22 85 23 8D 53 0F 20 0C A1 B0  ?äH.?Ö"Ö#çS???.∞
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP..@. ......@.
+4060: 13 80 bc fe c3 c2 cd 38 30 08 48 a9 02 8d 00 df  .......8 0.H.....
 @end example
 
 
@@ -25300,33 +25299,33 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb or 32Kb (2 or 4 banks of 8Kb)
+@tab 16Kb or 32Kb (1 or 2 banks of 16Kb)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Load address
-@tab $8000-$9FFF
+@tab $8000-$BFFF
 @end multitable
+
+    Note: cartconv has produced (at least) two slightly differently broken variations
+    of .crt files for this type of cartridge. We are sorry for the inconvenience,
+    the emulators will still accept the old files, but cartconv will only output
+    the correct format which looks like this:
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
-0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 2E 00 01 00 00 00 00 00 00  ???@@???.????????
-0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
-0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
-0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
-0050: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :É`....80???@@???
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CART RIDGE
+0010: 00 00 00 40 01 00 00 2e 00 01 00 00 00 00 00 00  ...@.... ........
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CAR T.......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ........ ........
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@. ......@.
+0050: 3a 83 60 80 c3 c2 cd 38 30 20 00 00 40 00 00 00  :.`....8 0 ..@...
 @dots{}
-2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP???????? ???
-2060: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x.4Ö?†?±?.?µ?.?µ
-@dots{}
-4060: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
-4070: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :É`....80???@@???
-@dots{}
-6070: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIP???????? ???
-6080: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x.4Ö?†?±?.?µ?.?µ
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP..@. ......@.
+4060: 3a 83 60 80 c3 c2 cd 38 30 20 00 00 40 00 00 00  :.`....8 0 ..@...
+
 @end example
 
 
@@ -25417,28 +25416,29 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (2 banks of 8Kb)
+@tab 16Kb (1 bank of 16Kb)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Load address
-@tab $8000-$9FFF (bank 1),
-                   $A000-$BFFF (bank 2)
+@tab $8000-$BFFF
 @end multitable
+
+    Note: cartconv has produced (at least) two slightly differently broken variations
+    of .crt files for this type of cartridge. We are sorry for the inconvenience,
+    the emulators will still accept the old files, but cartconv will only output
+    the correct format which looks like this:
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
-0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 31 00 01 00 00 00 00 00 00  ???@@???1????????
-0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
-0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
-0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
-0050: EA 2C 80 DF 50 FB A0 00 8C 80 DF B9 E3 A3 29 0F  .,.?P. ?å.?π.£)?
-@dots{}
-2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP???????? ???
-2060: 4A EB C0 49 6A EA BB FB 4E CA 43 1E 75 63 15 97  J?.Ij.ª.N.C?uc?ó
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CART RIDGE
+0010: 00 00 00 40 01 00 00 31 00 01 00 00 00 00 00 00  ...@...1 ........
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CAR T.......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ........ ........
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@. ......@.
+0050: ea 2c 80 df 50 fb a0 00 8c 80 df b9 e3 a3 29 0f  .,..P... ......).
 @end example
 
 
