@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Nathan Huizinga <nathan.huizinga@chess.nl>
+ *  Groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -55,23 +56,29 @@
     note: apparently the hardware supports 128k ROMs too, but no such dump exists.
 
     io1: (read)
-        cart rom
+        cart ROM mirror from current 9e00-9eff page. RAM can NOT be mirrored here!
 
     io1 (write)
 
-    de00/de01:
+    there is one register mirrored from de00-deff (the software uses de00/de01)
 
-    bit 4 - rom/ram bank bit1
-    bit 3 - rom enable
-    bit 2 - rom/ram bank bit0
-    bit 1 - ram enable, EXROM
-    bit 0 - release freeze, !GAME
+    bit 6-7  not connected
+    bit 5    rom/ram bank bit2 (address line 16) (unused, for 128k ROM)
+    bit 4    rom/ram bank bit1 (address line 15)
+    bit 3    !rom enable (0: enabled, 1: disabled)
+             note: disabling ROM also disables this register
+    bit 2    rom/ram bank bit0 (address line 14)
+    bit 1    !ram enable (0: enabled, 1: disabled), !EXROM (0: high, 1: low)
+    bit 0    GAME (0: low, 1: high)
 */
 
 /* Super Snapshot configuration flags.  */
 static BYTE romconfig = 9;
 static int ram_bank = 0; /* Version 5 supports 4 - 8Kb RAM banks. */
+static int currbank = 0;
+static int currreg  = 0;
 static int ss_32k_enabled = 0;
+static int ss_rom_disabled = 0;
 
 /* ---------------------------------------------------------------------*/
 
@@ -104,21 +111,21 @@ static const c64export_resource_t export_res_v5 = {
 
 /* ---------------------------------------------------------------------*/
 
-static int currbank = 0;
-
 static BYTE supersnapshot_v5_io1_read(WORD addr)
 {
     ss5_device.io_source_valid = 1;
 
-    switch (roml_bank) {
-        case 0:
-            return roml_banks[0x1e00 + (addr & 0xff)];
-        case 1:
-            return roml_banks[0x1e00 + (addr & 0xff) + 0x2000];
-        case 2:
-            return roml_banks[0x1e00 + (addr & 0xff) + 0x4000];
-        case 3:
-            return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
+    if (!ss_rom_disabled) {
+        switch (roml_bank) {
+            case 0:
+                return roml_banks[0x1e00 + (addr & 0xff)];
+            case 1:
+                return roml_banks[0x1e00 + (addr & 0xff) + 0x2000];
+            case 2:
+                return roml_banks[0x1e00 + (addr & 0xff) + 0x4000];
+            case 3:
+                return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
+        }
     }
 
     ss5_device.io_source_valid = 0;
@@ -143,39 +150,35 @@ static BYTE supersnapshot_v5_io1_peek(WORD addr)
 
 static void supersnapshot_v5_io1_store(WORD addr, BYTE value)
 {
-    if (((addr & 0xff) == 0) || ((addr & 0xff) == 1)) {
+    if (!ss_rom_disabled) {
         int mode = CMODE_WRITE;
 
+        currreg = value & 0x3f;
+
+        /* FIXME: is this correct? */
         if ((value & 1) == 1) {
             mode |= CMODE_RELEASE_FREEZE;
         }
 
-        /* D0 = ~GAME */
-        romconfig = ((value & 1) ^ 1);
-
-        /* Calc RAM/ROM bank nr. */
-        currbank = ((value >> 2) & 0x1) | ((value >> 3) & 0x2);
-
-        /* ROM ~OE set? */
-        if (((value >> 3) & 1) == 0) {
-            romconfig |= (currbank << CMODE_BANK_SHIFT); /* Select ROM banknr. */
-        }
-
-        /* RAM ~OE set? */
+        romconfig = ((value & 1) ^ 1) | ((value & 2) ^ 2);
+        currbank = ((value >> 2) & 0x1) | (((value >> 4) & 0x1) << 1) /* | (((value >> 5) & 0x1) << 2)*/;
+        ram_bank = ss_32k_enabled ? currbank : 0; /* Select RAM banknr. */
+        ss_rom_disabled = ((value >> 3) & 0x1);
+        romconfig |= (currbank << CMODE_BANK_SHIFT);
         if (((value >> 1) & 1) == 0) {
-            ram_bank = ss_32k_enabled ? currbank : 0; /* Select RAM banknr. */
-            mode |= CMODE_EXPORT_RAM;   /* export_ram */
-            romconfig |= (1 << 1);      /* exrom */
+            mode |= CMODE_EXPORT_RAM;                 /* export_ram */
         }
-        cart_config_changed_slotmain(1, romconfig, mode);
+        cart_config_changed_slotmain(romconfig, romconfig, mode);
     }
 }
 
 static int supersnapshot_v5_dump(void)
 {
-    mon_out("Bank: %d, ROM/RAM: %s\n",
-            (export_ram) ? ram_bank : currbank,
-            (export_ram) ? "RAM" : "ROM");
+    char *modes[4] = {"8k game", "16k game", "off", "ultimax"};
+    mon_out("Register: $%02x (%s)\n", currreg, (ss_rom_disabled) ? "disabled" : "enabled");
+    mon_out(" EXROM: %d GAME: %d (%s)\n", ((romconfig >> 1) & 1), (romconfig & 1) ^ 1, modes[romconfig & 3]);
+    mon_out(" ROM %s, Bank: %d\n", (ss_rom_disabled) ? "disabled" : "enabled", currbank);
+    mon_out(" RAM %s, Bank: %d\n", (export_ram) ? "enabled" : "disabled", ram_bank);
     return 0;
 }
 
@@ -187,7 +190,10 @@ BYTE supersnapshot_v5_roml_read(WORD addr)
         return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
     }
 
-    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+    if (!ss_rom_disabled) {
+        return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+    }
+    return 0; /* FIXME: open bus? */
 }
 
 void supersnapshot_v5_roml_store(WORD addr, BYTE value)
@@ -221,11 +227,13 @@ void supersnapshot_v5_mmu_translate(unsigned int addr, BYTE **base, int *start, 
 
 void supersnapshot_v5_freeze(void)
 {
-    cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
+    ss_rom_disabled = 0; /* enable the register */
+    cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ | CMODE_EXPORT_RAM);
 }
 
 void supersnapshot_v5_config_init(void)
 {
+    ss_rom_disabled = 0; /* enable the register */
     supersnapshot_v5_io1_store((WORD)0xde00, 2);
 }
 
@@ -343,7 +351,7 @@ int supersnapshot_v5_cmdline_options_init(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTSS5"
 
 int supersnapshot_v5_snapshot_write_module(snapshot_t *s)
@@ -359,6 +367,8 @@ int supersnapshot_v5_snapshot_write_module(snapshot_t *s)
     if (0
         || (SMW_B(m, romconfig) < 0)
         || (SMW_B(m, (BYTE)ram_bank) < 0)
+        || (SMW_B(m, (BYTE)ss_32k_enabled) < 0)
+        || (SMW_B(m, (BYTE)ss_rom_disabled) < 0)
         || (SMW_BA(m, roml_banks, 0x8000) < 0)
         || (SMW_BA(m, romh_banks, 0x8000) < 0)
         || (SMW_BA(m, export_ram0, 0x8000) < 0)) {
@@ -388,6 +398,8 @@ int supersnapshot_v5_snapshot_read_module(snapshot_t *s)
     if (0
         || (SMR_B(m, &romconfig) < 0)
         || (SMR_B_INT(m, &ram_bank) < 0)
+        || (SMR_B_INT(m, &ss_32k_enabled) < 0)
+        || (SMR_B_INT(m, &ss_rom_disabled) < 0)
         || (SMR_BA(m, roml_banks, 0x8000) < 0)
         || (SMR_BA(m, romh_banks, 0x8000) < 0)
         || (SMR_BA(m, export_ram0, 0x8000) < 0)) {
