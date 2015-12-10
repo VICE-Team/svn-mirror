@@ -27,13 +27,16 @@
 #ifndef VICE_TURBOMASTER_H
 #define VICE_TURBOMASTER_H
 
+#include "alarm.h"
+#include "interrupt.h"
+
 extern void turbomaster_reset(void);
 extern int turbomaster_resources_init(void);
 extern int turbomaster_cmdline_options_init(void);
 extern int turbomaster_cart_enabled(void);
 extern void turbomaster_resources_shutdown(void);
 
-extern void turbomaster_check_and_run_65c02(void);
+extern void turbomaster_check_and_run_65c02(interrupt_cpu_status_t *cpu_int_status, alarm_context_t *cpu_alarm_context);
 
 typedef int turbomaster_ba_check_callback_t (void);
 typedef void turbomaster_ba_steal_callback_t (void);

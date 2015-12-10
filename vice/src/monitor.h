@@ -55,7 +55,9 @@ typedef enum t_memspace MEMSPACE;
 
 enum CPU_TYPE_s {
     CPU_6502,
+    CPU_WDC65C02,
     CPU_R65C02,
+    CPU_65SC02,
     CPU_65816,
     CPU_Z80,
     CPU_6502DTV,

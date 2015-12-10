@@ -16387,6 +16387,176 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_CPM_CART_TR, ""},  /* fuzzy */
 #endif
 
+/* c64/cart/turbomaster.c */
+/* en */ {IDCLS_ENABLE_TURBOMASTER,    N_("Enable the TurboMaster cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_TURBOMASTER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TURBOMASTER_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_TURBOMASTER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_TURBOMASTER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TURBOMASTER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TURBOMASTER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_TURBOMASTER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TURBOMASTER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_TURBOMASTER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_TURBOMASTER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TURBOMASTER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_TURBOMASTER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/turbomaster.c */
+/* en */ {IDCLS_DISABLE_TURBOMASTER,    N_("Disable the TurboMaster cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_TURBOMASTER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TURBOMASTER_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_TURBOMASTER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_TURBOMASTER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_TURBOMASTER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_TURBOMASTER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_TURBOMASTER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TURBOMASTER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_TURBOMASTER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_TURBOMASTER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_TURBOMASTER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_TURBOMASTER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/turbomaster.c */
+/* en */ {IDCLS_TURBOMASTER_SWITCH_ROM_1,    N_("Set TurboMaster ROM switch to ROM 1")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/turbomaster.c */
+/* en */ {IDCLS_TURBOMASTER_SWITCH_ROM_2,    N_("Set TurboMaster ROM switch to ROM 2")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/turbomaster.c */
+/* en */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT,    N_("Set TurboMaster speed control switch to software")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/turbomaster.c */
+/* en */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL,    N_("Set TurboMaster speed control switch to manual")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/turbomaster.c */
+/* en */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ,    N_("Set TurboMaster clock speed switch to 4 Mhz")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/turbomaster.c */
+/* en */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ,    N_("Set TurboMaster clock speed switch to 1 Mhz")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/turbomaster.c */
+/* en */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME,    N_("Specify TurboMaster ROM 1 filename")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/turbomaster.c */
+/* en */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME,    N_("Specify TurboMaster ROM 2 filename")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/easyflash.c */
 /* en */ {IDCLS_ENABLE_EASYFLASH_JUMPER,    N_("Enable EasyFlash jumper")},
 #ifdef HAS_TRANSLATION

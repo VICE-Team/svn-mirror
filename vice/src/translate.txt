@@ -2923,6 +2923,36 @@ IDCLS_ENABLE_CPM_CART
 /* c64/cart/cpmcart.c */
 IDCLS_DISABLE_CPM_CART
 
+/* c64/cart/turbomaster.c */
+IDCLS_ENABLE_TURBOMASTER
+
+/* c64/cart/turbomaster.c */
+IDCLS_DISABLE_TURBOMASTER
+
+/* c64/cart/turbomaster.c */
+IDCLS_TURBOMASTER_SWITCH_ROM_1
+
+/* c64/cart/turbomaster.c */
+IDCLS_TURBOMASTER_SWITCH_ROM_2
+
+/* c64/cart/turbomaster.c */
+IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT
+
+/* c64/cart/turbomaster.c */
+IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL
+
+/* c64/cart/turbomaster.c */
+IDCLS_TURBOMASTER_SWITCH_4_MHZ
+
+/* c64/cart/turbomaster.c */
+IDCLS_TURBOMASTER_SWITCH_1_MHZ
+
+/* c64/cart/turbomaster.c */
+IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME
+
+/* c64/cart/turbomaster.c */
+IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME
+
 /* c64dtv/c64dtvblitter.c */
 IDCLS_SPECIFY_DTV_REVISION
 
