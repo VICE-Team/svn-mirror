@@ -39,13 +39,6 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
 #define KBD_PORT_PREFIX "win"
 
-/* Keymap definition structure.  */
-typedef struct {
-    BYTE row;
-    BYTE column;
-    int vshift;
-} keyconv;
-
 /* Warning: this might be not 100% correct.  */
 typedef enum {
     K_NONE, K_ESC, K1, K_2, K_3, K_4, K_5, K_6, K_7, K_8, K_9, K_0, K_MINUS,
@@ -63,7 +56,6 @@ typedef enum {
 
 extern BYTE _kbd_extended_key_tab[];
 
-extern int kbd_init(int num, ...);
 extern int kbd_handle_keydown(DWORD virtual_key, DWORD key_data);
 extern int kbd_handle_keyup(DWORD virtual_key, DWORD key_data);
 
