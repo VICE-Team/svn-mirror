@@ -20045,8 +20045,6 @@ description:    "Set the ACIA interrupt (0: None, 1: NMI, 2: IRQ)"
 resource:       "Acia1Irq"
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 c64/cart/c64acia1.c:
 --------------------
 resource type:                  int
@@ -20115,6 +20113,8 @@ command line:   +acia1
 description:    "Disable the ACIA RS232 interface emulation"
 resource:       "Acia1Enable" (set to 0)
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 c64/cart/c64acia1.c:
 --------------------

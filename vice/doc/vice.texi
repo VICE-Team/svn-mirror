@@ -4823,10 +4823,20 @@ actually expects).
 @itemx RsDevice4
 Strings specifying the RS232 devices (@pxref{RS232 settings}).
 
+@vindex Acia1Enable
+@item Acia1Enable
+Boolean specifying whether the ACIA (Swiftlink, Turbo232) cartridge should be emulated or not
+(x64, x64sc, xscpu64, x128 and xvic only, and only if RS232 support is enabled and supported at compile time).
+
 @vindex Acia1Dev
 @item Acia1Dev
 Integer specifying what RS232 device (@pxref{RS232 settings}) the ACIA is using
 (all emulators except x64dtv and vsid, and only if RS232 support is enabled and supported at compile time).
+
+@vindex Acia1Mode
+@item Acia1Mode
+Integer specifying the type of emulated RS232 interface (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
+(0: normal, 1: Swiftlink, 2: Turbo232)
 
 @vindex Acia1Irq
 @item Acia1Irq
@@ -4866,10 +4876,24 @@ the user-port interface is using (C64, C128 and VIC20).
 Specify <Name> as RS232 devices 1, 2, 3 and 4, respectively
 (@code{RsDevice1}, @code{RsDevice2} @code{RsDevice3} and @code{RsDevice4}).
 
+@findex -acia1, +acia1
+@item -acia1
+@itemx +acia1
+Enable/Disable the $DE** ACIA RS232 interface emulation
+(@code{Acia1Enable=1}, @code{Acia1Enable=0})
+(x64, x64sc, xscpu64, x128 and xvic only, and only if RS232 support is enabled and supported at compile time).
+
 @findex -myaciadev
 @item -myaciadev <0-3>
 Specify RS232 device the ACIA should work on
 (all emulators except x64dtv and vsid, and only if RS232 support is enabled and supported at compile time)
+
+@findex -acia1mode
+@item -acia1mode <mode>
+Set the ACIA mode
+(@code{Acia1Mode})
+(x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
+(0: Normal, 1: Swiftlink, 2: Turbo232)
 
 @findex -acia1irq
 @item -acia1irq <interrupt>
@@ -7272,15 +7296,6 @@ works only in the C64 emulator.
 
 @table @code
 
-@vindex Acia1Enable
-@item Acia1Enable
-Boolean specifying whether the ACIA (Swiftlink, Turbo232) cartridge should be emulated or not.
-
-@vindex Acia1Mode
-@item Acia1Mode
-Integer specifying the type of emulated RS232 interface.
-(0: normal, 1: Swiftlink, 2: Turbo232)
-
 @vindex Acia1Base
 @item Acia1Base
 Integer specifying the base address for the emulated ACIA chip.
@@ -7396,11 +7411,6 @@ Boolean specifying whether the SFX Sound Sampler should be emulated or not.
 
 @table @code
 
-@cindex -acia1, +acia1
-@item -acia1
-@itemx +acia1
-Enable/Disable the $DE** ACIA RS232 interface emulation
-
 @findex -digimax, +digimax
 @item -digimax
 @itemx +digimax
@@ -7411,7 +7421,7 @@ Enable/disable the DigiMAX cartridge
 @item -digimaxbase <base address>
 Base address of the DigiMAX cartridge
 (@code{DIGIMAXbase}).
-(0xDD00: useport, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+(0xDD00: userport, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
 
 @findex -ds12c887rtc, +ds12c887rtc
@@ -8990,11 +9000,6 @@ Boolean specifying whether the DS12C887 RTC data should be saved when changed or
 @vindex IEEE488
 @item IEEE488
 Boolean specifying whether the IEEE488 interface should be emulated or not.
-
-@vindex Acia1Mode
-@item Acia1Mode
-Integer specifying the type of emulated RS232 interface (using the Mas=uerade cartridge adapter).
-(0: normal, 1: Swiftlink, 2: Turbo232)
 
 @vindex MachineVideoStandard
 @item MachineVideoStandard
