@@ -153,7 +153,11 @@ static void ultimax_memptr_update(void);
   bit 1  0x02   - release freeze (stop asserting NMI)
   bit 0  0x01   - r/w flag
 */
-
+const char *cart_config_string(BYTE mode)
+{
+    const char *modes[4] = {"8k game", "16k game", "Off", "Ultimax"};
+    return modes[mode & 3];
+}
 
 #ifndef USESLOTS
 static void cart_config_changed(int slot, BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
