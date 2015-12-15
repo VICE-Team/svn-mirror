@@ -2323,6 +2323,7 @@ using command-line options.
 * Performance settings::        Settings that affect speed of execution.
 * Video settings::              Settings dealing with the video output.
 * Keyboard settings::           Settings relative to the keyboard emulation.
+* Control port settings::       Settings that control what device is emulated on available control ports.
 * Sound settings::              Settings that control audio playback
 * Drive settings::              Settings that control disk-drive emulation.
 * Peripheral settings::         Settings for emulated external devices.
@@ -2766,7 +2767,7 @@ Boolean specifying whether ``warp mode'' is turned on or not.
 
 @end table
 
-@node Keyboard settings, Sound settings, Video settings, Settings and resources
+@node Keyboard settings, Control port settings, Video settings, Settings and resources
 @section Keyboard settings
 
 It is possible to specify whether the ``positional'' or ``symbolic''
@@ -2873,6 +2874,95 @@ Specifies the emulated type of keyboard
 machine specific, currently always 0 except for xpet: 0: Business (us)
 1: Business (uk) 2: Business (de) 3: Business (jp) 4: Graphics (us)).
 
+
+@end table
+
+@node Control port settings, Sound settings, Keyboard settings, Settings and resources
+
+The control port settings submenu allows you to select which control
+port device is connected to a control port.
+
+@menu
+* Control port resources::
+* Control port options::
+@end menu
+
+@node Control port resources, Control port options, Control port settings, Control port settings
+@subsection Control port resources
+
+@table @code
+
+@vindex JoyPort1Device
+@item JoyPort1Device
+Set the device attached to:
+control port 1 (x64/x64sc/x64dtv/xscpu/x128/xcbm5x0/xplus4)
+control port (xvic).
+(x64/x64sc/xscpu/x128/xcbm5x0/xvic: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Datel Light Pen, 14: Magnum Light Phaser, 15: Stack Light Rifle, 16: Inkwell Light Pen, 17: Sampler (2bit))
+(x64dtv/xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+
+@vindex JoyPort2Device
+@item JoyPort2Device
+Set the device attached to:
+control port 2 (x64/x64sc/x64dtv/xscpu/x128/xcbm5x0/xplus4)
+(x64/x64sc/xscpu/x128/xcbm5x0: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
+(x64dtv/xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+
+@vindex JoyPort3Device
+@item JoyPort3Device
+Set the device attached to:
+userport joystick adapter port 1 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
+userport joystick adapter port (x64dtv)
+sidcart control port (xplus4).
+(x64/x64sc/x64dtv/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+(xplus4: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
+
+@vindex JoyPort4Device
+@item JoyPort4Device
+Set the device attached to:
+userport joystick adapter port 2 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
+(x64/x64sc/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+
+@end table
+
+
+@node Control port options,  , Control port resources, Control port settings
+@subsection Control port command-line options
+
+@table @code
+
+@findex -controlport1device
+@item -controlport1device <device>
+Set the device attached to:
+control port 1 (x64/x64sc/x64dtv/xscpu/x128/xcbm5x0/xplus4)
+control port (xvic)
+(@code{JoyPort1Device}).
+(x64/x64sc/xscpu/x128/xcbm5x0/xvic: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Datel Light Pen, 14: Magnum Light Phaser, 15: Stack Light Rifle, 16: Inkwell Light Pen, 17: Sampler (2bit))
+(x64dtv/xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+
+@findex -controlport2device
+@item -controlport2device <device>
+Set the device attached to:
+control port 2 (x64/x64sc/x64dtv/xscpu/x128/xcbm5x0/xplus4)
+(@code{JoyPort2Device}).
+(x64/x64sc/xscpu/x128/xcbm5x0: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
+(x64dtv/xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+
+@findex -controlport3device
+@item -controlport3device <device>
+Set the device attached to:
+userport joystick adapter port 1 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
+userport joystick adapter port (x64dtv)
+sidcart control port (xplus4)
+(@code{JoyPort3Device}).
+(x64/x64sc/x64dtv/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+(xplus4: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
+
+@findex -controlport4device
+@item -controlport4device <device>
+Set the device attached to:
+userport joystick adapter port 2 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
+(@code{JoyPort4Device}).
+(x64/x64sc/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @end table
 
@@ -3035,7 +3125,7 @@ Set additional keyboard buffer delay
 
 @end table
 
-@node Sound settings, Drive settings, Keyboard settings, Settings and resources
+@node Sound settings, Drive settings, Control port settings, Settings and resources
 @section Sound settings
 
 The following menu items control sound output:
@@ -4833,6 +4923,11 @@ Boolean specifying whether the ACIA (Swiftlink, Turbo232) cartridge should be em
 Integer specifying what RS232 device (@pxref{RS232 settings}) the ACIA is using
 (all emulators except x64dtv and vsid, and only if RS232 support is enabled and supported at compile time).
 
+@vindex Acia1Base
+@item Acia1Base
+Integer specifying the base address for the emulated ACIA chip (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
+(xvic: $9800/$9C00, x128: $D700/$DE00/$DF00, x64/x64sc/xscpu64: $DE00/$DF00)
+
 @vindex Acia1Mode
 @item Acia1Mode
 Integer specifying the type of emulated RS232 interface (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
@@ -4887,6 +4982,13 @@ Enable/Disable the $DE** ACIA RS232 interface emulation
 @item -myaciadev <0-3>
 Specify RS232 device the ACIA should work on
 (all emulators except x64dtv and vsid, and only if RS232 support is enabled and supported at compile time)
+
+@findex -acia1base
+@item -acia1base <Base address>
+Set the base address of the ACIA cartridge
+(@code{Acia1Base})
+(x64, x64sc, xscpu, x128 and xvic only, and only if RS232 support is enabled and supported at compile time).
+(xvic: $9800/$9C00, x128: $D700/$DE00/$DF00, x64/x64sc/xscpu: $DE00/$DF00)
 
 @findex -acia1mode
 @item -acia1mode <mode>
@@ -7296,10 +7398,6 @@ works only in the C64 emulator.
 
 @table @code
 
-@vindex Acia1Base
-@item Acia1Base
-Integer specifying the base address for the emulated ACIA chip.
-
 @vindex DIGIMAX
 @item DIGIMAX
 Boolean specifying whether the DigiMAX cartridge should be emulated or not.
@@ -8905,6 +9003,19 @@ String specifying the filename of the MegaCart NvRAM image.
 Boolean, if true write back the NvRAM image file automatically, incase the RAM
 contents changed, when detaching or quitting the emulator.
 
+@vindex UltiMemWriteBack
+@item UltiMemWriteBack
+Boolean, if true write back the Flash ROM image file automatically, incase the
+contents changed, when detaching or quitting the emulator.
+
+@vindex IO2RAM
+@item IO2RAM
+Boolean specifying whether the I/O-2 ($9800-$9BFF) RAM cartridge should be emulated or not.
+
+@vindex IO3RAM
+@item IO3RAM
+Boolean specifying whether the I/O-3 ($9C00-$9FFF) RAM cartridge should be emulated or not.
+
 @vindex TFEIOSwap
 @item TFEIOSwap
 Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
@@ -9080,6 +9191,24 @@ Specify Vic Flash Plugin extension ROM name
 @itemx +fpwriteback
 Enable/Disable Vic Flash Plugin write back to ROM file
 (@code{VicFlashPluginWriteBack=1}, @code{VicFlashPluginWriteBack=0}).
+
+@findex -umwriteback, +umwriteback
+@item -umwriteback
+@itemx +umwriteback
+Enable/disable UltiMem write back to ROM file
+(@code{UltiMemWriteBack=1}, @code{UltiMemWriteBack=0}).
+
+@findex -io2ram, +io2ram
+@item -io2ram
+@itemx +io2ram
+Enable/disable the I/O-2 ($9800-$9BFF) RAM cartridge
+(@code{IO2RAM=1}, @code{IO2RAM=0}).
+
+@findex -io3ram, +io3ram
+@item -io3ram
+@itemx +io3ram
+Enable/disable the I/O-3 ($9C00-$9FFF) RAM cartridge
+(@code{IO3RAM=1}, @code{IO3RAM=0}).
 
 @findex -ieee488, +ieee488
 @item -ieee488
@@ -9888,7 +10017,7 @@ Integer specifying the clock rate used for the emulated SID chip
 
 @vindex SIDCartJoy
 @item SIDCartJoy
-Boolean to enable/disable the emulation of the SID-Cart joystick.
+Boolean to enable/disable the emulation of the SID-Cart control port.
 
 @end table
 
@@ -9925,7 +10054,7 @@ Enable/disable SID Cartridge
 @findex -sidcartjoy, +sidcartjoy
 @item -sidcartjoy
 @item +sidcartjoy
-Enable/disable SID cartridge joystick
+Enable/disable SID cartridge control port
 (@code{SIDCartJoy=1}, @code{SIDCartJoy=0}).
 
 @findex -sidcartaddress
@@ -25072,32 +25201,33 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb (2 banks of 16Kb)
+@tab 32Kb (4 banks of 8Kb)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Load address
-@tab $8000-$BFFF
+@tab $8000-$9FFF
 @end multitable
-
-    Note: cartconv has produced (at least) two slightly differently broken variations
-    of .crt files for this type of cartridge. We are sorry for the inconvenience,
-    the emulators will still accept the old files, but cartconv will only output
-    the correct format which looks like this:
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
-0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CART RIDGE
-0010: 00 00 00 40 01 00 00 28 00 01 00 00 00 00 00 00  ...@...( ........
-0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CAR T.......
-0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ........ ........
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@. ......@.
-0050: 80 ad b5 80 c3 c2 cd 38 30 08 48 a9 06 8d 00 df  .......8 0.H.....
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 28 00 01 00 00 00 00 00 00  ???@@???(????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 80 AD B5 80 C3 C2 CD 38 30 08 48 A9 06 8D 00 DF  .µ....80?P.?ç??
 @dots{}
-4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP..@. ......@.
-4060: 13 80 bc fe c3 c2 cd 38 30 08 48 a9 02 8d 00 df  .......8 0.H.....
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP????????†???
+2060: 4C FA A0 A9 07 8D 00 DD 2C 00 DD 50 FB 2C 00 DD  L?†.?ç?.,?.P.,?.
+@dots{}
+4060: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+4070: 13 80 BC FE C3 C2 CD 38 30 08 48 A9 02 8D 00 DF  ?.?....80?H.?ç??
+@dots{}
+6070: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIP????????†???
+6080: F0 8A 48 A9 00 85 22 85 23 8D 53 0F 20 0C A1 B0  ?äH.?Ö"Ö#çS???.∞
 @end example
 
 
@@ -25304,33 +25434,33 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb or 32Kb (1 or 2 banks of 16Kb)
+@tab 16Kb or 32Kb (2 or 4 banks of 8Kb)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Load address
-@tab $8000-$BFFF
+@tab $8000-$9FFF
 @end multitable
-
-    Note: cartconv has produced (at least) two slightly differently broken variations
-    of .crt files for this type of cartridge. We are sorry for the inconvenience,
-    the emulators will still accept the old files, but cartconv will only output
-    the correct format which looks like this:
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
-0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CART RIDGE
-0010: 00 00 00 40 01 00 00 2e 00 01 00 00 00 00 00 00  ...@.... ........
-0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CAR T.......
-0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ........ ........
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@. ......@.
-0050: 3a 83 60 80 c3 c2 cd 38 30 20 00 00 40 00 00 00  :.`....8 0 ..@...
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 2E 00 01 00 00 00 00 00 00  ???@@???.????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :É`....80???@@???
 @dots{}
-4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP..@. ......@.
-4060: 3a 83 60 80 c3 c2 cd 38 30 20 00 00 40 00 00 00  :.`....8 0 ..@...
-
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP???????? ???
+2060: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x.4Ö?†?±?.?µ?.?µ
+@dots{}
+4060: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+4070: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :É`....80???@@???
+@dots{}
+6070: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIP???????? ???
+6080: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x.4Ö?†?±?.?µ?.?µ
 @end example
 
 
@@ -25421,29 +25551,28 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (1 bank of 16Kb)
+@tab 16Kb (2 banks of 8Kb)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Load address
-@tab $8000-$BFFF
+@tab $8000-$9FFF (bank 1),
+                   $A000-$BFFF (bank 2)
 @end multitable
-
-    Note: cartconv has produced (at least) two slightly differently broken variations
-    of .crt files for this type of cartridge. We are sorry for the inconvenience,
-    the emulators will still accept the old files, but cartconv will only output
-    the correct format which looks like this:
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
-0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CART RIDGE
-0010: 00 00 00 40 01 00 00 31 00 01 00 00 00 00 00 00  ...@...1 ........
-0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CAR T.......
-0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ........ ........
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@. ......@.
-0050: ea 2c 80 df 50 fb a0 00 8c 80 df b9 e3 a3 29 0f  .,..P... ......).
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 31 00 01 00 00 00 00 00 00  ???@@???1????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: EA 2C 80 DF 50 FB A0 00 8C 80 DF B9 E3 A3 29 0F  .,.?P. ?å.?π.£)?
+@dots{}
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP???????? ???
+2060: 4A EB C0 49 6A EA BB FB 4E CA 43 1E 75 63 15 97  J?.Ij.ª.N.C?uc?ó
 @end example
 
 

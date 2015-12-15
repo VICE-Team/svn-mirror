@@ -20114,8 +20114,6 @@ description:    "Disable the ACIA RS232 interface emulation"
 resource:       "Acia1Enable" (set to 0)
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 c64/cart/c64acia1.c:
 --------------------
 resource type:                  int
@@ -20154,7 +20152,6 @@ prepocessor:
 command-line:                   -umwriteback / +umwriteback
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:           os2/osx
-fixme: add to documentation
 
 vic20/cart/ultimem.c:
 ---------------------
@@ -20162,7 +20159,6 @@ command line:   -umwriteback
 description:    "Enable UltiMem write back to ROM file"
 resource:       "UltiMemWriteBack" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 vic20/cart/ultimem.c:
 ---------------------
@@ -20170,7 +20166,6 @@ command line:   +umwriteback
 description:    "Disable UltiMem write back to ROM file"
 resource:       "UltiMemWriteBack" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 vic20/cart/ioramcart.c:
 -----------------------
@@ -20186,7 +20181,6 @@ prepocessor:
 command-line:                   -io2ram / +io2ram
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:           os2/osx
-fixme: add to documentation
 
 vic20/cart/ioramcart.c:
 -----------------------
@@ -20194,7 +20188,6 @@ command line:   -io2ram
 description:    "Enable I/O-2 RAM"
 resource:       "IO2RAM" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 vic20/cart/ioramcart.c:
 -----------------------
@@ -20202,7 +20195,6 @@ command line:   +io2ram
 description:    "Disable I/O-2 RAM"
 resource:       "IO2RAM" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 vic20/cart/ioramcart.c:
 -----------------------
@@ -20218,7 +20210,6 @@ prepocessor:
 command-line:                   -io3ram / +io3ram
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:           os2/osx
-fixme: add to documentation
 
 vic20/cart/ioramcart.c:
 -----------------------
@@ -20226,7 +20217,6 @@ command line:   -io3ram
 description:    "Enable I/O-3 RAM"
 resource:       "IO3RAM" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 vic20/cart/ioramcart.c:
 -----------------------
@@ -20234,7 +20224,6 @@ command line:   +io3ram
 description:    "Disable I/O-3 RAM"
 resource:       "IO3RAM" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 joyport.c:
 ----------
@@ -20244,13 +20233,12 @@ resource range:                 0..JOYPORT_MAX_DEVICES
 resource default:               0 (JOYPORT_ID_NONE)
 resource function:              set_joyport1_device()
 resource var:                   joy_port[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic
 not used in:                    xcbm2/xpet/vsid
 prepocessor:                    
 command-line:                   -controlport1device
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:           os2/osx
-fixme: add to documentation
 
 joyport.c:
 ----------
@@ -20258,7 +20246,6 @@ command line:   -controlport1device <device>
 description:    "Set control port 1 device. [list of id's]"
 resource:       "JoyPort1Device"
 action:         N/A
-fixme: add to documentation
 
 joyport.c:
 ----------
@@ -20274,7 +20261,6 @@ prepocessor:
 command-line:                   -controlport2device
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:           os2/osx
-fixme: add to documentation
 
 joyport.c:
 ----------
@@ -20282,7 +20268,52 @@ command line:   -controlport2device <device>
 description:    "Set control port 2 device. [list of id's]"
 resource:       "JoyPort2Device"
 action:         N/A
-fixme: add to documentation
+
+joyport.c:
+----------
+resource type:                  int
+resource name:                  "JoyPort3Device"
+resource range:                 0..JOYPORT_MAX_DEVICES
+resource default:               0 (JOYPORT_ID_NONE)
+resource function:              set_joyport3_device()
+resource var:                   joy_port[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:                    
+command-line:                   -controlport3device
+platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform gui missing:           os2/osx
+
+joyport.c:
+----------
+command line:   -controlport3device <device>
+description:    "Set control port 3 device. [list of id's]"
+resource:       "JoyPort3Device"
+action:         N/A
+
+joyport.c:
+----------
+resource type:                  int
+resource name:                  "JoyPort4Device"
+resource range:                 0..JOYPORT_MAX_DEVICES
+resource default:               0 (JOYPORT_ID_NONE)
+resource function:              set_joyport4_device()
+resource var:                   joy_port[3]
+resource emulators:             x64/x64sc/xscpu64/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    x64dtv/xcbm5x0/vsid
+prepocessor:                    
+command-line:                   -controlport4device
+platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform gui missing:           os2/osx
+
+joyport.c:
+----------
+command line:   -controlport4device <device>
+description:    "Set control port 4 device. [list of id's]"
+resource:       "JoyPort4Device"
+action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 c64/cart/ide64.c:
 -----------------
