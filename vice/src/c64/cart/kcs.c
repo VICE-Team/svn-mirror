@@ -43,12 +43,14 @@
 #include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "crt.h"
 #include "kcs.h"
 #include "log.h"
+#include "maincpu.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
-#include "crt.h"
 
 /*
     KCS Power Cartridge
@@ -57,35 +59,79 @@
 
     io1:
     - the second last page of the first 8k ROM bank is visible
-    - when reading, bit 1 of the address selects mapping mode:
-      0 : 8k game
-      1 : cartridge disabled
-    - when writing, 16k game mode is selected
+    - when reading, bit 1 of the address selects mapping mode (EXROM)
+    - when writing, bit 1 of the address selects mapping mode (EXROM)
+      FIXME: its more complicated than that
 
     io2:
     - cartridge RAM (128 bytes)
-    - when reading, if bit 7 of the address is set, freeze mode (nmi)
-      is released.
-    - when writing, and ultimax (freeze) mode is NOT active, then
-      16k game mode is selected.
     - writes go to cartridge RAM
+    - when reading, if bit 7 of the address is set, freeze mode (nmi)
+      is released. (FIXME: does not match schematic)
+
+    - the cartridge starts in 16k game mode
 
     FIXME: the above is still not 100% correct
-     - BLOADing a frozen program does not work
+     - BLOADing a frozen program does not work/hangs
+     - restarting from the freezer ("continue") often hangs
+
+    the original software uses:
+
+    bit $de00   -> ROMH off
+
+    sta $de00
+    sta $de02
+    sta $de80   -> ROMH on (a000)
+
+    bit $df80 at beginning of freezer NMI
+
+    ... and also code is running in deXX area
 */
 
-static int freeze_flag = 0;
+/*
+ * ROM is selected if:                 OE = (!IO1 = 0) | !(!ROMH & !ROML)
+ * RAM is selected if:                 CS = PHI2 & (!A4) & (!IO2)           ?
+ */
+
+/*      74LS275 (4 flip flops)
+ *
+ *      !reset <- !reset
+ *      C1     <- 74LS00 pin8
+ *
+ *      Q (out)      D (in)
+ *
+ *      D6     Q0 <- D0  !GAME
+ *      !GAME  Q1 <- D1  R/!W
+ *      D7     Q2 <- D2  !EXROM
+ *      !EXROM Q3 <- D3  74LS02 pin13
+ *
+ */
+
 static int config;
+#ifdef DEBUG_KCS
+static int oldconfig;
+#endif
 
 static BYTE kcs_io1_read(WORD addr)
 {
-    DBG(("io1 r %04x (%s)", addr, (addr & 2) ? "cart off" : "to 8k"));
+#ifdef DEBUG_KCS
+    oldconfig = config;
+#endif
+    /* FIXME: the software reads from de00 - and from all kind of adresses when
+     *        code in the IO1 ROM mirror is running. the following is not exactly
+     *        what happens */
+    /* !EXROM = A1 & 74LS90 pin8=0 */
+    /* config = (addr & 2) ? CMODE_RAM : CMODE_8KGAME; */
+    config = 0; /* exrom, game */
+    config |= (addr & 2) ? 2 : 0; /* exrom */
+    config |= 0; /* game */
 
-    /* A1 switches off roml/romh banks */
-    config = (addr & 2) ? CMODE_RAM : CMODE_8KGAME;
-
+#ifdef DEBUG_KCS
+    if(oldconfig != config) {
+        DBG(("KCS: io1 r de%02x cfg: %s -> %s", addr, cart_config_string(oldconfig), cart_config_string(config)));
+    }
+#endif
     cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ);
-    freeze_flag = 0;
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
@@ -96,35 +142,69 @@ static BYTE kcs_io1_peek(WORD addr)
 
 static void kcs_io1_store(WORD addr, BYTE value)
 {
-    DBG(("io1 w %04x %02x (to 16k)", addr, value));
-    config = CMODE_16KGAME;
-    cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_WRITE);
-    freeze_flag = 0;
+    int mode = CMODE_WRITE;
+#ifdef DEBUG_KCS
+    oldconfig = config;
+#endif
+
+#if 0
+    /* FIXME: the software writes to de80 - what that does is unknown */
+    if ((addr & 0x80) == 0x80) {
+        mode |= CMODE_RELEASE_FREEZE;
+    }
+#endif
+    /* FIXME: the other two adresses written to are de00 and de02 */
+    if ((addr & 0xff) == 2) {
+        config ^= 2; /* invert exrom */
+    } else {
+        config &= ~2; /* clear exrom */
+        config |= (addr & 2) ? 2 : 0; /* exrom */;
+    }
+    config |= 1; /* game */
+
+#ifdef DEBUG_KCS
+    if(oldconfig != config) {
+        DBG(("KCS: io1 w de%02x,%02x cfg: %s -> %s", addr, value, cart_config_string(oldconfig), cart_config_string(config)));
+    }
+#endif
+    cart_config_changed_slotmain((BYTE)config, (BYTE)config, mode);
 }
 
 static BYTE kcs_io2_read(WORD addr)
 {
-    DBG(("io2 r %04x (%s)", addr, (addr & 0x80) ? "release NMI" : "-"));
+#if 1
+    /* the software reads from df80 at beginning of nmi handler */
+    /* FIXME: nothing really is connected to addr bit7 according to the schematics */
     if (addr & 0x80) {
         cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ | CMODE_RELEASE_FREEZE);
-        freeze_flag = 1;
     }
-    return export_ram0[0x1f00 + (addr & 0x7f)];
+#endif
+    /* FIXME: in the schematics A4 is connected to CS - this smells like a mistake */
+    return export_ram0[addr & 0x7f];
 }
 
 static BYTE kcs_io2_peek(WORD addr)
 {
-    return export_ram0[0x1f00 + (addr & 0x7f)];
+    /* FIXME: in the schematics A4 is connected to CS - this smells like a mistake */
+    return export_ram0[addr & 0x7f];
 }
 
 static void kcs_io2_store(WORD addr, BYTE value)
 {
-    DBG(("io2 w %04x %02x (%s)", addr, value, (freeze_flag == 0) ? "to 16k" : "-"));
-    if (freeze_flag == 0) {
-        config = CMODE_16KGAME;
-        cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_WRITE);
+#if 0
+    /* FIXME: nothing really is connected to addr bit7 according to the schematics */
+    if (addr & 0x80) {
+        cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_WRITE | CMODE_RELEASE_FREEZE);
     }
-    export_ram0[0x1f00 + (addr & 0x7f)] = value;
+#endif
+    /* FIXME: in the schematics A4 is connected to CS - this smells like a mistake */
+    export_ram0[addr & 0x7f] = value;
+}
+
+static int kcs_io1_dump(void)
+{
+    mon_out("EXROM: %d GAME: %d (%s)\n", ((config >> 1) & 1), (config & 1) ^ 1, cart_config_string(config & 3));
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -138,7 +218,7 @@ static io_source_t kcs_io1_device = {
     kcs_io1_store,
     kcs_io1_read,
     kcs_io1_peek,
-    NULL,
+    kcs_io1_dump,
     CARTRIDGE_KCS_POWER,
     0,
     0
@@ -171,24 +251,21 @@ static const c64export_resource_t export_res_kcs = {
 void kcs_freeze(void)
 {
     config = CMODE_ULTIMAX;
-    cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ);
-    freeze_flag = 1;
+    cart_config_changed_slotmain(config, config, CMODE_READ /* | CMODE_RELEASE_FREEZE*/);
 }
 
 void kcs_config_init(void)
 {
-    config = CMODE_8KGAME;
-    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
-    freeze_flag = 0;
+    config = CMODE_16KGAME;
+    cart_config_changed_slotmain(config, config, CMODE_READ);
 }
 
 void kcs_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-    config = CMODE_8KGAME;
-    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
-    freeze_flag = 0;
+    config = CMODE_16KGAME;
+    cart_config_changed_slotmain(config, config, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -246,7 +323,7 @@ void kcs_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   2
+#define CART_DUMP_VER_MINOR   3
 #define SNAP_MODULE_NAME  "CARTKCS"
 
 int kcs_snapshot_write_module(snapshot_t *s)
@@ -260,11 +337,10 @@ int kcs_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)freeze_flag) < 0)
         || (SMW_B(m, (BYTE)config) < 0)
         || (SMW_BA(m, roml_banks, 0x2000) < 0)
         || (SMW_BA(m, romh_banks, 0x2000) < 0)
-        || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
+        || (SMW_BA(m, export_ram0, 128) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
@@ -289,11 +365,10 @@ int kcs_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
-        || (SMR_B_INT(m, &freeze_flag) < 0)
         || (SMR_B_INT(m, &config) < 0)
         || (SMR_BA(m, roml_banks, 0x2000) < 0)
         || (SMR_BA(m, romh_banks, 0x2000) < 0)
-        || (SMR_BA(m, export_ram0, 0x2000) < 0)) {
+        || (SMR_BA(m, export_ram0, 128) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
