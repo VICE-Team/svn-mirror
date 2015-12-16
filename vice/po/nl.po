@@ -13541,48 +13541,44 @@ msgid "Disable the CP/M cartridge"
 msgstr "De CP/M cartridge uitschakelen"
 
 #: src/translate_text.c.po.c:16306
-#, fuzzy
 msgid "Enable the TurboMaster cartridge"
-msgstr "Activeer de CP/M cartridge"
+msgstr "Activeer de TurboMaster cartridge"
 
 #: src/translate_text.c.po.c:16323
-#, fuzzy
 msgid "Disable the TurboMaster cartridge"
-msgstr "De CP/M cartridge uitschakelen"
+msgstr "De TurboMaster cartridge uitschakelen"
 
 #: src/translate_text.c.po.c:16340
 msgid "Set TurboMaster ROM switch to ROM 1"
-msgstr ""
+msgstr "Schakel TurboMaster ROM schakelaar naar ROM 1"
 
 #: src/translate_text.c.po.c:16357
 msgid "Set TurboMaster ROM switch to ROM 2"
-msgstr ""
+msgstr "Schakel TurboMaster ROM schakelaar naar ROM 2"
 
 #: src/translate_text.c.po.c:16374
 msgid "Set TurboMaster speed control switch to software"
-msgstr ""
+msgstr "Schakel TurboMaster snelheidscontrole schakelaar naar software"
 
 #: src/translate_text.c.po.c:16391
 msgid "Set TurboMaster speed control switch to manual"
-msgstr ""
+msgstr "Schakel TurboMaster snelheidscontrole schakelaar naar handmatig"
 
 #: src/translate_text.c.po.c:16408
 msgid "Set TurboMaster clock speed switch to 4 Mhz"
-msgstr ""
+msgstr "Schakel TurboMaster klok snelheid schakelaar naar 4 Mhz"
 
 #: src/translate_text.c.po.c:16425
 msgid "Set TurboMaster clock speed switch to 1 Mhz"
-msgstr ""
+msgstr "Schakel TurboMaster klok snelheid schakelaar naar 1 Mhz"
 
 #: src/translate_text.c.po.c:16442
-#, fuzzy
 msgid "Specify TurboMaster ROM 1 filename"
-msgstr "Geef de naam van het logbestand"
+msgstr "Geef de naam van het TurboMaster ROM 1 bestand"
 
 #: src/translate_text.c.po.c:16459
-#, fuzzy
 msgid "Specify TurboMaster ROM 2 filename"
-msgstr "Geef de naam van het logbestand"
+msgstr "Geef de naam van het TurboMaster ROM 2 bestand"
 
 #: src/translate_text.c.po.c:16476
 msgid "Enable EasyFlash jumper"
