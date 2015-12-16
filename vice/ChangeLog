@@ -1,5 +1,195 @@
 ------------------------------------------------------------------------------
 
+2015-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.hlp, doc/vice.pdf, po/da.po, po/de.po,
+	po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.24
+
+2015-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate_text.c: Did a 'make trans-update'.
+
+2015-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2015-12-15  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/kcs.c: update KCS a bit... bload still not working
+	correctly ;_;
+
+2015-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	some documentation updates.
+
+2015-12-15  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/c64cartsystem.h,
+	src/c64/cart/supersnapshot.c: added common function that returns
+	current export mode as literal string for printing
+
+2015-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	some documentation updates.
+
+2015-12-11  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/kbd.c, src/arch/beos/kbd.h, src/arch/msdos/kbd.c,
+	src/arch/msdos/kbd.h, src/arch/win32/kbd.h: Removed some old keyboard
+	handling code which looks like it has been obsolete since VICE 1.10
+	and fixed some of the keycodes for BeVICE.
+
+2015-12-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64cpu.c: Cosmetic fix.
+
+2015-12-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65c02core.c, src/c64/cart/turbomaster.c,
+	src/c64/cart/turbomaster.h, src/monitor.h, src/translate.txt,
+	src/translate_text.c: Some more turbo master progress, still not
+	hooked in.
+
+2015-12-08  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: fix crt file docs according to recent fixes in
+	cartconv and the loaders
+
+2015-12-08  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/supersnapshot.c: fix/update supersnapshot v5
+	register/rom disabling, general cleanup, better support for io dump
+
+2015-12-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_unix.c: Applied patch by TMLPiper: The include
+	of platform_macosx.c from archdep_unix.c has the wrong path.
+
+2015-12-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/Makefile.am,
+	src/arch/unix/macosx/cocoa/Makefile.am: Applied patch by TMLPiper: Add
+	joyport directory to include list so COCOA port builds.
+
+2015-12-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/turbomaster.c, src/c64/cart/turbomaster.h: Started on
+	turbomaster (4Mhz 65c02) emulation, wip, not hooked into the build
+	process yet.
+
+2015-12-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64_256k.c: Cosmetic fix.
+
+2015-12-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/cpmcart.c: Cosmetic fix.
+
+2015-12-06  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/freezemachine.c, src/c64/cart/mach5.c,
+	src/c64/cart/magicvoice.c, src/c64/cart/supersnapshot4.c: fix crt
+	loaders of freeze machine, magic voice, super snapshot 4
+
+2015-12-06  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c: generate 16k banks instead of two 8k chip blocks for
+	magic voice, freeze machine, super snapshot 4
+
+2015-12-04  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/constants.txt,
+	src/arch/beos/ui_video.cc, src/arch/beos/ui_video.h,
+	src/arch/beos/vicemenu.cc: Added tabs to the BeVICE Video settings
+	dialog, (only one per vchip for now,) and fixed a memory leak; also
+	reordered a couple of menu items.
+
+2015-12-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64cpu.c, src/c64/c64cpusc.c: Changed the
+	'run alternate cpu' call a bit, in preparation for any future
+	'alternate cpu' emulation.
+
+2015-12-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/cbm2/cbm5x0.c,
+	src/joyport/mouse.c, src/joyport/mouse.h, src/plus4/plus4.c,
+	src/scpu64/scpu64.c, src/vic20/vic20.c: Fixed neos mouse time-out
+	behavior (time set to 200 μs).
+
+2015-12-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/cart/ultimem.c: Slight fix.
+
+2015-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/cart/ultimem.c: Applied UltiMem patch by Marko Mäkelä: The
+	-ultimem option and the snapshot reader and writer now support both
+	512KiB+512KiB and 8MiB+1MiB flash+RAM sizes. The smaller 512K+128K and
+	512K+256K options are not supported.
+
+2015-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/isepic.c: Fixed isepic
+	emulation.
+
+2015-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/x128.tmpl: Added some (previously missing)
+	windows resource files to the msvc project files.
+
+2015-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ramcart.c: Fixed the ramcart code to work on x128
+	again.
+
+2015-11-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/cart/ultimem.c: Applied Vic-20 UltiMem register relocation
+	patch by Marko Mäkelä.
+
+2015-11-28  Marcus Sutton <loggedoubt@gmail.com>
+
+	* gcccpu.sh: gcc 2.9 still compiles x64's main CPU code quite well
+	with -O2.
+
+2015-11-28  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/c64/cart/c64acia1.c, src/joyport/joyport.c: Fixed some IDs that
+	looked wrong.
+
+2015-11-28  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui.cc: Fixed BeVICE menu check marks not getting
+	updated (oops) and moved a function.
+
+2015-11-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/cart/ioramcart.c: Fixed, io2 read call was used instead of
+	io3 read call.
+
+2015-11-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added 'autogen.sh' to the dist list.
+
+2015-11-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/cpmcart.c: Turn off z80 when cp/m cart gets 'removed'.
+
 2015-11-25  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
