@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-25 20:06-0800\n"
+"POT-Creation-Date: 2015-12-15 18:22-0800\n"
 "PO-Revision-Date: 2012-10-29 17:47+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice@symlink.dk>\n"
 "Language-Team: Danish <vice@symlink.dk>\n"
@@ -7730,7 +7730,7 @@ msgstr "CBM5x0-modelindstillinger"
 msgid "CIA settings"
 msgstr "CIA-indstillinger"
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:16408
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:16578
 msgid "Enable the DigiMAX cartridge"
 msgstr "Aktivér DigiMAX cartridge"
 
@@ -13803,127 +13803,171 @@ msgid "Disable the CP/M cartridge"
 msgstr "Deaktivér SID-cartridge"
 
 #: src/translate_text.c.po.c:16306
+#, fuzzy
+msgid "Enable the TurboMaster cartridge"
+msgstr "Aktivér SID-cartridget"
+
+#: src/translate_text.c.po.c:16323
+#, fuzzy
+msgid "Disable the TurboMaster cartridge"
+msgstr "Deaktivér SID-cartridge"
+
+#: src/translate_text.c.po.c:16340
+msgid "Set TurboMaster ROM switch to ROM 1"
+msgstr ""
+
+#: src/translate_text.c.po.c:16357
+msgid "Set TurboMaster ROM switch to ROM 2"
+msgstr ""
+
+#: src/translate_text.c.po.c:16374
+msgid "Set TurboMaster speed control switch to software"
+msgstr ""
+
+#: src/translate_text.c.po.c:16391
+msgid "Set TurboMaster speed control switch to manual"
+msgstr ""
+
+#: src/translate_text.c.po.c:16408
+msgid "Set TurboMaster clock speed switch to 4 Mhz"
+msgstr ""
+
+#: src/translate_text.c.po.c:16425
+msgid "Set TurboMaster clock speed switch to 1 Mhz"
+msgstr ""
+
+#: src/translate_text.c.po.c:16442
+#, fuzzy
+msgid "Specify TurboMaster ROM 1 filename"
+msgstr "Angiv navn på logfil"
+
+#: src/translate_text.c.po.c:16459
+#, fuzzy
+msgid "Specify TurboMaster ROM 2 filename"
+msgstr "Angiv navn på logfil"
+
+#: src/translate_text.c.po.c:16476
 msgid "Enable EasyFlash jumper"
 msgstr "Aktivér EasyFlash-jumper"
 
-#: src/translate_text.c.po.c:16323
+#: src/translate_text.c.po.c:16493
 msgid "Disable EasyFlash jumper"
 msgstr "Deaktivér EasyFlash-jumper"
 
-#: src/translate_text.c.po.c:16340
+#: src/translate_text.c.po.c:16510
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "Tillad skrivning til EasyFlash CRT-image"
 
-#: src/translate_text.c.po.c:16357 src/translate_text.c.po.c:16391
+#: src/translate_text.c.po.c:16527 src/translate_text.c.po.c:16561
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Forbyd skrivning til EasyFlash CRT-image"
 
-#: src/translate_text.c.po.c:16374
+#: src/translate_text.c.po.c:16544
 #, fuzzy
 msgid "Enable EasyFlash .crt image optimize on write"
 msgstr "Tillad skrivning til EasyFlash CRT-image"
 
-#: src/translate_text.c.po.c:16425
+#: src/translate_text.c.po.c:16595
 msgid "Disable the DigiMAX cartridge"
 msgstr "Deaktivér DigiMAX cartridge"
 
-#: src/translate_text.c.po.c:16442
+#: src/translate_text.c.po.c:16612
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Baseadresse for DigiMAX cartridge"
 
-#: src/translate_text.c.po.c:16459
+#: src/translate_text.c.po.c:16629
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr "Aktivér DS12C887 RTC-cartridge"
 
-#: src/translate_text.c.po.c:16476
+#: src/translate_text.c.po.c:16646
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr "Deaktivér DS12C887 RTC-cartridge"
 
-#: src/translate_text.c.po.c:16493
+#: src/translate_text.c.po.c:16663
 #, fuzzy
 msgid "Set the RTC oscillator to 'halted'"
 msgstr "Tillad skrivning på MMC64-kort"
 
-#: src/translate_text.c.po.c:16510
+#: src/translate_text.c.po.c:16680
 msgid "Set the RTC oscillator to 'running'"
 msgstr ""
 
-#: src/translate_text.c.po.c:16527
+#: src/translate_text.c.po.c:16697
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "Baseadresse for DS12C887 RTC-cartridge"
 
-#: src/translate_text.c.po.c:16544
+#: src/translate_text.c.po.c:16714
 #, fuzzy
 msgid "Enable saving of the DS12C887 RTC data when changed."
 msgstr "Aktivér DS12C887 RTC-cartridge"
 
-#: src/translate_text.c.po.c:16561
+#: src/translate_text.c.po.c:16731
 #, fuzzy
 msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "Deaktivér DS12C887 RTC-cartridge"
 
-#: src/translate_text.c.po.c:16579
+#: src/translate_text.c.po.c:16749
 #, fuzzy
 msgid "hostname"
 msgstr "Værtsnavn:"
 
-#: src/translate_text.c.po.c:16596
+#: src/translate_text.c.po.c:16766
 #, fuzzy
 msgid "port"
 msgstr "<port>"
 
-#: src/translate_text.c.po.c:16613
+#: src/translate_text.c.po.c:16783
 #, fuzzy
 msgid "Set the netplay server hostname"
 msgstr "Navn på netspilsserver"
 
-#: src/translate_text.c.po.c:16630
+#: src/translate_text.c.po.c:16800
 msgid "Set the netplay binding address"
 msgstr ""
 
-#: src/translate_text.c.po.c:16647
+#: src/translate_text.c.po.c:16817
 #, fuzzy
 msgid "Set the netplay port"
 msgstr "TCP-port til netværksspil"
 
-#: src/translate_text.c.po.c:16664
+#: src/translate_text.c.po.c:16834
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
 msgstr ""
 
-#: src/translate_text.c.po.c:16682
+#: src/translate_text.c.po.c:16852
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr ""
 
-#: src/translate_text.c.po.c:16699
+#: src/translate_text.c.po.c:16869
 msgid "Turn on Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:16716
+#: src/translate_text.c.po.c:16886
 msgid "Turn off Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:16733
+#: src/translate_text.c.po.c:16903
 msgid "Turn on Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:16750
+#: src/translate_text.c.po.c:16920
 msgid "Turn off Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:16767
+#: src/translate_text.c.po.c:16937
 #, fuzzy
 msgid "Enable HiRes Emulation Board"
 msgstr "Aktivér lyspen-emulering"
 
-#: src/translate_text.c.po.c:16784
+#: src/translate_text.c.po.c:16954
 #, fuzzy
 msgid "Disable HiRes Emulation Board"
 msgstr "Aktivér lyspen-emulering"
 
-#: src/translate_text.c.po.c:16802
+#: src/translate_text.c.po.c:16972
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Navn på lydenhed"

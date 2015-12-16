@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-25 20:06-0800\n"
+"POT-Creation-Date: 2015-12-15 18:22-0800\n"
 "PO-Revision-Date: 2015-07-16 12:04+0200\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -7595,7 +7595,7 @@ msgstr "Ustawienia modelu CBM5x0"
 msgid "CIA settings"
 msgstr "Ustawienia CIA"
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:16408
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:16578
 msgid "Enable the DigiMAX cartridge"
 msgstr "Włącz kartridż DigiMAX"
 
@@ -13541,82 +13541,126 @@ msgid "Disable the CP/M cartridge"
 msgstr "Wyłącz kartridż SID"
 
 #: src/translate_text.c.po.c:16306
+#, fuzzy
+msgid "Enable the TurboMaster cartridge"
+msgstr "Włącz kartridż SID"
+
+#: src/translate_text.c.po.c:16323
+#, fuzzy
+msgid "Disable the TurboMaster cartridge"
+msgstr "Wyłącz kartridż SID"
+
+#: src/translate_text.c.po.c:16340
+msgid "Set TurboMaster ROM switch to ROM 1"
+msgstr ""
+
+#: src/translate_text.c.po.c:16357
+msgid "Set TurboMaster ROM switch to ROM 2"
+msgstr ""
+
+#: src/translate_text.c.po.c:16374
+msgid "Set TurboMaster speed control switch to software"
+msgstr ""
+
+#: src/translate_text.c.po.c:16391
+msgid "Set TurboMaster speed control switch to manual"
+msgstr ""
+
+#: src/translate_text.c.po.c:16408
+msgid "Set TurboMaster clock speed switch to 4 Mhz"
+msgstr ""
+
+#: src/translate_text.c.po.c:16425
+msgid "Set TurboMaster clock speed switch to 1 Mhz"
+msgstr ""
+
+#: src/translate_text.c.po.c:16442
+#, fuzzy
+msgid "Specify TurboMaster ROM 1 filename"
+msgstr "Określ nazwę pliku z logiem"
+
+#: src/translate_text.c.po.c:16459
+#, fuzzy
+msgid "Specify TurboMaster ROM 2 filename"
+msgstr "Określ nazwę pliku z logiem"
+
+#: src/translate_text.c.po.c:16476
 msgid "Enable EasyFlash jumper"
 msgstr "Włącz przełącznik EasyFlash"
 
-#: src/translate_text.c.po.c:16323
+#: src/translate_text.c.po.c:16493
 msgid "Disable EasyFlash jumper"
 msgstr "Wyłącz przełącznik EasyFlash"
 
-#: src/translate_text.c.po.c:16340
+#: src/translate_text.c.po.c:16510
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "Włącz zapis do obrazu .crt EasyFlash"
 
-#: src/translate_text.c.po.c:16357 src/translate_text.c.po.c:16391
+#: src/translate_text.c.po.c:16527 src/translate_text.c.po.c:16561
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Wyłącz zapis do obrazu .crt EasyFlash"
 
-#: src/translate_text.c.po.c:16374
+#: src/translate_text.c.po.c:16544
 msgid "Enable EasyFlash .crt image optimize on write"
 msgstr "Włącz optymalizację zapisu do obrazu .crt EasyFlash"
 
-#: src/translate_text.c.po.c:16425
+#: src/translate_text.c.po.c:16595
 msgid "Disable the DigiMAX cartridge"
 msgstr "Wyłącz kartridż DigiMAX"
 
-#: src/translate_text.c.po.c:16442
+#: src/translate_text.c.po.c:16612
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Adres bazowy kartridża DigiMAX"
 
-#: src/translate_text.c.po.c:16459
+#: src/translate_text.c.po.c:16629
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr "Włącz kartridż DS12C887 RTC"
 
-#: src/translate_text.c.po.c:16476
+#: src/translate_text.c.po.c:16646
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr "Wyłącz kartridż DS12C887 RTC"
 
-#: src/translate_text.c.po.c:16493
+#: src/translate_text.c.po.c:16663
 msgid "Set the RTC oscillator to 'halted'"
 msgstr "Ustaw oscylator RTC jako 'zatrzymany'"
 
-#: src/translate_text.c.po.c:16510
+#: src/translate_text.c.po.c:16680
 msgid "Set the RTC oscillator to 'running'"
 msgstr "Ustaw oscylator RTC jako 'uruchomiony'"
 
-#: src/translate_text.c.po.c:16527
+#: src/translate_text.c.po.c:16697
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "Adres bazowy kartridża DS12C887 RTC"
 
-#: src/translate_text.c.po.c:16544
+#: src/translate_text.c.po.c:16714
 msgid "Enable saving of the DS12C887 RTC data when changed."
 msgstr "Zapisuj dane zegara czasu rzeczywistego DS12C887 przy zmianie"
 
-#: src/translate_text.c.po.c:16561
+#: src/translate_text.c.po.c:16731
 msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "Nie zapisuj danych zegara czasu rzeczywistego DS12C887 przy zmianie"
 
-#: src/translate_text.c.po.c:16579
+#: src/translate_text.c.po.c:16749
 msgid "hostname"
 msgstr "nazwa hosta"
 
-#: src/translate_text.c.po.c:16596
+#: src/translate_text.c.po.c:16766
 msgid "port"
 msgstr "port"
 
-#: src/translate_text.c.po.c:16613
+#: src/translate_text.c.po.c:16783
 msgid "Set the netplay server hostname"
 msgstr "Wprowadź nazwę serwera gry sieciowej"
 
-#: src/translate_text.c.po.c:16630
+#: src/translate_text.c.po.c:16800
 msgid "Set the netplay binding address"
 msgstr "Wprowadź adres gry sieciowej"
 
-#: src/translate_text.c.po.c:16647
+#: src/translate_text.c.po.c:16817
 msgid "Set the netplay port"
 msgstr "Wybierz port TCP gry sieciowej"
 
-#: src/translate_text.c.po.c:16664
+#: src/translate_text.c.po.c:16834
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
@@ -13626,35 +13670,35 @@ msgstr ""
 "urządzenia i zasoby), każdy element przyjmuje wartość (0: Brak, 1: Serwer, "
 "2: Klient, 3: Serwer+Klient)"
 
-#: src/translate_text.c.po.c:16682
+#: src/translate_text.c.po.c:16852
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr "Ilość SIMM RAM-u (0/1/4/8/16 MB)"
 
-#: src/translate_text.c.po.c:16699
+#: src/translate_text.c.po.c:16869
 msgid "Turn on Jiffy switch"
 msgstr "Włącz przełącznik Jiffy"
 
-#: src/translate_text.c.po.c:16716
+#: src/translate_text.c.po.c:16886
 msgid "Turn off Jiffy switch"
 msgstr "Wyłącz przełącznik Jiffy"
 
-#: src/translate_text.c.po.c:16733
+#: src/translate_text.c.po.c:16903
 msgid "Turn on Speed switch"
 msgstr "Włącz przełącznik Speed"
 
-#: src/translate_text.c.po.c:16750
+#: src/translate_text.c.po.c:16920
 msgid "Turn off Speed switch"
 msgstr "Wyłącz przełącznik Speed"
 
-#: src/translate_text.c.po.c:16767
+#: src/translate_text.c.po.c:16937
 msgid "Enable HiRes Emulation Board"
 msgstr "Włącz kartę emulacji HiRes"
 
-#: src/translate_text.c.po.c:16784
+#: src/translate_text.c.po.c:16954
 msgid "Disable HiRes Emulation Board"
 msgstr "Wyłącz kartę emulacji HiRes"
 
-#: src/translate_text.c.po.c:16802
+#: src/translate_text.c.po.c:16972
 msgid "Set raw drive device name"
 msgstr "Wprowadź nazwę urządzenia surowego napędu"
 
