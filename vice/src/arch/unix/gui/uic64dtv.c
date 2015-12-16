@@ -129,7 +129,7 @@ static ui_menu_entry_t hummeradc_submenu[] = {
 };
 
 ui_menu_entry_t c64dtv_extension_submenu[] = {
-    { N_("Hummer ADC"), UI_MENU_TYPE_TICK,
+    { N_("Hummer ADC"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, hummeradc_submenu },
     { NULL }
 };
