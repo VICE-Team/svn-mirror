@@ -417,8 +417,6 @@ static ui_menu_entry_t joystick_settings_c64dtv_submenu[] = {
       NULL, NULL, userport_joystick_type_submenu },
     { N_("Joystick in extra port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_3_submenu },
-    { N_("Joystick in extra port #2"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_joystick_device_4_submenu },
     { N_("Swap userport joysticks"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { NULL }
