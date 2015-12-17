@@ -57,6 +57,8 @@
 
     - 16kb ROM, 128 bytes RAM
 
+    FIXME: the following is still a lot of guesswork. more info needed!
+
     io1:
     - the second last page of the first 8k ROM bank is visible
     - when reading, bit 1 of the address selects mapping mode (EXROM)
@@ -70,10 +72,6 @@
       is released. (FIXME: does not match schematic)
 
     - the cartridge starts in 16k game mode
-
-    FIXME: the above is still not 100% correct
-     - BLOADing a frozen program does not work/hangs
-     - restarting from the freezer ("continue") often hangs
 
     the original software uses:
 
@@ -153,6 +151,7 @@ static void kcs_io1_store(WORD addr, BYTE value)
         mode |= CMODE_RELEASE_FREEZE;
     }
 #endif
+#if 0
     /* FIXME: the other two adresses written to are de00 and de02 */
     if ((addr & 0xff) == 2) {
         config ^= 2; /* invert exrom */
@@ -161,6 +160,19 @@ static void kcs_io1_store(WORD addr, BYTE value)
         config |= (addr & 2) ? 2 : 0; /* exrom */;
     }
     config |= 1; /* game */
+#else
+    /* FIXME: this is likely not what is happening at all, but it works better
+              than the above. args */
+    if ((addr & 0xff) == 2) {
+        config &= ~3; /* clear exrom and game */
+        config |= ((value & 0x0f) == 0x0f) ? 2 : 0; /* exrom */;
+        config |= ((value & 0x10) == 0x10) ? 0 : 1; /* game */;
+    } else {
+        config &= ~3; /* clear exrom and game */
+        config |= (addr & 2) ? 2 : 0; /* exrom */;
+        config |= 1; /* game */
+    }
+#endif
 
 #ifdef DEBUG_KCS
     if(oldconfig != config) {
