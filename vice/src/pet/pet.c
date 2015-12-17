@@ -568,13 +568,6 @@ int machine_specific_init(void)
     /* initialize print devices */
     printer_init();
 
-    /* Initialize autostart.  FIXME: We could probably use smaller values.  */
-    /* moved to mem_load() as it is kernal-dependant AF 30jun1998
-    autostart_init(1 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0);
-    */
-    /* Initialize the PET-specific part of the UI.  */
-    petui_init();
-
 #ifdef USE_BEOS_UI
     /* Pre-init PET-specific parts of the menus before crtc_init()
        creates a canvas window with a menubar at the top. This could
