@@ -125,6 +125,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_PLUS256K           -121 /* plus256k.c */
 #define CARTRIDGE_C64_256K           -122 /* c64_256k.c */
 #define CARTRIDGE_CPM                -123 /* cpmcart.c */
+#define CARTRIDGE_DEBUGCART          -124 /* debugcart.c */
 
 /* Known cartridge types.  */
 /* TODO: cartconv (4k and 12k binaries) */
@@ -229,6 +230,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_CAPTURE            "Capture" /* see manual http://rr.pokefinder.org/wiki/Capture */
 #define CARTRIDGE_NAME_COMAL80            "Comal 80" /* http://www.retroport.de/C64_C128_Hardware.html */
 #define CARTRIDGE_NAME_MIDI_DATEL         "Datel MIDI"
+#define CARTRIDGE_NAME_DEBUGCART          "Debug Cartridge"
 #define CARTRIDGE_NAME_DELA_EP64          "Dela EP64"
 #define CARTRIDGE_NAME_DELA_EP7x8         "Dela EP7x8"
 #define CARTRIDGE_NAME_DELA_EP256         "Dela EP256"

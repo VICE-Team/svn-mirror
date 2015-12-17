@@ -70,6 +70,7 @@
 #include "c64tpi.h"
 #include "comal80.h"
 #include "capture.h"
+#include "debugcart.h"
 #include "delaep256.h"
 #include "delaep64.h"
 #include "delaep7x8.h"
@@ -549,6 +550,10 @@ int cart_cmdline_options_init(void)
         return -1;
     }
 
+    if (debugcart_cmdline_options_init() < 0) {
+        return -1;
+    }
+
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) {
         if (cpmcart_cmdline_options_init() < 0) {
             return -1;
@@ -597,6 +602,10 @@ int cart_resources_init(void)
         || retroreplay_resources_init() < 0
         || supersnapshot_v5_resources_init() < 0
         ) {
+        return -1;
+    }
+
+    if (debugcart_resources_init() < 0) {
         return -1;
     }
 
