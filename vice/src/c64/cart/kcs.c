@@ -203,7 +203,7 @@ static void kcs_io2_store(WORD addr, BYTE value)
 
 static int kcs_io1_dump(void)
 {
-    mon_out("EXROM: %d GAME: %d (%s)\n", ((config >> 1) & 1), (config & 1) ^ 1, cart_config_string(config & 3));
+    mon_out("EXROM: %d GAME: %d (%s)\n", ((config >> 1) & 1), (config & 1) ^ 1, cart_config_string((BYTE)(config & 3)));
     return 0;
 }
 
@@ -251,13 +251,13 @@ static const c64export_resource_t export_res_kcs = {
 void kcs_freeze(void)
 {
     config = CMODE_ULTIMAX;
-    cart_config_changed_slotmain(config, config, CMODE_READ /* | CMODE_RELEASE_FREEZE*/);
+    cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ /* | CMODE_RELEASE_FREEZE*/);
 }
 
 void kcs_config_init(void)
 {
     config = CMODE_16KGAME;
-    cart_config_changed_slotmain(config, config, CMODE_READ);
+    cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ);
 }
 
 void kcs_config_setup(BYTE *rawcart)
@@ -265,7 +265,7 @@ void kcs_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
     config = CMODE_16KGAME;
-    cart_config_changed_slotmain(config, config, CMODE_READ);
+    cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
