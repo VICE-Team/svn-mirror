@@ -40,7 +40,7 @@
 #include "userport_joystick.h"
 
 int userport_joystick_enable = 0;
-int userport_joystick_type = 0;
+int userport_joystick_type = USERPORT_JOYSTICK_HUMMER;	/* default for x64dtv */
 
 static int userport_joystick_cga_select = 0;
 static BYTE userport_joystick_button_sp2 = 0xff;
@@ -84,6 +84,10 @@ static int set_userport_joystick_type(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "UserportJoy", 0, RES_EVENT_NO, NULL,
       &userport_joystick_enable, set_userport_joystick_enable, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int_type[] = {
     { "UserportJoyType", USERPORT_JOYSTICK_CGA, RES_EVENT_NO, NULL,
       &userport_joystick_type, set_userport_joystick_type, NULL },
     { NULL }
@@ -91,6 +95,12 @@ static const resource_int_t resources_int[] = {
 
 int userport_joystick_resources_init(void)
 {
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        if (resources_register_int(resources_int_type) < 0) {
+            return -1;
+        }
+    }
+
     return resources_register_int(resources_int);
 }
 
@@ -106,6 +116,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_JOY,
       NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t cmdline_options_type[] =
+{
     { "-userportjoytype", SET_RESOURCE, 1,
       NULL, NULL, "UserportJoyType", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -116,6 +131,11 @@ static const cmdline_option_t cmdline_options[] =
 
 int userport_joystick_cmdline_options_init(void)
 {
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        if (cmdline_register_options(cmdline_options_type) < 0) {
+            return -1;
+        }
+    }
     return cmdline_register_options(cmdline_options);
 }
 
