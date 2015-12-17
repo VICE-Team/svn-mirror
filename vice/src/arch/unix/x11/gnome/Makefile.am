@@ -7,6 +7,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/joyport \
+	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/arch/unix/gui \
 	-I$(top_srcdir)/src/arch/unix/x11
 

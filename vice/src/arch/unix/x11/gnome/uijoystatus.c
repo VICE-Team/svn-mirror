@@ -38,6 +38,7 @@
 #include "uiarch.h"
 #include "uicontents.h"
 #include "uimenu.h"
+#include "userport_joystick.h"
 #include "util.h"
 
 #ifdef DEBUG_X11UI
