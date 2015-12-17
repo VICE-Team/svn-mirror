@@ -147,16 +147,28 @@ static gboolean joys_draw(GtkWidget *w, GdkEvent *event, gpointer data)
 void ui_display_joystick_status_widget(int joystick_number, int status)
 {
     int i, n;
-    int upjoy = 0, sidjoy = 0;
+    int upjoy = 0, sidjoy = 0, typejoy = 0;
     int num_app_shells = get_num_shells();
 
     DBG(("ui_display_joystick_status_widget (%d, %02x)", joystick_number, status));
 
     if (machine_class != VICE_MACHINE_PLUS4 && machine_class != VICE_MACHINE_CBM5x0) {
         resources_get_int("UserportJoy", &upjoy);
+        resources_get_int("UserportJoyType", &typejoy);
     }
     if (machine_class == VICE_MACHINE_PLUS4) {
         resources_get_int("SIDCartJoy", &sidjoy);
+    }
+
+    if (machine_class != VICE_MACHINE_PLUS4 && machine_class != VICE_MACHINE_C64DTV && joystick_number > 1) {
+        switch (typejoy) {
+            case USERPORT_JOYSTICK_HUMMER:
+            case USERPORT_JOYSTICK_OEM:
+                typejoy = 0;
+                break;
+            default:
+                typejoy = 1;
+        }
     }
 
     for (i = 0; i < num_app_shells; i++) {
@@ -168,17 +180,30 @@ void ui_display_joystick_status_widget(int joystick_number, int status)
             ds->colors[4] = (status & (1 << 4)) ? &drive_led_on_red_pixel : &drive_led_off_pixel;
             set_joy(ds->colors, i, joystick_number);
 
+
             if (machine_class == VICE_MACHINE_PLUS4) {
                 if ((joystick_number == 2) && (sidjoy == 0)) {
                     gtk_widget_hide(ds->event_box);
                 } else {
                     gtk_widget_show_all(ds->event_box);
                 }
-            }
-            if (machine_class != VICE_MACHINE_PLUS4) {
-                if ((joystick_number > 1) && (upjoy == 0)) {
+            } else if (machine_class == VICE_MACHINE_C64DTV) {
+                if ((joystick_number == 2) && (upjoy == 0)) {
                     gtk_widget_hide(ds->event_box);
                 } else {
+                    gtk_widget_show_all(ds->event_box);
+                }
+            } else {
+                if ((joystick_number > 1) && (upjoy == 0)) {
+                    gtk_widget_hide(ds->event_box);
+                }
+                if ((joystick_number == 2) && (upjoy == 1)) {
+                    gtk_widget_show_all(ds->event_box);
+                }
+                if ((joystick_number == 3) && (upjoy == 1) && (typejoy == 0)) {
+                    gtk_widget_hide(ds->event_box);
+                }
+                if ((joystick_number == 3) && (upjoy == 1) && (typejoy == 1)) {
                     gtk_widget_show_all(ds->event_box);
                 }
             }
@@ -195,7 +220,15 @@ GtkWidget *build_joystick_status_widget(app_shell_type *as, GdkWindow *window)
     joystick_box = gtk_hbox_new(FALSE, 0);
     for (i = 0; i < JOYSTICK_NUM; i++)
     {
-        /* skip port 2 for machines that only have one joystick port */
+        /* skip port 1 for machines that have no internal joystick ports */
+        if (((machine_class == VICE_MACHINE_CBM6x0) ||
+             (machine_class == VICE_MACHINE_PET)
+            ) && (i == 0)) {
+            as->joystick_status[i].led = NULL;
+            continue;
+        }
+
+        /* skip port 2 for machines that only have one joystick port or no internal joystick ports */
         if (((machine_class == VICE_MACHINE_VIC20) ||
              (machine_class == VICE_MACHINE_CBM6x0) ||
              (machine_class == VICE_MACHINE_PET)
@@ -203,15 +236,19 @@ GtkWidget *build_joystick_status_widget(app_shell_type *as, GdkWindow *window)
             as->joystick_status[i].led = NULL;
             continue;
         }
-        /* skip port 3 and 4 for machines with no user port */
+
+        /* skip port 3 for machines with no user port and no other joystick adapter type */
         if (((machine_class == VICE_MACHINE_CBM5x0)
-            ) && (i > 1)) {
+            ) && (i == 2)) {
             as->joystick_status[i].led = NULL;
             continue;
         }
-        /* skip port 4 */
-        if (((machine_class == VICE_MACHINE_PLUS4)
-            ) && (i > 2)) {
+
+        /* skip port 4 for machines with no user port, or not enough userport lines for 2 port userport adapters */
+        if (((machine_class == VICE_MACHINE_PLUS4) ||
+             (machine_class == VICE_MACHINE_CBM5x0) ||
+             (machine_class == VICE_MACHINE_C64DTV)
+            ) && (i == 3)) {
             as->joystick_status[i].led = NULL;
             continue;
         }
@@ -260,7 +297,6 @@ GtkWidget *build_joystick_status_widget(app_shell_type *as, GdkWindow *window)
     lib_free(empty);
     return joystick_box;
 }
-
 
 void ui_init_joystick_status_widget(void)
 {
