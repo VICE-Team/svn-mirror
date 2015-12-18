@@ -254,10 +254,10 @@ void cbm2ui_set_menu_params(int index, menu_draw_t *menu_draw)
     resources_get_int("ModelLine", &model);
 
     menu_draw->max_text_x = 80;
-    menu_draw->extra_x = 32;
+    menu_draw->extra_x = 24;
 
     if (model == 0) {
-        menu_draw->extra_y = 16;
+        menu_draw->extra_y = 8;
         for (i = 0; i < 256; i++) {
             for (j = 0; j < 14; j++) {
                 cbm2_font_14[(i * 14) + j] = mem_chargen_rom[(i * 16) + j + 1];
@@ -265,7 +265,7 @@ void cbm2ui_set_menu_params(int index, menu_draw_t *menu_draw)
         }
         sdl_ui_set_menu_font(cbm2_font_14, 8, 14);
     } else {
-        menu_draw->extra_y = 40;
+        menu_draw->extra_y = 32;
         for (i = 0; i < 256; i++) {
             for (j = 0; j < 8; j++) {
                 cbm2_font_8[(i * 8) + j] = mem_chargen_rom[(i * 16) + j];
