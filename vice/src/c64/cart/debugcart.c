@@ -132,12 +132,12 @@ static const cmdline_option_t cart_cmdline_options[] =
     { "-debugcart", SET_RESOURCE, 0,
       NULL, NULL, "DebugCartEnable", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE, /* FIXME */
+      IDCLS_UNUSED, IDCLS_ENABLE_DEBUGCART,
       NULL, NULL },
     { "+debugcart", SET_RESOURCE, 0,
       NULL, NULL, "DebugCartEnable", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE, /* FIXME */
+      IDCLS_UNUSED, IDCLS_DISABLE_DEBUGCART,
       NULL, NULL },
     { NULL }
 };

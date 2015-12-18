@@ -657,6 +657,9 @@ IDCLS_DISABLE_DTV_FLASH_LOG
 /* machine.c */
 IDCLS_SET_MACHINE_JAM_ACTION
 
+/* machine.c */
+IDCLS_SET_EXIT_SCREENSHOT
+
 /* autostart.c */
 IDCLS_AUTOSTART_LOAD_TO_BASIC_START
 
@@ -1052,6 +1055,12 @@ IDCLS_RAMCART_READ_WRITE
 
 /* c64/cart/ramcart.c */
 IDCLS_RAMCART_SIZE
+
+/* c64/cart/debugcart.c */
+IDCLS_ENABLE_DEBUGCART
+
+/* c64/cart/debugcart.c */
+IDCLS_DISABLE_DEBUGCART
 
 /* c64/cart/dqbb.c */
 IDCLS_ENABLE_DQBB

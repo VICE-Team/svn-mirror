@@ -3951,6 +3951,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_MACHINE_JAM_ACTION_TR, ""},  /* fuzzy */
 #endif
 
+/* machine.c */
+/* en */ {IDCLS_SET_EXIT_SCREENSHOT,    N_("Set name of screenshot to save when emulator exits.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_EXIT_SCREENSHOT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_EXIT_SCREENSHOT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_EXIT_SCREENSHOT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_EXIT_SCREENSHOT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_EXIT_SCREENSHOT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_EXIT_SCREENSHOT_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_EXIT_SCREENSHOT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_EXIT_SCREENSHOT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_EXIT_SCREENSHOT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_EXIT_SCREENSHOT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_EXIT_SCREENSHOT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_EXIT_SCREENSHOT_TR, ""},  /* fuzzy */
+#endif
+
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
@@ -6084,6 +6101,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_RAMCART_SIZE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_RAMCART_SIZE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_RAMCART_SIZE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/debugcart.c */
+/* en */ {IDCLS_ENABLE_DEBUGCART,    N_("Enable Debug cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_DEBUGCART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DEBUGCART_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_DEBUGCART_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DEBUGCART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DEBUGCART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DEBUGCART_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_DEBUGCART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DEBUGCART_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_DEBUGCART_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_DEBUGCART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DEBUGCART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DEBUGCART_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/debugcart.c */
+/* en */ {IDCLS_DISABLE_DEBUGCART,    N_("Disable Debug cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_DEBUGCART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DEBUGCART_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_DEBUGCART_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DEBUGCART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DEBUGCART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DEBUGCART_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_DEBUGCART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DEBUGCART_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_DEBUGCART_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_DEBUGCART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DEBUGCART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DEBUGCART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/dqbb.c */
