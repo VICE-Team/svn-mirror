@@ -189,9 +189,7 @@ static APTR build_gui_device_c64dtv(void)
              CYCLE(ui_to_from_device[0].object, translate_text(IDS_JOY_1_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[1].object, translate_text(IDS_JOY_2_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[4].object, translate_text(IDS_USERPORT_ADAPTER), ui_joystick_enable)
-             CYCLE(ui_to_from_device[6].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_joystick)
              CYCLE(ui_to_from_device[2].object, translate_text(IDS_USERPORT_JOY_1_DEVICE), ui_joystick_device)
-             CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_JOY_2_DEVICE), ui_joystick_device)
            End;
 }
 

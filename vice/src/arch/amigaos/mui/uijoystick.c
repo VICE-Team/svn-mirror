@@ -248,21 +248,8 @@ static APTR build_gui_c64dtv(void)
                    MUIA_Group_Horiz, TRUE,
                    Child, GroupObject,
                      MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER_TYPE),
-                     CYCLE(ui_to_from[6].object, "", ui_userport_joystick)
-                   End,
-                 End,
-                 Child, GroupObject,
-                   MUIA_Group_Horiz, TRUE,
-                   Child, GroupObject,
-                     MUIA_Frame, MUIV_Frame_Group,
                      MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_1),
                      CYCLE(ui_to_from[2].object, "", ui_joystick)
-                   End,
-                   Child, GroupObject,
-                     MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_2),
-                     CYCLE(ui_to_from[3].object, "", ui_joystick)
                    End,
                  End,
                  Child, GroupObject,
