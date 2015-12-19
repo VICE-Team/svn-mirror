@@ -1125,19 +1125,21 @@ BMenuBar *menu_create(int machine_class)
         if (machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_PLUS4) {
             menu->AddItem(new BMenuItem("Userport joystick emulation", new BMessage(MENU_TOGGLE_USERPORT_JOY)));
             menu->AddItem(new BMenuItem("Userport joystick settings ...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
-            menu->AddItem(submenu = new BMenu("Userport joystick type"));
-                submenu->SetRadioMode(true);
-                submenu->AddItem(new BMenuItem("CGA", new BMessage(MENU_USERPORT_JOY_CGA)));
-                submenu->AddItem(new BMenuItem("PET", new BMessage(MENU_USERPORT_JOY_PET)));
-                submenu->AddItem(new BMenuItem("Hummer", new BMessage(MENU_USERPORT_JOY_HUMMER)));
-                submenu->AddItem(new BMenuItem("OEM", new BMessage(MENU_USERPORT_JOY_OEM)));
-            if (machine_class == VICE_MACHINE_C64 ||
-                machine_class == VICE_MACHINE_C64SC ||
-                machine_class == VICE_MACHINE_C128 ||
-                machine_class == VICE_MACHINE_SCPU64) {
-                submenu->AddItem(new BMenuItem("HIT", new BMessage(MENU_USERPORT_JOY_HIT)));
-                submenu->AddItem(new BMenuItem("Kingsoft", new BMessage(MENU_USERPORT_JOY_KINGSOFT)));
-                submenu->AddItem(new BMenuItem("Starbyte", new BMessage(MENU_USERPORT_JOY_STARBYTE)));
+            if (machine_class != VICE_MACHINE_C64DTV) {
+                menu->AddItem(submenu = new BMenu("Userport joystick type"));
+                    submenu->SetRadioMode(true);
+                    submenu->AddItem(new BMenuItem("CGA", new BMessage(MENU_USERPORT_JOY_CGA)));
+                    submenu->AddItem(new BMenuItem("PET", new BMessage(MENU_USERPORT_JOY_PET)));
+                    submenu->AddItem(new BMenuItem("Hummer", new BMessage(MENU_USERPORT_JOY_HUMMER)));
+                    submenu->AddItem(new BMenuItem("OEM", new BMessage(MENU_USERPORT_JOY_OEM)));
+                if (machine_class == VICE_MACHINE_C64 ||
+                    machine_class == VICE_MACHINE_C64SC ||
+                    machine_class == VICE_MACHINE_C128 ||
+                    machine_class == VICE_MACHINE_SCPU64) {
+                    submenu->AddItem(new BMenuItem("HIT", new BMessage(MENU_USERPORT_JOY_HIT)));
+                    submenu->AddItem(new BMenuItem("Kingsoft", new BMessage(MENU_USERPORT_JOY_KINGSOFT)));
+                    submenu->AddItem(new BMenuItem("Starbyte", new BMessage(MENU_USERPORT_JOY_STARBYTE)));
+                }
             }
         }
         if (get_devices == NULL) {

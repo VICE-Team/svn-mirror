@@ -387,7 +387,6 @@ void ui_extra_joystick()
     switch (machine_class) {
         case VICE_MACHINE_C128:
         case VICE_MACHINE_C64:
-        case VICE_MACHINE_C64DTV:
         case VICE_MACHINE_SCPU64:
         case VICE_MACHINE_CBM6x0:
         case VICE_MACHINE_PET:
@@ -401,6 +400,7 @@ void ui_extra_joystick()
             second_port = 0;
             break;
         case VICE_MACHINE_PLUS4:
+        case VICE_MACHINE_C64DTV:
             first_port = 3;
             second_port = 0;
             break;
