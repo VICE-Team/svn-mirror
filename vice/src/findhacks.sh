@@ -159,7 +159,7 @@ OBSOLETERESOURCES+=" PALOddLineOffset"
 function findifdefs
 {
     echo "checking define: \"$1\""
-    find -wholename './vicefeatures.c' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep --color "$1"
+    find -wholename './vicefeatures.c' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep --color "$1"
     echo " "
 }
 
@@ -167,7 +167,7 @@ function findifdefs
 function findifdefsfulltree
 {
     echo "checking define: \"$1\""
-    find -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g'  | grep --color "$1"
+    find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g'  | grep --color "$1"
     echo " "
 }
 
@@ -179,19 +179,19 @@ function findnonlatin
     echo "- the case for files that have translation-related string tables in them."
     echo "-"
     echo "checking character encoding"
-    find -name "*.[ch]" -exec file {} \; | grep -v "ASCII text"
+    find -wholename './lib' -prune -o -name "*.[ch]" -exec file {} \; | grep -v "ASCII text"
     echo " "
 }
 
 
 function finddefsfiles
 {
-    FILES+=`find -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'`
+    FILES+=`find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'`
 }
 
 function finddefsfilesfulltree
 {
-    FILES+=`find -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'`
+    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'`
 }
 
 function findres
@@ -207,12 +207,12 @@ function findprintfs
 echo "-------------------------------------------------------------------------"
 echo "- fprintf to stdout/stderr in portable code (should perhaps go to log)"
 echo "-"
-find -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n 'printf' | grep --color 'fprintf *( *std'
+find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n 'printf' | grep --color 'fprintf *( *std'
 echo "-------------------------------------------------------------------------"
 echo "- printf in portable code (should perhaps go to log)"
 echo "-"
-find -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n ' printf' | grep -v '^.*:#define DBG' | grep -v '^.*:#define DEBUG' | grep --color 'printf'
-find -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n '^printf' | grep -v '^.*:#define DBG' | grep -v '^.*:#define DEBUG' | grep --color 'printf'
+find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n ' printf' | grep -v '^.*:#define DBG' | grep -v '^.*:#define DEBUG' | grep --color 'printf'
+find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n '^printf' | grep -v '^.*:#define DBG' | grep -v '^.*:#define DEBUG' | grep --color 'printf'
 
 echo "-------------------------------------------------------------------------"
 echo "- fprintf to stdout/stderr in archdep code (should go to log if debug output)"
