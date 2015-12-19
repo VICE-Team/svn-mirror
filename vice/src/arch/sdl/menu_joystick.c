@@ -443,10 +443,6 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port3_device_menu },
-    { "Extra joystick device port 2",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port4_device_menu },
     { "Swap joystick ports",
       MENU_ENTRY_OTHER,
       custom_swap_ports_callback,
@@ -469,10 +465,6 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportJoy_callback,
       NULL },
-    { "Extra Joystick Adapter type",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_extra_joy_type_no_hit_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
     { "Joystick 1 mapping", /* TODO better name */
@@ -487,10 +479,6 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy3_menu },
-    { "Extra joystick 2 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy4_menu },
     { "Joystick extra options", /* TODO better name */
       MENU_ENTRY_SUBMENU,
       submenu_callback,
