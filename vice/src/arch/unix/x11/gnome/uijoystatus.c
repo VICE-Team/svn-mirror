@@ -148,14 +148,16 @@ static gboolean joys_draw(GtkWidget *w, GdkEvent *event, gpointer data)
 void ui_display_joystick_status_widget(int joystick_number, int status)
 {
     int i, n;
-    int upjoy = 0, sidjoy = 0, typejoy = 0;
+    int upjoy = 0, sidjoy = 0, typejoy = USERPORT_JOYSTICK_HUMMER;
     int num_app_shells = get_num_shells();
 
     DBG(("ui_display_joystick_status_widget (%d, %02x)", joystick_number, status));
 
     if (machine_class != VICE_MACHINE_PLUS4 && machine_class != VICE_MACHINE_CBM5x0) {
         resources_get_int("UserportJoy", &upjoy);
-        resources_get_int("UserportJoyType", &typejoy);
+        if (machine_class != VICE_MACHINE_C64DTV) {
+            resources_get_int("UserportJoyType", &typejoy);
+        }
     }
     if (machine_class == VICE_MACHINE_PLUS4) {
         resources_get_int("SIDCartJoy", &sidjoy);
