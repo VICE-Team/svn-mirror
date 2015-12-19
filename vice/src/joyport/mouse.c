@@ -628,7 +628,6 @@ static BYTE joyport_mouse_neos_amiga_st_read_potx(void)
     return _mouse_enabled ? ((neos_and_amiga_buttons & 1) ? 0xff : 0) : 0xff;
 }
 
-
 static joyport_t mouse_neos_joyport_device = {
     "Mouse (NEOS)",
     IDGS_MOUSE_NEOS,

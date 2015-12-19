@@ -147,6 +147,12 @@ static void joystick_latch_matrix(CLOCK offset)
     if (joyport_joystick[1]) {
         joyport_display_joyport(JOYPORT_ID_JOY2, joystick_value[2]);
     }
+    if (joyport_joystick[2]) {
+        joyport_display_joyport(JOYPORT_ID_JOY3, joystick_value[3]);
+    }
+    if (joyport_joystick[3]) {
+        joyport_display_joyport(JOYPORT_ID_JOY4, joystick_value[4]);
+    }
 }
 
 /*-----------------------------------------------------------------------*/

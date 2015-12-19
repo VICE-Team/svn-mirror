@@ -31,6 +31,8 @@
 
 #define JOYPORT_ID_JOY1               -1
 #define JOYPORT_ID_JOY2               -2
+#define JOYPORT_ID_JOY3               -3
+#define JOYPORT_ID_JOY4               -4
 
 #define JOYPORT_ID_NONE                0
 #define JOYPORT_ID_JOYSTICK            1

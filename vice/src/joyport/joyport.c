@@ -37,7 +37,7 @@
 #include "util.h"
 
 static joyport_t joyport_device[JOYPORT_MAX_DEVICES];
-static BYTE joyport_display[3] = { 0, 0, 0};
+static BYTE joyport_display[5] = { 0, 0, 0, 0, 0};
 
 static int joy_port[JOYPORT_MAX_PORTS];
 static joyport_port_props_t port_props[JOYPORT_MAX_PORTS];
@@ -411,15 +411,21 @@ joyport_desc_t *joyport_get_valid_devices(int port)
 
 void joyport_display_joyport(int id, BYTE status)
 {
-    if (id == JOYPORT_ID_JOY1 || id == JOYPORT_ID_JOY2) {
+    if (id == JOYPORT_ID_JOY1 || id == JOYPORT_ID_JOY2 || id == JOYPORT_ID_JOY3 || id == JOYPORT_ID_JOY4) {
         if (id == JOYPORT_ID_JOY1 && joy_port[0] == JOYPORT_ID_JOYSTICK) {
             joyport_display[1] = status;
         }
         if (id == JOYPORT_ID_JOY2 && joy_port[1] == JOYPORT_ID_JOYSTICK) {
             joyport_display[2] = status;
         }
+        if (id == JOYPORT_ID_JOY3 && joy_port[2] == JOYPORT_ID_JOYSTICK) {
+            joyport_display[3] = status;
+        }
+        if (id == JOYPORT_ID_JOY4 && joy_port[3] == JOYPORT_ID_JOYSTICK) {
+            joyport_display[4] = status;
+        }
     } else {
-        if (id != joy_port[0] && id != joy_port[1]) {
+        if (id != joy_port[0] && id != joy_port[1] && id != joy_port[2] && id != joy_port[3]) {
             return;
         }
 
@@ -429,6 +435,14 @@ void joyport_display_joyport(int id, BYTE status)
 
         if (id == joy_port[1]) {
             joyport_display[2] = status;
+        }
+
+        if (id == joy_port[2]) {
+            joyport_display[3] = status;
+        }
+
+        if (id == joy_port[3]) {
+            joyport_display[4] = status;
         }
     }
     ui_display_joyport(joyport_display);
