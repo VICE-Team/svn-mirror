@@ -78,6 +78,8 @@ static BYTE *cart_rom = NULL;
 
 #define ultimem_reg0_regs_disable 0x80
 #define ultimem_reg0_led 1
+#define ultimem_reg3_8m 0x17 /* UltiMem 8MiB */
+#define ultimem_reg3_512k 0x18 /* VicMidi+UltiMem 512KiB */
 
 #define CART_CFG_DISABLE (ultimem[0] & ultimem_reg0_regs_disable)
 
@@ -89,19 +91,19 @@ static const BYTE ultimem_mask[16] = {
     0x3f, /* 00:IO3 config:IO2 config:RAM123 config */
     0xff, /* BLK5:BLK3:BLK2:BLK1 */
     0,
-    0xff, 0x7, /* RAM bank lo/hi (A13..A23) */
-    0xff, 0x7, /* I/O bank lo/hi (A13..A23) */
-    0xff, 0x7, /* BLK1 bank lo/hi (A13..A23) */
-    0xff, 0x7, /* BLK2 bank lo/hi (A13..A23) */
-    0xff, 0x7, /* BLK3 bank lo/hi (A13..A23) */
-    0xff, 0x7  /* BLK5 bank lo/hi (A13..A23) */
+    0xff, (CART_ROM_SIZE_MAX >> 21) - 1, /* RAM bank lo/hi (A13..A23) */
+    0xff, (CART_ROM_SIZE_MAX >> 21) - 1, /* I/O bank lo/hi (A13..A23) */
+    0xff, (CART_ROM_SIZE_MAX >> 21) - 1, /* BLK1 bank lo/hi (A13..A23) */
+    0xff, (CART_ROM_SIZE_MAX >> 21) - 1, /* BLK2 bank lo/hi (A13..A23) */
+    0xff, (CART_ROM_SIZE_MAX >> 21) - 1, /* BLK3 bank lo/hi (A13..A23) */
+    0xff, (CART_ROM_SIZE_MAX >> 21) - 1  /* BLK5 bank lo/hi (A13..A23) */
 };
 
 /** Initial values for the registers at RESET */
 static const BYTE ultimem_reset[17] = {
     6 /* two switches, never asserted in VICE */,
     0, 64,
-    0x17, /* 0x17=UltiMem 8MiB, 0x18=VicMidi+UltiMem 512KiB */
+    ultimem_reg3_8m,
     1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 0, 0
 };
 
@@ -507,6 +509,13 @@ static void vic_um_io3_store(WORD addr, BYTE value)
             break;
         case 3:
             return; /* not writable */
+        case 7: case 9: case 11: case 13: case 15:
+            if (ultimem[3] == ultimem_reg3_512k)
+                value = 0;
+            break;
+        case 6: case 8: case 10: case 12: case 14:
+            if (ultimem[3] == ultimem_reg3_512k)
+                value &= (CART_ROM_SIZE_512K >> 13) - 1;
         }
         ultimem[addr] = value;
         return;
@@ -543,10 +552,10 @@ void vic_um_reset(void)
     memcpy(ultimem, ultimem_reset, sizeof ultimem);
     switch (cart_rom_size) {
     case CART_ROM_SIZE_8M:
-        ultimem[3] = 0x17; /* UltiMem 8MiB */
+        ultimem[3] = ultimem_reg3_8m;
         break;
     case CART_ROM_SIZE_512K:
-        ultimem[3] = 0x18; /* VicMidi+UltiMem 512KiB */
+        ultimem[3] = ultimem_reg3_512k;
         break;
     }
 }
@@ -772,11 +781,11 @@ int vic_um_snapshot_read_module(snapshot_t *s)
     }
 
     switch (ultimem[3]) {
-    case 0x17:
+    case ultimem_reg3_8m:
         cart_rom_size = CART_ROM_SIZE_8M;
         cart_ram_size = CART_RAM_SIZE_1M;
         break;
-    case 0x18:
+    case ultimem_reg3_512k:
         cart_rom_size = CART_ROM_SIZE_512K;
         cart_ram_size = CART_RAM_SIZE_512K;
         break;
