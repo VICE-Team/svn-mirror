@@ -104,6 +104,7 @@ libarch_a_SOURCES = \
 	respetdww.rc \
 	respetreu.rc \
 	resplus4.rc \
+	resplus4memoryhacks.rc \
 	resramcart.rc \
 	resretroreplay.rc \
 	resreu.rc \
@@ -244,6 +245,8 @@ libarch_a_SOURCES = \
 	uiplus4cart.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
+	uiplus4memoryhacks.c \
+	uiplus4memoryhacks.h \
 	uiplus4model.c \
 	uiplus4model.h \
 	uiquicksnapshot.c \
@@ -505,12 +508,13 @@ resplus4cat.rc: $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
 	$(srcdir)/resv364speech.rc $(srcdir)/rested.rc $(srcdir)/resjoyport.rc \
-	$(srcdir)/resmouse.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resmouse.rc $(srcdir)/resplus4memoryhacks.rc \
+	$(top_builddir)/src/debug.h
 	cat >resplus4cat.rc $(srcdir)/resplus4.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/resv364speech.rc $(srcdir)/ressidcart.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resjoyport.rc $(srcdir)/rested.rc \
-	$(srcdir)/resmouse.rc
+	$(srcdir)/resmouse.rc $(srcdir)/resplus4memoryhacks.rc
 
 resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resrs232user.rc $(srcdir)/resdrivevic20.rc \

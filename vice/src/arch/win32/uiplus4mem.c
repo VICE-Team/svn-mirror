@@ -46,10 +46,6 @@ static uilib_localize_dialog_param plus4_dialog_trans[] = {
     { IDC_SELECT_PLUS4_MEM_16, IDS_SELECT_PLUS4_MEM_16, 0 },
     { IDC_SELECT_PLUS4_MEM_32, IDS_SELECT_PLUS4_MEM_32, 0 },
     { IDC_SELECT_PLUS4_MEM_64, IDS_SELECT_PLUS4_MEM_64, 0 },
-    { IDC_SELECT_PLUS4_MEM_256_CSORY, IDS_SELECT_PLUS4_MEM_256_CSORY, 0 },
-    { IDC_SELECT_PLUS4_MEM_256_HANNES, IDS_SELECT_PLUS4_MEM_256_HANNES, 0 },
-    { IDC_SELECT_PLUS4_MEM_1024_HANNES, IDS_SELECT_PLUS4_MEM_1M_HANNES, 0 },
-    { IDC_SELECT_PLUS4_MEM_4096_HANNES, IDS_SELECT_PLUS4_MEM_4M_HANNES, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
@@ -60,10 +56,6 @@ static uilib_dialog_group plus4_main_group[] = {
     { IDC_SELECT_PLUS4_MEM_16, 1 },
     { IDC_SELECT_PLUS4_MEM_32, 1 },
     { IDC_SELECT_PLUS4_MEM_64, 1 },
-    { IDC_SELECT_PLUS4_MEM_256_CSORY, 1 },
-    { IDC_SELECT_PLUS4_MEM_256_HANNES, 1 },
-    { IDC_SELECT_PLUS4_MEM_1024_HANNES, 1 },
-    { IDC_SELECT_PLUS4_MEM_4096_HANNES, 1 },
     { 0, 0 }
 };
 
@@ -75,7 +67,7 @@ static int move_buttons_group[] = {
 
 static void init_dialog(HWND hwnd)
 {
-    int n, res, hack;
+    int n, res;
     int xstart;
     int xpos;
     RECT rect;
@@ -113,51 +105,20 @@ static void init_dialog(HWND hwnd)
         case 32:
             n = IDC_SELECT_PLUS4_MEM_32;
             break;
-        case 4096:
-            n = IDC_SELECT_PLUS4_MEM_4096_HANNES;
-            break;
-        case 1024:
-            n = IDC_SELECT_PLUS4_MEM_1024_HANNES;
-            break;
-        case 256:
-            resources_get_int("MemoryHack", &hack);
-            if (hack == MEMORY_HACK_C256K) {
-                n = IDC_SELECT_PLUS4_MEM_256_CSORY;
-            } else {
-                n = IDC_SELECT_PLUS4_MEM_256_HANNES;
-            }
-            break;
         case 64:
         default:
             n = IDC_SELECT_PLUS4_MEM_64;
             break;
     }
-    if (res == 256 && hack != MEMORY_HACK_C256K) {
-        res++;
-    }
     orig_ramsize = set_ramsize = res;
 
-    CheckRadioButton(hwnd, IDC_SELECT_PLUS4_MEM_16, IDC_SELECT_PLUS4_MEM_4096_HANNES, n);
+    CheckRadioButton(hwnd, IDC_SELECT_PLUS4_MEM_16, IDC_SELECT_PLUS4_MEM_64, n);
 }
 
 static void end_dialog(void)
 {
     if (orig_ramsize != set_ramsize) {
-        if (set_ramsize == 257) {
-            resources_set_int("MemoryHack", MEMORY_HACK_C256K);
-        }
-        if (set_ramsize == 256) {
-            resources_set_int("MemoryHack", MEMORY_HACK_H256K);
-        }
-        if (set_ramsize == 1024) {
-            resources_set_int("MemoryHack", MEMORY_HACK_H1024K);
-        }
-        if (set_ramsize == 4096) {
-            resources_set_int("MemoryHack", MEMORY_HACK_H4096K);
-        }
-        if (set_ramsize < 256) {
-            resources_set_int("RamSize", set_ramsize);
-        }
+        resources_set_int("RamSize", set_ramsize);
     }
 }
 
@@ -181,18 +142,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                     break;
                 case IDC_SELECT_PLUS4_MEM_64:
                     set_ramsize = 64;
-                    break;
-                case IDC_SELECT_PLUS4_MEM_256_HANNES:
-                    set_ramsize = 256;
-                    break;
-                case IDC_SELECT_PLUS4_MEM_1024_HANNES:
-                    set_ramsize = 1024;
-                    break;
-                case IDC_SELECT_PLUS4_MEM_4096_HANNES:
-                    set_ramsize = 4096;
-                    break;
-                case IDC_SELECT_PLUS4_MEM_256_CSORY:
-                    set_ramsize = 257;
                     break;
                 case IDOK:
                     end_dialog();

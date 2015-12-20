@@ -1774,6 +1774,11 @@ int petmem_get_screen_columns(void)
     return cols;
 }
 
+int petmem_get_rom_columns(void)
+{
+    return petres.rom_video;
+}
+
 void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 {
     *base = 0x8000;

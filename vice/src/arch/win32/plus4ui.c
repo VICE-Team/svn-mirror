@@ -46,6 +46,7 @@
 #include "uimouse.h"
 #include "uiplus4cart.h"
 #include "uiplus4mem.h"
+#include "uiplus4memoryhacks.h"
 #include "uiplus4model.h"
 #include "uirom.h"
 #include "uisidcart.h"
@@ -315,6 +316,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
 #ifdef HAVE_D3D9_H
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
 #endif
+    { IDM_PLUS4_MEMORY_HACKS_SETTINGS, IDS_MI_PLUS4_MEMORY_HACKS_SETTINGS },
     { IDM_SIDCART_SETTINGS, IDS_MI_SIDCART_SETTINGS },
     { IDM_PLUS4_SETTINGS, IDS_MI_PLUS4_SETTINGS },
     { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
@@ -505,6 +507,9 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_MOUSE_SETTINGS:
             ui_mouse_settings_dialog(hwnd, 1);
+            break;
+        case IDM_PLUS4_MEMORY_HACKS_SETTINGS:
+            ui_plus4_memory_hacks_settings_dialog(hwnd);
             break;
     }
 }

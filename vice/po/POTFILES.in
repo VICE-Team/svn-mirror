@@ -159,6 +159,7 @@ src/arch/win32/respetcolour.rc.po.c
 src/arch/win32/respetdww.rc.po.c
 src/arch/win32/respetreu.rc.po.c
 src/arch/win32/resplus4.rc.po.c
+src/arch/win32/resplus4memoryhacks.rc.po.c
 src/arch/win32/resramcart.rc.po.c
 src/arch/win32/resretroreplay.rc.po.c
 src/arch/win32/resreu.rc.po.c
