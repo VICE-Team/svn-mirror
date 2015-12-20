@@ -32,6 +32,11 @@
 
 #include "debug.h"
 #include "lib.h"
+
+#if 1
+#include "log.h"
+#endif
+
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"
@@ -161,13 +166,18 @@ static BYTE *pet_font;
 void petui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     static int old_keymap = -1;
-    int cols, keymap;
+    int cols = petmem_get_rom_columns();
+    int keymap;
 
-    resources_get_int("VideoSize", &cols);
+#if 1
+    log_warning(LOG_DEFAULT, "cols : %d", cols);
+#endif
 
     menu_draw->max_text_x = cols ? cols : 40;
     menu_draw->extra_x = 24;
     menu_draw->extra_y = (cols == 40) ? 32 : 20;
+
+    menu_draw->max_text_y = (cols == 40) ? 26 : 28;
 
     resources_get_int("KeyboardType", &keymap);
 
