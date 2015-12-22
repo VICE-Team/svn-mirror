@@ -39,6 +39,7 @@ libcbm2_a_SOURCES = \
 	cbm2embedded.c \
 	cbm2iec.c \
 	cbm2iec.h \
+	cbm2io.c \
 	cbm2mem.c \
 	cbm2mem.h \
 	cbm2memsnapshot.c \
@@ -77,6 +78,7 @@ libcbm5x0_a_SOURCES = \
 	cbm2drive.c \
 	cbm2iec.c \
 	cbm2iec.h \
+	cbm2io.c \
 	cbm5x0mem.c \
 	cbm2mem.h \
 	cbm2memsnapshot.c \
