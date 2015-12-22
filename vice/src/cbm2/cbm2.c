@@ -33,6 +33,7 @@
 #include "alarm.h"
 #include "attach.h"
 #include "autostart.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "cbm2-cmdline-options.h"
 #include "cbm2-resources.h"
@@ -186,6 +187,10 @@ int machine_resources_init(void)
         init_resource_fail("cbm2");
         return -1;
     }
+    if (cartio_resources_init() < 0) {
+        init_resource_fail("cartio");
+        return -1;
+    }
     if (cartridge_resources_init() < 0) {
         init_resource_fail("cartridge");
         return -1;
@@ -315,6 +320,7 @@ void machine_resources_shutdown(void)
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
+    cartio_shutdown();
 }
 
 /* CBM-II-specific command-line option initialization.  */
@@ -326,6 +332,10 @@ int machine_cmdline_options_init(void)
     }
     if (cbm2_cmdline_options_init() < 0) {
         init_cmdline_options_fail("cbm2");
+        return -1;
+    }
+    if (cartio_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("cartio");
         return -1;
     }
     if (cartridge_cmdline_options_init() < 0) {
@@ -582,6 +592,9 @@ int machine_specific_init(void)
 #endif
 
     machine_drive_stub();
+
+    /* Initialize the CBM2-specific I/O */
+    cbm2io_init();
 
 #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {

@@ -74,4 +74,7 @@ extern BYTE read_unused(WORD addr);
 extern void mem_handle_pending_alarms_external(int cycles);
 extern void mem_handle_pending_alarms_external_write(void);
 
+extern void cbm2io_init(void);
+extern void cbm5x0io_init(void);
+
 #endif
