@@ -418,9 +418,9 @@ void rom_store(WORD addr, BYTE value)
     mem_rom[addr] = value;
 }
 
-static BYTE read_unused(WORD addr)
+BYTE read_unused(WORD addr)
 {
-    return 0xff; /* (addr >> 8) & 0xff; */
+    return vicii_read_phi1();
 }
 
 static void store_dummy(WORD addr, BYTE value)
@@ -1054,4 +1054,14 @@ void mem_color_ram_to_snapshot(BYTE *color_ram)
 void mem_color_ram_from_snapshot(BYTE *color_ram)
 {
     memcpy(mem_color_ram, color_ram, 0x400);
+}
+
+void mem_handle_pending_alarms_external(int cycles)
+{
+    vicii_handle_pending_alarms_external(cycles);
+}
+
+void mem_handle_pending_alarms_external_write(void)
+{
+    vicii_handle_pending_alarms_external_write();
 }
