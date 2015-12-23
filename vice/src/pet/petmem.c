@@ -129,50 +129,56 @@ store_func_ptr_t *_mem6809_write_tab_ptr;
 
 static log_t pet_mem_log = LOG_ERR;
 
+static BYTE last_access = 0;
+
 /* ------------------------------------------------------------------------- */
 
 BYTE zero_read(WORD addr)
 {
-    return mem_ram[addr & 0xff];
+    last_access = mem_ram[addr & 0xff];
+    return last_access;
 }
 
 void zero_store(WORD addr, BYTE value)
 {
     mem_ram[addr & 0xff] = value;
+    last_access = value;
 }
 
 static BYTE ram_read(WORD addr)
 {
-    return mem_ram[addr];
+    last_access = mem_ram[addr];
+    return last_access;
 }
 
 static void ram_store(WORD addr, BYTE value)
 {
-/*
-if (addr == 0x8000) printf("charline=%d, ycount=%d, char=%d\n",
-        crtc.current_charline, crtc.raster.ycounter, clk - crtc.rl_start);
-*/
     mem_ram[addr] = value;
+    last_access = value;
 }
 
 static BYTE read_ext8(WORD addr)
 {
-    return mem_ram[addr + bank8offset];
+    last_access = mem_ram[addr + bank8offset];
+    return last_access;
 }
 
 static void store_ext8(WORD addr, BYTE value)
 {
     mem_ram[addr + bank8offset] = value;
+    last_access = value;
 }
 
 static BYTE read_extC(WORD addr)
 {
-    return mem_ram[addr + bankCoffset];
+    last_access = mem_ram[addr + bankCoffset];
+    return last_access;
 }
 
 static void store_extC(WORD addr, BYTE value)
 {
     mem_ram[addr + bankCoffset] = value;
+    last_access = value;
 }
 
 /*
@@ -185,71 +191,75 @@ static void store_extC(WORD addr, BYTE value)
  */
 static BYTE read_vmirror(WORD addr)
 {
-    return mem_ram[0x8000 + (addr & 0x0bff)];   /* 0x3FF + 0x800 */
+    last_access = mem_ram[0x8000 + (addr & 0x0bff)];   /* 0x3FF + 0x800 */
+    return last_access;
 }
 
 static void store_vmirror(WORD addr, BYTE value)
 {
     mem_ram[0x8000 + (addr & 0xbff)] = value;
+    last_access = value;
 }
 
 BYTE rom_read(WORD addr)
 {
-    return mem_rom[addr & 0x7fff];
+    last_access = mem_rom[addr & 0x7fff];
+    return last_access;
 }
 
 void rom_store(WORD addr, BYTE value)
 {
     mem_rom[addr & 0x7fff] = value;
+    last_access = value;
 }
 
 #define ROM6809_BASE    0xA000
 
 BYTE rom6809_read(WORD addr)
 {
-    return mem_6809rom[addr - ROM6809_BASE];
-    /* BYTE val = mem_6809rom[addr - ROM6809_BASE];
-       printf("rom6809_read %04x -> %02x\n", addr, val);
-       return val; */
+    last_access = mem_6809rom[addr - ROM6809_BASE];
+    return last_access;
 }
 
 void rom6809_store(WORD addr, BYTE value)
 {
     mem_6809rom[addr - ROM6809_BASE] = value;
+    last_access = value;
 }
 
 static BYTE read_unused(WORD addr)
 {
     if (petreu_enabled) {
         if (addr >= 0x8800 && addr < 0x8900) {
-            return read_petreu_reg(addr);
+            last_access = read_petreu_reg(addr);
         } else if (addr >= 0x8900 && addr < 0x8a00) {
-            return read_petreu_ram(addr);
+            last_access = read_petreu_ram(addr);
         } else if (addr >= 0x8a00 && addr < 0x8b00) {
-            return read_petreu2_reg(addr);
+            last_access = read_petreu2_reg(addr);
         }
     }
 
     if (petdww_enabled) {
         if (addr >= 0xeb00 && addr < 0xec00) {
-            return read_petdww_reg(addr);
+            last_access = read_petdww_reg(addr);
         } else if (addr >= 0xec00 && addr < 0xf000 && !petdww_mem_at_9000()) {
-            return read_petdww_ec00_ram(addr);
+            last_access = read_petdww_ec00_ram(addr);
         }
     }
 
     if (sidcart_enabled()) {
         if (addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
-            return sid_read(addr);
+            last_access = sid_read(addr);
         }
     }
 
-    return (addr >> 8) & 0xff;
+    return last_access;
 }
 
 static BYTE mem_read_patchbuf(WORD addr)
 {
-    return petmem_2001_buf_ef[addr & 0xff];
+    last_access = petmem_2001_buf_ef[addr & 0xff];
+    return last_access;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -344,10 +354,10 @@ static void reset6702(void)
     dongle6702.wantodd = 0;
 }
 
-static inline
-BYTE read6702(void)
+static inline BYTE read6702(void)
 {
-    return dongle6702.val;
+    last_access = dongle6702.val;
+    return last_access;
 }
 
 /*
@@ -359,9 +369,10 @@ BYTE read6702(void)
  * from cbm-hackers, for their contributions.
  * -Olaf Seibert.
  */
-static inline
-void write6702(BYTE input)
+static inline void write6702(BYTE input)
 {
+    last_access = input;
+
     if ((input & 1) == dongle6702.wantodd) {
         if (dongle6702.wantodd) {
             int i;
@@ -462,30 +473,30 @@ int petmem_superpet_diag(void)
 static BYTE read_super_io(WORD addr)
 {
     if (addr >= 0xeff4) {       /* unused / readonly */
-        return read_unused(addr);
-    } else
-    if (addr >= 0xeff0) {       /* ACIA */
-        return acia1_read((WORD)(addr & 0x03));
-    } else
-    if ((addr & 0x0010) == 0) {
+        return last_access;
+    } else if (addr >= 0xeff0) {       /* ACIA */
+        last_access = acia1_read((WORD)(addr & 0x03));
+    } else if ((addr & 0x0010) == 0) {
         /* Dongle E F xxx0 xxxx, see zimmers.net,
          * schematics/computers/pet/SuperPET/324055.gif.
          * Typical address is $EFE0, possibly EFE0...3.
          */
         if (addr >= 0xefe0 && addr < 0xefe4) {
-            BYTE dongle_value = read6702();
+            last_access = read6702();
 #if DEBUG_DONGLE
-            log_message(pet_mem_log, "*** DONGLE %04x -> 0x%02X %3d", addr, dongle_value, dongle_value);
+            log_message(pet_mem_log, "*** DONGLE %04x -> 0x%02X %3d", addr, last_access, last_access);
 #endif /* DEBUG_DONGLE */
-            return dongle_value;
+        } else {
+            last_access = 0xff;
         }
-        return 0xff;
     }
-    return read_unused(addr);   /* fallback */
+    return last_access;   /* fallback */
 }
 
 static void store_super_io(WORD addr, BYTE value)
 {
+    last_access = value;
+
     if (addr >= 0xeffe) {       /* RAM/ROM switch */
         spet_ramen = !(value & 1);
         /* printf("spet_ramen := %d\n", spet_ramen); */
@@ -547,29 +558,31 @@ static void store_super_io(WORD addr, BYTE value)
 static BYTE read_super_9(WORD addr)
 {
     if (spet_ramen) {
-        return spet_bank_ptr[addr & 0x0fff];
+        last_access = spet_bank_ptr[addr & 0x0fff];
+    } else {
+        last_access = rom_read(addr);
     }
-    return rom_read(addr);
+    return last_access;
 }
 
 static void store_super_9(WORD addr, BYTE value)
 {
+    last_access = value;
+
     if (spet_ramen && !spet_ramwp) {
-        /* printf("store_super_9: %04x <- %04x <- %02x\n",
-                (spet_bank_ptr - mem_ram) | (addr & 0x0fff),
-                addr, value); */
         spet_bank_ptr[addr & 0x0fff] = value;
     }
 }
 
 static BYTE read_super_flat(WORD addr)
 {
-    /* printf("read_super_flat %04X -> %02X\n", addr, (mem_ram + EXT_RAM)[addr]); */
-    return (mem_ram + EXT_RAM)[addr];
+    last_access = (mem_ram + EXT_RAM)[addr];
+    return last_access;
 }
 
 static void store_super_flat(WORD addr, BYTE value)
 {
+    last_access = value;
     (mem_ram + EXT_RAM)[addr] = value;
 }
 
@@ -681,6 +694,8 @@ DWORD mem6809_read32(WORD addr)
 
 static void store_io(WORD addr, BYTE value)
 {
+    last_access = value;
+
     if (addr & 0x10) {
         pia1_store(addr, value);
     }
@@ -711,17 +726,20 @@ static BYTE read_io(WORD addr)
 
     switch (addr & 0xf0) {
         case 0x10:              /* PIA1 */
-            return pia1_read(addr);
+            last_access = pia1_read(addr);
+            break;
         case 0x20:              /* PIA2 */
-            return pia2_read(addr);
+            last_access = pia2_read(addr);
+            break;
         case 0x40:
-            return via_read(addr); /* VIA */
+            last_access = via_read(addr); /* VIA */
+            break;
         case 0x80:              /* CRTC */
             if (petres.crtc) {
-                return crtc_read(addr);
+                last_access = crtc_read(addr);
             }
         case 0x00:
-            return addr >> 8;
+            return last_access;
         default:                /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
             if (addr & 0x10) {
                 v1 = pia1_read(addr);
@@ -742,13 +760,14 @@ static BYTE read_io(WORD addr)
             if ((addr & 0x80) && petres.crtc) {
                 v4 = crtc_read(addr);
             }
-            return v1 & v2 & v3 & v4;
+            last_access = v1 & v2 & v3 & v4;
     }
+    return last_access;
 }
 
 static void store_void(WORD addr, BYTE value)
 {
-    (void)value;
+    last_access = value;
 }
 
 /*
@@ -758,6 +777,8 @@ static void store_void(WORD addr, BYTE value)
  */
 static void store_dummy(WORD addr, BYTE value)
 {
+    last_access = value;
+
     if (petreu_enabled) {
         if (addr >= 0x8800 && addr < 0x8900) {
             store_petreu_reg(addr, value);
@@ -859,16 +880,15 @@ static void set_std_9tof(void)
             _mem_read_tab[i] = read_super_9;
             _mem_write_tab[i] = store_super_9;
             _mem_read_base_tab[i] = NULL;
-            mem_read_limit_tab[i] = 0x9ffd;
+            mem_read_limit_tab[i] = 0;
         }
     } else {
         fetch = ram9 ? ram_read : rom_read;
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = fetch;
             _mem_write_tab[i] = store;
-            _mem_read_base_tab[i] = ram9 ? mem_ram + (i << 8)
-                                         : mem_rom + ((i & 0x7f) << 8);
-            mem_read_limit_tab[i] = 0x9ffd;
+            _mem_read_base_tab[i] = NULL;
+            mem_read_limit_tab[i] = 0;
         }
     }
 
@@ -883,9 +903,8 @@ static void set_std_9tof(void)
     for (i = 0xa0; i < 0xb0; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramA ? mem_ram + (i << 8)
-                                     : mem_rom + ((i & 0x7f) << 8);
-        mem_read_limit_tab[i] = 0xaffd;
+        _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 
     /* Setup RAM/ROM at $B000 - $DFFF: Basic. */
@@ -893,9 +912,8 @@ static void set_std_9tof(void)
     for (i = 0xb0; i <= 0xdf; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramBCD ? mem_ram + (i << 8)
-                                       : mem_rom + ((i & 0x7f) << 8);
-        mem_read_limit_tab[i] = 0xdffd;
+        _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 
     /* Setup RAM/ROM at $E000 - $E7FF: Editor. */
@@ -903,9 +921,8 @@ static void set_std_9tof(void)
     for (i = 0xe0; i <= 0xe7; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramE ? mem_ram + (i << 8)
-                                     : mem_rom + ((i & 0x7f) << 8);
-        mem_read_limit_tab[i] = 0xe7fd;
+        _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 
     /* End of I/O address space */
@@ -916,8 +933,8 @@ static void set_std_9tof(void)
         for (i = 0xe0; i < l; i++) {
             _mem_read_tab[i] = ram_read;
             _mem_write_tab[i] = store;
-            _mem_read_base_tab[i] = mem_ram + (i << 8);
-            mem_read_limit_tab[i] = 0xE800 + petres.IOSize - 3;
+            _mem_read_base_tab[i] = NULL;
+            mem_read_limit_tab[i] = 0;
         }
     } else {
         /* Setup I/O at $e800 - $e800 + petres.IOSize. */
@@ -941,8 +958,8 @@ static void set_std_9tof(void)
     for (i = l; i <= 0xef; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramE ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
-        mem_read_limit_tab[i] = 0xeffd;
+        _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 
     /*
@@ -957,8 +974,8 @@ static void set_std_9tof(void)
     } else if (petres.rompatch) {
         _mem_read_tab[0xef] = mem_read_patchbuf;
         _mem_write_tab[0xef] = store_void;
-        _mem_read_base_tab[0xef] = petmem_2001_buf_ef;
-        mem_read_limit_tab[0xef] = 0xeffd;
+        _mem_read_base_tab[0xef] = NULL;
+        mem_read_limit_tab[0xef] = 0;
     }
 
     /* Setup RAM/ROM at $f000 - $ffff: Kernal */
@@ -966,8 +983,8 @@ static void set_std_9tof(void)
     for (i = 0xf0; i <= 0xff; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramF ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
-        mem_read_limit_tab[i] = 0xfffd;
+        _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 
     _mem_read_base_tab_ptr = _mem_read_base_tab;
@@ -1055,6 +1072,8 @@ static void store_8x96(WORD addr, BYTE value)
     BYTE changed;
     int l, protected;
 
+    last_access = value;
+
     if (store_ff) {
         store_ff(addr, value);
     }
@@ -1075,8 +1094,8 @@ static void store_8x96(WORD addr, BYTE value)
                     for (; l < 0x90; l++) {
                         _mem_read_tab[l] = ram_read;
                         _mem_write_tab[l] = ram_store;
-                        _mem_read_base_tab[l] = mem_ram + (l << 8);
-                        mem_read_limit_tab[l] = 0x8ffd;
+                        _mem_read_base_tab[l] = NULL;
+                        mem_read_limit_tab[l] = 0;
                     }
                 }
                 bank8offset = 0x8000 + ((value & FFF0_BANK_8) ? 0x8000 : 0);
@@ -1087,8 +1106,8 @@ static void store_8x96(WORD addr, BYTE value)
                     } else {
                         _mem_write_tab[l] = store_ext8;
                     }
-                    _mem_read_base_tab[l] = mem_ram + bank8offset + (l << 8);
-                    mem_read_limit_tab[l] = 0xbffd;
+                    _mem_read_base_tab[l] = NULL;
+                    mem_read_limit_tab[l] = 0;
                 }
                 maincpu_resync_limits();
             }
@@ -1111,13 +1130,8 @@ static void store_8x96(WORD addr, BYTE value)
                         } else {
                             _mem_write_tab[l] = store_extC;
                         }
-                        _mem_read_base_tab[l] = mem_ram
-                                                + bankCoffset + (l << 8);
-                        if (l < 0xe8) {
-                            mem_read_limit_tab[l] = 0xe7fd;
-                        } else {
-                            mem_read_limit_tab[l] = 0xfffd;
-                        }
+                        _mem_read_base_tab[l] = NULL;
+                        mem_read_limit_tab[l] = 0;
                     }
                 }
                 store_ff = _mem_write_tab[0xff];
@@ -1184,8 +1198,8 @@ void petmem_set_vidmem(void)
     for (i = 0x80; i < l; i++) {
         _mem_read_tab[i] = ram_read;
         _mem_write_tab[i] = ram_store;
-        _mem_read_base_tab[i] = mem_ram + (i << 8);
-        mem_read_limit_tab[i] = limit;
+        _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 
     /* Setup video mirror from $8000 + petres.videoSize to $87ff */
@@ -1193,8 +1207,8 @@ void petmem_set_vidmem(void)
     for (; i < 0x88; i++) {
         _mem_read_tab[i] = read_vmirror;
         _mem_write_tab[i] = store_vmirror;
-        _mem_read_base_tab[i] = mem_ram + 0x8000 + ((i << 8) & petres.vmask);
-        mem_read_limit_tab[i] = 0x87fd;
+        _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 
     if (pet_colour_type == PET_COLOUR_TYPE_OFF) {
@@ -1218,8 +1232,8 @@ void petmem_set_vidmem(void)
         for (; i < l; i++) {
             _mem_read_tab[i] = ram_read;
             _mem_write_tab[i] = ram_store;
-            _mem_read_base_tab[i] = mem_ram + (i << 8);
-            mem_read_limit_tab[i] = (l << 8) - 3;
+            _mem_read_base_tab[i] = NULL;
+            mem_read_limit_tab[i] = 0;
         }
 
         /* Setup colour mirror from $8800 + petres.videoSize to $8FFF */
@@ -1227,8 +1241,8 @@ void petmem_set_vidmem(void)
         for (; i < 0x90; i++) {
             _mem_read_tab[i] = read_vmirror;
             _mem_write_tab[i] = store_vmirror;
-            _mem_read_base_tab[i] = mem_ram + c + ((i << 8) & petres.vmask);
-            mem_read_limit_tab[i] = 0x8ffd;
+            _mem_read_base_tab[i] = NULL;
+            mem_read_limit_tab[i] = 0;
         }
     }
 }
@@ -1339,14 +1353,14 @@ void mem_initialize_memory(void)
     /* Setup RAM from $0000 to petres.ramSize */
     _mem_read_tab[0] = zero_read;
     _mem_write_tab[0] = zero_store;
-    _mem_read_base_tab[0] = mem_ram;
-    mem_read_limit_tab[0] = 0x00fd;
+    _mem_read_base_tab[0] = NULL;
+    mem_read_limit_tab[0] = 0;
 
     for (i = 0x01; i < l; i++) {
         _mem_read_tab[i] = ram_read;
         _mem_write_tab[i] = ram_store;
-        _mem_read_base_tab[i] = mem_ram + (i << 8);
-        mem_read_limit_tab[i] = (l << 8) - 3;
+        _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 
     /* Setup unused from petres.ramSize to $7fff */
@@ -1812,4 +1826,3 @@ int cartridge_attach_image(int type, const char *name)
 {
     return -1;
 }
-

@@ -349,8 +349,8 @@ void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *m
 
         mem_read_tab[i] = dww_ram9000_read;
         mem_write_tab[i] = dww_ram9000_store;
-        mem_base_tab[i] = &petdww_ram[(i - 0x90) << 8];
-        mem_limit_tab[i] = 0xaffd;
+        mem_base_tab[i] = NULL;
+        mem_limit_tab[i] = 0;
     }
     maincpu_resync_limits();
 }
