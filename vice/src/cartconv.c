@@ -888,7 +888,7 @@ static void save_easyflash_crt(unsigned int p1, unsigned int p2, unsigned int p3
             if (check_empty_easyflash() == 1) {
                 loadfile_offset += 0x2000;
             } else {
-                if (write_chip_package(0x2000, i, (j == 0) ? 0x8000 : 0xa000, 0) < 0) {
+                if (write_chip_package(0x2000, i, (j == 0) ? 0x8000 : 0xa000, 2) < 0) {
                     cleanup();
                     exit(1);
                 }
@@ -1034,8 +1034,10 @@ static int load_input_file(char *filename)
         }
         if (headerbuffer[0x10] != 0 || headerbuffer[0x11] != 0 || headerbuffer[0x12] != 0 || headerbuffer[0x13] != 0x40) {
             fprintf(stderr, "Error: Illegal header size in %s\n", filename);
-            fclose(infile);
-            return -1;
+            if (!repair_mode) {
+                fclose(infile);
+                return -1;
+            }
         }
         if (headerbuffer[0x18] == 1 && headerbuffer[0x19] == 0) {
             loadfile_is_ultimax = 1;
