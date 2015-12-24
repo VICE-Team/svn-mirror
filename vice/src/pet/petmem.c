@@ -687,6 +687,7 @@ DWORD mem6809_read32(WORD addr)
 
 /* $E900-$EEFF open for I/O devices */
 
+#if 0
 static void store_e9_ee_io(WORD addr, BYTE value)
 {
     switch (addr & 0xff00) {
@@ -784,6 +785,7 @@ static BYTE read_88_8f_io(WORD addr)
             return petio_8f00_read(addr);
     }
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
