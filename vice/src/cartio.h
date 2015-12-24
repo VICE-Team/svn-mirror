@@ -128,9 +128,6 @@ extern BYTE petio_8f00_read(WORD addr);
 extern BYTE petio_8f00_peek(WORD addr);
 extern void petio_8f00_store(WORD addr, BYTE value);
 
-extern BYTE petio_e800_read(WORD addr);
-extern BYTE petio_e800_peek(WORD addr);
-extern void petio_e800_store(WORD addr, BYTE value);
 extern BYTE petio_e900_read(WORD addr);
 extern BYTE petio_e900_peek(WORD addr);
 extern void petio_e900_store(WORD addr, BYTE value);
@@ -149,9 +146,6 @@ extern void petio_ed00_store(WORD addr, BYTE value);
 extern BYTE petio_ee00_read(WORD addr);
 extern BYTE petio_ee00_peek(WORD addr);
 extern void petio_ee00_store(WORD addr, BYTE value);
-extern BYTE petio_ef00_read(WORD addr);
-extern BYTE petio_ef00_peek(WORD addr);
-extern void petio_ef00_store(WORD addr, BYTE value);
 
 extern BYTE plus4io_fd00_read(WORD addr);
 extern BYTE plus4io_fd00_peek(WORD addr);

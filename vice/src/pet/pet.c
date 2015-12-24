@@ -34,6 +34,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "cartio.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "crtc-mem.h"
@@ -200,6 +201,10 @@ int machine_resources_init(void)
         init_resource_fail("pet");
         return -1;
     }
+    if (cartio_resources_init() < 0) {
+        init_resource_fail("cartio");
+        return -1;
+    }
     if (petreu_resources_init() < 0) {
         init_resource_fail("petreu");
         return -1;
@@ -348,6 +353,7 @@ void machine_resources_shutdown(void)
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
+    cartio_shutdown();
 }
 
 /* PET-specific command-line option initialization.  */
@@ -359,6 +365,10 @@ int machine_cmdline_options_init(void)
     }
     if (pet_cmdline_options_init() < 0) {
         init_cmdline_options_fail("pet");
+        return -1;
+    }
+    if (cartio_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("cartio");
         return -1;
     }
     if (petreu_cmdline_options_init() < 0) {

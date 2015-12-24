@@ -109,4 +109,6 @@ extern void ramsel_changed(void);
 
 extern int superpet_sync(void);
 
+extern BYTE read_unused(WORD addr);
+
 #endif

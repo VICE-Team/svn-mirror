@@ -42,6 +42,7 @@ libpet_a_SOURCES = \
 	pethre.h \
 	petiec.c \
 	petiec.h \
+	petio.c \
 	petmem.c \
 	petmem.h \
 	petmemsnapshot.c \

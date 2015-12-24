@@ -33,6 +33,7 @@
 #include <stdlib.h>
 
 #include "6809.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "crtc-mem.h"
 #include "crtctypes.h"
@@ -227,7 +228,7 @@ void rom6809_store(WORD addr, BYTE value)
     last_access = value;
 }
 
-static BYTE read_unused(WORD addr)
+BYTE read_unused(WORD addr)
 {
     if (petreu_enabled) {
         if (addr >= 0x8800 && addr < 0x8900) {
@@ -684,6 +685,108 @@ DWORD mem6809_read32(WORD addr)
 
 /* ------------------------------------------------------------------------- */
 
+/* $E900-$EEFF open for I/O devices */
+
+static void store_e9_ee_io(WORD addr, BYTE value)
+{
+    switch (addr & 0xff00) {
+        case 0xe900:
+            petio_e900_store(addr, value);
+            break;
+        case 0xea00:
+            petio_ea00_store(addr, value);
+            break;
+        case 0xeb00:
+            petio_eb00_store(addr, value);
+            break;
+        case 0xec00:
+            petio_ec00_store(addr, value);
+            break;
+        case 0xed00:
+            petio_ed00_store(addr, value);
+            break;
+        case 0xee00:
+            petio_ee00_store(addr, value);
+            break;
+    }
+}
+
+static BYTE read_e9_ee_io(WORD addr)
+{
+    switch (addr & 0xff00) {
+        case 0xe900:
+            return petio_e900_read(addr);
+        case 0xea00:
+            return petio_ea00_read(addr);
+        case 0xeb00:
+            return petio_eb00_read(addr);
+        case 0xec00:
+            return petio_ec00_read(addr);
+        case 0xed00:
+            return petio_ed00_read(addr);
+        case 0xee00:
+            return petio_ee00_read(addr);
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* $8800-$8FFF open for I/O devices */
+
+static void store_88_8f_io(WORD addr, BYTE value)
+{
+    switch (addr & 0xff00) {
+        case 0x8800:
+            petio_8800_store(addr, value);
+            break;
+        case 0x8900:
+            petio_8900_store(addr, value);
+            break;
+        case 0x8a00:
+            petio_8a00_store(addr, value);
+            break;
+        case 0x8b00:
+            petio_8b00_store(addr, value);
+            break;
+        case 0x8c00:
+            petio_8c00_store(addr, value);
+            break;
+        case 0x8d00:
+            petio_8d00_store(addr, value);
+            break;
+        case 0x8e00:
+            petio_8e00_store(addr, value);
+            break;
+        case 0x8f00:
+            petio_8f00_store(addr, value);
+            break;
+    }
+}
+
+static BYTE read_88_8f_io(WORD addr)
+{
+    switch (addr & 0xff00) {
+        case 0x8800:
+            return petio_8800_read(addr);
+        case 0x8900:
+            return petio_8900_read(addr);
+        case 0x8a00:
+            return petio_8a00_read(addr);
+        case 0x8b00:
+            return petio_8b00_read(addr);
+        case 0x8c00:
+            return petio_8c00_read(addr);
+        case 0x8d00:
+            return petio_8d00_read(addr);
+        case 0x8e00:
+            return petio_8e00_read(addr);
+        case 0x8f00:
+            return petio_8f00_read(addr);
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* The PET have all I/O chips connected to the same select lines.  Only one
    address lines is used as separate (high-active) select input.  I.e. PIA1
    always reacts when address & 0x10 is high, for example $e810, $e830,
@@ -946,8 +1049,13 @@ static void set_std_9tof(void)
 
         /* ... and unused address space following it, if any. */
         for (i = 0xe9; i < l; i++) {
+#if 0
+            _mem_read_tab[i] = read_e9_ee_io;
+            _mem_write_tab[i] = store_e9_ee_io;
+#else
             _mem_read_tab[i] = read_unused;
             _mem_write_tab[i] = store;
+#endif
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
         }
@@ -1215,13 +1323,18 @@ void petmem_set_vidmem(void)
         /* Setup unused from $8800 to $8FFF */
         /* falls through if videoSize >= 0x1000 */
         for (; i < 0x90; i++) {
+#if 0
+            _mem_read_tab[i] = read_88_8f_io;
+            _mem_write_tab[i] = store_88_8f_io;
+#else
             _mem_read_tab[i] = read_unused;
             _mem_write_tab[i] = store_dummy;
+#endif
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
         }
     } else {
-        /* Setup colour RAM from $8800 to $8AFF or $8FFF */
+        /* Setup colour RAM from $8800 to $8BFF or $8FFF */
         int c = 0x8000 + COLOUR_MEMORY_START;
         i = (c >> 8) & 0xff;
         l = ((c + petres.videoSize) >> 8) & 0xff;
@@ -1615,7 +1728,11 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
                 return read_super_io(addr);
             }
             if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+#if 0
+                return read_e9_ee_io(addr);
+#else
                 return read_unused(addr);
+#endif
             }
         /* fallthrough to rom */
         case bank_rom:         /* rom */
@@ -1673,7 +1790,11 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
                 return;
             }
             if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+#if 0
+                store_e9_ee_io(addr, byte);
+#else
                 store_dummy(addr, byte);
+#endif
                 return;
             }
         case bank_rom:          /* rom */
