@@ -68,7 +68,7 @@ static BYTE queue[QUEUE_SIZE];
 /* Next element in `queue' we must push into the kernal's queue.  */
 static int head_idx = 0;
 
-/* Number of pending characters.  */
+/* Number of pending characters in the incoming queue  */
 static int num_pending = 0;
 
 /* Flag if we are initialized already.  */
@@ -202,14 +202,58 @@ int kbdbuf_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* put character into the keyboard queue inside the emulation */
+static void tokbdbuffer(int c)
+{
+    int num = mem_read((WORD)(num_pending_location));
+    /* printf("tokbdbuffer c:%d num:%d\n", c, num); */
+    mem_inject((WORD)(buffer_location + num), c);
+    mem_inject((WORD)(num_pending_location), num + 1);
+}
+
+/* Return nonzero if the keyboard buffer is empty.  */
+int kbdbuf_is_empty(void)
+{
+    return (int)(mem_read((WORD)(num_pending_location)) == 0);
+}
+
+/* Feed `string' into the incoming queue.  */
+static int string_to_queue(const char *string)
+{
+    const int num = (int)strlen(string);
+    int i, p;
+
+    if ((num_pending + num) > QUEUE_SIZE || !kbd_buf_enabled) {
+        return -1;
+    }
+
+    for (p = (head_idx + num_pending) % QUEUE_SIZE, i = 0;
+         i < num; p = (p + 1) % QUEUE_SIZE, i++) {
+        queue[p] = string[i];
+        /* printf("string_to_queue %d:'%c'\n",p,queue[p]); */
+    }
+
+    num_pending += num;
+
+    kbdbuf_flush();
+
+    return 0;
+}
+
+/* remove current character from incoming queue */
+static void removefromqueue(void)
+{
+    --num_pending;
+    head_idx = (head_idx + 1) % QUEUE_SIZE;
+}
+
 static void kbdbuf_flush_alarm_triggered(CLOCK offset, void *data)
 {
     alarm_unset(kbdbuf_flush_alarm);
     kbdbuf_flush_alarm_time = 0;
 
-    mem_inject((WORD)(buffer_location), 13);
-    mem_inject((WORD)(num_pending_location), 1);
-    --num_pending;
+    tokbdbuffer(13);
+    removefromqueue();
 }
 
 void kbdbuf_reset(int location, int plocation, int size, CLOCK mincycles)
@@ -246,48 +290,20 @@ void kbdbuf_shutdown(void)
     lib_free(kbd_buf_string);
 }
 
-/* Return nonzero if the keyboard buffer is empty.  */
-int kbdbuf_is_empty(void)
-{
-    return (int)(mem_read((WORD)(num_pending_location)) == 0);
-}
-
-/* Feed `string' into the queue.  */
-static int _kbdbuf_feed(const char *string)
-{
-    const int num = (int)strlen(string);
-    int i, p;
-
-    if ((num_pending + num) > QUEUE_SIZE || !kbd_buf_enabled) {
-        return -1;
-    }
-
-    for (p = (head_idx + num_pending) % QUEUE_SIZE, i = 0;
-         i < num; p = (p + 1) % QUEUE_SIZE, i++) {
-        queue[p] = string[i];
-    }
-
-    num_pending += num;
-
-    kbdbuf_flush();
-
-    return 0;
-}
-
 int kbdbuf_feed(const char *string)
 {
     use_kbdbuf_flush_alarm = 0;
-    return _kbdbuf_feed(string);
+    return string_to_queue(string);
 }
 
 int kbdbuf_feed_runcmd(const char *string)
 {
     use_kbdbuf_flush_alarm = 1;
-    return _kbdbuf_feed(string);
+    return string_to_queue(string);
 }
 
 /* Flush pending characters into the kernal's queue if possible.
-   This is called once per frame in vsync handler */
+   This is (at least) called once per frame in vsync handler */
 void kbdbuf_flush(void)
 {
     unsigned int i, n;
@@ -299,9 +315,10 @@ void kbdbuf_flush(void)
         || (kbdbuf_flush_alarm_time != 0)) {
         return;
     }
-
     n = num_pending > buffer_size ? buffer_size : num_pending;
-    for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++) {
+    /* printf("kbdbuf_flush pending: %d n: %d head_idx: %d\n", num_pending, n, head_idx); */
+    for (i = 0; i < n; i++) {
+        /* printf("kbdbuf_flush i:%d head_idx:%d queue[head_idx]: %d use_kbdbuf_flush_alarm: %d\n",i,head_idx,queue[head_idx],use_kbdbuf_flush_alarm); */
         /* use an alarm to randomly delay RETURN for up to one frame */
         if ((queue[head_idx] == 13) && (use_kbdbuf_flush_alarm == 1)) {
             /* we actually need to wait _at least_ one frame to not overrun the buffer */
@@ -310,8 +327,7 @@ void kbdbuf_flush(void)
             alarm_set(kbdbuf_flush_alarm, kbdbuf_flush_alarm_time);
             return;
         }
-        mem_inject((WORD)(buffer_location + i), queue[head_idx]);
-        mem_inject((WORD)(num_pending_location), (BYTE)(i + 1));
-        --num_pending;
+        tokbdbuffer(queue[head_idx]);
+        removefromqueue();
     }
 }
