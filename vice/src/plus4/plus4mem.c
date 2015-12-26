@@ -413,10 +413,6 @@ static BYTE fdxx_read(WORD addr)
         return speech_read(addr);
     }
 
-    if (addr >= 0xfd30 && addr <= 0xfd3f) {
-        return pio2_read(addr);
-    }
-
     if (sidcart_enabled() && addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
         return sid_read(addr);
     }
@@ -448,10 +444,6 @@ static void fdxx_store(WORD addr, BYTE value)
     }
     if (speech_cart_enabled() && addr >= 0xfd20 && addr <= 0xfd22) {
         speech_store(addr, value);
-        return;
-    }
-    if (addr >= 0xfd30 && addr <= 0xfd3f) {
-        pio2_store(addr, value);
         return;
     }
     if (sidcart_enabled() && addr >= sidcart_address && addr <= sidcart_address + 0x1d) {
@@ -1053,8 +1045,6 @@ void store_bank_io(WORD addr, BYTE byte)
         acia_store(addr, byte);
     } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
         speech_store(addr, byte);
-    } else if ((addr >= 0xfd30) && (addr <= 0xfd3f)) {
-        pio2_store(addr, byte);
     } else if ((addr >= 0xfec0) && (addr <= 0xfedf)) {
         plus4tcbm2_store(addr, byte);
     } else if ((addr >= 0xfee0) && (addr <= 0xfeff)) {
@@ -1075,8 +1065,6 @@ static BYTE peek_bank_io(WORD addr)
         return pio1_read(addr); /* FIXME */
     } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
         return speech_peek(addr);
-    } else if ((addr >= 0xfd30) && (addr <= 0xfd3f)) {
-        return pio2_read(addr); /* FIXME */
     } else if ((addr >= 0xfec0) && (addr <= 0xfedf)) {
         return plus4tcbm2_read(addr); /* FIXME */
     } else if ((addr >= 0xfee0) && (addr <= 0xfeff)) {
@@ -1103,8 +1091,6 @@ static BYTE read_bank_io(WORD addr)
         return pio1_read(addr);
     } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
         return speech_read(addr);
-    } else if ((addr >= 0xfd30) && (addr <= 0xfd3f)) {
-        return pio2_read(addr);
     } else if ((addr >= 0xfec0) && (addr <= 0xfedf)) {
         return plus4tcbm2_read(addr);
     } else if ((addr >= 0xfee0) && (addr <= 0xfeff)) {
@@ -1344,8 +1330,24 @@ static io_source_t pio1_only_device = {
     0
 };
 
+static io_source_t pio2_device = {
+    "PIO2",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xfd30, 0xfd3f, 1,
+    1, /* read is always valid */
+    pio2_store,
+    pio2_read,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
 static io_source_list_t *mem_config_list_item = NULL;
 static io_source_list_t *pio1_list_item = NULL;
+static io_source_list_t *pio2_list_item = NULL;
 
 static int pio1_devices_blocking_mirror = 0;
 
@@ -1374,8 +1376,8 @@ void plus4io_init(void)
 {
     mem_config_list_item = io_source_register(&mem_config_device);
     pio1_list_item = io_source_register(&pio1_with_mirrors_device);
-#if 0
     pio2_list_item = io_source_register(&pio2_device);
+#if 0
     tcbm2_list_item = io_source_register(&tcbm2_device);
     tcbm1_list_item = io_source_register(&tcbm1_device);
 #endif
