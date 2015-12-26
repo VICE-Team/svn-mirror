@@ -4,7 +4,7 @@
 
 s/@b{Dag Lem}/Dag Lem <resid@nimrod.no>/g
 s/@b{Andreas Matthies}/Andreas Matthies <andreas.matthies@gmx.net>/g
-s/@b{Martin Pottendorfer}/Martin Pottendorder <pottendo@gmx.net>/g
+s/@b{Martin Pottendorfer}/Martin Pottendorfer <pottendo@gmx.net>/g
 s/@b{Spiro Trikaliotis}/Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>/g
 s/@b{Marco van den Heuvel}/Marco van den Heuvel <blackystardust68@yahoo.com>/g
 s/@b{Christian Vogelgsang}/Christian Vogelgsang <chris@vogelgsang.org>/g
