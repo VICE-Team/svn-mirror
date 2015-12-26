@@ -295,7 +295,7 @@ void kbdbuf_init(int location, int plocation, int size, CLOCK mincycles)
     }
     kbdbuf_flush_alarm = alarm_new(maincpu_alarm_context, "Keybuf", kbdbuf_flush_alarm_triggered, NULL);
     kbdbuf_reset(location, plocation, size, mincycles);
-    printf("kbdbuf_init cmdline_get_autostart_mode(): %d\n", cmdline_get_autostart_mode());
+    /* printf("kbdbuf_init cmdline_get_autostart_mode(): %d\n", cmdline_get_autostart_mode()); */
     /* inject string given to -keybuf option on commandline into keyboard buffer,
        except autoload/start was used, then it is postponed to after the loading */
     if (!isautoload) {

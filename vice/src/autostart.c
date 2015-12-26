@@ -626,7 +626,7 @@ static void autostart_finish(void)
         if ((machine_class == VICE_MACHINE_C128) && (c128_column4080_key == 0)) {
             kbdbuf_feed("GRAPHIC5:");
         }
-        log_message(autostart_log, "Run command is: '%s' (%s)", AutostartRunCommand, AutostartDelayRandom ? "delayed" : "no delay");
+        /* log_message(autostart_log, "Run command is: '%s' (%s)", AutostartRunCommand, AutostartDelayRandom ? "delayed" : "no delay"); */
         if (AutostartDelayRandom) {
             kbdbuf_feed_runcmd(AutostartRunCommand);
         } else {
