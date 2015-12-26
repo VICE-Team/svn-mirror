@@ -31,6 +31,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "clkguard.h"
 #include "datasette.h"
@@ -327,6 +328,10 @@ int machine_resources_init(void)
         init_resource_fail("ted");
         return -1;
     }
+    if (cartio_resources_init() < 0) {
+        init_resource_fail("cartio");
+        return -1;
+    }
     if (cartridge_resources_init() < 0) {
         init_resource_fail("cartridge");
         return -1;
@@ -466,6 +471,7 @@ void machine_resources_shutdown(void)
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
+    cartio_shutdown();
 }
 
 /* Plus4-specific command-line option initialization.  */
@@ -481,6 +487,10 @@ int machine_cmdline_options_init(void)
     }
     if (ted_cmdline_options_init() < 0) {
         init_cmdline_options_fail("ted");
+        return -1;
+    }
+    if (cartio_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("cartio");
         return -1;
     }
     if (cartridge_cmdline_options_init() < 0) {
@@ -743,6 +753,9 @@ int machine_specific_init(void)
     plus4iec_init();
 
     machine_drive_stub();
+
+    /* Initialize the machine specific I/O */
+    plus4io_init();
 
 #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {

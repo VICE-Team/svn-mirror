@@ -38,6 +38,7 @@ libplus4_a_SOURCES = \
 	plus4embedded.c \
 	plus4iec.c \
 	plus4iec.h \
+	plus4io.c \
 	plus4mem.c \
 	plus4mem.h \
 	plus4memcsory256k.c \

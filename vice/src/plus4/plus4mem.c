@@ -680,6 +680,13 @@ static void rom_ffxx_store_16k(WORD addr, BYTE value)
     }
 }
 
+/* FIXME: this always returns 0x00, but it should return the
+          last data floating on the bus. (cpu/ted/dma) */
+BYTE read_unused(WORD addr)
+{
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static void set_write_hook(int config, int page, store_func_t *f)
@@ -1278,4 +1285,18 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
     *rows = 25;
     *columns = 40;
     *bank = 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* C16/C232/PLUS4/V364-specific I/O initialization, only common devices. */
+void plus4io_init(void)
+{
+#if 0
+    pio1_list_item = io_source_register(&pio1_with_mirrors_device);
+    pio2_list_item = io_source_register(&pio2_device);
+    mem_config_list_item = io_source_register(&mem_config_device);
+    tcbm2_list_item = io_source_register(&tcbm2_device);
+    tcbm1_list_item = io_source_register(&tcbm1_device);
+#endif
 }
