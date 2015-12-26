@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cartio.h"
 #include "datasette.h"
 #include "digiblaster.h"
 #include "iecbus.h"
@@ -437,6 +438,8 @@ static BYTE fdxx_read(WORD addr)
 
 static void fdxx_store(WORD addr, BYTE value)
 {
+    plus4io_fd00_store(addr, value);
+
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (addr >= 0xfd00 && addr <= 0xfd0f) {
         acia_store(addr, value);
@@ -477,10 +480,6 @@ static void fdxx_store(WORD addr, BYTE value)
     }
     if (sidcart_enabled() && sidcartjoy_enabled && addr >= 0xfd80 && addr <= 0xfd8f) {
         sidcartjoy_store(addr, value);
-        return;
-    }
-    if (addr >= 0xfdd0 && addr <= 0xfddf) {
-        mem_config_rom_set((addr & 0xf) << 1);
         return;
     }
 }
@@ -685,6 +684,11 @@ static void rom_ffxx_store_16k(WORD addr, BYTE value)
 BYTE read_unused(WORD addr)
 {
     return 0;
+}
+
+static void mem_config_rom_set_store(WORD addr, BYTE value)
+{
+    mem_config_rom_set((addr & 0xf) << 1);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1289,13 +1293,30 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 
 /* ------------------------------------------------------------------------- */
 
+static io_source_t mem_config_device = {
+    "MEMCONFIG",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xfdd0, 0xfddf, 0xf,
+    0, /* read is never valid */
+    mem_config_rom_set_store,
+    NULL, /* no read */
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_list_t *mem_config_list_item = NULL;
+
 /* C16/C232/PLUS4/V364-specific I/O initialization, only common devices. */
 void plus4io_init(void)
 {
+    mem_config_list_item = io_source_register(&mem_config_device);
 #if 0
     pio1_list_item = io_source_register(&pio1_with_mirrors_device);
     pio2_list_item = io_source_register(&pio2_device);
-    mem_config_list_item = io_source_register(&mem_config_device);
     tcbm2_list_item = io_source_register(&tcbm2_device);
     tcbm1_list_item = io_source_register(&tcbm1_device);
 #endif
