@@ -51,6 +51,7 @@
 #include "imagecontents.h"
 #include "tapecontents.h"
 #include "diskcontents.h"
+#include "initcmdline.h"
 #include "interrupt.h"
 #include "ioutil.h"
 #include "kbdbuf.h"
@@ -636,6 +637,11 @@ static void autostart_finish(void)
         if ((machine_class == VICE_MACHINE_C128) && (c128_column4080_key == 0)) {
             kbdbuf_feed("GRAPHIC5\x0d");
         }
+    }
+    /* printf("autostart_finish cmdline_get_autostart_mode(): %d\n", cmdline_get_autostart_mode()); */
+    /* inject string given to -keybuf option on commandline into keyboard buffer */
+    if (cmdline_get_autostart_mode() != AUTOSTART_MODE_NONE) {
+        kbdbuf_feed_cmdline();
     }
 }
 
@@ -1291,17 +1297,14 @@ int autostart_autodetect_opt_prgname(const char *file_prog_name,
 
             charset_petconvstring((BYTE *)autostart_prg_name, 0);
             name = charset_replace_hexcodes(autostart_prg_name);
-            result = autostart_autodetect(autostart_file, name, 0,
-                                          runmode);
+            result = autostart_autodetect(autostart_file, name, 0, runmode);
             lib_free(name);
         } else {
-            result = autostart_autodetect(file_prog_name, NULL, alt_prg_number,
-                                          runmode);
+            result = autostart_autodetect(file_prog_name, NULL, alt_prg_number, runmode);
         }
         lib_free(autostart_file);
     } else {
-        result = autostart_autodetect(file_prog_name, NULL, alt_prg_number,
-                                      runmode);
+        result = autostart_autodetect(file_prog_name, NULL, alt_prg_number, runmode);
     }
     return result;
 }
@@ -1381,7 +1384,7 @@ int autostart_device(int num)
 
 int autostart_in_progress(void)
 {
-    return (autostartmode != AUTOSTART_NONE && autostartmode != AUTOSTART_DONE);
+    return ((autostartmode != AUTOSTART_NONE) && (autostartmode != AUTOSTART_DONE));
 }
 
 /* Disable autostart on reset.  */

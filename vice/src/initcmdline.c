@@ -59,8 +59,12 @@
 static char *autostart_string = NULL;
 static char *startup_disk_images[4];
 static char *startup_tape_image;
-static unsigned int autostart_mode;
+static unsigned int autostart_mode = AUTOSTART_MODE_NONE;
 
+int cmdline_get_autostart_mode(void)
+{
+    return autostart_mode;
+}
 
 static void cmdline_free_autostart_string(void)
 {

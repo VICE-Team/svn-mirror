@@ -34,8 +34,10 @@
 #include <string.h>
 
 #include "alarm.h"
+#include "autostart.h"
 #include "charset.h"
 #include "cmdline.h"
+#include "initcmdline.h"
 #include "kbdbuf.h"
 #include "lib.h"
 #include "machine.h"
@@ -247,6 +249,19 @@ static void removefromqueue(void)
     head_idx = (head_idx + 1) % QUEUE_SIZE;
 }
 
+void kbdbuf_feed_cmdline(void)
+{
+    /* printf("kbdbuf_feed_cmdline\n"); */
+    if (kbd_buf_string != NULL) {
+        /* printf("kbdbuf_feed_cmdline: %d '%s'\n", KbdbufDelay, kbd_buf_string); */
+        if (KbdbufDelay) {
+            kbdbuf_feed_runcmd(kbd_buf_string);
+        } else {
+            kbdbuf_feed(kbd_buf_string);
+        }
+    }
+}
+
 static void kbdbuf_flush_alarm_triggered(CLOCK offset, void *data)
 {
     alarm_unset(kbdbuf_flush_alarm);
@@ -273,15 +288,18 @@ void kbdbuf_reset(int location, int plocation, int size, CLOCK mincycles)
 /* Initialization.  */
 void kbdbuf_init(int location, int plocation, int size, CLOCK mincycles)
 {
-    kbdbuf_flush_alarm = alarm_new(maincpu_alarm_context, "Keybuf", kbdbuf_flush_alarm_triggered, NULL);
-    kbdbuf_reset(location, plocation, size, mincycles + KbdbufDelay);
+    int isautoload = (cmdline_get_autostart_mode() != AUTOSTART_MODE_NONE);
 
-    if (kbd_buf_string != NULL) {
-        if (KbdbufDelay) {
-            kbdbuf_feed_runcmd(kbd_buf_string);
-        } else {
-            kbdbuf_feed(kbd_buf_string);
-        }
+    if (!isautoload) {
+        mincycles += KbdbufDelay;
+    }
+    kbdbuf_flush_alarm = alarm_new(maincpu_alarm_context, "Keybuf", kbdbuf_flush_alarm_triggered, NULL);
+    kbdbuf_reset(location, plocation, size, mincycles);
+    printf("kbdbuf_init cmdline_get_autostart_mode(): %d\n", cmdline_get_autostart_mode());
+    /* inject string given to -keybuf option on commandline into keyboard buffer,
+       except autoload/start was used, then it is postponed to after the loading */
+    if (!isautoload) {
+        kbdbuf_feed_cmdline();
     }
 }
 
