@@ -48,9 +48,6 @@
 #include "plus4tcbm.h"
 #include "ram.h"
 #include "resources.h"
-#include "sid-resources.h"
-#include "sid.h"
-#include "sidcart.h"
 #include "ted.h"
 #include "ted-mem.h"
 #include "types.h"
@@ -390,60 +387,6 @@ BYTE mem_read(WORD addr)
 }
 
 /* ------------------------------------------------------------------------- */
-
-static BYTE fdxx_read(WORD addr)
-{
-    if (sidcart_enabled() && addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
-        return sid_read(addr);
-    }
-
-    if (sidcart_enabled() && sidcartjoy_enabled && addr >= 0xfd80 && addr <= 0xfd8f) {
-        return sidcartjoy_read(addr);
-    }
-
-    return plus4io_fd00_read(addr);
-}
-
-static void fdxx_store(WORD addr, BYTE value)
-{
-    plus4io_fd00_store(addr, value);
-
-    if (sidcart_enabled() && addr >= sidcart_address && addr <= sidcart_address + 0x1d) {
-        sid_store(addr, value);
-        return;
-    }
-    if (sidcart_enabled() && digiblaster_enabled() && addr == sidcart_address + 0x1e) {
-        digiblaster_store(addr, value);
-        return;
-    }
-    if (sidcart_enabled() && sidcartjoy_enabled && addr >= 0xfd80 && addr <= 0xfd8f) {
-        sidcartjoy_store(addr, value);
-        return;
-    }
-}
-
-static BYTE fexx_read(WORD addr)
-{
-    if (sidcart_enabled() && addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
-        return sid_read(addr);
-    }
-
-    return plus4io_fe00_read(addr);
-}
-
-static void fexx_store(WORD addr, BYTE value)
-{
-    plus4io_fe00_store(addr, value);
-
-    if (sidcart_enabled() && addr >= sidcart_address && addr <= sidcart_address + 0x1d) {
-        sid_store(addr, value);
-        return;
-    }
-    if (sidcart_enabled() && digiblaster_enabled() && addr == sidcart_address + 0x1e) {
-        digiblaster_store(addr, value);
-        return;
-    }
-}
 
 /*
     note: the TED pseudo registers at ff3e/3f can't be read.
@@ -817,18 +760,18 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i + 1][0xfc] = plus4memrom_kernal_trap_rom
                                          + ((0xfc & 0x3f) << 8);
 
-        mem_read_tab[i + 0][0xfd] = fdxx_read;
-        mem_write_tab[i + 0][0xfd] = fdxx_store;
+        mem_read_tab[i + 0][0xfd] = plus4io_fd00_read;
+        mem_write_tab[i + 0][0xfd] = plus4io_fd00_store;
         mem_read_base_tab[i + 0][0xfd] = NULL;
-        mem_read_tab[i + 1][0xfd] = fdxx_read;
-        mem_write_tab[i + 1][0xfd] = fdxx_store;
+        mem_read_tab[i + 1][0xfd] = plus4io_fd00_read;
+        mem_write_tab[i + 1][0xfd] = plus4io_fd00_store;
         mem_read_base_tab[i + 1][0xfd] = NULL;
 
-        mem_read_tab[i + 0][0xfe] = fexx_read;
-        mem_write_tab[i + 0][0xfe] = fexx_store;
+        mem_read_tab[i + 0][0xfe] = plus4io_fe00_read;
+        mem_write_tab[i + 0][0xfe] = plus4io_fe00_store;
         mem_read_base_tab[i + 0][0xfe] = NULL;
-        mem_read_tab[i + 1][0xfe] = fexx_read;
-        mem_write_tab[i + 1][0xfe] = fexx_store;
+        mem_read_tab[i + 1][0xfe] = plus4io_fe00_read;
+        mem_write_tab[i + 1][0xfe] = plus4io_fe00_store;
         mem_read_base_tab[i + 1][0xfe] = NULL;
 
         switch (ram_size) {

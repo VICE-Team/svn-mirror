@@ -39,4 +39,6 @@ extern BYTE digiblaster_read(WORD addr);
 extern void digiblaster_sound_chip_init(void);
 extern int digiblaster_enabled(void);
 
+extern void digiblaster_set_address(WORD addr);
+
 #endif
