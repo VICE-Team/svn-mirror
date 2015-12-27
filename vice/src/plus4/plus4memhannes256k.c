@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cartio.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -60,6 +61,27 @@ static int h256k_bound = 1;
 
 BYTE *h256k_ram = NULL;
 
+/* Some prototypes */
+static BYTE h256k_reg_read(WORD addr);
+static void h256k_reg_store(WORD addr, BYTE value);
+
+static io_source_t h256k_device = {
+    "HANNES",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xfd16, 0xfd16, 1,
+    1, /* read is always valid */
+    h256k_reg_store,
+    h256k_reg_read,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_list_t *h256k_list_item = NULL;
+
 int set_h256k_enabled(int val)
 {
     switch (val) {
@@ -72,11 +94,18 @@ int set_h256k_enabled(int val)
             return -1;
     }
 
+    if (val == h256k_enabled) {
+        return 0;
+    }
+
     if (!val) {
         if (h256k_enabled) {
             if (h256k_deactivate() < 0) {
                 return -1;
             }
+            io_source_unregister(h256k_list_item);
+            h256k_list_item = NULL;
+            plus4_pio1_init(-1);
         }
         h256k_enabled = 0;
     } else {
@@ -85,7 +114,11 @@ int set_h256k_enabled(int val)
                 return -1;
             }
         }
-        h256k_enabled = 1;
+        if (!h256k_enabled) {
+            h256k_list_item = io_source_register(&h256k_device);
+            plus4_pio1_init(1);
+        }
+        h256k_enabled = val;
     }
     return 0;
 }
@@ -106,17 +139,19 @@ void h256k_reset(void)
 
 static int h256k_activate(int type)
 {
-    if (type == 1) {
-        h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0x30000);
-        log_message(h256k_log, "HANNES 256K expansion installed.");
-    }
-    if (type == 2) {
-        h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0xf0000);
-        log_message(h256k_log, "HANNES 1024K expansion installed.");
-    }
-    if (type == 3) {
-        h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0x3f0000);
-        log_message(h256k_log, "HANNES 4096K expansion installed.");
+    switch (type) {
+        case 1:
+            h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0x30000);
+            log_message(h256k_log, "HANNES 256K expansion installed.");
+            break;
+        case 2:
+            h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0xf0000);
+            log_message(h256k_log, "HANNES 1024K expansion installed.");
+            break;
+        case 3:
+            h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0x3f0000);
+            log_message(h256k_log, "HANNES 4096K expansion installed.");
+            break;
     }
     h256k_reset();
     return 0;
@@ -138,12 +173,12 @@ void h256k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE h256k_reg_read(WORD addr)
+static BYTE h256k_reg_read(WORD addr)
 {
     return h256k_reg;
 }
 
-void h256k_reg_store(WORD addr, BYTE value)
+static void h256k_reg_store(WORD addr, BYTE value)
 {
     h256k_bank = value & 3;
     h256k_reg = ((value & 0xbf) | 0x40);

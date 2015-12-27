@@ -393,10 +393,6 @@ BYTE mem_read(WORD addr)
 
 static BYTE fdxx_read(WORD addr)
 {
-    if (addr == 0xfd16 && h256k_enabled) {
-        return h256k_reg_read(addr);
-    }
-
     if (sidcart_enabled() && addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
         return sid_read(addr);
     }
@@ -412,10 +408,6 @@ static void fdxx_store(WORD addr, BYTE value)
 {
     plus4io_fd00_store(addr, value);
 
-    if (addr == 0xfd16 && h256k_enabled) {
-        h256k_reg_store(addr, value);
-        return;
-    }
     if (sidcart_enabled() && addr >= sidcart_address && addr <= sidcart_address + 0x1d) {
         sid_store(addr, value);
         return;
