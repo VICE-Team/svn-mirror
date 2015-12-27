@@ -37,7 +37,6 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
-#include "plus4acia.h"
 #include "plus4iec.h"
 #include "plus4mem.h"
 #include "plus4memcsory256k.h"
@@ -395,12 +394,6 @@ BYTE mem_read(WORD addr)
 
 static BYTE fdxx_read(WORD addr)
 {
-#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    if (addr >= 0xfd00 && addr <= 0xfd0f) {
-        return acia_read(addr);
-    }
-#endif
-
     if (addr == 0xfd16 && h256k_enabled) {
         return h256k_reg_read(addr);
     }
@@ -428,12 +421,6 @@ static void fdxx_store(WORD addr, BYTE value)
 {
     plus4io_fd00_store(addr, value);
 
-#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    if (addr >= 0xfd00 && addr <= 0xfd0f) {
-        acia_store(addr, value);
-        return;
-    }
-#endif
     if (addr == 0xfd16 && h256k_enabled) {
         h256k_reg_store(addr, value);
         return;
@@ -1025,9 +1012,7 @@ void store_bank_io(WORD addr, BYTE byte)
         plus4io_fe00_store(addr, byte);
     }
 
-    if (acia_enabled() && (addr >= 0xfd00) && (addr <= 0xfd0f)) {
-        acia_store(addr, byte);
-    } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
+    if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
         speech_store(addr, byte);
     } else if ((addr >= 0xff00) && (addr <= 0xff3f)) {
         ted_store(addr, byte);
@@ -1039,9 +1024,7 @@ void store_bank_io(WORD addr, BYTE byte)
 /* read i/o without side-effects */
 static BYTE peek_bank_io(WORD addr)
 {
-    if (acia_enabled() && (addr >= 0xfd00) && (addr <= 0xfd0f)) {
-        return acia_read(addr); /* FIXME */
-    } else if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
+    if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
         return pio1_read(addr); /* FIXME */
     } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
         return speech_peek(addr);
@@ -1061,9 +1044,7 @@ static BYTE peek_bank_io(WORD addr)
 /* read i/o with side-effects */
 static BYTE read_bank_io(WORD addr)
 {
-    if (acia_enabled() && (addr >= 0xfd00) && (addr <= 0xfd0f)) {
-        return acia_read(addr);
-    } else if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
+    if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
         return pio1_read(addr);
     } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
         return speech_read(addr);
@@ -1203,22 +1184,10 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 
 static int mem_dump_io(WORD addr)
 {
-    if ((addr >= 0xfd00) && (addr <= 0xfd0f)) {
-        if (acia_enabled()) {
-            /* return acia_dump(machine_context.acia1); */ /* FIXME */
-        }
-    } else if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
-        /* return pio_dump(machine_context.pio1); */ /* FIXME */
-    } else if ((addr >= 0xfd20) && (addr <= 0xfd2f)) {
+    if ((addr >= 0xfd20) && (addr <= 0xfd2f)) {
         if (speech_cart_enabled()) {
             return speech_dump(NULL); /* FIXME */
         }
-    } else if ((addr >= 0xfd30) && (addr <= 0xfd3f)) {
-        /* return pio_dump(machine_context.pio2); */ /* FIXME */
-    } else if ((addr >= 0xfec0) && (addr <= 0xfedf)) {
-        /* return tia_dump(machine_context.tia1); */ /* FIXME */
-    } else if ((addr >= 0xfee0) && (addr <= 0xfeff)) {
-        /* return tia_dump(machine_context.tia2); */ /* FIXME */
     } else if ((addr >= 0xff00) && (addr <= 0xff3f)) {
         /* return ted_dump(machine_context.ted); */ /* FIXME */
     }
@@ -1229,14 +1198,6 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    /* no ACIA in C16/C116 */
-    if (acia_enabled()) {
-        mon_ioreg_add_list(&mem_ioreg_list, "ACIA", 0xfd00, 0xfd0f, mem_dump_io);
-    }
-    mon_ioreg_add_list(&mem_ioreg_list, "PIO1", 0xfd10, 0xfd1f, mem_dump_io);
-    mon_ioreg_add_list(&mem_ioreg_list, "PIO2", 0xfd30, 0xfd3f, mem_dump_io);
-    mon_ioreg_add_list(&mem_ioreg_list, "TIA1", 0xfec0, 0xfedf, mem_dump_io);
-    mon_ioreg_add_list(&mem_ioreg_list, "TIA2", 0xfee0, 0xfeff, mem_dump_io);
     mon_ioreg_add_list(&mem_ioreg_list, "TED", 0xff00, 0xff3f, mem_dump_io);
 
     /* FIXME: hook up other extensions */
