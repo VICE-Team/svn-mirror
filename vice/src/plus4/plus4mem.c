@@ -45,7 +45,6 @@
 #include "plus4memrom.h"
 #include "plus4pio1.h"
 #include "plus4pio2.h"
-#include "plus4speech.h"
 #include "plus4tcbm.h"
 #include "ram.h"
 #include "resources.h"
@@ -402,10 +401,6 @@ static BYTE fdxx_read(WORD addr)
         return cs256k_reg_read(addr);
     }
 
-    if (speech_cart_enabled() && addr >= 0xfd20 && addr <= 0xfd22) {
-        return speech_read(addr);
-    }
-
     if (sidcart_enabled() && addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
         return sid_read(addr);
     }
@@ -427,10 +422,6 @@ static void fdxx_store(WORD addr, BYTE value)
     }
     if (addr == 0xfd15 && cs256k_enabled) {
         cs256k_reg_store(addr, value);
-        return;
-    }
-    if (speech_cart_enabled() && addr >= 0xfd20 && addr <= 0xfd22) {
-        speech_store(addr, value);
         return;
     }
     if (sidcart_enabled() && addr >= sidcart_address && addr <= sidcart_address + 0x1d) {
@@ -1012,9 +1003,7 @@ void store_bank_io(WORD addr, BYTE byte)
         plus4io_fe00_store(addr, byte);
     }
 
-    if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
-        speech_store(addr, byte);
-    } else if ((addr >= 0xff00) && (addr <= 0xff3f)) {
+    if ((addr >= 0xff00) && (addr <= 0xff3f)) {
         ted_store(addr, byte);
     } else {
         mem_store(addr, byte);
@@ -1024,17 +1013,14 @@ void store_bank_io(WORD addr, BYTE byte)
 /* read i/o without side-effects */
 static BYTE peek_bank_io(WORD addr)
 {
-    if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
-        return pio1_read(addr); /* FIXME */
-    } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
-        return speech_peek(addr);
-    } else if ((addr >= 0xff00) && (addr <= 0xff3f)) {
+    if ((addr >= 0xff00) && (addr <= 0xff3f)) {
         return ted_peek(addr);
     }
 
     if (addr >= 0xfd00 && addr <= 0xfdff) {
         return plus4io_fd00_peek(addr);
     }
+
     if (addr >= 0xfe00 && addr <= 0xfeff) {
         return plus4io_fe00_peek(addr);
     }
@@ -1044,20 +1030,18 @@ static BYTE peek_bank_io(WORD addr)
 /* read i/o with side-effects */
 static BYTE read_bank_io(WORD addr)
 {
-    if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
-        return pio1_read(addr);
-    } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
-        return speech_read(addr);
-    } else if ((addr >= 0xff00) && (addr <= 0xff3f)) {
+    if ((addr >= 0xff00) && (addr <= 0xff3f)) {
         return ted_peek(addr);
     }
 
     if (addr >= 0xfd00 && addr <= 0xfdff) {
         return plus4io_fd00_read(addr);
     }
+
     if (addr >= 0xfe00 && addr <= 0xfeff) {
         return plus4io_fe00_read(addr);
     }
+
     return read_unused(addr);
 }
 
@@ -1184,11 +1168,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 
 static int mem_dump_io(WORD addr)
 {
-    if ((addr >= 0xfd20) && (addr <= 0xfd2f)) {
-        if (speech_cart_enabled()) {
-            return speech_dump(NULL); /* FIXME */
-        }
-    } else if ((addr >= 0xff00) && (addr <= 0xff3f)) {
+    if ((addr >= 0xff00) && (addr <= 0xff3f)) {
         /* return ted_dump(machine_context.ted); */ /* FIXME */
     }
     return -1;
@@ -1199,11 +1179,6 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
     mon_ioreg_add_list(&mem_ioreg_list, "TED", 0xff00, 0xff3f, mem_dump_io);
-
-    /* FIXME: hook up other extensions */
-    if (speech_cart_enabled()) {
-        mon_ioreg_add_list(&mem_ioreg_list, "SPEECH", 0xfd20, 0xfd2f, mem_dump_io);
-    }
 
     return mem_ioreg_list;
 }
