@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cartio.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -57,9 +58,34 @@ static int cs256k_segment = 3;
 
 BYTE *cs256k_ram = NULL;
 
+/* Some prototypes */
+static BYTE cs256k_reg_read(WORD addr);
+static void cs256k_reg_store(WORD addr, BYTE value);
+
+static io_source_t cs256k_device = {
+    "CSORY",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xfd15, 0xfd15, 1,
+    1, /* read is always valid */
+    cs256k_reg_store,
+    cs256k_reg_read,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_list_t *cs256k_list_item = NULL;
+
 int set_cs256k_enabled(int value)
 {
     int val = value ? 1 : 0;
+
+    if (val == cs256k_enabled) {
+        return 0;
+    }
 
     if (!val) {
         if (cs256k_enabled) {
@@ -68,6 +94,9 @@ int set_cs256k_enabled(int value)
             }
         }
         cs256k_enabled = 0;
+        io_source_unregister(cs256k_list_item);
+        cs256k_list_item = NULL;
+        plus4_pio1_init(-1);
     } else {
         if (!cs256k_enabled) {
             if (cs256k_activate() < 0) {
@@ -75,6 +104,8 @@ int set_cs256k_enabled(int value)
             }
         }
         cs256k_enabled = 1;
+        cs256k_list_item = io_source_register(&cs256k_device);
+        plus4_pio1_init(1);
     }
     return 0;
 }
@@ -118,12 +149,12 @@ void cs256k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE cs256k_reg_read(WORD addr)
+static BYTE cs256k_reg_read(WORD addr)
 {
     return 0xff;
 }
 
-void cs256k_reg_store(WORD addr, BYTE value)
+static void cs256k_reg_store(WORD addr, BYTE value)
 {
     cs256k_block = (value & 0xf);
     cs256k_segment = (value & 0xc0) >> 6;
