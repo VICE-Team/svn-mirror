@@ -251,6 +251,25 @@ BYTE read_io_88_8f(WORD addr)
         }
     }
 
+    switch (addr & 0xff00) {
+        case 0x8800:
+            return petio_8800_read(addr);
+        case 0x8900:
+            return petio_8900_read(addr);
+        case 0x8a00:
+            return petio_8a00_read(addr);
+        case 0x8b00:
+            return petio_8b00_read(addr);
+        case 0x8c00:
+            return petio_8c00_read(addr);
+        case 0x8d00:
+            return petio_8d00_read(addr);
+        case 0x8e00:
+            return petio_8e00_read(addr);
+        case 0x8f00:
+            return petio_8f00_read(addr);
+    }
+
     return last_access;
 }
 
@@ -268,6 +287,23 @@ BYTE read_io_e9_ef(WORD addr)
         if (addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
             last_access = sid_read(addr);
         }
+    }
+
+    switch (addr & 0xff00) {
+        case 0xe900:
+            return petio_e900_read(addr);
+        case 0xea00:
+            return petio_ea00_read(addr);
+        case 0xeb00:
+            return petio_eb00_read(addr);
+        case 0xec00:
+            return petio_ec00_read(addr);
+        case 0xed00:
+            return petio_ed00_read(addr);
+        case 0xee00:
+            return petio_ee00_read(addr);
+        case 0xef00:
+            return petio_ef00_read(addr);
     }
 
     return last_access;
@@ -905,6 +941,33 @@ static void store_io_88_8f(WORD addr, BYTE value)
 {
     last_access = value;
 
+    switch (addr & 0xff00) {
+        case 0x8800:
+            petio_8800_store(addr, value);
+            break;
+        case 0x8900:
+            petio_8900_store(addr, value);
+            break;
+        case 0x8a00:
+            petio_8a00_store(addr, value);
+            break;
+        case 0x8b00:
+            petio_8b00_store(addr, value);
+            break;
+        case 0x8c00:
+            petio_8c00_store(addr, value);
+            break;
+        case 0x8d00:
+            petio_8d00_store(addr, value);
+            break;
+        case 0x8e00:
+            petio_8e00_store(addr, value);
+            break;
+        case 0x8f00:
+            petio_8f00_store(addr, value);
+            break;
+    }
+
     if (petreu_enabled) {
         if (addr >= 0x8800 && addr < 0x8900) {
             store_petreu_reg(addr, value);
@@ -925,6 +988,30 @@ static void store_io_88_8f(WORD addr, BYTE value)
 static void store_io_e9_ef(WORD addr, BYTE value)
 {
     last_access = value;
+
+    switch (addr & 0xff00) {
+        case 0xe900:
+            petio_e900_store(addr, value);
+            break;
+        case 0xea00:
+            petio_ea00_store(addr, value);
+            break;
+        case 0xeb00:
+            petio_eb00_store(addr, value);
+            break;
+        case 0xec00:
+            petio_ec00_store(addr, value);
+            break;
+        case 0xed00:
+            petio_ed00_store(addr, value);
+            break;
+        case 0xee00:
+            petio_ee00_store(addr, value);
+            break;
+        case 0xef00:
+            petio_ef00_store(addr, value);
+            break;
+    }
 
     if (petdww_enabled) {
         if (addr >= 0xeb00 && addr < 0xec00) {
