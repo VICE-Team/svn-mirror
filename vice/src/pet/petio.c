@@ -36,6 +36,7 @@
 #include "lib.h"
 #include "log.h"
 #include "monitor.h"
+#include "petmem.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
@@ -79,6 +80,7 @@ static io_source_list_t petio_eb00_head = { NULL, NULL, NULL };
 static io_source_list_t petio_ec00_head = { NULL, NULL, NULL };
 static io_source_list_t petio_ed00_head = { NULL, NULL, NULL };
 static io_source_list_t petio_ee00_head = { NULL, NULL, NULL };
+static io_source_list_t petio_ef00_head = { NULL, NULL, NULL };
 
 static void io_source_detach(io_source_detach_t *source)
 {
@@ -459,6 +461,9 @@ io_source_list_t *io_source_register(io_source_t *device)
         case 0xee00:
             current = &petio_ee00_head;
             break;
+        case 0xef00:
+            current = &petio_ef00_head;
+            break;
     }
 
     while (current->next != NULL) {
@@ -582,6 +587,12 @@ void cartio_shutdown(void)
     while (current) {
         io_source_unregister(current);
         current = petio_ee00_head.next;
+    }
+
+    current = petio_ef00_head.next;
+    while (current) {
+        io_source_unregister(current);
+        current = petio_ef00_head.next;
     }
 }
 
@@ -844,6 +855,24 @@ void petio_ee00_store(WORD addr, BYTE value)
     io_store(&petio_ee00_head, addr, value);
 }
 
+BYTE petio_ef00_read(WORD addr)
+{
+    DBGRW(("IO: io-ef00 r %04x\n", addr));
+    return io_read(&petio_ef00_head, addr);
+}
+
+BYTE petio_ef00_peek(WORD addr)
+{
+    DBGRW(("IO: io-ef00 p %04x\n", addr));
+    return io_peek(&petio_ef00_head, addr);
+}
+
+void petio_ef00_store(WORD addr, BYTE value)
+{
+    DBGRW(("IO: io-ef00 w %04x %02x\n", addr, value));
+    io_store(&petio_ef00_head, addr, value);
+}
+
 /* ---------------------------------------------------------------------------------------------------------- */
 
 static void io_source_ioreg_add_onelist(struct mem_ioreg_list_s **mem_ioreg_list, io_source_list_t *current)
@@ -879,6 +908,7 @@ void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
     io_source_ioreg_add_onelist(mem_ioreg_list, petio_ec00_head.next);
     io_source_ioreg_add_onelist(mem_ioreg_list, petio_ed00_head.next);
     io_source_ioreg_add_onelist(mem_ioreg_list, petio_ee00_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, petio_ef00_head.next);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */

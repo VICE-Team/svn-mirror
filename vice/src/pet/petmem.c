@@ -230,6 +230,11 @@ void rom6809_store(WORD addr, BYTE value)
 
 BYTE read_unused(WORD addr)
 {
+    return last_access;
+}
+
+BYTE read_io_88_8f(WORD addr)
+{
     if (petreu_enabled) {
         if (addr >= 0x8800 && addr < 0x8900) {
             last_access = read_petreu_reg(addr);
@@ -240,6 +245,17 @@ BYTE read_unused(WORD addr)
         }
     }
 
+    if (sidcart_enabled()) {
+        if (addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
+            last_access = sid_read(addr);
+        }
+    }
+
+    return last_access;
+}
+
+BYTE read_io_e9_ef(WORD addr)
+{
     if (petdww_enabled) {
         if (addr >= 0xeb00 && addr < 0xec00) {
             last_access = read_petdww_reg(addr);
@@ -797,7 +813,7 @@ static BYTE read_88_8f_io(WORD addr)
 
 /* When we write, we write all involved chips.  */
 
-static void store_io(WORD addr, BYTE value)
+static void store_io_e8(WORD addr, BYTE value)
 {
     last_access = value;
 
@@ -825,7 +841,7 @@ static void store_io(WORD addr, BYTE value)
  * the bus drivers of all involved chips interact and you get strange
  * results...
  */
-static BYTE read_io(WORD addr)
+static BYTE read_io_e8(WORD addr)
 {
     BYTE v1, v2, v3, v4;
 
@@ -883,6 +899,11 @@ static void store_void(WORD addr, BYTE value)
 static void store_dummy(WORD addr, BYTE value)
 {
     last_access = value;
+}
+
+static void store_io_88_8f(WORD addr, BYTE value)
+{
+    last_access = value;
 
     if (petreu_enabled) {
         if (addr >= 0x8800 && addr < 0x8900) {
@@ -893,6 +914,17 @@ static void store_dummy(WORD addr, BYTE value)
             store_petreu2_reg(addr, value);
         }
     }
+
+    if (sidcart_enabled()) {
+        if (addr >= sidcart_address && addr < sidcart_address + 0x1f) {
+            sid_store(addr, value);
+        }
+    }
+}
+
+static void store_io_e9_ef(WORD addr, BYTE value)
+{
+    last_access = value;
 
     if (petdww_enabled) {
         if (addr >= 0xeb00 && addr < 0xec00) {
@@ -907,8 +939,6 @@ static void store_dummy(WORD addr, BYTE value)
             sid_store(addr, value);
         }
     }
-
-    return;
 }
 
 /*
@@ -1044,20 +1074,15 @@ static void set_std_9tof(void)
     } else {
         /* Setup I/O at $e800 - $e800 + petres.IOSize. */
         /* i.e. IO at $e800... */
-        _mem_read_tab[0xe8] = read_io;
-        _mem_write_tab[0xe8] = store_io;
+        _mem_read_tab[0xe8] = read_io_e8;
+        _mem_write_tab[0xe8] = store_io_e8;
         _mem_read_base_tab[0xe8] = NULL;
         mem_read_limit_tab[0xe8] = 0;
 
         /* ... and unused address space following it, if any. */
         for (i = 0xe9; i < l; i++) {
-#if 0
-            _mem_read_tab[i] = read_e9_ee_io;
-            _mem_write_tab[i] = store_e9_ee_io;
-#else
-            _mem_read_tab[i] = read_unused;
-            _mem_write_tab[i] = store;
-#endif
+            _mem_read_tab[i] = read_io_e9_ef;
+            _mem_write_tab[i] = store_io_e9_ef;
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
         }
@@ -1229,8 +1254,8 @@ static void store_8x96(WORD addr, BYTE value)
                 bankCoffset = 0x8000 + ((value & FFF0_BANK_C) ? 0x8000 : 0);
                 for (l = 0xc0; l < 0x100; l++) {
                     if ((l == 0xe8) && (value & FFF0_IO_PEEK_THROUGH)) {
-                        _mem_read_tab[l] = read_io;
-                        _mem_write_tab[l] = store_io;
+                        _mem_read_tab[l] = read_io_e8;
+                        _mem_write_tab[l] = store_io_e8;
                         _mem_read_base_tab[l] = NULL;
                         mem_read_limit_tab[l] = 0;
                     } else {
@@ -1325,13 +1350,8 @@ void petmem_set_vidmem(void)
         /* Setup unused from $8800 to $8FFF */
         /* falls through if videoSize >= 0x1000 */
         for (; i < 0x90; i++) {
-#if 0
-            _mem_read_tab[i] = read_88_8f_io;
-            _mem_write_tab[i] = store_88_8f_io;
-#else
-            _mem_read_tab[i] = read_unused;
-            _mem_write_tab[i] = store_dummy;
-#endif
+            _mem_read_tab[i] = read_io_88_8f;
+            _mem_write_tab[i] = store_io_88_8f;
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
         }
@@ -1340,9 +1360,9 @@ void petmem_set_vidmem(void)
         int c = 0x8000 + COLOUR_MEMORY_START;
         i = (c >> 8) & 0xff;
         l = ((c + petres.videoSize) >> 8) & 0xff;
-	if (l > 0x90) {	/* compatibility with 8296 */
-	    l = 0x90;
-	}
+        if (l > 0x90) {	/* compatibility with 8296 */
+            l = 0x90;
+        }
 
         for (; i < l; i++) {
             _mem_read_tab[i] = ram_read;
@@ -1724,17 +1744,13 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
             break;
         case bank_io:          /* io */
             if (addr >= 0xe800 && addr < 0xe900) {
-                return read_io(addr);
+                return read_io_e8(addr);
             }
             if (petres.superpet && (addr & 0xff00) == 0xef00) {
                 return read_super_io(addr);
             }
             if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
-#if 0
-                return read_e9_ee_io(addr);
-#else
-                return read_unused(addr);
-#endif
+                return read_io_e9_ef(addr);
             }
         /* fallthrough to rom */
         case bank_rom:         /* rom */
@@ -1784,7 +1800,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
             return;
         case bank_io:           /* io */
             if (addr >= 0xe800 && addr < 0xe900) {
-                store_io(addr, byte);
+                store_io_e8(addr, byte);
                 return;
             }
             if (petres.superpet && (addr & 0xff00) == 0xef00) {
