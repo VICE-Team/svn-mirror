@@ -235,7 +235,7 @@ static void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk)
 
 static void digiblaster_store(WORD addr, BYTE value)
 {
-    if (addr & 1 == 0) {
+    if ((addr & 1) == 0) {
         digiblaster_sound_data = value;
         sound_store(digiblaster_sound_chip_offset, value, 0);
     }
@@ -243,7 +243,7 @@ static void digiblaster_store(WORD addr, BYTE value)
 
 static BYTE digiblaster_read(WORD addr)
 {
-    if (addr & 1 == 0) {
+    if ((addr & 1) == 0) {
         return sound_read(digiblaster_sound_chip_offset, 0);
     }
     /* TODO: add sound input (sampler) emulation */
