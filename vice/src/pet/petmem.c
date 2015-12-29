@@ -56,9 +56,6 @@
 #include "petvia.h"
 #include "ram.h"
 #include "resources.h"
-#include "sid.h"
-#include "sidcart.h"
-#include "sid-resources.h"
 #include "types.h"
 #include "via.h"
 #include "vsync.h"
@@ -234,12 +231,6 @@ BYTE read_unused(WORD addr)
 
 BYTE read_io_88_8f(WORD addr)
 {
-    if (sidcart_enabled()) {
-        if (addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
-            last_access = sid_read(addr);
-        }
-    }
-
     switch (addr & 0xff00) {
         case 0x8800:
             return petio_8800_read(addr);
@@ -269,12 +260,6 @@ BYTE read_io_e9_ef(WORD addr)
             last_access = read_petdww_reg(addr);
         } else if (addr >= 0xec00 && addr < 0xf000 && !petdww_mem_at_9000()) {
             last_access = read_petdww_ec00_ram(addr);
-        }
-    }
-
-    if (sidcart_enabled()) {
-        if (addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
-            last_access = sid_read(addr);
         }
     }
 
@@ -852,12 +837,6 @@ static void store_io_88_8f(WORD addr, BYTE value)
             petio_8f00_store(addr, value);
             break;
     }
-
-    if (sidcart_enabled()) {
-        if (addr >= sidcart_address && addr < sidcart_address + 0x1f) {
-            sid_store(addr, value);
-        }
-    }
 }
 
 static void store_io_e9_ef(WORD addr, BYTE value)
@@ -893,12 +872,6 @@ static void store_io_e9_ef(WORD addr, BYTE value)
             store_petdww_reg(addr, value);
         } else if (addr >= 0xec00 && addr < 0xf000 && !petdww_mem_at_9000()) {
             store_petdww_ec00_ram(addr, value);
-        }
-    }
-
-    if (sidcart_enabled()) {
-        if (addr >= sidcart_address && addr < sidcart_address + 0x1f) {
-            sid_store(addr, value);
         }
     }
 }
