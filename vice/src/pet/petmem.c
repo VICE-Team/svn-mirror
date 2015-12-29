@@ -52,7 +52,6 @@
 #include "petmem.h"
 #include "petmodel.h"
 #include "petpia.h"
-#include "petreu.h"
 #include "pets.h"
 #include "petvia.h"
 #include "ram.h"
@@ -235,16 +234,6 @@ BYTE read_unused(WORD addr)
 
 BYTE read_io_88_8f(WORD addr)
 {
-    if (petreu_enabled) {
-        if (addr >= 0x8800 && addr < 0x8900) {
-            last_access = read_petreu_reg(addr);
-        } else if (addr >= 0x8900 && addr < 0x8a00) {
-            last_access = read_petreu_ram(addr);
-        } else if (addr >= 0x8a00 && addr < 0x8b00) {
-            last_access = read_petreu2_reg(addr);
-        }
-    }
-
     if (sidcart_enabled()) {
         if (addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
             last_access = sid_read(addr);
@@ -737,110 +726,6 @@ DWORD mem6809_read32(WORD addr)
 
 /* ------------------------------------------------------------------------- */
 
-/* $E900-$EEFF open for I/O devices */
-
-#if 0
-static void store_e9_ee_io(WORD addr, BYTE value)
-{
-    switch (addr & 0xff00) {
-        case 0xe900:
-            petio_e900_store(addr, value);
-            break;
-        case 0xea00:
-            petio_ea00_store(addr, value);
-            break;
-        case 0xeb00:
-            petio_eb00_store(addr, value);
-            break;
-        case 0xec00:
-            petio_ec00_store(addr, value);
-            break;
-        case 0xed00:
-            petio_ed00_store(addr, value);
-            break;
-        case 0xee00:
-            petio_ee00_store(addr, value);
-            break;
-    }
-}
-
-static BYTE read_e9_ee_io(WORD addr)
-{
-    switch (addr & 0xff00) {
-        case 0xe900:
-            return petio_e900_read(addr);
-        case 0xea00:
-            return petio_ea00_read(addr);
-        case 0xeb00:
-            return petio_eb00_read(addr);
-        case 0xec00:
-            return petio_ec00_read(addr);
-        case 0xed00:
-            return petio_ed00_read(addr);
-        case 0xee00:
-            return petio_ee00_read(addr);
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* $8800-$8FFF open for I/O devices */
-
-static void store_88_8f_io(WORD addr, BYTE value)
-{
-    switch (addr & 0xff00) {
-        case 0x8800:
-            petio_8800_store(addr, value);
-            break;
-        case 0x8900:
-            petio_8900_store(addr, value);
-            break;
-        case 0x8a00:
-            petio_8a00_store(addr, value);
-            break;
-        case 0x8b00:
-            petio_8b00_store(addr, value);
-            break;
-        case 0x8c00:
-            petio_8c00_store(addr, value);
-            break;
-        case 0x8d00:
-            petio_8d00_store(addr, value);
-            break;
-        case 0x8e00:
-            petio_8e00_store(addr, value);
-            break;
-        case 0x8f00:
-            petio_8f00_store(addr, value);
-            break;
-    }
-}
-
-static BYTE read_88_8f_io(WORD addr)
-{
-    switch (addr & 0xff00) {
-        case 0x8800:
-            return petio_8800_read(addr);
-        case 0x8900:
-            return petio_8900_read(addr);
-        case 0x8a00:
-            return petio_8a00_read(addr);
-        case 0x8b00:
-            return petio_8b00_read(addr);
-        case 0x8c00:
-            return petio_8c00_read(addr);
-        case 0x8d00:
-            return petio_8d00_read(addr);
-        case 0x8e00:
-            return petio_8e00_read(addr);
-        case 0x8f00:
-            return petio_8f00_read(addr);
-    }
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
 /* The PET have all I/O chips connected to the same select lines.  Only one
    address lines is used as separate (high-active) select input.  I.e. PIA1
    always reacts when address & 0x10 is high, for example $e810, $e830,
@@ -966,16 +851,6 @@ static void store_io_88_8f(WORD addr, BYTE value)
         case 0x8f00:
             petio_8f00_store(addr, value);
             break;
-    }
-
-    if (petreu_enabled) {
-        if (addr >= 0x8800 && addr < 0x8900) {
-            store_petreu_reg(addr, value);
-        } else if (addr >= 0x8900 && addr < 0x8a00) {
-            store_petreu_ram(addr, value);
-        } else if (addr >= 0x8a00 && addr < 0x8b00) {
-            store_petreu2_reg(addr, value);
-        }
     }
 
     if (sidcart_enabled()) {
@@ -1895,11 +1770,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
                 return;
             }
             if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
-#if 0
-                store_e9_ee_io(addr, byte);
-#else
-                store_dummy(addr, byte);
-#endif
+                store_io_e9_ef(addr, byte);
                 return;
             }
         case bank_rom:          /* rom */

@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cartio.h"
 #include "cmdline.h"
 #include "interrupt.h"
 #include "lib.h"
@@ -86,9 +87,70 @@ static int petreu_size_kb = 0;
 /* Filename of the PET REU image.  */
 static char *petreu_filename = NULL;
 
+/* Some prototypes are needed */
+static BYTE read_petreu_reg(WORD addr);
+static BYTE read_petreu2_reg(WORD addr);
+static void store_petreu_reg(WORD addr, BYTE byte);
+static void store_petreu2_reg(WORD addr, BYTE byte);
+static BYTE read_petreu_ram(WORD addr);
+static void store_petreu_ram(WORD addr, BYTE byte);
+
+static io_source_t petreureg1_device = {
+    "PETREU REG 1",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0x8800, 0x88ff, 0x1f,
+    1, /* read is always valid */
+    store_petreu_reg,
+    read_petreu_reg,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_t petreureg2_device = {
+    "PETREU REG 2",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0x8a00, 0x8aff, 0x1f,
+    1, /* read is always valid */
+    store_petreu2_reg,
+    read_petreu2_reg,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_t petreuram_device = {
+    "PETREU RAM",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0x8900, 0x89ff, 0xff,
+    1, /* read is always valid */
+    store_petreu_ram,
+    read_petreu_ram,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_list_t *petreu_reg_1_list_item = NULL;
+static io_source_list_t *petreu_reg_2_list_item = NULL;
+static io_source_list_t *petreu_ram_list_item = NULL;
+
 static int set_petreu_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
+
+    if (val == petreu_enabled) {
+        return 0;
+    }
 
     if (!val) {
         if (petreu_enabled) {
@@ -97,7 +159,12 @@ static int set_petreu_enabled(int value, void *param)
             }
         }
         petreu_enabled = 0;
-        return 0;
+        io_source_unregister(petreu_reg_1_list_item);
+        petreu_reg_1_list_item = NULL;
+        io_source_unregister(petreu_reg_2_list_item);
+        petreu_reg_2_list_item = NULL;
+        io_source_unregister(petreu_ram_list_item);
+        petreu_ram_list_item = NULL;
     } else {
         if (!petreu_enabled) {
             if (petreu_activate() < 0) {
@@ -105,8 +172,11 @@ static int set_petreu_enabled(int value, void *param)
             }
         }
         petreu_enabled = 1;
-        return 0;
+        petreu_reg_1_list_item = io_source_register(&petreureg1_device);
+        petreu_reg_2_list_item = io_source_register(&petreureg2_device);
+        petreu_ram_list_item = io_source_register(&petreuram_device);
     }
+    return 0;
 }
 
 static int set_petreu_size(int val, void *param)
@@ -308,7 +378,7 @@ void petreu_shutdown(void)
 /* This might be over-simplifying things, returning the
    value without taking timers and interrupts into
    acount, if needed I'll fix this in the future. */
-BYTE read_petreu_reg(WORD addr)
+static BYTE read_petreu_reg(WORD addr)
 {
     BYTE retval;
 
@@ -317,7 +387,7 @@ BYTE read_petreu_reg(WORD addr)
     return retval;
 }
 
-BYTE read_petreu2_reg(WORD addr)
+static BYTE read_petreu2_reg(WORD addr)
 {
     BYTE retval;
 
@@ -403,7 +473,7 @@ static BYTE get_petreu2_ram(WORD addr)
     return retval;
 }
 
-BYTE read_petreu_ram(WORD addr)
+static BYTE read_petreu_ram(WORD addr)
 {
     if (petreu_size_kb == 128) {
         return get_petreu_ram(addr);
@@ -412,7 +482,7 @@ BYTE read_petreu_ram(WORD addr)
     }
 }
 
-void store_petreu_reg(WORD addr, BYTE byte)
+static void store_petreu_reg(WORD addr, BYTE byte)
 {
     petreu[addr & 0xf] = byte;
     if ((petreu[PETREU_CONTROL] & 0xe) != 0xc) {
@@ -425,7 +495,7 @@ void store_petreu_reg(WORD addr, BYTE byte)
     }
 }
 
-void store_petreu2_reg(WORD addr, BYTE byte)
+static void store_petreu2_reg(WORD addr, BYTE byte)
 {
     petreu2[addr & 0xf] = byte;
 }
@@ -486,7 +556,7 @@ static void put_petreu2_ram(WORD addr, BYTE byte)
     petreu_ram[(real_bank_value << 16) + (real_register_b_value << 8) + real_register_a_value] = byte;
 }
 
-void store_petreu_ram(WORD addr, BYTE byte)
+static void store_petreu_ram(WORD addr, BYTE byte)
 {
     if (petreu_size_kb == 128) {
         put_petreu_ram(addr, byte);
