@@ -37,6 +37,7 @@
 #include "maincpu.h"
 #include "plus4mem.h"
 #include "resources.h"
+#include "sampler.h"
 #include "sidcart.h"
 #include "sound.h"
 #include "uiapi.h"
@@ -151,9 +152,11 @@ static int set_digiblaster_enabled(int value, void *param)
         } else {
             digiblaster_list_item = io_source_register(&digiblaster_fe9e_device);
         }
+        sampler_start(SAMPLER_OPEN_MONO);
     } else {
         io_source_unregister(digiblaster_list_item);
         digiblaster_list_item = NULL;
+        sampler_stop();
     }
 
     digiblaster_sound_chip.chip_enabled = val ? 1 : 0;
@@ -246,6 +249,5 @@ static BYTE digiblaster_read(WORD addr)
     if ((addr & 1) == 0) {
         return sound_read(digiblaster_sound_chip_offset, 0);
     }
-    /* TODO: add sound input (sampler) emulation */
-    return read_unused(addr);
+    return sampler_get_sample(SAMPLER_CHANNEL_DEFAULT);
 }
