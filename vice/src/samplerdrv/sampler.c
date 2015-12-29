@@ -34,6 +34,7 @@
 #include "resources.h"
 #include "sampler.h"
 #include "translate.h"
+#include "uiapi.h"
 #include "util.h"
 
 #ifdef USE_PORTAUDIO
@@ -46,7 +47,6 @@
 #define DEFAULT_DEVICE SAMPLER_DEVICE_FILE
 #endif
 
-/* stays at 'DEFAULT_DEVICE' for now, but will become configurable in the future */
 static int current_sampler = DEFAULT_DEVICE;
 static int sampler_status = SAMPLER_CLOSED;
 
@@ -65,11 +65,18 @@ static void sampler_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-void sampler_start(int channels)
+static char *current_sampler_device = NULL;
+
+void sampler_start(int channels, char *devname)
 {
-    if (devices[current_sampler].open) {
-        devices[current_sampler].open(channels);
-        sampler_status = SAMPLER_STARTED | (channels << 1);
+    if (current_sampler_device) {
+        ui_error(translate_text(IDGS_SAMPLER_USED_BY), current_sampler_device);
+    } else {
+        if (devices[current_sampler].open) {
+            devices[current_sampler].open(channels);
+            sampler_status = SAMPLER_STARTED | (channels << 1);
+            current_sampler_device = devname;
+        }
     }
 }
 
@@ -78,6 +85,7 @@ void sampler_stop(void)
     if (devices[current_sampler].close) {
         devices[current_sampler].close();
         sampler_status = SAMPLER_CLOSED;
+        current_sampler_device = NULL;
     }
 }
 
@@ -131,7 +139,7 @@ static int set_sampler_device(int id, void *param)
         channels = sampler_status >> 1;
         sampler_stop();
         current_sampler = id;
-        sampler_start(channels);
+        sampler_start(channels, current_sampler_device);
     } else {
         current_sampler = id;
     }

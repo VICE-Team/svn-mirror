@@ -3642,6 +3642,22 @@ translate_t string_table[] = {
 /* tr */ {IDGS_SET_JOYPORT_S_DEVICE_TR, ""},  /* fuzzy */
 #endif
 
+/* samplerdrv/sampler.c */
+/* en */ {IDGS_SAMPLER_USED_BY,    N_("Sampler system already in use by %s.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SAMPLER_USED_BY_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SAMPLER_USED_BY_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SAMPLER_USED_BY_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SAMPLER_USED_BY_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SAMPLER_USED_BY_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SAMPLER_USED_BY_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SAMPLER_USED_BY_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SAMPLER_USED_BY_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SAMPLER_USED_BY_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SAMPLER_USED_BY_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SAMPLER_USED_BY_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SAMPLER_USED_BY_TR, ""},  /* fuzzy */
+#endif
 
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 

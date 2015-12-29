@@ -152,7 +152,7 @@ static int set_digiblaster_enabled(int value, void *param)
         } else {
             digiblaster_list_item = io_source_register(&digiblaster_fe9e_device);
         }
-        sampler_start(SAMPLER_OPEN_MONO);
+        sampler_start(SAMPLER_OPEN_MONO, "DigiBlaster");
     } else {
         io_source_unregister(digiblaster_list_item);
         digiblaster_list_item = NULL;

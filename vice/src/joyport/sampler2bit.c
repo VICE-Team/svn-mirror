@@ -45,7 +45,7 @@ static int joyport_sampler_enable(int port, int value)
     }
 
     if (val) {
-        sampler_start(SAMPLER_OPEN_MONO);
+        sampler_start(SAMPLER_OPEN_MONO, "2bit control port sampler");
     } else {
         sampler_stop();
     }

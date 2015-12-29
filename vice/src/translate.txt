@@ -634,6 +634,9 @@ IDGS_INKWELL_LIGHTPEN
 /* joyport.c */
 IDGS_SET_JOYPORT_S_DEVICE
 
+/* samplerdrv/sampler.c */
+IDGS_SAMPLER_USED_BY
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */
