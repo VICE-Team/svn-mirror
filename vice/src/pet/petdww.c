@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cartio.h"
 #include "cmdline.h"
 #include "crtc.h"
 #include "interrupt.h"
@@ -93,9 +94,100 @@ static int mem_at_9000;
 /* Filename of the PET DWW image.  */
 static char *petdww_filename = NULL;
 
+/* Some prototypes are needed */
+static BYTE read_petdww_reg(WORD addr);
+static BYTE read_petdww_ec00_ram(WORD addr);
+static void store_petdww_reg(WORD addr, BYTE value);
+static void store_petdww_ec00_ram(WORD addr, BYTE value);
+
+static io_source_t petdww_reg_device = {
+    "PETDWW REG",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xeb00, 0xebff, 3,
+    1, /* read is always valid */
+    store_petdww_reg,
+    read_petdww_reg,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_t petdww_ram_ec00_device = {
+    "PETDWW RAM",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xec00, 0xecff, 0x3ff,
+    1, /* read is always valid */
+    store_petdww_ec00_ram,
+    read_petdww_ec00_ram,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_t petdww_ram_ed00_device = {
+    "PETDWW RAM",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xed00, 0xedff, 0x3ff,
+    1, /* read is always valid */
+    store_petdww_ec00_ram,
+    read_petdww_ec00_ram,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_t petdww_ram_ee00_device = {
+    "PETDWW RAM",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xee00, 0xeeff, 0x3ff,
+    1, /* read is always valid */
+    store_petdww_ec00_ram,
+    read_petdww_ec00_ram,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_t petdww_ram_ef00_device = {
+    "PETDWW RAM",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xef00, 0xefff, 0x3ff,
+    1, /* read is always valid */
+    store_petdww_ec00_ram,
+    read_petdww_ec00_ram,
+    NULL, /* no peek */
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_NORMAL,
+    0
+};
+
+static io_source_list_t *petdww_reg_list_item = NULL;
+static io_source_list_t *petdww_ram_ec00_list_item = NULL;
+static io_source_list_t *petdww_ram_ed00_list_item = NULL;
+static io_source_list_t *petdww_ram_ee00_list_item = NULL;
+static io_source_list_t *petdww_ram_ef00_list_item = NULL;
+
 static int set_petdww_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
+
+    if (petdww_enabled == val) {
+        return 0;
+    }
 
     if (!val) {
         if (petdww_enabled) {
@@ -103,6 +195,18 @@ static int set_petdww_enabled(int value, void *param)
                 return -1;
             }
         }
+        if (petdww_ram_ec00_list_item) {
+            io_source_unregister(petdww_ram_ec00_list_item);
+            io_source_unregister(petdww_ram_ed00_list_item);
+            io_source_unregister(petdww_ram_ee00_list_item);
+            io_source_unregister(petdww_ram_ef00_list_item);
+            petdww_ram_ec00_list_item = NULL;
+            petdww_ram_ed00_list_item = NULL;
+            petdww_ram_ee00_list_item = NULL;
+            petdww_ram_ef00_list_item = NULL;
+        }
+        io_source_unregister(petdww_reg_list_item);
+        petdww_reg_list_item = NULL;
         petdww_enabled = 0;
         return 0;
     } else {
@@ -111,6 +215,13 @@ static int set_petdww_enabled(int value, void *param)
                 return -1;
             }
         }
+        if (!mem_at_9000) {
+            petdww_ram_ec00_list_item = io_source_register(&petdww_ram_ec00_device);
+            petdww_ram_ed00_list_item = io_source_register(&petdww_ram_ed00_device);
+            petdww_ram_ee00_list_item = io_source_register(&petdww_ram_ee00_device);
+            petdww_ram_ef00_list_item = io_source_register(&petdww_ram_ef00_device);
+        }
+        petdww_reg_list_item = io_source_register(&petdww_reg_device);
         petdww_enabled = 1;
         return 0;
     }
@@ -499,7 +610,7 @@ int petdww_mem_at_9000()
     return mem_at_9000;
 }
 
-BYTE read_petdww_reg(WORD addr)
+static BYTE read_petdww_reg(WORD addr)
 {
     /* forward to PIA */
 #if DWW_DEBUG_REG
@@ -508,7 +619,7 @@ BYTE read_petdww_reg(WORD addr)
     return petdwwpia_read(addr);
 }
 
-BYTE read_petdww_ec00_ram(WORD addr)
+static BYTE read_petdww_ec00_ram(WORD addr)
 {
     addr &= RAM_1K_SIZE_MASK;
     addr |= mem_bank;
@@ -517,7 +628,7 @@ BYTE read_petdww_ec00_ram(WORD addr)
 }
 
 
-void store_petdww_reg(WORD addr, BYTE byte)
+static void store_petdww_reg(WORD addr, BYTE byte)
 {
     /* forward to PIA */
 #if DWW_DEBUG_REG
@@ -526,7 +637,7 @@ void store_petdww_reg(WORD addr, BYTE byte)
     petdwwpia_store(addr, byte);
 }
 
-void store_petdww_ec00_ram(WORD addr, BYTE byte)
+static void store_petdww_ec00_ram(WORD addr, BYTE byte)
 {
 #if DWW_DEBUG_REG
     log_message(petdww_log, "store_petdww_ec00_ram: $%04x := $%02x", addr, byte);
@@ -571,8 +682,29 @@ static void store_pa(BYTE byte)
 
 static void store_pb(BYTE byte)
 {
+    int old_at_9000 = mem_at_9000;
+
     output_portb = byte;
     mem_at_9000 = !(byte & 0x01);
+
+    if (old_at_9000 != mem_at_9000) {
+        if (mem_at_9000) {
+            io_source_unregister(petdww_ram_ec00_list_item);
+            io_source_unregister(petdww_ram_ed00_list_item);
+            io_source_unregister(petdww_ram_ee00_list_item);
+            io_source_unregister(petdww_ram_ef00_list_item);
+            petdww_ram_ec00_list_item = NULL;
+            petdww_ram_ed00_list_item = NULL;
+            petdww_ram_ee00_list_item = NULL;
+            petdww_ram_ef00_list_item = NULL;
+        } else {
+            petdww_ram_ec00_list_item = io_source_register(&petdww_ram_ec00_device);
+            petdww_ram_ed00_list_item = io_source_register(&petdww_ram_ed00_device);
+            petdww_ram_ee00_list_item = io_source_register(&petdww_ram_ee00_device);
+            petdww_ram_ef00_list_item = io_source_register(&petdww_ram_ef00_device);
+        }
+    }
+
 #if DWW_DEBUG_REG
     log_message(petdww_log, "ddrb = %02x, pb = %02x, store_pb = %02x", mypia.ddr_b, mypia.port_b, byte);
 #endif

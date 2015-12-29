@@ -255,14 +255,6 @@ BYTE read_io_88_8f(WORD addr)
 
 BYTE read_io_e9_ef(WORD addr)
 {
-    if (petdww_enabled) {
-        if (addr >= 0xeb00 && addr < 0xec00) {
-            last_access = read_petdww_reg(addr);
-        } else if (addr >= 0xec00 && addr < 0xf000 && !petdww_mem_at_9000()) {
-            last_access = read_petdww_ec00_ram(addr);
-        }
-    }
-
     switch (addr & 0xff00) {
         case 0xe900:
             return petio_e900_read(addr);
@@ -866,14 +858,6 @@ static void store_io_e9_ef(WORD addr, BYTE value)
             petio_ef00_store(addr, value);
             break;
     }
-
-    if (petdww_enabled) {
-        if (addr >= 0xeb00 && addr < 0xec00) {
-            store_petdww_reg(addr, value);
-        } else if (addr >= 0xec00 && addr < 0xf000 && !petdww_mem_at_9000()) {
-            store_petdww_ec00_ram(addr, value);
-        }
-    }
 }
 
 /*
@@ -1256,7 +1240,7 @@ static int fff0_dump(void)
 
 void petmem_set_vidmem(void)
 {
-    int i, l, limit;
+    int i, l;
 
     l = ((0x8000 + petres.videoSize) >> 8) & 0xff;
 /*
@@ -1264,7 +1248,6 @@ void petmem_set_vidmem(void)
                 petres.videoSize,l);
 */
     /* Setup RAM from $8000 to $8000 + petres.videoSize ($8400 or $8800) */
-    limit = (l << 8) - 3;
     for (i = 0x80; i < l; i++) {
         _mem_read_tab[i] = ram_read;
         _mem_write_tab[i] = ram_store;
