@@ -1800,6 +1800,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
+    io_source_ioreg_add_list(&mem_ioreg_list);
     mon_ioreg_add_list(&mem_ioreg_list, "PIA1", 0xe810, 0xe81f, mem_dump_io);
     mon_ioreg_add_list(&mem_ioreg_list, "PIA2", 0xe820, 0xe82f, mem_dump_io);
     mon_ioreg_add_list(&mem_ioreg_list, "VIA", 0xe840, 0xe84f, mem_dump_io);
@@ -1808,9 +1809,6 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     }
     if (pethre_enabled) {
         mon_ioreg_add_list(&mem_ioreg_list, "HRE", 0xe888, 0xe888, mem_dump_io);
-    }
-    if (petdww_enabled) {
-        mon_ioreg_add_list(&mem_ioreg_list, "DWWPIA", 0xeb00, 0xeb0f, mem_dump_io);
     }
     if (petres.map) {
         mon_ioreg_add_list(&mem_ioreg_list, "8096", 0xfff0, 0xfff0, mem_dump_io);
