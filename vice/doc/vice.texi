@@ -2444,12 +2444,15 @@ Integer specifying the autostart mode for prg files
 
 @vindex AutostartDelayRandom
 @item AutostartDelayRandom
-Boolean, enables a short random delay on autostart
+Boolean, enables a short (0-10 frames) random delay on autostart
 (all emulators except vsid).
 
 @vindex AutostartDelay
 @item AutostartDelay
-Integer specifying the maximum delay in frames (0: use default)
+Integer specifying the delay in seconds required to wait for the kernal reset
+routine before autostart. (0: use builtin value for standard kernal)
+When tweaking this value start with 'large' values and then lower it, a value
+that is too small results in autostart not happening.
 (all emulators except vsid).
 (0..1000)
 
@@ -2518,7 +2521,10 @@ Enable/disable random delay on autostart
 
 @findex -autostart-delay
 @item -autostart-delay <seconds>
-Set initial autostart delay (0: use default)
+Set initial autostart delay in seconds for the kernal reset
+routine before autostart. (0: use builtin value for standard kernal).
+When tweaking this value start with 'large' values and then lower it, a value
+that is too small results in autostart not happening.
 (@code{AutostartDelay})
 (all emulators except vsid).
 (0..1000)
