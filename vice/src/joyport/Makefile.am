@@ -21,4 +21,6 @@ libjoyport_a_SOURCES = \
 	mouse.c \
 	mouse.h \
 	sampler2bit.c \
-	sampler2bit.h
+	sampler2bit.h \
+	sampler4bit.c \
+	sampler4bit.h

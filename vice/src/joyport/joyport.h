@@ -52,12 +52,13 @@
 #define JOYPORT_ID_LIGHTGUN_L         15
 #define JOYPORT_ID_LIGHTPEN_INKWELL   16
 #define JOYPORT_ID_SAMPLER_2BIT       17
-#define JOYPORT_ID_COPLIN_KEYPAD      18
-#define JOYPORT_ID_CARDCO_KEYPAD      19
-#define JOYPORT_ID_CX85_KEYPAD        20
-#define JOYPORT_ID_BBRTC              21
+#define JOYPORT_ID_SAMPLER_4BIT       18
+#define JOYPORT_ID_COPLIN_KEYPAD      19
+#define JOYPORT_ID_CARDCO_KEYPAD      20
+#define JOYPORT_ID_CX85_KEYPAD        21
+#define JOYPORT_ID_BBRTC              22
 
-#define JOYPORT_MAX_DEVICES           22
+#define JOYPORT_MAX_DEVICES           23
 
 #define JOYPORT_RES_ID_NONE      0
 #define JOYPORT_RES_ID_MOUSE     1

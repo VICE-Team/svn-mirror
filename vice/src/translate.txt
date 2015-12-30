@@ -613,6 +613,9 @@ IDGS_KOALAPAD
 /* joyport/sampler2bit.c */
 IDGS_SAMPLER_2BIT
 
+/* joyport/sampler4bit.c */
+IDGS_SAMPLER_4BIT
+
 /* lightpen.c */
 IDGS_LIGHTPEN_UP
 

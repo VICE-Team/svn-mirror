@@ -3523,6 +3523,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_SAMPLER_2BIT_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/sampler4bit.c */
+/* en */ {IDGS_SAMPLER_4BIT,    N_("Sampler (4bit)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SAMPLER_4BIT_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SAMPLER_4BIT_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SAMPLER_4BIT_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SAMPLER_4BIT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SAMPLER_4BIT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SAMPLER_4BIT_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SAMPLER_4BIT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SAMPLER_4BIT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SAMPLER_4BIT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SAMPLER_4BIT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SAMPLER_4BIT_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SAMPLER_4BIT_TR, ""},  /* fuzzy */
+#endif
+
 /* lightpen.c */
 /* en */ {IDGS_LIGHTPEN_UP,    N_("Light Pen (up trigger)")},
 #ifdef HAS_TRANSLATION

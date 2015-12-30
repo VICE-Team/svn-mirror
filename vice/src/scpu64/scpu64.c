@@ -81,6 +81,7 @@
 #include "rsuser.h"
 #include "sampler.h"
 #include "sampler2bit.h"
+#include "sampler4bit.h"
 #include "scpu64-cmdline-options.h"
 #include "scpu64-resources.h"
 #include "scpu64-snapshot.h"
@@ -413,6 +414,10 @@ int machine_resources_init(void)
     }
     if (joyport_sampler2bit_resources_init() < 0) {
         init_resource_fail("joyport 2bit sampler");
+        return -1;
+    }
+    if (joyport_sampler4bit_resources_init() < 0) {
+        init_resource_fail("joyport 4bit sampler");
         return -1;
     }
     if (joystick_resources_init() < 0) {
