@@ -52,15 +52,14 @@ static BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE_EXPANDED];
 #include "drivedos1570.h"
 #include "drivedos1571.h"
 #include "drivedos1581.h"
-#include "drivedos2000.h"
-#include "drivedos4000.h"
 #else
 static BYTE drive_rom1570[DRIVE_ROM1570_SIZE];
 static BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
 static BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
+#endif
+
 static BYTE drive_rom2000[DRIVE_ROM2000_SIZE];
 static BYTE drive_rom4000[DRIVE_ROM4000_SIZE];
-#endif
 
 /* If nonzero, the ROM image has been loaded.  */
 static unsigned int rom1540_loaded = 0;
