@@ -190,8 +190,9 @@ static sampler_device_t portaudio_device =
     portaudio_stop_sampling,
     portaudio_get_sample,
     portaudio_shutdown,
-    NULL,
-    NULL
+    NULL, /* no resources */
+    NULL, /* no cmdline options */
+    NULL  /* no reset */
 };
 
 

@@ -705,6 +705,7 @@ void machine_specific_reset(void)
     petreu_reset();
     petdww_reset();
     pethre_reset();
+    sampler_reset();
 }
 
 void machine_specific_shutdown(void)

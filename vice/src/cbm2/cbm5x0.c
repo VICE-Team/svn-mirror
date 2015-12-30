@@ -716,6 +716,8 @@ void machine_specific_reset(void)
     datasette_reset();
 
     mem_reset();
+
+    sampler_reset();
 }
 
 void machine_specific_powerup(void)

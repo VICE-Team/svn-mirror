@@ -797,6 +797,8 @@ void machine_specific_reset(void)
 
     drive_reset();
     datasette_reset();
+
+    sampler_reset();
 }
 
 void machine_specific_powerup(void)

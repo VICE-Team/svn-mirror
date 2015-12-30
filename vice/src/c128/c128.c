@@ -1061,6 +1061,8 @@ void machine_specific_reset(void)
 
     z80mem_initialize();
     z80_reset();
+
+    sampler_reset();
 }
 
 void machine_specific_powerup(void)

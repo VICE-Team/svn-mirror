@@ -871,6 +871,8 @@ void machine_specific_reset(void)
     }
     scpu64_hardware_reset();
 
+    sampler_reset();
+
     reset_poweron = 0;
 }
 

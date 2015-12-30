@@ -721,6 +721,8 @@ void machine_specific_reset(void)
 
     drive_reset();
     c64dtvmem_reset();
+
+    sampler_reset();
 }
 
 void machine_specific_powerup(void)

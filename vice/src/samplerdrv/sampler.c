@@ -67,6 +67,13 @@ static void sampler_init(void)
 
 static char *current_sampler_device = NULL;
 
+void sampler_reset(void)
+{
+    if (devices[current_sampler].reset) {
+        devices[current_sampler].reset();
+    }
+}
+
 void sampler_start(int channels, char *devname)
 {
     if (current_sampler_device) {
@@ -112,6 +119,7 @@ void sampler_device_register(sampler_device_t *device, int id)
     devices[id].shutdown = device->shutdown;
     devices[id].resources_init = device->resources_init;
     devices[id].cmdline_options_init = device->cmdline_options_init;
+    devices[id].reset = device->reset;
 }
 
 /* ------------------------------------------------------------------------- */

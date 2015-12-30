@@ -1010,6 +1010,8 @@ void machine_specific_reset(void)
     plus256k_reset();
     c64_256k_reset();
 
+    sampler_reset();
+
     reset_poweron = 0;
 }
 

@@ -2211,6 +2211,13 @@ static void file_shutdown(void)
     }
 }
 
+static void file_reset(void)
+{
+    if (sample_buffer1) {
+        sound_sampling_started = 0;
+    }
+}
+
 static sampler_device_t file_device =
 {
     "file",
@@ -2219,7 +2226,8 @@ static sampler_device_t file_device =
     file_get_sample,
     file_shutdown,
     sampler_file_resources_init,
-    sampler_file_cmdline_options_init
+    sampler_file_cmdline_options_init,
+    file_reset
 };
 
 void fileaudio_init(void)
