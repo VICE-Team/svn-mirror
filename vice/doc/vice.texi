@@ -9777,7 +9777,6 @@ Specify @file{NAME} as the cartridge image to attach.
 @subsubsection VIC20 command-line options
 
 @table @code
-
 @end table
 
 @c -----------------------------------------------------------------------------
@@ -10258,6 +10257,9 @@ thus are not present in the other emulators.
 
 @menu
 * PET model::
+* CRTC Settings::
+* PET I/O extensions::
+* PET system ROM::
 * PET diagnostic pin::
 * PET settings::
 * Colour PET::
@@ -10396,7 +10398,7 @@ It is also possible to select the PET model at startup, with the
 will emulate a PET 3032 while @samp{xpet -model 8296} will emulate a PET
 8296.
 
-@c @node FIXME
+@node CRTC Settings
 @subsection CRTC Settings
 
 @c @node FIXME
@@ -10602,7 +10604,7 @@ Enable/disable video to audio leak emulation
 
 @end table
 
-@c @node FIXME
+@node PET I/O extensions
 @subsection PET I/O extension settings
 
 @c @node FIXME
@@ -10745,7 +10747,7 @@ Specify clock of the SID Cartridge
 
 @end table
 
-@c @node FIXME
+@node PET system ROM
 @subsection PET system ROM settings
 
 @c @node FIXME
