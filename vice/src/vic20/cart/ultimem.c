@@ -24,8 +24,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *  02111-1307  USA.
+ *  Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335 USA.
  *
  */
 
@@ -608,7 +607,7 @@ int vic_um_bin_attach(const char *filename)
     flash040core_init(&flash_state, maincpu_alarm_context,
                       cart_rom_size == CART_ROM_SIZE_512K
                       ? FLASH040_TYPE_B
-                      : FLASH040_TYPE_010 /* FIXME: 29LV160 */,
+                      : FLASH040_TYPE_064,
                       cart_rom);
 
     mem_cart_blocks = VIC_CART_RAM123 |
@@ -801,7 +800,7 @@ int vic_um_snapshot_read_module(snapshot_t *s)
     flash040core_init(&flash_state, maincpu_alarm_context,
                       cart_rom_size == CART_ROM_SIZE_512K
                       ? FLASH040_TYPE_B
-                      : FLASH040_TYPE_010 /* FIXME: 29LV160 */,
+                      : FLASH040_TYPE_064,
                       cart_rom);
 
     snapshot_module_close(m);
