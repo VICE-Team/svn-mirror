@@ -608,7 +608,9 @@ static void keyboard_key_clear_internal(void)
     keyboard_clear_keymatrix();
     joystick_clear_all();
     virtual_shift_down = left_shift_down = right_shift_down = keyboard_shiftlock = 0;
+#ifdef COMMON_JOYKEYS
     joystick_joypad_clear();
+#endif
 }
 
 void keyboard_key_clear(void)
