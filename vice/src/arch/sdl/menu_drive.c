@@ -532,6 +532,17 @@ DRIVE_PARALLEL_MENU(9)
 DRIVE_PARALLEL_MENU(10)
 DRIVE_PARALLEL_MENU(11)
 
+UI_MENU_DEFINE_SLIDER(Drive8RPM, 25000, 35000)
+UI_MENU_DEFINE_SLIDER(Drive9RPM, 25000, 35000)
+UI_MENU_DEFINE_SLIDER(Drive10RPM, 25000, 35000)
+UI_MENU_DEFINE_SLIDER(Drive11RPM, 25000, 35000)
+
+UI_MENU_DEFINE_SLIDER(Drive8Wobble, 0, 1000)
+UI_MENU_DEFINE_SLIDER(Drive9Wobble, 0, 1000)
+UI_MENU_DEFINE_SLIDER(Drive10Wobble, 0, 1000)
+UI_MENU_DEFINE_SLIDER(Drive11Wobble, 0, 1000)
+
+
 /* patch some things that are slightly different in the emulators */
 void uidrive_menu_create(void)
 {
@@ -1012,6 +1023,14 @@ UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
           MENU_ENTRY_SUBMENU,                                   \
           drive_##x##_show_parallel_callback,                   \
           (ui_callback_data_t)drive_##x##_parallel_menu },      \
+        { "Drive " #x " RPM*100",                               \
+          MENU_ENTRY_RESOURCE_INT,                              \
+          slider_Drive##x##RPM_callback,                        \
+          (ui_callback_data_t)"Set RPM (29500-30500)" },        \
+        { "Drive " #x " wobble",                                \
+          MENU_ENTRY_RESOURCE_INT,                              \
+          slider_Drive##x##Wobble_callback,                     \
+          (ui_callback_data_t)"Set Wobble (0-1000)" },          \
         SDL_MENU_ITEM_SEPARATOR,                                \
         { "Attach Drive " #x" read only",                       \
           MENU_ENTRY_RESOURCE_TOGGLE,                           \

@@ -857,6 +857,7 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 UI_MENU_DEFINE_TOGGLE(CPMCart)
+UI_MENU_DEFINE_TOGGLE(SSRamExpansion)
 
 ui_menu_entry_t c64cart_menu[] = {
     { "Attach CRT image",
@@ -950,6 +951,10 @@ ui_menu_entry_t c64cart_menu[] = {
     { "CP/M Cartridge",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CPMCart_callback,
+      NULL },
+    { "Super Snapshot 32k RAM",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SSRamExpansion_callback,
       NULL },
     SDL_MENU_LIST_END
 };
