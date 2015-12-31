@@ -15415,6 +15415,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_SAMPLER_DEVICE_TR, ""},  /* fuzzy */
 #endif
 
+/* sampler/sampler.c */
+/* en */ {IDCLS_P_GAIN,    N_("<Sampler gain>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_GAIN_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_GAIN_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_GAIN_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_GAIN_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_GAIN_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_GAIN_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_GAIN_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_GAIN_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_GAIN_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_GAIN_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_GAIN_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_GAIN_TR, ""},  /* fuzzy */
+#endif
+
+/* sampler/sampler.c */
+/* en */ {IDCLS_SAMPLER_GAIN_IN_PERCENT,    N_("Specify sampler gain in percent (1%-200%)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_TR, ""},  /* fuzzy */
+#endif
+
 /* sound.c */
 /* en */ {IDCLS_P_ARGS,    N_("<args>")},
 #ifdef HAS_TRANSLATION

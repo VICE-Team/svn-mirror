@@ -50,6 +50,9 @@
 static int current_sampler = DEFAULT_DEVICE;
 static int sampler_status = SAMPLER_CLOSED;
 
+/* sampler gain in % */
+static int sampler_gain = 100;
+
 static sampler_device_t devices[SAMPLER_MAX_DEVICES];
 
 static void sampler_init(void)
@@ -61,6 +64,25 @@ static void sampler_init(void)
 #ifdef USE_PORTAUDIO
     portaudio_init();
 #endif
+}
+
+/* ------------------------------------------------------------------------- */
+
+static inline BYTE calc_gain(BYTE val)
+{
+    int tmp = (val - 0x80);
+
+    tmp = tmp * sampler_gain / 100;
+
+    if (tmp > 127) {
+        tmp = 127;
+    }
+
+    if (tmp < -128) {
+        tmp = -128;
+    }
+
+    return (BYTE)(tmp + 0x80);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -99,7 +121,10 @@ void sampler_stop(void)
 BYTE sampler_get_sample(int channel)
 {
     if (devices[current_sampler].get_sample) {
-        return devices[current_sampler].get_sample(channel);
+        if (sampler_gain == 100) {
+            return devices[current_sampler].get_sample(channel);
+        }
+        return calc_gain(devices[current_sampler].get_sample(channel));
     }
     return 0x80;
 }
@@ -155,9 +180,22 @@ static int set_sampler_device(int id, void *param)
     return 0;
 }
 
+static int set_sampler_gain(int gain, void *param)
+{
+    if (gain < 1 || gain > 200) {
+        return -1;
+    }
+
+    sampler_gain = gain;
+
+    return 0;
+}
+
 static const resource_int_t resources_int[] = {
-    { "SamplerDevice", 0, RES_EVENT_NO, (resource_value_t)DEFAULT_DEVICE,
+    { "SamplerDevice", DEFAULT_DEVICE, RES_EVENT_NO, NULL,
       &current_sampler, set_sampler_device, NULL },
+    { "SamplerGain", 100, RES_EVENT_NO, NULL,
+      &sampler_gain, set_sampler_gain, NULL },
     { NULL }
 };
 
@@ -199,6 +237,11 @@ static cmdline_option_t cmdline_options[] =
       NULL, NULL, "SamplerDevice", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDGS_DEVICE, IDCLS_SPECIFY_SAMPLER_DEVICE,
+      NULL, NULL },
+    { "-samplergain", SET_RESOURCE, 1,
+      NULL, NULL, "SamplerGain", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_GAIN, IDCLS_SAMPLER_GAIN_IN_PERCENT,
       NULL, NULL },
     { NULL }
 };

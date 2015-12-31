@@ -1610,7 +1610,7 @@ IDCLS_DISABLE_DRIVE_SOUND
 /* drive/drive-cmdline-options.c */
 IDCLS_SET_DRIVE_SOUND_VOLUME
 
-/* drive/drive-cmdline-options.c */
+/* drive/drive-cmdline-options.c, sound.c */
 IDCLS_P_VOLUME
 
 /* drive/drive-cmdline-options.c */
@@ -2716,6 +2716,12 @@ IDCLS_SPECIFY_SOUND_DRIVER
 
 /* sampler/sampler.c */
 IDCLS_SPECIFY_SAMPLER_DEVICE
+
+/* sampler/sampler.c */
+IDCLS_P_GAIN
+
+/* sampler/sampler.c */
+IDCLS_SAMPLER_GAIN_IN_PERCENT
 
 /* sound.c */
 IDCLS_P_ARGS
