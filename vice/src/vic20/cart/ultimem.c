@@ -77,8 +77,8 @@ static BYTE *cart_rom = NULL;
 
 #define ultimem_reg0_regs_disable 0x80
 #define ultimem_reg0_led 1
-#define ultimem_reg3_8m 0x17 /* UltiMem 8MiB */
-#define ultimem_reg3_512k 0x18 /* VicMidi+UltiMem 512KiB */
+#define ultimem_reg3_8m 0x11 /* UltiMem 8MiB */
+#define ultimem_reg3_512k 0x12 /* VicMidi+UltiMem 512KiB */
 
 #define CART_CFG_DISABLE (ultimem[0] & ultimem_reg0_regs_disable)
 

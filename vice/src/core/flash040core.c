@@ -100,7 +100,7 @@ static const flash_types_t flash_types[FLASH040_TYPE_NUM] = {
       0x800000,
       /* FIXME: some models support non-uniform sector layout */
       0x7f0000, 0x10000, 16,
-      0x555, 0x2aa, 0x7ff, 0x7ff,
+      0xaaa, 0x555, 0xfff, 0xfff,
       0x40 },
 };
 
