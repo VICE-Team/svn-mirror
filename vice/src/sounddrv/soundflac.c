@@ -75,7 +75,7 @@ static int flac_init(const char *param, int *speed, int *fragsize, int *fragnr, 
             (metadata[1] = FLAC__metadata_object_new(FLAC__METADATA_TYPE_PADDING)) == NULL ||
             !FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair(&entry, "CREATOR", "VICE") ||
             !FLAC__metadata_object_vorbiscomment_append_comment(metadata[0], entry, false) ||
-            !FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair(&entry, "YEAR", "2015") ||
+            !FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair(&entry, "YEAR", "2016") ||
             !FLAC__metadata_object_vorbiscomment_append_comment(metadata[0], entry, /*copy=*/false)
         ) {
             ok = false;
