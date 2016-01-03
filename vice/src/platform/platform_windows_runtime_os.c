@@ -154,6 +154,7 @@
 #include <windows.h>
 #include <stdio.h>
 
+#define VICE_DEBUG_H
 #include "lib.h"
 
 
