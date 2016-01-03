@@ -5,7 +5,7 @@
 	<key>CFBundleExecutable</key>
 	<string>XNAMEX</string>
 	<key>CFBundleGetInfoString</key>
-	<string>XNAMEX XVERSIONX (C) 2015 The VICE Team</string>
+	<string>XNAMEX XVERSIONX (C) 2016 The VICE Team</string>
 	<key>CFBundleIconFile</key>
 	<string>XNAMEX.icns</string>
 	<key>CFBundleIdentifier</key>

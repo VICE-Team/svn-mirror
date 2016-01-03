@@ -172,22 +172,23 @@ notice identical to this one.
 @vskip 0pt plus 1filll
 @c section used in file generation, keep to the format used.
 @c ---vice-core-team---
-Copyright @copyright{} 1999-2015 Andreas Matthies
-Copyright @copyright{} 1999-2015 Martin Pottendorfer
-Copyright @copyright{} 2005-2015 Marco van den Heuvel
-Copyright @copyright{} 2007-2015 Fabrizio Gennari
-Copyright @copyright{} 2007-2015 Daniel Kahlin
-Copyright @copyright{} 2009-2015 Groepaz
-Copyright @copyright{} 2009-2015 Errol Smith
-Copyright @copyright{} 2010-2015 Olaf Seibert
-Copyright @copyright{} 2011-2015 Marcus Sutton
-Copyright @copyright{} 2011-2015 Kajtar Zsolt
+Copyright @copyright{} 1999-2016 Andreas Matthies
+Copyright @copyright{} 1999-2016 Martin Pottendorfer
+Copyright @copyright{} 2005-2016 Marco van den Heuvel
+Copyright @copyright{} 2007-2016 Fabrizio Gennari
+Copyright @copyright{} 2009-2016 Groepaz
+Copyright @copyright{} 2011-2016 Marcus Sutton
+Copyright @copyright{} 2011-2016 Kajtar Zsolt
+Copyright @copyright{} 2011-2016 Stefan Haubenthal
+Copyright @copyright{} 2015-2016 BSzili
 @c ---vice-core-team-end---
 
 @c ---ex-team---
+Copyright @copyright{} 2007-2015 Daniel Kahlin
+Copyright @copyright{} 2009-2015 Errol Smith
+Copyright @copyright{} 2010-2015 Olaf Seibert
 Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 Copyright @copyright{} 2011-2014 Ulrich Schulz
-Copyright @copyright{} 2011-2014 Stefan Haubenthal
 Copyright @copyright{} 2011-2014 Thomas Giesel
 Copyright @copyright{} 2009-2014 Ingo Korb
 Copyright @copyright{} 2008-2014 Antti S. Lankila
@@ -26612,55 +26613,55 @@ Internationalization Team:
 @item
 @c ---translation-team---
 @b{Mikkel Holm Olsen}
-Copyright @copyright{} 2009-2015
+Copyright @copyright{} 2009-2016
 Provided the Danish user interface translations and fixed a few monitor bugs.
 
 @b{Martin Pottendorfer}
-Copyright @copyright{} 2000-2015
+Copyright @copyright{} 2000-2016
 Provided the German user interface translations.
 
 @b{Manuel Antonio Rodriguez Bas}
-Copyright @copyright{} 2011-2015
+Copyright @copyright{} 2011-2016
 Provided the Spanish user interface translations.
 
 @b{Paul Dubé}
-Copyright @copyright{} 2004-2015
+Copyright @copyright{} 2004-2016
 Provided the French user interface translations.
 
 @b{Czirkos Zoltan}
-Copyright @copyright{} 2006-2015
+Copyright @copyright{} 2006-2016
 Provided the Hungarian user interface translations.
 
 @b{Karai Csaba}
-Copyright @copyright{} 2006-2015
+Copyright @copyright{} 2006-2016
 Provided the Hungarian user interface translations.
 
 @b{Andrea Musuruane}
-Copyright @copyright{} 2001-2015
+Copyright @copyright{} 2001-2016
 Provided the Italian user interface translations.
 
 @b{Jesse Lee}
-Copyright @copyright{} 2011-2015
+Copyright @copyright{} 2011-2016
 Provided the Korean user interface translations.
 
 @b{Marco van den Heuvel}
-Copyright @copyright{} 2005-2015
+Copyright @copyright{} 2005-2016
 Provided the Dutch user interface translations.
 
 @b{Jarek Sobolewski}
-Copyright @copyright{} 2011-2015
+Copyright @copyright{} 2011-2016
 Provided the Polish user interface translations.
 
 @b{Michael Litvinov}
-Copyright @copyright{} 2010-2015
+Copyright @copyright{} 2010-2016
 Provided the Russian user interface translations.
 
 @b{Peter Krefting}
-Copyright @copyright{} 2000-2015
+Copyright @copyright{} 2000-2016
 Provided the Swedish user interface translations.
 
 @b{Emir Akaydin}
-Copyright @copyright{} 2008-2015
+Copyright @copyright{} 2008-2016
 Provided the Turkish user interface translations.
 
 @c ---translation-team-end---
@@ -27146,32 +27147,34 @@ cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1999-2015 Andreas Matthies
+Copyright @copyright{} 1999-2016 Andreas Matthies
 @item
-Copyright @copyright{} 1999-2015 Martin Pottendorfer
+Copyright @copyright{} 1999-2016 Martin Pottendorfer
 @item
-Copyright @copyright{} 2005-2015 Marco van den Heuvel
+Copyright @copyright{} 2005-2016 Marco van den Heuvel
 @item
-Copyright @copyright{} 2007-2015 Fabrizio Gennari
+Copyright @copyright{} 2007-2016 Fabrizio Gennari
+@item
+Copyright @copyright{} 2009-2016 Groepaz
+@item
+Copyright @copyright{} 2011-2016 Marcus Sutton
+@item
+Copyright @copyright{} 2011-2016 Kajtar Zsolt
+@item
+Copyright @copyright{} 2011-2016 Stefan Haubenthal
+@item
+Copyright @copyright{} 2015-2016 BSzili
+
 @item
 Copyright @copyright{} 2007-2015 Daniel Kahlin
-@item
-Copyright @copyright{} 2009-2015 Groepaz
 @item
 Copyright @copyright{} 2009-2015 Errol Smith
 @item
 Copyright @copyright{} 2010-2015 Olaf Seibert
 @item
-Copyright @copyright{} 2011-2015 Marcus Sutton
-@item
-Copyright @copyright{} 2011-2014 Kajtar Zsolt
-
-@item
 Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 @item
 Copyright @copyright{} 2011-2014 Ulrich Schulz
-@item
-Copyright @copyright{} 2011-2014 Stefan Haubenthal
 @item
 Copyright @copyright{} 2011-2014 Thomas Giesel
 @item

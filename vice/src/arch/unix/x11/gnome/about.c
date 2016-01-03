@@ -232,7 +232,7 @@ void ui_about(gpointer data)
 #else
                              "version", VERSION " (GTK+ " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
 #endif
-                             "copyright", _("(c) 1998 - 2015 The VICE Team"),
+                             "copyright", _("(c) 1998 - 2016 The VICE Team"),
                              "comments", "Versatile Commodore Emulator",
                              "authors", authors,
                              "documenters", doc_team,

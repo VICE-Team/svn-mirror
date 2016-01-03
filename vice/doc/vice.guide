@@ -2263,12 +2263,15 @@ All these resources are available for all emulators except vsid.
      to D64)
 
 `AutostartDelayRandom'
-     Boolean, enables a short random delay on autostart (all emulators
-     except vsid).
+     Boolean, enables a short (0-10 frames) random delay on autostart
+     (all emulators except vsid).
 
 `AutostartDelay'
-     Integer specifying the maximum delay in frames (0: use default)
-     (all emulators except vsid).  (0..1000)
+     Integer specifying the delay in seconds required to wait for the
+     kernal reset routine before autostart. (0: use builtin value for
+     standard kernal) When tweaking this value start with 'large'
+     values and then lower it, a value that is too small results in
+     autostart not happening.  (all emulators except vsid).  (0..1000)
 
 Autostart command-line options
 ------------------------------
@@ -2318,8 +2321,12 @@ vsid.
      (all emulators except vsid).
 
 `-autostart-delay <seconds>'
-     Set initial autostart delay (0: use default) (`AutostartDelay')
-     (all emulators except vsid).  (0..1000)
+     Set initial autostart delay in seconds for the kernal reset
+     routine before autostart. (0: use builtin value for standard
+     kernal).  When tweaking this value start with 'large' values and
+     then lower it, a value that is too small results in autostart not
+     happening.  (`AutostartDelay') (all emulators except vsid).
+     (0..1000)
 
 
 @EndNode
@@ -8804,6 +8811,9 @@ thus are not present in the other emulators.
 
 
  @{" PET model " Link "PET model"} 
+ @{" CRTC Settings " Link "CRTC Settings"} 
+ @{" PET I-O extensions " Link "PET I-O extensions"} 
+ @{" PET system ROM " Link "PET system ROM"} 
  @{" PET diagnostic pin " Link "PET diagnostic pin"} 
  @{" PET settings " Link "PET settings"} 
  @{" Colour PET " Link "Colour PET"} 
@@ -8815,7 +8825,7 @@ thus are not present in the other emulators.
 @EndNode
 
 @Node "PET model" "vice.guide/PET model"
-@Next "PET diagnostic pin"
+@Next "CRTC Settings"
 @Toc "PET-specific"
 
 Changing PET model settings
@@ -8930,6 +8940,14 @@ Notice that this will *reset the emulated machine*.
 It is also possible to select the PET model at startup, with the
 `-model' command-line option: for example, `xpet -model 3032' will
 emulate a PET 3032 while `xpet -model 8296' will emulate a PET 8296.
+
+
+@EndNode
+
+@Node "CRTC Settings" "vice.guide/CRTC Settings"
+@Next "PET I-O extensions"
+@Prev "PET model"
+@Toc "PET-specific"
 
 CRTC Settings
 -------------
@@ -9080,6 +9098,14 @@ CRTC command-line options
      Enable/disable video to audio leak emulation (`CrtcAudioLeak=1',
      `CrtcAudioLeak=0').
 
+
+@EndNode
+
+@Node "PET I-O extensions" "vice.guide/PET I-O extensions"
+@Next "PET system ROM"
+@Prev "CRTC Settings"
+@Toc "PET-specific"
+
 PET I/O extension settings
 --------------------------
 
@@ -9180,6 +9206,14 @@ PET I/O extension command-line options
 `-sidcartclock <clock>'
      Specify clock of the SID Cartridge (`SidClock').  (0: C64, 1: PET)
 
+
+@EndNode
+
+@Node "PET system ROM" "vice.guide/PET system ROM"
+@Next "PET diagnostic pin"
+@Prev "PET I-O extensions"
+@Toc "PET-specific"
+
 PET system ROM settings
 -----------------------
 
@@ -9250,7 +9284,7 @@ PET system ROM command-line options
 
 @Node "PET diagnostic pin" "vice.guide/PET diagnostic pin"
 @Next "PET settings"
-@Prev "PET model"
+@Prev "PET system ROM"
 @Toc "PET-specific"
 
 The PET diagnostic pin
@@ -20304,43 +20338,43 @@ Former/inactive team members:
 
 Internationalization Team:
 
-   * Mikkel Holm Olsen Copyright (C) 2009-2015 Provided the Danish user
+   * Mikkel Holm Olsen Copyright (C) 2009-2016 Provided the Danish user
      interface translations and fixed a few monitor bugs.
 
-     Martin Pottendorfer Copyright (C) 2000-2015 Provided the German
+     Martin Pottendorfer Copyright (C) 2000-2016 Provided the German
      user interface translations.
 
-     Manuel Antonio Rodriguez Bas Copyright (C) 2011-2015 Provided the
+     Manuel Antonio Rodriguez Bas Copyright (C) 2011-2016 Provided the
      Spanish user interface translations.
 
-     Paul Dubé Copyright (C) 2004-2015 Provided the French user
+     Paul Dubé Copyright (C) 2004-2016 Provided the French user
      interface translations.
 
-     Czirkos Zoltan Copyright (C) 2006-2015 Provided the Hungarian user
+     Czirkos Zoltan Copyright (C) 2006-2016 Provided the Hungarian user
      interface translations.
 
-     Karai Csaba Copyright (C) 2006-2015 Provided the Hungarian user
+     Karai Csaba Copyright (C) 2006-2016 Provided the Hungarian user
      interface translations.
 
-     Andrea Musuruane Copyright (C) 2001-2015 Provided the Italian user
+     Andrea Musuruane Copyright (C) 2001-2016 Provided the Italian user
      interface translations.
 
-     Jesse Lee Copyright (C) 2011-2015 Provided the Korean user
+     Jesse Lee Copyright (C) 2011-2016 Provided the Korean user
      interface translations.
 
-     Marco van den Heuvel Copyright (C) 2005-2015 Provided the Dutch
+     Marco van den Heuvel Copyright (C) 2005-2016 Provided the Dutch
      user interface translations.
 
-     Jarek Sobolewski Copyright (C) 2011-2015 Provided the Polish user
+     Jarek Sobolewski Copyright (C) 2011-2016 Provided the Polish user
      interface translations.
 
-     Michael Litvinov Copyright (C) 2010-2015 Provided the Russian user
+     Michael Litvinov Copyright (C) 2010-2016 Provided the Russian user
      interface translations.
 
-     Peter Krefting Copyright (C) 2000-2015 Provided the Swedish user
+     Peter Krefting Copyright (C) 2000-2016 Provided the Swedish user
      interface translations.
 
-     Emir Akaydin Copyright (C) 2008-2015 Provided the Turkish user
+     Emir Akaydin Copyright (C) 2008-2016 Provided the Turkish user
      interface translations.
 
 Documentation Team:
@@ -20658,31 +20692,33 @@ with.  :-)
 Copyright
 *********
 
-   * Copyright (C) 1999-2015 Andreas Matthies
+   * Copyright (C) 1999-2016 Andreas Matthies
 
-   * Copyright (C) 1999-2015 Martin Pottendorfer
+   * Copyright (C) 1999-2016 Martin Pottendorfer
 
-   * Copyright (C) 2005-2015 Marco van den Heuvel
+   * Copyright (C) 2005-2016 Marco van den Heuvel
 
-   * Copyright (C) 2007-2015 Fabrizio Gennari
+   * Copyright (C) 2007-2016 Fabrizio Gennari
+
+   * Copyright (C) 2009-2016 Groepaz
+
+   * Copyright (C) 2011-2016 Marcus Sutton
+
+   * Copyright (C) 2011-2016 Kajtar Zsolt
+
+   * Copyright (C) 2011-2016 Stefan Haubenthal
+
+   * Copyright (C) 2015-2016 BSzili
 
    * Copyright (C) 2007-2015 Daniel Kahlin
-
-   * Copyright (C) 2009-2015 Groepaz
 
    * Copyright (C) 2009-2015 Errol Smith
 
    * Copyright (C) 2010-2015 Olaf Seibert
 
-   * Copyright (C) 2011-2015 Marcus Sutton
-
-   * Copyright (C) 2011-2014 Kajtar Zsolt
-
    * Copyright (C) 2012-2014 Benjamin 'BeRo' Rosseaux
 
    * Copyright (C) 2011-2014 Ulrich Schulz
-
-   * Copyright (C) 2011-2014 Stefan Haubenthal
 
    * Copyright (C) 2011-2014 Thomas Giesel
 
@@ -20963,7 +20999,7 @@ Concept Index
  @{" -1 " Link "Command-line initialization"}                                   Command-line initialization
  @{" -10 " Link "Command-line initialization"}                                  Command-line initialization
  @{" -11 " Link "Command-line initialization"}                                  Command-line initialization
- @{" -6809romB " Link "PET model"}                            PET model
+ @{" -6809romB " Link "PET system ROM"}                            PET system ROM
  @{" -8 " Link "Command-line initialization"}                                   Command-line initialization
  @{" -9 " Link "Command-line initialization"}                                   Command-line initialization
  @{" -? " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
@@ -20995,7 +21031,7 @@ Concept Index
  @{" -chdir " Link "Command-line initialization"}                               Command-line initialization
  @{" -config " Link "Command-line initialization"}                              Command-line initialization
  @{" -console " Link "Command-line initialization"}                             Command-line initialization
- @{" -CrtcVidmodefullmode " Link "PET model"}                 PET model
+ @{" -CrtcVidmodefullmode " Link "CRTC Settings"}                 CRTC Settings
  @{" -d " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -default " Link "Command-line initialization"}                             Command-line initialization
  @{" -dtvblitterlog, +dtvblitterlog " Link "Debug"}       Debug
@@ -21235,17 +21271,17 @@ Index of Resources
  @{" ConfirmOnExit " Link "Windows-specific features"}                        Windows-specific features
  @{" ConfirmOnExit " Link "AmigaOS-specific features"}                        AmigaOS-specific features
  @{" CPUswitch " Link "PET settings"}                            PET settings
- @{" Crtc " Link "PET model"}                                 PET model
- @{" CrtcAudioLeak " Link "PET model"}                        PET model
- @{" CrtcColorBrightness " Link "PET model"}                  PET model
- @{" CrtcColorContrast " Link "PET model"}                    PET model
- @{" CrtcColorGamma " Link "PET model"}                       PET model
- @{" CrtcColorSaturation " Link "PET model"}                  PET model
- @{" CrtcColorTint " Link "PET model"}                        PET model
- @{" CrtcDoubleScan " Link "PET model"}                       PET model
- @{" CrtcDoubleSize " Link "PET model"}                       PET model
- @{" CrtcExternalPalette " Link "PET model"}                  PET model
- @{" CrtcFilter " Link "PET model"}                           PET model
+ @{" Crtc " Link "CRTC Settings"}                                 CRTC Settings
+ @{" CrtcAudioLeak " Link "CRTC Settings"}                        CRTC Settings
+ @{" CrtcColorBrightness " Link "CRTC Settings"}                  CRTC Settings
+ @{" CrtcColorContrast " Link "CRTC Settings"}                    CRTC Settings
+ @{" CrtcColorGamma " Link "CRTC Settings"}                       CRTC Settings
+ @{" CrtcColorSaturation " Link "CRTC Settings"}                  CRTC Settings
+ @{" CrtcColorTint " Link "CRTC Settings"}                        CRTC Settings
+ @{" CrtcDoubleScan " Link "CRTC Settings"}                       CRTC Settings
+ @{" CrtcDoubleSize " Link "CRTC Settings"}                       CRTC Settings
+ @{" CrtcExternalPalette " Link "CRTC Settings"}                  CRTC Settings
+ @{" CrtcFilter " Link "CRTC Settings"}                           CRTC Settings
  @{" CrtcFullscreen " Link "Unix-specific features"}                       Unix-specific features
  @{" CrtcFullscreen " Link "SDL-specific features"}                       SDL-specific features
  @{" CrtcFullscreenDevice " Link "SDL-specific features"}                 SDL-specific features
@@ -21254,14 +21290,14 @@ Index of Resources
  @{" CrtcFullscreenStatusbar " Link "SDL-specific features"}              SDL-specific features
  @{" CrtcHwScale " Link "SDL-specific features"}                          SDL-specific features
  @{" CrtcHwScale " Link "Unix-specific features"}                          Unix-specific features
- @{" CrtcPALBlur " Link "PET model"}                          PET model
- @{" CrtcPaletteFile " Link "PET model"}                      PET model
- @{" CrtcPALOddLineOffset " Link "PET model"}                 PET model
- @{" CrtcPALOddLinePhase " Link "PET model"}                  PET model
- @{" CrtcPALScanLineShade " Link "PET model"}                 PET model
+ @{" CrtcPALBlur " Link "CRTC Settings"}                          CRTC Settings
+ @{" CrtcPaletteFile " Link "CRTC Settings"}                      CRTC Settings
+ @{" CrtcPALOddLineOffset " Link "CRTC Settings"}                 CRTC Settings
+ @{" CrtcPALOddLinePhase " Link "CRTC Settings"}                  CRTC Settings
+ @{" CrtcPALScanLineShade " Link "CRTC Settings"}                 CRTC Settings
  @{" CrtcSDLFullscreenMode " Link "SDL-specific features"}                SDL-specific features
- @{" CrtcStretchVertical " Link "PET model"}                  PET model
- @{" CrtcVideoCache " Link "PET model"}                       PET model
+ @{" CrtcStretchVertical " Link "CRTC Settings"}                  CRTC Settings
+ @{" CrtcVideoCache " Link "CRTC Settings"}                       CRTC Settings
  @{" CrtcVidmodeFullscreenMode " Link "XAW-specific features"}            XAW-specific features
  @{" CrtcXRANDRFullscreenMode " Link "XAW-specific features"}             XAW-specific features
  @{" DatasetteResetWithCPU " Link "Sound options"}                Sound options
@@ -21453,12 +21489,12 @@ Index of Resources
  @{" GlueLogic " Link "C64 system ROM options"}                            C64 system ROM options
  @{" GlueLogic " Link "SCPU64-specific"}                            SCPU64-specific
  @{" Go64Mode " Link "C128-specific"}                             C128-specific
- @{" H6809RomAName " Link "PET model"}                        PET model
- @{" H6809RomBName " Link "PET model"}                        PET model
- @{" H6809RomCName " Link "PET model"}                        PET model
- @{" H6809RomDName " Link "PET model"}                        PET model
- @{" H6809RomEName " Link "PET model"}                        PET model
- @{" H6809RomFName " Link "PET model"}                        PET model
+ @{" H6809RomAName " Link "PET system ROM"}                        PET system ROM
+ @{" H6809RomBName " Link "PET system ROM"}                        PET system ROM
+ @{" H6809RomCName " Link "PET system ROM"}                        PET system ROM
+ @{" H6809RomDName " Link "PET system ROM"}                        PET system ROM
+ @{" H6809RomEName " Link "PET system ROM"}                        PET system ROM
+ @{" H6809RomFName " Link "PET system ROM"}                        PET system ROM
  @{" HotkeyFile " Link "SDL-specific features"}                           SDL-specific features
  @{" HTMLBrowserCommand " Link "Unix-specific features"}                   Unix-specific features
  @{" HummerADC " Link "Monitor DTV features"}                            Monitor DTV features
@@ -21727,14 +21763,14 @@ Index of Resources
  @{" openGL_no_sync " Link "Video resources"}                       Video resources
  @{" openGL_sync " Link "Video resources"}                          Video resources
  @{" OverClock " Link "SDL-specific features"}                            SDL-specific features
- @{" PETColour " Link "PET model"}                            PET model
- @{" PETColourBG " Link "PET model"}                          PET model
- @{" PETDWW " Link "PET model"}                               PET model
- @{" PETDWWfilename " Link "PET model"}                       PET model
- @{" PETHRE " Link "PET model"}                               PET model
- @{" PETREU " Link "PET model"}                               PET model
- @{" PETREUfilename " Link "PET model"}                       PET model
- @{" PETREUsize " Link "PET model"}                           PET model
+ @{" PETColour " Link "PET I-O extensions"}                            PET I-O extensions
+ @{" PETColourBG " Link "PET I-O extensions"}                          PET I-O extensions
+ @{" PETDWW " Link "PET I-O extensions"}                               PET I-O extensions
+ @{" PETDWWfilename " Link "PET I-O extensions"}                       PET I-O extensions
+ @{" PETHRE " Link "PET I-O extensions"}                               PET I-O extensions
+ @{" PETREU " Link "PET I-O extensions"}                               PET I-O extensions
+ @{" PETREUfilename " Link "PET I-O extensions"}                       PET I-O extensions
+ @{" PETREUsize " Link "PET I-O extensions"}                           PET I-O extensions
  @{" PLUS256Kfilename " Link "C64 system ROM options"}                     C64 system ROM options
  @{" PLUS60Kbase " Link "C64 system ROM options"}                          C64 system ROM options
  @{" PLUS60Kfilename " Link "C64 system ROM options"}                      C64 system ROM options
@@ -21836,12 +21872,12 @@ Index of Resources
  @{" ShowStatusbar " Link "DOS-specific features"}                        DOS-specific features
  @{" SidAddress " Link "PLUS4-specific"}                           PLUS4-specific
  @{" SidAddress " Link "VIC20 cartridges"}                           VIC20 cartridges
- @{" SidAddress " Link "PET model"}                           PET model
+ @{" SidAddress " Link "PET I-O extensions"}                           PET I-O extensions
  @{" SidCart " Link "PLUS4-specific"}                              PLUS4-specific
  @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
- @{" SidCart " Link "PET model"}                              PET model
+ @{" SidCart " Link "PET I-O extensions"}                              PET I-O extensions
  @{" SIDCartJoy " Link "PLUS4-specific"}                           PLUS4-specific
- @{" SidClock " Link "PET model"}                             PET model
+ @{" SidClock " Link "PET I-O extensions"}                             PET I-O extensions
  @{" SidClock " Link "PLUS4-specific"}                             PLUS4-specific
  @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
  @{" SidEngine " Link "SID resources"}                            SID resources
@@ -21913,7 +21949,7 @@ Index of Resources
  @{" UseFullscreen " Link "XAW-specific features"}                        XAW-specific features
  @{" UseFullscreen " Link "XAW-specific features"}                        XAW-specific features
  @{" UseLeds " Link "DOS-specific features"}                              DOS-specific features
- @{" UserportDAC " Link "PET model"}                          PET model
+ @{" UserportDAC " Link "PET I-O extensions"}                          PET I-O extensions
  @{" UserportJoy " Link "Control port options"}                          Control port options
  @{" UserportJoyType " Link "Control port options"}                      Control port options
  @{" UserportRTC " Link "Misc resources"}                          Misc resources
@@ -22050,11 +22086,11 @@ Index of Command-line options
  @{" -256kbase " Link "C64 system ROM options"}                            C64 system ROM options
  @{" -256kimage " Link "C64 system ROM options"}                           C64 system ROM options
  @{" -40col " Link "C128-specific"}                               C128-specific
- @{" -6809romA " Link "PET model"}                            PET model
- @{" -6809romC " Link "PET model"}                            PET model
- @{" -6809romD " Link "PET model"}                            PET model
- @{" -6809romE " Link "PET model"}                            PET model
- @{" -6809romF " Link "PET model"}                            PET model
+ @{" -6809romA " Link "PET system ROM"}                            PET system ROM
+ @{" -6809romC " Link "PET system ROM"}                            PET system ROM
+ @{" -6809romD " Link "PET system ROM"}                            PET system ROM
+ @{" -6809romE " Link "PET system ROM"}                            PET system ROM
+ @{" -6809romF " Link "PET system ROM"}                            PET system ROM
  @{" -80col " Link "C128-specific"}                               C128-specific
  @{" -acia1, +acia1 " Link "RS232 options"}                       RS232 options
  @{" -acia1base " Link "RS232 options"}                           RS232 options
@@ -22076,7 +22112,7 @@ Index of Command-line options
  @{" -autostartprgmode " Link "Resources and command-line"}                    Resources and command-line
  @{" -autostartwithcolon, +autostartwithcolon " Link "Resources and command-line"} Resources and command-line
  @{" -basic " Link "VSID-specific"}                               VSID-specific
- @{" -basic " Link "PET model"}                               PET model
+ @{" -basic " Link "PET system ROM"}                               PET system ROM
  @{" -basic " Link "C64 system ROM options"}                               C64 system ROM options
  @{" -basic " Link "CBM-II model"}                               CBM-II model
  @{" -basic " Link "VIC20 system ROM options"}                               VIC20 system ROM options
@@ -22174,7 +22210,7 @@ Index of Command-line options
  @{" -chargde " Link "C128-specific"}                             C128-specific
  @{" -chargen " Link "VSID-specific"}                             VSID-specific
  @{" -chargen " Link "Monitor DTV features"}                             Monitor DTV features
- @{" -chargen " Link "PET model"}                             PET model
+ @{" -chargen " Link "PET system ROM"}                             PET system ROM
  @{" -chargen " Link "C128-specific"}                             C128-specific
  @{" -chargen " Link "CBM-II model"}                             CBM-II model
  @{" -chargen " Link "C64 system ROM options"}                             C64 system ROM options
@@ -22186,9 +22222,9 @@ Index of Command-line options
  @{" -cia2model " Link "C64 cartridges"}                           C64 cartridges
  @{" -ciamodel " Link "C64 cartridges"}                            C64 cartridges
  @{" -colormap, +colormap " Link "XAW-specific features"}                 XAW-specific features
- @{" -colour-analog " Link "PET model"}                       PET model
- @{" -colour-analog-bg " Link "PET model"}                    PET model
- @{" -colour-rgbi " Link "PET model"}                         PET model
+ @{" -colour-analog " Link "PET I-O extensions"}                       PET I-O extensions
+ @{" -colour-analog-bg " Link "PET I-O extensions"}                    PET I-O extensions
+ @{" -colour-rgbi " Link "PET I-O extensions"}                         PET I-O extensions
  @{" -confirmexit, +confirmexit " Link "Unix-specific features"}           Unix-specific features
  @{" -confirmexit, +confirmexit " Link "Windows-specific features"}           Windows-specific features
  @{" -confirmexit, +confirmexit " Link "SDL-specific features"}           SDL-specific features
@@ -22202,31 +22238,31 @@ Index of Command-line options
  @{" -cpu6502 " Link "PET settings"}                             PET settings
  @{" -cpu6809 " Link "PET settings"}                             PET settings
  @{" -cpuprog " Link "PET settings"}                             PET settings
- @{" -crtc, +crtc " Link "PET model"}                         PET model
- @{" -Crtcaudioleak, +Crtcaudioleak " Link "PET model"}       PET model
- @{" -Crtcbrightness " Link "PET model"}                      PET model
- @{" -Crtccontrast " Link "PET model"}                        PET model
- @{" -Crtccrtblur " Link "PET model"}                         PET model
- @{" -Crtccrtscanlineshade " Link "PET model"}                PET model
- @{" -Crtcdscan, +Crtcdscan " Link "PET model"}               PET model
- @{" -Crtcdsize, +Crtcdsize " Link "PET model"}               PET model
- @{" -Crtcextpal " Link "PET model"}                          PET model
- @{" -Crtcfilter " Link "PET model"}                          PET model
+ @{" -crtc, +crtc " Link "CRTC Settings"}                         CRTC Settings
+ @{" -Crtcaudioleak, +Crtcaudioleak " Link "CRTC Settings"}       CRTC Settings
+ @{" -Crtcbrightness " Link "CRTC Settings"}                      CRTC Settings
+ @{" -Crtccontrast " Link "CRTC Settings"}                        CRTC Settings
+ @{" -Crtccrtblur " Link "CRTC Settings"}                         CRTC Settings
+ @{" -Crtccrtscanlineshade " Link "CRTC Settings"}                CRTC Settings
+ @{" -Crtcdscan, +Crtcdscan " Link "CRTC Settings"}               CRTC Settings
+ @{" -Crtcdsize, +Crtcdsize " Link "CRTC Settings"}               CRTC Settings
+ @{" -Crtcextpal " Link "CRTC Settings"}                          CRTC Settings
+ @{" -Crtcfilter " Link "CRTC Settings"}                          CRTC Settings
  @{" -CRTCfull, +CRTCfull " Link "SDL-specific features"}                 SDL-specific features
  @{" -CRTCfulldevice " Link "Unix-specific features"}                      Unix-specific features
  @{" -CRTCfulldevice " Link "SDL-specific features"}                      SDL-specific features
- @{" -Crtcgamma " Link "PET model"}                           PET model
+ @{" -Crtcgamma " Link "CRTC Settings"}                           CRTC Settings
  @{" -CRTChwscale, +CRTChwscale " Link "SDL-specific features"}           SDL-specific features
  @{" -CRTChwscale, +CRTChwscale " Link "Unix-specific features"}           Unix-specific features
- @{" -Crtcintpal " Link "PET model"}                          PET model
- @{" -Crtcoddlinesoffset " Link "PET model"}                  PET model
- @{" -Crtcoddlinesphase " Link "PET model"}                   PET model
- @{" -Crtcpalette " Link "PET model"}                         PET model
- @{" -Crtcsaturation " Link "PET model"}                      PET model
+ @{" -Crtcintpal " Link "CRTC Settings"}                          CRTC Settings
+ @{" -Crtcoddlinesoffset " Link "CRTC Settings"}                  CRTC Settings
+ @{" -Crtcoddlinesphase " Link "CRTC Settings"}                   CRTC Settings
+ @{" -Crtcpalette " Link "CRTC Settings"}                         CRTC Settings
+ @{" -Crtcsaturation " Link "CRTC Settings"}                      CRTC Settings
  @{" -CRTCSDLfullmode " Link "SDL-specific features"}                     SDL-specific features
- @{" -CRTCstretchvertical, +CRTCstretchvertical " Link "PET model"} PET model
- @{" -Crtctint " Link "PET model"}                            PET model
- @{" -Crtcvcache, +Crtcvcache " Link "PET model"}             PET model
+ @{" -CRTCstretchvertical, +CRTCstretchvertical " Link "CRTC Settings"} CRTC Settings
+ @{" -Crtctint " Link "CRTC Settings"}                            CRTC Settings
+ @{" -Crtcvcache, +Crtcvcache " Link "CRTC Settings"}             CRTC Settings
  @{" -CrtcVidmodefullmode " Link "XAW-specific features"}                 XAW-specific features
  @{" -CrtcXRANDRfullmode " Link "XAW-specific features"}                  XAW-specific features
  @{" -debug, +debug " Link "Misc options"}                       Misc options
@@ -22343,7 +22379,7 @@ Index of Command-line options
  @{" -easyflashcrtoptimize, +easyflashcrtoptimize " Link "C64 cartridges"} C64 cartridges
  @{" -easyflashcrtwrite, +easyflashcrtwrite " Link "C64 cartridges"} C64 cartridges
  @{" -easyflashjumper, +easyflashjumper " Link "C64 cartridges"}   C64 cartridges
- @{" -editor " Link "PET model"}                              PET model
+ @{" -editor " Link "PET system ROM"}                              PET system ROM
  @{" -eoiblank, +eoiblank " Link "PET settings"}                 PET settings
  @{" -eventendsnapshot " Link "C500 data module"}                    C500 data module
  @{" -eventimageinc / +eventimageinc " Link "C500 data module"}      C500 data module
@@ -22509,7 +22545,7 @@ Index of Command-line options
  @{" -keepenv " Link "VSID-specific"}                             VSID-specific
  @{" -keepmonopen, +keepmonopen " Link "Monitor options"}           Monitor options
  @{" -kernal " Link "CBM-II model"}                              CBM-II model
- @{" -kernal " Link "PET model"}                              PET model
+ @{" -kernal " Link "PET system ROM"}                              PET system ROM
  @{" -kernal " Link "C128-specific"}                              C128-specific
  @{" -kernal " Link "C64 system ROM options"}                              C64 system ROM options
  @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
@@ -22616,14 +22652,14 @@ Index of Command-line options
  @{" -parallel11 " Link "Drive options"}                          Drive options
  @{" -parallel8 " Link "Drive options"}                           Drive options
  @{" -parallel9 " Link "Drive options"}                           Drive options
- @{" -petdww, +petdww " Link "PET model"}                     PET model
- @{" -petdwwimage " Link "PET model"}                         PET model
- @{" -pethre, +pethre " Link "PET model"}                     PET model
+ @{" -petdww, +petdww " Link "PET I-O extensions"}                     PET I-O extensions
+ @{" -petdwwimage " Link "PET I-O extensions"}                         PET I-O extensions
+ @{" -pethre, +pethre " Link "PET I-O extensions"}                     PET I-O extensions
  @{" -petram9, +petram9 " Link "PET settings"}                   PET settings
  @{" -petramA, +petramA " Link "PET settings"}                   PET settings
- @{" -petreu, +petreu " Link "PET model"}                     PET model
- @{" -petreuimage " Link "PET model"}                         PET model
- @{" -petreuramsize " Link "PET model"}                       PET model
+ @{" -petreu, +petreu " Link "PET I-O extensions"}                     PET I-O extensions
+ @{" -petreuimage " Link "PET I-O extensions"}                         PET I-O extensions
+ @{" -petreuramsize " Link "PET I-O extensions"}                       PET I-O extensions
  @{" -playback " Link "C500 data module"}                            C500 data module
  @{" -plus256kimage " Link "C64 system ROM options"}                       C64 system ROM options
  @{" -plus60kbase " Link "C64 system ROM options"}                         C64 system ROM options
@@ -22669,9 +22705,9 @@ Index of Command-line options
  @{" -reuimage " Link "C64 I-O extension options"}                            C64 I-O extension options
  @{" -reuimagerw, +reuimagerw " Link "C64 I-O extension options"}             C64 I-O extension options
  @{" -reusize " Link "C64 I-O extension options"}                             C64 I-O extension options
- @{" -rom9 " Link "PET model"}                                PET model
- @{" -romA " Link "PET model"}                                PET model
- @{" -romB " Link "PET model"}                                PET model
+ @{" -rom9 " Link "PET system ROM"}                                PET system ROM
+ @{" -romA " Link "PET system ROM"}                                PET system ROM
+ @{" -romB " Link "PET system ROM"}                                PET system ROM
  @{" -rrbankjumper, +rrbankjumper " Link "C64 cartridges"}         C64 cartridges
  @{" -rrbioswrite, +rrbioswrite " Link "C64 cartridges"}           C64 cartridges
  @{" -rrflashjumper, +rrflashjumper " Link "C64 cartridges"}       C64 cartridges
@@ -22702,12 +22738,12 @@ Index of Command-line options
  @{" -sfxss, +sfxss " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxssioswap, +sfxssioswap " Link "VIC20 cartridges"}           VIC20 cartridges
  @{" -sidcart, +sidcart " Link "PLUS4-specific"}                   PLUS4-specific
- @{" -sidcart, +sidcart " Link "PET model"}                   PET model
+ @{" -sidcart, +sidcart " Link "PET I-O extensions"}                   PET I-O extensions
  @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
- @{" -sidcartaddress " Link "PET model"}                      PET model
+ @{" -sidcartaddress " Link "PET I-O extensions"}                      PET I-O extensions
  @{" -sidcartaddress " Link "VIC20 cartridges"}                      VIC20 cartridges
  @{" -sidcartaddress " Link "PLUS4-specific"}                      PLUS4-specific
- @{" -sidcartclock " Link "PET model"}                        PET model
+ @{" -sidcartclock " Link "PET I-O extensions"}                        PET I-O extensions
  @{" -sidcartclock " Link "PLUS4-specific"}                        PLUS4-specific
  @{" -sidcartclock " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" -sidcartjoy, +sidcartjoy " Link "PLUS4-specific"}             PLUS4-specific
@@ -22775,7 +22811,7 @@ Index of Command-line options
  @{" -trueflashfs, +trueflashfs " Link "C64DTV ROM image"}           C64DTV ROM image
  @{" -tune " Link "VSID-specific"}                                VSID-specific
  @{" -umwriteback, +umwriteback " Link "VIC20 cartridges"}           VIC20 cartridges
- @{" -userportdac, +userportdac " Link "PET model"}           PET model
+ @{" -userportdac, +userportdac " Link "PET I-O extensions"}           PET I-O extensions
  @{" -userportjoy, +userportjoy " Link "Control port options"}           Control port options
  @{" -userportjoytype " Link "Control port options"}                     Control port options
  @{" -userportrtc, +userportrtc " Link "Misc options"}           Misc options

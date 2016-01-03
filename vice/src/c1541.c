@@ -3098,7 +3098,7 @@ int main(int argc, char **argv)
         interactive_mode = 1;
         printf("C1541 Version %d.%02d.\n",
                C1541_VERSION_MAJOR, C1541_VERSION_MINOR);
-        printf("Copyright 1995-2015 The VICE Development Team.\n"
+        printf("Copyright 1995-2016 The VICE Development Team.\n"
                "C1541 is free software, covered by the GNU General Public License,"
                " and you are\n"
                "welcome to change it and/or distribute copies of it under certain"
