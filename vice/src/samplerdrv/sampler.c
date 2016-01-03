@@ -55,6 +55,11 @@ static int sampler_gain = 100;
 
 static sampler_device_t devices[SAMPLER_MAX_DEVICES];
 
+sampler_device_t *sampler_get_devices(void)
+{
+    return devices;
+}
+
 static void sampler_init(void)
 {
     memset(devices, 0, sizeof(devices));
@@ -229,7 +234,6 @@ void sampler_resources_shutdown(void)
 /* ------------------------------------------------------------------------- */
 
 static char *cmdline_devices = NULL;
-
 
 static cmdline_option_t cmdline_options[] =
 {

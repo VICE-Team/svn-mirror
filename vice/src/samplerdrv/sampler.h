@@ -66,4 +66,6 @@ extern int sampler_resources_init(void);
 extern void sampler_resources_shutdown(void);
 extern int sampler_cmdline_options_init(void);
 
+extern sampler_device_t *sampler_get_devices(void);
+
 #endif
