@@ -2220,7 +2220,7 @@ static void file_reset(void)
 
 static sampler_device_t file_device =
 {
-    "file",
+    "media file input",
     file_load_sample,
     file_free_sample,
     file_get_sample,
