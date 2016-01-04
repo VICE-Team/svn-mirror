@@ -940,6 +940,7 @@ void ui_set_topmenu(ui_menu_entry_t *menu)
         DBG(("ui_set_topmenu %d: %p", i, app_shells[i].topmenu));
         if (app_shells[i].topmenu) {
             gtk_container_foreach(GTK_CONTAINER(app_shells[i].topmenu), (GtkCallback)gtk_widget_destroy, NULL);
+	    /* gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), app_shells[i].accel); */
             ui_menu_create(app_shells[i].topmenu, app_shells[i].accel, "TopLevelMenu", menu);
         }
     }
@@ -1246,10 +1247,8 @@ static void setup_aspect_geo(video_canvas_t *canvas, int winw, int winh)
             appshell->geo.min_aspect = aspect;
             appshell->geo.max_aspect = aspect;
             appshell->geo.min_width = (int)((float)winw * taspect);
-            if (canvas->videoconfig->hwscale) {
-                appshell->geo.max_width = 0;
-                appshell->geo.max_height = 0;
-            }
+	    appshell->geo.max_width = 0;
+	    appshell->geo.max_height = 0;
         }
 /*
 #ifdef HAVE_FULLSCREEN
