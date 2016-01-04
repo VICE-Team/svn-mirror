@@ -107,7 +107,7 @@ static hotkey_t hotkeys[MAX_HOTKEYS];
 
 /* ------------------------------------------------------------------------- */
 
-int ui_menu_init()
+int ui_menu_init(void)
 {
     return(0);
 }
