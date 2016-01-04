@@ -48,6 +48,7 @@
 #include "uipetreu.h"
 #include "uipetset.h"
 #include "uirom.h"
+#include "uisampler.h"
 #include "uisidcart.h"
 #include "uivideo.h"
 #include "videoarch.h"
@@ -263,6 +264,7 @@ ui_menu_translation_table_t petui_menu_translation_table[] = {
     { IDM_KEYBOARD_SETTINGS, IDS_MI_KEYBOARD_SETTINGS },
     { IDM_MOUSE_SETTINGS, IDS_MI_MOUSE_SETTINGS },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
+    { IDM_SAMPLER_SETTINGS, IDS_MI_SAMPLER_SETTINGS },
     { IDM_ROM_SETTINGS, IDS_MI_ROM_SETTINGS },
     { IDM_RAM_SETTINGS, IDS_MI_RAM_SETTINGS },
     { IDM_DATASETTE_SETTINGS, IDS_MI_DATASETTE_SETTINGS },
@@ -481,6 +483,9 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_MOUSE_SETTINGS:
             ui_mouse_settings_dialog(hwnd, 0);
+            break;
+        case IDM_SAMPLER_SETTINGS:
+            ui_sampler_settings_dialog(hwnd);
             break;
     }
 }

@@ -50,6 +50,7 @@
 #include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiexpert.h"
+#include "uigeoram.h"
 #include "uiide64.h"
 #include "uiisepic.h"
 #include "uijoyport.h"
@@ -60,13 +61,13 @@
 #include "uimidi.h"
 #include "uimmc64.h"
 #include "uimmcreplay.h"
-#include "uiretroreplay.h"
-#include "uireu.h"
-#include "uigeoram.h"
 #include "uimouse.h"
 #include "uiramcart.h"
+#include "uiretroreplay.h"
+#include "uireu.h"
 #include "uirom.h"
 #include "uirs232user.h"
+#include "uisampler.h"
 #include "uisid.h"
 #include "uisoundexpander.h"
 #include "uitfe.h"
@@ -367,6 +368,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_EXTRA_JOY_SETTINGS, IDS_MI_USERPORT_JOY_SETTINGS },
     { IDM_KEYBOARD_SETTINGS, IDS_MI_KEYBOARD_SETTINGS },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
+    { IDM_SAMPLER_SETTINGS, IDS_MI_SAMPLER_SETTINGS },
     { IDM_ROM_SETTINGS, IDS_MI_ROM_SETTINGS },
     { IDM_RAM_SETTINGS, IDS_MI_RAM_SETTINGS },
     { IDM_DATASETTE_SETTINGS, IDS_MI_DATASETTE_SETTINGS },
@@ -879,6 +881,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_MOUSE_SETTINGS:
             ui_mouse_settings_dialog(hwnd, 1);
+            break;
+        case IDM_SAMPLER_SETTINGS:
+            ui_sampler_settings_dialog(hwnd);
             break;
     }
 }

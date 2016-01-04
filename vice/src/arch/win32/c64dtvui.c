@@ -47,6 +47,7 @@
 #include "uilib.h"
 #include "uirom.h"
 #include "uirs232user.h"
+#include "uisampler.h"
 #include "uisiddtv.h"
 #include "uivicii.h"
 #include "uivideo.h"
@@ -254,6 +255,7 @@ ui_menu_translation_table_t c64dtvui_menu_translation_table[] = {
     { IDM_EXTRA_JOY_SETTINGS, IDS_MI_USERPORT_JOY_SETTINGS },
     { IDM_KEYBOARD_SETTINGS, IDS_MI_KEYBOARD_SETTINGS },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
+    { IDM_SAMPLER_SETTINGS, IDS_MI_SAMPLER_SETTINGS },
     { IDM_ROM_SETTINGS, IDS_MI_ROM_SETTINGS },
     { IDM_RAM_SETTINGS, IDS_MI_RAM_SETTINGS },
     { IDM_VICII_SETTINGS, IDS_MI_VICII_SETTINGS },
@@ -459,6 +461,9 @@ static void c64dtv_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_C64DTV_SETTINGS:
             ui_c64dtv_settings_dialog(hwnd);
+            break;
+        case IDM_SAMPLER_SETTINGS:
+            ui_sampler_settings_dialog(hwnd);
             break;
     }
 }
