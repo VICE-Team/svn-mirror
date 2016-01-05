@@ -82,7 +82,7 @@ static void init_sampler_dialog(HWND hwnd)
     int res_value;
     const char *samplerfile;
     TCHAR *st_samplerfile;
-    TCHAR *st = NULL;
+    TCHAR st[10];
     int xpos;
     RECT rect;
     sampler_device_t *devices = sampler_get_devices();
