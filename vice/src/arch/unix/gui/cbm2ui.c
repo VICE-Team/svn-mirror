@@ -61,6 +61,7 @@
 #include "uirs232petplus4cbm2.h"
 #endif
 
+#include "uisampler.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -558,6 +559,8 @@ static ui_menu_entry_t cbm5x0_settings_menu[] = {
       NULL, NULL,  uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_sampler_settings_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_drivepetcbm2_settings_menu },
     { N_("Printer settings"), UI_MENU_TYPE_NORMAL, 
@@ -592,6 +595,8 @@ static ui_menu_entry_t cbm6x0_settings_menu[] = {
       NULL, NULL,  uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_sampler_settings_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_drivepetcbm2_settings_menu },
     { N_("Printer settings"), UI_MENU_TYPE_NORMAL, 
@@ -674,6 +679,7 @@ static ui_menu_entry_t cbm2_speed_menu[] = {
 static void cbm2ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
+    uisampler_menu_create();
     if (machine_class == VICE_MACHINE_CBM5x0) {
         uivicii_menu_create();
         uijoyport_menu_create(1, 1, 0, 0);
@@ -692,6 +698,7 @@ static void cbm2ui_dynamic_menu_shutdown(void)
         uicrtc_menu_shutdown();
     }
     uisound_menu_shutdown();
+    uisampler_menu_shutdown();
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
 }

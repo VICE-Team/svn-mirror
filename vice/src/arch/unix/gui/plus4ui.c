@@ -61,6 +61,7 @@
 #include "uirs232petplus4cbm2.h"
 #endif
 
+#include "uisampler.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -411,6 +412,8 @@ static ui_menu_entry_t plus4_settings_menu[] = {
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_sampler_settings_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_driveplus4_settings_menu },
     { N_("Printer settings"), UI_MENU_TYPE_NORMAL, 
@@ -469,6 +472,7 @@ static ui_menu_entry_t plus4_speed_menu[] = {
 static void plus4ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
+    uisampler_menu_create();
     uited_menu_create();
     uikeyboard_menu_create();
     uijoyport_menu_create(1, 1, 1, 0);
@@ -478,6 +482,7 @@ static void plus4ui_dynamic_menu_shutdown(void)
 {
     uited_menu_shutdown();
     uisound_menu_shutdown();
+    uisampler_menu_shutdown();
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
 }

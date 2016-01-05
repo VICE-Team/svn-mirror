@@ -18,6 +18,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/joyport \
+	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarchgui.a
@@ -163,6 +164,8 @@ libarchgui_a_SOURCES = \
 	uirs232petplus4cbm2.h \
 	uirs232user.c \
 	uirs232user.h \
+	uisampler.c \
+	uisampler.h \
 	uiscpu64.c \
 	uiscpu64.h \
 	uiscreenshot.h \
@@ -197,4 +200,3 @@ libarchgui_a_SOURCES = \
 	uivicii.h \
 	vic20ui.c \
 	vsidui.c
-

@@ -53,6 +53,7 @@
 #include "uips2mouse.h"
 #include "uiram.h"
 #include "uiromset.h"
+#include "uisampler.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -263,6 +264,8 @@ static ui_menu_entry_t x64_settings_submenu[] = {
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_sampler_settings_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_drivec64dtv_settings_menu },
     { N_("Printer settings"), UI_MENU_TYPE_NORMAL, 
@@ -341,6 +344,7 @@ static ui_menu_entry_t x64dtv_debug_extra_menu[] = {
 static void c64ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
+    uisampler_menu_create();
     uivicii_menu_create();
 
 #ifdef DEBUG
@@ -355,6 +359,7 @@ static void c64ui_dynamic_menu_shutdown(void)
 {
     uivicii_menu_shutdown();
     uisound_menu_shutdown();
+    uisampler_menu_shutdown();
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
 }
