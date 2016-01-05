@@ -27,13 +27,19 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "cartridge.h"
+#include "lib.h"
+#include "resources.h"
+#include "sampler.h"
 #include "uicartridge.h"
 #include "uiapi.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uisampler.h"
+#include "vsync.h"
 
 UI_MENU_DEFINE_RADIO(SamplerDevice)
 
