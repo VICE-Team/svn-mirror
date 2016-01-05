@@ -27,6 +27,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/rs232drv \
+	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/vdrive \
@@ -116,6 +117,8 @@ libarch_a_SOURCES = \
 	menu_rom.h \
 	menu_rs232.c \
 	menu_rs232.h \
+	menu_sampler.c \
+	menu_sampler.h \
 	menu_scpu64hw.c \
 	menu_scpu64hw.h \
 	menu_screenshot.c \

@@ -44,6 +44,7 @@
 #include "menu_plus4hw.h"
 #include "menu_printer.h"
 #include "menu_reset.h"
+#include "menu_sampler.h"
 #include "menu_screenshot.h"
 #include "menu_settings.h"
 #include "menu_snapshot.h"
@@ -90,6 +91,10 @@ static const ui_menu_entry_t xplus4_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sound_output_menu },
+    { "Sampler settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sampler_menu },
     { "Snapshot",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -171,6 +176,7 @@ int plus4ui_init(void)
 #endif
 
     sdl_ui_set_menu_params = plus4ui_set_menu_params;
+    uisampler_menu_create();
     uijoyport_menu_create(1, 1, 1, 0);
     uidrive_menu_create();
     uikeyboard_menu_create();

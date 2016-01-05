@@ -45,6 +45,7 @@
 #include "menu_network.h"
 #include "menu_printer.h"
 #include "menu_reset.h"
+#include "menu_sampler.h"
 #include "menu_screenshot.h"
 #include "menu_settings.h"
 #include "menu_snapshot.h"
@@ -90,6 +91,10 @@ static const ui_menu_entry_t x64_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sound_output_menu },
+    { "Sampler settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sampler_menu },
     { "Snapshot",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -162,6 +167,7 @@ int c64ui_init(void)
     sdl_ui_set_menu_params = NULL;
 
     uijoyport_menu_create(1, 1, 1, 1);
+    uisampler_menu_create();
     uicart_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
