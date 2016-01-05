@@ -71,6 +71,7 @@
 
 #include "uiperipherial.h"
 #include "uiprinter.h"
+#include "uisampler.h"
 #include "uiscreenshot.h"
 #include "uisnapshot.h"
 #include "uisound.h"
@@ -1118,6 +1119,7 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps, int 
     }
 
     uisound_init(ui_main_menu);
+    uisampler_init(ui_main_menu);
 
     if (number_joysticks) {
         uijoyport_init(ui_main_menu, port1, port2, port3, port4);

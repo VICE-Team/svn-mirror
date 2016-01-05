@@ -92,10 +92,10 @@ static TUI_MENU_CALLBACK(joyport4_submenu_callback)
     return s;
 }
 
-static tui_menu_item_def_t joyport1_submenu[JOYPORT_MAX_DEVICES];
-static tui_menu_item_def_t joyport2_submenu[JOYPORT_MAX_DEVICES];
-static tui_menu_item_def_t joyport3_submenu[JOYPORT_MAX_DEVICES];
-static tui_menu_item_def_t joyport4_submenu[JOYPORT_MAX_DEVICES];
+static tui_menu_item_def_t joyport1_submenu[JOYPORT_MAX_DEVICES + 1];
+static tui_menu_item_def_t joyport2_submenu[JOYPORT_MAX_DEVICES + 1];
+static tui_menu_item_def_t joyport3_submenu[JOYPORT_MAX_DEVICES + 1];
+static tui_menu_item_def_t joyport4_submenu[JOYPORT_MAX_DEVICES + 1];
 
 static int joyport_ports[JOYPORT_MAX_PORTS];
 static tui_menu_item_def_t joyport_menu_items[JOYPORT_MAX_PORTS + 3];
