@@ -48,6 +48,7 @@
 #include "mui/uimouse.h"
 #include "mui/uiprinter.h"
 #include "mui/uiromcbm2settings.h"
+#include "mui/uisampler.h"
 #include "mui/uisid.h"
 #include "mui/uivideo.h"
 
@@ -180,6 +181,9 @@ static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
             ui_joystick_fire_pet_dialog();
             break;
 #endif
+        case IDM_SAMPLER_SETTINGS:
+            ui_sampler_settings_dialog(hwnd);
+            break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
             break;

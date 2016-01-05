@@ -61,6 +61,7 @@
 #include "mui/uiromscpu64settings.h"
 #include "mui/uirs232user.h"
 #include "mui/uiscpu64.h"
+#include "mui/uisampler.h"
 #include "mui/uisid.h"
 #include "mui/uisoundexpander.h"
 #include "mui/uivicii.h"
@@ -230,6 +231,9 @@ static int scpu64_ui_specific(video_canvas_t *canvas, int idm)
             ui_joystick_fire_c64_dialog();
             break;
 #endif
+        case IDM_SAMPLER_SETTINGS:
+            ui_sampler_settings_dialog(hwnd);
+            break;
         case IDM_MOUSE_SETTINGS:
             ui_mouse_settings_dialog();
             break;

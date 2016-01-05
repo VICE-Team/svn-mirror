@@ -47,6 +47,7 @@
 #include "mui/uipetsettings.h"
 #include "mui/uiprinter.h"
 #include "mui/uirompetsettings.h"
+#include "mui/uisampler.h"
 #include "mui/uisidcart.h"
 #include "mui/uivideo.h"
 
@@ -158,6 +159,9 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
             ui_joystick_fire_pet_dialog();
             break;
 #endif
+        case IDM_SAMPLER_SETTINGS:
+            ui_sampler_settings_dialog(hwnd);
+            break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
             break;

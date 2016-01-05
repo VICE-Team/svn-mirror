@@ -50,6 +50,7 @@
 #include "mui/uiplus4settings.h"
 #include "mui/uiprinter.h"
 #include "mui/uiromplus4settings.h"
+#include "mui/uisampler.h"
 #include "mui/uisidcart.h"
 #include "mui/uited.h"
 #include "mui/uiv364speech.h"
@@ -209,6 +210,9 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
 #endif
         case IDM_MOUSE_SETTINGS:
             ui_mouse_settings_dialog();
+            break;
+        case IDM_SAMPLER_SETTINGS:
+            ui_sampler_settings_dialog(hwnd);
             break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

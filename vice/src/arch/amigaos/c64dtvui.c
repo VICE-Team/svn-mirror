@@ -43,6 +43,7 @@
 #include "mui/uijoystickll.h"
 #include "mui/uiprinter.h"
 #include "mui/uiromc64settings.h"
+#include "mui/uisampler.h"
 #include "mui/uisiddtv.h"
 #include "mui/uivicii.h"
 #include "mui/uivideo.h"
@@ -123,6 +124,9 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
             ui_joystick_fire_c64_dialog();
             break;
 #endif
+        case IDM_SAMPLER_SETTINGS:
+            ui_sampler_settings_dialog(hwnd);
+            break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
             break;

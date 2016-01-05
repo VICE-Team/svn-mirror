@@ -3596,6 +3596,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SOUND_SETTINGS_SV, "Ljudinställningar..." },
 /* tr */ { IDMS_SOUND_SETTINGS_TR, "Ses ayarlarý..." },
 
+/* en */ { IDMS_SAMPLER_SETTINGS,    "Sampler settings..." },
+/* da */ { IDMS_SAMPLER_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_SAMPLER_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_SAMPLER_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_SAMPLER_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_SAMPLER_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_SAMPLER_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_SAMPLER_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_SAMPLER_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_SAMPLER_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_SAMPLER_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_SAMPLER_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_SAMPLER_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_SID_SETTINGS,    "SID settings..." },
 /* da */ { IDMS_SID_SETTINGS_DA, "SID-indstillinger..." },
 /* de */ { IDMS_SID_SETTINGS_DE, "SID Einstellungen..." },
@@ -7110,6 +7124,62 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GEORAM_SETTINGS_SV, "GEO-RAM-inställningar" },
 /* tr */ { IDS_GEORAM_SETTINGS_TR, "GEO-RAM ayarlarý" },
 
+/* en */ { IDS_SAMPLER_FILENAME_SELECT,    "Select file to be used as sampler input" },
+/* da */ { IDS_SAMPLER_FILENAME_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAMPLER_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* es */ { IDS_SAMPLER_FILENAME_SELECT_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SAMPLER_FILENAME_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAMPLER_FILENAME_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAMPLER_FILENAME_SELECT_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SAMPLER_FILENAME_SELECT_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SAMPLER_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAMPLER_FILENAME_SELECT_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SAMPLER_FILENAME_SELECT_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SAMPLER_FILENAME_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAMPLER_FILENAME_SELECT_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SAMPLER_DEVICE,    "Sampler device" },
+/* da */ { IDS_SAMPLER_DEVICE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAMPLER_DEVICE_DE, "" },  /* fuzzy */
+/* es */ { IDS_SAMPLER_DEVICE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SAMPLER_DEVICE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAMPLER_DEVICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAMPLER_DEVICE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SAMPLER_DEVICE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SAMPLER_DEVICE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAMPLER_DEVICE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SAMPLER_DEVICE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SAMPLER_DEVICE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAMPLER_DEVICE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SAMPLER_FILENAME,    "Sampler input media file" },
+/* da */ { IDS_SAMPLER_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAMPLER_FILENAME_DE, "" },  /* fuzzy */
+/* es */ { IDS_SAMPLER_FILENAME_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SAMPLER_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAMPLER_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAMPLER_FILENAME_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SAMPLER_FILENAME_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SAMPLER_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAMPLER_FILENAME_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SAMPLER_FILENAME_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SAMPLER_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAMPLER_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SAMPLER_SETTINGS,    "Sampler settings" },
+/* da */ { IDS_SAMPLER_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAMPLER_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_SAMPLER_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SAMPLER_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAMPLER_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAMPLER_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SAMPLER_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SAMPLER_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAMPLER_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SAMPLER_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SAMPLER_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAMPLER_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_EXPERT_MODE,    "Expert Cartridge mode" },
 /* da */ { IDS_EXPERT_MODE_DA, "Expert Cartridge-tilstand" },
 /* de */ { IDS_EXPERT_MODE_DE, "Expert Cartridge Modus" },
@@ -9477,6 +9547,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_GAIN_90_100_RU, "" },  /* fuzzy */
 /* sv */ { IDS_GAIN_90_100_SV, "" },  /* fuzzy */
 /* tr */ { IDS_GAIN_90_100_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_GAIN_1_200,    "Gain (1..200)" },
+/* da */ { IDS_GAIN_1_200_DA, "" },  /* fuzzy */
+/* de */ { IDS_GAIN_1_200_DE, "" },  /* fuzzy */
+/* es */ { IDS_GAIN_1_200_ES, "" },  /* fuzzy */
+/* fr */ { IDS_GAIN_1_200_FR, "" },  /* fuzzy */
+/* hu */ { IDS_GAIN_1_200_HU, "" },  /* fuzzy */
+/* it */ { IDS_GAIN_1_200_IT, "" },  /* fuzzy */
+/* ko */ { IDS_GAIN_1_200_KO, "" },  /* fuzzy */
+/* nl */ { IDS_GAIN_1_200_NL, "" },  /* fuzzy */
+/* pl */ { IDS_GAIN_1_200_PL, "" },  /* fuzzy */
+/* ru */ { IDS_GAIN_1_200_RU, "" },  /* fuzzy */
+/* sv */ { IDS_GAIN_1_200_SV, "" },  /* fuzzy */
+/* tr */ { IDS_GAIN_1_200_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_BIAS_M5000_P5000,    "Filter bias (-5000..5000)" },
 /* da */ { IDS_BIAS_M5000_P5000_DA, "" },  /* fuzzy */

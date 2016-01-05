@@ -15,6 +15,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/platform \
+	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarchmui.a
@@ -132,6 +133,8 @@ libarchmui_a_SOURCES = \
 	uiromvic20settings.h \
 	uirs232user.c \
 	uirs232user.h \
+	uisampler.c \
+	uisampler.h \
 	uiscpu64.c \
 	uiscpu64.h \
 	uisid.c \
