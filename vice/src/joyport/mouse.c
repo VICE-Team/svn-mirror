@@ -61,6 +61,87 @@
 #include "clkguard.h"
 #include "ds1202_1302.h"
 
+/* Control port <--> mouse/paddles/pad connections:
+
+   cport | 1351         | I/O
+   --------------------------
+     1   | right button |  I
+     5   | Y-position   |  I
+     6   | left button  |  I
+     9   | X-position   |  I
+
+   cport | neos         | I/O
+   --------------------------
+     1   | D0           |  I
+     2   | D1           |  I
+     3   | D2           |  I
+     4   | D3           |  I
+     6   | strobe       |  O
+     6   | left button  |  I
+     9   | right button |  I
+
+   cport | amiga         | I/O
+   ---------------------------
+     1   | V-pulse       |  I
+     2   | H-pulse       |  I
+     3   | VQ-pulse      |  I
+     4   | HQ-pulse      |  I
+     5   | middle button |  I
+     6   | left button   |  I
+     9   | right button  |  I
+
+   cport | paddles         | I/O
+   -----------------------------
+     3   | paddle X button |  I
+     4   | paddle Y button |  I
+     5   | paddle Y value  |  I
+     9   | paddle X value  |  I
+
+   cport | cx22        | I/O
+   -------------------------
+     1   | X direction |  I
+     2   | X motion    |  I
+     3   | Y direction |  I
+     4   | Y motion    |  I
+     6   | button      |  I
+
+   cport | atari-st     | I/O
+   --------------------------
+     1   | XB           |  I
+     2   | XA           |  I
+     3   | YA           |  I
+     4   | YB           |  I
+     6   | left button  |  I
+     9   | right button |  I
+
+   cport | smart mouse  | I/O
+   --------------------------
+     1   | right button |  I
+     2   | RTC clock    |  O
+     3   | RTC I/O      | I/O
+     4   | RTC RST      | I/O
+     5   | Y-position   |  I
+     6   | left button  |  I
+     9   | X-position   |  I
+
+   cport | micromys      | I/O
+   ---------------------------
+     1   | right button  |  I
+     2   | middle button |  I
+     3   | wheel up      |  I
+     4   | wheel down    |  I
+     5   | Y-position    |  I
+     6   | left button   |  I
+     9   | X-position    |  I
+
+   cport | koalapad     | I/O
+   --------------------------
+     3   | left button  |  I
+     4   | right button |  I
+     5   | Y-position   |  I
+     9   | X-position   |  I
+ */
+
 /* Log descriptor.  */
 #ifdef DEBUG_MOUSE
 static log_t mouse_log = LOG_ERR;
