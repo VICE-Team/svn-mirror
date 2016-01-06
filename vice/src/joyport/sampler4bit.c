@@ -34,6 +34,17 @@
 #include "sampler.h"
 #include "translate.h"
 
+/* Control port <--> 4bit sampler connections:
+
+   cport | 4bit sampler | I/O
+   --------------------------
+     1   | D0           |  I
+     2   | D1           |  I
+     3   | D2           |  I
+     4   | D3           |  I
+
+ */
+
 static int sampler_enabled = 0;
 
 static int joyport_sampler_enable(int port, int value)
