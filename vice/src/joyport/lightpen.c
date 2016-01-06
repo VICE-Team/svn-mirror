@@ -40,6 +40,40 @@
 #include "translate.h"
 
 
+/* Control port <--> lightpen connections:
+
+   cport | lightpen up | I/O
+   -------------------------
+     1   | button      |  I
+     6   | trigger     |  I
+
+   cport | lightpen left | I/O
+   ---------------------------
+     3   | button        |  I
+     6   | trigger       |  I
+
+   cport | datel pen | I/O
+   -----------------------
+     3   | button    |  I
+     6   | trigger   |  I
+
+   cport | magnum light phaser | I/O
+   ---------------------------------
+     6   | trigger             |  I
+     9   | button              |  I
+
+   cport | stack light rifle | I/O
+   -------------------------------
+     3   | button            |  I
+     6   | trigger           |  I
+
+   cport | inkwell lightpen | I/O
+   ------------------------------
+     3   | button 1         |  I
+     6   | trigger          |  I
+     9   | button 2         |  I
+ */
+
 /* --------------------------------------------------------- */
 /* extern variables */
 
