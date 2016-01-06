@@ -56,6 +56,17 @@
 #include "userport_joystick.h"
 #include "vice-event.h"
 
+/* Control port <--> Joystick connections:
+
+   cport | joystick | I/O
+   ----------------------
+     1   | up       |  I
+     2   | down     |  I
+     3   | left     |  I
+     4   | right    |  I
+     6   | button   |  I
+ */
+
 /* #define DEBUGJOY */
 
 #ifdef DEBUGJOY
