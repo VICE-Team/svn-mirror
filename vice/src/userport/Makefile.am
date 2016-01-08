@@ -10,6 +10,8 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libuserport.a
 
 libuserport_a_SOURCES = \
+	userport.c \
+	userport.h \
 	userport_dac.c \
 	userport_dac.h \
 	userport_digimax.c \
