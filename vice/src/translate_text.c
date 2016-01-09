@@ -5386,6 +5386,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SELECT_CONFLICT_HANDLING_TR, "G/Ç çakýþmalarýnýn deðerlendirilme yöntemini seç, (0: hata mesajý ve tüm ilgili cihazlarýn çýkarýlmasý, 1: hata mesajý ve en son takýlmýþ tüm ilgili cihazlarýn çýkarýlmasý, 2: log'a uyarý yazýlmasý ve geçerli dönüþ deðerlerinin 'VE'lenmesi"},
 #endif
 
+/* userport/userport.c */
+/* en */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING,    N_("Select the way the Userport collisions should be handled, (0: error message and detach all involved devices, 1: error message and detach last attached involved device, 2: warning in log and 'AND' the valid return values")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/c64tpi.c */
 /* en */ {IDCLS_ENABLE_IEEE488_INTERFACE,    N_("Enable the IEEE488 interface emulation")},
 #ifdef HAS_TRANSLATION

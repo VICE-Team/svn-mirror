@@ -29,9 +29,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cmdline.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
+#include "translate.h"
 #include "userport.h"
 #include "util.h"
 
@@ -229,6 +231,8 @@ static BYTE userport_detect_collision(BYTE retval_orig, BYTE mask)
 
     return retval;
 }
+
+/* ---------------------------------------------------------------------------------------------------------- */
 
 BYTE read_userport_pbx(BYTE mask)
 {
@@ -489,4 +493,46 @@ BYTE read_userport_sp(void)
     }
 
     return retval;
+}
+
+/* ---------------------------------------------------------------------------------------------------------- */
+
+static int set_userport_collision_handling(int val, void *param)
+{
+    switch (val) {
+        case USERPORT_COLLISION_METHOD_DETACH_ALL:
+        case USERPORT_COLLISION_METHOD_DETACH_LAST:
+        case USERPORT_COLLISION_METHOD_AND_WIRES:
+            break;
+        default:
+            return -1;
+    }
+    userport_collision_handling = val;
+
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "UserportCollisionHandling", USERPORT_COLLISION_METHOD_DETACH_ALL, RES_EVENT_STRICT, (resource_value_t)0,
+      &userport_collision_handling, set_userport_collision_handling, NULL },
+    { NULL }
+};
+
+int userport_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
+
+static const cmdline_option_t cmdline_options[] = {
+    { "-userportcollision", SET_RESOURCE, 1,
+      NULL, NULL, "UserportCollisionHandling", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_METHOD, IDCLS_SELECT_USERPORT_CONFLICT_HANDLING,
+      NULL, NULL },
+    { NULL }
+};
+
+int userport_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
