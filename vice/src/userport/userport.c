@@ -523,6 +523,16 @@ int userport_resources_init(void)
     return resources_register_int(resources_int);
 }
 
+void userport_resources_shutdown(void)
+{
+    userport_device_list_t *current = userport_head.next;
+
+    while (current) {
+        userport_device_unregister(current);
+        current = userport_head.next;
+    }
+}
+
 static const cmdline_option_t cmdline_options[] = {
     { "-userportcollision", SET_RESOURCE, 1,
       NULL, NULL, "UserportCollisionHandling", NULL,

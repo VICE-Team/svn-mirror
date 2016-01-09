@@ -97,6 +97,7 @@
 #include "translate.h"
 #include "traps.h"
 #include "types.h"
+#include "userport.h"
 #include "userport_joystick.h"
 #include "userport_rtc.h"
 #include "vice-event.h"
@@ -424,6 +425,10 @@ int machine_resources_init(void)
         init_resource_fail("joystick");
         return -1;
     }
+    if (userport_resources_init() < 0) {
+        init_resource_fail("userport devices");
+        return -1;
+    }
     if (gfxoutput_resources_init() < 0) {
         init_resource_fail("gfxoutput");
         return -1;
@@ -532,6 +537,7 @@ void machine_resources_shutdown(void)
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
+    userport_resources_shutdown();
 }
 
 /* C64-specific command-line option initialization.  */
@@ -579,6 +585,10 @@ int machine_cmdline_options_init(void)
     }
     if (joystick_cmdline_options_init() < 0) {
         init_cmdline_options_fail("joystick");
+        return -1;
+    }
+    if (userport_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport");
         return -1;
     }
     if (gfxoutput_cmdline_options_init() < 0) {

@@ -29,6 +29,7 @@
 
 #include "types.h"
 
+
 #define USERPORT_COLLISION_METHOD_DETACH_ALL    0
 #define USERPORT_COLLISION_METHOD_DETACH_LAST   1
 #define USERPORT_COLLISION_METHOD_AND_WIRES     2
@@ -121,6 +122,7 @@ extern void userport_cnt12(int enable);
 extern BYTE read_userport_sp(void);
 
 extern int userport_resources_init(void);
+extern void userport_resources_shutdown(void);
 extern int userport_cmdline_options_init(void);
 
 #endif
