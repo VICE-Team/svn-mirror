@@ -662,7 +662,7 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
             default:
                 break;
         }
-        SDL_Delay(20);
+
     } while (!got_key);
 
     return got_key;
