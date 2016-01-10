@@ -52,7 +52,7 @@ BYTE pio1_read(WORD addr)
 
     if (drive_context[0]->drive->parallel_cable
         || drive_context[1]->drive->parallel_cable) {
-        pio1_value = parallel_cable_cpu_read(DRIVE_PC_STANDARD);
+        pio1_value = parallel_cable_cpu_read(DRIVE_PC_STANDARD, pio1_value);
     } else {
         pio1_value = pio1_data;
     }

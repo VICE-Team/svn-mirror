@@ -173,7 +173,6 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     iecbus_cpu_undump((BYTE)(byte ^ 0xff));
 }
 
-
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     parallel_cable_cpu_write(DRIVE_PC_STANDARD, (BYTE)byte);
@@ -219,19 +218,21 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 /* read_* functions must return 0xff if nothing to read!!! */
 static BYTE read_ciapb(cia_context_t *cia_context)
 {
-    BYTE byte;
+    BYTE byte = 0xff;
+
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
-        byte = rsuser_read_ctrl();
+        byte = rsuser_read_ctrl(byte);
     } else
 #endif
-    byte = parallel_cable_cpu_read(DRIVE_PC_STANDARD);
+    byte = parallel_cable_cpu_read(DRIVE_PC_STANDARD, byte);
 
     /* FIXME: in the upcoming userport system this call needs to be conditional */
     byte = userport_joystick_read_pbx(byte);
     byte = userport_rtc_read(byte);
 
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB])) | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
+
     return byte;
 }
 

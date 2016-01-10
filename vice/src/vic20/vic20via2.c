@@ -236,12 +236,12 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
 
 inline static BYTE read_prb(via_context_t *via_context)
 {
-    BYTE byte;
+    BYTE byte = 0xff;
     byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
-        byte = rsuser_read_ctrl();
+        byte = rsuser_read_ctrl(byte);
     }
 #endif
 

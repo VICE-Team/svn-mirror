@@ -173,10 +173,10 @@ static void f64_set_pa(mc6821_state *ctx)
 
 static BYTE f64_get_pa(mc6821_state *ctx)
 {
-    BYTE data = 0;
+    BYTE data = 0xff;
 
     parallel_cable_cpu_write(DRIVE_PC_FORMEL64, 0xff);
-    data = parallel_cable_cpu_read(DRIVE_PC_FORMEL64);
+    data = parallel_cable_cpu_read(DRIVE_PC_FORMEL64, data);
 
 #ifdef LOG_PORTA
     DBG(("Formel64: from drive   "));
