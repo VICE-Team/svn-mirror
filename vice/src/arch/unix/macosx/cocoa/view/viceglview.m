@@ -1157,7 +1157,9 @@ static const unsigned int modifierMasks[] = {
 #ifdef DEBUG_KEY
                         printf("key: DOWN modifier: #%d %04x\n",i,code);
 #endif
-                        [[VICEApplication theMachineController] keyPressed:code];
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                            [[VICEApplication theMachineController] keyPressed:code];
+                        });
                     }
                 } else {
                     // key was released
@@ -1171,7 +1173,9 @@ static const unsigned int modifierMasks[] = {
 #ifdef DEBUG_KEY
                         printf("key: UP modifier: #%d %04x\n",i,code);
 #endif
-                        [[VICEApplication theMachineController] keyReleased:code];
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                            [[VICEApplication theMachineController] keyReleased:code];
+                        });
                     }
                 }
             }
@@ -1192,7 +1196,9 @@ static const unsigned int modifierMasks[] = {
 #ifdef DEBUG_KEY
                         printf("key: temp UP modifier: #%d %04x\n", i, tempCode);
 #endif
-                        [[VICEApplication theMachineController] keyReleased:tempCode];
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                            [[VICEApplication theMachineController] keyReleased:tempCode];
+                        });
                     }
                 }
             } else {
@@ -1206,7 +1212,9 @@ static const unsigned int modifierMasks[] = {
 #ifdef DEBUG_KEY
                         printf("key: temp DOWN modifier: #%d %04x\n", i, tempCode);
 #endif
-                        [[VICEApplication theMachineController] keyPressed:tempCode];
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                            [[VICEApplication theMachineController] keyPressed:tempCode];
+                        });
                     }
                 }
             }
@@ -1234,12 +1242,16 @@ static const unsigned int modifierMasks[] = {
 #ifdef DEBUG_KEY
                     printf("key: DOWN (late) modifier: #%d %04x\n", i, code);
 #endif
-                    [[VICEApplication theMachineController] keyPressed:code];
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                        [[VICEApplication theMachineController] keyPressed:code];
+                    });
                 } else {
 #ifdef DEBUG_KEY
                     printf("key: UP (late) modifier: #%d %04x\n", i, code);
 #endif
-                    [[VICEApplication theMachineController] keyReleased:code];
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                        [[VICEApplication theMachineController] keyReleased:code];
+                    });
                 }
             }
         }
@@ -1257,8 +1269,10 @@ static const unsigned int modifierMasks[] = {
         if(showKeyCodes) {
             log_message(video_log, "key: DOWN code=%u", code);
         }
-        
-        [[VICEApplication theMachineController] keyPressed:code];
+ 		
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{  
+	        [[VICEApplication theMachineController] keyPressed:code];
+		});
     }
 }
 
@@ -1272,8 +1286,10 @@ static const unsigned int modifierMasks[] = {
     if(showKeyCodes) {
         log_message(video_log, "key:  UP  code=%u", code);
     }
-    
-    [[VICEApplication theMachineController] keyReleased:code];
+ 
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    	[[VICEApplication theMachineController] keyReleased:code];
+	});
 }
 
 // ----- Mouse -----
@@ -1395,27 +1411,33 @@ static const unsigned int modifierMasks[] = {
 
         // allow movement outside of window as mouse driver actually only uses deltas
         if(mouseEmuEnabled) {
-            [[VICEApplication theMachineController] mouseMoveToX:px andY:py];
-        }
+	        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+				[[VICEApplication theMachineController] mouseMoveToX:px andY:py];
+        	});
+		}
 
         if ((px>=0)&&(px<w)&&(py>=0)&&(py<h)) {
             if(lightpenEmuEnabled) {
                 mouseX = (int)(px + 0.5f);
                 mouseY = h - 1 - (int)(py + 0.5f);
-                [[VICEApplication theMachineController]
-                    lightpenUpdateOnScreen:canvasId 
-                    toX:mouseX andY:mouseY 
-                    withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
-            }
+	        	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                	[[VICEApplication theMachineController]
+                    	lightpenUpdateOnScreen:canvasId 
+                    	toX:mouseX andY:mouseY 
+                    	withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
+            	});
+			}
         } else {
             if(lightpenEmuEnabled) {
                 mouseX = -1;
                 mouseY = -1;
-                [[VICEApplication theMachineController]
-                    lightpenUpdateOnScreen:canvasId 
-                    toX:mouseX andY:mouseY 
-                    withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
-            }
+	        	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                	[[VICEApplication theMachineController]
+                    	lightpenUpdateOnScreen:canvasId 
+                    	toX:mouseX andY:mouseY 
+                    	withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
+            	});
+			}
         }
     }
 }
@@ -1425,11 +1447,15 @@ static const unsigned int modifierMasks[] = {
     if (trackMouse) {
         if(mouseEmuEnabled) {
             if ([theEvent type]==NSLeftMouseDown) {
-                [[VICEApplication theMachineController] mouseButton:YES withState:YES];
-            }
+	        	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                	[[VICEApplication theMachineController] mouseButton:YES withState:YES];
+            	});
+			}
             else if ([theEvent type]==NSRightMouseDown) {
-                [[VICEApplication theMachineController] mouseButton:NO withState:YES];
-            }
+	        	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+             	   [[VICEApplication theMachineController] mouseButton:NO withState:YES];
+            	});
+			}
         }
         if(lightpenEmuEnabled) {
             if ([theEvent type]==NSLeftMouseDown) {
@@ -1438,11 +1464,13 @@ static const unsigned int modifierMasks[] = {
             else if ([theEvent type]==NSRightMouseDown) {
                 mouseRightButtonPressed = YES;
             }
-            [[VICEApplication theMachineController]
-                lightpenUpdateOnScreen:canvasId 
-                toX:mouseX andY:mouseY 
-                withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
-        }
+	        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            	[[VICEApplication theMachineController]
+                	lightpenUpdateOnScreen:canvasId 
+                	toX:mouseX andY:mouseY 
+                	withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
+        	});
+		}
     } else {
         [self stopHideTimer:TRUE];
     }
@@ -1453,11 +1481,15 @@ static const unsigned int modifierMasks[] = {
     if (trackMouse) {
         if(mouseEmuEnabled) {
             if ([theEvent type]==NSLeftMouseUp) {
-                [[VICEApplication theMachineController] mouseButton:YES withState:NO];
-            }
+	        	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                	[[VICEApplication theMachineController] mouseButton:YES withState:NO];
+            	});
+			}
             else if ([theEvent type]==NSRightMouseUp) {
-                [[VICEApplication theMachineController] mouseButton:NO withState:NO];
-            }
+	        	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                	[[VICEApplication theMachineController] mouseButton:NO withState:NO];
+            	});
+			}
         }
         if(lightpenEmuEnabled) {
             if ([theEvent type]==NSLeftMouseUp) {
@@ -1466,11 +1498,13 @@ static const unsigned int modifierMasks[] = {
             else if ([theEvent type]==NSRightMouseUp) {
                 mouseRightButtonPressed = NO;
             }
-            [[VICEApplication theMachineController]
-                lightpenUpdateOnScreen:canvasId 
-                toX:mouseX andY:mouseY 
-                withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
-        }
+	        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+           		[[VICEApplication theMachineController]
+                	lightpenUpdateOnScreen:canvasId 
+                	toX:mouseX andY:mouseY 
+                	withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
+        	});
+		}
     } else {
         [self startHideTimer];
     }
