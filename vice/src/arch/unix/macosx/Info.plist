@@ -20,6 +20,8 @@
 	<string>VICE</string>
 	<key>CFBundleVersion</key>
 	<string>XVERSIONX</string>
+	<key>NSHighResolutionCapable</key>
+    <true/>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.education</string>
 </dict>
