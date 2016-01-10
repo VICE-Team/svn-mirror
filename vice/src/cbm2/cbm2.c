@@ -845,9 +845,27 @@ const char *machine_get_name(void)
 }
 
 /* ------------------------------------------------------------------------- */
+
 /* native screenshot support */
 
 BYTE *crtc_get_active_bitmap(void)
 {
     return NULL;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static userport_port_props_t userport_props = {
+    1, /* has pa2 pin */
+    1, /* has pa3 pin */
+    1, /* has flag pin */
+    1, /* has pc pin */
+    0  /* NO cnt1, cnt2 or sp pins */
+};
+
+int machine_register_userport(void)
+{
+    userport_port_register(&userport_props);
+
+    return 0;
 }

@@ -32,6 +32,7 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 #include "userport.h"
@@ -270,13 +271,13 @@ BYTE read_userport_pbx(BYTE mask)
     return retval;
 }
 
-void store_userport_pbx(BYTE val, BYTE mask)
+void store_userport_pbx(BYTE val)
 {
     userport_device_list_t *current = userport_head.next;
 
     while (current) {
         if (current->device->store_pbx != NULL) {
-            current->device->store_pbx(val, mask);
+            current->device->store_pbx(val);
         }
         current = current->next;
     }
@@ -520,7 +521,11 @@ static const resource_int_t resources_int[] = {
 
 int userport_resources_init(void)
 {
-    return resources_register_int(resources_int);
+    if (resources_register_int(resources_int) < 0) {
+        return -1;
+    }
+
+    return machine_register_userport();
 }
 
 void userport_resources_shutdown(void)

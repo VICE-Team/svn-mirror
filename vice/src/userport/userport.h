@@ -44,8 +44,8 @@ typedef struct userport_device_s {
     /* Read pb0-7 pins */
     void (*read_pbx)(void);
 
-    /* Store pb0-7 pins, mask indicates which pins are output */
-    void (*store_pbx)(BYTE val, BYTE mask);
+    /* Store pb0-7 pins */
+    void (*store_pbx)(BYTE val);
 
     /* Read pa2 pin */
     void (*read_pa2)(void);
@@ -110,7 +110,7 @@ extern void userport_device_unregister(userport_device_list_t *device);
 extern void userport_port_register(userport_port_props_t *props);
 
 extern BYTE read_userport_pbx(BYTE mask);
-extern void store_userport_pbx(BYTE val, BYTE mask);
+extern void store_userport_pbx(BYTE val);
 extern BYTE read_userport_pa2(void);
 extern void store_userport_pa2(BYTE val);
 extern BYTE read_userport_pa3(void);

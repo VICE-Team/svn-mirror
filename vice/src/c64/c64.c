@@ -1238,6 +1238,7 @@ void machine_play_psid(int tune)
 {
     /* psid_set_tune(tune); */
 }
+
 /* ------------------------------------------------------------------------- */
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
@@ -1312,4 +1313,21 @@ const char *machine_get_name(void)
     }
 
     return machine_name;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static userport_port_props_t userport_props = {
+    1, /* has pa2 pin */
+    1, /* has pa3 pin */
+    1, /* has flag pin */
+    1, /* has pc pin */
+    1  /* has cnt1, cnt2 and sp pins */
+};
+
+int machine_register_userport(void)
+{
+    userport_port_register(&userport_props);
+
+    return 0;
 }

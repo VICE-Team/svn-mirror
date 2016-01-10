@@ -963,3 +963,20 @@ const char *machine_get_name(void)
 {
     return machine_name;
 }
+
+/* ------------------------------------------------------------------------- */
+
+static userport_port_props_t userport_props = {
+    0, /* NO pa2 pin */
+    0, /* NO pa3 pin */
+    0, /* NO flag pin */
+    0, /* NO pc pin */
+    0  /* NO cnt1, cnt2 or sp pins */
+};
+
+int machine_register_userport(void)
+{
+    userport_port_register(&userport_props);
+
+    return 0;
+}
