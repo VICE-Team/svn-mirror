@@ -207,7 +207,11 @@ BYTE userport_joystick_read_pbx(BYTE orig)
                 retval = (BYTE)~((jv3 & 0xf) | ((jv4 & 0xf) << 4));
                 break;
             case USERPORT_JOYSTICK_CGA:
-                retval = (BYTE)~((jv3 & 0x10) | ((jv4 & 0x10) << 1) | ((~read_joyport_dig((userport_joystick_cga_select) ? JOYPORT_4 : JOYPORT_3)) & 0xf));
+                if (userport_joystick_cga_select) {
+                    retval = (BYTE)~((jv4 & 0xf) | (jv3 & 0x10) | ((jv4 & 0x10) << 1));
+                } else {
+                    retval = (BYTE)~((jv3 & 0xf) | (jv3 & 0x10) | ((jv4 & 0x10) << 1));
+                }
                 break;
             case USERPORT_JOYSTICK_PET:
                 retval = ((jv3 & 0xf) | ((jv4 & 0xf) << 4));
