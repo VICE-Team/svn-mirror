@@ -209,7 +209,7 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
     BYTE byte = 0xff;
 
     /* FIXME: in the upcoming userport system this call needs to be conditional */
-    userport_joystick_read_pbx(byte);
+    byte = userport_joystick_read_pbx(byte);
 
     /* joystick always pulls low, even if high output, so no
        masking with DDRA */
