@@ -42,6 +42,7 @@
 #include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
+#include "uiapi.h"
 #include "uic64burstmod.h"
 #include "uic64cart.h"
 #include "uic64memoryhacks.h"
