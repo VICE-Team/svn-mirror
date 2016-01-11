@@ -502,7 +502,7 @@ static int confirm_on_exit;
 
 static int set_ui_menukey(int val, void *param)
 {
-    sdl_ui_menukeys[(int)param] = val;
+    sdl_ui_menukeys[vice_ptr_to_int(param)] = val;
     return 0;
 }
 

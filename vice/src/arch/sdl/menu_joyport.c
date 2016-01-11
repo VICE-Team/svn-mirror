@@ -103,7 +103,7 @@ UI_MENU_CALLBACK(JoyPort1Device_dynmenu_callback)
         joyport1_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
         joyport1_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
         joyport1_dyn_menu[i].callback = radio_JoyPort1Device_callback;
-        joyport1_dyn_menu[i].data = (ui_callback_data_t)devices[i].id;
+        joyport1_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
     }
 
     joyport1_dyn_menu[i].string = NULL;
@@ -132,7 +132,7 @@ UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
         joyport2_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
         joyport2_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
         joyport2_dyn_menu[i].callback = radio_JoyPort2Device_callback;
-        joyport2_dyn_menu[i].data = (ui_callback_data_t)devices[i].id;
+        joyport2_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
     }
 
     joyport2_dyn_menu[i].string = NULL;
@@ -161,7 +161,7 @@ UI_MENU_CALLBACK(JoyPort3Device_dynmenu_callback)
         joyport3_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
         joyport3_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
         joyport3_dyn_menu[i].callback = radio_JoyPort3Device_callback;
-        joyport3_dyn_menu[i].data = (ui_callback_data_t)devices[i].id;
+        joyport3_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
     }
 
     joyport3_dyn_menu[i].string = NULL;
@@ -190,7 +190,7 @@ UI_MENU_CALLBACK(JoyPort4Device_dynmenu_callback)
         joyport4_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
         joyport4_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
         joyport4_dyn_menu[i].callback = radio_JoyPort4Device_callback;
-        joyport4_dyn_menu[i].data = (ui_callback_data_t)devices[i].id;
+        joyport4_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
     }
 
     joyport4_dyn_menu[i].string = NULL;
