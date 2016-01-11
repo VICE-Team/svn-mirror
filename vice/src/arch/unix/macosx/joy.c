@@ -588,6 +588,15 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { NULL },
 };
 
+static const cmdline_option_t joydev5cmdline_options[] = {
+    { "-extrajoydev3", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice5", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-5>", N_("Set device for extra joystick port 3") },
+    { NULL },
+};
+
 int joy_arch_cmdline_options_init(void)
 {
     int num_ports = 0, num_extra_ports = 0;
@@ -612,6 +621,12 @@ int joy_arch_cmdline_options_init(void)
     }
     if (joyport_get_port_name(JOYPORT_4)) {
         if (cmdline_register_options(joydev4cmdline_options) < 0) {
+            return -1;
+        }
+        num_extra_ports++;
+    }
+    if (joyport_get_port_name(JOYPORT_5)) {
+        if (cmdline_register_options(joydev5cmdline_options) < 0) {
             return -1;
         }
         num_extra_ports++;
@@ -1073,7 +1088,7 @@ void joystick(void)
     int i;
 
     /* handle both virtual cbm joystick ports */
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 5; i++) {
         /* what kind of device is connected to the virtual port? */ 
         int joy_port = joystick_port_map[i];
     

@@ -257,6 +257,15 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     CMDLINE_LIST_END
 };
 
+static const cmdline_option_t joydev5cmdline_options[] = {
+    { "-extrajoydev3", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice5", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      JOYDEV_RANGE_TEXT, JOYDEV_DESCRIPTION_5 },
+    CMDLINE_LIST_END
+};
+
 int joy_arch_resources_init(void)
 {
     /* Init the keyboard resources here before resources_set_defaults is called */
@@ -317,6 +326,11 @@ int joy_arch_cmdline_options_init(void)
     }
     if (joyport_get_port_name(JOYPORT_4)) {
         if (cmdline_register_options(joydev4cmdline_options) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_5)) {
+        if (cmdline_register_options(joydev5cmdline_options) < 0) {
             return -1;
         }
     }

@@ -153,7 +153,7 @@ void ui_display_joystick_status_widget(int joystick_number, int status)
 
     DBG(("ui_display_joystick_status_widget (%d, %02x)", joystick_number, status));
 
-    if (machine_class != VICE_MACHINE_PLUS4 && machine_class != VICE_MACHINE_CBM5x0) {
+    if (machine_class != VICE_MACHINE_CBM5x0) {
         resources_get_int("UserportJoy", &upjoy);
         if (machine_class != VICE_MACHINE_C64DTV) {
             resources_get_int("UserportJoyType", &typejoy);
@@ -183,14 +183,7 @@ void ui_display_joystick_status_widget(int joystick_number, int status)
             ds->colors[4] = (status & (1 << 4)) ? &drive_led_on_red_pixel : &drive_led_off_pixel;
             set_joy(ds->colors, i, joystick_number);
 
-
-            if (machine_class == VICE_MACHINE_PLUS4) {
-                if ((joystick_number == 2) && (sidjoy == 0)) {
-                    gtk_widget_hide(ds->event_box);
-                } else {
-                    gtk_widget_show_all(ds->event_box);
-                }
-            } else if (machine_class == VICE_MACHINE_C64DTV) {
+            if (machine_class == VICE_MACHINE_C64DTV) {
                 if ((joystick_number == 2) && (upjoy == 0)) {
                     gtk_widget_hide(ds->event_box);
                 } else {
@@ -207,6 +200,12 @@ void ui_display_joystick_status_widget(int joystick_number, int status)
                     gtk_widget_hide(ds->event_box);
                 }
                 if ((joystick_number == 3) && (upjoy == 1) && (typejoy == 1)) {
+                    gtk_widget_show_all(ds->event_box);
+                }
+                if ((joystick_number == 4) && (sidjoy == 0)) {
+                    gtk_widget_hide(ds->event_box);
+                }
+                if ((joystick_number == 4) && (sidjoy == 1)) {
                     gtk_widget_show_all(ds->event_box);
                 }
             }
@@ -248,10 +247,15 @@ GtkWidget *build_joystick_status_widget(app_shell_type *as, GdkWindow *window)
         }
 
         /* skip port 4 for machines with no user port, or not enough userport lines for 2 port userport adapters */
-        if (((machine_class == VICE_MACHINE_PLUS4) ||
-             (machine_class == VICE_MACHINE_CBM5x0) ||
+        if (((machine_class == VICE_MACHINE_CBM5x0) ||
              (machine_class == VICE_MACHINE_C64DTV)
             ) && (i == 3)) {
+            as->joystick_status[i].led = NULL;
+            continue;
+        }
+
+        /* skip port 5 for machines with no 5th control port */
+        if (((machine_class != VICE_MACHINE_PLUS4)) && (i == 4)) {
             as->joystick_status[i].led = NULL;
             continue;
         }

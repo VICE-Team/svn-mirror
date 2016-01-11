@@ -200,6 +200,15 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { NULL }
 };
 
+static const cmdline_option_t joydev5cmdline_options[] = {
+    { "-extrajoydev3", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice5", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Set input device for extra joystick #3 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)" },
+    { NULL }
+};
+
 int joy_arch_cmdline_options_init(void)
 {
     if (joyport_get_port_name(JOYPORT_1)) {
@@ -219,6 +228,11 @@ int joy_arch_cmdline_options_init(void)
     }
     if (joyport_get_port_name(JOYPORT_4)) {
         if (cmdline_register_options(joydev4cmdline_options) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_5)) {
+        if (cmdline_register_options(joydev5cmdline_options) < 0) {
             return -1;
         }
     }
@@ -265,6 +279,7 @@ int joy_arch_init(void)
     joystick_open_device(1, joystick_port_map[1]);
     joystick_open_device(2, joystick_port_map[2]);
     joystick_open_device(3, joystick_port_map[3]);
+    joystick_open_device(4, joystick_port_map[4]);
 
     return 0;
 }

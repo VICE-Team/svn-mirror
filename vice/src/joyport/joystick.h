@@ -64,7 +64,7 @@ extern int joystick_snapshot_write_module(struct snapshot_s *s);
 extern int joystick_snapshot_read_module(struct snapshot_s *s);
 
 /*! the number of joysticks that can be attached to the emu */
-#define JOYSTICK_NUM 4
+#define JOYSTICK_NUM 5
 
 /* virtual joystick mapping */
 extern int joystick_port_map[JOYSTICK_NUM];

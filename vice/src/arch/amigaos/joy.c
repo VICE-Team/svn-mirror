@@ -161,6 +161,15 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { NULL }
 };
 
+static const cmdline_option_t joydev5cmdline_options[] = {
+    { "-extrajoydev3", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice5", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_3,
+      NULL, NULL },
+    { NULL }
+};
+
 int joy_arch_cmdline_options_init(void)
 {
     if (joyport_get_port_name(JOYPORT_1)) {
@@ -180,6 +189,11 @@ int joy_arch_cmdline_options_init(void)
     }
     if (joyport_get_port_name(JOYPORT_4)) {
         if (cmdline_register_options(joydev4cmdline_options) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_5)) {
+        if (cmdline_register_options(joydev5cmdline_options) < 0) {
             return -1;
         }
     }

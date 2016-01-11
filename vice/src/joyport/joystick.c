@@ -85,7 +85,7 @@
 #define JOYPAD_NW   (JOYPAD_N | JOYPAD_W)
 #define JOYPAD_NE   (JOYPAD_N | JOYPAD_E)
 
-static int joyport_joystick[4] = { 0, 0, 0, 0 };
+static int joyport_joystick[5] = { 0, 0, 0, 0, 0 };
 
 /* Global joystick value.  */
 /*! \todo SRT: document: what are these values joystick_value[0, 1, 2, ..., 5] used for? */
@@ -163,6 +163,9 @@ static void joystick_latch_matrix(CLOCK offset)
     }
     if (joyport_joystick[3]) {
         joyport_display_joyport(JOYPORT_ID_JOY4, joystick_value[4]);
+    }
+    if (joyport_joystick[4]) {
+        joyport_display_joyport(JOYPORT_ID_JOY4, joystick_value[5]);
     }
 }
 
@@ -587,6 +590,12 @@ static resource_int_t joy4_resources_int[] = {
     { NULL },
 };
 
+static resource_int_t joy5_resources_int[] = {
+    { "JoyDevice5", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[JOYPORT_5], set_joystick_device, (void *)JOYPORT_5 },
+    { NULL },
+};
+
 int joystick_resources_init(void)
 {
     if (joystick_joyport_register() < 0) {
@@ -640,6 +649,12 @@ int joystick_resources_init(void)
     }
     if (joyport_get_port_name(JOYPORT_4)) {
         if (resources_register_int(joy4_resources_int) < 0) {
+            return -1;
+        }
+    }
+
+    if (joyport_get_port_name(JOYPORT_5)) {
+        if (resources_register_int(joy5_resources_int) < 0) {
             return -1;
         }
     }

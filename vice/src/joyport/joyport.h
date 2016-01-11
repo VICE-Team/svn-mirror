@@ -33,6 +33,7 @@
 #define JOYPORT_ID_JOY2               -2
 #define JOYPORT_ID_JOY3               -3
 #define JOYPORT_ID_JOY4               -4
+#define JOYPORT_ID_JOY5               -5
 
 #define JOYPORT_ID_NONE                0
 #define JOYPORT_ID_JOYSTICK            1
@@ -68,10 +69,11 @@
 
 #define JOYPORT_1    0	/* c64/c128/c64dtv/cbm5x0/plus4 control port 1, vic20 control port */
 #define JOYPORT_2    1	/* c64/c128/c64dtv/cbm5x0/plus4 control port 2 */
-#define JOYPORT_3    2	/* c64/c128/c64dtv/cbm2/pet/vic20 userport joy adapter port 1, plus4 sidcart control port */
-#define JOYPORT_4    3	/* c64/c128/cbm2/pet/vic20 userport joy adapter port 2 */
+#define JOYPORT_3    2	/* c64/c128/c64dtv/cbm2/pet/plus4/vic20 userport joy adapter port 1 */
+#define JOYPORT_4    3	/* c64/c128/cbm2/pet/plus4/vic20 userport joy adapter port 2 */
+#define JOYPORT_5    4	/* plus4 sidcart control port */
 
-#define JOYPORT_MAX_PORTS     4
+#define JOYPORT_MAX_PORTS     5
 
 #define JOYPORT_IS_NOT_LIGHTPEN   0
 #define JOYPORT_IS_LIGHTPEN       1

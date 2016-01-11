@@ -293,7 +293,24 @@ static joyport_port_props_t control_port_2 =
     1					/* port is always active */
 };
 
-/* for now this part is commented, but will be used soon */
+static joyport_port_props_t userport_joy_control_port_1 = 
+{
+    "Userport joystick adapter port 1",
+    IDGS_USERPORT_JOY_ADAPTER_PORT_1,
+    0,				/* has NO potentiometer connected to this port */
+    0,				/* has NO lightpen support on this port */
+    0					/* port can be switched on/off */
+};
+
+static joyport_port_props_t userport_joy_control_port_2 = 
+{
+    "Userport joystick adapter port 2",
+    IDGS_USERPORT_JOY_ADAPTER_PORT_2,
+    0,				/* has NO potentiometer connected to this port */
+    0,				/* has NO lightpen support on this port */
+    0					/* port can be switched on/off */
+};
+
 static joyport_port_props_t sidcard_port = 
 {
     "SIDCard control port",
@@ -308,7 +325,13 @@ static int init_joyport_ports(void)
     if (joyport_port_register(JOYPORT_1, &control_port_1) < 0) {
         return -1;
     }
-    if (joyport_port_register(JOYPORT_3, &sidcard_port) < 0) {
+    if (joyport_port_register(JOYPORT_3, &userport_joy_control_port_1) < 0) {
+        return -1;
+    }
+    if (joyport_port_register(JOYPORT_4, &userport_joy_control_port_2) < 0) {
+        return -1;
+    }
+    if (joyport_port_register(JOYPORT_5, &sidcard_port) < 0) {
         return -1;
     }
     return joyport_port_register(JOYPORT_2, &control_port_2);

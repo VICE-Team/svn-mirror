@@ -58,6 +58,10 @@ static int set_userport_joystick_type(int val, void *param)
 {
     switch (val) {
         case USERPORT_JOYSTICK_CGA:
+            if (machine_class != VICE_MACHINE_PLUS4) {
+                break;
+            }
+            return -1;
         case USERPORT_JOYSTICK_PET:
         case USERPORT_JOYSTICK_HUMMER:
         case USERPORT_JOYSTICK_OEM:

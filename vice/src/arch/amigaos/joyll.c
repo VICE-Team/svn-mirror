@@ -48,9 +48,9 @@ int joystick_inited = 0;
 
 #if 0
 /* Joystick devices. Use joystick_port_map in the common code instead. */
-static int joystick_device[4];
+static int joystick_device[5];
 #endif
-static int joystick_fire[4];
+static int joystick_fire[5];
 
 int joy_arch_init(void)
 {
@@ -168,6 +168,16 @@ static const resource_int_t joy4_resources_int[] = {
     { NULL }
 };
 
+static const resource_int_t joy5_resources_int[] = {
+#if 0
+    { "JoyDevice5", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_device[4], set_joystick_device, (void *)4 },
+#endif
+    { "JoyFire5", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
+      &joystick_fire[4], set_joystick_fire, (void *)4 },
+    { NULL }
+};
+
 int joy_arch_resources_init(void)
 {
     if (joyport_get_port_name(JOYPORT_1)) {
@@ -232,6 +242,15 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { NULL }
 };
 
+static const cmdline_option_t joydev5cmdline_options[] = {
+    { "-extrajoydev3", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice5", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYLL_3,
+      NULL, NULL },
+    { NULL }
+};
+
 int joy_arch_cmdline_options_init(void)
 {
     if (joyport_get_port_name(JOYPORT_1)) {
@@ -251,6 +270,11 @@ int joy_arch_cmdline_options_init(void)
     }
     if (joyport_get_port_name(JOYPORT_4)) {
         if (cmdline_register_options(joydev4cmdline_options) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_5)) {
+        if (cmdline_register_options(joydev5cmdline_options) < 0) {
             return -1;
         }
     }

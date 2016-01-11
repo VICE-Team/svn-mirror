@@ -7937,6 +7937,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_SV, "Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2: tangentuppsättning A/AI, 3: tangentuppsättning B/AI)" },
 /* tr */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_TR, "Ekstra joystick #2 emülasyonu: (0:Yok, 1: Numpad, 2: Tuþ Seti A/AI, 3: Tuþ Seti B/AI)" },
 
+/* en */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3,    "Extra joystick #3 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
+/* da */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_DA, "" },  /* fuzzy */
+/* de */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_DE, "" },  /* fuzzy */
+/* es */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_HU, "" },  /* fuzzy */
+/* it */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_SET_INPUT_JOYLL_1,    "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* da */ { IDS_SET_INPUT_JOYLL_1_DA, "Joystick 1 emularing: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)" },
 /* de */ { IDS_SET_INPUT_JOYLL_1_DE, "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)" },
@@ -7992,6 +8006,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_SET_INPUT_EXTRA_JOYLL_2_RU, "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* sv */ { IDS_SET_INPUT_EXTRA_JOYLL_2_SV, "Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3)" },
 /* tr */ { IDS_SET_INPUT_EXTRA_JOYLL_2_TR, "Ekstra joystick #2 emülasyonu: (0: Yok, 1: Numpad, 2-5: Amiga Joy 0-3)" },
+
+/* en */ { IDS_SET_INPUT_EXTRA_JOYLL_3,    "Extra joystick #3 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)" },
+/* da */ { IDS_SET_INPUT_EXTRA_JOYLL_3_DA, "" },  /* fuzzy */
+/* de */ { IDS_SET_INPUT_EXTRA_JOYLL_3_DE, "" },  /* fuzzy */
+/* es */ { IDS_SET_INPUT_EXTRA_JOYLL_3_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SET_INPUT_EXTRA_JOYLL_3_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SET_INPUT_EXTRA_JOYLL_3_HU, "" },  /* fuzzy */
+/* it */ { IDS_SET_INPUT_EXTRA_JOYLL_3_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SET_INPUT_EXTRA_JOYLL_3_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SET_INPUT_EXTRA_JOYLL_3_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SET_INPUT_EXTRA_JOYLL_3_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SET_INPUT_EXTRA_JOYLL_3_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SET_INPUT_EXTRA_JOYLL_3_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SET_INPUT_EXTRA_JOYLL_3_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SAVE_SETTINGS_ON_EXIT,    "Save settings on exit" },
 /* da */ { IDS_SAVE_SETTINGS_ON_EXIT_DA, "Gem indstillinger når programmet afsluttes" },

@@ -286,6 +286,15 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { NULL }
 };
 
+static const cmdline_option_t joydev5cmdline_options[] = {
+    { "-extrajoydev3", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice5", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Set input device for extra CBM joystick port #3 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)" },
+    { NULL }
+};
+
 int joy_arch_cmdline_options_init(void)
 {
     if (joyport_get_port_name(JOYPORT_1)) {
@@ -305,6 +314,11 @@ int joy_arch_cmdline_options_init(void)
     }
     if (joyport_get_port_name(JOYPORT_4)) {
         if (cmdline_register_options(joydev4cmdline_options) < 0) {
+            return -1;
+        }
+    }
+    if (joyport_get_port_name(JOYPORT_5)) {
+        if (cmdline_register_options(joydev5cmdline_options) < 0) {
             return -1;
         }
     }
