@@ -32,11 +32,13 @@
 #include <stdlib.h>
 #include <windows.h>
 
+#include "c64model.h"
 #include "c64ui.h"
 #include "cartridge.h"
 #include "debug.h"
 #include "lib.h"
 #include "res.h"
+#include "sid.h"
 #include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
@@ -97,6 +99,10 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { "IECReset", IDM_TOGGLE_RESET_IEC_WITH_CPU },
     { "CPMCart", IDM_TOGGLE_CPM_CART },
+    /* the following ones only exist to make the hotkeys work */
+    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { NULL, 0 }
 };
 
@@ -766,6 +772,31 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_SAMPLER_SETTINGS:
             ui_sampler_settings_dialog(hwnd);
+            break;
+        /* the following only exist to make the hotkeys work */
+        case IDM_C64_PAL:
+            c64model_set(C64MODEL_C64_PAL);
+            ui_display_statustext("C64 PAL", 1);
+            break;
+        case IDM_C64_NTSC:
+            c64model_set(C64MODEL_C64_NTSC);
+            ui_display_statustext("C64 NTSC", 1);
+            break;
+        case IDM_RESID6581:
+            sid_set_engine_model(SID_ENGINE_RESID, SID_MODEL_6581);
+            ui_display_statustext("RESID 6581", 1);
+            break;
+        case IDM_RESID6581R4:
+            sid_set_engine_model(SID_ENGINE_RESID, SID_MODEL_6581R4);
+            ui_display_statustext("RESID 6581R4", 1);
+            break;
+        case IDM_RESID8580:
+            sid_set_engine_model(SID_ENGINE_RESID, SID_MODEL_8580);
+            ui_display_statustext("RESID 8580", 1);
+            break;
+        case IDM_RESID8580D:
+            sid_set_engine_model(SID_ENGINE_RESID, SID_MODEL_8580D);
+            ui_display_statustext("RESID 8580D", 1);
             break;
     }
 }
