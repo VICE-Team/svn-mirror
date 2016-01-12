@@ -50,6 +50,7 @@
 #include "maincpu.h"
 #include "printer.h"
 #include "types.h"
+#include "userport.h"
 #include "userport_digimax.h"
 #include "userport_joystick.h"
 #include "userport_rtc.h"
@@ -112,6 +113,9 @@ static int vbank;
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
+    store_userport_pbx(0xff);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_strobe(1);
     printer_userport_write_data((BYTE)0xff);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -175,11 +179,13 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    parallel_cable_cpu_write(DRIVE_PC_STANDARD, (BYTE)byte);
+    store_userport_pbx(byte);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
+    parallel_cable_cpu_write(DRIVE_PC_STANDARD, byte);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    rsuser_write_ctrl((BYTE)byte);
+    rsuser_write_ctrl(byte);
 #endif
-    /* FIXME: in the upcoming userport system these calls needs to be conditional */
     userport_joystick_store_pbx(byte);
     userport_rtc_store(byte);
 }
@@ -193,12 +199,14 @@ static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 /* FIXME! */
 static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
+    store_userport_pbx(byte);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     parallel_cable_cpu_undump(DRIVE_PC_STANDARD, (BYTE)byte);
     printer_userport_write_data((BYTE)byte);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    /* FIXME: in the upcoming userport system these calls needs to be conditional */
     userport_joystick_store_pbx(byte);
     userport_rtc_store(byte);
 }
@@ -220,6 +228,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte = 0xff;
 
+    byte = read_userport_pbx((BYTE)~cia_context->c_cia[CIA_DDRB]);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
         byte = rsuser_read_ctrl(byte);
@@ -227,7 +238,6 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 #endif
     byte = parallel_cable_cpu_read(DRIVE_PC_STANDARD, byte);
 
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
     byte = userport_joystick_read_pbx(byte);
     byte = userport_rtc_read(byte);
 

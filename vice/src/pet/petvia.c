@@ -44,6 +44,7 @@
 #include "petvia.h"
 #include "printer.h"
 #include "types.h"
+#include "userport.h"
 #include "userport_dac.h"
 #include "userport_joystick.h"
 #include "via.h"
@@ -89,9 +90,11 @@ static void restore_int(via_context_t *via_context, unsigned int int_num, int va
 
 static void undump_pra(via_context_t *via_context, BYTE byte)
 {
+    store_userport_pbx(byte);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_data(byte);
 
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
     userport_joystick_store_pbx(byte);
 
     userport_dac_store(byte);
@@ -100,9 +103,11 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
 static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
                       WORD addr)
 {
+    store_userport_pbx(byte);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_data(byte);
 
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
     userport_joystick_store_pbx(byte);
 
     userport_dac_store(byte);
@@ -200,6 +205,9 @@ static void reset(via_context_t *via_context)
     parallel_cpu_set_atn(0);
     parallel_cpu_set_nrfd(0);
 
+    store_userport_pbx(0xff);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_data(0xff);
     printer_userport_write_strobe(1);
 }
@@ -208,7 +216,9 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
 {
     BYTE byte = 0xff;
 
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
+    byte = read_userport_pbx((BYTE)~via_context->via[VIA_DDRA]);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     byte = userport_joystick_read_pbx(byte);
 
     /* joystick always pulls low, even if high output, so no

@@ -51,6 +51,7 @@
 #include "printer.h"
 #include "tpi.h"
 #include "types.h"
+#include "userport.h"
 #include "userport_joystick.h"
 
 void cia1_store(WORD addr, BYTE data)
@@ -122,6 +123,9 @@ void cia1_set_ieee_dir(cia_context_t *cia_context, int isout)
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
+    store_userport_pbx(0xff);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_strobe(1);
     printer_userport_write_data(0xff);
 }
@@ -148,11 +152,13 @@ static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
+    store_userport_pbx(byte);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_data(byte);
     printer_userport_write_strobe(0);
     printer_userport_write_strobe(1);
 
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
     userport_joystick_store_pbx(byte);
 }
 
@@ -182,7 +188,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte = 0xff;
 
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
+    byte = read_userport_pbx((BYTE)~cia_context->c_cia[CIA_DDRB]);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     byte = userport_joystick_read_pbx(byte);
 
     byte &= ((0xff & ~(cia_context->c_cia[CIA_DDRB]))

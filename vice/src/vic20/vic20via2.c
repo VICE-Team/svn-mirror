@@ -39,6 +39,7 @@
 #include "maincpu.h"
 #include "printer.h"
 #include "types.h"
+#include "userport.h"
 #include "userport_joystick.h"
 #include "via.h"
 #include "vic.h"
@@ -127,13 +128,18 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
 
 static void undump_prb(via_context_t *via_context, BYTE byte)
 {
+    store_userport_pbx(byte);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_data(byte);
 }
 
 static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
                       WORD addr)
 {
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
+    store_userport_pbx(byte);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     userport_joystick_store_pbx(byte);
 
     printer_userport_write_data(byte);
@@ -148,8 +154,9 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
 
 static void reset(via_context_t *via_context)
 {
-/*    iec_pa_write(0xff);*/
+    store_userport_pbx(0xff);
 
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_data(0xff);
     printer_userport_write_strobe(1);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -239,13 +246,15 @@ inline static BYTE read_prb(via_context_t *via_context)
     BYTE byte = 0xff;
     byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
 
+    byte = read_userport_pbx((BYTE)~via_context->via[VIA_DDRB]);
+
+    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
         byte = rsuser_read_ctrl(byte);
     }
 #endif
 
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
     byte = userport_joystick_read_pbx(byte);
 
     return byte;
