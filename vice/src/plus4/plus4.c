@@ -93,6 +93,7 @@
 #include "traps.h"
 #include "types.h"
 #include "userport.h"
+#include "userport_joystick.h"
 #include "vice-event.h"
 #include "video.h"
 #include "video-sound.h"
