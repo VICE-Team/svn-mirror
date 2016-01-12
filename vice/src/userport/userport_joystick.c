@@ -91,6 +91,12 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
+static const resource_int_t resources_int_type_plus4[] = {
+    { "UserportJoyType", USERPORT_JOYSTICK_PET, RES_EVENT_NO, NULL,
+      &userport_joystick_type, set_userport_joystick_type, NULL },
+    { NULL }
+};
+
 static const resource_int_t resources_int_type[] = {
     { "UserportJoyType", USERPORT_JOYSTICK_CGA, RES_EVENT_NO, NULL,
       &userport_joystick_type, set_userport_joystick_type, NULL },
@@ -100,8 +106,14 @@ static const resource_int_t resources_int_type[] = {
 int userport_joystick_resources_init(void)
 {
     if (machine_class != VICE_MACHINE_C64DTV) {
-        if (resources_register_int(resources_int_type) < 0) {
-            return -1;
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            if (resources_register_int(resources_int_type_plus4) < 0) {
+                return -1;
+            }
+        } else {
+            if (resources_register_int(resources_int_type) < 0) {
+                return -1;
+            }
         }
     }
 
