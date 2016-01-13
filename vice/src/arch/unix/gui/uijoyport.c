@@ -42,6 +42,7 @@ UI_MENU_DEFINE_RADIO(JoyPort1Device)
 UI_MENU_DEFINE_RADIO(JoyPort2Device)
 UI_MENU_DEFINE_RADIO(JoyPort3Device)
 UI_MENU_DEFINE_RADIO(JoyPort4Device)
+UI_MENU_DEFINE_RADIO(JoyPort5Device)
 
 ui_menu_entry_t joyport_settings_submenu[JOYPORT_MAX_PORTS + 1];
 
@@ -51,7 +52,7 @@ ui_menu_entry_t ui_joyport_settings_menu[] = {
     { NULL }
 };
 
-void uijoyport_menu_create(int port1, int port2, int port3, int port4)
+void uijoyport_menu_create(int port1, int port2, int port3, int port4, int port5)
 {
     unsigned int i, num;
     int j = 0;
@@ -59,15 +60,18 @@ void uijoyport_menu_create(int port1, int port2, int port3, int port4)
     ui_menu_entry_t *devices_submenu2;
     ui_menu_entry_t *devices_submenu3;
     ui_menu_entry_t *devices_submenu4;
+    ui_menu_entry_t *devices_submenu5;
     joyport_desc_t *devices_port_1 = NULL;
     joyport_desc_t *devices_port_2 = NULL;
     joyport_desc_t *devices_port_3 = NULL;
     joyport_desc_t *devices_port_4 = NULL;
+    joyport_desc_t *devices_port_5 = NULL;
 
     ports[JOYPORT_1] = port1;
     ports[JOYPORT_2] = port2;
     ports[JOYPORT_3] = port3;
     ports[JOYPORT_4] = port4;
+    ports[JOYPORT_5] = port5;
 
     memset(joyport_settings_submenu, 0, sizeof(joyport_settings_submenu));
 
@@ -147,6 +151,25 @@ void uijoyport_menu_create(int port1, int port2, int port3, int port4)
         ++j;
     }
 
+    if (port5) {
+        devices_port_5 = joyport_get_valid_devices(JOYPORT_5);
+        for (i = 0; devices_port_5[i].name; ++i) {}
+        num = i;
+
+        devices_submenu5 = lib_calloc((size_t)(num + 1), sizeof(ui_menu_entry_t));
+
+        for (i = 0; i < num ; i++) {
+            devices_submenu5[i].string = (ui_callback_data_t)lib_msprintf("%s", translate_text(devices_port_5[i].trans_name));
+            devices_submenu5[i].type = UI_MENU_TYPE_TICK;
+            devices_submenu5[i].callback = (ui_callback_t)radio_JoyPort5Device;
+            devices_submenu5[i].callback_data = (ui_callback_data_t)(unsigned long)devices_port_5[i].id;
+        }
+        joyport_settings_submenu[j].string = translate_text(joyport_get_port_trans_name(JOYPORT_5));
+        joyport_settings_submenu[j].type = UI_MENU_TYPE_NORMAL;
+        joyport_settings_submenu[j].sub_menu = devices_submenu5;
+        ++j;
+    }
+
     if (devices_port_1) {
         lib_free(devices_port_1);
     }
@@ -159,6 +182,9 @@ void uijoyport_menu_create(int port1, int port2, int port3, int port4)
     if (devices_port_4) {
         lib_free(devices_port_4);
     }
+    if (devices_port_5) {
+        lib_free(devices_port_5);
+    }
 }
 
 void uijoyport_menu_shutdown(void)
@@ -168,6 +194,7 @@ void uijoyport_menu_shutdown(void)
     ui_menu_entry_t *devices_submenu2 = NULL;
     ui_menu_entry_t *devices_submenu3 = NULL;
     ui_menu_entry_t *devices_submenu4 = NULL;
+    ui_menu_entry_t *devices_submenu5 = NULL;
     int j = 0;
 
     if (ports[JOYPORT_1]) {
@@ -207,6 +234,16 @@ void uijoyport_menu_shutdown(void)
             lib_free(devices_submenu4[i].string);
         }
         lib_free(devices_submenu4);
+        ++j;
+    }
+
+    if (ports[JOYPORT_5]) {
+        devices_submenu5 = joyport_settings_submenu[j].sub_menu;
+        joyport_settings_submenu[j].sub_menu = NULL;
+        for (i = 0; devices_submenu5[i].string; ++i) {
+            lib_free(devices_submenu5[i].string);
+        }
+        lib_free(devices_submenu5);
         ++j;
     }
 }

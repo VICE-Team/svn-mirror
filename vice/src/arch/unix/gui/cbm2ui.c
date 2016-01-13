@@ -682,7 +682,7 @@ static void cbm2ui_dynamic_menu_create(void)
     uisampler_menu_create();
     if (machine_class == VICE_MACHINE_CBM5x0) {
         uivicii_menu_create();
-        uijoyport_menu_create(1, 1, 0, 0);
+        uijoyport_menu_create(1, 1, 0, 0, 0);
     } else {
         uicrtc_menu_create();
         uijoyport_menu_create(0, 0, 1, 1);

@@ -686,7 +686,7 @@ static void c128ui_dynamic_menu_create(void)
     uivdc_menu_create();
     uicart_menu_create();
     uikeyboard_menu_create();
-    uijoyport_menu_create(1, 1, 1, 1);
+    uijoyport_menu_create(1, 1, 1, 1, 0);
 }
 
 static void c128ui_dynamic_menu_shutdown(void)

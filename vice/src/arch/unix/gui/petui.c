@@ -628,7 +628,7 @@ static void petui_dynamic_menu_create(void)
     uicrtc_menu_create();
     uikeyboard_menu_create();
     uipetkeyboard_menu_create();
-    uijoyport_menu_create(0, 0, 1, 1);
+    uijoyport_menu_create(0, 0, 1, 1, 0);
 }
 
 static void petui_dynamic_menu_shutdown(void)

@@ -352,7 +352,7 @@ static void c64ui_dynamic_menu_create(void)
 #endif
     uiprinter_pruser_enable(0);
     uikeyboard_menu_create();
-    uijoyport_menu_create(1, 1, 1, 0);
+    uijoyport_menu_create(1, 1, 1, 0, 0);
 }
 
 static void c64ui_dynamic_menu_shutdown(void)

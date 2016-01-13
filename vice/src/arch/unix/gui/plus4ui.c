@@ -475,7 +475,7 @@ static void plus4ui_dynamic_menu_create(void)
     uisampler_menu_create();
     uited_menu_create();
     uikeyboard_menu_create();
-    uijoyport_menu_create(1, 1, 1, 0);
+    uijoyport_menu_create(1, 1, 1, 1, 1);
 }
 
 static void plus4ui_dynamic_menu_shutdown(void)

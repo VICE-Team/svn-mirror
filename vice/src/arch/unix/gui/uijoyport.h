@@ -31,7 +31,7 @@
 
 extern struct ui_menu_entry_s ui_joyport_settings_menu[];
 
-extern void uijoyport_menu_create(int port1, int port2, int port3, int port4);
+extern void uijoyport_menu_create(int port1, int port2, int port3, int port4, int port5);
 extern void uijoyport_menu_shutdown(void);
 
 #endif
