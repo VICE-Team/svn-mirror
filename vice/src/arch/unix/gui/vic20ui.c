@@ -726,7 +726,7 @@ static void vic20ui_dynamic_menu_create(void)
     uisampler_menu_create();
     uivic_menu_create();
     uikeyboard_menu_create();
-    uijoyport_menu_create(1, 0, 1, 1);
+    uijoyport_menu_create(1, 0, 1, 1, 0);
 }
 
 static void vic20ui_dynamic_menu_shutdown(void)
