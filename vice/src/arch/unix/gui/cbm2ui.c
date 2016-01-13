@@ -685,7 +685,7 @@ static void cbm2ui_dynamic_menu_create(void)
         uijoyport_menu_create(1, 1, 0, 0, 0);
     } else {
         uicrtc_menu_create();
-        uijoyport_menu_create(0, 0, 1, 1);
+        uijoyport_menu_create(0, 0, 1, 1, 0);
     }
     uikeyboard_menu_create();
 }
