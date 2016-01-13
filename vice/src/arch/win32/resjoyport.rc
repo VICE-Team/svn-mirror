@@ -64,6 +64,38 @@ END
 
 // template of dialog for all languages
 
+IDD_JOYPORT12345_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 136
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "", IDC_JOYPORT1_LABEL,
+                    9, 6, 53, 8
+    COMBOBOX        IDC_JOYPORT1,
+                    70, 5, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT2_LABEL,
+                    9, 24, 53, 8
+    COMBOBOX        IDC_JOYPORT2,
+                    70, 23, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT3_LABEL,
+                    9, 42, 53, 8
+    COMBOBOX        IDC_JOYPORT3,
+                    70, 41, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT4_LABEL,
+                    9, 60, 53, 8
+    COMBOBOX        IDC_JOYPORT4,
+                    70, 59, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_JOYPORT5_LABEL,
+                    9, 78, 53, 8
+    COMBOBOX        IDC_JOYPORT5,
+                    70, 77, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 101, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 101, 50, 14, WS_TABSTOP
+END
+
+
+// template of dialog for all languages
+
 IDD_JOYPORT134_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 200, 108
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"

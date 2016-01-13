@@ -45,11 +45,12 @@
 #include "uimouse.h"
 #include "winmain.h"
 
-static int ports[4] = { 0, 0, 0, 0};
+static int ports[5] = { 0, 0, 0, 0, 0};
 static joyport_desc_t *devices_port_1 = NULL;
 static joyport_desc_t *devices_port_2 = NULL;
 static joyport_desc_t *devices_port_3 = NULL;
 static joyport_desc_t *devices_port_4 = NULL;
+static joyport_desc_t *devices_port_5 = NULL;
 
 static void enable_joyport_controls(HWND hwnd)
 {
@@ -64,6 +65,9 @@ static void enable_joyport_controls(HWND hwnd)
     }
     if (ports[JOYPORT_4]) {
         EnableWindow(GetDlgItem(hwnd, IDC_JOYPORT4), 1);
+    }
+    if (ports[JOYPORT_5]) {
+        EnableWindow(GetDlgItem(hwnd, IDC_JOYPORT5), 1);
     }
 }
 
@@ -88,11 +92,13 @@ static void init_joyport_dialog(HWND hwnd)
     HWND temp_hwnd2 = 0;
     HWND temp_hwnd3 = 0;
     HWND temp_hwnd4 = 0;
+    HWND temp_hwnd5 = 0;
     HWND element;
     int res_value1 = 0;
     int res_value2 = 0;
     int res_value3 = 0;
     int res_value4 = 0;
+    int res_value5 = 0;
     int xpos;
     RECT rect;
     int i = 0;
@@ -100,12 +106,14 @@ static void init_joyport_dialog(HWND hwnd)
     int joy2 = 0;
     int joy3 = 0;
     int joy4 = 0;
+    int joy5 = 0;
     char *tmp_text = NULL;
 
     devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
     devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
     devices_port_3 = joyport_get_valid_devices(JOYPORT_3);
     devices_port_4 = joyport_get_valid_devices(JOYPORT_4);
+    devices_port_5 = joyport_get_valid_devices(JOYPORT_5);
 
     /* localize possible port items, and build left and right groups */
     if (ports[JOYPORT_1]) {
@@ -152,6 +160,18 @@ static void init_joyport_dialog(HWND hwnd)
         joyport_left_group[i].idc = IDC_JOYPORT4_LABEL;
         joyport_left_group[i].element_type = 0;
         joyport_right_group[i].idc = IDC_JOYPORT4;
+        joyport_right_group[i].element_type = 0;
+        ++i;
+    }  
+
+    if (ports[JOYPORT_5]) {
+        tmp_text = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_5)));
+        element = GetDlgItem(hwnd, IDC_JOYPORT5_LABEL);
+        SetWindowText(element, tmp_text);
+        lib_free(tmp_text);
+        joyport_left_group[i].idc = IDC_JOYPORT5_LABEL;
+        joyport_left_group[i].element_type = 0;
+        joyport_right_group[i].idc = IDC_JOYPORT5;
         joyport_right_group[i].element_type = 0;
         ++i;
     }  
@@ -232,6 +252,18 @@ static void init_joyport_dialog(HWND hwnd)
         SendMessage(temp_hwnd4, CB_SETCURSEL, (WPARAM)res_value4, 0);
     }
 
+    if (ports[JOYPORT_5]) {
+        temp_hwnd5 = GetDlgItem(hwnd, IDC_JOYPORT5);
+        resources_get_int("JoyPort5Device", &joy5);
+        for (i = 0; devices_port_5[i].name; ++i) {
+            SendMessage(temp_hwnd5, CB_ADDSTRING, 0, (LPARAM)translate_text(devices_port_5[i].trans_name));
+            if (devices_port_5[i].id == joy5) {
+                res_value5 = i;
+            }
+        }
+        SendMessage(temp_hwnd5, CB_SETCURSEL, (WPARAM)res_value5, 0);
+    }
+
     enable_joyport_controls(hwnd);
 }
 
@@ -253,6 +285,10 @@ static void free_device_ports(void)
         lib_free(devices_port_4);
         devices_port_4 = NULL;
     }
+    if (devices_port_5) {
+        lib_free(devices_port_5);
+        devices_port_5 = NULL;
+    }
 }
 
 static void end_joyport_dialog(HWND hwnd)
@@ -261,10 +297,12 @@ static void end_joyport_dialog(HWND hwnd)
     int joy2 = 0;
     int joy3 = 0;
     int joy4 = 0;
+    int joy5 = 0;
     int id1 = 0;
     int id2 = 0;
     int id3 = 0;
     int id4 = 0;
+    int id5 = 0;
 
     /* Because all ports need to be set at the same time,
        and actually they are set one at a time,
@@ -281,6 +319,9 @@ static void end_joyport_dialog(HWND hwnd)
     }
     if (ports[JOYPORT_4]) {
         resources_set_int("JoyPort4Device", JOYPORT_ID_NONE);
+    }
+    if (ports[JOYPORT_5]) {
+        resources_set_int("JoyPort5Device", JOYPORT_ID_NONE);
     }
 
     if (ports[JOYPORT_1]) {
@@ -303,6 +344,11 @@ static void end_joyport_dialog(HWND hwnd)
         joy4 = (int)SendMessage(GetDlgItem(hwnd, IDC_JOYPORT4), CB_GETCURSEL, 0, 0);
         id4 = devices_port_4[joy4].id;
         resources_set_int("JoyPort4Device", id4);
+    }
+    if (ports[JOYPORT_5]) {
+        joy5 = (int)SendMessage(GetDlgItem(hwnd, IDC_JOYPORT5), CB_GETCURSEL, 0, 0);
+        id5 = devices_port_5[joy5].id;
+        resources_set_int("JoyPort5Device", id5);
     }
 
     free_device_ports();
@@ -335,28 +381,32 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
     return FALSE;
 }
 
-void ui_joyport_settings_dialog(HWND hwnd, int port1, int port2, int port3, int port4)
+void ui_joyport_settings_dialog(HWND hwnd, int port1, int port2, int port3, int port4, int port5)
 {
-    int total = (port1 << 3) | (port2 << 2) | (port3 << 1) | port4;
+    int total = (port1 << 4) | (port2 << 3) | (port3 << 2) | (port4 << 1) | port5;
     ports[0] = port1;
     ports[1] = port2;
     ports[2] = port3;
     ports[3] = port4;
+    ports[4] = port5;
 
     switch (total) {
-        case 15:
+        case 31:
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_JOYPORT12345_SETTINGS_DIALOG, hwnd, dialog_proc);
+            break;
+        case 30:
             DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_JOYPORT1234_SETTINGS_DIALOG, hwnd, dialog_proc);
             break;
-        case 14:
+        case 28:
             DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_JOYPORT123_SETTINGS_DIALOG, hwnd, dialog_proc);
             break;
-        case 12:
+        case 24:
             DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_JOYPORT12_SETTINGS_DIALOG, hwnd, dialog_proc);
             break;
-        case 11:
+        case 22:
             DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_JOYPORT134_SETTINGS_DIALOG, hwnd, dialog_proc);
             break;
-        case 3:
+        case 6:
             DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_JOYPORT34_SETTINGS_DIALOG, hwnd, dialog_proc);
             break;
     }

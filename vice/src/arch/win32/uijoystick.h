@@ -29,6 +29,7 @@
 
 extern void ui_joystick_settings_dialog(HWND hwnd);
 extern void ui_extra_joystick_settings_dialog(HWND hwnd);
+extern void ui_sidcart_joystick_settings_dialog(HWND hwnd);
 extern void ui_joystick_swap_joystick(void);
 extern void ui_joystick_swap_extra_joystick(void);
 

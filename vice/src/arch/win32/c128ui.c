@@ -841,7 +841,7 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
             uiide64_settings_dialog(hwnd);
             break;
         case IDM_JOYPORT_SETTINGS:
-            ui_joyport_settings_dialog(hwnd, 1, 1, 1, 1);
+            ui_joyport_settings_dialog(hwnd, 1, 1, 1, 1, 0);
             break;
         case IDM_JOY_SETTINGS:
             ui_joystick_settings_dialog(hwnd);

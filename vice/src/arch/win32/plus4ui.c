@@ -278,7 +278,8 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
     { IDM_JOYPORT_SETTINGS, IDS_MI_JOYPORT_SETTINGS },
     { IDM_JOY_SETTINGS, IDS_MI_JOY_SETTINGS },
-    { IDM_EXTRA_JOY_SETTINGS, IDS_MI_SIDCART_JOY_SETTINGS },
+    { IDM_EXTRA_JOY_SETTINGS, IDS_MI_USERPORT_JOY_SETTINGS },
+    { IDM_SIDCART_JOY_SETTINGS, IDS_MI_SIDCART_JOY_SETTINGS },
     { IDM_KEYBOARD_SETTINGS, IDS_MI_KEYBOARD_SETTINGS },
     { IDM_MOUSE_SETTINGS, IDS_MI_MOUSE_SETTINGS },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
@@ -477,13 +478,16 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
             ui_v364speech_settings_dialog(hwnd);
             break;
         case IDM_JOYPORT_SETTINGS:
-            ui_joyport_settings_dialog(hwnd, 1, 1, 1, 0);
+            ui_joyport_settings_dialog(hwnd, 1, 1, 1, 1, 1);
             break;
         case IDM_JOY_SETTINGS:
             ui_joystick_settings_dialog(hwnd);
             break;
         case IDM_EXTRA_JOY_SETTINGS:
             ui_extra_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_SIDCART_JOY_SETTINGS:
+            ui_sidcart_joystick_settings_dialog(hwnd);
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_PLUS4ROM_SETTINGS_DIALOG, IDD_PLUS4DRIVEROM_SETTINGS_DIALOG,

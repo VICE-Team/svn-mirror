@@ -473,7 +473,7 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
             ui_acia_settings_dialog(hwnd);
             break;
         case IDM_JOYPORT_SETTINGS:
-            ui_joyport_settings_dialog(hwnd, 0, 0, 1, 1);
+            ui_joyport_settings_dialog(hwnd, 0, 0, 1, 1, 0);
             break;
         case IDM_EXTRA_JOY_SETTINGS:
             ui_extra_joystick_settings_dialog(hwnd);
