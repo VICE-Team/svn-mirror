@@ -194,7 +194,7 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             ui_v364_speech_settings_dialog(canvas);
             break;
         case IDM_JOYPORT_SETTINGS:
-            ui_joyport_settings_dialog(1, 1, 1, 0);
+            ui_joyport_settings_dialog(1, 1, 1, 1, 1);
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:

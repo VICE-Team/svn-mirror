@@ -50,6 +50,9 @@ static const int ui_joyport_3_values[JOYPORT_MAX_DEVICES + 1];
 static char *ui_joyport_4[JOYPORT_MAX_DEVICES + 1];
 static const int ui_joyport_4_values[JOYPORT_MAX_DEVICES + 1];
 
+static char *ui_joyport_5[JOYPORT_MAX_DEVICES + 1];
+static const int ui_joyport_5_values[JOYPORT_MAX_DEVICES + 1];
+
 static ui_to_from_t ui_to_from[JOYPORT_MAX_PORTS + 1];
 
 static APTR build_gui(void)
@@ -59,7 +62,8 @@ static APTR build_gui(void)
     char *joyport2_device = NULL;
     char *joyport3_device = NULL;
     char *joyport4_device = NULL;
-    int total = (ports[JOYPORT_1] << 3) | (ports[JOYPORT_2] << 2) | (ports[JOYPORT_3] << 1) | ports[JOYPORT_4];
+    char *joyport5_device = NULL;
+    int total = (ports[JOYPORT_1] << 4) | (ports[JOYPORT_2] << 3) | (ports[JOYPORT_3] << 2) | (ports[JOYPORT_4] << 1) | ports[JOYPORT_5];
 
     if (ports[JOYPORT_1]) {
         joyport1_device = lib_msprintf(translate_text(IDS_JOYPORT_S_PORT_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_1)));
@@ -77,10 +81,24 @@ static APTR build_gui(void)
         joyport4_device = lib_msprintf(translate_text(IDS_JOYPORT_S_PORT_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_4)));
     }
 
+    if (ports[JOYPORT_5]) {
+        joyport5_device = lib_msprintf(translate_text(IDS_JOYPORT_S_PORT_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_5)));
+    }
+
     app = mui_get_app();
 
     switch (total) {
-        case 15:
+        case 31:
+            ui = GroupObject,
+                   CYCLE(ui_to_from[0].object, joyport1_device, ui_joyport_1)
+                   CYCLE(ui_to_from[1].object, joyport2_device, ui_joyport_2)
+                   CYCLE(ui_to_from[2].object, joyport3_device, ui_joyport_3)
+                   CYCLE(ui_to_from[3].object, joyport4_device, ui_joyport_4)
+                   CYCLE(ui_to_from[4].object, joyport5_device, ui_joyport_5)
+                   OK_CANCEL_BUTTON
+                 End;
+             break;
+        case 30:
             ui = GroupObject,
                    CYCLE(ui_to_from[0].object, joyport1_device, ui_joyport_1)
                    CYCLE(ui_to_from[1].object, joyport2_device, ui_joyport_2)
@@ -89,7 +107,7 @@ static APTR build_gui(void)
                    OK_CANCEL_BUTTON
                  End;
              break;
-        case 11:
+        case 22:
             ui = GroupObject,
                    CYCLE(ui_to_from[0].object, joyport1_device, ui_joyport_1)
                    CYCLE(ui_to_from[2].object, joyport3_device, ui_joyport_3)
@@ -97,7 +115,7 @@ static APTR build_gui(void)
                    OK_CANCEL_BUTTON
                  End;
              break;
-        case 14:
+        case 28:
             ui = GroupObject,
                    CYCLE(ui_to_from[0].object, joyport1_device, ui_joyport_1)
                    CYCLE(ui_to_from[1].object, joyport2_device, ui_joyport_2)
@@ -105,14 +123,14 @@ static APTR build_gui(void)
                    OK_CANCEL_BUTTON
                  End;
              break;
-        case 12:
+        case 24:
             ui = GroupObject,
                    CYCLE(ui_to_from[0].object, joyport1_device, ui_joyport_1)
                    CYCLE(ui_to_from[1].object, joyport2_device, ui_joyport_2)
                    OK_CANCEL_BUTTON
                  End;
              break;
-        case 3:
+        case 6:
             ui = GroupObject,
                    CYCLE(ui_to_from[2].object, joyport3_device, ui_joyport_3)
                    CYCLE(ui_to_from[3].object, joyport4_device, ui_joyport_4)
@@ -133,7 +151,7 @@ static APTR build_gui(void)
     return ui;
 }
 
-void ui_joyport_settings_dialog(int port1, int port2, int port3, int port4)
+void ui_joyport_settings_dialog(int port1, int port2, int port3, int port4, int port5)
 {
     APTR window;
     int i;
@@ -142,11 +160,13 @@ void ui_joyport_settings_dialog(int port1, int port2, int port3, int port4)
     joyport_desc_t *devices_port_2;
     joyport_desc_t *devices_port_3;
     joyport_desc_t *devices_port_4;
+    joyport_desc_t *devices_port_5;
 
     ports[JOYPORT_1] = port1;
     ports[JOYPORT_2] = port2;
     ports[JOYPORT_3] = port3;
     ports[JOYPORT_4] = port4;
+    ports[JOYPORT_5] = port5;
 
     if (ports[JOYPORT_1]) {
         devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
@@ -216,6 +236,24 @@ void ui_joyport_settings_dialog(int port1, int port2, int port3, int port4)
         ui_to_from[j].resource = "JoyPort4Device";
         ui_to_from[j].strings = ui_joyport_4;
         ui_to_from[j].values = ui_joyport_4_values;
+        ui_to_from[j].string_choices = NULL;
+        ++j;
+    }
+
+    if (ports[JOYPORT_5]) {
+        devices_port_5 = joyport_get_valid_devices(JOYPORT_5);
+        for (i = 0; devices_port_5[i].name; ++i) {
+            ui_joyport_5[i] = translate_text(devices_port_5[i].trans_name);
+            ui_joyport_5_values[i] = devices_port_5[i].id;
+        }
+        ui_joyport_5[i] = NULL;
+        ui_joyport_5_values[i] = -1;
+        lib_free(devices_port_5);
+        ui_to_from[j].object = NULL;
+        ui_to_from[j].type = MUI_TYPE_CYCLE;
+        ui_to_from[j].resource = "JoyPort5Device";
+        ui_to_from[j].strings = ui_joyport_5;
+        ui_to_from[j].values = ui_joyport_5_values;
         ui_to_from[j].string_choices = NULL;
         ++j;
     }
