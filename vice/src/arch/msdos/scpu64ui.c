@@ -165,7 +165,7 @@ int scpu64ui_init(void)
 {
     tui_menu_t ui_ioextensions_submenu;
 
-    ui_create_main_menu(1, 1, 1, 0xcf, 1, drivec64_settings_submenu);
+    ui_create_main_menu(1, 1, 1, 0x1e, 1, drivec64_settings_submenu);
 
     tui_menu_add_separator(ui_special_submenu);
 

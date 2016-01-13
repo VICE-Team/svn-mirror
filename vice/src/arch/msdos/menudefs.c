@@ -983,10 +983,11 @@ static void create_special_submenu(int has_serial_traps)
 
 void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps, int number_joysticks, int has_datasette, const tui_menu_item_def_t *d)
 {
-    int port1 = ((number_joysticks & 8) >> 3) << ((number_joysticks & 0x80) >> 7);
-    int port2 = ((number_joysticks & 4) >> 2) << ((number_joysticks & 0x40) >> 6);
-    int port3 = ((number_joysticks & 2) >> 1) << ((number_joysticks & 0x20) >> 5);
-    int port4 = (number_joysticks & 1) << ((number_joysticks & 0x10) >> 3);
+    int port1 = (number_joysticks & 16) >> 4;
+    int port2 = (number_joysticks & 8) >> 3;
+    int port3 = (number_joysticks & 4) >> 2;
+    int port4 = (number_joysticks & 2) >> 1;
+    int port5 = number_joysticks & 1;
 
     /* Main menu. */
     ui_main_menu = tui_menu_create(NULL, 1);
@@ -1121,11 +1122,7 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps, int 
     uisound_init(ui_main_menu);
     uisampler_init(ui_main_menu);
 
-    if (number_joysticks) {
-        uijoyport_init(ui_main_menu, port1, port2, port3, port4);
-    } else {
-        uijoystick_init(ui_main_menu);
-    }
+    uijoyport_init(ui_main_menu, port1, port2, port3, port4, port5);
 
     ui_rom_submenu = tui_menu_create("Firmware ROM Settings", 1);
     tui_menu_add(ui_rom_submenu, rom_submenu);

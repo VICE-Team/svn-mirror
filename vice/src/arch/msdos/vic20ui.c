@@ -491,7 +491,7 @@ int vic20ui_init(void)
     tui_menu_t ui_megacart_submenu;
     tui_menu_t ui_io_ram_submenu;
 
-    ui_create_main_menu(1, 1, 1, 0x8b, 1, drivevic20_settings_submenu);
+    ui_create_main_menu(1, 1, 1, 0x16, 1, drivevic20_settings_submenu);
 
     tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);

@@ -43,6 +43,7 @@ TUI_MENU_DEFINE_RADIO(JoyPort1Device)
 TUI_MENU_DEFINE_RADIO(JoyPort2Device)
 TUI_MENU_DEFINE_RADIO(JoyPort3Device)
 TUI_MENU_DEFINE_RADIO(JoyPort4Device)
+TUI_MENU_DEFINE_RADIO(JoyPort5Device)
 
 static TUI_MENU_CALLBACK(joyport1_submenu_callback)
 {
@@ -92,21 +93,35 @@ static TUI_MENU_CALLBACK(joyport4_submenu_callback)
     return s;
 }
 
+static TUI_MENU_CALLBACK(joyport5_submenu_callback)
+{
+    int value;
+    char *s;
+    joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_5);
+
+    resources_get_int("JoyPort5Device", &value);
+    s = devices[value].name;
+    lib_free(devices);
+    return s;
+}
+
 static tui_menu_item_def_t joyport1_submenu[JOYPORT_MAX_DEVICES + 1];
 static tui_menu_item_def_t joyport2_submenu[JOYPORT_MAX_DEVICES + 1];
 static tui_menu_item_def_t joyport3_submenu[JOYPORT_MAX_DEVICES + 1];
 static tui_menu_item_def_t joyport4_submenu[JOYPORT_MAX_DEVICES + 1];
+static tui_menu_item_def_t joyport5_submenu[JOYPORT_MAX_DEVICES + 1];
 
 static int joyport_ports[JOYPORT_MAX_PORTS];
 static tui_menu_item_def_t joyport_menu_items[JOYPORT_MAX_PORTS + 3];
 
-void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int port3, int port4)
+void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int port3, int port4, int port5)
 {
     tui_menu_t ui_joyport_submenu;
     joyport_desc_t *devices_port_1 = NULL;
     joyport_desc_t *devices_port_2 = NULL;
     joyport_desc_t *devices_port_3 = NULL;
     joyport_desc_t *devices_port_4 = NULL;
+    joyport_desc_t *devices_port_5 = NULL;
     int i;
     int j = 0;
 
@@ -114,6 +129,7 @@ void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int p
     joyport_ports[JOYPORT_2] = port2;
     joyport_ports[JOYPORT_3] = port3;
     joyport_ports[JOYPORT_4] = port4;
+    joyport_ports[JOYPORT_5] = port5;
 
     ui_joyport_submenu = tui_menu_create("Control port settings", 1);
 
@@ -241,7 +257,38 @@ void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int p
         ++j;
     }
 
-    if (joyport_ports[JOYPORT_1] == 2 || joyport_ports[JOYPORT_2] == 2 || joyport_ports[JOYPORT_3] == 2 || joyport_ports[JOYPORT_4] == 2) {
+    if (joyport_port[JOYPORT_5]) {
+        devices_port_5 = joyport_get_valid_devices(JOYPORT_5);
+        for (i = 0; devices_port_5[i].name; ++i) {
+            joyport5_submenu[i].label = devices_port_5[i].name;
+            joyport5_submenu[i].help_string = NULL;
+            joyport5_submenu[i].callback = radio_JoyPort5Device_callback;
+            joyport5_submenu[i].callback_param = (void *)devices_port_5[i].id;
+            joyport5_submenu[i].par_string_max_len = 20;
+            joyport5_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
+            joyport5_submenu[i].submenu = NULL;
+            joyport5_submenu[i].submenu_title = NULL;
+        }
+        joyport5_submenu[i].label = NULL;
+        joyport5_submenu[i].help_string = NULL;
+        joyport5_submenu[i].callback = NULL;
+        joyport5_submenu[i].callback_param = NULL;
+        joyport5_submenu[i].par_string_max_len = 0;
+        joyport5_submenu[i].behavior = 0;
+        joyport5_submenu[i].submenu = NULL;
+        joyport5_submenu[i].submenu_title = NULL;
+        joyport_menu_items[j].label = joyport_get_port_name(JOYPORT_5);
+        joyport_menu_items[j].help_string = "Select the device for this control port";
+        joyport_menu_items[j].callback = joyport5_submenu_callback;
+        joyport_menu_items[j].callback_param = NULL;
+        joyport_menu_items[j].par_string_max_len = 25;
+        joyport_menu_items[j].behavior = TUI_MENU_BEH_CONTINUE;
+        joyport_menu_items[j].submenu = joyport5_submenu;
+        joyport_menu_items[j].submenu_title = joyport_get_port_name(JOYPORT_5);
+        ++j;
+    }
+
+    if (joyport_ports[JOYPORT_1] == 2 || joyport_ports[JOYPORT_2] == 2 || joyport_ports[JOYPORT_3] == 2 || joyport_ports[JOYPORT_4] == 2 || joyport_ports[JOYPORT_5] == 2) {
         joyport_menu_items[j].label = "Save Smart Mouse RTC data when changed";
         joyport_menu_items[j].help_string = "Save Smart Mouse RTC data when changed";
         joyport_menu_items[j].callback = toggle_SmartMouseRTCSave_callback;
@@ -285,6 +332,9 @@ void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int p
     }
     if (devices_port_4) {
         lib_free(devices_port_4);
+    }
+    if (devices_port_5) {
+        lib_free(devices_port_5);
     }
 
     tui_menu_add_submenu(parent_submenu, "_Control port settings...",
