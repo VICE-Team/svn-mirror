@@ -177,7 +177,7 @@ int plus4ui_init(void)
 
     sdl_ui_set_menu_params = plus4ui_set_menu_params;
     uisampler_menu_create();
-    uijoyport_menu_create(1, 1, 1, 0);
+    uijoyport_menu_create(1, 1, 1, 1, 1);
     uidrive_menu_create();
     uikeyboard_menu_create();
 

@@ -183,7 +183,7 @@ int c128ui_init(void)
 
     sdl_ui_set_menu_params = c128ui_set_menu_params;
 
-    uijoyport_menu_create(1, 1, 1, 1);
+    uijoyport_menu_create(1, 1, 1, 1, 0);
     uisampler_menu_create();
     uicart_menu_create();
     uidrive_menu_create();

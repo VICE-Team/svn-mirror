@@ -43,6 +43,7 @@ UI_MENU_DEFINE_RADIO(JoyDevice1)
 UI_MENU_DEFINE_RADIO(JoyDevice2)
 UI_MENU_DEFINE_RADIO(JoyDevice3)
 UI_MENU_DEFINE_RADIO(JoyDevice4)
+UI_MENU_DEFINE_RADIO(JoyDevice5)
 
 #define VICE_SDL_JOYSTICK_DEVICE_MENU(port)                              \
     static const ui_menu_entry_t joystick_port##port##_device_menu[] = { \
@@ -73,6 +74,7 @@ VICE_SDL_JOYSTICK_DEVICE_MENU(1)
 VICE_SDL_JOYSTICK_DEVICE_MENU(2)
 VICE_SDL_JOYSTICK_DEVICE_MENU(3)
 VICE_SDL_JOYSTICK_DEVICE_MENU(4)
+VICE_SDL_JOYSTICK_DEVICE_MENU(5)
 
 UI_MENU_DEFINE_TOGGLE(KeySetEnable)
 UI_MENU_DEFINE_TOGGLE(JoyOpposite)
@@ -217,6 +219,7 @@ VICE_SDL_JOYSTICK_MAPPING_MENU(1)
 VICE_SDL_JOYSTICK_MAPPING_MENU(2)
 VICE_SDL_JOYSTICK_MAPPING_MENU(3)
 VICE_SDL_JOYSTICK_MAPPING_MENU(4)
+VICE_SDL_JOYSTICK_MAPPING_MENU(5)
 
 static UI_MENU_CALLBACK(custom_joy_misc_callback)
 {
@@ -361,6 +364,22 @@ static const ui_menu_entry_t joystick_extra_joy_type_no_hit_menu[] = {
     SDL_MENU_LIST_END
 };
 
+static const ui_menu_entry_t joystick_extra_joy_type_no_hit_cga_menu[] = {
+    { "PET userport adapter",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_UserportJoyType_callback,
+      (ui_callback_data_t)USERPORT_JOYSTICK_PET },
+    { "HUMMER userport adapter",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_UserportJoyType_callback,
+      (ui_callback_data_t)USERPORT_JOYSTICK_HUMMER },
+    { "OEM userport adapter",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_UserportJoyType_callback,
+      (ui_callback_data_t)USERPORT_JOYSTICK_OEM },
+    SDL_MENU_LIST_END
+};
+
 const ui_menu_entry_t joystick_c64_menu[] = {
     { "Joystick device 1",
       MENU_ENTRY_SUBMENU,
@@ -370,11 +389,11 @@ const ui_menu_entry_t joystick_c64_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port2_device_menu },
-    { "Extra joystick device port 1",
+    { "Userport joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port3_device_menu },
-    { "Extra joystick device port 2",
+    { "Userport joystick adapter port 2",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port4_device_menu },
@@ -396,11 +415,11 @@ const ui_menu_entry_t joystick_c64_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Extra Joystick Adapter",
+    { "Userport joystick adapter",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportJoy_callback,
       NULL },
-    { "Extra Joystick Adapter type",
+    { "Userport joystick adapter type",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_extra_joy_type_menu },
@@ -414,15 +433,15 @@ const ui_menu_entry_t joystick_c64_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy2_menu },
-    { "Extra joystick 1 mapping",
+    { "Userport joystick 1 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy3_menu },
-    { "Extra joystick 2 mapping",
+    { "Userport joystick 2 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy4_menu },
-    { "Joystick extra options", /* TODO better name */
+    { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
@@ -439,7 +458,7 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port2_device_menu },
-    { "Extra joystick device port 1",
+    { "Userport joystick adapter port",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port3_device_menu },
@@ -461,7 +480,7 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Extra Joystick Adapter",
+    { "Userport joystick adapter",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportJoy_callback,
       NULL },
@@ -475,11 +494,11 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy2_menu },
-    { "Extra joystick 1 mapping",
+    { "Userport joystick mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy3_menu },
-    { "Joystick extra options", /* TODO better name */
+    { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
@@ -498,10 +517,18 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port2_device_menu },
-    { "Joystick device in SIDcart joytick port",
+    { "Userport joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port3_device_menu },
+    { "Userport joystick adapter port 2",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port4_device_menu },
+    { "Joystick device in SIDcart joytick port",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port5_device_menu },
     { "Swap joystick ports",
       MENU_ENTRY_OTHER,
       custom_swap_ports_callback,
@@ -520,6 +547,14 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Userport joystick adapter",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportJoy_callback,
+      NULL },
+    { "Userport joystick adapter type",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_extra_joy_type_no_hit_cga_menu },
     { "SID Cart Joystick",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SIDCartJoy_callback,
@@ -534,11 +569,19 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy2_menu },
-    { "Extra joystick 1 mapping",
+    { "Userport joystick 1 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy3_menu },
-    { "Joystick extra options", /* TODO better name */
+    { "Userport joystick 2 mapping",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy4_menu },
+    { "SID Cart joystick mapping",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy5_menu },
+    { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
@@ -547,15 +590,15 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
 };
 
 const ui_menu_entry_t joystick_vic20_menu[] = {
-    { "Joystick device 1",
+    { "Joystick device",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port1_device_menu },
-    { "Extra joystick device port 1",
+    { "Userport joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port3_device_menu },
-    { "Extra joystick device port 2",
+    { "Userport joystick adapter port 2",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port4_device_menu },
@@ -573,29 +616,29 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Extra Joystick Adapter",
+    { "Userport joystick adapter",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportJoy_callback,
       NULL },
-    { "Extra Joystick Adapter type",
+    { "Userport joystick adapter type",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_extra_joy_type_no_hit_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
-    { "Joystick 1 mapping",
+    { "Joystick mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy1_menu },
-    { "Extra joystick 1 mapping",
+    { "Userport joystick 1 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy3_menu },
-    { "Extra joystick 2 mapping",
+    { "Userport joystick 2 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy4_menu },
-    { "Joystick extra options", /* TODO better name */
+    { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
@@ -604,11 +647,11 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
 };
 
 const ui_menu_entry_t joystick_userport_only_menu[] = {
-    { "Extra joystick device port 1",
+    { "Userport joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port3_device_menu },
-    { "Extra joystick device port 2",
+    { "Userport joystick adapter port 2",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port4_device_menu },
@@ -626,25 +669,25 @@ const ui_menu_entry_t joystick_userport_only_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Extra Joystick Adapter",
+    { "Userport joystick adapter",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportJoy_callback,
       NULL },
-    { "Extra Joystick Adapter type",
+    { "Userport joystick adapter type",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_extra_joy_type_no_hit_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
-    { "Extra joystick 1 mapping",
+    { "Userport joystick 1 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy3_menu },
-    { "Extra joystick 2 mapping",
+    { "Userport joystick 2 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy4_menu },
-    { "Joystick extra options", /* TODO better name */
+    { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },

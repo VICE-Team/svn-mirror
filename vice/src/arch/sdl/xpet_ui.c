@@ -205,7 +205,7 @@ int petui_init(void)
 #endif
 
     sdl_ui_set_menu_params = petui_set_menu_params;
-    uijoyport_menu_create(0, 0, 1, 1);
+    uijoyport_menu_create(0, 0, 1, 1, 0);
     uisampler_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
