@@ -3676,6 +3676,125 @@ translate_t string_table[] = {
 /* tr */ {IDGS_SAMPLER_USED_BY_TR, ""},  /* fuzzy */
 #endif
 
+/* userport/userport_joystick.c */
+/* en */ {IDGS_CGA_JOY_ADAPTER,    N_("CGA userport joy adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CGA_JOY_ADAPTER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CGA_JOY_ADAPTER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CGA_JOY_ADAPTER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CGA_JOY_ADAPTER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CGA_JOY_ADAPTER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CGA_JOY_ADAPTER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CGA_JOY_ADAPTER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CGA_JOY_ADAPTER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CGA_JOY_ADAPTER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CGA_JOY_ADAPTER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CGA_JOY_ADAPTER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CGA_JOY_ADAPTER_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_joystick.c */
+/* en */ {IDGS_PET_JOY_ADAPTER,    N_("PET userport joy adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_PET_JOY_ADAPTER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_PET_JOY_ADAPTER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_PET_JOY_ADAPTER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_PET_JOY_ADAPTER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_PET_JOY_ADAPTER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_PET_JOY_ADAPTER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_PET_JOY_ADAPTER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_PET_JOY_ADAPTER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_PET_JOY_ADAPTER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_PET_JOY_ADAPTER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_PET_JOY_ADAPTER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_PET_JOY_ADAPTER_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_joystick.c */
+/* en */ {IDGS_HUMMER_JOY_ADAPTER,    N_("Hummer userport joy adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_HUMMER_JOY_ADAPTER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_HUMMER_JOY_ADAPTER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_HUMMER_JOY_ADAPTER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_HUMMER_JOY_ADAPTER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_HUMMER_JOY_ADAPTER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_HUMMER_JOY_ADAPTER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_HUMMER_JOY_ADAPTER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_HUMMER_JOY_ADAPTER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_HUMMER_JOY_ADAPTER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_HUMMER_JOY_ADAPTER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_HUMMER_JOY_ADAPTER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_HUMMER_JOY_ADAPTER_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_joystick.c */
+/* en */ {IDGS_OEM_JOY_ADAPTER,    N_("OEM userport joy adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_OEM_JOY_ADAPTER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_OEM_JOY_ADAPTER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_OEM_JOY_ADAPTER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_OEM_JOY_ADAPTER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_OEM_JOY_ADAPTER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_OEM_JOY_ADAPTER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_OEM_JOY_ADAPTER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_OEM_JOY_ADAPTER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_OEM_JOY_ADAPTER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_OEM_JOY_ADAPTER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_OEM_JOY_ADAPTER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_OEM_JOY_ADAPTER_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_joystick.c */
+/* en */ {IDGS_HIT_JOY_ADAPTER,    N_("HIT userport joy adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_HIT_JOY_ADAPTER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_HIT_JOY_ADAPTER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_HIT_JOY_ADAPTER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_HIT_JOY_ADAPTER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_HIT_JOY_ADAPTER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_HIT_JOY_ADAPTER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_HIT_JOY_ADAPTER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_HIT_JOY_ADAPTER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_HIT_JOY_ADAPTER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_HIT_JOY_ADAPTER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_HIT_JOY_ADAPTER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_HIT_JOY_ADAPTER_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_joystick.c */
+/* en */ {IDGS_KINGSOFT_JOY_ADAPTER,    N_("KingSoft userport joy adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_KINGSOFT_JOY_ADAPTER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_KINGSOFT_JOY_ADAPTER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_KINGSOFT_JOY_ADAPTER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_KINGSOFT_JOY_ADAPTER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_KINGSOFT_JOY_ADAPTER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_KINGSOFT_JOY_ADAPTER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_KINGSOFT_JOY_ADAPTER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_KINGSOFT_JOY_ADAPTER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_KINGSOFT_JOY_ADAPTER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_KINGSOFT_JOY_ADAPTER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_KINGSOFT_JOY_ADAPTER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_KINGSOFT_JOY_ADAPTER_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_joystick.c */
+/* en */ {IDGS_STARBYTE_JOY_ADAPTER,    N_("StarByte userport joy adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_STARBYTE_JOY_ADAPTER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_STARBYTE_JOY_ADAPTER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_STARBYTE_JOY_ADAPTER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_STARBYTE_JOY_ADAPTER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_STARBYTE_JOY_ADAPTER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_STARBYTE_JOY_ADAPTER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_STARBYTE_JOY_ADAPTER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_STARBYTE_JOY_ADAPTER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_STARBYTE_JOY_ADAPTER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_STARBYTE_JOY_ADAPTER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_STARBYTE_JOY_ADAPTER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_STARBYTE_JOY_ADAPTER_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */

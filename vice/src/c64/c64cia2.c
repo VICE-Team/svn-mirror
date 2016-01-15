@@ -114,6 +114,7 @@ static int vbank;
 static void do_reset_cia(cia_context_t *cia_context)
 {
     store_userport_pbx(0xff);
+    store_userport_pa2(1);
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_strobe(1);
@@ -148,6 +149,10 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
         BYTE tmp;
         int new_vbank;
 
+        if ((cia_context->old_pa ^ byte) & 4) {
+            store_userport_pa2((BYTE)((byte & 4) >> 2));
+        }
+
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         if (rsuser_enabled && ((cia_context->old_pa ^ byte) & 0x04)) {
             rsuser_set_tx_bit(byte & 4);
@@ -166,6 +171,8 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
+    store_userport_pa2((BYTE)((byte & 4) >> 2));
+
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
         rsuser_set_tx_bit((int)(byte & 4));
@@ -186,7 +193,6 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl(byte);
 #endif
-    userport_joystick_store_pbx(byte);
     userport_rtc_store(byte);
 }
 
@@ -207,7 +213,6 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byt
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    userport_joystick_store_pbx(byte);
     userport_rtc_store(byte);
 }
 
@@ -218,8 +223,10 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 
     value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
 
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
-    value = userport_joystick_read_pa2(value);
+    if (!(cia_context->c_cia[CIA_DDRA] & 4)) {
+        value &= (read_userport_pa2() & 1) << 2;
+    }
+
     return value;
 }
 
@@ -238,7 +245,6 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 #endif
     byte = parallel_cable_cpu_read(DRIVE_PC_STANDARD, byte);
 
-    byte = userport_joystick_read_pbx(byte);
     byte = userport_rtc_read(byte);
 
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB])) | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
@@ -259,8 +265,7 @@ static void read_sdr(cia_context_t *cia_context)
     if (burst_mod == BURST_MOD_CIA2) {
         drive_cpu_execute_all(maincpu_clk);
     }
-    /* FIXME: in the upcomming userport system this call needs to be conditional */
-    cia_context->c_cia[CIA_SDR] = userport_joystick_read_sdr(cia_context->c_cia[CIA_SDR]);
+    cia_context->c_cia[CIA_SDR] = read_userport_sp2();
 }
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)

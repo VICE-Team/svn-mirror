@@ -40,7 +40,6 @@
 #include "printer.h"
 #include "types.h"
 #include "userport.h"
-#include "userport_joystick.h"
 #include "via.h"
 #include "vic.h"
 #include "vic20.h"
@@ -140,8 +139,6 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
     store_userport_pbx(byte);
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    userport_joystick_store_pbx(byte);
-
     printer_userport_write_data(byte);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl(byte);
@@ -254,8 +251,6 @@ inline static BYTE read_prb(via_context_t *via_context)
         byte = rsuser_read_ctrl(byte);
     }
 #endif
-
-    byte = userport_joystick_read_pbx(byte);
 
     return byte;
 }

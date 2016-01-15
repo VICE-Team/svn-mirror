@@ -45,7 +45,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "types.h"
-#include "userport_joystick.h"
+#include "userport.h"
 #include "vicii.h"
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -66,8 +66,14 @@
 #define DBGB(x)
 #endif
 
+static BYTE cia1_cra = 0;
+
 void cia1_store(WORD addr, BYTE data)
 {
+    if ((addr & 0xf) == CIA_CRA) {
+        cia1_cra = data;
+    }
+
     ciacore_store(machine_context.cia1, addr, data);
 }
 
@@ -427,6 +433,10 @@ static void read_sdr(cia_context_t *cia_context)
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
+    if ((cia1_cra & 0x59) == 0x51) {
+        store_userport_sp1();
+    }
+
     if (burst_mod == BURST_MOD_CIA1) {
         c64fastiec_fast_cpu_write((BYTE)byte);
     }
@@ -435,8 +445,6 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
         rsuser_tx_byte(byte);
     }
 #endif
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
-    userport_joystick_store_sdr(byte);
 }
 
 void cia1_init(cia_context_t *cia_context)

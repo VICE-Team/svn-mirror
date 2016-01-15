@@ -46,7 +46,6 @@
 #include "types.h"
 #include "userport.h"
 #include "userport_dac.h"
-#include "userport_joystick.h"
 #include "via.h"
 
 
@@ -95,8 +94,6 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_data(byte);
 
-    userport_joystick_store_pbx(byte);
-
     userport_dac_store(byte);
 }
 
@@ -107,8 +104,6 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_data(byte);
-
-    userport_joystick_store_pbx(byte);
 
     userport_dac_store(byte);
 }
@@ -219,7 +214,6 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
     byte = read_userport_pbx((BYTE)~via_context->via[VIA_DDRA]);
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    byte = userport_joystick_read_pbx(byte);
 
     /* joystick always pulls low, even if high output, so no
        masking with DDRA */

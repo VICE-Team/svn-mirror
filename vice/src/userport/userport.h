@@ -68,11 +68,11 @@ typedef struct userport_device_s {
     /* Read pc pin */
     void (*read_pc)(void);
 
-    /* Enable/disable cnt1 to cnt2 oscillation */
-    void (*cnt12)(int enable);
+    /* Store sp1 pin */
+    void (*store_sp1)(void);
 
-    /* Read sp pin */
-    void (*read_sp)(void);
+    /* Read sp2 pin */
+    void (*read_sp2)(void);
 
     /* detach device */
     char *resource;
@@ -95,7 +95,7 @@ typedef struct userport_port_props_s {
     int has_pa3;
     int has_flag;
     int has_pc;
-    int has_cnt12_sp;
+    int has_sp12;
 } userport_port_props_t;
 
 typedef struct userport_device_list_s {
@@ -118,8 +118,8 @@ extern void store_userport_pa3(BYTE val);
 extern BYTE read_userport_flag(void);
 extern void store_userport_flag(BYTE val);
 extern BYTE read_userport_pc(void);
-extern void userport_cnt12(int enable);
-extern BYTE read_userport_sp(void);
+extern void store_userport_sp1(void);
+extern BYTE read_userport_sp2(void);
 
 extern int userport_resources_init(void);
 extern void userport_resources_shutdown(void);

@@ -51,7 +51,6 @@
 #include "ps2mouse.h"
 #include "types.h"
 #include "userport.h"
-#include "userport_joystick.h"
 #include "vicii.h"
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -65,8 +64,6 @@ void cia2_store(WORD addr, BYTE data)
         store_userport_pbx(data);
 
         /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-        userport_joystick_store_pbx(data);
-
         if (c64dtv_hummer_adc_enabled) {
             hummeradc_store(data);
         }
@@ -86,8 +83,6 @@ BYTE cia2_read(WORD addr)
         retval = read_userport_pbx(0x1f);
 
         /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-        retval = userport_joystick_read_pbx(retval);
-
         if (ps2mouse_enabled) {
             retval &= (ps2mouse_read() | 0x3f);
         }
@@ -225,8 +220,6 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    /* in the upcoming userport system this call needs to be conditional */
-    userport_joystick_store_pbx(byte);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */

@@ -64,7 +64,7 @@ static int valid_device(userport_device_t *device)
         return 0;
     }
 
-    if ((device->cnt12 || device->read_sp) && !userport_props.has_cnt12_sp) {
+    if ((device->store_sp1 || device->read_sp2) && !userport_props.has_sp12) {
         return 0;
     }
 
@@ -79,7 +79,7 @@ void userport_port_register(userport_port_props_t *props)
     userport_props.has_pa3 = props->has_pa3;
     userport_props.has_flag = props->has_flag;
     userport_props.has_pc = props->has_pc;
-    userport_props.has_cnt12_sp = props->has_cnt12_sp;
+    userport_props.has_sp12 = props->has_sp12;
 }
 
 userport_device_list_t *userport_device_register(userport_device_t *device)
@@ -451,21 +451,21 @@ BYTE read_userport_pc(void)
     return retval;
 }
 
-void userport_cnt12(int enable)
+void store_userport_sp1(void)
 {
     userport_device_list_t *current = userport_head.next;
 
     while (current) {
-        if (current->device->cnt12 != NULL) {
-            current->device->cnt12(enable);
+        if (current->device->store_sp1 != NULL) {
+            current->device->store_sp1();
         }
         current = current->next;
     }
 }
 
-BYTE read_userport_sp(void)
+BYTE read_userport_sp2(void)
 {
-    BYTE mask = 1;
+    BYTE mask = 0xff;
     BYTE rm;
     BYTE rv;
     BYTE retval = 0xff;
@@ -475,8 +475,8 @@ BYTE read_userport_sp(void)
     /* set retval */
     while (current) {
         current->device->collision = 0;
-        if (current->device->read_sp != NULL) {
-            current->device->read_sp();
+        if (current->device->read_sp2 != NULL) {
+            current->device->read_sp2();
             rm = current->device->mask;
             rm &= mask;
             if (rm) {

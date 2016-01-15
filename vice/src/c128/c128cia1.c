@@ -46,7 +46,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "types.h"
-#include "userport_joystick.h"
+#include "userport.h"
 #include "vicii.h"
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -267,14 +267,15 @@ static void read_sdr(cia_context_t *cia_context)
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
+    if ((cia_context->c_cia[CIA_CRA] & 0x49) == 0x41) {
+        store_userport_sp1();
+    }
     c128fastiec_fast_cpu_write(byte);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
         rsuser_tx_byte(byte);
     }
 #endif
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
-    userport_joystick_store_sdr(byte);
 }
 
 void cia1_init(cia_context_t *cia_context)

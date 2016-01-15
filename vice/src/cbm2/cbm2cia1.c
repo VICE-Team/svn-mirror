@@ -52,7 +52,6 @@
 #include "tpi.h"
 #include "types.h"
 #include "userport.h"
-#include "userport_joystick.h"
 
 void cia1_store(WORD addr, BYTE data)
 {
@@ -158,8 +157,6 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     printer_userport_write_data(byte);
     printer_userport_write_strobe(0);
     printer_userport_write_strobe(1);
-
-    userport_joystick_store_pbx(byte);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -191,8 +188,6 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     byte = read_userport_pbx((BYTE)~cia_context->c_cia[CIA_DDRB]);
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    byte = userport_joystick_read_pbx(byte);
-
     byte &= ((0xff & ~(cia_context->c_cia[CIA_DDRB]))
              | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]));
     return byte;

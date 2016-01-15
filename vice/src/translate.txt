@@ -640,6 +640,27 @@ IDGS_SET_JOYPORT_S_DEVICE
 /* samplerdrv/sampler.c */
 IDGS_SAMPLER_USED_BY
 
+/* userport/userport_joystick.c */
+IDGS_CGA_JOY_ADAPTER
+
+/* userport/userport_joystick.c */
+IDGS_PET_JOY_ADAPTER
+
+/* userport/userport_joystick.c */
+IDGS_HUMMER_JOY_ADAPTER
+
+/* userport/userport_joystick.c */
+IDGS_OEM_JOY_ADAPTER
+
+/* userport/userport_joystick.c */
+IDGS_HIT_JOY_ADAPTER
+
+/* userport/userport_joystick.c */
+IDGS_KINGSOFT_JOY_ADAPTER
+
+/* userport/userport_joystick.c */
+IDGS_STARBYTE_JOY_ADAPTER
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */

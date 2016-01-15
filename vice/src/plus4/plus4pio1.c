@@ -34,7 +34,6 @@
 #include "ted.h"
 #include "types.h"
 #include "userport.h"
-#include "userport_joystick.h"
 
 /* FIXME: C16 doesn't have 6529, writes can't mask off the tape_sense line */
 /* FIXME: line 2 is used in RS232 IRQ as well at $EA62 in ROM */
@@ -60,8 +59,6 @@ BYTE pio1_read(WORD addr)
     } else {
         pio1_value = pio1_data;
     }
-
-    pio1_value = userport_joystick_read_pbx(pio1_value);
 
     if (tape_sense) {
         pio1_value &= ~4;
@@ -92,8 +89,6 @@ void pio1_store(WORD addr, BYTE value)
         || drive_context[1]->drive->parallel_cable) {
         parallel_cable_cpu_write(DRIVE_PC_STANDARD, pio1_outline);
     }
-
-    userport_joystick_store_pbx(pio1_outline);
 }
 
 void pio1_set_tape_sense(int sense)
