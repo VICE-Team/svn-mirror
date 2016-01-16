@@ -24,6 +24,19 @@
  *
  */
 
+/* Userport RTC (C64/C128/CBM2/PET/VIC20)
+
+C64/C128 | CBM2 | PET | VIC20 | NAME
+------------------------------------
+    C    |  14  |  C  |   C   | PB0 <-> D0
+    D    |  13  |  D  |   D   | PB1 <-> D1
+    E    |  12  |  E  |   E   | PB2 <-> D2
+    F    |  11  |  F  |   F   | PB3 <-> D3
+    H    |  10  |  H  |   H   | PB4 -> ADDRESS /DATA
+    J    |   9  |  J  |   J   | PB5 -> READ
+    K    |   8  |  K  |   K   | PB6 -> WRITE
+*/
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -37,6 +50,7 @@
 #include "rtc-58321a.h"
 #include "translate.h"
 #include "uiapi.h"
+#include "userport.h"
 #include "userport_rtc.h"
 
 int userport_rtc_enabled = 0;
@@ -51,6 +65,35 @@ static int read_line_active = 0;
 
 /* ------------------------------------------------------------------------- */
 
+/* Some prototypes are needed */
+static void userport_rtc_read_pbx(void);
+static void userport_rtc_store_pbx(BYTE value);
+
+static userport_device_t rtc_device = {
+    "Userport RTC (RTC58321A)",
+    IDGS_USERPORT_RTC58321A,
+    userport_rtc_read_pbx,
+    userport_rtc_store_pbx,
+    NULL, /* NO pa2 read */
+    NULL, /* NO pa2 write */
+    NULL, /* NO pa3 read */
+    NULL, /* NO pa3 write */
+    NULL, /* NO flag read */
+    NULL, /* NO flag write */
+    NULL, /* NO pc read */
+    NULL, /* NO sp1 write */
+    NULL, /* NO sp2 read */
+    "UserportRTC",
+    0xff,
+    0xf, /* validity mask doesn't change */
+    0,
+    0
+};
+
+static userport_device_list_t *userport_rtc_list_item = NULL;
+
+/* ------------------------------------------------------------------------- */
+
 static int set_userport_rtc_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
@@ -61,11 +104,17 @@ static int set_userport_rtc_enabled(int value, void *param)
 
     if (val) {
         rtc58321a_context = rtc58321a_init("USER");
+        userport_rtc_list_item = userport_device_register(&rtc_device);
+        if (userport_rtc_list_item == NULL) {
+            return -1;
+        }
     } else {
         if (rtc58321a_context) {
             rtc58321a_destroy(rtc58321a_context, rtc58321a_rtc_save);
             rtc58321a_context = NULL;
         }
+        userport_device_unregister(userport_rtc_list_item);
+        userport_rtc_list_item = NULL;
     }
 
     userport_rtc_enabled = val;
@@ -133,29 +182,27 @@ void userport_rtc_resources_shutdown(void)
 
 /* ---------------------------------------------------------------------*/
 
-void userport_rtc_store(BYTE value)
+static void userport_rtc_store_pbx(BYTE value)
 {
-    if (userport_rtc_enabled) {
-        if (value & 0x10) {
-            rtc58321a_write_address(rtc58321a_context, (BYTE)(value & 0xf));
-        }
-        if (value & 0x20) {
-            read_line_active = 1;
-        } else {
-            read_line_active = 0;
-        }
-        if (value & 0x40) {
-            rtc58321a_write_data(rtc58321a_context, (BYTE)(value & 0xf));
-        }
+    if (value & 0x10) {
+        rtc58321a_write_address(rtc58321a_context, (BYTE)(value & 0xf));
+    }
+    if (value & 0x20) {
+        read_line_active = 1;
+    } else {
+        read_line_active = 0;
+    }
+    if (value & 0x40) {
+        rtc58321a_write_data(rtc58321a_context, (BYTE)(value & 0xf));
     }
 }
 
-BYTE userport_rtc_read(BYTE orig)
+static void userport_rtc_read_pbx(void)
 {
-    if (userport_rtc_enabled) {
-        if (read_line_active) {
-            return (orig & 0xf0) | rtc58321a_read(rtc58321a_context);
-        }
+    BYTE retval = 0xf;
+
+    if (read_line_active) {
+        retval = rtc58321a_read(rtc58321a_context);
     }
-    return orig;
+    rtc_device.retval = retval;
 }

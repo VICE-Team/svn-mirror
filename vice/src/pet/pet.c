@@ -100,6 +100,7 @@
 #include "userport.h"
 #include "userport_dac.h"
 #include "userport_joystick.h"
+#include "userport_rtc.h"
 #include "util.h"
 #include "via.h"
 #include "vice-event.h"
@@ -348,6 +349,10 @@ int machine_resources_init(void)
         init_resource_fail("userport joystick");
         return -1;
     }
+    if (userport_rtc_resources_init() < 0) {
+        init_resource_fail("userport rtc");
+        return -1;
+    }
     return 0;
 }
 
@@ -364,6 +369,7 @@ void machine_resources_shutdown(void)
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
     cartio_shutdown();
+    userport_rtc_resources_shutdown();
     userport_resources_shutdown();
 }
 
@@ -508,6 +514,10 @@ int machine_cmdline_options_init(void)
 #endif
     if (userport_joystick_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport joystick");
+        return -1;
+    }
+    if (userport_rtc_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport rtc");
         return -1;
     }
     return 0;

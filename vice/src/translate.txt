@@ -661,6 +661,9 @@ IDGS_KINGSOFT_JOY_ADAPTER
 /* userport/userport_joystick.c */
 IDGS_STARBYTE_JOY_ADAPTER
 
+/* userport/userport_rtc.c */
+IDGS_USERPORT_RTC58321A
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */

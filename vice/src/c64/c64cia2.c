@@ -52,8 +52,6 @@
 #include "types.h"
 #include "userport.h"
 #include "userport_digimax.h"
-#include "userport_joystick.h"
-#include "userport_rtc.h"
 #include "vicii.h"
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -193,7 +191,6 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl(byte);
 #endif
-    userport_rtc_store(byte);
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
@@ -213,7 +210,6 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byt
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    userport_rtc_store(byte);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -244,8 +240,6 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     } else
 #endif
     byte = parallel_cable_cpu_read(DRIVE_PC_STANDARD, byte);
-
-    byte = userport_rtc_read(byte);
 
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB])) | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
 
