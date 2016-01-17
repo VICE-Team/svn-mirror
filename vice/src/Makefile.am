@@ -1746,8 +1746,8 @@ xvic_libs =  \
 	$(monitor_lib) \
 	$(driver_libs) \
 	$(raster_lib) \
-	$(rtc_lib) \
 	$(userport_lib) \
+        $(rtc_lib) \
 	$(sid_lib) \
 	$(video_lib) \
 	$(common_libs) \
