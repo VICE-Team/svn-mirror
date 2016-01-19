@@ -93,6 +93,7 @@
 #include "traps.h"
 #include "types.h"
 #include "userport.h"
+#include "userport_dac.h"
 #include "userport_joystick.h"
 #include "vice-event.h"
 #include "video.h"
@@ -354,10 +355,6 @@ int machine_resources_init(void)
         init_resource_fail("ted");
         return -1;
     }
-    if (userport_joystick_resources_init() < 0) {
-        init_resource_fail("userport joystick");
-        return -1;
-    }
     if (cartio_resources_init() < 0) {
         init_resource_fail("cartio");
         return -1;
@@ -423,6 +420,14 @@ int machine_resources_init(void)
     }
     if (userport_resources_init() < 0) {
         init_resource_fail("userport devices");
+        return -1;
+    }
+    if (userport_joystick_resources_init() < 0) {
+        init_resource_fail("userport joystick");
+        return -1;
+    }
+    if (userport_dac_resources_init() < 0) {
+        init_resource_fail("userport dac");
         return -1;
     }
     if (gfxoutput_resources_init() < 0) {
@@ -585,6 +590,10 @@ int machine_cmdline_options_init(void)
     }
     if (userport_joystick_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport joystick");
+        return -1;
+    }
+    if (userport_dac_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport dac");
         return -1;
     }
     if (gfxoutput_cmdline_options_init() < 0) {
@@ -754,6 +763,9 @@ int machine_specific_init(void)
     /* Initialize cartridge based sound chips */
     digiblaster_sound_chip_init();
     speech_sound_chip_init();
+
+    /* Initialize userport based sound chips */
+    userport_dac_sound_chip_init();
 
     drive_sound_init();
     video_sound_init();

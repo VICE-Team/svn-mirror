@@ -45,7 +45,6 @@
 #include "printer.h"
 #include "types.h"
 #include "userport.h"
-#include "userport_dac.h"
 #include "via.h"
 
 
@@ -93,8 +92,6 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_data(byte);
-
-    userport_dac_store(byte);
 }
 
 static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
@@ -104,8 +101,6 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     printer_userport_write_data(byte);
-
-    userport_dac_store(byte);
 }
 
 static void undump_prb(via_context_t *via_context, BYTE byte)

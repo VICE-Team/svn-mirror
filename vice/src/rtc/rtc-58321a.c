@@ -84,7 +84,7 @@
  */
 
 /* This module is currently used in the following emulated hardware:
-   - C64/C128 userport RTC expansion
+   - userport RTC expansion
  */
 
 /* ---------------------------------------------------------------------------------------------------- */
@@ -168,6 +168,9 @@ BYTE rtc58321a_read(rtc_58321a_t *context)
             break;
         case RTC58321A_REGISTER_WEEKDAYS:
             retval = rtc_get_weekday(latch) - 1;
+            if (retval > 6) {
+                retval = 6;
+            }
             break;
         case RTC58321A_REGISTER_MONTHDAYS:
             retval = rtc_get_day_of_month(latch, 0);

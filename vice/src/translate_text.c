@@ -3812,6 +3812,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_USERPORT_RTC58321A_TR, ""},  /* fuzzy */
 #endif
 
+/* userport/userport_dac.c */
+/* en */ {IDGS_USERPORT_DAC,    N_("Userport DAC")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_USERPORT_DAC_DA, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_DAC_DE, ""},  /* fuzzy */
+/* es */ {IDGS_USERPORT_DAC_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_USERPORT_DAC_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_USERPORT_DAC_HU, ""},  /* fuzzy */
+/* it */ {IDGS_USERPORT_DAC_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_USERPORT_DAC_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_DAC_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_USERPORT_DAC_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_USERPORT_DAC_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_USERPORT_DAC_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_USERPORT_DAC_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */

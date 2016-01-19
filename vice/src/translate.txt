@@ -664,6 +664,9 @@ IDGS_STARBYTE_JOY_ADAPTER
 /* userport/userport_rtc.c */
 IDGS_USERPORT_RTC58321A
 
+/* userport/userport_dac.c */
+IDGS_USERPORT_DAC
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */

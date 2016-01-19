@@ -26,6 +26,20 @@
  *
  */
 
+/* 8bit userport DAC (C64/C128/CBM2/PET/PLUS4/VIC20)
+
+C64/C128 | CBM2 | PET | PLUS4 | VIC20 | NAME
+--------------------------------------------
+    C    |  14  |  C  |   B   |   C   | PB0 -> D0
+    D    |  13  |  D  |   K   |   D   | PB1 -> D1
+    E    |  12  |  E  |   4   |   E   | PB2 -> D2
+    F    |  11  |  F  |   5   |   F   | PB3 -> D3
+    H    |  10  |  H  |   6   |   H   | PB4 -> D4
+    J    |   9  |  J  |   7   |   J   | PB5 -> D5
+    K    |   8  |  K  |   J   |   K   | PB6 -> D6
+    L    |   7  |  L  |   F   |   L   | PB7 -> D7
+*/
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -39,6 +53,7 @@
 #include "sound.h"
 #include "translate.h"
 #include "uiapi.h"
+#include "userport.h"
 #include "userport_dac.h"
 
 /* ------------------------------------------------------------------------- */
@@ -84,9 +99,53 @@ void userport_dac_sound_chip_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_userport_dac_enabled(int val, void *param)
+/* Some prototypes are needed */
+static void userport_dac_store_pbx(BYTE value);
+
+static userport_device_t dac_device = {
+    "Userport DAC",
+    IDGS_USERPORT_DAC,
+    NULL, /* NO pbx read */
+    userport_dac_store_pbx,
+    NULL, /* NO pa2 read */
+    NULL, /* NO pa2 write */
+    NULL, /* NO pa3 read */
+    NULL, /* NO pa3 write */
+    NULL, /* NO flag read */
+    NULL, /* NO flag write */
+    NULL, /* NO pc read */
+    NULL, /* NO sp1 write */
+    NULL, /* NO sp2 read */
+    "UserportDAC",
+    0xff,
+    0,
+    0,
+    0
+};
+
+static userport_device_list_t *userport_dac_list_item = NULL;
+
+/* ------------------------------------------------------------------------- */
+
+static int set_userport_dac_enabled(int value, void *param)
 {
-    userport_dac_sound_chip.chip_enabled = val ? 1 : 0;
+    int val = (value) ? 1 : 0;
+
+    if (val == userport_dac_sound_chip.chip_enabled) {
+        return 0;
+    }
+
+    if (val) {
+        userport_dac_list_item = userport_device_register(&dac_device);
+        if (userport_dac_list_item == NULL) {
+            return -1;
+        }
+    } else {
+        userport_device_unregister(userport_dac_list_item);
+        userport_dac_list_item = NULL;
+    }
+
+    userport_dac_sound_chip.chip_enabled = val;
 
     return 0;
 }
@@ -126,12 +185,10 @@ int userport_dac_cmdline_options_init(void)
 
 static BYTE userport_dac_sound_data;
 
-void userport_dac_store(BYTE value)
+static void userport_dac_store_pbx(BYTE value)
 {
-    if (userport_dac_sound_chip.chip_enabled) {
-        userport_dac_sound_data = value;
-        sound_store(userport_dac_sound_chip_offset, value, 0);
-    }
+    userport_dac_sound_data = value;
+    sound_store(userport_dac_sound_chip_offset, value, 0);
 }
 
 struct userport_dac_sound_s {

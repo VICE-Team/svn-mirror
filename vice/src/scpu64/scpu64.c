@@ -98,6 +98,7 @@
 #include "traps.h"
 #include "types.h"
 #include "userport.h"
+#include "userport_dac.h"
 #include "userport_joystick.h"
 #include "userport_rtc.h"
 #include "vice-event.h"
@@ -508,6 +509,10 @@ int machine_resources_init(void)
         init_resource_fail("userport joystick");
         return -1;
     }
+    if (userport_dac_resources_init() < 0) {
+        init_resource_fail("userport dac");
+        return -1;
+    }
     if (userport_rtc_resources_init() < 0) {
         init_resource_fail("userport rtc");
         return -1;
@@ -663,6 +668,10 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport joystick");
         return -1;
     }
+    if (userport_dac_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport dac");
+        return -1;
+    }
     if (userport_rtc_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport rtc");
         return -1;
@@ -797,6 +806,9 @@ int machine_specific_init(void)
 
     /* Initialize cartridge based sound chips */
     cartridge_sound_chip_init();
+
+    /* Initialize userport based sound chips */
+    userport_dac_sound_chip_init();
 
     drive_sound_init();
     video_sound_init();
