@@ -73,6 +73,7 @@
 #include "uisettings.h"
 #include "uisid.h"
 #include "uisound.h"
+#include "uiuserportrtc.h"
 #include "vsync.h"
 
 UI_MENU_DEFINE_TOGGLE(DiagPin)
@@ -240,6 +241,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, sidcart_submenu },
     { N_("Userport DAC"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UserportDAC, NULL, NULL },
+    { "Userport RTC", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, userportrtc_submenu },
     { N_("PET userport diagnostic pin"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DiagPin, NULL, NULL },
     { NULL }
