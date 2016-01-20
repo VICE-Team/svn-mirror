@@ -476,51 +476,53 @@ int retroreplay_peek_mem(export_t *export, WORD addr, BYTE *value)
 
 void retroreplay_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
-    switch (addr & 0xe000) {
-        case 0xe000:
-            if ((rr_revision > 0) && export_ram_at_a000) {
-                *base = export_ram0 - 0xe000; /* FIXME: bank ? */
-                *start = 0xe000;
-                *limit = 0xfffd;
-                return;
-            }
-            if (flashrom_state->flash_state == FLASH040_STATE_READ) {
-                *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0xe000;
-                *start = 0xe000;
-                *limit = 0xfffd;
-                return;
-            }
-            break;
-        case 0xa000:
-            if ((rr_revision > 0) && export_ram_at_a000) {
-                *base = export_ram0 - 0xa000; /* FIXME: bank ? */
-                *start = 0xa000;
-                *limit = 0xbffd;
-                return;
-            }
-            if (flashrom_state->flash_state == FLASH040_STATE_READ) {
-                *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0xa000;
-                *start = 0xa000;
-                *limit = 0xbffd;
-                return;
-            }
-            break;
-        case 0x8000:
-            if (export_ram) {
-                *base = export_ram0 + ((roml_bank & 3) << 13) - 0x8000;
-                *start = 0x8000;
-                *limit = 0x9ffd;
-                return;
-            }
-            if (flashrom_state->flash_state == FLASH040_STATE_READ) {
-                *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0x8000;
-                *start = 0x8000;
-                *limit = 0x9ffd;
-                return;
-            }
-            break;
-        default:
-            break;
+    if (flashrom_state && flashrom_state->flash_data) {
+        switch (addr & 0xe000) {
+            case 0xe000:
+                if ((rr_revision > 0) && export_ram_at_a000) {
+                    *base = export_ram0 - 0xe000; /* FIXME: bank ? */
+                    *start = 0xe000;
+                    *limit = 0xfffd;
+                    return;
+                }
+                if (flashrom_state->flash_state == FLASH040_STATE_READ) {
+                    *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0xe000;
+                    *start = 0xe000;
+                    *limit = 0xfffd;
+                    return;
+                }
+                break;
+            case 0xa000:
+                if ((rr_revision > 0) && export_ram_at_a000) {
+                    *base = export_ram0 - 0xa000; /* FIXME: bank ? */
+                    *start = 0xa000;
+                    *limit = 0xbffd;
+                    return;
+                }
+                if (flashrom_state->flash_state == FLASH040_STATE_READ) {
+                    *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0xa000;
+                    *start = 0xa000;
+                    *limit = 0xbffd;
+                    return;
+                }
+                break;
+            case 0x8000:
+                if (export_ram) {
+                    *base = export_ram0 + ((roml_bank & 3) << 13) - 0x8000;
+                    *start = 0x8000;
+                    *limit = 0x9ffd;
+                    return;
+                }
+                if (flashrom_state->flash_state == FLASH040_STATE_READ) {
+                    *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0x8000;
+                    *start = 0x8000;
+                    *limit = 0x9ffd;
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
     }
     *base = NULL;
     *start = 0;
