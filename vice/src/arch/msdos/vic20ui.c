@@ -482,6 +482,9 @@ static tui_menu_item_def_t megacart_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
+TUI_MENU_DEFINE_TOGGLE(UserportRTC)
+TUI_MENU_DEFINE_TOGGLE(UserportRTCSave)
+
 int vic20ui_init(void)
 {
     tui_menu_t ui_ioextensions_submenu;
@@ -567,6 +570,18 @@ int vic20ui_init(void)
 #ifdef HAVE_TFE
     uitfe_vic20_init(ui_ioextensions_submenu);
 #endif
+
+    tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport RTC",
+                      "Enable Userport RTC",
+                      toggle_UserportRTC_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(ui_ioextensions_submenu, "Save Userport RTC data when changed",
+                      "Save Userport RTC data when changed",
+                      toggle_UserportRTCSave_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 

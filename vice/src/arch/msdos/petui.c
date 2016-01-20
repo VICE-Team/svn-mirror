@@ -294,6 +294,8 @@ static tui_menu_item_def_t rom_menu_items[] = {
 /* ------------------------------------------------------------------------- */
 
 TUI_MENU_DEFINE_TOGGLE(UserportDAC)
+TUI_MENU_DEFINE_TOGGLE(UserportRTC)
+TUI_MENU_DEFINE_TOGGLE(UserportRTCSave)
 
 int petui_init(void)
 {
@@ -330,6 +332,18 @@ int petui_init(void)
     tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport DAC",
                       "Enable Userport DAC",
                       toggle_UserportDAC_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport RTC",
+                      "Enable Userport RTC",
+                      toggle_UserportRTC_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(ui_ioextensions_submenu, "Save Userport RTC data when changed",
+                      "Save Userport RTC data when changed",
+                      toggle_UserportRTCSave_callback,
                       NULL, 3,
                       TUI_MENU_BEH_CONTINUE);
 

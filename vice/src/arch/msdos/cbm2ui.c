@@ -102,8 +102,13 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
+TUI_MENU_DEFINE_TOGGLE(UserportRTC)
+TUI_MENU_DEFINE_TOGGLE(UserportRTCSave)
+
 int cbm2ui_init(void)
 {
+    tui_menu_t ui_ioextensions_submenu;
+
     ui_create_main_menu(0, 1, 0, 6, 1, driveieee_settings_submenu);
 
     tui_menu_add_separator(ui_video_submenu);
@@ -113,6 +118,25 @@ int cbm2ui_init(void)
 
     uicbm2model_init(ui_special_submenu);
     uiciamodel_single_init(ui_special_submenu);
+
+    ui_ioextensions_submenu = tui_menu_create("I/O extensions", 1);
+    tui_menu_add_submenu(ui_special_submenu, "_I/O extensions",
+                         "Configure I/O extensions",
+                         ui_ioextensions_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport RTC",
+                      "Enable Userport RTC",
+                      toggle_UserportRTC_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(ui_ioextensions_submenu, "Save Userport RTC data when changed",
+                      "Save Userport RTC data when changed",
+                      toggle_UserportRTCSave_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 
