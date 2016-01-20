@@ -60,6 +60,8 @@ static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "CrtcStretchVertical", IDM_TOGGLE_VERTICAL_STRETCH },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "Mouse", IDM_MOUSE },
+    { "UserportRTC", IDM_TOGGLE_USERPORT_RTC },
+    { "UserportRTCSave", IDM_TOGGLE_USERPORT_RTC_SAVE },
     { NULL, 0 }
 };
 
