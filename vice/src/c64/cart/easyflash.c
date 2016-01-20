@@ -315,33 +315,36 @@ void easyflash_romh_store(WORD addr, BYTE value)
 
 void easyflash_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
-    switch (addr & 0xe000) {
-        case 0xe000:
-            if (easyflash_state_high->flash_state == FLASH040_STATE_READ) {
-                *base = easyflash_state_high->flash_data + (easyflash_register_00 * 0x2000) - 0xe000;
-                *start = 0xe000;
-                *limit = 0xfffd;
-                return;
-            }
-            break;
-        case 0xa000:
-            if (easyflash_state_high->flash_state == FLASH040_STATE_READ) {
-                *base = easyflash_state_high->flash_data + (easyflash_register_00 * 0x2000) - 0xa000;
-                *start = 0xa000;
-                *limit = 0xbffd;
-                return;
-            }
-            break;
-        case 0x8000:
-            if (easyflash_state_low->flash_state == FLASH040_STATE_READ) {
-                *base = easyflash_state_low->flash_data + (easyflash_register_00 * 0x2000) - 0x8000;
-                *start = 0x8000;
-                *limit = 0x9ffd;
-                return;
-            }
-            break;
-        default:
-            break;
+    if (easyflash_state_high && easyflash_state_high->flash_data &&
+        easyflash_state_low && easyflash_state_low->flash_data) {
+        switch (addr & 0xe000) {
+            case 0xe000:
+                if (easyflash_state_high->flash_state == FLASH040_STATE_READ) {
+                    *base = easyflash_state_high->flash_data + (easyflash_register_00 * 0x2000) - 0xe000;
+                    *start = 0xe000;
+                    *limit = 0xfffd;
+                    return;
+                }
+                break;
+            case 0xa000:
+                if (easyflash_state_high->flash_state == FLASH040_STATE_READ) {
+                    *base = easyflash_state_high->flash_data + (easyflash_register_00 * 0x2000) - 0xa000;
+                    *start = 0xa000;
+                    *limit = 0xbffd;
+                    return;
+                }
+                break;
+            case 0x8000:
+                if (easyflash_state_low->flash_state == FLASH040_STATE_READ) {
+                    *base = easyflash_state_low->flash_data + (easyflash_register_00 * 0x2000) - 0x8000;
+                    *start = 0x8000;
+                    *limit = 0x9ffd;
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
     }
     *base = NULL;
     *start = 0;
