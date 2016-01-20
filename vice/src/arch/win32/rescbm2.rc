@@ -243,6 +243,8 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Cartridge/IO settings"
         BEGIN
+            MENUITEM "", IDM_USERPORT_RTC_SETTINGS
+            MENUITEM SEPARATOR
             MENUITEM "", IDM_TOGGLE_CART_RESET
         END
         POPUP "RS232 settings"

@@ -52,6 +52,7 @@
 #include "uirom.h"
 #include "uisampler.h"
 #include "uisiddtv.h"
+#include "uiuserportrtc.h"
 #include "uivideo.h"
 #include "videoarch.h"
 #include "winmain.h"
@@ -316,6 +317,7 @@ ui_menu_translation_table_t cbm2ui_menu_translation_table[] = {
 #endif
     { IDM_CBM2_SETTINGS, IDS_MI_CBM2_SETTINGS },
     { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
+    { IDM_USERPORT_RTC_SETTINGS, IDS_MI_USERPORT_RTC_SETTINGS },
     { 0, 0 }
 };
 
@@ -490,6 +492,9 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_SAMPLER_SETTINGS:
             ui_sampler_settings_dialog(hwnd);
+            break;
+        case IDM_USERPORT_RTC_SETTINGS:
+            ui_userport_rtc_settings_dialog(hwnd);
             break;
     }
 }

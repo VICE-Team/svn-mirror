@@ -275,6 +275,7 @@ BEGIN
 #ifdef HAVE_MIDI
             MENUITEM "", IDM_MIDI_SETTINGS
 #endif
+            MENUITEM "", IDM_USERPORT_RTC_SETTINGS
             MENUITEM SEPARATOR
             MENUITEM "", IDM_TOGGLE_CART_RESET
         END
