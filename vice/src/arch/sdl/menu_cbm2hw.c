@@ -254,6 +254,9 @@ const ui_menu_entry_t cbm5x0_hardware_menu[] = {
     SDL_MENU_LIST_END
 };
 
+UI_MENU_DEFINE_TOGGLE(UserportRTC)
+UI_MENU_DEFINE_TOGGLE(UserportRTCSave)
+
 const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
     { "Select CBM2 model",
       MENU_ENTRY_SUBMENU,
@@ -300,5 +303,13 @@ const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)rs232_nouser_menu },
 #endif
+    { "Userport RTC enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTC_callback,
+      NULL },
+    { "Save Userport RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCSave_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
