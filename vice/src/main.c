@@ -85,7 +85,7 @@ const
 #endif
 int console_mode = 0;
 int video_disabled_mode = 0;
-static int init_done;
+static int init_done = 0;
 
 /* ------------------------------------------------------------------------- */
 

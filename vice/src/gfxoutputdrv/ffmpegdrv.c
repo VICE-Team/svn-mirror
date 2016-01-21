@@ -161,6 +161,13 @@ static int set_container_format(const char *val, void *param)
 {
     int i;
 
+/* kludges to prevent crash at startup when using --help on the commandline */
+#ifndef STATIC_FFMPEG
+    if (ffmpegdrv_formatlist == NULL) {
+        return 0;
+    }
+#endif
+
     format_index = -1;
 
     for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
@@ -1088,6 +1095,7 @@ void gfxoutput_init_ffmpeg(int help)
         return;
     }
 #endif
+
     if (ffmpeglib_open(&ffmpeglib) < 0) {
         return;
     }
