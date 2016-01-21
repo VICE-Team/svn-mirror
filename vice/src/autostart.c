@@ -159,7 +159,7 @@ static int c128_column4080_key;
 
 /* ------------------------------------------------------------------------- */
 
-static int autostart_basic_load = 0;
+int autostart_basic_load = 0;
 
 static int AutostartRunWithColon = 0;
 

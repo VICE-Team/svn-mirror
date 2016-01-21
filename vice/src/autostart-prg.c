@@ -43,6 +43,7 @@
 #include "drive.h"
 
 /* ----- Globals ----- */
+extern int autostart_basic_load;
 
 /* program from last injection */
 static autostart_prg_t *inject_prg;
@@ -70,7 +71,13 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
         log_error(log, "Cannot read start address from '%s'", file_name);
         return NULL;
     }
-    prg->start_addr = (WORD)hi << 8 | (WORD)lo;
+
+    /* get load addr */
+    if (autostart_basic_load) {
+        mem_get_basic_text(&prg->start_addr, NULL);
+    } else {
+        prg->start_addr = (WORD)hi << 8 | (WORD)lo;
+    }
     prg->size -= 2; /* skip load addr */
 
     /* check range */
