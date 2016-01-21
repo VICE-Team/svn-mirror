@@ -65,8 +65,8 @@ typedef struct userport_device_s {
     /* Store flag pin */
     void (*store_flag)(BYTE val);
 
-    /* Read pc pin */
-    void (*read_pc)(void);
+    /* Device needs pc pin */
+    int needs_pc;
 
     /* Store sp1 pin */
     void (*store_sp1)(void);

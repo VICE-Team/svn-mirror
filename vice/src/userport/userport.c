@@ -60,7 +60,7 @@ static int valid_device(userport_device_t *device)
         return 0;
     }
 
-    if (device->read_pc && !userport_props.has_pc) {
+    if (device->needs_pc && !userport_props.has_pc) {
         return 0;
     }
 
@@ -416,39 +416,6 @@ void store_userport_flag(BYTE val)
         }
         current = current->next;
     }
-}
-
-BYTE read_userport_pc(void)
-{
-    BYTE mask = 1;
-    BYTE rm;
-    BYTE rv;
-    BYTE retval = 0xff;
-    int valid = 0;
-    userport_device_list_t *current = userport_head.next;
-
-    /* set retval */
-    while (current) {
-        current->device->collision = 0;
-        if (current->device->read_pc != NULL) {
-            current->device->read_pc();
-            rm = current->device->mask;
-            rm &= mask;
-            if (rm) {
-                rv = current->device->retval;
-                rv |= ~rm;
-                retval &= rv;
-                ++valid;
-            }
-        }
-        current = current->next;
-    }
-
-    if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return userport_detect_collision(retval, mask);
-    }
-
-    return retval;
 }
 
 void store_userport_sp1(void)
