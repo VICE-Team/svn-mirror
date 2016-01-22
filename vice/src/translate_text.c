@@ -3829,6 +3829,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_USERPORT_DAC_TR, ""},  /* fuzzy */
 #endif
 
+/* userport/userport_digimax.c */
+/* en */ {IDGS_USERPORT_DIGIMAX,    N_("Userport DigiMAX")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_USERPORT_DIGIMAX_DA, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_DIGIMAX_DE, ""},  /* fuzzy */
+/* es */ {IDGS_USERPORT_DIGIMAX_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_USERPORT_DIGIMAX_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_USERPORT_DIGIMAX_HU, ""},  /* fuzzy */
+/* it */ {IDGS_USERPORT_DIGIMAX_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_USERPORT_DIGIMAX_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_DIGIMAX_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_USERPORT_DIGIMAX_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_USERPORT_DIGIMAX_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_USERPORT_DIGIMAX_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_USERPORT_DIGIMAX_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */
@@ -16945,6 +16962,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_RU, "Disable writing to EasyFlash .crt image"},
 /* sv */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_SV, "Inaktivera skrivning till EasyFlash-.crt-avbildning."},
 /* tr */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_TR, "EasyFlash .crt imajýna yazmayý pasifleþtir"},
+#endif
+
+/* userport/userport_digimax.c */
+/* en */ {IDCLS_ENABLE_USERPORT_DIGIMAX,    N_("Enable the userport DigiMAX device")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_USERPORT_DIGIMAX_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_DIGIMAX_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_DIGIMAX_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_DIGIMAX_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_DIGIMAX_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_DIGIMAX_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_DIGIMAX_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_DIGIMAX_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_DIGIMAX_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_DIGIMAX_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_DIGIMAX_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_DIGIMAX_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_digimax.c */
+/* en */ {IDCLS_DISABLE_USERPORT_DIGIMAX,    N_("Disable the userport DigiMAX device")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_USERPORT_DIGIMAX_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_DIGIMAX_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_DIGIMAX_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_DIGIMAX_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_DIGIMAX_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_DIGIMAX_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_DIGIMAX_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_DIGIMAX_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_DIGIMAX_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_DIGIMAX_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_DIGIMAX_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_DIGIMAX_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/digimax.c */

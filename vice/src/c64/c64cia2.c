@@ -51,7 +51,6 @@
 #include "printer.h"
 #include "types.h"
 #include "userport.h"
-#include "userport_digimax.h"
 #include "vicii.h"
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -69,7 +68,6 @@ void cia2_store(WORD addr, BYTE data)
         pa_ddr_change = 0;
     }
 
-    digimax_userport_store(addr, data);
     ciacore_store(machine_context.cia2, addr, data);
 }
 
@@ -151,6 +149,10 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
             store_userport_pa2((BYTE)((byte & 4) >> 2));
         }
 
+        if ((cia_context->old_pa ^ byte) & 8) {
+            store_userport_pa3((BYTE)((byte & 8) >> 3));
+        }
+
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         if (rsuser_enabled && ((cia_context->old_pa ^ byte) & 0x04)) {
             rsuser_set_tx_bit(byte & 4);
@@ -170,6 +172,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     store_userport_pa2((BYTE)((byte & 4) >> 2));
+    store_userport_pa3((BYTE)((byte & 8) >> 3));
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
@@ -221,6 +224,10 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 
     if (!(cia_context->c_cia[CIA_DDRA] & 4)) {
         value &= (read_userport_pa2() & 1) << 2;
+    }
+
+    if (!(cia_context->c_cia[CIA_DDRA] & 8)) {
+        value &= (read_userport_pa3() & 1) << 3;
     }
 
     return value;

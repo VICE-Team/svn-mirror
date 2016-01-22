@@ -31,7 +31,6 @@
 #include "sound.h"
 
 extern int digimax_cart_enabled(void);
-extern int digimax_is_userport(void);
 extern int digimax_enable(void);
 extern void digimax_detach(void);
 extern void digimax_reset(void);
@@ -41,9 +40,6 @@ extern void digimax_resources_shutdown(void);
 extern int digimax_cmdline_options_init(void);
 
 extern void digimax_sound_chip_init(void);
-
-extern void digimax_sound_store(WORD address, BYTE value);
-extern BYTE digimax_sound_read(WORD address);
 
 struct snapshot_s;
 

@@ -137,6 +137,7 @@ noinst_HEADERS = \
 	crc32.h \
 	datasette.h \
 	debug.h \
+	digimaxcore.c \
 	diskconstants.h \
 	diskimage.h \
 	dma.h \

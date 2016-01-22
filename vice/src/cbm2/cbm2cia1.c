@@ -135,6 +135,9 @@ static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 
 static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
+    store_userport_pa2((BYTE)((byte & 4) >> 2));
+    store_userport_pa3((BYTE)((byte & 8) >> 3));
+
     /* FIXME: PA0 and PA1 are used as selector for the
        Paddle 1/2 selection for the A/D converter. */
     parallel_cpu_set_bus((BYTE)(cia1_ieee_is_output ? byte : 0xff));
@@ -142,6 +145,8 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
+    store_userport_pa2((BYTE)((byte & 4) >> 2));
+    store_userport_pa3((BYTE)((byte & 8) >> 3));
     parallel_cpu_set_bus((BYTE)(cia1_ieee_is_output ? byte : 0xff));
 }
 

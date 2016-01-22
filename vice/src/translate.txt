@@ -667,6 +667,9 @@ IDGS_USERPORT_RTC58321A
 /* userport/userport_dac.c */
 IDGS_USERPORT_DAC
 
+/* userport/userport_digimax.c */
+IDGS_USERPORT_DIGIMAX
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */
@@ -2922,6 +2925,12 @@ IDCLS_DISABLE_PLUS4SPEECH
 
 /* plus4/plus4speech.c */
 IDCLS_ATTACH_SPEECH_ROM_IMAGE
+
+/* userport/userport_digimax.c */
+IDCLS_ENABLE_USERPORT_DIGIMAX
+
+/* userport/userport_digimax.c */
+IDCLS_DISABLE_USERPORT_DIGIMAX
 
 /* c64/cart/digimax.c */
 IDCLS_ENABLE_DIGIMAX
