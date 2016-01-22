@@ -72,7 +72,8 @@ extra_keymaps = \
 	osx_grus_sym.vkm \
 	osx_sym_uk.vkm \
 	win_grus_sym.vkm \
-	win_sym_uk.vkm
+	win_sym_uk.vkm \
+	win_sym.vkm
 
 win32_files = \
 	win_hotkeys.vhk \
