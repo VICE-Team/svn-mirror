@@ -6,6 +6,7 @@ EXTRA_DIST = \
 	c64commonall.tgt \
 	c64commoncart.tgt \
 	c64commonsc.tgt \
+	c64commonsc128.tgt \
 	c64commonsc128scpu.tgt \
 	c64commonscdtv128scpu.tgt \
 	c64commonscdtvscpu.tgt \
