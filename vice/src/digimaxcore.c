@@ -63,7 +63,7 @@ static WORD digimax_sound_chip_offset = 0;
 
 /* ---------------------------------------------------------------------*/
 
-sound_dac_t digimax_dac[4];
+static sound_dac_t digimax_dac[4];
 
 static BYTE digimax_sound_data[4];
 

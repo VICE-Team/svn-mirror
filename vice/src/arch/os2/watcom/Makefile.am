@@ -45,6 +45,7 @@ EXTRA_DIST = \
 	iecplus4exp.tgt \
 	ieee.tgt \
 	imagecontents.tgt \
+	joyport.tgt \
 	kbd.tgt \
 	mainsrc.tgt \
 	makebindist.bat \
@@ -78,6 +79,7 @@ EXTRA_DIST = \
 	resid-specific.tgt \
 	resid.tgt \
 	rs232drv.tgt \
+	samplerdrv.tgt \
 	scpu64.tgt \
 	serial.tgt \
 	sounddrv.tgt \

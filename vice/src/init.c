@@ -104,10 +104,12 @@ int init_resources(void)
         init_resource_fail("sound");
         return -1;
     }
+#ifdef COMMON_KBD
     if (keyboard_resources_init() < 0) {
         init_resource_fail("keyboard");
         return -1;
     }
+#endif
     if (machine_video_resources_init() < 0) {
         init_resource_fail("machine video");
         return -1;
