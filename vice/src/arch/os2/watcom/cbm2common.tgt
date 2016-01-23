@@ -215,8 +215,8 @@ WVList
 0
 51
 MItem
-24
-..\..\..\cbm2\cbm2cia1.c
+23
+..\..\..\cbm2\cbm2cpu.c
 52
 WString
 4
@@ -233,8 +233,8 @@ WVList
 0
 55
 MItem
-23
-..\..\..\cbm2\cbm2cpu.c
+29
+..\..\..\cbm2\cbm2datasette.c
 56
 WString
 4
@@ -251,8 +251,8 @@ WVList
 0
 59
 MItem
-29
-..\..\..\cbm2\cbm2datasette.c
+25
+..\..\..\cbm2\cbm2drive.c
 60
 WString
 4
@@ -269,8 +269,8 @@ WVList
 0
 63
 MItem
-25
-..\..\..\cbm2\cbm2drive.c
+23
+..\..\..\cbm2\cbm2iec.c
 64
 WString
 4
@@ -287,8 +287,8 @@ WVList
 0
 67
 MItem
-23
-..\..\..\cbm2\cbm2iec.c
+22
+..\..\..\cbm2\cbm2io.c
 68
 WString
 4

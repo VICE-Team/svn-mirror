@@ -659,7 +659,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
+#if (defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)) && !defined(__VSID__)
         case IDM_CRTGEN:
         case IDM_CRTGEN8KB:
         case IDM_CRTGEN16KB:
@@ -999,7 +999,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #endif
 #endif
 
-#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
+#if (defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)) && !defined(__VSID__)
         case IDM_REU:
             toggle("REU");
             return;
