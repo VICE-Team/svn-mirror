@@ -85,8 +85,8 @@ o?2??Include directories:
 1
 21
 WString
-145
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..;..\..\..\c64;..\..\..\video;..\..\..\userport;..\..\..\lib\p64;..\..\..\platform
+162
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..;..\..\..\c64;..\..\..\video;..\..\..\userport;..\..\..\lib\p64;..\..\..\platform;..\..\..\joyport
 0
 22
 MVState

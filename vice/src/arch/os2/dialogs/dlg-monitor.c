@@ -221,6 +221,8 @@ static void UpdateMemory(HWND hwnd)
 
 static void UpdateRegisters(HWND hwnd)
 {
+/* FIXME */
+#if 0
     const MEMSPACE mem = (MEMSPACE)WinQueryWindowPtr(hwnd, QWL_USER);
     const HWND lbox = WinWindowFromID(hwnd, LB_MONDIS);
 
@@ -262,6 +264,7 @@ static void UpdateRegisters(HWND hwnd)
 
         list = list->next;
     }
+#endif
 }
 
 // --------------------------------------------------------------------------

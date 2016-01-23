@@ -62,6 +62,8 @@
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
 #include "userport_joystick.h"
+#include "c64-memory-hacks.h"
+
 
 #if defined(__X128__) || defined(__X64__)
 #include "cartridge.h"

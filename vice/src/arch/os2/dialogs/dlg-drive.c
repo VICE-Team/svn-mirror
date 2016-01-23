@@ -77,7 +77,7 @@ static int get_drive_res(char *format, int drive)
     return val;
 }
 
-#define nDRIVES 15
+#define nDRIVES 16
 
 const char driveName[nDRIVES][28] = {
     "None",

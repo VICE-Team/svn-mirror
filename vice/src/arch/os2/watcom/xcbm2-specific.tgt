@@ -67,8 +67,8 @@ o?2??Include directories:
 1
 17
 WString
-96
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\sid;..\dialogs;..\..\..\video;..\..\..\cbm2
+113
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\sid;..\dialogs;..\..\..\video;..\..\..\cbm2;..\..\..\joyport
 0
 18
 MVState
