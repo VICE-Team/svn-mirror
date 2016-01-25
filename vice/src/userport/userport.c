@@ -430,7 +430,7 @@ void store_userport_sp1(void)
     }
 }
 
-BYTE read_userport_sp2(void)
+BYTE read_userport_sp2(BYTE orig)
 {
     BYTE mask = 0xff;
     BYTE rm;
@@ -458,6 +458,10 @@ BYTE read_userport_sp2(void)
 
     if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
         return userport_detect_collision(retval, mask);
+    }
+
+    if (!valid) {
+        return orig;
     }
 
     return retval;
