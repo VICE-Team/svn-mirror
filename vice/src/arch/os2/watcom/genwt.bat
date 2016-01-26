@@ -1,4 +1,5 @@
 @echo off
+echo "Generating files for windows"
 copy ..\..\..\translate.txt trans.txt
 copy ..\..\..\..\doc\vice.texi vice.tex
 copy ..\..\..\infocontrib.sed ic.sed

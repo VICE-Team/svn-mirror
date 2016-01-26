@@ -1,4 +1,5 @@
 @echo off
+echo "Generating files for OS/2"
 copy ..\..\..\translate.txt trans.txt
 copy ..\..\..\..\doc\vice.texi vice.tex
 copy ..\..\..\infocontrib.sed ic.sed
