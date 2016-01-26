@@ -133,7 +133,7 @@ void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int p
 
     ui_joyport_submenu = tui_menu_create("Control port settings", 1);
 
-    if (joyport_port[JOYPORT_1]) {
+    if (joyport_ports[JOYPORT_1]) {
         devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
         for (i = 0; devices_port_1[i].name; ++i) {
             joyport1_submenu[i].label = devices_port_1[i].name;
@@ -164,7 +164,7 @@ void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int p
         ++j;
     }
 
-    if (joyport_port[JOYPORT_2]) {
+    if (joyport_ports[JOYPORT_2]) {
         devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
         for (i = 0; devices_port_2[i].name; ++i) {
             joyport2_submenu[i].label = devices_port_2[i].name;
@@ -195,7 +195,7 @@ void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int p
         ++j;
     }
 
-    if (joyport_port[JOYPORT_3]) {
+    if (joyport_ports[JOYPORT_3]) {
         devices_port_3 = joyport_get_valid_devices(JOYPORT_3);
         for (i = 0; devices_port_3[i].name; ++i) {
             joyport3_submenu[i].label = devices_port_3[i].name;
@@ -226,7 +226,7 @@ void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int p
         ++j;
     }
 
-    if (joyport_port[JOYPORT_4]) {
+    if (joyport_ports[JOYPORT_4]) {
         devices_port_4 = joyport_get_valid_devices(JOYPORT_4);
         for (i = 0; devices_port_4[i].name; ++i) {
             joyport4_submenu[i].label = devices_port_4[i].name;
@@ -257,7 +257,7 @@ void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int p
         ++j;
     }
 
-    if (joyport_port[JOYPORT_5]) {
+    if (joyport_ports[JOYPORT_5]) {
         devices_port_5 = joyport_get_valid_devices(JOYPORT_5);
         for (i = 0; devices_port_5[i].name; ++i) {
             joyport5_submenu[i].label = devices_port_5[i].name;
