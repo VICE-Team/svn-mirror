@@ -1,6 +1,8 @@
 EXTRA_DIST = \
 	geninfocontrib32.c \
+	geninfocontribos2.c \
 	gentranslate32.c \
+	gentranslateos2.c \
 	genwinres32.c \
 	resid-sid.cc \
 	residdtv-envelope.cc \
