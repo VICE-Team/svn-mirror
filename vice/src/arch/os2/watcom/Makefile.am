@@ -54,6 +54,7 @@ EXTRA_DIST = \
 	kbd.tgt \
 	mainsrc.tgt \
 	makebindist.bat \
+	makebindist.cmd \
 	monitor.tgt \
 	nonresid-sid-cmdline-options.c \
 	nonresid-sid-resources.c \
