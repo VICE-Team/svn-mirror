@@ -1132,7 +1132,9 @@ int autostart_tape(const char *file_name, const char *program_name,
                 tape_seek_start(tape_image_dev1);
             }
         }
-        resources_set_int("VirtualDevices", 1); /* Kludge: for t64 images we need devtraps ON */
+        if (!tape_tap_attached()) {
+            resources_set_int("VirtualDevices", 1); /* Kludge: for t64 images we need devtraps ON */
+        }
         reboot_for_autostart(program_name, AUTOSTART_HASTAPE, runmode);
 
         return 0;
