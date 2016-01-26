@@ -27,6 +27,7 @@ EXTRA_DIST = \
 	cbm5x0.tgt \
 	core.tgt \
 	crtc.tgt \
+	debug.h \
 	dialogs.tgt \
 	diskimage.tgt \
 	drive.tgt \
