@@ -39,6 +39,7 @@
 #include "victypes.h"
 #include "vic20mem.h"
 #include "vic20memrom.h"
+#include "vic20.h"
 #include "viewport.h"
 
 /* ------------------------------------------------------------------------- */
@@ -65,7 +66,11 @@ static inline void vic_cycle_open_v(void)
     if (vic.text_lines == 0) {
         vic_cycle_close_v();
     } else {
-        vic.raster.display_ystop = vic.screen_height - 1;
+        if (vic.screen_height == VIC20_NTSC_SCREEN_LINES) {
+            vic.raster.display_ystop = vic.screen_height;
+        } else {
+            vic.raster.display_ystop = vic.screen_height - 1;
+        }
     }
 }
 

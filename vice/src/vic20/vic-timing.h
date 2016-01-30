@@ -50,18 +50,18 @@
 
 
 /* NTSC: total screen dimension of 200x233 + 234th rasterline in bordercolor */
-#define VIC_NTSC_NORMAL_FIRST_DISPLAYED_LINE        27
-#define VIC_NTSC_NORMAL_LAST_DISPLAYED_LINE         260
+#define VIC_NTSC_NORMAL_FIRST_DISPLAYED_LINE        28
+#define VIC_NTSC_NORMAL_LAST_DISPLAYED_LINE         261
 #define VIC_NTSC_NORMAL_DISPLAY_WIDTH               200
 #define VIC_NTSC_NORMAL_LEFTBORDERWIDTH             4
 
 #define VIC_NTSC_FULL_FIRST_DISPLAYED_LINE          4
-#define VIC_NTSC_FULL_LAST_DISPLAYED_LINE           260
+#define VIC_NTSC_FULL_LAST_DISPLAYED_LINE           261
 #define VIC_NTSC_FULL_DISPLAY_WIDTH                 232
 #define VIC_NTSC_FULL_LEFTBORDERWIDTH               4
 
-#define VIC_NTSC_DEBUG_FIRST_DISPLAYED_LINE         0
-#define VIC_NTSC_DEBUG_LAST_DISPLAYED_LINE          260
+#define VIC_NTSC_DEBUG_FIRST_DISPLAYED_LINE         1
+#define VIC_NTSC_DEBUG_LAST_DISPLAYED_LINE          261
 #define VIC_NTSC_DEBUG_DISPLAY_WIDTH                260  /* 65 cycles * 4 pixels */
 #define VIC_NTSC_DEBUG_LEFTBORDERWIDTH              4
 
