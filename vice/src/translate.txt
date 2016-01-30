@@ -670,6 +670,9 @@ IDGS_USERPORT_DAC
 /* userport/userport_digimax.c */
 IDGS_USERPORT_DIGIMAX
 
+/* userport/userport_4bit_sampler.c */
+IDGS_USERPORT_4BIT_SAMPLER
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */
@@ -2901,6 +2904,12 @@ IDCLS_ENABLE_USERPORT_RTC_SAVE
 
 /* userport/userport_rtc.c */
 IDCLS_DISABLE_USERPORT_RTC_SAVE
+
+/* userport/userport_4bit_sampler.c */
+IDCLS_ENABLE_USERPORT_4BIT_SAMPLER
+
+/* userport/userport_4bit_sampler.c */
+IDCLS_DISABLE_USERPORT_4BIT_SAMPLER
 
 /* c64/plus256k.c */
 IDCLS_SPECIFY_PLUS256K_NAME

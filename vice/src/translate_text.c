@@ -3846,6 +3846,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_USERPORT_DIGIMAX_TR, ""},  /* fuzzy */
 #endif
 
+/* userport/userport_4bit_sampler.c */
+/* en */ {IDGS_USERPORT_4BIT_SAMPLER,    N_("Userport 4bit sampler")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_USERPORT_4BIT_SAMPLER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_4BIT_SAMPLER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_USERPORT_4BIT_SAMPLER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_USERPORT_4BIT_SAMPLER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_USERPORT_4BIT_SAMPLER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_USERPORT_4BIT_SAMPLER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_USERPORT_4BIT_SAMPLER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_4BIT_SAMPLER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_USERPORT_4BIT_SAMPLER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_USERPORT_4BIT_SAMPLER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_USERPORT_4BIT_SAMPLER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_USERPORT_4BIT_SAMPLER_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */
@@ -6151,6 +6168,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_4bit_sampler.c */
+/* en */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER,    N_("Enable Userport 4bit sampler")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_4bit_sampler.c */
+/* en */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER,    N_("Disable Userport 4bit sampler")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/psid.c */

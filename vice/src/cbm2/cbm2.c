@@ -93,6 +93,7 @@
 #include "traps.h"
 #include "types.h"
 #include "userport.h"
+#include "userport_4bit_sampler.h"
 #include "userport_dac.h"
 #include "userport_digimax.h"
 #include "userport_joystick.h"
@@ -333,6 +334,10 @@ int machine_resources_init(void)
         init_resource_fail("userport rtc");
         return -1;
     }
+    if (userport_4bit_sampler_resources_init() < 0) {
+        init_resource_fail("userport 4bit sampler");
+        return -1;
+    }
     return 0;
 }
 
@@ -487,6 +492,10 @@ int machine_cmdline_options_init(void)
     }
     if (userport_rtc_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport rtc");
+        return -1;
+    }
+    if (userport_4bit_sampler_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport 4bit sampler");
         return -1;
     }
     return 0;

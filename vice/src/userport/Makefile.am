@@ -5,13 +5,16 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/rtc \
-	-I$(top_srcdir)/src/joyport
+	-I$(top_srcdir)/src/joyport \
+	-I$(top_srcdir)/src/samplerdrv
 
 noinst_LIBRARIES = libuserport.a
 
 libuserport_a_SOURCES = \
 	userport.c \
 	userport.h \
+	userport_4bit_sampler.c \
+	userport_4bit_sampler.h \
 	userport_dac.c \
 	userport_dac.h \
 	userport_digimax.c \
