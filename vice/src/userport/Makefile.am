@@ -15,6 +15,8 @@ libuserport_a_SOURCES = \
 	userport.h \
 	userport_4bit_sampler.c \
 	userport_4bit_sampler.h \
+	userport_8bss.c \
+	userport_8bss.h \
 	userport_dac.c \
 	userport_dac.h \
 	userport_digimax.c \

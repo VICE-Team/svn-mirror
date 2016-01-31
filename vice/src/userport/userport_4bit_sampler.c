@@ -1,5 +1,5 @@
 /*
- * userport_rtc.c - Generic userport 4bit sampler emulation.
+ * userport_4bit_sampler.c - Generic userport 4bit sampler emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

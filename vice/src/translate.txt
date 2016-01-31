@@ -673,6 +673,9 @@ IDGS_USERPORT_DIGIMAX
 /* userport/userport_4bit_sampler.c */
 IDGS_USERPORT_4BIT_SAMPLER
 
+/* userport/userport_8bss.c */
+IDGS_USERPORT_8BSS
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */
@@ -2910,6 +2913,12 @@ IDCLS_ENABLE_USERPORT_4BIT_SAMPLER
 
 /* userport/userport_4bit_sampler.c */
 IDCLS_DISABLE_USERPORT_4BIT_SAMPLER
+
+/* userport/userport_8bss.c */
+IDCLS_ENABLE_USERPORT_8BSS
+
+/* userport/userport_8bss.c */
+IDCLS_DISABLE_USERPORT_8BSS
 
 /* c64/plus256k.c */
 IDCLS_SPECIFY_PLUS256K_NAME

@@ -3863,6 +3863,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_USERPORT_4BIT_SAMPLER_TR, ""},  /* fuzzy */
 #endif
 
+/* userport/userport_8bss.c */
+/* en */ {IDGS_USERPORT_8BSS,    N_("Userport 8bit stereo sampler")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_USERPORT_8BSS_DA, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_8BSS_DE, ""},  /* fuzzy */
+/* es */ {IDGS_USERPORT_8BSS_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_USERPORT_8BSS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_USERPORT_8BSS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_USERPORT_8BSS_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_USERPORT_8BSS_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_8BSS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_USERPORT_8BSS_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_USERPORT_8BSS_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_USERPORT_8BSS_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_USERPORT_8BSS_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */
@@ -6202,6 +6219,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_8bss.c */
+/* en */ {IDCLS_ENABLE_USERPORT_8BSS,    N_("Enable Userport 8bit stereo sampler")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_USERPORT_8BSS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_8BSS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_8BSS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_8BSS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_8BSS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_8BSS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_8BSS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_8BSS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_8BSS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_8BSS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_8BSS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_8BSS_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_8bss.c */
+/* en */ {IDCLS_DISABLE_USERPORT_8BSS,    N_("Disable Userport 8bit stereo sampler")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_USERPORT_8BSS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_8BSS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_8BSS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_8BSS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_8BSS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_8BSS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_8BSS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_8BSS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_8BSS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_8BSS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_8BSS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_8BSS_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/psid.c */
