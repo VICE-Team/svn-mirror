@@ -160,7 +160,6 @@ int userport_joystick_enable = 0;
 int userport_joystick_type = USERPORT_JOYSTICK_HUMMER;	/* default for x64dtv */
 
 static int userport_joystick_cga_select = 0;
-static BYTE userport_joystick_button_sp2 = 0xff;
 
 /* ------------------------------------------------------------------------- */
 
@@ -580,7 +579,6 @@ static void userport_joystick_oem_read_pbx(void)
 {
     BYTE retval;
     BYTE jv3 = ~read_joyport_dig(JOYPORT_3);
-    BYTE jv4 = ~read_joyport_dig(JOYPORT_4);
 
     retval = ((jv3 & 1) << 7);
     retval |= ((jv3 & 2) << 5);

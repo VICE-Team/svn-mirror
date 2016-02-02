@@ -116,7 +116,7 @@ static void userport_digimax_store_pa3(BYTE value)
 
 static void userport_digimax_store_pbx(BYTE value)
 {
-    BYTE addr;
+    BYTE addr = 0;
 
     switch (userport_digimax_address) {
         case 0x0:
