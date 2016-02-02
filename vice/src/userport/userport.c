@@ -40,7 +40,6 @@
 
 static int userport_collision_handling = 0;
 static unsigned int order = 0;
-static int userport_collision_method = USERPORT_COLLISION_METHOD_DETACH_ALL;
 static userport_device_list_t userport_head = { NULL, NULL, NULL };
 static userport_port_props_t userport_props;
 
