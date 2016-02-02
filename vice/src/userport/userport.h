@@ -111,9 +111,9 @@ extern void userport_port_register(userport_port_props_t *props);
 
 extern BYTE read_userport_pbx(BYTE mask);
 extern void store_userport_pbx(BYTE val);
-extern BYTE read_userport_pa2(void);
+extern BYTE read_userport_pa2(BYTE orig);
 extern void store_userport_pa2(BYTE val);
-extern BYTE read_userport_pa3(void);
+extern BYTE read_userport_pa3(BYTE orig);
 extern void store_userport_pa3(BYTE val);
 extern BYTE read_userport_flag(void);
 extern void store_userport_flag(BYTE val);

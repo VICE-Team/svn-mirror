@@ -223,11 +223,11 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
 
     if (!(cia_context->c_cia[CIA_DDRA] & 4)) {
-        value &= (read_userport_pa2() & 1) << 2;
+        value &= (read_userport_pa2(value) & 1) ? 0xff : 0xfb;
     }
 
     if (!(cia_context->c_cia[CIA_DDRA] & 8)) {
-        value &= (read_userport_pa3() & 1) << 3;
+        value &= (read_userport_pa3(value) & 1) ? 0xff : 0xf7;
     }
 
     return value;

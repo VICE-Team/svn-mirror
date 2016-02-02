@@ -283,7 +283,7 @@ void store_userport_pbx(BYTE val)
     }
 }
 
-BYTE read_userport_pa2(void)
+BYTE read_userport_pa2(BYTE orig)
 {
     BYTE mask = 1;
     BYTE rm;
@@ -312,6 +312,9 @@ BYTE read_userport_pa2(void)
     if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
         return userport_detect_collision(retval, mask);
     }
+    if (valid == 0) {
+        return orig;
+    }
 
     return retval;
 }
@@ -328,7 +331,7 @@ void store_userport_pa2(BYTE val)
     }
 }
 
-BYTE read_userport_pa3(void)
+BYTE read_userport_pa3(BYTE orig)
 {
     BYTE mask = 1;
     BYTE rm;
@@ -356,6 +359,9 @@ BYTE read_userport_pa3(void)
 
     if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
         return userport_detect_collision(retval, mask);
+    }
+    if (valid == 0) {
+        return orig;
     }
 
     return retval;
