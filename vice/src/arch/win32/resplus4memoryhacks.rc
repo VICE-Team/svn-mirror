@@ -45,8 +45,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PLUS4_MEMORY_HACKS_CAPTION "Memory expansion hacks settings"
-  IDS_PLUS4_MEMORY_HACKS_DEVICE  "Memory expansion hack device"
+  IDS_PLUS4_MEMORY_HACKS_CAPTION "Speicher Erweiterungshack Einstellungen"
+  IDS_PLUS4_MEMORY_HACKS_DEVICE  "Speicher Erweiterungeshack Gerät"
 END
 
 
@@ -117,8 +117,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PLUS4_MEMORY_HACKS_CAPTION "Memory expansion hacks settings"
-  IDS_PLUS4_MEMORY_HACKS_DEVICE  "Memory expansion hack device"
+  IDS_PLUS4_MEMORY_HACKS_CAPTION "Geheugen uitbreiding hacks instellingen"
+  IDS_PLUS4_MEMORY_HACKS_DEVICE  "Geheugen uitbreidingen hack apparaat"
 END
 
 
@@ -130,8 +130,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PLUS4_MEMORY_HACKS_CAPTION "Memory expansion hacks settings"
-  IDS_PLUS4_MEMORY_HACKS_DEVICE  "Memory expansion hack device"
+  IDS_PLUS4_MEMORY_HACKS_CAPTION "Ustawienia hacków rozszerzenia pamiêci"
+  IDS_PLUS4_MEMORY_HACKS_DEVICE  "Urz±dzenie hacka rozszerzenia pamiêci"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -178,3 +178,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

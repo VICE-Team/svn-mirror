@@ -587,7 +587,7 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_32            "32 kByte"
   IDS_SELECT_PLUS4_MEM_64            "64 kByte"
   IDS_PLUS4MODEL                     "Plus4 Modell"
-  IDS_MI_PLUS4_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
+  IDS_MI_PLUS4_MEMORY_HACKS_SETTINGS "Speicher Erweiterungshack Einstellungen..."
   IDS_MI_CART_ATTACH_C0LO            "C0 low Image Datei..."
   IDS_MI_CART_ATTACH_C0HI            "C0 high Image Datei..."
   IDS_MI_CART_ATTACH_C1LO            "C1 low Image Datei..."
@@ -797,7 +797,7 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_32            "32 kByte"
   IDS_SELECT_PLUS4_MEM_64            "64 kByte"
   IDS_PLUS4MODEL                     "Plus4 model"
-  IDS_MI_PLUS4_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
+  IDS_MI_PLUS4_MEMORY_HACKS_SETTINGS "Geheugen uitbreiding hacks instellingen..."
   IDS_MI_CART_ATTACH_C0LO            "C0 low bestand..."
   IDS_MI_CART_ATTACH_C0HI            "C0 high bestand..."
   IDS_MI_CART_ATTACH_C1LO            "C1 low bestand..."
@@ -833,7 +833,7 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_32            "32 kBajty"
   IDS_SELECT_PLUS4_MEM_64            "64 kBajty"
   IDS_PLUS4MODEL                     "Model Plus4"
-  IDS_MI_PLUS4_MEMORY_HACKS_SETTINGS "Memory expansion hacks settings..."
+  IDS_MI_PLUS4_MEMORY_HACKS_SETTINGS "Ustawienia hacków rozszerzenia pamiêci..."
   IDS_MI_CART_ATTACH_C0LO            "Obraz C0 low..."
   IDS_MI_CART_ATTACH_C0HI            "Obraz C0 high..."
   IDS_MI_CART_ATTACH_C1LO            "Obraz C1 low..."
@@ -960,3 +960,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

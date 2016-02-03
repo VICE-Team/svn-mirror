@@ -149,7 +149,7 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-Hintergrund Kollisionen"
     IDS_VICII_LUMINANCE     "Neue Helligkeitsemulation"
     IDS_VICII_MODEL         "VIC-II Modell"
-    IDS_VICII_VSP_BUG       "VSP bug"
+    IDS_VICII_VSP_BUG       "VSP Fehler"
     IDS_GLUE_LOGIC          "Glue Logik"
     IDS_DISCRETE            "Diskret"
     IDS_CUSTOM_IC           "Benutzerdefinierte IC"

@@ -10923,7 +10923,9 @@ msgstr ""
 
 #: src/translate_text.c.po.c:4148
 msgid "Set name of screenshot to save when emulator exits."
-msgstr "Geef de naam van het scherm afdruk at wordt opgeslagen wanneer de emulator wordt afgesloten."
+msgstr ""
+"Geef de naam van het scherm afdruk at wordt opgeslagen wanneer de emulator "
+"wordt afgesloten."
 
 #: src/translate_text.c.po.c:4165
 msgid "Use PAL sync factor"

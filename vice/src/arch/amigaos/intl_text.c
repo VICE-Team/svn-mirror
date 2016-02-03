@@ -3500,7 +3500,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_JOYPORT_SETTINGS,    "Control port settings..." },
 /* da */ { IDMS_JOYPORT_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_JOYPORT_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_JOYPORT_SETTINGS_DE, "Control Port Einstellungen..." },
 /* es */ { IDMS_JOYPORT_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_JOYPORT_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_JOYPORT_SETTINGS_HU, "" },  /* fuzzy */
@@ -3604,7 +3604,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_SAMPLER_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_SAMPLER_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_SAMPLER_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_SAMPLER_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_SAMPLER_SETTINGS_NL, "Sampler instellingen..." },
 /* pl */ { IDMS_SAMPLER_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_SAMPLER_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_SAMPLER_SETTINGS_SV, "" },  /* fuzzy */
@@ -4060,7 +4060,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_ENABLE_CPM_CART,    "Enable the CP/M cartridge" },
 /* da */ { IDMS_ENABLE_CPM_CART_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_CPM_CART_DE, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_CPM_CART_DE, "CP/M Modul aktivieren" },
 /* es */ { IDMS_ENABLE_CPM_CART_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_ENABLE_CPM_CART_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_CPM_CART_HU, "" },  /* fuzzy */
@@ -4284,7 +4284,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_UM_WRITEBACK,    "Enable UltiMem write back to ROM file" },
 /* da */ { IDMS_UM_WRITEBACK_DA, "" },  /* fuzzy */
-/* de */ { IDMS_UM_WRITEBACK_DE, "" },  /* fuzzy */
+/* de */ { IDMS_UM_WRITEBACK_DE, "UltiMem ROM Schreibzugriff aktivieren" },
 /* es */ { IDMS_UM_WRITEBACK_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_UM_WRITEBACK_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_UM_WRITEBACK_HU, "" },  /* fuzzy */
@@ -4326,7 +4326,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_IO2_RAM_ENABLE,    "Enable I/O-2 RAM" },
 /* da */ { IDMS_IO2_RAM_ENABLE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_IO2_RAM_ENABLE_DE, "" },  /* fuzzy */
+/* de */ { IDMS_IO2_RAM_ENABLE_DE, "I/O-2 RAM aktivieren" },
 /* es */ { IDMS_IO2_RAM_ENABLE_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_IO2_RAM_ENABLE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_IO2_RAM_ENABLE_HU, "" },  /* fuzzy */
@@ -4340,7 +4340,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_IO3_RAM_ENABLE,    "Enable I/O-3 RAM" },
 /* da */ { IDMS_IO3_RAM_ENABLE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_IO3_RAM_ENABLE_DE, "" },  /* fuzzy */
+/* de */ { IDMS_IO3_RAM_ENABLE_DE, "I/O-3 RAM aktivieren" },
 /* es */ { IDMS_IO3_RAM_ENABLE_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_IO3_RAM_ENABLE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_IO3_RAM_ENABLE_HU, "" },  /* fuzzy */
@@ -7132,7 +7132,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SAMPLER_FILENAME_SELECT_HU, "" },  /* fuzzy */
 /* it */ { IDS_SAMPLER_FILENAME_SELECT_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SAMPLER_FILENAME_SELECT_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAMPLER_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SAMPLER_FILENAME_SELECT_NL, "Selecteer het bestand dat gebruikt gaat worden als sampler invoer" },
 /* pl */ { IDS_SAMPLER_FILENAME_SELECT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SAMPLER_FILENAME_SELECT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SAMPLER_FILENAME_SELECT_SV, "" },  /* fuzzy */
@@ -7146,7 +7146,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SAMPLER_DEVICE_HU, "" },  /* fuzzy */
 /* it */ { IDS_SAMPLER_DEVICE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SAMPLER_DEVICE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAMPLER_DEVICE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SAMPLER_DEVICE_NL, "Sampler apparaat" },
 /* pl */ { IDS_SAMPLER_DEVICE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SAMPLER_DEVICE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SAMPLER_DEVICE_SV, "" },  /* fuzzy */
@@ -7160,7 +7160,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SAMPLER_FILENAME_HU, "" },  /* fuzzy */
 /* it */ { IDS_SAMPLER_FILENAME_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SAMPLER_FILENAME_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAMPLER_FILENAME_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SAMPLER_FILENAME_NL, "Sampler invoer mediabestand" },
 /* pl */ { IDS_SAMPLER_FILENAME_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SAMPLER_FILENAME_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SAMPLER_FILENAME_SV, "" },  /* fuzzy */
@@ -7174,7 +7174,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SAMPLER_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_SAMPLER_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SAMPLER_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAMPLER_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SAMPLER_SETTINGS_NL, "Sampler instellingen" },
 /* pl */ { IDS_SAMPLER_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SAMPLER_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SAMPLER_SETTINGS_SV, "" },  /* fuzzy */
@@ -7945,7 +7945,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_HU, "" },  /* fuzzy */
 /* it */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_NL, "Emulatie extra joystick #3: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* pl */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_SV, "" },  /* fuzzy */
@@ -8015,7 +8015,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYLL_3_HU, "" },  /* fuzzy */
 /* it */ { IDS_SET_INPUT_EXTRA_JOYLL_3_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SET_INPUT_EXTRA_JOYLL_3_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SET_INPUT_EXTRA_JOYLL_3_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SET_INPUT_EXTRA_JOYLL_3_NL, "Emulatie extra joystick #3: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* pl */ { IDS_SET_INPUT_EXTRA_JOYLL_3_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SET_INPUT_EXTRA_JOYLL_3_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SET_INPUT_EXTRA_JOYLL_3_SV, "" },  /* fuzzy */
@@ -9578,14 +9578,14 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_GAIN_1_200,    "Gain (1..200)" },
 /* da */ { IDS_GAIN_1_200_DA, "" },  /* fuzzy */
-/* de */ { IDS_GAIN_1_200_DE, "" },  /* fuzzy */
-/* es */ { IDS_GAIN_1_200_ES, "" },  /* fuzzy */
+/* de */ { IDS_GAIN_1_200_DE, "Gain (1..200)" },
+/* es */ { IDS_GAIN_1_200_ES, "Ganancia (1..200)" },
 /* fr */ { IDS_GAIN_1_200_FR, "" },  /* fuzzy */
 /* hu */ { IDS_GAIN_1_200_HU, "" },  /* fuzzy */
-/* it */ { IDS_GAIN_1_200_IT, "" },  /* fuzzy */
+/* it */ { IDS_GAIN_1_200_IT, "Guadagno (1..200)" },
 /* ko */ { IDS_GAIN_1_200_KO, "" },  /* fuzzy */
-/* nl */ { IDS_GAIN_1_200_NL, "" },  /* fuzzy */
-/* pl */ { IDS_GAIN_1_200_PL, "" },  /* fuzzy */
+/* nl */ { IDS_GAIN_1_200_NL, "Toename (1..200)" },
+/* pl */ { IDS_GAIN_1_200_PL, "Wzmocnienie (1..200)" },
 /* ru */ { IDS_GAIN_1_200_RU, "" },  /* fuzzy */
 /* sv */ { IDS_GAIN_1_200_SV, "" },  /* fuzzy */
 /* tr */ { IDS_GAIN_1_200_TR, "" },  /* fuzzy */
@@ -10404,7 +10404,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SELECT_UM,    "Select UltiMem image" },
 /* da */ { IDS_SELECT_UM_DA, "" },  /* fuzzy */
-/* de */ { IDS_SELECT_UM_DE, "" },  /* fuzzy */
+/* de */ { IDS_SELECT_UM_DE, "UltiMem Image wählen" },
 /* es */ { IDS_SELECT_UM_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SELECT_UM_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SELECT_UM_HU, "" },  /* fuzzy */
@@ -11776,7 +11776,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_JOYPORT_S_DEVICE,    "%s device" },
 /* da */ { IDS_JOYPORT_S_DEVICE_DA, "" },  /* fuzzy */
-/* de */ { IDS_JOYPORT_S_DEVICE_DE, "" },  /* fuzzy */
+/* de */ { IDS_JOYPORT_S_DEVICE_DE, "%s Gerät" },
 /* es */ { IDS_JOYPORT_S_DEVICE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_JOYPORT_S_DEVICE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_JOYPORT_S_DEVICE_HU, "" },  /* fuzzy */
@@ -11790,7 +11790,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_JOYPORT_SETTINGS,    "Control port settings" },
 /* da */ { IDS_JOYPORT_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_JOYPORT_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDS_JOYPORT_SETTINGS_DE, "Control Port Einstellungen" },
 /* es */ { IDS_JOYPORT_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_JOYPORT_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_JOYPORT_SETTINGS_HU, "" },  /* fuzzy */

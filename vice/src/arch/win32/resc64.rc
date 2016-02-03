@@ -681,7 +681,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Speicher Erweiterungshack Einstellungen..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64 Laufwerk Burstmodifkation Einstellungen..."
-  IDS_MI_TOGGLE_CPM_CART           "Enable the CP/M Cartridge"
+  IDS_MI_TOGGLE_CPM_CART           "CP/M Modul aktivieren"
 END
 
 

@@ -3101,7 +3101,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_CONTROL_PORT,    N_("Control port")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CONTROL_PORT_DA, ""},  /* fuzzy */
-/* de */ {IDGS_CONTROL_PORT_DE, ""},  /* fuzzy */
+/* de */ {IDGS_CONTROL_PORT_DE, "Control Port"},
 /* es */ {IDGS_CONTROL_PORT_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_CONTROL_PORT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_CONTROL_PORT_HU, ""},  /* fuzzy */
@@ -3118,7 +3118,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_CONTROL_PORT_1,    N_("Control port 1")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CONTROL_PORT_1_DA, ""},  /* fuzzy */
-/* de */ {IDGS_CONTROL_PORT_1_DE, ""},  /* fuzzy */
+/* de */ {IDGS_CONTROL_PORT_1_DE, "Control Port 1"},
 /* es */ {IDGS_CONTROL_PORT_1_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_CONTROL_PORT_1_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_CONTROL_PORT_1_HU, ""},  /* fuzzy */
@@ -3135,7 +3135,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_CONTROL_PORT_2,    N_("Control port 2")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CONTROL_PORT_2_DA, ""},  /* fuzzy */
-/* de */ {IDGS_CONTROL_PORT_2_DE, ""},  /* fuzzy */
+/* de */ {IDGS_CONTROL_PORT_2_DE, "Control Port 2"},
 /* es */ {IDGS_CONTROL_PORT_2_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_CONTROL_PORT_2_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_CONTROL_PORT_2_HU, ""},  /* fuzzy */
@@ -3152,7 +3152,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_SIDCARD_CONTROL_PORT,    N_("SIDCard control port")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SIDCARD_CONTROL_PORT_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SIDCARD_CONTROL_PORT_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SIDCARD_CONTROL_PORT_DE, "SIDCard Control Port"},
 /* es */ {IDGS_SIDCARD_CONTROL_PORT_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_SIDCARD_CONTROL_PORT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SIDCARD_CONTROL_PORT_HU, ""},  /* fuzzy */
@@ -3169,7 +3169,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1,    N_("Userport joystick adapter port 1")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_DA, ""},  /* fuzzy */
-/* de */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_DE, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_DE, "Userport Joystick Adapter Port 1"},
 /* es */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_USERPORT_JOY_ADAPTER_PORT_1_HU, ""},  /* fuzzy */
@@ -3186,7 +3186,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2,    N_("Userport joystick adapter port 2")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_DA, ""},  /* fuzzy */
-/* de */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_DE, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_DE, "Userport Joystick Adapter Port 2"},
 /* es */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_USERPORT_JOY_ADAPTER_PORT_2_HU, ""},  /* fuzzy */
@@ -3203,7 +3203,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_SELECTED_PORT_NOT_PRESENT,    N_("Selected port (%d) is not present on this emulator")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_PORT_NOT_PRESENT_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SELECTED_PORT_NOT_PRESENT_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SELECTED_PORT_NOT_PRESENT_DE, "Ausgewähltes Port (%d) ist in diesem Emulator nicht verfügbar"},
 /* es */ {IDGS_SELECTED_PORT_NOT_PRESENT_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_SELECTED_PORT_NOT_PRESENT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SELECTED_PORT_NOT_PRESENT_HU, ""},  /* fuzzy */
@@ -3220,7 +3220,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG,    N_("Selected control port device %d is not registered")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_DE, "Ausgewähltes Port Gerät %d ist nicht registriert"},
 /* es */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SELECTED_JOYPORT_DEV_NOT_REG_HU, ""},  /* fuzzy */
@@ -3237,7 +3237,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED,    N_("Selected control port device %s on %s is already attached to %s")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_DE, "Ausgewähltes Control Port Gerät %s auf Port %s ist schon in Port %s in Verwendung"},
 /* es */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED_HU, ""},  /* fuzzy */
@@ -3254,7 +3254,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES,    N_("Selected control port device %s on %s uses same host input resource (%s) as the device attached to %s")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_DE, "Ausgewähltes Control Port Gerät %s auf Port %s benutzt die gleiche Host\nInput Resource (%s) wie das auf Port %s benutzte Gerät"},
 /* es */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SELECTED_JOYPORT_SAME_INPUT_RES_HU, ""},  /* fuzzy */
@@ -3271,7 +3271,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT,    N_("Selected control port device %s cannot be attached to %s")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_DE, "Ausgewähltes Control Port Gerät %s kann nicht auf Port %s verwendet werden"},
 /* es */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SELECTED_DEVICE_NOT_THIS_PORT_HU, ""},  /* fuzzy */
@@ -3533,7 +3533,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SAMPLER_4BIT_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SAMPLER_4BIT_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SAMPLER_4BIT_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SAMPLER_4BIT_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SAMPLER_4BIT_NL, "Sampler (4bit)"},
 /* pl */ {IDGS_SAMPLER_4BIT_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SAMPLER_4BIT_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SAMPLER_4BIT_SV, ""},  /* fuzzy */
@@ -3646,7 +3646,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_SET_JOYPORT_S_DEVICE,    N_("Set %s device (0: None")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SET_JOYPORT_S_DEVICE_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SET_JOYPORT_S_DEVICE_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SET_JOYPORT_S_DEVICE_DE, "Gerät %s wählen (0: Kein"},
 /* es */ {IDGS_SET_JOYPORT_S_DEVICE_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_SET_JOYPORT_S_DEVICE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SET_JOYPORT_S_DEVICE_HU, ""},  /* fuzzy */
@@ -3669,7 +3669,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SAMPLER_USED_BY_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SAMPLER_USED_BY_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SAMPLER_USED_BY_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SAMPLER_USED_BY_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SAMPLER_USED_BY_NL, "Sampler systeem wordt al gebruikt door %s."},
 /* pl */ {IDGS_SAMPLER_USED_BY_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SAMPLER_USED_BY_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SAMPLER_USED_BY_SV, ""},  /* fuzzy */
@@ -3679,86 +3679,86 @@ translate_t string_table[] = {
 /* userport/userport_joystick.c */
 /* en */ {IDGS_CGA_JOY_ADAPTER,    N_("CGA userport joy adapter")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_CGA_JOY_ADAPTER_DA, ""},  /* fuzzy */
-/* de */ {IDGS_CGA_JOY_ADAPTER_DE, ""},  /* fuzzy */
-/* es */ {IDGS_CGA_JOY_ADAPTER_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_CGA_JOY_ADAPTER_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_CGA_JOY_ADAPTER_HU, ""},  /* fuzzy */
-/* it */ {IDGS_CGA_JOY_ADAPTER_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_CGA_JOY_ADAPTER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CGA_JOY_ADAPTER_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_CGA_JOY_ADAPTER_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_CGA_JOY_ADAPTER_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_CGA_JOY_ADAPTER_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_CGA_JOY_ADAPTER_TR, ""},  /* fuzzy */
+/* da */ {IDGS_CGA_JOY_ADAPTER_DA, "CGA brugerportjoystickadapter"},
+/* de */ {IDGS_CGA_JOY_ADAPTER_DE, "CGA Userport Joystick Adapter"},
+/* es */ {IDGS_CGA_JOY_ADAPTER_ES, "Adaptador de puerto de juegos CGA"},
+/* fr */ {IDGS_CGA_JOY_ADAPTER_FR, "Adaptateur joystick port utilisateur CGA"},
+/* hu */ {IDGS_CGA_JOY_ADAPTER_HU, "CGA userport botkormány adapter"},
+/* it */ {IDGS_CGA_JOY_ADAPTER_IT, "Adattatore joystick CGA su userport"},
+/* ko */ {IDGS_CGA_JOY_ADAPTER_KO, "CGA À¯Á®Æ÷Æ® Á¶ÀÌ ¾Æ´äÅÍ"},
+/* nl */ {IDGS_CGA_JOY_ADAPTER_NL, "CGA userport joy adapter"},
+/* pl */ {IDGS_CGA_JOY_ADAPTER_PL, "Z³±cze CGA userportu joysticka"},
+/* ru */ {IDGS_CGA_JOY_ADAPTER_RU, "CGA userport joy adapter"},
+/* sv */ {IDGS_CGA_JOY_ADAPTER_SV, "CGA-användarportsspakadapter"},
+/* tr */ {IDGS_CGA_JOY_ADAPTER_TR, "CGA userport joy dönüþtürücü"},
 #endif
 
 /* userport/userport_joystick.c */
 /* en */ {IDGS_PET_JOY_ADAPTER,    N_("PET userport joy adapter")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_PET_JOY_ADAPTER_DA, ""},  /* fuzzy */
-/* de */ {IDGS_PET_JOY_ADAPTER_DE, ""},  /* fuzzy */
-/* es */ {IDGS_PET_JOY_ADAPTER_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_PET_JOY_ADAPTER_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_PET_JOY_ADAPTER_HU, ""},  /* fuzzy */
-/* it */ {IDGS_PET_JOY_ADAPTER_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_PET_JOY_ADAPTER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_PET_JOY_ADAPTER_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_PET_JOY_ADAPTER_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_PET_JOY_ADAPTER_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_PET_JOY_ADAPTER_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_PET_JOY_ADAPTER_TR, ""},  /* fuzzy */
+/* da */ {IDGS_PET_JOY_ADAPTER_DA, "PET brugerportjoystickadapter"},
+/* de */ {IDGS_PET_JOY_ADAPTER_DE, "PET Userport Joystick Adapter"},
+/* es */ {IDGS_PET_JOY_ADAPTER_ES, "Adaptador de puerto de juegos PET"},
+/* fr */ {IDGS_PET_JOY_ADAPTER_FR, "Adaptateur joystick port utilisateur PET"},
+/* hu */ {IDGS_PET_JOY_ADAPTER_HU, "PET userport botkormány adapter"},
+/* it */ {IDGS_PET_JOY_ADAPTER_IT, "Adattatore joystick PET su userport"},
+/* ko */ {IDGS_PET_JOY_ADAPTER_KO, "PET À¯Á®Æ÷Æ® Á¶ÀÌ ¾Æ´äÅÍ"},
+/* nl */ {IDGS_PET_JOY_ADAPTER_NL, "PET userport joy adapter"},
+/* pl */ {IDGS_PET_JOY_ADAPTER_PL, "Z³±cze PET userportu joysticka"},
+/* ru */ {IDGS_PET_JOY_ADAPTER_RU, "PET userport joy adapter"},
+/* sv */ {IDGS_PET_JOY_ADAPTER_SV, "PET-användarportsspakadapter"},
+/* tr */ {IDGS_PET_JOY_ADAPTER_TR, "PET userport joy dönüþtürücü"},
 #endif
 
 /* userport/userport_joystick.c */
 /* en */ {IDGS_HUMMER_JOY_ADAPTER,    N_("Hummer userport joy adapter")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_HUMMER_JOY_ADAPTER_DA, ""},  /* fuzzy */
-/* de */ {IDGS_HUMMER_JOY_ADAPTER_DE, ""},  /* fuzzy */
-/* es */ {IDGS_HUMMER_JOY_ADAPTER_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_HUMMER_JOY_ADAPTER_FR, ""},  /* fuzzy */
+/* da */ {IDGS_HUMMER_JOY_ADAPTER_DA, "Hummer brugerport joystick adapter"},
+/* de */ {IDGS_HUMMER_JOY_ADAPTER_DE, "Hummer Userport Joystick Adapter"},
+/* es */ {IDGS_HUMMER_JOY_ADAPTER_ES, "Adaptador de puerto de juegos Hummer"},
+/* fr */ {IDGS_HUMMER_JOY_ADAPTER_FR, "Adaptateur joystick port utilisateur Hummer"},
 /* hu */ {IDGS_HUMMER_JOY_ADAPTER_HU, ""},  /* fuzzy */
-/* it */ {IDGS_HUMMER_JOY_ADAPTER_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_HUMMER_JOY_ADAPTER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_HUMMER_JOY_ADAPTER_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_HUMMER_JOY_ADAPTER_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_HUMMER_JOY_ADAPTER_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_HUMMER_JOY_ADAPTER_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_HUMMER_JOY_ADAPTER_TR, ""},  /* fuzzy */
+/* it */ {IDGS_HUMMER_JOY_ADAPTER_IT, "Adattatore joystick HUMMER su userport"},
+/* ko */ {IDGS_HUMMER_JOY_ADAPTER_KO, "Hummer À¯Á®Æ÷Æ® Á¶ÀÌ ¾Æ´äÅÍ"},
+/* nl */ {IDGS_HUMMER_JOY_ADAPTER_NL, "Hummer userport joystick adapter"},
+/* pl */ {IDGS_HUMMER_JOY_ADAPTER_PL, "Z³±cze Hummer userportu joysticka"},
+/* ru */ {IDGS_HUMMER_JOY_ADAPTER_RU, "Hummer userport joy adapter"},
+/* sv */ {IDGS_HUMMER_JOY_ADAPTER_SV, "Hummer-användarportsspakadapter"},
+/* tr */ {IDGS_HUMMER_JOY_ADAPTER_TR, "Hummer userport joy dönüþtürücü"},
 #endif
 
 /* userport/userport_joystick.c */
 /* en */ {IDGS_OEM_JOY_ADAPTER,    N_("OEM userport joy adapter")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_OEM_JOY_ADAPTER_DA, ""},  /* fuzzy */
-/* de */ {IDGS_OEM_JOY_ADAPTER_DE, ""},  /* fuzzy */
-/* es */ {IDGS_OEM_JOY_ADAPTER_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_OEM_JOY_ADAPTER_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_OEM_JOY_ADAPTER_HU, ""},  /* fuzzy */
-/* it */ {IDGS_OEM_JOY_ADAPTER_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_OEM_JOY_ADAPTER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_OEM_JOY_ADAPTER_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_OEM_JOY_ADAPTER_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_OEM_JOY_ADAPTER_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_OEM_JOY_ADAPTER_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_OEM_JOY_ADAPTER_TR, ""},  /* fuzzy */
+/* da */ {IDGS_OEM_JOY_ADAPTER_DA, "OEM brugerportjoystickadapter"},
+/* de */ {IDGS_OEM_JOY_ADAPTER_DE, "OEM Userport Joystick Adapter"},
+/* es */ {IDGS_OEM_JOY_ADAPTER_ES, "Adaptador de puerto de juegos OEM"},
+/* fr */ {IDGS_OEM_JOY_ADAPTER_FR, "Adaptateur joystick port utilisateur OEM"},
+/* hu */ {IDGS_OEM_JOY_ADAPTER_HU, "OEM userport botkormány adapter"},
+/* it */ {IDGS_OEM_JOY_ADAPTER_IT, "Adattatore joystick OEM su userport"},
+/* ko */ {IDGS_OEM_JOY_ADAPTER_KO, "OEM À¯Á®Æ÷Æ® Á¶ÀÌ ¾Æ´äÅÍ"},
+/* nl */ {IDGS_OEM_JOY_ADAPTER_NL, "OEM userport joy adapter"},
+/* pl */ {IDGS_OEM_JOY_ADAPTER_PL, "Z³±cze OEM userportu joysticka"},
+/* ru */ {IDGS_OEM_JOY_ADAPTER_RU, "OEM userport joy adapter"},
+/* sv */ {IDGS_OEM_JOY_ADAPTER_SV, "OEM-användarportsspakadapter"},
+/* tr */ {IDGS_OEM_JOY_ADAPTER_TR, "OEM userport joy dönüþtürücü"},
 #endif
 
 /* userport/userport_joystick.c */
 /* en */ {IDGS_HIT_JOY_ADAPTER,    N_("HIT userport joy adapter")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_HIT_JOY_ADAPTER_DA, ""},  /* fuzzy */
-/* de */ {IDGS_HIT_JOY_ADAPTER_DE, ""},  /* fuzzy */
-/* es */ {IDGS_HIT_JOY_ADAPTER_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_HIT_JOY_ADAPTER_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_HIT_JOY_ADAPTER_HU, ""},  /* fuzzy */
-/* it */ {IDGS_HIT_JOY_ADAPTER_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_HIT_JOY_ADAPTER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_HIT_JOY_ADAPTER_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_HIT_JOY_ADAPTER_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_HIT_JOY_ADAPTER_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_HIT_JOY_ADAPTER_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_HIT_JOY_ADAPTER_TR, ""},  /* fuzzy */
+/* da */ {IDGS_HIT_JOY_ADAPTER_DA, "HIT brugerportjoystickadapter"},
+/* de */ {IDGS_HIT_JOY_ADAPTER_DE, "HIT Userport Joystick Adapter"},
+/* es */ {IDGS_HIT_JOY_ADAPTER_ES, "Adaptador de puerto de juegos HIT"},
+/* fr */ {IDGS_HIT_JOY_ADAPTER_FR, "Adaptateur joystick port utilisateur HIT"},
+/* hu */ {IDGS_HIT_JOY_ADAPTER_HU, "HIT userport botkormány adapter"},
+/* it */ {IDGS_HIT_JOY_ADAPTER_IT, "Adattatore joystick HIT su userport"},
+/* ko */ {IDGS_HIT_JOY_ADAPTER_KO, "HIT À¯Á®Æ÷Æ® Á¶ÀÌ ¾Æ´äÅÍ"},
+/* nl */ {IDGS_HIT_JOY_ADAPTER_NL, "HIT userport joy adapter"},
+/* pl */ {IDGS_HIT_JOY_ADAPTER_PL, "Z³±cze HIT userportu joysticka"},
+/* ru */ {IDGS_HIT_JOY_ADAPTER_RU, "HIT userport joy adapter"},
+/* sv */ {IDGS_HIT_JOY_ADAPTER_SV, "HIT-användarportsspakadapter"},
+/* tr */ {IDGS_HIT_JOY_ADAPTER_TR, "HIT userport joy dönüþtürücü"},
 #endif
 
 /* userport/userport_joystick.c */
@@ -3771,7 +3771,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_KINGSOFT_JOY_ADAPTER_HU, ""},  /* fuzzy */
 /* it */ {IDGS_KINGSOFT_JOY_ADAPTER_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_KINGSOFT_JOY_ADAPTER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_KINGSOFT_JOY_ADAPTER_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_KINGSOFT_JOY_ADAPTER_NL, "Kingsoft userport joy adapter"},
 /* pl */ {IDGS_KINGSOFT_JOY_ADAPTER_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_KINGSOFT_JOY_ADAPTER_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_KINGSOFT_JOY_ADAPTER_SV, ""},  /* fuzzy */
@@ -3788,7 +3788,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_STARBYTE_JOY_ADAPTER_HU, ""},  /* fuzzy */
 /* it */ {IDGS_STARBYTE_JOY_ADAPTER_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_STARBYTE_JOY_ADAPTER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_STARBYTE_JOY_ADAPTER_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_STARBYTE_JOY_ADAPTER_NL, "Starbyte userport joy adapter"},
 /* pl */ {IDGS_STARBYTE_JOY_ADAPTER_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_STARBYTE_JOY_ADAPTER_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_STARBYTE_JOY_ADAPTER_SV, ""},  /* fuzzy */
@@ -3805,7 +3805,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_USERPORT_RTC58321A_HU, ""},  /* fuzzy */
 /* it */ {IDGS_USERPORT_RTC58321A_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_USERPORT_RTC58321A_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_USERPORT_RTC58321A_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_RTC58321A_NL, "Userport RTC (RTC58321A)"},
 /* pl */ {IDGS_USERPORT_RTC58321A_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_USERPORT_RTC58321A_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_USERPORT_RTC58321A_SV, ""},  /* fuzzy */
@@ -3815,18 +3815,18 @@ translate_t string_table[] = {
 /* userport/userport_dac.c */
 /* en */ {IDGS_USERPORT_DAC,    N_("Userport DAC")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_USERPORT_DAC_DA, ""},  /* fuzzy */
-/* de */ {IDGS_USERPORT_DAC_DE, ""},  /* fuzzy */
-/* es */ {IDGS_USERPORT_DAC_ES, ""},  /* fuzzy */
-/* fr */ {IDGS_USERPORT_DAC_FR, ""},  /* fuzzy */
+/* da */ {IDGS_USERPORT_DAC_DA, "Brugerport DAC"},
+/* de */ {IDGS_USERPORT_DAC_DE, "Userport DAC"},
+/* es */ {IDGS_USERPORT_DAC_ES, "Puerto de usuario DAC"},
+/* fr */ {IDGS_USERPORT_DAC_FR, "DAC port utilisateur"},
 /* hu */ {IDGS_USERPORT_DAC_HU, ""},  /* fuzzy */
-/* it */ {IDGS_USERPORT_DAC_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_USERPORT_DAC_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_USERPORT_DAC_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_USERPORT_DAC_PL, ""},  /* fuzzy */
+/* it */ {IDGS_USERPORT_DAC_IT, "DAC su userport "},
+/* ko */ {IDGS_USERPORT_DAC_KO, "À¯Á®Æ÷Æ® DAC"},
+/* nl */ {IDGS_USERPORT_DAC_NL, "Userport DAC"},
+/* pl */ {IDGS_USERPORT_DAC_PL, "Userport DAC"},
 /* ru */ {IDGS_USERPORT_DAC_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_USERPORT_DAC_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_USERPORT_DAC_TR, ""},  /* fuzzy */
+/* sv */ {IDGS_USERPORT_DAC_SV, "Användarport-D/A-omvandlare"},
+/* tr */ {IDGS_USERPORT_DAC_TR, "Userport DAC"},
 #endif
 
 /* userport/userport_digimax.c */
@@ -3839,7 +3839,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_USERPORT_DIGIMAX_HU, ""},  /* fuzzy */
 /* it */ {IDGS_USERPORT_DIGIMAX_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_USERPORT_DIGIMAX_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_USERPORT_DIGIMAX_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_DIGIMAX_NL, "Userport DigiMAX"},
 /* pl */ {IDGS_USERPORT_DIGIMAX_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_USERPORT_DIGIMAX_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_USERPORT_DIGIMAX_SV, ""},  /* fuzzy */
@@ -3856,7 +3856,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_USERPORT_4BIT_SAMPLER_HU, ""},  /* fuzzy */
 /* it */ {IDGS_USERPORT_4BIT_SAMPLER_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_USERPORT_4BIT_SAMPLER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_USERPORT_4BIT_SAMPLER_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_4BIT_SAMPLER_NL, "Userport 4bit sampler"},
 /* pl */ {IDGS_USERPORT_4BIT_SAMPLER_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_USERPORT_4BIT_SAMPLER_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_USERPORT_4BIT_SAMPLER_SV, ""},  /* fuzzy */
@@ -3873,7 +3873,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_USERPORT_8BSS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_USERPORT_8BSS_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_USERPORT_8BSS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_USERPORT_8BSS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_8BSS_NL, "Userport 8bit stereo sampler"},
 /* pl */ {IDGS_USERPORT_8BSS_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_USERPORT_8BSS_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_USERPORT_8BSS_SV, ""},  /* fuzzy */
@@ -4198,7 +4198,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_EXIT_SCREENSHOT_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_EXIT_SCREENSHOT_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_EXIT_SCREENSHOT_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_EXIT_SCREENSHOT_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_EXIT_SCREENSHOT_NL, "Geef de naam van het scherm afdruk at wordt opgeslagen wanneer de emulator wordt afgesloten."},
 /* pl */ {IDCLS_SET_EXIT_SCREENSHOT_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_EXIT_SCREENSHOT_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_EXIT_SCREENSHOT_SV, ""},  /* fuzzy */
@@ -5600,7 +5600,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_NL, "Selecteer de manier waarmee userport conflicten worden afgehandeld, (0: fout melding en ontkoppel alle betroffene apparaten, 1: fout melding en ontkoppel alle apparaten behalve het eerste apparaat, 2: waarschuwing in het log bestand en doe een logische 'AND' met de terug gegeven waarden"},
 /* pl */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_SV, ""},  /* fuzzy */
@@ -6197,7 +6197,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_NL, "Activeer Userport 4bit sampler"},
 /* pl */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_SV, ""},  /* fuzzy */
@@ -6214,7 +6214,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_NL, "De Userport 4bit sampler uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_SV, ""},  /* fuzzy */
@@ -6231,7 +6231,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_USERPORT_8BSS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_8BSS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_8BSS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_8BSS_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_8BSS_NL, "Activeer Userport 8bit stereo sampler"},
 /* pl */ {IDCLS_ENABLE_USERPORT_8BSS_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_USERPORT_8BSS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_8BSS_SV, ""},  /* fuzzy */
@@ -6248,7 +6248,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_USERPORT_8BSS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_8BSS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_8BSS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_8BSS_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_8BSS_NL, "De Userport 8bit stereo sampler uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_8BSS_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_USERPORT_8BSS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_8BSS_SV, ""},  /* fuzzy */
@@ -6435,7 +6435,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_DEBUGCART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DEBUGCART_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_DEBUGCART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DEBUGCART_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DEBUGCART_NL, "Activeer de Debug cartridge"},
 /* pl */ {IDCLS_ENABLE_DEBUGCART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_DEBUGCART_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DEBUGCART_SV, ""},  /* fuzzy */
@@ -6452,7 +6452,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_DEBUGCART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DEBUGCART_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_DEBUGCART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DEBUGCART_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DEBUGCART_NL, "De Debug cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DEBUGCART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_DEBUGCART_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DEBUGCART_SV, ""},  /* fuzzy */
@@ -7228,7 +7228,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_SS_RAM_EXPANSION,    N_("Enable SS 32k RAM expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SS_RAM_EXPANSION_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_SS_RAM_EXPANSION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SS_RAM_EXPANSION_DE, "SS 32k RAM Erweiterung aktivieren"},
 /* es */ {IDCLS_ENABLE_SS_RAM_EXPANSION_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_SS_RAM_EXPANSION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SS_RAM_EXPANSION_HU, ""},  /* fuzzy */
@@ -7245,7 +7245,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_SS_RAM_EXPANSION,    N_("Disable SS 32k RAM expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SS_RAM_EXPANSION_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_SS_RAM_EXPANSION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SS_RAM_EXPANSION_DE, "SS 32k RAM Erweiterung deaktivieren"},
 /* es */ {IDCLS_DISABLE_SS_RAM_EXPANSION_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_SS_RAM_EXPANSION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SS_RAM_EXPANSION_HU, ""},  /* fuzzy */
@@ -13406,7 +13406,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME,    N_("Specify UltiMem extension ROM name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_DE, "UltiMem Erweiterungs ROM definieren"},
 /* es */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_HU, ""},  /* fuzzy */
@@ -13542,7 +13542,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE,    N_("Enable UltiMem write back to ROM file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_DE, "UltiMem ROM Schreibzugriff aktivieren"},
 /* es */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_VIC_UM_ROM_WRITE_HU, ""},  /* fuzzy */
@@ -13559,7 +13559,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE,    N_("Disable UltiMem write back to ROM file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_DE, "UltiMem ROM Schreibzugriff deaktivieren"},
 /* es */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_VIC_UM_ROM_WRITE_HU, ""},  /* fuzzy */
@@ -13576,7 +13576,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_IO2_RAM,    N_("Enable I/O-2 RAM")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IO2_RAM_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_IO2_RAM_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IO2_RAM_DE, "I/O-2 RAM aktivieren"},
 /* es */ {IDCLS_ENABLE_IO2_RAM_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_IO2_RAM_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_IO2_RAM_HU, ""},  /* fuzzy */
@@ -13593,7 +13593,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_IO2_RAM,    N_("Disable I/O-2 RAM")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_IO2_RAM_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_IO2_RAM_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IO2_RAM_DE, "I/O-2 RAM deaktivieren"},
 /* es */ {IDCLS_DISABLE_IO2_RAM_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_IO2_RAM_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_IO2_RAM_HU, ""},  /* fuzzy */
@@ -13610,7 +13610,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_IO3_RAM,    N_("Enable I/O-3 RAM")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IO3_RAM_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_IO3_RAM_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IO3_RAM_DE, "I/O-3 RAM aktivieren"},
 /* es */ {IDCLS_ENABLE_IO3_RAM_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_IO3_RAM_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_IO3_RAM_HU, ""},  /* fuzzy */
@@ -13627,7 +13627,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_IO3_RAM,    N_("Disable I/O-3 RAM")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_IO3_RAM_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_IO3_RAM_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IO3_RAM_DE, "I/O-3 RAM deaktivieren"},
 /* es */ {IDCLS_DISABLE_IO3_RAM_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_IO3_RAM_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_IO3_RAM_HU, ""},  /* fuzzy */
@@ -15714,7 +15714,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_P_GAIN_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_GAIN_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_P_GAIN_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_GAIN_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_GAIN_NL, "<Sampler volume>"},
 /* pl */ {IDCLS_P_GAIN_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_GAIN_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_GAIN_SV, ""},  /* fuzzy */
@@ -15731,7 +15731,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_NL, "Geef sampler versterking in procent (1% - 200%)"},
 /* pl */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_SV, ""},  /* fuzzy */
@@ -16764,7 +16764,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_CPM_CART,    N_("Enable the CP/M cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_CPM_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_CPM_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_CPM_CART_DE, "CP/M Modul aktivieren"},
 /* es */ {IDCLS_ENABLE_CPM_CART_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_CPM_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_CPM_CART_HU, ""},  /* fuzzy */
@@ -16781,7 +16781,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_CPM_CART,    N_("Disable the CP/M cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_CPM_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_CPM_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_CPM_CART_DE, "CP/M Modul deaktivieren"},
 /* es */ {IDCLS_DISABLE_CPM_CART_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_CPM_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_CPM_CART_HU, ""},  /* fuzzy */
@@ -16798,7 +16798,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TURBOMASTER,    N_("Enable the TurboMaster cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TURBOMASTER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TURBOMASTER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TURBOMASTER_DE, "TurboMaster Modul aktivieren"},
 /* es */ {IDCLS_ENABLE_TURBOMASTER_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TURBOMASTER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TURBOMASTER_HU, ""},  /* fuzzy */
@@ -16815,7 +16815,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TURBOMASTER,    N_("Disable the TurboMaster cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TURBOMASTER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TURBOMASTER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TURBOMASTER_DE, "TurboMaster Modul deaktivieren"},
 /* es */ {IDCLS_DISABLE_TURBOMASTER_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_TURBOMASTER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TURBOMASTER_HU, ""},  /* fuzzy */
@@ -16832,7 +16832,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TURBOMASTER_SWITCH_ROM_1,    N_("Set TurboMaster ROM switch to ROM 1")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_DE, "TurboMaster ROM Schalter auf ROM 1 setzen"},
 /* es */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_TURBOMASTER_SWITCH_ROM_1_HU, ""},  /* fuzzy */
@@ -16849,7 +16849,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TURBOMASTER_SWITCH_ROM_2,    N_("Set TurboMaster ROM switch to ROM 2")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_DE, "TurboMaster ROM Schalter auf ROM 2 setzen"},
 /* es */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_TURBOMASTER_SWITCH_ROM_2_HU, ""},  /* fuzzy */
@@ -16866,7 +16866,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT,    N_("Set TurboMaster speed control switch to software")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_DE, "TurboMaster Geschwindigkeits Kontrollschalter auf Software setzen"},
 /* es */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT_HU, ""},  /* fuzzy */
@@ -16883,7 +16883,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL,    N_("Set TurboMaster speed control switch to manual")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_DE, "TurboMaster Geschwindigkeits Kontrollschalter auf Manuell setzen"},
 /* es */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL_HU, ""},  /* fuzzy */
@@ -16900,7 +16900,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ,    N_("Set TurboMaster clock speed switch to 4 Mhz")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_DE, "TurboMaster Taktgeschwindigkeitsschalter auf 4Mhz setzen"},
 /* es */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_TURBOMASTER_SWITCH_4_MHZ_HU, ""},  /* fuzzy */
@@ -16917,7 +16917,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ,    N_("Set TurboMaster clock speed switch to 1 Mhz")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_DE, "TurboMaster Taktgeschwindigkeitsschalter auf 1Mhz setzen"},
 /* es */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_TURBOMASTER_SWITCH_1_MHZ_HU, ""},  /* fuzzy */
@@ -16934,7 +16934,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME,    N_("Specify TurboMaster ROM 1 filename")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_DE, "TurboMaster ROM 1 definieren"},
 /* es */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_HU, ""},  /* fuzzy */
@@ -16951,7 +16951,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME,    N_("Specify TurboMaster ROM 2 filename")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_DE, "TurboMaster ROM 2 definieren"},
 /* es */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_HU, ""},  /* fuzzy */
@@ -17076,7 +17076,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_USERPORT_DIGIMAX_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_DIGIMAX_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_DIGIMAX_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_DIGIMAX_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_DIGIMAX_NL, "Activeer het userport DigiMAX apparaat"},
 /* pl */ {IDCLS_ENABLE_USERPORT_DIGIMAX_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_USERPORT_DIGIMAX_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_DIGIMAX_SV, ""},  /* fuzzy */
@@ -17093,7 +17093,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_USERPORT_DIGIMAX_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_DIGIMAX_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_DIGIMAX_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_DIGIMAX_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_DIGIMAX_NL, "Het userport DigiMAX apparaat uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_DIGIMAX_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_USERPORT_DIGIMAX_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_DIGIMAX_SV, ""},  /* fuzzy */

@@ -160,11 +160,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_SAMPLER  "Select file for the media file input driver"
-  IDS_SAMPLER_CAPTION      "Sampler settings"
-  IDS_SAMPLER_DEVICE_LABEL "Sampler device"
-  IDS_SAMPLER_FILE_LABEL   "Sampler input file"
-  IDS_SAMPLER_GAIN         "Sampler gain (1..200)"
+  IDS_SELECT_FILE_SAMPLER  "Selecteer bestand voor media bestand invoer stuurprogramma"
+  IDS_SAMPLER_CAPTION      "Sampler instellingen"
+  IDS_SAMPLER_DEVICE_LABEL "Sampler apparaat"
+  IDS_SAMPLER_FILE_LABEL   "Sampler invoer bestand"
+  IDS_SAMPLER_GAIN         "Sampler volume (1..200)"
 END
 
 
@@ -236,3 +236,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+
