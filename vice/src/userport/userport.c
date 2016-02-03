@@ -35,6 +35,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "translate.h"
+#include "uiapi.h"
 #include "userport.h"
 #include "util.h"
 
@@ -177,7 +178,7 @@ static void userport_detach_devices(int collision, unsigned int highest_order)
     }
 
     lib_free(tmp1);
-    log_message(LOG_DEFAULT, tmp2);
+    ui_error(tmp2);
     lib_free(tmp2);
 }
 
