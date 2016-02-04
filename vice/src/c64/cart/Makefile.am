@@ -49,6 +49,7 @@ libc64cart_a_SOURCES = \
 	daa.c \
 	daa.h \
 	debugcart.c \
+	debugcart.h \
 	delaep256.c \
 	delaep256.h \
 	delaep64.c \
