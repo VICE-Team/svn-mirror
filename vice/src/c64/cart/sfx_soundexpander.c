@@ -46,6 +46,16 @@
 #include "uiapi.h"
 #include "translate.h"
 
+/*
+    Note: this cartridge has a passthrough port, which for some odd reason does
+          connect all lines 1:1 straight through, EXCEPT for these:
+
+          A1 goes to A0 at the passthrough port
+          R/!W goes to A1 at the passthrough port
+
+    see http://www.zimmers.net/anonftp/pub/cbm/schematics/cartridges/c64/sfx/sfx-sch.gif
+ */
+
 /* Flag: What type of ym chip is used?  */
 int sfx_soundexpander_chip = 3526;
 
