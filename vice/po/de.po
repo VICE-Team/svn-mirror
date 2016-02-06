@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-03 13:53-0800\n"
-"PO-Revision-Date: 2015-12-20 16:44+0100\n"
+"PO-Revision-Date: 2016-02-06 20:08+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -183,52 +183,34 @@ msgstr ""
 "Keysatz 2)"
 
 #: src/arch/unix/joy.c:166
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 3 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB "
 "joystick 1)"
-msgstr ""
-"Gerät für extra Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: "
-"Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, "
-"7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: "
-"Digital Joystick 0, 11: Digital Joystick 1, 12: USB Joystick 0, 13: USB "
-"Joystick 1)"
+msgstr "Gerät für extra Joystick Port 3 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: Digital Joystick 0, 11: Digital Joystick 1, 12: USB Joystick 0, 13: USB Joystick 1)"
 
 #: src/arch/unix/joy.c:169
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 3 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1)"
-msgstr ""
-"Gerät für extra Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: "
-"Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, "
-"7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: "
-"Digital Joystick 0, 11: Digital Joystick 1)"
+msgstr "Gerät für extra Joystick Port 3 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: Digital Joystick 0, 11: Digital Joystick 1)"
 
 #: src/arch/unix/joy.c:171
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 3 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr ""
-"Gerät für extra Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: "
-"Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, "
-"7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5)"
+msgstr "Gerät für extra Joystick Port 3 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5)"
 
 #: src/arch/unix/joy.c:175
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 3 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2)"
-msgstr ""
-"Gerät für extra Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: "
-"Keysatz 2)"
+msgstr "Gerät für extra Joystick Port 3 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2)"
 
 #: src/arch/unix/mididrv.c:672 src/arch/unix/mididrv.c:677
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
@@ -3100,15 +3082,13 @@ msgstr "Userport Joystick Adadptertype"
 
 #: src/arch/unix/gui/uijoystick2.c:462 src/arch/unix/gui/uijoystick2.c:531
 #: src/arch/unix/gui/uijoystick2.c:558 src/arch/unix/gui/uijoystick2.c:589
-#, fuzzy
 msgid "Userport joystick #1"
-msgstr "Userport Joystick Adapter"
+msgstr "Userport Joystick #1"
 
 #: src/arch/unix/gui/uijoystick2.c:464 src/arch/unix/gui/uijoystick2.c:533
 #: src/arch/unix/gui/uijoystick2.c:560 src/arch/unix/gui/uijoystick2.c:591
-#, fuzzy
 msgid "Userport joystick #2"
-msgstr "Userport Joystick Adapter"
+msgstr "Userport Joystick #2"
 
 #: src/arch/unix/gui/uijoystick2.c:466 src/arch/unix/gui/uijoystick2.c:535
 #: src/arch/unix/gui/uijoystick2.c:562 src/arch/unix/gui/uijoystick2.c:593
@@ -3117,18 +3097,16 @@ msgid "Swap userport joysticks"
 msgstr "Userport Joystick ports austauschen"
 
 #: src/arch/unix/gui/uijoystick2.c:491
-#, fuzzy
 msgid "Userport joystick"
-msgstr "Userport Joystick ports austauschen"
+msgstr "Userport Joystick"
 
 #: src/arch/unix/gui/uijoystick2.c:595 src/arch/amigaos/intl_text.c.po.c:7509
 msgid "SIDcart joystick"
 msgstr "SIDcart Joystick"
 
 #: src/arch/unix/gui/uijoystick2.c:597
-#, fuzzy
 msgid "Joystick in SIDcart control port"
-msgstr "Joystick in SIDcart Joystick Port"
+msgstr "Joystick in SIDcart Control Port"
 
 #: src/arch/unix/gui/uijoystick2.c:609 src/arch/unix/gui/uijoystick2.c:615
 #: src/arch/unix/gui/uijoystick2.c:621 src/arch/unix/gui/uijoystick2.c:627
@@ -4620,9 +4598,8 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:235
-#, fuzzy
 msgid "(c) 1998 - 2016 The VICE Team"
-msgstr "(c) 1998 - 2015 Das Vice Team"
+msgstr "(c) 1998 - 2016 Das Vice Team"
 
 #: src/arch/unix/x11/gnome/about.c:243 src/arch/win32/res.rc.po.c:1020
 #: src/arch/win32/res.rc.po.c:1538 src/arch/amigaos/intl_text.c.po.c:4527
@@ -5337,9 +5314,8 @@ msgid "Set device for extra joystick port 2"
 msgstr "Gerät für extra Joystick Port 2 definieren"
 
 #: src/arch/unix/macosx/joy.c:596
-#, fuzzy
 msgid "Set device for extra joystick port 3"
-msgstr "Gerät für extra Joystick Port 1 definieren"
+msgstr "Gerät für extra Joystick Port 3 definieren"
 
 #: src/arch/unix/macosx/mididrv.c:120
 msgid "Name of MIDI Client"
@@ -6064,13 +6040,10 @@ msgstr ""
 "Keysatz 2, 4: Joystick 1, 5: Joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1087
-#, fuzzy
 msgid ""
 "Set input device for extra joystick #3 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Joystick 1, 5: joystick 2)"
-msgstr ""
-"Eingabegerät für extra Joystick #1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: "
-"Keysatz 2, 4: Joystick 1, 5: Joystick 2)"
+msgstr "Eingabegerät für extra Joystick #3 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Joystick 1, 5: Joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1092
 msgid "Use all CPUs on SMP systems"
@@ -6922,9 +6895,8 @@ msgstr "Sidcart Joystick Einstellungen"
 #: src/arch/win32/res.rc.po.c:1482 src/arch/win32/ressampler.rc.po.c:40
 #: src/arch/amigaos/intl_text.c.po.c:3575
 #: src/arch/amigaos/intl_text.c.po.c:7145
-#, fuzzy
 msgid "Sampler settings"
-msgstr "Einstellungen speichern"
+msgstr "Sampler Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1490 src/arch/amigaos/intl_text.c.po.c:3701
 #: src/arch/amigaos/intl_text.c.po.c:8729
@@ -8140,24 +8112,20 @@ msgid "Userport baud rate"
 msgstr "Userport Baud Rate"
 
 #: src/arch/win32/ressampler.rc.po.c:39
-#, fuzzy
 msgid "Select file for the media file input driver"
-msgstr "Export Cartridge Imagedatei auswählen"
+msgstr "Mediendatei für Inputtreiber auswählen"
 
 #: src/arch/win32/ressampler.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:7117
-#, fuzzy
 msgid "Sampler device"
-msgstr "Sample Gerät auswählen"
+msgstr "Sampler Gerät"
 
 #: src/arch/win32/ressampler.rc.po.c:42
-#, fuzzy
 msgid "Sampler input file"
-msgstr "Fliplist Datei speichern"
+msgstr "Sample Input Datei"
 
 #: src/arch/win32/ressampler.rc.po.c:43 src/translate_text.c.po.c:15623
-#, fuzzy
 msgid "Sampler gain"
-msgstr "Sample Rate"
+msgstr "Sampler Gain"
 
 #: src/arch/win32/resscpu64.rc.po.c:573 src/arch/win32/resscpu64.rc.po.c:578
 #: src/arch/amigaos/intl_text.c.po.c:3435
@@ -9018,12 +8986,11 @@ msgstr "FD2000/4000 RTC Daten Speichung aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:7103
 msgid "Select file to be used as sampler input"
-msgstr ""
+msgstr "Datei für Sample Input auswählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:7131
-#, fuzzy
 msgid "Sampler input media file"
-msgstr "Media Image speichern"
+msgstr "Sample Input Mediendatei"
 
 #: src/arch/amigaos/intl_text.c.po.c:7159
 msgid "Expert Cartridge mode"
@@ -9152,13 +9119,10 @@ msgstr ""
 "Keysatz B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7916
-#, fuzzy
 msgid ""
 "Extra joystick #3 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Extra Joystick #3 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7930
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
@@ -9179,10 +9143,8 @@ msgstr ""
 "Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7986
-#, fuzzy
 msgid "Extra joystick #3 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"
+msgstr "Extra Joystick #3 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:8140
 msgid "Enable fullscreen."
@@ -10770,9 +10732,8 @@ msgid "Sampler (2bit)"
 msgstr "Sampler (2bit)"
 
 #: src/translate_text.c.po.c:3483
-#, fuzzy
 msgid "Sampler (4bit)"
-msgstr "Sampler (2bit)"
+msgstr "Sampler (4bit)"
 
 #: src/translate_text.c.po.c:3500
 msgid "Light Pen (up trigger)"
@@ -10806,37 +10767,31 @@ msgstr "Gerät %s wählen (0: Kein"
 #: src/translate_text.c.po.c:3619
 #, c-format
 msgid "Sampler system already in use by %s."
-msgstr ""
+msgstr "Sample System bereits von %s benutzt."
 
 #: src/translate_text.c.po.c:3721
-#, fuzzy
 msgid "KingSoft userport joy adapter"
-msgstr "Kingsoft Userport Joystick Adapter"
+msgstr "Kingsoft Userport Joy Adapter"
 
 #: src/translate_text.c.po.c:3738
-#, fuzzy
 msgid "StarByte userport joy adapter"
-msgstr "Starbyte Userport Joystick Adapter"
+msgstr "Starbyte Userport Joy Adapter"
 
 #: src/translate_text.c.po.c:3755
-#, fuzzy
 msgid "Userport RTC (RTC58321A)"
-msgstr "Userport RS232"
+msgstr "Userport RTC (RTC58321A)"
 
 #: src/translate_text.c.po.c:3789
-#, fuzzy
 msgid "Userport DigiMAX"
-msgstr "Userport DAC"
+msgstr "Userport DigiMAX"
 
 #: src/translate_text.c.po.c:3806
-#, fuzzy
 msgid "Userport 4bit sampler"
-msgstr "Userport Baud Rate"
+msgstr "Userport 4bit Sampler"
 
 #: src/translate_text.c.po.c:3823
-#, fuzzy
 msgid "Userport 8bit stereo sampler"
-msgstr "Userport Drucker Treiber"
+msgstr "Userport 8bit Stereo Sampler"
 
 #: src/translate_text.c.po.c:3842
 msgid "Enable opposite joystick directions"
@@ -10915,7 +10870,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:4148
 msgid "Set name of screenshot to save when emulator exits."
-msgstr ""
+msgstr "Name für Screenshot Datei beim Beenden."
 
 #: src/translate_text.c.po.c:4165
 msgid "Use PAL sync factor"
@@ -11227,15 +11182,14 @@ msgstr ""
 "UND-Verknüpfung gültiger Rückgabewerte"
 
 #: src/translate_text.c.po.c:5517
-#, fuzzy
 msgid ""
 "Select the way the Userport collisions should be handled, (0: error message "
 "and detach all involved devices, 1: error message and detach last attached "
 "involved device, 2: warning in log and 'AND' the valid return values"
 msgstr ""
-"Wähle, wie I/O Kollisionen behandelt werden sollen, (0: Fehler Meldung\n"
-"und Entfernen sämtlicher betroffener Module, 1: Fehler Meldung und\n"
-"Entfernen des letzten Moduls, 2: Warnung im Log und liefere logische\n"
+"Wähle, wie Userport Kollisionen behandelt werden sollen, (0: Fehler Meldung\n"
+"und Entfernen sämtlicher betroffener Geräte, 1: Fehler Meldung und\n"
+"Entfernen des letzten Geräts, 2: Warnung im Log und liefere logische\n"
 "UND-Verknüpfung gültiger Rückgabewerte"
 
 #: src/translate_text.c.po.c:5568
@@ -11358,24 +11312,20 @@ msgid "Disable saving of the Userport RTC data when changed."
 msgstr "Userport RTC Daten bei Änderung nicht speichern."
 
 #: src/translate_text.c.po.c:6112
-#, fuzzy
 msgid "Enable Userport 4bit sampler"
-msgstr "Userport Joystick Adapter aktivieren"
+msgstr "Userport 4bit Sampler aktivieren"
 
 #: src/translate_text.c.po.c:6129
-#, fuzzy
 msgid "Disable Userport 4bit sampler"
-msgstr "Userport Joystick Adapter deaktivieren"
+msgstr "Userport 4bit Sampler deaktivieren"
 
 #: src/translate_text.c.po.c:6146
-#, fuzzy
 msgid "Enable Userport 8bit stereo sampler"
-msgstr "Userport Joystick Adapter aktivieren"
+msgstr "Userport 8bit Sampler aktivieren"
 
 #: src/translate_text.c.po.c:6163
-#, fuzzy
 msgid "Disable Userport 8bit stereo sampler"
-msgstr "Userport Joystick Adapter deaktivieren"
+msgstr "Userport 8bit Sampler deaktivieren"
 
 #: src/translate_text.c.po.c:6180
 msgid "Override PSID settings for Video standard and SID model"
@@ -11414,14 +11364,12 @@ msgid "Size of the RAMCART expansion. (64/128)"
 msgstr "Größe der RAMCART Erweiterung. (64/128)"
 
 #: src/translate_text.c.po.c:6350
-#, fuzzy
 msgid "Enable Debug cartridge"
-msgstr "SID Modul aktivieren"
+msgstr "Debug Modul aktivieren"
 
 #: src/translate_text.c.po.c:6367
-#, fuzzy
 msgid "Disable Debug cartridge"
-msgstr "Standard Modul deaktivieren"
+msgstr "Debug Modul deaktivieren"
 
 #: src/translate_text.c.po.c:6401
 msgid "Disable Double Quick Brown Box"
@@ -13470,9 +13418,8 @@ msgid "Specify sampler device"
 msgstr "Sample Gerät auswählen"
 
 #: src/translate_text.c.po.c:15640
-#, fuzzy
 msgid "Specify sampler gain in percent (1%-200%)"
-msgstr "reSID Gain in Prozent (90 - 100)"
+msgstr "Sampler Gain in Prozent (1% - 200%)"
 
 #: src/translate_text.c.po.c:15657
 msgid "args"
@@ -13750,14 +13697,12 @@ msgid "Enable EasyFlash .crt image optimize on write"
 msgstr "EasyFlash .crt Image beim Speichern optimieren"
 
 #: src/translate_text.c.po.c:16985
-#, fuzzy
 msgid "Enable the userport DigiMAX device"
-msgstr "DigiMAX Cartridge aktivieren"
+msgstr "Userport DigiMAX Gerät aktivieren"
 
 #: src/translate_text.c.po.c:17002
-#, fuzzy
 msgid "Disable the userport DigiMAX device"
-msgstr "DigiMAX Cartridge deaktivieren"
+msgstr "Userport DigiMAX Gerät deaktivieren"
 
 #: src/translate_text.c.po.c:17036
 msgid "Disable the DigiMAX cartridge"
