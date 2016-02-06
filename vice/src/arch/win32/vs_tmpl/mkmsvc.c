@@ -2361,7 +2361,7 @@ static char *msvc8_includes_cc = "\t\t\t\tAdditionalIncludeDirectories=\"..\\msv
 
 static char *msvc8_includes_cc_sdl = "\t\t\t\tAdditionalIncludeDirectories=\".\\,..\\\"\r\n";
 
-static char *msvc8_includes_cc_mixed = "\t\t\t\tAdditionalIncludeDirectories=\"..\\msvc,..\\,..\\..\\..\\,..\\..\\..\\resid\"\r\n";
+static char *msvc8_includes_cc_mixed = "\t\t\t\tAdditionalIncludeDirectories=\"..\\msvc,..\\,..\\..\\..\\,..\\..\\..\\joyport,..\\..\\..\\resid\"\r\n";
 
 static char *msvc8_includes_cc_mixed_sdl = "\t\t\t\tAdditionalIncludeDirectories=\".\\,..\\,..\\..\\..\\,..\\..\\..\\resid\"\r\n";
 
