@@ -799,9 +799,9 @@ static char *msvc10_aid_cc = "      <AdditionalIncludeDirectories>..\\msvc;%%(Ad
 
 static char *msvc10_aid_cc_sdl = "      <AdditionalIncludeDirectories>.\\;..\\;%%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>\r\n";
 
-static char *msvc10_aid_sid = "      <AdditionalIncludeDirectories>..\\msvc;..\\;..\\..\\..\\;..\\..\\..\\resid;%%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>\r\n";
+static char *msvc10_aid_sid = "      <AdditionalIncludeDirectories>..\\msvc;..\\;..\\..\\..\\;..\\..\\..\\joyport;..\\..\\..\\resid;%%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>\r\n";
 
-static char *msvc10_aid_sid_sdl = "      <AdditionalIncludeDirectories>.\\;..\\;..\\..\\..\\;..\\..\\..\\resid;%%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>\r\n";
+static char *msvc10_aid_sid_sdl = "      <AdditionalIncludeDirectories>.\\;..\\;..\\..\\..\\;..\\..\\..\\joyport;..\\..\\..\\resid;%%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>\r\n";
 
 static char *msvc10_aid_end = "%%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>\r\n";
 
@@ -1641,9 +1641,9 @@ static char *msvc9_aid_cc = "\t\t\t\tAdditionalIncludeDirectories=\"..\\msvc\"\r
 
 static char *msvc9_aid_cc_sdl = "\t\t\t\tAdditionalIncludeDirectories=\".\\,..\\\"\r\n";
 
-static char *msvc9_aid_sid = "\t\t\t\tAdditionalIncludeDirectories=\"..\\msvc,..\\,..\\..\\..\\,..\\..\\..\\resid\"\r\n";
+static char *msvc9_aid_sid = "\t\t\t\tAdditionalIncludeDirectories=\"..\\msvc,..\\,..\\..\\..\\,..\\..\\..\\joyport,..\\..\\..\\resid\"\r\n";
 
-static char *msvc9_aid_sid_sdl = "\t\t\t\tAdditionalIncludeDirectories=\".\\,..\\,..\\..\\..\\,..\\..\\..\\resid\"\r\n";
+static char *msvc9_aid_sid_sdl = "\t\t\t\tAdditionalIncludeDirectories=\".\\,..\\,..\\..\\..\\,..\\..\\..\\joyport,..\\..\\..\\resid\"\r\n";
 
 static char *msvc9_predef = "\t\t\t\tPreprocessorDefinitions=\"WIN32,_WINDOWS,IDE_COMPILE,DONT_USE_UNISTD_H,";
 
@@ -2363,7 +2363,7 @@ static char *msvc8_includes_cc_sdl = "\t\t\t\tAdditionalIncludeDirectories=\".\\
 
 static char *msvc8_includes_cc_mixed = "\t\t\t\tAdditionalIncludeDirectories=\"..\\msvc,..\\,..\\..\\..\\,..\\..\\..\\joyport,..\\..\\..\\resid\"\r\n";
 
-static char *msvc8_includes_cc_mixed_sdl = "\t\t\t\tAdditionalIncludeDirectories=\".\\,..\\,..\\..\\..\\,..\\..\\..\\resid\"\r\n";
+static char *msvc8_includes_cc_mixed_sdl = "\t\t\t\tAdditionalIncludeDirectories=\".\\,..\\,..\\..\\..\\,..\\..\\..\\joyport,..\\..\\..\\resid\"\r\n";
 
 static char *msvc8_defs = "\t\t\t\tPreprocessorDefinitions=\"WIN32,_WINDOWS,IDE_COMPILE,DONT_USE_UNISTD_H,%s\"\r\n";
 
