@@ -995,7 +995,7 @@ static char *msvc10_main_end = "\tEndGlobalSection\r\n"
                                "\tEndGlobalSection\r\n"
                                "EndGlobal\r\n";
 
-static void generate_msvc10_11_12_sln(int msvc11, int msvc12, int sdl)
+static void generate_msvc10_11_12_14_sln(int msvc11, int msvc12, int sdl)
 {
     int i, j, k;
     int exc = 0;
@@ -1025,11 +1025,26 @@ static void generate_msvc10_11_12_sln(int msvc11, int msvc12, int sdl)
     fprintf(mainfile, msvc10_main_end);
 }
 
-static int open_msvc10_11_12_main_project(int msvc11, int msvc12, int sdl)
+static int open_msvc10_11_12_14_main_project(int msvc11, int msvc12, int msvc14, int sdl)
 {
     pi_init();
 
-    if (msvc12) {
+    if (msvc14) {
+        if (sdl) {
+            if (ffmpeg) {
+                mainfile = fopen("../../sdl/win32-msvc14-ffmpeg/vice.sln", "wb");
+            } else {
+                mainfile = fopen("../../sdl/win32-msvc14/vice.sln", "wb");
+            }
+        } else {
+            if (ffmpeg) {
+                mainfile = fopen("../vs14-ffmpeg/vice.sln", "wb");
+            } else {
+                mainfile = fopen("../vs14/vice.sln", "wb");
+
+			}
+        }
+    } else if (msvc12) {
         if (sdl) {
             if (ffmpeg) {
                 mainfile = fopen("../../sdl/win32-msvc12-ffmpeg/vice.sln", "wb");
@@ -1079,25 +1094,26 @@ static int open_msvc10_11_12_main_project(int msvc11, int msvc12, int sdl)
         return 1;
     }
 
-    if (msvc12) {
+    if (msvc14) {
+        fprintf(mainfile, "Microsoft Visual Studio Solution File, Format Version 14.00\r\n");
+        fprintf(mainfile, "# Visual Studio 2015\r\n");
+    } else if (msvc12) {
         fprintf(mainfile, "Microsoft Visual Studio Solution File, Format Version 12.00\r\n");
         fprintf(mainfile, "# Visual Studio 2013\r\n");
+    } else if (msvc11) {
+        fprintf(mainfile, "Microsoft Visual Studio Solution File, Format Version 12.00\r\n");
+        fprintf(mainfile, "# Visual Studio 2012\r\n");
     } else {
-        if (msvc11) {
-            fprintf(mainfile, "Microsoft Visual Studio Solution File, Format Version 12.00\r\n");
-            fprintf(mainfile, "# Visual Studio 2012\r\n");
-        } else {
-            fprintf(mainfile, "Microsoft Visual Studio Solution File, Format Version 11.00\r\n");
-            fprintf(mainfile, "# Visual Studio 2010\r\n");
-        }
+        fprintf(mainfile, "Microsoft Visual Studio Solution File, Format Version 11.00\r\n");
+        fprintf(mainfile, "# Visual Studio 2010\r\n");
     }
 
     return 0;
 }
 
-static void close_msvc10_11_12_main_project(int msvc11, int msvc12, int sdl)
+static void close_msvc10_11_12_14_main_project(int msvc11, int msvc12, int sdl)
 {
-    generate_msvc10_11_12_sln(msvc11, msvc12, sdl);
+    generate_msvc10_11_12_14_sln(msvc11, msvc12, sdl);
     pi_exit();
     fclose(mainfile);
 }
@@ -1147,7 +1163,21 @@ static int output_msvc10_11_12_14_file(char *fname, int filelist, int msvc11, in
                 filename = malloc(strlen(rfname) + sizeof("../vs10/.vcxproj"));
             }
         }
-        if (msvc12) {
+        if (msvc14) {
+            if (sdl) {
+                if (ffmpeg) {
+                    sprintf(filename, "../../sdl/win32-msvc14-ffmpeg/%s.vcxproj", rfname);
+                } else {
+                    sprintf(filename, "../../sdl/win32-msvc14/%s.vcxproj", rfname);
+                }
+            } else {
+                if (ffmpeg) {
+                    sprintf(filename, "../vs14-ffmpeg/%s.vcxproj", rfname);
+                } else {
+                    sprintf(filename, "../vs14/%s.vcxproj", rfname);
+                }
+            }
+        } else if (msvc12) {
             if (sdl) {
                 if (ffmpeg) {
                     sprintf(filename, "../../sdl/win32-msvc12-ffmpeg/%s.vcxproj", rfname);
@@ -5799,7 +5829,7 @@ int main(int argc, char *argv[])
         }
 
         /* at least ONE version has to be given */
-        if (!msvc4 && !msvc6 && !msvc70 && !msvc71 && !msvc8 && !msvc9 && !msvc10 && !msvc11 && !msvc12) {
+        if (!msvc4 && !msvc6 && !msvc70 && !msvc71 && !msvc8 && !msvc9 && !msvc10 && !msvc11 && !msvc12 && !msvc14) {
             printf("Error: No generation option(s) given\n");
             error = 1;
         }
@@ -6079,7 +6109,7 @@ int main(int argc, char *argv[])
                 if (!error && msvc10) {
                     current_level = 100;
                     if (project_names[0]) {
-                        error = open_msvc10_11_12_main_project(0, 0, sdl);
+                        error = open_msvc10_11_12_14_main_project(0, 0, 0, sdl);
                         for (i = 0; project_names[i] && !error; i++) {
                             error = read_template_file(project_names[i], sdl);
 #if MKMSVC_DEBUG
@@ -6111,7 +6141,7 @@ int main(int argc, char *argv[])
                                 }
                             }
                         }
-                        close_msvc10_11_12_main_project(0, 0, sdl);
+                        close_msvc10_11_12_14_main_project(0, 0, sdl);
                     } else {
                         error = output_msvc10_11_12_14_file(filename, 0, 0, 0, 0, sdl);
                     }
@@ -6122,7 +6152,7 @@ int main(int argc, char *argv[])
                 if (!error && msvc11) {
                     current_level = 110;
                     if (project_names[0]) {
-                        error = open_msvc10_11_12_main_project(1, 0, sdl);
+                        error = open_msvc10_11_12_14_main_project(1, 0, 0, sdl);
                         for (i = 0; project_names[i] && !error; i++) {
                             error = read_template_file(project_names[i], sdl);
 #if MKMSVC_DEBUG
@@ -6154,7 +6184,7 @@ int main(int argc, char *argv[])
                                 }
                             }
                         }
-                        close_msvc10_11_12_main_project(1, 0, sdl);
+                        close_msvc10_11_12_14_main_project(1, 0, sdl);
                     } else {
                         error = output_msvc10_11_12_14_file(filename, 0, 1, 0, 0, sdl);
                     }
@@ -6168,7 +6198,7 @@ int main(int argc, char *argv[])
                 if (!error && msvc12) {
                     current_level = 120;
                     if (project_names[0]) {
-                        error = open_msvc10_11_12_main_project(1, 1, sdl);
+                        error = open_msvc10_11_12_14_main_project(1, 1, 0, sdl);
                         for (i = 0; project_names[i] && !error; i++) {
                             error = read_template_file(project_names[i], sdl);
 #if MKMSVC_DEBUG
@@ -6200,7 +6230,7 @@ int main(int argc, char *argv[])
                                 }
                             }
                         }
-                        close_msvc10_11_12_main_project(1, 1, sdl);
+                        close_msvc10_11_12_14_main_project(1, 1, sdl);
                     } else {
                         error = output_msvc10_11_12_14_file(filename, 0, 1, 1, 0, sdl);
                     }
@@ -6211,7 +6241,7 @@ int main(int argc, char *argv[])
                 if (!error && msvc14) {
                     current_level = 140;
                     if (project_names[0]) {
-                        error = open_msvc10_11_12_main_project(1, 1, sdl);
+                        error = open_msvc10_11_12_14_main_project(1, 1, 1, sdl);
                         for (i = 0; project_names[i] && !error; i++) {
                             error = read_template_file(project_names[i], sdl);
 #if MKMSVC_DEBUG
@@ -6243,7 +6273,7 @@ int main(int argc, char *argv[])
                                 }
                             }
                         }
-                        close_msvc10_11_12_main_project(1, 1, sdl);
+                        close_msvc10_11_12_14_main_project(1, 1, sdl);
                     } else {
                         error = output_msvc10_11_12_14_file(filename, 0, 1, 1, 1, sdl);
                     }
