@@ -1234,7 +1234,7 @@ static int output_msvc10_11_12_14_file(char *fname, int filelist, int msvc11, in
     if (!retval) {
         if (msvc14) {
             fprintf(outfile, msvc14_project_start);
-        } if (msvc12) {
+        } else if (msvc12) {
             fprintf(outfile, msvc12_project_start);
         } else {
             fprintf(outfile, msvc10_project_start);
