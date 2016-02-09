@@ -731,9 +731,9 @@ BMenuBar *menu_create(int machine_class)
         machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128 ||
         machine_class == VICE_MACHINE_CBM6x0 || machine_class == VICE_MACHINE_PET ||
         machine_class == VICE_MACHINE_VIC20) {
-            menu->AddItem(submenu = new BMenu("Userport RTC Options"));
-                submenu->AddItem(new BMenuItem("Userport RTC emulation", new BMessage(MENU_TOGGLE_USERPORT_RTC)));
-                submenu->AddItem(new BMenuItem("Save Userport RTC data when changed", new BMessage(MENU_TOGGLE_USERPORT_RTC_SAVE)));
+            menu->AddItem(submenu = new BMenu("Userport RTC (58321a) Options"));
+                submenu->AddItem(new BMenuItem("Userport RTC (58321a) emulation", new BMessage(MENU_TOGGLE_USERPORT_RTC_58321A)));
+                submenu->AddItem(new BMenuItem("Save Userport RTC (58321a) data when changed", new BMessage(MENU_TOGGLE_USERPORT_RTC_58321A_SAVE)));
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||

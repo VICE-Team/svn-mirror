@@ -1037,10 +1037,10 @@ BEGIN
 
         MENUITEM "SFX Sound Sampler cartridge",           IDM_SFX_SS,                   MIS_TEXT
 
-        SUBMENU "Userport RTC Settings",                  IDM_USERPORT_RTC_SETTINGS,    MIS_TEXT
+        SUBMENU "Userport RTC (58321a) Settings",         IDM_USERPORT_RTC_58321A_SETTINGS, MIS_TEXT
         BEGIN
-            MENUITEM "Userport RTC",                      IDM_USERPORT_RTC,             MIS_TEXT
-            MENUITEM "Save Userport RTC data when changed", IDM_USERPORT_RTC_SAVE,      MIS_TEXT
+            MENUITEM "Userport RTC (58321a)",             IDM_USERPORT_RTC_58321A,      MIS_TEXT
+            MENUITEM "Save Userport RTC (58321a) data when changed", IDM_USERPORT_RTC_58321A_SAVE,      MIS_TEXT
         END
 #endif // __X64__ || __X128__
 

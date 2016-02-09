@@ -1,8 +1,8 @@
 /*
- * uiuserportrtc.h
+ * uiuserportrtc58321a.h - Implementation of the Userport RTC (58321a) settings dialog box.
  *
  * Written by
- *  groepaz <groepaz@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,9 +24,9 @@
  *
  */
 
-#ifndef VICE_UI_USERPORTRTC_H
-#define VICE_UI_USERPORTRTC_H
+#ifndef VICE_UIUSERPORTRTC_58321A_H
+#define VICE_UIUSERPORTRTC_58321A_H
 
-extern struct ui_menu_entry_s userportrtc_submenu[];
+extern void ui_userport_rtc_58321a_settings_dialog(HWND hwnd);
 
 #endif

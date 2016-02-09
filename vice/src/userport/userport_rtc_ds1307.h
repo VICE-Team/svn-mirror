@@ -1,8 +1,8 @@
 /*
- * uiuserportrtc.c
+ * userport_rtc_ds1307.h: Generic userport rtc (ds1307) device emulation.
  *
  * Written by
- *  groepaz <groepaz@gmx.net>
+ *  Marco van den Heuvel <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,22 +24,15 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_USERPORT_RTC_DS1307_H
+#define VICE_USERPORT_RTC_DS1307_H
 
-#include <stdio.h>
+#include "types.h"
 
-#include "uilib.h"
-#include "uimenu.h"
-#include "uiuserportrtc.h"
+extern int userport_rtc_ds1307_enable;
 
-UI_MENU_DEFINE_TOGGLE(UserportRTC)
-UI_MENU_DEFINE_TOGGLE(UserportRTCSave)
+extern int userport_rtc_ds1307_resources_init(void);
+extern int userport_rtc_ds1307_cmdline_options_init(void);
+extern void userport_rtc_ds1307_resources_shutdown(void);
 
-ui_menu_entry_t userportrtc_submenu[] = {
-    { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportRTC, NULL, NULL },
-    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportRTCSave, NULL, NULL },
-    { NULL }
-};
-
+#endif

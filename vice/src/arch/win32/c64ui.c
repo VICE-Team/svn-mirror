@@ -75,7 +75,7 @@
 #include "uisid.h"
 #include "uisoundexpander.h"
 #include "uitfe.h"
-#include "uiuserportrtc.h"
+#include "uiuserportrtc58321a.h"
 #include "uivicii.h"
 #include "uivideo.h"
 #include "util.h"
@@ -393,7 +393,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
 #endif
     { IDM_C64_MEMORY_HACKS_SETTINGS, IDS_MI_C64_MEMORY_HACKS_SETTINGS },
-    { IDM_USERPORT_RTC_SETTINGS, IDS_MI_USERPORT_RTC_SETTINGS },
+    { IDM_USERPORT_RTC_58321A_SETTINGS, IDS_MI_USERPORT_RTC_58321A_SETTINGS },
     { 0, 0 }
 };
 
@@ -720,8 +720,8 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_DS12C887RTC_SETTINGS:
             ui_ds12c887rtc_settings_dialog(hwnd);
             break;
-        case IDM_USERPORT_RTC_SETTINGS:
-            ui_userport_rtc_settings_dialog(hwnd);
+        case IDM_USERPORT_RTC_58321A_SETTINGS:
+            ui_userport_rtc_58321a_settings_dialog(hwnd);
             break;
         case IDM_EASYFLASH_SETTINGS:
             ui_easyflash_settings_dialog(hwnd);

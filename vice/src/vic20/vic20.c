@@ -84,6 +84,7 @@
 #include "userport_dac.h"
 #include "userport_joystick.h"
 #include "userport_rtc_58321a.h"
+#include "userport_rtc_ds1307.h"
 #include "via.h"
 #include "vic.h"
 #include "vic20-cmdline-options.h"
@@ -462,6 +463,10 @@ int machine_resources_init(void)
         init_resource_fail("userport rtc (58321a)");
         return -1;
     }
+    if (userport_rtc_ds1307_resources_init() < 0) {
+        init_resource_fail("userport rtc (ds1307)");
+        return -1;
+    }
     if (cartio_resources_init() < 0) {
         init_resource_fail("cartio");
         return -1;
@@ -485,6 +490,7 @@ void machine_resources_shutdown(void)
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
     userport_rtc_58321a_resources_shutdown();
+    userport_rtc_ds1307_resources_shutdown();
     userport_resources_shutdown();
 }
 
@@ -631,6 +637,10 @@ int machine_cmdline_options_init(void)
     }
     if (userport_rtc_58321a_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport rtc (58321a)");
+        return -1;
+    }
+    if (userport_rtc_ds1307_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport rtc (ds1307)");
         return -1;
     }
     if (cartio_cmdline_options_init() < 0) {

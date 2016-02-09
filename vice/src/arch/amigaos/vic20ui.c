@@ -71,8 +71,8 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
     { "IO2RAM", IDM_IO2_RAM_ENABLE },
     { "IO3RAM", IDM_IO3_RAM_ENABLE },
-    { "UserportRTC", IDM_TOGGLE_USERPORT_RTC },
-    { "UserportRTCSave", IDM_TOGGLE_USERPORT_RTC_SAVE },
+    { "UserportRTC58321a", IDM_TOGGLE_USERPORT_RTC_58321A },
+    { "UserportRTC58321aSave", IDM_TOGGLE_USERPORT_RTC_58321A_SAVE },
     { NULL, 0 }
 };
 

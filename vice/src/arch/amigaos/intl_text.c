@@ -4072,33 +4072,33 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_CPM_CART_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_ENABLE_CPM_CART_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_ENABLE_USERPORT_RTC,    "Enable the Userport RTC" },
-/* da */ { IDMS_ENABLE_USERPORT_RTC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_USERPORT_RTC_DE, "Userport RTC aktivieren" },
-/* es */ { IDMS_ENABLE_USERPORT_RTC_ES, "Permitir puerto usuario RTC" },
-/* fr */ { IDMS_ENABLE_USERPORT_RTC_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_ENABLE_USERPORT_RTC_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ENABLE_USERPORT_RTC_IT, "Attiva RTC su userport" },
-/* ko */ { IDMS_ENABLE_USERPORT_RTC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_USERPORT_RTC_NL, "Activeer de Userport RTC uitbreiding" },
-/* pl */ { IDMS_ENABLE_USERPORT_RTC_PL, "W³±cz Userport RTC" },
-/* ru */ { IDMS_ENABLE_USERPORT_RTC_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ENABLE_USERPORT_RTC_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_ENABLE_USERPORT_RTC_TR, "" },  /* fuzzy */
+/* en */ { IDMS_ENABLE_USERPORT_RTC_58321A,    "Enable the Userport RTC (58321a)" },
+/* da */ { IDMS_ENABLE_USERPORT_RTC_58321A_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_RTC_58321A_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ENABLE_USERPORT_RTC_58321A_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_USERPORT_RTC_58321A_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_USERPORT_RTC_58321A_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_USERPORT_RTC_58321A_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ENABLE_USERPORT_RTC_58321A_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_RTC_58321A_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_USERPORT_RTC_58321A_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ENABLE_USERPORT_RTC_58321A_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_USERPORT_RTC_58321A_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_USERPORT_RTC_58321A_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_USERPORT_RTC_SAVE,    "Enable saving the Userport RTC data" },
-/* da */ { IDMS_USERPORT_RTC_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_USERPORT_RTC_SAVE_DE, "Userport RTC Daten Speicherung aktivieren" },
-/* es */ { IDMS_USERPORT_RTC_SAVE_ES, "Permitir grabar datos puerto usuario RTC" },
-/* fr */ { IDMS_USERPORT_RTC_SAVE_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_USERPORT_RTC_SAVE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_USERPORT_RTC_SAVE_IT, "Attiva salvataggio dei dati RTC su Userport" },
-/* ko */ { IDMS_USERPORT_RTC_SAVE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_USERPORT_RTC_SAVE_NL, "Activeer opslaan van de Userport RTC data" },
-/* pl */ { IDMS_USERPORT_RTC_SAVE_PL, "W³±cz zapis zegara Userportu" },
-/* ru */ { IDMS_USERPORT_RTC_SAVE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_USERPORT_RTC_SAVE_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_USERPORT_RTC_SAVE_TR, "" },  /* fuzzy */
+/* en */ { IDMS_USERPORT_RTC_58321A_SAVE,    "Enable saving the Userport RTC (58321a) data" },
+/* da */ { IDMS_USERPORT_RTC_58321A_SAVE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_USERPORT_RTC_58321A_SAVE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_USERPORT_RTC_58321A_SAVE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_USERPORT_RTC_58321A_SAVE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_USERPORT_RTC_58321A_SAVE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_USERPORT_RTC_58321A_SAVE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_USERPORT_RTC_58321A_SAVE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_USERPORT_RTC_58321A_SAVE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_USERPORT_RTC_58321A_SAVE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_USERPORT_RTC_58321A_SAVE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_USERPORT_RTC_58321A_SAVE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_USERPORT_RTC_58321A_SAVE_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_BURST_MOD_SETTINGS,    "Drive burst modification settings..." },
 /* da */ { IDMS_BURST_MOD_SETTINGS_DA, "Drev burst-modifikations-indstillinger..." },

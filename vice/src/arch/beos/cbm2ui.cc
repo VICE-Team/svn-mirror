@@ -67,8 +67,8 @@ ui_menu_toggle cbm2_ui_menu_toggles[] = {
     { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "CartridgeReset", MENU_CART_CBM2_RESET_ON_CHANGE },
     { "Mouse", MENU_TOGGLE_MOUSE },
-    { "UserportRTC", MENU_TOGGLE_USERPORT_RTC },
-    { "UserportRTCSave", MENU_TOGGLE_USERPORT_RTC_SAVE },
+    { "UserportRTC58321a", MENU_TOGGLE_USERPORT_RTC_58321A },
+    { "UserportRTC58321aSave", MENU_TOGGLE_USERPORT_RTC_SAVE_58321A },
     { NULL, 0 }
 };
 

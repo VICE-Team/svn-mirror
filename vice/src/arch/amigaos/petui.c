@@ -60,8 +60,8 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "PETHRE", IDM_ENABLE_PETHRE },
     { "UserportDAC", IDM_TOGGLE_USERPORT_DAC },
     { "Mouse", IDM_MOUSE },
-    { "UserportRTC", IDM_TOGGLE_USERPORT_RTC },
-    { "UserportRTCSave", IDM_TOGGLE_USERPORT_RTC_SAVE },
+    { "UserportRTC58321a", IDM_TOGGLE_USERPORT_RTC_58321A },
+    { "UserportRTC58321aSave", IDM_TOGGLE_USERPORT_RTC_58321A_SAVE },
     { NULL, 0 }
 };
 

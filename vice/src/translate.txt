@@ -661,8 +661,11 @@ IDGS_KINGSOFT_JOY_ADAPTER
 /* userport/userport_joystick.c */
 IDGS_STARBYTE_JOY_ADAPTER
 
-/* userport/userport_rtc.c */
+/* userport/userport_rtc_58321a.c */
 IDGS_USERPORT_RTC58321A
+
+/* userport/userport_rtc_ds1307.c */
+IDGS_USERPORT_DS1307
 
 /* userport/userport_dac.c */
 IDGS_USERPORT_DAC
@@ -2896,17 +2899,29 @@ IDCLS_DISABLE_USERPORT_JOY
 /* userport/userport_joystick.c */
 IDCLS_SET_USERPORT_JOY_TYPE
 
-/* userport/userport_rtc.c */
-IDCLS_ENABLE_USERPORT_RTC
+/* userport/userport_rtc_58321a.c */
+IDCLS_ENABLE_USERPORT_RTC_58321A
 
-/* userport/userport_rtc.c */
-IDCLS_DISABLE_USERPORT_RTC
+/* userport/userport_rtc_58321a.c */
+IDCLS_DISABLE_USERPORT_RTC_58321A
 
-/* userport/userport_rtc.c */
-IDCLS_ENABLE_USERPORT_RTC_SAVE
+/* userport/userport_rtc_58321a.c */
+IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE
 
-/* userport/userport_rtc.c */
-IDCLS_DISABLE_USERPORT_RTC_SAVE
+/* userport/userport_rtc_58321a.c */
+IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE
+
+/* userport/userport_rtc_ds1307.c */
+IDCLS_ENABLE_USERPORT_RTC_DS1307
+
+/* userport/userport_rtc_ds1307.c */
+IDCLS_DISABLE_USERPORT_RTC_DS1307
+
+/* userport/userport_rtc_ds1307.c */
+IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE
+
+/* userport/userport_rtc_ds1307.c */
+IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE
 
 /* userport/userport_4bit_sampler.c */
 IDCLS_ENABLE_USERPORT_4BIT_SAMPLER

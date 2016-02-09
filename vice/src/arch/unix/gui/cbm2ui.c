@@ -68,7 +68,7 @@
 #include "uisound.h"
 #include "uimenu.h"
 #include "uinetplay.h"
-#include "uiuserportrtc.h"
+#include "uiuserportrtc58321.h"
 #include "uivicii.h"
 #include "vsync.h"
 
@@ -86,7 +86,7 @@ UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { "Userport RTC", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, userportrtc_submenu },
+      NULL, NULL, userportrtc58321a_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },

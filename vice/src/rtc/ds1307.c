@@ -134,6 +134,7 @@ struct rtc_ds1307_s {
 #define DS1307_REG_NR_ACK         7
 #define DS1307_WRITE_ACK          8
 #define DS1307_READ_ACK           9
+#define DS1307_START_WAIT         10
 
 /* ---------------------------------------------------------------------------------------------------- */
 
@@ -355,8 +356,10 @@ static void ds1307_validate_read_ack(rtc_ds1307_t *context)
 {
     if (!context->data_line) {
         context->state = DS1307_READ_REGS;
+        context->bit = 0;
         ++context->reg_ptr;
         context->reg_ptr &= 0x3f;
+        context->reg = ds1307_read_register(context, context->reg_ptr);
     } else {
         context->state = DS1307_IDLE;
     }
@@ -374,6 +377,9 @@ void ds1307_set_clk_line(rtc_ds1307_t *context, BYTE data)
 
     if (!val) {
         switch (context->state) {
+            case DS1307_START_WAIT:
+                context->state = DS1307_GET_ADDRESS;
+                break;
             case DS1307_GET_ADDRESS:
                 ds1307_next_address_bit(context);
                 break;
@@ -394,10 +400,14 @@ void ds1307_set_clk_line(rtc_ds1307_t *context, BYTE data)
                 context->reg = ds1307_read_register(context, context->reg_ptr);
                 context->bit = 0;
                 break;
-            case DS1307_ADDRESS_WRITE_ACK:
             case DS1307_REG_NR_ACK:
             case DS1307_WRITE_ACK:
                 context->state = DS1307_WRITE_REGS;
+                context->reg = 0;
+                context->bit = 0;
+                break;
+            case DS1307_ADDRESS_WRITE_ACK:
+                context->state = DS1307_GET_REG_NR;
                 context->reg = 0;
                 context->bit = 0;
                 break;
@@ -419,7 +429,7 @@ void ds1307_set_data_line(rtc_ds1307_t *context, BYTE data)
             context->state = DS1307_IDLE;
         } else {
             ds1307_i2c_start(context);
-            context->state = DS1307_GET_ADDRESS;
+            context->state = DS1307_START_WAIT;
             context->reg = 0;
             context->bit = 0;
         }
@@ -436,6 +446,7 @@ BYTE ds1307_read_data_line(rtc_ds1307_t *context)
         case DS1307_ADDRESS_WRITE_ACK:
         case DS1307_REG_NR_ACK:
         case DS1307_READ_ACK:
+        case DS1307_WRITE_ACK:
             return 0;
     }
     return 1;

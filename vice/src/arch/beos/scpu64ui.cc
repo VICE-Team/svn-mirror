@@ -129,8 +129,8 @@ ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
     { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
     { "DS12C887RTCSave", MENU_TOGGLE_DS12C887_RTC_SAVE },
-    { "UserportRTC", MENU_TOGGLE_USERPORT_RTC },
-    { "UserportRTCSave", MENU_TOGGLE_USERPORT_RTC_SAVE },
+    { "UserportRTC58321a", MENU_TOGGLE_USERPORT_RTC_58321A },
+    { "UserportRTC58321aSave", MENU_TOGGLE_USERPORT_RTC_58321A_SAVE },
     { NULL, 0 }
 };
 

@@ -1,5 +1,5 @@
 /*
- * uiuserportrtc.c - Implementation of the Userport RTC settings dialog box.
+ * uiuserportrtc58321a.c - Implementation of the Userport RTC (58321a) settings dialog box.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -39,30 +39,30 @@
 #include "translate.h"
 #include "ui.h"
 #include "uilib.h"
-#include "uiuserportrtc.h"
+#include "uiuserportrtc58321a.h"
 #include "winmain.h"
 
 static void enable_userport_rtc_controls(HWND hwnd)
 {
     int is_enabled;
 
-    is_enabled = (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_ENABLE) == BST_CHECKED) ? 1 : 0;
+    is_enabled = (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_58321A_ENABLE) == BST_CHECKED) ? 1 : 0;
 
-    EnableWindow(GetDlgItem(hwnd, IDC_USERPORT_RTC_SAVE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_USERPORT_RTC_58321A_SAVE), is_enabled);
 }
 
 static uilib_localize_dialog_param userport_rtc_dialog[] = {
-    { 0, IDS_USERPORT_RTC_CAPTION, -1 },
-    { IDC_USERPORT_RTC_ENABLE, IDS_USERPORT_RTC_ENABLE, 0 },
-    { IDC_USERPORT_RTC_SAVE, IDS_USERPORT_RTC_SAVE, 0 },
+    { 0, IDS_USERPORT_RTC_58321A_CAPTION, -1 },
+    { IDC_USERPORT_RTC_58321A_ENABLE, IDS_USERPORT_RTC_58321A_ENABLE, 0 },
+    { IDC_USERPORT_RTC_58321A_SAVE, IDS_USERPORT_RTC_58321A_SAVE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
 };
 
 static uilib_dialog_group userport_rtc_left_total_group[] = {
-    { IDC_DS12C887RTC_ENABLE, 1 },
-    { IDC_DS12C887RTC_SAVE, 1 },
+    { IDC_USERPORT_RTC_58321A_ENABLE, 1 },
+    { IDC_USERPORT_RTC_58321A_SAVE, 1 },
     { 0, 0 }
 };
 
@@ -74,10 +74,10 @@ static void init_userport_rtc_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, userport_rtc_left_total_group);
 
     resources_get_int("UserportRTC", &res_value);
-    CheckDlgButton(hwnd, IDC_USERPORT_RTC_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_USERPORT_RTC_58321A_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int("UserportRTCSave", &res_value);
-    CheckDlgButton(hwnd, IDC_USERPORT_RTC_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_USERPORT_RTC_58321A_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     enable_userport_rtc_controls(hwnd);
 }
@@ -85,8 +85,8 @@ static void init_userport_rtc_dialog(HWND hwnd)
 static void end_userport_rtc_dialog(HWND hwnd)
 {
 
-    resources_set_int("UserportRTC", (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_ENABLE) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("UserportRTCSave", (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_SAVE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("UserportRTC58321a", (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_58321A_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("UserportRTC58321aSave", (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_58321A_SAVE) == BST_CHECKED ? 1 : 0 ));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -97,7 +97,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
         case WM_COMMAND:
             command = LOWORD(wparam);
             switch (command) {
-                case IDC_USERPORT_RTC_ENABLE:
+                case IDC_USERPORT_RTC_58321A_ENABLE:
                     enable_userport_rtc_controls(hwnd);
                     break;
                 case IDOK:
@@ -118,7 +118,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 }
 
 
-void ui_userport_rtc_settings_dialog(HWND hwnd)
+void ui_userport_rtc_58321a_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_USERPORT_RTC_SETTINGS_DIALOG, hwnd, dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)IDD_USERPORT_RTC_58321A_SETTINGS_DIALOG, hwnd, dialog_proc);
 }

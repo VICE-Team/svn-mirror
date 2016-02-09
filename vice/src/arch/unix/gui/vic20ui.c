@@ -76,7 +76,7 @@
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
 #include "uitfe.h"
-#include "uiuserportrtc.h"
+#include "uiuserportrtc58321a.h"
 #include "uivic.h"
 #include "util.h"
 #include "vic20model.h"
@@ -536,7 +536,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, midi_vic20_submenu },
 #endif
     { "Userport RTC", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, userportrtc_submenu },
+      NULL, NULL, userportrtc58321a_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("I/O collision handling"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, iocollision_submenu },

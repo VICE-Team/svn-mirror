@@ -3795,7 +3795,7 @@ translate_t string_table[] = {
 /* tr */ {IDGS_STARBYTE_JOY_ADAPTER_TR, ""},  /* fuzzy */
 #endif
 
-/* userport/userport_rtc.c */
+/* userport/userport_rtc_58321a.c */
 /* en */ {IDGS_USERPORT_RTC58321A,    N_("Userport RTC (RTC58321A)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_USERPORT_RTC58321A_DA, ""},  /* fuzzy */
@@ -3810,6 +3810,23 @@ translate_t string_table[] = {
 /* ru */ {IDGS_USERPORT_RTC58321A_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_USERPORT_RTC58321A_SV, ""},  /* fuzzy */
 /* tr */ {IDGS_USERPORT_RTC58321A_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_rtc_ds1307.c */
+/* en */ {IDGS_USERPORT_DS1307,    N_("Userport RTC (DS1307)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_USERPORT_DS1307_DA, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_DS1307_DE, ""},  /* fuzzy */
+/* es */ {IDGS_USERPORT_DS1307_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_USERPORT_DS1307_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_USERPORT_DS1307_HU, ""},  /* fuzzy */
+/* it */ {IDGS_USERPORT_DS1307_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_USERPORT_DS1307_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_DS1307_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_USERPORT_DS1307_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_USERPORT_DS1307_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_USERPORT_DS1307_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_USERPORT_DS1307_TR, ""},  /* fuzzy */
 #endif
 
 /* userport/userport_dac.c */
@@ -6119,72 +6136,140 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_USERPORT_JOY_TYPE_TR, ""},  /* fuzzy */
 #endif
 
-/* userport/userport_rtc.c */
-/* en */ {IDCLS_ENABLE_USERPORT_RTC,    N_("Enable Userport RTC")},
+/* userport/userport_rtc_58321a.c */
+/* en */ {IDCLS_ENABLE_USERPORT_RTC_58321A,    N_("Enable Userport RTC (58321a)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_USERPORT_RTC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_RTC_DE, "Userport RTC aktivieren"},
-/* es */ {IDCLS_ENABLE_USERPORT_RTC_ES, "Permitir puerto RTC"},
-/* fr */ {IDCLS_ENABLE_USERPORT_RTC_FR, "Activer port utilisateur RTC"},
-/* hu */ {IDCLS_ENABLE_USERPORT_RTC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_USERPORT_RTC_IT, "Attiva RTC su userport"},
-/* ko */ {IDCLS_ENABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_RTC_NL, "Activeer de Userport RTC uitbreiding"},
-/* pl */ {IDCLS_ENABLE_USERPORT_RTC_PL, "W³±cz Userport RTC"},
-/* ru */ {IDCLS_ENABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_USERPORT_RTC_SV, "Aktivera användarport-RTC"},
-/* tr */ {IDCLS_ENABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
+/* da */ {IDCLS_ENABLE_USERPORT_RTC_58321A_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_58321A_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_RTC_58321A_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_RTC_58321A_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_RTC_58321A_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_RTC_58321A_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_RTC_58321A_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_58321A_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_RTC_58321A_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_RTC_58321A_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_RTC_58321A_TR, ""},  /* fuzzy */
 #endif
 
-/* userport/userport_rtc.c */
-/* en */ {IDCLS_DISABLE_USERPORT_RTC,    N_("Disable Userport RTC")},
+/* userport/userport_rtc_58321a.c */
+/* en */ {IDCLS_DISABLE_USERPORT_RTC_58321A,    N_("Disable Userport RTC (58321a)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_USERPORT_RTC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_RTC_DE, "Userport RTC deaktivieren"},
-/* es */ {IDCLS_DISABLE_USERPORT_RTC_ES, "Deshabilitar puerto RTC"},
-/* fr */ {IDCLS_DISABLE_USERPORT_RTC_FR, "Désactiver port utilisateur RTC"},
-/* hu */ {IDCLS_DISABLE_USERPORT_RTC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_USERPORT_RTC_IT, "Disattiva RTC su userport"},
-/* ko */ {IDCLS_DISABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_RTC_NL, "De Userport RTC uitbreiding uitschakelen"},
-/* pl */ {IDCLS_DISABLE_USERPORT_RTC_PL, "Wy³±cz Userport RTC"},
-/* ru */ {IDCLS_DISABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, "Inaktivera användarport-RTC"},
-/* tr */ {IDCLS_DISABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
+/* da */ {IDCLS_DISABLE_USERPORT_RTC_58321A_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_58321A_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_RTC_58321A_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_RTC_58321A_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_RTC_58321A_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_RTC_58321A_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_RTC_58321A_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_58321A_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_RTC_58321A_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_RTC_58321A_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_RTC_58321A_TR, ""},  /* fuzzy */
 #endif
 
-/* userport/userport_rtc.c */
-/* en */ {IDCLS_ENABLE_USERPORT_RTC_SAVE,    N_("Enable saving of the Userport RTC data when changed.")},
+/* userport/userport_rtc_58321a.c */
+/* en */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE,    N_("Enable saving of the Userport RTC (58321a) data when changed.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_DE, "Userport RTC Daten bei Änderung speichern."},
-/* es */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_ES, "Permitir grabar datos puerto usuario RTC cuando cambien"},
-/* fr */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_IT, "Attiva il salvataggio dei dati RTC su Userport alla modifica."},
-/* ko */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_NL, "Activeer opslaan van de Userport RTC data indien gewijzigd"},
-/* pl */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_PL, "Zapisuj dane zegara czasu rzeczywistego Userportu przy zmianie"},
-/* ru */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_TR, ""},  /* fuzzy */
+/* da */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_TR, ""},  /* fuzzy */
 #endif
 
-/* userport/userport_rtc.c */
-/* en */ {IDCLS_DISABLE_USERPORT_RTC_SAVE,    N_("Disable saving of the Userport RTC data when changed.")},
+/* userport/userport_rtc_58321a.c */
+/* en */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE,    N_("Disable saving of the Userport RTC (58321a) data when changed.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_DE, "Userport RTC Daten bei Änderung nicht speichern."},
-/* es */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_ES, "Deshabilitar grabar datos puerto usuario RTC cuando cambien"},
-/* fr */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_IT, "Disattiva il salvataggio dei dati RTC su Userport alla modifica."},
-/* ko */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_NL, "Opslaan van de Userport RTC data indien gewijzigd uitschakelen"},
-/* pl */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_PL, "Nie zapisuj danych zegara czasu rzeczywistego Userportu przy zmianie"},
-/* ru */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_TR, ""},  /* fuzzy */
+/* da */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_rtc_ds1307.c */
+/* en */ {IDCLS_ENABLE_USERPORT_RTC_DS1307,    N_("Enable Userport RTC (DS1307)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_rtc_ds1307.c */
+/* en */ {IDCLS_DISABLE_USERPORT_RTC_DS1307,    N_("Disable Userport RTC (DS1307)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_rtc_ds1307.c */
+/* en */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE,    N_("Enable saving of the Userport RTC (DS1307) data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_rtc_ds1307.c */
+/* en */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE,    N_("Disable saving of the Userport RTC (DS1307) data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_TR, ""},  /* fuzzy */
 #endif
 
 /* userport/userport_4bit_sampler.c */

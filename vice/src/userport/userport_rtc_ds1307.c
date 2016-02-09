@@ -1,5 +1,5 @@
 /*
- * userport_rtc_58321a.c - Generic userport RTC (58321a) emulation.
+ * userport_rtc_ds1307.c - Generic userport RTC (DS1307) emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,17 +24,12 @@
  *
  */
 
-/* Userport RTC 58321a (C64/C128/CBM2/PET/VIC20)
+/* Userport RTC DS1307 (C64/C128/CBM2/PET/VIC20)
 
 C64/C128 | CBM2 | PET | VIC20 | NAME
 ------------------------------------
-    C    |  14  |  C  |   C   | PB0 <-> D0
-    D    |  13  |  D  |   D   | PB1 <-> D1
-    E    |  12  |  E  |   E   | PB2 <-> D2
-    F    |  11  |  F  |   F   | PB3 <-> D3
-    H    |  10  |  H  |   H   | PB4 -> ADDRESS /DATA
-    J    |   9  |  J  |   J   | PB5 -> READ
-    K    |   8  |  K  |   K   | PB6 -> WRITE
+    C    |  14  |  C  |   C   | PB0 <-> SDA
+    D    |  13  |  D  |   D   | PB1 <-> SCL
 */
 
 #include "vice.h"
@@ -44,24 +39,26 @@ C64/C128 | CBM2 | PET | VIC20 | NAME
 #include <string.h>
 
 #include "cmdline.h"
+#include "ds1307.h"
 #include "lib.h"
 #include "maincpu.h"
 #include "resources.h"
-#include "rtc-58321a.h"
 #include "translate.h"
 #include "uiapi.h"
 #include "userport.h"
-#include "userport_rtc_58321a.h"
+#include "userport_rtc_ds1307.h"
 
-int userport_rtc_58321a_enabled = 0;
+
+int userport_rtc_ds1307_enabled = 0;
 
 /* rtc context */
-static rtc_58321a_t *rtc58321a_context = NULL;
+static rtc_ds1307_t *ds1307_context = NULL;
 
 /* rtc save */
-static int rtc58321a_rtc_save;
+static int ds1307_rtc_save;
 
-static int read_line_active = 0;
+static BYTE ds1307_pb0_sda = 1;
+static BYTE ds1307_pb1_scl = 1;
 
 /* ------------------------------------------------------------------------- */
 
@@ -70,8 +67,8 @@ static void userport_rtc_read_pbx(void);
 static void userport_rtc_store_pbx(BYTE value);
 
 static userport_device_t rtc_device = {
-    "Userport RTC (RTC58321A)",
-    IDGS_USERPORT_RTC58321A,
+    "Userport RTC (DS1307)",
+    IDGS_USERPORT_DS1307,
     userport_rtc_read_pbx,
     userport_rtc_store_pbx,
     NULL, /* NO pa2 read */
@@ -83,9 +80,9 @@ static userport_device_t rtc_device = {
     0, /* NO pc pin needed */
     NULL, /* NO sp1 write */
     NULL, /* NO sp2 read */
-    "UserportRTC58321a",
+    "UserportRTC",
     0xff,
-    0xf, /* validity mask doesn't change */
+    0x3, /* validity mask doesn't change */
     0,
     0
 };
@@ -98,85 +95,87 @@ static int set_userport_rtc_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    if (userport_rtc_58321a_enabled == val) {
+    if (userport_rtc_ds1307_enabled == val) {
         return 0;
     }
 
     if (val) {
-        rtc58321a_context = rtc58321a_init("USER");
+        ds1307_context = ds1307_init("USERDS1307");
         userport_rtc_list_item = userport_device_register(&rtc_device);
         if (userport_rtc_list_item == NULL) {
             return -1;
         }
+        ds1307_set_data_line(ds1307_context, 1);
+        ds1307_set_clk_line(ds1307_context, 1);
     } else {
-        if (rtc58321a_context) {
-            rtc58321a_destroy(rtc58321a_context, rtc58321a_rtc_save);
-            rtc58321a_context = NULL;
+        if (ds1307_context) {
+            ds1307_destroy(ds1307_context, ds1307_rtc_save);
+            ds1307_context = NULL;
         }
         userport_device_unregister(userport_rtc_list_item);
         userport_rtc_list_item = NULL;
     }
 
-    userport_rtc_58321a_enabled = val;
+    userport_rtc_ds1307_enabled = val;
     return 0;
 }
 
 static int set_userport_rtc_save(int val, void *param)
 {
-    rtc58321a_rtc_save = val ? 1 : 0;
+    ds1307_rtc_save = val ? 1 : 0;
 
     return 0;
 }
 
 
 static const resource_int_t resources_int[] = {
-    { "UserportRTC58321a", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &userport_rtc_58321a_enabled, set_userport_rtc_enabled, NULL },
-    { "UserportRTC58321aSave", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &rtc58321a_rtc_save, set_userport_rtc_save, NULL },
+    { "UserportRTCDS1307", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &userport_rtc_ds1307_enabled, set_userport_rtc_enabled, NULL },
+    { "UserportRTCDS1307Save", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &ds1307_rtc_save, set_userport_rtc_save, NULL },
     { NULL }
 };
 
-int userport_rtc_58321a_resources_init(void)
+int userport_rtc_ds1307_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userportrtc58321a", SET_RESOURCE, 0,
-      NULL, NULL, "UserportRTC58321a", (resource_value_t)1,
+    { "-userportrtcds1307", SET_RESOURCE, 0,
+      NULL, NULL, "UserportRTCDS1307", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_USERPORT_RTC_58321A,
+      IDCLS_UNUSED, IDCLS_ENABLE_USERPORT_RTC_DS1307,
       NULL, NULL },
-    { "+userportrtc58321a", SET_RESOURCE, 0,
-      NULL, NULL, "UserportRTC58321a", (resource_value_t)0,
+    { "+userportrtcds1307", SET_RESOURCE, 0,
+      NULL, NULL, "UserportRTCDS1307", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_RTC_58321A,
+      IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_RTC_DS1307,
       NULL, NULL },
-    { "-userportrtc58321asave", SET_RESOURCE, 0,
-      NULL, NULL, "UserportRTC58321aSave", (resource_value_t)1,
+    { "-userportrtcds1307save", SET_RESOURCE, 0,
+      NULL, NULL, "UserportRTCDS1307Save", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE,
+      IDCLS_UNUSED, IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE,
       NULL, NULL },
-    { "+userportrtc58321asave", SET_RESOURCE, 0,
-      NULL, NULL, "UserportRTC58321aSave", (resource_value_t)0,
+    { "+userportrtcds1307save", SET_RESOURCE, 0,
+      NULL, NULL, "UserportRTCDS1307Save", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE,
+      IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE,
       NULL, NULL },
     { NULL }
 };
 
-int userport_rtc_58321a_cmdline_options_init(void)
+int userport_rtc_ds1307_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
 
-void userport_rtc_58321a_resources_shutdown(void)
+void userport_rtc_ds1307_resources_shutdown(void)
 {
-    if (rtc58321a_context) {
-        rtc58321a_destroy(rtc58321a_context, rtc58321a_rtc_save);
-        rtc58321a_context = NULL;
+    if (ds1307_context) {
+        ds1307_destroy(ds1307_context, ds1307_rtc_save);
+        ds1307_context = NULL;
     }
 }
 
@@ -184,25 +183,24 @@ void userport_rtc_58321a_resources_shutdown(void)
 
 static void userport_rtc_store_pbx(BYTE value)
 {
-    if (value & 0x10) {
-        rtc58321a_write_address(rtc58321a_context, (BYTE)(value & 0xf));
+    BYTE rtcdata = (value & 1) ? 1 : 0;
+    BYTE rtcclk = (value & 2) ? 1 : 0;
+
+    if (rtcdata != ds1307_pb0_sda) {
+        ds1307_set_data_line(ds1307_context, rtcdata);
+        ds1307_pb0_sda = rtcdata;
     }
-    if (value & 0x20) {
-        read_line_active = 1;
-    } else {
-        read_line_active = 0;
-    }
-    if (value & 0x40) {
-        rtc58321a_write_data(rtc58321a_context, (BYTE)(value & 0xf));
+    if (rtcclk != ds1307_pb1_scl) {
+        ds1307_set_clk_line(ds1307_context, rtcclk);
+        ds1307_pb1_scl = rtcclk;
     }
 }
 
 static void userport_rtc_read_pbx(void)
 {
-    BYTE retval = 0xf;
+    BYTE retval = ds1307_pb1_scl << 1;
 
-    if (read_line_active) {
-        retval = rtc58321a_read(rtc58321a_context);
-    }
+    retval |= (ds1307_read_data_line(ds1307_context) & 1);
+
     rtc_device.retval = retval;
 }

@@ -132,8 +132,8 @@ static const ui_menu_entry_t vdc_menu[] = {
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 
-UI_MENU_DEFINE_TOGGLE(UserportRTC)
-UI_MENU_DEFINE_TOGGLE(UserportRTCSave)
+UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
+UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
 
 const ui_menu_entry_t c128_hardware_menu[] = {
     { "Select C128 model",
@@ -204,13 +204,13 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IEEE488_callback,
       NULL },
-    { "Userport RTC enable",
+    { "Userport RTC (58321a) enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTC_callback,
+      toggle_UserportRTC58321a_callback,
       NULL },
-    { "Save Userport RTC data when changed",
+    { "Save Userport RTC (58321a) data when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTCSave_callback,
+      toggle_UserportRTC58321aSave_callback,
       NULL },
 #ifdef HAVE_MIDI
     { "MIDI settings",
