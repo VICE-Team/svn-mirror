@@ -8346,7 +8346,7 @@ datasette.c:
 resource type:                  int
 resource name:                  "DatasetteSpeedTuning"
 resource range:                 0+
-resource default:               1
+resource default:               0
 resource function:              set_datasette_speed_tuning()
 resource var:                   datasette_speed_tuning
 resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic

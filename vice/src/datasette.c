@@ -173,7 +173,7 @@ static const resource_int_t resources_int[] = {
     { "DatasetteZeroGapDelay", 20000, RES_EVENT_SAME, NULL,
       &datasette_zero_gap_delay,
       set_datasette_zero_gap_delay, NULL },
-    { "DatasetteSpeedTuning", 1, RES_EVENT_SAME, NULL,
+    { "DatasetteSpeedTuning", 0, RES_EVENT_SAME, NULL,
       &datasette_speed_tuning,
       set_datasette_speed_tuning, NULL },
     { "DatasetteTapeWobble", 10, RES_EVENT_SAME, NULL,
