@@ -100,7 +100,7 @@
 #include "userport.h"
 #include "userport_dac.h"
 #include "userport_joystick.h"
-#include "userport_rtc.h"
+#include "userport_rtc_58321a.h"
 #include "util.h"
 #include "via.h"
 #include "vice-event.h"
@@ -349,8 +349,8 @@ int machine_resources_init(void)
         init_resource_fail("userport dac");
         return -1;
     }
-    if (userport_rtc_resources_init() < 0) {
-        init_resource_fail("userport rtc");
+    if (userport_rtc_58321a_resources_init() < 0) {
+        init_resource_fail("userport rtc (58321a)");
         return -1;
     }
     return 0;
@@ -369,7 +369,7 @@ void machine_resources_shutdown(void)
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
     cartio_shutdown();
-    userport_rtc_resources_shutdown();
+    userport_rtc_58321a_resources_shutdown();
     userport_resources_shutdown();
 }
 
@@ -516,8 +516,8 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport dac");
         return -1;
     }
-    if (userport_rtc_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport rtc");
+    if (userport_rtc_58321a_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport rtc (58321a)");
         return -1;
     }
     return 0;

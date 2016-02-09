@@ -1,5 +1,5 @@
 /*
- * userport_rtc.h: Generic userport rtc device emulation.
+ * userport_rtc.h: Generic userport rtc (58321a) device emulation.
  *
  * Written by
  *  Marco van den Heuvel <viceteam@t-online.de>
@@ -24,15 +24,15 @@
  *
  */
 
-#ifndef VICE_USERPORT_RTC_H
-#define VICE_USERPORT_RTC_H
+#ifndef VICE_USERPORT_RTC_58321A_H
+#define VICE_USERPORT_RTC_58321A_H
 
 #include "types.h"
 
-extern int userport_rtc_enable;
+extern int userport_rtc_58321a_enable;
 
-extern int userport_rtc_resources_init(void);
-extern int userport_rtc_cmdline_options_init(void);
-extern void userport_rtc_resources_shutdown(void);
+extern int userport_rtc_58321a_resources_init(void);
+extern int userport_rtc_58321a_cmdline_options_init(void);
+extern void userport_rtc_58321a_resources_shutdown(void);
 
 #endif

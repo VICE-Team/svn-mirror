@@ -23,5 +23,5 @@ libuserport_a_SOURCES = \
 	userport_digimax.h \
 	userport_joystick.c \
 	userport_joystick.h \
-	userport_rtc.c \
-	userport_rtc.h
+	userport_rtc_58321a.c \
+	userport_rtc_58321a.h

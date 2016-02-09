@@ -108,7 +108,7 @@
 #include "userport_dac.h"
 #include "userport_digimax.h"
 #include "userport_joystick.h"
-#include "userport_rtc.h"
+#include "userport_rtc_58321a.h"
 #include "vice-event.h"
 #include "vicii.h"
 #include "vicii-mem.h"
@@ -686,8 +686,8 @@ int machine_resources_init(void)
         init_resource_fail("userport digimax");
         return -1;
     }
-    if (userport_rtc_resources_init() < 0) {
-        init_resource_fail("userport rtc");
+    if (userport_rtc_58321a_resources_init() < 0) {
+        init_resource_fail("userport rtc (58321a)");
         return -1;
     }
     if (userport_4bit_sampler_resources_init() < 0) {
@@ -719,7 +719,7 @@ void machine_resources_shutdown(void)
     cartridge_resources_shutdown();
     functionrom_resources_shutdown();
     rombanks_resources_shutdown();
-    userport_rtc_resources_shutdown();
+    userport_rtc_58321a_resources_shutdown();
     cartio_shutdown();
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
@@ -874,8 +874,8 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport digimax");
         return -1;
     }
-    if (userport_rtc_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport rtc");
+    if (userport_rtc_58321a_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport rtc (58321a)");
         return -1;
     }
     if (userport_4bit_sampler_cmdline_options_init() < 0) {

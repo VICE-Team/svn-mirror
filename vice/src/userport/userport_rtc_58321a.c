@@ -1,5 +1,5 @@
 /*
- * userport_rtc.c - Generic userport RTC emulation.
+ * userport_rtc_58321a.c - Generic userport RTC (58321a) emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,7 +24,7 @@
  *
  */
 
-/* Userport RTC (C64/C128/CBM2/PET/VIC20)
+/* Userport RTC 58321a (C64/C128/CBM2/PET/VIC20)
 
 C64/C128 | CBM2 | PET | VIC20 | NAME
 ------------------------------------
@@ -51,9 +51,9 @@ C64/C128 | CBM2 | PET | VIC20 | NAME
 #include "translate.h"
 #include "uiapi.h"
 #include "userport.h"
-#include "userport_rtc.h"
+#include "userport_rtc_58321a.h"
 
-int userport_rtc_enabled = 0;
+int userport_rtc_58321a_enabled = 0;
 
 /* rtc context */
 static rtc_58321a_t *rtc58321a_context = NULL;
@@ -98,7 +98,7 @@ static int set_userport_rtc_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    if (userport_rtc_enabled == val) {
+    if (userport_rtc_58321a_enabled == val) {
         return 0;
     }
 
@@ -117,7 +117,7 @@ static int set_userport_rtc_enabled(int value, void *param)
         userport_rtc_list_item = NULL;
     }
 
-    userport_rtc_enabled = val;
+    userport_rtc_58321a_enabled = val;
     return 0;
 }
 
@@ -131,13 +131,13 @@ static int set_userport_rtc_save(int val, void *param)
 
 static const resource_int_t resources_int[] = {
     { "UserportRTC", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &userport_rtc_enabled, set_userport_rtc_enabled, NULL },
+      &userport_rtc_58321a_enabled, set_userport_rtc_enabled, NULL },
     { "UserportRTCSave", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &rtc58321a_rtc_save, set_userport_rtc_save, NULL },
     { NULL }
 };
 
-int userport_rtc_resources_init(void)
+int userport_rtc_58321a_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
@@ -167,12 +167,12 @@ static const cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-int userport_rtc_cmdline_options_init(void)
+int userport_rtc_58321a_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
 
-void userport_rtc_resources_shutdown(void)
+void userport_rtc_58321a_resources_shutdown(void)
 {
     if (rtc58321a_context) {
         rtc58321a_destroy(rtc58321a_context, rtc58321a_rtc_save);
