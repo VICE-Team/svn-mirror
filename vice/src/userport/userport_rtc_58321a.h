@@ -1,5 +1,5 @@
 /*
- * userport_rtc.h: Generic userport rtc (58321a) device emulation.
+ * userport_rtc_58321a.h: Generic userport rtc (58321a) device emulation.
  *
  * Written by
  *  Marco van den Heuvel <viceteam@t-online.de>
