@@ -12,7 +12,7 @@ LIB
 3
 WString
 5
-o_2sn
+o_2so
 1
 0
 1
@@ -67,8 +67,8 @@ o?2??Include directories:
 1
 17
 WString
-184
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\raster;..\..\..\drive;..\..\..\tape;..\..\..\sid;..\..\..\vic20;..\..\..\vic20\cart;..\..\..\c64\cart;..\..\..\rtc;..\..\..\joyport
+204
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\raster;..\..\..\drive;..\..\..\tape;..\..\..\sid;..\..\..\vic20;..\..\..\vic20\cart;..\..\..\c64\cart;..\..\..\rtc;..\..\..\joyport;..\..\..\samplerdrv
 0
 18
 MVState

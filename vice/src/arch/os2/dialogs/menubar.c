@@ -2235,7 +2235,7 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("EasyFlashWriteCRT", &val);
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_AUTOSAVE, val);
             resources_get_int("UserportRTC58321a", &val);
-            WinCheckMenuItem(hwnd, IDM_USERPORT_58321A_RTC, val);
+            WinCheckMenuItem(hwnd, IDM_USERPORT_RTC_58321A, val);
             resources_get_int("UserportRTC58321aSave", &val);
             WinCheckMenuItem(hwnd, IDM_USERPORT_RTC_58321A_SAVE, val);
 #endif
