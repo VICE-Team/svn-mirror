@@ -47,6 +47,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "monitor.h"
 #include "rawnet.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -88,6 +89,7 @@
 static void tfe_store(WORD io_address, BYTE byte);
 static BYTE tfe_read(WORD io_address);
 static BYTE tfe_peek(WORD io_address);
+static int tfe_dump(void);
 
 static io_source_t rrnet_io1_mmc64_device = {
     CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_MMC64 " Clockport",
@@ -98,7 +100,7 @@ static io_source_t rrnet_io1_mmc64_device = {
     tfe_store,
     tfe_read,
     tfe_peek,
-    NULL, /* TODO: dump */
+    tfe_dump,
     CARTRIDGE_TFE,
     0,
     0
@@ -113,7 +115,7 @@ static io_source_t rrnet_io1_retroreplay_device = {
     tfe_store,
     tfe_read,
     tfe_peek,
-    NULL, /* TODO: dump */
+    tfe_dump,
     CARTRIDGE_TFE,
     0,
     0
@@ -128,7 +130,7 @@ static io_source_t rrnet_io1_mmcreplay_device = {
     tfe_store,
     tfe_read,
     tfe_peek,
-    NULL, /* dump */
+    tfe_dump,
     CARTRIDGE_TFE,
     0,
     0
@@ -143,7 +145,7 @@ static io_source_t rrnet_io1_device = {
     tfe_store,
     tfe_read,
     tfe_peek,
-    NULL, /* dump */
+    tfe_dump,
     CARTRIDGE_TFE,
     0,
     0
@@ -158,7 +160,7 @@ static io_source_t tfe_io1_device = {
     tfe_store,
     tfe_read,
     tfe_peek,
-    NULL, /* dump */
+    tfe_dump,
     CARTRIDGE_TFE,
     0,
     0
@@ -173,7 +175,7 @@ static io_source_t rrnet_io2_mmc64_device = {
     tfe_store,
     tfe_read,
     tfe_peek,
-    NULL, /* dump */
+    tfe_dump,
     CARTRIDGE_TFE,
     0,
     0
@@ -417,6 +419,16 @@ static void tfe_store(WORD io_address, BYTE byte)
     }
 }
 
+static int tfe_dump(void)
+{
+    mon_out("CS8900 mapped to $%04x ($%04x-$%04x).\n",
+            tfe_current_device->start_address & ~tfe_current_device->address_mask,
+            tfe_current_device->start_address,
+            tfe_current_device->end_address);
+
+    return cs8900_dump();
+}
+
 static int set_tfe_disabled(int val, void *param)
 {
     /* dummy function since we don't want "disabled" to be stored on disk */
@@ -466,6 +478,7 @@ static int set_tfe_enabled(int value, void *param)
                 tfe_list_item = NULL;
                 c64export_remove(&export_res);
             }
+            tfe_clockport_changed();
             return 0;
         } else {
             if (!tfe_enabled) {
@@ -492,7 +505,7 @@ static int set_tfe_enabled(int value, void *param)
                 }
                 tfe_list_item = io_source_register(tfe_current_device);
             }
-
+            tfe_clockport_changed();
             return 0;
         }
     }
@@ -507,7 +520,7 @@ static int set_tfe_interface(const char *name, void *param)
 
     util_string_set(&tfe_interface, name);
 
-    /* CV: if the last interface name was wrong then allow a retry with new name: */
+    /* if the last interface name was wrong then allow a retry with new name: */
     tfe_cannot_use = 0;
 
     if (tfe_enabled) {

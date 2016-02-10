@@ -98,7 +98,7 @@ static io_source_t final3_io1_device = {
     1, /* read is always valid */
     NULL,
     final_v3_io1_read,
-    final_v3_io1_read,
+    final_v3_io1_read, /* peek */
     final_v3_dump,
     CARTRIDGE_FINAL_III,
     0,
@@ -113,7 +113,7 @@ static io_source_t final3_io2_device = {
     1, /* read is always valid */
     final_v3_io2_store,
     final_v3_io2_read,
-    final_v3_io2_read,
+    final_v3_io2_read, /* peek */
     final_v3_dump,
     CARTRIDGE_FINAL_III,
     0,

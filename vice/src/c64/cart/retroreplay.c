@@ -44,6 +44,7 @@
 #include "flash040.h"
 #include "lib.h"
 #include "maincpu.h"
+#include "monitor.h"
 #include "resources.h"
 #include "translate.h"
 #include "snapshot.h"
@@ -87,8 +88,8 @@
 #endif
 
 /* Cart is activated.  */
-static int rr_active;
-int rr_clockport_enabled;
+static int rr_active = 0;
+int rr_clockport_enabled = 0;
 
 /* current bank */
 static int rr_bank;
@@ -128,6 +129,7 @@ static BYTE retroreplay_io1_read(WORD addr);
 static void retroreplay_io1_store(WORD addr, BYTE value);
 static BYTE retroreplay_io2_read(WORD addr);
 static void retroreplay_io2_store(WORD addr, BYTE value);
+static int retroreplay_dump(void);
 
 static io_source_t retroreplay_io1_device = {
     CARTRIDGE_NAME_RETRO_REPLAY,
@@ -138,9 +140,9 @@ static io_source_t retroreplay_io1_device = {
     retroreplay_io1_store,
     retroreplay_io1_read,
     NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    retroreplay_dump,
     CARTRIDGE_RETRO_REPLAY,
-    0,
+    1,
     0
 };
 
@@ -153,7 +155,7 @@ static io_source_t retroreplay_io2_device = {
     retroreplay_io2_store,
     retroreplay_io2_read,
     NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    retroreplay_dump,
     CARTRIDGE_RETRO_REPLAY,
     0,
     0
@@ -318,20 +320,21 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                     cart_port_config_changed_slotmain();
                 } else {
                     if (write_once == 0) {
-                        rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
-                        cart_romhbank_set_slotmain(rr_bank);
-                        cart_romlbank_set_slotmain(rr_bank);
                         allow_bank = value & 2;
                         no_freeze = value & 4;
                         reu_mapping = value & 0x40;
-                        if (rr_clockport_enabled != (value & 1)) {
-                            rr_clockport_enabled = value & 1;
-#ifdef HAVE_TFE
-                            tfe_clockport_changed();
-#endif
-                        }
                         write_once = 1;
-                        cart_port_config_changed_slotmain();
+                    }
+                    /* bits 0 and 3,4,5,7 (bank) are not write once */
+                    rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
+                    cart_romhbank_set_slotmain(rr_bank);
+                    cart_romlbank_set_slotmain(rr_bank);
+                    cart_port_config_changed_slotmain();
+                    if (rr_clockport_enabled != (value & 1)) {
+                        rr_clockport_enabled = value & 1;
+#ifdef HAVE_TFE
+                        tfe_clockport_changed();
+#endif
                     }
                 }
                 break;
@@ -529,6 +532,16 @@ void retroreplay_mmu_translate(unsigned int addr, BYTE **base, int *start, int *
     *limit = 0;
 }
 
+static int retroreplay_dump(void)
+{
+    /* FIXME: incomplete */
+    mon_out("Retro Replay registers are %s.\n", rr_active ? "enabled" : "disabled");
+    mon_out("Clockport is %s.\n", rr_clockport_enabled ? "enabled" : "disabled");
+
+    return 0;
+}
+
+
 /* ---------------------------------------------------------------------*/
 
 void retroreplay_freeze(void)
@@ -585,6 +598,9 @@ void retroreplay_reset(void)
        only a powercycle would help. we do it here anyway :)
     */
     flash040core_reset(flashrom_state);
+#ifdef HAVE_TFE
+    tfe_clockport_changed();
+#endif
 }
 
 void retroreplay_config_setup(BYTE *rawcart)
@@ -732,6 +748,10 @@ static int retroreplay_common_attach(void)
 
     retroreplay_io1_list_item = io_source_register(&retroreplay_io1_device);
     retroreplay_io2_list_item = io_source_register(&retroreplay_io2_device);
+
+#ifdef HAVE_TFE
+    tfe_clockport_changed();
+#endif
 
     return 0;
 }
@@ -940,6 +960,9 @@ void retroreplay_detach(void)
     io_source_unregister(retroreplay_io2_list_item);
     retroreplay_io1_list_item = NULL;
     retroreplay_io2_list_item = NULL;
+#ifdef HAVE_TFE
+    tfe_clockport_changed();
+#endif
 }
 
 /* ---------------------------------------------------------------------*/

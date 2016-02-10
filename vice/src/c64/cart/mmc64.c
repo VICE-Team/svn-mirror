@@ -47,6 +47,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "spi-sdcard.h"
@@ -160,38 +161,41 @@ static int mmc64_deactivate(void);
 
 /* some prototypes are needed */
 static void mmc64_clockport_enable_store(WORD addr, BYTE value);
+static BYTE mmc64_clockport_enable_peek(WORD addr);
 static void mmc64_io1_store(WORD addr, BYTE value);
 static BYTE mmc64_io1_read(WORD addr);
 static BYTE mmc64_io1_peek(WORD addr);
 static void mmc64_io2_store(WORD addr, BYTE value);
 static BYTE mmc64_io2_read(WORD addr);
 static BYTE mmc64_io2_peek(WORD addr);
+static int mmc64_dump(void);
 
 static io_source_t mmc64_io1_clockport_device = {
-    CARTRIDGE_NAME_MMC64 " CLOCKPORT ENABLE",
+    CARTRIDGE_NAME_MMC64 " Clockport enable",
     IO_DETACH_RESOURCE,
     "MMC64",
     0xde01, 0xde01, 0x01,
     0,
     mmc64_clockport_enable_store,
-    NULL,
-    NULL,
-    NULL,
+    NULL, /* read */
+    mmc64_clockport_enable_peek,
+    mmc64_dump,
     CARTRIDGE_MMC64,
     0,
     0
 };
 
+/* FIXME: register map doesnt show a register at $df21 - is this correct? */
 static io_source_t mmc64_io2_clockport_device = {
-    CARTRIDGE_NAME_MMC64 " CLOCKPORT ENABLE",
+    CARTRIDGE_NAME_MMC64 " Clockport enable",
     IO_DETACH_RESOURCE,
     "MMC64",
     0xdf21, 0xdf21, 0x01,
     0,
     mmc64_clockport_enable_store,
-    NULL,
-    NULL,
-    NULL,
+    NULL, /* read */
+    mmc64_clockport_enable_peek,
+    mmc64_dump,
     CARTRIDGE_MMC64,
     0,
     0
@@ -214,7 +218,7 @@ static io_source_t mmc64_io2_device = {
     mmc64_io2_store,
     mmc64_io2_read,
     mmc64_io2_peek,
-    NULL,
+    mmc64_dump,
     CARTRIDGE_MMC64,
     1, /* mask df10-df13 from passthrough */
     0
@@ -229,7 +233,7 @@ static io_source_t mmc64_io1_device = {
     mmc64_io1_store,
     mmc64_io1_read,
     mmc64_io1_peek,
-    NULL,
+    mmc64_dump,
     CARTRIDGE_MMC64,
     0,
     0
@@ -573,6 +577,11 @@ static void mmc64_clockport_enable_store(WORD addr, BYTE value)
     }
 }
 
+static BYTE mmc64_clockport_enable_peek(WORD addr)
+{
+    return mmc64_clockport_enabled;
+}
+
 static void mmc64_reg_store(WORD addr, BYTE value, int active)
 {
     switch (addr) {
@@ -907,6 +916,16 @@ static BYTE mmc64_io2_peek(WORD addr)
 static BYTE mmc64_io1_peek(WORD addr)
 {
     return mmc64_io2_peek(addr);
+}
+
+/* ---------------------------------------------------------------------*/
+
+static int mmc64_dump(void)
+{
+    mon_out("Clockport is %s.\n", mmc64_clockport_enabled ? "enabled" : "disabled");
+    mon_out("Clockport mapped to $%04x.\n", mmc64_hw_clockport);
+
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/

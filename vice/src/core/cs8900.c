@@ -42,6 +42,7 @@
 #include "crc32.h"
 #include "lib.h"
 #include "log.h"
+#include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "rawnetarch.h"
@@ -389,7 +390,15 @@ void cs8900_reset(void)
     SET_PP_16(TFE_PP_ADDR_SE_BUFEVENT, 0x000C);
     SET_PP_16(TFE_PP_ADDR_SE_RXMISS, 0x0010);
     SET_PP_16(TFE_PP_ADDR_SE_TXCOL, 0x0012);
-    SET_PP_16(TFE_PP_ADDR_SE_LINEST, 0x0014);
+    /* according to specs the reset value is 0x0014, however we also set
+       bit  7 - Link OK
+       bit  9 - 10Base-T
+       bit 12 - Polarity OK
+       which makes 0x1294 ... because some software might check these and
+       expects them to be "Up".
+       FIXME: we should perhaps maintain these bits elsewhere
+    */
+    SET_PP_16(TFE_PP_ADDR_SE_LINEST, 0x1294);
     SET_PP_16(TFE_PP_ADDR_SE_SELFST, 0x0016);
     SET_PP_16(TFE_PP_ADDR_SE_BUSST, 0x0018);
     SET_PP_16(TFE_PP_ADDR_SE_TDR, 0x001C);
@@ -1531,7 +1540,7 @@ void cs8900_store(WORD io_address, BYTE byte)
     }
 
     if (reg_base == TFE_ADDR_PP_PTR) {
-        /* cv: we store the full package pointer in tfe_packetpage_ptr variable.
+        /*  we store the full package pointer in tfe_packetpage_ptr variable.
             this includes the mask area (0xf000) and the addr range (0x0fff).
             we ensure that the bits 0x3000 are always set (as in real HW).
             odd values of the pointer are valid and supported.
@@ -1596,6 +1605,14 @@ void cs8900_store(WORD io_address, BYTE byte)
     /* update tfe registers */
     tfe[reg_base] = LO_BYTE(word_value);
     tfe[reg_base + 1] = HI_BYTE(word_value);
+}
+
+int cs8900_dump(void)
+{
+    /* FIXME: this is incomplete */
+    mon_out("Link status: %s\n", (GET_PP_16(TFE_PP_ADDR_SE_LINEST) & 0x80) ? "up" : "no link");
+    mon_out("Package Page Ptr: $%04X (autoincrement %s)\n", tfe_packetpage_ptr & PP_PTR_ADDR_MASK, (tfe_packetpage_ptr & PP_PTR_AUTO_INCR_FLAG) != 0 ? "enabled" : "disabled");
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
