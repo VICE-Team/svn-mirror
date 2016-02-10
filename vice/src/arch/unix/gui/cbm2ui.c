@@ -68,7 +68,7 @@
 #include "uisound.h"
 #include "uimenu.h"
 #include "uinetplay.h"
-#include "uiuserportrtc58321.h"
+#include "uiuserportrtc58321a.h"
 #include "uivicii.h"
 #include "vsync.h"
 
