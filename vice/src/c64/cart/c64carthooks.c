@@ -116,6 +116,7 @@
 #include "rexep256.h"
 #include "rexutility.h"
 #include "rgcd.h"
+#include "rrnetmk3.h"
 #include "ross.h"
 #include "silverrock128.h"
 #include "simonsbasic.h"
@@ -435,6 +436,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_RGCD_CART,
       NULL, NULL },
+    { "-cartrrnet", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_RRNETMK3, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_RRNETMK3_CART,
+      NULL, NULL },
     { "-cartross", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_ROSS, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -545,6 +551,7 @@ int cart_cmdline_options_init(void)
         || ide64_cmdline_options_init() < 0
         || mmcreplay_cmdline_options_init() < 0
         || retroreplay_cmdline_options_init() < 0
+        || rrnetmk3_cmdline_options_init() < 0
         || supersnapshot_v5_cmdline_options_init() < 0
         ) {
         return -1;
@@ -600,6 +607,7 @@ int cart_resources_init(void)
         || ide64_resources_init() < 0
         || mmcreplay_resources_init() < 0
         || retroreplay_resources_init() < 0
+        || rrnetmk3_resources_init() < 0
         || supersnapshot_v5_resources_init() < 0
         ) {
         return -1;
@@ -642,6 +650,7 @@ void cart_resources_shutdown(void)
     ide64_resources_shutdown();
     mmcreplay_resources_shutdown();
     retroreplay_resources_shutdown();
+    rrnetmk3_resources_shutdown();
     supersnapshot_v5_resources_shutdown();
 
     /* "Slot 1" */
@@ -968,6 +977,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return rexep256_bin_attach(filename, rawcart);
         case CARTRIDGE_RGCD:
             return rgcd_bin_attach(filename, rawcart);
+        case CARTRIDGE_RRNETMK3:
+            return rrnetmk3_bin_attach(filename, rawcart);
         case CARTRIDGE_ROSS:
             return ross_bin_attach(filename, rawcart);
         case CARTRIDGE_SILVERROCK_128:
@@ -1165,6 +1176,9 @@ void cart_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_ROSS:
             ross_config_setup(rawcart);
+            break;
+        case CARTRIDGE_RRNETMK3:
+            rrnetmk3_config_setup(rawcart);
             break;
         case CARTRIDGE_SILVERROCK_128:
             silverrock128_config_setup(rawcart);
@@ -1570,6 +1584,9 @@ void cart_detach(int type)
         case CARTRIDGE_RGCD:
             rgcd_detach();
             break;
+        case CARTRIDGE_RRNETMK3:
+            rrnetmk3_detach();
+            break;
         case CARTRIDGE_ROSS:
             ross_detach();
             break;
@@ -1806,6 +1823,9 @@ void cartridge_init_config(void)
         case CARTRIDGE_RGCD:
             rgcd_config_init();
             break;
+        case CARTRIDGE_RRNETMK3:
+            rrnetmk3_config_init();
+            break;
         case CARTRIDGE_ROSS:
             ross_config_init();
             break;
@@ -1961,6 +1981,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_reset();
+            break;
+        case CARTRIDGE_RRNETMK3:
+            rrnetmk3_reset();
             break;
         case CARTRIDGE_RGCD:
             rgcd_reset();
@@ -2172,6 +2195,8 @@ int cartridge_flush_image(int type)
             return mmcreplay_flush_image();
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_flush_image();
+        case CARTRIDGE_RRNETMK3:
+            return rrnetmk3_flush_image();
         /* "I/O" */
         case CARTRIDGE_GEORAM:
             return georam_flush_image();
@@ -2210,6 +2235,8 @@ int cartridge_bin_save(int type, const char *filename)
             return mmcreplay_bin_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_save(filename);
+        case CARTRIDGE_RRNETMK3:
+            return rrnetmk3_bin_save(filename);
         /* "I/O Slot" */
         case CARTRIDGE_GEORAM:
             return georam_bin_save(filename);
@@ -2245,6 +2272,8 @@ int cartridge_crt_save(int type, const char *filename)
             return mmcreplay_crt_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_crt_save(filename);
+        case CARTRIDGE_RRNETMK3:
+            return rrnetmk3_crt_save(filename);
     }
     return -1;
 }
@@ -2369,6 +2398,9 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
             return;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_mmu_translate(addr, base, start, limit);
+            return;
+        case CARTRIDGE_RRNETMK3:
+            rrnetmk3_mmu_translate(addr, base, start, limit);
             return;
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
             supersnapshot_v5_mmu_translate(addr, base, start, limit);
@@ -2722,6 +2754,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_RGCD:
                 if (rgcd_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_RRNETMK3:
+                if (rrnetmk3_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -3191,6 +3228,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_RGCD:
                 if (rgcd_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_RRNETMK3:
+                if (rrnetmk3_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

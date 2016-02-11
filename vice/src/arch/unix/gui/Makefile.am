@@ -154,6 +154,8 @@ libarchgui_a_SOURCES = \
 	uiretroreplay.h \
 	uireu.c \
 	uireu.h \
+	uirrnetmk3.c \
+	uirrnetmk3.h \
 	uiromset.c \
 	uiromset.h \
 	uirs232.c \

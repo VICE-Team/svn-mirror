@@ -203,8 +203,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_SILVERROCK_128       55 /* silverrock128.c */
 #define CARTRIDGE_FORMEL64             56 /* formel64.c */
 #define CARTRIDGE_RGCD                 57 /* rgcd.c */
+#define CARTRIDGE_RRNETMK3             58 /* rrnetmk3.c */
 
-#define CARTRIDGE_LAST                 57 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 58 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -280,6 +281,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_REX                "REX Utility"
 #define CARTRIDGE_NAME_RGCD               "RGCD"
 #define CARTRIDGE_NAME_RRNET              "RR-Net" /* see manual */
+#define CARTRIDGE_NAME_RRNETMK3           "RR-Net MK3" /* see manual */
 #define CARTRIDGE_NAME_RETRO_REPLAY       "Retro Replay" /* see manual */
 #define CARTRIDGE_NAME_ROSS               "ROSS"
 #define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Sound Expander" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-sfx-fmbport.jpg */

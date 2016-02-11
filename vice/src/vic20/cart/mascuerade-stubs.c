@@ -70,6 +70,11 @@ int retroreplay_cart_enabled(void)
     return 0;
 }
 
+int rrnetmk3_cart_enabled(void)
+{
+    return 0;
+}
+
 int cartridge_type_enabled(int type)
 {
     return 0;

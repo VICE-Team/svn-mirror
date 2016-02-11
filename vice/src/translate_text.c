@@ -7003,6 +7003,74 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_TR, ""},  /* fuzzy */
 #endif
 
+/* c64/cart/rrnetmk3.c */
+/* en */ {IDCLS_RRNETMK3_BIOS_WRITE,    N_("Save the RRNETMK3 bios when changed")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_RRNETMK3_BIOS_WRITE_DA, "Gem RRNETMK3-BIOS ved ændring"},
+/* de */ {IDCLS_RRNETMK3_BIOS_WRITE_DE, "RRNETMK3 BIOS speichern bei Änderung"},
+/* es */ {IDCLS_RRNETMK3_BIOS_WRITE_ES, "Grabar BIOS RRNETMK3 cuando cambie"},
+/* fr */ {IDCLS_RRNETMK3_BIOS_WRITE_FR, "Sauvegarder le BIOS RRNETMK3 lorsque modifié"},
+/* hu */ {IDCLS_RRNETMK3_BIOS_WRITE_HU, "RRNETMK3 BIOS mentése változás után"},
+/* it */ {IDCLS_RRNETMK3_BIOS_WRITE_IT, "Salva il bios RRNETMK3 alla modifica"},
+/* ko */ {IDCLS_RRNETMK3_BIOS_WRITE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_RRNETMK3_BIOS_WRITE_NL, "Sla de RRNETMK3 BIOS op als er veranderingen zijn gemaakt"},
+/* pl */ {IDCLS_RRNETMK3_BIOS_WRITE_PL, "Zapisuj bios RRNETMK3 przy zmianie"},
+/* ru */ {IDCLS_RRNETMK3_BIOS_WRITE_RU, "Save the RRNETMK3 bios when changed"},
+/* sv */ {IDCLS_RRNETMK3_BIOS_WRITE_SV, "Spara RRNETMK3-BIOS vid ändring"},
+/* tr */ {IDCLS_RRNETMK3_BIOS_WRITE_TR, "RRNETMK3 BIOS'unu deðiþtiðinde kaydet"},
+#endif
+
+/* c64/cart/rrnetmk3.c */
+/* en */ {IDCLS_RRNETMK3_BIOS_READ_ONLY,    N_("Do not save the RRNETMK3 bios when changed")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_DE, "RRNETMK3 BIOS nicht speichern bei Änderung"},
+/* es */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_ES, "No grabar BIOS RRNETMK3 cuando cambie"},
+/* fr */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_IT, "Non salvare il bios RRNETMK3 alla modifica"},
+/* ko */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_NL, "Sla de RRNETMK3 BIOS niet op als er veranderingen zijn gemaakt"},
+/* pl */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_PL, "Nie zapisuj bios-a RRNETMK3 przy zmianie"},
+/* ru */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/rrnetmk3.c */
+/* en */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER,    N_("Set the RRNETMK3 Flash Jumper")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_DE, "Aktiviere RRNETMK3 Flash Jumper"},
+/* es */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_ES, "Seleccionar el  RRNETMK3 Flash Jumper"},
+/* fr */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_IT, "Imposta il ponticello flash della RRNETMK3"},
+/* ko */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_NL, "Zet de RRNETMK3 Flash Jumper"},
+/* pl */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_PL, "Ustaw zworkê RRNETMK3 Flash"},
+/* ru */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/rrnetmk3.c */
+/* en */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER,    N_("Remove the RRNETMK3 Flash Jumper")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_DE, "Deaktiviere RRNETMK3 Flash Jumper"},
+/* es */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_ES, "Quitar el  RRNETMK3 Flash Jumper"},
+/* fr */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_IT, "Rimuovi il ponticello flash della RRNETMK3"},
+/* ko */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_NL, "Verwijder de RRNETMK3 Flash Jumper"},
+/* pl */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_PL, "Usuñ zworkê RR Flash"},
+/* ru */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/mmcreplay.c */
 /* en */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME,    N_("Specify MMC Replay card image filename")},
 #ifdef HAS_TRANSLATION
@@ -8516,6 +8584,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_ATTACH_RAW_RGCD_CART_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_RGCD_CART_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ATTACH_RAW_RGCD_CART_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_RRNETMK3_CART,    N_("Attach raw 8kB RR-Net MK3 cartridge image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */

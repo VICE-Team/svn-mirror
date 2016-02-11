@@ -59,6 +59,7 @@
 #include "mmc64.h"
 #include "mmcreplay.h"
 #include "retroreplay.h"
+#include "rrnetmk3.h"
 #include "tfe.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
@@ -123,6 +124,21 @@ static io_source_t rrnet_io1_retroreplay_device = {
 
 static io_source_t rrnet_io1_mmcreplay_device = {
     CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_MMC_REPLAY " Clockport",
+    IO_DETACH_RESOURCE,
+    "ETHERNET_ACTIVE",
+    0xde02, 0xde0f, 0x0f,
+    0,
+    tfe_store,
+    tfe_read,
+    tfe_peek,
+    tfe_dump,
+    CARTRIDGE_TFE,
+    0,
+    0
+};
+
+static io_source_t rrnet_io1_mk3_device = {
+    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_RRNETMK3,
     IO_DETACH_RESOURCE,
     "ETHERNET_ACTIVE",
     0xde02, 0xde0f, 0x0f,
@@ -338,6 +354,9 @@ void tfe_clockport_changed(void)
         }
         if (mmcreplay_cart_enabled() && mmcr_clockport_enabled) {
             tfe_current_device = &rrnet_io1_mmcreplay_device;
+        }
+        if (rrnetmk3_cart_enabled()) {
+            tfe_current_device = &rrnet_io1_mk3_device;
         }
     }
     /* if adapter is already enabled then reset the LAN chip */

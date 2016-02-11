@@ -197,6 +197,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_REX,                 CARTRIDGE_REX,                 CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_REX_EP256,           CARTRIDGE_REX_EP256,           CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_RGCD,                CARTRIDGE_RGCD,                CARTRIDGE_GROUP_GAME },
+    { CARTRIDGE_NAME_RRNETMK3,            CARTRIDGE_RRNETMK3,            CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_ROSS,                CARTRIDGE_ROSS,                CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_SILVERROCK_128,      CARTRIDGE_SILVERROCK_128,      CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_SIMONS_BASIC,        CARTRIDGE_SIMONS_BASIC,        CARTRIDGE_GROUP_UTIL },
@@ -267,63 +268,65 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_GENERIC_16KB:
         case CARTRIDGE_NONE:
         case CARTRIDGE_CRT:
+
         case CARTRIDGE_ACTION_REPLAY:
-        case CARTRIDGE_KCS_POWER:
-        case CARTRIDGE_FINAL_III:
-        case CARTRIDGE_SIMONS_BASIC:
-        case CARTRIDGE_OCEAN:
-        case CARTRIDGE_EXPERT:
-        case CARTRIDGE_FUNPLAY:
-        case CARTRIDGE_SUPER_GAMES:
+        case CARTRIDGE_ACTION_REPLAY2:
+        case CARTRIDGE_ACTION_REPLAY3:
+        case CARTRIDGE_ACTION_REPLAY4:
         case CARTRIDGE_ATOMIC_POWER:
-        case CARTRIDGE_EPYX_FASTLOAD:
-        case CARTRIDGE_WESTERMANN:
-        case CARTRIDGE_REX:
-        case CARTRIDGE_FINAL_I:
-        case CARTRIDGE_MAGIC_FORMEL:
-        case CARTRIDGE_GS:
-        case CARTRIDGE_WARPSPEED:
-        case CARTRIDGE_DINAMIC:
-        case CARTRIDGE_ZAXXON:
-        case CARTRIDGE_MAGIC_DESK:
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        case CARTRIDGE_CAPTURE:
         case CARTRIDGE_COMAL80:
-        case CARTRIDGE_STRUCTURED_BASIC:
-        case CARTRIDGE_RGCD:
-        case CARTRIDGE_ROSS:
         case CARTRIDGE_DELA_EP64:
         case CARTRIDGE_DELA_EP7x8:
         case CARTRIDGE_DELA_EP256:
-        case CARTRIDGE_REX_EP256:
-        case CARTRIDGE_MIKRO_ASSEMBLER:
-        case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_ACTION_REPLAY4:
-        case CARTRIDGE_STARDOS:
+        case CARTRIDGE_DIASHOW_MAKER:
+        case CARTRIDGE_DINAMIC:
         case CARTRIDGE_EASYFLASH:
         case CARTRIDGE_EASYFLASH_XBANK:
-        case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_ACTION_REPLAY3:
-        case CARTRIDGE_RETRO_REPLAY:
-        case CARTRIDGE_MMC64:
-        case CARTRIDGE_MMC_REPLAY:
-        case CARTRIDGE_IDE64:
-        case CARTRIDGE_SUPER_SNAPSHOT:
-        case CARTRIDGE_IEEE488:
-        case CARTRIDGE_GAME_KILLER:
-        case CARTRIDGE_P64:
+        case CARTRIDGE_EPYX_FASTLOAD:
+        case CARTRIDGE_EXPERT:
         case CARTRIDGE_EXOS:
+        case CARTRIDGE_FINAL_I:
+        case CARTRIDGE_FINAL_III:
+        case CARTRIDGE_FINAL_PLUS:
+        case CARTRIDGE_FORMEL64:
         case CARTRIDGE_FREEZE_FRAME:
         case CARTRIDGE_FREEZE_MACHINE:
-        case CARTRIDGE_SNAPSHOT64:
-        case CARTRIDGE_SUPER_EXPLODE_V5:
-        case CARTRIDGE_MAGIC_VOICE:
-        case CARTRIDGE_ACTION_REPLAY2:
-        case CARTRIDGE_MACH5:
-        case CARTRIDGE_DIASHOW_MAKER:
-        case CARTRIDGE_PAGEFOX:
+        case CARTRIDGE_FUNPLAY:
+        case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_GS:
+        case CARTRIDGE_IEEE488:
+        case CARTRIDGE_IDE64:
         case CARTRIDGE_KINGSOFT:
+        case CARTRIDGE_KCS_POWER:
+        case CARTRIDGE_MACH5:
+        case CARTRIDGE_MAGIC_DESK:
+        case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_MAGIC_VOICE:
+        case CARTRIDGE_MIKRO_ASSEMBLER:
+        case CARTRIDGE_MMC64:
+        case CARTRIDGE_MMC_REPLAY:
+        case CARTRIDGE_OCEAN:
+        case CARTRIDGE_P64:
+        case CARTRIDGE_PAGEFOX:
+        case CARTRIDGE_RETRO_REPLAY:
+        case CARTRIDGE_REX:
+        case CARTRIDGE_REX_EP256:
+        case CARTRIDGE_RGCD:
+        case CARTRIDGE_RRNETMK3:
+        case CARTRIDGE_ROSS:
+        case CARTRIDGE_SNAPSHOT64:
+        case CARTRIDGE_SIMONS_BASIC:
         case CARTRIDGE_SILVERROCK_128:
-        case CARTRIDGE_FORMEL64:
+        case CARTRIDGE_STARDOS:
+        case CARTRIDGE_STRUCTURED_BASIC:
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+        case CARTRIDGE_SUPER_GAMES:
+        case CARTRIDGE_SUPER_SNAPSHOT:
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        case CARTRIDGE_WARPSPEED:
+        case CARTRIDGE_WESTERMANN:
+        case CARTRIDGE_ZAXXON:
             break;
         default:
             return -1;

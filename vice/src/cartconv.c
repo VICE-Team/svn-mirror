@@ -179,6 +179,7 @@ static const cart_t cart_info[] = {
     {0, 1, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, CARTRIDGE_NAME_SILVERROCK_128, "silver", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0xe000, 4, 0, CARTRIDGE_NAME_FORMEL64, "f64", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, CARTRIDGE_NAME_RGCD, "rgcd", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_RRNETMK3, "rrnet", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
@@ -498,7 +499,7 @@ static int checkflag(char *flg, char *arg)
             } else {
                 for (i = 0; cart_info[i].name != NULL; i++) {
                     if (cart_info[i].opt != NULL) {
-                        if (!strncasecmp(cart_info[i].opt, arg, strlen(cart_info[i].opt))) {
+                        if (!strcasecmp(cart_info[i].opt, arg)) {
                             cart_type = i;
                             break;
                         }

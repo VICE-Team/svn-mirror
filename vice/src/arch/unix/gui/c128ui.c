@@ -72,6 +72,7 @@
 #include "uiramcart.h"
 #include "uiretroreplay.h"
 #include "uireu.h"
+#include "uirrnetmk3.h"
 #include "uiromset.h"
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -261,6 +262,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("Ethernet emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, tfe_c64_submenu },
 #endif
+    { CARTRIDGE_NAME_RRNETMK3, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, rrnetmk3_submenu },
     { CARTRIDGE_NAME_IEEE488, UI_MENU_TYPE_NORMAL,
       NULL, NULL, tpi_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },

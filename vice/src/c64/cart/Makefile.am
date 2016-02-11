@@ -130,6 +130,8 @@ libc64cart_a_SOURCES = \
 	rgcd.h \
 	ross.c \
 	ross.h \
+	rrnetmk3.c \
+	rrnetmk3.h \
 	silverrock128.c \
 	silverrock128.h \
 	simonsbasic.c \

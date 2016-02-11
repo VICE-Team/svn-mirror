@@ -97,6 +97,7 @@
 #include "reu.h"
 #include "rexep256.h"
 #include "rexutility.h"
+#include "rrnetmk3.h"
 #include "ross.h"
 #include "simonsbasic.h"
 #include "snapshot64.h"
@@ -590,6 +591,8 @@ static BYTE roml_read_slotmain(WORD addr)
             return pagefox_roml_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_roml_read(addr);
+        case CARTRIDGE_RRNETMK3:
+            return rrnetmk3_roml_read(addr);
         case CARTRIDGE_STARDOS:
             return stardos_roml_read(addr);
         case CARTRIDGE_SNAPSHOT64:
@@ -730,6 +733,9 @@ void roml_store(WORD addr, BYTE value)
             return;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_roml_store(addr, value);
+            return;
+        case CARTRIDGE_RRNETMK3:
+            rrnetmk3_roml_store(addr, value);
             return;
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_EXOS:
@@ -1079,6 +1085,11 @@ void roml_no_ultimax_store(WORD addr, BYTE value)
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_roml_no_ultimax_store(addr, value)) {
                 return; /* FIXME: this is weird */
+            }
+            break;
+        case CARTRIDGE_RRNETMK3:
+            if (rrnetmk3_roml_store(addr, value)) {
+                return; /* FAKE ultimax, if EEPROM was being written to, dont write to RAM */
             }
             break;
         case CARTRIDGE_IDE64:
@@ -1889,6 +1900,9 @@ static BYTE cartridge_peek_mem_slotmain(WORD addr)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             res = retroreplay_peek_mem(&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_RRNETMK3:
+            res = rrnetmk3_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_STARDOS:
             res = stardos_peek_mem(&export_slotmain, addr, &value);
