@@ -85,6 +85,7 @@ EXTRA_DIST = \
 	resid-specific.tgt \
 	resid.tgt \
 	rs232drv.tgt \
+	rtc.tgt \
 	samplerdrv.tgt \
 	scpu64.tgt \
 	serial.tgt \
