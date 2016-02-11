@@ -5562,6 +5562,8 @@ Retro Replay
 @item
 RGCD
 @item
+RR-Net MK3
+@item
 ROSS
 @item
 Simons' BASIC
@@ -5847,6 +5849,8 @@ The following cartridge types are valid:
 56: Formel 64
 @item
 57: RGCD
+@item
+58: RR-Net MK3
 @end itemize
 
 @vindex CartridgeFile
@@ -6652,6 +6656,10 @@ Attach raw 64kB RGCD cartridge image.
 @findex -cartross
 @item -cartross <name>
 Attach raw 16/32kB ROSS cartridge image.
+
+@findex -cartrrnet
+@item -cartrrnet <name>
+Attach raw 8KB RR-Net MK3 cartridge image.
 
 @findex -cartrr
 @item -cartrr <name>
@@ -17463,6 +17471,8 @@ RGCD .crt file
 ROSS .crt file
 @item rr
 Retro Replay .crt file
+@item rrnet
+RR-Net MK3 .crt file
 @item ru
 REX Utility .crt file
 @item s64
@@ -23021,6 +23031,7 @@ Camels"@dots{}
                       55 - Silverrock 128K Cartridge
                       56 - Formel 64
                       57 - RGCD
+                      58 - RR-Net MK3
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -25862,6 +25873,32 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???‚????????????
     bit 3     exrom latch (1 = cart disabled until reset or powercycle)
 @end example
 
+@c @node FIXME
+@subsubsection 58 - RR-Net MK3
+
+@c FIXME: todo
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8kb
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Startup mode
+@tab 8k Game
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+    This cartridge has a CS8900a based RR-Net compatible network interface, and
+    on  8Kb  ($2000)  bank ROM  located  at  $8000-$9FFF.  The ROM can be switched
+    on/off by writing to the IO1 space:
+
+@example
+    a write to $de80 enables the ROM
+    a write to $de88 disables the ROM
+@end example
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes
