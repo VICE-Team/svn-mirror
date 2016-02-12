@@ -29,6 +29,7 @@
 #include "c64cia.h"
 #include "c64keyboard.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "machine.h"
 #include "maincpu.h"

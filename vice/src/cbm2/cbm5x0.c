@@ -61,6 +61,7 @@
 #include "iecdrive.h"
 #include "init.h"
 #include "joyport.h"
+#include "joystick.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
