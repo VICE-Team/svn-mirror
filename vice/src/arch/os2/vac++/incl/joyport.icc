@@ -1,0 +1,7 @@
+source type(c)
+    "joyport.c",
+    "joystick.c",
+    "lightpen.c",
+    "mouse.c",
+    "sampler2bit.c",
+    "sampler4bit.c"

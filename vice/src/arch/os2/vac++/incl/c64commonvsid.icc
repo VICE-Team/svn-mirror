@@ -1,0 +1,3 @@
+source type(c)
+    "dlg-vsid.c",
+    "vsidui.c"

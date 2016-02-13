@@ -1,4 +1,5 @@
 source type(c)
+    "vicii-clock-stretch.c",
     "vicii-color.c",
     "vicii-draw.c",
     "vicii-snapshot.c",

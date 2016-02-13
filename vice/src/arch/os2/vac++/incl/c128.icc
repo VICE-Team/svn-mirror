@@ -17,7 +17,6 @@ source type(c)
     "c128rom.c",
     "c128romset.c",
     "c128video.c",
-    "daa.c",
     "functionrom.c",
     "z80.c",
     "z80mem.c"

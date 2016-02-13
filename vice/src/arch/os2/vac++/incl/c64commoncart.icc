@@ -1,6 +1,7 @@
 source type(c)
     "cart\\c64acia1.c",
     "cart\\digimax.c",
+    "cart\\ds12c887rtc.c",
     "cart\\georam.c",
     "cart\\sfx_soundexpander.c",
     "cart\\sfx_soundsampler.c",

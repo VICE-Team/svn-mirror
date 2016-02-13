@@ -1,0 +1,3 @@
+source type(c)
+    "platform.c",
+    "platform_x86_runtime_cpu.c"

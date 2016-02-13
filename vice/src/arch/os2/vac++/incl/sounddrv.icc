@@ -1,8 +1,8 @@
 source type(c)
     "soundaiff.c",
     "sounddart.c",
-    "sounddump.c",
     "sounddummy.c",
+    "sounddump.c",
     "soundfs.c",
     "soundiff.c",
     "soundmmos2.c",

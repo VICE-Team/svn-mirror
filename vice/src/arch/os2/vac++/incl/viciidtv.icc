@@ -2,3 +2,4 @@ source type(c)
     "viciidtv-color.c",
     "viciidtv-draw.c",
     "viciidtv-snapshot.c"
+

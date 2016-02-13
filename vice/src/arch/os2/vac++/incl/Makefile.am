@@ -5,9 +5,22 @@ EXTRA_DIST = \
 	c64cart.icc \
 	c64commonall.icc \
 	c64commonc64dtv.icc \
-	c64commonc64sc.icc \
 	c64commonc128.icc \
 	c64commoncart.icc \
+	c64commonsc.icc \
+	c64commonsc128.icc \
+	c64commonsc128scpu.icc \
+	c64commonscdtv128scpu.icc \
+	c64commonscdtvscpu.icc \
+	c64commonscscpu.icc \
+	c64commonscvsid.icc \
+	c64commonscvsid128.icc \
+	c64commonvsid.icc \
+	c64commonvsidsc128scpu.icc \
+	c64commonvsidscdtv.icc \
+	c64commonvsidscdtvscpu.icc \
+	c64commonvsidscpu.icc \
+	c64commonvsidscscpu.icc \
 	c64dtv.icc \
 	c64sc.icc \
 	cbm2.icc \
@@ -29,6 +42,7 @@ EXTRA_DIST = \
 	iecplus4exp.icc \
 	ieee.icc \
 	imagecontents.icc \
+	joyport.icc \
 	kbd.icc \
 	mainsrc.icc \
 	mon6809.icc \
@@ -37,6 +51,7 @@ EXTRA_DIST = \
 	p64.icc \
 	parallel.icc \
 	pet.icc \
+	platform.icc \
 	plus4.icc \
 	printerdrv.icc \
 	raster.icc \
@@ -45,6 +60,8 @@ EXTRA_DIST = \
 	resources.icc \
 	rs232drv.icc \
 	rtc.icc \
+	samplerdrv.icc \
+	scpu64.icc \
 	serial.icc \
 	sounddrv.icc \
 	tape.icc \
@@ -59,4 +76,5 @@ EXTRA_DIST = \
 	viciidtv.icc \
 	viciisc.icc \
 	video.icc \
-	vsid.icc
+	vsid.icc \
+	vsidlib.icc

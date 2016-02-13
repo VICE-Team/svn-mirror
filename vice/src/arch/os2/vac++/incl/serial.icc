@@ -8,3 +8,4 @@ source type(c)
     "serial-realdevice.c",
     "serial-trap.c",
     "serial.c"
+

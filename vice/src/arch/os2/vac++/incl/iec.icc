@@ -4,11 +4,7 @@ source type(c)
     "iec/fdd.c",
     "iec/glue1571.c",
     "iec/iec.c",
-    "iec/iec-cmdline-options.c",
-    "iec/iec-resources.c",
-    "iec/iecrom.c",
     "iec/memiec.c",
     "iec/pc8477.c",
     "iec/via1d1541.c",
-    "iec/via4000.c",
-    "iec/wd1770.c"
+    "iec/via4000.c"

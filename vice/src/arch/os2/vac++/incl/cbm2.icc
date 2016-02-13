@@ -2,6 +2,7 @@ source type(c)
     "cbm2-resources.c",
     "cbm2-snapshot.c",
     "cbm2.c",
+    "cbm2cia1.c",
     "cbm2mem.c",
     "cbm2rom.c",
     "cbm2video.c"

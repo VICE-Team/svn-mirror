@@ -1,19 +1,14 @@
 source type(c)
-    "archdep.c",
     "blockdev.c",
     "console.c",
     "dialogs.c",
     "joy.c",
-    "joystick.c",
     "kbd.c",
+    "mousedrv.c"
     "os2main.c",
-    "signals.c",
+    "snippets\\dirport.c",
+    "snippets\\pmwin2.c",
     "sounddrv.c",
     "ui.c",
     "uicmdline.c",
-    "uimon.c",
-    "video.c",
-    "vsyncarch.c",
-    "snippets\\pmwin2.c",
-    "snippets\\dirport.c",
-    "snippets\\isatty.c"
+    "uimon.c"

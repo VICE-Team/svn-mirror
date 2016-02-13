@@ -7,3 +7,4 @@ source type(c)
     "fsdevice-resources.c",
     "fsdevice-write.c",
     "fsdevice.c"
+

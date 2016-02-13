@@ -3,4 +3,5 @@ source type(c)
     "iec/c64exp/c64exp-resources.c",
     "iec/c64exp/dolphindos3.c",
     "iec/c64exp/iec-c64exp.c",
-    "iec/c64exp/profdos.c"
+    "iec/c64exp/profdos.c",
+    "iec/c64exp/supercard.c"

@@ -2,6 +2,9 @@ source type(c)
     "bmpdrv.c",
     "doodledrv.c",
     "gfxoutput.c",
+    "godotdrv.c",
     "iffdrv.c",
+    "koaladrv.c",
+    "nativedrv.c",
     "pcxdrv.c",
     "ppmdrv.c"

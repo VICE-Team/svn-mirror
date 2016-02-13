@@ -8,8 +8,13 @@ source type(c)
     "drive-writeprotect.c",
     "drive.c",
     "drivecpu.c",
+    "drivecpu65c02.c",
     "driveimage.c",
     "drivemem.c",
     "driverom.c",
     "drivesync.c",
+    "iec-cmdline-options.c",
+    "iec-resources.c",
+    "iecrom.c",
+    "wd1770.c",
     "rotation.c"

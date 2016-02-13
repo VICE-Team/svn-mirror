@@ -8,8 +8,8 @@ source type(c)
     "interface-serial.c",
     "interface-userport.c",
     "output-graphics.c",
-    "output-text.c",
     "output-select.c",
-    "printer.c",
+    "output-text.c",
     "printer-serial.c",
-    "printer-userport.c"
+    "printer-userport.c",
+    "printer.c"

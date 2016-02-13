@@ -1,7 +1,4 @@
 source type(c)
-    "c64bus.c",
     "c64keyboard.c",
-    "c64parallel.c",
-    "c64printer.c",
     "c64rsuser.c",
     "patchrom.c"

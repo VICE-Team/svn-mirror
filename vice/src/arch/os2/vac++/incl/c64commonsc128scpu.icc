@@ -1,0 +1,6 @@
+source type(c)
+    "c64cia2.c",
+    "c64datasette.c",
+    "c64iec.c",
+    "c64io.c",
+    "c64sound.c"

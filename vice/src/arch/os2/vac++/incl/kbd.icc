@@ -1,3 +1,2 @@
 source type(c)
-    "proc.c",
     "parse.c"
