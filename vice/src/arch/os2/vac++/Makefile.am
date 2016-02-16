@@ -5,6 +5,8 @@ EXTRA_DIST = \
 	debug.h \
 	fonts1.icc \
 	fonts2.icc \
+	geninfocontrib.exe \
+	gentranslate.exe \
 	ide-config.h \
 	nonx1541-log.c \
 	petcat-archdep.c \
