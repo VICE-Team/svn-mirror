@@ -1,7 +1,0 @@
-option  link(pmtype, vio), opt(level, "2")
-{
-   target "geninfocontrib.exe"
-   {
-       source type(c) "..\\..\\win32\\utils\\geninfocontrib.c"
-   }
-}

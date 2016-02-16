@@ -1,0 +1,354 @@
+option  link(pmtype, vio)
+{
+   target "geninfocontrib.exe"
+   {
+   source type("c") "..\\..\\win32\\utils\\geninfocontrib.c"
+   }
+}
+option link(pmtype, vio)
+{
+    run "geninfocontrib ..\\..\\..\\..\\ ..\\..\\..\\..\\ doc\\vice.texi src\\infocontrib.h src\\infocontrib.sed AUTHORS src\\arch\\unix\\macosx\\Resources\\Credits.html README doc\\html\\index.html src\\arch\\os2\\dialogs\\dialogs.rc man\\vice.1"
+}
+option  link(pmtype, vio)
+{
+   target "gentranslate.exe"
+   {
+   source type("c") "..\\..\\win32\\utils\\gentranslate.c"
+   }
+}
+option link(pmtype, vio)
+{
+    run "gentranslate ..\\..\\..\\translate.txt ..\\..\\..\\translate.h ..\\..\\..\\translate_table.h"
+}
+option  link(pmtype, vio)
+{
+   target "cartconv.exe"
+   {
+   option incl(searchpath, "."), incl(searchpath, ".."),
+   incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+   {
+      source type("c") "..\\..\\..\\cartconv.c"
+   }
+   }
+}
+option incl(searchpath, "..\\kbd"), incl(searchpath, "..\\dialogs"), incl(searchpath, "..\\..\\..\\joyport"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "archdep.lib"
+   {
+   source type("c") "..\\blockdev.c", "..\\console.c", "..\\dialogs\\dialogs.c", "..\\joy.c", "..\\kbd.c", "..\\mousedrv.c", "..\\os2main.c", "..\\snippets\\pmwin2.c", "..\\sounddrv.c", "..\\ui.c", "..\\uicmdline.c", "..\\uimon.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\vicii"), incl(searchpath, "..\\..\\..\\sid"), incl(searchpath, "..\\..\\..\\c64\\cart"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "c64.lib"
+   {
+   source type("c") "..\\..\\..\\c64\\c64cpu.c"
+   source type("c") "..\\..\\..\\c64\\c64mem.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\core"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "..\\..\\..\\rtc"), incl(searchpath, "..\\..\\..\\vicii"), incl(searchpath, "..\\..\\..\\c64"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "c64cart.lib"
+   {
+   source type("c") "..\\..\\..\\c64\\cart\\actionreplay.c", "..\\..\\..\\c64\\cart\\actionreplay2.c", "..\\..\\..\\c64\\cart\\actionreplay3.c", "..\\..\\..\\c64\\cart\\actionreplay4.c", "..\\..\\..\\c64\\cart\\atomicpower.c", "..\\..\\..\\c64\\cart\\c64-generic.c", "..\\..\\..\\c64\\cart\\c64-midi.c", "..\\..\\..\\c64\\cart\\c64cart.c", "..\\..\\..\\c64\\cart\\c64carthooks.c", "..\\..\\..\\c64\\cart\\c64cartmem.c", "..\\..\\..\\c64\\cart\\c64tpi.c", "..\\..\\..\\c64\\cart\\capture.c", "..\\..\\..\\c64\\cart\\comal80.c", "..\\..\\..\\c64\\cart\\cpmcart.c",
+          "..\\..\\..\\c64\\cart\\crt.c", "..\\..\\..\\c64\\cart\\daa.c", "..\\..\\..\\c64\\cart\\debugcart.c", "..\\..\\..\\c64\\cart\\delaep256.c", "..\\..\\..\\c64\\cart\\delaep64.c", "..\\..\\..\\c64\\cart\\delaep7x8.c", "..\\..\\..\\c64\\cart\\diashowmaker.c", "..\\..\\..\\c64\\cart\\dinamic.c", "..\\..\\..\\c64\\cart\\dqbb.c", "..\\..\\..\\c64\\cart\\easyflash.c", "..\\..\\..\\c64\\cart\\epyxfastload.c", "..\\..\\..\\c64\\cart\\exos.c", "..\\..\\..\\c64\\cart\\expert.c", "..\\..\\..\\c64\\cart\\final.c", "..\\..\\..\\c64\\cart\\final3.c", "..\\..\\..\\c64\\cart\\finalplus.c",
+          "..\\..\\..\\c64\\cart\\formel64.c", "..\\..\\..\\c64\\cart\\freezeframe.c", "..\\..\\..\\c64\\cart\\freezemachine.c", "..\\..\\..\\c64\\cart\\funplay.c", "..\\..\\..\\c64\\cart\\gamekiller.c", "..\\..\\..\\c64\\cart\\gs.c", "..\\..\\..\\c64\\cart\\ide64.c", "..\\..\\..\\c64\\cart\\isepic.c", "..\\..\\..\\c64\\cart\\kcs.c", "..\\..\\..\\c64\\cart\\kingsoft.c", "..\\..\\..\\c64\\cart\\mach5.c", "..\\..\\..\\c64\\cart\\magicdesk.c", "..\\..\\..\\c64\\cart\\magicformel.c", "..\\..\\..\\c64\\cart\\magicvoice.c", "..\\..\\..\\c64\\cart\\mikroass.c",
+          "..\\..\\..\\c64\\cart\\mmc64.c", "..\\..\\..\\c64\\cart\\mmcreplay.c", "..\\..\\..\\c64\\cart\\ocean.c", "..\\..\\..\\c64\\cart\\pagefox.c", "..\\..\\..\\c64\\cart\\prophet64.c", "..\\..\\..\\c64\\cart\\ramcart.c", "..\\..\\..\\c64\\cart\\retroreplay.c", "..\\..\\..\\c64\\cart\\reu.c", "..\\..\\..\\c64\\cart\\rexep256.c", "..\\..\\..\\c64\\cart\\rexutility.c", "..\\..\\..\\c64\\cart\\rgcd.c", "..\\..\\..\\c64\\cart\\ross.c", "..\\..\\..\\c64\\cart\\silverrock128.c", "..\\..\\..\\c64\\cart\\simonsbasic.c", "..\\..\\..\\c64\\cart\\snapshot64.c",
+          "..\\..\\..\\c64\\cart\\stardos.c", "..\\..\\..\\c64\\cart\\stb.c", "..\\..\\..\\c64\\cart\\superexplode5.c", "..\\..\\..\\c64\\cart\\supergames.c", "..\\..\\..\\c64\\cart\\supersnapshot.c", "..\\..\\..\\c64\\cart\\supersnapshot4.c", "..\\..\\..\\c64\\cart\\warpspeed.c", "..\\..\\..\\c64\\cart\\westermann.c", "..\\..\\..\\c64\\cart\\zaxxon.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\vicii"), incl(searchpath, "..\\..\\..\\joyport"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "c64commonall.lib"
+   {
+   source type("c") "..\\..\\..\\c64\\c64keyboard.c", "..\\..\\..\\c64\\c64rsuser.c", "..\\..\\..\\c64\\patchrom.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\samplerdrv"), incl(searchpath, "..\\..\\..\\core"), incl(searchpath, "..\\..\\..\\rtc"), incl(searchpath, "..\\..\\..\\c64"), incl(searchpath, "..\\..\\..\\sid"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "c64commoncart.lib"
+   {
+   source type("c") "..\\..\\..\\c64\\cart\\c64acia1.c", "..\\..\\..\\c64\\cart\\digimax.c", "..\\..\\..\\c64\\cart\\ds12c887rtc.c", "..\\..\\..\\c64\\cart\\georam.c", "..\\..\\..\\c64\\cart\\sfx_soundexpander.c", "..\\..\\..\\c64\\cart\\sfx_soundsampler.c", "..\\..\\..\\c64\\cart\\tfe.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\tape"), incl(searchpath, "..\\..\\..\\vicii"), incl(searchpath, "..\\..\\..\\video"), incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\samplerdrv"), incl(searchpath, "..\\..\\..\\userport"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "..\\..\\..\\sid"), incl(searchpath, "..\\..\\..\\joyport"), incl(searchpath, "..\\..\\..\\c64\\cart"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "c64commonsc.lib"
+   {
+   source type("c") "..\\..\\..\\c64\\c64-memory-hacks.c", "..\\..\\..\\c64\\c64-resources.c", "..\\..\\..\\c64\\c64-snapshot.c", "..\\..\\..\\c64\\c64.c", "..\\..\\..\\c64\\c64memsnapshot.c", "..\\..\\..\\c64\\c64_256k.c", "..\\..\\..\\c64\\plus256k.c", "..\\..\\..\\c64\\plus60k.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\vicii"), incl(searchpath, "..\\..\\..\\sid"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", ), incl(searchpath, "..\\..\\..\\c64\\cart")
+{
+   target "c64commonsc128.lib"
+   {
+   source type("c") "..\\..\\..\\c64\\c64meminit.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\userport"), incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\sid"), incl(searchpath, "..\\..\\..\\vicii"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "c64commonsc128scpu.lib"
+   {
+   source type("c") "..\\..\\..\\c64\\c64cia2.c", "..\\..\\..\\c64\\c64datasette.c", "..\\..\\..\\c64\\c64iec.c", "..\\..\\..\\c64\\c64io.c", "..\\..\\..\\c64\\c64sound.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "..\\..\\..\\drive\\iec\\c64exp"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "c64commonscdtv128scpu.lib"
+   {
+   source type("c") "..\\..\\..\\c64\\c64bus.c", "..\\..\\..\\c64\\c64parallel.c", "..\\..\\..\\c64\\c64printer.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "c64commonscdtvscpu.lib"
+   {
+   source type("c") "..\\..\\..\\c64\\c64drive.c", "..\\..\\..\\c64\\c64fastiec.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\userport"), incl(searchpath, "..\\..\\..\\joyport"), incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "c64commonscscpu.lib"
+   {
+   source type("c") "..\\..\\..\\c64\\c64cia1.c"
+   }
+}
+option incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "core.lib"
+   {
+   source type("c") "..\\..\\..\\core\\ata.c", "..\\..\\..\\core\\ciacore.c", "..\\..\\..\\core\\ciatimer.c", "..\\..\\..\\core\\cs8900.c", "..\\..\\..\\core\\flash040core.c", "..\\..\\..\\core\\fmopl.c", "..\\..\\..\\core\\mc6821core.c", "..\\..\\..\\core\\riotcore.c", "..\\..\\..\\core\\ser-eeprom.c", "..\\..\\..\\core\\spi-sdcard.c", "..\\..\\..\\core\\t6721.c", "..\\..\\..\\core\\tpicore.c", "..\\..\\..\\core\\viacore.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\userport"), incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\monitor"), incl(searchpath, "..\\..\\..\\joyport"), incl(searchpath, "..\\..\\..\\vdrive"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", ) 
+{
+   target "dialogs.lib"
+   {
+   source type("c") "..\\dialogs\\dlg-cmdopt.c", "..\\dialogs\\dlg-color.c", "..\\dialogs\\dlg-create.c", "..\\dialogs\\dlg-datasette.c", "..\\dialogs\\dlg-drive.c", "..\\dialogs\\dlg-ide64.c", "..\\dialogs\\dlg-joystick.c", "..\\dialogs\\dlg-monitor.c", "..\\dialogs\\dlg-reset.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "."), incl(searchpath, ".."),
+incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "diskimage.lib"
+   {
+   source type("c")
+       "..\\..\\..\\diskimage\\diskimage.c",
+       "..\\..\\..\\diskimage\\fsimage-check.c",
+       "..\\..\\..\\diskimage\\fsimage-create.c",
+       "..\\..\\..\\diskimage\\fsimage-dxx.c",
+       "..\\..\\..\\diskimage\\fsimage-gcr.c",
+       "..\\..\\..\\diskimage\\fsimage-p64.c",
+       "..\\..\\..\\diskimage\\fsimage-probe.c",
+       "..\\..\\..\\diskimage\\fsimage.c",
+       "..\\..\\..\\diskimage\\realimage.c"
+   }
+}
+option incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "fileio.lib"
+   {
+   source type("c") "..\\..\\..\\fileio\\cbmfile.c", "..\\..\\..\\fileio\\fileio.c", "..\\..\\..\\fileio\\p00.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\vdrive"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "fsdevice.lib"
+   {
+   source type("c") "..\\..\\..\\fsdevice\\fsdevice-close.c", "..\\..\\..\\fsdevice\\fsdevice-cmdline-options.c", "..\\..\\..\\fsdevice\\fsdevice-flush.c", "..\\..\\..\\fsdevice\\fsdevice-open.c", "..\\..\\..\\fsdevice\\fsdevice-read.c", "..\\..\\..\\fsdevice\\fsdevice-resources.c", "..\\..\\..\\fsdevice\\fsdevice-write.c", "..\\..\\..\\fsdevice\\fsdevice.c"
+   }
+}
+option incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "gfxoutputdrv.lib"
+   {
+   source type("c") "..\\..\\..\\gfxoutputdrv\\bmpdrv.c", "..\\..\\..\\gfxoutputdrv\\doodledrv.c", "..\\..\\..\\gfxoutputdrv\\gfxoutput.c", "..\\..\\..\\gfxoutputdrv\\godotdrv.c", "..\\..\\..\\gfxoutputdrv\\iffdrv.c", "..\\..\\..\\gfxoutputdrv\\koaladrv.c", "..\\..\\..\\gfxoutputdrv\\nativedrv.c", "..\\..\\..\\gfxoutputdrv\\pcxdrv.c", "..\\..\\..\\gfxoutputdrv\\ppmdrv.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "ieee.lib"
+   {
+   source type("c") "..\\..\\..\\drive\\ieee\\fdc.c", "..\\..\\..\\drive\\ieee\\ieee-cmdline-options.c", "..\\..\\..\\drive\\ieee\\ieee-resources.c", "..\\..\\..\\drive\\ieee\\ieee.c", "..\\..\\..\\drive\\ieee\\ieeerom.c", "..\\..\\..\\drive\\ieee\\memieee.c", "..\\..\\..\\drive\\ieee\\riot1d.c", "..\\..\\..\\drive\\ieee\\riot2d.c", "..\\..\\..\\drive\\ieee\\via1d2031.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\vdrive"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "imagecontents.lib"
+   {
+   source type("c") "..\\..\\..\\imagecontents\\diskcontents-block.c", "..\\..\\..\\imagecontents\\diskcontents-iec.c", "..\\..\\..\\imagecontents\\diskcontents.c", "..\\..\\..\\imagecontents\\imagecontents.c", "..\\..\\..\\imagecontents\\tapecontents.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\samplerdrv"), incl(searchpath, "..\\..\\..\\rtc"), incl(searchpath, "..\\..\\..\\userport"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "joyport.lib"
+   {
+   source type("c") "..\\..\\..\\joyport\\joyport.c", "..\\..\\..\\joyport\\joystick.c", "..\\..\\..\\joyport\\lightpen.c", "..\\..\\..\\joyport\\mouse.c", "..\\..\\..\\joyport\\sampler2bit.c", "..\\..\\..\\joyport\\sampler4bit.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\platform"), incl(searchpath, "..\\..\\..\\monitor"), incl(searchpath, "..\\..\\..\\joyport"), incl(searchpath, "..\\dialogs"), incl(searchpath, "..\\..\\..\\vdrive"), incl(searchpath, "..\\..\\..\\imagecontents"), incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "mainsrc.lib"
+   {
+   source type("c") "..\\snippets\\dirport.c"
+   source type("c") "..\\..\\..\\screenshot.c", "..\\..\\..\\sound.c", "..\\..\\..\\sysfile.c", "..\\..\\..\\translate.c", "..\\..\\..\\traps.c", "..\\..\\..\\util.c", "..\\..\\..\\vicefeatures.c", "..\\..\\..\\vsync.c", "..\\..\\..\\zfile.c",
+          "..\\..\\..\\zipcode.c", "..\\fullscr.c"
+   source type("c") "..\\..\\..\\fixpoint.c", "..\\..\\..\\fliplist.c", "..\\..\\..\\gcr.c", "..\\..\\..\\info.c", "..\\..\\..\\init.c", "..\\..\\..\\initcmdline.c", "..\\..\\..\\interrupt.c", "..\\..\\..\\ioutil.c", "..\\..\\..\\kbdbuf.c", "..\\..\\..\\keyboard.c", "..\\..\\..\\lib.c",
+          "..\\..\\..\\machine-bus.c", "..\\..\\..\\machine.c", "..\\..\\..\\network.c", "..\\..\\..\\palette.c", "..\\..\\..\\ram.c", "..\\..\\..\\rawfile.c", "..\\..\\..\\resources.c", "..\\..\\..\\romset.c"
+   source type("c") "..\\..\\..\\charset.c", "..\\..\\..\\clipboard.c", "..\\..\\..\\clkguard.c", "..\\..\\..\\cmdline.c", "..\\..\\..\\crc32.c", "..\\..\\..\\datasette.c", "..\\..\\..\\debug.c", "..\\..\\..\\dma.c", "..\\..\\..\\event.c", "..\\..\\..\\findpath.c"
+   source type("c") "..\\..\\..\\alarm.c", "..\\..\\..\\attach.c", "..\\..\\..\\autostart-prg.c", "..\\..\\..\\autostart.c", "..\\..\\..\\cbmdos.c", "..\\..\\..\\cbmimage.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\vdrive"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "..\\..\\..\\imagecontents"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "monitor.lib"
+   {
+   source type("c") "..\\..\\..\\monitor\\mon_register.c", "..\\..\\..\\monitor\\mon_register6502.c", "..\\..\\..\\monitor\\mon_register6502dtv.c", "..\\..\\..\\monitor\\mon_register65816.c", "..\\..\\..\\monitor\\mon_register6809.c", "..\\..\\..\\monitor\\mon_registerR65C02.c", "..\\..\\..\\monitor\\mon_registerz80.c", "..\\..\\..\\monitor\\mon_ui.c", "..\\..\\..\\monitor\\mon_util.c", "..\\..\\..\\monitor\\monitor.c", "..\\..\\..\\monitor\\monitor_network.c"
+   source type("c") "..\\..\\..\\monitor\\asm6502.c", "..\\..\\..\\monitor\\asm6502dtv.c", "..\\..\\..\\monitor\\asm65816.c", "..\\..\\..\\monitor\\asm6809.c", "..\\..\\..\\monitor\\asmR65C02.c", "..\\..\\..\\monitor\\asmz80.c", "..\\..\\..\\monitor\\mon_assemble6502.c", "..\\..\\..\\monitor\\mon_assemble65816.c", "..\\..\\..\\monitor\\mon_assemble6809.c", "..\\..\\..\\monitor\\mon_assembleR65C02.c", "..\\..\\..\\monitor\\mon_assemblez80.c", "..\\..\\..\\monitor\\mon_breakpoint.c", "..\\..\\..\\monitor\\mon_command.c", "..\\..\\..\\monitor\\mon_disassemble.c",
+          "..\\..\\..\\monitor\\mon_drive.c", "..\\..\\..\\monitor\\mon_file.c", "..\\..\\..\\monitor\\mon_lex.c", "..\\..\\..\\monitor\\mon_memory.c", "..\\..\\..\\monitor\\mon_parse.c"
+   }
+}
+option incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "nonx1541-specific.lib"
+   {
+   source type("c") "nonx1541-log.c"
+   }
+}
+option incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "p64.lib"
+   {
+   source type("c") "..\\..\\..\\lib\\p64\\p64.c"
+   }
+}
+option incl(searchpath, "..\\dialogs"), incl(searchpath, "..\\..\\..\\platform"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", ), define("__PETCAT__", )
+{
+   target "petcat-specific.lib"
+   {
+   source type("c") "petcat-archdep.c", "petcat-signals.c"
+   }
+}
+option incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "platform.lib"
+   {
+   source type("c") "..\\..\\..\\platform\\platform.c", "..\\..\\..\\platform\\platform_x86_runtime_cpu.c"
+   }
+}
+option incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "rtc.lib"
+   {
+   source type("c") "..\\..\\..\\rtc\\bq4830y.c", "..\\..\\..\\rtc\\ds1202_1302.c", "..\\..\\..\\rtc\\ds1216e.c", "..\\..\\..\\rtc\\ds12c887.c", "..\\..\\..\\rtc\\ds1307.c", "..\\..\\..\\rtc\\rtc-58321a.c", "..\\..\\..\\rtc\\rtc.c"
+   }
+}
+option incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "serial.lib"
+   {
+   source type("c") "..\\..\\..\\serial\\serial-realdevice.c"
+   source type("c") "..\\..\\..\\serial\\fsdrive.c", "..\\..\\..\\serial\\serial-device.c", "..\\..\\..\\serial\\serial-iec-bus.c", "..\\..\\..\\serial\\serial-iec-device.c", "..\\..\\..\\serial\\serial-iec-lib.c", "..\\..\\..\\serial\\serial-iec.c", "..\\..\\..\\serial\\serial-trap.c", "..\\..\\..\\serial\\serial.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\joyport"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", ), define("HAVE_MOUSE", ), define("HAVE_RESID", )
+{
+   target "sid.lib"
+   {
+   source type("c") "..\\..\\..\\sid\\fastsid.c", "..\\..\\..\\sid\\sid-cmdline-options.c", "..\\..\\..\\sid\\sid-resources.c", "..\\..\\..\\sid\\sid-snapshot.c", "..\\..\\..\\sid\\sid.c"
+   }
+}
+option incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "snapshot.lib"
+   {
+   source type("c") "..\\..\\..\\snapshot.c"
+   }
+}
+option incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "tape.lib"
+   {
+   source type("c") "..\\..\\..\\tape\\t64.c", "..\\..\\..\\tape\\tap.c", "..\\..\\..\\tape\\tape-internal.c", "..\\..\\..\\tape\\tape-snapshot.c", "..\\..\\..\\tape\\tape.c", "..\\..\\..\\tape\\tapeimage.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\rtc"), incl(searchpath, "..\\..\\..\\joyport"), incl(searchpath, "..\\..\\..\\samplerdrv"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "userport.lib"
+   {
+   source type("c") "..\\..\\..\\userport\\userport.c", "..\\..\\..\\userport\\userport_4bit_sampler.c", "..\\..\\..\\userport\\userport_8bss.c", "..\\..\\..\\userport\\userport_dac.c", "..\\..\\..\\userport\\userport_digimax.c", "..\\..\\..\\userport\\userport_joystick.c", "..\\..\\..\\userport\\userport_rtc_58321a.c", "..\\..\\..\\userport\\userport_rtc_ds1307.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "vdrive.lib"
+   {
+   source type("c") "..\\..\\..\\vdrive\\vdrive-bam.c", "..\\..\\..\\vdrive\\vdrive-command.c", "..\\..\\..\\vdrive\\vdrive-dir.c", "..\\..\\..\\vdrive\\vdrive-iec.c", "..\\..\\..\\vdrive\\vdrive-internal.c", "..\\..\\..\\vdrive\\vdrive-rel.c", "..\\..\\..\\vdrive\\vdrive-snapshot.c", "..\\..\\..\\vdrive\\vdrive.c"
+   }
+}
+option incl(searchpath, "..\\..\\..\\platform"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", ), define("__X1541__", )
+{
+   target "x1541-specific.lib"
+   {
+   source type("c") "..\\..\\..\\log.c", "x1541-archdep.c", "x1541-signals.c"
+   }
+}
+option  incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\vdrive"), incl(searchpath, "..\\..\\..\\imagecontents"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), link(pmtype, vio),
+define("HAVE_CONFIG_H", ), define("IDE_COMPILE", )
+{
+   target "x1541.exe"
+   {
+   source type("lib") "PLATFORM.lib"
+   source type("lib") "SERIAL.lib"
+   source type("lib") "VDRIVE.lib"
+   source type("lib") "TAPE.lib"
+   source type("lib") "X1541-SPECIFIC.lib"
+   source type("lib") "P64.lib"
+   source type("lib") "MAINSRC.lib"
+   source type("lib") "IMAGECONTENTS.lib"
+   source type("lib") "FILEIO.lib"
+   source type("lib") "DISKIMAGE.lib"
+   source type("c") "..\\..\\..\\c1541.c"
+   }
+}
+option  incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), link(pmtype, vio), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", ), define("__PETCAT__", ), link(linkwithmultithreadlib, "yes")
+{
+   target "petcat.exe"
+   {
+   source type("lib") "DIALOGS.lib"
+   source type("lib") "ARCHDEP.lib", "MAINSRC.lib", "NONX1541-SPECIFIC.lib", "PLATFORM.lib"
+   source type("lib") "PETCAT-SPECIFIC.lib"
+   source type("c") "..\\..\\..\\petcat.c"
+   }
+}
+option  incl(searchpath, "..\\..\\..\\joyport"), incl(searchpath, "..\\..\\..\\c64"), incl(searchpath, ",,\\,,\\,,\\c64"), incl(searchpath, "..\\..\\..\\userport"), incl(searchpath, "..\\..\\..\\video"), incl(searchpath, "..\\..\\..\\platform"), incl(searchpath, "..\\..\\..\\lib\\p64"), incl(searchpath, "..\\..\\..\\drive"), incl(searchpath, "."), incl(searchpath, ".."), incl(searchpath, "..\\..\\.."), link(pmtype, pm), link(linkwithmultithreadlib), link(linkwithsharedlib), define("HAVE_CONFIG_H", ), define("IDE_COMPILE", ), define("__X64__", )
+{
+   target "x64.exe"
+   {
+   source type("lib") "C64COMMONSCDTV128SCPU.lib"
+   source type("lib") "C64COMMONSC128.lib"
+   source type("lib") "C64COMMONALL.lib"
+   source type("lib") "RTC.lib"
+   source type("lib") "C64COMMONCART.lib"
+   source type("lib") "C64CART.lib"
+   source type("lib") "SERIAL.lib"
+   source type("lib") "C64COMMONSC.lib"
+   source type("lib") "MONITOR.lib"
+   source type("lib") "USERPORT.lib"
+   source type("lib") "FSDEVICE.lib"
+   source type("lib") "TAPE.lib"
+   source type("lib") "C64COMMONSCSCPU.lib"
+   source type("lib") "C64COMMONSC128SCPU.lib"
+   source type("lib") "C64.lib"
+   source type("lib") "GFXOUTPUTDRV.lib"
+   source type("lib") "SNAPSHOT.lib"
+   source type("lib") "CORE.lib"
+   source type("lib") "IEEE.lib"
+   source type("lib") "JOYPORT.lib"
+   source type("lib") "C64COMMONSCDTVSCPU.lib"
+   source type("lib") "ARCHDEP.lib"
+   source type("lib") "NONX1541-SPECIFIC.lib"
+   source type("lib") "MAINSRC.lib"
+   source type("c") "..\\..\\..\\main.c", "..\\dialogs\\menubar.c", "..\\kbd\\kbd-c64.c"
+   }
+}

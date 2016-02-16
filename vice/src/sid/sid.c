@@ -116,6 +116,7 @@ static BYTE sid_read_chip(WORD addr, int chipno)
 
     machine_handle_pending_alarms(0);
 
+#ifdef HAVE_MOUSE
     if (chipno == 0 && (addr == 0x19 || addr == 0x1a)) {
         if ((maincpu_clk ^ pot_cycle) & ~511) {
             pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
@@ -123,7 +124,9 @@ static BYTE sid_read_chip(WORD addr, int chipno)
             val_pot_y = read_joyport_poty();
         }
         val = (addr == 0x19) ? val_pot_x : val_pot_y;
+
     } else {
+#endif
         if (machine_class == VICE_MACHINE_C64SC
             || machine_class == VICE_MACHINE_SCPU64) {
             /* On x64sc, the read/write calls both happen before incrementing
@@ -136,7 +139,9 @@ static BYTE sid_read_chip(WORD addr, int chipno)
             val = sid_read_func(addr, chipno);
             maincpu_clk--;
         }
+#ifdef HAVE_MOUSE
     }
+#endif
 
     /* Fallback when sound is switched off. */
     if (val < 0) {

@@ -29,9 +29,7 @@ EXTRA_DIST = \
 	core.icc \
 	crtc.icc \
 	dialogs.icc \
-	diskimage.icc \
 	drive.icc \
-	fileio.icc \
 	fsdevice.icc \
 	gfxoutputdrv.icc \
 	iec.icc \
@@ -42,16 +40,12 @@ EXTRA_DIST = \
 	iecplus4exp.icc \
 	ieee.icc \
 	imagecontents.icc \
-	joyport.icc \
 	kbd.icc \
-	mainsrc.icc \
 	mon6809.icc \
 	monitor.icc \
 	monz80.icc \
-	p64.icc \
 	parallel.icc \
 	pet.icc \
-	platform.icc \
 	plus4.icc \
 	printerdrv.icc \
 	raster.icc \
@@ -62,13 +56,10 @@ EXTRA_DIST = \
 	rtc.icc \
 	samplerdrv.icc \
 	scpu64.icc \
-	serial.icc \
 	sounddrv.icc \
-	tape.icc \
 	tcbm.icc \
 	userport.icc \
 	vdc.icc \
-	vdrive.icc \
 	vic20.icc \
 	vic20cart.icc \
 	vicii.icc \
