@@ -3227,6 +3227,16 @@ int snapshot_module_close(snapshot_module_t *m)
     return 0;
 }
 
+int snapshot_module_read_dword_into_int(snapshot_module_t *m, int *value_return)
+{
+    return 0;
+}
+
+int snapshot_module_read_dword_into_uint(snapshot_module_t *m, unsigned int *value_return)
+{
+    return 0;
+}
+
 void archdep_ui_init(int argc, char *argv[])
 {
 }
@@ -3281,3 +3291,4 @@ BYTE machine_tape_behaviour(void)
     return TAPE_BEHAVIOUR_NORMAL;
 }
 
+

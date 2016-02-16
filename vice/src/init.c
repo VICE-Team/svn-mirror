@@ -31,6 +31,7 @@
 #include "attach.h"
 #include "cmdline.h"
 #include "console.h"
+#include "debug.h"
 #include "drive.h"
 #include "initcmdline.h"
 #include "keyboard.h"
@@ -217,7 +218,11 @@ int init_cmdline_options(void)
 
 int init_main(void)
 {
-    signals_init(debug.do_core_dumps);
+#ifdef __IBMC__
+       signals_init(0);
+#else
+       signals_init(debug.do_core_dumps);
+#endif
 
     romset_init();
 
