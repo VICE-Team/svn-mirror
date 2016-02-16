@@ -274,7 +274,7 @@ FILE *archdep_open_default_log_file()
         setbuf(fLog, NULL);
     }
 
-#ifndef __X1541__
+#if !defined(__X1541__) && !defined(__PETCAT__)
     resources_get_int("Logwin", &val);
     log_dialog(val);
 #endif
