@@ -2008,7 +2008,7 @@ AC_TRY_LINK([#ifdef __linux
 AC_MSG_RESULT($linux_glibc_220_and_up)
 
 dnl ----- Ethernet -----
-TFE_LIBS=
+TFE_LIBS=""
 DOS_TFE_PCAP_LIB=""
 if test x"$is_dos" = "xyes" ; then
   if test x"$enable_ethernet" = "xyes"; then
@@ -2075,6 +2075,9 @@ else
         fi
       fi
     fi
+  fi
+  if test x"$TFE_LIBS" = "x"; then
+    AC_MSG_ERROR([Needed TFE libs not found])
   fi
 fi
 AC_SUBST(DOS_TFE_PCAP_LIB)
