@@ -246,7 +246,7 @@ int archdep_default_logger(const char *lvl, const char *txt)
     // This is used if archdep_open_default_log_file returns NULL
     //
 
-#ifndef __X1541__
+#if !defined(__X1541__) && !defined(__PETCAT__)
     char *text = util_concat(lvl, txt, NULL);
 
     WinSendMsg(hwndLog, WM_INSERT, text, FALSE);
