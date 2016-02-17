@@ -37,7 +37,6 @@
 #define IDTEXT(id, txt,x,y,w,h) CONTROL txt, id, x, y, w, h, WC_STATIC, \
                                        SS_AUTOSIZE | SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
 
-#ifdef WATCOM_COMPILE
 BITMAP DID_STEPOVER  "..\\icons\\stepover.bmp"
 BITMAP DID_STEPINTO  "..\\icons\\stepinto.bmp"
 BITMAP DID_MONRETURN "..\\icons\\return.bmp"
@@ -45,15 +44,6 @@ BITMAP DID_MONEXIT   "..\\icons\\exit.bmp"
 BITMAP DID_MONREC    "..\\icons\\record.bmp"
 BITMAP DID_MONPLAY   "..\\icons\\playback.bmp"
 BITMAP DID_MONSTOP   "..\\icons\\stop.bmp"
-#else
-BITMAP DID_STEPOVER  "..\\..\\icons\\stepover.bmp"
-BITMAP DID_STEPINTO  "..\\..\\icons\\stepinto.bmp"
-BITMAP DID_MONRETURN "..\\..\\icons\\return.bmp"
-BITMAP DID_MONEXIT   "..\\..\\icons\\exit.bmp"
-BITMAP DID_MONREC    "..\\..\\icons\\record.bmp"
-BITMAP DID_MONPLAY   "..\\..\\icons\\playback.bmp"
-BITMAP DID_MONSTOP   "..\\..\\icons\\stop.bmp"
-#endif
 
 DLGTEMPLATE DLG_MONDIS 850 MOVEABLE DISCARDABLE
 BEGIN
@@ -118,3 +108,4 @@ BEGIN
         PRESPARAMS PP_FONTNAMESIZE, "11.System VIO"
     END
 END
+

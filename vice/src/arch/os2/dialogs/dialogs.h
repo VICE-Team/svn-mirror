@@ -27,7 +27,7 @@
 #ifndef DIALOGS_H
 #define DIALOGS_H
 
-#ifndef __IBMC__
+#ifdef WATCOM_COMPILE
 #include "vice.h" // HAVE_*
 #endif
 
@@ -147,3 +147,4 @@ extern void emulator_pause(void);
 extern void emulator_resume(void);
 
 #endif
+

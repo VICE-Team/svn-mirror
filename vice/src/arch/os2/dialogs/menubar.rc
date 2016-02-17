@@ -25,7 +25,7 @@
  */
 
 #include "dialogs.h"
-#include "menubar.h" 
+#include "menubar.h"
 
 #ifdef WATCOM_COMPILE
 #include <pmwin.h>
@@ -417,7 +417,7 @@ BEGIN
             MENUITEM "~16kB",                             IDM_VDC16K,                   MIS_TEXT
             MENUITEM "~64kB",                             IDM_VDC64K,                   MIS_TEXT
         END
-#endif      
+#endif
 
 #if (defined(__X64__) || defined(__X64DTV__) || defined(__XSCPU64__) || defined(__X128__) || defined(__XVIC__)) && !defined(__X64SC__)
         SUBMENU "~Video Frequency Standard",              IDM_VIDEOSTD,                 MIS_TEXT
@@ -472,7 +472,7 @@ BEGIN
                     MENUITEM "~Text",                     IDM_PRT4TXT,                  MIS_TEXT
                     MENUITEM "~Graphics",                 IDM_PRT4GFX,                  MIS_TEXT
                 END
-            END  
+            END
             SUBMENU "Device #~5",                         IDM_PRINTER5,                 MIS_TEXT
             BEGIN
                 MENUITEM "~Enabled",                      IDM_PRT5IEC,                  MIS_TEXT
@@ -816,7 +816,7 @@ BEGIN
         END
 #endif
 
-#ifdef (__XSCPU64__)
+#if defined(__XSCPU64__)
         SUBMENU "SuperCPU64 settings",                    IDM_SCPU64_SETTINGS,          MIS_TEXT
             SUBMENU "SIMM size",                          IDM_SCPU64_SIMM_SIZE,         MIS_TEXT
             BEGIN
@@ -1073,7 +1073,7 @@ BEGIN
             MENUITEM "Expert Cartridge Filename",         IDM_EXPERTFILE,               MIS_TEXT
         END
 
-#ifndef (__XSCPU64__)
+#ifndef __XSCPU64__
         SUBMENU "C64 Memory Expansion Hack Settings",     IDM_MEMORY_HACKS_SETTINGS,    MIS_TEXT
         BEGIN
             SUBMENU "C64 Memory Expansion Hack Device",   IDM_C64_MEMORY_HACK_DEVICE,   MIS_TEXT
@@ -1410,7 +1410,7 @@ BEGIN
 END
 
 HELPSUBTABLE IDM_FILE MOVEABLE DISCARDABLE
-BEGIN                         
+BEGIN
     HELPSUBITEM IDM_ATTACH8,     IDM_ATTACH8
     HELPSUBITEM IDM_ATTACH9,     IDM_ATTACH9
     HELPSUBITEM IDM_ATTACH10,    IDM_ATTACH10
@@ -1428,3 +1428,4 @@ BEGIN
     HELPSUBITEM IDM_EXIT,        IDM_EXIT
 END
 #endif
+
