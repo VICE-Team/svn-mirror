@@ -2010,8 +2010,8 @@ AC_MSG_RESULT($linux_glibc_220_and_up)
 dnl ----- Ethernet -----
 TFE_LIBS=""
 DOS_TFE_PCAP_LIB=""
-if test x"$is_dos" = "xyes" ; then
-  if test x"$enable_ethernet" = "xyes"; then
+if test x"$enable_ethernet" = "xyes"; then
+  if test x"$is_dos" = "xyes" ; then
     old_LIBS="$LIBS"
     AC_CHECK_LIB(watt, gethostbyname,[ AC_DEFINE(DOS_TCP,,[Can we use the dos WATTCP library?])
                                        TFE_LIBS="-lwatt $TFE_LIBS";
@@ -2027,7 +2027,6 @@ if test x"$is_dos" = "xyes" ; then
                                         TFE_LIBS="-lnet $TFE_LIBS"],,)
     LIBS=$old_LIBS
   fi
-else
   if test x"$is_win32" = "xno"; then
     if test x"$enable_ethernet" = "xyes"; then
     dnl libpcap.a
