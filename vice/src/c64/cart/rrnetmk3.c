@@ -145,7 +145,7 @@ void rrnetmk3_reset(void)
 #ifdef HAVE_TFE
     tfe_clockport_changed();
 #endif
-    cart_config_changed_slotmain(CMODE_RAM, rrnetmk3_biossel ? CMODE_RAM : CMODE_8KGAME, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_RAM, (BYTE)(rrnetmk3_biossel ? CMODE_RAM : CMODE_8KGAME), CMODE_READ);
 }
 
 static int set_rrnetmk3_flashjumper(int val, void *param)
@@ -184,7 +184,7 @@ void rrnetmk3_config_init(void)
 {
     LOG(("RRNETMK3 rrnetmk3_config_init"));
     rrnetmk3_biossel = rrnetmk3_hw_flashjumper; /* disable bios at reset when flash jumper is set */
-    cart_config_changed_slotmain(CMODE_RAM, rrnetmk3_biossel ? CMODE_RAM : CMODE_8KGAME, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_RAM, (BYTE)(rrnetmk3_biossel ? CMODE_RAM : CMODE_8KGAME), CMODE_READ);
 }
 
 static void rrnetmk3_io1_store(WORD addr, BYTE value)
