@@ -2075,7 +2075,7 @@ if test x"$enable_ethernet" = "xyes"; then
       fi
     fi
   fi
-  if test x"$TFE_LIBS" = "x"; then
+  if test x"$TFE_LIBS" = "x" -a x"$is_win32" = "xno"; then
     AC_MSG_ERROR([Needed TFE libs not found])
   fi
 fi
