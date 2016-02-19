@@ -54,6 +54,15 @@
 #include "ui.h"
 #include "util.h"
 
+#ifdef AMIGA_M68K
+#include <math.h>
+
+double log1p(double x)
+{
+    return log(1 + x) - (((1 + x) - 1) - x) / (1 + x);
+}
+#endif
+
 #if defined(AMIGA_M68K) && !defined(HAVE_GETTIMEOFDAY)
 struct Library *TimerBase = NULL;
 struct MsgPort *TimerMP = NULL;
