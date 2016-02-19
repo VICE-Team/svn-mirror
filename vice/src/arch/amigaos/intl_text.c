@@ -474,6 +474,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_FP_IMAGE_SV, "Vic Flash insticksmodul-fil..." },
 /* tr */ { IDMS_FP_IMAGE_TR, "Vic Flash Plugin imajý..." },
 
+/* en */ { IDMS_UM_IMAGE,    "UltiMem image..." },
+/* da */ { IDMS_UM_IMAGE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_UM_IMAGE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_UM_IMAGE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_UM_IMAGE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_UM_IMAGE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_UM_IMAGE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_UM_IMAGE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_UM_IMAGE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_UM_IMAGE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_UM_IMAGE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_UM_IMAGE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_UM_IMAGE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_ADD_TO_GENERIC,    "Add to generic cartridge..." },
 /* da */ { IDMS_ADD_TO_GENERIC_DA, "Tilføj til standardcartridge..." },
 /* de */ { IDMS_ADD_TO_GENERIC_DE, "Zu universellem Erweiterungsmodul hinzufügen..." },
