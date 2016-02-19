@@ -38,6 +38,7 @@
 #include "cia.h"
 #include "interrupt.h"
 #include "joyport.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"

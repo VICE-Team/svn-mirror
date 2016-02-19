@@ -66,7 +66,13 @@ extern int joystick_snapshot_read_module(struct snapshot_s *s);
 /*! the number of joysticks that can be attached to the emu */
 #define JOYSTICK_NUM 5
 
-/* virtual joystick mapping */
+/* the values used internally to represent joystick state
+FIXME: this is only an extern because of 
+src/c64dtv/c64dtvcia1.c and
+src/c64dtv/hummeradc.c */
+extern BYTE joystick_value[JOYSTICK_NUM + 1];
+
+/* the mapping of real devices to emulated joystick ports */
 extern int joystick_port_map[JOYSTICK_NUM];
 
 #if (!defined(__OS2__) && !defined(AMIGA_OS4)) || defined(USE_SDLUI) || defined(USE_SDLUI2)

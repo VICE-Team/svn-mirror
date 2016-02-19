@@ -110,9 +110,6 @@ extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
 extern int keyboard_shiftlock;
 
-/* FIXME: This one needs to go away now.  */
-extern BYTE joystick_value[5 + 1];
-
 #ifdef COMMON_KBD
 extern int keyboard_resources_init(void);
 extern int keyboard_cmdline_options_init(void);
