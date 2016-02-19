@@ -3290,5 +3290,3 @@ BYTE machine_tape_behaviour(void)
 {
     return TAPE_BEHAVIOUR_NORMAL;
 }
-
-
