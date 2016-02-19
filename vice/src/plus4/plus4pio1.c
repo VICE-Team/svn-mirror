@@ -50,7 +50,7 @@ BYTE pio1_read(WORD addr)
     /*  Correct clock */
     ted_handle_pending_alarms(0);
 
-    pio1_value = read_userport_pbx(0xff);
+    pio1_value = read_userport_pbx(0xff, pio1_value);
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     if (drive_context[0]->drive->parallel_cable

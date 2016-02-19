@@ -235,7 +235,7 @@ static BYTE userport_detect_collision(BYTE retval_orig, BYTE mask)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-BYTE read_userport_pbx(BYTE mask)
+BYTE read_userport_pbx(BYTE mask, BYTE orig)
 {
     BYTE retval = 0xff;
     BYTE rm;
@@ -262,6 +262,10 @@ BYTE read_userport_pbx(BYTE mask)
             }
         }
         current = current->next;
+    }
+
+    if (!valid) {
+        return orig;
     }
 
     if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
@@ -379,7 +383,7 @@ void store_userport_pa3(BYTE val)
     }
 }
 
-BYTE read_userport_flag(void)
+BYTE read_userport_flag(BYTE orig)
 {
     BYTE mask = 1;
     BYTE rm;
@@ -403,6 +407,10 @@ BYTE read_userport_flag(void)
             }
         }
         current = current->next;
+    }
+
+    if (!valid) {
+        return orig;
     }
 
     if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {

@@ -219,15 +219,22 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byt
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
     BYTE value;
+    BYTE userval;
 
     value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
 
     if (!(cia_context->c_cia[CIA_DDRA] & 4)) {
-        value &= (read_userport_pa2(value) & 1) ? 0xff : 0xfb;
+        userval = read_userport_pa2(value);
+        if (value != userval) {
+            value &= (userval & 1) ? 0xff : 0xfb;
+        }
     }
 
     if (!(cia_context->c_cia[CIA_DDRA] & 8)) {
-        value &= (read_userport_pa3(value) & 1) ? 0xff : 0xf7;
+        userval = read_userport_pa3(value);
+        if (value != userval) {
+            value &= (userval & 1) ? 0xff : 0xf7;
+        }
     }
 
     return value;
@@ -238,7 +245,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte = 0xff;
 
-    byte = read_userport_pbx((BYTE)~cia_context->c_cia[CIA_DDRB]);
+    byte = read_userport_pbx((BYTE)~cia_context->c_cia[CIA_DDRB], byte);
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)

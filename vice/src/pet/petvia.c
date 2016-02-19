@@ -206,7 +206,7 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
 {
     BYTE byte = 0xff;
 
-    byte = read_userport_pbx((BYTE)~via_context->via[VIA_DDRA]);
+    byte = read_userport_pbx((BYTE)~via_context->via[VIA_DDRA], byte);
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
 

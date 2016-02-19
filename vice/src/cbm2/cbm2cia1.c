@@ -190,7 +190,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte = 0xff;
 
-    byte = read_userport_pbx((BYTE)~cia_context->c_cia[CIA_DDRB]);
+    byte = read_userport_pbx((BYTE)~cia_context->c_cia[CIA_DDRB], byte);
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     byte &= ((0xff & ~(cia_context->c_cia[CIA_DDRB]))
