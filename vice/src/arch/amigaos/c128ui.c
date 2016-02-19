@@ -223,7 +223,7 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             ui_mouse_settings_dialog();
             break;
         case IDM_SAMPLER_SETTINGS:
-            ui_sampler_settings_dialog(hwnd);
+            ui_sampler_settings_dialog(canvas);
             break;
     }
 

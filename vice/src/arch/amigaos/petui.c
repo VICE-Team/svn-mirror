@@ -162,7 +162,7 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
             break;
 #endif
         case IDM_SAMPLER_SETTINGS:
-            ui_sampler_settings_dialog(hwnd);
+            ui_sampler_settings_dialog(canvas);
             break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

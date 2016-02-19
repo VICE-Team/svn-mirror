@@ -61,7 +61,7 @@
 #include "mui/uireu.h"
 #include "mui/uiromc64settings.h"
 #include "mui/uirs232user.h"
-#include "mui/uisamper.h"
+#include "mui/uisampler.h"
 #include "mui/uisid.h"
 #include "mui/uisoundexpander.h"
 #include "mui/uivicii.h"
@@ -245,7 +245,7 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             ui_mouse_settings_dialog();
             break;
         case IDM_SAMPLER_SETTINGS:
-            ui_sampler_settings_dialog(hwnd);
+            ui_sampler_settings_dialog(canvas);
             break;
     }
 

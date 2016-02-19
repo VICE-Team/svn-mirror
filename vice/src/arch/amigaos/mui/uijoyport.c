@@ -66,23 +66,23 @@ static APTR build_gui(void)
     int total = (ports[JOYPORT_1] << 4) | (ports[JOYPORT_2] << 3) | (ports[JOYPORT_3] << 2) | (ports[JOYPORT_4] << 1) | ports[JOYPORT_5];
 
     if (ports[JOYPORT_1]) {
-        joyport1_device = lib_msprintf(translate_text(IDS_JOYPORT_S_PORT_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_1)));
+        joyport1_device = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_1)));
     }
 
     if (ports[JOYPORT_2]) {
-        joyport2_device = lib_msprintf(translate_text(IDS_JOYPORT_S_PORT_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_2)));
+        joyport2_device = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_2)));
     }
 
     if (ports[JOYPORT_3]) {
-        joyport3_device = lib_msprintf(translate_text(IDS_JOYPORT_S_PORT_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_3)));
+        joyport3_device = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_3)));
     }
 
     if (ports[JOYPORT_4]) {
-        joyport4_device = lib_msprintf(translate_text(IDS_JOYPORT_S_PORT_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_4)));
+        joyport4_device = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_4)));
     }
 
     if (ports[JOYPORT_5]) {
-        joyport5_device = lib_msprintf(translate_text(IDS_JOYPORT_S_PORT_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_5)));
+        joyport5_device = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_5)));
     }
 
     app = mui_get_app();

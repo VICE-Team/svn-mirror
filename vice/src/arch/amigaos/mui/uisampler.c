@@ -79,7 +79,7 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from[0].object, translate_text(IDS_SAMPLE_DEVICE), ui_sampler_devices)
+           CYCLE(ui_to_from[0].object, translate_text(IDS_SAMPLER_DEVICE), ui_sampler_devices)
            NSTRING(ui_to_from[1].object, translate_text(IDS_GAIN_1_200), "0123456789", 5+1)
            FILENAME(ui_to_from[2].object, translate_text(IDS_SAMPLER_FILENAME), browse_button)
            OK_CANCEL_BUTTON

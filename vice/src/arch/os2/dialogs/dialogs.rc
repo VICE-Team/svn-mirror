@@ -36,34 +36,66 @@
 #include <pmwin.h>
 #endif
 
+#ifdef WATCOM_COMPILE
 POINTER PTR_DRAGOK "..\\icons\\check.ico"
 ICON    PTR_INFO   "..\\icons\\info.ico"
 ICON    PTR_SKULL  "..\\icons\\skull.ico"
 ICON    PTR_NOTE   "..\\icons\\note.ico"
+#else
+POINTER PTR_DRAGOK "..\\..\\icons\\check.ico"
+ICON    PTR_INFO   "..\\..\\icons\\info.ico"
+ICON    PTR_SKULL  "..\\..\\icons\\skull.ico"
+ICON    PTR_NOTE   "..\\..\\icons\\note.ico"
+#endif
 
 #if defined __X64__ || defined __X64DTV__
+#ifdef WATCOM_COMPILE
 ICON    IDM_VICE2  "..\\icons\\x64.ico"
 ICON    DLG_VSID   "..\\icons\\vsid.ico"
+#else
+ICON    IDM_VICE2  "..\\..\\icons\\x64.ico"
+ICON    DLG_VSID   "..\\..\\icons\\vsid.ico"
+#endif
 #endif
 
 #ifdef __XPET__
+#ifdef WATCOM_COMPILE
 ICON    IDM_VICE2 "..\\icons\\xpet.ico"
+#else
+ICON    IDM_VICE2 "..\\..\\icons\\xpet.ico"
+#endif
 #endif
 
 #ifdef __XCBM__
+#ifdef WATCOM_COMPILE
 ICON    IDM_VICE2 "..\\icons\\xcbm2.ico"
+#else
+ICON    IDM_VICE2 "..\\..\\icons\\xcbm2.ico"
+#endif
 #endif
 
 #ifdef __X128__
+#ifdef WATCOM_COMPILE
 ICON    IDM_VICE2 "..\\icons\\x128.ico"
+#else
+ICON    IDM_VICE2 "..\\..\\icons\\x128.ico"
+#endif
 #endif
 
 #ifdef __XVIC__
+#ifdef WATCOM_COMPILE
 ICON    IDM_VICE2 "..\\icons\\xvic.ico"
+#else
+ICON    IDM_VICE2 "..\\..\\icons\\xvic.ico"
+#endif
 #endif
 
 #ifdef __XPLUS4__
+#ifdef WATCOM_COMPILE
 ICON    IDM_VICE2 "..\\icons\\xplus4.ico"
+#else
+ICON    IDM_VICE2 "..\\..\\icons\\xplus4.ico"
+#endif
 #endif
 
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE
