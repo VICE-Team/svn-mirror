@@ -83,6 +83,7 @@ static joyport_t joyport_sampler_device = {
     IDGS_SAMPLER_4BIT,
     JOYPORT_RES_ID_SAMPLER,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_sampler_enable,
     joyport_sampler_read,
     NULL,				/* no store digital */

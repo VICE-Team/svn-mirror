@@ -78,11 +78,15 @@
 #define JOYPORT_IS_NOT_LIGHTPEN   0
 #define JOYPORT_IS_LIGHTPEN       1
 
+#define JOYPORT_POT_REQUIRED   0
+#define JOYPORT_POT_OPTIONAL   1
+
 typedef struct joyport_s {
     char *name;
     int trans_name;
     int resource_id;
     int is_lp;
+    int pot_optional;
     int (*enable)(int port, int val);
     BYTE (*read_digital)(int port);
     void (*store_digital)(BYTE val);

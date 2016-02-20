@@ -672,6 +672,7 @@ static joyport_t paddles_joyport_device = {
     IDGS_PADDLES,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_REQUIRED,
     joyport_mouse_enable,
     joyport_mouse_value,
     NULL,				/* no store digital */
@@ -684,6 +685,7 @@ static joyport_t mouse_1351_joyport_device = {
     IDGS_MOUSE_1351,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_REQUIRED,
     joyport_mouse_enable,
     joyport_mouse_value,
     NULL,				/* no store digital */
@@ -714,6 +716,7 @@ static joyport_t mouse_neos_joyport_device = {
     IDGS_MOUSE_NEOS,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_mouse_enable,
     joyport_mouse_neos_value,
     neos_mouse_store,
@@ -744,6 +747,7 @@ static joyport_t mouse_amiga_joyport_device = {
     IDGS_MOUSE_AMIGA,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_mouse_enable,
     joyport_mouse_poll_value,
     NULL,				/* no store digital */
@@ -756,6 +760,7 @@ static joyport_t mouse_cx22_joyport_device = {
     IDGS_MOUSE_CX22,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_mouse_enable,
     joyport_mouse_poll_value,
     NULL,				/* no store digital */
@@ -768,6 +773,7 @@ static joyport_t mouse_st_joyport_device = {
     IDGS_MOUSE_ATARI_ST,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_mouse_enable,
     joyport_mouse_poll_value,
     NULL,				/* no store digital */
@@ -793,6 +799,7 @@ static joyport_t mouse_smart_joyport_device = {
     IDGS_MOUSE_SMART,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_REQUIRED,
     joyport_mouse_enable,
     joyport_mouse_smart_value,
     smart_mouse_store,
@@ -818,6 +825,7 @@ static joyport_t mouse_micromys_joyport_device = {
     IDGS_MOUSE_MICROMYS,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_REQUIRED,
     joyport_mouse_enable,
     joyport_mouse_micromys_value,
     NULL,				/* no store digital */
@@ -835,6 +843,7 @@ static joyport_t koalapad_joyport_device = {
     IDGS_KOALAPAD,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_REQUIRED,
     joyport_mouse_enable,
     joyport_mouse_value,
     NULL,				/* no store digital */

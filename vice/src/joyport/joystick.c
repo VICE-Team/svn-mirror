@@ -526,6 +526,7 @@ static joyport_t joystick_device = {
     IDGS_JOYSTICK,
     JOYPORT_RES_ID_NONE,
     JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_enable_joystick,
     read_joystick,
     NULL,				/* no store digital */

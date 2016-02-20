@@ -321,7 +321,7 @@ int joyport_device_register(int id, joyport_t *device)
     }
 
     /* skip pot devices if no pot is present */
-    if ((device->read_potx || device->read_poty) && !pot_present) {
+    if ((device->read_potx || device->read_poty) && !pot_present && !device->pot_optional) {
         return 0;
     }
 
@@ -329,6 +329,7 @@ int joyport_device_register(int id, joyport_t *device)
     joyport_device[id].trans_name = device->trans_name;
     joyport_device[id].resource_id = device->resource_id;
     joyport_device[id].is_lp = device->is_lp;
+    joyport_device[id].pot_optional = device->pot_optional;
     joyport_device[id].enable = device->enable;
     joyport_device[id].read_digital = device->read_digital;
     joyport_device[id].store_digital = device->store_digital;
@@ -372,7 +373,7 @@ static int check_valid_pot(int port, int index)
     if (!joyport_device[index].read_potx && !joyport_device[index].read_poty) {
         return 1;
     }
-    if (port_props[port].has_pot) {
+    if (port_props[port].has_pot || joyport_device[index].pot_optional) {
         return 1;
     }
     return 0;

@@ -251,6 +251,7 @@ static joyport_t lightpen_u_joyport_device = {
     IDGS_LIGHTPEN_UP,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -263,6 +264,7 @@ static joyport_t lightpen_l_joyport_device = {
     IDGS_LIGHTPEN_LEFT,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -275,6 +277,7 @@ static joyport_t lightpen_datel_joyport_device = {
     IDGS_DATEL_LIGHTPEN,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -287,6 +290,7 @@ static joyport_t magnum_light_phaser_joyport_device = {
     IDGS_MAGNUM_LIGHT_PHASER,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -299,6 +303,7 @@ static joyport_t stack_light_rifle_joyport_device = {
     IDGS_STACK_LIGHT_RIFLE,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
@@ -311,6 +316,7 @@ static joyport_t inkwell_lightpen_joyport_device = {
     IDGS_INKWELL_LIGHTPEN,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
     joyport_lightpen_enable,
     lightpen_digital_val,
     NULL,				/* no store digital */
