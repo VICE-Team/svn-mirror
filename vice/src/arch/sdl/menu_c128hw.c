@@ -136,6 +136,7 @@ UI_MENU_DEFINE_TOGGLE(UserportDAC)
 UI_MENU_DEFINE_TOGGLE(UserportDIGIMAX)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
+UI_MENU_DEFINE_TOGGLE(Userport4bitSampler)
 
 const ui_menu_entry_t c128_hardware_menu[] = {
     { "Select C128 model",
@@ -221,6 +222,10 @@ const ui_menu_entry_t c128_hardware_menu[] = {
     { "Save Userport RTC (58321a) when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTC58321aSave_callback,
+      NULL },
+    { "Userport 4 bit sampler enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_Userport4bitSampler_callback,
       NULL },
 #ifdef HAVE_MIDI
     { "MIDI settings",
