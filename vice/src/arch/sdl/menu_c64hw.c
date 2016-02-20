@@ -84,6 +84,7 @@ UI_MENU_DEFINE_TOGGLE(UserportDIGIMAX)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
 UI_MENU_DEFINE_TOGGLE(Userport4bitSampler)
+UI_MENU_DEFINE_TOGGLE(Userport8BSS)
 
 const ui_menu_entry_t c64_hardware_menu[] = {
     { "Model settings",
@@ -167,6 +168,10 @@ const ui_menu_entry_t c64_hardware_menu[] = {
     { "Userport 4 bit sampler enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_Userport4bitSampler_callback,
+      NULL },
+    { "Userport 8 bit stereo sampler enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_Userport8BSS_callback,
       NULL },
     SDL_MENU_LIST_END
 };
@@ -253,6 +258,10 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
     { "Userport 4 bit sampler enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_Userport4bitSampler_callback,
+      NULL },
+    { "Userport 8 bit stereo sampler enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_Userport8BSS_callback,
       NULL },
     SDL_MENU_LIST_END
 };
