@@ -118,7 +118,7 @@ char *archdep_program_name(void)
     if (program_name == NULL) {
         char *p, name[1024];
 
-#ifdef AMIGA_OS4_ALT
+#ifndef GetProgramName
         GetCliProgramName(name, 1024);
 #else
         GetProgramName(name, 1024);

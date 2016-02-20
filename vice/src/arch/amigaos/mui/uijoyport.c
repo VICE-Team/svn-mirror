@@ -39,19 +39,19 @@
 static int ports[JOYPORT_MAX_PORTS];
 
 static char *ui_joyport_1[JOYPORT_MAX_DEVICES + 1];
-static const int ui_joyport_1_values[JOYPORT_MAX_DEVICES + 1];
+static int ui_joyport_1_values[JOYPORT_MAX_DEVICES + 1];
 
 static char *ui_joyport_2[JOYPORT_MAX_DEVICES + 1];
-static const int ui_joyport_2_values[JOYPORT_MAX_DEVICES + 1];
+static int ui_joyport_2_values[JOYPORT_MAX_DEVICES + 1];
 
 static char *ui_joyport_3[JOYPORT_MAX_DEVICES + 1];
-static const int ui_joyport_3_values[JOYPORT_MAX_DEVICES + 1];
+static int ui_joyport_3_values[JOYPORT_MAX_DEVICES + 1];
 
 static char *ui_joyport_4[JOYPORT_MAX_DEVICES + 1];
-static const int ui_joyport_4_values[JOYPORT_MAX_DEVICES + 1];
+static int ui_joyport_4_values[JOYPORT_MAX_DEVICES + 1];
 
 static char *ui_joyport_5[JOYPORT_MAX_DEVICES + 1];
-static const int ui_joyport_5_values[JOYPORT_MAX_DEVICES + 1];
+static int ui_joyport_5_values[JOYPORT_MAX_DEVICES + 1];
 
 static ui_to_from_t ui_to_from[JOYPORT_MAX_PORTS + 1];
 

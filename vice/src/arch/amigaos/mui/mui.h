@@ -227,7 +227,7 @@
 
 typedef struct {
     APTR object;
-    const int type;
+    int type;
     char *resource;
     char **strings;
     const int *values;

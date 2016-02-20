@@ -75,7 +75,7 @@ extern BYTE joystick_value[JOYSTICK_NUM + 1];
 /* the mapping of real devices to emulated joystick ports */
 extern int joystick_port_map[JOYSTICK_NUM];
 
-#if (!defined(__OS2__) && !defined(AMIGA_OS4)) || defined(USE_SDLUI) || defined(USE_SDLUI2)
+#if !defined(__OS2__) || defined(USE_SDLUI) || defined(USE_SDLUI2)
 #define COMMON_JOYKEYS
 
 #define JOYSTICK_KEYSET_NUM 3

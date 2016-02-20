@@ -39,7 +39,7 @@ static video_canvas_t *sampler_canvas;
 
 static char *ui_sampler_devices[SAMPLER_MAX_DEVICES + 1];
 
-static const int ui_sampler_devices_values[SAMPLER_MAX_DEVICES + 1];
+static int ui_sampler_devices_values[SAMPLER_MAX_DEVICES + 1];
 
 static const int ui_gain_range[] = {
     1,
