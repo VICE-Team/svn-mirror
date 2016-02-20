@@ -255,6 +255,7 @@ const ui_menu_entry_t cbm5x0_hardware_menu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(UserportDAC)
+UI_MENU_DEFINE_TOGGLE(UserportDIGIMAX)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
 
@@ -307,6 +308,10 @@ const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
     { "Userport DAC enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportDAC_callback,
+      NULL },
+    { "Userport DigiMAX enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportDIGIMAX_callback,
       NULL },
     { "Userport RTC (58321a) enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
