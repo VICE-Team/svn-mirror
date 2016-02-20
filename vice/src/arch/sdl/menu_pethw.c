@@ -264,6 +264,8 @@ static const ui_menu_entry_t pet_keyboard_menu[] = {
 UI_MENU_DEFINE_TOGGLE(Crtc)
 UI_MENU_DEFINE_TOGGLE(PETHRE)
 UI_MENU_DEFINE_TOGGLE(UserportDAC)
+UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307)
+UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
 
@@ -330,6 +332,14 @@ const ui_menu_entry_t pet_hardware_menu[] = {
     { "Save Userport RTC (58321a) when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTC58321aSave_callback,
+      NULL },
+    { "Userport RTC (DS1307) enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCDS1307_callback,
+      NULL },
+    { "Save Userport RTC (DS1307) data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCDS1307Save_callback,
       NULL },
     { "Memory and I/O settings",
       MENU_ENTRY_SUBMENU,

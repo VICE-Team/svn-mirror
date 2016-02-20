@@ -174,6 +174,8 @@ UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(UserportDAC)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
+UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307)
+UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
 
 const ui_menu_entry_t vic20_hardware_menu[] = {
     { "Select VIC20 model",
@@ -233,6 +235,14 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
     { "Save Userport RTC (58321a) when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTC58321aSave_callback,
+      NULL },
+    { "Userport RTC (DS1307) enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCDS1307_callback,
+      NULL },
+    { "Save Userport RTC (DS1307) data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCDS1307Save_callback,
       NULL },
 #ifdef HAVE_TFE
     { CARTRIDGE_NAME_TFE " settings (MasC=uerade)",
