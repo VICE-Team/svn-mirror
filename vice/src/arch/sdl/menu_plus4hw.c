@@ -116,6 +116,7 @@ static const ui_menu_entry_t v364speech_menu[] = {
 UI_MENU_DEFINE_RADIO(MemoryHack)
 UI_MENU_DEFINE_RADIO(RamSize)
 UI_MENU_DEFINE_TOGGLE(Acia1Enable)
+UI_MENU_DEFINE_TOGGLE(UserportDAC)
 
 const ui_menu_entry_t plus4_hardware_menu[] = {
     { "Select Plus4 model",
@@ -162,6 +163,10 @@ const ui_menu_entry_t plus4_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)rs232_nouser_menu },
 #endif
+    { "Userport DAC enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportDAC_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Memory"),
     { "16kB",

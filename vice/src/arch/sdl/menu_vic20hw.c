@@ -171,6 +171,7 @@ UI_MENU_DEFINE_TOGGLE(RAMBlock2)
 UI_MENU_DEFINE_TOGGLE(RAMBlock3)
 UI_MENU_DEFINE_TOGGLE(RAMBlock5)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
+UI_MENU_DEFINE_TOGGLE(UserportDAC)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
 
@@ -221,11 +222,15 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)midi_vic20_menu },
 #endif
+    { "Userport DAC enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportDAC_callback,
+      NULL },
     { "Userport RTC (58321a) enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTC58321a_callback,
       NULL },
-    { "Save Userport RTC (58321a) data when changed",
+    { "Save Userport RTC (58321a) when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTC58321aSave_callback,
       NULL },
