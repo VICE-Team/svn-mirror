@@ -261,13 +261,39 @@ static const ui_menu_entry_t pet_keyboard_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(Crtc)
-UI_MENU_DEFINE_TOGGLE(PETHRE)
 UI_MENU_DEFINE_TOGGLE(UserportDAC)
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307)
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
+
+static const ui_menu_entry_t userport_menu[] = {
+    SDL_MENU_ITEM_TITLE("Userport devices"),
+    { "8 bit DAC enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportDAC_callback,
+      NULL },
+    { "RTC (58321a) enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTC58321a_callback,
+      NULL },
+    { "Save RTC (58321a) data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTC58321aSave_callback,
+      NULL },
+    { "RTC (DS1307) enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCDS1307_callback,
+      NULL },
+    { "Save RTC (DS1307) data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCDS1307Save_callback,
+      NULL },
+    SDL_MENU_LIST_END
+};
+
+UI_MENU_DEFINE_TOGGLE(Crtc)
+UI_MENU_DEFINE_TOGGLE(PETHRE)
 
 const ui_menu_entry_t pet_hardware_menu[] = {
     { "Select PET model",
@@ -321,26 +347,10 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_PETHRE_callback,
       NULL },
-    { "Userport DAC enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportDAC_callback,
-      NULL },
-    { "Userport RTC (58321a) enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTC58321a_callback,
-      NULL },
-    { "Save Userport RTC (58321a) when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTC58321aSave_callback,
-      NULL },
-    { "Userport RTC (DS1307) enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTCDS1307_callback,
-      NULL },
-    { "Save Userport RTC (DS1307) data when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTCDS1307Save_callback,
-      NULL },
+    { "Userport devices",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)userport_menu },
     { "Memory and I/O settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

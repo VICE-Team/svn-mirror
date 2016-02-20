@@ -164,6 +164,37 @@ static const ui_menu_entry_t vic20_model_submenu[] = {
     SDL_MENU_LIST_END
 };
 
+UI_MENU_DEFINE_TOGGLE(UserportDAC)
+UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
+UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
+UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307)
+UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
+
+static const ui_menu_entry_t userport_menu[] = {
+    SDL_MENU_ITEM_TITLE("Userport devices"),
+    { "8 bit DAC enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportDAC_callback,
+      NULL },
+    { "RTC (58321a) enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTC58321a_callback,
+      NULL },
+    { "Save RTC (58321a) data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTC58321aSave_callback,
+      NULL },
+    { "RTC (DS1307) enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCDS1307_callback,
+      NULL },
+    { "Save RTC (DS1307) data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCDS1307Save_callback,
+      NULL },
+    SDL_MENU_LIST_END
+};
+
 UI_MENU_DEFINE_TOGGLE(Mouse)
 UI_MENU_DEFINE_TOGGLE(RAMBlock0)
 UI_MENU_DEFINE_TOGGLE(RAMBlock1)
@@ -171,11 +202,6 @@ UI_MENU_DEFINE_TOGGLE(RAMBlock2)
 UI_MENU_DEFINE_TOGGLE(RAMBlock3)
 UI_MENU_DEFINE_TOGGLE(RAMBlock5)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
-UI_MENU_DEFINE_TOGGLE(UserportDAC)
-UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
-UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
-UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307)
-UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
 
 const ui_menu_entry_t vic20_hardware_menu[] = {
     { "Select VIC20 model",
@@ -224,26 +250,10 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)midi_vic20_menu },
 #endif
-    { "Userport DAC enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportDAC_callback,
-      NULL },
-    { "Userport RTC (58321a) enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTC58321a_callback,
-      NULL },
-    { "Save Userport RTC (58321a) when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTC58321aSave_callback,
-      NULL },
-    { "Userport RTC (DS1307) enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTCDS1307_callback,
-      NULL },
-    { "Save Userport RTC (DS1307) data when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTCDS1307Save_callback,
-      NULL },
+    { "Userport devices",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)userport_menu },
 #ifdef HAVE_TFE
     { CARTRIDGE_NAME_TFE " settings (MasC=uerade)",
       MENU_ENTRY_SUBMENU,
