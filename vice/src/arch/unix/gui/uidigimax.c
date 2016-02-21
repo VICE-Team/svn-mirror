@@ -36,8 +36,6 @@ UI_MENU_DEFINE_TOGGLE(DIGIMAX)
 UI_MENU_DEFINE_RADIO(DIGIMAXbase)
 
 static ui_menu_entry_t digimax_c64_base_submenu[] = {
-    { N_("Userport"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
-      (ui_callback_data_t)0xdd00, NULL },
     { "$DE00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
       (ui_callback_data_t)0xde00, NULL },
     { "$DE20", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
