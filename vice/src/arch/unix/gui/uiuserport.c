@@ -30,7 +30,7 @@
 
 #include "uilib.h"
 #include "uimenu.h"
-#include "uiuserportrtc58321a.h"
+#include "uiuserport.h"
 
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
