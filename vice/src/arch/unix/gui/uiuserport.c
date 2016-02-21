@@ -1,5 +1,5 @@
 /*
- * uiuserportrtc58321a.c
+ * uiuserport.c
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -35,10 +35,22 @@
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
 
-ui_menu_entry_t userportrtc58321a_submenu[] = {
-    { N_("Enable"), UI_MENU_TYPE_TICK,
+ui_menu_entry_t userport_c64_cbm2_submenu[] = {
+    { N_("Enable RTC (58321a)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UserportRTC58321a, NULL, NULL },
     { N_("Enable RTC (58321a) saving"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UserportRTC58321aSave, NULL, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t userport_pet_vic20_submenu[] = {
+    { N_("Enable RTC (58321a)"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UserportRTC58321a, NULL, NULL },
+    { N_("Enable RTC (58321a) saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UserportRTC58321aSave, NULL, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t userport_plus4_submenu[] = {
     { NULL }
 };

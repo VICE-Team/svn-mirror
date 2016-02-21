@@ -73,7 +73,7 @@
 #include "uisettings.h"
 #include "uisid.h"
 #include "uisound.h"
-#include "uiuserportrtc58321a.h"
+#include "uiuserport.h"
 #include "vsync.h"
 
 UI_MENU_DEFINE_TOGGLE(DiagPin)
@@ -226,8 +226,6 @@ static ui_menu_entry_t petui_main_romset_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(UserportDAC)
-
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("PET RAM and Expansion Unit"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petreu_submenu },
@@ -239,10 +237,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, pethre_submenu },
     { N_("SID cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_submenu },
-    { N_("Userport DAC"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportDAC, NULL, NULL },
-    { "Userport RTC", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, userportrtc58321a_submenu },
+    { "Userport devices", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, userport_pet_vic20_submenu },
     { N_("PET userport diagnostic pin"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DiagPin, NULL, NULL },
     { NULL }

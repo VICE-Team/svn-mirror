@@ -1,5 +1,5 @@
 /*
- * uiuserportrtc58321a.h
+ * uiuserport.h
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -24,9 +24,11 @@
  *
  */
 
-#ifndef VICE_UI_USERPORTRTC58321A_H
-#define VICE_UI_USERPORTRTC58321A_H
+#ifndef VICE_UI_USERPORT_H
+#define VICE_UI_USERPORT_H
 
-extern struct ui_menu_entry_s userportrtc58321a_submenu[];
+extern struct ui_menu_entry_s userport_c64_cbm2_submenu[];
+extern struct ui_menu_entry_s userport_pet_vic20_submenu[];
+extern struct ui_menu_entry_s userport_plus4_submenu[];
 
 #endif

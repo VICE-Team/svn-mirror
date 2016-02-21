@@ -92,7 +92,7 @@
 #include "uisupersnapshot.h"
 #include "uitfe.h"
 #include "uitpi.h"
-#include "uiuserportrtc58321a.h"
+#include "uiuserport.h"
 #include "uivicii.h"
 #include "vsync.h"
 
@@ -443,8 +443,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_DS12C887RTC, UI_MENU_TYPE_NORMAL,
       NULL, NULL, ds12c887rtc_c64_submenu },
-    { "Userport RTC", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, userportrtc58321a_submenu },
+    { "Userport devices", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, userport_c64_cbm2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("I/O collision handling"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, iocollision_submenu },
