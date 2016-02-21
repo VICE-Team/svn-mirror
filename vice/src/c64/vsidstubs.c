@@ -52,6 +52,10 @@
 #include "vicii-phi1.h"
 #include "ds1202_1302.h"
 
+#ifdef __MSDOS__
+#include "sampler.h"
+#endif
+
 /*******************************************************************************
     Memory related
 *******************************************************************************/
@@ -814,5 +818,12 @@ void loader_set_drive_true_emulation(int val)
 int loader_get_drive_true_emulation()
 {
     return loader_true_drive;
+}
+#endif
+
+#ifdef __MSDOS__
+sampler_device_t *sampler_get_devices(void)
+{
+    return NULL;
 }
 #endif
