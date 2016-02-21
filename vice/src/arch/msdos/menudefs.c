@@ -77,6 +77,7 @@
 #include "uisound.h"
 #include "util.h"
 #include "version.h"
+#include "vicefeatures.h"
 #include "video.h"
 #include "videoarch.h"
 
@@ -696,6 +697,32 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
     return NULL;
 }
 
+static TUI_MENU_CALLBACK(show_features_callback)
+{
+    if (been_activated) {
+        feature_list_t *list;
+        char *str, *lstr;
+        unsigned int len = 0;
+
+        list = vice_get_feature_list();
+        while (list->symbol) {
+            len += strlen(list->descr) + strlen(list->symbol) + (15);
+            ++list;
+        }
+        str = lib_malloc(len);
+        lstr = str;
+        list = vice_get_feature_list();
+        while (list->symbol) {
+            sprintf(lstr, "%s\n%s\n%s\n\n", list->isdefined ? "yes " : "no  ", list->descr, list->symbol);
+            lstr += strlen(lstr);
+            ++list;
+        }
+        tui_view_text(70, 20, NULL, str);
+        lib_free(str);
+    }
+    return NULL;
+}
+
 static TUI_MENU_CALLBACK(show_info_callback)
 {
     if (been_activated) {
@@ -721,6 +748,10 @@ static tui_menu_item_def_t info_submenu[] = {
       "VICE is distributed WITHOUT ANY WARRANTY!",
       show_info_callback, (void *)info_warranty_text, 0,
       TUI_MENU_BEH_CONTINUE },
+    { "Compile time features",
+      "VICE compile time features",
+      show_features_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
 
