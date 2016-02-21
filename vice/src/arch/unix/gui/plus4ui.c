@@ -67,6 +67,7 @@
 #include "uisid.h"
 #include "uisound.h"
 #include "uited.h"
+#include "uiuserport.h"
 #include "uiv364speech.h"
 #include "vsync.h"
 #ifdef HAVE_OPENGL_SYNC
@@ -264,6 +265,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     /* Translators: "V364 Speech" is the speech extension present in the V364 prototype */
     { N_("V364 Speech"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, speech_submenu },
+    { "Userport devices", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, userport_plus4_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },

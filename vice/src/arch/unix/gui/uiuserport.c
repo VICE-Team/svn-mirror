@@ -32,25 +32,51 @@
 #include "uimenu.h"
 #include "uiuserport.h"
 
+UI_MENU_DEFINE_TOGGLE(UserportDAC)
+UI_MENU_DEFINE_TOGGLE(UserportDIGIMAX)
+UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307)
+UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
+UI_MENU_DEFINE_TOGGLE(Userport4bitSampler)
+UI_MENU_DEFINE_TOGGLE(Userport8BSS)
 
 ui_menu_entry_t userport_c64_cbm2_submenu[] = {
+    { N_("Enable 4 bit sampler"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Userport4bitSampler, NULL, NULL },
+    { N_("Enable 8 bit stereo sampler"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Userport8BSS, NULL, NULL },
+    { N_("Enable 8 bit DAC"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UserportDAC, NULL, NULL },
+    { N_("Enable DigiMAX"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UserportDIGIMAX, NULL, NULL },
     { N_("Enable RTC (58321a)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UserportRTC58321a, NULL, NULL },
     { N_("Enable RTC (58321a) saving"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UserportRTC58321aSave, NULL, NULL },
+    { N_("Enable RTC (DS1307)"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UserportRTCDS1307, NULL, NULL },
+    { N_("Enable RTC (DS1307) saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UserportRTCDS1307Save, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t userport_pet_vic20_submenu[] = {
+    { N_("Enable 8 bit DAC"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UserportDAC, NULL, NULL },
     { N_("Enable RTC (58321a)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UserportRTC58321a, NULL, NULL },
     { N_("Enable RTC (58321a) saving"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UserportRTC58321aSave, NULL, NULL },
+    { N_("Enable RTC (DS1307)"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UserportRTCDS1307, NULL, NULL },
+    { N_("Enable RTC (DS1307) saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UserportRTCDS1307Save, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t userport_plus4_submenu[] = {
+    { N_("Enable 8 bit DAC"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_UserportDAC, NULL, NULL },
     { NULL }
 };
