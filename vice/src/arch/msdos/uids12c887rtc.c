@@ -35,6 +35,7 @@
 
 TUI_MENU_DEFINE_TOGGLE(DS12C887RTC)
 TUI_MENU_DEFINE_RADIO(DS12C887RTCbase)
+TUI_MENU_DEFINE_TOGGLE(DS12C887RTCRunMode)
 TUI_MENU_DEFINE_TOGGLE(DS12C887RTCSave)
 
 static TUI_MENU_CALLBACK(ds12c887rtc_base_submenu_callback)
@@ -87,6 +88,9 @@ static tui_menu_item_def_t ds12c887rtc_c64_menu_items[] = {
       ds12c887rtc_base_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ds12c887rtc_c64_base_submenu,
       "DS12C887 RTC base" },
+    { "DS12C887 RTC running mode enable:", "Sets the initial running mode to 'running'",
+      toggle_DS12C887RTCRunMode_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Save DS12C887 RTC data when changed:", "Save DS12C887 RTC data when changed",
       toggle_DS12C887RTCSave_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
@@ -101,6 +105,9 @@ static tui_menu_item_def_t ds12c887rtc_c128_menu_items[] = {
       ds12c887rtc_base_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ds12c887rtc_c128_base_submenu,
       "DS12C887 RTC base" },
+    { "DS12C887 RTC running mode enable:", "Sets the initial running mode to 'running'",
+      toggle_DS12C887RTCRunMode_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Save DS12C887 RTC data when changed:", "Save DS12C887 RTC data when changed",
       toggle_DS12C887RTCSave_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
@@ -115,6 +122,9 @@ static tui_menu_item_def_t ds12c887rtc_vic20_menu_items[] = {
       ds12c887rtc_base_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ds12c887rtc_vic20_base_submenu,
       "DS12C887 RTC base" },
+    { "DS12C887 RTC running mode enable:", "Sets the initial running mode to 'running'",
+      toggle_DS12C887RTCRunMode_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Save DS12C887 RTC data when changed:", "Save DS12C887 RTC data when changed",
       toggle_DS12C887RTCSave_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
