@@ -223,7 +223,6 @@ static UI_MENU_CALLBACK(c64_cart_save_callback)
     return NULL;
 }
 
-
 /* RAMCART */
 
 UI_MENU_DEFINE_TOGGLE(RAMCART)
@@ -774,6 +773,31 @@ static const ui_menu_entry_t retroreplay_cart_menu[] = {
 };
 
 
+/* RRNET MK3 */
+UI_MENU_DEFINE_TOGGLE(RRNETMK3_flashjumper)
+UI_MENU_DEFINE_TOGGLE(RRNETMK3_bios_write)
+
+static const ui_menu_entry_t rrnet_mk3_cart_menu[] = {
+    { "BIOS flash jumper",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RRNETMK3_flashjumper_callback,
+      NULL },
+    { "Save image on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RRNETMK3_bios_write_callback,
+      NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_RRNETMK3 },
+    { "Save image as",
+      MENU_ENTRY_OTHER,
+      c64_cart_save_callback,
+      (ui_callback_data_t)CARTRIDGE_RRNETMK3 },
+    SDL_MENU_LIST_END
+};
+
+
 /* Magic Voice */
 
 UI_MENU_DEFINE_TOGGLE(MagicVoiceCartridgeEnabled)
@@ -936,6 +960,10 @@ ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)retroreplay_cart_menu },
+    { CARTRIDGE_NAME_RRNETMK3,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)rrnet_mk3_cart_menu },
     { CARTRIDGE_NAME_MAGIC_VOICE,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
