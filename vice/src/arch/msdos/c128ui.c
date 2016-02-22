@@ -55,6 +55,7 @@
 #include "uimmc64.h"
 #include "uimmcreplay.h"
 #include "uiramcart.h"
+#include "uiretroreplay.h"
 #include "uireu.h"
 #include "uisidc128.h"
 #include "uisoundexpander.h"
@@ -370,6 +371,8 @@ int c128ui_init(void)
     uimmc64_init(ui_ioextensions_submenu);
 
     uimmcreplay_init(ui_ioextensions_submenu);
+
+    uiretroreplay_init(ui_ioextensions_submenu);
 
     uimagicvoice_init(ui_ioextensions_submenu);
 

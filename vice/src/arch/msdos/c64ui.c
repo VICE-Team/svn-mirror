@@ -58,6 +58,7 @@
 #include "uimmc64.h"
 #include "uimmcreplay.h"
 #include "uiramcart.h"
+#include "uiretroreplay.h"
 #include "uireu.h"
 #include "uisidc64.h"
 #include "uisoundexpander.h"
@@ -221,6 +222,8 @@ int c64ui_init(void)
     uimmc64_init(ui_ioextensions_submenu);
 
     uimmcreplay_init(ui_ioextensions_submenu);
+
+    uiretroreplay_init(ui_ioextensions_submenu);
 
     uidigimax_c64_init(ui_ioextensions_submenu);
 
