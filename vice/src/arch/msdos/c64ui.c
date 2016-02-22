@@ -62,6 +62,7 @@
 #include "uireu.h"
 #include "uisidc64.h"
 #include "uisoundexpander.h"
+#include "uiss5.h"
 #ifdef HAVE_TFE
 #include "uitfe.h"
 #endif
@@ -218,6 +219,8 @@ int c64ui_init(void)
     uiexpert_init(ui_ioextensions_submenu);
 
     uic64_memory_hacks_init(ui_ioextensions_submenu);
+
+    uiss5_init(ui_ioextensions_submenu);
 
     uimmc64_init(ui_ioextensions_submenu);
 

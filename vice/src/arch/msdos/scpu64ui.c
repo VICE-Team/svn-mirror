@@ -60,6 +60,7 @@
 #include "uiscpu64model.h"
 #include "uisidc64.h"
 #include "uisoundexpander.h"
+#include "uiss5.h"
 #ifdef HAVE_TFE
 #include "uitfe.h"
 #endif
@@ -205,6 +206,8 @@ int scpu64ui_init(void)
     uiisepic_init(ui_ioextensions_submenu);
 
     uiexpert_init(ui_ioextensions_submenu);
+
+    uiss5_init(ui_ioextensions_submenu);
 
     uimmc64_init(ui_ioextensions_submenu);
 

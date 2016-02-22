@@ -59,6 +59,7 @@
 #include "uireu.h"
 #include "uisidc128.h"
 #include "uisoundexpander.h"
+#include "uiss5.h"
 #ifdef HAVE_TFE
 #include "uitfe.h"
 #endif
@@ -367,6 +368,8 @@ int c128ui_init(void)
     uidigimax_c64_init(ui_ioextensions_submenu);
 
     uids12c887rtc_c128_init(ui_ioextensions_submenu);
+
+    uiss5_init(ui_ioextensions_submenu);
 
     uimmc64_init(ui_ioextensions_submenu);
 
