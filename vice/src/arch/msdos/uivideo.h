@@ -30,9 +30,10 @@
 #define VID_NONE    0
 #define VID_VIC     1
 #define VID_VICII   2
-#define VID_TED     3
-#define VID_VDC     4
-#define VID_CRTC    5
+#define VID_VICIISC 3
+#define VID_TED     4
+#define VID_VDC     5
+#define VID_CRTC    6
 
 struct tui_menu;
 

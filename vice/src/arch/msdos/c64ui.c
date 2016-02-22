@@ -191,7 +191,11 @@ int c64ui_init(void)
     uic64cart_init(NULL);
     tui_menu_add_separator(ui_video_submenu);
 
-    uivideo_init(ui_video_submenu, VID_VICII, VID_NONE);
+    if (machine_class == VICE_MACHINE_C64SC) {
+        uivideo_init(ui_video_submenu, VID_VICIISC, VID_NONE);
+    } else {
+        uivideo_init(ui_video_submenu, VID_VICII, VID_NONE);
+    }
 
     tui_menu_add(ui_sound_submenu, sid_c64_ui_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);

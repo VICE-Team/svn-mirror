@@ -210,6 +210,28 @@ static tui_menu_item_def_t vicii_menu_items[] = {
     { NULL }
 };
 
+TUI_MENU_DEFINE_TOGGLE(VICIIVSPBug)
+
+static tui_menu_item_def_t viciisc_menu_items[] = {
+    { "Border mode:", "Select the border mode",
+      vicii_border_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, vicii_border_submenu,
+      "Border mode" },
+    { "Sprite-_Background Collisions:",
+      "Emulate sprite-background collision register",
+      toggle_VICIICheckSbColl_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Sprite-_Sprite Collisions:",
+      "Emulate sprite-sprite collision register",
+      toggle_VICIICheckSsColl_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "VSP bug:",
+      "Emulate the VSP bug",
+      toggle_VICIIVSPBug_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
 TUI_MENU_DEFINE_TOGGLE(VDC64KB)
 TUI_MENU_DEFINE_RADIO(VDCRevision)
 
@@ -274,6 +296,17 @@ static ui_video_item_t video_item[] = {
       "VICIIExternalPalette", "VICIIPaletteFile",
       "VICII settings...", "VICII settings",
       vicii_menu_items, 1,
+      "VICIIPALScanLineShade", "VICIIPALBlur",
+      "VICIIPALOddLinePhase", "VICIIPALOddLineOffset",
+      "VICIIColorGamma", "VICIIColorTint",
+      "VICIIColorSaturation", "VICIIColorContrast",
+      "VICIIColorBrightness", NULL },
+    { VID_VICIISC, "VICIIVideoCache",
+      "VICIIDoubleSize", "VICIIDoubleScan",
+      "VICIIFilter", "VICIIAudioLeak",
+      "VICIIExternalPalette", "VICIIPaletteFile",
+      "VICII settings...", "VICII settings",
+      viciisc_menu_items, 1,
       "VICIIPALScanLineShade", "VICIIPALBlur",
       "VICIIPALOddLinePhase", "VICIIPALOddLineOffset",
       "VICIIColorGamma", "VICIIColorTint",
