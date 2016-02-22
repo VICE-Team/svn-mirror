@@ -39,6 +39,7 @@
 #include "ui.h"
 #include "uidrive.h"
 #include "uiplus4cart.h"
+#include "uiplus4memoryhacks.h"
 #include "uiplus4model.h"
 #include "uisidcbm2.h"
 #include "uisidcart.h"
@@ -129,6 +130,8 @@ int plus4ui_init(void)
     tui_menu_add_separator(ui_special_submenu);
 
     uiplus4model_init(ui_special_submenu);
+
+    uiplus4_memory_hacks_init(ui_special_submenu);
 
     tui_menu_add_separator(ui_video_submenu);
 

@@ -157,6 +157,8 @@ libarch_a_SOURCES = \
 	uipetreu.h \
 	uiplus4cart.c \
 	uiplus4cart.h \
+	uiplus4memoryhacks.c \
+	uiplus4memoryhacks.h \
 	uiplus4model.c \
 	uiplus4model.h \
 	uiprinter.c \
