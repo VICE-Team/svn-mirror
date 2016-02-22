@@ -37,6 +37,7 @@
 
 TUI_MENU_DEFINE_TOGGLE(EasyFlashJumper)
 TUI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
+TUI_MENU_DEFINE_TOGGLE(EasyFlashOptimizeCRT)
 
 static TUI_MENU_CALLBACK(EasyFlash_save_now_callback)
 {
@@ -53,8 +54,11 @@ static tui_menu_item_def_t easyflash_menu_items[] = {
     { "Enable EasyFlash _jumper:", "EasyFlash jumper",
       toggle_EasyFlashJumper_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Enable saving to EasyFlash CRT on _detachr:", "Save to EasyFlash crt on detach",
+    { "Enable saving to EasyFlash CRT on _detach:", "Save to EasyFlash crt on detach",
       toggle_EasyFlashWriteCRT_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Enable EasyFlash CRT optimization:", "EasyFlash CRT optimize",
+      toggle_EasyFlashOptimizeCRT_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Save to EasyFlash CRT now:", "Save to EasyFlash CRT now",
       EasyFlash_save_now_callback, NULL, 20,
