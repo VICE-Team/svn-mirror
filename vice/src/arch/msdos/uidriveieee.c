@@ -240,12 +240,49 @@ DEFINE_DRIVE_IDLE_METHOD_SUBMENU(9)
 DEFINE_DRIVE_IDLE_METHOD_SUBMENU(10)
 DEFINE_DRIVE_IDLE_METHOD_SUBMENU(11)
 
-tui_menu_item_def_t driveieee_settings_submenu[] = {
-    { "True Drive _Emulation:",
-      "Enable hardware-level floppy drive emulation",
-      toggle_DriveTrueEmulation_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
+static TUI_MENU_CALLBACK(ui_set_rpm_callback)
+{
+    int num = (int)param;
+
+    if (been_activated) {
+        int current_rpm, value;
+        char buf[10];
+
+        resources_get_int_sprintf("Drive%iRPM", &current_rpm, num);
+        sprintf(buf, "%d", current_rpm);
+
+        if (tui_input_string("RPM", "Enter the RPM (multiplied by 1000):", buf, 10) == 0) {
+            value = atoi(buf);
+            resources_set_int_sprintf("Drive%iRPM", value, num);
+        } else {
+            return NULL;
+        }
+    }
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(ui_set_wobble_callback)
+{
+    int num = (int)param;
+
+    if (been_activated) {
+        int current_wobble, value;
+        char buf[10];
+
+        resources_get_int_sprintf("Drive%iWobble", &current_wobble, num);
+        sprintf(buf, "%d", current_wobble);
+
+        if (tui_input_string("Wobble", "Enter the wobble:", buf, 10) == 0) {
+            value = atoi(buf);
+            resources_set_int_sprintf("Drive%iWobble", value, num);
+        } else {
+            return NULL;
+        }
+    }
+    return NULL;
+}
+
+tui_menu_item_def_t driveieee_drive8_settings_submenu[] = {
     { "Drive #_8 model:",
       "Specify model for drive #8",
       drive_type_submenu_callback, (void *)8, 26,
@@ -260,7 +297,18 @@ tui_menu_item_def_t driveieee_settings_submenu[] = {
       "Settings for dealing with 40-track disk images in drive #8",
       drive_extend_image_policy_submenu_callback, (void *)8, 16,
       TUI_MENU_BEH_CONTINUE, drive8_extend_image_policy_submenu, "" },
-    { "--" },
+    { "Drive #8 RPM",
+      "Set the RPM for drive #8",
+      ui_set_rpm_callback, (void *)8, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive #8 wobble",
+      "Set the wobble for drive #8",
+      ui_set_wobble_callback, (void *)8, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+tui_menu_item_def_t driveieee_drive9_settings_submenu[] = {
     { "Drive #_9 model:",
       "Specify model for drive #9",
       drive_type_submenu_callback, (void *)9, 26,
@@ -275,7 +323,18 @@ tui_menu_item_def_t driveieee_settings_submenu[] = {
       "Settings for dealing with 40-track disk images in drive #9",
       drive_extend_image_policy_submenu_callback, (void *)9, 16,
       TUI_MENU_BEH_CONTINUE, drive9_extend_image_policy_submenu, "" },
-    { "--" },
+    { "Drive #9 RPM",
+      "Set the RPM for drive #9",
+      ui_set_rpm_callback, (void *)9, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive #9 wobble",
+      "Set the wobble for drive #9",
+      ui_set_wobble_callback, (void *)9, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+tui_menu_item_def_t driveieee_drive10_settings_submenu[] = {
     { "Drive #1_0 model:",
       "Specify model for drive #10",
       drive_type_submenu_callback, (void *)10, 26,
@@ -290,7 +349,18 @@ tui_menu_item_def_t driveieee_settings_submenu[] = {
       "Settings for dealing with 40-track disk images in drive #10",
       drive_extend_image_policy_submenu_callback, (void *)10, 16,
       TUI_MENU_BEH_CONTINUE, drive10_extend_image_policy_submenu, "" },
-    { "--" },
+    { "Drive #10 RPM",
+      "Set the RPM for drive #10",
+      ui_set_rpm_callback, (void *)10, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive #10 wobble",
+      "Set the wobble for drive #10",
+      ui_set_wobble_callback, (void *)10, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+tui_menu_item_def_t driveieee_drive11_settings_submenu[] = {
     { "Drive #_11 model:",
       "Specify model for drive #11",
       drive_type_submenu_callback, (void *)11, 26,
@@ -305,5 +375,42 @@ tui_menu_item_def_t driveieee_settings_submenu[] = {
       "Settings for dealing with 40-track disk images in drive #11",
       drive_extend_image_policy_submenu_callback, (void *)11, 16,
       TUI_MENU_BEH_CONTINUE, drive11_extend_image_policy_submenu, "" },
+    { "Drive #11 RPM",
+      "Set the RPM for drive #11",
+      ui_set_rpm_callback, (void *)11, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive #11 wobble",
+      "Set the wobble for drive #11",
+      ui_set_wobble_callback, (void *)11, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
+};
+
+tui_menu_item_def_t driveieee_settings_submenu[] = {
+    { "True Drive _Emulation:",
+      "Enable hardware-level floppy drive emulation",
+      toggle_DriveTrueEmulation_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
+    { "Drive #_8 settings:",
+      "Drive #8 settings",
+      NULL, NULL, 26,
+      TUI_MENU_BEH_CONTINUE, driveieee_drive8_settings_submenu,
+      "Drive 8 settings" },
+    { "Drive #_9 settings:",
+      "Drive #9 settings",
+      NULL, NULL, 26,
+      TUI_MENU_BEH_CONTINUE, driveieee_drive9_settings_submenu,
+      "Drive 9 settings" },
+    { "Drive #1_0 settings:",
+      "Drive #10 settings",
+      NULL, NULL, 26,
+      TUI_MENU_BEH_CONTINUE, driveieee_drive10_settings_submenu,
+      "Drive 10 settings" },
+    { "Drive #_11 settings:",
+      "Drive #11 settings",
+      NULL, NULL, 26,
+      TUI_MENU_BEH_CONTINUE, driveieee_drive11_settings_submenu,
+      "Drive 11 settings" },
+   { NULL }
 };
