@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "ide64.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
@@ -150,10 +151,16 @@ static TUI_MENU_CALLBACK(ide64_version_submenu_callback)
 
     resources_get_int("IDE64version", &value);
     switch (value) {
-    default:
-    case 0: strcpy(s, "V3"); break;
-    case 1: strcpy(s, "V4.1"); break;
-    case 2: strcpy(s, "V4.2"); break;
+        default:
+            case IDE64_VERSION_3:
+                strcpy(s, "V3");
+                break;
+            case IDE64_VERSION_4_1:
+                strcpy(s, "V4.1");
+                break;
+            case IDE64_VERSION_4_2:
+                strcpy(s, "V4.2");
+                break;
     }
     return s;
 }
@@ -248,11 +255,11 @@ static tui_menu_item_def_t ide64_hd4_menu_items[] = {
 
 static tui_menu_item_def_t ide64_version_submenu[] = {
     { "V_3", NULL, radio_IDE64version_callback,
-      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+      (void *)IDE64_VERSION_3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "V4._1", NULL, radio_IDE64version_callback,
-      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+      (void *)IDE64_VERSION_4_1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "V4._2", NULL, radio_IDE64version_callback,
-      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+      (void *)IDE64_VERSION_4_2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
