@@ -355,6 +355,25 @@ static tui_menu_item_def_t datasette_zerogapdelay_submenu[] = {
     { NULL }
 };
 
+static TUI_MENU_CALLBACK(ui_set_tape_wobble_callback)
+{
+    if (been_activated) {
+        int current_wobble, value;
+        char buf[10];
+
+        resources_get_int("DatasetteTapeWobble", &current_wobble);
+        sprintf(buf, "%d", current_wobble);
+
+        if (tui_input_string("Random tape wobble", "Enter the random tape wobble:", buf, 10) == 0) {
+            value = atoi(buf);
+            resources_set_int("DatasetteTapeWobble", value);
+        } else {
+            return NULL;
+        }
+    }
+    return NULL;
+}
+
 static tui_menu_item_def_t datasette_settings_submenu[] = {
     { "_Reset Datasette with CPU:",
       "Reset the datasette when main CPU resets",
@@ -370,6 +389,10 @@ static tui_menu_item_def_t datasette_settings_submenu[] = {
       datasette_zerogapdelay_submenu_callback, NULL, 8,
       TUI_MENU_BEH_CONTINUE, datasette_zerogapdelay_submenu,
       "A zero in tap is..." },
+    { "Random tape wobble",
+      "Set random tape wobble",
+      ui_set_tape_wobble_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
 
