@@ -51,8 +51,6 @@ static TUI_MENU_CALLBACK(digimax_base_submenu_callback)
 }
 
 static tui_menu_item_def_t digimax_c64_base_submenu[] = {
-    { "Userport", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdd00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$DE00", NULL, radio_DIGIMAXbase_callback,
       (void *)0xde00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$DE20", NULL, radio_DIGIMAXbase_callback,
