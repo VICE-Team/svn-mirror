@@ -57,6 +57,7 @@
 #include "uiramcart.h"
 #include "uireu.h"
 #include "uiretroreplay.h"
+#include "uirrnetmk3.h"
 #include "uiscpu64model.h"
 #include "uisidc64.h"
 #include "uisoundexpander.h"
@@ -213,6 +214,8 @@ int scpu64ui_init(void)
     uimmcreplay_init(ui_ioextensions_submenu);
 
     uiretroreplay_init(ui_ioextensions_submenu);
+
+    uirrnetmk3_init(ui_ioextensions_submenu);
 
     uidigimax_c64_init(ui_ioextensions_submenu);
 

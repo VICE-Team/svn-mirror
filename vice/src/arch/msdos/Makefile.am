@@ -170,6 +170,8 @@ libarch_a_SOURCES = \
 	uiretroreplay.h \
 	uireu.c \
 	uireu.h \
+	uirrnetmk3.c \
+	uirrnetmk3.h \
 	uisampler.c \
 	uisampler.h \
 	uiscpu64.c \
