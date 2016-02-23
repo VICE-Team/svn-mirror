@@ -43,6 +43,7 @@
 #include "uiciamodel.h"
 #include "uidrive.h"
 #include "uisidcbm2.h"
+#include "uiuserport.h"
 #include "uivideo.h"
 
 static TUI_MENU_CALLBACK(load_rom_file_callback)
@@ -102,9 +103,6 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-TUI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
-TUI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
-
 int cbm2ui_init(void)
 {
     tui_menu_t ui_ioextensions_submenu;
@@ -126,17 +124,7 @@ int cbm2ui_init(void)
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
-    tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport RTC (58321a)",
-                      "Enable Userport RTC (58321a)",
-                      toggle_UserportRTC58321a_callback,
-                      NULL, 3,
-                      TUI_MENU_BEH_CONTINUE);
-
-    tui_menu_add_item(ui_ioextensions_submenu, "Save Userport RTC (58321a) data when changed",
-                      "Save Userport RTC (58321a) data when changed",
-                      toggle_UserportRTC58321aSave_callback,
-                      NULL, 3,
-                      TUI_MENU_BEH_CONTINUE);
+    uiuserport_c64_cbm2_init(ui_ioextensions_submenu);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 

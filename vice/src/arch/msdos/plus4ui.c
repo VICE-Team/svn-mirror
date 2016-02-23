@@ -43,6 +43,7 @@
 #include "uiplus4model.h"
 #include "uisidcbm2.h"
 #include "uisidcart.h"
+#include "uiuserport.h"
 #include "uiv364speech.h"
 #include "uivideo.h"
 
@@ -132,6 +133,8 @@ int plus4ui_init(void)
     uiplus4model_init(ui_special_submenu);
 
     uiplus4_memory_hacks_init(ui_special_submenu);
+
+    uiuserport_plus4_init(ui_special_submenu);
 
     tui_menu_add_separator(ui_video_submenu);
 

@@ -201,6 +201,8 @@ libarch_a_SOURCES = \
 	uiss5.h \
 	uitfe.c \
 	uitfe.h \
+	uiuserport.c \
+	uiuserport.h \
 	uiv364speech.c \
 	uiv364speech.h \
 	uivic20model.c \
