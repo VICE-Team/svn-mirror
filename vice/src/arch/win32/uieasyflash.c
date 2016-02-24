@@ -46,6 +46,7 @@
 static uilib_localize_dialog_param easyflash_dialog_trans[] = {
     { 0, IDS_EASYFLASH_CAPTION, -1 },
     { IDC_EASYFLASH_JUMPER, IDS_EASYFLASH_JUMPER, 0 },
+    { IDC_EASYFLASH_CRT_OPTIMIZE, IDS_EASYFLASH_CRT_OPTIMIZE, 0 },
     { IDC_EASYFLASH_AUTOSAVE, IDS_EASYFLASH_AUTOSAVE, 0 },
     { IDC_EASYFLASH_SAVE_NOW, IDS_EASYFLASH_SAVE_NOW, 0 },
     { IDOK, IDS_OK, 0 },
@@ -57,6 +58,7 @@ static uilib_dialog_group easyflash_group[] = {
     { IDC_EASYFLASH_JUMPER, 1 },
     { IDC_EASYFLASH_AUTOSAVE, 1 },
     { IDC_EASYFLASH_SAVE_NOW, 1 },
+    { IDC_EASYFLASH_CRT_OPTIMIZE, 1 },
     { 0, 0 }
 };
 
@@ -93,12 +95,16 @@ static void init_easyflash_dialog(HWND hwnd)
     
     resources_get_int("EasyFlashWriteCRT", &res_value);
     CheckDlgButton(hwnd, IDC_EASYFLASH_AUTOSAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
+
+    resources_get_int("EasyFlashOptimizeCRT", &res_value);
+    CheckDlgButton(hwnd, IDC_EASYFLASH_CRT_OPTIMIZE, res_value ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static void end_easyflash_dialog(HWND hwnd)
 {
     resources_set_int("EasyFlashJumper", (IsDlgButtonChecked(hwnd, IDC_EASYFLASH_JUMPER) == BST_CHECKED ? 1 : 0));
     resources_set_int("EasyFlashWriteCRT", (IsDlgButtonChecked(hwnd, IDC_EASYFLASH_AUTOSAVE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("EasyFlashOptimizeCRT", (IsDlgButtonChecked(hwnd, IDC_EASYFLASH_CRT_OPTIMIZE) == BST_CHECKED ? 1 : 0 ));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
