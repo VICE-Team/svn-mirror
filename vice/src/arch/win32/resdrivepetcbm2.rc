@@ -42,5 +42,14 @@ BEGIN
                     85, 45, 65, 10, BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "", IDC_SELECT_DRIVE_EXTEND_ACCESS,
                     85, 60, 65, 10, BS_AUTORADIOBUTTON
+    GROUPBOX        "", IDC_DRIVE_RPM_GROUP,
+                    75, 75, 90, 45
+    LTEXT           "", IDC_DRIVE_RPM,
+                    85, 90, 60, 8
+    EDITTEXT        IDC_DRIVE_RPM_VALUE,
+                    145, 90, 40, 12, WS_TABSTOP
+    LTEXT           "", IDC_DRIVE_WOBBLE,
+                    85, 105, 60, 8
+    EDITTEXT        IDC_DRIVE_WOBBLE_VALUE,
+                    145, 105, 40, 12, WS_TABSTOP
 END
-

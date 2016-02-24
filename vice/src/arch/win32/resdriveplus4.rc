@@ -12,7 +12,7 @@
 
 // template of dialog for all languages
 
-IDD_DRIVE_SETTINGS_DIALOG_PLUS4 DIALOG DISCARDABLE 0, 0, 340, 220
+IDD_DRIVE_SETTINGS_DIALOG_PLUS4 DIALOG DISCARDABLE 0, 0, 340, 280
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -72,4 +72,14 @@ BEGIN
                     85, 150, 73, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_TOGGLE_DRIVE_RTC_SAVE,
                     85, 165, 73, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    GROUPBOX        "", IDC_DRIVE_RPM_GROUP,
+                    75, 180, 90, 45
+    LTEXT           "", IDC_DRIVE_RPM,
+                    85, 195, 60, 8
+    EDITTEXT        IDC_DRIVE_RPM_VALUE,
+                    145, 195, 40, 12, WS_TABSTOP
+    LTEXT           "", IDC_DRIVE_WOBBLE,
+                    85, 210, 60, 8
+    EDITTEXT        IDC_DRIVE_WOBBLE_VALUE,
+                    145, 210, 40, 12, WS_TABSTOP
 END

@@ -49,6 +49,9 @@ static uilib_localize_dialog_param drive_dialog_trans[] = {
     { IDC_SELECT_DRIVE_EXTEND_NEVER, IDS_SELECT_DRIVE_EXTEND_NEVER, 0 },
     { IDC_SELECT_DRIVE_EXTEND_ASK, IDS_SELECT_DRIVE_EXTEND_ASK, 0 },
     { IDC_SELECT_DRIVE_EXTEND_ACCESS, IDS_SELECT_DRIVE_EXTEND_ACCESS, 0 },
+    { IDC_DRIVE_RPM_GROUP, IDS_DRIVE_RPM_GROUP, 0 },
+    { IDC_DRIVE_RPM, IDS_DRIVE_RPM, 0 },
+    { IDC_DRIVE_WOBBLE, IDS_DRIVE_WOBBLE, 0 },
     { 0, 0, 0 }
 };
 
@@ -86,6 +89,8 @@ static uilib_dialog_group drive_middle_group[] = {
     { IDC_SELECT_DRIVE_EXTEND_NEVER, 0 },
     { IDC_SELECT_DRIVE_EXTEND_ASK, 0 },
     { IDC_SELECT_DRIVE_EXTEND_ACCESS, 0 },
+    { IDC_DRIVE_RPM_VALUE, 0 },
+    { IDC_DRIVE_WOBBLE_VALUE, 0 },
     { 0, 0 }
 };
 
@@ -93,6 +98,18 @@ static uilib_dialog_group drive_middle_move_group[] = {
     { IDC_SELECT_DRIVE_EXTEND_NEVER, 0 },
     { IDC_SELECT_DRIVE_EXTEND_ASK, 0 },
     { IDC_SELECT_DRIVE_EXTEND_ACCESS, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group drive_rpm_right_group[] = {
+    { IDC_DRIVE_RPM_VALUE, 0 },
+    { IDC_DRIVE_WOBBLE_VALUE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group drive_rpm_left_group[] = {
+    { IDC_DRIVE_RPM, 0 },
+    { IDC_DRIVE_WOBBLE, 0 },
     { 0, 0 }
 };
 
@@ -153,15 +170,24 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
     
     /* move the middle group elements to the correct position */
     uilib_move_group(hwnd, drive_middle_move_group, xpos + 20);
+    uilib_move_group(hwnd, drive_rpm_left_group, xpos + 20);
     uilib_move_element(hwnd, IDC_40_TRACK_HANDLING, xpos + 10);
+    uilib_move_element(hwnd, IDS_DRIVE_RPM_GROUP, xpos + 10);
 
     xstart = xpos + 20;
+
+    /* get the max x of the rpm left group */
+    uilib_get_group_max_x(hwnd, drive_rpm_left_group, &xpos);
+
+    /* move the right rpm group elements to the correct position */
+    uilib_move_group(hwnd, drive_rpm_right_group, xpos + 10);
 
     /* get the max x of the middle group */
     uilib_get_group_max_x(hwnd, drive_middle_group, &xpos);
     
     /* resize and move the middle group boxes to the correct position */
     uilib_move_and_set_element_width(hwnd, IDC_40_TRACK_HANDLING, xstart - 10, xpos - xstart + 20);
+    uilib_move_and_set_element_width(hwnd, IDC_DRIVE_RPM_GROUP, xstart - 10, xpos - xstart + 20);
 
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(parent_hwnd, move_buttons_group, 0);
@@ -201,6 +227,7 @@ static int dialog_drive_extend[4];
 static void init_dialog(HWND hwnd, int num)
 {
     int drive_type, drive_extend_image_policy, n = 0;
+    TCHAR st[MAX_PATH];
 
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2031), drive_check_type(DRIVE_TYPE_2031, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2040), drive_check_type(DRIVE_TYPE_2040, num - 8));
@@ -259,17 +286,36 @@ static void init_dialog(HWND hwnd, int num)
     }
 
     CheckRadioButton(hwnd, IDC_SELECT_DRIVE_EXTEND_NEVER, IDC_SELECT_DRIVE_EXTEND_ACCESS, n);
+
+    resources_get_int_sprintf("Drive%dRPM", &n, num);
+    _stprintf(st, TEXT("%d"), n);
+    SetDlgItemText(hwnd, IDC_DRIVE_RPM_VALUE, st);
+
+    resources_get_int_sprintf("Drive%dWobble", &n, num);
+    _stprintf(st, TEXT("%d"), n);
+    SetDlgItemText(hwnd, IDC_DRIVE_WOBBLE_VALUE, st);
 }
 
 static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
+    int rpm;
+    TCHAR st[MAX_PATH];
 
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
                 resources_set_int_sprintf("Drive%dType", dialog_drive_type[num - 8], num);
                 resources_set_int_sprintf("Drive%dExtendImagePolicy", dialog_drive_extend[num - 8], num);
+
+                GetDlgItemText(hwnd, IDC_DRIVE_RPM_VALUE, st, MAX_PATH);
+                rpm = atoi(st);
+                resources_set_int_sprintf("Drive%dRPM", rpm, num);
+
+                GetDlgItemText(hwnd, IDC_DRIVE_WOBBLE_VALUE, st, MAX_PATH);
+                rpm = atoi(st);
+                resources_set_int_sprintf("Drive%dWobble", rpm, num);
+
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }

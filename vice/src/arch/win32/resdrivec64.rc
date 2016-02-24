@@ -88,4 +88,14 @@ BEGIN
                     85, 180, 73, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_TOGGLE_DRIVE_RTC_SAVE,
                     85, 195, 73, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    GROUPBOX        "", IDC_DRIVE_RPM_GROUP,
+                    75, 210, 90, 45
+    LTEXT           "", IDC_DRIVE_RPM,
+                    85, 225, 60, 8
+    EDITTEXT        IDC_DRIVE_RPM_VALUE,
+                    145, 225, 40, 12, WS_TABSTOP
+    LTEXT           "", IDC_DRIVE_WOBBLE,
+                    85, 240, 60, 8
+    EDITTEXT        IDC_DRIVE_WOBBLE_VALUE,
+                    145, 240, 40, 12, WS_TABSTOP
 END
