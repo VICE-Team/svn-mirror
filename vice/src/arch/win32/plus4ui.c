@@ -61,6 +61,7 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "DIGIBLASTER", IDM_TOGGLE_DIGIBLASTER },
     { "Mouse", IDM_MOUSE },
+    { "UserportDAC", IDM_TOGGLE_PET_USERPORT_DAC },
     { NULL, 0 }
 };
 
@@ -324,6 +325,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_PLUS4_SETTINGS, IDS_MI_PLUS4_SETTINGS },
     { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
     { IDM_TOGGLE_DIGIBLASTER, IDS_MI_TOGGLE_DIGIBLASTER },
+    { IDM_TOGGLE_PET_USERPORT_DAC, IDS_MI_TOGGLE_PET_USERPORT_DAC },
     { 0, 0 }
 };
 
@@ -353,6 +355,7 @@ ui_popup_translation_table_t plus4ui_popup_translation_table[] = {
     { 2, IDS_MP_MOUSE_SETTINGS, NULL },
     { 2, IDS_MP_VIDEO_STANDARD, NULL },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS, NULL },
+    { 3, IDS_MP_USERPORT_DEVICES, NULL },
     { 2, IDS_MP_RS232_SETTINGS, NULL },
     { 1, IDS_MP_LANGUAGE, NULL },
     { 1, IDS_MP_HELP, NULL },

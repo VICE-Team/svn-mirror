@@ -235,8 +235,12 @@ BEGIN
             MENUITEM "", IDM_PETREU_SETTINGS
             MENUITEM "", IDM_SIDCART_SETTINGS
             MENUITEM "", IDM_TOGGLE_PETHRE
-            MENUITEM "", IDM_TOGGLE_PET_USERPORT_DAC
-            MENUITEM "", IDM_USERPORT_RTC_58321A_SETTINGS
+            POPUP "Userport devices"
+            BEGIN
+                MENUITEM "", IDM_USERPORT_RTC_58321A_SETTINGS
+                MENUITEM "", IDM_USERPORT_RTC_DS1307_SETTINGS
+                MENUITEM "", IDM_TOGGLE_PET_USERPORT_DAC
+            END
         END
         POPUP "RS232 settings"
         BEGIN
@@ -580,7 +584,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
   IDS_MI_PETREU_SETTINGS         "PET REU settings..."
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
   IDS_MI_PETMODEL_SETTINGS       "PET model settings..."
 END
 
@@ -618,7 +621,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "PET DWW-indstillinger..."
   IDS_MI_PETREU_SETTINGS         "PET REU-indstillinger..."
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivér brugerport DAC for lydoutput"
   IDS_MI_PETMODEL_SETTINGS       "PET-model indstillinger..."
 END
 
@@ -656,7 +658,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "PET DWW Einstellungen..."
   IDS_MI_PETREU_SETTINGS         "PET REU Einstellungen..."
   IDS_MI_TOGGLE_PETHRE           "PET Hi-Res Emulation Board aktivieren"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Userport DAC Sound aktivieren"
   IDS_MI_PETMODEL_SETTINGS       "PET Modell Einstellungen..."
 END
 
@@ -694,7 +695,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "Ajustes PET DWW..."
   IDS_MI_PETREU_SETTINGS         "Ajustes PET REU..."
   IDS_MI_TOGGLE_PETHRE           "Permitir emulación Tableta gráfica PET alta resolución"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Permitir puerto DAC para salida de sonido"
   IDS_MI_PETMODEL_SETTINGS       "Ajustes modelo PET..."
 END
 
@@ -732,7 +732,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "Paramètres PET DWW..."
   IDS_MI_PETREU_SETTINGS         "Paramètres PET REU..."
   IDS_MI_TOGGLE_PETHRE           "Activer la carte d'émulation PET Haute Résolution"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Activer DAC port utilisateur comme sortie de son"
   IDS_MI_PETMODEL_SETTINGS       "Paramètres du modèle PET..."
 END
 
@@ -773,7 +772,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
   IDS_MI_PETREU_SETTINGS         "PET REU settings..."
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
   IDS_MI_PETMODEL_SETTINGS       "PET modell beállításai..."
 END
 #ifndef WINDRES_CP_IGNORE
@@ -814,7 +812,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "Impostazioni PET DWW..."
   IDS_MI_PETREU_SETTINGS         "Impostazioni PET REU..."
   IDS_MI_TOGGLE_PETHRE           "Attiva scheda alta risoluzione del PET"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Attiva DAC su userport per la riproduzione audio"
   IDS_MI_PETMODEL_SETTINGS       "Impostazioni modello PET..."
 END
 
@@ -855,7 +852,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
   IDS_MI_PETREU_SETTINGS         "PET REU settings..."
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
   IDS_MI_PETMODEL_SETTINGS       "PET ¸ðµ¨ ¼ÂÆÃ..."
 END
 #ifndef WINDRES_CP_IGNORE
@@ -896,7 +892,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "PET DWW instellingen..."
   IDS_MI_PETREU_SETTINGS         "PET REU instellingen..."
   IDS_MI_TOGGLE_PETHRE           "Activeer PET High Res Emulation bord"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Activeer userport DAC voor geluidsuitvoer"
   IDS_MI_PETMODEL_SETTINGS       "PET model instellingen..."
 END
 
@@ -937,7 +932,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "Ustawienia PET DWW..."
   IDS_MI_PETREU_SETTINGS         "Ustawienia PET REU..."
   IDS_MI_TOGGLE_PETHRE           "W³±cz uk³ad emulatora PET hi-res"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "W³±cz userport DAC jako wyj¶cie d¼wiêku"
   IDS_MI_PETMODEL_SETTINGS       "Ustawienia modelu PET..."
 END
 #ifndef WINDRES_CP_IGNORE
@@ -981,7 +975,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
   IDS_MI_PETREU_SETTINGS         "PET REU settings..."
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
   IDS_MI_PETMODEL_SETTINGS       "½ÐáâàÞÙÚØ ÜÞÔÕÛØ PET..."
 END
 #ifndef WINDRES_CP_IGNORE
@@ -1022,7 +1015,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "PET DWW-Inställningar..."
   IDS_MI_PETREU_SETTINGS         "PET REU-Inställningar..."
   IDS_MI_TOGGLE_PETHRE           "Aktivera PET-högupplösningsemuleringskort"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivera D/A-omvandlare på användarporten för ljudutdata"
   IDS_MI_PETMODEL_SETTINGS       "Inställningar för PET-modell..."
 END
 
@@ -1063,7 +1055,6 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "PET DWW Ayarlarý..."
   IDS_MI_PETREU_SETTINGS         "PET REU Ayarlarý..."
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Ses çýkýþý için Userport DAC'ý aktif et"
   IDS_MI_PETMODEL_SETTINGS       "PET model ayarlarý..."
 END
 #ifndef WINDRES_CP_IGNORE

@@ -1,5 +1,5 @@
 /*
- * uiuserportrtc58321a.c - Implementation of the Userport RTC (58321a) settings dialog box.
+ * uiuserportrtcds1307.c - Implementation of the Userport RTC (DS1307) settings dialog box.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -39,30 +39,30 @@
 #include "translate.h"
 #include "ui.h"
 #include "uilib.h"
-#include "uiuserportrtc58321a.h"
+#include "uiuserportrtcds1307.h"
 #include "winmain.h"
 
 static void enable_userport_rtc_controls(HWND hwnd)
 {
     int is_enabled;
 
-    is_enabled = (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_58321A_ENABLE) == BST_CHECKED) ? 1 : 0;
+    is_enabled = (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_DS1307_ENABLE) == BST_CHECKED) ? 1 : 0;
 
-    EnableWindow(GetDlgItem(hwnd, IDC_USERPORT_RTC_58321A_SAVE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_USERPORT_RTC_DS1307_SAVE), is_enabled);
 }
 
 static uilib_localize_dialog_param userport_rtc_dialog[] = {
-    { 0, IDS_USERPORT_RTC_58321A_CAPTION, -1 },
-    { IDC_USERPORT_RTC_58321A_ENABLE, IDS_USERPORT_RTC_58321A_ENABLE, 0 },
-    { IDC_USERPORT_RTC_58321A_SAVE, IDS_USERPORT_RTC_58321A_SAVE, 0 },
+    { 0, IDS_USERPORT_RTC_DS1307_CAPTION, -1 },
+    { IDC_USERPORT_RTC_DS1307_ENABLE, IDS_USERPORT_RTC_DS1307_ENABLE, 0 },
+    { IDC_USERPORT_RTC_DS1307_SAVE, IDS_USERPORT_RTC_DS1307_SAVE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
 };
 
 static uilib_dialog_group userport_rtc_left_total_group[] = {
-    { IDC_USERPORT_RTC_58321A_ENABLE, 1 },
-    { IDC_USERPORT_RTC_58321A_SAVE, 1 },
+    { IDC_USERPORT_RTC_DS1307_ENABLE, 1 },
+    { IDC_USERPORT_RTC_DS1307_SAVE, 1 },
     { 0, 0 }
 };
 
@@ -73,11 +73,11 @@ static void init_userport_rtc_dialog(HWND hwnd)
     uilib_localize_dialog(hwnd, userport_rtc_dialog);
     uilib_adjust_group_width(hwnd, userport_rtc_left_total_group);
 
-    resources_get_int("UserportRTC58321a", &res_value);
-    CheckDlgButton(hwnd, IDC_USERPORT_RTC_58321A_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
+    resources_get_int("UserportRTCDS1307", &res_value);
+    CheckDlgButton(hwnd, IDC_USERPORT_RTC_DS1307_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_int("UserportRTC58321aSave", &res_value);
-    CheckDlgButton(hwnd, IDC_USERPORT_RTC_58321A_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
+    resources_get_int("UserportRTCDS1307Save", &res_value);
+    CheckDlgButton(hwnd, IDC_USERPORT_RTC_DS1307_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     enable_userport_rtc_controls(hwnd);
 }
@@ -85,8 +85,8 @@ static void init_userport_rtc_dialog(HWND hwnd)
 static void end_userport_rtc_dialog(HWND hwnd)
 {
 
-    resources_set_int("UserportRTC58321a", (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_58321A_ENABLE) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("UserportRTC58321aSave", (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_58321A_SAVE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("UserportRTCDS1307", (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_DS1307_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("UserportRTCDS1307Save", (IsDlgButtonChecked(hwnd, IDC_USERPORT_RTC_DS1307_SAVE) == BST_CHECKED ? 1 : 0 ));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -97,7 +97,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
         case WM_COMMAND:
             command = LOWORD(wparam);
             switch (command) {
-                case IDC_USERPORT_RTC_58321A_ENABLE:
+                case IDC_USERPORT_RTC_DS1307_ENABLE:
                     enable_userport_rtc_controls(hwnd);
                     break;
                 case IDOK:
@@ -118,7 +118,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 }
 
 
-void ui_userport_rtc_58321a_settings_dialog(HWND hwnd)
+void ui_userport_rtc_ds1307_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_USERPORT_RTC_58321A_SETTINGS_DIALOG, hwnd, dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)IDD_USERPORT_RTC_DS1307_SETTINGS_DIALOG, hwnd, dialog_proc);
 }

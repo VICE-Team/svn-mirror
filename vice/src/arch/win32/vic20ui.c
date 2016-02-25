@@ -59,6 +59,7 @@
 #include "uisoundsampler.h"
 #include "uitfe.h"
 #include "uiuserportrtc58321a.h"
+#include "uiuserportrtcds1307.h"
 #include "uivic.h"
 #include "uivic20model.h"
 #include "uivicset.h"
@@ -77,6 +78,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
     { "IO2RAM", IDM_IO2_RAM_ENABLE },
     { "IO3RAM", IDM_IO3_RAM_ENABLE },
+    { "UserportDAC", IDM_TOGGLE_PET_USERPORT_DAC },
     { NULL, 0 }
 };
 
@@ -373,6 +375,8 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_SFX_SS_SETTINGS, IDS_MI_SFX_SS_SETTINGS_MASCUERADE },
     { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
     { IDM_USERPORT_RTC_58321A_SETTINGS, IDS_MI_USERPORT_RTC_58321A_SETTINGS },
+    { IDM_USERPORT_RTC_DS1307_SETTINGS, IDS_MI_USERPORT_RTC_DS1307_SETTINGS },
+    { IDM_TOGGLE_PET_USERPORT_DAC, IDS_MI_TOGGLE_PET_USERPORT_DAC },
     { 0, 0 }
 };
 
@@ -403,6 +407,7 @@ ui_popup_translation_table_t vic20ui_popup_translation_table[] = {
     { 2, IDS_MP_MOUSE_SETTINGS, NULL },
     { 2, IDS_MP_VIDEO_STANDARD, NULL },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS, NULL },
+    { 3, IDS_MP_USERPORT_DEVICES, NULL },
     { 2, IDS_MP_RS232_SETTINGS, NULL },
     { 1, IDS_MP_LANGUAGE, NULL },
     { 1, IDS_MP_HELP, NULL },
@@ -649,6 +654,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_USERPORT_RTC_58321A_SETTINGS:
             ui_userport_rtc_58321a_settings_dialog(hwnd);
+            break;
+        case IDM_USERPORT_RTC_DS1307_SETTINGS:
+            ui_userport_rtc_ds1307_settings_dialog(hwnd);
             break;
     }
 }

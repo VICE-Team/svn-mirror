@@ -275,8 +275,13 @@ BEGIN
 #ifdef HAVE_MIDI
             MENUITEM "", IDM_MIDI_SETTINGS
 #endif
-            MENUITEM "", IDM_USERPORT_RTC_58321A_SETTINGS
-            MENUITEM SEPARATOR
+            POPUP "Userport devices"
+            BEGIN
+                MENUITEM "", IDM_USERPORT_RTC_58321A_SETTINGS
+                MENUITEM "", IDM_USERPORT_RTC_DS1307_SETTINGS
+                MENUITEM "", IDM_TOGGLE_PET_USERPORT_DAC
+            END
+           MENUITEM SEPARATOR
             MENUITEM "", IDM_TOGGLE_CART_RESET
         END
         POPUP "RS232 settings"

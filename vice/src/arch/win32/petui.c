@@ -51,6 +51,7 @@
 #include "uisampler.h"
 #include "uisidcart.h"
 #include "uiuserportrtc58321a.h"
+#include "uiuserportrtcds1307.h"
 #include "uivideo.h"
 #include "videoarch.h"
 #include "winmain.h"
@@ -59,6 +60,7 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "UserportDAC", IDM_TOGGLE_PET_USERPORT_DAC },
     { "PETHRE", IDM_TOGGLE_PETHRE },
     { "Mouse", IDM_MOUSE },
+    { "UserportDAC", IDM_TOGGLE_PET_USERPORT_DAC },
     { NULL, 0 }
 };
 
@@ -307,6 +309,8 @@ ui_menu_translation_table_t petui_menu_translation_table[] = {
     { IDM_SIDCART_SETTINGS, IDS_MI_SIDCART_SETTINGS },
     { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
     { IDM_USERPORT_RTC_58321A_SETTINGS, IDS_MI_USERPORT_RTC_58321A_SETTINGS },
+    { IDM_USERPORT_RTC_DS1307_SETTINGS, IDS_MI_USERPORT_RTC_DS1307_SETTINGS },
+    { IDM_TOGGLE_PET_USERPORT_DAC, IDS_MI_TOGGLE_PET_USERPORT_DAC },
     { 0, 0 }
 };
 
@@ -335,6 +339,7 @@ ui_popup_translation_table_t petui_popup_translation_table[] = {
     { 2, IDS_MP_MOUSE_SETTINGS, NULL },
     { 2, IDS_MP_DRIVE_SYNC_FACTOR, NULL },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS, NULL },
+    { 3, IDS_MP_USERPORT_DEVICES, NULL },
     { 2, IDS_MP_RS232_SETTINGS, NULL },
     { 1, IDS_MP_LANGUAGE, NULL },
     { 1, IDS_MP_HELP, NULL },
@@ -491,6 +496,9 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_USERPORT_RTC_58321A_SETTINGS:
             ui_userport_rtc_58321a_settings_dialog(hwnd);
+            break;
+        case IDM_USERPORT_RTC_DS1307_SETTINGS:
+            ui_userport_rtc_ds1307_settings_dialog(hwnd);
             break;
     }
 }

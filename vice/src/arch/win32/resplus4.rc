@@ -251,6 +251,10 @@ BEGIN
             MENUITEM "", IDM_TOGGLE_DIGIBLASTER
             MENUITEM "", IDM_SIDCART_SETTINGS
             MENUITEM "", IDM_V364SPEECH_SETTINGS
+            POPUP "Userport devices"
+            BEGIN
+                MENUITEM "", IDM_TOGGLE_PET_USERPORT_DAC
+            END
             MENUITEM SEPARATOR
             MENUITEM "", IDM_TOGGLE_CART_RESET
         END

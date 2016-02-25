@@ -71,6 +71,7 @@
 #include "uisoundexpander.h"
 #include "uitfe.h"
 #include "uiuserportrtc58321a.h"
+#include "uiuserportrtcds1307.h"
 #include "uivicii.h"
 #include "uivideo.h"
 #include "util.h"
@@ -95,6 +96,10 @@ static const ui_menu_toggle_t scpu64_ui_menu_toggles[] = {
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { "IECReset", IDM_TOGGLE_RESET_IEC_WITH_CPU },
     { "SSRamExpansion", IDM_TOGGLE_SS5_32K },
+    { "UserportDAC", IDM_TOGGLE_PET_USERPORT_DAC },
+    { "UserportDIGIMAX", IDM_TOGGLE_USERPORT_DIGIMAX },
+    { "Userport4bitSampler", IDM_TOGGLE_USERPORT_4BIT_SAMPLER },
+    { "Userport8BSS", IDM_TOGGLE_USERPORT_8BSS },
     { NULL, 0 }
 };
 
@@ -372,6 +377,11 @@ ui_menu_translation_table_t scpu64ui_menu_translation_table[] = {
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
 #endif
     { IDM_USERPORT_RTC_58321A_SETTINGS, IDS_MI_USERPORT_RTC_58321A_SETTINGS },
+    { IDM_USERPORT_RTC_DS1307_SETTINGS, IDS_MI_USERPORT_RTC_DS1307_SETTINGS },
+    { IDM_TOGGLE_PET_USERPORT_DAC, IDS_MI_TOGGLE_PET_USERPORT_DAC },
+    { IDM_TOGGLE_USERPORT_DIGIMAX, IDS_MI_TOGGLE_USERPORT_DIGIMAX },
+    { IDM_TOGGLE_USERPORT_4BIT_SAMPLER, IDS_MI_TOGGLE_USERPORT_4BIT_SAMPLER },
+    { IDM_TOGGLE_USERPORT_8BSS, IDS_MI_TOGGLE_USERPORT_8BSS },
     { 0, 0 }
 };
 
@@ -404,6 +414,7 @@ ui_popup_translation_table_t scpu64ui_popup_translation_table[] = {
     { 2, IDS_MP_JOYSTICK_SETTINGS, NULL },
     { 2, IDS_MP_MOUSE_SETTINGS, NULL },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS, NULL },
+    { 3, IDS_MP_USERPORT_DEVICES, NULL },
     { 2, IDS_MP_RS232_SETTINGS, NULL },
     { 1, IDS_MP_LANGUAGE, NULL },
     { 1, IDS_MP_HELP, NULL },
@@ -694,6 +705,9 @@ static void scpu64_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_USERPORT_RTC_58321A_SETTINGS:
             ui_userport_rtc_58321a_settings_dialog(hwnd);
+            break;
+        case IDM_USERPORT_RTC_DS1307_SETTINGS:
+            ui_userport_rtc_ds1307_settings_dialog(hwnd);
             break;
         case IDM_EASYFLASH_SETTINGS:
             ui_easyflash_settings_dialog(hwnd);
