@@ -43,7 +43,6 @@
 #include "intl.h"
 
 static int ui_c64_digimax_base[] = {
-    0xdd00,   /* special case, userport interface */
     0xde00,
     0xde20,
     0xde40,
@@ -139,11 +138,7 @@ static void init_digimax_dialog(HWND hwnd)
     for (res_value_loop = 0; ui_digimax_base[res_value_loop] != -1; res_value_loop++) {
         TCHAR st[40];
 
-        if (ui_digimax_base[res_value_loop] == 0xdd00) {
-            _stprintf(st, "Userport");
-        } else {
-            _stprintf(st, "$%X", ui_digimax_base[res_value_loop]);
-        }
+        _stprintf(st, "$%X", ui_digimax_base[res_value_loop]);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_int("DIGIMAXbase", &res_value);
