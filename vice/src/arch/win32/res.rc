@@ -1631,6 +1631,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "MMC64 settings..."
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay settings..."
   IDS_MI_RR_SETTINGS                   "Retro Replay settings..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice settings..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI settings..."
@@ -2319,6 +2320,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "MMC64-indstillinger..."
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay-indstillinger..."
   IDS_MI_RR_SETTINGS                   "Retro Replay-indstillinger..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice indstillinger..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI-indstillinger..."
@@ -3007,6 +3009,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "MMC64 Einstellungen..."
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay Einstellungen..."
   IDS_MI_RR_SETTINGS                   "Retro Replay Einstellungen..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice Einstellungen..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI Einstellungen..."
@@ -3695,6 +3698,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "Ajustes MMC64..."
   IDS_MI_MMCREPLAY_SETTINGS            "Ajustes MMC Replay..."
   IDS_MI_RR_SETTINGS                   "Ajustes Retro Replay..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Ajustes Magic Voice..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "Ajustes MIDI..."
@@ -4383,6 +4387,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "Paramètres MMC64......"
   IDS_MI_MMCREPLAY_SETTINGS            "Paramètres MMC Replay..."
   IDS_MI_RR_SETTINGS                   "Paramètres Retro Replay..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Paramètres Magic Voice..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "Paramètres MIDI..."
@@ -5074,6 +5079,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "MMC64 beállításai..."
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay settings..."
   IDS_MI_RR_SETTINGS                   "Retro Replay settings..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice settings..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI settings..."
@@ -5765,6 +5771,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "Impostazioni MMC64..."
   IDS_MI_MMCREPLAY_SETTINGS            "Impostazioni MMC Replay..."
   IDS_MI_RR_SETTINGS                   "Impostazioni Retro Replay..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Impostazioni Magic Voice..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "Impostazioni MIDI..."
@@ -6456,6 +6463,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "MMC64 ¼³Á¤..."
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay ¼³Á¤..."
   IDS_MI_RR_SETTINGS                   "Retro Replay settings..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice ¼³Á¤..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI ¼³Á¤..."
@@ -7147,6 +7155,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "MMC64 instellingen..."
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay instellingen..."
   IDS_MI_RR_SETTINGS                   "Retro Replay instellingen..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice instellingen..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI instellingen..."
@@ -7838,6 +7847,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "Ustawienia MMC64..."
   IDS_MI_MMCREPLAY_SETTINGS            "Ustawienia MMC Replay..."
   IDS_MI_RR_SETTINGS                   "Ustawienia Retro Replay..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Ustawienia Magic Voice..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "Ustawienia MIDI..."
@@ -8532,6 +8542,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "MMC64 settings..."
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay settings..."
   IDS_MI_RR_SETTINGS                   "Retro Replay settings..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice settings..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI settings..."
@@ -9223,6 +9234,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "MMC64-inställningar......"
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay-inställningar..."
   IDS_MI_RR_SETTINGS                   "Retro Replay-inställningar..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice-inställningar..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI-inställningar..."
@@ -9914,6 +9926,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "MMC64 ayarlarý..."
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay ayarlarý..."
   IDS_MI_RR_SETTINGS                   "Retro Replay ayarlarý..."
+  IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice ayarlarý..."
 #ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI ayarlarý..."

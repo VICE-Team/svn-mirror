@@ -163,6 +163,7 @@ src/arch/win32/resplus4memoryhacks.rc.po.c
 src/arch/win32/resramcart.rc.po.c
 src/arch/win32/resretroreplay.rc.po.c
 src/arch/win32/resreu.rc.po.c
+src/arch/win32/resrrnetmk3.rc.po.c
 src/arch/win32/resrs232user.rc.po.c
 src/arch/win32/ressampler.rc.po.c
 src/arch/win32/resscpu64.rc.po.c

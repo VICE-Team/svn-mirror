@@ -109,6 +109,7 @@ libarch_a_SOURCES = \
 	resramcart.rc \
 	resretroreplay.rc \
 	resreu.rc \
+	resrrnetmk3.rc \
 	resrs232user.rc \
 	ressampler.rc \
 	resscpu64.rc \
@@ -264,6 +265,8 @@ libarch_a_SOURCES = \
 	uireu.h \
 	uirom.c \
 	uirom.h \
+	uirrnetmk3.c \
+	uirrnetmk3.h \
 	uirs232.c \
 	uirs232.h \
 	uirs232user.c \
