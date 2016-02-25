@@ -100,6 +100,7 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { "IECReset", IDM_TOGGLE_RESET_IEC_WITH_CPU },
     { "CPMCart", IDM_TOGGLE_CPM_CART },
+    { "SSRamExpansion", IDM_TOGGLE_SS5_32K },
     /* the following ones only exist to make the hotkeys work */
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
@@ -362,6 +363,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_EASYFLASH_SETTINGS, IDS_MI_EASYFLASH_SETTINGS },
     { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS },
     { IDM_TOGGLE_SFX_SS, IDS_MI_TOGGLE_SFX_SS },
+    { IDM_TOGGLE_SS5_32K, IDS_MI_TOGGLE_SS5_32K },
     { IDM_TOGGLE_CPM_CART, IDS_MI_TOGGLE_CPM_CART },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
     { IDM_SETTINGS_LOAD_FILE, IDS_MI_SETTINGS_LOAD_FILE },

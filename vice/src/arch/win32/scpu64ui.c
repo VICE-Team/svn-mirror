@@ -94,6 +94,7 @@ static const ui_menu_toggle_t scpu64_ui_menu_toggles[] = {
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { "IECReset", IDM_TOGGLE_RESET_IEC_WITH_CPU },
+    { "SSRamExpansion", IDM_TOGGLE_SS5_32K },
     { NULL, 0 }
 };
 
@@ -340,6 +341,7 @@ ui_menu_translation_table_t scpu64ui_menu_translation_table[] = {
     { IDM_EASYFLASH_SETTINGS, IDS_MI_EASYFLASH_SETTINGS },
     { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS },
     { IDM_TOGGLE_SFX_SS, IDS_MI_TOGGLE_SFX_SS },
+    { IDM_TOGGLE_SS5_32K, IDS_MI_TOGGLE_SS5_32K },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
     { IDM_SETTINGS_LOAD_FILE, IDS_MI_SETTINGS_LOAD_FILE },
     { IDM_SETTINGS_SAVE, IDS_MI_SETTINGS_SAVE },
