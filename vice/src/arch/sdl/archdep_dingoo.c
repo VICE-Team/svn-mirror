@@ -65,6 +65,7 @@
 
 #include "archdep.h"
 #include "ioutil.h"
+#include "keyboard.h"
 #include "lib.h"
 #include "types.h"
 #include "util.h"

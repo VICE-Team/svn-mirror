@@ -74,6 +74,7 @@
 #include "vice_sdl.h"
 
 #include "archdep.h"
+#include "keyboard.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
