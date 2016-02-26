@@ -916,10 +916,17 @@ BYTE *crtc_get_active_bitmap(void)
 
 /* ------------------------------------------------------------------------- */
 
+static void cbm2_userport_set_flag(BYTE b)
+{
+    if (b != 0) {
+        ciacore_set_flag(machine_context.cia1);
+    }
+}
+
 static userport_port_props_t userport_props = {
     1, /* has pa2 pin */
     1, /* has pa3 pin */
-    1, /* has flag pin */
+    cbm2_userport_set_flag, /* has flag pin */
     1, /* has pc pin */
     0  /* NO cnt1, cnt2 or sp pins */
 };

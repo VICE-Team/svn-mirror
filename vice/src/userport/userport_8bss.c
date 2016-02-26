@@ -72,8 +72,6 @@ static userport_device_t sampler_device = {
     NULL, /* NO pa3 write */
     NULL, /* NO pa3 read */
     userport_8bss_store_pa3,
-    NULL, /* NO flag read */
-    NULL, /* NO flag write */
     0, /* NO pc pin needed */
     NULL, /* NO sp1 write */
     NULL, /* NO sp2 read */

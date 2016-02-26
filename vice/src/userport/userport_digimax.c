@@ -45,9 +45,9 @@
 #include "digimaxcore.c"
 
 /*
-    Digimax Cartridge
+    Digimax userport device
 
-    This cartridge is an 8bit 4-channel digital sound output
+    This device is an 8bit 4-channel digital sound output
     interface.
 
 C64/C128 | CBM2 | TLC7226 DAC | NOTES
@@ -79,8 +79,6 @@ static userport_device_t digimax_device = {
     userport_digimax_store_pa2,
     NULL, /* NO pa3 read */
     userport_digimax_store_pa3,
-    NULL, /* NO flag read */
-    NULL, /* NO flag write */
     0, /* NO pc pin needed */
     NULL, /* NO sp1 write */
     NULL, /* NO sp2 read */

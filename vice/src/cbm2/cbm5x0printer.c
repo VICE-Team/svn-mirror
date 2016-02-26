@@ -1,5 +1,5 @@
 /*
- * c64printer.c
+ * cbm5x0printer.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#include "c64.h"
+#include "cbm2.h"
 #include "cia.h"
 #include "machine-printer.h"
 #include "printer.h"
@@ -38,7 +38,7 @@ void machine_printer_setup_context(struct machine_context_s *machine_context)
 
 int machine_printer_resources_init(void)
 {
-    if (printer_serial_init_resources() < 0 || printer_userport_init_resources() < 0) {
+    if (printer_serial_init_resources() < 0) {
         return -1;
     }
     return 0;
@@ -50,7 +50,7 @@ void machine_printer_resources_shutdown(void)
 
 int machine_printer_cmdline_options_init(void)
 {
-    if (printer_serial_init_cmdline_options() < 0 || printer_userport_init_cmdline_options() < 0) {
+    if (printer_serial_init_cmdline_options() < 0) {
         return -1;
     }
     return 0;

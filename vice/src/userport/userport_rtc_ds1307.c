@@ -75,8 +75,6 @@ static userport_device_t rtc_device = {
     NULL, /* NO pa2 write */
     NULL, /* NO pa3 read */
     NULL, /* NO pa3 write */
-    NULL, /* NO flag read */
-    NULL, /* NO flag write */
     0, /* NO pc pin needed */
     NULL, /* NO sp1 write */
     NULL, /* NO sp2 read */

@@ -1015,10 +1015,15 @@ BYTE *crtc_get_active_bitmap(void)
 
 /* ------------------------------------------------------------------------- */
 
+static void pet_userport_set_flag(BYTE b)
+{
+    viacore_signal(machine_context.via, VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+}
+
 static userport_port_props_t userport_props = {
     1, /* has pa2 pin */
     0, /* NO pa3 pin */
-    1, /* has flag pin */
+    pet_userport_set_flag, /* has flag pin */
     0, /* NO pc pin */
     0  /* NO cnt1, cnt2 or sp pins */
 };

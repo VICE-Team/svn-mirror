@@ -48,7 +48,6 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "printer.h"
 #include "types.h"
 #include "userport.h"
 #include "vicii.h"
@@ -113,8 +112,6 @@ static void do_reset_cia(cia_context_t *cia_context)
     store_userport_pa2(1);
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    printer_userport_write_strobe(1);
-    printer_userport_write_data((BYTE)0xff);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl((BYTE)0xff);
     rsuser_set_tx_bit(1);
@@ -165,7 +162,6 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
             c64_glue_set_vbank(new_vbank, pa_ddr_change);
         }
         (*iecbus_callback_write)((BYTE)tmp, maincpu_clk + !(cia_context->write_offset));
-        printer_userport_write_strobe(tmp & 0x04);
     }
 }
 
@@ -199,7 +195,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
     parallel_cable_cpu_pulse(DRIVE_PC_STANDARD);
-    printer_userport_write_data((BYTE)(cia_context->old_pb));
+    store_userport_pbx((BYTE)(cia_context->old_pb));
 }
 
 /* FIXME! */
@@ -209,7 +205,6 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byt
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     parallel_cable_cpu_undump(DRIVE_PC_STANDARD, (BYTE)byte);
-    printer_userport_write_data((BYTE)byte);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl((BYTE)byte);
 #endif

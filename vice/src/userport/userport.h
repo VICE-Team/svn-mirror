@@ -59,12 +59,6 @@ typedef struct userport_device_s {
     /* Store pa3 pin */
     void (*store_pa3)(BYTE val);
 
-    /* Read flag pin */
-    void (*read_flag)(void);
-
-    /* Store flag pin */
-    void (*store_flag)(BYTE val);
-
     /* Device needs pc pin */
     int needs_pc;
 
@@ -93,7 +87,7 @@ typedef struct userport_device_s {
 typedef struct userport_port_props_s {
     int has_pa2;
     int has_pa3;
-    int has_flag;
+    void (*set_flag)(BYTE val);
     int has_pc;
     int has_sp12;
 } userport_port_props_t;
@@ -115,8 +109,7 @@ extern BYTE read_userport_pa2(BYTE orig);
 extern void store_userport_pa2(BYTE val);
 extern BYTE read_userport_pa3(BYTE orig);
 extern void store_userport_pa3(BYTE val);
-extern BYTE read_userport_flag(BYTE orig);
-extern void store_userport_flag(BYTE val);
+extern void set_userport_flag(BYTE val);
 extern BYTE read_userport_pc(BYTE orig);
 extern void store_userport_sp1(void);
 extern BYTE read_userport_sp2(BYTE orig);

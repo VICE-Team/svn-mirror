@@ -48,7 +48,6 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "parallel.h"
-#include "printer.h"
 #include "tpi.h"
 #include "types.h"
 #include "userport.h"
@@ -123,10 +122,7 @@ void cia1_set_ieee_dir(cia_context_t *cia_context, int isout)
 static void do_reset_cia(cia_context_t *cia_context)
 {
     store_userport_pbx(0xff);
-
-    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    printer_userport_write_strobe(1);
-    printer_userport_write_data(0xff);
+    store_userport_pa2(1);
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
@@ -158,10 +154,8 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     store_userport_pbx(byte);
 
-    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    printer_userport_write_data(byte);
-    printer_userport_write_strobe(0);
-    printer_userport_write_strobe(1);
+    store_userport_pa2(0);
+    store_userport_pa2(1);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */

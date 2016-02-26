@@ -49,7 +49,6 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "parallel.h"
-#include "printer.h"
 #include "tpi.h"
 #include "types.h"
 
@@ -122,8 +121,6 @@ void cia1_set_ieee_dir(cia_context_t *cia_context, int isout)
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
-    printer_userport_write_strobe(1);
-    printer_userport_write_data(0xff);
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
@@ -150,10 +147,6 @@ static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    printer_userport_write_data(byte);
-    printer_userport_write_strobe(0);
-    printer_userport_write_strobe(1);
-
     store_joyport_dig(JOYPORT_1, byte, 0xff);
 }
 

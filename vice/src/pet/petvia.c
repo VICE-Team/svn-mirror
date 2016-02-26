@@ -42,7 +42,6 @@
 #include "pet.h"
 #include "petsound.h"
 #include "petvia.h"
-#include "printer.h"
 #include "types.h"
 #include "userport.h"
 #include "via.h"
@@ -72,7 +71,7 @@ static void set_ca2(via_context_t *via_context, int state)
 /* switching userport strobe with CB2 */
 static void set_cb2(via_context_t *via_context, int state)
 {
-    printer_userport_write_strobe(state);
+    store_userport_pa2((BYTE)state);
 }
 
 static void set_int(via_context_t *via_context, unsigned int int_num,
@@ -89,18 +88,12 @@ static void restore_int(via_context_t *via_context, unsigned int int_num, int va
 static void undump_pra(via_context_t *via_context, BYTE byte)
 {
     store_userport_pbx(byte);
-
-    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    printer_userport_write_data(byte);
 }
 
 static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
                       WORD addr)
 {
     store_userport_pbx(byte);
-
-    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    printer_userport_write_data(byte);
 }
 
 static void undump_prb(via_context_t *via_context, BYTE byte)
@@ -154,7 +147,7 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
         }
         crtc_set_char(byte & 2); /* switching PET charrom with CA2 */
                                  /* switching userport strobe with CB2 */
-        printer_userport_write_strobe(byte & 0x20);
+        store_userport_pa2((byte & 0x20) >> 5);
     }
 #endif
     petsound_store_manual((byte & 0xe0) == 0xe0);   /* Manual control of CB2 sound */
@@ -196,10 +189,7 @@ static void reset(via_context_t *via_context)
     parallel_cpu_set_nrfd(0);
 
     store_userport_pbx(0xff);
-
-    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    printer_userport_write_data(0xff);
-    printer_userport_write_strobe(1);
+    store_userport_pa2(1);
 }
 
 inline static BYTE read_pra(via_context_t *via_context, WORD addr)

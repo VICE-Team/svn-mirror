@@ -679,6 +679,9 @@ IDGS_USERPORT_4BIT_SAMPLER
 /* userport/userport_8bss.c */
 IDGS_USERPORT_8BSS
 
+/* printerdrv/interface_userport.c */
+IDGS_USERPORT_PRINTER
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */

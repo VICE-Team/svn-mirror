@@ -202,8 +202,6 @@ static userport_device_t cga_device = {
     NULL, /* NO pa2 write */
     NULL, /* NO pa3 read */
     NULL, /* NO pa3 write */
-    NULL, /* NO flag read */
-    NULL, /* NO flag write */
     0, /* NO pc pin needed */
     NULL, /* NO sp1 write */
     NULL, /* NO sp2 read */
@@ -223,8 +221,6 @@ static userport_device_t pet_device = {
     NULL, /* NO pa2 write */
     NULL, /* NO pa3 read */
     NULL, /* NO pa3 write */
-    NULL, /* NO flag read */
-    NULL, /* NO flag write */
     0, /* NO pc pin needed */
     NULL, /* NO sp1 write */
     NULL, /* NO sp2 read */
@@ -244,8 +240,6 @@ static userport_device_t hummer_device = {
     NULL, /* NO pa2 write */
     NULL, /* NO pa3 read */
     NULL, /* NO pa3 write */
-    NULL, /* NO flag read */
-    NULL, /* NO flag write */
     0, /* NO pc pin needed */
     NULL, /* NO sp1 write */
     NULL, /* NO sp2 read */
@@ -265,8 +259,6 @@ static userport_device_t oem_device = {
     NULL, /* NO pa2 write */
     NULL, /* NO pa3 read */
     NULL, /* NO pa3 write */
-    NULL, /* NO flag read */
-    NULL, /* NO flag write */
     0, /* NO pc pin needed */
     NULL, /* NO sp1 write */
     NULL, /* NO sp2 read */
@@ -286,8 +278,6 @@ static userport_device_t hit_device = {
     NULL, /* NO pa2 write */
     NULL, /* NO pa3 read */
     NULL, /* NO pa3 write */
-    NULL, /* NO flag read */
-    NULL, /* NO flag write */
     0, /* NO pc pin needed */
     userport_joystick_hit_store_sp1,
     userport_joystick_hit_read_sp2,
@@ -307,8 +297,6 @@ static userport_device_t kingsoft_device = {
     NULL, /* NO pa2 write */
     NULL, /* NO pa3 read */
     NULL, /* NO pa3 write */
-    NULL, /* NO flag read */
-    NULL, /* NO flag write */
     0, /* NO pc pin needed */
     userport_joystick_kingsoft_store_sp1,
     userport_joystick_kingsoft_read_sp2,
@@ -328,8 +316,6 @@ static userport_device_t starbyte_device = {
     NULL, /* NO pa2 write */
     NULL, /* NO pa3 read */
     NULL, /* NO pa3 write */
-    NULL, /* NO flag read */
-    NULL, /* NO flag write */
     0, /* NO pc pin needed */
     userport_joystick_starbyte_store_sp1,
     userport_joystick_starbyte_read_sp2,

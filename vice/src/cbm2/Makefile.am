@@ -85,7 +85,7 @@ libcbm5x0_a_SOURCES = \
 	cbm2memsnapshot.h \
 	cbm2model.c \
 	cbm2model.h \
-	cbm2printer.c \
+	cbm5x0printer.c \
 	cbm5x0rom.c \
 	cbm2rom.h \
 	cbm2romset.c \

@@ -37,7 +37,6 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "maincpu.h"
-#include "printer.h"
 #include "types.h"
 #include "userport.h"
 #include "via.h"
@@ -128,9 +127,6 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
 static void undump_prb(via_context_t *via_context, BYTE byte)
 {
     store_userport_pbx(byte);
-
-    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    printer_userport_write_data(byte);
 }
 
 static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
@@ -138,8 +134,6 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
 {
     store_userport_pbx(byte);
 
-    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    printer_userport_write_data(byte);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl(byte);
 #endif
@@ -152,10 +146,8 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
 static void reset(via_context_t *via_context)
 {
     store_userport_pbx(0xff);
+    store_userport_pa2(1);
 
-    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    printer_userport_write_data(0xff);
-    printer_userport_write_strobe(1);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl(0xff);
     rsuser_set_tx_bit(1);
@@ -183,7 +175,7 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
             rsuser_set_tx_bit(byte & 0x20);
         }
 #endif
-        printer_userport_write_strobe(byte & 0x20);
+        store_userport_pa2((BYTE)((byte & 0x20) >> 5));
     }
     return byte;
 }

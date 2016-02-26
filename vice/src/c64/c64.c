@@ -1368,10 +1368,17 @@ const char *machine_get_name(void)
 
 /* ------------------------------------------------------------------------- */
 
+static void c64_userport_set_flag(BYTE b)
+{
+    if (b != 0) {
+        ciacore_set_flag(machine_context.cia2);
+    }
+}
+
 static userport_port_props_t userport_props = {
     1, /* has pa2 pin */
     1, /* has pa3 pin */
-    1, /* has flag pin */
+    c64_userport_set_flag, /* has flag pin */
     1, /* has pc pin */
     1  /* has cnt1, cnt2 and sp pins */
 };

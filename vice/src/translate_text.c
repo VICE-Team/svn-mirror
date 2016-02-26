@@ -3897,6 +3897,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_USERPORT_8BSS_TR, ""},  /* fuzzy */
 #endif
 
+/* printerdrv/interface_userport.c */
+/* en */ {IDGS_USERPORT_PRINTER,    N_("Userport printer")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_USERPORT_PRINTER_DA, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_PRINTER_DE, ""},  /* fuzzy */
+/* es */ {IDGS_USERPORT_PRINTER_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_USERPORT_PRINTER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_USERPORT_PRINTER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_USERPORT_PRINTER_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_USERPORT_PRINTER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_PRINTER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_USERPORT_PRINTER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_USERPORT_PRINTER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_USERPORT_PRINTER_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_USERPORT_PRINTER_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */
