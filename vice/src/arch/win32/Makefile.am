@@ -407,7 +407,7 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resretroreplay.rc $(srcdir)/rescia.rc \
 	$(srcdir)/resds12c887rtc.rc $(srcdir)/resuserportrtc58321a.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/resuserportrtcds1307.rc \
-	$(top_builddir)/src/debug.h
+	$(srcdir)/resrrnetmk3.rc $(top_builddir)/src/debug.h
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
 	$(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc \
@@ -420,7 +420,8 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
 	$(srcdir)/rescia.rc $(srcdir)/resds12c887rtc.rc \
 	$(srcdir)/resjoyport.rc $(srcdir)/resuserportrtc58321a.rc \
-	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/ressampler.rc
+	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/ressampler.rc \
+	$(srcdir)/resrrnetmk3.rc
 
 resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
@@ -435,7 +436,8 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
 	$(srcdir)/rescia.rc $(srcdir)/resds12c887rtc.rc \
 	$(srcdir)/resuserportrtc58321a.rc $(srcdir)/resuserportrtcds1307.rc \
-	$(srcdir)/ressampler.rc $(top_builddir)/src/debug.h
+	$(srcdir)/ressampler.rc $(srcdir)/resrrnetmk3.rc \
+	$(top_builddir)/src/debug.h
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
@@ -449,7 +451,8 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
 	$(srcdir)/rescia.rc $(srcdir)/resds12c887rtc.rc \
 	$(srcdir)/resjoyport.rc $(srcdir)/resuserportrtc58321a.rc \
-	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/ressampler.rc
+	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/ressampler.rc \
+	$(srcdir)/resrrnetmk3.rc
 
 resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
@@ -464,7 +467,7 @@ resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia
 	$(srcdir)/resretroreplay.rc $(srcdir)/rescia.rc \
 	$(srcdir)/resds12c887rtc.rc $(srcdir)/resuserportrtc58321a.rc \
 	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/resjoyport.rc \
-	$(srcdir)/ressampler.rc \
+	$(srcdir)/ressampler.rc $(srcdir)/resrrnetmk3.rc \
 	$(top_builddir)/src/debug.h
 	cat >resscpu64cat.rc $(srcdir)/resscpu64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
@@ -479,7 +482,7 @@ resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia
 	$(srcdir)/resretroreplay.rc $(srcdir)/rescia.rc \
 	$(srcdir)/resds12c887rtc.rc $(srcdir)/resjoyport.rc \
 	$(srcdir)/resuserportrtc58321a.rc $(srcdir)/resuserportrtcds1307.rc \
-	$(srcdir)/ressampler.rc
+	$(srcdir)/ressampler.rc $(srcdir)/resrrnetmk3.rc
 
 resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc \
