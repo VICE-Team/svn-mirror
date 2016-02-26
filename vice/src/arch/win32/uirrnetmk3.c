@@ -69,7 +69,6 @@ static int move_buttons_group[] = {
 
 static void init_rrnetmk3_dialog(HWND hwnd)
 {
-    HWND temp_hwnd;
     int res_value;
     int xpos;
     RECT rect;
