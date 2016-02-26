@@ -6595,9 +6595,8 @@ msgid "Save RTC data when changed"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1347
-#, fuzzy
 msgid "Drive RPM settings"
-msgstr "드라이브 셋팅"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1359 src/arch/win32/resc128.rc.po.c:77
 #: src/arch/win32/resc64.rc.po.c:73 src/arch/win32/resscpu64.rc.po.c:60
@@ -6672,9 +6671,8 @@ msgstr ""
 #: src/arch/win32/resc64.rc.po.c:288 src/arch/win32/rescbm2.rc.po.c:239
 #: src/arch/win32/respet.rc.po.c:231 src/arch/win32/resplus4.rc.po.c:247
 #: src/arch/win32/resscpu64.rc.po.c:271 src/arch/win32/resvic20.rc.po.c:271
-#, fuzzy
 msgid "Userport devices"
-msgstr "유져포트"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1386 src/arch/win32/resc128.rc.po.c:328
 #: src/arch/win32/resc64.rc.po.c:316 src/arch/win32/resc64dtv.rc.po.c:224
@@ -6851,9 +6849,8 @@ msgid "Retro Replay settings"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1503
-#, fuzzy
 msgid "RRNET MK3 settings"
-msgstr "ROM 설정"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1504 src/arch/win32/resmagicvoice.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:3729
@@ -6926,14 +6923,12 @@ msgid "Enable the Super Snapshot 5 32KB RAM expansion"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1520
-#, fuzzy
 msgid "Userport RTC (58321a) device settings"
-msgstr "유져포트 조이스틱 셋팅"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1521
-#, fuzzy
 msgid "Userport RTC (DS1307) device settings"
-msgstr "유져포트 조이스틱 셋팅"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1522 src/arch/amigaos/intl_text.c.po.c:4121
 #: src/translate_text.c.po.c:5976
@@ -6941,9 +6936,8 @@ msgid "Enable Userport DAC for sound output"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1523
-#, fuzzy
 msgid "Enable Userport DigiMAX device"
-msgstr "버츄얼 디바이스 사용가능하게 하기"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1524
 msgid "Enable Userport 4 bit sampler"
@@ -8032,14 +8026,12 @@ msgid "Select file for REU"
 msgstr ""
 
 #: src/arch/win32/resrrnetmk3.rc.po.c:29
-#, fuzzy
 msgid "Enable RRNET MK3 flash jumper"
-msgstr "플레쉬점퍼 사용가능케하기"
+msgstr ""
 
 #: src/arch/win32/resrrnetmk3.rc.po.c:30
-#, fuzzy
 msgid "Save RRNET MK3 flash when changed"
-msgstr "변경된 이미지 저장하기"
+msgstr ""
 
 #: src/arch/win32/resrs232user.rc.po.c:35 src/translate_text.c.po.c:12323
 msgid "Enable RS232 userport emulation"
@@ -8194,32 +8186,28 @@ msgid "Ethernet"
 msgstr "이더넷"
 
 #: src/arch/win32/resuserportrtc58321a.rc.po.c:20
-#, fuzzy
 msgid "Userport RTC (58321a) settings"
-msgstr "유져포트 조이스틱 셋팅"
+msgstr ""
 
 #: src/arch/win32/resuserportrtc58321a.rc.po.c:21
 msgid "Enable the Userport RTC (58321a) expansion"
 msgstr ""
 
 #: src/arch/win32/resuserportrtc58321a.rc.po.c:22
-#, fuzzy
 msgid "Save RTC (58321a) data when changed"
-msgstr "변경된 이미지 저장하기"
+msgstr ""
 
 #: src/arch/win32/resuserportrtcds1307.rc.po.c:20
-#, fuzzy
 msgid "Userport RTC (DS1307) settings"
-msgstr "유져포트 조이스틱 셋팅"
+msgstr ""
 
 #: src/arch/win32/resuserportrtcds1307.rc.po.c:21
 msgid "Enable the Userport RTC (DS1307) device"
 msgstr ""
 
 #: src/arch/win32/resuserportrtcds1307.rc.po.c:22
-#, fuzzy
 msgid "Save RTC (DS1307) data when changed"
-msgstr "변경된 이미지 저장하기"
+msgstr ""
 
 #: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:16679
 msgid "Enable the v364 speech add-on"
@@ -10526,9 +10514,8 @@ msgid "Userport RTC (RTC58321A)"
 msgstr ""
 
 #: src/translate_text.c.po.c:3772
-#, fuzzy
 msgid "Userport RTC (DS1307)"
-msgstr "유져포트 DAC"
+msgstr ""
 
 #: src/translate_text.c.po.c:3789
 msgid "Userport DAC"
@@ -11208,9 +11195,8 @@ msgid "Remove the MMC64 Flash Jumper"
 msgstr ""
 
 #: src/translate_text.c.po.c:6928
-#, fuzzy
 msgid "Save the RRNETMK3 bios when changed"
-msgstr "변경된 이미지 저장하기"
+msgstr ""
 
 #: src/translate_text.c.po.c:6945
 msgid "Do not save the RRNETMK3 bios when changed"
@@ -11509,9 +11495,8 @@ msgid "Attach raw 64kB RGCD cartridge image"
 msgstr ""
 
 #: src/translate_text.c.po.c:8511
-#, fuzzy
 msgid "Attach raw 8kB RR-Net MK3 cartridge image"
-msgstr "8kb 카트리지 이미지를 붙이세요"
+msgstr ""
 
 #: src/translate_text.c.po.c:8528
 msgid "Attach raw 16/32kB ROSS cartridge image"
