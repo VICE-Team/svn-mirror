@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-45
-"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;.."
+63
+"./;../../..;../../../userport;$(%watcom)/h;$(%watcom)/h/nt;.."
 0
 18
 MVState
