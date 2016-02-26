@@ -443,11 +443,11 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(extsubmenu = new BMenu("CIA-1 model"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA1_MODEL_6526_OLD)));
-                    extsubmenu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_CIA1_MODEL_6526A_NEW)));
+                    extsubmenu->AddItem(new BMenuItem("6526 (new)", new BMessage(MENU_CIA1_MODEL_6526A_NEW)));
                 submenu->AddItem(extsubmenu = new BMenu("CIA-2 model"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA2_MODEL_6526_OLD)));
-                    extsubmenu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_CIA2_MODEL_6526A_NEW)));
+                    extsubmenu->AddItem(new BMenuItem("6526 (new)", new BMessage(MENU_CIA2_MODEL_6526A_NEW)));
             if (machine_class != VICE_MACHINE_C64) {
                 submenu->AddItem(extsubmenu = new BMenu("Glue logic"));
                     extsubmenu->SetRadioMode(true);
@@ -537,14 +537,14 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(menu = new BMenu("CIA-1 model"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA1_MODEL_6526_OLD)));
-            menu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_CIA1_MODEL_6526A_NEW)));
+            menu->AddItem(new BMenuItem("6526 (new)", new BMessage(MENU_CIA1_MODEL_6526A_NEW)));
     }
 
     if (machine_class == VICE_MACHINE_C128) {
         uppermenu->AddItem(menu = new BMenu("CIA-2 model"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA2_MODEL_6526_OLD)));
-            menu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_CIA2_MODEL_6526A_NEW)));
+            menu->AddItem(new BMenuItem("6526 (new)", new BMessage(MENU_CIA2_MODEL_6526A_NEW)));
 
         uppermenu->AddItem(menu = new BMenu("Internal Function ROM options"));
             menu->AddItem(submenu = new BMenu("Internal Function ROM type"));

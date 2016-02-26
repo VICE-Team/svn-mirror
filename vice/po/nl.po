@@ -589,8 +589,10 @@ msgstr "6526 (oud)"
 #: src/arch/unix/gui/c128ui.c:466 src/arch/unix/gui/c128ui.c:475
 #: src/arch/unix/gui/cbm2ui.c:273 src/arch/win32/rescia.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:12692
-msgid "6526A (new)"
-msgstr "6526A (nieuw)"
+#: src/arch/unix/gui/c64scui.c:178 src/arch/unix/gui/c64scui.c:188
+#: src/arch/unix/gui/c64ui.c:250 src/arch/unix/gui/c64ui.c:260
+msgid "6526 (new)"
+msgstr "6526 (nieuw)"
 
 #: src/arch/unix/gui/c128ui.c:481 src/arch/win32/resc128.rc.po.c:753
 msgid "C128 model"
@@ -891,11 +893,6 @@ msgstr "6569R1 (oud PAL)"
 #: src/arch/amigaos/intl_text.c.po.c:12650
 msgid "6567R56A (old NTSC)"
 msgstr "6567R56A (oud NTSC)"
-
-#: src/arch/unix/gui/c64scui.c:178 src/arch/unix/gui/c64scui.c:188
-#: src/arch/unix/gui/c64ui.c:250 src/arch/unix/gui/c64ui.c:260
-msgid "6526 (new)"
-msgstr "6526 (nieuw)"
 
 #: src/arch/unix/gui/c64scui.c:196 src/arch/win32/resvicii.rc.po.c:98
 #: src/arch/amigaos/intl_text.c.po.c:12706
@@ -11221,16 +11218,16 @@ msgid "Use old NTSC sync factor"
 msgstr "Gebruik oude NTSC synchronisatiefactor"
 
 #: src/translate_text.c.po.c:5158
-msgid "Set both CIA models (0 = old 6526, 1 = new 6526A)"
-msgstr "Zet model voor beide CIAs (0 = oud 6526, 1 = nieuw 6526A)"
+msgid "Set both CIA models (0 = old 6526, 1 = new 6526)"
+msgstr "Zet model voor beide CIAs (0 = oud 6526, 1 = nieuw 6526)"
 
 #: src/translate_text.c.po.c:5175
-msgid "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-msgstr "Zet CIA 1 model (0 = oud 6526, 1 = nieuw 6526A)"
+msgid "Set CIA 1 model (0 = old 6526, 1 = new 6526)"
+msgstr "Zet CIA 1 model (0 = oud 6526, 1 = nieuw 6526)"
 
 #: src/translate_text.c.po.c:5192
-msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
-msgstr "Zet CIA 2 model (0 = oud 6526, 1 = nieuw 6526A)"
+msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526)"
+msgstr "Zet CIA 2 model (0 = oud 6526, 1 = nieuw 6526)"
 
 #: src/translate_text.c.po.c:5209
 msgid ""

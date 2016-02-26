@@ -612,12 +612,12 @@ BEGIN
                 SUBMENU "CIA-1 model",                    IDM_CIA1_MODEL,               MIS_TEXT
                 BEGIN
                     MENUITEM "6526 (old)",                IDM_CIA1_6526_OLD,            MIS_TEXT
-                    MENUITEM "6526A (new)",               IDM_CIA1_6526A_NEW,           MIS_TEXT
+                    MENUITEM "6526 (new)",                IDM_CIA1_6526A_NEW,           MIS_TEXT
                 END
                 SUBMENU "CIA-2 model",                    IDM_CIA2_MODEL,               MIS_TEXT
                 BEGIN
                     MENUITEM "6526 (old)",                IDM_CIA2_6526_OLD,            MIS_TEXT
-                    MENUITEM "6526A (new)",               IDM_CIA2_6526A_NEW,           MIS_TEXT
+                    MENUITEM "6526 (new)",                IDM_CIA2_6526A_NEW,           MIS_TEXT
                 END
                 SUBMENU "Glue logic",                     IDM_GLUE_LOGIC,               MIS_TEXT
                 BEGIN
@@ -643,12 +643,12 @@ BEGIN
         SUBMENU "CIA-1 model",                    IDM_CIA1_MODEL,               MIS_TEXT
         BEGIN
             MENUITEM "6526 (old)",                IDM_CIA1_6526_OLD,            MIS_TEXT
-            MENUITEM "6526A (new)",               IDM_CIA1_6526A_NEW,           MIS_TEXT
+            MENUITEM "6526 (new)",                IDM_CIA1_6526A_NEW,           MIS_TEXT
         END
         SUBMENU "CIA-2 model",                    IDM_CIA2_MODEL,               MIS_TEXT
         BEGIN
             MENUITEM "6526 (old)",                IDM_CIA2_6526_OLD,            MIS_TEXT
-            MENUITEM "6526A (new)",               IDM_CIA2_6526A_NEW,           MIS_TEXT
+            MENUITEM "6526 (new)",                IDM_CIA2_6526A_NEW,           MIS_TEXT
         END
 #endif
 

@@ -270,7 +270,7 @@ UI_MENU_DEFINE_RADIO(CIA1Model)
 static ui_menu_entry_t set_cia1model_submenu[] = {
     { N_("6526 (old)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
       (ui_callback_data_t)0, NULL },
-    { N_("6526A (new)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
+    { N_("6526 (new)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
       (ui_callback_data_t)1, NULL },
     { NULL }
 };

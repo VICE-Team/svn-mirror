@@ -498,9 +498,9 @@
 			<key>Model</key>
 			<dict>
 				<key>CIA 1 Model</key>
-				<string>CIA1Model,e,6526 (old),6526A (new)</string>
+				<string>CIA1Model,e,6526 (old),6526 (new)</string>
 				<key>CIA 2 Model</key>
-				<string>CIA2Model,e,6526 (old),6526A (new)</string>
+				<string>CIA2Model,e,6526 (old),6526 (new)</string>
 			</dict>
 			<key>C128</key>
 			<dict>
@@ -677,9 +677,9 @@
 			<key>Model</key>
 			<dict>
 				<key>CIA 1 Model</key>
-				<string>CIA1Model,e,6526 (old),6526A (new)</string>
+				<string>CIA1Model,e,6526 (old),6526 (new)</string>
 				<key>CIA 2 Model</key>
-				<string>CIA2Model,e,6526 (old),6526A (new)</string>
+				<string>CIA2Model,e,6526 (old),6526 (new)</string>
 				<key>glue logic</key>
 				<string>GlueLogic,e,Discrete,Integrated</string>
 				<key>Reset goes to IEC</key>
@@ -743,7 +743,7 @@
 					<key>Model</key>
 					<dict>
 						<key>CIA 1 Model</key>
-						<string>CIA1Model,e,6526 (old),6526A (new)</string>
+						<string>CIA1Model,e,6526 (old),6526 (new)</string>
 					</dict>
 					<key>Model Line</key>
 					<string>ModelLine,e,7x0 (50 Hz),6x0 60 Hz,6x0 50 Hz</string>
@@ -753,7 +753,7 @@
 					<key>Model</key>
 					<dict>
 						<key>CIA 1 Model</key>
-						<string>CIA1Model,e,6526 (old),6526A (new)</string>
+						<string>CIA1Model,e,6526 (old),6526 (new)</string>
 					</dict>
 					<key>Model Line</key>
 					<string>ModelLine,m,6x0 60 Hz=1,6x0 50 Hz=2</string>

@@ -48,7 +48,7 @@ static char *get_cia_model(int value)
             retval = "6526 (old)";
             break;
         case 1:
-            retval = "6526A (new)";
+            retval = "6526 (new)";
             break;
     }
     return retval;
@@ -66,7 +66,7 @@ static TUI_MENU_CALLBACK(cia1_model_submenu_callback)
 static tui_menu_item_def_t cia1_model_submenu[] = {
     { "6526 (old)", NULL, radio_CIA1Model_callback,
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "6526A (new)", NULL, radio_CIA1Model_callback,
+    { "6526 (new)", NULL, radio_CIA1Model_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
@@ -83,7 +83,7 @@ static TUI_MENU_CALLBACK(cia2_model_submenu_callback)
 static tui_menu_item_def_t cia2_model_submenu[] = {
     { "6526 (old)", NULL, radio_CIA2Model_callback,
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "6526A (new)", NULL, radio_CIA2Model_callback,
+    { "6526 (new)", NULL, radio_CIA2Model_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };

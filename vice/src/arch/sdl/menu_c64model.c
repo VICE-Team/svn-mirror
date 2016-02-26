@@ -184,7 +184,7 @@ UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           radio_CIA##xyz##Model_callback,                       \
           (ui_callback_data_t)CIA_MODEL_6526 },                 \
-        { "6526A (new)",                                        \
+        { "6526 (new)",                                        \
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           radio_CIA##xyz##Model_callback,                       \
           (ui_callback_data_t)CIA_MODEL_6526A },                \

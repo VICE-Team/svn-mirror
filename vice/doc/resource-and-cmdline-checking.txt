@@ -5052,14 +5052,14 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -ciamodel <Model>
-description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
+description:    "Set both CIA models (0 = old 6526, 1 = new 6526)"
 resource:       N/A
 action:         set_cia_model() (sets "CIA1Model" and "CIA2Model")
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -cia1model <Model>
-description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
+description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526)"
 resource:       "CIA1Model"
 action:         N/A
 
@@ -5081,7 +5081,7 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -cia2model <Model>
-description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
+description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526)"
 resource:       "CIA2Model"
 action:         N/A
 
@@ -5174,14 +5174,14 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -ciamodel <Model>
-description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
+description:    "Set both CIA models (0 = old 6526, 1 = new 6526)"
 resource:       N/A
 action:         set_cia_model() (sets "CIA1Model" and "CIA2Model")
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -cia1model <Model>
-description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
+description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526)"
 resource:       "CIA1Model"
 action:         N/A
 
@@ -5203,7 +5203,7 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -cia2model <Model>
-description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
+description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526)"
 resource:       "CIA2Model"
 action:         N/A
 
@@ -7914,7 +7914,7 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -cia1model <Model>
-description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
+description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526)"
 resource:       "CIA1Model"
 action:         N/A
 
@@ -10941,14 +10941,14 @@ platform range correct:		amigaos/beos/dos/os2/sdl/osx/unix/windows
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -ciamodel <Model>
-description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
+description:    "Set both CIA models (0 = old 6526, 1 = new 6526)"
 resource:       N/A
 action:         set_cia_model() (sets "CIA1Model" and "CIA2Model")
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -cia1model <Model>
-description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
+description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526)"
 resource:       "CIA1Model"
 action:         N/A
 
@@ -10970,7 +10970,7 @@ platform range correct:		amigaos/beos/dos/os2/sdl/osx/unix/windows
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -cia2model <Model>
-description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
+description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526)"
 resource:       "CIA2Model"
 action:         N/A
 
