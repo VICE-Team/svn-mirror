@@ -4236,18 +4236,6 @@ AC_OUTPUT([Makefile
            src/arch/os2/snippets/Makefile
            src/arch/os2/unused/Makefile
            src/arch/os2/unused/pm/Makefile
-           src/arch/os2/vac++/Makefile
-           src/arch/os2/vac++/ctools/Makefile
-           src/arch/os2/vac++/incl/Makefile
-           src/arch/os2/vac++/x64/Makefile
-           src/arch/os2/vac++/x64dtv/Makefile
-           src/arch/os2/vac++/x64sc/Makefile
-           src/arch/os2/vac++/x128/Makefile
-           src/arch/os2/vac++/xcbm2/Makefile
-           src/arch/os2/vac++/xcbm5x0/Makefile
-           src/arch/os2/vac++/xpet/Makefile
-           src/arch/os2/vac++/xplus4/Makefile
-           src/arch/os2/vac++/xvic/Makefile
            src/arch/os2/watcom/Makefile
            src/arch/sdl/Makefile
            src/arch/sdl/dingoo-files/Makefile
