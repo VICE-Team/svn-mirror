@@ -30,9 +30,11 @@
 #ifdef WATCOM_COMPILE
 #include <pmwin.h>
 #include <pmstddlg.h>
-#endif
 
 BITMAP DID_DIRUP "..\\icons\\dirup.bmp"
+#else
+BITMAP DID_DIRUP "..\\..\\icons\\dirup.bmp"
+#endif
 
 DLGTEMPLATE DLG_FILEIO 850 MOVEABLE DISCARDABLE
 BEGIN
@@ -87,4 +89,3 @@ BEGIN
         CONTROL "", DID_FILES_TXT, 0, 0, 0, 0, WC_STATIC, SS_TEXT 
     END
 END
-

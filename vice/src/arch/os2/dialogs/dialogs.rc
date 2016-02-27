@@ -28,7 +28,7 @@
 
 #include "dialogs.h"
 
-#ifdef WATCOM_COMPILE
+#ifndef __IBMC__
 #include "platform.h"
 #endif
 

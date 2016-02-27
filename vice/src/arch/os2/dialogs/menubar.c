@@ -388,11 +388,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             file_system_detach_disk(10);
             file_system_detach_disk(11);
             return;
-#ifndef __PETCAT__
         case IDM_LOGWIN:
             WinActivateWindow(hwndLog, 1);
             return;
-#endif
 
 #ifdef __XVIC__
         case IDM_VIC20_CART_GENERIC:
@@ -2064,11 +2062,9 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_DETACH11, file_system_get_disk_name(11));
             WinEnableMenuItem(hwnd, IDM_DETACHALL, file_system_get_disk_name(8) || file_system_get_disk_name(9) || file_system_get_disk_name(10) || file_system_get_disk_name(11));
             return;
-#ifndef __PETCAT__
         case IDM_VIEW:
             WinEnableMenuItem(hwnd, IDM_LOGWIN, hwndLog != NULLHANDLE);
             WinEnableMenuItem(hwnd, IDM_MONITOR, hwndMonitor != NULLHANDLE);
-#endif
 
 #if defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
             WinCheckRes(hwnd, IDM_SIDCART_ENABLE, "SidCart");
