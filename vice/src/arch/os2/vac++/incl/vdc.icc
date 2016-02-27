@@ -1,8 +1,0 @@
-source type(c)
-    "vdc-cmdline-options.c",
-    "vdc-color.c",
-    "vdc-draw.c",
-    "vdc-mem.c",
-    "vdc-resources.c",
-    "vdc-snapshot.c",
-    "vdc.c"

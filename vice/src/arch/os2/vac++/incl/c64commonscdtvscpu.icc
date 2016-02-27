@@ -1,3 +1,0 @@
-source type(c)
-    "c64drive.c",
-    "c64fastiec.c"

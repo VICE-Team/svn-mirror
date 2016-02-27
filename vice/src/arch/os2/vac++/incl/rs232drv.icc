@@ -1,4 +1,0 @@
-source type(c)
-    "rs232drv.c",
-    "rsuser.c"
-

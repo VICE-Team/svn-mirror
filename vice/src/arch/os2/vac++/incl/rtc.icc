@@ -1,8 +1,0 @@
-source type(c)
-    "bq4830y.c",
-    "ds1202_1302.c",
-    "ds1216e.c",
-    "ds12c887.c",
-    "ds1307.c",
-    "rtc-58321a.c",
-    "rtc.c"

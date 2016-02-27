@@ -1,8 +1,0 @@
-source type(c)
-    "tcbm/glue1551.c",
-    "tcbm/mem1551.c",
-    "tcbm/tcbm-cmdline-options.c",
-    "tcbm/tcbm-resources.c",
-    "tcbm/tcbm.c",
-    "tcbm/tcbmrom.c",
-    "tcbm/tpid.c"

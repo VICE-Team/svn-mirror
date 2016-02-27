@@ -1,9 +1,0 @@
-source type(c)
-    "c64\\c64-memory-hacks.c",
-    "c64-resources.c",
-    "c64-snapshot.c",
-    "c64.c",
-    "c64_256k.c",
-    "c64memsnapshot.c",
-    "plus256k.c",
-    "plus60k.c"

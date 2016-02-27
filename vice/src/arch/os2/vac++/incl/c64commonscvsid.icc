@@ -1,4 +1,0 @@
-source type(c)
-    "c64-cmdline-options.c",
-    "c64memlimit.c",
-    "psid.c"

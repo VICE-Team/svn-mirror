@@ -1,6 +1,6 @@
 # Makefile.am for the OS2 version of `libarch.a'.
 
-SUBDIRS = dialogs doc fonts icons kbd snippets unused vac++ watcom
+SUBDIRS = dialogs doc fonts icons kbd snippets unused watcom
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \

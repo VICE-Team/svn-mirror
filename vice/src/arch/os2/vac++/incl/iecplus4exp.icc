@@ -1,4 +1,0 @@
-source type(c)
-    "iec/plus4exp/iec-plus4exp.c",
-    "iec/plus4exp/plus4exp-cmdline-options.c",
-    "iec/plus4exp/plus4exp-resources.c"

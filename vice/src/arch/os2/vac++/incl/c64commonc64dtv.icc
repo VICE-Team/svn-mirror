@@ -1,6 +1,0 @@
-source type(c)
-    "c64drive.c",
-    "c64fastiec.c",
-    "c64rom.c",
-    "c64romset.c",
-    "c64video.c"

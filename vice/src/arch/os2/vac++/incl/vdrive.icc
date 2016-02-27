@@ -1,9 +1,0 @@
-source type(c)
-    "vdrive-bam.c",
-    "vdrive-command.c",
-    "vdrive-command.c",
-    "vdrive-iec.c",
-    "vdrive-internal.c",
-    "vdrive-rel.c",
-    "vdrive-snapshot.c",
-    "vdrive.c"

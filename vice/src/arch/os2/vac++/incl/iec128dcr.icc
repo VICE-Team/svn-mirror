@@ -1,5 +1,0 @@
-source type(c)
-    "iec128dcr/iec128dcr-cmdline-options.c",
-    "iec128dcr/iec128dcr-resources.c",
-    "iec128dcr/iec128dcr.c",
-    "iec128dcr/iec128dcrrom.c"

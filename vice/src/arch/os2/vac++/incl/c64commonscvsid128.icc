@@ -1,4 +1,0 @@
-source type(c)
-    "c64gluelogic.c",
-    "c64memrom.c",
-    "c64pla.c"

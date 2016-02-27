@@ -1,3 +1,0 @@
-source type(c)
-    "c64romset.c",
-    "c64video.c"

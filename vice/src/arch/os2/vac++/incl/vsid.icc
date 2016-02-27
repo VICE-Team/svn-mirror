@@ -1,8 +1,0 @@
-source type (rc)  
-    "dlg-vsid.rc"
-    
-source type(c)
-    "psid.c",
-    "reloc65.c",
-    "vsidui.c",
-    "dlg-vsid.c"

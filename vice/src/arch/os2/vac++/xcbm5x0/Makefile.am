@@ -1,1 +1,0 @@
-EXTRA_DIST = Xcbm5x0.ICC

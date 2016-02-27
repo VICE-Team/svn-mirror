@@ -1,4 +1,0 @@
-source type(c)
-    "c64keyboard.c",
-    "c64rsuser.c",
-    "patchrom.c"

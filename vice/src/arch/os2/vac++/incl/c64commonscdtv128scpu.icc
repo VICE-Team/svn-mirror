@@ -1,4 +1,0 @@
-source type(c)
-    "c64bus.c",
-    "c64parallel.c",
-    "c64printer.c"
