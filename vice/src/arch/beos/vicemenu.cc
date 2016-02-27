@@ -815,6 +815,7 @@ BMenuBar *menu_create(int machine_class)
                 menu->AddItem(submenu = new BMenu("DS12C887 RTC Options"));
             }
                 submenu->AddItem(new BMenuItem("DS12C887 RTC emulation", new BMessage(MENU_TOGGLE_DS12C887_RTC)));
+                submenu->AddItem(new BMenuItem("DS12C887 RTC running mode (running)", new BMessage(MENU_TOGGLE_DS12C887_RTC_RUNNING_MODE)));
                 submenu->AddItem(extsubmenu = new BMenu("DS12C887 base"));
                     extsubmenu->SetRadioMode(true);
                     if (machine_class == VICE_MACHINE_VIC20) {
