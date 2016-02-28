@@ -132,6 +132,10 @@ libc64cart_a_SOURCES = \
 	ross.h \
 	rrnetmk3.c \
 	rrnetmk3.h \
+	shortbus.c \
+	shortbus.h \
+	shortbus_digimax.c \
+	shortbus_digimax.h \
 	silverrock128.c \
 	silverrock128.h \
 	simonsbasic.c \

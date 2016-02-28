@@ -1,5 +1,5 @@
 /*
- * userport_digimax.h
+ * shortbus_digimax.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,18 +24,21 @@
  *
  */
 
-#ifndef VICE_USERPORT_DIGIMAX_H
-#define VICE_USERPORT_DIGIMAX_H
+#ifndef VICE_SHORTBUS_DIGIMAX_H
+#define VICE_SHORTBUS_DIGIMAX_H
 
 #include "types.h"
-#include "sound.h"
 
-extern int userport_digimax_resources_init(void);
-extern int userport_digimax_cmdline_options_init(void);
+extern int shortbus_digimax_resources_init(void);
+extern void shortbus_digimax_resources_shutdown(void);
 
-extern void userport_digimax_sound_chip_init(void);
+extern int shortbus_digimax_cmdline_options_init(void);
 
-extern void userport_digimax_sound_store(WORD address, BYTE value);
-extern BYTE userport_digimax_sound_read(WORD address);
+extern void shortbus_digimax_unregister(void);
+extern void shortbus_digimax_register(void);
+
+extern void shortbus_digimax_reset(void);
+
+extern void shortbus_digimax_sound_chip_init(void);
 
 #endif

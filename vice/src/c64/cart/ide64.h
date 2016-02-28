@@ -33,6 +33,8 @@ extern int ide64_resources_init(void);
 extern int ide64_resources_shutdown(void);
 extern int ide64_cmdline_options_init(void);
 
+extern void ide64_reset(void);
+
 extern void ide64_config_init(void);
 extern void ide64_config_setup(BYTE *rawcart);
 extern int ide64_bin_attach(const char *filename, BYTE *rawcart);

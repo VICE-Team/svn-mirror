@@ -17287,6 +17287,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_USERPORT_DIGIMAX_TR, ""},  /* fuzzy */
 #endif
 
+/* c64/cart/shortbus_digimax.c */
+/* en */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX,    N_("Enable the Short Bus DigiMAX expansion")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/shortbus_digimax.c */
+/* en */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX,    N_("Disable the Short Bus DigiMAX expansion")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/digimax.c */
 /* en */ {IDCLS_ENABLE_DIGIMAX,    N_("Enable the DigiMAX cartridge")},
 #ifdef HAS_TRANSLATION
@@ -17336,6 +17370,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DIGIMAX_BASE_RU, "Base address of the DigiMAX cartridge"},
 /* sv */ {IDCLS_DIGIMAX_BASE_SV, "Basadress för DigiMAC-insticksmodulen"},
 /* tr */ {IDCLS_DIGIMAX_BASE_TR, "DigiMAX kartuþunun taban adresi"},
+#endif
+
+/* c64/cart/shortbus_digimax.c */
+/* en */ {IDCLS_SHORTBUS_DIGIMAX_BASE,    N_("Base address of the Short Bus DigiMAX expansion")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SHORTBUS_DIGIMAX_BASE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SHORTBUS_DIGIMAX_BASE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SHORTBUS_DIGIMAX_BASE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SHORTBUS_DIGIMAX_BASE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SHORTBUS_DIGIMAX_BASE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SHORTBUS_DIGIMAX_BASE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SHORTBUS_DIGIMAX_BASE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SHORTBUS_DIGIMAX_BASE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SHORTBUS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SHORTBUS_DIGIMAX_BASE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SHORTBUS_DIGIMAX_BASE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SHORTBUS_DIGIMAX_BASE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/ds12c887rtc.c */

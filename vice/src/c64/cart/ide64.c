@@ -44,7 +44,9 @@
 #include <string.h>
 #include <time.h>
 
+#include "alarm.h"
 #include "archdep.h"
+#include "ata.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -52,23 +54,22 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "ds1202_1302.h"
 #include "ide64.h"
 #include "log.h"
 #include "lib.h"
 #include "machine.h"
+#include "maincpu.h"
+#include "monitor.h"
 #include "resources.h"
+#include "shortbus.h"
 #include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
-#include "ata.h"
-#include "monitor.h"
-#include "crt.h"
 #include "vicesocket.h"
-#include "alarm.h"
-#include "maincpu.h"
+#include "vicii-phi1.h"
 
 #ifdef IDE64_DEBUG
 #define debug(x) log_debug(x)
@@ -464,10 +465,17 @@ static int ide64_set_rtc_save(int val, void *param)
 static int set_version(int value, void *param)
 {
     int val;
+
     switch (value) {
-    default: val = IDE64_VERSION_3; break;
-    case 1: val = IDE64_VERSION_4_1; break;
-    case 2: val = IDE64_VERSION_4_2; break;
+        default:
+            val = IDE64_VERSION_3;
+            break;
+        case 1:
+            val = IDE64_VERSION_4_1;
+            break;
+        case 2:
+            val = IDE64_VERSION_4_2;
+            break;
     }
 
     if (!ide64_rom_list_item) {
@@ -662,6 +670,9 @@ int ide64_resources_init(void)
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
+    if (shortbus_resources_init() < 0) {
+        return -1;
+    }
 
     return 0;
 }
@@ -685,6 +696,8 @@ int ide64_resources_shutdown(void)
         settings_usbserver_address = NULL;
     }
 #endif
+
+    shortbus_resources_shutdown();
 
     return 0;
 }
@@ -847,7 +860,16 @@ static const cmdline_option_t cmdline_options[] = {
 
 int ide64_cmdline_options_init(void)
 {
+    if (shortbus_cmdline_options_init() < 0) {
+        return -1;
+    }
+
     return cmdline_register_options(cmdline_options);
+}
+
+void ide64_reset(void)
+{
+    shortbus_reset();
 }
 
 static BYTE ide64_idebus_read(WORD addr)
@@ -1154,7 +1176,6 @@ static void ide64_ds1302_store(WORD addr, BYTE value)
     return;
 }
 
-
 static BYTE ide64_romio_read(WORD addr)
 {
     if (kill_port & 1) {
@@ -1360,6 +1381,9 @@ void ide64_detach(void)
     usbserver_activate(0);
 
     ide64_unregister();
+
+    shortbus_unregister();
+
     debug("IDE64 detached");
 }
 
@@ -1393,6 +1417,9 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
     usbserver_activate(settings_usbserver);
 
     debug("IDE64 attached");
+
+    shortbus_register();
+
     return ide64_register();
 }
 

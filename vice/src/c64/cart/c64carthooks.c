@@ -118,6 +118,7 @@
 #include "rgcd.h"
 #include "rrnetmk3.h"
 #include "ross.h"
+#include "shortbus_digimax.h"
 #include "silverrock128.h"
 #include "simonsbasic.h"
 #include "snapshot64.h"
@@ -1976,6 +1977,9 @@ void cartridge_reset(void)
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_reset();
             break;
+        case CARTRIDGE_IDE64:
+            ide64_reset();
+            break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_reset();
             break;
@@ -2286,6 +2290,7 @@ void cartridge_sound_chip_init(void)
     sfx_soundsampler_sound_chip_init();
     sfx_soundexpander_sound_chip_init();
     magicvoice_sound_chip_init();
+    shortbus_digimax_sound_chip_init();
 }
 
 /* ------------------------------------------------------------------------- */

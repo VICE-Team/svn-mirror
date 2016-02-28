@@ -24,9 +24,9 @@
  *
  */
 
-/* This source file contains the sound core for both the cartridge and
-   userport versions of the device, and is intended to be included
-   from a specific digimax device. */
+/* This source file contains the sound core for both the cartridge,
+   the shortbus and userport versions of the device, and is intended
+   to be included from a specific digimax device. */
 
 
 /* Some prototypes are needed */

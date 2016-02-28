@@ -2983,6 +2983,12 @@ IDCLS_ENABLE_USERPORT_DIGIMAX
 /* userport/userport_digimax.c */
 IDCLS_DISABLE_USERPORT_DIGIMAX
 
+/* c64/cart/shortbus_digimax.c */
+IDCLS_ENABLE_SHORTBUS_DIGIMAX
+
+/* c64/cart/shortbus_digimax.c */
+IDCLS_DISABLE_SHORTBUS_DIGIMAX
+
 /* c64/cart/digimax.c */
 IDCLS_ENABLE_DIGIMAX
 
@@ -2991,6 +2997,9 @@ IDCLS_DISABLE_DIGIMAX
 
 /* c64/cart/digimax.c */
 IDCLS_DIGIMAX_BASE
+
+/* c64/cart/shortbus_digimax.c */
+IDCLS_SHORTBUS_DIGIMAX_BASE
 
 /* c64/cart/ds12c887rtc.c */
 IDCLS_ENABLE_DS12C887RTC
