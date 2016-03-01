@@ -95,6 +95,9 @@ int rr_clockport_enabled = 0;
 /* freeze logic state */
 static int rr_frozen = 0;
 
+/* current GAME/EXROM mode */
+static int rr_cmode = CMODE_8KGAME;
+
 /* current bank */
 static int rr_bank;
 
@@ -204,16 +207,21 @@ BYTE retroreplay_io1_read(WORD addr)
                 }
 #endif
                 if ((reu_mapping) && (!rr_frozen)) {
-                    retroreplay_io1_device.io_source_valid = 1;
                     if (export_ram) {
+                        retroreplay_io1_device.io_source_valid = 1;
                         if (allow_bank) {
                             return export_ram0[0x1e00 + (addr & 0xff) + ((roml_bank & 3) << 13)];
                         } else {
                             return export_ram0[0x1e00 + (addr & 0xff)];
                         }
                     }
-
-                    return flash040core_read(flashrom_state, rom_offset + ((addr | 0xde00) & 0x1fff) + (roml_bank << 13));
+                    /* in ultimax mode only RAM will appear in IO1 */
+                    /* if 16K-game mode is active and RAM is not selected , then nothing will
+                       be mapped to IO1 */
+                    if ((rr_cmode != CMODE_ULTIMAX) && (rr_cmode != CMODE_16KGAME)) {
+                        retroreplay_io1_device.io_source_valid = 1;
+                        return flash040core_read(flashrom_state, rom_offset + ((addr | 0xde00) & 0x1fff) + (roml_bank << 13));
+                    }
                 }
         }
     }
@@ -222,7 +230,7 @@ BYTE retroreplay_io1_read(WORD addr)
 
 void retroreplay_io1_store(WORD addr, BYTE value)
 {
-    int mode = CMODE_WRITE, cmode;
+    int mode = CMODE_WRITE;
 
     DBG(("io1 w %04x %02x\n", addr, value));
 
@@ -269,10 +277,10 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                 }
 
                 rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4); /* bit 3-4, 7 */
-                cmode = (value & 3);  /* bit 0-1 */
+                rr_cmode = (value & 3);  /* bit 0-1 */
                 if ((rr_revision > 0) && ((value & 0xe7) == 0x22)) {
                     /* Nordic Replay supports additional Nordic Power compatible values */
-                    cmode = CMODE_16KGAME;
+                    rr_cmode = CMODE_16KGAME;
                     export_ram_at_a000 = 1; /* RAM at a000 enabled */
                 } else {
                     /* Action Replay 5 compatible values */
@@ -285,15 +293,12 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                         mode |= CMODE_EXPORT_RAM;
                     }
                 }
-                /* FIXME: test if the bits behave the same when writing to $de01 */
+                /* after freezing writing to bit 0 and 1 has no effect until freeze
+                   was acknowledged by setting bit 6 */
                 if (rr_frozen) {
-                    cmode = CMODE_ULTIMAX;
-                    if ((value & 0x20) && (!allow_bank)) { /* bit 5 */
-                        /* RAM banking bits 0 and 1 are inactive in frozen state if allow bank is not set */
-                        rr_bank &= 4;
-                    }
+                    rr_cmode = CMODE_ULTIMAX;
                 }
-                cart_config_changed_slotmain(CMODE_8KGAME, (BYTE)(cmode | (rr_bank << CMODE_BANK_SHIFT)), mode);
+                cart_config_changed_slotmain(CMODE_8KGAME, (BYTE)(rr_cmode | (rr_bank << CMODE_BANK_SHIFT)), mode);
 
                 if (value & 4) { /* bit 2 */
                     rr_active = 0;
@@ -378,16 +383,21 @@ BYTE retroreplay_io2_read(WORD addr)
 
     if (rr_active) {
         if ((!reu_mapping) && (!rr_frozen)) {
-            retroreplay_io2_device.io_source_valid = 1;
             if (export_ram || ((rr_revision > 0) && export_ram_at_a000)) {
+                retroreplay_io2_device.io_source_valid = 1;
                 if (allow_bank) {
                     return export_ram0[0x1f00 + (addr & 0xff) + ((roml_bank & 3) << 13)];
                 } else {
                     return export_ram0[0x1f00 + (addr & 0xff)];
                 }
             }
-
-            return flash040core_read(flashrom_state, rom_offset + ((addr | 0xdf00) & 0x1fff) + (roml_bank << 13));
+            /* in ultimax mode only RAM will appear in IO2 */
+            /* if 16K-game mode is active and RAM is not selected , then nothing will
+               be mapped to IO2 */
+            if ((rr_cmode != CMODE_ULTIMAX) && (rr_cmode != CMODE_16KGAME)) {
+                retroreplay_io2_device.io_source_valid = 1;
+                return flash040core_read(flashrom_state, rom_offset + ((addr | 0xdf00) & 0x1fff) + (roml_bank << 13));
+            }
         }
     }
     return 0;
@@ -414,6 +424,7 @@ void retroreplay_io2_store(WORD addr, BYTE value)
 
 BYTE retroreplay_roml_read(WORD addr)
 {
+    /* in frozen state nothing is mapped to ROML */
     if (rr_frozen) {
         /* FIXME: what should be returned? C64 RAM or open bus? */
         return vicii_read_phi1();
@@ -421,7 +432,12 @@ BYTE retroreplay_roml_read(WORD addr)
     if (export_ram) {
         return export_ram0[(addr & 0x1fff) + ((roml_bank & 3) << 13)];
     }
-
+    /* if 16K-game mode is active and RAM is not selected , then nothing will
+       be mapped to ROML */
+    if (rr_cmode == CMODE_16KGAME) {
+        /* FIXME: what should be returned? C64 RAM or open bus? */
+        return vicii_read_phi1();
+    }
     return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
 }
 
@@ -464,7 +480,12 @@ BYTE retroreplay_romh_read(WORD addr)
     if ((rr_revision > 0) && export_ram_at_a000) {
         return export_ram0[addr & 0x1fff]; /* FIXME: bank ? */
     }
-    return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
+    if ((allow_bank) || (!export_ram)) {
+        return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
+    }
+    /* if the "allow bank" bit is not set, and RAM is selected, then
+       bot 0 and bit 1 of the bank nr are inactive for selecting the ROMH bank */
+    return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + ((roml_bank & ~3) << 13));
 }
 
 void retroreplay_romh_store(WORD addr, BYTE value)
@@ -496,6 +517,7 @@ int retroreplay_peek_mem(export_t *export, WORD addr, BYTE *value)
 
 void retroreplay_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
+#if 1
     if (flashrom_state && flashrom_state->flash_data) {
         switch (addr & 0xe000) {
             case 0xe000:
@@ -544,6 +566,7 @@ void retroreplay_mmu_translate(unsigned int addr, BYTE **base, int *start, int *
                 break;
         }
     }
+#endif
     *base = NULL;
     *start = 0;
     *limit = 0;
@@ -551,9 +574,17 @@ void retroreplay_mmu_translate(unsigned int addr, BYTE **base, int *start, int *
 
 static int retroreplay_dump(void)
 {
+    char *mode[4] = {
+        "8k game",
+        "16k game",
+        "RAM",
+        "ultimax"
+    };
     /* FIXME: incomplete */
     mon_out("Retro Replay registers are %s.\n", rr_active ? "enabled" : "disabled");
     mon_out("Clockport is %s.\n", rr_clockport_enabled ? "enabled" : "disabled");
+    mon_out("Freeze status: %s.\n", rr_frozen ? "frozen" : "released");
+    mon_out("GAME/EXROM status: %s.\n", mode[rr_cmode]);
 
     return 0;
 }
@@ -566,7 +597,8 @@ void retroreplay_freeze(void)
     if (!rr_hw_flashjumper) {
         rr_active = 1;
         rr_frozen = 1;
-        cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ);
+        rr_cmode = CMODE_ULTIMAX;
+        cart_config_changed_slotmain(rr_cmode, rr_cmode, CMODE_READ);
         /* flash040core_reset(flashrom_state); */
     }
 }
@@ -593,10 +625,11 @@ void retroreplay_config_init(void)
     export_ram_at_a000 = 0;
 
     if (rr_hw_flashjumper) {
-        cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
+        rr_cmode = CMODE_RAM;
     } else {
-        cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
+        rr_cmode = CMODE_8KGAME;
     }
+    cart_config_changed_slotmain(rr_cmode, rr_cmode, CMODE_READ);
 
     flash040core_reset(flashrom_state);
 }
@@ -608,10 +641,11 @@ void retroreplay_reset(void)
     rr_frozen = 0;
 
     if (rr_hw_flashjumper) {
-        cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
+        rr_cmode = CMODE_RAM;
     } else {
-        cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
+        rr_cmode = CMODE_8KGAME;
     }
+    cart_config_changed_slotmain(rr_cmode, rr_cmode, CMODE_READ);
 
     /* on the real hardware pressing reset would NOT reset the flash statemachine,
        only a powercycle would help. we do it here anyway :)
@@ -627,10 +661,11 @@ void retroreplay_config_setup(BYTE *rawcart)
     DBG(("retroreplay_config_setup bank jumper: %d offset: %08x\n", rr_hw_bankjumper, rom_offset));
 
     if (rr_hw_flashjumper) {
-        cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
+        rr_cmode = CMODE_RAM;
     } else {
-        cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
+        rr_cmode = CMODE_8KGAME;
     }
+    cart_config_changed_slotmain(rr_cmode, rr_cmode, CMODE_READ);
 
     flashrom_state = lib_malloc(sizeof(flash040_context_t));
     flash040core_init(flashrom_state, maincpu_alarm_context, FLASH040_TYPE_010, roml_banks);
