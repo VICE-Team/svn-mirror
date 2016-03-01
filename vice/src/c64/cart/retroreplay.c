@@ -598,7 +598,7 @@ void retroreplay_freeze(void)
         rr_active = 1;
         rr_frozen = 1;
         rr_cmode = CMODE_ULTIMAX;
-        cart_config_changed_slotmain(rr_cmode, rr_cmode, CMODE_READ);
+        cart_config_changed_slotmain((BYTE)rr_cmode, (BYTE)rr_cmode, CMODE_READ);
         /* flash040core_reset(flashrom_state); */
     }
 }
@@ -629,7 +629,7 @@ void retroreplay_config_init(void)
     } else {
         rr_cmode = CMODE_8KGAME;
     }
-    cart_config_changed_slotmain(rr_cmode, rr_cmode, CMODE_READ);
+    cart_config_changed_slotmain((BYTE)rr_cmode, (BYTE)rr_cmode, CMODE_READ);
 
     flash040core_reset(flashrom_state);
 }
@@ -645,7 +645,7 @@ void retroreplay_reset(void)
     } else {
         rr_cmode = CMODE_8KGAME;
     }
-    cart_config_changed_slotmain(rr_cmode, rr_cmode, CMODE_READ);
+    cart_config_changed_slotmain((BYTE)rr_cmode, (BYTE)rr_cmode, CMODE_READ);
 
     /* on the real hardware pressing reset would NOT reset the flash statemachine,
        only a powercycle would help. we do it here anyway :)
@@ -665,7 +665,7 @@ void retroreplay_config_setup(BYTE *rawcart)
     } else {
         rr_cmode = CMODE_8KGAME;
     }
-    cart_config_changed_slotmain(rr_cmode, rr_cmode, CMODE_READ);
+    cart_config_changed_slotmain((BYTE)rr_cmode, (BYTE)rr_cmode, CMODE_READ);
 
     flashrom_state = lib_malloc(sizeof(flash040_context_t));
     flash040core_init(flashrom_state, maincpu_alarm_context, FLASH040_TYPE_010, roml_banks);
