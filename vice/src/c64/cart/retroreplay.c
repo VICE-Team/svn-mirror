@@ -50,6 +50,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
+#include "vicii-phi1.h"
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #include "retroreplay.h"
@@ -90,6 +91,9 @@
 /* Cart is activated.  */
 static int rr_active = 0;
 int rr_clockport_enabled = 0;
+
+/* freeze logic state */
+static int rr_frozen = 0;
 
 /* current bank */
 static int rr_bank;
@@ -199,7 +203,7 @@ BYTE retroreplay_io1_read(WORD addr)
                     return 0;
                 }
 #endif
-                if (reu_mapping) {
+                if ((reu_mapping) && (!rr_frozen)) {
                     retroreplay_io1_device.io_source_valid = 1;
                     if (export_ram) {
                         if (allow_bank) {
@@ -268,19 +272,28 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                 cmode = (value & 3);  /* bit 0-1 */
                 if ((rr_revision > 0) && ((value & 0xe7) == 0x22)) {
                     /* Nordic Replay supports additional Nordic Power compatible values */
-                    cmode = 1; /* 16k Game */
+                    cmode = CMODE_16KGAME;
                     export_ram_at_a000 = 1; /* RAM at a000 enabled */
                 } else {
                     /* Action Replay 5 compatible values */
                     export_ram_at_a000 = 0;
                     if (value & 0x40) { /* bit 6 */
                         mode |= CMODE_RELEASE_FREEZE;
+                        rr_frozen = 0;
                     }
                     if (value & 0x20) { /* bit 5 */
                         mode |= CMODE_EXPORT_RAM;
                     }
                 }
-                cart_config_changed_slotmain(0, (BYTE)(cmode | (rr_bank << CMODE_BANK_SHIFT)), mode);
+                /* FIXME: test if the bits behave the same when writing to $de01 */
+                if (rr_frozen) {
+                    cmode = CMODE_ULTIMAX;
+                    if ((value & 0x20) && (!allow_bank)) { /* bit 5 */
+                        /* RAM banking bits 0 and 1 are inactive in frozen state if allow bank is not set */
+                        rr_bank &= 4;
+                    }
+                }
+                cart_config_changed_slotmain(CMODE_8KGAME, (BYTE)(cmode | (rr_bank << CMODE_BANK_SHIFT)), mode);
 
                 if (value & 4) { /* bit 2 */
                     rr_active = 0;
@@ -344,7 +357,7 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                     return;
                 }
 #endif
-                if (reu_mapping) {
+                if ((reu_mapping) && (!rr_frozen)) {
                     if (export_ram) {
                         if (allow_bank) {
                             export_ram0[0x1e00 + (addr & 0xff) + ((roml_bank & 3) << 13)] = value;
@@ -364,7 +377,7 @@ BYTE retroreplay_io2_read(WORD addr)
     DBG(("io2 r %04x\n", addr));
 
     if (rr_active) {
-        if (!reu_mapping) {
+        if ((!reu_mapping) && (!rr_frozen)) {
             retroreplay_io2_device.io_source_valid = 1;
             if (export_ram || ((rr_revision > 0) && export_ram_at_a000)) {
                 if (allow_bank) {
@@ -385,7 +398,7 @@ void retroreplay_io2_store(WORD addr, BYTE value)
     DBG(("io2 w %04x %02x\n", addr, value));
 
     if (rr_active) {
-        if (!reu_mapping) {
+        if ((!reu_mapping) && (!rr_frozen)) {
             if (export_ram) {
                 if (allow_bank) {
                     export_ram0[0x1f00 + (addr & 0xff) + ((roml_bank & 3) << 13)] = value;
@@ -401,6 +414,10 @@ void retroreplay_io2_store(WORD addr, BYTE value)
 
 BYTE retroreplay_roml_read(WORD addr)
 {
+    if (rr_frozen) {
+        /* FIXME: what should be returned? C64 RAM or open bus? */
+        return vicii_read_phi1();
+    }
     if (export_ram) {
         return export_ram0[(addr & 0x1fff) + ((roml_bank & 3) << 13)];
     }
@@ -541,7 +558,6 @@ static int retroreplay_dump(void)
     return 0;
 }
 
-
 /* ---------------------------------------------------------------------*/
 
 void retroreplay_freeze(void)
@@ -549,7 +565,8 @@ void retroreplay_freeze(void)
     /* freeze button is disabled in flash mode */
     if (!rr_hw_flashjumper) {
         rr_active = 1;
-        cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
+        rr_frozen = 1;
+        cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ);
         /* flash040core_reset(flashrom_state); */
     }
 }
@@ -567,6 +584,7 @@ void retroreplay_config_init(void)
     DBG(("retroreplay_config_init flash:%d bank jumper: %d offset: %08x\n", rr_hw_flashjumper, rr_hw_bankjumper, rom_offset));
 
     rr_active = 1;
+    rr_frozen = 0;
     rr_clockport_enabled = 0;
     write_once = 0;
     no_freeze = 0;
@@ -575,9 +593,9 @@ void retroreplay_config_init(void)
     export_ram_at_a000 = 0;
 
     if (rr_hw_flashjumper) {
-        cart_config_changed_slotmain(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
     } else {
-        cart_config_changed_slotmain(0, 0, CMODE_READ);
+        cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
     }
 
     flash040core_reset(flashrom_state);
@@ -587,11 +605,12 @@ void retroreplay_reset(void)
 {
     DBG(("retroreplay_reset flash:%d bank jumper: %d offset: %08x\n", rr_hw_flashjumper, rr_hw_bankjumper, rom_offset));
     rr_active = 1;
+    rr_frozen = 0;
 
     if (rr_hw_flashjumper) {
-        cart_config_changed_slotmain(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
     } else {
-        cart_config_changed_slotmain(0, 0, CMODE_READ);
+        cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
     }
 
     /* on the real hardware pressing reset would NOT reset the flash statemachine,
@@ -608,9 +627,9 @@ void retroreplay_config_setup(BYTE *rawcart)
     DBG(("retroreplay_config_setup bank jumper: %d offset: %08x\n", rr_hw_bankjumper, rom_offset));
 
     if (rr_hw_flashjumper) {
-        cart_config_changed_slotmain(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
     } else {
-        cart_config_changed_slotmain(0, 0, CMODE_READ);
+        cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
     }
 
     flashrom_state = lib_malloc(sizeof(flash040_context_t));
@@ -968,7 +987,7 @@ void retroreplay_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   1
+#define CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "CARTRR"
 #define FLASH_SNAP_MODULE_NAME  "FLASH040RR"
 
@@ -985,6 +1004,7 @@ int retroreplay_snapshot_write_module(snapshot_t *s)
     if (0
         || (SMW_B(m, (BYTE)rr_revision) < 0)
         || (SMW_B(m, (BYTE)rr_active) < 0)
+        || (SMW_B(m, (BYTE)rr_frozen) < 0)
         || (SMW_B(m, (BYTE)rr_clockport_enabled) < 0)
         || (SMW_B(m, (BYTE)rr_bank) < 0)
         || (SMW_B(m, (BYTE)write_once) < 0)
@@ -1030,6 +1050,7 @@ int retroreplay_snapshot_read_module(snapshot_t *s)
     if (0
         || (SMR_B_INT(m, &rr_revision) < 0)
         || (SMR_B_INT(m, &rr_active) < 0)
+        || (SMR_B_INT(m, &rr_frozen) < 0)
         || (SMR_B_INT(m, &rr_clockport_enabled) < 0)
         || (SMR_B_INT(m, &rr_bank) < 0)
         || (SMR_B_INT(m, &write_once) < 0)
