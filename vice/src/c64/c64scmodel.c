@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "c64-resources.h"
+#include "c64keyboard.h"
 #include "c64model.h"
 #include "cia.h"
 #include "machine.h"
@@ -350,4 +351,5 @@ void c64model_set(int model)
         sid_set_engine_model(old_engine, new_sid_model);
     }
     userport_enable(c64models[model].userport);
+    c64keyboard_enable(c64models[model].keyboard);
 }
