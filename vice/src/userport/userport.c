@@ -44,6 +44,8 @@ static unsigned int order = 0;
 static userport_device_list_t userport_head = { NULL, NULL, NULL };
 static userport_port_props_t userport_props;
 
+static int userport_active = 1;
+
 /* ---------------------------------------------------------------------------------------------------------- */
 
 static int valid_device(userport_device_t *device)
@@ -239,6 +241,10 @@ BYTE read_userport_pbx(BYTE mask, BYTE orig)
     int valid = 0;
     userport_device_list_t *current = userport_head.next;
 
+    if (!userport_active) {
+        return orig;
+    }
+
     if (!mask) {
         return 0xff;
     }
@@ -275,11 +281,13 @@ void store_userport_pbx(BYTE val)
 {
     userport_device_list_t *current = userport_head.next;
 
-    while (current) {
-        if (current->device->store_pbx != NULL) {
-            current->device->store_pbx(val);
+    if (userport_active) {
+        while (current) {
+            if (current->device->store_pbx != NULL) {
+                current->device->store_pbx(val);
+            }
+            current = current->next;
         }
-        current = current->next;
     }
 }
 
@@ -291,6 +299,10 @@ BYTE read_userport_pa2(BYTE orig)
     BYTE retval = 0xff;
     int valid = 0;
     userport_device_list_t *current = userport_head.next;
+
+    if (!userport_active) {
+        return orig;
+    }
 
     /* set retval */
     while (current) {
@@ -323,11 +335,13 @@ void store_userport_pa2(BYTE val)
 {
     userport_device_list_t *current = userport_head.next;
 
-    while (current) {
-        if (current->device->store_pa2 != NULL) {
-            current->device->store_pa2(val);
+    if (userport_active) {
+        while (current) {
+            if (current->device->store_pa2 != NULL) {
+                current->device->store_pa2(val);
+            }
+            current = current->next;
         }
-        current = current->next;
     }
 }
 
@@ -339,6 +353,10 @@ BYTE read_userport_pa3(BYTE orig)
     BYTE retval = 0xff;
     int valid = 0;
     userport_device_list_t *current = userport_head.next;
+
+    if (!userport_active) {
+        return orig;
+    }
 
     /* set retval */
     while (current) {
@@ -371,18 +389,22 @@ void store_userport_pa3(BYTE val)
 {
     userport_device_list_t *current = userport_head.next;
 
-    while (current) {
-        if (current->device->store_pa3 != NULL) {
-            current->device->store_pa3(val);
+    if (userport_active) {
+        while (current) {
+            if (current->device->store_pa3 != NULL) {
+                current->device->store_pa3(val);
+            }
+            current = current->next;
         }
-        current = current->next;
     }
 }
 
 void set_userport_flag(BYTE val)
 {
-    if (userport_props.set_flag) {
-        userport_props.set_flag(val);
+    if (userport_active) {
+        if (userport_props.set_flag) {
+            userport_props.set_flag(val);
+        }
     }
 }
 
@@ -390,11 +412,13 @@ void store_userport_sp1(void)
 {
     userport_device_list_t *current = userport_head.next;
 
-    while (current) {
-        if (current->device->store_sp1 != NULL) {
-            current->device->store_sp1();
+    if (userport_active) {
+        while (current) {
+            if (current->device->store_sp1 != NULL) {
+                current->device->store_sp1();
+            }
+            current = current->next;
         }
-        current = current->next;
     }
 }
 
@@ -406,6 +430,10 @@ BYTE read_userport_sp2(BYTE orig)
     BYTE retval = 0xff;
     int valid = 0;
     userport_device_list_t *current = userport_head.next;
+
+    if (!userport_active) {
+        return orig;
+    }
 
     /* set retval */
     while (current) {
@@ -489,4 +517,9 @@ static const cmdline_option_t cmdline_options[] = {
 int userport_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
+}
+
+void userport_enable(int val)
+{
+    userport_active = val ? 1 : 0;
 }

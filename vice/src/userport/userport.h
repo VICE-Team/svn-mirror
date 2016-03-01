@@ -118,4 +118,6 @@ extern int userport_resources_init(void);
 extern void userport_resources_shutdown(void);
 extern int userport_cmdline_options_init(void);
 
+extern void userport_enable(int val);
+
 #endif

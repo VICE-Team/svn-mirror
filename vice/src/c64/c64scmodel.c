@@ -36,6 +36,7 @@
 #include "resources.h"
 #include "sid.h"
 #include "types.h"
+#include "userport.h"
 #include "vicii.h"
 
 /******************************************************************************/
@@ -348,4 +349,5 @@ void c64model_set(int model)
     if (old_type != new_type) {
         sid_set_engine_model(old_engine, new_sid_model);
     }
+    userport_enable(c64models[model].userport);
 }
