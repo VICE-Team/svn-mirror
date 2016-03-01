@@ -161,7 +161,9 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
             vbank = new_vbank;
             c64_glue_set_vbank(new_vbank, pa_ddr_change);
         }
-        (*iecbus_callback_write)((BYTE)tmp, maincpu_clk + !(cia_context->write_offset));
+        if (c64iec_active) {
+            (*iecbus_callback_write)((BYTE)tmp, maincpu_clk + !(cia_context->write_offset));
+        }
     }
 }
 
@@ -178,7 +180,9 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     vbank = (byte ^ 3) & 3;
     c64_glue_undump(vbank);
 
-    iecbus_cpu_undump((BYTE)(byte ^ 0xff));
+    if (c64iec_active) {
+        iecbus_cpu_undump((BYTE)(byte ^ 0xff));
+    }
 }
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
@@ -216,7 +220,11 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     BYTE value;
     BYTE userval;
 
-    value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
+    value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f);
+
+    if (c64iec_active) {
+        value |= (*iecbus_callback_read)(maincpu_clk);
+    }
 
     if (!(cia_context->c_cia[CIA_DDRA] & 4)) {
         userval = read_userport_pa2(value);
@@ -273,8 +281,10 @@ static void read_sdr(cia_context_t *cia_context)
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
-    if (burst_mod == BURST_MOD_CIA2) {
-        c64fastiec_fast_cpu_write((BYTE)byte);
+    if (c64iec_active) {
+        if (burst_mod == BURST_MOD_CIA2) {
+            c64fastiec_fast_cpu_write((BYTE)byte);
+        }
     }
 }
 

@@ -116,6 +116,8 @@ static void iec_debug_ports(void)
 
 #endif
 
+int c64iec_active = 1;
+
 void iec_update_cpu_bus(BYTE data)
 {
     iecbus.cpu_bus = (((data << 2) & 0x80) | ((data << 2) & 0x40) | ((data << 1) & 0x10));
@@ -166,4 +168,9 @@ int iec_available_busses(void)
 void c64iec_init(void)
 {
     iecbus_update_ports = iec_update_ports;
+}
+
+void c64iec_enable(int val)
+{
+    c64iec_active = val ? 1 : 0;
 }

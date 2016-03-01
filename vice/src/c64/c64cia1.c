@@ -34,6 +34,7 @@
 #include "c64-resources.h"
 #include "c64.h"
 #include "c64cia.h"
+#include "c64iec.h"
 #include "c64keyboard.h"
 #include "cia.h"
 #include "interrupt.h"
@@ -456,8 +457,10 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
         store_userport_sp1();
     }
 
-    if (burst_mod == BURST_MOD_CIA1) {
-        c64fastiec_fast_cpu_write((BYTE)byte);
+    if (c64iec_active) {
+        if (burst_mod == BURST_MOD_CIA1) {
+            c64fastiec_fast_cpu_write((BYTE)byte);
+        }
     }
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
