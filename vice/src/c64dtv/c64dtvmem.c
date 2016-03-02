@@ -82,6 +82,14 @@
 #include "vicii.h"
 #include "viciitypes.h"
 
+/* #define DBGMEM */
+
+#ifdef DBGMEM
+#define DBG(...) log_message(c64dtvmem_log, __VA_ARGS__);
+#else
+#define DBG(...)
+#endif
+
 /* C64 memory-related resources.  */
 
 /* ------------------------------------------------------------------------- */
@@ -803,7 +811,7 @@ void c64dtv_init(void)
     c64dtvblitter_init();
     c64dtvdma_init();
     c64dtvflash_init();
-    log_message(c64dtvmem_log, "installing floppy traps"); /* DEBUG */
+    DBG("installing floppy traps");
     /* TODO disable copying by command line parameter */
     /* Make sure serial code traps are in place.  */
     resources_get_int("VirtualDevices", &trapfl);
@@ -811,7 +819,7 @@ void c64dtv_init(void)
     resources_set_int("VirtualDevices", trapfl);
     /* TODO chargen ROM support */
 
-    log_message(c64dtvmem_log, "END init"); /* DEBUG */
+    DBG("END init");
 }
 
 /* init C64DTV memory table changes */
@@ -820,7 +828,7 @@ void c64dtvmem_init_config(void)
     int i, j, k;
 
     /* install DMA engine handlers */
-    log_message(c64dtvmem_log, "install mem_read/mem_write handlers"); /* DEBUG */
+    DBG("install mem_read/mem_write handlers");
     for (i = 0; i < NUM_CONFIGS; i++)
     {
         for (j = 1; j <= 0xff; j++)
@@ -848,7 +856,7 @@ void c64dtvmem_init_config(void)
             }
         }
     }
-    log_message(c64dtvmem_log, "END init_config"); /* DEBUG */
+    DBG("END init_config");
 }
 
 
@@ -867,13 +875,13 @@ void c64dtvmem_shutdown(void)
     c64dtvflash_shutdown();
     resources_set_int("VirtualDevices", trapfl);
 
-    log_message(c64dtvmem_log, "END shutdown"); /* DEBUG */
+    DBG("END shutdown");
 }
 
 void c64dtvmem_reset(void)
 {
     int trapfl;
-    log_message(c64dtvmem_log, "reset"); /* DEBUG */
+    DBG("reset");
 
     /* Disable serial traps when resetting mem mapper */
     resources_get_int("VirtualDevices", &trapfl);
@@ -925,7 +933,7 @@ void c64dtv_mapper_store(WORD addr, BYTE value)
     /* handle aliasing */
     addr &= 0x0f;
 
-/* log_message(c64dtvmem_log, "Wrote %d to %x", value, addr);  */ /* DEBUG */
+    /* DBG("Wrote %d to %x", value, addr); */
 
     switch (addr) {
         case 0x00:
