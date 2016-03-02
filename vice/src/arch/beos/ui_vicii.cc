@@ -31,6 +31,7 @@
 #include <Window.h>
 
 extern "C" { 
+#include "machine.h"
 #include "resources.h"
 #include "ui.h"
 #include "ui_vicii.h"
@@ -96,6 +97,14 @@ ViciiWindow::ViciiWindow()
     checkbox->SetValue(res_val);
     background->AddChild(checkbox);
 
+    if (machine_class == VICE_MACHINE_C64SC) {
+        /* VSP bug */
+        checkbox = new BCheckBox(BRect(20, 100, 140, 95), NULL, "VSP bug", new BMessage(MESSAGE_VICII_VSPBUG));
+        resources_get_int("VICIIVSPBug", &res_val);
+        checkbox->SetValue(res_val);
+        background->AddChild(checkbox);
+    }
+
     /* border mode */
     r = Bounds();
     r.left = r.Width() / 2;
@@ -137,6 +146,9 @@ void ViciiWindow::MessageReceived(BMessage *msg)
             break;
         case MESSAGE_VICII_NEWLUMINANCE:
             resources_toggle("VICIINewLuminances", (int *)&res_value);
+            break;
+        case MESSAGE_VICII_VSPBUG:
+            resources_toggle("VICIIVSPBug", (int *)&res_value);
             break;
         case MESSAGE_VICII_BORDERS:
             msg->FindInt32("border", &res_value);

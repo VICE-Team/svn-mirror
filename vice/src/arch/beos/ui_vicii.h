@@ -31,6 +31,7 @@ const uint32 MESSAGE_VICII_NEWLUMINANCE = 'MVI1';
 const uint32 MESSAGE_VICII_SSCOLL       = 'MVI2';
 const uint32 MESSAGE_VICII_SBCOLL       = 'MVI3';
 const uint32 MESSAGE_VICII_BORDERS      = 'MVI4';
+const uint32 MESSAGE_VICII_VSPBUG       = 'MVI5';
 
 extern void ui_vicii(void);
 
