@@ -80,7 +80,7 @@ ui_menu_toggle  pet_ui_menu_toggles[] = {
     { "PETHRE", MENU_TOGGLE_PETHRE },
     { "UserportDAC", MENU_TOGGLE_PET_USERPORT_DAC },
     { "Mouse", MENU_TOGGLE_MOUSE },
-    { "UserportRTC58321a", MENU_TOGGLE_USERPORT_58321A_RTC },
+    { "UserportRTC58321a", MENU_TOGGLE_USERPORT_RTC_58321A },
     { "UserportRTC58321aSave", MENU_TOGGLE_USERPORT_RTC_58321A_SAVE },
     { NULL, 0 }
 };
