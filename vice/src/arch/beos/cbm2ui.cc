@@ -68,7 +68,7 @@ ui_menu_toggle cbm2_ui_menu_toggles[] = {
     { "CartridgeReset", MENU_CART_CBM2_RESET_ON_CHANGE },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "UserportRTC58321a", MENU_TOGGLE_USERPORT_RTC_58321A },
-    { "UserportRTC58321aSave", MENU_TOGGLE_USERPORT_RTC_SAVE_58321A },
+    { "UserportRTC58321aSave", MENU_TOGGLE_USERPORT_RTC_58321A_SAVE },
     { NULL, 0 }
 };
 
