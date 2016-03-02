@@ -28,6 +28,7 @@
 #include <CheckBox.h>
 #include <RadioButton.h>
 #include <string.h>
+#include <TextControl.h>
 #include <Window.h>
 
 extern "C" { 
