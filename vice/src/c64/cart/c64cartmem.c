@@ -1276,12 +1276,14 @@ BYTE ultimax_a000_bfff_read_slot1(WORD addr)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_a000_bfff_read(addr);
         case CARTRIDGE_IDE64:
             return ide64_rom_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_a000_bfff_read(addr);
-        case CARTRIDGE_FINAL_PLUS:
-            return final_plus_a000_bfff_read(addr);
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_a000_bfff_read(addr);
         case CARTRIDGE_FORMEL64:
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_CAPTURE:
@@ -1342,6 +1344,9 @@ void ultimax_a000_bfff_store(WORD addr, BYTE value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_a000_bfff_store(addr, value);
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_a000_bfff_store(addr, value);
             break;
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_MAGIC_FORMEL:
