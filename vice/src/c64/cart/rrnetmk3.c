@@ -70,8 +70,8 @@
       - a write to $de88 disables the ROM
 */
 
-#define RRNETMK3DEBUG
-
+/* #define RRNETMK3DEBUG */
+ 
 #ifdef RRNETMK3DEBUG
 #define LOG(_x_) log_debug _x_
 #else
