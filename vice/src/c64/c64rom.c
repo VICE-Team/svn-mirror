@@ -142,7 +142,9 @@ int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
         c64rom_cartkernal_active = 1;
     }
 
-    resources_get_int("KernalRev", &rev);
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        resources_get_int("KernalRev", &rev);
+    }
     if (c64rom_get_kernal_chksum_id(&sum, &id) < 0) {
         log_verbose("loaded unknown kernal revision:%d chksum: %d", id, sum);
         rev =  C64_KERNAL_UNKNOWN;
@@ -150,7 +152,9 @@ int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
         log_verbose("loaded known kernal revision:%d chksum: %d", id, sum);
         rev = id;
     }
-    resources_set_int("KernalRev", rev);
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        resources_set_int("KernalRev", rev);
+    }
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
 
     if (machine_class != VICE_MACHINE_VSID) {
