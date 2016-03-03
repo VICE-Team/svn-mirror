@@ -519,7 +519,7 @@ static ui_menu_entry_t petui_settings_menu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_drivepetcbm2_settings_menu },
     { N_("Printer settings"), UI_MENU_TYPE_NORMAL, 
-      NULL, NULL, printerieee_cmb2_settings_menu },
+      NULL, NULL, printerieee_cbm2_settings_menu },
     { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
       (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR,
