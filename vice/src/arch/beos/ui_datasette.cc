@@ -63,7 +63,7 @@ class DatasetteWindow : public BWindow {
 static DatasetteWindow *datasettewindow = NULL;
 
 DatasetteWindow::DatasetteWindow() 
-    : BWindow(BRect(50, 50, 350, 250), "Datasette settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 350, 270), "Datasette settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BView *background;
     BRect r;
@@ -119,7 +119,7 @@ DatasetteWindow::DatasetteWindow()
     r = Bounds();
     r.left = r.right - r.Width() / 2;
     r.InsetBy(10, 5);
-    r.top += 25;
+    r.top += 45;
     box = new BBox(r, "Delay for Zero");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Delay for Zero");
