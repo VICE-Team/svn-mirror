@@ -29,6 +29,7 @@
 
 #include "uimenu.h"
 
-extern struct ui_menu_entry_s printerieee_settings_menu[];
+extern struct ui_menu_entry_s printerieee_cbm2_settings_menu[];
+extern struct ui_menu_entry_s printerieee_cbm5x0_settings_menu[];
 
 #endif
