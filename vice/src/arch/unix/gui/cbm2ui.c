@@ -84,9 +84,16 @@ static ui_menu_entry_t set_viciimodel_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
-static ui_menu_entry_t io_extensions_submenu[] = {
+static ui_menu_entry_t io_extensions_cbm2_submenu[] = {
     { "Userport devices", UI_MENU_TYPE_NORMAL,
       NULL, NULL, userport_c64_cbm2_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t io_extensions_cbm5x0_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
@@ -412,7 +419,7 @@ static ui_menu_entry_t cbm6x0_menu[] = {
     { N_("SID settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_submenu },
     { N_("I/O extensions"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, io_extensions_submenu },
+      NULL, NULL, io_extensions_cbm2_submenu },
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232petplus4cbm2_submenu },
@@ -432,7 +439,7 @@ static ui_menu_entry_t cbm5x0_menu[] = {
     { N_("SID settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_submenu },
     { N_("I/O extensions"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, io_extensions_submenu },
+      NULL, NULL, io_extensions_cbm5x0_submenu },
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232petplus4cbm2_submenu },
