@@ -42,6 +42,7 @@
 #include "pet.h"
 #include "petsound.h"
 #include "petvia.h"
+#include "tapeport.h"
 #include "types.h"
 #include "userport.h"
 #include "via.h"
@@ -112,7 +113,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
     parallel_cpu_set_nrfd((BYTE)(!(byte & 0x02)));
     parallel_cpu_set_atn((BYTE)(!(byte & 0x04)));
     if ((byte ^ myoldpb) & 0x8) {
-        datasette_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte) & 0x8);
+        tapeport_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte) & 0x8);
     }
 }
 

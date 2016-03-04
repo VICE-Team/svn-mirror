@@ -29,6 +29,7 @@
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
+#include "tapeport.h"
 
 /*******************************************************************************
     tape
@@ -139,5 +140,22 @@ BYTE colorram_read(WORD addr)
 }
 
 void colorram_store(WORD addr, BYTE value)
+{
+}
+
+tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
+{
+    return NULL;
+}
+
+void tapeport_device_unregister(tapeport_device_list_t *device)
+{
+}
+
+void tapeport_trigger_flux_change(unsigned int on, int id)
+{
+}
+
+void tapeport_set_tape_sense(int sense, int id)
 {
 }

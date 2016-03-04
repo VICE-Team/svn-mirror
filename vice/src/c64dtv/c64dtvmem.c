@@ -85,9 +85,9 @@
 /* #define DBGMEM */
 
 #ifdef DBGMEM
-#define DBG(...) log_message(c64dtvmem_log, __VA_ARGS__);
+#define DBG(x) log_message(c64dtvmem_log, x);
 #else
-#define DBG(...)
+#define DBG(x)
 #endif
 
 /* C64 memory-related resources.  */

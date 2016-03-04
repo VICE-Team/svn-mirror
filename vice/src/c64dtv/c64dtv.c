@@ -89,6 +89,7 @@
 #include "sid.h"
 #include "sound.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "translate.h"
 #include "traps.h"
 #include "types.h"
@@ -939,18 +940,26 @@ BYTE machine_tape_behaviour(void)
     return TAPE_BEHAVIOUR_NORMAL;
 }
 
-/* to avoid linkage problems */
-void datasette_trigger_flux_change(unsigned int on)
-{
-}
-
-void datasette_set_tape_sense(int sense)
-{
-}
-
 int machine_autodetect_psid(const char *name)
 {
     return -1;
+}
+
+tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
+{
+    return NULL;
+}
+
+void tapeport_device_unregister(tapeport_device_list_t *device)
+{
+}
+
+void tapeport_trigger_flux_change(unsigned int on, int id)
+{
+}
+
+void tapeport_set_tape_sense(int sense, int id)
+{
 }
 
 int machine_addr_in_ram(unsigned int addr)

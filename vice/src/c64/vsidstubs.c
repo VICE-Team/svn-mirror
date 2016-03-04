@@ -49,6 +49,7 @@
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "vicii-phi1.h"
 #include "ds1202_1302.h"
 
@@ -793,12 +794,20 @@ int vdrive_read_sector(const vdrive_t *vdrive, BYTE *buf, unsigned int track, un
     c64 stuff
 *******************************************************************************/
 
-void datasette_trigger_flux_change(unsigned int on)
+tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
 {
-    ciacore_set_flag(machine_context.cia1);
+    return NULL;
 }
 
-void datasette_set_tape_sense(int sense)
+void tapeport_device_unregister(tapeport_device_list_t *device)
+{
+}
+
+void tapeport_trigger_flux_change(unsigned int on, int id)
+{
+}
+
+void tapeport_set_tape_sense(int sense, int id)
 {
 }
 

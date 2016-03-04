@@ -182,22 +182,6 @@ void ds1307_destroy(rtc_ds1307_t *context, int save)
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-static void ds1307_stop_clock(rtc_ds1307_t *context)
-{
-    if (!context->clock_halt) {
-        context->clock_halt = 1;
-        context->latch = rtc_get_latch(context->offset);
-    }
-}
-
-static void ds1307_start_clock(rtc_ds1307_t *context)
-{
-    if (context->clock_halt) {
-        context->clock_halt = 0;
-        context->offset = context->offset - (rtc_get_latch(0) - (context->latch - context->offset));
-    }
-}
-
 static void ds1307_i2c_start(rtc_ds1307_t *context)
 {
     BYTE tmp;

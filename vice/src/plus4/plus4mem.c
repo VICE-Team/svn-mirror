@@ -48,6 +48,7 @@
 #include "plus4tcbm.h"
 #include "ram.h"
 #include "resources.h"
+#include "tapeport.h"
 #include "ted.h"
 #include "ted-mem.h"
 #include "types.h"
@@ -178,14 +179,14 @@ inline static void mem_proc_port_store(void)
 
     if (((~pport.dir | pport.data) & 0x02) != old_port_write_bit) {
         old_port_write_bit = (~pport.dir | pport.data) & 0x02;
-        datasette_toggle_write_bit((~pport.dir | ~pport.data) & 0x02);
+        tapeport_toggle_write_bit((~pport.dir | ~pport.data) & 0x02);
     }
 
     (*iecbus_callback_write)((BYTE)~pport.data_out, last_write_cycle);
 
     if (((pport.dir & pport.data) & 0x08) != old_port_data_out) {
         old_port_data_out = (pport.dir & pport.data) & 0x08;
-        datasette_set_motor(!old_port_data_out);
+        tapeport_set_motor(!old_port_data_out);
     }
 }
 

@@ -12,7 +12,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/userport \
-	-I$(top_srcdir)/src/raster
+	-I$(top_srcdir)/src/raster \
+	-I$(top_srcdir)/src/tapeport
 
 noinst_LIBRARIES = libplus4.a
 

@@ -75,6 +75,7 @@ EXTRA_DIST = \
 	swscale.tmpl \
 	swscale-x86.tmpl \
 	tape.tmpl \
+	tapeport.tmpl \
 	tcbm.tmpl \
 	userport.tmpl \
 	vdc.tmpl \

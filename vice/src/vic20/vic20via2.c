@@ -37,6 +37,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "maincpu.h"
+#include "tapeport.h"
 #include "types.h"
 #include "userport.h"
 #include "via.h"
@@ -167,7 +168,7 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
             tmp |= 0x20;
         }
 
-        datasette_set_motor(!(byte & 0x02));
+        tapeport_set_motor(!(byte & 0x02));
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         /* switching userport strobe with CB2 */

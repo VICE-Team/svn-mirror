@@ -55,14 +55,14 @@ struct tap_s;
 extern void datasette_init(void);
 extern void datasette_set_tape_image(struct tap_s *image);
 extern void datasette_control(int command);
-extern void datasette_set_motor(int flag);
-extern void datasette_toggle_write_bit(int write_bit);
 extern void datasette_reset(void);
 extern void datasette_reset_counter(void);
 extern void datasette_event_playback(CLOCK offset, void *data);
 
 /* Emulator specific functions.  */
-extern void datasette_trigger_flux_change(unsigned int on);
+extern void machine_trigger_flux_change(unsigned int on);
+extern void machine_set_tape_sense(int sense);
+
 extern void datasette_set_tape_sense(int sense);
 
 /* For registering the resources.  */

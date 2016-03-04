@@ -46,6 +46,7 @@
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "translate.h"
 #include "types.h"
 #include "uiapi.h"
@@ -117,11 +118,37 @@ static CLOCK fullwave_gap;
 /* random wobble to be added to tape pulses */
 static int datasette_tape_wobble = 0;
 
+/* datasette device enable */
+static int datasette_enable = 0;
+
 static log_t datasette_log = LOG_ERR;
 
 static void datasette_internal_reset(void);
 static void datasette_event_record(int command);
 static void datasette_control_internal(int command);
+
+static void datasette_set_motor(int flag);
+static void datasette_toggle_write_bit(int write_bit);
+
+static tapeport_device_t datasette_device = {
+    "Datasette",
+    IDGS_DATASETTE,
+    0,
+    NULL, /* no device specific reset */
+    datasette_set_motor,
+    datasette_toggle_write_bit,
+    NULL, /* no passthrough */
+    NULL  /* no passthrough */
+};
+
+static tapeport_device_list_t *datasette_list_item = NULL;
+
+void datasette_set_tape_sense(int sense)
+{
+    if (datasette_list_item) {
+        tapeport_set_tape_sense(sense, datasette_device.id);
+    }
+}
 
 /*******************************************************************************
     Resources
@@ -166,7 +193,33 @@ static int set_datasette_tape_wobble(int val, void *param)
     return 0;
 }
 
+static int set_datasette_enable(int value, void *param)
+{
+    int val = value ? 1 : 0;
+
+    if (datasette_enable == val) {
+        return 0;
+    }
+
+    if (val) {
+        datasette_list_item = tapeport_device_register(&datasette_device);
+        if (datasette_list_item == NULL) {
+            return -1;
+        }
+    } else {
+        tapeport_device_unregister(datasette_list_item);
+        datasette_list_item = NULL;
+    }
+
+    datasette_enable = val;
+
+    return 0;
+}
+
 static const resource_int_t resources_int[] = {
+    { "Datasette", 1, RES_EVENT_SAME, NULL,
+      &datasette_enable,
+      set_datasette_enable, NULL },
     { "DatasetteResetWithCPU", 1, RES_EVENT_SAME, NULL,
       &reset_datasette_with_maincpu,
       set_reset_datasette_with_maincpu, NULL },
@@ -192,6 +245,7 @@ int datasette_resources_init(void)
  ******************************************************************************/
 
 static const cmdline_option_t cmdline_options[] = {
+/* TODO datasette enable/disable cmdline */
     { "-dsresetwithcpu", SET_RESOURCE, 0,
       NULL, NULL, "DatasetteResetWithCPU", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -546,7 +600,9 @@ static void datasette_read_bit(CLOCK offset, void *data)
             direction = 1;
             speed_of_tape = DS_V_PLAY;
             if (!datasette_long_gap_pending) {
-                datasette_trigger_flux_change(fullwave);
+                if (datasette_list_item) {
+                    tapeport_trigger_flux_change(fullwave, datasette_device.id);
+                }
             }
             break;
         case DATASETTE_CONTROL_FORWARD:
@@ -672,7 +728,9 @@ void datasette_set_tape_image(tap_t *image)
         } while (gap);
         current_image->current_file_seek_position = 0;
     }
-    datasette_set_tape_sense(0);
+    if (datasette_list_item) {
+        tapeport_set_tape_sense(0, datasette_device.id);
+    }
 
     last_tap = next_tap = 0;
     fullwave = 0;
@@ -787,12 +845,16 @@ static void datasette_control_internal(int command)
                 datasette_internal_reset();
             case DATASETTE_CONTROL_STOP:
                 current_image->mode = DATASETTE_CONTROL_STOP;
-                datasette_set_tape_sense(0);
+                if (datasette_list_item) {
+                    tapeport_set_tape_sense(0, datasette_device.id);
+                }
                 last_write_clk = (CLOCK)0;
                 break;
             case DATASETTE_CONTROL_START:
                 current_image->mode = DATASETTE_CONTROL_START;
-                datasette_set_tape_sense(1);
+                if (datasette_list_item) {
+                    tapeport_set_tape_sense(1, datasette_device.id);
+                }
                 last_write_clk = (CLOCK)0;
                 if (datasette_motor) {
                     datasette_start_motor();
@@ -801,7 +863,9 @@ static void datasette_control_internal(int command)
             case DATASETTE_CONTROL_FORWARD:
                 current_image->mode = DATASETTE_CONTROL_FORWARD;
                 datasette_forward();
-                datasette_set_tape_sense(1);
+                if (datasette_list_item) {
+                    tapeport_set_tape_sense(1, datasette_device.id);
+                }
                 last_write_clk = (CLOCK)0;
                 if (datasette_motor) {
                     datasette_start_motor();
@@ -810,7 +874,9 @@ static void datasette_control_internal(int command)
             case DATASETTE_CONTROL_REWIND:
                 current_image->mode = DATASETTE_CONTROL_REWIND;
                 datasette_rewind();
-                datasette_set_tape_sense(1);
+                if (datasette_list_item) {
+                    tapeport_set_tape_sense(1, datasette_device.id);
+                }
                 last_write_clk = (CLOCK)0;
                 if (datasette_motor) {
                     datasette_start_motor();
@@ -819,7 +885,9 @@ static void datasette_control_internal(int command)
             case DATASETTE_CONTROL_RECORD:
                 if (current_image->read_only == 0) {
                     current_image->mode = DATASETTE_CONTROL_RECORD;
-                    datasette_set_tape_sense(1);
+                    if (datasette_list_item) {
+                        tapeport_set_tape_sense(1, datasette_device.id);
+                    }
                     last_write_clk = (CLOCK)0;
                 }
                 break;
@@ -834,12 +902,16 @@ static void datasette_control_internal(int command)
                 datasette_internal_reset();
             case DATASETTE_CONTROL_STOP:
                 notape_mode = DATASETTE_CONTROL_STOP;
-                datasette_set_tape_sense(0);
+                if (datasette_list_item) {
+                    tapeport_set_tape_sense(0, datasette_device.id);
+                }
                 last_write_clk = (CLOCK)0;
                 break;
             case DATASETTE_CONTROL_START:
                 notape_mode = DATASETTE_CONTROL_START;
-                datasette_set_tape_sense(1);
+                if (datasette_list_item) {
+                    tapeport_set_tape_sense(1, datasette_device.id);
+                }
                 last_write_clk = (CLOCK)0;
                 if (datasette_motor) {
                     datasette_start_motor();
@@ -848,7 +920,9 @@ static void datasette_control_internal(int command)
             case DATASETTE_CONTROL_FORWARD:
                 notape_mode = DATASETTE_CONTROL_FORWARD;
                 datasette_forward();
-                datasette_set_tape_sense(1);
+                if (datasette_list_item) {
+                    tapeport_set_tape_sense(1, datasette_device.id);
+                }
                 last_write_clk = (CLOCK)0;
                 if (datasette_motor) {
                     datasette_start_motor();
@@ -857,7 +931,9 @@ static void datasette_control_internal(int command)
             case DATASETTE_CONTROL_REWIND:
                 notape_mode = DATASETTE_CONTROL_REWIND;
                 datasette_rewind();
-                datasette_set_tape_sense(1);
+                if (datasette_list_item) {
+                    tapeport_set_tape_sense(1, datasette_device.id);
+                }
                 last_write_clk = (CLOCK)0;
                 if (datasette_motor) {
                     datasette_start_motor();
@@ -885,7 +961,7 @@ void datasette_control(int command)
     }
 }
 
-void datasette_set_motor(int flag)
+static void datasette_set_motor(int flag)
 {
     DBG(("datasette_set_motor(%d) (image present:%s)", flag, current_image ? "yes" : "no"));
 
@@ -978,7 +1054,7 @@ inline static void bit_write(void)
     datasette_update_ui_counter();
 }
 
-void datasette_toggle_write_bit(int write_bit)
+static void datasette_toggle_write_bit(int write_bit)
 {
     if (current_image != NULL && write_bit
         && current_image->mode == DATASETTE_CONTROL_RECORD) {
@@ -1114,9 +1190,13 @@ int datasette_read_snapshot(snapshot_t *s)
         ui_display_tape_control_status(current_image->mode);
 
         if (current_image->mode > 0) {
-            datasette_set_tape_sense(1);
+            if (datasette_list_item) {
+                tapeport_set_tape_sense(1, datasette_device.id);
+            }
         } else {
-            datasette_set_tape_sense(0);
+            if (datasette_list_item) {
+                tapeport_set_tape_sense(0, datasette_device.id);
+            }
         }
     }
 

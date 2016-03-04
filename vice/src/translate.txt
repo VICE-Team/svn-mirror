@@ -682,6 +682,9 @@ IDGS_USERPORT_8BSS
 /* printerdrv/interface_userport.c */
 IDGS_USERPORT_PRINTER
 
+/* datasette.c */
+IDGS_DATASETTE
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */

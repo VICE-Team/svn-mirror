@@ -1,8 +1,8 @@
 /*
- * c64pla.c -- C64 PLA handling.
+ * vsidpla.c -- VSID PLA handling.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,9 +27,7 @@
 #include "vice.h"
 
 #include "c64pla.h"
-#include "datasette.h"
 #include "mem.h"
-#include "tapeport.h"
 
 /* Processor port.  */
 pport_t pport;
@@ -60,12 +58,10 @@ void c64pla_config_changed(int tape_sense, int caps_sense, BYTE pullup)
 
     if (((pport.dir & pport.data) & 0x20) != old_port_data_out) {
         old_port_data_out = (pport.dir & pport.data) & 0x20;
-        tapeport_set_motor(!old_port_data_out);
     }
 
     if (((~pport.dir | pport.data) & 0x8) != old_port_write_bit) {
         old_port_write_bit = (~pport.dir | pport.data) & 0x8;
-        tapeport_toggle_write_bit((~pport.dir | pport.data) & 0x8);
     }
 
     pport.dir_read = pport.dir;

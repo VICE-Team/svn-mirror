@@ -15,7 +15,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/vdc \
 	-I$(top_srcdir)/src/rtc \
 	-I$(top_srcdir)/src/joyport \
-	-I$(top_srcdir)/src/samplerdrv
+	-I$(top_srcdir)/src/samplerdrv \
+	-I$(top_srcdir)/src/tapeport
 
 if SUPPORT_XSCPU64
 noinst_LIBRARIES = libscpu64.a

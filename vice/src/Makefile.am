@@ -36,6 +36,7 @@ SUBDIRS = \
 	core \
 	rtc \
 	userport \
+	tapeport \
 	c64 \
 	scpu64 \
 	c64dtv \
@@ -77,6 +78,7 @@ DIST_SUBDIRS = \
 	core \
 	rtc \
 	userport \
+	tapeport \
 	c64 \
 	scpu64 \
 	c64dtv \
@@ -107,7 +109,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src/joyport \
-	-I$(top_srcdir)/src/rtc
+	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/tapeport
 
 noinst_HEADERS = \
 	6510core.h \
@@ -1202,6 +1205,7 @@ serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
+tapeport_lib = $(top_builddir)/src/tapeport/libtapeport.a
 userport_lib = $(top_builddir)/src/userport/libuserport.a
 vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
@@ -1340,6 +1344,7 @@ vsid-all: \
 # x64
 x64_libs =  \
 	@X64_WINRES@ \
+	$(tapeport_lib) \
 	$(c64_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
@@ -1411,12 +1416,14 @@ x64-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libtapeport \
 	libplatform \
 	x64$(EXEEXT)
 
 # x64sc
 x64sc_libs =  \
 	@X64_WINRES@ \
+	$(tapeport_lib) \
 	$(c64sc_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
@@ -1488,6 +1495,7 @@ x64sc-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libtapeport \
 	libplatform \
 	x64sc$(EXEEXT)
 
@@ -1649,6 +1657,7 @@ xscpu64-all: \
 # x128
 x128_libs =  \
 	@X128_WINRES@ \
+	$(tapeport_lib) \
 	$(c128_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
@@ -1724,6 +1733,7 @@ x128-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libtapeport \
 	libplatform \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1732,6 +1742,7 @@ x128-all: \
 # xvic
 xvic_libs =  \
 	@XVIC_WINRES@ \
+	$(tapeport_lib) \
 	$(vic20_lib) \
 	$(vic20cart_lib) \
 	$(c64commoncart_lib) \
@@ -1797,6 +1808,7 @@ xvic-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libtapeport \
 	libplatform \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1805,6 +1817,7 @@ xvic-all: \
 # xpet
 xpet_libs =  \
 	@XPET_WINRES@ \
+	$(tapeport_lib) \
 	$(pet_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
@@ -1861,6 +1874,7 @@ xpet-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libtapeport \
 	libjoyport \
 	libplatform \
 	@RESID_DEP@ \
@@ -1870,6 +1884,7 @@ xpet-all: \
 # xplus4
 xplus4_libs =  \
 	@XPLUS4_WINRES@ \
+	$(tapeport_lib) \
 	$(plus4_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
@@ -1930,6 +1945,7 @@ xplus4-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libtapeport \
 	libplatform \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1938,6 +1954,7 @@ xplus4-all: \
 # xcbm2
 xcbm2_libs = \
 	@XCBM2_WINRES@ \
+	$(tapeport_lib) \
 	$(xcbm2_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
@@ -1996,6 +2013,7 @@ xcbm2-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libtapeport \
 	libjoyport \
 	libplatform \
 	xcbm2$(EXEEXT)
@@ -2003,6 +2021,7 @@ xcbm2-all: \
 # xcbm5x0
 xcbm5x0_libs = \
 	@XCBM5X0_WINRES@ \
+	$(tapeport_lib) \
 	$(xcbm5x0_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
@@ -2062,7 +2081,7 @@ xcbm5x0-all: \
 	libfileio \
 	libcore \
 	librtc \
-	libuserport \
+	libtapeport \
 	libplatform \
 	xcbm5x0$(EXEEXT)
 
@@ -2166,8 +2185,8 @@ DISTCLEANFILES = $(BUILT_SOURCES)
 	librs232drv libgfxoutputdrv libsamplerdrv libjoyport libsounddrv
 	libdiskimage libfsdevice libtape libarch libvicii libviciisc
 	libviciidtv libviciivsid libvdc libsid libcrtc libvideo libserial
-	libparallel libcore libiecbus libfileio librtc libuserport libp64
-	libscpu64 @RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
+	libparallel libcore libiecbus libfileio librtc libuserport libtapeport
+	libp64 libscpu64 @RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -2273,6 +2292,8 @@ libtape:
 	(cd tape && $(MAKE))
 libuserport:
 	(cd userport && $(MAKE))
+libtapeport:
+	(cd tapeport && $(MAKE))
 libvdc:
 	(cd vdc && $(MAKE))
 libvdrive:

@@ -3914,6 +3914,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_USERPORT_PRINTER_TR, ""},  /* fuzzy */
 #endif
 
+/* datasette.c */
+/* en */ {IDGS_DATASETTE,    N_("Datasette")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_DATASETTE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_DATASETTE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_DATASETTE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_DATASETTE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_DATASETTE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_DATASETTE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_DATASETTE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_DATASETTE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_DATASETTE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_DATASETTE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_DATASETTE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_DATASETTE_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */
