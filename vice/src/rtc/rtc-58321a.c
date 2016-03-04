@@ -84,7 +84,7 @@
  */
 
 /* This module is currently used in the following emulated hardware:
-   - userport RTC expansion
+   - userport RTC (58321a) device
  */
 
 /* ---------------------------------------------------------------------------------------------------- */
