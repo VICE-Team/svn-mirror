@@ -75,6 +75,7 @@ EXTRA_DIST = \
 	sounddrv.tgt \
 	system.h \
 	tape.tgt \
+	tapeport.tgt \
 	tcbm.tgt \
 	userport.tgt \
 	vdc.tgt \
