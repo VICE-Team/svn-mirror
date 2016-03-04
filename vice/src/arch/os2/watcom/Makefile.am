@@ -91,6 +91,7 @@ EXTRA_DIST = \
 	serial.tgt \
 	sounddrv.tgt \
 	tape.tgt \
+	tapeport.tgt \
 	tcbm.tgt \
 	userport.tgt \
 	vdc.tgt \

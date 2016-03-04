@@ -551,7 +551,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#if defined(__X64__) || defined(__XSCPU64__)
+#if (defined(__X64__) || defined(__XSCPU64__)) && !defined(__VSID__)
         case IDM_C64PAL:
         case IDM_C64CPAL:
         case IDM_C64OLDPAL:
