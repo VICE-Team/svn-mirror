@@ -138,10 +138,15 @@ static void ds1602_write_protocol_bit(rtc_ds1602_t *context)
             context->bit = 0;
         } else if ((context->reg & 0xc4) == 0x04) {
             context->offset = time(NULL);
+            context->state = DS1602_IDLE;
         } else if ((context->reg & 0xc2) == 0x02) {
             /* FIXME: do clear active timer */
+            context->state = DS1602_IDLE;
         } else if ((context->reg & 0xc1) == 0xc0) {
             /* FIXME: do set trim bits */
+            context->state = DS1602_IDLE;
+        } else {
+            context->state = DS1602_IDLE;
         }
     }
 }
@@ -156,6 +161,7 @@ static void ds1602_write_seconds_bit(rtc_ds1602_t *context)
     if (context->bit == 32) {
         now = time(NULL) + context->offset;
         context->offset = context->offset + (val - now);
+        context->state = DS1602_IDLE;
     }
 }
 
