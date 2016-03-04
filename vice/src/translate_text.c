@@ -14542,6 +14542,40 @@ translate_t string_table[] = {
 #endif
 
 /* datasette.c */
+/* en */ {IDCLS_ENABLE_DATASETTE,    N_("Enable Datasette")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_DATASETTE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DATASETTE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_DATASETTE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DATASETTE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DATASETTE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DATASETTE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_DATASETTE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DATASETTE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_DATASETTE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_DATASETTE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DATASETTE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DATASETTE_TR, ""},  /* fuzzy */
+#endif
+
+/* datasette.c */
+/* en */ {IDCLS_DISABLE_DATASETTE,    N_("Disable Datasette")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_DATASETTE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DATASETTE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_DATASETTE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DATASETTE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DATASETTE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DATASETTE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_DATASETTE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DATASETTE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_DATASETTE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_DATASETTE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DATASETTE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DATASETTE_TR, ""},  /* fuzzy */
+#endif
+
+/* datasette.c */
 /* en */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET,    N_("Enable automatic Datasette-Reset")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_DA, "Aktivér automatisk Datasette-reset"},
