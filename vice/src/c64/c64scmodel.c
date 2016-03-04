@@ -37,6 +37,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "sid.h"
+#include "tapeport.h"
 #include "types.h"
 #include "userport.h"
 #include "vicii.h"
@@ -354,4 +355,5 @@ void c64model_set(int model)
     userport_enable(c64models[model].userport);
     c64keyboard_enable(c64models[model].keyboard);
     c64iec_enable(c64models[model].iec);
+    tapeport_enable(c64models[model].datasette);
 }
