@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-222
-"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../imagecontents;../../../platform;../../../rtc;../../../drive;../../../lib/p64;../../../vdrive;../../../userport;../../../monitor;../../../joyport;../../win32/msvc/wpcap"
+240
+"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../imagecontents;../../../platform;../../../rtc;../../../drive;../../../lib/p64;../../../vdrive;../../../userport;../../../monitor;../../../joyport;../../../tapeport;../../win32/msvc/wpcap"
 0
 18
 MVState

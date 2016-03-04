@@ -71,6 +71,7 @@ EXTRA_DIST = \
 	sid.tgt \
 	sounddrv.tgt \
 	tape.tgt \
+	tapeport.tgt \
 	tcbm.tgt \
 	userport.tgt \
 	vdc.tgt \
