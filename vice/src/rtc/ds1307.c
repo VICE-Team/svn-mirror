@@ -85,6 +85,7 @@
  */
 
 /* This module is currently used in the following emulated hardware:
+   - userport RTC (DS1307) device
  */
 
 /* ---------------------------------------------------------------------------------------------------- */
