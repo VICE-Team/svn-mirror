@@ -18,6 +18,8 @@ librtc_a_SOURCES = \
 	ds1307.h \
 	ds1602.c \
 	ds1602.h \
+	pcf8583.c \
+	pcf8583.h \
 	rtc.c \
 	rtc.h \
 	rtc-58321a.c \
