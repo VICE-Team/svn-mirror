@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-25 16:00-0800\n"
-"PO-Revision-Date: 2016-02-06 20:08+0100\n"
+"PO-Revision-Date: 2016-03-05 15:34+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -6715,9 +6715,8 @@ msgid "Save RTC data when changed"
 msgstr "RTC Daten bei Änderung speichern"
 
 #: src/arch/win32/res.rc.po.c:1347
-#, fuzzy
 msgid "Drive RPM settings"
-msgstr "Floppy ROM Einstellungen"
+msgstr "Floppy RPM Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1359 src/arch/win32/resc128.rc.po.c:77
 #: src/arch/win32/resc64.rc.po.c:73 src/arch/win32/resscpu64.rc.po.c:60
@@ -6792,9 +6791,8 @@ msgstr "Erweiterungsmodul I/O Einstellungen"
 #: src/arch/win32/resc64.rc.po.c:288 src/arch/win32/rescbm2.rc.po.c:239
 #: src/arch/win32/respet.rc.po.c:231 src/arch/win32/resplus4.rc.po.c:247
 #: src/arch/win32/resscpu64.rc.po.c:271 src/arch/win32/resvic20.rc.po.c:271
-#, fuzzy
 msgid "Userport devices"
-msgstr "Userport Gerät"
+msgstr "Userport Geräte"
 
 #: src/arch/win32/res.rc.po.c:1386 src/arch/win32/resc128.rc.po.c:328
 #: src/arch/win32/resc64.rc.po.c:316 src/arch/win32/resc64dtv.rc.po.c:224
@@ -6971,9 +6969,8 @@ msgid "Retro Replay settings"
 msgstr "Retro Replay Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1503
-#, fuzzy
 msgid "RRNET MK3 settings"
-msgstr "ROM Einstellungen"
+msgstr "RRNET MK3 Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1504 src/arch/win32/resmagicvoice.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:3729
@@ -7042,19 +7039,16 @@ msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler Modul aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1519
-#, fuzzy
 msgid "Enable the Super Snapshot 5 32KB RAM expansion"
-msgstr "CSORY 256K RAM Erweiterung aktivieren"
+msgstr "Super Snapshot 5 32K RAM Erweiterung aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1520
-#, fuzzy
 msgid "Userport RTC (58321a) device settings"
-msgstr "Userport RTC Einstellungen"
+msgstr "Userport RTC (58321a) Geräteeinstellungen"
 
 #: src/arch/win32/res.rc.po.c:1521
-#, fuzzy
 msgid "Userport RTC (DS1307) device settings"
-msgstr "Userport RTC Einstellungen"
+msgstr "Userport RTC (DS1307) Geräteeinstellungen"
 
 #: src/arch/win32/res.rc.po.c:1522 src/arch/amigaos/intl_text.c.po.c:4121
 #: src/translate_text.c.po.c:5976
@@ -7062,19 +7056,16 @@ msgid "Enable Userport DAC for sound output"
 msgstr "Userport DAC Sound aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1523
-#, fuzzy
 msgid "Enable Userport DigiMAX device"
 msgstr "Userport DigiMAX Gerät aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1524
-#, fuzzy
 msgid "Enable Userport 4 bit sampler"
 msgstr "Userport 4bit Sampler aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1525
-#, fuzzy
 msgid "Enable Userport 8 bit stereo sampler"
-msgstr "Userport 8bit Sampler aktivieren"
+msgstr "Userport 8bit Stereosampler aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1526 src/arch/amigaos/intl_text.c.po.c:4373
 msgid "Save current settings to specified file"
@@ -7725,9 +7716,8 @@ msgid "Save CRT now"
 msgstr "CRT Imagedatei jetzt speichern"
 
 #: src/arch/win32/reseasyflash.rc.po.c:35
-#, fuzzy
 msgid "Optimize CRT saving"
-msgstr "Imagedatei beim Speichern optimieren"
+msgstr "CRT Speichern optimieren"
 
 #: src/arch/win32/resexpert.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:7257
 msgid "Select file for Expert Cartridge"
@@ -8156,14 +8146,12 @@ msgid "Select file for REU"
 msgstr "Datei für REU auswählen"
 
 #: src/arch/win32/resrrnetmk3.rc.po.c:29
-#, fuzzy
 msgid "Enable RRNET MK3 flash jumper"
-msgstr "RR Flashjumper aktivieren"
+msgstr "RRNET MK3 Flashjumper aktivieren"
 
 #: src/arch/win32/resrrnetmk3.rc.po.c:30
-#, fuzzy
 msgid "Save RRNET MK3 flash when changed"
-msgstr "RR Imagedatei bei Änderung speichern"
+msgstr "RRNET MK3 Imagedatei bei Änderung speichern"
 
 #: src/arch/win32/resrs232user.rc.po.c:35 src/translate_text.c.po.c:12323
 msgid "Enable RS232 userport emulation"
@@ -8318,34 +8306,28 @@ msgid "Ethernet"
 msgstr "Ethernet"
 
 #: src/arch/win32/resuserportrtc58321a.rc.po.c:20
-#, fuzzy
 msgid "Userport RTC (58321a) settings"
-msgstr "Userport RTC Einstellungen"
+msgstr "Userport RTC (58321a) Einstellungen"
 
 #: src/arch/win32/resuserportrtc58321a.rc.po.c:21
-#, fuzzy
 msgid "Enable the Userport RTC (58321a) expansion"
-msgstr "Userport RTC Erweiterung aktivieren"
+msgstr "Userport RTC (58321a) Erweiterung aktivieren"
 
 #: src/arch/win32/resuserportrtc58321a.rc.po.c:22
-#, fuzzy
 msgid "Save RTC (58321a) data when changed"
-msgstr "RTC Daten bei Änderung speichern"
+msgstr "RTC (58321a) Daten bei Änderung speichern"
 
 #: src/arch/win32/resuserportrtcds1307.rc.po.c:20
-#, fuzzy
 msgid "Userport RTC (DS1307) settings"
-msgstr "Userport RTC Einstellungen"
+msgstr "Userport RTC (DS1307) Einstellungen"
 
 #: src/arch/win32/resuserportrtcds1307.rc.po.c:21
-#, fuzzy
 msgid "Enable the Userport RTC (DS1307) device"
-msgstr "Userport RTC aktivieren"
+msgstr "Userport RTC (DS1307) aktivieren"
 
 #: src/arch/win32/resuserportrtcds1307.rc.po.c:22
-#, fuzzy
 msgid "Save RTC (DS1307) data when changed"
-msgstr "RTC Daten bei Änderung speichern"
+msgstr "RTC (DS1307) Daten bei Änderung speichern"
 
 #: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:16679
 msgid "Enable the v364 speech add-on"
@@ -8876,14 +8858,12 @@ msgid "Enable the CP/M cartridge"
 msgstr "CP/M Modul aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:4065
-#, fuzzy
 msgid "Enable the Userport RTC (58321a)"
-msgstr "Userport RTC aktivieren"
+msgstr "Userport RTC (58321a) aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:4079
-#, fuzzy
 msgid "Enable saving the Userport RTC (58321a) data"
-msgstr "Userport RTC Daten Speicherung aktivieren"
+msgstr "Userport RTC (58321a) Datenspeicherung aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:4093
 #: src/arch/amigaos/intl_text.c.po.c:8758
@@ -9072,7 +9052,7 @@ msgstr "Zusätzliche Verzögerung"
 
 #: src/arch/amigaos/intl_text.c.po.c:7005
 msgid "Enable FD2000/4000 RTC data saving"
-msgstr "FD2000/4000 RTC Daten Speichung aktivieren"
+msgstr "FD2000/4000 RTC Datenspeichung aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:7117
 msgid "Select file to be used as sampler input"
@@ -9446,7 +9426,7 @@ msgstr "USB Server Adresse"
 
 #: src/arch/amigaos/intl_text.c.po.c:9990
 msgid "Enable saving of the IDE64 RTC data"
-msgstr "IDE64 RTC Daten Speicherung aktivieren"
+msgstr "IDE64 RTC Datenspeicherung aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:10088
 #: src/arch/amigaos/intl_text.c.po.c:10102
@@ -10875,9 +10855,8 @@ msgid "Userport RTC (RTC58321A)"
 msgstr "Userport RTC (RTC58321A)"
 
 #: src/translate_text.c.po.c:3772
-#, fuzzy
 msgid "Userport RTC (DS1307)"
-msgstr "Userport RTC (RTC58321A)"
+msgstr "Userport RTC (DS1307)"
 
 #: src/translate_text.c.po.c:3789
 msgid "Userport DAC"
@@ -11398,44 +11377,36 @@ msgstr ""
 "3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
 
 #: src/translate_text.c.po.c:6061
-#, fuzzy
 msgid "Enable Userport RTC (58321a)"
-msgstr "Userport RTC aktivieren"
+msgstr "Userport RTC (58321a) aktivieren"
 
 #: src/translate_text.c.po.c:6078
-#, fuzzy
 msgid "Disable Userport RTC (58321a)"
-msgstr "Userport RTC deaktivieren"
+msgstr "Userport RTC (58321a) deaktivieren"
 
 #: src/translate_text.c.po.c:6095
-#, fuzzy
 msgid "Enable saving of the Userport RTC (58321a) data when changed."
-msgstr "Userport RTC Daten bei Änderung speichern."
+msgstr "Userport RTC (58321a) Daten bei Änderung speichern."
 
 #: src/translate_text.c.po.c:6112
-#, fuzzy
 msgid "Disable saving of the Userport RTC (58321a) data when changed."
-msgstr "Userport RTC Daten bei Änderung nicht speichern."
+msgstr "Userport RTC (58321a) Daten bei Änderung nicht speichern."
 
 #: src/translate_text.c.po.c:6129
-#, fuzzy
 msgid "Enable Userport RTC (DS1307)"
-msgstr "Userport RTC aktivieren"
+msgstr "Userport RTC (DS1307) aktivieren"
 
 #: src/translate_text.c.po.c:6146
-#, fuzzy
 msgid "Disable Userport RTC (DS1307)"
-msgstr "Userport RTC deaktivieren"
+msgstr "Userport RTC (DS1307) deaktivieren"
 
 #: src/translate_text.c.po.c:6163
-#, fuzzy
 msgid "Enable saving of the Userport RTC (DS1307) data when changed."
-msgstr "Userport RTC Daten bei Änderung speichern."
+msgstr "Userport RTC (DS1307) Daten bei Änderung speichern."
 
 #: src/translate_text.c.po.c:6180
-#, fuzzy
 msgid "Disable saving of the Userport RTC (DS1307) data when changed."
-msgstr "Userport RTC Daten bei Änderung nicht speichern."
+msgstr "Userport RTC (DS1307) Daten bei Änderung nicht speichern."
 
 #: src/translate_text.c.po.c:6197
 msgid "Enable Userport 4bit sampler"
@@ -11594,24 +11565,20 @@ msgid "Remove the MMC64 Flash Jumper"
 msgstr "Deaktiviere MMC64 Flash Jumper"
 
 #: src/translate_text.c.po.c:6928
-#, fuzzy
 msgid "Save the RRNETMK3 bios when changed"
-msgstr "MMC64 BIOS speichern bei Änderung"
+msgstr "RRNETMK3 BIOS speichern bei Änderung"
 
 #: src/translate_text.c.po.c:6945
-#, fuzzy
 msgid "Do not save the RRNETMK3 bios when changed"
-msgstr "MMC64 BIOS nicht speichern bei Änderung"
+msgstr "RRNETMK3 BIOS nicht speichern bei Änderung"
 
 #: src/translate_text.c.po.c:6962
-#, fuzzy
 msgid "Set the RRNETMK3 Flash Jumper"
-msgstr "Aktiviere MMC64 Flash Jumper"
+msgstr "Aktiviere RRNETMK3 Flash Jumper"
 
 #: src/translate_text.c.po.c:6979
-#, fuzzy
 msgid "Remove the RRNETMK3 Flash Jumper"
-msgstr "Deaktiviere MMC64 Flash Jumper"
+msgstr "Deaktiviere RRNETMK3 Flash Jumper"
 
 #: src/translate_text.c.po.c:6996
 msgid "Specify MMC Replay card image filename"
@@ -11901,9 +11868,8 @@ msgid "Attach raw 64kB RGCD cartridge image"
 msgstr "64kB RGBD Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:8511
-#, fuzzy
 msgid "Attach raw 8kB RR-Net MK3 cartridge image"
-msgstr "8kB MMC64 Image (raw) einlegen"
+msgstr "8kB RR-Net MK3 Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:8528
 msgid "Attach raw 16/32kB ROSS cartridge image"
