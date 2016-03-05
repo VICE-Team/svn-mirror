@@ -186,7 +186,7 @@ inline static CLOCK myviatb(via_context_t *via_context)
         if (via_context->tbi) {
             BYTE t2hi = via_context->t2ch;
 
-            if (*(via_context->clk_ptr) == via_context->tbi) {
+            if (*(via_context->clk_ptr) == via_context->tbi + 1) {
                 t2hi--;
             }
 
@@ -497,7 +497,7 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
                 /* set the next alarm to the low latch value as timer cascading mode change 
                 matters at each underflow of the T2 low counter */
                 via_context->tbu = rclk + via_context->t2cl + 3;
-                via_context->tbi = rclk + via_context->t2cl + 2;
+                via_context->tbi = rclk + via_context->t2cl + 1;
                 alarm_set(via_context->t2_alarm, via_context->tbi);
             }
 
@@ -583,7 +583,7 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
                     /* Timer mode; set the next alarm to the low latch value as timer cascading mode change 
                     matters at each underflow of the T2 low counter */
                     via_context->tbu = rclk + via_context->t2cl + 3;
-                    via_context->tbi = rclk + via_context->t2cl + 2;
+                    via_context->tbi = rclk + via_context->t2cl + 1;
                     alarm_set(via_context->t2_alarm, via_context->tbi);
                 }
             }
@@ -912,7 +912,7 @@ static void viacore_intt1(CLOCK offset, void *data)
     } else {                    /* continuous mode */
         /* load counter with latch value */
         via_context->tai += via_context->tal + 2;
-        alarm_set(via_context->t1_alarm, via_context->tai);
+        if (via_context->tal) alarm_set(via_context->t1_alarm, via_context->tai);
 
         /* Let tau also keep up with the cpu clock
            this should avoid "% (via_context->tal + 2)" case */
@@ -1275,7 +1275,7 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
     SMR_B(m, &(via_context->t2ch));
     SMR_W(m, &word);
     via_context->tbu = rclk + word + 2 /* 3 */;
-    via_context->tbi = rclk + word + 1;
+    via_context->tbi = rclk + word + 0;
 
     SMR_B(m, &byte);
     if (byte & 0x80) {
