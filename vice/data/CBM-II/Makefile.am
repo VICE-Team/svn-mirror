@@ -18,15 +18,20 @@ romsets = \
 	rom256h.vrs
 
 palettes = \
-	amber.vpl \
 	c64hq.vpl \
 	c64s.vpl \
 	ccs64.vpl \
 	default.vpl \
 	frodo.vpl \
 	godot.vpl \
-	green.vpl \
 	pc64.vpl \
+	pepto-ntsc-sony.vpl \
+	pepto-ntsc.vpl \
+	rgb.vpl \
+	vice.vpl \
+	\
+	amber.vpl \
+	green.vpl \
 	white.vpl
 
 x11_keymaps = \

@@ -9,6 +9,9 @@ roms = \
 romsets = \
 	default.vrs
 
+palettes = \
+	spiff.vpl
+
 x11_keymaps = \
 	x11_sym.vkm \
 	x11_pos.vkm
@@ -45,11 +48,11 @@ sym_file = \
 	c64mem.sym
 
 if SDL_COMPILE
-c64dtv_DATA = $(roms) $(romsets) $(sdl_keymaps) $(sym_file)
+c64dtv_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
 
 EXTRA_DIST = $(c64dtv_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_files)
 else
-c64dtv_DATA = $(roms) $(romsets) $(x11_keymaps) $(sym_file)
+c64dtv_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps) $(sym_file)
 
 EXTRA_DIST = $(c64dtv_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_files)
 endif
