@@ -27,10 +27,12 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "fullscreenarch.h"
 #include "lib.h"
 #include "machine.h"
+#include "palette.h"
 #include "resources.h"
 #include "ted.h"
 #include "uiapi.h"
@@ -53,17 +55,63 @@ static UI_CALLBACK(radio_TEDPaletteFile)
     ui_select_palette(w, CHECK_MENUS, UI_MENU_CB_PARAM, "TED");
 }
 
+static ui_menu_entry_t *attach_palette_submenu;
+
 static ui_menu_entry_t palette_submenu[] = {
     { N_("Internal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TEDPaletteFile,
       NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Default"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TEDPaletteFile,
-      (ui_callback_data_t)"default", NULL },
+    { "", UI_MENU_TYPE_NONE, NULL, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Load custom"), UI_MENU_TYPE_DOTS, (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"TED", NULL },
     { NULL }
 };
+
+static ui_menu_entry_t ui_palette_entry = {
+    NULL, UI_MENU_TYPE_TICK, (ui_callback_t)radio_TEDPaletteFile,
+    (ui_callback_data_t)0, NULL
+};
+
+static int countgroup(palette_info_t *palettelist, char *chip)
+{
+    int num = 0;
+    while(palettelist->name) {
+        /* printf("name:%s file:%s chip:%s\n",palettelist->name,palettelist->file,palettelist->chip); */
+        if (palettelist->chip && !strcmp(palettelist->chip, chip)) {
+            num++;
+        }
+        palettelist++;
+    }
+    return num;
+}
+
+static void makegroup(palette_info_t *palettelist, ui_menu_entry_t *entry, char *chip)
+{
+    while(palettelist->name) {
+        if (palettelist->chip && !strcmp(palettelist->chip, chip)) {
+            ui_palette_entry.string = palettelist->name;
+            ui_palette_entry.callback_data = (ui_callback_data_t)palettelist->file;
+            memcpy(entry, &ui_palette_entry, sizeof(ui_menu_entry_t));
+            entry++;
+        }
+        palettelist++;
+    }
+    memset(entry, 0, sizeof(ui_menu_entry_t));
+}
+
+static void uipalette_menu_create(void)
+{
+    int num;
+    palette_info_t *palettelist = palette_get_info_list();
+
+    num = countgroup(palettelist, "TED");
+    /* printf("num:%d\n",num); */
+    attach_palette_submenu = lib_malloc(sizeof(ui_menu_entry_t) * (num + 1));
+    makegroup(palettelist, attach_palette_submenu, "TED");
+    palette_submenu[2].sub_menu = attach_palette_submenu;
+}
+
 
 UI_MENU_DEFINE_RADIO(TEDBorderMode)
 
@@ -221,6 +269,7 @@ ui_menu_entry_t ted_submenu[] = {
 
 void uited_menu_create(void)
 {
+    uipalette_menu_create();
     UI_FULLSCREEN_MENU_CREATE(TED)
 }
 
