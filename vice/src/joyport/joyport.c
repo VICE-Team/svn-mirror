@@ -609,6 +609,12 @@ static struct joyport_opt_s id_match[] = {
     { "lpinkwell",       JOYPORT_ID_LIGHTPEN_INKWELL },
     { "lightpeninkwell", JOYPORT_ID_LIGHTPEN_INKWELL },
     { "inkwelllightpen", JOYPORT_ID_LIGHTPEN_INKWELL },
+    { "17",              JOYPORT_ID_SAMPLER_2BIT },
+    { "2bitsampler",     JOYPORT_ID_SAMPLER_2BIT },
+    { "18",              JOYPORT_ID_SAMPLER_4BIT },
+    { "4bitsampler",     JOYPORT_ID_SAMPLER_4BIT },
+    { "19",              JOYPORT_ID_BBRTC },
+    { "bbrtc",           JOYPORT_ID_BBRTC },
     { NULL, -1 }
 };
 

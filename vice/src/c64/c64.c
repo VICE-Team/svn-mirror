@@ -33,6 +33,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "bbrtc.h"
 #include "c64-cmdline-options.h"
 #include "c64-memory-hacks.h"
 #include "c64-resources.h"
@@ -520,6 +521,10 @@ int machine_resources_init(void)
         init_resource_fail("joyport 4bit sampler");
         return -1;
     }
+    if (joyport_bbrtc_resources_init() < 0) {
+        init_resource_fail("joyport bbrtc");
+        return -1;
+    }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
         return -1;
@@ -665,6 +670,7 @@ void machine_resources_shutdown(void)
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
     userport_resources_shutdown();
+    bbrtc_resources_shutdown();
 }
 
 /* C64-specific command-line option initialization.  */
@@ -724,6 +730,10 @@ int machine_cmdline_options_init(void)
     }
     if (joyport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("joyport");
+        return -1;
+    }
+    if (bbrtc_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("bbrtc");
         return -1;
     }
     if (joystick_cmdline_options_init() < 0) {

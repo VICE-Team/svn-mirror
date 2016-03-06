@@ -12,6 +12,8 @@ noinst_LIBRARIES = libjoyport.a
 
 # These sources are always built.
 libjoyport_a_SOURCES = \
+	bbrtc.c \
+	bbrtc.h \
 	joyport.c \
 	joyport.h \
 	joystick.c \

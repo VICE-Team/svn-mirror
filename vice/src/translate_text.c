@@ -3540,6 +3540,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_SAMPLER_4BIT_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/bbrtc.c */
+/* en */ {IDGS_BBRTC,    N_("BBRTC")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_BBRTC_DA, ""},  /* fuzzy */
+/* de */ {IDGS_BBRTC_DE, ""},  /* fuzzy */
+/* es */ {IDGS_BBRTC_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_BBRTC_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_BBRTC_HU, ""},  /* fuzzy */
+/* it */ {IDGS_BBRTC_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_BBRTC_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_BBRTC_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_BBRTC_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_BBRTC_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_BBRTC_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_BBRTC_TR, ""},  /* fuzzy */
+#endif
+
 /* lightpen.c */
 /* en */ {IDGS_LIGHTPEN_UP,    N_("Light Pen (up trigger)")},
 #ifdef HAS_TRANSLATION
@@ -6304,6 +6321,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport/bbrtc.c */
+/* en */ {IDCLS_ENABLE_BBRTC_SAVE,    N_("Enable saving of the BBRTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_BBRTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_BBRTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_BBRTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_BBRTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_BBRTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_BBRTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_BBRTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_BBRTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_BBRTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_BBRTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_BBRTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_BBRTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* joyport/bbrtc.c */
+/* en */ {IDCLS_DISABLE_BBRTC_SAVE,    N_("Disable saving of the BBRTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_BBRTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_BBRTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_BBRTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_BBRTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_BBRTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_BBRTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_BBRTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_BBRTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_BBRTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_BBRTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_BBRTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_BBRTC_SAVE_TR, ""},  /* fuzzy */
 #endif
 
 /* userport/userport_4bit_sampler.c */

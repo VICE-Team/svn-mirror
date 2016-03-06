@@ -616,6 +616,9 @@ IDGS_SAMPLER_2BIT
 /* joyport/sampler4bit.c */
 IDGS_SAMPLER_4BIT
 
+/* joyport/bbrtc.c */
+IDGS_BBRTC
+
 /* lightpen.c */
 IDGS_LIGHTPEN_UP
 
@@ -2949,6 +2952,12 @@ IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE
 
 /* userport/userport_rtc_ds1307.c */
 IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE
+
+/* joyport/bbrtc.c */
+IDCLS_ENABLE_BBRTC_SAVE
+
+/* joyport/bbrtc.c */
+IDCLS_DISABLE_BBRTC_SAVE
 
 /* userport/userport_4bit_sampler.c */
 IDCLS_ENABLE_USERPORT_4BIT_SAMPLER

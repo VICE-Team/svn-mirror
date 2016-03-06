@@ -40,6 +40,7 @@
  */
 
 /* This module is currently used in the following emulated hardware:
+ - joyport bbrtc device
  */
 
 /* ---------------------------------------------------------------------------------------------------- */
@@ -58,15 +59,17 @@ struct rtc_ds1602_s {
     BYTE io_byte;
     BYTE rst_line;
     BYTE clk_line;
-    BYTE data_line;
+    BYTE data_line_in;
+    BYTE data_line_out;
     char *device;
 };
 
 #define DS1602_IDLE               0
 #define DS1602_GET_PROTOCOL       1
-#define DS1602_GET_SECONDS        2
-#define DS1602_SET_CONT_SECONDS   3
-#define DS1602_SET_ACT_SECONDS    4
+#define DS1602_GET_SECONDS_WAIT   2
+#define DS1602_GET_SECONDS        3
+#define DS1602_SET_CONT_SECONDS   4
+#define DS1602_SET_ACT_SECONDS    5
 
 /* ---------------------------------------------------------------------------------------------------- */
 
@@ -87,7 +90,8 @@ rtc_ds1602_t *ds1602_init(char *device, time_t offset0)
     retval->state = DS1602_IDLE;
     retval->rst_line = 1;
     retval->clk_line = 1;
-    retval->data_line = 1;
+    retval->data_line_out = 1;
+    retval->data_line_in = 1;
     retval->bit = 0;
 
     return retval;
@@ -108,16 +112,18 @@ void ds1602_destroy(rtc_ds1602_t *context, int save)
 
 static void ds1602_read_bit(rtc_ds1602_t *context)
 {
-    context->data_line = (context->reg & 1 << context->bit) ? 1 : 0;
-    ++context->bit;
-    if (context->bit == 32) {
-        context->state = DS1602_IDLE;
+    if (context->state == DS1602_GET_SECONDS) {
+        context->data_line_out = (context->reg & 1 << context->bit) ? 1 : 0;
+        ++context->bit;
+        if (context->bit == 32) {
+            context->state = DS1602_IDLE;
+        }
     }
 }
 
 static void ds1602_write_protocol_bit(rtc_ds1602_t *context)
 {
-    DWORD val = context->data_line << context->bit;
+    DWORD val = context->data_line_in << context->bit;
 
     context->reg |= val;
     ++context->bit;
@@ -153,14 +159,14 @@ static void ds1602_write_protocol_bit(rtc_ds1602_t *context)
 
 static void ds1602_write_seconds_bit(rtc_ds1602_t *context)
 {
-    DWORD val = context->data_line << context->bit;
+    DWORD val = context->data_line_in << context->bit;
     time_t now;
 
     context->reg |= val;
     ++context->bit;
     if (context->bit == 32) {
         now = time(NULL) + context->offset;
-        context->offset = context->offset + (val - now);
+        context->offset = context->offset + ((context->reg + context->offset0) - now);
         context->state = DS1602_IDLE;
     }
 }
@@ -198,6 +204,7 @@ void ds1602_set_reset_line(rtc_ds1602_t *context, BYTE data)
         context->reg = 0;
     } else {
         context->state = DS1602_IDLE;
+        context->data_line_out = 1;
     }
 
     context->rst_line = val;
@@ -223,14 +230,14 @@ void ds1602_set_data_line(rtc_ds1602_t *context, BYTE data)
 {
     BYTE val = data ? 1 : 0;
 
-    if (context->data_line == val) {
+    if (context->data_line_in == val) {
         return;
     }
 
-    context->data_line = val;
+    context->data_line_in = val;
 }
 
 BYTE ds1602_read_data_line(rtc_ds1602_t *context)
 {
-    return context->data_line;
+    return context->data_line_out;
 }
