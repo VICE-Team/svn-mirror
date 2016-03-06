@@ -95,6 +95,7 @@
 #include "uiuserport.h"
 #include "uivicii.h"
 #include "vsync.h"
+#include "vicii.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -107,20 +108,19 @@ struct vicmodel_s {
 };
 
 static struct vicmodel_s vicmodels[] = {
-    { MACHINE_SYNC_PAL,     1 },
-    { MACHINE_SYNC_PAL,     0 },
-    { MACHINE_SYNC_NTSC,    1 },
-    { MACHINE_SYNC_NTSCOLD, 0 },
-    { MACHINE_SYNC_PALN,    1 }
+    { MACHINE_SYNC_PAL,     1 }, /* VICII_MODEL_PALG */
+    { MACHINE_SYNC_PAL,     0 }, /* VICII_MODEL_PALG_OLD */
+    { MACHINE_SYNC_NTSC,    1 }, /* VICII_MODEL_NTSCM */
+    { MACHINE_SYNC_NTSCOLD, 0 }, /* VICII_MODEL_NTSCM_OLD */
+    { MACHINE_SYNC_PALN,    1 }  /* VICII_MODEL_PALN */
 };
 
-static int vicmodel_get_temp(int video,int new_luma)
+static int vicmodel_get_temp(int video)
 {
     int i;
 
     for (i = 0; i < VICMODEL_NUM; ++i) {
-        if ((vicmodels[i].video == video)
-         && (vicmodels[i].luma == new_luma)) {
+        if (vicmodels[i].video == video) {
             return i;
         }
     }
@@ -130,14 +130,13 @@ static int vicmodel_get_temp(int video,int new_luma)
 
 static int vicmodel_get(void)
 {
-    int video, new_luma;
+    int video;
 
-    if ((resources_get_int("MachineVideoStandard", &video) < 0)
-     || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
+    if (resources_get_int("MachineVideoStandard", &video) < 0) {
         return -1;
     }
 
-    return vicmodel_get_temp(video, new_luma);
+    return vicmodel_get_temp(video);
 }
 
 static void vicmodel_set(int model)
@@ -151,7 +150,6 @@ static void vicmodel_set(int model)
     }
 
     resources_set_int("MachineVideoStandard", vicmodels[model].video);
-    resources_set_int("VICIINewLuminances", vicmodels[model].luma);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -230,15 +228,15 @@ static UI_CALLBACK(radio_VICIIModel)
 
 static ui_menu_entry_t set_vicii_model_submenu[] = {
     { "PAL-G", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
-      (ui_callback_data_t)0, NULL },
+      (ui_callback_data_t)VICII_MODEL_PALG, NULL },
     { N_("Old PAL-G"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
-      (ui_callback_data_t)1, NULL },
+      (ui_callback_data_t)VICII_MODEL_PALG_OLD, NULL },
     { "NTSC-M", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
-      (ui_callback_data_t)2, NULL },
+      (ui_callback_data_t)VICII_MODEL_NTSCM, NULL },
     { N_("Old NTSC-M"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
-      (ui_callback_data_t)3, NULL },
+      (ui_callback_data_t)VICII_MODEL_NTSCM_OLD, NULL },
     { "PAL-N", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
-      (ui_callback_data_t)4, NULL },
+      (ui_callback_data_t)VICII_MODEL_PALN, NULL },
     { NULL }
 };
 

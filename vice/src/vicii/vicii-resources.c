@@ -41,7 +41,7 @@
 #include "viciitypes.h"
 #include "video.h"
 
-vicii_resources_t vicii_resources = { 0, 0, 0, 0 };
+vicii_resources_t vicii_resources = { 0, 0, 0, 0, 0 };
 static video_chip_cap_t video_chip_cap;
 
 
@@ -84,13 +84,6 @@ static int set_sprite_background_collisions_enabled(int val, void *param)
     return 0;
 }
 
-static int set_new_luminances(int val, void *param)
-{
-    vicii_resources.new_luminances = val ? 1 : 0;
-
-    return vicii_color_update_palette(vicii.raster.canvas);
-}
-
 static const resource_int_t resources_int[] =
 {
     { "VICIIBorderMode", VICII_NORMAL_BORDERS, RES_EVENT_SAME, NULL,
@@ -102,12 +95,23 @@ static const resource_int_t resources_int[] =
     { "VICIICheckSbColl", 1, RES_EVENT_SAME, NULL,
       &vicii_resources.sprite_background_collisions_enabled,
       set_sprite_background_collisions_enabled, NULL },
+    { NULL }
+};
+
+static int set_new_luminances(int val, void *param)
+{
+    vicii_resources.new_luminances = val ? 1 : 0;
+
+    return vicii_color_update_palette(vicii.raster.canvas);
+}
+
+static const resource_int_t resources_int_dtv[] =
+{
     { "VICIINewLuminances", 1, RES_EVENT_NO, NULL,
       &vicii_resources.new_luminances,
       set_new_luminances, NULL },
     { NULL }
 };
-
 
 int vicii_resources_init(void)
 {
@@ -133,6 +137,11 @@ int vicii_resources_init(void)
 
     if (raster_resources_chip_init("VICII", &vicii.raster, &video_chip_cap) < 0) {
         return -1;
+    }
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        if (resources_register_int(resources_int_dtv) < 0) {
+            return -1;
+        }
     }
 
     return resources_register_int(resources_int);

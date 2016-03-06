@@ -80,6 +80,7 @@ ui_menu_entry_t c64dtv_setmodel_submenu[] = {
 UI_MENU_DEFINE_RADIO(DtvRevision)
 UI_MENU_DEFINE_TOGGLE(c64dtvromrw)
 UI_MENU_DEFINE_TOGGLE(HummerADC)
+UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 
 UI_CALLBACK(set_c64dtv_rom_name)
 {
@@ -119,6 +120,12 @@ ui_menu_entry_t c64dtv_flash_submenu[] = {
       (ui_callback_t)toggle_c64dtvromrw, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_flash_options_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t c64dtv_luma_fix_submenu[] = {
+    { N_("Enable"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
     { NULL }
 };
 

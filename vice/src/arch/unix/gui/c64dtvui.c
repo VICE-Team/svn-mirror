@@ -160,6 +160,8 @@ ui_menu_entry_t c64dtv_model_submenu[] = {
       NULL, NULL, set_viciimodel_submenu },
     { N_("SID model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_dtv_model_submenu },
+    { N_("Luma fix"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, c64dtv_luma_fix_submenu },
     { NULL }
 };
 

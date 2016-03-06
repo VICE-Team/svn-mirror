@@ -113,7 +113,6 @@ static ui_menu_entry_t renderer_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
-UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 UI_MENU_DEFINE_TOGGLE(VICIIAudioLeak)
 
 #ifdef HAVE_HWSCALE
@@ -204,8 +203,6 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("Video cache"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICIIVideoCache, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("New luminances"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
     { N_("Colors"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, palette_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },

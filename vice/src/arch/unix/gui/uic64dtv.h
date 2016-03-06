@@ -32,5 +32,6 @@ extern struct ui_menu_entry_s c64dtv_setmodel_submenu[];
 extern struct ui_menu_entry_s c64dtv_revision_submenu[];
 extern struct ui_menu_entry_s c64dtv_flash_submenu[];
 extern struct ui_menu_entry_s c64dtv_extension_submenu[];
+extern struct ui_menu_entry_s c64dtv_luma_fix_submenu[];
 
 #endif
