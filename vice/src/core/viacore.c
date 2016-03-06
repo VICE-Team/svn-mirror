@@ -1057,6 +1057,11 @@ void viacore_setup_context(via_context_t *via_context)
     for (i = 0; i < 16; i++) {
         via_context->via[i] = 0;
     }
+    /* timers and timer latches apparently do not contain 0 at powerup */
+    via_context->via[4] = via_context->via[6] = 0xff;
+    via_context->via[5] = via_context->via[7] = 223;  /* my vic20 gives 223 here (gpz) */
+    via_context->via[8] = 0xff;
+    via_context->via[9] = 0xff;
 }
 
 void viacore_init(via_context_t *via_context, alarm_context_t *alarm_context,
