@@ -688,6 +688,9 @@ IDGS_USERPORT_PRINTER
 /* datasette.c */
 IDGS_DATASETTE
 
+/* tapeport/tapelog.c */
+IDGS_TAPE_LOG
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */
@@ -1038,6 +1041,21 @@ IDCLS_SPECIFY_IEEE488_INTERFACE_NAME
 
 /* samplerdrv/file_drv.c */
 IDCLS_SPECIFY_SAMPLE_NAME
+
+/* tapeport/tapelog.c */
+IDCLS_ENABLE_TAPELOG
+
+/* tapeport/tapelog.c */
+IDCLS_DISABLE_TAPELOG
+
+/* tapeport/tapelog.c */
+IDCLS_ENABLE_TAPELOG_LOG_TO_FILE
+
+/* tapeport/tapelog.c */
+IDCLS_ENABLE_TAPELOG_LOG_TO_LOG
+
+/* tapeport/tapelog.c */
+IDCLS_SPECIFY_TAPELOG_NAME
 
 /* c64/cart/georam.c */
 IDCLS_ENABLE_GEORAM

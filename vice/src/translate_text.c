@@ -3948,6 +3948,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_DATASETTE_TR, ""},  /* fuzzy */
 #endif
 
+/* tapeport/tapelog.c */
+/* en */ {IDGS_TAPE_LOG,    N_("Tape Log")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_TAPE_LOG_DA, ""},  /* fuzzy */
+/* de */ {IDGS_TAPE_LOG_DE, ""},  /* fuzzy */
+/* es */ {IDGS_TAPE_LOG_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_TAPE_LOG_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_TAPE_LOG_HU, ""},  /* fuzzy */
+/* it */ {IDGS_TAPE_LOG_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_TAPE_LOG_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_TAPE_LOG_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_TAPE_LOG_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_TAPE_LOG_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_TAPE_LOG_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_TAPE_LOG_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */
@@ -5741,6 +5758,91 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_SAMPLE_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SAMPLE_NAME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_SAMPLE_NAME_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tapelog.c */
+/* en */ {IDCLS_ENABLE_TAPELOG,    N_("Enable the tape log device")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_TAPELOG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPELOG_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_TAPELOG_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_TAPELOG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TAPELOG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TAPELOG_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_TAPELOG_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPELOG_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_TAPELOG_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_TAPELOG_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TAPELOG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_TAPELOG_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tapelog.c */
+/* en */ {IDCLS_DISABLE_TAPELOG,    N_("Disable the tape log device")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_TAPELOG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPELOG_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_TAPELOG_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_TAPELOG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_TAPELOG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_TAPELOG_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_TAPELOG_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TAPELOG_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_TAPELOG_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_TAPELOG_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_TAPELOG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_TAPELOG_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tapelog.c */
+/* en */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE,    N_("Enable logging to a file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tapelog.c */
+/* en */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG,    N_("Enable logging to the emulator log file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tapelog.c */
+/* en */ {IDCLS_SPECIFY_TAPELOG_NAME,    N_("Specify tape log file name")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_TAPELOG_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_TAPELOG_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_TAPELOG_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_TAPELOG_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_TAPELOG_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_TAPELOG_NAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_TAPELOG_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_TAPELOG_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_TAPELOG_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_TAPELOG_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_TAPELOG_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_TAPELOG_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/georam.c */

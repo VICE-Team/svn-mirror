@@ -78,6 +78,7 @@
 #include "sid-resources.h"
 #include "sound.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "translate.h"
 #include "traps.h"
 #include "types.h"
@@ -438,6 +439,10 @@ int machine_resources_init(void)
         init_resource_fail("drive");
         return -1;
     }
+    if (tapeport_resources_init() < 0) {
+        init_resource_fail("tapeport");
+        return -1;
+    }
     if (datasette_resources_init() < 0) {
         init_resource_fail("datasette");
         return -1;
@@ -498,6 +503,7 @@ void machine_resources_shutdown(void)
     userport_rtc_ds1307_resources_shutdown();
     userport_resources_shutdown();
     bbrtc_resources_shutdown();
+    tapeport_resources_shutdown();
 }
 
 /* VIC20-specific command-line option initialization.  */
@@ -617,6 +623,10 @@ int machine_cmdline_options_init(void)
 #endif
     if (drive_cmdline_options_init() < 0) {
         init_cmdline_options_fail("drive");
+        return -1;
+    }
+    if (tapeport_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("tapeport");
         return -1;
     }
     if (datasette_cmdline_options_init() < 0) {

@@ -32,6 +32,7 @@
 #include "datasette.h"
 #include "lib.h"
 #include "log.h"
+#include "tapelog.h"
 #include "tapeport.h"
 #include "uiapi.h"
 
@@ -57,20 +58,22 @@ tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
                     found = 1;
                 }
             }
-            if (current->next) {
-                 current = current->next;
-            } else {
-                found = 2;
+            if (!found) {
+                if (current->next) {
+                    current = current->next;
+                } else {
+                    found = 2;
+                }
             }
         }
         if (found == 2) {
             log_warning(LOG_DEFAULT, "TAPEPORT insertion error, highest id not present in chain");
         } else {
             if (current->device->trigger_flux_change_passthrough || current->device->set_tape_sense_passthrough) {
-                use_id = tapeport_devices + 1;
+                use_id = tapeport_devices;
             } else {
                 if (device->trigger_flux_change_passthrough || device->set_tape_sense_passthrough) {
-                    use_id = tapeport_devices;
+                    use_id = tapeport_devices - 1;
                     ++current->device->id;
                 } else {
                     ui_error("last tapeport device %s does not support passthrough, and %s does not support passthrough either", current->device->name, device->name);
@@ -321,7 +324,10 @@ void tapeport_set_tape_sense(int sense, int id)
 
 int tapeport_resources_init(void)
 {
-    /* TODO call tape devices resources init */
+    if (tapelog_resources_init() < 0) {
+        return -1;
+    }
+
     return 0;
 }
 
@@ -340,7 +346,10 @@ void tapeport_resources_shutdown(void)
 
 int tapeport_cmdline_options_init(void)
 {
-    /* TODO call tape devices cmdline init */
+    if (tapelog_cmdline_options_init() < 0) {
+        return -1;
+    }
+
     return 0;
 }
 

@@ -90,6 +90,7 @@
 #include "snapshot.h"
 #include "sound.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "tpi.h"
 #include "translate.h"
 #include "traps.h"
@@ -215,6 +216,10 @@ int machine_resources_init(void)
     }
     if (drive_resources_init() < 0) {
         init_resource_fail("drive");
+        return -1;
+    }
+    if (tapeport_resources_init() < 0) {
+        init_resource_fail("tapeport");
         return -1;
     }
     if (datasette_resources_init() < 0) {
@@ -371,6 +376,7 @@ void machine_resources_shutdown(void)
     userport_rtc_ds1307_resources_shutdown();
     userport_resources_shutdown();
     bbrtc_resources_shutdown();
+    tapeport_resources_shutdown();
 }
 
 /* CBM-II-specific command-line option initialization.  */
@@ -402,6 +408,10 @@ int machine_cmdline_options_init(void)
     }
     if (drive_cmdline_options_init() < 0) {
         init_cmdline_options_fail("drive");
+        return -1;
+    }
+    if (tapeport_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("tapeport");
         return -1;
     }
     if (datasette_cmdline_options_init() < 0) {

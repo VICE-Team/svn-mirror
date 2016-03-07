@@ -7,5 +7,7 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libtapeport.a
 
 libtapeport_a_SOURCES = \
+	tapelog.c \
+	tapelog.h \
 	tapeport.c \
 	tapeport.h
