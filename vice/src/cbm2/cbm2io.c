@@ -299,8 +299,6 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
     BYTE firstval = 0;
     unsigned int lowest_order = 0xffffffff;
 
-    mem_handle_pending_alarms_external(0);
-
     while (current) {
         if (current->device->read != NULL) {
             if ((addr >= current->device->start_address) && (addr <= current->device->end_address)) {
@@ -393,8 +391,6 @@ static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
     WORD addy = 0xffff;
     io_source_list_t *current = list->next;
     void (*store)(WORD address, BYTE data) = NULL;
-
-    mem_handle_pending_alarms_external_write();
 
     while (current) {
         if (current->device->store != NULL) {
