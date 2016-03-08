@@ -364,7 +364,7 @@ static int doodle_render_and_save(native_data_t *source, int compress)
 
     if (retval != -1) {
         if (compress) {
-            result = lib_malloc(9218);
+            result = lib_malloc(9218 * 4);
             j = 0;
             i = 2;
             result[j++] = 0;
@@ -386,6 +386,7 @@ static int doodle_render_and_save(native_data_t *source, int compress)
                         result[j++] = 0xFE;
                         result[j++] = 0xFE;
                         result[j++] = 0x01;
+                        i++;
                     } else {
                         result[j++] = filebuffer[i++];
                     }
