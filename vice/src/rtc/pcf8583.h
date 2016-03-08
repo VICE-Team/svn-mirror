@@ -27,6 +27,8 @@
 #ifndef VICE_PCF8583_H
 #define VICE_PCF8583_H
 
+#include <time.h>
+
 #include "types.h"
 
 #define PCF8583_IDLE               0
