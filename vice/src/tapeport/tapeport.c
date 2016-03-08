@@ -69,6 +69,7 @@ tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
         }
         if (found == 2) {
             log_warning(LOG_DEFAULT, "TAPEPORT insertion error, highest id not present in chain");
+            return NULL;
         } else {
             if (current->device->trigger_flux_change_passthrough || current->device->set_tape_sense_passthrough) {
                 use_id = tapeport_devices;
@@ -133,6 +134,7 @@ void tapeport_device_unregister(tapeport_device_list_t *device)
                 }
             }
         }
+        --tapeport_devices;
     }
 }
 
