@@ -670,11 +670,26 @@ IDGS_USERPORT_RTC58321A
 /* userport/userport_rtc_ds1307.c */
 IDGS_USERPORT_DS1307
 
+/* tapeport/tapertc.c */
+IDGS_TAPE_RTC
+
 /* userport/userport_dac.c */
 IDGS_USERPORT_DAC
 
 /* userport/userport_digimax.c */
 IDGS_USERPORT_DIGIMAX
+
+/* tapeport/tapertc.c */
+IDCLS_ENABLE_TAPERTC
+
+/* tapeport/tapertc.c */
+IDCLS_DISABLE_TAPERTC
+
+/* tapeport/tapertc.c */
+IDCLS_ENABLE_TAPERTC_SAVE
+
+/* tapeport/tapertc.c */
+IDCLS_DISABLE_TAPERTC_SAVE
 
 /* userport/userport_4bit_sampler.c */
 IDGS_USERPORT_4BIT_SAMPLER

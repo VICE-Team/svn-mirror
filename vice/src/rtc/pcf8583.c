@@ -109,32 +109,6 @@
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-#define PCF8583_RAM_SIZE  240
-#define PCF8583_REG_SIZE   16
-
-struct rtc_pcf8583_s {
-    int clock_halt;
-    time_t clock_halt_latch;
-    int am_pm;
-    time_t latch;
-    time_t offset;
-    time_t old_offset;
-    BYTE *clock_regs;
-    BYTE old_clock_regs[PCF8583_REG_SIZE];
-    BYTE clock_regs_for_read[PCF8583_REG_SIZE];
-    BYTE *ram;
-    BYTE old_ram[PCF8583_RAM_SIZE];
-    BYTE state;
-    BYTE reg;
-    BYTE reg_ptr;
-    BYTE bit;
-    BYTE io_byte;
-    BYTE sclk_line;
-    BYTE data_line;
-    BYTE clock_register;
-    char *device;
-};
-
 #define PCF8583_REG_CONTROL              0
 #define PCF8583_REG_100TH_SECONDS        1
 #define PCF8583_REG_SECONDS              2
@@ -151,18 +125,6 @@ struct rtc_pcf8583_s {
 #define PCF8583_REG_DATE_ALARM          13
 #define PCF8583_REG_MONTH_ALARM         14
 #define PCF8583_REG_TIMER_ALARM         15
-
-#define PCF8583_IDLE               0
-#define PCF8583_GET_ADDRESS        1
-#define PCF8583_GET_REG_NR         2
-#define PCF8583_READ_REGS          3
-#define PCF8583_WRITE_REGS         4
-#define PCF8583_ADDRESS_READ_ACK   5
-#define PCF8583_ADDRESS_WRITE_ACK  6
-#define PCF8583_REG_NR_ACK         7
-#define PCF8583_WRITE_ACK          8
-#define PCF8583_READ_ACK           9
-#define PCF8583_START_WAIT         10
 
 /* ---------------------------------------------------------------------------------------------------- */
 

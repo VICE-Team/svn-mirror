@@ -34,6 +34,7 @@
 #include "log.h"
 #include "tapelog.h"
 #include "tapeport.h"
+#include "tapertc.h"
 #include "uiapi.h"
 
 static tapeport_device_list_t tapeport_head = { NULL, NULL, NULL };
@@ -327,26 +328,35 @@ int tapeport_resources_init(void)
     if (tapelog_resources_init() < 0) {
         return -1;
     }
+    if (tapertc_resources_init() < 0) {
+        return -1;
+    }
 
     return 0;
 }
 
 void tapeport_resources_shutdown(void)
 {
-    tapeport_device_list_t *current = tapeport_head.next;
+    tapeport_device_list_t *current;
+
+    tapertc_resources_shutdown();
+
+    current = tapeport_head.next;
 
     while (current) {
         tapeport_device_unregister(current);
         current = tapeport_head.next;
     }
-
-    /* TODO call tape devices resources shutdown */
 }
 
 
 int tapeport_cmdline_options_init(void)
 {
     if (tapelog_cmdline_options_init() < 0) {
+        return -1;
+    }
+
+    if (tapertc_cmdline_options_init() < 0) {
         return -1;
     }
 

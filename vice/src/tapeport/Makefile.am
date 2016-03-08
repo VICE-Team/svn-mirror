@@ -10,4 +10,6 @@ libtapeport_a_SOURCES = \
 	tapelog.c \
 	tapelog.h \
 	tapeport.c \
-	tapeport.h
+	tapeport.h \
+	tapertc.c \
+	tapertc.h

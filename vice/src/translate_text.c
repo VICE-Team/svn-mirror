@@ -3846,6 +3846,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_USERPORT_DS1307_TR, ""},  /* fuzzy */
 #endif
 
+/* tapeport/tapertc.c */
+/* en */ {IDGS_TAPE_RTC,    N_("Tape RTC (PCF8583)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_TAPE_RTC_DA, ""},  /* fuzzy */
+/* de */ {IDGS_TAPE_RTC_DE, ""},  /* fuzzy */
+/* es */ {IDGS_TAPE_RTC_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_TAPE_RTC_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_TAPE_RTC_HU, ""},  /* fuzzy */
+/* it */ {IDGS_TAPE_RTC_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_TAPE_RTC_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_TAPE_RTC_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_TAPE_RTC_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_TAPE_RTC_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_TAPE_RTC_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_TAPE_RTC_TR, ""},  /* fuzzy */
+#endif
+
 /* userport/userport_dac.c */
 /* en */ {IDGS_USERPORT_DAC,    N_("Userport DAC")},
 #ifdef HAS_TRANSLATION
@@ -6457,6 +6474,74 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_BBRTC_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_BBRTC_SAVE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_BBRTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tapertc.c */
+/* en */ {IDCLS_ENABLE_TAPERTC,    N_("Enable tape RTC (PCF8583)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_TAPERTC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPERTC_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_TAPERTC_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_TAPERTC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TAPERTC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TAPERTC_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_TAPERTC_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPERTC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_TAPERTC_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_TAPERTC_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TAPERTC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_TAPERTC_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tapertc.c */
+/* en */ {IDCLS_DISABLE_TAPERTC,    N_("Disable tape RTC (PCF8583)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_TAPERTC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPERTC_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_TAPERTC_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_TAPERTC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_TAPERTC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_TAPERTC_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_TAPERTC_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TAPERTC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_TAPERTC_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_TAPERTC_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_TAPERTC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_TAPERTC_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tapertc.c */
+/* en */ {IDCLS_ENABLE_TAPERTC_SAVE,    N_("Enable saving of the tape RTC (PCF8583) data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_TAPERTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPERTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_TAPERTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_TAPERTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TAPERTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TAPERTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_TAPERTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPERTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_TAPERTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_TAPERTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TAPERTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_TAPERTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tapertc.c */
+/* en */ {IDCLS_DISABLE_TAPERTC_SAVE,    N_("Disable saving of the tape RTC (PCF8583) data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_TAPERTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPERTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_TAPERTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_TAPERTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_TAPERTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_TAPERTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_TAPERTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TAPERTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_TAPERTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_TAPERTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_TAPERTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_TAPERTC_SAVE_TR, ""},  /* fuzzy */
 #endif
 
 /* userport/userport_4bit_sampler.c */
