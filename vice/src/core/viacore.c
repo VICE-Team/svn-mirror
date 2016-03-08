@@ -912,7 +912,7 @@ static void viacore_intt1(CLOCK offset, void *data)
     } else {                    /* continuous mode */
         /* load counter with latch value */
         via_context->tai += via_context->tal + 2;
-        if (via_context->tal) alarm_set(via_context->t1_alarm, via_context->tai);
+        alarm_set(via_context->t1_alarm, via_context->tai);
 
         /* Let tau also keep up with the cpu clock
            this should avoid "% (via_context->tal + 2)" case */
