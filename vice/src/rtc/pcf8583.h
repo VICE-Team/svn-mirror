@@ -41,7 +41,7 @@
 #define PCF8583_REG_NR_ACK         7
 #define PCF8583_WRITE_ACK          8
 #define PCF8583_READ_ACK           9
-#define PCF8583_START_WAIT         10
+#define PCF8583_READ_REGS_TRAIN    10
 
 #define PCF8583_RAM_SIZE  240
 #define PCF8583_REG_SIZE   16
@@ -50,6 +50,7 @@ typedef struct rtc_pcf8583_s {
     int clock_halt;
     time_t clock_halt_latch;
     int am_pm;
+    int read_bit_shift;
     time_t latch;
     time_t offset;
     time_t old_offset;
@@ -69,7 +70,7 @@ typedef struct rtc_pcf8583_s {
     char *device;
 } rtc_pcf8583_t;
 
-extern rtc_pcf8583_t *pcf8583_init(char *device);
+extern rtc_pcf8583_t *pcf8583_init(char *device, int read_bit_shift);
 extern void pcf8583_destroy(rtc_pcf8583_t *context, int save);
 
 extern void pcf8583_set_clk_line(rtc_pcf8583_t *context, BYTE data);

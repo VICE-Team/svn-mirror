@@ -128,7 +128,7 @@
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-rtc_pcf8583_t *pcf8583_init(char *device)
+rtc_pcf8583_t *pcf8583_init(char *device, int read_bit_shift)
 {
     rtc_pcf8583_t *retval = lib_calloc(1, sizeof(rtc_pcf8583_t));
     int loaded = rtc_load_context(device, PCF8583_RAM_SIZE, PCF8583_REG_SIZE);
@@ -151,6 +151,7 @@ rtc_pcf8583_t *pcf8583_init(char *device)
     retval->sclk_line = 1;
     retval->data_line = 1;
     retval->reg_ptr = 0;
+    retval->read_bit_shift = read_bit_shift;
 
     return retval;
 }
@@ -168,6 +169,38 @@ void pcf8583_destroy(rtc_pcf8583_t *context, int save)
     lib_free(context->clock_regs);
     lib_free(context->device);
     lib_free(context);
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+static BYTE register_train[9 * 20];
+
+static void make_read_register_train(rtc_pcf8583_t *context)
+{
+    int i, j;
+
+    for (i = 0; i < 9 * 20; ++i) {
+        register_train[i] = 0;
+    }
+
+    for (i = 0; i < 16; ++i) {
+        for (j = 7; j >= 0; --j) {
+            if (((i * 9) + (7 - j) + context->read_bit_shift) >= 0) {
+                register_train[(i * 9) + (7 - j) + context->read_bit_shift] = (context->clock_regs_for_read[i] & (1 << j)) ? 1 : 0;
+            }
+        }
+        register_train[(i * 9) + 8 + context->read_bit_shift] = 0;
+    }
+}
+
+static void pcf8584_next_train_bit(rtc_pcf8583_t *context)
+{
+    ++context->bit;
+    if (context->bit == 9) {
+        ++context->reg_ptr;
+        context->reg_ptr &= 0x1f;
+        context->bit = 0;
+    }
 }
 
 /* ---------------------------------------------------------------------------------------------------- */
@@ -206,6 +239,9 @@ static void pcf8583_i2c_start(rtc_pcf8583_t *context)
     context->clock_regs_for_read[PCF8583_REG_TIMER_DAYS] = 0;
     for (i = PCF8583_REG_ALARM_CONTROL; i <= PCF8583_REG_TIMER_ALARM; ++i) {
         context->clock_regs_for_read[i] = context->clock_regs[i];
+    }
+    if (context->read_bit_shift) {
+        make_read_register_train(context);
     }
 }
 
@@ -309,7 +345,12 @@ static void pcf8583_next_address_bit(rtc_pcf8583_t *context)
         if (context->reg == 0xa0) {
             context->state = PCF8583_ADDRESS_WRITE_ACK;
         } else if (context->reg == 0xa1) {
-            context->state = PCF8583_ADDRESS_READ_ACK;
+            if (context->read_bit_shift) {
+                context->state = PCF8583_READ_REGS_TRAIN;
+                context->bit = 0;
+            } else {
+                context->state = PCF8583_ADDRESS_READ_ACK;
+            }
         } else {
             context->state = PCF8583_IDLE;
         }
@@ -367,10 +408,10 @@ void pcf8583_set_clk_line(rtc_pcf8583_t *context, BYTE data)
         return;
     }
 
-    if (!val) {
+    if (val) {
         switch (context->state) {
-            case PCF8583_START_WAIT:
-                context->state = PCF8583_GET_ADDRESS;
+            case PCF8583_READ_REGS_TRAIN:
+                pcf8584_next_train_bit(context);
                 break;
             case PCF8583_GET_ADDRESS:
                 pcf8583_next_address_bit(context);
@@ -421,7 +462,7 @@ void pcf8583_set_data_line(rtc_pcf8583_t *context, BYTE data)
             context->state = PCF8583_IDLE;
         } else {
             pcf8583_i2c_start(context);
-            context->state = PCF8583_START_WAIT;
+            context->state = PCF8583_GET_ADDRESS;
             context->reg = 0;
             context->bit = 0;
         }
@@ -434,6 +475,8 @@ BYTE pcf8583_read_data_line(rtc_pcf8583_t *context)
 	switch (context->state) {
         case PCF8583_READ_REGS:
             return (context->reg & (1 << (7 - context->bit))) >> (7 - context->bit);
+        case PCF8583_READ_REGS_TRAIN:
+            return register_train[(context->reg_ptr * 9) + context->bit];
         case PCF8583_ADDRESS_READ_ACK:
         case PCF8583_ADDRESS_WRITE_ACK:
         case PCF8583_REG_NR_ACK:

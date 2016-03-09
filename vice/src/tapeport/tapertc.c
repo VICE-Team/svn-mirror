@@ -64,8 +64,6 @@ static rtc_pcf8583_t *tapertc_context = NULL;
 /* rtc save */
 static int tapertc_save = 0;
 
-static BYTE tapertc_scl = 1;
-
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
@@ -100,7 +98,7 @@ static int set_tapertc_enabled(int value, void *param)
         if (tapertc_list_item == NULL) {
             return -1;
         }
-        tapertc_context = pcf8583_init("TAPERTC");
+        tapertc_context = pcf8583_init("TAPERTC", 2);
         pcf8583_set_data_line(tapertc_context, 1);
         pcf8583_set_clk_line(tapertc_context, 1);
     } else {
@@ -178,28 +176,34 @@ void tapertc_resources_shutdown(void)
 
 static BYTE motor_state;
 
+static void check_sense(void)
+{
+    int sense_from_rtc;
+
+    sense_from_rtc = pcf8583_read_data_line(tapertc_context);
+
+    if (!sense_from_rtc) {
+        tapeport_set_tape_sense(0, tapertc_device.id);
+    }
+    else if (motor_state) {
+        tapeport_set_tape_sense(0, tapertc_device.id);
+    } else {
+        tapeport_set_tape_sense(1, tapertc_device.id);
+    }
+}
+
 static void tapertc_store_sda(int flag)
 {
     motor_state = flag;
 
-    pcf8583_set_data_line(tapertc_context, flag ? 0 : 1);
-    tapeport_set_tape_sense(flag ? 1 : 0, tapertc_device.id);
+    pcf8583_set_data_line(tapertc_context, !motor_state);
+    check_sense();
 }
 
 static void tapertc_store_scl(int write_bit)
 {
     BYTE val = write_bit ? 1 : 0;
-    BYTE state = tapertc_context->state;
-    BYTE sense;
-
-    if (val == tapertc_scl) {
-        return;
-    }
 
     pcf8583_set_clk_line(tapertc_context, val);
-    tapertc_scl = val;
-    if (state == PCF8583_READ_REGS) {
-        sense = !(pcf8583_read_data_line(tapertc_context) & !motor_state);
-        tapeport_set_tape_sense(sense, tapertc_device.id);
-    }
+    check_sense();
 }
