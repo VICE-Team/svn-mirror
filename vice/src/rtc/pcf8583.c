@@ -105,6 +105,7 @@
  */
 
 /* This module is currently used in the following emulated hardware:
+   CP CLock F83
  */
 
 /* ---------------------------------------------------------------------------------------------------- */
