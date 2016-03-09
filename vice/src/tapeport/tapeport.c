@@ -29,12 +29,12 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cp-clockf83.h"
 #include "datasette.h"
 #include "lib.h"
 #include "log.h"
 #include "tapelog.h"
 #include "tapeport.h"
-#include "tapertc.h"
 #include "uiapi.h"
 
 static tapeport_device_list_t tapeport_head = { NULL, NULL, NULL };

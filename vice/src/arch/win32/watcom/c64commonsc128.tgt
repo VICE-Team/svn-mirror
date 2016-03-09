@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-88
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\nt;..\..\..\c64\cart;..\..\..\sid;..\..\..\vicii
+106
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\nt;..\..\..\c64\cart;..\..\..\sid;..\..\..\vicii;..\..\..\tapeport
 0
 18
 MVState

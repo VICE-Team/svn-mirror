@@ -1,8 +1,8 @@
 /*
- * tapertc.h: Generic tapeport rtc (pcf8583) device emulation.
+ * cp-clockf83.h: CP Clock F83 rtc (pcf8583) device emulation.
  *
  * Written by
- *  Marco van den Heuvel <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef VICE_TAPERTC_H
-#define VICE_TAPERTC_H
+#ifndef VICE_CPCLOCKF83_H
+#define VICE_CPCLOCKF83_H
 
 #include "types.h"
 

@@ -6477,7 +6477,7 @@ translate_t string_table[] = {
 #endif
 
 /* tapeport/tapertc.c */
-/* en */ {IDCLS_ENABLE_TAPERTC,    N_("Enable tape RTC (PCF8583)")},
+/* en */ {IDCLS_ENABLE_TAPERTC,    N_("Enable CP Clock F83 (PCF8583 RTC)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPERTC_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_TAPERTC_DE, ""},  /* fuzzy */
@@ -6494,7 +6494,7 @@ translate_t string_table[] = {
 #endif
 
 /* tapeport/tapertc.c */
-/* en */ {IDCLS_DISABLE_TAPERTC,    N_("Disable tape RTC (PCF8583)")},
+/* en */ {IDCLS_DISABLE_TAPERTC,    N_("Disable CP Clock F83 (PCF8583 RTC)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TAPERTC_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_TAPERTC_DE, ""},  /* fuzzy */
@@ -6511,7 +6511,7 @@ translate_t string_table[] = {
 #endif
 
 /* tapeport/tapertc.c */
-/* en */ {IDCLS_ENABLE_TAPERTC_SAVE,    N_("Enable saving of the tape RTC (PCF8583) data when changed.")},
+/* en */ {IDCLS_ENABLE_TAPERTC_SAVE,    N_("Enable saving of the CP Clock F83 (PCF8583 RTC) data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPERTC_SAVE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_TAPERTC_SAVE_DE, ""},  /* fuzzy */
@@ -6528,7 +6528,7 @@ translate_t string_table[] = {
 #endif
 
 /* tapeport/tapertc.c */
-/* en */ {IDCLS_DISABLE_TAPERTC_SAVE,    N_("Disable saving of the tape RTC (PCF8583) data when changed.")},
+/* en */ {IDCLS_DISABLE_TAPERTC_SAVE,    N_("Disable saving of the CP Clock F83 (PCF8583 RTC) data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TAPERTC_SAVE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_TAPERTC_SAVE_DE, ""},  /* fuzzy */

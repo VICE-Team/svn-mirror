@@ -7,9 +7,9 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libtapeport.a
 
 libtapeport_a_SOURCES = \
+	cp-clockf83.c \
+	cp-clockf83.h \
 	tapelog.c \
 	tapelog.h \
 	tapeport.c \
-	tapeport.h \
-	tapertc.c \
-	tapertc.h
+	tapeport.h

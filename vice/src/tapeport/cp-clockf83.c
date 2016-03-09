@@ -1,5 +1,5 @@
 /*
- * tapertc.c - Generic tapeport RTC (PCF8583) emulation.
+ * cp-clockf83.c - CP Clock F83 RTC (PCF8583) emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,24 +24,13 @@
  *
  */
 
-/* Tapeport RTC PCF8583
+/* CP Clock F83
 
 TAPE PORT | PCF8583 | I/O
 ------------------------------------
   MOTOR   |   SDA   |  O
   SENSE   |   SDA   |  I
   WRITE   |   SCL   |  O
-
-the READ line is not connected.
-
-There are some extra electronics involved that set the following rules:
-
-PCF8583 SDA OUTPUT | MOTOR | SENSE | PCF8583 SDA INPUT
-------------------------------------------------------
-     FLOATING      |  LOW  | LOW   | HIGH
-     FLOATING      | HIGH  | HIGH  | LOW
-        LOW        |  LOW  | HIGH  | N/A
-        LOW        | HIGH  | HIGH  | N/A
 */
 
 #include "vice.h"
@@ -122,9 +111,9 @@ static int set_tapertc_save(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    { "TapeRTC", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "CPClockF83", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &tapertc_enabled, set_tapertc_enabled, NULL },
-    { "TapeRTCSave", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "CPClockF83Save", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &tapertc_save, set_tapertc_save, NULL },
     { NULL }
 };
@@ -136,23 +125,23 @@ int tapertc_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-tapertc", SET_RESOURCE, 0,
-      NULL, NULL, "TapeRTC", (resource_value_t)1,
+    { "-cpclockf83", SET_RESOURCE, 0,
+      NULL, NULL, "CPClockF83", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_TAPERTC,
       NULL, NULL },
-    { "+tapertc", SET_RESOURCE, 0,
-      NULL, NULL, "TapeRTC", (resource_value_t)0,
+    { "+cpclockf83", SET_RESOURCE, 0,
+      NULL, NULL, "CPClockF83", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_TAPERTC,
       NULL, NULL },
-    { "-tapertcsave", SET_RESOURCE, 0,
-      NULL, NULL, "TapeRTCSave", (resource_value_t)1,
+    { "-cpclockf83save", SET_RESOURCE, 0,
+      NULL, NULL, "CPClockF83Save", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_TAPERTC_SAVE,
       NULL, NULL },
-    { "+tapertcsave", SET_RESOURCE, 0,
-      NULL, NULL, "TapeRTCSave", (resource_value_t)0,
+    { "+cpclockf83save", SET_RESOURCE, 0,
+      NULL, NULL, "CPClockF83Save", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_TAPERTC_SAVE,
       NULL, NULL },
@@ -196,7 +185,7 @@ static void tapertc_store_sda(int flag)
 {
     motor_state = flag;
 
-    pcf8583_set_data_line(tapertc_context, !motor_state);
+    pcf8583_set_data_line(tapertc_context, (BYTE)!motor_state);
     check_sense();
 }
 

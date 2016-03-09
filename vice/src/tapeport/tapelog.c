@@ -347,7 +347,7 @@ void tapelog_trigger_flux_change_passthrough(unsigned int on)
 {
     tapeport_trigger_flux_change(on, tapelog_device.id);
 
-    tapelog_transition("read", on);
+    tapelog_transition("read", (BYTE)on);
 
     tapelog_read = on;
 }
