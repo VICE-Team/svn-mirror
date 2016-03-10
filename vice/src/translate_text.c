@@ -8808,6 +8808,23 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_EASYCALC_CART,    N_("Attach raw 24kB Easy Calc Result cartridge image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ATTACH_RAW_EASYCALC_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_EASYCALC_CART_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ATTACH_RAW_EASYCALC_CART_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_RAW_EASYCALC_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_RAW_EASYCALC_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_EASYCALC_CART_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ATTACH_RAW_EASYCALC_CART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_EASYCALC_CART_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ATTACH_RAW_EASYCALC_CART_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ATTACH_RAW_EASYCALC_CART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_EASYCALC_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_EASYCALC_CART_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_PAGEFOX_CART,    N_("Attach raw 64KB Pagefox cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_DA, "Tilslut råt 64kB Pagefox cartridge image"},

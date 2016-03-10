@@ -62,6 +62,8 @@ libc64cart_a_SOURCES = \
 	dinamic.h \
 	dqbb.c \
 	dqbb.h \
+	easycalc.c \
+	easycalc.h \
 	easyflash.c \
 	easyflash.h \
 	epyxfastload.c \

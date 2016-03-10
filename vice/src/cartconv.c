@@ -105,6 +105,7 @@ static void save_delaep64_crt(unsigned int p1, unsigned int p2, unsigned int p3,
 static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_easycalc_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 
 /* this table must be in correct order so it can be indexed by CRT ID */
 /*
@@ -180,6 +181,7 @@ static const cart_t cart_info[] = {
     {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0xe000, 4, 0, CARTRIDGE_NAME_FORMEL64, "f64", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, CARTRIDGE_NAME_RGCD, "rgcd", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_RRNETMK3, "rrnet", save_regular_crt},
+    {1, 1, CARTRIDGE_SIZE_24KB, 0, 0, 3, 0, CARTRIDGE_NAME_EASYCALC, "ecr", save_easycalc_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
@@ -954,6 +956,34 @@ static void save_funplay_crt(unsigned int p1, unsigned int p2, unsigned int p3, 
         if (i == 0x40) {
             i = 1;
         }
+    }
+
+    fclose(outfile);
+    bin2crt_ok();
+    cleanup();
+    exit(0);
+}
+
+static void save_easycalc_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
+{
+    if (write_crt_header(1, 1) < 0) {
+        cleanup();
+        exit(1);
+    }
+
+    if (write_chip_package(0x2000, 0, 0x8000, 0) < 0) {
+        cleanup();
+        exit(1);
+    }
+
+    if (write_chip_package(0x2000, 0, 0xa000, 0) < 0) {
+        cleanup();
+        exit(1);
+    }
+
+    if (write_chip_package(0x2000, 1, 0xa000, 0) < 0) {
+        cleanup();
+        exit(1);
     }
 
     fclose(outfile);

@@ -204,8 +204,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_FORMEL64             56 /* formel64.c */
 #define CARTRIDGE_RGCD                 57 /* rgcd.c */
 #define CARTRIDGE_RRNETMK3             58 /* rrnetmk3.c */
+#define CARTRIDGE_EASYCALC             59 /* easycalc.c */
 
-#define CARTRIDGE_LAST                 58 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 59 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -240,6 +241,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_DINAMIC            "Dinamic"
 #define CARTRIDGE_NAME_DQBB               "Double Quick Brown Box" /* on the cart itself its all uppercase ? */
 #define CARTRIDGE_NAME_DS12C887RTC        "DS12C887 Real Time Clock" /* Title of the page at http://ytm.bossstation.dnsalias.org/html/rtcds12c887.html */
+#define CARTRIDGE_NAME_EASYCALC           "Easy Calc Result" /* on the cart itself it's "Calc Result EASY", in the manual it's EASYCALC, but we'll go with what is defined ;) */
 #define CARTRIDGE_NAME_EASYFLASH          "EasyFlash" /* see http://skoe.de/easyflash/ */
 #define CARTRIDGE_NAME_EASYFLASH_XBANK    "EasyFlash Xbank" /* see http://skoe.de/easyflash/ */
 #define CARTRIDGE_NAME_EPYX_FASTLOAD      "Epyx FastLoad" /* http://rr.pokefinder.org/wiki/Epyx_FastLoad */

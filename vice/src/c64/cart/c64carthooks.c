@@ -79,6 +79,7 @@
 #include "dinamic.h"
 #include "dqbb.h"
 #include "ds12c887rtc.h"
+#include "easycalc.h"
 #include "easyflash.h"
 #include "epyxfastload.h"
 #include "exos.h"
@@ -275,6 +276,11 @@ static const cmdline_option_t cmdline_options[] =
       cart_attach_cmdline, (void *)CARTRIDGE_EASYFLASH, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_EASY_FLASH_CART,
+      NULL, NULL },
+    { "-carteasycalc", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_EASYCALC, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_EASYCALC_CART,
       NULL, NULL },
     /* omitted: CARTRIDGE_EASYFLASH_XBANK (NO CART EXISTS!) */
     { "-cartepyx", CALL_FUNCTION, 1,
@@ -918,6 +924,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return dsm_bin_attach(filename, rawcart);
         case CARTRIDGE_DINAMIC:
             return dinamic_bin_attach(filename, rawcart);
+        case CARTRIDGE_EASYCALC:
+            return easycalc_bin_attach(filename, rawcart);
         case CARTRIDGE_EASYFLASH:
             return easyflash_bin_attach(filename, rawcart);
         case CARTRIDGE_EASYFLASH_XBANK:
@@ -1087,6 +1095,9 @@ void cart_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_DINAMIC:
             dinamic_config_setup(rawcart);
+            break;
+        case CARTRIDGE_EASYCALC:
+            easycalc_config_setup(rawcart);
             break;
         case CARTRIDGE_EASYFLASH:
             easyflash_config_setup(rawcart);
@@ -1504,6 +1515,9 @@ void cart_detach(int type)
         case CARTRIDGE_DINAMIC:
             dinamic_detach();
             break;
+        case CARTRIDGE_EASYCALC:
+            easycalc_detach();
+            break;
         case CARTRIDGE_EASYFLASH:
             easyflash_detach();
             break;
@@ -1736,6 +1750,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_DINAMIC:
             dinamic_config_init();
+            break;
+        case CARTRIDGE_EASYCALC:
+            easycalc_config_init();
             break;
         case CARTRIDGE_EASYFLASH:
             easyflash_config_init();
@@ -2620,6 +2637,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_EASYCALC:
+                if (easycalc_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_EASYFLASH:
                 if (easyflash_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3091,6 +3113,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_DINAMIC:
                 if (dinamic_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_EASYCALC:
+                if (easycalc_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

@@ -1505,6 +1505,9 @@ IDCLS_ATTACH_RAW_WARPSPEED_CART
 /* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_ZAXXON_CART
 
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_EASYCALC_CART
+
 /* c64/cart/c64cart.c, c64/cart/expert.c */
 IDCLS_ENABLE_EXPERT_CART
 

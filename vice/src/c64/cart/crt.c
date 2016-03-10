@@ -51,6 +51,7 @@
 #include "delaep7x8.h"
 #include "diashowmaker.h"
 #include "dinamic.h"
+#include "easycalc.h"
 #include "easyflash.h"
 #include "epyxfastload.h"
 #include "exos.h"
@@ -368,6 +369,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_DINAMIC:
             rc = dinamic_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_EASYCALC:
+            rc = easycalc_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_EASYFLASH:
             rc = easyflash_crt_attach(fd, rawcart, filename);
