@@ -33,6 +33,7 @@
 #include "datasette.h"
 #include "lib.h"
 #include "log.h"
+#include "sense-dongle.h"
 #include "tapelog.h"
 #include "tapeport.h"
 #include "uiapi.h"
@@ -333,6 +334,9 @@ int tapeport_resources_init(void)
     if (tapertc_resources_init() < 0) {
         return -1;
     }
+    if (sense_dongle_resources_init() < 0) {
+        return -1;
+    }
 
     return 0;
 }
@@ -359,6 +363,10 @@ int tapeport_cmdline_options_init(void)
     }
 
     if (tapertc_cmdline_options_init() < 0) {
+        return -1;
+    }
+
+    if (sense_dongle_cmdline_options_init() < 0) {
         return -1;
     }
 

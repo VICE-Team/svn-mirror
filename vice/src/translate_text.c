@@ -3863,6 +3863,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_TAPE_RTC_TR, ""},  /* fuzzy */
 #endif
 
+/* tapeport/sense-dongle.c */
+/* en */ {IDGS_SENSE_DONGLE,    N_("Sense dongle")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SENSE_DONGLE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SENSE_DONGLE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SENSE_DONGLE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SENSE_DONGLE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SENSE_DONGLE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SENSE_DONGLE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SENSE_DONGLE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SENSE_DONGLE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SENSE_DONGLE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SENSE_DONGLE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SENSE_DONGLE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SENSE_DONGLE_TR, ""},  /* fuzzy */
+#endif
+
 /* userport/userport_dac.c */
 /* en */ {IDGS_USERPORT_DAC,    N_("Userport DAC")},
 #ifdef HAS_TRANSLATION
@@ -6474,6 +6491,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_BBRTC_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_BBRTC_SAVE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_BBRTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/sense-dongle.c */
+/* en */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE,    N_("Enable tape sense dongle")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/sense-dongle.c */
+/* en */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE,    N_("Disable tape sense dongle")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_TR, ""},  /* fuzzy */
 #endif
 
 /* tapeport/tapertc.c */
