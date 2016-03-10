@@ -417,13 +417,15 @@ BYTE flash040core_read(flash040_context_t *flash040_context, unsigned int addr)
                 }
             }
 
-            if ((addr & 0xff) == 0)
+            if ((addr & 0xff) == 0) {
                 value = flash_types[flash040_context->flash_type].manufacturer_ID;
-            else if ((addr & 0xff) ==
-                     flash_types[flash040_context->flash_type].device_ID_addr)
+            } else if ((addr & 0xff) == flash_types[flash040_context->flash_type].device_ID_addr) {
                 value = flash_types[flash040_context->flash_type].device_ID;
-            else
+            } else if ((addr & 0xff) == 2) {
+                value = 0;
+            } else {
                 value = flash040_context->flash_data[addr];
+            }
             break;
 
         case FLASH040_STATE_BYTE_PROGRAM_ERROR:
