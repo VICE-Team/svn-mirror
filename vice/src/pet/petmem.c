@@ -1675,6 +1675,7 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
             if (addr >= 0x9000) {
                 return mem_rom[addr & 0x7fff];
             }
+            break;
         case bank_cpu6809:     /* 6809 */
             return mem6809_read(addr);
         case bank_ram:         /* ram */
@@ -1733,6 +1734,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
             if (addr >= 0x9000) {
                 return;
             }
+            break;
         case bank_cpu6809:      /* rom */
             mem6809_store(addr, byte);
             return;

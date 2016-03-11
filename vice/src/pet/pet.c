@@ -42,6 +42,7 @@
 #include "crtc.h"
 #include "datasette.h"
 #include "debug.h"
+#include "debugcart.h"
 #include "diskimage.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
@@ -369,6 +370,10 @@ int machine_resources_init(void)
         init_resource_fail("userport rtc (ds1307)");
         return -1;
     }
+    if (debugcart_resources_init() < 0) {
+        init_resource_fail("debug cart");
+        return -1;
+    }
     return 0;
 }
 
@@ -390,6 +395,7 @@ void machine_resources_shutdown(void)
     userport_resources_shutdown();
     bbrtc_resources_shutdown();
     tapeport_resources_shutdown();
+    debugcart_resources_shutdown();
 }
 
 /* PET-specific command-line option initialization.  */
@@ -549,6 +555,10 @@ int machine_cmdline_options_init(void)
     }
     if (userport_rtc_ds1307_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport rtc (ds1307)");
+        return -1;
+    }
+    if (debugcart_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("debug cart");
         return -1;
     }
     return 0;
