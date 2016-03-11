@@ -783,7 +783,7 @@ int machine_specific_init(void)
     if (delay == 0) {
         delay = 2; /* default */
     }
-    autostart_init((CLOCK)(delay * PLUS4_PAL_RFSH_PER_SEC * PLUS4_PAL_CYCLES_PER_RFSH), 0, 0, 0xc8, 0xca, -40);
+    autostart_init((CLOCK)(delay * PLUS4_PAL_RFSH_PER_SEC * PLUS4_PAL_CYCLES_PER_RFSH), 1, 0, 0xc8, 0xca, -40);
 
     /* Initialize the sidcart first */
     sidcart_sound_chip_init();
@@ -1091,7 +1091,11 @@ BYTE machine_tape_behaviour(void)
 int machine_addr_in_ram(unsigned int addr)
 {
     /* FIXME are these correct? */
-    return (addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) ? 1 : 0;
+    /* ROM is 8000-bfff
+     *        d000-fcff
+     *        fd00-     I/O
+     */
+    return ((addr < 0x8000) || (addr >= 0xc000 && addr <= 0xcfff)) ? 1 : 0;
 }
 
 const char *machine_get_name(void)
