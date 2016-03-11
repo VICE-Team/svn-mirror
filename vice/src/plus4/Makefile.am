@@ -18,6 +18,8 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libplus4.a
 
 libplus4_a_SOURCES = \
+	debugcart.c \
+	debugcart.h \
 	digiblaster.c \
 	digiblaster.h \
 	plus4-cmdline-options.c \
