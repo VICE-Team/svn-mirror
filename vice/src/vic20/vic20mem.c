@@ -163,57 +163,6 @@ static BYTE colorram_peek(WORD addr)
 
 /* ------------------------------------------------------------------------- */
 
-static void via_store(WORD addr, BYTE value)
-{
-    vic20_cpu_last_data = value;
-
-    if (addr & 0x10) {          /* $911x (VIA2) */
-        via2_store(addr, value);
-    }
-    if (addr & 0x20) {          /* $912x (VIA1) */
-        via1_store(addr, value);
-    }
-    vic20_mem_v_bus_store(addr);
-}
-
-static BYTE via_read(WORD addr)
-{
-    if ((addr & 0x30) == 0x00) {    /* $910x (unconnected V-bus) */
-        vic20_cpu_last_data = vic20_v_bus_last_data;
-    } else {
-        BYTE temp_bus = 0xff;
-
-        if (addr & 0x10) {          /* $911x (VIA2) */
-            temp_bus &= via2_read(addr);
-        }
-        if (addr & 0x20) {          /* $912x (VIA1) */
-            temp_bus &= via1_read(addr);
-        }
-        vic20_cpu_last_data = temp_bus;
-    }
-    vic20_mem_v_bus_read(addr);
-    return vic20_cpu_last_data;
-}
-
-static BYTE via_peek(WORD addr)
-{
-    if ((addr & 0x30) == 0x00) {  /* $910x (unconnected V-bus) */
-        return vic20_v_bus_last_data;
-    } else {
-        BYTE temp_bus = 0xff;
-
-        if (addr & 0x10) {          /* $911x (VIA2) */
-            temp_bus &= via2_peek(addr);
-        }
-        if (addr & 0x20) {          /* $912x (VIA1) */
-            temp_bus &= via1_peek(addr);
-        }
-        return temp_bus;
-    }
-}
-
-/*-------------------------------------------------------------------*/
-
 static BYTE io3_peek(WORD addr)
 {
     return vic20io3_peek(addr);
@@ -222,6 +171,11 @@ static BYTE io3_peek(WORD addr)
 static BYTE io2_peek(WORD addr)
 {
     return vic20io2_peek(addr);
+}
+
+static BYTE io0_peek(WORD addr)
+{
+    return vic20io0_peek(addr);
 }
 
 /*-------------------------------------------------------------------*/
@@ -479,14 +433,9 @@ void mem_initialize_memory(void)
             chargen_read, store_dummy_v_bus, chargen_peek,
             NULL, 0);
 
-    /* Setup VIC-I at $9000-$90FF. */
-    set_mem(0x90, 0x90,
-            vic_read, vic_store, vic_peek,
-            NULL, 0);
-
-    /* Setup VIAs at $9100-$93FF. */
-    set_mem(0x91, 0x93,
-            via_read, via_store, via_peek,
+    /* Setup I/O0 */
+    set_mem(0x90, 0x93,
+            vic20io0_read, vic20io0_store, io0_peek,
             NULL, 0);
 
     /* Setup color memory at $9400-$97FF.
@@ -646,26 +595,9 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     mem_store(addr, byte);
 }
 
-/* FIXME: add other i/o extensions here */
-static int mem_dump_io(WORD addr)
-{
-    if ((addr >= 0x9000) && (addr <= 0x900f)) {
-        return vic_dump();
-    } else if ((addr >= 0x9110) && (addr <= 0x911f)) {
-        return viacore_dump(machine_context.via2);
-    } else if ((addr >= 0x9120) && (addr <= 0x912f)) {
-        return viacore_dump(machine_context.via1);
-    }
-    return -1;
-}
-
 mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
-
-    mon_ioreg_add_list(&mem_ioreg_list, "VIC", 0x9000, 0x900f, mem_dump_io);
-    mon_ioreg_add_list(&mem_ioreg_list, "VIA1", 0x9110, 0x911f, mem_dump_io);
-    mon_ioreg_add_list(&mem_ioreg_list, "VIA2", 0x9120, 0x912f, mem_dump_io);
 
     io_source_ioreg_add_list(&mem_ioreg_list);
 

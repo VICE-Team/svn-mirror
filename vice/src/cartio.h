@@ -71,6 +71,9 @@ extern BYTE c64io_df00_read(WORD addr);
 extern BYTE c64io_df00_peek(WORD addr);
 extern void c64io_df00_store(WORD addr, BYTE value);
 
+extern BYTE vic20io0_read(WORD addr);
+extern BYTE vic20io0_peek(WORD addr);
+extern void vic20io0_store(WORD addr, BYTE value);
 extern BYTE vic20io2_read(WORD addr);
 extern BYTE vic20io2_peek(WORD addr);
 extern void vic20io2_store(WORD addr, BYTE value);

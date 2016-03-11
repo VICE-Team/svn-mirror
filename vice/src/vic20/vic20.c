@@ -89,6 +89,7 @@
 #include "userport_rtc_ds1307.h"
 #include "via.h"
 #include "vic.h"
+#include "vic-mem.h"
 #include "vic20-cmdline-options.h"
 #include "vic20-ieee488.h"
 #include "vic20-midi.h"
@@ -259,6 +260,74 @@ static const tape_init_t tapeinit = {
 
 static log_t vic20_log = LOG_ERR;
 static machine_timing_t machine_timing;
+
+/* ------------------------------------------------------------------------ */
+
+static int via2_dump(void)
+{
+    return viacore_dump(machine_context.via2);
+}
+
+static int via1_dump(void)
+{
+    return viacore_dump(machine_context.via1);
+}
+
+static io_source_t vic_device = {
+    "VIC",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0x9000, 0x90ff, 0xf,
+    1, /* read is always valid */
+    vic_store,
+    vic_read,
+    vic_peek,
+    vic_dump,
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
+    0
+};
+
+static io_source_t via2_device = {
+    "VIA2",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0x9110, 0x911f, 0xf,
+    1, /* read is always valid */
+    via2_store,
+    via2_read,
+    via2_peek,
+    via2_dump,
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
+    0
+};
+
+static io_source_t via1_device = {
+    "VIA1",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0x9120, 0x912f, 0xf,
+    1, /* read is always valid */
+    via1_store,
+    via1_read,
+    via1_peek,
+    via1_dump,
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
+    0
+};
+
+static io_source_list_t *vic_list_item = NULL;
+static io_source_list_t *via1_list_item = NULL;
+static io_source_list_t *via2_list_item = NULL;
+
+void vic20io0_init(void)
+{
+    vic_list_item = io_source_register(&vic_device);
+    via1_list_item = io_source_register(&via1_device);
+    via2_list_item = io_source_register(&via2_device);
+}
 
 /* ------------------------------------------------------------------------ */
 
@@ -817,6 +886,9 @@ int machine_specific_init(void)
 
     /* Initialize keyboard buffer.  */
     kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.cycles_per_rfsh * machine_timing.rfsh_per_sec));
+
+    /* Initialize the VIC20-specific I/O */
+    vic20io0_init();
 
     /* Initialize the VIC20-specific part of the UI.  */
     vic20ui_init();
