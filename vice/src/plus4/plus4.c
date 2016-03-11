@@ -532,7 +532,7 @@ void machine_resources_shutdown(void)
     sampler_resources_shutdown();
     cartio_shutdown();
     userport_resources_shutdown();
-    bbrtc_resources_shutdown();
+    joyport_bbrtc_resources_shutdown();
     tapeport_resources_shutdown();
     debugcart_resources_shutdown();
 }
@@ -599,7 +599,7 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("joyport");
         return -1;
     }
-    if (bbrtc_cmdline_options_init() < 0) {
+    if (joyport_bbrtc_cmdline_options_init() < 0) {
         init_cmdline_options_fail("bbrtc");
         return -1;
     }

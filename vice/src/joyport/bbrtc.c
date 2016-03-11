@@ -148,7 +148,7 @@ int joyport_bbrtc_resources_init(void)
     return joyport_device_register(JOYPORT_ID_BBRTC, &joyport_bbrtc_device);
 }
 
-void bbrtc_resources_shutdown(void)
+void joyport_bbrtc_resources_shutdown(void)
 {
     if (bbrtc_context) {
         ds1602_destroy(bbrtc_context, bbrtc_save);
@@ -171,7 +171,7 @@ static const cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-int bbrtc_cmdline_options_init(void)
+int joyport_bbrtc_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
