@@ -44,6 +44,8 @@ libvsid_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64video.c \
+	vsid-debugcart.c \
+	vsid-debugcart.h \
 	musdrv.h \
 	patchrom.c \
 	patchrom.h \
