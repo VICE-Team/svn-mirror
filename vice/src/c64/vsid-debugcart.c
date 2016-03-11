@@ -42,7 +42,7 @@ static int debugcart_enabled = 0;
 
 /* a prototype is needed */
 void debugcart_store(WORD addr, BYTE value);
-
+#if 0
 static io_source_t debugcart_device = {
     CARTRIDGE_NAME_DEBUGCART,
     IO_DETACH_RESOURCE,
@@ -57,7 +57,7 @@ static io_source_t debugcart_device = {
     0,
     0
 };
-
+#endif
 static io_source_list_t *debugcart_list_item = NULL;
 
 /*static const c64export_resource_t export_res = {
