@@ -55,7 +55,9 @@ libcbm2_a_SOURCES = \
 	cbm2tpi.h \
 	cbm2tpi1.c \
 	cbm2tpi2.c \
-	cbm2video.c
+	cbm2video.c \
+	debugcart.h \
+	debugcart.c
 
 libcbm5x0_a_SOURCES = \
 	cbm2-cmdline-options.c \
@@ -94,7 +96,9 @@ libcbm5x0_a_SOURCES = \
 	cbm2tpi.h \
 	cbm2tpi1.c \
 	cbm2tpi2.c \
-	cbm5x0video.c
+	cbm5x0video.c \
+	debugcart.h \
+	debugcart.c
 
 EXTRA_DIST = \
 	cbm2-common-resources.c

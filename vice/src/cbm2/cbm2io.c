@@ -448,6 +448,10 @@ io_source_list_t *io_source_register(io_source_t *device)
         case 0xdf00:
             current = &cbm2io_df00_head;
             break;
+        default:
+            log_error(LOG_DEFAULT, "io_source_register internal error: I/O range 0x%04x does not exist", device->start_address & 0xff00);
+            exit(-1);
+            break;
     }
 
     while (current->next != NULL) {
