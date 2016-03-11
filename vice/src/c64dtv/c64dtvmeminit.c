@@ -35,6 +35,7 @@
 #include "c64dtvmem.h"
 #include "c64dtvmeminit.h"
 #include "c64memrom.h"
+#include "debugcart.h"
 #include "sid.h"
 #include "vicii-mem.h"
 
@@ -99,6 +100,7 @@ void c64dtvmeminit(unsigned int base)
             for (i = 0xd4; i <= 0xd7; i++) {
                 mem_read_tab_set(base + j, i, sid_read);
                 mem_set_write_hook(base + j, i, sid_store);
+                mem_set_write_hook(base + j, i, debugcart_store); /* HACK */
             }
             for (i = 0xd8; i <= 0xdb; i++) {
                 mem_read_tab_set(base + j, i, colorram_read);

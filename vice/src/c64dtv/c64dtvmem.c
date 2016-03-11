@@ -39,6 +39,7 @@
 #include "c64dtvflash.h"
 #include "cia.h"
 #include "cmdline.h"
+#include "debugcart.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
@@ -554,6 +555,7 @@ void store_bank_io(WORD addr, BYTE byte)
         case 0xd600:
         case 0xd700:
             sid_store(addr, byte);
+            debugcart_store(addr, byte);
             break;
         case 0xd800:
         case 0xd900:

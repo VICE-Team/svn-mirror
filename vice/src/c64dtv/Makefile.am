@@ -55,6 +55,8 @@ libc64dtv_a_SOURCES = \
 	c64dtvpla.c \
 	c64dtvprinter.c \
 	c64dtvsound.c \
+	debugcart.c \
+	debugcart.h \
 	flash-trap.c \
 	flash-trap.h \
 	hummeradc.c \
