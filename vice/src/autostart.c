@@ -432,12 +432,19 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 {
     int screen_addr, line_length, cursor_column, addr, i;
 
-    screen_addr = (int)(mem_read((WORD)(pnt)) | (mem_read((WORD)(pnt + 1)) << 8));
-    cursor_column = (int)mem_read((WORD)(pntr));
+    /* HACK! on the CBM2 machines we need to read the "zeropage" values from bank 15 */
+    if ((machine_class == VICE_MACHINE_CBM5x0) || (machine_class == VICE_MACHINE_CBM6x0)) {
+        screen_addr = (int)(mem_read(pnt | 0xf0000) | (mem_read(pnt | 0xf0001) << 8));
+        cursor_column = (int)mem_read(pntr | 0xf0000);
+    } else {
+        screen_addr = (int)(mem_read((WORD)(pnt)) | (mem_read((WORD)(pnt + 1)) << 8));
+        cursor_column = (int)mem_read((WORD)(pntr));
+    }
 
     line_length = (int)(lnmx < 0 ? -lnmx : mem_read((WORD)(lnmx)) + 1);
 
-    DBG(("check(%s) addr:%04x column:%d, linelen:%d blnsw:%04x(%d)", s, screen_addr, cursor_column, line_length, blnsw, mem_read(blnsw)));
+    DBG(("check(%s) pnt:%04x pntr:%04x addr:%04x column:%d, linelen:%d blnsw:%04x(%d)",
+         s, pnt, pntr, screen_addr, cursor_column, line_length, blnsw, mem_read(blnsw)));
 
     if (!kbdbuf_is_empty()) {
         return NOT_YET;
