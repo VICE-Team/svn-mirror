@@ -11,6 +11,8 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libvic20cart.a libmascuerade.a
 
 libvic20cart_a_SOURCES = \
+	debugcart.c \
+	debugcart.h \
 	finalexpansion.c \
 	finalexpansion.h \
 	ioramcart.c \

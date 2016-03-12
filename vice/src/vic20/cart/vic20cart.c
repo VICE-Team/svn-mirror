@@ -47,6 +47,7 @@
 #include "c64acia.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "debugcart.h"
 #include "digimax.h"
 #include "ds12c887rtc.h"
 #include "finalexpansion.h"
@@ -192,7 +193,8 @@ int cartridge_resources_init(void)
         || sfx_soundexpander_resources_init() < 0
         || sfx_soundsampler_resources_init() < 0
         || ioramcart_resources_init() < 0
-        || georam_resources_init() < 0) {
+        || georam_resources_init() < 0
+        || debugcart_resources_init() < 0) {
         return -1;
     }
     return 0;
@@ -212,6 +214,7 @@ void cartridge_resources_shutdown(void)
     sfx_soundexpander_resources_shutdown();
     sfx_soundsampler_resources_shutdown();
     georam_resources_shutdown();
+    debugcart_resources_shutdown();
 
     lib_free(cartridge_file);
     lib_free(cartfile);
@@ -322,7 +325,8 @@ int cartridge_cmdline_options_init(void)
         || sfx_soundexpander_cmdline_options_init() < 0
         || sfx_soundsampler_cmdline_options_init() < 0
         || ioramcart_cmdline_options_init() < 0
-        || georam_cmdline_options_init() < 0) {
+        || georam_cmdline_options_init() < 0
+        || debugcart_cmdline_options_init() < 0) {
         return -1;
     }
     return 0;
