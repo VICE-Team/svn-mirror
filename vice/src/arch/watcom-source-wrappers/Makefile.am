@@ -1,9 +1,13 @@
 EXTRA_DIST = \
+	c64dtv-debugcart.c \
+	cbm2-debugcart.c \
 	geninfocontrib32.c \
 	geninfocontribos2.c \
 	gentranslate32.c \
 	gentranslateos2.c \
 	genwinres32.c \
+	pet-debugcart.c \
+	plus4-debugcart.c \
 	resid-sid.cc \
 	residdtv-envelope.cc \
 	residdtv-extfilt.cc \
@@ -12,6 +16,7 @@ EXTRA_DIST = \
 	residdtv-version.cc \
 	residdtv-voice.cc \
 	residdtv-wave.cc \
+	vic20-debugcart.c \
 	viciisc.c \
 	viciisc-cmdline-options.c \
 	viciisc-color.c \
