@@ -176,6 +176,19 @@ void cbm2mem_set_bank_ind(int val)
 }
 
 /* ------------------------------------------------------------------------- */
+BYTE zero_read(WORD addr)
+{
+    addr &= 0xff;
+
+    switch ((BYTE)addr) {
+        case 0:
+            return cbm2mem_bank_exec;
+        case 1:
+            return cbm2mem_bank_ind;
+    }
+
+    return mem_page_zero[addr & 0xff];
+}
 
 void zero_store(WORD addr, BYTE value)
 {

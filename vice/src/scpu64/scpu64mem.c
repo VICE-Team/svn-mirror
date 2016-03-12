@@ -239,6 +239,20 @@ static void pport_store(WORD addr, BYTE value)
     }
 }
 
+BYTE zero_read(WORD addr)
+{
+    addr &= 0xff;
+
+    switch ((BYTE)addr) {
+        case 0:
+            return pport.dir_read;
+        case 1:
+            return pport.data_read;
+    }
+
+    return mem_ram[addr & 0xff];
+}
+
 void zero_store(WORD addr, BYTE value)
 {
     mem_sram[addr] = value;
