@@ -1072,7 +1072,9 @@ int machine_specific_init(void)
     c128io_init();
 
     /* Initialize the C128-specific part of the UI.  */
-    c128ui_init();
+    if (!console_mode) {
+        c128ui_init();
+    }
 
 #ifdef HAVE_MOUSE
     /* Initialize mouse support (if present).  */

@@ -834,7 +834,9 @@ int machine_specific_init(void)
     /* Initialize keyboard buffer.  */
     kbdbuf_init(1319, 239, 8, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
 
-    plus4ui_init();
+    if (!console_mode) {
+        plus4ui_init();
+    }
 
     cs256k_init();
 

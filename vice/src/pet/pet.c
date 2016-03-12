@@ -710,7 +710,9 @@ int machine_specific_init(void)
     */
 
     /* Initialize the PET-specific part of the UI.  */
-    petui_init();
+    if (!console_mode) {
+        petui_init();
+    }
 
     /* Initialize the PET Ram and Expansion Unit. */
     petreu_init();

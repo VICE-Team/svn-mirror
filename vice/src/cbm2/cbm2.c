@@ -688,7 +688,9 @@ int machine_specific_init(void)
     kbdbuf_init(939, 209, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
 
     /* Initialize the CBM-II-specific part of the UI.  */
-    cbm2ui_init();
+    if (!console_mode) {
+        cbm2ui_init();
+    }
 
     cbm2iec_init();
 

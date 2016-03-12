@@ -891,7 +891,9 @@ int machine_specific_init(void)
     vic20io0_init();
 
     /* Initialize the VIC20-specific part of the UI.  */
-    vic20ui_init();
+    if (!console_mode) {
+        vic20ui_init();
+    }
 
     vic20iec_init();
 
