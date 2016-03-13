@@ -3557,6 +3557,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_BBRTC_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/paperclip64.c */
+/* en */ {IDGS_PAPERCLIP64_DONGLE,    N_("Paperclip64 dongle")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_PAPERCLIP64_DONGLE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_PAPERCLIP64_DONGLE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_PAPERCLIP64_DONGLE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_PAPERCLIP64_DONGLE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_PAPERCLIP64_DONGLE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_PAPERCLIP64_DONGLE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_PAPERCLIP64_DONGLE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_PAPERCLIP64_DONGLE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_PAPERCLIP64_DONGLE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_PAPERCLIP64_DONGLE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_PAPERCLIP64_DONGLE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_PAPERCLIP64_DONGLE_TR, ""},  /* fuzzy */
+#endif
+
 /* lightpen.c */
 /* en */ {IDGS_LIGHTPEN_UP,    N_("Light Pen (up trigger)")},
 #ifdef HAS_TRANSLATION

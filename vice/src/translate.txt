@@ -619,6 +619,9 @@ IDGS_SAMPLER_4BIT
 /* joyport/bbrtc.c */
 IDGS_BBRTC
 
+/* joyport/paperclip64.c */
+IDGS_PAPERCLIP64_DONGLE
+
 /* lightpen.c */
 IDGS_LIGHTPEN_UP
 

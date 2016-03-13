@@ -55,17 +55,19 @@
 #define JOYPORT_ID_SAMPLER_2BIT       17
 #define JOYPORT_ID_SAMPLER_4BIT       18
 #define JOYPORT_ID_BBRTC              19
-#define JOYPORT_ID_COPLIN_KEYPAD      20
-#define JOYPORT_ID_CARDCO_KEYPAD      21
-#define JOYPORT_ID_CX85_KEYPAD        22
+#define JOYPORT_ID_PAPERCLIP64        20
+#define JOYPORT_ID_COPLIN_KEYPAD      21
+#define JOYPORT_ID_CARDCO_KEYPAD      22
+#define JOYPORT_ID_CX85_KEYPAD        23
 
-#define JOYPORT_MAX_DEVICES           23
+#define JOYPORT_MAX_DEVICES           24
 
-#define JOYPORT_RES_ID_NONE      0
-#define JOYPORT_RES_ID_MOUSE     1
-#define JOYPORT_RES_ID_SAMPLER   2
-#define JOYPORT_RES_ID_KEYPAD    3
-#define JOYPORT_RES_ID_RTC       4
+#define JOYPORT_RES_ID_NONE        0
+#define JOYPORT_RES_ID_MOUSE       1
+#define JOYPORT_RES_ID_SAMPLER     2
+#define JOYPORT_RES_ID_KEYPAD      3
+#define JOYPORT_RES_ID_RTC         4
+#define JOYPORT_RES_ID_PAPERCLIP64 5
 
 #define JOYPORT_1    0	/* c64/c128/c64dtv/cbm5x0/plus4 control port 1, vic20 control port */
 #define JOYPORT_2    1	/* c64/c128/c64dtv/cbm5x0/plus4 control port 2 */

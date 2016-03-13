@@ -75,6 +75,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "network.h"
+#include "paperclip64.h"
 #include "parallel.h"
 #include "patchrom.h"
 #include "printer.h"
@@ -430,6 +431,10 @@ int machine_resources_init(void)
     }
     if (joyport_bbrtc_resources_init() < 0) {
         init_resource_fail("joyport bbrtc");
+        return -1;
+    }
+    if (joyport_paperclip64_resources_init() < 0) {
+        init_resource_fail("joyport paperclip64 dongle");
         return -1;
     }
     if (joystick_resources_init() < 0) {

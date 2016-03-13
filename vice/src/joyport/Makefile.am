@@ -22,6 +22,8 @@ libjoyport_a_SOURCES = \
 	lightpen.h \
 	mouse.c \
 	mouse.h \
+	paperclip64.c \
+	paperclip64.h \
 	sampler2bit.c \
 	sampler2bit.h \
 	sampler4bit.c \

@@ -615,6 +615,10 @@ static struct joyport_opt_s id_match[] = {
     { "4bitsampler",     JOYPORT_ID_SAMPLER_4BIT },
     { "19",              JOYPORT_ID_BBRTC },
     { "bbrtc",           JOYPORT_ID_BBRTC },
+    { "20",              JOYPORT_ID_PAPERCLIP64 },
+    { "paperclip64",     JOYPORT_ID_PAPERCLIP64 },
+    { "paperclip",       JOYPORT_ID_PAPERCLIP64 },
+    { "pc64",            JOYPORT_ID_PAPERCLIP64 },
     { NULL, -1 }
 };
 

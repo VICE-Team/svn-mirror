@@ -1,0 +1,178 @@
+/*
+ * paperclip64c.c - Paperclip 64 joyport dongle emulation.
+ *
+ * Written by
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "vice.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "cmdline.h"
+#include "joyport.h"
+#include "paperclip64.h"
+#include "resources.h"
+#include "translate.h"
+
+/* Control port <--> paperclip64 connections:
+
+   cport | paperclip64 | I/O
+   -------------------------
+     1   |    KEY 0    |  I
+     2   |    KEY 1    |  I
+     3   |  COMMAND 0  |  O
+     4   |  COMMAND 1  |  O
+     6   |  COMMAND 2  |  O
+ */
+
+/* Paperclip64D Dongle description:
+
+   This emulation currently does not work for the software using it,
+   help/more information is needed to fix this.
+
+   Documentation/information used for making the emulation:
+
+   http://c64preservation.com/c64pp/bbs/dm.php?thread=1579
+
+   The current emulation does the following:
+
+   1- wait for the bit 4, 3 and 2 of the joystick port to become xxx000xx
+   2- wait for the bit 4, 3 and 2 of the joystick port to become xxx010xx
+   3- wait for the bit 4, 3 and 2 of the joystick port to become xxx111xx
+   4- wait for the bit 4, 3 and 2 of the joystick port to become xxx010xx
+   5- set the first bit-pair of the key on bits 1 and 0 of the joystick port.
+
+   The key sequence is : 02 00 00 01 03 02 01 03 02 01 02 01 02 01 02 00
+                         01 02 00 01 03 03 02 00 00 00 00 00 00 00 01 03
+                         03 02 00 01 02 00 01 02 01 02 01 02 01 03 02 01
+                         03 02 00 00 01 03 03 03 03 03 03 03 
+
+   After setting the first bits of the sequence the following needs to happen before setting the next bit:
+
+   1- wait for the bit 4, 3 and 2 of the joystick port to become xxx111xx
+   2- wait for the bit 4, 3 and 2 of the joystick port to become xxx010xx
+
+   Be aware that the current emulation keeps the 'old' bits set between steps 1 and 2.
+
+   The emulation 'shows' the correct bit pattern when using the monitor to check what the code gets from the port,
+   but it does not work (good enough) for the actual software.
+*/
+
+#define PC64_IDLE      0
+#define PC64_ACTIVATED 1
+#define PC64_ACTIVE    2
+
+static int paperclip64_enabled = 0;
+
+static int counter = -1;
+
+static BYTE command = 0xff;
+
+static int state = PC64_IDLE;
+
+static BYTE keys[60] = {
+    2, 0, 0, 1, 3, 2, 1, 3, 2, 1,
+    2, 1, 2, 1, 2, 0, 1, 2, 0, 1,
+    3, 3, 2, 0, 0, 0, 0, 0, 0, 0,
+    1, 3, 3, 2, 0, 1, 2, 0, 1, 2,
+    1, 2, 1, 2, 1, 3, 2, 1, 3, 2,
+    0, 0, 1, 3, 3, 3, 3, 3, 3, 3
+};
+
+static int joyport_paperclip64_enable(int port, int value)
+{
+    int val = value ? 1 : 0;
+
+    if (val == paperclip64_enabled) {
+        return 0;
+    }
+
+    if (val) {
+        command = 0xff;
+        counter = -1;
+        state = PC64_IDLE;
+    }
+
+    paperclip64_enabled = val;
+
+    return 0;
+}
+
+static BYTE paperclip64_read(int port)
+{
+    BYTE retval = 0xff;
+
+    if (counter != -1) {
+        retval &= (keys[counter] | 0xfc);
+        joyport_display_joyport(JOYPORT_ID_BBRTC, ~retval & 3);
+    }
+    return retval;
+}
+
+static void paperclip64_store(BYTE val)
+{
+    BYTE new_command = val & 0x1c;
+
+    if (new_command == command) {
+        return;
+    }
+
+    if (new_command == 8 && command == 0x1c) {
+        if (state == PC64_ACTIVATED) {
+            state = PC64_ACTIVE;
+        } else {
+            if (counter != -1) {
+                ++counter;
+                if (counter == 60) {
+                    counter = -1;
+                }
+            }
+        }
+    }
+
+    if (new_command == 8 && command == 0) {
+        counter = 0;
+        state = PC64_ACTIVATED;
+    }
+    command = new_command;
+}
+
+static joyport_t joyport_paperclip64_device = {
+    "Paperclip64 dongle",
+    IDGS_PAPERCLIP64_DONGLE,
+    JOYPORT_RES_ID_PAPERCLIP64,
+    JOYPORT_IS_NOT_LIGHTPEN,
+    JOYPORT_POT_OPTIONAL,
+    joyport_paperclip64_enable,
+    paperclip64_read,
+    paperclip64_store,
+    NULL,				/* no pot-x read */
+    NULL				/* no pot-y read */
+};
+
+int joyport_paperclip64_resources_init(void)
+{
+    return joyport_device_register(JOYPORT_ID_PAPERCLIP64, &joyport_paperclip64_device);
+}
