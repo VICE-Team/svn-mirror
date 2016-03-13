@@ -700,6 +700,12 @@ IDCLS_ENABLE_TAPE_SENSE_DONGLE
 /* tapeport/sense-dongle.c */
 IDCLS_DISABLE_TAPE_SENSE_DONGLE
 
+/* tapeport/dtl-basic-dongle.c */
+IDCLS_ENABLE_DTL_BASIC_DONGLE
+
+/* tapeport/dtl-basic-dongle.c */
+IDCLS_DISABLE_DTL_BASIC_DONGLE
+
 /* userport/userport_4bit_sampler.c */
 IDGS_USERPORT_4BIT_SAMPLER
 

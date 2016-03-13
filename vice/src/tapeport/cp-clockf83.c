@@ -66,6 +66,7 @@ static tapeport_device_t tapertc_device = {
     NULL,
     tapertc_store_sda,
     tapertc_store_scl,
+    NULL, /* no sense out */
     NULL, /* no passthrough */
     NULL  /* no passthrough */
 };

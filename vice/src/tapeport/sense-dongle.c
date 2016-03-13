@@ -49,6 +49,7 @@ static tapeport_device_t sense_dongle_device = {
     sense_dongle_reset,
     NULL, /* no set motor */
     NULL, /* no set write */
+    NULL, /* no sense out */
     NULL, /* no passthrough */
     NULL  /* no passthrough */
 };

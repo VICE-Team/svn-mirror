@@ -48,6 +48,9 @@ typedef struct tapeport_device_s {
     /* set write line */
     void (*toggle_write_bit)(int write_bit);
 
+    /* set motor line */
+    void (*set_sense_out)(int sense);
+
     /* read line change on passthrough port, NULL if no passthrough port present */
     void (*trigger_flux_change_passthrough)(unsigned int on);
 
@@ -66,9 +69,11 @@ extern void tapeport_device_unregister(tapeport_device_list_t *device);
 
 extern void tapeport_set_motor(int flag);
 extern void tapeport_toggle_write_bit(int write_bit);
+extern void tapeport_set_sense_out(int sense);
 
 extern void tapeport_set_motor_next(int flag, int id);
 extern void tapeport_toggle_write_bit_next(int write_bit, int id);
+extern void tapeport_set_sense_out_next(int sense, int id);
 
 extern void tapeport_reset(void);
 

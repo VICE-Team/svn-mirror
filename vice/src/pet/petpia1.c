@@ -190,6 +190,7 @@ E813    CB2         output to cassette #1 motor: 0=on, 1=off
 
 static void store_pa(BYTE byte)
 {
+    tapeport_set_sense_out(byte & 16 ? 1 : 0);
 }
 
 static void store_pb(BYTE byte)

@@ -137,6 +137,7 @@ static tapeport_device_t datasette_device = {
     NULL, /* no device specific reset */
     datasette_set_motor,
     datasette_toggle_write_bit,
+    NULL, /* no sense out */
     NULL, /* no passthrough */
     NULL  /* no passthrough */
 };

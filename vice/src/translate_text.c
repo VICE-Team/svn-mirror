@@ -6527,6 +6527,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_TR, ""},  /* fuzzy */
 #endif
 
+/* tapeport/dtl-basic-dongle.c */
+/* en */ {IDCLS_ENABLE_DTL_BASIC_DONGLE,    N_("Enable DTL Basic dongle")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/dtl-basic-dongle.c */
+/* en */ {IDCLS_DISABLE_DTL_BASIC_DONGLE,    N_("Enable DTL Basic dongle")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_TR, ""},  /* fuzzy */
+#endif
+
 /* tapeport/tapertc.c */
 /* en */ {IDCLS_ENABLE_TAPERTC,    N_("Enable CP Clock F83 (PCF8583 RTC)")},
 #ifdef HAS_TRANSLATION

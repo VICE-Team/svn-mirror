@@ -63,7 +63,8 @@ static char *tapelog_filename = NULL;
 
 /* keep track of lines */
 static BYTE tapelog_motor = 2;
-static BYTE tapelog_sense = 2;
+static BYTE tapelog_sense_in = 2;
+static BYTE tapelog_sense_out = 2;
 static BYTE tapelog_write = 2;
 static unsigned int tapelog_read  = 0;
 
@@ -72,6 +73,7 @@ static unsigned int tapelog_read  = 0;
 /* Some prototypes are needed */
 static void tapelog_set_motor(int flag);
 static void tapelog_toggle_write_bit(int write_bit);
+static void tapelog_set_sense_out(int sense);
 static void tapelog_trigger_flux_change_passthrough(unsigned int on);
 static void tapelog_set_tape_sense_passthrough(int sense);
 
@@ -82,6 +84,7 @@ static tapeport_device_t tapelog_device = {
     NULL,
     tapelog_set_motor,
     tapelog_toggle_write_bit,
+    tapelog_set_sense_out,
     tapelog_trigger_flux_change_passthrough,
     tapelog_set_tape_sense_passthrough
 };
@@ -325,21 +328,39 @@ static void tapelog_toggle_write_bit(int write_bit)
     tapeport_toggle_write_bit_next(write_bit, tapelog_device.id);
 }
 
+static void tapelog_set_sense_out(int sense)
+{
+    BYTE val = sense ? 1 : 0;
+
+    if (tapelog_sense_out == val) {
+        return;
+    }
+
+    if (tapelog_sense_out == 2) {
+        tapelog_initial_set("sense out", val);
+    } else {
+        tapelog_transition("sense out", val);
+    }
+
+    tapelog_sense_out = val;
+    tapeport_set_sense_out_next(sense, tapelog_device.id);
+}
+
 static void tapelog_set_tape_sense_passthrough(int sense)
 {
     BYTE val = sense ? 1 : 0;
 
-    if (tapelog_sense == val) {
+    if (tapelog_sense_in == val) {
         return;
     }
 
-    if (tapelog_sense == 2) {
-        tapelog_initial_set("sense", val);
+    if (tapelog_sense_in == 2) {
+        tapelog_initial_set("sense in", val);
     } else {
-        tapelog_transition("sense", val);
+        tapelog_transition("sense in", val);
     }
 
-    tapelog_sense = val;
+    tapelog_sense_in = val;
     tapeport_set_tape_sense(sense, tapelog_device.id);
 }
 

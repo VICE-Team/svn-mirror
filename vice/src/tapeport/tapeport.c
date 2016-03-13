@@ -31,6 +31,7 @@
 
 #include "cp-clockf83.h"
 #include "datasette.h"
+#include "dtl-basic-dongle.h"
 #include "lib.h"
 #include "log.h"
 #include "sense-dongle.h"
@@ -189,6 +190,30 @@ void tapeport_toggle_write_bit(int write_bit)
     }
 }
 
+void tapeport_set_sense_out(int sense)
+{
+    tapeport_device_list_t *current = &tapeport_head;
+    int end = 0;
+
+    if (tapeport_active) {
+        while (!end) {
+            if (current->device) {
+                if (current->device->id == 0) {
+                    if (current->device->set_sense_out) {
+                        current->device->set_sense_out(sense);
+                    }
+                    end = 1;
+                }
+            }
+            if (current->next) {
+                current = current->next;
+            } else {
+                end = 1;
+            }
+        }
+    }
+}
+
 void tapeport_set_motor_next(int flag, int id)
 {
     tapeport_device_list_t *current = &tapeport_head;
@@ -232,6 +257,34 @@ void tapeport_toggle_write_bit_next(int write_bit, int id)
                 if (current->device->id == id + 1) {
                     if (current->device->toggle_write_bit) {
                         current->device->toggle_write_bit(write_bit);
+                    }
+                    end = 1;
+                }
+            }
+            if (current->next) {
+                current = current->next;
+            } else {
+                end = 1;
+            }
+        }
+    }
+}
+
+void tapeport_set_sense_out_next(int flag, int id)
+{
+    tapeport_device_list_t *current = &tapeport_head;
+    int end = 0;
+
+    if (id == tapeport_devices - 1) {
+        return;
+    }
+
+    if (tapeport_active) {
+        while (!end) {
+            if (current->device) {
+                if (current->device->id == id + 1) {
+                    if (current->device->set_sense_out) {
+                        current->device->set_sense_out(flag);
                     }
                     end = 1;
                 }
@@ -337,6 +390,9 @@ int tapeport_resources_init(void)
     if (sense_dongle_resources_init() < 0) {
         return -1;
     }
+    if (dtlbasic_dongle_resources_init() < 0) {
+        return -1;
+    }
 
     return 0;
 }
@@ -367,6 +423,10 @@ int tapeport_cmdline_options_init(void)
     }
 
     if (sense_dongle_cmdline_options_init() < 0) {
+        return -1;
+    }
+
+    if (dtlbasic_dongle_cmdline_options_init() < 0) {
         return -1;
     }
 

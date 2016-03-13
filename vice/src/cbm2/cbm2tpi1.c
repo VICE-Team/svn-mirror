@@ -150,6 +150,9 @@ static void undump_pa(tpi_context_t *tpi_context, BYTE byte)
 
 static void store_pb(tpi_context_t *tpi_context, BYTE byte)
 {
+    if ((byte ^ tpi_context->oldpb) & 0x80) {
+        tapeport_set_sense_out(!(byte & 0x80));
+    }
     if ((byte ^ tpi_context->oldpb) & 0x40) {
         tapeport_set_motor(!(byte & 0x40));
     }
