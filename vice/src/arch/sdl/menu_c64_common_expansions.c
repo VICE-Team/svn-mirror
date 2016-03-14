@@ -328,6 +328,27 @@ static const ui_menu_entry_t ide64_menu_HD_4[] = {
     SDL_MENU_LIST_END
 };
 
+UI_MENU_DEFINE_TOGGLE(SBDIGIMAX)
+UI_MENU_DEFINE_RADIO(SBDIGIMAXbase)
+
+static const ui_menu_entry_t ide64_digimax_menu[] = {
+    SDL_MENU_ITEM_TITLE("DigiMAX settings"),
+    { "Enable DigiMAX device",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SBDIGIMAX_callback,
+      NULL },
+    SDL_MENU_ITEM_TITLE("DigiMAX device address"),
+    { "$de40",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SBDIGIMAXbase_callback,
+      (ui_callback_data_t)0xde40 },
+    { "$de48",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SBDIGIMAXbase_callback,
+      (ui_callback_data_t)0xde48 },
+    SDL_MENU_LIST_END
+};
+
 const ui_menu_entry_t ide64_menu[] = {
     SDL_MENU_ITEM_TITLE("Cartridge version"),
     { "V3",
@@ -358,22 +379,28 @@ const ui_menu_entry_t ide64_menu[] = {
       (ui_callback_data_t)"Set USB server address" },
 #endif
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Device settings"),
-    { "Device 1 settings",
+    SDL_MENU_ITEM_TITLE("ATA Device settings"),
+    { "ATA Device 1 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ide64_menu_HD_1 },
-    { "Device 2 settings",
+    { "ATA Device 2 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ide64_menu_HD_2 },
-    { "Device 3 settings",
+    { "ATA Device 3 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ide64_menu_HD_3 },
-    { "Device 4 settings",
+    { "ATA Device 4 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ide64_menu_HD_4 },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Shortbus Device settings"),
+    { "DigiMAX settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ide64_digimax_menu },
     SDL_MENU_LIST_END
 };
