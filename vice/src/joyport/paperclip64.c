@@ -126,7 +126,7 @@ static BYTE paperclip64_read(int port)
 
     if (counter != -1) {
         retval &= (keys[counter] | 0xfc);
-        joyport_display_joyport(JOYPORT_ID_BBRTC, ~retval & 3);
+        joyport_display_joyport(JOYPORT_ID_BBRTC, (BYTE)(~retval & 3));
     }
     return retval;
 }
