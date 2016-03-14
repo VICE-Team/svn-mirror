@@ -58,6 +58,8 @@ static UI_MENU_CALLBACK(custom_DTVModel_callback)
     return NULL;
 }
 
+UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
+
 static const ui_menu_entry_t dtv_model_submenu[] = {
     { "DTV2 PAL",
       MENU_ENTRY_RESOURCE_RADIO,
@@ -79,6 +81,11 @@ static const ui_menu_entry_t dtv_model_submenu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       custom_DTVModel_callback,
       (ui_callback_data_t)DTVMODEL_HUMMER_NTSC },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Colorfix",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIINewLuminances_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 

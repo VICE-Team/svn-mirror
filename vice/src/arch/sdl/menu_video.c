@@ -526,7 +526,6 @@ static const ui_menu_entry_t vdc_filter_menu[] = {
 
 /* Misc. callbacks */
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
-UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
@@ -605,10 +604,6 @@ const ui_menu_entry_t c128_video_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)vicii_border_menu },
 #endif
-    { "VICII New luminances",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIINewLuminances_callback,
-      NULL },
     { "VICII Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -707,10 +702,6 @@ const ui_menu_entry_t c64_video_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)vicii_border_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "New luminances",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIINewLuminances_callback,
-      NULL },
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -830,10 +821,6 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)vicii_border_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Colorfix",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIINewLuminances_callback,
-      NULL },
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
