@@ -54,6 +54,7 @@
 #endif
 
 #include "menu_sid.h"
+#include "menu_tape.h"
 
 #ifdef HAVE_TFE
 #include "menu_tfe.h"
@@ -251,6 +252,10 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)userport_menu },
+    { "Tape port devices",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)tapeport_devices_menu },
 #ifdef HAVE_MIDI
     { "MIDI settings",
       MENU_ENTRY_SUBMENU,

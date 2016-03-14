@@ -46,6 +46,7 @@
 #endif
 
 #include "menu_sid.h"
+#include "menu_tape.h"
 #include "pets.h"
 #include "uimenu.h"
 
@@ -351,6 +352,10 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)userport_menu },
+    { "Tape port devices",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)tapeport_devices_menu },
     { "Memory and I/O settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

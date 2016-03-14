@@ -47,6 +47,7 @@
 #endif
 
 #include "menu_sid.h"
+#include "menu_tape.h"
 #include "uimenu.h"
 
 /* PLUS4 MODEL SELECTION */
@@ -177,6 +178,10 @@ const ui_menu_entry_t plus4_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)userport_menu },
+    { "Tape port devices",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)tapeport_devices_menu },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Memory"),
     { "16kB",

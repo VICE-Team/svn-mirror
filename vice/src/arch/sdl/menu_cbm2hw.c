@@ -49,6 +49,7 @@
 #endif
 
 #include "menu_sid.h"
+#include "menu_tape.h"
 #include "uimenu.h"
 
 UI_MENU_DEFINE_RADIO(RamSize)
@@ -211,6 +212,10 @@ const ui_menu_entry_t cbm5x0_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)cbm5x0_model_menu },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Tape port devices",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)tapeport_devices_menu },
     { "Joyport settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -350,5 +355,9 @@ const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)userport_menu },
+    { "Tape port devices",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)tapeport_devices_menu },
     SDL_MENU_LIST_END
 };
