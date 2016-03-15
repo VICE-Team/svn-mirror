@@ -75,6 +75,7 @@
 #include "uisound.h"
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
+#include "uitapeport.h"
 #include "uitfe.h"
 #include "uiuserport.h"
 #include "uivic.h"
@@ -537,6 +538,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 #endif
     { "Userport devices", UI_MENU_TYPE_NORMAL,
       NULL, NULL, userport_pet_vic20_submenu },
+    { "Tape port devices", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, tapeport_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("I/O collision handling"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, iocollision_submenu },

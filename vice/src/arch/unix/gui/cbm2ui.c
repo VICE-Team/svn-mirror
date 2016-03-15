@@ -68,6 +68,7 @@
 #include "uisound.h"
 #include "uimenu.h"
 #include "uinetplay.h"
+#include "uitapeport.h"
 #include "uiuserport.h"
 #include "uivicii.h"
 #include "vsync.h"
@@ -87,6 +88,8 @@ UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 static ui_menu_entry_t io_extensions_cbm2_submenu[] = {
     { "Userport devices", UI_MENU_TYPE_NORMAL,
       NULL, NULL, userport_c64_cbm2_submenu },
+    { "Tape port devices", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, tapeport_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
@@ -94,6 +97,8 @@ static ui_menu_entry_t io_extensions_cbm2_submenu[] = {
 };
 
 static ui_menu_entry_t io_extensions_cbm5x0_submenu[] = {
+    { "Tape port devices", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, tapeport_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },

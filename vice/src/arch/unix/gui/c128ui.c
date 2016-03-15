@@ -86,6 +86,7 @@
 #include "uisound.h"
 #include "uisoundexpander.h"
 #include "uisupersnapshot.h"
+#include "uitapeport.h"
 #include "uitfe.h"
 #include "uitpi.h"
 #include "uiuserport.h"
@@ -284,6 +285,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, ds12c887rtc_c128_submenu },
     { "Userport devices", UI_MENU_TYPE_NORMAL,
       NULL, NULL, userport_c64_cbm2_submenu },
+    { "Tape port devices", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, tapeport_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },

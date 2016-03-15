@@ -73,6 +73,7 @@
 #include "uisettings.h"
 #include "uisid.h"
 #include "uisound.h"
+#include "uitapeport.h"
 #include "uiuserport.h"
 #include "vsync.h"
 
@@ -239,6 +240,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, sidcart_submenu },
     { "Userport devices", UI_MENU_TYPE_NORMAL,
       NULL, NULL, userport_pet_vic20_submenu },
+    { "Tape port devices", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, tapeport_submenu },
     { N_("PET userport diagnostic pin"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DiagPin, NULL, NULL },
     { NULL }
