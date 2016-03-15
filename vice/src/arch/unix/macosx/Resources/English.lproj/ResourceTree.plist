@@ -30,6 +30,59 @@
 		</dict>
 		<key>_C128_C64_CBM-II_PET_PLUS4_VIC20_</key>
 		<dict>
+			<key>Drives</key>
+			<dict>
+				<key>Drive 8</key>
+				<dict>
+					<key>Supercard</key>
+					<string>Drive8Supercard,b</string>
+					<key>RTC Save</key>
+					<string>Drive8RTCSave,b</string>
+					<key>Drive RPM</key>
+					<string>Drive8RPM,i</string>
+					<key>Drive Wobble</key>
+					<string>Drive8Wobble,i</string>
+				</dict>
+				<key>Drive 9</key>
+				<dict>
+					<key>Drive Wobble</key>
+					<string>Drive9Wobble,i</string>
+					<key>Supercard</key>
+					<string>Drive9Supercard,b</string>
+					<key>RTC Save</key>
+					<string>Drive9RTCSave,b</string>
+					<key>Drive RPM</key>
+					<string>Drive9RPM,i</string>
+				</dict>
+				<key>Drive 10</key>
+				<dict>
+					<key>Drive Wobble</key>
+					<string>Drive10Wobble,i</string>
+					<key>Drive RPM</key>
+					<string>Drive10RPM,i</string>
+					<key>Supercard</key>
+					<string>Drive10Supercard,b</string>
+					<key>RTC Save</key>
+					<string>Drive10RTCSave,b</string>
+				</dict>
+				<key>Drive 11</key>
+				<dict>
+					<key>Drive Wobble</key>
+					<string>Drive11Wobble,i</string>
+					<key>Drive RPM</key>
+					<string>Drive11RPM,i</string>
+					<key>Supercard</key>
+					<string>Drive11Supercard,b</string>
+					<key>RTC Save</key>
+					<string>Drive11RTCSave,b</string>
+				</dict>
+				<key>Drive Sound Volume</key>
+				<string>DriveSoundEmulationVolume,i</string>
+				<key>Drive Sound</key>
+				<string>DriveSoundEmulation,b</string>
+				<key>Supercard ROM</key>
+				<string>DriveSupercardName,fo</string>
+			</dict>
 			<key>Cartridges</key>
 			<dict>
 				<key>ACIA</key>
@@ -75,8 +128,27 @@
 		</dict>
 		<key>_C128_C64_</key>
 		<dict>
+			<key>RTC</key>
+			<dict>
+				<key>58321A enable</key>
+				<string>UserportRTC,b</string>
+				<key>Userport RTC save</key>
+				<string>UserportRTCSave,b</string>
+			</dict>
 			<key>Cartridges</key>
 			<dict>
+				<key>RRNET MK3</key>
+				<dict>
+					<key>Enable BIOS Flash Jumper</key>
+					<string>RRNETMK3_flashjumper,b</string>
+					<key>Save BIOS when changed</key>
+					<string>RRNETMK3_bios_write,b</string>
+				</dict>
+				<key>Super Snapshot V5</key>
+				<dict>
+					<key>32K RAM</key>
+					<string>SSRamExpansion,b</string>
+				</dict>
 				<key>Retro Replay</key>
 				<dict>
 					<key>Revision</key>
@@ -156,8 +228,8 @@
 						<key>ATA Image File</key>
 						<string>IDE64Image4,fs</string>
 					</dict>
-					<key>Version 4</key>
-					<string>IDE64Version4,b</string>
+					<key>Version</key>
+					<string>IDE64Version,e,V3,V4.1,V4.2</string>
 					<key>USB Server enabled</key>
 					<string>IDE64USBServer,b</string>
 					<key>USB Server Address</key>
@@ -251,6 +323,8 @@
 				<string>Mouseport,m,Joy1=1,Joy2=2</string>
 				<key>Mouse Type</key>
 				<string>Mousetype,e,1351,NEOS,AMIGA,Paddles,CX-22,ST,Smart,Micromys,Koalapad</string>
+				<key>Smart Mouse RTC save</key>
+				<string>SmartMouseRTCSave,b</string>
 			</dict>
 		</dict>
 		<key>_C128_C64_PLUS4_</key>
@@ -266,6 +340,17 @@
 		</dict>
 		<key>_C128_C64_VIC20_</key>
 		<dict>
+			<key>RTC</key>
+			<dict>
+				<key>DS12C887 enable</key>
+				<string>DS12C887RTC,b</string>
+				<key>DS12C887 start with OSC running</key>
+				<string>DS12C887RTCRunMode,b</string>
+				<key>DS12C887 save</key>
+				<string>DS12C887RTCSave,b</string>
+				<key>DS12C887 Base Address</key>
+				<string>DS12C887RTCbase,i</string>
+			</dict>
 			<key>Lightpen</key>
 			<dict>
 				<key>Type</key>
@@ -402,6 +487,11 @@
 					<key>Write Image</key>
 					<string>IsepicImageWrite,b</string>
 				</dict>
+				<key>CPM Cartridge</key>
+				<dict>
+					<key>Enable</key>
+					<string>CPMCart,b</string>
+				</dict>
 			</dict>
 		</dict>
 		<key>_C64DTV_</key>
@@ -447,15 +537,15 @@
 		<dict>
 			<key>Cartridges</key>
 			<dict>
+				<key>Ultimem</key>
+				<dict>
+					<key>Write Back</key>
+					<string>UltimemWriteBack,b</string>
+				</dict>
 				<key>ACIA</key>
 				<dict>
 					<key>Base</key>
 					<string>Acia1Base,E,$9800,$9c00</string>
-				</dict>
-				<key>MIDI</key>
-				<dict>
-					<key>Type</key>
-					<string>MIDIMode,e,Maplin</string>
 				</dict>
 				<key>Mega Cart</key>
 				<dict>
@@ -600,8 +690,6 @@
 				<string>VICIICheckSbColl,b</string>
 				<key>Check Sprite Sprite Collision</key>
 				<string>VICIICheckSsColl,b</string>
-				<key>New Luminances</key>
-				<string>VICIINewLuminances,b</string>
 				<key>Audio Leak</key>
 				<string>VICIIAudioLeak,e,Disabled,Enabled</string>
 			</dict>
@@ -730,6 +818,8 @@
 				<string>DtvRevision,m,DTV2=2,DTV3=3</string>
 				<key>True Flash Filesystem</key>
 				<string>FlashTrueFS,b</string>
+				<key>Luminance Fix</key>
+				<string>VICIINewLuminances,b</string>
 			</dict>
 		</dict>
 		<key>_CBM-II_</key>
@@ -971,6 +1061,10 @@
 				<string>RamBlock3,b</string>
 				<key>Block 5</key>
 				<string>RamBlock5,b</string>
+				<key>IO2</key>
+				<string>IO2RAM,b</string>
+				<key>IO3</key>
+				<string>IO3RAM,b</string>
 			</dict>
 			<key>SID Cart</key>
 			<dict>
