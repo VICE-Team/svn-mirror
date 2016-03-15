@@ -288,6 +288,7 @@ int cbm2ui_init(void)
 
     uijoyport_menu_create(0, 0, 1, 1, 0);
     uikeyboard_menu_create();
+    uipalette_menu_create("Crtc", NULL);
 
     sdl_ui_set_menu_params = cbm2ui_set_menu_params;
     sdl_ui_set_main_menu(xcbm6x0_7x0_main_menu);
@@ -325,6 +326,7 @@ int cbm5x0ui_init(void)
     uisampler_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
+    uipalette_menu_create("VICII", NULL);
 
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
     sdl_ui_set_main_menu(xcbm5x0_main_menu);

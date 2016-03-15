@@ -41,4 +41,6 @@ extern const ui_menu_entry_t pet_video_menu[];
 extern const ui_menu_entry_t plus4_video_menu[];
 extern const ui_menu_entry_t vic20_video_menu[];
 
+extern void uipalette_menu_create(char *chip1_name, char *chip2_name);
+
 #endif

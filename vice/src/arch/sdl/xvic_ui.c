@@ -201,6 +201,7 @@ int vic20ui_init(void)
     uisampler_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
+    uipalette_menu_create("VIC", NULL);
 
     sdl_ui_set_main_menu(xvic_main_menu);
 

@@ -180,6 +180,7 @@ int plus4ui_init(void)
     uijoyport_menu_create(1, 1, 1, 1, 1);
     uidrive_menu_create();
     uikeyboard_menu_create();
+    uipalette_menu_create("TED", NULL);
 
     sdl_ui_set_main_menu(xplus4_main_menu);
 
