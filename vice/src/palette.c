@@ -295,31 +295,31 @@ static palette_info_t palettelist[] = {
     /* data/C128/ */
     /* data/CBM-II/ */
     /* data/SCPU64/ */
-    { "VICII","Pepto (PAL)",        "vice"}, /* default */
-    { "VICII","Pepto (NTSC, Sony)", "pepto-ntsc-sony"},
-    { "VICII","Pepto (NTSC)",       "pepto-ntsc"},
-    { "VICII","VICE",               "default"},
-    { "VICII","C64HQ",              "c64hq"},
-    { "VICII","C64S",               "c64s"},
-    { "VICII","CCS64",              "ccs64"},
-    { "VICII","Frodo",              "frodo"},
-    { "VICII","Godot",              "godot"},
-    { "VICII","PC64",               "pc64"},
-    { "VICII","RGB",                "rgb"},
+    { "VICII", "Pepto (PAL)",        "vice"}, /* default */
+    { "VICII", "Pepto (NTSC, Sony)", "pepto-ntsc-sony"},
+    { "VICII", "Pepto (NTSC)",       "pepto-ntsc"},
+    { "VICII", "VICE",               "default"},
+    { "VICII", "C64HQ",              "c64hq"},
+    { "VICII", "C64S",               "c64s"},
+    { "VICII", "CCS64",              "ccs64"},
+    { "VICII", "Frodo",              "frodo"},
+    { "VICII", "Godot",              "godot"},
+    { "VICII", "PC64",               "pc64"},
+    { "VICII", "RGB",                "rgb"},
     /* data/C128/ */
-    { "VDC",  "RGB",                "vdc_deft"}, /* default */
-    { "VDC",  "Composite",          "vdc_comp"},
+    { "VDC",   "RGB",                "vdc_deft"}, /* default */
+    { "VDC",   "Composite",          "vdc_comp"},
     /* data/VIC20/ */
-    { "VIC",  "Mike (PAL)",         "mike-pal"}, /* default */
-    { "VIC",  "Mike (NTSC)",        "mike-ntsc"},
-    { "VIC",  "VICE",               "default"},
+    { "VIC",   "Mike (PAL)",         "mike-pal"}, /* default */
+    { "VIC",   "Mike (NTSC)",        "mike-ntsc"},
+    { "VIC",   "VICE",               "default"},
     /* data/CBM-II/ */
     /* data/PET/ */
-    { "Crtc", "Green",              "green"}, /* default */
-    { "Crtc", "Amber",              "amber"},
-    { "Crtc", "Black/White",        "white"},
+    { "Crtc",  "Green",              "green"}, /* default */
+    { "Crtc",  "Amber",              "amber"},
+    { "Crtc",  "Black/White",        "white"},
     /* data/TED/ */
-    { "TED",  "VICE",               "default"}, /* default */
+    { "TED",   "VICE",               "default"}, /* default */
 
     { NULL, 0, 0 }
 };
