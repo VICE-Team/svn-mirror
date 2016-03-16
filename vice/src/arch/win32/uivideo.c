@@ -39,6 +39,7 @@
 #include "fullscrn.h"
 #include "intl.h"
 #include "lib.h"
+#include "palette.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -51,44 +52,10 @@
 #include "winlong.h"
 #include "winmain.h"
 
-static const char *vicii_palettes[] = {
-    "default",
-    "c64hq",
-    "c64s",
-    "ccs64",
-    "frodo",
-    "godot",
-    "pc64",
-    "vice",
-    NULL
-};
-
-static const char *vic_palettes[] = {
-    "default",
-    NULL
-};
-
-static const char *crtc_palettes[] = {
-    "amber",
-    "green",
-    "white",
-    NULL
-};
-
-static const char *vdc_palettes[] = {
-    "vdc_deft",
-    "vdc_comp",
-    NULL
-};
-
-static const char *ted_palettes[] = {
-    "default",
-    "vice",
-    NULL
-};
-
 typedef struct {
-    const char **palette_names;
+    char **palette_names;
+    char **palette_filenames;
+    char *id_name;
     char *res_PaletteFile_name;
     char *res_ExternalPalette_name;
     int external_pal;
@@ -115,7 +82,7 @@ typedef struct {
 
 static Chip_Parameters chip_param_table[] =
 {
-    { vicii_palettes, "VICIIPaletteFile", "VICIIExternalPalette", 0, NULL,
+    { NULL, NULL, "VICII", "VICIIPaletteFile", "VICIIExternalPalette", 0, NULL,
       IDS_VICII_COLORS, "VICIIColorGamma", "VICIIColorTint",
             "VICIIColorSaturation", "VICIIColorContrast", "VICIIColorBrightness",
       IDS_VICII_CRT_EMULATION, "VICIIPALScanLineShade", "VICIIPALBlur",
@@ -123,7 +90,7 @@ static Chip_Parameters chip_param_table[] =
       IDS_VICII_RENDERER, "VICIIVideoCache", "VICIIDoubleSize", "VICIIDoubleScan", NULL,
             "VICIIFilter",
     },
-    { vic_palettes, "VICPaletteFile", "VICExternalPalette", 0, NULL,
+    { NULL, NULL, "VIC", "VICPaletteFile", "VICExternalPalette", 0, NULL,
       IDS_VIC_COLORS, "VICColorGamma", "VICColorTint",
             "VICColorSaturation", "VICColorContrast", "VICColorBrightness",
       IDS_VIC_CRT_EMULATION, "VICPALScanLineShade", "VICPALBlur",
@@ -131,7 +98,7 @@ static Chip_Parameters chip_param_table[] =
       IDS_VIC_RENDERER, "VICVideoCache", "VICDoubleSize", "VICDoubleScan", NULL,
             "VICFilter",
     },
-    { crtc_palettes, "CrtcPaletteFile", "CrtcExternalPalette", 0, NULL,
+    { NULL, NULL, "Crtc", "CrtcPaletteFile", "CrtcExternalPalette", 0, NULL,
       IDS_CRTC_COLORS, "CrtcColorGamma", "CrtcColorTint",
             "CrtcColorSaturation", "CrtcColorContrast", "CrtcColorBrightness",
       IDS_CRTC_CRT_EMULATION, "CrtcPALScanLineShade", "CrtcPALBlur",
@@ -139,7 +106,7 @@ static Chip_Parameters chip_param_table[] =
       IDS_CRTC_RENDERER, "CrtcVideoCache", "CrtcDoubleSize", "CrtcDoubleScan", "CrtcStretchVertical",
             "CrtcFilter",
     },
-    { vdc_palettes, "VDCPaletteFile", "VDCExternalPalette", 0, NULL,
+    { NULL, NULL, "VDC", "VDCPaletteFile", "VDCExternalPalette", 0, NULL,
       IDS_VDC_COLORS, "VDCColorGamma", "VDCColorTint",
             "VDCColorSaturation", "VDCColorContrast", "VDCColorBrightness",
       IDS_VDC_CRT_EMULATION, "VDCPALScanLineShade", "VDCPALBlur",
@@ -147,7 +114,7 @@ static Chip_Parameters chip_param_table[] =
       IDS_VDC_RENDERER, "VDCVideoCache", "VDCDoubleSize", "VDCDoubleScan", "VDCStretchVertical",
             "VDCFilter",
     },
-    { ted_palettes, "TEDPaletteFile", "TEDExternalPalette", 0, NULL,
+    { NULL, NULL, "TED", "TEDPaletteFile", "TEDExternalPalette", 0, NULL,
       IDS_TED_COLORS, "TEDColorGamma", "TEDColorTint",
             "TEDColorSaturation", "TEDColorContrast", "TEDColorBrightness",
       IDS_TED_CRT_EMULATION, "TEDPALScanLineShade", "TEDPALBlur",
@@ -377,6 +344,7 @@ static uilib_dialog_group renderer_left_group[] = {
     {IDC_VIDEO_RENDER_FILTER_LABEL,  0},
     {0, 0}
 };
+
 static uilib_dialog_group renderer_right_group[] = {
     {IDC_VIDEO_RENDER_FILTER,  0},
     {0, 0}
@@ -433,6 +401,18 @@ static void init_renderer_dialog(HWND hwnd, Chip_Parameters *chip_type)
 
     resources_get_int(chip_type->res_render_filter, &n);
     SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)n, 0);
+}
+
+static char *palette_name2fname(char *name, char **palette_names, char **palette_filenames)
+{
+    int i;
+
+    for (i = 0; palette_names[i]; ++i) {
+        if (!strcmp(name, palette_names[i])) {
+            return palette_filenames[i];
+        }
+    }
+    return NULL;
 }
 
 static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -581,7 +561,7 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
 
                         GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st, 100);
                         lib_free(chip_type->file_name);
-                        chip_type->file_name = system_wcstombs_alloc(st);
+                        chip_type->file_name = system_wcstombs_alloc(palette_name2fname(st, chip_type->palette_names, chip_type->palette_filenames));
 
                         chip_type->external_pal = 1;
                         CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, BST_CHECKED);
@@ -726,13 +706,28 @@ static INT_PTR CALLBACK dialog_renderer_proc(HWND hwnd, UINT msg, WPARAM wparam,
     return FALSE;
 }
 
+static int countgroup(palette_info_t *palettelist, char *chip)
+{
+    int num = 0;
+
+    while (palettelist->name) {
+        if (palettelist->chip && !strcmp(palettelist->chip, chip)) {
+            ++num;
+        }
+        ++palettelist;
+    }
+    return num;
+}
+
 #define MAXTABS 7
+
 void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 {
     PROPSHEETPAGE psp[MAXTABS];
     PROPSHEETHEADER psh;
     int i;
     Chip_Parameters *chip_param;
+    palette_info_t *palettelist = palette_get_info_list();
 
     for (i = 0; i < MAXTABS; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
@@ -749,6 +744,23 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
     chip_param = &chip_param_table[chip_type1];
     current_chip_1 = chip_param;
+
+    i = countgroup(palettelist, current_chip_1->id_name);
+
+    current_chip_1->palette_names = lib_malloc(sizeof(char **) * (i + 1));
+    current_chip_1->palette_filenames = lib_malloc(sizeof(char **) * (i + 1));
+    i = 0;
+
+    while (palettelist->name) {
+        if (palettelist->chip && !strcmp(palettelist->chip, current_chip_1->id_name)) {
+            current_chip_1->palette_names[i] = palettelist->name;
+            current_chip_1->palette_filenames[i] = palettelist->file;
+            ++i;
+        }
+        ++palettelist;
+    }
+    current_chip_1->palette_names[i] = NULL;
+    current_chip_1->palette_filenames[i] = NULL;
 
     psp[0].pfnDlgProc = dialog_fullscreen_proc;
     psp[0].pszTitle = translate_text(IDS_FULLSCREEN);
@@ -787,6 +799,24 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     if (chip_type2 != UI_VIDEO_CHIP_NONE) {
         chip_param = &chip_param_table[chip_type2];
         current_chip_2 = chip_param;
+
+        i = countgroup(palettelist, current_chip_2->id_name);
+
+        current_chip_2->palette_names = lib_malloc(sizeof(char **) * (i + 1));
+        current_chip_2->palette_filenames = lib_malloc(sizeof(char **) * (i + 1));
+        i = 0;
+        palettelist = palette_get_info_list();
+
+        while (palettelist->name) {
+            if (palettelist->chip && !strcmp(palettelist->chip, current_chip_2->id_name)) {
+                current_chip_2->palette_names[i] = palettelist->name;
+                current_chip_2->palette_filenames[i] = palettelist->file;
+                ++i;
+            }
+            ++palettelist;
+        }
+        current_chip_2->palette_names[i] = NULL;
+        current_chip_2->palette_filenames[i] = NULL;
 
         /* colors */
         psp[4].pfnDlgProc = dialog_color_proc;
@@ -840,5 +870,12 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
     PropertySheet(&psh);
     system_mbstowcs_free((char *)psp[1].pszTitle);
+    lib_free(current_chip_1->palette_names);
+    lib_free(current_chip_1->palette_filenames);
+    if (chip_type2 != UI_VIDEO_CHIP_NONE) {
+        lib_free(current_chip_2->palette_names);
+        lib_free(current_chip_2->palette_filenames);
+    }
 }
+
 #undef MAXTABS
