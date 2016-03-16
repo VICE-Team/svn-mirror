@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -44,6 +45,12 @@
 #include "uilib.h"
 #include "winlong.h"
 #include "winmain.h"
+
+static int ui_ide64_shortbus_digimax_base[] = {
+    0xde40,
+    0xde48,
+    -1
+};
 
 static const int ui_ide64_version[] = {
     0,
@@ -88,6 +95,12 @@ static void update_text(HWND hwnd)
     lib_free(str);
 }
 
+static uilib_localize_dialog_param ide64_shortbus_dialog[] = {
+    { IDC_IDE64_SB_DIGIMAX, IDS_IDE64_SB_DIGIMAX, 0 },
+    { IDC_IDE64_SB_DIGIMAX_ADDRESS, IDS_IDE64_SB_DIGIMAX_ADDRESS, 0 },
+    { 0, 0, 0 }
+};
+
 static uilib_localize_dialog_param ide64_v4_dialog[] = {
     { IDC_IDE64_VERSION, IDS_IDE64_VERSION, 0 },
     { IDC_IDE64_USB_SERVER, IDS_IDE64_USB_SERVER, 0 },
@@ -122,6 +135,38 @@ static uilib_dialog_group ide64_rightgroup[] = {
     { IDC_IDE64_HDIMAGE_BROWSE, 0 },
     { 0, 0 }
 };
+
+static void init_ide64_shortbus_dialog(HWND hwnd)
+{
+    int res_value;
+    HWND parent_hwnd;
+    HWND temp_hwnd;
+    int res_value_loop;
+    int active_value;
+
+    parent_hwnd = GetParent(hwnd);
+
+    /* translate the items */
+    uilib_localize_dialog(hwnd, ide64_shortbus_dialog);
+
+    /* translate the parent window items */
+    uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_IDE64_SB_DIGIMAX_ADDRESS);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"$DE40");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"$DE48");
+    resources_get_int("SBDIGIMAXBase", &res_value);
+    active_value = 0;
+    for (res_value_loop = 0; ui_ide64_shortbus_digimax_base[res_value_loop] != -1; res_value_loop++) {
+        if (ui_ide64_shortbus_digimax_base[res_value_loop] == res_value) {
+            active_value = res_value_loop;
+        }
+    }
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
+
+    resources_get_int("SBDIGIMAX", &res_value);
+    CheckDlgButton(hwnd, IDC_IDE64_SB_DIGIMAX, res_value ? BST_CHECKED : BST_UNCHECKED);
+}
 
 static void init_ide64_v4_dialog(HWND hwnd)
 {
@@ -226,6 +271,34 @@ static void init_ide64_dialog(HWND hwnd, int num)
     enable_ide64_controls(hwnd);
 }
 
+static INT_PTR CALLBACK dialog_shortbus_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+    int type;
+
+    switch (msg) {
+        case WM_NOTIFY:
+            if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
+                resources_set_int("SBDIGIMAXBase", ui_ide64_shortbus_digimax_base[SendMessage(GetDlgItem(hwnd, IDC_IDE64_SB_DIGIMAX_ADDRESS), CB_GETCURSEL, 0, 0)]);
+                resources_set_int("SBDIGIMAX", (IsDlgButtonChecked(hwnd, IDC_IDE64_SB_DIGIMAX) == BST_CHECKED ? 1 : 0));
+                SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
+                return TRUE;
+            }
+            return FALSE;
+        case WM_INITDIALOG:
+            init_ide64_shortbus_dialog(hwnd);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_IDE64_SB_DIGIMAX:
+                case IDC_IDE64_SB_DIGIMAX_ADDRESS:
+                    break;
+            }
+            return TRUE;
+    }
+    return FALSE;
+}
+
 static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     TCHAR st[MAX_PATH];
@@ -325,7 +398,7 @@ _CALLBACK(4)
 
 void uiide64_settings_dialog(HWND hwnd)
 {
-    PROPSHEETPAGE psp[5];
+    PROPSHEETPAGE psp[6];
     PROPSHEETHEADER psh;
     int i;
 
@@ -333,16 +406,29 @@ void uiide64_settings_dialog(HWND hwnd)
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_IDE64_V4_SETTINGS_DIALOG);
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_IDE64_SHORTBUS_SETTINGS_DIALOG);
     psp[0].pszIcon = NULL;
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_IDE64_V4_SETTINGS_DIALOG);
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_IDE64_SHORTBUS_SETTINGS_DIALOG);
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
     psp[0].pfnCallback = NULL;
 
-    for (i = 1; i < 5; i++) {
+    psp[1].dwSize = sizeof(PROPSHEETPAGE);
+    psp[1].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
+    psp[1].hInstance = winmain_instance;
+#ifdef _ANONYMOUS_UNION
+    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_IDE64_V4_SETTINGS_DIALOG);
+    psp[1].pszIcon = NULL;
+#else
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_IDE64_V4_SETTINGS_DIALOG);
+    psp[1].u2.pszIcon = NULL;
+#endif
+    psp[1].lParam = 0;
+    psp[1].pfnCallback = NULL;
+
+    for (i = 2; i < 6; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -357,23 +443,25 @@ void uiide64_settings_dialog(HWND hwnd)
         psp[i].pfnCallback = NULL;
     }
 
-    psp[0].pfnDlgProc = dialog_v4_proc;
-    psp[0].pszTitle = translate_text(IDS_IDE64_V4_SETTINGS);
-    psp[1].pfnDlgProc = callback_1;
-    psp[1].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_1_SETTINGS);
-    psp[2].pfnDlgProc = callback_2;
-    psp[2].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_2_SETTINGS);
-    psp[3].pfnDlgProc = callback_3;
-    psp[3].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_3_SETTINGS);
-    psp[4].pfnDlgProc = callback_4;
-    psp[4].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_4_SETTINGS);
+    psp[0].pfnDlgProc = dialog_shortbus_proc;
+    psp[0].pszTitle = translate_text(IDS_IDE64_SHORTBUS_SETTINGS);
+    psp[1].pfnDlgProc = dialog_v4_proc;
+    psp[1].pszTitle = translate_text(IDS_IDE64_V4_SETTINGS);
+    psp[2].pfnDlgProc = callback_1;
+    psp[2].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_1_SETTINGS);
+    psp[3].pfnDlgProc = callback_2;
+    psp[3].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_2_SETTINGS);
+    psp[4].pfnDlgProc = callback_3;
+    psp[4].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_3_SETTINGS);
+    psp[5].pfnDlgProc = callback_4;
+    psp[5].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_4_SETTINGS);
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
     psh.pszCaption = translate_text(IDS_IDE64_SETTINGS);
-    psh.nPages = 5;
+    psh.nPages = 6;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;

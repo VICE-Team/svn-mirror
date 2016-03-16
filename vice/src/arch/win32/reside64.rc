@@ -32,6 +32,20 @@ END
 
 // template of dialog for all languages
 
+IDD_IDE64_SHORTBUS_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 80
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_IDE64_SB_DIGIMAX,
+                    10, 14, 160, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    COMBOBOX        IDC_IDE64_SB_DIGIMAX_ADDRESS,
+                    10, 29, 90, 10, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// template of dialog for all languages
+
 IDD_IDE64_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 160
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -71,11 +85,14 @@ STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primary master device settings"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primary slave device settings"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondary master device settings"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondary slave device settings"
     IDS_IDE64_SETTINGS              "IDE64 settings"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "Enable IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
@@ -97,11 +114,14 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 indstillinger"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primær master enhedsindstillinger"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primær slave enhedsindstillinger"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 sekundær master enhedsindstillinger"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 sekundær slave enhedsindstillinger"
     IDS_IDE64_SETTINGS              "IDE64-indstillinger"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "Aktivér IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
@@ -123,11 +143,14 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 Einstellungen"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 Primär Master Geräte Einstellungen"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 Primär Slave Geräte Einstellungen"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 Sekundär Master Geräte Einstellungen"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 Sekundär Slave Geräte Einstellungen"
     IDS_IDE64_SETTINGS              "IDE64 Einstellungen"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "IDE64 V4 aktivieren"
     IDS_IDE64_USB_SERVER            "IDE64 USB Server aktivieren"
     IDS_IDE64_RTC_SAVE              "IDE64 RTC Daten bei Änderung speichern"
@@ -149,11 +172,14 @@ STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "Ajustes IDE64 V4"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "Ajustes periférico maestro primario IDE64"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "Ajustes periférico esclavo primario IDE64"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "Ajustes periférico maestro secundario IDE64"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "Ajustes periférico esclavo secundario IDE64"
     IDS_IDE64_SETTINGS              "Ajustes IDE64"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "Permitir IDE64 V4"
     IDS_IDE64_USB_SERVER            "Permitir IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Grabar datos IDE64 RTC cuando cambien"
@@ -175,11 +201,14 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "Paramètres IDE64 V4"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "Paramètres périphérique maître primaire IDE64"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "Paramètres périphérique esclave primaire IDE64"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "Paramètres périphérique maître secondaire IDE64"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "Paramètres esclave secondaire IDE64"
     IDS_IDE64_SETTINGS              "Paramètres IDE64"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "Activer IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
@@ -204,11 +233,14 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primary master device settings"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primary slave device settings"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondary master device settings"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondary slave device settings"
     IDS_IDE64_SETTINGS              "IDE64 beállításai"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "Enable IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
@@ -233,11 +265,14 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "Impostazioni IDE64 C4"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "Impostazioni dispositivo IDE64 master sul canale primario"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "Impostazioni dispositivo IDE64 slave sul canale primario"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "Impostazioni dispositivo IDE64 slave sul canale secondario"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "Impostazioni dispositivo IDE64 master sul canale secondario"
     IDS_IDE64_SETTINGS              "Impostazioni IDE64"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "Attiva IDE64 V4"
     IDS_IDE64_USB_SERVER            "Attiva server IDE64 USB"
     IDS_IDE64_RTC_SAVE              "Salva i dati RTC dell'IDE64 alla modifica"
@@ -262,11 +297,14 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primary master device settings"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primary slave device settings"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondary master device settings"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondary slave device settings"
     IDS_IDE64_SETTINGS              "IDE64 ¼³Á¤"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "Enable IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
@@ -291,11 +329,14 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 instellingen"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primair hoofd apparaat instellingen"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD primair slaaf apparaat instellingen"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondair hoofd apparaat instellingen"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondair slaaf apparaat instellingen"
     IDS_IDE64_SETTINGS              "IDE64 instellingen"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "Activeer IDE64 V4"
     IDS_IDE64_USB_SERVER            "Activeer IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Sla de IDE64 RTC data op indien gewijzigd"
@@ -320,11 +361,14 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "Ustawienia IDE64 V4"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "Ustawienia pierwszego urz±dzenia master IDE64"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "Ustawienia pierwszego urz±dzenia slave IDE64"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "Ustawienia drugiego urz±dzenia master IDE64"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "Ustawienia drugiego urz±dzenia slave IDE64"
     IDS_IDE64_SETTINGS              "Ustawienia IDE64"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "W³±cz IDE64 V4"
     IDS_IDE64_USB_SERVER            "W³±cz serwer USB IDE64"
     IDS_IDE64_RTC_SAVE              "Zapisuj dane zegara czasu rzeczywistego IDE64 przy zmianie"
@@ -352,11 +396,14 @@ STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primary master device settings"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primary slave device settings"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondary master device settings"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondary slave device settings"
     IDS_IDE64_SETTINGS              "IDE64 settings"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "Enable IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
@@ -381,11 +428,14 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4-inställningar"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "Inställningar för primär IDE64-masterenhet"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "Inställningar för primär IDE64-slavenhet"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "Inställningar för sekundär IDE64-masterenhet"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "Inställningar för sekundär IDE64-slavenhet"
     IDS_IDE64_SETTINGS              "IDE64-inställningar"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "Aktivera IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
@@ -410,11 +460,14 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 ayarlarý"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 birincil ana sürücü ayarlarý"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 birincil baðýmlý sürücü ayarlarý"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 ikincil ana sürücü ayarlarý"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 ikincil baðýmlý sürücü ayarlarý"
     IDS_IDE64_SETTINGS              "IDE64 ayarlarý"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
     IDS_IDE64_VERSION               "IDE64 V4'ü aktif et"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
