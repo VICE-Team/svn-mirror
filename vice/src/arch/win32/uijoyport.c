@@ -33,9 +33,6 @@
 
 #include "joyport.h"
 #include "lib.h"
-#if 1
-#include "log.h"
-#endif
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -72,6 +69,7 @@ static void enable_joyport_controls(HWND hwnd)
 }
 
 static uilib_localize_dialog_param joyport_dialog_trans[] = {
+    { IDC_JOYPORT_BBRTC_SAVE, IDS_JOYPORT_BBRTC_SAVE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
@@ -94,6 +92,7 @@ static void init_joyport_dialog(HWND hwnd)
     HWND temp_hwnd4 = 0;
     HWND temp_hwnd5 = 0;
     HWND element;
+    int res_value = 0;
     int res_value1 = 0;
     int res_value2 = 0;
     int res_value3 = 0;
@@ -264,6 +263,9 @@ static void init_joyport_dialog(HWND hwnd)
         SendMessage(temp_hwnd5, CB_SETCURSEL, (WPARAM)res_value5, 0);
     }
 
+    resources_get_int("BBRTCSave", &res_value);
+    CheckDlgButton(hwnd, IDC_JOYPORT_BBRTC_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
+
     enable_joyport_controls(hwnd);
 }
 
@@ -350,6 +352,8 @@ static void end_joyport_dialog(HWND hwnd)
         id5 = devices_port_5[joy5].id;
         resources_set_int("JoyPort5Device", id5);
     }
+
+    resources_set_int("BBRTCSave", (IsDlgButtonChecked(hwnd, IDC_JOYPORT_BBRTC_SAVE) == BST_CHECKED ? 1 : 0 ));
 
     free_device_ports();
 }

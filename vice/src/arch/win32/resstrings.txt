@@ -1065,7 +1065,7 @@ IDS_SMART_MOUSE_RTC_SAVE
 //  Stringtable definitions in resjoyport.rc
 
 IDS_JOYPORT_S_DEVICE
-
+IDS_JOYPORT_BBRTC_SAVE
 
 //  Stringtable definitions in respet.rc
 
