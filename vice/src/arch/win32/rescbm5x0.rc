@@ -239,6 +239,14 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Cartridge/IO settings"
         BEGIN
+            POPUP "Tape port devices"
+            BEGIN
+                MENUITEM "", IDM_TAPELOG_SETTINGS
+                MENUITEM "", IDM_CP_CLOCK_F83_SETTINGS
+                MENUITEM "", IDM_TOGGLE_DATASETTE
+                MENUITEM "", IDM_TOGGLE_TAPE_SENSE_DONGLE
+                MENUITEM "", IDM_TOGGLE_DTL_BASIC_DONGLE
+            END
             MENUITEM "", IDM_TOGGLE_CART_RESET
         END
         POPUP "RS232 settings"

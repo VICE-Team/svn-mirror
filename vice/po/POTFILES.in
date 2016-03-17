@@ -134,6 +134,7 @@ src/arch/win32/rescbm2common.rc.po.c
 src/arch/win32/rescbm2.rc.po.c
 src/arch/win32/rescbm5x0.rc.po.c
 src/arch/win32/rescia.rc.po.c
+src/arch/win32/rescpclockf83.rc.po.c
 src/arch/win32/resdigimax.rc.po.c
 src/arch/win32/resdqbb.rc.po.c
 src/arch/win32/resdrivec128.rc.po.c
@@ -172,6 +173,7 @@ src/arch/win32/ressidcart.rc.po.c
 src/arch/win32/ressiddtv.rc.po.c
 src/arch/win32/ressoundexpander.rc.po.c
 src/arch/win32/ressoundsampler.rc.po.c
+src/arch/win32/restapelog.rc.po.c
 src/arch/win32/rested.rc.po.c
 src/arch/win32/restfe.rc.po.c
 src/arch/win32/resuserportrtc58321a.rc.po.c

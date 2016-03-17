@@ -241,6 +241,14 @@ BEGIN
                 MENUITEM "", IDM_USERPORT_RTC_DS1307_SETTINGS
                 MENUITEM "", IDM_TOGGLE_PET_USERPORT_DAC
             END
+            POPUP "Tape port devices"
+            BEGIN
+                MENUITEM "", IDM_TAPELOG_SETTINGS
+                MENUITEM "", IDM_CP_CLOCK_F83_SETTINGS
+                MENUITEM "", IDM_TOGGLE_DATASETTE
+                MENUITEM "", IDM_TOGGLE_TAPE_SENSE_DONGLE
+                MENUITEM "", IDM_TOGGLE_DTL_BASIC_DONGLE
+            END
         END
         POPUP "RS232 settings"
         BEGIN

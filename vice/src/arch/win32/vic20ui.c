@@ -41,6 +41,7 @@
 #include "ui.h"
 #include "uiacia.h"
 #include "uicart.h"
+#include "uicpclockf83.h"
 #include "uidigimax.h"
 #include "uidrivevic20.h"
 #include "uids12c887rtc.h"
@@ -57,6 +58,7 @@
 #include "uisidcart.h"
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
+#include "uitapelog.h"
 #include "uitfe.h"
 #include "uiuserportrtc58321a.h"
 #include "uiuserportrtcds1307.h"
@@ -79,6 +81,9 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "IO2RAM", IDM_IO2_RAM_ENABLE },
     { "IO3RAM", IDM_IO3_RAM_ENABLE },
     { "UserportDAC", IDM_TOGGLE_PET_USERPORT_DAC },
+    { "Datasette", IDM_TOGGLE_DATASETTE },
+    { "TapeSenseDongle", IDM_TOGGLE_TAPE_SENSE_DONGLE },
+    { "DTLBasicDongle", IDM_TOGGLE_DTL_BASIC_DONGLE },
     { NULL, 0 }
 };
 
@@ -377,6 +382,11 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_USERPORT_RTC_58321A_SETTINGS, IDS_MI_USERPORT_RTC_58321A_SETTINGS },
     { IDM_USERPORT_RTC_DS1307_SETTINGS, IDS_MI_USERPORT_RTC_DS1307_SETTINGS },
     { IDM_TOGGLE_PET_USERPORT_DAC, IDS_MI_TOGGLE_PET_USERPORT_DAC },
+    { IDM_TAPELOG_SETTINGS, IDS_MI_TAPELOG_SETTINGS },
+    { IDM_CP_CLOCK_F83_SETTINGS, IDS_MI_CP_CLOCK_F83_SETTINGS },
+    { IDM_TOGGLE_DATASETTE, IDS_MI_TOGGLE_DATASETTE },
+    { IDM_TOGGLE_TAPE_SENSE_DONGLE, IDS_MI_TOGGLE_TAPE_SENSE_DONGLE },
+    { IDM_TOGGLE_DTL_BASIC_DONGLE, IDS_MI_TOGGLE_DTL_BASIC_DONGLE },
     { 0, 0 }
 };
 
@@ -408,6 +418,7 @@ ui_popup_translation_table_t vic20ui_popup_translation_table[] = {
     { 2, IDS_MP_VIDEO_STANDARD, NULL },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS, NULL },
     { 3, IDS_MP_USERPORT_DEVICES, NULL },
+    { 3, IDS_MP_TAPEPORT_DEVICES, NULL },
     { 2, IDS_MP_RS232_SETTINGS, NULL },
     { 1, IDS_MP_LANGUAGE, NULL },
     { 1, IDS_MP_HELP, NULL },
@@ -657,6 +668,12 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_USERPORT_RTC_DS1307_SETTINGS:
             ui_userport_rtc_ds1307_settings_dialog(hwnd);
+            break;
+        case IDM_TAPELOG_SETTINGS:
+            ui_tapelog_settings_dialog(hwnd);
+            break;
+        case IDM_CP_CLOCK_F83_SETTINGS:
+            ui_cp_clock_f83_settings_dialog(hwnd);
             break;
     }
 }

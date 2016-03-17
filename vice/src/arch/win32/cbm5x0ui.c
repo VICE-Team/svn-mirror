@@ -44,6 +44,7 @@
 #include "uicbm5x0model.h"
 #include "uicbm5x0set.h"
 #include "uicia.h"
+#include "uicpclockf83.h"
 #include "uidrivepetcbm2.h"
 #include "uijoyport.h"
 #include "uijoystick.h"
@@ -53,6 +54,7 @@
 #include "uirom.h"
 #include "uisampler.h"
 #include "uisiddtv.h"
+#include "uitapelog.h"
 #include "uivicii.h"
 #include "uivideo.h"
 #include "videoarch.h"
@@ -61,6 +63,9 @@
 static const ui_menu_toggle_t cbm5x0_ui_menu_toggles[] = {
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "Mouse", IDM_MOUSE },
+    { "Datasette", IDM_TOGGLE_DATASETTE },
+    { "TapeSenseDongle", IDM_TOGGLE_TAPE_SENSE_DONGLE },
+    { "DTLBasicDongle", IDM_TOGGLE_DTL_BASIC_DONGLE },
     { NULL, 0 }
 };
 
@@ -318,6 +323,11 @@ ui_menu_translation_table_t cbm5x0ui_menu_translation_table[] = {
 #endif
     { IDM_CBM2_SETTINGS, IDS_MI_CBM5X0_SETTINGS },
     { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
+    { IDM_TAPELOG_SETTINGS, IDS_MI_TAPELOG_SETTINGS },
+    { IDM_CP_CLOCK_F83_SETTINGS, IDS_MI_CP_CLOCK_F83_SETTINGS },
+    { IDM_TOGGLE_DATASETTE, IDS_MI_TOGGLE_DATASETTE },
+    { IDM_TOGGLE_TAPE_SENSE_DONGLE, IDS_MI_TOGGLE_TAPE_SENSE_DONGLE },
+    { IDM_TOGGLE_DTL_BASIC_DONGLE, IDS_MI_TOGGLE_DTL_BASIC_DONGLE },
     { 0, 0 }
 };
 
@@ -346,6 +356,7 @@ ui_popup_translation_table_t cbm5x0ui_popup_translation_table[] = {
     { 2, IDS_MP_JOYSTICK_SETTINGS, NULL },
     { 2, IDS_MP_MOUSE_SETTINGS, NULL },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS, NULL },
+    { 3, IDS_MP_TAPEPORT_DEVICES, NULL },
     { 2, IDS_MP_RS232_SETTINGS, NULL },
     { 1, IDS_MP_LANGUAGE, NULL },
     { 1, IDS_MP_HELP, NULL },
@@ -494,6 +505,12 @@ static void cbm5x0_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_SAMPLER_SETTINGS:
             ui_sampler_settings_dialog(hwnd);
+            break;
+        case IDM_TAPELOG_SETTINGS:
+            ui_tapelog_settings_dialog(hwnd);
+            break;
+        case IDM_CP_CLOCK_F83_SETTINGS:
+            ui_cp_clock_f83_settings_dialog(hwnd);
             break;
     }
 }
