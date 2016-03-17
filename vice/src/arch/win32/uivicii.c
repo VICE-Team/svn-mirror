@@ -51,7 +51,6 @@ static uilib_localize_dialog_param vicii_dialog[] = {
     { IDC_VICII_SPRITEGROUP, IDS_VICII_SPRITEGROUP, 0 },
     { IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0 },
     { IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0 },
-    { IDC_TOGGLE_VICII_NEWLUM, IDS_VICII_LUMINANCE, 0 },
     { IDC_C64VICII_LABEL, IDS_VICII_MODEL, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
@@ -68,7 +67,6 @@ static uilib_localize_dialog_param viciisc_dialog[] = {
     { IDC_VICII_SPRITEGROUP, IDS_VICII_SPRITEGROUP, 0 },
     { IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0 },
     { IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0 },
-    { IDC_TOGGLE_VICII_NEWLUM, IDS_VICII_LUMINANCE, 0 },
     { IDC_TOGGLE_VICII_VSP_BUG, IDS_VICII_VSP_BUG, 0 },
     { IDC_C64VICII_LABEL, IDS_VICII_MODEL, 0 },
     { IDC_C64GLUELOGIC_LABEL, IDS_GLUE_LOGIC, 0 },
@@ -199,9 +197,6 @@ static void init_vicii_dialog(HWND hwnd)
     resources_get_int("VICIICheckSbColl", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SBC, n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_int("VICIINewLuminances", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_NEWLUM, n ? BST_CHECKED : BST_UNCHECKED);
-
     if (machine_class == VICE_MACHINE_C64SC) {
         resources_get_int("VICIIVSPBug", &n);
         CheckDlgButton(hwnd, IDC_TOGGLE_VICII_VSP_BUG, n ? BST_CHECKED : BST_UNCHECKED);
@@ -217,8 +212,6 @@ static void end_vicii_dialog(HWND hwnd)
     resources_set_int("VICIICheckSsColl", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
 
     resources_set_int("VICIICheckSbColl", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_SBC) == BST_CHECKED ? 1 : 0 ));
-
-    resources_set_int("VICIINewLuminances", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
 
     if (machine_class == VICE_MACHINE_C64SC) {
         resources_set_int("VICIIModel", ui_c64vicii_values[(int)SendMessage(GetDlgItem(hwnd, IDC_C64VICII_LIST), CB_GETCURSEL, 0, 0)]);
@@ -249,7 +242,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                 case IDC_TOGGLE_VICII_NOBORDERS:
                 case IDC_TOGGLE_VICII_SSC:
                 case IDC_TOGGLE_VICII_SBC:
-                case IDC_TOGGLE_VICII_NEWLUM:
                 case IDC_C64VICII_LIST:
                 case IDC_C64GLUELOGIC_LIST:
                     break;

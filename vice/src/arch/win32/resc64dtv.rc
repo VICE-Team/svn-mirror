@@ -272,6 +272,8 @@ BEGIN
                   4, 12, 60, 8
     COMBOBOX      IDC_C64DTVMODEL_LIST,
                   45, 11, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_TOGGLE_VICII_NEWLUM,
+                  7, 28, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "", IDOK,
                     20, 60, 50, 14, WS_TABSTOP
@@ -510,6 +512,7 @@ BEGIN
   IDS_CREATE                      "Create"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
@@ -540,6 +543,7 @@ BEGIN
   IDS_CREATE                      "Opret"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "C64DTV-model"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM-imagefil"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV-modelindstillinger..."
   IDS_MI_AUTOSTART_DISK           "Autostart disk-image..."
@@ -570,6 +574,7 @@ BEGIN
   IDS_CREATE                      "Erzeugen"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "C64DTV Modell"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM Image Name"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV Modell Einstellungen..."
   IDS_MI_AUTOSTART_DISK           "Autostart Disk Image..."
@@ -600,6 +605,7 @@ BEGIN
   IDS_CREATE                      "Crear"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "Modelo C64DTV"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "Fichero imagen DTV ROM"
   IDS_MI_C64DTVMODEL_SETTINGS     "Ajustes modelo C64DTV..."
   IDS_MI_AUTOSTART_DISK           "Autoarranque de imagen de disco..."
@@ -630,6 +636,7 @@ BEGIN
   IDS_CREATE                      "Créer"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "Modèle C64DTV"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "Nom d'image DTV ROM"
   IDS_MI_C64DTVMODEL_SETTINGS     "Paramètres du modèle C64DTV..."
   IDS_MI_AUTOSTART_DISK           "Autodémarrage image disque..."
@@ -663,6 +670,7 @@ BEGIN
   IDS_CREATE                      "Létrehozás"
   IDS_JOYSTICK                    "Botkormány"
   IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MI_AUTOSTART_DISK           "Lemezképmás automatikus indítása..."
@@ -696,6 +704,7 @@ BEGIN
   IDS_CREATE                      "Crea"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "Modello C64DTV"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "File immagine ROM DTV"
   IDS_MI_C64DTVMODEL_SETTINGS     "Impostazioni modello C64DTV..."
   IDS_MI_AUTOSTART_DISK           "Avvia automaticamente immagine disco..."
@@ -729,6 +738,7 @@ BEGIN
   IDS_CREATE                      "»ý¼º"
   IDS_JOYSTICK                    "Á¶ÀÌ½ºÆ½"
   IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MI_AUTOSTART_DISK           "ÀÚµ¿ ½ÃÀÛ µð½ºÅ© ÀÌ¹ÌÁö..."
@@ -762,6 +772,7 @@ BEGIN
   IDS_CREATE                      "Maak"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM bestand"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model instellingen..."
   IDS_MI_AUTOSTART_DISK           "Autostart schijfbestand..."
@@ -795,6 +806,7 @@ BEGIN
   IDS_CREATE                      "Utwórz"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "Model C64DTV"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "Plik obrazu ROM DTV"
   IDS_MI_C64DTVMODEL_SETTINGS     "Ustawienia modelu C64DTV..."
   IDS_MI_AUTOSTART_DISK           "Automatycznie startuj z obrazu dyskietki..."
@@ -831,6 +843,7 @@ BEGIN
   IDS_CREATE                      "ÁÞ×ÔÐâì"
   IDS_JOYSTICK                    "´ÖÞÙáâØÚ"
   IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
@@ -864,6 +877,7 @@ BEGIN
   IDS_CREATE                      "Skapa"
   IDS_JOYSTICK                    "Styrspak"
   IDS_C64DTVMODEL                 "C64DTV-modell"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM-avbildningsfil"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV-modellinställningar..."
   IDS_MI_AUTOSTART_DISK           "Autostarta diskettavbildning..."
@@ -897,6 +911,7 @@ BEGIN
   IDS_CREATE                      "Yarat"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "C64DTV modeli"
+  IDS_VICII_LUMINANCE             "Color fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM imaj Dosyasý"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model ayarlarý..."
   IDS_MI_AUTOSTART_DISK           "Disk imajýný otomatik baþlat..."
@@ -910,5 +925,3 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-

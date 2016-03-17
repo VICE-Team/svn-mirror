@@ -43,6 +43,7 @@
 
 static uilib_localize_dialog_param c64dtvmodel_dialog_trans[] = {
     { IDC_C64DTVMODEL_LABEL, IDS_C64DTVMODEL, 0 },
+    { IDC_TOGGLE_VICII_NEWLUM, IDS_VICII_LUMINANCE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
@@ -50,6 +51,7 @@ static uilib_localize_dialog_param c64dtvmodel_dialog_trans[] = {
 
 static uilib_dialog_group c64dtvmodel_left_group[] = {
     { IDC_C64DTVMODEL_LABEL, 0 },
+    { IDC_TOGGLE_VICII_NEWLUM, 1 },
     { 0, 0 }
 };
 
@@ -103,11 +105,15 @@ static void init_c64dtvmodel_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Hummer NTSC");
     res_value = dtvmodel_get();
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    resources_get_int("VICIINewLuminances", &res_value);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_NEWLUM, res_value ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static void end_c64dtvmodel_dialog(HWND hwnd)
 {
     dtvmodel_set((int)SendMessage(GetDlgItem(hwnd, IDC_C64DTVMODEL_LIST), CB_GETCURSEL, 0, 0));
+    resources_set_int("VICIINewLuminances", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

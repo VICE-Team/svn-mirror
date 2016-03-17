@@ -32,8 +32,6 @@ BEGIN
                     15, 90, 115, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_TOGGLE_VICII_SBC,
                     15, 105, 115, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_TOGGLE_VICII_NEWLUM,
-                    15, 125, 115, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     LTEXT           "", IDC_C64VICII_LABEL,
                     4, 142, 60, 8
@@ -66,8 +64,6 @@ BEGIN
                     15, 90, 115, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_TOGGLE_VICII_SBC,
                     15, 105, 115, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_TOGGLE_VICII_NEWLUM,
-                    15, 125, 115, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     LTEXT           "", IDC_C64VICII_LABEL,
                     4, 142, 60, 8  
@@ -101,7 +97,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "New luminances"
     IDS_VICII_MODEL         "VIC-II model"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
@@ -124,7 +119,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Spritekollisioner"
     IDS_VICII_SPRITECOLL    "Sprite-til-sprite-kollision"
     IDS_VICII_BACKCOLL      "Sprite-til-baggrunds-kollision"
-    IDS_VICII_LUMINANCE     "Nye lysstyrker"
     IDS_VICII_MODEL         "VIC-II-model"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
@@ -147,7 +141,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Kollisionen"
     IDS_VICII_SPRITECOLL    "Sprite-sprite Kollisionen"
     IDS_VICII_BACKCOLL      "Sprite-Hintergrund Kollisionen"
-    IDS_VICII_LUMINANCE     "Neue Helligkeitsemulation"
     IDS_VICII_MODEL         "VIC-II Modell"
     IDS_VICII_VSP_BUG       "VSP Fehler"
     IDS_GLUE_LOGIC          "Glue Logik"
@@ -170,7 +163,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Colisión de Sprites"
     IDS_VICII_SPRITECOLL    "Colisiones sprite-sprite"
     IDS_VICII_BACKCOLL      "Colisiones sprite-fondo"
-    IDS_VICII_LUMINANCE     "Nuevas luminancias"
     IDS_VICII_MODEL         "Modelo VIC-II"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
@@ -193,7 +185,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Collisions de Sprites"
     IDS_VICII_SPRITECOLL    "Collisions sprite-sprite"
     IDS_VICII_BACKCOLL      "Collisions sprite-arrière-plan"
-    IDS_VICII_LUMINANCE     "Nouvelles luminescences"
     IDS_VICII_MODEL         "Modèle VIC-II"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
@@ -219,7 +210,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite ütközések"
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "New luminances"
     IDS_VICII_MODEL         "VIC-II model"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
@@ -245,7 +235,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Collisioni sprite"
     IDS_VICII_SPRITECOLL    "Collisioni sprite-sprite"
     IDS_VICII_BACKCOLL      "Collisioni sprite-sfondo"
-    IDS_VICII_LUMINANCE     "Nuove luminanze"
     IDS_VICII_MODEL         "Modello VIC-II"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
@@ -271,7 +260,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
     IDS_VICII_SPRITECOLL    "½ºÇÁ¶óÀÌÆ®-½ºÇÁ¶óÀÌÆ® Ãæµ¹"
     IDS_VICII_BACKCOLL      "½ºÇÁ¶óÀÌÆ®-¹è°æ Ãæµ¹"
-    IDS_VICII_LUMINANCE     "¼¼·Î¿î ¹à±â"
     IDS_VICII_MODEL         "VIC-II ¸ðµ¨"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "±Û·ç ·ÎÁ÷"
@@ -297,7 +285,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Botsingen"
     IDS_VICII_SPRITECOLL    "Sprite-sprite botsingen"
     IDS_VICII_BACKCOLL      "Sprite-achtergrond botsingen"
-    IDS_VICII_LUMINANCE     "Nieuwe kleuren"
     IDS_VICII_MODEL         "VIC-II model"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
@@ -323,7 +310,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Kolizje duszków"
     IDS_VICII_SPRITECOLL    "Kolizje duszków"
     IDS_VICII_BACKCOLL      "Kolizje duszków z t³em"
-    IDS_VICII_LUMINANCE     "Nowy typ jaskrawo¶ci"
     IDS_VICII_MODEL         "Model VIC-II"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
@@ -352,7 +338,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "New luminances"
     IDS_VICII_MODEL         "¼ÞÔÕÛì VIC-II"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
@@ -378,7 +363,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Spritekollisioner"
     IDS_VICII_SPRITECOLL    "Sprite-till-sprite-kollision"
     IDS_VICII_BACKCOLL      "Sprite-till-bakgrund-kollision"
-    IDS_VICII_LUMINANCE     "Nya ljusstyrkor"
     IDS_VICII_MODEL         "VIC II-modell"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Klisterlogik"
@@ -404,7 +388,6 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Yaratýk Çarpýþmalarý"
     IDS_VICII_SPRITECOLL    "Yartýk-yaratýk çarpýþmalarý"
     IDS_VICII_BACKCOLL      "Yaratýk-arkaplan çarpýþmalarý"
-    IDS_VICII_LUMINANCE     "Yeni parlaklýklar"
     IDS_VICII_MODEL         "VIC-II modeli"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
