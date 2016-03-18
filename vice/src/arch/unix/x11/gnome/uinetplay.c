@@ -165,8 +165,16 @@ static void netplay_update_status(void)
     resources_get_string("NetworkServerBindAddress", &server_bind_address);
     snprintf(st, 256, "%d", port);
     gtk_entry_set_text(GTK_ENTRY(np_port), st);
+    if (server_name[0] == 0) {
+        server_name = "127.0.0.1";
+    }
     gtk_entry_set_text(GTK_ENTRY(np_server), server_name);
+
+    if (server_bind_address[0] == 0) {
+        server_bind_address = "127.0.0.1";
+    }
     gtk_entry_set_text(GTK_ENTRY(np_server_bind), server_bind_address);
+
     log_message(np_log, "Status: %s, Server: %s, Port: %d; server bind address: %s", text, server_name, port, server_bind_address);
     netplay_update_control_gui();
 }
@@ -201,13 +209,16 @@ static void netplay_disconnect(GtkWidget *w, gpointer data)
 
 static GtkWidget *build_netplay_dialog(void)
 {
-    GtkWidget *d, *f, *b, *hb, *rb, *l, *entry, *h;
+    GtkWidget *d, *f, *b, *hb, *rb, *l, *entry, *h, *v;
     char *unknown = util_concat("<", _("Unknown"), ">", NULL);
     char *connect_to = util_concat(_("Connect to"), " ", NULL);
     char *current_mode_text = util_concat(_("Current mode"), ": ", NULL);
-    char *tcp_port = util_concat(_("TCP port"), ": ", NULL);
+    char *ip = util_concat(_("IP"), ": ", NULL);
+    char *port = util_concat(_("Port"), ": ", NULL);
+    char *padding = util_concat("      ", NULL);
 
-    d = gtk_dialog_new_with_buttons(_("Netplay Settings"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+    d = gtk_dialog_new_with_buttons(_("Netplay Settings"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+    gtk_window_set_resizable(GTK_WINDOW(d), FALSE);
 
     f = gtk_frame_new(_("Netplay Settings"));
 
@@ -215,64 +226,92 @@ static GtkWidget *build_netplay_dialog(void)
     ctrls = b = gtk_vbox_new(FALSE, 5);
 
     hb = gtk_hbox_new(FALSE, 0);
-    l = gtk_label_new(current_mode_text);
-    gtk_container_add(GTK_CONTAINER(hb), l);
-    gtk_widget_show(l);
-    current_mode = gtk_label_new(unknown);
-    lib_free(unknown);
-    lib_free(current_mode_text);
 
-    gtk_container_add(GTK_CONTAINER(hb), current_mode);
-    gtk_widget_show(current_mode);
+    /* start row */
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
     gtk_widget_show(hb);
+    hb = gtk_hbox_new(FALSE, 0);
 
     /* button "start server" */
-    hb = gtk_hbox_new(FALSE, 0);
     rb = gtk_button_new_with_label(_("Start server"));
-    gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 10);
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_start_server), rb);
     gtk_widget_set_can_focus(rb, 0);
     gtk_widget_show(rb);
 
-    l = gtk_label_new(tcp_port);
+    /* label "IP" */
+    l = gtk_label_new(ip);
     gtk_container_add(GTK_CONTAINER(hb), l);
     gtk_widget_show(l);
-    lib_free(tcp_port);
+    /*lib_free(ip);*/
 
     /* entry IP server bind address */
     np_server_bind = entry = gtk_entry_new();
-    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 10);
     gtk_widget_set_size_request(entry, 100, -1);
     gtk_widget_show(entry);
 
+    /* label "Port" */
+    l = gtk_label_new(port);
+    gtk_container_add(GTK_CONTAINER(hb), l);
+    gtk_widget_show(l);
+    lib_free(port);
+
     /* entry port */
     np_port = entry = gtk_entry_new();
-    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 10);
     gtk_widget_set_size_request(entry, 50, -1);
     gtk_widget_show(entry);
 
-    gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
+    /* start row */
+    gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 10);
     gtk_widget_show(hb);
+    hb = gtk_hbox_new(FALSE, 0);
 
     /* button "connect to server" */
-    hb = gtk_hbox_new(FALSE, 0);
     rb = gtk_button_new_with_label(connect_to);
-    gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 10);
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_connect), rb);
     gtk_widget_set_can_focus(rb, 0);
     gtk_widget_show(rb);
     lib_free(connect_to);
 
+    /* label "IP" */
+    l = gtk_label_new(ip);
+    gtk_container_add(GTK_CONTAINER(hb), l);
+    gtk_widget_show(l);
+    lib_free(ip);
+
     /* entry "remote IP" */
     np_server = entry = gtk_entry_new();
-    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 10);
     gtk_widget_set_size_request(entry, 100, -1);
     gtk_widget_show(entry);
 
+    /* padding label */
+    l = gtk_label_new(padding);
+    gtk_container_add(GTK_CONTAINER(hb), l);
+    gtk_widget_show(l);
+
+    l = gtk_label_new(padding);
+    gtk_container_add(GTK_CONTAINER(hb), l);
+    gtk_widget_set_size_request(l, 50, -1);
+    gtk_widget_show(l);
+    lib_free(padding);
+
+    /* start row */
+    gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
+    gtk_widget_show(hb);
+    hb = gtk_hbox_new(FALSE, 0);
+
+    /* start row */
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
     gtk_widget_show(hb);
 
+    gtk_container_add(GTK_CONTAINER(f), h);
+    gtk_widget_show(h);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), f, TRUE, TRUE, 10);
+    gtk_widget_show(f);
     gtk_box_pack_start(GTK_BOX(h), b, FALSE, FALSE, 5);
     gtk_widget_show(b);
 
@@ -282,9 +321,16 @@ static GtkWidget *build_netplay_dialog(void)
         int i;
 
         cf = gtk_frame_new(_("Control"));
-        gtk_box_pack_start(GTK_BOX(h), cf, FALSE, FALSE, 5);
+        h = gtk_hbox_new(FALSE, 10);
+        v = gtk_vbox_new(FALSE, 10);
+        gtk_container_add(GTK_CONTAINER(h), v);
+        gtk_widget_show(v);
+        gtk_container_add(GTK_CONTAINER(cf), h);
+        gtk_widget_show(h);
+        gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), cf, FALSE, FALSE, 10);
         gtk_widget_show(cf);
 
+        /* content of the "control" frame */
         table = gtk_table_new(NR_NPCONROLS + 1, 3, FALSE);
         tmp = gtk_label_new(_("Server"));
         gtk_table_attach(GTK_TABLE(table), tmp, 1, 2, 0, 1, 0, 0, 5, 0);
@@ -292,6 +338,8 @@ static GtkWidget *build_netplay_dialog(void)
         tmp = gtk_label_new(_("Client"));
         gtk_table_attach(GTK_TABLE(table), tmp, 2, 3, 0, 1, 0, 0, 5, 0);
         gtk_widget_show(tmp);
+
+        /*gtk_table_set_homogeneous(table, TRUE);*/
 
         for (i = 0; i < NR_NPCONROLS; i++) {
             tmp = gtk_label_new(_(np_controls[i].name));
@@ -306,20 +354,31 @@ static GtkWidget *build_netplay_dialog(void)
             g_signal_connect(G_OBJECT(np_controls[i].c_cb), "toggled", G_CALLBACK(netplay_update_control_res), (gpointer)&np_controls[i].c_mask);
             gtk_widget_show(np_controls[i].c_cb);
         }
-        gtk_container_add(GTK_CONTAINER(cf), table);
+        gtk_box_pack_start(GTK_BOX(v), table, FALSE, FALSE, 10);
         gtk_widget_show(table);
     }
 
-    gtk_container_add(GTK_CONTAINER(f), h);
-    gtk_widget_show(h);
-    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), f, TRUE, TRUE, 0);
-    gtk_widget_show(f);
-
+    /* disconnect button */
     dcb = rb = gtk_button_new_with_label(_("Disconnect"));
-    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), rb, FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), rb, FALSE, FALSE, 10);
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_disconnect), rb);
     gtk_widget_set_can_focus(rb, 0);
     gtk_widget_show(rb);
+
+    h = gtk_hbox_new(FALSE, 5);
+    /* label "current mode */
+    l = gtk_label_new(current_mode_text);
+    gtk_container_add(GTK_CONTAINER(h), l);
+    gtk_widget_show(l);
+    /* actual label used for the status */
+    current_mode = gtk_label_new(unknown);
+    lib_free(unknown);
+    lib_free(current_mode_text);
+    gtk_container_add(GTK_CONTAINER(h), current_mode);
+    gtk_widget_show(current_mode);
+
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), h, FALSE, FALSE, 10);
+    gtk_widget_show(h);
 
     netplay_update_status();
 
