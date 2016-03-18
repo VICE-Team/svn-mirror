@@ -849,7 +849,7 @@ msgstr "DTV revisie"
 
 #: src/arch/unix/gui/c64dtvui.c:163
 msgid "Luma fix"
-msgstr ""
+msgstr "Luma correctie"
 
 #: src/arch/unix/gui/c64dtvui.c:181
 msgid "Flash settings"
@@ -2872,7 +2872,6 @@ msgid "Device 4 image name"
 msgstr "Apparaat 4 bestand naam"
 
 #: src/arch/unix/gui/uiide64.c:278
-#, fuzzy
 msgid "DigiMAX address"
 msgstr "DigiMAX basisadres"
 
@@ -2914,9 +2913,8 @@ msgid "Device 4 settings"
 msgstr "Apparaat 4 instellingen"
 
 #: src/arch/unix/gui/uiide64.c:306
-#, fuzzy
 msgid "Short bus device settings"
-msgstr "Apparaat 1 instellingen"
+msgstr "Short bus apparaat instellingen"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2933,9 +2931,8 @@ msgid "Control port settings"
 msgstr "Spel connector instellingen"
 
 #: src/arch/unix/gui/uijoyport.c:54 src/arch/win32/resjoyport.rc.po.c:156
-#, fuzzy
 msgid "Save BBRTC data when changed"
-msgstr "Sla de RTC data op indien gewijzigd"
+msgstr "Sla de BBRTC data op indien gewijzigd"
 
 #: src/arch/unix/gui/uijoystick2.c:141 src/arch/unix/gui/uijoystick2.c:159
 #: src/arch/win32/res.rc.po.c:1033 src/arch/amigaos/intl_text.c.po.c:1895
@@ -6741,9 +6738,8 @@ msgid "Save RTC data when changed"
 msgstr "Sla de RTC data op indien gewijzigd"
 
 #: src/arch/win32/res.rc.po.c:1347
-#, fuzzy
 msgid "Drive RPM settings"
-msgstr "Drive ROM instellingen"
+msgstr "Drive RPM instellingen"
 
 #: src/arch/win32/res.rc.po.c:1359 src/arch/win32/resc128.rc.po.c:77
 #: src/arch/win32/resc64.rc.po.c:73 src/arch/win32/resscpu64.rc.po.c:60
@@ -6818,17 +6814,15 @@ msgstr "Cartridge/IO instellingen"
 #: src/arch/win32/resc64.rc.po.c:288 src/arch/win32/rescbm2.rc.po.c:239
 #: src/arch/win32/respet.rc.po.c:231 src/arch/win32/resplus4.rc.po.c:247
 #: src/arch/win32/resscpu64.rc.po.c:271 src/arch/win32/resvic20.rc.po.c:271
-#, fuzzy
 msgid "Userport devices"
-msgstr "Userport apparaat"
+msgstr "Userport apparaten"
 
 #: src/arch/win32/res.rc.po.c:1385 src/arch/win32/resc128.rc.po.c:309
 #: src/arch/win32/resc64.rc.po.c:297 src/arch/win32/rescbm2.rc.po.c:248
 #: src/arch/win32/rescbm5x0.rc.po.c:235 src/arch/win32/respet.rc.po.c:237
 #: src/arch/win32/resplus4.rc.po.c:251 src/arch/win32/resvic20.rc.po.c:277
-#, fuzzy
 msgid "Tape port devices"
-msgstr "Userport apparaat"
+msgstr "Tape poort apparaten"
 
 #: src/arch/win32/res.rc.po.c:1387 src/arch/win32/resc128.rc.po.c:336
 #: src/arch/win32/resc64.rc.po.c:324 src/arch/win32/resc64dtv.rc.po.c:224
@@ -7005,9 +6999,8 @@ msgid "Retro Replay settings"
 msgstr "Retro Replay instellingen"
 
 #: src/arch/win32/res.rc.po.c:1504
-#, fuzzy
 msgid "RRNET MK3 settings"
-msgstr "ROM instellingen"
+msgstr "RRNET MK3 instellingen"
 
 #: src/arch/win32/res.rc.po.c:1505 src/arch/win32/resmagicvoice.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:3729
@@ -7076,19 +7069,16 @@ msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Activeer de SFX Sound Sampler cartridge"
 
 #: src/arch/win32/res.rc.po.c:1520
-#, fuzzy
 msgid "Enable the Super Snapshot 5 32KB RAM expansion"
-msgstr "Activeer de SS 32k RAM uitbreiding"
+msgstr "Activeer de Super Snapshot 5 32KB RAM uitbreiding"
 
 #: src/arch/win32/res.rc.po.c:1521
-#, fuzzy
 msgid "Userport RTC (58321a) device settings"
-msgstr "Userport RTC instellingen"
+msgstr "Userport RTC (58321a) instellingen"
 
 #: src/arch/win32/res.rc.po.c:1522
-#, fuzzy
 msgid "Userport RTC (DS1307) device settings"
-msgstr "Userport RTC instellingen"
+msgstr "Userport RTC (DS1307) instellingen"
 
 #: src/arch/win32/res.rc.po.c:1523 src/arch/amigaos/intl_text.c.po.c:4121
 #: src/translate_text.c.po.c:6180
@@ -7096,45 +7086,37 @@ msgid "Enable Userport DAC for sound output"
 msgstr "Activeer userport DAC voor geluidsuitvoer"
 
 #: src/arch/win32/res.rc.po.c:1524
-#, fuzzy
 msgid "Enable Userport DigiMAX device"
-msgstr "Activeer het userport DigiMAX apparaat"
+msgstr "Activeer userport DigiMAX apparaat"
 
 #: src/arch/win32/res.rc.po.c:1525
-#, fuzzy
 msgid "Enable Userport 4 bit sampler"
 msgstr "Activeer Userport 4bit sampler"
 
 #: src/arch/win32/res.rc.po.c:1526
-#, fuzzy
 msgid "Enable Userport 8 bit stereo sampler"
 msgstr "Activeer Userport 8bit stereo sampler"
 
 #: src/arch/win32/res.rc.po.c:1527 src/arch/win32/restapelog.rc.po.c:29
-#, fuzzy
 msgid "Tape log device settings"
-msgstr "Apparaat 1 instellingen"
+msgstr "Tape log apparaat instellingen"
 
 #: src/arch/win32/res.rc.po.c:1528
-#, fuzzy
 msgid "CP CLock F83 device settings"
-msgstr "Userport RTC instellingen"
+msgstr "CP CLock F83 apparaat instellingen"
 
 #: src/arch/win32/res.rc.po.c:1529
-#, fuzzy
 msgid "Enable datasette device"
-msgstr "Activeer IEC apparaat"
+msgstr "Activeer datasette apparaat"
 
 #: src/arch/win32/res.rc.po.c:1530 src/translate_text.c.po.c:6435
-#, fuzzy
 msgid "Enable tape sense dongle"
-msgstr "Activeer de v364 spraak add-on"
+msgstr "Activeer de tape sense dongle"
 
 #: src/arch/win32/res.rc.po.c:1531 src/translate_text.c.po.c:6469
 #: src/translate_text.c.po.c:6486
-#, fuzzy
 msgid "Enable DTL Basic dongle"
-msgstr "Activeer opslaan van de RTC"
+msgstr "Activeer de DTL Basic dongle"
 
 #: src/arch/win32/res.rc.po.c:1532 src/arch/amigaos/intl_text.c.po.c:4373
 msgid "Save current settings to specified file"
@@ -7587,9 +7569,8 @@ msgid "Create"
 msgstr "Maak"
 
 #: src/arch/win32/resc64dtv.rc.po.c:476
-#, fuzzy
 msgid "Color fix"
-msgstr "Kleuren"
+msgstr "Kleuren correctie"
 
 #: src/arch/win32/resc64dtv.rc.po.c:478 src/arch/amigaos/intl_text.c.po.c:2637
 msgid "C64DTV model settings"
@@ -7739,28 +7720,24 @@ msgid "CBM5x0 model settings"
 msgstr "CBM5x0 model instellingen"
 
 #: src/arch/win32/rescia.rc.po.c:52 src/arch/amigaos/intl_text.c.po.c:12692
-#, fuzzy
 msgid "6526A (new)"
-msgstr "6526 (nieuw)"
+msgstr "6526A (nieuw)"
 
 #: src/arch/win32/rescia.rc.po.c:53 src/arch/amigaos/intl_text.c.po.c:3617
 msgid "CIA settings"
 msgstr "CIA instellingen"
 
 #: src/arch/win32/rescpclockf83.rc.po.c:20
-#, fuzzy
 msgid "CP Clock F83 settings"
-msgstr "PET Colour instellingen"
+msgstr "CP Clock F83 instellingen"
 
 #: src/arch/win32/rescpclockf83.rc.po.c:21
-#, fuzzy
 msgid "Enable the CP Clock F83 expansion"
-msgstr "Activeer de MMC64 uitbreiding"
+msgstr "Activeer de CP Clock F83 uitbreiding"
 
 #: src/arch/win32/rescpclockf83.rc.po.c:22
-#, fuzzy
 msgid "Save CP Clock F83 RTC data when changed"
-msgstr "Sla de RTC data op indien gewijzigd"
+msgstr "Sla de CP Clock F83 RTC data op indien gewijzigd"
 
 #: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:17648
 msgid "Enable the DigiMAX cartridge"
@@ -7810,9 +7787,8 @@ msgid "Save CRT now"
 msgstr "Sla CRT nu op"
 
 #: src/arch/win32/reseasyflash.rc.po.c:35
-#, fuzzy
 msgid "Optimize CRT saving"
-msgstr "Optimalizeer het bestand bij opslaan"
+msgstr "Optimalizeer CRT bij het opslaan"
 
 #: src/arch/win32/resexpert.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:7257
 msgid "Select file for Expert Cartridge"
@@ -7847,9 +7823,8 @@ msgid "IDE64 V4 settings"
 msgstr "IDE64 V4 instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:72
-#, fuzzy
 msgid "IDE64 shortbus settings"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 shotbus instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:73 src/arch/amigaos/intl_text.c.po.c:9892
 msgid "IDE64 primary master device settings"
@@ -7868,14 +7843,12 @@ msgid "IDE64 secondary slave device settings"
 msgstr "IDE64 secondair slaaf apparaat instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:78
-#, fuzzy
 msgid "IDE64 shortbus DigiMAX device"
-msgstr "Activeer het userport DigiMAX apparaat"
+msgstr "IDE64 shortbus DigiMAX apparaat"
 
 #: src/arch/win32/reside64.rc.po.c:79
-#, fuzzy
 msgid "IDE64 shortbus DigiMAX device address"
-msgstr "Activeer het userport DigiMAX apparaat"
+msgstr "IDE64 shortbus DigiMAX apparaat basisadres"
 
 #: src/arch/win32/reside64.rc.po.c:80
 msgid "Enable IDE64 V4"
@@ -8233,7 +8206,7 @@ msgstr "Activeer RR bank jumper"
 
 #: src/arch/win32/resretroreplay.rc.po.c:38
 msgid "Save RR flash when changed"
-msgstr "RR flasg bestand opslaan indien gewijzigd"
+msgstr "RR flash bestand opslaan indien gewijzigd"
 
 #: src/arch/win32/resreu.rc.po.c:39
 msgid "REU Settings"
@@ -8256,14 +8229,12 @@ msgid "Select file for REU"
 msgstr "Selecteer bestand voor REU"
 
 #: src/arch/win32/resrrnetmk3.rc.po.c:29
-#, fuzzy
 msgid "Enable RRNET MK3 flash jumper"
-msgstr "Activeer RR flash jumper"
+msgstr "Activeer RRNET MK3 flash jumper"
 
 #: src/arch/win32/resrrnetmk3.rc.po.c:30
-#, fuzzy
 msgid "Save RRNET MK3 flash when changed"
-msgstr "RR flasg bestand opslaan indien gewijzigd"
+msgstr "RRNET MK3 flash bestand opslaan indien gewijzigd"
 
 #: src/arch/win32/resrs232user.rc.po.c:35 src/translate_text.c.po.c:12714
 msgid "Enable RS232 userport emulation"
@@ -8394,32 +8365,28 @@ msgid "SFX Sound Sampler settings"
 msgstr "SFX Sound Sampler instellingen"
 
 #: src/arch/win32/restapelog.rc.po.c:30
-#, fuzzy
 msgid "Enable tape log device"
-msgstr "Activeer virtuele apparaten"
+msgstr "Activeer tape log apparaat"
 
 #: src/arch/win32/restapelog.rc.po.c:31
 msgid "Tape log messages destination"
-msgstr ""
+msgstr "Tape log berichten bestemming"
 
 #: src/arch/win32/restapelog.rc.po.c:32
-#, fuzzy
 msgid "Tape log file"
-msgstr "Sla configuratie bestand op"
+msgstr "Tape log bestand"
 
 #: src/arch/win32/restapelog.rc.po.c:33
-#, fuzzy
 msgid "Select file for the tape log"
-msgstr "Selecteer bestand voor Magic Voice"
+msgstr "Selecteer bestand voor de tape log"
 
 #: src/arch/win32/restapelog.rc.po.c:34
 msgid "Log to default emulator logfile"
-msgstr ""
+msgstr "Sla berichten op in de standaard emulator log bestand"
 
 #: src/arch/win32/restapelog.rc.po.c:35
-#, fuzzy
 msgid "Log to user specified file"
-msgstr "Kan opgegeven bestand niet autostarten."
+msgstr "Sla berichten op in opgegeven bestand"
 
 #: src/arch/win32/rested.rc.po.c:35 src/arch/win32/resvic.rc.po.c:35
 #: src/arch/win32/resvicii.rc.po.c:83
@@ -8446,34 +8413,28 @@ msgid "Ethernet"
 msgstr "Ethernet"
 
 #: src/arch/win32/resuserportrtc58321a.rc.po.c:20
-#, fuzzy
 msgid "Userport RTC (58321a) settings"
-msgstr "Userport RTC instellingen"
+msgstr "Userport RTC (58321a) instellingen"
 
 #: src/arch/win32/resuserportrtc58321a.rc.po.c:21
-#, fuzzy
 msgid "Enable the Userport RTC (58321a) expansion"
-msgstr "Activeer de Userport RTC uitbreiding"
+msgstr "Activeer de Userport RTC (58321a) uitbreiding"
 
 #: src/arch/win32/resuserportrtc58321a.rc.po.c:22
-#, fuzzy
 msgid "Save RTC (58321a) data when changed"
-msgstr "Sla de RTC data op indien gewijzigd"
+msgstr "Sla de RTC (58321a) data op indien gewijzigd"
 
 #: src/arch/win32/resuserportrtcds1307.rc.po.c:20
-#, fuzzy
 msgid "Userport RTC (DS1307) settings"
-msgstr "Userport RTC instellingen"
+msgstr "Userport RTC (DS1307) instellingen"
 
 #: src/arch/win32/resuserportrtcds1307.rc.po.c:21
-#, fuzzy
 msgid "Enable the Userport RTC (DS1307) device"
-msgstr "Activeer de Userport RTC uitbreiding"
+msgstr "Activeer de Userport RTC (DS1307) uitbreiding"
 
 #: src/arch/win32/resuserportrtcds1307.rc.po.c:22
-#, fuzzy
 msgid "Save RTC (DS1307) data when changed"
-msgstr "Sla de RTC data op indien gewijzigd"
+msgstr "Sla de RTC (DS1307) data op indien gewijzigd"
 
 #: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:17104
 msgid "Enable the v364 speech add-on"
@@ -9004,14 +8965,12 @@ msgid "Enable the CP/M cartridge"
 msgstr "Activeer de CP/M cartridge"
 
 #: src/arch/amigaos/intl_text.c.po.c:4065
-#, fuzzy
 msgid "Enable the Userport RTC (58321a)"
-msgstr "Activeer de Userport RTC uitbreiding"
+msgstr "Activeer de Userport RTC (58321a)"
 
 #: src/arch/amigaos/intl_text.c.po.c:4079
-#, fuzzy
 msgid "Enable saving the Userport RTC (58321a) data"
-msgstr "Activeer opslaan van de Userport RTC data"
+msgstr "Activeer opslaan van de Userport RTC (58321a) data"
 
 #: src/arch/amigaos/intl_text.c.po.c:4093
 #: src/arch/amigaos/intl_text.c.po.c:8758
@@ -10961,11 +10920,11 @@ msgstr "Sampler (4bit)"
 
 #: src/translate_text.c.po.c:3500
 msgid "BBRTC"
-msgstr ""
+msgstr "BBRTC"
 
 #: src/translate_text.c.po.c:3517
 msgid "Paperclip64 dongle"
-msgstr ""
+msgstr "Paperclip64 dongle"
 
 #: src/translate_text.c.po.c:3534
 msgid "Light Pen (up trigger)"
@@ -11014,17 +10973,16 @@ msgid "Userport RTC (RTC58321A)"
 msgstr "Userport RTC (RTC58321A)"
 
 #: src/translate_text.c.po.c:3806
-#, fuzzy
 msgid "Userport RTC (DS1307)"
-msgstr "Userport RTC (RTC58321A)"
+msgstr "Userport RTC (DS1307)"
 
 #: src/translate_text.c.po.c:3823
 msgid "Tape RTC (PCF8583)"
-msgstr ""
+msgstr "Tape RTC (PCF8583)"
 
 #: src/translate_text.c.po.c:3840
 msgid "Sense dongle"
-msgstr ""
+msgstr "Sense dongle"
 
 #: src/translate_text.c.po.c:3857
 msgid "Userport DAC"
@@ -11043,19 +11001,16 @@ msgid "Userport 8bit stereo sampler"
 msgstr "Userport 8bit stereo sampler"
 
 #: src/translate_text.c.po.c:3925
-#, fuzzy
 msgid "Userport printer"
-msgstr "Userport printer stuurprogramma"
+msgstr "Userport printer"
 
 #: src/translate_text.c.po.c:3942
-#, fuzzy
 msgid "Datasette"
-msgstr "Datasette instellingen"
+msgstr "Datasette"
 
 #: src/translate_text.c.po.c:3959
-#, fuzzy
 msgid "Tape Log"
-msgstr "Tape"
+msgstr "Tape Log"
 
 #: src/translate_text.c.po.c:3978
 msgid "Enable opposite joystick directions"
@@ -11355,19 +11310,16 @@ msgid "Use old NTSC sync factor"
 msgstr "Gebruik oude NTSC synchronisatiefactor"
 
 #: src/translate_text.c.po.c:5277
-#, fuzzy
 msgid "Set both CIA models (0 = old 6526, 1 = new 6526A)"
-msgstr "Zet model voor beide CIAs (0 = oud 6526, 1 = nieuw 6526)"
+msgstr "Zet model voor beide CIAs (0 = oud 6526, 1 = nieuw 6526A)"
 
 #: src/translate_text.c.po.c:5294
-#, fuzzy
 msgid "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-msgstr "Zet CIA 1 model (0 = oud 6526, 1 = nieuw 6526)"
+msgstr "Zet CIA 1 model (0 = oud 6526, 1 = nieuw 6526A)"
 
 #: src/translate_text.c.po.c:5311
-#, fuzzy
 msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
-msgstr "Zet CIA 2 model (0 = oud 6526, 1 = nieuw 6526)"
+msgstr "Zet CIA 2 model (0 = oud 6526, 1 = nieuw 6526A)"
 
 #: src/translate_text.c.po.c:5328
 msgid ""
@@ -11478,28 +11430,24 @@ msgid "Specify name of sample file"
 msgstr "Geef naam van het samplebestand"
 
 #: src/translate_text.c.po.c:5738
-#, fuzzy
 msgid "Enable the tape log device"
-msgstr "Activeer het userport DigiMAX apparaat"
+msgstr "Activeer het tape log apparaat"
 
 #: src/translate_text.c.po.c:5755
-#, fuzzy
 msgid "Disable the tape log device"
-msgstr "Het userport DigiMAX apparaat uitschakelen"
+msgstr "Het tape log apparaat uitschakelen"
 
 #: src/translate_text.c.po.c:5772
-#, fuzzy
 msgid "Enable logging to a file"
-msgstr "Activeer schrijven naar card bestand"
+msgstr "Activeer schrijven naar een bestand"
 
 #: src/translate_text.c.po.c:5789
 msgid "Enable logging to the emulator log file"
-msgstr ""
+msgstr "Activeer schrijven naar emulator log bestand"
 
 #: src/translate_text.c.po.c:5806
-#, fuzzy
 msgid "Specify tape log file name"
-msgstr "Geef de naam van het logbestand"
+msgstr "Geef de naam van het tape logbestand"
 
 #: src/translate_text.c.po.c:5840
 msgid "Disable the GEO-RAM expansion unit"
@@ -11597,77 +11545,64 @@ msgstr ""
 "3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
 
 #: src/translate_text.c.po.c:6265
-#, fuzzy
 msgid "Enable Userport RTC (58321a)"
-msgstr "Activeer de Userport RTC uitbreiding"
+msgstr "Activeer de Userport RTC (58321a)"
 
 #: src/translate_text.c.po.c:6282
-#, fuzzy
 msgid "Disable Userport RTC (58321a)"
-msgstr "De Userport RTC uitbreiding uitschakelen"
+msgstr "De Userport RTC (58321a) uitschakelen"
 
 #: src/translate_text.c.po.c:6299
-#, fuzzy
 msgid "Enable saving of the Userport RTC (58321a) data when changed."
-msgstr "Activeer opslaan van de Userport RTC data indien gewijzigd"
+msgstr "Activeer opslaan van de Userport RTC (58321a) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6316
-#, fuzzy
 msgid "Disable saving of the Userport RTC (58321a) data when changed."
-msgstr "Opslaan van de Userport RTC data indien gewijzigd uitschakelen"
+msgstr "Opslaan van de Userport RTC (58321a) data indien gewijzigd uitschakelen."
 
 #: src/translate_text.c.po.c:6333
-#, fuzzy
 msgid "Enable Userport RTC (DS1307)"
-msgstr "Activeer de Userport RTC uitbreiding"
+msgstr "Activeer de Userport RTC (DS1307)"
 
 #: src/translate_text.c.po.c:6350
-#, fuzzy
 msgid "Disable Userport RTC (DS1307)"
-msgstr "De Userport RTC uitbreiding uitschakelen"
+msgstr "De Userport RTC (DS1307) uitschakelen"
 
 #: src/translate_text.c.po.c:6367
-#, fuzzy
 msgid "Enable saving of the Userport RTC (DS1307) data when changed."
-msgstr "Activeer opslaan van de Userport RTC data indien gewijzigd"
+msgstr "Activeer opslaan van de Userport RTC (DS1307) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6384
-#, fuzzy
 msgid "Disable saving of the Userport RTC (DS1307) data when changed."
-msgstr "Opslaan van de Userport RTC data indien gewijzigd uitschakelen"
+msgstr "Opslaan van de Userport RTC (DS1307) data indien gewijzigd uitschakelen."
 
 #: src/translate_text.c.po.c:6401
-#, fuzzy
 msgid "Enable saving of the BBRTC data when changed."
-msgstr "Activeer opslaan van de IDE64 RTC data indien gewijzigd"
+msgstr "Activeer opslaan van de BBRTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6418
-#, fuzzy
 msgid "Disable saving of the BBRTC data when changed."
-msgstr "Opslaan van de IDE64 RTC data indien gewijzigd uitschakelen"
+msgstr "Opslaan van de BBRTC data indien gewijzigd uitschakelen."
 
 #: src/translate_text.c.po.c:6452
-#, fuzzy
 msgid "Disable tape sense dongle"
-msgstr "De v364 spraak add-on uitschakelen"
+msgstr "De tape sense dongle uitschakelen"
 
 #: src/translate_text.c.po.c:6503
 msgid "Enable CP Clock F83 (PCF8583 RTC)"
-msgstr ""
+msgstr "Activeer de CP Clock F83 (PCF8583 RTC)"
 
 #: src/translate_text.c.po.c:6520
 msgid "Disable CP Clock F83 (PCF8583 RTC)"
-msgstr ""
+msgstr "De CP Clock F83 (PCF8583 RTC) uitschakelen"
 
 #: src/translate_text.c.po.c:6537
-#, fuzzy
 msgid "Enable saving of the CP Clock F83 (PCF8583 RTC) data when changed."
-msgstr "Activeer opslaan van de DS12C887 RTC data indien gewijzigd."
+msgstr "Activeer opslaan van de CP Clock F83 (PCF8583 RTC) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6554
-#, fuzzy
 msgid "Disable saving of the CP Clock F83 (PCF8583 RTC) data when changed."
-msgstr "Opslaan van de DS12C887 RTC data indien gewijzigd uitschakelen."
+msgstr "Opslaan van de CP Clock F83 (PCF8583 RTC) data indien gewijzigd uitschakelen."
 
 #: src/translate_text.c.po.c:6571
 msgid "Enable Userport 4bit sampler"
@@ -11826,24 +11761,20 @@ msgid "Remove the MMC64 Flash Jumper"
 msgstr "Verwijder de MMC64 Flash Jumper"
 
 #: src/translate_text.c.po.c:7302
-#, fuzzy
-msgid "Save the RRNETMK3 bios when changed"
-msgstr "Sla de MMC64 BIOS op als er veranderingen zijn gemaakt"
+msgid "Save the RRNET MK3 bios when changed"
+msgstr "Sla de RRNET MK3 bios op als er veranderingen zijn gemaakt"
 
 #: src/translate_text.c.po.c:7319
-#, fuzzy
 msgid "Do not save the RRNETMK3 bios when changed"
-msgstr "Sla de MMC64 BIOS niet op als er veranderingen zijn gemaakt"
+msgstr "Sla de RRNET MK3 bios niet op als er veranderingen zijn gemaakt"
 
 #: src/translate_text.c.po.c:7336
-#, fuzzy
 msgid "Set the RRNETMK3 Flash Jumper"
-msgstr "Zet de MMC64 Flash Jumper"
+msgstr "Zet de RRNET MK3 Flash Jumper"
 
 #: src/translate_text.c.po.c:7353
-#, fuzzy
 msgid "Remove the RRNETMK3 Flash Jumper"
-msgstr "Verwijder de MMC64 Flash Jumper"
+msgstr "Verwijder de RRNET MK3 Flash Jumper"
 
 #: src/translate_text.c.po.c:7370
 msgid "Specify MMC Replay card image filename"
@@ -12109,9 +12040,8 @@ msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr "Koppel binair 16kB Zaxxon cartridge bestand"
 
 #: src/translate_text.c.po.c:8783
-#, fuzzy
 msgid "Attach raw 24kB Easy Calc Result cartridge image"
-msgstr "Koppel binair 64kB Comal 80 cartridge bestand"
+msgstr "Koppel binair 24kB Easy Calc Result cartridge bestand"
 
 #: src/translate_text.c.po.c:8800
 msgid "Attach raw 64KB Pagefox cartridge image"
@@ -12138,9 +12068,8 @@ msgid "Attach raw 64kB RGCD cartridge image"
 msgstr "Koppel binair 64KB RGCD cartridge bestand"
 
 #: src/translate_text.c.po.c:8902
-#, fuzzy
 msgid "Attach raw 8kB RR-Net MK3 cartridge image"
-msgstr "Koppel binair 8kB MMC64 cartridge bestand"
+msgstr "Koppel binair 8kB RRNET MK3 cartridge bestand"
 
 #: src/translate_text.c.po.c:8919
 msgid "Attach raw 16/32kB ROSS cartridge image"
@@ -13537,14 +13466,12 @@ msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Koppel schijfbestand voor drive #11 als schrijfbaar (indien mogelijk)"
 
 #: src/translate_text.c.po.c:14817
-#, fuzzy
 msgid "Enable Datasette"
-msgstr "Activeer keyset"
+msgstr "Activeer Datasette"
 
 #: src/translate_text.c.po.c:14834
-#, fuzzy
 msgid "Disable Datasette"
-msgstr "Keyset uitschakelen"
+msgstr "Datasette uitschakelen"
 
 #: src/translate_text.c.po.c:14851
 msgid "Enable automatic Datasette-Reset"
@@ -14143,14 +14070,12 @@ msgid "Disable the userport DigiMAX device"
 msgstr "Het userport DigiMAX apparaat uitschakelen"
 
 #: src/translate_text.c.po.c:17614
-#, fuzzy
 msgid "Enable the Short Bus DigiMAX expansion"
-msgstr "Activeer de RamCart uitbreiding"
+msgstr "Activeer de Short Bus DigiMAX uitbreiding"
 
 #: src/translate_text.c.po.c:17631
-#, fuzzy
 msgid "Disable the Short Bus DigiMAX expansion"
-msgstr "De RamCart uitbreiding uitschakelen"
+msgstr "De Short Bus DigiMAX uitbreiding uitschakelen"
 
 #: src/translate_text.c.po.c:17665
 msgid "Disable the DigiMAX cartridge"
@@ -14161,9 +14086,8 @@ msgid "Base address of the DigiMAX cartridge"
 msgstr "Basisadres van de DigiMAX cartridge"
 
 #: src/translate_text.c.po.c:17699
-#, fuzzy
 msgid "Base address of the Short Bus DigiMAX expansion"
-msgstr "Basisadres van de DigiMAX cartridge"
+msgstr "Basisadres van de Short Bus DigiMAX uitbreiding"
 
 #: src/translate_text.c.po.c:17716
 msgid "Enable the DS12C887 RTC cartridge"
@@ -14254,64 +14178,3 @@ msgstr "PET High Res Emulation bord uitschakelen"
 #: src/translate_text.c.po.c:18059
 msgid "Set raw drive device name"
 msgstr "Zet binair drive bestandsnaam"
-
-#, fuzzy
-#~ msgid "DigiMAX"
-#~ msgstr "DigiMAX basisadres"
-
-#~ msgid "Default (Green)"
-#~ msgstr "Standaard (Groen)"
-
-#~ msgid "Amber"
-#~ msgstr "Amber"
-
-#~ msgid "White"
-#~ msgstr "Wit"
-
-#~ msgid "Default"
-#~ msgstr "Standaard"
-
-#~ msgid "Composite"
-#~ msgstr "Composiet"
-
-#~ msgid "Userport"
-#~ msgstr "Userport"
-
-#~ msgid "Userport RTC expansion settings"
-#~ msgstr "Userport RTC uitbreiding instellingen"
-
-#~ msgid "256 kByte (CSORY)"
-#~ msgstr "256 kByte (CSORY)"
-
-#~ msgid "256 kByte (HANNES)"
-#~ msgstr "256 kByte (HANNES)"
-
-#~ msgid "1024 kByte (HANNES)"
-#~ msgstr "1024 kByte (HANNES)"
-
-#~ msgid "4096 kByte (HANNES)"
-#~ msgstr "4096 kByte (HANNES)"
-
-#~ msgid "Joyport 1 device"
-#~ msgstr "Joyport 1 apparaat"
-
-#~ msgid "Joyport 2 device"
-#~ msgstr "Joyport 2 apparaat"
-
-#~ msgid "Joyport settings"
-#~ msgstr "Joyport instellingen"
-
-#~ msgid "Joystick in port #1"
-#~ msgstr "Joystick in poort #1"
-
-#~ msgid "Joystick in port #2"
-#~ msgstr "Joystick in poort #2"
-
-#~ msgid "IEEE-488 Interface image"
-#~ msgstr "IEEE488 interfacebestand"
-
-#~ msgid "MMC Replay image"
-#~ msgstr "MMC Replay bestand"
-
-#~ msgid "Set joyport 2 device (0: None"
-#~ msgstr "Zet joyport 2 apparaat (0: Geen"
