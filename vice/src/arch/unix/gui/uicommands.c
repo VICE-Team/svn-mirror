@@ -109,62 +109,6 @@ static UI_CALLBACK(activate_monitor)
     }
 }
 
-/* run c1541, termvar points to the terminal program to use */
-static int runc1541(char *termvar)
-{
-    char *termexec;
-    int err;
-
-    termexec = lib_malloc(strlen(termvar) + PATH_MAX);
-    strcpy(termexec, termvar);
-    strcat(termexec, " -e ");
-    strcat(termexec, PREFIX);
-    strcat(termexec, "/bin/c1541");
-    err = system(termexec);
-    lib_free(termexec);
-    return err;
-}
-
-static UI_CALLBACK(run_c1541)
-{
-    int i = 0;
-    char *terms[6] = {
-        "x-terminal-emulator",
-        "konsole",
-        "gterm",
-        "aterm",
-        "xterm -sb -rightbar",
-        NULL
-    };
-    int err = -1;
-#ifdef HAVE_FULLSCREEN
-    fullscreen_suspend(0);
-#endif
-    vsync_suspend_speed_eval();
-    sound_close();
-
-    /* try a couple of known terminal programs */
-    while ((err != 0) && (terms[i])) {
-        err = runc1541(terms[i]);
-        i++;
-    }
-    switch (err) {
-        case 127: /* If a shell could not be executed in the child process,
-                     then the return value is as though the child shell
-                     terminated by calling _exit(2) with the status 127 */
-            ui_error(_("Couldn't run /bin/sh???"));
-            break;
-        case -1: /*  If a child process could not be created,
-                     or its status could not be retrieved */
-            ui_error(_("Couldn't run terminal"));
-            break;
-        case 0:
-            break;
-        default:
-            ui_error(_("Unknown error while running c1541"));
-    }
-}
-
 static UI_CALLBACK(drive_trigger_reset)
 {
     vsync_suspend_speed_eval();
@@ -692,8 +636,6 @@ ui_menu_entry_t ui_tool_commands_menu[] = {
       KEYSYM_h, UI_HOTMOD_META },
     { N_("Monitor settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ui_monitor_commands_menu },
-    { N_("Run C1541"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)run_c1541, NULL, NULL },
     { NULL }
 };
 
