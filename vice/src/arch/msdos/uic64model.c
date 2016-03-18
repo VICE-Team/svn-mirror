@@ -36,7 +36,6 @@
 #include "vicii.h"
 
 TUI_MENU_DEFINE_RADIO(VICIIModel)
-TUI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 TUI_MENU_DEFINE_RADIO(CIA1Model)
 TUI_MENU_DEFINE_RADIO(CIA2Model)
 TUI_MENU_DEFINE_RADIO(GlueLogic)
@@ -174,10 +173,6 @@ static tui_menu_item_def_t c64_custom_model_menu_items[] = {
       vicii_model_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, vicii_model_submenu,
       "VICII model" },
-    { "_New luminances:",
-      "Enable new VICII luminances",
-      toggle_VICIINewLuminances_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Reset IEC bus with computer:",
       "Enable resetting of the IEC bus when the computer resets",
       toggle_IECReset_callback, NULL, 3,
