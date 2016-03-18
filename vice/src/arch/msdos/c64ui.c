@@ -64,6 +64,7 @@
 #include "uisidc64.h"
 #include "uisoundexpander.h"
 #include "uiss5.h"
+#include "uitapeport.h"
 #ifdef HAVE_TFE
 #include "uitfe.h"
 #endif
@@ -257,6 +258,8 @@ int c64ui_init(void)
                       TUI_MENU_BEH_CONTINUE);
 
     uiuserport_c64_cbm2_init(ui_ioextensions_submenu);
+
+    uitapeport_init(ui_ioextensions_submenu);
 
     return 0;
 }

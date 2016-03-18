@@ -43,6 +43,7 @@
 #include "uiciamodel.h"
 #include "uidrive.h"
 #include "uisidcbm2.h"
+#include "uitapeport.h"
 #include "uivideo.h"
 
 static TUI_MENU_CALLBACK(load_rom_file_callback)
@@ -113,6 +114,8 @@ int cbm5x0ui_init(void)
 
     uicbm5x0model_init(ui_special_submenu);
     uiciamodel_single_init(ui_special_submenu);
+
+    uitapeport_init(ui_special_submenu);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 

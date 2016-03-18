@@ -201,6 +201,8 @@ libarch_a_SOURCES = \
 	uisoundsampler.h \
 	uiss5.c \
 	uiss5.h \
+	uitapeport.c \
+	uitapeport.h \
 	uitfe.c \
 	uitfe.h \
 	uiuserport.c \

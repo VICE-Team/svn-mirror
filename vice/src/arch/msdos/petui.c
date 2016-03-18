@@ -46,6 +46,7 @@
 #include "uipetmodel.h"
 #include "uipetreu.h"
 #include "uisidcart.h"
+#include "uitapeport.h"
 #include "uiuserport.h"
 #include "uivideo.h"
 
@@ -327,6 +328,8 @@ int petui_init(void)
     uisidcart_init(ui_ioextensions_submenu, "$8F00", "$E900", "PET", 0x8f00, 0xe900);
 
     uiuserport_pet_vic20_init(ui_ioextensions_submenu);
+
+    uitapeport_init(ui_ioextensions_submenu);
 
     return 0;
 }

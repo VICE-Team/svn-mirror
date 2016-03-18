@@ -49,6 +49,7 @@
 #include "uisidcart.h"
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
+#include "uitapeport.h"
 #ifdef HAVE_TFE
 #include "uitfe.h"
 #endif
@@ -570,6 +571,8 @@ int vic20ui_init(void)
 #endif
 
     uiuserport_pet_vic20_init(ui_ioextensions_submenu);
+
+    uitapeport_init(ui_ioextensions_submenu);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 
