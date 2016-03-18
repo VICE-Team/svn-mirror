@@ -39,6 +39,7 @@
 
 TUI_MENU_DEFINE_TOGGLE(Mouse)
 TUI_MENU_DEFINE_TOGGLE(SmartMouseRTCSave)
+TUI_MENU_DEFINE_TOGGLE(BBRTCSave)
 TUI_MENU_DEFINE_RADIO(JoyPort1Device)
 TUI_MENU_DEFINE_RADIO(JoyPort2Device)
 TUI_MENU_DEFINE_RADIO(JoyPort3Device)
@@ -112,7 +113,7 @@ static tui_menu_item_def_t joyport4_submenu[JOYPORT_MAX_DEVICES + 1];
 static tui_menu_item_def_t joyport5_submenu[JOYPORT_MAX_DEVICES + 1];
 
 static int joyport_ports[JOYPORT_MAX_PORTS];
-static tui_menu_item_def_t joyport_menu_items[JOYPORT_MAX_PORTS + 3];
+static tui_menu_item_def_t joyport_menu_items[JOYPORT_MAX_PORTS + 4];
 
 void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int port3, int port4, int port5)
 {
@@ -287,6 +288,16 @@ void uijoyport_init(struct tui_menu *parent_submenu, int port1, int port2, int p
         joyport_menu_items[j].submenu_title = joyport_get_port_name(JOYPORT_5);
         ++j;
     }
+
+    joyport_menu_items[j].label = "Save BBRTC data when changed";
+    joyport_menu_items[j].help_string = "Save BBRTC data when changed";
+    joyport_menu_items[j].callback = toggle_BBRTCSave_callback;
+    joyport_menu_items[j].callback_param = NULL;
+    joyport_menu_items[j].par_string_max_len = 3;
+    joyport_menu_items[j].behavior = TUI_MENU_BEH_CONTINUE;
+    joyport_menu_items[j].submenu = NULL;
+    joyport_menu_items[j].submenu_title = NULL;
+    ++j;
 
     if (joyport_ports[JOYPORT_1] == 2 || joyport_ports[JOYPORT_2] == 2 || joyport_ports[JOYPORT_3] == 2 || joyport_ports[JOYPORT_4] == 2 || joyport_ports[JOYPORT_5] == 2) {
         joyport_menu_items[j].label = "Save Smart Mouse RTC data when changed";
