@@ -253,6 +253,46 @@ static tui_menu_item_def_t ide64_hd4_menu_items[] = {
     { NULL }
 };
 
+TUI_MENU_DEFINE_TOGGLE(SBDIGIMAX)
+TUI_MENU_DEFINE_RADIO(SBDIGIMAXbase)
+
+static TUI_MENU_CALLBACK(digimax_address_submenu_callback)
+{
+    int value;
+    static char s[10];
+
+    resources_get_int("SBDIGIMAXbase", &value);
+    switch (value) {
+        default:
+        case 0xde40:
+            strcpy(s, "$DE40");
+            break;
+        case 0xde48:
+            strcpy(s, "$DE48");
+            break;
+    }
+    return s;
+}
+
+static tui_menu_item_def_t digimax_address_submenu[] = {
+    { "$DE4_0", NULL, radio_SBDIGIMAXbase_callback,
+      (void *)0xde40, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$DE4_8", NULL, radio_SBDIGIMAXbase_callback,
+      (void *)0xde48, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t ide64_shortbus_menu_items[] = {
+    { "_DigiMAX device:", "Enable DigiMAX device",
+      toggle_SBDIGIMAX_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Digimax _address:", "Select base address of the DigiMAX device",
+      digimax_address_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, digimax_address_submenu,
+      "IDE64 revision" },
+    { NULL }
+};
+
 static tui_menu_item_def_t ide64_version_submenu[] = {
     { "V_3", NULL, radio_IDE64version_callback,
       (void *)IDE64_VERSION_3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
@@ -280,6 +320,10 @@ static tui_menu_item_def_t ide64_menu_items[] = {
       ui_ide64_usbserver_address_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
 #endif
+    { "Shortbus devices:", "Shortbus devices",
+      NULL, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, ide64_shortbus_menu_items,
+      "Shortbus devices" },
     { "IDE64 primary master settings:", "Primary master settings",
       NULL, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ide64_hd1_menu_items,
