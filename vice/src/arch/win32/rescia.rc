@@ -191,7 +191,7 @@ BEGIN
   IDS_CIA1_MODEL                "Model CIA 1"
   IDS_CIA2_MODEL                "Model CIA 2"
   IDS_6526_OLD                  "6526 (stary)"
-  IDS_6526A_NEW                 "6526A (nowy)"
+  IDS_6526A_NEW                 "6526A (new)"
   IDS_MI_CIA_SETTINGS           "Ustawienia CIA..."
 END
 #ifndef WINDRES_CP_IGNORE
@@ -226,7 +226,7 @@ BEGIN
   IDS_CIA1_MODEL                "CIA 1-modell"
   IDS_CIA2_MODEL                "CIA 2-modell"
   IDS_6526_OLD                  "6526 (gammal)"
-  IDS_6526A_NEW                 "6526A (ny)"
+  IDS_6526A_NEW                 "6526A (new)"
   IDS_MI_CIA_SETTINGS           "CIA-inställningar..."
 END
 

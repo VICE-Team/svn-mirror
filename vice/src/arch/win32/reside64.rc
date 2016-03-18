@@ -329,14 +329,14 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 instellingen"
-    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shotbus instellingen"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primair hoofd apparaat instellingen"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD primair slaaf apparaat instellingen"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondair hoofd apparaat instellingen"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondair slaaf apparaat instellingen"
     IDS_IDE64_SETTINGS              "IDE64 instellingen"
-    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
-    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX apparaat"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX apparaat basisadres"
     IDS_IDE64_VERSION               "Activeer IDE64 V4"
     IDS_IDE64_USB_SERVER            "Activeer IDE64 USB server"
     IDS_IDE64_RTC_SAVE              "Sla de IDE64 RTC data op indien gewijzigd"

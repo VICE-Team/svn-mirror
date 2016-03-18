@@ -166,13 +166,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TAPELOG_CAPTION                    "Tape log device settings"
-    IDS_TAPELOG_ENABLE                     "Enable tape log device"
-    IDS_TAPELOG_DESTINATION                "Tape log messages destination"
-    IDS_TAPELOG_FILE                       "Tape log file"
-    IDS_TAPELOG_SELECT_FILE                "Select file for the tape log"
-    IDS_TAPELOG_LOG_TO_EMULATION_LOGFILE   "Log to default emulator logfile"
-    IDS_TAPELOG_LOG_TO_USER_SPECIFIED_FILE "Log to user specified file"
+    IDS_TAPELOG_CAPTION                    "Tape log apparaat instellingen"
+    IDS_TAPELOG_ENABLE                     "Activeer tape log apparaat"
+    IDS_TAPELOG_DESTINATION                "Tape log berichten bestemming"
+    IDS_TAPELOG_FILE                       "Tape log bestand"
+    IDS_TAPELOG_SELECT_FILE                "Selecteer bestand voor de tape log"
+    IDS_TAPELOG_LOG_TO_EMULATION_LOGFILE   "Sla berichten op in de standaard emulator log bestand"
+    IDS_TAPELOG_LOG_TO_USER_SPECIFIED_FILE "Sla berichten op in opgegeven bestand"
 END
 
 
@@ -252,3 +252,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

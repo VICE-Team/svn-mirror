@@ -70,11 +70,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_SAMPLER  "Select file for the media file input driver"
-  IDS_SAMPLER_CAPTION      "Sampler settings"
-  IDS_SAMPLER_DEVICE_LABEL "Sampler device"
-  IDS_SAMPLER_FILE_LABEL   "Sampler input file"
-  IDS_SAMPLER_GAIN         "Sampler gain (1..200)"
+  IDS_SELECT_FILE_SAMPLER  "Mediendatei für Inputtreiber auswählen"
+  IDS_SAMPLER_CAPTION      "Sampler Einstellungen"
+  IDS_SAMPLER_DEVICE_LABEL "Sampler Gerät"
+  IDS_SAMPLER_FILE_LABEL   "Sample Input Datei"
+  IDS_SAMPLER_GAIN         "Sampler Gain (1..200)"
 END
 
 

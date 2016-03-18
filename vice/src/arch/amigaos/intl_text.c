@@ -476,13 +476,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_UM_IMAGE,    "UltiMem image..." },
 /* da */ { IDMS_UM_IMAGE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_UM_IMAGE_DE, "" },  /* fuzzy */
+/* de */ { IDMS_UM_IMAGE_DE, "UltiMem Image..." },
 /* es */ { IDMS_UM_IMAGE_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_UM_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_UM_IMAGE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_UM_IMAGE_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_UM_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_UM_IMAGE_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_UM_IMAGE_NL, "UltiMem bestand..." },
 /* pl */ { IDMS_UM_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_UM_IMAGE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_UM_IMAGE_SV, "" },  /* fuzzy */
@@ -3612,7 +3612,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_SAMPLER_SETTINGS,    "Sampler settings..." },
 /* da */ { IDMS_SAMPLER_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_SAMPLER_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_SAMPLER_SETTINGS_DE, "Sampler Einstellungen..." },
 /* es */ { IDMS_SAMPLER_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_SAMPLER_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_SAMPLER_SETTINGS_HU, "" },  /* fuzzy */
@@ -4088,13 +4088,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_ENABLE_USERPORT_RTC_58321A,    "Enable the Userport RTC (58321a)" },
 /* da */ { IDMS_ENABLE_USERPORT_RTC_58321A_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_USERPORT_RTC_58321A_DE, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_RTC_58321A_DE, "Userport RTC (58321a) aktivieren" },
 /* es */ { IDMS_ENABLE_USERPORT_RTC_58321A_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_ENABLE_USERPORT_RTC_58321A_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_USERPORT_RTC_58321A_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ENABLE_USERPORT_RTC_58321A_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_ENABLE_USERPORT_RTC_58321A_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_USERPORT_RTC_58321A_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_RTC_58321A_NL, "Activeer de Userport RTC (58321a)" },
 /* pl */ { IDMS_ENABLE_USERPORT_RTC_58321A_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ENABLE_USERPORT_RTC_58321A_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_USERPORT_RTC_58321A_SV, "" },  /* fuzzy */
@@ -4102,13 +4102,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_USERPORT_RTC_58321A_SAVE,    "Enable saving the Userport RTC (58321a) data" },
 /* da */ { IDMS_USERPORT_RTC_58321A_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_USERPORT_RTC_58321A_SAVE_DE, "" },  /* fuzzy */
+/* de */ { IDMS_USERPORT_RTC_58321A_SAVE_DE, "Userport RTC (58321a) Datenspeicherung aktivieren" },
 /* es */ { IDMS_USERPORT_RTC_58321A_SAVE_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_USERPORT_RTC_58321A_SAVE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_USERPORT_RTC_58321A_SAVE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_USERPORT_RTC_58321A_SAVE_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_USERPORT_RTC_58321A_SAVE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_USERPORT_RTC_58321A_SAVE_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_USERPORT_RTC_58321A_SAVE_NL, "Activeer opslaan van de Userport RTC (58321a) data" },
 /* pl */ { IDMS_USERPORT_RTC_58321A_SAVE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_USERPORT_RTC_58321A_SAVE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_USERPORT_RTC_58321A_SAVE_SV, "" },  /* fuzzy */
@@ -7028,7 +7028,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DRIVE_RTC_SAVE,    "Enable FD2000/4000 RTC data saving" },
 /* da */ { IDS_DRIVE_RTC_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDS_DRIVE_RTC_SAVE_DE, "FD2000/4000 RTC Daten Speichung aktivieren" },
+/* de */ { IDS_DRIVE_RTC_SAVE_DE, "FD2000/4000 RTC Datenspeichung aktivieren" },
 /* es */ { IDS_DRIVE_RTC_SAVE_ES, "Permitir grabar datos  FD2000/4000 RTC" },
 /* fr */ { IDS_DRIVE_RTC_SAVE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DRIVE_RTC_SAVE_HU, "" },  /* fuzzy */
@@ -7140,7 +7140,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SAMPLER_FILENAME_SELECT,    "Select file to be used as sampler input" },
 /* da */ { IDS_SAMPLER_FILENAME_SELECT_DA, "" },  /* fuzzy */
-/* de */ { IDS_SAMPLER_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* de */ { IDS_SAMPLER_FILENAME_SELECT_DE, "Datei für Sample Input auswählen" },
 /* es */ { IDS_SAMPLER_FILENAME_SELECT_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SAMPLER_FILENAME_SELECT_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SAMPLER_FILENAME_SELECT_HU, "" },  /* fuzzy */
@@ -7154,7 +7154,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SAMPLER_DEVICE,    "Sampler device" },
 /* da */ { IDS_SAMPLER_DEVICE_DA, "" },  /* fuzzy */
-/* de */ { IDS_SAMPLER_DEVICE_DE, "" },  /* fuzzy */
+/* de */ { IDS_SAMPLER_DEVICE_DE, "Sampler Gerät" },
 /* es */ { IDS_SAMPLER_DEVICE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SAMPLER_DEVICE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SAMPLER_DEVICE_HU, "" },  /* fuzzy */
@@ -7168,7 +7168,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SAMPLER_FILENAME,    "Sampler input media file" },
 /* da */ { IDS_SAMPLER_FILENAME_DA, "" },  /* fuzzy */
-/* de */ { IDS_SAMPLER_FILENAME_DE, "" },  /* fuzzy */
+/* de */ { IDS_SAMPLER_FILENAME_DE, "Sample Input Mediendatei" },
 /* es */ { IDS_SAMPLER_FILENAME_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SAMPLER_FILENAME_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SAMPLER_FILENAME_HU, "" },  /* fuzzy */
@@ -7182,7 +7182,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SAMPLER_SETTINGS,    "Sampler settings" },
 /* da */ { IDS_SAMPLER_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_SAMPLER_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDS_SAMPLER_SETTINGS_DE, "Sampler Einstellungen" },
 /* es */ { IDS_SAMPLER_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SAMPLER_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SAMPLER_SETTINGS_HU, "" },  /* fuzzy */
@@ -7953,7 +7953,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3,    "Extra joystick #3 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* da */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_DA, "" },  /* fuzzy */
-/* de */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_DE, "" },  /* fuzzy */
+/* de */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_DE, "Extra Joystick #3 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)" },
 /* es */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYSTICK_3_HU, "" },  /* fuzzy */
@@ -8023,7 +8023,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SET_INPUT_EXTRA_JOYLL_3,    "Extra joystick #3 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* da */ { IDS_SET_INPUT_EXTRA_JOYLL_3_DA, "" },  /* fuzzy */
-/* de */ { IDS_SET_INPUT_EXTRA_JOYLL_3_DE, "" },  /* fuzzy */
+/* de */ { IDS_SET_INPUT_EXTRA_JOYLL_3_DE, "Extra Joystick #3 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)" },
 /* es */ { IDS_SET_INPUT_EXTRA_JOYLL_3_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYLL_3_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYLL_3_HU, "" },  /* fuzzy */
@@ -8259,7 +8259,6 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DISABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DISABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
 /* tr */ { IDS_DISABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
-#endif
 
 /* en */ { IDS_PET_REU_SIZE,    "PET REU size" },
 /* da */ { IDS_PET_REU_SIZE_DA, "PET REU størrelse" },
@@ -10013,7 +10012,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_IDE64_RTC_SAVE,    "Enable saving of the IDE64 RTC data" },
 /* da */ { IDS_IDE64_RTC_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_RTC_SAVE_DE, "IDE64 RTC Daten Speicherung aktivieren" },
+/* de */ { IDS_IDE64_RTC_SAVE_DE, "IDE64 RTC Datenspeicherung aktivieren" },
 /* es */ { IDS_IDE64_RTC_SAVE_ES, "Permitir grabar datos de IDE64 RTC" },
 /* fr */ { IDS_IDE64_RTC_SAVE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IDE64_RTC_SAVE_HU, "" },  /* fuzzy */
@@ -12722,9 +12721,9 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_6526A_NEW_IT, "6526A (nuovo)" },
 /* ko */ { IDS_6526A_NEW_KO, "6526A (»õ·Î¿î)" },
 /* nl */ { IDS_6526A_NEW_NL, "6526A (nieuw)" },
-/* pl */ { IDS_6526A_NEW_PL, "6526A (nowy)" },
+/* pl */ { IDS_6526A_NEW_PL, "" },  /* fuzzy */
 /* ru */ { IDS_6526A_NEW_RU, "6526A (new)" },
-/* sv */ { IDS_6526A_NEW_SV, "6526A (ny)" },
+/* sv */ { IDS_6526A_NEW_SV, "" },  /* fuzzy */
 /* tr */ { IDS_6526A_NEW_TR, "6526A (yeni)" },
 
 /* en */ { IDS_DISCRETE,    "Discrete" },

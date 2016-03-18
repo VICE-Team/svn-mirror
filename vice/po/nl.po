@@ -11558,7 +11558,8 @@ msgstr "Activeer opslaan van de Userport RTC (58321a) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6316
 msgid "Disable saving of the Userport RTC (58321a) data when changed."
-msgstr "Opslaan van de Userport RTC (58321a) data indien gewijzigd uitschakelen."
+msgstr ""
+"Opslaan van de Userport RTC (58321a) data indien gewijzigd uitschakelen."
 
 #: src/translate_text.c.po.c:6333
 msgid "Enable Userport RTC (DS1307)"
@@ -11574,7 +11575,8 @@ msgstr "Activeer opslaan van de Userport RTC (DS1307) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6384
 msgid "Disable saving of the Userport RTC (DS1307) data when changed."
-msgstr "Opslaan van de Userport RTC (DS1307) data indien gewijzigd uitschakelen."
+msgstr ""
+"Opslaan van de Userport RTC (DS1307) data indien gewijzigd uitschakelen."
 
 #: src/translate_text.c.po.c:6401
 msgid "Enable saving of the BBRTC data when changed."
@@ -11598,11 +11600,13 @@ msgstr "De CP Clock F83 (PCF8583 RTC) uitschakelen"
 
 #: src/translate_text.c.po.c:6537
 msgid "Enable saving of the CP Clock F83 (PCF8583 RTC) data when changed."
-msgstr "Activeer opslaan van de CP Clock F83 (PCF8583 RTC) data indien gewijzigd."
+msgstr ""
+"Activeer opslaan van de CP Clock F83 (PCF8583 RTC) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6554
 msgid "Disable saving of the CP Clock F83 (PCF8583 RTC) data when changed."
-msgstr "Opslaan van de CP Clock F83 (PCF8583 RTC) data indien gewijzigd uitschakelen."
+msgstr ""
+"Opslaan van de CP Clock F83 (PCF8583 RTC) data indien gewijzigd uitschakelen."
 
 #: src/translate_text.c.po.c:6571
 msgid "Enable Userport 4bit sampler"
@@ -11761,7 +11765,8 @@ msgid "Remove the MMC64 Flash Jumper"
 msgstr "Verwijder de MMC64 Flash Jumper"
 
 #: src/translate_text.c.po.c:7302
-msgid "Save the RRNET MK3 bios when changed"
+#, fuzzy
+msgid "Save the RRNETMK3 bios when changed"
 msgstr "Sla de RRNET MK3 bios op als er veranderingen zijn gemaakt"
 
 #: src/translate_text.c.po.c:7319

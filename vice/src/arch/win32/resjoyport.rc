@@ -195,7 +195,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_S_DEVICE   "%s device"
+  IDS_JOYPORT_S_DEVICE   "%s Gerät"
   IDS_JOYPORT_BBRTC_SAVE "Save BBRTC data when changed"
 END
 
@@ -267,8 +267,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_JOYPORT_S_DEVICE   "%s device"
-  IDS_JOYPORT_BBRTC_SAVE "Save BBRTC data when changed"
+  IDS_JOYPORT_S_DEVICE   "%s apparaat"
+  IDS_JOYPORT_BBRTC_SAVE "Sla de BBRTC data op indien gewijzigd"
 END
 
 
@@ -328,3 +328,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

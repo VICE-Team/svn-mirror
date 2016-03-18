@@ -47,9 +47,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_USERPORT_RTC_58321A_CAPTION "Userport RTC (58321a) settings"
-  IDS_USERPORT_RTC_58321A_ENABLE  "Enable the Userport RTC (58321a) expansion"
-  IDS_USERPORT_RTC_58321A_SAVE    "Save RTC (58321a) data when changed"
+  IDS_USERPORT_RTC_58321A_CAPTION "Userport RTC (58321a) Einstellungen"
+  IDS_USERPORT_RTC_58321A_ENABLE  "Userport RTC (58321a) Erweiterung aktivieren"
+  IDS_USERPORT_RTC_58321A_SAVE    "RTC (58321a) Daten bei Änderung speichern"
 END
 
 
@@ -125,9 +125,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_USERPORT_RTC_58321A_CAPTION "Userport RTC (58321a) settings"
-  IDS_USERPORT_RTC_58321A_ENABLE  "Enable the Userport RTC (58321a) expansion"
-  IDS_USERPORT_RTC_58321A_SAVE    "Save RTC (58321a) data when changed"
+  IDS_USERPORT_RTC_58321A_CAPTION "Userport RTC (58321a) instellingen"
+  IDS_USERPORT_RTC_58321A_ENABLE  "Activeer de Userport RTC (58321a) uitbreiding"
+  IDS_USERPORT_RTC_58321A_SAVE    "Sla de RTC (58321a) data op indien gewijzigd"
 END
 
 
@@ -191,3 +191,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

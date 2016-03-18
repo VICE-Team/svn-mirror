@@ -151,7 +151,7 @@ BEGIN
   IDS_RR_FLASH_JUMPER   "Activeer RR flash jumper"
   IDS_RR_BANK_JUMPER    "Activeer RR bank jumper"
   IDS_RR_REVISION_LABEL "Revisie"
-  IDS_RR_BIOS_SAVE      "RR flasg bestand opslaan indien gewijzigd"
+  IDS_RR_BIOS_SAVE      "RR flash bestand opslaan indien gewijzigd"
 END
 
 

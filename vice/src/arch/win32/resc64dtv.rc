@@ -772,7 +772,7 @@ BEGIN
   IDS_CREATE                      "Maak"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "C64DTV model"
-  IDS_VICII_LUMINANCE             "Color fix"
+  IDS_VICII_LUMINANCE             "Kleuren correctie"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM bestand"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model instellingen..."
   IDS_MI_AUTOSTART_DISK           "Autostart schijfbestand..."
@@ -925,3 +925,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

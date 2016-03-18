@@ -54,8 +54,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RRNETMK3_FLASH_JUMPER   "Enable RRNET MK3 flash jumper"
-  IDS_RRNETMK3_BIOS_SAVE      "Save RRNET MK3 flash when changed"
+  IDS_RRNETMK3_FLASH_JUMPER   "RRNET MK3 Flashjumper aktivieren"
+  IDS_RRNETMK3_BIOS_SAVE      "RRNET MK3 Imagedatei bei Änderung speichern"
 END
 
 
@@ -126,8 +126,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RRNETMK3_FLASH_JUMPER   "Enable RRNET MK3 flash jumper"
-  IDS_RRNETMK3_BIOS_SAVE      "Save RRNET MK3 flash when changed"
+  IDS_RRNETMK3_FLASH_JUMPER   "Activeer RRNET MK3 flash jumper"
+  IDS_RRNETMK3_BIOS_SAVE      "RRNET MK3 flash bestand opslaan indien gewijzigd"
 END
 
 
@@ -187,3 +187,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

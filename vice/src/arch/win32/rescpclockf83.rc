@@ -125,9 +125,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CP_CLOCK_F83_CAPTION "CP Clock F83 settings"
-  IDS_CP_CLOCK_F83_ENABLE  "Enable the CP Clock F83 expansion"
-  IDS_CP_CLOCK_F83_SAVE    "Save CP Clock F83 RTC data when changed"
+  IDS_CP_CLOCK_F83_CAPTION "CP Clock F83 instellingen"
+  IDS_CP_CLOCK_F83_ENABLE  "Activeer de CP Clock F83 uitbreiding"
+  IDS_CP_CLOCK_F83_SAVE    "Sla de CP Clock F83 RTC data op indien gewijzigd"
 END
 
 
@@ -191,3 +191,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

@@ -3527,7 +3527,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_SAMPLER_4BIT,    N_("Sampler (4bit)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SAMPLER_4BIT_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SAMPLER_4BIT_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SAMPLER_4BIT_DE, "Sampler (4bit)"},
 /* es */ {IDGS_SAMPLER_4BIT_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_SAMPLER_4BIT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SAMPLER_4BIT_HU, ""},  /* fuzzy */
@@ -3550,7 +3550,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_BBRTC_HU, ""},  /* fuzzy */
 /* it */ {IDGS_BBRTC_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_BBRTC_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_BBRTC_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_BBRTC_NL, "BBRTC"},
 /* pl */ {IDGS_BBRTC_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_BBRTC_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_BBRTC_SV, ""},  /* fuzzy */
@@ -3567,7 +3567,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_PAPERCLIP64_DONGLE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_PAPERCLIP64_DONGLE_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_PAPERCLIP64_DONGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_PAPERCLIP64_DONGLE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_PAPERCLIP64_DONGLE_NL, "Paperclip64 dongle"},
 /* pl */ {IDGS_PAPERCLIP64_DONGLE_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_PAPERCLIP64_DONGLE_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_PAPERCLIP64_DONGLE_SV, ""},  /* fuzzy */
@@ -3697,7 +3697,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_SAMPLER_USED_BY,    N_("Sampler system already in use by %s.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SAMPLER_USED_BY_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SAMPLER_USED_BY_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SAMPLER_USED_BY_DE, "Sample System bereits von %s benutzt."},
 /* es */ {IDGS_SAMPLER_USED_BY_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_SAMPLER_USED_BY_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SAMPLER_USED_BY_HU, ""},  /* fuzzy */
@@ -3799,7 +3799,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_KINGSOFT_JOY_ADAPTER,    N_("KingSoft userport joy adapter")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_KINGSOFT_JOY_ADAPTER_DA, ""},  /* fuzzy */
-/* de */ {IDGS_KINGSOFT_JOY_ADAPTER_DE, ""},  /* fuzzy */
+/* de */ {IDGS_KINGSOFT_JOY_ADAPTER_DE, "Kingsoft Userport Joy Adapter"},
 /* es */ {IDGS_KINGSOFT_JOY_ADAPTER_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_KINGSOFT_JOY_ADAPTER_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_KINGSOFT_JOY_ADAPTER_HU, ""},  /* fuzzy */
@@ -3816,7 +3816,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_STARBYTE_JOY_ADAPTER,    N_("StarByte userport joy adapter")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_STARBYTE_JOY_ADAPTER_DA, ""},  /* fuzzy */
-/* de */ {IDGS_STARBYTE_JOY_ADAPTER_DE, ""},  /* fuzzy */
+/* de */ {IDGS_STARBYTE_JOY_ADAPTER_DE, "Starbyte Userport Joy Adapter"},
 /* es */ {IDGS_STARBYTE_JOY_ADAPTER_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_STARBYTE_JOY_ADAPTER_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_STARBYTE_JOY_ADAPTER_HU, ""},  /* fuzzy */
@@ -3833,7 +3833,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_USERPORT_RTC58321A,    N_("Userport RTC (RTC58321A)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_USERPORT_RTC58321A_DA, ""},  /* fuzzy */
-/* de */ {IDGS_USERPORT_RTC58321A_DE, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_RTC58321A_DE, "Userport RTC (RTC58321A)"},
 /* es */ {IDGS_USERPORT_RTC58321A_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_USERPORT_RTC58321A_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_USERPORT_RTC58321A_HU, ""},  /* fuzzy */
@@ -3850,13 +3850,13 @@ translate_t string_table[] = {
 /* en */ {IDGS_USERPORT_DS1307,    N_("Userport RTC (DS1307)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_USERPORT_DS1307_DA, ""},  /* fuzzy */
-/* de */ {IDGS_USERPORT_DS1307_DE, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_DS1307_DE, "Userport RTC (DS1307)"},
 /* es */ {IDGS_USERPORT_DS1307_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_USERPORT_DS1307_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_USERPORT_DS1307_HU, ""},  /* fuzzy */
 /* it */ {IDGS_USERPORT_DS1307_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_USERPORT_DS1307_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_USERPORT_DS1307_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_DS1307_NL, "Userport RTC (DS1307)"},
 /* pl */ {IDGS_USERPORT_DS1307_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_USERPORT_DS1307_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_USERPORT_DS1307_SV, ""},  /* fuzzy */
@@ -3873,7 +3873,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_TAPE_RTC_HU, ""},  /* fuzzy */
 /* it */ {IDGS_TAPE_RTC_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_TAPE_RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_TAPE_RTC_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_TAPE_RTC_NL, "Tape RTC (PCF8583)"},
 /* pl */ {IDGS_TAPE_RTC_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_TAPE_RTC_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_TAPE_RTC_SV, ""},  /* fuzzy */
@@ -3890,7 +3890,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SENSE_DONGLE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SENSE_DONGLE_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SENSE_DONGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SENSE_DONGLE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SENSE_DONGLE_NL, "Sense dongle"},
 /* pl */ {IDGS_SENSE_DONGLE_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SENSE_DONGLE_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SENSE_DONGLE_SV, ""},  /* fuzzy */
@@ -3918,7 +3918,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_USERPORT_DIGIMAX,    N_("Userport DigiMAX")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_USERPORT_DIGIMAX_DA, ""},  /* fuzzy */
-/* de */ {IDGS_USERPORT_DIGIMAX_DE, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_DIGIMAX_DE, "Userport DigiMAX"},
 /* es */ {IDGS_USERPORT_DIGIMAX_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_USERPORT_DIGIMAX_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_USERPORT_DIGIMAX_HU, ""},  /* fuzzy */
@@ -3935,7 +3935,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_USERPORT_4BIT_SAMPLER,    N_("Userport 4bit sampler")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_USERPORT_4BIT_SAMPLER_DA, ""},  /* fuzzy */
-/* de */ {IDGS_USERPORT_4BIT_SAMPLER_DE, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_4BIT_SAMPLER_DE, "Userport 4bit Sampler"},
 /* es */ {IDGS_USERPORT_4BIT_SAMPLER_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_USERPORT_4BIT_SAMPLER_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_USERPORT_4BIT_SAMPLER_HU, ""},  /* fuzzy */
@@ -3952,7 +3952,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_USERPORT_8BSS,    N_("Userport 8bit stereo sampler")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_USERPORT_8BSS_DA, ""},  /* fuzzy */
-/* de */ {IDGS_USERPORT_8BSS_DE, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_8BSS_DE, "Userport 8bit Stereo Sampler"},
 /* es */ {IDGS_USERPORT_8BSS_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_USERPORT_8BSS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_USERPORT_8BSS_HU, ""},  /* fuzzy */
@@ -3975,7 +3975,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_USERPORT_PRINTER_HU, ""},  /* fuzzy */
 /* it */ {IDGS_USERPORT_PRINTER_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_USERPORT_PRINTER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_USERPORT_PRINTER_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_PRINTER_NL, "Userport printer"},
 /* pl */ {IDGS_USERPORT_PRINTER_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_USERPORT_PRINTER_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_USERPORT_PRINTER_SV, ""},  /* fuzzy */
@@ -3992,7 +3992,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_DATASETTE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_DATASETTE_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_DATASETTE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_DATASETTE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_DATASETTE_NL, "Datasette"},
 /* pl */ {IDGS_DATASETTE_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_DATASETTE_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_DATASETTE_SV, ""},  /* fuzzy */
@@ -4009,7 +4009,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_TAPE_LOG_HU, ""},  /* fuzzy */
 /* it */ {IDGS_TAPE_LOG_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_TAPE_LOG_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_TAPE_LOG_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_TAPE_LOG_NL, "Tape Log"},
 /* pl */ {IDGS_TAPE_LOG_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_TAPE_LOG_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_TAPE_LOG_SV, ""},  /* fuzzy */
@@ -4328,7 +4328,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_EXIT_SCREENSHOT,    N_("Set name of screenshot to save when emulator exits.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_EXIT_SCREENSHOT_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_EXIT_SCREENSHOT_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_EXIT_SCREENSHOT_DE, "Name für Screenshot Datei beim Beenden."},
 /* es */ {IDCLS_SET_EXIT_SCREENSHOT_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_EXIT_SCREENSHOT_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_EXIT_SCREENSHOT_HU, ""},  /* fuzzy */
@@ -5355,9 +5355,9 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_BOTH_CIA_MODELS_IT, "Imposta entrambi i modelli CIA (0 = 6526 vecchio, 1 = 6526A nuovo)"},
 /* ko */ {IDCLS_SET_BOTH_CIA_MODELS_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_BOTH_CIA_MODELS_NL, "Zet model voor beide CIAs (0 = oud 6526, 1 = nieuw 6526A)"},
-/* pl */ {IDCLS_SET_BOTH_CIA_MODELS_PL, "Ustaw oba modele CIA (0 = stary 6526, 1 = nowy 6526A)"},
+/* pl */ {IDCLS_SET_BOTH_CIA_MODELS_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_BOTH_CIA_MODELS_RU, "Set both CIA models (0 = old 6526, 1 = new 6526A)"},
-/* sv */ {IDCLS_SET_BOTH_CIA_MODELS_SV, "Välj båda CIA-modellerna (0 = gammal 6526, 1 = ny 2526A)"},
+/* sv */ {IDCLS_SET_BOTH_CIA_MODELS_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_BOTH_CIA_MODELS_TR, "Her iki CIA modelini belirle (0 = eski 6526, 1 = yeni 6526A)"},
 #endif
 
@@ -5372,9 +5372,9 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_CIA1_MODEL_IT, "Imposta modello CIA 1 (0 = 6526 vecchio, 1 = 6526A nuovo)"},
 /* ko */ {IDCLS_SET_CIA1_MODEL_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_CIA1_MODEL_NL, "Zet CIA 1 model (0 = oud 6526, 1 = nieuw 6526A)"},
-/* pl */ {IDCLS_SET_CIA1_MODEL_PL, "Ustaw model CIA 1 (0 = stary 6526, 1 = nowy 6526A)"},
+/* pl */ {IDCLS_SET_CIA1_MODEL_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_CIA1_MODEL_RU, "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"},
-/* sv */ {IDCLS_SET_CIA1_MODEL_SV, "Välj CIA 1-modell (0 = gammal 6526, 1 = ny 2526A)"},
+/* sv */ {IDCLS_SET_CIA1_MODEL_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_CIA1_MODEL_TR, "CIA 1 modelini belirle (0 = eski 6526, 1 = yeni 6526A)"},
 #endif
 
@@ -5389,9 +5389,9 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_CIA2_MODEL_IT, "Imposta modello CIA 2 (0 = 6526 vecchio, 1 = 6526A nuovo)"},
 /* ko */ {IDCLS_SET_CIA2_MODEL_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_CIA2_MODEL_NL, "Zet CIA 2 model (0 = oud 6526, 1 = nieuw 6526A)"},
-/* pl */ {IDCLS_SET_CIA2_MODEL_PL, "Ustaw model CIA 2 (0 = stary 6526, 1 = nowy 6526A)"},
+/* pl */ {IDCLS_SET_CIA2_MODEL_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_CIA2_MODEL_RU, "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"},
-/* sv */ {IDCLS_SET_CIA2_MODEL_SV, "Välj CIA 2-modell (0 = gammal 6526, 1 = ny 2526A)"},
+/* sv */ {IDCLS_SET_CIA2_MODEL_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_CIA2_MODEL_TR, "CIA 2 modelini belirle (0 = eski 6526, 1 = yeni 6526A)"},
 #endif
 
@@ -5730,7 +5730,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING,    N_("Select the way the Userport collisions should be handled, (0: error message and detach all involved devices, 1: error message and detach last attached involved device, 2: warning in log and 'AND' the valid return values")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_DE, "Wähle, wie Userport Kollisionen behandelt werden sollen, (0: Fehler Meldung\nund Entfernen sämtlicher betroffener Geräte, 1: Fehler Meldung und\nEntfernen des letzten Geräts, 2: Warnung im Log und liefere logische\nUND-Verknüpfung gültiger Rückgabewerte"},
 /* es */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_HU, ""},  /* fuzzy */
@@ -5821,7 +5821,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_TAPELOG_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_TAPELOG_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_TAPELOG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPELOG_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPELOG_NL, "Activeer het tape log apparaat"},
 /* pl */ {IDCLS_ENABLE_TAPELOG_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_TAPELOG_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_TAPELOG_SV, ""},  /* fuzzy */
@@ -5838,7 +5838,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_TAPELOG_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_TAPELOG_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_TAPELOG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TAPELOG_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TAPELOG_NL, "Het tape log apparaat uitschakelen"},
 /* pl */ {IDCLS_DISABLE_TAPELOG_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_TAPELOG_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TAPELOG_SV, ""},  /* fuzzy */
@@ -5855,7 +5855,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_NL, "Activeer schrijven naar een bestand"},
 /* pl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_SV, ""},  /* fuzzy */
@@ -5872,7 +5872,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_NL, "Activeer schrijven naar emulator log bestand"},
 /* pl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_SV, ""},  /* fuzzy */
@@ -5889,7 +5889,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_TAPELOG_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_TAPELOG_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_TAPELOG_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_TAPELOG_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_TAPELOG_NAME_NL, "Geef de naam van het tape logbestand"},
 /* pl */ {IDCLS_SPECIFY_TAPELOG_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_TAPELOG_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_TAPELOG_NAME_SV, ""},  /* fuzzy */
@@ -6344,13 +6344,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_USERPORT_RTC_58321A,    N_("Enable Userport RTC (58321a)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_USERPORT_RTC_58321A_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_RTC_58321A_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_58321A_DE, "Userport RTC (58321a) aktivieren"},
 /* es */ {IDCLS_ENABLE_USERPORT_RTC_58321A_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_USERPORT_RTC_58321A_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_USERPORT_RTC_58321A_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_RTC_58321A_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_RTC_58321A_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_RTC_58321A_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_58321A_NL, "Activeer de Userport RTC (58321a)"},
 /* pl */ {IDCLS_ENABLE_USERPORT_RTC_58321A_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_USERPORT_RTC_58321A_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SV, ""},  /* fuzzy */
@@ -6361,13 +6361,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_USERPORT_RTC_58321A,    N_("Disable Userport RTC (58321a)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_USERPORT_RTC_58321A_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_RTC_58321A_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_58321A_DE, "Userport RTC (58321a) deaktivieren"},
 /* es */ {IDCLS_DISABLE_USERPORT_RTC_58321A_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_USERPORT_RTC_58321A_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_USERPORT_RTC_58321A_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_RTC_58321A_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_RTC_58321A_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_RTC_58321A_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_58321A_NL, "De Userport RTC (58321a) uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_RTC_58321A_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_58321A_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SV, ""},  /* fuzzy */
@@ -6378,13 +6378,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE,    N_("Enable saving of the Userport RTC (58321a) data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_DE, "Userport RTC (58321a) Daten bei Änderung speichern."},
 /* es */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_NL, "Activeer opslaan van de Userport RTC (58321a) data indien gewijzigd."},
 /* pl */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE_SV, ""},  /* fuzzy */
@@ -6395,13 +6395,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE,    N_("Disable saving of the Userport RTC (58321a) data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_DE, "Userport RTC (58321a) Daten bei Änderung nicht speichern."},
 /* es */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_NL, "Opslaan van de Userport RTC (58321a) data indien gewijzigd uitschakelen."},
 /* pl */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE_SV, ""},  /* fuzzy */
@@ -6412,13 +6412,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_USERPORT_RTC_DS1307,    N_("Enable Userport RTC (DS1307)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_DE, "Userport RTC (DS1307) aktivieren"},
 /* es */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_NL, "Activeer de Userport RTC (DS1307)"},
 /* pl */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SV, ""},  /* fuzzy */
@@ -6429,13 +6429,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_USERPORT_RTC_DS1307,    N_("Disable Userport RTC (DS1307)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_DE, "Userport RTC (DS1307) deaktivieren"},
 /* es */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_NL, "De Userport RTC (DS1307) uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SV, ""},  /* fuzzy */
@@ -6446,13 +6446,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE,    N_("Enable saving of the Userport RTC (DS1307) data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_DE, "Userport RTC (DS1307) Daten bei Änderung speichern."},
 /* es */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_NL, "Activeer opslaan van de Userport RTC (DS1307) data indien gewijzigd."},
 /* pl */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE_SV, ""},  /* fuzzy */
@@ -6463,13 +6463,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE,    N_("Disable saving of the Userport RTC (DS1307) data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_DE, "Userport RTC (DS1307) Daten bei Änderung nicht speichern."},
 /* es */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_NL, "Opslaan van de Userport RTC (DS1307) data indien gewijzigd uitschakelen."},
 /* pl */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_SV, ""},  /* fuzzy */
@@ -6486,7 +6486,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_BBRTC_SAVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_BBRTC_SAVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_BBRTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_BBRTC_SAVE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_BBRTC_SAVE_NL, "Activeer opslaan van de BBRTC data indien gewijzigd."},
 /* pl */ {IDCLS_ENABLE_BBRTC_SAVE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_BBRTC_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_BBRTC_SAVE_SV, ""},  /* fuzzy */
@@ -6503,7 +6503,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_BBRTC_SAVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_BBRTC_SAVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_BBRTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_BBRTC_SAVE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_BBRTC_SAVE_NL, "Opslaan van de BBRTC data indien gewijzigd uitschakelen."},
 /* pl */ {IDCLS_DISABLE_BBRTC_SAVE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_BBRTC_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_BBRTC_SAVE_SV, ""},  /* fuzzy */
@@ -6520,7 +6520,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_NL, "Activeer de tape sense dongle"},
 /* pl */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_SV, ""},  /* fuzzy */
@@ -6537,7 +6537,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_NL, "De tape sense dongle uitschakelen"},
 /* pl */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_SV, ""},  /* fuzzy */
@@ -6554,7 +6554,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_NL, "Activeer de DTL Basic dongle"},
 /* pl */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_SV, ""},  /* fuzzy */
@@ -6571,7 +6571,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_NL, "Activeer de DTL Basic dongle"},
 /* pl */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_SV, ""},  /* fuzzy */
@@ -6588,7 +6588,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_TAPERTC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_TAPERTC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_TAPERTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPERTC_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPERTC_NL, "Activeer de CP Clock F83 (PCF8583 RTC)"},
 /* pl */ {IDCLS_ENABLE_TAPERTC_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_TAPERTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_TAPERTC_SV, ""},  /* fuzzy */
@@ -6605,7 +6605,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_TAPERTC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_TAPERTC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_TAPERTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TAPERTC_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TAPERTC_NL, "De CP Clock F83 (PCF8583 RTC) uitschakelen"},
 /* pl */ {IDCLS_DISABLE_TAPERTC_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_TAPERTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TAPERTC_SV, ""},  /* fuzzy */
@@ -6622,7 +6622,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_TAPERTC_SAVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_TAPERTC_SAVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_TAPERTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPERTC_SAVE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPERTC_SAVE_NL, "Activeer opslaan van de CP Clock F83 (PCF8583 RTC) data indien gewijzigd."},
 /* pl */ {IDCLS_ENABLE_TAPERTC_SAVE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_TAPERTC_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_TAPERTC_SAVE_SV, ""},  /* fuzzy */
@@ -6639,7 +6639,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_TAPERTC_SAVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_TAPERTC_SAVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_TAPERTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TAPERTC_SAVE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TAPERTC_SAVE_NL, "Opslaan van de CP Clock F83 (PCF8583 RTC) data indien gewijzigd uitschakelen."},
 /* pl */ {IDCLS_DISABLE_TAPERTC_SAVE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_TAPERTC_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TAPERTC_SAVE_SV, ""},  /* fuzzy */
@@ -6650,7 +6650,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER,    N_("Enable Userport 4bit sampler")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_DE, "Userport 4bit Sampler aktivieren"},
 /* es */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_USERPORT_4BIT_SAMPLER_HU, ""},  /* fuzzy */
@@ -6667,7 +6667,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER,    N_("Disable Userport 4bit sampler")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_DE, "Userport 4bit Sampler deaktivieren"},
 /* es */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_USERPORT_4BIT_SAMPLER_HU, ""},  /* fuzzy */
@@ -6684,7 +6684,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_USERPORT_8BSS,    N_("Enable Userport 8bit stereo sampler")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_USERPORT_8BSS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_8BSS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_8BSS_DE, "Userport 8bit Sampler aktivieren"},
 /* es */ {IDCLS_ENABLE_USERPORT_8BSS_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_USERPORT_8BSS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_USERPORT_8BSS_HU, ""},  /* fuzzy */
@@ -6701,7 +6701,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_USERPORT_8BSS,    N_("Disable Userport 8bit stereo sampler")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_USERPORT_8BSS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_8BSS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_8BSS_DE, "Userport 8bit Sampler deaktivieren"},
 /* es */ {IDCLS_DISABLE_USERPORT_8BSS_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_USERPORT_8BSS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_USERPORT_8BSS_HU, ""},  /* fuzzy */
@@ -6888,7 +6888,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DEBUGCART,    N_("Enable Debug cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DEBUGCART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_DEBUGCART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DEBUGCART_DE, "Debug Modul aktivieren"},
 /* es */ {IDCLS_ENABLE_DEBUGCART_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DEBUGCART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DEBUGCART_HU, ""},  /* fuzzy */
@@ -6905,7 +6905,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_DEBUGCART,    N_("Disable Debug cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DEBUGCART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_DEBUGCART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DEBUGCART_DE, "Debug Modul deaktivieren"},
 /* es */ {IDCLS_DISABLE_DEBUGCART_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DEBUGCART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DEBUGCART_HU, ""},  /* fuzzy */
@@ -7380,18 +7380,18 @@ translate_t string_table[] = {
 /* c64/cart/rrnetmk3.c */
 /* en */ {IDCLS_RRNETMK3_BIOS_WRITE,    N_("Save the RRNETMK3 bios when changed")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_RRNETMK3_BIOS_WRITE_DA, "Gem RRNETMK3-BIOS ved ændring"},
+/* da */ {IDCLS_RRNETMK3_BIOS_WRITE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_RRNETMK3_BIOS_WRITE_DE, "RRNETMK3 BIOS speichern bei Änderung"},
-/* es */ {IDCLS_RRNETMK3_BIOS_WRITE_ES, "Grabar BIOS RRNETMK3 cuando cambie"},
-/* fr */ {IDCLS_RRNETMK3_BIOS_WRITE_FR, "Sauvegarder le BIOS RRNETMK3 lorsque modifié"},
-/* hu */ {IDCLS_RRNETMK3_BIOS_WRITE_HU, "RRNETMK3 BIOS mentése változás után"},
-/* it */ {IDCLS_RRNETMK3_BIOS_WRITE_IT, "Salva il bios RRNETMK3 alla modifica"},
+/* es */ {IDCLS_RRNETMK3_BIOS_WRITE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_RRNETMK3_BIOS_WRITE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RRNETMK3_BIOS_WRITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RRNETMK3_BIOS_WRITE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_RRNETMK3_BIOS_WRITE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_RRNETMK3_BIOS_WRITE_NL, "Sla de RRNETMK3 BIOS op als er veranderingen zijn gemaakt"},
-/* pl */ {IDCLS_RRNETMK3_BIOS_WRITE_PL, "Zapisuj bios RRNETMK3 przy zmianie"},
-/* ru */ {IDCLS_RRNETMK3_BIOS_WRITE_RU, "Save the RRNETMK3 bios when changed"},
-/* sv */ {IDCLS_RRNETMK3_BIOS_WRITE_SV, "Spara RRNETMK3-BIOS vid ändring"},
-/* tr */ {IDCLS_RRNETMK3_BIOS_WRITE_TR, "RRNETMK3 BIOS'unu deðiþtiðinde kaydet"},
+/* nl */ {IDCLS_RRNETMK3_BIOS_WRITE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_RRNETMK3_BIOS_WRITE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_RRNETMK3_BIOS_WRITE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_RRNETMK3_BIOS_WRITE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RRNETMK3_BIOS_WRITE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/rrnetmk3.c */
@@ -7399,13 +7399,13 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_DE, "RRNETMK3 BIOS nicht speichern bei Änderung"},
-/* es */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_ES, "No grabar BIOS RRNETMK3 cuando cambie"},
+/* es */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_IT, "Non salvare il bios RRNETMK3 alla modifica"},
+/* it */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_NL, "Sla de RRNETMK3 BIOS niet op als er veranderingen zijn gemaakt"},
-/* pl */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_PL, "Nie zapisuj bios-a RRNETMK3 przy zmianie"},
+/* nl */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_NL, "Sla de RRNET MK3 bios niet op als er veranderingen zijn gemaakt"},
+/* pl */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_RRNETMK3_BIOS_READ_ONLY_TR, ""},  /* fuzzy */
@@ -7416,13 +7416,13 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_DE, "Aktiviere RRNETMK3 Flash Jumper"},
-/* es */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_ES, "Seleccionar el  RRNETMK3 Flash Jumper"},
+/* es */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_IT, "Imposta il ponticello flash della RRNETMK3"},
+/* it */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_NL, "Zet de RRNETMK3 Flash Jumper"},
-/* pl */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_PL, "Ustaw zworkê RRNETMK3 Flash"},
+/* nl */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_NL, "Zet de RRNET MK3 Flash Jumper"},
+/* pl */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_RRNETMK3_SET_FLASH_JUMPER_TR, ""},  /* fuzzy */
@@ -7433,13 +7433,13 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_DE, "Deaktiviere RRNETMK3 Flash Jumper"},
-/* es */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_ES, "Quitar el  RRNETMK3 Flash Jumper"},
+/* es */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_IT, "Rimuovi il ponticello flash della RRNETMK3"},
+/* it */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_NL, "Verwijder de RRNETMK3 Flash Jumper"},
-/* pl */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_PL, "Usuñ zworkê RR Flash"},
+/* nl */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_NL, "Verwijder de RRNET MK3 Flash Jumper"},
+/* pl */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_RRNETMK3_UNSET_FLASH_JUMPER_TR, ""},  /* fuzzy */
@@ -8868,7 +8868,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ATTACH_RAW_EASYCALC_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_EASYCALC_CART_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ATTACH_RAW_EASYCALC_CART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ATTACH_RAW_EASYCALC_CART_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_EASYCALC_CART_NL, "Koppel binair 24kB Easy Calc Result cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_EASYCALC_CART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ATTACH_RAW_EASYCALC_CART_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_EASYCALC_CART_SV, ""},  /* fuzzy */
@@ -8981,13 +8981,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_RRNETMK3_CART,    N_("Attach raw 8kB RR-Net MK3 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_DE, "8kB RR-Net MK3 Image (raw) einlegen"},
 /* es */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_NL, "Koppel binair 8kB RRNET MK3 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_RRNETMK3_CART_SV, ""},  /* fuzzy */
@@ -14908,7 +14908,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_DATASETTE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DATASETTE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_DATASETTE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DATASETTE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DATASETTE_NL, "Activeer Datasette"},
 /* pl */ {IDCLS_ENABLE_DATASETTE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_DATASETTE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DATASETTE_SV, ""},  /* fuzzy */
@@ -14925,7 +14925,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_DATASETTE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DATASETTE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_DATASETTE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DATASETTE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DATASETTE_NL, "Datasette uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DATASETTE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_DATASETTE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DATASETTE_SV, ""},  /* fuzzy */
@@ -16303,7 +16303,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_GAIN,    N_("<Sampler gain>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_GAIN_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_P_GAIN_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_GAIN_DE, "<Sampler Gain>"},
 /* es */ {IDCLS_P_GAIN_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_GAIN_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_GAIN_HU, ""},  /* fuzzy */
@@ -16320,7 +16320,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SAMPLER_GAIN_IN_PERCENT,    N_("Specify sampler gain in percent (1%-200%)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_DE, "Sampler Gain in Prozent (1% - 200%)"},
 /* es */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SAMPLER_GAIN_IN_PERCENT_HU, ""},  /* fuzzy */
@@ -17665,7 +17665,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_USERPORT_DIGIMAX,    N_("Enable the userport DigiMAX device")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_USERPORT_DIGIMAX_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_DIGIMAX_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_DIGIMAX_DE, "Userport DigiMAX Gerät aktivieren"},
 /* es */ {IDCLS_ENABLE_USERPORT_DIGIMAX_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_USERPORT_DIGIMAX_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_USERPORT_DIGIMAX_HU, ""},  /* fuzzy */
@@ -17682,7 +17682,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_USERPORT_DIGIMAX,    N_("Disable the userport DigiMAX device")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_USERPORT_DIGIMAX_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_DIGIMAX_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_DIGIMAX_DE, "Userport DigiMAX Gerät deaktivieren"},
 /* es */ {IDCLS_DISABLE_USERPORT_DIGIMAX_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_USERPORT_DIGIMAX_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_USERPORT_DIGIMAX_HU, ""},  /* fuzzy */
@@ -17705,7 +17705,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_NL, "Activeer de Short Bus DigiMAX uitbreiding"},
 /* pl */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_SV, ""},  /* fuzzy */
@@ -17722,7 +17722,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_NL, "De Short Bus DigiMAX uitbreiding uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_SV, ""},  /* fuzzy */
@@ -17790,7 +17790,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SHORTBUS_DIGIMAX_BASE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SHORTBUS_DIGIMAX_BASE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SHORTBUS_DIGIMAX_BASE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SHORTBUS_DIGIMAX_BASE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SHORTBUS_DIGIMAX_BASE_NL, "Basisadres van de Short Bus DigiMAX uitbreiding"},
 /* pl */ {IDCLS_SHORTBUS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SHORTBUS_DIGIMAX_BASE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SHORTBUS_DIGIMAX_BASE_SV, ""},  /* fuzzy */

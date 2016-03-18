@@ -49,10 +49,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "EasyFlash-indstillinger"
-  IDS_EASYFLASH_JUMPER   "EasyFlashjumper"
-  IDS_EASYFLASH_AUTOSAVE "Gem CRT ved afbrydelse"
-  IDS_EASYFLASH_SAVE_NOW "Gem CRT nu"
+  IDS_EASYFLASH_CAPTION      "EasyFlash-indstillinger"
+  IDS_EASYFLASH_JUMPER       "EasyFlashjumper"
+  IDS_EASYFLASH_AUTOSAVE     "Gem CRT ved afbrydelse"
+  IDS_EASYFLASH_SAVE_NOW     "Gem CRT nu"
   IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
 END
 
@@ -62,11 +62,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "EasyFlash Einstellungen"
-  IDS_EASYFLASH_JUMPER   "EasyFlash Jumper"
-  IDS_EASYFLASH_AUTOSAVE "CRT Imagedatei beim Entfernen speichern"
-  IDS_EASYFLASH_SAVE_NOW "CRT Imagedatei jetzt speichern"
-  IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
+  IDS_EASYFLASH_CAPTION      "EasyFlash Einstellungen"
+  IDS_EASYFLASH_JUMPER       "EasyFlash Jumper"
+  IDS_EASYFLASH_AUTOSAVE     "CRT Imagedatei beim Entfernen speichern"
+  IDS_EASYFLASH_SAVE_NOW     "CRT Imagedatei jetzt speichern"
+  IDS_EASYFLASH_CRT_OPTIMIZE "CRT Speichern optimieren"
 END
 
 
@@ -75,10 +75,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "Ajustes EasyFlash"
-  IDS_EASYFLASH_JUMPER   "Puente EasyFlash"
-  IDS_EASYFLASH_AUTOSAVE "Grabar CRT al desconectar"
-  IDS_EASYFLASH_SAVE_NOW "Grabar CRT Ahora"
+  IDS_EASYFLASH_CAPTION      "Ajustes EasyFlash"
+  IDS_EASYFLASH_JUMPER       "Puente EasyFlash"
+  IDS_EASYFLASH_AUTOSAVE     "Grabar CRT al desconectar"
+  IDS_EASYFLASH_SAVE_NOW     "Grabar CRT Ahora"
   IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
 END
 
@@ -88,10 +88,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "Paramètres datassette"
-  IDS_EASYFLASH_JUMPER   "Jumper EasyFlash"
-  IDS_EASYFLASH_AUTOSAVE "Enregistrer CRT au détachement"
-  IDS_EASYFLASH_SAVE_NOW "Sauvegarder CRT maintenant"
+  IDS_EASYFLASH_CAPTION      "Paramètres datassette"
+  IDS_EASYFLASH_JUMPER       "Jumper EasyFlash"
+  IDS_EASYFLASH_AUTOSAVE     "Enregistrer CRT au détachement"
+  IDS_EASYFLASH_SAVE_NOW     "Sauvegarder CRT maintenant"
   IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
 END
 
@@ -104,10 +104,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "EasyFlash settings"
-  IDS_EASYFLASH_JUMPER   "EasyFlash jumper"
-  IDS_EASYFLASH_AUTOSAVE "Save CRT on detach"
-  IDS_EASYFLASH_SAVE_NOW "Save CRT now"
+  IDS_EASYFLASH_CAPTION      "EasyFlash settings"
+  IDS_EASYFLASH_JUMPER       "EasyFlash jumper"
+  IDS_EASYFLASH_AUTOSAVE     "Save CRT on detach"
+  IDS_EASYFLASH_SAVE_NOW     "Save CRT now"
   IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -120,10 +120,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "Impostazioni EasyFlash"
-  IDS_EASYFLASH_JUMPER   "Ponticello EasyFlash"
-  IDS_EASYFLASH_AUTOSAVE "Salva CRT alla rimozione"
-  IDS_EASYFLASH_SAVE_NOW "Salva CRT ora"
+  IDS_EASYFLASH_CAPTION      "Impostazioni EasyFlash"
+  IDS_EASYFLASH_JUMPER       "Ponticello EasyFlash"
+  IDS_EASYFLASH_AUTOSAVE     "Salva CRT alla rimozione"
+  IDS_EASYFLASH_SAVE_NOW     "Salva CRT ora"
   IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
 END
 
@@ -136,10 +136,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "EasyFlash ¼³Á¤"
-  IDS_EASYFLASH_JUMPER   "EasyFlash jumper"
-  IDS_EASYFLASH_AUTOSAVE "Save CRT on detach"
-  IDS_EASYFLASH_SAVE_NOW "Save CRT now"
+  IDS_EASYFLASH_CAPTION      "EasyFlash ¼³Á¤"
+  IDS_EASYFLASH_JUMPER       "EasyFlash jumper"
+  IDS_EASYFLASH_AUTOSAVE     "Save CRT on detach"
+  IDS_EASYFLASH_SAVE_NOW     "Save CRT now"
   IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -152,11 +152,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "EasyFlash instellingen"
-  IDS_EASYFLASH_JUMPER   "EasyFlash jumper"
-  IDS_EASYFLASH_AUTOSAVE "CRT bij ontkoppelen opslaan"
-  IDS_EASYFLASH_SAVE_NOW "Sla CRT nu op"
-  IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
+  IDS_EASYFLASH_CAPTION      "EasyFlash instellingen"
+  IDS_EASYFLASH_JUMPER       "EasyFlash jumper"
+  IDS_EASYFLASH_AUTOSAVE     "CRT bij ontkoppelen opslaan"
+  IDS_EASYFLASH_SAVE_NOW     "Sla CRT nu op"
+  IDS_EASYFLASH_CRT_OPTIMIZE "Optimalizeer CRT bij het opslaan"
 END
 
 
@@ -168,10 +168,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "Ustawienia EasyFlash"
-  IDS_EASYFLASH_JUMPER   "Zworka EasyFlash"
-  IDS_EASYFLASH_AUTOSAVE "Zapisz CRT przy od³±czeniu"
-  IDS_EASYFLASH_SAVE_NOW "Zapisz CRT teraz"
+  IDS_EASYFLASH_CAPTION      "Ustawienia EasyFlash"
+  IDS_EASYFLASH_JUMPER       "Zworka EasyFlash"
+  IDS_EASYFLASH_AUTOSAVE     "Zapisz CRT przy od³±czeniu"
+  IDS_EASYFLASH_SAVE_NOW     "Zapisz CRT teraz"
   IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -187,10 +187,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "EasyFlash settings"
-  IDS_EASYFLASH_JUMPER   "EasyFlash jumper"
-  IDS_EASYFLASH_AUTOSAVE "Save CRT on detach"
-  IDS_EASYFLASH_SAVE_NOW "Save CRT now"
+  IDS_EASYFLASH_CAPTION      "EasyFlash settings"
+  IDS_EASYFLASH_JUMPER       "EasyFlash jumper"
+  IDS_EASYFLASH_AUTOSAVE     "Save CRT on detach"
+  IDS_EASYFLASH_SAVE_NOW     "Save CRT now"
   IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -203,10 +203,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "EasyFlash-inställningar"
-  IDS_EASYFLASH_JUMPER   "EasyFlash-bygel"
-  IDS_EASYFLASH_AUTOSAVE "Spara CRT vid frånkoppling"
-  IDS_EASYFLASH_SAVE_NOW "Spara CRT nu"
+  IDS_EASYFLASH_CAPTION      "EasyFlash-inställningar"
+  IDS_EASYFLASH_JUMPER       "EasyFlash-bygel"
+  IDS_EASYFLASH_AUTOSAVE     "Spara CRT vid frånkoppling"
+  IDS_EASYFLASH_SAVE_NOW     "Spara CRT nu"
   IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
 END
 
@@ -219,12 +219,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "EasyFlash ayarlarý"
-  IDS_EASYFLASH_JUMPER   "EasyFlash jumper"
-  IDS_EASYFLASH_AUTOSAVE "Çýkartýldýðýnda CRT'yi kaydet"
-  IDS_EASYFLASH_SAVE_NOW "CRT'yi hemen kaydet"
+  IDS_EASYFLASH_CAPTION      "EasyFlash ayarlarý"
+  IDS_EASYFLASH_JUMPER       "EasyFlash jumper"
+  IDS_EASYFLASH_AUTOSAVE     "Çýkartýldýðýnda CRT'yi kaydet"
+  IDS_EASYFLASH_SAVE_NOW     "CRT'yi hemen kaydet"
   IDS_EASYFLASH_CRT_OPTIMIZE "Optimize CRT saving"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+
