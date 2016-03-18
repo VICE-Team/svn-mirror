@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-18 11:24-0700\n"
+"POT-Creation-Date: 2016-03-18 12:22-0700\n"
 "PO-Revision-Date: 2014-01-13 14:34+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <tp-sv@listor.tp-sv.se>\n"
@@ -2902,19 +2902,6 @@ msgstr "Namn på avbildning enhet 3"
 #: src/arch/unix/gui/uiide64.c:245
 msgid "Device 4 image name"
 msgstr "Namn på avbildning enhet 4"
-
-#: src/arch/unix/gui/uiide64.c:266
-msgid "$DE40"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:268
-msgid "$DE48"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:276
-#, fuzzy
-msgid "DigiMAX"
-msgstr "DigiMAX-bas"
 
 #: src/arch/unix/gui/uiide64.c:278
 #, fuzzy
@@ -14524,6 +14511,10 @@ msgstr "högupplösningsemuleringskort Inaktivera"
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Namn på ljudenhet"
+
+#, fuzzy
+#~ msgid "DigiMAX"
+#~ msgstr "DigiMAX-bas"
 
 #~ msgid "Default (Green)"
 #~ msgstr "Standard (grön)"

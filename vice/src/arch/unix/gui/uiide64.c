@@ -263,9 +263,9 @@ static ui_menu_entry_t ide64_hd4_submenu[] = {
 UI_MENU_DEFINE_RADIO(SBDIGIMAXbase)
 
 static ui_menu_entry_t ide64_shortbus_digimax_address_submenu[] = {
-    { N_("$DE40"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SBDIGIMAXbase,
+    { "$DE40", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SBDIGIMAXbase,
       (ui_callback_data_t)0xde40, NULL },
-    { N_("$DE48"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SBDIGIMAXbase,
+    { "$DE48", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SBDIGIMAXbase,
       (ui_callback_data_t)0xde48, NULL },
     { NULL }
 };
@@ -273,7 +273,7 @@ static ui_menu_entry_t ide64_shortbus_digimax_address_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(SBDIGIMAX)
 
 static ui_menu_entry_t ide64_shortbus_submenu[] = {
-    { N_("DigiMAX"), UI_MENU_TYPE_TICK,
+    { "DigiMAX", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SBDIGIMAX, NULL, NULL },
     { N_("DigiMAX address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_shortbus_digimax_address_submenu },

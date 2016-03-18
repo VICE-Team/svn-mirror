@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-18 11:24-0700\n"
+"POT-Creation-Date: 2016-03-18 12:22-0700\n"
 "PO-Revision-Date: 2015-07-16 12:04+0200\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -2884,19 +2884,6 @@ msgstr "Nazwa obrazu urządzenia 3"
 #: src/arch/unix/gui/uiide64.c:245
 msgid "Device 4 image name"
 msgstr "Nazwa obrazu urządzenia 4"
-
-#: src/arch/unix/gui/uiide64.c:266
-msgid "$DE40"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:268
-msgid "$DE48"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:276
-#, fuzzy
-msgid "DigiMAX"
-msgstr "Baza DigiMAX"
 
 #: src/arch/unix/gui/uiide64.c:278
 #, fuzzy
@@ -14309,6 +14296,10 @@ msgstr "Wyłącz kartę emulacji HiRes"
 #: src/translate_text.c.po.c:18059
 msgid "Set raw drive device name"
 msgstr "Wprowadź nazwę urządzenia surowego napędu"
+
+#, fuzzy
+#~ msgid "DigiMAX"
+#~ msgstr "Baza DigiMAX"
 
 #~ msgid "Default (Green)"
 #~ msgstr "Domyślne (Zielone)"

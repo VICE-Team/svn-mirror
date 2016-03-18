@@ -2,12 +2,12 @@
 # Copyright (C) 2011
 # This file is distributed under the same license as the PACKAGE package.
 # Jesse Lee <interpreters.jesse@gmail.com>, 2011.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-18 11:24-0700\n"
+"POT-Creation-Date: 2016-03-18 12:22-0700\n"
 "PO-Revision-Date: 2012-12-29 13:44-0800\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: ko <ko@li.org>\n"
@@ -2791,18 +2791,6 @@ msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:245
 msgid "Device 4 image name"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:266
-msgid "$DE40"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:268
-msgid "$DE48"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:276
-msgid "DigiMAX"
 msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:278

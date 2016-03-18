@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-18 11:24-0700\n"
+"POT-Creation-Date: 2016-03-18 12:22-0700\n"
 "PO-Revision-Date: 2012-10-19 11:36+0300\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -2910,19 +2910,6 @@ msgstr "Cihaz 3 imaj ismi"
 #: src/arch/unix/gui/uiide64.c:245
 msgid "Device 4 image name"
 msgstr "Cihaz 4 imaj ismi"
-
-#: src/arch/unix/gui/uiide64.c:266
-msgid "$DE40"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:268
-msgid "$DE48"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:276
-#, fuzzy
-msgid "DigiMAX"
-msgstr "DigiMAX taban"
 
 #: src/arch/unix/gui/uiide64.c:278
 #, fuzzy
@@ -14568,6 +14555,10 @@ msgstr "Iþýklý Kalem emülasyonunu aktif et"
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Ses sürücüsü ismi"
+
+#, fuzzy
+#~ msgid "DigiMAX"
+#~ msgstr "DigiMAX taban"
 
 #~ msgid "Default (Green)"
 #~ msgstr "Varsayýlan (Yeþil)"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-18 11:24-0700\n"
+"POT-Creation-Date: 2016-03-18 12:22-0700\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -2870,19 +2870,6 @@ msgstr "Apparaat 3 bestand naam"
 #: src/arch/unix/gui/uiide64.c:245
 msgid "Device 4 image name"
 msgstr "Apparaat 4 bestand naam"
-
-#: src/arch/unix/gui/uiide64.c:266
-msgid "$DE40"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:268
-msgid "$DE48"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:276
-#, fuzzy
-msgid "DigiMAX"
-msgstr "DigiMAX basisadres"
 
 #: src/arch/unix/gui/uiide64.c:278
 #, fuzzy
@@ -14267,6 +14254,10 @@ msgstr "PET High Res Emulation bord uitschakelen"
 #: src/translate_text.c.po.c:18059
 msgid "Set raw drive device name"
 msgstr "Zet binair drive bestandsnaam"
+
+#, fuzzy
+#~ msgid "DigiMAX"
+#~ msgstr "DigiMAX basisadres"
 
 #~ msgid "Default (Green)"
 #~ msgstr "Standaard (Groen)"

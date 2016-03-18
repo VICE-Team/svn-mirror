@@ -1,14 +1,14 @@
 # translation of hu.po to Hungarian
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the VICE package.
-#
+# 
 # Czirkos Zoltan <cirix@fw.hu>, 2007.
 # Karai Csaba <cskarai@freemail.hu>, 2006, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-18 11:24-0700\n"
+"POT-Creation-Date: 2016-03-18 12:22-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -3045,19 +3045,6 @@ msgstr "IDE64 képmás név..."
 #, fuzzy
 msgid "Device 4 image name"
 msgstr "IDE64 képmás név..."
-
-#: src/arch/unix/gui/uiide64.c:266
-msgid "$DE40"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:268
-msgid "$DE48"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:276
-#, fuzzy
-msgid "DigiMAX"
-msgstr "Digimax báziscím"
 
 #: src/arch/unix/gui/uiide64.c:278
 #, fuzzy
@@ -15338,6 +15325,10 @@ msgstr "Fényceruza emuláció engedélyezése"
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Hangeszköz neve"
+
+#, fuzzy
+#~ msgid "DigiMAX"
+#~ msgstr "Digimax báziscím"
 
 #, fuzzy
 #~ msgid "Default (Green)"

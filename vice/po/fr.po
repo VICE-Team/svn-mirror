@@ -1,17 +1,17 @@
 # French Translation File for VICE
 # Copyright (C) 2004-2013 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Vice Emulator package.
-#
+# 
 # Note to myself: /cry  *This is WAY TOO long!!*  ;-)
 # Long Live To Vice and to all it's developpers and contributors!  Thanks to you all!
 # The C64 started my addiction ;)
 # - Paul (: DubePaul @t 0utl0ok d0t.com :)
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-18 11:24-0700\n"
+"POT-Creation-Date: 2016-03-18 12:22-0700\n"
 "PO-Revision-Date: 2013-01-02 02:17-0500\n"
 "Last-Translator: Paul Dubé <: DubePaul @t 0utl0ok d0t.com :>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -2916,19 +2916,6 @@ msgstr "Nom de l'image Périphérique 3"
 #: src/arch/unix/gui/uiide64.c:245
 msgid "Device 4 image name"
 msgstr "Nom de l'image Périphérique 4"
-
-#: src/arch/unix/gui/uiide64.c:266
-msgid "$DE40"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:268
-msgid "$DE48"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:276
-#, fuzzy
-msgid "DigiMAX"
-msgstr "Base DigiMAX"
 
 #: src/arch/unix/gui/uiide64.c:278
 #, fuzzy
@@ -14614,6 +14601,10 @@ msgstr "Activer la carte d'émulation PET Haute Résolution"
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Nom du périphérique son"
+
+#, fuzzy
+#~ msgid "DigiMAX"
+#~ msgstr "Base DigiMAX"
 
 #~ msgid "Default (Green)"
 #~ msgstr "Défaut (Vert)"

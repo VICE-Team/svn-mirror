@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>, 2011
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-18 11:24-0700\n"
+"POT-Creation-Date: 2016-03-18 12:22-0700\n"
 "PO-Revision-Date: 2015-01-25 11:14+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
@@ -2902,19 +2902,6 @@ msgstr "Nombre imagen periférico 3"
 #: src/arch/unix/gui/uiide64.c:245
 msgid "Device 4 image name"
 msgstr "Nombre imagen periférico 4"
-
-#: src/arch/unix/gui/uiide64.c:266
-msgid "$DE40"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:268
-msgid "$DE48"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:276
-#, fuzzy
-msgid "DigiMAX"
-msgstr "DigiMAX base"
 
 #: src/arch/unix/gui/uiide64.c:278
 #, fuzzy
@@ -14395,6 +14382,10 @@ msgstr "Deshabilitar emulación tableta de alta resolución"
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Nombre del periférico de sonido"
+
+#, fuzzy
+#~ msgid "DigiMAX"
+#~ msgstr "DigiMAX base"
 
 #~ msgid "Default (Green)"
 #~ msgstr "Por defecto (verde)"
