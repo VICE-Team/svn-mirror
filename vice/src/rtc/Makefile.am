@@ -23,4 +23,6 @@ librtc_a_SOURCES = \
 	rtc.c \
 	rtc.h \
 	rtc-58321a.c \
-	rtc-58321a.h
+	rtc-58321a.h \
+	rtc-72421.c \
+	rtc-72421.h
