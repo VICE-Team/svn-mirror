@@ -435,11 +435,14 @@ static void update_crtccolor(GtkWidget *w, gpointer data)
 
 static GtkWidget *build_native_options(void)
 {
-    GtkWidget *vbox, *omenu, *hbox, *tmp;
-    vbox = gtk_vbox_new(FALSE, 5);
+    GtkWidget *vbox, *omenu, *hbox, *tmp, *table, *align;
 
+    vbox = gtk_vbox_new(FALSE, 5);
     hbox = gtk_hbox_new(0, FALSE);
+    table = gtk_table_new(3, 4, FALSE);
+
     tmp = gtk_label_new(_("Oversize handling"));
+
     native_oversize = omenu = gtk_combo_box_text_new();
 
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("scale down"));
@@ -454,32 +457,35 @@ static GtkWidget *build_native_options(void)
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("crop right bottom"));
     gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
 
-    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    align = gtk_alignment_new(0.0, 0.5, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(align), tmp);
+
+    gtk_table_attach(GTK_TABLE(table), align, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(tmp);
-    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+    align = gtk_alignment_new(0.0, 0.5, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(align), omenu);
+    gtk_table_attach(GTK_TABLE(table), align, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(omenu);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-    gtk_widget_show(hbox);
 
     g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(update_oversize), NULL);
-    
-    hbox = gtk_hbox_new(0, FALSE);
+
     tmp = gtk_label_new(_("Undersize handling"));
     native_undersize = omenu = gtk_combo_box_text_new();
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("scale up"));
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("add borders"));
     gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
 
-    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    align = gtk_alignment_new(0.0, 0.5, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(align), tmp);
+    gtk_table_attach(GTK_TABLE(table), align, 2, 3, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(tmp);
-    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+    align = gtk_alignment_new(0.0, 0.5, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(align), omenu);
+    gtk_table_attach(GTK_TABLE(table), align, 3, 4, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(omenu);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-    gtk_widget_show(hbox);
 
     g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(update_undersize), NULL);
 
-    hbox = gtk_hbox_new(0, FALSE);
     tmp = gtk_label_new(_("Multicolor handling"));
     native_mcolor = omenu = gtk_combo_box_text_new();
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("b&w"));
@@ -489,43 +495,55 @@ static GtkWidget *build_native_options(void)
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("best cell colors"));
     gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
 
-    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    align = gtk_alignment_new(0.0, 0.5, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(align), tmp);
+    gtk_table_attach(GTK_TABLE(table), align, 0, 1, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(tmp);
-    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+
+    align = gtk_alignment_new(0.0, 0.5, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(align), omenu);
+    gtk_table_attach(GTK_TABLE(table), align, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(omenu);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-    gtk_widget_show(hbox);
 
     g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(update_multicolor), NULL);
 
-    hbox = gtk_hbox_new(0, FALSE);
     tmp = gtk_label_new(_("TED luma handling"));
     native_tedluma = omenu = gtk_combo_box_text_new();
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("ignore"));
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("dither"));
     gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
 
-    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    align = gtk_alignment_new(0.0, 0.5, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(align), tmp);
+    gtk_table_attach(GTK_TABLE(table), align, 0, 1, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(tmp);
-    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+
+    align = gtk_alignment_new(0.0, 0.5, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(align), omenu);
+    gtk_table_attach(GTK_TABLE(table), align, 1, 2, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(omenu);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-    gtk_widget_show(hbox);
 
     g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(update_tedluma), NULL);
 
     native_crtccolor = omenu = gtk_combo_box_text_new();
-    hbox = gtk_hbox_new(0, FALSE);
     tmp = gtk_label_new(_("CRTC textcolor"));
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("white"));
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("amber"));
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("green"));
     gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
 
-    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    align = gtk_alignment_new(0.0, 0.5, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(align), tmp);
+    gtk_table_attach(GTK_TABLE(table), align, 2, 3, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(tmp);
-    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+
+    align = gtk_alignment_new(0.0, 0.5, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(align), omenu);
+    gtk_table_attach(GTK_TABLE(table), align, 3, 4, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(omenu);
+
+    gtk_box_pack_start(GTK_BOX(hbox), table, FALSE, FALSE, 0);
+    gtk_widget_show(table);
     gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
@@ -536,14 +554,14 @@ static GtkWidget *build_native_options(void)
 
 static GtkWidget *build_screenshot_dialog(void)
 {
-    GtkWidget *d, *frame, *vbox, *omenu;
+    GtkWidget *d, *frame, *vbox, *omenu, *table;
     int i, num_buttons;
     gfxoutputdrv_t *driver;
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
     char *title;
 
 #ifdef HAVE_FFMPEG
-    GtkWidget *l, *hbox, *tmp;
+    GtkWidget *l, *tmp;
     GtkAdjustment *adj;
     int audio_bitrate, video_bitrate;
     gfxoutputdrv_format_t *f;
@@ -602,7 +620,6 @@ static GtkWidget *build_screenshot_dialog(void)
     }
 
     /* ffmpeg options */
-    ffmpg_opts = gtk_vbox_new(FALSE, 5);
 
     drv_store = gtk_list_store_new(DRV_N, G_TYPE_STRING, G_TYPE_INT, G_TYPE_OBJECT, G_TYPE_OBJECT);
     for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
@@ -639,62 +656,51 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(omenu), renderer, TRUE);
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT(omenu), renderer, "text", DRV_NAME, NULL);
 
-    hbox = gtk_hbox_new(0, FALSE);
+    ffmpg_opts = table = gtk_table_new(5, 4, TRUE);
+
     tmp = gtk_label_new(_("Format"));
-    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    gtk_table_attach(GTK_TABLE(table), tmp, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(tmp);
-    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+    gtk_table_attach(GTK_TABLE(table), omenu, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(omenu);
-    gtk_box_pack_start(GTK_BOX(ffmpg_opts), hbox, FALSE, FALSE, 0);
-    gtk_widget_show(hbox);
 
     acmenu = gtk_combo_box_new_with_model(GTK_TREE_MODEL(ac_store));    
     g_signal_connect(G_OBJECT(acmenu), "changed", G_CALLBACK(ffmpeg_audio_codec_changed), (gpointer) omenu);
     renderer = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(acmenu), renderer, TRUE);
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT(acmenu), renderer, "text", 0, NULL);
-    hbox = gtk_hbox_new(0, FALSE);
     tmp = gtk_label_new(_("Audio codec"));
-    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    gtk_table_attach(GTK_TABLE(table), tmp, 0, 1, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(tmp);
-    gtk_box_pack_start(GTK_BOX(hbox), acmenu, FALSE, FALSE, 0);
+    gtk_table_attach(GTK_TABLE(table), acmenu, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(acmenu);
-    gtk_box_pack_start(GTK_BOX(ffmpg_opts), hbox, FALSE, FALSE, 0);
-    gtk_widget_show(hbox);
 
     vcmenu = gtk_combo_box_new_with_model(GTK_TREE_MODEL(vc_store));    
     g_signal_connect(G_OBJECT(vcmenu), "changed", G_CALLBACK(ffmpeg_video_codec_changed), (gpointer) omenu);
     renderer = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(vcmenu), renderer, TRUE);
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT(vcmenu), renderer, "text", 0, NULL);
-    hbox = gtk_hbox_new(0, FALSE);
     tmp = gtk_label_new(_("Video codec"));
-    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    gtk_table_attach(GTK_TABLE(table), tmp, 2, 3, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(tmp);
-    gtk_box_pack_start(GTK_BOX(hbox), vcmenu, FALSE, FALSE, 0);
+    gtk_table_attach(GTK_TABLE(table), vcmenu, 3, 4, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
     gtk_widget_show(vcmenu);
-    gtk_box_pack_start(GTK_BOX(ffmpg_opts), hbox, FALSE, FALSE, 0);
-    gtk_widget_show(hbox);
 
     resources_get_int("FFMPEGAudioBitrate", &audio_bitrate);
     adj = GTK_ADJUSTMENT(gtk_adjustment_new((gfloat)audio_bitrate, (gfloat)VICE_FFMPEG_AUDIO_RATE_MIN, (gfloat)VICE_FFMPEG_AUDIO_RATE_MAX, (gfloat)1000, (gfloat)10000, (gfloat)00000));
     ffmpg_audio = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat)1000, 0);
     gtk_widget_set_size_request(ffmpg_audio, 100, -1);
     l = gtk_label_new(_("Audio bitrate"));
-    tmp = gtk_hbox_new(FALSE, 5);
-    gtk_box_pack_start(GTK_BOX(tmp), l, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(tmp), ffmpg_audio, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(ffmpg_opts), tmp, FALSE, FALSE, 0);
+    gtk_table_attach(GTK_TABLE(table), l, 0, 1, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
+    gtk_table_attach(GTK_TABLE(table), ffmpg_audio, 1, 2, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
 
     resources_get_int("FFMPEGVideoBitrate", &video_bitrate);
     adj = GTK_ADJUSTMENT(gtk_adjustment_new((gfloat)video_bitrate, (gfloat)VICE_FFMPEG_VIDEO_RATE_MIN, (gfloat)VICE_FFMPEG_VIDEO_RATE_MAX, (gfloat)10000, (gfloat)100000, (gfloat)000000));
     ffmpg_video = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat)10000, 0);
     gtk_widget_set_size_request(ffmpg_video, 100, -1);
     l = gtk_label_new(_("Video bitrate"));
-    tmp = gtk_hbox_new(FALSE, 5);
-    gtk_box_pack_start(GTK_BOX(tmp), l, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(tmp), ffmpg_video, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(ffmpg_opts), tmp, FALSE, FALSE, 0);
+    gtk_table_attach(GTK_TABLE(table), l, 2, 3, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
+    gtk_table_attach(GTK_TABLE(table), ffmpg_video, 3, 4, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
 
     gtk_box_pack_start(GTK_BOX(vbox), ffmpg_opts, FALSE, FALSE, 0);
     gtk_widget_show_all(ffmpg_opts);
@@ -710,7 +716,7 @@ static GtkWidget *build_screenshot_dialog(void)
         g_signal_connect(G_OBJECT(fcb), "toggled", G_CALLBACK(update_halffps_checkbox), 0);
         gtk_container_add(GTK_CONTAINER(fpsmenu), fcb);
         gtk_widget_show(fcb);
-        gtk_box_pack_start(GTK_BOX(ffmpg_opts), fpsmenu, FALSE, FALSE, 0);
+        gtk_table_attach(GTK_TABLE(table), fpsmenu, 0, 1, 3, 4, GTK_FILL, GTK_FILL, 0, 0);
         gtk_widget_show(fpsmenu);
     }
 
