@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-18 12:22-0700\n"
-"PO-Revision-Date: 2016-03-05 15:34+0100\n"
+"PO-Revision-Date: 2016-03-19 12:17+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -255,19 +255,19 @@ msgstr "<Baudrate>"
 
 #: src/arch/unix/rs232dev.c:195
 msgid "Specify baudrate of first RS232 device"
-msgstr "Baudrate für erstes RS232 Gerät definieren"
+msgstr "Baudrate für erstes RS232 Gerät wählen"
 
 #: src/arch/unix/rs232dev.c:200
 msgid "Specify baudrate of second RS232 device"
-msgstr "Baudrate für zweites RS232 Gerät definieren"
+msgstr "Baudrate für zweites RS232 Gerät wählen"
 
 #: src/arch/unix/rs232dev.c:205
 msgid "Specify baudrate of third RS232 device"
-msgstr "Baudrate für drittes RS232 Gerät definieren"
+msgstr "Baudrate für drittes RS232 Gerät wählen"
 
 #: src/arch/unix/rs232dev.c:210
 msgid "Specify baudrate of fourth RS232 device"
-msgstr "Baudrate für viertes RS232 Gerät definieren"
+msgstr "Baudrate für viertes RS232 Gerät wählen"
 
 #: src/arch/unix/gui/c128ui.c:141 src/arch/unix/gui/c64scui.c:282
 #: src/arch/unix/gui/c64ui.c:341 src/arch/unix/gui/vsidui.c:236
@@ -839,7 +839,7 @@ msgstr "DTV Revision"
 
 #: src/arch/unix/gui/c64dtvui.c:163
 msgid "Luma fix"
-msgstr ""
+msgstr "Luma Fix"
 
 #: src/arch/unix/gui/c64dtvui.c:181
 msgid "Flash settings"
@@ -2858,9 +2858,8 @@ msgid "Device 4 image name"
 msgstr "Gerät 4 Image Name"
 
 #: src/arch/unix/gui/uiide64.c:278
-#, fuzzy
 msgid "DigiMAX address"
-msgstr "DigiMAX Basis"
+msgstr "DigiMAX Adresse"
 
 #: src/arch/unix/gui/uiide64.c:287 src/arch/unix/gui/uimmc64.c:77
 #: src/arch/unix/gui/uiretroreplay.c:59 src/arch/unix/gui/uivdc.c:205
@@ -2900,9 +2899,8 @@ msgid "Device 4 settings"
 msgstr "Gerät 4 Einstellungen"
 
 #: src/arch/unix/gui/uiide64.c:306
-#, fuzzy
 msgid "Short bus device settings"
-msgstr "Gerät 1 Einstellungen"
+msgstr "Shortbus Gerät Einstellungen"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2919,9 +2917,8 @@ msgid "Control port settings"
 msgstr "Control Port Einstellungen"
 
 #: src/arch/unix/gui/uijoyport.c:54 src/arch/win32/resjoyport.rc.po.c:156
-#, fuzzy
 msgid "Save BBRTC data when changed"
-msgstr "RTC Daten bei Änderung speichern"
+msgstr "BBRTC Daten bei Änderung speichern"
 
 #: src/arch/unix/gui/uijoystick2.c:141 src/arch/unix/gui/uijoystick2.c:159
 #: src/arch/win32/res.rc.po.c:1033 src/arch/amigaos/intl_text.c.po.c:1895
@@ -3531,11 +3528,11 @@ msgstr "Drucker 3 (Ausführung)"
 
 #: src/arch/unix/gui/uiprinter.c:184 src/arch/amigaos/intl_text.c.po.c:8898
 msgid "Select printer dump file"
-msgstr "Drucker Ausgabedatei definieren"
+msgstr "Drucker Ausgabedatei wählen"
 
 #: src/arch/unix/gui/uiprinter.c:192
 msgid "Command to execute for printing (preceed with '|')"
-msgstr "Kommand für Druckerausgabe definieren ('|' voranstellen!)"
+msgstr "Kommando für Druckerausgabe definieren ('|' voranstellen!)"
 
 #: src/arch/unix/gui/uiprinteriec.c:48 src/arch/unix/gui/uiprinterieee.c:83
 #: src/arch/amigaos/intl_text.c.po.c:8954
@@ -5038,7 +5035,7 @@ msgstr "<Kommando>"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:43
 msgid "Specify an HTML browser for the on-line help"
-msgstr "Bitte HTML Browser für online Hilfe definieren"
+msgstr "Bitte HTML Browser für online Hilfe wählen"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:53
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:50
@@ -5066,7 +5063,7 @@ msgstr "<Wert>"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:82
 msgid "Specify X display depth (1..32)"
-msgstr "X Display Farbtiefe (1..32) definieren"
+msgstr "X Display Farbtiefe (1..32) wählen"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:94
 msgid "Disable fullscreen"
@@ -5523,7 +5520,7 @@ msgstr "Schreiben von Fliplist Datei fehlgeschlagen"
 
 #: src/arch/win32/res.rc.po.c:938
 msgid "Select keymap file"
-msgstr "Symbolische Keymap Datei definieren"
+msgstr "Symbolische Keymap Datei wählen"
 
 #: src/arch/win32/res.rc.po.c:939
 msgid "Save keymap file"
@@ -6795,9 +6792,8 @@ msgstr "Userport Geräte"
 #: src/arch/win32/resc64.rc.po.c:297 src/arch/win32/rescbm2.rc.po.c:248
 #: src/arch/win32/rescbm5x0.rc.po.c:235 src/arch/win32/respet.rc.po.c:237
 #: src/arch/win32/resplus4.rc.po.c:251 src/arch/win32/resvic20.rc.po.c:277
-#, fuzzy
 msgid "Tape port devices"
-msgstr "Userport Geräte"
+msgstr "Bandport Geräte"
 
 #: src/arch/win32/res.rc.po.c:1387 src/arch/win32/resc128.rc.po.c:336
 #: src/arch/win32/resc64.rc.po.c:324 src/arch/win32/resc64dtv.rc.po.c:224
@@ -7073,30 +7069,25 @@ msgid "Enable Userport 8 bit stereo sampler"
 msgstr "Userport 8bit Stereosampler aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1527 src/arch/win32/restapelog.rc.po.c:29
-#, fuzzy
 msgid "Tape log device settings"
-msgstr "Gerät 1 Einstellungen"
+msgstr "Bandlog Geräteeinstellungen"
 
 #: src/arch/win32/res.rc.po.c:1528
-#, fuzzy
 msgid "CP CLock F83 device settings"
-msgstr "Userport RTC (58321a) Geräteeinstellungen"
+msgstr "CP Clock F83 Geräteeinstellungen"
 
 #: src/arch/win32/res.rc.po.c:1529
-#, fuzzy
 msgid "Enable datasette device"
-msgstr "IEC Gerät aktivieren"
+msgstr "Datasette Gerät aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1530 src/translate_text.c.po.c:6435
-#, fuzzy
 msgid "Enable tape sense dongle"
-msgstr "v364 Spracherweiterung aktivieren"
+msgstr "Band Sense Dongle aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1531 src/translate_text.c.po.c:6469
 #: src/translate_text.c.po.c:6486
-#, fuzzy
 msgid "Enable DTL Basic dongle"
-msgstr "RTC Speicherung aktivieren"
+msgstr "DTL Basic Dongle aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1532 src/arch/amigaos/intl_text.c.po.c:4373
 msgid "Save current settings to specified file"
@@ -7549,9 +7540,8 @@ msgid "Create"
 msgstr "Erzeugen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:476
-#, fuzzy
 msgid "Color fix"
-msgstr "Farbpalette..."
+msgstr "Farben Fix"
 
 #: src/arch/win32/resc64dtv.rc.po.c:478 src/arch/amigaos/intl_text.c.po.c:2637
 msgid "C64DTV model settings"
@@ -7709,19 +7699,16 @@ msgid "CIA settings"
 msgstr "CIA Einstellungen"
 
 #: src/arch/win32/rescpclockf83.rc.po.c:20
-#, fuzzy
 msgid "CP Clock F83 settings"
-msgstr "PET Farb Einstellungen"
+msgstr "CP Clock F83 Einstellungen"
 
 #: src/arch/win32/rescpclockf83.rc.po.c:21
-#, fuzzy
 msgid "Enable the CP Clock F83 expansion"
-msgstr "MMC64 Erweiterung aktivieren"
+msgstr "CP Clock F83 Erweiterung aktivieren"
 
 #: src/arch/win32/rescpclockf83.rc.po.c:22
-#, fuzzy
 msgid "Save CP Clock F83 RTC data when changed"
-msgstr "RTC Daten bei Änderung speichern"
+msgstr "CP Clock F83 RTC Daten bei Änderung speichern"
 
 #: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:17648
 msgid "Enable the DigiMAX cartridge"
@@ -7807,9 +7794,8 @@ msgid "IDE64 V4 settings"
 msgstr "IDE64 V4 Einstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:72
-#, fuzzy
 msgid "IDE64 shortbus settings"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 Shortbus Einstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:73 src/arch/amigaos/intl_text.c.po.c:9892
 msgid "IDE64 primary master device settings"
@@ -7828,14 +7814,12 @@ msgid "IDE64 secondary slave device settings"
 msgstr "IDE64 Sekundär Slave Geräte Einstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:78
-#, fuzzy
 msgid "IDE64 shortbus DigiMAX device"
-msgstr "Userport DigiMAX Gerät aktivieren"
+msgstr "IDE64 Shortbus DigiMAX Gerät aktivieren"
 
 #: src/arch/win32/reside64.rc.po.c:79
-#, fuzzy
 msgid "IDE64 shortbus DigiMAX device address"
-msgstr "Userport DigiMAX Gerät aktivieren"
+msgstr "IDE64 Shortbus DigiMAX Geräteadresse"
 
 #: src/arch/win32/reside64.rc.po.c:80
 msgid "Enable IDE64 V4"
@@ -8352,32 +8336,28 @@ msgid "SFX Sound Sampler settings"
 msgstr "SFX Sound Sampler Einstellungen"
 
 #: src/arch/win32/restapelog.rc.po.c:30
-#, fuzzy
 msgid "Enable tape log device"
-msgstr "Virtuelle Geräte aktivieren"
+msgstr "Bandlog Geräte aktivieren"
 
 #: src/arch/win32/restapelog.rc.po.c:31
 msgid "Tape log messages destination"
-msgstr ""
+msgstr "Ort für Bandlog Nachrichten"
 
 #: src/arch/win32/restapelog.rc.po.c:32
-#, fuzzy
 msgid "Tape log file"
-msgstr "Speichere Konfigurationsdatei"
+msgstr "Bandlog Datei"
 
 #: src/arch/win32/restapelog.rc.po.c:33
-#, fuzzy
 msgid "Select file for the tape log"
-msgstr "Datei für Magic Voice auswählen"
+msgstr "Bandlog Datei auswählen"
 
 #: src/arch/win32/restapelog.rc.po.c:34
 msgid "Log to default emulator logfile"
-msgstr ""
+msgstr "Default Log Datei"
 
 #: src/arch/win32/restapelog.rc.po.c:35
-#, fuzzy
 msgid "Log to user specified file"
-msgstr "Autostart von angeforderter Datei fehlgeschlagen."
+msgstr "Benuterdefinierte Log Datei."
 
 #: src/arch/win32/rested.rc.po.c:35 src/arch/win32/resvic.rc.po.c:35
 #: src/arch/win32/resvicii.rc.po.c:83
@@ -9166,7 +9146,7 @@ msgstr "Expert Cartridge Modus"
 
 #: src/arch/amigaos/intl_text.c.po.c:7425
 msgid "Select config file"
-msgstr "Konfigurationsdateiname definieren"
+msgstr "Konfigurationsdateiname wählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:7538
 msgid "Joystick in SIDcart joystick port"
@@ -9681,7 +9661,7 @@ msgstr "Speed Schalter aktiviert"
 
 #: src/arch/amigaos/intl_text.c.po.c:12062
 msgid "Select Sound Record File"
-msgstr "Tonaufnahmedatei definieren"
+msgstr "Tonaufnahmedatei wählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:12244
 msgid "Volume (0-100%)"
@@ -10912,11 +10892,11 @@ msgstr "Sampler (4bit)"
 
 #: src/translate_text.c.po.c:3500
 msgid "BBRTC"
-msgstr ""
+msgstr "BBRTC"
 
 #: src/translate_text.c.po.c:3517
 msgid "Paperclip64 dongle"
-msgstr ""
+msgstr "Paperclip64 Dongle"
 
 #: src/translate_text.c.po.c:3534
 msgid "Light Pen (up trigger)"
@@ -10970,11 +10950,11 @@ msgstr "Userport RTC (DS1307)"
 
 #: src/translate_text.c.po.c:3823
 msgid "Tape RTC (PCF8583)"
-msgstr ""
+msgstr "Band RTC (PCF8583)"
 
 #: src/translate_text.c.po.c:3840
 msgid "Sense dongle"
-msgstr ""
+msgstr "Sense Dongle"
 
 #: src/translate_text.c.po.c:3857
 msgid "Userport DAC"
@@ -10993,19 +10973,16 @@ msgid "Userport 8bit stereo sampler"
 msgstr "Userport 8bit Stereo Sampler"
 
 #: src/translate_text.c.po.c:3925
-#, fuzzy
 msgid "Userport printer"
-msgstr "Userport Drucker Treiber"
+msgstr "Userport Drucker"
 
 #: src/translate_text.c.po.c:3942
-#, fuzzy
 msgid "Datasette"
-msgstr "Datasette Einstellungen"
+msgstr "Datasette"
 
 #: src/translate_text.c.po.c:3959
-#, fuzzy
 msgid "Tape Log"
-msgstr "Band"
+msgstr "Bandlog"
 
 #: src/translate_text.c.po.c:3978
 msgid "Enable opposite joystick directions"
@@ -11060,7 +11037,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:4199
 msgid "Set disk image for autostart of PRG files"
-msgstr "Disk Imagedatei für Autstart definieren"
+msgstr "Disk Imagedatei für Autstart wählen"
 
 #: src/translate_text.c.po.c:4216
 msgid "Set initial autostart delay (0: use default)"
@@ -11108,35 +11085,35 @@ msgstr "Computer Reset auf IEC Bus (0 = Nein, 1 = Ja)"
 
 #: src/translate_text.c.po.c:4403
 msgid "Specify name of international Kernal ROM image"
-msgstr "Bitte Namen für internationale Kernal ROM Datei definieren"
+msgstr "Namen für internationale Kernal ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4420
 msgid "Specify name of German Kernal ROM image"
-msgstr "Name für deutsche Kernal ROM Datei definieren"
+msgstr "Name für deutsche Kernal ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4437
 msgid "Specify name of Finnish Kernal ROM image"
-msgstr "Name für finnische Kernal ROM Datei definieren"
+msgstr "Name für finnische Kernal ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4454
 msgid "Specify name of French Kernal ROM image"
-msgstr "Name für französische Kernal ROM Datei definieren"
+msgstr "Name für französische Kernal ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4471
 msgid "Specify name of Italian Kernal ROM image"
-msgstr "Name für italienische Kernal ROM Datei definieren"
+msgstr "Name für italienische Kernal ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4488
 msgid "Specify name of Norwegian Kernal ROM image"
-msgstr "Name für norwegische Kernal ROM Datei definieren"
+msgstr "Name für norwegische Kernal ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4505
 msgid "Specify name of Swedish Kernal ROM image"
-msgstr "Name für schwedische Kernal ROM Datei definieren"
+msgstr "Name für schwedische Kernal ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4522
 msgid "Specify name of Swiss Kernal ROM image"
-msgstr "Name für schweizer Kernal ROM Datei definieren"
+msgstr "Name für schweizer Kernal ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4539
 msgid "Specify name of BASIC ROM image (lower part)"
@@ -11148,23 +11125,23 @@ msgstr "Namen für Basic ROM Datei spezifizieren (oberer Teil)"
 
 #: src/translate_text.c.po.c:4573
 msgid "Specify name of international character generator ROM image"
-msgstr "Name für internationale Charakter ROM Datei definieren"
+msgstr "Name für internationale Charakter ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4590
 msgid "Specify name of German character generator ROM image"
-msgstr "Name für deutsche Charakter ROM Datei definieren"
+msgstr "Name für deutsche Charakter ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4607
 msgid "Specify name of French character generator ROM image"
-msgstr "Name für französische Charakter ROM Datei definieren"
+msgstr "Name für französische Charakter ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4624 src/translate_text.c.po.c:4641
 msgid "Specify name of Swedish character generator ROM image"
-msgstr "Name für schwedische Charakter ROM Datei definieren"
+msgstr "Name für schwedische Charakter ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4658
 msgid "Specify name of C64 mode Kernal ROM image"
-msgstr "Name für C64 Modus Kernal ROM Datei definieren"
+msgstr "Name für C64 Modus Kernal ROM Datei wählen"
 
 #: src/translate_text.c.po.c:4675
 msgid "Specify name of C64 mode BASIC ROM image"
@@ -11240,11 +11217,11 @@ msgstr "Host Tastatur Layout auswählen"
 
 #: src/translate_text.c.po.c:5004
 msgid "Specify name of symbolic keymap file"
-msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+msgstr "Bitte Namen für symbolische Keymap Datei wählen"
 
 #: src/translate_text.c.po.c:5021
 msgid "Specify name of positional keymap file"
-msgstr "Bitte Namen für positions Keymap Datei definieren"
+msgstr "Bitte Namen für positions Keymap Datei wählen"
 
 #: src/translate_text.c.po.c:5039
 msgid "Activate 40 column mode"
@@ -11260,11 +11237,11 @@ msgstr "Immer be Reset in C128 Modus schalten"
 
 #: src/translate_text.c.po.c:5107
 msgid "Specify name of internal Function ROM image"
-msgstr "Name der internen Funktions ROM Datei definieren"
+msgstr "Name der internen Funktions ROM Datei wählen"
 
 #: src/translate_text.c.po.c:5124
 msgid "Specify name of external Function ROM image"
-msgstr "Name der externen Funktions ROM Datei definieren"
+msgstr "Name der externen Funktions ROM Datei wählen"
 
 #: src/translate_text.c.po.c:5141
 msgid "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
@@ -11354,19 +11331,19 @@ msgstr "Setze DTV Modell (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
 
 #: src/translate_text.c.po.c:5481
 msgid "Specify name of Kernal ROM image"
-msgstr "Name von Kernal ROM Datei definieren"
+msgstr "Name von Kernal ROM Datei wählen"
 
 #: src/translate_text.c.po.c:5498
 msgid "Specify name of SCPU64 ROM image"
-msgstr "Name von SCPU64 ROM Datei definieren"
+msgstr "Name von SCPU64 ROM Datei wählen"
 
 #: src/translate_text.c.po.c:5515
 msgid "Specify name of BASIC ROM image"
-msgstr "Name von Basic ROM Datei definieren"
+msgstr "Name von Basic ROM Datei wählen"
 
 #: src/translate_text.c.po.c:5532
 msgid "Specify name of character generator ROM image"
-msgstr "Name von Character ROM Datei definieren"
+msgstr "Name von Character ROM Datei wählen"
 
 #: src/translate_text.c.po.c:5550
 msgid "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
@@ -11374,7 +11351,7 @@ msgstr "Index für Keymap Datei festlegen (0=symbol, 1=symDE, 2=positional)"
 
 #: src/translate_text.c.po.c:5567
 msgid "Specify name of symbolic German keymap file"
-msgstr "Name von symbolischer Keymap Datei definieren"
+msgstr "Name von symbolischer Keymap Datei wählen"
 
 #: src/translate_text.c.po.c:5585
 msgid "Set glue logic type (0 = discrete, 1 = 252535-01)"
@@ -11412,32 +11389,27 @@ msgstr "IEEE488 Schnittstellenmodul Imagename"
 
 #: src/translate_text.c.po.c:5721
 msgid "Specify name of sample file"
-msgstr "Namen für Sample Datei definieren"
+msgstr "Namen für Sample Datei wählen"
 
 #: src/translate_text.c.po.c:5738
-#, fuzzy
 msgid "Enable the tape log device"
-msgstr "Userport DigiMAX Gerät aktivieren"
+msgstr "Bandlog Gerät aktivieren"
 
 #: src/translate_text.c.po.c:5755
-#, fuzzy
 msgid "Disable the tape log device"
-msgstr "Userport DigiMAX Gerät deaktivieren"
+msgstr "Bandlog Gerät deaktivieren"
 
 #: src/translate_text.c.po.c:5772
-#, fuzzy
 msgid "Enable logging to a file"
-msgstr "Erlaube Schreibzugriff auf Card Imagedatei"
+msgstr "Logging auf Datei aktivieren"
 
 #: src/translate_text.c.po.c:5789
-#, fuzzy
 msgid "Enable logging to the emulator log file"
-msgstr "Lichtgriffel Emulation aktivieren"
+msgstr "Logging auf Emaulatorlogdatei aktivieren"
 
 #: src/translate_text.c.po.c:5806
-#, fuzzy
 msgid "Specify tape log file name"
-msgstr "Logdateiname definieren"
+msgstr "Bandlogdateiname auswählen"
 
 #: src/translate_text.c.po.c:5840
 msgid "Disable the GEO-RAM expansion unit"
@@ -11445,7 +11417,7 @@ msgstr "GEO-RAM Erweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:5857
 msgid "Specify name of GEORAM image"
-msgstr "GEORAM Image Datei definieren"
+msgstr "GEORAM Image Datei wählen"
 
 #: src/translate_text.c.po.c:5874
 msgid "Allow writing to GEORAM image"
@@ -11500,7 +11472,7 @@ msgstr "PET RAM Speicher und Erweiterungsmodul dektivieren"
 
 #: src/translate_text.c.po.c:6095
 msgid "Specify name of PET Ram and Expansion Unit image"
-msgstr "Namen für PET RAM Speicher und Erweiterungsmodul definieren"
+msgstr "Namen für PET RAM Speicher und Erweiterungsmodul wählen"
 
 #: src/translate_text.c.po.c:6112
 msgid "Size of the PET Ram and Expansion Unit. (128/512/1024/2048)"
@@ -11508,7 +11480,7 @@ msgstr "Größe des PET RAM Speicher und Erweiterungsmodul. (128/512/1024/2048)"
 
 #: src/translate_text.c.po.c:6129
 msgid "Specify name of PET DWW image"
-msgstr "Namen für PET DWW Image Datei definieren"
+msgstr "Namen für PET DWW Image Datei wählen"
 
 #: src/translate_text.c.po.c:6163
 msgid "Disable the PET DWW hi-res board"
@@ -11567,37 +11539,32 @@ msgid "Disable saving of the Userport RTC (DS1307) data when changed."
 msgstr "Userport RTC (DS1307) Daten bei Änderung nicht speichern."
 
 #: src/translate_text.c.po.c:6401
-#, fuzzy
 msgid "Enable saving of the BBRTC data when changed."
-msgstr "IDE64 RTC Daten bei Änderung speichern."
+msgstr "BBRTC Daten bei Änderung speichern."
 
 #: src/translate_text.c.po.c:6418
-#, fuzzy
 msgid "Disable saving of the BBRTC data when changed."
-msgstr "IDE64 RTC Daten bei Änderung nicht speichern."
+msgstr "BBRTC Daten bei Änderung nicht speichern."
 
 #: src/translate_text.c.po.c:6452
-#, fuzzy
 msgid "Disable tape sense dongle"
-msgstr "v364 Spracherweiterung deaktivieren"
+msgstr "Band Sense Dongle deaktivieren"
 
 #: src/translate_text.c.po.c:6503
 msgid "Enable CP Clock F83 (PCF8583 RTC)"
-msgstr ""
+msgstr "CP Clock F83 (PCF8583 RTC) aktivieren"
 
 #: src/translate_text.c.po.c:6520
 msgid "Disable CP Clock F83 (PCF8583 RTC)"
-msgstr ""
+msgstr "CP Clock F83 (PCF8583 RTC) deaktivieren"
 
 #: src/translate_text.c.po.c:6537
-#, fuzzy
 msgid "Enable saving of the CP Clock F83 (PCF8583 RTC) data when changed."
-msgstr "DS12C887 RTC Daten bei Änderung speichern."
+msgstr "CP Clock F83 (PCF8583 RTC) Daten bei Änderung speichern."
 
 #: src/translate_text.c.po.c:6554
-#, fuzzy
 msgid "Disable saving of the CP Clock F83 (PCF8583 RTC) data when changed."
-msgstr "DS12C887 RTC Daten bei Änderung nicht speichern."
+msgstr "CP Clock F83 (PCF8583 RTC) Daten bei Änderung nicht speichern."
 
 #: src/translate_text.c.po.c:6571
 msgid "Enable Userport 4bit sampler"
@@ -11621,7 +11588,7 @@ msgstr "PSID Einstellung für Video Standard und SID Modell verändern"
 
 #: src/translate_text.c.po.c:6656
 msgid "Specify PSID tune <number>"
-msgstr "PSID Stück <Nummer> definieren"
+msgstr "PSID Stück <Nummer> wählen"
 
 #: src/translate_text.c.po.c:6690
 msgid "Disable the RamCart expansion"
@@ -11629,7 +11596,7 @@ msgstr "RamCart Erweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:6707
 msgid "Specify name of RAMCART image"
-msgstr "Name für RAMCART Image Datei definieren"
+msgstr "Name für RAMCART Image Datei wählen"
 
 #: src/translate_text.c.po.c:6724
 msgid "Allow writing to RAMCart image"
@@ -11701,7 +11668,7 @@ msgstr "Kein Schreibzugriff auf ISEPIC Image"
 
 #: src/translate_text.c.po.c:7047
 msgid "Specify name of Magic Voice ROM image"
-msgstr "Name für Magic Voice ROM Image Datei definieren"
+msgstr "Name für Magic Voice ROM Image Datei wählen"
 
 #: src/translate_text.c.po.c:7064
 msgid "Enable the Magic Voice cartridge"
@@ -11721,7 +11688,7 @@ msgstr "Name für MMC64 BIOS Datei spezifizieren"
 
 #: src/translate_text.c.po.c:7149
 msgid "Specify name of MMC64 image"
-msgstr "Name der MMC64 Image Datei definieren"
+msgstr "Name der MMC64 Image Datei wählen"
 
 #: src/translate_text.c.po.c:7166
 msgid "Specify MMC64 revision (0: Rev A, 1: Rev B)"
@@ -11773,7 +11740,7 @@ msgstr "Deaktiviere RRNETMK3 Flash Jumper"
 
 #: src/translate_text.c.po.c:7370
 msgid "Specify MMC Replay card image filename"
-msgstr "MMC Replay Modul imeage datei definieren"
+msgstr "MMC Replay Modul imeage datei wählen"
 
 #: src/translate_text.c.po.c:7387
 msgid "Specify MMC Replay SD type (0: auto, 1: MMC, 2: SD, 3: SDHC)"
@@ -11789,7 +11756,7 @@ msgstr "Schreibzugriff auf MMC Replay Imagedatei verhindern"
 
 #: src/translate_text.c.po.c:7438
 msgid "Specify MMC Replay EEPROM image filename"
-msgstr "MMC Replay EEPROM Imagedatei definieren"
+msgstr "MMC Replay EEPROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:7472
 msgid "Disable writes to MMC Replay EEPROM image"
@@ -11849,7 +11816,7 @@ msgstr "RAM Speichererweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:7744
 msgid "Specify name of REU image"
-msgstr "Namen für REU Image Datei definieren"
+msgstr "Namen für REU Image Datei wählen"
 
 #: src/translate_text.c.po.c:7761
 msgid "Allow writing to REU image"
@@ -12035,9 +12002,8 @@ msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr "16kB Zaxxon Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:8783
-#, fuzzy
 msgid "Attach raw 24kB Easy Calc Result cartridge image"
-msgstr "64kB Comal 80 Image (raw) einlegen"
+msgstr "Easy Calc Result Erweiterungsmodul Image (24kb raw) einlegen"
 
 #: src/translate_text.c.po.c:8800
 msgid "Attach raw 64KB Pagefox cartridge image"
@@ -12109,7 +12075,7 @@ msgstr "Standard Modul deaktivieren"
 
 #: src/translate_text.c.po.c:9123
 msgid "Specify name of IDE64 image file"
-msgstr "Namen für IDE64 Image Datei definieren"
+msgstr "Namen für IDE64 Image Datei wählen"
 
 #: src/translate_text.c.po.c:9157
 msgid "Set number of cylinders for the IDE64 emulation."
@@ -12154,11 +12120,11 @@ msgstr "Modell Nummer"
 #: src/translate_text.c.po.c:9361
 msgid "Specify CBM-II model to emulate. (610, 620, 620+, 710, 720, 720+)"
 msgstr ""
-"CBM-II Modell für Emulation definieren. (610, 620, 620+, 710, 720, 720+)"
+"CBM-II Modell für Emulation wählen. (610, 620, 620+, 710, 720, 720+)"
 
 #: src/translate_text.c.po.c:9378
 msgid "Specify CBM-II model to emulate. (510)"
-msgstr "CBM-II Modell für Emulation definieren. (510)"
+msgstr "CBM-II Modell für Emulation wählen. (510)"
 
 #: src/translate_text.c.po.c:9395
 msgid "Specify to use VIC-II"
@@ -12174,15 +12140,15 @@ msgstr "Zeilennummer"
 
 #: src/translate_text.c.po.c:9446
 msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
-msgstr "CBM-II Hardware Modell definieren (0=6x0, 1=7x0)"
+msgstr "CBM-II Hardware Modell wählen (0=6x0, 1=7x0)"
 
 #: src/translate_text.c.po.c:9480
 msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
-msgstr "RAM Größe definieren (64/128/256/512/1024 kByte)"
+msgstr "RAM Größe wählen (64/128/256/512/1024 kByte)"
 
 #: src/translate_text.c.po.c:9497
 msgid "Specify size of RAM (128/256/512/1024 kByte)"
-msgstr "RAM Größe definieren (128/256/512/1024 kByte)"
+msgstr "RAM Größe wählen (128/256/512/1024 kByte)"
 
 #: src/translate_text.c.po.c:9514
 msgid "Specify name of cartridge ROM image for $1000"
@@ -12254,33 +12220,33 @@ msgid ""
 "positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business "
 "symbolic, 5: German business positional)"
 msgstr ""
-"Index der Keymap Datei definieren (0: UK business symbolic, 1: UK business "
+"Index der Keymap Datei wählen (0: UK business symbolic, 1: UK business "
 "positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business "
 "symbolic, 5: German business positional)"
 
 #: src/translate_text.c.po.c:9804
 msgid "Specify name of graphics keyboard symbolic keymap file"
-msgstr "Keymap Datei für graphics keyboard symbolic definieren"
+msgstr "Keymap Datei für graphics keyboard symbolic wählen"
 
 #: src/translate_text.c.po.c:9821
 msgid "Specify name of graphics keyboard positional keymap file"
-msgstr "Keymap Datei für graphics keyboard positional definieren"
+msgstr "Keymap Datei für graphics keyboard positional wählen"
 
 #: src/translate_text.c.po.c:9838
 msgid "Specify name of UK business keyboard symbolic keymap file"
-msgstr "Keymap Datei für UK business keyboard symbolic definieren"
+msgstr "Keymap Datei für UK business keyboard symbolic wählen"
 
 #: src/translate_text.c.po.c:9855
 msgid "Specify name of UK business keyboard positional keymap file"
-msgstr "Keymap Datei für UK business keyboard positional definieren"
+msgstr "Keymap Datei für UK business keyboard positional wählen"
 
 #: src/translate_text.c.po.c:9872
 msgid "Specify name of German business keyboard symbolic keymap file"
-msgstr "Keymap Datei für German business keyboard symbolic definieren"
+msgstr "Keymap Datei für German business keyboard symbolic wählen"
 
 #: src/translate_text.c.po.c:9889
 msgid "Specify name of German business keyboard positional keymap file"
-msgstr "Keymap Datei für German business keyboard positional definieren"
+msgstr "Keymap Datei für German business keyboard positional wählen"
 
 #: src/translate_text.c.po.c:9907
 msgid "Enable hardware-level emulation of disk drives"
@@ -12373,35 +12339,35 @@ msgstr "40 Spur Erweiterungsmethode (0: nie, 1: Rückfrage, 2: bei Bedarf)"
 
 #: src/translate_text.c.po.c:10247
 msgid "Specify name of 1540 DOS ROM image"
-msgstr "Name der 1540 DOS ROM Image Datei definieren"
+msgstr "Name der 1540 DOS ROM Image Datei wählen"
 
 #: src/translate_text.c.po.c:10264
 msgid "Specify name of 1541 DOS ROM image"
-msgstr "Name der 1541 DOS ROM Image Datei definieren"
+msgstr "Name der 1541 DOS ROM Image Datei wählen"
 
 #: src/translate_text.c.po.c:10281
 msgid "Specify name of 1541-II DOS ROM image"
-msgstr "Name der 1541-II DOS ROM Image Datei definieren"
+msgstr "Name der 1541-II DOS ROM Image Datei wählen"
 
 #: src/translate_text.c.po.c:10298
 msgid "Specify name of 1570 DOS ROM image"
-msgstr "Name der 1570 DOS ROM Image Datei definieren"
+msgstr "Name der 1570 DOS ROM Image Datei wählen"
 
 #: src/translate_text.c.po.c:10315
 msgid "Specify name of 1571 DOS ROM image"
-msgstr "Name der 1571 DOS ROM Image Datei definieren"
+msgstr "Name der 1571 DOS ROM Image Datei wählen"
 
 #: src/translate_text.c.po.c:10332
 msgid "Specify name of 1581 DOS ROM image"
-msgstr "Name der 1581 DOS ROM Image Datei definieren"
+msgstr "Name der 1581 DOS ROM Image Datei wählen"
 
 #: src/translate_text.c.po.c:10349
 msgid "Specify name of 2000 DOS ROM image"
-msgstr "Name der 2000 DOS ROM Datei definieren"
+msgstr "Name der 2000 DOS ROM Datei wählen"
 
 #: src/translate_text.c.po.c:10366
 msgid "Specify name of 4000 DOS ROM image"
-msgstr "Name der 4000 DOS ROM Datei definieren"
+msgstr "Name der 4000 DOS ROM Datei wählen"
 
 #: src/translate_text.c.po.c:10383
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
@@ -12469,7 +12435,7 @@ msgstr "Professional DOS deaktivieren"
 
 #: src/translate_text.c.po.c:10655
 msgid "Specify name of Professional DOS 1571 ROM image"
-msgstr "Name von Professional DOS 1571 Datei definieren"
+msgstr "Name von Professional DOS 1571 Datei wählen"
 
 #: src/translate_text.c.po.c:10689
 msgid "Disable SuperCard+"
@@ -12477,7 +12443,7 @@ msgstr "SuperCard+ deaktivieren"
 
 #: src/translate_text.c.po.c:10706
 msgid "Specify name of SuperCard+ ROM image"
-msgstr "Name von SuperCard+ ROM Datei definieren"
+msgstr "Name von SuperCard+ ROM Datei wählen"
 
 #: src/translate_text.c.po.c:10723
 msgid "Set parallel cable type (0: none, 1: standard)"
@@ -12485,31 +12451,31 @@ msgstr "Parallelkabel Typ (0: kein, 1: Standard)"
 
 #: src/translate_text.c.po.c:10740
 msgid "Specify name of 1571CR DOS ROM image"
-msgstr "Name der 1571CR DOS ROM Datei definieren"
+msgstr "Name der 1571CR DOS ROM Datei wählen"
 
 #: src/translate_text.c.po.c:10757
 msgid "Specify name of 2031 DOS ROM image"
-msgstr "Name der 2031 DOS ROM Datei definieren"
+msgstr "Name der 2031 DOS ROM Datei wählen"
 
 #: src/translate_text.c.po.c:10774
 msgid "Specify name of 2040 DOS ROM image"
-msgstr "Name der 2040 DOS ROM Datei definieren"
+msgstr "Name der 2040 DOS ROM Datei wählen"
 
 #: src/translate_text.c.po.c:10791
 msgid "Specify name of 3040 DOS ROM image"
-msgstr "Name der 3040 DOS ROM Datei definieren"
+msgstr "Name der 3040 DOS ROM Datei wählen"
 
 #: src/translate_text.c.po.c:10808
 msgid "Specify name of 4040 DOS ROM image"
-msgstr "Name der 4040 DOS ROM Datei definieren"
+msgstr "Name der 4040 DOS ROM Datei wählen"
 
 #: src/translate_text.c.po.c:10825
 msgid "Specify name of 1001/8050/8250 DOS ROM image"
-msgstr "Name der 1001/8040/8205 DOS ROM Datei definieren"
+msgstr "Name der 1001/8040/8205 DOS ROM Datei wählen"
 
 #: src/translate_text.c.po.c:10842
 msgid "Specify name of 1551 DOS ROM image"
-msgstr "Name der 1551 DOS ROM Datei definieren"
+msgstr "Name der 1551 DOS ROM Datei wählen"
 
 #: src/translate_text.c.po.c:10859
 msgid "Use <name> as directory for file system device #8"
@@ -12641,19 +12607,19 @@ msgstr ""
 
 #: src/translate_text.c.po.c:11386
 msgid "Specify name of Editor ROM image"
-msgstr "Name für Editor ROM Image Datei definieren"
+msgstr "Name für Editor ROM Image Datei wählen"
 
 #: src/translate_text.c.po.c:11403
 msgid "Specify 4K extension ROM name at $9***"
-msgstr "4K Erweiterungs ROM Datei Name bei $9*** definieren"
+msgstr "4K Erweiterungs ROM Datei Name bei $9*** wählen"
 
 #: src/translate_text.c.po.c:11420
 msgid "Specify 4K extension ROM name at $A***"
-msgstr "4K Erweiterungs ROM Datei Name bei $A*** definieren"
+msgstr "4K Erweiterungs ROM Datei Name bei $A*** wählen"
 
 #: src/translate_text.c.po.c:11437
 msgid "Specify 4K extension ROM name at $B***"
-msgstr "4K Erweiterungs ROM Datei Name bei $B*** definieren"
+msgstr "4K Erweiterungs ROM Datei Name bei $B*** wählen"
 
 #: src/translate_text.c.po.c:11454
 msgid "Enable PET8296 4K RAM mapping at $9***"
@@ -12713,27 +12679,27 @@ msgstr "Setze SuperPET CPU Schalter auf 'Prog'"
 
 #: src/translate_text.c.po.c:11709
 msgid "Specify 4K to 24K ROM file name at $A000 for 6809"
-msgstr "4K-24K Erweiterungs ROM Datei Name für $A000 für 6809 definieren"
+msgstr "4K-24K Erweiterungs ROM Datei Name für $A000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:11726
 msgid "Specify 4K to 20K ROM file name at $B000 for 6809"
-msgstr "4K-20K Erweiterungs ROM Datei Name für $B000 für 6809 definieren"
+msgstr "4K-20K Erweiterungs ROM Datei Name für $B000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:11743
 msgid "Specify 4K to 16K ROM file name at $C000 for 6809"
-msgstr "4K-16K Erweiterungs ROM Datei Name für $C000 für 6809 definieren"
+msgstr "4K-16K Erweiterungs ROM Datei Name für $C000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:11760
 msgid "Specify 4K to 12K ROM file name at $D000 for 6809"
-msgstr "4K-12K Erweiterungs ROM Datei Name für $D000 für 6809 definieren"
+msgstr "4K-12K Erweiterungs ROM Datei Name für $D000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:11777
 msgid "Specify 2K or 8K ROM file name at $E000 for 6809"
-msgstr "4K-8K Erweiterungs ROM Datei Name für $E000 für 6809 definieren"
+msgstr "4K-8K Erweiterungs ROM Datei Name für $E000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:11794
 msgid "Specify 4K ROM file name at $F000 for 6809"
-msgstr "4K Erweiterungs ROM Datei Name für $F000 für 6809 definieren"
+msgstr "4K Erweiterungs ROM Datei Name für $F000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:11811
 msgid "RGBI colour extension to PET 4032"
@@ -12781,27 +12747,27 @@ msgstr "Userport Diagnose Pin deaktivieren"
 
 #: src/translate_text.c.po.c:11998
 msgid "Specify name of Function low ROM image"
-msgstr "Namen für Funktions ROM Datei (unterer Bereich) definieren"
+msgstr "Namen für Funktions ROM Datei (unterer Bereich) wählen"
 
 #: src/translate_text.c.po.c:12015
 msgid "Specify name of Function high ROM image"
-msgstr "Namen für Funktions ROM Datei (oberer Bereich) definieren"
+msgstr "Namen für Funktions ROM Datei (oberer Bereich) wählen"
 
 #: src/translate_text.c.po.c:12032
 msgid "Specify name of Cartridge 1 low ROM image"
-msgstr "Name für Erweiterungsmodul 1 ROM Datei (unterer Bereich) definieren"
+msgstr "Name für Erweiterungsmodul 1 ROM Datei (unterer Bereich) wählen"
 
 #: src/translate_text.c.po.c:12049
 msgid "Specify name of Cartridge 1 high ROM image"
-msgstr "Name für Erweiterungsmodul 1 ROM Datei (oberer Bereich) definieren"
+msgstr "Name für Erweiterungsmodul 1 ROM Datei (oberer Bereich) wählen"
 
 #: src/translate_text.c.po.c:12066
 msgid "Specify name of Cartridge 2 low ROM image"
-msgstr "Name für Erweiterungsmodul 2 ROM Datei (unterer Bereich) definieren"
+msgstr "Name für Erweiterungsmodul 2 ROM Datei (unterer Bereich) wählen"
 
 #: src/translate_text.c.po.c:12083
 msgid "Specify name of Cartridge 2 high ROM image"
-msgstr "Name für Erweiterungsmodul 2 ROM Datei (oberer Bereich) definieren"
+msgstr "Name für Erweiterungsmodul 2 ROM Datei (oberer Bereich) wählen"
 
 #: src/translate_text.c.po.c:12100
 msgid "Specify size of RAM installed in kb (16/32/64)"
@@ -12850,21 +12816,21 @@ msgstr "Wähle VIC-II Modell (6569/6569r1/8565/6567/8562/6567r56a/6572)"
 #: src/translate_text.c.po.c:12287
 msgid "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)"
 msgstr ""
-"Name für Druckertreiber für Gerät #4 definieren. (ascii/mps803/nl10/raw)"
+"Name für Druckertreiber für Gerät #4 wählen. (ascii/mps803/nl10/raw)"
 
 #: src/translate_text.c.po.c:12304
 msgid "Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)"
 msgstr ""
-"Name für Druckertreiber für Gerät #5 definieren. (ascii/mps803/nl10/raw)"
+"Name für Druckertreiber für Gerät #5 wählen. (ascii/mps803/nl10/raw)"
 
 #: src/translate_text.c.po.c:12321
 msgid "Specify name of printer driver for device #6. (1520/raw)"
-msgstr "Name für Druckertreiber für Gerät #6 definieren. (1520/raw)"
+msgstr "Name für Druckertreiber für Gerät #6 wählen. (1520/raw)"
 
 #: src/translate_text.c.po.c:12338
 msgid ""
 "Specify name of printer driver for the userport printer. (ascii/nl10/raw)"
-msgstr "Name für Userport Druckertreiber definieren. (ascii/nl10/raw)"
+msgstr "Name für Userport Druckertreiber wählen. (ascii/nl10/raw)"
 
 #: src/translate_text.c.po.c:12355
 msgid "Set device type for device #4 (0: None, 1: Filesystem, 2: Real)"
@@ -12892,39 +12858,39 @@ msgstr "Userport Drucker Emulation deaktivieren"
 
 #: src/translate_text.c.po.c:12457
 msgid "Specify name of output device for device #4"
-msgstr "Name für Druckerausgabe Datei Gerät #4 definieren"
+msgstr "Name für Druckerausgabe Datei Gerät #4 wählen"
 
 #: src/translate_text.c.po.c:12474
 msgid "Specify name of output device for device #5"
-msgstr "Name für Druckerausgabe Datei Gerät #5 definieren"
+msgstr "Name für Druckerausgabe Datei Gerät #5 wählen"
 
 #: src/translate_text.c.po.c:12491
 msgid "Specify name of output device for device #6"
-msgstr "Name für Druckerausgabe Datei Gerät #6 definieren"
+msgstr "Name für Druckerausgabe Datei Gerät #6 wählen"
 
 #: src/translate_text.c.po.c:12508
 msgid "Specify name of output device for the userport printer"
-msgstr "Name für Druckerausgabe Datei Userport definieren"
+msgstr "Name für Druckerausgabe Datei Userport wählen"
 
 #: src/translate_text.c.po.c:12525
 msgid "Specify name of printer text device or dump file"
-msgstr "Name für Druckerausgabe Textgerät oder Dump Datei definieren"
+msgstr "Name für Druckerausgabe Textgerät oder Dump Datei wählen"
 
 #: src/translate_text.c.po.c:12542
 msgid "Specify printer text output device for printer #4"
-msgstr "Textausgabe Gerät für Drucker #4 definieren"
+msgstr "Textausgabe Gerät für Drucker #4 wählen"
 
 #: src/translate_text.c.po.c:12559
 msgid "Specify printer text output device for printer #5"
-msgstr "Textausgabe Gerät für Drucker #5 definieren"
+msgstr "Textausgabe Gerät für Drucker #5 wählen"
 
 #: src/translate_text.c.po.c:12576
 msgid "Specify printer text output device for printer #6"
-msgstr "Textausgabe Gerät für Drucker #6 definieren"
+msgstr "Textausgabe Gerät für Drucker #6 wählen"
 
 #: src/translate_text.c.po.c:12593
 msgid "Specify printer text output device for userport printer"
-msgstr "Textausgabe Gerät für Userport Drucker definieren"
+msgstr "Textausgabe Gerät für Userport Drucker wählen"
 
 #: src/translate_text.c.po.c:12610
 msgid "Enable the video cache"
@@ -12936,19 +12902,19 @@ msgstr "Video Cache deaktivieren"
 
 #: src/translate_text.c.po.c:12645
 msgid "Specify name of first RS232 device"
-msgstr "Name für erstes RS232 Gerät definieren"
+msgstr "Name für erstes RS232 Gerät wählen"
 
 #: src/translate_text.c.po.c:12662
 msgid "Specify name of second RS232 device"
-msgstr "Name für zweites RS232 Gerät definieren"
+msgstr "Name für zweites RS232 Gerät wählen"
 
 #: src/translate_text.c.po.c:12679
 msgid "Specify name of third RS232 device"
-msgstr "Name für drittes RS232 Gerät definieren"
+msgstr "Name für drittes RS232 Gerät wählen"
 
 #: src/translate_text.c.po.c:12696
 msgid "Specify name of fourth RS232 device"
-msgstr "Name für viertes RS232 Gerät definieren"
+msgstr "Name für viertes RS232 Gerät wählen"
 
 #: src/translate_text.c.po.c:12731
 msgid "Disable RS232 userport emulation"
@@ -12964,7 +12930,7 @@ msgstr "Baudrate für RS232 Userport Emulation setzen"
 
 #: src/translate_text.c.po.c:12782
 msgid "Specify VICE RS232 device for userport"
-msgstr "VICE RS232 Gerät für Userport definieren"
+msgstr "VICE RS232 Gerät für Userport wählen"
 
 #: src/translate_text.c.po.c:12799
 msgid "Enable IEC device emulation for device #4"
@@ -13194,43 +13160,43 @@ msgstr "VIC-1112 IEEE488 Schnittstelle deaktivieren"
 
 #: src/translate_text.c.po.c:13729
 msgid "Specify 4/8/16K extension ROM name at $2000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $2000 definieren"
+msgstr "4/8/16K Erweiterungs ROM Datei Name für $2000 wählen"
 
 #: src/translate_text.c.po.c:13746
 msgid "Specify 4/8/16K extension ROM name at $4000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $4000 definieren"
+msgstr "4/8/16K Erweiterungs ROM Datei Name für $4000 wählen"
 
 #: src/translate_text.c.po.c:13763
 msgid "Specify 4/8/16K extension ROM name at $6000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $6000 definieren"
+msgstr "4/8/16K Erweiterungs ROM Datei Name für $6000 wählen"
 
 #: src/translate_text.c.po.c:13780
 msgid "Specify 4/8K extension ROM name at $A000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $A000 definieren"
+msgstr "4/8/16K Erweiterungs ROM Datei Name für $A000 wählen"
 
 #: src/translate_text.c.po.c:13797
 msgid "Specify 4K extension ROM name at $B000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $B000 definieren"
+msgstr "4/8/16K Erweiterungs ROM Datei Name für $B000 wählen"
 
 #: src/translate_text.c.po.c:13814
 msgid "Specify generic extension ROM name"
-msgstr "Generisches Erweiterungs ROM definieren"
+msgstr "Generisches Erweiterungs ROM wählen"
 
 #: src/translate_text.c.po.c:13831
 msgid "Specify Mega-Cart extension ROM name"
-msgstr "Mega-Cart Erweiterungs ROM definieren"
+msgstr "Mega-Cart Erweiterungs ROM wählen"
 
 #: src/translate_text.c.po.c:13848
 msgid "Specify Final Expansion extension ROM name"
-msgstr "Name für Final Expansion Erweiterungs ROM definieren"
+msgstr "Name für Final Expansion Erweiterungs ROM wählen"
 
 #: src/translate_text.c.po.c:13865
 msgid "Specify Vic Flash Plugin extension ROM name"
-msgstr "Name für Vic Flash Plugin Erweiterungs ROM definieren"
+msgstr "Name für Vic Flash Plugin Erweiterungs ROM wählen"
 
 #: src/translate_text.c.po.c:13882
 msgid "Specify UltiMem extension ROM name"
-msgstr "UltiMem Erweiterungs ROM definieren"
+msgstr "UltiMem Erweiterungs ROM wählen"
 
 #: src/translate_text.c.po.c:13916
 msgid "Disable Final Expansion write back to ROM file"
@@ -13238,7 +13204,7 @@ msgstr "Final Expansion ROM Schreibzugriff deaktivieren"
 
 #: src/translate_text.c.po.c:13933
 msgid "Set Mega-Cart NvRAM filename"
-msgstr "Mega-Cart NvRAM Imagename definieren"
+msgstr "Mega-Cart NvRAM Imagename wählen"
 
 #: src/translate_text.c.po.c:13967
 msgid "Disable Mega-Cart NvRAM writeback"
@@ -13350,7 +13316,7 @@ msgstr "Benutze externe Palette (Datei)"
 
 #: src/translate_text.c.po.c:14494
 msgid "Specify name of file of external palette"
-msgstr "Dateiname für externe Palette definieren"
+msgstr "Dateiname für externe Palette wählen"
 
 #: src/translate_text.c.po.c:14528
 msgid "Select fullscreen device"
@@ -13429,14 +13395,12 @@ msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Disk Image als Laufwerk #11 benutzen (Schreibzugriff, wenn möglich)"
 
 #: src/translate_text.c.po.c:14817
-#, fuzzy
 msgid "Enable Datasette"
-msgstr "Tastaturbelegung aktivieren"
+msgstr "Datasette aktivieren"
 
 #: src/translate_text.c.po.c:14834
-#, fuzzy
 msgid "Disable Datasette"
-msgstr "Tastaturbelegung deaktivieren"
+msgstr "Datasette deaktivieren"
 
 #: src/translate_text.c.po.c:14851
 msgid "Enable automatic Datasette-Reset"
@@ -13574,7 +13538,7 @@ msgstr "Lokale Adresse für die Monitorfernsteuerung"
 
 #: src/translate_text.c.po.c:15415
 msgid "Specify name of the flip list file image"
-msgstr "Namen für Fliplist Datei definieren"
+msgstr "Namen für Fliplist Datei wählen"
 
 #: src/translate_text.c.po.c:15432
 msgid "Show a list of the available options and exit normally"
@@ -13654,7 +13618,7 @@ msgstr "Setze zusätzliche Tastaturbuffer Verzögerung (0: benutze Standard)"
 
 #: src/translate_text.c.po.c:15810
 msgid "Specify log file name"
-msgstr "Logdateiname definieren"
+msgstr "Logdateiname wählen"
 
 #: src/translate_text.c.po.c:15827
 msgid "Enable verbose log output."
@@ -13785,8 +13749,7 @@ msgstr ""
 msgid ""
 "Specify the pause interval when audio underflows (clicks) happen. 0 means no "
 "pause is done."
-msgstr ""
-"Pause Interval bei Audio unterlauf (Klicks) definineren. (0: keine Pause)"
+msgstr "Pause Interval bei Audio Unterlauf (Klicks) wählen. (0: keine Pause)"
 
 #: src/translate_text.c.po.c:16405
 msgid "Specify the sound volume"
@@ -13794,7 +13757,7 @@ msgstr "Sound Lautstärke spezifieren"
 
 #: src/translate_text.c.po.c:16439
 msgid "Define search path to locate system files"
-msgstr "Suchpfad für Systemdateien definieren"
+msgstr "Suchpfad für Systemdateien wählen"
 
 #: src/translate_text.c.po.c:16456
 msgid "Enable general mechanisms for fast disk/tape emulation"
@@ -13826,11 +13789,11 @@ msgstr "Iso Sprachcode spezifizieren"
 
 #: src/translate_text.c.po.c:16592
 msgid "Specify name of PLUS256K image"
-msgstr "Name der PLUS256K Image Datei definieren"
+msgstr "Name der PLUS256K Image Datei wählen"
 
 #: src/translate_text.c.po.c:16609
 msgid "Specify name of PLUS60K image"
-msgstr "Name der PLUS60K Image Datei definieren"
+msgstr "Name der PLUS60K Image Datei wählen"
 
 #: src/translate_text.c.po.c:16626
 msgid "Base address of the PLUS60K expansion. (0xD040/0xD100)"
@@ -13838,7 +13801,7 @@ msgstr "Basis Adresse für PLUS60K Erweiterung. (0xD040/0xD100)"
 
 #: src/translate_text.c.po.c:16643
 msgid "Specify name of 256K image"
-msgstr "Name der 256K Image Datei definieren"
+msgstr "Name der 256K Image Datei wählen"
 
 #: src/translate_text.c.po.c:16660
 msgid "Base address of the 256K expansion. (0xDE00/0xDE80/0xDF00/0xDF80)"
@@ -13877,7 +13840,7 @@ msgstr "16kB Simons Basic Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:16796
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
-msgstr "DTV Revision definieren (2: DTV2, 3: DTV3)"
+msgstr "DTV Revision wählen (2: DTV2, 3: DTV3)"
 
 #: src/translate_text.c.po.c:16813
 msgid "Enable DTV blitter logs."
@@ -13897,7 +13860,7 @@ msgstr "DTV DMA Logs deaktivieren."
 
 #: src/translate_text.c.po.c:16881
 msgid "Specify name of C64DTV ROM image"
-msgstr "Name von C64DTV ROM Datei definieren"
+msgstr "Name von C64DTV ROM Datei wählen"
 
 #: src/translate_text.c.po.c:16915
 msgid "Disable writes to C64DTV ROM image"
@@ -13993,11 +13956,11 @@ msgstr "TurboMaster Taktgeschwindigkeitsschalter auf 1Mhz setzen"
 
 #: src/translate_text.c.po.c:17444
 msgid "Specify TurboMaster ROM 1 filename"
-msgstr "TurboMaster ROM 1 definieren"
+msgstr "TurboMaster ROM 1 wählen"
 
 #: src/translate_text.c.po.c:17461
 msgid "Specify TurboMaster ROM 2 filename"
-msgstr "TurboMaster ROM 2 definieren"
+msgstr "TurboMaster ROM 2 wählen"
 
 #: src/translate_text.c.po.c:17478
 msgid "Enable EasyFlash jumper"
@@ -14028,14 +13991,12 @@ msgid "Disable the userport DigiMAX device"
 msgstr "Userport DigiMAX Gerät deaktivieren"
 
 #: src/translate_text.c.po.c:17614
-#, fuzzy
 msgid "Enable the Short Bus DigiMAX expansion"
-msgstr "RamCart Erweiterung aktivieren"
+msgstr "Shortbus DigiMAX Erweiterung aktivieren"
 
 #: src/translate_text.c.po.c:17631
-#, fuzzy
 msgid "Disable the Short Bus DigiMAX expansion"
-msgstr "RamCart Erweiterung deaktivieren"
+msgstr "Shortbus DigiMAX Erweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:17665
 msgid "Disable the DigiMAX cartridge"
@@ -14046,9 +14007,8 @@ msgid "Base address of the DigiMAX cartridge"
 msgstr "Basis Adresse für DigiMAX Erweiterung"
 
 #: src/translate_text.c.po.c:17699
-#, fuzzy
 msgid "Base address of the Short Bus DigiMAX expansion"
-msgstr "Basis Adresse für DigiMAX Erweiterung"
+msgstr "Basis Adresse für Shortbus DigiMAX Erweiterung"
 
 #: src/translate_text.c.po.c:17716
 msgid "Enable the DS12C887 RTC cartridge"
@@ -14286,7 +14246,7 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "Positions Keymap Datei auswählen"
 
 #~ msgid "Specify index of keymap file"
-#~ msgstr "Index der Keymap Datei definieren"
+#~ msgstr "Index der Keymap Datei wählen"
 
 #~ msgid "256K RAM Expansion"
 #~ msgstr "256K RAM Erweiterung"
@@ -14436,28 +14396,28 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "Größe der RAM Speichererweiterung"
 
 #~ msgid "Set input device for joystick #1"
-#~ msgstr "Input Gerät für Joystick #1 definieren"
+#~ msgstr "Input Gerät für Joystick #1 wählen"
 
 #~ msgid "Set input device for joystick #2"
-#~ msgstr "Input Gerät für Joystick #2 definieren"
+#~ msgstr "Input Gerät für Joystick #2 wählen"
 
 #~ msgid "Set input device for extra joystick #1"
-#~ msgstr "Input Gerät für extra Joystick #1 definieren"
+#~ msgstr "Input Gerät für extra Joystick #1 wählen"
 
 #~ msgid "Set input device for extra joystick #2"
-#~ msgstr "Input Gerät für extra Joystick #2 definieren"
+#~ msgstr "Input Gerät für extra Joystick #2 wählen"
 
 #~ msgid "Specify PET model to emulate"
 #~ msgstr "PET Modell spezifizieren"
 
 #~ msgid "Specify memory configuration"
-#~ msgstr "Speicher Konfiguration definieren"
+#~ msgstr "Speicher Konfiguration wählen"
 
 #~ msgid "Set lightpen type"
 #~ msgstr "Lichtgriffel Type bestimmen"
 
 #~ msgid "Specify baudrate of 4th RS232 device"
-#~ msgstr "Baudrate für viertes RS232 Gerät definieren"
+#~ msgstr "Baudrate für viertes RS232 Gerät wählen"
 
 #~ msgid "Disable checkpoint `checknum'."
 #~ msgstr "Checkpoint `Checknum' deaktivieren."
