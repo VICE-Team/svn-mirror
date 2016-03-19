@@ -1102,6 +1102,8 @@
 		</dict>
 		<key>_VIC20_</key>
 		<dict>
+			<key>Mike&apos;s VFLI modification</key>
+			<string>VFLImod,b</string>
 			<key>VIC</key>
 			<dict>
 				<key>Border Mode</key>
