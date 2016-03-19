@@ -204,6 +204,8 @@ UI_MENU_DEFINE_TOGGLE(RAMBlock3)
 UI_MENU_DEFINE_TOGGLE(RAMBlock5)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 
+UI_MENU_DEFINE_TOGGLE(VFLImod)
+
 const ui_menu_entry_t vic20_hardware_menu[] = {
     { "Select VIC20 model",
       MENU_ENTRY_SUBMENU,
@@ -259,6 +261,10 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)tapeport_devices_menu },
+    { "VFLI modification",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VFLImod_callback,
+      NULL },
 #ifdef HAVE_TFE
     { CARTRIDGE_NAME_TFE " settings (MasC=uerade)",
       MENU_ENTRY_SUBMENU,
