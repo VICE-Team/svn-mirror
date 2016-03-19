@@ -500,6 +500,7 @@ static ui_menu_entry_t iocollision_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(IEEE488)
+UI_MENU_DEFINE_TOGGLE(VFLImod)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_VIC20_NAME_MEGACART, UI_MENU_TYPE_NORMAL,
@@ -516,6 +517,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       (ui_callback_t)toggle_IEEE488, NULL, NULL },
     { N_("I/O RAM"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, io_ram_submenu },
+    { N_("VFLI modification"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_VFLImod, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_DIGIMAX " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
       NULL, NULL, digimax_vic20_submenu },

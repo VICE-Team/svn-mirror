@@ -65,6 +65,8 @@
 /* The VIC20 memory. */
 BYTE mem_ram[VIC20_RAM_SIZE];
 
+BYTE vfli_ram[0x4000]; /* for mikes vfli modification */
+
 /* Last data read/write by the cpu, this value lingers on the C(PU)-bus and
    gets used when the CPU reads from unconnected space on the C(PU)-bus */
 BYTE vic20_cpu_last_data;
@@ -142,9 +144,16 @@ static BYTE ram_peek(WORD addr)
 
 /* ------------------------------------------------------------------------- */
 
+extern int vic20_vflihack_userport;
+
 static BYTE colorram_read(WORD addr)
 {
-    vic20_cpu_last_data = mem_ram[addr] | (vic20_v_bus_last_data & 0xf0);
+    if (vflimod_enabled) {
+        addr = (addr & 0x3ff) | (vic20_vflihack_userport << 10);
+        vic20_cpu_last_data = vfli_ram[addr] | (vic20_v_bus_last_data & 0xf0);
+    } else {
+        vic20_cpu_last_data = mem_ram[addr] | (vic20_v_bus_last_data & 0xf0);
+    }
     vic20_v_bus_last_data = vic20_cpu_last_data; /* TODO verify this */
     return vic20_cpu_last_data;
 }
@@ -153,7 +162,12 @@ static void colorram_store(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
     vic20_v_bus_last_data = vic20_cpu_last_data; /* TODO verify this */
-    mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value & 0xf;
+    if (vflimod_enabled) {
+        addr = (addr & 0x3ff) | (vic20_vflihack_userport << 10);
+        vfli_ram[addr] = value & 0xf;
+    } else {
+        mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value & 0xf;
+    }
 }
 
 static BYTE colorram_peek(WORD addr)
@@ -451,7 +465,7 @@ void mem_initialize_memory(void)
             vic20io2_read, vic20io2_store, io2_peek,
             NULL, 0);
 
-    /* Setup I/O3 at the expansion port (includes emulator ID) */
+    /* Setup I/O3 at the expansion port */
     set_mem(0x9c, 0x9f,
             vic20io3_read, vic20io3_store, io3_peek,
             NULL, 0);
@@ -514,6 +528,7 @@ void mem_toggle_watchpoints(int flag, void *context)
 void mem_powerup(void)
 {
     ram_init(mem_ram, 0x8000);
+    ram_init(vfli_ram, 0x4000);
     memset(mem_ram + 0x8000, 0, 0x8000);
 }
 

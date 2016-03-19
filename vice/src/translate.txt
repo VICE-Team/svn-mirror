@@ -789,6 +789,12 @@ IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY
 /* autostart.c */
 IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY
 
+/* vic20/vic20-cmdline-options.c */
+IDCLS_ENABLE_VFLI_MOD
+
+/* vic20/vic20-cmdline-options.c */
+IDCLS_DISABLE_VFLI_MOD
+
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */

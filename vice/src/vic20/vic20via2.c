@@ -51,6 +51,7 @@
 #include "rsuser.h"
 #endif
 
+int vic20_vflihack_userport = 0xff;
 
 void via2_store(WORD addr, BYTE data)
 {
@@ -135,6 +136,9 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
                       WORD addr)
 {
+    /* for mike's VFLI hack, PB0-PB3 are used as A10-A13 of the color ram */
+    vic20_vflihack_userport = byte & 0x0f;
+
     store_userport_pbx(byte);
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)

@@ -4307,6 +4307,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_TR, "Otomatik baþlatmada rastgele gecikmeyi pasifleþtir"},
 #endif
 
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_VFLI_MOD,    N_("Enable VFLI modification.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_VFLI_MOD_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_VFLI_MOD_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_VFLI_MOD_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_VFLI_MOD_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_VFLI_MOD_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_VFLI_MOD_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_VFLI_MOD_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_VFLI_MOD_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_VFLI_MOD_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_VFLI_MOD_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_VFLI_MOD_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_VFLI_MOD_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_VFLI_MOD,    N_("Disable VFLI modification.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_VFLI_MOD_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_VFLI_MOD_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_VFLI_MOD_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_VFLI_MOD_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_VFLI_MOD_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_VFLI_MOD_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_VFLI_MOD_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_VFLI_MOD_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_VFLI_MOD_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_VFLI_MOD_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_VFLI_MOD_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_VFLI_MOD_TR, ""},  /* fuzzy */
+#endif
+
 /* machine.c */
 /* en */ {IDCLS_SET_MACHINE_JAM_ACTION,    N_("Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)")},
 #ifdef HAS_TRANSLATION
