@@ -482,6 +482,15 @@ static tui_menu_item_def_t megacart_menu_items[] = {
     { NULL }
 };
 
+TUI_MENU_DEFINE_TOGGLE(VFLImod)
+
+static tui_menu_item_def_t vflimod_menu_items[] = {
+    { "_Enable VFLI modification:", "Enable VFLI modification",
+      toggle_VFLImod_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
 /* ------------------------------------------------------------------------- */
 
 int vic20ui_init(void)
@@ -492,6 +501,7 @@ int vic20ui_init(void)
     tui_menu_t ui_ultimem_submenu;
     tui_menu_t ui_megacart_submenu;
     tui_menu_t ui_io_ram_submenu;
+    tui_menu_t ui_vflimod_submenu;
 
     ui_create_main_menu(1, 1, 1, 0x16, 1, drivevic20_settings_submenu);
 
@@ -558,6 +568,16 @@ int vic20ui_init(void)
     tui_menu_add_submenu(ui_ioextensions_submenu, "_I/O RAM settings...",
                          "I/O RAM settings",
                          ui_io_ram_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+
+    ui_vflimod_submenu = tui_menu_create("VFLI modification settings", 1);
+
+    tui_menu_add(ui_vflimod_submenu, vflimod_menu_items);
+
+    tui_menu_add_submenu(ui_ioextensions_submenu, "_VFLI modification settings...",
+                         "VFLI modification  settings",
+                         ui_vflimod_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
