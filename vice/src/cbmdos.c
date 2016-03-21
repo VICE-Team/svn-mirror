@@ -250,11 +250,11 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     log_debug("CBMDOS parsed cmd: '%s'", cmd_parse->parsecmd);
 #endif
 
-    /* Set filetype according secondary address, if it was not specified */
-    cmd_parse->filetype = (cmd_parse->secondary < 2) ? CBMDOS_FT_PRG : CBMDOS_FT_SEQ;
+    /* Preset the file-type if the LOAD/SAVE secondary addresses are used. */
+    cmd_parse->filetype = (cmd_parse->secondary < 2) ? CBMDOS_FT_PRG : 0;
 
     /*
-     * Change modes ?
+     * Change type or mode?
      */
     while (cmdlen > 0) {
         cmdlen--;
