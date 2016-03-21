@@ -348,6 +348,48 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
     if (filetype == EXPERT_FILE) {
         sprintf(title, "Select Expert Cartridge file");
     }
+    if (filetype == SCREENSHOT_BMP_FILE_SCREEN0 || filetype == SCREENSHOT_BMP_FILE_SCREEN1) {
+        sprintf(title, "Select bmp file");
+    }
+    if (filetype == SCREENSHOT_DOODLE_FILE_SCREEN0 || filetype == SCREENSHOT_DOODLE_FILE_SCREEN1) {
+        sprintf(title, "Select doodle file");
+    }
+    if (filetype == SCREENSHOT_DOODLE_COMPRESSED_FILE_SCREEN0 || filetype == SCREENSHOT_DOODLE_COMPRESSED_FILE_SCREEN1) {
+        sprintf(title, "Select compressed doodle file");
+    }
+#ifdef HAVE_GIF
+    if (filetype == SCREENSHOT_GIF_FILE_SCREEN0 || filetype == SCREENSHOT_GIF_FILE_SCREEN1) {
+        sprintf(title, "Select gif file");
+    }
+#endif
+    if (filetype == SCREENSHOT_GODOT_FILE_SCREEN0 || filetype == SCREENSHOT_GODOT_FILE_SCREEN1) {
+        sprintf(title, "Select godot file");
+    }
+    if (filetype == SCREENSHOT_IFF_FILE_SCREEN0 || filetype == SCREENSHOT_IFF_FILE_SCREEN1) {
+        sprintf(title, "Select iff file");
+    }
+#ifdef HAVE_JPEG
+    if (filetype == SCREENSHOT_JPEG_FILE_SCREEN0 || filetype == SCREENSHOT_JPEG_FILE_SCREEN1) {
+        sprintf(title, "Select jpeg file");
+    }
+#endif
+    if (filetype == SCREENSHOT_KOALA_FILE_SCREEN0 || filetype == SCREENSHOT_KOALA_FILE_SCREEN1) {
+        sprintf(title, "Select koala file");
+    }
+    if (filetype == SCREENSHOT_KOALA_COMPRESSED_FILE_SCREEN0 || filetype == SCREENSHOT_KOALA_COMPRESSED_FILE_SCREEN1) {
+        sprintf(title, "Select compressed koala file");
+    }
+    if (filetype == SCREENSHOT_PCX_FILE_SCREEN0 || filetype == SCREENSHOT_PCX_FILE_SCREEN1) {
+        sprintf(title, "Select pcx file");
+    }
+#ifdef HAVE_PNG
+    if (filetype == SCREENSHOT_PNG_FILE_SCREEN0 || filetype == SCREENSHOT_PNG_FILE_SCREEN1) {
+        sprintf(title, "Select png file");
+    }
+#endif
+    if (filetype == SCREENSHOT_PPM_FILE_SCREEN0 || filetype == SCREENSHOT_PPM_FILE_SCREEN1) {
+        sprintf(title, "Select ppm file");
+    }
     if (filetype == C128_INT_FUNC_FILE) {
         sprintf(title, "Select Internal Function ROM file");
     }
@@ -722,6 +764,84 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("SpeechImage", fullpath);
         } else if (last_filetype[1] == EXPERT_FILE) {
             resources_set_string("Expertfilename", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_BMP_FILE_SCREEN0) {
+            if (screenshot_save("BMP", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write bmp screenshot %s (.bmp)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_BMP_FILE_SCREEN1) {
+            if (screenshot_save("BMP", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write bmp screenshot %s (.bmp)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_DOODLE_FILE_SCREEN0) {
+            if (screenshot_save("DOODLE", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write doodle screenshot %s (.dd)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_DOODLE_FILE_SCREEN1) {
+            if (screenshot_save("DOODLE", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write doodle screenshot %s (.dd)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_DOODLE_COMPRESSED_FILE_SCREEN0) {
+            if (screenshot_save("DOODLE_COMPRESSED", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write compressed doodle screenshot %s (.jj)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_DOODLE_COMPRESSED_FILE_SCREEN1) {
+            if (screenshot_save("DOODLE_COMPRESSED", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write compressed doodle screenshot %s (.jj)", fullpath);
+#ifdef HAVE_GIF
+        } else if (last_filetype[1] == SCREENSHOT_GIF_FILE_SCREEN0) {
+            if (screenshot_save("GIF", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write gif screenshot %s (.gif)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_GIF_FILE_SCREEN1) {
+            if (screenshot_save("GIF", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write gif screenshot %s (.gif)", fullpath);
+#endif
+        } else if (last_filetype[1] == SCREENSHOT_GODOT_FILE_SCREEN0) {
+            if (screenshot_save("4BT", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write godot screenshot %s (.4bt)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_GODOT_FILE_SCREEN1) {
+            if (screenshot_save("4BT", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write godot screenshot %s (.4bt)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_IFF_FILE_SCREEN0) {
+            if (screenshot_save("IFF", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write iff screenshot %s (.iff)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_IFF_FILE_SCREEN1) {
+            if (screenshot_save("IFF", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write iff screenshot %s (.iff)", fullpath);
+#ifdef HAVE_JPEG
+        } else if (last_filetype[1] == SCREENSHOT_JPEG_FILE_SCREEN0) {
+            if (screenshot_save("JPEG", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write jpeg screenshot %s (.jpg)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_JPEG_FILE_SCREEN1) {
+            if (screenshot_save("JPEG", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write jpeg screenshot %s (.jpg)", fullpath);
+#endif
+        } else if (last_filetype[1] == SCREENSHOT_KOALA_FILE_SCREEN0) {
+            if (screenshot_save("KOALA", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write koala screenshot %s (.koa)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_KOALA_FILE_SCREEN1) {
+            if (screenshot_save("KOALA", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write koala screenshot %s (.koa)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_KOALA_COMPRESSED_FILE_SCREEN0) {
+            if (screenshot_save("KOALA_COMPRESSED", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write compressed koala screenshot %s (.gg)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_KOALA_COMPRESSED_FILE_SCREEN1) {
+            if (screenshot_save("KOALA_COMPRESSED", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write compressed koala screenshot %s (.gg)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_PCX_FILE_SCREEN0) {
+            if (screenshot_save("PCX", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write pcx screenshot %s (.pcx)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_PCX_FILE_SCREEN1) {
+            if (screenshot_save("PCX", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write pcx screenshot %s (.pcx)", fullpath);
+#ifdef HAVE_PNG
+        } else if (last_filetype[1] == SCREENSHOT_PNG_FILE_SCREEN0) {
+            if (screenshot_save("PNG", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write png screenshot %s (.png)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_PNG_FILE_SCREEN1) {
+            if (screenshot_save("PNG", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write png screenshot %s (.png)", fullpath);
+#endif
+        } else if (last_filetype[1] == SCREENSHOT_PPM_FILE_SCREEN0) {
+            if (screenshot_save("PPM", fullpath, windowlist[0]->canvas) < 0)
+            ui_error("Failed to write ppm screenshot %s (.ppm)", fullpath);
+        } else if (last_filetype[1] == SCREENSHOT_PPM_FILE_SCREEN1) {
+            if (screenshot_save("PPM", fullpath, windowlist[1]->canvas) < 0)
+            ui_error("Failed to write ppm screenshot %s (.ppm)", fullpath);
         } else if (last_filetype[1] == C128_INT_FUNC_FILE) {
             resources_set_string("InternalFunctionName", fullpath);
         } else if (last_filetype[1] == C128_EXT_FUNC_FILE) {

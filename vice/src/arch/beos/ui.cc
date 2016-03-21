@@ -1015,6 +1015,84 @@ void ui_dispatch_events(void)
                     resources_set_int_sprintf("AttachDevice%dReadonly", !res_val, attachdrive);
                     break;
                 }
+            case MENU_SCREENSHOT_BMP_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_BMP_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_BMP_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_BMP_FILE_SCREEN1, (void*)0);
+                break;
+            case MENU_SCREENSHOT_DOODLE_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_DOODLE_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_DOODLE_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_DOODLE_FILE_SCREEN1, (void*)0);
+                break;
+            case MENU_SCREENSHOT_DOODLE_COMPRESSED_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_DOODLE_COMPRESSED_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_DOODLE_COMPRESSED_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_DOODLE_COMPRESSED_FILE_SCREEN1, (void*)0);
+                break;
+#ifdef HAVE_GIF
+            case MENU_SCREENSHOT_GIF_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_GIF_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_GIF_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_GIF_FILE_SCREEN1, (void*)0);
+                break;
+#endif
+            case MENU_SCREENSHOT_GODOT_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_GODOT_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_GODOT_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_GODOT_FILE_SCREEN1, (void*)0);
+                break;
+            case MENU_SCREENSHOT_IFF_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_IFF_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_IFF_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_IFF_FILE_SCREEN1, (void*)0);
+                break;
+#ifdef HAVE_JPEG
+            case MENU_SCREENSHOT_JPEG_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_JPEG_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_JPEG_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_JPEG_FILE_SCREEN1, (void*)0);
+                break;
+#endif
+            case MENU_SCREENSHOT_KOALA_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_KOALA_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_KOALA_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_KOALA_FILE_SCREEN1, (void*)0);
+                break;
+            case MENU_SCREENSHOT_KOALA_COMPRESSED_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_KOALA_COMPRESSED_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_KOALA_COMPRESSED_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_KOALA_COMPRESSED_FILE_SCREEN1, (void*)0);
+                break;
+            case MENU_SCREENSHOT_PCX_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_PCX_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_PCX_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_PCX_FILE_SCREEN1, (void*)0);
+                break;
+#ifdef HAVE_PNG
+            case MENU_SCREENSHOT_PNG_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_PNG_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_PNG_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_PNG_FILE_SCREEN1, (void*)0);
+                break;
+#endif
+            case MENU_SCREENSHOT_PPM_SCREEN0:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_PPM_FILE_SCREEN0, (void*)0);
+                break;
+            case MENU_SCREENSHOT_PPM_SCREEN1:
+                ui_select_file(B_SAVE_PANEL, SCREENSHOT_PPM_FILE_SCREEN1, (void*)0);
+                break;
             case MESSAGE_SET_RESOURCE:
                 {
                     const char *res_name;

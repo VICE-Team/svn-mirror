@@ -93,7 +93,7 @@ void vicemenu_tune_menu_add(int tune)
     }
 }
 
-BMenuBar *menu_create(int machine_class)
+BMenuBar *menu_create(int machine_class, int window_nr)
 {
     BMenuBar *menubar;
     BMenu *uppermenu, *menu, *submenu, *extsubmenu;
@@ -255,6 +255,50 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Load existing snapshot", new BMessage(MENU_EVENT_START_MODE_LOAD)));
             menu->AddItem(new BMenuItem("Start with Reset", new BMessage(MENU_EVENT_START_MODE_RESET)));
             menu->AddItem(new BMenuItem("Overwrite Playback", new BMessage(MENU_EVENT_START_MODE_PLAYBACK)));
+    }
+
+    if (machine_class != VICE_MACHINE_VSID) {
+        uppermenu->AddSeparatorItem();
+        uppermenu->AddItem(menu = new BMenu("Screenshot"));
+            if (window_nr) {
+                menu->AddItem(new BMenuItem("Save bmp screenshot", new BMessage(MENU_SCREENSHOT_BMP_SCREEN1)));
+                menu->AddItem(new BMenuItem("Save doodle screenshot", new BMessage(MENU_SCREENSHOT_DOODLE_SCREEN1)));
+                menu->AddItem(new BMenuItem("Save compressed doodle screenshot", new BMessage(MENU_SCREENSHOT_DOODLE_COMPRESSED_SCREEN1)));
+#ifdef HAVE_GIF
+                menu->AddItem(new BMenuItem("Save gif screenshot", new BMessage(MENU_SCREENSHOT_GIF_SCREEN1)));
+#endif
+                menu->AddItem(new BMenuItem("Save godot screenshot", new BMessage(MENU_SCREENSHOT_GODOT_SCREEN1)));
+                menu->AddItem(new BMenuItem("Save iff screenshot", new BMessage(MENU_SCREENSHOT_IFF_SCREEN1)));
+#ifdef HAVE_JPEG
+                menu->AddItem(new BMenuItem("Save jpeg screenshot", new BMessage(MENU_SCREENSHOT_JPEG_SCREEN1)));
+#endif
+                menu->AddItem(new BMenuItem("Save koala screenshot", new BMessage(MENU_SCREENSHOT_KOALA_SCREEN1)));
+                menu->AddItem(new BMenuItem("Save compressed koala screenshot", new BMessage(MENU_SCREENSHOT_KOALA_COMPRESSED_SCREEN1)));
+                menu->AddItem(new BMenuItem("Save pcx screenshot", new BMessage(MENU_SCREENSHOT_PCX_SCREEN1)));
+#ifdef HAVE_PNG
+                menu->AddItem(new BMenuItem("Save png screenshot", new BMessage(MENU_SCREENSHOT_PNG_SCREEN1)));
+#endif
+                menu->AddItem(new BMenuItem("Save ppm screenshot", new BMessage(MENU_SCREENSHOT_PPM_SCREEN1)));
+            } else {
+                menu->AddItem(new BMenuItem("Save bmp screenshot", new BMessage(MENU_SCREENSHOT_BMP_SCREEN0)));
+                menu->AddItem(new BMenuItem("Save doodle screenshot", new BMessage(MENU_SCREENSHOT_DOODLE_SCREEN0)));
+                menu->AddItem(new BMenuItem("Save compressed doodle screenshot", new BMessage(MENU_SCREENSHOT_DOODLE_COMPRESSED_SCREEN0)));
+#ifdef HAVE_GIF
+                menu->AddItem(new BMenuItem("Save gif screenshot", new BMessage(MENU_SCREENSHOT_GIF_SCREEN0)));
+#endif
+                menu->AddItem(new BMenuItem("Save godot screenshot", new BMessage(MENU_SCREENSHOT_GODOT_SCREEN0)));
+                menu->AddItem(new BMenuItem("Save iff screenshot", new BMessage(MENU_SCREENSHOT_IFF_SCREEN0)));
+#ifdef HAVE_JPEG
+                menu->AddItem(new BMenuItem("Save jpeg screenshot", new BMessage(MENU_SCREENSHOT_JPEG_SCREEN0)));
+#endif
+                menu->AddItem(new BMenuItem("Save koala screenshot", new BMessage(MENU_SCREENSHOT_KOALA_SCREEN0)));
+                menu->AddItem(new BMenuItem("Save compressed koala screenshot", new BMessage(MENU_SCREENSHOT_KOALA_COMPRESSED_SCREEN0)));
+                menu->AddItem(new BMenuItem("Save pcx screenshot", new BMessage(MENU_SCREENSHOT_PCX_SCREEN0)));
+#ifdef HAVE_PNG
+                menu->AddItem(new BMenuItem("Save png screenshot", new BMessage(MENU_SCREENSHOT_PNG_SCREEN0)));
+#endif
+                menu->AddItem(new BMenuItem("Save ppm screenshot", new BMessage(MENU_SCREENSHOT_PPM_SCREEN0)));
+            }
     }
 
     if (machine_class == VICE_MACHINE_VSID) {

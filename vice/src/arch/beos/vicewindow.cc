@@ -194,7 +194,7 @@ ViceWindow::ViceWindow(unsigned int width, unsigned int height, char const *titl
     BRect r;
 
     /* create the menubar; key events reserved for the emu */
-    menubar = menu_create(machine_class);
+    menubar = menu_create(machine_class, window_count);
     AddChild(menubar);
     DBG_RECT(("menubar", menubar->Frame()));
     menubar_offset = (int)menubar->Frame().Height() + 1;
