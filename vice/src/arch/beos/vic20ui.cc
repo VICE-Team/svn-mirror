@@ -374,7 +374,7 @@ void vic20_ui_specific(void *msg, void *window)
 
 int vic20ui_init_early(void)
 {
-    vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 1, 0, 1, 1);
+    vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 1, 0, 1, 1, 0);
     return 0;
 }
 
@@ -384,11 +384,11 @@ static void build_joyport_values(void)
 
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         vic20_JoyPort1Device[i].value = i;
-        vic20_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
+        vic20_JoyPort1Device[i].item_id = MENU_JOYPORT1 + i;
         vic20_JoyPort3Device[i].value = i;
-        vic20_JoyPort3Device[i].item_id = MENU_JOYPORT3_00 + i;
+        vic20_JoyPort3Device[i].item_id = MENU_JOYPORT3 + i;
         vic20_JoyPort4Device[i].value = i;
-        vic20_JoyPort4Device[i].item_id = MENU_JOYPORT4_00 + i;
+        vic20_JoyPort4Device[i].item_id = MENU_JOYPORT4 + i;
     }
     vic20_JoyPort1Device[i].value = -1;
     vic20_JoyPort1Device[i].item_id = 0;

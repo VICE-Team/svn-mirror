@@ -89,6 +89,8 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
 ui_res_possible_values plus4_JoyPort1Device[JOYPORT_MAX_DEVICES + 1];
 ui_res_possible_values plus4_JoyPort2Device[JOYPORT_MAX_DEVICES + 1];
 ui_res_possible_values plus4_JoyPort3Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values plus4_JoyPort4Device[JOYPORT_MAX_DEVICES + 1];
+ui_res_possible_values plus4_JoyPort5Device[JOYPORT_MAX_DEVICES + 1];
 
 ui_res_possible_values plus4AciaDevice[] = {
     { 1, MENU_ACIA_RS323_DEVICE_1 },
@@ -111,6 +113,8 @@ ui_res_value_list plus4_ui_res_values[] = {
     { "JoyPort1Device", plus4_JoyPort1Device },
     { "JoyPort2Device", plus4_JoyPort2Device },
     { "JoyPort3Device", plus4_JoyPort3Device },
+    { "JoyPort4Device", plus4_JoyPort4Device },
+    { "JoyPort5Device", plus4_JoyPort5Device },
     { NULL, NULL }
 };
 
@@ -243,7 +247,7 @@ static void plus4_ui_specific(void *msg, void *window)
 
 int plus4ui_init_early(void)
 {
-    vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 1, 1, 1, 0);
+    vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 1, 1, 1, 1, 1);
     return 0;
 }
 
@@ -253,11 +257,15 @@ static void build_joyport_values(void)
 
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         plus4_JoyPort1Device[i].value = i;
-        plus4_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
+        plus4_JoyPort1Device[i].item_id = MENU_JOYPORT1 + i;
         plus4_JoyPort2Device[i].value = i;
-        plus4_JoyPort2Device[i].item_id = MENU_JOYPORT2_00 + i;
+        plus4_JoyPort2Device[i].item_id = MENU_JOYPORT2 + i;
         plus4_JoyPort3Device[i].value = i;
-        plus4_JoyPort3Device[i].item_id = MENU_JOYPORT3_00 + i;
+        plus4_JoyPort3Device[i].item_id = MENU_JOYPORT3 + i;
+        plus4_JoyPort4Device[i].value = i;
+        plus4_JoyPort4Device[i].item_id = MENU_JOYPORT4 + i;
+        plus4_JoyPort5Device[i].value = i;
+        plus4_JoyPort5Device[i].item_id = MENU_JOYPORT5 + i;
     }
     plus4_JoyPort1Device[i].value = -1;
     plus4_JoyPort1Device[i].item_id = 0;
@@ -265,6 +273,10 @@ static void build_joyport_values(void)
     plus4_JoyPort2Device[i].item_id = 0;
     plus4_JoyPort3Device[i].value = -1;
     plus4_JoyPort3Device[i].item_id = 0;
+    plus4_JoyPort4Device[i].value = -1;
+    plus4_JoyPort4Device[i].item_id = 0;
+    plus4_JoyPort5Device[i].value = -1;
+    plus4_JoyPort5Device[i].item_id = 0;
 }
 
 int plus4ui_init(void)

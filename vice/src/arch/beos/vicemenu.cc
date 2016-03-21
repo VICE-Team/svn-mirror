@@ -46,7 +46,7 @@ static joyport_desc_t *(*get_devices)(int port) = NULL;
 static char *(*get_name)(int port) = NULL;
 static int joyport_ports[JOYPORT_MAX_PORTS];
 
-void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(int port), char *(*gn)(int port), int port1, int port2, int port3, int port4)
+void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(int port), char *(*gn)(int port), int port1, int port2, int port3, int port4, int port5)
 {
     get_devices = gd;
     get_name = gn;
@@ -54,6 +54,7 @@ void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(int port), char *(*gn)(int 
     joyport_ports[JOYPORT_2] = port2;
     joyport_ports[JOYPORT_3] = port3;
     joyport_ports[JOYPORT_4] = port4;
+    joyport_ports[JOYPORT_5] = port5;
 }
 
 void vicemenu_free_tune_menu(void)
@@ -102,6 +103,7 @@ BMenuBar *menu_create(int machine_class)
     joyport_desc_t *devices_port_2 = NULL;
     joyport_desc_t *devices_port_3 = NULL;
     joyport_desc_t *devices_port_4 = NULL;
+    joyport_desc_t *devices_port_5 = NULL;
     char *tmp_text = NULL;
 
     menubar = new BMenuBar(BRect(0, 0, 10, 10), "Menubar");
@@ -1070,7 +1072,7 @@ BMenuBar *menu_create(int machine_class)
                 menu->AddItem(submenu = new BMenu(tmp_text));
                 submenu->SetRadioMode(true);
                 for (i = 0; devices_port_1[i].name; ++i) {
-                    submenu->AddItem(new BMenuItem(devices_port_1[i].name, new BMessage(MENU_JOYPORT1_00 + devices_port_1[i].id)));
+                    submenu->AddItem(new BMenuItem(devices_port_1[i].name, new BMessage(MENU_JOYPORT1 + devices_port_1[i].id)));
                 }
                 lib_free(tmp_text);
             }
@@ -1080,7 +1082,7 @@ BMenuBar *menu_create(int machine_class)
                 menu->AddItem(submenu = new BMenu(tmp_text));
                 submenu->SetRadioMode(true);
                 for (i = 0; devices_port_2[i].name; ++i) {
-                    submenu->AddItem(new BMenuItem(devices_port_2[i].name, new BMessage(MENU_JOYPORT2_00 + devices_port_2[i].id)));
+                    submenu->AddItem(new BMenuItem(devices_port_2[i].name, new BMessage(MENU_JOYPORT2 + devices_port_2[i].id)));
                 }
                 lib_free(tmp_text);
             }
@@ -1090,7 +1092,7 @@ BMenuBar *menu_create(int machine_class)
                 menu->AddItem(submenu = new BMenu(tmp_text));
                 submenu->SetRadioMode(true);
                 for (i = 0; devices_port_3[i].name; ++i) {
-                    submenu->AddItem(new BMenuItem(devices_port_3[i].name, new BMessage(MENU_JOYPORT3_00 + devices_port_3[i].id)));
+                    submenu->AddItem(new BMenuItem(devices_port_3[i].name, new BMessage(MENU_JOYPORT3 + devices_port_3[i].id)));
                 }
                 lib_free(tmp_text);
             }
@@ -1100,7 +1102,17 @@ BMenuBar *menu_create(int machine_class)
                 menu->AddItem(submenu = new BMenu(tmp_text));
                 submenu->SetRadioMode(true);
                 for (i = 0; devices_port_4[i].name; ++i) {
-                    submenu->AddItem(new BMenuItem(devices_port_4[i].name, new BMessage(MENU_JOYPORT4_00 + devices_port_4[i].id)));
+                    submenu->AddItem(new BMenuItem(devices_port_4[i].name, new BMessage(MENU_JOYPORT4 + devices_port_4[i].id)));
+                }
+                lib_free(tmp_text);
+            }
+            if (joyport_ports[JOYPORT_5]) {
+                devices_port_5 = get_devices(JOYPORT_5);
+                tmp_text = lib_msprintf("%s device", get_name(JOYPORT_5));
+                menu->AddItem(submenu = new BMenu(tmp_text));
+                submenu->SetRadioMode(true);
+                for (i = 0; devices_port_5[i].name; ++i) {
+                    submenu->AddItem(new BMenuItem(devices_port_5[i].name, new BMessage(MENU_JOYPORT5 + devices_port_5[i].id)));
                 }
                 lib_free(tmp_text);
             }
@@ -1119,6 +1131,9 @@ BMenuBar *menu_create(int machine_class)
         }
         if (devices_port_4) {
             lib_free(devices_port_4);
+        }
+        if (devices_port_5) {
+            lib_free(devices_port_5);
         }
     }
 

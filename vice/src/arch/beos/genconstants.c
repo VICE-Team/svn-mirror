@@ -60,7 +60,6 @@ int main(int argc, char *argv[])
     FILE *infile, *outfile;
     int found = UNKNOWN;
     int counter = 0;
-    int i;
 
     if (argc < 2) {
         printf("too few arguments\n");
@@ -127,13 +126,20 @@ int main(int argc, char *argv[])
     fprintf(outfile, "const uint32 ATTACH_VIC20_CART                    = 'MA02';\n");
     fprintf(outfile, "\n");
 
-    /* Generate MJ00-MJxx, MK00-MKxx, ML00-MLxx & MM00-MMxx for joyport usage */
-    for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
-        fprintf(outfile, "const uint32 MENU_JOYPORT1_%02d = 'MJ%02d';\n", i, i);
-        fprintf(outfile, "const uint32 MENU_JOYPORT2_%02d = 'MK%02d';\n", i, i);
-        fprintf(outfile, "const uint32 MENU_JOYPORT3_%02d = 'ML%02d';\n", i, i);
-        fprintf(outfile, "const uint32 MENU_JOYPORT4_%02d = 'MM%02d';\n", i, i);
-    }
+    /* Use MJ00 as base for joyport 1 */
+    fprintf(outfile, "const uint32 MENU_JOYPORT1 = 'MJ00';\n");
+
+    /* Use MK00 as base for joyport 2 */
+    fprintf(outfile, "const uint32 MENU_JOYPORT2 = 'MK00';\n");
+
+    /* Use ML00 as base for joyport 3 */
+    fprintf(outfile, "const uint32 MENU_JOYPORT3 = 'ML00';\n");
+
+    /* Use MM00 as base for joyport 4 */
+    fprintf(outfile, "const uint32 MENU_JOYPORT4 = 'MM00';\n");
+
+    /* Use MN00 as base for joyport 5 */
+    fprintf(outfile, "const uint32 MENU_JOYPORT5 = 'MN00';\n");
     fprintf(outfile, "\n");
 
     while (!feof(infile)) {

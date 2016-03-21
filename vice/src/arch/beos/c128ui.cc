@@ -511,7 +511,7 @@ static void c128_ui_specific(void *msg, void *window)
 
 int c128ui_init_early(void)
 {
-    vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 1, 1, 1, 1);
+    vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 1, 1, 1, 1, 0);
     return 0;
 }
 
@@ -521,13 +521,13 @@ static void build_joyport_values(void)
 
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         c128_JoyPort1Device[i].value = i;
-        c128_JoyPort1Device[i].item_id = MENU_JOYPORT1_00 + i;
+        c128_JoyPort1Device[i].item_id = MENU_JOYPORT1 + i;
         c128_JoyPort2Device[i].value = i;
-        c128_JoyPort2Device[i].item_id = MENU_JOYPORT2_00 + i;
+        c128_JoyPort2Device[i].item_id = MENU_JOYPORT2 + i;
         c128_JoyPort3Device[i].value = i;
-        c128_JoyPort3Device[i].item_id = MENU_JOYPORT3_00 + i;
+        c128_JoyPort3Device[i].item_id = MENU_JOYPORT3 + i;
         c128_JoyPort4Device[i].value = i;
-        c128_JoyPort4Device[i].item_id = MENU_JOYPORT4_00 + i;
+        c128_JoyPort4Device[i].item_id = MENU_JOYPORT4 + i;
     }
     c128_JoyPort1Device[i].value = -1;
     c128_JoyPort1Device[i].item_id = 0;

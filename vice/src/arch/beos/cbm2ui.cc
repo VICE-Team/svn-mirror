@@ -221,7 +221,7 @@ void cbm2_ui_specific(void *msg, void *window)
 
 int cbm2ui_init_early(void)
 {
-    vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 0, 0, 1, 1);
+    vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 0, 0, 1, 1, 0);
     return 0;
 }
 
@@ -231,9 +231,9 @@ static void build_joyport_values(void)
 
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         cbm2_JoyPort3Device[i].value = i;
-        cbm2_JoyPort3Device[i].item_id = MENU_JOYPORT3_00 + i;
+        cbm2_JoyPort3Device[i].item_id = MENU_JOYPORT3 + i;
         cbm2_JoyPort4Device[i].value = i;
-        cbm2_JoyPort4Device[i].item_id = MENU_JOYPORT4_00 + i;
+        cbm2_JoyPort4Device[i].item_id = MENU_JOYPORT4 + i;
     }
     cbm2_JoyPort3Device[i].value = -1;
     cbm2_JoyPort3Device[i].item_id = 0;
