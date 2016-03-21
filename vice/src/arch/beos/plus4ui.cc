@@ -46,7 +46,7 @@ extern "C" {
 #include "cartridge.h"
 #include "constants.h"
 #include "joyport.h"
-#include "plus4-memory-hacks.h"
+#include "plus4memhacks.h"
 #include "plus4cart.h"
 #include "plus4model.h"
 #include "plus4ui.h"
@@ -125,7 +125,7 @@ ui_res_value_list plus4_ui_res_values[] = {
     { "JoyPort3Device", plus4_JoyPort3Device },
     { "JoyPort4Device", plus4_JoyPort4Device },
     { "JoyPort5Device", plus4_JoyPort5Device },
-    { "MemoryHack", "plus4MemoryHacks },
+    { "MemoryHack", plus4MemoryHacks },
     { NULL, NULL }
 };
 
