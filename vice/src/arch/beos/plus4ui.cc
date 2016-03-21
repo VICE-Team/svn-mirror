@@ -46,6 +46,7 @@ extern "C" {
 #include "cartridge.h"
 #include "constants.h"
 #include "joyport.h"
+#include "plus4-memory-hacks.h"
 #include "plus4cart.h"
 #include "plus4model.h"
 #include "plus4ui.h"
@@ -107,6 +108,15 @@ ui_res_possible_values plus4_RenderFilters[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values plus4MemoryHacks[] = {
+    { MEMORY_HACK_NONE, MENU_PLUS4_MEMORY_HACK_NONE },
+    { MEMORY_HACK_C256K, MENU_PLUS4_MEMORY_HACK_C256K },
+    { MEMORY_HACK_H256K, MENU_PLUS4_MEMORY_HACK_H256K },
+    { MEMORY_HACK_H1024K, MENU_PLUS4_MEMORY_HACK_H1024K },
+    { MEMORY_HACK_H4096K, MENU_PLUS4_MEMORY_HACK_H4096K },
+    { -1, 0 }
+};
+
 ui_res_value_list plus4_ui_res_values[] = {
     { "Acia1Dev", plus4AciaDevice },
     { "TEDFilter", plus4_RenderFilters },
@@ -115,6 +125,7 @@ ui_res_value_list plus4_ui_res_values[] = {
     { "JoyPort3Device", plus4_JoyPort3Device },
     { "JoyPort4Device", plus4_JoyPort4Device },
     { "JoyPort5Device", plus4_JoyPort5Device },
+    { "MemoryHack", "plus4MemoryHacks },
     { NULL, NULL }
 };
 

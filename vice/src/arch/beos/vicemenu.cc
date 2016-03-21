@@ -894,6 +894,17 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("PLUS256K File", new BMessage(MENU_PLUS256K_FILE)));
     }
 
+    if (machine_class == VICE_MACHINE_PLUS4) {
+            menu->AddItem(submenu = new BMenu("Memory Expansion Hacks Options"));
+                submenu->AddItem(extsubmenu = new BMenu("Memory Expansion Hack Device"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_PLUS4_MEMORY_HACK_NONE)));
+                    extsubmenu->AddItem(new BMenuItem("CSORY 256K", new BMessage(MENU_PLUS4_MEMORY_HACK_C256K)));
+                    extsubmenu->AddItem(new BMenuItem("HANNES 256K", new BMessage(MENU_PLUS4_MEMORY_HACK_H256K)));
+                    extsubmenu->AddItem(new BMenuItem("HANNES 1024K", new BMessage(MENU_PLUS4_MEMORY_HACK_H1024K)));
+                    extsubmenu->AddItem(new BMenuItem("HANNES 4096K", new BMessage(MENU_PLUS4_MEMORY_HACK_H4096K)));
+    }
+
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
             menu->AddItem(submenu = new BMenu("MMC64 Options"));
                 submenu->AddItem(new BMenuItem("MMC64 emulation", new BMessage(MENU_TOGGLE_MMC64)));
