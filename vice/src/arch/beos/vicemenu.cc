@@ -982,6 +982,9 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("Retro Replay", new BMessage(MENU_RR_REV_RETRO)));
                     extsubmenu->AddItem(new BMenuItem("Nordic Replay", new BMessage(MENU_RR_REV_NORDIC)));
+            menu->AddItem(submenu = new BMenu("RR-NET MK3 Options"));
+                submenu->AddItem(new BMenuItem("Enable RR-NET MK3 flash jumper", new BMessage(MENU_TOGGLE_RRNET_MK3_FLASH_JUMPER)));
+                submenu->AddItem(new BMenuItem("Save RR-NET MK3 flash when changed", new BMessage(MENU_TOGGLE_SAVE_RRNET_MK3_FLASH)));
             menu->AddItem(submenu = new BMenu("Super Snapshot 5 Options"));
                 submenu->AddItem(new BMenuItem("Enable 32KB RAM addon", new BMessage(MENU_TOGGLE_SS5_32K)));
     }

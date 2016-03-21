@@ -117,6 +117,8 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "RRFlashJumper", MENU_TOGGLE_RR_FLASH_JUMPER },
     { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
     { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
+    { "RRNETMK3_flashjumper", MENU_TOGGLE_RRNET_MK3_FLASH_JUMPER },
+    { "RRNETMK3_bios_write", MENU_TOGGLE_SAVE_RRNET_MK3_FLASH },
     { "SSRamExpansion", MENU_TOGGLE_SS5_32K },
     { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
     { "DS12C887RTCRunMode", MENU_TOGGLE_DS12C887_RTC_RUNNING_MODE },
