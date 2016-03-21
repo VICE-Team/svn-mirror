@@ -194,7 +194,6 @@ ui_res_possible_values c128RamCartSize[] = {
 };
 
 ui_res_possible_values c128DigimaxBase[] = {
-    { 0xdd00, MENU_DIGIMAX_BASE_DD00 },
     { 0xde00, MENU_DIGIMAX_BASE_DE00 },
     { 0xde20, MENU_DIGIMAX_BASE_DE20 },
     { 0xde40, MENU_DIGIMAX_BASE_DE40 },

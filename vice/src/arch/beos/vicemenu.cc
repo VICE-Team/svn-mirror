@@ -811,7 +811,6 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                         extsubmenu->AddItem(new BMenuItem("$9CC0", new BMessage(MENU_DIGIMAX_BASE_9CC0)));
                         extsubmenu->AddItem(new BMenuItem("$9CE0", new BMessage(MENU_DIGIMAX_BASE_9CE0)));
                     } else {
-                        extsubmenu->AddItem(new BMenuItem("Userport Interface", new BMessage(MENU_DIGIMAX_BASE_DD00)));
                         extsubmenu->AddItem(new BMenuItem("$DE00", new BMessage(MENU_DIGIMAX_BASE_DE00)));
                         extsubmenu->AddItem(new BMenuItem("$DE20", new BMessage(MENU_DIGIMAX_BASE_DE20)));
                         extsubmenu->AddItem(new BMenuItem("$DE40", new BMessage(MENU_DIGIMAX_BASE_DE40)));
