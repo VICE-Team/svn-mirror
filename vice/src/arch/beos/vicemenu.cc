@@ -842,6 +842,7 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(submenu = new BMenu("EasyFlash Options"));
                 submenu->AddItem(new BMenuItem("Jumper", new BMessage(MENU_TOGGLE_EASYFLASH_JUMPER)));
                 submenu->AddItem(new BMenuItem("Save to .crt file on detach", new BMessage(MENU_TOGGLE_EASYFLASH_AUTOSAVE)));
+                submenu->AddItem(new BMenuItem("Optimize .crt file", new BMessage(MENU_TOGGLE_EASYFLASH_OPTIMIZE)));
                 submenu->AddItem(new BMenuItem("Save .crt file now", new BMessage(MENU_EASYFLASH_SAVE_NOW)));
     }
 

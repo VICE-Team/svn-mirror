@@ -119,6 +119,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
     { "CPMCart", MENU_TOGGLE_CPM_CART },
     { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
+    { "EasyFlashOptimizeCRT", MENU_TOGGLE_EASYFLASH_OPTIMIZE },
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
     { "VICIINewLuminances", MENU_VICII_NEW_LUMINANCES },
     { "IECReset", MENU_IEC_RESET },

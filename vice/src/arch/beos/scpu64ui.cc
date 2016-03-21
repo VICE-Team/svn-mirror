@@ -116,6 +116,7 @@ ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
     { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
+    { "EasyFlashOptimizeCRT", MENU_TOGGLE_EASYFLASH_OPTIMIZE },
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
     { "VICIINewLuminances", MENU_VICII_NEW_LUMINANCES },
     { "IECReset", MENU_IEC_RESET },
