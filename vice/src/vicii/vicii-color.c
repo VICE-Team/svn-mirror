@@ -351,6 +351,7 @@ int vicii_color_update_palette(struct video_canvas_s *canvas)
             model = VICII_MODEL_6572;
             break;
         default:
+            model = VICII_MODEL_6569;
             break;
     }
 
