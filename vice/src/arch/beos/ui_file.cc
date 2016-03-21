@@ -52,6 +52,7 @@ extern "C" {
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "screenshot.h"
 #include "tape.h"
 #include "tapecontents.h"
 #include "ui.h"
@@ -645,6 +646,8 @@ void ui_select_file_action(BMessage *msg)
     entry_ref ref;
     status_t err;
     BPath *path;
+    struct video_canvas_s *c0 = (struct video_canvas_s *)windowlist[0]->canvas;
+    struct video_canvas_s *c1 = (struct video_canvas_s *)windowlist[1]->canvas;
 
     if (msg->what == B_REFS_RECEIVED) {
         /* an open action */            
@@ -765,82 +768,82 @@ void ui_select_file_action(BMessage *msg)
         } else if (last_filetype[1] == EXPERT_FILE) {
             resources_set_string("Expertfilename", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_BMP_FILE_SCREEN0) {
-            if (screenshot_save("BMP", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("BMP", fullpath, c0) < 0)
             ui_error("Failed to write bmp screenshot %s (.bmp)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_BMP_FILE_SCREEN1) {
-            if (screenshot_save("BMP", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("BMP", fullpath, c1) < 0)
             ui_error("Failed to write bmp screenshot %s (.bmp)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_DOODLE_FILE_SCREEN0) {
-            if (screenshot_save("DOODLE", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("DOODLE", fullpath, c0) < 0)
             ui_error("Failed to write doodle screenshot %s (.dd)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_DOODLE_FILE_SCREEN1) {
-            if (screenshot_save("DOODLE", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("DOODLE", fullpath, c1) < 0)
             ui_error("Failed to write doodle screenshot %s (.dd)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_DOODLE_COMPRESSED_FILE_SCREEN0) {
-            if (screenshot_save("DOODLE_COMPRESSED", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("DOODLE_COMPRESSED", fullpath, c0) < 0)
             ui_error("Failed to write compressed doodle screenshot %s (.jj)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_DOODLE_COMPRESSED_FILE_SCREEN1) {
-            if (screenshot_save("DOODLE_COMPRESSED", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("DOODLE_COMPRESSED", fullpath, c1) < 0)
             ui_error("Failed to write compressed doodle screenshot %s (.jj)", fullpath);
 #ifdef HAVE_GIF
         } else if (last_filetype[1] == SCREENSHOT_GIF_FILE_SCREEN0) {
-            if (screenshot_save("GIF", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("GIF", fullpath, c0) < 0)
             ui_error("Failed to write gif screenshot %s (.gif)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_GIF_FILE_SCREEN1) {
-            if (screenshot_save("GIF", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("GIF", fullpath, c1) < 0)
             ui_error("Failed to write gif screenshot %s (.gif)", fullpath);
 #endif
         } else if (last_filetype[1] == SCREENSHOT_GODOT_FILE_SCREEN0) {
-            if (screenshot_save("4BT", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("4BT", fullpath, c0) < 0)
             ui_error("Failed to write godot screenshot %s (.4bt)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_GODOT_FILE_SCREEN1) {
-            if (screenshot_save("4BT", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("4BT", fullpath, c1) < 0)
             ui_error("Failed to write godot screenshot %s (.4bt)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_IFF_FILE_SCREEN0) {
-            if (screenshot_save("IFF", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("IFF", fullpath, c0) < 0)
             ui_error("Failed to write iff screenshot %s (.iff)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_IFF_FILE_SCREEN1) {
-            if (screenshot_save("IFF", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("IFF", fullpath, c1) < 0)
             ui_error("Failed to write iff screenshot %s (.iff)", fullpath);
 #ifdef HAVE_JPEG
         } else if (last_filetype[1] == SCREENSHOT_JPEG_FILE_SCREEN0) {
-            if (screenshot_save("JPEG", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("JPEG", fullpath, c0) < 0)
             ui_error("Failed to write jpeg screenshot %s (.jpg)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_JPEG_FILE_SCREEN1) {
-            if (screenshot_save("JPEG", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("JPEG", fullpath, c1) < 0)
             ui_error("Failed to write jpeg screenshot %s (.jpg)", fullpath);
 #endif
         } else if (last_filetype[1] == SCREENSHOT_KOALA_FILE_SCREEN0) {
-            if (screenshot_save("KOALA", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("KOALA", fullpath, c0) < 0)
             ui_error("Failed to write koala screenshot %s (.koa)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_KOALA_FILE_SCREEN1) {
-            if (screenshot_save("KOALA", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("KOALA", fullpath, c1) < 0)
             ui_error("Failed to write koala screenshot %s (.koa)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_KOALA_COMPRESSED_FILE_SCREEN0) {
-            if (screenshot_save("KOALA_COMPRESSED", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("KOALA_COMPRESSED", fullpath, c0) < 0)
             ui_error("Failed to write compressed koala screenshot %s (.gg)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_KOALA_COMPRESSED_FILE_SCREEN1) {
-            if (screenshot_save("KOALA_COMPRESSED", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("KOALA_COMPRESSED", fullpath, c1) < 0)
             ui_error("Failed to write compressed koala screenshot %s (.gg)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_PCX_FILE_SCREEN0) {
-            if (screenshot_save("PCX", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("PCX", fullpath, c0) < 0)
             ui_error("Failed to write pcx screenshot %s (.pcx)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_PCX_FILE_SCREEN1) {
-            if (screenshot_save("PCX", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("PCX", fullpath, c1) < 0)
             ui_error("Failed to write pcx screenshot %s (.pcx)", fullpath);
 #ifdef HAVE_PNG
         } else if (last_filetype[1] == SCREENSHOT_PNG_FILE_SCREEN0) {
-            if (screenshot_save("PNG", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("PNG", fullpath, c0) < 0)
             ui_error("Failed to write png screenshot %s (.png)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_PNG_FILE_SCREEN1) {
-            if (screenshot_save("PNG", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("PNG", fullpath, c1) < 0)
             ui_error("Failed to write png screenshot %s (.png)", fullpath);
 #endif
         } else if (last_filetype[1] == SCREENSHOT_PPM_FILE_SCREEN0) {
-            if (screenshot_save("PPM", fullpath, windowlist[0]->canvas) < 0)
+            if (screenshot_save("PPM", fullpath, c0) < 0)
             ui_error("Failed to write ppm screenshot %s (.ppm)", fullpath);
         } else if (last_filetype[1] == SCREENSHOT_PPM_FILE_SCREEN1) {
-            if (screenshot_save("PPM", fullpath, windowlist[1]->canvas) < 0)
+            if (screenshot_save("PPM", fullpath, c1) < 0)
             ui_error("Failed to write ppm screenshot %s (.ppm)", fullpath);
         } else if (last_filetype[1] == C128_INT_FUNC_FILE) {
             resources_set_string("InternalFunctionName", fullpath);

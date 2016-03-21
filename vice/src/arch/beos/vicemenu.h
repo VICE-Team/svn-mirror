@@ -29,7 +29,7 @@
 
 class BMenuBar;
 
-extern BMenuBar *menu_create(int machine_class);
+extern BMenuBar *menu_create(int machine_class, int window_nr);
 
 extern "C" {
 
