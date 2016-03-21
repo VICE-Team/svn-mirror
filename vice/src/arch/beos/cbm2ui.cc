@@ -67,8 +67,14 @@ ui_menu_toggle cbm2_ui_menu_toggles[] = {
     { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "CartridgeReset", MENU_CART_CBM2_RESET_ON_CHANGE },
     { "Mouse", MENU_TOGGLE_MOUSE },
-    { "UserportRTC58321a", MENU_TOGGLE_USERPORT_RTC_58321A },
-    { "UserportRTC58321aSave", MENU_TOGGLE_USERPORT_RTC_58321A_SAVE },
+    { "UserportDAC", MENU_TOGGLE_USERPORT_DAC },
+    { "UserportRTC58321a", MENU_TOGGLE_USERPORT_58321A },
+    { "UserportRTC58321aSave", MENU_TOGGLE_USERPORT_58321A_SAVE },
+    { "UserportRTCDS1307", MENU_TOGGLE_USERPORT_DS1307 },
+    { "UserportRTCDS1307Save", MENU_TOGGLE_USERPORT_DS1307_SAVE },
+    { "UserportDIGIMAX", MENU_TOGGLE_USERPORT_DIGIMAX },
+    { "Userport4bitSampler", MENU_TOGGLE_USERPORT_4BIT_SAMPLER },
+    { "Userport8BSS", MENU_TOGGLE_USERPORT_8BSS },
     { NULL, 0 }
 };
 

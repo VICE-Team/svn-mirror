@@ -1009,7 +1009,6 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 submenu->AddItem(new BMenuItem("PET DWW emulation", new BMessage(MENU_TOGGLE_PETDWW)));
                 submenu->AddItem(new BMenuItem("PET DWW File", new BMessage(MENU_PETDWW_FILE)));
             menu->AddItem(new BMenuItem("PET High Res Emulator board emulation", new BMessage(MENU_TOGGLE_PETHRE)));
-            menu->AddItem(new BMenuItem("PET Userport DAC emulation", new BMessage(MENU_TOGGLE_PET_USERPORT_DAC)));
     }
 
     if (machine_class == VICE_MACHINE_PLUS4) {
@@ -1035,6 +1034,41 @@ BMenuBar *menu_create(int machine_class, int window_nr)
 
     if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_C128) {
         uppermenu->AddItem(new BMenuItem("IEEE488 Interface", new BMessage(MENU_TOGGLE_IEEE488)));
+    }
+
+    if (machine_class == VICE_MACHINE_C64 ||
+        machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_SCPU64 ||
+        machine_class == VICE_MACHINE_C128 ||
+        machine_class == VICE_MACHINE_CBM6x0 ||
+        machine_class == VICE_MACHINE_PET ||
+        machine_class == VICE_MACHINE_VIC20 ||
+        machine_class == VICE_MACHINE_PLUS4) {
+        menu->AddItem(submenu = new BMenu("Userport devices"));
+            submenu->AddItem(new BMenuItem("Enable userport DAC", new BMessage(MENU_TOGGLE_USERPORT_DAC)));
+    }
+
+    if (machine_class == VICE_MACHINE_C64 ||
+        machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_SCPU64 ||
+        machine_class == VICE_MACHINE_C128 ||
+        machine_class == VICE_MACHINE_CBM6x0 ||
+        machine_class == VICE_MACHINE_PET ||
+        machine_class == VICE_MACHINE_VIC20) {
+            submenu->AddItem(new BMenuItem("Enable userport RTC (58321A)", new BMessage(MENU_TOGGLE_USERPORT_58321A)));
+            submenu->AddItem(new BMenuItem("Save userport RTC (58321A) data when changed", new BMessage(MENU_TOGGLE_USERPORT_58321A_SAVE)));
+            submenu->AddItem(new BMenuItem("Enable userport RTC (DS1307)", new BMessage(MENU_TOGGLE_USERPORT_DS1307)));
+            submenu->AddItem(new BMenuItem("Save userport RTC (DS1307) data when changed", new BMessage(MENU_TOGGLE_USERPORT_DS1307_SAVE)));
+    }
+
+    if (machine_class == VICE_MACHINE_C64 ||
+        machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_SCPU64 ||
+        machine_class == VICE_MACHINE_C128 ||
+        machine_class == VICE_MACHINE_CBM6x0) {
+            submenu->AddItem(new BMenuItem("Enable userport DigiMAX", new BMessage(MENU_TOGGLE_USERPORT_DIGIMAX)));
+            submenu->AddItem(new BMenuItem("Enable userport 4bit sampler", new BMessage(MENU_TOGGLE_USERPORT_4BIT_SAMPLER)));
+            submenu->AddItem(new BMenuItem("Enable userport 8bit stereo sampler", new BMessage(MENU_TOGGLE_USERPORT_8BSS)));
     }
 
     /* create the SETTINGS menu */

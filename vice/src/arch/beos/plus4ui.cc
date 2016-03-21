@@ -84,6 +84,7 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "CartridgeReset", MENU_CART_PLUS4_RESET_ON_CHANGE },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "SmartMouseRTCSave", MENU_TOGGLE_SMART_MOUSE_RTC_SAVE },
+    { "UserportDAC", MENU_TOGGLE_USERPORT_DAC },
     { NULL, 0 }
 };
 
