@@ -415,6 +415,18 @@ static char *palette_name2fname(char *name, char **palette_names, char **palette
     return NULL;
 }
 
+static char *check_for_palette_match(Chip_Parameters *ct)
+{
+    int i;
+
+    for (i = 0; ct->palette_names[i]; ++i) {
+        if (!strcmp(ct->file_name, ct->palette_names[i])) {
+            return ct->palette_filenames[i];
+        }
+    }
+    return ct->file_name;
+}
+
 static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
@@ -427,6 +439,7 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
     float tf;
     TCHAR s[100];
     TCHAR st[MAX_PATH];
+    char *real_fname;
 
     Chip_Parameters *chip_type = (hwnd == color_dialog_1) ? current_chip_1 : current_chip_2;
 
@@ -503,7 +516,8 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
                 lib_free(chip_type->file_name);
                 chip_type->file_name = system_wcstombs_alloc(st);
                 querynewpalette = 1;
-                if (resources_set_string(chip_type->res_PaletteFile_name, chip_type->file_name) < 0) {
+                real_fname = check_for_palette_match(chip_type);
+                if (resources_set_string(chip_type->res_PaletteFile_name, real_fname) < 0) {
                     ui_error(translate_text(IDS_COULD_NOT_LOAD_PALETTE));
                     resources_set_int(chip_type->res_ExternalPalette_name, 0);
                     SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
