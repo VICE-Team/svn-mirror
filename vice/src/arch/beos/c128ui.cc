@@ -332,196 +332,290 @@ ui_res_value_list c128_ui_res_values[] = {
     { NULL, NULL }
 };
 
+static ui_cartridge_t *c128_ui_cartridges = NULL;
+
+static void c128_ui_attach_cartridge(int menu)
+{
+    int i = 0;
+
+    while (menu != c128_ui_cartridges[i].menu_item && c128_ui_cartridges[i].menu_item) {
+        i++;
+    }
+
+    if (!c128_ui_cartridges[i].menu_item) {
+        ui_error("Bad cartridge config in UI");
+        return;
+    }
+
+    ui_select_file(B_OPEN_PANEL, C64_CARTRIDGE_FILE, &c128_ui_cartridges[i]);
+}       
+
 static int c128_sid_address_base[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
 
 static void c128_ui_specific(void *msg, void *window)
 {
-    switch (((BMessage*)msg)->what) {
-        case MENU_C128_MODEL_C128_PAL:
-            c128model_set(C128MODEL_C128_PAL);
-            break;
-        case MENU_C128_MODEL_C128DCR_PAL:
-            c128model_set(C128MODEL_C128DCR_PAL);
-            break;
-        case MENU_C128_MODEL_C128_NTSC:
-            c128model_set(C128MODEL_C128_NTSC);
-            break;
-        case MENU_C128_MODEL_C128DCR_NTSC:
-            c128model_set(C128MODEL_C128DCR_NTSC);
-            break;
-        case MENU_VIDEO_SETTINGS:
-            ui_video_two_chip(UI_VIDEO_CHIP_VDC, UI_VIDEO_CHIP_VICII);
-            break;
-        case MENU_VICII_SETTINGS:
-            ui_vicii();
-            break;
-        case MENU_SID_SETTINGS:
-            ui_sid(c128_sid_address_base);
-            break;
-        case MENU_DRIVE_SETTINGS:
-            ui_drive(c128_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);
-            break;
-        case MENU_PRINTER_SETTINGS:
-            ui_printer(HAS_USERPORT_PRINTER | HAS_IEC_BUS);
-            break;
-        case MENU_REU_FILE:
-            ui_select_file(B_SAVE_PANEL, REU_FILE, (void*)0);
-            break;
-        case MENU_GEORAM_FILE:
-            ui_select_file(B_SAVE_PANEL, GEORAM_FILE, (void*)0);
-            break;
-        case MENU_RAMCART_FILE:
-            ui_select_file(B_SAVE_PANEL, RAMCART_FILE, (void*)0);
-            break;
-        case MENU_IDE64_FILE1:
-            ui_select_file(B_SAVE_PANEL, IDE64_FILE1, (void*)0);
-            break;
-        case MENU_IDE64_SIZE1:
-            ui_ide64(1);
-            break;
-        case MENU_IDE64_FILE2:
-            ui_select_file(B_SAVE_PANEL, IDE64_FILE2, (void*)0);
-            break;
-        case MENU_IDE64_SIZE2:
-            ui_ide64(2);
-            break;
-        case MENU_IDE64_FILE3:
-            ui_select_file(B_SAVE_PANEL, IDE64_FILE3, (void*)0);
-            break;
-        case MENU_IDE64_SIZE3:
-            ui_ide64(3);
-            break;
-        case MENU_IDE64_FILE4:
-            ui_select_file(B_SAVE_PANEL, IDE64_FILE4, (void*)0);
-            break;
-        case MENU_IDE64_SIZE4:
-            ui_ide64(4);
-            break;
-        case MENU_MAGICVOICE_FILE:
-            ui_select_file(B_SAVE_PANEL, MAGICVOICE_FILE, (void*)0);
-            break;
-        case MENU_EXPERT_FILE:
-            ui_select_file(B_OPEN_PANEL, EXPERT_FILE, (void*)0);
-            break;
-        case MENU_C128_INTERNAL_FUNCTION_FILE:
-            ui_select_file(B_OPEN_PANEL, C128_INT_FUNC_FILE, (void*)0);
-            break;
-        case MENU_C128_EXTERNAL_FUNCTION_FILE:
-            ui_select_file(B_OPEN_PANEL, C128_EXT_FUNC_FILE, (void*)0);
-            break;
-        case MENU_EASYFLASH_SAVE_NOW:
-            if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
-                ui_error("Error saving EasyFlash .crt file");
-            }
-            break;
-        case MENU_COMPUTER_KERNAL_INT_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_INT_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_KERNAL_DE_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_DE_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_KERNAL_FI_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_FI_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_KERNAL_FR_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_FR_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_KERNAL_IT_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_IT_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_KERNAL_NO_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_NO_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_KERNAL_SE_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_SE_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_KERNAL_CH_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_CH_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_KERNAL_64_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_64_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_BASIC_LO_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_BASIC_LO_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_BASIC_HI_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_BASIC_HI_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_BASIC_64_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_BASIC_64_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_CHARGEN_INT_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_INT_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_CHARGEN_DE_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_DE_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_CHARGEN_FR_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_FR_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_CHARGEN_SE_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_SE_ROM_FILE, (void*)0);
-            break;
-        case MENU_COMPUTER_CHARGEN_CH_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_CH_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_1540_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_1540_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_1541_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_1541_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_1541II_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_1541II_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_1570_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_1570_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_1571_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_1571_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_1571CR_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_1571CR_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_1581_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_1581_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_2000_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_2000_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_4000_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_4000_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_2031_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_2031_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_2040_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_2040_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_3040_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_3040_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_4040_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_4040_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_1001_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_1001_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_PROFDOS_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_PROFDOS_ROM_FILE, (void*)0);
-            break;
-        case MENU_DRIVE_SUPERCARD_ROM_FILE:
-            ui_select_file(B_SAVE_PANEL, DRIVE_SUPERCARD_ROM_FILE, (void*)0);
-            break;
-        default:
-            break;
+    if (((BMessage*)msg)->what >= MENU_GENERIC_CARTS && ((BMessage*)msg)->what < MENU_END_CARTS) {
+        c128_ui_attach_cartridge(((BMessage*)msg)->what);
+    } else {
+        switch (((BMessage*)msg)->what) {
+            case MENU_CART_ATTACH_CRT:
+                c128_ui_attach_cartridge(((BMessage*)msg)->what);
+                break;
+            case MENU_C128_MODEL_C128_PAL:
+                c128model_set(C128MODEL_C128_PAL);
+                break;
+            case MENU_C128_MODEL_C128DCR_PAL:
+                c128model_set(C128MODEL_C128DCR_PAL);
+                break;
+            case MENU_C128_MODEL_C128_NTSC:
+                c128model_set(C128MODEL_C128_NTSC);
+                break;
+            case MENU_C128_MODEL_C128DCR_NTSC:
+                c128model_set(C128MODEL_C128DCR_NTSC);
+                break;
+            case MENU_VIDEO_SETTINGS:
+                ui_video_two_chip(UI_VIDEO_CHIP_VDC, UI_VIDEO_CHIP_VICII);
+                break;
+            case MENU_VICII_SETTINGS:
+                ui_vicii();
+                break;
+            case MENU_SID_SETTINGS:
+                ui_sid(c128_sid_address_base);
+                break;
+            case MENU_DRIVE_SETTINGS:
+                ui_drive(c128_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);
+                break;
+            case MENU_PRINTER_SETTINGS:
+                ui_printer(HAS_USERPORT_PRINTER | HAS_IEC_BUS);
+                break;
+            case MENU_REU_FILE:
+                ui_select_file(B_SAVE_PANEL, REU_FILE, (void*)0);
+                break;
+            case MENU_GEORAM_FILE:
+                ui_select_file(B_SAVE_PANEL, GEORAM_FILE, (void*)0);
+                break;
+            case MENU_RAMCART_FILE:
+                ui_select_file(B_SAVE_PANEL, RAMCART_FILE, (void*)0);
+                break;
+            case MENU_IDE64_FILE1:
+                ui_select_file(B_SAVE_PANEL, IDE64_FILE1, (void*)0);
+                break;
+            case MENU_IDE64_SIZE1:
+                ui_ide64(1);
+                break;
+            case MENU_IDE64_FILE2:
+                ui_select_file(B_SAVE_PANEL, IDE64_FILE2, (void*)0);
+                break;
+            case MENU_IDE64_SIZE2:
+                ui_ide64(2);
+                break;
+            case MENU_IDE64_FILE3:
+                ui_select_file(B_SAVE_PANEL, IDE64_FILE3, (void*)0);
+                break;
+            case MENU_IDE64_SIZE3:
+                ui_ide64(3);
+                break;
+            case MENU_IDE64_FILE4:
+                ui_select_file(B_SAVE_PANEL, IDE64_FILE4, (void*)0);
+                break;
+            case MENU_IDE64_SIZE4:
+                ui_ide64(4);
+                break;
+            case MENU_MAGICVOICE_FILE:
+                ui_select_file(B_SAVE_PANEL, MAGICVOICE_FILE, (void*)0);
+                break;
+            case MENU_EXPERT_FILE:
+                ui_select_file(B_OPEN_PANEL, EXPERT_FILE, (void*)0);
+                break;
+            case MENU_C128_INTERNAL_FUNCTION_FILE:
+                ui_select_file(B_OPEN_PANEL, C128_INT_FUNC_FILE, (void*)0);
+                break;
+            case MENU_C128_EXTERNAL_FUNCTION_FILE:
+                ui_select_file(B_OPEN_PANEL, C128_EXT_FUNC_FILE, (void*)0);
+                break;
+            case MENU_EASYFLASH_SAVE_NOW:
+                if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
+                    ui_error("Error saving EasyFlash .crt file");
+                }
+                break;
+            case MENU_COMPUTER_KERNAL_INT_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_INT_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_KERNAL_DE_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_DE_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_KERNAL_FI_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_FI_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_KERNAL_FR_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_FR_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_KERNAL_IT_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_IT_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_KERNAL_NO_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_NO_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_KERNAL_SE_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_SE_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_KERNAL_CH_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_CH_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_KERNAL_64_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_64_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_BASIC_LO_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_BASIC_LO_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_BASIC_HI_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_BASIC_HI_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_BASIC_64_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_BASIC_64_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_CHARGEN_INT_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_INT_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_CHARGEN_DE_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_DE_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_CHARGEN_FR_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_FR_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_CHARGEN_SE_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_SE_ROM_FILE, (void*)0);
+                break;
+            case MENU_COMPUTER_CHARGEN_CH_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_CH_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_1540_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_1540_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_1541_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_1541_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_1541II_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_1541II_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_1570_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_1570_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_1571_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_1571_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_1571CR_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_1571CR_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_1581_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_1581_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_2000_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_2000_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_4000_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_4000_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_2031_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_2031_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_2040_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_2040_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_3040_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_3040_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_4040_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_4040_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_1001_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_1001_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_PROFDOS_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_PROFDOS_ROM_FILE, (void*)0);
+                break;
+            case MENU_DRIVE_SUPERCARD_ROM_FILE:
+                ui_select_file(B_SAVE_PANEL, DRIVE_SUPERCARD_ROM_FILE, (void*)0);
+                break;
+            default:
+                break;
+        }
     }
 }
 
 int c128ui_init_early(void)
 {
     vicemenu_set_joyport_func(joyport_get_valid_devices, joyport_get_port_name, 1, 1, 1, 1, 0);
+    vicemenu_set_cart_func(cartridge_get_info_list);
     return 0;
+}
+
+static void build_cart_list(void)
+{
+    int i = 0;
+    int j;
+
+    cartridge_info_t *cartlist = cartridge_get_info_list();
+
+    for (j = 0; cartlist[j].name; ++j) {}
+    j += 2;
+
+    c128_ui_cartridges = lib_malloc(sizeof(ui_cartridge_t) * j);
+
+    c128_ui_cartridges[0].menu_item = MENU_CART_ATTACH_CRT;
+    c128_ui_cartridges[0].cart_type = CARTRIDGE_CRT;
+    c128_ui_cartridges[0].cart_name = "CRT";
+
+    j = 1;
+
+    for (i = 0; cartlist[i].name; ++i) {
+        if (cartlist[i].flags &= CARTRIDGE_GROUP_GENERIC) {
+            c128_ui_cartridges[j].menu_item = MENU_GENERIC_CARTS + cartlist[i].crtid + 256;
+            c128_ui_cartridges[j].cart_type = cartlist[i].crtid;
+            c128_ui_cartridges[j].cart_name = cartlist[i].name;
+            ++j;
+        }
+    }
+
+    for (i = 0; cartlist[i].name; ++i) {
+        if (cartlist[i].flags &= CARTRIDGE_GROUP_RAMEX) {
+            c128_ui_cartridges[j].menu_item = MENU_RAMEX_CARTS + cartlist[i].crtid + 256;
+            c128_ui_cartridges[j].cart_type = cartlist[i].crtid;
+            c128_ui_cartridges[j].cart_name = cartlist[i].name;
+            ++j;
+        }
+    }
+
+    for (i = 0; cartlist[i].name; ++i) {
+        if (cartlist[i].flags &= CARTRIDGE_GROUP_FREEZER) {
+            c128_ui_cartridges[j].menu_item = MENU_FREEZER_CARTS + cartlist[i].crtid + 256;
+            c128_ui_cartridges[j].cart_type = cartlist[i].crtid;
+            c128_ui_cartridges[j].cart_name = cartlist[i].name;
+            ++j;
+        }
+    }
+
+    for (i = 0; cartlist[i].name; ++i) {
+        if (cartlist[i].flags &= CARTRIDGE_GROUP_GAME) {
+            c128_ui_cartridges[j].menu_item = MENU_GAME_CARTS + cartlist[i].crtid + 256;
+            c128_ui_cartridges[j].cart_type = cartlist[i].crtid;
+            c128_ui_cartridges[j].cart_name = cartlist[i].name;
+            ++j;
+        }
+    }
+
+    for (i = 0; cartlist[i].name; ++i) {
+        if (cartlist[i].flags &= CARTRIDGE_GROUP_UTIL) {
+            c128_ui_cartridges[j].menu_item = MENU_GAME_UTIL + cartlist[i].crtid + 256;
+            c128_ui_cartridges[j].cart_type = cartlist[i].crtid;
+            c128_ui_cartridges[j].cart_name = cartlist[i].name;
+            ++j;
+        }
+    }
+
+    c128_ui_cartridges[j].menu_item = 0;
+    c128_ui_cartridges[j].cart_type = 0;
+    c128_ui_cartridges[j].cart_name = NULL;
 }
 
 static void build_joyport_values(void)
@@ -551,6 +645,7 @@ static void build_joyport_values(void)
 int c128ui_init(void)
 {
     build_joyport_values();
+    build_cart_list();
     ui_register_machine_specific(c128_ui_specific);
     ui_register_menu_toggles(c128_ui_menu_toggles);
     ui_register_res_values(c128_ui_res_values);
@@ -560,4 +655,7 @@ int c128ui_init(void)
 
 void c128ui_shutdown(void)
 {
+    if (c128_ui_cartridges) {
+        lib_free(c128_ui_cartridges);
+    }
 }

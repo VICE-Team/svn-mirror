@@ -142,6 +142,23 @@ int main(int argc, char *argv[])
     fprintf(outfile, "const uint32 MENU_JOYPORT5 = 'MN00';\n");
     fprintf(outfile, "\n");
 
+    /* Use MO00 as base for generic carts */
+    fprintf(outfile, "const uint32 MENU_GENERIC_CARTS = 'MO00';\n");
+
+    /* Use MP00 as base for ram expansion carts */
+    fprintf(outfile, "const uint32 MENU_RAMEX_CARTS = 'MP00';\n");
+
+    /* Use MQ00 as base for freezer carts */
+    fprintf(outfile, "const uint32 MENU_FREEZER_CARTS = 'MQ00';\n");
+
+    /* Use MR00 as base for game carts */
+    fprintf(outfile, "const uint32 MENU_GAME_CARTS = 'MR00';\n");
+
+    /* Use MS00 as base for util carts */
+    fprintf(outfile, "const uint32 MENU_UTIL_CARTS = 'MS00';\n");
+    fprintf(outfile, "const uint32 MENU_END_CARTS = 'MT00';\n");
+    fprintf(outfile, "\n");
+
     while (!feof(infile)) {
         found = vice_getline(infile);
         if (found == FOUND_MENU_ID) {

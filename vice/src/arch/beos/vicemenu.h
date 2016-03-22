@@ -33,9 +33,11 @@ extern BMenuBar *menu_create(int machine_class, int window_nr);
 
 extern "C" {
 
+#include "cartridge.h"
 #include "joyport.h"
 
 extern void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(int port), char *(*gn)(int port), int port1, int port2, int port3, int port4, int port5);
+extern void vicemenu_set_cart_func(cartridge_info_t *(*cgil)(void));
 extern void vicemenu_free_tune_menu(void);
 extern void vicemenu_tune_menu_add(int tune);
 }

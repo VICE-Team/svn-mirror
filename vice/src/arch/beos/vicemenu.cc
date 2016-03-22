@@ -32,6 +32,7 @@
 #include <MenuItem.h>
 #include <stdio.h>
 
+#include "cartridge.h"
 #include "constants.h"
 #include "joyport.h"
 #include "machine.h"
@@ -45,6 +46,13 @@ static BMenu *vsid_tune_menu;
 static joyport_desc_t *(*get_devices)(int port) = NULL;
 static char *(*get_name)(int port) = NULL;
 static int joyport_ports[JOYPORT_MAX_PORTS];
+
+static cartridge_info_t *(*get_carts)(void) = NULL;
+
+void vicemenu_set_cart_func(cartridge_info_t *(*cgil)(void))
+{
+    get_carts = cgil;
+}
 
 void vicemenu_set_joyport_func(joyport_desc_t *(*gd)(int port), char *(*gn)(int port), int port1, int port2, int port3, int port4, int port5)
 {
