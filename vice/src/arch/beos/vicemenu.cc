@@ -176,14 +176,14 @@ BMenuBar *menu_create(int machine_class, int window_nr)
 
             menu->AddItem(submenu = new BMenu("Attach generic cartridge images"));
             for (i = 0; cartlist[i].name; ++i) {
-                if (flags &= CARTRIDGE_GROUP_GENERIC) {
+                if (cartlist[i].flags &= CARTRIDGE_GROUP_GENERIC) {
                     submenu->AddItem(new BMenuItem(cartlist[i].name, new BMessage(MENU_GENERIC_CARTS + cartlist[i].crtid + 256)));
                 }
             }
 
             menu->AddItem(submenu = new BMenu("Attach RAM expansion cartridge images"));
             for (i = 0; cartlist[i].name; ++i) {
-                if (flags &= CARTRIDGE_GROUP_RAMEX) {
+                if (cartlist[i].flags &= CARTRIDGE_GROUP_RAMEX) {
                     submenu->AddItem(new BMenuItem(cartlist[i].name, new BMessage(MENU_RAMEX_CARTS + cartlist[i].crtid + 256)));
                 }
             }
@@ -191,7 +191,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
             if (machine_class != VICE_MACHINE_SCPU64) {
                 menu->AddItem(submenu = new BMenu("Attach freezer cartridge images"));
                 for (i = 0; cartlist[i].name; ++i) {
-                    if (flags &= CARTRIDGE_GROUP_FREEZER) {
+                    if (cartlist[i].flags &= CARTRIDGE_GROUP_FREEZER) {
                         submenu->AddItem(new BMenuItem(cartlist[i].name, new BMessage(MENU_FREEZER_CARTS + cartlist[i].crtid + 256)));
                     }
                 }
@@ -199,14 +199,14 @@ BMenuBar *menu_create(int machine_class, int window_nr)
 
             menu->AddItem(submenu = new BMenu("Attach game cartridge images"));
             for (i = 0; cartlist[i].name; ++i) {
-                if (flags &= CARTRIDGE_GROUP_GAME) {
+                if (cartlist[i].flags &= CARTRIDGE_GROUP_GAME) {
                     submenu->AddItem(new BMenuItem(cartlist[i].name, new BMessage(MENU_GAME_CARTS + cartlist[i].crtid + 256)));
                 }
             }
 
             menu->AddItem(submenu = new BMenu("Attach utility cartridge images"));
             for (i = 0; cartlist[i].name; ++i) {
-                if (flags &= CARTRIDGE_GROUP_UTIL) {
+                if (cartlist[i].flags &= CARTRIDGE_GROUP_UTIL) {
                     submenu->AddItem(new BMenuItem(cartlist[i].name, new BMessage(MENU_UTIL_CARTS + cartlist[i].crtid + 256)));
                 }
             }
