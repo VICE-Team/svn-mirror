@@ -112,6 +112,8 @@ BMenuBar *menu_create(int machine_class, int window_nr)
     joyport_desc_t *devices_port_3 = NULL;
     joyport_desc_t *devices_port_4 = NULL;
     joyport_desc_t *devices_port_5 = NULL;
+    cartridge_info_t *cartlist = NULL;
+
     char *tmp_text = NULL;
 
     menubar = new BMenuBar(BRect(0, 0, 10, 10), "Menubar");
@@ -166,21 +168,49 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         uppermenu->AddSeparatorItem();
     }
 
-    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
+    if (get_carts != NULL) {
         uppermenu->AddItem(menu = new BMenu("Attach cartridge image"));
             menu->AddItem(new BMenuItem("CRT", new BMessage(MENU_CART_ATTACH_CRT)));
-            menu->AddItem(new BMenuItem("Generic 8KB", new BMessage(MENU_CART_ATTACH_8KB)));
-            menu->AddItem(new BMenuItem("Generic 16KB", new BMessage(MENU_CART_ATTACH_16KB)));
-            menu->AddItem(new BMenuItem("Action Replay", new BMessage(MENU_CART_ATTACH_AR)));
-            menu->AddItem(new BMenuItem("Action Replay MK3", new BMessage(MENU_CART_ATTACH_AR3)));
-            menu->AddItem(new BMenuItem("Action Replay MK4", new BMessage(MENU_CART_ATTACH_AR4)));
-            menu->AddItem(new BMenuItem("Stardos", new BMessage(MENU_CART_ATTACH_STARDOS)));
-            menu->AddItem(new BMenuItem("Atomic Power", new BMessage(MENU_CART_ATTACH_AT)));
-            menu->AddItem(new BMenuItem("Epyx FastLoad", new BMessage(MENU_CART_ATTACH_EPYX)));
-            menu->AddItem(new BMenuItem("IEEE488 Interface", new BMessage(MENU_CART_ATTACH_IEEE488)));
-            menu->AddItem(new BMenuItem("IDE64 interface", new BMessage(MENU_CART_ATTACH_IDE64)));
-            menu->AddItem(new BMenuItem("Super Snapshot V4", new BMessage(MENU_CART_ATTACH_SS4)));
-            menu->AddItem(new BMenuItem("Super Snapshot V5", new BMessage(MENU_CART_ATTACH_SS5)));
+
+            cartlist = get_carts();
+
+            menu->AddItem(submenu = new BMenu("Attach generic cartridge images"));
+            for (i = 0; cartlist[i].name; ++i) {
+                if (flags &= CARTRIDGE_GROUP_GENERIC) {
+                    submenu->AddItem(new BMenuItem(cartlist[i].name, new BMessage(MENU_GENERIC_CARTS + cartlist[i].crtid + 256)));
+                }
+            }
+
+            menu->AddItem(submenu = new BMenu("Attach RAM expansion cartridge images"));
+            for (i = 0; cartlist[i].name; ++i) {
+                if (flags &= CARTRIDGE_GROUP_RAMEX) {
+                    submenu->AddItem(new BMenuItem(cartlist[i].name, new BMessage(MENU_RAMEX_CARTS + cartlist[i].crtid + 256)));
+                }
+            }
+
+            if (machine_class != VICE_MACHINE_SCPU64) {
+                menu->AddItem(submenu = new BMenu("Attach freezer cartridge images"));
+                for (i = 0; cartlist[i].name; ++i) {
+                    if (flags &= CARTRIDGE_GROUP_FREEZER) {
+                        submenu->AddItem(new BMenuItem(cartlist[i].name, new BMessage(MENU_FREEZER_CARTS + cartlist[i].crtid + 256)));
+                    }
+                }
+            }
+
+            menu->AddItem(submenu = new BMenu("Attach game cartridge images"));
+            for (i = 0; cartlist[i].name; ++i) {
+                if (flags &= CARTRIDGE_GROUP_GAME) {
+                    submenu->AddItem(new BMenuItem(cartlist[i].name, new BMessage(MENU_GAME_CARTS + cartlist[i].crtid + 256)));
+                }
+            }
+
+            menu->AddItem(submenu = new BMenu("Attach utility cartridge images"));
+            for (i = 0; cartlist[i].name; ++i) {
+                if (flags &= CARTRIDGE_GROUP_UTIL) {
+                    submenu->AddItem(new BMenuItem(cartlist[i].name, new BMessage(MENU_UTIL_CARTS + cartlist[i].crtid + 256)));
+                }
+            }
+
             menu->AddSeparatorItem();
             menu->AddItem(new BMenuItem("Set cartridge as default", new BMessage(MENU_CART_SET_DEFAULT)));
         uppermenu->AddItem(new BMenuItem("Detach cartridge image", new BMessage(MENU_CART_DETACH)));
@@ -1071,21 +1101,6 @@ BMenuBar *menu_create(int machine_class, int window_nr)
             submenu->AddItem(new BMenuItem("Enable userport DigiMAX", new BMessage(MENU_TOGGLE_USERPORT_DIGIMAX)));
             submenu->AddItem(new BMenuItem("Enable userport 4bit sampler", new BMessage(MENU_TOGGLE_USERPORT_4BIT_SAMPLER)));
             submenu->AddItem(new BMenuItem("Enable userport 8bit stereo sampler", new BMessage(MENU_TOGGLE_USERPORT_8BSS)));
-    }
-
-    if (machine_class != VICE_MACHINE_SCPU64 && machine_class != VICE_MACHINE_VSID) {
-        menu->AddItem(submenu = new BMenu("Tape port devices"));
-            submenu->AddItem(new BMenuItem("Enable datasette device", new BMessage(MENU_TOGGLE_TAPEPORT_DATASETTE)));
-            submenu->AddItem(new BMenuItem("Enable tape sense dongle", new BMessage(MENU_TOGGLE_TAPEPORT_TAPE_SENSE_DONGLE)));
-            submenu->AddItem(new BMenuItem("Enable DTL Basic dongle", new BMessage(MENU_TOGGLE_TAPEPORT_DTL_BASIC_DONGLE)));
-            submenu->AddItem(new BMenuItem("Enable CP Clock F83 device", new BMessage(MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83)));
-            submenu->AddItem(new BMenuItem("Save CP Clock F83 RTC data when changed", new BMessage(MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83_SAVE)));
-            submenu->AddItem(new BMenuItem("Enable tape log device", new BMessage(MENU_TOGGLE_TAPEPORT_TAPELOG)));
-            submenu->AddItem(extsubmenu = new BMenu("Tape log destination"));
-                extsubmenu->SetRadioMode(true);
-                extsubmenu->AddItem(new BMenuItem("Log messages to emulator log file", new BMessage(MENU_TAPEPORT_TAPELOG_DEFAULT_LOGFILE)));
-                extsubmenu->AddItem(new BMenuItem("Log messages to user specified file", new BMessage(MENU_TAPEPORT_TAPELOG_USER_LOGFILE)));
-            submenu->AddItem(new BMenuItem("Tape log filename", new BMessage(MENU_TAPEPORT_TAPLOG_FILENAME)));
     }
 
     /* create the SETTINGS menu */
