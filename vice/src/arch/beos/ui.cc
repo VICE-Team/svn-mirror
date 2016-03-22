@@ -132,6 +132,12 @@ ui_menu_toggle  non_vsid_toggles[] = {
     { "AutostartHandleTrueDriveEmulation", MENU_TOGGLE_HANDLE_TDE_AUTOSTART },
     { "UserportJoy", MENU_TOGGLE_USERPORT_JOY },
     { "JoyOpposite", MENU_ALLOW_OPPOSITE_JOY },
+    { "Datasette", MENU_TOGGLE_TAPEPORT_DATASETTE },
+    { "TapeSenseDongle", MENU_TOGGLE_TAPEPORT_TAPE_SENSE_DONGLE },
+    { "DTLBasicDongle", MENU_TOGGLE_TAPEPORT_DTL_BASIC_DONGLE },
+    { "CPClockF83", MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83 },
+    { "CPClockF83Save", MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83_SAVE },
+    { "TapeLog", MENU_TOGGLE_TAPEPORT_TAPELOG },
     { NULL, 0 }
 };
 
@@ -232,6 +238,12 @@ ui_res_possible_values CpuJamActions[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values TapeLogDestinations[] = {
+    { 0, MENU_TAPEPORT_TAPELOG_DEFAULT_LOGFILE },
+    { 1, MENU_TAPEPORT_TAPELOG_USER_LOGFILE },
+    { -1, 0 }
+};
+
 ui_res_value_list value_list[] = {
     { "RefreshRate", RefreshRateValues },
     { "Speed", SpeedValues },
@@ -246,6 +258,7 @@ ui_res_value_list non_vsid_values[] = {
     { "AutostartPrgMode", AutostartPrgMode },
     { "Printer4", Printer4Emulation },
     { "Printer4TextDevice", Printer4OutputDevice },
+    { "TapeLogDestination", TapeLogDestinations },
     { NULL, NULL }
 };
 
@@ -1092,6 +1105,9 @@ void ui_dispatch_events(void)
                 break;
             case MENU_SCREENSHOT_PPM_SCREEN1:
                 ui_select_file(B_SAVE_PANEL, SCREENSHOT_PPM_FILE_SCREEN1, (void*)0);
+                break;
+            case MENU_TAPEPORT_TAPLOG_FILENAME:
+                ui_select_file(B_SAVE_PANEL, TAPELOG_FILE, (void*)0);
                 break;
             case MESSAGE_SET_RESOURCE:
                 {

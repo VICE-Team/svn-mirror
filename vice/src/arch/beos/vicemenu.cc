@@ -1065,6 +1065,21 @@ BMenuBar *menu_create(int machine_class, int window_nr)
             submenu->AddItem(new BMenuItem("Enable userport 8bit stereo sampler", new BMessage(MENU_TOGGLE_USERPORT_8BSS)));
     }
 
+    if (machine_class != VICE_MACHINE_SCPU64 && machine_class != VICE_MACHINE_VSID) {
+        menu->AddItem(submenu = new BMenu("Tape port devices"));
+            submenu->AddItem(new BMenuItem("Enable datasette device", new BMessage(MENU_TOGGLE_TAPEPORT_DATASETTE)));
+            submenu->AddItem(new BMenuItem("Enable tape sense dongle", new BMessage(MENU_TOGGLE_TAPEPORT_TAPE_SENSE_DONGLE)));
+            submenu->AddItem(new BMenuItem("Enable DTL Basic dongle", new BMessage(MENU_TOGGLE_TAPEPORT_DTL_BASIC_DONGLE)));
+            submenu->AddItem(new BMenuItem("Enable CP Clock F83 device", new BMessage(MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83)));
+            submenu->AddItem(new BMenuItem("Save CP Clock F83 RTC data when changed", new BMessage(MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83_SAVE)));
+            submenu->AddItem(new BMenuItem("Enable tape log device", new BMessage(MENU_TOGGLE_TAPEPORT_TAPELOG)));
+            submenu->AddItem(extsubmenu = new BMenu("Tape log destination"));
+                extsubmenu->SetRadioMode(true);
+                extsubmenu->AddItem(new BMenuItem("Log messages to emulator log file", new BMessage(MENU_TAPEPORT_TAPELOG_DEFAULT_LOGFILE)));
+                extsubmenu->AddItem(new BMenuItem("Log messages to user specified file", new BMessage(MENU_TAPEPORT_TAPELOG_USER_LOGFILE)));
+            submenu->AddItem(new BMenuItem("Tape log filename", new BMessage(MENU_TAPEPORT_TAPLOG_FILENAME)));
+    }
+
     /* create the SETTINGS menu */
     uppermenu = new BMenu("Settings");
     menubar->AddItem(uppermenu);

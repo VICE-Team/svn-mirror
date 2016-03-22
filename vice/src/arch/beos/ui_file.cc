@@ -391,6 +391,9 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
     if (filetype == SCREENSHOT_PPM_FILE_SCREEN0 || filetype == SCREENSHOT_PPM_FILE_SCREEN1) {
         sprintf(title, "Select ppm file");
     }
+    if (filetype == TAPELOG_FILE) {
+        sprintf(title, "Select tapelog log file");
+    }
     if (filetype == C128_INT_FUNC_FILE) {
         sprintf(title, "Select Internal Function ROM file");
     }
@@ -845,6 +848,8 @@ void ui_select_file_action(BMessage *msg)
         } else if (last_filetype[1] == SCREENSHOT_PPM_FILE_SCREEN1) {
             if (screenshot_save("PPM", fullpath, c1) < 0)
             ui_error("Failed to write ppm screenshot %s (.ppm)", fullpath);
+        } else if (last_filetype[1] == TAPELOG_FILE) {
+            resources_set_string("TapeLogfilename", fullpath);
         } else if (last_filetype[1] == C128_INT_FUNC_FILE) {
             resources_set_string("InternalFunctionName", fullpath);
         } else if (last_filetype[1] == C128_EXT_FUNC_FILE) {
