@@ -562,7 +562,7 @@ static void end_resid_dialog(HWND hwnd)
     }
     resources_set_int("SidResidGain", res_val);
 
-    GetDlgItemText(hwnd, IDC_SID_RESID_FILTER_BIAS_VALUE, st, 4);
+    GetDlgItemText(hwnd, IDC_SID_RESID_FILTER_BIAS_VALUE, st, 6);
     temp_val = _ttoi(st);
     if (temp_val < -5000) {
         res_val = -5000;
