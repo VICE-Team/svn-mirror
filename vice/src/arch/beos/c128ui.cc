@@ -560,7 +560,7 @@ static void build_cart_list(void)
     for (j = 0; cartlist[j].name; ++j) {}
     j += 2;
 
-    c128_ui_cartridges = lib_malloc(sizeof(ui_cartridge_t) * j);
+    c128_ui_cartridges = (ui_cartridge_t *)lib_malloc(sizeof(ui_cartridge_t) * j);
 
     c128_ui_cartridges[0].menu_item = MENU_CART_ATTACH_CRT;
     c128_ui_cartridges[0].cart_type = CARTRIDGE_CRT;
@@ -606,7 +606,7 @@ static void build_cart_list(void)
 
     for (i = 0; cartlist[i].name; ++i) {
         if (cartlist[i].flags &= CARTRIDGE_GROUP_UTIL) {
-            c128_ui_cartridges[j].menu_item = MENU_GAME_UTIL + cartlist[i].crtid + 256;
+            c128_ui_cartridges[j].menu_item = MENU_UTIL_CARTS + cartlist[i].crtid + 256;
             c128_ui_cartridges[j].cart_type = cartlist[i].crtid;
             c128_ui_cartridges[j].cart_name = cartlist[i].name;
             ++j;
