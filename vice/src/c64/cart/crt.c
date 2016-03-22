@@ -32,6 +32,7 @@
 #include "archdep.h"
 #include "cartridge.h"
 #include "crt.h"
+#include "log.h"
 #include "resources.h"
 #include "types.h"
 #include "c64cart.h"
@@ -131,18 +132,20 @@ static FILE *crt_open(const char *filename, crt_header_t *header)
 
     do {
         if (fread(crt_header, sizeof(crt_header), 1, fd) < 1) {
-            DBG(("CRT: could not read header\n"));
+            log_error(LOG_DEFAULT, "could not read CRT header.\n");
             break;
         }
 
         if (memcmp(crt_header, CRT_HEADER, 16)) {
-            DBG(("CRT: header invalid\n"));
+            log_error(LOG_DEFAULT, "CRT header invalid.\n");
             break;
         }
 
         skip = util_be_buf_to_dword(&crt_header[0x10]);
 
         if (skip < sizeof(crt_header)) {
+            log_error(LOG_DEFAULT, "CRT header size is wrong (is 0x%02x, expected 0x%02lx).",
+                skip, sizeof(crt_header));
             break; /* invalid header size */
         }
         skip -= sizeof(crt_header); /* without header */
