@@ -107,7 +107,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(MACOSX_SUPPORT) /* (osx ???) */
+#if defined(MACOSX_SUPPORT) /* (osx) */
     { "HAVE_AUDIO_UNIT", "Enable AudioUnit support.",
 #ifndef HAVE_AUDIO_UNIT
         0 },
