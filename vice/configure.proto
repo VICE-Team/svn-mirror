@@ -190,6 +190,7 @@ HAVE_XRANDR_SUPPORT="no "
 USE_UI_THREADS_SUPPORT="no "
 HAVE_LIBXPM_SUPPORT="no "
 HAVE_VTE_SUPPORT="no "
+HAVE_D3D9_H_SUPPORT="no "
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
@@ -3453,7 +3454,8 @@ elif test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui
   fi
 
   AC_CHECK_HEADER(d3d9.h,
-      [ AC_DEFINE(HAVE_D3D9_H,,[Support for DirectX9.]) ],)
+      [ AC_DEFINE(HAVE_D3D9_H,,[Support for DirectX9.])
+        HAVE_D3D9_H_SUPPORT="yes" ],)
   AC_CHECK_LIB(dxguid, GUID_SysMouse,[LIBS="$LIBS -ldxguid";
                AC_DEFINE(HAVE_GUIDLIB,,
                          [Is the GUID lib of DX SDK present?])],,$LIBS)
@@ -4476,12 +4478,22 @@ echo ""
 
 echo "SCREEN/UI"
 echo "---------"
-echo ""
+
+echo "Fullscreen support             : $HAVE_FULLSCREEN_SUPPORT (--enable/disable-fullscreen)"
+
+if test x"$real_arch" != "xDOS"; then
+    echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
+fi
+
+if test x"$real_arch" = "xUnix" -o x"$show_gui" = "xSDL" -o x"$show_gui" = "xSDL2"; then
+    echo "OpenGL sync support            : $HAVE_OPENGL_SYNC_SUPPORT"
+fi
+
+if test x"$real_arch" = "xWin32" -a x"$show_gui" = "xWin32"; then
+    echo "Direct3D support               : $HAVE_D3D9_H_SUPPORT"
+fi
 
 if test x"$real_arch" = "xUnix"; then
-    echo "Fullscreen support             : $HAVE_FULLSCREEN_SUPPORT (--enable/disable-fullscreen)"
-    echo "OpenGL sync support            : $HAVE_OPENGL_SYNC_SUPPORT"
-    echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
     echo "Cairo rendering support        : $HAVE_CAIRO_SUPPORT"
     echo "Pango support                  : $HAVE_PANGO_SUPPORT"
     echo "XF86 extensions support        : $USE_XF86_EXTENSIONS_SUPPORT"
