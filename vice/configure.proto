@@ -177,6 +177,20 @@ is_beos=no
 is_beos_x11=no
 is_amiga=no
 
+HAVE_FULLSCREEN_SUPPORT="no"
+HAVE_OPENGL_SYNC_SUPPORT="no"
+HAVE_CAIRO_SUPPORT="no"
+HAVE_PANGO_SUPPORT="no"
+HAVE_HWSCALE_SUPPORT="no"
+USE_XF86_EXTENSIONS_SUPPORT="no"
+USE_MITSHM_SUPPORT="no"
+USE_XF86_VIDMODE_EXT_SUPPORT="no"
+HAVE_XVIDEO_SUPPORT="no"
+HAVE_XRANDR_SUPPORT="no"
+USE_UI_THREADS_SUPPORT="no"
+HAVE_LIBXPM_SUPPORT="no"
+HAVE_VTE_SUPPORT="no"
+
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
 
@@ -533,6 +547,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_CHECK_HEADERS(proto/openpci.h, openpci_present=yes,,)
     if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
         AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo (overlay) support.])
+        HAVE_XVIDEO_SUPPORT="yes"
     fi
     if test x"$openpci_present" = "xyes"; then
       AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
@@ -2095,6 +2110,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
           AC_MSG_ERROR([SDL2 not available for dingoo])
         fi
         AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
+        HAVE_FULLSCREEN_SUPPORT="yes"
     elif test x"$is_unix_macosx" = "xyes"; then
         if test x"$enable_sdlui2" = "xyes"; then
           AC_MSG_ERROR([SDL2 framework not implemented (yet) for the Mac OS X port]) 
@@ -2108,7 +2124,9 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
             AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
         fi
         AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
+        HAVE_HWSCALE_SUPPORT="yes"
         AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
+        HAVE_FULLSCREEN_SUPPORT="yes"
         AC_CHECK_FUNCS(SDL_NumJoysticks)
     elif test x"$host_os" = "xmingw32ce" -o x"$host_os" = "xcegcc"; then
         if test x"$enable_sdlui2" = "xyes"; then
@@ -2311,6 +2329,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
                 AC_MSG_ERROR([SDL headers and/or libraries missing])
             else
                 AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
+                HAVE_FULLSCREEN_SUPPORT="yes"
             fi
 
             if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes" -a x"$ac_cv_lib_SDL2_SDL_OpenAudio" != "xyes"; then
@@ -2381,6 +2400,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
 
             if test x"$have_opengl_lib" = "xyes"; then
                 AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
+                HAVE_HWSCALE_SUPPORT="yes"
             fi
 
             dnl check for the SDL_main.h header
@@ -3080,6 +3100,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
     if test x"$enable_gnomeui3" = "xyes"; then
       PKG_CHECK_MODULES(GTK, [gtk+-3.0])
       AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support])
+      HAVE_CAIRO_SUPPORT="yes"
       if test x"$enable_vte" != "xno"; then
         PKG_CHECK_MODULES(VTE, [vte-2.91], have_vte=yes,
            PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no)))
@@ -3092,21 +3113,25 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
     fi
 
     if test x"$have_vte" = "xyes"; then
+      HAVE_VTE_SUPPORT="yes"
       AC_DEFINE(HAVE_VTE,,[Enable VTE support])
     fi
 
     PKG_CHECK_MODULES(PANGO, [pango],
-        AC_DEFINE(HAVE_PANGO,,[Enable support for Pango]),
+        [AC_DEFINE(HAVE_PANGO,,[Enable support for Pango])
+        HAVE_PANGO_SUPPORT="yes"],
         AC_MSG_RESULT(no)
       )
 
     if test x"$enable_gnomeui3" != "xyes"; then
       PKG_CHECK_MODULES(CAIRO, [cairo >= 0.5.1],
-          AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support]),
+          [AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support])
+          HAVE_CAIRO_SUPPORT="yes"],
           AC_MSG_RESULT(no)
         )
       PKG_CHECK_MODULES(GTKGL, [gtkglext-1.0],
-          have_gtkglext1=yes; 
+          have_gtkglext1=yes;
+          HAVE_HWSCALE_SUPPORT="yes";
           AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]),
           AC_MSG_RESULT(no)
         )
@@ -3192,7 +3217,9 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
 
     if test x"$have_xvideo_header" != "xno" -a x"$have_xvideo_lib" != "xno"; then
        AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.])
+       HAVE_XVIDEO_SUPPORT="yes"
        AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
+       HAVE_HWSCALE_SUPPORT="yes"
     fi
 
     AC_CHECK_LIB(Xt, XtToolkitInitialize,
@@ -3209,6 +3236,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
     AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData,
                  [ X_LIBS="-lXpm $X_LIBS";
                    LINK_X_LIBS="-lXpm $LINK_X_LIBS";
+                   HAVE_LIBXPM_SUPPORT="yes";
                    AC_DEFINE(HAVE_LIBXPM,,[Is libXpm available?]) ],,$X_LIBS)
 
     dnl Check for Xaw.  Use Xaw3d if requested.
@@ -3256,7 +3284,8 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
     if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
       AC_CHECK_LIB(Xext, XShmAttach,
                    [ AC_DEFINE(USE_MITSHM,,
-                   [Enable MITSHM extensions.]) ],,$X_LIBS)
+                   [Enable MITSHM extensions.])
+                   USE_MITSHM_SUPPORT="yes"],,$X_LIBS)
     fi
 
 
@@ -3273,9 +3302,12 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
                  [ X_LIBS="-lGL $X_LIBS";
                    LINK_X_LIBS="-lGL $LINK_X_LIBS";
 		   VICE_SYNC="openGL_sync.o $VICE_SYNC";
-                   AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
-		   AC_DEFINE(HAVE_OPENGL_SYNC,,
-		   [Enable openGL synchronization])],,$X_LIBS)
+              HAVE_OPENGL_SYNC_SUPPORT="yes";
+              USE_XF86_EXTENSIONS_SUPPORT="yes";
+              AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
+              AC_DEFINE(HAVE_OPENGL_SYNC,,
+		   [Enable openGL synchronization])
+              ],,$X_LIBS)
   fi
   AC_SUBST(VICE_SYNC)
 
@@ -3289,7 +3321,8 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
         if test x"$ac_cv_header_semaphore_h" = "xyes" ; then
            AC_CHECK_LIB(pthread, pthread_create,
                      [ is_threaded=yes;
-    		       VICE_UI_THREADS="ui-threads.o";
+                       VICE_UI_THREADS="ui-threads.o";
+                       USE_UI_THREADS_SUPPORT="yes";
                        AC_DEFINE(USE_UI_THREADS,,[Enable multithreaded UI.])
     		 ],,$X_LIBS)
         fi
@@ -3337,9 +3370,12 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
                    [ X_LIBS="-lXxf86vm $X_LIBS";
                      LINK_X_LIBS="-lXxf86vm $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
+                     USE_XF86_VIDMODE_EXT_SUPPORT="yes";
                      AC_DEFINE(USE_XF86_VIDMODE_EXT,,
                                [Enable XF86 VidMode extensions.])
                      AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
+                     HAVE_FULLSCREEN_SUPPORT="yes";
+                     USE_XF86_EXTENSIONS_SUPPORT="yes";
                      AC_DEFINE(USE_XF86_EXTENSIONS,,
                                [Enable XF86 extensions.])],,$X_LIBS)
     fi
@@ -3349,8 +3385,11 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
                    [ X_LIBS="-lXrandr $X_LIBS";
                      LINK_X_LIBS="-lXrandr $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS xrandr.o";
+                     USE_XF86_EXTENSIONS_SUPPORT="yes";
                      AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
                      AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
+                     HAVE_FULLSCREEN_SUPPORT="yes";
+                     HAVE_XRANDR_SUPPORT="yes";
                      AC_DEFINE(HAVE_XRANDR,,
                      [Enable XRandR extension.])],,$X_LIBS)
     fi
@@ -4339,40 +4378,50 @@ dnl End:
 dnl construct show_arch
 if test x"$is_dos" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_os2" != "xyes" -a x"$is_unix_macosx" != "xyes" -a x"$is_win32" != "xyes"; then
     show_arch="Unix"
+    real_arch="Unix"
 else
     if test x"$is_amiga" = "xyes"; then
         show_arch="Amiga"
+        real_arch="Amiga"
     fi
     if test x"$is_beos" = "xyes"; then
         if test x"$is_beos_x11" = "xyes"; then
             show_arch="BeOS-X11 (treated as Unix)"
+            real_arch="Unix"
         else
             show_arch="BeOS"
+            real_arch="BeOS"
         fi
     fi
     if test x"$is_dos" = "xyes"; then
         show_arch="DOS"
+        real_arch="DOS"
     fi
     if test x"$is_os2" = "xyes"; then
         show_arch="OS/2"
+        real_arch="OS/2"
     fi
     if test x"$is_unix_macosx" = "xyes"; then
         show_arch="Mac OS X"
+        real_arch="OSX"
     fi
     if test x"$is_win32" = "xyes"; then
         if test x"$is_win32_x11" = "xyes"; then
             show_arch="Win32-X11 (treated as Unix)"
+            real_arch="Unix"
         else
             show_arch="Win32"
+            real_arch="Win32"
         fi
     fi
     if test x"$is_unix_dingux" = "xyes"; then
         show_arch="Dingux"
+        real_arch="Unix"
     fi
 fi
 
 dnl construct show_gui
-show_gui="X11"
+show_gui="XAW"
 if test x"$enable_gnomeui" = "xyes"; then
     show_gui="GTK2"
 fi
@@ -4411,12 +4460,36 @@ if test x"$is_win32" = "xyes"; then
         show_gui="Win32"
     fi
 fi
+if test "x$ac_cv_lib_Xaw3d_XawFormDoLayout" = xyes; then
+    show_gui="XAW3D"
+fi
 
 echo "----------------------------------------------------------------------"
 echo ""
 echo "configure summary:"
 echo ""
+
 echo "Platform canonical: $ac_cv_host"
 echo "Architecture      : $show_arch"
 echo "GUI               : $show_gui"
 echo ""
+
+echo "SCREEN/UI"
+echo "---------"
+echo ""
+
+if test x"$real_arch" = "xUnix"; then
+    echo "Fullscreen support             : $HAVE_FULLSCREEN_SUPPORT"
+    echo "OpenGL sync support            : $HAVE_OPENGL_SYNC_SUPPORT"
+    echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
+    echo "Cairo rendering support        : $HAVE_CAIRO_SUPPORT"
+    echo "Pango support                  : $HAVE_PANGO_SUPPORT"
+    echo "XF86 extensions support        : $USE_XF86_EXTENSIONS_SUPPORT"
+    echo "MITSHM extensions support      : $USE_MITSHM_SUPPORT"
+    echo "XF86 VidMode extensions support: $USE_XF86_VIDMODE_EXT_SUPPORT"
+    echo "XVideo support                 : $HAVE_XVIDEO_SUPPORT"
+    echo "XRandR support                 : $HAVE_XRANDR_SUPPORT"
+    echo "Multithreaded UI support       : $USE_UI_THREADS_SUPPORT"
+    echo "LibXpm support                 : $HAVE_LIBXPM_SUPPORT"
+    echo "VTE support                    : $HAVE_VTE_SUPPORT"
+fi
