@@ -407,7 +407,7 @@ void vsid_ui_set_default_tune(int nr)
 
 void vsid_ui_display_tune_nr(int nr)
 {
-    sprintf(vsidstrings[VSID_S_PLAYING], "Playing tune: -3%d", nr);
+    sprintf(vsidstrings[VSID_S_PLAYING], "Playing tune: %-3d", nr);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_PLAYING]);
     sdl_vsid_current_tune = nr;
 
