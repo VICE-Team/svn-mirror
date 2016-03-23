@@ -242,12 +242,13 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-/* (all) */
+#if defined(UNIX) || defined(WIN32) /* (unix/windows) */
     { "HAVE_LIBIEEE1284", "Define to 1 if you have the `ieee1284' library", /* (-lieee1284) */
 #ifndef HAVE_LIBIEEE1284
         0 },
 #else
         1 },
+#endif
 #endif
 #ifdef UNIX /* (unix) */
     { "HAVE_LIBXPM", "Is libXpm available?",
@@ -408,7 +409,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
+#if defined(UNIX) /* (unix) */
     { "HAVE_SYS_AUDIO_H", "Define to 1 if you have the <sys/audio.h> header file.",
 #ifndef HAVE_SYS_AUDIO_H
         0 },
@@ -416,7 +417,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
+#if defined(UNIX) /* (unix) */
     { "HAVE_SYS_AUDIOIO_H", "Define to 1 if you have the <sys/audioio.h> header file.",
 #ifndef HAVE_SYS_AUDIOIO_H
         0 },
