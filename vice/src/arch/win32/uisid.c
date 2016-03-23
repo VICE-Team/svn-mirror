@@ -526,7 +526,7 @@ static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, 
 static void end_resid_dialog(HWND hwnd)
 {
 #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
-    TCHAR st[4];
+    TCHAR st[10];
     int temp_val, res_val;
 
     res_val = (int)SendDlgItemMessage(hwnd, IDC_SID_RESID_SAMPLING, CB_GETCURSEL, 0, 0);
