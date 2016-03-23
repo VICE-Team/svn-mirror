@@ -99,14 +99,6 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#ifdef __MSDOS__ /* (dos) */
-    { "HAVE_ALLEGRO_H", "Define to 1 if you have the <allegro.h> header file.",
-#ifndef HAVE_ALLEGRO_H
-        0 },
-#else
-        1 },
-#endif
-#endif
 #if defined(MACOSX_SUPPORT) /* (osx) */
     { "HAVE_AUDIO_UNIT", "Enable AudioUnit support.",
 #ifndef HAVE_AUDIO_UNIT
