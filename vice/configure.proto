@@ -177,19 +177,19 @@ is_beos=no
 is_beos_x11=no
 is_amiga=no
 
-HAVE_FULLSCREEN_SUPPORT="no"
-HAVE_OPENGL_SYNC_SUPPORT="no"
-HAVE_CAIRO_SUPPORT="no"
-HAVE_PANGO_SUPPORT="no"
-HAVE_HWSCALE_SUPPORT="no"
-USE_XF86_EXTENSIONS_SUPPORT="no"
-USE_MITSHM_SUPPORT="no"
-USE_XF86_VIDMODE_EXT_SUPPORT="no"
-HAVE_XVIDEO_SUPPORT="no"
-HAVE_XRANDR_SUPPORT="no"
-USE_UI_THREADS_SUPPORT="no"
-HAVE_LIBXPM_SUPPORT="no"
-HAVE_VTE_SUPPORT="no"
+HAVE_FULLSCREEN_SUPPORT="no "
+HAVE_OPENGL_SYNC_SUPPORT="no "
+HAVE_CAIRO_SUPPORT="no "
+HAVE_PANGO_SUPPORT="no "
+HAVE_HWSCALE_SUPPORT="no "
+USE_XF86_EXTENSIONS_SUPPORT="no "
+USE_MITSHM_SUPPORT="no "
+USE_XF86_VIDMODE_EXT_SUPPORT="no "
+HAVE_XVIDEO_SUPPORT="no "
+HAVE_XRANDR_SUPPORT="no "
+USE_UI_THREADS_SUPPORT="no "
+HAVE_LIBXPM_SUPPORT="no "
+HAVE_VTE_SUPPORT="no "
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
@@ -4479,7 +4479,7 @@ echo "---------"
 echo ""
 
 if test x"$real_arch" = "xUnix"; then
-    echo "Fullscreen support             : $HAVE_FULLSCREEN_SUPPORT"
+    echo "Fullscreen support             : $HAVE_FULLSCREEN_SUPPORT (--enable/disable-fullscreen)"
     echo "OpenGL sync support            : $HAVE_OPENGL_SYNC_SUPPORT"
     echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
     echo "Cairo rendering support        : $HAVE_CAIRO_SUPPORT"
@@ -4489,7 +4489,7 @@ if test x"$real_arch" = "xUnix"; then
     echo "XF86 VidMode extensions support: $USE_XF86_VIDMODE_EXT_SUPPORT"
     echo "XVideo support                 : $HAVE_XVIDEO_SUPPORT"
     echo "XRandR support                 : $HAVE_XRANDR_SUPPORT"
-    echo "Multithreaded UI support       : $USE_UI_THREADS_SUPPORT"
+    echo "Multithreaded UI support       : $USE_UI_THREADS_SUPPORT (--with/without-uithreads)"
     echo "LibXpm support                 : $HAVE_LIBXPM_SUPPORT"
-    echo "VTE support                    : $HAVE_VTE_SUPPORT"
+    echo "VTE support                    : $HAVE_VTE_SUPPORT (--enable/disable-vte)"
 fi
