@@ -4335,3 +4335,88 @@ dnl Local Variables:
 dnl mode: autoconf
 dnl compile-command: "autoconf"
 dnl End:
+
+dnl construct show_arch
+if test x"$is_dos" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_os2" != "xyes" -a x"$is_unix_macosx" != "xyes" -a x"$is_win32" != "xyes"; then
+    show_arch="Unix"
+else
+    if test x"$is_amiga" = "xyes"; then
+        show_arch="Amiga"
+    fi
+    if test x"$is_beos" = "xyes"; then
+        if test x"$is_beos_x11" = "xyes"; then
+            show_arch="BeOS-X11 (treated as Unix)"
+        else
+            show_arch="BeOS"
+        fi
+    fi
+    if test x"$is_dos" = "xyes"; then
+        show_arch="DOS"
+    fi
+    if test x"$is_os2" = "xyes"; then
+        show_arch="OS/2"
+    fi
+    if test x"$is_unix_macosx" = "xyes"; then
+        show_arch="Mac OS X"
+    fi
+    if test x"$is_win32" = "xyes"; then
+        if test x"$is_win32_x11" = "xyes"; then
+            show_arch="Win32-X11 (treated as Unix)"
+        else
+            show_arch="Win32"
+        fi
+    fi
+    if test x"$is_unix_dingux" = "xyes"; then
+        show_arch="Dingux"
+    fi
+fi
+
+dnl construct show_gui
+show_gui="X11"
+if test x"$enable_gnomeui" = "xyes"; then
+    show_gui="GTK2"
+fi
+if test x"$enable_gnomeui3" = "xyes"; then
+    show_gui="GTK3"
+fi
+if test x"$enable_sdlui" = "xyes" -o x"$show_arch" = "xDingux"; then
+    show_gui="SDL"
+fi
+if test x"$enable_sdlui2" = "xyes"; then
+    show_gui="SDL2"
+fi
+if test x"$enable_cocoa" = "xyes"; then
+    show_gui="COCOA"
+fi
+if test x"$show_arch" = "xAmiga"; then
+    if test "x$ac_cv_header_proto_cybergraphics_h" = xyes; then
+        show_gui="CyberGFX (MUI)"
+    else
+        show_gui="P96 (MUI)"
+    fi
+fi
+if test x"$is_beos" = "xyes"; then
+    if test x"$is_beos_x11" != "xyes"; then
+        show_gui="BeOS"
+    fi
+fi
+if test x"$is_dos" = "xyes"; then
+    show_gui="Allegro"
+fi
+if test x"$is_os2" = "xyes"; then
+    show_gui="DIVE (PM)"
+fi
+if test x"$is_win32" = "xyes"; then
+    if test x"$is_win32_x11" != "xyes"; then
+        show_gui="Win32"
+    fi
+fi
+
+echo "----------------------------------------------------------------------"
+echo ""
+echo "configure summary:"
+echo ""
+echo "Platform canonical: $ac_cv_host"
+echo "Architecture      : $show_arch"
+echo "GUI               : $show_gui"
+echo ""
