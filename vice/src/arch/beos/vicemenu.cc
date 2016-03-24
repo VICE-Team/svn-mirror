@@ -1068,27 +1068,6 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         uppermenu->AddItem(new BMenuItem("IEEE488 Interface", new BMessage(MENU_TOGGLE_IEEE488)));
     }
 
-    if (machine_class != VICE_MACHINE_VSID) {
-        uppermenu->AddItem(menu = new BMenu("Sampler settings"));
-            menu->AddItem(submenu = new BMenu("Sampler device"));
-                submenu->AddItem(new BMenuItem("Media file device", new BMessage(MENU_SAMPLER_DEVICE_MEDIA_FILE)));
-#ifdef USE_PORTAUDIO
-                submenu->AddItem(new BMenuItem("Media file device", new BMessage(MENU_SAMPLER_DEVICE_PORTAUDIO)));
-#endif
-            menu->AddItem(submenu = new BMenu("Sampler gain"));
-                submenu->AddItem(new BMenuItem("10%", new BMessage(MENU_SAMPLER_GAIN_10)));
-                submenu->AddItem(new BMenuItem("25%", new BMessage(MENU_SAMPLER_GAIN_25)));
-                submenu->AddItem(new BMenuItem("50%", new BMessage(MENU_SAMPLER_GAIN_50)));
-                submenu->AddItem(new BMenuItem("75%", new BMessage(MENU_SAMPLER_GAIN_75)));
-                submenu->AddItem(new BMenuItem("100%", new BMessage(MENU_SAMPLER_GAIN_100)));
-                submenu->AddItem(new BMenuItem("110%", new BMessage(MENU_SAMPLER_GAIN_110)));
-                submenu->AddItem(new BMenuItem("125%", new BMessage(MENU_SAMPLER_GAIN_125)));
-                submenu->AddItem(new BMenuItem("150%", new BMessage(MENU_SAMPLER_GAIN_150)));
-                submenu->AddItem(new BMenuItem("175%", new BMessage(MENU_SAMPLER_GAIN_175)));
-                submenu->AddItem(new BMenuItem("200%", new BMessage(MENU_SAMPLER_GAIN_200)));
-            menu->AddItem(new BMenuItem("Sampler media filename", new BMessage(MENU_SAMPLER_FILENAME)));
-    }
-
     if (machine_class == VICE_MACHINE_C64 ||
         machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_SCPU64 ||
@@ -1122,6 +1101,27 @@ BMenuBar *menu_create(int machine_class, int window_nr)
             submenu->AddItem(new BMenuItem("Enable userport DigiMAX", new BMessage(MENU_TOGGLE_USERPORT_DIGIMAX)));
             submenu->AddItem(new BMenuItem("Enable userport 4bit sampler", new BMessage(MENU_TOGGLE_USERPORT_4BIT_SAMPLER)));
             submenu->AddItem(new BMenuItem("Enable userport 8bit stereo sampler", new BMessage(MENU_TOGGLE_USERPORT_8BSS)));
+    }
+
+    if (machine_class != VICE_MACHINE_VSID) {
+        uppermenu->AddItem(menu = new BMenu("Sampler settings"));
+            menu->AddItem(submenu = new BMenu("Sampler device"));
+                submenu->AddItem(new BMenuItem("Media file device", new BMessage(MENU_SAMPLER_DEVICE_MEDIA_FILE)));
+#ifdef USE_PORTAUDIO
+                submenu->AddItem(new BMenuItem("Media file device", new BMessage(MENU_SAMPLER_DEVICE_PORTAUDIO)));
+#endif
+            menu->AddItem(submenu = new BMenu("Sampler gain"));
+                submenu->AddItem(new BMenuItem("10%", new BMessage(MENU_SAMPLER_GAIN_10)));
+                submenu->AddItem(new BMenuItem("25%", new BMessage(MENU_SAMPLER_GAIN_25)));
+                submenu->AddItem(new BMenuItem("50%", new BMessage(MENU_SAMPLER_GAIN_50)));
+                submenu->AddItem(new BMenuItem("75%", new BMessage(MENU_SAMPLER_GAIN_75)));
+                submenu->AddItem(new BMenuItem("100%", new BMessage(MENU_SAMPLER_GAIN_100)));
+                submenu->AddItem(new BMenuItem("110%", new BMessage(MENU_SAMPLER_GAIN_110)));
+                submenu->AddItem(new BMenuItem("125%", new BMessage(MENU_SAMPLER_GAIN_125)));
+                submenu->AddItem(new BMenuItem("150%", new BMessage(MENU_SAMPLER_GAIN_150)));
+                submenu->AddItem(new BMenuItem("175%", new BMessage(MENU_SAMPLER_GAIN_175)));
+                submenu->AddItem(new BMenuItem("200%", new BMessage(MENU_SAMPLER_GAIN_200)));
+            menu->AddItem(new BMenuItem("Sampler media filename", new BMessage(MENU_SAMPLER_FILENAME)));
     }
 
     /* create the SETTINGS menu */
