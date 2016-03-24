@@ -79,6 +79,7 @@ extern "C" {
 #include "platform_discovery.h"
 #include "printer.h"
 #include "resources.h"
+#include "sampler.h"
 #include "sound.h"
 #include "tape.h"
 #include "translate.h"
@@ -208,6 +209,26 @@ ui_res_possible_values Printer4Emulation[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values SamplerEmulation[] = {
+    { SAMPLER_DEVICE_FILE, MENU_SAMPLER_DEVICE_MEDIA_FILE },
+    { SAMPLER_DEVICE_PORTAUDIO, MENU_SAMPLER_DEVICE_PORTAUDIO },
+    { -1, 0 }
+};
+
+ui_res_possible_values SamplerGain[] = {
+    { 10, MENU_SAMPLER_GAIN_10 },
+    { 25, MENU_SAMPLER_GAIN_25 },
+    { 50, MENU_SAMPLER_GAIN_50 },
+    { 75, MENU_SAMPLER_GAIN_75 },
+    { 100, MENU_SAMPLER_GAIN_100 },
+    { 110, MENU_SAMPLER_GAIN_110 },
+    { 125, MENU_SAMPLER_GAIN_125 },
+    { 150, MENU_SAMPLER_GAIN_150 },
+    { 175, MENU_SAMPLER_GAIN_175 },
+    { 200, MENU_SAMPLER_GAIN_200 },
+    { -1, 0 }
+};
+
 ui_res_possible_strings Printer4Driver[] = {
     { "ascii", MENU_PRINTER_4_DRIVER_ASCII },
     { "mps803", MENU_PRINTER_4_DRIVER_MPS803 },
@@ -260,6 +281,8 @@ ui_res_value_list non_vsid_values[] = {
     { "Printer4", Printer4Emulation },
     { "Printer4TextDevice", Printer4OutputDevice },
     { "TapeLogDestination", TapeLogDestinations },
+    { "SamplerDevice", SamplerEmulation },
+    { "SamplerGain", SamplerGain },
     { NULL, NULL }
 };
 
@@ -1109,6 +1132,9 @@ void ui_dispatch_events(void)
                 break;
             case MENU_TAPEPORT_TAPLOG_FILENAME:
                 ui_select_file(B_SAVE_PANEL, TAPELOG_FILE, (void*)0);
+                break;
+            case MENU_SAMPLER_FILENAME:
+                ui_select_file(B_SAVE_PANEL, SAMPLER_MEDIA_FILE, (void*)0);
                 break;
             case MESSAGE_SET_RESOURCE:
                 {

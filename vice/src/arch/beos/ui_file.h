@@ -165,7 +165,8 @@ enum filetype_t {
 #endif
     SCREENSHOT_PPM_FILE_SCREEN0,
     SCREENSHOT_PPM_FILE_SCREEN1,
-    TAPELOG_FILE
+    TAPELOG_FILE,
+    SAMPLER_MEDIA_FILE
 };
 
 class ViceFilePanel;

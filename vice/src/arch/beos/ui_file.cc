@@ -601,6 +601,10 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
     if (filetype == DRIVE_SUPERCARD_ROM_FILE) {
         sprintf(title, "Select SuperCard+ ROM file");
     }
+    if (filetype == SAMPLER_MEDIA_FILE) {
+        sprintf(title, "Select sampler media file");
+    }
+
 
     filepanel->Window()->SetTitle(title);
 
@@ -850,6 +854,8 @@ void ui_select_file_action(BMessage *msg)
             ui_error("Failed to write ppm screenshot %s (.ppm)", fullpath);
         } else if (last_filetype[1] == TAPELOG_FILE) {
             resources_set_string("TapeLogfilename", fullpath);
+        } else if (last_filetype[1] == SAMPLER_MEDIA_FILE) {
+            resources_set_string("SampleName", fullpath);
         } else if (last_filetype[1] == C128_INT_FUNC_FILE) {
             resources_set_string("InternalFunctionName", fullpath);
         } else if (last_filetype[1] == C128_EXT_FUNC_FILE) {
