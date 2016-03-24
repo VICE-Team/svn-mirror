@@ -4705,7 +4705,9 @@ echo ""
 echo "SCREEN/UI"
 echo "---------"
 
-echo "Fullscreen support             : $HAVE_FULLSCREEN_SUPPORT (--enable/disable-fullscreen)"
+if test x"$real_arch" != "xAmiga"; then
+    echo "Fullscreen support             : $HAVE_FULLSCREEN_SUPPORT (--enable/disable-fullscreen)"
+fi
 
 if test x"$real_arch" != "xDOS"; then
     echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
@@ -4736,7 +4738,9 @@ echo ""
 echo "SOUND"
 echo "-----"
 
-echo "PortAudio sound input support: $USE_PORTAUDIO_SUPPORT"
+if test x"$real_arch" != "xAmiga"; then
+    echo "PortAudio sound input support: $USE_PORTAUDIO_SUPPORT"
+fi
 
 if test x"$real_arch" = "xUnix"; then
     echo "OSS sound support            : $USE_OSS_SUPPORT (--with/without-oss)"
@@ -4822,7 +4826,12 @@ echo "-----"
 
 echo "Joystick support            : $HAS_JOYSTICK_SUPPORT"
 echo "Mouse support               : $HAVE_MOUSE_SUPPORT"
-echo "Lightpen support            : $HAVE_LIGHTPEN_SUPPORT"
+
+if test x"$real_arch" = "xAmiga"; then
+    if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
+        echo "Lightpen support            : $HAVE_LIGHTPEN_SUPPORT"
+    fi
+fi
 
 if test x"$real_arch" = "xUnix"; then
     if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
