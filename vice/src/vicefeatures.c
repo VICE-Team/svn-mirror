@@ -177,6 +177,20 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
  /* (all) */
+    { "HAVE_FFMPEG_SWRESAMPLE", "Have FFMPEG swresample lib available",
+#ifndef HAVE_FFMPEG_SWRESAMPLE
+        0 },
+#else
+        1 },
+#endif
+ /* (all) */
+    { "HAVE_FFMPEG_AVRESAMPLE", "Have FFMPEG avresample lib available",
+#ifndef HAVE_FFMPEG_AVRESAMPLE
+        0 },
+#else
+        1 },
+#endif
+ /* (all) */
     { "SHARED_FFMPEG", "FFMPEG libraries are shared",
 #ifndef SHARED_FFMPEG
         0 },
