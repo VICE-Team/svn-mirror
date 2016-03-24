@@ -138,6 +138,7 @@ ui_menu_toggle  non_vsid_toggles[] = {
     { "CPClockF83", MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83 },
     { "CPClockF83Save", MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83_SAVE },
     { "TapeLog", MENU_TOGGLE_TAPEPORT_TAPELOG },
+    { "BBRTCSave", MENU_BBRTC_DATA_SAVE },
     { NULL, 0 }
 };
 

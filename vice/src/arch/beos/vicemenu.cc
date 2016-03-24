@@ -1240,6 +1240,8 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 lib_free(tmp_text);
             }
             menu->AddSeparatorItem();
+            menu->AddItem(new BMenuItem("Save BBRTC data when changed", new BMessage(MENU_BBRTC_DATA_SAVE)));
+            menu->AddSeparatorItem();
             menu->AddItem(submenu = new BMenu("Joystick settings"));
                 submenu->AddItem(new BMenuItem("Joystick/Keyset settings ...", new BMessage(MENU_JOYSTICK_SETTINGS)));
                 submenu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
