@@ -192,16 +192,88 @@ HAVE_LIBXPM_SUPPORT="no "
 HAVE_VTE_SUPPORT="no "
 HAVE_D3D9_H_SUPPORT="no "
 
+HAVE_CATWEASELMKIII_SUPPORT="no "
+HAVE_HARDSID_SUPPORT="no "
+HAVE_MIDI_SUPPORT="no "
+HAVE_PARSID_SUPPORT="no "
+HAVE_SYS_AUDIO_H_SUPPORT="no "
+HAVE_SYS_AUDIOIO_H_SUPPORT="no "
+USE_AIX_AUDIO_SUPPORT="no "
+USE_ALSA_SUPPORT="no "
+USE_ARTS_SUPPORT="no "
+USE_DMEDIA_SUPPORT="no "
+USE_OSS_SUPPORT="no "
+USE_PORTAUDIO_SUPPORT="no "
+USE_PULSE_SUPPORT="no "
+USE_SDL_AUDIO_SUPPORT="no "
+USE_LAMEMP3_SUPPORT="no "
+USE_MPG123_SUPPORT="no "
+USE_FLAC_SUPPORT="no "
+USE_VORBIS_SUPPORT="no "
+USE_COREAUDIO_SUPPORT="no "
+HAVE_AUDIO_UNIT_SUPPORT="no "
+USE_ALLEGRO_SOUND_SUPPORT="yes"
+USE_MIDAS_SOUND_SUPPORT="no "
+HAVE_DEVICES_AHI_H_SUPPORT="no "
+USE_DXSOUND_SUPPORT="no "
+
+HAVE_GIF_SUPPORT="no "
+HAVE_JPEG_SUPPORT="no "
+HAVE_PNG_SUPPORT="no "
+
+HAVE_FFMPEG_SUPPORT="no "
+HAVE_FFMPEG_SWSCALE_SUPPORT="no "
+HAVE_FFMPEG_SWRESAMPLE_SUPPORT="no "
+HAVE_FFMPEG_AVRESAMPLE_SUPPORT="no "
+SHARED_FFMPEG_SUPPORT="no "
+STATIC_FFMPEG_SUPPORT="no "
+HAVE_QUICKTIME_SUPPORT="no "
+
+HAS_JOYSTICK_SUPPORT="no "
+HAVE_MOUSE_SUPPORT="no "
+HAVE_LIGHTPEN_SUPPORT="no "
+LINUX_JOYSTICK_SUPPORT="no "
+BSD_JOYSTICK_SUPPORT="no "
+HAS_DIGITAL_JOYSTICK_SUPPORT="no "
+HAS_USB_JOYSTICK_SUPPORT="no "
+MAC_JOYSTICK_SUPPORT="no "
+HAS_HIDMGR_SUPPORT="no "
+HAVE_DINPUT_SUPPORT="no "
+HAVE_SDL_NUMJOYSTICKS_SUPPORT="no "
+
+HAVE_RS232DEV_SUPPORT="no "
+HAVE_NETWORK_SUPPORT="no "
+HAVE_RS232NET_SUPPORT="no "
+HAVE_IPV6_SUPPORT="no "
+HAVE_TFE_SUPPORT="no "
+
+HAVE_RAWDRIVE_SUPPORT="no "
+HAVE_OPENCBM_SUPPORT="no "
+
+HAVE_DYNLIB_SUPPORT_TOO="no "
+
+HAVE_ZLIB_SUPPORT="no "
+HAVE_LIBIEEE1284_SUPPORT="no "
+ENABLE_NLS_SUPPORT="no "
+HAVE_PROTO_OPENPCI_H_SUPPORT="no "
+
+HAVE_RESID_SUPPORT="no "
+FEATURE_CPUMEMHISTORY_SUPPORT="no "
+DEBUG_SUPPORT="no "
+USE_EMBEDDED_SUPPORT="no "
+
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
 
 if test x"$enable_memmap" = "xyes"; then
   AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the memmap feature.])
+  FEATURE_CPUMEMHISTORY_SUPPORT="yes"
 fi
 
 dnl check for debug build
 if test x"$enable_debug" = "xyes"; then
   DEBUGBUILD=1
+  DEBUG_SUPPORT="yes"
 else
   DEBUGBUILD=0
 fi
@@ -492,6 +564,8 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   is_dos=yes
 
   if test x"$with_midas" = "xyes" ; then
+      USE_MIDAS_SOUND_SUPPORT="yes"
+      USE_ALLEGRO_SOUND_SUPPORT="no "
       AC_DEFINE(USE_MIDAS_SOUND,,
                 [Use MIDAS Sound System instead of the Allegro library.])
       LIBMIDAS="-lmidas"
@@ -505,14 +579,20 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
 
   dnl We always have a joystick and mouse on MSDOS.
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+  HAS_JOYSTICK_SUPPORT="yes"
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
+  HAVE_LIGHTPEN_SUPPORT="yes"
   AC_DEFINE(HAS_SINGLE_CANVAS,,[Is only one canvas supported?])
   AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+  HAVE_CATWEASELMKIII_SUPPORT="yes"
   AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+  HAVE_HARDSID_SUPPORT="yes"
 
   if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+    HAVE_PARSID_SUPPORT="yes"
   fi
 
   dnl disable resid
@@ -524,10 +604,14 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
   if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
       if test x"$enable_rs232" != "xno"; then
         AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
+        HAVE_RS232DEV_SUPPORT="yes"
       fi
       AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
+      HAVE_RAWDRIVE_SUPPORT="yes"
       AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+      HAS_JOYSTICK_SUPPORT="yes"
       AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+      HAVE_MOUSE_SUPPORT="yes"
   fi
 
   AC_DEFINE(AMIGA_SUPPORT,,[Should we enable Amigaos support.])
@@ -544,7 +628,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+    HAVE_NETWORK_SUPPORT="yes"
     AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
+    HAVE_RS232NET_SUPPORT="yes"
     AC_CHECK_HEADERS(proto/openpci.h, openpci_present=yes,,)
     if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
         AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo (overlay) support.])
@@ -552,7 +638,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     fi
     if test x"$openpci_present" = "xyes"; then
       AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+      HAVE_CATWEASELMKIII_SUPPORT="yes"
       AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+      HAVE_HARDSID_SUPPORT="yes"
     fi
     is_amiga_morphos=yes
     is_amigaos4=no
@@ -563,7 +651,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+    HAVE_NETWORK_SUPPORT="yes"
     AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
+    HAVE_RS232NET_SUPPORT="yes"
     AC_CHECK_HEADERS(aros/_timeval.h)
     AC_MSG_CHECKING(if common library bases are auto resolved)
     aros_common_resolve=no
@@ -586,11 +676,15 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+    HAVE_NETWORK_SUPPORT="yes"
     AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
+    HAVE_RS232NET_SUPPORT="yes"
     AC_CHECK_HEADERS(proto/openpci.h, openpci_present=yes,,)
     if test x"$openpci_present" = "xyes"; then
       AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+      HAVE_CATWEASELMKIII_SUPPORT="yes"
       AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+      HAVE_HARDSID_SUPPORT="yes"
     fi
     is_amigaos4=no
     is_amigaos3=yes
@@ -599,7 +693,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
   if test x"$is_amigaos4" = "xyes"; then
     AC_DEFINE(AMIGA_OS4,,[Should we enable AmigaOS4 support.])
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+    HAVE_CATWEASELMKIII_SUPPORT="yes"
     AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+    HAVE_HARDSID_SUPPORT="yes"
     with_picasso96=yes
     LIBS="$LIBS -lsupc++ -lgcc_eh"
   fi
@@ -623,23 +719,34 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   AC_CHECK_HEADERS([commctrl.h shlobj.h winioctl.h], [], [], [#include <windows.h>])
 
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+  HAS_JOYSTICK_SUPPORT="yes"
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
+  HAVE_LIGHTPEN_SUPPORT="yes"
   AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
   AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
   AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+  HAVE_NETWORK_SUPPORT="yes"
   AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
+  HAVE_RS232NET_SUPPORT="yes"
   AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+  HAVE_CATWEASELMKIII_SUPPORT="yes"
   AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+  HAVE_HARDSID_SUPPORT="yes"
   if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+    HAVE_PARSID_SUPPORT="yes"
   fi
   if test x"$enable_midi" != "xno"; then
     AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
+    HAVE_MIDI_SUPPORT="yes"
   fi
   AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
+  HAVE_TFE_SUPPORT="yes"
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
+    HAVE_RS232DEV_SUPPORT="yes"
   fi
 
   if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
@@ -659,7 +766,8 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   dnl don't use dinput for owcc
   if test x"$CC" != "xowcc"; then
     AC_CHECK_HEADER(dinput.h,
-                [ AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
+                [ HAVE_DINPUT_SUPPORT="yes";
+                  AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
                 [ AC_MSG_CHECKING(for -ldinput) ]
                 [SAVELIBS="$LIBS"] [ LIBS="-ldinput $LIBS" ]
                 [ AC_LINK_IFELSE([
@@ -693,7 +801,9 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
   if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
     AC_DEFINE(USE_BEOS_UI,,[Are we using the BeOS native UI?])
     AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+    HAS_JOYSTICK_SUPPORT="yes"
     AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+    HAVE_MOUSE_SUPPORT="yes"
   fi
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
@@ -711,7 +821,9 @@ elif test x"$enable_dingoo" = "xyes"; then
   CFLAGS="$CFLAGS -fdelayed-branch"
   LIBS="-Wl,-z,muldefs -static -nodefaultlibs -nostdlib -Wl,--script,$DINGOO_SDK/lib/dingoo.xn -L$DINGOO_SDK/lib -lm -lSDL -lfgl -lsml -lc -ljz4740 -lgcc"
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
+  HAVE_LIGHTPEN_SUPPORT="yes"
   AC_DEFINE(DINGOO_NATIVE,,[Enable native DINGOO compilation])
   AC_DEFINE(DINGOO,,[Enable DINGOO compilation])
   if test x"$enable_platformdox" = "xyes"; then
@@ -735,7 +847,9 @@ elif test x"$host_os" = "xdingux" -o x"$host_os" = "xdingoo" -o x"$host_os" = "x
 
   if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
     AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+    HAVE_MOUSE_SUPPORT="yes"
     AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
+    HAVE_LIGHTPEN_SUPPORT="yes"
     AC_DEFINE(DEBUG_ZFILE,,[Use debugging of the zfile])
     AC_DEFINE(DINGUX,,[Enable DINGUX compilation])
   else
@@ -806,11 +920,15 @@ darwin*)
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
+    HAVE_RS232DEV_SUPPORT="yes"
   fi
 
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
+  HAVE_RAWDRIVE_SUPPORT="yes"
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
+  HAVE_LIGHTPEN_SUPPORT="yes"
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
   if test "x$enable_bundle" != "xno" -o "x$enable_sdlui" = "xyes" -o "x$enable_sdlui2" = "xyes"; then
@@ -936,19 +1054,25 @@ dnl All other UN*X systems
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
+  HAVE_RAWDRIVE_SUPPORT="yes"
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
+  HAVE_LIGHTPEN_SUPPORT="yes"
   if test x"$is_beos_x11" != "xyes"; then
     if test x"$enable_midi" != "xno"; then
       AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
+      HAVE_MIDI_SUPPORT="yes"
     fi
     if test x"$enable_rs232" != "xno"; then
       AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
+      HAVE_RS232DEV_SUPPORT="yes"
     fi
   fi
 
   AC_CHECK_HEADER(linux/hardsid.h,
-      [ AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.]) ],)
+      [ AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+        HAVE_HARDSID_SUPPORT="yes" ],)
   ;;
 esac
 fi
@@ -958,6 +1082,7 @@ dnl only be used for developing new ports or for ports for which
 dnl the loading of the datafiles is hard/impossible.
 if test x"$enable_embedded" = "xyes"; then
   AC_DEFINE(USE_EMBEDDED,,[Use embedded data files.])
+  USE_EMBEDDED_SUPPORT="yes"
   AM_CONDITIONAL(EMBEDDED, true)
 else
   AM_CONDITIONAL(EMBEDDED, false)
@@ -1075,6 +1200,7 @@ if test x"$enable_nls" != "xno" -a x"$is_unix" = "xyes"; then
   	fi
         USE_NLS=yes
 	AC_DEFINE(ENABLE_NLS,,[Define if NLS support is enabled.])
+     ENABLE_NLS_SUPPORT="yes"
 	AC_DEFINE(HAVE_LIBINTL_H,,[use libintl for NLS.])
 	AC_DEFINE_UNQUOTED(DATADIRNAME, "$DATADIRNAME",[NLS datadirname.])
 	dnl this is prefixed with PREFIX
@@ -1293,6 +1419,7 @@ else
 
   if test x"$with_resid" = "xyes" -o x"$with_resid" = "x"; then
     AC_DEFINE(HAVE_RESID,,[This version provides ReSID support.])
+    HAVE_RESID_SUPPORT="yes"
     AC_CONFIG_SUBDIRS(src/resid)
     RESID_DIR=resid
     RESID_LIBS="\$(top_builddir)/src/resid/libresid.a"
@@ -1427,20 +1554,23 @@ if test x"$is_unix" = "xyes"; then
                  [ DYNLIB_LIBS="";
                    AC_DEFINE(HAVE_DYNLIB_SUPPORT,,
                              [Support for dynamic library loading.])
-                   dynlib_support=yes
+                   dynlib_support=yes;
+                   HAVE_DYNLIB_SUPPORT_TOO="yes"
                  ])
     if test x"$dynlib_support" != "xyes" ; then
       AC_CHECK_LIB(dl, dlopen,
                  [ DYNLIB_LIBS="-ldl";
                    AC_DEFINE(HAVE_DYNLIB_SUPPORT,,
                              [Support for dynamic library loading.])
-                   dynlib_support=yes
+                   dynlib_support=yes;
+                   HAVE_DYNLIB_SUPPORT_TOO="yes";
                    LIBS="-ldl $LIBS"
                  ],,)
     fi
   fi
 elif test x"$is_win32" = "xyes" ; then
   AC_DEFINE(HAVE_DYNLIB_SUPPORT,,[Support for dynamic library loading.])
+  HAVE_DYNLIB_SUPPORT_TOO="yes"
 fi
 AC_SUBST(DYNLIB_LIBS)
 
@@ -1449,19 +1579,24 @@ JOY_LIBS=
 if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+                    HAS_JOYSTICK_SUPPORT="yes";
+                    LINUX_JOYSTICK_SUPPORT="yes";
                     AC_DEFINE(LINUX_JOYSTICK,,
                               [Enable support for Linux style joysticks.])],)
   if test x"$ac_cv_header_linux_joystick_h" = "xyes" ; then
     AC_MSG_CHECKING(whether linux/joystick.h supports digital joysticks)
     AC_TRY_COMPILE([ #include <linux/joystick.h> ],
                    [ struct DJS_DATA_TYPE djs; ],
-                   [ AC_DEFINE(HAS_DIGITAL_JOYSTICK,,
+                   [ HAS_DIGITAL_JOYSTICK_SUPPORT="yes";
+                     AC_DEFINE(HAS_DIGITAL_JOYSTICK,,
                                [Enable emulation for digital joysticks.])
                      AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
   fi
 
   AC_CHECK_HEADER(machine/joystick.h,
                   [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+                    HAS_JOYSTICK_SUPPORT="yes";
+                    BSD_JOYSTICK_SUPPORT="yes";
                     AC_DEFINE(HAVE_MACHINE_JOYSTICK_H,,
                               [Define to 1 if you have the <machine/joystick.h> header file.])
                     AC_DEFINE(BSD_JOYSTICK,,
@@ -1470,6 +1605,8 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
   if test x"$ac_cv_header_machine_joystick_h" != "xyes"; then
     AC_CHECK_HEADER(sys/joystick.h,
                     [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+                      HAS_JOYSTICK_SUPPORT="yes";
+                      BSD_JOYSTICK_SUPPORT="yes";
                       AC_DEFINE(HAVE_SYS_JOYSTICK_H,,
                                 [Define to 1 if you have the <sys/joystick.h> header file.])
                       AC_DEFINE(BSD_JOYSTICK,,
@@ -1494,6 +1631,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
     if test x"$usb_header" = "xyes" ; then
       AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
       JOY_LIBS="-lusbhid"
+      HAS_USB_JOYSTICK_SUPPORT="yes"
     fi
   else
     AC_CHECK_LIB(usb, hid_get_report_desc, usb_lib=yes)
@@ -1509,6 +1647,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
       if test x"$usb_header" = "xyes" ; then
         AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
         JOY_LIBS="-lusb"
+        HAS_USB_JOYSTICK_SUPPORT="yes"
       fi
     fi
   fi
@@ -1529,6 +1668,9 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
                   [AC_MSG_RESULT(yes);
                    JOY_LIBS="-framework IOKit -framework CoreServices";
                    AC_DEFINE(HAS_JOYSTICK,,[Enable Joystick emulation.])
+                   HAS_JOYSTICK_SUPPORT="yes";
+                   MAC_JOYSTICK_SUPPORT="yes";
+                   HAS_HIDMGR_SUPPORT="yes";
                    AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])
                    AC_DEFINE(HAS_HIDMGR,,[Enable Mac IOHIDManager Joystick driver.])
                    enable_hidutils=no
@@ -1551,6 +1693,8 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
                   [AC_MSG_RESULT(yes);
                    JOY_LIBS="-lHIDUtilities -framework IOKit -framework CoreServices";
                    AC_DEFINE(HAS_JOYSTICK,,[Enable Joystick emulation.])
+                   HAS_JOYSTICK_SUPPORT="yes";
+                   MAC_JOYSTICK_SUPPORT="yes";
                    AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])],
                   [AC_MSG_RESULT(no);
                    LIBS=${old_LIBS}])
@@ -1574,6 +1718,7 @@ if test x"$with_zlib" != "xno" ; then
     ac_cv_lib_z_zlibVersion=yes
     AC_CHECK_LIB(z, zlibVersion,
                [ ZLIB_LIBS="-lz";
+                 HAVE_ZLIB_SUPPORT="yes";
                  AC_DEFINE(HAVE_ZLIB,,
                  [Can we use the ZLIB compression library?]) ],,)
   fi
@@ -1639,7 +1784,9 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
 
     if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
       AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+      HAVE_NETWORK_SUPPORT="yes"
       AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
+      HAVE_RS232NET_SUPPORT="yes"
       AC_CHECK_FUNCS(htons htonl)
       AC_CHECK_FUNCS(getdtablesize getrlimit)
       AC_MSG_CHECKING([For socklen_t])
@@ -1686,7 +1833,9 @@ elif test x"$is_beos" = "xyes"; then
 
     if test x"$BEOS_NETWORK_FUNCS_PRESENT" = "xyes"; then
       AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+      HAVE_NETWORK_SUPPORT="yes"
       AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
+      HAVE_RS232NET_SUPPORT="yes"
       AC_CHECK_FUNCS(getdtablesize getrlimit)
     fi
   fi
@@ -1756,12 +1905,14 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
         if test $have_gethostbyname2 = yes; then
           AC_DEFINE([HAVE_GETHOSTBYNAME2], [], [Define if gethostbyname2 can be used])
           AC_DEFINE([HAVE_IPV6], [], [Define if ipv6 can be used])
+          HAVE_IPV6_SUPPORT="yes"
         else
           have_getipnodebyname=no
           AC_CHECK_FUNC(getipnodebyname, have_getipnodebyname=yes)
           if test $have_getipnodebyname = yes; then
             AC_DEFINE([HAVE_GETIPNODEBYNAME], [], [Define if getipnodebyname can be used])
             AC_DEFINE([HAVE_IPV6], [], [Define if ipv6 can be used])
+            HAVE_IPV6_SUPPORT="yes"
           fi
         fi
       fi
@@ -1793,7 +1944,9 @@ if test x"$enable_shared_ffmpeg" = "xyes"; then
     FFMPEG_LIBS="\$(top_builddir)/src/libffmpeg.a"
     FFMPEG_DIR="$FFMPEG_DIR liblame libx264 libffmpeg"
     AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
+    HAVE_FFMPEG_SUPPORT="yes"
     AC_DEFINE([SHARED_FFMPEG],,[FFMPEG libraries are shared])
+    SHARED_FFMPEG_SUPPORT="yes"
     FFMPEG_INCLUDES="-I\$(top_srcdir)/src/lib/libffmpeg"
 
     FFMPEG_DO_SUBDIRS=yes
@@ -1801,6 +1954,7 @@ if test x"$enable_shared_ffmpeg" = "xyes"; then
 
     dnl --- define obsolete variables as long as they are not removed from driver code ---
     AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
+    HAVE_FFMPEG_SWSCALE_SUPPORT="yes"
     AC_DEFINE([HAVE_FFMPEG_HEADER_SUBDIRS],,[FFMPEG uses subdirs for headers])
     AC_MSG_RESULT([yes (shared internal)])
     GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
@@ -1815,7 +1969,9 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
   FFMPEG_LIBS="\$(top_builddir)/src/lib/libffmpeg/libavformat/libavformat.a \$(top_builddir)/src/lib/libffmpeg/libavcodec/libavcodec.a \$(top_builddir)/src/lib/libffmpeg/libavutil/libavutil.a \$(top_builddir)/src/lib/libffmpeg/libswscale/libswscale.a \$(top_builddir)/src/lib/libffmpeg/libswresample/libswresample.a \$(top_builddir)/src/lib/libffmpeg/lib/libmp3lame.a \$(top_builddir)/src/lib/libffmpeg/lib/libx264.a"
   FFMPEG_DIR="$FFMPEG_DIR liblame libx264 libffmpeg"
   AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
+  HAVE_FFMPEG_SUPPORT="yes"
   AC_DEFINE([STATIC_FFMPEG],,[FFMPEG libraries are static])
+  STATIC_FFMPEG_SUPPORT="yes"
   FFMPEG_INCLUDES="-I\$(top_srcdir)/src/lib/libffmpeg"
 
   AC_MSG_RESULT([yes (static internal)])
@@ -1853,6 +2009,7 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
 
   dnl --- define obsolete variables as long as they are not removed from driver code ---
   AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
+  HAVE_FFMPEG_SWSCALE_SUPPORT="yes"
   AC_DEFINE([HAVE_FFMPEG_HEADER_SUBDIRS],,[FFMPEG uses subdirs for headers])
 
   GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
@@ -1898,12 +2055,14 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
       )
       if (test x"${have_swscale}" = x"yes") || (test x"${have_imgconvert}" = x"yes") ; then
         AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
+        HAVE_FFMPEG_SUPPORT="yes"
         FFMPEG_INCLUDES="$FFMPEG_AV_CFLAGS"
         GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
 	dlopen_pthread=yes
       fi
       if (test x"${have_swscale}" = x"yes") ; then
         AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
+        HAVE_FFMPEG_SWSCALE_SUPPORT="yes"
         FFMPEG_INCLUDES="$FFMPEG_INCLUDES $FFMPEG_SWSCALE_CFLAGS"
 	dlopen_pthread=yes
       fi
@@ -1914,10 +2073,12 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
     PKG_CHECK_MODULES(FFMPEG_SWRESAMPLE, [libswresample], [have_swresample=yes], [have_swresample=no])
     if test x"$have_swresample" = "xyes"; then
       AC_DEFINE([HAVE_FFMPEG_SWRESAMPLE],,[Have FFMPEG swresample lib available])
+      HAVE_FFMPEG_SWRESAMPLE_SUPPORT="yes"
     else
       PKG_CHECK_MODULES(FFMPEG_AVRESAMPLE, [libavresample], [have_avresample=yes], [have_avresample=no])
       if test x"$have_avresample" = "xyes"; then
         AC_DEFINE([HAVE_FFMPEG_AVRESAMPLE],,[Have FFMPEG avresample lib available])
+        HAVE_FFMPEG_AVRESAMPLE_SUPPORT="yes"
       else
         AC_MSG_ERROR([No swresample or avresample library available!])
       fi
@@ -1991,6 +2152,7 @@ if test x"$enable_quicktime" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
                     [AC_MSG_RESULT(yes);
                      GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS quicktimedrv.o"
                      QUICKTIME_LIBS="-framework QuickTime -framework CoreVideo"
+                     HAVE_QUICKTIME_SUPPORT="yes"
                      AC_DEFINE(HAVE_QUICKTIME,,[Enable QuickTime support.])],
                     [AC_MSG_RESULT(no)])
         LIBS=${old_LIBS}
@@ -2035,6 +2197,7 @@ if test x"$enable_ethernet" = "xyes"; then
 
     AC_CHECK_LIB(pcap, pcap_open_live,[ AC_DEFINE(DOS_TFE,,[Can we use the dos PCAP library?])
                                         AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+                                        HAVE_TFE_SUPPORT="yes";
                                         TFE_LIBS="arch/msdos/libpcap_nodma.a $TFE_LIBS";
                                         DOS_TFE_PCAP_LIB="libpcap_nodma.a";
                                         LIBS="-lpcap $LIBS"],,)
@@ -2048,11 +2211,13 @@ if test x"$enable_ethernet" = "xyes"; then
     dnl libpcap.a
       AC_CHECK_LIB(pcap, pcap_inject,[
         AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+        HAVE_TFE_SUPPORT="yes";
         AC_DEFINE(HAVE_PCAP_INJECT,,[A libpcap version with pcap_inject is available])
         TFE_LIBS="-lpcap"
       ],,$LIBS)
       AC_CHECK_LIB(pcap, pcap_sendpacket,[
         AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+        HAVE_TFE_SUPPORT="yes";
         AC_DEFINE(HAVE_PCAP_SENDPACKET,,[A libpcap version with pcap_sendpacket is available])
         TFE_LIBS="-lpcap"
       ],,$LIBS)
@@ -2061,6 +2226,7 @@ if test x"$enable_ethernet" = "xyes"; then
       AC_CHECK_LIB(pcap, pcap_open_live,[
         AC_CHECK_LIB(net, libnet_init,[
           AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+          HAVE_TFE_SUPPORT="yes";
           AC_DEFINE(VICE_USE_LIBNET_1_1,,[Support for The Final Ethernet])
           TFE_LIBS="-lpcap `libnet-config --libs`"
           libnet_cflags="`libnet-config --defines`"
@@ -2070,6 +2236,7 @@ if test x"$enable_ethernet" = "xyes"; then
       AC_CHECK_LIB(pcap, pcap_open_live,[
         AC_CHECK_LIB(net, libnet_write_link_layer,[
           AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+          HAVE_TFE_SUPPORT="yes";
           TFE_LIBS="-lpcap `libnet-config --libs`"
           libnet_cflags="`libnet-config --defines`"
       ],,$LIBS)],,$LIBS)
@@ -2103,6 +2270,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
 
     if test x"$enable_dingoo" = "xyes"; then
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
+        USE_SDL_AUDIO_SUPPORT="yes"
         AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
         if test x"$enable_sdlui" = "xyes"; then
             AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
@@ -2120,6 +2288,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
         CFLAGS="$CFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
         CXXFLAGS="$CXXFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
+        USE_SDL_AUDIO_SUPPORT="yes"
         AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
         if test x"$enable_sdlui" = "xyes"; then
             AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
@@ -2135,6 +2304,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
         fi
         LIBS="$LIBS -lSDL -lwinsock"
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
+        USE_SDL_AUDIO_SUPPORT="yes"
         AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
         if test x"$enable_sdlui" = "xyes"; then
             AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
@@ -2154,9 +2324,11 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
         if test x"$SDL_AMIGA_INLINE" = "xyes"; then
             AC_DEFINE(SDL_AMIGA_INLINE,,[Enable amiga shared SDL library support.])
             AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,, [Define to 1 if you have the `SDL_NumJoysticks' function.])
+            HAVE_SDL_NUMJOYSTICKS_SUPPORT="yes";
         elif test x"$POWERSDL_AMIGA_INLINE" = "xyes"; then
             AC_DEFINE(POWERSDL_AMIGA_INLINE,,[Enable morphos shared SDL library support.])
             AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,, [Define to 1 if you have the `SDL_NumJoysticks' function.])
+            HAVE_SDL_NUMJOYSTICKS_SUPPORT="yes";
         else
             AC_CHECK_LIB(SDL, SDL_SetVideoMode, [found_sdl_lib=yes], [found_sdl_lib=no])
             if test x"$found_sdl_lib" = "xno"; then
@@ -2167,6 +2339,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
             AC_CHECK_LIB(SDL, SDL_OpenAudio, [found_sdl_sound=yes], [found_sdl_sound=no])
             if test x"$found_sdl_sound" = "xyes"; then
                 SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
+                USE_SDL_AUDIO_SUPPORT="yes";
                 AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
             fi
             AC_CHECK_FUNCS(SDL_NumJoysticks)
@@ -2237,6 +2410,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
                              [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
                               use_sdl_prefix=yes;
                               use_sdl2_prefix=no;
+                              USE_SDL_AUDIO_SUPPORT="yes";
                               AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
                               AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
                              [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$SOUND_LIBS $EXTRA_SDL_LIBS)],
@@ -2248,6 +2422,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
                                  [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
                                   use_sdl_prefix=no;
                                   use_sdl2_prefix=no;
+                                  USE_SDL_AUDIO_SUPPORT="yes";
                                   AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
                                  [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$SOUND_LIBS $EXTRA_SDL_LIBS)],
                                  [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
@@ -2260,6 +2435,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
                                  [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
                                   use_sdl_prefix=no;
                                   use_sdl2_prefix=yes;
+                                  USE_SDL_AUDIO_SUPPORT="yes";
                                   AC_DEFINE(USE_SDL2_PREFIX,,[Enable SDL2 prefix for header inclusion.])
                                   AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
                                  [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$SOUND_LIBS $EXTRA_SDL_LIBS)],
@@ -2271,6 +2447,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
                                      [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
                                       use_sdl_prefix=no;
                                       use_sdl2_prefix=no;
+                                      USE_SDL_AUDIO_SUPPORT="yes";
                                       AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
                                      [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$SOUND_LIBS $EXTRA_SDL_LIBS)],
                                      [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
@@ -2514,13 +2691,15 @@ fi
 
 dnl ----- Sound Drivers -----
 if test x"$is_unix" = "xyes"; then
-  AC_CHECK_HEADERS(cwsid.h, AC_DEFINE(HAVE_CATWEASELMKIII,,
-                   [Support for Catweasel MKIII.]), )
+  AC_CHECK_HEADERS(cwsid.h, [AC_DEFINE(HAVE_CATWEASELMKIII,,
+                   [Support for Catweasel MKIII.])
+                    HAVE_CATWEASELMKIII_SUPPORT="yes"], )
 
   if test x"$with_pulse" != "xno"; then
     AC_CHECK_HEADERS(pulse/simple.h,[AC_CHECK_LIB(pulse-simple, pa_simple_new,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundpulse.o";
                       SOUND_LIBS="$SOUND_LIBS -lpulse-simple -lpulse";
+                      USE_PULSE_SUPPORT="yes";
                       AC_DEFINE(USE_PULSE,,[Enable pulseaudio support.])],,$SOUND_LIBS)])
   fi
 
@@ -2537,12 +2716,14 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$with_arts" = "xyes"; then
     AC_DEFINE(USE_ARTS,,[Enable aRts support.])
+    USE_ARTS_SUPPORT="yes"
   fi
 
   if test x"$with_alsa" != "xno"; then
     AC_CHECK_HEADERS(alsa/asoundlib.h,[AC_CHECK_LIB(asound, snd_pcm_open,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundalsa.o";
                       SOUND_LIBS="$SOUND_LIBS -lasound";
+                      USE_ALSA_SUPPORT="yes";
                       AC_DEFINE(USE_ALSA,,[Enable alsa support.])],,$SOUND_LIBS)])
     AC_CHECK_LIB(asound, snd_pcm_avail,
                  [AC_DEFINE(HAVE_SND_PCM_AVAIL,,[Use more accurate buffer fill reporting])])
@@ -2551,6 +2732,7 @@ if test x"$is_unix" = "xyes"; then
   if test x"$with_oss" != "xno" -a x"$host_os" != "uwin"; then
     AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h sys/soundcard.h soundcard.h,
                      [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o";
+                      USE_OSS_SUPPORT="yes";
                       AC_DEFINE(USE_OSS,,[Enable oss support.])])
     AC_CHECK_LIB(ossaudio, _oss_ioctl,,,$SOUND_LIBS)
   fi
@@ -2558,6 +2740,7 @@ if test x"$is_unix" = "xyes"; then
   AC_CHECK_HEADERS(dmedia/audio.h, [AC_CHECK_LIB(audio, ALseterrorhandler,
                    [SOUND_DRIVERS="$SOUND_DRIVERS soundsgi.o";
                     SOUND_LIBS="$SOUND_LIBS -laudio";
+                    USE_DMEDIA_SUPPORT="yes";
                     AC_DEFINE(USE_DMEDIA,,[Enable sgi sound support.])],,$SOUND_LIBS)])
 
   AC_CHECK_HEADERS(sys/audioio.h,
@@ -2576,6 +2759,7 @@ if test x"$is_unix" = "xyes"; then
                    [AC_CHECK_LIB(UMSobj, UMSAudioDevice_initialize,
                     [SOUND_DRIVERS="$SOUND_DRIVERS soundaix.o";
                      SOUND_LIBS="$SOUND_LIBS -lUMSobj";
+                     USE_AIX_AUDIO_SUPPORT="yes";
                      AC_DEFINE(USE_AIX_AUDIO,,[Enable aix sound support.])],,$SOUND_LIBS)])])
 fi
 
@@ -2596,6 +2780,7 @@ if test x"$enable_lame" != "xno" ; then
       dnl dynlib linking
       SOUND_DRIVERS="$SOUND_DRIVERS soundmp3.o lamelib.o"
       AC_DEFINE(USE_LAMEMP3,,[Enable lamemp3 support.])
+      USE_LAMEMP3_SUPPORT="yes"
       AC_MSG_RESULT([dynlib])
     else
       dnl try static linking
@@ -2612,6 +2797,7 @@ if test x"$enable_lame" != "xno" ; then
           SOUND_LIBS="$SOUND_LIBS -lmpgdecoder";
         fi
         AC_DEFINE(USE_LAMEMP3,,[Enable lamemp3 support.])
+        USE_LAMEMP3_SUPPORT="yes"
         AC_DEFINE(HAVE_STATIC_LAME,,[Static linking for lame libs])
       fi
     fi
@@ -2659,7 +2845,8 @@ if test x"$is_win32" = "xyes"; then
         SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
         AC_MSG_CHECKING(whether we can use directx sound)
         AC_CHECK_HEADER(dsound.h,
-              [ AC_DEFINE(USE_DXSOUND,,[Enable directx sound support.]) ]
+              [ AC_DEFINE(USE_DXSOUND,,[Enable directx sound support.])
+                USE_DXSOUND_SUPPORT="yes" ]
               [ SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o" ]
               [ AC_MSG_CHECKING(for -ldsound) ]
               [ old_LIBS="$LIBS" ]
@@ -2743,6 +2930,7 @@ fi
 AC_CHECK_HEADERS(FLAC/stream_decoder.h,[AC_CHECK_LIB(libFLAC, FLAC__stream_decoder_get_channels,
                      [LIBS="$LIBS -llibFLAC";
                       SOUND_DRIVERS="$SOUND_DRIVERS soundflac.o";
+                      USE_FLAC_SUPPORT="yes";
                       AC_DEFINE(USE_FLAC,,[Enable FLAC support.])],,)])
 
 VORBIS_PRESENT=yes
@@ -2767,6 +2955,7 @@ fi
 if test x"$VORBIS_PRESENT" = "xyes"; then
   SOUND_DRIVERS="$SOUND_DRIVERS soundvorbis.o";
   LIBS="$LIBS -llibvorbisfile -llibogg -llibvorbis -llibvorbisenc"
+  USE_VORBIS_SUPPORT="yes"
   AC_DEFINE(USE_VORBIS,,[Enable ogg/vorbis support.])
 fi
 
@@ -2785,6 +2974,7 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
                   [AC_MSG_RESULT(yes);
                    SOUND_DRIVERS="$SOUND_DRIVERS soundcoreaudio.o";
                    SOUND_LIBS="$SOUND_LIBS -framework CoreAudio -framework AudioToolbox";
+                   USE_COREAUDIO_SUPPORT="yes";
                    AC_DEFINE(USE_COREAUDIO,,[Enable CoreAudio support.])],
                   [AC_MSG_RESULT(no)])
       LIBS=${old_LIBS}
@@ -2798,6 +2988,7 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
                     [AudioOutputUnitStart(NULL);],
                     [AC_MSG_RESULT(yes);
                      SOUND_LIBS="$SOUND_LIBS -framework AudioUnit";
+                     HAVE_AUDIO_UNIT_SUPPORT="yes";
                      AC_DEFINE(HAVE_AUDIO_UNIT,,[Enable AudioUnit support.])],
                     [AC_MSG_RESULT(no)])
         LIBS=${old_LIBS}
@@ -2813,7 +3004,8 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
     AC_TRY_LINK([#include <CoreMIDI/MIDIServices.h>],
                 [MIDIGetNumberOfDevices()],
                 [AC_MSG_RESULT(yes);
-                 AC_DEFINE(HAVE_MIDI,,[Enable MIDI emulation.])],
+                 AC_DEFINE(HAVE_MIDI,,[Enable MIDI emulation.])
+                 HAVE_MIDI_SUPPORT="yes"],
                [AC_MSG_RESULT(no);
                  LIBS=${old_LIBS}])
   fi
@@ -2842,6 +3034,7 @@ if test x"$is_unix" = "xyes"; then
       AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
       if test x"$PARSID_SUPPORT" = "xyes"; then
         AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+        HAVE_LIBIEEE1284_SUPPORT="yes"
       fi
     fi
 
@@ -2878,6 +3071,7 @@ if test x"$is_unix" = "xyes"; then
 
     if test x"$PARSID_SUPPORT" = "xyes"; then
       AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+      HAVE_PARSID_SUPPORT="yes"
     fi
   fi
 fi
@@ -3031,12 +3225,14 @@ if test x"$with_png" != "xno" ; then
     AC_CHECK_LIB(png, png_sig_cmp,
                  [ GFXOUTPUT_LIBS="-lpng $GFXOUTPUT_LIBS";
                    GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
+                   HAVE_PNG_SUPPORT="yes";
                    AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?]) ],,)
     if test "$ac_cv_lib_png_png_sig_cmp" = "no"; then
       unset ac_cv_lib_png_png_sig_cmp
       AC_CHECK_LIB(png, png_sig_cmp,
                    [ GFXOUTPUT_LIBS="-lpng -lz $GFXOUTPUT_LIBS";
                      GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
+                     HAVE_PNG_SUPPORT="yes";
                      AC_DEFINE(HAVE_PNG,,
                                [Can we use the PNG library?]) ],,"-lz")
     fi
@@ -3049,11 +3245,13 @@ if test x"$ac_cv_header_gif_lib_h" = "xyes" ; then
   AC_CHECK_LIB(ungif, EGifPutLine, [ 
                GFXOUTPUT_LIBS="-lungif $GFXOUTPUT_LIBS";
                GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS gifdrv.o";
+               HAVE_GIF_SUPPORT="yes";
                AC_DEFINE(HAVE_GIF,,[Can we use the GIF or UNGIF library?]) ],,)
   if test "$ac_cv_lib_ungif_EGifPutLine" = "no"; then
     AC_CHECK_LIB(gif, EGifPutLine, [ 
                  GFXOUTPUT_LIBS="-lgif $GFXOUTPUT_LIBS";
                  GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS gifdrv.o";
+                 HAVE_GIF_SUPPORT="yes";
                  AC_DEFINE(HAVE_GIF,,[Can we use the GIF or UNGIF library?]) ],,)
   fi
 fi
@@ -3064,6 +3262,7 @@ if test x"$ac_cv_header_jpeglib_h" = "xyes" ; then
   AC_CHECK_LIB(jpeg, jpeg_CreateCompress, [ 
                GFXOUTPUT_LIBS="-ljpeg $GFXOUTPUT_LIBS";
                GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS jpegdrv.o";
+               HAVE_JPEG_SUPPORT="yes";
                AC_DEFINE(HAVE_JPEG,,[Can we use the JPEG library?]) ],,)
 fi
 
@@ -3073,10 +3272,12 @@ AC_SUBST(GFXOUTPUT_LIBS)
 
 AC_CHECK_HEADERS(portaudio.h,[AC_CHECK_LIB(libportaudio, Pa_Initialize,
                      [LIBS="$LIBS -llibportaudio";
+                      USE_PORTAUDIO_SUPPORT="yes";
                       AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,)])
 
 AC_CHECK_HEADERS(mpg123.h,[AC_CHECK_LIB(libmpg123, mpg123_init,
                      [LIBS="$LIBS -llibmpg123";
+                      USE_MPG123_SUPPORT="yes";
                       AC_DEFINE(USE_MPG123,,[Enable mpg123 mp3 decoding support.])],,)])
 
 dnl Check for libraries and header files
@@ -3507,11 +3708,13 @@ AC_MSG_CHECKING([for OpenCBM support])
 if test x"$enable_realdevice" != "xno"; then
   if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc"; then
     AC_DEFINE(HAVE_OPENCBM,,[Support for OpenCBM (former CBM4Linux).])
+    HAVE_OPENCBM_SUPPORT="yes"
     AM_CONDITIONAL(HAVE_REALDEVICE, true)
     AC_MSG_RESULT([yes])
   else
     if test x"$dynlib_support" = "xyes"; then
       AC_DEFINE(HAVE_OPENCBM,,[Support for OpenCBM (former CBM4Linux).])
+      HAVE_OPENCBM_SUPPORT="yes"
       AM_CONDITIONAL(HAVE_REALDEVICE, true)
       AC_MSG_RESULT([yes])
     else
@@ -3577,8 +3780,11 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
   fi
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+  HAS_JOYSTICK_SUPPORT="yes"
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
+  HAVE_LIGHTPEN_SUPPORT="yes"
   AM_CONDITIONAL(SDL_COMPILE, true)
 else
   AM_CONDITIONAL(SDL_COMPILE, false)
@@ -4466,6 +4672,26 @@ if test "x$ac_cv_lib_Xaw3d_XawFormDoLayout" = xyes; then
     show_gui="XAW3D"
 fi
 
+if test "x$ac_cv_header_sys_audio_h" = xyes; then
+    HAVE_SYS_AUDIO_H_SUPPORT="yes"
+fi
+
+if test "x$ac_cv_header_sys_audioio_h" = xyes; then
+    HAVE_SYS_AUDIOIO_H_SUPPORT="yes"
+fi
+
+if test "x$ac_cv_header_devices_ahi_h" = xyes; then
+    HAVE_DEVICES_AHI_H_SUPPORT="yes"
+fi
+
+if test "x$ac_cv_func_SDL_NumJoysticks" = xyes; then
+    HAVE_SDL_NUMJOYSTICKS_SUPPORT="yes"
+fi
+
+if test "x$ac_cv_header_proto_openpci_h" = xyes; then
+    HAVE_PROTO_OPENPCI_H_SUPPORT="yes"
+fi
+
 echo "----------------------------------------------------------------------"
 echo ""
 echo "configure summary:"
@@ -4505,3 +4731,177 @@ if test x"$real_arch" = "xUnix"; then
     echo "LibXpm support                 : $HAVE_LIBXPM_SUPPORT"
     echo "VTE support                    : $HAVE_VTE_SUPPORT (--enable/disable-vte)"
 fi
+
+echo ""
+echo "SOUND"
+echo "-----"
+
+echo "PortAudio sound input support: $USE_PORTAUDIO_SUPPORT"
+
+if test x"$real_arch" = "xUnix"; then
+    echo "OSS sound support            : $USE_OSS_SUPPORT (--with/without-oss)"
+    echo "ALSA sound support           : $USE_ALSA_SUPPORT (--with/without-alsa)"
+    echo "ARTS sound support           : $USE_ARTS_SUPPORT (--with/without-arts)"
+fi
+
+if test x"$real_arch" = "xOSX"; then
+    echo "CoreAudio sound support      : $USE_COREAUDIO_SUPPORT"
+    echo "AudioUnit sound support      : $HAVE_AUDIO_UNIT_SUPPORT"
+fi
+
+if test x"$real_arch" = "xDOS"; then
+    echo "Allegro sound support        : $USE_ALLEGRO_SOUND_SUPPORT (--without-midas)"
+    echo "Midas sound support          : $USE_MIDAS_SOUND_SUPPORT (--with-midas)"
+fi
+
+if test x"$real_arch" = "xAmiga"; then
+    echo "AHI sound support            : $HAVE_DEVICES_AHI_H_SUPPORT"
+fi
+
+if test x"$real_arch" = "xWin32"; then
+    echo "DirectX sound support        : $USE_DXSOUND_SUPPORT"
+fi
+
+echo "Pulseaudio sound support     : $USE_PULSE_SUPPORT (--with/without-pulse)"
+
+if test x"$real_arch" != "xDOS"; then
+    echo "SDL sound support            : $USE_SDL_AUDIO_SUPPORT (--with/without-sdlsound)"
+fi
+
+if test x"$real_arch" = "xUnix"; then
+    echo "NetBSD/Solaris sound support : $HAVE_SYS_AUDIOIO_H_SUPPORT"
+    echo "AIX sound support            : $USE_AIX_AUDIO_SUPPORT"
+    echo "HPUX sound support           : $HAVE_SYS_AUDIO_H_SUPPORT"
+    echo "SGI sound support            : $USE_DMEDIA_SUPPORT"
+fi
+
+if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xOSX" -o x"$real_arch" = "xWin32"; then
+    echo "MIDI support                 : $HAVE_MIDI_SUPPORT (--enable/disable-midi)"
+fi
+
+if test x"$real_arch" != "xOSX" -a x"$real_arch" != "xBeOS"; then
+    echo "Catweasel MK3 support        : $HAVE_CATWEASELMKIII_SUPPORT"
+    echo "HardSID support              : $HAVE_HARDSID_SUPPORT"
+fi
+
+if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xDOS" -o x"$real_arch" = "xWin32"; then
+    echo "ParSID support               : $HAVE_PARSID_SUPPORT (--enable/disable-parsid)"
+fi
+
+echo "MP3 encoding support         : $USE_LAMEMP3_SUPPORT (--enable/disable-lame)"
+echo "MP3 decoding support         : $USE_MPG123_SUPPORT"
+echo "FLAC en/de-coding support    : $USE_FLAC_SUPPORT"
+echo "OGG en/de-coding support     : $USE_VORBIS_SUPPORT"
+
+echo ""
+echo "SCREENSHOTS"
+echo "-----------"
+
+echo "GIF encoding support : $HAVE_GIF_SUPPORT"
+echo "JPEG encoding support: $HAVE_JPEG_SUPPORT"
+echo "PNG encoding support : $HAVE_PNG_SUPPORT (--with/without-png)"
+
+echo ""
+echo "VIDEO RECORDING"
+echo "---------------"
+
+echo "FFMPEG support                : $HAVE_FFMPEG_SUPPORT (--enable-shared-ffmpeg/--enable-static-ffmpeg/--enable-external-ffmpeg)"
+echo "FFMPEG swscale support        : $HAVE_FFMPEG_SWSCALE_SUPPORT"
+echo "FFMPEG swresample support     : $HAVE_FFMPEG_SWRESAMPLE_SUPPORT"
+echo "FFMPEG avresample support     : $HAVE_FFMPEG_AVRESAMPLE_SUPPORT"
+echo "included shared FFMPEG support: $SHARED_FFMPEG_SUPPORT (--enable-shared-ffmpeg)"
+echo "included static FFMPEG support: $STATIC_FFMPEG_SUPPORT (--enable-static-ffmpeg)"
+
+if test x"$real_arch" = "xOSX" -o x"$real_arch" = "xWin32"; then
+    echo "QuickTime support             : $HAVE_QUICKTIME_SUPPORT (--enable/disable-quicktime)"
+fi
+
+echo ""
+echo "INPUT"
+echo "-----"
+
+echo "Joystick support            : $HAS_JOYSTICK_SUPPORT"
+echo "Mouse support               : $HAVE_MOUSE_SUPPORT"
+echo "Lightpen support            : $HAVE_LIGHTPEN_SUPPORT"
+
+if test x"$real_arch" = "xUnix"; then
+    if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
+        echo "Linux style joystick support: $LINUX_JOYSTICK_SUPPORT"
+        echo "BSD style joystick support  : $BSD_JOYSTICK_SUPPORT"
+        echo "Digital joystick support    : $HAS_DIGITAL_JOYSTICK_SUPPORT"
+        echo "USB joystick support        : $HAS_USB_JOYSTICK_SUPPORT"
+    fi
+fi
+
+if test x"$real_arch" = "xOSX"; then
+    if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
+        echo "Mac joystick support         : $MAC_JOYSTICK_SUPPORT"
+        echo "IOHIDManager joystick support: $HAS_HIDMGR_SUPPORT (--enable/disable-hidmgr)"
+    fi
+fi
+
+if test x"$real_arch" = "xWin32"; then
+    if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
+        echo "DirectInput joystick support: $HAVE_DINPUT_SUPPORT"
+    fi
+fi
+
+if test x"$show_gui" = "xSDL" -o x"$show_gui" = "xSDL2"; then
+    echo "SDL joystick support        : $HAVE_SDL_NUMJOYSTICKS_SUPPORT"
+fi
+
+echo ""
+echo "MODEM/NETWORK"
+echo "-------------"
+
+echo "RS232 device support             : $HAVE_RS232DEV_SUPPORT (--enable/disable-rs232)"
+echo "Network support                  : $HAVE_NETWORK_SUPPORT"
+echo "RS232 network support            : $HAVE_RS232NET_SUPPORT"
+echo "IPv6 network support             : $HAVE_IPV6_SUPPORT (--enable/disable-ipv6)"
+echo "Network capture/injection support: $HAVE_TFE_SUPPORT (--enable/disable-ethernet)"
+
+echo ""
+echo "DRIVE"
+echo "-----"
+
+echo "Raw drive support: $HAVE_RAWDRIVE_SUPPORT"
+
+if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xWin32"; then
+    echo "OpenCBM support  : $HAVE_OPENCBM_SUPPORT (--enable/disable-realdevice)"
+fi
+
+echo ""
+echo "LIBS"
+echo "----"
+
+if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xOSX" -o x"$real_arch" = "xWin32"; then
+    echo "Dynamic linking support: $HAVE_DYNLIB_SUPPORT_TOO"
+fi
+
+echo "Zlib support           : $HAVE_ZLIB_SUPPORT (--with/without-zlib)"
+
+if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xWin32"; then
+    echo "Libieee1284 support    : $HAVE_LIBIEEE1284_SUPPORT"
+fi
+
+if test x"$real_arch" = "xUnix"; then
+    if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
+        echo "NLS support            : $ENABLE_NLS_SUPPORT (--enable/disable-nls)"
+    fi
+fi
+
+if test x"$real_arch" = "xAmiga"; then
+    echo "OpenPCI support        : $HAVE_PROTO_OPENPCI_H_SUPPORT"
+fi
+
+echo ""
+echo "MISC"
+echo "----"
+
+echo "ReSID support              : $HAVE_RESID_SUPPORT (--with/without-resid)"
+echo "Memmap support             : $FEATURE_CPUMEMHISTORY_SUPPORT (--enable/disable-memmap)"
+echo "Debug support              : $DEBUG_SUPPORT (--enable/disable-debug)"
+echo "Embedded data files support: $USE_EMBEDDED_SUPPORT (--enable/disable-embedded)"
+
+echo ""
+echo "----------------------------------------------------------------------"
