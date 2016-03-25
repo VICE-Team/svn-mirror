@@ -2927,8 +2927,8 @@ if test x"$is_beos" = "xyes" -o x"$is_beos_x11" = "xyes"; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundbeos.o soundbsp.o"
 fi
 
-AC_CHECK_HEADERS(FLAC/stream_decoder.h,[AC_CHECK_LIB(libFLAC, FLAC__stream_decoder_get_channels,
-                     [LIBS="$LIBS -llibFLAC";
+AC_CHECK_HEADERS(FLAC/stream_decoder.h,[AC_CHECK_LIB(FLAC, FLAC__stream_decoder_get_channels,
+                     [LIBS="$LIBS -lFLAC";
                       SOUND_DRIVERS="$SOUND_DRIVERS soundflac.o";
                       USE_FLAC_SUPPORT="yes";
                       AC_DEFINE(USE_FLAC,,[Enable FLAC support.])],,)])
@@ -2937,24 +2937,24 @@ VORBIS_PRESENT=yes
 AC_CHECK_HEADERS(vorbis/vorbisfile.h,,[VORBIS_PRESENT=no],)
 
 if test x"$VORBIS_PRESENT" = "xyes"; then
-  AC_CHECK_LIB(libvorbisfile, ov_open_callbacks,, [VORBIS_PRESENT=no])
+  AC_CHECK_LIB(ogg, ogg_stream_flush,, [VORBIS_PRESENT=no])
 fi
 
 if test x"$VORBIS_PRESENT" = "xyes"; then
-  AC_CHECK_LIB(libogg, ogg_stream_flush,, [VORBIS_PRESENT=no])
+  AC_CHECK_LIB(vorbis, vorbis_info_clear,, [VORBIS_PRESENT=no])
 fi
 
 if test x"$VORBIS_PRESENT" = "xyes"; then
-  AC_CHECK_LIB(libvorbis, vorbis_info_clear,, [VORBIS_PRESENT=no])
+  AC_CHECK_LIB(vorbisfile, ov_open_callbacks,, [VORBIS_PRESENT=no])
 fi
 
 if test x"$VORBIS_PRESENT" = "xyes"; then
-  AC_CHECK_LIB(libvorbisenc, vorbis_encode_init_vbr,, [VORBIS_PRESENT=no])
+  AC_CHECK_LIB(vorbisenc, vorbis_encode_init_vbr,, [VORBIS_PRESENT=no])
 fi
 
 if test x"$VORBIS_PRESENT" = "xyes"; then
   SOUND_DRIVERS="$SOUND_DRIVERS soundvorbis.o";
-  LIBS="$LIBS -llibvorbisfile -llibogg -llibvorbis -llibvorbisenc"
+  LIBS="$LIBS -lvorbisfile -logg -lvorbis -lvorbisenc"
   USE_VORBIS_SUPPORT="yes"
   AC_DEFINE(USE_VORBIS,,[Enable ogg/vorbis support.])
 fi
@@ -3270,13 +3270,13 @@ LIBS="$old_LIBS"
 AC_SUBST(GFXOUTPUT_DRIVERS)
 AC_SUBST(GFXOUTPUT_LIBS)
 
-AC_CHECK_HEADERS(portaudio.h,[AC_CHECK_LIB(libportaudio, Pa_Initialize,
-                     [LIBS="$LIBS -llibportaudio";
+AC_CHECK_HEADERS(portaudio.h,[AC_CHECK_LIB(portaudio, Pa_Initialize,
+                     [LIBS="$LIBS -lportaudio";
                       USE_PORTAUDIO_SUPPORT="yes";
                       AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,)])
 
-AC_CHECK_HEADERS(mpg123.h,[AC_CHECK_LIB(libmpg123, mpg123_init,
-                     [LIBS="$LIBS -llibmpg123";
+AC_CHECK_HEADERS(mpg123.h,[AC_CHECK_LIB(mpg123, mpg123_init,
+                     [LIBS="$LIBS -lmpg123";
                       USE_MPG123_SUPPORT="yes";
                       AC_DEFINE(USE_MPG123,,[Enable mpg123 mp3 decoding support.])],,)])
 
