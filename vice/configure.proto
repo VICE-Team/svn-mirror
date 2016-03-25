@@ -4827,7 +4827,7 @@ echo "-----"
 echo "Joystick support            : $HAS_JOYSTICK_SUPPORT"
 echo "Mouse support               : $HAVE_MOUSE_SUPPORT"
 
-if test x"$real_arch" = "xAmiga"; then
+if test x"$real_arch" != "xAmiga"; then
     if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
         echo "Lightpen support            : $HAVE_LIGHTPEN_SUPPORT"
     fi
