@@ -237,7 +237,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
         lib_free(tmp);
 
         if (f == NULL) {
-            log_error(palette_log, "Palette not found: `%s'.", complete_path);
+            log_error(palette_log, "Palette not found: `%s'.", file_name);
             return -1;
         }
     }
