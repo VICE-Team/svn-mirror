@@ -1946,7 +1946,7 @@ static int handle_vorbis_file(int channels)
     vorbis_buffer = lib_malloc(pcmlength * sound_audio_channels * 2);
     i = 0;
     while (i < pcmlength * sound_audio_channels * 2){
-        int ret = ov_read(&ov, vorbis_buffer + i, (pcmlength * 2 * sound_audio_channels) - i, 0, 2, 1, &dummy);
+        int ret = ov_read(&ov, (char*)vorbis_buffer + i, (pcmlength * 2 * sound_audio_channels) - i, 0, 2, 1, &dummy);
         if (ret < 0) {
             ov_clear(&ov);
             lib_free(vorbis_buffer);
