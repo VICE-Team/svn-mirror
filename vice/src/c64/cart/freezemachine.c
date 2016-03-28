@@ -257,22 +257,22 @@ int freezemachine_bin_attach(const char *filename, BYTE *rawcart)
  * offset  sig  type  bank start size  chunklen
  * $000040 CHIP ROM   #000 $8000 $2000 $2010
  * $002050 CHIP ROM   #001 $8000 $2000 $2010
- * $004060 CHIP ROM   #002 $8000 $2000 $2010
- * $006070 CHIP ROM   #003 $8000 $2000 $2010
+ * $004060 CHIP ROM   #002 $8000 $2000 $2010 (32k ROMs only)
+ * $006070 CHIP ROM   #003 $8000 $2000 $2010 (32k ROMs only)
  *
  * cartconv produced this from 2011 to 12/2015:
  *
  * offset  sig  type  bank start size  chunklen
  * $000040 CHIP ROM   #000 $8000 $2000 $2010
  * $002050 CHIP ROM   #000 $a000 $2000 $2010
- * $004060 CHIP ROM   #001 $8000 $2000 $2010
- * $006070 CHIP ROM   #001 $a000 $2000 $2010
+ * $004060 CHIP ROM   #001 $8000 $2000 $2010 (32k ROMs only)
+ * $006070 CHIP ROM   #001 $a000 $2000 $2010 (32k ROMs only)
  *
  * (new) correct format (since 12/2015):
  * 
  * offset  sig  type  bank start size  chunklen
  * $000040 CHIP ROM   #000 $8000 $4000 $4010
- * $004050 CHIP ROM   #001 $8000 $4000 $4010
+ * $004050 CHIP ROM   #001 $8000 $4000 $4010 (32k ROMs only)
  *
  */
 int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
@@ -296,7 +296,9 @@ int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
     banks++;
-    if ((chips != 2) && (chips != 4)) {
+    DBG(("fm attach: %d banks, %d chips found\n", banks, chips));
+    if ((chips != 1) && (chips != 2) && (chips != 4)) {
+        DBG(("fm attach: wrong number of chips\n"));
         return -1;
     }
     fseek(fd, pos, SEEK_SET);
@@ -305,32 +307,38 @@ int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
         if (crt_read_chip_header(&chip, fd)) {
             return -1;
         }
-        if ((chips == 2) && (banks == 2) && (chip.size == 0x4000)) {
+        DBG(("fm attach: chip.size %04x\n", chip.size));
+        /* first the new format */
+        if ((chip.size == 0x4000) && (((chips == 1) && (banks == 1)) || ((chips == 2) && (banks == 2)))) {
             if ((chip.bank > 1) || (chip.start != 0x8000)) {
                 return -1;
             }
             if (crt_read_chip(rawcart, (chip.bank << 14), &chip, fd)) {
                 return -1;
             }
-        } else if ((chips == 4) && (banks == 2) && (chip.size == 0x2000)) {
+            allow_toggle = (chips == 2);
+        /* older format */
+        } else if ((chip.size == 0x2000) && (((chips == 2) && (banks == 1)) || ((chips == 4) && (banks == 2)))) {
             if ((chip.bank > 1) || ((chip.start != 0x8000) && (chip.start != 0xa000))) {
                 return -1;
             }
             if (crt_read_chip(rawcart, (chip.start & 0x2000) + (chip.bank << 14), &chip, fd)) {
                 return -1;
             }
-        } else if ((chips == 4) && (banks == 4) && (chip.size == 0x2000)) {
+            allow_toggle = (chips == 4);
+        /* very old format */
+        } else if ((chip.size == 0x2000) && (((chips == 2) && (banks == 2)) || ((chips == 4) && (banks == 4)))) {
             if ((chip.bank > 3) || (chip.start != 0x8000)) {
                 return -1;
             }
             if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
                 return -1;
             }
+            allow_toggle = (chips == 4);
         } else {
             return -1;
         }
     }
-    allow_toggle = (i == 4);
     return freezemachine_common_attach();
 }
 
