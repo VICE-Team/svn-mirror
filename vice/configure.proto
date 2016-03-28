@@ -596,7 +596,7 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   fi
 
   dnl disable resid
-  with_resid=no
+  dnl with_resid=no
 
 elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "xamithlon" -o x"$host_os" = "xaros" -o x"$host_os" = "xmorphos" -o x"$host_os" = "xwarpos" -o x"$host_os" = "xpowerup"; then
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
@@ -2953,11 +2953,28 @@ if test x"$VORBIS_PRESENT" = "xyes"; then
   AC_DEFINE(USE_VORBIS,,[Enable ogg/vorbis support.])
 fi
 
-AC_CHECK_HEADERS(FLAC/stream_decoder.h,[AC_CHECK_LIB(FLAC, FLAC__stream_decoder_get_channels,
-                     [LIBS="$LIBS -lFLAC";
-                      SOUND_DRIVERS="$SOUND_DRIVERS soundflac.o";
-                      USE_FLAC_SUPPORT="yes";
-                      AC_DEFINE(USE_FLAC,,[Enable FLAC support.])],,)])
+FLAC_PRESENT=yes
+
+AC_CHECK_HEADERS(FLAC/stream_decoder.h,,[FLAC_PRESENT=no],)
+
+if test x"$FLAC_PRESENT" = "xyes"; then
+  AC_CHECK_LIB(FLAC, FLAC__stream_decoder_get_channels,, [FLAC_PRESENT=no])
+fi
+
+if test x"$FLAC_PRESENT" = "xno"; then
+  unset ac_cv_lib_FLAC_FLAC__stream_decoder_get_channels
+  AC_CHECK_LIB(FLAC, FLAC__stream_decoder_get_channels,, [FLAC_PRESENT=no], [-lwinmm])
+  if test x"$FLAC_PRESENT" = "xyes"; then
+    LIBS="$LIBS -lwinmm"
+  fi
+fi
+
+if test x"$FLAC_PRESENT" = "xyes"; then
+    LIBS="$LIBS -lFLAC"
+    SOUND_DRIVERS="$SOUND_DRIVERS soundflac.o"
+    USE_FLAC_SUPPORT="yes"
+    AC_DEFINE(USE_FLAC,,[Enable FLAC support.])
+fi
 
 if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
 
@@ -4705,11 +4722,11 @@ echo ""
 echo "SCREEN/UI"
 echo "---------"
 
-if test x"$real_arch" != "xAmiga"; then
+if test x"$real_arch" != "xAmiga" -a x"$real_arch" != "xDOS" -a x"$real_arch" != "xWin32"; then
     echo "Fullscreen support             : $HAVE_FULLSCREEN_SUPPORT (--enable/disable-fullscreen)"
 fi
 
-if test x"$real_arch" != "xDOS"; then
+if test x"$real_arch" != "xDOS" -a x"$real_arch" != "xWin32" -a x"$real_arch" != "xBeOS"; then
     echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
 fi
 
@@ -4746,6 +4763,7 @@ if test x"$real_arch" = "xUnix"; then
     echo "OSS sound support            : $USE_OSS_SUPPORT (--with/without-oss)"
     echo "ALSA sound support           : $USE_ALSA_SUPPORT (--with/without-alsa)"
     echo "ARTS sound support           : $USE_ARTS_SUPPORT (--with/without-arts)"
+    echo "Pulseaudio sound support     : $USE_PULSE_SUPPORT (--with/without-pulse)"
 fi
 
 if test x"$real_arch" = "xOSX"; then
@@ -4765,8 +4783,6 @@ fi
 if test x"$real_arch" = "xWin32"; then
     echo "DirectX sound support        : $USE_DXSOUND_SUPPORT"
 fi
-
-echo "Pulseaudio sound support     : $USE_PULSE_SUPPORT (--with/without-pulse)"
 
 if test x"$real_arch" != "xDOS"; then
     echo "SDL sound support            : $USE_SDL_AUDIO_SUPPORT (--with/without-sdlsound)"
@@ -4827,8 +4843,8 @@ echo "-----"
 echo "Joystick support            : $HAS_JOYSTICK_SUPPORT"
 echo "Mouse support               : $HAVE_MOUSE_SUPPORT"
 
-if test x"$real_arch" != "xAmiga"; then
-    if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
+if test x"$real_arch" != "xAmiga" -a x"$real_arch" != "xBeOS"; then
+    if test x"$show_gui" = "xSDL" -o x"$show_gui" = "xSDL2"; then
         echo "Lightpen support            : $HAVE_LIGHTPEN_SUPPORT"
     fi
 fi
@@ -4863,7 +4879,10 @@ echo ""
 echo "MODEM/NETWORK"
 echo "-------------"
 
-echo "RS232 device support             : $HAVE_RS232DEV_SUPPORT (--enable/disable-rs232)"
+if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xWin32"; then
+    echo "RS232 device support             : $HAVE_RS232DEV_SUPPORT (--enable/disable-rs232)"
+fi
+
 echo "Network support                  : $HAVE_NETWORK_SUPPORT"
 echo "RS232 network support            : $HAVE_RS232NET_SUPPORT"
 echo "IPv6 network support             : $HAVE_IPV6_SUPPORT (--enable/disable-ipv6)"
@@ -4889,7 +4908,7 @@ fi
 
 echo "Zlib support           : $HAVE_ZLIB_SUPPORT (--with/without-zlib)"
 
-if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xWin32"; then
+if test x"$real_arch" = "xUnix"; then
     echo "Libieee1284 support    : $HAVE_LIBIEEE1284_SUPPORT"
 fi
 
