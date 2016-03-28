@@ -526,6 +526,25 @@ if test x"$ar_check" != "xno"; then
   fi
 fi
 
+dnl check if ar needs a wrapper to get rid of the 'u' option
+if test x"$ar_check" != "xno"; then
+  AC_MSG_CHECKING(if ar complains about the 'u' option)
+  rm -f vicetest.c
+  touch vicetest.c
+  $CC -c vicetest.c -o vicetest.o
+  rm -f vicetest.c
+  rm -f libvicetest.a
+  complains=`$AR cru libvicetest.a vicetest.o 2>&1`
+  if test x"$complains" != "x"; then
+    AC_MSG_RESULT(yes)
+    echo "using ar wrapper instead of ar directly"
+    AR_WRAP="$AR"
+    AR="\$(top_srcdir)/src/wrap-u-ar.sh \"$AR_WRAP\""
+  else
+    AC_MSG_RESULT(no)
+  fi
+fi
+
 AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
 
 AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)

@@ -351,7 +351,8 @@ COMMON_EXTRA_DIST = \
 	palette2c.sh \
 	piacore.c \
 	sedinfocontrib_h.sh \
-	translate.txt
+	translate.txt \
+	wrap-u-ar.sh
 
 # RESID_EXTRA_DIST is a list of files in the resid directory that need to be
 # included in the source archive, this list was added to fix the fact that
