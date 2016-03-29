@@ -374,6 +374,11 @@ if test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
   fi
 fi
 
+dnl disable rpath for ppc beos
+if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xppc"; then
+    norpath=yes
+fi
+
 dnl disable toolchain and ar checking for ppc-beos
 if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
   toolchain_check=no
