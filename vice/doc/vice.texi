@@ -17417,12 +17417,16 @@ Dinamic .crt file
 Diashow-Maker .crt file
 @item easy
 EasyFlash .crt file
+@item ecr
+Easy Calc Result .crt file
 @item epyx
 Epyx FastLoad .crt file
 @item exos
 EXOS .crt file
 @item expert
 Expert Cartridge .crt file
+@item f64
+Formel 64 .crt file
 @item fc1
 The Final Cartridge .crt file
 @item fc3
@@ -17445,6 +17449,8 @@ IDE64 .crt file
 IEEE-488 Interface .crt file
 @item kcs
 KCS Power Cartridge .crt file
+@item ks
+Kingsoft .crt file
 @item mach5
 MACH 5 .crt file
 @item md
@@ -17463,6 +17469,8 @@ Magic Voice .crt file
 Ocean .crt file
 @item p64
 Prophet64 .crt file
+@item pf
+Pagefox .crt file
 @item rep256
 REX 256k EPROM Cart .crt file, extra files can be inserted (1)(2)(3)
 @item rgcd
@@ -17483,6 +17491,8 @@ Structured BASIC .crt file
 Super Explode V5.0 .crt file
 @item sg
 Super Games .crt file
+@item silver
+Silverrock 128K Cartridge .crt file
 @item simon
 Simons' BASIC .crt file
 @item ss4
