@@ -47,7 +47,11 @@ echo Generating BEOS port binary distribution.
 if test x"$CPU" = "xpowerpc" -o x"$CPU" = "xppc"; then
   BEOSCPU=powerpc
 else
-  BEOSCPU=x86
+  if test x"$CPU" = "xx86_64" -o x"$CPU" = "xamd64"; then
+    BEOSCPU=Haiku64
+  else
+    BEOSCPU=x86
+  fi
 fi
 
 rm -f -r BeVICE-$VICEVERSION.$BEOSCPU
