@@ -994,9 +994,14 @@ static int check_emu_id(const char *buf)
 
 /* ------------------------------------------------------------------------- */
 
-/* Read one resource line from the file descriptor `f'.  Return 1 on success,
-   -1 on parse/type error, -2 on unknown resource error, 0 on EOF or
-   end of emulator section.  */
+/* Read one resource line from the file descriptor `f'.
+   Returns:
+    1 on success,
+    0 on EOF or end of emulator section.
+   -1 on general error
+   RESERR_TYPE_INVALID on parse/type error
+   RESERR_UNKNOWN_RESOURCE on unknown resource error
+*/
 /* FIXME: make event safe */
 int resources_read_item_from_file(FILE *f)
 {
@@ -1045,7 +1050,7 @@ int resources_read_item_from_file(FILE *f)
         r = lookup(buf);
         if (r == NULL) {
             log_error(LOG_DEFAULT, "Unknown resource `%s'.", buf);
-            return -2;
+            return RESERR_UNKNOWN_RESOURCE;
         }
 
         switch (r->type) {
@@ -1058,13 +1063,20 @@ int resources_read_item_from_file(FILE *f)
             default:
                 log_error(LOG_DEFAULT, "Unknown resource type for `%s'.",
                           r->name);
-                result = -1;
+                result = RESERR_TYPE_INVALID;
                 break;
         }
 
         if (result < 0) {
-            log_error(LOG_DEFAULT, "Cannot assign value to resource `%s'.",
-                      r->name);
+            switch (r->type) {
+                case RES_INTEGER:
+                case RES_STRING:
+                    log_error(LOG_DEFAULT, "Cannot assign value `%s' to resource `%s'.", arg_ptr, r->name);
+                    break;
+                default:
+                    log_error(LOG_DEFAULT, "Cannot assign value to resource `%s'.", r->name);
+                    break;
+            }
             return -1;
         }
 
@@ -1120,16 +1132,18 @@ int resources_load(const char *fname)
 
     do {
         retval = resources_read_item_from_file(f);
-        if (retval == -1) {
-            log_error(LOG_DEFAULT,
-                      "%s: Invalid resource specification at line %d.",
-                      fname, line_num);
-            err = 1;
-        } else
-        if (retval == -2) {
-            log_warning(LOG_DEFAULT,
-                        "%s: Unknown resource specification at line %d.",
-                        fname, line_num);
+        switch (retval) {
+            case RESERR_TYPE_INVALID:
+                    log_error(LOG_DEFAULT,
+                            "%s: Invalid resource specification at line %d.",
+                            fname, line_num);
+                    err = 1;
+                break;
+            case RESERR_UNKNOWN_RESOURCE:
+                    log_warning(LOG_DEFAULT,
+                                "%s: Unknown resource specification at line %d.",
+                                fname, line_num);
+                break;
         }
         line_num++;
     } while (retval != 0);
