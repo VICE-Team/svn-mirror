@@ -64,9 +64,12 @@
 
 #define DWORD_IS_LONG           1
 #define HAVE_TFE                1
+
+#ifndef _M_IA64
 #define HAVE_FFMPEG             1
 #define HAVE_FFMPEG_SWSCALE     1
 #define HAVE_FFMPEG_HEADER_SUBDIRS 1
+#endif
 
 #ifndef _WIN64
 #define FFMPEG_ALIGNMENT_HACK   1
