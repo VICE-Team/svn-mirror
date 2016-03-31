@@ -1066,6 +1066,7 @@ static void generate_vice_1(char *out_path, char *filename)
              "http://vice-emu.sourceforge.net/\n"
              ".SH SEE ALSO\n"
              ".BR petcat (1),\n"
+             ".BR cartconv (1),\n"
              ".BR c1541 (1)\n"
              ".SH AUTHORS\n";
 

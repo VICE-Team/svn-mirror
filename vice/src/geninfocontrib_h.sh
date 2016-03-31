@@ -720,6 +720,7 @@ if test x"$1" = "xvice1"; then
   $ECHO "http://vice-emu.sourceforge.net/"
   $ECHO ".SH SEE ALSO"
   $ECHO ".BR petcat (1),"
+  $ECHO ".BR cartconv (1),"
   $ECHO ".BR c1541 (1)"
   $ECHO ".SH AUTHORS"
   for i in $ALL_MEMBERS
