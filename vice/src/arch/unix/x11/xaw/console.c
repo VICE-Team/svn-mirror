@@ -61,7 +61,7 @@ int console_init(void)
 
 console_t *uimon_window_open(void)
 {
-#ifdef HAVE_SYS_IOCTL_H
+#if defined(HAVE_SYS_IOCTL_H) && !defined(__minix)
     struct winsize w;
 #endif
 
@@ -86,7 +86,7 @@ console_t *uimon_window_open(void)
     mon_output = stdout;
 #endif
 
-#ifdef HAVE_SYS_IOCTL_H
+#if defined(HAVE_SYS_IOCTL_H) && !defined(__minix)
     if (ioctl(fileno(stdin), TIOCGWINSZ, &w)) {
         console_log_local->console_xres = 80;
         console_log_local->console_yres = 25;
@@ -94,6 +94,7 @@ console_t *uimon_window_open(void)
         console_log_local->console_xres = w.ws_col >= 40 ? w.ws_col : 40;
         console_log_local->console_yres = w.ws_row >= 22 ? w.ws_row : 22;
     }
+
 #else
     console_log_local->console_xres = 80;
     console_log_local->console_yres = 25;
