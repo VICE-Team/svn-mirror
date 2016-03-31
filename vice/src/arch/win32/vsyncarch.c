@@ -49,6 +49,8 @@
 
 // -------------------------------------------------------------------------
 
+static int pause_pending = 0;
+
 enum { EXTRA_PRECISION = 10 };
 
 signed long vsyncarch_frequency(void)
@@ -138,6 +140,13 @@ void vsyncarch_presync(void)
 
 void vsyncarch_postsync(void)
 {
+    /* this function is called once a frame, so this
+       handles single frame advance */
+    if (pause_pending) {
+        ui_pause_emulation(1);
+        pause_pending = 0;
+    }
+
     /* Dispatch all the pending UI events.  */
     ui_dispatch_events();
 
@@ -152,4 +161,10 @@ void vsyncarch_postsync(void)
 int vsyncarch_vbl_sync_enabled(void)
 {
     return ui_vblank_sync_enabled();
+}
+
+void vsyncarch_advance_frame(void)
+{
+    ui_pause_emulation(0);
+    pause_pending = 1;
 }

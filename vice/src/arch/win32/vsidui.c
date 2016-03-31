@@ -783,7 +783,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             }
             break;
         case IDM_PAUSE:
-            ui_pause_emulation();
+            ui_pause_emulation(!ui_emulation_is_paused());
             break;
         case IDM_RESET_HARD:
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
@@ -914,7 +914,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
                     psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
                     break;
                 case ' ':
-                    ui_pause_emulation();
+                    ui_pause_emulation(!ui_emulation_is_paused());
                     break;
                 case 'W':
                     resources_set_int("WarpMode", 1);

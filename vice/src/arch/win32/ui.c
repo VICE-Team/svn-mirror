@@ -325,8 +325,6 @@ static HWND main_hwnd;
 
 static int emu_menu;
 
-static int pause_pending;
-
 static ui_menu_translation_table_t *menu_translation_table;
 static ui_popup_translation_table_t *popup_translation_table;
 
@@ -1154,17 +1152,18 @@ static void pause_trap(WORD addr, void *data)
     }
 }
 
-void ui_pause_emulation(void)
+void ui_pause_emulation(int flag)
 {
     if (network_connected()) {
         return;
     }
 
-    is_paused = is_paused ? 0 : 1;
-    if (is_paused) {
+    if (flag && !is_paused) {
+        is_paused = 1;
         interrupt_maincpu_trigger_trap(pause_trap, 0);
     } else {
-        ui_display_paused(pause_pending);
+        ui_display_paused(0);
+        is_paused = 0;
     }
 }
 
@@ -1472,13 +1471,6 @@ void ui_dispatch_events(void)
 {
     MSG msg;
 
-    /* this function is called once a frame, so this
-       handles single frame advance */
-    if (pause_pending) {
-        ui_pause_emulation();
-        pause_pending = 0;
-    }
-
     while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
         ui_dispatch_next_event();
     }
@@ -1748,13 +1740,12 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             ResumeFullscreenModeKeep(hwnd);
             break;
         case IDM_SINGLE_FRAME_ADVANCE:
-            pause_pending = 1;
-            if (!is_paused) {
-                break;
+            if (ui_emulation_is_paused()) {
+                vsyncarch_advance_frame();
             }
-            // fall through
+            break;
         case IDM_PAUSE:
-            ui_pause_emulation();
+            ui_pause_emulation(!ui_emulation_is_paused());
             break;
         case IDM_MONITOR:
             if (!ui_emulation_is_paused()) {

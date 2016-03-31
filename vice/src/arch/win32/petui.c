@@ -179,6 +179,7 @@ ui_menu_translation_table_t petui_menu_translation_table[] = {
     { IDM_ABOUT, IDS_MI_ABOUT },
     { IDM_HELP, IDS_MP_HELP },
     { IDM_PAUSE, IDS_MI_PAUSE },
+    { IDM_SINGLE_FRAME_ADVANCE, IDS_MI_SINGLE_FRAME_ADVANCE },
     { IDM_EDIT_COPY, IDS_MI_EDIT_COPY },
     { IDM_EDIT_PASTE, IDS_MI_EDIT_PASTE },
     { IDM_AUTOSTART, IDS_MI_AUTOSTART },

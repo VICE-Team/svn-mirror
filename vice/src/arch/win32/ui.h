@@ -146,7 +146,7 @@ extern void ui_resize_canvas_window(struct video_canvas_s *canvas);
 extern FILE *ui_console_save_dialog(HWND hwnd);
 extern int ui_emulation_is_paused(void);
 extern void ui_set_alwaysontop(int alwaysontop);
-extern void ui_pause_emulation(void);
+extern void ui_pause_emulation(int flag);
 
 struct ui_menu_translation_table_s {
     int idm;
