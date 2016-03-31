@@ -343,7 +343,7 @@ fi
 if test x"$host_os" = "xminix"; then
   AC_DEFINE(MINIX_SUPPORT,,[do we need minix support])
   CFLAGS="$CFLAGS -D_MINIX -D_POSIX_SOURCE"
-  MINIX_RELEASE=`uname -r`
+  MINIX_RELEASE=`uname -r | cut -c1`
   MINIX_VERSION=`uname -v`
   if test x"$MINIX_RELEASE" != "x3"; then
     AC_MSG_ERROR([VICE works only on minix 3 and up])
