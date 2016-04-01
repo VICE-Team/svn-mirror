@@ -554,13 +554,18 @@ static void pause_trap(WORD addr, void *data)
     }
 }
 
-void ui_pause_emulation(void)
+void ui_pause_emulation(int flag)
 {
-    is_paused = is_paused ? 0 : 1;
-    if (is_paused) {
+    if (network_connected()) {
+        return;
+    }
+
+    if (flag && !is_paused) {
+        is_paused = 1;
         interrupt_maincpu_trigger_trap(pause_trap, 0);
     } else {
         ui_display_paused(0);
+        is_paused = 0;
     }
 }
 
@@ -900,7 +905,12 @@ void ui_dispatch_events(void)
                 monitor_startup_trap();
                 break;
             case MENU_PAUSE:
-                ui_pause_emulation();
+                ui_pause_emulation(!ui_emulation_is_paused());
+                break;
+            case MENU_SINGLE_FRAME_ADVANCE:
+                if (ui_emulation_is_paused()) {
+                    vsyncarch_advance_frame();
+                }
                 break;
             case MENU_COPY:
                 ui_copy_clipboard();

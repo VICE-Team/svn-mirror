@@ -38,6 +38,8 @@
 
 /* ------------------------------------------------------------------------- */
 
+static int pause_pending = 0;
+
 /* Number of timer units per second. */
 signed long vsyncarch_frequency(void)
 {
@@ -81,5 +83,17 @@ void vsyncarch_presync(void)
 
 void vsyncarch_postsync(void)
 {
+    /* this function is called once a frame, so this
+       handles single frame advance */
+    if (pause_pending) {
+        ui_pause_emulation(1);
+        pause_pending = 0;
+    }
     ui_dispatch_events();
+}
+
+void vsyncarch_advance_frame(void)
+{
+    ui_pause_emulation(0);
+    pause_pending = 1;
 }

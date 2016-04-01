@@ -356,6 +356,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         menu->AddItem(new BMenuItem("Quit emulator", new BMessage(MENU_JAM_ACTION_QUIT_EMULATOR)));
 
     uppermenu->AddItem(item = new BMenuItem("Pause", new BMessage(MENU_PAUSE), 'P'));
+    uppermenu->AddItem(item = new BMenuItem("Quit emulator", new BMessage(MENU_SINGLE_FRAME_ADVANCE)));
     uppermenu->AddItem(item = new BMenuItem("Monitor", new BMessage(MENU_MONITOR), 'M'));
     uppermenu->AddItem(item = new BMenuItem("Soft Reset", new BMessage(MENU_RESET_SOFT), 'R'));
     uppermenu->AddItem(new BMenuItem("Hard Reset", new BMessage(MENU_RESET_HARD), 'R', B_CONTROL_KEY));
