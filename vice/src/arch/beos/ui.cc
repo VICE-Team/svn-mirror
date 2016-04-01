@@ -100,6 +100,7 @@ extern "C" {
 #include "vicefeatures.h"
 #include "videoarch.h"
 #include "vsync.h"
+#include "vsyncapi.h"
 
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"

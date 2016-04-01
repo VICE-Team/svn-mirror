@@ -13176,6 +13176,9 @@ Diashow-Maker .crt file
 `easy'
 EasyFlash .crt file
 
+`ecr'
+Easy Calc Result .crt file
+
 `epyx'
 Epyx FastLoad .crt file
 
@@ -13184,6 +13187,9 @@ EXOS .crt file
 
 `expert'
 Expert Cartridge .crt file
+
+`f64'
+Formel 64 .crt file
 
 `fc1'
 The Final Cartridge .crt file
@@ -13218,6 +13224,9 @@ IEEE-488 Interface .crt file
 `kcs'
 KCS Power Cartridge .crt file
 
+`ks'
+Kingsoft .crt file
+
 `mach5'
 MACH 5 .crt file
 
@@ -13244,6 +13253,9 @@ Ocean .crt file
 
 `p64'
 Prophet64 .crt file
+
+`pf'
+Pagefox .crt file
 
 `rep256'
 REX 256k EPROM Cart .crt file, extra files can be inserted
@@ -13275,6 +13287,9 @@ Super Explode V5.0 .crt file
 
 `sg'
 Super Games .crt file
+
+`silver'
+Silverrock 128K Cartridge .crt file
 
 `simon'
 Simons' BASIC .crt file
@@ -20102,7 +20117,7 @@ Concept Index
 -6809romB:                                     See 7.7.4.2. (line  8237)
 -8:                                            See 3.1.     (line  1017)
 -9:                                            See 3.1.     (line  1020)
--? <1>:                                        See 15.1.    (line 13354)
+-? <1>:                                        See 15.1.    (line 13369)
 -?:                                            See 3.1.     (line   984)
 -acia, +acia:                                  See 7.6.4.2. (line  7810)
 -attach10rw:                                   See 3.1.     (line  1034)
@@ -20112,7 +20127,7 @@ Concept Index
 -autoload:                                     See 3.1.     (line  1011)
 -autostart <1>:                                See 3.1.     (line  1008)
 -autostart:                                    See 3.2.     (line  1063)
--c:                                            See 15.1.    (line 13360)
+-c:                                            See 15.1.    (line 13375)
 -cart:                                         See 7.6.2.2. (line  7668)
 -cart2 <1>:                                    See 7.5.5.2. (line  7461)
 -cart2:                                        See 7.5.2.2. (line  6996)
@@ -20132,7 +20147,7 @@ Concept Index
 -config:                                       See 3.1.     (line   990)
 -console:                                      See 3.1.     (line  1002)
 -CrtcVidmodefullmode:                          See 7.7.2.2. (line  8046)
--d:                                            See 15.1.    (line 13370)
+-d:                                            See 15.1.    (line 13385)
 -default:                                      See 3.1.     (line   985)
 -dtvblitterlog, +dtvblitterlog:                See 7.3.5.   (line  6556)
 -dtvdmalog, +dtvdmalog:                        See 7.3.5.   (line  6560)
@@ -20142,28 +20157,28 @@ Concept Index
 -f:                                            See 14.1.    (line 13115)
 -ffmpegaudiobitrate:                           See 10.2.    (line 12134)
 -ffmpegvideobitrate:                           See 10.2.    (line 12135)
--h:                                            See 15.1.    (line 13373)
--help <1>:                                     See 15.1.    (line 13353)
+-h:                                            See 15.1.    (line 13388)
+-help <1>:                                     See 15.1.    (line 13368)
 -help:                                         See 3.1.     (line   983)
 -i:                                            See 14.1.    (line 13094)
--ic:                                           See 15.1.    (line 13367)
+-ic:                                           See 15.1.    (line 13382)
 -IDE64USB, +IDE64USB:                          See 7.1.2.2. (line  4929)
 -IDE64USBAddress:                              See 7.1.2.2. (line  4931)
 -initbreak:                                    See 6.13.2.  (line  3870)
 -joydev1:                                      See 6.7.2.   (line  2352)
 -joydev2:                                      See 6.7.2.   (line  2352)
--k:                                            See 15.1.    (line 13394)
--k<version>:                                   See 15.1.    (line 13391)
+-k:                                            See 15.1.    (line 13409)
+-k<version>:                                   See 15.1.    (line 13406)
 -keybuf:                                       See 3.1.     (line   999)
 -l:                                            See 14.1.    (line 13110)
 -mitshm, +mitshm:                              See 2.12.2.  (line   881)
 -moncommands:                                  See 6.13.2.  (line  3864)
 -mouse, +mouse:                                See 6.7.2.   (line  2378)
 -n:                                            See 14.1.    (line 13106)
--nc:                                           See 15.1.    (line 13363)
--nh:                                           See 15.1.    (line 13376)
+-nc:                                           See 15.1.    (line 13378)
+-nh:                                           See 15.1.    (line 13391)
 -o:                                            See 14.1.    (line 13098)
--o <name>:                                     See 15.1.    (line 13400)
+-o <name>:                                     See 15.1.    (line 13415)
 -q:                                            See 14.1.    (line 13124)
 -r:                                            See 14.1.    (line 13120)
 -raminitvalueinvert:                           See 6.14.2.  (line  3913)
@@ -20180,11 +20195,11 @@ Concept Index
 -rsuser, +rsuser:                              See 6.12.2.  (line  3788)
 -rsuserbaud:                                   See 6.12.2.  (line  3793)
 -rsuserdev:                                    See 6.12.2.  (line  3796)
--skip <n>:                                     See 15.1.    (line 13379)
+-skip <n>:                                     See 15.1.    (line 13394)
 -t:                                            See 14.1.    (line 13102)
 -TEDVidmodefullmode:                           See 7.6.1.2. (line  7578)
 -TEDXRANDRfullmode:                            See 7.6.1.2. (line  7577)
--text:                                         See 15.1.    (line 13382)
+-text:                                         See 15.1.    (line 13397)
 -tfe, +tfe <1>:                                See 7.1.6.2. (line  5871)
 -tfe, +tfe:                                    See 7.5.2.2. (line  7076)
 -tfeif <1>:                                    See 7.1.6.2. (line  5873)
@@ -20192,7 +20207,7 @@ Concept Index
 -tfeioswap, +tfeioswap:                        See 7.5.2.2. (line  7074)
 -tferrnet, +tferrnet <1>:                      See 7.1.6.2. (line  5876)
 -tferrnet, +tferrnet:                          See 7.5.2.2. (line  7083)
--v:                                            See 15.1.    (line 13357)
+-v:                                            See 15.1.    (line 13372)
 -VDCfulldevice:                                See 8.5.2.   (line 10056)
 -VDCVidmodefullmode:                           See 7.2.1.2. (line  6153)
 -VDCXRANDRfullmode:                            See 7.2.1.2. (line  6152)
@@ -20201,7 +20216,7 @@ Concept Index
 -VICIIXRANDRfullmode:                          See 7.1.4.2. (line  5383)
 -VICVidmodefullmode:                           See 7.5.3.2. (line  7288)
 -VICXRANDRfullmode:                            See 7.5.3.2. (line  7287)
--w<version>:                                   See 15.1.    (line 13388)
+-w<version>:                                   See 15.1.    (line 13403)
 ACIA (Swiftlink, Turbo232):                    See 7.1.6.   (line  5648)
 Audio buffer size:                             See 6.8.     (line  2420)
 Converting X64 files into D64:                 See 2.11.    (line   841)
