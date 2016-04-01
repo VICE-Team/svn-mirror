@@ -493,13 +493,18 @@ static void pause_trap(WORD addr, void *data)
     }
 }
 
-void ui_pause_emulation(void)
+void ui_pause_emulation(int flag)
 {
-    is_paused = is_paused ? 0 : 1;
-    if (is_paused) {
+    if (network_connected()) {
+        return;
+    }
+
+    if (flag && !is_paused) {
+        is_paused = 1;
         interrupt_maincpu_trigger_trap(pause_trap, 0);
     } else {
         ui_display_paused(0);
+        is_paused = 0;
     }
 }
 
@@ -696,6 +701,11 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
             break;
         case IDM_PAUSE:
             ui_pause_emulation();
+            break;
+        case IDM_SINGLE_FRAME_ADVANCE:
+            if (ui_emulation_is_paused()) {
+                vsyncarch_advance_frame();
+            }
             break;
         case IDM_EXIT:
             do_quit_vice = 1;

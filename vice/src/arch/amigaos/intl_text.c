@@ -1118,6 +1118,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_PAUSE_SV, "Paus" },
 /* tr */ { IDMS_PAUSE_TR, "Duraklat" },
 
+/* en */ { IDMS_SINGLE_FRAME_ADVANCE,    "Single frame advance" },
+/* da */ { IDMS_SINGLE_FRAME_ADVANCE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_SINGLE_FRAME_ADVANCE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_SINGLE_FRAME_ADVANCE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_SINGLE_FRAME_ADVANCE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_SINGLE_FRAME_ADVANCE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_SINGLE_FRAME_ADVANCE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_SINGLE_FRAME_ADVANCE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_SINGLE_FRAME_ADVANCE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_SINGLE_FRAME_ADVANCE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_SINGLE_FRAME_ADVANCE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_SINGLE_FRAME_ADVANCE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_SINGLE_FRAME_ADVANCE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_MONITOR,    "Monitor" },
 /* da */ { IDMS_MONITOR_DA, "Monitor" },
 /* de */ { IDMS_MONITOR_DE, "Monitor" },

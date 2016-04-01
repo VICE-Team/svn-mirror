@@ -62,6 +62,8 @@
 #include "private.h"
 #include "ui.h"
 
+static int pause_pending = 0;
+
 /* number of timer units per second - used to calc speed and fps */
 signed long vsyncarch_frequency(void)
 {
@@ -125,6 +127,12 @@ void vsyncarch_presync(void)
 /* this is called after vsync_do_vsync did the synchroniation */
 void vsyncarch_postsync(void)
 {
+    /* this function is called once a frame, so this
+       handles single frame advance */
+    if (pause_pending) {
+        ui_pause_emulation(1);
+        pause_pending = 0;
+    }
 }
 
 /* set ui dispatcher function */
@@ -136,4 +144,10 @@ void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
 int vsyncarch_vbl_sync_enabled(void)
 {
     return 0;
+}
+
+void vsyncarch_advance_frame(void)
+{
+    ui_pause_emulation(0);
+    pause_pending = 1;
 }
