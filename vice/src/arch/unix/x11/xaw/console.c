@@ -59,9 +59,22 @@ int console_init(void)
     return 0;
 }
 
+#ifdef HAVE_SYS_IOCTL_H
+
+#ifdef __minix
+#undef HAVE_SYS_IOCTL_H
+#endif
+
+#ifdef UNIXWARE_COMPILE
+#undef HAVE_SYS_IOCTL_H
+#endif
+
+#endif
+
+
 console_t *uimon_window_open(void)
 {
-#if defined(HAVE_SYS_IOCTL_H) && !defined(__minix)
+#ifdef HAVE_SYS_IOCTL_H
     struct winsize w;
 #endif
 
@@ -86,7 +99,7 @@ console_t *uimon_window_open(void)
     mon_output = stdout;
 #endif
 
-#if defined(HAVE_SYS_IOCTL_H) && !defined(__minix)
+#ifdef HAVE_SYS_IOCTL_H
     if (ioctl(fileno(stdin), TIOCGWINSZ, &w)) {
         console_log_local->console_xres = 80;
         console_log_local->console_yres = 25;
