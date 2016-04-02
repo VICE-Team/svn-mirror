@@ -584,6 +584,10 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
     return 0;
 }
 
+#ifndef DEFFILEMODE
+#define DEFFILEMODE (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)
+#endif
+
 /* set permissions of given file to rw, respecting current umask */
 int archdep_fix_permissions(const char *file_name)
 {
