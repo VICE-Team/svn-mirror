@@ -1047,7 +1047,7 @@ BEGIN
   IDS_FRAME_NUMBER                     "frame #"
   IDS_RESUMED                          "resumed"
   IDS_REALLY_EXIT                      "Do you really want to exit?\n\nAll the data present in the emulated RAM will be lost."
-  IDS_TFE_PROBLEM                      "TFE/RR-Net support is not available on your system,\nthere is some important part missing. Please have a\nlook at the VICE knowledge base support page\n\n      http://vicekb.trikaliotis.net/13-005\n\nfor possible reasons and to activate networking with VICE."
+  IDS_TFE_PROBLEM                      "TFE/RR-Net support is not available on your system.\nThe winpcap drivers are not installed.\nPlease download and install winpcap."
   IDS_TFE_RRNET_SUPPORT                "TFE/RR-Net support"
   IDS_CANNOT_AUTOSTART_FILE            "Cannot autostart specified file."
   IDS_ATTACHED_TAPE_S                  "Attached tape %s"
