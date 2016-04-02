@@ -970,6 +970,7 @@ dnl All other UN*X systems
   case "$host_os" in
     sco3.2v7*)
       LIBS="-lxti -lsocket -lnsl $LIBS"
+      norpath=yes
       ;;
   esac
 
