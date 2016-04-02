@@ -31,6 +31,8 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t screenshot_menu[];
+extern const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[];
+extern const ui_menu_entry_t screenshot_ted_menu[];
+extern const ui_menu_entry_t screenshot_crtc_menu[];
 
 #endif
