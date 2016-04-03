@@ -29,6 +29,8 @@
 
 struct tui_menu_item_def_s;
 
-extern struct tui_menu_item_def_s ui_screenshot_menu_def[];
+extern struct tui_menu_item_def_s ui_screenshot_menu_def_vic_vicii_vdc[];
+extern struct tui_menu_item_def_s ui_screenshot_menu_def_ted[];
+extern struct tui_menu_item_def_s ui_screenshot_menu_def_crtc[];
 
 #endif

@@ -41,6 +41,7 @@
 #include "autostart.h"
 #include "datasette.h"
 #include "drive.h"
+#include "gfxoutput.h"
 #include "imagecontents.h"
 #include "tapecontents.h"
 #include "info.h"
@@ -859,7 +860,18 @@ static void create_ui_video_submenu(void)
     tui_menu_add_separator(ui_video_submenu);
 
     ui_screenshot_submenu = tui_menu_create("Screenshot Commands", 1);
-    tui_menu_add(ui_screenshot_submenu, ui_screenshot_menu_def);
+    switch (machine_class) {
+        default:
+            tui_menu_add(ui_screenshot_submenu, ui_screenshot_menu_def_vic_vicii_vdc);
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            tui_menu_add(ui_screenshot_submenu, ui_screenshot_menu_def_crtc);
+            break;
+        case VICE_MACHINE_PLUS4:
+            tui_menu_add(ui_screenshot_submenu, ui_screenshot_menu_def_ted);
+            break;
+    }
 
     tui_menu_add_submenu(ui_video_submenu, "_Screenshot Commands...",
                          "Commands for saving screenshots",
