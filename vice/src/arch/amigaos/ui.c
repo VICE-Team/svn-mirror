@@ -871,6 +871,9 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
         case IDM_MEDIAFILE:
             ui_screenshot_dialog(canvas);
             break;
+        case IDM_NATIVE_SCREENSHOT_SETTINGS:
+            ui_screenshot_settings_dialog();
+            break;
         case IDM_DATASETTE_SETTINGS:
             ui_datasette_settings_dialog();
             break;

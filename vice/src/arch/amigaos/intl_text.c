@@ -1412,19 +1412,33 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SELECT_HISTORY_DIR_SV, "Välj historikfiler/-katalog" },
 /* tr */ { IDMS_SELECT_HISTORY_DIR_TR, "Tarihçe dosyalarý/dizin seç" },
 
-/* en */ { IDMS_SAVE_STOP_MEDIA_FILE,    "Save/stop media file..." },
-/* da */ { IDMS_SAVE_STOP_MEDIA_FILE_DA, "Gem/stop mediefil..." },
-/* de */ { IDMS_SAVE_STOP_MEDIA_FILE_DE, "Speichern/stop media Datei..." },
-/* es */ { IDMS_SAVE_STOP_MEDIA_FILE_ES, "Grabar/Parar fichero media..." },
-/* fr */ { IDMS_SAVE_STOP_MEDIA_FILE_FR, "Enregistrer/Arrêter fichier média..." },
+/* en */ { IDMS_SAVE_STOP_MEDIA_FILE,    "Save screenshot file..." },
+/* da */ { IDMS_SAVE_STOP_MEDIA_FILE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_SAVE_STOP_MEDIA_FILE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_SAVE_STOP_MEDIA_FILE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_SAVE_STOP_MEDIA_FILE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_SAVE_STOP_MEDIA_FILE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_SAVE_STOP_MEDIA_FILE_IT, "Salva/arresta file multimediale..." },
-/* ko */ { IDMS_SAVE_STOP_MEDIA_FILE_KO, "ÀúÀå/Á¤Áö ¹Ìµð¾î ÆÄÀÏ..." },
-/* nl */ { IDMS_SAVE_STOP_MEDIA_FILE_NL, "Opslaan/stop mediabestand..." },
-/* pl */ { IDMS_SAVE_STOP_MEDIA_FILE_PL, "Zapisz i zatrzymaj plik multimediów..." },
+/* it */ { IDMS_SAVE_STOP_MEDIA_FILE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_SAVE_STOP_MEDIA_FILE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_SAVE_STOP_MEDIA_FILE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_SAVE_STOP_MEDIA_FILE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_SAVE_STOP_MEDIA_FILE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_SAVE_STOP_MEDIA_FILE_SV, "Starta/stoppa mediafil..." },
-/* tr */ { IDMS_SAVE_STOP_MEDIA_FILE_TR, "Ortam dosyasý kaydet/durdur..." },
+/* sv */ { IDMS_SAVE_STOP_MEDIA_FILE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_SAVE_STOP_MEDIA_FILE_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_NATIVE_SCREENSHOT_SETTINGS,    "Native screenshot settings..." },
+/* da */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_NETPLAY,    "Netplay (experimental)..." },
 /* da */ { IDMS_NETPLAY_DA, "Netværksspil (eksperimentelt)..." },
@@ -12866,6 +12880,426 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_CIA_MODEL_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_CIA_MODEL_SETTINGS_SV, "CIA-modellinställningar" },
 /* tr */ { IDS_CIA_MODEL_SETTINGS_TR, "CIA model ayarlarý" },
+
+/* en */ { IDS_SCALE,    "Scale" },
+/* da */ { IDS_SCALE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SCALE_DE, "" },  /* fuzzy */
+/* es */ { IDS_SCALE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SCALE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SCALE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SCALE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SCALE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SCALE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SCALE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SCALE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SCALE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SCALE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CROP_LEFT_TOP,    "Crop left top" },
+/* da */ { IDS_CROP_LEFT_TOP_DA, "" },  /* fuzzy */
+/* de */ { IDS_CROP_LEFT_TOP_DE, "" },  /* fuzzy */
+/* es */ { IDS_CROP_LEFT_TOP_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CROP_LEFT_TOP_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CROP_LEFT_TOP_HU, "" },  /* fuzzy */
+/* it */ { IDS_CROP_LEFT_TOP_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CROP_LEFT_TOP_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CROP_LEFT_TOP_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CROP_LEFT_TOP_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CROP_LEFT_TOP_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CROP_LEFT_TOP_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CROP_LEFT_TOP_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CROP_MIDDLE_TOP,    "Crop middle top" },
+/* da */ { IDS_CROP_MIDDLE_TOP_DA, "" },  /* fuzzy */
+/* de */ { IDS_CROP_MIDDLE_TOP_DE, "" },  /* fuzzy */
+/* es */ { IDS_CROP_MIDDLE_TOP_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CROP_MIDDLE_TOP_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CROP_MIDDLE_TOP_HU, "" },  /* fuzzy */
+/* it */ { IDS_CROP_MIDDLE_TOP_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CROP_MIDDLE_TOP_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CROP_MIDDLE_TOP_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CROP_MIDDLE_TOP_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CROP_MIDDLE_TOP_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CROP_MIDDLE_TOP_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CROP_MIDDLE_TOP_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CROP_RIGHT_TOP,    "Crop right top" },
+/* da */ { IDS_CROP_RIGHT_TOP_DA, "" },  /* fuzzy */
+/* de */ { IDS_CROP_RIGHT_TOP_DE, "" },  /* fuzzy */
+/* es */ { IDS_CROP_RIGHT_TOP_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CROP_RIGHT_TOP_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CROP_RIGHT_TOP_HU, "" },  /* fuzzy */
+/* it */ { IDS_CROP_RIGHT_TOP_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CROP_RIGHT_TOP_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CROP_RIGHT_TOP_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CROP_RIGHT_TOP_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CROP_RIGHT_TOP_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CROP_RIGHT_TOP_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CROP_RIGHT_TOP_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CROP_LEFT_CENTER,    "Crop left center" },
+/* da */ { IDS_CROP_LEFT_CENTER_DA, "" },  /* fuzzy */
+/* de */ { IDS_CROP_LEFT_CENTER_DE, "" },  /* fuzzy */
+/* es */ { IDS_CROP_LEFT_CENTER_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CROP_LEFT_CENTER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CROP_LEFT_CENTER_HU, "" },  /* fuzzy */
+/* it */ { IDS_CROP_LEFT_CENTER_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CROP_LEFT_CENTER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CROP_LEFT_CENTER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CROP_LEFT_CENTER_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CROP_LEFT_CENTER_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CROP_LEFT_CENTER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CROP_LEFT_CENTER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CROP_MIDDLE_CENTER,    "Crop middle center" },
+/* da */ { IDS_CROP_MIDDLE_CENTER_DA, "" },  /* fuzzy */
+/* de */ { IDS_CROP_MIDDLE_CENTER_DE, "" },  /* fuzzy */
+/* es */ { IDS_CROP_MIDDLE_CENTER_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CROP_MIDDLE_CENTER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CROP_MIDDLE_CENTER_HU, "" },  /* fuzzy */
+/* it */ { IDS_CROP_MIDDLE_CENTER_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CROP_MIDDLE_CENTER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CROP_MIDDLE_CENTER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CROP_MIDDLE_CENTER_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CROP_MIDDLE_CENTER_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CROP_MIDDLE_CENTER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CROP_MIDDLE_CENTER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CROP_RIGHT_CENTER,    "Crop right center" },
+/* da */ { IDS_CROP_RIGHT_CENTER_DA, "" },  /* fuzzy */
+/* de */ { IDS_CROP_RIGHT_CENTER_DE, "" },  /* fuzzy */
+/* es */ { IDS_CROP_RIGHT_CENTER_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CROP_RIGHT_CENTER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CROP_RIGHT_CENTER_HU, "" },  /* fuzzy */
+/* it */ { IDS_CROP_RIGHT_CENTER_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CROP_RIGHT_CENTER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CROP_RIGHT_CENTER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CROP_RIGHT_CENTER_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CROP_RIGHT_CENTER_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CROP_RIGHT_CENTER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CROP_RIGHT_CENTER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CROP_LEFT_BOTTOM,    "Crop left bottom" },
+/* da */ { IDS_CROP_LEFT_BOTTOM_DA, "" },  /* fuzzy */
+/* de */ { IDS_CROP_LEFT_BOTTOM_DE, "" },  /* fuzzy */
+/* es */ { IDS_CROP_LEFT_BOTTOM_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CROP_LEFT_BOTTOM_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CROP_LEFT_BOTTOM_HU, "" },  /* fuzzy */
+/* it */ { IDS_CROP_LEFT_BOTTOM_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CROP_LEFT_BOTTOM_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CROP_LEFT_BOTTOM_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CROP_LEFT_BOTTOM_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CROP_LEFT_BOTTOM_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CROP_LEFT_BOTTOM_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CROP_LEFT_BOTTOM_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CROP_MIDDLE_BOTTOM,    "Crop middle bottom" },
+/* da */ { IDS_CROP_MIDDLE_BOTTOM_DA, "" },  /* fuzzy */
+/* de */ { IDS_CROP_MIDDLE_BOTTOM_DE, "" },  /* fuzzy */
+/* es */ { IDS_CROP_MIDDLE_BOTTOM_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CROP_MIDDLE_BOTTOM_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CROP_MIDDLE_BOTTOM_HU, "" },  /* fuzzy */
+/* it */ { IDS_CROP_MIDDLE_BOTTOM_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CROP_MIDDLE_BOTTOM_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CROP_MIDDLE_BOTTOM_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CROP_MIDDLE_BOTTOM_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CROP_MIDDLE_BOTTOM_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CROP_MIDDLE_BOTTOM_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CROP_MIDDLE_BOTTOM_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CROP_RIGHT_BOTTOM,    "Crop right bottom" },
+/* da */ { IDS_CROP_RIGHT_BOTTOM_DA, "" },  /* fuzzy */
+/* de */ { IDS_CROP_RIGHT_BOTTOM_DE, "" },  /* fuzzy */
+/* es */ { IDS_CROP_RIGHT_BOTTOM_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CROP_RIGHT_BOTTOM_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CROP_RIGHT_BOTTOM_HU, "" },  /* fuzzy */
+/* it */ { IDS_CROP_RIGHT_BOTTOM_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CROP_RIGHT_BOTTOM_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CROP_RIGHT_BOTTOM_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CROP_RIGHT_BOTTOM_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CROP_RIGHT_BOTTOM_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CROP_RIGHT_BOTTOM_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CROP_RIGHT_BOTTOM_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_BORDERIZE,    "Borderize" },
+/* da */ { IDS_BORDERIZE_DA, "" },  /* fuzzy */
+/* de */ { IDS_BORDERIZE_DE, "" },  /* fuzzy */
+/* es */ { IDS_BORDERIZE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_BORDERIZE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_BORDERIZE_HU, "" },  /* fuzzy */
+/* it */ { IDS_BORDERIZE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_BORDERIZE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_BORDERIZE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_BORDERIZE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_BORDERIZE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_BORDERIZE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_BORDERIZE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_BLACK_AND_WHITE,    "Black & white" },
+/* da */ { IDS_BLACK_AND_WHITE_DA, "" },  /* fuzzy */
+/* de */ { IDS_BLACK_AND_WHITE_DE, "" },  /* fuzzy */
+/* es */ { IDS_BLACK_AND_WHITE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_BLACK_AND_WHITE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_BLACK_AND_WHITE_HU, "" },  /* fuzzy */
+/* it */ { IDS_BLACK_AND_WHITE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_BLACK_AND_WHITE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_BLACK_AND_WHITE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_BLACK_AND_WHITE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_BLACK_AND_WHITE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_BLACK_AND_WHITE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_BLACK_AND_WHITE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_2_COLORS,    "2 colors" },
+/* da */ { IDS_2_COLORS_DA, "" },  /* fuzzy */
+/* de */ { IDS_2_COLORS_DE, "" },  /* fuzzy */
+/* es */ { IDS_2_COLORS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_2_COLORS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_2_COLORS_HU, "" },  /* fuzzy */
+/* it */ { IDS_2_COLORS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_2_COLORS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_2_COLORS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_2_COLORS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_2_COLORS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_2_COLORS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_2_COLORS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_4_COLORS,    "4 colors" },
+/* da */ { IDS_4_COLORS_DA, "" },  /* fuzzy */
+/* de */ { IDS_4_COLORS_DE, "" },  /* fuzzy */
+/* es */ { IDS_4_COLORS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_4_COLORS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_4_COLORS_HU, "" },  /* fuzzy */
+/* it */ { IDS_4_COLORS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_4_COLORS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_4_COLORS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_4_COLORS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_4_COLORS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_4_COLORS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_4_COLORS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_GRAY_SCALE,    "Gray scale" },
+/* da */ { IDS_GRAY_SCALE_DA, "" },  /* fuzzy */
+/* de */ { IDS_GRAY_SCALE_DE, "" },  /* fuzzy */
+/* es */ { IDS_GRAY_SCALE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_GRAY_SCALE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_GRAY_SCALE_HU, "" },  /* fuzzy */
+/* it */ { IDS_GRAY_SCALE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_GRAY_SCALE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_GRAY_SCALE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_GRAY_SCALE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_GRAY_SCALE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_GRAY_SCALE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_GRAY_SCALE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DITHER,    "Dither" },
+/* da */ { IDS_DITHER_DA, "" },  /* fuzzy */
+/* de */ { IDS_DITHER_DE, "" },  /* fuzzy */
+/* es */ { IDS_DITHER_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DITHER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DITHER_HU, "" },  /* fuzzy */
+/* it */ { IDS_DITHER_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DITHER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DITHER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DITHER_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DITHER_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DITHER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DITHER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_IGNORE,    "Ignore" },
+/* da */ { IDS_IGNORE_DA, "" },  /* fuzzy */
+/* de */ { IDS_IGNORE_DE, "" },  /* fuzzy */
+/* es */ { IDS_IGNORE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_IGNORE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IGNORE_HU, "" },  /* fuzzy */
+/* it */ { IDS_IGNORE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_IGNORE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_IGNORE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IGNORE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_IGNORE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_IGNORE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IGNORE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_WHITE,    "White" },
+/* da */ { IDS_WHITE_DA, "" },  /* fuzzy */
+/* de */ { IDS_WHITE_DE, "" },  /* fuzzy */
+/* es */ { IDS_WHITE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_WHITE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_WHITE_HU, "" },  /* fuzzy */
+/* it */ { IDS_WHITE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_WHITE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_WHITE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_WHITE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_WHITE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_WHITE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_WHITE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_AMBER,    "Amber" },
+/* da */ { IDS_AMBER_DA, "" },  /* fuzzy */
+/* de */ { IDS_AMBER_DE, "" },  /* fuzzy */
+/* es */ { IDS_AMBER_ES, "" },  /* fuzzy */
+/* fr */ { IDS_AMBER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AMBER_HU, "" },  /* fuzzy */
+/* it */ { IDS_AMBER_IT, "" },  /* fuzzy */
+/* ko */ { IDS_AMBER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_AMBER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_AMBER_PL, "" },  /* fuzzy */
+/* ru */ { IDS_AMBER_RU, "" },  /* fuzzy */
+/* sv */ { IDS_AMBER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_AMBER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_GREEN,    "Green" },
+/* da */ { IDS_GREEN_DA, "" },  /* fuzzy */
+/* de */ { IDS_GREEN_DE, "" },  /* fuzzy */
+/* es */ { IDS_GREEN_ES, "" },  /* fuzzy */
+/* fr */ { IDS_GREEN_FR, "" },  /* fuzzy */
+/* hu */ { IDS_GREEN_HU, "" },  /* fuzzy */
+/* it */ { IDS_GREEN_IT, "" },  /* fuzzy */
+/* ko */ { IDS_GREEN_KO, "" },  /* fuzzy */
+/* nl */ { IDS_GREEN_NL, "" },  /* fuzzy */
+/* pl */ { IDS_GREEN_PL, "" },  /* fuzzy */
+/* ru */ { IDS_GREEN_RU, "" },  /* fuzzy */
+/* sv */ { IDS_GREEN_SV, "" },  /* fuzzy */
+/* tr */ { IDS_GREEN_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DOODLE_OVERSIZE_HANDLING,    "Doodle oversize handling" },
+/* da */ { IDS_DOODLE_OVERSIZE_HANDLING_DA, "" },  /* fuzzy */
+/* de */ { IDS_DOODLE_OVERSIZE_HANDLING_DE, "" },  /* fuzzy */
+/* es */ { IDS_DOODLE_OVERSIZE_HANDLING_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DOODLE_OVERSIZE_HANDLING_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DOODLE_OVERSIZE_HANDLING_HU, "" },  /* fuzzy */
+/* it */ { IDS_DOODLE_OVERSIZE_HANDLING_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DOODLE_OVERSIZE_HANDLING_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DOODLE_OVERSIZE_HANDLING_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DOODLE_OVERSIZE_HANDLING_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DOODLE_OVERSIZE_HANDLING_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DOODLE_OVERSIZE_HANDLING_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DOODLE_OVERSIZE_HANDLING_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DOODLE_UNDERSIZE_HANDLING,    "Doodle undersize handling" },
+/* da */ { IDS_DOODLE_UNDERSIZE_HANDLING_DA, "" },  /* fuzzy */
+/* de */ { IDS_DOODLE_UNDERSIZE_HANDLING_DE, "" },  /* fuzzy */
+/* es */ { IDS_DOODLE_UNDERSIZE_HANDLING_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DOODLE_UNDERSIZE_HANDLING_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DOODLE_UNDERSIZE_HANDLING_HU, "" },  /* fuzzy */
+/* it */ { IDS_DOODLE_UNDERSIZE_HANDLING_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DOODLE_UNDERSIZE_HANDLING_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DOODLE_UNDERSIZE_HANDLING_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DOODLE_UNDERSIZE_HANDLING_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DOODLE_UNDERSIZE_HANDLING_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DOODLE_UNDERSIZE_HANDLING_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DOODLE_UNDERSIZE_HANDLING_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DOODLE_MULTICOLOR_HANDLING,    "Doodle multicolor handling" },
+/* da */ { IDS_DOODLE_MULTICOLOR_HANDLING_DA, "" },  /* fuzzy */
+/* de */ { IDS_DOODLE_MULTICOLOR_HANDLING_DE, "" },  /* fuzzy */
+/* es */ { IDS_DOODLE_MULTICOLOR_HANDLING_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DOODLE_MULTICOLOR_HANDLING_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DOODLE_MULTICOLOR_HANDLING_HU, "" },  /* fuzzy */
+/* it */ { IDS_DOODLE_MULTICOLOR_HANDLING_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DOODLE_MULTICOLOR_HANDLING_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DOODLE_MULTICOLOR_HANDLING_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DOODLE_MULTICOLOR_HANDLING_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DOODLE_MULTICOLOR_HANDLING_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DOODLE_MULTICOLOR_HANDLING_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DOODLE_MULTICOLOR_HANDLING_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING,    "Doodle TED luminosity handling" },
+/* da */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_DA, "" },  /* fuzzy */
+/* de */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_DE, "" },  /* fuzzy */
+/* es */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_HU, "" },  /* fuzzy */
+/* it */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DOODLE_CRTC_TEXT_COLOR,    "Doodle CRTC text color" },
+/* da */ { IDS_DOODLE_CRTC_TEXT_COLOR_DA, "" },  /* fuzzy */
+/* de */ { IDS_DOODLE_CRTC_TEXT_COLOR_DE, "" },  /* fuzzy */
+/* es */ { IDS_DOODLE_CRTC_TEXT_COLOR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DOODLE_CRTC_TEXT_COLOR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DOODLE_CRTC_TEXT_COLOR_HU, "" },  /* fuzzy */
+/* it */ { IDS_DOODLE_CRTC_TEXT_COLOR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DOODLE_CRTC_TEXT_COLOR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DOODLE_CRTC_TEXT_COLOR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DOODLE_CRTC_TEXT_COLOR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DOODLE_CRTC_TEXT_COLOR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DOODLE_CRTC_TEXT_COLOR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DOODLE_CRTC_TEXT_COLOR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_KOALA_OVERSIZE_HANDLING,    "Koala oversize handling" },
+/* da */ { IDS_KOALA_OVERSIZE_HANDLING_DA, "" },  /* fuzzy */
+/* de */ { IDS_KOALA_OVERSIZE_HANDLING_DE, "" },  /* fuzzy */
+/* es */ { IDS_KOALA_OVERSIZE_HANDLING_ES, "" },  /* fuzzy */
+/* fr */ { IDS_KOALA_OVERSIZE_HANDLING_FR, "" },  /* fuzzy */
+/* hu */ { IDS_KOALA_OVERSIZE_HANDLING_HU, "" },  /* fuzzy */
+/* it */ { IDS_KOALA_OVERSIZE_HANDLING_IT, "" },  /* fuzzy */
+/* ko */ { IDS_KOALA_OVERSIZE_HANDLING_KO, "" },  /* fuzzy */
+/* nl */ { IDS_KOALA_OVERSIZE_HANDLING_NL, "" },  /* fuzzy */
+/* pl */ { IDS_KOALA_OVERSIZE_HANDLING_PL, "" },  /* fuzzy */
+/* ru */ { IDS_KOALA_OVERSIZE_HANDLING_RU, "" },  /* fuzzy */
+/* sv */ { IDS_KOALA_OVERSIZE_HANDLING_SV, "" },  /* fuzzy */
+/* tr */ { IDS_KOALA_OVERSIZE_HANDLING_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_KOALA_UNDERSIZE_HANDLING,    "Koala undersize handling" },
+/* da */ { IDS_KOALA_UNDERSIZE_HANDLING_DA, "" },  /* fuzzy */
+/* de */ { IDS_KOALA_UNDERSIZE_HANDLING_DE, "" },  /* fuzzy */
+/* es */ { IDS_KOALA_UNDERSIZE_HANDLING_ES, "" },  /* fuzzy */
+/* fr */ { IDS_KOALA_UNDERSIZE_HANDLING_FR, "" },  /* fuzzy */
+/* hu */ { IDS_KOALA_UNDERSIZE_HANDLING_HU, "" },  /* fuzzy */
+/* it */ { IDS_KOALA_UNDERSIZE_HANDLING_IT, "" },  /* fuzzy */
+/* ko */ { IDS_KOALA_UNDERSIZE_HANDLING_KO, "" },  /* fuzzy */
+/* nl */ { IDS_KOALA_UNDERSIZE_HANDLING_NL, "" },  /* fuzzy */
+/* pl */ { IDS_KOALA_UNDERSIZE_HANDLING_PL, "" },  /* fuzzy */
+/* ru */ { IDS_KOALA_UNDERSIZE_HANDLING_RU, "" },  /* fuzzy */
+/* sv */ { IDS_KOALA_UNDERSIZE_HANDLING_SV, "" },  /* fuzzy */
+/* tr */ { IDS_KOALA_UNDERSIZE_HANDLING_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_KOALA_TED_LUMINOSITY_HANDLING,    "Koala TED luminosity handling" },
+/* da */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_DA, "" },  /* fuzzy */
+/* de */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_DE, "" },  /* fuzzy */
+/* es */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_ES, "" },  /* fuzzy */
+/* fr */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_FR, "" },  /* fuzzy */
+/* hu */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_HU, "" },  /* fuzzy */
+/* it */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_IT, "" },  /* fuzzy */
+/* ko */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_KO, "" },  /* fuzzy */
+/* nl */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_NL, "" },  /* fuzzy */
+/* pl */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_PL, "" },  /* fuzzy */
+/* ru */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_RU, "" },  /* fuzzy */
+/* sv */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_SV, "" },  /* fuzzy */
+/* tr */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_KOALA_CRTC_TEXT_COLOR,    "Koala CRTC text color" },
+/* da */ { IDS_KOALA_CRTC_TEXT_COLOR_DA, "" },  /* fuzzy */
+/* de */ { IDS_KOALA_CRTC_TEXT_COLOR_DE, "" },  /* fuzzy */
+/* es */ { IDS_KOALA_CRTC_TEXT_COLOR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_KOALA_CRTC_TEXT_COLOR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_KOALA_CRTC_TEXT_COLOR_HU, "" },  /* fuzzy */
+/* it */ { IDS_KOALA_CRTC_TEXT_COLOR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_KOALA_CRTC_TEXT_COLOR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_KOALA_CRTC_TEXT_COLOR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_KOALA_CRTC_TEXT_COLOR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_KOALA_CRTC_TEXT_COLOR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_KOALA_CRTC_TEXT_COLOR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_KOALA_CRTC_TEXT_COLOR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SCREENSHOT_SETTINGS,    "Screenshot settings" },
+/* da */ { IDS_SCREENSHOT_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_SCREENSHOT_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_SCREENSHOT_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SCREENSHOT_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SCREENSHOT_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_SCREENSHOT_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SCREENSHOT_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SCREENSHOT_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SCREENSHOT_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SCREENSHOT_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SCREENSHOT_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SCREENSHOT_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PSID_SELECT,    "Select SID file to load" },
 /* da */ { IDS_PSID_SELECT_DA, "Vælg SID-fil" },

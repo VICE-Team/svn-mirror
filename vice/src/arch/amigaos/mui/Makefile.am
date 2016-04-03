@@ -138,6 +138,8 @@ libarchmui_a_SOURCES = \
 	uisampler.h \
 	uiscpu64.c \
 	uiscpu64.h \
+	uiscreenshot.c \
+	uiscreenshot.h \
 	uisid.c \
 	uisid.h \
 	uisidcart.c \
