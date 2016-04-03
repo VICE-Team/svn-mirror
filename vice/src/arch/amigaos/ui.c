@@ -700,7 +700,7 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
             ui_joystick_swap_extra_joystick();
             break;
         case IDM_PAUSE:
-            ui_pause_emulation();
+            ui_pause_emulation(!ui_emulation_is_paused());
             break;
         case IDM_SINGLE_FRAME_ADVANCE:
             if (ui_emulation_is_paused()) {
