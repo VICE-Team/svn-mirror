@@ -47,6 +47,7 @@ extern "C" {
 #include "c64dtvmodel.h"
 #include "cartridge.h"
 #include "constants.h"
+#include "gfxoutput.h"
 #include "joyport.h"
 #include "keyboard.h"
 #include "resources.h"

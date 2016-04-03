@@ -58,6 +58,7 @@ extern "C" {
 #include "datasette.h"
 #include "drive.h"
 #include "fliplist.h"
+#include "gfxoutput.h"
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h" 

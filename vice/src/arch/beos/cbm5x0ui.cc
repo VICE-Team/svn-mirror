@@ -38,6 +38,7 @@ extern "C" {
 #include "cbm2model.h"
 #include "cbm2ui.h"
 #include "constants.h"
+#include "gfxoutput.h"
 #include "joyport.h"
 #include "ui.h"
 #include "ui_cbm5x0.h"

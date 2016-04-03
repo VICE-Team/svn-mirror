@@ -46,6 +46,7 @@ extern "C" {
 #include "c128ui.h"
 #include "cartridge.h"
 #include "constants.h"
+#include "gfxoutput.h"
 #include "joyport.h"
 #include "mouse.h"
 #include "resources.h"

@@ -45,6 +45,7 @@
 extern "C" {
 #include "cartridge.h"
 #include "constants.h"
+#include "gfxoutput.h"
 #include "joyport.h"
 #include "plus4memhacks.h"
 #include "plus4cart.h"

@@ -44,6 +44,7 @@ extern "C" {
 #include "archdep.h"
 #include "cartridge.h"
 #include "constants.h"
+#include "gfxoutput.h"
 #include "joyport.h"
 #include "resources.h"
 #include "types.h"

@@ -43,6 +43,7 @@
 extern "C" {
 #include "archdep.h"
 #include "constants.h"
+#include "gfxoutput.h"
 #include "joyport.h"
 #include "petmodel.h"
 #include "petui.h"
