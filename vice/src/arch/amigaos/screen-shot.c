@@ -156,21 +156,27 @@ void ui_screenshot_dialog(video_canvas_t *canvas)
         case SS_KOALA_COMPRESSED:
             save_screenshot_file("#?.gg", "KOALA_COMPRESSED", canvas);
             break;
+#ifdef HAVE_GIF
         case SS_GIF:
             save_screenshot_file("#?.gif", "GIF", canvas);
             break;
+#endif
         case SS_IFF:
             save_screenshot_file("#?.iff", "IFF", canvas);
             break;
+#ifdef HAVE_JPEG
         case SS_JPG:
             save_screenshot_file("#?.jpg", "JPEG", canvas);
             break;
+#endif
         case SS_PCX:
             save_screenshot_file("#?.pcx", "PCX", canvas);
             break;
+#ifdef HAVE_PNG
         case SS_PNG:
             save_screenshot_file("#?.png", "PNG", canvas);
             break;
+#endif
         case SS_PPM:
             save_screenshot_file("#?.ppm", "PPM", canvas);
             break;
