@@ -298,6 +298,77 @@ BMenuBar *menu_create(int machine_class, int window_nr)
     if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddSeparatorItem();
         uppermenu->AddItem(menu = new BMenu("Screenshot"));
+            menu->AddItem(submenu = new BMenu("Doodle screenshot settings"));
+                submenu->AddItem(extsubmenu = new BMenu("Oversize handling"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Scale", new BMessage(MENU_SCREENSHOT_DOODLE_OVERSIZE_SCALE)));
+                    extsubmenu->AddItem(new BMenuItem("Crop left top", new BMessage(MENU_SCREENSHOT_DOODLE_OVERSIZE_CROP_LEFT_TOP)));
+                    extsubmenu->AddItem(new BMenuItem("Crop middle top", new BMessage(MENU_SCREENSHOT_DOODLE_OVERSIZE_CROP_MIDDLE_TOP)));
+                    extsubmenu->AddItem(new BMenuItem("Crop right top", new BMessage(MENU_SCREENSHOT_DOODLE_OVERSIZE_CROP_RIGHT_TOP)));
+                    extsubmenu->AddItem(new BMenuItem("Crop left center", new BMessage(MENU_SCREENSHOT_DOODLE_OVERSIZE_CROP_LEFT_CENTER)));
+                    extsubmenu->AddItem(new BMenuItem("Crop middle center", new BMessage(MENU_SCREENSHOT_DOODLE_OVERSIZE_CROP_MIDDLE_CENTER)));
+                    extsubmenu->AddItem(new BMenuItem("Crop right center", new BMessage(MENU_SCREENSHOT_DOODLE_OVERSIZE_CROP_RIGHT_CENTER)));
+                    extsubmenu->AddItem(new BMenuItem("Crop left bottom", new BMessage(MENU_SCREENSHOT_DOODLE_OVERSIZE_CROP_LEFT_BOTTOM)));
+                    extsubmenu->AddItem(new BMenuItem("Crop middle bottom", new BMessage(MENU_SCREENSHOT_DOODLE_OVERSIZE_CROP_MIDDLE_BOTTOM)));
+                    extsubmenu->AddItem(new BMenuItem("Crop right bottom", new BMessage(MENU_SCREENSHOT_DOODLE_OVERSIZE_CROP_RIGHT_BOTTOM)));
+                submenu->AddItem(extsubmenu = new BMenu("Undersize handling"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Scale", new BMessage(MENU_SCREENSHOT_DOODLE_UNDERSIZE_SCALE)));
+                    extsubmenu->AddItem(new BMenuItem("Borderize", new BMessage(MENU_SCREENSHOT_DOODLE_UNDERSIZE_BORDERIZE)));
+            if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM6x0) {
+                submenu->AddItem(extsubmenu = new BMenu("Multicolor handling"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Black & white", new BMessage(MENU_SCREENSHOT_DOODLE_MULTICOLOR_BLACK_WHITE)));
+                    extsubmenu->AddItem(new BMenuItem("2 colors", new BMessage(MENU_SCREENSHOT_DOODLE_MULTICOLOR_2_COLORS)));
+                    extsubmenu->AddItem(new BMenuItem("4 colors", new BMessage(MENU_SCREENSHOT_DOODLE_MULTICOLOR_4_COLORS)));
+                    extsubmenu->AddItem(new BMenuItem("Gray scale", new BMessage(MENU_SCREENSHOT_DOODLE_MULTICOLOR_GRAY_SCALE)));
+                    extsubmenu->AddItem(new BMenuItem("Gray scale", new BMessage(MENU_SCREENSHOT_DOODLE_MULTICOLOR_DITHER)));
+            }
+            if (machine_class == VICE_MACHINE_PLUS4) {
+                submenu->AddItem(extsubmenu = new BMenu("TED luminosity handling"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Ignore", new BMessage(MENU_SCREENSHOT_DOODLE_TED_LUM_IGNORE)));
+                    extsubmenu->AddItem(new BMenuItem("Dither", new BMessage(MENU_SCREENSHOT_DOODLE_TED_LUM_DITHER)));
+            }
+            if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM6x0) {
+                submenu->AddItem(extsubmenu = new BMenu("CRTC text color"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("White", new BMessage(MENU_SCREENSHOT_DOODLE_CRTC_TEXT_COLOR_WHITE)));
+                    extsubmenu->AddItem(new BMenuItem("Amber", new BMessage(MENU_SCREENSHOT_DOODLE_CRTC_TEXT_COLOR_AMBER)));
+                    extsubmenu->AddItem(new BMenuItem("Green", new BMessage(MENU_SCREENSHOT_DOODLE_CRTC_TEXT_COLOR_GREEN)));
+            }
+
+            menu->AddItem(submenu = new BMenu("Koala screenshot settings"));
+                submenu->AddItem(extsubmenu = new BMenu("Oversize handling"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Scale", new BMessage(MENU_SCREENSHOT_KOALA_OVERSIZE_SCALE)));
+                    extsubmenu->AddItem(new BMenuItem("Crop left top", new BMessage(MENU_SCREENSHOT_KOALA_OVERSIZE_CROP_LEFT_TOP)));
+                    extsubmenu->AddItem(new BMenuItem("Crop middle top", new BMessage(MENU_SCREENSHOT_KOALA_OVERSIZE_CROP_MIDDLE_TOP)));
+                    extsubmenu->AddItem(new BMenuItem("Crop right top", new BMessage(MENU_SCREENSHOT_KOALA_OVERSIZE_CROP_RIGHT_TOP)));
+                    extsubmenu->AddItem(new BMenuItem("Crop left center", new BMessage(MENU_SCREENSHOT_KOALA_OVERSIZE_CROP_LEFT_CENTER)));
+                    extsubmenu->AddItem(new BMenuItem("Crop middle center", new BMessage(MENU_SCREENSHOT_KOALA_OVERSIZE_CROP_MIDDLE_CENTER)));
+                    extsubmenu->AddItem(new BMenuItem("Crop right center", new BMessage(MENU_SCREENSHOT_KOALA_OVERSIZE_CROP_RIGHT_CENTER)));
+                    extsubmenu->AddItem(new BMenuItem("Crop left bottom", new BMessage(MENU_SCREENSHOT_KOALA_OVERSIZE_CROP_LEFT_BOTTOM)));
+                    extsubmenu->AddItem(new BMenuItem("Crop middle bottom", new BMessage(MENU_SCREENSHOT_KOALA_OVERSIZE_CROP_MIDDLE_BOTTOM)));
+                    extsubmenu->AddItem(new BMenuItem("Crop right bottom", new BMessage(MENU_SCREENSHOT_KOALA_OVERSIZE_CROP_RIGHT_BOTTOM)));
+                submenu->AddItem(extsubmenu = new BMenu("Undersize handling"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Scale", new BMessage(MENU_SCREENSHOT_KOALA_UNDERSIZE_SCALE)));
+                    extsubmenu->AddItem(new BMenuItem("Borderize", new BMessage(MENU_SCREENSHOT_KOALA_UNDERSIZE_BORDERIZE)));
+            if (machine_class == VICE_MACHINE_PLUS4) {
+                submenu->AddItem(extsubmenu = new BMenu("TED luminosity handling"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Ignore", new BMessage(MENU_SCREENSHOT_KOALA_TED_LUM_IGNORE)));
+                    extsubmenu->AddItem(new BMenuItem("Dither", new BMessage(MENU_SCREENSHOT_KOALA_TED_LUM_DITHER)));
+            }
+            if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM6x0) {
+                submenu->AddItem(extsubmenu = new BMenu("CRTC text color"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("White", new BMessage(MENU_SCREENSHOT_KOALA_CRTC_TEXT_COLOR_WHITE)));
+                    extsubmenu->AddItem(new BMenuItem("Amber", new BMessage(MENU_SCREENSHOT_KOALA_CRTC_TEXT_COLOR_AMBER)));
+                    extsubmenu->AddItem(new BMenuItem("Green", new BMessage(MENU_SCREENSHOT_KOALA_CRTC_TEXT_COLOR_GREEN)));
+            }
+
             if (window_nr) {
                 menu->AddItem(new BMenuItem("Save bmp screenshot", new BMessage(MENU_SCREENSHOT_BMP_SCREEN1)));
                 menu->AddItem(new BMenuItem("Save doodle screenshot", new BMessage(MENU_SCREENSHOT_DOODLE_SCREEN1)));

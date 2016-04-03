@@ -118,6 +118,27 @@ ui_res_possible_values plus4MemoryHacks[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values DoodleMultiColor[] = {
+    { NATIVE_SS_MC2HR_BLACK_WHITE, MENU_SCREENSHOT_DOODLE_MULTICOLOR_BLACK_WHITE },
+    { NATIVE_SS_MC2HR_2_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_2_COLORS },
+    { NATIVE_SS_MC2HR_4_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_4_COLORS },
+    { NATIVE_SS_MC2HR_GRAY, MENU_SCREENSHOT_DOODLE_MULTICOLOR_GRAY_SCALE },
+    { NATIVE_SS_MC2HR_DITHER, MENU_SCREENSHOT_DOODLE_MULTICOLOR_DITHER },
+    { -1, 0 }
+};
+
+ui_res_possible_values DoodleTEDLum[] = {
+    { NATIVE_SS_TED_LUM_IGNORE, MENU_SCREENSHOT_DOODLE_TED_LUM_IGNORE },
+    { NATIVE_SS_TED_LUM_DITHER, MENU_SCREENSHOT_DOODLE_TED_LUM_DITHER },
+    { -1, 0 }
+};
+
+ui_res_possible_values KoalaTEDLum[] = {
+    { NATIVE_SS_TED_LUM_IGNORE, MENU_SCREENSHOT_KOALA_TED_LUM_IGNORE },
+    { NATIVE_SS_TED_LUM_DITHER, MENU_SCREENSHOT_KOALA_TED_LUM_DITHER },
+    { -1, 0 }
+};
+
 ui_res_value_list plus4_ui_res_values[] = {
     { "Acia1Dev", plus4AciaDevice },
     { "TEDFilter", plus4_RenderFilters },
@@ -127,6 +148,9 @@ ui_res_value_list plus4_ui_res_values[] = {
     { "JoyPort4Device", plus4_JoyPort4Device },
     { "JoyPort5Device", plus4_JoyPort5Device },
     { "MemoryHack", plus4MemoryHacks },
+    { "DoodleMultiColorHandling", DoodleMultiColor },
+    { "DoodleTEDLumHandling", DoodleTEDLum },
+    { "KoalaTEDLumHandling", DoodleTEDLum },
     { NULL, NULL }
 };
 

@@ -112,12 +112,28 @@ ui_res_possible_values pet_RenderFilters[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values DoodleCRTCTextColor[] = {
+    { NATIVE_SS_CRTC_WHITE, MENU_SCREENSHOT_DOODLE_CRTC_TEXT_COLOR_WHITE },
+    { NATIVE_SS_CRTC_AMBER, MENU_SCREENSHOT_DOODLE_CRTC_TEXT_COLOR_AMBER },
+    { NATIVE_SS_CRTC_GREEN, MENU_SCREENSHOT_DOODLE_CRTC_TEXT_COLOR_GREEN },
+    { -1, 0 }
+};
+
+static ui_res_possible_values KoalaCRTCTextColor[] = {
+    { NATIVE_SS_CRTC_WHITE, MENU_SCREENSHOT_KOALA_CRTC_TEXT_COLOR_WHITE },
+    { NATIVE_SS_CRTC_AMBER, MENU_SCREENSHOT_KOALA_CRTC_TEXT_COLOR_AMBER },
+    { NATIVE_SS_CRTC_GREEN, MENU_SCREENSHOT_KOALA_CRTC_TEXT_COLOR_GREEN },
+    { -1, 0 }
+};
+
 ui_res_value_list pet_ui_res_values[] = {
     { "Acia1Dev", petAciaDevice },
     { "PETREUsize", PETREUSize},
     { "CrtcFilter", pet_RenderFilters },
     { "JoyPort3Device", pet_JoyPort3Device },
     { "JoyPort4Device", pet_JoyPort4Device },
+    { "DoodleCRTCTextColor", DoodleCRTCTextColor },
+    { "KoalaCRTCTextColor", KoalaCRTCTextColor },
     { NULL, NULL }
 };
 

@@ -302,6 +302,15 @@ ui_res_possible_values c128_IDE64version[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values DoodleMultiColor[] = {
+    { NATIVE_SS_MC2HR_BLACK_WHITE, MENU_SCREENSHOT_DOODLE_MULTICOLOR_BLACK_WHITE },
+    { NATIVE_SS_MC2HR_2_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_2_COLORS },
+    { NATIVE_SS_MC2HR_4_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_4_COLORS },
+    { NATIVE_SS_MC2HR_GRAY, MENU_SCREENSHOT_DOODLE_MULTICOLOR_GRAY_SCALE },
+    { NATIVE_SS_MC2HR_DITHER, MENU_SCREENSHOT_DOODLE_MULTICOLOR_DITHER },
+    { -1, 0 }
+};
+
 ui_res_value_list c128_ui_res_values[] = {
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Dev", c128AciaDevice },
@@ -329,6 +338,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { "JoyPort2Device", c128_JoyPort2Device },
     { "JoyPort3Device", c128_JoyPort3Device },
     { "JoyPort4Device", c128_JoyPort4Device },
+    { "DoodleMultiColorHandling", DoodleMultiColor },
     { NULL, NULL }
 };
 

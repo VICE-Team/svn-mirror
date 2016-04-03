@@ -102,12 +102,22 @@ ui_res_possible_values C64DTVRevision[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values DoodleMultiColor[] = {
+    { NATIVE_SS_MC2HR_BLACK_WHITE, MENU_SCREENSHOT_DOODLE_MULTICOLOR_BLACK_WHITE },
+    { NATIVE_SS_MC2HR_2_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_2_COLORS },
+    { NATIVE_SS_MC2HR_4_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_4_COLORS },
+    { NATIVE_SS_MC2HR_GRAY, MENU_SCREENSHOT_DOODLE_MULTICOLOR_GRAY_SCALE },
+    { NATIVE_SS_MC2HR_DITHER, MENU_SCREENSHOT_DOODLE_MULTICOLOR_DITHER },
+    { -1, 0 }
+};
+
 ui_res_value_list c64dtv_ui_res_values[] = {
     { "VICIIFilter", C64DTVRenderFilters },
     { "DtvRevision", C64DTVRevision },
     { "JoyPort1Device", c64dtv_JoyPort1Device },
     { "JoyPort2Device", c64dtv_JoyPort2Device },
     { "JoyPort3Device", c64dtv_JoyPort3Device },
+    { "DoodleMultiColorHandling", DoodleMultiColor },
     { NULL, NULL }
 };
 

@@ -101,12 +101,28 @@ ui_res_possible_values cbm2_cia1models[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values DoodleCRTCTextColor[] = {
+    { NATIVE_SS_CRTC_WHITE, MENU_SCREENSHOT_DOODLE_CRTC_TEXT_COLOR_WHITE },
+    { NATIVE_SS_CRTC_AMBER, MENU_SCREENSHOT_DOODLE_CRTC_TEXT_COLOR_AMBER },
+    { NATIVE_SS_CRTC_GREEN, MENU_SCREENSHOT_DOODLE_CRTC_TEXT_COLOR_GREEN },
+    { -1, 0 }
+};
+
+static ui_res_possible_values KoalaCRTCTextColor[] = {
+    { NATIVE_SS_CRTC_WHITE, MENU_SCREENSHOT_KOALA_CRTC_TEXT_COLOR_WHITE },
+    { NATIVE_SS_CRTC_AMBER, MENU_SCREENSHOT_KOALA_CRTC_TEXT_COLOR_AMBER },
+    { NATIVE_SS_CRTC_GREEN, MENU_SCREENSHOT_KOALA_CRTC_TEXT_COLOR_GREEN },
+    { -1, 0 }
+};
+
 ui_res_value_list cbm2_ui_res_values[] = {
     { "Acia1Dev", cbm2AciaDevice },
     { "CrtcFilter", cbm2RenderFilters },
     { "CIA1Model", cbm2_cia1models },
     { "JoyPort3Device", cbm2_JoyPort3Device },
     { "JoyPort4Device", cbm2_JoyPort4Device },
+    { "DoodleCRTCTextColor", DoodleCRTCTextColor },
+    { "KoalaCRTCTextColor", KoalaCRTCTextColor },
     { NULL, NULL }
 };
 

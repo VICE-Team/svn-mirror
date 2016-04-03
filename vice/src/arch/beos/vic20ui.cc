@@ -198,6 +198,15 @@ ui_res_possible_values vic20_DS12C887RTC_base[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values DoodleMultiColor[] = {
+    { NATIVE_SS_MC2HR_BLACK_WHITE, MENU_SCREENSHOT_DOODLE_MULTICOLOR_BLACK_WHITE },
+    { NATIVE_SS_MC2HR_2_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_2_COLORS },
+    { NATIVE_SS_MC2HR_4_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_4_COLORS },
+    { NATIVE_SS_MC2HR_GRAY, MENU_SCREENSHOT_DOODLE_MULTICOLOR_GRAY_SCALE },
+    { NATIVE_SS_MC2HR_DITHER, MENU_SCREENSHOT_DOODLE_MULTICOLOR_DITHER },
+    { -1, 0 }
+};
+
 ui_res_value_list vic20_ui_res_values[] = {
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Dev", vic20AciaDevice },
@@ -213,6 +222,7 @@ ui_res_value_list vic20_ui_res_values[] = {
     { "JoyPort1Device", vic20_JoyPort1Device },
     { "JoyPort3Device", vic20_JoyPort3Device },
     { "JoyPort4Device", vic20_JoyPort4Device },
+    { "DoodleMultiColorHandling", DoodleMultiColor },
     { NULL, NULL }
 };
 

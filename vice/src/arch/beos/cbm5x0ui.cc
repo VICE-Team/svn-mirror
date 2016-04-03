@@ -95,12 +95,22 @@ ui_res_possible_values cbm5x0_cia1models[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values DoodleMultiColor[] = {
+    { NATIVE_SS_MC2HR_BLACK_WHITE, MENU_SCREENSHOT_DOODLE_MULTICOLOR_BLACK_WHITE },
+    { NATIVE_SS_MC2HR_2_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_2_COLORS },
+    { NATIVE_SS_MC2HR_4_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_4_COLORS },
+    { NATIVE_SS_MC2HR_GRAY, MENU_SCREENSHOT_DOODLE_MULTICOLOR_GRAY_SCALE },
+    { NATIVE_SS_MC2HR_DITHER, MENU_SCREENSHOT_DOODLE_MULTICOLOR_DITHER },
+    { -1, 0 }
+};
+
 ui_res_value_list cbm5x0_ui_res_values[] = {
     { "Acia1Dev", cbm5x0AciaDevice },
     { "VICIIFilter", cbm5x0RenderFilters },
     { "CIA1Model", cbm5x0_cia1models },
     { "JoyPort1Device", cbm5x0_JoyPort1Device },
     { "JoyPort2Device", cbm5x0_JoyPort2Device },
+    { "DoodleMultiColorHandling", DoodleMultiColor },
     { NULL, NULL }
 };
 
