@@ -588,7 +588,7 @@ END
 
 // dialog template for all languages
 
-IDD_MEDIAFILE_DIALOG DIALOG DISCARDABLE 0, 0, 300, 100
+IDD_MEDIAFILE_DIALOG_VIC_VICII_VDC DIALOG DISCARDABLE 0, 0, 300, 300
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -618,6 +618,160 @@ BEGIN
              155, 77, 25, 15
     EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
              180, 75, 40, 12, WS_GROUP | WS_TABSTOP
+
+    GROUPBOX "", IDC_DOODLE_SETTINGS,
+             5, 95, 250, 75
+    LTEXT    "", IDC_DOODLE_OVERSIZE_TEXT,
+             15, 112, 40, 20
+    COMBOBOX IDC_DOODLE_OVERSIZE,
+             50, 110, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_DOODLE_UNDERSIZE_TEXT,
+             15, 132, 40, 20
+    COMBOBOX IDC_DOODLE_UNDERSIZE,
+             50, 130, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_DOODLE_MULTICOLOR_TEXT,
+             15, 152, 40, 20
+    COMBOBOX IDC_DOODLE_MULTICOLOR,
+             50, 150, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+
+    GROUPBOX "", IDC_KOALA_SETTINGS,
+             5, 170, 250, 55
+    LTEXT    "", IDC_KOALA_OVERSIZE_TEXT,
+             15, 187, 40, 20
+    COMBOBOX IDC_KOALA_OVERSIZE,
+             50, 185, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_KOALA_UNDERSIZE_TEXT,
+             15, 207, 40, 20
+    COMBOBOX IDC_KOALA_UNDERSIZE,
+             50, 205, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+END
+
+IDD_MEDIAFILE_DIALOG_TED DIALOG DISCARDABLE 0, 0, 300, 300
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT    "", IDC_SELECT_DRIVER,
+             5, 0, 45, 20
+    COMBOBOX IDC_SCREENSHOT_DRIVER,
+             55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    GROUPBOX "", IDC_FFMPEG_SETTINGS,
+             5, 20, 250, 75
+    LTEXT    "", IDC_FORMAT,
+             15, 37, 40, 20
+    COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
+             50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_AUDIO_CODEC,
+             15, 57, 45, 15
+    COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
+             65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_AUDIO_BITRATE,
+             155, 57, 25, 15
+    EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
+             180, 55, 40, 12, WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_VIDEO_CODEC,
+             15, 77, 45, 15
+    COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
+             65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_VIDEO_BITRATE,
+             155, 77, 25, 15
+    EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
+             180, 75, 40, 12, WS_GROUP | WS_TABSTOP
+
+    GROUPBOX "", IDC_DOODLE_SETTINGS,
+             5, 95, 250, 100
+    LTEXT    "", IDC_DOODLE_OVERSIZE_TEXT,
+             15, 112, 40, 20
+    COMBOBOX IDC_DOODLE_OVERSIZE,
+             50, 110, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_DOODLE_UNDERSIZE_TEXT,
+             15, 132, 40, 20
+    COMBOBOX IDC_DOODLE_UNDERSIZE,
+             50, 130, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_DOODLE_MULTICOLOR_TEXT,
+             15, 152, 40, 20
+    COMBOBOX IDC_DOODLE_MULTICOLOR,
+             50, 150, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_DOODLE_TEDLUM_TEXT,
+             15, 172, 40, 20
+    COMBOBOX IDC_DOODLE_TEDLUM,
+             50, 170, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+
+    GROUPBOX "", IDC_KOALA_SETTINGS,
+             5, 190, 250, 80
+    LTEXT    "", IDC_KOALA_OVERSIZE_TEXT,
+             15, 207, 40, 20
+    COMBOBOX IDC_KOALA_OVERSIZE,
+             50, 205, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_KOALA_UNDERSIZE_TEXT,
+             15, 227, 40, 20
+    COMBOBOX IDC_KOALA_UNDERSIZE,
+             50, 225, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_KOALA_TEDLUM_TEXT,
+             15, 247, 40, 20
+    COMBOBOX IDC_KOALA_TEDLUM,
+             50, 245, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+END
+
+IDD_MEDIAFILE_DIALOG_CRTC DIALOG DISCARDABLE 0, 0, 300, 300
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT    "", IDC_SELECT_DRIVER,
+             5, 0, 45, 20
+    COMBOBOX IDC_SCREENSHOT_DRIVER,
+             55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    GROUPBOX "", IDC_FFMPEG_SETTINGS,
+             5, 20, 250, 75
+    LTEXT    "", IDC_FORMAT,
+             15, 37, 40, 20
+    COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
+             50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_AUDIO_CODEC,
+             15, 57, 45, 15
+    COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
+             65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_AUDIO_BITRATE,
+             155, 57, 25, 15
+    EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
+             180, 55, 40, 12, WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_VIDEO_CODEC,
+             15, 77, 45, 15
+    COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
+             65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_VIDEO_BITRATE,
+             155, 77, 25, 15
+    EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
+             180, 75, 40, 12, WS_GROUP | WS_TABSTOP
+
+    GROUPBOX "", IDC_DOODLE_SETTINGS,
+             5, 95, 250, 75
+    LTEXT    "", IDC_DOODLE_OVERSIZE_TEXT,
+             15, 112, 40, 20
+    COMBOBOX IDC_DOODLE_OVERSIZE,
+             50, 110, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_DOODLE_UNDERSIZE_TEXT,
+             15, 132, 40, 20
+    COMBOBOX IDC_DOODLE_UNDERSIZE,
+             50, 130, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_DOODLE_CRTC_TEXT_COLOR_TEXT,
+             15, 152, 40, 20
+    COMBOBOX IDC_DOODLE_CRTC_TEXT_COLOR,
+             50, 150, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+
+    GROUPBOX "", IDC_KOALA_SETTINGS,
+             5, 170, 250, 80
+    LTEXT    "", IDC_KOALA_OVERSIZE_TEXT,
+             15, 187, 40, 20
+    COMBOBOX IDC_KOALA_OVERSIZE,
+             50, 185, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_KOALA_UNDERSIZE_TEXT,
+             15, 207, 40, 20
+    COMBOBOX IDC_KOALA_UNDERSIZE,
+             50, 205, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_KOALA_CRTC_TEXT_COLOR_TEXT,
+             15, 227, 40, 20
+    COMBOBOX IDC_KOALA_CRTC_TEXT_COLOR,
+             50, 225, 100, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -1436,6 +1590,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Audio codec"
   IDS_BITRATE                          "bitrate"
   IDS_VIDEO_CODEC                      "Video codec"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Sound record settings"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Sound Record Format"
   IDS_SOUND_RECORD_FILE_LABEL          "Sound Record File"
@@ -2132,6 +2313,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Lydkodeks"
   IDS_BITRATE                          "bitrate"
   IDS_VIDEO_CODEC                      "Videokodeks"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Lydoptagelsesindstillinger"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Format for lydoptagelse"
   IDS_SOUND_RECORD_FILE_LABEL          "Lydoptagelsesfil"
@@ -2828,6 +3036,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Audiocodec"
   IDS_BITRATE                          "Bitrate"
   IDS_VIDEO_CODEC                      "Videocodec"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Tonaufnahme Einstellungen"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Tonaufnahmeformat"
   IDS_SOUND_RECORD_FILE_LABEL          "Tonaufnahmedatei"
@@ -3524,6 +3759,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Códec de audio"
   IDS_BITRATE                          "Velocidad de muestreo"
   IDS_VIDEO_CODEC                      "Códec de vídeo"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Ajustes grabación de sonido"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Formato grabación de sonido"
   IDS_SOUND_RECORD_FILE_LABEL          "Fichero grabación de sonido"
@@ -4220,6 +4482,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Codec Audio"
   IDS_BITRATE                          "Débit"
   IDS_VIDEO_CODEC                      "Codec vidéo"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Paramètres de l'enregistrement du son"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Format de l'enregistrement du son"
   IDS_SOUND_RECORD_FILE_LABEL          "Fichier d'enregistrement du son"
@@ -4919,6 +5208,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Audió kodek"
   IDS_BITRATE                          "bitráta"
   IDS_VIDEO_CODEC                      "Videó kodek"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Hangfelvétel beállításai"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Hangfelvétel formátuma"
   IDS_SOUND_RECORD_FILE_LABEL          "Hangfelvétel fájl"
@@ -5618,6 +5934,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Audio codec"
   IDS_BITRATE                          "bitrate"
   IDS_VIDEO_CODEC                      "Video codec"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Impostazioni registrazione audio"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Formato registrazione audio"
   IDS_SOUND_RECORD_FILE_LABEL          "File registrazione audio"
@@ -6317,6 +6660,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "¿Àµð¿À ÄÚµ¦"
   IDS_BITRATE                          "ºñÆ® ½Éµµ"
   IDS_VIDEO_CODEC                      "ºñµð¿À ÄÚµ¦"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "»ç¿îµå ·¹ÄÚµå ¼ÂÆÃ"
   IDS_SOUND_RECORD_FORMAT_LABEL        "»ç¿îµå ·¹ÄÚµå Æ÷¸Ë"
   IDS_SOUND_RECORD_FILE_LABEL          "»ç¿îµå ·¹ÄÚµå ÆÄÀÏ"
@@ -7016,6 +7386,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Audio codec"
   IDS_BITRATE                          "bitrate"
   IDS_VIDEO_CODEC                      "Video codec"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Geluidsopname instellingen"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Geluidsopname Formaat"
   IDS_SOUND_RECORD_FILE_LABEL          "Geluid opnamebestand"
@@ -7715,6 +8112,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Kodek audio"
   IDS_BITRATE                          "szybko¶æ transmisji"
   IDS_VIDEO_CODEC                      "Kodek wideo"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Ustawienia zapisu d¼wiêku"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Format zapisu d¼wiêku"
   IDS_SOUND_RECORD_FILE_LABEL          "Plik zapisu d¼wiêku"
@@ -8417,6 +8841,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "°ãÔØÞ ÚÞÔÕÚ"
   IDS_BITRATE                          "bitrate"
   IDS_VIDEO_CODEC                      "²ØÔÕÞ ÚÞÔÕÚ"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "½ÐáâàÞÙÚØ ×ÐßØáØ ×ÒãÚÐ"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Sound Record Format"
   IDS_SOUND_RECORD_FILE_LABEL          "Sound Record File"
@@ -9116,6 +9567,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Ljudomkodare"
   IDS_BITRATE                          "bithastighet"
   IDS_VIDEO_CODEC                      "Videoomkodare"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Inställningar för ljudinspelning"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Format för ljudinspelning"
   IDS_SOUND_RECORD_FILE_LABEL          "Ljudinspelningsfil"
@@ -9815,6 +10293,33 @@ BEGIN
   IDS_AUDIO_CODEC                      "Ses kodeði"
   IDS_BITRATE                          "bithýzý"
   IDS_VIDEO_CODEC                      "Görüntü kodeði"
+  IDS_DOODLE_SETTINGS                  "Doodle settings"
+  IDS_OVERSIZE                         "Oversize handling"
+  IDS_UNDERSIZE                        "Undersize handling"
+  IDS_KOALA_SETTINGS                   "Koala settings"
+  IDS_MULTICOLOR                       "Multicolor handling"
+  IDS_TEDLUM                           "TED luminosity handling"
+  IDS_TEXT_COLOR                       "CRTC text color"
+  IDS_SCALE                            "Scale"
+  IDS_CROP_LEFT_TOP                    "Crop left top"
+  IDS_CROP_MIDDLE_TOP                  "Crop middle top"
+  IDS_CROP_RIGHT_TOP                   "Crop right top"
+  IDS_CROP_LEFT_CENTER                 "Crop left center"
+  IDS_CROP_MIDDLE_CENTER               "Crop middle center"
+  IDS_CROP_RIGHT_CENTER                "Crop right center"
+  IDS_CROP_LEFT_BOTTOM                 "Crop left bottom"
+  IDS_CROP_MIDDLE_BOTTOM               "Crop middle bottom"
+  IDS_CROP_RIGHT_BOTTOM                "Crop right bottom"
+  IDS_BORDERIZE                        "Borderize"
+  IDS_BLACK_AND_WHITE                  "Black & white"
+  IDS_2_COLORS                         "2 colors"
+  IDS_4_COLORS                         "4 colors"
+  IDS_GRAY_SCALE                       "Gray scale"
+  IDS_DITHER                           "Dither"
+  IDS_WHITE                            "White"
+  IDS_AMBER                            "Amber"
+  IDS_GREEN                            "Green"
+  IDS_IGNORE                           "Ignore"
   IDS_SOUND_RECORD_CAPTION             "Ses kayýt ayarlarý"
   IDS_SOUND_RECORD_FORMAT_LABEL        "Ses Kayýt Biçimi"
   IDS_SOUND_RECORD_FILE_LABEL          "Ses Kayýt Dosyasý"
