@@ -69,6 +69,10 @@ int console_init(void)
 #undef HAVE_SYS_IOCTL_H
 #endif
 
+#ifdef OPENSERVER6_COMPILE
+#undef HAVE_SYS_IOCTL_H
+#endif
+
 #endif
 
 

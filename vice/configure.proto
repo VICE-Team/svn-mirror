@@ -972,6 +972,9 @@ dnl All other UN*X systems
       LIBS="-lxti -lsocket -lnsl $LIBS"
       norpath=yes
       ;;
+    sco3.2v6*)
+      norpath=yes
+      ;;
   esac
 
   case "$host" in
