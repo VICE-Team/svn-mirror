@@ -1192,6 +1192,8 @@ done
 AC_SUBST(GMOFILES)
 AC_SUBST(POFILES)
 
+AC_CHECK_LIB(iconv, libiconv_open,,)
+
 if test x"$enable_nls" != "xno" -a x"$is_unix" = "xyes"; then
   AC_CHECK_HEADER(libintl.h,
     [AC_CACHE_CHECK([for gettext in libc], gt_cv_func_gettext_libc,
@@ -2005,7 +2007,6 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
   AC_CHECK_LIB(bz2, BZ2_bzDecompressInit,,)
   AC_CHECK_LIB(lzma, lzma_code,,)
   AC_CHECK_LIB(va, vaBeginPicture,,)
-  AC_CHECK_LIB(iconv, libiconv_open,,)
 
   if test x"$is_win32" = "xyes"; then
     win32_pthreads=no
