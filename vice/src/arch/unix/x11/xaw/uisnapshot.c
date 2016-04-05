@@ -167,22 +167,18 @@ static void build_snapshot_dialog(void)
                                               NULL);
     lib_free(filename);
 
-#ifndef ENABLE_TEXTFIELD
     file_name_field = XtVaCreateManagedWidget("fileNameField",
+#ifndef ENABLE_TEXTFIELD
                                               asciiTextWidgetClass, file_name_form,
-                                              XtNfromHoriz, file_name_label,
-                                              XtNwidth, 200,
                                               XtNtype, XawAsciiString,
                                               XtNeditType, XawtextEdit,
-                                              NULL);
 #else
-    file_name_field = XtVaCreateManagedWidget("fileNameField",
                                               textfieldWidgetClass, file_name_form,
+                                              XtNstring, "",         /* Otherwise, it does not work correctly.  */
+#endif
                                               XtNfromHoriz, file_name_label,
                                               XtNwidth, 200,
-                                              XtNstring, "",         /* Otherwise, it does not work correctly.  */
                                               NULL);
-#endif
 
     button_title = util_concat(_("Browse"), "...", NULL);
     browse_button = XtVaCreateManagedWidget("browseButton",

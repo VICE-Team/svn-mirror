@@ -265,22 +265,17 @@ static void build_emptydisk_dialog(void)
                                               NULL);
     lib_free(filename);
 
+    file_name_field = XtVaCreateManagedWidget("fileNameField",
 #ifndef ENABLE_TEXTFIELD
-    file_name_field = XtVaCreateManagedWidget("fileNameField",
                                               asciiTextWidgetClass, file_name_form,
-                                              XtNfromHoriz, file_name_label,
-                                              XtNwidth, 240,
                                               XtNtype, XawAsciiString,
-                                              XtNeditType, XawtextEdit,
-                                              NULL);
 #else
-    file_name_field = XtVaCreateManagedWidget("fileNameField",
                                               textfieldWidgetClass, file_name_form,
-                                              XtNfromHoriz, file_name_label,
-                                              XtNwidth, 240,
                                               XtNstring, "",         /* Otherwise, it does not work correctly.  */
-                                              NULL);
 #endif
+                                              XtNwidth, 240,
+                                              XtNfromHoriz, file_name_label,
+                                              NULL);
     XtOverrideTranslations(file_name_field, XtParseTranslationTable(text_box_translations));
 
     button_title = util_concat(_("Browse"), "...", NULL);
@@ -304,22 +299,18 @@ static void build_emptydisk_dialog(void)
                                                XtNborderWidth, 0,
                                                NULL);
 
-#ifndef ENABLE_TEXTFIELD
     image_name_field = XtVaCreateManagedWidget("imageNameField",
+#ifndef ENABLE_TEXTFIELD
                                                asciiTextWidgetClass, image_name_form,
-                                               XtNfromHoriz, image_name_label,
-                                               XtNwidth, 240,
                                                XtNtype, XawAsciiString,
                                                XtNeditType, XawtextEdit,
-                                               NULL);
 #else
-    image_name_field = XtVaCreateManagedWidget("imageNameField",
                                                textfieldWidgetClass, image_name_form,
+                                               XtNstring, "",         /* Otherwise, it does not work correctly.  */
+#endif
                                                XtNfromHoriz, image_name_label,
                                                XtNwidth, 240,
-                                               XtNstring, "",         /* Otherwise, it does not work correctly.  */
                                                NULL);
-#endif
     XtOverrideTranslations(image_name_field, XtParseTranslationTable(text_box_translations));
 
     options_form = XtVaCreateManagedWidget("optionsForm",
