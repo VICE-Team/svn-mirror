@@ -117,9 +117,14 @@ typedef int intptr_t;
 typedef unsigned char __u_char;
 #endif
 
-#if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(__INTERIX) || defined(SKYOS) || defined(__svr4__) || defined(__sortix__) || defined(__minix)
+#if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(__INTERIX) || defined(SKYOS) || defined(__svr4__) || defined(__sortix__)
 typedef unsigned char __u_char;
 #endif
+
+#if defined(__minix) || defined(OPENSERVER5_COMPILE)
+typedef unsigned char __u_char;
+#endif
+
 #endif
 
 /* specifiers for the IEC bus lines */
