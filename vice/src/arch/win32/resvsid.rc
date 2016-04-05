@@ -60,6 +60,17 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_CPU_AFFINITY
         MENUITEM SEPARATOR
         MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
+        POPUP "Sound volume"
+        BEGIN
+            MENUITEM "", IDM_SOUND_VOLUME_0
+            MENUITEM "", IDM_SOUND_VOLUME_5
+            MENUITEM "", IDM_SOUND_VOLUME_10
+            MENUITEM "", IDM_SOUND_VOLUME_25
+            MENUITEM "", IDM_SOUND_VOLUME_50
+            MENUITEM "", IDM_SOUND_VOLUME_75
+            MENUITEM "", IDM_SOUND_VOLUME_100
+            MENUITEM "", IDM_SOUND_VOLUME_CUSTOM
+        END
         MENUITEM "", IDM_SOUND_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SID_SETTINGS
@@ -104,6 +115,8 @@ BEGIN
         MENUITEM "", IDM_CMDLINE
         MENUITEM "", IDM_FEATURES
         MENUITEM SEPARATOR
+        MENUITEM "", IDM_KEYS
+        MENUITEM SEPARATOR
         MENUITEM "", IDM_CONTRIBUTORS
         MENUITEM "", IDM_LICENSE
         MENUITEM "", IDM_WARRANTY
@@ -136,13 +149,17 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "Load PSID file"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
   IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Tunes"
   IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 
 
@@ -153,13 +170,17 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Vælg PSID-fil"
   IDS_TUNE_NR             "sangnummer"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "Indlæs PSID-fil"
   IDS_MI_SELECT_TUNE      "Vælg sang"
   IDS_MI_NEXT_TUNE        "Næste sang"
   IDS_MI_PREVIOUS_TUNE    "Forrige sang"
   IDS_MI_PSID_OVERRIDE    "Overstyr PSID-indstillinger"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Numre"
   IDS_MP_SOUND_RECORDING  "Lydoptagelse"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 
 
@@ -170,13 +191,17 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "PSID Datei wählen"
   IDS_TUNE_NR             "Titel Nummer"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "PSID Datei laden"
   IDS_MI_SELECT_TUNE      "Titel auswählen"
   IDS_MI_NEXT_TUNE        "Nächster Titel "
   IDS_MI_PREVIOUS_TUNE    "Vorheriger Titel "
   IDS_MI_PSID_OVERRIDE    "PSID Einstellungen ignorieren"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Tunes"
   IDS_MP_SOUND_RECORDING  "Tonaufnahme"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 
 
@@ -187,13 +212,17 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Seleccionar fichero PSID"
   IDS_TUNE_NR             "Número melodia"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "Cargar fichero PSID"
   IDS_MI_SELECT_TUNE      "Seleccionar melodia"
   IDS_MI_NEXT_TUNE        "Siguiente melodia"
   IDS_MI_PREVIOUS_TUNE    "Melodía previa"
   IDS_MI_PSID_OVERRIDE    "No utilizar ajustes PSID"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Melodias"
   IDS_MP_SOUND_RECORDING  "Grabación sonido"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 
 
@@ -204,13 +233,17 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Sélectionner le fichier PSID"
   IDS_TUNE_NR             "Numéro de clip"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "Charger le fichier PSID"
   IDS_MI_SELECT_TUNE      "Sélectionner le clip"
   IDS_MI_NEXT_TUNE        "Clip suivant"
   IDS_MI_PREVIOUS_TUNE    "Clip précédent"
   IDS_MI_PSID_OVERRIDE    "Écraser les paramètres PSID"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Tons"
   IDS_MP_SOUND_RECORDING  "Enregistrement du son"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 
 
@@ -224,13 +257,17 @@ LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "PSID fájl betöltése"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
   IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Hangzatok"
   IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -244,13 +281,17 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Seleziona file PSID"
   IDS_TUNE_NR             "Numero melodia"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "Carica file PSID"
   IDS_MI_SELECT_TUNE      "Seleziona melodia"
   IDS_MI_NEXT_TUNE        "Melodia successiva"
   IDS_MI_PREVIOUS_TUNE    "Melodia precedente"
   IDS_MI_PSID_OVERRIDE    "Sovrascrivi impostazioni PSID"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Melodie"
   IDS_MP_SOUND_RECORDING  "Registrazione audio"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 
 
@@ -264,13 +305,17 @@ LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "PSID ÆÄÀÏ ºÒ·¯¿À±â"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
   IDS_MI_PSID_OVERRIDE    "PSID ¼ÂÆÃ ¿À¹ö¶óÀÌµå ÇÏ±â"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "À½"
   IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -284,13 +329,17 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Selecteer PSID bestand"
   IDS_TUNE_NR             "Deuntje nummer"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "Laad PSID bestand"
   IDS_MI_SELECT_TUNE      "Selecteer deuntje"
   IDS_MI_NEXT_TUNE        "Volgend deuntje"
   IDS_MI_PREVIOUS_TUNE    "Vorig deuntje"
   IDS_MI_PSID_OVERRIDE    "Overschrijf PSID instellingen"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Deuntjes"
   IDS_MP_SOUND_RECORDING  "Geluidsopname gestart"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 
 
@@ -304,13 +353,17 @@ LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Wybierz plik PSID"
   IDS_TUNE_NR             "Numer tonu"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "Wczytaj plik PSID"
   IDS_MI_SELECT_TUNE      "Wybór tonu"
   IDS_MI_NEXT_TUNE        "Nastêpny ton"
   IDS_MI_PREVIOUS_TUNE    "Poprzedni ton"
   IDS_MI_PSID_OVERRIDE    "Nadpisz ustawienia PSID"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Tony"
   IDS_MP_SOUND_RECORDING  "Zapis d¼wiêku"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -327,13 +380,17 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "Load PSID file"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
   IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Tunes"
   IDS_MP_SOUND_RECORDING  "·ÐßØáì ×ÒãÚÐ"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -347,13 +404,17 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Välj PSID-fil"
   IDS_TUNE_NR             "Låtnummer"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "Läs PSID-fil"
   IDS_MI_SELECT_TUNE      "Välj låt"
   IDS_MI_NEXT_TUNE        "Nästa låt"
   IDS_MI_PREVIOUS_TUNE    "Föregående låt"
   IDS_MI_PSID_OVERRIDE    "Överskugga PSID-inställningar"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Låtar"
   IDS_MP_SOUND_RECORDING  "Ljudinspelning"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 
 
@@ -367,16 +428,18 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "PSID dosyasý seçin"
   IDS_TUNE_NR             "Þarký numarasý"
+  IDS_VSID_KEYS           "VSID shortcut keys"
+  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
   IDS_MI_LOAD_PSID_FILE   "PSID dosyasý yükle"
   IDS_MI_SELECT_TUNE      "Þarký Seç"
   IDS_MI_NEXT_TUNE        "Sonraki þarký"
   IDS_MI_PREVIOUS_TUNE    "Önceki þarký"
   IDS_MI_PSID_OVERRIDE    "PSID ayarlarýný geçersiz kýl"
+  IDS_MI_KEYS             "Shortcut keys"
   IDS_MP_TUNES            "Parçalar"
   IDS_MP_SOUND_RECORDING  "Ses kaydý"
+  IDS_MP_SOUND_VOLUME     "Sound volume"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-

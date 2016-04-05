@@ -123,21 +123,13 @@ void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
 /*****************************************************************************/
 
 static generic_trans_table_t generic_trans_table[] = {
-    { IDM_REFRESH_RATE_1, "1/&1" },
-    { IDM_REFRESH_RATE_2, "1/&2" },
-    { IDM_REFRESH_RATE_3, "1/&3" },
-    { IDM_REFRESH_RATE_4, "1/&4" },
-    { IDM_REFRESH_RATE_5, "1/&5" },
-    { IDM_REFRESH_RATE_6, "1/&6" },
-    { IDM_REFRESH_RATE_7, "1/&7" },
-    { IDM_REFRESH_RATE_8, "1/&8" },
-    { IDM_REFRESH_RATE_9, "1/&9" },
-    { IDM_REFRESH_RATE_10, "1/1&0" },
-    { IDM_MAXIMUM_SPEED_200, "&200%" },
-    { IDM_MAXIMUM_SPEED_100, "&100%" },
-    { IDM_MAXIMUM_SPEED_50, "&50%" },
-    { IDM_MAXIMUM_SPEED_20, "&20%" },
-    { IDM_MAXIMUM_SPEED_10, "1&0%" },
+    { IDM_SOUND_VOLUME_0, "0%" },
+    { IDM_SOUND_VOLUME_5, "5%" },
+    { IDM_SOUND_VOLUME_10, "10%" },
+    { IDM_SOUND_VOLUME_25, "25%" },
+    { IDM_SOUND_VOLUME_50, "50%" },
+    { IDM_SOUND_VOLUME_75, "75%" },
+    { IDM_SOUND_VOLUME_100, "100%" },
     { IDM_SYNC_FACTOR_PAL, "&PAL" },
     { IDM_SYNC_FACTOR_NTSC, "&NTSC" },
     { 0, NULL}
@@ -182,6 +174,7 @@ static ui_menu_translation_table_t vsidui_menu_translation_table[] = {
     { IDM_LANG_SV, IDS_MI_LANG_SV },
     { IDM_LANG_TR, IDS_MI_LANG_TR },
     { IDM_CMDLINE, IDS_MI_CMDLINE },
+    { IDM_KEYS, IDS_MI_KEYS },
     { IDM_FEATURES, IDS_MI_FEATURES },
     { IDM_CONTRIBUTORS, IDS_MI_CONTRIBUTORS },
     { IDM_LICENSE, IDS_MI_LICENSE },
@@ -200,10 +193,8 @@ static ui_popup_translation_table_t vsidui_popup_translation_table[] = {
     { 2, IDS_MP_SOUND_RECORDING, NULL },
     { 2, IDS_MP_RESET, NULL },
     { 1, IDS_MP_TUNES, NULL },
-/*    { 1, IDS_MP_OPTIONS, NULL },*/
     { 1, IDS_MP_SETTINGS, NULL },
-/*    { 2, IDS_MP_REFRESH_RATE, NULL }, */
-/*    { 2, IDS_MP_MAXIMUM_SPEED, NULL },*/
+    { 2, IDS_MP_SOUND_VOLUME, NULL },
     { 2, IDS_MP_VIDEO_STANDARD, NULL },
     { 1, IDS_MP_LANGUAGE, NULL },
     { 1, IDS_MP_HELP, NULL },
@@ -221,31 +212,6 @@ static const ui_menu_toggle_t toggle_list[] = {
     { NULL, 0 }
 };
 
-static const ui_res_possible_values_t RefreshRateValues[] = {
-    { 0, IDM_REFRESH_RATE_AUTO },
-    { 1, IDM_REFRESH_RATE_1 },
-    { 2, IDM_REFRESH_RATE_2 },
-    { 3, IDM_REFRESH_RATE_3 },
-    { 4, IDM_REFRESH_RATE_4 },
-    { 5, IDM_REFRESH_RATE_5 },
-    { 6, IDM_REFRESH_RATE_6 },
-    { 7, IDM_REFRESH_RATE_7 },
-    { 8, IDM_REFRESH_RATE_8 },
-    { 9, IDM_REFRESH_RATE_9 },
-    { 10, IDM_REFRESH_RATE_10 },
-    { -1, 0 }
-};
-
-static ui_res_possible_values_t SpeedValues[] = {
-    { 0, IDM_MAXIMUM_SPEED_NO_LIMIT },
-    { 10, IDM_MAXIMUM_SPEED_10 },
-    { 20, IDM_MAXIMUM_SPEED_20 },
-    { 50, IDM_MAXIMUM_SPEED_50 },
-    { 100, IDM_MAXIMUM_SPEED_100 },
-    { 200, IDM_MAXIMUM_SPEED_200 },
-    { -1, 0 }
-};
-
 static const ui_res_possible_values_t SyncFactor[] = {
     { MACHINE_SYNC_PAL, IDM_SYNC_FACTOR_PAL },
     { MACHINE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC },
@@ -254,13 +220,14 @@ static const ui_res_possible_values_t SyncFactor[] = {
     { -1, 0 }
 };
 
-static const ui_res_possible_values_t JamAction[] = {
-    { MACHINE_JAM_ACTION_DIALOG, IDM_JAM_ACTION_ASK },
-    { MACHINE_JAM_ACTION_CONTINUE, IDM_JAM_ACTION_CONTINUE },
-    { MACHINE_JAM_ACTION_MONITOR, IDM_JAM_ACTION_START_MONITOR },
-    { MACHINE_JAM_ACTION_RESET, IDM_JAM_ACTION_RESET },
-    { MACHINE_JAM_ACTION_HARD_RESET, IDM_JAM_ACTION_HARD_RESET },
-    { MACHINE_JAM_ACTION_QUIT, IDM_JAM_ACTION_QUIT_EMULATOR },
+static const ui_res_possible_values_t SoundVolume[] = {
+    { 0, IDM_SOUND_VOLUME_0 },
+    { 5, IDM_SOUND_VOLUME_5 },
+    { 10, IDM_SOUND_VOLUME_10 },
+    { 25, IDM_SOUND_VOLUME_25 },
+    { 50, IDM_SOUND_VOLUME_50 },
+    { 75, IDM_SOUND_VOLUME_75 },
+    { 100, IDM_SOUND_VOLUME_100 },
     { -1, 0 }
 };
 
@@ -275,10 +242,8 @@ static const ui_res_possible_values_t TraceMode[] = {
 #endif
 
 static const ui_res_value_list_t value_list[] = {
-    { "RefreshRate", RefreshRateValues, 0 },
-    { "Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM },
     { "MachineVideoStandard", SyncFactor, 0 },
-    { "JAMAction", JamAction, 0 },
+    { "SoundVolume", SoundVolume, IDM_SOUND_VOLUME_CUSTOM },
 #ifdef DEBUG
     { "TraceMode", TraceMode, 0},
 #endif
@@ -374,6 +339,20 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
     }
 }
 
+/*****************************************************************************/
+static char *shortcut_keys_txt =
+    "The following shortcut keys are available:\n\n"
+    "0\t- Restart the current tune\n"
+    "<SPACE>\t- Pause/unpause the tune\n"
+    "W\t- Fast forward the tune (while holding W)\n"
+    "+\t- Sound volume up\n"
+    "-\t- Sound volume down\n"
+    "<LEFT>\t- Next tune\n"
+    "<DOWN>\t- Next tune\n"
+    "<RIGHT>\t- Previous tune\n"
+    "<UP>\t- Previous tune\n";
+
+/*****************************************************************************/
 static void update_menus(HWND hwnd)
 {
     unsigned int i, j;
@@ -884,6 +863,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         case IDM_CMDLINE:
             uihelp_dialog(hwnd, wparam);
             break;
+        case IDM_KEYS:
+            ui_show_text(hwnd, translate_text(IDS_VSID_KEYS), translate_text(IDS_VSID_KEYS_AVAILABLE), shortcut_keys_txt);
+            break;
         default:
             handle_default_command(wparam, lparam, hwnd);
     }
@@ -895,6 +877,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
     HDC hdc;
     PAINTSTRUCT ps;
     int i;
+    int vol;
 
     switch (msg) {
         case WM_CREATE:
@@ -918,6 +901,22 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
                     break;
                 case 'W':
                     resources_set_int("WarpMode", 1);
+                    break;
+                case VK_ADD:
+                    resources_get_int("SoundVolume", &vol);
+                    ++vol;
+                    if (vol > 100) {
+                        vol = 100;
+                    }
+                    resources_set_int("SoundVolume", vol);
+                    break;
+                case VK_SUBTRACT:
+                    resources_get_int("SoundVolume", &vol);
+                    --vol;
+                    if (vol < 0) {
+                        vol = 0;
+                    }
+                    resources_set_int("SoundVolume", vol);
                     break;
                 case VK_LEFT:
                 case VK_DOWN:
