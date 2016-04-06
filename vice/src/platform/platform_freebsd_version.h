@@ -378,6 +378,10 @@
 #define PLATFORM_OS "FreeBSD 10.2"
 #endif
 
+#if (__FreeBSD_version>=1003000 && __FreeBSD_version<1004000)
+#define PLATFORM_OS "FreeBSD 10.3"
+#endif
+
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "FreeBSD 10.x"
 #endif
