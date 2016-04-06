@@ -331,7 +331,6 @@ static char *get_prod_spec_string(char *command)
     char *retval = NULL;
     int found = 0;
 
-    printf("Trying a %s\n", command);
     infile = popen(command, "r");
     if (infile) {
         do {
@@ -347,13 +346,10 @@ static char *get_prod_spec_string(char *command)
         if (found == 1) {
             buffer[strlen(buffer) - 1] = 0;
             retval = lib_stralloc(buffer + 8);
-            printf("Got version %s!!!\n", retval);
         }
 
     }
-    if (!retval) {
-        printf("Returning NULL\n");
-    } else {
+    if (retval) {
         if (check_illegal_string(retval)) {
             lib_free(retval);
             retval = NULL;
@@ -370,7 +366,6 @@ static char *get_cmd_ver_string(char *command)
     int found = 0;
     int i;
 
-    printf("Trying a %s\n", command);
     infile = popen(command, "r");
     if (infile) {
         do {
@@ -390,13 +385,10 @@ static char *get_cmd_ver_string(char *command)
         if (found == 1) {
             buffer[strlen(buffer) - 1] = 0;
             retval = lib_stralloc(buffer);
-            printf("Got version %s!!!\n", retval);
         }
 
     }
-    if (!retval) {
-        printf("Returning NULL\n");
-    } else {
+    if (retval) {
         if (check_illegal_string(retval)) {
             lib_free(retval);
             retval = NULL;
@@ -416,8 +408,6 @@ static char *get_command_com_string(void)
     char *retval = NULL;
     char *comspec = NULL;
 
-    printf("Analyzing command.com\n");
-
     comspec = getenv("COMSPEC");
 
     if (!comspec) {
@@ -428,7 +418,6 @@ static char *get_command_com_string(void)
         return lib_stralloc("FreeDOS 0.9");
     }
 
-    printf("opening %s\n", comspec);
     infile = fopen(comspec, "rb");
     if (infile) {
         memset(buffer, 0, 65280);
@@ -447,7 +436,6 @@ static char *get_command_com_string(void)
             if (ptr2) {
                 ptr2[0] = 0;
                 retval = lib_stralloc(ptr);
-                printf("Command.com string : %s!!!\n", retval);
             }
         }
     }
@@ -468,12 +456,8 @@ static char *get_version_from_env(void)
     char *ver = getenv("VER");
     char *retval = NULL;
 
-    printf("getting os and ver from env\n");
     if (os && ver) {
-        printf("os: %s, ver: %s\n", os, ver);
         retval = util_concat(os, " ", ver, NULL);
-    } else {
-        printf("env returns no OS and VERSION\n");
     }
     return retval;
 }
@@ -482,12 +466,8 @@ static int get_real32_ver(void)
 {
     __dpmi_regs r;
 
-    printf("Trying to get real32 version\n");
-
     r.h.cl = 0xa3;
     __dpmi_int(0xe0, &r);
-
-    printf("Returning real32 %d\n", r.x.ax);
 
     return (int)r.x.ax;
 }
@@ -495,8 +475,6 @@ static int get_real32_ver(void)
 static int desqview_present(void)
 {
     __dpmi_regs r;
-
-    printf("Trying to see if desqview is present\n");
 
     r.x.ax = 0xde00;
     __dpmi_int(0x2f, &r);
@@ -507,8 +485,6 @@ static int desqview_present(void)
 static void get_desqview_version(int *major, int *minor)
 {
     __dpmi_regs r;
-
-    printf("Getting desqview version\n");
 
     r.h.ah = 0x2b;
     r.x.bx = 0;
@@ -525,13 +501,9 @@ static int get_dos_oem_nr(void)
 {
     __dpmi_regs r;
 
-    printf("Getting oem number\n");
-
     r.h.ah = 0x30;
     r.h.al = 0x00;
     __dpmi_int(0x21, &r);
-
-    printf("oem number: %d\n", r.h.bh);
 
     return (int)r.h.bh;
 }
@@ -539,8 +511,6 @@ static int get_dos_oem_nr(void)
 static int get_windows_version(int *major, int *minor, int *mode)
 {
     __dpmi_regs r;
-
-    printf("Getting windows version\n");
 
     r.x.ax = 0x160a;
     __dpmi_int(0x2f, &r);
@@ -628,7 +598,6 @@ char *platform_get_dos_runtime_os(void)
         env_ver_string = get_version_from_env();
 
         if (comspec_ver_string) {
-            printf("comspec string is %s\n", comspec_ver_string);
             comspec_ver_string = lib_stralloc(comspec_ver_string);
         }
 
@@ -646,11 +615,6 @@ char *platform_get_dos_runtime_os(void)
                     if (!prodver_string && dos_win_versions[i].prod_version) {
                         if (!systemroot) {
                             systemroot = getenv("SYSTEMROOT");
-                            if (systemroot) {
-                                printf("system root is %s\n", systemroot);
-                            } else {
-                                printf("system root returned NULL\n");
-                            }
                         }
                         prodver_command = util_concat("type ", systemroot, "\\system32\\prodspec.ini", NULL);
                         prodver_string = get_prod_spec_string(prodver_command);
