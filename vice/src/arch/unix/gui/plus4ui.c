@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cartio.h"
 #include "debug.h"
 #include "icon.h"
 #include "machine.h"
@@ -100,6 +101,18 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 };
 
 /* ------------------------------------------------------------------------- */
+
+UI_MENU_DEFINE_RADIO(IOCollisionHandling)
+
+static ui_menu_entry_t iocollision_submenu[] = {
+    { N_("detach all"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL, NULL },
+    { N_("detach last"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST, NULL },
+    { N_("AND values"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES, NULL },
+    { NULL }
+};
 
 UI_MENU_DEFINE_TOGGLE(SidCart)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
@@ -271,6 +284,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "Tape port devices", UI_MENU_TYPE_NORMAL,
       NULL, NULL, tapeport_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("I/O collision handling ($FD00-$FEFF)"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, iocollision_submenu },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
