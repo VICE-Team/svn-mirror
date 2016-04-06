@@ -1,5 +1,5 @@
 /*
- * vic20io.c - VIC20 io handling ($9800-$9FFF).
+ * vic20io.c - VIC20 io handling ($9000-$93FF & $9800-$9FFF).
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
