@@ -71,6 +71,7 @@
    vax    | OpenBSD 5.7
    amd64  | OpenBSD 5.8
    i386   | OpenBSD 5.8
+   i386   | OpenBSD 5.9
  */
 
 #include "vice.h"
