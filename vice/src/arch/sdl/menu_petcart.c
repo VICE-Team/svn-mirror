@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cartio.h"
 #include "menu_petcart.h"
 #include "menu_common.h"
 #include "resources.h"
@@ -46,6 +47,43 @@ static UI_MENU_CALLBACK(detach_cart_callback)
         resources_set_string((char *)param, "");
     }
     return NULL;
+}
+
+UI_MENU_DEFINE_RADIO(IOCollisionHandling)
+
+static const ui_menu_entry_t iocollision_menu[] = {
+    { "Detach all",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_IOCollisionHandling_callback,
+      (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL },
+    { "Detach last",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_IOCollisionHandling_callback,
+      (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST },
+    { "AND values",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_IOCollisionHandling_callback,
+      (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES },
+    SDL_MENU_LIST_END
+};
+
+static UI_MENU_CALLBACK(iocollision_show_type_callback)
+{
+    int type;
+
+    resources_get_int("IOCollisionHandling", &type);
+    switch (type) {
+        case IO_COLLISION_METHOD_DETACH_ALL:
+            return "-> detach all";
+            break;
+        case IO_COLLISION_METHOD_DETACH_LAST:
+            return "-> detach last";
+            break;
+        case IO_COLLISION_METHOD_AND_WIRES:
+            return "-> AND values";
+            break;
+    }
+    return "n/a";
 }
 
 const ui_menu_entry_t petcart_menu[] = {
@@ -73,5 +111,10 @@ const ui_menu_entry_t petcart_menu[] = {
       MENU_ENTRY_OTHER,
       detach_cart_callback,
       (ui_callback_data_t)"RomModuleBName" },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "I/O collision handling ($8800-$8FFF / $E900-$EEFF)",
+      MENU_ENTRY_SUBMENU,
+      iocollision_show_type_callback,
+      (ui_callback_data_t)iocollision_menu },
     SDL_MENU_LIST_END
 };

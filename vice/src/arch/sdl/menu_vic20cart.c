@@ -437,7 +437,7 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_OTHER,
       set_cart_default_callback,
       NULL },
-    { "I/O collision handling",
+    { "I/O collision handling ($9000-$93FF / $9800-$9FFF)",
       MENU_ENTRY_SUBMENU,
       iocollision_show_type_callback,
       (ui_callback_data_t)iocollision_menu },
