@@ -268,6 +268,14 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         uppermenu->AddSeparatorItem();
     }
 
+    if (machine_class != VICE_MACHINE_VSID && machine_class != VICE_MACHINE_C64DTV) {
+        uppermenu->AddItem(menu = new BMenu("I/O collision handling"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("Detach all involved carts", new BMessage(MENU_IO_COLLISION_DETACH_ALL)));
+            menu->AddItem(new BMenuItem("Detach last inserted cart", new BMessage(MENU_IO_COLLISION_DETACH_LAST)));
+            menu->AddItem(new BMenuItem("'AND' wires", new BMessage(MENU_IO_COLLISION_AND_WIRES)));
+    }
+
     if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Snapshot"));
             menu->AddItem(new BMenuItem("Load snapshot", new BMessage(MENU_SNAPSHOT_LOAD)));

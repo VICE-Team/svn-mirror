@@ -34,6 +34,7 @@
 #include "vicemenu.h"
 
 extern "C" {
+#include "cartio.h"
 #include "cartridge.h"
 #include "cbm2model.h"
 #include "cbm2ui.h"
@@ -116,6 +117,13 @@ static ui_res_possible_values KoalaCRTCTextColor[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values IOCollisions[] = {
+    { IO_COLLISION_METHOD_DETACH_ALL, MENU_IO_COLLISION_DETACH_ALL },
+    { IO_COLLISION_METHOD_DETACH_LAST, MENU_IO_COLLISION_DETACH_LAST },
+    { IO_COLLISION_METHOD_AND_WIRES, MENU_IO_COLLISION_AND_WIRES },
+    { -1, 0 }
+};
+
 ui_res_value_list cbm2_ui_res_values[] = {
     { "Acia1Dev", cbm2AciaDevice },
     { "CrtcFilter", cbm2RenderFilters },
@@ -124,6 +132,7 @@ ui_res_value_list cbm2_ui_res_values[] = {
     { "JoyPort4Device", cbm2_JoyPort4Device },
     { "DoodleCRTCTextColor", DoodleCRTCTextColor },
     { "KoalaCRTCTextColor", KoalaCRTCTextColor },
+    { "IOCollisionHandling", IOCollisions },
     { NULL, NULL }
 };
 

@@ -42,6 +42,7 @@
 
 extern "C" {
 #include "archdep.h"
+#include "cartio.h"
 #include "constants.h"
 #include "gfxoutput.h"
 #include "joyport.h"
@@ -127,6 +128,13 @@ static ui_res_possible_values KoalaCRTCTextColor[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values IOCollisions[] = {
+    { IO_COLLISION_METHOD_DETACH_ALL, MENU_IO_COLLISION_DETACH_ALL },
+    { IO_COLLISION_METHOD_DETACH_LAST, MENU_IO_COLLISION_DETACH_LAST },
+    { IO_COLLISION_METHOD_AND_WIRES, MENU_IO_COLLISION_AND_WIRES },
+    { -1, 0 }
+};
+
 ui_res_value_list pet_ui_res_values[] = {
     { "Acia1Dev", petAciaDevice },
     { "PETREUsize", PETREUSize},
@@ -135,6 +143,7 @@ ui_res_value_list pet_ui_res_values[] = {
     { "JoyPort4Device", pet_JoyPort4Device },
     { "DoodleCRTCTextColor", DoodleCRTCTextColor },
     { "KoalaCRTCTextColor", KoalaCRTCTextColor },
+    { "IOCollisionHandling", IOCollisions },
     { NULL, NULL }
 };
 

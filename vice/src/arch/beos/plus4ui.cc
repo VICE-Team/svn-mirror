@@ -43,6 +43,7 @@
 #include "vicemenu.h"
 
 extern "C" {
+#include "cartio.h"
 #include "cartridge.h"
 #include "constants.h"
 #include "gfxoutput.h"
@@ -140,6 +141,13 @@ ui_res_possible_values KoalaTEDLum[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values IOCollisions[] = {
+    { IO_COLLISION_METHOD_DETACH_ALL, MENU_IO_COLLISION_DETACH_ALL },
+    { IO_COLLISION_METHOD_DETACH_LAST, MENU_IO_COLLISION_DETACH_LAST },
+    { IO_COLLISION_METHOD_AND_WIRES, MENU_IO_COLLISION_AND_WIRES },
+    { -1, 0 }
+};
+
 ui_res_value_list plus4_ui_res_values[] = {
     { "Acia1Dev", plus4AciaDevice },
     { "TEDFilter", plus4_RenderFilters },
@@ -152,6 +160,7 @@ ui_res_value_list plus4_ui_res_values[] = {
     { "DoodleMultiColorHandling", DoodleMultiColor },
     { "DoodleTEDLumHandling", DoodleTEDLum },
     { "KoalaTEDLumHandling", DoodleTEDLum },
+    { "IOCollisionHandling", IOCollisions },
     { NULL, NULL }
 };
 

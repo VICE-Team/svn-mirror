@@ -44,6 +44,7 @@ extern "C" {
 #include "archdep.h"
 #include "c128model.h"
 #include "c128ui.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "constants.h"
 #include "gfxoutput.h"
@@ -312,6 +313,13 @@ static ui_res_possible_values DoodleMultiColor[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values IOCollisions[] = {
+    { IO_COLLISION_METHOD_DETACH_ALL, MENU_IO_COLLISION_DETACH_ALL },
+    { IO_COLLISION_METHOD_DETACH_LAST, MENU_IO_COLLISION_DETACH_LAST },
+    { IO_COLLISION_METHOD_AND_WIRES, MENU_IO_COLLISION_AND_WIRES },
+    { -1, 0 }
+};
+
 ui_res_value_list c128_ui_res_values[] = {
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Dev", c128AciaDevice },
@@ -340,6 +348,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { "JoyPort3Device", c128_JoyPort3Device },
     { "JoyPort4Device", c128_JoyPort4Device },
     { "DoodleMultiColorHandling", DoodleMultiColor },
+    { "IOCollisionHandling", IOCollisions },
     { NULL, NULL }
 };
 

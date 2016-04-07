@@ -34,6 +34,7 @@
 #include "vicemenu.h"
 
 extern "C" {
+#include "cartio.h"
 #include "cartridge.h"
 #include "cbm2model.h"
 #include "cbm2ui.h"
@@ -105,6 +106,13 @@ static ui_res_possible_values DoodleMultiColor[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values IOCollisions[] = {
+    { IO_COLLISION_METHOD_DETACH_ALL, MENU_IO_COLLISION_DETACH_ALL },
+    { IO_COLLISION_METHOD_DETACH_LAST, MENU_IO_COLLISION_DETACH_LAST },
+    { IO_COLLISION_METHOD_AND_WIRES, MENU_IO_COLLISION_AND_WIRES },
+    { -1, 0 }
+};
+
 ui_res_value_list cbm5x0_ui_res_values[] = {
     { "Acia1Dev", cbm5x0AciaDevice },
     { "VICIIFilter", cbm5x0RenderFilters },
@@ -112,6 +120,7 @@ ui_res_value_list cbm5x0_ui_res_values[] = {
     { "JoyPort1Device", cbm5x0_JoyPort1Device },
     { "JoyPort2Device", cbm5x0_JoyPort2Device },
     { "DoodleMultiColorHandling", DoodleMultiColor },
+    { "IOCollisionHandling", IOCollisions },
     { NULL, NULL }
 };
 
