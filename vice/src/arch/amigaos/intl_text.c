@@ -1132,6 +1132,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SINGLE_FRAME_ADVANCE_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_SINGLE_FRAME_ADVANCE_TR, "" },  /* fuzzy */
 
+/* en */ { IDMS_IO_COLLISION_SETTINGS,    "I/O collision settings" },
+/* da */ { IDMS_IO_COLLISION_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_IO_COLLISION_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_IO_COLLISION_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_IO_COLLISION_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_IO_COLLISION_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_IO_COLLISION_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_IO_COLLISION_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_IO_COLLISION_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_IO_COLLISION_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_IO_COLLISION_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_IO_COLLISION_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_IO_COLLISION_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_MONITOR,    "Monitor" },
 /* da */ { IDMS_MONITOR_DA, "Monitor" },
 /* de */ { IDMS_MONITOR_DE, "Monitor" },
@@ -13300,6 +13314,76 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_SCREENSHOT_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SCREENSHOT_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_SCREENSHOT_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DETACH_ALL,    "Detach all involved carts" },
+/* da */ { IDS_DETACH_ALL_DA, "" },  /* fuzzy */
+/* de */ { IDS_DETACH_ALL_DE, "" },  /* fuzzy */
+/* es */ { IDS_DETACH_ALL_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DETACH_ALL_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DETACH_ALL_HU, "" },  /* fuzzy */
+/* it */ { IDS_DETACH_ALL_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DETACH_ALL_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DETACH_ALL_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DETACH_ALL_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DETACH_ALL_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DETACH_ALL_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DETACH_ALL_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DETACH_LAST,    "Detach last inserted cart" },
+/* da */ { IDS_DETACH_LAST_DA, "" },  /* fuzzy */
+/* de */ { IDS_DETACH_LAST_DE, "" },  /* fuzzy */
+/* es */ { IDS_DETACH_LAST_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DETACH_LAST_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DETACH_LAST_HU, "" },  /* fuzzy */
+/* it */ { IDS_DETACH_LAST_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DETACH_LAST_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DETACH_LAST_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DETACH_LAST_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DETACH_LAST_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DETACH_LAST_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DETACH_LAST_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_AND_WIRES,    "'AND' the wires" },
+/* da */ { IDS_AND_WIRES_DA, "" },  /* fuzzy */
+/* de */ { IDS_AND_WIRES_DE, "" },  /* fuzzy */
+/* es */ { IDS_AND_WIRES_ES, "" },  /* fuzzy */
+/* fr */ { IDS_AND_WIRES_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AND_WIRES_HU, "" },  /* fuzzy */
+/* it */ { IDS_AND_WIRES_IT, "" },  /* fuzzy */
+/* ko */ { IDS_AND_WIRES_KO, "" },  /* fuzzy */
+/* nl */ { IDS_AND_WIRES_NL, "" },  /* fuzzy */
+/* pl */ { IDS_AND_WIRES_PL, "" },  /* fuzzy */
+/* ru */ { IDS_AND_WIRES_RU, "" },  /* fuzzy */
+/* sv */ { IDS_AND_WIRES_SV, "" },  /* fuzzy */
+/* tr */ { IDS_AND_WIRES_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_IO_COLLISION_HANDLING,    "I/O collision handling" },
+/* da */ { IDS_IO_COLLISION_HANDLING_DA, "" },  /* fuzzy */
+/* de */ { IDS_IO_COLLISION_HANDLING_DE, "" },  /* fuzzy */
+/* es */ { IDS_IO_COLLISION_HANDLING_ES, "" },  /* fuzzy */
+/* fr */ { IDS_IO_COLLISION_HANDLING_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IO_COLLISION_HANDLING_HU, "" },  /* fuzzy */
+/* it */ { IDS_IO_COLLISION_HANDLING_IT, "" },  /* fuzzy */
+/* ko */ { IDS_IO_COLLISION_HANDLING_KO, "" },  /* fuzzy */
+/* nl */ { IDS_IO_COLLISION_HANDLING_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IO_COLLISION_HANDLING_PL, "" },  /* fuzzy */
+/* ru */ { IDS_IO_COLLISION_HANDLING_RU, "" },  /* fuzzy */
+/* sv */ { IDS_IO_COLLISION_HANDLING_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IO_COLLISION_HANDLING_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_IO_COLLISION_SETTINGS,    "I/O collision settings" },
+/* da */ { IDS_IO_COLLISION_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_IO_COLLISION_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_IO_COLLISION_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_IO_COLLISION_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IO_COLLISION_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_IO_COLLISION_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_IO_COLLISION_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_IO_COLLISION_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IO_COLLISION_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_IO_COLLISION_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_IO_COLLISION_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IO_COLLISION_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PSID_SELECT,    "Select SID file to load" },
 /* da */ { IDS_PSID_SELECT_DA, "Vælg SID-fil" },

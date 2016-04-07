@@ -48,6 +48,7 @@
 #include "mui/uiexpert.h"
 #include "mui/uigeoram.h"
 #include "mui/uiide64.h"
+#include "mui/uiiocollisions.h"
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
@@ -224,6 +225,9 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_SAMPLER_SETTINGS:
             ui_sampler_settings_dialog(canvas);
+            break;
+        case IDM_IO_COLLISION_SETTINGS:
+            ui_iocollisions_settings_dialog();
             break;
     }
 

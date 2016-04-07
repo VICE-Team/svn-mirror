@@ -42,6 +42,7 @@
 #include "mui/uicbm5x0settings.h"
 #include "mui/uiciamodel.h"
 #include "mui/uidrivepetcbm2.h"
+#include "mui/uiiocollisions.h"
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
@@ -164,6 +165,9 @@ static int cbm5x0_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_SAMPLER_SETTINGS:
             ui_sampler_settings_dialog(canvas);
+            break;
+        case IDM_IO_COLLISION_SETTINGS:
+            ui_iocollisions_settings_dialog();
             break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

@@ -78,6 +78,8 @@ libarchmui_a_SOURCES = \
 	uigeoram.h \
 	uiide64.c \
 	uiide64.h \
+	uiiocollisions.c \
+	uiiocollisions.h \
 	uiisepic.c \
 	uiisepic.h \
 	uijamaction.c \

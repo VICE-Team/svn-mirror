@@ -43,6 +43,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uidriveplus4.h"
+#include "mui/uiiocollisions.h"
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
@@ -213,6 +214,9 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_SAMPLER_SETTINGS:
             ui_sampler_settings_dialog(canvas);
+            break;
+        case IDM_IO_COLLISION_SETTINGS:
+            ui_iocollisions_settings_dialog();
             break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
