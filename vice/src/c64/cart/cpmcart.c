@@ -195,6 +195,12 @@ int cpmcart_cart_enabled(void)
     return cpmcart_enabled;
 }
 
+static int cpmcart_dump(void)
+{
+    mon_out("Active CPU: %s\n", z80_started ? "Z80" : "6510");
+    return 0;
+}
+
 static io_source_t cpmcart_device = {
     "CP/M Cartridge",
     IO_DETACH_RESOURCE,
@@ -204,7 +210,7 @@ static io_source_t cpmcart_device = {
     cpmcart_io_store,
     NULL, /* no read */
     NULL, /* no peek */
-    NULL, /* no dump */
+    cpmcart_dump,
     CARTRIDGE_CPM,
     0,
     0
