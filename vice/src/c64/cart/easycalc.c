@@ -35,6 +35,7 @@
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -56,6 +57,7 @@
 
 /* some prototypes are needed */
 static void easycalc_io1_store(WORD addr, BYTE val);
+static int easycalc_dump(void);
 
 static io_source_t easycalc_device = {
     CARTRIDGE_NAME_EASYCALC,
@@ -66,7 +68,7 @@ static io_source_t easycalc_device = {
     easycalc_io1_store,
     NULL, /* no read */
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    easycalc_dump,
     CARTRIDGE_EASYCALC,
     0,
     0
@@ -155,9 +157,19 @@ void easycalc_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
+static int curbank = 0;
+
 static void easycalc_io1_store(WORD addr, BYTE val)
 {
-    cart_romhbank_set_slotmain((addr & 1) ? 1 : 0);
+    curbank = (addr & 1) ? 1 : 0;
+
+    cart_romhbank_set_slotmain(curbank);
+}
+
+static int easycalc_dump(void)
+{
+    mon_out("Bank: %d", curbank);
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
