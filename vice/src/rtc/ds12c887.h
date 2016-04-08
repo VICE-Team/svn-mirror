@@ -84,4 +84,6 @@ extern void ds12c887_store_address(rtc_ds12c887_t *context, BYTE address);
 extern void ds12c887_store_data(rtc_ds12c887_t *context, BYTE data);
 extern BYTE ds12c887_read(rtc_ds12c887_t *context);
 
+extern int ds12c887_dump(rtc_ds12c887_t *context);
+
 #endif

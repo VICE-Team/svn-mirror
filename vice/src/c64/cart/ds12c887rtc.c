@@ -80,6 +80,7 @@ static int ds12c887rtc_accessed = 0;
 /* Some prototypes are needed */
 static BYTE ds12c887rtc_read(WORD addr);
 static void ds12c887rtc_store(WORD addr, BYTE byte);
+static int ds12c887rtc_dump(void);
 
 static io_source_t ds12c887rtc_device = {
     CARTRIDGE_NAME_DS12C887RTC,
@@ -90,7 +91,7 @@ static io_source_t ds12c887rtc_device = {
     ds12c887rtc_store,
     ds12c887rtc_read,
     ds12c887rtc_read,
-    NULL,
+    ds12c887rtc_dump,
     CARTRIDGE_DS12C887RTC,
     0,
     0
@@ -283,6 +284,11 @@ void ds12c887rtc_detach(void)
 }
 
 /* ---------------------------------------------------------------------*/
+
+static int ds12c887rtc_dump(void)
+{
+    return ds12c887_dump(ds12c887rtc_context);
+}
 
 static BYTE ds12c887rtc_read(WORD addr)
 {

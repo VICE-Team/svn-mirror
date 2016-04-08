@@ -28,6 +28,7 @@
 
 #include "ds12c887.h"
 #include "lib.h"
+#include "monitor.h"
 #include "rtc.h"
 
 #include <string.h>
@@ -761,4 +762,72 @@ BYTE ds12c887_read(rtc_ds12c887_t *context)
             retval = context->ram[context->reg];
     }
     return retval;
+}
+
+static BYTE ds12c887_read_regs(rtc_ds12c887_t *context, int address)
+{
+    BYTE retval;
+    time_t latch;
+
+    if (context->clock_halt || context->set) {
+        if (!context->clock_halt) {
+            latch = context->set_latch;
+        } else {
+            latch = context->clock_halt_latch;
+        }
+    } else {
+        latch = rtc_get_latch(context->offset);
+    }
+
+    switch (address) {
+        case DS12C887_REG_SECONDS:
+        case DS12C887_REG_SECONDS_ALARM:
+        case DS12C887_REG_MINUTES:
+        case DS12C887_REG_MINUTES_ALARM:
+        case DS12C887_REG_HOURS:
+        case DS12C887_REG_HOURS_ALARM:
+        case DS12C887_REG_DAY_OF_WEEK:
+        case DS12C887_REG_DAY_OF_MONTH:
+        case DS12C887_REG_MONTHS:
+        case DS12C887_REG_YEARS:
+        case DS12C887_REG_CENTURIES:
+            retval = ds12c887_get_clock(context, (BYTE)address, latch);
+            break;
+        case DS12C887_REG_CTRL_A:
+            retval = context->ctrl_regs[0];
+            break;
+        case DS12C887_REG_CTRL_B:
+            retval = context->ctrl_regs[1];
+            break;
+        case DS12C887_REG_CTRL_C:
+            ds12c887_update_flags(context);
+            retval = (context->alarm_flag || context->end_of_update_flag) ? 0x80 : 0;
+            retval |= (context->alarm_flag) ? 0x20 : 0;
+            retval |= (context->end_of_update_flag) ? 0x10 : 0;
+            context->alarm_flag = 0;
+            context->end_of_update_flag = 0;
+            break;
+        case DS12C887_REG_CTRL_D:
+            retval = 0x80;
+            break;
+        default:
+            retval = context->ram[address];
+    }
+    return retval;
+}
+
+int ds12c887_dump(rtc_ds12c887_t *context)
+{
+    int i, j;
+
+    mon_out("Registers contents:\n");
+    for (i = 0; i < 8; ++i) {
+        mon_out("%02X-%02X:", i * 16, (i * 16) + 15);
+        for (j = 0; j < 16; ++j) {
+            mon_out(" %02X", ds12c887_read_regs(context, (i * 16) + j));
+        }
+        mon_out("\n");
+    }
+    
+    return 0;
 }
