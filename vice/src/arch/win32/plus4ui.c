@@ -40,6 +40,7 @@
 #include "uiacia.h"
 #include "uicpclockf83.h"
 #include "uidriveplus4.h"
+#include "uiiocollisions.h"
 #include "uijoyport.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
@@ -337,6 +338,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_TOGGLE_DATASETTE, IDS_MI_TOGGLE_DATASETTE },
     { IDM_TOGGLE_TAPE_SENSE_DONGLE, IDS_MI_TOGGLE_TAPE_SENSE_DONGLE },
     { IDM_TOGGLE_DTL_BASIC_DONGLE, IDS_MI_TOGGLE_DTL_BASIC_DONGLE },
+    { IDM_IO_COLLISION_HANDLING, IDS_MI_IO_COLLISION_HANDLING },
     { 0, 0 }
 };
 
@@ -540,6 +542,9 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_CP_CLOCK_F83_SETTINGS:
             ui_cp_clock_f83_settings_dialog(hwnd);
+            break;
+        case IDM_IO_COLLISION_HANDLING:
+            ui_iocollision_settings_dialog(hwnd);
             break;
     }
 }

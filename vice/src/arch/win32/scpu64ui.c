@@ -49,6 +49,7 @@
 #include "uiexpert.h"
 #include "uigeoram.h"
 #include "uiide64.h"
+#include "uiiocollisions.h"
 #include "uiisepic.h"
 #include "uijoyport.h"
 #include "uijoystick.h"
@@ -385,6 +386,7 @@ ui_menu_translation_table_t scpu64ui_menu_translation_table[] = {
     { IDM_TOGGLE_USERPORT_DIGIMAX, IDS_MI_TOGGLE_USERPORT_DIGIMAX },
     { IDM_TOGGLE_USERPORT_4BIT_SAMPLER, IDS_MI_TOGGLE_USERPORT_4BIT_SAMPLER },
     { IDM_TOGGLE_USERPORT_8BSS, IDS_MI_TOGGLE_USERPORT_8BSS },
+    { IDM_IO_COLLISION_HANDLING, IDS_MI_IO_COLLISION_HANDLING },
     { 0, 0 }
 };
 
@@ -765,6 +767,9 @@ static void scpu64_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_SAMPLER_SETTINGS:
             ui_sampler_settings_dialog(hwnd);
+            break;
+        case IDM_IO_COLLISION_HANDLING:
+            ui_iocollision_settings_dialog(hwnd);
             break;
     }
 }

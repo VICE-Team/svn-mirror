@@ -57,6 +57,7 @@
 #include "uiexpert.h"
 #include "uigeoram.h"
 #include "uiide64.h"
+#include "uiiocollisions.h"
 #include "uiisepic.h"
 #include "uijoyport.h"
 #include "uijoystick.h"
@@ -419,6 +420,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_TOGGLE_DATASETTE, IDS_MI_TOGGLE_DATASETTE },
     { IDM_TOGGLE_TAPE_SENSE_DONGLE, IDS_MI_TOGGLE_TAPE_SENSE_DONGLE },
     { IDM_TOGGLE_DTL_BASIC_DONGLE, IDS_MI_TOGGLE_DTL_BASIC_DONGLE },
+    { IDM_IO_COLLISION_HANDLING, IDS_MI_IO_COLLISION_HANDLING },
     { 0, 0 }
 };
 
@@ -837,6 +839,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_RESID8580D:
             sid_set_engine_model(SID_ENGINE_RESID, SID_MODEL_8580D);
             ui_display_statustext("RESID 8580D", 1);
+            break;
+        case IDM_IO_COLLISION_HANDLING:
+            ui_iocollision_settings_dialog(hwnd);
             break;
     }
 }

@@ -1740,6 +1740,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Set cartridge as default"
   IDS_MI_TOGGLE_CART_RESET             "Reset on cart change"
   IDS_MI_CART_DETACH                   "Detach cartridge image(s)"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Cartridge freeze"
   IDS_MI_MONITOR                       "Monitor"
 #ifdef DEBUG
@@ -2463,6 +2464,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Vælg cartridge som standard"
   IDS_MI_TOGGLE_CART_RESET             "Reset ved cartridge-skift"
   IDS_MI_CART_DETACH                   "Frakobl cartridge-image"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Cartridgets frys-funktion"
   IDS_MI_MONITOR                       "Monitor"
 #ifdef DEBUG
@@ -3186,6 +3188,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Aktuelles Erweiterungsmodul als Standard aktivieren"
   IDS_MI_TOGGLE_CART_RESET             "Reset bei Wechsel von Erweiterungsmodulen"
   IDS_MI_CART_DETACH                   "Erweiterungsmodul Image(s) entfernen"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Erweiterungsmodul Freeze"
   IDS_MI_MONITOR                       "Monitor"
 #ifdef DEBUG
@@ -3909,6 +3912,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Usar cartucho por defecto"
   IDS_MI_TOGGLE_CART_RESET             "Reiniciar al cambiar cartucho"
   IDS_MI_CART_DETACH                   "Extraer imagen(es) cartucho"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Congelar cartucho"
   IDS_MI_MONITOR                       "Monitor"
 #ifdef DEBUG
@@ -4632,6 +4636,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Définir cette cartouche par défaut"
   IDS_MI_TOGGLE_CART_RESET             "Réinialiser sur changement de cartouche"
   IDS_MI_CART_DETACH                   "Détacher une cartouche"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Geler la cartouche"
   IDS_MI_MONITOR                       "Moniteur"
 #ifdef DEBUG
@@ -5358,6 +5363,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Cartridge alapértelmezetté tétele"
   IDS_MI_TOGGLE_CART_RESET             "Újraindítás cartridge cserénél"
   IDS_MI_CART_DETACH                   "Cartridge képmás(ok) leválasztása"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Fagyasztás Cartridge-dzsel"
   IDS_MI_MONITOR                       "Monitor"
 #ifdef DEBUG
@@ -6084,6 +6090,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Imposta la cartuccia come predefinita"
   IDS_MI_TOGGLE_CART_RESET             "Reset al cambio di cartuccia"
   IDS_MI_CART_DETACH                   "Rimuovi le immagini delle cartucce"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Freeze cartuccia"
   IDS_MI_MONITOR                       "Monitor"
 #ifdef DEBUG
@@ -6810,6 +6817,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Ä«Æ®¸®Áö¸¦ µðÆúÆ® ¼Â ÇÏ±â"
   IDS_MI_TOGGLE_CART_RESET             "Ä«Æ®¸®Áö º¯°æ ¸®¼Â"
   IDS_MI_CART_DETACH                   "Ä«Æ®¸®Áö ÀÌ¹ÌÁö ¶¼±â"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Ä«Æ®¸®Áö ÇÁ¸®Áî"
   IDS_MI_MONITOR                       "¸ð´ÏÅÍ"
 #ifdef DEBUG
@@ -7536,6 +7544,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Zet cartridge als standaard"
   IDS_MI_TOGGLE_CART_RESET             "Reset bij cartwisseling"
   IDS_MI_CART_DETACH                   "Ontkoppel cartridge bestand(en)"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Cartridge freeze"
   IDS_MI_MONITOR                       "Monitor"
 #ifdef DEBUG
@@ -8262,6 +8271,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Ustaw kartrid¿ jako domy¶lny"
   IDS_MI_TOGGLE_CART_RESET             "Restart przy zmianie kartrid¿a"
   IDS_MI_CART_DETACH                   "Wysuñ obraz(y) kartrid¿a"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Zamro¿enie kartrid¿a"
   IDS_MI_MONITOR                       "Monitor"
 #ifdef DEBUG
@@ -8991,6 +9001,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "ÃáâÐÝÞÒØâì ÚÐàâàØÔÖ ßÞ ãÜÞÛçÐÝØî"
   IDS_MI_TOGGLE_CART_RESET             "Reset on cart change"
   IDS_MI_CART_DETACH                   "ÃÑàÐâì ÞÑàÐ×ë ÚÐàâàØÔÖÕÙ"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Cartridge freeze"
   IDS_MI_MONITOR                       "¼ÞÝØâÞà"
 #ifdef DEBUG
@@ -9717,6 +9728,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Välj insticksmodul som förval"
   IDS_MI_TOGGLE_CART_RESET             "Nollställ vid modulbyte"
   IDS_MI_CART_DETACH                   "Koppla från insticksmodulfil(er)"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Insticksmodulens frysfunktion"
   IDS_MI_MONITOR                       "Monitor"
 #ifdef DEBUG
@@ -10443,6 +10455,7 @@ BEGIN
   IDS_MI_CART_SET_DEFAULT              "Kartuþu varsayýlan yap"
   IDS_MI_TOGGLE_CART_RESET             "Kartuþ deðiþiminde resetle"
   IDS_MI_CART_DETACH                   "Kartuþ imaj(lar)ýný çýkart"
+  IDS_MI_IO_COLLISION_HANDLING         "I/O collision settings"
   IDS_MI_CART_FREEZE                   "Kartuþ freeze"
   IDS_MI_MONITOR                       "Monitör"
 #ifdef DEBUG
