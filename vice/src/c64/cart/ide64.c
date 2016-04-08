@@ -146,6 +146,7 @@ static BYTE ide64_ds1302_peek(WORD addr);
 static void ide64_romio_store(WORD addr, BYTE value);
 static BYTE ide64_romio_read(WORD addr);
 static BYTE ide64_romio_peek(WORD addr);
+static int ide64_rtc_dump(void);
 
 static io_source_t ide64_idebus_device = {
     CARTRIDGE_NAME_IDE64 " IDE",
@@ -186,7 +187,7 @@ static io_source_t ide64_ft245_device = {
     ide64_ft245_store,
     ide64_ft245_read,
     ide64_ft245_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_IDE64,
     0,
     0
@@ -201,7 +202,7 @@ static io_source_t ide64_ds1302_device = {
     ide64_ds1302_store,
     ide64_ds1302_read,
     ide64_ds1302_peek,
-    NULL,
+    ide64_rtc_dump,
     CARTRIDGE_IDE64,
     0,
     0
@@ -216,7 +217,7 @@ static io_source_t ide64_rom_device = {
     ide64_romio_store,
     ide64_romio_read,
     ide64_romio_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_IDE64,
     0,
     0
@@ -1477,6 +1478,11 @@ static int ide64_io_dump(void)
     mon_out("Version: %d, Mode: %s, ", settings_version >= IDE64_VERSION_4_1 ? 4 : 3, (kill_port & 1) ? "Disabled" : "Enabled");
     mon_out("ROM bank: %d, Config: %s, Interface: %d\n", current_bank, configs[current_cfg], idrive >> 1);
     return 0;
+}
+
+static int ide64_rtc_dump(void)
+{
+    return ds1202_1302_dump(ds1302_context);
 }
 
 /* ---------------------------------------------------------------------*/

@@ -28,6 +28,7 @@
 
 #include "ds1202_1302.h"
 #include "lib.h"
+#include "monitor.h"
 #include "rtc.h"
 #include "snapshot.h"
 
@@ -642,6 +643,31 @@ BYTE ds1202_1302_read_data_line(rtc_ds1202_1302_t *context)
         case DS1202_1302_OUTPUT_BURST_DATA_BITS:
             return context->output_bit;
     }
+    return 0;
+}
+
+int ds1202_1302_dump(rtc_ds1202_1302_t *context)
+{
+    int latched = context->clock_halt;
+    time_t offset = (latched) ? context->clock_halt_latch : context->offset;
+    int i, j;
+
+    mon_out("Registers contents:\n");
+    for (i = 0; i < 8; ++i) {
+        mon_out("%02X", ds1202_1302_get_clock_register(context, i, offset, latched));
+        if (i != 7) {
+            mon_out(" ");
+        }
+    }
+    mon_out("\n\nRAM contents:\n");
+    for (i = 0; i < 4; ++i) {
+        mon_out("%02X-%02X:", i * 8, (i * 8) + 7);
+        for (j = 0; j < 8; ++j) {
+            mon_out(" %02X", context->ram[(i * 8) + j]);
+        }
+        mon_out("\n");
+    }
+
     return 0;
 }
 

@@ -41,5 +41,6 @@ extern BYTE ds1202_1302_read_data_line(rtc_ds1202_1302_t *context);
 struct snapshot_s;
 extern int ds1202_1302_snapshot_read_module(struct snapshot_s *s);
 extern int ds1202_1302_snapshot_write_module(struct snapshot_s *s);
+extern int ds1202_1302_dump(rtc_ds1202_1302_t *context);
 
 #endif
