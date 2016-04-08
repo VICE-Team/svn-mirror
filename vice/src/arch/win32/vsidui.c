@@ -861,6 +861,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         case IDM_LICENSE:
         case IDM_WARRANTY:
         case IDM_CMDLINE:
+        case IDM_FEATURES:
             uihelp_dialog(hwnd, wparam);
             break;
         case IDM_KEYS:
