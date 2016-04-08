@@ -36,6 +36,7 @@
 #include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -66,6 +67,7 @@ static int ar_active;
 /* some prototypes are needed */
 static void actionreplay4_io1_store(WORD addr, BYTE value);
 static BYTE actionreplay4_io2_read(WORD addr);
+static int actionreplay4_dump(void);
 
 static io_source_t actionreplay4_io1_device = {
     CARTRIDGE_NAME_ACTION_REPLAY4,
@@ -76,7 +78,7 @@ static io_source_t actionreplay4_io1_device = {
     actionreplay4_io1_store,
     NULL,
     NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    actionreplay4_dump,
     CARTRIDGE_ACTION_REPLAY4,
     0,
     0
@@ -91,7 +93,7 @@ static io_source_t actionreplay4_io2_device = {
     NULL,
     actionreplay4_io2_read,
     NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    actionreplay4_dump,
     CARTRIDGE_ACTION_REPLAY4,
     0,
     0
@@ -106,9 +108,13 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
+static BYTE control_reg = 0;
+
 static void actionreplay4_io1_store(WORD addr, BYTE value)
 {
     BYTE exrom, bank, conf, game, disable;
+
+    control_reg = value;
 
     game = (value >> 1) & 1;
     disable = (value >> 2) & 1;
@@ -149,6 +155,18 @@ static BYTE actionreplay4_io2_read(WORD addr)
     }
 
     actionreplay4_io2_device.io_source_valid = 0;
+
+    return 0;
+}
+
+static int actionreplay4_dump(void)
+{
+    int bank = ((control_reg & 0x10) >> 3) | (control_reg & 1);
+    char *game = (control_reg & 2) ? "high" : "low";
+    int freeze_end = (control_reg & 4) ? 1 : 0;
+    char *exrom = (control_reg & 8) ? "low" : "high";
+
+    mon_out("Bank: %d, GAME: %s, Freeze End: %d, EXROM: %s\n", bank, game, freeze_end, exrom);
 
     return 0;
 }
