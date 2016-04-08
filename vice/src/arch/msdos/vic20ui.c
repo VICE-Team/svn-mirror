@@ -46,6 +46,7 @@
 #include "uidrive.h"
 #include "uids12c887rtc.h"
 #include "uigeoram.h"
+#include "uiiocollisions.h"
 #include "uisidcart.h"
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
@@ -518,6 +519,8 @@ int vic20ui_init(void)
                          ui_ioextensions_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
+
+    uiiocollisions_init(ui_ioextensions_submenu);
 
     uisidcart_init(ui_ioextensions_submenu, "$9800", "$9C00", "VIC20", 0x9800, 0x9c00);
 

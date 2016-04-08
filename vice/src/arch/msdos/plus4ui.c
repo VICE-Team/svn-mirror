@@ -38,6 +38,7 @@
 #include "tuifs.h"
 #include "ui.h"
 #include "uidrive.h"
+#include "uiiocollisions.h"
 #include "uiplus4cart.h"
 #include "uiplus4memoryhacks.h"
 #include "uiplus4model.h"
@@ -138,6 +139,8 @@ int plus4ui_init(void)
     uiuserport_plus4_init(ui_special_submenu);
 
     uitapeport_init(ui_special_submenu);
+
+    uiiocollisions_init(ui_special_submenu);
 
     tui_menu_add_separator(ui_video_submenu);
 

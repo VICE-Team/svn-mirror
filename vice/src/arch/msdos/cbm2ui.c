@@ -42,6 +42,7 @@
 #include "uicbm2model.h"
 #include "uiciamodel.h"
 #include "uidrive.h"
+#include "uiiocollisions.h"
 #include "uisidcbm2.h"
 #include "uitapeport.h"
 #include "uiuserport.h"
@@ -128,6 +129,8 @@ int cbm2ui_init(void)
     uiuserport_c64_cbm2_init(ui_ioextensions_submenu);
 
     uitapeport_init(ui_ioextensions_submenu);
+
+    uiiocollisions_init(ui_ioextensions_submenu);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 

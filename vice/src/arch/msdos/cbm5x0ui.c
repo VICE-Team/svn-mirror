@@ -42,6 +42,7 @@
 #include "uicbm5x0model.h"
 #include "uiciamodel.h"
 #include "uidrive.h"
+#include "uiiocollisions.h"
 #include "uisidcbm2.h"
 #include "uitapeport.h"
 #include "uivideo.h"
@@ -116,6 +117,8 @@ int cbm5x0ui_init(void)
     uiciamodel_single_init(ui_special_submenu);
 
     uitapeport_init(ui_special_submenu);
+
+    uiiocollisions_init(ui_special_submenu);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 

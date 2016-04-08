@@ -51,6 +51,7 @@
 #include "uiexpert.h"
 #include "uigeoram.h"
 #include "uiide64.h"
+#include "uiiocollisions.h"
 #include "uimagicvoice.h"
 #include "uimmc64.h"
 #include "uimmcreplay.h"
@@ -353,6 +354,8 @@ int c128ui_init(void)
 
     tui_menu_add(ui_sound_submenu, sid_c128_ui_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
+
+    uiiocollisions_init(ui_ioextensions_submenu);
 
     uiciamodel_double_init(ui_ioextensions_submenu);
 

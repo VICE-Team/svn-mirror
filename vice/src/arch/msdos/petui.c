@@ -41,6 +41,7 @@
 #include "tuimenu.h"
 #include "ui.h"
 #include "uidrive.h"
+#include "uiiocollisions.h"
 #include "uipetdww.h"
 #include "uipethre.h"
 #include "uipetmodel.h"
@@ -318,6 +319,8 @@ int petui_init(void)
                          TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
+
+    uiiocollisions_init(ui_ioextensions_submenu);
 
     uipetdww_init(ui_ioextensions_submenu);
 
