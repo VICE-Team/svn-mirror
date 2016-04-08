@@ -95,7 +95,7 @@ static io_source_t mach5_io1_device = {
     mach5_io1_store,
     mach5_io1_read,
     mach5_io1_read,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_MACH5,
     0,
     0
@@ -110,7 +110,7 @@ static io_source_t mach5_io2_device = {
     mach5_io2_store,
     mach5_io2_read,
     mach5_io2_read,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_MACH5,
     0,
     0

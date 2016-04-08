@@ -103,7 +103,7 @@ static io_source_t gamekiller_io1_device = {
     gamekiller_io1_store,
     NULL,
     gamekiller_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_GAME_KILLER,
     0,
     0
@@ -118,7 +118,7 @@ static io_source_t gamekiller_io2_device = {
     gamekiller_io2_store,
     NULL,
     gamekiller_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_GAME_KILLER,
     0,
     0

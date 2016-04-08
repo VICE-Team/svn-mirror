@@ -239,7 +239,7 @@ static io_source_t expert_io1_device = {
     expert_io1_store,
     expert_io1_read,
     expert_io1_peek,
-    NULL, /* dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_EXPERT,
     0,
     0

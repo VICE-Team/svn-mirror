@@ -79,7 +79,7 @@ static io_source_t digimax_device = {
     digimax_sound_store,
     digimax_sound_read,
     digimax_sound_read,
-    NULL,
+    NULL, /* nothing to dump */
     CARTRIDGE_DIGIMAX,
     0,
     0

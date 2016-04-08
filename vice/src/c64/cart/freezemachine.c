@@ -147,7 +147,7 @@ static io_source_t freezemachine_io1_device = {
     freezemachine_io1_store,
     freezemachine_io1_read,
     freezemachine_io1_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_FREEZE_MACHINE,
     0,
     0
@@ -162,7 +162,7 @@ static io_source_t freezemachine_io2_device = {
     freezemachine_io2_store,
     freezemachine_io2_read,
     freezemachine_io2_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_FREEZE_MACHINE,
     0,
     0

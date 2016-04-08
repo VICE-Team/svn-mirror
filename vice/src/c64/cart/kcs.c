@@ -245,7 +245,7 @@ static io_source_t kcs_io2_device = {
     kcs_io2_store,
     kcs_io2_read,
     kcs_io2_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_KCS_POWER,
     0,
     0

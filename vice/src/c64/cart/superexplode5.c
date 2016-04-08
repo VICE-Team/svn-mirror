@@ -122,7 +122,7 @@ static io_source_t se5_io2_device = {
     se5_io2_store,
     se5_io2_read,
     NULL,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_SUPER_EXPLODE_V5,
     0,
     0

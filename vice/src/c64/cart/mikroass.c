@@ -74,7 +74,7 @@ static io_source_t mikroass_io1_device = {
     NULL,
     mikroass_io1_read,
     mikroass_io1_read,
-    NULL,
+    NULL, /* nothing to dump */
     CARTRIDGE_MIKRO_ASSEMBLER,
     0,
     0
@@ -89,7 +89,7 @@ static io_source_t mikroass_io2_device = {
     NULL,
     mikroass_io2_read,
     mikroass_io2_read,
-    NULL,
+    NULL, /* nothing to dump */
     CARTRIDGE_MIKRO_ASSEMBLER,
     0,
     0

@@ -68,7 +68,7 @@ static io_source_t sfx_soundsampler_io1_device = {
     sfx_soundsampler_latch_sample,
     NULL,
     NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    NULL, /* nothing to dump */
     CARTRIDGE_SFX_SOUND_SAMPLER,
     0,
     0
@@ -83,7 +83,7 @@ static io_source_t sfx_soundsampler_io2_device = {
     sfx_soundsampler_sound_store,
     sfx_soundsampler_sample_read,
     NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    NULL, /* nothing to dump */
     CARTRIDGE_SFX_SOUND_SAMPLER,
     0,
     0

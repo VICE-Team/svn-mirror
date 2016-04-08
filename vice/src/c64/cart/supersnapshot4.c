@@ -114,7 +114,7 @@ static io_source_t ss4_io1_device = {
     supersnapshot_v4_io1_store,
     supersnapshot_v4_io1_read,
     NULL,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_SUPER_SNAPSHOT,
     0,
     0
@@ -129,7 +129,7 @@ static io_source_t ss4_io2_device = {
     supersnapshot_v4_io2_store,
     supersnapshot_v4_io2_read,
     NULL,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_SUPER_SNAPSHOT,
     0,
     0

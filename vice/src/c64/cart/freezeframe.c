@@ -126,7 +126,7 @@ static io_source_t freezeframe_io1_device = {
     freezeframe_io1_store,
     freezeframe_io1_read,
     freezeframe_io1_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_FREEZE_FRAME,
     0,
     0
@@ -141,7 +141,7 @@ static io_source_t freezeframe_io2_device = {
     freezeframe_io2_store,
     freezeframe_io2_read,
     freezeframe_io2_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_FREEZE_FRAME,
     0,
     0

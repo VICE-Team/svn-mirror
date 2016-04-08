@@ -79,7 +79,7 @@ static io_source_t digimax_device = {
     shortbus_digimax_sound_store,
     shortbus_digimax_sound_read,
     shortbus_digimax_sound_read,
-    NULL,
+    NULL, /* nothing to dump */
     CARTRIDGE_IDE64,
     0,
     0

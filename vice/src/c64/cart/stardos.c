@@ -213,7 +213,7 @@ static io_source_t stardos_io1_device = {
     stardos_io1_store,
     stardos_io1_read,
     stardos_io_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_STARDOS,
     0,
     0
@@ -229,7 +229,7 @@ static io_source_t stardos_io2_device = {
     stardos_io2_store,
     stardos_io2_read,
     stardos_io_peek,
-    NULL,
+    NULL, /* TODO: dump */
     CARTRIDGE_STARDOS,
     0,
     0
