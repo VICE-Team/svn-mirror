@@ -36,6 +36,7 @@
 #include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "rexutility.h"
 #include "snapshot.h"
 #include "types.h"
@@ -51,20 +52,31 @@
     - reading dfc0-dfff enables ROM (8k game config)
 */
 
+static int rex_active = 0;
+
 static BYTE rex_io2_read(WORD addr)
 {
     if ((addr & 0xff) < 0xc0) {
         /* disable cartridge rom */
         cart_config_changed_slotmain(2, 2, CMODE_READ);
+        rex_active = 0;
     } else {
         /* enable cartridge rom */
         cart_config_changed_slotmain(0, 0, CMODE_READ);
+        rex_active = 1;
     }
     return 0;
 }
 
 static BYTE rex_io2_peek(WORD addr)
 {
+    return 0;
+}
+
+static int rex_dump(void)
+{
+    mon_out("$8000-$9FFF ROM: %s\n", (rex_active) ? "enabled" : "disabled");
+
     return 0;
 }
 
@@ -79,7 +91,7 @@ static io_source_t rex_device = {
     NULL,
     rex_io2_read,
     rex_io2_peek,
-    NULL, /* TODO: dump */
+    rex_dump,
     CARTRIDGE_REX,
     0,
     0
@@ -96,12 +108,14 @@ static const c64export_resource_t export_res_rex = {
 void rex_config_init(void)
 {
     cart_config_changed_slotmain(0, 0, CMODE_READ);
+    rex_active = 1;
 }
 
 void rex_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
+    rex_active = 1;
 }
 
 static int rex_common_attach(void)
