@@ -41,6 +41,7 @@
 #include "cartridge.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "stardos.h"
@@ -201,6 +202,13 @@ static void stardos_io2_store(WORD addr, BYTE value)
     cap_discharge();
 }
 
+static int stardos_dump(void)
+{
+    mon_out("$8000-$9FFF ROM: %s\n", (roml_enable) ? "enabled" : "disabled");
+
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t stardos_io1_device = {
@@ -213,7 +221,7 @@ static io_source_t stardos_io1_device = {
     stardos_io1_store,
     stardos_io1_read,
     stardos_io_peek,
-    NULL, /* TODO: dump */
+    stardos_dump,
     CARTRIDGE_STARDOS,
     0,
     0
@@ -229,7 +237,7 @@ static io_source_t stardos_io2_device = {
     stardos_io2_store,
     stardos_io2_read,
     stardos_io_peek,
-    NULL, /* TODO: dump */
+    stardos_dump,
     CARTRIDGE_STARDOS,
     0,
     0
