@@ -38,6 +38,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "finalplus.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -78,6 +79,7 @@ static int fcplus_romh;
 /* some prototypes are needed */
 static BYTE final_plus_io2_read(WORD addr);
 static void final_plus_io2_store(WORD addr, BYTE value);
+static int final_plus_dump(void);
 
 static io_source_t final_plus_io2_device = {
     CARTRIDGE_NAME_FINAL_PLUS,
@@ -88,7 +90,7 @@ static io_source_t final_plus_io2_device = {
     final_plus_io2_store,
     final_plus_io2_read,
     final_plus_io2_read,
-    NULL, /* TODO: dump */
+    final_plus_dump,
     CARTRIDGE_FINAL_PLUS,
     0,
     0
@@ -123,6 +125,29 @@ void final_plus_io2_store(WORD addr, BYTE value)
             cart_config_changed_slotmain(0, 3, CMODE_WRITE | CMODE_PHI2_RAM);
         }
     }
+}
+
+static int final_plus_dump(void)
+{
+    int rom_8000 = 0;
+    int rom_a000 = 0;
+    int rom_e000 = 0;
+
+    if (fcplus_enabled) {
+        if (!fcplus_roml) {
+            rom_8000 = 1;
+        }
+        rom_a000 = 1;
+        if (fcplus_romh) {
+            rom_e000 = 1;
+        }
+    }
+
+    mon_out("$8000-$9FFF ROM: %s\n", (rom_8000) ? "enabled" : "disabled");
+    mon_out("$A000-$BFFF ROM: %s\n", (rom_a000) ? "enabled" : "disabled");
+    mon_out("$E000-$FFFF ROM: %s\n", (rom_e000) ? "enabled" : "disabled");
+
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
