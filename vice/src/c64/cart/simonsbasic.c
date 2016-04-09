@@ -36,6 +36,7 @@
 #include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "simonsbasic.h"
 #include "snapshot.h"
 #include "types.h"
@@ -51,9 +52,12 @@
     - writing io1 switches to 16k game config (bank 0 at $8000, bank 1 at $a000)
 */
 
+static int simon_a000 = 0;
+
 static BYTE simon_io1_read(WORD addr)
 {
     cart_config_changed_slotmain(0, 0, CMODE_READ);
+    simon_a000 = 0;
     return 0;
 }
 
@@ -65,6 +69,15 @@ static BYTE simon_io1_peek(WORD addr)
 static void simon_io1_store(WORD addr, BYTE value)
 {
     cart_config_changed_slotmain(1, 1, CMODE_WRITE);
+    simon_a000 = 1;
+}
+
+static int simon_dump(void)
+{
+    mon_out("$8000-$9FFF ROM: enabled\n");
+    mon_out("$A000-$BFFF ROM: %s\n", (simon_a000) ? "enabled" : "disabled");
+
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -78,7 +91,7 @@ static io_source_t simon_device = {
     simon_io1_store,
     simon_io1_read,
     simon_io1_peek,
-    NULL, /* TODO: dump */
+    simon_dump,
     CARTRIDGE_SIMONS_BASIC,
     0
 };
@@ -94,6 +107,7 @@ static const c64export_resource_t export_res_simon = {
 void simon_config_init(void)
 {
     cart_config_changed_slotmain(1, 1, CMODE_READ);
+    simon_a000 = 1;
 }
 
 void simon_config_setup(BYTE *rawcart)
@@ -101,6 +115,7 @@ void simon_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
     cart_config_changed_slotmain(1, 1, CMODE_READ);
+    simon_a000 = 1;
 }
 
 static int simon_common_attach(void)
