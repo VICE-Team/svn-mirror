@@ -978,6 +978,9 @@ dnl All other UN*X systems
     sco3.2v5*)
       norpath=yes
       ;;
+    solaris*)
+      norpath=yes
+      ;;
   esac
 
   case "$host" in
