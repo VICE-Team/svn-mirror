@@ -38,6 +38,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "diashowmaker.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -78,12 +79,15 @@
 
 /* ---------------------------------------------------------------------*/
 
+static int dsm_active = 0;
+
 static BYTE dsm_io1_read(WORD addr)
 {
     DBG(("io1 r %04x\n", addr));
     if (addr == 0) {
         cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
         DBG(("Diashow Maker disabled\n"));
+        dsm_active = 0;
     }
     return 0; /* invalid */
 }
@@ -99,7 +103,15 @@ static void dsm_io1_store(WORD addr, BYTE value)
     if (addr == 0) {
         cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
         DBG(("Diashow Maker disabled\n"));
+        dsm_active = 0;
     }
+}
+
+static int dsm_dump(void)
+{
+    mon_out("ROM at $8000-$9FFF: %s\n", (dsm_active) ? "enabled" : "disabled");
+
+    return 0;
 }
 
 static io_source_t dsm_io1_device = {
@@ -111,7 +123,7 @@ static io_source_t dsm_io1_device = {
     dsm_io1_store,
     dsm_io1_read,
     dsm_io1_peek,
-    NULL,
+    dsm_dump,
     CARTRIDGE_DIASHOW_MAKER,
     0,
     0
@@ -129,18 +141,21 @@ void dsm_freeze(void)
 {
     DBG(("Diashow Maker: freeze\n"));
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ | CMODE_RELEASE_FREEZE);
+    dsm_active = 1;
 }
 
 
 void dsm_config_init(void)
 {
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
+    dsm_active = 1;
 }
 
 void dsm_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, DSM_CART_SIZE);
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
+    dsm_active = 1;
 }
 
 /* ---------------------------------------------------------------------*/
