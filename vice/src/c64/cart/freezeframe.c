@@ -38,6 +38,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "freezeframe.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -77,12 +78,16 @@
 
 /* ---------------------------------------------------------------------*/
 
+static int freezeframe_rom_8000 = 0;
+static int freezeframe_rom_e000 = 0;
+
 static BYTE freezeframe_io1_read(WORD addr)
 {
     DBG(("io1 r %04x\n", addr));
     if (addr == 0) {
         cart_config_changed_slotmain(2, 1, CMODE_READ);
         DBG(("Freeze Frame: switching to 8k game mode\n"));
+        freezeframe_rom_8000 = 1;
     }
     return 0; /* invalid */
 }
@@ -103,6 +108,8 @@ static BYTE freezeframe_io2_read(WORD addr)
     if (addr == 0) {
         cart_config_changed_slotmain(2, 2, CMODE_READ);
         DBG(("Freeze Frame disabled\n"));
+        freezeframe_rom_8000 = 0;
+        freezeframe_rom_e000 = 0;
     }
     return 0; /* invalid */
 }
@@ -117,6 +124,14 @@ static void freezeframe_io2_store(WORD addr, BYTE value)
     DBG(("io2 %04x %02x\n", addr, value));
 }
 
+static int freezeframe_dump(void)
+{
+    mon_out("$8000-$9FFF ROM: %s", (freezeframe_rom_8000) ? "enabled" : "disabled");
+    mon_out("$E000-$FFFF ROM: %s", (freezeframe_rom_e000) ? "enabled" : "disabled");
+
+    return 0;
+}
+
 static io_source_t freezeframe_io1_device = {
     CARTRIDGE_NAME_FREEZE_FRAME,
     IO_DETACH_CART,
@@ -126,7 +141,7 @@ static io_source_t freezeframe_io1_device = {
     freezeframe_io1_store,
     freezeframe_io1_read,
     freezeframe_io1_peek,
-    NULL, /* TODO: dump */
+    freezeframe_dump,
     CARTRIDGE_FREEZE_FRAME,
     0,
     0
@@ -141,7 +156,7 @@ static io_source_t freezeframe_io2_device = {
     freezeframe_io2_store,
     freezeframe_io2_read,
     freezeframe_io2_peek,
-    NULL, /* TODO: dump */
+    freezeframe_dump,
     CARTRIDGE_FREEZE_FRAME,
     0,
     0
@@ -160,11 +175,15 @@ void freezeframe_freeze(void)
 {
     DBG(("Freeze Frame: freeze\n"));
     cart_config_changed_slotmain(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+    freezeframe_rom_8000 = 1;
+    freezeframe_rom_e000 = 1;
 }
 
 void freezeframe_config_init(void)
 {
     cart_config_changed_slotmain(2, 0, CMODE_READ);
+    freezeframe_rom_8000 = 1;
+    freezeframe_rom_e000 = 0;
 }
 
 void freezeframe_config_setup(BYTE *rawcart)
@@ -172,6 +191,8 @@ void freezeframe_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, FREEZE_FRAME_CART_SIZE);
     memcpy(romh_banks, rawcart, FREEZE_FRAME_CART_SIZE);
     cart_config_changed_slotmain(2, 0, CMODE_READ);
+    freezeframe_rom_8000 = 1;
+    freezeframe_rom_e000 = 0;
 }
 
 /* ---------------------------------------------------------------------*/
