@@ -37,6 +37,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "mach5.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -60,6 +61,8 @@
 #define DBG(x)
 #endif
 
+static int mach5_active = 0;
+
 static BYTE mach5_io1_read(WORD addr)
 {
 /*    DBG(("io1 rd %04x\n", addr)); */
@@ -70,6 +73,7 @@ static void mach5_io1_store(WORD addr, BYTE value)
 {
     DBG(("io1 st %04x %02x\n", addr, value));
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_WRITE);
+    mach5_active = 1;
 }
 
 static BYTE mach5_io2_read(WORD addr)
@@ -82,6 +86,14 @@ static void mach5_io2_store(WORD addr, BYTE value)
 {
     DBG(("%04x io2 st %04x %02x\n", reg_pc, addr, value));
     cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_WRITE);
+    mach5_active = 0;
+}
+
+static int mach5_dump(void)
+{
+    mon_out("ROM at $8000-$9FFF: %s\n", (mach5_active) ? "enabled" : "disabled");
+
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -95,7 +107,7 @@ static io_source_t mach5_io1_device = {
     mach5_io1_store,
     mach5_io1_read,
     mach5_io1_read,
-    NULL, /* TODO: dump */
+    mach5_dump,
     CARTRIDGE_MACH5,
     0,
     0
@@ -110,7 +122,7 @@ static io_source_t mach5_io2_device = {
     mach5_io2_store,
     mach5_io2_read,
     mach5_io2_read,
-    NULL, /* TODO: dump */
+    mach5_dump,
     CARTRIDGE_MACH5,
     0,
     0
@@ -128,12 +140,14 @@ static const c64export_resource_t export_res = {
 void mach5_config_init(void)
 {
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
+    mach5_active = 1;
 }
 
 void mach5_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
+    mach5_active = 1;
 }
 
 /* ---------------------------------------------------------------------*/
