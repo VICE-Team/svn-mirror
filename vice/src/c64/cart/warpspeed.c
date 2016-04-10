@@ -37,6 +37,7 @@
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -63,6 +64,7 @@ static BYTE warpspeed_io1_read(WORD addr);
 static void warpspeed_io1_store(WORD addr, BYTE value);
 static BYTE warpspeed_io2_read(WORD addr);
 static void warpspeed_io2_store(WORD addr, BYTE value);
+static int warpspeed_dump(void);
 
 static io_source_t warpspeed_io1_device = {
     CARTRIDGE_NAME_WARPSPEED,
@@ -73,7 +75,7 @@ static io_source_t warpspeed_io1_device = {
     warpspeed_io1_store,
     warpspeed_io1_read,
     warpspeed_io1_read,
-    NULL, /* TODO: dump */
+    warpspeed_dump,
     CARTRIDGE_WARPSPEED,
     0,
     0
@@ -88,7 +90,7 @@ static io_source_t warpspeed_io2_device = {
     warpspeed_io2_store,
     warpspeed_io2_read,
     warpspeed_io2_read,
-    NULL, /* TODO: dump */
+    warpspeed_dump,
     CARTRIDGE_WARPSPEED,
     0,
     0
@@ -99,24 +101,35 @@ static io_source_list_t *warpspeed_io2_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
-BYTE warpspeed_io1_read(WORD addr)
+static int warpspeed_8000 = 0;
+
+static BYTE warpspeed_io1_read(WORD addr)
 {
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-void warpspeed_io1_store(WORD addr, BYTE value)
+static void warpspeed_io1_store(WORD addr, BYTE value)
 {
     cart_config_changed_slotmain(1, 1, CMODE_WRITE);
+    warpspeed_8000 = 1;
 }
 
-BYTE warpspeed_io2_read(WORD addr)
+static BYTE warpspeed_io2_read(WORD addr)
 {
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
-void warpspeed_io2_store(WORD addr, BYTE value)
+static void warpspeed_io2_store(WORD addr, BYTE value)
 {
     cart_config_changed_slotmain(2, 2, CMODE_WRITE);
+    warpspeed_8000 = 0;
+}
+
+static int warpspeed_dump(void)
+{
+    mon_out("$8000-$9FFF ROM: %s\n", (warpspeed_8000) ? "enabled" : "disabled");
+
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -130,6 +143,7 @@ static const c64export_resource_t export_res_warpspeed = {
 void warpspeed_config_init(void)
 {
     cart_config_changed_slotmain(1, 1, CMODE_READ);
+    warpspeed_8000 = 1;
 }
 
 void warpspeed_config_setup(BYTE *rawcart)
@@ -137,6 +151,7 @@ void warpspeed_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
     cart_config_changed_slotmain(1, 1, CMODE_READ);
+    warpspeed_8000 = 1;
 }
 
 static int warpspeed_common_attach(void)
