@@ -52,7 +52,7 @@ static io_source_t debugcart_device = {
     debugcart_store,
     NULL, /* read */
     NULL, /* peek */
-    NULL, /* dump */
+    NULL, /* nothing to dump */
     CARTRIDGE_DEBUGCART,
     0,
     0

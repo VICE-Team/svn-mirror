@@ -98,7 +98,7 @@ static io_source_t digiblaster_fd5e_device = {
     digiblaster_store,
     digiblaster_read,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    NULL, /* nothing to dump */
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -113,7 +113,7 @@ static io_source_t digiblaster_fe9e_device = {
     digiblaster_store,
     digiblaster_read,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    NULL, /* nothing to dump */
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0

@@ -75,7 +75,7 @@ static io_source_t ram_io2_device = {
     ram_io2_store,
     ram_io2_read,
     ram_io2_read,
-    NULL, /* TODO: dump */
+    NULL, /* nothing to dump */
     CARTRIDGE_VIC20_IO2_RAM,
     0,
     0
@@ -90,7 +90,7 @@ static io_source_t ram_io3_device = {
     ram_io3_store,
     ram_io3_read,
     ram_io3_read,
-    NULL, /* TODO: dump */
+    NULL, /* nothing to dump */
     CARTRIDGE_VIC20_IO3_RAM,
     0,
     0
