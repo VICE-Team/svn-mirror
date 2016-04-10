@@ -962,6 +962,16 @@ static int cia1_dump(void)
     return ciacore_dump(machine_context.cia1);
 }
 
+static int tpi1_dump(void)
+{
+    return tpicore_dump(machine_context.tpi1);
+}
+
+static int tpi2_dump(void)
+{
+    return tpicore_dump(machine_context.tpi2);
+}
+
 /* ------------------------------------------------------------------------- */
 
 static io_source_t crtc_device = {
@@ -1033,7 +1043,7 @@ static io_source_t tpi1_device = {
     tpi1_store,
     tpi1_read,
     tpi1_peek,
-    NULL, /* TODO: dump */
+    tpi1_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
     0
@@ -1048,7 +1058,7 @@ static io_source_t tpi2_device = {
     tpi2_store,
     tpi2_read,
     tpi2_peek,
-    NULL, /* TODO: dump */
+    tpi2_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
     0
