@@ -36,6 +36,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
+#include "monitor.h"
 #include "plus4mem.h"
 #include "plus4memcsory256k.h"
 #include "plus4memhannes256k.h"
@@ -64,6 +65,7 @@ BYTE *h256k_ram = NULL;
 /* Some prototypes */
 static BYTE h256k_reg_read(WORD addr);
 static void h256k_reg_store(WORD addr, BYTE value);
+static int h256k_dump(void);
 
 static io_source_t h256k_device = {
     "HANNES",
@@ -249,4 +251,11 @@ BYTE h256k_read(WORD addr)
     }
 
     return mem_ram[addr];
+}
+
+static int h256k_dump(void)
+{
+    mon_out("RAM at $04X-$FFFF comes from bank %d\n", (h256k_bound) ? 0x4000 : 0x1000, h256k_bank);
+
+    return 0;
 }
