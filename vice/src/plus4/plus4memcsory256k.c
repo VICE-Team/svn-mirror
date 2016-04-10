@@ -36,6 +36,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
+#include "monitor.h"
 #include "plus4mem.h"
 #include "plus4memcsory256k.h"
 #include "plus4memhannes256k.h"
@@ -61,6 +62,7 @@ BYTE *cs256k_ram = NULL;
 /* Some prototypes */
 static BYTE cs256k_reg_read(WORD addr);
 static void cs256k_reg_store(WORD addr, BYTE value);
+static int cs256k_dump(void);
 
 static io_source_t cs256k_device = {
     "CSORY",
@@ -71,7 +73,7 @@ static io_source_t cs256k_device = {
     cs256k_reg_store,
     cs256k_reg_read,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    cs256k_dump, /* TODO: dump */
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -176,4 +178,12 @@ BYTE cs256k_read(WORD addr)
     } else {
         return mem_ram[addr];
     }
+}
+
+
+static int cs256k_dump(void)
+{
+    mon_out("Segment: %d ($%04X-$%04X), block: %d\n", cs256k_segment, cs256k_segment * 0x4000, (cs256k_segment * 0x4000) + 0x3fff, cs256k_block);
+
+    return 0;
 }
