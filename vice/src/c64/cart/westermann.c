@@ -37,6 +37,7 @@
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -55,6 +56,7 @@
 /* some prototypes are needed */
 static BYTE westermann_io2_read(WORD addr);
 static BYTE westermann_io2_peek(WORD addr);
+static int westermann_dump(void);
 
 static io_source_t westermann_device = {
     CARTRIDGE_NAME_WESTERMANN,
@@ -65,7 +67,7 @@ static io_source_t westermann_device = {
     NULL,
     westermann_io2_read,
     westermann_io2_peek,
-    NULL, /* TODO: dump */
+    westermann_dump,
     CARTRIDGE_WESTERMANN,
     0,
     0
@@ -79,9 +81,12 @@ static const c64export_resource_t export_res_westermann = {
 
 /* ---------------------------------------------------------------------*/
 
+static int westermann_a000 = 0;
+
 static BYTE westermann_io2_read(WORD addr)
 {
     cart_config_changed_slotmain(0, 0, CMODE_READ);
+    westermann_a000 = 0;
     return 0;
 }
 
@@ -90,11 +95,19 @@ static BYTE westermann_io2_peek(WORD addr)
     return 0;
 }
 
+static int westermann_dump(void)
+{
+    mon_out("$A000-$BFFF ROM: %s\n", (westermann_a000) ? "enabled" : "disabled");
+
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 void westermann_config_init(void)
 {
     cart_config_changed_slotmain(1, 1, CMODE_READ);
+    westermann_a000 = 1;
 }
 
 void westermann_config_setup(BYTE *rawcart)
@@ -102,6 +115,7 @@ void westermann_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
     cart_config_changed_slotmain(1, 1, CMODE_READ);
+    westermann_a000 = 1;
 }
 
 static int westermann_common_attach(void)
