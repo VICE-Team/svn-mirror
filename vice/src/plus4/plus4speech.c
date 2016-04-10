@@ -456,7 +456,7 @@ static BYTE speech_peek(WORD addr)
     return regs[addr & 3];
 }
 
-int speech_dump(void *ctx)
+static int speech_dump(void)
 {
     mon_out("MOS8706:\n");
     mon_out("0 Command:     %02x\n", regs[0]);
@@ -537,7 +537,7 @@ static io_source_t speech_device = {
     speech_store,
     speech_read,
     speech_peek,
-    NULL, /* TODO: dump */
+    speech_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0

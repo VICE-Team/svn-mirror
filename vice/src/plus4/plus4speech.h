@@ -43,6 +43,4 @@ extern void speech_shutdown(void);
 
 extern void speech_sound_chip_init(void);
 
-extern int speech_dump(void *ctx);
-
 #endif
