@@ -303,6 +303,7 @@ fi
 
 user_cflags=$CFLAGS
 AC_PROG_CC([clang gcc cc])
+AC_LIB_PROG_LD
 
 dnl --- setup Objective-C ---
 OBJC="${CC}"
@@ -374,11 +375,6 @@ if test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
   fi
 fi
 
-dnl disable rpath for ppc beos
-if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xppc"; then
-    norpath=yes
-fi
-
 dnl disable toolchain and ar checking for ppc-beos
 if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
   toolchain_check=no
@@ -416,7 +412,6 @@ if test x"$CC" = "xowcc"; then
   toolchain_check=no
   ar_check=no
   nowarnings=yes
-  norpath=yes
 else
   AM_CONDITIONAL(OWCC, false)
 fi
@@ -970,16 +965,6 @@ dnl All other UN*X systems
   case "$host_os" in
     sco3.2v7*)
       LIBS="-lxti -lsocket -lnsl $LIBS"
-      norpath=yes
-      ;;
-    sco3.2v6*)
-      norpath=yes
-      ;;
-    sco3.2v5*)
-      norpath=yes
-      ;;
-    solaris*)
-      norpath=yes
       ;;
   esac
 
@@ -4428,9 +4413,8 @@ AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR",
 
 
 # Add path with private dynamic ffmpeg libs to the search path
-if test x"$norpath" != "xyes"; then
-  LDFLAGS="$LDFLAGS -Wl,-rpath,$VICEDIR/lib"
-fi
+rpath_line=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "$VICEDIR/lib"`
+LDFLAGS="$LDFLAGS $rpath_line"
 
 AC_OUTPUT([Makefile
            vice.spec
