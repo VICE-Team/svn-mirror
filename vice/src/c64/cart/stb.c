@@ -36,6 +36,7 @@
 #include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "stb.h"
 #include "types.h"
@@ -54,6 +55,7 @@
 static BYTE stb_io1_read(WORD addr);
 static BYTE stb_io1_peek(WORD addr);
 static void stb_io1_store(WORD addr, BYTE value);
+static int stb_dump(void);
 
 static io_source_t stb_device = {
     CARTRIDGE_NAME_STRUCTURED_BASIC,
@@ -64,7 +66,7 @@ static io_source_t stb_device = {
     stb_io1_store,
     stb_io1_read,
     stb_io1_peek,
-    NULL, /* TODO: dump */
+    stb_dump,
     CARTRIDGE_STRUCTURED_BASIC,
     0,
     0
@@ -78,6 +80,9 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
+static int stb_bank = 0;
+static int stb_active = 0;
+
 static void stb_io(WORD addr)
 {
     switch (addr & 3) {
@@ -85,16 +90,22 @@ static void stb_io(WORD addr)
         case 0:
         case 1:
             cart_config_changed_slotmain(0, 0, CMODE_READ);
+            stb_bank = 0;
+            stb_active = 1;
             break;
 
         /* bank 1 visible, gets copied to RAM during reset */
         case 2:
             cart_config_changed_slotmain(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
+            stb_bank = 1;
+            stb_active = 1;
             break;
 
         /* RAM visible, which contains bank 1 */
         case 3:
             cart_config_changed_slotmain(2, 2, CMODE_READ);
+            stb_bank = 1;
+            stb_active = 0;
             break;
     }
 }
@@ -115,12 +126,23 @@ static void stb_io1_store(WORD addr, BYTE value)
     stb_io(addr);
 }
 
+static int stb_dump(void)
+{
+    mon_out("$8000-$9FFF ROM: %s\n", (stb_active) ? "enabled" : "disabled");
+    if (stb_active) {
+        mon_out("bank: %d\n", stb_bank);
+    }
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 void stb_config_init(void)
 {
     /* turn on normal config: bank 0 */
     cart_config_changed_slotmain(0, 0, CMODE_READ);
+    stb_bank = 0;
+    stb_active = 1;
 }
 
 void stb_config_setup(BYTE *rawcart)
@@ -130,6 +152,8 @@ void stb_config_setup(BYTE *rawcart)
 
     /* turn on normal config: bank 0 */
     cart_config_changed_slotmain(0, 0, CMODE_READ);
+    stb_bank = 0;
+    stb_active = 1;
 }
 
 /* ---------------------------------------------------------------------*/
