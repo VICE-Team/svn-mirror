@@ -1122,6 +1122,40 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 
 /* ------------------------------------------------------------------------- */
 
+typedef struct mem_config_s {
+    char *mem_8000;
+    char *mem_c000;
+} mem_config_t;
+
+static mem_config_t mem_config_table[] = {
+    { "BASIC",  "KERNAL" }, /* 0xfdd0 */
+    { "3+1",    "KERNAL" }, /* 0xfdd1 */
+    { "CART-1", "KERNAL" }, /* 0xfdd2 */
+    { "CART-2", "KERNAL" }, /* 0xfdd3 */
+    { "BASIC",  "3+1"    }, /* 0xfdd4 */
+    { "3+1",    "3+1"    }, /* 0xfdd5 */
+    { "CART-1", "3+1"    }, /* 0xfdd6 */
+    { "CART-2", "3+1"    }, /* 0xfdd7 */
+    { "BASIC",  "CART-1" }, /* 0xfdd8 */
+    { "3+1",    "CART-1" }, /* 0xfdd9 */
+    { "CART-1", "CART-1" }, /* 0xfdda */
+    { "CART-2"  "CART-1" }, /* 0xfddb */
+    { "BASIC",  "CART-2" }, /* 0xfddc */
+    { "3+1",    "CART-2" }, /* 0xfddd */
+    { "CART-1", "CART-2" }, /* 0xfdde */
+    { "CART-2"  "CART-2" }  /* 0xfddf */
+};
+
+static int memconfig_dump(void)
+{
+    mon_out("$8000-$BFFF: %s", (mem_config & 1) ? mem_config_table[mem_config >> 1].mem_8000 : "RAM");
+    mon_out("$C000-$FFFF: %s", (mem_config & 1) ? mem_config_table[mem_config >> 1].mem_c000 : "RAM");
+
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
 static io_source_t mem_config_device = {
     "MEMCONFIG",
     IO_DETACH_CART, /* dummy */
@@ -1131,7 +1165,7 @@ static io_source_t mem_config_device = {
     mem_config_rom_set_store,
     NULL, /* no read */
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    memconfig_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -1146,7 +1180,7 @@ static io_source_t pio1_with_mirrors_device = {
     pio1_store,
     pio1_read,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    NULL, /* nothing to dump */
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -1161,7 +1195,7 @@ static io_source_t pio1_only_device = {
     pio1_store,
     pio1_read,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    NULL, /* nothing to dump */
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -1176,7 +1210,7 @@ static io_source_t pio2_device = {
     pio2_store,
     pio2_read,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    NULL, /* nothing to dump */
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
