@@ -38,6 +38,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "monitor.h"
 #include "petreu.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -94,6 +95,7 @@ static void store_petreu_reg(WORD addr, BYTE byte);
 static void store_petreu2_reg(WORD addr, BYTE byte);
 static BYTE read_petreu_ram(WORD addr);
 static void store_petreu_ram(WORD addr, BYTE byte);
+static int petreu_dump(void);
 
 static io_source_t petreureg1_device = {
     "PETREU REG 1",
@@ -104,7 +106,7 @@ static io_source_t petreureg1_device = {
     store_petreu_reg,
     read_petreu_reg,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    petreu_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -119,7 +121,7 @@ static io_source_t petreureg2_device = {
     store_petreu2_reg,
     read_petreu2_reg,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    petreu_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -134,7 +136,7 @@ static io_source_t petreuram_device = {
     store_petreu_ram,
     read_petreu_ram,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    petreu_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -563,4 +565,24 @@ static void store_petreu_ram(WORD addr, BYTE byte)
     } else {
         put_petreu2_ram(addr, byte);
     }
+}
+
+static int petreu_dump(void)
+{
+    int real_bank;
+
+    if (petreu_size_kb == 128) {
+        real_bank = petreu_bank;
+    } else {
+        if (petreu2[PETREU_DIRECTION_A] != 0xff) {
+            real_bank = getrealvalue(petreu2[PETREU_REGISTER_A], petreu2[PETREU_DIRECTION_A]);
+        } else {
+            real_bank = petreu2[PETREU_REGISTER_A];
+        }
+        real_bank = (real_bank & ((petreu_size_kb >> 4) - 1));
+    }
+
+    mon_out("RAM size: %dKB, Bank: %d\n", petreu_size_kb, real_bank);
+
+    return 0;
 }
