@@ -37,6 +37,7 @@
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "superexplode5.h"
 #include "types.h"
@@ -99,16 +100,26 @@
 
 /* ---------------------------------------------------------------------*/
 
+static int se5_bank = 0;
+
 static void se5_io2_store(WORD addr, BYTE value)
 {
     DBG(("io2 wr %04x %02x\n", addr, value));
-    cart_romlbank_set_slotmain((value & 0x80) >> 7);
+    se5_bank = (value & 0x80) ? 1 : 0;
+    cart_romlbank_set_slotmain(se5_bank);
 }
 
 static BYTE se5_io2_read(WORD addr)
 {
     addr |= 0xdf00;
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+}
+
+static int se5_dump(void)
+{
+    mon_out("Bank: %d\n", se5_bank);
+
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -122,7 +133,7 @@ static io_source_t se5_io2_device = {
     se5_io2_store,
     se5_io2_read,
     NULL,
-    NULL, /* TODO: dump */
+    se5_dump,
     CARTRIDGE_SUPER_EXPLODE_V5,
     0,
     0
@@ -152,6 +163,7 @@ void se5_config_init(void)
 {
     cart_config_changed_slotmain(0, 0, CMODE_READ);
     cart_romlbank_set_slotmain(0);
+    se5_bank = 0;
 }
 
 void se5_config_setup(BYTE *rawcart)
@@ -159,6 +171,7 @@ void se5_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, SE5_CART_SIZE);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
     cart_romlbank_set_slotmain(0);
+    se5_bank = 0;
 }
 
 /* ---------------------------------------------------------------------*/
