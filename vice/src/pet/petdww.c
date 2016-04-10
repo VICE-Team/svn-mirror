@@ -39,6 +39,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "monitor.h"
 #include "petdww.h"
 #include "petmem.h"
 #include "pets.h"
@@ -99,6 +100,7 @@ static BYTE read_petdww_reg(WORD addr);
 static BYTE read_petdww_ec00_ram(WORD addr);
 static void store_petdww_reg(WORD addr, BYTE value);
 static void store_petdww_ec00_ram(WORD addr, BYTE value);
+static int petdww_dump(void);
 
 static io_source_t petdww_reg_device = {
     "PETDWW REG",
@@ -109,7 +111,7 @@ static io_source_t petdww_reg_device = {
     store_petdww_reg,
     read_petdww_reg,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    petdww_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -124,7 +126,7 @@ static io_source_t petdww_ram_ec00_device = {
     store_petdww_ec00_ram,
     read_petdww_ec00_ram,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    petdww_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -139,7 +141,7 @@ static io_source_t petdww_ram_ed00_device = {
     store_petdww_ec00_ram,
     read_petdww_ec00_ram,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    petdww_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -154,7 +156,7 @@ static io_source_t petdww_ram_ee00_device = {
     store_petdww_ec00_ram,
     read_petdww_ec00_ram,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    petdww_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -169,7 +171,7 @@ static io_source_t petdww_ram_ef00_device = {
     store_petdww_ec00_ram,
     read_petdww_ec00_ram,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    petdww_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -646,6 +648,14 @@ static void store_petdww_ec00_ram(WORD addr, BYTE byte)
     addr |= mem_bank;
 
     petdww_ram[addr] = byte;
+}
+
+static int petdww_dump(void)
+{
+    mon_out("DWW memory is at %s\n", (mem_at_9000) ? "$9000-$93FF" : "$EC00-$EFFF");
+
+    /* TODO: dump pia state */
+    return 0;
 }
 
 /* Callbacks from piacore to store effective output, taking DDR into account */
