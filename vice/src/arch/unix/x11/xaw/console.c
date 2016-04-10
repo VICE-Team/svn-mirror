@@ -31,7 +31,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#ifdef HAVE_SYS_IOCTL_H
+
+#ifdef HAVE_TERMIOS_H
+#include <termios.h>
+#endif
+
+#ifdef GWINSZ_IN_SYS_IOCTL
 #include <sys/ioctl.h>
 #endif
 
@@ -59,30 +64,9 @@ int console_init(void)
     return 0;
 }
 
-#ifdef HAVE_SYS_IOCTL_H
-
-#ifdef __minix
-#undef HAVE_SYS_IOCTL_H
-#endif
-
-#ifdef UNIXWARE_COMPILE
-#undef HAVE_SYS_IOCTL_H
-#endif
-
-#ifdef OPENSERVER6_COMPILE
-#undef HAVE_SYS_IOCTL_H
-#endif
-
-#ifdef OPENSERVER5_COMPILE
-#undef HAVE_SYS_IOCTL_H
-#endif
-
-#endif
-
-
 console_t *uimon_window_open(void)
 {
-#ifdef HAVE_SYS_IOCTL_H
+#if defined(HAVE_TERMIOS_H) || defined(GWINSZ_IN_SYS_IOCTL)
     struct winsize w;
 #endif
 
@@ -107,7 +91,7 @@ console_t *uimon_window_open(void)
     mon_output = stdout;
 #endif
 
-#ifdef HAVE_SYS_IOCTL_H
+#if defined(HAVE_TERMIOS_H) || defined(GWINSZ_IN_SYS_IOCTL)
     if (ioctl(fileno(stdin), TIOCGWINSZ, &w)) {
         console_log_local->console_xres = 80;
         console_log_local->console_yres = 25;

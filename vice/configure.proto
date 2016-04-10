@@ -1552,8 +1552,10 @@ AC_PROG_GCC_TRADITIONAL
 dnl Check for header files.
 AC_HEADER_DIRENT
 AC_CHECK_HEADERS(direct.h errno.h fcntl.h limits.h regex.h unistd.h strings.h \
-sys/dirent.h sys/ioctl.h sys/stat.h inttypes.h libgen.h \
+sys/dirent.h sys/stat.h inttypes.h libgen.h \
 dir.h io.h process.h signal.h alloca.h wchar.h stdint.h sys/time.h)
+
+AC_HEADER_TIOCGWINSZ
 
 AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
 #define	GETC()		(*sp++)
