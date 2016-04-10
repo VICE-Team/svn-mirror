@@ -59,6 +59,14 @@ static void ieee488_store(WORD address, BYTE value)
     }
 }
 
+static int ieee488_dump(void)
+{
+    if (ieeevia1_dump() < 0) {
+        return -1;
+    }
+    return ieeevia2_dump();
+}
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ieee488_device = {
@@ -70,7 +78,7 @@ static io_source_t ieee488_device = {
     ieee488_store,
     ieee488_read,
     NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    ieee488_dump,
     CARTRIDGE_VIC20_IEEE488,
     0,
     0
