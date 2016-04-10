@@ -48,7 +48,7 @@ static io_source_t sidcart_device = {
     sid_store,
     sid_read,
     NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    sid_dump,
     CARTRIDGE_VIC20_SIDCART,
     0,
     0

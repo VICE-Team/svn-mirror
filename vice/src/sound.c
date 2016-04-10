@@ -48,6 +48,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "monitor.h"
 #include "platform.h"
 #include "resources.h"
 #include "sound.h"
@@ -1635,6 +1636,15 @@ long sound_sample_position(void)
     return (snddata.clkstep == 0)
            ? 0 : (long)((SOUNDCLK_CONSTANT(maincpu_clk) - snddata.fclk)
                         / snddata.clkstep);
+}
+
+int sound_dump(int chipno)
+{
+    if (chipno >= snddata.sound_chip_channels) {
+        return -1;
+    }
+    mon_out("%s\n", sound_machine_dump_state(snddata.psid[chipno]));
+    return 0;
 }
 
 int sound_read(WORD addr, int chipno)

@@ -225,6 +225,7 @@ extern int sound_register_device(sound_device_t *pdevice);
 extern int sound_read(WORD addr, int chipno);
 extern void sound_store(WORD addr, BYTE val, int chipno);
 extern long sound_sample_position(void);
+extern int sound_dump(int chipno);
 
 /* functions and structs implemented by each machine */
 typedef struct sound_s sound_t;

@@ -101,7 +101,7 @@ static io_source_t sidcart_fd40_device = {
     sid_store,
     sid_read,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    sid_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -116,7 +116,7 @@ static io_source_t sidcart_fe80_device = {
     sid_store,
     sid_read,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    sid_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0

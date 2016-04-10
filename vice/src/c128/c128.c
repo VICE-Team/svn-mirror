@@ -402,7 +402,7 @@ static io_source_t sid_d400_device = {
     sid_store,
     sid_read,
     sid_peek,
-    NULL, /* TODO: dump */
+    sid_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
     0
@@ -417,7 +417,7 @@ static io_source_t sid_d420_device = {
     sid_store,
     sid_read,
     sid_peek,
-    NULL, /* TODO: dump */
+    sid_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_LOW, /* low priority, device and mirrors never involved in collisions */
     0

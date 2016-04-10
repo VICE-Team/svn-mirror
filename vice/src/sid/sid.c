@@ -69,6 +69,7 @@ static BYTE siddata[SOUND_SIDS_MAX][32];
 
 static int (*sid_read_func)(WORD addr, int chipno);
 static void (*sid_store_func)(WORD addr, BYTE val, int chipno);
+static int (*sid_dump_func)(int chipno);
 
 static int sid_enable, sid_engine_type = -1;
 
@@ -187,6 +188,15 @@ static void sid_store_chip(WORD addr, BYTE byte, int chipno)
     sid_store_func(addr, byte, chipno);
 }
 
+static int sid_dump_chip(int chipno)
+{
+    if (sid_dump_func) {
+        return sid_dump_func(chipno);
+    }
+
+    return -1;
+}
+
 /* ------------------------------------------------------------------------- */
 
 BYTE sid_read(WORD addr)
@@ -258,6 +268,21 @@ void sid2_store(WORD addr, BYTE byte)
 void sid3_store(WORD addr, BYTE byte)
 {
     sid_store_chip(addr, byte, 2);
+}
+
+int sid_dump(void)
+{
+    return sid_dump_chip(0);
+}
+
+int sid2_dump(void)
+{
+    return sid_dump_chip(1);
+}
+
+int sid3_dump(void)
+{
+    return sid_dump_chip(2);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -472,23 +497,27 @@ static void set_sound_func(void)
         if (sid_engine_type == SID_ENGINE_FASTSID) {
             sid_read_func = sound_read;
             sid_store_func = sound_store;
+            sid_dump_func = sound_dump;
         }
 #ifdef HAVE_RESID
         if (sid_engine_type == SID_ENGINE_RESID) {
             sid_read_func = sound_read;
             sid_store_func = sound_store;
+            sid_dump_func = sound_dump;
         }
 #endif
 #ifdef HAVE_CATWEASELMKIII
         if (sid_engine_type == SID_ENGINE_CATWEASELMKIII) {
             sid_read_func = catweaselmkiii_read;
             sid_store_func = catweaselmkiii_store;
+            sid_dump_func = NULL; /* TODO: catweasel dump */
         }
 #endif
 #ifdef HAVE_HARDSID
         if (sid_engine_type == SID_ENGINE_HARDSID) {
             sid_read_func = hardsid_read;
             sid_store_func = hardsid_store;
+            sid_dump_func = NULL; /* TODO: hardsid dump */
         }
 #endif
 #ifdef HAVE_PARSID
@@ -497,11 +526,13 @@ static void set_sound_func(void)
             sid_engine_type == SID_ENGINE_PARSID_PORT3) {
             sid_read_func = parsid_read;
             sid_store_func = parsid_store;
+            sid_dump_func = NULL; /* TODO: parsid dump */
         }
 #endif
     } else {
         sid_read_func = sid_read_off;
         sid_store_func = sid_write_off;
+        sid_dump_func = NULL;
     }
 }
 

@@ -80,6 +80,9 @@ extern BYTE sid3_read(WORD address);
 extern void sid_store(WORD address, BYTE byte);
 extern void sid2_store(WORD address, BYTE byte);
 extern void sid3_store(WORD address, BYTE byte);
+extern int sid_dump(void);
+extern int sid2_dump(void);
+extern int sid3_dump(void);
 extern void sid_reset(void);
 
 extern void sid_set_machine_parameter(long clock_rate);
