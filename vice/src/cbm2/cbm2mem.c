@@ -957,6 +957,13 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 
 /* ------------------------------------------------------------------------- */
 
+static int cia1_dump(void)
+{
+    return ciacore_dump(machine_context.cia1);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static io_source_t crtc_device = {
     "CRTC",
     IO_DETACH_CART, /* dummy */
@@ -996,7 +1003,7 @@ static io_source_t cia_device = {
     cia1_store,
     cia1_read,
     cia1_peek,
-    NULL, /* TODO: dump */
+    cia1_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
     0

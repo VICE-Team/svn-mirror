@@ -1058,6 +1058,13 @@ void mem_handle_pending_alarms_external_write(void)
 
 /* ------------------------------------------------------------------------- */
 
+static int cia1_dump(void)
+{
+    return ciacore_dump(machine_context.cia1);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static io_source_t vicii_device = {
     "VICII",
     IO_DETACH_CART, /* dummy */
@@ -1097,7 +1104,7 @@ static io_source_t cia_device = {
     cia1_store,
     cia1_read,
     cia1_peek,
-    NULL, /* TODO: dump */
+    cia1_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
     0
