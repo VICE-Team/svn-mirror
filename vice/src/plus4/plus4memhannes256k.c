@@ -76,7 +76,7 @@ static io_source_t h256k_device = {
     h256k_reg_store,
     h256k_reg_read,
     NULL, /* no peek */
-    NULL, /* TODO: dump */
+    h256k_dump,
     0, /* dummy (not a cartridge) */
     IO_PRIO_NORMAL,
     0
@@ -255,7 +255,7 @@ BYTE h256k_read(WORD addr)
 
 static int h256k_dump(void)
 {
-    mon_out("RAM at $04X-$FFFF comes from bank %d\n", (h256k_bound) ? 0x4000 : 0x1000, h256k_bank);
+    mon_out("RAM at $%04X-$FFFF comes from bank %d\n", (h256k_bound) ? 0x4000 : 0x1000, h256k_bank);
 
     return 0;
 }
