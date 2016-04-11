@@ -315,35 +315,37 @@ TODO:
 like mentioned above, the todo list is contained in vice.texi in the form of
 comments. to show it using the checkdoc tool use "./checkdoc.mak fixme"
 
-at the time of last updating this file (30/06/2012), the list looked like this:
+at the time of last updating this file (11/04/2016), the list looked like this:
 
-list of FIXMEs (26):
-669:@c FIXME: add link to doc/html/plain/PETdoc.txt
-690:@c FIXME: add link to doc/html/plain/PETdoc.txt
-719:@c FIXME: add link to section
-789:@c FIXME: add a detailed list of all keys
-4323:@c FIXME: is this correct?
-4417:@c FIXME: clean up "c64/128" vs "c64"
-8475:@c FIXME: relink this node
-10329:@c FIXME: add some info on making screenshots, wav- and avi recordings
-10406:@c FIXME: the "Event history" section needs to be style-checked.
-11366:@c FIXME: add more c1541 examples
-11741:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-11742:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
-11743:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
-11744:@c FIXME: add D4M FD4000 ED disk image file structure
-12163:@c FIXME: the P64 section needs to be style-checked.
-12451:@c FIXME: the D64 section needs to be style-checked.
-13347:@c FIXME: the X64 section needs to be style-checked.
-13463:@c FIXME: the D71 section needs to be style-checked.
-14125:@c FIXME: the D81 section needs to be style-checked.
-15024:@c FIXME: the D80 section needs to be style-checked.
-15714:@c FIXME: the D82 section needs to be style-checked.
-16806:@c FIXME: the P00 section needs to be style-checked.
-16860:@c FIXME: the CRT section needs to be style-checked.
-19704:@c FIXME: todo
-19720:@c FIXME: todo
-19736:@c FIXME: todo
+list of FIXMEs (28):
+793:@c FIXME: add link to PETdoc.txt
+814:@c FIXME: add link to PETdoc.txt
+854:@c FIXME: add link to section
+963:@c FIXME: add a detailed list of all keys
+5215:@c FIXME: add the following section to archdep stuff:
+5265:@c FIXME: is this correct?
+5378:@c FIXME: clean up "c64/128" vs "c64"
+16119:@c FIXME: add some info on making screenshots, wav- and avi recordings
+16294:@c FIXME: the "Event history" section needs to be style-checked.
+17324:@c FIXME: add more c1541 examples
+17728:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+17729:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
+17730:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
+17731:@c FIXME: add D4M FD4000 ED disk image file structure
+18150:@c FIXME: the P64 section needs to be style-checked.
+18438:@c FIXME: the D64 section needs to be style-checked.
+19424:@c FIXME: the X64 section needs to be style-checked.
+19540:@c FIXME: the D71 section needs to be style-checked.
+20202:@c FIXME: the D81 section needs to be style-checked.
+21101:@c FIXME: the D80 section needs to be style-checked.
+21791:@c FIXME: the D82 section needs to be style-checked.
+22883:@c FIXME: the P00 section needs to be style-checked.
+22937:@c FIXME: the CRT section needs to be style-checked.
+25810:@c FIXME: todo
+25828:@c FIXME: todo
+25846:@c FIXME: todo
+25862:@c FIXME: todo
+25889:@c FIXME: todo
 
 nodes that need fixing (180)
 
