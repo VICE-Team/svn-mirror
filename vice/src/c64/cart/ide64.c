@@ -1513,9 +1513,15 @@ int ide64_snapshot_write_module(snapshot_t *s)
 
     SMW_DW(m, settings_version);
     switch (settings_version) {
-    case IDE64_VERSION_3: SMW_BA(m, roml_banks, 0x10000); break;
-    case IDE64_VERSION_4_1: SMW_BA(m, roml_banks, 0x20000); break;
-    case IDE64_VERSION_4_2: SMW_BA(m, roml_banks, 0x80000); break;
+        case IDE64_VERSION_3:
+            SMW_BA(m, roml_banks, 0x10000);
+            break;
+        case IDE64_VERSION_4_1:
+            SMW_BA(m, roml_banks, 0x20000);
+            break;
+        case IDE64_VERSION_4_2:
+            SMW_BA(m, roml_banks, 0x80000);
+            break;
     }
     SMW_BA(m, export_ram0, 0x8000);
     SMW_DW(m, current_bank);
@@ -1563,21 +1569,27 @@ int ide64_snapshot_read_module(snapshot_t *s)
     ide64_unregister();
     SMR_DW_INT(m, (int *)&settings_version);
     switch (settings_version) {
-    default: settings_version = IDE64_VERSION_3; break;
-    case 1: settings_version = IDE64_VERSION_4_1; break;
-    case 2: settings_version = IDE64_VERSION_4_2; break;
+        default:
+            settings_version = IDE64_VERSION_3;
+            break;
+        case 1:
+            settings_version = IDE64_VERSION_4_1;
+            break;
+        case 2:
+            settings_version = IDE64_VERSION_4_2;
+            break;
     }
     ide64_register();
     switch (settings_version) {
-    case IDE64_VERSION_3:
-        SMR_BA(m, roml_banks, 0x10000);
-        break;
-    case IDE64_VERSION_4_1:
-        SMR_BA(m, roml_banks, 0x20000);
-        break;
-    case IDE64_VERSION_4_2:
-        SMR_BA(m, roml_banks, 0x80000);
-        break;
+        case IDE64_VERSION_3:
+            SMR_BA(m, roml_banks, 0x10000);
+            break;
+        case IDE64_VERSION_4_1:
+            SMR_BA(m, roml_banks, 0x20000);
+            break;
+        case IDE64_VERSION_4_2:
+            SMR_BA(m, roml_banks, 0x80000);
+            break;
     }
     SMR_BA(m, export_ram0, 0x8000);
     SMR_DW_INT(m, &current_bank);
