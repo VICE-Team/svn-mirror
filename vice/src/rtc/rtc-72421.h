@@ -29,6 +29,7 @@
 
 #include <time.h>
 
+#include "snapshot.h"
 #include "types.h"
 
 typedef struct rtc_72421_s {
@@ -62,5 +63,8 @@ extern void rtc72421_destroy(rtc_72421_t *context, int save);
 
 extern BYTE rtc72421_read(rtc_72421_t *context, BYTE address);
 extern void rtc72421_write(rtc_72421_t *context, BYTE address, BYTE data);
+
+extern int rtc72421_write_snapshot(rtc_72421_t *context, snapshot_module_t *m);
+extern int rtc72421_read_snapshot(rtc_72421_t *context, snapshot_module_t *m);
 
 #endif

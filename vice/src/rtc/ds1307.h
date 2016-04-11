@@ -27,6 +27,7 @@
 #ifndef VICE_DS1307_H
 #define VICE_DS1307_H
 
+#include "snapshot.h"
 #include "types.h"
 
 typedef struct rtc_ds1307_s rtc_ds1307_t;
@@ -38,5 +39,8 @@ extern void ds1307_set_clk_line(rtc_ds1307_t *context, BYTE data);
 extern void ds1307_set_data_line(rtc_ds1307_t *context, BYTE data);
 
 extern BYTE ds1307_read_data_line(rtc_ds1307_t *context);
+
+extern int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_module_t *m);
+extern int ds1307_read_snapshot(rtc_ds1307_t *context, snapshot_module_t *m);
 
 #endif

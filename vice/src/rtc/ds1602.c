@@ -241,3 +241,105 @@ BYTE ds1602_read_data_line(rtc_ds1602_t *context)
 {
     return context->data_line_out;
 }
+
+int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_module_t *m)
+{
+    DWORD latch_lo = 0;
+    DWORD latch_hi = 0;
+    DWORD offset0_lo = 0;
+    DWORD offset0_hi = 0;
+    DWORD offset_lo = 0;
+    DWORD offset_hi = 0;
+    DWORD old_offset_lo = 0;
+    DWORD old_offset_hi = 0;
+
+    /* time_t can be either 32bit or 64bit, so we save as 64bit */
+    if (sizeof(time_t) == 8) {
+        latch_hi = (DWORD)(context->latch >> 32);
+        latch_lo = (DWORD)(context->latch & 0xffffffff);
+        offset0_hi = (DWORD)(context->offset0 >> 32);
+        offset0_lo = (DWORD)(context->offset0 & 0xffffffff);
+        offset_hi = (DWORD)(context->offset >> 32);
+        offset_lo = (DWORD)(context->offset & 0xffffffff);
+        old_offset_hi = (DWORD)(context->old_offset >> 32);
+        old_offset_lo = (DWORD)(context->old_offset & 0xffffffff);
+    } else {
+        latch_lo = (DWORD)context->latch;
+        offset0_lo = (DWORD)context->offset0;
+        offset_lo = (DWORD)context->offset;
+        old_offset_lo = (DWORD)context->old_offset;
+    }
+
+    if (0
+        || (SMW_DW (m, latch_hi) < 0)
+        || (SMW_DW (m, latch_lo) < 0)
+        || (SMW_DW (m, offset0_hi) < 0)
+        || (SMW_DW (m, offset0_lo) < 0)
+        || (SMW_DW (m, offset_hi) < 0)
+        || (SMW_DW (m, offset_lo) < 0)
+        || (SMW_DW (m, old_offset_hi) < 0)
+        || (SMW_DW (m, old_offset_lo) < 0)
+        || (SMW_DW (m, context->reg) < 0)
+        || (SMW_B  (m, context->state) < 0)
+        || (SMW_B  (m, context->bit) < 0)
+        || (SMW_B  (m, context->io_byte) < 0)
+        || (SMW_B  (m, context->rst_line) < 0)
+        || (SMW_B  (m, context->clk_line) < 0)
+        || (SMW_B  (m, context->data_line_in) < 0)
+        || (SMW_B  (m, context->data_line_out) < 0)
+        || (SMW_STR(m, context->device) < 0)) {
+        return -1;
+    }
+    return 0;
+}
+
+int ds1602_read_snapshot(rtc_ds1602_t *context, snapshot_module_t *m)
+{
+    DWORD latch_lo = 0;
+    DWORD latch_hi = 0;
+    DWORD offset0_lo = 0;
+    DWORD offset0_hi = 0;
+    DWORD offset_lo = 0;
+    DWORD offset_hi = 0;
+    DWORD old_offset_lo = 0;
+    DWORD old_offset_hi = 0;
+
+    if (0
+        || (SMR_DW   (m, &latch_hi) < 0)
+        || (SMR_DW   (m, &latch_lo) < 0)
+        || (SMR_DW   (m, &offset0_hi) < 0)
+        || (SMR_DW   (m, &offset0_lo) < 0)
+        || (SMR_DW   (m, &offset_hi) < 0)
+        || (SMR_DW   (m, &offset_lo) < 0)
+        || (SMR_DW   (m, &old_offset_hi) < 0)
+        || (SMR_DW   (m, &old_offset_lo) < 0)
+        || (SMR_DW   (m, &context->reg) < 0)
+        || (SMR_B    (m, &context->state) < 0)
+        || (SMR_B    (m, &context->bit) < 0)
+        || (SMR_B    (m, &context->io_byte) < 0)
+        || (SMR_B    (m, &context->rst_line) < 0)
+        || (SMR_B    (m, &context->clk_line) < 0)
+        || (SMR_B    (m, &context->data_line_in) < 0)
+        || (SMR_B    (m, &context->data_line_out) < 0)
+
+        || (SMR_STR  (m, &context->device) < 0)) {
+        return -1;
+    }
+
+    if (sizeof(time_t) == 8) {
+        context->latch = latch_hi << 32;
+        context->latch |= latch_lo;
+        context->offset0 = offset0_hi << 32;
+        context->offset0 |= offset0_lo;
+        context->offset = offset_hi << 32;
+        context->offset |= offset_lo;
+        context->old_offset = old_offset_hi << 32;
+        context->old_offset |= old_offset_lo;
+    } else {
+        context->latch = latch_lo;
+        context->offset = offset_lo;
+        context->offset0 = offset0_lo;
+        context->old_offset = old_offset_lo;
+    }
+    return 0;
+}

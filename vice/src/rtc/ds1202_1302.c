@@ -674,55 +674,120 @@ int ds1202_1302_dump(rtc_ds1202_1302_t *context)
 /* ---------------------------------------------------------------------*/
 /*    snapshot support functions                                             */
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "DS1202_1302"
-
-/* FIXME: implement snapshot support */
-int ds1202_1302_snapshot_write_module(snapshot_t *s)
+int ds1202_1302_write_snapshot(rtc_ds1202_1302_t *context, snapshot_module_t *m)
 {
-    return -1;
-#if 0
-    snapshot_module_t *m;
+    DWORD clock_halt_latch_hi = 0;
+    DWORD clock_halt_latch_lo = 0;
+    DWORD latch_lo = 0;
+    DWORD latch_hi = 0;
+    DWORD offset_lo = 0;
+    DWORD offset_hi = 0;
+    DWORD old_offset_lo = 0;
+    DWORD old_offset_hi = 0;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
-    if (m == NULL) {
-        return -1;
+
+    /* time_t can be either 32bit or 64bit, so we save as 64bit */
+    if (sizeof(time_t) == 8) {
+        clock_halt_latch_hi = (DWORD)(context->clock_halt_latch >> 32);
+        clock_halt_latch_lo = (DWORD)(context->clock_halt_latch & 0xffffffff);
+        latch_hi = (DWORD)(context->latch >> 32);
+        latch_lo = (DWORD)(context->latch & 0xffffffff);
+        offset_hi = (DWORD)(context->offset >> 32);
+        offset_lo = (DWORD)(context->offset & 0xffffffff);
+        old_offset_hi = (DWORD)(context->old_offset >> 32);
+        old_offset_lo = (DWORD)(context->old_offset & 0xffffffff);
+    } else {
+        clock_halt_latch_lo = (DWORD)context->clock_halt_latch;
+        latch_lo = (DWORD)context->latch;
+        offset_lo = (DWORD)context->offset;
+        old_offset_lo = (DWORD)context->old_offset;
     }
 
-    if (0) {
-        snapshot_module_close(m);
+    if (0
+        || (SMW_B  (m, (BYTE)context->rtc_type) < 0)
+        || (SMW_B  (m, (BYTE)context->clock_halt) < 0)
+        || (SMW_DW (m, clock_halt_latch_hi) < 0)
+        || (SMW_DW (m, clock_halt_latch_lo) < 0)
+        || (SMW_B  (m, (BYTE)context->am_pm) < 0)
+        || (SMW_B  (m, (BYTE)context->write_protect) < 0)
+        || (SMW_DW (m, latch_hi) < 0)
+        || (SMW_DW (m, latch_lo) < 0)
+        || (SMW_DW (m, offset_hi) < 0)
+        || (SMW_DW (m, offset_lo) < 0)
+        || (SMW_DW (m, old_offset_hi) < 0)
+        || (SMW_DW (m, old_offset_lo) < 0)
+        || (SMW_BA (m, context->clock_regs, DS1202_1302_REG_SIZE) < 0)
+        || (SMW_BA (m, context->old_clock_regs, DS1202_1302_REG_SIZE) < 0)
+        || (SMW_B  (m, context->trickle_charge) < 0)
+        || (SMW_BA (m, context->ram, DS1202_1302_RAM_SIZE) < 0)
+        || (SMW_BA (m, context->old_ram, DS1202_1302_RAM_SIZE) < 0)
+        || (SMW_B  (m, context->state) < 0)
+        || (SMW_B  (m, context->reg) < 0)
+        || (SMW_B  (m, context->bit) < 0)
+        || (SMW_B  (m, context->output_bit) < 0)
+        || (SMW_B  (m, context->io_byte) < 0)
+        || (SMW_B  (m, context->sclk_line) < 0)
+        || (SMW_B  (m, context->clock_register) < 0)
+        || (SMW_STR(m, context->device) < 0)) {
         return -1;
     }
-
-    snapshot_module_close(m);
     return 0;
-#endif
 }
 
-int ds1202_1302_snapshot_read_module(snapshot_t *s)
+int ds1202_1302_read_snapshot(rtc_ds1202_1302_t *context, snapshot_module_t *m)
 {
-    return -1;
-#if 0
-    BYTE vmajor, vminor;
-    snapshot_module_t *m;
+    DWORD clock_halt_latch_hi = 0;
+    DWORD clock_halt_latch_lo = 0;
+    DWORD latch_lo = 0;
+    DWORD latch_hi = 0;
+    DWORD offset_lo = 0;
+    DWORD offset_hi = 0;
+    DWORD old_offset_lo = 0;
+    DWORD old_offset_hi = 0;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
-    if (m == NULL) {
+    if (0
+        || (SMR_B_INT(m, &context->rtc_type) < 0)
+        || (SMR_B_INT(m, &context->clock_halt) < 0)
+        || (SMR_DW   (m, &clock_halt_latch_hi) < 0)
+        || (SMR_DW   (m, &clock_halt_latch_lo) < 0)
+        || (SMR_B_INT(m, &context->am_pm) < 0)
+        || (SMR_B_INT(m, &context->write_protect) < 0)
+        || (SMR_DW   (m, &latch_hi) < 0)
+        || (SMR_DW   (m, &latch_lo) < 0)
+        || (SMR_DW   (m, &offset_hi) < 0)
+        || (SMR_DW   (m, &offset_lo) < 0)
+        || (SMR_DW   (m, &old_offset_hi) < 0)
+        || (SMR_DW   (m, &old_offset_lo) < 0)
+        || (SMR_BA   (m, context->clock_regs, DS1202_1302_REG_SIZE) < 0)
+        || (SMR_BA   (m, context->old_clock_regs, DS1202_1302_REG_SIZE) < 0)
+        || (SMR_B    (m, &context->trickle_charge) < 0)
+        || (SMR_BA   (m, context->ram, DS1202_1302_RAM_SIZE) < 0)
+        || (SMR_BA   (m, context->old_ram, DS1202_1302_RAM_SIZE) < 0)
+        || (SMR_B    (m, &context->state) < 0)
+        || (SMR_B    (m, &context->reg) < 0)
+        || (SMR_B    (m, &context->bit) < 0)
+        || (SMR_B    (m, &context->output_bit) < 0)
+        || (SMR_B    (m, &context->io_byte) < 0)
+        || (SMR_B    (m, &context->sclk_line) < 0)
+        || (SMR_B    (m, &context->clock_register) < 0)
+        || (SMR_STR  (m, &context->device) < 0)) {
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
-        snapshot_module_close(m);
-        return -1;
+    if (sizeof(time_t) == 8) {
+        context->clock_halt_latch = clock_halt_latch_hi << 32;
+        context->clock_halt_latch |= clock_halt_latch_lo;
+        context->latch = latch_hi << 32;
+        context->latch |= latch_lo;
+        context->offset = offset_hi << 32;
+        context->offset |= offset_lo;
+        context->old_offset = old_offset_hi << 32;
+        context->old_offset |= old_offset_lo;
+    } else {
+        context->clock_halt_latch = clock_halt_latch_lo;
+        context->latch = latch_lo;
+        context->offset = offset_lo;
+        context->old_offset = old_offset_lo;
     }
-
-    if (0) {
-        snapshot_module_close(m);
-        return -1;
-    }
-
-    snapshot_module_close(m);
     return 0;
-#endif
 }

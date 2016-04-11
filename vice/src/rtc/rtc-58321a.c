@@ -406,3 +406,80 @@ void rtc58321_start_clock(rtc_58321a_t *context)
         context->offset = context->offset - (rtc_get_latch(0) - (context->latch - context->offset));
     }
 }
+
+int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
+{
+    DWORD latch_lo = 0;
+    DWORD latch_hi = 0;
+    DWORD offset_lo = 0;
+    DWORD offset_hi = 0;
+    DWORD old_offset_lo = 0;
+    DWORD old_offset_hi = 0;
+
+    /* time_t can be either 32bit or 64bit, so we save as 64bit */
+    if (sizeof(time_t) == 8) {
+        latch_hi = (DWORD)(context->latch >> 32);
+        latch_lo = (DWORD)(context->latch & 0xffffffff);
+        offset_hi = (DWORD)(context->offset >> 32);
+        offset_lo = (DWORD)(context->offset & 0xffffffff);
+        old_offset_hi = (DWORD)(context->old_offset >> 32);
+        old_offset_lo = (DWORD)(context->old_offset & 0xffffffff);
+    } else {
+        latch_lo = (DWORD)context->latch;
+        offset_lo = (DWORD)context->offset;
+        old_offset_lo = (DWORD)context->old_offset;
+    }
+
+    if (0
+        || (SMW_B  (m, (BYTE)context->stop) < 0)
+        || (SMW_B  (m, (BYTE)context->hour24) < 0)
+        || (SMW_B  (m, context->address) < 0)
+        || (SMW_DW (m, latch_hi) < 0)
+        || (SMW_DW (m, latch_lo) < 0)
+        || (SMW_DW (m, offset_hi) < 0)
+        || (SMW_DW (m, offset_lo) < 0)
+        || (SMW_DW (m, old_offset_hi) < 0)
+        || (SMW_DW (m, old_offset_lo) < 0)
+        || (SMW_STR(m, context->device) < 0)) {
+        return -1;
+    }
+    return 0;
+}
+
+int rtc58321a_read_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
+{
+    DWORD latch_lo = 0;
+    DWORD latch_hi = 0;
+    DWORD offset_lo = 0;
+    DWORD offset_hi = 0;
+    DWORD old_offset_lo = 0;
+    DWORD old_offset_hi = 0;
+
+    if (0
+        || (SMR_B_INT (m, &context->stop) < 0)
+        || (SMR_B_INT (m, &context->hour24) < 0)
+        || (SMR_B     (m, &context->address) < 0)
+        || (SMR_DW    (m, &latch_hi) < 0)
+        || (SMR_DW    (m, &latch_lo) < 0)
+        || (SMR_DW    (m, &offset_hi) < 0)
+        || (SMR_DW    (m, &offset_lo) < 0)
+        || (SMR_DW    (m, &old_offset_hi) < 0)
+        || (SMR_DW    (m, &old_offset_lo) < 0)
+        || (SMR_STR   (m, &context->device) < 0)) {
+        return -1;
+    }
+
+    if (sizeof(time_t) == 8) {
+        context->latch = latch_hi << 32;
+        context->latch |= latch_lo;
+        context->offset = offset_hi << 32;
+        context->offset |= offset_lo;
+        context->old_offset = old_offset_hi << 32;
+        context->old_offset |= old_offset_lo;
+    } else {
+        context->latch = latch_lo;
+        context->offset = offset_lo;
+        context->old_offset = old_offset_lo;
+    }
+    return 0;
+}

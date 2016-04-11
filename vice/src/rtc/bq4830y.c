@@ -29,6 +29,7 @@
 #include "bq4830y.h"
 #include "lib.h"
 #include "rtc.h"
+#include "snapshot.h"
 
 #include <string.h>
 
@@ -425,4 +426,106 @@ BYTE bq4830y_read(rtc_bq4830y_t *context, WORD address)
             retval = context->ram[address];
     }
     return retval;
+}
+
+int bq4830y_write_snapshot(rtc_bq4830y_t *context, snapshot_module_t *m)
+{
+    DWORD clock_halt_latch_hi = 0;
+    DWORD clock_halt_latch_lo = 0;
+    DWORD latch_lo = 0;
+    DWORD latch_hi = 0;
+    DWORD offset_lo = 0;
+    DWORD offset_hi = 0;
+    DWORD old_offset_lo = 0;
+    DWORD old_offset_hi = 0;
+
+    /* time_t can be either 32bit or 64bit, so we save as 64bit */
+    if (sizeof(time_t) == 8) {
+        clock_halt_latch_hi = (DWORD)(context->clock_halt_latch >> 32);
+        clock_halt_latch_lo = (DWORD)(context->clock_halt_latch & 0xffffffff);
+        latch_hi = (DWORD)(context->latch >> 32);
+        latch_lo = (DWORD)(context->latch & 0xffffffff);
+        offset_hi = (DWORD)(context->offset >> 32);
+        offset_lo = (DWORD)(context->offset & 0xffffffff);
+        old_offset_hi = (DWORD)(context->old_offset >> 32);
+        old_offset_lo = (DWORD)(context->old_offset & 0xffffffff);
+    } else {
+        clock_halt_latch_lo = (DWORD)context->clock_halt_latch;
+        latch_lo = (DWORD)context->latch;
+        offset_lo = (DWORD)context->offset;
+        old_offset_lo = (DWORD)context->old_offset;
+    }
+
+
+    if (0
+        || (SMW_B  (m, (BYTE)context->clock_halt) < 0)
+        || (SMW_DW (m, clock_halt_latch_hi) < 0)
+        || (SMW_DW (m, clock_halt_latch_lo) < 0)
+        || (SMW_B  (m, (BYTE)context->read_latch) < 0)
+        || (SMW_B  (m, (BYTE)context->write_latch) < 0)
+        || (SMW_DW (m, latch_hi) < 0)
+        || (SMW_DW (m, latch_lo) < 0)
+        || (SMW_DW (m, offset_hi) < 0)
+        || (SMW_DW (m, offset_lo) < 0)
+        || (SMW_DW (m, old_offset_hi) < 0)
+        || (SMW_DW (m, old_offset_lo) < 0)
+        || (SMW_BA (m, context->clock_regs, BQ4830Y_REG_SIZE) < 0)
+        || (SMW_BA (m, context->old_clock_regs, BQ4830Y_REG_SIZE) < 0)
+        || (SMW_BA (m, context->clock_regs_changed, BQ4830Y_REG_SIZE) < 0)
+        || (SMW_BA (m, context->ram, BQ4830Y_RAM_SIZE) < 0)
+        || (SMW_BA (m, context->old_ram, BQ4830Y_RAM_SIZE) < 0)
+        || (SMW_STR(m, context->device) < 0)) {
+        return -1;
+    }
+    return 0;
+}
+
+int bq4830y_read_snapshot(rtc_bq4830y_t *context, snapshot_module_t *m)
+{
+    DWORD clock_halt_latch_hi = 0;
+    DWORD clock_halt_latch_lo = 0;
+    DWORD latch_lo = 0;
+    DWORD latch_hi = 0;
+    DWORD offset_lo = 0;
+    DWORD offset_hi = 0;
+    DWORD old_offset_lo = 0;
+    DWORD old_offset_hi = 0;
+
+    if (0
+        || (SMR_B_INT(m, &context->clock_halt) < 0)
+        || (SMR_DW   (m, &clock_halt_latch_hi) < 0)
+        || (SMR_DW   (m, &clock_halt_latch_lo) < 0)
+        || (SMR_B_INT(m, &context->read_latch) < 0)
+        || (SMR_B_INT(m, &context->write_latch) < 0)
+        || (SMR_DW   (m, &latch_hi) < 0)
+        || (SMR_DW   (m, &latch_lo) < 0)
+        || (SMR_DW   (m, &offset_hi) < 0)
+        || (SMR_DW   (m, &offset_lo) < 0)
+        || (SMR_DW   (m, &old_offset_hi) < 0)
+        || (SMR_DW   (m, &old_offset_lo) < 0)
+        || (SMR_BA   (m, context->clock_regs, BQ4830Y_REG_SIZE) < 0)
+        || (SMR_BA   (m, context->old_clock_regs, BQ4830Y_REG_SIZE) < 0)
+        || (SMR_BA   (m, context->clock_regs_changed, BQ4830Y_REG_SIZE) < 0)
+        || (SMR_BA   (m, context->ram, BQ4830Y_RAM_SIZE) < 0)
+        || (SMR_BA   (m, context->old_ram, BQ4830Y_RAM_SIZE) < 0)
+        || (SMR_STR  (m, &context->device) < 0)) {
+        return -1;
+    }
+
+    if (sizeof(time_t) == 8) {
+        context->clock_halt_latch = clock_halt_latch_hi << 32;
+        context->clock_halt_latch |= clock_halt_latch_lo;
+        context->latch = latch_hi << 32;
+        context->latch |= latch_lo;
+        context->offset = offset_hi << 32;
+        context->offset |= offset_lo;
+        context->old_offset = old_offset_hi << 32;
+        context->old_offset |= old_offset_lo;
+    } else {
+        context->clock_halt_latch = clock_halt_latch_lo;
+        context->latch = latch_lo;
+        context->offset = offset_lo;
+        context->old_offset = old_offset_lo;
+    }
+    return 0;
 }

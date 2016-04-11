@@ -30,6 +30,7 @@
 #include "lib.h"
 #include "monitor.h"
 #include "rtc.h"
+#include "snapshot.h"
 
 #include <string.h>
 
@@ -829,5 +830,119 @@ int ds12c887_dump(rtc_ds12c887_t *context)
         mon_out("\n");
     }
     
+    return 0;
+}
+
+int ds12c887_write_snapshot(rtc_ds12c887_t *context, snapshot_module_t *m)
+{
+    DWORD clock_halt_latch_hi = 0;
+    DWORD clock_halt_latch_lo = 0;
+    DWORD set_latch_lo = 0;
+    DWORD set_latch_hi = 0;
+    DWORD offset_lo = 0;
+    DWORD offset_hi = 0;
+    DWORD old_offset_lo = 0;
+    DWORD old_offset_hi = 0;
+
+    /* time_t can be either 32bit or 64bit, so we save as 64bit */
+    if (sizeof(time_t) == 8) {
+        clock_halt_latch_hi = (DWORD)(context->clock_halt_latch >> 32);
+        clock_halt_latch_lo = (DWORD)(context->clock_halt_latch & 0xffffffff);
+        set_latch_hi = (DWORD)(context->set_latch >> 32);
+        set_latch_lo = (DWORD)(context->set_latch & 0xffffffff);
+        offset_hi = (DWORD)(context->offset >> 32);
+        offset_lo = (DWORD)(context->offset & 0xffffffff);
+        old_offset_hi = (DWORD)(context->old_offset >> 32);
+        old_offset_lo = (DWORD)(context->old_offset & 0xffffffff);
+    } else {
+        clock_halt_latch_lo = (DWORD)context->clock_halt_latch;
+        set_latch_lo = (DWORD)context->set_latch;
+        offset_lo = (DWORD)context->offset;
+        old_offset_lo = (DWORD)context->old_offset;
+    }
+
+
+    if (0
+        || (SMW_B  (m, (BYTE)context->clock_halt) < 0)
+        || (SMW_DW (m, clock_halt_latch_hi) < 0)
+        || (SMW_DW (m, clock_halt_latch_lo) < 0)
+        || (SMW_B  (m, (BYTE)context->am_pm) < 0)
+        || (SMW_B  (m, (BYTE)context->set) < 0)
+        || (SMW_DW (m, set_latch_hi) < 0)
+        || (SMW_DW (m, set_latch_lo) < 0)
+        || (SMW_DW (m, offset_hi) < 0)
+        || (SMW_DW (m, offset_lo) < 0)
+        || (SMW_DW (m, old_offset_hi) < 0)
+        || (SMW_DW (m, old_offset_lo) < 0)
+        || (SMW_B  (m, (BYTE)context->bcd) < 0)
+        || (SMW_B  (m, (BYTE)context->alarm_flag) < 0)
+        || (SMW_B  (m, (BYTE)context->end_of_update_flag) < 0)
+        || (SMW_BA (m, context->clock_regs, DS12C887_REG_SIZE) < 0)
+        || (SMW_BA (m, context->old_clock_regs, DS12C887_REG_SIZE) < 0)
+        || (SMW_BA (m, context->clock_regs_changed, DS12C887_REG_SIZE) < 0)
+        || (SMW_BA (m, context->ctrl_regs, 2) < 0)
+        || (SMW_BA (m, context->ram, DS12C887_RAM_SIZE) < 0)
+        || (SMW_BA (m, context->old_ram, DS12C887_RAM_SIZE) < 0)
+        || (SMW_B  (m, context->reg) < 0)
+        || (SMW_B  (m, context->prev_second) < 0)
+        || (SMW_STR(m, context->device) < 0)) {
+        return -1;
+    }
+    return 0;
+}
+
+int ds12c887_read_snapshot(rtc_ds12c887_t *context, snapshot_module_t *m)
+{
+    DWORD clock_halt_latch_hi = 0;
+    DWORD clock_halt_latch_lo = 0;
+    DWORD set_latch_lo = 0;
+    DWORD set_latch_hi = 0;
+    DWORD offset_lo = 0;
+    DWORD offset_hi = 0;
+    DWORD old_offset_lo = 0;
+    DWORD old_offset_hi = 0;
+
+    if (0
+        || (SMR_B_INT(m, &context->clock_halt) < 0)
+        || (SMR_DW   (m, &clock_halt_latch_hi) < 0)
+        || (SMR_DW   (m, &clock_halt_latch_lo) < 0)
+        || (SMR_B_INT(m, &context->am_pm) < 0)
+        || (SMR_B_INT(m, &context->set) < 0)
+        || (SMR_DW   (m, &set_latch_hi) < 0)
+        || (SMR_DW   (m, &set_latch_lo) < 0)
+        || (SMR_DW   (m, &offset_hi) < 0)
+        || (SMR_DW   (m, &offset_lo) < 0)
+        || (SMR_DW   (m, &old_offset_hi) < 0)
+        || (SMR_DW   (m, &old_offset_lo) < 0)
+        || (SMR_B_INT(m, &context->bcd) < 0)
+        || (SMR_B_INT(m, &context->alarm_flag) < 0)
+        || (SMR_B_INT(m, &context->end_of_update_flag) < 0)
+        || (SMR_BA   (m, context->clock_regs, DS12C887_REG_SIZE) < 0)
+        || (SMR_BA   (m, context->old_clock_regs, DS12C887_REG_SIZE) < 0)
+        || (SMR_BA   (m, context->clock_regs_changed, DS12C887_REG_SIZE) < 0)
+        || (SMR_BA   (m, context->ctrl_regs, 2) < 0)
+        || (SMR_BA   (m, context->ram, DS12C887_RAM_SIZE) < 0)
+        || (SMR_BA   (m, context->old_ram, DS12C887_RAM_SIZE) < 0)
+        || (SMR_B    (m, &context->reg) < 0)
+        || (SMR_B    (m, &context->prev_second) < 0)
+        || (SMR_STR  (m, &context->device) < 0)) {
+        return -1;
+    }
+
+    if (sizeof(time_t) == 8) {
+        context->clock_halt_latch = clock_halt_latch_hi << 32;
+        context->clock_halt_latch |= clock_halt_latch_lo;
+        context->set_latch = set_latch_hi << 32;
+        context->set_latch |= set_latch_lo;
+        context->offset = offset_hi << 32;
+        context->offset |= offset_lo;
+        context->old_offset = old_offset_hi << 32;
+        context->old_offset |= old_offset_lo;
+    } else {
+        context->clock_halt_latch = clock_halt_latch_lo;
+        context->set_latch = set_latch_lo;
+        context->offset = offset_lo;
+        context->old_offset = old_offset_lo;
+    }
     return 0;
 }
