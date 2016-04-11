@@ -524,11 +524,13 @@ static void init_mediafile_dialog(HWND hwnd)
 static UINT_PTR APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
     TCHAR st_selection[MAXSCRNDRVLEN];
+    int i;
 #ifdef HAVE_FFMPEG
     char s_selection[MAXSCRNDRVLEN];
     const char *ffmpeg_format;
-    int i, j;
+    int j;
 #endif
+
 
     switch (uimsg) {
         case WM_INITDIALOG:
