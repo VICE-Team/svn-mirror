@@ -421,6 +421,7 @@ int aciacart_snapshot_write_module(struct snapshot_s *p)
 #endif
     return 0;
 }
+
 int aciacart_snapshot_read_module(struct snapshot_s *p)
 {
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
