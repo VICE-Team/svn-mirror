@@ -3149,9 +3149,9 @@ fi
 
 AC_SUBST(LIBS)
 
-dnl if usleep is not defined, compile our own version for it (usleep.o)
+dnl check for usleep
 if test x"$is_win32" = "xno" -a x"$is_amiga_aros" = "xno"; then
-  AC_REPLACE_FUNCS(usleep)
+  AC_CHECK_FUNCS(usleep)
 fi
 
 AC_CHECK_FUNC(nanosleep,
