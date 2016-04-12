@@ -417,18 +417,18 @@ int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
     DWORD old_offset_hi = 0;
 
     /* time_t can be either 32bit or 64bit, so we save as 64bit */
-    if (sizeof(time_t) == 8) {
-        latch_hi = (DWORD)(context->latch >> 32);
-        latch_lo = (DWORD)(context->latch & 0xffffffff);
-        offset_hi = (DWORD)(context->offset >> 32);
-        offset_lo = (DWORD)(context->offset & 0xffffffff);
-        old_offset_hi = (DWORD)(context->old_offset >> 32);
-        old_offset_lo = (DWORD)(context->old_offset & 0xffffffff);
-    } else {
-        latch_lo = (DWORD)context->latch;
-        offset_lo = (DWORD)context->offset;
-        old_offset_lo = (DWORD)context->old_offset;
-    }
+#if (SIZE_OF_TIME_T == 8)
+    latch_hi = (DWORD)(context->latch >> 32);
+    latch_lo = (DWORD)(context->latch & 0xffffffff);
+    offset_hi = (DWORD)(context->offset >> 32);
+    offset_lo = (DWORD)(context->offset & 0xffffffff);
+    old_offset_hi = (DWORD)(context->old_offset >> 32);
+    old_offset_lo = (DWORD)(context->old_offset & 0xffffffff);
+#else
+    latch_lo = (DWORD)context->latch;
+    offset_lo = (DWORD)context->offset;
+    old_offset_lo = (DWORD)context->old_offset;
+#endif
 
     if (0
         || (SMW_B  (m, (BYTE)context->stop) < 0)
@@ -469,17 +469,18 @@ int rtc58321a_read_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
         return -1;
     }
 
-    if (sizeof(time_t) == 8) {
-        context->latch = latch_hi << 32;
-        context->latch |= latch_lo;
-        context->offset = offset_hi << 32;
-        context->offset |= offset_lo;
-        context->old_offset = old_offset_hi << 32;
-        context->old_offset |= old_offset_lo;
-    } else {
-        context->latch = latch_lo;
-        context->offset = offset_lo;
-        context->old_offset = old_offset_lo;
-    }
+#if (SIZE_OF_TIME_T == 8)
+    context->latch = (time_t)(latch_hi) << 32;
+    context->latch |= latch_lo;
+    context->offset = (time_t)(offset_hi) << 32;
+    context->offset |= offset_lo;
+    context->old_offset = (time_t)(old_offset_hi) << 32;
+    context->old_offset |= old_offset_lo;
+#else
+    context->latch = latch_lo;
+    context->offset = offset_lo;
+    context->old_offset = old_offset_lo;
+#endif
+
     return 0;
 }
