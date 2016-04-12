@@ -57,40 +57,6 @@
 #include <string.h>          /* For memset */
 #endif
 
-#ifndef HAVE_USLEEP
-
-#include <errno.h>
-#include <time.h>
-#include <sys/time.h>
-
-static int usleep(unsigned long int microSeconds)
-{
-    unsigned int Seconds, uSec;
-    int nfds, readfds, writefds, exceptfds;
-
-    struct  timeval Timer;
-
-    nfds = readfds = writefds = exceptfds = 0;
-
-    if ((microSeconds == (unsigned long) 0) || microSeconds > (unsigned long) 4000000) {
-        errno = ERANGE;                 /* value out of range */
-        return -1;
-    }
-
-    Seconds = microSeconds / (unsigned long) 1000000;
-    uSec = microSeconds % (unsigned long) 1000000;
-
-    Timer.tv_sec = Seconds;
-    Timer.tv_usec = uSec;
-
-    if (select( nfds, &readfds, &writefds, &exceptfds, &Timer ) < 0) {
-        return -1;
-    }
-
-    return 0;
-}
-#endif
-
 #include "log.h"
 #include "sound.h"
 

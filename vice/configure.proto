@@ -3150,8 +3150,8 @@ fi
 AC_SUBST(LIBS)
 
 dnl check for usleep
-if test x"$is_win32" = "xno" -a x"$is_amiga_aros" = "xno"; then
-  AC_CHECK_FUNCS(usleep)
+if test x"$is_win32" != "xyes" -a x"$is_amiga_aros" != "xyes"; then
+  AC_REPLACE_FUNCS(usleep)
 fi
 
 AC_CHECK_FUNC(nanosleep,
