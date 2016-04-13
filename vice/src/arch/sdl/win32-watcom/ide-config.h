@@ -52,6 +52,7 @@
 #define HAVE_SYS_STAT_H       1
 #define HAVE_SIGNAL_H         1
 #define HAVE_WINIOCTL_H       1
+#define HAVE_TIME_T_IN_TIME_H 1
 
 #define HAVE_STRTOK_R			1
 #define HAVE_STRREV			1

@@ -52,6 +52,7 @@
 #define HAVE_GETCWD                1
 #define HAVE_DSOUND_LIB            1
 #define USE_DXSOUND                1
+#define HAVE_TIME_T_IN_TIME_H      1
 
 #define HAVE_STRTOK_R			1
 #define HAVE_STRREV			1

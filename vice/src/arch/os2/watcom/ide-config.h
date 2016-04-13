@@ -149,6 +149,7 @@
 #define HAVE_SYS_TIME_H       1   /* Define if you have the <sys/time.h> header file. */
 #define HAVE_GETCWD           1
 #define HAVE_SYS_TYPES_H      1
+#define HAVE_TIME_T_IN_TIME_H 1
 
 #define HAVE_STRTOK_R			1
 #define HAVE_STRREV			1
