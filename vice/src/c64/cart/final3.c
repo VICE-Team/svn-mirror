@@ -262,7 +262,7 @@ void final_v3_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   1
-#define CART_DUMP_VER_MINOR   1
+#define CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "CARTFC3"
 
 int final_v3_snapshot_write_module(snapshot_t *s)
@@ -276,6 +276,8 @@ int final_v3_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)fc3_rom_banks) < 0)
+        || (SMW_B(m, regval) < 0)
         || (SMW_B(m, (BYTE)fc3_reg_enabled) < 0)
         || (SMW_BA(m, roml_banks, 0x2000 * fc3_rom_banks) < 0)
         || (SMW_BA(m, romh_banks, 0x2000 * fc3_rom_banks) < 0)) {
@@ -308,6 +310,7 @@ int final_v3_snapshot_read_module(snapshot_t *s)
         return -1;
     }
     if (0
+        || (SMR_B(m, &regval) < 0)
         || (SMR_B_INT(m, &fc3_reg_enabled) < 0)
         || (SMR_BA(m, roml_banks, 0x2000 * fc3_rom_banks) < 0)
         || (SMR_BA(m, romh_banks, 0x2000 * fc3_rom_banks) < 0)) {
