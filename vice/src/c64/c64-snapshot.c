@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "c64-memory-hacks.h"
 #include "c64-snapshot.h"
 #include "c64.h"
 #include "c64gluelogic.h"
@@ -76,6 +77,7 @@ int c64_snapshot_write(const char *name, int save_roms, int save_disks, int even
         || vicii_snapshot_write_module(s) < 0
         || c64_glue_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
+        || memhacks_snapshot_write_modules(s) < 0
         || tape_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s)
         || joystick_snapshot_write_module(s)) {
@@ -114,6 +116,7 @@ int c64_snapshot_read(const char *name, int event_mode)
         || vicii_snapshot_read_module(s) < 0
         || c64_glue_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
+        || memhacks_snapshot_read_modules(s) < 0
         || tape_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
         || joystick_snapshot_read_module(s) < 0) {

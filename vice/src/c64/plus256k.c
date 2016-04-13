@@ -143,7 +143,7 @@ static io_source_t vicii_d100_device = {
 static io_source_list_t *vicii_d000_list_item = NULL;
 static io_source_list_t *vicii_d100_list_item = NULL;
 
-int set_plus256k_enabled(int value)
+int set_plus256k_enabled(int value, int disable_reset)
 {
     int val = value ? 1 : 0;
 
@@ -155,14 +155,18 @@ int set_plus256k_enabled(int value)
         if (plus256k_deactivate() < 0) {
             return -1;
         }
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        if (!disable_reset) {
+            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        }
         plus256k_enabled = 0;
         return 0;
     } else {
         if (plus256k_activate() < 0) {
             return -1;
         }
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        if (!disable_reset) {
+            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        }
         plus256k_enabled = 1;
         return 0;
     }
@@ -324,4 +328,82 @@ BYTE plus256k_ram_low_read(WORD addr)
 BYTE plus256k_ram_high_read(WORD addr)
 {
     return plus256k_ram[(plus256k_high_bank * 0x10000) + addr];
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define PLUS256K_DUMP_VER_MAJOR   0
+#define PLUS256K_DUMP_VER_MINOR   1
+#define SNAP_MODULE_NAME  "PLUS256K"
+
+int plus256k_snapshot_write(struct snapshot_s *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                               PLUS256K_DUMP_VER_MAJOR, PLUS256K_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B (m, plus256k_reg) < 0
+        || SMW_B (m, (BYTE)plus256k_video_bank) < 0
+        || SMW_B (m, (BYTE)plus256k_low_bank) < 0
+        || SMW_B (m, (BYTE)plus256k_high_bank) < 0
+        || SMW_B (m, (BYTE)plus256k_protected) < 0
+        || SMW_BA(m, plus256k_ram, 0x40000) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int plus256k_snapshot_read(struct snapshot_s *s)
+{
+    snapshot_module_t *m;
+    BYTE vmajor, vminor;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != PLUS256K_DUMP_VER_MAJOR) || (vminor != PLUS256K_DUMP_VER_MINOR)) {
+        goto fail;
+    }
+
+    /* enable plus256k, without reset */
+    set_plus256k_enabled(1, 1);
+
+    /* overwrite registers */
+    if (0
+        || SMR_B    (m, &plus256k_reg) < 0
+        || SMR_B_INT(m, &plus256k_video_bank) < 0
+        || SMR_B_INT(m, &plus256k_low_bank) < 0
+        || SMR_B_INT(m, &plus256k_high_bank) < 0
+        || SMR_B_INT(m, &plus256k_protected) < 0) {
+        goto fail;
+    }
+
+    /* overwrite ram */
+    if (SMR_BA(m, plus256k_ram, 0x40000) < 0) {
+        goto fail;
+    }
+    snapshot_module_close(m);
+
+    return 0;
+    
+fail:
+    if (m != NULL) {
+        snapshot_module_close(m);
+    }
+
+    /* disable plus256k, without reset */
+    set_plus256k_enabled(0, 1);
+
+    return -1;
 }

@@ -202,7 +202,7 @@ static io_source_list_t *vicii_d000_full_list_item = NULL;
 static io_source_list_t *vicii_d040_list_item = NULL;
 static io_source_list_t *vicii_d100_list_item = NULL;
 
-int set_plus60k_enabled(int value)
+int set_plus60k_enabled(int value, int disable_reset)
 {
     int val = value ? 1 : 0;
 
@@ -215,7 +215,9 @@ int set_plus60k_enabled(int value)
             return -1;
         }
 
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        if (!disable_reset) {
+            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        }
         plus60k_enabled = 0;
         return 0;
     } else {
@@ -223,7 +225,9 @@ int set_plus60k_enabled(int value)
             return -1;
         }
         plus60k_enabled = 1;
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        if (!disable_reset) {
+            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        }
         return 0;
     }
 }
@@ -486,4 +490,78 @@ void plus60k_ram_store(WORD addr, BYTE value)
     } else {
         mem_ram[addr] = value;
     }
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define PLUS60K_DUMP_VER_MAJOR   0
+#define PLUS60K_DUMP_VER_MINOR   1
+#define SNAP_MODULE_NAME  "PLUS60K"
+
+int plus60k_snapshot_write(struct snapshot_s *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                               PLUS60K_DUMP_VER_MAJOR, PLUS60K_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_W (m, (WORD)plus60k_base) < 0
+        || SMW_B (m, plus60k_reg) < 0
+        || SMW_BA(m, plus60k_ram, 0xf000) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int plus60k_snapshot_read(struct snapshot_s *s)
+{
+    snapshot_module_t *m;
+    BYTE vmajor, vminor;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != PLUS60K_DUMP_VER_MAJOR) || (vminor != PLUS60K_DUMP_VER_MINOR)) {
+        goto fail;
+    }
+
+    if (SMR_W_INT(m, &plus60k_base) < 0) {
+        goto fail;
+    }
+
+    /* enable plus60k, without reset */
+    set_plus60k_enabled(1, 1);
+
+    /* overwrite register */
+    if (SMR_B(m, &plus60k_reg) < 0) {
+        goto fail;
+    }
+
+    /* overwrite ram */
+    if (SMR_BA(m, plus60k_ram, 0xf000) < 0) {
+        goto fail;
+    }
+    snapshot_module_close(m);
+
+    return 0;
+    
+fail:
+    if (m != NULL) {
+        snapshot_module_close(m);
+    }
+
+    /* disable plus60k, without reset */
+    set_plus60k_enabled(0, 1);
+
+    return -1;
 }

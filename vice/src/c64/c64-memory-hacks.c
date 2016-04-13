@@ -33,9 +33,11 @@
 #include "c64-memory-hacks.h"
 #include "c64_256k.h"
 #include "cmdline.h"
+#include "mem.h"
 #include "plus256k.h"
 #include "plus60k.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 
@@ -59,13 +61,13 @@ static int set_memory_hack(int value, void *param)
 
     switch (memory_hack) {
         case MEMORY_HACK_C64_256K:
-            set_c64_256k_enabled(0);
+            set_c64_256k_enabled(0, 0);
             break;
         case MEMORY_HACK_PLUS60K:
-            set_plus60k_enabled(0);
+            set_plus60k_enabled(0, 0);
             break;
         case MEMORY_HACK_PLUS256K:
-            set_plus256k_enabled(0);
+            set_plus256k_enabled(0, 0);
             break;
         case MEMORY_HACK_NONE:
         default:
@@ -74,13 +76,13 @@ static int set_memory_hack(int value, void *param)
 
     switch (value) {
         case MEMORY_HACK_C64_256K:
-            set_c64_256k_enabled(1);
+            set_c64_256k_enabled(1, 0);
             break;
         case MEMORY_HACK_PLUS60K:
-            set_plus60k_enabled(1);
+            set_plus60k_enabled(1, 0);
             break;
         case MEMORY_HACK_PLUS256K:
-            set_plus256k_enabled(1);
+            set_plus256k_enabled(1, 0);
             break;
         case MEMORY_HACK_NONE:
             break;
@@ -120,4 +122,114 @@ static const cmdline_option_t cmdline_options[] =
 int memory_hacks_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define C64MEMHACKS_DUMP_VER_MAJOR   0
+#define C64MEMHACKS_DUMP_VER_MINOR   1
+#define SNAP_MODULE_NAME  "C64MEMHACKS"
+
+int memhacks_snapshot_write_modules(struct snapshot_s *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                               C64MEMHACKS_DUMP_VER_MAJOR, C64MEMHACKS_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (SMW_B(m, (BYTE)memory_hack) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    switch (memory_hack) {
+        default:
+        case MEMORY_HACK_NONE:
+            break;
+        case MEMORY_HACK_C64_256K:
+            if (c64_256k_snapshot_write(s) < 0) {
+                return -1;
+            }
+            break;
+        case MEMORY_HACK_PLUS60K:
+            if (plus60k_snapshot_write(s) < 0) {
+                return -1;
+            }
+            break;
+        case MEMORY_HACK_PLUS256K:
+            if (plus256k_snapshot_write(s) < 0) {
+                return -1;
+            }
+            break;
+    }
+    return 0;
+}
+
+int memhacks_snapshot_read_modules(struct snapshot_s *s)
+{
+    snapshot_module_t *m;
+    BYTE vmajor, vminor;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != C64MEMHACKS_DUMP_VER_MAJOR) || (vminor != C64MEMHACKS_DUMP_VER_MINOR)) {
+        goto fail;
+    }
+
+    /* disable all hacks (without reset) before loading snapshot */
+    set_c64_256k_enabled(0, 1);
+    set_plus60k_enabled(0, 1);
+    set_plus256k_enabled(0, 1);
+
+    /* restore default c64 memory config */
+    mem_initialize_memory();
+
+    if (SMR_B_INT(m, &memory_hack) < 0) {
+        goto fail;
+    }
+
+    snapshot_module_close(m);
+
+    switch (memory_hack) {
+        default:
+        case MEMORY_HACK_NONE:
+            break;
+        case MEMORY_HACK_C64_256K:
+            if (c64_256k_snapshot_read(s) < 0) {
+                goto fail;
+            }
+            break;
+        case MEMORY_HACK_PLUS60K:
+            if (plus60k_snapshot_read(s) < 0) {
+                goto fail;
+            }
+            break;
+        case MEMORY_HACK_PLUS256K:
+            if (plus256k_snapshot_read(s) < 0) {
+                goto fail;
+            }
+            break;
+    }
+
+    /* set new memory config */
+    if (memory_hack != MEMORY_HACK_NONE) {
+        mem_initialize_memory();
+    }
+
+    return 0;
+    
+fail:
+    if (m != NULL) {
+        snapshot_module_close(m);
+    }
+    memory_hack = MEMORY_HACK_NONE;
+    return -1;
 }
