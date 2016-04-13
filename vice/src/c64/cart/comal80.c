@@ -75,13 +75,21 @@ static int currregval = 0;
 static void comal80_io1_store(WORD addr, BYTE value)
 {
     int cmode, currbank;
+
     currregval = value & 0xc7;
     currbank = value & 3;
+
     switch (value & 0xe0) {
-        case 0xe0: cmode = CMODE_RAM; break;
-        case 0x80: cmode = CMODE_16KGAME; break;
-        case 0x40: cmode = CMODE_8KGAME; break;
-        default: cmode = CMODE_16KGAME; break;
+        case 0xe0:
+            cmode = CMODE_RAM;
+            break;
+        default:
+        case 0x80:
+            cmode = CMODE_16KGAME;
+            break;
+        case 0x40:
+            cmode = CMODE_8KGAME;
+            break;
     }
 #ifdef DEBUGCART
     if ((value != 0x82) && (value != 0x83)) {
