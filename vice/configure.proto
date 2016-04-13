@@ -3475,6 +3475,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
     dnl when the header is present.
 
     AC_CHECK_HEADERS(X11/IntrinsicI.h)
+    AC_CHECK_HEADERS(X11/XKlib.h)
 
     AC_CHECK_HEADER(X11/extensions/shmproto.h,
             [ AC_DEFINE(HAVE_X11_EXTENSIONS_SHMPROTO_H,,[Use new XShm header]) ]

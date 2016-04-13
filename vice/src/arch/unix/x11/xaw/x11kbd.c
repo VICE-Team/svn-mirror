@@ -36,7 +36,10 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
+
+#ifdef HAVE_X11_XKBLIB_H
 #include <X11/XKBlib.h>
+#endif
 
 #include "kbd.h"
 #include "keyboard.h"
@@ -248,7 +251,7 @@ void kbd_initialize_numpad_joykeys(int* joykeys)
 /* FIXME: add more languages, then copy to gnomekbd.c */
 int kbd_arch_get_host_mapping(void)
 {
-
+#ifdef HAVE_X11_XKBLIB_H
     int n;
     int maps[KBD_MAPPING_NUM] = {
         KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
@@ -285,5 +288,6 @@ int kbd_arch_get_host_mapping(void)
             }
         }
     }
+#endif
     return KBD_MAPPING_US;
 }
