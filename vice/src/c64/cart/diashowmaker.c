@@ -209,7 +209,7 @@ void dsm_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTDSM"
 
 int dsm_snapshot_write_module(snapshot_t *s)
@@ -223,6 +223,7 @@ int dsm_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)dsm_active) < 0)
         || (SMW_BA(m, roml_banks, DSM_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -248,6 +249,7 @@ int dsm_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B_INT(m, &dsm_active) < 0)
         || (SMR_BA(m, roml_banks, DSM_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
