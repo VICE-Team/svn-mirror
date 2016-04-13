@@ -128,10 +128,8 @@ static int set_ds12c887rtc_enabled(int value, void *param)
                 runmode = ds12c887rtc_run_mode;
             }
         }
-        if (export_res.io1 != NULL || export_res.io2 != NULL) {
-            if (c64export_add(&export_res) < 0) {
-                return -1;
-            }
+        if (c64export_add(&export_res) < 0) {
+            return -1;
         }
         ds12c887rtc_list_item = io_source_register(&ds12c887rtc_device);
         ds12c887rtc_context = ds12c887_init("DS12C887");
@@ -143,9 +141,7 @@ static int set_ds12c887rtc_enabled(int value, void *param)
         ds12c887rtc_enabled = 1;
     } else if (ds12c887rtc_enabled && !val) {
         if (ds12c887rtc_list_item != NULL) {
-            if (export_res.io1 != NULL || export_res.io2 != NULL) {
-                c64export_remove(&export_res);
-            }
+            c64export_remove(&export_res);
             io_source_unregister(ds12c887rtc_list_item);
             ds12c887rtc_list_item = NULL;
             if (ds12c887rtc_context) {
@@ -420,7 +416,6 @@ int ds12c887rtc_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    /* FIXME: Implement the RTC snapshot part */
     if (0
         || (SMW_DW(m, (DWORD)ds12c887rtc_base_address) < 0)) {
         snapshot_module_close(m);
@@ -428,7 +423,8 @@ int ds12c887rtc_snapshot_write_module(snapshot_t *s)
     }
 
     snapshot_module_close(m);
-    return 0;
+
+    return ds12c887_write_snapshot(ds12c887rtc_context, s);
 }
 
 int ds12c887rtc_snapshot_read_module(snapshot_t *s)
@@ -447,7 +443,6 @@ int ds12c887rtc_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    /* FIXME: Implement the RTC snapshot part */
     if (0
         || (SMR_DW_INT(m, &temp_ds12c887rtc_address) < 0)) {
         snapshot_module_close(m);
@@ -460,5 +455,9 @@ int ds12c887rtc_snapshot_read_module(snapshot_t *s)
     ds12c887rtc_base_address = -1;
     set_ds12c887rtc_base(temp_ds12c887rtc_address, NULL);
 
-    return ds12c887rtc_enable();
+    if (ds12c887rtc_enable() < 0) {
+        return -1;
+    }
+
+    return ds12c887_read_snapshot(ds12c887rtc_context, s);
 }

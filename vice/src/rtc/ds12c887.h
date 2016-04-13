@@ -87,7 +87,7 @@ extern BYTE ds12c887_read(rtc_ds12c887_t *context);
 
 extern int ds12c887_dump(rtc_ds12c887_t *context);
 
-extern int ds12c887_write_snapshot(rtc_ds12c887_t *context, snapshot_module_t *m);
-extern int ds12c887_read_snapshot(rtc_ds12c887_t *context, snapshot_module_t *m);
+extern int ds12c887_write_snapshot(rtc_ds12c887_t *context, snapshot_t *s);
+extern int ds12c887_read_snapshot(rtc_ds12c887_t *context, snapshot_t *s);
 
 #endif
