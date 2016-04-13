@@ -609,7 +609,7 @@ int georam_flush_image(void)
 
 static char snap_module_name[] = "GEORAM";
 #define SNAP_MAJOR 0
-#define SNAP_MINOR 0
+#define SNAP_MINOR 1
 
 int georam_write_snapshot_module(snapshot_t *s)
 {
@@ -620,7 +620,11 @@ int georam_write_snapshot_module(snapshot_t *s)
         return -1;
     }
 
-    if (SMW_DW(m, (georam_size >> 10)) < 0 || SMW_BA(m, georam, sizeof(georam)) < 0 || SMW_BA(m, georam_ram, georam_size) < 0) {
+    if (0
+        || SMW_B(m, (BYTE)georam_io_swap) < 0
+        || SMW_DW(m, (georam_size >> 10)) < 0
+        || SMW_BA(m, georam, sizeof(georam)) < 0
+        || SMW_BA(m, georam_ram, georam_size) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -642,6 +646,11 @@ int georam_read_snapshot_module(snapshot_t *s)
 
     if (major_version != SNAP_MAJOR) {
         log_error(georam_log, "Major version %d not valid; should be %d.", major_version, SNAP_MAJOR);
+        goto fail;
+    }
+
+    /* Read I/O swap.  */
+    if (SMR_B_INT(m, &georam_io_swap) < 0) {
         goto fail;
     }
 
