@@ -250,7 +250,7 @@ void freezeframe_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTFREEZEF"
 
 int freezeframe_snapshot_write_module(snapshot_t *s)
@@ -264,6 +264,8 @@ int freezeframe_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)freezeframe_rom_8000) < 0)
+        || (SMW_B(m, (BYTE)freezeframe_rom_e000) < 0)
         || (SMW_BA(m, roml_banks, FREEZE_FRAME_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -289,6 +291,8 @@ int freezeframe_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B_INT(m, &freezeframe_rom_8000) < 0)
+        || (SMR_B_INT(m, &freezeframe_rom_e000) < 0)
         || (SMR_BA(m, roml_banks, FREEZE_FRAME_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
