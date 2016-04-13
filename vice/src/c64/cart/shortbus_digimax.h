@@ -27,6 +27,7 @@
 #ifndef VICE_SHORTBUS_DIGIMAX_H
 #define VICE_SHORTBUS_DIGIMAX_H
 
+#include "snapshot.h"
 #include "types.h"
 
 extern int shortbus_digimax_resources_init(void);
@@ -40,5 +41,10 @@ extern void shortbus_digimax_register(void);
 extern void shortbus_digimax_reset(void);
 
 extern void shortbus_digimax_sound_chip_init(void);
+
+extern int shortbus_digimax_enabled(void);
+
+extern int shortbus_digimax_write_snapshot_module(snapshot_t *s);
+extern int shortbus_digimax_read_snapshot_module(snapshot_t *s);
 
 #endif

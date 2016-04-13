@@ -30,6 +30,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "snapshot.h"
+
 #include "shortbus_digimax.h"
 
 /* TODO */
@@ -135,4 +137,141 @@ void shortbus_reset(void)
     shortbus_etfe_reset();
     shortbus_eth64_reset();
 #endif
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define SNAP_MODULE_NAME "SHORTBUS"
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int shortbus_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+    int active_devices = 0;
+    int devices[4] = { 0, 0, 0, 0 };
+
+    if (shortbus_digimax_enabled()) {
+        ++active_devices;
+        devices[0] = 1;
+    }
+
+/* TODO */
+#if 0
+    if (shortbus_duart_enabled()) {
+        ++active_devices;
+        devices[1] = 1;
+    }
+    if (shortbus_etfe_enabled()) {
+        ++active_devices;
+        devices[2] = 1;
+    }
+    if (shortbus_eth64_enabled()) {
+        ++active_devices;
+        devices[3] = 1;
+    }
+#endif
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B(m, (BYTE)active_devices) < 0
+        || SMW_B(m, (BYTE)devices[0]) < 0
+        || SMW_B(m, (BYTE)devices[1]) < 0
+        || SMW_B(m, (BYTE)devices[2]) < 0
+        || SMW_B(m, (BYTE)devices[3]) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    if (active_devices) {
+        if (devices[0]) {
+            if (shortbus_digimax_write_snapshot_module(s) < 0) {
+                return -1;
+            }
+        }
+
+        /* TODO */
+#if 0
+        if (devices[1]) {
+            if (shortbus_duart_write_snapshot_module(s) < 0) {
+                return -1;
+            }
+        }
+        if (devices[2]) {
+            if (shortbus_etfe_write_snapshot_module(s) < 0) {
+                return -1;
+            }
+        }
+        if (devices[3]) {
+            if (shortbus_eth64_write_snapshot_module(s) < 0) {
+                return -1;
+            }
+        }
+#endif
+    }
+
+    return 0;
+}
+
+int shortbus_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+    int active_devices;
+    int devices[4];
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != SNAP_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_B_INT(m, &active_devices) < 0
+        || SMR_B_INT(m, &devices[0]) < 0
+        || SMR_B_INT(m, &devices[1]) < 0
+        || SMR_B_INT(m, &devices[2]) < 0
+        || SMR_B_INT(m, &devices[3]) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (active_devices) {
+        if (devices[0]) {
+            if (shortbus_digimax_read_snapshot_module(s) < 0) {
+                return -1;
+            }        
+        }
+
+        /* TODO */
+#if 0
+        if (devices[1]) {
+            if (shortbus_duart_read_snapshot_module(s) < 0) {
+                return -1;
+            }        
+        }
+        if (devices[2]) {
+            if (shortbus_etfe_read_snapshot_module(s) < 0) {
+                return -1;
+            }        
+        }
+        if (devices[3]) {
+            if (shortbus_eth64_read_snapshot_module(s) < 0) {
+                return -1;
+            }        
+        }
+#endif
+    }
+    return 0;
 }

@@ -1531,11 +1531,13 @@ int ide64_snapshot_write_module(snapshot_t *s)
     SMW_W(m, in_d030);
     SMW_W(m, out_d030);
 
-    /* TODO: RTC snapshot! */
-
     snapshot_module_close(m);
 
-    return 0;
+    if (shortbus_write_snapshot_module(s) < 0) {
+        return -1;
+    }
+
+    return ds1202_1302_write_snapshot(ds1302_context, s);
 }
 
 int ide64_snapshot_read_module(snapshot_t *s)
@@ -1594,9 +1596,15 @@ int ide64_snapshot_read_module(snapshot_t *s)
     SMR_BA(m, export_ram0, 0x8000);
     SMR_DW_INT(m, &current_bank);
     switch (settings_version) {
-    case IDE64_VERSION_3: current_bank &= 3; break;
-    case IDE64_VERSION_4_1: current_bank &= 7; break;
-    case IDE64_VERSION_4_2: current_bank &= 31; break;
+        case IDE64_VERSION_3:
+            current_bank &= 3;
+            break;
+        case IDE64_VERSION_4_1:
+            current_bank &= 7;
+            break;
+        case IDE64_VERSION_4_2:
+            current_bank &= 31;
+            break;
     }
     SMR_DW_INT(m, &current_cfg);
     current_cfg &= 3;
@@ -1607,9 +1615,15 @@ int ide64_snapshot_read_module(snapshot_t *s)
     }
     SMR_W(m, &in_d030);
     SMR_W(m, &out_d030);
-    /* TODO: RTC snapshot! */
 
     snapshot_module_close(m);
 
-    return ide64_common_attach(roml_banks, 0);
+    if (ide64_common_attach(roml_banks, 0) < 0) {
+        return -1;
+    }
+
+    if (shortbus_read_snapshot_module(s) < 0) {
+        return -1;
+    }
+    return ds1202_1302_read_snapshot(ds1302_context, s);
 }

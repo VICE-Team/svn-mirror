@@ -39,4 +39,7 @@ extern void shortbus_register(void);
 
 extern void shortbus_reset(void);
 
+extern int shortbus_write_snapshot_module(snapshot_t *s);
+extern int shortbus_read_snapshot_module(snapshot_t *s);
+
 #endif

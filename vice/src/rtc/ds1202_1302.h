@@ -41,7 +41,7 @@ extern BYTE ds1202_1302_read_data_line(rtc_ds1202_1302_t *context);
 
 extern int ds1202_1302_dump(rtc_ds1202_1302_t *context);
 
-extern int ds1202_1302_write_snapshot(rtc_ds1202_1302_t *context, snapshot_module_t *m);
-extern int ds1202_1302_read_snapshot(rtc_ds1202_1302_t *context, snapshot_module_t *m);
+extern int ds1202_1302_write_snapshot(rtc_ds1202_1302_t *context, snapshot_t *s);
+extern int ds1202_1302_read_snapshot(rtc_ds1202_1302_t *context, snapshot_t *s);
 
 #endif
