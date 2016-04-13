@@ -430,9 +430,8 @@ msgstr "MIDI emulatie"
 
 #: src/arch/unix/gui/c128ui.c:304 src/arch/unix/gui/c64scui.c:392
 #: src/arch/unix/gui/c64ui.c:451
-#, fuzzy
 msgid "I/O collision handling ($D000-$DFFF)"
-msgstr "I/O conflict handeling"
+msgstr "I/O conflict afhandeling ($D000-$DFFF)"
 
 #: src/arch/unix/gui/c128ui.c:306 src/arch/unix/gui/c64scui.c:394
 #: src/arch/unix/gui/c64ui.c:453 src/arch/unix/gui/cbm2ui.c:109
@@ -1029,9 +1028,8 @@ msgid "Memory Expansions Hack"
 msgstr "Geheugen uitbreidingen hack"
 
 #: src/arch/unix/gui/cbm2ui.c:107 src/arch/unix/gui/cbm2ui.c:118
-#, fuzzy
 msgid "I/O collision handling ($D800-$DFFF)"
-msgstr "I/O conflict handeling"
+msgstr "I/O conflict afhandeling ($D800-$DFFF)"
 
 #: src/arch/unix/gui/cbm2ui.c:158
 msgid "Basic 128k, low chars"
@@ -1200,9 +1198,8 @@ msgid "PET userport diagnostic pin"
 msgstr "PET userport diagnostic pin"
 
 #: src/arch/unix/gui/petui.c:261
-#, fuzzy
 msgid "I/O collision handling ($8800-$8FFF / $E900-$EEFF)"
-msgstr "I/O conflict handeling"
+msgstr "I/O conflict afhandeling ($8800-$8FFF / $E900-$EEFF)"
 
 #: src/arch/unix/gui/petui.c:267
 msgid "Basic 1"
@@ -1367,9 +1364,8 @@ msgid "V364 Speech"
 msgstr "V364 Spraak"
 
 #: src/arch/unix/gui/plus4ui.c:287
-#, fuzzy
 msgid "I/O collision handling ($FD00-$FEFF)"
-msgstr "I/O conflict handeling"
+msgstr "I/O conflict afhandeling ($FD00-$FEFF)"
 
 #: src/arch/unix/gui/plus4ui.c:306 src/arch/unix/gui/vic20ui.c:481
 #: src/arch/win32/res.rc.po.c:1155 src/translate_text.c.po.c:5294
@@ -4548,18 +4544,16 @@ msgid "I/O RAM"
 msgstr "I/O RAM"
 
 #: src/arch/unix/gui/vic20ui.c:521
-#, fuzzy
 msgid "VFLI modification"
-msgstr "Burst Modus Modificatie"
+msgstr "VFLI modificatie"
 
 #: src/arch/unix/gui/vic20ui.c:535
 msgid "Ethernet emulation (MasC=uerade)"
 msgstr "Ethernetemulatie (MasC=uerade)"
 
 #: src/arch/unix/gui/vic20ui.c:548
-#, fuzzy
 msgid "I/O collision handling ($9000-$93FF / $9800-$9FFF)"
-msgstr "I/O conflict handeling"
+msgstr "I/O conflict afhandeling ($9000-$93FF / $9800-$9FFF)"
 
 #: src/arch/unix/gui/vic20ui.c:564 src/arch/win32/resvic.rc.po.c:33
 #: src/arch/win32/resvic20.rc.po.c:616 src/arch/amigaos/intl_text.c.po.c:3505
@@ -4771,11 +4765,11 @@ msgstr "Huidige modus"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:216
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:217
 msgid "Port"
-msgstr ""
+msgstr "Poort"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:220
 #: src/arch/unix/x11/gnome/uinetplay.c:223 src/arch/win32/res.rc.po.c:1426
@@ -5195,7 +5189,7 @@ msgid "Save screenshot file"
 msgstr "Opslaan schermafdrukbestand"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't write screenshot to `%s' with gfxdriver `%s'."
 msgstr "Kon beeld afdruk niet opslaan naar `%s' met stuurprogramma `%s'."
 
@@ -5546,7 +5540,7 @@ msgid ""
 "TFE/RR-Net support is not available on your system.\n"
 "The winpcap drivers are not installed.\n"
 "Please download and install winpcap."
-msgstr ""
+msgstr "TFE/RR-Net ondersteuning is niet aanwezig op uw systeem.\nDe winpcap stuurprogrammas zijn niet geinstaleerd.\nDownload winpcap en installeer het."
 
 #: src/arch/win32/res.rc.po.c:1070
 msgid "TFE/RR-Net support"
@@ -6655,113 +6649,92 @@ msgid "bitrate"
 msgstr "bitrate"
 
 #: src/arch/win32/res.rc.po.c:1458
-#, fuzzy
 msgid "Doodle settings"
-msgstr "Model instellingen"
+msgstr "Doodle instellingen"
 
 #: src/arch/win32/res.rc.po.c:1461
-#, fuzzy
 msgid "Koala settings"
-msgstr "Instellingen laden"
+msgstr "Koala instellingen"
 
 #: src/arch/win32/res.rc.po.c:1463
-#, fuzzy
 msgid "TED luminosity handling"
-msgstr "TED lumu afhandeling"
+msgstr "TED helderheid afhandeling"
 
 #: src/arch/win32/res.rc.po.c:1464
-#, fuzzy
 msgid "CRTC text color"
 msgstr "CRTC text kleur"
 
 #: src/arch/win32/res.rc.po.c:1465 src/arch/amigaos/intl_text.c.po.c:12874
-#, fuzzy
 msgid "Scale"
-msgstr "Scale2x"
+msgstr "Schaal"
 
 #: src/arch/win32/res.rc.po.c:1466 src/arch/amigaos/intl_text.c.po.c:12888
-#, fuzzy
 msgid "Crop left top"
 msgstr "crop linker bovenkant"
 
 #: src/arch/win32/res.rc.po.c:1467 src/arch/amigaos/intl_text.c.po.c:12902
-#, fuzzy
 msgid "Crop middle top"
-msgstr "crop linker bovenkant"
+msgstr "crop midden bovenkant"
 
 #: src/arch/win32/res.rc.po.c:1468 src/arch/amigaos/intl_text.c.po.c:12916
-#, fuzzy
 msgid "Crop right top"
 msgstr "crop rechter bovenkant"
 
 #: src/arch/win32/res.rc.po.c:1469 src/arch/amigaos/intl_text.c.po.c:12930
-#, fuzzy
 msgid "Crop left center"
 msgstr "crop linker midden"
 
 #: src/arch/win32/res.rc.po.c:1470 src/arch/amigaos/intl_text.c.po.c:12944
-#, fuzzy
 msgid "Crop middle center"
-msgstr "crop linker midden"
+msgstr "crop midden midden"
 
 #: src/arch/win32/res.rc.po.c:1471 src/arch/amigaos/intl_text.c.po.c:12958
-#, fuzzy
 msgid "Crop right center"
 msgstr "crop rechter midden"
 
 #: src/arch/win32/res.rc.po.c:1472 src/arch/amigaos/intl_text.c.po.c:12972
-#, fuzzy
 msgid "Crop left bottom"
 msgstr "crop linker onderkant"
 
 #: src/arch/win32/res.rc.po.c:1473 src/arch/amigaos/intl_text.c.po.c:12986
-#, fuzzy
 msgid "Crop middle bottom"
-msgstr "crop linker onderkant"
+msgstr "crop midden onderkant"
 
 #: src/arch/win32/res.rc.po.c:1474 src/arch/amigaos/intl_text.c.po.c:13000
-#, fuzzy
 msgid "Crop right bottom"
 msgstr "crop rechter onderkant"
 
 #: src/arch/win32/res.rc.po.c:1475 src/arch/amigaos/intl_text.c.po.c:13014
-#, fuzzy
 msgid "Borderize"
-msgstr "Bordermodus"
+msgstr "Vul in met border"
 
 #: src/arch/win32/res.rc.po.c:1476 src/arch/amigaos/intl_text.c.po.c:13028
 msgid "Black & white"
-msgstr ""
+msgstr "Zwart & wit"
 
 #: src/arch/win32/res.rc.po.c:1479 src/arch/amigaos/intl_text.c.po.c:13070
-#, fuzzy
 msgid "Gray scale"
-msgstr "grijs"
+msgstr "grijs schaal"
 
 #: src/arch/win32/res.rc.po.c:1480 src/arch/amigaos/intl_text.c.po.c:13084
-#, fuzzy
 msgid "Dither"
-msgstr "dither"
+msgstr "Dither"
 
 #: src/arch/win32/res.rc.po.c:1481 src/arch/amigaos/intl_text.c.po.c:13112
-#, fuzzy
 msgid "White"
-msgstr "wit"
+msgstr "Wit"
 
 #: src/arch/win32/res.rc.po.c:1482 src/arch/amigaos/intl_text.c.po.c:13126
-#, fuzzy
 msgid "Amber"
-msgstr "amber"
+msgstr "Amber"
 
 #: src/arch/win32/res.rc.po.c:1483 src/arch/amigaos/intl_text.c.po.c:13140
-#, fuzzy
 msgid "Green"
-msgstr "groen"
+msgstr "Groen"
 
 #: src/arch/win32/res.rc.po.c:1484 src/arch/amigaos/intl_text.c.po.c:13098
-#, fuzzy
 msgid "Ignore"
-msgstr "negeren"
+msgstr "Negeren"
 
 #: src/arch/win32/res.rc.po.c:1485 src/arch/amigaos/intl_text.c.po.c:12146
 msgid "Sound record settings"
@@ -7006,7 +6979,6 @@ msgid "Exit"
 msgstr "Afsluiten"
 
 #: src/arch/win32/res.rc.po.c:1572
-#, fuzzy
 msgid "Advance single frame"
 msgstr "Ga een frame vooruit"
 
@@ -7033,9 +7005,8 @@ msgstr "Reset Teller"
 #: src/arch/win32/res.rc.po.c:1608 src/arch/win32/resiocollisions.rc.po.c:21
 #: src/arch/amigaos/intl_text.c.po.c:1111
 #: src/arch/amigaos/intl_text.c.po.c:13350
-#, fuzzy
 msgid "I/O collision settings"
-msgstr "I/O conflict handeling"
+msgstr "I/O conflict instellingen"
 
 #: src/arch/win32/res.rc.po.c:1610 src/arch/amigaos/intl_text.c.po.c:1125
 msgid "Monitor"
@@ -8062,17 +8033,17 @@ msgstr "I/O conflict handeling"
 #: src/arch/win32/resiocollisions.rc.po.c:23
 #: src/arch/amigaos/intl_text.c.po.c:13294
 msgid "Detach all involved carts"
-msgstr ""
+msgstr "Ontkoppel alle betrokken cartridges"
 
 #: src/arch/win32/resiocollisions.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:13308
 msgid "Detach last inserted cart"
-msgstr ""
+msgstr "Ontkoppel de cartridge die als laatse was geactiveerd"
 
 #: src/arch/win32/resiocollisions.rc.po.c:25
 #: src/arch/amigaos/intl_text.c.po.c:13322
 msgid "'AND' the wires"
-msgstr ""
+msgstr "'AND' de draden"
 
 #: src/arch/win32/resisepic.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:7439
 msgid "Select file for ISEPIC"
@@ -8747,9 +8718,8 @@ msgid "Select Mega-Cart non-volatile RAM file"
 msgstr "Selecteer Mega-Cart non-volatile RAM bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:606
-#, fuzzy
 msgid "Enable VFLI modification"
-msgstr "Activeer MIDI emulatie"
+msgstr "Activeer VFLI modificatie"
 
 #: src/arch/win32/resvic20.rc.po.c:617 src/arch/amigaos/intl_text.c.po.c:2623
 msgid "VIC20 model settings"
@@ -8764,9 +8734,8 @@ msgid "VSP bug"
 msgstr "VSP bug"
 
 #: src/arch/win32/resvsid.rc.po.c:56 src/arch/win32/resvsid.rc.po.c:148
-#, fuzzy
 msgid "Sound volume"
-msgstr "Geluid uitvoer modus"
+msgstr "Geluidsniveau"
 
 #: src/arch/win32/resvsid.rc.po.c:136
 msgid "Select PSID file"
@@ -8777,14 +8746,12 @@ msgid "Tune number"
 msgstr "Deuntje nummer"
 
 #: src/arch/win32/resvsid.rc.po.c:138
-#, fuzzy
 msgid "VSID shortcut keys"
-msgstr "Dump shortcuts"
+msgstr "VSID shortcut toetsen"
 
 #: src/arch/win32/resvsid.rc.po.c:139
-#, fuzzy
 msgid "What VSID shortcut keys are available?"
-msgstr "Welke speciale compileer opties zijn beschikbaar?"
+msgstr "Welke VSID shortcut toetsen zijn beschikbaar?"
 
 #: src/arch/win32/resvsid.rc.po.c:141
 msgid "Select tune"
@@ -8800,7 +8767,7 @@ msgstr "Vorig deuntje"
 
 #: src/arch/win32/resvsid.rc.po.c:145
 msgid "Shortcut keys"
-msgstr ""
+msgstr "Shortcut toetsen"
 
 #: src/arch/amigaos/intl_text.c.po.c:131
 #: src/arch/amigaos/intl_text.c.po.c:11852
@@ -8865,12 +8832,11 @@ msgstr "Structured BASIC bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:1097
 msgid "Single frame advance"
-msgstr ""
+msgstr "Een frame vooruit"
 
 #: src/arch/amigaos/intl_text.c.po.c:1419
-#, fuzzy
 msgid "Native screenshot settings"
-msgstr "Huidige instellingen opslaan"
+msgstr "Koala/doodle scherm afdruk instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:1433
 msgid "Netplay (experimental)"
@@ -9943,54 +9909,44 @@ msgid "CIA model settings"
 msgstr "CIA model instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:13154
-#, fuzzy
 msgid "Doodle oversize handling"
-msgstr "'Te groot' afhandeling"
+msgstr "Doodle 'te groot' afhandeling"
 
 #: src/arch/amigaos/intl_text.c.po.c:13168
-#, fuzzy
 msgid "Doodle undersize handling"
-msgstr "'Te klein' afhandling"
+msgstr "Doodle 'te klein' afhandling"
 
 #: src/arch/amigaos/intl_text.c.po.c:13182
-#, fuzzy
 msgid "Doodle multicolor handling"
-msgstr "Meerdere kleuren afhandeling"
+msgstr "Doodle meerdere kleuren afhandeling"
 
 #: src/arch/amigaos/intl_text.c.po.c:13196
-#, fuzzy
 msgid "Doodle TED luminosity handling"
-msgstr "TED lumu afhandeling"
+msgstr "Doodle TED helderheid afhandeling"
 
 #: src/arch/amigaos/intl_text.c.po.c:13210
-#, fuzzy
 msgid "Doodle CRTC text color"
-msgstr "CRTC text kleur"
+msgstr "Doodle CRTC text kleur"
 
 #: src/arch/amigaos/intl_text.c.po.c:13224
-#, fuzzy
 msgid "Koala oversize handling"
-msgstr "'Te groot' afhandeling"
+msgstr "Koala 'te groot' afhandeling"
 
 #: src/arch/amigaos/intl_text.c.po.c:13238
-#, fuzzy
 msgid "Koala undersize handling"
-msgstr "'Te klein' afhandling"
+msgstr "Koala 'te klein' afhandling"
 
 #: src/arch/amigaos/intl_text.c.po.c:13252
-#, fuzzy
 msgid "Koala TED luminosity handling"
-msgstr "TED lumu afhandeling"
+msgstr "Koala TED helderheid afhandeling"
 
 #: src/arch/amigaos/intl_text.c.po.c:13266
-#, fuzzy
 msgid "Koala CRTC text color"
-msgstr "CRTC text kleur"
+msgstr "Koala CRTC text kleur"
 
 #: src/arch/amigaos/intl_text.c.po.c:13280
-#, fuzzy
 msgid "Screenshot settings"
-msgstr "Huidige instellingen opslaan"
+msgstr "Schermafdruk instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:13364
 msgid "Select SID file to load"
@@ -11360,14 +11316,12 @@ msgid "Disable random initial autostart delay."
 msgstr "Willekeurige vertraging bij begin van het uitostarten uitschakelen."
 
 #: src/translate_text.c.po.c:4267
-#, fuzzy
 msgid "Enable VFLI modification."
-msgstr "Activeer MIDI emulatie"
+msgstr "Activeer VFLI modificatie"
 
 #: src/translate_text.c.po.c:4284
-#, fuzzy
 msgid "Disable VFLI modification."
-msgstr "MIDI emulatie uitschakelen"
+msgstr "VFLI modificatie uitschakelen"
 
 #: src/translate_text.c.po.c:4301
 msgid ""
@@ -12049,7 +12003,6 @@ msgid "Remove the MMC64 Flash Jumper"
 msgstr "Verwijder de MMC64 Flash Jumper"
 
 #: src/translate_text.c.po.c:7336
-#, fuzzy
 msgid "Save the RRNETMK3 bios when changed"
 msgstr "Sla de RRNET MK3 bios op als er veranderingen zijn gemaakt"
 
