@@ -211,7 +211,7 @@ void stb_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTSTB"
 
 int stb_snapshot_write_module(snapshot_t *s)
@@ -225,6 +225,8 @@ int stb_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)stb_bank) < 0)
+        || (SMW_B(m, (BYTE)stb_active) < 0)
         || (SMW_BA(m, roml_banks, 0x4000) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -250,6 +252,8 @@ int stb_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B_INT(m, &stb_bank) < 0)
+        || (SMR_B_INT(m, &stb_active) < 0)
         || (SMR_BA(m, roml_banks, 0x4000) < 0)) {
         snapshot_module_close(m);
         return -1;
