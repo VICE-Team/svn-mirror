@@ -47,6 +47,7 @@
 #include "c64acia.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "debugcart.h"
 #include "digimax.h"
 #include "ds12c887rtc.h"
 #include "export.h"
@@ -534,20 +535,14 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
                 }
                 break;
             case CARTRIDGE_VIC20_IO2_RAM:
-#if 0
-                /* TODO */
                 if (ioramcart_io2_snapshot_write_module(s) < 0) {
                     return -1;
                 }
-#endif
                 break;
             case CARTRIDGE_VIC20_IO3_RAM:
-#if 0
-                /* TODO */
                 if (ioramcart_io3_snapshot_write_module(s) < 0) {
                     return -1;
                 }
-#endif
                 break;
             case CARTRIDGE_VIC20_MEGACART:
                 if (megacart_snapshot_write_module(s) < 0) {
@@ -703,20 +698,14 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
                 }
                 break;
             case CARTRIDGE_VIC20_IO2_RAM:
-#if 0
-                /* TODO */
                 if (ioramcart_io2_snapshot_read_module(s) < 0) {
                     return -1;
                 }
-#endif
                 break;
             case CARTRIDGE_VIC20_IO3_RAM:
-#if 0
-                /* TODO */
                 if (ioramcart_io3_snapshot_read_module(s) < 0) {
                     return -1;
                 }
-#endif
                 break;
             case CARTRIDGE_VIC20_MEGACART:
                 if (megacart_snapshot_read_module(s) < 0) {

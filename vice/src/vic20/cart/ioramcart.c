@@ -34,6 +34,7 @@
 #include "export.h"
 #include "ioramcart.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 
@@ -199,4 +200,99 @@ void ioramcart_io2_detach(void)
 void ioramcart_io3_detach(void)
 {
     set_ram_io3_enabled(0, NULL);
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define IORAMCART_DUMP_VER_MAJOR   0
+#define IORAMCART_DUMP_VER_MINOR   0
+#define SNAP_IO2_MODULE_NAME  "IO2RAMCART"
+#define SNAP_IO3_MODULE_NAME  "IO2RAMCART"
+
+int ioramcart_io2_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_IO2_MODULE_NAME, IORAMCART_DUMP_VER_MAJOR, IORAMCART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (SMW_BA(m, ram_io2, 0x400) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int ioramcart_io2_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_IO2_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (vmajor != IORAMCART_DUMP_VER_MAJOR || vminor != IORAMCART_DUMP_VER_MINOR) {
+        goto fail;
+    }
+
+    if (SMR_BA(m, ram_io2, 0x400) < 0) {
+        goto fail;
+    }
+
+    snapshot_module_close(m);
+    return set_ram_io2_enabled(1, NULL);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+int ioramcart_io3_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_IO3_MODULE_NAME, IORAMCART_DUMP_VER_MAJOR, IORAMCART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (SMW_BA(m, ram_io3, 0x400) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int ioramcart_io3_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_IO3_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (vmajor != IORAMCART_DUMP_VER_MAJOR || vminor != IORAMCART_DUMP_VER_MINOR) {
+        goto fail;
+    }
+
+    if (SMR_BA(m, ram_io3, 0x400) < 0) {
+        goto fail;
+    }
+
+    snapshot_module_close(m);
+    return set_ram_io3_enabled(1, NULL);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
