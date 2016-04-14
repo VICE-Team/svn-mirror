@@ -29,6 +29,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "machine.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -70,7 +71,7 @@ static int ieee488_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ieee488_device = {
-    "IEEE488",
+    CARTRIDGE_VIC20_NAME_IEEE488,
     IO_DETACH_RESOURCE,
     "IEEE488",
     0x9800, 0x9bff, 0x3ff,
@@ -86,6 +87,10 @@ static io_source_t ieee488_device = {
 
 static io_source_list_t *ieee488_list_item = NULL;
 
+static const export_resource_t export_res = {
+    CARTRIDGE_VIC20_NAME_IEEE488, 0, 0, &ieee488_device, NULL, CARTRIDGE_VIC20_IEEE488
+};
+
 /* ---------------------------------------------------------------------*/
 
 static int set_ieee488_enabled(int value, void *param)
@@ -93,9 +98,13 @@ static int set_ieee488_enabled(int value, void *param)
     int val = value ? 1 : 0;
 
     if (!ieee488_enabled && val) {
+        if (export_add(&export_res) < 0) {
+            return -1;
+        }
         ieee488_list_item = io_source_register(&ieee488_device);
         ieee488_enabled = 1;
     } else if (ieee488_enabled && !val) {
+        export_remove(&export_res);
         io_source_unregister(ieee488_list_item);
         ieee488_list_item = NULL;
         ieee488_enabled = 0;
@@ -191,4 +200,11 @@ int vic20_ieee488_snapshot_read_module(snapshot_t *s)
     snapshot_module_close(m);
     return 0;
 #endif
+}
+
+/* ---------------------------------------------------------------------*/
+
+void vic20_ieee488_detach(void)
+{
+    set_ieee488_enabled(0, NULL);
 }

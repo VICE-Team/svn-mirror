@@ -30,11 +30,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "digimax.h"
+#include "export.h"
 #include "lib.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -87,7 +87,7 @@ static io_source_t digimax_device = {
 
 static io_source_list_t * digimax_list_item = NULL;
 
-static c64export_resource_t export_res = {
+static export_resource_t export_res = {
     CARTRIDGE_NAME_DIGIMAX, 0, 0, &digimax_device, NULL, CARTRIDGE_DIGIMAX
 };
 
@@ -123,14 +123,14 @@ static int set_digimax_enabled(int value, void *param)
     int val = value ? 1 : 0;
 
     if (!digimax_sound_chip.chip_enabled && val) {
-        if (c64export_add(&export_res) < 0) {
+        if (export_add(&export_res) < 0) {
             return -1;
         }
         digimax_list_item = io_source_register(&digimax_device);
         digimax_sound_chip.chip_enabled = 1;
     } else if (digimax_sound_chip.chip_enabled && !val) {
         if (digimax_list_item != NULL) {
-            c64export_remove(&export_res);
+            export_remove(&export_res);
             io_source_unregister(digimax_list_item);
             digimax_list_item = NULL;
         }

@@ -34,9 +34,9 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "log.h"
 #include "snapshot.h"
 #include "supersnapshot4.h"
@@ -139,7 +139,7 @@ static io_source_list_t *ss4_io1_list_item = NULL;
 static io_source_list_t *ss4_io2_list_item = NULL;
 
 
-static const c64export_resource_t export_res_v4 = {
+static const export_resource_t export_res_v4 = {
     CARTRIDGE_NAME_SUPER_SNAPSHOT, 1, 1, &ss4_io1_device, &ss4_io2_device, CARTRIDGE_SUPER_SNAPSHOT
 };
 
@@ -287,7 +287,7 @@ void supersnapshot_v4_config_setup(BYTE *rawcart)
 
 static int supersnapshot_v4_common_attach(void)
 {
-    if (c64export_add(&export_res_v4) < 0) {
+    if (export_add(&export_res_v4) < 0) {
         return -1;
     }
     ss4_io1_list_item = io_source_register(&ss4_io1_device);
@@ -389,7 +389,7 @@ int supersnapshot_v4_crt_attach(FILE *fd, BYTE *rawcart)
 
 void supersnapshot_v4_detach(void)
 {
-    c64export_remove(&export_res_v4);
+    export_remove(&export_res_v4);
     io_source_unregister(ss4_io1_list_item);
     io_source_unregister(ss4_io2_list_item);
     ss4_io1_list_item = NULL;

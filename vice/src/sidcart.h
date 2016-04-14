@@ -42,4 +42,6 @@ extern int sidcart_clock;
 
 extern void sidcart_sound_chip_init(void);
 
+extern void sidcart_detach(void);
+
 #endif

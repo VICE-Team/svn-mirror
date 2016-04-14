@@ -86,12 +86,12 @@ bit0    ?
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "c64parallel.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "drive.h"
+#include "export.h"
 #include "maincpu.h"
 #include "machine.h"
 #include "mc6821core.h"
@@ -125,7 +125,7 @@ static io_source_t formel64_io2_device = {
 
 static io_source_list_t *formel64_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_FORMEL64, 1, 1, NULL, &formel64_io2_device, CARTRIDGE_FORMEL64
 };
 
@@ -313,7 +313,7 @@ void formel64_config_setup(BYTE *rawcart)
 
 static int formel64_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
 
@@ -357,7 +357,7 @@ int formel64_crt_attach(FILE *fd, BYTE *rawcart)
 
 void formel64_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(formel64_io2_list_item);
     formel64_io2_list_item = NULL;
 }

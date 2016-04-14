@@ -40,10 +40,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "crt.h"
+#include "export.h"
 #include "kcs.h"
 #include "log.h"
 #include "maincpu.h"
@@ -254,7 +254,7 @@ static io_source_t kcs_io2_device = {
 static io_source_list_t *kcs_io1_list_item = NULL;
 static io_source_list_t *kcs_io2_list_item = NULL;
 
-static const c64export_resource_t export_res_kcs = {
+static const export_resource_t export_res_kcs = {
     CARTRIDGE_NAME_KCS_POWER, 1, 1, &kcs_io1_device, &kcs_io2_device, CARTRIDGE_KCS_POWER
 };
 
@@ -284,7 +284,7 @@ void kcs_config_setup(BYTE *rawcart)
 
 static int kcs_common_attach(void)
 {
-    if (c64export_add(&export_res_kcs) < 0) {
+    if (export_add(&export_res_kcs) < 0) {
         return -1;
     }
 
@@ -325,7 +325,7 @@ int kcs_crt_attach(FILE *fd, BYTE *rawcart)
 
 void kcs_detach(void)
 {
-    c64export_remove(&export_res_kcs);
+    export_remove(&export_res_kcs);
     io_source_unregister(kcs_io1_list_item);
     io_source_unregister(kcs_io2_list_item);
     kcs_io1_list_item = NULL;

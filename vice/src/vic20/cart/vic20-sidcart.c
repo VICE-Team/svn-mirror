@@ -29,6 +29,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "resources.h"
 #include "sid.h"
 #include "sidcart.h"
@@ -40,7 +41,7 @@
 /* ---------------------------------------------------------------------*/
 
 static io_source_t sidcart_device = {
-    "SIDCART",
+    CARTRIDGE_VIC20_NAME_SIDCART,
     IO_DETACH_RESOURCE,
     "SidCart",
     0x9800, 0x9bff, 0x3ff,
@@ -55,6 +56,10 @@ static io_source_t sidcart_device = {
 };
 
 static io_source_list_t *sidcart_list_item = NULL;
+
+static const export_resource_t export_res = {
+    CARTRIDGE_VIC20_NAME_SIDCART, 0, 0, &sidcart_device, NULL, CARTRIDGE_VIC20_SIDCART
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -97,14 +102,19 @@ int sidcart_enabled(void)
     return sidcart_sound_chip.chip_enabled;
 }
 
-static void sidcart_enable(void)
+static int sidcart_enable(void)
 {
+    if (export_add(&export_res) < 0) {
+        return -1;
+    }
     sidcart_list_item = io_source_register(&sidcart_device);
+    return 0;
 }
 
 static void sidcart_disable(void)
 {
     if (sidcart_list_item != NULL) {
+        export_remove(&export_res);
         io_source_unregister(sidcart_list_item);
         sidcart_list_item = NULL;
     }
@@ -126,11 +136,12 @@ static int set_sidcart_address(int val)
         sidcart_disable();
         sidcart_device.start_address = address;
         sidcart_device.end_address = address + 0x3ff;
-        sidcart_enable();
-    } else {
-        sidcart_device.start_address = address;
-        sidcart_device.end_address = address + 0x3ff;
+        return sidcart_enable();
     }
+
+    sidcart_device.start_address = address;
+    sidcart_device.end_address = address + 0x3ff;
+
     return 0;
 }
 
@@ -140,7 +151,9 @@ static int set_sidcart_enabled(int value, void *param)
 
     if (val != sidcart_sound_chip.chip_enabled) {
         if (val) {
-            sidcart_enable();
+            if (sidcart_enable() < 0) {
+                return -1;
+            }
         } else {
             sidcart_disable();
         }
@@ -228,4 +241,11 @@ int sidcart_cmdline_options_init(void)
         return -1;
     }
     return cmdline_register_options(sidcart_cmdline_options);
+}
+
+/* ---------------------------------------------------------------------*/
+
+void sidcart_detach(void)
+{
+    set_sidcart_enabled(0, NULL);
 }

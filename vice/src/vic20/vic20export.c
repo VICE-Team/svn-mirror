@@ -1,8 +1,7 @@
 /*
- * c64export.c - Expansion port and devices handling for the C64.
+ * vic20export.c - Expansion port and devices handling for the VIC20.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -31,13 +30,8 @@
 #include <string.h>
 
 #include "assert.h"
-#include "c64cart.h"
-#include "c64cartsystem.h"
 #include "export.h"
 #include "lib.h"
-#include "monitor.h"
-#include "translate.h"
-#include "uiapi.h"
 
 /* #define DEBUGEXPORT */
 
@@ -47,63 +41,20 @@
 #define DBG(x)
 #endif
 
-export_list_t c64export_head = { NULL, NULL, NULL };
+export_list_t vic20export_head = { NULL, NULL, NULL };
 
 export_list_t *export_query_list(export_list_t *item)
 {
     if (item) {
         return item->next;
     } else {
-        return c64export_head.next;
+        return vic20export_head.next;
     }
 }
 
 void export_dump(void)
 {
-    export_list_t *current = NULL;
-    io_source_t *io;
-
-    current = export_query_list(current);
-
-    if (current == NULL) {
-        mon_out("No expansion port devices.\n");
-    } else {
-               /*- -----    -     - --------- --------- ------------------------ */
-        mon_out("  CRTID GAME EXROM IO1-usage IO2-usage Name\n");
-        while (current != NULL) {
-            if (cart_is_slotmain(current->device->cartid)) {
-                mon_out("* ");
-            } else {
-                mon_out("  ");
-            }
-            mon_out("%5d ", current->device->cartid);
-            mon_out("%4s ", current->device->game ? "*" : "-");
-            mon_out("%5s ", current->device->exrom ? "*" : "-");
-            io = current->device->io1;
-            if (io) {
-                mon_out("%04x-%04x ", io->start_address, io->end_address);
-            } else {
-                mon_out("     none ");
-            }
-            io = current->device->io2;
-            if (io) {
-                mon_out("%04x-%04x ", io->start_address, io->end_address);
-            } else {
-                mon_out("     none ");
-            }
-            /* show (inactive) in front of the name when no PLA lines nor
-               I/O resources are used, this should not happen in normal
-               operation and usually indicates a bug */
-            if ((!current->device->game) &&
-                (!current->device->exrom) &&
-                (!current->device->io1) &&
-                (!current->device->io2)) {
-                mon_out("(inactive) ");
-            }
-            mon_out("%s\n", current->device->name);
-            current = current->next;
-        }
-    }
+    /* TODO */
 }
 
 int export_add(const export_resource_t *export_res)
@@ -115,7 +66,7 @@ int export_add(const export_resource_t *export_res)
     DBG(("EXP: register name:%s\n", export_res->name));
 
     /* find last entry */
-    current = &c64export_head;
+    current = &vic20export_head;
     while (current->next != NULL) {
         current = current->next;
     }
@@ -137,7 +88,7 @@ int export_remove(const export_resource_t *export_res)
     DBG(("EXP: unregister name:%s\n", export_res->name));
 
     /* find entry */
-    current = c64export_head.next;
+    current = vic20export_head.next;
     while (current != NULL) {
         if (current->device) {
             if (current->device == export_res) {

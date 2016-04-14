@@ -36,5 +36,4 @@ libvic20cart_a_SOURCES = \
 	vic20cartmem.h
 
 libmascuerade_a_SOURCES = \
-	mascuerade-stubs.c \
-	mascuerade-stubs.h
+	mascuerade-stubs.c

@@ -34,10 +34,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -105,7 +105,7 @@ static io_source_t ss5_device = {
 
 static io_source_list_t *ss5_list_item = NULL;
 
-static const c64export_resource_t export_res_v5 = {
+static const export_resource_t export_res_v5 = {
     CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, 1, 1, &ss5_device, NULL, CARTRIDGE_SUPER_SNAPSHOT_V5
 };
 
@@ -253,7 +253,7 @@ void supersnapshot_v5_config_setup(BYTE *rawcart)
 
 static int supersnapshot_v5_common_attach(void)
 {
-    if (c64export_add(&export_res_v5) < 0) {
+    if (export_add(&export_res_v5) < 0) {
         return -1;
     }
 
@@ -295,7 +295,7 @@ int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart)
 
 void supersnapshot_v5_detach(void)
 {
-    c64export_remove(&export_res_v5);
+    export_remove(&export_res_v5);
     io_source_unregister(ss5_list_item);
     ss5_list_item = NULL;
 }

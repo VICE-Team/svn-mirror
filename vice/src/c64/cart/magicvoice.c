@@ -39,11 +39,11 @@
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOT0_API
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -836,7 +836,7 @@ static io_source_t magicvoice_io2_device = {
 
 static io_source_list_t *magicvoice_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_MAGIC_VOICE, 1, 1, NULL, &magicvoice_io2_device, CARTRIDGE_MAGIC_VOICE
 };
 
@@ -1084,7 +1084,7 @@ static int set_magicvoice_enabled(int value, void *param)
             DBG(("MV: BUG: magicvoice_sound_chip.chip_enabled == 1 and magicvoice_io2_list_item == NULL ?!\n"));
         }
 #endif
-        c64export_remove(&export_res);
+        export_remove(&export_res);
         io_source_unregister(magicvoice_io2_list_item);
         magicvoice_io2_list_item = NULL;
         magicvoice_sound_chip.chip_enabled = 0;
@@ -1105,7 +1105,7 @@ static int set_magicvoice_enabled(int value, void *param)
         } else {
             cart_power_off();
             /* if the param is == NULL, then we should actually set the resource */
-            if (c64export_add(&export_res) < 0) {
+            if (export_add(&export_res) < 0) {
                 DBG(("MV: set_enabled did not register\n"));
                 return -1;
             } else {

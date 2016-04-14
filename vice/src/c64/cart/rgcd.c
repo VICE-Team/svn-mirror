@@ -34,10 +34,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "rgcd.h"
 #include "monitor.h"
 #include "snapshot.h"
@@ -114,7 +114,7 @@ static io_source_t rgcd_device = {
 
 static io_source_list_t *rgcd_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_RGCD, 1, 1, &rgcd_device, NULL, CARTRIDGE_RGCD
 };
 
@@ -143,7 +143,7 @@ void rgcd_config_setup(BYTE *rawcart)
 
 static int rgcd_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     rgcd_list_item = io_source_register(&rgcd_device);
@@ -178,7 +178,7 @@ int rgcd_crt_attach(FILE *fd, BYTE *rawcart)
 
 void rgcd_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(rgcd_list_item);
     rgcd_list_item = NULL;
 }

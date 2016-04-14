@@ -33,11 +33,11 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "comal80.h"
+#include "export.h"
 #include "lib.h"
 #include "monitor.h"
 #include "snapshot.h"
@@ -145,7 +145,7 @@ static io_source_t pagefox_device = {
 
 static io_source_list_t *pagefox_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_PAGEFOX, 1, 1, &pagefox_device, NULL, CARTRIDGE_PAGEFOX
 };
 
@@ -207,7 +207,7 @@ void pagefox_config_setup(BYTE *rawcart)
 /* ---------------------------------------------------------------------*/
 static int pagefox_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     pagefox_list_item = io_source_register(&pagefox_device);
@@ -246,7 +246,7 @@ int pagefox_crt_attach(FILE *fd, BYTE *rawcart)
 
 void pagefox_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(pagefox_list_item);
     pagefox_list_item = NULL;
     lib_free(pagefox_ram);

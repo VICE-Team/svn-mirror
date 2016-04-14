@@ -33,9 +33,9 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "monitor.h"
 #include "snapshot.h"
 #include "stb.h"
@@ -74,7 +74,7 @@ static io_source_t stb_device = {
 
 static io_source_list_t *stb_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_STRUCTURED_BASIC, 1, 0, &stb_device, NULL, CARTRIDGE_STRUCTURED_BASIC
 };
 
@@ -161,7 +161,7 @@ void stb_config_setup(BYTE *rawcart)
 static int stb_common_attach(void)
 {
     /* add export */
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
 
@@ -203,7 +203,7 @@ int stb_crt_attach(FILE *fd, BYTE *rawcart)
 
 void stb_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(stb_list_item);
     stb_list_item = NULL;
 }

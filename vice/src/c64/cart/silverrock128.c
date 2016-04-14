@@ -191,9 +191,9 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "silverrock128.h"
 #include "monitor.h"
 #include "snapshot.h"
@@ -267,7 +267,7 @@ static io_source_t silverrock128_device = {
 
 static io_source_list_t *silverrock128_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_SILVERROCK_128, 1, 0, &silverrock128_device, NULL, CARTRIDGE_SILVERROCK_128
 };
 
@@ -289,7 +289,7 @@ void silverrock128_config_setup(BYTE *rawcart)
 /* ---------------------------------------------------------------------*/
 static int silverrock128_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     silverrock128_list_item = io_source_register(&silverrock128_device);
@@ -334,7 +334,7 @@ int silverrock128_crt_attach(FILE *fd, BYTE *rawcart)
 
 void silverrock128_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(silverrock128_list_item);
     silverrock128_list_item = NULL;
 }

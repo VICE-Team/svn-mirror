@@ -33,10 +33,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
@@ -226,13 +226,13 @@ void actionreplay3_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_ACTION_REPLAY3, 1, 1, &actionreplay3_io1_device, &actionreplay3_io2_device, CARTRIDGE_ACTION_REPLAY3
 };
 
 static int actionreplay3_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
 
@@ -275,7 +275,7 @@ int actionreplay3_crt_attach(FILE *fd, BYTE *rawcart)
 
 void actionreplay3_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(actionreplay3_io1_list_item);
     io_source_unregister(actionreplay3_io2_list_item);
     actionreplay3_io1_list_item = NULL;

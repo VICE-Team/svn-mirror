@@ -33,10 +33,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
@@ -75,7 +75,7 @@ static io_source_t westermann_device = {
 
 static io_source_list_t *westermann_list_item = NULL;
 
-static const c64export_resource_t export_res_westermann = {
+static const export_resource_t export_res_westermann = {
     CARTRIDGE_NAME_WESTERMANN, 1, 0, NULL, &westermann_device, CARTRIDGE_WESTERMANN
 };
 
@@ -120,7 +120,7 @@ void westermann_config_setup(BYTE *rawcart)
 
 static int westermann_common_attach(void)
 {
-    if (c64export_add(&export_res_westermann) < 0) {
+    if (export_add(&export_res_westermann) < 0) {
         return -1;
     }
     westermann_list_item = io_source_register(&westermann_device);
@@ -157,7 +157,7 @@ int westermann_crt_attach(FILE *fd, BYTE *rawcart)
 
 void westermann_detach(void)
 {
-    c64export_remove(&export_res_westermann);
+    export_remove(&export_res_westermann);
     io_source_unregister(westermann_list_item);
     westermann_list_item = NULL;
 }

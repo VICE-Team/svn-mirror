@@ -35,12 +35,12 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "export.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -126,7 +126,7 @@ static io_source_t rrnetmk3_io1_device = {
 
 static io_source_list_t *rrnetmk3_io1_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_RRNETMK3, 1, 0, &rrnetmk3_io1_device, NULL, CARTRIDGE_RRNETMK3
 };
 
@@ -329,7 +329,7 @@ static int rrnetmk3_common_attach(void)
     LOG(("RRNETMK3: rrnetmk3_common_attach '%s'", rrnetmk3_bios_filename));
     cart_power_off();
     /* if the param is == NULL, then we should actually set the resource */
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         LOG(("RRNETMK3: export did not register"));
         return -1;
     } else {
@@ -454,7 +454,7 @@ void rrnetmk3_detach(void)
         rrnetmk3_flush_image();
     }
     cart_power_off();
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     rrnetmk3_enabled = 0;
     cart_set_port_exrom_slotmain(0);
     cart_port_config_changed_slotmain();

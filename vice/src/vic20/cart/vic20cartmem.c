@@ -34,12 +34,14 @@
 #include "ds12c887rtc.h"
 #include "finalexpansion.h"
 #include "georam.h"
+#include "ioramcart.h"
 #include "megacart.h"
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
+#include "sidcart.h"
 #ifdef HAVE_TFE
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #define CARTRIDGE_INCLUDE_PUBLIC_API
@@ -48,11 +50,14 @@
 #undef CARTRIDGE_INCLUDE_PUBLIC_API
 #endif
 #include "types.h"
+#include "ultimem.h"
 #include "vic20mem.h"
 #include "vic20cartmem.h"
 #include "vic20-generic.h"
-#include "ultimem.h"
+#include "vic20-ieee488.h"
+#include "vic20-midi.h"
 #include "vic-fp.h"
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -467,11 +472,42 @@ void cartridge_attach(int type, BYTE *rawcart)
     }
 }
 
+static void cart_detach_all(void)
+{
+    /* vic20 carts */
+    generic_detach();
+    finalexpansion_detach();
+    ioramcart_io2_detach();
+    ioramcart_io3_detach();
+    megacart_detach();
+    vic_um_detach();
+    vic20_ieee488_detach();
+#ifdef HAVE_MIDI
+    vic20_midi_detach();
+#endif
+    sidcart_detach();
+    vic_fp_detach();
+
+    /* c64 through mascuerade carts */
+    aciacart_detach();
+    digimax_detach();
+    ds12c887rtc_detach();
+    georam_detach();
+    sfx_soundexpander_detach();
+    sfx_soundsampler_detach();
+#ifdef HAVE_TFE
+    tfe_detach();
+#endif
+}
+
 void cartridge_detach(int type)
 {
     int cartridge_reset;
 
     switch (type) {
+        case -1:
+            cart_detach_all();
+            break;
         case CARTRIDGE_VIC20_GENERIC:
             generic_detach();
             break;

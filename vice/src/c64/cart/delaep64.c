@@ -33,10 +33,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "delaep64.h"
+#include "export.h"
 #include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
@@ -168,7 +168,7 @@ static io_source_t delaep64_device = {
 
 static io_source_list_t *delaep64_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_DELA_EP64, 1, 0, &delaep64_device, NULL, CARTRIDGE_DELA_EP64
 };
 
@@ -188,7 +188,7 @@ void delaep64_config_setup(BYTE *rawcart)
 /* ---------------------------------------------------------------------*/
 static int delaep64_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     delaep64_list_item = io_source_register(&delaep64_device);
@@ -269,7 +269,7 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
 
 void delaep64_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(delaep64_list_item);
     delaep64_list_item = NULL;
 }

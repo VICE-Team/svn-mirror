@@ -44,10 +44,10 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -277,7 +277,7 @@ static io_source_t reu_io2_device = {
 
 static io_source_list_t *reu_list_item = NULL;
 
-static const c64export_resource_t export_res_reu = {
+static const export_resource_t export_res_reu = {
     CARTRIDGE_NAME_REU, 0, 0, NULL, &reu_io2_device, CARTRIDGE_REU
 };
 
@@ -319,7 +319,7 @@ static int set_reu_enabled(int value, void *param)
         if (reu_deactivate() < 0) {
             return -1;
         }
-        c64export_remove(&export_res_reu);
+        export_remove(&export_res_reu);
         io_source_unregister(reu_list_item);
         reu_list_item = NULL;
         reu_enabled = 0;
@@ -327,7 +327,7 @@ static int set_reu_enabled(int value, void *param)
         if (reu_activate() < 0) {
             return -1;
         }
-        if (c64export_add(&export_res_reu) < 0) {
+        if (export_add(&export_res_reu) < 0) {
             return -1;
         }
         reu_list_item = io_source_register(&reu_io2_device);

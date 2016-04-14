@@ -38,6 +38,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "flash040.h"
 #include "lib.h"
 #include "log.h"
@@ -183,7 +184,13 @@ static io_source_t ultimem_io3 = {
     0
 };
 
-static io_source_list_t *io2_list_item, *io3_list_item;
+static io_source_list_t *io2_list_item = NULL;
+static io_source_list_t *io3_list_item = NULL;
+
+static const export_resource_t export_res = {
+    CARTRIDGE_VIC20_NAME_UM, 0, 0, &ultimem_io2, &ultimem_io2, CARTRIDGE_VIC20_UM
+};
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -610,6 +617,10 @@ int vic_um_bin_attach(const char *filename)
         return -1;
     }
 
+    if (export_add(&export_res) < 0) {
+        return -1;
+    }
+
     zfile_fclose(fd);
 
     flash040core_init(&flash_state, maincpu_alarm_context,
@@ -665,6 +676,8 @@ void vic_um_detach(void)
     cart_ram = NULL;
     cart_rom = NULL;
     cartfile = NULL;
+
+    export_remove(&export_res);
 
     if (io2_list_item != NULL) {
         io_source_unregister(io2_list_item);

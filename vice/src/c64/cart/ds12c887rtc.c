@@ -30,12 +30,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "ds12c887.h"
 #include "ds12c887rtc.h"
+#include "export.h"
 #include "lib.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -99,7 +99,7 @@ static io_source_t ds12c887rtc_device = {
 
 static io_source_list_t *ds12c887rtc_list_item = NULL;
 
-static c64export_resource_t export_res = {
+static export_resource_t export_res = {
     CARTRIDGE_NAME_DS12C887RTC, 0, 0, &ds12c887rtc_device, NULL, CARTRIDGE_DS12C887RTC
 };
 
@@ -128,7 +128,7 @@ static int set_ds12c887rtc_enabled(int value, void *param)
                 runmode = ds12c887rtc_run_mode;
             }
         }
-        if (c64export_add(&export_res) < 0) {
+        if (export_add(&export_res) < 0) {
             return -1;
         }
         ds12c887rtc_list_item = io_source_register(&ds12c887rtc_device);
@@ -141,7 +141,7 @@ static int set_ds12c887rtc_enabled(int value, void *param)
         ds12c887rtc_enabled = 1;
     } else if (ds12c887rtc_enabled && !val) {
         if (ds12c887rtc_list_item != NULL) {
-            c64export_remove(&export_res);
+            export_remove(&export_res);
             io_source_unregister(ds12c887rtc_list_item);
             ds12c887rtc_list_item = NULL;
             if (ds12c887rtc_context) {

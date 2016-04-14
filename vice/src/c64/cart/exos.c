@@ -32,13 +32,13 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "c64memrom.h"
 #include "c64rom.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "exos.h"
+#include "export.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -55,7 +55,7 @@
       (the cartridge uses a clip to the inside of the computer for this)
 */
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_EXOS, 1, 1, NULL, NULL, CARTRIDGE_EXOS
 };
 
@@ -102,7 +102,7 @@ void exos_config_setup(BYTE *rawcart)
 
 static int exos_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     return 0;
@@ -138,7 +138,7 @@ int exos_crt_attach(FILE *fd, BYTE *rawcart)
 
 void exos_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
 }
 
 /* ---------------------------------------------------------------------*/

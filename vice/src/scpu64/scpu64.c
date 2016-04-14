@@ -40,7 +40,6 @@
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cia.h"
-#include "c64export.h"
 #include "c64fastiec.h"
 #include "scpu64gluelogic.h"
 #include "c64iec.h"
@@ -57,6 +56,7 @@
 #include "drive-resources.h"
 #include "drive-sound.h"
 #include "drive.h"
+#include "export.h"
 #include "fliplist.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
@@ -381,8 +381,8 @@ int machine_resources_init(void)
         init_resource_fail("scpu64");
         return -1;
     }
-    if (c64export_resources_init() < 0) {
-        init_resource_fail("c64export");
+    if (export_resources_init() < 0) {
+        init_resource_fail("scpu64export");
         return -1;
     }
     if (vicii_resources_init() < 0) {

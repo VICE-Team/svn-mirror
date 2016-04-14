@@ -34,12 +34,12 @@
 #define CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOT1_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "export.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -168,7 +168,7 @@ static io_source_t isepic_io2_device = {
     0
 };
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_ISEPIC, 1, 1, &isepic_io1_device, &isepic_io2_device, CARTRIDGE_ISEPIC
 };
 
@@ -264,7 +264,7 @@ static int set_isepic_enabled(int value, void *param)
         io_source_unregister(isepic_io2_list_item);
         isepic_io1_list_item = NULL;
         isepic_io2_list_item = NULL;
-        c64export_remove(&export_res);
+        export_remove(&export_res);
         isepic_enabled = 0;
         if (isepic_switch) {
             cart_config_changed_slot1(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
@@ -274,7 +274,7 @@ static int set_isepic_enabled(int value, void *param)
         isepic_ram = lib_malloc(ISEPIC_RAM_SIZE);
         isepic_io1_list_item = io_source_register(&isepic_io1_device);
         isepic_io2_list_item = io_source_register(&isepic_io2_device);
-        if (c64export_add(&export_res) < 0) {
+        if (export_add(&export_res) < 0) {
             lib_free(isepic_ram);
             isepic_ram = NULL;
             io_source_unregister(isepic_io1_list_item);
@@ -850,7 +850,7 @@ int isepic_snapshot_read_module(snapshot_t *s)
     isepic_io1_list_item = io_source_register(&isepic_io1_device);
     isepic_io2_list_item = io_source_register(&isepic_io2_device);
 
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         lib_free(isepic_ram);
         isepic_ram = NULL;
         io_source_unregister(isepic_io1_list_item);

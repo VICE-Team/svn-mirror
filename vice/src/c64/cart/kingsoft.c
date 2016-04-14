@@ -33,11 +33,11 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "comal80.h"
+#include "export.h"
 #include "lib.h"
 #include "monitor.h"
 #include "snapshot.h"
@@ -126,7 +126,7 @@ static io_source_t kingsoft_device = {
 
 static io_source_list_t *kingsoft_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_KINGSOFT, 1, 1, &kingsoft_device, NULL, CARTRIDGE_KINGSOFT
 };
 
@@ -162,7 +162,7 @@ void kingsoft_config_setup(BYTE *rawcart)
 /* ---------------------------------------------------------------------*/
 static int kingsoft_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     kingsoft_list_item = io_source_register(&kingsoft_device);
@@ -199,7 +199,7 @@ int kingsoft_crt_attach(FILE *fd, BYTE *rawcart)
 
 void kingsoft_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(kingsoft_list_item);
     kingsoft_list_item = NULL;
 }

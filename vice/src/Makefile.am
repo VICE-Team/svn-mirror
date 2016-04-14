@@ -146,6 +146,7 @@ noinst_HEADERS = \
 	dma.h \
 	dynlib.h \
 	embedded.h \
+	export.h \
 	fileio.h \
 	findpath.h \
 	fixpoint.h \

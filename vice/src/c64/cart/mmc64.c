@@ -37,12 +37,12 @@
 #define CARTRIDGE_INCLUDE_SLOT0_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOT0_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "export.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -205,7 +205,7 @@ static io_source_t *mmc64_current_clockport_device = &mmc64_io1_clockport_device
 
 /* FIXME: register/handle the clockport resource properly */
 
-static const c64export_resource_t export_cp_res = {
+static const export_resource_t export_cp_res = {
     CARTRIDGE_NAME_MMC64 " Clockport", 0, 0, &mmc64_io1_clockport_device, &mmc64_io2_clockport_device, CARTRIDGE_MMC64
 };
 
@@ -243,7 +243,7 @@ static io_source_list_t *mmc64_clockport_list_item = NULL;
 static io_source_list_t *mmc64_io1_list_item = NULL;
 static io_source_list_t *mmc64_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_MMC64, 1, 0, &mmc64_io1_device, &mmc64_io2_device, CARTRIDGE_MMC64
 };
 
@@ -348,7 +348,7 @@ static int set_mmc64_enabled(int value, void *param)
             LOG(("MMC64: set_enabled(0) '%s'", mmc64_bios_filename));
             cart_power_off();
             /* if the param is == NULL, then we should actually set the resource */
-            if (c64export_add(&export_res) < 0) {
+            if (export_add(&export_res) < 0) {
                 LOG(("MMC64: set_enabled(0) did not register"));
                 return -1;
             } else {
@@ -372,7 +372,7 @@ static int set_mmc64_enabled(int value, void *param)
             return -1;
         }
         cart_power_off();
-        c64export_remove(&export_res);
+        export_remove(&export_res);
         mmc64_enabled = 0;
         cart_set_port_exrom_slot0(0);
         cart_port_config_changed_slot0();

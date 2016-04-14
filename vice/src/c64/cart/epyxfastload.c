@@ -37,10 +37,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "epyxfastload.h"
+#include "export.h"
 #include "maincpu.h"
 #include "monitor.h"
 #include "snapshot.h"
@@ -154,7 +154,7 @@ static io_source_t epyxfastload_io2_device = {
 static io_source_list_t *epyxfastload_io1_list_item = NULL;
 static io_source_list_t *epyxfastload_io2_list_item = NULL;
 
-static const c64export_resource_t export_res_epyx = {
+static const export_resource_t export_res_epyx = {
     CARTRIDGE_NAME_EPYX_FASTLOAD, 0, 0, &epyxfastload_io1_device, &epyxfastload_io2_device, CARTRIDGE_EPYX_FASTLOAD
 };
 
@@ -193,7 +193,7 @@ void epyxfastload_config_setup(BYTE *rawcart)
 
 static int epyxfastload_common_attach(void)
 {
-    if (c64export_add(&export_res_epyx) < 0) {
+    if (export_add(&export_res_epyx) < 0) {
         return -1;
     }
 
@@ -236,7 +236,7 @@ int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
 void epyxfastload_detach(void)
 {
     alarm_destroy(epyxrom_alarm);
-    c64export_remove(&export_res_epyx);
+    export_remove(&export_res_epyx);
     io_source_unregister(epyxfastload_io1_list_item);
     io_source_unregister(epyxfastload_io2_list_item);
     epyxfastload_io1_list_item = NULL;

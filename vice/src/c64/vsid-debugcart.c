@@ -26,8 +26,6 @@
 
 #include "vice.h"
 
-#include "c64export.h"
-#include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "lib.h"
@@ -37,32 +35,6 @@
 #include "maincpu.h"
 
 static int debugcart_enabled = 0;
-
-/* ------------------------------------------------------------------------- */
-
-/* a prototype is needed */
-void debugcart_store(WORD addr, BYTE value);
-#if 0
-static io_source_t debugcart_device = {
-    CARTRIDGE_NAME_DEBUGCART,
-    IO_DETACH_RESOURCE,
-    "DebugCartEnable",
-    0xd7ff, 0xd7ff, 0xff,
-    0,
-    debugcart_store,
-    NULL, /* read */
-    NULL, /* peek */
-    NULL, /* dump */
-    CARTRIDGE_DEBUGCART,
-    0,
-    0
-};
-#endif
-static io_source_list_t *debugcart_list_item = NULL;
-
-/*static const c64export_resource_t export_res = {
-    CARTRIDGE_NAME_DEBUGCART, 0, 0, &debugcart_device, NULL, CARTRIDGE_DEBUGCART
-};*/
 
 /* ------------------------------------------------------------------------- */
 
@@ -78,33 +50,13 @@ void debugcart_store(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-static int debugcart_enable(void)
-{
-    /*if (c64export_add(&export_res) < 0) {
-        return -1;
-    }*/
-    /*debugcart_list_item = io_source_register(&debugcart_device);*/
-    return 0;
-}
-
-static void debugcart_disable(void)
-{
-    /*c64export_remove(&export_res);*/
-    /*io_source_unregister(debugcart_list_item);*/
-    debugcart_list_item = NULL;
-}
-
 static int set_debugcart_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
     if ((val) && (!debugcart_enabled)) {
-        if (debugcart_enable() < 0) {
-            return -1;
-        }
         debugcart_enabled = 1;
     } else if ((!val) && (debugcart_enabled)) {
-        debugcart_disable();
         debugcart_enabled = 0;
     }
     return 0;

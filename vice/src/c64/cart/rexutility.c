@@ -33,9 +33,9 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "monitor.h"
 #include "rexutility.h"
 #include "snapshot.h"
@@ -99,7 +99,7 @@ static io_source_t rex_device = {
 
 static io_source_list_t *rex_list_item = NULL;
 
-static const c64export_resource_t export_res_rex = {
+static const export_resource_t export_res_rex = {
     CARTRIDGE_NAME_REX, 0, 0, NULL, &rex_device, CARTRIDGE_REX
 };
 
@@ -120,7 +120,7 @@ void rex_config_setup(BYTE *rawcart)
 
 static int rex_common_attach(void)
 {
-    if (c64export_add(&export_res_rex) < 0) {
+    if (export_add(&export_res_rex) < 0) {
         return -1;
     }
     rex_list_item = io_source_register(&rex_device);
@@ -156,7 +156,7 @@ int rex_crt_attach(FILE *fd, BYTE *rawcart)
 
 void rex_detach(void)
 {
-    c64export_remove(&export_res_rex);
+    export_remove(&export_res_rex);
     io_source_unregister(rex_list_item);
     rex_list_item = NULL;
 }

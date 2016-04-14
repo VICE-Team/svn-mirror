@@ -26,10 +26,10 @@
 
 #include "vice.h"
 
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "lib.h"
 #include "resources.h"
 #include "translate.h"
@@ -60,7 +60,7 @@ static io_source_t debugcart_device = {
 
 static io_source_list_t *debugcart_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_DEBUGCART, 0, 0, &debugcart_device, NULL, CARTRIDGE_DEBUGCART
 };
 
@@ -78,7 +78,7 @@ static void debugcart_store(WORD addr, BYTE value)
 
 static int debugcart_enable(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     debugcart_list_item = io_source_register(&debugcart_device);
@@ -87,7 +87,7 @@ static int debugcart_enable(void)
 
 static void debugcart_disable(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(debugcart_list_item);
     debugcart_list_item = NULL;
 }

@@ -57,9 +57,9 @@ extern int acia1_set_mode(int mode);
 #define myacia_set_mode(x) 0
 #endif
 
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "lib.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -110,7 +110,7 @@ static io_source_t acia_device = {
 
 static io_source_list_t *acia_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_TURBO232, 0, 0, &acia_device, NULL, CARTRIDGE_TURBO232
 };
 #endif
@@ -129,7 +129,7 @@ int aciacart_cart_enabled(void)
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 static int acia1_enable(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     acia_list_item = io_source_register(&acia_device);
@@ -138,7 +138,7 @@ static int acia1_enable(void)
 
 static void acia1_disable(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(acia_list_item);
     acia_list_item = NULL;
 }

@@ -34,8 +34,8 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartridge.h"
+#include "export.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -51,7 +51,7 @@
     at $A000-$BFFF)
  */
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_ZAXXON, 1, 1, NULL, NULL, CARTRIDGE_ZAXXON
 };
 
@@ -88,7 +88,7 @@ void zaxxon_config_setup(BYTE *rawcart)
 
 static int zaxxon_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
 
@@ -150,7 +150,7 @@ int zaxxon_crt_attach(FILE *fd, BYTE *rawcart)
 
 void zaxxon_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
 }
 
 /* ---------------------------------------------------------------------*/

@@ -33,9 +33,9 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "mikroass.h"
 #include "snapshot.h"
 #include "types.h"
@@ -98,7 +98,7 @@ static io_source_t mikroass_io2_device = {
 static io_source_list_t *mikroass_io1_list_item = NULL;
 static io_source_list_t *mikroass_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_MIKRO_ASSEMBLER, 1, 0, &mikroass_io1_device, &mikroass_io2_device, CARTRIDGE_MIKRO_ASSEMBLER
 };
 
@@ -119,7 +119,7 @@ void mikroass_config_setup(BYTE *rawcart)
 
 static int mikroass_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     mikroass_io1_list_item = io_source_register(&mikroass_io1_device);
@@ -156,7 +156,7 @@ int mikroass_crt_attach(FILE *fd, BYTE *rawcart)
 
 void mikroass_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(mikroass_io1_list_item);
     io_source_unregister(mikroass_io2_list_item);
     mikroass_io1_list_item = NULL;

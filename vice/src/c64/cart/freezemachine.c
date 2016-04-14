@@ -33,10 +33,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "freezemachine.h"
 #include "snapshot.h"
 #include "types.h"
@@ -171,7 +171,7 @@ static io_source_t freezemachine_io2_device = {
 static io_source_list_t *freezemachine_io1_list_item = NULL;
 static io_source_list_t *freezemachine_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_FREEZE_MACHINE, 1, 1, &freezemachine_io1_device, &freezemachine_io2_device, CARTRIDGE_FREEZE_MACHINE
 };
 
@@ -224,7 +224,7 @@ void freezemachine_config_setup(BYTE *rawcart)
 
 static int freezemachine_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
 
@@ -343,7 +343,7 @@ int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
 
 void freezemachine_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(freezemachine_io1_list_item);
     io_source_unregister(freezemachine_io2_list_item);
     freezemachine_io1_list_item = NULL;

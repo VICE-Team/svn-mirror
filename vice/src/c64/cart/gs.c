@@ -32,9 +32,9 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "gs.h"
 #include "monitor.h"
 #include "snapshot.h"
@@ -108,7 +108,7 @@ static io_source_t gs_device = {
 
 static io_source_list_t *gs_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_GS, 1, 1, &gs_device, NULL, CARTRIDGE_GS
 };
 
@@ -131,7 +131,7 @@ void gs_config_setup(BYTE *rawcart)
 /* ---------------------------------------------------------------------*/
 static int gs_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     gs_list_item = io_source_register(&gs_device);
@@ -166,7 +166,7 @@ int gs_crt_attach(FILE *fd, BYTE *rawcart)
 
 void gs_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(gs_list_item);
     gs_list_item = NULL;
 }

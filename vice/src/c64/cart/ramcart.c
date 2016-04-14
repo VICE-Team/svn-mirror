@@ -33,11 +33,11 @@
 #define CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOT1_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -177,7 +177,7 @@ static io_source_t ramcart_io2_device = {
 static io_source_list_t *ramcart_io1_list_item = NULL;
 static io_source_list_t *ramcart_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_RAMCART, 1, 0, &ramcart_io1_device, &ramcart_io2_device, CARTRIDGE_RAMCART
 };
 
@@ -342,7 +342,7 @@ static int set_ramcart_enabled(int value, void *param)
         if (ramcart_activate() < 0) {
             return -1;
         }
-        if (c64export_add(&export_res) < 0) {
+        if (export_add(&export_res) < 0) {
             return -1;
         }
         ramcart_io1_list_item = io_source_register(&ramcart_io1_device);
@@ -363,7 +363,7 @@ static int set_ramcart_enabled(int value, void *param)
         io_source_unregister(ramcart_io2_list_item);
         ramcart_io1_list_item = NULL;
         ramcart_io2_list_item = NULL;
-        c64export_remove(&export_res);
+        export_remove(&export_res);
         ramcart_enabled = 0;
         if (machine_class == VICE_MACHINE_C128) {
             ramcart_exrom_check();
@@ -734,7 +734,7 @@ int ramcart_snapshot_read_module(snapshot_t *s)
     ramcart_io1_list_item = io_source_register(&ramcart_io1_device);
     ramcart_io2_list_item = io_source_register(&ramcart_io2_device);
 
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         lib_free(ramcart_ram);
         ramcart_ram = NULL;
         io_source_unregister(ramcart_io1_list_item);

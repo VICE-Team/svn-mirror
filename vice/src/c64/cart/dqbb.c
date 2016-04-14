@@ -33,11 +33,11 @@
 #define CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOT1_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "lib.h"
 #include "mem.h"
 #include "monitor.h"
@@ -128,7 +128,7 @@ static io_source_t dqbb_io1_device = {
 
 static io_source_list_t *dqbb_io1_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_DQBB, 1, 1, &dqbb_io1_device, NULL, CARTRIDGE_DQBB
 };
 
@@ -215,7 +215,7 @@ static int dqbb_deactivate(void)
     lib_free(dqbb_ram);
     dqbb_ram = NULL;
 
-    c64export_remove(&export_res);
+    export_remove(&export_res);
 
     return 0;
 }
@@ -236,7 +236,7 @@ static int set_dqbb_enabled(int value, void *param)
         dqbb_change_config();
     } else if ((val) && (!dqbb_enabled)) {
         cart_power_off();
-        if (c64export_add(&export_res) < 0) {
+        if (export_add(&export_res) < 0) {
             return -1;
         }
         if (dqbb_activate() < 0) {
@@ -549,7 +549,7 @@ int dqbb_snapshot_read_module(snapshot_t *s)
     /* FIXME: ugly code duplication to avoid cart_config_changed calls */
     dqbb_io1_list_item = io_source_register(&dqbb_io1_device);
 
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         lib_free(dqbb_ram);
         dqbb_ram = NULL;
         io_source_unregister(dqbb_io1_list_item);

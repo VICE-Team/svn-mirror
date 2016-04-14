@@ -34,13 +34,13 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
 #include "easyflash.h"
+#include "export.h"
 #include "flash040.h"
 #include "lib.h"
 #include "log.h"
@@ -189,7 +189,7 @@ static io_source_t easyflash_io2_device = {
 static io_source_list_t *easyflash_io1_list_item = NULL;
 static io_source_list_t *easyflash_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_EASYFLASH, 1, 1, &easyflash_io1_device, &easyflash_io2_device, CARTRIDGE_EASYFLASH
 };
 
@@ -398,7 +398,7 @@ void easyflash_config_setup(BYTE *rawcart)
 
 static int easyflash_common_attach(const char *filename)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
 
@@ -472,7 +472,7 @@ void easyflash_detach(void)
     io_source_unregister(easyflash_io2_list_item);
     easyflash_io1_list_item = NULL;
     easyflash_io2_list_item = NULL;
-    c64export_remove(&export_res);
+    export_remove(&export_res);
 }
 
 int easyflash_flush_image(void)

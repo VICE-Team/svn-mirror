@@ -35,12 +35,12 @@
 #define CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOT1_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "export.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "resources.h"
@@ -245,7 +245,7 @@ static io_source_t expert_io1_device = {
     0
 };
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_EXPERT, 1, 1, &expert_io1_device, NULL, CARTRIDGE_EXPERT
 };
 
@@ -356,7 +356,7 @@ static int set_expert_enabled(int value, void *param)
         }
         io_source_unregister(expert_io1_list_item);
         expert_io1_list_item = NULL;
-        c64export_remove(&export_res);
+        export_remove(&export_res);
         expert_enabled = 0;
         cart_power_off();
     } else if (!expert_enabled && val) {
@@ -365,7 +365,7 @@ static int set_expert_enabled(int value, void *param)
             return -1;
         }
         expert_io1_list_item = io_source_register(&expert_io1_device);
-        if (c64export_add(&export_res) < 0) {
+        if (export_add(&export_res) < 0) {
             DBG(("EXPERT: set enabled: error\n"));
             io_source_unregister(expert_io1_list_item);
             expert_io1_list_item = NULL;
@@ -866,7 +866,7 @@ int expert_snapshot_read_module(snapshot_t *s)
     /* FIXME: ugly code duplication to avoid cart_config_changed calls */
     expert_io1_list_item = io_source_register(&expert_io1_device);
 
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         lib_free(expert_ram);
         expert_ram = NULL;
         io_source_unregister(expert_io1_list_item);

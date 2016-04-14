@@ -42,10 +42,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "export.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -471,7 +471,7 @@ int cartridge_cmdline_options_init(void)
     mon_cart_cmd.cartridge_detach_image = cartridge_detach_image;
     mon_cart_cmd.cartridge_trigger_freeze = cartridge_trigger_freeze;
     mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
-    mon_cart_cmd.export_dump = c64export_dump;
+    mon_cart_cmd.export_dump = export_dump;
 
     if (cart_cmdline_options_init() < 0) {
         return -1;

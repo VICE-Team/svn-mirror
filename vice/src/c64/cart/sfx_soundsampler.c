@@ -30,10 +30,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "lib.h"
 #include "log.h"
 #include "machine-video.h"
@@ -92,7 +92,7 @@ static io_source_t sfx_soundsampler_io2_device = {
 static io_source_list_t *sfx_soundsampler_io1_list_item = NULL;
 static io_source_list_t *sfx_soundsampler_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_SFX_SOUND_SAMPLER, 0, 0, &sfx_soundsampler_io1_device, &sfx_soundsampler_io2_device, CARTRIDGE_SFX_SOUND_SAMPLER
 };
 
@@ -151,7 +151,7 @@ static int set_sfx_soundsampler_enabled(int value, void *param)
 
     if (sfx_soundsampler_sound_chip.chip_enabled != val) {
         if (val) {
-            if (c64export_add(&export_res) < 0) {
+            if (export_add(&export_res) < 0) {
                 return -1;
             }
             if (machine_class == VICE_MACHINE_VIC20) {
@@ -172,7 +172,7 @@ static int set_sfx_soundsampler_enabled(int value, void *param)
             sfx_soundsampler_sound_chip.chip_enabled = 1;
             sampler_start(SAMPLER_OPEN_MONO, "SFX Sound Sampler");
         } else {
-            c64export_remove(&export_res);
+            export_remove(&export_res);
             io_source_unregister(sfx_soundsampler_io1_list_item);
             io_source_unregister(sfx_soundsampler_io2_list_item);
             sfx_soundsampler_io1_list_item = NULL;
@@ -346,7 +346,7 @@ static void sfx_soundsampler_sound_reset(sound_t *psid, CLOCK cpu_clk)
 /*    snapshot support functions                                             */
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTSFXSS"
 
 int sfx_soundsampler_snapshot_write_module(snapshot_t *s)
@@ -358,7 +358,9 @@ int sfx_soundsampler_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (0 || (SMW_B(m, (BYTE)sfx_soundsampler_sound_data) < 0)) {
+    if (0
+        || (SMW_B(m, (BYTE)sfx_soundsampler_io_swap) <0)
+        || (SMW_B(m, (BYTE)sfx_soundsampler_sound_data) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
@@ -382,7 +384,9 @@ int sfx_soundsampler_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    if (0 || (SMR_B(m, &sfx_soundsampler_sound_data) < 0)) {
+    if (0
+        || (SMR_B_INT(m, &sfx_soundsampler_io_swap) <0)
+        || (SMR_B(m, &sfx_soundsampler_sound_data) < 0)) {
         snapshot_module_close(m);
         return -1;
     }

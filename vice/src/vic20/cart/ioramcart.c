@@ -31,6 +31,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "ioramcart.h"
 #include "resources.h"
 #include "translate.h"
@@ -67,7 +68,7 @@ static void ram_io3_store(WORD addr, BYTE val)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ram_io2_device = {
-    "I/O-2 RAM",
+    CARTRIDGE_VIC20_NAME_IO2_RAM,
     IO_DETACH_RESOURCE,
     "IO2RAM",
     0x9800, 0x9bff, 0x3ff,
@@ -82,7 +83,7 @@ static io_source_t ram_io2_device = {
 };
 
 static io_source_t ram_io3_device = {
-    "I/O-3 RAM",
+    CARTRIDGE_VIC20_NAME_IO3_RAM,
     IO_DETACH_RESOURCE,
     "IO3RAM",
     0x9c00, 0x9fff, 0x3ff,
@@ -99,6 +100,14 @@ static io_source_t ram_io3_device = {
 static io_source_list_t *ram_io2_list_item = NULL;
 static io_source_list_t *ram_io3_list_item = NULL;
 
+static const export_resource_t export_res_io2 = {
+    CARTRIDGE_VIC20_NAME_IO2_RAM, 0, 0, &ram_io2_device, NULL, CARTRIDGE_VIC20_IO2_RAM
+};
+
+static const export_resource_t export_res_io3 = {
+    CARTRIDGE_VIC20_NAME_IO2_RAM, 0, 0, NULL, &ram_io3_device, CARTRIDGE_VIC20_IO3_RAM
+};
+
 /* ---------------------------------------------------------------------*/
 
 static int set_ram_io2_enabled(int value, void *param)
@@ -106,8 +115,12 @@ static int set_ram_io2_enabled(int value, void *param)
     int val = value ? 1 : 0;
 
     if (!ram_io2_enabled && val) {
+        if (export_add(&export_res_io2) < 0) {
+            return -1;
+        }
         ram_io2_list_item = io_source_register(&ram_io2_device);
     } else if (ram_io2_enabled && !val) {
+        export_remove(&export_res_io2);
         io_source_unregister(ram_io2_list_item);
         ram_io2_list_item = NULL;
     }
@@ -120,8 +133,12 @@ static int set_ram_io3_enabled(int value, void *param)
     int val = value ? 1 : 0;
 
     if (!ram_io3_enabled && val) {
+        if (export_add(&export_res_io3) < 0) {
+            return -1;
+        }
         ram_io3_list_item = io_source_register(&ram_io3_device);
     } else if (ram_io3_enabled && !val) {
+        export_remove(&export_res_io3);
         io_source_unregister(ram_io3_list_item);
         ram_io3_list_item = NULL;
     }
@@ -170,4 +187,16 @@ static const cmdline_option_t cmdline_options[] =
 int ioramcart_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
+}
+
+/* ---------------------------------------------------------------------*/
+
+void ioramcart_io2_detach(void)
+{
+    set_ram_io2_enabled(0, NULL);
+}
+
+void ioramcart_io3_detach(void)
+{
+    set_ram_io3_enabled(0, NULL);
 }

@@ -50,12 +50,12 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
 #include "ds1202_1302.h"
+#include "export.h"
 #include "ide64.h"
 #include "log.h"
 #include "lib.h"
@@ -229,7 +229,7 @@ static io_source_list_t *ide64_ft245_list_item = NULL;
 static io_source_list_t *ide64_ds1302_list_item = NULL;
 static io_source_list_t *ide64_rom_list_item = NULL;
 
-static const c64export_resource_t export_res[5] = {
+static const export_resource_t export_res[5] = {
     {CARTRIDGE_NAME_IDE64 " IDE", 1, 1, &ide64_idebus_device, NULL, CARTRIDGE_IDE64},
     {CARTRIDGE_NAME_IDE64 " I/O", 1, 1, &ide64_io_device, NULL, CARTRIDGE_IDE64},
     {CARTRIDGE_NAME_IDE64 " FT245", 1, 1, &ide64_ft245_device, NULL, CARTRIDGE_IDE64},
@@ -249,7 +249,7 @@ static int ide64_register(void)
         if (settings_version < IDE64_VERSION_4_1 && i == 2) {
             continue;
         }
-        if (c64export_add(&export_res[i]) < 0) {
+        if (export_add(&export_res[i]) < 0) {
             return -1;
         }
     }
@@ -276,7 +276,7 @@ static void ide64_unregister(void)
         if (settings_version < IDE64_VERSION_4_1 && i == 2) {
             continue;
         }
-        c64export_remove(&export_res[i]);
+        export_remove(&export_res[i]);
     }
 
     io_source_unregister(ide64_idebus_list_item);

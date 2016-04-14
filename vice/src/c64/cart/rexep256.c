@@ -33,10 +33,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "monitor.h"
 #include "rexep256.h"
 #include "snapshot.h"
@@ -162,7 +162,7 @@ static io_source_t rexep256_device = {
 
 static io_source_list_t *rexep256_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_REX_EP256, 1, 0, NULL, &rexep256_device, CARTRIDGE_REX_EP256
 };
 
@@ -184,7 +184,7 @@ void rexep256_config_setup(BYTE *rawcart)
 /* ---------------------------------------------------------------------*/
 static int rexep256_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     rexep256_list_item = io_source_register(&rexep256_device);
@@ -252,7 +252,7 @@ int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
 
 void rexep256_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(rexep256_list_item);
     rexep256_list_item = NULL;
 }

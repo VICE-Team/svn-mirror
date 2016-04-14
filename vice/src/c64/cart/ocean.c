@@ -32,10 +32,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "monitor.h"
 #include "ocean.h"
 #include "snapshot.h"
@@ -138,7 +138,7 @@ static io_source_t ocean_device = {
 
 static io_source_list_t *ocean_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_OCEAN, 1, 1, &ocean_device, NULL, CARTRIDGE_OCEAN
 };
 
@@ -188,7 +188,7 @@ void ocean_config_setup(BYTE *rawcart)
 
 static int ocean_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     ocean_list_item = io_source_register(&ocean_device);
@@ -247,7 +247,7 @@ int ocean_crt_attach(FILE *fd, BYTE *rawcart)
 
 void ocean_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(ocean_list_item);
     ocean_list_item = NULL;
 }

@@ -30,4 +30,7 @@
 extern int ioramcart_resources_init(void);
 extern int ioramcart_cmdline_options_init(void);
 
+extern void ioramcart_io2_detach(void);
+extern void ioramcart_io3_detach(void);
+
 #endif

@@ -38,12 +38,12 @@
 #endif
 
 #include "archdep.h"
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "cs8900.h"
 #include "crc32.h"
+#include "export.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -197,7 +197,7 @@ static io_source_t rrnet_io2_mmc64_device = {
     0
 };
 
-static c64export_resource_t export_res = {
+static export_resource_t export_res = {
     CARTRIDGE_NAME_TFE, 0, 0, &tfe_io1_device, NULL, CARTRIDGE_TFE
 };
 
@@ -362,9 +362,9 @@ void tfe_clockport_changed(void)
     /* if adapter is already enabled then reset the LAN chip */
     if (tfe_enabled) {
         io_source_unregister(tfe_list_item);
-        c64export_remove(&export_res);
+        export_remove(&export_res);
         export_res.io1 = tfe_current_device;
-        if (c64export_add(&export_res) < 0) {
+        if (export_add(&export_res) < 0) {
             DBG(("TFE: set tfe_clockport_changed: error\n"));
             tfe_list_item = NULL;
             tfe_enabled = 0;
@@ -495,7 +495,7 @@ static int set_tfe_enabled(int value, void *param)
                 }
                 io_source_unregister(tfe_list_item);
                 tfe_list_item = NULL;
-                c64export_remove(&export_res);
+                export_remove(&export_res);
             }
             tfe_clockport_changed();
             return 0;
@@ -506,7 +506,7 @@ static int set_tfe_enabled(int value, void *param)
                     return -1;
                 }
                 export_res.io1 = tfe_current_device;
-                if (c64export_add(&export_res) < 0) {
+                if (export_add(&export_res) < 0) {
                     DBG(("TFE: set enabled: error\n"));
                     tfe_list_item = NULL;
                     tfe_enabled = 0;

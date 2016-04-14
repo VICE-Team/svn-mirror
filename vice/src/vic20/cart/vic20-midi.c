@@ -32,6 +32,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "machine.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -58,7 +59,7 @@ static BYTE vic20midi_peek(WORD address)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t midi_device = {
-    "MIDI",
+    CARTRIDGE_VIC20_NAME_MIDI,
     IO_DETACH_RESOURCE,
     "MIDIEnable",
     0x9c00, 0x9fff, 0x3ff,
@@ -74,6 +75,10 @@ static io_source_t midi_device = {
 
 static io_source_list_t *midi_list_item = NULL;
 
+static const export_resource_t export_res = {
+    CARTRIDGE_VIC20_NAME_MIDI, 0, 0, NULL, &midi_device, CARTRIDGE_MIDI_MAPLIN
+};
+
 /* ---------------------------------------------------------------------*/
 
 static int set_midi_enabled(int value, void *param)
@@ -81,9 +86,13 @@ static int set_midi_enabled(int value, void *param)
     int val = value ? 1 : 0;
 
     if (!midi_enabled && val) {
+        if (export_add(&export_res) < 0) {
+            return -1;
+        }
         midi_list_item = io_source_register(&midi_device);
         midi_enabled = 1;
     } else if (midi_enabled && !val) {
+        export_remove(&export_res);
         io_source_unregister(midi_list_item);
         midi_list_item = NULL;
         midi_enabled = 0;
@@ -178,4 +187,10 @@ int vic20_midi_snapshot_read_module(snapshot_t *s)
 #endif
 }
 
+/* ---------------------------------------------------------------------*/
+
+void vic20_midi_detach(void)
+{
+    set_midi_enabled(0, NULL);
+}
 #endif

@@ -33,9 +33,9 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "monitor.h"
 #include "simonsbasic.h"
 #include "snapshot.h"
@@ -98,7 +98,7 @@ static io_source_t simon_device = {
 
 static io_source_list_t *simon_list_item = NULL;
 
-static const c64export_resource_t export_res_simon = {
+static const export_resource_t export_res_simon = {
     CARTRIDGE_NAME_SIMONS_BASIC, 1, 1, &simon_device, NULL, CARTRIDGE_SIMONS_BASIC
 };
 
@@ -120,7 +120,7 @@ void simon_config_setup(BYTE *rawcart)
 
 static int simon_common_attach(void)
 {
-    if (c64export_add(&export_res_simon) < 0) {
+    if (export_add(&export_res_simon) < 0) {
         return -1;
     }
     simon_list_item = io_source_register(&simon_device);
@@ -159,7 +159,7 @@ int simon_crt_attach(FILE *fd, BYTE *rawcart)
 
 void simon_detach(void)
 {
-    c64export_remove(&export_res_simon);
+    export_remove(&export_res_simon);
     io_source_unregister(simon_list_item);
     simon_list_item = NULL;
 }

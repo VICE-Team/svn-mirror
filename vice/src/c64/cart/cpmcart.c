@@ -34,13 +34,13 @@
 #include "6510core.h"
 #include "alarm.h"
 #include "c64cia.h"
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "cpmcart.h"
 #include "daa.h"
+#include "export.h"
 #include "interrupt.h"
 #include "log.h"
 #include "maincpu.h"
@@ -220,7 +220,7 @@ static io_source_t cpmcart_device = {
 
 static io_source_list_t *cpmcart_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_CPM, 0, 0, &cpmcart_device, NULL, CARTRIDGE_CPM
 };
 
@@ -230,13 +230,13 @@ static int set_cpmcart_enabled(int value, void *param)
 
     if (cpmcart_enabled != val) {
         if (val) {
-            if (c64export_add(&export_res) < 0) {
+            if (export_add(&export_res) < 0) {
                 return -1;
             }
             cpmcart_list_item = io_source_register(&cpmcart_device);
             cpmcart_enabled = 1;
         } else {
-            c64export_remove(&export_res);
+            export_remove(&export_res);
             io_source_unregister(cpmcart_list_item);
             cpmcart_list_item = NULL;
             cpmcart_enabled = 0;

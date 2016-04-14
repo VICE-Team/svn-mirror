@@ -79,7 +79,6 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"

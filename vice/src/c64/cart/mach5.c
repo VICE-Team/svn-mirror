@@ -33,9 +33,9 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "mach5.h"
 #include "monitor.h"
 #include "snapshot.h"
@@ -131,7 +131,7 @@ static io_source_t mach5_io2_device = {
 static io_source_list_t *mach5_io1_list_item = NULL;
 static io_source_list_t *mach5_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_MACH5, 1, 0, &mach5_io1_device, &mach5_io2_device, CARTRIDGE_MACH5
 };
 
@@ -154,7 +154,7 @@ void mach5_config_setup(BYTE *rawcart)
 
 static int mach5_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     mach5_io1_list_item = io_source_register(&mach5_io1_device);
@@ -200,7 +200,7 @@ int mach5_crt_attach(FILE *fd, BYTE *rawcart)
 
 void mach5_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(mach5_io1_list_item);
     io_source_unregister(mach5_io2_list_item);
     mach5_io1_list_item = NULL;

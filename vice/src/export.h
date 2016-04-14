@@ -1,8 +1,9 @@
 /*
- * c64export.h - Expansion port handling for the C64.
+ * export.h - Expansion port and devices handling.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,34 +25,33 @@
  *
  */
 
-#ifndef VICE_C64EXPORT_H
-#define VICE_C64EXPORT_H
+#ifndef VICE_EXPORT_H
+#define VICE_EXPORT_H
 
 #include "cartio.h"
 
-struct c64export_resource_s {
+typedef struct export_resource_s {
     const char *name;
     unsigned int game;
     unsigned int exrom;
     io_source_t *io1;
     io_source_t *io2;
     unsigned int cartid;
-};
-typedef struct c64export_resource_s c64export_resource_t;
+} export_resource_t;
 
 typedef struct export_list_s {
     struct export_list_s *previous;
-    c64export_resource_t *device;
+    export_resource_t *device;
     struct export_list_s *next;
 } export_list_t;
 
 /* returns head of list if param is NULL, else the next item */
-extern export_list_t *c64export_query_list(export_list_t *item);
-extern void c64export_dump(void);
+extern export_list_t *export_query_list(export_list_t *item);
+extern void export_dump(void);
 
-extern int c64export_add(const c64export_resource_t *export_res);
-extern int c64export_remove(const c64export_resource_t *export_res);
+extern int export_add(const export_resource_t *export_res);
+extern int export_remove(const export_resource_t *export_res);
 
-extern int c64export_resources_init(void);
+extern int export_resources_init(void);
 
 #endif

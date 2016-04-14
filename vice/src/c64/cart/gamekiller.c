@@ -33,10 +33,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "gamekiller.h"
 #include "snapshot.h"
 #include "types.h"
@@ -127,7 +127,7 @@ static io_source_t gamekiller_io2_device = {
 static io_source_list_t *gamekiller_io1_list_item = NULL;
 static io_source_list_t *gamekiller_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_GAME_KILLER, 1, 1, &gamekiller_io1_device, &gamekiller_io2_device, CARTRIDGE_GAME_KILLER
 };
 
@@ -168,7 +168,7 @@ void gamekiller_config_setup(BYTE *rawcart)
 
 static int gamekiller_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
 
@@ -208,7 +208,7 @@ int gamekiller_crt_attach(FILE *fd, BYTE *rawcart)
 
 void gamekiller_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(gamekiller_io1_list_item);
     io_source_unregister(gamekiller_io2_list_item);
     gamekiller_io1_list_item = NULL;

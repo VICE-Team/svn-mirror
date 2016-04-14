@@ -30,10 +30,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "fmopl.h"
 #include "lib.h"
 #include "machine.h"
@@ -103,11 +103,11 @@ static io_source_t sfx_soundexpander_piano_device = {
 static io_source_list_t *sfx_soundexpander_sound_list_item = NULL;
 static io_source_list_t *sfx_soundexpander_piano_list_item = NULL;
 
-static const c64export_resource_t export_res_sound = {
+static const export_resource_t export_res_sound = {
     CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_sound_device, CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
-static const c64export_resource_t export_res_piano = {
+static const export_resource_t export_res_piano = {
     CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_piano_device, CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
@@ -166,10 +166,10 @@ static int set_sfx_soundexpander_enabled(int value, void *param)
 
     if (sfx_soundexpander_sound_chip.chip_enabled != val) {
         if (val) {
-            if (c64export_add(&export_res_sound) < 0) {
+            if (export_add(&export_res_sound) < 0) {
                 return -1;
             }
-            if (c64export_add(&export_res_piano) < 0) {
+            if (export_add(&export_res_piano) < 0) {
                 return -1;
             }
             if (machine_class == VICE_MACHINE_VIC20) {
@@ -189,8 +189,8 @@ static int set_sfx_soundexpander_enabled(int value, void *param)
             sfx_soundexpander_piano_list_item = io_source_register(&sfx_soundexpander_piano_device);
             sfx_soundexpander_sound_chip.chip_enabled = 1;
         } else {
-            c64export_remove(&export_res_sound);
-            c64export_remove(&export_res_piano);
+            export_remove(&export_res_sound);
+            export_remove(&export_res_piano);
             io_source_unregister(sfx_soundexpander_sound_list_item);
             io_source_unregister(sfx_soundexpander_piano_list_item);
             sfx_soundexpander_sound_list_item = NULL;
@@ -481,7 +481,7 @@ static BYTE sfx_soundexpander_piano_read(WORD addr)
 /*    snapshot support functions                                             */
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTSFXSE"
 
 int sfx_soundexpander_snapshot_write_module(snapshot_t *s)
@@ -501,6 +501,7 @@ int sfx_soundexpander_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)sfx_soundexpander_io_swap) < 0)
         || (SMW_DW(m, (DWORD)sfx_soundexpander_chip) < 0)
         || (SMW_B(m, (BYTE)snd.command) < 0)) {
         snapshot_module_close(m);
@@ -622,7 +623,9 @@ int sfx_soundexpander_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    if (0 || (SMR_DW_INT(m, &temp_chip) < 0)) {
+    if (0
+        || (SMR_B_INT(m, &sfx_soundexpander_io_swap) < 0)
+        || (SMR_DW_INT(m, &temp_chip) < 0)) {
         snapshot_module_close(m);
         return -1;
     }

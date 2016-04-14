@@ -33,14 +33,14 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "cartridge.h"
+#include "crt.h"
+#include "easycalc.h"
+#include "export.h"
 #include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
-#include "easycalc.h"
-#include "crt.h"
 
 /*
     this cart uses 8Kb mapped in at $8000-$9FFF
@@ -76,7 +76,7 @@ static io_source_t easycalc_device = {
 
 static io_source_list_t *easycalc_list_item = NULL;
 
-static const c64export_resource_t export_res_easycalc = {
+static const export_resource_t export_res_easycalc = {
     CARTRIDGE_NAME_EASYCALC, 1, 1, NULL, &easycalc_device, CARTRIDGE_EASYCALC
 };
 
@@ -96,7 +96,7 @@ void easycalc_config_setup(BYTE *rawcart)
 
 static int easycalc_common_attach(void)
 {
-    if (c64export_add(&export_res_easycalc) < 0) {
+    if (export_add(&export_res_easycalc) < 0) {
         return -1;
     }
     easycalc_list_item = io_source_register(&easycalc_device);
@@ -150,7 +150,7 @@ int easycalc_crt_attach(FILE *fd, BYTE *rawcart)
 
 void easycalc_detach(void)
 {
-    c64export_remove(&export_res_easycalc);
+    export_remove(&export_res_easycalc);
     io_source_unregister(easycalc_list_item);
     easycalc_list_item = NULL;
 }

@@ -32,13 +32,13 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "c64memrom.h"
 #include "c64pla.h"
 #include "c64rom.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "monitor.h"
@@ -246,7 +246,7 @@ static io_source_t stardos_io2_device = {
 static io_source_list_t *stardos_io1_list_item = NULL;
 static io_source_list_t *stardos_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_STARDOS, 1, 1, &stardos_io1_device, &stardos_io2_device, CARTRIDGE_STARDOS
 };
 
@@ -325,7 +325,7 @@ void stardos_config_setup(BYTE *rawcart)
 
 static int stardos_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
 
@@ -372,7 +372,7 @@ int stardos_crt_attach(FILE *fd, BYTE *rawcart)
 void stardos_detach(void)
 {
     alarm_destroy(stardos_alarm);
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(stardos_io1_list_item);
     io_source_unregister(stardos_io2_list_item);
     stardos_io1_list_item = NULL;

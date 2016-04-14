@@ -38,13 +38,13 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "cpmcart.h"
 #include "crt.h"
+#include "export.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -2461,7 +2461,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
 
     /* Find out which carts are attached */
     {
-        export_list_t *e = c64export_query_list(NULL);
+        export_list_t *e = export_query_list(NULL);
 
         while (e != NULL) {
             if (number_of_carts == C64CART_DUMP_MAX_CARTS) {

@@ -33,13 +33,13 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "c64pla.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "export.h"
 #include "flash040.h"
 #include "lib.h"
 #include "log.h"
@@ -314,7 +314,7 @@ static io_source_t mmcreplay_io2_device = {
 static io_source_list_t *mmcreplay_io1_list_item = NULL;
 static io_source_list_t *mmcreplay_io2_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_MMC_REPLAY, 1, 1, &mmcreplay_io1_device, &mmcreplay_io2_device, CARTRIDGE_MMC_REPLAY
 };
 
@@ -2463,7 +2463,7 @@ void mmcreplay_config_setup(BYTE *rawcart)
 
 static int mmcreplay_common_attach(const char *filename)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
 
@@ -2669,7 +2669,7 @@ void mmcreplay_detach(void)
     mmcr_filename = NULL;
     mmc_close_card_image();
     eeprom_close_image(mmcr_eeprom_rw);
-    c64export_remove(&export_res);
+    export_remove(&export_res);
     io_source_unregister(mmcreplay_io1_list_item);
     io_source_unregister(mmcreplay_io2_list_item);
     mmcreplay_io1_list_item = NULL;

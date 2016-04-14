@@ -34,10 +34,10 @@
 #include "types.h"
 
 #include "c64-midi.h"
-#include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "export.h"
 #include "machine.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -87,7 +87,7 @@ static io_source_t midi_device = {
     0
 };
 
-static c64export_resource_t export_res = {
+static export_resource_t export_res = {
     "MIDI", 0, 0, &midi_device, NULL, CARTRIDGE_MIDI_SEQUENTIAL
 };
 
@@ -134,13 +134,13 @@ static int set_midi_enabled(int value, void *param)
     int val = value ? 1 : 0;
 
     if (!midi_enabled && val) {
-        if (c64export_add(&export_res) < 0) {
+        if (export_add(&export_res) < 0) {
             return -1;
         }
         midi_list_item = io_source_register(&midi_device);
         midi_enabled = 1;
     } else if (midi_enabled && !val) {
-        c64export_remove(&export_res);
+        export_remove(&export_res);
         io_source_unregister(midi_list_item);
         midi_list_item = NULL;
         midi_enabled = 0;

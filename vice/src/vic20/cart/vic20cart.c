@@ -50,6 +50,7 @@
 #include "debugcart.h"
 #include "digimax.h"
 #include "ds12c887rtc.h"
+#include "export.h"
 #include "finalexpansion.h"
 #include "georam.h"
 #include "ioramcart.h"
@@ -77,7 +78,17 @@
 #include "vic20cartmem.h"
 #include "vic20mem.h"
 #include "vic20-generic.h"
+#include "vic20-ieee488.h"
+#include "vic20-midi.h"
 #include "zfile.h"
+
+/* #define DEBUGCART */
+
+#ifdef DEBUGCART
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
 
 /* flag for indicating if cartridge is from snapshot, used for
    disabling "set as default" and write back */
@@ -459,14 +470,34 @@ const char *cartridge_get_file_name(int addr)
 
 /* ------------------------------------------------------------------------- */
 
+#define VIC20CART_DUMP_MAX_CARTS  16
+
 #define VIC20CART_DUMP_VER_MAJOR   2
-#define VIC20CART_DUMP_VER_MINOR   0
+#define VIC20CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "VIC20CART"
 
 int vic20cart_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    int ret = 0;
+    BYTE i;
+    BYTE number_of_carts = 0;
+    int cart_ids[VIC20CART_DUMP_MAX_CARTS];
+    int last_cart = 0;
+    export_list_t *e = export_query_list(NULL);
+
+    memset(cart_ids, 0, sizeof(cart_ids));
+
+    while (e != NULL) {
+        if (number_of_carts == VIC20CART_DUMP_MAX_CARTS) {
+            DBG(("CART snapshot save: active carts > max (%i)\n", number_of_carts));
+            return -1;
+        }
+        if (last_cart != (int)e->device->cartid) {
+            last_cart = e->device->cartid;
+            cart_ids[number_of_carts++] = last_cart;
+        }
+        e = e->next;
+    }
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME, VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
     if (m == NULL) {
@@ -474,39 +505,144 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
     }
 
     if (SMW_DW(m, (DWORD)vic20cart_type) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
+    }
+
+    if (SMW_B(m, number_of_carts) < 0) {
+        goto fail;
+    }
+
+    /* Not much to do if no carts present */
+    if (number_of_carts == 0) {
+        return snapshot_module_close(m);
+    }
+
+    /* Save cart IDs */
+    for (i = 0; i < number_of_carts; i++) {
+        if (SMW_DW(m, (DWORD)cart_ids[i]) < 0) {
+            goto fail;
+        }
     }
 
     snapshot_module_close(m);
 
-    switch (vic20cart_type) {
-        case CARTRIDGE_VIC20_GENERIC:
-            ret = generic_snapshot_write_module(s);
-            break;
-
-        case CARTRIDGE_VIC20_UM:
-            ret = vic_um_snapshot_write_module(s);
-            break;
-
-        case CARTRIDGE_VIC20_FP:
-            ret = vic_fp_snapshot_write_module(s);
-            break;
-
-        case CARTRIDGE_VIC20_MEGACART:
-            ret = megacart_snapshot_write_module(s);
-            break;
-
-        case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            ret = finalexpansion_snapshot_write_module(s);
-            break;
-
-        case CARTRIDGE_NONE:
-        default:
-            break;
+    /* Save individual cart data */
+    for (i = 0; i < number_of_carts; i++) {
+        switch (cart_ids[i]) {
+            case CARTRIDGE_DEBUGCART:
+#if 0
+                /* TODO */
+                if (debugcart_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+#endif
+                break;
+            case CARTRIDGE_VIC20_FINAL_EXPANSION:
+                if (finalexpansion_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_IO2_RAM:
+#if 0
+                /* TODO */
+                if (ioramcart_io2_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+#endif
+                break;
+            case CARTRIDGE_VIC20_IO3_RAM:
+#if 0
+                /* TODO */
+                if (ioramcart_io3_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+#endif
+                break;
+            case CARTRIDGE_VIC20_MEGACART:
+                if (megacart_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_UM:
+                if (vic_um_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_IEEE488:
+                if (vic20_ieee488_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#ifdef HAVE_MIDI
+            case CARTRIDGE_MIDI_MAPLIN:
+                if (vic20_midi_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#endif
+            case CARTRIDGE_VIC20_SIDCART:
+#if 0
+                /* TODO */
+                if (sidcart_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+#endif
+                break;
+            case CARTRIDGE_VIC20_FP:
+                if (vic_fp_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_ACIA:
+                if (aciacart_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_DIGIMAX:
+                if (digimax_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_DS12C887RTC:
+                if (ds12c887rtc_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_GEORAM:
+                if (georam_write_snapshot_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_SFX_SOUND_EXPANDER:
+                if (sfx_soundexpander_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_SFX_SOUND_SAMPLER:
+                if (sfx_soundsampler_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#ifdef HAVE_TFE
+            case CARTRIDGE_TFE:
+                if (tfe_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#endif
+        }
     }
 
-    return ret;
+    if (vic20cart_type == CARTRIDGE_VIC20_GENERIC) {
+        if (generic_snapshot_write_module(s) < 0) {
+            return -1;
+        }
+    }
+    return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
 
 int vic20cart_snapshot_read_module(snapshot_t *s)
@@ -515,6 +651,9 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
     int new_cart_type, cartridge_reset;
     int ret = 0;
+    BYTE i;
+    BYTE number_of_carts;
+    int cart_ids[VIC20CART_DUMP_MAX_CARTS];
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
     if (m == NULL) {
@@ -522,13 +661,32 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     }
 
     if (vmajor != VIC20CART_DUMP_VER_MAJOR) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (SMR_DW_INT(m, &new_cart_type) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
+    }
+
+    if (SMR_B(m, &number_of_carts) < 0) {
+        goto fail;
+    }
+
+    /* Not much to do if no carts in snapshot */
+    if (number_of_carts == 0) {
+        return snapshot_module_close(m);
+    }
+
+    if (number_of_carts > VIC20CART_DUMP_MAX_CARTS) {
+        DBG(("CART snapshot read: carts %i > max %i\n", number_of_carts, VIC20CART_DUMP_MAX_CARTS));
+        goto fail;
+    }
+
+    /* Read cart IDs */
+    for (i = 0; i < number_of_carts; i++) {
+        if (SMR_DW_INT(m, &cart_ids[i]) < 0) {
+            goto fail;
+        }
     }
 
     snapshot_module_close(m);
@@ -545,41 +703,121 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     vic20cart_type = new_cart_type;
     mem_cartridge_type = new_cart_type;
 
-    switch (vic20cart_type) {
-        case CARTRIDGE_VIC20_GENERIC:
-            ret = generic_snapshot_read_module(s);
-            break;
-
-        case CARTRIDGE_VIC20_UM:
-            ret = vic_um_snapshot_read_module(s);
-            break;
-
-        case CARTRIDGE_VIC20_FP:
-            ret = vic_fp_snapshot_read_module(s);
-            break;
-
-        case CARTRIDGE_VIC20_MEGACART:
-            ret = megacart_snapshot_read_module(s);
-            break;
-
-        case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            ret = finalexpansion_snapshot_read_module(s);
-            break;
-
-        case CARTRIDGE_NONE:
-            /* cart already detached, nothing to do */
-            break;
-
-        default:
-            /* unknown cart */
-            ret = -1;
-            break;
+    /* Read individual cart data */
+    for (i = 0; i < number_of_carts; i++) {
+        switch (cart_ids[i]) {
+            case CARTRIDGE_DEBUGCART:
+#if 0
+                /* TODO */
+                if (debugcart_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+#endif
+                break;
+            case CARTRIDGE_VIC20_FINAL_EXPANSION:
+                if (finalexpansion_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_IO2_RAM:
+#if 0
+                /* TODO */
+                if (ioramcart_io2_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+#endif
+                break;
+            case CARTRIDGE_VIC20_IO3_RAM:
+#if 0
+                /* TODO */
+                if (ioramcart_io3_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+#endif
+                break;
+            case CARTRIDGE_VIC20_MEGACART:
+                if (megacart_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_UM:
+                if (vic_um_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_IEEE488:
+                if (vic20_ieee488_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#ifdef HAVE_MIDI
+            case CARTRIDGE_MIDI_MAPLIN:
+                if (vic20_midi_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#endif
+            case CARTRIDGE_VIC20_SIDCART:
+#if 0
+                /* TODO */
+                if (sidcart_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+#endif
+                break;
+            case CARTRIDGE_VIC20_FP:
+                if (vic_fp_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_ACIA:
+                if (aciacart_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_DIGIMAX:
+                if (digimax_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_DS12C887RTC:
+                if (ds12c887rtc_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_GEORAM:
+                if (georam_read_snapshot_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_SFX_SOUND_EXPANDER:
+                if (sfx_soundexpander_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_SFX_SOUND_SAMPLER:
+                if (sfx_soundsampler_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#ifdef HAVE_TFE
+            case CARTRIDGE_TFE:
+                if (tfe_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#endif
+        }
     }
 
-    if (ret < 0) {
-        vic20cart_type = CARTRIDGE_NONE;
-        mem_cartridge_type = CARTRIDGE_NONE;
+    if (vic20cart_type == CARTRIDGE_VIC20_GENERIC) {
+        if (generic_snapshot_read_module(s) < 0) {
+            return -1;
+        }
     }
 
-    return ret;
+    return 0;
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

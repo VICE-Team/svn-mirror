@@ -32,10 +32,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "funplay.h"
 #include "log.h"
 #include "monitor.h"
@@ -146,7 +146,7 @@ static io_source_t funplay_device = {
 
 static io_source_list_t *funplay_list_item = NULL;
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_FUNPLAY, 1, 1, &funplay_device, NULL, CARTRIDGE_FUNPLAY
 };
 
@@ -169,7 +169,7 @@ void funplay_config_setup(BYTE *rawcart)
 /* ---------------------------------------------------------------------*/
 static int funplay_common_attach(void)
 {
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     funplay_list_item = io_source_register(&funplay_device);
@@ -213,7 +213,7 @@ void funplay_detach(void)
 {
     io_source_unregister(funplay_list_item);
     funplay_list_item = NULL;
-    c64export_remove(&export_res);
+    export_remove(&export_res);
 }
 
 /* ---------------------------------------------------------------------*/

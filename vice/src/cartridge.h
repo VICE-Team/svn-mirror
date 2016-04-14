@@ -352,7 +352,11 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_NAME_MEGACART        "Mega-Cart" /* http://mega-cart.com/ */
 #define CARTRIDGE_VIC20_NAME_UM              "UltiMem"
 #define CARTRIDGE_VIC20_NAME_FP              "Vic Flash Plugin" /* http://www.ktverkko.fi/~msmakela/8bit/vfp/index.en.html */
-
+#define CARTRIDGE_VIC20_NAME_IO2_RAM         "I/O-2 RAM"
+#define CARTRIDGE_VIC20_NAME_IO3_RAM         "I/O-3 RAM"
+#define CARTRIDGE_VIC20_NAME_IEEE488         "IEEE488"
+#define CARTRIDGE_VIC20_NAME_MIDI            "MIDI"
+#define CARTRIDGE_VIC20_NAME_SIDCART         "SIDCART"
 
 /*
  * plus4 cartridge system

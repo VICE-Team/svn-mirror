@@ -32,12 +32,12 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "c64memrom.h"
 #include "capture.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -95,7 +95,7 @@
 #define DBG(x)
 #endif
 
-static const c64export_resource_t export_res = {
+static const export_resource_t export_res = {
     CARTRIDGE_NAME_CAPTURE, 1, 1, NULL, NULL, CARTRIDGE_CAPTURE
 };
 
@@ -247,7 +247,7 @@ void capture_config_setup(BYTE *rawcart)
 static int capture_common_attach(void)
 {
     DBG(("CAPTURE: attach\n"));
-    if (c64export_add(&export_res) < 0) {
+    if (export_add(&export_res) < 0) {
         return -1;
     }
     return 0;
@@ -282,7 +282,7 @@ int capture_crt_attach(FILE *fd, BYTE *rawcart)
 
 void capture_detach(void)
 {
-    c64export_remove(&export_res);
+    export_remove(&export_res);
 }
 
 /* ---------------------------------------------------------------------*/

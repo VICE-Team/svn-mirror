@@ -34,10 +34,10 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "export.h"
 #include "final.h"
 #include "monitor.h"
 #include "snapshot.h"
@@ -106,7 +106,7 @@ static io_source_t final1_io2_device = {
 static io_source_list_t *final1_io1_list_item = NULL;
 static io_source_list_t *final1_io2_list_item = NULL;
 
-static const c64export_resource_t export_res_v1 = {
+static const export_resource_t export_res_v1 = {
     CARTRIDGE_NAME_FINAL_I, 1, 0, &final1_io1_device, &final1_io2_device, CARTRIDGE_FINAL_I
 };
 
@@ -201,7 +201,7 @@ void final_v1_config_setup(BYTE *rawcart)
 
 static int final_v1_common_attach(void)
 {
-    if (c64export_add(&export_res_v1) < 0) {
+    if (export_add(&export_res_v1) < 0) {
         return -1;
     }
 
@@ -241,7 +241,7 @@ int final_v1_crt_attach(FILE *fd, BYTE *rawcart)
 
 void final_v1_detach(void)
 {
-    c64export_remove(&export_res_v1);
+    export_remove(&export_res_v1);
     io_source_unregister(final1_io1_list_item);
     io_source_unregister(final1_io2_list_item);
     final1_io1_list_item = NULL;

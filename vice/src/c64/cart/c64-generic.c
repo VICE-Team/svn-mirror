@@ -32,11 +32,11 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
-#include "c64export.h"
 #include "c64mem.h"
 #include "c64-generic.h"
 #include "cartridge.h"
 #include "crt.h"
+#include "export.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -105,15 +105,15 @@ int roml_bank = 0, romh_bank = 0, export_ram = 0;
 
 /* ---------------------------------------------------------------------*/
 
-static const c64export_resource_t export_res_8kb = {
+static const export_resource_t export_res_8kb = {
     "Generic 8KB", 1, 0, NULL, NULL, CARTRIDGE_GENERIC_8KB
 };
 
-static const c64export_resource_t export_res_16kb = {
+static const export_resource_t export_res_16kb = {
     "Generic 16KB", 1, 1, NULL, NULL, CARTRIDGE_GENERIC_16KB
 };
 
-static c64export_resource_t export_res_ultimax = {
+static export_resource_t export_res_ultimax = {
     "Generic Ultimax", 0, 1, NULL, NULL, CARTRIDGE_ULTIMAX
 };
 
@@ -194,19 +194,19 @@ int generic_common_attach(int mode)
     switch (mode) {
         case CARTRIDGE_GENERIC_8KB:
             DBG(("generic: attach 8kb\n"));
-            if (c64export_add(&export_res_8kb) < 0) {
+            if (export_add(&export_res_8kb) < 0) {
                 return -1;
             }
             break;
         case CARTRIDGE_GENERIC_16KB:
             DBG(("generic: attach 16kb\n"));
-            if (c64export_add(&export_res_16kb) < 0) {
+            if (export_add(&export_res_16kb) < 0) {
                 return -1;
             }
             break;
         case CARTRIDGE_ULTIMAX:
             DBG(("generic: attach ultimax\n"));
-            if (c64export_add(&export_res_ultimax) < 0) {
+            if (export_add(&export_res_ultimax) < 0) {
                 return -1;
             }
             break;
@@ -302,19 +302,19 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
 void generic_8kb_detach(void)
 {
     DBG(("generic: detach 8kb\n"));
-    c64export_remove(&export_res_8kb);
+    export_remove(&export_res_8kb);
 }
 
 void generic_16kb_detach(void)
 {
     DBG(("generic: detach 16kb\n"));
-    c64export_remove(&export_res_16kb);
+    export_remove(&export_res_16kb);
 }
 
 void generic_ultimax_detach(void)
 {
     DBG(("generic: detach ultimax\n"));
-    c64export_remove(&export_res_ultimax);
+    export_remove(&export_res_ultimax);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -432,11 +432,11 @@ int generic_snapshot_read_module(snapshot_t *s, int type)
 
     switch (type) {
         case CARTRIDGE_GENERIC_8KB:
-            return c64export_add(&export_res_8kb);
+            return export_add(&export_res_8kb);
         case CARTRIDGE_GENERIC_16KB:
-            return c64export_add(&export_res_16kb);
+            return export_add(&export_res_16kb);
         case CARTRIDGE_ULTIMAX:
-            return c64export_add(&export_res_ultimax);
+            return export_add(&export_res_ultimax);
     }
 
     return -1;
