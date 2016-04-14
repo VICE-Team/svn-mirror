@@ -260,7 +260,7 @@ void rexep256_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTREXEP256"
 
 int rexep256_snapshot_write_module(snapshot_t *s)
@@ -274,6 +274,7 @@ int rexep256_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, regval) < 0)
         || (SMW_WA(m, rexep256_eprom, 8) < 0)
         || (SMW_BA(m, rexep256_eprom_roml_bank_offset, 8) < 0)
         || (SMW_BA(m, roml_banks, 0x42000) < 0)) {
@@ -301,6 +302,7 @@ int rexep256_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B(m, &regval) < 0)
         || (SMR_WA(m, rexep256_eprom, 8) < 0)
         || (SMR_BA(m, rexep256_eprom_roml_bank_offset, 8) < 0)
         || (SMR_BA(m, roml_banks, 0x42000) < 0)) {
