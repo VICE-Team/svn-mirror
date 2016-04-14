@@ -47,7 +47,6 @@
 #include "c64acia.h"
 #include "cartridge.h"
 #include "cmdline.h"
-#include "debugcart.h"
 #include "digimax.h"
 #include "ds12c887rtc.h"
 #include "export.h"
@@ -529,14 +528,6 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
     /* Save individual cart data */
     for (i = 0; i < number_of_carts; i++) {
         switch (cart_ids[i]) {
-            case CARTRIDGE_DEBUGCART:
-#if 0
-                /* TODO */
-                if (debugcart_snapshot_write_module(s) < 0) {
-                    return -1;
-                }
-#endif
-                break;
             case CARTRIDGE_VIC20_FINAL_EXPANSION:
                 if (finalexpansion_snapshot_write_module(s) < 0) {
                     return -1;
@@ -706,14 +697,6 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     /* Read individual cart data */
     for (i = 0; i < number_of_carts; i++) {
         switch (cart_ids[i]) {
-            case CARTRIDGE_DEBUGCART:
-#if 0
-                /* TODO */
-                if (debugcart_snapshot_read_module(s) < 0) {
-                    return -1;
-                }
-#endif
-                break;
             case CARTRIDGE_VIC20_FINAL_EXPANSION:
                 if (finalexpansion_snapshot_read_module(s) < 0) {
                     return -1;
