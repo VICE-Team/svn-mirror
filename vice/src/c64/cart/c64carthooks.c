@@ -2538,6 +2538,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
     for (i = 0; i < number_of_carts; i++) {
         switch (cart_ids[i]) {
             /* "Slot 0" */
+            case CARTRIDGE_CPM:
+                if (cpmcart_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_MMC64:
                 if (mmc64_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3017,6 +3022,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
     for (i = 0; i < number_of_carts; i++) {
         switch (cart_ids[i]) {
             /* "Slot 0" */
+            case CARTRIDGE_CPM:
+                if (cpmcart_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
             case CARTRIDGE_MMC64:
                 if (mmc64_snapshot_read_module(s) < 0) {
                     goto fail2;

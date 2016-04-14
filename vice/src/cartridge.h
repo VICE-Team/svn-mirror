@@ -231,6 +231,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_GS                 "C64 Games System" /* http://retro.lonningdal.net/home.php?page=Computers&select=c64gs&image=c64gs4.jpg */
 #define CARTRIDGE_NAME_CAPTURE            "Capture" /* see manual http://rr.pokefinder.org/wiki/Capture */
 #define CARTRIDGE_NAME_COMAL80            "Comal 80" /* http://www.retroport.de/C64_C128_Hardware.html */
+#define CARTRIDGE_NAME_CPM                "CP/M cartridge"
 #define CARTRIDGE_NAME_MIDI_DATEL         "Datel MIDI"
 #define CARTRIDGE_NAME_DEBUGCART          "Debug Cartridge"
 #define CARTRIDGE_NAME_DELA_EP64          "Dela EP64"

@@ -27,6 +27,8 @@
 #ifndef VICE_CPMCART_H
 #define VICE_CPMCART_H
 
+#include "snapshot.h"
+
 /* in preparation for a better handling of the 'real' speed of the Z80 */
 #define Z80_4MHZ
 
@@ -54,5 +56,9 @@ typedef void cpmcart_ba_steal_callback_t (void);
 extern void cpmcart_ba_register(cpmcart_ba_check_callback_t *ba_check,
                                 cpmcart_ba_steal_callback_t *ba_steal,
                                 int *ba_var, int ba_mask);
+
+
+extern int cpmcart_snapshot_write_module(snapshot_t *s);
+extern int cpmcart_snapshot_read_module(snapshot_t *s);
 
 #endif
