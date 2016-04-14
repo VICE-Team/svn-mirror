@@ -2267,6 +2267,8 @@ if test x"$enable_ethernet" = "xyes"; then
   if test x"$is_win32" = "xno"; then
     if test x"$enable_ethernet" = "xyes"; then
     dnl libpcap.a
+      AC_CHECK_LIB(nsl, gethostbyname,[ LIBS="-lnsl $LIBS" ],,)
+      AC_CHECK_LIB(socket, gethostbyname,[ LIBS="-lsocket $LIBS" ],,)
       AC_CHECK_LIB(pcap, pcap_inject,[
         AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
         HAVE_TFE_SUPPORT="yes";
