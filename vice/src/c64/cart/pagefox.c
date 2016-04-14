@@ -255,7 +255,7 @@ void pagefox_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTPAGEFOX"
 
 int pagefox_snapshot_write_module(snapshot_t *s)
@@ -269,6 +269,7 @@ int pagefox_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)pagefox_enabled) < 0)
         || (SMW_B(m, (BYTE)currbank) < 0)
         || (SMW_BA(m, pagefox_ram, PAGEFOX_RAMSIZE) < 0)
         || (SMW_BA(m, roml_banks, 0x8000) < 0)
@@ -299,6 +300,7 @@ int pagefox_snapshot_read_module(snapshot_t *s)
     pagefox_ram = lib_malloc(PAGEFOX_RAMSIZE);
 
     if (0
+        || (SMR_B_INT(m, &pagefox_enabled) < 0)
         || (SMR_B_INT(m, &currbank) < 0)
         || (SMR_BA(m, pagefox_ram, PAGEFOX_RAMSIZE) < 0)
         || (SMR_BA(m, roml_banks, 0x8000) < 0)
