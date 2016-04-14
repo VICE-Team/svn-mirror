@@ -229,7 +229,7 @@ void se5_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTSE5"
 
 int se5_snapshot_write_module(snapshot_t *s)
@@ -243,6 +243,7 @@ int se5_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)se5_bank) < 0)
         || (SMW_BA(m, roml_banks, SE5_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -268,6 +269,7 @@ int se5_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B_INT(m, &se5_bank) < 0)
         || (SMR_BA(m, roml_banks, SE5_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
