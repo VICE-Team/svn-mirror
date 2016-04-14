@@ -213,7 +213,7 @@ void ross_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTROSS"
 
 int ross_snapshot_write_module(snapshot_t *s)
@@ -227,6 +227,7 @@ int ross_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)ross_is_32k) < 0)
         || (SMW_B(m, (BYTE)currbank) < 0)
         || (SMW_BA(m, roml_banks, 0x4000) < 0)
         || (SMW_BA(m, romh_banks, 0x4000) < 0)) {
@@ -254,6 +255,7 @@ int ross_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B_INT(m, &ross_is_32k) < 0)
         || (SMR_B_INT(m, &currbank) < 0)
         || (SMR_BA(m, roml_banks, 0x4000) < 0)
         || (SMR_BA(m, romh_banks, 0x4000) < 0)) {
