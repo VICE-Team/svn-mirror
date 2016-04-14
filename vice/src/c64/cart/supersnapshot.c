@@ -350,7 +350,7 @@ int supersnapshot_v5_cmdline_options_init(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   1
+#define CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "CARTSS5"
 
 int supersnapshot_v5_snapshot_write_module(snapshot_t *s)
@@ -364,6 +364,8 @@ int supersnapshot_v5_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)currbank) < 0)
+        || (SMW_B(m, (BYTE)currreg) < 0)
         || (SMW_B(m, romconfig) < 0)
         || (SMW_B(m, (BYTE)ram_bank) < 0)
         || (SMW_B(m, (BYTE)ss_32k_enabled) < 0)
@@ -395,6 +397,8 @@ int supersnapshot_v5_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B_INT(m, &currbank) < 0)
+        || (SMR_B_INT(m, &currreg) < 0)
         || (SMR_B(m, &romconfig) < 0)
         || (SMR_B_INT(m, &ram_bank) < 0)
         || (SMR_B_INT(m, &ss_32k_enabled) < 0)
