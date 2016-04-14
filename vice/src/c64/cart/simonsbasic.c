@@ -167,7 +167,7 @@ void simon_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTSIMON"
 
 int simon_snapshot_write_module(snapshot_t *s)
@@ -181,6 +181,7 @@ int simon_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)simon_a000) < 0)
         || (SMW_BA(m, roml_banks, 0x2000) < 0)
         || (SMW_BA(m, romh_banks, 0x2000) < 0)) {
         snapshot_module_close(m);
@@ -207,6 +208,7 @@ int simon_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B_INT(m, &simon_a000) < 0)
         || (SMR_BA(m, roml_banks, 0x2000) < 0)
         || (SMR_BA(m, romh_banks, 0x2000) < 0)) {
         snapshot_module_close(m);
