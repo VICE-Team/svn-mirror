@@ -182,7 +182,7 @@ void p64_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTP64"
 
 int p64_snapshot_write_module(snapshot_t *s)
@@ -196,6 +196,8 @@ int p64_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)currbank) < 0)
+        || (SMW_B(m, regval) < 0)
         || (SMW_BA(m, roml_banks, PROPHET64_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -221,6 +223,8 @@ int p64_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B_INT(m, &currbank) < 0)
+        || (SMR_B(m, &regval) < 0)
         || (SMR_BA(m, roml_banks, PROPHET64_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
