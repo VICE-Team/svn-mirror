@@ -1745,8 +1745,8 @@ x128-all: \
 xvic_libs =  \
 	@XVIC_WINRES@ \
 	$(tapeport_lib) \
-	$(vic20_lib) \
 	$(vic20cart_lib) \
+	$(vic20_lib) \
 	$(c64commoncart_lib) \
 	$(mascuerade_lib) \
 	$(driveiec_lib) \
