@@ -1,5 +1,1524 @@
 ------------------------------------------------------------------------------
 
+2016-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf, doc/vice.pdf,
+	po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po,
+	po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.27
+
+2016-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescpclockf83.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resiocollisions.rc,
+	src/arch/win32/resjoyport.rc, src/arch/win32/restapelog.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvsid.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2016-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Fixed xvic linking for *nix too.
+
+2016-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Reversed vic20/vic20cart linking order, makes xvic
+	link again.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/cart/ioramcart.c, src/vic20/cart/ioramcart.h,
+	src/vic20/cart/vic20cart.c: Added vic20 io-2/3 ramcart snapshot
+	support.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/cart/vic20cart.c: Exclude 'debugcart' from snapshot
+	writing/reading.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/digimaxcore.c: Cosmetic fix.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/os2/watcom/vic20.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/sdl/win32-watcom/vic20.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/win32/vs_tmpl/vic20.tmpl,
+	src/arch/win32/watcom/vic20.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c128/c128.c, src/c64/Makefile.am, src/c64/c64.c,
+	src/c64/c64export.c, src/c64/c64export.h, src/c64/cart/actionreplay.c,
+	src/c64/cart/actionreplay2.c, src/c64/cart/actionreplay3.c,
+	src/c64/cart/actionreplay4.c, src/c64/cart/atomicpower.c,
+	src/c64/cart/c64-generic.c, src/c64/cart/c64-midi.c,
+	src/c64/cart/c64acia1.c, src/c64/cart/c64cart.c,
+	src/c64/cart/c64carthooks.c, src/c64/cart/c64tpi.c,
+	src/c64/cart/capture.c, src/c64/cart/comal80.c,
+	src/c64/cart/cpmcart.c, src/c64/cart/debugcart.c,
+	src/c64/cart/delaep256.c, src/c64/cart/delaep64.c,
+	src/c64/cart/delaep7x8.c, src/c64/cart/diashowmaker.c,
+	src/c64/cart/digimax.c, src/c64/cart/dinamic.c, src/c64/cart/dqbb.c,
+	src/c64/cart/ds12c887rtc.c, src/c64/cart/easycalc.c,
+	src/c64/cart/easyflash.c, src/c64/cart/epyxfastload.c,
+	src/c64/cart/exos.c, src/c64/cart/expert.c, src/c64/cart/final.c,
+	src/c64/cart/final3.c, src/c64/cart/finalplus.c,
+	src/c64/cart/formel64.c, src/c64/cart/freezeframe.c,
+	src/c64/cart/freezemachine.c, src/c64/cart/funplay.c,
+	src/c64/cart/gamekiller.c, src/c64/cart/georam.c, src/c64/cart/gs.c,
+	src/c64/cart/ide64.c, src/c64/cart/isepic.c, src/c64/cart/kcs.c,
+	src/c64/cart/kingsoft.c, src/c64/cart/mach5.c,
+	src/c64/cart/magicdesk.c, src/c64/cart/magicformel.c,
+	src/c64/cart/magicvoice.c, src/c64/cart/mikroass.c,
+	src/c64/cart/mmc64.c, src/c64/cart/mmcreplay.c, src/c64/cart/ocean.c,
+	src/c64/cart/pagefox.c, src/c64/cart/prophet64.c,
+	src/c64/cart/ramcart.c, src/c64/cart/retroreplay.c,
+	src/c64/cart/reu.c, src/c64/cart/rexep256.c,
+	src/c64/cart/rexutility.c, src/c64/cart/rgcd.c, src/c64/cart/ross.c,
+	src/c64/cart/rrnetmk3.c, src/c64/cart/sfx_soundexpander.c,
+	src/c64/cart/sfx_soundsampler.c, src/c64/cart/silverrock128.c,
+	src/c64/cart/simonsbasic.c, src/c64/cart/snapshot64.c,
+	src/c64/cart/stardos.c, src/c64/cart/stb.c,
+	src/c64/cart/superexplode5.c, src/c64/cart/supergames.c,
+	src/c64/cart/supersnapshot.c, src/c64/cart/supersnapshot4.c,
+	src/c64/cart/tfe.c, src/c64/cart/warpspeed.c,
+	src/c64/cart/westermann.c, src/c64/cart/zaxxon.c, src/c64/plus256k.c,
+	src/c64/plus60k.c, src/c64/vsid-debugcart.c, src/cartridge.h,
+	src/export.h, src/scpu64/scpu64.c, src/sidcart.h,
+	src/vic20/Makefile.am, src/vic20/cart/Makefile.am,
+	src/vic20/cart/debugcart.c, src/vic20/cart/finalexpansion.c,
+	src/vic20/cart/ioramcart.c, src/vic20/cart/ioramcart.h,
+	src/vic20/cart/mascuerade-stubs.c, src/vic20/cart/mascuerade-stubs.h,
+	src/vic20/cart/megacart.c, src/vic20/cart/ultimem.c,
+	src/vic20/cart/vic-fp.c, src/vic20/cart/vic20-ieee488.c,
+	src/vic20/cart/vic20-ieee488.h, src/vic20/cart/vic20-midi.c,
+	src/vic20/cart/vic20-midi.h, src/vic20/cart/vic20-sidcart.c,
+	src/vic20/cart/vic20cart.c, src/vic20/cart/vic20cartmem.c,
+	src/vic20/vic20export.c: Generalized the (c64) export system and added
+	it to the vic20 emulation and extended/fixed vic20 cart snapshot
+	support.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Solaris fix for pcap detection.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/westermann.c: Fixed westermann snapshot support.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/warpspeed.c: Fixed warpspeed snapshot support.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/supersnapshot.c: Fixed 'super snapshot' snapshot
+	support.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/supergames.c: Fixed super games snapshot
+	support.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/superexplode5.c: Fixed super explode 5 snapshot
+	support.
+
+2016-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/stb.c: Fixed structured basic snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/simonsbasic.c: Fixed simons basic snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/silverrock128.c: Fixed silverrock128 snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ross.c: Fixed ross snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/rexutility.c: Fixed rex utility snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/cpmcart.c,
+	src/c64/cart/cpmcart.h, src/cartridge.h: Added c64 cp/m cart snapshot
+	support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/rexep256.c: Fixed rex ep 256 snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/prophet64.c: Fixed prophet64 snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/pagefox.c: Fixed pagefox snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/mach5.c: Fixed mach5 snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c, src/c64/cart/shortbus.c,
+	src/c64/cart/shortbus.h, src/c64/cart/shortbus_digimax.c,
+	src/c64/cart/shortbus_digimax.h, src/rtc/ds1202_1302.c,
+	src/rtc/ds1202_1302.h: Fixed ds1202/1302 snapshot support, added
+	shortbus snapshot support and added saving of rtc and shortbus
+	snapshot modules to the ide64 snapshot code.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/gs.c: Fixed gs snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/georam.c: Fixed georam snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/funplay.c: Fixed funplay snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/freezeframe.c: Fixed freeze frame snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/final3.c: Fixed final cart 3 snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/final.c: Fixed final cart snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/epyxfastload.c: Fixed epyx fast load snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ds12c887rtc.c, src/rtc/ds12c887.c, src/rtc/ds12c887.h:
+	Fixed the c64 ds12c887rtc cart snapshot support, fixed the generic
+	ds12c887 rtc snapshot code and added saving of the rtc regs/ram to the
+	c64 ds12c887rtc cart.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/diashowmaker.c: Fixed diashow maker snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/delaep256.c: Fixed dela ep 256 snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/delaep64.c: Fixed dela ep 64 snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/delaep7x8.c: Fixed dela ep 7x8 snapshot support.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/comal80.c: Some cosmetic fixes.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64-memory-hacks.c, src/c64/c64-memory-hacks.h,
+	src/c64/c64-snapshot.c, src/c64/c64_256k.c, src/c64/c64_256k.h,
+	src/c64/plus256k.c, src/c64/plus256k.h, src/c64/plus60k.c,
+	src/c64/plus60k.h: Added snapshot support to the c64 memory expansion
+	hacks.
+
+2016-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/ide-config.h,
+	src/arch/sdl/msvc-files/ide-config-mips.h,
+	src/arch/sdl/msvc-files/ide-config.h,
+	src/arch/sdl/win32-watcom/ide-config.h,
+	src/arch/win32/msvc/ide-config.h, src/arch/win32/watcom/ide-config.h:
+	Define "#HAVE_TIME_T_IN_TIME_H" to make msvc and ow work again.
+
+2016-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/unix/x11/xaw/x11kbd.c: Added check for
+	'XKBlib.h".
+
+2016-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2016-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/bq4830y.c, src/rtc/ds1202_1302.c, src/rtc/ds1216e.c,
+	src/rtc/ds12c887.c, src/rtc/ds1307.c, src/rtc/ds1602.c,
+	src/rtc/pcf8583.c, src/rtc/rtc-58321a.c, src/rtc/rtc-72421.c,
+	src/rtc/rtc.h: Fixed rtc snapshot code for 64/32bit time_t.
+
+2016-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed ac_defines
+
+2016-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added check for time_t and its size.
+
+2016-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/sounddrv/soundsun.c: Fixed usleep replacement.
+
+2016-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Check for usleep
+
+2016-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2016-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, ChangeLog.1, ChangeLog.2, ChangeLog.3,
+	data/PRINTER/1520.vpl, data/PRINTER/nl10.vpl, data/SCPU64/Makefile.am,
+	data/SCPU64/amiga_pos.vkm, data/SCPU64/amiga_sym.vkm,
+	data/SCPU64/beos_pos.vkm, data/SCPU64/beos_sym.vkm,
+	data/SCPU64/c64hq.vpl, data/SCPU64/c64s.vpl, data/SCPU64/ccs64.vpl,
+	data/SCPU64/default.vpl, data/SCPU64/default.vrs,
+	data/SCPU64/dos_pos.vkm, data/SCPU64/dos_sym.vkm,
+	data/SCPU64/frodo.vpl, data/SCPU64/godot.vpl, data/SCPU64/os2.vkm,
+	data/SCPU64/os2_sym.vkm, data/SCPU64/osx_pos.vkm,
+	data/SCPU64/osx_sym.vkm, data/SCPU64/osx_sym_de.vkm,
+	data/SCPU64/pc64.vpl, data/SCPU64/pepto-ntsc-sony.vpl,
+	data/SCPU64/pepto-ntsc.vpl, data/SCPU64/rgb.vpl,
+	data/SCPU64/scpu64mem.sym, data/SCPU64/sdl_pos.vkm,
+	data/SCPU64/sdl_pos_da.vkm, data/SCPU64/sdl_pos_de.vkm,
+	data/SCPU64/sdl_pos_fi.vkm, data/SCPU64/sdl_pos_no.vkm,
+	data/SCPU64/sdl_sym.vkm, data/SCPU64/vice.vpl,
+	data/SCPU64/win_hotkeys.vhk, data/SCPU64/win_pos.vkm,
+	data/SCPU64/win_shortcuts.vsc, data/SCPU64/win_sym.vkm,
+	data/SCPU64/win_sym_de.vkm, data/SCPU64/win_sym_it.vkm,
+	data/SCPU64/x11_pos.vkm, data/SCPU64/x11_pos_de.vkm,
+	data/SCPU64/x11_sym.vkm, data/SCPU64/x11_sym_de.vkm,
+	data/VIC20/mike-ntsc.vpl, data/VIC20/mike-pal.vpl,
+	data/VIC20/osx_pos.vkm, data/VIC20/osx_sym.vkm, doc/.indent.pro,
+	doc/coding-guidelines.txt, doc/html/checklinks.sh,
+	doc/html/robots.txt, doc/html/sitemap.xml, doc/html/vice.css,
+	po/ChangeLog, po/ChangeLog.1, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/po2tbl.sed,
+	po/ru.po, po/sv.po, po/tr.po, po/translations-status.txt,
+	src/ChangeLog, src/ChangeLog.1, src/ChangeLog.2, src/ChangeLog.3,
+	src/ChangeLog.4, src/ChangeLog.5, src/ChangeLog.6,
+	src/arch/sdl/menu_jam.c, src/arch/sdl/menu_jam.h,
+	src/arch/unix/gui/uisupersnapshot.c,
+	src/arch/unix/gui/uisupersnapshot.h, src/arch/unix/gui/uiuserport.c,
+	src/arch/unix/gui/uiuserport.h,
+	src/arch/unix/macosx/Resources/English.lproj/DisassemblyWindow.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/FilePanelImageContents.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/IOTree.plist,
+	src/arch/unix/macosx/Resources/English.lproj/IOTreeWindow.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/MemoryWindow.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/RecordMedia.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/RegisterWindow.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/Resources/English.lproj/SIDSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x128.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm5x0.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xvic.nib/designable.nib,
+	src/arch/unix/macosx/VICE.xcodeproj/project.pbxproj,
+	src/arch/unix/macosx/todo.txt, src/arch/unix/ui-threads.c,
+	src/arch/unix/ui-threads.h, src/arch/unix/x11/gnome/dragdrop.c,
+	src/arch/unix/x11/gnome/dragdrop.h,
+	src/arch/unix/x11/gnome/gnomekbd.h,
+	src/arch/unix/x11/gnome/gtk2legacy.c,
+	src/arch/unix/x11/gnome/gtk2legacy.h,
+	src/arch/unix/x11/gnome/uicontents.c,
+	src/arch/unix/x11/gnome/uicontents.h,
+	src/arch/unix/x11/gnome/uidialogs.c,
+	src/arch/unix/x11/gnome/uidrivestatus.c,
+	src/arch/unix/x11/gnome/uidrivestatus.h,
+	src/arch/unix/x11/gnome/uifilechooser.c,
+	src/arch/unix/x11/gnome/uifilechooser.h,
+	src/arch/unix/x11/gnome/uijoystatus.c,
+	src/arch/unix/x11/gnome/uijoystatus.h,
+	src/arch/unix/x11/gnome/uipalcontrol.h,
+	src/arch/unix/x11/gnome/uistatusbar.c,
+	src/arch/unix/x11/gnome/uistatusbar.h,
+	src/arch/unix/x11/gnome/uitapestatus.c,
+	src/arch/unix/x11/gnome/x11mouse.c,
+	src/arch/unix/x11/gnome/x11mouse.h,
+	src/arch/win32/vs_tmpl/joyport.tmpl, src/c64/cart/rgcd.c,
+	src/c64/cart/rgcd.h, src/c64/cart/rrnetmk3.c, src/c64/cart/rrnetmk3.h,
+	src/c64/musdrv.h, src/c64dtv/c64dtvmodel.c, src/c64dtv/c64dtvmodel.h,
+	src/cbm2/cbm2cart.c, src/diskimage/fsimage-p64.c,
+	src/diskimage/fsimage-p64.h, src/drive/iec/c64exp/supercard.c,
+	src/drive/iec/c64exp/supercard.h, src/gfxoutputdrv/godotdrv.c,
+	src/gfxoutputdrv/godotdrv.h, src/joyport/Makefile.am,
+	src/lib/ffmpeg/Makefile.am, src/lib/libffmpeg/libavcodec/x86/Makefile,
+	src/lib/libffmpeg/libavdevice/Makefile,
+	src/lib/libffmpeg/libavfilter/Makefile,
+	src/lib/libffmpeg/libavformat/Makefile,
+	src/lib/libffmpeg/libavutil/Makefile,
+	src/lib/libffmpeg/libavutil/x86/Makefile,
+	src/lib/libffmpeg/libswresample/Makefile,
+	src/lib/libffmpeg/libswscale/Makefile,
+	src/lib/libffmpeg/libswscale/x86/Makefile,
+	src/lib/libffmpeg/tools/bisect-create,
+	src/lib/libffmpeg/tools/build_libstagefright,
+	src/lib/libffmpeg/tools/clean-diff,
+	src/lib/libffmpeg/tools/dvd2concat, src/lib/libffmpeg/tools/gen-rc,
+	src/lib/libffmpeg/tools/make_chlayout_test,
+	src/lib/libffmpeg/tools/missing_codec_desc,
+	src/lib/libffmpeg/tools/normalize.py,
+	src/lib/libffmpeg/tools/patcheck, src/lib/libffmpeg/tools/plotframes,
+	src/lib/libffmpeg/tools/unwrap-diff,
+	src/lib/libffmpeg/tools/zmqshell.py, src/lib/libffmpeg/version.sh,
+	src/lib/liblame/ACM/tinyxml/makedistlinux,
+	src/lib/liblame/ACM/tinyxml/makedistwin.bat,
+	src/lib/liblame/ChangeLog, src/lib/liblame/README,
+	src/lib/liblame/config.guess, src/lib/liblame/config.rpath,
+	src/lib/liblame/config.sub, src/lib/liblame/configure,
+	src/lib/liblame/configure.in, src/lib/liblame/debian/changelog,
+	src/lib/liblame/depcomp, src/lib/liblame/frontend/depcomp,
+	src/lib/liblame/install-sh, src/lib/liblame/lame.bat,
+	src/lib/liblame/libmp3lame/depcomp, src/lib/liblame/ltmain.sh,
+	src/lib/liblame/misc/Lame.vbs, src/lib/liblame/misc/auenc,
+	src/lib/liblame/misc/depcomp, src/lib/liblame/misc/lame4dos.bat,
+	src/lib/liblame/misc/lameid3.pl, src/lib/liblame/misc/mk_mp3.sh,
+	src/lib/liblame/misc/mlame, src/lib/liblame/misc/mugeco.sh,
+	src/lib/liblame/missing, src/lib/liblame/mpglib/depcomp,
+	src/lib/liblame/vc_solution/arch_nasm.vsprops,
+	src/lib/liblame/vc_solution/arch_sse2.vsprops,
+	src/lib/liblame/vc_solution/arch_x87.vsprops,
+	src/lib/liblame/vc_solution/vc9_lame.sln,
+	src/lib/liblame/vc_solution/vc9_lame_acm.vcproj,
+	src/lib/liblame/vc_solution/vc9_lame_acm_adbg.vcproj,
+	src/lib/liblame/vc_solution/vc9_lame_acm_tinyxml.vcproj,
+	src/lib/liblame/vc_solution/vc9_lame_clients.sln,
+	src/lib/liblame/vc_solution/vc9_lame_config.vsprops,
+	src/lib/liblame/vc_solution/vc9_lame_dll.vcproj,
+	src/lib/liblame/vc_solution/vc9_lame_dll_example.vcproj,
+	src/lib/liblame/vc_solution/vc9_lame_dshow.vcproj,
+	src/lib/liblame/vc_solution/vc9_lame_lame.vcproj,
+	src/lib/liblame/vc_solution/vc9_lame_mp3rtp.vcproj,
+	src/lib/liblame/vc_solution/vc9_lame_mp3x.vcproj,
+	src/lib/liblame/vc_solution/vc9_lame_test.vcproj,
+	src/lib/liblame/vc_solution/vc9_libmp3lame.vcproj,
+	src/lib/liblame/vc_solution/vc9_libmp3lame_dll.vcproj,
+	src/lib/liblame/vc_solution/vc9_mpglib.vcproj,
+	src/lib/libx264/config.guess, src/lib/libx264/config.sub,
+	src/lib/libx264/configure, src/lib/libx264/extras/gas-preprocessor.pl,
+	src/lib/libx264/tools/cltostr.sh,
+	src/lib/libx264/tools/countquant_x264.pl,
+	src/lib/libx264/tools/digress/__init__.py,
+	src/lib/libx264/tools/digress/cli.py,
+	src/lib/libx264/tools/digress/comparers.py,
+	src/lib/libx264/tools/digress/constants.py,
+	src/lib/libx264/tools/digress/errors.py,
+	src/lib/libx264/tools/digress/scm/__init__.py,
+	src/lib/libx264/tools/digress/scm/dummy.py,
+	src/lib/libx264/tools/digress/scm/git.py,
+	src/lib/libx264/tools/digress/testing.py,
+	src/lib/libx264/tools/msvsdepend.sh,
+	src/lib/libx264/tools/test_x264.py, src/lib/libx264/version.sh,
+	src/lib/p64/Makefile.am, src/lib/p64/p64.c, src/lib/p64/p64.h,
+	src/lib/p64/p64config.h, src/mididrv.h, src/monitor/asm65816.c,
+	src/monitor/mon_assemble65816.c, src/monitor/mon_register.c,
+	src/palette2c.sh, src/pet/petdww.c, src/pet/petdww.h,
+	src/pet/pethre.h, src/plus4/plus4speech.c, src/plus4/plus4speech.h,
+	src/printerdrv/drv-1520.c, src/printerdrv/drv-1520.h,
+	src/printerdrv/drv-raw.c, src/printerdrv/drv-raw.h,
+	src/resid/ChangeLog, src/resid/configure.in, src/resid/samp2src.pl,
+	src/resid-dtv/ChangeLog, src/resid-dtv/configure.in,
+	src/rtc/bq4830y.h, src/rtc/ds1202_1302.h, src/rtc/ds1216e.h,
+	src/rtc/ds12c887.h, src/rtc/ds1307.h, src/rtc/ds1602.h,
+	src/rtc/pcf8583.h, src/rtc/rtc-58321a.h, src/rtc/rtc-72421.h,
+	src/rtc/rtc.h, src/sedinfocontrib_h.sh,
+	src/tapeport/dtl-basic-dongle.c, src/tapeport/dtl-basic-dongle.h,
+	src/vic20/cart/ultimem.c, src/vic20/cart/ultimem.h,
+	src/vic20/cart/vic-fp.c, src/vic20/cart/vic-fp.h,
+	src/vic20/vic20model.c, src/vic20/vic20model.h, src/vicefeatures.c,
+	src/vicefeatures.h, src/video/render1x1crt.c,
+	src/video/render1x1crt.h, src/video/render2x2crt.c,
+	src/video/render2x2crt.h, src/video/render2x4.c,
+	src/video/render2x4.h, src/video/render2x4crt.c,
+	src/video/render2x4crt.h, src/video/video-sound.c,
+	src/video/video-sound.h, src/wrap-u-ar.sh, tixbuildinfo,
+	vice-gtk.spec.in, vice.spec.in: Finished the svn properties fixup run.
+
+2016-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C128/pepto-ntsc-sony.vpl, data/C128/pepto-ntsc.vpl,
+	data/C128/rgb.vpl, data/C64/osx_sym.vkm, data/C64/pepto-ntsc-sony.vpl,
+	data/C64/pepto-ntsc.vpl, data/C64/rgb.vpl, data/C64/sdl_keyrah.vkm,
+	data/C64/sdl_keyrah_de.vkm, data/C64/sdl_sym.vkm,
+	data/C64/win_pos_de.vkm, data/C64/x11_keyrah.vkm,
+	data/C64/x11_keyrah_de.vkm, data/C64DTV/sdl_sym.vkm,
+	data/C64DTV/spiff.vpl, data/CBM-II/osx_pos_uk.vkm,
+	data/CBM-II/osx_sym_uk.vkm, data/CBM-II/pepto-ntsc-sony.vpl,
+	data/CBM-II/pepto-ntsc.vpl, data/CBM-II/rgb.vpl,
+	data/PET/osx_grus_sym.vkm, data/PET/osx_sym_uk.vkm,
+	data/PET/romsuperpet.vrs, data/PET/sdl_sym.vkm, data/PET/win_sym.vkm,
+	data/PET/x11_sym.vkm, data/PLUS4/osx_pos.vkm, data/PLUS4/osx_sym.vkm,
+	src/lib/libffmpeg/doc/texi2pod.pl, src/lib/libffmpeg/doc/texidep.pl,
+	src/lib/libffmpeg/libavcodec/Makefile: Some more svn property updates.
+
+2016-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/x11video.c: Slight order change.
+
+2016-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/fonts/Makefile.am, src/arch/os2/fonts/bdf2fnt.icc,
+	src/arch/os2/fonts/chargen2fnt.icc,
+	src/arch/os2/fonts/mps2chargen.icc: Removed some unneeded vac++
+	project files.
+
+2016-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Documentation-Howto.txt: Updated.
+
+2016-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/bq4830y.c, src/rtc/bq4830y.h, src/rtc/ds1202_1302.c,
+	src/rtc/ds1202_1302.h, src/rtc/ds1216e.c, src/rtc/ds1216e.h,
+	src/rtc/ds12c887.c, src/rtc/ds12c887.h, src/rtc/ds1307.c,
+	src/rtc/ds1307.h, src/rtc/ds1602.c, src/rtc/ds1602.h,
+	src/rtc/pcf8583.c, src/rtc/pcf8583.h, src/rtc/rtc-58321a.c,
+	src/rtc/rtc-58321a.h, src/rtc/rtc-72421.c, src/rtc/rtc-72421.h: Added
+	dump support to all the rtc's, not being used yet.
+
+2016-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c: Some more cosmetic fixes.
+
+2016-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64acia1.c: Cosmetic fix.
+
+2016-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uimediafile.c: Fixed.
+
+2016-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/geninfocontrib_h.sh, src/gensvnversion.sh,
+	src/gentranslate_h.sh, src/gentranslate_h.sh.in,
+	src/gentranslatetable.sh, src/joyport/bbrtc.c, src/joyport/bbrtc.h,
+	src/joyport/lightpen.c, src/joyport/lightpen.h,
+	src/joyport/paperclip64.c, src/joyport/paperclip64.h,
+	src/joyport/sampler2bit.c, src/joyport/sampler2bit.h,
+	src/joyport/sampler4bit.c, src/joyport/sampler4bit.h,
+	src/lib/ffmpeg/configure.gnu, src/lib/libffmpeg/compat/plan9/head,
+	src/lib/libffmpeg/compat/plan9/printf,
+	src/lib/libffmpeg/compat/windows/makedef, src/lib/libffmpeg/configure,
+	src/lib/libffmpeg/doc/doxy-wrapper.sh: Some more svn property fixes.
+
+2016-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* svn-instructions.txt, autogen.sh, build/amigaos/build-os4-native.sh,
+	build/android/build-android.sh, build/android/build-android.sh.in,
+	build/android/push-roms.sh, build/beos/intel-build-sdl.sh,
+	build/beos/intel-build.sh, build/beos/ppc-build-sdl.sh,
+	build/beos/ppc-build.sh, build/macosx/build-allext.sh,
+	build/macosx/build-ffmpeglame.sh, build/macosx/build-gtk.sh,
+	build/macosx/build-hidutils.sh, build/macosx/build-inc.sh,
+	build/macosx/build-pcaplibnet.sh, build/macosx/build-sdlmain.sh,
+	build/macosx/build-vice-dist.sh, build/macosx/build-vice-release.sh,
+	build/mingw32/build-cross.sh, build/minix3/build-package.sh,
+	build/minix3/build-sdl-package.sh, build/nextstep/build.sh,
+	build/openstep/build.sh, build/qnx4/build.sh, build/rhapsody/build.sh,
+	build.minix, check-activity.sh, config.guess, config.rpath,
+	config.sub, configure.proto, doc/checkdoc.mak, doc/fixdox.sh,
+	doc/html/texi2html, doc/mkdoxy.sh, doc/src2doxy.sh, doc/t2h.pl,
+	doc/texi2chm.sh, doc/texi2guide.sh, doc/txt2doxy.sh, gcccpu.sh,
+	install-sh, mkinstalldirs, po/check_obsolete.sh,
+	po/gen_win32_files.sh, src/arch/amigaos/genintl_h.sh,
+	src/arch/amigaos/genintl_h.sh.in, src/arch/amigaos/genintltable.sh,
+	src/arch/amigaos/make-bindist.sh, src/arch/beos/make-bindist.sh,
+	src/arch/beos/ppc-ar.sh, src/arch/beos/ppc-cc.sh,
+	src/arch/msdos/make-bindist.sh, src/arch/os2/fonts/vice-cbm.cmd,
+	src/arch/os2/install.cmd, src/arch/os2/makeclean.cmd,
+	src/arch/os2/makedist.cmd, src/arch/os2/watcom/genwt.bat,
+	src/arch/os2/watcom/genwt.cmd, src/arch/os2/watcom/makebindist.bat,
+	src/arch/os2/watcom/makebindist.cmd, src/arch/sdl/archdep.c,
+	src/arch/sdl/archdep.h, src/arch/sdl/archdep_unix.c,
+	src/arch/sdl/archdep_unix.h, src/arch/sdl/blockdev.c,
+	src/arch/sdl/console.c,
+	src/arch/sdl/generate_msvc10_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc10_project.bat,
+	src/arch/sdl/generate_msvc11_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc11_project.bat,
+	src/arch/sdl/generate_msvc12_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc12_project.bat,
+	src/arch/sdl/generate_msvc6_project.bat,
+	src/arch/sdl/generate_msvc70_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc70_project.bat,
+	src/arch/sdl/generate_msvc71_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc71_project.bat,
+	src/arch/sdl/generate_msvc8_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc8_project.bat,
+	src/arch/sdl/generate_msvc9_ffmpeg_project.bat,
+	src/arch/sdl/generate_msvc9_project.bat,
+	src/arch/sdl/generate_msvcmips_project.bat, src/arch/sdl/joy.c,
+	src/arch/sdl/joy.h, src/arch/sdl/kbd.c, src/arch/sdl/kbd.h,
+	src/arch/sdl/make-bindist_amiga.sh, src/arch/sdl/make-bindist_beos.sh,
+	src/arch/sdl/make-bindist_dingoo.sh,
+	src/arch/sdl/make-bindist_dingoo_native.sh,
+	src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/sdl/make-bindist_scosol.sh,
+	src/arch/sdl/make-bindist_skyos.sh,
+	src/arch/sdl/make-bindist_syllable.sh,
+	src/arch/sdl/make-bindist_win32.sh,
+	src/arch/sdl/msvc-files/make-bindist-mips.bat.proto,
+	src/arch/sdl/msvc-files/make-bindist.bat.proto,
+	src/arch/sdl/msvc-files/vice.manifest,
+	src/arch/sdl/msvc-files/winid_arm.bat,
+	src/arch/sdl/msvc-files/winid_ia64.bat,
+	src/arch/sdl/msvc-files/winid_x64.bat,
+	src/arch/sdl/msvc-files/winid_x86.bat, src/arch/sdl/qnx4/install_msg,
+	src/arch/sdl/qnx4/make-bindist.sh, src/arch/sdl/sdlmain.c,
+	src/arch/sdl/signals.c, src/arch/sdl/socketimpl.h,
+	src/arch/sdl/types.h, src/arch/sdl/ui.c, src/arch/sdl/ui.h,
+	src/arch/sdl/uicmdline.c, src/arch/sdl/uimon.c,
+	src/arch/sdl/uipause.c, src/arch/sdl/uistatusbar.c,
+	src/arch/sdl/video.c, src/arch/sdl/videoarch.h, src/arch/sdl/vsidui.c,
+	src/arch/sdl/vsyncarch.c, src/arch/sdl/win32-watcom/genwt.bat,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xscpu64_ui.c,
+	src/arch/sdl/xvic_ui.c, src/arch/unix/gui/uiautostart.c,
+	src/arch/unix/gui/uiautostart.h, src/arch/unix/gui/uieasyflash.c,
+	src/arch/unix/gui/uieasyflash.h, src/arch/unix/gui/uipetdww.c,
+	src/arch/unix/hpux/getdate.pl, src/arch/unix/hpux/getnow.pl,
+	src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/macosx/analyze-vicerc.pl,
+	src/arch/unix/macosx/make-bindist.sh,
+	src/arch/unix/macosx/vice-launcher.sh,
+	src/arch/unix/macosx/x11-launcher.sh, src/arch/unix/minix/minix-ar.sh,
+	src/arch/unix/next_open_rhap/make-bindist.sh,
+	src/arch/unix/next_open_rhap/nextfix.sh,
+	src/arch/unix/qnx4/install_msg, src/arch/unix/qnx4/make-bindist.sh,
+	src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/unix/sco_sol/checkinstall,
+	src/arch/unix/sco_sol/make-bindist.sh,
+	src/arch/unix/skyos/make-bindist.sh,
+	src/arch/unix/x11/xaw/checkmark.xbm,
+	src/arch/unix/x11/xaw/right_arrow.xbm,
+	src/arch/win32/generate_msvc10_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc10_project.bat,
+	src/arch/win32/generate_msvc11_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc11_project.bat,
+	src/arch/win32/generate_msvc12_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc12_project.bat,
+	src/arch/win32/generate_msvc14_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc14_project.bat,
+	src/arch/win32/generate_msvc6_project.bat,
+	src/arch/win32/generate_msvc70_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc70_project.bat,
+	src/arch/win32/generate_msvc71_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc71_project.bat,
+	src/arch/win32/generate_msvc8_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc8_project.bat,
+	src/arch/win32/generate_msvc9_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc9_project.bat,
+	src/arch/win32/genmenuid.sh, src/arch/win32/genstringid.sh,
+	src/arch/win32/genwinres.sh, src/arch/win32/lightpendrv.c,
+	src/arch/win32/lightpendrv.h, src/arch/win32/make-bindist.sh,
+	src/arch/win32/msvc/make-msvc-bindist-native.bat.proto,
+	src/arch/win32/msvc/winid_arm.bat, src/arch/win32/msvc/winid_ia64.bat,
+	src/arch/win32/msvc/winid_x64.bat, src/arch/win32/msvc/winid_x86.bat,
+	src/arch/win32/rs232dev.c, src/arch/win32/vice-version.bat,
+	src/arch/win32/vice-version.bat.in, src/arch/win32/vice.manifest,
+	src/arch/win32/vs_tmpl/avcodec-x86.tmpl,
+	src/arch/win32/vs_tmpl/avcodec.tmpl,
+	src/arch/win32/vs_tmpl/avfilter.tmpl,
+	src/arch/win32/vs_tmpl/avformat.tmpl,
+	src/arch/win32/vs_tmpl/avutil-x86.tmpl,
+	src/arch/win32/vs_tmpl/avutil.tmpl,
+	src/arch/win32/vs_tmpl/compat.tmpl, src/arch/win32/vs_tmpl/mkmsvc.dsp,
+	src/arch/win32/vs_tmpl/mkmsvc.dsw, src/arch/win32/vs_tmpl/mkmsvc.exe,
+	src/arch/win32/vs_tmpl/postproc.tmpl,
+	src/arch/win32/vs_tmpl/swresample-x86.tmpl,
+	src/arch/win32/vs_tmpl/swresample.tmpl,
+	src/arch/win32/vs_tmpl/swscale-x86.tmpl,
+	src/arch/win32/vs_tmpl/swscale.tmpl,
+	src/arch/win32/vs_tmpl/x264common.tmpl,
+	src/arch/win32/vs_tmpl/x264encoder.tmpl,
+	src/arch/win32/vs_tmpl/x264filter.tmpl,
+	src/arch/win32/vs_tmpl/x264input.tmpl,
+	src/arch/win32/vs_tmpl/x264output.tmpl,
+	src/arch/win32/watcom/genwt.bat,
+	src/arch/win32/watcom/make-watcom-bindist.bat, src/c64/cart/exos.h,
+	src/c64/cart/rexutility.c, src/c64/cart/rexutility.h,
+	src/convert_owcc_libs.sh, src/core/ata.c, src/findhacks.sh: Some svn
+	property fixes.
+
+2016-04-10  groepaz <groepaz@gmx.net>
+
+	* src/plus4/plus4memhannes256k.c: make dump actually work :)
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, src/arch/sdl/make-bindist_scosol.sh: Fixed for solaris.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed order.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/unix/x11/xaw/console.c: Fixed.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Changed to use config.rpath to get the runtime link
+	path command line.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.rpath: Changed config.rpath to take parameters and to return
+	the proper runtime path command line.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, config.rpath: Added config.rpath script for properly
+	adding runtime linking paths, not in use yet.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/sco_sol/checkinstall: Fixed.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4memhannes256k.c: Added dump support to the plus4
+	hannes memory expansion.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/cart/vic20-ieee488.c, src/vic20/vic20ieeevia.h,
+	src/vic20/vic20ieeevia1.c, src/vic20/vic20ieeevia2.c: Added dump
+	support to the vic20 ieee488 cart emulation.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4speech.c, src/plus4/plus4speech.h: Added dump support
+	to the v364 speech system.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4memcsory256k.c: Added dump support to the plus4 csory
+	memory expansion.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4mem.c: Added dump support to the plus4 memory
+	configuration system.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/petreu.c: Added dump support for the pet reu device.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/petdww.c: Added dump support for the pet dww device.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2mem.c, src/cbm2/cbm5x0mem.c: Added dump support for tpi
+	emulation in xcbm2 and xcbm5x0.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2mem.c, src/cbm2/cbm5x0mem.c: Added dump support for cia
+	emulation in xcbm2 and xcbm5x0.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/debugcart.c, src/pet/debugcart.c, src/plus4/debugcart.c,
+	src/plus4/digiblaster.c, src/vic20/cart/debugcart.c,
+	src/vic20/cart/ioramcart.c: Fixed some 'dump' comments.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/c64sound.c,
+	src/cbm2/cbm2mem.c, src/cbm2/cbm5x0mem.c, src/pet/pet-sidcart.c,
+	src/plus4/plus4-sidcart.c, src/sid/sid.c, src/sid/sid.h, src/sound.c,
+	src/sound.h, src/vic20/cart/vic20-sidcart.c: Added dump support to the
+	sid devices, only fastsid returns a valid dump, resid dump info still
+	needs to be added.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/westermann.c: Added dump support for the westermann
+	cart emulation.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/warpspeed.c: Added dump support for the warpspeed cart
+	emulation.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/superexplode5.c: Added dump support for the super
+	explode 5 cart emulation.
+
+2016-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/stb.c: Added dump support for the structured basic cart
+	emulation.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/stardos.c: Added dump support for the stardos cart
+	emulation.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/simonsbasic.c: Added dump support for the simons basic
+	cart emulation.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/rexutility.c: Added dump support for the rex utility
+	cart emulation.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sounddrv/soundsun.c: Added usleep replacement function to the
+	sun audio driver for when the current platform doesn't have usleep.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/mach5.c: Added dump support for the mach5 cart
+	emulation.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/freezeframe.c: Added dump support for the freeze frame
+	cart emulation.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/finalplus.c: Added dump support for the final plus cart
+	emulation.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Solaris fix.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/final.c: Added dump support for the final cart
+	emulation.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/epyxfastload.c: Added dump support for the epyx fast
+	load cart emulation.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/diashowmaker.c: Added dump support for the diashowmaker
+	cart emulation.
+
+2016-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/atomicpower.c: Added dump support for the atomic power
+	cart emulation.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/printerdrv/output-text.c: Comment fix.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/actionreplay4.c: Added dump support for the action
+	replay 4 cart emulation.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c, src/rtc/ds1202_1302.c, src/rtc/ds1202_1302.h:
+	Added dump support for the ds1202/1302 to the ide64 cart emulation.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/digimax.c, src/c64/cart/epyxfastload.c,
+	src/c64/cart/expert.c, src/c64/cart/final.c, src/c64/cart/formel64.c,
+	src/c64/cart/freezeframe.c, src/c64/cart/freezemachine.c,
+	src/c64/cart/gamekiller.c, src/c64/cart/kcs.c, src/c64/cart/mach5.c,
+	src/c64/cart/magicformel.c, src/c64/cart/mikroass.c,
+	src/c64/cart/rexutility.c, src/c64/cart/sfx_soundsampler.c,
+	src/c64/cart/shortbus_digimax.c, src/c64/cart/stardos.c,
+	src/c64/cart/stb.c, src/c64/cart/superexplode5.c,
+	src/c64/cart/supersnapshot4.c, src/c64/cart/warpspeed.c: Dump comments
+	updates.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/easycalc.c: Added dump support to the easycalc cart
+	emulation.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ds12c887rtc.c, src/rtc/ds12c887.c, src/rtc/ds12c887.h:
+	Added dump support to the ds12c887 rtc cart emulation.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/debugcart.h, src/c64/vsid-debugcart.c,
+	src/c64/vsid-debugcart.h, src/c64dtv/debugcart.c,
+	src/c64dtv/debugcart.h, src/cbm2/debugcart.c, src/cbm2/debugcart.h,
+	src/pet/debugcart.c, src/pet/debugcart.h, src/plus4/debugcart.c,
+	src/plus4/debugcart.h, src/vic20/cart/debugcart.c,
+	src/vic20/cart/debugcart.h: Did some svn property fixes.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/debugcart.c: Added dump comment.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/cpmcart.c: Added dump support to the c64 cpm cart
+	emulation.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vsidui.c: Made 'features' menu item work for windows
+	vsid (fixes bug #734).
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resiocollisions.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/uiiocollisions.c,
+	src/arch/win32/uiiocollisions.h, src/arch/win32/vic20ui.c,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64sc.tmpl, src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj: Added I/O collision settings to the
+	windows gui.
+
+2016-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/cbm2ui.c,
+	src/arch/msdos/cbm5x0ui.c, src/arch/msdos/petui.c,
+	src/arch/msdos/plus4ui.c, src/arch/msdos/scpu64ui.c,
+	src/arch/msdos/uiiocollisions.c, src/arch/msdos/uiiocollisions.h,
+	src/arch/msdos/vic20ui.c: Added I/O collision settings to the dos tui.
+
+2016-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/cbm2ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/constants.txt, src/arch/beos/petui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Added I/O
+	collision settings to the beos gui.
+
+2016-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/cbm2ui.c, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/cbm5x0ui.c, src/arch/amigaos/cbm5x0uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/Makefile.am,
+	src/arch/amigaos/mui/uiiocollisions.c,
+	src/arch/amigaos/mui/uiiocollisions.h, src/arch/amigaos/petui.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4ui.c,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/scpu64ui.c,
+	src/arch/amigaos/scpu64uires.h, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Added I/O
+	collision settings to the amiga gui.
+
+2016-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c64cart.c, src/arch/sdl/menu_cbm2cart.c,
+	src/arch/sdl/menu_petcart.c, src/arch/sdl/menu_plus4cart.c,
+	src/arch/sdl/menu_vic20cart.c: Extended the sdl i/o collisions menu
+	items to the other emulators that have an i/o system.
+
+2016-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	src/arch/unix/gui/scpu64ui.c, src/arch/unix/gui/vic20ui.c: Extended
+	the unix i/o collisions menu items to the other emulators that have an
+	i/o system.
+
+2016-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/vic20io.c: Cosmetic fix.
+
+2016-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_dos_runtime_os.c: Removed debug messages.
+
+2016-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_openbsd_runtime_os.c: Added OpenBSD 5.9
+	comment.
+
+2016-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_freebsd_runtime_os.c,
+	src/platform/platform_freebsd_version.h: Support FreeBSD 10.3.
+
+2016-04-05  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uicartridge.c,
+	src/arch/unix/x11/xaw/uiedisk.c, src/arch/unix/x11/xaw/uisnapshot.c:
+	Simplify the use of ENABLE_TEXTFIELD a bit.
+
+2016-04-05  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uiscreenshot.c: Address ticket #624: add
+	FFMPEG options in the screenshot dialog. For good measure, add the
+	Doodle and Koala options too.
+
+2016-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvsid.rc, src/arch/win32/vsidui.c: Improved windows
+	vsid gui a bit: added 'shortcut keys' help menu item which shows what
+	keys are available, added menu items to control the sound volume, and
+	added '+' and '-" shortcut keys to increase/decrease the sound volume.
+
+2016-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/unix/x11/xaw/console.c, src/opencbm.h:
+	Openserver 5 fixes.
+
+2016-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/unix/x11/xaw/console.c: Openserver 6
+	fixes.
+
+2016-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Check for libiconv before checking the libintl
+	stuff.
+
+2016-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/uimediafile.c: Added
+	doodle/koala settings items to the windows gui.
+
+2016-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/menudefs.c, src/arch/msdos/uiscreenshot.c,
+	src/arch/msdos/uiscreenshot.h: Added doodle/koala settings menu to the
+	dos tui.
+
+2016-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/cbm5x0ui.cc, src/arch/beos/petui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/ui.cc, src/arch/beos/vic20ui.cc: Added missing includes.
+
+2016-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/cbm5x0ui.cc, src/arch/beos/constants.txt,
+	src/arch/beos/petui.cc, src/arch/beos/plus4ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/ui.cc,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Added
+	doodle/koala settings menu to the beos gui.
+
+2016-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/cbm5x0uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/Makefile.am,
+	src/arch/amigaos/mui/uiscreenshot.c,
+	src/arch/amigaos/mui/uiscreenshot.h, src/arch/amigaos/petuires.h,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/scpu64uires.h,
+	src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20uires.h: Added doodle/koala settings menu to the
+	amiga gui.
+
+2016-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/screen-shot.c: Some #ifdef fixes.
+
+2016-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/ui.c: Fixed.
+
+2016-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_screenshot.c, src/arch/sdl/menu_screenshot.h,
+	src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xscpu64_ui.c,
+	src/arch/sdl/xvic_ui.c: Added doodle/koala settings menu to the sdl
+	gui.
+
+2016-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Better TFE failure message.
+
+2016-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed for unixware.
+
+2016-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/archdep.c: Define 'DEFFILEMODE' if not already
+	defined.
+
+2016-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/console.c: Better fix.
+
+2016-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.txt, src/arch/beos/ui.cc, src/arch/beos/vicemenu.cc: Fixed.
+
+2016-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.txt, src/arch/beos/ui.cc,
+	src/arch/beos/ui.h, src/arch/beos/vicemenu.cc,
+	src/arch/beos/vsyncarch.c: Added proper single frame advance support
+	to the beos port.
+
+2016-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/cbm5x0uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/petuires.h,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/scpu64uires.h,
+	src/arch/amigaos/ui.c, src/arch/amigaos/ui.h,
+	src/arch/amigaos/uires.h, src/arch/amigaos/vic20uires.h,
+	src/arch/amigaos/vsyncapi.c: Added proper single frame advance support
+	to the amiga port(s).
+
+2016-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_minix_runtime_os.c: Final minix fix.
+
+2016-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/console.c: Another minix fix.
+
+2016-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/opencbm.h: Minix fix.
+
+2016-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/ui.c, src/arch/win32/ui.h,
+	src/arch/win32/vic20ui.c, src/arch/win32/vsidui.c,
+	src/arch/win32/vsyncarch.c: Added proper single frame advance support
+	to the windows port.
+
+2016-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c, src/geninfocontrib_h.sh: Some
+	cartconv.1 (man page) generation fixes.
+
+2016-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Some updates.
+
+2016-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_openbsd_version.h: Added OpenBSD 5.9 support.
+
+2016-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* man/Makefile.am, man/c1541.1, man/cartconv.1, man/vice.1: Added a
+	cartconv man page.
+
+2016-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ide-config.h: Fix for IA64.
+
+2016-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added missing cart items to the cartconv
+	documentation section.
+
+2016-03-29  groepaz <groepaz@gmx.net>
+
+	* src/resources.c, src/resources.h, src/romset.c: improve behaviour on
+	loading config/resource files that contain errors, when invalid values
+	are being assigned other resources are now still loaded correctly and
+	not everything reverted to default and it will only error out on
+	actually fatal problems. should fix bug #694
+
+2016-03-29  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/ultimem.c: accept 16meg ROMs for ultimem aswell,
+	should fix bug #729
+
+2016-03-29  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/freezemachine.c: some cosmetics
+
+2016-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/make-bindist.sh: Added support for haiku64 to the beos
+	make bindist script.
+
+2016-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: ppc beos fix.
+
+2016-03-28  groepaz <groepaz@gmx.net>
+
+	* src/samplerdrv/file_drv.c: fix warning
+
+2016-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/wrap-u-ar.sh: Added ar wrapper
+	for 'u' option complaining ar's.
+
+2016-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Some fixes.
+
+2016-03-27  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/freezemachine.c: fix loading of 16kb ROMs for freeze
+	frame, fixes bug #730
+
+2016-03-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/SCPU64/scpu64: Some serial routine and restore fixes
+
+2016-03-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/palette.c: Avoid using a null pointer.
+
+2016-03-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_video.cc: Changed the BeVICE Video settings dialog
+	to use the new palette list code.
+
+2016-03-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c: Added missing #endif.
+
+2016-03-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Check for flac after ogg/vorbis, in case flac needs
+	ogg.
+
+2016-03-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Slight fix.
+
+2016-03-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Some fixes.
+
+2016-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Some amiga fixes.
+
+2016-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/vicemenu.cc: Somehow the tape port menu got erased in
+	a previous commit, re-adding it.
+
+2016-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/vicemenu.cc: Fixed position.
+
+2016-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/constants.txt,
+	src/arch/beos/ui.cc, src/arch/beos/ui_file.cc,
+	src/arch/beos/ui_file.h, src/arch/beos/vicemenu.cc: Added sampler
+	settings menu to the beos gui.
+
+2016-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.txt, src/arch/beos/ui.cc,
+	src/arch/beos/vicemenu.cc: Added bbrtc save element to the beos gui.
+
+2016-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Finished configure summary.
+
+2016-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vicefeatures.c: Added more ffmpeg elements.
+
+2016-03-23  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_file.c: fix conditions for when the monitor would
+	setup the kernal end-of-basic pointers after load
+
+2016-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Updated with screen/ui options from all platforms.
+
+2016-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vicefeatures.c: Removed dos allegro 'feature' since it's
+	mandatory for the dos port (not a feature).
+
+2016-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added enable/disable option comments to the
+	configure summary output.
+
+2016-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added unix screen/ui section.
+
+2016-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vicefeatures.c: More fixes.
+
+2016-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Started on 'configure summary'.
+
+2016-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/vsidui.c: Fixed typo.
+
+2016-03-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uisid.c: Prevent buffer overflow.
+
+2016-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vicefeatures.c: Some fixes.
+
+2016-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vicefeatures.c: Cosmetic fix.
+
+2016-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/vsidui.c: Applied patch by Moiree: When then number of
+	digits descreases the previous digits are still displayed, resulting
+	in a display of "90" when one changes from tune 10 to 9.
+
+2016-03-22  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/crt.c: print a proper error message when crt header is
+	broken
+
+2016-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/vicemenu.cc: Final fix.
+
+2016-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/vicemenu.cc: Fixed some typos.
+
+2016-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/vicemenu.cc: Fixed.
+
+2016-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/scpu64ui.cc: Some fixes.
+
+2016-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.txt, src/arch/beos/genconstants.c,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/vicemenu.cc,
+	src/arch/beos/vicemenu.h: Added dynamic cart menus to the beos gui.
+
+2016-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.txt, src/arch/beos/ui.cc,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vicemenu.cc: Added tapeport menu and devices to the beos
+	gui.
+
+2016-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uisid.c: Fix for bug #725.
+
+2016-03-21  groepaz <groepaz@gmx.net>
+
+	* src/cbmdos.c: channel > 1 always opens the file, fixes bug #728.
+	patch by greg king
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.txt, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vicemenu.cc: Added rrnet mk3 to the beos gui.
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/vicemenu.cc: Slight update.
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/cbm2ui.cc, src/arch/beos/constants.txt,
+	src/arch/beos/petui.cc, src/arch/beos/plus4ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc: Added userport devices to the beos gui.
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.txt, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vicemenu.cc: Removed digimax cartridge userport option
+	from the beos gui.
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.txt, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vicemenu.cc: Added super snapshot 5 32kb ram addon to
+	the beos gui.
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_file.cc, src/arch/beos/vicemenu.h: Some fixes.
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.txt, src/arch/beos/ui.cc,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vicemenu.cc, src/arch/beos/vicewindow.cc: Added
+	screenshot support to the beos gui.
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.txt, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vicemenu.cc: Added easyflash optimization option to the
+	beos gui.
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/plus4ui.cc: Fixed.
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.txt, src/arch/beos/plus4ui.cc,
+	src/arch/beos/vicemenu.cc: Added plus4 memory hacks to the beos gui.
+
+2016-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/cbm5x0ui.cc, src/arch/beos/genconstants.c,
+	src/arch/beos/petui.cc, src/arch/beos/plus4ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc, src/arch/beos/vicemenu.h: Extended beos joy
+	port support to 5 ports.
+
+2016-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uivideo.c: Fixed palette loading for the windows gui.
+
+2016-03-19  groepaz <groepaz@gmx.net>
+
+	* src/vicii/vicii-color.c: fixed warning
+
+2016-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/vic20ui.c: Added VFLI modification menu element to
+	the dos tui.
+
+2016-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uivideo.c: Added autogenerated palette items to the
+	dos tui.
+
+2016-03-20  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2016-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/vic20ui.c: Added VFLI
+	modification menu element to the windows gui.
+
+2016-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_vic20hw.c: Added VFLI modification menu element to
+	the sdl gui.
+
+2016-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/rtc.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/rtc.tgt, src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/rtc.tmpl, src/arch/win32/watcom/rtc.tgt,
+	src/arch/win32/watcom/vice.wpj, src/rtc/Makefile.am,
+	src/rtc/rtc-72421.c, src/rtc/rtc-72421.h: Added RTC 72421 emulation
+	for possible future cmd hd emulation.
+
+2016-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiscpu64model.c: Cleanup (on isle 10).
+
 2016-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,

@@ -14563,6 +14563,9 @@ The following cartridge types are supported:
 `easy'
      EasyFlash .crt file
 
+`ecr'
+     Easy Calc Result .crt file
+
 `epyx'
      Epyx FastLoad .crt file
 
@@ -14571,6 +14574,9 @@ The following cartridge types are supported:
 
 `expert'
      Expert Cartridge .crt file
+
+`f64'
+     Formel 64 .crt file
 
 `fc1'
      The Final Cartridge .crt file
@@ -14605,6 +14611,9 @@ The following cartridge types are supported:
 `kcs'
      KCS Power Cartridge .crt file
 
+`ks'
+     Kingsoft .crt file
+
 `mach5'
      MACH 5 .crt file
 
@@ -14631,6 +14640,9 @@ The following cartridge types are supported:
 
 `p64'
      Prophet64 .crt file
+
+`pf'
+     Pagefox .crt file
 
 `rep256'
      REX 256k EPROM Cart .crt file, extra files can be inserted
@@ -14662,6 +14674,9 @@ The following cartridge types are supported:
 
 `sg'
      Super Games .crt file
+
+`silver'
+     Silverrock 128K Cartridge .crt file
 
 `simon'
      Simons' BASIC .crt file
