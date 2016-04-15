@@ -1771,7 +1771,7 @@ xvic_libs =  \
 	$(platform_lib)
 
 xvic_SOURCES = $(base_sources) $(midi_sources)
-xvic_LDADD = $(xvic_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+xvic_LDADD = $(xvic_libs) $(emu_extlibs) $(mascuerade_lib) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
