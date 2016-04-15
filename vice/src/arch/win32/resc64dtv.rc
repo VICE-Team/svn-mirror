@@ -575,7 +575,7 @@ BEGIN
   IDS_CREATE                      "Erzeugen"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "C64DTV Modell"
-  IDS_VICII_LUMINANCE             "Color fix"
+  IDS_VICII_LUMINANCE             "Farben Fix"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM Image Name"
   IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV Modell Einstellungen..."
   IDS_MI_AUTOSTART_DISK           "Autostart Disk Image..."

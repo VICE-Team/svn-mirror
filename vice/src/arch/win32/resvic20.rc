@@ -1170,7 +1170,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK_FILE           "Selecteer Mega-Cart non-volatile RAM bestand"
     IDS_MI_IO2_RAM_ENABLE                    "Activeer I/O-2 RAM"
     IDS_MI_IO3_RAM_ENABLE                    "Activeer I/O-3 RAM"
-    IDS_MI_VFLIMOD_ENABLE                    "Enable VFLI modification"
+    IDS_MI_VFLIMOD_ENABLE                    "Activeer VFLI modificatie"
     IDS_MI_ACIA_SETTINGS_MASCUERADE          "ACIA instellingen (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM instellingen (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX instellingen (MasC=uerade)..."

@@ -64,13 +64,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TAPELOG_CAPTION                    "Tape log device settings"
-    IDS_TAPELOG_ENABLE                     "Enable tape log device"
-    IDS_TAPELOG_DESTINATION                "Tape log messages destination"
-    IDS_TAPELOG_FILE                       "Tape log file"
-    IDS_TAPELOG_SELECT_FILE                "Select file for the tape log"
-    IDS_TAPELOG_LOG_TO_EMULATION_LOGFILE   "Log to default emulator logfile"
-    IDS_TAPELOG_LOG_TO_USER_SPECIFIED_FILE "Log to user specified file"
+    IDS_TAPELOG_CAPTION                    "Bandlog Geräteeinstellungen"
+    IDS_TAPELOG_ENABLE                     "Bandlog Geräte aktivieren"
+    IDS_TAPELOG_DESTINATION                "Ort für Bandlog Nachrichten"
+    IDS_TAPELOG_FILE                       "Bandlog Datei"
+    IDS_TAPELOG_SELECT_FILE                "Bandlog Datei auswählen"
+    IDS_TAPELOG_LOG_TO_EMULATION_LOGFILE   "Default Log Datei"
+    IDS_TAPELOG_LOG_TO_USER_SPECIFIED_FILE "Benuterdefinierte Log Datei."
 END
 
 

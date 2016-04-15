@@ -3544,7 +3544,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_BBRTC,    N_("BBRTC")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_BBRTC_DA, ""},  /* fuzzy */
-/* de */ {IDGS_BBRTC_DE, ""},  /* fuzzy */
+/* de */ {IDGS_BBRTC_DE, "BBRTC"},
 /* es */ {IDGS_BBRTC_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_BBRTC_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_BBRTC_HU, ""},  /* fuzzy */
@@ -3561,7 +3561,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_PAPERCLIP64_DONGLE,    N_("Paperclip64 dongle")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_PAPERCLIP64_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDGS_PAPERCLIP64_DONGLE_DE, ""},  /* fuzzy */
+/* de */ {IDGS_PAPERCLIP64_DONGLE_DE, "Paperclip64 Dongle"},
 /* es */ {IDGS_PAPERCLIP64_DONGLE_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_PAPERCLIP64_DONGLE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_PAPERCLIP64_DONGLE_HU, ""},  /* fuzzy */
@@ -3867,7 +3867,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_TAPE_RTC,    N_("Tape RTC (PCF8583)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_TAPE_RTC_DA, ""},  /* fuzzy */
-/* de */ {IDGS_TAPE_RTC_DE, ""},  /* fuzzy */
+/* de */ {IDGS_TAPE_RTC_DE, "Band RTC (PCF8583)"},
 /* es */ {IDGS_TAPE_RTC_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_TAPE_RTC_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_TAPE_RTC_HU, ""},  /* fuzzy */
@@ -3884,7 +3884,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_SENSE_DONGLE,    N_("Sense dongle")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SENSE_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SENSE_DONGLE_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SENSE_DONGLE_DE, "Sense Dongle"},
 /* es */ {IDGS_SENSE_DONGLE_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_SENSE_DONGLE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SENSE_DONGLE_HU, ""},  /* fuzzy */
@@ -3969,7 +3969,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_USERPORT_PRINTER,    N_("Userport printer")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_USERPORT_PRINTER_DA, ""},  /* fuzzy */
-/* de */ {IDGS_USERPORT_PRINTER_DE, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_PRINTER_DE, "Userport Drucker"},
 /* es */ {IDGS_USERPORT_PRINTER_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_USERPORT_PRINTER_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_USERPORT_PRINTER_HU, ""},  /* fuzzy */
@@ -3986,7 +3986,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_DATASETTE,    N_("Datasette")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_DATASETTE_DA, ""},  /* fuzzy */
-/* de */ {IDGS_DATASETTE_DE, ""},  /* fuzzy */
+/* de */ {IDGS_DATASETTE_DE, "Datasette"},
 /* es */ {IDGS_DATASETTE_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_DATASETTE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_DATASETTE_HU, ""},  /* fuzzy */
@@ -4003,7 +4003,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_TAPE_LOG,    N_("Tape Log")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_TAPE_LOG_DA, ""},  /* fuzzy */
-/* de */ {IDGS_TAPE_LOG_DE, ""},  /* fuzzy */
+/* de */ {IDGS_TAPE_LOG_DE, "Bandlog"},
 /* es */ {IDGS_TAPE_LOG_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_TAPE_LOG_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_TAPE_LOG_HU, ""},  /* fuzzy */
@@ -4243,7 +4243,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG,    N_("Set disk image for autostart of PRG files")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DA, "Vælg diskimage for autostart af PRG-filer"},
-/* de */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DE, "Disk Imagedatei für Autstart definieren"},
+/* de */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DE, "Disk Imagedatei für Autstart wählen"},
 /* es */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_ES, "Seleccionar imagen disco para autoarranque ficheros PRG"},
 /* fr */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_FR, "Régler l'image disque pour autodémarrage de fichiers PRG"},
 /* hu */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_HU, "Lmeez képmás megadása PRG automatikus indításhoz"},
@@ -4311,13 +4311,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_VFLI_MOD,    N_("Enable VFLI modification.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_VFLI_MOD_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_VFLI_MOD_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_VFLI_MOD_DE, "VFLI Emulation aktivieren"},
 /* es */ {IDCLS_ENABLE_VFLI_MOD_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_VFLI_MOD_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_VFLI_MOD_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_VFLI_MOD_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_VFLI_MOD_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_VFLI_MOD_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_VFLI_MOD_NL, "Activeer VFLI modificatie"},
 /* pl */ {IDCLS_ENABLE_VFLI_MOD_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_VFLI_MOD_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_VFLI_MOD_SV, ""},  /* fuzzy */
@@ -4328,13 +4328,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_VFLI_MOD,    N_("Disable VFLI modification.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_VFLI_MOD_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_VFLI_MOD_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_VFLI_MOD_DE, "VFLI Emulation deaktivieren"},
 /* es */ {IDCLS_DISABLE_VFLI_MOD_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_VFLI_MOD_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_VFLI_MOD_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_VFLI_MOD_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_VFLI_MOD_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_VFLI_MOD_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_VFLI_MOD_NL, "VFLI modificatie uitschakelen"},
 /* pl */ {IDCLS_DISABLE_VFLI_MOD_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_VFLI_MOD_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_VFLI_MOD_SV, ""},  /* fuzzy */
@@ -4497,7 +4497,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_INT_KERNEL_NAME,    N_("Specify name of international Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_INT_KERNEL_NAME_DA, "Angiv navn på internationalt kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_INT_KERNEL_NAME_DE, "Bitte Namen für internationale Kernal ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_INT_KERNEL_NAME_DE, "Namen für internationale Kernal ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_INT_KERNEL_NAME_ES, "Especificar nombre imagen ROM Kernal internacional"},
 /* fr */ {IDCLS_SPECIFY_INT_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal internationale"},
 /* hu */ {IDCLS_SPECIFY_INT_KERNEL_NAME_HU, "Adja meg a nemzetközi Kernal ROM képmás nevét"},
@@ -4514,7 +4514,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_DE_KERNEL_NAME,    N_("Specify name of German Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_DE_KERNEL_NAME_DA, "Angiv navn på tysk kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_DE_KERNEL_NAME_DE, "Name für deutsche Kernal ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_DE_KERNEL_NAME_DE, "Name für deutsche Kernal ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_DE_KERNEL_NAME_ES, "Especificar nombre imagen ROM Kernal alemán"},
 /* fr */ {IDCLS_SPECIFY_DE_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal allemande"},
 /* hu */ {IDCLS_SPECIFY_DE_KERNEL_NAME_HU, "Adja meg a német Kernal ROM képmás nevét"},
@@ -4531,7 +4531,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FI_KERNEL_NAME,    N_("Specify name of Finnish Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FI_KERNEL_NAME_DA, "Angiv navn på finsk kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_FI_KERNEL_NAME_DE, "Name für finnische Kernal ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_FI_KERNEL_NAME_DE, "Name für finnische Kernal ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_FI_KERNEL_NAME_ES, "Especificar nombre imagen ROM Kernal finlandés"},
 /* fr */ {IDCLS_SPECIFY_FI_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal finlandaise"},
 /* hu */ {IDCLS_SPECIFY_FI_KERNEL_NAME_HU, "Adja meg a finn Kernal ROM képmás nevét"},
@@ -4548,7 +4548,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FR_KERNEL_NAME,    N_("Specify name of French Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FR_KERNEL_NAME_DA, "Angiv navn på fransk kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_FR_KERNEL_NAME_DE, "Name für französische Kernal ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_FR_KERNEL_NAME_DE, "Name für französische Kernal ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_FR_KERNEL_NAME_ES, "Especificar nombre imagen ROM Kernal francés"},
 /* fr */ {IDCLS_SPECIFY_FR_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal française"},
 /* hu */ {IDCLS_SPECIFY_FR_KERNEL_NAME_HU, "Adja meg a francia Kernal ROM képmás nevét"},
@@ -4565,7 +4565,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_IT_KERNEL_NAME,    N_("Specify name of Italian Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_IT_KERNEL_NAME_DA, "Angiv navn på italiensk kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_IT_KERNEL_NAME_DE, "Name für italienische Kernal ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_IT_KERNEL_NAME_DE, "Name für italienische Kernal ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_IT_KERNEL_NAME_ES, "Especificar nombre imagen ROM Kernal italiano"},
 /* fr */ {IDCLS_SPECIFY_IT_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal italienne"},
 /* hu */ {IDCLS_SPECIFY_IT_KERNEL_NAME_HU, "Adja meg az olasz Kernal ROM képmás nevét"},
@@ -4582,7 +4582,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_NO_KERNEL_NAME,    N_("Specify name of Norwegian Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_NO_KERNEL_NAME_DA, "Angiv navn på norsk kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_NO_KERNEL_NAME_DE, "Name für norwegische Kernal ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_NO_KERNEL_NAME_DE, "Name für norwegische Kernal ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_NO_KERNEL_NAME_ES, "Especificar nombre imagen ROM noruego"},
 /* fr */ {IDCLS_SPECIFY_NO_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal norvégienne"},
 /* hu */ {IDCLS_SPECIFY_NO_KERNEL_NAME_HU, "Adja meg a norvég Kernal ROM képmás nevét"},
@@ -4599,7 +4599,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SV_KERNEL_NAME,    N_("Specify name of Swedish Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SV_KERNEL_NAME_DA, "Angiv navn på svensk kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_SV_KERNEL_NAME_DE, "Name für schwedische Kernal ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_SV_KERNEL_NAME_DE, "Name für schwedische Kernal ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_SV_KERNEL_NAME_ES, "Especificar nombre imagen ROM Kernal sueco"},
 /* fr */ {IDCLS_SPECIFY_SV_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal suédoise"},
 /* hu */ {IDCLS_SPECIFY_SV_KERNEL_NAME_HU, "Adja meg s svéd Kernal ROM képmás nevét"},
@@ -4616,7 +4616,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CH_KERNEL_NAME,    N_("Specify name of Swiss Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CH_KERNEL_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_CH_KERNEL_NAME_DE, "Name für schweizer Kernal ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_CH_KERNEL_NAME_DE, "Name für schweizer Kernal ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_CH_KERNEL_NAME_ES, "Especificar nombre imagen Kernal ROM suizo"},
 /* fr */ {IDCLS_SPECIFY_CH_KERNEL_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_CH_KERNEL_NAME_HU, ""},  /* fuzzy */
@@ -4667,7 +4667,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME,    N_("Specify name of international character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_DA, "Angiv navn på internationalt tegngenerator-ROM-image"},
-/* de */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_DE, "Name für internationale Charakter ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_DE, "Name für internationale Charakter ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_ES, "Especificar nombre imagen ROM generador caracteres internacional"},
 /* fr */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères internationaux"},
 /* hu */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_HU, "Adja meg a nemzetközi karaktergenerátor ROM képmás nevét"},
@@ -4684,7 +4684,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME,    N_("Specify name of German character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_DA, "Angiv navn på tysk tegngenerator-ROM-image"},
-/* de */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_DE, "Name für deutsche Charakter ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_DE, "Name für deutsche Charakter ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_ES, "Especificar nombre imagen ROM generador caracteres alemán"},
 /* fr */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères allemands"},
 /* hu */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_HU, "Adja meg a német karaktergenerátor ROM képmás nevét"},
@@ -4701,7 +4701,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME,    N_("Specify name of French character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_DA, "Angiv navn på fransk tegngenerator-ROM-image"},
-/* de */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_DE, "Name für französische Charakter ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_DE, "Name für französische Charakter ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_ES, "Especificar nombre imagen ROM generador caracteres francés"},
 /* fr */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères français"},
 /* hu */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_HU, "Adja meg a francia karaktergenerátor ROM képmás nevét"},
@@ -4718,7 +4718,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME,    N_("Specify name of Swedish character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_DA, "Angiv navn på svensk tegngenerator-ROM-image"},
-/* de */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_DE, "Name für schwedische Charakter ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_DE, "Name für schwedische Charakter ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_ES, "Especificar nombre imagen ROM generador caracteres sueco"},
 /* fr */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères suédois"},
 /* hu */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_HU, "Adja meg a svéd karaktergenerátor ROM képmás nevét"},
@@ -4735,7 +4735,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME,    N_("Specify name of Swedish character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_DA, "Angiv navn på svensk tegngenerator-ROM-image"},
-/* de */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_DE, "Name für schwedische Charakter ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_DE, "Name für schwedische Charakter ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_ES, "Especificar nombre imagen ROM generador caracteres sueco"},
 /* fr */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères suédois"},
 /* hu */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_HU, "Adja meg a svéd karaktergenerátor ROM képmás nevét"},
@@ -4752,7 +4752,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME,    N_("Specify name of C64 mode Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_DA, "Angiv navn på C64-kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_DE, "Name für C64 Modus Kernal ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_DE, "Name für C64 Modus Kernal ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_ES, "Especificar nombre imagen ROM Kernal modo C64"},
 /* fr */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_FR, "Spécifier le nom de l'image Kernal du mode C64"},
 /* hu */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_HU, "Adja meg a C64 módú Kernal ROM képmás nevét"},
@@ -5106,7 +5106,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,    N_("Specify name of symbolic keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DA, "Angiv filnavn for symbolsk tastatur"},
-/* de */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE, "Bitte Namen für symbolische Keymap Datei definieren"},
+/* de */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE, "Bitte Namen für symbolische Keymap Datei wählen"},
 /* es */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_ES, "Especificar nombre fichero del mapa de teclado simbólico"},
 /* fr */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique"},
 /* hu */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_HU, "Adja meg a szimbolikus leképzésfájl nevét"},
@@ -5125,7 +5125,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,    N_("Specify name of positional keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DA, "Angiv fil for positionsbestemt tastatur"},
-/* de */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DE, "Bitte Namen für positions Keymap Datei definieren"},
+/* de */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DE, "Bitte Namen für positions Keymap Datei wählen"},
 /* es */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_ES, "Especificar nombre fichero del mapa de teclado posicional"},
 /* fr */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel"},
 /* hu */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_HU, "Adja meg a pozíció szerinti leképzésfájl nevét"},
@@ -5211,7 +5211,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME,    N_("Specify name of internal Function ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_DA, "Angiv navn på internt funktions-ROM-image"},
-/* de */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_DE, "Name der internen Funktions ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_DE, "Name der internen Funktions ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_ES, "Especificar nombre imagen ROM función interna"},
 /* fr */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_FR, "Spécifier le nom de l'image ROM des fonctions internes"},
 /* hu */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_HU, "Adja meg a belsõ Function ROM képmás nevét"},
@@ -5228,7 +5228,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME,    N_("Specify name of external Function ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_DA, "Angiv navn på externt funktions-ROM-image"},
-/* de */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_DE, "Name der externen Funktions ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_DE, "Name der externen Funktions ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_ES, "Especificar nombre imagen ROM función externa"},
 /* fr */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_FR, "Spécifier le nom de l'image ROM des fonctions externes"},
 /* hu */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_HU, "Adja meg a külsõ Function ROM képmás nevét"},
@@ -5588,7 +5588,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_KERNAL_ROM_NAME,    N_("Specify name of Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DA, "Angiv navn på kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DE, "Name von Kernal ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DE, "Name von Kernal ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_ES, "Especificar nombre de la imagen ROM Kernal"},
 /* fr */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_FR, "Spécifier le nom de l'image ROM Kernal"},
 /* hu */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_HU, "Adja meg a Kernal ROM képmás nevét"},
@@ -5605,7 +5605,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SCPU64_ROM_NAME,    N_("Specify name of SCPU64 ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_DE, "Name von SCPU64 ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_DE, "Name von SCPU64 ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_ES, "Especificar nombre imagen ROM SCPU64"},
 /* fr */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_HU, ""},  /* fuzzy */
@@ -5624,7 +5624,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME,    N_("Specify name of BASIC ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DA, "Angiv navn på BASIC-ROM-image"},
-/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DE, "Name von Basic ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DE, "Name von Basic ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_BASIC_ROM_NAME_ES, "Especificar nombre de la imagen ROM BASIC"},
 /* fr */ {IDCLS_SPECIFY_BASIC_ROM_NAME_FR, "Spécifier le nom de l'image BASIC ROM"},
 /* hu */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HU, "Adja meg a BASIC ROM képmás nevét"},
@@ -5643,7 +5643,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME,    N_("Specify name of character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DA, "Angiv navn på BASIC-ROM-image"},
-/* de */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE, "Name von Character ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE, "Name von Character ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_ES, "Especificar el nombre de la imagen ROM generador de caracteres"},
 /* fr */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères"},
 /* hu */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_HU, "Adja meg a karaktergenerátor ROM képmás nevét"},
@@ -5678,7 +5678,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP,    N_("Specify name of symbolic German keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_DA, "Angiv fil for tysk symbolsk tastaturindstilling"},
-/* de */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_DE, "Name von symbolischer Keymap Datei definieren"},
+/* de */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_DE, "Name von symbolischer Keymap Datei wählen"},
 /* es */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_ES, "Especificar nombre del fichero teclado simbólico alemán"},
 /* fr */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_FR, "Spécifier le nom du fichier symbolique de mappage clavier"},
 /* hu */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_HU, "Adja meg a nevét a német billentyûzet leképzés fájlnak"},
@@ -5832,7 +5832,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SAMPLE_NAME,    N_("Specify name of sample file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SAMPLE_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SAMPLE_NAME_DE, "Namen für Sample Datei definieren"},
+/* de */ {IDCLS_SPECIFY_SAMPLE_NAME_DE, "Namen für Sample Datei wählen"},
 /* es */ {IDCLS_SPECIFY_SAMPLE_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_SAMPLE_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SAMPLE_NAME_HU, ""},  /* fuzzy */
@@ -5849,7 +5849,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TAPELOG,    N_("Enable the tape log device")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPELOG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPELOG_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPELOG_DE, "Bandlog Gerät aktivieren"},
 /* es */ {IDCLS_ENABLE_TAPELOG_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TAPELOG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TAPELOG_HU, ""},  /* fuzzy */
@@ -5866,7 +5866,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TAPELOG,    N_("Disable the tape log device")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TAPELOG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPELOG_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPELOG_DE, "Bandlog Gerät deaktivieren"},
 /* es */ {IDCLS_DISABLE_TAPELOG_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_TAPELOG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TAPELOG_HU, ""},  /* fuzzy */
@@ -5883,7 +5883,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE,    N_("Enable logging to a file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_DE, "Logging auf Datei aktivieren"},
 /* es */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_HU, ""},  /* fuzzy */
@@ -5900,7 +5900,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG,    N_("Enable logging to the emulator log file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_DE, "Logging auf Emaulatorlogdatei aktivieren"},
 /* es */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_HU, ""},  /* fuzzy */
@@ -5917,7 +5917,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TAPELOG_NAME,    N_("Specify tape log file name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TAPELOG_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_TAPELOG_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_TAPELOG_NAME_DE, "Bandlogdateiname auswählen"},
 /* es */ {IDCLS_SPECIFY_TAPELOG_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_TAPELOG_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_TAPELOG_NAME_HU, ""},  /* fuzzy */
@@ -5968,7 +5968,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_GEORAM_NAME,    N_("Specify name of GEORAM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_GEORAM_NAME_DA, "Angiv navn på GEORAM-image"},
-/* de */ {IDCLS_SPECIFY_GEORAM_NAME_DE, "GEORAM Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_GEORAM_NAME_DE, "GEORAM Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_GEORAM_NAME_ES, "Especificar nombre imagen GEORAM"},
 /* fr */ {IDCLS_SPECIFY_GEORAM_NAME_FR, "Spécifier le nom de l'image GEO-RAM"},
 /* hu */ {IDCLS_SPECIFY_GEORAM_NAME_HU, "Adja meg a GEORAM képmás nevét"},
@@ -6208,7 +6208,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PETREU_NAME,    N_("Specify name of PET Ram and Expansion Unit image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PETREU_NAME_DA, "Angiv navn på PET REU-image"},
-/* de */ {IDCLS_SPECIFY_PETREU_NAME_DE, "Namen für PET RAM Speicher und Erweiterungsmodul definieren"},
+/* de */ {IDCLS_SPECIFY_PETREU_NAME_DE, "Namen für PET RAM Speicher und Erweiterungsmodul wählen"},
 /* es */ {IDCLS_SPECIFY_PETREU_NAME_ES, "Especificar nombre imagen PET Ram y Unidad Expansión"},
 /* fr */ {IDCLS_SPECIFY_PETREU_NAME_FR, "Spécifier le nom de l'image d’unité d'expansion RAM"},
 /* hu */ {IDCLS_SPECIFY_PETREU_NAME_HU, "Adja meg a PET RAM and Expansion Unit képmás nevét"},
@@ -6242,7 +6242,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PETDWW_NAME,    N_("Specify name of PET DWW image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PETDWW_NAME_DA, "Angiv navn på PET DWW-image"},
-/* de */ {IDCLS_SPECIFY_PETDWW_NAME_DE, "Namen für PET DWW Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_PETDWW_NAME_DE, "Namen für PET DWW Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_PETDWW_NAME_ES, "Especificar nombre imagen PET DWW"},
 /* fr */ {IDCLS_SPECIFY_PETDWW_NAME_FR, "Spécifier le nom de l'image PET DWW"},
 /* hu */ {IDCLS_SPECIFY_PETDWW_NAME_HU, ""},  /* fuzzy */
@@ -6514,7 +6514,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_BBRTC_SAVE,    N_("Enable saving of the BBRTC data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_BBRTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_BBRTC_SAVE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_BBRTC_SAVE_DE, "BBRTC Daten bei Änderung speichern."},
 /* es */ {IDCLS_ENABLE_BBRTC_SAVE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_BBRTC_SAVE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_BBRTC_SAVE_HU, ""},  /* fuzzy */
@@ -6531,7 +6531,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_BBRTC_SAVE,    N_("Disable saving of the BBRTC data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_BBRTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_BBRTC_SAVE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_BBRTC_SAVE_DE, "BBRTC Daten bei Änderung nicht speichern."},
 /* es */ {IDCLS_DISABLE_BBRTC_SAVE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_BBRTC_SAVE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_BBRTC_SAVE_HU, ""},  /* fuzzy */
@@ -6548,7 +6548,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE,    N_("Enable tape sense dongle")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_DE, "Band Sense Dongle aktivieren"},
 /* es */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_HU, ""},  /* fuzzy */
@@ -6565,7 +6565,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE,    N_("Disable tape sense dongle")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_DE, "Band Sense Dongle deaktivieren"},
 /* es */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_HU, ""},  /* fuzzy */
@@ -6582,7 +6582,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DTL_BASIC_DONGLE,    N_("Enable DTL Basic dongle")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_DE, "DTL Basic Dongle aktivieren"},
 /* es */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_HU, ""},  /* fuzzy */
@@ -6599,7 +6599,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_DTL_BASIC_DONGLE,    N_("Enable DTL Basic dongle")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_DE, "DTL Basic Dongle aktivieren"},
 /* es */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_HU, ""},  /* fuzzy */
@@ -6616,7 +6616,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TAPERTC,    N_("Enable CP Clock F83 (PCF8583 RTC)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPERTC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPERTC_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPERTC_DE, "CP Clock F83 (PCF8583 RTC) aktivieren"},
 /* es */ {IDCLS_ENABLE_TAPERTC_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TAPERTC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TAPERTC_HU, ""},  /* fuzzy */
@@ -6633,7 +6633,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TAPERTC,    N_("Disable CP Clock F83 (PCF8583 RTC)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TAPERTC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPERTC_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPERTC_DE, "CP Clock F83 (PCF8583 RTC) deaktivieren"},
 /* es */ {IDCLS_DISABLE_TAPERTC_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_TAPERTC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TAPERTC_HU, ""},  /* fuzzy */
@@ -6650,7 +6650,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TAPERTC_SAVE,    N_("Enable saving of the CP Clock F83 (PCF8583 RTC) data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPERTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPERTC_SAVE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPERTC_SAVE_DE, "CP Clock F83 (PCF8583 RTC) Daten bei Änderung speichern."},
 /* es */ {IDCLS_ENABLE_TAPERTC_SAVE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TAPERTC_SAVE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TAPERTC_SAVE_HU, ""},  /* fuzzy */
@@ -6667,7 +6667,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TAPERTC_SAVE,    N_("Disable saving of the CP Clock F83 (PCF8583 RTC) data when changed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TAPERTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPERTC_SAVE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPERTC_SAVE_DE, "CP Clock F83 (PCF8583 RTC) Daten bei Änderung nicht speichern."},
 /* es */ {IDCLS_DISABLE_TAPERTC_SAVE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_TAPERTC_SAVE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TAPERTC_SAVE_HU, ""},  /* fuzzy */
@@ -6769,7 +6769,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PSID_TUNE_NUMBER,    N_("Specify PSID tune <number>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PSID_TUNE_NUMBER_DA, "Vælg PSID-nummer <nummer>"},
-/* de */ {IDCLS_SPECIFY_PSID_TUNE_NUMBER_DE, "PSID Stück <Nummer> definieren"},
+/* de */ {IDCLS_SPECIFY_PSID_TUNE_NUMBER_DE, "PSID Stück <Nummer> wählen"},
 /* es */ {IDCLS_SPECIFY_PSID_TUNE_NUMBER_ES, "Especificar PSID tono <número>"},
 /* fr */ {IDCLS_SPECIFY_PSID_TUNE_NUMBER_FR, "Spécifier le <numéro> de piste PSID"},
 /* hu */ {IDCLS_SPECIFY_PSID_TUNE_NUMBER_HU, "Adja meg a PSID hangzatok <szám>"},
@@ -6820,7 +6820,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_RAMCART_NAME,    N_("Specify name of RAMCART image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_RAMCART_NAME_DA, "Angiv navn på RAMCART-image"},
-/* de */ {IDCLS_SPECIFY_RAMCART_NAME_DE, "Name für RAMCART Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_RAMCART_NAME_DE, "Name für RAMCART Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_RAMCART_NAME_ES, "Especificar nombre imagen RAMCART"},
 /* fr */ {IDCLS_SPECIFY_RAMCART_NAME_FR, "Spécifier le nom de l'image RAMCART"},
 /* hu */ {IDCLS_SPECIFY_RAMCART_NAME_HU, "Adja meg a RAMCART képmás nevét"},
@@ -7160,7 +7160,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME,    N_("Specify name of Magic Voice ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_DE, "Name für Magic Voice ROM Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_DE, "Name für Magic Voice ROM Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_ES, "Especificar nombre imagen Magic Voice ROM"},
 /* fr */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_HU, ""},  /* fuzzy */
@@ -7262,7 +7262,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME,    N_("Specify name of MMC64 image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_DA, "Angiv navn på MMC64-image"},
-/* de */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_DE, "Name der MMC64 Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_DE, "Name der MMC64 Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_ES, "Especificar nombre imagen MMC64"},
 /* fr */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_FR, "Spécifier le nom de l'image MMC64"},
 /* hu */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_HU, "Adja meg az MMC64 képmás nevét"},
@@ -7421,7 +7421,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_RRNETMK3_BIOS_WRITE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_RRNETMK3_BIOS_WRITE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_RRNETMK3_BIOS_WRITE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_RRNETMK3_BIOS_WRITE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_RRNETMK3_BIOS_WRITE_NL, "Sla de RRNET MK3 bios op als er veranderingen zijn gemaakt"},
 /* pl */ {IDCLS_RRNETMK3_BIOS_WRITE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_RRNETMK3_BIOS_WRITE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_RRNETMK3_BIOS_WRITE_SV, ""},  /* fuzzy */
@@ -7483,7 +7483,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME,    N_("Specify MMC Replay card image filename")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_DA, "Angiv filnavn for MMC Replay kort-image"},
-/* de */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_DE, "MMC Replay Modul imeage datei definieren"},
+/* de */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_DE, "MMC Replay Modul imeage datei wählen"},
 /* es */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_ES, "Especificar fichero imagen tarjeta MMC Replay"},
 /* fr */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_FR, "Spécifier le nom du fichier de l'image carte MMC Replay"},
 /* hu */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_HU, ""},  /* fuzzy */
@@ -7551,7 +7551,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE,    N_("Specify MMC Replay EEPROM image filename")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_DA, "Angiv filnavn for MMC Replay EEPROM-image"},
-/* de */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_DE, "MMC Replay EEPROM Imagedatei definieren"},
+/* de */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_DE, "MMC Replay EEPROM Imagedatei wählen"},
 /* es */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_ES, "Especificar nombre fichero imagen EEPROM MMC Replay"},
 /* fr */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_FR, "Spécifier le nom du fichier de l'image EEPROM MMC Replay"},
 /* hu */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_HU, ""},  /* fuzzy */
@@ -7857,7 +7857,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_REU_NAME,    N_("Specify name of REU image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_REU_NAME_DA, "Angiv navn på REU-image"},
-/* de */ {IDCLS_SPECIFY_REU_NAME_DE, "Namen für REU Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_REU_NAME_DE, "Namen für REU Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_REU_NAME_ES, "Especificar nombre imagen REU"},
 /* fr */ {IDCLS_SPECIFY_REU_NAME_FR, "Spécifier le nom de l'image REU"},
 /* hu */ {IDCLS_SPECIFY_REU_NAME_HU, "Adja meg a REU képmás nevét"},
@@ -8896,7 +8896,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_EASYCALC_CART,    N_("Attach raw 24kB Easy Calc Result cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_EASYCALC_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_EASYCALC_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_EASYCALC_CART_DE, "Easy Calc Result Erweiterungsmodul Image (24kb raw) einlegen"},
 /* es */ {IDCLS_ATTACH_RAW_EASYCALC_CART_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_EASYCALC_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_EASYCALC_CART_HU, ""},  /* fuzzy */
@@ -9236,7 +9236,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_IDE64_NAME,    N_("Specify name of IDE64 image file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_IDE64_NAME_DA, "Angiv navn på IDE64-cartridge image"},
-/* de */ {IDCLS_SPECIFY_IDE64_NAME_DE, "Namen für IDE64 Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_IDE64_NAME_DE, "Namen für IDE64 Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_IDE64_NAME_ES, "Especificar nombre fichero imagen IDE64"},
 /* fr */ {IDCLS_SPECIFY_IDE64_NAME_FR, "Spécifier le nom de l'image IDE64"},
 /* hu */ {IDCLS_SPECIFY_IDE64_NAME_HU, "Adja meg az IDE64 képmás fájlnevét"},
@@ -9475,7 +9475,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CBM2_MODEL,    N_("Specify CBM-II model to emulate. (610, 620, 620+, 710, 720, 720+)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CBM2_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_CBM2_MODEL_DE, "CBM-II Modell für Emulation definieren. (610, 620, 620+, 710, 720, 720+)"},
+/* de */ {IDCLS_SPECIFY_CBM2_MODEL_DE, "CBM-II Modell für Emulation wählen. (610, 620, 620+, 710, 720, 720+)"},
 /* es */ {IDCLS_SPECIFY_CBM2_MODEL_ES, "Especificar modelo CBM-II para emular. (610, 620, 620+, 710, 720, 720+)"},
 /* fr */ {IDCLS_SPECIFY_CBM2_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_CBM2_MODEL_HU, ""},  /* fuzzy */
@@ -9492,7 +9492,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CBM5X0_MODEL,    N_("Specify CBM-II model to emulate. (510)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CBM5X0_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_CBM5X0_MODEL_DE, "CBM-II Modell für Emulation definieren. (510)"},
+/* de */ {IDCLS_SPECIFY_CBM5X0_MODEL_DE, "CBM-II Modell für Emulation wählen. (510)"},
 /* es */ {IDCLS_SPECIFY_CBM5X0_MODEL_ES, "Especificar modelo CBM-II para emular. (510)"},
 /* fr */ {IDCLS_SPECIFY_CBM5X0_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_CBM5X0_MODEL_HU, ""},  /* fuzzy */
@@ -9560,7 +9560,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE,    N_("Specify CBM-II model hardware (0=6x0, 1=7x0)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_DA, "Angiv hardware for CBM-II-model (0=6x0, 1=7x0)"},
-/* de */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_DE, "CBM-II Hardware Modell definieren (0=6x0, 1=7x0)"},
+/* de */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_DE, "CBM-II Hardware Modell wählen (0=6x0, 1=7x0)"},
 /* es */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_ES, "Especificar modelo hardware CBM-II (0=6x0, 1=7x0)"},
 /* fr */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_FR, "Spécifier le modèle hardware CBM-II (0=6x0, 1=7x0)"},
 /* hu */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_HU, "Adja meg a CBM-II hardver modellt (0=6x0, 1=7x0)"},
@@ -9594,7 +9594,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIZE_OF_RAM,    N_("Specify size of RAM (64/128/256/512/1024 kByte)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIZE_OF_RAM_DA, "Angiv størrelse på RAM (64/128/256/512/1024 kByte)"},
-/* de */ {IDCLS_SPECIFY_SIZE_OF_RAM_DE, "RAM Größe definieren (64/128/256/512/1024 kByte)"},
+/* de */ {IDCLS_SPECIFY_SIZE_OF_RAM_DE, "RAM Größe wählen (64/128/256/512/1024 kByte)"},
 /* es */ {IDCLS_SPECIFY_SIZE_OF_RAM_ES, "Especificar tamaño RAM  (64/128/256/512/1024 KB)"},
 /* fr */ {IDCLS_SPECIFY_SIZE_OF_RAM_FR, "Spécifier la taille de la RAM (64/128/256/512/1024 KO)"},
 /* hu */ {IDCLS_SPECIFY_SIZE_OF_RAM_HU, "Adja meg a RAM méretét (64/128/256/512/1024 kBájt)"},
@@ -9611,7 +9611,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2,    N_("Specify size of RAM (128/256/512/1024 kByte)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_DE, "RAM Größe definieren (128/256/512/1024 kByte)"},
+/* de */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_DE, "RAM Größe wählen (128/256/512/1024 kByte)"},
 /* es */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_ES, "Especificar tamaño RAM  (128/256/512/1024 kByte)"},
 /* fr */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_HU, ""},  /* fuzzy */
@@ -9901,7 +9901,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_KEYMAP_INDEX,    N_("Specify index of keymap file (0: UK business symbolic, 1: UK business positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic, 5: German business positional)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_KEYMAP_INDEX_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_KEYMAP_INDEX_DE, "Index der Keymap Datei definieren (0: UK business symbolic, 1: UK business positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic, 5: German business positional)"},
+/* de */ {IDCLS_SPECIFY_KEYMAP_INDEX_DE, "Index der Keymap Datei wählen (0: UK business symbolic, 1: UK business positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic, 5: German business positional)"},
 /* es */ {IDCLS_SPECIFY_KEYMAP_INDEX_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_KEYMAP_INDEX_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_KEYMAP_INDEX_HU, ""},  /* fuzzy */
@@ -9918,7 +9918,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME,    N_("Specify name of graphics keyboard symbolic keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_DA, "Angiv fil for symbolsk tastaturemulering for \"graphics\"-tastatur"},
-/* de */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_DE, "Keymap Datei für graphics keyboard symbolic definieren"},
+/* de */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_DE, "Keymap Datei für graphics keyboard symbolic wählen"},
 /* es */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_ES, "Especificar nombre fichero gráficos teclado simbólico"},
 /* fr */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique"},
 /* hu */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_HU, "Adja meg a grafikus és szimbolikus billentyûzet leképzési fájl nevét."},
@@ -9935,7 +9935,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME,    N_("Specify name of graphics keyboard positional keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_DA, "Angiv fil for positionsbestemt tastaturemulering for \"graphics\"-tastatur"},
-/* de */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_DE, "Keymap Datei für graphics keyboard positional definieren"},
+/* de */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_DE, "Keymap Datei für graphics keyboard positional wählen"},
 /* es */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_ES, "Especificar nombre fichero gráficos teclado posicional"},
 /* fr */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel"},
 /* hu */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_HU, "Adja meg a grafikus és pozíció szerinti billentyûzet leképzési fájl nevét."},
@@ -9952,7 +9952,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME,    N_("Specify name of UK business keyboard symbolic keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_DA, "Angiv fil for symbolsk tastaturemulering for Britisk \"business\"-tastatur"},
-/* de */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_DE, "Keymap Datei für UK business keyboard symbolic definieren"},
+/* de */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_DE, "Keymap Datei für UK business keyboard symbolic wählen"},
 /* es */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_ES, "Especificar nombre fichero teclado UK business simbólico"},
 /* fr */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique UK"},
 /* hu */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_HU, "Adja meg az angol, hivatalos, szimbolikus billentyûzet leképzési fájl nevét."},
@@ -9969,7 +9969,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME,    N_("Specify name of UK business keyboard positional keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_DA, "Angiv fil for positionsbestemt tastaturemulering for Britisk \"business\"-tastatur"},
-/* de */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_DE, "Keymap Datei für UK business keyboard positional definieren"},
+/* de */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_DE, "Keymap Datei für UK business keyboard positional wählen"},
 /* es */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_ES, "Especificar nombre fichero teclado UK business posicional"},
 /* fr */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel UK"},
 /* hu */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_HU, "Adja meg az angol, hivatalos, pozíció szerinti billentyûzet leképzési fájl nevét."},
@@ -9986,7 +9986,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME,    N_("Specify name of German business keyboard symbolic keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_DA, "Angiv fil for symbolsk tastaturemulering for Tysk \"business\"-tastatur"},
-/* de */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_DE, "Keymap Datei für German business keyboard symbolic definieren"},
+/* de */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_DE, "Keymap Datei für German business keyboard symbolic wählen"},
 /* es */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_ES, "Especificar nombre fichero teclado Alemán business simbólico"},
 /* fr */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique allemand"},
 /* hu */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_HU, "Adja meg a német, hivatalos, szimbolikus billentyûzet leképzési fájl nevét."},
@@ -10003,7 +10003,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME,    N_("Specify name of German business keyboard positional keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_DA, "Angiv fil for positionsbestemt tastaturemulering for Tysk \"business\"-tastatur"},
-/* de */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_DE, "Keymap Datei für German business keyboard positional definieren"},
+/* de */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_DE, "Keymap Datei für German business keyboard positional wählen"},
 /* es */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_ES, "Especificar nombre fichero teclado Alemán business posicional"},
 /* fr */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel allemand"},
 /* hu */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_HU, "Adja meg a német, hivatalos, pozíció szerinti billentyûzet leképzési fájl nevét."},
@@ -10366,7 +10366,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME,    N_("Specify name of 1540 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_DE, "Name der 1540 DOS ROM Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_DE, "Name der 1540 DOS ROM Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_ES, "Especificar nombre imagen ROM de 1540 DOS "},
 /* fr */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_HU, ""},  /* fuzzy */
@@ -10383,7 +10383,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME,    N_("Specify name of 1541 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_DA, "Angiv navn på 1541-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_DE, "Name der 1541 DOS ROM Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_DE, "Name der 1541 DOS ROM Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_ES, "Especificar nombre imagen ROM de 1541 DOS "},
 /* fr */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1541 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_HU, "Adja meg az 1541 DOS ROM képmás nevét"},
@@ -10400,7 +10400,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME,    N_("Specify name of 1541-II DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_DA, "Angivn navn på 1541-II-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_DE, "Name der 1541-II DOS ROM Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_DE, "Name der 1541-II DOS ROM Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_ES, "Especificar nombre imagen ROM de 1541-II DOS"},
 /* fr */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1541-II DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_HU, "Adja meg az 1541-II DOS ROM képmás nevét"},
@@ -10417,7 +10417,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME,    N_("Specify name of 1570 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME_DA, "Angivn navn på 1570-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME_DE, "Name der 1570 DOS ROM Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME_DE, "Name der 1570 DOS ROM Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME_ES, "Especificar nombre imagen ROM de 1570 DOS"},
 /* fr */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1570 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME_HU, "Adja meg az 1570 DOS ROM képmás nevét"},
@@ -10434,7 +10434,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME,    N_("Specify name of 1571 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME_DA, "Angivn navn på 1571-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME_DE, "Name der 1571 DOS ROM Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME_DE, "Name der 1571 DOS ROM Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME_ES, "Especificar nombre imagen ROM de 1571 DOS "},
 /* fr */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1571 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME_HU, "Adja meg az 1571 DOS ROM képmás nevét"},
@@ -10451,7 +10451,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME,    N_("Specify name of 1581 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_DA, "Angivn navn på 1581-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_DE, "Name der 1581 DOS ROM Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_DE, "Name der 1581 DOS ROM Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_ES, "Especificar nombre imagen ROM de 1581 DOS "},
 /* fr */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1581 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_HU, "Adja meg az 1581 DOS ROM képmás nevét"},
@@ -10468,7 +10468,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME,    N_("Specify name of 2000 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DA, "Angiv navn på 2000-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DE, "Name der 2000 DOS ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DE, "Name der 2000 DOS ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_ES, "Especificar nombre imagen 2000 DOS ROM"},
 /* fr */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 2000 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_HU, ""},  /* fuzzy */
@@ -10485,7 +10485,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME,    N_("Specify name of 4000 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DA, "Angiv navn på 4000-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DE, "Name der 4000 DOS ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DE, "Name der 4000 DOS ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_ES, "Especificar nombre imagen 4000 DOS ROM"},
 /* fr */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 4000 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_HU, ""},  /* fuzzy */
@@ -10774,7 +10774,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME,    N_("Specify name of Professional DOS 1571 ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_DA, "Angiv navn på Professional DOS 1571-ROM-image"},
-/* de */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_DE, "Name von Professional DOS 1571 Datei definieren"},
+/* de */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_DE, "Name von Professional DOS 1571 Datei wählen"},
 /* es */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_ES, "Especificar nombre imagen ROM Professional DOS 1571"},
 /* fr */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_FR, "Spécifier le nom du nouveau ROM Professional DOS 1571"},
 /* hu */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_HU, "Adja meg a Professional DOS 1571 ROM képmást"},
@@ -10825,7 +10825,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME,    N_("Specify name of SuperCard+ ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_DA, "Angiv navn på SuperCard+ ROM-image"},
-/* de */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_DE, "Name von SuperCard+ ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_DE, "Name von SuperCard+ ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_ES, "Especificar nombre de Imagen ROM SuperCard+"},
 /* fr */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_FR, "Spécifier le nom de l'image ROM SuperCard+"},
 /* hu */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_HU, ""},  /* fuzzy */
@@ -10859,7 +10859,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME,    N_("Specify name of 1571CR DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_DA, "Angiv navn på 1571CR-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_DE, "Name der 1571CR DOS ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_DE, "Name der 1571CR DOS ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_ES, "Especificar nombre imagen DOS ROM 1571CR"},
 /* fr */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1571CR DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_HU, "Adja meg az 1571CR DOS ROM képmás nevét"},
@@ -10876,7 +10876,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME,    N_("Specify name of 2031 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME_DA, "Angiv navn på 2031-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME_DE, "Name der 2031 DOS ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME_DE, "Name der 2031 DOS ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME_ES, "Especificar nombre imagen DOS ROM 2031"},
 /* fr */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 2031 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME_HU, "Adja meg a 2031 DOS ROM képmás nevét"},
@@ -10893,7 +10893,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME,    N_("Specify name of 2040 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME_DA, "Angiv navn på 2040-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME_DE, "Name der 2040 DOS ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME_DE, "Name der 2040 DOS ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME_ES, "Especificar nombre imagen DOS ROM 2040"},
 /* fr */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 2040 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME_HU, "Adja meg a 2040 DOS ROM képmás nevét"},
@@ -10910,7 +10910,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME,    N_("Specify name of 3040 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME_DA, "Angiv navn på 3040-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME_DE, "Name der 3040 DOS ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME_DE, "Name der 3040 DOS ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME_ES, "Especificar nombre imagen DOS ROM 3040"},
 /* fr */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 3040 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME_HU, "Adja meg a 3040 DOS ROM képmás nevét"},
@@ -10927,7 +10927,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME,    N_("Specify name of 4040 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME_DA, "Angiv navn på 4040-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME_DE, "Name der 4040 DOS ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME_DE, "Name der 4040 DOS ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME_ES, "Especificar nombre imagen DOS ROM 4040"},
 /* fr */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 4040 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME_HU, "Adja meg a 4040 DOS ROM képmás nevét"},
@@ -10944,7 +10944,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME,    N_("Specify name of 1001/8050/8250 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME_DA, "Angiv navn på 1001/8050/8250-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME_DE, "Name der 1001/8040/8205 DOS ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME_DE, "Name der 1001/8040/8205 DOS ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME_ES, "Especificar nombre imagen DOS ROM 1001/8050/8250"},
 /* fr */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1001/8050/8250 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME_HU, "Adja meg az 1001/8050/8250 DOS ROM képmás nevét"},
@@ -10961,7 +10961,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME,    N_("Specify name of 1551 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_DA, "Angiv navn på 1551-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_DE, "Name der 1551 DOS ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_DE, "Name der 1551 DOS ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_ES, "Especificar nombre imagen DOS ROM 1551"},
 /* fr */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1551 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_HU, "Adja meg az 1551 DOS ROM képmás nevét"},
@@ -11505,7 +11505,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EDITOR_ROM_NAME,    N_("Specify name of Editor ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EDITOR_ROM_NAME_DA, "Angiv navn på Editor-ROM-image"},
-/* de */ {IDCLS_SPECIFY_EDITOR_ROM_NAME_DE, "Name für Editor ROM Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_EDITOR_ROM_NAME_DE, "Name für Editor ROM Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_EDITOR_ROM_NAME_ES, "Especificar nombre imagen editor ROM"},
 /* fr */ {IDCLS_SPECIFY_EDITOR_ROM_NAME_FR, "Spécifier le nom de l’image ROM Editor"},
 /* hu */ {IDCLS_SPECIFY_EDITOR_ROM_NAME_HU, "Adja meg a szerkesztõ ROM képmás nevét"},
@@ -11522,7 +11522,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_4K_ROM_9XXX_NAME,    N_("Specify 4K extension ROM name at $9***")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_4K_ROM_9XXX_NAME_DA, "Angiv navn på 4K-udviddelses-ROM på $9***"},
-/* de */ {IDCLS_SPECIFY_4K_ROM_9XXX_NAME_DE, "4K Erweiterungs ROM Datei Name bei $9*** definieren"},
+/* de */ {IDCLS_SPECIFY_4K_ROM_9XXX_NAME_DE, "4K Erweiterungs ROM Datei Name bei $9*** wählen"},
 /* es */ {IDCLS_SPECIFY_4K_ROM_9XXX_NAME_ES, "Especificar nombre extensión ROM 4KB en $9***"},
 /* fr */ {IDCLS_SPECIFY_4K_ROM_9XXX_NAME_FR, "Spécifier le nom de l'extension ROM 4K à $9***"},
 /* hu */ {IDCLS_SPECIFY_4K_ROM_9XXX_NAME_HU, "Adja meg a $9*** címû 4K ROM kiterjesztés nevét"},
@@ -11539,7 +11539,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_4K_ROM_AXXX_NAME,    N_("Specify 4K extension ROM name at $A***")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_4K_ROM_AXXX_NAME_DA, "Angiv navn på 4K-udviddelses-ROM på $A***"},
-/* de */ {IDCLS_SPECIFY_4K_ROM_AXXX_NAME_DE, "4K Erweiterungs ROM Datei Name bei $A*** definieren"},
+/* de */ {IDCLS_SPECIFY_4K_ROM_AXXX_NAME_DE, "4K Erweiterungs ROM Datei Name bei $A*** wählen"},
 /* es */ {IDCLS_SPECIFY_4K_ROM_AXXX_NAME_ES, "Especificar nombre extensión ROM 4KB en $A***"},
 /* fr */ {IDCLS_SPECIFY_4K_ROM_AXXX_NAME_FR, "Spécifier le nom de l'extension ROM 4K à $A***"},
 /* hu */ {IDCLS_SPECIFY_4K_ROM_AXXX_NAME_HU, "Adja meg a $A*** címû 4K ROM kiterjesztés nevét"},
@@ -11556,7 +11556,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_4K_ROM_BXXX_NAME,    N_("Specify 4K extension ROM name at $B***")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_4K_ROM_BXXX_NAME_DA, "Angiv navn på 4K-udviddelses-ROM på $B***"},
-/* de */ {IDCLS_SPECIFY_4K_ROM_BXXX_NAME_DE, "4K Erweiterungs ROM Datei Name bei $B*** definieren"},
+/* de */ {IDCLS_SPECIFY_4K_ROM_BXXX_NAME_DE, "4K Erweiterungs ROM Datei Name bei $B*** wählen"},
 /* es */ {IDCLS_SPECIFY_4K_ROM_BXXX_NAME_ES, "Especificar nombre extensión ROM 4KB en $B***"},
 /* fr */ {IDCLS_SPECIFY_4K_ROM_BXXX_NAME_FR, "Spécifier le nom de l'extension ROM 4K à $B***"},
 /* hu */ {IDCLS_SPECIFY_4K_ROM_BXXX_NAME_HU, "Adja meg a $B*** címû 4K ROM kiterjesztés nevét"},
@@ -11828,7 +11828,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_A000,    N_("Specify 4K to 24K ROM file name at $A000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_A000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_A000_DE, "4K-24K Erweiterungs ROM Datei Name für $A000 für 6809 definieren"},
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_A000_DE, "4K-24K Erweiterungs ROM Datei Name für $A000 für 6809 wählen"},
 /* es */ {IDCLS_SPECIFY_6809_ROM_AT_A000_ES, "Especificar nombre ROM 4K a 24K  en $A000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_A000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_A000_HU, ""},  /* fuzzy */
@@ -11845,7 +11845,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_B000,    N_("Specify 4K to 20K ROM file name at $B000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_B000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_B000_DE, "4K-20K Erweiterungs ROM Datei Name für $B000 für 6809 definieren"},
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_B000_DE, "4K-20K Erweiterungs ROM Datei Name für $B000 für 6809 wählen"},
 /* es */ {IDCLS_SPECIFY_6809_ROM_AT_B000_ES, "Especificar nombre ROM 4K a 20K  en $B000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_B000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_B000_HU, ""},  /* fuzzy */
@@ -11862,7 +11862,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_C000,    N_("Specify 4K to 16K ROM file name at $C000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_C000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_C000_DE, "4K-16K Erweiterungs ROM Datei Name für $C000 für 6809 definieren"},
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_C000_DE, "4K-16K Erweiterungs ROM Datei Name für $C000 für 6809 wählen"},
 /* es */ {IDCLS_SPECIFY_6809_ROM_AT_C000_ES, "Especificar nombre ROM 4K a 16K  en $C000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_C000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_C000_HU, ""},  /* fuzzy */
@@ -11879,7 +11879,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_D000,    N_("Specify 4K to 12K ROM file name at $D000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_D000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_D000_DE, "4K-12K Erweiterungs ROM Datei Name für $D000 für 6809 definieren"},
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_D000_DE, "4K-12K Erweiterungs ROM Datei Name für $D000 für 6809 wählen"},
 /* es */ {IDCLS_SPECIFY_6809_ROM_AT_D000_ES, "Especificar nombre ROM 4K a 12K  en $D000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_D000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_D000_HU, ""},  /* fuzzy */
@@ -11896,7 +11896,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_E000,    N_("Specify 2K or 8K ROM file name at $E000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_E000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_E000_DE, "4K-8K Erweiterungs ROM Datei Name für $E000 für 6809 definieren"},
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_E000_DE, "4K-8K Erweiterungs ROM Datei Name für $E000 für 6809 wählen"},
 /* es */ {IDCLS_SPECIFY_6809_ROM_AT_E000_ES, "Especificar nombre ROM 4K a 8K  en $E000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_E000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_E000_HU, ""},  /* fuzzy */
@@ -11913,7 +11913,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_F000,    N_("Specify 4K ROM file name at $F000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_F000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_F000_DE, "4K Erweiterungs ROM Datei Name für $F000 für 6809 definieren"},
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_F000_DE, "4K Erweiterungs ROM Datei Name für $F000 für 6809 wählen"},
 /* es */ {IDCLS_SPECIFY_6809_ROM_AT_F000_ES, "Especificar nombre ROM 4K en $F000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_F000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_F000_HU, ""},  /* fuzzy */
@@ -12117,7 +12117,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FUNCTION_LOW_ROM_NAME,    N_("Specify name of Function low ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FUNCTION_LOW_ROM_NAME_DA, "Angiv navn på image for lav funktions-ROM"},
-/* de */ {IDCLS_SPECIFY_FUNCTION_LOW_ROM_NAME_DE, "Namen für Funktions ROM Datei (unterer Bereich) definieren"},
+/* de */ {IDCLS_SPECIFY_FUNCTION_LOW_ROM_NAME_DE, "Namen für Funktions ROM Datei (unterer Bereich) wählen"},
 /* es */ {IDCLS_SPECIFY_FUNCTION_LOW_ROM_NAME_ES, "Especificar nombre imagen ROM función baja"},
 /* fr */ {IDCLS_SPECIFY_FUNCTION_LOW_ROM_NAME_FR, "Spécifier le nom de l'image basse ROM Fonction"},
 /* hu */ {IDCLS_SPECIFY_FUNCTION_LOW_ROM_NAME_HU, "Adja meg az alsó Function ROM képmás nevét"},
@@ -12134,7 +12134,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FUNCTION_HIGH_ROM_NAME,    N_("Specify name of Function high ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FUNCTION_HIGH_ROM_NAME_DA, "Angiv navn på image for høj funktions-ROM"},
-/* de */ {IDCLS_SPECIFY_FUNCTION_HIGH_ROM_NAME_DE, "Namen für Funktions ROM Datei (oberer Bereich) definieren"},
+/* de */ {IDCLS_SPECIFY_FUNCTION_HIGH_ROM_NAME_DE, "Namen für Funktions ROM Datei (oberer Bereich) wählen"},
 /* es */ {IDCLS_SPECIFY_FUNCTION_HIGH_ROM_NAME_ES, "Especificar nombre imagen ROM función alta"},
 /* fr */ {IDCLS_SPECIFY_FUNCTION_HIGH_ROM_NAME_FR, "Spécifier le nom de l'image haute ROM Fonction"},
 /* hu */ {IDCLS_SPECIFY_FUNCTION_HIGH_ROM_NAME_HU, "Adja meg a felsõ Function ROM képmás nevét"},
@@ -12151,7 +12151,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CART_1_LOW_ROM_NAME,    N_("Specify name of Cartridge 1 low ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CART_1_LOW_ROM_NAME_DA, "Angiv navn på image for lav cartridge 1 ROM"},
-/* de */ {IDCLS_SPECIFY_CART_1_LOW_ROM_NAME_DE, "Name für Erweiterungsmodul 1 ROM Datei (unterer Bereich) definieren"},
+/* de */ {IDCLS_SPECIFY_CART_1_LOW_ROM_NAME_DE, "Name für Erweiterungsmodul 1 ROM Datei (unterer Bereich) wählen"},
 /* es */ {IDCLS_SPECIFY_CART_1_LOW_ROM_NAME_ES, "Especificar nombre imagen ROM cartucho 1 bajo"},
 /* fr */ {IDCLS_SPECIFY_CART_1_LOW_ROM_NAME_FR, "Spécifier le nom de l'image basse ROM Cartouche 1"},
 /* hu */ {IDCLS_SPECIFY_CART_1_LOW_ROM_NAME_HU, "Adja meg az alsó Cartridge 1 ROM képmás nevét"},
@@ -12168,7 +12168,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CART_1_HIGH_ROM_NAME,    N_("Specify name of Cartridge 1 high ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CART_1_HIGH_ROM_NAME_DA, "Angiv navn på image for høj cartridge 1 ROM"},
-/* de */ {IDCLS_SPECIFY_CART_1_HIGH_ROM_NAME_DE, "Name für Erweiterungsmodul 1 ROM Datei (oberer Bereich) definieren"},
+/* de */ {IDCLS_SPECIFY_CART_1_HIGH_ROM_NAME_DE, "Name für Erweiterungsmodul 1 ROM Datei (oberer Bereich) wählen"},
 /* es */ {IDCLS_SPECIFY_CART_1_HIGH_ROM_NAME_ES, "Especificar nombre imagen ROM cartucho 1 alto"},
 /* fr */ {IDCLS_SPECIFY_CART_1_HIGH_ROM_NAME_FR, "Spécifier le nom de l'image haute ROM Cartouche 1"},
 /* hu */ {IDCLS_SPECIFY_CART_1_HIGH_ROM_NAME_HU, "Adja meg a felsõ Cartridge 1 ROM képmás nevét"},
@@ -12185,7 +12185,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME,    N_("Specify name of Cartridge 2 low ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_DA, "Angiv navn på image for lav cartridge 2 ROM"},
-/* de */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_DE, "Name für Erweiterungsmodul 2 ROM Datei (unterer Bereich) definieren"},
+/* de */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_DE, "Name für Erweiterungsmodul 2 ROM Datei (unterer Bereich) wählen"},
 /* es */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_ES, "Especificar nombre imagen ROM cartucho 2 bajo"},
 /* fr */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_FR, "Spécifier le nom de l'image basse ROM Cartouche 2"},
 /* hu */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_HU, "Adja meg az alsó Cartridge 2 ROM képmás nevét"},
@@ -12202,7 +12202,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CART_2_HIGH_ROM_NAME,    N_("Specify name of Cartridge 2 high ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CART_2_HIGH_ROM_NAME_DA, "Angiv navn på image for høj cartridge 1 ROM"},
-/* de */ {IDCLS_SPECIFY_CART_2_HIGH_ROM_NAME_DE, "Name für Erweiterungsmodul 2 ROM Datei (oberer Bereich) definieren"},
+/* de */ {IDCLS_SPECIFY_CART_2_HIGH_ROM_NAME_DE, "Name für Erweiterungsmodul 2 ROM Datei (oberer Bereich) wählen"},
 /* es */ {IDCLS_SPECIFY_CART_2_HIGH_ROM_NAME_ES, "Especificar nombre imagen ROM cartucho 2 alto"},
 /* fr */ {IDCLS_SPECIFY_CART_2_HIGH_ROM_NAME_FR, "Spécifier le nom de l'image haute ROM Cartouche 2"},
 /* hu */ {IDCLS_SPECIFY_CART_2_HIGH_ROM_NAME_HU, "Adja meg a felsõ Cartridge 2 ROM képmás nevét"},
@@ -12406,7 +12406,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME,    N_("Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DE, "Name für Druckertreiber für Gerät #4 definieren. (ascii/mps803/nl10/raw)"},
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DE, "Name für Druckertreiber für Gerät #4 wählen. (ascii/mps803/nl10/raw)"},
 /* es */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_ES, "Especificar nombre controlador impresora periférico #4. (ascii/mps803/nl10/raw)"},
 /* fr */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_HU, ""},  /* fuzzy */
@@ -12423,7 +12423,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME,    N_("Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DE, "Name für Druckertreiber für Gerät #5 definieren. (ascii/mps803/nl10/raw)"},
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DE, "Name für Druckertreiber für Gerät #5 wählen. (ascii/mps803/nl10/raw)"},
 /* es */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_ES, "Especificar nombre controlador impresora periférico #5. (ascii/mps803/nl10/raw)"},
 /* fr */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_HU, ""},  /* fuzzy */
@@ -12440,7 +12440,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME,    N_("Specify name of printer driver for device #6. (1520/raw)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DE, "Name für Druckertreiber für Gerät #6 definieren. (1520/raw)"},
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DE, "Name für Druckertreiber für Gerät #6 wählen. (1520/raw)"},
 /* es */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_ES, "Especificar nombre controlador impresora periférico #6. (ascii/mps803/nl10/raw)"},
 /* fr */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_HU, ""},  /* fuzzy */
@@ -12457,7 +12457,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME,    N_("Specify name of printer driver for the userport printer. (ascii/nl10/raw)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DE, "Name für Userport Druckertreiber definieren. (ascii/nl10/raw)"},
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DE, "Name für Userport Druckertreiber wählen. (ascii/nl10/raw)"},
 /* es */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_ES, "Especificar nombre controlador impresión para puerto impresora. (ascii/nl10/raw)"},
 /* fr */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_HU, ""},  /* fuzzy */
@@ -12576,7 +12576,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME,    N_("Specify name of output device for device #4")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_DA, "Angiv navn på uddataenhed for enhed #4"},
-/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_DE, "Name für Druckerausgabe Datei Gerät #4 definieren"},
+/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_DE, "Name für Druckerausgabe Datei Gerät #4 wählen"},
 /* es */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_ES, "Especificar nombre periférico de salida para periférico #4"},
 /* fr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_FR, "Spécifiez le nom du périphérique de sortie pour le périphérique #4"},
 /* hu */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_HU, "Adja meg a kimeneti eszköz nevét a #4-es egységhez"},
@@ -12593,7 +12593,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME,    N_("Specify name of output device for device #5")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_DA, "Angiv navn på uddataenhed for enhed #5"},
-/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_DE, "Name für Druckerausgabe Datei Gerät #5 definieren"},
+/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_DE, "Name für Druckerausgabe Datei Gerät #5 wählen"},
 /* es */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_ES, "Especificar nombre periférico de salida para periférico #5"},
 /* fr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_FR, "Spécifiez le nom du périphérique de sortie pour le périphérique #5"},
 /* hu */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_HU, "Adja meg a kimeneti eszköz nevét a #5-ös egységhez"},
@@ -12610,7 +12610,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME,    N_("Specify name of output device for device #6")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_DE, "Name für Druckerausgabe Datei Gerät #6 definieren"},
+/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_DE, "Name für Druckerausgabe Datei Gerät #6 wählen"},
 /* es */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_HU, ""},  /* fuzzy */
@@ -12627,7 +12627,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME,    N_("Specify name of output device for the userport printer")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_DA, "Angiv navn på uddataenhed for brugerports-printer"},
-/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_DE, "Name für Druckerausgabe Datei Userport definieren"},
+/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_DE, "Name für Druckerausgabe Datei Userport wählen"},
 /* es */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_ES, "Especificar nombre periférico de salida para puerto usuario impresora"},
 /* fr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_FR, "Spécifiez le nom du périphérique de sortie pour l'imprimante userport"},
 /* hu */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_HU, "Adja meg a kimeneti eszköz nevét a userport nyomtatóhoz"},
@@ -12644,7 +12644,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME,    N_("Specify name of printer text device or dump file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_DA, "Angiv navn på printer-tekst-enhed eller dump-fil"},
-/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_DE, "Name für Druckerausgabe Textgerät oder Dump Datei definieren"},
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_DE, "Name für Druckerausgabe Textgerät oder Dump Datei wählen"},
 /* es */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_ES, "Especificar nombre del periférico para imprimir texto o fichero de volcado"},
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_FR, "Spécifier le nom de l'imprimante texte ou \"dump file\""},
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_HU, "Adja meg a szövegnyomtató eszköz nevét, vagy a kimeneti fájlt"},
@@ -12661,7 +12661,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TEXT_DEVICE_4,    N_("Specify printer text output device for printer #4")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_DEVICE_4_DA, "Angiv printer tekst-uddata enhed for printer #4"},
-/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_4_DE, "Textausgabe Gerät für Drucker #4 definieren"},
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_4_DE, "Textausgabe Gerät für Drucker #4 wählen"},
 /* es */ {IDCLS_SPECIFY_TEXT_DEVICE_4_ES, "Especificar periférico salida impresión texto impresora #4"},
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_4_FR, "Spécifier le périphérique de sortie texte pour l'imprimante 4"},
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_4_HU, ""},  /* fuzzy */
@@ -12678,7 +12678,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TEXT_DEVICE_5,    N_("Specify printer text output device for printer #5")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_DEVICE_5_DA, "Angiv printer tekst-uddata enhed for printer #5"},
-/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_5_DE, "Textausgabe Gerät für Drucker #5 definieren"},
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_5_DE, "Textausgabe Gerät für Drucker #5 wählen"},
 /* es */ {IDCLS_SPECIFY_TEXT_DEVICE_5_ES, "Especificar periférico salida impresión texto impresora #5"},
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_5_FR, "Spécifier le périphérique de sortie texte pour l'imprimante 5"},
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_5_HU, ""},  /* fuzzy */
@@ -12695,7 +12695,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TEXT_DEVICE_6,    N_("Specify printer text output device for printer #6")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_DEVICE_6_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_6_DE, "Textausgabe Gerät für Drucker #6 definieren"},
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_6_DE, "Textausgabe Gerät für Drucker #6 wählen"},
 /* es */ {IDCLS_SPECIFY_TEXT_DEVICE_6_ES, "Especificar periférico salida impresión texto impresora #6"},
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_6_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_6_HU, ""},  /* fuzzy */
@@ -12712,7 +12712,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TEXT_USERPORT,    N_("Specify printer text output device for userport printer")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_USERPORT_DA, "Angiv printer tekst-uddata enhed for brugerports-printer"},
-/* de */ {IDCLS_SPECIFY_TEXT_USERPORT_DE, "Textausgabe Gerät für Userport Drucker definieren"},
+/* de */ {IDCLS_SPECIFY_TEXT_USERPORT_DE, "Textausgabe Gerät für Userport Drucker wählen"},
 /* es */ {IDCLS_SPECIFY_TEXT_USERPORT_ES, "Especificar periférico de salida para imprimir texto impresora puerto usuario"},
 /* fr */ {IDCLS_SPECIFY_TEXT_USERPORT_FR, "Spécifier le périphérique de sortie text pour l'imprimante userport"},
 /* hu */ {IDCLS_SPECIFY_TEXT_USERPORT_HU, "Adja meg a szövegnyomtató eszközt a userport nyomtatóhoz"},
@@ -12764,7 +12764,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_RS232_1_NAME,    N_("Specify name of first RS232 device")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_RS232_1_NAME_DA, "Angiv navn på første RS232-enhed"},
-/* de */ {IDCLS_SPECIFY_RS232_1_NAME_DE, "Name für erstes RS232 Gerät definieren"},
+/* de */ {IDCLS_SPECIFY_RS232_1_NAME_DE, "Name für erstes RS232 Gerät wählen"},
 /* es */ {IDCLS_SPECIFY_RS232_1_NAME_ES, "Especificar el nombre del primer periférico RS232"},
 /* fr */ {IDCLS_SPECIFY_RS232_1_NAME_FR, "Spécifier le nom du 1er périphérique RS232"},
 /* hu */ {IDCLS_SPECIFY_RS232_1_NAME_HU, "Adja meg az elsõ RS232-es eszköz nevét"},
@@ -12781,7 +12781,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_RS232_2_NAME,    N_("Specify name of second RS232 device")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_RS232_2_NAME_DA, "Angiv navn på anden RS232-enhed"},
-/* de */ {IDCLS_SPECIFY_RS232_2_NAME_DE, "Name für zweites RS232 Gerät definieren"},
+/* de */ {IDCLS_SPECIFY_RS232_2_NAME_DE, "Name für zweites RS232 Gerät wählen"},
 /* es */ {IDCLS_SPECIFY_RS232_2_NAME_ES, "Especificar el nombre del segundo periférico RS232"},
 /* fr */ {IDCLS_SPECIFY_RS232_2_NAME_FR, "Spécifier le nom du 2e périphérique RS232"},
 /* hu */ {IDCLS_SPECIFY_RS232_2_NAME_HU, "Adja meg a második RS232-es eszköz nevét"},
@@ -12798,7 +12798,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_RS232_3_NAME,    N_("Specify name of third RS232 device")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_RS232_3_NAME_DA, "Angiv navn på tredje RS232-enhed"},
-/* de */ {IDCLS_SPECIFY_RS232_3_NAME_DE, "Name für drittes RS232 Gerät definieren"},
+/* de */ {IDCLS_SPECIFY_RS232_3_NAME_DE, "Name für drittes RS232 Gerät wählen"},
 /* es */ {IDCLS_SPECIFY_RS232_3_NAME_ES, "Especificar el nombre del tercer periférico RS232"},
 /* fr */ {IDCLS_SPECIFY_RS232_3_NAME_FR, "Spécifier le nom du 3e périphérique RS232"},
 /* hu */ {IDCLS_SPECIFY_RS232_3_NAME_HU, "Adja meg a harmadik RS232-es eszköz nevét"},
@@ -12815,7 +12815,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_RS232_4_NAME,    N_("Specify name of fourth RS232 device")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_RS232_4_NAME_DA, "Angiv navn på fjerde RS232-enhed"},
-/* de */ {IDCLS_SPECIFY_RS232_4_NAME_DE, "Name für viertes RS232 Gerät definieren"},
+/* de */ {IDCLS_SPECIFY_RS232_4_NAME_DE, "Name für viertes RS232 Gerät wählen"},
 /* es */ {IDCLS_SPECIFY_RS232_4_NAME_ES, "Especificar el nombre del cuarto periférico RS232"},
 /* fr */ {IDCLS_SPECIFY_RS232_4_NAME_FR, "Spécifier le nom du 4e périphérique RS232"},
 /* hu */ {IDCLS_SPECIFY_RS232_4_NAME_HU, "Adja meg a negyedik RS232-es eszköz nevét"},
@@ -12901,7 +12901,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT,    N_("Specify VICE RS232 device for userport")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_DA, "Angiv VICE RS232-enhed for brugerporten"},
-/* de */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_DE, "VICE RS232 Gerät für Userport definieren"},
+/* de */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_DE, "VICE RS232 Gerät für Userport wählen"},
 /* es */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_ES, "Especificar periférico VICE RS232 para puerto usuario"},
 /* fr */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_FR, "Spécifier un périphérique VICE RS232 pour le userport"},
 /* hu */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_HU, "VICE RS232-es userport eszköz megadása"},
@@ -13848,7 +13848,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME,    N_("Specify 4/8/16K extension ROM name at $2000")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_DA, "Angiv navn for 4/8/16k-udviddelses-ROM på $2000"},
-/* de */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $2000 definieren"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $2000 wählen"},
 /* es */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_ES, "Especificar nombre ROM extendida de 4/8/16KB en $2000"},
 /* fr */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_FR, "Spécifier le nom de l'extension ROM 4/8/16K à $2000"},
 /* hu */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_HU, "Adja meg a $2000 címû 4/8/16K ROM kiterjesztés nevét"},
@@ -13865,7 +13865,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME,    N_("Specify 4/8/16K extension ROM name at $4000")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_DA, "Angiv navn for 4/8/16k-udviddelses-ROM på $4000"},
-/* de */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $4000 definieren"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $4000 wählen"},
 /* es */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_ES, "Especificar nombre ROM extendida de 4/8/16KB en $4000"},
 /* fr */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_FR, "Spécifier le nom de l'extension ROM 4/8/16K à $4000"},
 /* hu */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_HU, "Adja meg a $4000 címû 4/8/16K ROM kiterjesztés nevét"},
@@ -13882,7 +13882,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME,    N_("Specify 4/8/16K extension ROM name at $6000")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_DA, "Angiv navn for 4/8/16k-udviddelses-ROM på $6000"},
-/* de */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $6000 definieren"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $6000 wählen"},
 /* es */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_ES, "Especificar nombre ROM extendida de 4/8/16KB en $6000"},
 /* fr */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_FR, "Spécifier le nom de l'extension ROM 4/8/16K à $6000"},
 /* hu */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_HU, "Adja meg a $6000 címû 4/8/16K ROM kiterjesztés nevét"},
@@ -13899,7 +13899,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME,    N_("Specify 4/8K extension ROM name at $A000")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_DA, "Angiv navn for 4/8k-udviddelses-ROM på $A000"},
-/* de */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $A000 definieren"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $A000 wählen"},
 /* es */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_ES, "Especificar nombre ROM extendida de 4/8KB en $A000"},
 /* fr */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_FR, "Spécifier le nom de l'extension ROM 4/8K à $A000"},
 /* hu */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_HU, "Adja meg a $A000 címû 4/8K ROM kiterjesztés nevét"},
@@ -13916,7 +13916,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME,    N_("Specify 4K extension ROM name at $B000")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_DA, "Angiv navn for 4k-udviddelses-ROM på $B000"},
-/* de */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $B000 definieren"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $B000 wählen"},
 /* es */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_ES, "Especificar nombre ROM extendida de 4KB en $B000"},
 /* fr */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_FR, "Spécifier le nom de l'extension ROM 4K à $B000"},
 /* hu */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_HU, "Adja meg a $B000 címû 4K ROM kiterjesztés nevét"},
@@ -13933,7 +13933,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_GENERIC_ROM_NAME,    N_("Specify generic extension ROM name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_DA, "Angiv navn på standard-udviddelses-ROM"},
-/* de */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_DE, "Generisches Erweiterungs ROM definieren"},
+/* de */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_DE, "Generisches Erweiterungs ROM wählen"},
 /* es */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_ES, "Especificar nombre ROM extendida generica"},
 /* fr */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_FR, "Spécifier le nom de l'extension ROM générique"},
 /* hu */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_HU, "Adja meg az általános ROM kiterjesztés nevét"},
@@ -13950,7 +13950,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME,    N_("Specify Mega-Cart extension ROM name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_DA, "Angiv navn på MegaCart-udviddelses-ROM"},
-/* de */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_DE, "Mega-Cart Erweiterungs ROM definieren"},
+/* de */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_DE, "Mega-Cart Erweiterungs ROM wählen"},
 /* es */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_ES, "Especificar nombre ROM extendida Mega Cart"},
 /* fr */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_FR, "Spécifier le nom de l'extension ROM Mega-Cart"},
 /* hu */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_HU, "Adja meg a Mega-Cart ROM kiterjesztés nevét"},
@@ -13967,7 +13967,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME,    N_("Specify Final Expansion extension ROM name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_DA, "Angiv navn på Final Expansion udviddelses-ROM"},
-/* de */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_DE, "Name für Final Expansion Erweiterungs ROM definieren"},
+/* de */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_DE, "Name für Final Expansion Erweiterungs ROM wählen"},
 /* es */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_ES, "Especificar nombre ROM extendida Final Expansion"},
 /* fr */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_FR, "Spécifier le nom de l'extension ROM Final Expansion"},
 /* hu */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_HU, "Adja meg a Final Expansion ROM kiterjesztés nevét"},
@@ -13984,7 +13984,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME,    N_("Specify Vic Flash Plugin extension ROM name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_DA, "Angiv navn på Vic Flash Plugin udviddelses-ROM"},
-/* de */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_DE, "Name für Vic Flash Plugin Erweiterungs ROM definieren"},
+/* de */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_DE, "Name für Vic Flash Plugin Erweiterungs ROM wählen"},
 /* es */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_ES, "Especificar nombre ROM extendida Vic Flash Plugin"},
 /* fr */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_FR, "Spécifier le nom de l'extension ROM Vic Flash Plugin"},
 /* hu */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_HU, ""},  /* fuzzy */
@@ -14001,7 +14001,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME,    N_("Specify UltiMem extension ROM name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_DE, "UltiMem Erweiterungs ROM definieren"},
+/* de */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_DE, "UltiMem Erweiterungs ROM wählen"},
 /* es */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_VIC_UM_ROM_NAME_HU, ""},  /* fuzzy */
@@ -14052,7 +14052,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_MEGACART_NVRAM_NAME,    N_("Set Mega-Cart NvRAM filename")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_MEGACART_NVRAM_NAME_DA, "Vælg Mega-Cart NvRAM filnavn"},
-/* de */ {IDCLS_SET_MEGACART_NVRAM_NAME_DE, "Mega-Cart NvRAM Imagename definieren"},
+/* de */ {IDCLS_SET_MEGACART_NVRAM_NAME_DE, "Mega-Cart NvRAM Imagename wählen"},
 /* es */ {IDCLS_SET_MEGACART_NVRAM_NAME_ES, "Seleccionar nombre fichero  Mega-Cart NvRAM"},
 /* fr */ {IDCLS_SET_MEGACART_NVRAM_NAME_FR, "Nom du fichier NvRAM Mega-Cart"},
 /* hu */ {IDCLS_SET_MEGACART_NVRAM_NAME_HU, ""},  /* fuzzy */
@@ -14613,7 +14613,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME,    N_("Specify name of file of external palette")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_DA, "Angiv filnavn for ekstern palette"},
-/* de */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_DE, "Dateiname für externe Palette definieren"},
+/* de */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_DE, "Dateiname für externe Palette wählen"},
 /* es */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_ES, "Especificar nombre fichero de la paleta externa"},
 /* fr */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_FR, "Spécifier le nom du fichier de la palette externe"},
 /* hu */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_HU, "Adja meg a külsõ paletta nevét"},
@@ -14936,7 +14936,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DATASETTE,    N_("Enable Datasette")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DATASETTE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_DATASETTE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DATASETTE_DE, "Datasette aktivieren"},
 /* es */ {IDCLS_ENABLE_DATASETTE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DATASETTE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DATASETTE_HU, ""},  /* fuzzy */
@@ -14953,7 +14953,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_DATASETTE,    N_("Disable Datasette")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DATASETTE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_DATASETTE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DATASETTE_DE, "Datasette deaktivieren"},
 /* es */ {IDCLS_DISABLE_DATASETTE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DATASETTE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DATASETTE_HU, ""},  /* fuzzy */
@@ -15534,7 +15534,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FLIP_LIST_NAME,    N_("Specify name of the flip list file image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FLIP_LIST_NAME_DA, "Angiv navn på bladreliste"},
-/* de */ {IDCLS_SPECIFY_FLIP_LIST_NAME_DE, "Namen für Fliplist Datei definieren"},
+/* de */ {IDCLS_SPECIFY_FLIP_LIST_NAME_DE, "Namen für Fliplist Datei wählen"},
 /* es */ {IDCLS_SPECIFY_FLIP_LIST_NAME_ES, "Especificar nombre fichero lista de intercambio imagenes"},
 /* fr */ {IDCLS_SPECIFY_FLIP_LIST_NAME_FR, "Spécifier le nom de l'image du fichier de groupement de disques"},
 /* hu */ {IDCLS_SPECIFY_FLIP_LIST_NAME_HU, "Adja meg a lemezlista fájl nevét"},
@@ -15929,7 +15929,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_LOG_FILE_NAME,    N_("Specify log file name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_LOG_FILE_NAME_DA, "Angiv navn på logfil"},
-/* de */ {IDCLS_SPECIFY_LOG_FILE_NAME_DE, "Logdateiname definieren"},
+/* de */ {IDCLS_SPECIFY_LOG_FILE_NAME_DE, "Logdateiname wählen"},
 /* es */ {IDCLS_SPECIFY_LOG_FILE_NAME_ES, "Especificar nombre fichero registro"},
 /* fr */ {IDCLS_SPECIFY_LOG_FILE_NAME_FR, "Spécifier le nom du fichier log"},
 /* hu */ {IDCLS_SPECIFY_LOG_FILE_NAME_HU, "Adja meg a naplófájl nevét"},
@@ -16507,7 +16507,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SOUND_SUSPEND_TIME,    N_("Specify the pause interval when audio underflows (clicks) happen. 0 means no pause is done.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SOUND_SUSPEND_TIME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SOUND_SUSPEND_TIME_DE, "Pause Interval bei Audio unterlauf (Klicks) definineren. (0: keine Pause)"},
+/* de */ {IDCLS_SOUND_SUSPEND_TIME_DE, "Pause Interval bei Audio Unterlauf (Klicks) wählen. (0: keine Pause)"},
 /* es */ {IDCLS_SOUND_SUSPEND_TIME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SOUND_SUSPEND_TIME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SOUND_SUSPEND_TIME_HU, ""},  /* fuzzy */
@@ -16558,7 +16558,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DEFINE_SYSTEM_FILES_PATH,    N_("Define search path to locate system files")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_DA, "Angiv sti til systemfiler"},
-/* de */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_DE, "Suchpfad für Systemdateien definieren"},
+/* de */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_DE, "Suchpfad für Systemdateien wählen"},
 /* es */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_ES, "Definir camino de búsqueda para los ficheros locales de sistema"},
 /* fr */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_FR, "Définir le chemin de recherche pour trouver les fichiers systèmes"},
 /* hu */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_HU, "Keresési útvonal megadása a rendszerfájlok megtalálására"},
@@ -16711,7 +16711,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PLUS256K_NAME,    N_("Specify name of PLUS256K image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PLUS256K_NAME_DA, "Angiv navn på PLUS256K-image"},
-/* de */ {IDCLS_SPECIFY_PLUS256K_NAME_DE, "Name der PLUS256K Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_PLUS256K_NAME_DE, "Name der PLUS256K Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_PLUS256K_NAME_ES, "Especificar nombre imagen RAM PLUS256K"},
 /* fr */ {IDCLS_SPECIFY_PLUS256K_NAME_FR, "Spécifier le nom de l'image PLUS256K RAM"},
 /* hu */ {IDCLS_SPECIFY_PLUS256K_NAME_HU, "Adja meg a PLUS256K-s képmás nevét"},
@@ -16728,7 +16728,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PLUS60K_NAME,    N_("Specify name of PLUS60K image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PLUS60K_NAME_DA, "Angiv navn på PLUS60K-image"},
-/* de */ {IDCLS_SPECIFY_PLUS60K_NAME_DE, "Name der PLUS60K Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_PLUS60K_NAME_DE, "Name der PLUS60K Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_PLUS60K_NAME_ES, "Especificar nombre imagen PLUS60K"},
 /* fr */ {IDCLS_SPECIFY_PLUS60K_NAME_FR, "Spécifier le nom de l'image PLUS60K RAM"},
 /* hu */ {IDCLS_SPECIFY_PLUS60K_NAME_HU, "Adja meg a nevét a PLUS60K képmásnak"},
@@ -16762,7 +16762,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_C64_256K_NAME,    N_("Specify name of 256K image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_C64_256K_NAME_DA, "Angiv navn på 256k-image"},
-/* de */ {IDCLS_SPECIFY_C64_256K_NAME_DE, "Name der 256K Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_C64_256K_NAME_DE, "Name der 256K Image Datei wählen"},
 /* es */ {IDCLS_SPECIFY_C64_256K_NAME_ES, "Especificar nombre imagen 256K"},
 /* fr */ {IDCLS_SPECIFY_C64_256K_NAME_FR, "Spécifier le nom de l'image 256K"},
 /* hu */ {IDCLS_SPECIFY_C64_256K_NAME_HU, "Adja meg a 256K-s képmás nevét"},
@@ -16915,7 +16915,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_DTV_REVISION,    N_("Specify DTV Revision (2: DTV2, 3: DTV3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_DTV_REVISION_DA, "Angiv DTV-revision (2: DTV2, 3: DTV3)"},
-/* de */ {IDCLS_SPECIFY_DTV_REVISION_DE, "DTV Revision definieren (2: DTV2, 3: DTV3)"},
+/* de */ {IDCLS_SPECIFY_DTV_REVISION_DE, "DTV Revision wählen (2: DTV2, 3: DTV3)"},
 /* es */ {IDCLS_SPECIFY_DTV_REVISION_ES, "Especificar revisión DTV (2: DTV2, 3: DTV3)"},
 /* fr */ {IDCLS_SPECIFY_DTV_REVISION_FR, "Spécifier la révision DTV (2: DTV2, 3: DTV3)"},
 /* hu */ {IDCLS_SPECIFY_DTV_REVISION_HU, "Adja meg a DTV verzióját (2: DTV2, 3: DTV3)"},
@@ -17000,7 +17000,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_C64DTVROM_NAME,    N_("Specify name of C64DTV ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_C64DTVROM_NAME_DA, "Angiv navn på C64DTV-ROM-image"},
-/* de */ {IDCLS_SPECIFY_C64DTVROM_NAME_DE, "Name von C64DTV ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_C64DTVROM_NAME_DE, "Name von C64DTV ROM Datei wählen"},
 /* es */ {IDCLS_SPECIFY_C64DTVROM_NAME_ES, "Especificar nombre imagen ROM C64DTV"},
 /* fr */ {IDCLS_SPECIFY_C64DTVROM_NAME_FR, "Spécifier le nom de l'image ROM C64DTV"},
 /* hu */ {IDCLS_SPECIFY_C64DTVROM_NAME_HU, "Adja meg a C64DTV ROM képmás nevét"},
@@ -17563,7 +17563,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME,    N_("Specify TurboMaster ROM 1 filename")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_DE, "TurboMaster ROM 1 definieren"},
+/* de */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_DE, "TurboMaster ROM 1 wählen"},
 /* es */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME_HU, ""},  /* fuzzy */
@@ -17580,7 +17580,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME,    N_("Specify TurboMaster ROM 2 filename")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_DE, "TurboMaster ROM 2 definieren"},
+/* de */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_DE, "TurboMaster ROM 2 wählen"},
 /* es */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME_HU, ""},  /* fuzzy */
@@ -17733,7 +17733,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX,    N_("Enable the Short Bus DigiMAX expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_DE, "Shortbus DigiMAX Erweiterung aktivieren"},
 /* es */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SHORTBUS_DIGIMAX_HU, ""},  /* fuzzy */
@@ -17750,7 +17750,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX,    N_("Disable the Short Bus DigiMAX expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_DE, "Shortbus DigiMAX Erweiterung deaktivieren"},
 /* es */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_HU, ""},  /* fuzzy */
@@ -17818,7 +17818,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SHORTBUS_DIGIMAX_BASE,    N_("Base address of the Short Bus DigiMAX expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SHORTBUS_DIGIMAX_BASE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SHORTBUS_DIGIMAX_BASE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SHORTBUS_DIGIMAX_BASE_DE, "Basis Adresse für Shortbus DigiMAX Erweiterung"},
 /* es */ {IDCLS_SHORTBUS_DIGIMAX_BASE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SHORTBUS_DIGIMAX_BASE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SHORTBUS_DIGIMAX_BASE_HU, ""},  /* fuzzy */

@@ -47,9 +47,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CP_CLOCK_F83_CAPTION "CP Clock F83 settings"
-  IDS_CP_CLOCK_F83_ENABLE  "Enable the CP Clock F83 expansion"
-  IDS_CP_CLOCK_F83_SAVE    "Save CP Clock F83 RTC data when changed"
+  IDS_CP_CLOCK_F83_CAPTION "CP Clock F83 Einstellungen"
+  IDS_CP_CLOCK_F83_ENABLE  "CP Clock F83 Erweiterung aktivieren"
+  IDS_CP_CLOCK_F83_SAVE    "CP Clock F83 RTC Daten bei Änderung speichern"
 END
 
 

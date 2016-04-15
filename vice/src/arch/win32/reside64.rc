@@ -143,14 +143,14 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 Einstellungen"
-    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
+    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 Shortbus Einstellungen"
     IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 Primär Master Geräte Einstellungen"
     IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 Primär Slave Geräte Einstellungen"
     IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 Sekundär Master Geräte Einstellungen"
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 Sekundär Slave Geräte Einstellungen"
     IDS_IDE64_SETTINGS              "IDE64 Einstellungen"
-    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
-    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
+    IDS_IDE64_SB_DIGIMAX            "IDE64 Shortbus DigiMAX Gerät aktivieren"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 Shortbus DigiMAX Geräteadresse"
     IDS_IDE64_VERSION               "IDE64 V4 aktivieren"
     IDS_IDE64_USB_SERVER            "IDE64 USB Server aktivieren"
     IDS_IDE64_RTC_SAVE              "IDE64 RTC Daten bei Änderung speichern"

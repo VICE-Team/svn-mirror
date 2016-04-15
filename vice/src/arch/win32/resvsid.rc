@@ -329,17 +329,17 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Selecteer PSID bestand"
   IDS_TUNE_NR             "Deuntje nummer"
-  IDS_VSID_KEYS           "VSID shortcut keys"
-  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
+  IDS_VSID_KEYS           "VSID shortcut toetsen"
+  IDS_VSID_KEYS_AVAILABLE "Welke VSID shortcut toetsen zijn beschikbaar?"
   IDS_MI_LOAD_PSID_FILE   "Laad PSID bestand"
   IDS_MI_SELECT_TUNE      "Selecteer deuntje"
   IDS_MI_NEXT_TUNE        "Volgend deuntje"
   IDS_MI_PREVIOUS_TUNE    "Vorig deuntje"
   IDS_MI_PSID_OVERRIDE    "Overschrijf PSID instellingen"
-  IDS_MI_KEYS             "Shortcut keys"
+  IDS_MI_KEYS             "Shortcut toetsen"
   IDS_MP_TUNES            "Deuntjes"
   IDS_MP_SOUND_RECORDING  "Geluidsopname gestart"
-  IDS_MP_SOUND_VOLUME     "Sound volume"
+  IDS_MP_SOUND_VOLUME     "Geluidsniveau"
 END
 
 
@@ -443,3 +443,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

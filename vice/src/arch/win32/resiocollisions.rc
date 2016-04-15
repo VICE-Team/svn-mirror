@@ -40,7 +40,7 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_IO_COLLISION_CAPTION     "I/O collision settings"
-  IDS_IO_COLLISION_METHOD      "I/O collision handling"
+  IDS_IO_COLLISION_METHOD      "I/O kollisionshåndtering"
   IDS_IO_COLLISION_DETACH_ALL  "Detach all involved carts"
   IDS_IO_COLLISION_DETACH_LAST "Detach last inserted cart"
   IDS_IO_COLLISION_AND_WIRES   "'AND' the wires"
@@ -53,7 +53,7 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_IO_COLLISION_CAPTION     "I/O collision settings"
-  IDS_IO_COLLISION_METHOD      "I/O collision handling"
+  IDS_IO_COLLISION_METHOD      "I/O Kollisionsbehandlung"
   IDS_IO_COLLISION_DETACH_ALL  "Detach all involved carts"
   IDS_IO_COLLISION_DETACH_LAST "Detach last inserted cart"
   IDS_IO_COLLISION_AND_WIRES   "'AND' the wires"
@@ -66,7 +66,7 @@ STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_IO_COLLISION_CAPTION     "I/O collision settings"
-  IDS_IO_COLLISION_METHOD      "I/O collision handling"
+  IDS_IO_COLLISION_METHOD      "Manejo de colisiones I/O"
   IDS_IO_COLLISION_DETACH_ALL  "Detach all involved carts"
   IDS_IO_COLLISION_DETACH_LAST "Detach last inserted cart"
   IDS_IO_COLLISION_AND_WIRES   "'AND' the wires"
@@ -79,7 +79,7 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_IO_COLLISION_CAPTION     "I/O collision settings"
-  IDS_IO_COLLISION_METHOD      "I/O collision handling"
+  IDS_IO_COLLISION_METHOD      "Prise en charge collision E/S"
   IDS_IO_COLLISION_DETACH_ALL  "Detach all involved carts"
   IDS_IO_COLLISION_DETACH_LAST "Detach last inserted cart"
   IDS_IO_COLLISION_AND_WIRES   "'AND' the wires"
@@ -111,7 +111,7 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_IO_COLLISION_CAPTION     "I/O collision settings"
-  IDS_IO_COLLISION_METHOD      "I/O collision handling"
+  IDS_IO_COLLISION_METHOD      "Gestione delle collisioni di I/O"
   IDS_IO_COLLISION_DETACH_ALL  "Detach all involved carts"
   IDS_IO_COLLISION_DETACH_LAST "Detach last inserted cart"
   IDS_IO_COLLISION_AND_WIRES   "'AND' the wires"
@@ -142,11 +142,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_IO_COLLISION_CAPTION     "I/O collision settings"
-  IDS_IO_COLLISION_METHOD      "I/O collision handling"
-  IDS_IO_COLLISION_DETACH_ALL  "Detach all involved carts"
-  IDS_IO_COLLISION_DETACH_LAST "Detach last inserted cart"
-  IDS_IO_COLLISION_AND_WIRES   "'AND' the wires"
+  IDS_IO_COLLISION_CAPTION     "I/O conflict instellingen"
+  IDS_IO_COLLISION_METHOD      "I/O conflict handeling"
+  IDS_IO_COLLISION_DETACH_ALL  "Ontkoppel alle betrokken cartridges"
+  IDS_IO_COLLISION_DETACH_LAST "Ontkoppel de cartridge die als laatse was geactiveerd"
+  IDS_IO_COLLISION_AND_WIRES   "'AND' de draden"
 END
 
 
@@ -159,7 +159,7 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_IO_COLLISION_CAPTION     "I/O collision settings"
-  IDS_IO_COLLISION_METHOD      "I/O collision handling"
+  IDS_IO_COLLISION_METHOD      "Obs³uga kolizji we/wy"
   IDS_IO_COLLISION_DETACH_ALL  "Detach all involved carts"
   IDS_IO_COLLISION_DETACH_LAST "Detach last inserted cart"
   IDS_IO_COLLISION_AND_WIRES   "'AND' the wires"
@@ -194,7 +194,7 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_IO_COLLISION_CAPTION     "I/O collision settings"
-  IDS_IO_COLLISION_METHOD      "I/O collision handling"
+  IDS_IO_COLLISION_METHOD      "hantering av I/O-kollisioner"
   IDS_IO_COLLISION_DETACH_ALL  "Detach all involved carts"
   IDS_IO_COLLISION_DETACH_LAST "Detach last inserted cart"
   IDS_IO_COLLISION_AND_WIRES   "'AND' the wires"
@@ -210,7 +210,7 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_IO_COLLISION_CAPTION     "I/O collision settings"
-  IDS_IO_COLLISION_METHOD      "I/O collision handling"
+  IDS_IO_COLLISION_METHOD      "G/Ç çakýþma iþleme"
   IDS_IO_COLLISION_DETACH_ALL  "Detach all involved carts"
   IDS_IO_COLLISION_DETACH_LAST "Detach last inserted cart"
   IDS_IO_COLLISION_AND_WIRES   "'AND' the wires"
@@ -218,3 +218,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+
