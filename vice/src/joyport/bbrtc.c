@@ -120,7 +120,9 @@ static joyport_t joyport_bbrtc_device = {
     bbrtc_read,
     bbrtc_store,
     NULL,				/* no pot-x read */
-    NULL				/* no pot-y read */
+    NULL,				/* no pot-y read */
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static int set_bbrtc_save(int val, void *param)

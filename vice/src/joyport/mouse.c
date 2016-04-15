@@ -677,7 +677,9 @@ static joyport_t paddles_joyport_device = {
     joyport_mouse_value,
     NULL,				/* no store digital */
     mouse_get_paddle_x,
-    mouse_get_paddle_y
+    mouse_get_paddle_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static joyport_t mouse_1351_joyport_device = {
@@ -690,7 +692,9 @@ static joyport_t mouse_1351_joyport_device = {
     joyport_mouse_value,
     NULL,				/* no store digital */
     mouse_get_1351_x,
-    mouse_get_1351_y
+    mouse_get_1351_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static BYTE joyport_mouse_neos_value(int port)
@@ -721,7 +725,9 @@ static joyport_t mouse_neos_joyport_device = {
     joyport_mouse_neos_value,
     neos_mouse_store,
     joyport_mouse_neos_amiga_st_read_potx,
-    NULL				/* no read pot y */
+    NULL,				/* no read pot y */
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static BYTE joyport_mouse_poll_value(int port)
@@ -752,7 +758,9 @@ static joyport_t mouse_amiga_joyport_device = {
     joyport_mouse_poll_value,
     NULL,				/* no store digital */
     joyport_mouse_neos_amiga_st_read_potx,
-    joyport_mouse_amiga_st_read_poty
+    joyport_mouse_amiga_st_read_poty,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static joyport_t mouse_cx22_joyport_device = {
@@ -765,7 +773,9 @@ static joyport_t mouse_cx22_joyport_device = {
     joyport_mouse_poll_value,
     NULL,				/* no store digital */
     NULL,				/* no read pot x */
-    NULL				/* no read pot y */
+    NULL,				/* no read pot y */
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static joyport_t mouse_st_joyport_device = {
@@ -778,7 +788,9 @@ static joyport_t mouse_st_joyport_device = {
     joyport_mouse_poll_value,
     NULL,				/* no store digital */
     joyport_mouse_neos_amiga_st_read_potx,
-    joyport_mouse_amiga_st_read_poty
+    joyport_mouse_amiga_st_read_poty,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static BYTE joyport_mouse_smart_value(int port)
@@ -804,7 +816,9 @@ static joyport_t mouse_smart_joyport_device = {
     joyport_mouse_smart_value,
     smart_mouse_store,
     mouse_get_1351_x,
-    mouse_get_1351_y
+    mouse_get_1351_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static BYTE joyport_mouse_micromys_value(int port)
@@ -830,7 +844,9 @@ static joyport_t mouse_micromys_joyport_device = {
     joyport_mouse_micromys_value,
     NULL,				/* no store digital */
     mouse_get_1351_x,
-    mouse_get_1351_y
+    mouse_get_1351_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static BYTE joyport_koalapad_pot_x(void)
@@ -848,7 +864,9 @@ static joyport_t koalapad_joyport_device = {
     joyport_mouse_value,
     NULL,				/* no store digital */
     joyport_koalapad_pot_x,
-    mouse_get_paddle_y
+    mouse_get_paddle_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static int mouse_joyport_register(void)

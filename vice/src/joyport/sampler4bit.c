@@ -88,7 +88,9 @@ static joyport_t joyport_sampler_device = {
     joyport_sampler_read,
     NULL,				/* no store digital */
     NULL,				/* no pot-x read */
-    NULL				/* no pot-y read */
+    NULL,				/* no pot-y read */
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 /* currently only used to register the joyport device */

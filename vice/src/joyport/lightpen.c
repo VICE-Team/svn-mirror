@@ -256,7 +256,9 @@ static joyport_t lightpen_u_joyport_device = {
     lightpen_digital_val,
     NULL,				/* no store digital */
     lightpen_read_button_x,
-    lightpen_read_button_y
+    lightpen_read_button_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static joyport_t lightpen_l_joyport_device = {
@@ -269,7 +271,9 @@ static joyport_t lightpen_l_joyport_device = {
     lightpen_digital_val,
     NULL,				/* no store digital */
     lightpen_read_button_x,
-    lightpen_read_button_y
+    lightpen_read_button_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static joyport_t lightpen_datel_joyport_device = {
@@ -282,7 +286,9 @@ static joyport_t lightpen_datel_joyport_device = {
     lightpen_digital_val,
     NULL,				/* no store digital */
     lightpen_read_button_x,
-    lightpen_read_button_y
+    lightpen_read_button_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static joyport_t magnum_light_phaser_joyport_device = {
@@ -295,7 +301,9 @@ static joyport_t magnum_light_phaser_joyport_device = {
     lightpen_digital_val,
     NULL,				/* no store digital */
     lightpen_read_button_x,
-    lightpen_read_button_y
+    lightpen_read_button_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static joyport_t stack_light_rifle_joyport_device = {
@@ -308,7 +316,9 @@ static joyport_t stack_light_rifle_joyport_device = {
     lightpen_digital_val,
     NULL,				/* no store digital */
     lightpen_read_button_x,
-    lightpen_read_button_y
+    lightpen_read_button_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static joyport_t inkwell_lightpen_joyport_device = {
@@ -321,7 +331,9 @@ static joyport_t inkwell_lightpen_joyport_device = {
     lightpen_digital_val,
     NULL,				/* no store digital */
     lightpen_read_button_x,
-    lightpen_read_button_y
+    lightpen_read_button_y,
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static int lightpen_joyport_register(void)

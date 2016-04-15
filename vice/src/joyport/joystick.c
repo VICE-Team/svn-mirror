@@ -531,7 +531,9 @@ static joyport_t joystick_device = {
     read_joystick,
     NULL,				/* no store digital */
     NULL,				/* no read potx */
-    NULL				/* no read poty */
+    NULL,				/* no read poty */
+    NULL,				/* TODO: write snapshot support */
+    NULL				/* TODO: read snapshot support */
 };
 
 static int joystick_joyport_register(void)

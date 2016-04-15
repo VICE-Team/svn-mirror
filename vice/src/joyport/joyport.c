@@ -335,6 +335,8 @@ int joyport_device_register(int id, joyport_t *device)
     joyport_device[id].store_digital = device->store_digital;
     joyport_device[id].read_potx = device->read_potx;
     joyport_device[id].read_poty = device->read_poty;
+    joyport_device[id].write_snapshot = device->write_snapshot;
+    joyport_device[id].read_snapshot = device->read_snapshot;
     return 0;
 }
 
@@ -763,5 +765,123 @@ int joyport_cmdline_options_init(void)
             return -1;
         }
     }
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "JOYPORT"
+
+int joyport_snapshot_write_module(struct snapshot_s *s)
+{
+    snapshot_module_t *m;
+    int i;
+    int joystick_saved = 0;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* save device id's */
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        if (SMW_DW(m, (DWORD)joy_port[i]) < 0) {
+            snapshot_module_close(m);
+            return -1;
+        }
+    }
+
+    snapshot_module_close(m);
+
+    /* save seperate joyport device modules */
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        switch (joy_port[i]) {
+            case JOYPORT_ID_NONE:
+                break;
+            case JOYPORT_ID_JOYSTICK:
+                if (joystick_saved) {
+                    break;
+                }
+                joystick_saved = 1;
+                /* fall through to default */
+            default:
+                if (joyport_device[joy_port[i]].write_snapshot) {
+                    if (joyport_device[joy_port[i]].write_snapshot(s) < 0) {
+                        return -1;
+                    }
+                }
+                break;
+        }
+    }
+
+    return 0;
+}
+
+int joyport_snapshot_read_module(struct snapshot_s *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+    int temp_joy_port[JOYPORT_MAX_PORTS];
+    int joystick_loaded = 0;
+    int i;
+
+    /* disable all available ports */
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        if (port_props[i].name) {
+            joyport_set_device(i, JOYPORT_ID_NONE);
+        }
+    }
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    /* load device id's */
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        if (SMR_DW_INT(m, &temp_joy_port[i]) < 0) {
+            snapshot_module_close(m);
+            return -1;
+        }
+    }
+
+    snapshot_module_close(m);
+
+    /* enable devices */
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        if (port_props[i].name) {
+            joyport_set_device(i, temp_joy_port[i]);
+        }
+    }
+
+    /* load device snapshots */
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        switch (joy_port[i]) {
+            case JOYPORT_ID_NONE:
+                break;
+            case JOYPORT_ID_JOYSTICK:
+                if (joystick_loaded) {
+                    break;
+                }
+                joystick_loaded = 1;
+                /* fall through to default */
+            default:
+                if (joyport_device[joy_port[i]].read_snapshot) {
+                    if (joyport_device[joy_port[i]].read_snapshot(s) < 0) {
+                        return -1;
+                    }
+                }
+                break;
+        }
+    }
+
     return 0;
 }

@@ -27,6 +27,7 @@
 #ifndef VICE_JOYPORT_H
 #define VICE_JOYPORT_H
 
+#include "snapshot.h"
 #include "types.h"
 
 #define JOYPORT_ID_JOY1               -1
@@ -94,6 +95,8 @@ typedef struct joyport_s {
     void (*store_digital)(BYTE val);
     BYTE (*read_potx)(void);
     BYTE (*read_poty)(void);
+    int (*write_snapshot)(struct snapshot_s *s);
+    int (*read_snapshot)(struct snapshot_s *s);
 } joyport_t;
 
 typedef struct joyport_desc_s {
@@ -130,5 +133,8 @@ extern void joyport_display_joyport(int id, BYTE status);
 
 extern int joyport_get_port_trans_name(int port);
 extern char *joyport_get_port_name(int port);
+
+extern int joyport_snapshot_write_module(struct snapshot_s *s);
+extern int joyport_snapshot_read_module(struct snapshot_s *s);
 
 #endif
