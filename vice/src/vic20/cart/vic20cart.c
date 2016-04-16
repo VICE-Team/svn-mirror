@@ -636,7 +636,6 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     int new_cart_type, cartridge_reset;
-    int ret = 0;
     BYTE i;
     BYTE number_of_carts;
     int cart_ids[VIC20CART_DUMP_MAX_CARTS];
