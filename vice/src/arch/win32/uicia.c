@@ -139,7 +139,7 @@ static void end_cia_dialog(HWND hwnd)
     resources_set_int("CIA1Model", (int)SendMessage(GetDlgItem(hwnd, IDC_C64CIA1_LIST), CB_GETCURSEL, 0, 0));
 
     if (amount == 2) {
-        resources_set_int("CIA1Model", (int)SendMessage(GetDlgItem(hwnd, IDC_C64CIA2_LIST), CB_GETCURSEL, 0, 0));
+        resources_set_int("CIA2Model", (int)SendMessage(GetDlgItem(hwnd, IDC_C64CIA2_LIST), CB_GETCURSEL, 0, 0));
     }
 }
 
