@@ -197,6 +197,8 @@ static int perform_mode_change(raster_t *raster)
     return 0;
 }
 
+/* FIXME: dead code */
+#if 0
 inline static void draw_blank(raster_t *raster,
                               unsigned int start,
                               unsigned int end)
@@ -205,8 +207,6 @@ inline static void draw_blank(raster_t *raster,
            raster->border_color, end - start + 1);
 }
 
-/* seemingly dead code */
-#if 0
 /* Draw the borders.  */
 inline static void draw_borders(raster_t *raster)
 {
