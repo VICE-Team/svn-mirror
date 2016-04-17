@@ -42,6 +42,8 @@
 #  else
 #    include <io.h>
 #  endif
+#else
+#include <unistd.h>
 #endif
 
 static char line_buffer[512];
