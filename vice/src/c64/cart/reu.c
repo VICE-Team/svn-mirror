@@ -911,13 +911,17 @@ static BYTE reu_io2_read(WORD addr)
 
                 maincpu_set_irq(reu_int_num, 0);
                 break;
+            case REU_REG_RW_BANK:
+                /* on actual REUs that were modded to contain more memory the upper
+                   bits can not be read from the latch. */
+                retval |= 0xf8;
+                break;
             default:
                 break;
         }
 
         DEBUG_LOG(DEBUG_LEVEL_REGISTER, (reu_log, "read [$%02X] => $%02X.", addr, retval));
     }
-
     return retval;
 }
 
