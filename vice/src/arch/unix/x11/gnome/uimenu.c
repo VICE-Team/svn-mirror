@@ -124,7 +124,7 @@ static void delete_checkmark_cb(GtkWidget *w, gpointer data)
 
 static void add_accelerator(const char *name, GtkWidget *w, GtkAccelGroup *accel, guint accel_key, ui_hotkey_modifier_t mod)
 {
-    GtkAccelFlags flags = 0;
+    GdkModifierType flags = 0;
     int i, f;
 
     /* first do sanity checks and warn about hotkeys that are redefined (which
