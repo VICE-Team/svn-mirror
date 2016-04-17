@@ -3242,7 +3242,8 @@ Implemented drivers are:
 @item
 @code{bsp}, for the BeOS/Zeta/Haiku BeOS Media Kit sound driver.
 @item
-@code{coreaudio}, for the Mac OS X sound driver.
+@code{coreaudio}, for the Mac OS X sound driver (@code{SoundDeviceArg}
+specifies the audio device, default system output by default).
 @item
 @code{dart}, for the OS/2 sound driver.
 @item
