@@ -203,18 +203,12 @@ static void video_ycbcr_palette_free(video_ycbcr_palette_t *p)
   speed reasons. the NTSC renderer uses YIQ as defined by the SONY matrix.
 */
 
+#ifdef DEBUG_VIDEO
 static inline void video_convert_ycbcr_to_yuv(video_ycbcr_color_t *src, video_ycbcr_color_t *dst)
 {
     dst->y = src->y;
     dst->cb = src->cb * 0.493111f;
     dst->cr = src->cr * 0.877283f;
-}
-
-static inline void video_convert_yuv_to_ycbcr(video_ycbcr_color_t *src, video_ycbcr_color_t *dst)
-{
-    dst->y = src->y;
-    dst->cb = src->cb / 0.493111f;
-    dst->cr = src->cr / 0.877283f;
 }
 
 static inline void video_convert_ycbcr_to_yiq(video_ycbcr_color_t *src, video_ycbcr_color_t *dst)
@@ -225,7 +219,16 @@ static inline void video_convert_ycbcr_to_yiq(video_ycbcr_color_t *src, video_yc
     dst->cb = -0.27f * cb + 0.74f * cr;
     dst->cr =  0.41f * cb + 0.48f * cr;
 }
+#endif
 
+static inline void video_convert_yuv_to_ycbcr(video_ycbcr_color_t *src, video_ycbcr_color_t *dst)
+{
+    dst->y = src->y;
+    dst->cb = src->cb / 0.493111f;
+    dst->cr = src->cr / 0.877283f;
+}
+
+#if 0 /* currently unused */
 static inline void video_convert_yiq_to_ycbcr(video_ycbcr_color_t *src, video_ycbcr_color_t *dst)
 {
     float i = src->cb;
@@ -234,6 +237,7 @@ static inline void video_convert_yiq_to_ycbcr(video_ycbcr_color_t *src, video_yc
     dst->cb = (-0.546512701f * i + 0.842540416f * q) / 0.493111f;
     dst->cr = ( 0.830415704f * i + 0.546859122f * q) / 0.877283f;
 }
+#endif
 
 /*
  YPbPr (ITU-R BT.601)
