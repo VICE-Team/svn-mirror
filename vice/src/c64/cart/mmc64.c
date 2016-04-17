@@ -205,9 +205,12 @@ static io_source_t *mmc64_current_clockport_device = &mmc64_io1_clockport_device
 
 /* FIXME: register/handle the clockport resource properly */
 
+/* FIXME: unused? */
+#if 0
 static const export_resource_t export_cp_res = {
     CARTRIDGE_NAME_MMC64 " Clockport", 0, 0, &mmc64_io1_clockport_device, &mmc64_io2_clockport_device, CARTRIDGE_MMC64
 };
+#endif
 
 static io_source_t mmc64_io2_device = {
     CARTRIDGE_NAME_MMC64,
