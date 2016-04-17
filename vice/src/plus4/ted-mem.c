@@ -871,7 +871,8 @@ void ted_store(WORD addr, BYTE value)
     }
 }
 
-
+/* FIXME: unused? */
+#if 0
 inline static unsigned int read_raster_y(void)
 {
     int raster_y;
@@ -887,6 +888,7 @@ inline static unsigned int read_raster_y(void)
 
     return raster_y;
 }
+#endif
 
 inline static BYTE ted08_read(void)
 {
