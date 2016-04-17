@@ -95,8 +95,8 @@ typedef struct joyport_s {
     void (*store_digital)(BYTE val);
     BYTE (*read_potx)(void);
     BYTE (*read_poty)(void);
-    int (*write_snapshot)(struct snapshot_s *s);
-    int (*read_snapshot)(struct snapshot_s *s);
+    int (*write_snapshot)(struct snapshot_s *s, int port);
+    int (*read_snapshot)(struct snapshot_s *s, int port);
 } joyport_t;
 
 typedef struct joyport_desc_s {
@@ -134,7 +134,9 @@ extern void joyport_display_joyport(int id, BYTE status);
 extern int joyport_get_port_trans_name(int port);
 extern char *joyport_get_port_name(int port);
 
-extern int joyport_snapshot_write_module(struct snapshot_s *s);
-extern int joyport_snapshot_read_module(struct snapshot_s *s);
+extern void joyport_clear_devices(void);
+
+extern int joyport_snapshot_write_module(struct snapshot_s *s, int port);
+extern int joyport_snapshot_read_module(struct snapshot_s *s, int port);
 
 #endif

@@ -34,6 +34,7 @@
 #include "joyport.h"
 #include "paperclip64.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 
 /* Control port <--> paperclip64 connections:
@@ -101,6 +102,8 @@ static BYTE keys[60] = {
     0, 0, 1, 3, 3, 3, 3, 3, 3, 3
 };
 
+/* ------------------------------------------------------------------------- */
+
 static int joyport_paperclip64_enable(int port, int value)
 {
     int val = value ? 1 : 0;
@@ -159,6 +162,12 @@ static void paperclip64_store(BYTE val)
     command = new_command;
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* Some prototypes are needed */
+static int paperclip64_write_snapshot(struct snapshot_s *s, int port);
+static int paperclip64_read_snapshot(struct snapshot_s *s, int port);
+
 static joyport_t joyport_paperclip64_device = {
     "Paperclip64 dongle",
     IDGS_PAPERCLIP64_DONGLE,
@@ -170,11 +179,65 @@ static joyport_t joyport_paperclip64_device = {
     paperclip64_store,
     NULL,				/* no pot-x read */
     NULL,				/* no pot-y read */
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    paperclip64_write_snapshot,
+    paperclip64_read_snapshot
 };
+
+/* ------------------------------------------------------------------------- */
 
 int joyport_paperclip64_resources_init(void)
 {
     return joyport_device_register(JOYPORT_ID_PAPERCLIP64, &joyport_paperclip64_device);
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "PAPERCLIP64"
+
+static int paperclip64_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_DW(m, (DWORD)counter) < 0
+        || SMW_B(m, command) < 0
+        || SMW_B(m, (BYTE)state) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int paperclip64_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_DW_INT(m, &counter) < 0
+        || SMR_B(m, &command) < 0
+        || SMR_B_INT(m, &state) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    return snapshot_module_close(m);
 }

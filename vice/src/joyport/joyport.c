@@ -141,6 +141,17 @@ static int joyport_set_device(int port, int id)
     return 0;
 }
 
+void joyport_clear_devices(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        if (port_props[i].name) {
+            joyport_set_device(i, JOYPORT_ID_NONE);
+        }
+    }
+}
+
 BYTE read_joyport_dig(int port)
 {
     int id = joy_port[port];
@@ -774,11 +785,9 @@ int joyport_cmdline_options_init(void)
 #define DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "JOYPORT"
 
-int joyport_snapshot_write_module(struct snapshot_s *s)
+int joyport_snapshot_write_module(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
-    int i;
-    int joystick_saved = 0;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
  
@@ -786,54 +795,35 @@ int joyport_snapshot_write_module(struct snapshot_s *s)
         return -1;
     }
 
-    /* save device id's */
-    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        if (SMW_DW(m, (DWORD)joy_port[i]) < 0) {
-            snapshot_module_close(m);
-            return -1;
-        }
+    /* save device id */
+    if (SMW_DW(m, (DWORD)joy_port[port]) < 0) {
+        snapshot_module_close(m);
+        return -1;
     }
 
     snapshot_module_close(m);
 
-    /* save seperate joyport device modules */
-    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        switch (joy_port[i]) {
-            case JOYPORT_ID_NONE:
-                break;
-            case JOYPORT_ID_JOYSTICK:
-                if (joystick_saved) {
-                    break;
+    /* save seperate joyport device module */
+    switch (joy_port[port]) {
+        case JOYPORT_ID_NONE:
+            break;
+        default:
+            if (joyport_device[joy_port[port]].write_snapshot) {
+                if (joyport_device[joy_port[port]].write_snapshot(s, port) < 0) {
+                    return -1;
                 }
-                joystick_saved = 1;
-                /* fall through to default */
-            default:
-                if (joyport_device[joy_port[i]].write_snapshot) {
-                    if (joyport_device[joy_port[i]].write_snapshot(s) < 0) {
-                        return -1;
-                    }
-                }
-                break;
-        }
+            }
+            break;
     }
 
     return 0;
 }
 
-int joyport_snapshot_read_module(struct snapshot_s *s)
+int joyport_snapshot_read_module(struct snapshot_s *s, int port)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
-    int temp_joy_port[JOYPORT_MAX_PORTS];
-    int joystick_loaded = 0;
-    int i;
-
-    /* disable all available ports */
-    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        if (port_props[i].name) {
-            joyport_set_device(i, JOYPORT_ID_NONE);
-        }
-    }
+    int temp_joy_port;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
     if (m == NULL) {
@@ -845,42 +835,30 @@ int joyport_snapshot_read_module(struct snapshot_s *s)
         return -1;
     }
 
-    /* load device id's */
-    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        if (SMR_DW_INT(m, &temp_joy_port[i]) < 0) {
-            snapshot_module_close(m);
-            return -1;
-        }
+    /* load device id */
+    if (SMR_DW_INT(m, &temp_joy_port) < 0) {
+        snapshot_module_close(m);
+        return -1;
     }
 
     snapshot_module_close(m);
 
-    /* enable devices */
-    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        if (port_props[i].name) {
-            joyport_set_device(i, temp_joy_port[i]);
-        }
+    /* enable device */
+    if (port_props[port].name) {
+        joyport_set_device(port, temp_joy_port);
     }
 
-    /* load device snapshots */
-    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        switch (joy_port[i]) {
-            case JOYPORT_ID_NONE:
-                break;
-            case JOYPORT_ID_JOYSTICK:
-                if (joystick_loaded) {
-                    break;
+    /* load device snapshot */
+    switch (joy_port[port]) {
+        case JOYPORT_ID_NONE:
+            break;
+        default:
+            if (joyport_device[joy_port[port]].read_snapshot) {
+                if (joyport_device[joy_port[port]].read_snapshot(s, port) < 0) {
+                    return -1;
                 }
-                joystick_loaded = 1;
-                /* fall through to default */
-            default:
-                if (joyport_device[joy_port[i]].read_snapshot) {
-                    if (joyport_device[joy_port[i]].read_snapshot(s) < 0) {
-                        return -1;
-                    }
-                }
-                break;
-        }
+            }
+            break;
     }
 
     return 0;

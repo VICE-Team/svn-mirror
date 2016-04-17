@@ -219,6 +219,16 @@ void ds1202_1302_destroy(rtc_ds1202_1302_t *context, int save)
 {
 }
 
+int ds1202_1302_write_snapshot(rtc_ds1202_1302_t *context, snapshot_t *s)
+{
+    return -1;
+}
+
+int ds1202_1302_read_snapshot(rtc_ds1202_1302_t *context, snapshot_t *s)
+{
+    return -1;
+}
+
 /*******************************************************************************
     tape
 *******************************************************************************/

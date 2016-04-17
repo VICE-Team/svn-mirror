@@ -34,6 +34,7 @@
 #include "ds1602.h"
 #include "joyport.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 
 /* Control port <--> bbrtc connections:
@@ -110,6 +111,12 @@ static void bbrtc_store(BYTE val)
     }
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* Some prototypes are needed */
+static int bbrtc_write_snapshot(struct snapshot_s *s, int port);
+static int bbrtc_read_snapshot(struct snapshot_s *s, int port);
+
 static joyport_t joyport_bbrtc_device = {
     "BBRTC",
     IDGS_BBRTC,
@@ -121,9 +128,11 @@ static joyport_t joyport_bbrtc_device = {
     bbrtc_store,
     NULL,				/* no pot-x read */
     NULL,				/* no pot-y read */
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    bbrtc_write_snapshot,
+    bbrtc_read_snapshot
 };
+
+/* ------------------------------------------------------------------------- */
 
 static int set_bbrtc_save(int val, void *param)
 {
@@ -131,6 +140,8 @@ static int set_bbrtc_save(int val, void *param)
 
     return 0;
 }
+
+/* ------------------------------------------------------------------------- */
 
 static const resource_int_t resources_int[] = {
     { "BBRTCSave", 0, RES_EVENT_STRICT, (resource_value_t)0,
@@ -155,6 +166,8 @@ void joyport_bbrtc_resources_shutdown(void)
     }
 }
 
+/* ------------------------------------------------------------------------- */
+
 static const cmdline_option_t cmdline_options[] =
 {
     { "-bbrtcsave", SET_RESOURCE, 0,
@@ -173,4 +186,60 @@ static const cmdline_option_t cmdline_options[] =
 int joyport_bbrtc_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "BBRTC"
+
+static int bbrtc_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0 
+        || SMW_B(m, rst_line) < 0
+        || SMW_B(m, clk_line) < 0
+        || SMW_B(m, data_line) < 0) {
+            snapshot_module_close(m);
+            return -1;
+    }
+    snapshot_module_close(m);
+
+    return ds1602_write_snapshot(bbrtc_context, s);
+}
+
+static int bbrtc_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_B(m, &rst_line) < 0
+        || SMR_B(m, &clk_line) < 0
+        || SMR_B(m, &data_line) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return ds1602_read_snapshot(bbrtc_context, s);
 }

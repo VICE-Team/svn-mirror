@@ -29,8 +29,6 @@
 
 #include "types.h"
 
-struct snapshot_s;
-
 extern int joystick_init(void);
 extern int joystick_resources_init(void);
 extern int joystick_cmdline_options_init(void);
@@ -59,9 +57,6 @@ extern BYTE get_joystick_value(int index);
 
 typedef void (*joystick_machine_func_t)(void);
 extern void joystick_register_machine(joystick_machine_func_t func);
-
-extern int joystick_snapshot_write_module(struct snapshot_s *s);
-extern int joystick_snapshot_read_module(struct snapshot_s *s);
 
 /*! the number of joysticks that can be attached to the emu */
 #define JOYSTICK_NUM 5

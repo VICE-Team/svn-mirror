@@ -56,6 +56,7 @@
 #include "mouse.h"
 #include "mousedrv.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "vsyncapi.h"
 #include "clkguard.h"
@@ -667,6 +668,10 @@ static BYTE joyport_mouse_value(int port)
     return _mouse_enabled ? ~mouse_digital_val : 0xff;
 }
 
+/* Some prototypes are needed */
+static int paddles_write_snapshot(struct snapshot_s *s, int port);
+static int paddles_read_snapshot(struct snapshot_s *s, int port);
+
 static joyport_t paddles_joyport_device = {
     "Paddles",
     IDGS_PADDLES,
@@ -678,9 +683,13 @@ static joyport_t paddles_joyport_device = {
     NULL,				/* no store digital */
     mouse_get_paddle_x,
     mouse_get_paddle_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    paddles_write_snapshot,
+    paddles_read_snapshot
 };
+
+/* Some prototypes are needed */
+static int mouse_1351_write_snapshot(struct snapshot_s *s, int port);
+static int mouse_1351_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_1351_joyport_device = {
     "Mouse (1351)",
@@ -693,8 +702,8 @@ static joyport_t mouse_1351_joyport_device = {
     NULL,				/* no store digital */
     mouse_get_1351_x,
     mouse_get_1351_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    mouse_1351_write_snapshot,
+    mouse_1351_read_snapshot
 };
 
 static BYTE joyport_mouse_neos_value(int port)
@@ -715,6 +724,10 @@ static BYTE joyport_mouse_neos_amiga_st_read_potx(void)
     return _mouse_enabled ? ((neos_and_amiga_buttons & 1) ? 0xff : 0) : 0xff;
 }
 
+/* Some prototypes are needed */
+static int mouse_neos_write_snapshot(struct snapshot_s *s, int port);
+static int mouse_neos_read_snapshot(struct snapshot_s *s, int port);
+
 static joyport_t mouse_neos_joyport_device = {
     "Mouse (NEOS)",
     IDGS_MOUSE_NEOS,
@@ -726,8 +739,8 @@ static joyport_t mouse_neos_joyport_device = {
     neos_mouse_store,
     joyport_mouse_neos_amiga_st_read_potx,
     NULL,				/* no read pot y */
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    mouse_neos_write_snapshot,
+    mouse_neos_read_snapshot
 };
 
 static BYTE joyport_mouse_poll_value(int port)
@@ -748,6 +761,10 @@ static BYTE joyport_mouse_amiga_st_read_poty(void)
     return _mouse_enabled ? ((neos_and_amiga_buttons & 2) ? 0xff : 0) : 0xff;
 }
 
+/* Some prototypes are needed */
+static int mouse_amiga_write_snapshot(struct snapshot_s *s, int port);
+static int mouse_amiga_read_snapshot(struct snapshot_s *s, int port);
+
 static joyport_t mouse_amiga_joyport_device = {
     "Mouse (Amiga)",
     IDGS_MOUSE_AMIGA,
@@ -759,9 +776,13 @@ static joyport_t mouse_amiga_joyport_device = {
     NULL,				/* no store digital */
     joyport_mouse_neos_amiga_st_read_potx,
     joyport_mouse_amiga_st_read_poty,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    mouse_amiga_write_snapshot,
+    mouse_amiga_read_snapshot
 };
+
+/* Some prototypes are needed */
+static int mouse_cx22_write_snapshot(struct snapshot_s *s, int port);
+static int mouse_cx22_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_cx22_joyport_device = {
     "Mouse (CX-22)",
@@ -774,9 +795,13 @@ static joyport_t mouse_cx22_joyport_device = {
     NULL,				/* no store digital */
     NULL,				/* no read pot x */
     NULL,				/* no read pot y */
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    mouse_cx22_write_snapshot,
+    mouse_cx22_read_snapshot
 };
+
+/* Some prototypes are needed */
+static int mouse_st_write_snapshot(struct snapshot_s *s, int port);
+static int mouse_st_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_st_joyport_device = {
     "Mouse (Atari ST)",
@@ -789,8 +814,8 @@ static joyport_t mouse_st_joyport_device = {
     NULL,				/* no store digital */
     joyport_mouse_neos_amiga_st_read_potx,
     joyport_mouse_amiga_st_read_poty,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    mouse_st_write_snapshot,
+    mouse_st_read_snapshot
 };
 
 static BYTE joyport_mouse_smart_value(int port)
@@ -806,6 +831,10 @@ static BYTE joyport_mouse_smart_value(int port)
     return retval;
 }
 
+/* Some prototypes are needed */
+static int mouse_smart_write_snapshot(struct snapshot_s *s, int port);
+static int mouse_smart_read_snapshot(struct snapshot_s *s, int port);
+
 static joyport_t mouse_smart_joyport_device = {
     "Mouse (SmartMouse)",
     IDGS_MOUSE_SMART,
@@ -817,8 +846,8 @@ static joyport_t mouse_smart_joyport_device = {
     smart_mouse_store,
     mouse_get_1351_x,
     mouse_get_1351_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    mouse_smart_write_snapshot,
+    mouse_smart_read_snapshot
 };
 
 static BYTE joyport_mouse_micromys_value(int port)
@@ -834,6 +863,10 @@ static BYTE joyport_mouse_micromys_value(int port)
     return retval;
 }
 
+/* Some prototypes are needed */
+static int mouse_micromys_write_snapshot(struct snapshot_s *s, int port);
+static int mouse_micromys_read_snapshot(struct snapshot_s *s, int port);
+
 static joyport_t mouse_micromys_joyport_device = {
     "Mouse (Micromys)",
     IDGS_MOUSE_MICROMYS,
@@ -845,14 +878,18 @@ static joyport_t mouse_micromys_joyport_device = {
     NULL,				/* no store digital */
     mouse_get_1351_x,
     mouse_get_1351_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    mouse_micromys_write_snapshot,
+    mouse_micromys_read_snapshot
 };
 
 static BYTE joyport_koalapad_pot_x(void)
 {
     return _mouse_enabled ? 255 - mouse_get_paddle_x() : 0xff;
 }
+
+/* Some prototypes are needed */
+static int koalapad_write_snapshot(struct snapshot_s *s, int port);
+static int koalapad_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t koalapad_joyport_device = {
     "KoalaPad",
@@ -865,8 +902,8 @@ static joyport_t koalapad_joyport_device = {
     NULL,				/* no store digital */
     joyport_koalapad_pot_x,
     mouse_get_paddle_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    koalapad_write_snapshot,
+    koalapad_read_snapshot
 };
 
 static int mouse_joyport_register(void)
@@ -1165,4 +1202,701 @@ void smart_mouse_store(BYTE val)
 BYTE smart_mouse_read(void)
 {
     return ds1202_1302_read_data_line(ds1202) ? 0xff : 0xfb;
+}
+
+/* --------------------------------------------------------- */
+
+static int write_mouse_digital_val_snapshot(snapshot_module_t *m)
+{
+    return SMW_B(m, mouse_digital_val);
+}
+
+static int read_mouse_digital_val_snapshot(snapshot_module_t *m)
+{
+    return SMR_B(m, &mouse_digital_val);
+}
+
+static int write_paddle_val_snapshot(snapshot_module_t *m)
+{
+    if (0
+        || SMW_B(m, paddle_val[2]) < 0
+        || SMW_B(m, paddle_val[3]) < 0
+        || SMW_W(m, (WORD)paddle_old[2]) < 0
+        || SMW_W(m, (WORD)paddle_old[3]) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int read_paddle_val_snapshot(snapshot_module_t *m)
+{
+    WORD paddle_old2;
+    WORD paddle_old3;
+
+    if (0
+        || SMR_B(m, &paddle_val[2]) < 0
+        || SMR_B(m, &paddle_val[3]) < 0
+        || SMR_W(m, &paddle_old2) < 0
+        || SMR_W(m, &paddle_old3) < 0) {
+        return -1;
+    }
+    paddle_old[2] = (SWORD)paddle_old2;
+    paddle_old[3] = (SWORD)paddle_old3;
+
+    return 0;
+}
+
+static int write_poll_val_snapshot(snapshot_module_t *m)
+{
+    if (0
+        || SMW_B(m, quadrature_x) < 0
+        || SMW_B(m, quadrature_y) < 0
+        || SMW_B(m, polled_joyval) < 0
+        || SMW_W(m, (WORD)latest_x) < 0
+        || SMW_W(m, (WORD)latest_y) < 0
+        || SMW_DW(m, (DWORD)last_mouse_x) < 0
+        || SMW_DW(m, (DWORD)last_mouse_y) < 0
+        || SMW_DW(m, (DWORD)sx) < 0
+        || SMW_DW(m, (DWORD)sy) < 0
+        || SMW_DW(m, (DWORD)update_limit) < 0
+        || SMW_DW(m, (DWORD)latest_os_ts) < 0
+        || SMW_DB(m, (double)emu_units_per_os_units) < 0
+        || SMW_DW(m, (DWORD)next_update_x_emu_ts) < 0
+        || SMW_DW(m, (DWORD)next_update_y_emu_ts) < 0
+        || SMW_DW(m, (DWORD)update_x_emu_iv) < 0
+        || SMW_DW(m, (DWORD)update_y_emu_iv) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int read_poll_val_snapshot(snapshot_module_t *m)
+{
+    WORD tmp_latest_x;
+    WORD tmp_latest_y;
+    double tmp_db;
+    DWORD tmpc1;
+    DWORD tmpc2;
+    DWORD tmpc3;
+    DWORD tmpc4;
+
+    if (0
+        || SMR_B(m, &quadrature_x) < 0
+        || SMR_B(m, &quadrature_y) < 0
+        || SMR_B(m, &polled_joyval) < 0
+        || SMR_W(m, &tmp_latest_x) < 0
+        || SMR_W(m, &tmp_latest_y) < 0
+        || SMR_DW_INT(m, &last_mouse_x) < 0
+        || SMR_DW_INT(m, &last_mouse_y) < 0
+        || SMR_DW_INT(m, &sx) < 0
+        || SMR_DW_INT(m, &sy) < 0
+        || SMR_DW_INT(m, &update_limit) < 0
+        || SMR_DW_UL(m, &latest_os_ts) < 0
+        || SMR_DB(m, &tmp_db) < 0
+        || SMR_DW(m, &tmpc1) < 0
+        || SMR_DW(m, &tmpc2) < 0
+        || SMR_DW(m, &tmpc3) < 0
+        || SMR_DW(m, &tmpc4) < 0) {
+        return -1;
+    }
+
+    latest_x = (SWORD)tmp_latest_x;
+    latest_y = (SWORD)tmp_latest_y;
+    emu_units_per_os_units = (float)tmp_db;
+    next_update_x_emu_ts = (CLOCK)tmpc1;
+    next_update_y_emu_ts = (CLOCK)tmpc2;
+    update_x_emu_iv = (CLOCK)tmpc3;
+    update_y_emu_iv = (CLOCK)tmpc4;
+
+    return 0;
+}
+
+static int write_neos_and_amiga_val_snapshot(snapshot_module_t *m)
+{
+    return SMW_DW(m, (DWORD)neos_and_amiga_buttons);
+}
+
+static int read_neos_and_amiga_val_snapshot(snapshot_module_t *m)
+{
+    return SMR_DW_INT(m, &neos_and_amiga_buttons);
+}
+
+#define PADDLES_VER_MAJOR   0
+#define PADDLES_VER_MINOR   0
+#define PADDLES_MODULE_NAME  "PADDLES"
+
+static int paddles_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, PADDLES_MODULE_NAME, PADDLES_VER_MAJOR, PADDLES_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (write_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_paddle_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+static int paddles_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, PADDLES_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != PADDLES_VER_MAJOR || minor_version != PADDLES_VER_MINOR) {
+        goto fail;
+    }
+
+    if (read_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_paddle_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+#define MOUSE_1351_VER_MAJOR   0
+#define MOUSE_1351_VER_MINOR   0
+#define MOUSE_1351_MODULE_NAME  "MOUSE_1351"
+
+static int mouse_1351_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, MOUSE_1351_MODULE_NAME, MOUSE_1351_VER_MAJOR, MOUSE_1351_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (write_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+static int mouse_1351_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, MOUSE_1351_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != MOUSE_1351_VER_MAJOR || minor_version != MOUSE_1351_VER_MINOR) {
+        goto fail;
+    }
+
+    if (read_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+#define MOUSE_NEOS_VER_MAJOR   0
+#define MOUSE_NEOS_VER_MINOR   0
+#define MOUSE_NEOS_MODULE_NAME  "MOUSE_NEOS"
+
+static int mouse_neos_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, MOUSE_NEOS_MODULE_NAME, MOUSE_NEOS_VER_MAJOR, MOUSE_NEOS_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (write_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_neos_and_amiga_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (0
+        || SMW_B(m, neos_x) < 0
+        || SMW_B(m, neos_y) < 0
+        || SMW_B(m, neos_lastx) < 0
+        || SMW_B(m, neos_lasty) < 0
+        || SMW_DW(m, (DWORD)neos_state) < 0
+        || SMW_DW(m, (DWORD)neos_prev) < 0
+        || SMW_DW(m, (DWORD)neos_last_trigger) < 0
+        || SMW_DW(m, (DWORD)neos_time_out_cycles) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+static int mouse_neos_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+    DWORD tmpc1;
+    DWORD tmpc2;
+
+    m = snapshot_module_open(s, MOUSE_NEOS_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != MOUSE_NEOS_VER_MAJOR || minor_version != MOUSE_NEOS_VER_MINOR) {
+        goto fail;
+    }
+
+    if (read_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_neos_and_amiga_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (0
+        || SMR_B(m, &neos_x) < 0
+        || SMR_B(m, &neos_y) < 0
+        || SMR_B(m, &neos_lastx) < 0
+        || SMR_B(m, &neos_lasty) < 0
+        || SMR_DW_INT(m, &neos_state) < 0
+        || SMR_DW_INT(m, &neos_prev) < 0
+        || SMR_DW(m, &tmpc1) < 0
+        || SMR_DW(m, &tmpc2) < 0) {
+        goto fail;
+    }
+
+    neos_last_trigger = (CLOCK)tmpc1;
+    neos_time_out_cycles = (CLOCK)tmpc2;
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+#define MOUSE_AMIGA_VER_MAJOR   0
+#define MOUSE_AMIGA_VER_MINOR   0
+#define MOUSE_AMIGA_MODULE_NAME  "MOUSE_AMIGA"
+
+static int mouse_amiga_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, MOUSE_AMIGA_MODULE_NAME, MOUSE_AMIGA_VER_MAJOR, MOUSE_AMIGA_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (write_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_neos_and_amiga_val_snapshot(m) < 0) {
+        goto fail;
+    }
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+static int mouse_amiga_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, MOUSE_AMIGA_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != MOUSE_AMIGA_VER_MAJOR || minor_version != MOUSE_AMIGA_VER_MINOR) {
+        goto fail;
+    }
+
+    if (read_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_neos_and_amiga_val_snapshot(m) < 0) {
+        goto fail;
+    }
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+#define MOUSE_CX22_VER_MAJOR   0
+#define MOUSE_CX22_VER_MINOR   0
+#define MOUSE_CX22_MODULE_NAME  "MOUSE_CX22"
+
+static int mouse_cx22_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, MOUSE_CX22_MODULE_NAME, MOUSE_CX22_VER_MAJOR, MOUSE_CX22_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (write_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+static int mouse_cx22_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, MOUSE_CX22_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != MOUSE_CX22_VER_MAJOR || minor_version != MOUSE_CX22_VER_MINOR) {
+        goto fail;
+    }
+
+    if (read_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+#define MOUSE_ST_VER_MAJOR   0
+#define MOUSE_ST_VER_MINOR   0
+#define MOUSE_ST_MODULE_NAME  "MOUSE_ST"
+
+static int mouse_st_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, MOUSE_ST_MODULE_NAME, MOUSE_ST_VER_MAJOR, MOUSE_ST_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (write_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_neos_and_amiga_val_snapshot(m) < 0) {
+        goto fail;
+    }
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+static int mouse_st_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, MOUSE_ST_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != MOUSE_ST_VER_MAJOR || minor_version != MOUSE_ST_VER_MINOR) {
+        goto fail;
+    }
+
+    if (read_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_neos_and_amiga_val_snapshot(m) < 0) {
+        goto fail;
+    }
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+#define MOUSE_SMART_VER_MAJOR   0
+#define MOUSE_SMART_VER_MINOR   0
+#define MOUSE_SMART_MODULE_NAME  "MOUSE_SMART"
+
+static int mouse_smart_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, MOUSE_SMART_MODULE_NAME, MOUSE_SMART_VER_MAJOR, MOUSE_SMART_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (write_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+    snapshot_module_close(m);
+
+    return ds1202_1302_write_snapshot(ds1202, s);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+static int mouse_smart_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, MOUSE_SMART_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != MOUSE_SMART_VER_MAJOR || minor_version != MOUSE_SMART_VER_MINOR) {
+        goto fail;
+    }
+
+    if (read_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+    snapshot_module_close(m);
+
+    return ds1202_1302_read_snapshot(ds1202, s);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+#define MOUSE_MICROMYS_VER_MAJOR   0
+#define MOUSE_MICROMYS_VER_MINOR   0
+#define MOUSE_MICROMYS_MODULE_NAME  "MOUSE_MICROMYS"
+
+static int mouse_micromys_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, MOUSE_MICROMYS_MODULE_NAME, MOUSE_MICROMYS_VER_MAJOR, MOUSE_MICROMYS_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (write_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (0
+        || SMW_DW(m, (DWORD)up_down_counter) < 0
+        || SMW_DW(m, (DWORD)up_down_pulse_end) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+static int mouse_micromys_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+    DWORD tmpc1;
+
+    m = snapshot_module_open(s, MOUSE_MICROMYS_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != MOUSE_MICROMYS_VER_MAJOR || minor_version != MOUSE_MICROMYS_VER_MINOR) {
+        goto fail;
+    }
+
+    if (read_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_poll_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (0
+        || SMR_DW_INT(m, &up_down_counter) < 0
+        || SMR_DW(m, &tmpc1) < 0) {
+        goto fail;
+    }
+
+    up_down_pulse_end = (CLOCK)tmpc1;
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+#define KOALAPAD_VER_MAJOR   0
+#define KOALAPAD_VER_MINOR   0
+#define KOALAPAD_MODULE_NAME  "KOALAPAD"
+
+static int koalapad_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, KOALAPAD_MODULE_NAME, KOALAPAD_VER_MAJOR, KOALAPAD_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (write_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (write_paddle_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+static int koalapad_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, KOALAPAD_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != KOALAPAD_VER_MAJOR || minor_version != KOALAPAD_VER_MINOR) {
+        goto fail;
+    }
+
+    if (read_mouse_digital_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (read_paddle_val_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

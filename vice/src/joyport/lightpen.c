@@ -37,6 +37,7 @@
 #include "maincpu.h"
 #include "lightpen.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 
 
@@ -213,6 +214,10 @@ static inline void lightpen_update_buttons(int buttons)
 
 /* --------------------------------------------------------- */
 
+/* Some prototypes are needed */
+static int lightpen_write_snapshot(struct snapshot_s *s, int port);
+static int lightpen_read_snapshot(struct snapshot_s *s, int port);
+
 static int joyport_lightpen_enable(int port, int val)
 {
     lightpen_enabled = val ? 1 : 0;
@@ -257,8 +262,8 @@ static joyport_t lightpen_u_joyport_device = {
     NULL,				/* no store digital */
     lightpen_read_button_x,
     lightpen_read_button_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    lightpen_write_snapshot,
+    lightpen_read_snapshot
 };
 
 static joyport_t lightpen_l_joyport_device = {
@@ -272,8 +277,8 @@ static joyport_t lightpen_l_joyport_device = {
     NULL,				/* no store digital */
     lightpen_read_button_x,
     lightpen_read_button_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    lightpen_write_snapshot,
+    lightpen_read_snapshot
 };
 
 static joyport_t lightpen_datel_joyport_device = {
@@ -287,8 +292,8 @@ static joyport_t lightpen_datel_joyport_device = {
     NULL,				/* no store digital */
     lightpen_read_button_x,
     lightpen_read_button_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    lightpen_write_snapshot,
+    lightpen_read_snapshot
 };
 
 static joyport_t magnum_light_phaser_joyport_device = {
@@ -302,8 +307,8 @@ static joyport_t magnum_light_phaser_joyport_device = {
     NULL,				/* no store digital */
     lightpen_read_button_x,
     lightpen_read_button_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    lightpen_write_snapshot,
+    lightpen_read_snapshot
 };
 
 static joyport_t stack_light_rifle_joyport_device = {
@@ -317,8 +322,8 @@ static joyport_t stack_light_rifle_joyport_device = {
     NULL,				/* no store digital */
     lightpen_read_button_x,
     lightpen_read_button_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    lightpen_write_snapshot,
+    lightpen_read_snapshot
 };
 
 static joyport_t inkwell_lightpen_joyport_device = {
@@ -332,8 +337,8 @@ static joyport_t inkwell_lightpen_joyport_device = {
     NULL,				/* no store digital */
     lightpen_read_button_x,
     lightpen_read_button_y,
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    lightpen_write_snapshot,
+    lightpen_read_snapshot
 };
 
 static int lightpen_joyport_register(void)
@@ -436,3 +441,60 @@ void lightpen_update(int window, int x, int y, int buttons)
     }
 }
 #endif
+
+/* --------------------------------------------------------- */
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "LIGHTPEN"
+
+static int lightpen_write_snapshot(struct snapshot_s *s, int port)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B(m, lightpen_value) < 0
+        || SMW_B(m, (BYTE)lightpen_type) < 0
+        || SMW_DW(m, (DWORD)lightpen_buttons) < 0
+        || SMW_DW(m, (DWORD)lightpen_button_y) < 0
+        || SMW_DW(m, (DWORD)lightpen_button_x) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    return snapshot_module_close(m);
+}
+
+static int lightpen_read_snapshot(struct snapshot_s *s, int port)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_B(m, &lightpen_value) < 0
+        || SMR_B_INT(m, &lightpen_type) < 0
+        || SMR_DW_INT(m, &lightpen_buttons) < 0
+        || SMR_DW_INT(m, &lightpen_button_y) < 0
+        || SMR_DW_INT(m, &lightpen_button_x) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    return snapshot_module_close(m);
+}

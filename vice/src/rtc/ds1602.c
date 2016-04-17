@@ -242,7 +242,13 @@ BYTE ds1602_read_data_line(rtc_ds1602_t *context)
     return context->data_line_out;
 }
 
-int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_module_t *m)
+/* ---------------------------------------------------------------------------------------------------- */
+
+#define RTC_DUMP_VER_MAJOR   0
+#define RTC_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "RTC_DS1602"
+
+int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_t *s)
 {
     DWORD latch_lo = 0;
     DWORD latch_hi = 0;
@@ -252,6 +258,7 @@ int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_module_t *m)
     DWORD offset_hi = 0;
     DWORD old_offset_lo = 0;
     DWORD old_offset_hi = 0;
+    snapshot_module_t *m;
 
     /* time_t can be either 32bit or 64bit, so we save as 64bit */
 #if (SIZE_OF_TIME_T == 8)
@@ -269,6 +276,12 @@ int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_module_t *m)
     offset_lo = (DWORD)context->offset;
     old_offset_lo = (DWORD)context->old_offset;
 #endif
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                               RTC_DUMP_VER_MAJOR, RTC_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
 
     if (0
         || (SMW_DW (m, latch_hi) < 0)
@@ -288,12 +301,14 @@ int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_module_t *m)
         || (SMW_B  (m, context->data_line_in) < 0)
         || (SMW_B  (m, context->data_line_out) < 0)
         || (SMW_STR(m, context->device) < 0)) {
+        snapshot_module_close(m);
         return -1;
     }
+    snapshot_module_close(m);
     return 0;
 }
 
-int ds1602_read_snapshot(rtc_ds1602_t *context, snapshot_module_t *m)
+int ds1602_read_snapshot(rtc_ds1602_t *context, snapshot_t *s)
 {
     DWORD latch_lo = 0;
     DWORD latch_hi = 0;
@@ -303,6 +318,18 @@ int ds1602_read_snapshot(rtc_ds1602_t *context, snapshot_module_t *m)
     DWORD offset_hi = 0;
     DWORD old_offset_lo = 0;
     DWORD old_offset_hi = 0;
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != RTC_DUMP_VER_MAJOR) || (vminor != RTC_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
 
     if (0
         || (SMR_DW   (m, &latch_hi) < 0)
@@ -321,10 +348,11 @@ int ds1602_read_snapshot(rtc_ds1602_t *context, snapshot_module_t *m)
         || (SMR_B    (m, &context->clk_line) < 0)
         || (SMR_B    (m, &context->data_line_in) < 0)
         || (SMR_B    (m, &context->data_line_out) < 0)
-
         || (SMR_STR  (m, &context->device) < 0)) {
+        snapshot_module_close(m);
         return -1;
     }
+    snapshot_module_close(m);
 
 #if (SIZE_OF_TIME_T == 8)
     context->latch = (time_t)(latch_hi) << 32;

@@ -35,6 +35,7 @@
 
 #include "drive-snapshot.h"
 #include "ioutil.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
@@ -81,7 +82,7 @@ int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
         || event_snapshot_write_module(s, event_mode) < 0
         || tape_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s)
-        || joystick_snapshot_write_module(s)) {
+        || joyport_snapshot_write_module(s, JOYPORT_1) < 0) {
         snapshot_close(s);
         ioutil_remove(name);
         return -1;
@@ -118,6 +119,8 @@ int vic20_snapshot_read(const char *name, int event_mode)
         goto fail;
     }
 
+    joyport_clear_devices();
+
     /* FIXME: Missing sound.  */
     if (maincpu_snapshot_read_module(s) < 0
         || vic20_snapshot_read_module(s) < 0
@@ -128,7 +131,7 @@ int vic20_snapshot_read(const char *name, int event_mode)
         || event_snapshot_read_module(s, event_mode) < 0
         || tape_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
-        || joystick_snapshot_read_module(s) < 0) {
+        || joyport_snapshot_read_module(s, JOYPORT_1) < 0) {
         goto fail;
     }
 

@@ -43,7 +43,7 @@ extern void ds1602_set_data_line(rtc_ds1602_t *context, BYTE data);
 
 extern BYTE ds1602_read_data_line(rtc_ds1602_t *context);
 
-extern int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_module_t *m);
-extern int ds1602_read_snapshot(rtc_ds1602_t *context, snapshot_module_t *m);
+extern int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_t *s);
+extern int ds1602_read_snapshot(rtc_ds1602_t *context, snapshot_t *s);
 
 #endif

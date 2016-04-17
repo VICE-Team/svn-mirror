@@ -521,6 +521,10 @@ static BYTE read_joystick(int port)
     return ~joystick_value[port + 1];
 }
 
+/* Some prototypes are needed */
+static int joystick_snapshot_write_module(snapshot_t *s, int port);
+static int joystick_snapshot_read_module(snapshot_t *s, int port);
+
 static joyport_t joystick_device = {
     "Joystick",
     IDGS_JOYSTICK,
@@ -532,8 +536,8 @@ static joyport_t joystick_device = {
     NULL,				/* no store digital */
     NULL,				/* no read potx */
     NULL,				/* no read poty */
-    NULL,				/* TODO: write snapshot support */
-    NULL				/* TODO: read snapshot support */
+    joystick_snapshot_write_module,
+    joystick_snapshot_read_module
 };
 
 static int joystick_joyport_register(void)
@@ -719,43 +723,46 @@ int joystick_init(void)
 
 /*--------------------------------------------------------------------------*/
 
-int joystick_snapshot_write_module(snapshot_t *s)
+#define DUMP_VER_MAJOR   1
+#define DUMP_VER_MINOR   1
+#define SNAP_MODULE_NAME  "JOYSTICK"
+
+static int joystick_snapshot_write_module(snapshot_t *s, int port)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, "JOYSTICK", 1, 0);
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
 
-    if (SMW_BA(m, joystick_value, (JOYSTICK_NUM + 1)) < 0) {
+    if (SMW_B(m, joystick_value[port + 1]) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
-    if (snapshot_module_close(m) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return snapshot_module_close(m);
 }
 
-int joystick_snapshot_read_module(snapshot_t *s)
+static int joystick_snapshot_read_module(snapshot_t *s, int port)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, "JOYSTICK",
-                             &major_version, &minor_version);
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
     if (m == NULL) {
-        return 0;
+        return -1;
     }
 
-    if (SMR_BA(m, joystick_value, (JOYSTICK_NUM + 1)) < 0) {
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
         snapshot_module_close(m);
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    if (SMR_B(m, &joystick_value[port + 1]) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    return snapshot_module_close(m);
 }
