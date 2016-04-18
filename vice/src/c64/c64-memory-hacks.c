@@ -184,13 +184,15 @@ int memhacks_snapshot_read_modules(struct snapshot_s *s)
         goto fail;
     }
 
-    /* disable all hacks (without reset) before loading snapshot */
-    set_c64_256k_enabled(0, 1);
-    set_plus60k_enabled(0, 1);
-    set_plus256k_enabled(0, 1);
+    /* disable all hacks (without reset) before loading snapshot if needed */
+    if (memory_hack != MEMORY_HACK_NONE) {
+        set_c64_256k_enabled(0, 1);
+        set_plus60k_enabled(0, 1);
+        set_plus256k_enabled(0, 1);
 
-    /* restore default c64 memory config */
-    mem_initialize_memory();
+        /* restore default c64 memory config */
+        mem_initialize_memory();
+    }
 
     if (SMR_B_INT(m, &memory_hack) < 0) {
         goto fail;
