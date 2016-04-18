@@ -1484,6 +1484,7 @@ static int mouse_neos_read_snapshot(struct snapshot_s *s, int port)
     snapshot_module_t *m;
     DWORD tmpc1;
     DWORD tmpc2;
+    int tmp_neos_state;
 
     m = snapshot_module_open(s, MOUSE_NEOS_MODULE_NAME, &major_version, &minor_version);
     if (m == NULL) {
@@ -1507,7 +1508,7 @@ static int mouse_neos_read_snapshot(struct snapshot_s *s, int port)
         || SMR_B(m, &neos_y) < 0
         || SMR_B(m, &neos_lastx) < 0
         || SMR_B(m, &neos_lasty) < 0
-        || SMR_DW_INT(m, &neos_state) < 0
+        || SMR_DW_INT(m, &tmp_neos_state) < 0
         || SMR_DW_INT(m, &neos_prev) < 0
         || SMR_DW(m, &tmpc1) < 0
         || SMR_DW(m, &tmpc2) < 0) {
@@ -1516,6 +1517,7 @@ static int mouse_neos_read_snapshot(struct snapshot_s *s, int port)
 
     neos_last_trigger = (CLOCK)tmpc1;
     neos_time_out_cycles = (CLOCK)tmpc2;
+    neos_state = tmp_neos_state;
 
     return snapshot_module_close(m);
 
