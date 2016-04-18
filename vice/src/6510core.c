@@ -91,7 +91,7 @@
 /* Backup for non-variable cycle CPUs.  */
 
 #ifndef CLK_ADD
-#define CLK_ADD(clock, amount) clock += amount
+#define CLK_ADD(clock, amount) clock += (amount)
 #endif
 
 #ifndef REWIND_FETCH_OPCODE
