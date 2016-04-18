@@ -47,6 +47,7 @@
 #include "sound.h"
 #include "snapshot.h"
 #include "tape-snapshot.h"
+#include "userport.h"
 #include "tpi.h"
 #include "types.h"
 #include "vice-event.h"
@@ -79,7 +80,8 @@ int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tape_snapshot_write_module(s, save_disks) < 0
-        || keyboard_snapshot_write_module(s)) {
+        || keyboard_snapshot_write_module(s) < 0
+        || userport_snapshot_write_module(s) < 0) {
         snapshot_close(s);
         ioutil_remove(name);
         return -1;
@@ -118,7 +120,8 @@ int cbm2_snapshot_read(const char *name, int event_mode)
         || drive_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
         || tape_snapshot_read_module(s) < 0
-        || keyboard_snapshot_read_module(s) < 0) {
+        || keyboard_snapshot_read_module(s) < 0
+        || userport_snapshot_read_module(s) < 0) {
         goto fail;
     }
 

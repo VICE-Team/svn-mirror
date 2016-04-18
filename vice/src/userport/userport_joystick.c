@@ -35,6 +35,7 @@
 #include "joystick.h"
 #include "machine.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "userport.h"
@@ -166,34 +167,48 @@ static int userport_joystick_cga_select = 0;
 /* Some prototypes are needed */
 static void userport_joystick_cga_read_pbx(void);
 static void userport_joystick_cga_store_pbx(BYTE value);
+static int userport_joystick_cga_write_snapshot_module(snapshot_t *s);
+static int userport_joystick_cga_read_snapshot_module(snapshot_t *s);
 
 static void userport_joystick_pet_read_pbx(void);
 static void userport_joystick_pet_hit_store_pbx(BYTE value);
+static int userport_joystick_pet_write_snapshot_module(snapshot_t *s);
+static int userport_joystick_pet_read_snapshot_module(snapshot_t *s);
 
 static void userport_joystick_hummer_read_pbx(void);
 static void userport_joystick_hummer_store_pbx(BYTE value);
+static int userport_joystick_hummer_oem_write_snapshot_module(snapshot_t *s);
+static int userport_joystick_hummer_read_snapshot_module(snapshot_t *s);
 
 static void userport_joystick_oem_read_pbx(void);
 static void userport_joystick_oem_store_pbx(BYTE value);
+static int userport_joystick_oem_read_snapshot_module(snapshot_t *s);
 
 static void userport_joystick_hit_read_pbx(void);
 static void userport_joystick_hit_read_pa2(void);
 static void userport_joystick_hit_store_sp1(void);
 static void userport_joystick_hit_read_sp2(void);
+static int userport_joystick_hit_write_snapshot_module(snapshot_t *s);
+static int userport_joystick_hit_read_snapshot_module(snapshot_t *s);
 
 static void userport_joystick_kingsoft_read_pbx(void);
 static void userport_joystick_kingsoft_store_pbx(BYTE value);
 static void userport_joystick_kingsoft_read_pa2(void);
 static void userport_joystick_kingsoft_store_sp1(void);
 static void userport_joystick_kingsoft_read_sp2(void);
+static int userport_joystick_kingsoft_write_snapshot_module(snapshot_t *s);
+static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s);
 
 static void userport_joystick_starbyte_read_pbx(void);
 static void userport_joystick_starbyte_store_pbx(BYTE value);
 static void userport_joystick_starbyte_read_pa2(void);
 static void userport_joystick_starbyte_store_sp1(void);
 static void userport_joystick_starbyte_read_sp2(void);
+static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s);
+static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t cga_device = {
+    USERPORT_DEVICE_JOYSTICK_CGA,
     "CGA userport joy adapter",
     IDGS_CGA_JOY_ADAPTER,
     userport_joystick_cga_read_pbx,
@@ -212,7 +227,14 @@ static userport_device_t cga_device = {
     0
 };
 
+static userport_snapshot_t cga_snapshot = {
+    USERPORT_DEVICE_JOYSTICK_CGA,
+    userport_joystick_cga_write_snapshot_module,
+    userport_joystick_cga_read_snapshot_module
+};
+
 static userport_device_t pet_device = {
+    USERPORT_DEVICE_JOYSTICK_PET,
     "PET userport joy adapter",
     IDGS_PET_JOY_ADAPTER,
     userport_joystick_pet_read_pbx,
@@ -231,7 +253,14 @@ static userport_device_t pet_device = {
     0
 };
 
+static userport_snapshot_t pet_snapshot = {
+    USERPORT_DEVICE_JOYSTICK_PET,
+    userport_joystick_pet_write_snapshot_module,
+    userport_joystick_pet_read_snapshot_module
+};
+
 static userport_device_t hummer_device = {
+    USERPORT_DEVICE_JOYSTICK_HUMMER,
     "Hummer userport joy adapter",
     IDGS_HUMMER_JOY_ADAPTER,
     userport_joystick_hummer_read_pbx,
@@ -250,7 +279,14 @@ static userport_device_t hummer_device = {
     0
 };
 
+static userport_snapshot_t hummer_snapshot = {
+    USERPORT_DEVICE_JOYSTICK_HUMMER,
+    userport_joystick_hummer_oem_write_snapshot_module,
+    userport_joystick_hummer_read_snapshot_module
+};
+
 static userport_device_t oem_device = {
+    USERPORT_DEVICE_JOYSTICK_OEM,
     "OEM userport joy adapter",
     IDGS_OEM_JOY_ADAPTER,
     userport_joystick_oem_read_pbx,
@@ -269,7 +305,14 @@ static userport_device_t oem_device = {
     0
 };
 
+static userport_snapshot_t oem_snapshot = {
+    USERPORT_DEVICE_JOYSTICK_OEM,
+    userport_joystick_hummer_oem_write_snapshot_module,
+    userport_joystick_oem_read_snapshot_module
+};
+
 static userport_device_t hit_device = {
+    USERPORT_DEVICE_JOYSTICK_HIT,
     "HIT userport joy adapter",
     IDGS_HIT_JOY_ADAPTER,
     userport_joystick_hit_read_pbx,
@@ -288,7 +331,14 @@ static userport_device_t hit_device = {
     0
 };
 
+static userport_snapshot_t hit_snapshot = {
+    USERPORT_DEVICE_JOYSTICK_HIT,
+    userport_joystick_hit_write_snapshot_module,
+    userport_joystick_hit_read_snapshot_module
+};
+
 static userport_device_t kingsoft_device = {
+    USERPORT_DEVICE_JOYSTICK_KINGSOFT,
     "KingSoft userport joy adapter",
     IDGS_KINGSOFT_JOY_ADAPTER,
     userport_joystick_kingsoft_read_pbx,
@@ -307,7 +357,14 @@ static userport_device_t kingsoft_device = {
     0
 };
 
+static userport_snapshot_t kingsoft_snapshot = {
+    USERPORT_DEVICE_JOYSTICK_KINGSOFT,
+    userport_joystick_kingsoft_write_snapshot_module,
+    userport_joystick_kingsoft_read_snapshot_module
+};
+
 static userport_device_t starbyte_device = {
+    USERPORT_DEVICE_JOYSTICK_STARBYTE,
     "StarByte userport joy adapter",
     IDGS_STARBYTE_JOY_ADAPTER,
     userport_joystick_starbyte_read_pbx,
@@ -324,6 +381,12 @@ static userport_device_t starbyte_device = {
     0xff, /* validity mask doesn't change */
     0,
     0
+};
+
+static userport_snapshot_t starbyte_snapshot = {
+    USERPORT_DEVICE_JOYSTICK_STARBYTE,
+    userport_joystick_starbyte_write_snapshot_module,
+    userport_joystick_starbyte_read_snapshot_module
 };
 
 static userport_device_list_t *userport_joystick_list_item = NULL;
@@ -444,6 +507,14 @@ static const resource_int_t resources_int_type[] = {
 
 int userport_joystick_resources_init(void)
 {
+    userport_snapshot_register(&cga_snapshot);
+    userport_snapshot_register(&pet_snapshot);
+    userport_snapshot_register(&hummer_snapshot);
+    userport_snapshot_register(&oem_snapshot);
+    userport_snapshot_register(&hit_snapshot);
+    userport_snapshot_register(&kingsoft_snapshot);
+    userport_snapshot_register(&starbyte_snapshot);
+
     if (machine_class != VICE_MACHINE_C64DTV) {
         if (machine_class == VICE_MACHINE_PLUS4) {
             if (resources_register_int(resources_int_type_plus4) < 0) {
@@ -731,4 +802,310 @@ static void userport_joystick_starbyte_store_sp1(void)
 static void userport_joystick_starbyte_read_sp2(void)
 {
     starbyte_device.retval = starbyte_sp2_retval;
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define CGA_VER_MAJOR   0
+#define CGA_VER_MINOR   0
+#define CGA_MODULE_NAME  "UP_JOY_CGA"
+
+static int userport_joystick_cga_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, CGA_MODULE_NAME, CGA_VER_MAJOR, CGA_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (SMW_B(m, (BYTE)userport_joystick_cga_select) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_write_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int userport_joystick_cga_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_userport_joystick_type(USERPORT_JOYSTICK_CGA, NULL);
+    set_userport_joystick_enable(1, NULL);
+
+    m = snapshot_module_open(s, CGA_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != CGA_VER_MAJOR || minor_version != CGA_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (SMR_B_INT(m, &userport_joystick_cga_select) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_read_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int userport_joystick_pet_write_snapshot_module(snapshot_t *s)
+{
+    if (0
+        || joyport_snapshot_write_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int userport_joystick_pet_read_snapshot_module(snapshot_t *s)
+{
+    /* enable device */
+    set_userport_joystick_type(USERPORT_JOYSTICK_PET, NULL);
+    set_userport_joystick_enable(1, NULL);
+
+    if (0
+        || joyport_snapshot_read_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int userport_joystick_hummer_oem_write_snapshot_module(snapshot_t *s)
+{
+    return joyport_snapshot_write_module(s, JOYPORT_3);
+}
+
+static int userport_joystick_hummer_read_snapshot_module(snapshot_t *s)
+{
+    /* enable device */
+    set_userport_joystick_type(USERPORT_JOYSTICK_HUMMER, NULL);
+    set_userport_joystick_enable(1, NULL);
+
+    return joyport_snapshot_read_module(s, JOYPORT_3);
+}
+
+static int userport_joystick_oem_read_snapshot_module(snapshot_t *s)
+{
+    /* enable device */
+    set_userport_joystick_type(USERPORT_JOYSTICK_OEM, NULL);
+    set_userport_joystick_enable(1, NULL);
+
+    return joyport_snapshot_read_module(s, JOYPORT_3);
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define HIT_VER_MAJOR   0
+#define HIT_VER_MINOR   0
+#define HIT_MODULE_NAME  "UP_JOY_HIT"
+
+static int userport_joystick_hit_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, HIT_MODULE_NAME, HIT_VER_MAJOR, HIT_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (SMW_B(m, hit_sp2_retval) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_write_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int userport_joystick_hit_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_userport_joystick_type(USERPORT_JOYSTICK_HIT, NULL);
+    set_userport_joystick_enable(1, NULL);
+
+    m = snapshot_module_open(s, HIT_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != HIT_VER_MAJOR || minor_version != HIT_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (SMR_B(m, &hit_sp2_retval) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_read_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define KINGSOFT_VER_MAJOR   0
+#define KINGSOFT_VER_MINOR   0
+#define KINGSOFT_MODULE_NAME  "UP_JOY_KINGSOFT"
+
+static int userport_joystick_kingsoft_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, KINGSOFT_MODULE_NAME, KINGSOFT_VER_MAJOR, KINGSOFT_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (SMW_B(m, kingsoft_sp2_retval) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_write_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_userport_joystick_type(USERPORT_JOYSTICK_KINGSOFT, NULL);
+    set_userport_joystick_enable(1, NULL);
+
+    m = snapshot_module_open(s, KINGSOFT_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != KINGSOFT_VER_MAJOR || minor_version != KINGSOFT_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (SMR_B(m, &kingsoft_sp2_retval) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_read_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
+}
+/* ------------------------------------------------------------------------- */
+
+#define STARBYTE_VER_MAJOR   0
+#define STARBYTE_VER_MINOR   0
+#define STARBYTE_MODULE_NAME  "UP_JOY_STARBYTE"
+
+static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, STARBYTE_MODULE_NAME, STARBYTE_VER_MAJOR, STARBYTE_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (SMW_B(m, starbyte_sp2_retval) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_write_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_userport_joystick_type(USERPORT_JOYSTICK_STARBYTE, NULL);
+    set_userport_joystick_enable(1, NULL);
+
+    m = snapshot_module_open(s, STARBYTE_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != STARBYTE_VER_MAJOR || minor_version != STARBYTE_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (SMR_B(m, &starbyte_sp2_retval) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_read_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
 }

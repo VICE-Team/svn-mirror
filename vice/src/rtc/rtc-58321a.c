@@ -407,7 +407,13 @@ void rtc58321_start_clock(rtc_58321a_t *context)
     }
 }
 
-int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
+/* ---------------------------------------------------------------------------------------------------- */
+
+#define RTC_DUMP_VER_MAJOR   0
+#define RTC_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "RTC_58321A"
+
+int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_t *s)
 {
     DWORD latch_lo = 0;
     DWORD latch_hi = 0;
@@ -415,6 +421,7 @@ int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
     DWORD offset_hi = 0;
     DWORD old_offset_lo = 0;
     DWORD old_offset_hi = 0;
+    snapshot_module_t *m;
 
     /* time_t can be either 32bit or 64bit, so we save as 64bit */
 #if (SIZE_OF_TIME_T == 8)
@@ -430,6 +437,12 @@ int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
     old_offset_lo = (DWORD)context->old_offset;
 #endif
 
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                               RTC_DUMP_VER_MAJOR, RTC_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
     if (0
         || (SMW_B  (m, (BYTE)context->stop) < 0)
         || (SMW_B  (m, (BYTE)context->hour24) < 0)
@@ -441,12 +454,13 @@ int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
         || (SMW_DW (m, old_offset_hi) < 0)
         || (SMW_DW (m, old_offset_lo) < 0)
         || (SMW_STR(m, context->device) < 0)) {
+        snapshot_module_close(m);
         return -1;
     }
-    return 0;
+    return snapshot_module_close(m);
 }
 
-int rtc58321a_read_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
+int rtc58321a_read_snapshot(rtc_58321a_t *context, snapshot_t *s)
 {
     DWORD latch_lo = 0;
     DWORD latch_hi = 0;
@@ -454,6 +468,18 @@ int rtc58321a_read_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
     DWORD offset_hi = 0;
     DWORD old_offset_lo = 0;
     DWORD old_offset_hi = 0;
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != RTC_DUMP_VER_MAJOR) || (vminor != RTC_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
 
     if (0
         || (SMR_B_INT (m, &context->stop) < 0)
@@ -466,8 +492,11 @@ int rtc58321a_read_snapshot(rtc_58321a_t *context, snapshot_module_t *m)
         || (SMR_DW    (m, &old_offset_hi) < 0)
         || (SMR_DW    (m, &old_offset_lo) < 0)
         || (SMR_STR   (m, &context->device) < 0)) {
+        snapshot_module_close(m);
         return -1;
     }
+
+    snapshot_module_close(m);
 
 #if (SIZE_OF_TIME_T == 8)
     context->latch = (time_t)(latch_hi) << 32;

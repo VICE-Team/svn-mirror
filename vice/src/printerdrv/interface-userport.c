@@ -35,6 +35,7 @@
 #include "output-select.h"
 #include "printer.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "userport.h"
@@ -59,8 +60,11 @@ C64/C128 | CBM2 | PET | VIC20 | CENTRONICS  | NOTES
 /* Some prototypes are needed */
 static void userport_printer_store_pbx(BYTE b);
 static void userport_printer_store_pa2(BYTE s);
+static int userport_printer_write_snapshot_module(snapshot_t *s);
+static int userport_printer_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t printer_device = {
+    USERPORT_DEVICE_PRINTER,
     "Userport printer",
     IDGS_USERPORT_PRINTER,
     NULL, /* NO pbx read */
@@ -77,6 +81,12 @@ static userport_device_t printer_device = {
     0xff, /* validity mask doesn't change */
     0,
     0
+};
+
+static userport_snapshot_t printer_snapshot = {
+    USERPORT_DEVICE_PRINTER,
+    userport_printer_write_snapshot_module,
+    userport_printer_read_snapshot_module
 };
 
 static userport_device_list_t *userport_printer_list_item = NULL;
@@ -119,6 +129,8 @@ static const resource_int_t resources_int[] = {
 
 int interface_userport_init_resources(void)
 {
+    userport_snapshot_register(&printer_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -160,4 +172,56 @@ static void userport_printer_store_pa2(BYTE s)
         set_userport_flag(0); /* signal hi->lo */
     }
     strobe = s;
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "USERPORT_PRINTER"
+
+static int userport_printer_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B(m, value) < 0
+        || SMW_B(m, strobe) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int userport_printer_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_up_enabled(1, NULL);
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_B(m, &value) < 0
+        || SMR_B(m, &strobe) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
 }

@@ -50,13 +50,12 @@
 #include "sound.h"
 #include "tape-snapshot.h"
 #include "types.h"
+#include "userport.h"
 #include "via.h"
 #include "vice-event.h"
 
-
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
-
 
 int pet_snapshot_write(const char *name, int save_roms, int save_disks,
                        int event_mode)
@@ -83,7 +82,8 @@ int pet_snapshot_write(const char *name, int save_roms, int save_disks,
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tape_snapshot_write_module(s, save_disks) < 0
-        || keyboard_snapshot_write_module(s)) {
+        || keyboard_snapshot_write_module(s) < 0
+        || userport_snapshot_write_module(s) < 0) {
         ef = -1;
     }
 
@@ -131,7 +131,8 @@ int pet_snapshot_read(const char *name, int event_mode)
         || drive_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
         || tape_snapshot_read_module(s) < 0
-        || keyboard_snapshot_read_module(s) < 0) {
+        || keyboard_snapshot_read_module(s) < 0
+        || userport_snapshot_read_module(s) < 0) {
         ef = -1;
     }
 

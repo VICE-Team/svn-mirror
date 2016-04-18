@@ -47,6 +47,7 @@
 #include "sound.h"
 #include "tape-snapshot.h"
 #include "types.h"
+#include "userport.h"
 #include "vice-event.h"
 #include "vicii.h"
 
@@ -76,7 +77,8 @@ int c128_snapshot_write(const char *name, int save_roms, int save_disks, int eve
         || tape_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s)
         || joyport_snapshot_write_module(s, JOYPORT_1) < 0
-        || joyport_snapshot_write_module(s, JOYPORT_2) < 0) {
+        || joyport_snapshot_write_module(s, JOYPORT_2) < 0
+        || userport_snapshot_write_module(s) < 0) {
         snapshot_close(s);
         ioutil_remove(name);
         return -1;
@@ -116,7 +118,8 @@ int c128_snapshot_read(const char *name, int event_mode)
         || tape_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
         || joyport_snapshot_read_module(s, JOYPORT_1) < 0
-        || joyport_snapshot_read_module(s, JOYPORT_2) < 0) {
+        || joyport_snapshot_read_module(s, JOYPORT_2) < 0
+        || userport_snapshot_read_module(s) < 0) {
         goto fail;
     }
 

@@ -49,6 +49,7 @@ C64/C128 | CBM2 | ADC0820-1 | ADC0820-2 | NOTES
 #include "cmdline.h"
 #include "resources.h"
 #include "sampler.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "userport.h"
 #include "userport_8bss.h"
@@ -62,8 +63,11 @@ int userport_8bss_channel = 1;
 /* Some prototypes are needed */
 static void userport_8bss_read_pbx(void);
 static void userport_8bss_store_pa3(BYTE value);
+static int userport_8bss_write_snapshot_module(snapshot_t *s);
+static int userport_8bss_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t sampler_device = {
+    USERPORT_DEVICE_8BSS,
     "Userport 8bit stereo sampler",
     IDGS_USERPORT_8BSS,
     userport_8bss_read_pbx,
@@ -80,6 +84,12 @@ static userport_device_t sampler_device = {
     0xff, /* valid mask doesn't change */
     0,
     0
+};
+
+static userport_snapshot_t sampler_snapshot = {
+    USERPORT_DEVICE_8BSS,
+    userport_8bss_write_snapshot_module,
+    userport_8bss_read_snapshot_module
 };
 
 static userport_device_list_t *userport_8bss_list_item = NULL;
@@ -119,6 +129,8 @@ static const resource_int_t resources_int[] = {
 
 int userport_8bss_resources_init(void)
 {
+    userport_snapshot_register(&sampler_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -159,4 +171,54 @@ static void userport_8bss_read_pbx(void)
         retval = sampler_get_sample(SAMPLER_CHANNEL_2);
     }
     sampler_device.retval = retval;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "USERPORT_8BSS"
+
+static int userport_8bss_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B(m, (BYTE)userport_8bss_channel) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int userport_8bss_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_userport_8bss_enabled(1, NULL);
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_B_INT(m, &userport_8bss_channel) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
 }

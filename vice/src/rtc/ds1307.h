@@ -40,7 +40,7 @@ extern void ds1307_set_data_line(rtc_ds1307_t *context, BYTE data);
 
 extern BYTE ds1307_read_data_line(rtc_ds1307_t *context);
 
-extern int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_module_t *m);
-extern int ds1307_read_snapshot(rtc_ds1307_t *context, snapshot_module_t *m);
+extern int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_t *s);
+extern int ds1307_read_snapshot(rtc_ds1307_t *context, snapshot_t *s);
 
 #endif

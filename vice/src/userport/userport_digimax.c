@@ -35,6 +35,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "sound.h"
 #include "uiapi.h"
 #include "userport.h"
@@ -69,8 +70,11 @@ C64/C128 | CBM2 | TLC7226 DAC | NOTES
 static void userport_digimax_store_pbx(BYTE value);
 static void userport_digimax_store_pa2(BYTE value);
 static void userport_digimax_store_pa3(BYTE value);
+static int userport_digimax_write_snapshot_module(snapshot_t *s);
+static int userport_digimax_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t digimax_device = {
+    USERPORT_DEVICE_DIGIMAX,
     "Userport DigiMAX",
     IDGS_USERPORT_DIGIMAX,
     NULL, /* NO pbx read */
@@ -87,6 +91,12 @@ static userport_device_t digimax_device = {
     0xf, /* validity mask doesn't change */
     0,
     0
+};
+
+static userport_snapshot_t digimax_snapshot = {
+    USERPORT_DEVICE_DIGIMAX,
+    userport_digimax_write_snapshot_module,
+    userport_digimax_read_snapshot_module
 };
 
 static userport_device_list_t *userport_digimax_list_item = NULL;
@@ -164,6 +174,8 @@ static const resource_int_t resources_int[] = {
 
 int userport_digimax_resources_init(void)
 {
+    userport_snapshot_register(&digimax_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -187,4 +199,64 @@ static const cmdline_option_t cmdline_options[] =
 int userport_digimax_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "USERPORT_DIGIMAX"
+
+static int userport_digimax_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, userport_digimax_address) < 0)
+        || (SMW_BA(m, digimax_sound_data, 4) < 0)
+        || (SMW_B(m, snd.voice0) < 0)
+        || (SMW_B(m, snd.voice1) < 0)
+        || (SMW_B(m, snd.voice2) < 0)
+        || (SMW_B(m, snd.voice3) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int userport_digimax_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_digimax_enabled(1, NULL);
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B(m, &userport_digimax_address) < 0)
+        || (SMR_BA(m, digimax_sound_data, 4) < 0)
+        || (SMR_B(m, &snd.voice0) < 0)
+        || (SMR_B(m, &snd.voice1) < 0)
+        || (SMR_B(m, &snd.voice2) < 0)
+        || (SMR_B(m, &snd.voice3) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
 }

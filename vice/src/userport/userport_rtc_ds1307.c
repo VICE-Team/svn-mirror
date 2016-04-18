@@ -43,6 +43,7 @@ C64/C128 | CBM2 | PET | VIC20 | NAME
 #include "lib.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "uiapi.h"
 #include "userport.h"
@@ -65,8 +66,11 @@ static BYTE ds1307_pb1_scl = 1;
 /* Some prototypes are needed */
 static void userport_rtc_read_pbx(void);
 static void userport_rtc_store_pbx(BYTE value);
+static int userport_rtc_write_snapshot_module(snapshot_t *s);
+static int userport_rtc_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t rtc_device = {
+    USERPORT_DEVICE_RTC_DS1307,
     "Userport RTC (DS1307)",
     IDGS_USERPORT_DS1307,
     userport_rtc_read_pbx,
@@ -83,6 +87,12 @@ static userport_device_t rtc_device = {
     0x3, /* validity mask doesn't change */
     0,
     0
+};
+
+static userport_snapshot_t rtc_snapshot = {
+    USERPORT_DEVICE_RTC_DS1307,
+    userport_rtc_write_snapshot_module,
+    userport_rtc_read_snapshot_module
 };
 
 static userport_device_list_t *userport_rtc_list_item = NULL;
@@ -136,6 +146,8 @@ static const resource_int_t resources_int[] = {
 
 int userport_rtc_ds1307_resources_init(void)
 {
+    userport_snapshot_register(&rtc_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -201,4 +213,60 @@ static void userport_rtc_read_pbx(void)
     retval |= (ds1307_read_data_line(ds1307_context) & 1);
 
     rtc_device.retval = retval;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "UP_RTC_DS1307"
+
+static int userport_rtc_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B(m, ds1307_pb0_sda) < 0
+        || SMW_B(m, ds1307_pb1_scl) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    return ds1307_write_snapshot(ds1307_context, s);
+}
+
+static int userport_rtc_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_userport_rtc_enabled(1, NULL);
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_B(m, &ds1307_pb0_sda) < 0
+        || SMR_B(m, &ds1307_pb1_scl) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    return ds1307_read_snapshot(ds1307_context, s);
 }

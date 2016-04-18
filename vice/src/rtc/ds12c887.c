@@ -901,8 +901,7 @@ int ds12c887_write_snapshot(rtc_ds12c887_t *context, snapshot_t *s)
         snapshot_module_close(m);
         return -1;
     }
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int ds12c887_read_snapshot(rtc_ds12c887_t *context, snapshot_t *s)

@@ -50,6 +50,7 @@ C64/C128 | CBM2 | PET | PLUS4 | VIC20 | NAME
 #include "lib.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "sound.h"
 #include "translate.h"
 #include "uiapi.h"
@@ -101,8 +102,11 @@ void userport_dac_sound_chip_init(void)
 
 /* Some prototypes are needed */
 static void userport_dac_store_pbx(BYTE value);
+static int userport_dac_write_snapshot_module(snapshot_t *s);
+static int userport_dac_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t dac_device = {
+    USERPORT_DEVICE_DAC,
     "Userport DAC",
     IDGS_USERPORT_DAC,
     NULL, /* NO pbx read */
@@ -119,6 +123,12 @@ static userport_device_t dac_device = {
     0,
     0,
     0
+};
+
+static userport_snapshot_t dac_snapshot = {
+    USERPORT_DEVICE_DAC,
+    userport_dac_write_snapshot_module,
+    userport_dac_read_snapshot_module
 };
 
 static userport_device_list_t *userport_dac_list_item = NULL;
@@ -156,6 +166,8 @@ static const resource_int_t resources_int[] = {
 
 int userport_dac_resources_init(void)
 {
+    userport_snapshot_register(&dac_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -223,4 +235,56 @@ static void userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     snd.voice0 = 0;
     userport_dac_sound_data = 0;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "USERPORT_DAC"
+
+static int userport_dac_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B(m, userport_dac_sound_data) < 0
+        || SMW_B(m, snd.voice0) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int userport_dac_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_userport_dac_enabled(1, NULL);
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_B(m, &userport_dac_sound_data) < 0
+        || SMR_B(m, &snd.voice0) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
 }

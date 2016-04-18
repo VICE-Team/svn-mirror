@@ -27,14 +27,32 @@
 #ifndef VICE_USERPORT_H
 #define VICE_USERPORT_H
 
+#include "snapshot.h"
 #include "types.h"
-
 
 #define USERPORT_COLLISION_METHOD_DETACH_ALL    0
 #define USERPORT_COLLISION_METHOD_DETACH_LAST   1
 #define USERPORT_COLLISION_METHOD_AND_WIRES     2
 
+#define USERPORT_DEVICE_PRINTER           0
+#define USERPORT_DEVICE_JOYSTICK_CGA      1
+#define USERPORT_DEVICE_JOYSTICK_PET      2
+#define USERPORT_DEVICE_JOYSTICK_HUMMER   3
+#define USERPORT_DEVICE_JOYSTICK_OEM      4
+#define USERPORT_DEVICE_JOYSTICK_HIT      5
+#define USERPORT_DEVICE_JOYSTICK_KINGSOFT 6
+#define USERPORT_DEVICE_JOYSTICK_STARBYTE 7
+#define USERPORT_DEVICE_DAC               8
+#define USERPORT_DEVICE_DIGIMAX           9
+#define USERPORT_DEVICE_4BIT_SAMPLER      10
+#define USERPORT_DEVICE_8BSS              11
+#define USERPORT_DEVICE_RTC_58321A        12
+#define USERPORT_DEVICE_RTC_DS1307        13
+
 typedef struct userport_device_s {
+    /* ID of the device */
+    int id;
+
     /* Name of the device */
     char *name;
 
@@ -119,5 +137,27 @@ extern void userport_resources_shutdown(void);
 extern int userport_cmdline_options_init(void);
 
 extern void userport_enable(int val);
+
+typedef struct userport_snapshot_s {
+    /* ID of the device */
+    int id;
+
+    /* write snapshot */
+    int (*write_snapshot)(snapshot_t *s);
+
+    /* read snapshot */
+    int (*read_snapshot)(snapshot_t *s);
+} userport_snapshot_t;
+
+typedef struct userport_snapshot_list_s {
+    struct userport_snapshot_list_s *previous;
+    userport_snapshot_t *snapshot;
+    struct userport_snapshot_list_s *next;
+} userport_snapshot_list_t;
+
+extern void userport_snapshot_register(userport_snapshot_t *s);
+
+extern int userport_snapshot_write_module(snapshot_t *s);
+extern int userport_snapshot_read_module(snapshot_t *s);
 
 #endif

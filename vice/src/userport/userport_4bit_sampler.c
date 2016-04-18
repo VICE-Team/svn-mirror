@@ -57,8 +57,11 @@ int userport_4bit_sampler_read = 1;
 /* Some prototypes are needed */
 static void userport_4bit_sampler_read_pbx(void);
 static void userport_4bit_sampler_store_pa2(BYTE value);
+static int userport_4bit_sampler_write_snapshot_module(snapshot_t *s);
+static int userport_4bit_sampler_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t sampler_device = {
+    USERPORT_DEVICE_4BIT_SAMPLER,
     "Userport 4bit sampler",
     IDGS_USERPORT_4BIT_SAMPLER,
     userport_4bit_sampler_read_pbx,
@@ -75,6 +78,12 @@ static userport_device_t sampler_device = {
     0xf0, /* valid mask doesn't change */
     0,
     0
+};
+
+static userport_snapshot_t sampler_snapshot = {
+    USERPORT_DEVICE_4BIT_SAMPLER,
+    userport_4bit_sampler_write_snapshot_module,
+    userport_4bit_sampler_read_snapshot_module
 };
 
 static userport_device_list_t *userport_4bit_sampler_list_item = NULL;
@@ -114,6 +123,8 @@ static const resource_int_t resources_int[] = {
 
 int userport_4bit_sampler_resources_init(void)
 {
+    userport_snapshot_register(&sampler_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -152,4 +163,20 @@ static void userport_4bit_sampler_read_pbx(void)
         retval = sampler_get_sample(SAMPLER_CHANNEL_DEFAULT) & 0xf0;
     }
     sampler_device.retval = retval;
+}
+
+/* ---------------------------------------------------------------------*/
+
+static int userport_4bit_sampler_write_snapshot_module(snapshot_t *s)
+{
+    /* No data to save */
+    return 0;
+}
+
+static int userport_4bit_sampler_read_snapshot_module(snapshot_t *s)
+{
+    /* No data to load, this is used to enable the device when loading a snapshot */
+    set_userport_4bit_sampler_enabled(1, NULL);
+
+    return 0;
 }

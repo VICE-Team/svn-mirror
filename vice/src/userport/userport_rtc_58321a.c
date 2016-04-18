@@ -48,6 +48,7 @@ C64/C128 | CBM2 | PET | VIC20 | NAME
 #include "maincpu.h"
 #include "resources.h"
 #include "rtc-58321a.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "uiapi.h"
 #include "userport.h"
@@ -68,8 +69,11 @@ static int read_line_active = 0;
 /* Some prototypes are needed */
 static void userport_rtc_read_pbx(void);
 static void userport_rtc_store_pbx(BYTE value);
+static int userport_rtc_write_snapshot_module(snapshot_t *s);
+static int userport_rtc_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t rtc_device = {
+    USERPORT_DEVICE_RTC_58321A,
     "Userport RTC (RTC58321A)",
     IDGS_USERPORT_RTC58321A,
     userport_rtc_read_pbx,
@@ -86,6 +90,12 @@ static userport_device_t rtc_device = {
     0xf, /* validity mask doesn't change */
     0,
     0
+};
+
+static userport_snapshot_t rtc_snapshot = {
+    USERPORT_DEVICE_RTC_58321A,
+    userport_rtc_write_snapshot_module,
+    userport_rtc_read_snapshot_module
 };
 
 static userport_device_list_t *userport_rtc_list_item = NULL;
@@ -137,6 +147,8 @@ static const resource_int_t resources_int[] = {
 
 int userport_rtc_58321a_resources_init(void)
 {
+    userport_snapshot_register(&rtc_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -203,4 +215,58 @@ static void userport_rtc_read_pbx(void)
         retval = rtc58321a_read(rtc58321a_context);
     }
     rtc_device.retval = retval;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "UP_RTC_58321A"
+
+static int userport_rtc_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B(m, (BYTE)read_line_active) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    return rtc58321a_write_snapshot(rtc58321a_context, s);
+}
+
+static int userport_rtc_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_userport_rtc_enabled(1, NULL);
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_B_INT(m, &read_line_active) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    return rtc58321a_read_snapshot(rtc58321a_context, s);
 }

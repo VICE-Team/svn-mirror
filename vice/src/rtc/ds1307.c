@@ -437,7 +437,13 @@ BYTE ds1307_read_data_line(rtc_ds1307_t *context)
     return 1;
 }
 
-int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_module_t *m)
+/* ---------------------------------------------------------------------------------------------------- */
+
+#define RTC_DUMP_VER_MAJOR   0
+#define RTC_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "RTC_DS1307"
+
+int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_t *s)
 {
     DWORD clock_halt_latch_lo = 0;
     DWORD clock_halt_latch_hi = 0;
@@ -447,6 +453,7 @@ int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_module_t *m)
     DWORD offset_hi = 0;
     DWORD old_offset_lo = 0;
     DWORD old_offset_hi = 0;
+    snapshot_module_t *m;
 
     /* time_t can be either 32bit or 64bit, so we save as 64bit */
 #if (SIZE_OF_TIME_T == 8)
@@ -464,6 +471,12 @@ int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_module_t *m)
     offset_lo = (DWORD)context->offset;
     old_offset_lo = (DWORD)context->old_offset;
 #endif
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                               RTC_DUMP_VER_MAJOR, RTC_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
 
     if (0
         || (SMW_B  (m, (BYTE)context->clock_halt) < 0)
@@ -490,12 +503,13 @@ int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_module_t *m)
         || (SMW_B  (m, context->data_line) < 0)
         || (SMW_B  (m, context->clock_register) < 0)
         || (SMW_STR(m, context->device) < 0)) {
+        snapshot_module_close(m);
         return -1;
     }
-    return 0;
+    return snapshot_module_close(m);
 }
 
-int ds1307_read_snapshot(rtc_ds1307_t *context, snapshot_module_t *m)
+int ds1307_read_snapshot(rtc_ds1307_t *context, snapshot_t *s)
 {
     DWORD clock_halt_latch_lo = 0;
     DWORD clock_halt_latch_hi = 0;
@@ -505,6 +519,18 @@ int ds1307_read_snapshot(rtc_ds1307_t *context, snapshot_module_t *m)
     DWORD offset_hi = 0;
     DWORD old_offset_lo = 0;
     DWORD old_offset_hi = 0;
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != RTC_DUMP_VER_MAJOR) || (vminor != RTC_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
 
     if (0
         || (SMR_B_INT(m, &context->clock_halt) < 0)
@@ -531,8 +557,11 @@ int ds1307_read_snapshot(rtc_ds1307_t *context, snapshot_module_t *m)
         || (SMR_B    (m, &context->data_line) < 0)
         || (SMR_B    (m, &context->clock_register) < 0)
         || (SMR_STR  (m, &context->device) < 0)) {
+        snapshot_module_close(m);
         return -1;
     }
+
+    snapshot_module_close(m);
 
 #if (SIZE_OF_TIME_T == 8)
     context->clock_halt_latch = (time_t)(clock_halt_latch_hi) << 32;
