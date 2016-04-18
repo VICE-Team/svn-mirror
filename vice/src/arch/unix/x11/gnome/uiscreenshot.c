@@ -554,14 +554,14 @@ static GtkWidget *build_native_options(void)
 
 static GtkWidget *build_screenshot_dialog(void)
 {
-    GtkWidget *d, *frame, *vbox, *omenu, *table;
+    GtkWidget *d, *frame, *vbox, *omenu;
     int i, num_buttons;
     gfxoutputdrv_t *driver;
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
     char *title;
 
 #ifdef HAVE_FFMPEG
-    GtkWidget *l, *tmp;
+    GtkWidget *l, *tmp, *table;
     GtkAdjustment *adj;
     int audio_bitrate, video_bitrate;
     gfxoutputdrv_format_t *f;
