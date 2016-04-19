@@ -295,10 +295,10 @@ static palette_info_t palettelist[] = {
     /* data/C128/ */
     /* data/CBM-II/ */
     /* data/SCPU64/ */
-    { "VICII", "Pepto (PAL)",        "vice"}, /* default */
+    { "VICII", "Pepto (PAL)",        "vice"}, /* default */ /* FIXME: rename to pepto.vpl */
     { "VICII", "Pepto (NTSC, Sony)", "pepto-ntsc-sony"},
     { "VICII", "Pepto (NTSC)",       "pepto-ntsc"},
-    { "VICII", "VICE",               "default"},
+    { "VICII", "VICE",               "default"}, /* FIXME: rename to "vice.vpl */
     { "VICII", "C64HQ",              "c64hq"},
     { "VICII", "C64S",               "c64s"},
     { "VICII", "CCS64",              "ccs64"},
@@ -306,6 +306,9 @@ static palette_info_t palettelist[] = {
     { "VICII", "Godot",              "godot"},
     { "VICII", "PC64",               "pc64"},
     { "VICII", "RGB",                "rgb"},
+    { "VICII", "Deekay",             "deekay"},
+    { "VICII", "Ptoing",             "ptoing"},
+    { "VICII", "Community Colors",   "community-colors"},
     /* data/C128/ */
     { "VDC",   "RGB",                "vdc_deft"}, /* default */
     { "VDC",   "Composite",          "vdc_comp"},

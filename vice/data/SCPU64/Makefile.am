@@ -19,6 +19,9 @@ palettes = \
 	vice.vpl \
 	pepto-ntsc-sony.vpl \
 	pepto-ntsc.vpl \
+	community-colors.vpl \
+	ptoing.vpl \
+	deekay.vpl \
 	rgb.vpl
 
 x11_keymaps = \
