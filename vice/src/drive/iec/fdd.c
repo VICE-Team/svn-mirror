@@ -490,7 +490,7 @@ int fdd_rotate(fd_drive_t *drv, int bytes)
     return bytes;
 }
 
-inline int fdd_index(fd_drive_t *drv)
+int fdd_index(fd_drive_t *drv)
 {
     if (!drv) {
         return 0;
@@ -498,7 +498,7 @@ inline int fdd_index(fd_drive_t *drv)
     return (drv->raw.head < INDEXLEN) ? 1 : 0;
 }
 
-inline void fdd_index_count_reset(fd_drive_t *drv)
+void fdd_index_count_reset(fd_drive_t *drv)
 {
     if (!drv) {
         return;
@@ -506,7 +506,7 @@ inline void fdd_index_count_reset(fd_drive_t *drv)
     drv->index_count = 0;
 }
 
-inline int fdd_index_count(fd_drive_t *drv)
+int fdd_index_count(fd_drive_t *drv)
 {
     if (!drv) {
         return 0;
@@ -514,7 +514,7 @@ inline int fdd_index_count(fd_drive_t *drv)
     return drv->index_count;
 }
 
-inline int fdd_track0(fd_drive_t *drv)
+int fdd_track0(fd_drive_t *drv)
 {
     if (!drv) {
         return 0;
@@ -522,7 +522,7 @@ inline int fdd_track0(fd_drive_t *drv)
     return drv->track ? 0 : 1;
 }
 
-inline int fdd_write_protect(fd_drive_t *drv)
+int fdd_write_protect(fd_drive_t *drv)
 {
     if (!drv) {
         return 0;
@@ -530,7 +530,7 @@ inline int fdd_write_protect(fd_drive_t *drv)
     return drv->write_protect;
 }
 
-inline int fdd_disk_change(fd_drive_t *drv)
+int fdd_disk_change(fd_drive_t *drv)
 {
     if (!drv) {
         return 0;

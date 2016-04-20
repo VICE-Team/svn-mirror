@@ -1178,7 +1178,7 @@ void pc8477_reset(pc8477_t *drv, int is8477)
     pc8477_software_reset(drv);
 }
 
-inline int pc8477_irq(pc8477_t *drv)
+int pc8477_irq(pc8477_t *drv)
 {
     return drv->irq;
 }

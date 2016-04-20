@@ -931,27 +931,27 @@ int wd1770_detach_image(disk_image_t *image, unsigned int unit)
     return 0;
 }
 
-inline void wd1770_set_side(wd1770_t *drv, int side)
+void wd1770_set_side(wd1770_t *drv, int side)
 {
     fdd_select_head(drv->fdd, side);
 }
 
-inline void wd1770_set_motor(wd1770_t *drv, int on)
+void wd1770_set_motor(wd1770_t *drv, int on)
 {
     fdd_set_motor(drv->fdd, on);
 }
 
-inline int wd1770_disk_change(wd1770_t *drv)
+int wd1770_disk_change(wd1770_t *drv)
 {
     return fdd_disk_change(drv->fdd);
 }
 
-inline void wd1770d_store(drive_context_t *drv, WORD addr, BYTE byte)
+void wd1770d_store(drive_context_t *drv, WORD addr, BYTE byte)
 {
     wd1770_store(drv->wd1770, (WORD)(addr & 3), byte);
 }
 
-inline BYTE wd1770d_read(drive_context_t *drv, WORD addr)
+BYTE wd1770d_read(drive_context_t *drv, WORD addr)
 {
     return wd1770_read(drv->wd1770, (WORD)(addr & 3));
 }

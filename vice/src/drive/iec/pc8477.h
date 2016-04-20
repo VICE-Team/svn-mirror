@@ -42,7 +42,7 @@ extern void pc8477_setup_context(struct drive_context_s *drv);
 extern void pc8477d_store(struct drive_context_s *drv, WORD addr, BYTE byte);
 extern BYTE pc8477d_read(struct drive_context_s *drv, WORD addr);
 extern void pc8477_reset(pc8477_t *drv, int is8477);
-extern inline int pc8477_irq(pc8477_t *drv);
+extern int pc8477_irq(pc8477_t *drv);
 
 extern int pc8477_attach_image(struct disk_image_s *image, unsigned int unit);
 extern int pc8477_detach_image(struct disk_image_s *image, unsigned int unit);
