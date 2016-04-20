@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-15 13:26-0700\n"
-"PO-Revision-Date: 2016-03-20 18:51+0100\n"
+"PO-Revision-Date: 2016-04-20 20:48+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -420,9 +420,8 @@ msgstr "MIDI Emulation"
 
 #: src/arch/unix/gui/c128ui.c:304 src/arch/unix/gui/c64scui.c:392
 #: src/arch/unix/gui/c64ui.c:451
-#, fuzzy
 msgid "I/O collision handling ($D000-$DFFF)"
-msgstr "I/O Kollisionsbehandlung"
+msgstr "I/O Kollisionsbehandlung ($D000-$DFFF)"
 
 #: src/arch/unix/gui/c128ui.c:306 src/arch/unix/gui/c64scui.c:394
 #: src/arch/unix/gui/c64ui.c:453 src/arch/unix/gui/cbm2ui.c:109
@@ -1019,9 +1018,8 @@ msgid "Memory Expansions Hack"
 msgstr "Speicher Erweiterungshack"
 
 #: src/arch/unix/gui/cbm2ui.c:107 src/arch/unix/gui/cbm2ui.c:118
-#, fuzzy
 msgid "I/O collision handling ($D800-$DFFF)"
-msgstr "I/O Kollisionsbehandlung"
+msgstr "I/O Kollisionsbehandlung ($D800-$DFFF)"
 
 #: src/arch/unix/gui/cbm2ui.c:158
 msgid "Basic 128k, low chars"
@@ -1190,9 +1188,8 @@ msgid "PET userport diagnostic pin"
 msgstr "PET Userport Diagnose Pin"
 
 #: src/arch/unix/gui/petui.c:261
-#, fuzzy
 msgid "I/O collision handling ($8800-$8FFF / $E900-$EEFF)"
-msgstr "I/O Kollisionsbehandlung"
+msgstr "I/O Kollisionsbehandlung ($8800-$8FFF / $E900-$EEFF)"
 
 #: src/arch/unix/gui/petui.c:267
 msgid "Basic 1"
@@ -1357,9 +1354,8 @@ msgid "V364 Speech"
 msgstr "V364 Stimme"
 
 #: src/arch/unix/gui/plus4ui.c:287
-#, fuzzy
 msgid "I/O collision handling ($FD00-$FEFF)"
-msgstr "I/O Kollisionsbehandlung"
+msgstr "I/O Kollisionsbehandlung ($FD00-$FEFF)"
 
 #: src/arch/unix/gui/plus4ui.c:306 src/arch/unix/gui/vic20ui.c:481
 #: src/arch/win32/res.rc.po.c:1155 src/translate_text.c.po.c:5294
@@ -4534,9 +4530,8 @@ msgid "Ethernet emulation (MasC=uerade)"
 msgstr "Ethernet Emulation (MasC=uerade)"
 
 #: src/arch/unix/gui/vic20ui.c:548
-#, fuzzy
 msgid "I/O collision handling ($9000-$93FF / $9800-$9FFF)"
-msgstr "I/O Kollisionsbehandlung"
+msgstr "I/O Kollisionsbehandlung ($9000-$93FF / $9800-$9FFF)"
 
 #: src/arch/unix/gui/vic20ui.c:564 src/arch/win32/resvic.rc.po.c:33
 #: src/arch/win32/resvic20.rc.po.c:616 src/arch/amigaos/intl_text.c.po.c:3505
@@ -5170,7 +5165,7 @@ msgid "Save screenshot file"
 msgstr "Screenshot speichern"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't write screenshot to `%s' with gfxdriver `%s'."
 msgstr "Screenshot konnte auf `%s' mit Treiber `%s' nicht gespeichert werden."
 
@@ -5520,6 +5515,9 @@ msgid ""
 "The winpcap drivers are not installed.\n"
 "Please download and install winpcap."
 msgstr ""
+"TFE/RR-Net ist auf Deinem System nicht verfügbar.\n"
+"'winpcap' Treiber sind nicht isntalliert.\n"
+"Bitte 'winpcap' Treiber downloaden und installieren."
 
 #: src/arch/win32/res.rc.po.c:1070
 msgid "TFE/RR-Net support"
@@ -6626,91 +6624,74 @@ msgid "bitrate"
 msgstr "Bitrate"
 
 #: src/arch/win32/res.rc.po.c:1458
-#, fuzzy
 msgid "Doodle settings"
-msgstr "Modell Einstellungen"
+msgstr "Doodle Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1461
-#, fuzzy
 msgid "Koala settings"
-msgstr "Einstellungen laden"
+msgstr "Koala Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1463
-#, fuzzy
 msgid "TED luminosity handling"
 msgstr "TED Luma Behandlung"
 
 #: src/arch/win32/res.rc.po.c:1464
-#, fuzzy
 msgid "CRTC text color"
 msgstr "CRTC Textfarben"
 
 #: src/arch/win32/res.rc.po.c:1465 src/arch/amigaos/intl_text.c.po.c:12873
-#, fuzzy
 msgid "Scale"
-msgstr "Scale2x"
+msgstr "Scale"
 
 #: src/arch/win32/res.rc.po.c:1466 src/arch/amigaos/intl_text.c.po.c:12887
-#, fuzzy
 msgid "Crop left top"
 msgstr "links oben abschneiden"
 
 #: src/arch/win32/res.rc.po.c:1467 src/arch/amigaos/intl_text.c.po.c:12901
-#, fuzzy
 msgid "Crop middle top"
-msgstr "links oben abschneiden"
+msgstr "mitte oben abschneiden"
 
 #: src/arch/win32/res.rc.po.c:1468 src/arch/amigaos/intl_text.c.po.c:12915
-#, fuzzy
 msgid "Crop right top"
 msgstr "rechts oben abschneiden"
 
 #: src/arch/win32/res.rc.po.c:1469 src/arch/amigaos/intl_text.c.po.c:12929
-#, fuzzy
 msgid "Crop left center"
-msgstr "links mitte  abschneiden"
+msgstr "links mitte abschneiden"
 
 #: src/arch/win32/res.rc.po.c:1470 src/arch/amigaos/intl_text.c.po.c:12943
-#, fuzzy
 msgid "Crop middle center"
-msgstr "links mitte  abschneiden"
+msgstr "mitte mitte abschneiden"
 
 #: src/arch/win32/res.rc.po.c:1471 src/arch/amigaos/intl_text.c.po.c:12957
-#, fuzzy
 msgid "Crop right center"
 msgstr "rechts mitte abschneiden"
 
 #: src/arch/win32/res.rc.po.c:1472 src/arch/amigaos/intl_text.c.po.c:12971
-#, fuzzy
 msgid "Crop left bottom"
 msgstr "links unten abschneiden"
 
 #: src/arch/win32/res.rc.po.c:1473 src/arch/amigaos/intl_text.c.po.c:12985
-#, fuzzy
 msgid "Crop middle bottom"
-msgstr "links unten abschneiden"
+msgstr "mitte unten abschneiden"
 
 #: src/arch/win32/res.rc.po.c:1474 src/arch/amigaos/intl_text.c.po.c:12999
-#, fuzzy
 msgid "Crop right bottom"
 msgstr "rechts unten abschneiden"
 
 #: src/arch/win32/res.rc.po.c:1475 src/arch/amigaos/intl_text.c.po.c:13013
-#, fuzzy
 msgid "Borderize"
-msgstr "Rahmen Modus"
+msgstr "Einrahmen"
 
 #: src/arch/win32/res.rc.po.c:1476 src/arch/amigaos/intl_text.c.po.c:13027
 msgid "Black & white"
-msgstr ""
+msgstr "Schwarz & Weiß"
 
 #: src/arch/win32/res.rc.po.c:1479 src/arch/amigaos/intl_text.c.po.c:13069
-#, fuzzy
 msgid "Gray scale"
 msgstr "Graustufe"
 
 #: src/arch/win32/res.rc.po.c:1480 src/arch/amigaos/intl_text.c.po.c:13083
-#, fuzzy
 msgid "Dither"
 msgstr "annähern"
 
@@ -6723,12 +6704,10 @@ msgid "Amber"
 msgstr "Bernstein"
 
 #: src/arch/win32/res.rc.po.c:1483 src/arch/amigaos/intl_text.c.po.c:13139
-#, fuzzy
 msgid "Green"
 msgstr "Grün"
 
 #: src/arch/win32/res.rc.po.c:1484 src/arch/amigaos/intl_text.c.po.c:13097
-#, fuzzy
 msgid "Ignore"
 msgstr "ignorieren"
 
@@ -6975,7 +6954,6 @@ msgid "Exit"
 msgstr "Exit"
 
 #: src/arch/win32/res.rc.po.c:1572
-#, fuzzy
 msgid "Advance single frame"
 msgstr "1 Frame weiter"
 
@@ -7002,7 +6980,6 @@ msgstr "Zähler zurücksetzen"
 #: src/arch/win32/res.rc.po.c:1608 src/arch/win32/resiocollisions.rc.po.c:21
 #: src/arch/amigaos/intl_text.c.po.c:1111
 #: src/arch/amigaos/intl_text.c.po.c:13349
-#, fuzzy
 msgid "I/O collision settings"
 msgstr "I/O Kollisionsbehandlung"
 
@@ -8031,17 +8008,17 @@ msgstr "I/O Kollisionsbehandlung"
 #: src/arch/win32/resiocollisions.rc.po.c:23
 #: src/arch/amigaos/intl_text.c.po.c:13293
 msgid "Detach all involved carts"
-msgstr ""
+msgstr "Sämtliche betroffene Erweiterungsmodule entfernen"
 
 #: src/arch/win32/resiocollisions.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:13307
 msgid "Detach last inserted cart"
-msgstr ""
+msgstr "Letztes eingelegtes Erweiterungsmodul entfernen"
 
 #: src/arch/win32/resiocollisions.rc.po.c:25
 #: src/arch/amigaos/intl_text.c.po.c:13321
 msgid "'AND' the wires"
-msgstr ""
+msgstr "'AND' der Verbindungen"
 
 #: src/arch/win32/resisepic.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:7439
 msgid "Select file for ISEPIC"
@@ -8716,7 +8693,6 @@ msgid "Select Mega-Cart non-volatile RAM file"
 msgstr "Mega-Cart nicht-flüchtiges RAM Datei wählen"
 
 #: src/arch/win32/resvic20.rc.po.c:606
-#, fuzzy
 msgid "Enable VFLI modification"
 msgstr "VFLI Emulation aktivieren"
 
@@ -8733,9 +8709,8 @@ msgid "VSP bug"
 msgstr "VSP Fehler"
 
 #: src/arch/win32/resvsid.rc.po.c:56 src/arch/win32/resvsid.rc.po.c:148
-#, fuzzy
 msgid "Sound volume"
-msgstr "Ton Ausgabe Modus"
+msgstr "Sound Lautstärke"
 
 #: src/arch/win32/resvsid.rc.po.c:136
 msgid "Select PSID file"
@@ -8746,14 +8721,12 @@ msgid "Tune number"
 msgstr "Titel Nummer"
 
 #: src/arch/win32/resvsid.rc.po.c:138
-#, fuzzy
 msgid "VSID shortcut keys"
-msgstr "Aktuelle Tastenkürzel in Datei speichern"
+msgstr "VSID Tastenkürzel"
 
 #: src/arch/win32/resvsid.rc.po.c:139
-#, fuzzy
 msgid "What VSID shortcut keys are available?"
-msgstr "Welche kompiliertern Funtionen sind verfügbar?"
+msgstr "Welche VSID Tastenkürzel sind verfügbar?"
 
 #: src/arch/win32/resvsid.rc.po.c:141
 msgid "Select tune"
@@ -8769,7 +8742,7 @@ msgstr "Vorheriger Titel "
 
 #: src/arch/win32/resvsid.rc.po.c:145
 msgid "Shortcut keys"
-msgstr ""
+msgstr "Tastenkürzel"
 
 #: src/arch/amigaos/intl_text.c.po.c:131
 #: src/arch/amigaos/intl_text.c.po.c:11851
@@ -8834,12 +8807,11 @@ msgstr "Structured Basic Image"
 
 #: src/arch/amigaos/intl_text.c.po.c:1097
 msgid "Single frame advance"
-msgstr ""
+msgstr "Ein Frame Fortschritt"
 
 #: src/arch/amigaos/intl_text.c.po.c:1419
-#, fuzzy
 msgid "Native screenshot settings"
-msgstr "Einstellungen speichern"
+msgstr "Native Screenshot Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:1433
 msgid "Netplay (experimental)"
@@ -9226,12 +9198,12 @@ msgstr "Diese Maschine hat möglicherweise keinen SID"
 #: src/arch/amigaos/intl_text.c.po.c:5367
 #, c-format
 msgid "Screenshot save of %s failed"
-msgstr "Screenshot speicherung von %s ist fehlgeschlagen"
+msgstr "Screenshot Speicherung von %s ist fehlgeschlagen"
 
 #: src/arch/amigaos/intl_text.c.po.c:5381
 #, c-format
 msgid "Screenshot %s saved."
-msgstr "Screenshots %s gespeicher."
+msgstr "Screenshots %s gespeichert."
 
 #: src/arch/amigaos/intl_text.c.po.c:5395
 msgid "Press desired key/button, move stick or press ESC for no key."
@@ -9918,54 +9890,44 @@ msgid "CIA model settings"
 msgstr "CIA Modell Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:13153
-#, fuzzy
 msgid "Doodle oversize handling"
-msgstr "Übergrößenbehandlung"
+msgstr "Doodle Übergrößenbehandlung"
 
 #: src/arch/amigaos/intl_text.c.po.c:13167
-#, fuzzy
 msgid "Doodle undersize handling"
-msgstr "Untergrößenbehandlung"
+msgstr "Doodle Untergrößenbehandlung"
 
 #: src/arch/amigaos/intl_text.c.po.c:13181
-#, fuzzy
 msgid "Doodle multicolor handling"
-msgstr "Multicolorbehandlung"
+msgstr "Doodle Multicolorbehandlung"
 
 #: src/arch/amigaos/intl_text.c.po.c:13195
-#, fuzzy
 msgid "Doodle TED luminosity handling"
-msgstr "TED Luma Behandlung"
+msgstr "Doodle TED Luma Behandlung"
 
 #: src/arch/amigaos/intl_text.c.po.c:13209
-#, fuzzy
 msgid "Doodle CRTC text color"
-msgstr "CRTC Textfarben"
+msgstr "Doodle CRTC Textfarben"
 
 #: src/arch/amigaos/intl_text.c.po.c:13223
-#, fuzzy
 msgid "Koala oversize handling"
-msgstr "Übergrößenbehandlung"
+msgstr "Koala Übergrößenbehandlung"
 
 #: src/arch/amigaos/intl_text.c.po.c:13237
-#, fuzzy
 msgid "Koala undersize handling"
-msgstr "Untergrößenbehandlung"
+msgstr "Koala Untergrößenbehandlung"
 
 #: src/arch/amigaos/intl_text.c.po.c:13251
-#, fuzzy
 msgid "Koala TED luminosity handling"
-msgstr "TED Luma Behandlung"
+msgstr "Koala TED Luma Behandlung"
 
 #: src/arch/amigaos/intl_text.c.po.c:13265
-#, fuzzy
 msgid "Koala CRTC text color"
-msgstr "CRTC Textfarben"
+msgstr "Koala CRTC Textfarben"
 
 #: src/arch/amigaos/intl_text.c.po.c:13279
-#, fuzzy
 msgid "Screenshot settings"
-msgstr "Einstellungen speichern"
+msgstr "Screenshot Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:13363
 msgid "Select SID file to load"
