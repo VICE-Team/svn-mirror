@@ -250,11 +250,8 @@ int c64_midi_base_de00(void)
 #define CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "CARTMIDI"
 
-/* FIXME: implement snapshot support */
 int c64_midi_snapshot_write_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
@@ -263,22 +260,21 @@ int c64_midi_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (0) {
+    if (SMW_B(m, (BYTE)midi_mode) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
-    return 0;
-#endif
+
+    return midi_snapshot_write_module(s);
 }
 
 int c64_midi_snapshot_read_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     BYTE vmajor, vminor;
     snapshot_module_t *m;
+    int tmp_midi_mode;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
     if (m == NULL) {
@@ -290,15 +286,17 @@ int c64_midi_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    if (0) {
+    if (SMR_B_INT(m, &tmp_midi_mode) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
-    return 0;
-#endif
+
+    /* enable midi */
+    midi_set_c64mode(tmp_midi_mode, NULL);
+    set_midi_enabled(1, NULL);
+
+    return midi_snapshot_read_module(s);
 }
-
-
 #endif

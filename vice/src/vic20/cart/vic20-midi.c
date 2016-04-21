@@ -138,34 +138,31 @@ int vic20_midi_cmdline_options_init(void)
 #define CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "CARTMIDI"
 
-/* FIXME: implement snapshot support */
 int vic20_midi_snapshot_write_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
 
-    if (0) {
+    if (SMW_B(m, (BYTE)midi_mode) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
-    return 0;
-#endif
+
+    return midi_snapshot_write_module(s);
 }
 
 int vic20_midi_snapshot_read_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     BYTE vmajor, vminor;
     snapshot_module_t *m;
+    int tmp_midi_mode;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
     if (m == NULL) {
@@ -177,14 +174,20 @@ int vic20_midi_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    if (0) {
+    if (SMR_B_INT(m, &tmp_midi_mode) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
-    return 0;
+
+    /* enable midi */
+#if 0
+    midi_set_vic20mode(tmp_midi_mode, NULL);
 #endif
+    set_midi_enabled(1, NULL);
+
+    return midi_snapshot_read_module(s);
 }
 
 /* ---------------------------------------------------------------------*/
