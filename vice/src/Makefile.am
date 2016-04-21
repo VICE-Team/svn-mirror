@@ -110,7 +110,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/rtc \
-	-I$(top_srcdir)/src/tapeport
+	-I$(top_srcdir)/src/tapeport \
+	-I$(top_srcdir)/src/tape
 
 noinst_HEADERS = \
 	6510core.h \

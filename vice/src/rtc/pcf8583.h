@@ -79,7 +79,7 @@ extern void pcf8583_set_data_line(rtc_pcf8583_t *context, BYTE data);
 
 extern BYTE pcf8583_read_data_line(rtc_pcf8583_t *context);
 
-extern int pcf8583_write_snapshot(rtc_pcf8583_t *context, snapshot_module_t *m);
-extern int pcf8583_read_snapshot(rtc_pcf8583_t *context, snapshot_module_t *m);
+extern int pcf8583_write_snapshot(rtc_pcf8583_t *context, snapshot_t *s);
+extern int pcf8583_read_snapshot(rtc_pcf8583_t *context, snapshot_t *s);
 
 #endif

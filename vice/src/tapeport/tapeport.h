@@ -27,17 +27,30 @@
 #ifndef VICE_TAPEPORT_H
 #define VICE_TAPEPORT_H
 
+#include "snapshot.h"
 #include "types.h"
 
+#define TAPEPORT_DEVICE_DATASETTE        0
+#define TAPEPORT_DEVICE_CP_CLOCK_F83     1
+#define TAPEPORT_DEVICE_DTL_BASIC_DONGLE 2
+#define TAPEPORT_DEVICE_SENSE_DONGLE     3
+#define TAPEPORT_DEVICE_TAPE_LOG         4
+
 typedef struct tapeport_device_s {
+    /* id of the device */
+    int device_id;
+
     /* Name of the device */
     char *name;
 
     /* Translated name of the device */
     int trans_name;
 
-    /* id number of attached device */
+    /* id number of attached device, used for the order of the devices */
     int id;
+
+    /* resource of the device, used for detaching when reading snapshots */
+    char *resource;
 
     /* reset device */
     void (*reset)(void);
@@ -67,6 +80,25 @@ typedef struct tapeport_device_list_s {
 extern tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device);
 extern void tapeport_device_unregister(tapeport_device_list_t *device);
 
+typedef struct tapeport_snapshot_s {
+    /* id of the device */
+    int id;
+
+    /* Write snapshot */
+    int (*write_snapshot)(struct snapshot_s *s, int write_image);
+
+    /* Read snapshot */
+    int (*read_snapshot)(struct snapshot_s *s);
+} tapeport_snapshot_t;
+
+typedef struct tapeport_snapshot_list_s {
+    struct tapeport_snapshot_list_s *previous;
+    tapeport_snapshot_t *snapshot;
+    struct tapeport_snapshot_list_s *next;
+} tapeport_snapshot_list_t;
+
+extern void tapeport_snapshot_register(tapeport_snapshot_t *snapshot);
+
 extern void tapeport_set_motor(int flag);
 extern void tapeport_toggle_write_bit(int write_bit);
 extern void tapeport_set_sense_out(int sense);
@@ -85,5 +117,8 @@ extern void tapeport_resources_shutdown(void);
 extern int tapeport_cmdline_options_init(void);
 
 extern void tapeport_enable(int val);
+
+extern int tapeport_snapshot_write_module(struct snapshot_s *s, int save_image);
+extern int tapeport_snapshot_read_module(struct snapshot_s *s);
 
 #endif

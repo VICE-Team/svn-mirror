@@ -48,6 +48,7 @@ TAPEPORT | TAPELOG
 #include "log.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "tapeport.h"
 #include "translate.h"
 #include "util.h"
@@ -76,17 +77,27 @@ static void tapelog_toggle_write_bit(int write_bit);
 static void tapelog_set_sense_out(int sense);
 static void tapelog_trigger_flux_change_passthrough(unsigned int on);
 static void tapelog_set_tape_sense_passthrough(int sense);
+static int tapelog_write_snapshot(struct snapshot_s *s, int write_image);
+static int tapelog_read_snapshot(struct snapshot_s *s);
 
 static tapeport_device_t tapelog_device = {
+    TAPEPORT_DEVICE_TAPE_LOG,
     "Tape Log",
     IDGS_TAPE_LOG,
     0,
+    "TapeLog",
     NULL,
     tapelog_set_motor,
     tapelog_toggle_write_bit,
     tapelog_set_sense_out,
     tapelog_trigger_flux_change_passthrough,
     tapelog_set_tape_sense_passthrough
+};
+
+static tapeport_snapshot_t tapelog_snapshot = {
+    TAPEPORT_DEVICE_TAPE_LOG,
+    tapelog_write_snapshot,
+    tapelog_read_snapshot
 };
 
 static tapeport_device_list_t *tapelog_list_item = NULL;
@@ -246,6 +257,8 @@ static const resource_string_t resources_string[] = {
 
 int tapelog_resources_init(void)
 {
+    tapeport_snapshot_register(&tapelog_snapshot);
+
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
@@ -371,4 +384,62 @@ void tapelog_trigger_flux_change_passthrough(unsigned int on)
     tapelog_transition("read", (BYTE)on);
 
     tapelog_read = on;
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "TP_TAPELOG"
+
+static int tapelog_write_snapshot(struct snapshot_s *s, int write_image)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B(m, tapelog_motor) < 0
+        || SMW_B(m, tapelog_sense_in) < 0
+        || SMW_B(m, tapelog_sense_out) < 0
+        || SMW_B(m, tapelog_write) < 0
+        || SMW_DW(m, (DWORD)tapelog_read) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int tapelog_read_snapshot(struct snapshot_s *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_tapelog_enabled(1, NULL);
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_B(m, &tapelog_motor) < 0
+        || SMR_B(m, &tapelog_sense_in) < 0
+        || SMR_B(m, &tapelog_sense_out) < 0
+        || SMR_B(m, &tapelog_write) < 0
+        || SMR_DW_UINT(m, &tapelog_read) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
 }

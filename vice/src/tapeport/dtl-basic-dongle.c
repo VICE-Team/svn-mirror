@@ -32,6 +32,7 @@
 
 #include "cmdline.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "tapeport.h"
 #include "translate.h"
 
@@ -85,17 +86,27 @@ static int dtlbasic_state = DTLBASIC_DONGLE_IDLE;
 static void dtlbasic_dongle_reset(void);
 static void dtlbasic_write(int write_bit);
 static void dtlbasic_sense_out(int sense);
+static int dtlbasic_write_snapshot(struct snapshot_s *s, int write_image);
+static int dtlbasic_read_snapshot(struct snapshot_s *s);
 
 static tapeport_device_t dtlbasic_dongle_device = {
+    TAPEPORT_DEVICE_DTL_BASIC_DONGLE,
     "Sense dongle",
     IDGS_SENSE_DONGLE,
     0,
+    "DTLBasicDongle",
     dtlbasic_dongle_reset,
     NULL, /* no set motor */
     dtlbasic_write,
     dtlbasic_sense_out,
     NULL, /* no passthrough */
     NULL  /* no passthrough */
+};
+
+static tapeport_snapshot_t dtlbasic_snapshot = {
+    TAPEPORT_DEVICE_DTL_BASIC_DONGLE,
+    dtlbasic_write_snapshot,
+    dtlbasic_read_snapshot
 };
 
 static tapeport_device_list_t *dtlbasic_dongle_list_item = NULL;
@@ -134,6 +145,8 @@ static const resource_int_t resources_int[] = {
 
 int dtlbasic_dongle_resources_init(void)
 {
+    tapeport_snapshot_register(&dtlbasic_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -216,4 +229,60 @@ static void dtlbasic_sense_out(int sense)
         dtlbasic_state = DTLBASIC_DONGLE_SENSE_LOW;
         return;
     }
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "TP_DTLBASIC"
+
+static int dtlbasic_write_snapshot(struct snapshot_s *s, int write_image)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_DW(m, (DWORD)dtlbasic_counter) < 0
+        || SMW_DW(m, (DWORD)write_status) < 0
+        || SMW_DW(m, (DWORD)sense_status) < 0
+        || SMW_DW(m, (DWORD)dtlbasic_state) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int dtlbasic_read_snapshot(struct snapshot_s *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_dtlbasic_dongle_enabled(1, NULL);
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_DW_INT(m, &dtlbasic_counter) < 0
+        || SMR_DW_INT(m, &write_status) < 0
+        || SMR_DW_INT(m, &sense_status) < 0
+        || SMR_DW_INT(m, &dtlbasic_state) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
 }

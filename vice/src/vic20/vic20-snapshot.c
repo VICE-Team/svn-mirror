@@ -44,7 +44,7 @@
 #include "resources.h"
 #include "sound.h"
 #include "snapshot.h"
-#include "tape-snapshot.h"
+#include "tapeport.h"
 #include "types.h"
 #include "userport.h"
 #include "via.h"
@@ -81,7 +81,7 @@ int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
         || viacore_snapshot_write_module(machine_context.via2, s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || event_snapshot_write_module(s, event_mode) < 0
-        || tape_snapshot_write_module(s, save_disks) < 0
+        || tapeport_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s)
         || joyport_snapshot_write_module(s, JOYPORT_1) < 0
         || userport_snapshot_write_module(s) < 0) {
@@ -131,7 +131,7 @@ int vic20_snapshot_read(const char *name, int event_mode)
         || viacore_snapshot_read_module(machine_context.via2, s) < 0
         || drive_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
-        || tape_snapshot_read_module(s) < 0
+        || tapeport_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
         || joyport_snapshot_read_module(s, JOYPORT_1) < 0
         || userport_snapshot_read_module(s) < 0) {

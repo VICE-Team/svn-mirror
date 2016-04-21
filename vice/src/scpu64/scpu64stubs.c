@@ -148,6 +148,10 @@ tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
     return NULL;
 }
 
+void tapeport_snapshot_register(tapeport_snapshot_t *snapshot)
+{
+}
+
 void tapeport_device_unregister(tapeport_device_list_t *device)
 {
 }

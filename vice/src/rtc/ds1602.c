@@ -304,8 +304,7 @@ int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_t *s)
         snapshot_module_close(m);
         return -1;
     }
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int ds1602_read_snapshot(rtc_ds1602_t *context, snapshot_t *s)

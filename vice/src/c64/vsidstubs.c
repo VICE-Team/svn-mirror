@@ -821,6 +821,10 @@ void tapeport_set_tape_sense(int sense, int id)
 {
 }
 
+void tapeport_snapshot_register(tapeport_snapshot_t *snapshot)
+{
+}
+
 int iec_available_busses(void)
 {
     return 0;

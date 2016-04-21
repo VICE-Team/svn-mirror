@@ -46,6 +46,7 @@
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
+#include "tape-snapshot.h"
 #include "tapeport.h"
 #include "translate.h"
 #include "types.h"
@@ -130,16 +131,27 @@ static void datasette_control_internal(int command);
 static void datasette_set_motor(int flag);
 static void datasette_toggle_write_bit(int write_bit);
 
+static int datasette_write_snapshot(snapshot_t *s, int write_image);
+static int datasette_read_snapshot(snapshot_t *s);
+
 static tapeport_device_t datasette_device = {
+    TAPEPORT_DEVICE_DATASETTE,
     "Datasette",
     IDGS_DATASETTE,
     0,
+    "Datasette",
     NULL, /* no device specific reset */
     datasette_set_motor,
     datasette_toggle_write_bit,
     NULL, /* no sense out */
     NULL, /* no passthrough */
     NULL  /* no passthrough */
+};
+
+static tapeport_snapshot_t datasette_snapshot = {
+    TAPEPORT_DEVICE_DATASETTE,
+    datasette_write_snapshot,
+    datasette_read_snapshot
 };
 
 static tapeport_device_list_t *datasette_list_item = NULL;
@@ -238,6 +250,8 @@ static const resource_int_t resources_int[] = {
 
 int datasette_resources_init(void)
 {
+    tapeport_snapshot_register(&datasette_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -1109,9 +1123,9 @@ void datasette_event_playback(CLOCK offset, void *data)
  ******************************************************************************/
 
 #define DATASETTE_SNAP_MAJOR 1
-#define DATASETTE_SNAP_MINOR 2
+#define DATASETTE_SNAP_MINOR 3
 
-int datasette_write_snapshot(snapshot_t *s)
+static int datasette_write_snapshot(snapshot_t *s, int write_image)
 {
     snapshot_module_t *m;
     DWORD alarm_clk = CLOCK_MAX;
@@ -1151,10 +1165,10 @@ int datasette_write_snapshot(snapshot_t *s)
         return -1;
     }
 
-    return 0;
+    return tape_snapshot_write_module(s, write_image);
 }
 
-int datasette_read_snapshot(snapshot_t *s)
+static int datasette_read_snapshot(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
@@ -1214,5 +1228,6 @@ int datasette_read_snapshot(snapshot_t *s)
     next_tap = last_tap = 0;
 
     snapshot_module_close(m);
-    return 0;
+
+    return tape_snapshot_read_module(s);
 }

@@ -45,7 +45,7 @@
 #include "sid-snapshot.h"
 #include "snapshot.h"
 #include "sound.h"
-#include "tape-snapshot.h"
+#include "tapeport.h"
 #include "types.h"
 #include "userport.h"
 #include "vice-event.h"
@@ -74,7 +74,7 @@ int c128_snapshot_write(const char *name, int save_roms, int save_disks, int eve
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || vicii_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
-        || tape_snapshot_write_module(s, save_disks) < 0
+        || tapeport_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s)
         || joyport_snapshot_write_module(s, JOYPORT_1) < 0
         || joyport_snapshot_write_module(s, JOYPORT_2) < 0
@@ -115,7 +115,7 @@ int c128_snapshot_read(const char *name, int event_mode)
         || drive_snapshot_read_module(s) < 0
         || vicii_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
-        || tape_snapshot_read_module(s) < 0
+        || tapeport_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
         || joyport_snapshot_read_module(s, JOYPORT_1) < 0
         || joyport_snapshot_read_module(s, JOYPORT_2) < 0

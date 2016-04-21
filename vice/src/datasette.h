@@ -49,7 +49,6 @@
 /* at FF/REWIND, Datasette-counter makes ~4 rounds per second */
 #define DS_RPS_FAST 4.00
 
-struct snapshot_s;
 struct tap_s;
 
 extern void datasette_init(void);
@@ -69,6 +68,4 @@ extern void datasette_set_tape_sense(int sense);
 extern int datasette_resources_init(void);
 extern int datasette_cmdline_options_init(void);
 
-extern int datasette_write_snapshot(struct snapshot_s *s);
-extern int datasette_read_snapshot(struct snapshot_s *s);
 #endif

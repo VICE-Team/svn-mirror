@@ -34,12 +34,15 @@
 #include "dtl-basic-dongle.h"
 #include "lib.h"
 #include "log.h"
+#include "resources.h"
 #include "sense-dongle.h"
+#include "snapshot.h"
 #include "tapelog.h"
 #include "tapeport.h"
 #include "uiapi.h"
 
 static tapeport_device_list_t tapeport_head = { NULL, NULL, NULL };
+static tapeport_snapshot_list_t tapeport_snapshot_head = { NULL, NULL, NULL };
 
 static int tapeport_active = 1;
 
@@ -379,6 +382,40 @@ void tapeport_set_tape_sense(int sense, int id)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
+void tapeport_snapshot_register(tapeport_snapshot_t *s)
+{
+    tapeport_snapshot_list_t *current = &tapeport_snapshot_head;
+    tapeport_snapshot_list_t *retval = NULL;
+
+    retval = lib_malloc(sizeof(tapeport_snapshot_list_t));
+
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = retval;
+    retval->previous = current;
+    retval->snapshot = s;
+    retval->next = NULL;
+}
+
+static void tapeport_snapshot_unregister(tapeport_snapshot_list_t *s)
+{
+    tapeport_snapshot_list_t *prev;
+
+    if (s) {
+        prev = s->previous;
+        prev->next = s->next;
+
+        if (s->next) {
+            s->next->previous = prev;
+        }
+
+        lib_free(s);
+    }
+}
+
+/* ---------------------------------------------------------------------------------------------------------- */
+
 int tapeport_resources_init(void)
 {
     if (tapelog_resources_init() < 0) {
@@ -399,18 +436,19 @@ int tapeport_resources_init(void)
 
 void tapeport_resources_shutdown(void)
 {
-    tapeport_device_list_t *current;
-
-    tapertc_resources_shutdown();
-
-    current = tapeport_head.next;
+    tapeport_device_list_t *current = tapeport_head.next;
+    tapeport_snapshot_list_t *c = tapeport_snapshot_head.next;
 
     while (current) {
         tapeport_device_unregister(current);
         current = tapeport_head.next;
     }
-}
 
+    while (c) {
+        tapeport_snapshot_unregister(c);
+        c = tapeport_snapshot_head.next;
+    }
+}
 
 int tapeport_cmdline_options_init(void)
 {
@@ -436,4 +474,159 @@ int tapeport_cmdline_options_init(void)
 void tapeport_enable(int val)
 {
     tapeport_active = val ? 1 : 0;
+}
+
+/* ---------------------------------------------------------------------------------------------------------- */
+
+#define SNAP_MODULE_NAME "TAPEPORT"
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int tapeport_snapshot_write_module(snapshot_t *s, int write_image)
+{
+    snapshot_module_t *m;
+    int amount = 0;
+    int *devices = NULL;
+    tapeport_device_list_t *current = tapeport_head.next;
+    tapeport_snapshot_list_t *c = NULL;
+    int i = 0;
+
+    while (current) {
+        ++amount;
+        current = current->next;
+    }
+
+    if (amount) {
+        devices = lib_malloc(sizeof(int) * (amount + 1));
+        current = tapeport_head.next;
+        while (current) {
+            devices[current->device->id] = current->device->device_id;
+            current = current->next;
+            ++i;
+        }
+        devices[i] = -1;
+    }
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B(m, (BYTE)tapeport_active) < 0
+        || SMW_B(m, (BYTE)amount) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    /* Save device id's */
+    if (amount) {
+        for (i = 0; i < amount; ++i) {
+            if (SMW_B(m, (BYTE)devices[i]) < 0) {
+                snapshot_module_close(m);
+                return -1;
+            }
+        }
+    }
+
+    snapshot_module_close(m);
+
+    /* save device snapshots */
+    if (amount) {
+        for (i = 0; i < amount; ++i) {
+            c = tapeport_snapshot_head.next;
+            while (c) {
+                if (c->snapshot->id == devices[i]) {
+                    if (c->snapshot->write_snapshot) {
+                        if (c->snapshot->write_snapshot(s, write_image) < 0) {
+                            lib_free(devices);
+                            return -1;
+                        }
+                    }
+                }
+                c = c->next;
+            }
+        }
+    }
+
+    lib_free(devices);
+
+    return 0;
+}
+
+int tapeport_snapshot_read_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+    int amount = 0;
+    char **detach_resource_list = NULL;
+    tapeport_device_list_t *current = tapeport_head.next;
+    int *devices = NULL;
+    tapeport_snapshot_list_t *c = NULL;
+    int i = 0;
+
+    /* detach all tapeport devices */
+    while (current) {
+        ++amount;
+        current = current->next;
+    }
+
+    if (amount) {
+        detach_resource_list = lib_malloc(sizeof(char *) * (amount + 1));
+        memset(detach_resource_list, 0, sizeof(char *) * (amount + 1));
+        current = tapeport_head.next;
+        while (current) {
+            detach_resource_list[i++] = current->device->resource;
+        }
+        for (i = 0; i < amount; ++i) {
+            resources_set_int(detach_resource_list[i], 0);
+        }
+        lib_free(detach_resource_list);
+    }
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != SNAP_MAJOR || minor_version != SNAP_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || SMR_B_INT(m, &tapeport_active) < 0
+        || SMR_B_INT(m, &amount) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (amount) {
+        devices = lib_malloc(sizeof(int) * (amount + 1));
+        for (i = 0; i < amount; ++i) {
+            if (SMR_B_INT(m, &devices[i]) < 0) {
+                lib_free(devices);
+                snapshot_module_close(m);
+                return -1;
+            }
+        }
+        snapshot_module_close(m);
+        for (i = 0; i < amount; ++i) {
+            c = tapeport_snapshot_head.next;
+            while (c) {
+                if (c->snapshot->id == devices[i]) {
+                    if (c->snapshot->read_snapshot) {
+                        if (c->snapshot->read_snapshot(s) < 0) {
+                            lib_free(devices);
+                            return -1;
+                        }
+                    }
+                }
+                c = c->next;
+            }
+        }
+        return 0;
+    }
+
+    return snapshot_module_close(m);
 }

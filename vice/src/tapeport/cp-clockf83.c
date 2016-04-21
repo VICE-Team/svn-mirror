@@ -42,6 +42,7 @@ TAPE PORT | PCF8583 | I/O
 #include "cmdline.h"
 #include "pcf8583.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "tapeport.h"
 #include "translate.h"
 
@@ -58,17 +59,27 @@ static int tapertc_save = 0;
 /* Some prototypes are needed */
 static void tapertc_store_sda(int flag);
 static void tapertc_store_scl(int write_bit);
+static int tapertc_write_snapshot(struct snapshot_s *s, int write_image);
+static int tapertc_read_snapshot(struct snapshot_s *s);
 
 static tapeport_device_t tapertc_device = {
+    TAPEPORT_DEVICE_CP_CLOCK_F83,
     "Tape RTC (PCF8583)",
     IDGS_TAPE_RTC,
     0,
+    "CPClockF83",
     NULL,
     tapertc_store_sda,
     tapertc_store_scl,
     NULL, /* no sense out */
     NULL, /* no passthrough */
     NULL  /* no passthrough */
+};
+
+static tapeport_snapshot_t tapertc_snapshot = {
+    TAPEPORT_DEVICE_CP_CLOCK_F83,
+    tapertc_write_snapshot,
+    tapertc_read_snapshot,
 };
 
 static tapeport_device_list_t *tapertc_list_item = NULL;
@@ -121,6 +132,8 @@ static const resource_int_t resources_int[] = {
 
 int tapertc_resources_init(void)
 {
+    tapeport_snapshot_register(&tapertc_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -196,4 +209,56 @@ static void tapertc_store_scl(int write_bit)
 
     pcf8583_set_clk_line(tapertc_context, val);
     check_sense();
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define DUMP_VER_MAJOR   0
+#define DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "TP_CP_CLOCK_F83"
+
+static int tapertc_write_snapshot(struct snapshot_s *s, int write_image)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (SMW_B(m, motor_state) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    return pcf8583_write_snapshot(tapertc_context, s);
+}
+
+static int tapertc_read_snapshot(struct snapshot_s *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_tapertc_enabled(1, NULL);
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (SMR_B(m, &motor_state) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    snapshot_module_close(m);
+
+    return pcf8583_read_snapshot(tapertc_context, s);
 }
