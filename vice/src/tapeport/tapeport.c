@@ -577,6 +577,7 @@ int tapeport_snapshot_read_module(snapshot_t *s)
         current = tapeport_head.next;
         while (current) {
             detach_resource_list[i++] = current->device->resource;
+            current = current->next;
         }
         for (i = 0; i < amount; ++i) {
             resources_set_int(detach_resource_list[i], 0);
