@@ -1163,14 +1163,13 @@ static BYTE pc8477_peek(pc8477_t *drv, WORD addr)
     switch (addr) {
         case 2:
             if (drv->is8477) {
-                return drv->dor;
+                result = drv->dor;
             }
             break;
         case 3: /* TDR */
             if (drv->is8477) {
                 result = (addr >> 8) & 0xfc;
                 result |= drv->tdr & 0x03;
-                return result;
             }
             break;
         case 4: /* MSR */
@@ -1197,7 +1196,7 @@ static BYTE pc8477_peek(pc8477_t *drv, WORD addr)
                     result &= ~0x80;
                 }
             }
-            return result;
+            break;
         case 5: /* DATA */
             switch (drv->state) {
                 case PC8477_WAIT:
@@ -1207,18 +1206,18 @@ static BYTE pc8477_peek(pc8477_t *drv, WORD addr)
                     break;
                 case PC8477_READ:
                     result = drv->fifo[drv->fifop];
-                    return result;
+                    break;
                 case PC8477_RESULT:
                     result = drv->res[drv->resp];
-                    return result;
+                    break;
             }
             break;
         case 7: /* DKR */
             result = (addr >> 8) & 0x7f;
             result |= fdd_disk_change(drv->fdd) ? 0x80 : 0;
-            return result;
+            break;
     }
-    return addr >> 8; /* tri-state */
+    return result;
 }
 
 void pc8477_reset(pc8477_t *drv, int is8477)
