@@ -737,6 +737,24 @@
         INC_PC(pc_inc);                           \
     } while (0)
 
+/*
+The result of the ANE opcode is A = ((A | CONST) & X & IMM), with CONST apparently
+being both chip- and temperature dependent.
+
+The commonly used value for CONST in various documents is 0xee, which is however
+not to be taken for granted (as it is unstable). see here:
+http://visual6502.org/wiki/index.php?title=6502_Opcode_8B_(XAA,_ANE)
+
+as seen in the list, there are several possible values, and its origin is still
+kinda unknown. instead of the commonly used 0xee we use 0xff here, since this
+will make the only known occurance of this opcode in actual code work. see here:
+https://sourceforge.net/tracker/?func=detail&aid=2110948&group_id=223021&atid=1057617
+
+FIXME: in the unlikely event that other code surfaces that depends on another
+CONST value, it probably has to be made configureable somehow if no value can
+be found that works for both.
+*/
+
 #define ANE()                                                       \
     do {                                                            \
         /* Set by main-cpu to signal steal after first fetch */     \
@@ -744,9 +762,9 @@
             /* Remove the signal */                                 \
             LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;            \
             /* TODO emulate the different behaviour */              \
-            reg_a_write = (BYTE)((reg_a_read | 0xee) & reg_x & p1); \
+            reg_a_write = (BYTE)((reg_a_read | 0xff) & reg_x & p1); \
         } else {                                                    \
-            reg_a_write = (BYTE)((reg_a_read | 0xee) & reg_x & p1); \
+            reg_a_write = (BYTE)((reg_a_read | 0xff) & reg_x & p1); \
         }                                                           \
         LOCAL_SET_NZ(reg_a_read);                                   \
         INC_PC(2);                                                  \
