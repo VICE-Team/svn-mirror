@@ -880,7 +880,6 @@ static BYTE wd1770_read(wd1770_t *drv, WORD addr)
 }
 
 /* read from I/O without side effects */
-/* FIXME: check if this is working correctly */
 static BYTE wd1770_peek(wd1770_t *drv, WORD addr)
 {
     switch (addr) {

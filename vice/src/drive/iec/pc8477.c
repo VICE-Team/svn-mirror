@@ -1155,7 +1155,6 @@ static BYTE pc8477_read(pc8477_t *drv, WORD addr)
 }
 
 /* read from I/O without side effects */
-/* FIXME: check if this is working correctly */
 static BYTE pc8477_peek(pc8477_t *drv, WORD addr)
 {
     BYTE result = 0;
