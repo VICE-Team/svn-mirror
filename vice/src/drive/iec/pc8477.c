@@ -1154,6 +1154,73 @@ static BYTE pc8477_read(pc8477_t *drv, WORD addr)
     return addr >> 8; /* tri-state */
 }
 
+/* read from I/O without side effects */
+/* FIXME: check if this is working correctly */
+static BYTE pc8477_peek(pc8477_t *drv, WORD addr)
+{
+    BYTE result = 0;
+
+    switch (addr) {
+        case 2:
+            if (drv->is8477) {
+                return drv->dor;
+            }
+            break;
+        case 3: /* TDR */
+            if (drv->is8477) {
+                result = (addr >> 8) & 0xfc;
+                result |= drv->tdr & 0x03;
+                return result;
+            }
+            break;
+        case 4: /* MSR */
+            result |= drv->fdds[0].seeking ? 0x01 : 0x00;
+            result |= drv->fdds[1].seeking ? 0x02 : 0x00;
+            result |= drv->fdds[2].seeking ? 0x04 : 0x00;
+            result |= drv->fdds[3].seeking ? 0x08 : 0x00;
+
+            if (drv->state != PC8477_WAIT) {
+                result |= 0x10;
+            }
+            if (drv->nodma && (drv->state == PC8477_READ || drv->state == PC8477_WRITE)) {
+                result |= 0x20;
+            }
+            if (drv->state == PC8477_READ || drv->state == PC8477_RESULT) {
+                result |= 0x40;
+            }
+            if (drv->state != PC8477_EXEC) {
+                result |= 0x80;
+                if (drv->state == PC8477_READ && !drv->fifo_fill) {
+                    result &= ~0x80;
+                }
+                if (drv->state == PC8477_WRITE && drv->fifo_fill >= drv->fifo_size) {
+                    result &= ~0x80;
+                }
+            }
+            return result;
+        case 5: /* DATA */
+            switch (drv->state) {
+                case PC8477_WAIT:
+                case PC8477_COMMAND:
+                case PC8477_WRITE:
+                case PC8477_EXEC:
+                    break;
+                case PC8477_READ:
+                    result = drv->fifo[drv->fifop];
+                    return result;
+                case PC8477_RESULT:
+                    result = drv->res[drv->resp];
+                    return result;
+            }
+            break;
+        case 7: /* DKR */
+            result = (addr >> 8) & 0x7f;
+            result |= fdd_disk_change(drv->fdd) ? 0x80 : 0;
+            return result;
+    }
+    return addr >> 8; /* tri-state */
+}
+
 void pc8477_reset(pc8477_t *drv, int is8477)
 {
     int i;
@@ -1191,6 +1258,11 @@ void pc8477d_store(drive_context_t *drv, WORD addr, BYTE byte)
 BYTE pc8477d_read(drive_context_t *drv, WORD addr)
 {
     return pc8477_read(drv->pc8477, (WORD)(addr & 7));
+}
+
+BYTE pc8477d_peek(drive_context_t *drv, WORD addr)
+{
+    return pc8477_peek(drv->pc8477, (WORD)(addr & 7));
 }
 
 /*-----------------------------------------------------------------------*/

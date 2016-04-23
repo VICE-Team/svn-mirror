@@ -879,6 +879,23 @@ static BYTE wd1770_read(wd1770_t *drv, WORD addr)
     return 0;
 }
 
+/* read from I/O without side effects */
+/* FIXME: check if this is working correctly */
+static BYTE wd1770_peek(wd1770_t *drv, WORD addr)
+{
+    switch (addr) {
+        case WD_STATUS:
+            return drv->status;
+        case WD_TRACK:
+            return drv->track;
+        case WD_SECTOR:
+            return drv->sector;
+        case WD_DATA:
+            return drv->data;
+    }
+    return 0;
+}
+
 void wd1770_reset(wd1770_t *drv)
 {
     drv->type = 0;
@@ -954,6 +971,11 @@ void wd1770d_store(drive_context_t *drv, WORD addr, BYTE byte)
 BYTE wd1770d_read(drive_context_t *drv, WORD addr)
 {
     return wd1770_read(drv->wd1770, (WORD)(addr & 3));
+}
+
+BYTE wd1770d_peek(drive_context_t *drv, WORD addr)
+{
+    return wd1770_peek(drv->wd1770, (WORD)(addr & 3));
 }
 
 #define WD1770_SNAP_MAJOR 1

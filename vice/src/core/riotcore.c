@@ -319,6 +319,39 @@ BYTE myriot_read_(riot_context_t *riot_context, WORD addr)
     return 0xff;
 }
 
+/* read from I/O without side effects */
+/* FIXME: check if this is working correctly */
+BYTE riotcore_peek(riot_context_t *riot_context, WORD addr)
+{
+    CLOCK rclk = *(riot_context->clk_ptr); /* FIXME */
+    BYTE ret = 0xff;
+
+    addr &= 0x1f;
+
+    /* manage the weird addressing schemes */
+    if ((addr & 0x04) == 0) {           /* I/O */
+        switch (addr & 3) {
+            case 0:       /* ORA */
+                ret = riot_context->read_pra(riot_context); /* FIXME */
+                break;
+            case 1:       /* DDRA */
+                ret = riot_context->riot_io[1];
+                break;
+            case 2:       /* ORB */
+                ret = riot_context->read_prb(riot_context); /* FIXME */
+                break;
+            case 3:       /* DDRB */
+                ret = riot_context->riot_io[3];
+                break;
+        }
+    } else if ((addr & 0x05) == 0x04) {        /* read timer */
+        ret = (BYTE)(riot_context->r_N - (rclk - riot_context->r_write_clk) / riot_context->r_divider);
+    } else if ((addr & 0x05) == 0x05) {        /* read irq flag */
+        ret = riot_context->r_irqfl;
+    }
+    return ret;
+}
+
 static void riotcore_int_riot(CLOCK offset, void *data)
 {
     riot_context_t *riot_context = (riot_context_t *)data;
