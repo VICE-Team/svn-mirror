@@ -83,3 +83,19 @@ int iec_available_busses(void)
 void iec_fast_drive_direction(int direction, unsigned int dnr)
 {
 }
+
+void iec_fast_drive_write(BYTE data, unsigned int dnr)
+{
+}
+
+/* KLUDGES: dummy to satisfy linker, unused */
+BYTE plus4tcbm_outputa[2], plus4tcbm_outputb[2], plus4tcbm_outputc[2];
+void plus4tcbm_update_pa(BYTE byte, unsigned int dnr)
+{
+}
+void plus4tcbm_update_pb(BYTE byte, unsigned int dnr)
+{
+}
+void plus4tcbm_update_pc(BYTE byte, unsigned int dnr)
+{
+}

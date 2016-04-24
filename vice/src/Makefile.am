@@ -1357,6 +1357,7 @@ x64_libs =  \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(drivetcbm_lib) \
 	$(iecbus_lib) \
 	$(p64_lib) \
 	$(parallel_lib) \
@@ -1394,6 +1395,7 @@ x64-all: \
 	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
+	libdrivetcbm \
 	libp64 \
 	libparallel \
 	libvdrive \
@@ -1436,6 +1438,7 @@ x64sc_libs =  \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(drivetcbm_lib) \
 	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
@@ -1473,6 +1476,7 @@ x64sc-all: \
 	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
+	libdrivetcbm \
 	libp64 \
 	libparallel \
 	libvdrive \
@@ -1512,6 +1516,7 @@ x64dtv_libs =  \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(drivetcbm_lib) \
 	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
@@ -1550,6 +1555,7 @@ x64dtv-all: \
 	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
+	libdrivetcbm \
 	libp64 \
 	libparallel \
 	libvdrive \
@@ -1591,6 +1597,7 @@ xscpu64_libs =  \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(drivetcbm_lib) \
 	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
@@ -1633,6 +1640,7 @@ xscpu64-all: \
 	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
+	libdrivetcbm \
 	libp64 \
 	libparallel \
 	libvdrive \
@@ -1672,6 +1680,7 @@ x128_libs =  \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(drivetcbm_lib) \
 	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
@@ -1716,6 +1725,7 @@ x128-all: \
 	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
+	libdrivetcbm \
 	libp64 \
 	libparallel \
 	libvdrive \
@@ -1754,6 +1764,7 @@ xvic_libs =  \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(drivetcbm_lib) \
 	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
@@ -1783,6 +1794,7 @@ xvic-all: \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
+	libdrivetcbm \
 	libp64 \
 	libparallel \
 	libvdrive \
@@ -1826,6 +1838,7 @@ xpet_libs =  \
 	$(driveieee_lib) \
 	$(drive_lib) \
 	$(driveiec_lib) \
+	$(drivetcbm_lib) \
 	$(p64_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -1856,6 +1869,7 @@ xpet-all: \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
+	libdrivetcbm \
 	libp64 \
 	libparallel \
 	libvdrive \
@@ -1896,6 +1910,9 @@ xplus4_libs =  \
 	$(driveiecplus4exp_lib) \
 	$(drivetcbm_lib) \
 	$(drive_lib) \
+	$(driveieee_lib) \
+	$(parallel_lib) \
+	$(driveieee_lib) \
 	$(p64_lib) \
 	$(iecbus_lib) \
 	$(vdrive_lib) \
@@ -1926,6 +1943,8 @@ xplus4-all: \
 	libdriveiecplus4exp \
 	libdrivetcbm \
 	libdrive \
+	libdriveieee \
+	libparallel \
 	libp64 \
 	libvdrive \
 	libraster \
@@ -1965,6 +1984,7 @@ xcbm2_libs = \
 	$(driveieee_lib) \
 	$(drive_lib) \
 	$(driveiec_lib) \
+	$(drivetcbm_lib) \
 	$(p64_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -2004,6 +2024,7 @@ xcbm2-all: \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
+	libdrivetcbm \
 	libp64 \
 	libparallel \
 	libvdrive \
@@ -2033,6 +2054,7 @@ xcbm5x0_libs = \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(drivetcbm_lib) \
 	$(driveiec_lib) \
 	$(p64_lib) \
 	$(parallel_lib) \
@@ -2075,6 +2097,7 @@ xcbm5x0-all: \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
+	libdrivetcbm \
 	libp64 \
 	libparallel \
 	libvdrive \
