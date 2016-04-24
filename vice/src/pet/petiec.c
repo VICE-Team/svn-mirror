@@ -68,6 +68,7 @@ void iec_drive_write(BYTE data, unsigned int dnr)
 
 BYTE parallel_cable_drive_read(int type, int handshake)
 {
+    return 0;
 }
 
 void parallel_cable_drive_write(int port, BYTE data, int handshake, unsigned int dnr)
