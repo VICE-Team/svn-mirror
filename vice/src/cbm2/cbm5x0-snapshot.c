@@ -81,7 +81,7 @@ int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
         || cbm2_c500_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tapeport_snapshot_write_module(s, save_disks) < 0
-        || keyboard_snapshot_write_module(s)
+        || keyboard_snapshot_write_module(s) < 0
         || joyport_snapshot_write_module(s, JOYPORT_1) < 0
         || joyport_snapshot_write_module(s, JOYPORT_2) < 0) {
         snapshot_close(s);

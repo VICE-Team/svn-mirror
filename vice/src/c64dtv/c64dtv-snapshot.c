@@ -87,7 +87,7 @@ int c64dtv_snapshot_write(const char *name, int save_roms, int save_disks,
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || vicii_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
-        || keyboard_snapshot_write_module(s)
+        || keyboard_snapshot_write_module(s) < 0
         || joyport_snapshot_write_module(s, JOYPORT_1) < 0
         || joyport_snapshot_write_module(s, JOYPORT_2) < 0
         || userport_snapshot_write_module(s) < 0) {
