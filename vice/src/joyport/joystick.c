@@ -725,13 +725,15 @@ int joystick_init(void)
 
 #define DUMP_VER_MAJOR   1
 #define DUMP_VER_MINOR   1
-#define SNAP_MODULE_NAME  "JOYSTICK"
 
 static int joystick_snapshot_write_module(snapshot_t *s, int port)
 {
     snapshot_module_t *m;
+    char snapshot_name[16];
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+    sprintf(snapshot_name, "JOYSTICK%d", port);
+
+    m = snapshot_module_create(s, snapshot_name, DUMP_VER_MAJOR, DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
@@ -748,8 +750,11 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
+    char snapshot_name[16];
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    sprintf(snapshot_name, "JOYSTICK%d", port);
+
+    m = snapshot_module_open(s, snapshot_name, &major_version, &minor_version);
     if (m == NULL) {
         return -1;
     }

@@ -783,20 +783,22 @@ int joyport_cmdline_options_init(void)
 
 #define DUMP_VER_MAJOR   0
 #define DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "JOYPORT"
 
 int joyport_snapshot_write_module(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
+    char snapshot_name[16];
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+    sprintf(snapshot_name, "JOYPORT%d", port);
+
+    m = snapshot_module_create(s, snapshot_name, DUMP_VER_MAJOR, DUMP_VER_MINOR);
  
     if (m == NULL) {
         return -1;
     }
 
     /* save device id */
-    if (SMW_DW(m, (DWORD)joy_port[port]) < 0) {
+    if (SMW_B(m, (BYTE)joy_port[port]) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -824,8 +826,11 @@ int joyport_snapshot_read_module(struct snapshot_s *s, int port)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
     int temp_joy_port;
+    char snapshot_name[16];
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    sprintf(snapshot_name, "JOYPORT%d", port);
+
+    m = snapshot_module_open(s, snapshot_name, &major_version, &minor_version);
     if (m == NULL) {
         return -1;
     }
@@ -836,7 +841,7 @@ int joyport_snapshot_read_module(struct snapshot_s *s, int port)
     }
 
     /* load device id */
-    if (SMR_DW_INT(m, &temp_joy_port) < 0) {
+    if (SMR_B_INT(m, &temp_joy_port) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -844,9 +849,7 @@ int joyport_snapshot_read_module(struct snapshot_s *s, int port)
     snapshot_module_close(m);
 
     /* enable device */
-    if (port_props[port].name) {
-        joyport_set_device(port, temp_joy_port);
-    }
+    joyport_set_device(port, temp_joy_port);
 
     /* load device snapshot */
     switch (joy_port[port]) {
