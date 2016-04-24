@@ -1825,6 +1825,7 @@ xpet_libs =  \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(driveiec_lib) \
 	$(p64_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -1851,6 +1852,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 .PHONY: xpet-all
 xpet-all: \
 	$(BUILT_SOURCES) \
+	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
@@ -1962,6 +1964,7 @@ xcbm2_libs = \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(driveiec_lib) \
 	$(p64_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -1997,6 +2000,7 @@ xcbm2-all: \
 	libsid \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
+	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
@@ -2029,6 +2033,7 @@ xcbm5x0_libs = \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(driveiec_lib) \
 	$(p64_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -2066,6 +2071,7 @@ xcbm5x0-all: \
 	libsid \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
+	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
