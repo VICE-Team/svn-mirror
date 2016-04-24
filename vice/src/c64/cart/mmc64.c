@@ -1229,11 +1229,8 @@ int mmc64_enable(void)
 #define CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "CARTMMC64"
 
-/* FIXME: implement snapshot support */
 int mmc64_snapshot_write_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
@@ -1242,20 +1239,42 @@ int mmc64_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (0) {
+    if (0
+        || SMW_B(m, (BYTE)mmc64_clockport_enabled) < 0
+        || SMW_W(m, (WORD)mmc64_hw_clockport) < 0
+        || SMW_B(m, (BYTE)mmc64_bios_write) < 0
+        || SMW_B(m, (BYTE)mmc64_bit7_unlocked) < 0
+        || SMW_B(m, mmc64_unlocking[0]) < 0
+        || SMW_B(m, mmc64_unlocking[1]) < 0
+        || SMW_B(m, (BYTE)mmc64_bios_changed) < 0
+        || SMW_B(m, (BYTE)mmc64_hw_flashjumper) < 0
+        || SMW_B(m, (BYTE)mmc64_hw_writeprotect) < 0
+        || SMW_B(m, mmc64_active) < 0
+        || SMW_B(m, mmc64_spi_mode) < 0
+        || SMW_B(m, mmc64_extrom) < 0
+        || SMW_B(m, mmc64_flashmode) < 0
+        || SMW_B(m, mmc64_cport) < 0
+        || SMW_B(m, mmc64_speed) < 0
+        || SMW_B(m, mmc64_cardsel) < 0
+        || SMW_B(m, mmc64_biossel) < 0
+        || SMW_B(m, mmc64_extexrom) < 0
+        || SMW_B(m, mmc64_extgame) < 0
+        || SMW_B(m, (BYTE)mmc64_revision) < 0
+        || SMW_B(m, (BYTE)mmc64_sd_type) < 0
+        || SMW_B(m, mmc64_image_file_readonly) < 0
+        || SMW_BA(m, mmc64_bios, 0x2002) < 0
+        || SMW_B(m, (BYTE)mmc64_bios_offset) < 0
+        || SMW_B(m, (BYTE)mmc64_bios_type) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
     return 0;
-#endif
 }
 
 int mmc64_snapshot_read_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
@@ -1269,16 +1288,63 @@ int mmc64_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    if (0) {
+    if (0
+        || SMR_B_INT(m, &mmc64_clockport_enabled) < 0
+        || SMR_W_INT(m, &mmc64_hw_clockport) < 0
+        || SMR_B_INT(m, &mmc64_bios_write) < 0
+        || SMR_B_INT(m, &mmc64_bit7_unlocked) < 0
+        || SMR_B(m, &mmc64_unlocking[0]) < 0
+        || SMR_B(m, &mmc64_unlocking[1]) < 0
+        || SMR_B_INT(m, &mmc64_bios_changed) < 0
+        || SMR_B_INT(m, &mmc64_hw_flashjumper) < 0
+        || SMR_B_INT(m, &mmc64_hw_writeprotect) < 0
+        || SMR_B(m, &mmc64_active) < 0
+        || SMR_B(m, &mmc64_spi_mode) < 0
+        || SMR_B(m, &mmc64_extrom) < 0
+        || SMR_B(m, &mmc64_flashmode) < 0
+        || SMR_B(m, &mmc64_cport) < 0
+        || SMR_B(m, &mmc64_speed) < 0
+        || SMR_B(m, &mmc64_cardsel) < 0
+        || SMR_B(m, &mmc64_biossel) < 0
+        || SMR_B(m, &mmc64_extexrom) < 0
+        || SMR_B(m, &mmc64_extgame) < 0
+        || SMR_B_INT(m, &mmc64_revision) < 0
+        || SMR_B_INT(m, &mmc64_sd_type) < 0
+        || SMR_B(m, &mmc64_image_file_readonly) < 0
+        || SMR_BA(m, mmc64_bios, 0x2002) < 0
+        || SMR_B_INT(m, &mmc64_bios_offset) < 0
+        || SMR_B_INT(m, &mmc64_bios_type) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
 
-    if (mmc64_common_attach() < 0) {
+    mmc64_enabled = 1;
+
+    /* FIXME: ugly code duplication to avoid cart_config_changed calls */
+    mmc64_io1_list_item = io_source_register(&mmc64_io1_device);
+    mmc64_io2_list_item = io_source_register(&mmc64_io2_device);
+
+    if (mmc64_clockport_enabled) {
+        if (mmc64_hw_clockport == 0xde02) {
+            mmc64_current_clockport_device = &mmc64_io1_clockport_device;
+        } else {
+            mmc64_current_clockport_device = &mmc64_io2_clockport_device;
+        }
+        mmc64_clockport_list_item = io_source_register(mmc64_current_clockport_device);
+    }
+
+    if (export_add(&export_res) < 0) {
+        io_source_unregister(mmc64_io1_list_item);
+        io_source_unregister(mmc64_io2_list_item);
+        io_source_unregister(mmc64_clockport_list_item);
+        mmc64_io1_list_item = NULL;
+        mmc64_io2_list_item = NULL;
+        mmc64_clockport_list_item = NULL;
+        mmc64_enabled = 0;
         return -1;
     }
+
     return 0;
-#endif
 }
