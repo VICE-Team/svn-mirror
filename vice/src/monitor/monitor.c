@@ -1556,7 +1556,7 @@ void mon_display_io_regs(MON_ADDR addr)
                 if (addr > 0) {
                     if (mem_ioreg_list_base[n].dump) {
                         mon_out("\n");
-                        if (mem_ioreg_list_base[n].dump((WORD)(addr_location(start))) < 0) {
+                        if (mem_ioreg_list_base[n].dump(mem_ioreg_list_base[n].context, (WORD)(addr_location(start))) < 0) {
                             mon_out("No details available.\n");
                         }
                     } else {
@@ -1579,7 +1579,7 @@ void mon_display_io_regs(MON_ADDR addr)
 }
 
 void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
-                        int start_, int end_, void *dump)
+                        int start_, int end_, void *dump, void *context)
 {
     mem_ioreg_list_t *base;
     unsigned int n;
@@ -1609,6 +1609,7 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
     base[n].start = start;
     base[n].end = end;
     base[n].dump = dump;
+    base[n].context = context;
     base[n].next = 0;
 
     *list = base;

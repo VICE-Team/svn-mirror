@@ -40,6 +40,7 @@
 #include "monitor.h"
 #include "types.h"
 #include "ds1216e.h"
+#include "iec/via1d1541.h"
 
 static drive_read_func_t *read_tab_watch[0x101];
 static drive_store_func_t *store_tab_watch[0x101];
@@ -208,31 +209,31 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
         case DRIVE_TYPE_1541:
         case DRIVE_TYPE_1541II:
         case DRIVE_TYPE_2031:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL); /* FIXME: register dump function */
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL /* via1d1541_dump */, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL /* via2d_dump */, context); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_1551:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "TPI", 0x4000, 0x4007, NULL); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "TPI", 0x4000, 0x4007, NULL /* tpid_dump */, context); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_1570:
         case DRIVE_TYPE_1571:
         case DRIVE_TYPE_1571CR:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL); /* FIXME: register dump function */
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL); /* FIXME: register dump function */
-            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, NULL); /* FIXME: register dump function */
-            mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL /* via1d1541_dump */, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL /* via2d_dump */, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, NULL, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL /* cia1571_dump */, context); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_1581:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL); /* FIXME: register dump function */
-            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, NULL); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL /* cia1581_dump */, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, NULL, context); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_2000:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL); /* FIXME: register dump function */
-            mon_ioreg_add_list(&drivemem_ioreg_list, "DP8473", 0x4e00, 0x4e07, NULL); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL /* via4000_dump */, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "DP8473", 0x4e00, 0x4e07, NULL, context); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_4000:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL); /* FIXME: register dump function */
-            mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, NULL); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL /* via4000_dump */, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, NULL, context); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_2040:
         case DRIVE_TYPE_3040:
@@ -240,12 +241,12 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
         case DRIVE_TYPE_1001:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT1", 0x0200, 0x021f, NULL); /* FIXME: register dump function */
-            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f, NULL); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT1", 0x0200, 0x021f, NULL /* riot1_dump */, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f, NULL /* riot2_dump */, context); /* FIXME: register dump function */
             break;
         default:
             log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
+            break;
     }
-
     return drivemem_ioreg_list;
 }

@@ -352,6 +352,11 @@ BYTE riotcore_peek(riot_context_t *riot_context, WORD addr)
     return ret;
 }
 
+void riotcore_dump(riot_context_t *riot_context)
+{
+    /* TODO: implement dump feature */
+}
+
 static void riotcore_int_riot(CLOCK offset, void *data)
 {
     riot_context_t *riot_context = (riot_context_t *)data;
