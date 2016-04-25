@@ -440,7 +440,6 @@ void lightpen_update(int window, int x, int y, int buttons)
         chip_trigger_callback(pulse_time);
     }
 }
-#endif
 
 /* --------------------------------------------------------- */
 
@@ -498,3 +497,4 @@ static int lightpen_read_snapshot(struct snapshot_s *s, int port)
 
     return snapshot_module_close(m);
 }
+#endif
