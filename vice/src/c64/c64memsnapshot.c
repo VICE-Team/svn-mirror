@@ -39,6 +39,7 @@
 #include "c64rom.h"
 #include "cartridge.h"
 #include "log.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
 #include "reu.h"
@@ -140,7 +141,7 @@ fail:
 }
 
 #define SNAP_MAJOR 0
-#define SNAP_MINOR 0
+#define SNAP_MINOR 1
 static const char snap_mem_module_name[] = "C64MEM";
 
 int c64_snapshot_write_module(snapshot_t *s, int save_roms)
@@ -154,6 +155,8 @@ int c64_snapshot_write_module(snapshot_t *s, int save_roms)
         return -1;
     }
 
+
+
     if (SMW_B(m, pport.data) < 0
         || SMW_B(m, pport.dir) < 0
         || SMW_B(m, export.exrom) < 0
@@ -161,7 +164,14 @@ int c64_snapshot_write_module(snapshot_t *s, int save_roms)
         || SMW_BA(m, mem_ram, C64_RAM_SIZE) < 0
         || SMW_B(m, pport.data_out) < 0
         || SMW_B(m, pport.data_read) < 0
-        || SMW_B(m, pport.dir_read) < 0) {
+        || SMW_B(m, pport.dir_read) < 0
+        || SMW_DW(m, (DWORD)maincpu_clk) < 0
+        || SMW_DW(m, (DWORD)(pport.data_set_clk_bit6 - maincpu_clk)) < 0
+        || SMW_DW(m, (DWORD)(pport.data_set_clk_bit7 - maincpu_clk)) < 0
+        || SMW_B(m, pport.data_set_bit6) < 0
+        || SMW_B(m, pport.data_set_bit7) < 0
+        || SMW_B(m, pport.data_falloff_bit6) < 0
+        || SMW_B(m, pport.data_falloff_bit7) < 0) {
         goto fail;
     }
 
@@ -191,6 +201,9 @@ int c64_snapshot_read_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
+    DWORD tmp_maincpu_clk;
+    DWORD tmp_bit6_diff;
+    DWORD tmp_bit7_diff;
 
     /* Main memory module.  */
 
@@ -216,6 +229,18 @@ int c64_snapshot_read_module(snapshot_t *s)
     SMR_B(m, &pport.data_out);
     SMR_B(m, &pport.data_read);
     SMR_B(m, &pport.dir_read);
+
+    /* new since 2.4.27 */
+    SMR_DW(m, &tmp_maincpu_clk);
+    SMR_DW(m, &tmp_bit6_diff);
+    SMR_DW(m, &tmp_bit7_diff);
+    SMR_B(m, &pport.data_set_bit6);
+    SMR_B(m, &pport.data_set_bit7);
+    SMR_B(m, &pport.data_falloff_bit6);
+    SMR_B(m, &pport.data_falloff_bit7);
+
+    pport.data_set_clk_bit6 = (CLOCK)(tmp_maincpu_clk + tmp_bit6_diff);
+    pport.data_set_clk_bit7 = (CLOCK)(tmp_maincpu_clk + tmp_bit7_diff);
 
     mem_pla_config_changed();
 
