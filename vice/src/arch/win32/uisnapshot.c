@@ -159,7 +159,7 @@ static void ui_snapshot_save_dialog(HWND hwnd)
         util_add_extension(&s, "vsf");
 
         if (machine_write_snapshot(s, save_roms, save_disks, 0) < 0) {
-            ui_error(translate_text(IDS_CANNOT_WRITE_SNAPSHOT_S), s);
+            snapshot_display_error();
         }
         lib_free(s);
     }
@@ -174,7 +174,7 @@ static void ui_snapshot_load_dialog(HWND hwnd)
 
         name = system_wcstombs_alloc(st_name);
         if (machine_read_snapshot(name, 0) < 0) {
-            ui_error(translate_text(IDS_CANNOT_READ_SNAPSHOT_IMG));
+            snapshot_display_error();
         }
         system_wcstombs_free(name);
         lib_free(st_name);

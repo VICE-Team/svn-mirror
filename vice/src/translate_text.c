@@ -4016,6 +4016,482 @@ translate_t string_table[] = {
 /* tr */ {IDGS_TAPE_LOG_TR, ""},  /* fuzzy */
 #endif
 
+/* snapshot.c */
+/* en */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S,    N_("EOF while writing to module %s in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_EOF_WRITING_SNAPSHOT_S,    N_("EOF while writing to snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_EOF_WRITING_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_EOF_WRITING_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_EOF_WRITING_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_EOF_WRITING_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_EOF_WRITING_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_EOF_WRITING_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_EOF_WRITING_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_EOF_WRITING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_EOF_WRITING_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_EOF_WRITING_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_EOF_WRITING_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_EOF_WRITING_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S,    N_("Error writing array to module %s in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S,    N_("Error writing array to snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S,    N_("EOF while reading from module %s in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_EOF_READING_SNAPSHOT_S,    N_("EOF while reading from snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_EOF_READING_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_EOF_READING_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_EOF_READING_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_EOF_READING_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_EOF_READING_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_EOF_READING_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_EOF_READING_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_EOF_READING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_EOF_READING_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_EOF_READING_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_EOF_READING_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_EOF_READING_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S,    N_("Error reading array from module %s in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S,    N_("Error reading array from snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S,    N_("Error writing string to module %s in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S,    N_("Error writing string to snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S,    N_("Out of bounds reading error in module %s in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S,    N_("Out of bounds reading error in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S,    N_("Illegal offset while attempting to create module %s in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S,    N_("Cannot find first module in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S,    N_("Error while reading module header in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S,    N_("Cannot find module %s in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S,    N_("Error closing module %s in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S,    N_("Error skipping module in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_S,    N_("Cannot create snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S,    N_("Cannot write magic string to snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S,    N_("Cannot write version to snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S,    N_("Cannot write machine name to snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING,    N_("Cannot open snapshot %s for reading")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S,    N_("Magic string mismatch in snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S,    N_("Cannot read version from snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S,    N_("Cannot read machine name from snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S,    N_("Wrong machine type in snapshot %s, snapshot type: %s, current machine: %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_EOF_CLOSING_SNAPSHOT_S,    N_("EOF while closing snapshot %s")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_EOF_CLOSING_SNAPSHOT_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_EOF_CLOSING_SNAPSHOT_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_EOF_CLOSING_SNAPSHOT_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_EOF_CLOSING_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_EOF_CLOSING_SNAPSHOT_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_EOF_CLOSING_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_EOF_CLOSING_SNAPSHOT_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_EOF_CLOSING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_EOF_CLOSING_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_EOF_CLOSING_SNAPSHOT_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_EOF_CLOSING_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_EOF_CLOSING_SNAPSHOT_S_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */

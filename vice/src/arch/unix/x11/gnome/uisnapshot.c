@@ -98,7 +98,7 @@ void ui_snapshot_dialog(void)
 
     /* ok button pressed */
     if (machine_write_snapshot(name, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(attach_rom)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(attach_disk)), 0) < 0) {
-        ui_error(_("Cannot write snapshot file\n`%s'\n"), name);
+        snapshot_display_error();
     } else {
         ui_message(_("Successfully wrote `%s'\n"), name);
     }

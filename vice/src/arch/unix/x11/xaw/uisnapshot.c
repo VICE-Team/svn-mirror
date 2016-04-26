@@ -130,7 +130,7 @@ static UI_CALLBACK(save_callback)
     util_add_extension(&filename, "vsf");
     
     if (machine_write_snapshot(filename, save_roms, save_disks, 0) < 0) {
-        ui_error(_("Cannot write snapshot file\n`%s'\n"), filename);
+        snapshot_display_error();
     }
 
     lib_free(filename);

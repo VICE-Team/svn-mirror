@@ -531,7 +531,7 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
 
     fullname = util_concat(archdep_boot_path(), "/", machine_name, "/", files[lastindex].name, NULL);
     if (machine_write_snapshot(fullname, 0, 0, 0) < 0) {
-        ui_error("Can't write snapshot file %s.", fullname);
+        snapshot_display_error();
     }
     free(fullname);
 }
@@ -542,7 +542,7 @@ static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
 
     fullname = util_concat(archdep_boot_path(), "/", machine_name, "/", files[lastindex].name, NULL);
     if (machine_read_snapshot(fullname, 0) < 0) {
-        ui_error("Cannot read snapshot image");
+        snapshot_display_error();
     }
     free(fullname);
 }

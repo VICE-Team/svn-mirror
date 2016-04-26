@@ -625,7 +625,7 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
 static void load_snapshot_trap(WORD unused_addr, void *path)
 {
     if (machine_read_snapshot((char *)path, 0) < 0) {
-        ui_error("Cannot read snapshot image.");
+        snapshot_display_error();
     }
     delete (char *)path;
 }
@@ -633,7 +633,7 @@ static void load_snapshot_trap(WORD unused_addr, void *path)
 static void save_snapshot_trap(WORD unused_addr, void *path)
 {
     if (machine_write_snapshot((char *)path, 1, 1, 0) < 0) {
-        ui_error("Cannot write snapshot file.");
+        snapshot_display_error();
     }
     delete (char *)path;
 }

@@ -222,7 +222,7 @@ static void load_snapshot(WORD addr, void *hwnd)
     char *name = util_concat(archdep_boot_path(), "\\vice2.vsf", NULL);
 
     if (machine_read_snapshot(name , 0) < 0) {
-        WinMessageBox(HWND_DESKTOP, (HWND)hwnd, "Unable to load snapshot - sorry!", "Load Snapshot", 0, MB_OK);
+        snapshot_display_error();
     } else {
         log_debug("Snapshot '%s' loaded successfully.", name);
     }
@@ -235,7 +235,7 @@ static void save_snapshot(WORD addr, void *hwnd)
     char *name = util_concat(archdep_boot_path(), "\\vice2.vsf", NULL);
 
     if (machine_write_snapshot(name, 1, 1, 0) < 0) {
-        WinMessageBox(HWND_DESKTOP, (HWND)hwnd, "Unable to save snapshot - sorry!", "Save Snapshot", 0, MB_OK);
+        snapshot_display_error();
     } else {
         log_debug("Snapshot saved as '%s' successfully.", name);
     }

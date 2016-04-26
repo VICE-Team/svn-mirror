@@ -309,7 +309,7 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
     util_fname_split(filename, &load_snapshot_last_dir, NULL);
 
     if (machine_read_snapshot(filename, 0) < 0) {
-        ui_error(_("Cannot load snapshot file\n`%s'"), filename);
+        snapshot_display_error();
     }
     ui_update_menus();
 
@@ -342,7 +342,7 @@ static void save_snapshot_trap(WORD unused_addr, void *data)
         /* quick snapshot, save ROMs & disks (??) */
         log_debug("Quicksaving file %s.", (char *)data);
         if (machine_write_snapshot(data, 1, 1, 0) < 0) {
-            ui_error(_("Cannot write snapshot file\n`%s'\n"), data);
+            snapshot_display_error();
         }
         lib_free(data);
     } else {

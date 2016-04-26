@@ -125,7 +125,7 @@ void uisnapshot_save_dialog(video_canvas_t *canvas)
             get(filename_check, MUIA_String_Contents, (APTR)&str);
             if (str != NULL && *str != '\0') {
                 if (machine_write_snapshot(str, save_roms, save_disks, 0) < 0) {
-                    ui_error(translate_text(IDS_CANNOT_WRITE_SNAPSHOT_S),str);
+                    snapshot_display_error();
                 }
             }
         }
@@ -146,7 +146,7 @@ void uisnapshot_load_dialog(video_canvas_t *canvas)
     if (fname != NULL && *fname != '\0')
     {
         if (machine_read_snapshot(fname, 0) < 0) {
-            ui_error(translate_text(IDS_CANNOT_READ_SNAPSHOT_IMG));
+            snapshot_display_error();
         }
     }
 }
