@@ -88,6 +88,26 @@ void iec_fast_drive_write(BYTE data, unsigned int dnr)
 {
 }
 
+void debug_iec_drv_read(unsigned int data)
+{
+    /* FIXME: unused */
+}
+
+void debug_iec_drv_write(unsigned int data)
+{
+    /* FIXME: unused */
+}
+
+void debug_iec_bus_read(unsigned int data)
+{
+    /* FIXME: unused */
+}
+
+void debug_iec_bus_write(unsigned int data)
+{
+    /* FIXME: unused */
+}
+
 /* KLUDGES: dummy to satisfy linker, unused */
 BYTE plus4tcbm_outputa[2], plus4tcbm_outputb[2], plus4tcbm_outputc[2];
 void plus4tcbm_update_pa(BYTE byte, unsigned int dnr)
