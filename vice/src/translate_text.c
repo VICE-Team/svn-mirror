@@ -4492,6 +4492,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_EOF_CLOSING_SNAPSHOT_S_TR, ""},  /* fuzzy */
 #endif
 
+/* snapshot.c */
+/* en */ {IDGS_SNAPSHOT_HIGHER_VERSION,    N_("Snapshot %s has a higher version than what your current emulator supports, please upgrade VICE")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SNAPSHOT_HIGHER_VERSION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SNAPSHOT_HIGHER_VERSION_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SNAPSHOT_HIGHER_VERSION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SNAPSHOT_HIGHER_VERSION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SNAPSHOT_HIGHER_VERSION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SNAPSHOT_HIGHER_VERSION_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SNAPSHOT_HIGHER_VERSION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SNAPSHOT_HIGHER_VERSION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SNAPSHOT_HIGHER_VERSION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SNAPSHOT_HIGHER_VERSION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SNAPSHOT_HIGHER_VERSION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SNAPSHOT_HIGHER_VERSION_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */

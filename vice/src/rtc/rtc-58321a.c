@@ -29,6 +29,7 @@
 #include "rtc-58321a.h"
 #include "lib.h"
 #include "rtc.h"
+#include "snapshot.h"
 
 #include <string.h>
 

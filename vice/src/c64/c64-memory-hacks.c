@@ -127,15 +127,14 @@ int memory_hacks_cmdline_options_init(void)
 /* ------------------------------------------------------------------------- */
 
 #define C64MEMHACKS_DUMP_VER_MAJOR   0
-#define C64MEMHACKS_DUMP_VER_MINOR   1
+#define C64MEMHACKS_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "C64MEMHACKS"
 
 int memhacks_snapshot_write_modules(struct snapshot_s *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                               C64MEMHACKS_DUMP_VER_MAJOR, C64MEMHACKS_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, C64MEMHACKS_DUMP_VER_MAJOR, C64MEMHACKS_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
@@ -180,7 +179,9 @@ int memhacks_snapshot_read_modules(struct snapshot_s *s)
         return -1;
     }
 
-    if ((vmajor != C64MEMHACKS_DUMP_VER_MAJOR) || (vminor != C64MEMHACKS_DUMP_VER_MINOR)) {
+    /* do not accept higher versions than current */
+    if (vmajor > C64MEMHACKS_DUMP_VER_MAJOR || vminor > C64MEMHACKS_DUMP_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 

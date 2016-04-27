@@ -3206,18 +3206,12 @@ struct vdrive_s *file_system_get_vdrive(unsigned int unit)
     return drives[unit - 8];
 }
 
-snapshot_module_t *snapshot_module_create(snapshot_t *s,
-                                          const char *name,
-                                          BYTE major_version,
-                                          BYTE minor_version)
+snapshot_module_t *snapshot_module_create(snapshot_t *s, const char *name, BYTE major_version, BYTE minor_version)
 {
     return NULL;
 }
 
-snapshot_module_t *snapshot_module_open(snapshot_t *s,
-                                        const char *name,
-                                        BYTE *major_version_return,
-                                        BYTE *minor_version_return)
+snapshot_module_t *snapshot_module_open(snapshot_t *s, const char *name, BYTE *major_version_return, BYTE *minor_version_return)
 {
     return NULL;
 }
@@ -3254,20 +3248,17 @@ struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
     return diskcontents_iec_read(unit);
 }
 
-int machine_bus_lib_directory(unsigned int unit, const char *pattern,
-                              BYTE **buf)
+int machine_bus_lib_directory(unsigned int unit, const char *pattern, BYTE **buf)
 {
     return serial_iec_lib_directory(unit, pattern, buf);
 }
 
-int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
-                                unsigned int sector, BYTE *buf)
+int machine_bus_lib_read_sector(unsigned int unit, unsigned int track, unsigned int sector, BYTE *buf)
 {
     return serial_iec_lib_read_sector(unit, track, sector, buf);
 }
 
-int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
-                                 unsigned int sector, BYTE *buf)
+int machine_bus_lib_write_sector(unsigned int unit, unsigned int track, unsigned int sector, BYTE *buf)
 {
     return serial_iec_lib_write_sector(unit, track, sector, buf);
 }

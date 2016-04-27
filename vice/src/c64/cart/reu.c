@@ -1487,13 +1487,15 @@ int reu_write_snapshot_module(snapshot_t *s)
         return -1;
     }
 
-    if (SMW_DW(m, (reu_size >> 10)) < 0 || SMW_BA(m, reu, sizeof(reu)) < 0 || SMW_BA(m, reu_ram, reu_size) < 0) {
+    if (0
+        || SMW_DW(m, (reu_size >> 10)) < 0
+        || SMW_BA(m, reu, sizeof(reu)) < 0
+        || SMW_BA(m, reu_ram, reu_size) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 /*! \brief read the REU module data from the snapshot
@@ -1519,8 +1521,9 @@ int reu_read_snapshot_module(snapshot_t *s)
         return -1;
     }
 
-    if (major_version != SNAP_MAJOR) {
-        log_error(reu_log, "Major version %d not valid; should be %d.", major_version, SNAP_MAJOR);
+    /* Do not accept versions higher than current */
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -1553,7 +1556,6 @@ int reu_read_snapshot_module(snapshot_t *s)
     for (reu_address = 0; reu_address < sizeof(reu); reu_address++) {
         reu_store_without_sideeffects(reu_address, reu[reu_address]);
     }
-
 
     snapshot_module_close(m);
     reu_enabled = 1;

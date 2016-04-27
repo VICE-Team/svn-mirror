@@ -230,7 +230,9 @@ int shortbus_read_snapshot_module(snapshot_t *s)
         return -1;
     }
 
-    if (major_version != SNAP_MAJOR) {
+    /* Do not accept versions higher than current */
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;
     }

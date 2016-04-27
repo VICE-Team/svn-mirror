@@ -886,5 +886,26 @@ void snapshot_display_error(void)
         case SNAPSHOT_WRITE_CLOSE_EOF_ERROR:
             ui_error(translate_text(IDGS_EOF_CLOSING_SNAPSHOT_S), current_filename);
             break;
+        case SNAPSHOT_MODULE_HIGHER_VERSION:
+            ui_error(translate_text(IDGS_SNAPSHOT_HIGHER_VERSION), current_filename);
+            break;
     }
+}
+
+void snapshot_set_error(int error)
+{
+    snapshot_error = error;
+}
+
+int snapshot_version_at_least(BYTE major_version, BYTE minor_version, BYTE major_version_required, BYTE minor_version_required)
+{
+    if (major_version != major_version_required) {
+        return 0;
+    }
+
+    if (minor_version >= minor_version_required) {
+        return 1;
+    }
+
+    return 0;
 }

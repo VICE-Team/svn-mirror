@@ -6541,8 +6541,7 @@ int cpmcart_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, snap_module_name, ((BYTE)SNAP_MAJOR),
-                               ((BYTE)SNAP_MINOR));
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL) {
         return -1;
     }
@@ -6601,6 +6600,12 @@ int cpmcart_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
+    /* Do not accept versions higher than current */
+    if (major > SNAP_MAJOR || minor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    } 
+
     /* FIXME: This is a mighty kludge to prevent VIC-II from stealing the
        wrong number of cycles.  */
     maincpu_rmw_flag = 0;
@@ -6622,7 +6627,6 @@ int cpmcart_snapshot_read_module(snapshot_t *s)
         || SMR_B(m, &reg_iyl) < 0
         || SMR_W(m, &reg_sp) < 0
         || SMR_DW(m, &z80_reg_pc) < 0
-
         || SMR_B(m, &reg_i) < 0
         || SMR_B(m, &reg_r) < 0
         || SMR_B(m, &iff1) < 0

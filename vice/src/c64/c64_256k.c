@@ -459,15 +459,15 @@ BYTE c64_256k_ram_segment3_read(WORD addr)
 /* ------------------------------------------------------------------------- */
 
 #define C64_256K_DUMP_VER_MAJOR   0
-#define C64_256K_DUMP_VER_MINOR   1
+#define C64_256K_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "C64_256K"
 
 int c64_256k_snapshot_write(struct snapshot_s *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                               C64_256K_DUMP_VER_MAJOR, C64_256K_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, C64_256K_DUMP_VER_MAJOR, C64_256K_DUMP_VER_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -505,7 +505,9 @@ int c64_256k_snapshot_read(struct snapshot_s *s)
         return -1;
     }
 
-    if ((vmajor != C64_256K_DUMP_VER_MAJOR) || (vminor != C64_256K_DUMP_VER_MINOR)) {
+    /* do not accept higher versions than current */
+    if (vmajor > C64_256K_DUMP_VER_MAJOR || vminor > C64_256K_DUMP_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -539,7 +541,7 @@ int c64_256k_snapshot_read(struct snapshot_s *s)
         || SMR_B_INT(m, &c64_256k_segment1) < 0
         || SMR_B_INT(m, &c64_256k_segment2) < 0
         || SMR_B_INT(m, &c64_256k_segment3) < 0
-        || SMR_BA   (m, c64_256k_ram, 0x40000) < 0) {
+        || SMR_BA(m, c64_256k_ram, 0x40000) < 0) {
         goto fail;
     }
     snapshot_module_close(m);

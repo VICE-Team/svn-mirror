@@ -52,7 +52,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"
-#include "snapshot.h"
 #include "util.h"
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API

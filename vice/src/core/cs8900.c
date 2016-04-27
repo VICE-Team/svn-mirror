@@ -43,9 +43,8 @@
 #include "lib.h"
 #include "log.h"
 #include "monitor.h"
-#include "resources.h"
-#include "snapshot.h"
 #include "rawnetarch.h"
+#include "resources.h"
 #include "snapshot.h"
 #include "util.h"
 

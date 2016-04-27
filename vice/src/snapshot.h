@@ -56,6 +56,7 @@
 #define SNAPSHOT_MACHINE_MISMATCH_ERROR          21
 #define SNAPSHOT_READ_CLOSE_EOF_ERROR            22
 #define SNAPSHOT_WRITE_CLOSE_EOF_ERROR           23
+#define SNAPSHOT_MODULE_HIGHER_VERSION           24
 
 typedef struct snapshot_module_s snapshot_module_t;
 typedef struct snapshot_s snapshot_t;
@@ -141,5 +142,11 @@ extern snapshot_t *snapshot_open(const char *filename,
                                  BYTE *minor_version_return,
                                  const char *snapshot_machine_name);
 extern int snapshot_close(snapshot_t *s);
+
+extern void snapshot_set_error(int error);
+
+extern int snapshot_version_at_least(BYTE major_version, BYTE minor_version, BYTE major_version_required, BYTE minor_version_required);
+
+#define SNAPVAL snapshot_version_at_least
 
 #endif
