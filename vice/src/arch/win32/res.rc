@@ -936,12 +936,12 @@ END
 
 // dialog template for all languages
 
-IDD_RAM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 210
+IDD_RAM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 320, 410
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX      "", IDC_RAM_INIT_AT_POWERUP,
-                  5, 5, 160, 180
+                  5, 5, 310, 380
     LTEXT         "", IDC_RAM_VALUE_FIRST_BYTE,
                   55, 17, 100, 8
     COMBOBOX      IDC_RAMINIT_STARTVALUE, 9, 15, 40, 80,
@@ -955,9 +955,9 @@ BEGIN
     COMBOBOX      IDC_RAMINIT_PATTERNINVERT,
                   9, 45, 40, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     EDITTEXT      IDC_RAMINIT_PREVIEW,
-                  9, 60, 152, 110, (0x4L) | WS_VSCROLL | ES_READONLY
-    DEFPUSHBUTTON "", IDOK, 30, 187, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "", IDCANCEL, 90, 187, 50, 14, WS_TABSTOP
+                  9, 60, 302, 310, (0x4L) | WS_VSCROLL | ES_READONLY
+    DEFPUSHBUTTON "", IDOK, 30, 387, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL, 90, 387, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------

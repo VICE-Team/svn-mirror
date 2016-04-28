@@ -44,33 +44,36 @@ static int ui_ram_startvalue[] = {
 };
 
 static int ui_ram_invertvalue[] = {
-    0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, -1
+    0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, -1
 };
 
 static int orig_startvalue;
 static int orig_valueinvert;
 static int orig_patterninvert;
 
+static int last_startvalue = -1;
+static int last_valueinvert = -1;
+static int last_patterninvert = -1;
+
 static void update_preview(HWND hwnd)
 {
-    const char *s;
+    int curr_startvalue, curr_valueinvert, curr_patterninvert;
     TCHAR *s_win;
-    int i, j;
 
-    s = ram_init_print_pattern();
-
-    s_win = lib_malloc((2 * strlen(s) + 1) * sizeof(TCHAR));
-    i = j =0;
-    while (s[i] != '\0') {
-        if (s[i] == '\n') {
-            s_win[j++] = TEXT('\r');
-        }
-        s_win[j++] = (TCHAR)s[i++];
+    resources_get_int("RAMInitStartValue", &curr_startvalue);
+    resources_get_int("RAMInitValueInvert", &curr_valueinvert);
+    resources_get_int("RAMInitPatternInvert", &curr_patterninvert);
+    if ((curr_startvalue != last_startvalue) ||
+        (curr_valueinvert != last_valueinvert) ||
+        (curr_patterninvert != last_patterninvert)) {
+        s_win = lib_malloc(65536 * 4);
+        ram_init_print_pattern(s_win, 65536, "\r\n");
+        SetDlgItemText(hwnd, IDC_RAMINIT_PREVIEW, s_win);
+        lib_free(s_win);
+        last_startvalue = curr_startvalue;
+        last_valueinvert = curr_valueinvert;
+        last_patterninvert = curr_patterninvert;
     }
-    s_win[j] = TEXT('\0');
-
-    SetDlgItemText(hwnd, IDC_RAMINIT_PREVIEW, s_win);
-    lib_free(s_win);
 }
 
 static uilib_localize_dialog_param ram_dialog_trans[] = {
@@ -140,7 +143,7 @@ static void init_ram_dialog(HWND hwnd)
     } else {
         /* set the size of the group element */
         uilib_set_element_width(hwnd, IDC_RAM_INIT_AT_POWERUP, size + xpos - group_x + 10);
-        
+
         /* set the size of the dialog window */
         GetWindowRect(hwnd, &rect);
         MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
