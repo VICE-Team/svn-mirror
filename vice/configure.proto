@@ -4316,9 +4316,12 @@ dnl don't care about checking it out. MP
 
 if test x"$GCC" = "xyes" ; then
   case "$host_os" in
+    solaris2.3*)
+      LIBS="$LIBS -lthread"
+      ;;
     solaris*)
       if echo ${CFLAGS} ${ARCH_INCLUDES} | grep "I/usr/openwin/include" > /dev/null 2>&1 ; then
-  	CFLAGS="${CFLAGS} -Wno-implicit-int"
+          CFLAGS="${CFLAGS} -Wno-implicit-int"
       fi
       ;;
     *)

@@ -21,7 +21,7 @@ AC_LANG([C++])
 
 dnl Enable inlining.
 AC_ARG_ENABLE([inline],
-  [AS_HELP_STRING([--enable-inline],
+  [AC_HELP_STRING([--enable-inline],
     [enable inlining of functions [default=yes]])],
   [],
   [enable_inline=yes])
@@ -34,14 +34,14 @@ AS_IF([test "$enable_inline" != no],
 
 dnl Enable architecture specific compilation.
 AC_ARG_ENABLE([arch],
-  [AS_HELP_STRING([--enable-arch[[=arch]]],
+  [AC_HELP_STRING([--enable-arch[[=arch]]],
     [enable architecture specific compilation [default=no]])],
   [],
   [enable_arch=yes])
 
 dnl Enable branch prediction hints.
 AC_ARG_ENABLE([branch-hints],
-  [AS_HELP_STRING([--enable-branch-hints],
+  [AC_HELP_STRING([--enable-branch-hints],
     [enable static branch prediction hints [default=yes]])],
   [],
   [enable_branch_hints=yes])
