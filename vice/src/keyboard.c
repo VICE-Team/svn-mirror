@@ -1680,11 +1680,17 @@ void keyboard_shutdown(void)
 }
 
 /*--------------------------------------------------------------------------*/
+
+#define SNAP_MAJOR 1
+#define SNAP_MINOR 0
+#define SNAP_NAME  "KEYBOARD"
+
 int keyboard_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, "KEYBOARD", 1, 0);
+    m = snapshot_module_create(s, SNAP_NAME, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -1696,11 +1702,7 @@ int keyboard_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (snapshot_module_close(m) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int keyboard_snapshot_read_module(snapshot_t *s)
@@ -1708,10 +1710,17 @@ int keyboard_snapshot_read_module(snapshot_t *s)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, "KEYBOARD",
-                             &major_version, &minor_version);
+    m = snapshot_module_open(s, SNAP_NAME, &major_version, &minor_version);
+
     if (m == NULL) {
         return 0;
+    }
+
+    /* Do not accept versions higher than current */
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        snapshot_module_close(m);
+        return -1;
     }
 
     if (0
@@ -1721,6 +1730,5 @@ int keyboard_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }

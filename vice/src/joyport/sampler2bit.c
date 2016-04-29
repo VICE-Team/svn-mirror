@@ -32,7 +32,6 @@
 
 #include "joyport.h"
 #include "sampler.h"
-#include "snapshot.h"
 #include "translate.h"
 
 /* Control port <--> 2bit sampler connections:

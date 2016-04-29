@@ -319,15 +319,28 @@ int digimax_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "CARTDIGIMAX"
+/* CARTDIGIMAX snapshot module format:
+
+   type  | name       | description
+   --------------------------------
+   DWORD | base       | base address of the control registers
+   ARRAY | sound data | 4 BYTES of sound data
+   BYTE  | voice 0    | voice 0 data
+   BYTE  | voice 1    | voice 1 data
+   BYTE  | voice 2    | voice 2 data
+   BYTE  | voice 3    | voice 3 data
+ */
+
+static char snap_module_name[] = "CARTDIGIMAX";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int digimax_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -343,8 +356,7 @@ int digimax_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int digimax_snapshot_read_module(snapshot_t *s)
@@ -353,16 +365,16 @@ int digimax_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
     int temp_digimax_address;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > CART_DUMP_VER_MAJOR || vminor > CART_DUMP_VER_MINOR) {
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (0
@@ -372,8 +384,7 @@ int digimax_snapshot_read_module(snapshot_t *s)
         || (SMR_B(m, &snd.voice1) < 0)
         || (SMR_B(m, &snd.voice2) < 0)
         || (SMR_B(m, &snd.voice3) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     snapshot_module_close(m);
@@ -383,4 +394,8 @@ int digimax_snapshot_read_module(snapshot_t *s)
     set_digimax_base(temp_digimax_address, NULL);
 
     return digimax_enable();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

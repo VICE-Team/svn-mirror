@@ -927,28 +927,28 @@ int fdc_snapshot_write_module(snapshot_t *p, int fnum)
 
     name = lib_msprintf("FDC%i", fnum);
 
-    m = snapshot_module_create(p, name,
-                               FDC_DUMP_VER_MAJOR, FDC_DUMP_VER_MINOR);
+    m = snapshot_module_create(p, name, FDC_DUMP_VER_MAJOR, FDC_DUMP_VER_MINOR);
+
     lib_free(name);
+
     if (m == NULL) {
         return -1;
     }
 
-    SMW_B(m, (BYTE)(fdc[fnum].fdc_state));
+    if (0
+        || SMW_B(m, (BYTE)(fdc[fnum].fdc_state)) < 0
+        /* clk till next invocation */
+        || SMW_DW(m, (DWORD)(fdc[fnum].alarm_clk - drive_clk[fnum])) < 0
+        /* number of drives - so far 1 only */
+        || SMW_B(m, 1) < 0
+        /* last accessed track/sector */
+        || SMW_B(m, ((BYTE)(fdc[fnum].last_track))) < 0
+        || SMW_B(m, ((BYTE)(fdc[fnum].last_sector))) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
 
-    /* clk till next invocation */
-    SMW_DW(m, (DWORD)(fdc[fnum].alarm_clk - drive_clk[fnum]));
-
-    /* number of drives - so far 1 only */
-    SMW_B(m, 1);
-
-    /* last accessed track/sector */
-    SMW_B(m, ((BYTE)(fdc[fnum].last_track)));
-    SMW_B(m, ((BYTE)(fdc[fnum].last_sector)));
-
-    snapshot_module_close(m);
-
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int fdc_snapshot_read_module(snapshot_t *p, int fnum)
@@ -958,6 +958,7 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
     DWORD dword;
     snapshot_module_t *m;
     char *name;
+    BYTE ltrack, lsector;
 
     name = lib_msprintf("FDC%d", fnum);
 
@@ -969,7 +970,9 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
         return -1;
     }
 
-    if (vmajor != FDC_DUMP_VER_MAJOR) {
+    /* Do not accept versions higher than current */
+    if (vmajor > FDC_DUMP_VER_MAJOR || vminor > FDC_DUMP_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         log_error(fdc_log,
                   "Snapshot module version (%d.%d) newer than %d.%d.",
                   vmajor, vminor, FDC_DUMP_VER_MAJOR, FDC_DUMP_VER_MINOR);
@@ -977,27 +980,30 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
         return -1;
     }
 
-    SMR_B(m, &byte);
+    if (0
+        || SMR_B(m, &byte) < 0
+        /* clk till next invocation */
+        || SMR_DW(m, &dword) < 0
+        /* number of drives - so far 1 only */
+        || SMR_B(m, &ndrv) < 0
+        || SMR_B(m, &ltrack) < 0
+        || SMR_B(m, &lsector) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
     if (byte > FDC_LAST_STATE) {
         snapshot_module_close(m);
         return -1;
     }
     fdc[fnum].fdc_state = byte;
 
-    /* clk till next invocation */
-    SMR_DW(m, &dword);
-
     fdc[fnum].alarm_clk = drive_clk[fnum] + dword;
     alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
 
-    /* number of drives - so far 1 only */
-    SMR_B(m, &ndrv);
-
     /* last accessed track/sector */
-    SMR_B(m, &byte);
-    fdc[fnum].last_track = byte;
-    SMR_B(m, &byte);
-    fdc[fnum].last_sector = byte;
+    fdc[fnum].last_track = ltrack;
+    fdc[fnum].last_sector = lsector;
 
     if (ndrv > 1) {
         /* ignore drv 0 values */
@@ -1005,9 +1011,5 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
         SMR_B(m, &byte);
     }
 
-    if (snapshot_module_close(m) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return snapshot_module_close(m);
 }

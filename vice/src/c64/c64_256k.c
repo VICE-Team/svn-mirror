@@ -458,15 +458,34 @@ BYTE c64_256k_ram_segment3_read(WORD addr)
 
 /* ------------------------------------------------------------------------- */
 
-#define C64_256K_DUMP_VER_MAJOR   0
-#define C64_256K_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "C64_256K"
+/* C64_256K snapshot module format:
+
+   type  | name     | description
+   ------------------------------
+   WORD  | base     | base address of the control registers
+   BYTE  | DDA      | register A direction
+   BYTE  | PRA      | register A data
+   BYTE  | CRA      | register A control
+   BYTE  | DDB      | register B direction
+   BYTE  | PRB      | register B data
+   BYTE  | CRB      | register B control
+   BYTE  | vbank    | video bank
+   BYTE  | segment0 | segment 0 bank
+   BYTE  | segment1 | segment 1 bank
+   BYTE  | segment2 | segment 2 bank
+   BYTE  | segment3 | segment 3 bank
+   ARRAY | RAM      | 262144 BYTES of RAM data
+ */
+
+static char snap_module_name[] = "C64_256K";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int c64_256k_snapshot_write(struct snapshot_s *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, C64_256K_DUMP_VER_MAJOR, C64_256K_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;
@@ -490,8 +509,7 @@ int c64_256k_snapshot_write(struct snapshot_s *s)
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int c64_256k_snapshot_read(struct snapshot_s *s)
@@ -499,14 +517,14 @@ int c64_256k_snapshot_read(struct snapshot_s *s)
     snapshot_module_t *m;
     BYTE vmajor, vminor;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 
     if (m == NULL) {
         return -1;
     }
 
     /* do not accept higher versions than current */
-    if (vmajor > C64_256K_DUMP_VER_MAJOR || vminor > C64_256K_DUMP_VER_MINOR) {
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
@@ -544,10 +562,9 @@ int c64_256k_snapshot_read(struct snapshot_s *s)
         || SMR_BA(m, c64_256k_ram, 0x40000) < 0) {
         goto fail;
     }
-    snapshot_module_close(m);
 
-    return 0;
-    
+    return snapshot_module_close(m);
+   
 fail:
     if (m != NULL) {
         snapshot_module_close(m);

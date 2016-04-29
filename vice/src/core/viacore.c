@@ -1161,55 +1161,50 @@ int viacore_snapshot_write_module(via_context_t *via_context, snapshot_t *s)
                       (void *)via_context);
     }
 
-    m = snapshot_module_create(s, via_context->my_module_name,
-                               VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, via_context->my_module_name, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
+
     if (m == NULL) {
         return -1;
     }
 
-    SMW_B(m, via_context->via[VIA_PRA]);
-    SMW_B(m, via_context->via[VIA_DDRA]);
-    SMW_B(m, via_context->via[VIA_PRB]);
-    SMW_B(m, via_context->via[VIA_DDRB]);
+    if (0
+        || SMW_B(m, via_context->via[VIA_PRA]) < 0
+        || SMW_B(m, via_context->via[VIA_DDRA]) < 0
+        || SMW_B(m, via_context->via[VIA_PRB]) < 0
+        || SMW_B(m, via_context->via[VIA_DDRB]) < 0
+        || SMW_W(m, (WORD)(via_context->tal)) < 0
+        || SMW_W(m, (WORD)myviata(via_context)) < 0
+        || SMW_B(m, via_context->via[VIA_T2LL]) < 0
+        || SMW_B(m, via_context->via[VIA_T2LH]) < 0
+        || SMW_B(m, via_context->t2cl) < 0
+        || SMW_B(m, via_context->t2ch) < 0
+        || SMW_W(m, (WORD)myviatb(via_context)) < 0
+        || SMW_B(m, (BYTE)((via_context->tai ? 0x80 : 0) | (via_context->tbi ? 0x40 : 0))) < 0
+        || SMW_B(m, via_context->via[VIA_SR]) < 0
+        || SMW_B(m, via_context->via[VIA_ACR]) < 0
+        || SMW_B(m, via_context->via[VIA_PCR]) < 0
+        || SMW_B(m, (BYTE)(via_context->ifr)) < 0
+        || SMW_B(m, (BYTE)(via_context->ier)) < 0
+        /* FIXME! */
+        || SMW_B(m, (BYTE)((((via_context->pb7 ^ via_context->pb7x) | via_context->pb7o) ? 0x80 : 0))) < 0
+        /* SRHBITS */
+        || SMW_B(m, (BYTE)via_context->shift_state) < 0
+        || SMW_B(m, (BYTE)((via_context->ca2_state ? 0x80 : 0) | (via_context->cb2_state ? 0x40 : 0))) < 0
+        || SMW_B(m, via_context->ila) < 0
+        || SMW_B(m, via_context->ilb) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
 
-    SMW_W(m, (WORD)(via_context->tal));
-    SMW_W(m, (WORD)myviata(via_context));
-    SMW_B(m, via_context->via[VIA_T2LL]);
-    SMW_B(m, via_context->via[VIA_T2LH]);
-    SMW_B(m, via_context->t2cl);
-    SMW_B(m, via_context->t2ch);
-    SMW_W(m, (WORD)myviatb(via_context));
-
-    SMW_B(m, (BYTE)((via_context->tai ? 0x80 : 0) | (via_context->tbi ? 0x40 : 0)));
-
-    SMW_B(m, via_context->via[VIA_SR]);
-    SMW_B(m, via_context->via[VIA_ACR]);
-    SMW_B(m, via_context->via[VIA_PCR]);
-
-    SMW_B(m, (BYTE)(via_context->ifr));
-    SMW_B(m, (BYTE)(via_context->ier));
-    /* FIXME! */
-    SMW_B(m, (BYTE)((((via_context->pb7 ^ via_context->pb7x)
-                      | via_context->pb7o) ? 0x80 : 0)));
-
-    SMW_B(m, (BYTE)via_context->shift_state);           /* SRHBITS */
-
-    SMW_B(m, (BYTE)((via_context->ca2_state ? 0x80 : 0)
-                    | (via_context->cb2_state ? 0x40 : 0)));
-
-    SMW_B(m, via_context->ila);
-    SMW_B(m, via_context->ilb);
-
-    snapshot_module_close(m);
-
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
 {
     BYTE vmajor, vminor;
     BYTE byte;
-    WORD word;
+    BYTE byte1, byte2, byte3, byte4, byte5, byte6;
+    WORD word1, word2, word3;
     WORD addr;
     CLOCK rclk = *(via_context->clk_ptr);
     snapshot_module_t *m;
@@ -1236,10 +1231,9 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
         }
     }
 
-    if (vmajor != VIA_DUMP_VER_MAJOR) {
-        log_error(via_context->log,
-                  "Snapshot module version (%d.%d) newer than %d.%d.",
-                  vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
+    /* Do not accept versions higher than current */
+    if (vmajor > VIA_DUMP_VER_MAJOR || vminor > VIA_DUMP_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;
     }
@@ -1250,93 +1244,93 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
     via_context->tai = 0;
     via_context->tbi = 0;
 
-    SMR_B(m, &(via_context->via[VIA_PRA]));
-    SMR_B(m, &(via_context->via[VIA_DDRA]));
-    SMR_B(m, &(via_context->via[VIA_PRB]));
-    SMR_B(m, &(via_context->via[VIA_DDRB]));
-    {
-        addr = VIA_DDRA;
-        byte = via_context->via[VIA_PRA] | ~(via_context->via[VIA_DDRA]);
-        (via_context->undump_pra)(via_context, byte);
-        via_context->oldpa = byte;
-
-        addr = VIA_DDRB;
-        byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
-        (via_context->undump_prb)(via_context, byte);
-        via_context->oldpb = byte;
+    if (0
+        || SMR_B(m, &(via_context->via[VIA_PRA])) < 0
+        || SMR_B(m, &(via_context->via[VIA_DDRA])) < 0
+        || SMR_B(m, &(via_context->via[VIA_PRB])) < 0
+        || SMR_B(m, &(via_context->via[VIA_DDRB])) < 0
+        || SMR_W(m, &word1) < 0
+        || SMR_W(m, &word2) < 0
+        || SMR_B(m, &(via_context->via[VIA_T2LL])) < 0
+        || SMR_B(m, &(via_context->via[VIA_T2LH])) < 0
+        || SMR_B(m, &(via_context->t2cl)) < 0
+        || SMR_B(m, &(via_context->t2ch)) < 0
+        || SMR_W(m, &word3) < 0
+        || SMR_B(m, &byte1) < 0
+        || SMR_B(m, &(via_context->via[VIA_SR])) < 0
+        || SMR_B(m, &(via_context->via[VIA_ACR])) < 0
+        || SMR_B(m, &(via_context->via[VIA_PCR])) < 0
+        || SMR_B(m, &byte2) < 0
+        || SMR_B(m, &byte3) < 0
+        || SMR_B(m, &byte4) < 0
+        /* SRHBITS */
+        || SMR_B(m, &byte5) < 0
+        /* CABSTATE */
+        || SMR_B(m, &byte6) < 0
+        || SMR_B(m, &(via_context->ila)) < 0
+        || SMR_B(m, &(via_context->ilb)) < 0) {
+        snapshot_module_close(m);
+        return -1;
     }
 
-    SMR_W(m, &word);
-    via_context->tal = word;
+    addr = VIA_DDRA;
+    byte = via_context->via[VIA_PRA] | ~(via_context->via[VIA_DDRA]);
+    (via_context->undump_pra)(via_context, byte);
+    via_context->oldpa = byte;
+
+    addr = VIA_DDRB;
+    byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
+    (via_context->undump_prb)(via_context, byte);
+    via_context->oldpb = byte;
+
+    via_context->tal = word1;
     via_context->via[VIA_T1LL] = via_context->tal & 0xff;
     via_context->via[VIA_T1LH] = (via_context->tal >> 8) & 0xff;
-    SMR_W(m, &word);
-    via_context->tau = rclk + word + 2 /* 3 */ + TAUOFFSET;
-    via_context->tai = rclk + word + 1;
 
-    SMR_B(m, &(via_context->via[VIA_T2LL]));
-    SMR_B(m, &(via_context->via[VIA_T2LH]));
-    SMR_B(m, &(via_context->t2cl));
-    SMR_B(m, &(via_context->t2ch));
-    SMR_W(m, &word);
-    via_context->tbu = rclk + word + 2 /* 3 */;
-    via_context->tbi = rclk + word + 0;
+    via_context->tau = rclk + word2 + 2 /* 3 */ + TAUOFFSET;
+    via_context->tai = rclk + word2 + 1;
 
-    SMR_B(m, &byte);
-    if (byte & 0x80) {
+    via_context->tbu = rclk + word3 + 2 /* 3 */;
+    via_context->tbi = rclk + word3 + 0;
+
+    if (byte1 & 0x80) {
         alarm_set(via_context->t1_alarm, via_context->tai);
     } else {
         via_context->tai = 0;
     }
-    if (byte & 0x40) {
+    if (byte1 & 0x40) {
         alarm_set(via_context->t2_alarm, via_context->tbi);
     } else {
         via_context->tbi = 0;
     }
 
-    SMR_B(m, &(via_context->via[VIA_SR]));
-    SMR_B(m, &(via_context->via[VIA_ACR]));
-    SMR_B(m, &(via_context->via[VIA_PCR]));
-
-    SMR_B(m, &byte);
-    via_context->ifr = byte;
-    SMR_B(m, &byte);
-    via_context->ier = byte;
+    via_context->ifr = byte2;
+    via_context->ier = byte3;
 
     via_restore_int(via_context, via_context->ifr & via_context->ier & 0x7f);
 
     /* FIXME! */
-    SMR_B(m, &byte);
-    via_context->pb7 = byte ? 1 : 0;
+    via_context->pb7 = byte4 ? 1 : 0;
     via_context->pb7x = 0;
     via_context->pb7o = 0;
-    SMR_B(m, &byte);        /* SRHBITS */
-    via_context->shift_state = byte;
+    via_context->shift_state = byte5;
 
-    SMR_B(m, &byte);        /* CABSTATE */
-    via_context->ca2_state = byte & 0x80;
-    via_context->cb2_state = byte & 0x40;
+    via_context->ca2_state = byte6 & 0x80;
+    via_context->cb2_state = byte6 & 0x40;
 
     /* undump_pcr also restores the ca2_state/cb2_state effects if necessary;
        i.e. calls set_c*2(c*2_state) if necessary */
-    {
-        addr = VIA_PCR;
-        byte = via_context->via[addr];
-        (via_context->undump_pcr)(via_context, byte);
-    }
-    {
-        addr = VIA_SR;
-        byte = via_context->via[addr];
-        (via_context->store_sr)(via_context, byte);
-    }
-    {
-        addr = VIA_ACR;
-        byte = via_context->via[addr];
-        (via_context->undump_acr)(via_context, byte);
-    }
+    addr = VIA_PCR;
+    byte = via_context->via[addr];
+    (via_context->undump_pcr)(via_context, byte);
 
-    SMR_B(m, &(via_context->ila));
-    SMR_B(m, &(via_context->ilb));
+    addr = VIA_SR;
+    byte = via_context->via[addr];
+    (via_context->store_sr)(via_context, byte);
+
+    addr = VIA_ACR;
+    byte = via_context->via[addr];
+    (via_context->undump_acr)(via_context, byte);
 
     return snapshot_module_close(m);
 }

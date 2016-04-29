@@ -5986,8 +5986,8 @@ int cpu6809_snapshot_write_module(snapshot_t *s)
     BYTE md, e, f;
     WORD v;
 
-    m = snapshot_module_create(s, snap_module_name, ((BYTE)SNAP_MAJOR),
-                               ((BYTE)SNAP_MINOR));
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -6057,13 +6057,16 @@ int cpu6809_snapshot_read_module(snapshot_t *s)
     BYTE e, f, md;
 
     m = snapshot_module_open(s, snap_module_name, &major, &minor);
+
     if (m == NULL) {
         /* This module is optional */
         cpu6809_reset();
         return 0;
     }
 
-    if (major != SNAP_MAJOR) {
+    /* Do not accept versions higher than current */
+    if (major > SNAP_MAJOR || minor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 

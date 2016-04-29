@@ -402,15 +402,22 @@ int ds12c887rtc_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "CARTDS12C887RTC"
+/* CARTDS12C887RTC snapshot module format:
+
+   type  | name     | description
+   ------------------------------
+   DWORD | base     | base address of the RTC
+ */
+
+static char snap_module_name[] = "CARTDS12C887RTC";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int ds12c887rtc_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;
@@ -432,22 +439,20 @@ int ds12c887rtc_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
     int temp_ds12c887rtc_address;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 
     if (m == NULL) {
         return -1;
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > CART_DUMP_VER_MAJOR || vminor > CART_DUMP_VER_MINOR) {
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (SMR_DW_INT(m, &temp_ds12c887rtc_address) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     snapshot_module_close(m);
@@ -461,4 +466,8 @@ int ds12c887rtc_snapshot_read_module(snapshot_t *s)
     }
 
     return ds12c887_read_snapshot(ds12c887rtc_context, s);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

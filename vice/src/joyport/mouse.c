@@ -1360,7 +1360,9 @@ static int paddles_read_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (major_version != PADDLES_VER_MAJOR || minor_version != PADDLES_VER_MINOR) {
+    /* Do not accept versions higher than current */
+    if (major_version > PADDLES_VER_MAJOR || minor_version > PADDLES_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -1418,7 +1420,9 @@ static int mouse_1351_read_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (major_version != MOUSE_1351_VER_MAJOR || minor_version != MOUSE_1351_VER_MINOR) {
+    /* Do not accept versions higher than current */
+    if (major_version > MOUSE_1351_VER_MAJOR || minor_version > MOUSE_1351_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -1491,7 +1495,9 @@ static int mouse_neos_read_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (major_version != MOUSE_NEOS_VER_MAJOR || minor_version != MOUSE_NEOS_VER_MINOR) {
+    /* Do not accept higher versions than current */
+    if (major_version > MOUSE_NEOS_VER_MAJOR || minor_version > MOUSE_NEOS_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -1568,7 +1574,9 @@ static int mouse_amiga_read_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (major_version != MOUSE_AMIGA_VER_MAJOR || minor_version != MOUSE_AMIGA_VER_MINOR) {
+    /* Do not accept versions higher than current */
+    if (major_version > MOUSE_AMIGA_VER_MAJOR || minor_version > MOUSE_AMIGA_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -1629,7 +1637,9 @@ static int mouse_cx22_read_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (major_version != MOUSE_CX22_VER_MAJOR || minor_version != MOUSE_CX22_VER_MINOR) {
+    /* Do not accept versions higher than current */
+    if (major_version > MOUSE_CX22_VER_MAJOR || minor_version > MOUSE_CX22_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -1690,7 +1700,9 @@ static int mouse_st_read_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (major_version != MOUSE_ST_VER_MAJOR || minor_version != MOUSE_ST_VER_MINOR) {
+    /* Do not accept versions higher than current */
+    if (major_version > MOUSE_ST_VER_MAJOR || minor_version > MOUSE_ST_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -1752,7 +1764,9 @@ static int mouse_smart_read_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (major_version != MOUSE_SMART_VER_MAJOR || minor_version != MOUSE_SMART_VER_MINOR) {
+    /* Do not accept higher versions than current */
+    if (major_version > MOUSE_SMART_VER_MAJOR || minor_version > MOUSE_SMART_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -1818,7 +1832,9 @@ static int mouse_micromys_read_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (major_version != MOUSE_MICROMYS_VER_MAJOR || minor_version != MOUSE_MICROMYS_VER_MINOR) {
+    /* Do not accept versions higher than current */
+    if (major_version > MOUSE_MICROMYS_VER_MAJOR || minor_version > MOUSE_MICROMYS_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -1884,7 +1900,9 @@ static int koalapad_read_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (major_version != KOALAPAD_VER_MAJOR || minor_version != KOALAPAD_VER_MINOR) {
+    /* Do not accept versions higher than current */
+    if (major_version > KOALAPAD_VER_MAJOR || minor_version > KOALAPAD_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 

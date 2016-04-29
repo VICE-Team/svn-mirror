@@ -6533,6 +6533,42 @@ void cpmcart_check_and_run_z80(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* CPMCART snapshot module format:
+
+   type  | name           | description
+   ------------------------------------
+   DWORD | CLK            | main CPU clock
+   BYTE  | A              | A register
+   BYTE  | B              | B register
+   BYTE  | C              | C register
+   BYTE  | D              | D register
+   BYTE  | E              | E register
+   BYTE  | F              | F register
+   BYTE  | H              | H register
+   BYTE  | L              | L register
+   BYTE  | IXH            | IXH register
+   BYTE  | IXL            | IXL register
+   BYTE  | IYH            | IYH register
+   BYTE  | IYL            | IYL register
+   WORD  | SP             | stack pointer register
+   DWORD | PC             | program counter register
+   BYTE  | I              | I register
+   BYTE  | R              | R register
+   BYTE  | IFF1           | IFF1 register
+   BYTE  | IFF2           | IFF2 register
+   BYTE  | im mode        | im mode flag
+   BYTE  | A2             | A2 register
+   BYTE  | B2             | B2 register
+   BYTE  | C2             | C2 register
+   BYTE  | D2             | D2 register
+   BYTE  | E2             | E2 register
+   BYTE  | F2             | F2 register
+   BYTE  | H2             | H2 register
+   BYTE  | L2             | L2 register
+   DWORD | opcode info    | last opcode info
+   DWORD | opcode address | last opcode address
+ */
+
 static char snap_module_name[] = "CPMCART";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
@@ -6542,6 +6578,7 @@ int cpmcart_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -6578,16 +6615,11 @@ int cpmcart_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, (BYTE)z80_started) < 0
         || SMW_DW(m, (DWORD)z80_last_opcode_info) < 0
         || SMW_DW(m, (DWORD)z80_last_opcode_addr) < 0) {
-        goto fail;
+        snapshot_module_close(m);
+        return -1;
     }
 
     return snapshot_module_close(m);
-
-fail:
-    if (m != NULL) {
-        snapshot_module_close(m);
-    }
-    return -1;
 }
 
 int cpmcart_snapshot_read_module(snapshot_t *s)
@@ -6596,6 +6628,7 @@ int cpmcart_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &major, &minor);
+
     if (m == NULL) {
         return -1;
     }
@@ -6651,8 +6684,6 @@ int cpmcart_snapshot_read_module(snapshot_t *s)
     return snapshot_module_close(m);
 
 fail:
-    if (m != NULL) {
-        snapshot_module_close(m);
-    }
+    snapshot_module_close(m);
     return -1;
 }

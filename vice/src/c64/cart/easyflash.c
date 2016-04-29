@@ -558,16 +558,28 @@ int easyflash_crt_save(const char *filename)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "CARTEF"
-#define FLASH_SNAP_MODULE_NAME  "FLASH040EF"
+/* CARTEF snapshot module format:
+
+   type  | name       | description
+   --------------------------------
+   BYTE  | jumper     | jumper
+   BYTE  | register 0 | register 0
+   BYTE  | register 2 | register 2
+   ARRAY | RAM        | 256 BYTES of RAM data
+   ARRAY | ROML       | 524288 BYTES of ROML data
+   ARRAY | ROMH       | 524288 BYTES of ROMH data
+ */
+
+static char snap_module_name[] = "CARTEF";
+static char flash_snap_module_name[] = "FLASH040EF";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int easyflash_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;
@@ -587,8 +599,8 @@ int easyflash_snapshot_write_module(snapshot_t *s)
     snapshot_module_close(m);
 
     if (0
-        || (flash040core_snapshot_write_module(s, easyflash_state_low, FLASH_SNAP_MODULE_NAME) < 0)
-        || (flash040core_snapshot_write_module(s, easyflash_state_high, FLASH_SNAP_MODULE_NAME) < 0)) {
+        || (flash040core_snapshot_write_module(s, easyflash_state_low, flash_snap_module_name) < 0)
+        || (flash040core_snapshot_write_module(s, easyflash_state_high, flash_snap_module_name) < 0)) {
         return -1;
     }
 
@@ -600,16 +612,15 @@ int easyflash_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
     if (m == NULL) {
         return -1;
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > CART_DUMP_VER_MAJOR || vminor > CART_DUMP_VER_MINOR) {
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (0
@@ -619,8 +630,7 @@ int easyflash_snapshot_read_module(snapshot_t *s)
         || (SMR_BA(m, easyflash_ram, 256) < 0)
         || (SMR_BA(m, roml_banks, 0x80000) < 0)
         || (SMR_BA(m, romh_banks, 0x80000) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     snapshot_module_close(m);
@@ -632,8 +642,8 @@ int easyflash_snapshot_read_module(snapshot_t *s)
     flash040core_init(easyflash_state_high, maincpu_alarm_context, FLASH040_TYPE_B, romh_banks);
 
     if (0
-        || (flash040core_snapshot_read_module(s, easyflash_state_low, FLASH_SNAP_MODULE_NAME) < 0)
-        || (flash040core_snapshot_read_module(s, easyflash_state_low, FLASH_SNAP_MODULE_NAME) < 0)) {
+        || (flash040core_snapshot_read_module(s, easyflash_state_low, flash_snap_module_name) < 0)
+        || (flash040core_snapshot_read_module(s, easyflash_state_low, flash_snap_module_name) < 0)) {
         flash040core_shutdown(easyflash_state_low);
         flash040core_shutdown(easyflash_state_high);
         lib_free(easyflash_state_low);
@@ -649,4 +659,8 @@ int easyflash_snapshot_read_module(snapshot_t *s)
     easyflash_filetype = 0;
 
     return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

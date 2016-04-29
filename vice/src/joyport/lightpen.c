@@ -480,7 +480,9 @@ static int lightpen_read_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+    /* Do not accept versions higher than current */
+    if (major_version > DUMP_VER_MAJOR || minor_version > DUMP_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;
     }
