@@ -27,14 +27,15 @@
 
 #include <stdio.h>
 
+#include "lib.h"
+#include "machine.h"
+#include "snapshot.h"
 #include "uisnapshot.h"
 #include "ui.h"
 #include "uiarch.h"
 #include "uiapi.h"
-#include "machine.h"
 #include "uifileentry.h"
 #include "uilib.h"
-#include "lib.h"
 
 static GtkWidget *snapshot_dialog, *attach_disk, *attach_rom;
 
