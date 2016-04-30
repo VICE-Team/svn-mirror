@@ -217,15 +217,23 @@ void gamekiller_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "CARTGK"
+/* CARTGK snapshot module format:
+
+   type  | name    | description
+   -----------------------------
+   BYTE  | disable | cartridge disable flag
+   ARRAY | ROMH    | 8192 BYTES of ROMH data
+ */
+
+static char snap_module_name[] = "CARTGK";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int gamekiller_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;
@@ -246,26 +254,29 @@ int gamekiller_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > CART_DUMP_VER_MAJOR || vminor > CART_DUMP_VER_MINOR) {
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (0
         || (SMR_B_INT(m, &cartridge_disable_flag) < 0)
         || (SMR_BA(m, romh_banks, GAME_KILLER_CART_SIZE) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     snapshot_module_close(m);
 
     return gamekiller_common_attach();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

@@ -364,15 +364,33 @@ void formel64_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "CARTF64"
+/* CARTF64 snapshot module format:
+
+   type  | name      | description
+   -------------------------------
+   BYTE  | enabled   | cartridge enabled flag
+   ARRAY | ROMH      | 32768 BYTES of ROMH data
+   BYTE  | CTRL A    | control register A
+   BYTE  | CTRL B    | control register B
+   BYTE  | DATA A    | data register A
+   BYTE  | DATA B    | data register B
+   BYTE  | DIR A     | direction register A
+   BYTE  | DIR B     | direction register B
+   BYTE  | CA2       | CA2 line flag
+   BYTE  | CA2 state | CA2 line state
+   BYTE  | CB2       | CB2 line flag
+   BYTE  | CB2 state | CB2 line state
+ */
+
+static char snap_module_name[] = "CARTF64";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int formel64_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;
@@ -397,27 +415,26 @@ int formel64_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > CART_DUMP_VER_MAJOR || vminor > CART_DUMP_VER_MINOR) {
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (0
         || (SMR_B_INT(m, &f64_enabled) < 0)
         || (SMR_BA(m, romh_banks, 0x8000) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (mc6821core_snapshot_read_data(&my6821, m) < 0) {
-        return -1;
+        goto fail;
     }
 
     snapshot_module_close(m);
@@ -425,4 +442,8 @@ int formel64_snapshot_read_module(snapshot_t *s)
     parallel_cable_cpu_undump(DRIVE_PC_FORMEL64, (BYTE)my6821.dataA);
 
     return formel64_common_attach();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

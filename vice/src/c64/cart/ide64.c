@@ -1488,9 +1488,24 @@ static int ide64_rtc_dump(void)
 /* ---------------------------------------------------------------------*/
 /*    snapshot support functions                                             */
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME "CARTIDE"
+/* CARTIDE snapshot module format:
+
+   type  | name      | description
+   -----------------------------
+   WORD  | version   | IDE64 version
+   ARRAY | ROML      | 65536 (3.x) / 131072 (4.1) / 524288 (4.2) BYTES of ROML data
+   ARRAY | RAM       | 32768 BYTES of RAM data
+   DWORD | bank      | current bank
+   DWORD | config    | current config
+   DWORD | kill port | kill port flag
+   DWORD | idrive    | idrive
+   WORD  | in d030   | input state of $d030 register 
+   WORD  | out d030  | output state of $d030 register 
+ */
+
+static char snap_module_name[] = "CARTIDE";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int ide64_snapshot_write_module(snapshot_t *s)
 {
@@ -1505,7 +1520,7 @@ int ide64_snapshot_write_module(snapshot_t *s)
         }
     }
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;
@@ -1557,19 +1572,25 @@ int ide64_snapshot_read_module(snapshot_t *s)
         }
     }
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;
     }
 
     ide64_unregister();
-    SMR_DW_INT(m, (int *)&settings_version);
+
+    if (SMR_DW_INT(m, (int *)&settings_version) < 0) {
+        goto fail;
+    }
+
     switch (settings_version) {
         default:
             settings_version = IDE64_VERSION_3;
@@ -1584,17 +1605,33 @@ int ide64_snapshot_read_module(snapshot_t *s)
     ide64_register();
     switch (settings_version) {
         case IDE64_VERSION_3:
-            SMR_BA(m, roml_banks, 0x10000);
+            if (SMR_BA(m, roml_banks, 0x10000) < 0) {
+                goto fail;
+            }
             break;
         case IDE64_VERSION_4_1:
-            SMR_BA(m, roml_banks, 0x20000);
+            if (SMR_BA(m, roml_banks, 0x20000) < 0) {
+                goto fail;
+            }
             break;
         case IDE64_VERSION_4_2:
-            SMR_BA(m, roml_banks, 0x80000);
+            if (SMR_BA(m, roml_banks, 0x80000) < 0) {
+                goto fail;
+            }
             break;
     }
-    SMR_BA(m, export_ram0, 0x8000);
-    SMR_DW_INT(m, &current_bank);
+
+    if (0
+        || SMR_BA(m, export_ram0, 0x8000) < 0
+        || SMR_DW_INT(m, &current_bank) < 0
+        || SMR_DW_INT(m, &current_cfg) < 0
+        || SMR_B(m, &kill_port) < 0
+        || SMR_DW_INT(m, &idrive) < 0
+        || SMR_W(m, &in_d030) < 0
+        || SMR_W(m, &out_d030) < 0) {
+        goto fail;
+    }
+
     switch (settings_version) {
         case IDE64_VERSION_3:
             current_bank &= 3;
@@ -1606,15 +1643,12 @@ int ide64_snapshot_read_module(snapshot_t *s)
             current_bank &= 31;
             break;
     }
-    SMR_DW_INT(m, &current_cfg);
+
     current_cfg &= 3;
-    SMR_B(m, &kill_port);
-    SMR_DW_INT(m, &idrive);
+
     if (idrive) {
         idrive = 2;
     }
-    SMR_W(m, &in_d030);
-    SMR_W(m, &out_d030);
 
     snapshot_module_close(m);
 
@@ -1626,4 +1660,8 @@ int ide64_snapshot_read_module(snapshot_t *s)
         return -1;
     }
     return ds1202_1302_read_snapshot(ds1302_context, s);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

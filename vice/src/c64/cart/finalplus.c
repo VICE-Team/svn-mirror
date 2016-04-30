@@ -299,15 +299,27 @@ void final_plus_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "CARTFCP"
+/* CARTFCP snapshot module format:
+
+   type  | name      | description
+   -------------------------------
+   BYTE  | enable    | cartridge enabled flag
+   BYTE  | bit7      | bit 7 of the register
+   BYTE  | ROML bank | ROML bank
+   BYTE  | ROMH bank | ROMH bank
+   ARRAY | ROML      | 16384 BYTES of ROML data
+   ARRAY | ROMH      | 8192 BYTES of ROMH data
+ */
+
+static char snap_module_name[] = "CARTFCP";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int final_plus_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;
@@ -332,16 +344,16 @@ int final_plus_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > CART_DUMP_VER_MAJOR || vminor > CART_DUMP_VER_MINOR) {
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (0
@@ -351,11 +363,14 @@ int final_plus_snapshot_read_module(snapshot_t *s)
         || (SMR_B_INT(m, &fcplus_romh) < 0)
         || (SMR_BA(m, roml_banks, 0x4000) < 0)
         || (SMR_BA(m, romh_banks, 0x2000) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     snapshot_module_close(m);
 
     return final_plus_common_attach();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

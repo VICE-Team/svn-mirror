@@ -1450,6 +1450,15 @@ void reu_dma_start(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* REU1764 snapshot module format:
+
+   type  | name      | description
+   -------------------------------
+   DWORD | size      | size of REU in KB
+   ARRAY | registers | 16 BYTES of register data
+   ARRAY | RAM       | 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608 or 16777216 BYTES of RAM data
+ */
+
 static char snap_module_name[] = "REU1764"; /*!< the name of the module for the snapshot */
 #define SNAP_MAJOR 0 /*!< version number for this module, major number */
 #define SNAP_MINOR 0 /*!< version number for this module, minor number */
@@ -1483,6 +1492,7 @@ int reu_write_snapshot_module(snapshot_t *s)
     }
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
