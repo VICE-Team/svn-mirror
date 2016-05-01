@@ -49,7 +49,7 @@ if test x"$build_i386" = "xyes"; then
   makedone=yes
   if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
   then
-    echo Error: One (or more) i386 binaries missing
+    echo Error: One \(or more\) i386 binaries missing
     exit 1
   fi
   if test x"$build_m68k" = "xyes" -o x"$build_hppa" = "xyes" -o x"$build_sparc" = "xyes"; then
@@ -72,7 +72,7 @@ if test x"$build_m68k" = "xyes"; then
   makedone=yes
   if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
   then
-    echo Error: One (or more) m68k binaries missing
+    echo Error: One \(or more\) m68k binaries missing
     exit 1
   fi
   if test x"$build_i386" = "xyes" -o x"$build_hppa" = "xyes" -o x"$build_sparc" = "xyes"; then
@@ -95,7 +95,7 @@ if test x"$build_hppa" = "xyes"; then
   makedone=yes
   if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
   then
-    echo Error: One (or more) hppa binaries missing
+    echo Error: One \(or more\) hppa binaries missing
     exit 1
   fi
   if test x"$build_i386" = "xyes" -o x"$build_m68k" = "xyes" -o x"$build_sparc" = "xyes"; then
@@ -117,7 +117,7 @@ if test x"$build_sparc" = "xyes"; then
   make
   if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
   then
-    echo Error: One (or more) sparc binaries missing
+    echo Error: One \(or more\) sparc binaries missing
     exit 1
   fi
   if test x"$build_i386" = "xyes" -o x"$build_m68k" = "xyes" -o x"$build_hppa" = "xyes"; then

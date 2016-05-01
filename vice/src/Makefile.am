@@ -46,7 +46,7 @@ SUBDIRS = \
 	plus4 \
 	cbm2 \
 	arch \
-	lib/p64 \
+	lib \
 	platform
 
 DIST_SUBDIRS = \
