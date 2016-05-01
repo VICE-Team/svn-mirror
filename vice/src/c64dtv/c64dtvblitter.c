@@ -599,19 +599,45 @@ int c64dtvblitter_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* C64DTVBLITTER snapshot module format:
+
+   type  | name              | description
+   ---------------------------------------
+   ARRAY | regs              | 32 BYTES of register data
+   DWORD | source A off      | source A offset
+   DWORD | source B off      | source B offset
+   DWORD | dest off          | destination offset
+   DWORD | busy              | busy flag
+   DWORD | IRQ               | IRQ state
+   DWORD | on IRQ            | on IRQ flag
+   DWORD | active            | blitter active flag
+   ARRAY | source A data     | 4 BYTES of source A data
+   DWORD | source A data off | source A data offset
+   DWORD | source A fetched  | source A fetched counter
+   ARRAY | source B data     | 4 BYTES of source B data
+   DWORD | source B data off | source B data offset
+   BYTE  | source A          | source A
+   BYTE  | source B          | source B
+   DWORD | count             | blitter count
+   DWORD | state             | blitter state
+   DWORD | source A line off | source A line offset
+   DWORD | source B line off | source B line offset
+   DWORD | dest line off     | destination line offset
+   BYTE  | last A            | last A
+ */
+
+static const char snap_module_name[] = "C64DTVBLITTER";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
 static log_t c64_snapshot_log = LOG_ERR;
-
-static const char snap_blitter_module_name[] = "C64DTVBLITTER";
 
 int c64dtvblitter_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
     /* Blitter module.  */
-    m = snapshot_module_create(s, snap_blitter_module_name, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;
@@ -639,18 +665,12 @@ int c64dtvblitter_snapshot_write_module(snapshot_t *s)
         || SMW_DW(m, sourceB_line_off) < 0
         || SMW_DW(m, dest_line_off) < 0
         || SMW_B(m, lastA) < 0) {
-        goto fail;
+        snapshot_module_close(m);
+        return -1;
     }
 
     return snapshot_module_close(m);
-
-fail:
-    if (m != NULL) {
-        snapshot_module_close(m);
-    }
-    return -1;
 }
-
 
 int c64dtvblitter_snapshot_read_module(snapshot_t *s)
 {
@@ -659,7 +679,8 @@ int c64dtvblitter_snapshot_read_module(snapshot_t *s)
     int temp_blitter_state, i;
 
     /* Blitter module.  */
-    m = snapshot_module_open(s, snap_blitter_module_name, &major_version, &minor_version);
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
@@ -667,10 +688,6 @@ int c64dtvblitter_snapshot_read_module(snapshot_t *s)
     /* Do not accept versions higher than current */
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        log_error(c64_snapshot_log,
-                  "Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }
 
@@ -708,8 +725,6 @@ int c64dtvblitter_snapshot_read_module(snapshot_t *s)
     return snapshot_module_close(m);
 
 fail:
-    if (m != NULL) {
-        snapshot_module_close(m);
-    }
+    snapshot_module_close(m);
     return -1;
 }

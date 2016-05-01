@@ -260,27 +260,39 @@ int shortbus_digimax_enabled(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "SHORTBUSDIGIMAX"
+/* SHORTBUSDIGIMAX snapshot module format:
+
+   type  | name       | description
+   --------------------------------
+   DWORD | base       | base address
+   ARRAY | sound data | 4 BYTES of sound data
+   BYTE  | voice 0    | voice 0 state
+   BYTE  | voice 1    | voice 1 state
+   BYTE  | voice 2    | voice 2 state
+   BYTE  | voice 3    | voice 3 state
+ */
+
+static char snap_module_name[] = "SHORTBUSDIGIMAX";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int shortbus_digimax_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;
     }
 
     if (0
-        || (SMW_DW(m, (DWORD)shortbus_digimax_address) < 0)
-        || (SMW_BA(m, digimax_sound_data, 4) < 0)
-        || (SMW_B(m, snd.voice0) < 0)
-        || (SMW_B(m, snd.voice1) < 0)
-        || (SMW_B(m, snd.voice2) < 0)
-        || (SMW_B(m, snd.voice3) < 0)) {
+        || SMW_DW(m, (DWORD)shortbus_digimax_address) < 0
+        || SMW_BA(m, digimax_sound_data, 4) < 0
+        || SMW_B(m, snd.voice0) < 0
+        || SMW_B(m, snd.voice1) < 0
+        || SMW_B(m, snd.voice2) < 0
+        || SMW_B(m, snd.voice3) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -294,27 +306,26 @@ int shortbus_digimax_read_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
     int temp_digimax_address;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > CART_DUMP_VER_MAJOR || vminor > CART_DUMP_VER_MINOR) {
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (0
-        || (SMR_DW_INT(m, &temp_digimax_address) < 0)
-        || (SMR_BA(m, digimax_sound_data, 4) < 0)
-        || (SMR_B(m, &snd.voice0) < 0)
-        || (SMR_B(m, &snd.voice1) < 0)
-        || (SMR_B(m, &snd.voice2) < 0)
-        || (SMR_B(m, &snd.voice3) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+        || SMR_DW_INT(m, &temp_digimax_address) < 0
+        || SMR_BA(m, digimax_sound_data, 4) < 0
+        || SMR_B(m, &snd.voice0) < 0
+        || SMR_B(m, &snd.voice1) < 0
+        || SMR_B(m, &snd.voice2) < 0
+        || SMR_B(m, &snd.voice3) < 0) {
+        goto fail;
     }
 
     snapshot_module_close(m);
@@ -324,4 +335,8 @@ int shortbus_digimax_read_snapshot_module(snapshot_t *s)
     set_shortbus_digimax_base(temp_digimax_address, NULL);
 
     return set_shortbus_digimax_enabled(1, NULL);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

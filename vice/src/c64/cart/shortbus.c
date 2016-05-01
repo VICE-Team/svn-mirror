@@ -141,7 +141,18 @@ void shortbus_reset(void)
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MODULE_NAME "SHORTBUS"
+/* SHORTBUS snapshot module format:
+
+   type  | name           | description
+   ------------------------------------
+   BYTE  | amount         | amount of active shortbus devices
+   BYTE  | digimax active | digimax active flag
+   BYTE  | duart active   | duart active flag
+   BYTE  | etfe active    | etfe active flag
+   BYTE  | eth64 active   | eth64 active flag
+ */
+
+static char snap_module_name[] = "SHORTBUS";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
@@ -172,7 +183,8 @@ int shortbus_write_snapshot_module(snapshot_t *s)
     }
 #endif
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -225,7 +237,8 @@ int shortbus_read_snapshot_module(snapshot_t *s)
     int active_devices;
     int devices[4];
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
@@ -233,8 +246,7 @@ int shortbus_read_snapshot_module(snapshot_t *s)
     /* Do not accept versions higher than current */
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (0
@@ -243,8 +255,7 @@ int shortbus_read_snapshot_module(snapshot_t *s)
         || SMR_B_INT(m, &devices[1]) < 0
         || SMR_B_INT(m, &devices[2]) < 0
         || SMR_B_INT(m, &devices[3]) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     snapshot_module_close(m);
@@ -276,4 +287,8 @@ int shortbus_read_snapshot_module(snapshot_t *s)
 #endif
     }
     return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

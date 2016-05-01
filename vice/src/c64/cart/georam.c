@@ -607,6 +607,16 @@ int georam_flush_image(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* GEORAM snapshot module format:
+
+   type  | name    | version | description
+   ---------------------------------------
+   BYTE  | io swap |   0.1   | VIC20 I/O swap flag
+   DWORD | size    |   0.0+  | size in KB
+   ARRAY | regs    |   0.0+  | 2 BYTES of register data
+   ARRAY | RAM     |   0.0+  | 65536, 131072, 262144, 524288, 1048576, 2097152 or 4194304 BYTES of RAM data
+ */
+
 static char snap_module_name[] = "GEORAM";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 1
@@ -616,6 +626,7 @@ int georam_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -629,29 +640,34 @@ int georam_write_snapshot_module(snapshot_t *s)
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int georam_read_snapshot_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    BYTE vmajor, vminor;
     snapshot_module_t *m;
     DWORD size;
 
-    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if (major_version != SNAP_MAJOR) {
-        log_error(georam_log, "Major version %d not valid; should be %d.", major_version, SNAP_MAJOR);
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
-    /* Read I/O swap.  */
-    if (SMR_B_INT(m, &georam_io_swap) < 0) {
-        goto fail;
+    /* new in 0.1 */
+    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+        if (SMR_B_INT(m, &georam_io_swap) < 0) {
+            goto fail;
+        }
+    } else {
+        georam_io_swap = 0;
     }
 
     /* Read RAM size.  */

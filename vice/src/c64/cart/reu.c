@@ -1456,7 +1456,7 @@ void reu_dma_start(void)
    -------------------------------
    DWORD | size      | size of REU in KB
    ARRAY | registers | 16 BYTES of register data
-   ARRAY | RAM       | 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608 or 16777216 BYTES of RAM data
+   ARRAY | RAM       | 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608 or 16777216 BYTES of RAM data
  */
 
 static char snap_module_name[] = "REU1764"; /*!< the name of the module for the snapshot */
