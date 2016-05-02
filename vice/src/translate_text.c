@@ -4509,6 +4509,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_SNAPSHOT_HIGHER_VERSION_TR, ""},  /* fuzzy */
 #endif
 
+/* snapshot.c */
+/* en */ {IDGS_INCOMPATIBLE_SNAPSHOT,    N_("Snapshot %s is incompatible (too old)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_INCOMPATIBLE_SNAPSHOT_DA, ""},  /* fuzzy */
+/* de */ {IDGS_INCOMPATIBLE_SNAPSHOT_DE, ""},  /* fuzzy */
+/* es */ {IDGS_INCOMPATIBLE_SNAPSHOT_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_INCOMPATIBLE_SNAPSHOT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_INCOMPATIBLE_SNAPSHOT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_INCOMPATIBLE_SNAPSHOT_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_INCOMPATIBLE_SNAPSHOT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_INCOMPATIBLE_SNAPSHOT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_INCOMPATIBLE_SNAPSHOT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_INCOMPATIBLE_SNAPSHOT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_INCOMPATIBLE_SNAPSHOT_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_INCOMPATIBLE_SNAPSHOT_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */

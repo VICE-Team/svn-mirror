@@ -210,30 +210,38 @@ void stb_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   1
-#define SNAP_MODULE_NAME  "CARTSTB"
+/* CARTSTB snapshot module format:
+
+   type  | name   | version | description
+   --------------------------------------
+   BYTE  | bank   |   0.1   | current bank
+   BYTE  | active |   0.1   | cartridge active flag
+   ARRAY | ROML   |   0.0+  | 16384 BYTES of ROML data
+ */
+
+static char snap_module_name[] = "CARTSTB";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   1
 
 int stb_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
 
     if (0
-        || (SMW_B(m, (BYTE)stb_bank) < 0)
-        || (SMW_B(m, (BYTE)stb_active) < 0)
-        || (SMW_BA(m, roml_banks, 0x4000) < 0)) {
+        || SMW_B(m, (BYTE)stb_bank) < 0
+        || SMW_B(m, (BYTE)stb_active) < 0
+        || SMW_BA(m, roml_banks, 0x4000) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int stb_snapshot_read_module(snapshot_t *s)
@@ -241,25 +249,39 @@ int stb_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
-    if (0
-        || (SMR_B_INT(m, &stb_bank) < 0)
-        || (SMR_B_INT(m, &stb_active) < 0)
-        || (SMR_BA(m, roml_banks, 0x4000) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+    /* new in 0.1 */
+    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+        if (0
+            || SMR_B_INT(m, &stb_bank) < 0
+            || SMR_B_INT(m, &stb_active) < 0) {
+            goto fail;
+        }
+    } else {
+        stb_bank = 0;
+        stb_active = 0;
+    }
+
+    if (SMR_BA(m, roml_banks, 0x4000) < 0) {
+        goto fail;
     }
 
     snapshot_module_close(m);
 
     return stb_common_attach();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

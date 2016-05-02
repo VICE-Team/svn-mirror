@@ -889,6 +889,9 @@ void snapshot_display_error(void)
         case SNAPSHOT_MODULE_HIGHER_VERSION:
             ui_error(translate_text(IDGS_SNAPSHOT_HIGHER_VERSION), current_filename);
             break;
+        case SNAPSHOT_MODULE_INCOMPATIBLE:
+            ui_error(translate_text(IDGS_INCOMPATIBLE_SNAPSHOT), current_filename);
+            break;
     }
 }
 

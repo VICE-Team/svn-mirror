@@ -193,33 +193,44 @@ void supergames_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   2
-#define SNAP_MODULE_NAME  "CARTSUPERGAMES"
+/* CARTSUPERGAMES snapshot module format:
+
+   type  | name        | version | description
+   -------------------------------------------
+   BYTE  | mode        |   0.2   | current mode
+   BYTE  | regval      |   0.2   | register
+   BYTE  | bank        |   0.0+  | current bank   
+   BYTE  | reg latched |   0.1   | register latched flag
+   ARRAY | ROML        |   0.0+  | 32768 BYTES of ROML data
+   ARRAY | ROMH        |   0.0+  | 32768 BYTES of ROMH data
+ */
+
+static char snap_module_name[] = "CARTSUPERGAMES";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   2
 
 int supergames_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
 
     if (0
-        || (SMW_B(m, (BYTE)currmode) < 0)
-        || (SMW_B(m, regval) < 0)
-        || (SMW_B(m, (BYTE)currbank) < 0)
-        || (SMW_B(m, (BYTE)reglatched) < 0)
-        || (SMW_BA(m, roml_banks, 0x8000) < 0)
-        || (SMW_BA(m, romh_banks, 0x8000) < 0)) {
+        || SMW_B(m, (BYTE)currmode) < 0
+        || SMW_B(m, regval) < 0
+        || SMW_B(m, (BYTE)currbank) < 0
+        || SMW_B(m, (BYTE)reglatched) < 0
+        || SMW_BA(m, roml_banks, 0x8000) < 0
+        || SMW_BA(m, romh_banks, 0x8000) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int supergames_snapshot_read_module(snapshot_t *s)
@@ -227,28 +238,54 @@ int supergames_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    /* new in 0.2 */
+    if (SNAPVAL(vmajor, vminor, 0, 2)) {
+        if (0
+            || SMR_B_INT(m, &currmode) < 0
+            || SMR_B(m, &regval) < 0) {
+            goto fail;
+        }
+    } else {
+        currmode = 0;
+        regval = 0;
+    }
+
+    if (SMR_B_INT(m, &currbank) < 0) {
+        goto fail;
+    }
+
+    /* new in 0.1 */
+    if (SNAPVAL(vmajor, vminor, 0, 2)) {
+        if (SMR_B_INT(m, &reglatched) < 0) {
+            goto fail;
+        }
+    } else {
+        reglatched = 0;
     }
 
     if (0
-        || (SMR_B_INT(m, &currmode) < 0)
-        || (SMR_B(m, &regval) < 0)
-        || (SMR_B_INT(m, &currbank) < 0)
-        || (SMR_B_INT(m, &reglatched) < 0)
-        || (SMR_BA(m, roml_banks, 0x8000) < 0)
-        || (SMR_BA(m, romh_banks, 0x8000) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+        || SMR_BA(m, roml_banks, 0x8000) < 0
+        || SMR_BA(m, romh_banks, 0x8000) < 0) {
+        goto fail;
     }
 
     snapshot_module_close(m);
 
     return supergames_common_attach();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

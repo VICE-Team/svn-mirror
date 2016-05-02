@@ -57,6 +57,7 @@
 #define SNAPSHOT_READ_CLOSE_EOF_ERROR            22
 #define SNAPSHOT_WRITE_CLOSE_EOF_ERROR           23
 #define SNAPSHOT_MODULE_HIGHER_VERSION           24
+#define SNAPSHOT_MODULE_INCOMPATIBLE             25
 
 typedef struct snapshot_module_s snapshot_module_t;
 typedef struct snapshot_s snapshot_t;

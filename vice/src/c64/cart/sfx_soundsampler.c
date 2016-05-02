@@ -345,28 +345,36 @@ static void sfx_soundsampler_sound_reset(sound_t *psid, CLOCK cpu_clk)
 /* ---------------------------------------------------------------------*/
 /*    snapshot support functions                                             */
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   1
-#define SNAP_MODULE_NAME  "CARTSFXSS"
+/* CARTSFXSS snapshot module format:
+
+   type  | name       | version | description
+   ------------------------------------------
+   BYTE  | IO swap    |   0.1   | VIC20 I/O swap flag
+   BYTE  | sound data |   0.0+  | sound data
+ */
+
+static char snap_module_name[] = "CARTSFXSS";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   1
 
 int sfx_soundsampler_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
 
     if (0
-        || (SMW_B(m, (BYTE)sfx_soundsampler_io_swap) <0)
-        || (SMW_B(m, (BYTE)sfx_soundsampler_sound_data) < 0)) {
+        || SMW_B(m, (BYTE)sfx_soundsampler_io_swap) < 0
+        || SMW_B(m, (BYTE)sfx_soundsampler_sound_data) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int sfx_soundsampler_snapshot_read_module(snapshot_t *s)
@@ -374,21 +382,29 @@ int sfx_soundsampler_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
-    if (0
-        || (SMR_B_INT(m, &sfx_soundsampler_io_swap) <0)
-        || (SMR_B(m, &sfx_soundsampler_sound_data) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+    /* new in 0.1 */
+    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+        if (SMR_B_INT(m, &sfx_soundsampler_io_swap) < 0) {
+            goto fail;
+        }
+    } else {
+        sfx_soundsampler_io_swap = 0;
+    }
+
+    if (SMR_B(m, &sfx_soundsampler_sound_data) < 0) {
+        goto fail;
     }
 
     if (!sfx_soundsampler_sound_chip.chip_enabled) {
@@ -396,6 +412,9 @@ int sfx_soundsampler_snapshot_read_module(snapshot_t *s)
     }
     sound_store(sfx_soundsampler_sound_chip_offset, sfx_soundsampler_sound_data, 0);
 
+    return snapshot_module_close(m);
+
+fail:
     snapshot_module_close(m);
-    return 0;
+    return -1;
 }

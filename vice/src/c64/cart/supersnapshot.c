@@ -349,36 +349,50 @@ int supersnapshot_v5_cmdline_options_init(void)
 }
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   2
-#define SNAP_MODULE_NAME  "CARTSS5"
+/* CARTSS5 snapshot module format:
+
+   type  | name        | version | description
+   -------------------------------------------
+   BYTE  | ROM bank    |   0.2   | current ROM bank
+   BYTE  | register    |   0.2   | register
+   BYTE  | ROM config  |   0.0+  | ROM configuration
+   BYTE  | RAM bank    |   0.0+  | current RAM bank
+   BYTE  | 32K enabled |   0.1+  | 32KB enabled flag
+   BYTE  | ROM disable |   0.1+  | ROM disable flag
+   ARRAY | ROML        |   0.0+  | 32768 BYTES of ROML data
+   ARRAY | ROMH        |   0.0+  | 32768 BYTES of ROMH data
+   ARRAY | RAM         |   0.0+  | 32768 BYTES of RAM data
+ */
+
+static char snap_module_name[] = "CARTSS5";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   2
 
 int supersnapshot_v5_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
 
     if (0
-        || (SMW_B(m, (BYTE)currbank) < 0)
-        || (SMW_B(m, (BYTE)currreg) < 0)
-        || (SMW_B(m, romconfig) < 0)
-        || (SMW_B(m, (BYTE)ram_bank) < 0)
-        || (SMW_B(m, (BYTE)ss_32k_enabled) < 0)
-        || (SMW_B(m, (BYTE)ss_rom_disabled) < 0)
-        || (SMW_BA(m, roml_banks, 0x8000) < 0)
-        || (SMW_BA(m, romh_banks, 0x8000) < 0)
-        || (SMW_BA(m, export_ram0, 0x8000) < 0)) {
+        || SMW_B(m, (BYTE)currbank) < 0
+        || SMW_B(m, (BYTE)currreg) < 0
+        || SMW_B(m, romconfig) < 0
+        || SMW_B(m, (BYTE)ram_bank) < 0
+        || SMW_B(m, (BYTE)ss_32k_enabled) < 0
+        || SMW_B(m, (BYTE)ss_rom_disabled) < 0
+        || SMW_BA(m, roml_banks, 0x8000) < 0
+        || SMW_BA(m, romh_banks, 0x8000) < 0
+        || SMW_BA(m, export_ram0, 0x8000) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int supersnapshot_v5_snapshot_read_module(snapshot_t *s)
@@ -386,31 +400,60 @@ int supersnapshot_v5_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    /* new in 0.2 */
+    if (SNAPVAL(vmajor, vminor, 0, 2)) {
+        if (0
+            || SMR_B_INT(m, &currbank) < 0
+            || SMR_B_INT(m, &currreg) < 0) {
+            goto fail;
+        }
+    } else {
+        currbank = 0;
+        currreg = 0;
     }
 
     if (0
-        || (SMR_B_INT(m, &currbank) < 0)
-        || (SMR_B_INT(m, &currreg) < 0)
-        || (SMR_B(m, &romconfig) < 0)
-        || (SMR_B_INT(m, &ram_bank) < 0)
-        || (SMR_B_INT(m, &ss_32k_enabled) < 0)
-        || (SMR_B_INT(m, &ss_rom_disabled) < 0)
-        || (SMR_BA(m, roml_banks, 0x8000) < 0)
-        || (SMR_BA(m, romh_banks, 0x8000) < 0)
-        || (SMR_BA(m, export_ram0, 0x8000) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+        || SMR_B(m, &romconfig) < 0
+        || SMR_B_INT(m, &ram_bank) < 0) {
+        goto fail;
+    }
+
+    /* new in 0.1 */
+    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+        if (0
+            || SMR_B_INT(m, &ss_32k_enabled) < 0
+            || SMR_B_INT(m, &ss_rom_disabled) < 0) {
+            goto fail;
+        }
+    } else {
+        ss_32k_enabled = 0;
+        ss_rom_disabled = 0;
+    }
+
+    if (0
+        || SMR_BA(m, roml_banks, 0x8000) < 0
+        || SMR_BA(m, romh_banks, 0x8000) < 0
+        || SMR_BA(m, export_ram0, 0x8000) < 0) {
+        goto fail;
     }
 
     snapshot_module_close(m);
 
     return supersnapshot_v5_common_attach();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

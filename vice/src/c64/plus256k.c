@@ -331,16 +331,30 @@ BYTE plus256k_ram_high_read(WORD addr)
 
 /* ------------------------------------------------------------------------- */
 
-#define PLUS256K_DUMP_VER_MAJOR   0
-#define PLUS256K_DUMP_VER_MINOR   1
-#define SNAP_MODULE_NAME  "PLUS256K"
+/* PLUS256K snapshot module format:
+
+   type  | name          | description
+   -----------------------------------
+   BYTE  | register      | register
+   BYTE  | video bank    | current video bank
+   BYTE  | low bank      | current low bank
+   BYTE  | high bank     | current high bank
+   BYTE  | write protect | write protect flag
+   ARRAY | RAM           | 262144 BYTES of RAM data
+
+   Note: for some reason this snapshot module revision started at 0.1, so there never was a 0.0
+ */
+
+static char snap_module_name[] = "PLUS256K";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   1
 
 int plus256k_snapshot_write(struct snapshot_s *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                               PLUS256K_DUMP_VER_MAJOR, PLUS256K_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -356,8 +370,7 @@ int plus256k_snapshot_write(struct snapshot_s *s)
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int plus256k_snapshot_read(struct snapshot_s *s)
@@ -365,13 +378,15 @@ int plus256k_snapshot_read(struct snapshot_s *s)
     snapshot_module_t *m;
     BYTE vmajor, vminor;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != PLUS256K_DUMP_VER_MAJOR) || (vminor != PLUS256K_DUMP_VER_MINOR)) {
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -380,21 +395,16 @@ int plus256k_snapshot_read(struct snapshot_s *s)
 
     /* overwrite registers */
     if (0
-        || SMR_B    (m, &plus256k_reg) < 0
+        || SMR_B(m, &plus256k_reg) < 0
         || SMR_B_INT(m, &plus256k_video_bank) < 0
         || SMR_B_INT(m, &plus256k_low_bank) < 0
         || SMR_B_INT(m, &plus256k_high_bank) < 0
-        || SMR_B_INT(m, &plus256k_protected) < 0) {
+        || SMR_B_INT(m, &plus256k_protected) < 0
+        || SMR_BA(m, plus256k_ram, 0x40000) < 0) {
         goto fail;
     }
 
-    /* overwrite ram */
-    if (SMR_BA(m, plus256k_ram, 0x40000) < 0) {
-        goto fail;
-    }
-    snapshot_module_close(m);
-
-    return 0;
+    return snapshot_module_close(m);
     
 fail:
     if (m != NULL) {

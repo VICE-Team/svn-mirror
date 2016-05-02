@@ -772,6 +772,9 @@ IDGS_EOF_CLOSING_SNAPSHOT_S
 /* snapshot.c */
 IDGS_SNAPSHOT_HIGHER_VERSION
 
+/* snapshot.c */
+IDGS_INCOMPATIBLE_SNAPSHOT
+
 /* tapeport/tapertc.c */
 IDCLS_ENABLE_TAPERTC
 

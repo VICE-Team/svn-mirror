@@ -1082,50 +1082,67 @@ void retroreplay_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   3
-#define SNAP_MODULE_NAME  "CARTRR"
-#define FLASH_SNAP_MODULE_NAME  "FLASH040RR"
+/* CARTRR snapshot module format:
+
+   type  | name              | version | description
+   -------------------------------------------------
+   BYTE  | revision          |   0.1+  | RR revision
+   BYTE  | active            |   0.0+  | cartridge active flag
+   BYTE  | frozen            |   0.2+  | frozen flag
+   BYTE  | cmode             |   0.3   | cmode
+   BYTE  | clockport enabled |   0.0+  | clockport enabled flag
+   BYTE  | bank              |   0.0+  | current bank
+   BYTE  | write once        |   0.0+  | write once flag
+   BYTE  | allow bank        |   0.0+  | allow bank flag
+   BYTE  | no freeze         |   0.0+  | no freeze flag
+   BYTE  | REU mapping       |   0.0+  | REU mapping flag
+   BYTE  | RAM at a000       |   0.1+  | RAM at $A000 flag
+   BYTE  | flash jumper      |   0.0+  | flash jumper state
+   BYTE  | bank jumper       |   0.0+  | bank jumper state
+   BYTE  | ROM offset        |   0.0+  | ROM offset
+   ARRAY | ROML              |   0.0+  | 131072 BYTES of ROML data
+   ARRAY | RAM               |   0.0+  | 32768 BYTES of RAM data
+ */
+
+static char snap_module_name[] = "CARTRR";
+static char flash_snap_module_name[] = "FLASH040RR";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   3
 
 int retroreplay_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
 
     if (0
-        || (SMW_B(m, (BYTE)rr_revision) < 0)
-        || (SMW_B(m, (BYTE)rr_active) < 0)
-        || (SMW_B(m, (BYTE)rr_frozen) < 0)
-        || (SMW_B(m, (BYTE)rr_cmode) < 0)
-        || (SMW_B(m, (BYTE)rr_clockport_enabled) < 0)
-        || (SMW_B(m, (BYTE)rr_bank) < 0)
-        || (SMW_B(m, (BYTE)write_once) < 0)
-        || (SMW_B(m, (BYTE)allow_bank) < 0)
-        || (SMW_B(m, (BYTE)no_freeze) < 0)
-        || (SMW_B(m, (BYTE)reu_mapping) < 0)
-        || (SMW_B(m, (BYTE)export_ram_at_a000) < 0)
-        || (SMW_B(m, (BYTE)rr_hw_flashjumper) < 0)
-        || (SMW_B(m, (BYTE)rr_hw_bankjumper) < 0)
-        || (SMW_DW(m, (DWORD)rom_offset) < 0)
-        || (SMW_BA(m, roml_banks, 0x20000) < 0)
-        || (SMW_BA(m, export_ram0, 0x8000) < 0)) {
+        || SMW_B(m, (BYTE)rr_revision) < 0
+        || SMW_B(m, (BYTE)rr_active) < 0
+        || SMW_B(m, (BYTE)rr_frozen) < 0
+        || SMW_B(m, (BYTE)rr_cmode) < 0
+        || SMW_B(m, (BYTE)rr_clockport_enabled) < 0
+        || SMW_B(m, (BYTE)rr_bank) < 0
+        || SMW_B(m, (BYTE)write_once) < 0
+        || SMW_B(m, (BYTE)allow_bank) < 0
+        || SMW_B(m, (BYTE)no_freeze) < 0
+        || SMW_B(m, (BYTE)reu_mapping) < 0
+        || SMW_B(m, (BYTE)export_ram_at_a000) < 0
+        || SMW_B(m, (BYTE)rr_hw_flashjumper) < 0
+        || SMW_B(m, (BYTE)rr_hw_bankjumper) < 0
+        || SMW_DW(m, (DWORD)rom_offset) < 0
+        || SMW_BA(m, roml_banks, 0x20000) < 0
+        || SMW_BA(m, export_ram0, 0x8000) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
 
-    if (0
-        || (flash040core_snapshot_write_module(s, flashrom_state, FLASH_SNAP_MODULE_NAME) < 0)) {
-        return -1;
-    }
-
-    return 0;
+    return flash040core_snapshot_write_module(s, flashrom_state, flash_snap_module_name);
 }
 
 int retroreplay_snapshot_read_module(snapshot_t *s)
@@ -1134,35 +1151,75 @@ int retroreplay_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
     DWORD temp_rom_offset;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    /* new in 0.1 */
+    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+        if (SMR_B_INT(m, &rr_revision) < 0) {
+            goto fail;
+        }
+    } else {
+        rr_revision = 0;
+    }
+
+    if (SMR_B_INT(m, &rr_active) < 0) {
+        goto fail;
+    }
+
+    /* new in 0.2 */
+    if (SNAPVAL(vmajor, vminor, 0, 2)) {
+        if (SMR_B_INT(m, &rr_frozen) < 0) {
+            goto fail;
+        }
+    } else {
+        rr_frozen = 0;
+    }
+
+    /* new in 0.3 */
+    if (SNAPVAL(vmajor, vminor, 0, 3)) {
+        if (SMR_B_INT(m, &rr_cmode) < 0) {
+            goto fail;
+        }
+    } else {
+        rr_cmode = CMODE_8KGAME;
     }
 
     if (0
-        || (SMR_B_INT(m, &rr_revision) < 0)
-        || (SMR_B_INT(m, &rr_active) < 0)
-        || (SMR_B_INT(m, &rr_frozen) < 0)
-        || (SMR_B_INT(m, &rr_cmode) < 0)
-        || (SMR_B_INT(m, &rr_clockport_enabled) < 0)
-        || (SMR_B_INT(m, &rr_bank) < 0)
-        || (SMR_B_INT(m, &write_once) < 0)
-        || (SMR_B_INT(m, &allow_bank) < 0)
-        || (SMR_B_INT(m, &no_freeze) < 0)
-        || (SMR_B_INT(m, &reu_mapping) < 0)
-        || (SMR_B_INT(m, &export_ram_at_a000) < 0)
-        || (SMR_B_INT(m, &rr_hw_flashjumper) < 0)
-        || (SMR_B_INT(m, &rr_hw_bankjumper) < 0)
-        || (SMR_DW(m, &temp_rom_offset) < 0)
-        || (SMR_BA(m, roml_banks, 0x20000) < 0)
-        || (SMR_BA(m, export_ram0, 0x8000) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+        || SMR_B_INT(m, &rr_clockport_enabled) < 0
+        || SMR_B_INT(m, &rr_bank) < 0
+        || SMR_B_INT(m, &write_once) < 0
+        || SMR_B_INT(m, &allow_bank) < 0
+        || SMR_B_INT(m, &no_freeze) < 0
+        || SMR_B_INT(m, &reu_mapping) < 0) {
+        goto fail;
+    }
+
+    /* new in 0.1 */
+    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+        if (SMR_B_INT(m, &export_ram_at_a000) < 0) {
+            goto fail;
+        }
+    } else {
+        export_ram_at_a000 = 0;
+    }
+
+    if (0
+        || SMR_B_INT(m, &rr_hw_flashjumper) < 0
+        || SMR_B_INT(m, &rr_hw_bankjumper) < 0
+        || SMR_DW(m, &temp_rom_offset) < 0
+        || SMR_BA(m, roml_banks, 0x20000) < 0
+        || SMR_BA(m, export_ram0, 0x8000) < 0) {
+        goto fail;
     }
 
     snapshot_module_close(m);
@@ -1173,8 +1230,7 @@ int retroreplay_snapshot_read_module(snapshot_t *s)
 
     flash040core_init(flashrom_state, maincpu_alarm_context, FLASH040_TYPE_010, roml_banks);
 
-    if (0
-        || (flash040core_snapshot_read_module(s, flashrom_state, FLASH_SNAP_MODULE_NAME) < 0)) {
+    if (flash040core_snapshot_read_module(s, flashrom_state, flash_snap_module_name) < 0) {
         flash040core_shutdown(flashrom_state);
         lib_free(flashrom_state);
         flashrom_state = NULL;
@@ -1188,4 +1244,8 @@ int retroreplay_snapshot_read_module(snapshot_t *s)
     retroreplay_filetype = 0;
 
     return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

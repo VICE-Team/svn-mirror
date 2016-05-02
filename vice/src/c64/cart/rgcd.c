@@ -185,30 +185,40 @@ void rgcd_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   2
-#define SNAP_MODULE_NAME  "CARTRGCD"
+/* CARTRGCD snapshot module format:
+
+   type  | name     | version | description
+   ----------------------------------------
+   BYTE  | regval   |   0.1+  | register
+   BYTE  | disabled |   0.2   | cartridge disabled flag
+   ARRAY | ROML     |   0.1+  | 65536 BYTES of ROML data
+
+   Note: for some reason this module was created at rev 0.1, so there never was a 0.0
+ */
+
+static char snap_module_name[] = "CARTRGCD";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   2
 
 int rgcd_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
 
     if (0
-        || (SMW_B(m, (BYTE)regval) < 0)
-        || (SMW_B(m, (BYTE)disabled) < 0)
-        || (SMW_BA(m, roml_banks, 0x2000 * MAXBANKS) < 0)) {
+        || SMW_B(m, (BYTE)regval) < 0
+        || SMW_B(m, (BYTE)disabled) < 0
+        || SMW_BA(m, roml_banks, 0x2000 * MAXBANKS) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int rgcd_snapshot_read_module(snapshot_t *s)
@@ -216,29 +226,44 @@ int rgcd_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
-    if (0
-        || (SMR_B(m, &regval) < 0)
-        || (SMR_B(m, &disabled) < 0)
-        || (SMR_BA(m, roml_banks, 0x2000 * MAXBANKS) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+    if (SMR_B(m, &regval) < 0) {
+        goto fail;
+    }
+
+    /* new in 0.2 */
+    if (SNAPVAL(vmajor, vminor, 0, 2)) {
+        if (SMR_B(m, &disabled) < 0) {
+            goto fail;
+        }
+    } else {
+        disabled = 0;
+    }
+
+    if (SMR_BA(m, roml_banks, 0x2000 * MAXBANKS) < 0) {
+        goto fail;
     }
 
     snapshot_module_close(m);
 
-    if (rgcd_common_attach() == -1) {
+    if (rgcd_common_attach() < 0) {
         return -1;
     }
     rgcd_io1_store(0xde00, regval);
     return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
