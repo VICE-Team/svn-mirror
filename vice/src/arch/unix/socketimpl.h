@@ -52,6 +52,10 @@ extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 
 #include <sys/types.h>
 
+#ifdef NeXT
+#include <netinet/in_systm.h>
+#endif
+
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
@@ -82,8 +86,10 @@ extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 #include <sys/select.h>
 #endif
  
-#ifdef HAVE_LIBC_H
-#include <libc.h>
+#ifndef NeXT
+#  ifdef HAVE_LIBC_H
+#    include <libc.h>
+#  endif
 #endif
 
 #include <unistd.h>

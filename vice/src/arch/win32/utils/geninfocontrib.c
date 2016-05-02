@@ -46,6 +46,19 @@
 #include <unistd.h>
 #endif
 
+#ifdef NeXT
+static char *strdup(const char *string)
+{
+    char *new;
+
+    new = malloc(strlen(string) + 1);
+    if (new != NULL) {
+        strcpy(new, string);
+    }
+    return new;
+}
+#endif
+
 static char line_buffer[512];
 static char text[65536];
 
