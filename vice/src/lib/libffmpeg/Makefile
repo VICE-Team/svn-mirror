@@ -3034,9 +3034,17 @@ ifdef AVPROGS
 install: install-progs install-data
 endif
 
+ifdef VICEBUILD
 install: install-libs install-headers
+else
+install: install-libs
+endif
 
+ifdef VICEBUILD
 install-libs: install-libs-yes
+else
+install-libs:
+endif
 
 install-progs-yes:
 install-progs-$(CONFIG_SHARED): install-libs
