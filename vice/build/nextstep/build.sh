@@ -44,7 +44,7 @@ single_build=no
 mkdir bins
 
 if test x"$build_i386" = "xyes"; then
-  CFLAGS="-arch i386" ./configure -v --host=i386-next-nextstep --prefix=/usr/local -disable-nls --without-resid --with-xaw3d --enable-native-tools ac_cv_c_bigendian=no
+  CFLAGS="-arch i386" ./configure -v --host=i386-next-nextstep --prefix=/usr/local -disable-nls --without-resid --with-xaw3d ac_cv_c_bigendian=no
   make
   makedone=yes
   if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
@@ -67,7 +67,7 @@ if test x"$build_m68k" = "xyes"; then
   if test x"$makedone" = "xyes"; then
     make clean
   fi
-  CFLAGS="-arch m68k" ./configure -v --host=m68k-next-nextstep --prefix=/usr/local -disable-nls --without-resid --with-xaw3d --enable-native-tools ac_cv_c_bigendian=yes
+  CFLAGS="-arch m68k" ./configure -v --host=m68k-next-nextstep --prefix=/usr/local -disable-nls --without-resid --with-xaw3d ac_cv_c_bigendian=yes
   make
   makedone=yes
   if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
@@ -90,7 +90,7 @@ if test x"$build_hppa" = "xyes"; then
   if test x"$makedone" = "xyes"; then
     make clean
   fi
-  CFLAGS="-arch hppa" ./configure -v --host=hppa-next-nextstep --prefix=/usr/local -disable-nls --without-resid --with-xaw3d --enable-native-tools ac_cv_c_bigendian=yes
+  CFLAGS="-arch hppa" ./configure -v --host=hppa-next-nextstep --prefix=/usr/local -disable-nls --without-resid --with-xaw3d ac_cv_c_bigendian=yes
   make
   makedone=yes
   if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
@@ -113,7 +113,7 @@ if test x"$build_sparc" = "xyes"; then
   if test x"$makedone" = "xyes"; then
     make clean
   fi
-  CFLAGS="-arch sparc" ./configure -v --host=sparc-next-nextstep --prefix=/usr/local -disable-nls --without-resid --with-xaw3d --enable-native-tools ac_cv_c_bigendian=yes
+  CFLAGS="-arch sparc" ./configure -v --host=sparc-next-nextstep --prefix=/usr/local -disable-nls --without-resid --with-xaw3d ac_cv_c_bigendian=yes
   make
   if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
   then
