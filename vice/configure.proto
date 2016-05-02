@@ -2178,11 +2178,20 @@ fi
 
 if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
   LAMEMP3SUB=liblame
+  LIBX264SUB=libx264
+  LIBFFMPEGSUB=libffmpeg
+  FFMPEGSUB=ffmpeg
 else
   LAMEMP3SUB=""
+  LIBX264SUB=""
+  LIBFFMPEGSUB=""
+  FFMPEGSUB=""
 fi
 
 AC_SUBST(LAMEMP3SUB)
+AC_SUBST(LIBX264SUB)
+AC_SUBST(LIBFFMPEGSUB)
+AC_SUBST(FFMPEGSUB)
 
 if test x"$LAMEMP3SUB" = "xliblame"; then
   AM_CONDITIONAL(LAMEMP3_DIR_USED, true)

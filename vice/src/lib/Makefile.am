@@ -1,4 +1,5 @@
-SUBDIRS = p64 @LAMEMP3SUB@ libx264 libffmpeg ffmpeg
+SUBDIRS = p64 @LAMEMP3SUB@ @LIBX264SUB@ @LIBFFMPEGSUB@ @FFMPEGSUB@
+
 
 ffmpeglibs: $(FFMPEG_DIR)
 
