@@ -1321,15 +1321,28 @@ static int read_neos_and_amiga_val_snapshot(snapshot_module_t *m)
     return SMR_DW_INT(m, &neos_and_amiga_buttons);
 }
 
+/* --------------------------------------------------------- */
+
+/* PADDLES snapshot module format:
+
+   type  | name               | description
+   ----------------------------------------
+   BYTE  | digital value      | digital pins return value
+   BYTE  | paddle value 2     | paddle value 2
+   BYTE  | paddle value 3     | paddle value 3
+   BYTE  | old paddle value 2 | old paddle value 2
+   BYTE  | old paddle value 3 | old paddle value 3
+ */
+
+static char paddles_snap_module_name[] = "PADDLES";
 #define PADDLES_VER_MAJOR   0
 #define PADDLES_VER_MINOR   0
-#define PADDLES_MODULE_NAME  "PADDLES"
 
 static int paddles_write_snapshot(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, PADDLES_MODULE_NAME, PADDLES_VER_MAJOR, PADDLES_VER_MINOR);
+    m = snapshot_module_create(s, paddles_snap_module_name, PADDLES_VER_MAJOR, PADDLES_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1355,7 +1368,8 @@ static int paddles_read_snapshot(struct snapshot_s *s, int port)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, PADDLES_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, paddles_snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
@@ -1381,15 +1395,40 @@ fail:
     return -1;
 }
 
+/* --------------------------------------------------------- */
+
+/* MOUSE_1351 snapshot module format:
+
+   type   | name                   | description
+   ---------------------------------------------
+   BYTE   | digital value          | digital pins return value
+   BYTE   | quadrature X           | quadrature X
+   BYTE   | quadrature Y           | quadrature Y
+   BYTE   | polled joyval          | polled joyval
+   WORD   | latest X               | latest X
+   WORD   | latest Y               | latest Y
+   DWORD  | last mouse X           | last mouse X
+   DWORD  | last mouse Y           | last mouse Y
+   DWORD  | sx                     | SX
+   DWORD  | sy                     | SY
+   DWORD  | update limit           | update limit
+   DWORD  | latest os ts           | latest os ts
+   DOUBLE | emu units per os units | emu units per os units
+   DWORD  | next update x emu ts   | next update X emu ts
+   DWORD  | next update y emu ts   | next update Y emu ts
+   DWORD  | update x emu iv        | update X emu IV
+   DWORD  | update y emu iv        | update Y emu IV
+ */
+
+static char mouse_1351_snap_module_name[] = "MOUSE_1351";
 #define MOUSE_1351_VER_MAJOR   0
 #define MOUSE_1351_VER_MINOR   0
-#define MOUSE_1351_MODULE_NAME  "MOUSE_1351"
 
 static int mouse_1351_write_snapshot(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, MOUSE_1351_MODULE_NAME, MOUSE_1351_VER_MAJOR, MOUSE_1351_VER_MINOR);
+    m = snapshot_module_create(s, mouse_1351_snap_module_name, MOUSE_1351_VER_MAJOR, MOUSE_1351_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1415,7 +1454,8 @@ static int mouse_1351_read_snapshot(struct snapshot_s *s, int port)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, MOUSE_1351_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, mouse_1351_snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
@@ -1441,15 +1481,33 @@ fail:
     return -1;
 }
 
+/* --------------------------------------------------------- */
+
+/* MOUSE_NEOS snapshot module format:
+
+   type  | name                 | description
+   ------------------------------------------
+   BYTE  | digital value        | digital pins return value
+   DWORD | buttons              | buttons state
+   BYTE  | neos x               | neos X
+   BYTE  | neos y               | neos Y
+   BYTE  | neos last x          | neos last X
+   BYTE  | neos last y          | neos last Y
+   DWORD | neos state           | state
+   DWORD | neos prev            | previous state
+   DWORD | last trigger         | last trigger clock
+   DWORD | neos time out cycles | time out cycles
+ */
+
+static char mouse_neos_snap_module_name[] = "MOUSE_NEOS";
 #define MOUSE_NEOS_VER_MAJOR   0
 #define MOUSE_NEOS_VER_MINOR   0
-#define MOUSE_NEOS_MODULE_NAME  "MOUSE_NEOS"
 
 static int mouse_neos_write_snapshot(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, MOUSE_NEOS_MODULE_NAME, MOUSE_NEOS_VER_MAJOR, MOUSE_NEOS_VER_MINOR);
+    m = snapshot_module_create(s, mouse_neos_snap_module_name, MOUSE_NEOS_VER_MAJOR, MOUSE_NEOS_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1490,7 +1548,8 @@ static int mouse_neos_read_snapshot(struct snapshot_s *s, int port)
     DWORD tmpc2;
     int tmp_neos_state;
 
-    m = snapshot_module_open(s, MOUSE_NEOS_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, mouse_neos_snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
@@ -1532,15 +1591,41 @@ fail:
     return -1;
 }
 
+/* --------------------------------------------------------- */
+
+/* MOUSE_AMIGA snapshot module format:
+
+   type   | name                   | description
+   ---------------------------------------------
+   BYTE   | digital value          | digital pins return value
+   BYTE   | quadrature X           | quadrature X
+   BYTE   | quadrature Y           | quadrature Y
+   BYTE   | polled joyval          | polled joyval
+   WORD   | latest X               | latest X
+   WORD   | latest Y               | latest Y
+   DWORD  | last mouse X           | last mouse X
+   DWORD  | last mouse Y           | last mouse Y
+   DWORD  | sx                     | SX
+   DWORD  | sy                     | SY
+   DWORD  | update limit           | update limit
+   DWORD  | latest os ts           | latest os ts
+   DOUBLE | emu units per os units | emu units per os units
+   DWORD  | next update x emu ts   | next update X emu ts
+   DWORD  | next update y emu ts   | next update Y emu ts
+   DWORD  | update x emu iv        | update X emu IV
+   DWORD  | update y emu iv        | update Y emu IV
+   DWORD  | buttons                | buttons state
+ */
+
+static char mouse_amiga_snap_module_name[] = "MOUSE_AMIGA";
 #define MOUSE_AMIGA_VER_MAJOR   0
 #define MOUSE_AMIGA_VER_MINOR   0
-#define MOUSE_AMIGA_MODULE_NAME  "MOUSE_AMIGA"
 
 static int mouse_amiga_write_snapshot(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, MOUSE_AMIGA_MODULE_NAME, MOUSE_AMIGA_VER_MAJOR, MOUSE_AMIGA_VER_MINOR);
+    m = snapshot_module_create(s, mouse_amiga_snap_module_name, MOUSE_AMIGA_VER_MAJOR, MOUSE_AMIGA_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1569,7 +1654,8 @@ static int mouse_amiga_read_snapshot(struct snapshot_s *s, int port)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, MOUSE_AMIGA_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, mouse_amiga_snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
@@ -1598,15 +1684,40 @@ fail:
     return -1;
 }
 
+/* --------------------------------------------------------- */
+
+/* MOUSE_CX22 snapshot module format:
+
+   type   | name                   | description
+   ---------------------------------------------
+   BYTE   | digital value          | digital pins return value
+   BYTE   | quadrature X           | quadrature X
+   BYTE   | quadrature Y           | quadrature Y
+   BYTE   | polled joyval          | polled joyval
+   WORD   | latest X               | latest X
+   WORD   | latest Y               | latest Y
+   DWORD  | last mouse X           | last mouse X
+   DWORD  | last mouse Y           | last mouse Y
+   DWORD  | sx                     | SX
+   DWORD  | sy                     | SY
+   DWORD  | update limit           | update limit
+   DWORD  | latest os ts           | latest os ts
+   DOUBLE | emu units per os units | emu units per os units
+   DWORD  | next update x emu ts   | next update X emu ts
+   DWORD  | next update y emu ts   | next update Y emu ts
+   DWORD  | update x emu iv        | update X emu IV
+   DWORD  | update y emu iv        | update Y emu IV
+ */
+
+static char mouse_cx22_snap_module_name[] = "MOUSE_CX22";
 #define MOUSE_CX22_VER_MAJOR   0
 #define MOUSE_CX22_VER_MINOR   0
-#define MOUSE_CX22_MODULE_NAME  "MOUSE_CX22"
 
 static int mouse_cx22_write_snapshot(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, MOUSE_CX22_MODULE_NAME, MOUSE_CX22_VER_MAJOR, MOUSE_CX22_VER_MINOR);
+    m = snapshot_module_create(s, mouse_cx22_snap_module_name, MOUSE_CX22_VER_MAJOR, MOUSE_CX22_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1632,7 +1743,8 @@ static int mouse_cx22_read_snapshot(struct snapshot_s *s, int port)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, MOUSE_CX22_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, mouse_cx22_snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
@@ -1658,15 +1770,41 @@ fail:
     return -1;
 }
 
+/* --------------------------------------------------------- */
+
+/* MOUSE_ST snapshot module format:
+
+   type   | name                   | description
+   ---------------------------------------------
+   BYTE   | digital value          | digital pins return value
+   BYTE   | quadrature X           | quadrature X
+   BYTE   | quadrature Y           | quadrature Y
+   BYTE   | polled joyval          | polled joyval
+   WORD   | latest X               | latest X
+   WORD   | latest Y               | latest Y
+   DWORD  | last mouse X           | last mouse X
+   DWORD  | last mouse Y           | last mouse Y
+   DWORD  | sx                     | SX
+   DWORD  | sy                     | SY
+   DWORD  | update limit           | update limit
+   DWORD  | latest os ts           | latest os ts
+   DOUBLE | emu units per os units | emu units per os units
+   DWORD  | next update x emu ts   | next update X emu ts
+   DWORD  | next update y emu ts   | next update Y emu ts
+   DWORD  | update x emu iv        | update X emu IV
+   DWORD  | update y emu iv        | update Y emu IV
+   DWORD  | buttons                | buttons state
+ */
+
+static char mouse_st_snap_module_name[] = "MOUSE_ST";
 #define MOUSE_ST_VER_MAJOR   0
 #define MOUSE_ST_VER_MINOR   0
-#define MOUSE_ST_MODULE_NAME  "MOUSE_ST"
 
 static int mouse_st_write_snapshot(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, MOUSE_ST_MODULE_NAME, MOUSE_ST_VER_MAJOR, MOUSE_ST_VER_MINOR);
+    m = snapshot_module_create(s, mouse_st_snap_module_name, MOUSE_ST_VER_MAJOR, MOUSE_ST_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1695,7 +1833,8 @@ static int mouse_st_read_snapshot(struct snapshot_s *s, int port)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, MOUSE_ST_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, mouse_st_snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
@@ -1724,15 +1863,40 @@ fail:
     return -1;
 }
 
+/* --------------------------------------------------------- */
+
+/* MOUSE_SMART snapshot module format:
+
+   type   | name                   | description
+   ---------------------------------------------
+   BYTE   | digital value          | digital pins return value
+   BYTE   | quadrature X           | quadrature X
+   BYTE   | quadrature Y           | quadrature Y
+   BYTE   | polled joyval          | polled joyval
+   WORD   | latest X               | latest X
+   WORD   | latest Y               | latest Y
+   DWORD  | last mouse X           | last mouse X
+   DWORD  | last mouse Y           | last mouse Y
+   DWORD  | sx                     | SX
+   DWORD  | sy                     | SY
+   DWORD  | update limit           | update limit
+   DWORD  | latest os ts           | latest os ts
+   DOUBLE | emu units per os units | emu units per os units
+   DWORD  | next update x emu ts   | next update X emu ts
+   DWORD  | next update y emu ts   | next update Y emu ts
+   DWORD  | update x emu iv        | update X emu IV
+   DWORD  | update y emu iv        | update Y emu IV
+ */
+
+static char mouse_smart_snap_module_name[] = "MOUSE_SMART";
 #define MOUSE_SMART_VER_MAJOR   0
 #define MOUSE_SMART_VER_MINOR   0
-#define MOUSE_SMART_MODULE_NAME  "MOUSE_SMART"
 
 static int mouse_smart_write_snapshot(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, MOUSE_SMART_MODULE_NAME, MOUSE_SMART_VER_MAJOR, MOUSE_SMART_VER_MINOR);
+    m = snapshot_module_create(s, mouse_smart_snap_module_name, MOUSE_SMART_VER_MAJOR, MOUSE_SMART_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1745,6 +1909,7 @@ static int mouse_smart_write_snapshot(struct snapshot_s *s, int port)
     if (write_poll_val_snapshot(m) < 0) {
         goto fail;
     }
+
     snapshot_module_close(m);
 
     return ds1202_1302_write_snapshot(ds1202, s);
@@ -1759,7 +1924,8 @@ static int mouse_smart_read_snapshot(struct snapshot_s *s, int port)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, MOUSE_SMART_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, mouse_smart_snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
@@ -1786,15 +1952,42 @@ fail:
     return -1;
 }
 
+/* --------------------------------------------------------- */
+
+/* MOUSE_MICROMYS snapshot module format:
+
+   type   | name                   | description
+   ---------------------------------------------
+   BYTE   | digital value          | digital pins return value
+   BYTE   | quadrature X           | quadrature X
+   BYTE   | quadrature Y           | quadrature Y
+   BYTE   | polled joyval          | polled joyval
+   WORD   | latest X               | latest X
+   WORD   | latest Y               | latest Y
+   DWORD  | last mouse X           | last mouse X
+   DWORD  | last mouse Y           | last mouse Y
+   DWORD  | sx                     | SX
+   DWORD  | sy                     | SY
+   DWORD  | update limit           | update limit
+   DWORD  | latest os ts           | latest os ts
+   DOUBLE | emu units per os units | emu units per os units
+   DWORD  | next update x emu ts   | next update X emu ts
+   DWORD  | next update y emu ts   | next update Y emu ts
+   DWORD  | update x emu iv        | update X emu IV
+   DWORD  | update y emu iv        | update Y emu IV
+   DWORD  | up down counter        | up down counter
+   DWORD  | up down pulse end      | up down pulse end
+ */
+
+static char mouse_micromys_snap_module_name[] = "MOUSE_MICROMYS";
 #define MOUSE_MICROMYS_VER_MAJOR   0
 #define MOUSE_MICROMYS_VER_MINOR   0
-#define MOUSE_MICROMYS_MODULE_NAME  "MOUSE_MICROMYS"
 
 static int mouse_micromys_write_snapshot(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, MOUSE_MICROMYS_MODULE_NAME, MOUSE_MICROMYS_VER_MAJOR, MOUSE_MICROMYS_VER_MINOR);
+    m = snapshot_module_create(s, mouse_micromys_snap_module_name, MOUSE_MICROMYS_VER_MAJOR, MOUSE_MICROMYS_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1827,7 +2020,8 @@ static int mouse_micromys_read_snapshot(struct snapshot_s *s, int port)
     snapshot_module_t *m;
     DWORD tmpc1;
 
-    m = snapshot_module_open(s, MOUSE_MICROMYS_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, mouse_micromys_snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
@@ -1861,15 +2055,28 @@ fail:
     return -1;
 }
 
+/* --------------------------------------------------------- */
+
+/* KOALAPAD snapshot module format:
+
+   type   | name               | description
+   -------------------------------------
+   BYTE   | digital value      | digital pins return value
+   BYTE   | paddle value 2     | paddle value 2
+   BYTE   | paddle value 3     | paddle value 3
+   WORD   | old paddle value 2 | old paddle value 2
+   WORD   | old paddle value 3 | old paddle value 3
+ */
+
+static char koalapad_snap_module_name[] = "KOALAPAD";
 #define KOALAPAD_VER_MAJOR   0
 #define KOALAPAD_VER_MINOR   0
-#define KOALAPAD_MODULE_NAME  "KOALAPAD"
 
 static int koalapad_write_snapshot(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, KOALAPAD_MODULE_NAME, KOALAPAD_VER_MAJOR, KOALAPAD_VER_MINOR);
+    m = snapshot_module_create(s, koalapad_snap_module_name, KOALAPAD_VER_MAJOR, KOALAPAD_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1895,7 +2102,8 @@ static int koalapad_read_snapshot(struct snapshot_s *s, int port)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, KOALAPAD_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, koalapad_snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }

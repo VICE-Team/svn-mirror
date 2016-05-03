@@ -41,7 +41,6 @@
 #include "monitor.h"
 #include "petreu.h"
 #include "resources.h"
-#include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
