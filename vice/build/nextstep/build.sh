@@ -41,6 +41,7 @@ fi
 makedone=no
 single_build=no
 
+rm -f -r bins
 mkdir bins
 
 if test x"$build_i386" = "xyes"; then
