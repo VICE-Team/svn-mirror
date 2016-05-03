@@ -133,3 +133,5 @@ $(builddir)/vice.info:	$(srcdir)/vice.texi
 	$(MAKEINFO) -D$(PLATFORM_DOX_FLAGS) -o $(builddir)/vice.info --no-split $(srcdir)/vice.texi
 
 INFO_DEPS = $(builddir)/vice.txt $(builddir)/vice.info $(PDF_DEPS) $(GUIDE_DEPS) $(HLP_DEPS) $(CHM_DEPS) $(IPF_DEPS)
+
+.texi.pdf:
