@@ -400,7 +400,28 @@ void rtc72421_write(rtc_72421_t *context, BYTE address, BYTE data)
     }
 }
 
-int rtc72421_write_snapshot(rtc_72421_t *context, snapshot_module_t *m)
+/* ---------------------------------------------------------------------------------------------------- */
+
+/* RTC_72421 snapshot module format:
+
+   type   | name          | description
+   --------------------------------
+   BYTE   | stop          | stop flag
+   BYTE   | 24 hours      | 24 hours flag
+   DWORD  | latch hi      | high DWORD of latch offset
+   DWORD  | latch lo      | low DWORD of latch offset
+   DWORD  | offset hi     | high DWORD of RTC offset
+   DWORD  | offset lo     | low DWORD of RTC offset
+   DWORD  | old offset hi | high DWORD of old RTC offset
+   DWORD  | old offset lo | low DWORD of old RTC offset
+   STRING | device        | device name string
+ */
+
+static char snap_module_name[] = "RTC_72421";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+int rtc72421_write_snapshot(rtc_72421_t *context, snapshot_t *s)
 {
     DWORD latch_lo = 0;
     DWORD latch_hi = 0;
@@ -408,6 +429,7 @@ int rtc72421_write_snapshot(rtc_72421_t *context, snapshot_module_t *m)
     DWORD offset_hi = 0;
     DWORD old_offset_lo = 0;
     DWORD old_offset_hi = 0;
+    snapshot_module_t *m;
 
     /* time_t can be either 32bit or 64bit, so we save as 64bit */
 #if (SIZE_OF_TIME_T == 8)
@@ -423,22 +445,29 @@ int rtc72421_write_snapshot(rtc_72421_t *context, snapshot_module_t *m)
     old_offset_lo = (DWORD)context->old_offset;
 #endif
 
-    if (0
-        || (SMW_B  (m, (BYTE)context->stop) < 0)
-        || (SMW_B  (m, (BYTE)context->hour24) < 0)
-        || (SMW_DW (m, latch_hi) < 0)
-        || (SMW_DW (m, latch_lo) < 0)
-        || (SMW_DW (m, offset_hi) < 0)
-        || (SMW_DW (m, offset_lo) < 0)
-        || (SMW_DW (m, old_offset_hi) < 0)
-        || (SMW_DW (m, old_offset_lo) < 0)
-        || (SMW_STR(m, context->device) < 0)) {
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
         return -1;
     }
-    return 0;
+
+    if (0
+        || SMW_B(m, (BYTE)context->stop) < 0
+        || SMW_B(m, (BYTE)context->hour24) < 0
+        || SMW_DW(m, latch_hi) < 0
+        || SMW_DW(m, latch_lo) < 0
+        || SMW_DW(m, offset_hi) < 0
+        || SMW_DW(m, offset_lo) < 0
+        || SMW_DW(m, old_offset_hi) < 0
+        || SMW_DW(m, old_offset_lo) < 0
+        || SMW_STR(m, context->device) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
 }
 
-int rtc72421_read_snapshot(rtc_72421_t *context, snapshot_module_t *m)
+int rtc72421_read_snapshot(rtc_72421_t *context, snapshot_t *s)
 {
     DWORD latch_lo = 0;
     DWORD latch_hi = 0;
@@ -446,18 +475,32 @@ int rtc72421_read_snapshot(rtc_72421_t *context, snapshot_module_t *m)
     DWORD offset_hi = 0;
     DWORD old_offset_lo = 0;
     DWORD old_offset_hi = 0;
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
 
     if (0
-        || (SMR_B_INT (m, &context->stop) < 0)
-        || (SMR_B_INT (m, &context->hour24) < 0)
-        || (SMR_DW    (m, &latch_hi) < 0)
-        || (SMR_DW    (m, &latch_lo) < 0)
-        || (SMR_DW    (m, &offset_hi) < 0)
-        || (SMR_DW    (m, &offset_lo) < 0)
-        || (SMR_DW    (m, &old_offset_hi) < 0)
-        || (SMR_DW    (m, &old_offset_lo) < 0)
-        || (SMR_STR   (m, &context->device) < 0)) {
-        return -1;
+        || SMR_B_INT(m, &context->stop) < 0
+        || SMR_B_INT(m, &context->hour24) < 0
+        || SMR_DW(m, &latch_hi) < 0
+        || SMR_DW(m, &latch_lo) < 0
+        || SMR_DW(m, &offset_hi) < 0
+        || SMR_DW(m, &offset_lo) < 0
+        || SMR_DW(m, &old_offset_hi) < 0
+        || SMR_DW(m, &old_offset_lo) < 0
+        || SMR_STR(m, &context->device) < 0) {
+        goto fail;
     }
 
 #if (SIZE_OF_TIME_T == 8)
@@ -473,5 +516,9 @@ int rtc72421_read_snapshot(rtc_72421_t *context, snapshot_module_t *m)
     context->old_offset = old_offset_lo;
 #endif
 
-    return 0;
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

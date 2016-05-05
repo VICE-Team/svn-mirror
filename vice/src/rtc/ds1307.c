@@ -439,9 +439,39 @@ BYTE ds1307_read_data_line(rtc_ds1307_t *context)
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-#define RTC_DUMP_VER_MAJOR   0
-#define RTC_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "RTC_DS1307"
+/* RTC_DS1307 snapshot module format:
+
+   type   | name                | description
+   ------------------------------------------
+   BYTE   | clock halt          | clock halt flag
+   DWORD  | clock halt latch hi | high DWORD of clock halt offset
+   DWORD  | clock halt latch lo | low DWORD of clock halt offset
+   BYTE   | am pm               | AM/PM flag
+   DWORD  | latch hi            | high DWORD of latch offset
+   DWORD  | latch lo            | low DWORD of latch offset
+   DWORD  | offset hi           | high DWORD of RTC offset
+   DWORD  | offset lo           | low DWORD of RTC offset
+   DWORD  | old offset hi       | high DWORD of old RTC offset
+   DWORD  | old offset lo       | low DWORD of old RTC offset
+   ARRAY  | clock regs          | 8 BYTES of register data
+   ARRAY  | old clock regs      | 8 BYTES of old register data
+   ARRAY  | clock regs for read | 8 BYTES of register read data
+   ARRAY  | RAM                 | 56 BYTES of RAM data
+   ARRAY  | old RAM             | 56 BYTES of old RAM data
+   BYTE   | state               | current state
+   BYTE   | reg                 | current register
+   BYTE   | reg ptr             | register pointer
+   BYTE   | bit                 | current bit
+   BYTE   | io byte             | current I/O BYTE
+   BYTE   | sclk                | SCLK line state
+   BYTE   | data                | DATA line state
+   BYTE   | clock register      | clock register flag
+   STRING | device              | device name STRING
+ */
+
+static char snap_module_name[] = "RTC_DS1307";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_t *s)
 {
@@ -472,37 +502,37 @@ int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_t *s)
     old_offset_lo = (DWORD)context->old_offset;
 #endif
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                               RTC_DUMP_VER_MAJOR, RTC_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
 
     if (0
-        || (SMW_B  (m, (BYTE)context->clock_halt) < 0)
-        || (SMW_DW (m, clock_halt_latch_hi) < 0)
-        || (SMW_DW (m, clock_halt_latch_lo) < 0)
-        || (SMW_B  (m, (BYTE)context->am_pm) < 0)
-        || (SMW_DW (m, latch_hi) < 0)
-        || (SMW_DW (m, latch_lo) < 0)
-        || (SMW_DW (m, offset_hi) < 0)
-        || (SMW_DW (m, offset_lo) < 0)
-        || (SMW_DW (m, old_offset_hi) < 0)
-        || (SMW_DW (m, old_offset_lo) < 0)
-        || (SMW_BA (m, context->clock_regs, DS1307_REG_SIZE) < 0)
-        || (SMW_BA (m, context->old_clock_regs, DS1307_REG_SIZE) < 0)
-        || (SMW_BA (m, context->clock_regs_for_read, DS1307_REG_SIZE) < 0)
-        || (SMW_BA (m, context->ram, DS1307_RAM_SIZE) < 0)
-        || (SMW_BA (m, context->old_ram, DS1307_RAM_SIZE) < 0)
-        || (SMW_B  (m, context->state) < 0)
-        || (SMW_B  (m, context->reg) < 0)
-        || (SMW_B  (m, context->reg_ptr) < 0)
-        || (SMW_B  (m, context->bit) < 0)
-        || (SMW_B  (m, context->io_byte) < 0)
-        || (SMW_B  (m, context->sclk_line) < 0)
-        || (SMW_B  (m, context->data_line) < 0)
-        || (SMW_B  (m, context->clock_register) < 0)
-        || (SMW_STR(m, context->device) < 0)) {
+        || SMW_B(m, (BYTE)context->clock_halt) < 0
+        || SMW_DW(m, clock_halt_latch_hi) < 0
+        || SMW_DW(m, clock_halt_latch_lo) < 0
+        || SMW_B(m, (BYTE)context->am_pm) < 0
+        || SMW_DW(m, latch_hi) < 0
+        || SMW_DW(m, latch_lo) < 0
+        || SMW_DW(m, offset_hi) < 0
+        || SMW_DW(m, offset_lo) < 0
+        || SMW_DW(m, old_offset_hi) < 0
+        || SMW_DW(m, old_offset_lo) < 0
+        || SMW_BA(m, context->clock_regs, DS1307_REG_SIZE) < 0
+        || SMW_BA(m, context->old_clock_regs, DS1307_REG_SIZE) < 0
+        || SMW_BA(m, context->clock_regs_for_read, DS1307_REG_SIZE) < 0
+        || SMW_BA(m, context->ram, DS1307_RAM_SIZE) < 0
+        || SMW_BA(m, context->old_ram, DS1307_RAM_SIZE) < 0
+        || SMW_B(m, context->state) < 0
+        || SMW_B(m, context->reg) < 0
+        || SMW_B(m, context->reg_ptr) < 0
+        || SMW_B(m, context->bit) < 0
+        || SMW_B(m, context->io_byte) < 0
+        || SMW_B(m, context->sclk_line) < 0
+        || SMW_B(m, context->data_line) < 0
+        || SMW_B(m, context->clock_register) < 0
+        || SMW_STR(m, context->device) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -522,43 +552,44 @@ int ds1307_read_snapshot(rtc_ds1307_t *context, snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != RTC_DUMP_VER_MAJOR) || (vminor != RTC_DUMP_VER_MINOR)) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
     if (0
-        || (SMR_B_INT(m, &context->clock_halt) < 0)
-        || (SMR_DW   (m, &clock_halt_latch_hi) < 0)
-        || (SMR_DW   (m, &clock_halt_latch_lo) < 0)
-        || (SMR_B_INT(m, &context->am_pm) < 0)
-        || (SMR_DW   (m, &latch_hi) < 0)
-        || (SMR_DW   (m, &latch_lo) < 0)
-        || (SMR_DW   (m, &offset_hi) < 0)
-        || (SMR_DW   (m, &offset_lo) < 0)
-        || (SMR_DW   (m, &old_offset_hi) < 0)
-        || (SMR_DW   (m, &old_offset_lo) < 0)
-        || (SMR_BA   (m, context->clock_regs, DS1307_REG_SIZE) < 0)
-        || (SMR_BA   (m, context->old_clock_regs, DS1307_REG_SIZE) < 0)
-        || (SMR_BA   (m, context->clock_regs_for_read, DS1307_REG_SIZE) < 0)
-        || (SMR_BA   (m, context->ram, DS1307_RAM_SIZE) < 0)
-        || (SMR_BA   (m, context->old_ram, DS1307_RAM_SIZE) < 0)
-        || (SMR_B    (m, &context->state) < 0)
-        || (SMR_B    (m, &context->reg) < 0)
-        || (SMR_B    (m, &context->reg_ptr) < 0)
-        || (SMR_B    (m, &context->bit) < 0)
-        || (SMR_B    (m, &context->io_byte) < 0)
-        || (SMR_B    (m, &context->sclk_line) < 0)
-        || (SMR_B    (m, &context->data_line) < 0)
-        || (SMR_B    (m, &context->clock_register) < 0)
-        || (SMR_STR  (m, &context->device) < 0)) {
-        snapshot_module_close(m);
-        return -1;
+        || SMR_B_INT(m, &context->clock_halt) < 0
+        || SMR_DW(m, &clock_halt_latch_hi) < 0
+        || SMR_DW(m, &clock_halt_latch_lo) < 0
+        || SMR_B_INT(m, &context->am_pm) < 0
+        || SMR_DW(m, &latch_hi) < 0
+        || SMR_DW(m, &latch_lo) < 0
+        || SMR_DW(m, &offset_hi) < 0
+        || SMR_DW(m, &offset_lo) < 0
+        || SMR_DW(m, &old_offset_hi) < 0
+        || SMR_DW(m, &old_offset_lo) < 0
+        || SMR_BA(m, context->clock_regs, DS1307_REG_SIZE) < 0
+        || SMR_BA(m, context->old_clock_regs, DS1307_REG_SIZE) < 0
+        || SMR_BA(m, context->clock_regs_for_read, DS1307_REG_SIZE) < 0
+        || SMR_BA(m, context->ram, DS1307_RAM_SIZE) < 0
+        || SMR_BA(m, context->old_ram, DS1307_RAM_SIZE) < 0
+        || SMR_B(m, &context->state) < 0
+        || SMR_B(m, &context->reg) < 0
+        || SMR_B(m, &context->reg_ptr) < 0
+        || SMR_B(m, &context->bit) < 0
+        || SMR_B(m, &context->io_byte) < 0
+        || SMR_B(m, &context->sclk_line) < 0
+        || SMR_B(m, &context->data_line) < 0
+        || SMR_B(m, &context->clock_register) < 0
+        || SMR_STR(m, &context->device) < 0) {
+        goto fail;
     }
 
     snapshot_module_close(m);
@@ -580,4 +611,8 @@ int ds1307_read_snapshot(rtc_ds1307_t *context, snapshot_t *s)
 #endif
 
     return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

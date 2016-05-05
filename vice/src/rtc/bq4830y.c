@@ -428,7 +428,36 @@ BYTE bq4830y_read(rtc_bq4830y_t *context, WORD address)
     return retval;
 }
 
-int bq4830y_write_snapshot(rtc_bq4830y_t *context, snapshot_module_t *m)
+/* ---------------------------------------------------------------------------------------------------- */
+
+/* RTC_BQ4830Y snapshot module format:
+
+   type   | name                | description
+   ------------------------------------------
+   BYTE   | clock halt          | clock halt flag
+   DWORD  | clock halt latch hi | high DWORD of clock halt offset
+   DWORD  | clock halt latch lo | low DWORD of clock halt offset
+   BYTE   | read latch          | read latch flag
+   BYTE   | write latch         | write latch flag
+   DWORD  | latch hi            | high DWORD of the read/write offset
+   DWORD  | latch lo            | low DWORD of the read/write offset
+   DWORD  | offset hi           | high DWORD of the RTC offset
+   DWORD  | offset lo           | low DWORD of the RTC offset
+   DWORD  | old offset hi       | high DWORD of the old RTC offset
+   DWORD  | old offset lo       | low DWORD of the old RTC offset
+   ARRAY  | clock regs          | 8 BYTES of register data
+   ARRAY  | old clock regs      | 8 BYTES of old register data
+   ARRAY  | clock regs changed  | 8 BYTES of changed register data
+   ARRAY  | RAM                 | 32768 BYTES of RAM data
+   ARRAY  | old RAM             | 32768 BYTES of old RAM data
+   STRING | device              | device name STRING
+ */
+
+static char snap_module_name[] = "RTC_BQ4830Y";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+int bq4830y_write_snapshot(rtc_bq4830y_t *context, snapshot_t *s)
 {
     DWORD clock_halt_latch_hi = 0;
     DWORD clock_halt_latch_lo = 0;
@@ -438,6 +467,7 @@ int bq4830y_write_snapshot(rtc_bq4830y_t *context, snapshot_module_t *m)
     DWORD offset_hi = 0;
     DWORD old_offset_lo = 0;
     DWORD old_offset_hi = 0;
+    snapshot_module_t *m;
 
     /* time_t can be either 32bit or 64bit, so we save as 64bit */
 #if (SIZE_OF_TIME_T == 8)
@@ -456,30 +486,37 @@ int bq4830y_write_snapshot(rtc_bq4830y_t *context, snapshot_module_t *m)
     old_offset_lo = (DWORD)context->old_offset;
 #endif
 
-    if (0
-        || (SMW_B  (m, (BYTE)context->clock_halt) < 0)
-        || (SMW_DW (m, clock_halt_latch_hi) < 0)
-        || (SMW_DW (m, clock_halt_latch_lo) < 0)
-        || (SMW_B  (m, (BYTE)context->read_latch) < 0)
-        || (SMW_B  (m, (BYTE)context->write_latch) < 0)
-        || (SMW_DW (m, latch_hi) < 0)
-        || (SMW_DW (m, latch_lo) < 0)
-        || (SMW_DW (m, offset_hi) < 0)
-        || (SMW_DW (m, offset_lo) < 0)
-        || (SMW_DW (m, old_offset_hi) < 0)
-        || (SMW_DW (m, old_offset_lo) < 0)
-        || (SMW_BA (m, context->clock_regs, BQ4830Y_REG_SIZE) < 0)
-        || (SMW_BA (m, context->old_clock_regs, BQ4830Y_REG_SIZE) < 0)
-        || (SMW_BA (m, context->clock_regs_changed, BQ4830Y_REG_SIZE) < 0)
-        || (SMW_BA (m, context->ram, BQ4830Y_RAM_SIZE) < 0)
-        || (SMW_BA (m, context->old_ram, BQ4830Y_RAM_SIZE) < 0)
-        || (SMW_STR(m, context->device) < 0)) {
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
         return -1;
     }
-    return 0;
+
+    if (0
+        || SMW_B(m, (BYTE)context->clock_halt) < 0
+        || SMW_DW(m, clock_halt_latch_hi) < 0
+        || SMW_DW(m, clock_halt_latch_lo) < 0
+        || SMW_B(m, (BYTE)context->read_latch) < 0
+        || SMW_B(m, (BYTE)context->write_latch) < 0
+        || SMW_DW(m, latch_hi) < 0
+        || SMW_DW(m, latch_lo) < 0
+        || SMW_DW(m, offset_hi) < 0
+        || SMW_DW(m, offset_lo) < 0
+        || SMW_DW(m, old_offset_hi) < 0
+        || SMW_DW(m, old_offset_lo) < 0
+        || SMW_BA(m, context->clock_regs, BQ4830Y_REG_SIZE) < 0
+        || SMW_BA(m, context->old_clock_regs, BQ4830Y_REG_SIZE) < 0
+        || SMW_BA(m, context->clock_regs_changed, BQ4830Y_REG_SIZE) < 0
+        || SMW_BA(m, context->ram, BQ4830Y_RAM_SIZE) < 0
+        || SMW_BA(m, context->old_ram, BQ4830Y_RAM_SIZE) < 0
+        || SMW_STR(m, context->device) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
 }
 
-int bq4830y_read_snapshot(rtc_bq4830y_t *context, snapshot_module_t *m)
+int bq4830y_read_snapshot(rtc_bq4830y_t *context, snapshot_t *s)
 {
     DWORD clock_halt_latch_hi = 0;
     DWORD clock_halt_latch_lo = 0;
@@ -489,26 +526,40 @@ int bq4830y_read_snapshot(rtc_bq4830y_t *context, snapshot_module_t *m)
     DWORD offset_hi = 0;
     DWORD old_offset_lo = 0;
     DWORD old_offset_hi = 0;
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
 
     if (0
-        || (SMR_B_INT(m, &context->clock_halt) < 0)
-        || (SMR_DW   (m, &clock_halt_latch_hi) < 0)
-        || (SMR_DW   (m, &clock_halt_latch_lo) < 0)
-        || (SMR_B_INT(m, &context->read_latch) < 0)
-        || (SMR_B_INT(m, &context->write_latch) < 0)
-        || (SMR_DW   (m, &latch_hi) < 0)
-        || (SMR_DW   (m, &latch_lo) < 0)
-        || (SMR_DW   (m, &offset_hi) < 0)
-        || (SMR_DW   (m, &offset_lo) < 0)
-        || (SMR_DW   (m, &old_offset_hi) < 0)
-        || (SMR_DW   (m, &old_offset_lo) < 0)
-        || (SMR_BA   (m, context->clock_regs, BQ4830Y_REG_SIZE) < 0)
-        || (SMR_BA   (m, context->old_clock_regs, BQ4830Y_REG_SIZE) < 0)
-        || (SMR_BA   (m, context->clock_regs_changed, BQ4830Y_REG_SIZE) < 0)
-        || (SMR_BA   (m, context->ram, BQ4830Y_RAM_SIZE) < 0)
-        || (SMR_BA   (m, context->old_ram, BQ4830Y_RAM_SIZE) < 0)
-        || (SMR_STR  (m, &context->device) < 0)) {
-        return -1;
+        || SMR_B_INT(m, &context->clock_halt) < 0
+        || SMR_DW(m, &clock_halt_latch_hi) < 0
+        || SMR_DW(m, &clock_halt_latch_lo) < 0
+        || SMR_B_INT(m, &context->read_latch) < 0
+        || SMR_B_INT(m, &context->write_latch) < 0
+        || SMR_DW(m, &latch_hi) < 0
+        || SMR_DW(m, &latch_lo) < 0
+        || SMR_DW(m, &offset_hi) < 0
+        || SMR_DW(m, &offset_lo) < 0
+        || SMR_DW(m, &old_offset_hi) < 0
+        || SMR_DW(m, &old_offset_lo) < 0
+        || SMR_BA(m, context->clock_regs, BQ4830Y_REG_SIZE) < 0
+        || SMR_BA(m, context->old_clock_regs, BQ4830Y_REG_SIZE) < 0
+        || SMR_BA(m, context->clock_regs_changed, BQ4830Y_REG_SIZE) < 0
+        || SMR_BA(m, context->ram, BQ4830Y_RAM_SIZE) < 0
+        || SMR_BA(m, context->old_ram, BQ4830Y_RAM_SIZE) < 0
+        || SMR_STR(m, &context->device) < 0) {
+        goto fail;
     }
 
 #if (SIZE_OF_TIME_T == 8)
@@ -527,5 +578,9 @@ int bq4830y_read_snapshot(rtc_bq4830y_t *context, snapshot_module_t *m)
     context->old_offset = old_offset_lo;
 #endif
 
-    return 0;
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
