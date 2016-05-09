@@ -125,6 +125,10 @@ typedef unsigned char __u_char;
 typedef unsigned char __u_char;
 #endif
 
+#if (defined(sun) || defined(__sun)) && !(defined(__SVR4) || defined(__svr4__))
+typedef unsigned char __u_char;
+#endif
+
 #endif
 
 /* specifiers for the IEC bus lines */
