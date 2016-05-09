@@ -73,7 +73,7 @@ The SDL port has been tested to work on:
  - Win32 / mips (confirmed to work on NT 4)
  - Win32 / x86 (confirmed to work on 9x, ME, NT 3.5 (special SDL.dll),
                 NT 3.51 (other special SDL.dll), NT 4, 2000, XP, 2003,
-                HS, Vista, HS and 7)
+                HS, Vista, HS, 7, 8 and 10)
  - Win64 / ia64, x64
  - Zaurus (qt) / arm
  - ...

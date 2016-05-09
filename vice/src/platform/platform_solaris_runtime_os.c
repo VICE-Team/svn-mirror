@@ -56,6 +56,8 @@
    x64     | Solaris 11.1
    x86     | Solaris 11.2
    x64     | Solaris 11.2
+   x86     | Solaris 11.3
+   x64     | Solarid 11.3
    i386    | NetBSD (emulation layer)
  */
 
