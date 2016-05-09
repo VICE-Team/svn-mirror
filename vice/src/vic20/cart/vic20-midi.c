@@ -134,16 +134,23 @@ int vic20_midi_cmdline_options_init(void)
 /* ---------------------------------------------------------------------*/
 /*    snapshot support functions                                             */
 
-#define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "CARTMIDI"
+/* CARTMIDI snapshot module format:
+
+   type  | name | description
+   --------------------------
+   BYTE  | mode | midi mode
+ */
+
+static char snap_module_name[] = "CARTMIDI";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 int vic20_midi_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -164,19 +171,20 @@ int vic20_midi_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
     int tmp_midi_mode;
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not allow versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
     if (SMR_B_INT(m, &tmp_midi_mode) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     snapshot_module_close(m);
@@ -188,6 +196,10 @@ int vic20_midi_snapshot_read_module(snapshot_t *s)
     set_midi_enabled(1, NULL);
 
     return midi_snapshot_read_module(s);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
 
 /* ---------------------------------------------------------------------*/

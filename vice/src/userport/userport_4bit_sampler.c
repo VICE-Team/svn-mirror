@@ -44,6 +44,7 @@ C64/C128 | CBM2 | ADC | NOTES
 #include "cmdline.h"
 #include "resources.h"
 #include "sampler.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "userport.h"
 #include "userport_4bit_sampler.h"

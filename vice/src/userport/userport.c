@@ -568,7 +568,22 @@ void userport_enable(int val)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-#define SNAP_MODULE_NAME "USERPORT"
+/* USERPORT snapshot module format:
+
+   type  | name               | description
+   ----------------------------------------
+   BYTE  | active             | userport active flag
+   BYTE  | collision handling | useport collision handling
+   BYTE  | amount             | amount of attached devices
+
+   if 'amount' is non-zero the following is also saved per attached device:
+
+   type  | name | description
+   --------------------------
+   BYTE  | id   | device id
+ */
+
+static char snap_module_name[] = "USERPORT";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
@@ -596,7 +611,8 @@ int userport_snapshot_write_module(snapshot_t *s)
         devices[i] = -1;
     }
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -605,16 +621,14 @@ int userport_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, (BYTE)userport_active) < 0
         || SMW_B(m, (BYTE)userport_collision_handling) < 0
         || SMW_B(m, (BYTE)amount) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     /* Save device id's */
     if (amount) {
         for (i = 0; devices[i]; ++i) {
             if (SMW_B(m, (BYTE)devices[i]) < 0) {
-                snapshot_module_close(m);
-                return -1;
+                goto fail;
             }
         }
     }
@@ -642,6 +656,10 @@ int userport_snapshot_write_module(snapshot_t *s)
     lib_free(devices);
 
     return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
 
 int userport_snapshot_read_module(snapshot_t *s)
@@ -674,22 +692,23 @@ int userport_snapshot_read_module(snapshot_t *s)
         lib_free(detach_resource_list);
     }
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
 
-    if (major_version != SNAP_MAJOR || minor_version != SNAP_MINOR) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
     if (0
         || SMR_B_INT(m, &userport_active) < 0
         || SMR_B_INT(m, &userport_collision_handling) < 0
         || SMR_B_INT(m, &amount) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     if (amount) {
@@ -697,8 +716,7 @@ int userport_snapshot_read_module(snapshot_t *s)
         for (i = 0; i < amount; ++i) {
             if (SMR_B_INT(m, &devices[i]) < 0) {
                 lib_free(devices);
-                snapshot_module_close(m);
-                return -1;
+                goto fail;
             }
         }
         snapshot_module_close(m);
@@ -720,4 +738,8 @@ int userport_snapshot_read_module(snapshot_t *s)
     }
 
     return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

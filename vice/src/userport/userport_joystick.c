@@ -806,15 +806,22 @@ static void userport_joystick_starbyte_read_sp2(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* UP_JOY_CGA snapshot module format:
+
+   type  | name   | description
+   ----------------------------
+   BYTE  | select | joyport select
+ */
+
+static char cga_module_name[] = "UP_JOY_CGA";
 #define CGA_VER_MAJOR   0
 #define CGA_VER_MINOR   0
-#define CGA_MODULE_NAME  "UP_JOY_CGA"
 
 static int userport_joystick_cga_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, CGA_MODULE_NAME, CGA_VER_MAJOR, CGA_VER_MINOR);
+    m = snapshot_module_create(s, cga_module_name, CGA_VER_MAJOR, CGA_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -844,19 +851,20 @@ static int userport_joystick_cga_read_snapshot_module(snapshot_t *s)
     set_userport_joystick_type(USERPORT_JOYSTICK_CGA, NULL);
     set_userport_joystick_enable(1, NULL);
 
-    m = snapshot_module_open(s, CGA_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, cga_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
 
-    if (major_version != CGA_VER_MAJOR || minor_version != CGA_VER_MINOR) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (major_version > CGA_VER_MAJOR || minor_version > CGA_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
     if (SMR_B_INT(m, &userport_joystick_cga_select) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
     snapshot_module_close(m);
 
@@ -866,6 +874,10 @@ static int userport_joystick_cga_read_snapshot_module(snapshot_t *s)
         return -1;
     }
     return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -921,15 +933,22 @@ static int userport_joystick_oem_read_snapshot_module(snapshot_t *s)
 
 /* ------------------------------------------------------------------------- */
 
+/* UP_JOY_HIT snapshot module format:
+
+   type  | name   | description
+   ----------------------------
+   BYTE  | retval | current serial port brigde value
+ */
+
+static char hit_module_name[] = "UP_JOY_HIT";
 #define HIT_VER_MAJOR   0
 #define HIT_VER_MINOR   0
-#define HIT_MODULE_NAME  "UP_JOY_HIT"
 
 static int userport_joystick_hit_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, HIT_MODULE_NAME, HIT_VER_MAJOR, HIT_VER_MINOR);
+    m = snapshot_module_create(s, hit_module_name, HIT_VER_MAJOR, HIT_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -959,19 +978,20 @@ static int userport_joystick_hit_read_snapshot_module(snapshot_t *s)
     set_userport_joystick_type(USERPORT_JOYSTICK_HIT, NULL);
     set_userport_joystick_enable(1, NULL);
 
-    m = snapshot_module_open(s, HIT_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, hit_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
 
-    if (major_version != HIT_VER_MAJOR || minor_version != HIT_VER_MINOR) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (major_version > HIT_VER_MAJOR || minor_version > HIT_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
     if (SMR_B(m, &hit_sp2_retval) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
     snapshot_module_close(m);
 
@@ -981,19 +1001,30 @@ static int userport_joystick_hit_read_snapshot_module(snapshot_t *s)
         return -1;
     }
     return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
 
 /* ------------------------------------------------------------------------- */
 
+/* UP_JOY_KINGSOFT snapshot module format:
+
+   type  | name   | description
+   ----------------------------
+   BYTE  | retval | current serial port brigde value
+ */
+
+static char kingsoft_module_name[] = "UP_JOY_KINGSOFT";
 #define KINGSOFT_VER_MAJOR   0
 #define KINGSOFT_VER_MINOR   0
-#define KINGSOFT_MODULE_NAME  "UP_JOY_KINGSOFT"
 
 static int userport_joystick_kingsoft_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, KINGSOFT_MODULE_NAME, KINGSOFT_VER_MAJOR, KINGSOFT_VER_MINOR);
+    m = snapshot_module_create(s, kingsoft_module_name, KINGSOFT_VER_MAJOR, KINGSOFT_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1023,19 +1054,20 @@ static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s)
     set_userport_joystick_type(USERPORT_JOYSTICK_KINGSOFT, NULL);
     set_userport_joystick_enable(1, NULL);
 
-    m = snapshot_module_open(s, KINGSOFT_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, kingsoft_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
 
-    if (major_version != KINGSOFT_VER_MAJOR || minor_version != KINGSOFT_VER_MINOR) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (major_version > KINGSOFT_VER_MAJOR || minor_version > KINGSOFT_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
     if (SMR_B(m, &kingsoft_sp2_retval) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
     snapshot_module_close(m);
 
@@ -1045,18 +1077,30 @@ static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s)
         return -1;
     }
     return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
+
 /* ------------------------------------------------------------------------- */
 
+/* UP_JOY_STARBYTE snapshot module format:
+
+   type  | name   | description
+   ----------------------------
+   BYTE  | retval | current serial port brigde value
+ */
+
+static char starbyte_module_name[] = "UP_JOY_STARBYTE";
 #define STARBYTE_VER_MAJOR   0
 #define STARBYTE_VER_MINOR   0
-#define STARBYTE_MODULE_NAME  "UP_JOY_STARBYTE"
 
 static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, STARBYTE_MODULE_NAME, STARBYTE_VER_MAJOR, STARBYTE_VER_MINOR);
+    m = snapshot_module_create(s, starbyte_module_name, STARBYTE_VER_MAJOR, STARBYTE_VER_MINOR);
  
     if (m == NULL) {
         return -1;
@@ -1086,19 +1130,20 @@ static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s)
     set_userport_joystick_type(USERPORT_JOYSTICK_STARBYTE, NULL);
     set_userport_joystick_enable(1, NULL);
 
-    m = snapshot_module_open(s, STARBYTE_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, starbyte_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
 
+    /* Do not accept versions higher than current */
     if (major_version != STARBYTE_VER_MAJOR || minor_version != STARBYTE_VER_MINOR) {
-        snapshot_module_close(m);
-        return -1;
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
     if (SMR_B(m, &starbyte_sp2_retval) < 0) {
-        snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
     snapshot_module_close(m);
 
@@ -1108,4 +1153,8 @@ static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s)
         return -1;
     }
     return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

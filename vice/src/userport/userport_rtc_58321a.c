@@ -219,22 +219,28 @@ static void userport_rtc_read_pbx(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define DUMP_VER_MAJOR   0
-#define DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "UP_RTC_58321A"
+/* UP_RTC_58321A snapshot module format:
+
+   type  | name | description
+   --------------------------
+   BYTE  | read | read line active
+ */
+
+static char snap_module_name[] = "UP_RTC_58321A";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
 
 static int userport_rtc_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
  
     if (m == NULL) {
         return -1;
     }
 
-    if (0
-        || SMW_B(m, (BYTE)read_line_active) < 0) {
+    if (SMW_B(m, (BYTE)read_line_active) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -251,22 +257,26 @@ static int userport_rtc_read_snapshot_module(snapshot_t *s)
     /* enable device */
     set_userport_rtc_enabled(1, NULL);
 
-    m = snapshot_module_open(s, SNAP_MODULE_NAME, &major_version, &minor_version);
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+
     if (m == NULL) {
         return -1;
     }
 
-    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
-        snapshot_module_close(m);
-        return -1;
+    /* Do not accept versions higher than current */
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
     }
 
-    if (0
-        || SMR_B_INT(m, &read_line_active) < 0) {
-        snapshot_module_close(m);
-        return -1;
+    if (SMR_B_INT(m, &read_line_active) < 0) {
+        goto fail;
     }
     snapshot_module_close(m);
 
     return rtc58321a_read_snapshot(rtc58321a_context, s);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

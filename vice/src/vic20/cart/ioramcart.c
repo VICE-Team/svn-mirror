@@ -204,16 +204,31 @@ void ioramcart_io3_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
+/* IO2RAMCART snapshot module format:
+
+   type  | name | description
+   --------------------------
+   ARRAY | RAM  | 1024 BYTES of RAM data
+ */
+
+/* IO3RAMCART snapshot module format:
+
+   type  | name | description
+   --------------------------
+   ARRAY | RAM  | 1024 BYTES of RAM data
+ */
+
+static char snap_io2_module_name[] = "IO2RAMCART";
+static char snap_io3_module_name[] = "IO3RAMCART";
 #define IORAMCART_DUMP_VER_MAJOR   0
 #define IORAMCART_DUMP_VER_MINOR   0
-#define SNAP_IO2_MODULE_NAME  "IO2RAMCART"
-#define SNAP_IO3_MODULE_NAME  "IO2RAMCART"
 
 int ioramcart_io2_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_IO2_MODULE_NAME, IORAMCART_DUMP_VER_MAJOR, IORAMCART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_io2_module_name, IORAMCART_DUMP_VER_MAJOR, IORAMCART_DUMP_VER_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -223,8 +238,7 @@ int ioramcart_io2_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    snapshot_module_close(m);
-    return 0;
+    return snapshot_module_close(m);
 }
 
 int ioramcart_io2_snapshot_read_module(snapshot_t *s)
@@ -232,12 +246,15 @@ int ioramcart_io2_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_IO2_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_io2_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if (vmajor != IORAMCART_DUMP_VER_MAJOR || vminor != IORAMCART_DUMP_VER_MINOR) {
+    /* Do not accept versions higher than current */
+    if (vmajor > IORAMCART_DUMP_VER_MAJOR || vminor > IORAMCART_DUMP_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -257,7 +274,8 @@ int ioramcart_io3_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_IO3_MODULE_NAME, IORAMCART_DUMP_VER_MAJOR, IORAMCART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, snap_io3_module_name, IORAMCART_DUMP_VER_MAJOR, IORAMCART_DUMP_VER_MINOR);
+
     if (m == NULL) {
         return -1;
     }
@@ -276,12 +294,15 @@ int ioramcart_io3_snapshot_read_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, SNAP_IO3_MODULE_NAME, &vmajor, &vminor);
+    m = snapshot_module_open(s, snap_io3_module_name, &vmajor, &vminor);
+
     if (m == NULL) {
         return -1;
     }
 
-    if (vmajor != IORAMCART_DUMP_VER_MAJOR || vminor != IORAMCART_DUMP_VER_MINOR) {
+    /* Do not accept versions higher than current */
+    if (vmajor > IORAMCART_DUMP_VER_MAJOR || vminor > IORAMCART_DUMP_VER_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
