@@ -37,13 +37,13 @@ if test x"$build_i386" = "xyes"; then
   CFLAGS="-arch i386" ./configure -v --host=i386-apple-rhapsody --prefix=/usr/local -disable-nls --without-resid --enable-native-tools
   make
   makedone=yes
-  if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+  if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv -o ! -e src/vsid ]
   then
     echo Error: One (or more) i386 binaries missing
     exit 1
   fi
   if test x"$build_ppc" = "xyes"; then
-    for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat
+    for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat vsid
     do
       strip src/$i
       mv src/$i bins/$i.i386
@@ -59,13 +59,13 @@ if test x"$build_ppc" = "xyes"; then
   fi
   CFLAGS="-arch ppc" ./configure -v --host=ppc-apple-rhapsody --prefix=/usr/local -disable-nls --without-resid --enable-native-tools
   make
-  if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+  if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv -o ! -e src/vsid ]
   then
     echo Error: One (or more) ppc binaries missing
     exit 1
   fi
   if test x"$build_i386" = "xyes"; then
-    for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat
+    for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat vsid
     do
       strip src/$i
       mv src/$i bins/$i.ppc
@@ -77,7 +77,7 @@ fi
 
 if test x"$single_build" = "xno"; then
 
-  for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat
+  for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat vsid
   do
     lipo bins/$i.i386 bins/$i.ppc -output src/$i
   done

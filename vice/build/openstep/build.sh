@@ -42,13 +42,13 @@ if test x"$build_i386" = "xyes"; then
   CFLAGS="-arch i386" ./configure -v --host=i386-next-openstep --prefix=/usr/local --disable-nls --without-resid --with-xaw3d --enable-native-tools ac_cv_c_bigendian=no
   make
   makedone=yes
-  if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+  if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv -o ! -e src/vsid ]
   then
     echo Error: One (or more) i386 binaries missing
     exit 1
   fi
   if test x"$build_m68k" = "xyes" -o x"$build_hppa" = "xyes" -o x"$build_sparc" = "xyes"; then
-    for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat
+    for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat vsid
     do
       strip src/$i
       mv src/$i bins/$i.i386
@@ -65,13 +65,13 @@ if test x"$build_m68k" = "xyes"; then
   CFLAGS="-arch m68k" ./configure -v --host=m68k-next-openstep --prefix=/usr/local -disable-nls --without-resid --with-xaw3d --enable-native-tools ac_cv_c_bigendian=yes
   make
   makedone=yes
-  if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+  if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv -o ! -e src/vsid ]
   then
     echo Error: One (or more) m68k binaries missing
     exit 1
   fi
   if test x"$build_i386" = "xyes" -o x"$build_hppa" = "xyes" -o x"$build_sparc" = "xyes"; then
-    for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat
+    for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat vsid
     do
       strip src/$i
       mv src/$i bins/$i.m68k
@@ -87,13 +87,13 @@ if test x"$build_sparc" = "xyes"; then
   fi
   CFLAGS="-arch sparc" ./configure -v --host=sparc-next-openstep --prefix=/usr/local -disable-nls --without-resid --with-xaw3d --enable-native-tools ac_cv_c_bigendian=yes
   make
-  if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+  if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv -o ! -e src/vsid ]
   then
     echo Error: One (or more) sparc binaries missing
     exit 1
   fi
   if test x"$build_i386" = "xyes" -o x"$build_m68k" = "xyes" -o x"$build_hppa" = "xyes"; then
-    for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat
+    for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat vsid
     do
       strip src/$i
       mv src/$i bins/$i.sparc
@@ -105,7 +105,7 @@ fi
 
 if test x"$single_build" = "xno"; then
 
-  for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat
+  for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat vsid
   do
     binaries=""
 
