@@ -199,7 +199,8 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                 switch (addr_mode) {
                     case ASM_ADDR_MODE_ABSOLUTE_LONG:
                     case ASM_ADDR_MODE_ABSOLUTE_LONG_X:
-                        buffp += sprintf(buffp, (hex_mode ? "$%06X" : "%8d"), ival);
+                        sprintf(buffp, (hex_mode ? "$%06X" : "%8d"), ival);
+                        buffp += strlen(buffp);
                         break;
                     case ASM_ADDR_MODE_ABSOLUTE:
                     case ASM_ADDR_MODE_ABSOLUTE_A:
@@ -211,14 +212,17 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                     case ASM_ADDR_MODE_ABS_INDIRECT:
                     case ASM_ADDR_MODE_ABS_INDIRECT_X:
                     case ASM_ADDR_MODE_ABS_IND_LONG:
-                        buffp += sprintf(buffp, (hex_mode ? "$%04X" : "%5d"), ival);
+                        sprintf(buffp, (hex_mode ? "$%04X" : "%5d"), ival);
+                        buffp += strlen(buffp);
                         break;
                     default:
-                        buffp += sprintf(buffp, (hex_mode ? "$%02X" : "%3d"), ival);
+                        sprintf(buffp, (hex_mode ? "$%02X" : "%3d"), ival);
+                        buffp += strlen(buffp);
                         break;
                 }
             } else {
-                buffp += sprintf(buffp, "%s", addr_name);
+                sprintf(buffp, "%s", addr_name);
+                buffp += strlen(buffp);
             }
             switch (addr_mode) {
                 default:
@@ -317,9 +321,11 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             ival2 += 3;
             *buffp++ = ' ';
             if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (WORD)ival))) {
-                buffp += sprintf(buffp, (hex_mode ? "$%02X" : "%3d"), ival);
+                sprintf(buffp, (hex_mode ? "$%02X" : "%3d"), ival);
+                buffp += strlen(buffp);
             } else {
-                buffp += sprintf(buffp, "%s", addr_name);
+                sprintf(buffp, "%s", addr_name);
+                buffp += strlen(buffp);
             }
             *buffp++ = ',';
             if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival2))) {
