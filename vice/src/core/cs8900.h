@@ -24,8 +24,7 @@
  *
  */
 
-#ifdef HAVE_TFE
-#else
+#ifndef HAVE_TFE
   #error CS8900.H should not be included if HAVE_TFE is not defined!
 #endif /* #ifdef HAVE_TFE */
 
