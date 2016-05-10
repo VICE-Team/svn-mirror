@@ -46,6 +46,7 @@
 
 #include <sys/utsname.h>
 #include <string.h>
+#include <stdio.h>
 
 static char *cpu = NULL;
 
