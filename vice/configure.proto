@@ -3179,7 +3179,7 @@ dnl some platforms have some of the functions in libposix,
 dnl so we check it out second.
 AC_CHECK_LIB(posix,gettimeofday,,,$LIBS)
 
-AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp dirname mkstemp swab getcwd getpwuid random rewinddir strtok strtok_r snprintf vsnprintf ltoa ultoa strlcpy strlwr strrev fseeko)
+AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp dirname mkstemp swab getcwd getpwuid random rewinddir strtok strtok_r strtoul snprintf vsnprintf ltoa ultoa strlcpy strlwr strrev fseeko)
 AC_CHECK_FUNCS(strdup, [have_strdup_func=yes], [have_strdup_func=no])
 
 if test x"$have_strdup_func" = "xno"; then

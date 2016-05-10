@@ -52,6 +52,7 @@
 #define HAVE_HTONS             1
 #define HAVE_GETCWD            1
 
+#define HAVE_STRTOUL            1
 #define HAVE_STRTOK_R			1
 #define HAVE_STRREV			1
 #define HAVE_STRLWR			1

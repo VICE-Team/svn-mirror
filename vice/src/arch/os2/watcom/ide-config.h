@@ -151,6 +151,7 @@
 #define HAVE_SYS_TYPES_H      1
 #define HAVE_TIME_T_IN_TIME_H 1
 
+#define HAVE_STRTOUL            1
 #define HAVE_STRTOK_R			1
 #define HAVE_STRREV			1
 #define HAVE_STRLWR			1
