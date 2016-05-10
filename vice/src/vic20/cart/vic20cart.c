@@ -64,6 +64,8 @@
 #include "resources.h"
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
+#include "sid-snapshot.h"
+#include "sidcart.h"
 #include "snapshot.h"
 #ifdef HAVE_TFE
 #define CARTRIDGE_INCLUDE_PRIVATE_API
@@ -567,12 +569,9 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
                 break;
 #endif
             case CARTRIDGE_VIC20_SIDCART:
-#if 0
-                /* TODO */
                 if (sidcart_snapshot_write_module(s) < 0) {
                     return -1;
                 }
-#endif
                 break;
             case CARTRIDGE_VIC20_FP:
                 if (vic_fp_snapshot_write_module(s) < 0) {
@@ -729,12 +728,9 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
                 break;
 #endif
             case CARTRIDGE_VIC20_SIDCART:
-#if 0
-                /* TODO */
                 if (sidcart_snapshot_read_module(s) < 0) {
                     return -1;
                 }
-#endif
                 break;
             case CARTRIDGE_VIC20_FP:
                 if (vic_fp_snapshot_read_module(s) < 0) {

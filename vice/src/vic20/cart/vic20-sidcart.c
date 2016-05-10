@@ -35,6 +35,8 @@
 #include "sidcart.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
+#include "sid-snapshot.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "vic20.h"
 
@@ -248,4 +250,81 @@ int sidcart_cmdline_options_init(void)
 void sidcart_detach(void)
 {
     set_sidcart_enabled(0, NULL);
+}
+
+/* ---------------------------------------------------------------------*/
+/*    snapshot support functions                                             */
+
+/* SIDCART snapshot module format:
+
+   type  | name    | description
+   -----------------------------
+   WORD  | address | sidcart address
+   BYTE  | clock   | sidcart clock
+ */
+
+static char snap_module_name[] = "SIDCART";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+int sidcart_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_W(m, (WORD)sidcart_address) < 0
+        || SMW_B(m, (BYTE)sidcart_clock) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return sid_snapshot_write_module(s);
+}
+
+int sidcart_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+    int tmp_address;
+    int tmp_clock;
+
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not allow versions higher than current */
+    if (vmajor > SNAP_MAJOR || vminor > SNAP_MINOR) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    set_sidcart_enabled(0, NULL);
+
+    if (0
+        || SMR_W_INT(m, &tmp_address) < 0
+        || SMR_B_INT(m, &tmp_clock) < 0) {
+        goto fail;
+    }
+
+    snapshot_module_close(m);
+
+    set_sid_address(tmp_address, NULL);
+    set_sid_clock(tmp_clock, NULL);
+    set_sidcart_enabled(1, NULL);
+
+    return sid_snapshot_read_module(s);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
