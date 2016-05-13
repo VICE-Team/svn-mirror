@@ -95,9 +95,6 @@ void hardsid_store(WORD addr, BYTE val, int chipno)
 #include <proto/openpci.h>
 #include <libraries/openpci.h>
 
-// Set as appropriate
-static int sid_NTSC = FALSE; // TRUE for 60Hz oscillator, FALSE for 50
-
 #if defined(pci_obtain_card) && defined(pci_release_card)
 static int HSLock = FALSE;
 #endif
