@@ -101,6 +101,8 @@ char *platform_get_solaris_runtime_os(void)
                 os = "Solaris 11.1";
             } else if (!strcasecmp(name.version, "11.2")) {
                 os = "Solaris 11.2";
+            } else if (!strcasecmp(name.version, "11.3")) {
+                os = "Solaris 11.3";
             } else {
                 os = "OpenSolaris";
             }
