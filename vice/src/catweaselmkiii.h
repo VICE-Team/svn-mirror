@@ -29,6 +29,8 @@
 
 #include "types.h"
 
+#include "sid-snapshot.h"
+
 extern int catweaselmkiii_open(void);
 extern int catweaselmkiii_close(void);
 extern int catweaselmkiii_read(WORD addr, int chipno);

@@ -29,6 +29,7 @@
 
 #include "types.h"
 #include "sid.h"
+#include "sid-snapshot.h"
 
 extern sid_engine_t fastsid_hooks;
 
