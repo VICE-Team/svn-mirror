@@ -506,7 +506,7 @@ static const char snap_module_name[] = "C64DTVDMA";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-static log_t c64_snapshot_log = LOG_ERR;
+/* static log_t c64_snapshot_log = LOG_ERR; */
 
 int c64dtvdma_snapshot_write_module(snapshot_t *s)
 {
