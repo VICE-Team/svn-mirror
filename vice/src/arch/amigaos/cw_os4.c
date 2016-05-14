@@ -44,9 +44,6 @@ typedef void (*voidfunc_t)(void);
 
 #define MAXSID 1
 
-/* buffer containing current register state of SIDs */
-static BYTE sidbuf[0x20 * MAXSID];
-
 static int sidfh = 0;
 
 /* read value from SIDs */
@@ -57,13 +54,8 @@ int cw_os4_read(WORD addr, int chipno)
         /* if addr is from read-only register, perform a read read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
             addr += chipno * 0x20;
-            sidbuf[addr] = read_sid(addr);
-        } else {
-          addr += chipno*0x20;
+            return read_sid(addr);
         }
-
-        /* take value from sidbuf[] */
-        return sidbuf[addr];
     }
 
     return 0;
@@ -76,8 +68,7 @@ void cw_os4_store(WORD addr, BYTE val, int chipno)
     if (chipno < MAXSID && addr <= 0x18) {
         /* correct addr, so it becomes an index into sidbuf[] and the unix device */
         addr += chipno * 0x20;
-        /* write into sidbuf[] */
-        sidbuf[addr] = val;
+
 	  /* if the device is opened, write to device */
         if (sidfh >= 0) {
             write_sid(addr, val);
@@ -106,9 +97,6 @@ static struct PCIDevice *CWDevPCI = NULL;
 static struct PCIResourceRange *CWDevBAR = NULL;
 int CWLock = FALSE;
 
-// Set as appropriate
-static int sid_NTSC = FALSE; // TRUE for 60Hz oscillator, FALSE for 50
-
 int cw_os4_open(void)
 {
     static int atexitinitialized = 0;
@@ -125,8 +113,8 @@ int cw_os4_open(void)
     }
 
     // Try and find a CW on the PCI bus
-    CWDevPCI = IPCI->FindDeviceTags(FDT_VendorID, 0xe159,
-                                    FDT_DeviceID, 0x0001,
+    CWDevPCI = IPCI->FindDeviceTags(FDT_VendorID, CW_VENDOR,
+                                    FDT_DeviceID, CW_DEVICE,
                                     FDT_Index, 0,
                                     TAG_DONE);
     if (!CWDevPCI) {
@@ -158,8 +146,7 @@ int cw_os4_open(void)
     CWDevPCI->OutByte(CWDevBAR->BaseAddress + 0x2b, 0x00);                                      
 
     /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
-    for (i = 0; i < sizeof(sidbuf); i++) {
+    for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
 
@@ -180,9 +167,7 @@ int cw_os4_close(void)
 {
     unsigned int i;
 
-    /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
-    for (i = 0; i < sizeof(sidbuf); i++) {
+    for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
 
@@ -206,7 +191,7 @@ static unsigned char read_sid(unsigned char reg)
     unsigned char cmd;
 
     cmd = (reg & 0x1f) | 0x20;	// Read command & address
-    if (sid_NTSC) {
+    if (catweaselmkiii_get_ntsc()) {
         cmd |= 0x40;  // Make sure its correct frequency
     }
 
@@ -225,7 +210,7 @@ static void write_sid(unsigned char reg, unsigned char data)
     unsigned char cmd;
 
     cmd = reg & 0x1f;
-    if (sid_NTSC) {
+    if (catweaselmkiii_get_ntsc()) {
         cmd |= 0x40;  // Make sure its correct frequency
     }
 
@@ -242,6 +227,5 @@ static void write_sid(unsigned char reg, unsigned char data)
    choose between pal and ntsc frequencies */
 void cw_os4_set_machine_parameter(long cycles_per_sec)
 {
-    sid_NTSC = (cycles_per_sec <= 1000000) ? FALSE : TRUE;
 }
 #endif

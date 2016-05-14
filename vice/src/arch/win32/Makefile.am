@@ -41,7 +41,7 @@ libarch_a_SOURCES = \
 	c128ui.c \
 	c64ui.c \
 	c64dtvui.c \
-	catweaselmkiii.c \
+	catweaselmkiii-drv.c \
 	cbm2ui.c \
 	cbm5x0ui.c \
 	console.c \

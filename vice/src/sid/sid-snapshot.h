@@ -101,6 +101,12 @@ typedef struct sid_fastsid_snapshot_state_s {
     float v_filtRef[3];
 } sid_fastsid_snapshot_state_t;
 
+typedef struct sid_cw3_snapshot_state_s {
+    BYTE ntsc;
+    DWORD cycles_per_second;
+    BYTE regs[32];
+} sid_cw3_snapshot_state_t;
+
 extern int sid_snapshot_write_module(struct snapshot_s *s);
 extern int sid_snapshot_read_module(struct snapshot_s *s);
 

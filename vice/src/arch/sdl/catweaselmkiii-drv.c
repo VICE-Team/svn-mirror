@@ -1,5 +1,5 @@
 /*
- * catweaselmkiii.c - SDL UI catweaselmkiii.c wrapper.
+ * catweaselmkiii-drv.c - SDL UI catweaselmkiii-drv.c wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -29,15 +29,15 @@
 #ifdef HAVE_CATWEASELMKIII
 
 #ifdef AMIGA_SUPPORT
-#include "../amigaos/catweaselmkiii.c"
+#include "../amigaos/catweaselmkiii-drv.c"
 #endif
 
 #ifdef UNIX_COMPILE
-#include "../unix/catweaselmkiii.c"
+#include "../unix/catweaselmkiii-drv.c"
 #endif
 
 #if defined(WIN32_COMPILE) && !defined(__XBOX__)
-#include "../win32/catweaselmkiii.c"
+#include "../win32/catweaselmkiii-drv.c"
 #endif
 
 #endif

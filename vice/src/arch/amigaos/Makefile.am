@@ -59,7 +59,7 @@ libarch_a_SOURCES = \
 	c64uires.h \
 	c64dtvui.c \
 	c64dtvuires.h \
-	catweaselmkiii.c \
+	catweaselmkiii-drv.c \
 	cbm2ui.c \
 	cbm2uires.h \
 	cbm5x0ui.c \

@@ -1,9 +1,10 @@
 /*
- * catweaselmkiii.c
+ * catweaselmkiii-drv.c - Unix specific cw3 driver.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Dirk Jadgmann <doj@cubic.org>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -47,14 +48,8 @@ typedef void (*voidfunc_t)(void);
 
 #define MAXSID 2
 
-/* buffer containing current register state of SIDs */
-static BYTE sidbuf[0x20 * MAXSID];
-
 /* file handle for unix device */
 static int sidfh = -1;
-
-/* 0 = pal, !0 = ntsc */
-static int ntsc = 0;
 
 /* set all CatWeasels frequency to global variable ntsc */
 static void setfreq()
@@ -67,6 +62,7 @@ static void setfreq()
 /* open unix device */
 int catweaselmkiii_open(void)
 {
+    int i;
     static int atexitinitialized = 0;
 
     /* if no device is currently opened */
@@ -85,9 +81,10 @@ int catweaselmkiii_open(void)
     }
 
     /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
     lseek(sidfh, 0, SEEK_SET);
-    write(sidfh, sidbuf, sizeof(sidbuf));
+    for (i = 0; i < 32; ++i) {
+        write(sidfh, 0, 1);
+    }
 
     setfreq();
 
@@ -105,12 +102,15 @@ int catweaselmkiii_open(void)
 /* close unix device */
 int catweaselmkiii_close(void)
 {
+    int i;
+
     /* if there is a device opened */
     if (sidfh >= 0) {
         /* mute */
-        memset(sidbuf, 0, sizeof(sidbuf));
         lseek(sidfh, 0, SEEK_SET);
-        write(sidfh, sidbuf, sizeof(sidbuf));
+        for (i = 0; i < 32; ++i) {
+            write(sidfh, 0, 1);
+        }
 
         close(sidfh);
         sidfh = -1;
@@ -124,19 +124,17 @@ int catweaselmkiii_close(void)
 /* read value from SIDs */
 int catweaselmkiii_read(WORD addr, int chipno)
 {
+    BYTE retval;
+
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
         /* if addr is from read-only register, perform a read read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
             addr += chipno*0x20;
             lseek(sidfh, addr, SEEK_SET);
-            read(sidfh, &sidbuf[addr], 1);
-        } else {
-          addr += chipno*0x20;
+            read(sidfh, &retval, 1);
+            return retval;
         }
-
-        /* take value from sidbuf[] */
-        return sidbuf[addr];
     }
 
     return 0;
@@ -150,9 +148,6 @@ void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
         /* correct addr, so it becomes an index into sidbuf[] and the unix device */
         addr += chipno * 0x20;
 
-        /* write into sidbuf[] */
-        sidbuf[addr] = val;
-
         /* if the device is opened, write to device */
         if (sidfh >= 0) {
             lseek(sidfh, addr, SEEK_SET);
@@ -165,8 +160,6 @@ void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
    choose between pal and ntsc frequencies */
 void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 {
-    ntsc = (cycles_per_sec <= 1000000) ? 0 : 1;
     setfreq();
 }
-
 #endif

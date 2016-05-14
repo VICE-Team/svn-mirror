@@ -16,6 +16,7 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libsid.a
 
 libsid_a_SOURCES = \
+	catweaselmkiii.c \
 	fastsid.c \
 	fastsid.h \
 	sid-cmdline-options.c \

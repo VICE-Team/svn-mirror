@@ -45,7 +45,7 @@ libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
 	blockdev.c \
-	catweaselmkiii.c \
+	catweaselmkiii-drv.c \
 	coproc.h \
 	coproc.c \
 	dynlib.c \

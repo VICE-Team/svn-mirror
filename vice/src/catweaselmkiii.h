@@ -37,6 +37,19 @@ extern void catweaselmkiii_set_machine_parameter(long cycles_per_sec);
 
 extern int catweaselmkiii_available(void);
 
+extern int catweaselmkiii_drv_open(void);
+extern int catweaselmkiii_drv_close(void);
+extern int catweaselmkiii_drv_read(WORD addr, int chipno);
+extern void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno);
+extern void catweaselmkiii_drv_set_machine_parameter(long cycles_per_sec);
+
+extern int catweaselmkiii_drv_available(void);
+
+extern int catweaselmkiii_get_ntsc(void);
+
+extern void catweaselmkiii_state_read(int chipno, struct sid_cw3_snapshot_state_s *sid_state);
+extern void catweaselmkiii_state_write(int chipno, struct sid_cw3_snapshot_state_s *sid_state);
+
 #define CW_VENDOR           0xe159
 #define CW_DEVICE           0x0001
 #define CW_MK3_SUBVENDOR    0x1212
@@ -100,5 +113,7 @@ extern int catweaselmkiii_available(void);
 #define CW_IRQ_KEYBOARD               0x80
 #define CW_IRQ_SID_FIFO_EMPTY         0x01
 #define CW_IRQ_SID_FEEDBACK           0x02
+
+#define CW_MAXCARDS 4
 
 #endif

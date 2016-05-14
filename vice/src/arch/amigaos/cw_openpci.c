@@ -43,9 +43,6 @@ static void write_sid(unsigned char reg, unsigned char data); // Write a SID reg
 
 static int sidfh = 0;
 
-/* buffer containing current register state of SIDs */
-static BYTE sidbuf[0x20 * MAXSID];
-
 typedef void (*voidfunc_t)(void);
 
 static unsigned long CWbase;
@@ -58,13 +55,8 @@ int cw_openpci_read(WORD addr, int chipno)
         /* if addr is from read-only register, perform a read read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
             addr += chipno * 0x20;
-            sidbuf[addr] = read_sid(addr);
-        } else {
-            addr += chipno*0x20;
+            return read_sid(addr);
         }
-
-        /* take value from sidbuf[] */
-        return sidbuf[addr];
     }
 
     return 0;
@@ -77,8 +69,7 @@ void cw_openpci_store(WORD addr, BYTE val, int chipno)
     if (chipno < MAXSID && addr <= 0x18) {
         /* correct addr, so it becomes an index into sidbuf[] and the unix device */
         addr += chipno * 0x20;
-	  /* write into sidbuf[] */
-        sidbuf[addr] = val;
+
 	  /* if the device is opened, write to device */
         if (sidfh >= 0) {
             write_sid(addr, val);
@@ -95,9 +86,6 @@ void cw_openpci_store(WORD addr, BYTE val, int chipno)
 #include <proto/exec.h>
 #include <proto/openpci.h>
 #include <libraries/openpci.h>
-
-// Set as appropriate
-static int sid_NTSC = FALSE; // TRUE for 60Hz oscillator, FALSE for 50
 
 #if defined(pci_obtain_card) && defined(pci_release_card)
 static int CWLock = FALSE;
@@ -126,7 +114,7 @@ int cw_openpci_open(void)
         return -1;
     }
 
-    dev = pci_find_device(0xe159, 0x0001, NULL);
+    dev = pci_find_device(CW_VENDOR, CW_DEVICE, NULL);
 
     if (dev == NULL) {
         log_message(LOG_DEFAULT, "Unable to find a Catweasel Mk3 PCI card\n");
@@ -154,8 +142,7 @@ int cw_openpci_open(void)
     pci_outb(0x00, CWbase + 0x2b);
 
     /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
-    for (i = 0; i < sizeof(sidbuf); i++) {
+    for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
 
@@ -177,7 +164,8 @@ static unsigned char read_sid(unsigned char reg)
     unsigned char cmd;
 
     cmd = (reg & 0x1f) | 0x20;   // Read command & address
-    if (sid_NTSC) {
+
+    if (catweaselmkiii_get_ntsc()) {
         cmd |= 0x40;  // Make sure its correct frequency
     }
 
@@ -196,7 +184,7 @@ static void write_sid(unsigned char reg, unsigned char data)
     unsigned char cmd;
 
     cmd = reg & 0x1f;            // Write command & address
-    if (sid_NTSC) {
+    if (catweaselmkiii_get_ntsc()) {
         cmd |= 0x40;  // Make sure its correct frequency
     }
 
@@ -214,8 +202,7 @@ int cw_openpci_close(void)
     unsigned int i;
 
     /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
-    for (i = 0; i < sizeof(sidbuf); i++) {
+    for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
 
@@ -234,6 +221,5 @@ int cw_openpci_close(void)
    choose between pal and ntsc frequencies */
 void cw_openpci_set_machine_parameter(long cycles_per_sec)
 {
-    sid_NTSC = (cycles_per_sec <= 1000000) ? FALSE : TRUE;
 }
 #endif

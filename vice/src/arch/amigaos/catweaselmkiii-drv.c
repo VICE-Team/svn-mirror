@@ -1,5 +1,5 @@
 /*
- * catweaselmkiii.c
+ * catweaselmkiii-drv.c - AmigaOS specific cw3 driver.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -26,7 +26,6 @@
 
 #include "vice.h"
 
-static int cwmkiii_opened = 0;
 static int cw_use_device = 0;
 
 #ifdef HAVE_PROTO_OPENPCI_H
@@ -42,11 +41,8 @@ static int cw_use_os4 = 0;
 #include "loadlibs.h"
 #include "types.h"
 
-// Set as appropriate
-static int sid_NTSC = 0; // TRUE for 60Hz oscillator, FALSE for 50
-
 /* read value from SIDs */
-int catweaselmkiii_read(WORD addr, int chipno)
+int catweaselmkiii_drv_read(WORD addr, int chipno)
 {
     if (cw_use_device) {
         return cw_device_read(addr, chipno);
@@ -68,7 +64,7 @@ int catweaselmkiii_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
+void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 {
     if (cw_use_device) {
         cw_device_store(addr, val, chipno);
@@ -87,29 +83,17 @@ void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
 #endif
 }
 
-int catweaselmkiii_open(void)
+int catweaselmkiii_drv_open(void)
 {
-    int rc;
-
-    if (cwmkiii_opened == 1) {
-        return 0;
-    }
-
-    if (cwmkiii_opened == -1) {
-        return -1;
-    }
-
-    rc = cw_device_open();
+    int rc = cw_device_open();
 
     if (rc == 1) {
-        cwmkiii_opened = 1;
         cw_use_device = 1;
         return 0;
     }
 
 #if defined(HAVE_PROTO_OPENPCI_H) || defined(AMIGA_OS4)
     if (!pci_lib_loaded) {
-        cwmkiii_opened = -1;
         return -1;
     }
 #endif
@@ -117,7 +101,6 @@ int catweaselmkiii_open(void)
 #ifdef HAVE_PROTO_OPENPCI_H
     rc = cw_openpci_open();
     if (rc == 1) {
-        cwmkiii_opened = 1;
         cw_use_openpci = 1;
         return 0;
     }
@@ -126,17 +109,15 @@ int catweaselmkiii_open(void)
 #ifdef AMIGA_OS4
     rc = cw_os4_open();
     if (rc == 1) {
-        cwmkiii_opened = 1;
         cw_use_os4 = 1;
         return 0;
     }
 #endif
 
-    cwmkiii_opened = -1;
     return -1;
 }
 
-int catweaselmkiii_close(void)
+int catweaselmkiii_drv_close(void)
 {
     if (cw_use_device) {
         cw_device_close();
@@ -157,21 +138,15 @@ int catweaselmkiii_close(void)
     }
 #endif
 
-    cwmkiii_opened = 0;
     return 0;
 }
 
-/* set current main clock frequency, which gives us the possibilty to
-   choose between pal and ntsc frequencies */
-void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
+int catweaselmkiii_drv_available(void)
 {
-    sid_NTSC = (cycles_per_sec <= 1000000) ? 0 : 1;
-}
+    int i = catweaselmkiii_open();
 
-int catweaselmkiii_available(void)
-{
-    if (cwmkiii_opened == 0) {
-        catweaselmkiii_open();
+    if (i != -1) {
+        return 1;
     }
-    return cwmkiii_opened;
+    return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * catweaselmkiii.c
+ * catweaselmkiii-drv.c - MSDOS specific cw3 driver.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -37,12 +37,7 @@
 typedef unsigned short uint16;
 typedef unsigned long uint32;
 
-static int sid_NTSC = 0; // TRUE for 60Hz oscillator, FALSE for 50
-
 static int base;
-
-/* buffer containing current register state of SIDs */
-static BYTE sidbuf[0x20];
 
 static int sidfh = -1;
 
@@ -131,7 +126,7 @@ static int pci_find_catweasel(int index)
     while (i <= index) {
 
         /* Find the next card that uses the Tiger Jet Networks Tiger320 PCI chip */
-        res = pci_find(0xe159, 0x0001, j++, &bus, &device, &func);
+        res = pci_find(CW_VENDOR, CW_DEVICE, j++, &bus, &device, &func);
         if (res != 0) {
             return -1;
         }
@@ -144,10 +139,10 @@ static int pci_find_catweasel(int index)
 
         /* Check if they match the Catweasel */
         switch (subsysID) {
-            case 0x00021212: 	/* Catweasel MK3 */
-            case 0x00031212: 	/* Catweasel MK3 alternate */
-            case 0x00025213: 	/* Catweasel MK4 */
-            case 0x00035213: 	/* Catweasel MK4 alternate */
+            case (CW_MK4_SUBDEVICE1 << 16) | CW_MK3_SUBVENDOR: 	/* Catweasel MK3 */
+            case (CW_MK4_SUBDEVICE2 << 16) | CW_MK3_SUBVENDOR: 	/* Catweasel MK3 alternate */
+            case (CW_MK4_SUBDEVICE1 << 16) | CW_MK4_SUBVENDOR1: /* Catweasel MK4 */
+            case (CW_MK4_SUBDEVICE2 << 16) | CW_MK4_SUBVENDOR1: /* Catweasel MK4 alternate */
                 break;
             default:
                 continue;
@@ -177,7 +172,7 @@ static unsigned char read_sid(unsigned char reg)
     unsigned char cmd;
 
     cmd = (reg & 0x1f) | 0x20;	// Read command & address
-    if (sid_NTSC) {
+    if (catweaselmkiii_get_ntsc()) {
         cmd |= 0x40;  // Make sure its correct frequency
     }
 
@@ -196,7 +191,7 @@ static void write_sid(unsigned char reg, unsigned char data)
     unsigned char cmd;
 
     cmd = reg & 0x1f;
-    if (sid_NTSC) {
+    if (catweaselmkiii_get_ntsc()) {
         cmd |= 0x40;  // Make sure its correct frequency
     }
 
@@ -230,8 +225,7 @@ int catweaselmkiii_open(void)
     outportb(base + 0x2b, 0x00);                                      
 
     /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
-    for (i = 0; i < sizeof(sidbuf); i++) {
+    for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
 
@@ -247,8 +241,7 @@ int catweaselmkiii_close(void)
     unsigned int i;
 
     /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
-    for (i = 0; i < sizeof(sidbuf); i++) {
+    for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
 
@@ -265,13 +258,8 @@ int catweaselmkiii_read(WORD addr, int chipno)
         /* if addr is from read-only register, perform a read read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
             addr += chipno * 0x20;
-            sidbuf[addr] = read_sid(addr);
-        } else {
-            addr += chipno * 0x20;
+            return read_sid(addr);
         }
-
-        /* take value from sidbuf[] */
-        return sidbuf[addr];
     }
 
     return 0;
@@ -284,8 +272,7 @@ void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
     if (chipno < 1 && addr <= 0x18) {
         /* correct addr, so it becomes an index into sidbuf[] and the unix device */
         addr += chipno * 0x20;
-        /* write into sidbuf[] */
-        sidbuf[addr] = val;
+
         /* if the device is opened, write to device */
         if (sidfh >= 0) {
             write_sid(addr, val);
@@ -297,5 +284,4 @@ void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
    choose between pal and ntsc frequencies */
 void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 {
-    sid_NTSC = (cycles_per_sec <= 1000000) ? 0 : 1;
 }
