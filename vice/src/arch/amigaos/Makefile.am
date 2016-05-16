@@ -66,7 +66,6 @@ libarch_a_SOURCES = \
 	cbm5x0uires.h \
 	console.c \
 	cw.h \
-	cw_clockport.c \
 	cw_device.c \
 	cw_openpci.c \
 	cw_os4.c \
