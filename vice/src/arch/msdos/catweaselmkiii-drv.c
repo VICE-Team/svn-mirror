@@ -27,6 +27,10 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef HAVE_CATWEASELMKIII
+
 #include <stdio.h>
 #include <dpmi.h>
 #include <string.h>
@@ -64,7 +68,6 @@ static int pci_install_check(void)
     return 0;
 }
 
-
 static int pci_find(int vendorID, int deviceID, int index, int *bus, int *device, int *func)
 {
     __dpmi_regs r;
@@ -89,7 +92,6 @@ static int pci_find(int vendorID, int deviceID, int index, int *bus, int *device
     return r.h.ah;
 }
 
-
 static int pci_read_config_dword(int bus, int device, int func, int reg, uint32 *value)
 {
     __dpmi_regs r;
@@ -111,7 +113,6 @@ static int pci_read_config_dword(int bus, int device, int func, int reg, uint32 
 
     return r.h.ah;
 }
-
 
 static int pci_find_catweasel(int index)
 {
@@ -204,7 +205,7 @@ static void write_sid(unsigned char reg, unsigned char data)
     inportb(base + CW_SID_DAT);
 }
 
-int catweaselmkiii_open(void)
+int catweaselmkiii_drv_open(void)
 {
     int i;
 
@@ -236,7 +237,7 @@ int catweaselmkiii_open(void)
     return 0;
 }
 
-int catweaselmkiii_close(void)
+int catweaselmkiii_drv_close(void)
 {
     unsigned int i;
 
@@ -251,13 +252,12 @@ int catweaselmkiii_close(void)
 }
 
 /* read value from SIDs */
-int catweaselmkiii_read(WORD addr, int chipno)
+int catweaselmkiii_drv_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < 1 && addr < 0x20) {
-        /* if addr is from read-only register, perform a read read */
+        /* if addr is from read-only register, perform a real read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            addr += chipno * 0x20;
             return read_sid(addr);
         }
     }
@@ -266,12 +266,10 @@ int catweaselmkiii_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
+void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < 1 && addr <= 0x18) {
-        /* correct addr, so it becomes an index into sidbuf[] and the unix device */
-        addr += chipno * 0x20;
 
         /* if the device is opened, write to device */
         if (sidfh >= 0) {
@@ -285,3 +283,4 @@ void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
 void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 {
 }
+#endif

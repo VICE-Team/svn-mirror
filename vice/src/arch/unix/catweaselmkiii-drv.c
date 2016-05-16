@@ -55,12 +55,12 @@ static int sidfh = -1;
 static void setfreq()
 {
     if (sidfh >= 0) {
-        ioctl(sidfh, ntsc ? CWSID_IOCTL_NTSC : CWSID_IOCTL_PAL);
+        ioctl(sidfh, catweaselmkiii_get_ntsc() ? CWSID_IOCTL_NTSC : CWSID_IOCTL_PAL);
     }
 }
 
 /* open unix device */
-int catweaselmkiii_open(void)
+int catweaselmkiii_drv_open(void)
 {
     int i;
     static int atexitinitialized = 0;
@@ -100,7 +100,7 @@ int catweaselmkiii_open(void)
 }
 
 /* close unix device */
-int catweaselmkiii_close(void)
+int catweaselmkiii_drv_close(void)
 {
     int i;
 
@@ -122,13 +122,13 @@ int catweaselmkiii_close(void)
 }
 
 /* read value from SIDs */
-int catweaselmkiii_read(WORD addr, int chipno)
+int catweaselmkiii_drv_read(WORD addr, int chipno)
 {
     BYTE retval;
 
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
-        /* if addr is from read-only register, perform a read read */
+        /* if addr is from read-only register, perform a real read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
             addr += chipno*0x20;
             lseek(sidfh, addr, SEEK_SET);
@@ -141,11 +141,11 @@ int catweaselmkiii_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
+void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr <= 0x18) {
-        /* correct addr, so it becomes an index into sidbuf[] and the unix device */
+        /* correct addr, so it becomes an index into the unix device */
         addr += chipno * 0x20;
 
         /* if the device is opened, write to device */

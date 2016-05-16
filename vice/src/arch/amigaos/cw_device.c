@@ -71,7 +71,7 @@ int cw_device_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < gSIDs && addr < 0x20) {
-        /* if addr is from read-only register, perform a read read */
+        /* if addr is from read-only register, perform a real read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
             addr += chipno * 0x20;
             return read_sid(addr, chipno);
@@ -86,7 +86,7 @@ void cw_device_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < gSIDs && addr <= 0x18) {
-        /* correct addr, so it becomes an index into sidbuf[] and the unix device */
+        /* correct addr, so it becomes an index into the device */
         addr += chipno * 0x20;
         /* if the device is opened, write to device */
         if (sidfh >= 0) {

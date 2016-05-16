@@ -50,6 +50,7 @@ int catweaselmkiii_open(void)
 {
     if (cw3_open == -1) {
         cw3_open = catweaselmkiii_drv_open();
+        memset(sidbuf, 0, sizeof(sidbuf));
     }
     return cw3_open;
 }
@@ -70,7 +71,7 @@ int catweaselmkiii_read(WORD addr, int chipno)
     if (cw3_open != -1) {
         /* use sidbuf[] for write-only registers */
         if (addr <= 0x18) {
-            return sidbuf[chipno * 0x20 + addr];
+            return sidbuf[(chipno * 0x20) + addr];
         }
         return catweaselmkiii_drv_read(addr, chipno);
     }
@@ -82,7 +83,7 @@ void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
     if (cw3_open != -1) {
         /* write to sidbuf[] for write-only registers */
         if (addr <= 0x18) {
-            sidbuf[chipno * 0x20 + addr] = val;
+            sidbuf[(chipno * 0x20) + addr] = val;
         }
         catweaselmkiii_drv_store(addr, val, chipno);
     }

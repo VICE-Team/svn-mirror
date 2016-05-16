@@ -51,9 +51,8 @@ int cw_os4_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
-        /* if addr is from read-only register, perform a read read */
+        /* if addr is from read-only register, perform a real read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            addr += chipno * 0x20;
             return read_sid(addr);
         }
     }
@@ -66,8 +65,6 @@ void cw_os4_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr <= 0x18) {
-        /* correct addr, so it becomes an index into sidbuf[] and the unix device */
-        addr += chipno * 0x20;
 
 	  /* if the device is opened, write to device */
         if (sidfh >= 0) {
@@ -221,11 +218,5 @@ static void write_sid(unsigned char reg, unsigned char data)
     // Waste 1ms
     CWDevPCI->InByte(CWDevBAR->BaseAddress + CW_SID_DAT);
     CWDevPCI->InByte(CWDevBAR->BaseAddress + CW_SID_DAT);
-}
-
-/* set current main clock frequency, which gives us the possibilty to
-   choose between pal and ntsc frequencies */
-void cw_os4_set_machine_parameter(long cycles_per_sec)
-{
 }
 #endif
