@@ -26,7 +26,12 @@
 
 #include "vice.h"
 
+#ifdef HAVE_CATWEASELMKIII
 static int cw_use_device = 0;
+
+#ifdef AMIGA_M68K
+static int cw_use_zorro = 0;
+#endif
 
 #ifdef HAVE_PROTO_OPENPCI_H
 static int cw_use_openpci = 0;
@@ -47,6 +52,12 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
     if (cw_use_device) {
         return cw_device_read(addr, chipno);
     }
+
+#ifdef AMIGA_M68K
+    if (cw_use_zorro) {
+        return cw_zorro_read(addr, chipno);
+    }
+#endif
 
 #ifdef HAVE_PROTO_OPENPCI_H
     if (cw_use_openpci) {
@@ -69,6 +80,12 @@ void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
     if (cw_use_device) {
         cw_device_store(addr, val, chipno);
     }
+
+#ifdef AMIGA_M68K
+    if (cw_use_zorro) {
+        cw_zorro_store(addr, val, chipno);
+    }
+#endif
 
 #ifdef HAVE_PROTO_OPENPCI_H
     if (cw_use_openpci) {
@@ -114,6 +131,14 @@ int catweaselmkiii_drv_open(void)
     }
 #endif
 
+#ifdef AMIGA_M68K
+    rc = cw_zorro_open();
+    if (rc == 1) {
+        cw_use_zorro = 1;
+        return 0;
+    }
+#endif
+
     return -1;
 }
 
@@ -138,6 +163,13 @@ int catweaselmkiii_drv_close(void)
     }
 #endif
 
+#ifdef AMIGA_M68K
+    if (cw_use_zorro) {
+        cw_zorro_close();
+        cw_use_zorro = 0;
+    }
+#endif
+
     return 0;
 }
 
@@ -150,3 +182,11 @@ int catweaselmkiii_drv_available(void)
     }
     return 0;
 }
+
+void catweaselmkiii_drv_set_machine_parameter(long cycles_per_sec)
+{
+    if (cw_use_device) {
+        cw_device_set_machine_parameter(cycles_per_sec);
+    }
+}
+#endif

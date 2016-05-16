@@ -33,21 +33,23 @@
 extern int cw_device_open(void);
 extern int cw_openpci_open(void);
 extern int cw_os4_open(void);
+extern int cw_zorro_open(void);
 
 extern int cw_device_close(void);
 extern int cw_openpci_close(void);
 extern int cw_os4_close(void);
+extern int cw_zorro_close(void);
 
 extern int cw_device_read(WORD addr, int chipno);
 extern int cw_openpci_read(WORD addr, int chipno);
 extern int cw_os4_read(WORD addr, int chipno);
+extern int cw_zorro_read(WORD addr, int chipno);
 
 extern void cw_device_store(WORD addr, BYTE val, int chipno);
 extern void cw_openpci_store(WORD addr, BYTE val, int chipno);
 extern void cw_os4_store(WORD addr, BYTE val, int chipno);
+extern void cw_zorro_store(WORD addr, BYTE val, int chipno);
 
 extern void cw_device_set_machine_parameter(long cycles_per_sec);
-extern void cw_openpci_set_machine_parameter(long cycles_per_sec);
-extern void cw_os4_set_machine_parameter(long cycles_per_sec);
 
 #endif
