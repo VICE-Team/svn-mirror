@@ -1,5 +1,5 @@
 /*
- * hardsid.c
+ * hardsid-drv.c - MSDOS specific PCI hardsid driver.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,6 +24,10 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef HAVE_HARDSID
+
 #include <stdio.h>
 #include <dpmi.h>
 #include <string.h>
@@ -37,9 +41,6 @@ typedef unsigned long uint32;
 static int hs_available = 0;
 
 static int base;
-
-/* buffer containing current register state of SIDs */
-static BYTE sidbuf[0x20];
 
 static int sidfh = -1;
 
@@ -62,7 +63,6 @@ static int pci_install_check(void)
 
     return 0;
 }
-
 
 static int pci_find(int vendorID, int deviceID, int index, int *bus, int *device, int *func)
 {
@@ -88,7 +88,6 @@ static int pci_find(int vendorID, int deviceID, int index, int *bus, int *device
     return r.h.ah;
 }
 
-
 static int pci_read_config_dword(int bus, int device, int func, int reg, uint32 *value)
 {
     __dpmi_regs r;
@@ -110,7 +109,6 @@ static int pci_read_config_dword(int bus, int device, int func, int reg, uint32 
 
     return r.h.ah;
 }
-
 
 static int pci_find_hardsid(int index)
 {
@@ -168,7 +166,7 @@ static void write_sid( unsigned char reg, unsigned char data )
     outportb(base + 3, ((reg & 0x1f) << 8) | data);
 }
 
-int hardsid_open(void)
+int hardsid_drv_open(void)
 {
     unsigned int i;
 
@@ -186,7 +184,6 @@ int hardsid_open(void)
     outportb(base + 0x02, 0x24);
 
     /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
     for (i = 0; i < sizeof(sidbuf); i++) {
         write_sid(i, 0);
     }
@@ -198,12 +195,11 @@ int hardsid_open(void)
     return 0;
 }
 
-int hardsid_close(void)
+int hardsid_drv_close(void)
 {
     unsigned int i;
 
     /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
     for (i = 0; i < sizeof(sidbuf); i++) {
         write_sid(i, 0);
     }
@@ -214,34 +210,23 @@ int hardsid_close(void)
 }
 
 /* read value from SIDs */
-int hardsid_read(WORD addr, int chipno)
+int hardsid_drv_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < 1 && addr < 0x20) {
-        /* if addr is from read-only register, perform a read read */
+        /* if addr is from read-only register, perform a real read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            addr += chipno * 0x20;
-            sidbuf[addr] = read_sid(addr);
-        } else {
-            addr += chipno * 0x20;
+            return read_sid(addr);
         }
-
-        /* take value from sidbuf[] */
-        return sidbuf[addr];
     }
-
     return 0;
 }
 
 /* write value into SID */
-void hardsid_store(WORD addr, BYTE val, int chipno)
+void hardsid_drv_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < 1 && addr <= 0x18) {
-        /* correct addr, so it becomes an index into sidbuf[] and the unix device */
-        addr += chipno * 0x20;
-        /* write into sidbuf[] */
-        sidbuf[addr] = val;
         /* if the device is opened, write to device */
         if (sidfh >= 0) {
             write_sid(addr, val);
@@ -249,24 +234,39 @@ void hardsid_store(WORD addr, BYTE val, int chipno)
     }
 }
 
-void hardsid_set_machine_parameter(long cycles_per_sec)
+void hardsid_drv_set_device(unsigned int chipno, unsigned int device)
 {
 }
 
-void hardsid_set_device(unsigned int chipno, unsigned int device)
-{
-}
-
-int hardsid_available(void)
+int hardsid_drv_available(void)
 {
     if (hs_available) {
         return 1;
     }
 
-    if (hardsid_open() < 0) {
+    if (hardsid_drv_open() < 0) {
         return 0;
     }
-    hardsid_close();
+    hardsid_drv_close();
     hs_available = 1;
     return 1;
 }
+
+/* ---------------------------------------------------------------------*/
+
+void hardsid_drv_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
+{
+    sid_state->hsid_main_clk = 0;
+    sid_state->hsid_alarm_clk = 0;
+    sid_state->lastaccess_clk = 0;
+    sid_state->lastaccess_ms = 0;
+    sid_state->lastaccess_chipno = 0;
+    sid_state->chipused = 0;
+    sid_state->device_map[0] = 0;
+    sid_state->device_map[1] = 0;
+}
+
+void hardsid_drv_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)
+{
+}
+#endif

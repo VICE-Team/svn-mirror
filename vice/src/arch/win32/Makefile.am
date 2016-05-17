@@ -51,7 +51,7 @@ libarch_a_SOURCES = \
 	fullscrn.c \
 	fullscrn.h \
 	gifdrv.c \
-	hardsid.c \
+	hardsid-drv.c \
 	intl.c \
 	intl.h \
 	joy.c \

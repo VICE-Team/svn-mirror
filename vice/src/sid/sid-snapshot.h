@@ -107,6 +107,17 @@ typedef struct sid_cw3_snapshot_state_s {
     BYTE regs[32];
 } sid_cw3_snapshot_state_t;
 
+typedef struct sid_hs_snapshot_state_s {
+    BYTE regs[32];
+    DWORD hsid_main_clk;
+    DWORD hsid_alarm_clk;
+    DWORD lastaccess_clk;
+    DWORD lastaccess_ms;
+    DWORD lastaccess_chipno;
+    DWORD chipused;
+    DWORD device_map[2];
+} sid_hs_snapshot_state_t;
+
 extern int sid_snapshot_write_module(struct snapshot_s *s);
 extern int sid_snapshot_read_module(struct snapshot_s *s);
 

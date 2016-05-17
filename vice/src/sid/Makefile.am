@@ -19,6 +19,7 @@ libsid_a_SOURCES = \
 	catweaselmkiii.c \
 	fastsid.c \
 	fastsid.h \
+	hardsid.c \
 	sid-cmdline-options.c \
 	sid-cmdline-options.h \
 	sid-resources.c \

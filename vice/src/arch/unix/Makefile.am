@@ -50,7 +50,7 @@ libarch_a_SOURCES = \
 	coproc.c \
 	dynlib.c \
 	fullscreenarch.h \
-	hardsid.c \
+	hardsid-drv.c \
 	icon.h \
 	joy.c \
 	joy.h \

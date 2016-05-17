@@ -48,7 +48,7 @@ libarch_a_SOURCES = \
 	console.c \
 	grabkey.c \
 	grabkey.h \
-	hardsid.c \
+	hardsid-drv.c \
 	joy.c \
 	joy.h \
 	kbd.c \

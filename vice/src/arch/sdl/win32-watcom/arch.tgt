@@ -285,8 +285,8 @@ WVList
 0
 67
 MItem
-12
-..\hardsid.c
+16
+..\hardsid-drv.c
 68
 WString
 4

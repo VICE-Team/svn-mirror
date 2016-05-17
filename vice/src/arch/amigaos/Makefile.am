@@ -72,7 +72,7 @@ libarch_a_SOURCES = \
 	cw_zorro.c \
 	fullscreen.c \
 	fullscreenarch.h \
-	hardsid.c \
+	hardsid-drv.c \
 	intl.c \
 	intl_funcs.h \
 	joy.c \

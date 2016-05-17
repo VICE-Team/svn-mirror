@@ -1,8 +1,9 @@
 /*
- * hardsid.c
+ * hardsid-drv.c - Unix specific PCI hardsid driver.
  *
  * Written by
  *  Simon White <sidplay2@yahoo.com>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, modified from the sidplay2 sources.  It is
  * a one for all driver with real timing support via real time kernel
@@ -77,14 +78,14 @@ static int hardsid_init(void)
     return 0;
 }
 
-void hardsid_reset(void)
+void hardsid_drv_reset(void)
 {
     hsid_main_clk  = maincpu_clk;
     hsid_alarm_clk = HARDSID_DELAY_CYCLES;
     alarm_set(hsid_alarm, HARDSID_DELAY_CYCLES);
 }
 
-int hardsid_open(void)
+int hardsid_drv_open(void)
 {
     if (hardsid_init() < 0) {
         return -1;
@@ -94,7 +95,7 @@ int hardsid_open(void)
     return 0;
 }
 
-int hardsid_close(void)
+int hardsid_drv_close(void)
 {
     /* Driver cleans up after itself */
     if (hsid_fd >= 0) {
@@ -105,7 +106,7 @@ int hardsid_close(void)
     return 0;
 }
 
-int hardsid_read(WORD addr, int chipno)
+int hardsid_drv_read(WORD addr, int chipno)
 {
     if (hsid_fd >= 0) {
         CLOCK cycles = maincpu_clk - hsid_main_clk - 1;
@@ -126,7 +127,7 @@ int hardsid_read(WORD addr, int chipno)
     return 0;
 }
 
-void hardsid_store(WORD addr, BYTE val, int chipno)
+void hardsid_drv_store(WORD addr, BYTE val, int chipno)
 {
     if (hsid_fd >= 0)
     {
@@ -144,11 +145,7 @@ void hardsid_store(WORD addr, BYTE val, int chipno)
     }
 }
 
-void hardsid_set_machine_parameter(long cycles_per_sec)
-{
-}
-
-unsigned int hardsid_available(void)
+unsigned int hardsid_drv_available(void)
 {
     if (hardsid_init() < 0) {
         return 0;
@@ -158,7 +155,7 @@ unsigned int hardsid_available(void)
     return 1;
 }
 
-void hardsid_alarm_handler (CLOCK offset, void *data)
+void hardsid_alarm_handler(CLOCK offset, void *data)
 {
     CLOCK cycles = (hsid_alarm_clk + offset) - hsid_main_clk;
 
@@ -173,8 +170,27 @@ void hardsid_alarm_handler (CLOCK offset, void *data)
     alarm_set(hsid_alarm, hsid_alarm_clk);
 }
 
-void hardsid_set_device(unsigned int chipno, unsigned int device)
+void hardsid_drv_set_device(unsigned int chipno, unsigned int device)
 {
 }
 
+/* ---------------------------------------------------------------------*/
+
+void hardsid_drv_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
+{
+    sid_state->hsid_main_clk = (DWORD)hsid_main_clk;
+    sid_state->hsid_alarm_clk = (DWORD)hsid_alarm_clk;
+    sid_state->lastaccess_clk = 0;
+    sid_state->lastaccess_ms = 0;
+    sid_state->lastaccess_chipno = 0;
+    sid_state->chipused = 0;
+    sid_state->device_map[0] = 0;
+    sid_state->device_map[1] = 0;
+}
+
+void hardsid_drv_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)
+{
+    hsid_main_clk = (CLOCK)sid_state->hsid_main_clk;
+    hsid_alarm_clk = (CLOCK)sid_state->hsid_alarm_clk;
+}
 #endif

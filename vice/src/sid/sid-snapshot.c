@@ -33,6 +33,7 @@
 
 #include "catweaselmkiii.h"
 #include "fastsid.h"
+#include "hardsid.h"
 #include "log.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -615,6 +616,51 @@ static int sid_snapshot_read_cw3_module(snapshot_module_t *m, int sidnr)
 
 /* ---------------------------------------------------------------------*/
 
+#ifdef HAVE_HARDSID
+static int sid_snapshot_write_hs_module(snapshot_module_t *m, int sidnr)
+{
+    sid_hs_snapshot_state_t sid_state;
+
+    hardsid_state_read(sidnr, &sid_state);
+
+    if (0
+        || SMW_BA(m, sid_state.regs, 32) < 0
+        || SMW_DW(m, sid_state.hsid_main_clk) < 0
+        || SMW_DW(m, sid_state.hsid_alarm_clk) < 0
+        || SMW_DW(m, sid_state.lastaccess_clk) < 0
+        || SMW_DW(m, sid_state.lastaccess_ms) < 0
+        || SMW_DW(m, sid_state.lastaccess_chipno) < 0
+        || SMW_DW(m, sid_state.chipused) < 0
+        || SMW_DWA(m, sid_state.device_map, 2) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int sid_snapshot_read_hs_module(snapshot_module_t *m, int sidnr)
+{
+    sid_hs_snapshot_state_t sid_state;
+
+    if (0
+        || SMR_BA(m, sid_state.regs, 32) < 0
+        || SMR_DW(m, &sid_state.hsid_main_clk) < 0
+        || SMR_DW(m, &sid_state.hsid_alarm_clk) < 0
+        || SMR_DW(m, &sid_state.lastaccess_clk) < 0
+        || SMR_DW(m, &sid_state.lastaccess_ms) < 0
+        || SMR_DW(m, &sid_state.lastaccess_chipno) < 0
+        || SMR_DW(m, &sid_state.chipused) < 0
+        || SMR_DWA(m, sid_state.device_map, 2) < 0) {
+        return -1;
+    }
+
+    hardsid_state_write(sidnr, &sid_state);
+
+    return 0;
+}
+#endif
+
+/* ---------------------------------------------------------------------*/
+
 static const char snap_module_name_extended1[] = "SIDEXTENDED";
 static const char snap_module_name_extended2[] = "SIDEXTENDED2";
 static const char snap_module_name_extended3[] = "SIDEXTENDED3";
@@ -660,6 +706,13 @@ static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
 #ifdef HAVE_CATWEASELMKIII
         case SID_ENGINE_CATWEASELMKIII:
             if (sid_snapshot_write_cw3_module(m, sidnr) < 0) {
+                goto fail;
+            }
+            break;
+#endif
+#ifdef HAVE_HARDSID
+        case SID_ENGINE_HARDSID:
+            if (sid_snapshot_write_hs_module(m, sidnr) < 0) {
                 goto fail;
             }
             break;
@@ -741,6 +794,13 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
 #ifdef HAVE_CATWEASELMKIII
         case SID_ENGINE_CATWEASELMKIII:
             if (sid_snapshot_read_cw3_module(m, sidnr) < 0) {
+                goto fail;
+            }
+            break;
+#endif
+#ifdef HAVE_HARDSID
+        case SID_ENGINE_HARDSID:
+            if (sid_snapshot_read_hs_module(m, sidnr) < 0) {
                 goto fail;
             }
             break;

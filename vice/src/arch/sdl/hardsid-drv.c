@@ -1,5 +1,5 @@
 /*
- * hardsid.c - hardsid.c wrapper for the sdl ui.
+ * hardsid-drv.c - hardsid-drv.c wrapper for the sdl ui.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -35,15 +35,15 @@
 #endif
 
 #ifdef UNIX_COMPILE
-#include "../unix/hardsid.c"
+#include "../unix/hardsid-drv.c"
 #endif
 
 #if defined(WIN32_COMPILE) && !defined(__XBOX__)
-#include "../win32/hardsid.c"
+#include "../win32/hardsid-drv.c"
 #endif
 
 #ifdef AMIGA_SUPPORT
-#include "../amigaos/hardsid.c"
+#include "../amigaos/hardsid-drv.c"
 #endif
 
 #endif

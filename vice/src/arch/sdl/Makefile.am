@@ -50,7 +50,7 @@ libarch_a_SOURCES = \
 	dynlib.c \
 	fullscreen.c \
 	fullscreenarch.h \
-	hardsid.c \
+	hardsid-drv.c \
 	joy.c \
 	joy.h \
 	kbd.c \
