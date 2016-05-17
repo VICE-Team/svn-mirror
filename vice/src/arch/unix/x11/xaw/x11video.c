@@ -55,6 +55,8 @@
 
 #include "vice.h"
 
+#include "util.h"
+
 #include <string.h>
 
 #include <X11/Xlib.h>
@@ -78,7 +80,6 @@
 #include "types.h"
 #include "ui.h"
 #include "uicolor.h"
-#include "util.h"
 #include "video.h"
 #include "videoarch.h"
 #include "viewport.h"
