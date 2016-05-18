@@ -39,14 +39,13 @@
 #include "lib.h"
 #include "machine.h"
 #include "maincpu.h"
-#ifdef HAVE_PARSID
 #include "parsid.h"
-#endif
 #include "resources.h"
 #include "sid-resources.h"
 #include "sid-snapshot.h"
 #include "sid.h"
 #include "sound.h"
+#include "ssi2001.h"
 #include "types.h"
 
 #ifdef HAVE_MOUSE
@@ -477,6 +476,10 @@ int sid_sound_machine_cycle_based(void)
         case SID_ENGINE_PARSID_PORT3:
             return 0;
 #endif
+#ifdef HAVE_SSI2001
+        case SID_ENGINE_SSI2001:
+            return 0;
+#endif
     }
 
     return 0;
@@ -527,6 +530,13 @@ static void set_sound_func(void)
             sid_read_func = parsid_read;
             sid_store_func = parsid_store;
             sid_dump_func = NULL; /* TODO: parsid dump */
+        }
+#endif
+#ifdef HAVE_SSI2001
+        if (sid_engine_type == SID_ENGINE_SSI2001) {
+            sid_read_func = ssi2001_read;
+            sid_store_func = ssi2001_store;
+            sid_dump_func = NULL; /* TODO: hardsid dump */
         }
 #endif
     } else {
@@ -591,6 +601,18 @@ int sid_engine_set(int engine)
     if (engine != SID_ENGINE_PARSID_PORT1 && engine != SID_ENGINE_PARSID_PORT2 && engine != SID_ENGINE_PARSID_PORT3
         && (sid_engine_type == SID_ENGINE_PARSID_PORT1 || sid_engine_type == SID_ENGINE_PARSID_PORT2 || sid_engine_type == SID_ENGINE_PARSID_PORT3)) {
         parsid_close();
+    }
+#endif
+#ifdef HAVE_SSI2001
+    if (engine == SID_ENGINE_SSI2001
+        && sid_engine_type != SID_ENGINE_SSI2001) {
+        if (ssi2001_open() < 0) {
+            return -1;
+        }
+    }
+    if (engine != SID_ENGINE_SSI2001
+        && sid_engine_type == SID_ENGINE_SSI2001) {
+        ssi2001_close();
     }
 #endif
 

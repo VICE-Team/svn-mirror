@@ -42,7 +42,6 @@ static BYTE machine_sid2_read(WORD addr)
     return sid2_read(addr);
 }
 
-
 static void machine_sid2_store(WORD addr, BYTE byte)
 {
     sid2_store(addr, byte);

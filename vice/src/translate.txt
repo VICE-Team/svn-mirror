@@ -2409,6 +2409,11 @@ IDCLS_HARDSID_ENGINE_MODEL
 IDCLS_PARSID_ENGINE_MODEL
 #endif
 
+#ifdef HAVE_SSI2001
+/* sid/sid-cmdline-options.c */
+IDCLS_SSI2001_ENGINE_MODEL
+#endif
+
 /* sid/sid-cmdline-options.c */
 IDCLS_ENABLE_SIDCART
 

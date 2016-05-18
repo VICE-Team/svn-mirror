@@ -47,6 +47,7 @@ struct sid_snapshot_state_s;
 #define SID_ENGINE_PARSID_PORT1   4
 #define SID_ENGINE_PARSID_PORT2   5
 #define SID_ENGINE_PARSID_PORT3   6
+#define SID_ENGINE_SSI2001        7
 #define SID_ENGINE_DEFAULT       99
 
 #define SID_MODEL_6581           0
@@ -70,6 +71,7 @@ struct sid_snapshot_state_s;
 #define SID_PARSID_PORT1          (SID_ENGINE_PARSID_PORT1 << 8)
 #define SID_PARSID_PORT2          (SID_ENGINE_PARSID_PORT2 << 8)
 #define SID_PARSID_PORT3          (SID_ENGINE_PARSID_PORT3 << 8)
+#define SID_SSI2001               (SID_ENGINE_SSI2001 << 8)
 
 extern void machine_sid2_enable(int val);
 

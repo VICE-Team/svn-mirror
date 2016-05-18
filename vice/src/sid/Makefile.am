@@ -29,6 +29,7 @@ libsid_a_SOURCES = \
 	sid-snapshot.h \
 	sid.c \
 	sid.h \
+	ssi2001.c \
 	wave6581.h \
 	wave8580.h
 

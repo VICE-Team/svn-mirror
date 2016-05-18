@@ -134,6 +134,7 @@ libarch_a_SOURCES = \
 	scpu64ui.c \
 	signals.c \
 	socketimpl.h \
+	ssi2001-drv.c \
 	statusbar.c \
 	statusbar.h \
 	types.h \

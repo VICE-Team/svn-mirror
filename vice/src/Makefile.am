@@ -220,6 +220,7 @@ noinst_HEADERS = \
 	signals.h \
 	snapshot.h \
 	sound.h \
+	ssi2001.h \
 	sysfile.h \
 	tap.h \
 	tape.h \

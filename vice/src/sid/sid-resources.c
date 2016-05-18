@@ -108,6 +108,9 @@ static int set_sid_engine(int set_engine, void *param)
         case SID_ENGINE_PARSID_PORT2:
         case SID_ENGINE_PARSID_PORT3:
 #endif
+#ifdef HAVE_SSI2001
+        case SID_ENGINE_SSI2001:
+#endif
             break;
         default:
             return -1;
@@ -421,6 +424,13 @@ static sid_engine_model_t sid_engine_models_parsid[] = {
 };
 #endif
 
+#ifdef HAVE_SSI2001
+static sid_engine_model_t sid_engine_models_ssi2001[] = {
+    { "SSI2001", SID_SSI2001 },
+    { NULL, -1 }
+};
+#endif
+
 static void add_sid_engine_models(sid_engine_model_t *sid_engine_models)
 {
     int i = 0;
@@ -463,6 +473,12 @@ sid_engine_model_t **sid_get_engine_model_list(void)
     add_sid_engine_models(sid_engine_models_parsid);
 #endif
 
+#ifdef HAVE_HARDSID
+    if (ssi2001_available()) {
+        add_sid_engine_models(sid_engine_models_ssi2001);
+    }
+#endif
+
     sid_engine_model_list[num_sid_engine_models] = NULL;
 
     return sid_engine_model_list;
@@ -477,6 +493,7 @@ static int sid_check_engine_model(int engine, int model)
         case SID_ENGINE_PARSID_PORT1:
         case SID_ENGINE_PARSID_PORT2:
         case SID_ENGINE_PARSID_PORT3:
+        case SID_ENGINE_SSI2001:
             return 0;
         default:
             break;

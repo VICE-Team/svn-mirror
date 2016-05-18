@@ -46,6 +46,7 @@ VICE_ARG_ENABLE_LIST(quicktime,   [  --enable-quicktime      enables Apple Quick
 VICE_ARG_ENABLE_LIST(ethernet,    [  --enable-ethernet       enables The Final Ethernet emulation])
 VICE_ARG_ENABLE_LIST(ipv6,        [  --disable-ipv6          disables the checking for IPv6 compatibility])
 VICE_ARG_ENABLE_LIST(parsid,      [  --enable-parsid         enables ParSID support])
+VICE_ARG_ENABLE_LIST(ssi2001,     [  --enable-ssi2001        enables SSI2001 (ISA SID card) support])
 VICE_ARG_ENABLE_LIST(bundle,      [  --disable-bundle        do not use application bundles on Macs])
 VICE_ARG_ENABLE_LIST(memmap,      [  --enable-memmap         enable the memmap feature])
 VICE_ARG_ENABLE_LIST(editline,    [  --disable-editline      disable history in Cocoa UI's console])
@@ -196,6 +197,7 @@ HAVE_CATWEASELMKIII_SUPPORT="no "
 HAVE_HARDSID_SUPPORT="no "
 HAVE_MIDI_SUPPORT="no "
 HAVE_PARSID_SUPPORT="no "
+HAVE_SSI2001_SUPPORT="no "
 HAVE_SYS_AUDIO_H_SUPPORT="no "
 HAVE_SYS_AUDIOIO_H_SUPPORT="no "
 USE_AIX_AUDIO_SUPPORT="no "
@@ -616,6 +618,11 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
     HAVE_PARSID_SUPPORT="yes"
   fi
 
+  if test x"$enable_ssi2001" = "xyes"; then
+    AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
+    HAVE_SSI2001_SUPPORT="yes"
+  fi
+
   dnl disable resid
   dnl with_resid=no
 
@@ -758,6 +765,10 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
     HAVE_PARSID_SUPPORT="yes"
+  fi
+  if test x"$enable_ssi2001" = "xyes"; then
+    AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
+    HAVE_SSI2001_SUPPORT="yes"
   fi
   if test x"$enable_midi" != "xno"; then
     AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
@@ -3100,16 +3111,17 @@ fi
 AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)
 
-dnl Check for ParSID support
+dnl Check for ParSID/SSI2001 support
 if test x"$is_unix" = "xyes"; then
 
-  if test x"$enable_parsid" = "xyes"; then
+  if test x"$enable_parsid" = "xyes" -o x"$enable_ssi2001" = "xyes"; then
     dnl Check for needed parallel port io headers
 
     LIBIEEE1284_HEADERS_PRESENT=yes
     QNX_MMAN_HEADERS_PRESENT=yes
     BSD_SET_IOPERM_HEADERS_PRESENT=yes
     PARSID_SUPPORT=no
+    IOSID_SUPPORT=no
 
     AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(sys/mman.h hw/inout.h,,[QNX_MMAN_HEADERS_PRESENT=no],)
@@ -3124,40 +3136,50 @@ if test x"$is_unix" = "xyes"; then
       fi
     fi
 
-    if test x"$PARSID_SUPPORT" = "xno"; then
+    if test x"$PARSID_SUPPORT" = "xyes" -a x"$enable_ssi2001" != "xyes"; then
+      IOSID_SUPPORT=yes
+    fi
+
+    if test x"$IOSID_SUPPORT" = "xno"; then
       if test x"$QNX_MMAN_HEADERS_PRESENT" = "xyes"; then
         QNX_MMAN_FUNCS_PRESENT=yes
         AC_CHECK_FUNCS(mmap_device_io in8 out8,,[QNX_MMAN_FUNCS_PRESENT=no])
         if test x"$QNX_MMAN_FUNCS_PRESENT" = "xyes"; then
-          PARSID_SUPPORT=yes
+          IOSID_SUPPORT=yes
         fi
       fi
     fi
 
-    if test x"$PARSID_SUPPORT" = "xno"; then
+    if test x"$IOSID_SUPPORT" = "xno"; then
       if test x"$BSD_SET_IOPERM_HEADERS_PRESENT" = "xyes"; then
-        AC_CHECK_LIB(amd64, amd64_set_ioperm,[LIBS="-lamd64 $LIBS"; PARSID_SUPPORT=yes],,)
-        if test x"$PARSID_SUPPORT" = "xyes"; then
+        AC_CHECK_LIB(amd64, amd64_set_ioperm,[LIBS="-lamd64 $LIBS"; IOSID_SUPPORT=yes],,)
+        if test x"$IOSID_SUPPORT" = "xyes"; then
           AC_DEFINE(HAVE_LIBAMD64,,[Define to 1 if you have the `amd64' library (-lamd64).])
         fi
       fi
     fi
 
-    if test x"$PARSID_SUPPORT" = "xno"; then
+    if test x"$IOSID_SUPPORT" = "xno"; then
       if test x"$BSD_SET_IOPERM_HEADERS_PRESENT" = "xyes"; then
         AC_CHECK_LIB(i386, i386_get_ioperm,[LIBS="-li386 $LIBS"],,)
-        AC_CHECK_FUNCS(i386_set_ioperm,[PARSID_SUPPORT=yes],)
+        AC_CHECK_FUNCS(i386_set_ioperm,[IOSID_SUPPORT=yes],)
       fi
     fi
 
-    if test x"$PARSID_SUPPORT" = "xno"; then
-      AC_CHECK_FUNCS(ioperm,[PARSID_SUPPORT=yes],)
+    if test x"$IOSID_SUPPORT" = "xno"; then
+      AC_CHECK_FUNCS(ioperm,[IOSID_SUPPORT=yes],)
       AC_CHECK_FUNCS(outb_p inb_p)
     fi
 
-    if test x"$PARSID_SUPPORT" = "xyes"; then
-      AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
-      HAVE_PARSID_SUPPORT="yes"
+    if test x"$IOSID_SUPPORT" = "xyes"; then
+      if test x"$enable_parsid" = "xyes"; then
+        AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+        HAVE_PARSID_SUPPORT="yes"
+      fi
+      if test x"$enable_ssi2001" = "xyes"; then
+        AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
+        HAVE_SSI2001_SUPPORT="yes"
+      fi
     fi
   fi
 fi
@@ -4878,6 +4900,7 @@ fi
 
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xDOS" -o x"$real_arch" = "xWin32"; then
     echo "ParSID support               : $HAVE_PARSID_SUPPORT (--enable/disable-parsid)"
+    echo "SSI2001 support              : $HAVE_SSI2001_SUPPOER (--enable/disable-ssi2001)"
 fi
 
 echo "MP3 encoding support         : $USE_LAMEMP3_SUPPORT (--enable/disable-lame)"

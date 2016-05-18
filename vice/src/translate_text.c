@@ -13857,6 +13857,25 @@ translate_t string_table[] = {
 #endif
 #endif
 
+#ifdef HAVE_SSI2001
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SSI2001_ENGINE_MODEL,    N_("1792: SSI2001")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SSI2001_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SSI2001_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SSI2001_ENGINE_MODEL_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SSI2001_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SSI2001_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SSI2001_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SSI2001_ENGINE_MODEL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SSI2001_ENGINE_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SSI2001_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SSI2001_ENGINE_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SSI2001_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SSI2001_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_SIDCART,    N_("Enable the SID cartridge")},
 #ifdef HAS_TRANSLATION

@@ -35,6 +35,7 @@
 #include <dpmi.h>
 #include <string.h>
 
+#include "catweaselmkiii.h"
 #include "log.h"
 #include "types.h"
 
@@ -270,7 +271,6 @@ void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < 1 && addr <= 0x18) {
-
         /* if the device is opened, write to device */
         if (sidfh >= 0) {
             write_sid(addr, val);
@@ -280,7 +280,17 @@ void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 
 /* set current main clock frequency, which gives us the possibilty to
    choose between pal and ntsc frequencies */
-void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
+void catweaselmkiii_drv_set_machine_parameter(long cycles_per_sec)
 {
+}
+
+int catweaselmkiii_drv_available(void)
+{
+    int i = catweaselmkiii_open();
+
+    if (i != -1) {
+        return 1;
+    }
+    return 0;
 }
 #endif

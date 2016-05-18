@@ -123,6 +123,10 @@ typedef struct sid_parsid_snapshot_state_s {
     BYTE parsid_ctrport;
 } sid_parsid_snapshot_state_t;
 
+typedef struct sid_ssi2001_snapshot_state_s {
+    BYTE regs[32];
+} sid_ssi2001_snapshot_state_t;
+
 extern int sid_snapshot_write_module(struct snapshot_s *s);
 extern int sid_snapshot_read_module(struct snapshot_s *s);
 

@@ -63,12 +63,13 @@ libarch_a_SOURCES = \
 	parsid-drv.c \
 	petui.c \
 	plus4ui.c \
+	rawnetarch.c \
 	scpu64ui.c \
 	signals.c \
 	socketimpl.h \
+	ssi2001-drv.c \
 	statusbar.c \
 	statusbar.h \
-	rawnetarch.c \
 	tui.c \
 	tui.h \
 	tui_backend.c \

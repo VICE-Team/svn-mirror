@@ -33,6 +33,7 @@
 #include <string.h>
 
 #include "log.h"
+#include "sid-snapshot.h"
 #include "types.h"
 
 typedef unsigned short uint16;
@@ -184,7 +185,7 @@ int hardsid_drv_open(void)
     outportb(base + 0x02, 0x24);
 
     /* mute all sids */
-    for (i = 0; i < sizeof(sidbuf); i++) {
+    for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
 
@@ -200,7 +201,7 @@ int hardsid_drv_close(void)
     unsigned int i;
 
     /* mute all sids */
-    for (i = 0; i < sizeof(sidbuf); i++) {
+    for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
 
@@ -250,6 +251,10 @@ int hardsid_drv_available(void)
     hardsid_drv_close();
     hs_available = 1;
     return 1;
+}
+
+void hardsid_drv_reset(void)
+{
 }
 
 /* ---------------------------------------------------------------------*/

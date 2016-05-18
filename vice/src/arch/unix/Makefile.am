@@ -65,6 +65,7 @@ libarch_a_SOURCES = \
 	signals.c \
 	socketimpl.h \
 	rawnetarch.c \
+	ssi2001-drv.c \
 	types.h \
 	ui.h \
 	uimenu.h \

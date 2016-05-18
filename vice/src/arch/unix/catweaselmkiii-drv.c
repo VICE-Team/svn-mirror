@@ -99,6 +99,16 @@ int catweaselmkiii_drv_open(void)
     return 0;
 }
 
+int catweaselmkiii_drv_available(void)
+{
+    int i = catweaselmkiii_open();
+
+    if (i != -1) {
+        return 1;
+    }
+    return 0;
+}
+
 /* close unix device */
 int catweaselmkiii_drv_close(void)
 {

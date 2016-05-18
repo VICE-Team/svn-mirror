@@ -29,6 +29,7 @@
 
 #ifndef _M_IA64
 #define HAVE_PARSID             1
+#define HAVE_SSI2001            1
 #endif
 
 #define HAS_LONGLONG_INTEGER    1

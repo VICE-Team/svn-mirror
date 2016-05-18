@@ -152,6 +152,7 @@ libarch_a_SOURCES = \
 	sdlmain.c \
 	signals.c \
 	socketimpl.h \
+	ssi2001-drc.c \
 	types.h \
 	ui.c \
 	ui.h \
