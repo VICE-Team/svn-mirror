@@ -146,7 +146,7 @@ libarch_a_SOURCES = \
 	mididrv.c \
 	mousedrv.c \
 	mousedrv.h \
-	parsid.c \
+	parsid-drv.c \
 	rawnetarch.c \
 	rs232dev.c \
 	sdlmain.c \

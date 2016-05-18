@@ -1,5 +1,5 @@
 /*
- * parsid.c - PARallel port SID support wrapper for the SDL port.
+ * parsid-drv.c - PARallel port SID support wrapper for the SDL port.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -29,11 +29,11 @@
 #ifdef HAVE_PARSID
 
 #ifdef UNIX_COMPILE
-#include "../unix/parsid.c"
+#include "../unix/parsid-drv.c"
 #endif
 
 #if defined(WIN32_COMPILE) && !defined(__XBOX__)
-#include "../win32/parsid.c"
+#include "../win32/parsid-drv.c"
 #endif
 
 #endif

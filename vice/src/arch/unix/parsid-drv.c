@@ -1,5 +1,5 @@
 /*
- * parsid.c - PARallel port SID support for UNIX.
+ * parsid-drv.c - PARallel port SID support for UNIX.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -64,25 +64,15 @@
 #include "sid-resources.h"
 #include "types.h"
 
-/* control register bits */
-#define parsid_STROBE   0x01
-#define parsid_AUTOFEED 0x02
-#define parsid_nINIT    0x04
-#define parsid_SELECTIN 0x08
-#define parsid_PCD      0x20
-
-static unsigned char parsid_ctrport;
-
 static int parsid_port_address[4];
 
 static int ports;
 static int old_parsid_port = 0;
-static int parsid_open_status = 0;
 
 #ifdef HAVE_LIBIEEE1284
-    struct parport_list parlist;
+static struct parport_list parlist;
 
-void parsid_ieee1284_outb(struct parport_list *pl, int addr, BYTE value)
+static void parsid_ieee1284_outb(struct parport_list *pl, int addr, BYTE value)
 {
     if (addr == parsid_port_address[old_parsid_port]) {
         ieee1284_write_data(pl->portv[old_parsid_port - 1], value);
@@ -91,7 +81,7 @@ void parsid_ieee1284_outb(struct parport_list *pl, int addr, BYTE value)
     }
 }
 
-int parsid_ieee1284_inb(struct parport_list *pl, int addr)
+static int parsid_ieee1284_inb(struct parport_list *pl, int addr)
 {
     if (addr == parsid_port_address[old_parsid_port]) {
         return ieee1284_read_data(pl->portv[old_parsid_port - 1]);
@@ -100,7 +90,7 @@ int parsid_ieee1284_inb(struct parport_list *pl, int addr)
     }
 }
 
-int parsid_ieee1284_open(struct parport_list *pl, int portnr)
+static int parsid_ieee1284_open(struct parport_list *pl, int portnr)
 {
     int ret_value;
     int cap;
@@ -120,7 +110,7 @@ int parsid_ieee1284_open(struct parport_list *pl, int portnr)
     }
 }
 
-void parsid_ieee1284_close(struct parport_list *pl, int portnr)
+static void parsid_ieee1284_close(struct parport_list *pl, int portnr)
 {
     ieee1284_release(pl->portv[portnr]);
     ieee1284_close(pl->portv[portnr]);
@@ -201,7 +191,7 @@ static inline BYTE vice_inb(WORD port)
 #endif
 #endif
 
-void parsid_outb(int addr, BYTE value)
+static void parsid_outb(int addr, BYTE value)
 {
 #ifdef HAVE_LIBIEEE1284
     parsid_ieee1284_outb(&parlist, addr, value);
@@ -225,7 +215,7 @@ void parsid_outb(int addr, BYTE value)
 #endif
 }
 
-BYTE parsid_inb(int addr)
+static BYTE parsid_inb(int addr)
 {
 #ifdef HAVE_LIBIEEE1284
     return parsid_ieee1284_inb(&parlist, addr);
@@ -249,73 +239,17 @@ BYTE parsid_inb(int addr)
 #endif
 }
 
-/* chip control pin assignments */
-static void parsid_chip_select(void)
+void parsid_drv_out_ctr(WORD parsid_ctrport)
 {
-    parsid_ctrport |= parsid_STROBE;
     parsid_outb(parsid_port_address[old_parsid_port] + 2, parsid_ctrport);
 }
 
-static void parsid_chip_deselect(void)
+BYTE parsid_drv_in_ctr(void)
 {
-    parsid_ctrport &= ~parsid_STROBE;
-    parsid_outb(parsid_port_address[old_parsid_port] + 2, parsid_ctrport);
+    return parsid_inb(parsid_port_address[old_parsid_port] + 2);
 }
 
-static void parsid_reset_start(void)
-{
-    parsid_ctrport |= parsid_SELECTIN;
-    parsid_outb(parsid_port_address[old_parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_reset_end(void)
-{
-    parsid_ctrport &= ~parsid_SELECTIN;
-    parsid_outb(parsid_port_address[old_parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_latch_open(void)
-{
-    parsid_ctrport &= ~parsid_AUTOFEED;
-    parsid_outb(parsid_port_address[old_parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_latch_lock(void)
-{
-    parsid_ctrport |= parsid_AUTOFEED;
-    parsid_outb(parsid_port_address[old_parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_RW_write(void)
-{
-    parsid_ctrport &= ~parsid_nINIT;
-    parsid_outb(parsid_port_address[old_parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_RW_read(void)
-{
-    parsid_ctrport |= parsid_nINIT;
-    parsid_outb(parsid_port_address[old_parsid_port] + 2, parsid_ctrport);
-}
-
-/* parallel port direction control */
-static void parsid_port_write(void)
-{
-    parsid_ctrport &= ~parsid_PCD;
-    parsid_outb(parsid_port_address[old_parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_port_read(void)
-{
-    parsid_ctrport |= parsid_PCD;
-    parsid_outb(parsid_port_address[old_parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_sidwait(void)
-{
-}
-
-int parsid_check_port(int port)
+int parsid_drv_check_port(int port)
 {
     int real_port = 0;
     int count_port = 0;
@@ -442,11 +376,10 @@ int parsid_check_port(int port)
     old_parsid_port = real_port;
 #endif
 
-    parsid_ctrport = parsid_inb(parsid_port_address[old_parsid_port] + 2);
     return 0;
 }
 
-static int parsid_init(void)
+int parsid_drv_init(void)
 {
     int j;
 #if defined(HAVE_MMAP_DEVICE_IO) || defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM) || defined(HAVE_IOPERM)
@@ -552,38 +485,17 @@ static int parsid_init(void)
     return 0;
 }
 
-void parsid_reset(void)
+BYTE parsid_drv_in_data(void)
 {
-    if (parsid_open_status == 1) {
-        parsid_RW_write();
-        parsid_port_write();
-        parsid_chip_select();
-        parsid_latch_open();
-        parsid_outb(parsid_port_address[old_parsid_port], 0);
-        parsid_reset_start();
-        sleep(1);
-        parsid_reset_end();
-        parsid_latch_lock();
-        parsid_chip_deselect();
-    }
+    return parsid_inb(parsid_port_address[old_parsid_port]);
 }
 
-int parsid_open(int port)
+void parsid_drv_out_data(BYTE outval)
 {
-    if (parsid_open_status == 0) {
-        if (parsid_init() < 0) {
-            return -1;
-        }
-        if (parsid_check_port(port) < 0) {
-            return -1;
-        }
-        parsid_reset();
-        parsid_open_status = 1;
-    }
-    return 0;
+    parsid_outb(parsid_port_address[old_parsid_port], outval);
 }
 
-int parsid_close(void)
+int parsid_drv_close(void)
 {
 #if defined(HAVE_MMAP_DEVICE_IO) || defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM) || defined(HAVE_IOPERM)
     int old_port_addr = 0;
@@ -593,99 +505,71 @@ int parsid_close(void)
     u_long iomap[32];
 #endif
 #endif
-    if (parsid_open_status == 1) {
-        parsid_reset();
 #ifdef HAVE_LIBIEEE1284
-        if (old_parsid_port != 0) {
-            parsid_ieee1284_close(&parlist, old_parsid_port - 1);
-            old_parsid_port = 0;
-        }
+    if (old_parsid_port != 0) {
+        parsid_ieee1284_close(&parlist, old_parsid_port - 1);
+        old_parsid_port = 0;
+    }
 #endif
 
 #if defined(HAVE_MMAP_DEVICE_IO) || defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM) || defined(HAVE_IOPERM)
-        if (old_parsid_port == 1) {
-            old_port_addr = 0x3bc;
-        }
-        if (old_parsid_port == 2) {
-            old_port_addr = 0x378;
-        }
-        if (old_parsid_port == 3) {
-            old_port_addr = 0x278;
-        }
+    if (old_parsid_port == 1) {
+        old_port_addr = 0x3bc;
+    }
+    if (old_parsid_port == 2) {
+        old_port_addr = 0x378;
+    }
+    if (old_parsid_port == 3) {
+        old_port_addr = 0x278;
+    }
 #endif
 
 #ifdef HAVE_MMAP_DEVICE_IO
-        if (old_parsid_port != 0) {
-            mmunmap_device_io(4, old_port_addr);
-            old_parsid_port = 0;
-        }
+    if (old_parsid_port != 0) {
+        mmunmap_device_io(4, old_port_addr);
+        old_parsid_port = 0;
+    }
 #endif
 
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
 #ifndef __FreeBSD__
 #ifdef HAVE_LIBAMD64
-        if (vice_amd64_get_ioperm(iomap) != -1)
+    if (vice_amd64_get_ioperm(iomap) != -1)
 #else
-        if (vice_i386_get_ioperm(iomap) != -1)
+    if (vice_i386_get_ioperm(iomap) != -1)
 #endif
-        {
-            if (old_parsid_port != 0) {
-                setaccess(iomap, old_port_addr, 0);
-                setaccess(iomap, old_port_addr + 2, 0);
-#ifdef HAVE_LIBAMD64
-                vice_amd64_set_ioperm(iomap);
-#else
-                vice_i386_set_ioperm(iomap);
-#endif
-            }
-        }
-        old_parsid_port = 0;
-#else
+    {
         if (old_parsid_port != 0) {
-            vice_i386_set_ioperm(old_port_addr, 3, 0);
-            old_parsid_port = 0;
+            setaccess(iomap, old_port_addr, 0);
+            setaccess(iomap, old_port_addr + 2, 0);
+#ifdef HAVE_LIBAMD64
+            vice_amd64_set_ioperm(iomap);
+#else
+            vice_i386_set_ioperm(iomap);
+#endif
         }
+    }
+    old_parsid_port = 0;
+#else
+    if (old_parsid_port != 0) {
+        vice_i386_set_ioperm(old_port_addr, 3, 0);
+        old_parsid_port = 0;
+    }
 #endif
 #endif
 
 #ifdef HAVE_IOPERM
-        if (old_parsid_port != 0) {
-            ioperm(0x80, 1, 0);
-            ioperm(old_port_addr, 3, 0);
-            old_parsid_port = 0;
-        }
-#endif
+    if (old_parsid_port != 0) {
+        ioperm(0x80, 1, 0);
+        ioperm(old_port_addr, 3, 0);
+        old_parsid_port = 0;
     }
-    parsid_open_status = 0;
+#endif
     return 0;
 }
 
-int parsid_read(WORD addr, int chipno)
+void parsid_drv_sleep(int amount)
 {
-    int value;
-
-    parsid_outb(parsid_port_address[old_parsid_port], addr);
-    parsid_latch_open();
-    parsid_sidwait();
-    parsid_latch_lock();
-    parsid_port_read();
-    parsid_RW_read();
-    parsid_chip_select();
-    parsid_sidwait();
-    value = parsid_inb(parsid_port_address[old_parsid_port]);
-    parsid_chip_deselect();
-    return value;
-}
-
-void parsid_store(WORD addr, BYTE outval, int chipno)
-{
-    parsid_outb(parsid_port_address[old_parsid_port], addr);
-    parsid_latch_open();
-    parsid_sidwait();
-    parsid_latch_lock();
-    parsid_outb(parsid_port_address[old_parsid_port], outval);
-    parsid_chip_select();
-    parsid_sidwait();
-    parsid_chip_deselect();
+    sleep(amount);
 }
 #endif

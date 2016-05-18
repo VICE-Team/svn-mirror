@@ -118,6 +118,11 @@ typedef struct sid_hs_snapshot_state_s {
     DWORD device_map[2];
 } sid_hs_snapshot_state_t;
 
+typedef struct sid_parsid_snapshot_state_s {
+    BYTE regs[32];
+    BYTE parsid_ctrport;
+} sid_parsid_snapshot_state_t;
+
 extern int sid_snapshot_write_module(struct snapshot_s *s);
 extern int sid_snapshot_read_module(struct snapshot_s *s);
 

@@ -35,6 +35,7 @@
 #include "fastsid.h"
 #include "hardsid.h"
 #include "log.h"
+#include "parsid.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "sid-snapshot.h"
@@ -661,6 +662,39 @@ static int sid_snapshot_read_hs_module(snapshot_module_t *m, int sidnr)
 
 /* ---------------------------------------------------------------------*/
 
+#ifdef HAVE_PARSID
+static int sid_snapshot_write_parsid_module(snapshot_module_t *m, int sidnr)
+{
+    sid_parsid_snapshot_state_t sid_state;
+
+    parsid_state_read(sidnr, &sid_state);
+
+    if (0
+        || SMW_BA(m, sid_state.regs, 32) < 0
+        || SMW_B(m, sid_state.parsid_ctrport) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int sid_snapshot_read_parsid_module(snapshot_module_t *m, int sidnr)
+{
+    sid_parsid_snapshot_state_t sid_state;
+
+    if (0
+        || SMR_BA(m, sid_state.regs, 32) < 0
+        || SMR_B(m, &sid_state.parsid_ctrport) < 0) {
+        return -1;
+    }
+
+    parsid_state_write(sidnr, &sid_state);
+
+    return 0;
+}
+#endif
+
+/* ---------------------------------------------------------------------*/
+
 static const char snap_module_name_extended1[] = "SIDEXTENDED";
 static const char snap_module_name_extended2[] = "SIDEXTENDED2";
 static const char snap_module_name_extended3[] = "SIDEXTENDED3";
@@ -713,6 +747,15 @@ static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
 #ifdef HAVE_HARDSID
         case SID_ENGINE_HARDSID:
             if (sid_snapshot_write_hs_module(m, sidnr) < 0) {
+                goto fail;
+            }
+            break;
+#endif
+#ifdef HAVE_PARSID
+        case SID_ENGINE_PARSID_PORT1:
+        case SID_ENGINE_PARSID_PORT2:
+        case SID_ENGINE_PARSID_PORT3:
+            if (sid_snapshot_write_parsid_module(m, sidnr) < 0) {
                 goto fail;
             }
             break;
@@ -801,6 +844,15 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
 #ifdef HAVE_HARDSID
         case SID_ENGINE_HARDSID:
             if (sid_snapshot_read_hs_module(m, sidnr) < 0) {
+                goto fail;
+            }
+            break;
+#endif
+#ifdef HAVE_PARSID
+        case SID_ENGINE_PARSID_PORT1:
+        case SID_ENGINE_PARSID_PORT2:
+        case SID_ENGINE_PARSID_PORT3:
+            if (sid_snapshot_read_parsid_module(m, sidnr) < 0) {
                 goto fail;
             }
             break;

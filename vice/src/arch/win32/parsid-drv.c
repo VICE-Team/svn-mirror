@@ -1,5 +1,5 @@
 /*
- * parsid.c - PARallel port SID support for WIN32.
+ * parsid-drv.c - PARallel port SID support for WIN32.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -39,16 +39,9 @@
 #include "sid-resources.h"
 #include "types.h"
 
-/* control register bits */
-#define parsid_STROBE   0x01
-#define parsid_AUTOFEED 0x02
-#define parsid_nINIT    0x04
-#define parsid_SELECTIN 0x08
-#define parsid_PCD      0x20
-
-static unsigned short parsid_ctrport;
 static int parsid_use_lib = 0;
 static int parsid_port_address[4];
+static int parsid_port = 0;
 
 #define sleep(x) Sleep(x * 1000)
 
@@ -107,75 +100,19 @@ static short parsid_inb(unsigned int addrint)
     }
 }
 
-/* pin functions */
-static void parsid_chip_select(void)
+void parsid_drv_out_ctr(WORD parsid_ctrport)
 {
-    parsid_ctrport |= parsid_STROBE;
     parsid_outb(parsid_port_address[parsid_port] + 2, parsid_ctrport);
 }
 
-static void parsid_chip_deselect(void)
+BYTE parsid_drv_in_ctr(void)
 {
-    parsid_ctrport &= ~parsid_STROBE;
-    parsid_outb(parsid_port_address[parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_reset_start(void)
-{
-    parsid_ctrport |= parsid_SELECTIN;
-    parsid_outb(parsid_port_address[parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_reset_end(void)
-{
-    parsid_ctrport &= ~parsid_SELECTIN;
-    parsid_outb(parsid_port_address[parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_latch_open(void)
-{
-    parsid_ctrport &= ~parsid_AUTOFEED;
-    parsid_outb(parsid_port_address[parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_latch_lock(void)
-{
-    parsid_ctrport |= parsid_AUTOFEED;
-    parsid_outb(parsid_port_address[parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_RW_write(void)
-{
-    parsid_ctrport &= ~parsid_nINIT;
-    parsid_outb(parsid_port_address[parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_RW_read(void)
-{
-    parsid_ctrport |= parsid_nINIT;
-    parsid_outb(parsid_port_address[parsid_port] + 2, parsid_ctrport);
-}
-
-/* parallel port direction control */
-static void parsid_port_write(void)
-{
-    parsid_ctrport &= ~parsid_PCD;
-    parsid_outb(parsid_port_address[parsid_port] + 2, parsid_ctrport);
-}
-
-static void parsid_port_read(void)
-{
-    parsid_ctrport |= parsid_PCD;
-    parsid_outb(parsid_port_address[parsid_port] + 2, parsid_ctrport);
+    return parsid_inb(parsid_port_address[parsid_port] + 2);
 }
 
 #define TEST_WINDOWS_NT (!(GetVersion() & 0x80000000))
 
 /*----------------------------------------------------------------------*/
-
-static void parsid_sidwait(void)
-{
-}
 
 /* original code by Peter Burke, modified by me. */
 static int parsid_GetParallelControllerKey(char *parKey)
@@ -289,7 +226,6 @@ static int parsid_GetAddressLptPortInTheMemory(int myPort)
     PROCTYPE_Toolhelp32ReadProcessMemory myProcPointer = NULL;
     int portAddresses[] = { 0, 0, 0, 0, 0 };
     BOOL rtn = 0;
-    DWORD cbLen = 0;
 
     hDLL = LoadLibrary("kernel32");
     if (hDLL == NULL) {
@@ -330,7 +266,7 @@ static int parsid_GetAddressLptPort(int myPort)
 
 /*----------------------------------------------------------------------*/
 
-int parsid_check_port(int port)
+int parsid_drv_check_port(int port)
 {
     if (port < 1 || port > 3) {
         return -1;
@@ -339,6 +275,8 @@ int parsid_check_port(int port)
     if (parsid_port_address[port - 1] <= 0) {
         return -1;
     }
+
+    parsid_port = port;
 
     return 0;
 }
@@ -359,7 +297,7 @@ HINSTANCE hLib = NULL;
 #  endif
 #endif
 
-static int parsid_init(void)
+int parsid_drv_init(void)
 {
     int j;
     int ports = 0;
@@ -404,39 +342,11 @@ static int parsid_init(void)
         return -1;
     }
 
-    parsid_ctrport = parsid_inb(parsid_port_address[parsid_port] + 2);
     return 0;
 }
 
-void parsid_reset(void)
+int parsid_drv_close(void)
 {
-    parsid_RW_write();
-    parsid_port_write();
-    parsid_chip_select();
-    parsid_latch_open();
-    parsid_outb(parsid_port_address[parsid_port], 0);
-    parsid_reset_start();
-    sleep(1);
-    parsid_reset_end();
-    parsid_latch_lock();
-    parsid_chip_deselect();
-}
-
-int parsid_open(int port)
-{
-    if (parsid_init() < 0) {
-        return -1;
-    }
-    if (parsid_check_port(port) < 0) {
-        return -1;
-    }
-    parsid_reset();
-    return 0;
-}
-
-int parsid_close(void)
-{
-    parsid_reset();
     if (parsid_use_lib) {
        FreeLibrary(hLib);
        hLib = NULL;
@@ -444,32 +354,18 @@ int parsid_close(void)
     return 0;
 }
 
-int parsid_read(WORD addr, int chipno)
+BYTE parsid_drv_in_data(void)
 {
-    int value;
-
-    parsid_outb(parsid_port_address[parsid_port], addr);
-    parsid_latch_open();
-    parsid_sidwait();
-    parsid_latch_lock();
-    parsid_port_read();
-    parsid_RW_read();
-    parsid_chip_select();
-    parsid_sidwait();
-    value = parsid_inb(parsid_port_address[parsid_port]);
-    parsid_chip_deselect();
-    return value;
+    return parsid_inb(parsid_port_address[parsid_port]);
 }
 
-void parsid_store(WORD addr, BYTE outval, int chipno)
+void parsid_drv_out_data(BYTE outval)
 {
-    parsid_outb(parsid_port_address[parsid_port], addr);
-    parsid_latch_open();
-    parsid_sidwait();
-    parsid_latch_lock();
     parsid_outb(parsid_port_address[parsid_port], outval);
-    parsid_chip_select();
-    parsid_sidwait();
-    parsid_chip_deselect();
+}
+
+void parsid_drv_sleep(int amount)
+{
+    Sleep(amount * 1000);
 }
 #endif

@@ -60,7 +60,7 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	openGL_sync.h \
-	parsid.c \
+	parsid-drv.c \
 	rs232dev.c \
 	signals.c \
 	socketimpl.h \

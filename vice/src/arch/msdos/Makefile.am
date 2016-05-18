@@ -60,7 +60,7 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	msdosmain.c \
-	parsid.c \
+	parsid-drv.c \
 	petui.c \
 	plus4ui.c \
 	scpu64ui.c \
