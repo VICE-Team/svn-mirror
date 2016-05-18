@@ -55,7 +55,6 @@
 
 #include "vice.h"
 
-#include "util.h"
 
 #include <string.h>
 
@@ -69,6 +68,7 @@
 #include <stdlib.h>
 #include <sys/utsname.h>
 
+#include "util.h"
 #include "color.h"
 #include "cmdline.h"
 #include "fullscreenarch.h"
