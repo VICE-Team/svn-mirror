@@ -473,7 +473,7 @@ sid_engine_model_t **sid_get_engine_model_list(void)
     add_sid_engine_models(sid_engine_models_parsid);
 #endif
 
-#ifdef HAVE_HARDSID
+#ifdef HAVE_SSI2001
     if (ssi2001_available()) {
         add_sid_engine_models(sid_engine_models_ssi2001);
     }
