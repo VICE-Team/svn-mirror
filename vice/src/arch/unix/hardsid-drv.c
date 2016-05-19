@@ -129,8 +129,7 @@ int hardsid_drv_read(WORD addr, int chipno)
 
 void hardsid_drv_store(WORD addr, BYTE val, int chipno)
 {
-    if (hsid_fd >= 0)
-    {
+    if (hsid_fd >= 0) {
         CLOCK cycles = maincpu_clk - hsid_main_clk - 1;
         hsid_main_clk = maincpu_clk;
 
