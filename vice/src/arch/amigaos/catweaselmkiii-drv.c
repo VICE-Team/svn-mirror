@@ -109,6 +109,14 @@ int catweaselmkiii_drv_open(void)
         return 0;
     }
 
+#ifdef AMIGA_M68K
+    rc = cw_zorro_open();
+    if (rc == 1) {
+        cw_use_zorro = 1;
+        return 0;
+    }
+#endif
+
 #if defined(HAVE_PROTO_OPENPCI_H) || defined(AMIGA_OS4)
     if (!pci_lib_loaded) {
         return -1;
@@ -127,14 +135,6 @@ int catweaselmkiii_drv_open(void)
     rc = cw_os4_open();
     if (rc == 1) {
         cw_use_os4 = 1;
-        return 0;
-    }
-#endif
-
-#ifdef AMIGA_M68K
-    rc = cw_zorro_open();
-    if (rc == 1) {
-        cw_use_zorro = 1;
         return 0;
     }
 #endif
