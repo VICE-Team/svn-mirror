@@ -100,7 +100,15 @@ static short ssi2001_inb(unsigned int addrint)
     }
 }
 
-#define TEST_WINDOWS_NT (!(GetVersion() & 0x80000000))
+int ssi2001_drv_read(WORD addr, int chipno)
+{
+    return ssi2001_inb(SSI2008_BASE + (addr & 0x1f));
+}
+
+void ssi2001_drv_store(WORD addr, BYTE outval, int chipno)
+{
+    ssi2001_outb(SSI2008_BASE + (addr & 0x1f), outval);
+}
 
 /*----------------------------------------------------------------------*/
 
@@ -119,6 +127,34 @@ HINSTANCE hLib = NULL;
 #    define INPOUTDLLNAME "inpout32.dll"
 #  endif
 #endif
+
+static int detect_sid(void)
+{
+    int i;
+
+    for (i = 0x18; i >= 0; --i) {
+        ssi2001_drv_store((WORD)i, 0, 0);
+    }
+
+    ssi2001_drv_store(0x12, 0xff, 0);
+
+    for (i = 0; i < 100; ++i) {
+        if (ssi2001_drv_read(0x1b, 0)) {
+            return 0;
+        }
+    }
+
+    ssi2001_drv_store(0x0e, 0xff, 0);
+    ssi2001_drv_store(0x0f, 0xff, 0);
+    ssi2001_drv_store(0x12, 0x20, 0);
+
+    for (i = 0; i < 100; ++i) {
+        if (ssi2001_drv_read(0x1b, 0)) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 static int ssi2001_init(void)
 {
@@ -150,11 +186,14 @@ static int ssi2001_init(void)
 #endif
     }
 
-    if (!(GetVersion() & 0x80000000) && ssi2001_use_lib == 0) {
-        return 0;
+    if ((GetVersion() & 0x80000000) && ssi2001_use_lib == 0) {
+        return -1;
     }
 
-    return 1;
+    if (detect_sid()) {
+        return 0;
+    }
+    return -1;
 }
 
 int ssi2001_drv_open(void)
@@ -169,15 +208,5 @@ int ssi2001_drv_close(void)
        hLib = NULL;
     }
     return 0;
-}
-
-int ssi2001_drv_read(WORD addr, int chipno)
-{
-    return ssi2001_inb(SSI2008_BASE + (addr & 0x1f));
-}
-
-void ssi2001_drv_store(WORD addr, BYTE outval, int chipno)
-{
-    ssi2001_outb(SSI2008_BASE + (addr & 0x1f), outval);
 }
 #endif

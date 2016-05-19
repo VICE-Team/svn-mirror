@@ -179,6 +179,34 @@ BYTE ssi2001_drv_read(WORD addr, int chipno)
 #endif
 }
 
+static int detect_sid(void)
+{
+    int i;
+
+    for (i = 0x18; i >= 0; --i) {
+        ssi2001_drv_store((WORD)i, 0, 0);
+    }
+
+    ssi2001_drv_store(0x12, 0xff, 0);
+
+    for (i = 0; i < 100; ++i) {
+        if (ssi2001_drv_read(0x1b, 0)) {
+            return 0;
+        }
+    }
+
+    ssi2001_drv_store(0x0e, 0xff, 0);
+    ssi2001_drv_store(0x0f, 0xff, 0);
+    ssi2001_drv_store(0x12, 0x20, 0);
+
+    for (i = 0; i < 100; ++i) {
+        if (ssi2001_drv_read(0x1b, 0)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int ssi2001_drv_open(void)
 {
 
@@ -191,7 +219,7 @@ int ssi2001_drv_open(void)
 
 #ifdef HAVE_MMAP_DEVICE_IO
     if (mmap_device_io(32, SSI2008_BASE) != MAP_FAILED) {
-        return 1;
+        return -1;
     }
 #endif
 
@@ -212,22 +240,26 @@ int ssi2001_drv_open(void)
         if (vice_i386_set_ioperm(iomap) != -1)
 #    endif
         {
-            return 1;
+            return -1;
         }
     }
 #  else
     if (vice_i386_set_ioperm(SSI2008_BASE, 32, 1) == 0) {
-        return 1;
+        return -1;
     }
 #  endif
 #endif
 
 #ifdef HAVE_IOPERM
     if (ioperm(SSI2008_BASE, 32, 1) == 0) {
-       return 1;
+       return -1;
     }
 #endif
-    return 0;
+
+    if (detect_sid()) {
+        return 0;
+    }
+    return -1;
 }
 
 int ssi2001_drv_close(void)

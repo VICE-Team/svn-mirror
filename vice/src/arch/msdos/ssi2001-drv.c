@@ -44,9 +44,41 @@ static void write_sid(BYTE reg, BYTE data)
     outportb(SSI2008_BASE + (reg & 0x1f), data);
 }
 
+static int detect_sid(void)
+{
+    int i;
+
+    for (i = 0x18; i >= 0; --i) {
+        write_sid((BYTE)i, 0);
+    }
+
+    write_sid(0x12, 0xff);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid(0x1b)) {
+            return 0;
+        }
+    }
+
+    write_sid(0x0e, 0xff);
+    write_sid(0x0f, 0xff);
+    write_sid(0x12, 0x20);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid(0x1b)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int ssi2001_drv_open(void)
 {
     int i;
+
+    if (!detect_sid()) {
+        return -1;
+    }
 
     /* mute all sids */
     for (i = 0; i < 32; i++) {
