@@ -4753,7 +4753,7 @@ fi
 if test x"$enable_sdlui2" = "xyes"; then
     show_gui="SDL2"
 fi
-if test x"$enable_cocoa" = "xyes"; then
+if test x"$with_cocoa" = "xyes"; then
     show_gui="COCOA"
 fi
 if test x"$show_arch" = "xAmiga"; then
