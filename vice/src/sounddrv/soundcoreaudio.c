@@ -236,6 +236,7 @@ static void converter_close(void)
     }
 }
 
+#if defined(MAC_OS_X_VERSION_10_6) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_6)
 static int determine_output_device_id()
 {
     OSStatus err;
@@ -361,8 +362,12 @@ static int determine_output_device_id()
 
     return 0;
 }
+#endif
 
 /* ----- Audio API before AudioUnits ------------------------------------- */
+
+/* bytes per output frame */
+static unsigned int out_frame_byte_size;
 
 #ifndef HAVE_AUDIO_UNIT
 
@@ -370,9 +375,6 @@ static int determine_output_device_id()
 #if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
 static AudioDeviceIOProcID procID;
 #endif
-
-/* bytes per output frame */
-static unsigned int out_frame_byte_size;
 
 static OSStatus audio_render(AudioDeviceID device,
                              const AudioTimeStamp  * now,
@@ -488,6 +490,7 @@ static OSStatus audio_render(void *inRefCon,
                                            NULL);
 }
 
+#if defined(MAC_OS_X_VERSION_10_6) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_6)
 static int audio_open(AudioStreamBasicDescription *in)
 {
     OSStatus err;
@@ -591,6 +594,61 @@ static void audio_close(void)
     /* Close component */
     AudioComponentInstanceDispose(outputUnit);
 }
+#else
+static int audio_open(AudioStreamBasicDescription *in)
+{
+    OSStatus err;
+    UInt32 size;
+    AudioStreamBasicDescription out;
+
+    /* get default audio device */
+    size = sizeof(device);
+    err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice,
+                                   &size, (void*)&device);
+    if (err != kAudioHardwareNoError) {
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): Failed to get default output device");
+        return -1;
+    }
+
+    /* get default output format */
+    size = sizeof(out);
+    err = AudioDeviceGetProperty(device, 0, false,
+                                 kAudioDevicePropertyStreamFormat,
+                                 &size, (void*)&out);
+    if (err != kAudioHardwareNoError) {
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): stream format not support");
+        return -1;
+    }
+    /* store size of output frame */
+    out_frame_byte_size = out.mBytesPerPacket;
+
+    /* setup audio renderer callback */
+#if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
+    err = AudioDeviceCreateIOProcID( device, audio_render, NULL, &procID );
+#else
+    err = AudioDeviceAddIOProc( device, audio_render, NULL );
+#endif
+    if (err != kAudioHardwareNoError) {
+        log_error(LOG_DEFAULT,
+                  "sound (coreaudio_init): could not add IO proc: err=%d", (int)err);
+        return -1;
+    }
+
+    /* open audio converter */
+    return converter_open(in, &out);
+}
+
+static void audio_close(void)
+{
+#if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
+    AudioDeviceDestroyIOProcID(device, procID);
+#else
+    AudioDeviceRemoveIOProc(device, audio_render);
+#endif
+
+    converter_close();
+}
+#endif
 
 static int audio_start(void)
 {
