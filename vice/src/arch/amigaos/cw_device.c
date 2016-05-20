@@ -1,5 +1,5 @@
 /*
- * cw_device.c
+ * cw_device.c - catweasel device handler driver.
  *
  * Written by
  *  Ian Gledhill <ian.gledhill@btinternet.com>

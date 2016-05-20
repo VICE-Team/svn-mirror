@@ -1,5 +1,5 @@
 /*
- * cw_zorro.c
+ * cw_zorro.c - Zorro catweasel driver.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -145,8 +145,7 @@ static unsigned char read_sid(unsigned char reg)
     CWbase[CW_SID_CMD] = cmd;
 
     // Waste 1ms
-    tmp = CWbase[CW_SID_DAT];
-    tmp = CWbase[CW_SID_DAT];
+    usleep(1);
 
     return CWbase[CW_SID_DAT];
 }
@@ -166,8 +165,7 @@ static void write_sid(unsigned char reg, unsigned char data)
     CWbase[CW_SID_CMD] = cmd;
 
     // Waste 1ms
-    tmp = CWbase[CW_SID_DAT];
-    tmp = CWbase[CW_SID_DAT];
+    usleep(1);
 }
 
 int cw_zorro_close(void)

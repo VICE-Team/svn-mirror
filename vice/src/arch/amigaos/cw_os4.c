@@ -1,5 +1,5 @@
 /*
- * cw_os4.c
+ * cw_os4.c - AmigaOS4 catweasel driver.
  *
  * Written by
  *  Mathias Roslund <vice.emu@amidog.se>

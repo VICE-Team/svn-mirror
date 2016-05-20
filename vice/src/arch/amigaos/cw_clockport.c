@@ -1,5 +1,5 @@
 /*
- * cw_openpci.c - PCI catweasel driver.
+ * cw_clockport.c - Clockport catweasel driver.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -26,13 +26,12 @@
 
 #include "vice.h"
 
-#if defined(HAVE_PROTO_OPENPCI_H) && defined(HAVE_CATWEASELMKIII)
+#if defined(HAVE_CATWEASELMKIII) && defined(AMIGA_M68K)
 
 #include <stdlib.h>
 #include <string.h>
 
 #include "cw.h"
-#include "loadlibs.h"
 #include "log.h"
 #include "types.h"
 
@@ -45,10 +44,10 @@ static int sidfh = 0;
 
 typedef void (*voidfunc_t)(void);
 
-static unsigned long CWbase;
+static BYTE *CWbase = NULL;
 
 /* read value from SIDs */
-int cw_openpci_read(WORD addr, int chipno)
+int cw_clockport_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -62,7 +61,7 @@ int cw_openpci_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void cw_openpci_store(WORD addr, BYTE val, int chipno)
+void cw_clockport_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr <= 0x18) {
@@ -73,69 +72,74 @@ void cw_openpci_store(WORD addr, BYTE val, int chipno)
     }
 }
 
-#define CW_SID_DAT 0xd8
-#define CW_SID_CMD 0xdc
+#define CW_SID_DAT 0x18
+#define CW_SID_CMD 0x1c
 
-#undef BYTE
-#undef WORD
-#include <exec/types.h>
-#include <proto/exec.h>
-#include <proto/openpci.h>
-#include <libraries/openpci.h>
+static char *cp_addresses[] = {
+    0xd80001,
+    0xd84001,
+    0xd88001,
+    0xd8c001,
+    0xd8d001,
+    0xd90001,
+    NULL
+};
 
-#if defined(pci_obtain_card) && defined(pci_release_card)
-static int CWLock = FALSE;
-#endif
-
-static struct pci_dev *dev = NULL;
-
-int cw_openpci_open(void)
+static void write_sid_cp(char *base, BYTE adr, BYTE val)
 {
-    static int atexitinitialized = 0;
-    unsigned int i;
-    unsigned char bus = 0;
+    base[CW_SID_DAT] = val;
+    usleep(1);
+    base[CW_SID_CMD] = adr & 0x1f;
+}
 
-    if (!pci_lib_loaded) {
+static BYTE read_sid_cp(char *base, BYTE adr)
+{
+    base[CW_SID_CMD] = 0x20 | (adr & 0x1f);
+    usleep(1);
+    return base[CW_SID_DAT];
+}
+
+static int detect_sid(char *base)
+{
+    int i;
+
+    for (i = 0x18; i >= 0; --i) {
+        write_sid_cp(base, (BYTE)i, 0);
+    }
+
+    write_sid_cp(base, 0x12, 0xff);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid_cp(base, 0x1b)) {
+            return 0;
+        }
+    }
+
+    write_sid_cp(base, 0x0e, 0xff);
+    write_sid_cp(base, 0x0f, 0xff);
+    write_sid_cp(base, 0x12, 0x20);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid_cp(base, 0x1b)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int cw_clockport_open(void)
+{
+    int i;
+
+    for (i = 0; cp_addresses[i]; ++i) {
+        if (detect_sid(cp_addresses[i]) {
+            CWbase = cp_addresses[i];
+        }
+    }
+
+    if (!CWbase) {
         return -1;
     }
-
-    if (atexitinitialized) {
-        cw_openpci_close();
-    }
-
-    bus = pci_bus();
-
-    if (!bus) {
-        log_message(LOG_DEFAULT, "No PCI bus found\n");
-        return -1;
-    }
-
-    dev = pci_find_device(CW_VENDOR, CW_DEVICE, NULL);
-
-    if (dev == NULL) {
-        log_message(LOG_DEFAULT, "Unable to find a Catweasel Mk3 PCI card\n");
-        return -1;
-    }
-
-#if defined(pci_obtain_card) && defined(pci_release_card)
-    /* Lock the device, since we're a driver */
-    CWLock = pci_obtain_card(dev);
-    if (!CWLock) {
-        log_message(LOG_DEFAULT, "Unable to lock the catweasel. Another driver may have an exclusive lock\n" );
-        return -1;
-    }
-#endif
-
-    CWbase = dev->base_address[0];
-
-    // Reset the catweasel PCI interface (as per the CW programming docs)
-    pci_outb(0xf1, CWbase + 0x00);
-    pci_outb(0x00, CWbase + 0x01);
-    pci_outb(0x00, CWbase + 0x02);
-    pci_outb(0x00, CWbase + 0x04);
-    pci_outb(0x00, CWbase + 0x05);
-    pci_outb(0x00, CWbase + 0x29);
-    pci_outb(0x00, CWbase + 0x2b);
 
     /* mute all sids */
     for (i = 0; i < 32; i++) {
@@ -147,7 +151,7 @@ int cw_openpci_open(void)
     /* install exit handler, so device is closed on exit */
     if (!atexitinitialized) {
         atexitinitialized = 1;
-        atexit((voidfunc_t)cw_openpci_close);
+        atexit((voidfunc_t)cw_clockport_close);
     }
 
     sidfh = 1; /* ok */
@@ -166,17 +170,18 @@ static unsigned char read_sid(unsigned char reg)
     }
 
     // Write command to the SID
-    pci_outb(cmd, CWbase + CW_SID_CMD);
+    CWbase[CW_SID_CMD] = cmd;
 
     // Waste 1ms
     usleep(1);
 
-    return pci_inb(CWbase + CW_SID_DAT);
+    return CWbase[CW_SID_DAT];
 }
 
 static void write_sid(unsigned char reg, unsigned char data)
 {
     unsigned char cmd;
+    BYTE tmp;
 
     cmd = reg & 0x1f;            // Write command & address
     if (catweaselmkiii_get_ntsc()) {
@@ -184,14 +189,14 @@ static void write_sid(unsigned char reg, unsigned char data)
     }
 
     // Write data to the SID
-    pci_outb(data, CWbase + CW_SID_DAT);
-    pci_outb(cmd, CWbase + CW_SID_CMD);
+    CWbase[CW_SID_DAT] = data;
+    CWbase[CW_SID_CMD] = cmd;
 
     // Waste 1ms
     usleep(1);
 }
 
-int cw_openpci_close(void)
+int cw_clockport_close(void)
 {
     unsigned int i;
 
@@ -199,14 +204,6 @@ int cw_openpci_close(void)
     for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
-
-#if defined(pci_obtain_card) && defined(pci_release_card)
-    if (CWLock) {
-        pci_release_card(dev);
-    }
-#endif
-
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
 
     return 0;
 }

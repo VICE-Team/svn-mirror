@@ -31,6 +31,7 @@ static int cw_use_device = 0;
 
 #ifdef AMIGA_M68K
 static int cw_use_zorro = 0;
+static int cw_use_clockport = 0;
 #endif
 
 #ifdef HAVE_PROTO_OPENPCI_H
@@ -56,6 +57,9 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
 #ifdef AMIGA_M68K
     if (cw_use_zorro) {
         return cw_zorro_read(addr, chipno);
+    }
+    if (cw_use_clockport) {
+        return cw_clockport_read(addr, chipno);
     }
 #endif
 
@@ -84,6 +88,9 @@ void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 #ifdef AMIGA_M68K
     if (cw_use_zorro) {
         cw_zorro_store(addr, val, chipno);
+    }
+    if (cw_use_clockport) {
+        cw_clockport_store(addr, val, chipno);
     }
 #endif
 
@@ -139,6 +146,13 @@ int catweaselmkiii_drv_open(void)
     }
 #endif
 
+#ifdef AMIGA_M68K
+    rc = cw_clockport_open();
+    if (rc == 1) {
+        cw_use_clockport = 1;
+    }
+#endif
+
     return -1;
 }
 
@@ -167,6 +181,10 @@ int catweaselmkiii_drv_close(void)
     if (cw_use_zorro) {
         cw_zorro_close();
         cw_use_zorro = 0;
+    }
+    if (cw_use_clockport) {
+        cw_clockport_close();
+        cw_use_clockport = 0;
     }
 #endif
 
