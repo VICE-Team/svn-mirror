@@ -317,6 +317,56 @@ fail:
 
 /* ---------------------------------------------------------------------*/
 
+/* SIDEXTENDED (for fastsid engine) snapshot module format:
+
+   type   | name            | description
+   --------------------------------------
+   DWORD  | factor          | speed factor
+   ARRAY  | d               | 32 BYTES of register data
+   BYTE   | has3            | voice 3 enable flag
+   BYTE   | vol             | 4-bit volume value
+   ARRAY  | adrs            | 16 DWORDS of ADSR counter step values for each adsr values
+   ARRAY  | sz              | 16 DWORDS of sustain values compared to 31-bit ADSR counter
+   DWORD  | speed1          | internal constant used for sample rate dependent calculations
+   BYTE   | update          | structure needs updating flag
+   BYTE   | newsid          | new SID flag
+   BYTE   | laststore       | last store
+   BYTE   | laststorebit    | last store bit
+   DWORD  | laststoreclk    | CLOCK of the last store
+   DWORD  | emulatefilter   | emulate filters flag
+   DOUBLE | filterDy        | filter Dy
+   DOUBLE | filterResDy     | filter Res Dy
+   BYTE   | filterType      | filter type
+   BYTE   | filterCurType   | current filter type
+   WORD   | filterValue     | filter value
+   ARRAY  | voice nr        | 3 DWORDS of voice numbers
+   ARRAY  | voice f         | 3 DWORDS of voice counter value data
+   ARRAY  | voice fs        | 3 DWORDS of voice counter step data
+   ARRAY  | voice noise     | 3 BYTES of voice noise flag data
+   ARRAY  | voice adsr      | 3 DWORDS of voice 31-bit ADSR counter data
+   ARRAY  | voice adsrs     | 3 DWORDS of voice ADSR counter step data
+   ARRAY  | voice adsrz     | 3 DWORDS of voice ADSR sustain level compared to the 31-bit counter data
+   ARRAY  | voice sync      | 3 BYTES of voice hard sync flag data
+   ARRAY  | voice filter    | 3 BYTES of voice filter flag data
+   ARRAY  | voice update    | 3 BYTES of voice structure needs updating flag data
+   ARRAY  | voice gateflip  | 3 BYTES of voice do multiple gate flips flag data
+   ARRAY  | voice adsrm     | 3 BYTES of voice ADSR mode data
+   ARRAY  | voice attack    | 3 BYTES of voice 4-bit attack value data
+   ARRAY  | voice decay     | 3 BYTES of voice 4-bit decay value data
+   ARRAY  | voice sustain   | 3 BYTES of voice 4-bit sustain value data
+   ARRAY  | voice release   | 3 BYTES of voice 4-bit release value data
+   ARRAY  | voice rv        | 3 DWORDS of voice noise shift reguster data
+   ARRAY  | voice wt        | 3 BYTES of voice wavetable index data
+   ARRAY  | voice wt_offset | 3 WORDS of voice wavetable offset data
+   ARRAY  | voice wtpf      | 3 DWORDS of voice 32-bit offset data
+   ARRAY  | voice wtl       | 3 DWORDS of voice wavetable length data
+   ARRAY  | voice wtr[0]    | 3 WORDS of ring modulation flag data
+   ARRAY  | voice wtr[1]    | 3 WORDS of ring modulation flag data
+   ARRAY  | voice filtIO    | 3 BYTES of filtIO data
+   ARRAY  | voice filtLow   | 3 DOUBLES of filtLow data
+   ARRAY  | voice filtRef   | 3 DOUBLES of filtRef data
+ */
+
 static int sid_snapshot_write_fastsid_module(snapshot_module_t *m, int sidnr)
 {
     sid_fastsid_snapshot_state_t sid_state;
@@ -492,6 +542,32 @@ static int sid_snapshot_read_fastsid_module(snapshot_module_t *m, int sidnr)
 
 /* ---------------------------------------------------------------------*/
 
+/* SIDEXTENDED (for resid engine) snapshot module format:
+
+   type  | name                       | description
+   ------------------------------------------------
+   ARRAY | regs                       | 32 BYTES of SID registers
+   BYTE  | bus value                  | bus value
+   DWORD | bus value ttl              | bus value ttl
+   ARRAY | accumulator                | 3 DWORDS of accumulator data
+   ARRAY | shift register             | 3 DWORDS of shift register data
+   ARRAY | rate counter               | 3 WORDS of rate counter data
+   ARRAY | exponential counter        | 3 WORDS of exponential counter data
+   ARRAY | envelope counter           | 3 BYTES of envelope counter data
+   ARRAY | envelope state             | 3 BYTES of envelope state data
+   ARRAY | hold zero                  | 3 BYTES of hold zero flag data
+   ARRAY | rate counter period        | 3 WORDS of rate counter period data
+   ARRAY | exponential counter period | 3 WORDS of exponential counter period data
+   ARRAY | envelope pipeline          | 3 BYTES of envelope pipeline data
+   ARRAY | shift pipeline             | 3 BYTES of shift pipeline data
+   ARRAY | shift register reset       | 3 DWORDS of shift register reset data
+   ARRAY | floating output ttl        | 3 DWORDS of floating output ttl data
+   ARRAY | pulse output               | 3 WORDS of pulse output data
+   BYTE  | write pipeline             | write pipeline
+   BYTE  | write address              | write address
+   BYTE  | voice mask                 | voice mask
+ */
+
 #ifdef HAVE_RESID
 static int sid_snapshot_write_resid_module(snapshot_module_t *m, int sidnr)
 {
@@ -577,6 +653,15 @@ static int sid_snapshot_read_resid_module(snapshot_module_t *m, int sidnr)
 
 /* ---------------------------------------------------------------------*/
 
+/* SIDEXTENDED (for catweasel engine) snapshot module format:
+
+   type  | name              | description
+   ---------------------------------------
+   BYTE  | ntsc              | NTSC flag
+   DWORD | cycles per second | cycles per second
+   ARRAY | registers         | 32 BYTES of register data
+ */
+
 #ifdef HAVE_CATWEASELMKIII
 static int sid_snapshot_write_cw3_module(snapshot_module_t *m, int sidnr)
 {
@@ -611,6 +696,20 @@ static int sid_snapshot_read_cw3_module(snapshot_module_t *m, int sidnr)
 #endif
 
 /* ---------------------------------------------------------------------*/
+
+/* SIDEXTENDED (for hardsid engine) snapshot module format:
+
+   type  | name               | description
+   ----------------------------------------
+   ARRAY | registers          | 32 BYTES of register data
+   DWORD | main clock         | main clock
+   DWORD | alarm clock        | alarm clock
+   DWORD | last access clock  | last access clock
+   DWORD | last access ms     | last access ms
+   DWORD | last access chipno | last access chipno
+   DWORD | chip used          | chip used
+   ARRAY | device map         | 2 DWORDS of device map data
+ */
 
 #ifdef HAVE_HARDSID
 static int sid_snapshot_write_hs_module(snapshot_module_t *m, int sidnr)
@@ -657,6 +756,14 @@ static int sid_snapshot_read_hs_module(snapshot_module_t *m, int sidnr)
 
 /* ---------------------------------------------------------------------*/
 
+/* SIDEXTENDED (for parsid engine) snapshot module format:
+
+   type  | name      | description
+   -------------------------------
+   ARRAY | registers | 32 BYTES of register data
+   BYTE  | ctr port  | control port state
+ */
+
 #ifdef HAVE_PARSID
 static int sid_snapshot_write_parsid_module(snapshot_module_t *m, int sidnr)
 {
@@ -689,6 +796,13 @@ static int sid_snapshot_read_parsid_module(snapshot_module_t *m, int sidnr)
 #endif
 
 /* ---------------------------------------------------------------------*/
+
+/* SIDEXTENDED (for ssi2001 engine) snapshot module format:
+
+   type  | name      | description
+   -------------------------------
+   ARRAY | registers | 32 BYTES of register data
+ */
 
 #ifdef HAVE_SSI2001
 static int sid_snapshot_write_ssi2001_module(snapshot_module_t *m, int sidnr)
