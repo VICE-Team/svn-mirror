@@ -34,7 +34,7 @@
 #include <assert.h>
 
 #include "alarm.h"
-#include "parsid.h"
+#include "ssi2001.h"
 #include "log.h"
 #include "sid-resources.h"
 #include "types.h"
@@ -67,7 +67,7 @@ static void ssi2001_outb(unsigned int addrint, short value)
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
 
-    if (parsid_use_lib) {
+    if (ssi2001_use_lib) {
 #ifndef MSVC_RC
         (oup32fp)(addr, value);
 #else
@@ -87,7 +87,7 @@ static short ssi2001_inb(unsigned int addrint)
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
 
-    if (parsid_use_lib) {
+    if (ssi2001_use_lib) {
 #ifndef MSVC_RC
         return (inp32fp)(addr);
 #else
