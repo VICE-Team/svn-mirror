@@ -49,8 +49,8 @@ static int ssi2001_use_lib = 0;
 typedef short _stdcall (*inpfuncPtr)(short portaddr);
 typedef void _stdcall (*oupfuncPtr)(short portaddr, short datum);
 
-inpfuncPtr inp32fp;
-oupfuncPtr oup32fp;
+static inpfuncPtr inp32fp;
+static oupfuncPtr oup32fp;
 #else
 typedef short (CALLBACK* Inp32_t)(short);
 typedef void (CALLBACK* Out32_t)(short, short);
@@ -112,7 +112,7 @@ void ssi2001_drv_store(WORD addr, BYTE outval, int chipno)
 
 /*----------------------------------------------------------------------*/
 
-HINSTANCE hLib = NULL;
+static HINSTANCE hLib = NULL;
 
 #ifdef _MSC_VER
 #  ifdef _WIN64
