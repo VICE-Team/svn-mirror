@@ -1,5 +1,5 @@
 /*
- * hardsid-drv.c - MSDOS specific PCI hardsid driver.
+ * hardsid-drv.c - MSDOS specific PCI/ISA hardsid driver.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -42,6 +42,8 @@ typedef unsigned long uint32;
 static int hs_available = 0;
 
 static int base;
+
+static int use_pci = 0;
 
 static int sidfh = -1;
 
@@ -149,9 +151,9 @@ static int pci_find_hardsid(int index)
     return -1;
 }
 
-static unsigned char read_sid(unsigned char reg)
+static BYTE read_sid_pci(BYTE reg)
 {
-    unsigned char ret;
+    BYTE ret;
 
     outportb(base + 4, ((reg & 0x1f) | 0x20));
     usleep(2);
@@ -162,9 +164,67 @@ static unsigned char read_sid(unsigned char reg)
     return ret;
 }
 
-static void write_sid( unsigned char reg, unsigned char data )
+static void write_sid_pci(BYTE reg, BYTE data)
 {
     outportb(base + 3, ((reg & 0x1f) << 8) | data);
+}
+
+static BYTE read_sid_isa(BYTE reg)
+{
+    outportb(reg | 0x20, 0x301);
+    usleep(2);
+    return inportb(0x300);
+}
+
+static void write_sid_isa(BYTE reg, BYTE data)
+{
+    outportb(data, 0x300);
+    outportb(reg, 0x301);
+}
+
+static BYTE read_sid(BYTE reg)
+{
+    if (use_pci) {
+        return read_sid_pci(reg);
+    }
+    return read_sid_isa(reg);
+}
+
+static void write_sid(BYTE reg, BYTE data)
+{
+    if (use_pci) {
+        write_sid_pci(reg, data);
+    } else {
+        write_sid_isa(reg, data);
+    }
+}
+
+static int detect_isa_sid(void)
+{
+    int i;
+
+    for (i = 0x18; i >= 0; --i) {
+        write_sid_isa((BYTE)i, 0);
+    }
+
+    write_sid(0x12, 0xff);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid_isa(0x1b)) {
+            return 0;
+        }
+    }
+
+    write_sid_isa(0x0e, 0xff);
+    write_sid_isa(0x0f, 0xff);
+    write_sid_isa(0x12, 0x20);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid_isa(0x1b)) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int hardsid_drv_open(void)
@@ -174,22 +234,25 @@ int hardsid_drv_open(void)
     base = pci_find_hardsid(0);
 
     if (base == -1) {
-        log_message( LOG_DEFAULT, "Unable to find a HardSID PCI card\n" );
-        return -1;
+        if (!detect_isa_sid()) {
+            log_message( LOG_DEFAULT, "Unable to find a HardSID card\n" );
+            return -1;
+        }
+    } else {
+        /* Reset the hardsid PCI interface (as per hardsid linux driver) */
+        outportb(base + 0x00, 0xff);
+        outportb(base + 0x02, 0x00);
+        usleep(100);
+        outportb(base + 0x02, 0x24);
+        use_pci = 1;
     }
-
-    // Reset the hardsid PCI interface (as per hardsid linux driver)
-    outportb(base + 0x00, 0xff);
-    outportb(base + 0x02, 0x00);
-    usleep(100);
-    outportb(base + 0x02, 0x24);
 
     /* mute all sids */
     for (i = 0; i < 32; i++) {
-        write_sid(i, 0);
+        write_sid((BYTE)i, 0);
     }
 
-    log_message(LOG_DEFAULT, "HardSID PCI: opened");
+    log_message(LOG_DEFAULT, "HardSID: opened");
 
     sidfh = 1; /* ok */
 
@@ -202,10 +265,10 @@ int hardsid_drv_close(void)
 
     /* mute all sids */
     for (i = 0; i < 32; i++) {
-        write_sid(i, 0);
+        write_sid((BYTE)i, 0);
     }
 
-    log_message(LOG_DEFAULT, "HardSID PCI: closed");
+    log_message(LOG_DEFAULT, "HardSID: closed");
 
     return 0;
 }
