@@ -51,6 +51,9 @@ libarch_a_SOURCES = \
 	dynlib.c \
 	fullscreenarch.h \
 	hardsid-drv.c \
+	hs.h \
+	hs-linux.c \
+	hs-isa.c \
 	icon.h \
 	joy.c \
 	joy.h \
