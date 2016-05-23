@@ -189,7 +189,7 @@ static int hardsid_init(void)
 #endif
     }
 
-    if ((GetVersion() & 0x80000000) && hardsid_use_lib == 0) {
+    if (!(GetVersion() & 0x80000000) && hardsid_use_lib == 0) {
         return -1;
     }
 

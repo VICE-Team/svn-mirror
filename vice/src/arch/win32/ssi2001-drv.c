@@ -33,10 +33,6 @@
 #include <conio.h>
 #include <assert.h>
 
-#include "alarm.h"
-#include "ssi2001.h"
-#include "log.h"
-#include "sid-resources.h"
 #include "types.h"
 
 #define SSI2008_BASE 0x280
@@ -186,7 +182,7 @@ static int ssi2001_init(void)
 #endif
     }
 
-    if ((GetVersion() & 0x80000000) && ssi2001_use_lib == 0) {
+    if (!(GetVersion() & 0x80000000) && ssi2001_use_lib == 0) {
         return -1;
     }
 
