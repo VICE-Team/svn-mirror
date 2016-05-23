@@ -45,6 +45,7 @@ VICE_ARG_ENABLE_LIST(external-ffmpeg, [ --enable-external-ffmpeg  enable externa
 VICE_ARG_ENABLE_LIST(quicktime,   [  --enable-quicktime      enables Apple QuickTime support])
 VICE_ARG_ENABLE_LIST(ethernet,    [  --enable-ethernet       enables The Final Ethernet emulation])
 VICE_ARG_ENABLE_LIST(ipv6,        [  --disable-ipv6          disables the checking for IPv6 compatibility])
+VICE_ARG_ENABLE_LIST(hardsid,     [  --disable-hardsid       disables HardSID support])
 VICE_ARG_ENABLE_LIST(parsid,      [  --enable-parsid         enables ParSID support])
 VICE_ARG_ENABLE_LIST(ssi2001,     [  --enable-ssi2001        enables SSI2001 (ISA SID card) support])
 VICE_ARG_ENABLE_LIST(bundle,      [  --disable-bundle        do not use application bundles on Macs])
@@ -610,8 +611,11 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   AC_DEFINE(HAS_SINGLE_CANVAS,,[Is only one canvas supported?])
   AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
   HAVE_CATWEASELMKIII_SUPPORT="yes"
-  AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-  HAVE_HARDSID_SUPPORT="yes"
+
+  if test x"$enable_hardsid" != "xno"; then
+    AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+    HAVE_HARDSID_SUPPORT="yes"
+  fi
 
   if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
@@ -667,8 +671,10 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     if test x"$openpci_present" = "xyes"; then
       AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
       HAVE_CATWEASELMKIII_SUPPORT="yes"
-      AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-      HAVE_HARDSID_SUPPORT="yes"
+      if test x"$enable_hardsid" != "xno"; then
+        AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+        HAVE_HARDSID_SUPPORT="yes"
+      fi
     fi
     is_amiga_morphos=yes
     is_amigaos4=no
@@ -711,8 +717,10 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     if test x"$openpci_present" = "xyes"; then
       AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
       HAVE_CATWEASELMKIII_SUPPORT="yes"
-      AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-      HAVE_HARDSID_SUPPORT="yes"
+      if test x"$enable_hardsid" != "xno"; then
+        AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+        HAVE_HARDSID_SUPPORT="yes"
+      fi
     fi
     is_amigaos4=no
     is_amigaos3=yes
@@ -722,8 +730,10 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(AMIGA_OS4,,[Should we enable AmigaOS4 support.])
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
     HAVE_CATWEASELMKIII_SUPPORT="yes"
-    AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-    HAVE_HARDSID_SUPPORT="yes"
+    if test x"$enable_hardsid" != "xno"; then
+      AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+      HAVE_HARDSID_SUPPORT="yes"
+    fi
     with_picasso96=yes
     LIBS="$LIBS -lsupc++ -lgcc_eh"
   fi
@@ -760,8 +770,10 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   HAVE_RS232NET_SUPPORT="yes"
   AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
   HAVE_CATWEASELMKIII_SUPPORT="yes"
-  AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-  HAVE_HARDSID_SUPPORT="yes"
+  if test x"$enable_hardsid" != "xno"; then
+    AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+    HAVE_HARDSID_SUPPORT="yes"
+  fi
   if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
     HAVE_PARSID_SUPPORT="yes"
@@ -1101,10 +1113,6 @@ dnl All other UN*X systems
       HAVE_RS232DEV_SUPPORT="yes"
     fi
   fi
-
-  AC_CHECK_HEADER(linux/hardsid.h,
-      [ AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-        HAVE_HARDSID_SUPPORT="yes" ],)
   ;;
 esac
 fi
@@ -3114,16 +3122,18 @@ AC_SUBST(SOUND_LIBS)
 dnl Check for ParSID/SSI2001 support
 if test x"$is_unix" = "xyes"; then
 
-  if test x"$enable_parsid" = "xyes" -o x"$enable_ssi2001" = "xyes"; then
+  if test x"$enable_parsid" = "xyes" -o x"$enable_ssi2001" = "xyes" -o x"$enable_hardsid" != "xno"; then
     dnl Check for needed parallel port io headers
 
     LIBIEEE1284_HEADERS_PRESENT=yes
+    LINUX_HARDSID_HEADER_PRESENT=yes
     QNX_MMAN_HEADERS_PRESENT=yes
     BSD_SET_IOPERM_HEADERS_PRESENT=yes
     PARSID_SUPPORT=no
     IOSID_SUPPORT=no
 
     AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
+    AC_CHECK_HEADERS(linux/hardsid.h,,[LINUX_HARDSID_HEADER_PRESENT=no],)
     AC_CHECK_HEADERS(sys/mman.h hw/inout.h,,[QNX_MMAN_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(machine/sysarch.h,,[BSD_SET_IOPERM_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(unistd.h sys/io.h machine/pio.h machine/cpufunc.h)
@@ -3136,7 +3146,7 @@ if test x"$is_unix" = "xyes"; then
       fi
     fi
 
-    if test x"$PARSID_SUPPORT" = "xyes" -a x"$enable_ssi2001" != "xyes"; then
+    if test x"$PARSID_SUPPORT" = "xyes" -a x"$enable_ssi2001" != "xyes" -a x"$enable_hardsid" = "xno"; then
       IOSID_SUPPORT=yes
     fi
 
@@ -3179,6 +3189,16 @@ if test x"$is_unix" = "xyes"; then
       if test x"$enable_ssi2001" = "xyes"; then
         AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
         HAVE_SSI2001_SUPPORT="yes"
+      fi
+      if test x"$enable_hardsid" != "xno"; then
+        AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+        AC_DEFINE(HAVE_HARDSID_ISA,,[Support for ISA HardSID.])
+        HAVE_HARDSID_SUPPORT="yes"
+      fi
+    else
+      if test x"$enable_hardsid" != "xno" -a x"$LINUX_HARDSID_HEADER_PRESENT" = "xyes"; then
+        AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+        HAVE_HARDSID_SUPPORT="yes"
       fi
     fi
   fi

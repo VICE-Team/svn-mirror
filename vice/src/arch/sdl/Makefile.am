@@ -51,6 +51,8 @@ libarch_a_SOURCES = \
 	fullscreen.c \
 	fullscreenarch.h \
 	hardsid-drv.c \
+	hs-device.c \
+	hs-isa.c \
 	joy.c \
 	joy.h \
 	kbd.c \

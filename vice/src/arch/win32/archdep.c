@@ -737,5 +737,20 @@ char *archdep_get_runtime_cpu(void)
 #endif
 }
 
+#ifdef IDE_COMPILE
+/* Provide a usleep replacement */
+void usleep(__int64 waitTime)
+{ 
+    __int64 time1 = 0, time2 = 0, freq = 0;
+
+    QueryPerformanceCounter((LARGE_INTEGER *) &time1);
+    QueryPerformanceFrequency((LARGE_INTEGER *)&freq);
+
+    do {
+        QueryPerformanceCounter((LARGE_INTEGER *) &time2);
+    } while((time2-time1) < waitTime);
+}
+#endif
+
 /* include system.c here, instead of compiling it seperatly */
 #include "system.c"
