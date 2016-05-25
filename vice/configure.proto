@@ -3171,6 +3171,7 @@ if test x"$is_unix" = "xyes"; then
     solaris*)
       PORTSID_SUPPORT=yes
       ;;
+    esac
 
     if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
       AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
