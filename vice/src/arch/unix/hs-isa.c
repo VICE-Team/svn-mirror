@@ -235,7 +235,7 @@ int hs_isa_open(void)
 #endif
 
 #ifdef HAVE_MMAP_DEVICE_IO
-    if (mmap_device_io(2, HARDSID_BASE) != MAP_FAILED) {
+    if (mmap_device_io(2, HARDSID_BASE) == MAP_FAILED) {
         return -1;
     }
 #endif
@@ -252,23 +252,23 @@ int hs_isa_open(void)
             setaccess(iomap, HARDSID_BASE + i, 1);
         }
 #    ifdef HAVE_LIBAMD64
-        if (vice_amd64_set_ioperm(iomap) != -1)
+        if (vice_amd64_set_ioperm(iomap) == -1)
 #    else
-        if (vice_i386_set_ioperm(iomap) != -1)
+        if (vice_i386_set_ioperm(iomap) == -1)
 #    endif
         {
             return -1;
         }
     }
 #  else
-    if (vice_i386_set_ioperm(HARDSID_BASE, 2, 1) == 0) {
+    if (vice_i386_set_ioperm(HARDSID_BASE, 2, 1) == -1) {
         return -1;
     }
 #  endif
 #endif
 
 #ifdef HAVE_IOPERM
-    if (ioperm(HARDSID_BASE, 2, 1) == 0) {
+    if (ioperm(HARDSID_BASE, 2, 1) == -1) {
        return -1;
     }
 #endif
