@@ -27,12 +27,32 @@
 #include "vice.h"
 
 #ifdef HAVE_SSI2001
+#include <dos.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "types.h"
 
 #define SSI2008_BASE 0x280
+
+static int is_windows_nt(void)
+{
+    unsigned short real_version;
+    int version_major = -1;
+    int version_minor = -1;
+
+    real_version = _get_dos_version(1);
+    version_major = real_version >> 8;
+    version_minor = real_version & 0xff;
+
+    if (version_major == 5 && version_minor == 50) {
+#ifdef SSI2001_DEBUG
+        printf("Working on windows NT, no ISA direct access possible\n");
+#endif
+        return 1;
+    }
+    return 0;
+}
 
 static BYTE read_sid(BYTE reg)
 {
@@ -47,6 +67,10 @@ static void write_sid(BYTE reg, BYTE data)
 static int detect_sid(void)
 {
     int i;
+
+    if (is_windows_nt()) {
+        return 0;
+    }
 
     for (i = 0x18; i >= 0; --i) {
         write_sid((BYTE)i, 0);
@@ -77,6 +101,9 @@ int ssi2001_drv_open(void)
     int i;
 
     if (!detect_sid()) {
+#ifdef SSI2001_DEBUG
+        printf("NO SSI2001 found\n");
+#endif
         return -1;
     }
 
@@ -84,6 +111,9 @@ int ssi2001_drv_open(void)
     for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
+#ifdef SSI2001_DEBUG
+    printf("SSI2001 detected at $280 using ISA direct access method\n");
+#endif
     return 0;
 }
 

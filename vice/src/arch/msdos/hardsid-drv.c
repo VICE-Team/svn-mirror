@@ -28,6 +28,7 @@
 
 #ifdef HAVE_HARDSID
 
+#include <dos.h>
 #include <stdio.h>
 #include <dpmi.h>
 #include <string.h>
@@ -46,6 +47,22 @@ static int base;
 static int use_pci = 0;
 
 static int sidfh = -1;
+
+static int is_windows_nt(void)
+{
+    unsigned short real_version;
+    int version_major = -1;
+    int version_minor = -1;
+
+    real_version = _get_dos_version(1);
+    version_major = real_version >> 8;
+    version_minor = real_version & 0xff;
+
+    if (version_major == 5 && version_minor == 50) {
+        return 1;
+    }
+    return 0;
+}
 
 static int pci_install_check(void)
 {
@@ -203,11 +220,15 @@ static int detect_isa_sid(void)
 {
     int i;
 
+    if (is_windows_nt()) {
+        return 0;
+    }
+
     for (i = 0x18; i >= 0; --i) {
         write_sid_isa((BYTE)i, 0);
     }
 
-    write_sid(0x12, 0xff);
+    write_sid_isa(0x12, 0xff);
 
     for (i = 0; i < 100; ++i) {
         if (read_sid_isa(0x1b)) {
