@@ -74,6 +74,10 @@ libarch_a_SOURCES = \
 	fullscreen.c \
 	fullscreenarch.h \
 	hardsid-drv.c \
+	hs.h \
+	hs_gg2_isa.c \
+	hs_openpci.c \
+	hs_os4.c \
 	intl.c \
 	intl_funcs.h \
 	joy.c \
@@ -105,6 +109,7 @@ libarch_a_SOURCES = \
 	signals.c \
 	socketimpl.c \
 	socketimpl.h \
+	ssi2001-drv.c \
 	statusbar.c \
 	statusbar.h \
 	rawnetarch.c \
