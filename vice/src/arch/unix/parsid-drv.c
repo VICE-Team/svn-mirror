@@ -31,6 +31,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
+#include <errno.h>
 
 #ifdef HAVE_IEEE1284_H
 #undef HAVE_IEEE1284_H
@@ -58,6 +59,11 @@
 #include <machine/cpufunc.h>
 #endif
 
+#ifdef HAVE_LINUX_PARPORT_HEADERS
+#include <linux/ppdev.h>
+#include <linux/parport.h>
+#endif
+
 #include "alarm.h"
 #include "parsid.h"
 #include "log.h"
@@ -68,6 +74,8 @@ static int parsid_port_address[4];
 
 static int ports;
 static int old_parsid_port = 0;
+
+static int use_file = 0;
 
 #ifdef HAVE_LIBIEEE1284
 static struct parport_list parlist;
@@ -114,6 +122,19 @@ static void parsid_ieee1284_close(struct parport_list *pl, int portnr)
 {
     ieee1284_release(pl->portv[portnr]);
     ieee1284_close(pl->portv[portnr]);
+}
+#endif
+
+/* WIP */
+#ifdef HAVE_LINUX_PARPORT_HEADERS
+static int parsid_linux_parport_open(void)
+{
+    return 0;
+}
+
+static void parsid_linux_parport_close(void)
+{
+    return 0;
 }
 #endif
 

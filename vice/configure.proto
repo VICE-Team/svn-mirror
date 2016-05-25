@@ -729,6 +729,10 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
         AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
         HAVE_HARDSID_SUPPORT="yes"
       fi
+      if test x"$enable_ssi2001" != "xno"; then
+        AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001.])
+        HAVE_SSI2001_SUPPORT="yes"
+      fi
     fi
     is_amigaos4=no
     is_amigaos3=yes
@@ -3146,19 +3150,27 @@ if test x"$is_unix" = "xyes"; then
 
     LIBIEEE1284_HEADERS_PRESENT=yes
     LINUX_HARDSID_HEADER_PRESENT=yes
+    LINUX_PARPORT_HEADERS_PRESENT=yes
     CATWEASEL_HEADER_PRESENT=yes
     QNX_MMAN_HEADERS_PRESENT=yes
     BSD_SET_IOPERM_HEADERS_PRESENT=yes
     PARSID_SUPPORT=no
     IOSID_SUPPORT=no
+    PORTSID_SUPPORT=no
 
     dnl Check for needed io headers
     AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(linux/hardsid.h,,[LINUX_HARDSID_HEADER_PRESENT=no],)
+    AC_CHECK_HEADERS(linux/ppdev.h linux/parport.h,,[LINUX_PARPORT_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(cswid.h,,[CATWEASEL_HEADER_PRESENT=no],)
     AC_CHECK_HEADERS(sys/mman.h hw/inout.h,,[QNX_MMAN_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(machine/sysarch.h,,[BSD_SET_IOPERM_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(unistd.h sys/io.h machine/pio.h machine/cpufunc.h)
+
+    case "$host_os" in
+    solaris*)
+      PORTSID_SUPPORT=yes
+      ;;
 
     if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
       AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
@@ -3175,6 +3187,11 @@ if test x"$is_unix" = "xyes"; then
 
     if test x"$PARSID_SUPPORT" != "xno" -a x"$enable_ssi2001" = "xno" -a x"$enable_hardsid" = "xno"; then
       IOSID_SUPPORT=yes
+    fi
+
+    if test x"$LINUX_PARPORT_HEADERS_PRESENT" = "xyes"; then
+      AC_DEFINE(HAVE_LINUX_PARPORT_HEADERS,,[Support for Linux par port device file.])
+      PORTSID_SUPPORT=yes
     fi
 
     if test x"$IOSID_SUPPORT" = "xno"; then
@@ -3226,6 +3243,13 @@ if test x"$is_unix" = "xyes"; then
       if test x"$enable_hardsid" != "xno" -a x"$LINUX_HARDSID_HEADER_PRESENT" = "xyes"; then
         AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
         HAVE_HARDSID_SUPPORT="yes"
+      fi
+    fi
+
+    if test x"$PORTSID_SUPPORT" = "xyes"; then
+      if test x"$enable_parsid" != "xno" -a x"HAVE_PARSID_SUPPORT" != "xyes"; then
+        AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+        HAVE_PARSID_SUPPORT="yes"
       fi
     fi
   fi
