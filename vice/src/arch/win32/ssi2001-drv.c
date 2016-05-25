@@ -169,11 +169,17 @@ static int ssi2001_init(void)
     ssi2001_use_lib = 0;
 
     if (hLib != NULL) {
+#ifdef SSI2001_DEBUG
+        printf("Loaded %s\n", INPOUTDLLNAME);
+#endif
 #ifndef MSVC_RC
         inp32fp = (inpfuncPtr)GetProcAddress(hLib, "Inp32");
         if (inp32fp != NULL) {
             oup32fp = (oupfuncPtr)GetProcAddress(hLib, "Out32");
             if (oup32fp != NULL) {
+#ifdef SSI2001_DEBUG
+                printf("Using Inp32 and Out32 functions found in %s\n", INPOUTDLLNAME);
+#endif
                 ssi2001_use_lib = 1;
             }
         }
@@ -182,6 +188,9 @@ static int ssi2001_init(void)
         if (Inp32 != NULL) {
             Out32 = (Out32_t)GetProcAddress(hLib, "Out32");
             if (Out32 != NULL) {
+#ifdef SSI2001_DEBUG
+                printf("Using Inp32 and Out32 functions found in %s\n", INPOUTDLLNAME);
+#endif
                 ssi2001_use_lib = 1;
             }
         }
@@ -189,12 +198,29 @@ static int ssi2001_init(void)
     }
 
     if (!(GetVersion() & 0x80000000) && ssi2001_use_lib == 0) {
+#ifdef SSI2001_DEBUG
+        printf("Working on NT and no dll loaded\n");
+#endif
         return -1;
     }
 
     if (detect_sid()) {
+#ifdef SSI2001_DEBUG
+        if (ssi2001_use_lib) {
+            printf("SSI2001 found at $280 using Inp32() / Outp32() method\n");
+        } else {
+            printf("SSI2001 found at $280 using direct access method\n");
+        }
+#endif
         return 0;
     }
+#ifdef SSI2001_DEBUG
+    if (ssi2001_use_lib) {
+        printf("NO SSI2001 found using Inp32() / Outp32() method\n");
+    } else {
+        printf("NO SSI2001 found using direct access method\n");
+    }
+#endif
     return -1;
 }
 
