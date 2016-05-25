@@ -59,7 +59,7 @@
 
 #define SSI2008_BASE 0x280
 
-static int ssi2001_open_status = 0;
+/* static int ssi2001_open_status = 0; */
 
 typedef void (*voidfunc_t)(void);
 
@@ -158,7 +158,7 @@ void ssi2001_drv_store(WORD addr, BYTE value, int chipno)
 #endif
 }
 
-BYTE ssi2001_drv_read(WORD addr, int chipno)
+int ssi2001_drv_read(WORD addr, int chipno)
 {
 #ifdef HAVE_MMAP_DEVICE_IO
     return in8(SSI2008_BASE + (addr & 0x1f));

@@ -29,6 +29,7 @@
 #ifdef HAVE_HARDSID
 
 #include "hardsid.h"
+#include "hs.h"
 #include "types.h"
 
 int use_hs_isa = 0;
@@ -98,7 +99,7 @@ void hardsid_drv_store(WORD addr, BYTE val, int chipno)
 #endif
 }
 
-unsigned int hardsid_drv_available(void)
+int hardsid_drv_available(void)
 {
 #ifdef HAVE_LINUX_HARDSID_H
     unsigned int retval = 0;
