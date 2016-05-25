@@ -71,7 +71,11 @@ static void ssi2001_outb(unsigned int addrint, short value)
 #endif
     } else {
 #ifdef  _M_IX86
+#ifdef WATCOM_COMPILE
+        outp(addr, value);
+#else
         _outp(addr, value);
+#endif
 #endif
     }
 }
@@ -91,7 +95,11 @@ static short ssi2001_inb(unsigned int addrint)
 #endif
     } else {
 #ifdef  _M_IX86
+#ifdef WATCOM_COMPILE
+        return inp(addr);
+#else
         return _inp(addr);
+#endif
 #endif
     }
 }
@@ -154,8 +162,6 @@ static int detect_sid(void)
 
 static int ssi2001_init(void)
 {
-    int j;
-
     if (hLib == NULL) {
         hLib = LoadLibrary(INPOUTDLLNAME);
     }

@@ -34,6 +34,7 @@
 #include <assert.h>
 
 #include "alarm.h"
+#include "archdep.h"
 #include "hardsid.h"
 #include "log.h"
 #include "sid-resources.h"
@@ -77,7 +78,11 @@ static void hardsid_outb(unsigned int addrint, short value)
 #endif
     } else {
 #ifdef  _M_IX86
+#ifdef WATCOM_COMPILE
+        outp(addr, value);
+#else
         _outp(addr, value);
+#endif
 #endif
     }
 }
@@ -97,7 +102,11 @@ static short hardsid_inb(unsigned int addrint)
 #endif
     } else {
 #ifdef  _M_IX86
+#ifdef WATCOM_COMPILE
+        return inp(addr);
+#else
         return _inp(addr);
+#endif
 #endif
     }
 }
@@ -112,7 +121,7 @@ int hs_isa_read(WORD addr, int chipno)
 void hs_isa_store(WORD addr, BYTE outval, int chipno)
 {
     hardsid_outb(0x300, outval);
-    hardsid_outb(0x301, addr & 0x1f);
+    hardsid_outb(0x301, (BYTE)(addr & 0x1f));
 }
 
 /*----------------------------------------------------------------------*/

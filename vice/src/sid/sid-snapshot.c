@@ -43,6 +43,7 @@
 #include "sid.h"
 #include "sound.h"
 #include "snapshot.h"
+#include "ssi2001.h"
 #include "types.h"
 
 /* Take care of possible failures to set the sid engine and fall back to fastsid */

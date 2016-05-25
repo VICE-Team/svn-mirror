@@ -32,7 +32,7 @@
 #include "ssi2001.h"
 #include "types.h"
 
-BYTE sidbuf[0x20];
+static BYTE sidbuf[0x20];
 
 static int ssi2001_open_status = 0;
 

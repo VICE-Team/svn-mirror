@@ -30,10 +30,7 @@
 
 #include <stdio.h>
 
-#ifdef HAVE_CATWEASELMKIII
 #include "catweaselmkiii.h"
-#endif
-
 #include "hardsid.h"
 #include "log.h"
 #include "machine.h"
@@ -43,6 +40,7 @@
 #include "resources.h"
 #include "sid-resources.h"
 #include "sid.h"
+#include "ssi2001.h"
 #include "sound.h"
 #include "types.h"
 

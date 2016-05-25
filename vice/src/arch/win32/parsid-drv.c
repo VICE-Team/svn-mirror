@@ -75,7 +75,11 @@ static void parsid_outb(unsigned int addrint, short value)
 #endif
     } else {
 #ifdef  _M_IX86
+#ifdef WATCOM_COMPILE
+        outp(addr, value);
+#else
         _outp(addr, value);
+#endif
 #endif
     }
 }
@@ -95,7 +99,11 @@ static short parsid_inb(unsigned int addrint)
 #endif
     } else {
 #ifdef  _M_IX86
+#ifdef WATCOM_COMPILE
+        return inp(addr);
+#else
         return _inp(addr);
+#endif
 #endif
     }
 }
@@ -107,7 +115,7 @@ void parsid_drv_out_ctr(WORD parsid_ctrport)
 
 BYTE parsid_drv_in_ctr(void)
 {
-    return parsid_inb(parsid_port_address[parsid_port] + 2);
+    return (BYTE)parsid_inb(parsid_port_address[parsid_port] + 2);
 }
 
 #define TEST_WINDOWS_NT (!(GetVersion() & 0x80000000))
@@ -356,7 +364,7 @@ int parsid_drv_close(void)
 
 BYTE parsid_drv_in_data(void)
 {
-    return parsid_inb(parsid_port_address[parsid_port]);
+    return (BYTE)parsid_inb(parsid_port_address[parsid_port]);
 }
 
 void parsid_drv_out_data(BYTE outval)

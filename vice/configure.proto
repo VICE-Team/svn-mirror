@@ -45,9 +45,10 @@ VICE_ARG_ENABLE_LIST(external-ffmpeg, [ --enable-external-ffmpeg  enable externa
 VICE_ARG_ENABLE_LIST(quicktime,   [  --enable-quicktime      enables Apple QuickTime support])
 VICE_ARG_ENABLE_LIST(ethernet,    [  --enable-ethernet       enables The Final Ethernet emulation])
 VICE_ARG_ENABLE_LIST(ipv6,        [  --disable-ipv6          disables the checking for IPv6 compatibility])
+VICE_ARG_ENABLE_LIST(ssi2001,     [  --disable-ssi2001       disables SSI2001 (ISA SID card) support])
+VICE_ARG_ENABLE_LIST(catweasel,   [  --disable-catweasel     disables CatWeasel (PCI/Zorro/Clockport SID card) support])
 VICE_ARG_ENABLE_LIST(hardsid,     [  --disable-hardsid       disables HardSID support])
-VICE_ARG_ENABLE_LIST(parsid,      [  --enable-parsid         enables ParSID support])
-VICE_ARG_ENABLE_LIST(ssi2001,     [  --enable-ssi2001        enables SSI2001 (ISA SID card) support])
+VICE_ARG_ENABLE_LIST(parsid,      [  --disable-parsid        disables ParSID support])
 VICE_ARG_ENABLE_LIST(bundle,      [  --disable-bundle        do not use application bundles on Macs])
 VICE_ARG_ENABLE_LIST(memmap,      [  --enable-memmap         enable the memmap feature])
 VICE_ARG_ENABLE_LIST(editline,    [  --disable-editline      disable history in Cocoa UI's console])
@@ -609,20 +610,23 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
   AC_DEFINE(HAS_SINGLE_CANVAS,,[Is only one canvas supported?])
-  AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-  HAVE_CATWEASELMKIII_SUPPORT="yes"
+
+  if test x"$enable_catweasel" != "xno"; then
+    AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+    HAVE_CATWEASELMKIII_SUPPORT="yes"
+  fi
 
   if test x"$enable_hardsid" != "xno"; then
     AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     HAVE_HARDSID_SUPPORT="yes"
   fi
 
-  if test x"$enable_parsid" = "xyes"; then
+  if test x"$enable_parsid" != "xno"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
     HAVE_PARSID_SUPPORT="yes"
   fi
 
-  if test x"$enable_ssi2001" = "xyes"; then
+  if test x"$enable_ssi2001" != "xno"; then
     AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
     HAVE_SSI2001_SUPPORT="yes"
   fi
@@ -669,8 +673,10 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
         HAVE_XVIDEO_SUPPORT="yes"
     fi
     if test x"$openpci_present" = "xyes"; then
-      AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-      HAVE_CATWEASELMKIII_SUPPORT="yes"
+      if test x"$enable_catweasel" != "xno"; then
+        AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+        HAVE_CATWEASELMKIII_SUPPORT="yes"
+      fi
       if test x"$enable_hardsid" != "xno"; then
         AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
         HAVE_HARDSID_SUPPORT="yes"
@@ -715,8 +721,10 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     HAVE_RS232NET_SUPPORT="yes"
     AC_CHECK_HEADERS(proto/openpci.h, openpci_present=yes,,)
     if test x"$openpci_present" = "xyes"; then
-      AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-      HAVE_CATWEASELMKIII_SUPPORT="yes"
+      if test x"$enable_catweasel" != "xno"; then
+        AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+        HAVE_CATWEASELMKIII_SUPPORT="yes"
+      fi
       if test x"$enable_hardsid" != "xno"; then
         AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
         HAVE_HARDSID_SUPPORT="yes"
@@ -728,8 +736,10 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
 
   if test x"$is_amigaos4" = "xyes"; then
     AC_DEFINE(AMIGA_OS4,,[Should we enable AmigaOS4 support.])
-    AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-    HAVE_CATWEASELMKIII_SUPPORT="yes"
+    if test x"$enable_catweasel" != "xno"; then
+      AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+      HAVE_CATWEASELMKIII_SUPPORT="yes"
+    fi
     if test x"$enable_hardsid" != "xno"; then
       AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
       HAVE_HARDSID_SUPPORT="yes"
@@ -768,17 +778,31 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   HAVE_NETWORK_SUPPORT="yes"
   AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
   HAVE_RS232NET_SUPPORT="yes"
-  AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-  HAVE_CATWEASELMKIII_SUPPORT="yes"
+  if test x"$enable_catweasel" != "xno"; then
+    AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+    HAVE_CATWEASELMKIII_SUPPORT="yes"
+  fi
   if test x"$enable_hardsid" != "xno"; then
     AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     HAVE_HARDSID_SUPPORT="yes"
   fi
-  if test x"$enable_parsid" = "xyes"; then
+  if test x"$enable_parsid" != "xno"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
     HAVE_PARSID_SUPPORT="yes"
+
+    LIBIEEE1284_HEADERS_PRESENT=yes
+
+    dnl Check for needed io headers
+    AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
+
+    if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
+      AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
+      if test x"$PARSID_SUPPORT" != "xno"; then
+        AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+      fi
+    fi
   fi
-  if test x"$enable_ssi2001" = "xyes"; then
+  if test x"$enable_ssi2001" != "xno"; then
     AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
     HAVE_SSI2001_SUPPORT="yes"
   fi
@@ -2779,10 +2803,6 @@ fi
 
 dnl ----- Sound Drivers -----
 if test x"$is_unix" = "xyes"; then
-  AC_CHECK_HEADERS(cwsid.h, [AC_DEFINE(HAVE_CATWEASELMKIII,,
-                   [Support for Catweasel MKIII.])
-                    HAVE_CATWEASELMKIII_SUPPORT="yes"], )
-
   if test x"$with_pulse" != "xno"; then
     AC_CHECK_HEADERS(pulse/simple.h,[AC_CHECK_LIB(pulse-simple, pa_simple_new,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundpulse.o";
@@ -3119,34 +3139,41 @@ fi
 AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)
 
-dnl Check for ParSID/SSI2001 support
+dnl Check for ParSID/SSI2001/HardSID support
 if test x"$is_unix" = "xyes"; then
 
-  if test x"$enable_parsid" = "xyes" -o x"$enable_ssi2001" = "xyes" -o x"$enable_hardsid" != "xno"; then
-    dnl Check for needed parallel port io headers
+  if test x"$enable_parsid" != "xno" -o x"$enable_ssi2001" != "xno" -o x"$enable_hardsid" != "xno"; then
 
     LIBIEEE1284_HEADERS_PRESENT=yes
     LINUX_HARDSID_HEADER_PRESENT=yes
+    CATWEASEL_HEADER_PRESENT=yes
     QNX_MMAN_HEADERS_PRESENT=yes
     BSD_SET_IOPERM_HEADERS_PRESENT=yes
     PARSID_SUPPORT=no
     IOSID_SUPPORT=no
 
+    dnl Check for needed io headers
     AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(linux/hardsid.h,,[LINUX_HARDSID_HEADER_PRESENT=no],)
+    AC_CHECK_HEADERS(cswid.h,,[CATWEASEL_HEADER_PRESENT=no],)
     AC_CHECK_HEADERS(sys/mman.h hw/inout.h,,[QNX_MMAN_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(machine/sysarch.h,,[BSD_SET_IOPERM_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(unistd.h sys/io.h machine/pio.h machine/cpufunc.h)
 
     if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
       AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
-      if test x"$PARSID_SUPPORT" = "xyes"; then
+      if test x"$PARSID_SUPPORT" != "xno"; then
         AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
         HAVE_LIBIEEE1284_SUPPORT="yes"
       fi
     fi
 
-    if test x"$PARSID_SUPPORT" = "xyes" -a x"$enable_ssi2001" != "xyes" -a x"$enable_hardsid" = "xno"; then
+    if test x"$enable_catweasel" != "xno" -a x"$CATWEASEL_HEADER_PRESENT" = "xyes"; then
+      AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+      HAVE_CATWEASELMKIII_SUPPORT="yes"
+    fi
+
+    if test x"$PARSID_SUPPORT" != "xno" -a x"$enable_ssi2001" = "xno" -a x"$enable_hardsid" = "xno"; then
       IOSID_SUPPORT=yes
     fi
 
@@ -3182,11 +3209,11 @@ if test x"$is_unix" = "xyes"; then
     fi
 
     if test x"$IOSID_SUPPORT" = "xyes"; then
-      if test x"$enable_parsid" = "xyes"; then
+      if test x"$enable_parsid" != "xno"; then
         AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
         HAVE_PARSID_SUPPORT="yes"
       fi
-      if test x"$enable_ssi2001" = "xyes"; then
+      if test x"$enable_ssi2001" != "xno"; then
         AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
         HAVE_SSI2001_SUPPORT="yes"
       fi
@@ -4920,7 +4947,7 @@ fi
 
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xDOS" -o x"$real_arch" = "xWin32"; then
     echo "ParSID support               : $HAVE_PARSID_SUPPORT (--enable/disable-parsid)"
-    echo "SSI2001 support              : $HAVE_SSI2001_SUPPOER (--enable/disable-ssi2001)"
+    echo "SSI2001 support              : $HAVE_SSI2001_SUPPORT (--enable/disable-ssi2001)"
 fi
 
 echo "MP3 encoding support         : $USE_LAMEMP3_SUPPORT (--enable/disable-lame)"

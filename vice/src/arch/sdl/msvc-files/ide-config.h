@@ -25,8 +25,13 @@
 #define HAVE_HWSCALE           1
 #endif
 
-#define HAVE_CATWEASELMKIII    1
-#define HAVE_HARDSID           1
+#ifndef _M_IA64
+#define HAVE_SSI2001            1
+#define HAVE_HARDSID            1
+#define HAVE_CATWEASELMKIII     1
+#define HAVE_PARSID             1
+#endif
+
 #define HAVE_OPENCBM           1
 #define HAVE_DYNLIB_SUPPORT    1
 #define HAVE_RS232DEV          1

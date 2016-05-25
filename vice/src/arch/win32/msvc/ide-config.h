@@ -21,15 +21,15 @@
 #define HAS_JOYSTICK            1
 #define HAVE_MOUSE              1
 #define HAVE_LIGHTPEN           1
-#define HAVE_CATWEASELMKIII     1
-#define HAVE_HARDSID            1
 #define HAVE_RS232DEV           1
 #define HAVE_RS232NET           1
 #define HAVE_DYNLIB_SUPPORT     1
 
 #ifndef _M_IA64
-#define HAVE_PARSID             1
 #define HAVE_SSI2001            1
+#define HAVE_HARDSID            1
+#define HAVE_CATWEASELMKIII     1
+#define HAVE_PARSID             1
 #endif
 
 #define HAS_LONGLONG_INTEGER    1

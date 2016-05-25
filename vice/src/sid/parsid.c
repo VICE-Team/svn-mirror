@@ -165,7 +165,7 @@ int parsid_read(WORD addr, int chipno)
         if (addr <= 0x18) {
             return sidbuf[addr];
         }
-        parsid_drv_out_data(addr & 0x1f);
+        parsid_drv_out_data((BYTE)(addr & 0x1f));
         parsid_latch_open();
         parsid_latch_lock();
         parsid_port_read();
@@ -184,7 +184,7 @@ void parsid_store(WORD addr, BYTE outval, int chipno)
         if (addr <= 0x18) {
             sidbuf[addr] = outval;
         }
-        parsid_drv_out_data(addr & 0x1f);
+        parsid_drv_out_data((BYTE)(addr & 0x1f));
         parsid_latch_open();
         parsid_latch_lock();
         parsid_drv_out_data(outval);

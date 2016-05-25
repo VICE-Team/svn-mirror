@@ -36,6 +36,7 @@
 #include "menu_common.h"
 #include "menu_snapshot.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "ui.h"
 #include "uifilereq.h"
 #include "uimenu.h"

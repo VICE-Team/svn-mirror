@@ -36,7 +36,7 @@
 
 
 /* buffer containing current register state of SIDs */
-BYTE sidbuf[CW_MAXCARDS * 0x20];
+static BYTE sidbuf[CW_MAXCARDS * 0x20];
 
 /* 0 = pal, !0 = ntsc */
 static BYTE sid_ntsc = 0;
