@@ -263,4 +263,3 @@ void io_access_unmap(WORD addr, WORD space)
 #endif
     return 0;
 }
-#endif
