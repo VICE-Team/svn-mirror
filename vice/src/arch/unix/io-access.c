@@ -261,5 +261,4 @@ void io_access_unmap(WORD addr, WORD space)
 #ifdef HAVE_IOPERM
     ioperm(addr, space, 0);
 #endif
-    return 0;
 }

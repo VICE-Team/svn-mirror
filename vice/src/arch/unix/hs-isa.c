@@ -41,7 +41,7 @@
 
 #define HARDSID_BASE 0x300
 
-static int hardsid_open_status = 0;
+/* static int hardsid_open_status = 0; */
 static int hs_available = 0;
 
 void hs_isa_store(WORD addr, BYTE value, int chipno)
