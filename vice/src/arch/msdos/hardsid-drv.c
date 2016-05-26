@@ -34,6 +34,7 @@
 #include <string.h>
 
 #include "log.h"
+#include "pci-drv.h"
 #include "sid-snapshot.h"
 #include "types.h"
 
@@ -62,72 +63,6 @@ static int is_windows_nt(void)
         return 1;
     }
     return 0;
-}
-
-static int pci_install_check(void)
-{
-    __dpmi_regs r;
-
-    memset(&r, 0, sizeof(r));
-
-    r.x.ax = 0xb101;
-    r.d.edi = 0x0;
-
-    if (__dpmi_int(0x1a, &r) != 0) {
-        return -1;
-    }
-	
-    if (r.h.ah != 0 || r.d.edx != 0x20494350) {
-        return -1;
-    }
-
-    return 0;
-}
-
-static int pci_find(int vendorID, int deviceID, int index, int *bus, int *device, int *func)
-{
-    __dpmi_regs r;
-
-    memset(&r, 0, sizeof(r));
-
-    r.x.ax = 0xb102;
-    r.x.cx = deviceID;
-    r.x.dx = vendorID;
-    r.x.si = index;
-
-    if (__dpmi_int(0x1a, &r) != 0) {
-        return -1;
-    }
-
-    if (r.h.ah == 0) {
-        *bus = r.h.bh;
-        *device = (r.h.bl >> 3) & 0x1f;
-        *func = r.h.bl & 0x03;
-    }
-
-    return r.h.ah;
-}
-
-static int pci_read_config_dword(int bus, int device, int func, int reg, uint32 *value)
-{
-    __dpmi_regs r;
-
-    memset(&r, 0, sizeof(r));
-
-    r.x.ax = 0xb10a;
-    r.h.bh = bus;
-    r.h.bl = (device << 3) + func;
-    r.x.di = reg;
-
-    if (__dpmi_int(0x1a, &r) != 0) {
-        return -1;
-    }
-	
-    if (r.h.ah == 0) {
-        *value = r.d.ecx;
-    }
-
-    return r.h.ah;
 }
 
 static int pci_find_hardsid(int index)
@@ -188,15 +123,15 @@ static void write_sid_pci(BYTE reg, BYTE data)
 
 static BYTE read_sid_isa(BYTE reg)
 {
-    outportb(reg | 0x20, 0x301);
+    outportb(0x301, reg | 0x20);
     usleep(2);
     return inportb(0x300);
 }
 
 static void write_sid_isa(BYTE reg, BYTE data)
 {
-    outportb(data, 0x300);
-    outportb(reg, 0x301);
+    outportb(0x300, data);
+    outportb(0x301, reg);
 }
 
 static BYTE read_sid(BYTE reg)

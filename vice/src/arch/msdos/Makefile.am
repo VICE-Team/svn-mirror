@@ -61,6 +61,8 @@ libarch_a_SOURCES = \
 	mousedrv.h \
 	msdosmain.c \
 	parsid-drv.c \
+	pci-drv.c \
+	pci-drv.h \
 	petui.c \
 	plus4ui.c \
 	rawnetarch.c \

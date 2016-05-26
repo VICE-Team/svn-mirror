@@ -82,7 +82,7 @@ int parsid_drv_check_port(int port)
     return 0;
 }
 
-static int parsid_drv_init(void)
+int parsid_drv_init(void)
 {
     int j;
     unsigned long ptraddr = 0x0408;		/* Base Address: segment is zero*/
@@ -113,7 +113,7 @@ BYTE parsid_drv_in_data(void)
     return parsid_inb(parsid_port_address[parsid_port]);
 }
 
-void parsid_drv_out_data(BYTE outval);
+void parsid_drv_out_data(BYTE outval)
 {
     parsid_outb(parsid_port_address[parsid_port], outval);
 }
