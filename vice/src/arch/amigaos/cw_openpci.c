@@ -41,9 +41,7 @@
 static unsigned char read_sid(unsigned char reg); // Read a SID register
 static void write_sid(unsigned char reg, unsigned char data); // Write a SID register
 
-static int sidfh = 0;
-
-typedef void (*voidfunc_t)(void);
+static int sids_found = -1;
 
 static unsigned long CWbase;
 
@@ -52,10 +50,7 @@ int cw_openpci_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
-        /* if addr is from read-only register, perform a real read */
-        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            return read_sid(addr);
-        }
+        return read_sid(addr);
     }
 
     return 0;
@@ -65,11 +60,8 @@ int cw_openpci_read(WORD addr, int chipno)
 void cw_openpci_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && addr <= 0x18) {
-	  /* if the device is opened, write to device */
-        if (sidfh >= 0) {
-            write_sid(addr, val);
-        }
+    if (chipno < MAXSID && addr <= 0x20) {
+        write_sid(addr, val);
     }
 }
 
@@ -94,6 +86,16 @@ int cw_openpci_open(void)
     static int atexitinitialized = 0;
     unsigned int i;
     unsigned char bus = 0;
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
 
     if (!pci_lib_loaded) {
         return -1;
@@ -142,7 +144,7 @@ int cw_openpci_open(void)
         write_sid(i, 0);
     }
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
+    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened at $%X", CWbase);
 
     /* install exit handler, so device is closed on exit */
     if (!atexitinitialized) {
@@ -150,9 +152,9 @@ int cw_openpci_open(void)
         atexit((voidfunc_t)cw_openpci_close);
     }
 
-    sidfh = 1; /* ok */
+    sids_found = 1;
 
-    return 1;
+    return 0;
 }
 
 static unsigned char read_sid(unsigned char reg)
@@ -208,6 +210,13 @@ int cw_openpci_close(void)
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
 
+    sids_found = -1;
+
     return 0;
+}
+
+int cw_openpci_available(void)
+{
+    return sids_found;
 }
 #endif

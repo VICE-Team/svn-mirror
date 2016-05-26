@@ -40,21 +40,16 @@
 static unsigned char read_sid(unsigned char reg); // Read a SID register
 static void write_sid(unsigned char reg, unsigned char data); // Write a SID register
 
-typedef void (*voidfunc_t)(void);
-
 #define MAXSID 1
 
-static int sidfh = 0;
+static int sids_found = -1;
 
 /* read value from SIDs */
 int cw_os4_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
-        /* if addr is from read-only register, perform a real read */
-        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            return read_sid(addr);
-        }
+        return read_sid(addr);
     }
 
     return 0;
@@ -64,12 +59,8 @@ int cw_os4_read(WORD addr, int chipno)
 void cw_os4_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && addr <= 0x18) {
-
-	  /* if the device is opened, write to device */
-        if (sidfh >= 0) {
-            write_sid(addr, val);
-        }
+    if (chipno < MAXSID && addr <= 0x20) {
+        write_sid(addr, val);
     }
 }
 
@@ -98,6 +89,16 @@ int cw_os4_open(void)
 {
     static int atexitinitialized = 0;
     unsigned int i;
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
 
     if (atexitinitialized) {
         cw_os4_close();
@@ -155,9 +156,9 @@ int cw_os4_open(void)
         atexit((voidfunc_t)cw_os4_close);
     }
 
-    sidfh = 1; /* ok */
+    sids_found = 1;
 
-    return 1;
+    return 0;
 }
 
 int cw_os4_close(void)
@@ -179,6 +180,8 @@ int cw_os4_close(void)
     }
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
+
+    sids_found = -1;
 
     return 0;
 }
@@ -218,5 +221,10 @@ static void write_sid(unsigned char reg, unsigned char data)
     // Waste 1ms
     CWDevPCI->InByte(CWDevBAR->BaseAddress + CW_SID_DAT);
     CWDevPCI->InByte(CWDevBAR->BaseAddress + CW_SID_DAT);
+}
+
+int cw_os4_available(void)
+{
+    return sids_found;
 }
 #endif

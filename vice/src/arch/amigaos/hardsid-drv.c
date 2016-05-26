@@ -97,7 +97,7 @@ int hardsid_drv_open(void)
 
 #ifdef AMIGA_M68K
     rc = hs_gg2_isa_open();
-    if (rc == 1) {
+    if (!rc) {
         hs_use_gg2_isa = 1;
         return 0;
     }
@@ -111,7 +111,7 @@ int hardsid_drv_open(void)
 
 #ifdef HAVE_PROTO_OPENPCI_H
     rc = hs_openpci_open();
-    if (rc == 1) {
+    if (!rc) {
         hs_use_openpci = 1;
         return 0;
     }
@@ -119,7 +119,7 @@ int hardsid_drv_open(void)
 
 #ifdef AMIGA_OS4
     rc = hs_os4_open();
-    if (rc == 1) {
+    if (!rc) {
         hs_use_os4 = 1;
         return 0;
     }
@@ -156,10 +156,26 @@ int hardsid_drv_close(void)
 
 int hardsid_drv_available(void)
 {
-    int i = hardsid_open();
+    int i = hardsid_drv_open();
 
     if (i != -1) {
-        return 1;
+#ifdef AMIGA_M68K
+    if (hs_use_gg2_isa) {
+        return hs_gg2_isa_available();
+    }
+#endif
+
+#ifdef HAVE_PROTO_OPENPCI_H
+    if (hs_use_openpci) {
+        return hs_openpci_available();
+    }
+#endif
+
+#ifdef AMIGA_OS4
+    if (hs_use_os4) {
+        return hs_os4_available();
+    }
+#endif
     }
     return 0;
 }

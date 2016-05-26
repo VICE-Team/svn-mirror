@@ -40,9 +40,7 @@
 static unsigned char read_sid(unsigned char reg); // Read a SID register
 static void write_sid(unsigned char reg, unsigned char data); // Write a SID register
 
-static int sidfh = 0;
-
-typedef void (*voidfunc_t)(void);
+static int sids_found = -1;
 
 static BYTE *CWbase = NULL;
 
@@ -51,10 +49,7 @@ int cw_clockport_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
-        /* if addr is from read-only register, perform a real read */
-        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            return read_sid(addr);
-        }
+        return read_sid(addr);
     }
 
     return 0;
@@ -65,10 +60,7 @@ void cw_clockport_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr <= 0x18) {
-	  /* if the device is opened, write to device */
-        if (sidfh >= 0) {
-            write_sid(addr, val);
-        }
+        write_sid(addr, val);
     }
 }
 
@@ -131,6 +123,16 @@ int cw_clockport_open(void)
 {
     int i;
 
+    if (sids_found == 0) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
     for (i = 0; cp_addresses[i]; ++i) {
         if (detect_sid(cp_addresses[i]) {
             CWbase = cp_addresses[i];
@@ -141,12 +143,14 @@ int cw_clockport_open(void)
         return -1;
     }
 
+    sids_found = 1;
+
     /* mute all sids */
     for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
+    log_message(LOG_DEFAULT, "CatWeasel MK3 Clockport SID: opened at $%X", CWbase);
 
     /* install exit handler, so device is closed on exit */
     if (!atexitinitialized) {
@@ -154,9 +158,7 @@ int cw_clockport_open(void)
         atexit((voidfunc_t)cw_clockport_close);
     }
 
-    sidfh = 1; /* ok */
-
-    return 1;
+    return 0;
 }
 
 static unsigned char read_sid(unsigned char reg)
@@ -205,6 +207,13 @@ int cw_clockport_close(void)
         write_sid(i, 0);
     }
 
+    sids_found = -1;
+
     return 0;
+}
+
+int cw_clockport_available(void)
+{
+    return sids_found;
 }
 #endif

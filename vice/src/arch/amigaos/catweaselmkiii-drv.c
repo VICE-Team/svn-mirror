@@ -111,14 +111,14 @@ int catweaselmkiii_drv_open(void)
 {
     int rc = cw_device_open();
 
-    if (rc == 1) {
+    if (!rc) {
         cw_use_device = 1;
         return 0;
     }
 
 #ifdef AMIGA_M68K
     rc = cw_zorro_open();
-    if (rc == 1) {
+    if (!rc) {
         cw_use_zorro = 1;
         return 0;
     }
@@ -132,7 +132,7 @@ int catweaselmkiii_drv_open(void)
 
 #ifdef HAVE_PROTO_OPENPCI_H
     rc = cw_openpci_open();
-    if (rc == 1) {
+    if (!rc) {
         cw_use_openpci = 1;
         return 0;
     }
@@ -140,7 +140,7 @@ int catweaselmkiii_drv_open(void)
 
 #ifdef AMIGA_OS4
     rc = cw_os4_open();
-    if (rc == 1) {
+    if (!rc) {
         cw_use_os4 = 1;
         return 0;
     }
@@ -148,8 +148,9 @@ int catweaselmkiii_drv_open(void)
 
 #ifdef AMIGA_M68K
     rc = cw_clockport_open();
-    if (rc == 1) {
+    if (!rc) {
         cw_use_clockport = 1;
+        return 0;
     }
 #endif
 
@@ -193,10 +194,34 @@ int catweaselmkiii_drv_close(void)
 
 int catweaselmkiii_drv_available(void)
 {
-    int i = catweaselmkiii_open();
+    int i = catweaselmkiii_drv_open();
 
     if (i != -1) {
-        return 1;
+
+        if (cw_use_device) {
+            return cw_device_available();
+        }
+
+#ifdef AMIGA_M68K
+        if (cw_use_zorro) {
+            return cw_zorro_available();
+        }
+        if (cw_use_clockport) {
+            return cw_clockport_available();
+        }
+#endif
+
+#ifdef HAVE_PROTO_OPENPCI_H
+        if (cw_use_openpci) {
+            return cw_openpci_available();
+        }
+#endif
+
+#ifdef AMIGA_OS4
+        if (cw_use_os4) {
+             return cw_os4_available();
+        }
+#endif
     }
     return 0;
 }

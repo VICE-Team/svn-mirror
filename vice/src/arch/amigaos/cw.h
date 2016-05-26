@@ -56,4 +56,10 @@ extern void cw_clockport_store(WORD addr, BYTE val, int chipno);
 
 extern void cw_device_set_machine_parameter(long cycles_per_sec);
 
+extern int cw_device_available(void);
+extern int cw_openpci_available(void);
+extern int cw_os4_available(void);
+extern int cw_zorro_available(void);
+extern int cw_clockport_available(void);
+
 #endif

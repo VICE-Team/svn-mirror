@@ -48,4 +48,8 @@ extern void hs_gg2_isa_store(WORD addr, BYTE val, int chipno);
 
 extern void hs_device_set_machine_parameter(long cycles_per_sec);
 
+extern int hs_gg2_isa_available(void);
+extern int hs_openpci_available(void);
+extern int hs_os4_available(void);
+
 #endif

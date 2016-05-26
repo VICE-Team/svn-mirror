@@ -36,28 +36,23 @@
 #include "log.h"
 #include "types.h"
 
-#define MAXSID 1
+#define MAXSID 4
 
-static int hs_found = 0;
+static int sids_found = -1;
 
-static unsigned char read_sid(unsigned char reg); // Read a SID register
-static void write_sid(unsigned char reg, unsigned char data); // Write a SID register
+static int hssids[MAXSID] = {0, 0, 0, 0};
 
-static int sidfh = 0;
+static unsigned char read_sid(unsigned char *base, unsigned char reg); // Read a SID register
+static void write_sid(unsigned char *base, unsigned char reg, unsigned char data); // Write a SID register
 
-typedef void (*voidfunc_t)(void);
-
-static unsigned long HSbase;
+static unsigned char *HSbase = NULL;
 
 /* read value from SIDs */
 int hs_openpci_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && addr < 0x20) {
-        /* if addr is from read-only register, perform a real read */
-        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            return read_sid(addr);
-        }
+    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
+        return read_sid(addr, chipno);
     }
 
     return 0;
@@ -67,11 +62,8 @@ int hs_openpci_read(WORD addr, int chipno)
 void hs_openpci_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && addr <= 0x18) {
-        /* if the device is opened, write to device */
-        if (sidfh >= 0) {
-            write_sid(addr, val);
-        }
+    if (chipno < MAXSID && hssids[chipno] && addr <= 0x20) {
+        write_sid(addr, val, chipno);
     }
 }
 
@@ -88,18 +80,51 @@ static int HSLock = FALSE;
 
 static struct pci_dev *dev = NULL;
 
+static int detect_sid(int chipno)
+{
+    int i;
+
+    for (i = 0x18; i >= 0; --i) {
+        write_sid((unsigned short)i, 0, chipno);
+    }
+
+    write_sid(0x12, 0xff, chipno);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid(0x1b, chipno)) {
+            return 0;
+        }
+    }
+
+    write_sid(0x0e, 0xff, chipno);
+    write_sid(0x0f, 0xff, chipno);
+    write_sid(0x12, 0x20, chipno);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid(0x1b, chipno)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int hs_openpci_open(void)
 {
     static int atexitinitialized = 0;
-    unsigned int i;
+    unsigned int i, j;
     unsigned char bus = 0;
 
-    if (hs_found != 0) {
-        return (hs_found == 1) ? 0 : -1;
+    if (sids_found > 0) {
+        return 0;
     }
 
+    if (!sids_found) {
+        return -1;
+    }
+
+    sids_found = 0;
+
     if (!pci_lib_loaded) {
-        hs_found = -1;
         return -1;
     }
 
@@ -111,7 +136,6 @@ int hs_openpci_open(void)
 
     if (!bus) {
         log_message(LOG_DEFAULT, "No PCI bus found\n");
-        hs_found = -1;
         return -1;
     }
 
@@ -119,7 +143,6 @@ int hs_openpci_open(void)
 
     if (dev == NULL) {
         log_message( LOG_DEFAULT, "Unable to find a HardSID PCI card\n" );
-        hs_found = -1;
         return -1;
     }
 
@@ -128,12 +151,11 @@ int hs_openpci_open(void)
     HSLock = pci_obtain_card(dev);
     if (!HSLock) {
         log_message(LOG_DEFAULT, "Unable to lock the hardsid. Another driver may have an exclusive lock\n" );
-        hs_found = -1;
         return -1;
     }
 #endif
 
-    HSbase = dev->base_address[0];
+    HSbase = (char *)dev->base_address[0];
 
     // Reset the hardsid PCI interface (as per hardsid linux driver)
     pci_outb(0xff, HSbase + 0x00);
@@ -141,12 +163,27 @@ int hs_openpci_open(void)
     usleep(100);
     pci_outb(0x24, HSbase + 0x02);
 
-    /* mute all sids */
-    for (i = 0; i < 32; i++) {
-        write_sid(i, 0);
+    for (j = 0; j < MAXSID; ++j) {
+        if (detect_sid(j)) {
+            hssids[j] = 1;
+            sids_found++;
+        }
     }
 
-    log_message(LOG_DEFAULT, "HardSID PCI: opened");
+    if (!sids_found) {
+        return -1;
+    }
+
+    /* mute all sids */
+    for (j = 0; j < MAXSID; ++j) {
+        if (hssids[j]) {
+            for (i = 0; i < 32; i++) {
+                write_sid(i, 0, j);
+            }
+        }
+    }
+
+    log_message(LOG_DEFAULT, "HardSID PCI: opened at $%X", );
 
     /* install exit handler, so device is closed on exit */
     if (!atexitinitialized) {
@@ -154,18 +191,14 @@ int hs_openpci_open(void)
         atexit((voidfunc_t)hardsid_drv_close);
     }
 
-    sidfh = 1; /* ok */
-
-    hs_found = 1;
-
     return 0;
 }
 
-static unsigned char read_sid(unsigned char reg)
+static unsigned char read_sid(unsigned char reg, int chipno)
 {
     unsigned char ret;
 
-    pci_outb((reg & 0x1f) | 0x20, HSbase + 4);
+    pci_outb((chipno << 6) | (reg & 0x1f) | 0x20, HSbase + 4);
     usleep(2);
     pci_outb(0x20, HSbase);
     ret = pci_inb(HSbase);
@@ -173,20 +206,23 @@ static unsigned char read_sid(unsigned char reg)
     return ret;
 }
 
-static void write_sid(unsigned char reg, unsigned char data)
+static void write_sid(unsigned char reg, unsigned char data, int chipno)
 {
-    pci_outw(((reg & 0x1f) << 8) | data, HSbase + 3);
+    pci_outw((chipno << 14) | ((reg & 0x1f) << 8) | data, HSbase + 3);
 }
 
 int hs_openpci_close(void)
 {
-    unsigned int i;
+    unsigned int i, j;
 
-    if (hs_found == 1) {
-        /* mute all sids */
-        for (i = 0; i < sizeof(sidbuf); i++) {
-            write_sid(i, 0);
+    /* mute all sids */
+    for (j = 0; j < MAXSID; ++j) {
+        if (hssids[j]) {
+            for (i = 0; i < sizeof(sidbuf); i++) {
+                write_sid(i, 0, j);
+            }
         }
+        hssids[j] = 0;
     }
 
 #if defined(pci_obtain_card) && defined(pci_release_card)
@@ -197,18 +233,13 @@ int hs_openpci_close(void)
 
     log_message(LOG_DEFAULT, "HardSID PCI: closed");
 
-    hs_found = 0;
+    sids_found = -1;
 
     return 0;
 }
-#endif
-
 
 int hs_openpci_available(void)
 {
-    if (!hs_found) {
-        hs_openpci_open();
-    }
-    return (hs_found == 1) ? 1 : 0;
+    return sids_found;
 }
 #endif

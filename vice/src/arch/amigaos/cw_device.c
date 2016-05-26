@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ian Gledhill <ian.gledhill@btinternet.com>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,8 +27,6 @@
 
 #include "vice.h"
 
-static int cwmkiii_found = 1;
-
 #define __USE_INLINE__
 
 #include <stdlib.h>
@@ -50,7 +49,6 @@ static int cwmkiii_found = 1;
 #include <devices/trackdisk.h>
 #include <proto/exec.h>
 
-
 #include "cw.h"
 #include "log.h"
 #include "types.h"
@@ -58,24 +56,18 @@ static int cwmkiii_found = 1;
 static unsigned char read_sid(unsigned char reg, int chipno); // Read a SID register
 static void write_sid(unsigned char reg, unsigned char data, int chipno); // Write a SID register
 
-typedef void (*voidfunc_t)(void);
-
 #define MAXSID 2
 
 static int gSIDs = 0;
 
-static int sidfh = 0;
+static int sids_found = -1;
 
 /* read value from SIDs */
 int cw_device_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < gSIDs && addr < 0x20) {
-        /* if addr is from read-only register, perform a real read */
-        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            addr += chipno * 0x20;
-            return read_sid(addr, chipno);
-        }
+        return read_sid(addr, chipno);
     }
 
     return 0;
@@ -85,13 +77,8 @@ int cw_device_read(WORD addr, int chipno)
 void cw_device_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < gSIDs && addr <= 0x18) {
-        /* correct addr, so it becomes an index into the device */
-        addr += chipno * 0x20;
-        /* if the device is opened, write to device */
-        if (sidfh >= 0) {
-            write_sid(addr, val, chipno);
-        }
+    if (chipno < gSIDs && addr <= 0x20) {
+        write_sid(addr, val, chipno);
     }
 }
 
@@ -110,6 +97,16 @@ int cw_device_open(void)
 {
     static int atexitinitialized = 0;
     unsigned int i;
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    sids_found = 0;
 
     if (atexitinitialized) {
         cw_device_close();
@@ -147,18 +144,20 @@ int cw_device_open(void)
         atexit((voidfunc_t)cw_device_close);
     }
 
-    sidfh = 1; /* ok */
+    sids_found = gSIDs;
 
-    return 1;
+    return 0;
 }
 
 int cw_device_close(void)
 {
-    unsigned int i;
+    int i, j;
 
     /* mute all sids */
-    for (i = 0; i < 32; i++) {
-        write_sid(i, 0, i / 0x20);
+    for (j = 0; j < sids_found; ++j) {
+        for (i = 0; i < 32; ++i) {
+            write_sid(i, 0, j);
+        }
     }
 
     for (i = 0; i < 2; i++) {
@@ -177,16 +176,14 @@ int cw_device_close(void)
 	
     log_message(LOG_DEFAULT, "CatWeasel Device: closed");
 
+    sids_found = -1;
+
     return 0;
 }
 
 static unsigned char read_sid(unsigned char reg, int chipno)
 {
     unsigned char tData[2];
-
-    if (gSIDs == 0) {
-        return 0;
-    }
 
     if (gSwapSIDs) {
         chipno = 1 - chipno;
@@ -210,10 +207,6 @@ static unsigned char read_sid(unsigned char reg, int chipno)
 static void write_sid(unsigned char reg, unsigned char data, int chipno)
 {
     unsigned char tData[2];
-
-    if (gSIDs == 0) {
-        return;
-    }
 
     if (gSwapSIDs) {
         chipno = 1 - chipno;
@@ -252,4 +245,9 @@ void cw_device_set_machine_parameter(long cycles_per_sec)
             DoIO((struct IORequest *)gCatweaselReq[i]);
         }
     }
+}
+
+int cw_device_available(void)
+{
+    return sids_found;
 }

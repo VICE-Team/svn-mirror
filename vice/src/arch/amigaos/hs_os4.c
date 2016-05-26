@@ -36,26 +36,22 @@
 #include "log.h"
 #include "types.h"
 
-static int hs_found = 0;
 
 static unsigned char read_sid(unsigned char reg); // Read a SID register
 static void write_sid(unsigned char reg, unsigned char data); // Write a SID register
 
-typedef void (*voidfunc_t)(void);
+#define MAXSID 4
 
-#define MAXSID 1
+static int sids_found = -1;
 
-static int sidfh = 0;
+static int hssids[MAXSID] = {0, 0, 0, 0};
 
 /* read value from SIDs */
 int hs_os4_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && addr < 0x20) {
-        /* if addr is from read-only register, perform a real read */
-        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            return read_sid(addr);
-        }
+    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
+        return read_sid(addr, chipno);
     }
     return 0;
 }
@@ -64,11 +60,8 @@ int hs_os4_read(WORD addr, int chipno)
 void hs_os4_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && addr <= 0x18) {
-	  /* if the device is opened, write to device */
-        if (sidfh >= 0) {
-            write_sid(addr, val);
-        }
+    if (chipno < MAXSID && hssids[chipno] && addr <= 0x20) {
+        write_sid(addr, val, chipno);
     }
 }
 
@@ -84,28 +77,60 @@ static struct PCIDevice *HSDevPCI = NULL;
 static struct PCIResourceRange *HSDevBAR = NULL;
 int HSLock = FALSE;
 
+static int detect_sid(int chipno)
+{
+    int i;
+
+    for (i = 0x18; i >= 0; --i) {
+        write_sid((unsigned short)i, 0, chipno);
+    }
+
+    write_sid(0x12, 0xff, chipno);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid(0x1b, chipno)) {
+            return 0;
+        }
+    }
+
+    write_sid(0x0e, 0xff, chipno);
+    write_sid(0x0f, 0xff, chipno);
+    write_sid(0x12, 0x20, chipno);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid(0x1b, chipno)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int hs_os4_open(void)
 {
     static int atexitinitialized = 0;
-    unsigned int i;
+    unsigned int i, j;
 
-    if (hs_found != 0) {
-        return (hs_found == 1) ? 0 : -1;
+    if (!sids_found) {
+        return -1;
     }
 
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
     if (!pci_lib_loaded) {
-        hs_found = -1;
         return -1;
     }
 
     if (atexitinitialized) {
-        hardsid_drv_close();
+        hs_os4_close();
     }
 
     IPCI = (struct PCIIFace *)IExec->GetInterface(ExpansionBase, "pci", 1, NULL);
     if (!IPCI) {
         log_message(LOG_DEFAULT, "Unable to obtain PCI expansion interface\n");
-        hs_found = -1;
         return -1;
     }
 
@@ -116,7 +141,6 @@ int hs_os4_open(void)
                                     TAG_DONE);
     if (!HSDevPCI) {
         log_message(LOG_DEFAULT, "Unable to find a HardSID PCI card\n");
-        hs_found = -1;
         return -1;
     }
 
@@ -124,7 +148,6 @@ int hs_os4_open(void)
     HSLock = HSDevPCI->Lock(PCI_LOCK_SHARED);
     if (!HSLock) {
         log_message(LOG_DEFAULT, "Unable to lock the hardsid. Another driver may have an exclusive lock\n");
-        hs_found = -1;
         return -1;
     }
 
@@ -132,7 +155,6 @@ int hs_os4_open(void)
     HSDevBAR = HSDevPCI->GetResourceRange(0);
     if (!HSDevBAR) {
         log_message(LOG_DEFAULT, "Unable to get resource range 0\n");
-        hs_found = -1;
         return -1;
     }
 
@@ -142,9 +164,24 @@ int hs_os4_open(void)
     usleep(100);
     HSDevPCI->OutByte(HSDevBAR->BaseAddress + 0x02, 0x24);
 
+    for (j = 0; j < MAXSID; ++j) {
+        if (detect_sid(j)) {
+            hssids[j] = 1;
+            sids_found++;
+        }
+    }
+
+    if (!sids_found) {
+        return -1;
+    }
+
     /* mute all sids */
-    for (i = 0; i < 32; i++) {
-        write_sid(i, 0);
+    for (j = 0; j < MAXSID; ++j) {
+        if (hssids[j]) {
+            for (i = 0; i < 32; i++) {
+                write_sid(i, 0, j);
+            }
+        }
     }
 
     log_message(LOG_DEFAULT, "HardSID PCI: opened");
@@ -155,22 +192,21 @@ int hs_os4_open(void)
         atexit((voidfunc_t)hardsid_drv_close);
     }
 
-    sidfh = 1; /* ok */
-
-    hs_found = 1;
-
     return 0;
 }
 
 int hs_os4_close(void)
 {
-    unsigned int i;
+    unsigned int i, j;
 
-    if (hs_found == 1) {
-        /* mute all sids */
-        for (i = 0; i < 32; i++) {
-            write_sid(i, 0);
+    /* mute all sids */
+    for (j = 0; j < MAXSID; ++j) {
+        if (hssids[j]) {
+            for (i = 0; i < 32; i++) {
+                write_sid(i, 0, j);
+            }
         }
+        hssids[j] = 0;
     }
 
     if (HSDevBAR) {
@@ -185,16 +221,16 @@ int hs_os4_close(void)
 
     log_message(LOG_DEFAULT, "HardSID PCI: closed");
 
-    hs_found = 0;
+    sids_found = -1;
 
     return 0;
 }
 
-static unsigned char read_sid(unsigned char reg)
+static unsigned char read_sid(unsigned char reg, int chipno)
 {
     unsigned char ret;
 
-    HSDevPCI->OutByte(HSDevBAR->BaseAddress + 4, ((reg & 0x1f) | 0x20));
+    HSDevPCI->OutByte(HSDevBAR->BaseAddress + 4, ((chipno << 6) | (reg & 0x1f) | 0x20));
     usleep(2);
     HSDevPCI->OutByte(HSDevBAR->BaseAddress, 0x20);
     ret = HSDevPCI->InByte(HSDevBAR->BaseAddress);
@@ -205,14 +241,11 @@ static unsigned char read_sid(unsigned char reg)
 
 static void write_sid(unsigned char reg, unsigned char data)
 {
-    HSDevPCI->OutWord(HSDevBAR->BaseAddress + 3, ((reg & 0x1f) << 8) | data);
+    HSDevPCI->OutWord(HSDevBAR->BaseAddress + 3, ((chipno << 14) | (reg & 0x1f) << 8) | data);
 }
 
 int hs_os4_available(void)
 {
-    if (!hs_found) {
-        hs_os4_open();
-    }
-    return (hs_found == 1) ? 1 : 0;
+    return sids_found;
 }
 #endif
