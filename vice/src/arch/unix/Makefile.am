@@ -55,6 +55,8 @@ libarch_a_SOURCES = \
 	hs-linux.c \
 	hs-isa.c \
 	icon.h \
+	io-access.c \
+	io-access.h \
 	joy.c \
 	joy.h \
 	joy_usb.c \
