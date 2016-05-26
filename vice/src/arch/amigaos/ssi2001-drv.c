@@ -189,4 +189,14 @@ int ssi2001_drv_close(void)
 
     return 0;
 }
+
+int ssi2001_drv_available(void)
+{
+    int i = ssi2001_drv_open();
+
+    if (i != -1) {
+        return sids_found;
+    }
+    return 0;
+}
 #endif
