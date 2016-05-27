@@ -50,6 +50,8 @@ typedef void (*voidfunc_t)(void);
 #define SID_SET_CLOCK     CTL_CODE(FILE_DEVICE_SOUND, 0x0800UL + 4, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define SID_CMD_READ      32
 
+static int sids_found = -1;
+
 /* array containing file handles for up to MAXCARD CatWeasels */
 static HANDLE sidhandle[CW_MAXCARDS] = {
     INVALID_HANDLE_VALUE,
@@ -94,7 +96,17 @@ static void mutethem(void)
 int catweaselmkiii_drv_open(void)
 {
     static int atexitinitialized = 0;
-    int i, z = 0;
+    int i;
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
 
     /* close any open handles */
     for (i = 0; i < CW_MAXCARDS; i++) {
@@ -108,15 +120,15 @@ int catweaselmkiii_drv_open(void)
         char buf[32];
 
         sprintf(buf, "\\\\.\\SID6581_%u", i + 1);
-        sidhandle[z] = CreateFile(buf, GENERIC_READ, FILE_SHARE_WRITE | FILE_SHARE_READ, 0L, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0L);
-        if (sidhandle[z] != INVALID_HANDLE_VALUE) {
-            log_message(LOG_DEFAULT, "Found CatWeasel MK3 PCI #%i", z + 1);
-            z++;
+        sidhandle[sids_found] = CreateFile(buf, GENERIC_READ, FILE_SHARE_WRITE | FILE_SHARE_READ, 0L, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0L);
+        if (sidhandle[sids_found] != INVALID_HANDLE_VALUE) {
+            log_message(LOG_DEFAULT, "Found CatWeasel MK3 PCI #%i", sids_found + 1);
+            sids_found++;
         }
     }
 
     /* if cards were found */
-    if (z > 0) {
+    if (sids_found > 0) {
         log_message(LOG_DEFAULT, "Found and opened a CatWeasel MK3 PCI SID");
 
         /* silent all found cards */
@@ -152,6 +164,9 @@ int catweaselmkiii_drv_close(void)
     }
 
     log_message(LOG_DEFAULT, "Closed CatWeasel MK3 PCI SID");
+
+    sids_found = -1;
+
     return 0;
 }
 
@@ -213,14 +228,6 @@ void catweaselmkiii_drv_set_machine_parameter(long cycles_per_sec)
 
 int catweaselmkiii_drv_available(void)
 {
-    int i;
-
-    i = catweaselmkiii_open();
-
-    if (i != -1) {
-        catweaselmkiii_close();
-        return 1;
-    }
-    return 0;
+    return sids_found;
 }
 #endif

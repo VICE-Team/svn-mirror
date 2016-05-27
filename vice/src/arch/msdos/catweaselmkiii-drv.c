@@ -45,7 +45,7 @@ typedef unsigned long uint32;
 
 static int base;
 
-static int sidfh = -1;
+static int sids_found = -1;
 
 #define CW_SID_DAT 0xd8
 #define CW_SID_CMD 0xdc
@@ -117,8 +117,7 @@ static unsigned char read_sid(unsigned char reg)
     outportb(base + CW_SID_CMD, cmd);
 
     // Waste 1ms
-    inportb(base + CW_SID_DAT);
-    inportb(base + CW_SID_DAT);
+    usleep(1);
 
     return inportb(base + CW_SID_DAT);
 }
@@ -137,13 +136,22 @@ static void write_sid(unsigned char reg, unsigned char data)
     outportb(base + CW_SID_CMD, cmd);
 
     // Waste 1ms
-    inportb(base + CW_SID_DAT);
-    inportb(base + CW_SID_DAT);
+    usleep(1);
 }
 
 int catweaselmkiii_drv_open(void)
 {
     int i;
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
 
     base = pci_find_catweasel(0);
 
@@ -168,7 +176,7 @@ int catweaselmkiii_drv_open(void)
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
 
-    sidfh = 1; /* ok */
+    sids_found = 1;
 
     return 0;
 }
@@ -184,6 +192,8 @@ int catweaselmkiii_drv_close(void)
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
 
+    sids_found = -1;
+
     return 0;
 }
 
@@ -192,10 +202,7 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < 1 && addr < 0x20) {
-        /* if addr is from read-only register, perform a real read */
-        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            return read_sid(addr);
-        }
+        return read_sid(addr);
     }
 
     return 0;
@@ -205,11 +212,8 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
 void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < 1 && addr <= 0x18) {
-        /* if the device is opened, write to device */
-        if (sidfh >= 0) {
-            write_sid(addr, val);
-        }
+    if (chipno < 1 && addr < 0x20) {
+        write_sid(addr, val);
     }
 }
 
@@ -221,11 +225,6 @@ void catweaselmkiii_drv_set_machine_parameter(long cycles_per_sec)
 
 int catweaselmkiii_drv_available(void)
 {
-    int i = catweaselmkiii_open();
-
-    if (i != -1) {
-        return 1;
-    }
-    return 0;
+    return sids_found;
 }
 #endif

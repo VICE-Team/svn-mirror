@@ -100,11 +100,13 @@ void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 
 int catweaselmkiii_available(void)
 {
-    if (cw3_open != -1) {
-        return 1;
+    int i = catweaselmkiii_open();
+
+    if (!i) {
+        return catweaselmkiii_drv_available();
     }
 
-    return catweaselmkiii_drv_available();
+    return 0;
 }
 
 int catweaselmkiii_get_ntsc(void)

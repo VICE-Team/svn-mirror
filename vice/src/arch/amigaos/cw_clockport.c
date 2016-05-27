@@ -59,7 +59,7 @@ int cw_clockport_read(WORD addr, int chipno)
 void cw_clockport_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && addr <= 0x18) {
+    if (chipno < MAXSID && addr < 0x20) {
         write_sid(addr, val);
     }
 }

@@ -127,7 +127,7 @@ int cw_zorro_open(void)
         atexit((voidfunc_t)cw_zorro_close);
     }
 
-    sids_found = 1; /* ok */
+    sids_found = 1;
 
     return 1;
 }

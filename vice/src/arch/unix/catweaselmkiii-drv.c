@@ -46,10 +46,13 @@
 
 typedef void (*voidfunc_t)(void);
 
-#define MAXSID 2
+/* FIXME: currently only 1 SID is checked for */
+#define MAXSID 1
 
 /* file handle for unix device */
 static int sidfh = -1;
+
+static int sids_found = -1;
 
 /* set all CatWeasels frequency to global variable ntsc */
 static void setfreq()
@@ -64,6 +67,16 @@ int catweaselmkiii_drv_open(void)
 {
     int i;
     static int atexitinitialized = 0;
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
 
     /* if no device is currently opened */
     if (sidfh < 0) {
@@ -96,17 +109,14 @@ int catweaselmkiii_drv_open(void)
         atexit((voidfunc_t)catweaselmkiii_close);
     }
 
+    sids_found = 1;
+
     return 0;
 }
 
 int catweaselmkiii_drv_available(void)
 {
-    int i = catweaselmkiii_open();
-
-    if (i != -1) {
-        return 1;
-    }
-    return 0;
+    return sids_found;
 }
 
 /* close unix device */
@@ -128,6 +138,8 @@ int catweaselmkiii_drv_close(void)
         log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
     }
 
+    sids_found = -1;
+
     return 0;
 }
 
@@ -138,13 +150,9 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
 
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
-        /* if addr is from read-only register, perform a real read */
-        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            addr += chipno*0x20;
-            lseek(sidfh, addr, SEEK_SET);
-            read(sidfh, &retval, 1);
-            return retval;
-        }
+        lseek(sidfh, addr, SEEK_SET);
+        read(sidfh, &retval, 1);
+        return retval;
     }
 
     return 0;
@@ -154,9 +162,7 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
 void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && addr <= 0x18) {
-        /* correct addr, so it becomes an index into the unix device */
-        addr += chipno * 0x20;
+    if (chipno < MAXSID && addr < 0x20) {
 
         /* if the device is opened, write to device */
         if (sidfh >= 0) {

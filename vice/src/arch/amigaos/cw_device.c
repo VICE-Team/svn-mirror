@@ -77,7 +77,7 @@ int cw_device_read(WORD addr, int chipno)
 void cw_device_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < gSIDs && addr <= 0x20) {
+    if (chipno < gSIDs && addr < 0x20) {
         write_sid(addr, val, chipno);
     }
 }

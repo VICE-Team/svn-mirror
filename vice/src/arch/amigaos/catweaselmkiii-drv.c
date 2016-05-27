@@ -194,35 +194,30 @@ int catweaselmkiii_drv_close(void)
 
 int catweaselmkiii_drv_available(void)
 {
-    int i = catweaselmkiii_drv_open();
-
-    if (i != -1) {
-
-        if (cw_use_device) {
-            return cw_device_available();
-        }
+    if (cw_use_device) {
+        return cw_device_available();
+    }
 
 #ifdef AMIGA_M68K
-        if (cw_use_zorro) {
-            return cw_zorro_available();
-        }
-        if (cw_use_clockport) {
-            return cw_clockport_available();
-        }
+    if (cw_use_zorro) {
+        return cw_zorro_available();
+    }
+    if (cw_use_clockport) {
+        return cw_clockport_available();
+    }
 #endif
 
 #ifdef HAVE_PROTO_OPENPCI_H
-        if (cw_use_openpci) {
-            return cw_openpci_available();
-        }
+    if (cw_use_openpci) {
+        return cw_openpci_available();
+    }
 #endif
 
 #ifdef AMIGA_OS4
-        if (cw_use_os4) {
-             return cw_os4_available();
-        }
-#endif
+    if (cw_use_os4) {
+        return cw_os4_available();
     }
+#endif
     return 0;
 }
 

@@ -60,7 +60,7 @@ int cw_openpci_read(WORD addr, int chipno)
 void cw_openpci_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && addr <= 0x20) {
+    if (chipno < MAXSID && addr < 0x20) {
         write_sid(addr, val);
     }
 }
