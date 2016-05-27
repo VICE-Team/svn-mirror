@@ -14,7 +14,11 @@ END-INFO-DIR-ENTRY
 
 @c global options
 @setchapternewpage on
+@ifset txicommandconditionals
+@ifcommanddefined firstparagraphindent
 @firstparagraphindent none
+@end ifcommanddefined
+@end ifset
 @paragraphindent 0
 @exampleindent 0
 
