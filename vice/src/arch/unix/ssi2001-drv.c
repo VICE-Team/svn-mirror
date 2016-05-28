@@ -39,14 +39,22 @@
 
 #define SSI2008_BASE 0x280
 
+#define MAXSID 1
+
+static int sids_found = -1;
+
 void ssi2001_drv_store(WORD addr, BYTE value, int chipno)
 {
-    io_access_store(SSI2008_BASE + (addr & 0x1f), value);
+    if (chipno < MAXSID && addr < 0x20) {
+        io_access_store(SSI2008_BASE + (addr & 0x1f), value);
+    }
 }
 
 int ssi2001_drv_read(WORD addr, int chipno)
 {
-    return io_access_read(SSI2008_BASE + (addr & 0x1f));
+    if (chipno < MAXSID && addr < 0x20) {
+        return io_access_read(SSI2008_BASE + (addr & 0x1f));
+    }
 }
 
 static int detect_sid(void)
@@ -79,10 +87,21 @@ static int detect_sid(void)
 
 int ssi2001_drv_open(void)
 {
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
     if (io_access_map(SSI2008_BASE, 32) < 0) {
         return -1;
     }
     if (detect_sid()) {
+        sids_found = 1;
         return 0;
     }
     return -1;
@@ -91,6 +110,12 @@ int ssi2001_drv_open(void)
 int ssi2001_drv_close(void)
 {
     io_access_unmap(SSI2008_BASE, 32);
+    sids_found = -1;
     return 0;
+}
+
+int ssi2001_drv_available(void)
+{
+    return sids_found;
 }
 #endif

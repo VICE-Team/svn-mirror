@@ -34,28 +34,28 @@
 
 static BYTE sidbuf[0x20];
 
-static int ssi2001_open_status = 0;
+static int ssi2001_open_status = -1;
 
 int ssi2001_open(void)
 {
-    if (!ssi2001_open_status) {
-        ssi2001_open_status = (ssi2001_drv_open() < 0) ? 0 : 1;
+    if (ssi2001_open_status) {
+        ssi2001_open_status = ssi2001_drv_open();
     }
     return ssi2001_open_status;
 }
 
 int ssi2001_close(void)
 {
-    if (ssi2001_open_status) {
+    if (!ssi2001_open_status) {
         ssi2001_drv_close();
-        ssi2001_open_status = 0;
+        ssi2001_open_status = -1;
     }
     return 0;
 }
 
 int ssi2001_read(WORD addr, int chipno)
 {
-    if (ssi2001_open_status) {
+    if (!ssi2001_open_status) {
         /* use sidbuf[] for write-only registers */
         if (addr <= 0x18) {
             return sidbuf[addr];
@@ -67,7 +67,7 @@ int ssi2001_read(WORD addr, int chipno)
 
 void ssi2001_store(WORD addr, BYTE val, int chipno)
 {
-    if (ssi2001_open_status) {
+    if (!ssi2001_open_status) {
         /* write to sidbuf[] for write-only registers */
         if (addr <= 0x18) {
             sidbuf[addr] = val;
@@ -82,11 +82,10 @@ void ssi2001_set_machine_parameter(long cycles_per_sec)
 
 int ssi2001_available(void)
 {
-    if (ssi2001_open_status) {
-        return 1;
+    if (!ssi2001_open_status) {
+        return ssi2001_drv_available();
     }
-
-    return ssi2001_open();
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/

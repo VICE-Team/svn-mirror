@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <windows.h>
 
+#include "archdep.h"
 #include "hardsid.h"
 #include "log.h"
 #include "maincpu.h"
@@ -46,6 +47,10 @@ static UINT_PTR ftimer;
 static DWORD lastaccess_ms;
 static int lastaccess_chipno;
 static int chipused = -1;
+
+#define MAXSID 4
+
+static int sids_found = -1;
 
 typedef BYTE (CALLBACK* GetHardSIDCount_t)(void);
 typedef void (CALLBACK* InitHardSID_Mapper_t)(void);
@@ -78,7 +83,7 @@ static HardSID_Write_t HardSID_Write;
 static HardSID_Delay_t HardSID_Delay;
 
 static HINSTANCE dll = NULL;
-static unsigned int device_map[2] = { 0, 0 };
+static unsigned int device_map[MAXSID] = { 0, 0, 0, 0};
 
 static int has_usb_hardsid = 1;
 
@@ -147,7 +152,22 @@ int hs_dll_open(void)
     int res;
     int chipno;
 
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
     res = init_interface();
+
+    if (!dll) {
+        return -1;
+    }
+
     if (dll != NULL && has_usb_hardsid) {
         for (chipno = 0; chipno < 4; chipno++) {
             HardSID_Lock((BYTE)chipno);
@@ -158,6 +178,7 @@ int hs_dll_open(void)
         chipused = -1;
         ftimer = SetTimer(NULL, ftimer, 1, (TIMERPROC) ftimerproc);
     }
+    sids_found = GetHardSIDCount();
     return res;
 }
 
@@ -166,7 +187,7 @@ static void pcisa_hardsid_close(void)
     int chipno;
     WORD addr;
 
-    for (chipno = 0; chipno < 2; chipno++) {
+    for (chipno = 0; chipno < 4; chipno++) {
         for (addr = 0; addr < 24; addr++) {
            hardsid_store(addr, 0, chipno);
         }
@@ -190,12 +211,13 @@ int hs_dll_close(void)
             pcisa_hardsid_close();
         }
     }
+    sids_found = -1;
     return 0;
 }
 
 int hs_dll_read(WORD addr, int chipno)
 {
-    if (dll != NULL && !has_usb_hardsid) {
+    if (chipno < MAXSID && addr < 0x20 && dll != NULL && !has_usb_hardsid) {
         return ReadFromHardSID((BYTE)device_map[chipno], (UCHAR)(addr & 0x1f));
     }
 
@@ -207,7 +229,7 @@ void hs_dll_store(WORD addr, BYTE val, int chipno)
     CLOCK elapsed_cycles;
     BOOL flushneeded = FALSE;
 
-    if (dll != NULL) {
+    if (chipno < MAXSID && addr < 0x20 && dll != NULL) {
         if (!has_usb_hardsid) {
             WriteToHardSID((BYTE)device_map[chipno], (UCHAR)(addr & 0x1f), val);
         } else {
@@ -242,16 +264,14 @@ void hs_dll_store(WORD addr, BYTE val, int chipno)
 
 int hs_dll_available(void)
 {
-    if (init_interface() < 0) {
-        return 0;
-    }
-
-    return GetHardSIDCount();
+    return sids_found;
 }
 
 void hs_dll_set_device(unsigned int chipno, unsigned int device)
 {
-    device_map[chipno] = device;
+    if (chipno < MAXSID) {
+        device_map[chipno] = device;
+    }
 }
 
 /* ---------------------------------------------------------------------*/
@@ -266,6 +286,8 @@ void hs_dll_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
     sid_state->chipused = (DWORD)chipused;
     sid_state->device_map[0] = (DWORD)device_map[0];
     sid_state->device_map[1] = (DWORD)device_map[1];
+    sid_state->device_map[2] = (DWORD)device_map[2];
+    sid_state->device_map[3] = (DWORD)device_map[3];
 }
 
 void hs_dll_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)
@@ -276,5 +298,7 @@ void hs_dll_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)
     chipused = (int)sid_state->chipused;
     device_map[0] = (unsigned int)sid_state->device_map[0];
     device_map[1] = (unsigned int)sid_state->device_map[1];
+    device_map[2] = (unsigned int)sid_state->device_map[2];
+    device_map[3] = (unsigned int)sid_state->device_map[3];
 }
 #endif

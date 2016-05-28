@@ -700,16 +700,17 @@ static int sid_snapshot_read_cw3_module(snapshot_module_t *m, int sidnr)
 
 /* SIDEXTENDED (for hardsid engine) snapshot module format:
 
-   type  | name               | description
-   ----------------------------------------
-   ARRAY | registers          | 32 BYTES of register data
-   DWORD | main clock         | main clock
-   DWORD | alarm clock        | alarm clock
-   DWORD | last access clock  | last access clock
-   DWORD | last access ms     | last access ms
-   DWORD | last access chipno | last access chipno
-   DWORD | chip used          | chip used
-   ARRAY | device map         | 2 DWORDS of device map data
+   type  | name               | version | description
+   --------------------------------------------------
+   ARRAY | registers          |   1.2+  | 32 BYTES of register data
+   DWORD | main clock         |   1.2+  | main clock
+   DWORD | alarm clock        |   1.2+  | alarm clock
+   DWORD | last access clock  |   1.2+  | last access clock
+   DWORD | last access ms     |   1.2+  | last access ms
+   DWORD | last access chipno |   1.2+  | last access chipno
+   DWORD | chip used          |   1.2+  | chip used
+   ARRAY | device map         |   1.2+  | 2 DWORDS of device map data
+   ARRAY | extra device map   |   1.3   | 2 DWORDS of device map data
  */
 
 #ifdef HAVE_HARDSID
@@ -727,13 +728,13 @@ static int sid_snapshot_write_hs_module(snapshot_module_t *m, int sidnr)
         || SMW_DW(m, sid_state.lastaccess_ms) < 0
         || SMW_DW(m, sid_state.lastaccess_chipno) < 0
         || SMW_DW(m, sid_state.chipused) < 0
-        || SMW_DWA(m, sid_state.device_map, 2) < 0) {
+        || SMW_DWA(m, sid_state.device_map, 4) < 0) {
         return -1;
     }
     return 0;
 }
 
-static int sid_snapshot_read_hs_module(snapshot_module_t *m, int sidnr)
+static int sid_snapshot_read_hs_module(snapshot_module_t *m, int sidnr, BYTE vmajor, BYTE vminor)
 {
     sid_hs_snapshot_state_t sid_state;
 
@@ -745,8 +746,20 @@ static int sid_snapshot_read_hs_module(snapshot_module_t *m, int sidnr)
         || SMR_DW(m, &sid_state.lastaccess_ms) < 0
         || SMR_DW(m, &sid_state.lastaccess_chipno) < 0
         || SMR_DW(m, &sid_state.chipused) < 0
-        || SMR_DWA(m, sid_state.device_map, 2) < 0) {
+        || SMR_DW(m, &sid_state.device_map[0]) < 0
+        || SMR_DW(m, &sid_state.device_map[1]) < 0) {
         return -1;
+    }
+
+    if (SNAPVAL(vmajor, vminor, 1, 3)) {
+        if (0
+            || SMR_DW(m, &sid_state.device_map[2]) < 0
+            || SMR_DW(m, &sid_state.device_map[3]) < 0) {
+            return -1;
+        }
+    } else {
+        sid_state.device_map[2] = 0;
+        sid_state.device_map[3] = 0;
     }
 
     hardsid_state_write(sidnr, &sid_state);
@@ -991,7 +1004,7 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
 #endif
 #ifdef HAVE_HARDSID
         case SID_ENGINE_HARDSID:
-            if (sid_snapshot_read_hs_module(m, sidnr) < 0) {
+            if (sid_snapshot_read_hs_module(m, sidnr, major_version, minor_version) < 0) {
                 goto fail;
             }
             break;

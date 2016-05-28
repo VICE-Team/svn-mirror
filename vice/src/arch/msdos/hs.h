@@ -1,5 +1,5 @@
 /*
- * ssi2001.h - SSI2001 (ISA SID card) support.
+ * hs.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,28 +24,25 @@
  *
  */
 
-#ifndef VICE_SSI2001_H
-#define VICE_SSI2001_H
+#ifndef VICE_HS_H
+#define VICE_HS_H
 
 #include "types.h"
+#include "hardsid.h"
 
-#include "sid-snapshot.h"
+extern int hs_pci_open(void);
+extern int hs_isa_open(void);
 
-extern int ssi2001_open(void);
-extern int ssi2001_close(void);
-extern int ssi2001_read(WORD addr, int chipno);
-extern void ssi2001_store(WORD addr, BYTE val, int chipno);
-extern void ssi2001_set_machine_parameter(long cycles_per_sec);
+extern int hs_pci_close(void);
+extern int hs_isa_close(void);
 
-extern int ssi2001_available(void);
+extern int hs_pci_read(WORD addr, int chipno);
+extern int hs_isa_read(WORD addr, int chipno);
 
-extern int ssi2001_drv_open(void);
-extern int ssi2001_drv_close(void);
-extern int ssi2001_drv_read(WORD addr, int chipno);
-extern void ssi2001_drv_store(WORD addr, BYTE val, int chipno);
-extern int ssi2001_drv_available(void);
+extern void hs_pci_store(WORD addr, BYTE val, int chipno);
+extern void hs_isa_store(WORD addr, BYTE val, int chipno);
 
-extern void ssi2001_state_read(int chipno, struct sid_ssi2001_snapshot_state_s *sid_state);
-extern void ssi2001_state_write(int chipno, struct sid_ssi2001_snapshot_state_s *sid_state);
+extern int hs_isa_available(void);
+extern int hs_pci_available(void);
 
 #endif

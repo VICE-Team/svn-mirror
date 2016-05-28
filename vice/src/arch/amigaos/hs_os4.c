@@ -60,7 +60,7 @@ int hs_os4_read(WORD addr, int chipno)
 void hs_os4_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && hssids[chipno] && addr <= 0x20) {
+    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
         write_sid(addr, val, chipno);
     }
 }

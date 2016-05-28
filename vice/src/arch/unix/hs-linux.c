@@ -52,6 +52,11 @@ static CLOCK hsid_main_clk;
 static CLOCK hsid_alarm_clk;
 static alarm_t *hsid_alarm = 0;
 
+/* FIXME: currently only 1 SID is supported */
+#define MAXSID 1
+
+static int sids_found = -1;
+
 static void hardsid_alarm_handler(CLOCK offset, void *data);
 
 static int hardsid_init(void)
@@ -80,17 +85,30 @@ static int hardsid_init(void)
 
 void hs_linux_reset(void)
 {
-    hsid_main_clk  = maincpu_clk;
-    hsid_alarm_clk = HARDSID_DELAY_CYCLES;
-    alarm_set(hsid_alarm, HARDSID_DELAY_CYCLES);
+    if (sids_found > 0) {
+        hsid_main_clk  = maincpu_clk;
+        hsid_alarm_clk = HARDSID_DELAY_CYCLES;
+        alarm_set(hsid_alarm, HARDSID_DELAY_CYCLES);
+    }
 }
 
 int hs_linux_open(void)
 {
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
     if (hardsid_init() < 0) {
         return -1;
     }
     hsid_alarm = alarm_new(maincpu_alarm_context, "hardsid", hardsid_alarm_handler, 0);
+    sids_found = 1;
     hardsid_reset();
     return 0;
 }
@@ -103,12 +121,13 @@ int hs_linux_close(void)
     }
     alarm_destroy(hsid_alarm);
     hsid_alarm = 0;
+    sids_found = -1;
     return 0;
 }
 
 int hs_linux_read(WORD addr, int chipno)
 {
-    if (hsid_fd >= 0) {
+    if (chipno < MAXSID && addr < 0x20 && hsid_fd >= 0) {
         CLOCK cycles = maincpu_clk - hsid_main_clk - 1;
         hsid_main_clk = maincpu_clk;
 
@@ -129,7 +148,7 @@ int hs_linux_read(WORD addr, int chipno)
 
 void hs_linux_store(WORD addr, BYTE val, int chipno)
 {
-    if (hsid_fd >= 0) {
+    if (chipno < MAXSID && addr < 0x20 && hsid_fd >= 0) {
         CLOCK cycles = maincpu_clk - hsid_main_clk - 1;
         hsid_main_clk = maincpu_clk;
 
@@ -146,12 +165,7 @@ void hs_linux_store(WORD addr, BYTE val, int chipno)
 
 unsigned int hs_linux_available(void)
 {
-    if (hardsid_init() < 0) {
-        return 0;
-    }
-
-    /* Say one for now */
-    return 1;
+    return sids_found;
 }
 
 static void hardsid_alarm_handler(CLOCK offset, void *data)
@@ -181,6 +195,8 @@ void hs_linux_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
     sid_state->chipused = 0;
     sid_state->device_map[0] = 0;
     sid_state->device_map[1] = 0;
+    sid_state->device_map[2] = 0;
+    sid_state->device_map[3] = 0;
 }
 
 void hs_linux_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)

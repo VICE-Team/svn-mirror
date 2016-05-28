@@ -115,7 +115,7 @@ typedef struct sid_hs_snapshot_state_s {
     DWORD lastaccess_ms;
     DWORD lastaccess_chipno;
     DWORD chipused;
-    DWORD device_map[2];
+    DWORD device_map[4];
 } sid_hs_snapshot_state_t;
 
 typedef struct sid_parsid_snapshot_state_s {

@@ -60,7 +60,7 @@ int ssi2001_drv_read(WORD addr, int chipno)
 void ssi2001_drv_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && addr <= 0x20) {
+    if (chipno < MAXSID && addr < 0x20) {
         write_sid(addr, val);
     }
 }
@@ -192,11 +192,6 @@ int ssi2001_drv_close(void)
 
 int ssi2001_drv_available(void)
 {
-    int i = ssi2001_drv_open();
-
-    if (i != -1) {
-        return sids_found;
-    }
-    return 0;
+    return sids_found;
 }
 #endif

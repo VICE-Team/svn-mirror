@@ -49,6 +49,9 @@ libarch_a_SOURCES = \
 	grabkey.c \
 	grabkey.h \
 	hardsid-drv.c \
+	hs.h \
+	hs-isa.c \
+	hs-pci.c \
 	joy.c \
 	joy.h \
 	kbd.c \

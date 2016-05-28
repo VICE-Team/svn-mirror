@@ -39,7 +39,9 @@
 
 static int ssi2001_use_lib = 0;
 
-#define sleep(x) Sleep(x * 1000)
+#define MAXSID 1
+
+static int sids_found = -1;
 
 #ifndef MSVC_RC
 typedef short _stdcall (*inpfuncPtr)(short portaddr);
@@ -106,12 +108,17 @@ static short ssi2001_inb(unsigned int addrint)
 
 int ssi2001_drv_read(WORD addr, int chipno)
 {
-    return ssi2001_inb(SSI2008_BASE + (addr & 0x1f));
+    if (chipno < MAXSID && addr < 0x20) {
+        return ssi2001_inb(SSI2008_BASE + (addr & 0x1f));
+    }
+    return 0;
 }
 
 void ssi2001_drv_store(WORD addr, BYTE outval, int chipno)
 {
-    ssi2001_outb(SSI2008_BASE + (addr & 0x1f), outval);
+    if (chipno < MAXSID && addr < 0x20) {
+        ssi2001_outb(SSI2008_BASE + (addr & 0x1f), outval);
+    }
 }
 
 /*----------------------------------------------------------------------*/
@@ -160,8 +167,18 @@ static int detect_sid(void)
     return 0;
 }
 
-static int ssi2001_init(void)
+int ssi2001_drv_open(void)
 {
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
     if (hLib == NULL) {
         hLib = LoadLibrary(INPOUTDLLNAME);
     }
@@ -212,6 +229,7 @@ static int ssi2001_init(void)
             printf("SSI2001 found at $280 using direct access method\n");
         }
 #endif
+        sids_found = 1;
         return 0;
     }
 #ifdef SSI2001_DEBUG
@@ -224,17 +242,20 @@ static int ssi2001_init(void)
     return -1;
 }
 
-int ssi2001_drv_open(void)
-{
-    return ssi2001_init();
-}
-
 int ssi2001_drv_close(void)
 {
     if (ssi2001_use_lib) {
        FreeLibrary(hLib);
        hLib = NULL;
     }
+
+    sids_found = -1;
+
     return 0;
+}
+
+int ssi2001_drv_available(void)
+{
+    return sids_found;
 }
 #endif

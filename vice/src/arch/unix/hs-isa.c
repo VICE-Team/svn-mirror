@@ -41,44 +41,51 @@
 
 #define HARDSID_BASE 0x300
 
-/* static int hardsid_open_status = 0; */
-static int hs_available = 0;
+#define MAXSID 4
+
+static int sids_found = -1;
+static int hssids[MAXSID] = {0, 0, 0, 0};
 
 void hs_isa_store(WORD addr, BYTE value, int chipno)
 {
-    io_access_store(HARDSID_BASE, value);
-    io_access_store(HARDSID_BASE + 1, addr & 0x1f);
+    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
+        io_access_store(HARDSID_BASE, value);
+        io_access_store(HARDSID_BASE + 1, (chipno << 6) | (addr & 0x1f));
+    }
 }
 
 BYTE hs_isa_read(WORD addr, int chipno)
 {
-    io_access_store(HARDSID_BASE + 1, (addr & 0x1f) | 0x20);
-    usleep(2);
-    return io_access_read(HARDSID_BASE);
+    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
+        io_access_store(HARDSID_BASE + 1, (chipno << 6) | (addr & 0x1f) | 0x20);
+        usleep(2);
+        return io_access_read(HARDSID_BASE);
+    }
+    return 0;
 }
 
-static int detect_sid(void)
+static int detect_sid(int chipno)
 {
     int i;
 
     for (i = 0x18; i >= 0; --i) {
-        hs_isa_store((WORD)i, 0, 0);
+        hs_isa_store((WORD)i, 0, chipno);
     }
 
-    hs_isa_store(0x12, 0xff, 0);
+    hs_isa_store(0x12, 0xff, chipno);
 
     for (i = 0; i < 100; ++i) {
-        if (hs_isa_read(0x1b, 0)) {
+        if (hs_isa_read(0x1b, chipno)) {
             return 0;
         }
     }
 
-    hs_isa_store(0x0e, 0xff, 0);
-    hs_isa_store(0x0f, 0xff, 0);
-    hs_isa_store(0x12, 0x20, 0);
+    hs_isa_store(0x0e, 0xff, chipno);
+    hs_isa_store(0x0f, 0xff, chipno);
+    hs_isa_store(0x12, 0x20, chipno);
 
     for (i = 0; i < 100; ++i) {
-        if (hs_isa_read(0x1b, 0)) {
+        if (hs_isa_read(0x1b, chipno)) {
             return 1;
         }
     }
@@ -87,35 +94,53 @@ static int detect_sid(void)
 
 int hs_isa_open(void)
 {
+    int j;
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
     if (io_access_map(HARDSID_BASE, 2) < 0) {
         return -1;
     }
 
-    if (detect_sid()) {
-        return 0;
+    for (j = 0; j < MAXSID; ++j) {
+        if (detect_sid(j)) {
+            hssids[j] = 1;
+            sids_found++;
+        }
     }
-    return -1;
+
+    if (!sids_found) {
+        return -1;
+    }
+    return 0;
 }
 
 int hs_isa_close(void)
 {
+    int i;
+
     io_access_unmap(HARDSID_BASE, 2);
+
+    for (i = 0; i < MAXSID; ++i) {
+        hssids[i] = 0;
+    }
+
+    sids_found = -1;
 
     return 0;
 }
 
 int hs_isa_available(void)
 {
-    if (hs_available) {
-        return 1;
-    }
-
-    if (hs_isa_open() < 0) {
-        return 0;
-    }
-    hs_isa_close();
-    hs_available = 1;
-    return 1;
+    return sids_found;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -130,6 +155,8 @@ void hs_isa_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
     sid_state->chipused = 0;
     sid_state->device_map[0] = 0;
     sid_state->device_map[1] = 0;
+    sid_state->device_map[2] = 0;
+    sid_state->device_map[3] = 0;
 }
 
 void hs_isa_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)

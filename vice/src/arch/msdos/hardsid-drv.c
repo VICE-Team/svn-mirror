@@ -1,5 +1,5 @@
 /*
- * hardsid-drv.c - MSDOS specific PCI/ISA hardsid driver.
+ * hardsid-drv.c - MSDOS specific PCI/ISA hardsid wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,24 +30,15 @@
 
 #include <dos.h>
 #include <stdio.h>
-#include <dpmi.h>
 #include <string.h>
 
+#include "hs.h"
 #include "log.h"
-#include "pci-drv.h"
 #include "sid-snapshot.h"
 #include "types.h"
 
-typedef unsigned short uint16;
-typedef unsigned long uint32;
-
-static int hs_available = 0;
-
-static int base;
-
 static int use_pci = 0;
-
-static int sidfh = -1;
+static int use_isa = 0;
 
 static int is_windows_nt(void)
 {
@@ -65,166 +56,40 @@ static int is_windows_nt(void)
     return 0;
 }
 
-static int pci_find_hardsid(int index)
+int hardsid_drv_open(void)
 {
-    int i = 0, j = 0, res;
-    int bus, device, func;
-    uint32 baseAddr;
+    int rc;
 
-    if (pci_install_check() != 0) {
+    if (is_windows_nt()) {
         return -1;
     }
 
-    while (i <= index) {
-
-        /* Find the HardSID card */
-        res = pci_find(0x6581, 0x8580, j++, &bus, &device, &func);
-        if (res != 0) {
-            return -1;
-        }
-
-        i++;
+    rc = hs_pci_open();
+    if (rc != -1) {
+        use_pci = 1;
+        return 0;
     }
 
-    for (i = 0x10; i <= 0x24; i += 4) {
-
-        /* Read a base address */
-        res = pci_read_config_dword(bus, device, func, i, &baseAddr);
-        if (res != 0) {
-            return -1;
-        }
-
-        /* Check for I/O space */
-        if (baseAddr & 1) {
-            return baseAddr & ~3;
-        }
+    rc = hs_isa_open();
+    if (rc != -1) {
+        use_isa = 1;
+        return 0;
     }
 
     return -1;
 }
 
-static BYTE read_sid_pci(BYTE reg)
-{
-    BYTE ret;
-
-    outportb(base + 4, ((reg & 0x1f) | 0x20));
-    usleep(2);
-    outportb(base, 0x20);
-    ret = inportb(base);
-    outportb(base, 0x80);
-
-    return ret;
-}
-
-static void write_sid_pci(BYTE reg, BYTE data)
-{
-    outportb(base + 3, ((reg & 0x1f) << 8) | data);
-}
-
-static BYTE read_sid_isa(BYTE reg)
-{
-    outportb(0x301, reg | 0x20);
-    usleep(2);
-    return inportb(0x300);
-}
-
-static void write_sid_isa(BYTE reg, BYTE data)
-{
-    outportb(0x300, data);
-    outportb(0x301, reg);
-}
-
-static BYTE read_sid(BYTE reg)
-{
-    if (use_pci) {
-        return read_sid_pci(reg);
-    }
-    return read_sid_isa(reg);
-}
-
-static void write_sid(BYTE reg, BYTE data)
-{
-    if (use_pci) {
-        write_sid_pci(reg, data);
-    } else {
-        write_sid_isa(reg, data);
-    }
-}
-
-static int detect_isa_sid(void)
-{
-    int i;
-
-    if (is_windows_nt()) {
-        return 0;
-    }
-
-    for (i = 0x18; i >= 0; --i) {
-        write_sid_isa((BYTE)i, 0);
-    }
-
-    write_sid_isa(0x12, 0xff);
-
-    for (i = 0; i < 100; ++i) {
-        if (read_sid_isa(0x1b)) {
-            return 0;
-        }
-    }
-
-    write_sid_isa(0x0e, 0xff);
-    write_sid_isa(0x0f, 0xff);
-    write_sid_isa(0x12, 0x20);
-
-    for (i = 0; i < 100; ++i) {
-        if (read_sid_isa(0x1b)) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-int hardsid_drv_open(void)
-{
-    unsigned int i;
-
-    base = pci_find_hardsid(0);
-
-    if (base == -1) {
-        if (!detect_isa_sid()) {
-            log_message( LOG_DEFAULT, "Unable to find a HardSID card\n" );
-            return -1;
-        }
-    } else {
-        /* Reset the hardsid PCI interface (as per hardsid linux driver) */
-        outportb(base + 0x00, 0xff);
-        outportb(base + 0x02, 0x00);
-        usleep(100);
-        outportb(base + 0x02, 0x24);
-        use_pci = 1;
-    }
-
-    /* mute all sids */
-    for (i = 0; i < 32; i++) {
-        write_sid((BYTE)i, 0);
-    }
-
-    log_message(LOG_DEFAULT, "HardSID: opened");
-
-    sidfh = 1; /* ok */
-
-    return 0;
-}
-
 int hardsid_drv_close(void)
 {
-    unsigned int i;
-
-    /* mute all sids */
-    for (i = 0; i < 32; i++) {
-        write_sid((BYTE)i, 0);
+    if (use_pci) {
+        use_pci = 0;
+        hs_pci_close();
     }
 
-    log_message(LOG_DEFAULT, "HardSID: closed");
+    if (use_isa) {
+        use_isa = 0;
+        hs_isa_close();
+    }
 
     return 0;
 }
@@ -232,25 +97,26 @@ int hardsid_drv_close(void)
 /* read value from SIDs */
 int hardsid_drv_read(WORD addr, int chipno)
 {
-    /* check if chipno and addr is valid */
-    if (chipno < 1 && addr < 0x20) {
-        /* if addr is from read-only register, perform a real read */
-        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
-            return read_sid(addr);
-        }
+    if (use_pci) {
+        return hs_pci_read(addr, chipno);
     }
+
+    if (use_isa) {
+        return hs_isa_read(addr, chipno);
+    }
+
     return 0;
 }
 
 /* write value into SID */
 void hardsid_drv_store(WORD addr, BYTE val, int chipno)
 {
-    /* check if chipno and addr is valid */
-    if (chipno < 1 && addr <= 0x18) {
-        /* if the device is opened, write to device */
-        if (sidfh >= 0) {
-            write_sid(addr, val);
-        }
+    if (use_pci) {
+        hs_pci_store(addr, val, chipno);
+    }
+
+    if (use_isa) {
+        hs_isa_store(addr, val, chipno);
     }
 }
 
@@ -260,16 +126,14 @@ void hardsid_drv_set_device(unsigned int chipno, unsigned int device)
 
 int hardsid_drv_available(void)
 {
-    if (hs_available) {
-        return 1;
+    if (use_pci) {
+        return hs_pci_available();
     }
 
-    if (hardsid_drv_open() < 0) {
-        return 0;
+    if (use_isa) {
+        return hs_isa_available();
     }
-    hardsid_drv_close();
-    hs_available = 1;
-    return 1;
+    return 0;
 }
 
 void hardsid_drv_reset(void)
@@ -288,6 +152,8 @@ void hardsid_drv_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_stat
     sid_state->chipused = 0;
     sid_state->device_map[0] = 0;
     sid_state->device_map[1] = 0;
+    sid_state->device_map[2] = 0;
+    sid_state->device_map[3] = 0;
 }
 
 void hardsid_drv_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)

@@ -42,11 +42,12 @@
 
 #define HARDSID_BASE 0x300
 
+#define MAXSID 4
+
+static int sids_found = -1;
+static int hssids[MAXSID] = {0, 0, 0, 0};
+
 static int hardsid_use_lib = 0;
-
-static int hs_available = 0;
-
-#define sleep(x) Sleep(x * 1000)
 
 #ifndef MSVC_RC
 typedef short _stdcall (*inpfuncPtr)(short portaddr);
@@ -113,15 +114,21 @@ static short hardsid_inb(unsigned int addrint)
 
 int hs_isa_read(WORD addr, int chipno)
 {
-    hardsid_outb(addr | 0x20, 0x301);
-    usleep(2);
-    return hardsid_inb(0x300);
+    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
+        hardsid_outb((chipno << 6) | (addr & 0x1f) | 0x20, HARDSID_BASE + 1);
+        usleep(2);
+        return hardsid_inb(HARDSID_BASE);
+    }
+    return 0;
 }
 
 void hs_isa_store(WORD addr, BYTE outval, int chipno)
 {
-    hardsid_outb(0x300, outval);
-    hardsid_outb(0x301, (BYTE)(addr & 0x1f));
+    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
+        hardsid_outb(HARDSID_BASE, outval);
+        hardsid_outb(HARDSID_BASE + 1, (BYTE)((chipno << 6) | (addr & 0x1f)));
+        usleep(2);
+    }
 }
 
 /*----------------------------------------------------------------------*/
@@ -142,36 +149,48 @@ static HINSTANCE hLib = NULL;
 #  endif
 #endif
 
-static int detect_sid(void)
+static int detect_sid(int chipno)
 {
     int i;
 
     for (i = 0x18; i >= 0; --i) {
-        hs_isa_store((WORD)i, 0, 0);
+        hs_isa_store((WORD)i, 0, chipno);
     }
 
-    hs_isa_store(0x12, 0xff, 0);
+    hs_isa_store(0x12, 0xff, chipno);
 
     for (i = 0; i < 100; ++i) {
-        if (hs_isa_read(0x1b, 0)) {
+        if (hs_isa_read(0x1b, chipno)) {
             return 0;
         }
     }
 
-    hs_isa_store(0x0e, 0xff, 0);
-    hs_isa_store(0x0f, 0xff, 0);
-    hs_isa_store(0x12, 0x20, 0);
+    hs_isa_store(0x0e, 0xff, chipno);
+    hs_isa_store(0x0f, 0xff, chipno);
+    hs_isa_store(0x12, 0x20, chipno);
 
     for (i = 0; i < 100; ++i) {
-        if (hs_isa_read(0x1b, 0)) {
+        if (hs_isa_read(0x1b, chipno)) {
             return 1;
         }
     }
     return 0;
 }
 
-static int hardsid_init(void)
+int hs_isa_open(void)
 {
+    int i;
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
     if (hLib == NULL) {
         hLib = LoadLibrary(INPOUTDLLNAME);
     }
@@ -202,15 +221,18 @@ static int hardsid_init(void)
         return -1;
     }
 
-    if (detect_sid()) {
-        return 0;
+    for (i = 0; i < MAXSID; ++i) {
+        if (detect_sid(i)) {
+            hssids[i] = 1;
+            sids_found++;
+        }
     }
-    return -1;
-}
 
-int hs_isa_open(void)
-{
-    return hardsid_init();
+    if (!sids_found) {
+        return -1;
+    }
+
+    return 0;
 }
 
 int hs_isa_close(void)
@@ -219,22 +241,15 @@ int hs_isa_close(void)
        FreeLibrary(hLib);
        hLib = NULL;
     }
+    sids_found = -1;
     return 0;
 }
 
 int hs_isa_available(void)
 {
-    if (hs_available) {
-        return 1;
-    }
-
-    if (hs_isa_open() < 0) {
-        return 0;
-    }
-    hs_isa_close();
-    hs_available = 1;
-    return 1;
+    return sids_found;
 }
+
 /* ---------------------------------------------------------------------*/
 
 void hs_isa_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
@@ -247,6 +262,8 @@ void hs_isa_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
     sid_state->chipused = 0;
     sid_state->device_map[0] = 0;
     sid_state->device_map[1] = 0;
+    sid_state->device_map[2] = 0;
+    sid_state->device_map[3] = 0;
 }
 
 void hs_isa_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)

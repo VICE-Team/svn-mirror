@@ -35,6 +35,10 @@
 
 #define SSI2008_BASE 0x280
 
+#define MAXSID 1
+
+static int sids_found = -1;
+
 static int is_windows_nt(void)
 {
     unsigned short real_version;
@@ -100,6 +104,16 @@ int ssi2001_drv_open(void)
 {
     int i;
 
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = -1;
+
     if (!detect_sid()) {
 #ifdef SSI2001_DEBUG
         printf("NO SSI2001 found\n");
@@ -114,6 +128,9 @@ int ssi2001_drv_open(void)
 #ifdef SSI2001_DEBUG
     printf("SSI2001 detected at $280 using ISA direct access method\n");
 #endif
+
+    sids_found = 1;
+
     return 0;
 }
 
@@ -125,6 +142,9 @@ int ssi2001_drv_close(void)
     for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
+
+    sids_found = -1;
+
     return 0;
 }
 
@@ -132,7 +152,7 @@ int ssi2001_drv_close(void)
 int ssi2001_drv_read(WORD addr, int chipno)
 {
     /* if addr is from read-only register, perform a real read */
-    if (addr >= 0x19 && addr <= 0x1C) {
+    if (chipno < MAXSID && addr < 0x20) {
         return read_sid(addr);
     }
 
@@ -143,8 +163,13 @@ int ssi2001_drv_read(WORD addr, int chipno)
 void ssi2001_drv_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (addr <= 0x18) {
+    if (chipno < MAXSID && addr < 0x20) {
         write_sid(addr, val);
     }
+}
+
+int ssi2001_drv_available(void)
+{
+    return sids_found;
 }
 #endif

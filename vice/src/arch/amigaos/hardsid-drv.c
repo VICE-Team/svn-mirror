@@ -156,9 +156,6 @@ int hardsid_drv_close(void)
 
 int hardsid_drv_available(void)
 {
-    int i = hardsid_drv_open();
-
-    if (i != -1) {
 #ifdef AMIGA_M68K
     if (hs_use_gg2_isa) {
         return hs_gg2_isa_available();
@@ -176,7 +173,6 @@ int hardsid_drv_available(void)
         return hs_os4_available();
     }
 #endif
-    }
     return 0;
 }
 
@@ -196,6 +192,8 @@ void hardsid_drv_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_stat
     sid_state->chipused = 0;
     sid_state->device_map[0] = 0;
     sid_state->device_map[1] = 0;
+    sid_state->device_map[2] = 0;
+    sid_state->device_map[3] = 0;
 }
 
 void hardsid_drv_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)

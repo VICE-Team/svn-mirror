@@ -32,12 +32,20 @@
 #include "hs.h"
 #include "types.h"
 
-int use_hs_isa = 0;
+#ifdef HAVE_HARDSID_ISA
+static int use_hs_isa = 0;
+#endif
+
+#ifdef HAVE_LINUX_HARDSID_H
+static int use_hs_linux = 0;
+#endif
 
 void hardsid_drv_reset(void)
 {
 #ifdef HAVE_LINUX_HARDSID_H
-    hs_linux_reset();
+    if (use_hs_linux) {
+        hs_linux_reset();
+    }
 #endif
 }
 
@@ -45,12 +53,12 @@ int hardsid_drv_open(void)
 {
 #ifdef HAVE_LINUX_HARDSID_H
     if (!hs_linux_open()) {
-        use_hs_isa = 0;
+        use_hs_linux = 1;
         return 0;
     }
 #endif
 #ifdef HAVE_HARDSID_ISA
-    if (hs_isa_open()) {
+    if (!hs_isa_open()) {
         use_hs_isa = 1;
         return 0;
     }
@@ -62,14 +70,17 @@ int hardsid_drv_close(void)
 {
 #ifdef HAVE_HARDSID_ISA
     if (use_hs_isa) {
-        return hs_isa_close();
+        use_hs_isa = 0;
+        hs_isa_close();
     }
 #endif
 #ifdef HAVE_LINUX_HARDSID_H
-    return hs_linux_close();
-#else
-    return 0;
+    if (use_hs_linux) {
+        use_hs_linux = 0;
+        hs_linux_close();
+    }
 #endif
+    return 0;
 }
 
 int hardsid_drv_read(WORD addr, int chipno)
@@ -80,10 +91,11 @@ int hardsid_drv_read(WORD addr, int chipno)
     }
 #endif
 #ifdef HAVE_LINUX_HARDSID_H
-    return hs_linux_read(addr, chipno);
-#else
-    return 0;
+    if (use_hs_linux) {
+        return hs_linux_read(addr, chipno);
+    }
 #endif
+    return 0;
 }
 
 void hardsid_drv_store(WORD addr, BYTE val, int chipno)
@@ -91,26 +103,26 @@ void hardsid_drv_store(WORD addr, BYTE val, int chipno)
 #ifdef HAVE_HARDSID_ISA
     if (use_hs_isa) {
         hs_isa_store(addr, val, chipno);
-        return;
     }
 #endif
 #ifdef HAVE_LINUX_HARDSID_H
-    hs_linux_store(addr, val, chipno);
+    if (use_hs_linux) {
+        hs_linux_store(addr, val, chipno);
+    }
 #endif
 }
 
 int hardsid_drv_available(void)
 {
 #ifdef HAVE_LINUX_HARDSID_H
-    unsigned int retval = 0;
-
-    retval = hs_linux_available();
-    if (retval) {
-        return retval;
+    if (use_hs_linux) {
+        return hs_linux_available();
     }
 #endif
 #ifdef HAVE_HARDSID_ISA
-    return hs_isa_available();
+    if (use_hs_isa) {
+        return hs_isa_available();
+    }
 #endif
     return 0;
 }
@@ -126,11 +138,12 @@ void hardsid_drv_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_stat
 #ifdef HAVE_HARDSID_ISA
     if (use_hs_isa) {
         hs_isa_state_read(chipno, sid_state);
-        return;
     }
 #endif
 #ifdef HAVE_LINUX_HARDSID_H
-    hs_linux_state_read(chipno, sid_state);
+    if (use_hs_linux) {
+        hs_linux_state_read(chipno, sid_state);
+    }
 #endif
 }
 
@@ -139,11 +152,12 @@ void hardsid_drv_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_sta
 #ifdef HAVE_HARDSID_ISA
     if (use_hs_isa) {
         hs_isa_state_write(chipno, sid_state);
-        return;
     }
 #endif
 #ifdef HAVE_LINUX_HARDSID_H
-    hs_linux_state_write(chipno, sid_state);
+    if (use_hs_linux) {
+        hs_linux_state_write(chipno, sid_state);
+    }
 #endif
 }
 #endif

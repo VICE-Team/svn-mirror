@@ -33,10 +33,11 @@
 #include "types.h"
 
 static int use_hs_isa = 0;
+static int use_hs_dll = 0;
 
 void hardsid_drv_reset(void)
 {
-    if (!use_hs_isa) {
+    if (use_hs_dll) {
         hs_dll_reset();
     }
 }
@@ -47,7 +48,7 @@ int hardsid_drv_open(void)
 
     retval = hs_dll_open();
     if (!retval) {
-        use_hs_isa = 0;
+        use_hs_dll = 1;
         return 0;
     }
 
@@ -62,9 +63,14 @@ int hardsid_drv_open(void)
 int hardsid_drv_close(void)
 {
     if (use_hs_isa) {
-        return hs_isa_close();
+        use_hs_isa = 0;
+        hs_isa_close();
     }
-    return hs_dll_close();
+    if (use_hs_dll) {
+        use_hs_dll = 0;
+        hs_dll_close();
+    }
+    return 0;
 }
 
 int hardsid_drv_read(WORD addr, int chipno)
@@ -72,32 +78,37 @@ int hardsid_drv_read(WORD addr, int chipno)
     if (use_hs_isa) {
         return hs_isa_read(addr, chipno);
     }
-    return hs_dll_read(addr, chipno);
+    if (use_hs_dll) {
+        return hs_dll_read(addr, chipno);
+    }
+    return 0;
 }
 
 void hardsid_drv_store(WORD addr, BYTE val, int chipno)
 {
     if (use_hs_isa) {
         hs_isa_store(addr, val, chipno);
-    } else {
+    }
+    if (use_hs_dll) {
         hs_dll_store(addr, val, chipno);
     }
 }
 
 int hardsid_drv_available(void)
 {
-    int retval = 0;
-
-    retval = hs_dll_available();
-    if (!retval) {
+    if (use_hs_isa) {
         return hs_isa_available();
     }
-    return retval;
+
+    if (use_hs_dll) {
+        return hs_dll_available();
+    }
+    return 0;
 }
 
 void hardsid_drv_set_device(unsigned int chipno, unsigned int device)
 {
-    if (!use_hs_isa) {
+    if (use_hs_dll) {
         hs_dll_set_device(chipno, device);
     }
 }
@@ -108,7 +119,9 @@ void hardsid_drv_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_stat
 {
     if (use_hs_isa) {
         hs_isa_state_read(chipno, sid_state);
-    } else {
+    }
+
+    if (use_hs_dll) {
         hs_dll_state_read(chipno, sid_state);
     }
 }
@@ -117,7 +130,9 @@ void hardsid_drv_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_sta
 {
     if (use_hs_isa) {
         hs_isa_state_write(chipno, sid_state);
-    } else {
+    }
+
+    if (use_hs_dll) {
         hs_dll_state_write(chipno, sid_state);
     }
 }
