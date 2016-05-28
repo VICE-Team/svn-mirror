@@ -75,7 +75,7 @@ void ssi2001_drv_store(WORD addr, BYTE val, int chipno)
 #include <clib/exec_protos.h>
 #include <clib/expansion_protos.h>
 
-struct Library *ExpansionBase = NULL;
+static struct Library *ExpansionBase = NULL;
 
 static int detect_sid(void)
 {
@@ -108,6 +108,7 @@ static int detect_sid(void)
 int ssi2001_drv_open(void)
 {
     struct ConfigDev *myCD;
+    int i;
 
     if (!sids_found) {
         return -1;
@@ -121,10 +122,6 @@ int ssi2001_drv_open(void)
 
     if ((ExpansionBase = OpenLibrary("expansion.library", 0L)) == NULL) {
         return -1;
-    }
-
-    if (atexitinitialized) {
-        ssi2001_drv_close();
     }
 
     myCD = FindConfigDev(myCD, 2150, 1);
@@ -150,12 +147,6 @@ int ssi2001_drv_open(void)
 
     log_message(LOG_DEFAULT, "SSI2001 ISA (GG2+) SID: opened");
 
-    /* install exit handler, so device is closed on exit */
-    if (!atexitinitialized) {
-        atexitinitialized = 1;
-        atexit((voidfunc_t)ssi2001_drv_close);
-    }
-
     sids_found = 1; /* ok */
 
     return 0;
@@ -173,7 +164,7 @@ static void write_sid(unsigned char reg, unsigned char data)
     BYTE tmp;
 
     // Write data to the SID
-    HSbase[((0x280 + (reg & 0x1f)) * 2) + 1] = data;
+    SSI2001base[((0x280 + (reg & 0x1f)) * 2) + 1] = data;
 }
 
 int ssi2001_drv_close(void)

@@ -8287,6 +8287,7 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_ENABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ENABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
 /* tr */ { IDS_ENABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
+#endif
 
 /* en */ { IDS_DISABLE_VIDEOOVERLAY,    "Disable video overlay." },
 /* da */ { IDS_DISABLE_VIDEOOVERLAY_DA, "" },  /* fuzzy */

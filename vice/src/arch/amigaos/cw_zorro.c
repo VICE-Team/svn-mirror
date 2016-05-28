@@ -78,11 +78,12 @@ void cw_zorro_store(WORD addr, BYTE val, int chipno)
 #include <clib/exec_protos.h>
 #include <clib/expansion_protos.h>
 
-struct Library *ExpansionBase = NULL;
+static struct Library *ExpansionBase = NULL;
 
 int cw_zorro_open(void)
 {
     struct ConfigDev *myCD;
+    int i;
 
     if (!sids_found) {
         return -1;
@@ -96,10 +97,6 @@ int cw_zorro_open(void)
 
     if ((ExpansionBase = OpenLibrary("expansion.library", 0L)) == NULL) {
         return -1;
-    }
-
-    if (atexitinitialized) {
-        cw_zorro_close();
     }
 
     myCD = FindConfigDev(myCD, 0x1212, 0x42);
@@ -120,12 +117,6 @@ int cw_zorro_open(void)
     }
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
-
-    /* install exit handler, so device is closed on exit */
-    if (!atexitinitialized) {
-        atexitinitialized = 1;
-        atexit((voidfunc_t)cw_zorro_close);
-    }
 
     sids_found = 1;
 

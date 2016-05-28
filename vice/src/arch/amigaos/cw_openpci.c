@@ -83,7 +83,6 @@ static struct pci_dev *dev = NULL;
 
 int cw_openpci_open(void)
 {
-    static int atexitinitialized = 0;
     unsigned int i;
     unsigned char bus = 0;
 
@@ -99,10 +98,6 @@ int cw_openpci_open(void)
 
     if (!pci_lib_loaded) {
         return -1;
-    }
-
-    if (atexitinitialized) {
-        cw_openpci_close();
     }
 
     bus = pci_bus();
@@ -145,12 +140,6 @@ int cw_openpci_open(void)
     }
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened at $%X", CWbase);
-
-    /* install exit handler, so device is closed on exit */
-    if (!atexitinitialized) {
-        atexitinitialized = 1;
-        atexit((voidfunc_t)cw_openpci_close);
-    }
 
     sids_found = 1;
 

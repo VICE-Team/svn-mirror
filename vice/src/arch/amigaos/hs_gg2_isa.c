@@ -38,8 +38,8 @@
 
 #define MAXSID 4
 
-static unsigned char read_sid(unsigned char *base, unsigned short reg); // Read a SID register
-static void write_sid(unsigned char *base, unsigned short reg, unsigned char data); // Write a SID register
+static unsigned char read_sid(unsigned short reg, int chipno); // Read a SID register
+static void write_sid(unsigned short reg, unsigned char data, int chipno); // Write a SID register
 
 static int sids_found = -1;
 
@@ -77,7 +77,7 @@ void hs_gg2_isa_store(WORD addr, BYTE val, int chipno)
 #include <clib/exec_protos.h>
 #include <clib/expansion_protos.h>
 
-struct Library *ExpansionBase = NULL;
+static struct Library *ExpansionBase = NULL;
 
 static int detect_sid(int chipno)
 {
@@ -127,10 +127,6 @@ int hs_gg2_isa_open(void)
         return -1;
     }
 
-    if (atexitinitialized) {
-        hs_gg2_isa_close();
-    }
-
     myCD = FindConfigDev(myCD, 2150, 1);
 
     if (!myCD) {
@@ -143,8 +139,8 @@ int hs_gg2_isa_open(void)
         return -1;
     }
 
-    for (i = 0; i < MAX_SID; ++i) {
-        if (detect_sid(i))) {
+    for (i = 0; i < MAXSID; ++i) {
+        if (detect_sid(i)) {
             hssids[i] = 1;
             sids_found++;
         }
@@ -155,7 +151,7 @@ int hs_gg2_isa_open(void)
     }
 
     /* mute all sids */
-    for (j = 0; j < MAX_SID; ++j) {
+    for (j = 0; j < MAXSID; ++j) {
         if (hssids[j]) {
             for (i = 0; i < 32; i++) {
                 write_sid(i, 0, j);
@@ -165,16 +161,10 @@ int hs_gg2_isa_open(void)
 
     log_message(LOG_DEFAULT, "HardSID ISA (GG2+) SID: opened, found %d SIDs", sids_found);
 
-    /* install exit handler, so device is closed on exit */
-    if (!atexitinitialized) {
-        atexitinitialized = 1;
-        atexit((voidfunc_t)hs_gg2_isa_close);
-    }
-
     return 0;
 }
 
-static unsigned char read_sid(unsigned char reg, int chipno)
+static unsigned char read_sid(unsigned short reg, int chipno)
 {
     unsigned char cmd;
     BYTE tmp;
@@ -190,7 +180,7 @@ static unsigned char read_sid(unsigned char reg, int chipno)
     return HSbase[0x603];
 }
 
-static void write_sid(unsigned char reg, unsigned char data, int chipno)
+static void write_sid(unsigned short reg, unsigned char data, int chipno)
 {
     unsigned char cmd;
     BYTE tmp;
@@ -198,8 +188,8 @@ static void write_sid(unsigned char reg, unsigned char data, int chipno)
     cmd = (chipno << 6) | (reg & 0x1f);            // Write command & address
 
     // Write data to the SID
-    base[0x601] = data;
-    base[0x603] = cmd;
+    HSbase[0x601] = data;
+    HSbase[0x603] = cmd;
 }
 
 int hs_gg2_isa_close(void)
@@ -207,7 +197,7 @@ int hs_gg2_isa_close(void)
     int i, j;
 
     /* mute all sids */
-    for (j = 0; j < MAX_SID; ++j) {
+    for (j = 0; j < MAXSID; ++j) {
         if (hssids[j]) {
             for (i = 0; i < 32; ++i) {
                 write_sid(i, 0, j);

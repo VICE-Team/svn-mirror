@@ -134,7 +134,7 @@ int cw_clockport_open(void)
     sids_found = 0;
 
     for (i = 0; cp_addresses[i]; ++i) {
-        if (detect_sid(cp_addresses[i]) {
+        if (detect_sid(cp_addresses[i])) {
             CWbase = cp_addresses[i];
         }
     }
@@ -151,12 +151,6 @@ int cw_clockport_open(void)
     }
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 Clockport SID: opened at $%X", CWbase);
-
-    /* install exit handler, so device is closed on exit */
-    if (!atexitinitialized) {
-        atexitinitialized = 1;
-        atexit((voidfunc_t)cw_clockport_close);
-    }
 
     return 0;
 }

@@ -78,7 +78,7 @@ static APTR build_gui(void)
     return ui;
 }
 
-void ui_iocollisions_settings_dialog(void);
+void ui_iocollisions_settings_dialog(void)
 {
     APTR window;
 

@@ -95,7 +95,6 @@ static BOOL gSwapSIDs = FALSE;
 
 int cw_device_open(void)
 {
-    static int atexitinitialized = 0;
     unsigned int i;
 
     if (sids_found > 0) {
@@ -107,10 +106,6 @@ int cw_device_open(void)
     }
 
     sids_found = 0;
-
-    if (atexitinitialized) {
-        cw_device_close();
-    }
 
     gSIDs = 0;
     gSwapSIDs = FALSE;
@@ -138,12 +133,6 @@ int cw_device_open(void)
         gSwapSIDs = TRUE;
     }
 	
-    /* install exit handler, so device is closed on exit */
-    if (!atexitinitialized) {
-        atexitinitialized = 1;
-        atexit((voidfunc_t)cw_device_close);
-    }
-
     sids_found = gSIDs;
 
     return 0;
