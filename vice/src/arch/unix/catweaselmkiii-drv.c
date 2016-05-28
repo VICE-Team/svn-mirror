@@ -44,8 +44,6 @@
 
 #include <cwsid.h>
 
-typedef void (*voidfunc_t)(void);
-
 /* FIXME: currently only 1 SID is checked for */
 #define MAXSID 1
 
@@ -66,7 +64,6 @@ static void setfreq()
 int catweaselmkiii_drv_open(void)
 {
     int i;
-    static int atexitinitialized = 0;
 
     if (!sids_found) {
         return -1;
@@ -102,12 +99,6 @@ int catweaselmkiii_drv_open(void)
     setfreq();
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
-
-    /* install exit handler, so device is closed on exit */
-    if (!atexitinitialized) {
-        atexitinitialized = 1;
-        atexit((voidfunc_t)catweaselmkiii_close);
-    }
 
     sids_found = 1;
 

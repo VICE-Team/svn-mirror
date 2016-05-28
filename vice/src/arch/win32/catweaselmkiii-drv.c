@@ -42,9 +42,6 @@
 #include "log.h"
 #include "types.h"
 
-
-typedef void (*voidfunc_t)(void);
-
 /* defined for CatWeasel MK3 PCI device driver */
 #define SID_SID_PEEK_POKE CTL_CODE(FILE_DEVICE_SOUND, 0x0800UL + 1, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define SID_SET_CLOCK     CTL_CODE(FILE_DEVICE_SOUND, 0x0800UL + 4, METHOD_BUFFERED, FILE_ANY_ACCESS)
@@ -95,7 +92,6 @@ static void mutethem(void)
 /* open all available CatWeasel devices */
 int catweaselmkiii_drv_open(void)
 {
-    static int atexitinitialized = 0;
     int i;
 
     if (!sids_found) {
@@ -136,12 +132,6 @@ int catweaselmkiii_drv_open(void)
 
         /* set frequeny of found cards */
         setfreq((BYTE)catweaselmkiii_get_ntsc());
-
-        /* install exit handler, so devices are closed properly */
-        if (!atexitinitialized) {
-            atexitinitialized = 1;
-            atexit((voidfunc_t)catweaselmkiii_close);
-        }
 
         return 0;
     }
