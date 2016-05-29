@@ -40,6 +40,8 @@
 #include "pci-drv.h"
 #include "types.h"
 
+#define MAXSID 1
+
 typedef unsigned short uint16;
 typedef unsigned long uint32;
 
@@ -201,7 +203,7 @@ int catweaselmkiii_drv_close(void)
 int catweaselmkiii_drv_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < 1 && addr < 0x20) {
+    if (chipno < MAXSID && addr < 0x20) {
         return read_sid(addr);
     }
 
@@ -212,7 +214,7 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
 void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < 1 && addr < 0x20) {
+    if (chipno < MAXSID && addr < 0x20) {
         write_sid(addr, val);
     }
 }
