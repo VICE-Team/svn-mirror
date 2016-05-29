@@ -40,7 +40,7 @@
 
 static int sids_found = -1;
 
-static int hssids[MAXSID] = {0, 0, 0, 0};
+static int hssids[MAXSID] = {-1, -1, -1, -1};
 
 static unsigned char read_sid(unsigned char reg, int chipno); // Read a SID register
 static void write_sid(unsigned char reg, unsigned char data, int chipno); // Write a SID register
@@ -51,8 +51,8 @@ static unsigned char *HSbase = NULL;
 int hs_openpci_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
-        return read_sid(addr, chipno);
+    if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
+        return read_sid(addr, hssids[chipno]);
     }
 
     return 0;
@@ -62,8 +62,8 @@ int hs_openpci_read(WORD addr, int chipno)
 void hs_openpci_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
-        write_sid(addr, val, chipno);
+    if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
+        write_sid(addr, val, hssids[chipno]);
     }
 }
 
@@ -160,7 +160,7 @@ int hs_openpci_open(void)
 
     for (j = 0; j < MAXSID; ++j) {
         if (detect_sid(j)) {
-            hssids[j] = 1;
+            hssids[sids_found] = j;
             sids_found++;
         }
     }
@@ -171,9 +171,9 @@ int hs_openpci_open(void)
 
     /* mute all sids */
     for (j = 0; j < MAXSID; ++j) {
-        if (hssids[j]) {
+        if (hssids[j] != -1) {
             for (i = 0; i < 32; i++) {
-                write_sid(i, 0, j);
+                write_sid(i, 0, hssids[j]);
             }
         }
     }
@@ -206,12 +206,12 @@ int hs_openpci_close(void)
 
     /* mute all sids */
     for (j = 0; j < MAXSID; ++j) {
-        if (hssids[j]) {
+        if (hssids[j] != -1) {
             for (i = 0; i < 32; i++) {
-                write_sid(i, 0, j);
+                write_sid(i, 0, hssids[j]);
             }
         }
-        hssids[j] = 0;
+        hssids[j] = -1;
     }
 
 #if defined(pci_obtain_card) && defined(pci_release_card)

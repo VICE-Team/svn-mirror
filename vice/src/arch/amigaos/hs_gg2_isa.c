@@ -45,14 +45,14 @@ static int sids_found = -1;
 
 static unsigned char *HSbase = NULL;
 
-static int hssids[4] = { 0, 0, 0, 0 };
+static int hssids[4] = { -1, -1, -1, -1 };
 
 /* read value from SIDs */
 int hs_gg2_isa_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
-        return read_sid(addr, chipno);
+    if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
+        return read_sid(addr, hssids[chipno]);
     }
 
     return 0;
@@ -62,8 +62,8 @@ int hs_gg2_isa_read(WORD addr, int chipno)
 void hs_gg2_isa_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
-        write_sid(addr, val, chipno);
+    if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
+        write_sid(addr, val, hssids[chipno]);
     }
 }
 
@@ -141,7 +141,7 @@ int hs_gg2_isa_open(void)
 
     for (i = 0; i < MAXSID; ++i) {
         if (detect_sid(i)) {
-            hssids[i] = 1;
+            hssids[sids_found] = i;
             sids_found++;
         }
     }
@@ -152,9 +152,9 @@ int hs_gg2_isa_open(void)
 
     /* mute all sids */
     for (j = 0; j < MAXSID; ++j) {
-        if (hssids[j]) {
+        if (hssids[j] != -1) {
             for (i = 0; i < 32; i++) {
-                write_sid(i, 0, j);
+                write_sid(i, 0, hssids[j]);
             }
         }
     }
@@ -198,11 +198,11 @@ int hs_gg2_isa_close(void)
 
     /* mute all sids */
     for (j = 0; j < MAXSID; ++j) {
-        if (hssids[j]) {
+        if (hssids[j] != -1) {
             for (i = 0; i < 32; ++i) {
-                write_sid(i, 0, j);
+                write_sid(i, 0, hssids[j]);
             }
-            hssids[j] = 0;
+            hssids[j] = -1;
         }
     }
     sids_found = -1;
