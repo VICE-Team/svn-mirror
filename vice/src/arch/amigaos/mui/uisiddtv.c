@@ -52,45 +52,9 @@ static char *ui_sid_pages[] =
     NULL
 };
 
-static char *ui_siddtv_engine_model[] = {
-#ifdef HAVE_RESID
-    "DTVSID (ReSID)",
-#endif
-    "6581 (Fast SID)",
-    "8580 (Fast SID)",
-#ifdef HAVE_RESID
-    "6581 (ReSID)",
-    "8580 (ReSID)",
-    "8580 + digiboost (ReSID)",
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    "Catweasel MK3",
-#endif
-#ifdef HAVE_HARDSID
-    "HardSID",
-#endif
-    0
-};
+static char **ui_siddtv_engine_model = NULL;
 
-static const int ui_siddtv_engine_model_values[] = {
-#ifdef HAVE_RESID
-    SID_RESID_DTVSID,
-#endif
-    SID_FASTSID_6581,
-    SID_FASTSID_8580,
-#ifdef HAVE_RESID
-    SID_RESID_6581,
-    SID_RESID_8580,
-    SID_RESID_8580D,
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    SID_CATWEASELMKIII,
-#endif
-#ifdef HAVE_HARDSID
-    SID_HARDSID,
-#endif
-    -1
-};
+static int *ui_siddtv_engine_model_values = NULL;
 
 static int ui_sid_samplemethod_translate[] =
 {
@@ -118,7 +82,7 @@ static int ui_band_range[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE_SID, "dummy", ui_siddtv_engine_model, ui_siddtv_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CYCLE_SID, "dummy", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL, NULL },
 #ifdef HAVE_RESID
     { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
@@ -159,8 +123,42 @@ static APTR build_gui(void)
            End;
 }
 
+static void set_sid_engines(void)
+{
+    int count = 0;
+    sid_engine_model_t **list = sid_get_engine_model_list();
+
+    for (count = 0; list[count]; ++count) {}
+
+    ui_siddtv_engine_model = lib_malloc((count + 1) * sizeof(char *));
+    ui_siddtv_engine_model_values = lib_malloc((count + 1) * sizeof(int));
+
+    for (count = 0; list[count]; ++count) {
+        ui_siddtv_engine_model[count] = list[count]->name;
+        ui_siddtv_engine_model_values[count] = list[count]->value;
+    }
+    ui_siddtv_engine_model[count] = NULL;
+    ui_siddtv_engine_model_values[count] = -1;
+
+    ui_to_from[0].strings = ui_siddtv_engine_model;
+    ui_to_from[0].values = ui_siddtv_engine_model_values;
+}
+
+static void free_sid_engines(void)
+{
+    lib_free(ui_siddtv_engine_model);
+    lib_free(ui_siddtv_engine_model_values);
+    ui_siddtv_engine_model = NULL;
+    ui_siddtv_engine_model_values = NULL;
+}
+
 void ui_siddtv_settings_dialog(void)
 {
     intl_convert_mui_table(ui_sid_samplemethod_translate, ui_sid_samplemethod);
+
+    set_sid_engines();
+
     mui_show_dialog(build_gui(), translate_text(IDS_SID_SETTINGS), ui_to_from);
+
+    free_sid_engines();
 }

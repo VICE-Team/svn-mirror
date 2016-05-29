@@ -69,39 +69,9 @@ static const int ui_sid_samplemethod_values[] = {
     -1
 };
 
-static char *ui_sid_engine_model[] = {
-    "6581 (Fast SID)",
-    "8580 (Fast SID)",
-#ifdef HAVE_RESID
-    "6581 (ReSID)",
-    "8580 (ReSID)",
-    "8580 + digiboost (ReSID)",
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    "Catweasel MK3",
-#endif
-#ifdef HAVE_HARDSID
-    "HardSID",
-#endif
-    NULL
-};
+static char **ui_sid_engine_model = NULL;
 
-static const int ui_sid_engine_model_values[] = {
-    SID_FASTSID_6581,
-    SID_FASTSID_8580,
-#ifdef HAVE_RESID
-    SID_RESID_6581,
-    SID_RESID_8580,
-    SID_RESID_8580D,
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    SID_CATWEASELMKIII,
-#endif
-#ifdef HAVE_HARDSID
-    SID_HARDSID,
-#endif
-    -1
-};
+static int *ui_sid_engine_model_values = NULL;
 
 static char *ui_sid_address64[] = {
     "$D420",
@@ -307,7 +277,7 @@ static const int ui_bias_range[] = {
 #endif
 
 static ui_to_from_t ui_to_from2[] = {
-    { NULL, MUI_TYPE_CYCLE_SID, "dummy", ui_sid_engine_model, ui_sid_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CYCLE_SID, "dummy", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sid_enable, ui_sid_enable_values, NULL },
 #ifdef HAVE_RESID
     { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
@@ -319,7 +289,7 @@ static ui_to_from_t ui_to_from2[] = {
 };
 
 static ui_to_from_t ui_to_from64[] = {
-    { NULL, MUI_TYPE_CYCLE_SID, "dummy", ui_sid_engine_model, ui_sid_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CYCLE_SID, "dummy", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidStereo", ui_extra_sid_amount, ui_extra_sid_amount_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", ui_sid_address64, ui_sid_address64_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidTripleAddressStart", ui_sid_address64, ui_sid_address64_values, NULL },
@@ -334,7 +304,7 @@ static ui_to_from_t ui_to_from64[] = {
 };
 
 static ui_to_from_t ui_to_from128[] = {
-    { NULL, MUI_TYPE_CYCLE_SID, "dummy", ui_sid_engine_model, ui_sid_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CYCLE_SID, "dummy", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidStereo", ui_extra_sid_amount, ui_extra_sid_amount_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", ui_sid_address128, ui_sid_address128_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidTripleAddressStart", ui_sid_address128, ui_sid_address128_values, NULL },
@@ -441,12 +411,43 @@ static APTR build_gui128(void)
     return ui;
 }
 
+static void set_sid_engines(void)
+{
+    int count = 0;
+    sid_engine_model_t **list = sid_get_engine_model_list();
+
+    for (count = 0; list[count]; ++count) {}
+
+    ui_sid_engine_model = lib_malloc((count + 1) * sizeof(char *));
+    ui_sid_engine_model_values = lib_malloc((count + 1) * sizeof(int));
+
+    for (count = 0; list[count]; ++count) {
+        ui_sid_engine_model[count] = list[count]->name;
+        ui_sid_engine_model_values[count] = list[count]->value;
+    }
+    ui_sid_engine_model[count] = NULL;
+    ui_sid_engine_model_values[count] = -1;
+}
+
+static void free_sid_engines(void)
+{
+    lib_free(ui_sid_engine_model);
+    lib_free(ui_sid_engine_model_values);
+    ui_sid_engine_model = NULL;
+    ui_sid_engine_model_values = NULL;
+}
+
 void ui_sid_settings2_dialog(void)
 {
     APTR window;
 
     intl_convert_mui_table(ui_sid_samplemethod_translate, ui_sid_samplemethod);
     intl_convert_mui_table(ui_sid_enable_translate, ui_sid_enable);
+
+    set_sid_engines();
+
+    ui_to_from2[0].strings = ui_sid_engine_model;
+    ui_to_from2[0].values = ui_sid_engine_model_values;
 
     window = mui_make_simple_window(build_gui2(), translate_text(IDS_SID_SETTINGS));
 
@@ -461,6 +462,7 @@ void ui_sid_settings2_dialog(void)
         mui_rem_window(window);
         MUI_DisposeObject(window);
     }
+    free_sid_engines();
 }
 
 void ui_sid_settings64_dialog(void)
@@ -469,6 +471,11 @@ void ui_sid_settings64_dialog(void)
 
     intl_convert_mui_table(ui_sid_samplemethod_translate, ui_sid_samplemethod);
     intl_convert_mui_table(ui_sid_enable_translate, ui_sid_enable);
+
+    set_sid_engines();
+
+    ui_to_from64[0].strings = ui_sid_engine_model;
+    ui_to_from64[0].values = ui_sid_engine_model_values;
 
     window = mui_make_simple_window(build_gui64(), translate_text(IDS_SID_SETTINGS));
 
@@ -483,6 +490,7 @@ void ui_sid_settings64_dialog(void)
         mui_rem_window(window);
         MUI_DisposeObject(window);
     }
+    free_sid_engines();
 }
 
 void ui_sid_settings128_dialog(void)
@@ -491,6 +499,11 @@ void ui_sid_settings128_dialog(void)
 
     intl_convert_mui_table(ui_sid_samplemethod_translate, ui_sid_samplemethod);
     intl_convert_mui_table(ui_sid_enable_translate, ui_sid_enable);
+
+    set_sid_engines();
+
+    ui_to_from128[0].strings = ui_sid_engine_model;
+    ui_to_from128[0].values = ui_sid_engine_model_values;
 
     window = mui_make_simple_window(build_gui128(), translate_text(IDS_SID_SETTINGS));
 
@@ -505,4 +518,5 @@ void ui_sid_settings128_dialog(void)
         mui_rem_window(window);
         MUI_DisposeObject(window);
     }
+    free_sid_engines();
 }

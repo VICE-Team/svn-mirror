@@ -37,6 +37,10 @@
 #define SID_SETTINGS_DIALOG
 #endif
 
+#ifdef AMIGA_SUPPORT
+#define SID_SETTINGS_DIALOG
+#endif
+
 struct sound_s;
 struct sid_snapshot_state_s;
 

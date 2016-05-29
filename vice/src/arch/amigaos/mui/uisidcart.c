@@ -49,39 +49,8 @@ static const int ui_sidcart_enable_values[] = {
     -1
 };
 
-static char *ui_sidcart_engine_model[] = {
-    "6581 (Fast SID)",
-    "8580 (Fast SID)",
-#ifdef HAVE_RESID
-    "6581 (ReSID)",
-    "8580 (ReSID)",
-    "8580 + digiboost (ReSID)",
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    "Catweasel MK3",
-#endif
-#ifdef HAVE_HARDSID
-    "HardSID",
-#endif
-    0
-};
-
-static const int ui_sidcart_engine_model_values[] = {
-    SID_FASTSID_6581,
-    SID_FASTSID_8580,
-#ifdef HAVE_RESID
-    SID_RESID_6581,
-    SID_RESID_8580,
-    SID_RESID_8580D,
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    SID_CATWEASELMKIII,
-#endif
-#ifdef HAVE_HARDSID
-    SID_HARDSID,
-#endif
-    -1
-};
+static char **ui_sidcart_engine_model = NULL;
+static int *ui_sidcart_engine_model_values = NULL;
 
 static char *ui_sidcart_address[] =
 {
@@ -148,7 +117,7 @@ static const int ui_bias_range[] = {
 
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "SidCart", ui_sidcart_enable, ui_sidcart_enable_values, NULL },
-    { NULL, MUI_TYPE_CYCLE_SID, "dummy", ui_sidcart_engine_model, ui_sidcart_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CYCLE_SID, "dummy", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sidcart_enable, ui_sidcart_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidAddress", ui_sidcart_address, ui_sidcart_address_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidClock", ui_sidcart_clock, ui_sidcart_clock_values, NULL },
@@ -197,24 +166,63 @@ static APTR build_gui_plus4(void)
          End;
 }
 
+static void set_sid_engines(void)
+{
+    int count = 0;
+    sid_engine_model_t **list = sid_get_engine_model_list();
+
+    for (count = 0; list[count]; ++count) {}
+
+    ui_sidcart_engine_model = lib_malloc((count + 1) * sizeof(char *));
+    ui_sidcart_engine_model_values = lib_malloc((count + 1) * sizeof(int));
+
+    for (count = 0; list[count]; ++count) {
+        ui_sidcart_engine_model[count] = list[count]->name;
+        ui_sidcart_engine_model_values[count] = list[count]->value;
+    }
+    ui_sidcart_engine_model[count] = NULL;
+    ui_sidcart_engine_model_values[count] = -1;
+
+    ui_to_from[1].strings = ui_sidcart_engine_model;
+    ui_to_from[1].values = ui_sidcart_engine_model_values;
+}
+
+static void free_sid_engines(void)
+{
+    lib_free(ui_sidcart_engine_model);
+    lib_free(ui_sidcart_engine_model_values);
+    ui_sidcart_engine_model = NULL;
+    ui_sidcart_engine_model_values = NULL;
+}
+
 void ui_sidcart_settings_dialog(char *addr_txt_1, char *addr_txt_2, char *clock, int addr_int_1, int addr_int_2)
 {
     intl_convert_mui_table(ui_sidcart_enable_translate, ui_sidcart_enable);
+
+    set_sid_engines();
+
     ui_sidcart_address[0] = addr_txt_1;
     ui_sidcart_address[1] = addr_txt_2;
     ui_sidcart_clock[1] = clock;
     ui_sidcart_address_values[0] = addr_int_1;
     ui_sidcart_address_values[1] = addr_int_2;
     mui_show_dialog(build_gui(), translate_text(IDS_SIDCART_SETTINGS), ui_to_from);
+
+    free_sid_engines();
 }
 
 void ui_sidcart_plus4_settings_dialog(char *addr_txt_1, char *addr_txt_2, char *clock, int addr_int_1, int addr_int_2)
 {
     intl_convert_mui_table(ui_sidcart_enable_translate, ui_sidcart_enable);
+
+    set_sid_engines();
+
     ui_sidcart_address[0] = addr_txt_1;
     ui_sidcart_address[1] = addr_txt_2;
     ui_sidcart_clock[1] = clock;
     ui_sidcart_address_values[0] = addr_int_1;
     ui_sidcart_address_values[1] = addr_int_2;
     mui_show_dialog(build_gui_plus4(), translate_text(IDS_SIDCART_SETTINGS), ui_to_from);
+
+    free_sid_engines();
 }
