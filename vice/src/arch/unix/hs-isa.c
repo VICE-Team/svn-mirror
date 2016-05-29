@@ -44,20 +44,20 @@
 #define MAXSID 4
 
 static int sids_found = -1;
-static int hssids[MAXSID] = {0, 0, 0, 0};
+static int hssids[MAXSID] = {-1, -1, -1, -1};
 
 void hs_isa_store(WORD addr, BYTE value, int chipno)
 {
-    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
+    if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         io_access_store(HARDSID_BASE, value);
-        io_access_store(HARDSID_BASE + 1, (chipno << 6) | (addr & 0x1f));
+        io_access_store(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f));
     }
 }
 
 BYTE hs_isa_read(WORD addr, int chipno)
 {
-    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
-        io_access_store(HARDSID_BASE + 1, (chipno << 6) | (addr & 0x1f) | 0x20);
+    if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
+        io_access_store(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f) | 0x20);
         usleep(2);
         return io_access_read(HARDSID_BASE);
     }
@@ -112,7 +112,7 @@ int hs_isa_open(void)
 
     for (j = 0; j < MAXSID; ++j) {
         if (detect_sid(j)) {
-            hssids[j] = 1;
+            hssids[sids_found] = j;
             sids_found++;
         }
     }
@@ -130,7 +130,7 @@ int hs_isa_close(void)
     io_access_unmap(HARDSID_BASE, 2);
 
     for (i = 0; i < MAXSID; ++i) {
-        hssids[i] = 0;
+        hssids[i] = -1;
     }
 
     sids_found = -1;
