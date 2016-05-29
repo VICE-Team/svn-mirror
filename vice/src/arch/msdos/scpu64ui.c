@@ -189,6 +189,8 @@ int scpu64ui_init(void)
 
     uivideo_init(ui_video_submenu, VID_VICII, VID_NONE);
 
+    sid_c64_build_menu();
+
     tui_menu_add(ui_sound_submenu, sid_c64_ui_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 

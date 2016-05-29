@@ -146,8 +146,6 @@ int plus4ui_init(void)
 
     uivideo_init(ui_video_submenu, VID_TED, VID_NONE);
 
-    tui_menu_add(ui_sound_submenu, sid_cbm2_ui_menu_items);
-
     uisidcart_plus4_init(ui_sound_submenu, "$FD40", "$FE80", "PLUS4", 0xfd40, 0xfe80);
     uiv364speech_init(ui_sound_submenu);
 

@@ -32,4 +32,6 @@ struct tui_menu_item_def_s;
 
 extern struct tui_menu_item_def_s sid_c64_ui_menu_items[];
 
+extern void sid_c64_build_menu(void);
+
 #endif

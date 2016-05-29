@@ -112,6 +112,9 @@ int cbm2ui_init(void)
     ui_create_main_menu(0, 1, 0, 6, 1, driveieee_settings_submenu);
 
     tui_menu_add_separator(ui_video_submenu);
+
+    sid_cbm2_build_menu();
+
     tui_menu_add(ui_sound_submenu, sid_cbm2_ui_menu_items);
 
     uivideo_init(ui_video_submenu, VID_CRTC, VID_NONE);

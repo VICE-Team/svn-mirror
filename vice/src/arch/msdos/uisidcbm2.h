@@ -30,5 +30,6 @@
 struct tui_menu_item_def_s;
 
 extern struct tui_menu_item_def_s sid_cbm2_ui_menu_items[];
+extern void sid_cbm2_build_menu(void);
 
 #endif
