@@ -42,7 +42,7 @@
 
 static int sids_found = -1;
 
-static int hssids[MAXSID] = {0, 0, 0, 0};
+static int hssids[MAXSID] = {-1, -1, -1, -1};
 
 static BYTE read_sid(BYTE reg, int chipno)
 {
@@ -102,7 +102,7 @@ int hs_isa_open(void)
 
     for (j = 0; j < MAXSID; ++j) {
         if (detect_sid(j)) {
-            hssids[j] = 1;
+            hssids[sids_found] = j;
             sids_found++;
         }
     }
@@ -113,9 +113,9 @@ int hs_isa_open(void)
 
     /* mute all sids */
     for (j = 0; j < MAXSID; ++j) {
-        if (hssids[j]) {
+        if (hssids[j] != -1) {
             for (i = 0; i < 32; i++) {
-                write_sid((BYTE)i, 0, j);
+                write_sid((BYTE)i, 0, hssids[j]);
             }
         }
     }
@@ -131,9 +131,9 @@ int hs_isa_close(void)
 
     /* mute all sids */
     for (j = 0; j < MAXSID; ++j) {
-        if (hssids[j]) {
+        if (hssids[j] != -1) {
             for (i = 0; i < 32; i++) {
-                write_sid((BYTE)i, 0, j);
+                write_sid((BYTE)i, 0, hssids[j]);
             }
         }
     }
@@ -149,8 +149,8 @@ int hs_isa_close(void)
 int hs_isa_read(WORD addr, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
-        return read_sid(addr, chipno);
+    if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
+        return read_sid(addr, hssids[chipno]);
     }
     return 0;
 }
@@ -159,8 +159,8 @@ int hs_isa_read(WORD addr, int chipno)
 void hs_isa_store(WORD addr, BYTE val, int chipno)
 {
     /* check if chipno and addr is valid */
-    if (chipno < MAXSID && hssids[chipno] && addr < 0x20) {
-        write_sid(addr, val, chipno);
+    if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
+        write_sid(addr, val, hssids[chipno]);
     }
 }
 
