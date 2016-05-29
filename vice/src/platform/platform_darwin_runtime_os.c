@@ -140,23 +140,25 @@ char *platform_get_darwin_runtime_cpu(void)
         }
 
 #ifdef __ppc__
-        tempfile = archdep_tmpnam();
-        tempsystem = util_concat("uname -m >", tempfile, NULL);
-        system(tempsystem);
-        infile = fopen(tempfile, "rb");
-        if (infile) {
-            amount = fread(buffer, 1, 4095, infile);
-            if (amount) {
-                buffer[strlen(buffer)] = 0;
-                if (strcmp(buffer, "Power Macintosh")) {
-                    sprintf(cpu, "%s [Rosetta (%s)]", cpu, buffer);
+        if (strncmp(cpu, "ppc", 3)) {
+            tempfile = archdep_tmpnam();
+            tempsystem = util_concat("uname -m >", tempfile, NULL);
+            system(tempsystem);
+            infile = fopen(tempfile, "rb");
+            if (infile) {
+                amount = fread(buffer, 1, 4095, infile);
+                if (amount) {
+                    buffer[strlen(buffer)] = 0;
+                    if (strcmp(buffer, "Power Macintosh")) {
+                        sprintf(cpu, "%s [Rosetta (%s)]", cpu, buffer);
+                    }
                 }
+                fclose(infile);
+                unlink(tempfile);
             }
-            fclose(infile);
-            unlink(tempfile);
+            lib_free(tempsystem);
+            lib_free(tempfile);
         }
-        lib_free(tempsystem);
-        lib_free(tempfile);
 #endif
         got_cpu = 1;
     }
