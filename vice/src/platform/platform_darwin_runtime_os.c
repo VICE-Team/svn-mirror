@@ -25,6 +25,7 @@
  */
 
 /* Tested and confirmed working on:
+ * - Darwin 1.4.1 (ppc)
  * - Darwin 6.0.2 (ppc)
  * - Darwin 8.0.1 (x86)
  */
