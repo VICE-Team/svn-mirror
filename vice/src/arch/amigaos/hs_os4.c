@@ -37,8 +37,8 @@
 #include "types.h"
 
 
-static unsigned char read_sid(unsigned char reg); // Read a SID register
-static void write_sid(unsigned char reg, unsigned char data); // Write a SID register
+static unsigned char read_sid(unsigned char reg, int chipno); // Read a SID register
+static void write_sid(unsigned char reg, unsigned char data, int chipno); // Write a SID register
 
 #define MAXSID 4
 
@@ -107,7 +107,6 @@ static int detect_sid(int chipno)
 
 int hs_os4_open(void)
 {
-    static int atexitinitialized = 0;
     unsigned int i, j;
 
     if (!sids_found) {
@@ -122,10 +121,6 @@ int hs_os4_open(void)
 
     if (!pci_lib_loaded) {
         return -1;
-    }
-
-    if (atexitinitialized) {
-        hs_os4_close();
     }
 
     IPCI = (struct PCIIFace *)IExec->GetInterface(ExpansionBase, "pci", 1, NULL);
@@ -186,12 +181,6 @@ int hs_os4_open(void)
 
     log_message(LOG_DEFAULT, "HardSID PCI: opened");
 
-    /* install exit handler, so device is closed on exit */
-    if (!atexitinitialized) {
-        atexitinitialized = 1;
-        atexit((voidfunc_t)hardsid_drv_close);
-    }
-
     return 0;
 }
 
@@ -239,7 +228,7 @@ static unsigned char read_sid(unsigned char reg, int chipno)
     return ret;
 }
 
-static void write_sid(unsigned char reg, unsigned char data)
+static void write_sid(unsigned char reg, unsigned char data, int chipno)
 {
     HSDevPCI->OutWord(HSDevBAR->BaseAddress + 3, ((chipno << 14) | (reg & 0x1f) << 8) | data);
 }

@@ -87,7 +87,6 @@ int CWLock = FALSE;
 
 int cw_os4_open(void)
 {
-    static int atexitinitialized = 0;
     unsigned int i;
 
     if (!sids_found) {
@@ -99,10 +98,6 @@ int cw_os4_open(void)
     }
 
     sids_found = 0;
-
-    if (atexitinitialized) {
-        cw_os4_close();
-    }
 
     IPCI = (struct PCIIFace *)IExec->GetInterface(ExpansionBase, "pci", 1, NULL);
     if (!IPCI) {
@@ -149,12 +144,6 @@ int cw_os4_open(void)
     }
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
-
-    /* install exit handler, so device is closed on exit */
-    if (!atexitinitialized) {
-        atexitinitialized = 1;
-        atexit((voidfunc_t)cw_os4_close);
-    }
 
     sids_found = 1;
 
