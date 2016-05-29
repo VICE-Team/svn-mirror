@@ -29,6 +29,7 @@
  * - Darwin 6.0.2 (ppc)
  * - Darwin 7.0.1 (ppc)
  * - Darwin 8.0.1 (x86)
+ * - Darwin 8.0.1 (ppc)
  */
 
 #include "vice.h"
