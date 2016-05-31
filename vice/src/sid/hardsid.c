@@ -69,7 +69,7 @@ int hardsid_close(void)
 
 int hardsid_read(WORD addr, int chipno)
 {
-    if (!hardsid_is_open) {
+    if (!hardsid_is_open && chipno < HS_MAXSID) {
         /* use sidbuf[] for write-only registers */
         if (addr <= 0x18) {
             return sidbuf[(chipno * 0x20) + addr];
@@ -82,7 +82,7 @@ int hardsid_read(WORD addr, int chipno)
 
 void hardsid_store(WORD addr, BYTE val, int chipno)
 {
-    if (!hardsid_is_open) {
+    if (!hardsid_is_open && chipno < HS_MAXSID) {
         /* write to sidbuf[] for write-only registers */
         if (addr <= 0x18) {
             sidbuf[(chipno * 0x20) + addr] = val;
@@ -120,19 +120,23 @@ void hardsid_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
 {
     int i;
 
-    for (i = 0; i < 32; ++i) {
-        sid_state->regs[i] = sidbuf[i + (chipno * 0x20)];
+    if (chipno < HS_MAXSID) {
+        for (i = 0; i < 32; ++i) {
+            sid_state->regs[i] = sidbuf[i + (chipno * 0x20)];
+        }
+        hardsid_drv_state_read(chipno, sid_state);
     }
-    hardsid_drv_state_read(chipno, sid_state);
 }
 
 void hardsid_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)
 {
     int i;
 
-    for (i = 0; i < 32; ++i) {
-        sidbuf[i + (chipno * 0x20)] = sid_state->regs[i];
+    if (chipno < HS_MAXSID) {
+        for (i = 0; i < 32; ++i) {
+            sidbuf[i + (chipno * 0x20)] = sid_state->regs[i];
+        }
+        hardsid_drv_state_write(chipno, sid_state);
     }
-    hardsid_drv_state_write(chipno, sid_state);
 }
 #endif
