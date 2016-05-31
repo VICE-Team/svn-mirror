@@ -62,74 +62,6 @@ static UI_CALLBACK(radio_SidModel)
 
 ui_menu_entry_t *sid_model_submenu = NULL;
 
-ui_menu_entry_t sid_model_submenu[] = {
-    { "6581 (FastSID)", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_6581, NULL },
-    { "8580 (FastSID)", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_8580, NULL },
-#ifdef HAVE_RESID
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { "6581 (ReSID)", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESID_6581, NULL },
-    { "8580 (ReSID)", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESID_8580, NULL },
-    { N_("8580 + digi boost (ReSID)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESID_8580D, NULL },
-#endif
-#if defined(HAVE_CATWEASELMKIII) || defined(HAVE_HARDSID) || defined(HAVE_PARSID)
-    { "--", UI_MENU_TYPE_SEPARATOR },
-#ifdef HAVE_CATWEASELMKIII
-    { "Catweasel MKIII", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidModel,
-      (ui_callback_data_t)SID_CATWEASELMKIII, NULL },
-#endif
-#ifdef HAVE_HARDSID
-    { "HardSID", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidModel,
-      (ui_callback_data_t)SID_HARDSID, NULL },
-#endif
-#ifdef HAVE_PARSID
-    { N_("ParSID Port 1"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidModel,
-      (ui_callback_data_t)SID_PARSID_PORT1, NULL },
-    { N_("ParSID Port 2"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidModel,
-      (ui_callback_data_t)SID_PARSID_PORT2, NULL },
-    { N_("ParSID Port 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidModel,
-      (ui_callback_data_t)SID_PARSID_PORT3, NULL },
-#endif
-#endif
-    { NULL }
-};
-
-ui_menu_entry_t sid_dtv_model_submenu[] = {
-#ifdef HAVE_RESID
-    { "DTVSID", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESID_DTVSID, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-#endif
-    { "6581 (FastSID)", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_6581, NULL },
-    { "8580 (FastSID)", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_8580, NULL },
-#if defined(HAVE_CATWEASELMKIII) || defined(HAVE_HARDSID) || defined(HAVE_PARSID)
-    { "--", UI_MENU_TYPE_SEPARATOR },
-#ifdef HAVE_CATWEASELMKIII
-    { "Catweasel MKIII", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidModel,
-      (ui_callback_data_t)SID_CATWEASELMKIII, NULL },
-#endif
-#ifdef HAVE_HARDSID
-    { "HardSID", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidModel,
-      (ui_callback_data_t)SID_HARDSID, NULL },
-#endif
-#ifdef HAVE_PARSID
-    { N_("ParSID Port 1"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidModel,
-      (ui_callback_data_t)SID_PARSID_PORT1, NULL },
-    { N_("ParSID Port 2"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidModel,
-      (ui_callback_data_t)SID_PARSID_PORT2, NULL },
-    { N_("ParSID Port 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidModel,
-      (ui_callback_data_t)SID_PARSID_PORT3, NULL },
-#endif
-#endif
-    { NULL }
-};
-
 #ifdef HAVE_RESID
 UI_MENU_DEFINE_RADIO(SidResidSampling)
 
@@ -197,10 +129,10 @@ void uisid_model_menu_create(void)
     sid_model_submenu = lib_calloc((size_t)(i + 1), sizeof(ui_menu_entry_t));
 
     for (i = 0; list[i]; ++i) {
-        sid_model_submenu[i].string = (ui_callback_data_t)lib_msprintf("%s", list[i].name);
+        sid_model_submenu[i].string = (ui_callback_data_t)lib_msprintf("%s", list[i]->name);
         sid_model_submenu[i].type = UI_MENU_TYPE_TICK;
         sid_model_submenu[i].callback = (ui_callback_t)radio_SidModel;
-        sid_model_submenu[i].callback_data = (ui_callback_data_t)(unsigned long)list[i].value;
+        sid_model_submenu[i].callback_data = (ui_callback_data_t)(unsigned long)list[i]->value;
     }
 }
 
