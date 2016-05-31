@@ -60,8 +60,6 @@ static UI_CALLBACK(radio_SidModel)
     }
 }
 
-ui_menu_entry_t *sid_model_submenu = NULL;
-
 #ifdef HAVE_RESID
 UI_MENU_DEFINE_RADIO(SidResidSampling)
 
@@ -119,31 +117,38 @@ ui_menu_entry_t sid_extra_sids_submenu[] = {
     { NULL }
 };
 
+ui_menu_entry_t sid_model_submenu[] = {
+    { "", UI_MENU_TYPE_NONE, NULL, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t *attach_sid_model_submenu = NULL;
+
 void uisid_model_menu_create(void)
 {
     int i;
     sid_engine_model_t **list = sid_get_engine_model_list();
 
     for (i = 0; list[i]; ++i) {}
-
-    sid_model_submenu = lib_calloc((size_t)(i + 1), sizeof(ui_menu_entry_t));
+    attach_sid_model_submenu = lib_calloc((size_t)(i + 1), sizeof(ui_menu_entry_t));
 
     for (i = 0; list[i]; ++i) {
-        sid_model_submenu[i].string = (ui_callback_data_t)lib_msprintf("%s", list[i]->name);
-        sid_model_submenu[i].type = UI_MENU_TYPE_TICK;
-        sid_model_submenu[i].callback = (ui_callback_t)radio_SidModel;
-        sid_model_submenu[i].callback_data = (ui_callback_data_t)(unsigned long)list[i]->value;
+        attach_sid_model_submenu[i].string = (ui_callback_data_t)lib_msprintf("%s", list[i]->name);
+        attach_sid_model_submenu[i].type = UI_MENU_TYPE_TICK;
+        attach_sid_model_submenu[i].callback = (ui_callback_t)radio_SidModel;
+        attach_sid_model_submenu[i].callback_data = (ui_callback_data_t)(unsigned long)list[i]->value;
     }
+    sid_model_submenu[0].sub_menu = attach_sid_model_submenu;
 }
 
 void uisid_model_menu_shutdown(void)
 {
     int i = 0;
 
-    while (sid_model_submenu[i].string != NULL) {
-        lib_free(sid_model_submenu[i].string);
+    while (attach_sid_model_submenu[i].string != NULL) {
+        lib_free(attach_sid_model_submenu[i].string);
         i++;
     }
 
-    lib_free(sid_model_submenu);
+    lib_free(attach_sid_model_submenu);
 }
