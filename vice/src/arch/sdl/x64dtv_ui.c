@@ -165,6 +165,7 @@ int c64dtvui_init(void)
     uisampler_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
+    uisid_menu_create();
 
     sdl_ui_set_main_menu(x64dtv_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);

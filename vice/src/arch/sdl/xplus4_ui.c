@@ -181,6 +181,7 @@ int plus4ui_init(void)
     uidrive_menu_create();
     uikeyboard_menu_create();
     uipalette_menu_create("TED", NULL);
+    uisid_menu_create();
 
     sdl_ui_set_main_menu(xplus4_main_menu);
 

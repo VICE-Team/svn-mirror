@@ -293,6 +293,7 @@ int cbm2ui_init(void)
     uijoyport_menu_create(0, 0, 1, 1, 0);
     uikeyboard_menu_create();
     uipalette_menu_create("Crtc", NULL);
+    uisid_menu_create();
 
     sdl_ui_set_menu_params = cbm2ui_set_menu_params;
     sdl_ui_set_main_menu(xcbm6x0_7x0_main_menu);

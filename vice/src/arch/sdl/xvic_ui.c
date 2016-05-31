@@ -202,6 +202,7 @@ int vic20ui_init(void)
     uidrive_menu_create();
     uikeyboard_menu_create();
     uipalette_menu_create("VIC", NULL);
+    uisid_menu_create();
 
     sdl_ui_set_main_menu(xvic_main_menu);
 

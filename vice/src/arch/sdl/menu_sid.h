@@ -31,12 +31,14 @@
 
 #include "uimenu.h"
 
-extern const ui_menu_entry_t sid_c64_menu[];
-extern const ui_menu_entry_t sid_c128_menu[];
-extern const ui_menu_entry_t sid_cbm2_menu[];
-extern const ui_menu_entry_t sid_dtv_menu[];
-extern const ui_menu_entry_t sid_pet_menu[];
-extern const ui_menu_entry_t sid_plus4_menu[];
-extern const ui_menu_entry_t sid_vic_menu[];
+extern ui_menu_entry_t sid_c64_menu[];
+extern ui_menu_entry_t sid_c128_menu[];
+extern ui_menu_entry_t sid_cbm2_menu[];
+extern ui_menu_entry_t sid_dtv_menu[];
+extern ui_menu_entry_t sid_pet_menu[];
+extern ui_menu_entry_t sid_plus4_menu[];
+extern ui_menu_entry_t sid_vic_menu[];
+
+extern void uisid_menu_create(void);
 
 #endif

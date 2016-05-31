@@ -37,7 +37,7 @@
 #define SID_SETTINGS_DIALOG
 #endif
 
-#if (defined(WIN32) || defined(MACOSX_COCOA) || defined(WATCOM_COMPILE) || defined(USE_BEOS_UI)) && !defined(USE_SDLUI) && !defined(USE_SDLUI2)
+#if (defined(WIN32) || defined(MACOSX_COCOA) || defined(WATCOM_COMPILE) || defined(USE_BEOS_UI)) || defined(USE_SDLUI) || defined(USE_SDLUI2)
 #define SID_SETTINGS_DIALOG
 #endif
 

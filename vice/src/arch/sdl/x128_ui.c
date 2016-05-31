@@ -48,6 +48,7 @@
 #include "menu_sampler.h"
 #include "menu_screenshot.h"
 #include "menu_settings.h"
+#include "menu_sid.h"
 #include "menu_snapshot.h"
 #include "menu_sound.h"
 #include "menu_speed.h"
@@ -189,6 +190,7 @@ int c128ui_init(void)
     uidrive_menu_create();
     uikeyboard_menu_create();
     uipalette_menu_create("VICII", "VDC");
+    uisid_menu_create();
 
     sdl_ui_set_main_menu(x128_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
