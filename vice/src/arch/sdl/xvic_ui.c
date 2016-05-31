@@ -47,6 +47,7 @@
 #include "menu_sampler.h"
 #include "menu_screenshot.h"
 #include "menu_settings.h"
+#include "menu_sid.h"
 #include "menu_snapshot.h"
 #include "menu_sound.h"
 #include "menu_speed.h"
