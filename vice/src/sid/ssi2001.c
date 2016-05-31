@@ -24,6 +24,8 @@
  *
  */
 
+#include <string.h>
+
 #include "vice.h"
 
 #ifdef HAVE_SSI2001
