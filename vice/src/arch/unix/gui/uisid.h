@@ -107,12 +107,13 @@ static ui_menu_entry_t menu[] = {                                               
 };
 
 extern struct ui_menu_entry_s sid_model_submenu[];
-extern struct ui_menu_entry_s sid_dtv_model_submenu[];
-extern struct ui_menu_entry_s sid_model_noresid_submenu[];
 extern struct ui_menu_entry_s sid_resid_sampling_submenu[];
 
 extern struct ui_menu_entry_s sid_extra_sids_submenu[];
 
 extern UI_CALLBACK(set_sid_resid_passband);
+
+extern void uisid_model_menu_create(void);
+extern void uisid_model_menu_shutdown(void);
 
 #endif

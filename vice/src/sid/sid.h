@@ -33,15 +33,7 @@
 #include "types.h"
 #include "sound.h"
 
-#ifdef __MSDOS__
-#define SID_SETTINGS_DIALOG
-#endif
-
-#if (defined(WIN32) || defined(MACOSX_COCOA) || defined(WATCOM_COMPILE) || defined(USE_BEOS_UI)) || defined(USE_SDLUI) || defined(USE_SDLUI2)
-#define SID_SETTINGS_DIALOG
-#endif
-
-#ifdef AMIGA_SUPPORT
+#ifndef __OS2__
 #define SID_SETTINGS_DIALOG
 #endif
 

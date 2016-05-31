@@ -497,6 +497,7 @@ static void plus4ui_dynamic_menu_create(void)
     uited_menu_create();
     uikeyboard_menu_create();
     uijoyport_menu_create(1, 1, 1, 1, 1);
+    uisid_model_menu_create();
 }
 
 static void plus4ui_dynamic_menu_shutdown(void)
@@ -506,6 +507,7 @@ static void plus4ui_dynamic_menu_shutdown(void)
     uisampler_menu_shutdown();
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
+    uisid_model_menu_shutdown();
 }
 
 int plus4ui_init(void)

@@ -594,6 +594,7 @@ static void scpu64ui_dynamic_menu_create(void)
     uicart_menu_create();
     uikeyboard_menu_create();
     uijoyport_menu_create(1, 1, 1, 1, 0);
+    uisid_model_menu_create();
 }
 
 static void scpu64ui_dynamic_menu_shutdown(void)
@@ -603,6 +604,7 @@ static void scpu64ui_dynamic_menu_shutdown(void)
     uisampler_menu_shutdown();
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
+    uisid_model_menu_shutdown();
 }
 
 int scpu64ui_init(void)

@@ -532,6 +532,7 @@ int vsid_ui_init(void)
     /* FIXME: There might be a separte vsid icon.  */
     ui_set_application_icon(c64_icon_data);
     uisound_menu_create();
+    uisid_model_menu_create();
 
     ui_set_drop_callback(vsid_ui_load_psid);
 
@@ -543,6 +544,7 @@ int vsid_ui_init(void)
 void vsid_ui_close(void) /* FIXME: bad name */
 {
     uisound_menu_shutdown();
+    uisid_model_menu_shutdown();
     vsid_close_menus();
 }
 

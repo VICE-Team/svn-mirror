@@ -647,6 +647,7 @@ static void petui_dynamic_menu_create(void)
     uikeyboard_menu_create();
     uipetkeyboard_menu_create();
     uijoyport_menu_create(0, 0, 1, 1, 0);
+    uisid_model_menu_create();
 }
 
 static void petui_dynamic_menu_shutdown(void)
@@ -657,6 +658,7 @@ static void petui_dynamic_menu_shutdown(void)
     uikeyboard_menu_shutdown();
     uipetkeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
+    uisid_model_menu_shutdown();
 }
 
 int petui_init(void)

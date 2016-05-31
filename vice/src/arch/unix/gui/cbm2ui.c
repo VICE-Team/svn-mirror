@@ -721,6 +721,7 @@ static void cbm2ui_dynamic_menu_create(void)
         uijoyport_menu_create(0, 0, 1, 1, 0);
     }
     uikeyboard_menu_create();
+    uisid_model_menu_create();
 }
 
 static void cbm2ui_dynamic_menu_shutdown(void)
@@ -734,6 +735,7 @@ static void cbm2ui_dynamic_menu_shutdown(void)
     uisampler_menu_shutdown();
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
+    uisid_model_menu_shutdown();
 }
 
 int cbm2ui_init(void)

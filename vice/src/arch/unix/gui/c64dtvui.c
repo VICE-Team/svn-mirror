@@ -159,7 +159,7 @@ ui_menu_entry_t c64dtv_model_submenu[] = {
     { N_("VIC-II model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_viciimodel_submenu },
     { N_("SID model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sid_dtv_model_submenu },
+      NULL, NULL, sid_model_submenu },
     { N_("Luma fix"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64dtv_luma_fix_submenu },
     { NULL }
@@ -355,6 +355,7 @@ static void c64ui_dynamic_menu_create(void)
     uiprinter_pruser_enable(0);
     uikeyboard_menu_create();
     uijoyport_menu_create(1, 1, 1, 0, 0);
+    uisid_model_menu_create();
 }
 
 static void c64ui_dynamic_menu_shutdown(void)
@@ -364,6 +365,7 @@ static void c64ui_dynamic_menu_shutdown(void)
     uisampler_menu_shutdown();
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
+    uisid_model_menu_shutdown();
 }
 
 int c64dtvui_init(void)
