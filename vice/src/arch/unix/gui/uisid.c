@@ -145,10 +145,13 @@ void uisid_model_menu_shutdown(void)
 {
     int i = 0;
 
-    while (attach_sid_model_submenu[i].string != NULL) {
-        lib_free(attach_sid_model_submenu[i].string);
-        i++;
-    }
+    if (attach_sid_model_submenu) {
+        while (attach_sid_model_submenu[i].string != NULL) {
+            lib_free(attach_sid_model_submenu[i].string);
+            i++;
+        }
 
-    lib_free(attach_sid_model_submenu);
+        lib_free(attach_sid_model_submenu);
+        attach_sid_model_submenu = NULL;
+    }
 }
