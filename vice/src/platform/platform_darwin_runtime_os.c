@@ -37,6 +37,7 @@
  * - Mac OS X 10.1 (ppc)
  * - Mac OS X 10.2 (ppc)
  * - Mac OS X 10.3 (ppc)
+ * - Mac OS X 10.4 (ppc)
  */
 
 #include "vice.h"
