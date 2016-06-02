@@ -25,11 +25,18 @@
  */
 
 /* Tested and confirmed working on:
+ * - Darwin 1.4.1 (x86)
  * - Darwin 1.4.1 (ppc)
+ * - Darwin 6.0.2 (x86)
  * - Darwin 6.0.2 (ppc)
+ * - Darwin 7.0.1 (x86)
  * - Darwin 7.0.1 (ppc)
  * - Darwin 8.0.1 (x86)
  * - Darwin 8.0.1 (ppc)
+ * - PureDarwin (x86) [Darwin 9.8]
+ * - Mac OS X 10.1 (ppc)
+ * - Mac OS X 10.2 (ppc)
+ * - Mac OS X 10.3 (ppc)
  */
 
 #include "vice.h"
