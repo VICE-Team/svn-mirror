@@ -11210,161 +11210,155 @@ msgstr "Tape Log"
 #: src/translate_text.c.po.c:3976
 #, c-format
 msgid "EOF while writing to module %s in snapshot %s"
-msgstr ""
+msgstr "EOF tijdens het schrijven naar module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:3993
-#, fuzzy, c-format
+#, c-format
 msgid "EOF while writing to snapshot %s"
-msgstr "Activeer schrijven naar het EasyFlash .crt bestand"
+msgstr "EOF tijdens het schrijven naar momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4010
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing array to module %s in snapshot %s"
-msgstr "Fout bij het schrijven naar bestand %s!"
+msgstr "Fout bij het schrijven van een blok naar module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4027
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing array to snapshot %s"
-msgstr "Fout bij het lezen van het start momentopnamebestand."
+msgstr "Fout bij het schrijven van een block naar momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4044
 #, c-format
 msgid "EOF while reading from module %s in snapshot %s"
-msgstr ""
+msgstr "EOF tijdens het lezen van module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4061
-#, fuzzy, c-format
+#, c-format
 msgid "EOF while reading from snapshot %s"
-msgstr "Fout bij het lezen van het eind van het momentopnamebestand %s."
+msgstr "EOF tijdens het lezen van momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4078
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading array from module %s in snapshot %s"
-msgstr "Fout bij het lezen van het eind van het momentopnamebestand %s."
+msgstr "Fout bij het lezen van een blok van module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4095
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading array from snapshot %s"
-msgstr "Fout bij het lezen van het start momentopnamebestand."
+msgstr "Fout bij het lezen van een blok van momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4112
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing string to module %s in snapshot %s"
-msgstr "Fout bij het lezen van het start momentopnamebestand."
+msgstr "Fout bij het schrijven van tekst naar module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4129
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing string to snapshot %s"
-msgstr "Fout bij het lezen van het start momentopnamebestand."
+msgstr "Fout bij het schrijven van tekst naar momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4146
 #, c-format
 msgid "Out of bounds reading error in module %s in snapshot %s"
-msgstr ""
+msgstr "Buiten de grenzen lees fout in module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4163
-#, fuzzy, c-format
+#, c-format
 msgid "Out of bounds reading error in snapshot %s"
-msgstr "Fout bij het lezen van het eind van het momentopnamebestand %s."
+msgstr "Buiten de grenzen fout bij het lezen van momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4180
 #, c-format
 msgid "Illegal offset while attempting to create module %s in snapshot %s"
-msgstr ""
+msgstr "Fout begin afstand tijdens het maken van module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4197
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find first module in snapshot %s"
-msgstr "Kan het momentopnamebestand %s niet openen"
+msgstr "Kan de eerste module in momentopnamebestand %s niet vinden"
 
 #: src/translate_text.c.po.c:4214
-#, fuzzy, c-format
+#, c-format
 msgid "Error while reading module header in snapshot %s"
-msgstr "Fout bij het lezen van het eind van het momentopnamebestand %s."
+msgstr "Fout bij het lezen van het begin van een module in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4231
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find module %s in snapshot %s"
-msgstr "Kan het momentopnamebestand %s niet openen"
+msgstr "Kan de module %s niet vinden in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4248
-#, fuzzy, c-format
+#, c-format
 msgid "Error closing module %s in snapshot %s"
-msgstr "Fout bij het lezen van het eind van het momentopnamebestand %s."
+msgstr "Fout bij het sluiten van module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4265
-#, fuzzy, c-format
+#, c-format
 msgid "Error skipping module in snapshot %s"
-msgstr "Fout bij het lezen van het eind van het momentopnamebestand %s."
+msgstr "Fout bij het overslaan van module in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4282
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create snapshot %s"
-msgstr "Kan het momentopnamebestand %s niet maken"
+msgstr "Kan momentopnamebestand %s niet maken"
 
 #: src/translate_text.c.po.c:4299
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write magic string to snapshot %s"
-msgstr ""
-"Kan momentopnamebestand niet schrijven\n"
-"`%s'\n"
+msgstr "Kan de magische tekst niet schrijven naar momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4316
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write version to snapshot %s"
-msgstr ""
-"Kan momentopnamebestand niet schrijven\n"
-"`%s'\n"
+msgstr "Kan de versie niet schrijven naar momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4333
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write machine name to snapshot %s"
-msgstr ""
-"Kan momentopnamebestand niet schrijven\n"
-"`%s'\n"
+msgstr "Kan de machine naam niet schrijven naar momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4350
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open snapshot %s for reading"
-msgstr "Kan het momentopnamebestand %s niet openen"
+msgstr "Kan het momentopnamebestand %s niet openen voor lezen"
 
 #: src/translate_text.c.po.c:4367
 #, c-format
 msgid "Magic string mismatch in snapshot %s"
-msgstr ""
+msgstr "Magische tekst is niet wat is verwacht in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4384
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read version from snapshot %s"
-msgstr "Kan het momentopnamebestand %s niet maken"
+msgstr "Kan de versie niet lezen van momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4401
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read machine name from snapshot %s"
-msgstr "Kan het momentopnamebestand %s niet maken"
+msgstr "Kan de machine naam niet lezen van momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4418
 #, c-format
 msgid ""
 "Wrong machine type in snapshot %s, snapshot type: %s, current machine: %s"
-msgstr ""
+msgstr "Verkeerd machine soort in momentopnamebestand %s, soort in bestand: %s, huidige soort: %s"
 
 #: src/translate_text.c.po.c:4435
 #, c-format
 msgid "EOF while closing snapshot %s"
-msgstr ""
+msgstr "EOF tijdens het afsluiten van momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4452
 #, c-format
 msgid ""
 "Snapshot %s has a higher version than what your current emulator supports, "
 "please upgrade VICE"
-msgstr ""
+msgstr "Momentopnamebestand %s heeft een hogere versie dan wat de huidige emulator ondersteund, download een huidige versie van VICE"
 
 #: src/translate_text.c.po.c:4469
 #, c-format
 msgid "Snapshot %s is incompatible (too old)"
-msgstr ""
+msgstr "Momentopname %s is niet kompatibel (te oud)"
 
 #: src/translate_text.c.po.c:4488
 msgid "Enable opposite joystick directions"
@@ -13472,7 +13466,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:13777
 msgid "1792: SSI2001"
-msgstr ""
+msgstr "1792: SSI2001"
 
 #: src/translate_text.c.po.c:13812
 msgid "Disable the SID cartridge"
