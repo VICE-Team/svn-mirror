@@ -50,6 +50,8 @@
 #include <mach/mach.h>
 
 #ifdef __ppc__
+#include <sys/stat.h>
+
 #include "archdep.h"
 #include "lib.h"
 #include "util.h"
@@ -139,6 +141,7 @@ char *platform_get_darwin_runtime_cpu(void)
     int amount = 0;
     char *tempfile = NULL;
     char *tempsystem = NULL;
+    struct stat st;
 #endif
 
     if (!got_cpu) {
@@ -151,7 +154,7 @@ char *platform_get_darwin_runtime_cpu(void)
         }
 
 #ifdef __ppc__
-        if (strncmp(cpu, "ppc", 3)) {
+        if (!stat("/usr/libexec/oah/translate", &st))
             tempfile = archdep_tmpnam();
             tempsystem = util_concat("uname -m >", tempfile, NULL);
             system(tempsystem);
