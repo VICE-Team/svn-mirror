@@ -191,17 +191,17 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "PSID Datei wählen"
   IDS_TUNE_NR             "Titel Nummer"
-  IDS_VSID_KEYS           "VSID shortcut keys"
-  IDS_VSID_KEYS_AVAILABLE "What VSID shortcut keys are available?"
+  IDS_VSID_KEYS           "VSID Tastenkürzel"
+  IDS_VSID_KEYS_AVAILABLE "Welche VSID Tastenkürzel sind verfügbar?"
   IDS_MI_LOAD_PSID_FILE   "PSID Datei laden"
   IDS_MI_SELECT_TUNE      "Titel auswählen"
   IDS_MI_NEXT_TUNE        "Nächster Titel "
   IDS_MI_PREVIOUS_TUNE    "Vorheriger Titel "
   IDS_MI_PSID_OVERRIDE    "PSID Einstellungen ignorieren"
-  IDS_MI_KEYS             "Shortcut keys"
+  IDS_MI_KEYS             "Tastenkürzel"
   IDS_MP_TUNES            "Tunes"
   IDS_MP_SOUND_RECORDING  "Tonaufnahme"
-  IDS_MP_SOUND_VOLUME     "Sound volume"
+  IDS_MP_SOUND_VOLUME     "Sound Lautstärke"
 END
 
 

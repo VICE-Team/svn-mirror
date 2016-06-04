@@ -11220,7 +11220,8 @@ msgstr "EOF tijdens het schrijven naar momentopnamebestand %s"
 #: src/translate_text.c.po.c:4010
 #, c-format
 msgid "Error writing array to module %s in snapshot %s"
-msgstr "Fout bij het schrijven van een blok naar module %s in momentopnamebestand %s"
+msgstr ""
+"Fout bij het schrijven van een blok naar module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4027
 #, c-format
@@ -11240,7 +11241,8 @@ msgstr "EOF tijdens het lezen van momentopnamebestand %s"
 #: src/translate_text.c.po.c:4078
 #, c-format
 msgid "Error reading array from module %s in snapshot %s"
-msgstr "Fout bij het lezen van een blok van module %s in momentopnamebestand %s"
+msgstr ""
+"Fout bij het lezen van een blok van module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4095
 #, c-format
@@ -11250,7 +11252,8 @@ msgstr "Fout bij het lezen van een blok van momentopnamebestand %s"
 #: src/translate_text.c.po.c:4112
 #, c-format
 msgid "Error writing string to module %s in snapshot %s"
-msgstr "Fout bij het schrijven van tekst naar module %s in momentopnamebestand %s"
+msgstr ""
+"Fout bij het schrijven van tekst naar module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4129
 #, c-format
@@ -11270,7 +11273,8 @@ msgstr "Buiten de grenzen fout bij het lezen van momentopnamebestand %s"
 #: src/translate_text.c.po.c:4180
 #, c-format
 msgid "Illegal offset while attempting to create module %s in snapshot %s"
-msgstr "Fout begin afstand tijdens het maken van module %s in momentopnamebestand %s"
+msgstr ""
+"Fout begin afstand tijdens het maken van module %s in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4197
 #, c-format
@@ -11280,7 +11284,8 @@ msgstr "Kan de eerste module in momentopnamebestand %s niet vinden"
 #: src/translate_text.c.po.c:4214
 #, c-format
 msgid "Error while reading module header in snapshot %s"
-msgstr "Fout bij het lezen van het begin van een module in momentopnamebestand %s"
+msgstr ""
+"Fout bij het lezen van het begin van een module in momentopnamebestand %s"
 
 #: src/translate_text.c.po.c:4231
 #, c-format
@@ -11341,7 +11346,9 @@ msgstr "Kan de machine naam niet lezen van momentopnamebestand %s"
 #, c-format
 msgid ""
 "Wrong machine type in snapshot %s, snapshot type: %s, current machine: %s"
-msgstr "Verkeerd machine soort in momentopnamebestand %s, soort in bestand: %s, huidige soort: %s"
+msgstr ""
+"Verkeerd machine soort in momentopnamebestand %s, soort in bestand: %s, "
+"huidige soort: %s"
 
 #: src/translate_text.c.po.c:4435
 #, c-format
@@ -11353,7 +11360,9 @@ msgstr "EOF tijdens het afsluiten van momentopnamebestand %s"
 msgid ""
 "Snapshot %s has a higher version than what your current emulator supports, "
 "please upgrade VICE"
-msgstr "Momentopnamebestand %s heeft een hogere versie dan wat de huidige emulator ondersteund, download een huidige versie van VICE"
+msgstr ""
+"Momentopnamebestand %s heeft een hogere versie dan wat de huidige emulator "
+"ondersteund, download een huidige versie van VICE"
 
 #: src/translate_text.c.po.c:4469
 #, c-format

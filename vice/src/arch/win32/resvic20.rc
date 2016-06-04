@@ -768,7 +768,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK_FILE           "Mega-Cart nicht-flüchtiges RAM Datei wählen"
     IDS_MI_IO2_RAM_ENABLE                    "I/O-2 RAM aktivieren"
     IDS_MI_IO3_RAM_ENABLE                    "I/O-3 RAM aktivieren"
-    IDS_MI_VFLIMOD_ENABLE                    "Enable VFLI modification"
+    IDS_MI_VFLIMOD_ENABLE                    "VFLI Emulation aktivieren"
     IDS_MI_ACIA_SETTINGS_MASCUERADE          "ACIA Einstellungen (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM Einstellungen (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX Einstellungen (MasC=uerade)..."

@@ -4026,7 +4026,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_NL, "EOF tijdens het schrijven naar module %s in momentopnamebestand %s"},
 /* pl */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4043,7 +4043,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_EOF_WRITING_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_EOF_WRITING_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_EOF_WRITING_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_EOF_WRITING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_EOF_WRITING_SNAPSHOT_S_NL, "EOF tijdens het schrijven naar momentopnamebestand %s"},
 /* pl */ {IDGS_EOF_WRITING_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_EOF_WRITING_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_EOF_WRITING_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4060,7 +4060,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_NL, "Fout bij het schrijven van een blok naar module %s in momentopnamebestand %s"},
 /* pl */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4077,7 +4077,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_NL, "Fout bij het schrijven van een block naar momentopnamebestand %s"},
 /* pl */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4094,7 +4094,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_NL, "EOF tijdens het lezen van module %s in momentopnamebestand %s"},
 /* pl */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_EOF_READING_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4111,7 +4111,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_EOF_READING_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_EOF_READING_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_EOF_READING_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_EOF_READING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_EOF_READING_SNAPSHOT_S_NL, "EOF tijdens het lezen van momentopnamebestand %s"},
 /* pl */ {IDGS_EOF_READING_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_EOF_READING_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_EOF_READING_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4128,7 +4128,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_NL, "Fout bij het lezen van een blok van module %s in momentopnamebestand %s"},
 /* pl */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4145,7 +4145,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_NL, "Fout bij het lezen van een blok van momentopnamebestand %s"},
 /* pl */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ERROR_READING_ARRAY_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4162,7 +4162,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_NL, "Fout bij het schrijven van tekst naar module %s in momentopnamebestand %s"},
 /* pl */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4179,7 +4179,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_NL, "Fout bij het schrijven van tekst naar momentopnamebestand %s"},
 /* pl */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ERROR_WRITING_STRING_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4196,7 +4196,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_NL, "Buiten de grenzen lees fout in module %s in momentopnamebestand %s"},
 /* pl */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4213,7 +4213,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_NL, "Buiten de grenzen fout bij het lezen van momentopnamebestand %s"},
 /* pl */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4230,7 +4230,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_NL, "Fout begin afstand tijdens het maken van module %s in momentopnamebestand %s"},
 /* pl */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4247,7 +4247,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_NL, "Kan de eerste module in momentopnamebestand %s niet vinden"},
 /* pl */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4264,7 +4264,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_NL, "Fout bij het lezen van het begin van een module in momentopnamebestand %s"},
 /* pl */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4281,7 +4281,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_NL, "Kan de module %s niet vinden in momentopnamebestand %s"},
 /* pl */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4298,7 +4298,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_NL, "Fout bij het sluiten van module %s in momentopnamebestand %s"},
 /* pl */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4315,7 +4315,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_NL, "Fout bij het overslaan van module in momentopnamebestand %s"},
 /* pl */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4332,7 +4332,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_NL, "Kan momentopnamebestand %s niet maken"},
 /* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4349,7 +4349,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_NL, "Kan de magische tekst niet schrijven naar momentopnamebestand %s"},
 /* pl */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4366,7 +4366,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_NL, "Kan de versie niet schrijven naar momentopnamebestand %s"},
 /* pl */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4383,7 +4383,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_NL, "Kan de machine naam niet schrijven naar momentopnamebestand %s"},
 /* pl */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4400,7 +4400,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_NL, "Kan het momentopnamebestand %s niet openen voor lezen"},
 /* pl */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_OPEN_SNAPSHOT_S_READING_SV, ""},  /* fuzzy */
@@ -4417,7 +4417,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_NL, "Magische tekst is niet wat is verwacht in momentopnamebestand %s"},
 /* pl */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4434,7 +4434,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_NL, "Kan de versie niet lezen van momentopnamebestand %s"},
 /* pl */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_READ_VERSION_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4451,7 +4451,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_NL, "Kan de machine naam niet lezen van momentopnamebestand %s"},
 /* pl */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4468,7 +4468,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_NL, "Verkeerd machine soort in momentopnamebestand %s, soort in bestand: %s, huidige soort: %s"},
 /* pl */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4485,7 +4485,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_EOF_CLOSING_SNAPSHOT_S_HU, ""},  /* fuzzy */
 /* it */ {IDGS_EOF_CLOSING_SNAPSHOT_S_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_EOF_CLOSING_SNAPSHOT_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_EOF_CLOSING_SNAPSHOT_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_EOF_CLOSING_SNAPSHOT_S_NL, "EOF tijdens het afsluiten van momentopnamebestand %s"},
 /* pl */ {IDGS_EOF_CLOSING_SNAPSHOT_S_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_EOF_CLOSING_SNAPSHOT_S_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_EOF_CLOSING_SNAPSHOT_S_SV, ""},  /* fuzzy */
@@ -4502,7 +4502,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_SNAPSHOT_HIGHER_VERSION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SNAPSHOT_HIGHER_VERSION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_SNAPSHOT_HIGHER_VERSION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_SNAPSHOT_HIGHER_VERSION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SNAPSHOT_HIGHER_VERSION_NL, "Momentopnamebestand %s heeft een hogere versie dan wat de huidige emulator ondersteund, download een huidige versie van VICE"},
 /* pl */ {IDGS_SNAPSHOT_HIGHER_VERSION_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_SNAPSHOT_HIGHER_VERSION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_SNAPSHOT_HIGHER_VERSION_SV, ""},  /* fuzzy */
@@ -4519,7 +4519,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_INCOMPATIBLE_SNAPSHOT_HU, ""},  /* fuzzy */
 /* it */ {IDGS_INCOMPATIBLE_SNAPSHOT_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_INCOMPATIBLE_SNAPSHOT_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_INCOMPATIBLE_SNAPSHOT_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_INCOMPATIBLE_SNAPSHOT_NL, "Momentopname %s is niet kompatibel (te oud)"},
 /* pl */ {IDGS_INCOMPATIBLE_SNAPSHOT_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_INCOMPATIBLE_SNAPSHOT_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_INCOMPATIBLE_SNAPSHOT_SV, ""},  /* fuzzy */
@@ -13868,7 +13868,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SSI2001_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SSI2001_ENGINE_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SSI2001_ENGINE_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SSI2001_ENGINE_MODEL_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SSI2001_ENGINE_MODEL_NL, "1792: SSI2001"},
 /* pl */ {IDCLS_SSI2001_ENGINE_MODEL_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SSI2001_ENGINE_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SSI2001_ENGINE_MODEL_SV, ""},  /* fuzzy */

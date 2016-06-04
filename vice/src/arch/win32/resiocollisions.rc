@@ -52,11 +52,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_IO_COLLISION_CAPTION     "I/O collision settings"
+  IDS_IO_COLLISION_CAPTION     "I/O Kollisionsbehandlung"
   IDS_IO_COLLISION_METHOD      "I/O Kollisionsbehandlung"
-  IDS_IO_COLLISION_DETACH_ALL  "Detach all involved carts"
-  IDS_IO_COLLISION_DETACH_LAST "Detach last inserted cart"
-  IDS_IO_COLLISION_AND_WIRES   "'AND' the wires"
+  IDS_IO_COLLISION_DETACH_ALL  "Sämtliche betroffene Erweiterungsmodule entfernen"
+  IDS_IO_COLLISION_DETACH_LAST "Letztes eingelegtes Erweiterungsmodul entfernen"
+  IDS_IO_COLLISION_AND_WIRES   "'AND' der Verbindungen"
 END
 
 

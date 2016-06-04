@@ -1120,7 +1120,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_SINGLE_FRAME_ADVANCE,    "Single frame advance" },
 /* da */ { IDMS_SINGLE_FRAME_ADVANCE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_SINGLE_FRAME_ADVANCE_DE, "" },  /* fuzzy */
+/* de */ { IDMS_SINGLE_FRAME_ADVANCE_DE, "Ein Frame Fortschritt" },
 /* es */ { IDMS_SINGLE_FRAME_ADVANCE_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_SINGLE_FRAME_ADVANCE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_SINGLE_FRAME_ADVANCE_HU, "" },  /* fuzzy */
@@ -1134,7 +1134,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_IO_COLLISION_SETTINGS,    "I/O collision settings" },
 /* da */ { IDMS_IO_COLLISION_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_IO_COLLISION_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_IO_COLLISION_SETTINGS_DE, "I/O Kollisionsbehandlung" },
 /* es */ { IDMS_IO_COLLISION_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_IO_COLLISION_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_IO_COLLISION_SETTINGS_HU, "" },  /* fuzzy */
@@ -1442,7 +1442,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_NATIVE_SCREENSHOT_SETTINGS,    "Native screenshot settings..." },
 /* da */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_DE, "Native Screenshot Einstellungen..." },
 /* es */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_NATIVE_SCREENSHOT_SETTINGS_HU, "" },  /* fuzzy */
@@ -5390,7 +5390,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMES_SCREENSHOT_SAVE_S_FAILED,    "Screenshot save of %s failed" },
 /* da */ { IDMES_SCREENSHOT_SAVE_S_FAILED_DA, "Kunne ikke gemme screenshot %s" },
-/* de */ { IDMES_SCREENSHOT_SAVE_S_FAILED_DE, "Screenshot speicherung von %s ist fehlgeschlagen" },
+/* de */ { IDMES_SCREENSHOT_SAVE_S_FAILED_DE, "Screenshot Speicherung von %s ist fehlgeschlagen" },
 /* es */ { IDMES_SCREENSHOT_SAVE_S_FAILED_ES, "Error en la grabación Captura de pantalla %s" },
 /* fr */ { IDMES_SCREENSHOT_SAVE_S_FAILED_FR, "L'enregistrement de la capture d'écran %s à échoué" },
 /* hu */ { IDMES_SCREENSHOT_SAVE_S_FAILED_HU, "Fénykép fájl mentése %s fájlba nem sikerült" },
@@ -5404,7 +5404,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMES_SCREENSHOT_S_SAVED,    "Screenshot %s saved." },
 /* da */ { IDMES_SCREENSHOT_S_SAVED_DA, "Screenshot %s gemt." },
-/* de */ { IDMES_SCREENSHOT_S_SAVED_DE, "Screenshots %s gespeicher." },
+/* de */ { IDMES_SCREENSHOT_S_SAVED_DE, "Screenshots %s gespeichert." },
 /* es */ { IDMES_SCREENSHOT_S_SAVED_ES, "Captura de pantalla %s grabada." },
 /* fr */ { IDMES_SCREENSHOT_S_SAVED_FR, "Capture d'écran %s enregistrée." },
 /* hu */ { IDMES_SCREENSHOT_S_SAVED_HU, "Fénykép %s fájlba elmentve." },
@@ -8287,7 +8287,6 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_ENABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ENABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
 /* tr */ { IDS_ENABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
-#endif
 
 /* en */ { IDS_DISABLE_VIDEOOVERLAY,    "Disable video overlay." },
 /* da */ { IDS_DISABLE_VIDEOOVERLAY_DA, "" },  /* fuzzy */
@@ -12869,7 +12868,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SCALE,    "Scale" },
 /* da */ { IDS_SCALE_DA, "" },  /* fuzzy */
-/* de */ { IDS_SCALE_DE, "" },  /* fuzzy */
+/* de */ { IDS_SCALE_DE, "Scale" },
 /* es */ { IDS_SCALE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SCALE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SCALE_HU, "" },  /* fuzzy */
@@ -12883,7 +12882,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CROP_LEFT_TOP,    "Crop left top" },
 /* da */ { IDS_CROP_LEFT_TOP_DA, "" },  /* fuzzy */
-/* de */ { IDS_CROP_LEFT_TOP_DE, "" },  /* fuzzy */
+/* de */ { IDS_CROP_LEFT_TOP_DE, "links oben abschneiden" },
 /* es */ { IDS_CROP_LEFT_TOP_ES, "" },  /* fuzzy */
 /* fr */ { IDS_CROP_LEFT_TOP_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CROP_LEFT_TOP_HU, "" },  /* fuzzy */
@@ -12897,7 +12896,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CROP_MIDDLE_TOP,    "Crop middle top" },
 /* da */ { IDS_CROP_MIDDLE_TOP_DA, "" },  /* fuzzy */
-/* de */ { IDS_CROP_MIDDLE_TOP_DE, "" },  /* fuzzy */
+/* de */ { IDS_CROP_MIDDLE_TOP_DE, "mitte oben abschneiden" },
 /* es */ { IDS_CROP_MIDDLE_TOP_ES, "" },  /* fuzzy */
 /* fr */ { IDS_CROP_MIDDLE_TOP_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CROP_MIDDLE_TOP_HU, "" },  /* fuzzy */
@@ -12911,7 +12910,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CROP_RIGHT_TOP,    "Crop right top" },
 /* da */ { IDS_CROP_RIGHT_TOP_DA, "" },  /* fuzzy */
-/* de */ { IDS_CROP_RIGHT_TOP_DE, "" },  /* fuzzy */
+/* de */ { IDS_CROP_RIGHT_TOP_DE, "rechts oben abschneiden" },
 /* es */ { IDS_CROP_RIGHT_TOP_ES, "" },  /* fuzzy */
 /* fr */ { IDS_CROP_RIGHT_TOP_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CROP_RIGHT_TOP_HU, "" },  /* fuzzy */
@@ -12925,7 +12924,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CROP_LEFT_CENTER,    "Crop left center" },
 /* da */ { IDS_CROP_LEFT_CENTER_DA, "" },  /* fuzzy */
-/* de */ { IDS_CROP_LEFT_CENTER_DE, "" },  /* fuzzy */
+/* de */ { IDS_CROP_LEFT_CENTER_DE, "links mitte abschneiden" },
 /* es */ { IDS_CROP_LEFT_CENTER_ES, "" },  /* fuzzy */
 /* fr */ { IDS_CROP_LEFT_CENTER_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CROP_LEFT_CENTER_HU, "" },  /* fuzzy */
@@ -12939,7 +12938,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CROP_MIDDLE_CENTER,    "Crop middle center" },
 /* da */ { IDS_CROP_MIDDLE_CENTER_DA, "" },  /* fuzzy */
-/* de */ { IDS_CROP_MIDDLE_CENTER_DE, "" },  /* fuzzy */
+/* de */ { IDS_CROP_MIDDLE_CENTER_DE, "mitte mitte abschneiden" },
 /* es */ { IDS_CROP_MIDDLE_CENTER_ES, "" },  /* fuzzy */
 /* fr */ { IDS_CROP_MIDDLE_CENTER_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CROP_MIDDLE_CENTER_HU, "" },  /* fuzzy */
@@ -12953,7 +12952,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CROP_RIGHT_CENTER,    "Crop right center" },
 /* da */ { IDS_CROP_RIGHT_CENTER_DA, "" },  /* fuzzy */
-/* de */ { IDS_CROP_RIGHT_CENTER_DE, "" },  /* fuzzy */
+/* de */ { IDS_CROP_RIGHT_CENTER_DE, "rechts mitte abschneiden" },
 /* es */ { IDS_CROP_RIGHT_CENTER_ES, "" },  /* fuzzy */
 /* fr */ { IDS_CROP_RIGHT_CENTER_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CROP_RIGHT_CENTER_HU, "" },  /* fuzzy */
@@ -12967,7 +12966,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CROP_LEFT_BOTTOM,    "Crop left bottom" },
 /* da */ { IDS_CROP_LEFT_BOTTOM_DA, "" },  /* fuzzy */
-/* de */ { IDS_CROP_LEFT_BOTTOM_DE, "" },  /* fuzzy */
+/* de */ { IDS_CROP_LEFT_BOTTOM_DE, "links unten abschneiden" },
 /* es */ { IDS_CROP_LEFT_BOTTOM_ES, "" },  /* fuzzy */
 /* fr */ { IDS_CROP_LEFT_BOTTOM_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CROP_LEFT_BOTTOM_HU, "" },  /* fuzzy */
@@ -12981,7 +12980,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CROP_MIDDLE_BOTTOM,    "Crop middle bottom" },
 /* da */ { IDS_CROP_MIDDLE_BOTTOM_DA, "" },  /* fuzzy */
-/* de */ { IDS_CROP_MIDDLE_BOTTOM_DE, "" },  /* fuzzy */
+/* de */ { IDS_CROP_MIDDLE_BOTTOM_DE, "mitte unten abschneiden" },
 /* es */ { IDS_CROP_MIDDLE_BOTTOM_ES, "" },  /* fuzzy */
 /* fr */ { IDS_CROP_MIDDLE_BOTTOM_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CROP_MIDDLE_BOTTOM_HU, "" },  /* fuzzy */
@@ -12995,7 +12994,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CROP_RIGHT_BOTTOM,    "Crop right bottom" },
 /* da */ { IDS_CROP_RIGHT_BOTTOM_DA, "" },  /* fuzzy */
-/* de */ { IDS_CROP_RIGHT_BOTTOM_DE, "" },  /* fuzzy */
+/* de */ { IDS_CROP_RIGHT_BOTTOM_DE, "rechts unten abschneiden" },
 /* es */ { IDS_CROP_RIGHT_BOTTOM_ES, "" },  /* fuzzy */
 /* fr */ { IDS_CROP_RIGHT_BOTTOM_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CROP_RIGHT_BOTTOM_HU, "" },  /* fuzzy */
@@ -13009,7 +13008,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_BORDERIZE,    "Borderize" },
 /* da */ { IDS_BORDERIZE_DA, "" },  /* fuzzy */
-/* de */ { IDS_BORDERIZE_DE, "" },  /* fuzzy */
+/* de */ { IDS_BORDERIZE_DE, "Einrahmen" },
 /* es */ { IDS_BORDERIZE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_BORDERIZE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_BORDERIZE_HU, "" },  /* fuzzy */
@@ -13023,7 +13022,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_BLACK_AND_WHITE,    "Black & white" },
 /* da */ { IDS_BLACK_AND_WHITE_DA, "" },  /* fuzzy */
-/* de */ { IDS_BLACK_AND_WHITE_DE, "" },  /* fuzzy */
+/* de */ { IDS_BLACK_AND_WHITE_DE, "Schwarz & Weiß" },
 /* es */ { IDS_BLACK_AND_WHITE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_BLACK_AND_WHITE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_BLACK_AND_WHITE_HU, "" },  /* fuzzy */
@@ -13065,7 +13064,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_GRAY_SCALE,    "Gray scale" },
 /* da */ { IDS_GRAY_SCALE_DA, "" },  /* fuzzy */
-/* de */ { IDS_GRAY_SCALE_DE, "" },  /* fuzzy */
+/* de */ { IDS_GRAY_SCALE_DE, "Graustufe" },
 /* es */ { IDS_GRAY_SCALE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_GRAY_SCALE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_GRAY_SCALE_HU, "" },  /* fuzzy */
@@ -13079,7 +13078,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DITHER,    "Dither" },
 /* da */ { IDS_DITHER_DA, "" },  /* fuzzy */
-/* de */ { IDS_DITHER_DE, "" },  /* fuzzy */
+/* de */ { IDS_DITHER_DE, "annähern" },
 /* es */ { IDS_DITHER_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DITHER_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DITHER_HU, "" },  /* fuzzy */
@@ -13093,7 +13092,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_IGNORE,    "Ignore" },
 /* da */ { IDS_IGNORE_DA, "" },  /* fuzzy */
-/* de */ { IDS_IGNORE_DE, "" },  /* fuzzy */
+/* de */ { IDS_IGNORE_DE, "ignorieren" },
 /* es */ { IDS_IGNORE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_IGNORE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IGNORE_HU, "" },  /* fuzzy */
@@ -13135,7 +13134,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_GREEN,    "Green" },
 /* da */ { IDS_GREEN_DA, "" },  /* fuzzy */
-/* de */ { IDS_GREEN_DE, "" },  /* fuzzy */
+/* de */ { IDS_GREEN_DE, "Grün" },
 /* es */ { IDS_GREEN_ES, "" },  /* fuzzy */
 /* fr */ { IDS_GREEN_FR, "" },  /* fuzzy */
 /* hu */ { IDS_GREEN_HU, "" },  /* fuzzy */
@@ -13149,7 +13148,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DOODLE_OVERSIZE_HANDLING,    "Doodle oversize handling" },
 /* da */ { IDS_DOODLE_OVERSIZE_HANDLING_DA, "" },  /* fuzzy */
-/* de */ { IDS_DOODLE_OVERSIZE_HANDLING_DE, "" },  /* fuzzy */
+/* de */ { IDS_DOODLE_OVERSIZE_HANDLING_DE, "Doodle Übergrößenbehandlung" },
 /* es */ { IDS_DOODLE_OVERSIZE_HANDLING_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DOODLE_OVERSIZE_HANDLING_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DOODLE_OVERSIZE_HANDLING_HU, "" },  /* fuzzy */
@@ -13163,7 +13162,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DOODLE_UNDERSIZE_HANDLING,    "Doodle undersize handling" },
 /* da */ { IDS_DOODLE_UNDERSIZE_HANDLING_DA, "" },  /* fuzzy */
-/* de */ { IDS_DOODLE_UNDERSIZE_HANDLING_DE, "" },  /* fuzzy */
+/* de */ { IDS_DOODLE_UNDERSIZE_HANDLING_DE, "Doodle Untergrößenbehandlung" },
 /* es */ { IDS_DOODLE_UNDERSIZE_HANDLING_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DOODLE_UNDERSIZE_HANDLING_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DOODLE_UNDERSIZE_HANDLING_HU, "" },  /* fuzzy */
@@ -13177,7 +13176,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DOODLE_MULTICOLOR_HANDLING,    "Doodle multicolor handling" },
 /* da */ { IDS_DOODLE_MULTICOLOR_HANDLING_DA, "" },  /* fuzzy */
-/* de */ { IDS_DOODLE_MULTICOLOR_HANDLING_DE, "" },  /* fuzzy */
+/* de */ { IDS_DOODLE_MULTICOLOR_HANDLING_DE, "Doodle Multicolorbehandlung" },
 /* es */ { IDS_DOODLE_MULTICOLOR_HANDLING_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DOODLE_MULTICOLOR_HANDLING_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DOODLE_MULTICOLOR_HANDLING_HU, "" },  /* fuzzy */
@@ -13191,7 +13190,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING,    "Doodle TED luminosity handling" },
 /* da */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_DA, "" },  /* fuzzy */
-/* de */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_DE, "" },  /* fuzzy */
+/* de */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_DE, "Doodle TED Luma Behandlung" },
 /* es */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DOODLE_TED_LUMINOSITY_HANDLING_HU, "" },  /* fuzzy */
@@ -13205,7 +13204,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DOODLE_CRTC_TEXT_COLOR,    "Doodle CRTC text color" },
 /* da */ { IDS_DOODLE_CRTC_TEXT_COLOR_DA, "" },  /* fuzzy */
-/* de */ { IDS_DOODLE_CRTC_TEXT_COLOR_DE, "" },  /* fuzzy */
+/* de */ { IDS_DOODLE_CRTC_TEXT_COLOR_DE, "Doodle CRTC Textfarben" },
 /* es */ { IDS_DOODLE_CRTC_TEXT_COLOR_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DOODLE_CRTC_TEXT_COLOR_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DOODLE_CRTC_TEXT_COLOR_HU, "" },  /* fuzzy */
@@ -13219,7 +13218,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_KOALA_OVERSIZE_HANDLING,    "Koala oversize handling" },
 /* da */ { IDS_KOALA_OVERSIZE_HANDLING_DA, "" },  /* fuzzy */
-/* de */ { IDS_KOALA_OVERSIZE_HANDLING_DE, "" },  /* fuzzy */
+/* de */ { IDS_KOALA_OVERSIZE_HANDLING_DE, "Koala Übergrößenbehandlung" },
 /* es */ { IDS_KOALA_OVERSIZE_HANDLING_ES, "" },  /* fuzzy */
 /* fr */ { IDS_KOALA_OVERSIZE_HANDLING_FR, "" },  /* fuzzy */
 /* hu */ { IDS_KOALA_OVERSIZE_HANDLING_HU, "" },  /* fuzzy */
@@ -13233,7 +13232,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_KOALA_UNDERSIZE_HANDLING,    "Koala undersize handling" },
 /* da */ { IDS_KOALA_UNDERSIZE_HANDLING_DA, "" },  /* fuzzy */
-/* de */ { IDS_KOALA_UNDERSIZE_HANDLING_DE, "" },  /* fuzzy */
+/* de */ { IDS_KOALA_UNDERSIZE_HANDLING_DE, "Koala Untergrößenbehandlung" },
 /* es */ { IDS_KOALA_UNDERSIZE_HANDLING_ES, "" },  /* fuzzy */
 /* fr */ { IDS_KOALA_UNDERSIZE_HANDLING_FR, "" },  /* fuzzy */
 /* hu */ { IDS_KOALA_UNDERSIZE_HANDLING_HU, "" },  /* fuzzy */
@@ -13247,7 +13246,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_KOALA_TED_LUMINOSITY_HANDLING,    "Koala TED luminosity handling" },
 /* da */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_DA, "" },  /* fuzzy */
-/* de */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_DE, "" },  /* fuzzy */
+/* de */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_DE, "Koala TED Luma Behandlung" },
 /* es */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_ES, "" },  /* fuzzy */
 /* fr */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_FR, "" },  /* fuzzy */
 /* hu */ { IDS_KOALA_TED_LUMINOSITY_HANDLING_HU, "" },  /* fuzzy */
@@ -13261,7 +13260,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_KOALA_CRTC_TEXT_COLOR,    "Koala CRTC text color" },
 /* da */ { IDS_KOALA_CRTC_TEXT_COLOR_DA, "" },  /* fuzzy */
-/* de */ { IDS_KOALA_CRTC_TEXT_COLOR_DE, "" },  /* fuzzy */
+/* de */ { IDS_KOALA_CRTC_TEXT_COLOR_DE, "Koala CRTC Textfarben" },
 /* es */ { IDS_KOALA_CRTC_TEXT_COLOR_ES, "" },  /* fuzzy */
 /* fr */ { IDS_KOALA_CRTC_TEXT_COLOR_FR, "" },  /* fuzzy */
 /* hu */ { IDS_KOALA_CRTC_TEXT_COLOR_HU, "" },  /* fuzzy */
@@ -13275,7 +13274,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SCREENSHOT_SETTINGS,    "Screenshot settings" },
 /* da */ { IDS_SCREENSHOT_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_SCREENSHOT_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDS_SCREENSHOT_SETTINGS_DE, "Screenshot Einstellungen" },
 /* es */ { IDS_SCREENSHOT_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SCREENSHOT_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SCREENSHOT_SETTINGS_HU, "" },  /* fuzzy */
@@ -13289,7 +13288,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DETACH_ALL,    "Detach all involved carts" },
 /* da */ { IDS_DETACH_ALL_DA, "" },  /* fuzzy */
-/* de */ { IDS_DETACH_ALL_DE, "" },  /* fuzzy */
+/* de */ { IDS_DETACH_ALL_DE, "Sämtliche betroffene Erweiterungsmodule entfernen" },
 /* es */ { IDS_DETACH_ALL_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DETACH_ALL_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DETACH_ALL_HU, "" },  /* fuzzy */
@@ -13303,7 +13302,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DETACH_LAST,    "Detach last inserted cart" },
 /* da */ { IDS_DETACH_LAST_DA, "" },  /* fuzzy */
-/* de */ { IDS_DETACH_LAST_DE, "" },  /* fuzzy */
+/* de */ { IDS_DETACH_LAST_DE, "Letztes eingelegtes Erweiterungsmodul entfernen" },
 /* es */ { IDS_DETACH_LAST_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DETACH_LAST_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DETACH_LAST_HU, "" },  /* fuzzy */
@@ -13317,7 +13316,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_AND_WIRES,    "'AND' the wires" },
 /* da */ { IDS_AND_WIRES_DA, "" },  /* fuzzy */
-/* de */ { IDS_AND_WIRES_DE, "" },  /* fuzzy */
+/* de */ { IDS_AND_WIRES_DE, "'AND' der Verbindungen" },
 /* es */ { IDS_AND_WIRES_ES, "" },  /* fuzzy */
 /* fr */ { IDS_AND_WIRES_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AND_WIRES_HU, "" },  /* fuzzy */
@@ -13345,7 +13344,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_IO_COLLISION_SETTINGS,    "I/O collision settings" },
 /* da */ { IDS_IO_COLLISION_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_IO_COLLISION_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDS_IO_COLLISION_SETTINGS_DE, "I/O Kollisionsbehandlung" },
 /* es */ { IDS_IO_COLLISION_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_IO_COLLISION_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IO_COLLISION_SETTINGS_HU, "" },  /* fuzzy */
