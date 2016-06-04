@@ -1,5 +1,1056 @@
 ------------------------------------------------------------------------------
 
+2016-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.txt,
+	po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po,
+	po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.28
+
+2016-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resiocollisions.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvsid.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2016-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2016-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_darwin_runtime_os.c,
+	src/platform/platform_macosx.c: Fixed detection of 'Rosetta'.
+
+2016-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2016-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_darwin_runtime_os.c,
+	src/platform/platform_macosx.h: Updated.
+
+2016-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_darwin_runtime_os.c: Updated.
+
+2016-05-31  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uisid.c: fix shutdown
+
+2016-05-31  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uisid.c: make dynamic sid menu actually work :)
+
+2016-05-31  groepaz <groepaz@gmx.net>
+
+	* src/sid/ssi2001.c: added missing include
+
+2016-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/x64_ui.c, src/arch/sdl/x64dtv_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xcbm2_ui.c,
+	src/arch/sdl/xpet_ui.c, src/arch/sdl/xplus4_ui.c,
+	src/arch/sdl/xscpu64_ui.c, src/arch/sdl/xvic_ui.c: Added missing
+	includes.
+
+2016-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/catweaselmkiii.c, src/sid/hardsid.c, src/sid/ssi2001.c:
+	Added 'maximum sid' guards.
+
+2016-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uisid.c: Fixed.
+
+2016-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uisid.c, src/arch/unix/gui/uisid.h,
+	src/arch/unix/gui/vic20ui.c, src/arch/unix/gui/vsidui.c,
+	src/sid/sid.h: Changed the unix sid menus into dynamic ones.
+
+2016-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_sid.c, src/arch/sdl/menu_sid.h,
+	src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xscpu64_ui.c,
+	src/arch/sdl/xvic_ui.c, src/sid/sid.h: Changed the sdl sid menus into
+	dynamic ones.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/hs-isa.c: Added device mapping to the *nix hardsid
+	drivers.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_darwin_runtime_os.c: Updated.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/hs-isa.c: Added device mapping to the windows hardsid
+	drivers.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/hs-isa.c, src/arch/msdos/hs-pci.c: Added device
+	mapping to the dos hardsid drivers.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/hs_gg2_isa.c, src/arch/amigaos/hs_openpci.c,
+	src/arch/amigaos/hs_os4.c: Added device mapping to the amigaos hardsid
+	drivers.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/cw_os4.c, src/arch/amigaos/hs_os4.c: Fixed for
+	amigaos4.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_darwin_runtime_os.c: Updated.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_darwin_runtime_os.c: Updated.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_darwin_runtime_os.c: Fixed for ppc darwin.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c, src/arch/msdos/c64dtvui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/cbm2ui.c,
+	src/arch/msdos/cbm5x0ui.c, src/arch/msdos/plus4ui.c,
+	src/arch/msdos/scpu64ui.c, src/arch/msdos/uisidc128.c,
+	src/arch/msdos/uisidc128.h, src/arch/msdos/uisidc64.c,
+	src/arch/msdos/uisidc64.h, src/arch/msdos/uisidcart.c,
+	src/arch/msdos/uisidcbm2.c, src/arch/msdos/uisidcbm2.h,
+	src/arch/msdos/uisiddtv.c, src/arch/msdos/uisiddtv.h, src/sid/sid.h:
+	Changed the msdos sid menus into dynamic ones.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/catweaselmkiii-drv.c: Use constant 'define' instead
+	of 'magic number'.
+
+2016-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uisid.c, src/arch/amigaos/mui/uisidcart.c,
+	src/arch/amigaos/mui/uisiddtv.c, src/sid/sid.h: Changed the amiga sid
+	dialogs into dynamic ones.
+
+2016-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/catweaselmkiii-drv.c,
+	src/arch/win32/catweaselmkiii-drv.c: Removed 'atexit' inits, since the
+	sid engine is already closed upon exit.
+
+2016-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/cw_clockport.c, src/arch/amigaos/cw_device.c,
+	src/arch/amigaos/cw_openpci.c, src/arch/amigaos/cw_zorro.c,
+	src/arch/amigaos/hardsid-drv.c, src/arch/amigaos/hs_gg2_isa.c,
+	src/arch/amigaos/hs_openpci.c, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uiiocollisions.c, src/arch/amigaos/ssi2001-drv.c:
+	Some amiga fixes.
+
+2016-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/hardsid-drv.c, src/arch/amigaos/hs_gg2_isa.c,
+	src/arch/amigaos/hs_openpci.c, src/arch/amigaos/hs_os4.c,
+	src/arch/amigaos/ssi2001-drv.c, src/arch/msdos/Makefile.am,
+	src/arch/msdos/hardsid-drv.c, src/arch/msdos/hs-isa.c,
+	src/arch/msdos/hs-pci.c, src/arch/msdos/hs.h,
+	src/arch/msdos/ssi2001-drv.c, src/arch/unix/hardsid-drv.c,
+	src/arch/unix/hs-isa.c, src/arch/unix/hs-linux.c,
+	src/arch/unix/ssi2001-drv.c, src/arch/win32/hardsid-drv.c,
+	src/arch/win32/hs-dll.c, src/arch/win32/hs-isa.c,
+	src/arch/win32/ssi2001-drv.c, src/sid/hardsid.c,
+	src/sid/sid-snapshot.c, src/sid/sid-snapshot.h, src/sid/ssi2001.c,
+	src/ssi2001.h: Some hardsid and ssi2001 improvements.
+
+2016-05-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/catweaselmkiii-drv.c,
+	src/arch/amigaos/cw_clockport.c, src/arch/amigaos/cw_device.c,
+	src/arch/amigaos/cw_openpci.c, src/arch/amigaos/cw_os4.c,
+	src/arch/amigaos/cw_zorro.c, src/arch/msdos/catweaselmkiii-drv.c,
+	src/arch/unix/catweaselmkiii-drv.c,
+	src/arch/win32/catweaselmkiii-drv.c, src/sid/catweaselmkiii.c: Some
+	cw3 improvements.
+
+2016-05-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Slight fix.
+
+2016-05-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/ssi2001-drv.c: Some more improvements.
+
+2016-05-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/catweaselmkiii-drv.c, src/arch/amigaos/cw.h,
+	src/arch/amigaos/cw_clockport.c, src/arch/amigaos/cw_device.c,
+	src/arch/amigaos/cw_openpci.c, src/arch/amigaos/cw_os4.c,
+	src/arch/amigaos/cw_zorro.c, src/arch/amigaos/hardsid-drv.c,
+	src/arch/amigaos/hs.h, src/arch/amigaos/hs_gg2_isa.c,
+	src/arch/amigaos/hs_openpci.c, src/arch/amigaos/hs_os4.c,
+	src/arch/amigaos/ssi2001-drv.c: Made the amiga sid drivers consistent.
+
+2016-05-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/cocoa/view/viceglview.m: Fixed for older
+	builds.
+
+2016-05-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/hs-isa.c, src/arch/unix/io-access.c: fix warnings
+
+2016-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/io-access.c: Removed obsolete '#endif'.
+
+2016-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/Makefile.am, src/arch/unix/hs-isa.c,
+	src/arch/unix/io-access.c, src/arch/unix/io-access.h,
+	src/arch/unix/ssi2001-drv.c: Moved *nix host I/O access code to a
+	seperate file and made the appropriate sid drivers use it.
+
+2016-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/catweaselmkiii-drv.c,
+	src/arch/msdos/hardsid-drv.c, src/arch/msdos/parsid-drv.c,
+	src/arch/msdos/pci-drv.c, src/arch/msdos/pci-drv.h: Moved msdos PCI
+	handling code to a seperate file and made cw3 and hardsid use it.
+
+2016-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, doc/vice.pdf: Added missing 'esac'.
+
+2016-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/hs-isa.c, src/arch/unix/ssi2001-drv.c: Fixed I/O
+	permission calls.
+
+2016-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/unix/parsid-drv.c: Started on adding unix
+	parallel port file device support.
+
+2016-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/hardsid-drv.c,
+	src/arch/amigaos/hs.h, src/arch/amigaos/hs_gg2_isa.c,
+	src/arch/amigaos/hs_openpci.c, src/arch/amigaos/hs_os4.c,
+	src/arch/amigaos/ssi2001-drv.c: Added amigaos Golden Gate 2+ based
+	hardsid/ssi2001 ISA support, and modularized the hardsid support.
+
+2016-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/hardsid-drv.c, src/arch/msdos/ssi2001-drv.c: Added
+	debug messages and fixed crash when run on windows nt.
+
+2016-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ssi2001-drv.c: Added some debug messages.
+
+2016-05-25  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/hardsid-drv.c, src/arch/unix/ssi2001-drv.c: unbreak
+	unix compilation
+
+2016-05-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/sdl/menu_snapshot.c,
+	src/arch/sdl/msvc-files/ide-config.h,
+	src/arch/sdl/win32-watcom/ide-config.h, src/arch/win32/archdep.h,
+	src/arch/win32/hs-isa.c, src/arch/win32/msvc/ide-config.h,
+	src/arch/win32/parsid-drv.c, src/arch/win32/ssi2001-drv.c,
+	src/arch/win32/watcom/ide-config.h, src/sid/catweaselmkiii.c,
+	src/sid/parsid.c, src/sid/sid-resources.c, src/sid/sid-snapshot.c,
+	src/sid/ssi2001.c: Changed configuration options for the
+	'hardware sid' devices to be enabled (checked for) by default and
+	added some fixes.
+
+2016-05-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/sdl/Makefile.am,
+	src/arch/sdl/archdep_win32.c, src/arch/sdl/hs-device.c,
+	src/arch/sdl/hs-isa.c, src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/win32/archdep.c: Added
+	isa hardsid support to the sdl hardsid wrapper and fixed usleep calls
+	for msvc/ow.
+
+2016-05-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/hs-isa.c, src/arch/win32/ssi2001-drv.c: Fix windows
+	nt (family) detection, fixes bug #752.
+
+2016-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/Makefile.am, src/arch/unix/hardsid-drv.c,
+	src/arch/unix/hs-isa.c, src/arch/unix/hs-linux.c, src/arch/unix/hs.h:
+	Added isa hardsid support to the *nix hardsid driver.
+
+2016-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/hardsid-drv.c,
+	src/arch/win32/hs-dll.c, src/arch/win32/hs-isa.c, src/arch/win32/hs.h,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/vice.wpj: Added isa hardsid support to the
+	windows hardsid driver.
+
+2016-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/parsid-drv.c, src/arch/win32/ssi2001-drv.c: Made some
+	variables 'static'.
+
+2016-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/hardsid-drv.c: Added isa hardsid support to the msdos
+	hardsid driver.
+
+2016-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ssi2001-drv.c: Fixed use lib flag.
+
+2016-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am: Typo fix, fixes bug #751.
+
+2016-05-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sounddrv/soundcoreaudio.c: Fixed for older builds.
+
+2016-05-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed 'cocoa detection' for configure summary.
+
+2016-05-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/sid-snapshot.c: Added sid extended snapshot module
+	information.
+
+2016-05-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/catweaselmkiii-drv.c,
+	src/arch/amigaos/cw.h, src/arch/amigaos/cw_clockport.c,
+	src/arch/amigaos/cw_device.c, src/arch/amigaos/cw_openpci.c,
+	src/arch/amigaos/cw_os4.c, src/arch/amigaos/cw_zorro.c: Added amigaos
+	catweasel clockport device support.
+
+2016-05-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/hardsid-drv.c: Cosmetic fix.
+
+2016-05-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/ssi2001-drv.c, src/arch/unix/ssi2001-drv.c,
+	src/arch/win32/ssi2001-drv.c: Added sid detection to the ssi2001
+	drivers.
+
+2016-05-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/catweaselmkiii-drv.c: Changed order of checking,
+	zorro before pci.
+
+2016-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/sid-resources.c: Fixed a 'misnamed' #ifdef.
+
+2016-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/arch/amigaos/hardsid-drv.c,
+	src/arch/msdos/Makefile.am, src/arch/msdos/catweaselmkiii-drv.c,
+	src/arch/msdos/hardsid-drv.c, src/arch/msdos/ssi2001-drv.c,
+	src/arch/sdl/Makefile.am, src/arch/sdl/ssi2001-drv.c,
+	src/arch/sdl/win32-watcom/arch.tgt, src/arch/sdl/win32-watcom/sid.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/unix/Makefile.am,
+	src/arch/unix/catweaselmkiii-drv.c, src/arch/unix/ssi2001-drv.c,
+	src/arch/win32/Makefile.am, src/arch/win32/msvc/ide-config.h,
+	src/arch/win32/ssi2001-drv.c, src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl, src/arch/win32/vs_tmpl/sid.tmpl,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/sid.tgt,
+	src/arch/win32/watcom/vice.wpj, src/c64/c64sound.c,
+	src/sid/Makefile.am, src/sid/sid-cmdline-options.c,
+	src/sid/sid-resources.c, src/sid/sid-snapshot.c,
+	src/sid/sid-snapshot.h, src/sid/sid.c, src/sid/sid.h,
+	src/sid/ssi2001.c, src/ssi2001.h, src/translate.c, src/translate.txt,
+	src/translate_text.c: Added experimental SSI-2001 (ISA SID card)
+	driver, no gui changes yet.
+
+2016-05-18  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/x11video.c: Move the #include back down, since
+	its #define of BYTE conflicts with the typedef for BYTE in <X11/Xmd.h>
+	included from <X11/Xproto.h> from <X11/Xlibint.h>.
+
+2016-05-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/parsid-drv.c,
+	src/arch/msdos/parsid.c, src/arch/sdl/Makefile.am,
+	src/arch/sdl/parsid-drv.c, src/arch/sdl/parsid.c,
+	src/arch/sdl/win32-watcom/arch.tgt, src/arch/sdl/win32-watcom/sid.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/unix/Makefile.am,
+	src/arch/unix/parsid-drv.c, src/arch/unix/parsid.c,
+	src/arch/win32/Makefile.am, src/arch/win32/parsid-drv.c,
+	src/arch/win32/parsid.c, src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl, src/arch/win32/vs_tmpl/sid.tmpl,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/sid.tgt,
+	src/arch/win32/watcom/vice.wpj, src/parsid.h, src/sid/Makefile.am,
+	src/sid/hardsid.c, src/sid/parsid.c, src/sid/sid-snapshot.c,
+	src/sid/sid-snapshot.h: Parsid driver improvements and added parsid
+	snapshot support.
+
+2016-05-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/hardsid.c: Removed obsolete file.
+
+2016-05-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/hardsid-drv.c,
+	src/arch/amigaos/hardsid.c, src/arch/msdos/Makefile.am,
+	src/arch/msdos/hardsid-drv.c, src/arch/msdos/hardsid.c,
+	src/arch/sdl/Makefile.am, src/arch/sdl/hardsid-drv.c,
+	src/arch/sdl/hardsid.c, src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/sid.tgt, src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/unix/Makefile.am, src/arch/unix/hardsid-drv.c,
+	src/arch/unix/hardsid.c, src/arch/win32/Makefile.am,
+	src/arch/win32/hardsid-drv.c, src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl, src/arch/win32/vs_tmpl/sid.tmpl,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/sid.tgt,
+	src/arch/win32/watcom/vice.wpj, src/hardsid.h, src/sid/Makefile.am,
+	src/sid/hardsid.c, src/sid/sid-snapshot.c, src/sid/sid-snapshot.h:
+	Hardsid driver improvements and added hardsid snapshot support.
+
+2016-05-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/x11video.c: Slight order change.
+
+2016-05-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am: Fixed.
+
+2016-05-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/catweaselmkiii-drv.c,
+	src/arch/amigaos/cw.h, src/arch/amigaos/cw_zorro.c: Added zorro bus
+	cw3 support for the amiga port.
+
+2016-05-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/cw_device.c, src/arch/amigaos/cw_openpci.c,
+	src/arch/amigaos/cw_os4.c, src/arch/msdos/catweaselmkiii-drv.c,
+	src/arch/unix/catweaselmkiii-drv.c, src/sid/catweaselmkiii.c: Some cw3
+	driver fixes.
+
+2016-05-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/catweaselmkiii.h, src/sid/fastsid.h: Added missing includes,
+	fixes bug #747.
+
+2016-05-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/catweaselmkiii-drv.c,
+	src/arch/amigaos/catweaselmkiii.c, src/arch/amigaos/cw_device.c,
+	src/arch/amigaos/cw_openpci.c, src/arch/amigaos/cw_os4.c,
+	src/arch/msdos/Makefile.am, src/arch/msdos/catweaselmkiii-drv.c,
+	src/arch/msdos/catweaselmkiii.c, src/arch/sdl/Makefile.am,
+	src/arch/sdl/catweaselmkiii-drv.c, src/arch/sdl/catweaselmkiii.c,
+	src/arch/sdl/win32-watcom/arch.tgt, src/arch/sdl/win32-watcom/sid.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/unix/Makefile.am,
+	src/arch/unix/catweaselmkiii-drv.c, src/arch/unix/catweaselmkiii.c,
+	src/arch/win32/Makefile.am, src/arch/win32/catweaselmkiii-drv.c,
+	src/arch/win32/catweaselmkiii.c,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl, src/arch/win32/vs_tmpl/sid.tmpl,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/sid.tgt,
+	src/arch/win32/watcom/vice.wpj, src/catweaselmkiii.h,
+	src/sid/Makefile.am, src/sid/catweaselmkiii.c, src/sid/sid-snapshot.c,
+	src/sid/sid-snapshot.h: Abstracted the cw3 code and turned arch cw3
+	code into 'drivers', and added cw3 snapshot support.
+
+2016-05-14  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64memsnapshot.c, src/c64dtv/c64dtvblitter.c,
+	src/c64dtv/c64dtvdma.c: fix warnings about unused variables
+
+2016-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/fastsid.c, src/sid/fastsid.h, src/sid/sid-snapshot.c,
+	src/sid/sid-snapshot.h: Improved resid snapshot support, added fastsid
+	snapshot support and improved overal sid snapshot support.
+
+2016-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_solaris_runtime_os.c: Updated.
+
+2016-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/hardsid.c: Removed unused variable.
+
+2016-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64memsnapshot.c: Some more snapshot updates.
+
+2016-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib.c: Fix for sunos.
+
+2016-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/sid-snapshot.c, src/sidcart.h,
+	src/vic20/cart/vic20-sidcart.c, src/vic20/cart/vic20cart.c: Improved
+	SID snapshot support and added vic20 sidcart snapshot support.
+
+2016-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am, src/platform/platform_sunos_runtime_os.c:
+	Added missing source file to Makefile.am
+
+2016-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/os2/watcom/ide-config.h,
+	src/arch/sdl/msvc-files/ide-config-mips.h,
+	src/arch/sdl/msvc-files/ide-config.h,
+	src/arch/sdl/win32-watcom/ide-config.h,
+	src/arch/win32/msvc/ide-config.h, src/arch/win32/watcom/ide-config.h:
+	Added test and replacement function for strtoul.
+
+2016-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_disassemble.c: Compatibility fix.
+
+2016-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/core/cs8900.c, src/core/cs8900.h: Changed tfe_* names to
+	cs8900_*.
+
+2016-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/tapeport/cp-clockf83.c, src/tapeport/dtl-basic-dongle.c,
+	src/tapeport/tapelog.c, src/tapeport/tapeport.c,
+	src/userport/userport.c, src/userport/userport_4bit_sampler.c,
+	src/userport/userport_8bss.c, src/userport/userport_dac.c,
+	src/userport/userport_digimax.c, src/userport/userport_joystick.c,
+	src/userport/userport_rtc_58321a.c,
+	src/userport/userport_rtc_ds1307.c, src/vic20/cart/ioramcart.c,
+	src/vic20/cart/vic20-midi.c: Some more snapshot updates.
+
+2016-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/opencbm.h: Fixed for sunos.
+
+2016-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/readmes/Readme-SDL.txt,
+	src/platform/platform_solaris_runtime_os.c: Updated.
+
+2016-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/nextstep/build.sh, build/openstep/build.sh,
+	build/rhapsody/build.sh: Added vsid to the build nextstep, openstep
+	and rhapsody build scripts.
+
+2016-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/bq4830y.c, src/rtc/bq4830y.h, src/rtc/ds1202_1302.c,
+	src/rtc/ds1216e.c, src/rtc/ds1216e.h, src/rtc/ds12c887.c,
+	src/rtc/ds1307.c, src/rtc/ds1602.c, src/rtc/pcf8583.c,
+	src/rtc/rtc-58321a.c, src/rtc/rtc-72421.c, src/rtc/rtc-72421.h: Some
+	more snapshot updates.
+
+2016-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am: Fixed.
+
+2016-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/nextstep/build.sh: Some nextstep fixes.
+
+2016-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/mouse.c, src/joyport/paperclip64.c, src/midi.c,
+	src/pet/petreu.c, src/printerdrv/interface-userport.c: Some more
+	snapshot updates.
+
+2016-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am: Disable autotools version of building pdf
+	documentation.
+
+2016-05-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/final3.c, src/c64/cart/funplay.c,
+	src/c64/cart/retroreplay.c, src/c64/cart/rexep256.c,
+	src/c64/cart/rexutility.c, src/c64/cart/rgcd.c, src/c64/cart/ross.c,
+	src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c,
+	src/c64/cart/silverrock128.c, src/c64/cart/simonsbasic.c,
+	src/c64/cart/stb.c, src/c64/cart/superexplode5.c,
+	src/c64/cart/supergames.c, src/c64/cart/supersnapshot.c,
+	src/c64/cart/warpspeed.c, src/c64/cart/westermann.c,
+	src/c64/plus256k.c, src/c64/plus60k.c, src/drive/ieee/fdc.c,
+	src/interrupt.c, src/joyport/bbrtc.c, src/joyport/lightpen.c,
+	src/snapshot.c, src/snapshot.h, src/translate.txt,
+	src/translate_text.c: Some more snapshot updates.
+
+2016-05-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/nextstep/build.sh, src/arch/unix/socketimpl.h,
+	src/arch/win32/utils/geninfocontrib.c: Some nextstep fixes.
+
+2016-05-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/lib/Makefile.am: Some more in-tree ffmpeg
+	fixes.
+
+2016-05-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/Makefile: static ffmpeg 'make install' fix.
+
+2016-05-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/nextstep/build.sh: Updated.
+
+2016-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/nextstep/build.sh, src/Makefile.am: Some fixes.
+
+2016-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/delaep256.c, src/c64/cart/delaep64.c,
+	src/c64/cart/delaep7x8.c, src/c64/cart/diashowmaker.c,
+	src/c64/cart/epyxfastload.c, src/c64/cart/final.c,
+	src/c64/cart/freezeframe.c, src/c64/cart/freezemachine.c,
+	src/c64/cart/georam.c, src/c64/cart/kcs.c, src/c64/cart/mach5.c,
+	src/c64/cart/pagefox.c, src/c64/cart/prophet64.c, src/c64/cart/reu.c,
+	src/c64/cart/shortbus.c, src/c64/cart/shortbus_digimax.c,
+	src/c64/cart/snapshot64.c, src/c64/cart/supersnapshot4.c,
+	src/c64/cart/zaxxon.c, src/c64dtv/c64dtvblitter.c,
+	src/c64dtv/c64dtvdma.c, src/core/mc6821core.c: Some more snapshot
+	updates.
+
+2016-04-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/expert.c, src/c64/cart/finalplus.c,
+	src/c64/cart/formel64.c, src/c64/cart/gamekiller.c,
+	src/c64/cart/ide64.c, src/c64/cart/isepic.c, src/c64/cart/kingsoft.c,
+	src/c64/cart/magicformel.c, src/c64/cart/mikroass.c,
+	src/c64/cart/mmc64.c, src/c64/cart/ocean.c, src/c64/cart/ramcart.c,
+	src/c64/cart/reu.c: Some more snapshot updates.
+
+2016-04-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/resid/configure.in: Some updates.
+
+2016-04-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/aciacore.c, src/c64/c64-memory-hacks.c, src/c64/c64_256k.c,
+	src/c64/c64gluelogic.c, src/c64/cart/actionreplay.c,
+	src/c64/cart/actionreplay2.c, src/c64/cart/actionreplay3.c,
+	src/c64/cart/actionreplay4.c, src/c64/cart/atomicpower.c,
+	src/c64/cart/c64-generic.c, src/c64/cart/c64-midi.c,
+	src/c64/cart/capture.c, src/c64/cart/comal80.c,
+	src/c64/cart/cpmcart.c, src/c64/cart/digimax.c,
+	src/c64/cart/dinamic.c, src/c64/cart/dqbb.c,
+	src/c64/cart/ds12c887rtc.c, src/c64/cart/easycalc.c,
+	src/c64/cart/easyflash.c, src/c64/cart/exos.c, src/core/tpicore.c,
+	src/core/viacore.c, src/drive/driverom.c, src/drive/iec/fdd.c,
+	src/drive/iec/wd1770.c, src/drive/ieee/fdc.c, src/joyport/bbrtc.c,
+	src/joyport/lightpen.c, src/joyport/mouse.c,
+	src/joyport/paperclip64.c, src/joyport/sampler2bit.c, src/keyboard.c,
+	src/midi.c, src/pet/6809.c: Some snapshot improvements.
+
+2016-04-29  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uisnapshot.c: added missing include
+
+2016-04-28  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/res.rc, src/arch/win32/uiram.c, src/ram.c, src/ram.h:
+	made ram pattern preview a bit more elaborated
+
+2016-04-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/attach.c, src/autostart.c, src/c128/c128memsnapshot.c,
+	src/c1541.c, src/c64/c64-memory-hacks.c, src/c64/c64_256k.c,
+	src/c64/cart/actionreplay.c, src/c64/cart/actionreplay2.c,
+	src/c64/cart/actionreplay3.c, src/c64/cart/actionreplay4.c,
+	src/c64/cart/atomicpower.c, src/c64/cart/c64-generic.c,
+	src/c64/cart/c64-midi.c, src/c64/cart/capture.c,
+	src/c64/cart/comal80.c, src/c64/cart/cpmcart.c,
+	src/c64/cart/digimax.c, src/c64/cart/dinamic.c, src/c64/cart/dqbb.c,
+	src/c64/cart/ds12c887rtc.c, src/c64/cart/easycalc.c,
+	src/c64/cart/easyflash.c, src/c64/cart/exos.c, src/c64/cart/expert.c,
+	src/c64/cart/finalplus.c, src/c64/cart/formel64.c,
+	src/c64/cart/gamekiller.c, src/c64/cart/isepic.c,
+	src/c64/cart/kingsoft.c, src/c64/cart/magicformel.c,
+	src/c64/cart/mikroass.c, src/c64/cart/mmc64.c, src/c64/cart/ramcart.c,
+	src/c64/cart/reu.c, src/c64/cart/shortbus.c,
+	src/c64/cart/shortbus_digimax.c, src/c64/cart/snapshot64.c,
+	src/c64/cart/supersnapshot4.c, src/c64/cart/tfe.c,
+	src/c64/cart/zaxxon.c, src/c64dtv/c64dtvblitter.c,
+	src/c64dtv/c64dtvdma.c, src/core/cs8900.c, src/core/riotcore.c,
+	src/rtc/rtc-58321a.c, src/snapshot.c, src/snapshot.h,
+	src/translate.txt, src/translate_text.c: Some snapshot improvements:
+	descriptive error message when trying to load a snapshot which has a
+	higher version than supported, and the start of 'universal' backwards
+	compatibility handling.
+
+2016-04-26  groepaz <groepaz@gmx.net>
+
+	* src/cbm2/cbm2iec.c, src/pet/petiec.c: added missing stubs for debug
+	mode
+
+2016-04-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uisnapshot.c, src/arch/beos/ui.cc,
+	src/arch/beos/ui_file.cc, src/arch/msdos/uisnapshot.c,
+	src/arch/os2/dialogs/menubar.c, src/arch/sdl/menu_snapshot.c,
+	src/arch/unix/gui/uicommands.c, src/arch/unix/x11/gnome/uisnapshot.c,
+	src/arch/unix/x11/xaw/uisnapshot.c, src/arch/win32/uiquicksnapshot.c,
+	src/arch/win32/uisnapshot.c, src/snapshot.c, src/snapshot.h,
+	src/translate.txt, src/translate_text.c: Made the snapshot error
+	messages more descriptive.
+
+2016-04-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64memsnapshot.c: Added snapshot support for the 6510 cpu
+	port bit fade.
+
+2016-04-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/drive.tgt, src/arch/os2/watcom/mainsrc.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/x128.tgt,
+	src/arch/os2/watcom/x64.tgt, src/arch/os2/watcom/x64dtv.tgt,
+	src/arch/os2/watcom/x64sc.tgt, src/arch/os2/watcom/xcbm2.tgt,
+	src/arch/os2/watcom/xcbm5x0.tgt, src/arch/os2/watcom/xpet.tgt,
+	src/arch/os2/watcom/xplus4.tgt, src/arch/os2/watcom/xscpu64.tgt,
+	src/arch/os2/watcom/xvic.tgt: Fixed os/2 ow project files for the
+	recent changes.
+
+2016-04-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/lightpen.c: Fixed '#endif' position.
+
+2016-04-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/base.tgt,
+	src/arch/sdl/win32-watcom/drive.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/x128.tgt, src/arch/sdl/win32-watcom/x64.tgt,
+	src/arch/sdl/win32-watcom/x64dtv.tgt,
+	src/arch/sdl/win32-watcom/x64sc.tgt,
+	src/arch/sdl/win32-watcom/xcbm2.tgt,
+	src/arch/sdl/win32-watcom/xcbm5x0.tgt,
+	src/arch/sdl/win32-watcom/xpet.tgt,
+	src/arch/sdl/win32-watcom/xplus4.tgt,
+	src/arch/sdl/win32-watcom/xscpu64.tgt,
+	src/arch/sdl/win32-watcom/xvic.tgt: Fixed sdl ow project files for the
+	recent changes.
+
+2016-04-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/base.tgt,
+	src/arch/win32/watcom/drive.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/x128.tgt, src/arch/win32/watcom/x64.tgt,
+	src/arch/win32/watcom/x64dtv.tgt, src/arch/win32/watcom/x64sc.tgt,
+	src/arch/win32/watcom/xcbm2.tgt, src/arch/win32/watcom/xcbm5x0.tgt,
+	src/arch/win32/watcom/xpet.tgt, src/arch/win32/watcom/xplus4.tgt,
+	src/arch/win32/watcom/xscpu64.tgt, src/arch/win32/watcom/xvic.tgt:
+	Fixed windows ow project files for the recent changes.
+
+2016-04-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/base.tmpl,
+	src/arch/win32/vs_tmpl/c64dtvstubs.tmpl,
+	src/arch/win32/vs_tmpl/drive.tmpl, src/arch/win32/vs_tmpl/x128.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/arch/win32/vs_tmpl/x64dtv.tmpl,
+	src/arch/win32/vs_tmpl/x64sc.tmpl, src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl:
+	Fixed msvc project template files for the recent changes.
+
+2016-04-24  groepaz <groepaz@gmx.net>
+
+	* src/Makefile.am, src/c64/c64iec.c, src/c64dtv/c64dtviec.c,
+	src/cbm2/cbm2iec.c, src/pet/petiec.c, src/vic20/vic20iec.c: remaining
+	fixes for drive I/O dump, bug #745 should be fixed
+
+2016-04-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/mmc64.c: Added mmc64 snapshot support (no mmc/sd images
+	are saved into the snapshot, this part still needs thought).
+
+2016-04-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128-snapshot.c, src/c64/c64-snapshot.c,
+	src/c64dtv/c64dtv-snapshot.c, src/cbm2/cbm5x0-snapshot.c,
+	src/plus4/plus4-snapshot.c, src/scpu64/scpu64-snapshot.c,
+	src/vic20/vic20-snapshot.c: Fixed keyboard snapshot calls.
+
+2016-04-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/joyport.c, src/joyport/joystick.c: Fixed joyport
+	snapshot identifiers, fixes bug #742.
+
+2016-04-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/Makefile.am, src/drive/drivemem.c: Added includes and
+	include dirs.
+
+2016-04-24  groepaz <groepaz@gmx.net>
+
+	* src/Makefile.am: link iec lib to pet/cbm2
+
+2016-04-24  groepaz <groepaz@gmx.net>
+
+	* src/cbm2/cbm2iec.c, src/pet/petiec.c: added dummy functions
+
+2016-04-24  groepaz <groepaz@gmx.net>
+
+	* src/pet/petiec.c: added dummy functions
+
+2016-04-24  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128mem.c, src/c128/c128mmu.c, src/c128/c128mmu.h,
+	src/c64/c64io.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	src/c64/vsidmem.c, src/c64dtv/c64dtvmem.c, src/cbm2/cbm2io.c,
+	src/core/riotcore.c, src/drive/drivemem.c, src/drive/iec/cia1571d.c,
+	src/drive/iec/cia1581d.c, src/drive/iec/ciad.h,
+	src/drive/iec/memiec.h, src/drive/iec/via1d1541.c,
+	src/drive/iec/via1d1541.h, src/drive/iec/via4000.c,
+	src/drive/iec/via4000.h, src/drive/iecieee/via2d.c,
+	src/drive/ieee/riot1d.c, src/drive/ieee/riot2d.c,
+	src/drive/ieee/riotd.h, src/drive/tcbm/tpid.c, src/drive/tcbm/tpid.h,
+	src/drive/viad.h, src/mem.h, src/monitor/monitor.c, src/monitor.h,
+	src/pet/petio.c, src/pet/petmem.c, src/plus4/plus4io.c,
+	src/plus4/plus4mem.c, src/riot.h, src/scpu64/scpu64mem.c,
+	src/vdc/vdc-mem.c, src/vdc/vdc-mem.h, src/vic20/vic20io.c:
+	preperations for adding I/O dump to drives
+
+2016-04-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/pc8477.c, src/drive/iec/wd1770.c: Looks OK.
+
+2016-04-23  groepaz <groepaz@gmx.net>
+
+	* src/drive/iec/pc8477.c: simplified
+
+2016-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_solaris_version.h: Added support for solaris
+	11.3
+
+2016-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/tapeport/tapeport.c: Fix crash.
+
+2016-04-23  groepaz <groepaz@gmx.net>
+
+	* src/core/riotcore.c, src/drive/drivemem.c, src/drive/drivemem.h,
+	src/drive/drivetypes.h, src/drive/iec/c64exp/dolphindos3.c,
+	src/drive/iec/c64exp/profdos.c, src/drive/iec/c64exp/supercard.c,
+	src/drive/iec/memiec.c, src/drive/iec/pc8477.c,
+	src/drive/iec/pc8477.h, src/drive/iec/wd1770.c,
+	src/drive/iec/wd1770.h, src/drive/ieee/memieee.c,
+	src/drive/ieee/riot1d.c, src/drive/ieee/riot2d.c,
+	src/drive/ieee/riotd.h, src/drive/tcbm/mem1551.c, src/riot.h:
+	implemented I/O 'peek' function for drives, added 'peek' function to
+	pc8477, wd1770 and riot cores
+
+2016-04-23  groepaz <groepaz@gmx.net>
+
+	* src/6510dtvcore.c: changed ANE 'magic constant' to 0xff, which makes
+	spectipede tapeloader work
+
+2016-04-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/c128/c128-snapshot.c, src/c64/c64-snapshot.c,
+	src/c64/vsidstubs.c, src/c64dtv/c64dtvcart.c,
+	src/cbm2/cbm2-snapshot.c, src/cbm2/cbm5x0-snapshot.c, src/datasette.c,
+	src/datasette.h, src/pet/pet-snapshot.c, src/plus4/plus4-snapshot.c,
+	src/rtc/ds1602.c, src/rtc/pcf8583.c, src/rtc/pcf8583.h,
+	src/scpu64/scpu64stubs.c, src/tape/tape-snapshot.c,
+	src/tapeport/cp-clockf83.c, src/tapeport/dtl-basic-dongle.c,
+	src/tapeport/sense-dongle.c, src/tapeport/tapelog.c,
+	src/tapeport/tapeport.c, src/tapeport/tapeport.h,
+	src/vic20/vic20-snapshot.c: Added tapeport snapshot support.
+
+2016-04-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64-midi.c, src/midi.c, src/vic20/cart/vic20-midi.c:
+	Added midi snapshot support.
+
+2016-04-20  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2016-04-20  groepaz <groepaz@gmx.net>
+
+	* src/drive/iec/fdd.c, src/drive/iec/fdd.h, src/drive/iec/pc8477.c,
+	src/drive/iec/pc8477.h, src/drive/iec/wd1770.c,
+	src/drive/iec/wd1770.h: removed 'inline' from a couple of functions.
+	since they are used from a different compilation unit than they get
+	compiled to they would not get inlined (always) anyway. fixes warnings
+	when compiling with clang. to get them inlined as intended the code
+	should be reworked so these functions exist as inline functions in the
+	headers rather than the .c files.
+
+2016-04-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4: Added 'lib-ld.m4' macros for platforms that don't have
+	it.
+
+2016-04-19  groepaz <groepaz@gmx.net>
+
+	* data/C128/Makefile.am, data/C128/community-colors.vpl,
+	data/C128/deekay.vpl, data/C128/ptoing.vpl, data/C64/Makefile.am,
+	data/C64/community-colors.vpl, data/C64/deekay.vpl,
+	data/C64/ptoing.vpl, data/CBM-II/Makefile.am,
+	data/CBM-II/community-colors.vpl, data/CBM-II/deekay.vpl,
+	data/CBM-II/ptoing.vpl, data/SCPU64/Makefile.am,
+	data/SCPU64/community-colors.vpl, data/SCPU64/deekay.vpl,
+	data/SCPU64/ptoing.vpl, src/palette.c: added some alternative palettes
+
+2016-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128-snapshot.c, src/c64/c64-snapshot.c,
+	src/c64dtv/c64dtv-snapshot.c, src/cbm2/cbm2-snapshot.c,
+	src/pet/pet-snapshot.c, src/plus4/plus4-snapshot.c,
+	src/printerdrv/interface-userport.c, src/rtc/ds12c887.c,
+	src/rtc/ds1307.c, src/rtc/ds1307.h, src/rtc/rtc-58321a.c,
+	src/rtc/rtc-58321a.h, src/scpu64/scpu64-snapshot.c,
+	src/userport/userport.c, src/userport/userport.h,
+	src/userport/userport_4bit_sampler.c, src/userport/userport_8bss.c,
+	src/userport/userport_dac.c, src/userport/userport_digimax.c,
+	src/userport/userport_joystick.c, src/userport/userport_rtc_58321a.c,
+	src/userport/userport_rtc_ds1307.c, src/vic20/vic20-snapshot.c: Added
+	snapshot support to the userport system and all its devices.
+
+2016-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64-memory-hacks.c: Only reconfigure memory upon snapshot
+	load if any memory hacks are active before loading the snapshot.
+	(Fixes bug #739)
+
+2016-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/mouse.c: Fixed 'neos_state' warning.
+
+2016-04-18  groepaz <groepaz@gmx.net>
+
+	* src/6510core.c: add braces
+
+2016-04-18  groepaz <groepaz@gmx.net>
+
+	* src/6510core.c, src/c64dtv/c64dtvcpu.c: fix warning - someone with
+	DTV knowledge should review this one
+
+2016-04-18  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: fix warning
+
+2016-04-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128-snapshot.c, src/c64/c64-snapshot.c,
+	src/c64/vsidstubs.c, src/c64dtv/c64dtv-snapshot.c,
+	src/cbm2/cbm2-snapshot.c, src/cbm2/cbm5x0-snapshot.c,
+	src/joyport/bbrtc.c, src/joyport/joyport.c,
+	src/joyport/joyport.h, src/joyport/joystick.c, src/joyport/joystick.h,
+	src/joyport/lightpen.c, src/joyport/mouse.c,
+	src/joyport/paperclip64.c, src/joyport/sampler2bit.c,
+	src/joyport/sampler4bit.c, src/pet/pet-snapshot.c,
+	src/plus4/plus4-snapshot.c, src/rtc/ds1602.c, src/rtc/ds1602.h,
+	src/scpu64/scpu64-snapshot.c, src/vic20/vic20-snapshot.c: Added
+	snapshot support to the joyport system and all its devices.
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimenu.c: fix warning
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* src/vicii/viciidtv-draw.c: fix warnings
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/mmc64.c: fix warnings
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* src/printerdrv/drv-1520.c: fix warnings
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* src/plus4/ted-badline.c, src/plus4/ted-mem.c: fix warnings
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/silverrock128.c, src/raster/raster.c: fix warnings
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/reu.c: fix warning
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* src/video/video-color.c: fix warnings
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* doc/vice.guide, doc/vice.pdf, doc/vice.txt: updated
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/utils/geninfocontrib.c: fix warning when building on
+	unix
+
+2016-04-17  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi, src/sounddrv/soundcoreaudio.c: provide control over
+	choice of audio device on OS X coreaudio via SoundDeviceArg /
+	-soundarg. patch by David Hogan
+
+2016-04-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/uicia.c: fixed typo, should fix bug #738
+
+2016-04-16  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/vic20cart.c: removed unused variable
+
+2016-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/bbrtc.c, src/joyport/joyport.c, src/joyport/joyport.h,
+	src/joyport/joystick.c, src/joyport/lightpen.c, src/joyport/mouse.c,
+	src/joyport/paperclip64.c, src/joyport/sampler2bit.c,
+	src/joyport/sampler4bit.c: Started on a framework for joyport snapshot
+	support, still wip.
+
+2016-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4cart.c: Removed comment.
+
 2016-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
@@ -23366,4 +24417,4 @@ Some more msvc9 ffmpeg fixes.
 	Started a new ChangeLog file.
 
 
-See `ChangeLog.1' for earliee
+See `ChangeLog.1' for earlie
