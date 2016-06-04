@@ -55,6 +55,7 @@ int ssi2001_drv_read(WORD addr, int chipno)
     if (chipno < MAXSID && addr < 0x20) {
         return io_access_read(SSI2008_BASE + (addr & 0x1f));
     }
+    return 0;
 }
 
 static int detect_sid(void)
