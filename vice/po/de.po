@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-04 13:22-0700\n"
-"PO-Revision-Date: 2016-04-20 20:48+0200\n"
+"PO-Revision-Date: 2016-06-05 11:16+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -11187,155 +11187,155 @@ msgstr "Bandlog"
 #: src/translate_text.c.po.c:3976
 #, c-format
 msgid "EOF while writing to module %s in snapshot %s"
-msgstr ""
+msgstr "EOF beim Schreben von Modul %s in Snapshot %s"
 
 #: src/translate_text.c.po.c:3993
-#, fuzzy, c-format
+#, c-format
 msgid "EOF while writing to snapshot %s"
-msgstr "Schreibzugriff auf EasyFlash CRT Image erlauben"
+msgstr "EOF beim Schreiben auf Snapshot %s"
 
 #: src/translate_text.c.po.c:4010
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing array to module %s in snapshot %s"
-msgstr "Fehler bei Schreibzugriff: %s!"
+msgstr "Fehler beim Schreiben (Array) auf Modul %s in Snapshot %s"
 
 #: src/translate_text.c.po.c:4027
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing array to snapshot %s"
-msgstr "Fehler beim Lesen der Start Snapshot Datei."
+msgstr "Fehler bei Schreiben (Array) auf Snapshot %s"
 
 #: src/translate_text.c.po.c:4044
 #, c-format
 msgid "EOF while reading from module %s in snapshot %s"
-msgstr ""
+msgstr "EOF beim Lesen von Modul %s in Snapshot %s"
 
 #: src/translate_text.c.po.c:4061
-#, fuzzy, c-format
+#, c-format
 msgid "EOF while reading from snapshot %s"
-msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
+msgstr "EOF beim Lesen von Snapshot %s"
 
 #: src/translate_text.c.po.c:4078
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading array from module %s in snapshot %s"
-msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
+msgstr "Fehler beim Lesen von Modul %s in Snapshot %s"
 
 #: src/translate_text.c.po.c:4095
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading array from snapshot %s"
-msgstr "Fehler beim Lesen der Start Snapshot Datei."
+msgstr "Fehler beim Lesen von Snapshot %s"
 
 #: src/translate_text.c.po.c:4112
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing string to module %s in snapshot %s"
-msgstr "Fehler beim Lesen der Start Snapshot Datei."
+msgstr "Fehler beim Schreiben (String) auf Modul %s in Snapshot %s"
 
 #: src/translate_text.c.po.c:4129
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing string to snapshot %s"
-msgstr "Fehler beim Lesen der Start Snapshot Datei."
+msgstr "Fehler beim Schreiben (String)auf Snapshot %s"
 
 #: src/translate_text.c.po.c:4146
 #, c-format
 msgid "Out of bounds reading error in module %s in snapshot %s"
-msgstr ""
+msgstr "Lesefehler (Out-of-bounds) in Modul %s in Snapshot %s"
 
 #: src/translate_text.c.po.c:4163
-#, fuzzy, c-format
+#, c-format
 msgid "Out of bounds reading error in snapshot %s"
-msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
+msgstr "Lesefehler (Out-of-bounds) in Snapshot %s"
 
 #: src/translate_text.c.po.c:4180
 #, c-format
 msgid "Illegal offset while attempting to create module %s in snapshot %s"
-msgstr ""
+msgstr "Fehler ber Erstellung von Modul %s in Snapshot %s (Illegal offset)"
 
 #: src/translate_text.c.po.c:4197
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find first module in snapshot %s"
-msgstr "Kann Snapshot Datei `%s' nicht öffnen."
+msgstr "Kann erstes Modul in Snapshot %s nicht finden"
 
 #: src/translate_text.c.po.c:4214
-#, fuzzy, c-format
+#, c-format
 msgid "Error while reading module header in snapshot %s"
-msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
+msgstr "Fehler beim Lesen des Modulheaders in Snapshot %s"
 
 #: src/translate_text.c.po.c:4231
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find module %s in snapshot %s"
-msgstr "Kann Snapshot Datei `%s' nicht öffnen."
+msgstr "Kann Modul %s in Snapshot %s nicht finden"
 
 #: src/translate_text.c.po.c:4248
-#, fuzzy, c-format
+#, c-format
 msgid "Error closing module %s in snapshot %s"
-msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
+msgstr "Fehler beim Schliessen von Modul %s in Snapshot %s"
 
 #: src/translate_text.c.po.c:4265
-#, fuzzy, c-format
+#, c-format
 msgid "Error skipping module in snapshot %s"
-msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
+msgstr "Fehler beim Überspringen eines Moduls in Snapshot %s"
 
 #: src/translate_text.c.po.c:4282
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create snapshot %s"
-msgstr "Kann Snapshot Datei `%s' nicht erzeugen"
+msgstr "Kann Snapshot %s nicht erzeugen"
 
 #: src/translate_text.c.po.c:4299
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write magic string to snapshot %s"
-msgstr "Kann Snapshot Datei `%s' nicht speichern.\n"
+msgstr "Kann Magic String in Snapshot %s nicht schreiben"
 
 #: src/translate_text.c.po.c:4316
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write version to snapshot %s"
-msgstr "Kann Snapshot Datei `%s' nicht speichern.\n"
+msgstr "Kann Version in Snapshot %s nicht schreiben"
 
 #: src/translate_text.c.po.c:4333
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write machine name to snapshot %s"
-msgstr "Kann Snapshot Datei `%s' nicht speichern.\n"
+msgstr "Kann Maschinennamen in Snapshot %s nicht schreiben"
 
 #: src/translate_text.c.po.c:4350
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open snapshot %s for reading"
-msgstr "Kann Snapshot Datei `%s' nicht öffnen."
+msgstr "Kann Snapshot %s nicht öffnen"
 
 #: src/translate_text.c.po.c:4367
 #, c-format
 msgid "Magic string mismatch in snapshot %s"
-msgstr ""
+msgstr "Magic String Fehler in Snapshot %s"
 
 #: src/translate_text.c.po.c:4384
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read version from snapshot %s"
-msgstr "Kann Snapshot Datei `%s' nicht erzeugen"
+msgstr "Kann Versionsnummer von Snapshot %s nicht lesen"
 
 #: src/translate_text.c.po.c:4401
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read machine name from snapshot %s"
-msgstr "Kann Snapshot Datei `%s' nicht erzeugen"
+msgstr "Kann Maschinenname von Snapshot %s nicht lesen"
 
 #: src/translate_text.c.po.c:4418
 #, c-format
 msgid ""
 "Wrong machine type in snapshot %s, snapshot type: %s, current machine: %s"
-msgstr ""
+msgstr "Falscher Maschinentyp in Snapshot %s, Typ: %s, aktuelle Maschine: %s"
 
 #: src/translate_text.c.po.c:4435
 #, c-format
 msgid "EOF while closing snapshot %s"
-msgstr ""
+msgstr "EOF beim Schliessen von Snapshot %s"
 
 #: src/translate_text.c.po.c:4452
 #, c-format
 msgid ""
 "Snapshot %s has a higher version than what your current emulator supports, "
 "please upgrade VICE"
-msgstr ""
+msgstr "Snapshot %s benötigt einen neuere Version von Vice. Bitte Upgraden!"
 
 #: src/translate_text.c.po.c:4469
 #, c-format
 msgid "Snapshot %s is incompatible (too old)"
-msgstr ""
+msgstr "Snapshot %s ist nicht kompatibel (zu alt)"
 
 #: src/translate_text.c.po.c:4488
 msgid "Enable opposite joystick directions"
@@ -13396,7 +13396,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:13777
 msgid "1792: SSI2001"
-msgstr ""
+msgstr "1792: SSI2001"
 
 #: src/translate_text.c.po.c:13812
 msgid "Disable the SID cartridge"
