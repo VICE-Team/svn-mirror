@@ -1444,11 +1444,11 @@ msgstr "Alles"
 #: src/arch/win32/resscpu64.rc.po.c:30 src/arch/win32/resvic20.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:33
 msgid "Attach disk image"
-msgstr "Koppel schijfbestand aan"
+msgstr "Koppel schijfbestand"
 
 #: src/arch/unix/gui/uiattach.c:195
 msgid "Create and attach an empty disk"
-msgstr "Maak en koppel een leeg schijfbestand aan"
+msgstr "Maak en koppel een leeg schijfbestand"
 
 #: src/arch/unix/gui/uiattach.c:197 src/arch/win32/res.rc.po.c:1532
 #: src/arch/win32/resc128.rc.po.c:41 src/arch/win32/resc64.rc.po.c:37
@@ -1485,7 +1485,7 @@ msgstr "Wilt u het bestand overschrijven?"
 #: src/arch/amigaos/intl_text.c.po.c:243
 #: src/arch/amigaos/intl_text.c.po.c:9877
 msgid "Attach tape image"
-msgstr "Koppel tapebestand aan"
+msgstr "Koppel tapebestand"
 
 #: src/arch/unix/gui/uiattach.c:254 src/arch/unix/gui/uiattach.c:261
 msgid "Invalid Tape Image"
@@ -1557,7 +1557,7 @@ msgstr "Disk bestand"
 #: src/arch/unix/gui/uiautostart.c:96 src/arch/win32/res.rc.po.c:1588
 #: src/arch/amigaos/intl_text.c.po.c:2105 src/translate_text.c.po.c:4624
 msgid "Handle True Drive Emulation on autostart"
-msgstr "Manipuleer hardwarematige drive emulatie bij autostarten"
+msgstr "Hanteer hardwarematige drive emulatie bij autostarten"
 
 #: src/arch/unix/gui/uiautostart.c:98 src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:12439
@@ -1661,7 +1661,7 @@ msgstr "C64DTV ROM bestand"
 #: src/arch/unix/gui/uic64dtv.c:119 src/arch/win32/resc64dtv.rc.po.c:467
 #: src/translate_text.c.po.c:17461
 msgid "Enable writes to C64DTV ROM image"
-msgstr "Aktiveer schrijven naar DTV ROM bestand"
+msgstr "Activeer schrijven naar DTV ROM bestand"
 
 #: src/arch/unix/gui/uic64dtv.c:139 src/arch/amigaos/intl_text.c.po.c:6613
 msgid "Hummer ADC"
@@ -4239,7 +4239,7 @@ msgstr "Stereo"
 
 #: src/arch/unix/gui/uisound.c:145 src/translate_text.c.po.c:16662
 msgid "Enable sound playback"
-msgstr "Activeer geluidsweergave"
+msgstr "Activeer geluidsuitvoer"
 
 #. Do not change position as position 2 is hard coded.
 #: src/arch/unix/gui/uisound.c:149
@@ -5727,7 +5727,7 @@ msgstr "RS232 apparaat %i"
 #: src/arch/win32/res.rc.po.c:1138 src/arch/amigaos/intl_text.c.po.c:5787
 #: src/translate_text.c.po.c:8477
 msgid "Attach CRT cartridge image"
-msgstr "Koppel CRT cartridge bestand aan"
+msgstr "Koppel CRT cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:1141 src/arch/amigaos/intl_text.c.po.c:5829
 #: src/translate_text.c.po.c:8613
@@ -5791,7 +5791,7 @@ msgstr "Koppel binair 64KB Super Snapshot V5 cartridge bestand"
 #: src/arch/win32/res.rc.po.c:1153 src/arch/amigaos/intl_text.c.po.c:5983
 #: src/translate_text.c.po.c:17274
 msgid "Attach raw Structured Basic cartridge image"
-msgstr "Koppel binair Structured Basic cartridge bestand aan"
+msgstr "Koppel binair Structured Basic cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:1154 src/arch/amigaos/intl_text.c.po.c:10493
 msgid "Select cartridge file"
@@ -5887,7 +5887,7 @@ msgstr "Geen userport joy adapter"
 
 #: src/arch/win32/res.rc.po.c:1190 src/translate_text.c.po.c:17735
 msgid "Disable SID cartridge joystick"
-msgstr "De SID cartridge joystick uitschakelen"
+msgstr "Deactiveer de SID cartridge joystick"
 
 #: src/arch/win32/res.rc.po.c:1191 src/translate_text.c.po.c:17718
 msgid "Enable SID cartridge joystick"
@@ -6224,7 +6224,7 @@ msgstr "Gebruik IEC Apparaat"
 #: src/arch/win32/res.rc.po.c:1303 src/translate_text.c.po.c:2581
 #: src/translate_text.c.po.c:2598
 msgid "Directory"
-msgstr "Directory"
+msgstr "Map"
 
 #: src/arch/win32/res.rc.po.c:1308
 msgid "Autostart"
@@ -7521,7 +7521,7 @@ msgstr "Sla de interne functie RTC data op indien gewijzigd"
 
 #: src/arch/win32/resc128.rc.po.c:762 src/translate_text.c.po.c:5940
 msgid "Enable RAM banks 2 and 3"
-msgstr "Aktiveer RAM bank 2 en 3"
+msgstr "Activeer RAM bank 2 en 3"
 
 #: src/arch/win32/resc128.rc.po.c:767 src/arch/amigaos/intl_text.c.po.c:2245
 msgid "IEEE488 Interface emulation"
@@ -9934,7 +9934,7 @@ msgstr "Kan niet schrijven naar bestand %s"
 #: src/translate_text.c.po.c:74
 #, c-format
 msgid "Cannot find mapped name for %s"
-msgstr "Kan vertaalde naam voor %s niet vinden"
+msgstr "Kan toegewezen naam voor %s niet vinden"
 
 #: src/translate_text.c.po.c:91
 #, c-format
@@ -10012,7 +10012,7 @@ msgstr "Waarschuwing! Opnameapparaat %s lijkt een realtime apparaat te zijn!"
 
 #: src/translate_text.c.po.c:363
 msgid "The recording device doesn't support current sound parameters"
-msgstr "Het opname apparaat ondersteunt de huidige geluid opties niet"
+msgstr "Het opname apparaat ondersteunt de huidige geluidsopties niet"
 
 #: src/translate_text.c.po.c:380
 msgid "Sound buffer overflow (cycle based)"
@@ -10024,7 +10024,7 @@ msgstr "Geluidsbuffer overloop."
 
 #: src/translate_text.c.po.c:414
 msgid "cannot flush."
-msgstr "kan niet spoelen."
+msgstr "kan niet leegmaken."
 
 #: src/translate_text.c.po.c:431
 msgid "fragment problems."
@@ -10075,9 +10075,7 @@ msgstr "De server wacht op de andere computer"
 
 #: src/translate_text.c.po.c:619
 msgid "Cannot create snapshot file. Select different history directory!"
-msgstr ""
-"Kan het momentopnamebestand niet maken. Selecteer een andere "
-"geschiedenisdirectory!"
+msgstr "Kan het momentopnamebestand niet maken. Selecteer een andere geschiedenismap!"
 
 #: src/translate_text.c.po.c:636
 #, c-format
@@ -10100,11 +10098,11 @@ msgstr "Netwerk niet synchroon - verbinding wordt verbroken."
 
 #: src/translate_text.c.po.c:704
 msgid "Remote host disconnected."
-msgstr "Andere computer heeft de verbinding verbroken."
+msgstr "De andere computer heeft de verbinding verbroken."
 
 #: src/translate_text.c.po.c:721
 msgid "Remote host suspending"
-msgstr "Andere computer halt de netplay"
+msgstr "De andere computer onderbreekt de netplay"
 
 #: src/translate_text.c.po.c:739
 msgid "ffmpegdrv: Cannot open video stream"
@@ -10173,12 +10171,12 @@ msgstr "DTV ROM bestand gemaakt!"
 #: src/translate_text.c.po.c:977
 #, c-format
 msgid "Command `%s' unknown.\n"
-msgstr "Commando %s' is onbekent.\n"
+msgstr "Commando `%s' is onbekent.\n"
 
 #: src/translate_text.c.po.c:994
 #, c-format
 msgid "No help available for `%s'\n"
-msgstr "Geen help beschikbaar voor `%s'\n"
+msgstr "Geen hulp beschikbaar voor `%s'\n"
 
 #: src/translate_text.c.po.c:1011
 #, c-format
@@ -10187,7 +10185,7 @@ msgid ""
 "Syntax: %s %s\n"
 msgstr ""
 "\n"
-"Syntax: %s %s\n"
+"Syntaxis: %s %s\n"
 
 #: src/translate_text.c.po.c:1028
 #, c-format
@@ -10196,11 +10194,11 @@ msgstr "Afkorting: %s\n"
 
 #: src/translate_text.c.po.c:1045
 msgid "Available commands are"
-msgstr "Beschikbare commandos zijn"
+msgstr "Beschikbare commando's zijn"
 
 #: src/translate_text.c.po.c:1062
 msgid "Machine state commands"
-msgstr "Machine status commandos"
+msgstr "Machine status commando's"
 
 #: src/translate_text.c.po.c:1079
 msgid "memspace"
@@ -10208,31 +10206,25 @@ msgstr "geheugenruimte"
 
 #: src/translate_text.c.po.c:1096
 msgid "bankname"
-msgstr "bank naam"
+msgstr "banknaam"
 
 #: src/translate_text.c.po.c:1113
 msgid ""
 "If bankname is not given, print the possible banks for the memspace.\n"
 "If bankname is given set the current bank in the memspace to the given\n"
 "bank."
-msgstr ""
-"Als de banknaam niet is opgegeven worden de mogelijke banken voor de\n"
-"geheugenruimte weergegeven. Als de banknaam is opgegeven dan wordt de\n"
-"huidige bank in de geheugenruimte gezet volgens de opgegeven banknaam."
+msgstr "Als de banknaam niet is opgegeven, worden de mogelijke banken voor de\ngeheugenruimte weergegeven. Als de banknaam is opgegeven, wordt de\nhuidige bank in de geheugenruimte gezet volgens de opgegeven banknaam."
 
 #: src/translate_text.c.po.c:1130
 msgid ""
 "Print JSR call chain (most recent call first). Stack offset\n"
 "relative to SP+1 is printed in parentheses. This is a best guess\n"
 "only."
-msgstr ""
-"Toon JSR gebruik (meest recent gebruikt eerst). De stack\n"
-"compensatie relatief ten opzichte van SP+1 zal worden getoont\n"
-"binnen de aanhalingtekens. Dit is op basis van de beste gok."
+msgstr "Toon JSR gebruik (meest recent gebruikt eerst). Het relatieve begin van de stack\nten opzichte van SP+1 zal worden getoond\ntussen de aanhalingtekens. Dit is op basis van de beste gok."
 
 #: src/translate_text.c.po.c:1147
 msgid "Specify the type of CPU currently used (6502/z80)."
-msgstr "Geef de soort CPU die op dit moment in gebruik is (6502/z80)."
+msgstr "Geef de soort CPU op die op dit moment in gebruik is (6502/z80)."
 
 #: src/translate_text.c.po.c:1164
 msgid "count"
@@ -10240,7 +10232,7 @@ msgstr "hoeveelheid"
 
 #: src/translate_text.c.po.c:1181
 msgid "Show <count> last executed commands."
-msgstr "Toon <hoeveelheid> laatst uitgevoerde commandos."
+msgstr "Toon <hoeveelheid> laatst uitgevoerde commando's."
 
 #: src/translate_text.c.po.c:1198 src/translate_text.c.po.c:16135
 msgid "filename"
@@ -10251,11 +10243,7 @@ msgid ""
 "Write a snapshot of the machine into the file specified.\n"
 "This snapshot is compatible with a snapshot written out by the UI.\n"
 "Note: No ROM images are included into the dump."
-msgstr ""
-"Schrijf een momentopname van de machine naar de opgegeven bestand.\n"
-"Deze momentopname is compatibel met een momentopname zoals geschreven van\n"
-"uit het menu.\n"
-"NB: ROM bestanden zijn niet opgenomen in de momentopname."
+msgstr "Schrijf een momentopname van de machine naar het opgegeven bestand.\nDeze momentopname is compatibel met een momentopname zoals geschreven \nvanuit het menu.\nNB: ROM bestanden zijn niet opgenomen in de momentopname."
 
 #: src/translate_text.c.po.c:1232 src/translate_text.c.po.c:6554
 msgid "address"
@@ -10267,7 +10255,7 @@ msgstr "Zet de PC naar ADRES en ga door met de uitvoering van instructies."
 
 #: src/translate_text.c.po.c:1266
 msgid "Print out the I/O area of the emulated machine."
-msgstr "Toon de I/O geheugenruimte van de huidige machine."
+msgstr "Toon het I/O gebied van de huidige machine."
 
 #: src/translate_text.c.po.c:1283
 msgid "Print out list of attached expansion port devices."
@@ -10301,10 +10289,7 @@ msgstr "Reset de machine of drive. Soort: 0 = zacht, 1 = hard, 8-11 = drive."
 msgid ""
 "Continues execution and returns to the monitor just before the next\n"
 "RTS or RTI is executed."
-msgstr ""
-"Ga door met uitvoeren van instructies en kom terug naar de monitor net voor "
-"de\n"
-"volgende RTS of RTI wordt uitgevoerd."
+msgstr "Ga door met uitvoeren van instructies en keer terug naar de monitor net voor de\nvolgende RTS of RTI wordt uitgevoerd."
 
 #: src/translate_text.c.po.c:1402
 msgid "Displays the contents of the screen."
@@ -10314,25 +10299,23 @@ msgstr "Toont de inhoud van het scherm."
 msgid ""
 "Single-step through instructions.  COUNT allows stepping\n"
 "more than a single instruction at a time."
-msgstr ""
-"Enkel-stap door de instructies. AANTAL zorgt ervoor dat er meerdere\n"
-"instructies worden uitgevoerd in een keer."
+msgstr "Stap voor stap door de instructies. AANTAL zorgt ervoor dat er meerdere\ninstructies worden uitgevoerd in een keer."
 
 #: src/translate_text.c.po.c:1436
 msgid ""
 "Print the CPU cycle counter of the current device. 'reset' sets the counter "
 "to 0."
 msgstr ""
-"Toon de CPY cycli teller voor het huidige apparaat. 'reset' zet de teller "
+"Toon de CPU cycli teller voor het huidige apparaat. 'reset' zet de teller "
 "naar 0."
 
 #: src/translate_text.c.po.c:1453
 msgid "Read a snapshot of the machine from the file specified."
-msgstr "Lees een momentopname voor de machine van het opgegeven bestand."
+msgstr "Lees een momentopname van de machine vanuit het opgegeven bestand."
 
 #: src/translate_text.c.po.c:1470
 msgid "Symbol table commands"
-msgstr "Symbool tabel commandos"
+msgstr "Symbool tabel commando's"
 
 #: src/translate_text.c.po.c:1487
 msgid "label"
@@ -10347,16 +10330,12 @@ msgid ""
 "Map a given address to a label.  This label can be used when entering\n"
 "assembly code and is shown during disassembly.  Additionally, it can\n"
 "be used whenever an address must be specified."
-msgstr ""
-"<geheugenruimte> is een van: C: 8: 9: 10: 11:\n"
-"<adres>          is het adres waaraan de label gekoppelt moet worden.\n"
-"<label>          is de naam van de label; de naam moet beginnen met een "
-"punt\n"
-"                 (\".\").\n"
-"\n"
-"Koppel een opgegeven adres aan een label. Dit label kan worden gebruikt bij\n"
-"het invoeren van assembleer code en wordt getoont bij een disassemblering.\n"
-"Tevens kan de label gebruikt worden in plaats van het adres."
+msgstr "<geheugenruimte> is één van: C: 8: 9: 10: 11:\n
+"<adres>          is het adres waaraan het label gekoppeld moet worden.\n"
+"<label>          is de naam van het label; de naam moet beginnen met een punt\n"
+"                 (\".\").\n\nKoppel een opgegeven adres aan een label. Dit label kan worden gebruikt bij\n
+"het invoeren van assembleer code en wordt getoond bij een disassemblering.\n"
+"Tevens kan het label gebruikt worden in plaats van het adres."
 
 #: src/translate_text.c.po.c:1521
 msgid ""
@@ -10365,11 +10344,11 @@ msgid ""
 "\n"
 "Delete a previously defined label."
 msgstr ""
-"<geheugenruimte> is een van: C: 8: 9: 10: 11:\n"
-"<label>          is de naam van de label; de naam moet beginnen met een\n"
+"<geheugenruimte> is één van: C: 8: 9: 10: 11:\n
+"<label>          is de naam van het label; de naam moet beginnen met een\n"
 "punt (\".\").\n"
 "\n"
-"Verwijder een gekoppelde label."
+"Verwijder een gekoppeld label."
 
 #: src/translate_text.c.po.c:1538
 msgid ""
@@ -10378,41 +10357,29 @@ msgid ""
 "\n"
 "The format of the file is the one written out by the `save_labels' command;\n"
 "it consists of some `add_label' commands, written one after the other."
-msgstr ""
-"Laad een bestand met de koppelingen tussen labels en adressen. Als er geen\n"
-"geheugenruimte is opgegeven zal de standaard geheugenruimte worden "
-"gebruikt.\n"
-"Het formaat van het bestand is die door het commando 'save_labels' wordt\n"
-"geschreven; het bestaat uit een aantal 'add_label' commandos na elkaar."
+msgstr "Laad een bestand met de koppelingen tussen labels en adressen. Als er geen\ngeheugenruimte is opgegeven, zal de standaard geheugenruimte worden gebruikt.\nHet formaat van het bestand is die door het commando 'save_labels' wordt\ngeschreven; het bestaat uit een aantal 'add_label' commando's na elkaar."
 
 #: src/translate_text.c.po.c:1555
 msgid ""
 "Save labels to a file.  If no memory space is specified, all of the\n"
 "labels are saved."
-msgstr ""
-"Sla de labels op in een bestand. Als er geen geheugenruimte is opgegeven\n"
-"worden alle labels opgeslagen."
+msgstr "Sla de labels op in een bestand. Als er geen geheugenruimte is opgegeven,\nworden alle labels opgeslagen."
 
 #: src/translate_text.c.po.c:1572
 msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels from default address space."
-msgstr ""
-"Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven\n"
-"worden all labels van de standaard geheugenruimte getoont."
+msgstr "Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven,\nworden all labels van de standaard geheugenruimte getoond."
 
 #: src/translate_text.c.po.c:1589
 msgid ""
 "Clear current label mappings.  If no memory space is specified, clear\n"
 "all labels from default address space."
-msgstr ""
-"Verwijder huidige label koppelingen. Als er geen geheugenruimte is "
-"opgegeven\n"
-"worden all labels van de standaard geheugenruimte verwijderd."
+msgstr "Verwijder huidige label koppelingen. Als er geen geheugenruimte is opgegeven,\nworden alle labels van de standaard geheugenruimte verwijderd."
 
 #: src/translate_text.c.po.c:1606
 msgid "Assembler and memory commands"
-msgstr "Assembler en geheugen commandos"
+msgstr "Assembler en geheugen commando's"
 
 #: src/translate_text.c.po.c:1623
 msgid "data_list"
@@ -10420,7 +10387,7 @@ msgstr "data_lijst"
 
 #: src/translate_text.c.po.c:1640
 msgid "Write the specified data at `address'."
-msgstr "Schrijf de opgegevem data op `adres'."
+msgstr "Schrijf de opgegeven data op `adres'."
 
 #: src/translate_text.c.po.c:1657
 msgid "instruction"
@@ -10431,12 +10398,7 @@ msgid ""
 "Assemble instructions to the specified address.  If only one\n"
 "instruction is specified, enter assembly mode (enter an empty line to\n"
 "exit assembly mode)."
-msgstr ""
-"Assembleer instructies naar het opgegeven adres. Als er alleen een "
-"instructie\n"
-"is opgegeven dan wordt de assembleer modus ingeschakelt (geef een lege "
-"regel\n"
-"in om de assembleer modus te verlaten)."
+msgstr "Assembleer instructies naar het opgegeven adres. Als er alleen een instructie\nis opgegeven, wordt de assembleer modus ingeschakeld (geef een lege regel\nin om de assembleer modus te verlaten)."
 
 #: src/translate_text.c.po.c:1691
 msgid "address_range"
@@ -10447,10 +10409,7 @@ msgid ""
 "Compare memory from the source specified by the address range to the\n"
 "destination specified by the address.  The regions may overlap.  Any\n"
 "values that miscompare are displayed using the default displaytype."
-msgstr ""
-"Vergelijk geheugen van de bron opgegeven door de adres reeks met het doel\n"
-"opgegeven door het adres. De reeksen mogen overlappen. De data die niet\n"
-"gelijk is zal worden getoont volgens de huidige toon soort."
+msgstr "Vergelijk geheugen van de bron opgegeven door de adres reeks met het doel\nopgegeven door het adres. De reeksen mogen overlappen. De data die niet\ngelijk is zal worden getoond volgens de huidige weergavesoort."
 
 #: src/translate_text.c.po.c:1725
 msgid "checknum"
@@ -10460,9 +10419,7 @@ msgstr "checknum"
 msgid ""
 "Delete checkpoint `checknum'. If no checkpoint is specified delete all "
 "checkpoints."
-msgstr ""
-"Wis checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle "
-"checkpunter gewist"
+msgstr "Wis checkpunt 'checknum'. Als er geen checkpunt is gegeven, worden alle checkpunten gewist."
 
 #: src/translate_text.c.po.c:1759
 msgid ""
@@ -10471,34 +10428,21 @@ msgid ""
 "treated as the start address and a default number of instructions are\n"
 "disassembled.  If no addresses are specified, a default number of\n"
 "instructions are disassembled from the dot address."
-msgstr ""
-"Disassembleer instructies. Als er twee adressen zijn opgegeven dan worden\n"
-"deze gebruikt als een start en eind adres. Als er maar een adres is\n"
-"opgegeven dan wordt deze gebruikt als het start adres en een standaard\n"
-"aantal instructies zal worden gedisassembleerd. Als er geen adressen zijn\n"
-"opgegeven dan wordt een standaard aantal instructies gedisassembleerd vanaf\n"
-"het huidige adres."
+msgstr "Disassembleer instructies. Als er twee adressen zijn opgegeven, worden\ndeze gebruikt als een start en eind adres. Als er maar één adres is\nopgegeven, wordt deze gebruikt als het start adres en een standaard\naantal instructies zal worden gedisassembleerd. Als er geen adressen zijn\nopgegeven, wordt een standaard aantal instructies gedisassembleerd vanaf\nhet huidige adres."
 
 #: src/translate_text.c.po.c:1776
 msgid ""
 "Fill memory in the specified address range with the data in\n"
 "<data_list>.  If the size of the address range is greater than the size\n"
 "of the data_list, the data_list is repeated."
-msgstr ""
-"Vul het geheugen van de opgegeven adres reeks op met de data in "
-"<data_lijst>.\n"
-"Als de grootte van de adres reeks groter is dan de grootte van de "
-"data_lijst\n"
-"dan zal de data_lijst worder herhaald."
+msgstr "Vul het geheugen van de opgegeven adres reeks op met de data in <data_lijst>.\nAls de grootte van de adres reeks groter is dan de grootte van de data_lijst\n, zal de data_lijst worden herhaald."
 
 #: src/translate_text.c.po.c:1793
 msgid ""
 "Hunt memory in the specified address range for the data in\n"
 "<data_list>.  If the data is found, the starting address of the match\n"
 "is displayed.  The entire range is searched for all possible matches."
-msgstr ""
-"Zoek het adres bereik voor de data in <data_lijst>. Als de data is gevonden\n"
-"dan wordt het start adres getoont. Er zal door de hele reeks worden gezocht."
+msgstr "Zoek het adres bereik voor de data in <data_lijst>. Als de data is gevonden,\n wordt het start adres getoond. Er zal door de hele reeks worden gezocht."
 
 #: src/translate_text.c.po.c:1810
 msgid "address_opt_range"
@@ -10524,25 +10468,14 @@ msgid ""
 "'dot' address is used.\n"
 "Please note: due to the ambiguous meaning of 'b' and 'd' these data-\n"
 "types must be given in uppercase!"
-msgstr ""
-"Toon de geheugen inhoud. Als er geen datasoort is opgegeven dan zal de "
-"standaard\n"
-"worden gebruikt. Als er maar een adres is opgegeven dan zal de lengte van "
-"de\n"
-"getoonde data gebaseerd worden op de datasoort. Als er geen adres is "
-"opgegeven\n"
-"dan zal het huidige adres worden gebruikt. Door de onduidelijke betekenis \n"
-"van 'b' en 'd' moeten deze datasoorten opgegeven worden in hoofdletters!"
+msgstr "Toon de geheugen inhoud. Als er geen datasoort is opgegeven, zal de standaard\nworden gebruikt. Als er maar één adres is opgegeven, zal de lengte van de\ngetoonde data gebaseerd worden op de datasoort. Als er geen adres is opgegeven,\nzal het huidige adres worden gebruikt. Door de onduidelijke betekenis \nvan 'b' en 'd' moeten deze datasoorten opgegeven worden in hoofdletters!"
 
 #: src/translate_text.c.po.c:1895
 msgid ""
 "Display the contents of memory as character data.  If only one address\n"
 "is specified, only one character is displayed.  If no addresses are\n"
 "given, the ``dot'' address is used."
-msgstr ""
-"Toon de geheugen inhoud als karakter data. Als er maar een adres is\n"
-"opgegeven dan zal er maar een karakter worden weergegeven. Als er geen\n"
-"adres is opgegeven dan zal het huidige adres gebruikt worden."
+msgstr "Toon de geheugen inhoud als karakter data. Als er maar één adres is\nopgegeven, zal er maar één karakter worden weergegeven. Als er geen\nadres is opgegeven, zal het huidige adres gebruikt worden."
 
 #: src/translate_text.c.po.c:1929
 msgid ""
@@ -10562,11 +10495,7 @@ msgid ""
 "locations with accesses of certain type(s). The mask is a number\n"
 "with the bits \"ioRWXrwx\", where RWX are for ROM and rwx for RAM.\n"
 "Optionally, an address range can be specified."
-msgstr ""
-"Toon de memmap. Het masker kan worden opgegeven zodat er alleen de\n"
-"adressen met toegrijpingen van een bepaalde soort(en) zal worden getoond.\n"
-"Het masker is een nummer met de bits \"ioRWXrwx\", waar RWX is voor ROM,\n"
-"en rwx voor RAM. Er kan optioneel een adres bereik worden opgegeven."
+msgstr "Toon de memmap. Het masker kan worden opgegeven zodat er alleen de\nadressen met toegangen van een bepaalde soort(en) zal worden getoond.\nHet masker is een nummer met de bits \"ioRWXrwx\", waar RWX staat voor ROM,\nen rwx voor RAM. Er kan optioneel een adres bereik worden opgegeven."
 
 #: src/translate_text.c.po.c:1980
 msgid "Clear the memmap."
@@ -10577,10 +10506,7 @@ msgid ""
 "Display the contents of memory as sprite data.  If only one address is\n"
 "specified, only one sprite is displayed.  If no addresses are given,\n"
 "the ``dot'' address is used."
-msgstr ""
-"Toon de geheugen inhoud als sprite data. Als er maar een adres is opgegeven\n"
-"dan zal er maar een sprite worden getoond. Als er geen adres is opgegeven\n"
-"dan zal het huidige adres worden gebruikt."
+msgstr "Toon de geheugen inhoud als sprite data. Als er maar één adres is opgegeven,\nzal er maar één sprite worden getoond. Als er geen adres is opgegeven,\nzal het huidige adres worden gebruikt."
 
 #: src/translate_text.c.po.c:2014
 msgid ""
@@ -10592,7 +10518,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:2031
 msgid "Checkpoint commands"
-msgstr "Checkpunt commandos"
+msgstr "Checkpunt commando's"
 
 #: src/translate_text.c.po.c:2048
 msgid "cond_expr"
@@ -10609,28 +10535,14 @@ msgid ""
 "not specified, the monitor breaks on `exec'.\n"
 "A conditional expression can also be specified for the breakpoint.\n"
 "For more information on conditions, see the CONDITION command."
-msgstr ""
-"Zet een breekpunt, als er geen adres is opgegeven dan zullen de huidige\n"
-"geldige breekpunten worden geprint. Als er een adres is opgegeven dan\n"
-"zal er een breekpunt gezet worden voor dat adres en de nummer van het\n"
-"breekpunt zal worden getoond.\n"
-"`load|store|exec' is `load', `store' of `exec' (of een combinatie) die\n"
-"gebruikt zal worden om aan te geven bij wlke operatie de monitor zou\n"
-"moeten starten. Als er niets is opgegeven dan zal de monitor op 'exec'\n"
-"starten.\n"
-"Een conditie kan worden opgegeven voor het breekpunt. Voor meer\n"
-"informatie over condities zie het CONDITION commando."
+msgstr "Zet een breekpunt, als er geen adres is opgegeven, zullen de huidige\ngeldige breekpunten worden geprint. Als er een adres is opgegeven,\nzal er een breekpunt gezet worden voor dat adres en het nummer van het\nbreekpunt zal worden getoond.\n`load|store|exec' is `load', `store' of `exec' (of een combinatie) die\ngebruikt zal worden om aan te geven bij welke operatie de monitor zou\nmoeten starten. Als er niets is opgegeven, zal de monitor op 'exec'\nstarten.\nEen conditie kan worden opgegeven voor het breekpunt. Voor meer\ninformatie over condities zie de CONDITION commando."
 
 #: src/translate_text.c.po.c:2101
 msgid ""
 "Specify `command' as the command to execute when checkpoint `checknum'\n"
 "is hit.  Note that the `x' command is not yet supported as a\n"
 "command argument."
-msgstr ""
-"Geef `commando' als het command om uit te voeren wanneer checkpunt "
-"`checknum'\n"
-"wordt uitgevoerd. NB: het `x' commando is op dit moment geen geldige\n"
-"parameter."
+msgstr "Geef `commando' als het commando om uit te voeren wanneer checkpunt `checknum'\nwordt uitgevoerd. NB: het `x' commando is op dit moment geen geldige\nparameter."
 
 #: src/translate_text.c.po.c:2118
 msgid ""
@@ -10645,44 +10557,25 @@ msgid ""
 "Registers can be the registers of other devices; this is denoted by\n"
 "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
 "Examples: A == 0, X == Y, 8:X == X)\n"
-msgstr ""
-"Elke keer de opgegeven checkpunt wordt onderzocht zal de conditie worden\n"
-"geevalueerd. Als de evaluatie positief is dan zal de checkpunt geactiveerd\n"
-"worden, bij negatief zal er niets worden gedaan. Als er registers zijn\n"
-"opgegeven in de expressie dan zullen de waarden in die registers gebruikt\n"
-"worden op het moment dat de checkpunt wordt onderzocht, niet op het moment\n"
-"dat de conditie is opgegeven.\n"
-"De conditie kan gebruik maken van registers (A, X, Y, PC, SP, FL en andere\n"
-"specifieke registers (zie handleiding) en kan ze vergelijken\n"
-" (==, !=, <, >, <=, >=) met andere registers of constanten\n"
-"Registers kunnen de registers van andere apparaten zijn; de manier van "
-"opgeven\n"
-"is door een geheugenruimte prefix (bijvoorbeeld: c:, 8:, 9:, 10:, 11:\n"
-"Voorbeelden: A == 0, X == Y, 8:X == X\n"
+msgstr "Elke keer dat het opgegeven checkpunt wordt onderzocht zal de conditie worden\ngeevalueerd. Als de evaluatie positief is dan zal de checkpunt geactiveerd\nworden, bij negatief zal er niets worden gedaan. Als er registers zijn\nopgegeven in de expressie dan zullen de waarden in die registers gebruikt\nworden op het moment dat de checkpunt wordt onderzocht, niet op het moment\ndat de conditie is opgegeven.\nDe conditie kan gebruik maken van registers (A, X, Y, PC, SP, FL en andere\nspecifieke registers (zie handleiding) en kan ze vergelijken\n (==, !=, <, >, <=, >=) met andere registers of constanten\nRegisters kunnen de registers van andere apparaten zijn; de manier van opgeven\nis door een geheugenruimte prefix (bijvoorbeeld: c:, 8:, 9:, 10:, 11:\nVoorbeelden: A == 0, X == Y, 8:X == X\n"
 
 #: src/translate_text.c.po.c:2135
 msgid ""
 "Disable checkpoint `checknum'. If no checkpoint is given all checkpoints "
 "will be disabled."
-msgstr ""
-"Checkpunt 'checknum' uitschakelen. Als er geen checkpunt is gegeven dan "
-"worden alle checkpunten uitgeschakelt."
+msgstr "Checkpunt 'checknum' uitschakelen. Als er geen checkpunt is gegeven, worden alle checkpunten uitgeschakeld."
 
 #: src/translate_text.c.po.c:2152
 msgid ""
 "Enable checkpoint `checknum'. If no checkpoint is given all checkpoints will "
 "be enabled."
-msgstr ""
-"Activeer checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden "
-"alle checkpunter geactiveert"
+msgstr "Activeer checkpunt 'checknum'. Als er geen checkpunt is gegeven, worden alle checkpunter geactiveerd."
 
 #: src/translate_text.c.po.c:2169
 msgid ""
 "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
 "the default value is 1."
-msgstr ""
-"Negeer een checkpunt een opgegeven aantal keer. Als er geen aantal is\n"
-"opgegeven dan wordt de standaard waarde van 1 worden gebruikt."
+msgstr "Negeer een checkpunt een opgegeven aantal keer. Als er geen aantal is\nopgegeven, wordt de standaard waarde van 1 gebruikt."
 
 #: src/translate_text.c.po.c:2186
 msgid ""
@@ -10690,12 +10583,7 @@ msgid ""
 "If an address is given, a temporary breakpoint is set for that address\n"
 "and the breakpoint number is printed.  Control is returned to the\n"
 "emulator by this command.  The breakpoint is deleted once it is hit."
-msgstr ""
-"Als er geen adres is opgegeven dan zullen de huidig geldige breekpunten\n"
-"worden geprint. Als er een adres is opgegeven dan wordt er een tijdelijk\n"
-"breekpunt worden gezet voor dat adres en het breekpunt nummer zal worden\n"
-"getoond. Na het geven van dit commando zal er terug worden gegaan naar de\n"
-"emulator. Het breekpunt zal worden verwijdert na het uitvoeren."
+msgstr "Als er geen adres is opgegeven, zullen de huidig geldige breekpunten\nworden geprint. Als er een adres is opgegeven, wordt er een tijdelijk\nbreekpunt gezet voor dat adres en het breekpunt nummer zal worden\ngetoond. Na het geven van dit commando zal er teruggekeerd worden naar de\nemulator. Het breekpunt zal worden verwijderd na het uitvoeren."
 
 #: src/translate_text.c.po.c:2205
 msgid ""
@@ -10706,15 +10594,7 @@ msgid ""
 "`load|store|exec' is either `load', `store' or `exec' (or any combina-\n"
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor breaks on `load' and `store'.\n"
-msgstr ""
-"Zet een kijkpunt. Als er geen adres is opgegeven dan zal de huidige\n"
-"geldige kijkpunten worden getoont. Als er een enkel adres is opgegeven\n"
-"dan zal er een kijkpunt worden gezet voor dat adres. Als er twee\n"
-"adressen zijn opgegeven dan zal er een kijkpunt worden gezet voor de\n"
-"adressen tussen de twee adressen.\n"
-"`load|store|exec' is `load',  `store' of `exec' om aan te geven bij\n"
-"welke operatie de monitor zou moeten starten. Als deze niet opgegeven\n"
-"is dan zal de monitor starten bij `load' en `store' operaties.\n"
+msgstr "Zet een kijkpunt. Als er geen adres is opgegeven, zullen de huidige\ngeldige kijkpunten worden getoond. Als er een enkel adres is opgegeven,\nzal er een kijkpunt worden gezet voor dat adres. Als er twee\nadressen zijn opgegeven, zal er een kijkpunt worden gezet voor de\nadressen tussen de twee adressen.\n`load|store|exec' is `load',  `store' of `exec' om aan te geven bij\nwelke operatie de monitor zou moeten starten. Als deze niet opgegeven\nis, zal de monitor starten bij `load' en `store' operaties.\n"
 
 #: src/translate_text.c.po.c:2224
 msgid ""
@@ -10725,27 +10605,17 @@ msgid ""
 "`load|store|exec' is either `load', `store' or `exec' (or any combina-\n"
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor traces all three operations.\n"
-msgstr ""
-"Zet een traceerpunt. Als er geen adres is opgegeven dan zullen de huidige\n"
-"geldige traceerpunten worden getoont. Als er een enkel adres is opgegeven\n"
-"dan zal er een traceerpunt worden gezet voor dat adres. Als er twee\n"
-"adressen zijn opgegeven dan zal er een traceerpunt worden gezet voor de\n"
-"adressen tussen de twee adressen.\n"
-"`load|store|exec' is `load', `store' of 'exec' om aan te geven bij welke\n"
-"operatie de monitor zou moeten starten. Als deze niet opgegeven is dan zal\n"
-"de monitor starten bij alle operaties.\n"
+msgstr "Zet een traceerpunt. Als er geen adres is opgegeven, zullen de huidige\ngeldige traceerpunten worden getoond. Als er een enkel adres is opgegeven,\nzal er een traceerpunt worden gezet voor dat adres. Als er twee\nadressen zijn opgegeven, zal er een traceerpunt worden gezet voor de\nadressen tussen de twee adressen.\n`load|store|exec' is `load', `store' of 'exec' om aan te geven bij welke\noperatie de monitor zou moeten starten. Als deze niet opgegeven is, zal\nde monitor starten bij alle operaties.\n"
 
 #: src/translate_text.c.po.c:2241
 msgid "Monitor state commands"
-msgstr "Monitor status commandos"
+msgstr "Monitor status commando's"
 
 #: src/translate_text.c.po.c:2258
 msgid ""
 "Set the default memory device to either the computer `c:' or the\n"
 "specified disk drive (`8:', `9:')."
-msgstr ""
-"Zet de standaard geheugen apparaat naar of de computer `c:' of de\n"
-"opgegeven disk drive (`8:', `9:')."
+msgstr "Zet het standaard geheugen apparaat naar óf de computer `c:' óf de\nopgegeven disk drive (`8:', `9:')."
 
 #: src/translate_text.c.po.c:2275
 msgid "Leave the monitor and return to execution."
@@ -10759,9 +10629,7 @@ msgstr "Onmiddelijk de emulator afsluiten."
 msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
-msgstr ""
-"Zet de standaard radix naar hex, decimaal, octaal of binair. Als er\n"
-"geen parameter is opgegeven dan zal de huidige radix worden getoond."
+msgstr "Zet de standaard radix naar hex, decimaal, octaal of binair. Als er\ngeen parameter is opgegeven, zal de huidige radix worden getoond."
 
 #: src/translate_text.c.po.c:2326
 msgid ""
@@ -10770,17 +10638,11 @@ msgid ""
 "side-effects.  If the argument is 'off' then reads don't cause\n"
 "side-effects.  If the argument is 'toggle' then the current mode is\n"
 "switched.  No argument displays the current state."
-msgstr ""
-"Geef aan hoe de lees acties van de monitor de geheugen locaties met lees\n"
-"bij-effecten beinvloed. Als de parameter 'off' is dan zullen lees acties\n"
-"geen bij-effecten vertonen. Als de parameter 'on' is dan zullen lees\n"
-"acties bij-effecten vertonen. Als de parameter 'toggle' is dan zal de\n"
-"huidige modus worden geschakeld. Als er geen parameter is dan zal de\n"
-"huidige modus worden getoond."
+msgstr "Geef aan hoe de lees acties van de monitor de geheugen locaties met lees\nbij-effecten beïnvloedt. Als de parameter 'off' is, zullen lees acties\ngeen bij-effecten vertonen. Als de parameter 'on' is, zullen lees\nacties bij-effecten vertonen. Als de parameter 'toggle' is, zal de\nhuidige modus worden gewisseld. Als er geen parameter is, zal de\nhuidige modus worden getoond."
 
 #: src/translate_text.c.po.c:2343
 msgid "Disk commands"
-msgstr "Disk commandos"
+msgstr "Disk commando's"
 
 #: src/translate_text.c.po.c:2360
 msgid "disk command"
@@ -10790,11 +10652,7 @@ msgstr "disk commando"
 msgid ""
 "Perform a disk command on the currently attached disk image on drive 8.\n"
 "The specified disk command is sent to the drive's channel #15."
-msgstr ""
-"Doe een disk commando operatie op de huidig gekoppelde disk bestand in "
-"drive\n"
-"8, Het opgegeven disk commando zal worden gestuurt naar kanaal #15 van de\n"
-"drive."
+msgstr "Voer een disk commando uit op het huidig gekoppeld disk bestand in drive\n8, Het opgegeven disk commando zal worden gestuurd naar kanaal #15 van de\ndrive."
 
 #: src/translate_text.c.po.c:2394 src/translate_text.c.po.c:15074
 msgid "device"
@@ -10820,10 +10678,7 @@ msgstr "Koppel bestand aan apparaat. (apparaat 32 = cart"
 msgid ""
 "Load the specified file into memory at the specified address.\n"
 "If device is 0, the file is read from the file system."
-msgstr ""
-"Laad het opgegeven bestand naar het geheugen met het opgegeven adres.\n"
-"Als het apparaat 0 is dan zal het bestand van het bestandssysteem\n"
-"worden geladen."
+msgstr "Laad het opgegeven bestand naar het geheugen met het opgegeven adres.\nAls het apparaat 0 is, zal het bestand van het bestandssysteem\nworden geladen."
 
 #: src/translate_text.c.po.c:2496
 msgid "track"
@@ -10838,32 +10693,23 @@ msgid ""
 "Read the block at the specified track and sector.  If an address is\n"
 "specified, the data is loaded into memory.  If no address is given, the\n"
 "data is displayed using the default datatype."
-msgstr ""
-"Lees het blok van de opgegeven spoor en sector. Als er een adres is\n"
-"opgegeven dan zal de data naar dat adres in geheugen worden geladen.\n"
-"Als er geen adres is opgegeven dan zal de data worder getoond met de\n"
-"huidige datasoort."
+msgstr "Lees het blok van het opgegeven spoor en sector. Als er een adres is\nopgegeven, zal de data naar dat adres in het geheugen worden geladen.\nAls er geen adres is opgegeven, zal de data worden getoond met de\nhuidige datasoort."
 
 #: src/translate_text.c.po.c:2547
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "If device is 0, the file is written to the file system."
-msgstr ""
-"Sla het geheugen tussen adres1 en adres2 op naar het opgegeven bestand.\n"
-"Als het apparaat 0 is dan zal het bestand naar het bestandssysteem worden\n"
-"geschreven."
+msgstr "Sla het geheugen tussen adres1 en adres2 op naar het opgegeven bestand.\nAls het apparaat 0 is, zal het bestand naar het bestandssysteem worden\ngeschreven."
 
 #: src/translate_text.c.po.c:2564
 msgid ""
 "Write a block of data at `address' on the specified track and sector\n"
 "of disk in drive 8."
-msgstr ""
-"Schrijf een data blok van `adres' naar de opgegeven spoor en sector van\n"
-"de disk in drive 8."
+msgstr "Schrijf een data blok van `adres' naar het opgegeven spoor en sector van\nde disk in drive 8."
 
 #: src/translate_text.c.po.c:2615
 msgid "Change current working directory."
-msgstr "Verander de huidige werk directory"
+msgstr "Verander de huidige werkmap."
 
 #: src/translate_text.c.po.c:2632
 msgid "Detach file from device. (device 32 = cart)"
@@ -10871,7 +10717,7 @@ msgstr "Ontkoppel bestand van apparaat. (apparaat 32 = cart)"
 
 #: src/translate_text.c.po.c:2649
 msgid "Display the directory contents."
-msgstr "Toon de directory inhoud."
+msgstr "Toon de mapinhoud."
 
 #: src/translate_text.c.po.c:2666
 msgid "List disk contents."
@@ -10884,32 +10730,22 @@ msgid ""
 "Use (otherwise ignored) two-byte load address from file if no address\n"
 "specified.\n"
 "If device is 0, the file is read from the file system."
-msgstr ""
-"Laad het opgegeven bestand naar geheugen op het opgegeven adres. Zet de "
-"BASIC\n"
-"start en eind indicators correct als het bestand naar het computer geheugen\n"
-"geladen wordt (niet alle emulatoren). De eerste twee bytes van het bestand\n"
-"zullen als laad adres worden gebruikt als er geen adres is opgegeven. Als\n"
-"het apparaat 0 is dan zal het bestand van het bestandssysteem worden geladen."
+msgstr "Laad het opgegeven bestand naar het geheugen op het opgegeven adres. Zet de BASIC\nstart en eind indicators correct als het bestand naar het computer geheugen\ngeladen wordt (niet alle emulatoren). De eerste twee bytes van het bestand\nzullen als laad adres worden gebruikt als er geen adres is opgegeven. Als\nhet apparaat 0 is, zal het bestand van het bestandssysteem worden geladen."
 
 #: src/translate_text.c.po.c:2700
 msgid "Show current working directory."
-msgstr "Toon de huidige werk directory."
+msgstr "Toon de huidige werkmap."
 
 #: src/translate_text.c.po.c:2717
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "Write two-byte load address.\n"
 "If device is 0, the file is written to the file system."
-msgstr ""
-"Sla het geheugen tussen adres1 en adres2 op naar het opgegeven bestand.\n"
-"Schrijf een load adres van twee bytes.\n"
-"Als het apparaat 0 is dan zal het bestand geschreven worden naar het\n"
-"bestandssysteem."
+msgstr "Sla het geheugen tussen adres1 en adres2 op naar het opgegeven bestand.\nSchrijf een laad adres van twee bytes.\nAls het apparaat 0 is, zal het bestand geschreven worden naar het\nbestandssysteem."
 
 #: src/translate_text.c.po.c:2734
 msgid "Other commands"
-msgstr "Andere commandos"
+msgstr "Andere commando's"
 
 #: src/translate_text.c.po.c:2751
 msgid "Display the specified number in decimal, hex, octal and binary."
@@ -10923,27 +10759,21 @@ msgstr "Gebruik cartridge freeze."
 msgid ""
 "If no argument is given, prints out a list of all available commands\n"
 "If an argument is given, prints out specific help for that command."
-msgstr ""
-"Als er geen parameter is opgegeven dan zal een lijst van alle commandos\n"
-"worden weergegeven. Als er een parameter is opgegeven dan zal de help voor\n"
-"het opgegeven command worden weergegeven."
+msgstr "Als er geen parameter is opgegeven, zal een lijst van alle commandos\nworden weergegeven. Als er een parameter is opgegeven, zal de help voor\nhet opgegeven commando worden weergegeven."
 
 #: src/translate_text.c.po.c:2802 src/translate_text.c.po.c:16322
 msgid "string"
-msgstr "string"
+msgstr "tekenreeks"
 
 #: src/translate_text.c.po.c:2819 src/translate_text.c.po.c:16339
 msgid "Put the specified string into the keyboard buffer."
-msgstr "Plaats de opgegeven string in de toetsenbordbuffer."
+msgstr "Plaats de opgegeven tekenreeks in de toetsenbordbuffer."
 
 #: src/translate_text.c.po.c:2836
 msgid ""
 "Monitor commands from the specified file are read and executed.  This\n"
 "command stops at the end of file or when a STOP command is read."
-msgstr ""
-"Monitor commandos van het opgegeven bestand zullen worden gelezen en\n"
-"uitgevoerd. Dit commando stopt aan het einde van het bestand of wanneer\n"
-"een STOP commando wordt gelezen."
+msgstr "Monitor commando's van het opgegeven bestand zullen worden gelezen en\nuitgevoerd. Dit commando stopt aan het einde van het bestand of wanneer\neen STOP commando wordt gelezen."
 
 #: src/translate_text.c.po.c:2853
 msgid "expression"
@@ -10957,9 +10787,7 @@ msgstr "Evalueer de opgegeven expressie en toon het resultaat."
 msgid ""
 "After this command, all commands entered are written to the specified\n"
 "file until the STOP command is entered."
-msgstr ""
-"Na dit commando zullen alle opgegeven commandos worden geschreven naar\n"
-"het opgegeven bestand totdat het STOP command wordt opgegeven."
+msgstr "Na dit commando zullen alle opgegeven commando's worden geschreven naar\nhet opgegeven bestand totdat het STOP commando wordt opgegeven."
 
 #: src/translate_text.c.po.c:2904
 msgid "resource"
@@ -10967,7 +10795,7 @@ msgstr "bron"
 
 #: src/translate_text.c.po.c:2921
 msgid "Displays the value of the resource."
-msgstr "Toont de waarde van de resource."
+msgstr "Toont de waarde van de bron."
 
 #: src/translate_text.c.po.c:2938 src/translate_text.c.po.c:9684
 msgid "value"
@@ -10975,7 +10803,7 @@ msgstr "waarde"
 
 #: src/translate_text.c.po.c:2955
 msgid "Sets the value of the resource."
-msgstr "Plaats de waarde in de resource."
+msgstr "Stel de waarde in van de bron."
 
 #: src/translate_text.c.po.c:2972
 msgid "Loads resources from file."
@@ -10987,7 +10815,7 @@ msgstr "Sla instellingen op naar bestand"
 
 #: src/translate_text.c.po.c:3006
 msgid "Stop recording commands.  See `record'."
-msgstr "Stop de opname van commandos. Zie 'record'."
+msgstr "Stop de opname van commando's. Zie 'record'."
 
 #: src/translate_text.c.po.c:3023
 msgid ""
@@ -11002,10 +10830,7 @@ msgid ""
 "Control the datasette. Valid commands:\n"
 "0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
 "5 = reset, 6 = reset counter."
-msgstr ""
-"Geef datasette commandos. Geldige commandos:\n"
-"0 = stop, 1 = start, 2 = vooruit, 3 = terug, 4 = opnemen,\n"
-"5 = reset, 6 = reset teller."
+msgstr "Geef datasette commando's. Geldige commandos:\n0 = stop, 1 = start, 2 = vooruit, 3 = terug, 4 = opnemen,\n5 = reset, 6 = reset teller."
 
 #: src/translate_text.c.po.c:3057
 msgid "Control port"
@@ -11034,32 +10859,29 @@ msgstr "Userport joystick adapter poort 2"
 #: src/translate_text.c.po.c:3159
 #, c-format
 msgid "Selected port (%d) is not present on this emulator"
-msgstr "Geselelecteerde poort (%d) is niet aanwezig in deze emulator"
+msgstr "Geselecteerd spel connector apparaat %s op %s is al gekoppeld aan %s"
 
 #: src/translate_text.c.po.c:3176
 #, c-format
 msgid "Selected control port device %d is not registered"
-msgstr "Geselelecteerde spel connector apparaat %d is niet geregistreerd"
+msgstr "Geselelecteerd spel connector apparaat %d is niet geregistreerd"
 
 #: src/translate_text.c.po.c:3193
 #, c-format
 msgid "Selected control port device %s on %s is already attached to %s"
-msgstr "Geselecteerde spel connector apparaat %s op %s is al gekoppelt aan %s"
+msgstr "Geselecteerd spel connector apparaat %s op %s is al gekoppeld aan %s"
 
 #: src/translate_text.c.po.c:3210
 #, c-format
 msgid ""
 "Selected control port device %s on %s uses same host input resource (%s) as "
 "the device attached to %s"
-msgstr ""
-"Geselecteerde spel connector apparaat %s op %s gebruikt dezelfde fyskieke "
-"invoer instelling (%s) als het apparaat gekoppelt aan %s"
+msgstr "Geselecteerd spel connector apparaat %s op %s gebruikt dezelfde fyskieke invoer instelling (%s) als het apparaat dat gekoppeld is aan %s"
 
 #: src/translate_text.c.po.c:3227
 #, c-format
 msgid "Selected control port device %s cannot be attached to %s"
-msgstr ""
-"Geselecteerde spel connector apparaat %s kan niet worden gekoppelt aan %s"
+msgstr "Geselecteerd spel connector apparaat %s kan niet worden gekoppeld aan %s"
 
 #: src/translate_text.c.po.c:3245
 msgid "host mouse"
@@ -11123,11 +10945,11 @@ msgstr "Paperclip64 dongle"
 
 #: src/translate_text.c.po.c:3534
 msgid "Light Pen (up trigger)"
-msgstr "Lightpen (omhoog activeren)"
+msgstr "Light Pen (up trigger)"
 
 #: src/translate_text.c.po.c:3551
 msgid "Light Pen (left trigger)"
-msgstr "Lichtpen (links activeren)"
+msgstr "Light Pen (left trigger)"
 
 #: src/translate_text.c.po.c:3568
 msgid "Datel Light Pen"
@@ -11383,7 +11205,7 @@ msgstr "Activeer keyset"
 
 #: src/translate_text.c.po.c:4539
 msgid "Disable keyset"
-msgstr "Keyset uitschakelen"
+msgstr "Deactiveer keyset"
 
 #: src/translate_text.c.po.c:4556
 msgid "On autostart, load to BASIC start (without ',1')"
@@ -11395,9 +11217,7 @@ msgstr "Bij autostarten, laad met ',1'"
 
 #: src/translate_text.c.po.c:4590
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
-msgstr ""
-"Bij het autostarten, gebruik het 'RUN' commando met een dubbele punt, dus "
-"'RUN:'"
+msgstr "Bij het autostarten, gebruik het 'RUN' commando zonder dubbele punt, dus 'RUN'"
 
 #: src/translate_text.c.po.c:4607
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
@@ -11407,7 +11227,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:4641
 msgid "Do not handle True Drive Emulation on autostart"
-msgstr "Geen manipulatie van de hardwarematige drive emulatie bij autostarten"
+msgstr "Hanteer geen hardwarematige drive emulatie bij autostarten"
 
 #: src/translate_text.c.po.c:4658
 msgid "Enable warp mode during autostart"
@@ -11415,7 +11235,7 @@ msgstr "Activeer warp modus tijdens autostarten"
 
 #: src/translate_text.c.po.c:4675
 msgid "Disable warp mode during autostart"
-msgstr "Warp modus tijdens autostarten uitschakelen"
+msgstr "Deactiveer warp modus tijdens autostarten"
 
 #: src/translate_text.c.po.c:4692
 msgid ""
@@ -11440,7 +11260,7 @@ msgstr "Activeer willekeurige vertraging bij begin van het autostarten."
 
 #: src/translate_text.c.po.c:4760
 msgid "Disable random initial autostart delay."
-msgstr "Willekeurige vertraging bij begin van het uitostarten uitschakelen."
+msgstr "Deactiveer willekeurige vertraging bij begin van het autostarten."
 
 #: src/translate_text.c.po.c:4777
 msgid "Enable VFLI modification."
@@ -11448,33 +11268,29 @@ msgstr "Activeer VFLI modificatie"
 
 #: src/translate_text.c.po.c:4794
 msgid "Disable VFLI modification."
-msgstr "VFLI modificatie uitschakelen"
+msgstr "Deactiveer VFLI modificatie"
 
 #: src/translate_text.c.po.c:4811
 msgid ""
 "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard "
 "Reset, 5: Quit Emulator)"
-msgstr ""
-"Geef de actie op die gedaan moet worden bij een CPU JAM: (0: Vraag, 1: door "
-"gaan, 2: Monitor, 3: Reset, 4: Harde Reset, 5: Emulator uitschakelen)"
+msgstr "Geef de actie op bij een CPU JAM: (0: Vraag, 1: Doorgaan, 2: Monitor, 3: Reset, 4: Harde Reset, 5: Emulator uitschakelen)"
 
 #: src/translate_text.c.po.c:4828
 msgid "Set name of screenshot to save when emulator exits."
-msgstr ""
-"Geef de naam van het scherm afdruk at wordt opgeslagen wanneer de emulator "
-"wordt afgesloten."
+msgstr "Geef de naam op van de schermafdruk die wordt opgeslagen wanneer de emulator wordt afgesloten."
 
 #: src/translate_text.c.po.c:4845
 msgid "Use PAL sync factor"
-msgstr "Gebruik PAL synchronisatiefaktor"
+msgstr "Gebruik PAL synchronisatiefactor"
 
 #: src/translate_text.c.po.c:4862
 msgid "Use NTSC sync factor"
-msgstr "Gebruik NTSC synchronisatiefaktor"
+msgstr "Gebruik NTSC synchronisatiefactor"
 
 #: src/translate_text.c.po.c:4879
 msgid "Use PAL-N sync factor"
-msgstr "Gebruik PAL-N synchronisatiefaktor"
+msgstr "Gebruik PAL-N synchronisatiefactor"
 
 #: src/translate_text.c.po.c:4896
 msgid "Burst modification (0 = None, 1 = CIA1, 2 = CIA2)"
@@ -11514,7 +11330,7 @@ msgstr "Geef de naam van het Zweedse Kernal ROM bestand"
 
 #: src/translate_text.c.po.c:5066
 msgid "Specify name of Swiss Kernal ROM image"
-msgstr "Geef de naam van het Zwitse Kernal ROM bestand"
+msgstr "Geef de naam van het Zwitserse Kernal ROM bestand"
 
 #: src/translate_text.c.po.c:5083
 msgid "Specify name of BASIC ROM image (lower part)"
@@ -11554,7 +11370,7 @@ msgstr "Activeer de OEM userport joystick adapter"
 
 #: src/translate_text.c.po.c:5253
 msgid "Disable the OEM userport joystick adapter"
-msgstr "De OEM userport joystick adapter uitschakelen"
+msgstr "Deactiveer de OEM userport joystick adapter"
 
 #: src/translate_text.c.po.c:5270 src/translate_text.c.po.c:6214
 msgid "Enable the IEEE488 interface emulation"
@@ -11562,7 +11378,7 @@ msgstr "Activeer de IEEE488 interface emulatie"
 
 #: src/translate_text.c.po.c:5287 src/translate_text.c.po.c:6231
 msgid "Disable the IEEE488 interface emulation"
-msgstr "De IEEE488 interface emulatie uitschakelen"
+msgstr "Deactiveer de IEEE488 interface emulatie"
 
 #: src/translate_text.c.po.c:5321
 msgid ""
@@ -11574,7 +11390,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:5356
 msgid "Disable the ACIA RS232 interface emulation"
-msgstr "De ACIA RS232 interface emulatie aflsuiten"
+msgstr "Deactiveer de ACIA RS232 interface emulatie"
 
 #: src/translate_text.c.po.c:5373
 msgid "interrupt"
@@ -11590,7 +11406,7 @@ msgstr "Zet de ACIA modus (0: normaal, 1: Swiftlink, 2: Turbo232)"
 
 #: src/translate_text.c.po.c:5424
 msgid "Set the base address of the ACIA cartridge"
-msgstr "Zet de basisadres van de ACIA cartridge"
+msgstr "Zet het basisadres van de ACIA cartridge"
 
 #: src/translate_text.c.po.c:5443
 msgid "Enable the ACIA emulation"
@@ -11598,7 +11414,7 @@ msgstr "Activeer de ACIA emulatie"
 
 #: src/translate_text.c.po.c:5460
 msgid "Disable the ACIA emulation"
-msgstr "De ACIA emulatie uitschakelen"
+msgstr "Deactiveer de ACIA emulatie"
 
 #: src/translate_text.c.po.c:5495
 msgid ""
@@ -11658,17 +11474,15 @@ msgstr "Activeer het opslaan van de interne functie RTC data indien gewijzigd"
 
 #: src/translate_text.c.po.c:5736
 msgid "Disable saving of the internal function RTC data when changed."
-msgstr ""
-"Oplaan van de interne functie RTC data op indien gewijzigd uitschakelen"
+msgstr "Deactiveer oplaan van de interne functie RTC data op indien gewijzigd."
 
 #: src/translate_text.c.po.c:5753
 msgid "Enable saving of the external function RTC data when changed."
-msgstr "Activeer het opslaan van de externe functie RTC data indien gewijzigd"
+msgstr "Activeer het opslaan van de externe functie RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:5770
 msgid "Disable saving of the external function RTC data when changed."
-msgstr ""
-"Oplaan van de externe functie RTC data op indien gewijzigd uitschakelen"
+msgstr "Deactiveer oplaan van de externe functie RTC data op indien gewijzigd."
 
 #: src/translate_text.c.po.c:5787
 msgid "Use old NTSC sync factor"
@@ -11714,7 +11528,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:5957
 msgid "Disable RAM banks 2 and 3"
-msgstr "RAM bank 2 en 3 uitschakelen"
+msgstr "Deactiveer RAM bank 2 en 3"
 
 #: src/translate_text.c.po.c:5974
 msgid ""
@@ -11758,33 +11572,25 @@ msgstr "Geef de naam van het symbolische Duitse keymapbestand"
 
 #: src/translate_text.c.po.c:6129
 msgid "Set glue logic type (0 = discrete, 1 = 252535-01)"
-msgstr "Zet lijk logica soort (0 = discreet, 1 = 252535-01)"
+msgstr "Zet glue logic type (0 = discreet, 1 = 252535-01)"
 
 #: src/translate_text.c.po.c:6163
 msgid "Disable Hummer ADC"
-msgstr "Hummer ADC uitschakelen"
+msgstr "Deactiveer Hummer ADC"
 
 #: src/translate_text.c.po.c:6180
 msgid ""
 "Select the way the I/O collisions should be handled, (0: error message and "
 "detach all involved carts, 1: error message and detach last attached "
 "involved carts, 2: warning in log and 'AND' the valid return values"
-msgstr ""
-"Selecteer de manier waarmee I/O conflicten worden afgehandeld, (0: fout "
-"melding en ontkoppel alle betroffene carridges, 1: fout melding en ontkoppel "
-"alle cartridges behalve de eerste cartrdige, 2: waarschuwing in het log "
-"bestand en doe een logische 'AND' met de terug gegeven waarden"
+msgstr "Selecteer de manier waarop I/O conflicten worden afgehandeld, (0: foutmelding en ontkoppel alle betrokken cartridges, 1: foutmelding en ontkoppel alle cartridges behalve de eerste cartrdige, 2: waarschuwing in het logbestand en doe een logische 'AND' met de teruggegeven waarden"
 
 #: src/translate_text.c.po.c:6197
 msgid ""
 "Select the way the Userport collisions should be handled, (0: error message "
 "and detach all involved devices, 1: error message and detach last attached "
 "involved device, 2: warning in log and 'AND' the valid return values"
-msgstr ""
-"Selecteer de manier waarmee userport conflicten worden afgehandeld, (0: fout "
-"melding en ontkoppel alle betroffene apparaten, 1: fout melding en ontkoppel "
-"alle apparaten behalve het eerste apparaat, 2: waarschuwing in het log "
-"bestand en doe een logische 'AND' met de terug gegeven waarden"
+msgstr "Selecteer de manier waarop userport conflicten worden afgehandeld, (0: foutmelding en ontkoppel alle betrokken apparaten, 1: foutmelding en ontkoppel alle apparaten behalve het eerste apparaat, 2: waarschuwing in het logbestand en doe een logische 'AND' met de teruggegeven waarden"
 
 #: src/translate_text.c.po.c:6248
 msgid "specify IEEE488 interface image name"
@@ -11800,7 +11606,7 @@ msgstr "Activeer het tape log apparaat"
 
 #: src/translate_text.c.po.c:6299
 msgid "Disable the tape log device"
-msgstr "Het tape log apparaat uitschakelen"
+msgstr "Deactiveer het tape log apparaat"
 
 #: src/translate_text.c.po.c:6316
 msgid "Enable logging to a file"
@@ -11808,7 +11614,7 @@ msgstr "Activeer schrijven naar een bestand"
 
 #: src/translate_text.c.po.c:6333
 msgid "Enable logging to the emulator log file"
-msgstr "Activeer schrijven naar emulator log bestand"
+msgstr "Activeer schrijven naar het emulator log bestand"
 
 #: src/translate_text.c.po.c:6350
 msgid "Specify tape log file name"
@@ -11816,7 +11622,7 @@ msgstr "Geef de naam van het tape logbestand"
 
 #: src/translate_text.c.po.c:6384
 msgid "Disable the GEO-RAM expansion unit"
-msgstr "De GEO-RAM uitbreidingseenheid uitschakelen"
+msgstr "Deactiveer de GEO-RAM uitbreidingseenheid"
 
 #: src/translate_text.c.po.c:6401
 msgid "Specify name of GEORAM image"
@@ -11871,7 +11677,7 @@ msgstr "Grootte van de GEORAM uitbreidingseenheid"
 
 #: src/translate_text.c.po.c:6622
 msgid "Disable the PET Ram and Expansion Unit"
-msgstr "De PET RAM en uitbreidingseenheid uitschakelen"
+msgstr "Deactiveer de PET RAM en uitbreidingseenheid"
 
 #: src/translate_text.c.po.c:6639
 msgid "Specify name of PET Ram and Expansion Unit image"
@@ -11887,11 +11693,11 @@ msgstr "Geef de naam van het PET DWW bestand"
 
 #: src/translate_text.c.po.c:6707
 msgid "Disable the PET DWW hi-res board"
-msgstr "Het PET DWW hi-res bord uitschakelen"
+msgstr "Deactiveer het PET DWW hi-res bord"
 
 #: src/translate_text.c.po.c:6741
 msgid "Disable Userport DAC for sound output"
-msgstr "Userport DAC voor geluidsuitvoer uitschakelen"
+msgstr "Deactiveer Userport DAC voor geluidsuitvoer"
 
 #: src/translate_text.c.po.c:6758
 msgid "Enable Userport joystick adapter"
@@ -11899,7 +11705,7 @@ msgstr "Activeer Userport joystick adapter"
 
 #: src/translate_text.c.po.c:6775
 msgid "Disable Userport joystick adapter"
-msgstr "De Userport joystick adapter uitschakelen"
+msgstr "Deactiveer de Userport joystick adapter"
 
 #: src/translate_text.c.po.c:6792
 msgid ""
@@ -11915,7 +11721,7 @@ msgstr "Activeer de Userport RTC (58321a)"
 
 #: src/translate_text.c.po.c:6826
 msgid "Disable Userport RTC (58321a)"
-msgstr "De Userport RTC (58321a) uitschakelen"
+msgstr "Deactiveer de Userport RTC (58321a)"
 
 #: src/translate_text.c.po.c:6843
 msgid "Enable saving of the Userport RTC (58321a) data when changed."
@@ -11923,8 +11729,7 @@ msgstr "Activeer opslaan van de Userport RTC (58321a) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6860
 msgid "Disable saving of the Userport RTC (58321a) data when changed."
-msgstr ""
-"Opslaan van de Userport RTC (58321a) data indien gewijzigd uitschakelen."
+msgstr "Deactiveer opslaan van de Userport RTC (58321a) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6877
 msgid "Enable Userport RTC (DS1307)"
@@ -11932,7 +11737,7 @@ msgstr "Activeer de Userport RTC (DS1307)"
 
 #: src/translate_text.c.po.c:6894
 msgid "Disable Userport RTC (DS1307)"
-msgstr "De Userport RTC (DS1307) uitschakelen"
+msgstr "Deactiveer de Userport RTC (DS1307)"
 
 #: src/translate_text.c.po.c:6911
 msgid "Enable saving of the Userport RTC (DS1307) data when changed."
@@ -11940,8 +11745,7 @@ msgstr "Activeer opslaan van de Userport RTC (DS1307) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6928
 msgid "Disable saving of the Userport RTC (DS1307) data when changed."
-msgstr ""
-"Opslaan van de Userport RTC (DS1307) data indien gewijzigd uitschakelen."
+msgstr "Deactiveer opslaan van de Userport RTC (DS1307) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6945
 msgid "Enable saving of the BBRTC data when changed."
@@ -11949,11 +11753,11 @@ msgstr "Activeer opslaan van de BBRTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6962
 msgid "Disable saving of the BBRTC data when changed."
-msgstr "Opslaan van de BBRTC data indien gewijzigd uitschakelen."
+msgstr "Deactiveer opslaan van de BBRTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:6996
 msgid "Disable tape sense dongle"
-msgstr "De tape sense dongle uitschakelen"
+msgstr "Deactiveer de tape sense dongle"
 
 #: src/translate_text.c.po.c:7047
 msgid "Enable CP Clock F83 (PCF8583 RTC)"
@@ -11961,7 +11765,7 @@ msgstr "Activeer de CP Clock F83 (PCF8583 RTC)"
 
 #: src/translate_text.c.po.c:7064
 msgid "Disable CP Clock F83 (PCF8583 RTC)"
-msgstr "De CP Clock F83 (PCF8583 RTC) uitschakelen"
+msgstr "Deactiveer de CP Clock F83 (PCF8583 RTC)"
 
 #: src/translate_text.c.po.c:7081
 msgid "Enable saving of the CP Clock F83 (PCF8583 RTC) data when changed."
@@ -11970,8 +11774,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:7098
 msgid "Disable saving of the CP Clock F83 (PCF8583 RTC) data when changed."
-msgstr ""
-"Opslaan van de CP Clock F83 (PCF8583 RTC) data indien gewijzigd uitschakelen."
+msgstr "Deactiveer opslaan van de CP Clock F83 (PCF8583 RTC) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:7115
 msgid "Enable Userport 4bit sampler"
@@ -11979,7 +11782,7 @@ msgstr "Activeer Userport 4bit sampler"
 
 #: src/translate_text.c.po.c:7132
 msgid "Disable Userport 4bit sampler"
-msgstr "De Userport 4bit sampler uitschakelen"
+msgstr "Deactiveer de Userport 4bit sampler"
 
 #: src/translate_text.c.po.c:7149
 msgid "Enable Userport 8bit stereo sampler"
@@ -11987,7 +11790,7 @@ msgstr "Activeer Userport 8bit stereo sampler"
 
 #: src/translate_text.c.po.c:7166
 msgid "Disable Userport 8bit stereo sampler"
-msgstr "De Userport 8bit stereo sampler uitschakelen"
+msgstr "Deactiveer de Userport 8bit stereo sampler"
 
 #: src/translate_text.c.po.c:7183
 msgid "Override PSID settings for Video standard and SID model"
@@ -11999,7 +11802,7 @@ msgstr "Geef PSID deuntje <nummer>"
 
 #: src/translate_text.c.po.c:7234
 msgid "Disable the RamCart expansion"
-msgstr "De RamCart uitbreiding uitschakelen"
+msgstr "Deactiveer de RamCart uitbreiding"
 
 #: src/translate_text.c.po.c:7251
 msgid "Specify name of RAMCART image"
@@ -12007,7 +11810,7 @@ msgstr "Geef de naam van het RAMCART bestand"
 
 #: src/translate_text.c.po.c:7268
 msgid "Allow writing to RAMCart image"
-msgstr "Aktiveer schrijven naar RAMCart bestand"
+msgstr "Sta schrijven naar RAMCart bestand toe"
 
 #: src/translate_text.c.po.c:7285
 msgid "Do not write to RAMCart image"
@@ -12031,11 +11834,11 @@ msgstr "Activeer de Debug cartridge"
 
 #: src/translate_text.c.po.c:7370
 msgid "Disable Debug cartridge"
-msgstr "De Debug cartridge uitschakelen"
+msgstr "Deactiveer de Debug cartridge"
 
 #: src/translate_text.c.po.c:7404
 msgid "Disable Double Quick Brown Box"
-msgstr "De Double Quick Brown Box cartridge uitschakelen"
+msgstr "Deactiveer de Double Quick Brown Box cartridge"
 
 #: src/translate_text.c.po.c:7421
 msgid "Specify Double Quick Brown Box filename"
@@ -12043,7 +11846,7 @@ msgstr "Geef de naam van het Double Quick Brown Box cartridge bestand"
 
 #: src/translate_text.c.po.c:7438
 msgid "Allow writing to DQBB image"
-msgstr "Aktiveer schrijven naar DQBB bestand"
+msgstr "Sta schrijven naar DQBB bestand toe"
 
 #: src/translate_text.c.po.c:7455
 msgid "Do not write to DQBB image"
@@ -12051,7 +11854,7 @@ msgstr "Schrijf niet naar DQBB bestand"
 
 #: src/translate_text.c.po.c:7489
 msgid "Disable the ISEPIC cartridge"
-msgstr "De ISEPIC cartridge uitschakelen"
+msgstr "Deactiveer de ISEPIC cartridge"
 
 #: src/translate_text.c.po.c:7506
 msgid "Enable the ISEPIC switch"
@@ -12059,7 +11862,7 @@ msgstr "Activeer de ISEPIC schakelaar"
 
 #: src/translate_text.c.po.c:7523
 msgid "Disable the ISEPIC switch"
-msgstr "De ISEPIC schakelaar uitschakelen"
+msgstr "Deactiveer de ISEPIC schakelaar"
 
 #: src/translate_text.c.po.c:7540
 msgid "Set ISEPIC image name"
@@ -12067,7 +11870,7 @@ msgstr "Geef de naam op van het ISEPIC cartridge bestand"
 
 #: src/translate_text.c.po.c:7557
 msgid "Allow writing to ISEPIC image"
-msgstr "Aktiveer schrijven naar ISEPIC bestand"
+msgstr "Sta schrijven naar ISEPIC bestand toe"
 
 #: src/translate_text.c.po.c:7574
 msgid "Do not write to ISEPIC image"
@@ -12083,11 +11886,11 @@ msgstr "Activeer de Magic Voice cartridge"
 
 #: src/translate_text.c.po.c:7625
 msgid "Disable the Magic Voice cartridge"
-msgstr "De Magic Voice cartridge uitschakelen"
+msgstr "Deactiveer de Magic Voice cartridge"
 
 #: src/translate_text.c.po.c:7659
 msgid "Disable the MMC64 expansion"
-msgstr "De MMC64 uitbreiding uitschakelen"
+msgstr "Deactiveer de MMC64 uitbreiding"
 
 #: src/translate_text.c.po.c:7676
 msgid "Specify name of MMC64 BIOS image"
@@ -12160,7 +11963,7 @@ msgstr "Aktiveer schrijven naar MMC Replay card bestand"
 
 #: src/translate_text.c.po.c:7965
 msgid "Disable writes to MMC Replay card image"
-msgstr "Schrijven naar het MMC Replay card bestand uitschakelen"
+msgstr "Deactiveer schrijven naar het MMC Replay card bestand"
 
 #: src/translate_text.c.po.c:7982
 msgid "Specify MMC Replay EEPROM image filename"
@@ -12168,7 +11971,7 @@ msgstr "Geef de naam van het MMC Replay EEPROM bestand"
 
 #: src/translate_text.c.po.c:8016
 msgid "Disable writes to MMC Replay EEPROM image"
-msgstr "Schrijven naar MMC Replay EEPROM bestand uitschakelen"
+msgstr "Deactiveer schrijven naar MMC Replay EEPROM bestand"
 
 #: src/translate_text.c.po.c:8033
 msgid "Enable MMC Replay rescue mode"
@@ -12176,11 +11979,11 @@ msgstr "Activeer MMC Replay reddingsmodus"
 
 #: src/translate_text.c.po.c:8050
 msgid "Disable MMC Replay rescue mode"
-msgstr "MMC Replay reddingsmodus uitschakelen"
+msgstr "Deactiveer MMC Replay reddingsmodus"
 
 #: src/translate_text.c.po.c:8067
 msgid "Allow writing to MMC Replay image"
-msgstr "Aktiveer schrijven naar MMC Replay bestand"
+msgstr "Sta schrijven naar MMC Replay bestand toe"
 
 #: src/translate_text.c.po.c:8084
 msgid "Do not write to MMC Replay image"
@@ -12192,7 +11995,7 @@ msgstr "Activeer opslaan van het RR ROM bestand bij afsluiten"
 
 #: src/translate_text.c.po.c:8118
 msgid "Disable saving of the RR ROM at exit"
-msgstr "Uitschakelen van het opslaan van het RR ROM bestand bij afsluiten"
+msgstr "Deactiveer het opslaan van het RR ROM bestand bij afsluiten"
 
 #: src/translate_text.c.po.c:8135
 msgid "Set RR Bank Jumper"
@@ -12200,7 +12003,7 @@ msgstr "Zet RR bank jumper"
 
 #: src/translate_text.c.po.c:8152 src/translate_text.c.po.c:8186
 msgid "Unset RR Bank Jumper"
-msgstr "Zet RR bank jumper niet"
+msgstr "Verwijder RR bank jumper"
 
 #: src/translate_text.c.po.c:8169
 msgid "Set RR Flash Jumper"
@@ -12216,11 +12019,11 @@ msgstr "Activeer de SS 32k RAM uitbreiding"
 
 #: src/translate_text.c.po.c:8237
 msgid "Disable SS 32k RAM expansion"
-msgstr "De SS 32k RAM uitbreiding uitschakelen"
+msgstr "Deactiveer de SS 32k RAM uitbreiding"
 
 #: src/translate_text.c.po.c:8271
 msgid "Disable the RAM Expansion Unit"
-msgstr "De RAM uitbreidingseenheid (REU) uitschakelen"
+msgstr "Deactiveer de RAM uitbreidingseenheid (REU)"
 
 #: src/translate_text.c.po.c:8288
 msgid "Specify name of REU image"
@@ -12228,7 +12031,7 @@ msgstr "Geef de naam van het REU bestand"
 
 #: src/translate_text.c.po.c:8305
 msgid "Allow writing to REU image"
-msgstr "Aktiveer schrijven naar REU bestand"
+msgstr "Sta schrijven naar REU bestand toe"
 
 #: src/translate_text.c.po.c:8322
 msgid "Do not write to REU image"
@@ -12246,7 +12049,7 @@ msgstr "Activeer de TFE (\"The Final Ethernet\") eenheid"
 
 #: src/translate_text.c.po.c:8374
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
-msgstr "De TFE (\"The Final Ethernet\") eenheid uitschakelen"
+msgstr "Deactiveer de TFE (\"The Final Ethernet\") eenheid"
 
 #: src/translate_text.c.po.c:8391
 msgid "Set the system ethernet interface for TFE emulation"
@@ -12258,7 +12061,7 @@ msgstr "Activeer RRNet modus van de TFE emulatie"
 
 #: src/translate_text.c.po.c:8425
 msgid "Disable RRNet mode of TFE emulation"
-msgstr "RRNet modus van de TFE emulatie uitschakelen"
+msgstr "Deactiveer RRNet modus van de TFE emulatie"
 
 #: src/translate_text.c.po.c:8443
 msgid "Reset machine if a cartridge is attached or detached"
@@ -12458,7 +12261,7 @@ msgstr "Koppel binair 512kB Game System cartridge bestand"
 
 #: src/translate_text.c.po.c:9548
 msgid "Disable the Expert Cartridge"
-msgstr "Expert Cartridge uitschakelen"
+msgstr "Deactiveer de Expert Cartridge"
 
 #: src/translate_text.c.po.c:9565
 msgid "Set Expert Cartridge image name"
@@ -12470,7 +12273,7 @@ msgstr "Zet de Expert Cartridge modus (0: uit, 1: prg, 2: aan)"
 
 #: src/translate_text.c.po.c:9599
 msgid "Allow writing to Expert Cartridge image"
-msgstr "Activeer schrijven naar Expert Cartridge bestand"
+msgstr "Sta schrijven naar Expert Cartridge bestand toe"
 
 #: src/translate_text.c.po.c:9616
 msgid "Do not write to Expert Cartridge image"
@@ -12478,7 +12281,7 @@ msgstr "Schrijf niet naar Expert Cartridge bestand"
 
 #: src/translate_text.c.po.c:9633
 msgid "Disable default cartridge"
-msgstr "De standaard cartridge uitschakelen"
+msgstr "Deactiveer de standaard cartridge"
 
 #: src/translate_text.c.po.c:9667
 msgid "Specify name of IDE64 image file"
@@ -12502,11 +12305,11 @@ msgstr "Niet automatisch de grootte van de geformateerde bestanden detecteren"
 
 #: src/translate_text.c.po.c:9786
 msgid "IDE64 cartridge version"
-msgstr "SID cartridge versie"
+msgstr "IDE64 cartridge versie"
 
 #: src/translate_text.c.po.c:9820
 msgid "Disable IDE64 USB server"
-msgstr "IDE64 USB server uitschakelen"
+msgstr "Deactiveer IDE64 USB server"
 
 #: src/translate_text.c.po.c:9837
 msgid "IDE64 USB server address"
@@ -12514,11 +12317,11 @@ msgstr "IDE64 USB server adres"
 
 #: src/translate_text.c.po.c:9854
 msgid "Enable saving of IDE64 RTC data when changed."
-msgstr "Activeer opslaan van de IDE64 RTC data indien gewijzigd"
+msgstr "Activeer opslaan van de IDE64 RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:9871
 msgid "Disable saving of IDE64 RTC data when changed."
-msgstr "Opslaan van de IDE64 RTC data indien gewijzigd uitschakelen"
+msgstr "Deactiveer opslaan van de IDE64 RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:9888
 msgid "modelnumber"
@@ -12578,7 +12381,7 @@ msgstr "Activeer RAM op adres $0800-$0FFF"
 
 #: src/translate_text.c.po.c:10143
 msgid "Disable RAM mapping in $0800-$0FFF"
-msgstr "RAM op adres $0800-$0FFF uitschakelen"
+msgstr "Deactiveer RAM op adres $0800-$0FFF"
 
 #: src/translate_text.c.po.c:10160
 msgid "Enable RAM mapping in $1000-$1FFF"
@@ -12586,7 +12389,7 @@ msgstr "Activeer RAM op adres $1000-$1FFF"
 
 #: src/translate_text.c.po.c:10177
 msgid "Disable RAM mapping in $1000-$1FFF"
-msgstr "RAM op adres $1000-$1FFF uitschakelen"
+msgstr "Deactiveer RAM op adres $1000-$1FFF"
 
 #: src/translate_text.c.po.c:10194
 msgid "Enable RAM mapping in $2000-$3FFF"
@@ -12594,7 +12397,7 @@ msgstr "Activeer RAM op adres $2000-$3FFF"
 
 #: src/translate_text.c.po.c:10211
 msgid "Disable RAM mapping in $2000-$3FFF"
-msgstr "RAM op adres $2000-$3FFF uitschakelen"
+msgstr "Deactiveer RAM op adres $2000-$3FFF"
 
 #: src/translate_text.c.po.c:10228
 msgid "Enable RAM mapping in $4000-$5FFF"
@@ -12602,7 +12405,7 @@ msgstr "Activeer RAM op adres $4000-$5FFF"
 
 #: src/translate_text.c.po.c:10245
 msgid "Disable RAM mapping in $4000-$5FFF"
-msgstr "RAM op adres $4000-$5FFF uitchakelen"
+msgstr "Deactiveer RAM op adres $4000-$5FFF"
 
 #: src/translate_text.c.po.c:10262
 msgid "Enable RAM mapping in $6000-$7FFF"
@@ -12610,7 +12413,7 @@ msgstr "Activeer RAM op adres $6000-$7FFF"
 
 #: src/translate_text.c.po.c:10279
 msgid "Disable RAM mapping in $6000-$7FFF"
-msgstr "RAM op adres $6000-$7FFF uitschakelen"
+msgstr "Deactiveer RAM op adres $6000-$7FFF"
 
 #: src/translate_text.c.po.c:10296
 msgid "Enable RAM mapping in $C000-$CFFF"
@@ -12618,7 +12421,7 @@ msgstr "Activeer RAM op adres $C000-$CFFF"
 
 #: src/translate_text.c.po.c:10313
 msgid "Disable RAM mapping in $C000-$CFFF"
-msgstr "RAM op adres $C000-$CFFF uitschakelen"
+msgstr "Deactiveer RAM op adres $C000-$CFFF"
 
 #: src/translate_text.c.po.c:10331
 msgid ""
@@ -12670,7 +12473,7 @@ msgstr "Activeer hardwarematige emulatie van diskdrives"
 
 #: src/translate_text.c.po.c:10468
 msgid "Disable hardware-level emulation of disk drives"
-msgstr "Hardwarematige emulatie van diskdrives uitschakelen"
+msgstr "Deactiveer hardwarematige emulatie van diskdrives"
 
 #: src/translate_text.c.po.c:10485
 msgid "Enable sound emulation of disk drives"
@@ -12678,7 +12481,7 @@ msgstr "Activeer geluidsemulatie van diskdrives"
 
 #: src/translate_text.c.po.c:10502
 msgid "Disable sound emulation of disk drives"
-msgstr "Geluidsemulatie van diskdrives uitschakelen"
+msgstr "Deactiveer geluidsemulatie van diskdrives"
 
 #: src/translate_text.c.po.c:10519
 msgid "Set volume for disk drive sound emulation (0-4000)"
@@ -12718,12 +12521,7 @@ msgid ""
 "crop left top, 2: crop center top,  3: crop right top, 4: crop left center, "
 "5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center "
 "bottom, 9:  crop right bottom)"
-msgstr ""
-"Selecteer de manier waarop de te grootte invoer moet worden afgehandeld, (0: "
-"maak kleiner, 1: crop linker bovenkant, 2: crop midden bovenkant, 3: crop "
-"rechter bovenkant, 4: crop linker midden, 5: crop midden, 6: crop rechter "
-"midden, 7: crop linker onderkant, 8: crop midden onderkant, 9: crop rechter "
-"onderkant)"
+msgstr "Selecteer de manier waarop de te grote invoer moet worden afgehandeld, (0: maak kleiner, 1: knip linker bovenkant, 2: knip midden bovenkant, 3: knip rechter bovenkant, 4: knip linker midden, 5: knip midden, 6: knip rechter midden, 7: knip linker onderkant, 8: knip midden onderkant, 9: knip rechter onderkant)"
 
 #: src/translate_text.c.po.c:10706
 msgid ""
@@ -12802,7 +12600,7 @@ msgstr "Activeer het opslaan van de FD2000/4000 RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:10961
 msgid "Disable saving of FD2000/4000 RTC data when changed."
-msgstr "Het opslaan van de FD2000/4000 RTC data indien gewijzigd uitschakelen."
+msgstr "Deactiveer het opslaan van de FD2000/4000 RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:10978
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
@@ -12810,7 +12608,7 @@ msgstr "Activeer 8KB RAM uitbreiding op adres $2000-$3FFF"
 
 #: src/translate_text.c.po.c:10995
 msgid "Disable 8KB RAM expansion at $2000-$3FFF"
-msgstr "8KB RAM uitbreiding op adres $2000-$3FFF uitschakelen"
+msgstr "Deactiveer 8KB RAM uitbreiding op adres $2000-$3FFF"
 
 #: src/translate_text.c.po.c:11012
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
@@ -12818,7 +12616,7 @@ msgstr "Activeer 8KB RAM uitbreiding op adres $4000-$5FFF"
 
 #: src/translate_text.c.po.c:11029
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
-msgstr "8KB RAM uitbreiding op adres $4000-$5FFF uitschakelen"
+msgstr "Deactiveer 8KB RAM uitbreiding op adres $4000-$5FFF"
 
 #: src/translate_text.c.po.c:11046
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
@@ -12826,7 +12624,7 @@ msgstr "Activeer 8KB RAM uitbreiding op adres $6000-$7FFF"
 
 #: src/translate_text.c.po.c:11063
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
-msgstr "8KB RAM uitbreiding op adres $6000-$7FFF uitschakelen"
+msgstr "Deactiveer 8KB RAM uitbreiding op adres $6000-$7FFF"
 
 #: src/translate_text.c.po.c:11080
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
@@ -12834,7 +12632,7 @@ msgstr "Activeer 8KB RAM uitbreiding op adres $8000-$9FFF"
 
 #: src/translate_text.c.po.c:11097
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
-msgstr "8KB RAM uitbreiding op adres $8000-$9FFF uitschakelen"
+msgstr "Deactiveer 8KB RAM uitbreiding op adres $8000-$9FFF"
 
 #: src/translate_text.c.po.c:11114
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
@@ -12842,7 +12640,7 @@ msgstr "Activeer 8KB RAM uitbreiding op adres $A000-$BFFF"
 
 #: src/translate_text.c.po.c:11131
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
-msgstr "8KB RAM uitbreiding op adres $A000-$BFFF uitschakelen"
+msgstr "Deactiveer 8KB RAM uitbreiding op adres $A000-$BFFF"
 
 #: src/translate_text.c.po.c:11148
 msgid ""
@@ -12854,7 +12652,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:11182
 msgid "Disable Professional DOS"
-msgstr "Professional DOS uitschakelen"
+msgstr "Deactiveer Professional DOS"
 
 #: src/translate_text.c.po.c:11199
 msgid "Specify name of Professional DOS 1571 ROM image"
@@ -12862,7 +12660,7 @@ msgstr "Geef de naam van het Professional DOS 1571 ROM bestand"
 
 #: src/translate_text.c.po.c:11233
 msgid "Disable SuperCard+"
-msgstr "SuperCard+ uitschakelen"
+msgstr "Deactiveer SuperCard+"
 
 #: src/translate_text.c.po.c:11250
 msgid "Specify name of SuperCard+ ROM image"
@@ -12922,8 +12720,7 @@ msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 8"
 
 #: src/translate_text.c.po.c:11488
 msgid "Disable on-read support for P00 files on drive 8"
-msgstr ""
-"Ondersteuning voor het lezen van P00 bestanden voor drive 8 uitschakelen"
+msgstr "Deactiveer ondersteuning voor het lezen van P00 bestanden voor drive 8"
 
 #: src/translate_text.c.po.c:11505
 msgid "Enable on-read support for P00 files on drive 9"
@@ -12931,8 +12728,7 @@ msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 9"
 
 #: src/translate_text.c.po.c:11522
 msgid "Disable on-read support for P00 files on drive 9"
-msgstr ""
-"Ondersteuning voor het lezen van P00 bestanden voor drive 9 uitschakelen"
+msgstr "Deactiveer ondersteuning voor het lezen van P00 bestanden voor drive 9"
 
 #: src/translate_text.c.po.c:11539
 msgid "Enable on-read support for P00 files on drive 10"
@@ -12940,8 +12736,7 @@ msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 10"
 
 #: src/translate_text.c.po.c:11556
 msgid "Disable on-read support for P00 files on drive 10"
-msgstr ""
-"Ondersteuning voor het lezen van P00 bestanden voor drive 10 uitschakelen"
+msgstr "Deactiveer ondersteuning voor het lezen van P00 bestanden voor drive 10"
 
 #: src/translate_text.c.po.c:11573
 msgid "Enable on-read support for P00 files on drive 11"
@@ -12949,8 +12744,7 @@ msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 11"
 
 #: src/translate_text.c.po.c:11590
 msgid "Disable on-read support for P00 files on drive 11"
-msgstr ""
-"Ondersteuning voor het lezen van P00 bestanden voor drive 11 uitschakelen"
+msgstr "Deactiveer ondersteuning voor het lezen van P00 bestanden voor drive 11"
 
 #: src/translate_text.c.po.c:11607
 msgid "Enable saving of P00 files on drive 8"
@@ -12958,7 +12752,7 @@ msgstr "Activeer opslaan van P00 bestanden voor drive 8"
 
 #: src/translate_text.c.po.c:11624
 msgid "Disable saving of P00 files on drive 8"
-msgstr "Opslaan van P00 bestanden voor drive 8 uitschakelen"
+msgstr "Deactiveer opslaan van P00 bestanden voor drive 8"
 
 #: src/translate_text.c.po.c:11641
 msgid "Enable saving of P00 files on drive 9"
@@ -12966,7 +12760,7 @@ msgstr "Activeer opslaan van P00 bestanden voor drive 9"
 
 #: src/translate_text.c.po.c:11658
 msgid "Disable saving of P00 files on drive 9"
-msgstr "Opslaan van P00 bestanden voor drive 9 uitschakelen"
+msgstr "Deactiveer opslaan van P00 bestanden voor drive 9"
 
 #: src/translate_text.c.po.c:11675
 msgid "Enable saving of P00 files on drive 10"
@@ -12974,7 +12768,7 @@ msgstr "Activeer opslaan van P00 bestanden voor drive 10"
 
 #: src/translate_text.c.po.c:11692
 msgid "Disable saving of P00 files on drive 10"
-msgstr "Opslaan van P00 bestanden voor drive 10 uitschakelen"
+msgstr "Deactiveer opslaan van P00 bestanden voor drive 10"
 
 #: src/translate_text.c.po.c:11709
 msgid "Enable saving of P00 files on drive 11"
@@ -12982,7 +12776,7 @@ msgstr "Activeer opslaan van P00 bestanden voor drive 11"
 
 #: src/translate_text.c.po.c:11726
 msgid "Disable saving of P00 files on drive 11"
-msgstr "Opslaan van P00 bestanden voor drive 11 uitschakelen"
+msgstr "Deactiveer opslaan van P00 bestanden voor drive 11"
 
 #: src/translate_text.c.po.c:11743
 msgid "Hide CBM files (only show P00 files) for drive 8"
@@ -13054,7 +12848,7 @@ msgstr "Activeer PET8296 4K RAM op adres $9***"
 
 #: src/translate_text.c.po.c:12015
 msgid "Disable PET8296 4K RAM mapping at $9***"
-msgstr "PET8296 4K RAM op adres $9*** uitschakelen"
+msgstr "Deactiveer PET8296 4K RAM op adres $9***"
 
 #: src/translate_text.c.po.c:12032
 msgid "Enable PET8296 4K RAM mapping at $A***"
@@ -13062,7 +12856,7 @@ msgstr "Activeer PET8296 4K RAM op adres $A***"
 
 #: src/translate_text.c.po.c:12049
 msgid "Disable PET8296 4K RAM mapping at $A***"
-msgstr "PET8296 4K RAM op adres $A*** uitschakelen"
+msgstr "Deactiveer PET8296 4K RAM op adres $A***"
 
 #: src/translate_text.c.po.c:12066
 msgid "Enable SuperPET I/O"
@@ -13070,7 +12864,7 @@ msgstr "Activeer SuperPET I/O"
 
 #: src/translate_text.c.po.c:12083
 msgid "Disable SuperPET I/O"
-msgstr "SuperPET I/O uitschakelen"
+msgstr "Deactiveer SuperPET I/O"
 
 #: src/translate_text.c.po.c:12100
 msgid "Enable ROM 1 Kernal patches"
@@ -13078,7 +12872,7 @@ msgstr "Activeer ROM 1 Kernalverbeteringen"
 
 #: src/translate_text.c.po.c:12117
 msgid "Disable ROM 1 Kernal patches"
-msgstr "ROM 1 Kernalverbeteringen uitschakelen"
+msgstr "Deactiveer ROM 1 Kernalverbeteringen"
 
 #: src/translate_text.c.po.c:12134
 msgid "Switch upper/lower case charset"
@@ -13163,7 +12957,7 @@ msgstr "Activeer CRTC"
 
 #: src/translate_text.c.po.c:12474
 msgid "Disable CRTC"
-msgstr "CRTC uitschakelen"
+msgstr "Deactiveer CRTC"
 
 #: src/translate_text.c.po.c:12491
 msgid "Set video size (0: Automatic, 40: 40 Columns, 80: 80 Columns)"
@@ -13175,7 +12969,7 @@ msgstr "Activeer userport diagnostic pin"
 
 #: src/translate_text.c.po.c:12525
 msgid "Disable userport diagnostic pin"
-msgstr "Userport diagnostic pin uitschakelen"
+msgstr "Deactiveer Userport diagnostic pin"
 
 #: src/translate_text.c.po.c:12542
 msgid "Specify name of Function low ROM image"
@@ -13291,7 +13085,7 @@ msgstr "Activeer userport printeremulatie"
 
 #: src/translate_text.c.po.c:12984
 msgid "Disable the userport printer emulation"
-msgstr "De userport printeremulatie uitschakelen"
+msgstr "Deactiveer de userport printeremulatie"
 
 #: src/translate_text.c.po.c:13001
 msgid "Specify name of output device for device #4"
@@ -13335,7 +13129,7 @@ msgstr "Activeer de videocache"
 
 #: src/translate_text.c.po.c:13171
 msgid "Disable the video cache"
-msgstr "De videocache uitschakelen"
+msgstr "Deactiveer de videocache"
 
 #: src/translate_text.c.po.c:13189
 msgid "Specify name of first RS232 device"
@@ -13355,7 +13149,7 @@ msgstr "Geef de naam van het vierde RS232 apparaat"
 
 #: src/translate_text.c.po.c:13275
 msgid "Disable RS232 userport emulation"
-msgstr "RS232 userportemulatie uitschakelen"
+msgstr "Deactiveer RS232 userportemulatie"
 
 #: src/translate_text.c.po.c:13292
 msgid "baud"
@@ -13375,7 +13169,7 @@ msgstr "Activeer IEC apparaat emulatie voor apparaat #4"
 
 #: src/translate_text.c.po.c:13360
 msgid "Disable IEC device emulation for device #4"
-msgstr "IEC apparaat emulatie voor apparaat #4 uitschakelen"
+msgstr "Deactiveer IEC apparaat emulatie voor apparaat #4"
 
 #: src/translate_text.c.po.c:13377
 msgid "Enable IEC device emulation for device #5"
@@ -13383,7 +13177,7 @@ msgstr "Activeer IEC apparaat emulatie voor apparaat #5"
 
 #: src/translate_text.c.po.c:13394
 msgid "Disable IEC device emulation for device #5"
-msgstr "IEC apparaat emulatie voor apparaat #5 uitschakelen"
+msgstr "Deactiveer IEC apparaat emulatie voor apparaat #5"
 
 #: src/translate_text.c.po.c:13411
 msgid "Enable IEC device emulation for device #6"
@@ -13391,7 +13185,7 @@ msgstr "Activeer IEC apparaat emulatie voor apparaat #6"
 
 #: src/translate_text.c.po.c:13428
 msgid "Disable IEC device emulation for device #6"
-msgstr "IEC apparaat emulatie voor apparaat #6 uitschakelen"
+msgstr "Deactiveer IEC apparaat emulatie voor apparaat #6"
 
 #: src/translate_text.c.po.c:13445
 msgid "Enable IEC device emulation for device #7"
@@ -13399,7 +13193,7 @@ msgstr "Activeer IEC apparaat emulatie voor apparaat #7"
 
 #: src/translate_text.c.po.c:13462
 msgid "Disable IEC device emulation for device #7"
-msgstr "IEC apparaat emulatie voor apparaat #7 uitschakelen"
+msgstr "Deactiveer IEC apparaat emulatie voor apparaat #7"
 
 #: src/translate_text.c.po.c:13479
 msgid "Enable IEC device emulation for device #8"
@@ -13407,7 +13201,7 @@ msgstr "Activeer IEC apparaat emulatie voor apparaat #8"
 
 #: src/translate_text.c.po.c:13496
 msgid "Disable IEC device emulation for device #8"
-msgstr "IEC apparaat emulatie voor apparaat #8 uitschakelen"
+msgstr "Deactiveer IEC apparaat emulatie voor apparaat #8"
 
 #: src/translate_text.c.po.c:13513
 msgid "Enable IEC device emulation for device #9"
@@ -13415,7 +13209,7 @@ msgstr "Activeer IEC apparaat emulatie voor apparaat #9"
 
 #: src/translate_text.c.po.c:13530
 msgid "Disable IEC device emulation for device #9"
-msgstr "IEC apparaat emulatie voor apparaat #9 uitschakelen"
+msgstr "Deactiveer IEC apparaat emulatie voor apparaat #9"
 
 #: src/translate_text.c.po.c:13547
 msgid "Enable IEC device emulation for device #10"
@@ -13423,7 +13217,7 @@ msgstr "Activeer IEC apparaat emulatie voor apparaat #10"
 
 #: src/translate_text.c.po.c:13564
 msgid "Disable IEC device emulation for device #10"
-msgstr "IEC apparaat emulatie voor apparaat #10 uitschakelen"
+msgstr "Deactiveer IEC apparaat emulatie voor apparaat #10"
 
 #: src/translate_text.c.po.c:13581
 msgid "Enable IEC device emulation for device #11"
@@ -13431,7 +13225,7 @@ msgstr "Activeer IEC apparaat emulatie voor apparaat #11"
 
 #: src/translate_text.c.po.c:13598
 msgid "Disable IEC device emulation for device #11"
-msgstr "IEC apparaat emulatie voor apparaat #11 uitschakelen"
+msgstr "Deactiveer IEC apparaat emulatie voor apparaat #11"
 
 #: src/translate_text.c.po.c:13615
 msgid "engine and model"
@@ -13479,7 +13273,7 @@ msgstr "1792: SSI2001"
 
 #: src/translate_text.c.po.c:13812
 msgid "Disable the SID cartridge"
-msgstr "De SID cartridge uitschakelen"
+msgstr "Deactiveer de SID cartridge"
 
 #: src/translate_text.c.po.c:13829
 msgid "SID cartridge address (0x8F00/0xE900)"
@@ -13552,19 +13346,19 @@ msgstr "reSID versterking procent (90 - 100)"
 
 #: src/translate_text.c.po.c:14104
 msgid "Set the HardSID device for the main SID output"
-msgstr "Zet de HardSID apparaat voor de hoofd SID uitvoer"
+msgstr "Zet het HardSID apparaat voor de hoofd SID uitvoer"
 
 #: src/translate_text.c.po.c:14121
 msgid "Set the HardSID device for the right SID output"
-msgstr "Zet de HardSID apparaat vood de rechter SID uitvoer"
+msgstr "Zet het HardSID apparaat voor de rechter SID uitvoer"
 
 #: src/translate_text.c.po.c:14139
 msgid "Enable additional vertical stretching."
-msgstr "Aktiveer additionele vertikale rekking."
+msgstr "Activeer additionele vertikale rekking."
 
 #: src/translate_text.c.po.c:14156
 msgid "Disable additional vertical stretching."
-msgstr "Additionele vertikale rekking afsluiten."
+msgstr "Deactiveer additionele vertikale rekking."
 
 #: src/translate_text.c.po.c:14173
 msgid "Set the VDC memory size to 16KB"
@@ -13596,7 +13390,7 @@ msgstr "Activeer VIC-1112 IEEE488 interface"
 
 #: src/translate_text.c.po.c:14275
 msgid "Disable VIC-1112 IEEE488 interface"
-msgstr "VIC-1112 IEEE488 interface uitschakelen"
+msgstr "Deactiveer VIC-1112 IEEE488 interface"
 
 #: src/translate_text.c.po.c:14292
 msgid "Specify 4/8/16K extension ROM name at $2000"
@@ -13640,7 +13434,7 @@ msgstr "Geef de naam van het bestand voor de UltiMem ROM"
 
 #: src/translate_text.c.po.c:14479
 msgid "Disable Final Expansion write back to ROM file"
-msgstr "Terug schrijven naar ROM bestand voor Final Expansion uitschakelen"
+msgstr "Deactiveer terug schrijven naar ROM bestand voor Final Expansion"
 
 #: src/translate_text.c.po.c:14496
 msgid "Set Mega-Cart NvRAM filename"
@@ -13648,23 +13442,23 @@ msgstr "Zet Mega-Cart NvRAM bestandsnaam"
 
 #: src/translate_text.c.po.c:14530
 msgid "Disable Mega-Cart NvRAM writeback"
-msgstr "Mega-Cart NvRAM terug schrijven uitschakelen"
+msgstr "Deactiveer Mega-Cart NvRAM terug schrijven"
 
 #: src/translate_text.c.po.c:14564
 msgid "Disable Vic Flash Plugin write back to ROM file"
-msgstr "Terug schrijven naar ROM bestand voor Vic Flash Plugin uitschakelen"
+msgstr "Deactiveer terug schrijven naar ROM bestand voor Vic Flash Plugin"
 
 #: src/translate_text.c.po.c:14598
 msgid "Disable UltiMem write back to ROM file"
-msgstr "Terug schrijven naar ROM bestand voor UltiMem uitschakelen"
+msgstr "Deactiveer terug schrijven naar ROM bestand voor UltiMem"
 
 #: src/translate_text.c.po.c:14632
 msgid "Disable I/O-2 RAM"
-msgstr "I/O-2 RAM uitschakelen"
+msgstr "Deactiveer I/O-2 RAM"
 
 #: src/translate_text.c.po.c:14666
 msgid "Disable I/O-3 RAM"
-msgstr "I/O-3 RAM uitschakelen"
+msgstr "Deactiveer I/O-3 RAM"
 
 #: src/translate_text.c.po.c:14683
 msgid "Set border display mode (0: normal, 1: full, 2: debug)"
@@ -13676,7 +13470,7 @@ msgstr "Activeer sprite-achtergrond botsing registers"
 
 #: src/translate_text.c.po.c:14717
 msgid "Disable sprite-background collision registers"
-msgstr "Sprite-achtergrond botsing registers uitschakelen"
+msgstr "Deactiveer sprite-achtergrond botsing registers"
 
 #: src/translate_text.c.po.c:14734
 msgid "Enable sprite-sprite collision registers"
@@ -13684,7 +13478,7 @@ msgstr "Activeer sprite-sprite botsing registers"
 
 #: src/translate_text.c.po.c:14751
 msgid "Disable sprite-sprite collision registers"
-msgstr "Sprite-sprite botsing registers uitschakelen"
+msgstr "Deactiveer sprite-sprite botsing registers"
 
 #: src/translate_text.c.po.c:14768
 msgid "Enable VSP bug emulation"
@@ -13692,15 +13486,15 @@ msgstr "Activeer VSP bug emulatie"
 
 #: src/translate_text.c.po.c:14785
 msgid "Disable VSP bug emulation"
-msgstr "VSP bug emulatie uitschakelen"
+msgstr "Deactiveer VSP bug emulatie"
 
 #: src/translate_text.c.po.c:14802
 msgid "Use new luminances"
-msgstr "Gebruik nieuwe kleuren"
+msgstr "Gebruik nieuwe luminantie"
 
 #: src/translate_text.c.po.c:14819
 msgid "Use old luminances"
-msgstr "Gebruik oude kleuren"
+msgstr "Gebruik oude luminantie"
 
 #: src/translate_text.c.po.c:14836
 msgid "Enable the possibility of hardware scaling"
@@ -13708,7 +13502,7 @@ msgstr "Activeer de mogelijkheid van hardwareschaling"
 
 #: src/translate_text.c.po.c:14853
 msgid "Disable the possibility of hardware scaling"
-msgstr "De mogelijkheid van hardwareschaling uitschakelen"
+msgstr "Deactiveer de mogelijkheid van hardwareschaling"
 
 #: src/translate_text.c.po.c:14870
 msgid "Enable double size"
@@ -13716,7 +13510,7 @@ msgstr "Activeer dubbele grootte"
 
 #: src/translate_text.c.po.c:14887
 msgid "Disable double size"
-msgstr "Dubbele grootte uitschakelen"
+msgstr "Deactiveer dubbele grootte"
 
 #: src/translate_text.c.po.c:14904
 msgid "Enable double scan"
@@ -13724,7 +13518,7 @@ msgstr "Activeer dubbele scan"
 
 #: src/translate_text.c.po.c:14921
 msgid "Disable double scan"
-msgstr "Dubbele scan uitschakelen"
+msgstr "Deactiveer dubbele scan"
 
 #: src/translate_text.c.po.c:14938
 msgid "Enable audio leak emulation"
@@ -13732,7 +13526,7 @@ msgstr "Activeer audio lek emulatie"
 
 #: src/translate_text.c.po.c:14955
 msgid "Disable audio leak emulation"
-msgstr "De audio lek emulatie uitschakelen"
+msgstr "Deactiveer audio lek emulatie"
 
 #: src/translate_text.c.po.c:14972
 msgid "Enable hardware scaling"
@@ -13740,7 +13534,7 @@ msgstr "Activeer hardwareschaling"
 
 #: src/translate_text.c.po.c:14989
 msgid "Disable hardware scaling"
-msgstr "Hardwareschaling uitschakelen"
+msgstr "Deactiveer hardwareschaling"
 
 #: src/translate_text.c.po.c:15006
 msgid "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
@@ -13764,7 +13558,7 @@ msgstr "Selecteer volschermapparaat"
 
 #: src/translate_text.c.po.c:15125
 msgid "Seconds"
-msgstr "Seconded"
+msgstr "Seconden"
 
 #: src/translate_text.c.po.c:15142
 msgid "Select fullscreen mode"
@@ -13844,7 +13638,7 @@ msgstr "Activeer Datasette"
 
 #: src/translate_text.c.po.c:15397
 msgid "Disable Datasette"
-msgstr "Datasette uitschakelen"
+msgstr "Deactiveer Datasette"
 
 #: src/translate_text.c.po.c:15414
 msgid "Enable automatic Datasette-Reset"
@@ -13852,7 +13646,7 @@ msgstr "Activeer automatische Datasette-Reset"
 
 #: src/translate_text.c.po.c:15431
 msgid "Disable automatic Datasette-Reset"
-msgstr "Automatische Datasette-Reset uitschakelen"
+msgstr "Deactiveer Automatische Datasette-Reset"
 
 #: src/translate_text.c.po.c:15448
 msgid "Set delay in cycles for a zero in the tap"
@@ -13876,35 +13670,35 @@ msgstr "Traceer de hoofd CPU niet"
 
 #: src/translate_text.c.po.c:15534
 msgid "Trace the drive0 CPU"
-msgstr "Traceer de CPU van drive 0/8"
+msgstr "Traceer de CPU van drive 0"
 
 #: src/translate_text.c.po.c:15551
 msgid "Do not trace the drive0 CPU"
-msgstr "Traceer de CPU van drive 0/8 niet"
+msgstr "Traceer de CPU van drive 0 niet"
 
 #: src/translate_text.c.po.c:15568
 msgid "Trace the drive1 CPU"
-msgstr "Traceer de CPU van drive 1/9"
+msgstr "Traceer de CPU van drive 1"
 
 #: src/translate_text.c.po.c:15585
 msgid "Do not trace the drive1 CPU"
-msgstr "Traceer de CPU van drive 1/9 niet"
+msgstr "Traceer de CPU van drive 1 niet"
 
 #: src/translate_text.c.po.c:15602
 msgid "Trace the drive2 CPU"
-msgstr "Traceer de CPU van drive 2/10"
+msgstr "Traceer de CPU van drive 2"
 
 #: src/translate_text.c.po.c:15619
 msgid "Do not trace the drive2 CPU"
-msgstr "Traceer de CPU van drive 2/10 niet"
+msgstr "Traceer de CPU van drive 2 niet"
 
 #: src/translate_text.c.po.c:15636
 msgid "Trace the drive3 CPU"
-msgstr "Traceer de CPU van drive 3/11"
+msgstr "Traceer de CPU van drive 3"
 
 #: src/translate_text.c.po.c:15653
 msgid "Do not trace the drive3 CPU"
-msgstr "Traceer de CPU van drive 3/11 niet"
+msgstr "Traceer de CPU van drive 3 niet"
 
 #: src/translate_text.c.po.c:15670
 msgid "Trace mode (0=normal 1=small 2=history)"
@@ -13924,7 +13718,7 @@ msgstr "Afspelen opgenomen gebeurtenissen"
 
 #: src/translate_text.c.po.c:15740
 msgid "Set event snapshot directory"
-msgstr "Selecteer gebeurtenis momentopname folder"
+msgstr "Selecteer gebeurtenis momentopname map"
 
 #: src/translate_text.c.po.c:15757
 msgid "Set event start snapshot"
@@ -13943,15 +13737,15 @@ msgstr ""
 
 #: src/translate_text.c.po.c:15808
 msgid "Enable including disk images"
-msgstr "Activeer het inbegrijpen van disk bestanden"
+msgstr "Activeer het insluiten van disk bestanden"
 
 #: src/translate_text.c.po.c:15825
 msgid "Disable including disk images"
-msgstr "Het inbegrijpen van disk bestanden uitschakelen"
+msgstr "Deactiveer het insluiten van disk bestanden"
 
 #: src/translate_text.c.po.c:15842
 msgid "Execute monitor commands from file"
-msgstr "Uitvoeren van commandos uit bestand"
+msgstr "Uitvoeren van monitor commando's uit bestand"
 
 #: src/translate_text.c.po.c:15859
 msgid "Write monitor output also to file"
@@ -13959,15 +13753,15 @@ msgstr "Schrijf uitvoer van de monitor ook naar een bestand"
 
 #: src/translate_text.c.po.c:15876
 msgid "Set an initial breakpoint for the monitor"
-msgstr "Zet een beginnende breakpunt voor de monitor"
+msgstr "Zet een beginnend breakpunt voor de monitor"
 
 #: src/translate_text.c.po.c:15893
 msgid "Keep the monitor open"
-msgstr "Hou de monitor open"
+msgstr "Laat de monitor geopend blijven"
 
 #: src/translate_text.c.po.c:15910
 msgid "Do not keep the monitor open"
-msgstr "Hou de monitor niet open"
+msgstr "Laat de monitor niet geopend blijven"
 
 #: src/translate_text.c.po.c:15927
 msgid "Enable remote monitor"
@@ -13975,7 +13769,7 @@ msgstr "Activeer monitor afstandsbediening"
 
 #: src/translate_text.c.po.c:15944
 msgid "Disable remote monitor"
-msgstr "afstandsbediening monitor uitschakelen"
+msgstr "Deactiveer monitor afstandsbediening"
 
 #: src/translate_text.c.po.c:15961
 msgid "The local address the remote monitor should bind to"
@@ -13989,14 +13783,12 @@ msgstr "Geef de naam van het fliplijstbestand"
 
 #: src/translate_text.c.po.c:15995
 msgid "Show a list of the available options and exit normally"
-msgstr "Toon een lijst van de beschikbare opties en exit zoals normaal"
+msgstr "Toon een lijst van de beschikbare opties en sluit normaal af"
 
 #: src/translate_text.c.po.c:16012
 msgid ""
 "Show a list of the available compile-time options and their configuration."
-msgstr ""
-"Toon een lijst van de beschikbare 'compile-time' opties en de bij behorende "
-"configuraties."
+msgstr "Toon een lijst van de beschikbare 'compile-time' opties en de bijbehorende configuratie."
 
 #: src/translate_text.c.po.c:16030
 msgid "Console mode (for music playback)"
@@ -14069,7 +13861,7 @@ msgstr "Geef de naam van het logbestand"
 
 #: src/translate_text.c.po.c:16390
 msgid "Enable verbose log output."
-msgstr "Activeer verbose log uitvoer."
+msgstr "Activeer uitgebreide log uitvoer."
 
 #: src/translate_text.c.po.c:16424
 msgid "Disable mouse grab"
@@ -14081,7 +13873,7 @@ msgstr "Activeer opslaan van de smart mouse RTC data indien gewijzigd"
 
 #: src/translate_text.c.po.c:16458
 msgid "Disable saving of smart mouse RTC data when changed."
-msgstr "Opslaan van de smart mouse RTC data indien gewijzigd uitschakelen"
+msgstr "Deactiveer opslaan van de smart mouse RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:16475
 msgid "Enable PS/2 mouse on userport"
@@ -14089,7 +13881,7 @@ msgstr "Aktiveer emulatie van een PS/2 muis op de userport"
 
 #: src/translate_text.c.po.c:16492
 msgid "Disable PS/2 mouse on userport"
-msgstr "Emulatie van een PS/2 muis op de userport uitschakelen"
+msgstr "Deactiveer emulatie van een PS/2 muis op de userport"
 
 #: src/translate_text.c.po.c:16509
 msgid "Set the value for the very first RAM address after powerup"
@@ -14125,7 +13917,7 @@ msgstr "selecteer het opgegeven item van het huidige romsetarchief"
 
 #: src/translate_text.c.po.c:16679
 msgid "Disable sound playback"
-msgstr "Geluid uitschakelen"
+msgstr "Deactiveer geluidsuitvoer"
 
 #: src/translate_text.c.po.c:16696
 msgid "Set sound sample rate to <value> Hz"
@@ -14188,9 +13980,7 @@ msgstr "uitvoer modus"
 msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
 "stereo)"
-msgstr ""
-"Geluid uitvoer modus: (0: mono/stereo zoals gekozen door het systeem, 1: "
-"altijd mono, 2: altijd stereo)"
+msgstr "Geluid uitvoer modus: (0: systeem bepaalt mono/stereo, 1: altijd mono, 2: altijd stereo)"
 
 #: src/translate_text.c.po.c:16951
 msgid ""
@@ -14214,7 +14004,7 @@ msgstr "Activeer algemene methoden voor snelle disk/tape emulatie"
 
 #: src/translate_text.c.po.c:17036
 msgid "Disable general mechanisms for fast disk/tape emulation"
-msgstr "Algemene methoden voor snelle disk/tape emulatie uitschakelen"
+msgstr "Deactiveer Algemene methoden voor snelle disk/tape emulatie"
 
 #: src/translate_text.c.po.c:17053
 msgid "Limit emulation speed to specified value"
@@ -14226,7 +14016,7 @@ msgstr "Elke <waarde> beeld vernieuwen (`0' voor automatisch)"
 
 #: src/translate_text.c.po.c:17104
 msgid "Disable warp mode"
-msgstr "Warpmodus uitschakelen"
+msgstr "Deactiveer warpmodus"
 
 #: src/translate_text.c.po.c:17121
 msgid "iso language code"
@@ -14295,19 +14085,19 @@ msgstr "Geef de DTV revisie (2: DTV2, 3: DTV3)"
 
 #: src/translate_text.c.po.c:17376
 msgid "Enable DTV blitter logs."
-msgstr "Aktiveer DTV blitter logs."
+msgstr "Activeer DTV blitter logs."
 
 #: src/translate_text.c.po.c:17393
 msgid "Disable DTV blitter logs."
-msgstr "DTV Blitter logs uitschakelen."
+msgstr "Deactiveer DTV Blitter logs."
 
 #: src/translate_text.c.po.c:17410
 msgid "Enable DTV DMA logs."
-msgstr "Aktiveer DTV DMA logs."
+msgstr "Activeer DTV DMA logs."
 
 #: src/translate_text.c.po.c:17427
 msgid "Disable DTV DMA logs."
-msgstr "DTV DMA logs uitschakelen."
+msgstr "Deactiveer DTV DMA logs."
 
 #: src/translate_text.c.po.c:17444
 msgid "Specify name of C64DTV ROM image"
@@ -14315,27 +14105,27 @@ msgstr "Geef de naam van her C64DTV ROM bestand"
 
 #: src/translate_text.c.po.c:17478
 msgid "Disable writes to C64DTV ROM image"
-msgstr "Schrijven naar C64DTV ROM bestand uitschakelen"
+msgstr "Deactiveer schrijven naar C64DTV ROM bestand"
 
 #: src/translate_text.c.po.c:17495
 msgid "Enable DTV flash chip logs."
-msgstr "Aktiveer DTV flash chip logs."
+msgstr "Activeer DTV flash chip logs."
 
 #: src/translate_text.c.po.c:17512
 msgid "Disable DTV flash chip logs."
-msgstr "DTV flash chip logs uitschakelen."
+msgstr "Deactiveer DTV flash chip logs."
 
 #: src/translate_text.c.po.c:17529
 msgid "Use <name> as directory for flash file system device"
-msgstr "Gebruik <naam> als directory voor het flash bestandssysteem apparaat"
+msgstr "Gebruik <naam> als map voor het flash bestandssysteem apparaat"
 
 #: src/translate_text.c.po.c:17563
 msgid "Disable true hardware flash file system"
-msgstr "Hardwatematig flash bestandssysteem uitschakelen"
+msgstr "Deactiveer hardwarematig flash bestandssysteem"
 
 #: src/translate_text.c.po.c:17598
 msgid "Disable MIDI emulation"
-msgstr "MIDI emulatie uitschakelen"
+msgstr "Deactiveer MIDI emulatie"
 
 #: src/translate_text.c.po.c:17615
 msgid ""
@@ -14347,19 +14137,19 @@ msgstr ""
 
 #: src/translate_text.c.po.c:17650
 msgid "Disable the digiblaster add-on"
-msgstr "De digiblaster add-on uitschakelen"
+msgstr "Deactiveer de digiblaster add-on"
 
 #: src/translate_text.c.po.c:17684
 msgid "Disable the v364 speech add-on"
-msgstr "De v364 spraak add-on uitschakelen"
+msgstr "Deactiveer de v364 spraak add-on"
 
 #: src/translate_text.c.po.c:17701
 msgid "Attach Speech ROM image"
-msgstr "Koppel spraak ROM bestand aan"
+msgstr "Koppel spraak ROM bestand"
 
 #: src/translate_text.c.po.c:17769
 msgid "Disable the SFX Sound Expander cartridge"
-msgstr "De SFX Sound Expander cartridge uitschakelen"
+msgstr "Deactiveer de SFX Sound Expander cartridge"
 
 #: src/translate_text.c.po.c:17786
 msgid "Set YM chip type (3526 / 3812)"
@@ -14367,11 +14157,11 @@ msgstr "Kies de YM chip soort (3526 / 3812)"
 
 #: src/translate_text.c.po.c:17820
 msgid "Disable the SFX Sound Sampler cartridge"
-msgstr "De SFX Sound Sampler cartridge uitschakelen"
+msgstr "Deactiveer de SFX Sound Sampler cartridge"
 
 #: src/translate_text.c.po.c:17854
 msgid "Disable the CP/M cartridge"
-msgstr "De CP/M cartridge uitschakelen"
+msgstr "Deactiveer de CP/M cartridge"
 
 #: src/translate_text.c.po.c:17871
 msgid "Enable the TurboMaster cartridge"
@@ -14379,7 +14169,7 @@ msgstr "Activeer de TurboMaster cartridge"
 
 #: src/translate_text.c.po.c:17888
 msgid "Disable the TurboMaster cartridge"
-msgstr "De TurboMaster cartridge uitschakelen"
+msgstr "Deactiveer de TurboMaster cartridge"
 
 #: src/translate_text.c.po.c:17905
 msgid "Set TurboMaster ROM switch to ROM 1"
@@ -14419,7 +14209,7 @@ msgstr "Activeer de EasyFlash jumper"
 
 #: src/translate_text.c.po.c:18058
 msgid "Disable EasyFlash jumper"
-msgstr "De EasyFlash jumper uitschakelen"
+msgstr "Deactiveer de EasyFlash jumper"
 
 #: src/translate_text.c.po.c:18075
 msgid "Enable writing to EasyFlash .crt image"
@@ -14427,7 +14217,7 @@ msgstr "Activeer schrijven naar het EasyFlash .crt bestand"
 
 #: src/translate_text.c.po.c:18092 src/translate_text.c.po.c:18126
 msgid "Disable writing to EasyFlash .crt image"
-msgstr "Schrijven naar het EasyFlash .crt bestand uitschakelen"
+msgstr "Deactiveer schrijven naar het EasyFlash .crt bestand"
 
 #: src/translate_text.c.po.c:18109
 msgid "Enable EasyFlash .crt image optimize on write"
@@ -14440,7 +14230,7 @@ msgstr "Activeer het userport DigiMAX apparaat"
 
 #: src/translate_text.c.po.c:18160
 msgid "Disable the userport DigiMAX device"
-msgstr "Het userport DigiMAX apparaat uitschakelen"
+msgstr "Deactiveer het userport DigiMAX apparaat"
 
 #: src/translate_text.c.po.c:18177
 msgid "Enable the Short Bus DigiMAX expansion"
@@ -14448,11 +14238,11 @@ msgstr "Activeer de Short Bus DigiMAX uitbreiding"
 
 #: src/translate_text.c.po.c:18194
 msgid "Disable the Short Bus DigiMAX expansion"
-msgstr "De Short Bus DigiMAX uitbreiding uitschakelen"
+msgstr "Deactiveer de Short Bus DigiMAX uitbreiding"
 
 #: src/translate_text.c.po.c:18228
 msgid "Disable the DigiMAX cartridge"
-msgstr "De DigiMAX cartridge uitschakelen"
+msgstr "Deactiveer de DigiMAX cartridge"
 
 #: src/translate_text.c.po.c:18245
 msgid "Base address of the DigiMAX cartridge"
@@ -14468,7 +14258,7 @@ msgstr "Activeer de DS12C887 RTC cartridge"
 
 #: src/translate_text.c.po.c:18296
 msgid "Disable the DS12C887 RTC cartridge"
-msgstr "De DS12C887 RTC cartridge uitschakelen"
+msgstr "Deactiveer de DS12C887 RTC cartridge"
 
 #: src/translate_text.c.po.c:18313
 msgid "Set the RTC oscillator to 'halted'"
@@ -14488,7 +14278,7 @@ msgstr "Activeer opslaan van de DS12C887 RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:18381
 msgid "Disable saving of the DS12C887 RTC data when changed."
-msgstr "Opslaan van de DS12C887 RTC data indien gewijzigd uitschakelen."
+msgstr "Deactiveer opslaan van de DS12C887 RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:18399
 msgid "hostname"
@@ -14504,7 +14294,7 @@ msgstr "Zet de netplay server hostnaam"
 
 #: src/translate_text.c.po.c:18450
 msgid "Set the netplay binding address"
-msgstr "Zet de netplay binding adres"
+msgstr "Zet het netplay binding adres"
 
 #: src/translate_text.c.po.c:18467
 msgid "Set the netplay port"
@@ -14515,10 +14305,7 @@ msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
-msgstr ""
-"Zet de netplay controlle onderdelen (toetsenbord, joystick1, joystick2, "
-"apparaten en resources), elk onderdeel heeft een waarde (0: Geen, 1: Server, "
-"2: Client, 3: Beiden)"
+msgstr "Zet de netplay besturingsonderdelen (toetsenbord, joystick1, joystick2, apparaten en bronnen), elk onderdeel heeft een waarde (0: Geen, 1: Server, 2: Client, 3: Beide)"
 
 #: src/translate_text.c.po.c:18502
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
@@ -14530,7 +14317,7 @@ msgstr "Activeer Jiffy schakelaar"
 
 #: src/translate_text.c.po.c:18536
 msgid "Turn off Jiffy switch"
-msgstr "Jiffy schakelaar uitschakelen"
+msgstr "Deactiveer Jiffy schakelaar"
 
 #: src/translate_text.c.po.c:18553
 msgid "Turn on Speed switch"
@@ -14538,7 +14325,7 @@ msgstr "Activeer snelheid schakelaar"
 
 #: src/translate_text.c.po.c:18570
 msgid "Turn off Speed switch"
-msgstr "Snelheid schakelaar uitschakelen"
+msgstr "Deactiveer snelheid schakelaar"
 
 #: src/translate_text.c.po.c:18587
 msgid "Enable HiRes Emulation Board"
@@ -14546,56 +14333,8 @@ msgstr "Activeer PET High Res Emulation bord"
 
 #: src/translate_text.c.po.c:18604
 msgid "Disable HiRes Emulation Board"
-msgstr "PET High Res Emulation bord uitschakelen"
+msgstr "Deactiveer PET High Res Emulation bord"
 
 #: src/translate_text.c.po.c:18622
 msgid "Set raw drive device name"
-msgstr "Zet binair drive bestandsnaam"
-
-#~ msgid ""
-#~ "Cannot load snapshot file\n"
-#~ "`%s'"
-#~ msgstr ""
-#~ "Kan momentopnamebestand niet laden\n"
-#~ "`%s'"
-
-#~ msgid "8580 + digi boost (ReSID)"
-#~ msgstr "8580 + digi boost (ReSID)"
-
-#~ msgid "ParSID Port 1"
-#~ msgstr "ParSID poort 1"
-
-#~ msgid "ParSID Port 2"
-#~ msgstr "ParSID poort 2"
-
-#~ msgid "ParSID Port 3"
-#~ msgstr "ParSID poort 3"
-
-#~ msgid ""
-#~ "TFE/RR-Net support is not available on your system,\n"
-#~ "there is some important part missing. Please have a\n"
-#~ "look at the VICE knowledge base support page\n"
-#~ "\n"
-#~ "      http://vicekb.trikaliotis.net/13-005\n"
-#~ "\n"
-#~ "for possible reasons and to activate networking with VICE."
-#~ msgstr ""
-#~ "TFE/RR-Net ondersteuning is niet aanwezig op uw systeem,\n"
-#~ "er ontbrrekt iets belangrijks. Kijk alstublieft op\n"
-#~ "de VICE knowledge base support pagina\n"
-#~ "\n"
-#~ "      http://vicekb.trikaliotis.net/13-005\n"
-#~ "\n"
-#~ "voor mogelijke redenen en activeer netwerken met VICE."
-
-#~ msgid "Couldn't run /bin/sh???"
-#~ msgstr "Kon /bin/sh niet uitvoeren???"
-
-#~ msgid "Couldn't run terminal"
-#~ msgstr "Kon terminal niet uitvoeren"
-
-#~ msgid "Unknown error while running c1541"
-#~ msgstr "Onbekende fout tijdens het uitvoeren van c1541"
-
-#~ msgid "Run C1541"
-#~ msgstr "Start C1541"
+msgstr "Zet binair drive apparaatnaam"
