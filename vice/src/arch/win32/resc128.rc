@@ -1242,7 +1242,7 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE              "Externe functie ROM soort"
   IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Sla de interne functie RTC data op indien gewijzigd"
   IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Sla de interne functie RTC data op indien gewijzigd"
-  IDS_C128_FULL_BANKS                    "Aktiveer RAM bank 2 en 3"
+  IDS_C128_FULL_BANKS                    "Activeer RAM bank 2 en 3"
   IDS_C128MODEL                          "C128 model"
   IDS_MP_VDC_SETTINGS                    "VDC instellingen"
   IDS_MP_VDC_REVISION                    "VDC revisie"
