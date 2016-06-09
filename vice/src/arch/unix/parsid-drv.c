@@ -75,7 +75,7 @@ static int parsid_port_address[4];
 static int ports;
 static int old_parsid_port = 0;
 
-static int use_file = 0;
+/* static int use_file = 0; */
 
 #ifdef HAVE_LIBIEEE1284
 static struct parport_list parlist;
@@ -126,17 +126,19 @@ static void parsid_ieee1284_close(struct parport_list *pl, int portnr)
 #endif
 
 /* WIP */
+/*
 #ifdef HAVE_LINUX_PARPORT_HEADERS
 static int parsid_linux_parport_open(void)
 {
     return 0;
 }
 
-static void parsid_linux_parport_close(void)
+static int parsid_linux_parport_close(void)
 {
     return 0;
 }
 #endif
+*/
 
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
 #ifndef __FreeBSD__
