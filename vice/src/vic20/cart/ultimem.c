@@ -353,12 +353,12 @@ static BYTE vic_um_io2_read(WORD addr)
     case BLK_STATE_ROM:
         ultimem_io2.io_source_valid = 1;
         return flash040core_read(&flash_state,
-                                 ((addr & 0x1fff) + CART_IO_ADDR) &
+                                 ((addr | 0x1800) + CART_IO_ADDR) &
                                  (cart_rom_size - 1));
     case BLK_STATE_RAM_RO:
     case BLK_STATE_RAM_RW:
         ultimem_io2.io_source_valid = 1;
-        return cart_ram[((addr & 0x1fff) + CART_IO_ADDR) &
+        return cart_ram[((addr | 0x1800) + CART_IO_ADDR) &
                         (cart_ram_size - 1)];
     }
 
@@ -372,11 +372,11 @@ static BYTE vic_um_io2_peek(WORD addr)
     case BLK_STATE_DISABLED:
         break;
     case BLK_STATE_ROM:
-        return cart_rom[((addr & 0x1fff) + CART_IO_ADDR) &
+        return cart_rom[((addr | 0x1800) + CART_IO_ADDR) &
                         (cart_rom_size - 1)];
     case BLK_STATE_RAM_RO:
     case BLK_STATE_RAM_RW:
-        return cart_ram[((addr & 0x1fff) + CART_IO_ADDR) &
+        return cart_ram[((addr | 0x1800) + CART_IO_ADDR) &
                         (cart_ram_size - 1)];
     }
 
@@ -392,12 +392,12 @@ static void vic_um_io2_store(WORD addr, BYTE value)
         break;
     case BLK_STATE_ROM:
         flash040core_store(&flash_state,
-                           ((addr & 0x1fff) + CART_IO_ADDR) &
+                           ((addr | 0x1800) + CART_IO_ADDR) &
                            (cart_rom_size - 1),
                            value);
         break;
     case BLK_STATE_RAM_RW:
-        cart_ram[((addr & 0x1fff) + CART_IO_ADDR) & (cart_ram_size - 1)] =
+        cart_ram[((addr | 0x1800) + CART_IO_ADDR) & (cart_ram_size - 1)] =
             value;
     }
 }
@@ -444,12 +444,12 @@ static BYTE vic_um_io3_read(WORD addr)
     case BLK_STATE_ROM:
         ultimem_io3.io_source_valid = 1;
         return flash040core_read(&flash_state,
-                                 ((addr & 0x1fff) + CART_IO_ADDR) &
+                                 ((addr | 0x1c00) + CART_IO_ADDR) &
                                  (cart_rom_size - 1));
     case BLK_STATE_RAM_RO:
     case BLK_STATE_RAM_RW:
         ultimem_io3.io_source_valid = 1;
-        return cart_ram[((addr & 0x1fff) + CART_IO_ADDR) &
+        return cart_ram[((addr | 0x1c00) + CART_IO_ADDR) &
                         (cart_ram_size - 1)];
     }
 
@@ -467,11 +467,11 @@ static BYTE vic_um_io3_peek(WORD addr)
     case BLK_STATE_DISABLED:
         break;
     case BLK_STATE_ROM:
-        return cart_rom[((addr & 0x1fff) + CART_IO_ADDR) &
+        return cart_rom[((addr | 0x1c00) + CART_IO_ADDR) &
                         (cart_rom_size - 1)];
     case BLK_STATE_RAM_RO:
     case BLK_STATE_RAM_RW:
-        return cart_ram[((addr & 0x1fff) + CART_IO_ADDR) &
+        return cart_ram[((addr | 0x1c00) + CART_IO_ADDR) &
                         (cart_ram_size - 1)];
     }
 
@@ -533,12 +533,12 @@ static void vic_um_io3_store(WORD addr, BYTE value)
         break;
     case BLK_STATE_ROM:
         flash040core_store(&flash_state,
-                           ((addr & 0x1fff) + CART_IO_ADDR) &
+                           ((addr | 0x1c00) + CART_IO_ADDR) &
                            (cart_rom_size - 1),
                            value);
         break;
     case BLK_STATE_RAM_RW:
-        cart_ram[((addr & 0x1fff) + CART_IO_ADDR) & (cart_ram_size - 1)] =
+        cart_ram[((addr | 0x1c00) + CART_IO_ADDR) & (cart_ram_size - 1)] =
             value;
     }
 }
