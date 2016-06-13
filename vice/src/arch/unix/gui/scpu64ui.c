@@ -600,6 +600,7 @@ static void scpu64ui_dynamic_menu_create(void)
 static void scpu64ui_dynamic_menu_shutdown(void)
 {
     uivicii_menu_shutdown();
+    uicart_menu_shutdown();
     uisound_menu_shutdown();
     uisampler_menu_shutdown();
     uikeyboard_menu_shutdown();

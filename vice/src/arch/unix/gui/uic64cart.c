@@ -182,3 +182,19 @@ void uicart_menu_create(void)
     attach_cartridge_image_submenu[6 + 2].sub_menu = attach_cartridge_image_util_submenu;
 
 }
+
+void uicart_menu_shutdown(void)
+{
+    if (attach_cartridge_image_freezer_submenu) {
+        lib_free(attach_cartridge_image_freezer_submenu);
+        attach_cartridge_image_freezer_submenu = NULL;
+    }
+    if (attach_cartridge_image_game_submenu) {
+        lib_free(attach_cartridge_image_game_submenu);
+        attach_cartridge_image_game_submenu = NULL;
+    }
+    if (attach_cartridge_image_util_submenu) {
+        lib_free(attach_cartridge_image_util_submenu);
+        attach_cartridge_image_util_submenu = NULL;
+    }
+}

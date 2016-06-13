@@ -32,5 +32,6 @@
 extern struct ui_menu_entry_s ui_c64cart_commands_menu[];
 extern struct ui_menu_entry_s ui_c64scpucart_commands_menu[];
 extern void uicart_menu_create(void);
+extern void uicart_menu_shutdown(void);
 
 #endif
