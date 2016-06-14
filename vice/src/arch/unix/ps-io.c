@@ -74,6 +74,7 @@ BYTE ps_io_in_data(int chipno)
     if (chipno < MAXSID && pssids[chipno] != -1) {
         return io_access_read(pssids[chipno]);
     }
+    return 0;
 }
 
 void ps_io_out_data(BYTE outval, int chipno)
@@ -89,7 +90,7 @@ static BYTE detect_sid_read(WORD addr, WORD base)
     BYTE ctl = io_access_read(base + 2);
 
     io_access_store(base, addr & 0x1f);
-    
+
     ctl &= ~parsid_AUTOFEED;
     io_access_store(base + 2, ctl);
 
@@ -176,6 +177,8 @@ int ps_io_open(void)
 
     sids_found = 0;
 
+    parsid_get_ports();
+
     for (i = 0; i < MAXSID; ++i) {
         if (!io_access_map(ports[i], 3)) {
            if (detect_sid(ports[i])) {
@@ -195,9 +198,9 @@ int ps_io_close(void)
 {
     int i;
 
-    for (i = 0; i < MAX_PS_SID; ++i) {
+    for (i = 0; i < MAXSID; ++i) {
         if (pssids[i] != -1) {
-            io_access_unmap(pssids[i]);
+            io_access_unmap(pssids[i], 3);
             pssids[i] = -1;
         }
         ports[i] = -1;

@@ -28,6 +28,11 @@
 
 #ifdef HAVE_PORTSID
 
+#include <sys/ioctl.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+
 #ifdef HAVE_LINUX_PARPORT_HEADERS
 #include <linux/ppdev.h>
 #include <linux/parport.h>
@@ -88,14 +93,14 @@ void ps_file_out_ctr(WORD parsid_ctrport, int chipno)
             ctl |= PARPORT_CONTROL_SELECT;
         }
         datadir = (parsid_ctrport & parsid_PCD) ? 1 : 0;
-        ioctl(pssids[chipno], PPWCONTROL, &ctl
+        ioctl(pssids[chipno], PPWCONTROL, &ctl);
         ioctl(pssids[chipno], PPDATADIR, &datadir);
     }
 }
 
 BYTE ps_file_in_ctr(int chipno)
 {
-    BYTE retval;
+    BYTE retval = 0;
     BYTE ctl;
 
     if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
@@ -113,7 +118,7 @@ BYTE ps_file_in_ctr(int chipno)
             retval |= parsid_SELECTIN;
         }
     }
-        
+
     return retval;
 }
 
@@ -123,7 +128,7 @@ static BYTE detect_sid_read(WORD addr, int chipno)
     BYTE ctl = ps_file_in_ctr(chipno);
 
     ps_file_out_data(addr & 0x1f, chipno);
-    
+
     ctl &= ~parsid_AUTOFEED;
     ps_file_out_ctr(ctl, chipno);
 
@@ -215,7 +220,7 @@ int ps_file_open(void)
         pssids[sids_found] = open(parport_name[i], O_RDWR);
         if (pssids[sids_found] != -1) {
             if (!ioctl(pssids[sids_found], PPCLAIM)) {
-                if (!ioctl(fd, PPNEGOT, &mode)) {
+                if (!ioctl(pssids[sids_found], PPNEGOT, &mode)) {
                     if (detect_sid(sids_found)) {
                         sids_found++;
                     } else {
@@ -240,16 +245,17 @@ int ps_file_open(void)
     return 0;
 }
 
-void ps_file_close(void)
+int ps_file_close(void)
 {
     int i;
 
     for (i = 0; i < MAXSID; ++i) {
         if (pssids[i] != -1) {
-            close[pssids[i]);
+            close(pssids[i]);
             pssids[i] = -1;
         }
     }
+    return 0;
 }
 #endif
 

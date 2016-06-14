@@ -37,6 +37,10 @@ extern BYTE ps_file_in_ctr(int chipno);
 extern BYTE ps_io_in_ctr(int chipno);
 extern BYTE ps_ieee1284_in_ctr(int chipno);
 
+extern int ps_file_open(void);
+extern int ps_io_open(void);
+extern int ps_ieee1284_open(void);
+
 extern int ps_file_close(void);
 extern int ps_io_close(void);
 extern int ps_ieee1284_close(void);

@@ -28,6 +28,8 @@
 
 #ifdef HAVE_PARSID
 
+#include <unistd.h>
+
 #include "ps.h"
 #include "types.h"
 
@@ -51,7 +53,7 @@ void parsid_drv_out_ctr(WORD parsid_ctrport, int chipno)
 
 #ifdef HAVE_PORTSID
     if (use_port) {
-        ps_port_out_ctr(parsid_ctrport, chipno);
+        ps_file_out_ctr(parsid_ctrport, chipno);
     }
 #endif
 
@@ -70,13 +72,14 @@ BYTE parsid_drv_in_ctr(int chipno)
 
 #ifdef HAVE_PORTSID
     if (use_port) {
-        return ps_port_in_ctr(chipno);
+        return ps_file_in_ctr(chipno);
     }
 #endif
 
     if (use_io) {
         return ps_io_in_ctr(chipno);
     }
+    return 0;
 }
 
 int parsid_drv_open(void)
@@ -92,7 +95,7 @@ int parsid_drv_open(void)
 #endif
 
 #ifdef HAVE_PORTSID
-    i = ps_port_open();
+    i = ps_file_open();
     if (!i) {
         use_port = 1;
         return 0;
@@ -117,7 +120,7 @@ BYTE parsid_drv_in_data(int chipno)
 
 #ifdef HAVE_PORTSID
     if (use_port) {
-        return ps_port_in_data(chipno);
+        return ps_file_in_data(chipno);
     }
 #endif
 
@@ -137,7 +140,7 @@ void parsid_drv_out_data(BYTE outval, int chipno)
 
 #ifdef HAVE_PORTSID
     if (use_port) {
-        ps_port_out_data(outval, chipno);
+        ps_file_out_data(outval, chipno);
     }
 #endif
 
@@ -157,7 +160,7 @@ int parsid_drv_close(void)
 
 #ifdef HAVE_PORTSID
     if (use_port) {
-        ps_port_close();
+        ps_file_close();
         use_port = 0;
     }
 #endif
@@ -172,7 +175,7 @@ int parsid_drv_close(void)
 
 void parsid_drv_sleep(int amount)
 {
-    sleep(amount);
+    usleep(amount);
 }
 
 int parsid_drv_available(void)
@@ -185,7 +188,7 @@ int parsid_drv_available(void)
 
 #ifdef HAVE_PORTSID
     if (use_port) {
-        return ps_port_available();
+        return ps_file_available();
     }
 #endif
 
