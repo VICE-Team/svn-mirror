@@ -78,6 +78,8 @@ static ui_menu_entry_t set_viciimodel_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
+    { N_("SID model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, sid_model_submenu },
     { N_("SID filters"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
 #ifdef HAVE_RESID
