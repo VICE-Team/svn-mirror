@@ -112,6 +112,13 @@ static void uipalette_menu_create(void)
     palette_submenu[2].sub_menu = attach_palette_submenu;
 }
 
+static void uipalette_menu_shutdown(void)
+{
+    if (attach_palette_submenu) {
+        lib_free(attach_palette_submenu);
+        attach_palette_submenu = NULL;
+    }
+}
 
 UI_MENU_DEFINE_RADIO(TEDBorderMode)
 
@@ -275,5 +282,6 @@ void uited_menu_create(void)
 
 void uited_menu_shutdown(void)
 {
+    uipalette_menu_shutdown();
     UI_FULLSCREEN_MENU_SHUTDOWN(TED);
 }
