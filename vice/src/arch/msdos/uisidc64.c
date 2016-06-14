@@ -66,14 +66,8 @@ static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
             break;
 #endif
 #ifdef HAVE_PARSID
-        case SID_PARSID_PORT1:
-            s = "ParSID in Port 1";
-            break;
-        case SID_PARSID_PORT2:
-            s = "ParSID in Port 2";
-            break;
-        case SID_PARSID_PORT3:
-            s = "ParSID in Port 3";
+        case SID_PARSID:
+            s = "ParSID";
             break;
 #endif
 #ifdef HAVE_CATWEASELMKIII

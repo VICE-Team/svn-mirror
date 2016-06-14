@@ -150,6 +150,9 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	parsid-drv.c \
+	ps-device.c \
+	ps-ieee1284.c \
+	ps-io.c \
 	rawnetarch.c \
 	rs232dev.c \
 	sdlmain.c \

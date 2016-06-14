@@ -8301,6 +8301,7 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DISABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DISABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
 /* tr */ { IDS_DISABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
+#endif
 
 /* en */ { IDS_PET_REU_SIZE,    "PET REU size" },
 /* da */ { IDS_PET_REU_SIZE_DA, "PET REU størrelse" },

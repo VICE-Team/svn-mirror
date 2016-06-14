@@ -906,9 +906,7 @@ static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
             break;
 #endif
 #ifdef HAVE_PARSID
-        case SID_ENGINE_PARSID_PORT1:
-        case SID_ENGINE_PARSID_PORT2:
-        case SID_ENGINE_PARSID_PORT3:
+        case SID_ENGINE_PARSID:
             if (sid_snapshot_write_parsid_module(m, sidnr) < 0) {
                 goto fail;
             }
@@ -1010,9 +1008,7 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
             break;
 #endif
 #ifdef HAVE_PARSID
-        case SID_ENGINE_PARSID_PORT1:
-        case SID_ENGINE_PARSID_PORT2:
-        case SID_ENGINE_PARSID_PORT3:
+        case SID_ENGINE_PARSID:
             if (sid_snapshot_read_parsid_module(m, sidnr) < 0) {
                 goto fail;
             }

@@ -1,5 +1,5 @@
 /*
- * parsid-drv.c - PARallel port SID support for MSDOS.
+ * ps-io.c - I/O based PARallel port SID support for UNIX.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -27,19 +27,17 @@
 #include "vice.h"
 
 #ifdef HAVE_PARSID
-#include <dos.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
-#include <pc.h>
-#include <dpmi.h>
-#include <libc/farptrgs.h>
-#include <go32.h>
+#include <errno.h>
 
 #include "alarm.h"
-#include "parsid.h"
+#include "io-access.h"
 #include "log.h"
+#include "parsid.h"
+#include "ps.h"
 #include "sid-resources.h"
 #include "types.h"
 
@@ -49,120 +47,96 @@ static unsigned int ports[3] = {-1, -1, -1};
 static int pssids[3] = {-1, -1, -1};
 static int sids_found = -1;
 
-/* input/output functions */
-static BYTE parsid_inb(WORD addr)
-{
-    return inportb(addr);
-}
-
-static void parsid_outb(WORD addr, BYTE value)
-{
-    outportb(addr, value);
-}
-
-void parsid_drv_out_ctr(BYTE parsid_ctrport, int chipno)
+void ps_io_out_ctr(WORD parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
-        parsid_outb(pssids[chipno] + 2, parsid_ctrport);
+        io_access_store(pssids[chipno] + 2, parsid_ctrport);
     }
 }
 
-BYTE parsid_drv_in_ctr(int chipno)
+BYTE ps_io_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
-        return parsid_inb(pssids[chipno] + 2);
+        return io_access_read(pssids[chipno] + 2);
     }
     return 0;
 }
 
 static void parsid_get_ports(void)
 {
-    int j;
-    unsigned long ptraddr = 0x0408;		/* Base Address: segment is zero */
-    unsigned int address;				/* Address of Port */
+    ports[0] = 0x3bc;
+    ports[1] = 0x378;
+    ports[2] = 0x278;
+}
 
-    for (j = 0; j < 3; j++) {
-        address = _farpeekw(_dos_ds, ptraddr + (j * 4));
-        if (address != 0) {
-            ports[j] = address;
-        }
+BYTE ps_io_in_data(int chipno)
+{
+    if (chipno < MAXSID && pssids[chipno] != -1) {
+        return io_access_read(pssids[chipno]);
     }
 }
 
-static int is_windows_nt(void)
+void ps_io_out_data(BYTE outval, int chipno)
 {
-    unsigned short real_version;
-    int version_major = -1;
-    int version_minor = -1;
-
-    real_version = _get_dos_version(1);
-    version_major = real_version >> 8;
-    version_minor = real_version & 0xff;
-
-    if (version_major == 5 && version_minor == 50) {
-        return 1;
+    if (chipno < MAXSID && pssids[chipno] != -1) {
+        io_access_store(pssids[chipno], outval);
     }
-    return 0;
 }
 
 static BYTE detect_sid_read(WORD addr, WORD base)
 {
     BYTE value = 0;
-    BYTE ctl = parsid_inb(base + 2);
+    BYTE ctl = io_access_read(base + 2);
 
-    parsid_outb(base, addr & 0x1f);
+    io_access_store(base, addr & 0x1f);
     
     ctl &= ~parsid_AUTOFEED;
-    parsid_outb(base + 2, ctl);
+    io_access_store(base + 2, ctl);
 
     ctl |= parsid_AUTOFEED;
-    parsid_outb(base + 2, ctl);
+    io_access_store(base + 2, ctl);
 
     ctl |= parsid_PCD;
-    parsid_outb(base + 2, ctl);
+    io_access_store(base + 2, ctl);
 
     ctl |= parsid_nINIT;
-    parsid_outb(base + 2, ctl);
+    io_access_store(base + 2, ctl);
 
     ctl |= parsid_STROBE;
-    parsid_outb(base + 2, ctl);
+    io_access_store(base + 2, ctl);
 
-    value = parsid_inb(base);
+    value = io_access_read(base);
 
     ctl &= ~parsid_STROBE;
-    parsid_outb(base + 2, ctl);
+    io_access_store(base + 2, ctl);
 
-    return (int)value;
+    return value;
 }
 
 static void detect_sid_store(WORD addr, BYTE outval, WORD base)
 {
-    BYTE ctl = parsid_inb(base + 2);
+    BYTE ctl = io_access_read(base + 2);
 
-    parsid_outb(base, (addr & 0x1f));
+    io_access_store(base, (addr & 0x1f));
 
     ctl &= ~parsid_AUTOFEED;
-    parsid_outb(base + 2, ctl);
+    io_access_store(base + 2, ctl);
 
     ctl |= parsid_AUTOFEED;
-    parsid_outb(base + 2, ctl);
+    io_access_store(base + 2, ctl);
 
-    parsid_outb(base, outval);
+    io_access_store(base, outval);
 
     ctl |= parsid_STROBE;
-    parsid_outb(base + 2, ctl);
+    io_access_store(base + 2, ctl);
 
     ctl &= ~parsid_STROBE;
-    parsid_outb(base + 2, ctl);
+    io_access_store(base + 2, ctl);
 }
 
 static int detect_sid(WORD addr)
 {
     int i;
-
-    if (is_windows_nt()) {
-        return 0;
-    }
 
     for (i = 0x18; i >= 0; --i) {
         detect_sid_store(i, 0, addr);
@@ -188,7 +162,7 @@ static int detect_sid(WORD addr)
     return 0;
 }
 
-int parsid_drv_open(void)
+int ps_io_open(void)
 {
     int i = 0;
 
@@ -203,8 +177,8 @@ int parsid_drv_open(void)
     sids_found = 0;
 
     for (i = 0; i < MAXSID; ++i) {
-        if (ports[i] != -1) {
-            if (detect_sid(ports[i])) {
+        if (!io_access_map(ports[i], 3)) {
+           if (detect_sid(ports[i])) {
                 pssids[sids_found] = ports[i];
                 sids_found++;
             }
@@ -217,12 +191,15 @@ int parsid_drv_open(void)
     return 0;
 }
 
-int parsid_drv_close(void)
+int ps_io_close(void)
 {
     int i;
 
-    for (i = 0; i < MAXSID; ++i) {
-        pssids[i] = -1;
+    for (i = 0; i < MAX_PS_SID; ++i) {
+        if (pssids[i] != -1) {
+            io_access_unmap(pssids[i]);
+            pssids[i] = -1;
+        }
         ports[i] = -1;
     }
 
@@ -231,27 +208,7 @@ int parsid_drv_close(void)
     return 0;
 }
 
-BYTE parsid_drv_in_data(int chipno)
-{
-    if (chipno < MAXSID && pssids[chipno] != -1) {
-        return parsid_inb(pssids[chipno]);
-    }
-    return 0;
-}
-
-void parsid_drv_out_data(BYTE outval, int chipno)
-{
-    if (chipno < MAXSID && pssids[chipno] != -1) {
-        parsid_outb(pssids[chipno], outval);
-    }
-}
-
-void parsid_drv_sleep(int amount)
-{
-    sleep(amount);
-}
-
-int parsid_drv_available(void)
+int ps_io_available(void)
 {
     return sids_found;
 }

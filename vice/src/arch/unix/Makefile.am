@@ -66,6 +66,10 @@ libarch_a_SOURCES = \
 	mousedrv.h \
 	openGL_sync.h \
 	parsid-drv.c \
+	ps.h \
+	ps-file.c \
+	ps-ieee1284.c \
+	ps-io.c \
 	rs232dev.c \
 	signals.c \
 	socketimpl.h \

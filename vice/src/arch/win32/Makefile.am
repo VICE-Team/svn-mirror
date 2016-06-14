@@ -70,6 +70,10 @@ libarch_a_SOURCES = \
 	parsid-drv.c \
 	petui.c \
 	plus4ui.c \
+	ps.h \
+	ps-dll.c \
+	ps-ieee1284.c \
+	ps-io.c \
 	rawnetarch.c \
 	res.rc \
 	resacia.rc \

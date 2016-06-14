@@ -3250,6 +3250,7 @@ if test x"$is_unix" = "xyes"; then
     if test x"$PORTSID_SUPPORT" = "xyes"; then
       if test x"$enable_parsid" != "xno" -a x"HAVE_PARSID_SUPPORT" != "xyes"; then
         AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+        AC_DEFINE(HAVE_PORTSID,,[Support for file device based access to ParSID.])
         HAVE_PARSID_SUPPORT="yes"
       fi
     fi

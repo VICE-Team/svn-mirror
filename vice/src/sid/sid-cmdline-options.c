@@ -92,22 +92,13 @@ static struct engine_s engine_match[] = {
     { "hs", SID_HARDSID },
 #endif
 #ifdef HAVE_PARSID
-    { "1024", SID_PARSID_PORT1 },
-    { "parsid", SID_PARSID_PORT1 },
-    { "parsid1", SID_PARSID_PORT1 },
-    { "par1", SID_PARSID_PORT1 },
-    { "lpt1", SID_PARSID_PORT1 },
-    { "1280", SID_PARSID_PORT2 },
-    { "parsid2", SID_PARSID_PORT2 },
-    { "par2", SID_PARSID_PORT2 },
-    { "lpt2", SID_PARSID_PORT2 },
-    { "1536", SID_PARSID_PORT3 },
-    { "parsid3", SID_PARSID_PORT3 },
-    { "par3", SID_PARSID_PORT3 },
-    { "lpt3", SID_PARSID_PORT3 },
+    { "1024", SID_PARSID },
+    { "parsid", SID_PARSID },
+    { "par", SID_PARSID },
+    { "lpt", SID_PARSID },
 #endif
 #ifdef HAVE_SSI2001
-    { "1792", SID_SSI2001 },
+    { "1280", SID_SSI2001 },
     { "ssi2001", SID_SSI2001 },
     { "ssi", SID_SSI2001 },
 #endif
