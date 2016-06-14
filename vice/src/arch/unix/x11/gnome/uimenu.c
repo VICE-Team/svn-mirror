@@ -214,17 +214,16 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
 
                     if (list[i].callback) {
                         new_item = gtk_check_menu_item_new_with_label(label);
-			update_item = 1;
+                        update_item = 1;
                     } else {
-			log_error(LOG_DEFAULT, "checkbox without callback: %s",
-				  label);
+                        log_error(LOG_DEFAULT, "checkbox without callback: %s", label);
                     }
                     lib_free(label);
                     break;
                 }
-	    case UI_MENU_TYPE_BL_SUB: /* callback to block/unblock menu needed */
-		    update_item = 1;
-		    /* fall through */
+            case UI_MENU_TYPE_BL_SUB: /* callback to block/unblock menu needed */
+                update_item = 1;
+                /* fall through */
             default:
                 {
                     char *item, *itemp;
@@ -240,45 +239,38 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
         }
 
         if (new_item) {
-	    if (list[i].callback) {
-		if (update_item) {
-		    checkmark_t *cmt;
-		    /* FIXME: memory leak */
-		    cmt = lib_malloc(sizeof(checkmark_t));
-		    /* FIXME: memory leak */
-		    cmt->name = lib_stralloc(list[i].string);
-		    cmt->w = new_item;
-		    cmt->cb = list[i].callback;
-		    cmt->obj.value = (void*)list[i].callback_data;
-		    cmt->obj.status = CB_NORMAL;
-		    cmt->handlerid = g_signal_connect(G_OBJECT(new_item), 
-						 "activate", 
-						 G_CALLBACK(list[i].callback), 
-						 (gpointer)&(cmt->obj)); 
-		    g_signal_connect(G_OBJECT(new_item), "destroy", 
-				     G_CALLBACK(delete_checkmark_cb), (gpointer)cmt);
-		    /* Add this item to the list of calls to perform to update the
-		       menu status. e.g. checkmarks or submenus */
-		    checkmark_list = g_list_prepend(checkmark_list, cmt);
-		} else {
-		    ui_menu_cb_obj *obj;
-		    /* FIXME: memory leak */
-		    obj = lib_malloc(sizeof(ui_menu_cb_obj));
-		    obj->value = (void*)list[i].callback_data;
-		    obj->status = CB_NORMAL;
-		
-		    g_signal_connect(G_OBJECT(new_item), "activate", 
-				     G_CALLBACK(list[i].callback), 
-				     (gpointer)obj); 
-		}
-	    }
- 		
+            if (list[i].callback) {
+                if (update_item) {
+                    checkmark_t *cmt;
+                    /* FIXME: memory leak */
+                    cmt = lib_malloc(sizeof(checkmark_t));
+                    /* FIXME: memory leak */
+                    cmt->name = lib_stralloc(list[i].string);
+                    cmt->w = new_item;
+                    cmt->cb = list[i].callback;
+                    cmt->obj.value = (void*)list[i].callback_data;
+                    cmt->obj.status = CB_NORMAL;
+                    cmt->handlerid = g_signal_connect(G_OBJECT(new_item), "activate", G_CALLBACK(list[i].callback), (gpointer)&(cmt->obj)); 
+                    g_signal_connect(G_OBJECT(new_item), "destroy", G_CALLBACK(delete_checkmark_cb), (gpointer)cmt);
+                    /* Add this item to the list of calls to perform to update the
+                    menu status. e.g. checkmarks or submenus */
+                    checkmark_list = g_list_prepend(checkmark_list, cmt);
+                } else {
+                    ui_menu_cb_obj *obj;
+                    /* FIXME: memory leak */
+                    obj = lib_malloc(sizeof(ui_menu_cb_obj));
+                    obj->value = (void*)list[i].callback_data;
+                    obj->status = CB_NORMAL;
+                    g_signal_connect(G_OBJECT(new_item), "activate", G_CALLBACK(list[i].callback), (gpointer)obj); 
+                }
+            }
+
             gtk_menu_shell_append(GTK_MENU_SHELL(w), new_item);
             gtk_widget_show(new_item);
             if (do_right_justify) {
                 gtk_menu_item_set_right_justified(GTK_MENU_ITEM(new_item), TRUE);
             }
-	    
+
             DBG(("ui_menu_create: allocate new: %s\t(%p)\t%s", gtk_type_name(GTK_WIDGET_TYPE(new_item)), new_item, list[i].string));
         }
 
@@ -292,10 +284,8 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
             }
             ui_menu_create(sub, accel, list[i].string, list[i].sub_menu);
         } else {            /* no submenu */
-            if (accel && list[i].hotkey_keysym != KEYSYM_NONE && 
-		list[i].callback != NULL && new_item != NULL) {
-                add_accelerator(list[i].string, new_item, accel, 
-				list[i].hotkey_keysym, list[i].hotkey_modifier);
+            if (accel && list[i].hotkey_keysym != KEYSYM_NONE && list[i].callback != NULL && new_item != NULL) {
+                add_accelerator(list[i].string, new_item, accel, list[i].hotkey_keysym, list[i].hotkey_modifier);
             }
         }
     }
