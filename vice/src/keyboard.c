@@ -919,10 +919,13 @@ static int keyboard_parse_keymap(const char *filename, int child)
     char *complete_path = NULL;
     char buffer[1000];
 
+    DBG((">keyboard_parse_keymap(%s)\n", filename));
+
     fp = sysfile_open(filename, &complete_path, MODE_READ_TEXT);
 
     if (fp == NULL) {
         log_message(keyboard_log, "Error loading keymap `%s'->`%s'.", filename, complete_path ? complete_path : "<empty/null>");
+        DBG(("<keyboard_parse_keymap(%s) ERROR\n", filename));
         return -1;
     }
 
@@ -961,6 +964,7 @@ static int keyboard_parse_keymap(const char *filename, int child)
 
     lib_free(complete_path);
 
+    DBG(("<keyboard_parse_keymap OK\n"));
     return 0;
 }
 
@@ -1421,14 +1425,15 @@ static int try_set_keymap_file(int atidx, int idx, int mapping, int type)
                 idx ? "KeymapPosFile" : "KeymapSymFile", name));
 
     util_string_set(&machine_keymap_file_list[atidx], name);
-
     DBG(("try_set_keymap_file calls sysfile_locate(%s)\n", name));
     if (sysfile_locate(name, &complete_path) != 0) {
         lib_free(name);
+        lib_free(complete_path);
         DBG(("<try_set_keymap_file ERROR locating keymap `%s'.\n", name ? name : "(null)"));
         return -1;
     }
     lib_free(name);
+    lib_free(complete_path);
     DBG(("<try_set_keymap_file OK\n"));
     return 0;
 }
@@ -1548,7 +1553,7 @@ int keyboard_resources_init(void)
     npos = (machine_keymap_file_list[KBD_INDEX_POS] == NULL) || (machine_keymap_file_list[KBD_INDEX_POS][0] == 0);
     nsym = (machine_keymap_file_list[KBD_INDEX_SYM] == NULL) || (machine_keymap_file_list[KBD_INDEX_SYM][0] == 0);
 
-    DBG(("keyboard_resources_init(first start:%s)\n", (npos && nsym) ? "yes" : "no"));
+    DBG((">>keyboard_resources_init(first start:%s)\n", (npos && nsym) ? "yes" : "no"));
 
     if (npos && nsym) {
         mapping = kbd_arch_get_host_mapping();
@@ -1562,6 +1567,7 @@ int keyboard_resources_init(void)
         }
         keyboard_set_default_keymap_file(KBD_INDEX_POS);
         if (resources_get_string("KeymapPosFile", &name) < 0) {
+            DBG(("<<keyboard_resources_init(error)\n"));
             return -1;
         }
         util_string_set(&resources_string_d1, name);
@@ -1570,6 +1576,7 @@ int keyboard_resources_init(void)
         log_verbose("Default positional map is: %s", name);
         keyboard_set_default_keymap_file(KBD_INDEX_SYM);
         if (resources_get_string("KeymapSymFile", &name) < 0) {
+            DBG(("<<keyboard_resources_init(error)\n"));
             return -1;
         }
         log_verbose("Default symbolic map is: %s", name);
@@ -1584,18 +1591,22 @@ int keyboard_resources_init(void)
 
         idx = type = mapping = 0;
         if (resources_get_int("KeymapIndex", &idx) < 0) {
+            DBG(("<<keyboard_resources_init(error)\n"));
             return -1;
         }
         if (resources_get_int("KeyboardType", &type) < 0) {
+            DBG(("<<keyboard_resources_init(error)\n"));
             return -1;
         }
         if (resources_get_int("KeyboardMapping", &mapping) < 0) {
+            DBG(("<<keyboard_resources_init(error)\n"));
             return -1;
         }
         resources_set_default_int("KeymapIndex", idx);
         resources_set_default_int("KeyboardType", type);
         resources_set_default_int("KeyboardMapping", mapping);
     }
+    DBG(("<<keyboard_resources_init(ok)\n"));
     return 0;
 }
 
@@ -1605,6 +1616,10 @@ void keyboard_resources_shutdown(void)
     lib_free(machine_keymap_file_list[KBD_INDEX_POS]);
     lib_free(machine_keymap_file_list[KBD_INDEX_USERSYM]);
     lib_free(machine_keymap_file_list[KBD_INDEX_USERPOS]);
+    lib_free(resources_string_d0);
+    lib_free(resources_string_d1);
+    lib_free(resources_string_d2);
+    lib_free(resources_string_d3);
 }
 
 #endif /* COMMON_KBD */
