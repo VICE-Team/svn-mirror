@@ -314,6 +314,8 @@ void machine_shutdown(void)
     sound_resources_shutdown();
     video_resources_shutdown();
     machine_resources_shutdown();
+    machine_common_resources_shutdown();
+
     sysfile_resources_shutdown();
     zfile_shutdown();
     ui_resources_shutdown();

@@ -84,6 +84,7 @@ extern int video_disabled_mode;
 /* Initialize the machine's resources.  */
 extern int machine_common_resources_init(void);
 extern int machine_resources_init(void);
+extern void machine_common_resources_shutdown(void);
 extern void machine_resources_shutdown(void);
 
 /* Initialize the machine's command-line options.  */
