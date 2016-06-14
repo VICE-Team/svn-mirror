@@ -49,6 +49,13 @@
 #include "log.h"
 #include "util.h"
 
+/* #define DBGUTIL */
+
+#ifdef DBGUTIL
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
 
 /* Malloc a new string whose contents concatenate the arguments until the
    first NULL pointer (max `_CONCAT_MAX_ARGS' arguments).  */
@@ -104,7 +111,7 @@ char *util_concat(const char *s, ...)
     }
 
 #endif
-
+    DBG(("util_concat %p - %s\n", newp, newp));
     return newp;
 }
 
@@ -189,6 +196,7 @@ int util_string_set(char **str, const char *new_value)
             strcpy(*str, new_value);
         }
     }
+    DBG(("util_string_set %p - %s\n", *str, *str));
     return 0;
 }
 
