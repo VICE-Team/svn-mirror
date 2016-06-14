@@ -497,17 +497,17 @@ void lib_debug_check(void)
                lib_debug_leaklist_filename[index], lib_debug_leaklist_line[index], 
                lib_debug_leaklist_size[index], lib_debug_leaklist_address[index]);
 #ifdef LIB_DEBUG_CALLER
-        printf("\ncalled from:");
+        printf("\ncallstack:\n");
         btstring = backtrace_symbols(lib_debug_leaklist_bt_caller[index], lib_debug_leaklist_bt_numcaller[index]);
         if (btstring == NULL) {
-            printf("\n             lookup failed");
+            printf("             lookup failed\n");
         } else {
             for (btidx = 1; btidx < lib_debug_leaklist_bt_numcaller[index]; btidx++) {
-                printf("\n             ");
+                printf("             ");
                 for (spc = 0; spc < btidx; spc++) {
                     printf(" ");
                 }
-                printf("%s", btstring[btidx]);
+                printf("%s\n", btstring[btidx]);
             }
         }
         free(btstring);
