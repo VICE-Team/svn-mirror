@@ -293,6 +293,8 @@ int resources_register_string(const resource_string_t *r)
     const resource_string_t *sp;
     resource_ram_t *dp;
 
+    DBG(("resources_register_string name:'%s'\n", r->name ? r->name : "<empty/null>"));
+    
     sp = r;
     dp = resources + num_resources;
     while (sp->name != NULL) {
