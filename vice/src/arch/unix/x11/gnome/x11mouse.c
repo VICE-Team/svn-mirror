@@ -344,22 +344,22 @@ void ui_set_left_menu(ui_menu_entry_t *menu)
     static GtkAccelGroup *accel;
     static GtkWidget *left_menu;
     int num_app_shells = get_num_shells();
-    
+
     DBG(("ui_set_left_menu"));
 
     ui_block_shells();
 
     if (accel) {
-	g_object_unref(accel);
+        g_object_unref(accel);
     }
 
     accel = gtk_accel_group_new();
     for (i = 0; i < num_app_shells; i++) {
-	gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
+        gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
     }
 
     if (left_menu != NULL) {
-	gtk_widget_destroy(left_menu);
+        gtk_widget_destroy(left_menu);
     }
     left_menu = gtk_menu_new();
     ui_menu_create(left_menu, accel, "LeftMenu", menu);
@@ -379,16 +379,16 @@ void ui_set_right_menu(ui_menu_entry_t *menu)
     ui_block_shells();
 
     if (accel) {
-	g_object_unref(accel);
+        g_object_unref(accel);
     }
 
     accel = gtk_accel_group_new();
     for (i = 0; i < num_app_shells; i++) {
-	gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
+        gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
     }
 
     if (right_menu != NULL) {
-	gtk_widget_destroy(right_menu);
+        gtk_widget_destroy(right_menu);
     }
     right_menu = gtk_menu_new();
     ui_menu_create(right_menu, accel, "RightMenu", menu);
