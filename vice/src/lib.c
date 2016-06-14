@@ -63,7 +63,9 @@
 /* warn on free(NULL) */
 /* #define LIB_DEBUG_WARN_FREE_NULL */
 #ifdef __GNUC__
-/* #define LIB_DEBUG_CALLER */
+#define LIB_DEBUG_CALLER
+#define DEBUG_BT_MAXDEPTH 16
+#include <execinfo.h>
 #endif
 #endif
 
@@ -89,7 +91,8 @@ static unsigned int lib_debug_top_size[LIB_DEBUG_TOPMAX];
 static unsigned int lib_debug_current_total = 0;
 static unsigned int lib_debug_max_total = 0;
 #ifdef LIB_DEBUG_CALLER
-static void *lib_debug_caller[LIB_DEBUG_SIZE];
+static void *lib_debug_bt_caller[LIB_DEBUG_SIZE][DEBUG_BT_MAXDEPTH];
+static int lib_debug_bt_numcaller[LIB_DEBUG_SIZE];
 #endif
 
 #if LIB_DEBUG_GUARD > 0
@@ -99,28 +102,12 @@ static unsigned int lib_debug_guard_size[LIB_DEBUG_SIZE];
 
 /*----------------------------------------------------------------------------*/
 
-#ifdef LIB_DEBUG_CALLER
-static void *lib_debug_func_level1(void)
-{
-    return __builtin_extract_return_addr (__builtin_return_address(1 + 1));
-}
-
-static void *lib_debug_func_level2(void)
-{
-    return __builtin_extract_return_addr (__builtin_return_address(2 + 1));
-}
-
-static void *lib_debug_func_level3(void)
-{
-    return __builtin_extract_return_addr (__builtin_return_address(3 + 1));
-}
-#endif
-
 static void lib_debug_init(void)
 {
     memset(lib_debug_address, 0, sizeof(lib_debug_address));
 #ifdef LIB_DEBUG_CALLER
-    memset(lib_debug_caller, 0, sizeof(lib_debug_caller));
+    memset(lib_debug_bt_caller, 0, sizeof(lib_debug_bt_caller));
+    memset(lib_debug_bt_numcaller, 0, sizeof(lib_debug_bt_numcaller));
 #endif
 #if LIB_DEBUG_GUARD > 0
     memset(lib_debug_guard_base, 0, sizeof(lib_debug_guard_base));
@@ -155,9 +142,6 @@ static void lib_debug_add_top(const char *filename, unsigned int line, unsigned 
 static void lib_debug_alloc(void *ptr, size_t size, int level)
 {
     unsigned int index;
-#ifdef LIB_DEBUG_CALLER
-    void *func = NULL;
-#endif
 
     if (!lib_debug_initialized) {
         lib_debug_init();
@@ -175,18 +159,7 @@ static void lib_debug_alloc(void *ptr, size_t size, int level)
     }
 
 #ifdef LIB_DEBUG_CALLER
-    switch (level) {
-        case 1:
-            func = lib_debug_func_level1();
-            break;
-        case 2:
-            func = lib_debug_func_level2();
-            break;
-        case 3:
-            func = lib_debug_func_level3();
-            break;
-    }
-    lib_debug_caller[index] = func;
+    lib_debug_bt_numcaller[index] = backtrace(lib_debug_bt_caller[index], DEBUG_BT_MAXDEPTH);
 #if 0
     printf("lib_debug_alloc(): Alloc address %p size %i slot %i from %p.\n",
            ptr, size, index, func);
@@ -210,9 +183,6 @@ static void lib_debug_alloc(void *ptr, size_t size, int level)
 static void lib_debug_free(void *ptr, unsigned int level, unsigned int fill)
 {
     unsigned int index;
-#ifdef LIB_DEBUG_CALLER
-    void *func = NULL;
-#endif
 
     if (ptr == NULL) {
         return;
@@ -230,22 +200,6 @@ static void lib_debug_free(void *ptr, unsigned int level, unsigned int fill)
 #endif
         return;
     }
-
-#ifdef LIB_DEBUG_CALLER
-#if 0
-    switch (level) {
-        case 1:
-            func = lib_debug_func_level1();
-            break;
-        case 2:
-            func = lib_debug_func_level2();
-            break;
-        case 3:
-            func = lib_debug_func_level3();
-            break;
-    }
-#endif
-#endif
 
 #if 0
     printf("lib_debug_free(): Free address %p size %i slot %i from %p.\n",
@@ -475,10 +429,12 @@ const char *lib_debug_leaklist_filename[LIB_DEBUG_LEAKLIST_MAX];
 unsigned int lib_debug_leaklist_line[LIB_DEBUG_LEAKLIST_MAX];
 unsigned int lib_debug_leaklist_size[LIB_DEBUG_LEAKLIST_MAX];
 void *lib_debug_leaklist_address[LIB_DEBUG_LEAKLIST_MAX];
+void *lib_debug_leaklist_bt_caller[LIB_DEBUG_LEAKLIST_MAX][DEBUG_BT_MAXDEPTH];
+int lib_debug_leaklist_bt_numcaller[LIB_DEBUG_LEAKLIST_MAX];
 
 void lib_debug_leaklist_add(unsigned int index)
 {
-    unsigned int i;
+    unsigned int i, j;
     for (i = 0; i < lib_debug_leaklist_num; i++) {
         if ((lib_debug_line[index] == lib_debug_leaklist_line[i]) &&
             (!strcmp(lib_debug_filename[index],lib_debug_leaklist_filename[i]))) {
@@ -493,6 +449,10 @@ void lib_debug_leaklist_add(unsigned int index)
         lib_debug_leaklist_filename[i] = lib_debug_filename[index];
         lib_debug_leaklist_size[i] = lib_debug_size[index];
         lib_debug_leaklist_address[i] = lib_debug_address[index];
+        lib_debug_leaklist_bt_numcaller[i] = lib_debug_bt_numcaller[index];
+        for (j = 0; j < DEBUG_BT_MAXDEPTH; j++) {
+            lib_debug_leaklist_bt_caller[i][j] = lib_debug_bt_caller[index][j];
+        }
     } else {
         printf("Error: lib_debug_leaklist_add(): Out of slots. (increase LIB_DEBUG_LEAKLIST_MAX!)\n");
     }
@@ -505,7 +465,10 @@ void lib_debug_check(void)
 #ifdef LIB_DEBUG
     unsigned int index, count;
     unsigned int leakbytes;
-
+#ifdef LIB_DEBUG_CALLER
+    char **btstring;
+    int btidx, spc;
+#endif
     count = 0;
     leakbytes = 0;
     lib_debug_leaklist_num = 0;
@@ -518,9 +481,6 @@ void lib_debug_check(void)
 #else
             printf("Warning: Memory block allocated here was not free'd (Memory leak with size 0x%x at %p).",
                    lib_debug_size[index], lib_debug_address[index]);
-#ifdef LIB_DEBUG_CALLER
-            printf("(called from %p)", lib_debug_caller[index]);
-#endif
             printf("\n");
 #endif
             leakbytes += lib_debug_size[index];
@@ -536,10 +496,21 @@ void lib_debug_check(void)
         printf("%s:%d: Warning: Memory block(s) allocated here was not free'd (Memory leak with size 0x%x at %p).",
                lib_debug_leaklist_filename[index], lib_debug_leaklist_line[index], 
                lib_debug_leaklist_size[index], lib_debug_leaklist_address[index]);
-#if 0
 #ifdef LIB_DEBUG_CALLER
-            printf("(called from %p)", lib_debug_caller[index]);
-#endif
+        printf("\ncalled from:");
+        btstring = backtrace_symbols(lib_debug_leaklist_bt_caller[index], lib_debug_leaklist_bt_numcaller[index]);
+        if (btstring == NULL) {
+            printf("\n             lookup failed");
+        } else {
+            for (btidx = 1; btidx < lib_debug_leaklist_bt_numcaller[index]; btidx++) {
+                printf("\n             ");
+                for (spc = 0; spc < btidx; spc++) {
+                    printf(" ");
+                }
+                printf("%s", btstring[btidx]);
+            }
+        }
+        free(btstring);
 #endif
         printf("\n");
     }
