@@ -1060,7 +1060,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     }
     DBG(("autostart_initial_delay_cycles: %d", autostart_initial_delay_cycles));
 
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 
     /* The autostartmode must be set AFTER the shutdown to make the autostart
        threadsafe for OS/2 */
