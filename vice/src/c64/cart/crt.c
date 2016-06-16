@@ -144,8 +144,8 @@ static FILE *crt_open(const char *filename, crt_header_t *header)
         skip = util_be_buf_to_dword(&crt_header[0x10]);
 
         if (skip < sizeof(crt_header)) {
-            log_error(LOG_DEFAULT, "CRT header size is wrong (is 0x%02x, expected 0x%02lx).",
-                skip, sizeof(crt_header));
+            log_error(LOG_DEFAULT, "CRT header size is wrong (is 0x%02x, expected 0x%02x).",
+                (unsigned int)skip, (unsigned int)sizeof(crt_header));
             break; /* invalid header size */
         }
         skip -= sizeof(crt_header); /* without header */

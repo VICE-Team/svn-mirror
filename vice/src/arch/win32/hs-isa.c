@@ -33,6 +33,10 @@
 #include <conio.h>
 #include <assert.h>
 
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #include "alarm.h"
 #include "archdep.h"
 #include "hardsid.h"
