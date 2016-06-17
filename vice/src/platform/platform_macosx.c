@@ -39,9 +39,8 @@
  * - x86 MacOSX 10.11
  */
 
-/* Binary compatibility:
+/* Binary compatibility table:
 
-   /* Binary compatibility table:
    running on |       | compiled for ->
               v       | PPC OSX 10.1-10.4 | x86 OSX 10.4-10.6 | x86 OSX 10.7-10.11
    -------------------------------------------------------------------------------

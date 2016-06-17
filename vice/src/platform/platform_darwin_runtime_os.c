@@ -48,9 +48,8 @@
  * - Mac OS X 10.11 (x86)
  */
 
-/* Binary compatibility:
+/* Binary compatibility table:
 
-   /* Binary compatibility table:
    running on |       | compiled for ->
               v       | PPC Darwin 1.x-8.x | x86 Darwin 1.x-7.x | x86 Darwin 8.x | x86 PureDarwin
    ----------------------------------------------------------------------------------------------
