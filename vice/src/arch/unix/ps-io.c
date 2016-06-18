@@ -177,6 +177,8 @@ int ps_io_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting direct I/O ParSIDs.");
+
     parsid_get_ports();
 
     for (i = 0; i < MAXSID; ++i) {
@@ -184,13 +186,21 @@ int ps_io_open(void)
            if (detect_sid(ports[i])) {
                 pssids[sids_found] = ports[i];
                 sids_found++;
+                log_message(LOG_DEFAULT, "ParSID found at %X.", ports[i]);
+            } else {
+                log_message(LOG_DEFAULT, "No ParSID at %X.", ports[i]);
             }
+        } else (
+            log_message(LOG_DEFAULT, "Could not get permission to access %X.", ports[i]);
         }
     }
 
     if (!sids_found) {
         return -1;
     }
+
+    log_message(LOG_DEFAULT, "Direct I/O ParSID: opened, found %d SIDs.", sids_found);
+
     return 0;
 }
 
@@ -207,6 +217,8 @@ int ps_io_close(void)
     }
 
     sids_found = -1;
+
+    log_message(LOG_DEFAULT, "Direct I/O ParSID: closed.");
 
     return 0;
 }

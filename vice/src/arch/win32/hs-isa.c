@@ -195,6 +195,8 @@ int hs_isa_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting ISA HardSID boards.");
+
     if (hLib == NULL) {
         hLib = LoadLibrary(INPOUTDLLNAME);
     }
@@ -202,11 +204,14 @@ int hs_isa_open(void)
     hardsid_use_lib = 0;
 
     if (hLib != NULL) {
+        log_message(LOG_DEFAULT, "Opened %s.", INPOUTDLLNAME);
+
 #ifndef MSVC_RC
         inp32fp = (inpfuncPtr)GetProcAddress(hLib, "Inp32");
         if (inp32fp != NULL) {
             oup32fp = (oupfuncPtr)GetProcAddress(hLib, "Out32");
             if (oup32fp != NULL) {
+                log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", INPOUTDLLNAME);
                 hardsid_use_lib = 1;
             }
         }
@@ -215,13 +220,19 @@ int hs_isa_open(void)
         if (Inp32 != NULL) {
             Out32 = (Out32_t)GetProcAddress(hLib, "Out32");
             if (Out32 != NULL) {
+                log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", INPOUTDLLNAME);
                 hardsid_use_lib = 1;
             }
         }
 #endif
+        if (!hardsid_use_lib) {
+            log_message(LOG_DEFAULT, "Cannot get I/O functions in %s, using direct I/O access.", INPOUTDLLNAME);
+        }
     }
 
+
     if (!(GetVersion() & 0x80000000) && hardsid_use_lib == 0) {
+        log_message(LOG_DEFAULT, "Cannot use direct I/O access on Windows NT/2000/Server/XP/Vista/7/8/10.");
         return -1;
     }
 
@@ -233,8 +244,11 @@ int hs_isa_open(void)
     }
 
     if (!sids_found) {
+        log_message(LOG_DEFAULT, "No ISA HardSID found.");
         return -1;
     }
+
+    log_message(LOG_DEFAULT, "ISA HardSID: opened, found %d SIDs.", sids_found);
 
     return 0;
 }
@@ -255,6 +269,8 @@ int hs_isa_close(void)
     }
 
     sids_found = -1;
+
+    log_message(LOG_DEFAULT, "ISA HardSID: closed");
 
     return 0;
 }

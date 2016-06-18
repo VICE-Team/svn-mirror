@@ -123,19 +123,24 @@ int hs_gg2_isa_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting GG2+ ISA HardSID boards.");
+
     if ((ExpansionBase = OpenLibrary("expansion.library", 0L)) == NULL) {
+        log_message(LOG_DEFAULT, "Cannot open expansion library.");
         return -1;
     }
 
     myCD = FindConfigDev(myCD, 2150, 1);
 
     if (!myCD) {
+        log_message(LOG_DEFAULT, "No GG2+ found.");
         return -1;
     }
 
     base = myCD->cd_BoardAddr;
 
     if (!base) {
+        log_message(LOG_DEFAULT, "No GG2+ found.");
         return -1;
     }
 
@@ -147,6 +152,7 @@ int hs_gg2_isa_open(void)
     }
 
     if (!sids_found) {
+        log_message(LOG_DEFAULT, "No GG2+ ISA HardSID board found.");
         return -1;
     }
 
@@ -159,7 +165,7 @@ int hs_gg2_isa_open(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "HardSID ISA (GG2+) SID: opened, found %d SIDs", sids_found);
+    log_message(LOG_DEFAULT, "GG2+ ISA HardSID: opened, found %d SIDs.", sids_found);
 
     return 0;
 }
@@ -206,6 +212,8 @@ int hs_gg2_isa_close(void)
         }
     }
     sids_found = -1;
+
+    log_message(LOG_DEFAULT, "GG2+ ISA HardSID: closed.");
 
     return 0;
 }

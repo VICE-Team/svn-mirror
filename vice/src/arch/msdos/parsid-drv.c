@@ -75,20 +75,6 @@ BYTE parsid_drv_in_ctr(int chipno)
     return 0;
 }
 
-static void parsid_get_ports(void)
-{
-    int j;
-    unsigned long ptraddr = 0x0408;		/* Base Address: segment is zero */
-    unsigned int address;				/* Address of Port */
-
-    for (j = 0; j < 3; j++) {
-        address = _farpeekw(_dos_ds, ptraddr + (j * 4));
-        if (address != 0) {
-            ports[j] = address;
-        }
-    }
-}
-
 static int is_windows_nt(void)
 {
     unsigned short real_version;
@@ -103,6 +89,25 @@ static int is_windows_nt(void)
         return 1;
     }
     return 0;
+}
+
+static void parsid_get_ports(void)
+{
+    int j;
+    unsigned long ptraddr = 0x0408;		/* Base Address: segment is zero */
+    unsigned int address;				/* Address of Port */
+
+    if (is_windows_nt()) {
+        return;
+    }
+
+    for (j = 0; j < 3; j++) {
+        address = _farpeekw(_dos_ds, ptraddr + (j * 4));
+        if (address != 0) {
+            ports[j] = address;
+            log_message(LOG_DEFAULT, "Parallel port found at %X.", address);
+        }
+    }
 }
 
 static BYTE detect_sid_read(WORD addr, WORD base)
@@ -161,6 +166,7 @@ static int detect_sid(WORD addr)
     int i;
 
     if (is_windows_nt()) {
+        log_message(LOG_DEFAULT, "Running on Windows NT, cannot use direct memory access.");
         return 0;
     }
 
@@ -202,18 +208,27 @@ int parsid_drv_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting ParSIDs.");
+
+    parsid_get_ports();
+
     for (i = 0; i < MAXSID; ++i) {
         if (ports[i] != -1) {
             if (detect_sid(ports[i])) {
                 pssids[sids_found] = ports[i];
                 sids_found++;
+                log_message(LOG_DEFAULT, "ParSID found on port at address $%X.", ports[i]);
             }
         }
     }
 
     if (!sids_found) {
+        log_message(LOG_DEFAULT, "No ParSIDs found.");
         return -1;
     }
+
+    log_message(LOG_DEFAULT, "ParSID: opened, found %d SIDs.", sids_found);
+
     return 0;
 }
 
@@ -227,6 +242,8 @@ int parsid_drv_close(void)
     }
 
     sids_found = -1;
+
+    log_message(LOG_DEFAULT, "ParSID: closed.");
 
     return 0;
 }

@@ -75,6 +75,8 @@ int catweaselmkiii_drv_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting CatWeasel boards.");
+
     /* if no device is currently opened */
     if (sidfh < 0) {
         sidfh = open("/dev/sid", O_RDWR);
@@ -85,7 +87,7 @@ int catweaselmkiii_drv_open(void)
 
         /* could not open at standard locations: error */
         if (sidfh < 0) {
-            log_error(LOG_DEFAULT, "could not open sid device /dev/sid or /dev/misc/sid");
+            log_error(LOG_DEFAULT, "Could not open SID device /dev/sid or /dev/misc/sid");
             return -1;
         }
     }
@@ -98,7 +100,7 @@ int catweaselmkiii_drv_open(void)
 
     setfreq();
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
+    log_message(LOG_DEFAULT, "PCI CatWeasel SID: opened.");
 
     sids_found = 1;
 
@@ -126,7 +128,7 @@ int catweaselmkiii_drv_close(void)
         close(sidfh);
         sidfh = -1;
 
-        log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
+        log_message(LOG_DEFAULT, "PCI CatWeasel SID: closed.");
     }
 
     sids_found = -1;

@@ -123,21 +123,24 @@ int hs_openpci_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting PCI HardSID boards.");
+
     if (!pci_lib_loaded) {
+        log_message(LOG_DEFAULT, "OpenPCI library not found.");
         return -1;
     }
 
     bus = pci_bus();
 
     if (!bus) {
-        log_message(LOG_DEFAULT, "No PCI bus found\n");
+        log_message(LOG_DEFAULT, "No PCI bus found.");
         return -1;
     }
 
     dev = pci_find_device(0x6581, 0x8580, NULL);
 
     if (dev == NULL) {
-        log_message( LOG_DEFAULT, "Unable to find a HardSID PCI card\n" );
+        log_message( LOG_DEFAULT, "Unable to find a PCI HardSID board." );
         return -1;
     }
 
@@ -145,7 +148,7 @@ int hs_openpci_open(void)
     // Lock the device, since we're a driver
     HSLock = pci_obtain_card(dev);
     if (!HSLock) {
-        log_message(LOG_DEFAULT, "Unable to lock the hardsid. Another driver may have an exclusive lock\n" );
+        log_message(LOG_DEFAULT, "Unable to lock the HardSID. Another driver may have an exclusive lock." );
         return -1;
     }
 #endif
@@ -166,6 +169,7 @@ int hs_openpci_open(void)
     }
 
     if (!sids_found) {
+        log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
         return -1;
     }
 
@@ -178,7 +182,7 @@ int hs_openpci_open(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "HardSID PCI: opened at $%X", HSbase);
+    log_message(LOG_DEFAULT, "PCI HardSID: opened at $%X, found %d SIDs.", HSbase, sids_found);
 
     return 0;
 }
@@ -220,7 +224,7 @@ int hs_openpci_close(void)
     }
 #endif
 
-    log_message(LOG_DEFAULT, "HardSID PCI: closed");
+    log_message(LOG_DEFAULT, "PCI HardSID: closed.");
 
     sids_found = -1;
 

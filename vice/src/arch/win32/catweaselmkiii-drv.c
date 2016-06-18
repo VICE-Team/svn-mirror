@@ -104,6 +104,8 @@ int catweaselmkiii_drv_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting PCI CatWeasel boards.");
+
     /* close any open handles */
     for (i = 0; i < CW_MAXCARDS; i++) {
         if (sidhandle[i] != INVALID_HANDLE_VALUE) {
@@ -118,14 +120,14 @@ int catweaselmkiii_drv_open(void)
         sprintf(buf, "\\\\.\\SID6581_%u", i + 1);
         sidhandle[sids_found] = CreateFile(buf, GENERIC_READ, FILE_SHARE_WRITE | FILE_SHARE_READ, 0L, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0L);
         if (sidhandle[sids_found] != INVALID_HANDLE_VALUE) {
-            log_message(LOG_DEFAULT, "Found CatWeasel MK3 PCI #%i", sids_found + 1);
+            log_message(LOG_DEFAULT, "Found PCI CatWeasel #%i.", sids_found + 1);
             sids_found++;
         }
     }
 
     /* if cards were found */
     if (sids_found > 0) {
-        log_message(LOG_DEFAULT, "Found and opened a CatWeasel MK3 PCI SID");
+        log_message(LOG_DEFAULT, "Found and opened a PCI CatWeasel SID.");
 
         /* silent all found cards */
         mutethem();
@@ -135,6 +137,8 @@ int catweaselmkiii_drv_open(void)
 
         return 0;
     }
+
+    log_message(LOG_DEFAULT, "No PCI CatWeasel found.");
 
     /* no CatWeasels were found */
     return -1;
@@ -153,7 +157,7 @@ int catweaselmkiii_drv_close(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "Closed CatWeasel MK3 PCI SID");
+    log_message(LOG_DEFAULT, "Closed PCI CatWeasel SID.");
 
     sids_found = -1;
 
@@ -179,7 +183,7 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
             return buf[0];
         }
     }
-    log_error(LOG_ERR, "CatWeasel MK3 PCI does not support SID #%i", chipno);
+    log_error(LOG_ERR, "PCI CatWeasel does not support SID #%i.", chipno);
     return 0;
 }
 
@@ -202,10 +206,10 @@ void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
             }
             return;
         }
-        log_error(LOG_ERR, "CatWeasel MK3 PCI store at address %04x", addr);
+        log_error(LOG_ERR, "PCI CatWeasel store at address %04x.", addr);
         return;
     }
-    log_error(LOG_ERR, "CatWeasel MK3 PCI does not support SID #%i", chipno);
+    log_error(LOG_ERR, "PCI CatWeasel does not support SID #%i.", chipno);
 }
 
 /* set current main clock frequency, which gives us the possibilty to

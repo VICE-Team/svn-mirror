@@ -133,13 +133,19 @@ int cw_clockport_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting clockport CatWeasel boards.");
+
     for (i = 0; cp_addresses[i]; ++i) {
         if (detect_sid(cp_addresses[i])) {
+            log_message(LOG_DEFAULT, "Clock port CatWeasel board found at %X.", cp_addresses[i]);
             CWbase = cp_addresses[i];
+        } else {
+            log_message(LOG_DEFAULT, "No clock port CatWeasel board at %X.", cp_addresses[i]);
         }
     }
 
     if (!CWbase) {
+        log_message(LOG_DEFAULT, "No clockport CatWeasel boards found.");
         return -1;
     }
 
@@ -150,7 +156,7 @@ int cw_clockport_open(void)
         write_sid(i, 0);
     }
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 Clockport SID: opened at $%X", CWbase);
+    log_message(LOG_DEFAULT, "CatWeasel clockport SID: opened at $%X.", CWbase);
 
     return 0;
 }
@@ -202,6 +208,8 @@ int cw_clockport_close(void)
     }
 
     sids_found = -1;
+
+    log_message(LOG_DEFAULT, "Clockport CatWeasel SID: closed.");
 
     return 0;
 }

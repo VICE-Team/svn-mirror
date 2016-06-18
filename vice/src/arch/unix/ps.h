@@ -29,9 +29,9 @@
 
 #include "types.h"
 
-extern void ps_file_out_ctr(WORD parsid_ctrport, int chipno);
-extern void ps_io_out_ctr(WORD parsid_ctrport, int chipno);
-extern void ps_ieee1284_out_ctr(WORD parsid_ctrport, int chipno);
+extern void ps_file_out_ctr(BYTE parsid_ctrport, int chipno);
+extern void ps_io_out_ctr(BYTE parsid_ctrport, int chipno);
+extern void ps_ieee1284_out_ctr(BYTE parsid_ctrport, int chipno);
 
 extern BYTE ps_file_in_ctr(int chipno);
 extern BYTE ps_io_in_ctr(int chipno);

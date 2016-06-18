@@ -69,7 +69,7 @@ static int hardsid_init(void)
     /* Open device */
     hsid_fd = open("/dev/sid", O_RDWR);
     if (hsid_fd < 0) {
-        log_error(LOG_DEFAULT, "Could not open sid device /dev/sid.");
+        log_error(LOG_DEFAULT, "Could not open SID device /dev/sid.");
         return -1;
     }
 
@@ -104,12 +104,15 @@ int hs_linux_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting Linux HardSID boards.");
+
     if (hardsid_init() < 0) {
         return -1;
     }
     hsid_alarm = alarm_new(maincpu_alarm_context, "hardsid", hardsid_alarm_handler, 0);
     sids_found = 1;
     hardsid_reset();
+    log_message(LOG_DEFAULT, "Linux HardSID: opened.");
     return 0;
 }
 
@@ -122,6 +125,7 @@ int hs_linux_close(void)
     alarm_destroy(hsid_alarm);
     hsid_alarm = 0;
     sids_found = -1;
+    log_message(LOG_DEFAULT, "Linux HardSID: closed.");
     return 0;
 }
 

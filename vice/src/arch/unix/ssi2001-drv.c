@@ -98,13 +98,18 @@ int ssi2001_drv_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting direct I/O ISA SSI2001.");
+
     if (io_access_map(SSI2008_BASE, 32) < 0) {
+        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", SSI2008_BASE);
         return -1;
     }
     if (detect_sid()) {
         sids_found = 1;
+        log_message(LOG_DEFAULT, "Direct I/O ISA SSI2001 SID: opened.");
         return 0;
     }
+    log_message(LOG_DEFAULT, "No direct I/O ISA SSI2001 SID found.");
     return -1;
 }
 
@@ -112,6 +117,7 @@ int ssi2001_drv_close(void)
 {
     io_access_unmap(SSI2008_BASE, 32);
     sids_found = -1;
+    log_message(LOG_DEFAULT, "Direct I/O ISA SSI2001 SID: closed.");
     return 0;
 }
 

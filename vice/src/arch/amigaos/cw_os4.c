@@ -99,9 +99,11 @@ int cw_os4_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting PCI CatWeasel boards.");
+
     IPCI = (struct PCIIFace *)IExec->GetInterface(ExpansionBase, "pci", 1, NULL);
     if (!IPCI) {
-        log_message(LOG_DEFAULT, "Unable to obtain PCI expansion interface\n");
+        log_message(LOG_DEFAULT, "Unable to obtain PCI expansion interface.");
         return -1;
     }
 
@@ -111,21 +113,21 @@ int cw_os4_open(void)
                                     FDT_Index, 0,
                                     TAG_DONE);
     if (!CWDevPCI) {
-        log_message(LOG_DEFAULT, "Unable to find a Catweasel Mk3 PCI card\n");
+        log_message(LOG_DEFAULT, "Unable to find a PCI CatWeasel board.");
         return -1;
     }
 
     // Lock the device, since we're a driver
     CWLock = CWDevPCI->Lock(PCI_LOCK_SHARED);
     if (!CWLock) {
-        log_message(LOG_DEFAULT, "Unable to lock the catweasel. Another driver may have an exclusive lock\n" );
+        log_message(LOG_DEFAULT, "Unable to lock the CatWeasel. Another driver may have an exclusive lock." );
         return -1;
     }
 
     // Get the resource range
     CWDevBAR = CWDevPCI->GetResourceRange(0);
     if (!CWDevBAR) {
-        log_message(LOG_DEFAULT, "Unable to get resource range 0\n" );
+        log_message(LOG_DEFAULT, "Unable to get CatWeasel resource range 0." );
         return -1;
     }
 
@@ -143,7 +145,7 @@ int cw_os4_open(void)
         write_sid(i, 0);
     }
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
+    log_message(LOG_DEFAULT, "PCI CatWeasel SID: opened at $%X.", CWDevBar->BaseAddress);
 
     sids_found = 1;
 
@@ -168,7 +170,7 @@ int cw_os4_close(void)
         IExec->DropInterface((struct Interface *)IPCI);
     }
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
+    log_message(LOG_DEFAULT, "PCI CatWeasel SID: closed.");
 
     sids_found = -1;
 

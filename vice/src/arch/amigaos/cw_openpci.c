@@ -96,21 +96,24 @@ int cw_openpci_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting PCI CatWeasel boards.");
+
     if (!pci_lib_loaded) {
+        log_message(LOG_DEFAULT, "No OpenPCI library available.");
         return -1;
     }
 
     bus = pci_bus();
 
     if (!bus) {
-        log_message(LOG_DEFAULT, "No PCI bus found\n");
+        log_message(LOG_DEFAULT, "No PCI bus found.");
         return -1;
     }
 
     dev = pci_find_device(CW_VENDOR, CW_DEVICE, NULL);
 
     if (dev == NULL) {
-        log_message(LOG_DEFAULT, "Unable to find a Catweasel Mk3 PCI card\n");
+        log_message(LOG_DEFAULT, "Unable to find a PCI CatWeasel board.");
         return -1;
     }
 
@@ -118,7 +121,7 @@ int cw_openpci_open(void)
     /* Lock the device, since we're a driver */
     CWLock = pci_obtain_card(dev);
     if (!CWLock) {
-        log_message(LOG_DEFAULT, "Unable to lock the catweasel. Another driver may have an exclusive lock\n" );
+        log_message(LOG_DEFAULT, "Unable to lock the CatWeasel. Another driver may have an exclusive lock." );
         return -1;
     }
 #endif
@@ -139,7 +142,7 @@ int cw_openpci_open(void)
         write_sid(i, 0);
     }
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened at $%X", CWbase);
+    log_message(LOG_DEFAULT, "PCI CatWeasel SID: opened at $%X.", CWbase);
 
     sids_found = 1;
 
@@ -197,7 +200,7 @@ int cw_openpci_close(void)
     }
 #endif
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
+    log_message(LOG_DEFAULT, "PCI CatWeasel SID: closed.");
 
     sids_found = -1;
 

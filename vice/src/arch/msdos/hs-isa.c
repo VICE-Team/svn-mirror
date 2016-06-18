@@ -58,9 +58,30 @@ static void write_sid(BYTE reg, BYTE data, int chipno)
     usleep(2);
 }
 
+static int is_windows_nt(void)
+{
+    unsigned short real_version;
+    int version_major = -1;
+    int version_minor = -1;
+
+    real_version = _get_dos_version(1);
+    version_major = real_version >> 8;
+    version_minor = real_version & 0xff;
+
+    if (version_major == 5 && version_minor == 50) {
+        return 1;
+    }
+    return 0;
+}
+
 static int detect_sid(int chipno)
 {
     int i;
+
+    if (is_windows_nt()) {
+        log_message(LOG_DEFAULT, "Running on Windows NT, cannot use direct memory access.");
+        return 0;
+    }
 
     for (i = 0x18; i >= 0; --i) {
         write_sid((BYTE)i, 0, chipno);
@@ -100,6 +121,8 @@ int hs_isa_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting ISA HardSID boards.");
+
     for (j = 0; j < MAXSID; ++j) {
         if (detect_sid(j)) {
             hssids[sids_found] = j;
@@ -108,6 +131,7 @@ int hs_isa_open(void)
     }
 
     if (!sids_found) {
+        log_message(LOG_DEFAULT, "No ISA HardSID boards found.");
         return -1;
     }
 
@@ -120,7 +144,7 @@ int hs_isa_open(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "HardSID: opened");
+    log_message(LOG_DEFAULT, "ISA HardSID: opened, found %d SIDs", sids_found);
 
     return 0;
 }
@@ -138,7 +162,7 @@ int hs_isa_close(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "HardSID: closed");
+    log_message(LOG_DEFAULT, "ISA HardSID: closed.");
 
     sids_found = -1;
 

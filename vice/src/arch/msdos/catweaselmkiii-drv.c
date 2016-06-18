@@ -155,10 +155,12 @@ int catweaselmkiii_drv_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting PCI CatWeasel boards.");
+
     base = pci_find_catweasel(0);
 
     if (base == -1) {
-        log_message(LOG_DEFAULT, "Unable to find a Catweasel Mk3 PCI card\n");
+        log_message(LOG_DEFAULT, "Unable to find a PCI CatWeasel board.");
         return -1;
     }
 
@@ -176,7 +178,7 @@ int catweaselmkiii_drv_open(void)
         write_sid(i, 0);
     }
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
+    log_message(LOG_DEFAULT, "PCI CatWeasel SID: opened at $%X.", base);
 
     sids_found = 1;
 
@@ -192,7 +194,7 @@ int catweaselmkiii_drv_close(void)
         write_sid(i, 0);
     }
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
+    log_message(LOG_DEFAULT, "PCI CatWeasel SID: closed");
 
     sids_found = -1;
 

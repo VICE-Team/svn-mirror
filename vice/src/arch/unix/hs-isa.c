@@ -106,7 +106,10 @@ int hs_isa_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting ISA HardSID boards.");
+
     if (io_access_map(HARDSID_BASE, 2) < 0) {
+        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", HARDSID_BASE);
         return -1;
     }
 
@@ -118,8 +121,12 @@ int hs_isa_open(void)
     }
 
     if (!sids_found) {
+        log_message(LOG_DEFAULT, "No ISA HardSID boards found.");
         return -1;
     }
+
+    log_message(LOG_DEFAULT, "ISA HardSID: opened, found %d SIDs.", sids_found);
+
     return 0;
 }
 
@@ -134,6 +141,8 @@ int hs_isa_close(void)
     }
 
     sids_found = -1;
+
+    log_message(LOG_DEFAULT, "ISA HardSID: closed.");
 
     return 0;
 }

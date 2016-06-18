@@ -53,8 +53,133 @@ static char *parport_name[MAXSID] = { "/dev/parport0", "/dev/parport1", "/dev/pa
 #define PARPORT_NULL -1
 #endif
 
+#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+#define IOPREAD 1
+#define IOPWRITE 2
+#define PARPORT_TYPE int
+#define PARPORT_NULL -1
+
+typedef struct iopbuf_struct {
+    unsigned int port;
+    unsigned char port_value;
+} iopbuf;
+
+static int fd = -1;
+
+static int ports[MAXSID] = {0x3bc, 0x378, 0x278};
+#endif
+
 static int sids_found = -1;
 static PARPORT_TYPE pssids[MAXSID] = { PARPORT_NULL, PARPORT_NULL, PARPORT_NULL };
+
+/* Some prototypes. */
+static BYTE detect_sid_read(WORD addr, int chipno);
+static void detect_sid_store(WORD addr, BYTE outval, int chipno);
+static int detect_sid(int chipno);
+
+#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+BYTE ps_file_in_data(int chipno)
+{
+    iopbuf tmpbuf;
+
+    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
+        tmpbuf.port_value = 0;
+        tmpbuf.port = pssids[chipno];
+
+        ioctl(fd, IOPREAD, &tmpbuf);
+    }
+    return tmpval.port_value;
+}
+
+void ps_file_out_data(BYTE outval, int chipno)
+{
+    iopbuf tmpbuf;
+
+    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
+        tmpbuf.port_value = outval;
+        tmpbuf.port = pssids[chipno];
+
+        ioctl(fd, IOPWRITE, &tmpbuf);
+    }
+}
+
+void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
+{
+    iopbuf tmpbuf;
+
+    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
+        tmpbuf.port_value = parsid_ctrport;
+        tmpbuf.port = pssids[chipno] + 2;
+
+        ioctl(fd, IOPWRITE, &tmpbuf);
+    }
+}
+
+BYTE ps_file_in_ctr(int chipno)
+{
+    iopbuf tmpbuf;
+
+    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
+        tmpbuf.port_value = 0;
+        tmpbuf.port = pssids[chipno] + 2;
+
+        ioctl(fd, IOPREAD, &tmpbuf);
+    }
+    return tmpval.port_value;
+}
+
+int ps_file_open(void)
+{
+    int i;
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
+    log_message(LOG_DEFAULT, "Detecting Solaris ParSIDs.");
+
+    fd = open("/devices/pseudo/iop@0:iop", O_RDONLY);
+
+    if (fd < 0) {
+        log_message(LOG_DEFAULT, "Solaris IOP device not found.");
+        return -1;
+    }
+
+    for (i = 0; i < MAXSID; ++i) {
+        pssids[sids_found] = ports[i];
+        if (detect_sid(sids_found)) {
+            sids_found++;
+            log_message(LOG_DEFAULT, "ParSID found at $%X.", ports[i]);
+        } else {
+            log_message(LOG_DEFAULT, "No ParSID at $%X.", ports[i]);
+        }
+    }
+
+    if (!sids_found) {
+        log_message(LOG_DEFAULT, "No Solaris ParSIDs found.");
+        return -1;
+    }
+
+    log_message(LOG_DEFAULT, "Solaris ParSID: opened, found %d SIDs.", sids_found);
+
+    return 0;
+}
+
+int ps_file_close(void)
+{
+    close(fd);
+
+    log_message(LOG_DEFAULT, "Solaris ParSID: closed.");
+
+    return 0;
+}
+#endif
 
 #ifdef HAVE_LINUX_PARPORT_HEADERS
 BYTE ps_file_in_data(int chipno)
@@ -121,6 +246,78 @@ BYTE ps_file_in_ctr(int chipno)
 
     return retval;
 }
+
+int ps_file_open(void)
+{
+    int i;
+    int mode = IEEE1284_MODE_COMPAT;
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
+    log_message(LOG_DEFAULT, "Detecting Linux ParSIDs.");
+
+    for (i = 0; i < MAXSID; ++i) {
+        pssids[sids_found] = open(parport_name[i], O_RDWR);
+        if (pssids[sids_found] != -1) {
+            if (!ioctl(pssids[sids_found], PPCLAIM)) {
+                if (!ioctl(pssids[sids_found], PPNEGOT, &mode)) {
+                    if (detect_sid(sids_found)) {
+                        sids_found++;
+                        log_message(LOG_DEFAULT, "PARSID found on %s.", parport_name[i]);
+                    } else {
+                        log_message(LOG_DEFAULT, "No ParSID on %s.", parport_name[i]);
+                        close(pssids[sids_found]);
+                        pssids[sids_found] = -1;
+                    }
+                } else {
+                    log_message(LOG_DEFAULT, "Could not set correct mode for %s.", parport_name[i]);
+                    close(pssids[sids_found]);
+                    pssids[sids_found] = -1;
+                }
+            } else {
+                log_message(LOG_DEFAULT, "Could not claim %s.", parport_name[i]);
+                close(pssids[sids_found]);
+                pssids[sids_found] = -1;
+            }
+        } else {
+            log_message(LOG_DEFAULT, "Could not open %s.", parport_name[i]);
+        }
+    }
+
+    if (!sids_found) {
+        log_message(LOG_DEFAULT, "No Linux ParSIDs found.");
+        return -1;
+    }
+
+    log_message(LOG_DEFAULT, "Linux ParSID: opened, found %d SIDs.", sids_found);
+
+    return 0;
+}
+
+int ps_file_close(void)
+{
+    int i;
+
+    for (i = 0; i < MAXSID; ++i) {
+        if (pssids[i] != -1) {
+            close(pssids[i]);
+            pssids[i] = -1;
+        }
+    }
+
+    log_message(LOG_DEFAULT, "Linux ParSID: closed.");
+
+    return 0;
+}
+#endif
 
 static BYTE detect_sid_read(WORD addr, int chipno)
 {
@@ -200,64 +397,6 @@ static int detect_sid(int chipno)
     }
     return 0;
 }
-
-int ps_file_open(void)
-{
-    int i;
-    int mode = IEEE1284_MODE_COMPAT;
-
-    if (!sids_found) {
-        return -1;
-    }
-
-    if (sids_found > 0) {
-        return 0;
-    }
-
-    sids_found = 0;
-
-    for (i = 0; i < MAXSID; ++i) {
-        pssids[sids_found] = open(parport_name[i], O_RDWR);
-        if (pssids[sids_found] != -1) {
-            if (!ioctl(pssids[sids_found], PPCLAIM)) {
-                if (!ioctl(pssids[sids_found], PPNEGOT, &mode)) {
-                    if (detect_sid(sids_found)) {
-                        sids_found++;
-                    } else {
-                        close(pssids[sids_found]);
-                        pssids[sids_found] = -1;
-                    }
-                } else {
-                    close(pssids[sids_found]);
-                    pssids[sids_found] = -1;
-                }
-            } else {
-                close(pssids[sids_found]);
-                pssids[sids_found] = -1;
-            }
-        }
-    }
-
-    if (!sids_found) {
-        return -1;
-    }
-
-    return 0;
-}
-
-int ps_file_close(void)
-{
-    int i;
-
-    for (i = 0; i < MAXSID; ++i) {
-        if (pssids[i] != -1) {
-            close(pssids[i]);
-            pssids[i] = -1;
-        }
-    }
-    return 0;
-}
-#endif
 
 int ps_file_available(void)
 {

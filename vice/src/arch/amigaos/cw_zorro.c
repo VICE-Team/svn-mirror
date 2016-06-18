@@ -95,19 +95,24 @@ int cw_zorro_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting Zorro CatWeasel boards.");
+
     if ((ExpansionBase = OpenLibrary("expansion.library", 0L)) == NULL) {
+        log_message(LOG_DEFAULT, "Cannot open expansion library.");
         return -1;
     }
 
     myCD = FindConfigDev(myCD, 0x1212, 0x42);
 
     if (!myCD) {
+        log_message(LOG_DEFAULT, "No Zorro CatWeasel boards found.");
         return -1;
     }
 
     CWbase = myCD->cd_BoardAddr;
 
     if (!CWbase) {
+        log_message(LOG_DEFAULT, "No Zorro CatWeasel boards found.");
         return -1;
     }
 
@@ -116,7 +121,7 @@ int cw_zorro_open(void)
         write_sid(i, 0);
     }
 
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
+    log_message(LOG_DEFAULT, "Zorro CatWeasel SID: opened at $%X", CWbase);
 
     sids_found = 1;
 
@@ -171,6 +176,8 @@ int cw_zorro_close(void)
     }
 
     sids_found = -1;
+
+    log_message(LOG_DEFAULT, "Zorro CatWeasel SID: closed.");
 
     return 0;
 }

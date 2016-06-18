@@ -147,9 +147,12 @@ int hs_pci_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting PCI HardSID boards.");
+
     base = pci_find_hardsid(0);
 
     if (base == -1) {
+        log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
         return -1;
     }
 
@@ -166,6 +169,11 @@ int hs_pci_open(void)
         }
     }
 
+    if (!sids_found) {
+        log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
+        return -1;
+    }
+
     /* mute all sids */
     for (j = 0; j < MAXSID; ++j) {
         if (hssids[j] != -1) {
@@ -175,7 +183,7 @@ int hs_pci_open(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "HardSID: opened");
+    log_message(LOG_DEFAULT, "PCI HardSID: opened at $%X, found %d SIDs.", base, sids_found);
 
     return 0;
 }
@@ -194,7 +202,7 @@ int hs_pci_close(void)
         hssids[j] = -1;
     }
 
-    log_message(LOG_DEFAULT, "HardSID: closed");
+    log_message(LOG_DEFAULT, "PCI HardSID: closed.");
 
     sids_found = -1;
 

@@ -107,6 +107,8 @@ int cw_device_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting device driver based CatWeasel boards.");
+
     gSIDs = 0;
     gSwapSIDs = FALSE;
 
@@ -126,6 +128,7 @@ int cw_device_open(void)
     }
 
     if (gSIDs == 0) {
+        log_message(LOG_DEFAULT, "No device driver based CatWeasel boards found.");
         return -1;
     }
 
@@ -134,6 +137,8 @@ int cw_device_open(void)
     }
 	
     sids_found = gSIDs;
+
+    log_message(LOG_DEFAULT, "Device driver based CatWeasel SID: opened, found %d SIDs.", gSIDs);
 
     return 0;
 }
@@ -163,7 +168,7 @@ int cw_device_close(void)
         }
     }
 	
-    log_message(LOG_DEFAULT, "CatWeasel Device: closed");
+    log_message(LOG_DEFAULT, "Device driver based CatWeasel SID: closed.");
 
     sids_found = -1;
 

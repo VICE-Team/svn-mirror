@@ -30,6 +30,7 @@
 #include <windows.h>
 #include <stdio.h>
 
+#include "log.h"
 #include "parsid.h"
 #include "ps.h"
 #include "types.h"
@@ -336,10 +337,6 @@ int ps_io_open(void)
 {
     int j;
 
-    if (!(GetVersion() & 0x80000000)) {
-        return -1;
-    }
-
     if (!sids_found) {
         return -1;
     }
@@ -350,18 +347,29 @@ int ps_io_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting direct I/O PardSIDs.");
+
+    if (!(GetVersion() & 0x80000000)) {
+        log_message(LOG_DEFAULT, "Cannot use direct I/O on Windows NT/2000/Server/XP/Vista/7/8/10.");
+        return -1;
+    }
+
     for (j = 0; j < 3; j++) {
         pssids[sids_found] = parsid_GetAddressLptPort(j + 1);
-        if (parsid_port_address[sids_found] > 0) {
+        if (pssids[sids_found] > 0) {
             if (detect_sid(sids_found)) {
+                log_message(LOG_DEFAULT, "ParSID found on port at address $%X.", pssids[sids_found]);
                 sids_found++;
             }
         }
     }
 
     if (!sids_found) {
+        log_message(LOG_DEFAULT, "No direct I/O ParSIDs found.");
         return -1;
     }
+
+    log_message(LOG_DEFAULT, "Direct I/O ParSID: opened, found %d SIDs.", sids_found);
 
     return 0;
 }
@@ -373,6 +381,8 @@ int ps_io_close(void)
     for (i = 0; i < 3; ++i) {
         pssids[i] = -1;
     }
+
+    log_message(LOG_DEFAULT, "Direct I/O ParSID: closed.");
 
     return 0;
 }

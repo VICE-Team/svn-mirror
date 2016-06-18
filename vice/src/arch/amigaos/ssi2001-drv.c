@@ -120,23 +120,29 @@ int ssi2001_drv_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting GG2+ ISA SSI2001 boards.");
+
     if ((ExpansionBase = OpenLibrary("expansion.library", 0L)) == NULL) {
+        log_message(LOG_DEFAULT, "Cannot open expansion library.");
         return -1;
     }
 
     myCD = FindConfigDev(myCD, 2150, 1);
 
     if (!myCD) {
+        log_message(LOG_DEFAULT, "No GG2+ board found.");
         return -1;
     }
 
     SSI2001base = myCD->cd_BoardAddr;
 
     if (!SSI2001base) {
+        log_message(LOG_DEFAULT, "No GG2+ board found.");
         return -1;
     }
 
     if (!detect_sid()) {
+        log_message(LOG_DEFAULT, "No GG2+ ISA SSI2001 boards found.");
         return -1;
     }
 
@@ -145,7 +151,7 @@ int ssi2001_drv_open(void)
         write_sid(i, 0);
     }
 
-    log_message(LOG_DEFAULT, "SSI2001 ISA (GG2+) SID: opened");
+    log_message(LOG_DEFAULT, "GG2+ ISA SSI2001 SID: opened");
 
     sids_found = 1; /* ok */
 
@@ -177,6 +183,8 @@ int ssi2001_drv_close(void)
     }
 
     sids_found = -1;
+
+    log_message(LOG_DEFAULT, "GG2+ ISA SSI2001 SID: closed.");
 
     return 0;
 }

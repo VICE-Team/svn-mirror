@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "log.h"
 #include "types.h"
 
 #define SSI2008_BASE 0x280
@@ -50,9 +51,6 @@ static int is_windows_nt(void)
     version_minor = real_version & 0xff;
 
     if (version_major == 5 && version_minor == 50) {
-#ifdef SSI2001_DEBUG
-        printf("Working on windows NT, no ISA direct access possible\n");
-#endif
         return 1;
     }
     return 0;
@@ -73,6 +71,7 @@ static int detect_sid(void)
     int i;
 
     if (is_windows_nt()) {
+        log_message(LOG_DEFAULT, "Running on Windows NT, cannot use direct memory access.");
         return 0;
     }
 
@@ -114,10 +113,10 @@ int ssi2001_drv_open(void)
 
     sids_found = -1;
 
+    log_message(LOG_DEFAULT, "Detecting ISA SSI2001 boards.");
+
     if (!detect_sid()) {
-#ifdef SSI2001_DEBUG
-        printf("NO SSI2001 found\n");
-#endif
+        log_message(LOG_DEFAULT, "No ISA SSI2001 boards found.");
         return -1;
     }
 
@@ -125,11 +124,10 @@ int ssi2001_drv_open(void)
     for (i = 0; i < 32; i++) {
         write_sid(i, 0);
     }
-#ifdef SSI2001_DEBUG
-    printf("SSI2001 detected at $280 using ISA direct access method\n");
-#endif
 
     sids_found = 1;
+
+    log_message(LOG_DEFAULT, "ISA SSI2001 SID: opened.");
 
     return 0;
 }
@@ -144,6 +142,8 @@ int ssi2001_drv_close(void)
     }
 
     sids_found = -1;
+
+    log_message(LOG_DEFAULT, "ISA SSI2001 SID: closed.");
 
     return 0;
 }

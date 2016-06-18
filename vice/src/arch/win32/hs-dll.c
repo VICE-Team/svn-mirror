@@ -162,9 +162,12 @@ int hs_dll_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting DLL based HardSID boards.");
+
     res = init_interface();
 
     if (!dll) {
+        log_message(LOG_DEFAULT, "Cannot open hardsid.dll.");
         return -1;
     }
 
@@ -179,7 +182,15 @@ int hs_dll_open(void)
         ftimer = SetTimer(NULL, ftimer, 1, (TIMERPROC) ftimerproc);
     }
     sids_found = GetHardSIDCount();
-    return res;
+
+    if (!sids_found) {
+        log_message(LOG_DEFAULT, "No SIDs found on the HardSID board.");
+        return -1;
+    }
+
+    log_message(LOG_DEFAULT, "DLL based HardSID: opened, found %d SIDs.", sids_found);
+
+    return 0;
 }
 
 static void pcisa_hardsid_close(void)
@@ -192,6 +203,7 @@ static void pcisa_hardsid_close(void)
            hardsid_store(addr, 0, chipno);
         }
     }
+    log_message(LOG_DEFAULT, "DLL based HardSID: closed.");
 }
 
 static void usb_hardsid_close(void)

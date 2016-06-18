@@ -119,13 +119,16 @@ int hs_os4_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting PCI HardSID boards.");
+
     if (!pci_lib_loaded) {
+        log_message(LOG_DEFAULT, "Expansion library not available.");
         return -1;
     }
 
     IPCI = (struct PCIIFace *)IExec->GetInterface(ExpansionBase, "pci", 1, NULL);
     if (!IPCI) {
-        log_message(LOG_DEFAULT, "Unable to obtain PCI expansion interface\n");
+        log_message(LOG_DEFAULT, "Unable to obtain PCI expansion interface.");
         return -1;
     }
 
@@ -135,21 +138,21 @@ int hs_os4_open(void)
                                     FDT_Index,    0,
                                     TAG_DONE);
     if (!HSDevPCI) {
-        log_message(LOG_DEFAULT, "Unable to find a HardSID PCI card\n");
+        log_message(LOG_DEFAULT, "Unable to find a PCI HardSID board.");
         return -1;
     }
 
     // Lock the device, since we're a driver
     HSLock = HSDevPCI->Lock(PCI_LOCK_SHARED);
     if (!HSLock) {
-        log_message(LOG_DEFAULT, "Unable to lock the hardsid. Another driver may have an exclusive lock\n");
+        log_message(LOG_DEFAULT, "Unable to lock the PCI HardSID. Another driver may have an exclusive lock.");
         return -1;
     }
 
     // Get the resource range
     HSDevBAR = HSDevPCI->GetResourceRange(0);
     if (!HSDevBAR) {
-        log_message(LOG_DEFAULT, "Unable to get resource range 0\n");
+        log_message(LOG_DEFAULT, "Unable to get PCI HardSID resource range 0.");
         return -1;
     }
 
@@ -167,6 +170,7 @@ int hs_os4_open(void)
     }
 
     if (!sids_found) {
+        log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
         return -1;
     }
 
@@ -179,7 +183,7 @@ int hs_os4_open(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "HardSID PCI: opened");
+    log_message(LOG_DEFAULT, "PCI HardSID: opened at $%X with %d SIDs.", HSDevBAR->BaseAddress, sids_found);
 
     return 0;
 }
@@ -208,7 +212,7 @@ int hs_os4_close(void)
         IExec->DropInterface((struct Interface *)IPCI);
     }
 
-    log_message(LOG_DEFAULT, "HardSID PCI: closed");
+    log_message(LOG_DEFAULT, "PCI HardSID: closed.");
 
     sids_found = -1;
 

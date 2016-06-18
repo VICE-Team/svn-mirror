@@ -33,6 +33,7 @@
 #include <conio.h>
 #include <assert.h>
 
+#include "log.h"
 #include "types.h"
 
 #define SSI2008_BASE 0x280
@@ -179,6 +180,8 @@ int ssi2001_drv_open(void)
 
     sids_found = 0;
 
+    log_message(LOG_DEFAULT, "Detecting ISA SSI2001 boards.");
+
     if (hLib == NULL) {
         hLib = LoadLibrary(INPOUTDLLNAME);
     }
@@ -186,17 +189,13 @@ int ssi2001_drv_open(void)
     ssi2001_use_lib = 0;
 
     if (hLib != NULL) {
-#ifdef SSI2001_DEBUG
-        printf("Loaded %s\n", INPOUTDLLNAME);
-#endif
+        log_message(LOG_DEFAULT, "Opened %s.", INPOUTDLLNAME);
 #ifndef MSVC_RC
         inp32fp = (inpfuncPtr)GetProcAddress(hLib, "Inp32");
         if (inp32fp != NULL) {
             oup32fp = (oupfuncPtr)GetProcAddress(hLib, "Out32");
             if (oup32fp != NULL) {
-#ifdef SSI2001_DEBUG
-                printf("Using Inp32 and Out32 functions found in %s\n", INPOUTDLLNAME);
-#endif
+                log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", INPOUTDLLNAME);
                 ssi2001_use_lib = 1;
             }
         }
@@ -205,9 +204,7 @@ int ssi2001_drv_open(void)
         if (Inp32 != NULL) {
             Out32 = (Out32_t)GetProcAddress(hLib, "Out32");
             if (Out32 != NULL) {
-#ifdef SSI2001_DEBUG
-                printf("Using Inp32 and Out32 functions found in %s\n", INPOUTDLLNAME);
-#endif
+                log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", INPOUTDLLNAME);
                 ssi2001_use_lib = 1;
             }
         }
@@ -215,30 +212,18 @@ int ssi2001_drv_open(void)
     }
 
     if (!(GetVersion() & 0x80000000) && ssi2001_use_lib == 0) {
-#ifdef SSI2001_DEBUG
-        printf("Working on NT and no dll loaded\n");
-#endif
+        log_message(LOG_DEFAULT, "Direct ISA I/O access is not possible on Windows NT/2000/Server/XP/Vista/7/8/10.");
         return -1;
     }
 
     if (detect_sid()) {
-#ifdef SSI2001_DEBUG
-        if (ssi2001_use_lib) {
-            printf("SSI2001 found at $280 using Inp32() / Outp32() method\n");
-        } else {
-            printf("SSI2001 found at $280 using direct access method\n");
-        }
-#endif
         sids_found = 1;
+        log_message(LOG_DEFAULT, "ISA SSI2001 SID: opened.");
         return 0;
     }
-#ifdef SSI2001_DEBUG
-    if (ssi2001_use_lib) {
-        printf("NO SSI2001 found using Inp32() / Outp32() method\n");
-    } else {
-        printf("NO SSI2001 found using direct access method\n");
-    }
-#endif
+
+    log_message(LOG_DEFAULT, "No ISA SSI2001 found.");
+
     return -1;
 }
 
@@ -250,6 +235,8 @@ int ssi2001_drv_close(void)
     }
 
     sids_found = -1;
+
+    log_message(LOG_DEFAULT, "ISA SSI2001 SID: closed.");
 
     return 0;
 }

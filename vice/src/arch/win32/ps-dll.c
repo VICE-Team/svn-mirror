@@ -30,6 +30,7 @@
 #include <windows.h>
 #include <stdio.h>
 
+#include "log.h"
 #include "parsid.h"
 #include "ps.h"
 #include "types.h"
@@ -249,14 +250,19 @@ static int parsid_GetAddressLptPortInTheMemory(int myPort)
 
 static int parsid_GetAddressLptPort(int myPort)
 {
+    int retval;
+
     if (myPort < 1 || myPort > 3) {
         return -1;
     }
 
     if (!(GetVersion() & 0x80000000)) {
-        return parsid_GetAddressLptPortInTheRegistry(myPort);
+        retval = parsid_GetAddressLptPortInTheRegistry(myPort);
+    } else {
+        retval = parsid_GetAddressLptPortInTheMemory(myPort);
     }
-    return parsid_GetAddressLptPortInTheMemory(myPort);
+    log_message(LOG_DEFAULT, "Address of parallel port %d is $%X.", myPort, retval);
+    return retval;
 }
 
 /*----------------------------------------------------------------------*/
@@ -370,11 +376,12 @@ int ps_dll_open(void)
 
     sids_found = 0;
 
-    if (hLib == NULL) {
-        hLib = LoadLibrary(INPOUTDLLNAME);
-    }
+    log_message(LOG_DEFAULT, "Detecting dll assisted PardSIDs.");
+
+    hLib = LoadLibrary(INPOUTDLLNAME);
 
     if (hLib == NULL) {
+        log_message(LOG_DEFAULT, "Cannot open %s.", INPOUTDLLNAME);
         return -1;
     }
 
@@ -383,9 +390,11 @@ int ps_dll_open(void)
     if (inp32fp != NULL) {
         oup32fp = (oupfuncPtr)GetProcAddress(hLib, "Out32");
         if (oup32fp == NULL) {
+            log_message(LOG_DEFAULT, "I/O functions not found in %s.", INPOUTDLLNAME);
             return -1;
         }
     } else {
+        log_message(LOG_DEFAULT, "I/O functions not found in %s.", INPOUTDLLNAME);
         return -1;
     }
 #else
@@ -393,9 +402,11 @@ int ps_dll_open(void)
     if (Inp32 != NULL) {
         Out32 = (Out32_t)GetProcAddress(hLib, "Out32");
         if (Out32 == NULL) {
+            log_message(LOG_DEFAULT, "I/O functions not found in %s.", INPOUTDLLNAME);
             return -1;
         }
     } else {
+        log_message(LOG_DEFAULT, "I/O functions not found in %s.", INPOUTDLLNAME);
         return -1;
     }
 #endif
@@ -410,8 +421,11 @@ int ps_dll_open(void)
     }
 
     if (!sids_found) {
+        log_message(LOG_DEFAULT, "No dll assisted ParSIDs found.");
         return -1;
     }
+
+    log_message(LOG_DEFAULT, "Dll assisted ParSID: opened, found %d SIDs.", sids_found);
 
     return 0;
 }
@@ -425,6 +439,8 @@ int ps_dll_close(void)
     }
     FreeLibrary(hLib);
     hLib = NULL;
+
+    log_message(LOG_DEFAULT, "Dll assisted ParSID: closed");
 
     return 0;
 }
