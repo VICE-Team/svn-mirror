@@ -38,6 +38,7 @@
 #include "hardsid.h"
 #include "io-access.h"
 #include "types.h"
+#include "log.h"
 
 #define HARDSID_BASE 0x300
 
