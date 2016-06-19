@@ -4820,9 +4820,6 @@ fi
 if test x"$enable_gnomeui3" = "xyes"; then
     show_gui="GTK3"
 fi
-if test x"$enable_sdlui" = "xyes" -o x"$show_arch" = "xDingux"; then
-    show_gui="SDL"
-fi
 if test x"$enable_sdlui2" = "xyes"; then
     show_gui="SDL2"
 fi
@@ -4854,6 +4851,10 @@ if test x"$is_win32" = "xyes"; then
 fi
 if test "x$ac_cv_lib_Xaw3d_XawFormDoLayout" = xyes; then
     show_gui="XAW3D"
+fi
+
+if test x"$enable_sdlui" = "xyes" -o x"$show_arch" = "xDingux"; then
+    show_gui="SDL"
 fi
 
 if test "x$ac_cv_header_sys_audio_h" = xyes; then

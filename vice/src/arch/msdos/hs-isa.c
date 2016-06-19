@@ -24,6 +24,12 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - MSDOS 6.22
+ - Windows 95C
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_HARDSID

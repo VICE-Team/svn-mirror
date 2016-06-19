@@ -228,6 +228,8 @@ int hs_isa_open(void)
         if (!hardsid_use_lib) {
             log_message(LOG_DEFAULT, "Cannot get I/O functions in %s, using direct I/O access.", INPOUTDLLNAME);
         }
+    } else {
+        log_message(LOG_DEFAULT, "Cannot open %s, trying direct ISA I/O access.", INPOUTDLLNAME);
     }
 
 

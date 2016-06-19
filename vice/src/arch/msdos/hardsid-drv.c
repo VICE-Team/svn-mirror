@@ -24,6 +24,12 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - MSDOS 6.22 (ISA HardSID with 1 SID)
+ - Windows 95C (ISA HardSID with 1 SID)
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_HARDSID

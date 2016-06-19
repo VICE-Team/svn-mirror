@@ -24,6 +24,11 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - Windows 95C (direct ISA I/O access, inpout32.dll not windows 95 compatible)
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_SSI2001
@@ -209,6 +214,8 @@ int ssi2001_drv_open(void)
             }
         }
 #endif
+    } else {
+        log_message(LOG_DEFAULT, "Cannot open %s, trying direct ISA I/O access.", INPOUTDLLNAME);
     }
 
     if (!(GetVersion() & 0x80000000) && ssi2001_use_lib == 0) {
