@@ -40,8 +40,8 @@
 static int sids_found = -1;
 
 static int pssids[MAXSID] = {-1, -1, -1};
+static int psctrl[MAXSID] = {-1, -1, -1};
 static int parsid_port_address[MAXSID] = {0, 0, 0};
-
 
 /* input/output functions */
 static void parsid_outb(unsigned int addrint, BYTE value)
@@ -74,13 +74,19 @@ void ps_io_out_ctr(BYTE parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         parsid_outb(pssids[chipno] + 2, parsid_ctrport);
+        psctrl[chipno] = parsid_ctrport;
     }
 }
 
 BYTE ps_io_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
-        return parsid_inb(pssids[chipno] + 2);
+        if (psctrl[chipno] == -1) {
+            parsid_outb(pssids[chipno] + 2, 0);
+            psctrl[chipno] = 0;
+        } else {
+            return psctrl[chipno];
+        }
     }
     return 0;
 }
@@ -257,57 +263,59 @@ static int parsid_GetAddressLptPort(int myPort)
 static BYTE detect_sid_read(int chipno, BYTE addr)
 {
     BYTE value = 0;
-    BYTE ctl = ps_dll_in_ctr(chipno);
+    BYTE ctl = ps_io_in_ctr(chipno);
 
-    ps_dll_out_data((BYTE)(addr & 0x1f), chipno);
+    ps_io_out_data((BYTE)(addr & 0x1f), chipno);
     
     ctl &= ~parsid_AUTOFEED;
-    ps_dll_out_ctr(ctl, chipno);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl |= parsid_AUTOFEED;
-    ps_dll_out_ctr(ctl, chipno);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl |= parsid_PCD;
-    ps_dll_out_ctr(ctl, chipno);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl |= parsid_nINIT;
-    ps_dll_out_ctr(ctl, chipno);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl |= parsid_STROBE;
-    ps_dll_out_ctr(ctl, chipno);
+    ps_io_out_ctr(ctl, chipno);
 
-    value = ps_dll_in_data(chipno);
+    value = ps_io_in_data(chipno);
 
     ctl &= ~parsid_STROBE;
-    ps_dll_out_ctr(ctl, chipno);
+    ps_io_out_ctr(ctl, chipno);
 
     return value;
 }
 
 static void detect_sid_store(int chipno, BYTE addr, BYTE outval)
 {
-    BYTE ctl = ps_dll_in_ctr(chipno);
+    BYTE ctl = ps_io_in_ctr(chipno);
 
-    ps_dll_out_data((BYTE)(addr & 0x1f), chipno);
+    ps_io_out_data((BYTE)(addr & 0x1f), chipno);
 
     ctl &= ~parsid_AUTOFEED;
-    ps_dll_out_ctr(ctl, chipno);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl |= parsid_AUTOFEED;
-    ps_dll_out_ctr(ctl, chipno);
+    ps_io_out_ctr(ctl, chipno);
 
-    ps_dll_out_data(outval, chipno);
+    ps_io_out_data(outval, chipno);
 
     ctl |= parsid_STROBE;
-    ps_dll_out_ctr(ctl, chipno);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl &= ~parsid_STROBE;
-    ps_dll_out_ctr(ctl, chipno);
+    ps_io_out_ctr(ctl, chipno);
 }
 
 static int detect_sid(int port)
 {
     int i;
+
+    psctrl[port] = -1;
 
     for (i = 0x18; i >= 0; --i) {
         detect_sid_store(port, (BYTE)i, 0);
@@ -380,6 +388,7 @@ int ps_io_close(void)
 
     for (i = 0; i < 3; ++i) {
         pssids[i] = -1;
+        psctrl[i] = -1;
     }
 
     log_message(LOG_DEFAULT, "Direct I/O ParSID: closed.");

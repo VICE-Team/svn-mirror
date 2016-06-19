@@ -45,8 +45,9 @@
 
 #define MAXSID 3
 
-static unsigned int ports[3] = {-1, -1, -1};
-static int pssids[3] = {-1, -1, -1};
+static unsigned int ports[MAXSID] = {-1, -1, -1};
+static int pssids[MAXSID] = {-1, -1, -1};
+static int psctrl[MAXSID] = {-1, -1, -1};
 static int sids_found = -1;
 
 /* input/output functions */
@@ -64,13 +65,19 @@ void parsid_drv_out_ctr(BYTE parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         parsid_outb(pssids[chipno] + 2, parsid_ctrport);
+        psctrl[chipno] = parsid_ctrport;
     }
 }
 
 BYTE parsid_drv_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
-        return parsid_inb(pssids[chipno] + 2);
+        if (psctrl[chipno] == -1) {
+            parsid_outb(pssids[chipno] + 2, 0);
+            psctrl[chipno] = 0;
+        } else {
+            return psctrl[chipno];
+        }
     }
     return 0;
 }
@@ -110,58 +117,58 @@ static void parsid_get_ports(void)
     }
 }
 
-static BYTE detect_sid_read(WORD addr, WORD base)
+static BYTE detect_sid_read(WORD addr, int chipno)
 {
     BYTE value = 0;
-    BYTE ctl = parsid_inb(base + 2);
+    BYTE ctl = parsid_drv_in_ctr(chipno);
 
-    parsid_outb(base, addr & 0x1f);
+    parsid_drv_out_data(addr & 0x1f, chipno);
     
     ctl &= ~parsid_AUTOFEED;
-    parsid_outb(base + 2, ctl);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl |= parsid_AUTOFEED;
-    parsid_outb(base + 2, ctl);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl |= parsid_PCD;
-    parsid_outb(base + 2, ctl);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl |= parsid_nINIT;
-    parsid_outb(base + 2, ctl);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl |= parsid_STROBE;
-    parsid_outb(base + 2, ctl);
+    parsid_drv_out_ctr(ctl, chipno);
 
-    value = parsid_inb(base);
+    value = parsid_drv_in_data(chipno);
 
     ctl &= ~parsid_STROBE;
-    parsid_outb(base + 2, ctl);
+    parsid_drv_out_ctr(ctl, chipno);
 
-    return (int)value;
+    return value;
 }
 
-static void detect_sid_store(WORD addr, BYTE outval, WORD base)
+static void detect_sid_store(WORD addr, BYTE outval, int chipno)
 {
-    BYTE ctl = parsid_inb(base + 2);
+    BYTE ctl = parsid_drv_in_ctr(chipno);
 
-    parsid_outb(base, (addr & 0x1f));
+    parsid_drv_out_data(addr & 0x1f, chipno);
 
     ctl &= ~parsid_AUTOFEED;
-    parsid_outb(base + 2, ctl);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl |= parsid_AUTOFEED;
-    parsid_outb(base + 2, ctl);
+    parsid_drv_out_ctr(ctl, chipno);
 
-    parsid_outb(base, outval);
+    parsid_drv_out_data(outval, chipno);
 
     ctl |= parsid_STROBE;
-    parsid_outb(base + 2, ctl);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl &= ~parsid_STROBE;
-    parsid_outb(base + 2, ctl);
+    parsid_drv_out_ctr(ctl, chipno);
 }
 
-static int detect_sid(WORD addr)
+static int detect_sid(int chipno)
 {
     int i;
 
@@ -171,23 +178,23 @@ static int detect_sid(WORD addr)
     }
 
     for (i = 0x18; i >= 0; --i) {
-        detect_sid_store(i, 0, addr);
+        detect_sid_store(i, 0, chipno);
     }
 
-    detect_sid_store(0x12, 0xff, addr);
+    detect_sid_store(0x12, 0xff, chipno);
 
     for (i = 0; i < 100; ++i) {
-        if (detect_sid_read(0x1b, addr)) {
+        if (detect_sid_read(0x1b, chipno)) {
             return 0;
         }
     }
 
-    detect_sid_store(0x0e, 0xff, addr);
-    detect_sid_store(0x0f, 0xff, addr);
-    detect_sid_store(0x12, 0x20, addr);
+    detect_sid_store(0x0e, 0xff, chipno);
+    detect_sid_store(0x0f, 0xff, chipno);
+    detect_sid_store(0x12, 0x20, chipno);
 
     for (i = 0; i < 100; ++i) {
-        if (detect_sid_read(0x1b, addr)) {
+        if (detect_sid_read(0x1b, chipno)) {
             return 1;
         }
     }
@@ -214,8 +221,9 @@ int parsid_drv_open(void)
 
     for (i = 0; i < MAXSID; ++i) {
         if (ports[i] != -1) {
-            if (detect_sid(ports[i])) {
-                pssids[sids_found] = ports[i];
+            pssids[sids_found] = ports[i];
+            psctrl[sids_found] = -1;
+            if (detect_sid(sids_found)) {
                 sids_found++;
                 log_message(LOG_DEFAULT, "ParSID found on port at address $%X.", ports[i]);
             }
@@ -239,6 +247,7 @@ int parsid_drv_close(void)
     for (i = 0; i < MAXSID; ++i) {
         pssids[i] = -1;
         ports[i] = -1;
+        psctrl[i] = -1;
     }
 
     sids_found = -1;

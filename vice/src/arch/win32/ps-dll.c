@@ -39,6 +39,7 @@
 
 static int sids_found = -1;
 static int pssids[MAXSID] = {-1, -1, -1};
+static int psctrl[MAXSID] = {-1, -1, -1};
 static int parsid_port_address[MAXSID] = {0, 0, 0};
 
 #ifndef MSVC_RC
@@ -82,13 +83,19 @@ void ps_dll_out_ctr(BYTE parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         parsid_outb(pssids[chipno] + 2, parsid_ctrport);
+        psctrl[chipno] = parsid_ctrport;
     }
 }
 
 BYTE ps_dll_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
-        return parsid_inb(pssids[chipno] + 2);
+        if (psctrl[chipno] == -1) {
+            parsid_outb(pssids[chipno] + 2, 0);
+            psctrl[chipno] = 0;
+        } else {
+            return psctrl[chipno];
+        }
     }
     return 0;
 }
@@ -337,6 +344,8 @@ static void detect_sid_store(int chipno, BYTE addr, BYTE outval)
 static int detect_sid(int port)
 {
     int i;
+
+    psctrl[port] = -1;
 
     for (i = 0x18; i >= 0; --i) {
         detect_sid_store(port, (BYTE)i, 0);
