@@ -121,7 +121,7 @@ static BYTE detect_sid_read(WORD addr, int chipno)
     return value;
 }
 
-static void detect_sid_store(WORD addr, BYTE outval, WORD base)
+static void detect_sid_store(WORD addr, BYTE outval, int chipno)
 {
     BYTE ctl = ps_io_in_ctr(chipno);
 
