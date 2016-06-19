@@ -43,21 +43,28 @@
 
 #define MAXSID 3
 
-static unsigned int ports[3] = {-1, -1, -1};
-static int pssids[3] = {-1, -1, -1};
+static unsigned int ports[MAXSID] = {-1, -1, -1};
+static int pssids[MAXSID] = {-1, -1, -1};
+static int psctrl[MAXSID] = {-1, -1, -1};
 static int sids_found = -1;
 
 void ps_io_out_ctr(BYTE parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         io_access_store(pssids[chipno] + 2, parsid_ctrport);
+        psctrl[chipno] = parsid_ctrport;
     }
 }
 
 BYTE ps_io_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
-        return io_access_read(pssids[chipno] + 2);
+        if (psctrl[chipno] = -1) {
+            io_access_store(pssids[chipno] + 2, 0);
+            psctrl[chipno] = 0;
+        } else {
+           return (BYTE)psctrl[chipno];
+        }
     }
     return 0;
 }
@@ -84,79 +91,81 @@ void ps_io_out_data(BYTE outval, int chipno)
     }
 }
 
-static BYTE detect_sid_read(WORD addr, WORD base)
+static BYTE detect_sid_read(WORD addr, int chipno)
 {
     BYTE value = 0;
-    BYTE ctl = io_access_read(base + 2);
+    BYTE ctl = ps_io_in_ctr(chipno);
 
-    io_access_store(base, addr & 0x1f);
+    ps_io_out_data(addr & 0x1f, chipno);
 
     ctl &= ~parsid_AUTOFEED;
-    io_access_store(base + 2, ctl);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl |= parsid_AUTOFEED;
-    io_access_store(base + 2, ctl);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl |= parsid_PCD;
-    io_access_store(base + 2, ctl);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl |= parsid_nINIT;
-    io_access_store(base + 2, ctl);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl |= parsid_STROBE;
-    io_access_store(base + 2, ctl);
+    ps_io_out_ctr(ctl, chipno);
 
-    value = io_access_read(base);
+    value = ps_io_in_data(chipno);
 
     ctl &= ~parsid_STROBE;
-    io_access_store(base + 2, ctl);
+    ps_io_out_ctr(ctl, chipno);
 
     return value;
 }
 
 static void detect_sid_store(WORD addr, BYTE outval, WORD base)
 {
-    BYTE ctl = io_access_read(base + 2);
+    BYTE ctl = ps_io_in_ctr(chipno);
 
-    io_access_store(base, (addr & 0x1f));
+    ps_io_out_data(addr & 0x1f, chipno);
 
     ctl &= ~parsid_AUTOFEED;
-    io_access_store(base + 2, ctl);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl |= parsid_AUTOFEED;
-    io_access_store(base + 2, ctl);
+    ps_io_out_ctr(ctl, chipno);
 
-    io_access_store(base, outval);
+    ps_io_out_data(outval, chipno);
 
     ctl |= parsid_STROBE;
-    io_access_store(base + 2, ctl);
+    ps_io_out_ctr(ctl, chipno);
 
     ctl &= ~parsid_STROBE;
-    io_access_store(base + 2, ctl);
+    ps_io_out_ctr(ctl, chipno);
 }
 
-static int detect_sid(WORD addr)
+static int detect_sid(int chipno)
 {
     int i;
 
+    psctrl[chipno] = -1;
+
     for (i = 0x18; i >= 0; --i) {
-        detect_sid_store(i, 0, addr);
+        detect_sid_store(i, 0, chipno);
     }
 
-    detect_sid_store(0x12, 0xff, addr);
+    detect_sid_store(0x12, 0xff, chipno);
 
     for (i = 0; i < 100; ++i) {
-        if (detect_sid_read(0x1b, addr)) {
+        if (detect_sid_read(0x1b, chipno)) {
             return 0;
         }
     }
 
-    detect_sid_store(0x0e, 0xff, addr);
-    detect_sid_store(0x0f, 0xff, addr);
-    detect_sid_store(0x12, 0x20, addr);
+    detect_sid_store(0x0e, 0xff, chipno);
+    detect_sid_store(0x0f, 0xff, chipno);
+    detect_sid_store(0x12, 0x20, chipno);
 
     for (i = 0; i < 100; ++i) {
-        if (detect_sid_read(0x1b, addr)) {
+        if (detect_sid_read(0x1b, chipno)) {
             return 1;
         }
     }
@@ -183,8 +192,8 @@ int ps_io_open(void)
 
     for (i = 0; i < MAXSID; ++i) {
         if (!io_access_map(ports[i], 3)) {
-           if (detect_sid(ports[i])) {
-                pssids[sids_found] = ports[i];
+           pssids[sids_found] = ports[i];
+           if (detect_sid(sids_found)) {
                 sids_found++;
                 log_message(LOG_DEFAULT, "ParSID found at %X.", ports[i]);
             } else {
@@ -214,6 +223,7 @@ int ps_io_close(void)
             pssids[i] = -1;
         }
         ports[i] = -1;
+        psctrl[i] = -1;
     }
 
     sids_found = -1;

@@ -70,7 +70,8 @@ static int ports[MAXSID] = {0x3bc, 0x378, 0x278};
 #endif
 
 static int sids_found = -1;
-static PARPORT_TYPE pssids[MAXSID] = { PARPORT_NULL, PARPORT_NULL, PARPORT_NULL };
+static PARPORT_TYPE pssids[MAXSID] = {PARPORT_NULL, PARPORT_NULL, PARPORT_NULL};
+static int psctrl[MAXSID] = {-1, -1, -1};
 
 /* Some prototypes. */
 static BYTE detect_sid_read(WORD addr, int chipno);
@@ -112,6 +113,7 @@ void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
         tmpbuf.port = pssids[chipno] + 2;
 
         ioctl(fd, IOPWRITE, &tmpbuf);
+        psctrl[chipno] = parsid_ctrport;
     }
 }
 
@@ -120,12 +122,16 @@ BYTE ps_file_in_ctr(int chipno)
     iopbuf tmpbuf;
 
     if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
-        tmpbuf.port_value = 0;
-        tmpbuf.port = pssids[chipno] + 2;
-
-        ioctl(fd, IOPREAD, &tmpbuf);
+        if (psctrl[chipno] == -1) {
+            tmpbuf.port_value = 0;
+            tmpbuf.port = pssids[chipno] + 2;
+            ioctl(fd, IOPWRITE, &tmpbuf);
+            psctrl[chipno] = 0;
+        } else {
+            return (BYTE)psctrl[chipno];
+        }
     }
-    return tmpval.port_value;
+    return 0;
 }
 
 int ps_file_open(void)
@@ -220,6 +226,7 @@ void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
         datadir = (parsid_ctrport & parsid_PCD) ? 1 : 0;
         ioctl(pssids[chipno], PPWCONTROL, &ctl);
         ioctl(pssids[chipno], PPDATADIR, &datadir);
+        psctrl[chipno] = parsid_ctrport;
     }
 }
 
@@ -373,6 +380,8 @@ static void detect_sid_store(WORD addr, BYTE outval, int chipno)
 static int detect_sid(int chipno)
 {
     int i;
+
+    psctrl[chipno] = -1;
 
     for (i = 0x18; i >= 0; --i) {
         detect_sid_store(i, 0, chipno);
