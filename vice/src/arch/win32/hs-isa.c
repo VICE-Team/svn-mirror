@@ -24,6 +24,13 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - Windows 95C (hardsid.dll)
+ - Windows 95C (direct ISA I/O access, inpout32.dll not windows 95 compatible)
+ */
+
+
 #include "vice.h"
 
 #ifdef HAVE_HARDSID
@@ -119,7 +126,7 @@ static short hardsid_inb(unsigned int addrint)
 int hs_isa_read(WORD addr, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
-        hardsid_outb((hssids[chipno] << 6) | (addr & 0x1f) | 0x20, HARDSID_BASE + 1);
+        hardsid_outb(HARDSID_BASE + 1, (chipno << 6) | (addr & 0x1f) | 0x20);
         usleep(2);
         return hardsid_inb(HARDSID_BASE);
     }
@@ -130,7 +137,7 @@ void hs_isa_store(WORD addr, BYTE outval, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         hardsid_outb(HARDSID_BASE, outval);
-        hardsid_outb(HARDSID_BASE + 1, (BYTE)((hssids[chipno] << 6) | (addr & 0x1f)));
+        hardsid_outb(HARDSID_BASE + 1, (BYTE)((chipno << 6) | (addr & 0x1f)));
         usleep(2);
     }
 }
@@ -239,8 +246,8 @@ int hs_isa_open(void)
     }
 
     for (i = 0; i < MAXSID; ++i) {
+        hssids[sids_found] = i;
         if (detect_sid(i)) {
-            hssids[sids_found] = i;
             sids_found++;
         }
     }
