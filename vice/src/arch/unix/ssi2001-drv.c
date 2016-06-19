@@ -36,6 +36,7 @@
 #include "io-access.h"
 #include "ssi2001.h"
 #include "types.h"
+#include "log.h"
 
 #define SSI2008_BASE 0x280
 
