@@ -47,7 +47,7 @@ static unsigned int ports[3] = {-1, -1, -1};
 static int pssids[3] = {-1, -1, -1};
 static int sids_found = -1;
 
-void ps_io_out_ctr(WORD parsid_ctrport, int chipno)
+void ps_io_out_ctr(BYTE parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         io_access_store(pssids[chipno] + 2, parsid_ctrport);
@@ -190,7 +190,7 @@ int ps_io_open(void)
             } else {
                 log_message(LOG_DEFAULT, "No ParSID at %X.", ports[i]);
             }
-        } else (
+        } else {
             log_message(LOG_DEFAULT, "Could not get permission to access %X.", ports[i]);
         }
     }
