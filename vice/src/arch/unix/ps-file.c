@@ -199,7 +199,7 @@ void ps_file_out_data(BYTE outval, int chipno)
     }
 }
 
-void ps_file_out_ctr(WORD parsid_ctrport, int chipno)
+void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
 {
     BYTE ctl = 0;
     int datadir = 0;
