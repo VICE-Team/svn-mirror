@@ -25,9 +25,6 @@
  */
 
 /* Tested and confirmed working on:
-
- - MSDOS 6.22
- - Windows 95C
  */
 
 #include "vice.h"
@@ -76,6 +73,37 @@ static int is_windows_nt(void)
 
     if (version_major == 5 && version_minor == 50) {
         return 1;
+    }
+    return 0;
+}
+
+static int detect_sid_uno(void)
+{
+    int i;
+    int j;
+
+    for (j = 0; j < 4; ++j) {
+        for (i = 0x18; i >= 0; --i) {
+            write_sid((unsigned short)i, 0, j);
+        }
+    }
+
+    write_sid(0x12, 0xff, 0);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid(0x1b, 3)) {
+            return 0;
+        }
+    }
+
+    write_sid(0x0e, 0xff, 0);
+    write_sid(0x0f, 0xff, 0);
+    write_sid(0x12, 0x20, 0);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid(0x1b, 3)) {
+            return 1;
+        }
     }
     return 0;
 }
@@ -139,6 +167,13 @@ int hs_isa_open(void)
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No ISA HardSID boards found.");
         return -1;
+    }
+
+    /* Check for classic HardSID if 4 SIDs were found. */
+    if (sids_found == 4) {
+        if (detect_sid_uno()) {
+            sids_found = 1;
+        }
     }
 
     /* mute all sids */

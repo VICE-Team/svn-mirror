@@ -25,9 +25,6 @@
  */
 
 /* Tested and confirmed working on:
-
- - Windows 95C (hardsid.dll)
- - Windows 95C (direct ISA I/O access, inpout32.dll not windows 95 compatible)
  */
 
 
@@ -126,7 +123,7 @@ static short hardsid_inb(unsigned int addrint)
 int hs_isa_read(WORD addr, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
-        hardsid_outb(HARDSID_BASE + 1, (chipno << 6) | (addr & 0x1f) | 0x20);
+        hardsid_outb(HARDSID_BASE + 1, (BYTE)((chipno << 6) | (addr & 0x1f) | 0x20));
         usleep(2);
         return hardsid_inb(HARDSID_BASE);
     }
@@ -159,6 +156,37 @@ static HINSTANCE hLib = NULL;
 #    define INPOUTDLLNAME "inpout32.dll"
 #  endif
 #endif
+
+static int detect_sid_uno(void)
+{
+    int i;
+    int j;
+
+    for (j = 0; j < 4; ++j) {
+        for (i = 0x18; i >= 0; --i) {
+            hs_isa_store((WORD)i, 0, j);
+        }
+    }
+
+    hs_isa_store(0x12, 0xff, 0);
+
+    for (i = 0; i < 100; ++i) {
+        if (hs_isa_read(0x1b, 3)) {
+            return 0;
+        }
+    }
+
+    hs_isa_store(0x0e, 0xff, 0);
+    hs_isa_store(0x0f, 0xff, 0);
+    hs_isa_store(0x12, 0x20, 0);
+
+    for (i = 0; i < 100; ++i) {
+        if (hs_isa_read(0x1b, 3)) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 static int detect_sid(int chipno)
 {
@@ -255,6 +283,13 @@ int hs_isa_open(void)
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No ISA HardSID found.");
         return -1;
+    }
+
+    /* Check for classic HardSID if 4 SIDs were found. */
+    if (sids_found == 4) {
+        if (detect_sid_uno()) {
+            sids_found = 1;
+        }
     }
 
     log_message(LOG_DEFAULT, "ISA HardSID: opened, found %d SIDs.", sids_found);

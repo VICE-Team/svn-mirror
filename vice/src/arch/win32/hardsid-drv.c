@@ -24,6 +24,9 @@
  *
  */
 
+/* Tested and confirmed working on:
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_HARDSID
