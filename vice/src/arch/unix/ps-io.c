@@ -59,7 +59,7 @@ void ps_io_out_ctr(BYTE parsid_ctrport, int chipno)
 BYTE ps_io_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
-        if (psctrl[chipno] = -1) {
+        if (psctrl[chipno] == -1) {
             io_access_store(pssids[chipno] + 2, 0);
             psctrl[chipno] = 0;
         } else {
