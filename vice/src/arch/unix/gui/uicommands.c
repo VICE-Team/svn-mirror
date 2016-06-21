@@ -327,7 +327,12 @@ static UI_CALLBACK(load_snapshot)
 
 static UI_CALLBACK(load_quicksnap)
 {
-    char *fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/", machine_name, ".vsf", NULL);
+    char *fname;
+    if (machine_class == VICE_MACHINE_C64SC) {
+        fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/", "c64sc.vsf", NULL);
+    } else {
+        fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/", machine_name, ".vsf", NULL);
+    }
 
     if (!ui_emulation_is_paused()) {
         interrupt_maincpu_trigger_trap(load_snapshot_trap, (void *)fname);
@@ -359,8 +364,12 @@ static UI_CALLBACK(save_snapshot)
 
 static UI_CALLBACK(save_quicksnap)
 {
-    char *fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/", machine_name, ".vsf", NULL);
-
+    char *fname;
+    if (machine_class == VICE_MACHINE_C64SC) {
+        fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/", "c64sc.vsf", NULL);
+    } else {
+        fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/", machine_name, ".vsf", NULL);
+    }
     interrupt_maincpu_trigger_trap(save_snapshot_trap, (void *)fname);
 }
 
