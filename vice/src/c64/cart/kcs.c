@@ -61,12 +61,15 @@
 
     io1:
     - the second last page of the first 8k ROM bank is visible
-    - when reading, bit 1 of the address selects mapping mode (EXROM)
-    - when writing, bit 1 of the address selects mapping mode (EXROM)
-      FIXME: its more complicated than that
+    - when read and address bit 1 is 0 : set 8K GAME mode
+    - when read and address bit 1 is 1 : disable cartridge
+    - when write and address bit 7 is 1 : set 16K GAME mode
+    - when write and address bit 7 is 0 and in 16K GAME Mode : set ULTIMAX mode 
+    - when write and address bit 7 is 0 and address bit 1 is 0 in ULTIMAX Mode : set 16K GAME mode 
+    - when write and address bit 7 is 0 and address bit 1 is 1 in ULTIMAX Mode : set 8K GAME mode 
 
     io2:
-    - cartridge RAM (128 bytes)
+    - cartridge RAM (128 bytes, second half of the page is a mirror of the first)
     - writes go to cartridge RAM
     - when reading, if bit 7 of the address is set, freeze mode (nmi)
       is released. (FIXME: does not match schematic)
@@ -119,11 +122,11 @@ static BYTE kcs_io1_read(WORD addr)
      *        code in the IO1 ROM mirror is running. the following is not exactly
      *        what happens */
     /* !EXROM = A1 & 74LS90 pin8=0 */
-    /* config = (addr & 2) ? CMODE_RAM : CMODE_8KGAME; */
-    config = 0; /* exrom, game */
-    config |= (addr & 2) ? 2 : 0; /* exrom */
-    config |= 0; /* game */
-
+    if (addr & 0x02) {
+        config = CMODE_RAM;
+    } else {
+        config = CMODE_8KGAME;
+    }
 #ifdef DEBUG_KCS
     if(oldconfig != config) {
         DBG(("KCS: io1 r de%02x cfg: %s -> %s", addr, cart_config_string(oldconfig), cart_config_string(config)));
@@ -145,35 +148,25 @@ static void kcs_io1_store(WORD addr, BYTE value)
     oldconfig = config;
 #endif
 
-#if 0
     /* FIXME: the software writes to de80 - what that does is unknown */
-    if ((addr & 0x80) == 0x80) {
-        mode |= CMODE_RELEASE_FREEZE;
-    }
-#endif
-#if 0
     /* FIXME: the other two adresses written to are de00 and de02 */
-    if ((addr & 0xff) == 2) {
-        config ^= 2; /* invert exrom */
+    if (addr & 0x80) {
+        /* address bit 7 is 1 : set 16K GAME mode */
+        config = CMODE_16KGAME;
     } else {
-        config &= ~2; /* clear exrom */
-        config |= (addr & 2) ? 2 : 0; /* exrom */;
+        if (config == CMODE_16KGAME) {
+            /* address bit 7 is 0 and in 16K GAME Mode : set ULTIMAX mode */
+            config = CMODE_ULTIMAX;
+        } else if (config == CMODE_ULTIMAX) {
+            if (addr & 0x02) {
+                /* address bit 7 is 0 and address bit 1 is 1 in ULTIMAX Mode : set 8K GAME mode */
+                config = CMODE_8KGAME;
+            } else {
+                /* address bit 7 is 0 and address bit 1 is 0 in ULTIMAX Mode : set 16K GAME mode */
+                config = CMODE_16KGAME;
+            }
+        }
     }
-    config |= 1; /* game */
-#else
-    /* FIXME: this is likely not what is happening at all, but it works better
-              than the above. args */
-    if ((addr & 0xff) == 2) {
-        config &= ~3; /* clear exrom and game */
-        config |= ((value & 0x0f) == 0x0f) ? 2 : 0; /* exrom */;
-        config |= ((value & 0x10) == 0x10) ? 0 : 1; /* game */;
-    } else {
-        config &= ~3; /* clear exrom and game */
-        config |= (addr & 2) ? 2 : 0; /* exrom */;
-        config |= 1; /* game */
-    }
-#endif
-
 #ifdef DEBUG_KCS
     if(oldconfig != config) {
         DBG(("KCS: io1 w de%02x,%02x cfg: %s -> %s", addr, value, cart_config_string(oldconfig), cart_config_string(config)));
@@ -184,13 +177,11 @@ static void kcs_io1_store(WORD addr, BYTE value)
 
 static BYTE kcs_io2_read(WORD addr)
 {
-#if 1
     /* the software reads from df80 at beginning of nmi handler */
     /* FIXME: nothing really is connected to addr bit7 according to the schematics */
     if (addr & 0x80) {
         cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ | CMODE_RELEASE_FREEZE);
     }
-#endif
     /* FIXME: in the schematics A4 is connected to CS - this smells like a mistake */
     return export_ram0[addr & 0x7f];
 }
