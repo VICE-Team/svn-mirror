@@ -164,6 +164,8 @@ int parsid_read(WORD addr, int chipno)
         parsid_chip_select(chipno);
         value = parsid_drv_in_data(chipno);
         parsid_chip_deselect(chipno);
+        parsid_port_write(chipno);
+        parsid_RW_write(chipno);
     }
     return (int)value;
 }

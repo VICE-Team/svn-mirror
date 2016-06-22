@@ -98,6 +98,12 @@ static BYTE detect_sid_read(struct parport *port, BYTE addr)
     ctl &= ~parsid_STROBE;
     parsid_ieee1284_outb_ctr(port, ctl);
 
+    ctl &= ~parsid_PCD;
+    parsid_ieee1284_outb_ctr(port, ctl);
+
+    ctl &= ~parsid_nINIT;
+    parsid_ieee1284_outb_ctr(port, ctl);
+
     return value;
 }
 

@@ -98,22 +98,25 @@ static int is_windows_nt(void)
     return 0;
 }
 
-static void parsid_get_ports(void)
+static void parsid_get_ports(void)   
 {
-    int j;
-    unsigned long ptraddr = 0x0408;		/* Base Address: segment is zero */
-    unsigned int address;				/* Address of Port */
+    unsigned int address;            /* Address of Port */   
+    int j;   
+    unsigned long ptraddr = 0x0408;  /* Base Address: segment is zero*/   
+    int same = 0;
 
-    if (is_windows_nt()) {
-        return;
-    }
+    for (j = 0; j < 4; j++) {
+        ports[j] = _farpeekw(_dos_ds, ptraddr);
+        ptraddr += 2;
+        log_message(LOG_DEFAULT, "Parallel port %d is at $%X.", j, address);
+    }   
 
-    for (j = 0; j < 3; j++) {
-        address = _farpeekw(_dos_ds, ptraddr + (j * 4));
-        if (address != 0) {
-            ports[j] = address;
-            log_message(LOG_DEFAULT, "Parallel port found at %X.", address);
-        }
+    if (ports[0] == ports[1] && ports[0] == ports[2]) {
+        log_message(LOG_DEFAULT, "Addresses are all the same, replacing addresses with $278, $378 and $3BC.");
+        ports[0] = 0x278;
+        ports[1] = 0x378;
+        ports[2] = 0x3BC;
+        ports[3] = -1;
     }
 }
 
@@ -142,6 +145,12 @@ static BYTE detect_sid_read(WORD addr, int chipno)
     value = parsid_drv_in_data(chipno);
 
     ctl &= ~parsid_STROBE;
+    parsid_drv_out_ctr(ctl, chipno);
+
+    ctl &= ~parsid_PCD;
+    parsid_drv_out_ctr(ctl, chipno);
+
+    ctl &= ~parsid_nINIT;
     parsid_drv_out_ctr(ctl, chipno);
 
     return value;

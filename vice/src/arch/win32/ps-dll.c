@@ -317,6 +317,12 @@ static BYTE detect_sid_read(int chipno, BYTE addr)
     ctl &= ~parsid_STROBE;
     ps_dll_out_ctr(ctl, chipno);
 
+    ctl &= ~parsid_PCD;
+    ps_dll_out_ctr(ctl, chipno);
+
+    ctl &= ~parsid_nINIT;
+    ps_dll_out_ctr(ctl, chipno);
+
     return value;
 }
 
