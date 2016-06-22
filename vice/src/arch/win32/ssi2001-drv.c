@@ -25,6 +25,16 @@
  */
 
 /* Tested and confirmed working on:
+
+ - Windows 95C (Direct ISA I/O, inpout32.dll is incompatible with windows 95)
+ - Windows 98SE (inpout32.dll ISA I/O)
+ - Windows 98SE (Direct ISA I/O)
+ - Windows ME (inpout32.dll ISA I/O)
+ - Windows ME (Direct ISA I/O)
+ - Windows NT 3.51 (inpout32.dll ISA I/O)
+ - Windows NT 4.0 (inpout32.dll ISA I/O)
+ - Windows 2000 (inpout32.dll ISA I/O)
+ - Windows XP (inpout32.dll ISA I/O)
  */
 
 #include "vice.h"
