@@ -28,6 +28,10 @@
 
 #ifdef HAVE_PARSID
 
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #include "archdep.h"
 #include "parsid.h"
 #include "ps.h"
