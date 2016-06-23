@@ -24,6 +24,11 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - NetBSD 3.1.1 (permission based ISA I/O)
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_SSI2001

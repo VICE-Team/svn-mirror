@@ -35,6 +35,7 @@
  - Windows NT 4.0 (inpout32.dll ISA I/O)
  - Windows 2000 (inpout32.dll ISA I/O)
  - Windows XP (inpout32.dll ISA I/O)
+ - Windows 2003 Server (inpout32.dll ISA I/O)
  */
 
 #include "vice.h"
