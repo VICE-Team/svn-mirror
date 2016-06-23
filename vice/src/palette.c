@@ -296,6 +296,7 @@ static palette_info_t palettelist[] = {
     /* data/CBM-II/ */
     /* data/SCPU64/ */
     { "VICII", "Pepto (PAL)",        "vice"}, /* default */ /* FIXME: rename to pepto.vpl */
+    { "VICII", "Pepto (old PAL)",    "pepto-palold"},
     { "VICII", "Pepto (NTSC, Sony)", "pepto-ntsc-sony"},
     { "VICII", "Pepto (NTSC)",       "pepto-ntsc"},
     { "VICII", "VICE",               "default"}, /* FIXME: rename to "vice.vpl */
@@ -315,14 +316,14 @@ static palette_info_t palettelist[] = {
     /* data/VIC20/ */
     { "VIC",   "Mike (PAL)",         "mike-pal"}, /* default */
     { "VIC",   "Mike (NTSC)",        "mike-ntsc"},
-    { "VIC",   "VICE",               "default"},
+    { "VIC",   "VICE",               "default"}, /* FIXME: rename to "vice.vpl */
     /* data/CBM-II/ */
     /* data/PET/ */
     { "Crtc",  "Green",              "green"}, /* default */
     { "Crtc",  "Amber",              "amber"},
     { "Crtc",  "Black/White",        "white"},
     /* data/TED/ */
-    { "TED",   "VICE",               "default"}, /* default */
+    { "TED",   "VICE",               "default"}, /* default */ /* FIXME: rename to "vice.vpl */
 
     { NULL, 0, 0 }
 };
