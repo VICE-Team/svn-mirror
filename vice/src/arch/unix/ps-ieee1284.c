@@ -48,7 +48,7 @@
 
 static int sids_found = -1;
 
-static struct int pssids[MAXSID] = {-1, -1, -1};
+static int pssids[MAXSID] = {-1, -1, -1};
 
 static struct parport_list parlist;
 
