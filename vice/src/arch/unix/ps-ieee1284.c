@@ -228,6 +228,7 @@ BYTE ps_ieee1284_in_ctr(int chipno)
     if (chipno < MAXSID && pssids[chipno] != -1) {
         return parsid_ieee1284_inb_ctr(parlist.portv[pssids[chipno]]);
     }
+    return 0;
 }
 
 void ps_ieee1284_out_data(BYTE data, int chipno)
@@ -242,6 +243,7 @@ BYTE ps_ieee1284_in_data(int chipno)
     if (chipno < MAXSID && pssids[chipno] != -1) {
         return parsid_ieee1284_inb_data(parlist.portv[pssids[chipno]]);
     }
+    return 0;
 }
 
 int ps_ieee1284_available(void)
