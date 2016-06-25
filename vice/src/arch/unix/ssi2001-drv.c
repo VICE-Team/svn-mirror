@@ -28,6 +28,7 @@
 
  - Linux (permission based ISA I/O)
  - NetBSD 3.1.1 (permission based ISA I/O)
+ - OpenBSD 5.9 (permission based ISA I/O)
  */
 
 #include "vice.h"
