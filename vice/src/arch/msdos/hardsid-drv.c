@@ -25,6 +25,10 @@
  */
 
 /* Tested and confirmed working on:
+
+ - MSDOS 6.00 (ISA HardSID)
+ - Windows 95C (ISA HardSID)
+ - Windows 98SE (ISA HardSID)
  */
 
 #include "vice.h"

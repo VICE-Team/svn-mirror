@@ -27,6 +27,9 @@
  */
 
 /* Tested and confirmed working on:
+
+ - Windows 95C (ISA HardSID)
+ - Windows 98SE (ISA HardSID)
  */
 
 #include "vice.h"
@@ -126,6 +129,7 @@ void hs_dll_reset(void)
     BYTE r;
 
     if (dll != NULL) {
+#ifndef SID_TEST_MODE
         if (has_usb_hardsid) {
             if (chipused >= 0) {
                 HardSID_AbortPlay((BYTE)device_map[chipused]);
@@ -137,9 +141,11 @@ void hs_dll_reset(void)
                 HardSID_Flush((BYTE)device_map[chipused]);
             }
         }
+#endif
     }
 }
 
+#ifndef SID_TEST_MODE
 static VOID CALLBACK ftimerproc(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime)
 { 
     if (lastaccess_chipno >= 0 && lastaccess_ms > 0 && (dwTime - lastaccess_ms) >= HARDSID_FLUSH_MS) {
@@ -149,6 +155,7 @@ static VOID CALLBACK ftimerproc(HWND hwnd, UINT message, UINT idTimer, DWORD dwT
         lastaccess_chipno = -1;
     }
 }
+#endif
 
 int hs_dll_open(void)
 {
@@ -174,6 +181,7 @@ int hs_dll_open(void)
         return -1;
     }
 
+#ifndef SID_TEST_MODE
     if (dll != NULL && has_usb_hardsid) {
         for (chipno = 0; chipno < 4; chipno++) {
             HardSID_Lock((BYTE)chipno);
@@ -184,6 +192,7 @@ int hs_dll_open(void)
         chipused = -1;
         ftimer = SetTimer(NULL, ftimer, 1, (TIMERPROC) ftimerproc);
     }
+#endif
     sids_found = GetHardSIDCount();
 
     if (!sids_found) {
@@ -211,10 +220,12 @@ static void pcisa_hardsid_close(void)
 
 static void usb_hardsid_close(void)
 {
+#ifndef SID_TEST_MODE
     KillTimer(NULL, ftimer);
     if (chipused >= 0) {
         HardSID_AbortPlay((BYTE)device_map[chipused]);
     }
+#endif
 }
 
 int hs_dll_close(void)
@@ -248,6 +259,7 @@ void hs_dll_store(WORD addr, BYTE val, int chipno)
         if (!has_usb_hardsid) {
             WriteToHardSID((BYTE)device_map[chipno], (UCHAR)(addr & 0x1f), val);
         } else {
+#ifndef SID_TEST_MODE
             lastaccess_chipno = chipno;
             chipused = chipno;
             lastaccess_ms = GetTickCount();
@@ -273,6 +285,7 @@ void hs_dll_store(WORD addr, BYTE val, int chipno)
                     HardSID_Flush((BYTE)device_map[chipno]);
                 }
             }
+#endif
         }
     }
 }

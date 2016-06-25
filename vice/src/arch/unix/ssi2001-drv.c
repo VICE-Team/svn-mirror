@@ -26,6 +26,7 @@
 
 /* Tested and confirmed working on:
 
+ - Linux (permission based ISA I/O)
  - NetBSD 3.1.1 (permission based ISA I/O)
  */
 

@@ -25,6 +25,12 @@
  */
 
 /* Tested and confirmed working on:
+
+ - Windows 95C (ISA HardSID, hardsid.dll)
+ - Windows 95C (ISA HardSID, Direct ISA I/O, inpout32.dll is incompatible with windows 95)
+ - Windows 98SE (ISA HardSID, hardsid.dll)
+ - Windows 98SE (ISA HardSID, inpout32.dll ISA I/O)
+ - Windows 98SE (ISA HardSID, Direct ISA I/O)
  */
 
 #include "vice.h"
