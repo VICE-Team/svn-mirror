@@ -232,7 +232,7 @@ int io_access_map(WORD addr, WORD space)
         }
     }
 #  else
-    if (vice_i386_set_ioperm(addr, space, 1) != -1) {
+    if (i386_set_ioperm(addr, space, 1) != -1) {
         return 0;
     }
 #  endif
@@ -269,7 +269,7 @@ void io_access_unmap(WORD addr, WORD space)
         vice_set_ioperm(iomap);
    }
 #  else
-    vice_i386_set_ioperm(addr, space, 0);
+    i386_set_ioperm(addr, space, 0);
 #  endif
 #endif
 
