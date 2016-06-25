@@ -178,11 +178,17 @@ static inline BYTE vice_inb(WORD port)
     return inb_p(port);
 }
 #  else
+#    ifdef __OpenBSD__
+static inline void vice_outb(WORD port, BYTE val)
+{
+    outb(port, val);
+}
+#    else
 static inline void vice_outb(WORD port, BYTE val)
 {
     outb(val, port);
 }
-
+#    endif
 static inline BYTE vice_inb(WORD port)
 {
     return inb(port);
