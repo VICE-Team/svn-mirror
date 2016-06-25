@@ -31,6 +31,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/ioctl.h>
 #include <errno.h>
 
 #undef HAVE_IEEE1284_H
@@ -61,12 +62,12 @@ static void parsid_ieee1284_outb_data(struct parport *port, BYTE value)
     ieee1284_write_data(port, value);
 }
 
-static BYTE parsid_ieee1284_inb_ctr(struct parport *port)
+static int parsid_ieee1284_inb_ctr(struct parport *port)
 {
     return ieee1284_read_control(port);
 }
 
-static BYTE parsid_ieee1284_inb_data(struct parport *port)
+static int parsid_ieee1284_inb_data(struct parport *port)
 {
     return ieee1284_read_data(port);
 }
@@ -107,7 +108,7 @@ static BYTE detect_sid_read(struct parport *port, BYTE addr)
     return value;
 }
 
-static void detect_sid_store(struct parport *port, BYTE addr, BYTE outval)
+static void detect_sid_store(struct parport *port, WORD addr, BYTE outval)
 {
     BYTE ctl = parsid_ieee1284_inb_ctr(port);
 
@@ -172,31 +173,35 @@ int ps_ieee1284_open(void)
 
     sids_found = 0;
 
-    log_message(LOG_DEFAULT, "Detecting libieee1284 PardSIDs.");
+    log_message(LOG_DEFAULT, "Detecting libieee1284 ParSIDs.");
 
-    ieee1284_find_ports(&parlist, 0);
+    if (ieee1284_find_ports(&parlist, 0) != E1284_OK) {
+        return -1;
+    }
 
-    for (i = 0; i < MAXSID; ++i) {
-        retval = ieee1284_open(parlist.portv[i], F1284_EXCL, &cap);
-        if (retval == E1284_OK) {
-            retval = ieee1284_claim(parlist.portv[i]);
+    if (parlist.portv) {
+        for (i = 0; i < MAXSID; ++i) {
+            retval = ieee1284_open(parlist.portv[i], F1284_EXCL, &cap);
             if (retval == E1284_OK) {
-                if (detect_sid(parlist.portv[i])) {
-                    pssids[sids_found] = i;
-                    sids_found++;
+                retval = ieee1284_claim(parlist.portv[i]);
+                if (retval == E1284_OK) {
+                    if (detect_sid(parlist.portv[i])) {
+                        pssids[sids_found] = i;
+                        sids_found++;
+                    }
+                } else {
+                    ieee1284_close(parlist.portv[i]);
                 }
-            } else {
-                ieee1284_close(parlist.portv[i]);
             }
         }
     }
 
     if (!sids_found) {
-        log_message(LOG_DEFAULT, "NO libieee1284 PardSIDs found.");
+        log_message(LOG_DEFAULT, "No libieee1284 ParSIDs found.");
         return -1;
     }
 
-    log_message(LOG_DEFAULT, "Libieee1284 PardSID: opened, found %d SIDs.", sids_found);
+    log_message(LOG_DEFAULT, "Libieee1284 ParSID: opened, found %d SIDs.", sids_found);
 
     return 0;
 }
@@ -210,7 +215,8 @@ int ps_ieee1284_close(void)
         ieee1284_close(parlist.portv[pssids[i]]);
         pssids[i] = -1;
     }
-    log_message(LOG_DEFAULT, "Libieee1284 PardSID: closed.");
+    log_message(LOG_DEFAULT, "Libieee1284 ParSID: closed.");
+
     return 0;
 }
 
@@ -226,6 +232,7 @@ BYTE ps_ieee1284_in_ctr(int chipno)
     if (chipno < MAXSID && pssids[chipno] != -1) {
         return parsid_ieee1284_inb_ctr(parlist.portv[pssids[chipno]]);
     }
+    return 0;
 }
 
 void ps_ieee1284_out_data(BYTE data, int chipno)
@@ -240,6 +247,7 @@ BYTE ps_ieee1284_in_data(int chipno)
     if (chipno < MAXSID && pssids[chipno] != -1) {
         return parsid_ieee1284_inb_data(parlist.portv[pssids[chipno]]);
     }
+    return 0;
 }
 
 int ps_ieee1284_available(void)
