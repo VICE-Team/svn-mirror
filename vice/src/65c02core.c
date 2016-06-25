@@ -546,7 +546,7 @@
                 tmp2 += 0x10;                                                            \
                 tmp += 6;                                                                \
             }                                                                            \
-            LOCAL_SET_OVERFLOW(~(reg_a ^ tmp_value) & (reg_a ^ tmp) & 0x80);             \
+            LOCAL_SET_OVERFLOW(~(reg_a ^ tmp_value) & (reg_a ^ tmp2) & 0x80);            \
             if (tmp2 > 0x90) {                                                           \
                 tmp2 += 0x60;                                                            \
             }                                                                            \
