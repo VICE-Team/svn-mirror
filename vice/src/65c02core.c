@@ -1180,30 +1180,25 @@
 
 #define SBC(value, clk_inc, pc_inc)                                               \
     do {                                                                          \
-        WORD src, tmp;                                                            \
+        WORD src, tmp, tmp2;                                                      \
                                                                                   \
         src = (WORD)(value);                                                      \
         CLK_ADD(CLK, (clk_inc));                                                  \
+        tmp = reg_a - src + LOCAL_CARRY() - 1;                                    \
+        LOCAL_SET_OVERFLOW(((reg_a ^ tmp) & 0x80) && ((reg_a ^ src) & 0x80));     \
         if (LOCAL_DECIMAL()) {                                                    \
-            tmp = reg_a - (src & 0xf) + LOCAL_CARRY() - 1;                        \
-            if ((tmp & 0xf) > (reg_a & 0xf)) {                                    \
-                tmp -= 6;                                                         \
-            }                                                                     \
-            tmp -= (src & 0xf0);                                                  \
-            if ((tmp & 0xf0) > (reg_a & 0xf0)) {                                  \
+            if (tmp > 0xff) {                                                     \
                 tmp -= 0x60;                                                      \
             }                                                                     \
-            LOCAL_SET_OVERFLOW(!(tmp > reg_a));                                   \
-            LOCAL_SET_CARRY(!(tmp > reg_a));                                      \
-            LOCAL_SET_NZ(tmp & 0xff);                                             \
+            tmp2 = (reg_a & 0xf) - (src & 0xf) + LOCAL_CARRY() - 1;               \
+            if (tmp2 > 0xff) {                                                    \
+                tmp -= 6;                                                         \
+            }                                                                     \
             LOAD(reg_pc + pc_inc - 1);                                            \
             CLK_ADD(CLK, CYCLES_1);                                               \
-        } else {                                                                  \
-            tmp = reg_a - src - ((LOCAL_CARRY()) ? 0 : 1);                        \
-            LOCAL_SET_NZ(tmp & 0xff);                                             \
-            LOCAL_SET_CARRY(tmp < 0x100);                                         \
-            LOCAL_SET_OVERFLOW(((reg_a ^ tmp) & 0x80) && ((reg_a ^ src) & 0x80)); \
         }                                                                         \
+        LOCAL_SET_CARRY(reg_a + LOCAL_CARRY() - 1 >= src);                        \
+        LOCAL_SET_NZ(tmp & 0xff);                                                 \
         reg_a = (BYTE)tmp;                                                        \
         INC_PC(pc_inc);                                                           \
     } while (0)
