@@ -175,19 +175,23 @@ int ps_ieee1284_open(void)
 
     log_message(LOG_DEFAULT, "Detecting libieee1284 ParSIDs.");
 
-    ieee1284_find_ports(&parlist, 0);
+    if (ieee1284_find_ports(&parlist, 0) != E1284_OK) {
+        return -1;
+    }
 
-    for (i = 0; i < MAXSID; ++i) {
-        retval = ieee1284_open(parlist.portv[i], F1284_EXCL, &cap);
-        if (retval == E1284_OK) {
-            retval = ieee1284_claim(parlist.portv[i]);
+    if (parlist.portv) {
+        for (i = 0; i < MAXSID; ++i) {
+            retval = ieee1284_open(parlist.portv[i], F1284_EXCL, &cap);
             if (retval == E1284_OK) {
-                if (detect_sid(parlist.portv[i])) {
-                    pssids[sids_found] = i;
-                    sids_found++;
+                retval = ieee1284_claim(parlist.portv[i]);
+                if (retval == E1284_OK) {
+                    if (detect_sid(parlist.portv[i])) {
+                        pssids[sids_found] = i;
+                        sids_found++;
+                    }
+                } else {
+                    ieee1284_close(parlist.portv[i]);
                 }
-            } else {
-                ieee1284_close(parlist.portv[i]);
             }
         }
     }
