@@ -988,17 +988,18 @@
         INC_PC(SIZE_3);         \
     } while (0)
 
+/* yes, this is strange but that's how it is */
 #define NOOP_5C()               \
     do {                        \
-        LOAD(p2);               \
+        LOAD(p2 | 0xff00);      \
         CLK_ADD(CLK, CYCLES_1); \
-        LOAD(reg_pc + 2);       \
+        LOAD(0xffff);           \
         CLK_ADD(CLK, CYCLES_1); \
-        LOAD(reg_pc + 2);       \
+        LOAD(0xffff);           \
         CLK_ADD(CLK, CYCLES_1); \
-        LOAD(reg_pc + 2);       \
+        LOAD(0xffff);           \
         CLK_ADD(CLK, CYCLES_1); \
-        LOAD(reg_pc + 2);       \
+        LOAD(0xffff);           \
         CLK_ADD(CLK, CYCLES_1); \
         INC_PC(SIZE_3);         \
     } while (0)
@@ -1710,7 +1711,7 @@ trap_skipped:
                 NOOP_ABS();
                 break;
 
-            case 0x5c:          /* NOP $nnnn + 4 (FIXME: correct ??) */
+            case 0x5c:          /* NOP broken */
                 NOOP_5C();
                 break;
 
