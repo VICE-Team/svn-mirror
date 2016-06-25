@@ -167,7 +167,7 @@ void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 
 /* set current main clock frequency, which gives us the possibilty to
    choose between pal and ntsc frequencies */
-void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
+void catweaselmkiii_drv_set_machine_parameter(long cycles_per_sec)
 {
     setfreq();
 }
