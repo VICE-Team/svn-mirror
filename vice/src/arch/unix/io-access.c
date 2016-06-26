@@ -4,10 +4,8 @@
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
- * This file is part of VICE, modified from the sidplay2 sources.  It is
- * a one for all driver with real timing support via real time kernel
- * extensions or through the hardware buffering.  It supports the hardsid
- * isa/pci single/quattro and also the catweasel MK3/4.
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -54,7 +52,118 @@
 #include <machine/cpufunc.h>
 #endif
 
+#include "log.h"
 #include "types.h"
+
+#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+static int io_fd = -1;
+#endif
+
+#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+
+#define IOPREAD 1
+#define IOPWRITE 2
+
+typedef struct iopbuf_struct {
+        unsigned int port;
+        unsigned char port_value;
+} iopbuf;
+
+static int device_io_open(void)
+{
+    io_fd = open("/devices/pseudo/iop@0:iop", O_RDWR);
+
+    if (io_fd == -1) {
+        log_message(LOG_DEFAULT, "Could not open '/devices/pseudo/iop@0:iop'.");
+        return -1;
+    }
+    log_message(LOG_DEFAULT, "Opened '/devices/pseudo/iop@0:iop' for I/O access.");
+    return 0;
+}
+
+static BYTE device_io_inb(WORD addr)
+{
+    iopbuf tmpbuf;
+
+    tmpbuf.port_value = 0;
+    tmpbuf.port = addr;
+
+    ioctl(io_fd, IOPREAD, &tmpbuf);
+
+    return tmpbuf.port_value;
+}
+
+static void device_io_outb(WORD addr, BYTE val)
+{
+    iopbuf tmpbuf;
+
+    tmpbuf.port_value = val;
+    tmpbuf.port = addr;
+
+    ioctl(io_fd, IOPWRITE, &tmpbuf);
+}
+#endif
+
+#ifdef __linux
+static int device_io_open(void)
+{
+    io_fd = open("/dev/port", O_RDWR);
+
+    if (io_fd == -1) {
+        log_message(LOG_DEFAULT, "Could not open '/dev/port'.");
+        return -1;
+    }
+    log_message(LOG_DEFAULT, "Opened '/dev/port' for I/O access.");
+    return 0;
+}
+
+static BYTE device_io_inb(WORD addr)
+{
+    BYTE b = 0;
+
+    lseek(io_fd, addr, SEEK_SET);
+    read(io_fd, &b, 1);
+    return b;
+}
+
+static void device_io_outb(WORD addr, BYTE val)
+{
+    lseek(io_fd, addr, SEEK_SET);
+    write(io_fd, &val, 1);
+}
+#endif
+
+#ifdef __FreeBSD__
+static int device_io_open(void)
+{
+    io_fd = open("/dev/io", O_RDWR);
+
+    if (io_fd == -1) {
+        log_message(LOG_DEFAULT, "Could not open '/dev/io'.");
+        return -1;
+    }
+    log_message(LOG_DEFAULT, "Opened '/dev/io' for I/O access.");
+    return 0;
+}
+
+static BYTE device_io_inb(WORD addr)
+{
+    return inbv(addr);
+}
+
+static void device_io_outb(WORD addr, BYTE val)
+{
+    outbv(addr, val);
+}
+#endif
+
+#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+static void device_io_close(void)
+{
+    close(io_fd);
+    io_fd = -1;
+}
+#endif
 
 #if !defined(__FreeBSD__) && (defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM))
 static void setaccess(u_long * map, u_int bit, int allow)
@@ -198,11 +307,22 @@ static inline BYTE vice_inb(WORD port)
 
 void io_access_store(WORD addr, BYTE value)
 {
+#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+    if (io_fd != -1) {
+        device_io_outb(addr, value);
+        return;
+    }
+#endif
     vice_outb(addr, value);
 }
 
 BYTE io_access_read(WORD addr)
 {
+#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+    if (io_fd != -1) {
+        return device_io_inb(addr);
+    }
+#endif
     return vice_inb(addr);
 }
 
@@ -213,6 +333,13 @@ int io_access_map(WORD addr, WORD space)
     int i;
     u_long iomap[32];
 #  endif
+#endif
+
+/* Try device driver based I/O first */
+#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+    if (device_io_open() != -1) {
+        return 0;
+    }
 #endif
 
 #ifdef HAVE_MMAP_DEVICE_IO
@@ -254,6 +381,13 @@ void io_access_unmap(WORD addr, WORD space)
     int i;
     u_long iomap[32];
 #  endif
+#endif
+
+#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+    if (io_fd != -1) {
+        device_io_close();
+        return;
+    }
 #endif
 
 #ifdef HAVE_MMAP_DEVICE_IO
