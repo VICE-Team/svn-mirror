@@ -30,6 +30,7 @@
 #include <dpmi.h>
 #include <string.h>
 
+#include "log.h"
 #include "types.h"
 
 typedef unsigned short uint16;
@@ -45,10 +46,12 @@ int pci_install_check(void)
     r.d.edi = 0x0;
 
     if (__dpmi_int(0x1a, &r) != 0) {
+        log_message(LOG_DEFAULT, "BIOS does not support PCI.");
         return -1;
     }
 	
     if (r.h.ah != 0 || r.d.edx != 0x20494350) {
+        log_message(LOG_DEFAULT, "BIOS does not support PCI.");
         return -1;
     }
 
