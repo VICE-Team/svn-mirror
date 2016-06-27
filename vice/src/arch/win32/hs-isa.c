@@ -30,6 +30,13 @@
  - Windows 98SE (ISA HardSID, hardsid.dll)
  - Windows 98SE (ISA HardSID, inpout32.dll ISA I/O)
  - Windows 98SE (ISA HardSID, Direct ISA I/O)
+ - Windows ME (ISA HardSID, inpout32.dll ISA I/O)
+ - Windows ME (ISA HardSID, Direct ISA I/O)
+ - Windows NT 3.51 (ISA HardSID, inpout32.dll ISA I/O)
+ - Windows NT 4 (ISA HardSID, inpout32.dll ISA I/O)
+ - Windows 2000 (ISA HardSID, inpout32.dll ISA I/O)
+ - Windows XP (ISA HardSID, inpout32.dll ISA I/O)
+ - Windows 2003 Server (ISA HardSID, inpout32.dll ISA I/O)
  */
 
 

@@ -24,6 +24,15 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - Linux (/dev/port based ISA I/O, ISA HardSID)
+ - Linux (permission based ISA I/O, ISA HardSID)
+ - NetBSD (permission based ISA I/O, ISA HardSID)
+ - OpenBSD (permission based ISA I/O, ISA HardSID)
+ - FreeBSD (/dev/io based ISA I/O, ISA HardSID)
+ */
+
 #include "vice.h"
 
 #if defined(HAVE_HARDSID) && defined(HAVE_HARDSID_ISA)
@@ -144,8 +153,8 @@ int hs_isa_open(void)
     }
 
     for (j = 0; j < MAXSID; ++j) {
+        hssids[sids_found] = j;
         if (detect_sid(j)) {
-            hssids[sids_found] = j;
             sids_found++;
         }
     }

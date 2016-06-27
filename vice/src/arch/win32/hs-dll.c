@@ -30,6 +30,9 @@
 
  - Windows 95C (ISA HardSID)
  - Windows 98SE (ISA HardSID)
+ - Windows ME (ISA HardSID)
+ - Windows NT 4 (ISA HardSID)
+ - Windows 2000 (ISA HardSID)
  */
 
 #include "vice.h"
