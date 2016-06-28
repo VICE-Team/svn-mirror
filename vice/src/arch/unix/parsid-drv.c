@@ -24,6 +24,11 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - FreeBSD (/dev/io based ISA I/O)
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_PARSID

@@ -24,6 +24,11 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - MSDOS 6.00
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_PARSID
