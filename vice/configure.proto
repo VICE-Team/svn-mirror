@@ -3162,6 +3162,7 @@ if test x"$is_unix" = "xyes"; then
     AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(linux/hardsid.h,,[LINUX_HARDSID_HEADER_PRESENT=no],)
     AC_CHECK_HEADERS(linux/ppdev.h linux/parport.h,,[LINUX_PARPORT_HEADERS_PRESENT=no],)
+    AC_CHECK_HEADERS(dev/ppbus/ppi.h dev/ppbus/ppbconf.h,,[FREEBSD_PARPORT_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(cswid.h,,[CATWEASEL_HEADER_PRESENT=no],)
     AC_CHECK_HEADERS(sys/mman.h hw/inout.h,,[QNX_MMAN_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(machine/sysarch.h,,[BSD_SET_IOPERM_HEADERS_PRESENT=no],)
@@ -3192,6 +3193,11 @@ if test x"$is_unix" = "xyes"; then
 
     if test x"$LINUX_PARPORT_HEADERS_PRESENT" = "xyes"; then
       AC_DEFINE(HAVE_LINUX_PARPORT_HEADERS,,[Support for Linux par port device file.])
+      PORTSID_SUPPORT=yes
+    fi
+
+    if test x"$FREEBSD_PARPORT_HEADERS_PRESENT" = "xyes"; then
+      AC_DEFINE(HAVE_FREEBSD_PARPORT_HEADERS,,[Support for FreeBSD par port device file.])
       PORTSID_SUPPORT=yes
     fi
 

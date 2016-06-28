@@ -38,6 +38,11 @@
 #include <linux/parport.h>
 #endif
 
+#ifdef HAVE_FREEBSD_PARPORT_HEADERS
+#include <dev/ppbus/ppi.h>
+#include <dev/ppbus/ppbconf.h>
+#endif
+
 #include "alarm.h"
 #include "log.h"
 #include "parsid.h"
@@ -49,6 +54,12 @@
 
 #ifdef HAVE_LINUX_PARPORT_HEADERS
 static char *parport_name[MAXSID] = { "/dev/parport0", "/dev/parport1", "/dev/parport2" };
+#define PARPORT_TYPE int
+#define PARPORT_NULL -1
+#endif
+
+#ifdef HAVE_FREEBSD_PARPORT_HEADERS
+static char *parport_name[MAXSID] = { "/dev/ppi0", "/dev/ppi1", "/dev/ppi2" };
 #define PARPORT_TYPE int
 #define PARPORT_NULL -1
 #endif
@@ -321,6 +332,137 @@ int ps_file_close(void)
     }
 
     log_message(LOG_DEFAULT, "Linux ParSID: closed.");
+
+    return 0;
+}
+#endif
+
+#ifdef HAVE_FREEBSD_PARPORT_HEADERS
+BYTE ps_file_in_data(int chipno)
+{
+    BYTE retval = 0;
+
+    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
+        ioctl(pssids[chipno], PPIGDATA, &retval);
+    }
+    return retval;
+}
+
+void ps_file_out_data(BYTE outval, int chipno)
+{
+    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
+        ioctl(pssids[chipno], PPISDATA, &outval);
+    }
+}
+
+
+void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
+{
+    BYTE ctl = 0;
+
+    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
+        if (parsid_ctrport & parsid_STROBE) {
+            ctl |= STROBE;
+        }
+        if (parsid_ctrport & parsid_AUTOFEED) {
+            ctl |= AUTOFEED;
+        }
+        if (parsid_ctrport & parsid_nINIT) {
+            ctl |= nINIT;
+        }
+        if (parsid_ctrport & parsid_SELECTIN) {
+            ctl |= SELECTIN;
+        }
+        if (parsid_ctrport & parsid_PCD) {
+            ctl |= PCD;
+        }
+	     
+        ioctl(pssids[chipno], PPISCTRL, &ctl);
+        psctrl[chipno] = parsid_ctrport;
+    }
+}
+
+BYTE ps_file_in_ctr(int chipno)
+{
+    BYTE retval = 0;
+    BYTE ctl;
+
+    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
+        ioctl(pssids[chipno], PPIGCTRL, &ctl);
+        if (ctl & STROBE) {
+            retval |= parsid_STROBE;
+        }
+        if (ctl & AUTOFEED) {
+            retval |= parsid_AUTOFEED;
+        }
+        if (ctl & nINIT) {
+            retval |= parsid_nINIT;
+        }
+        if (ctl & SELECTIN) {
+            retval |= parsid_SELECTIN;
+        }
+        if (ctl & PCD) {
+            retval |= parsid_PCD;
+        }
+    }
+
+    return retval;
+}
+
+int ps_file_open(void)
+{
+    int i;
+
+    if (!sids_found) {
+        return -1;
+    }
+
+    if (sids_found > 0) {
+        return 0;
+    }
+
+    sids_found = 0;
+
+    log_message(LOG_DEFAULT, "Detecting FreeBSD ParSIDs.");
+
+    for (i = 0; i < MAXSID; ++i) {
+        pssids[sids_found] = open(parport_name[i], O_RDWR);
+        if (pssids[sids_found] != -1) {
+            if (detect_sid(sids_found)) {
+                sids_found++;
+                log_message(LOG_DEFAULT, "PARSID found on %s.", parport_name[i]);
+            } else {
+                log_message(LOG_DEFAULT, "No ParSID on %s.", parport_name[i]);
+                close(pssids[sids_found]);
+                pssids[sids_found] = -1;
+            }
+        } else {
+            log_message(LOG_DEFAULT, "Could not open %s.", parport_name[i]);
+        }
+    }
+
+    if (!sids_found) {
+        log_message(LOG_DEFAULT, "No FreeBSD ParSIDs found.");
+        return -1;
+    }
+
+    log_message(LOG_DEFAULT, "FreeBSD ParSID: opened, found %d SIDs.", sids_found);
+
+    return 0;
+}
+
+int ps_file_close(void)
+{
+    int i;
+
+    for (i = 0; i < MAXSID; ++i) {
+        if (pssids[i] != -1) {
+            close(pssids[i]);
+            pssids[i] = -1;
+        }
+    }
+
+    log_message(LOG_DEFAULT, "FreeBSD ParSID: closed.");
 
     return 0;
 }
