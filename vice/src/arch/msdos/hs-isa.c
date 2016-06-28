@@ -26,9 +26,13 @@
 
 /* Tested and confirmed working on:
  - MSDOS 6.00 (ISA HardSID)
+ - MSDOS 6.00 (ISA HardSID Quattro)
  - Windows 95C (ISA HardSID)
+ - Windows 95C (ISA HardSID Quattro)
  - Windows 98SE (ISA HardSID)
+ - Windows 98SE (ISA HardSID Quattro)
  - Windows ME (ISA HardSID)
+ - Windows ME (ISA HardSID Quattro)
  */
 
 #include "vice.h"
@@ -145,6 +149,8 @@ static int detect_sid(int chipno)
     return 0;
 }
 
+static char *HStype = "ISA Quattro";
+
 int hs_isa_open(void)
 {
     int i, j;
@@ -176,6 +182,7 @@ int hs_isa_open(void)
     /* Check for classic HardSID if 4 SIDs were found. */
     if (sids_found == 4) {
         if (detect_sid_uno()) {
+            HStype = "ISA HardSID";
             sids_found = 1;
         }
     }
@@ -189,7 +196,7 @@ int hs_isa_open(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "ISA HardSID: opened, found %d SIDs", sids_found);
+    log_message(LOG_DEFAULT, "%s: opened, found %d SIDs", HStype, sids_found);
 
     return 0;
 }
@@ -207,7 +214,7 @@ int hs_isa_close(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "ISA HardSID: closed.");
+    log_message(LOG_DEFAULT, "%s: closed.", HStype);
 
     sids_found = -1;
 

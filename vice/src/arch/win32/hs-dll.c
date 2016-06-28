@@ -29,10 +29,15 @@
 /* Tested and confirmed working on:
 
  - Windows 95C (ISA HardSID)
+ - Windows 95C (ISA HardSID Quattro)
  - Windows 98SE (ISA HardSID)
+ - Windows 98SE (ISA HardSID Quattro)
  - Windows ME (ISA HardSID)
+ - Windows ME (ISA HardSID Quattro)
  - Windows NT 4 (ISA HardSID)
+ - Windows NT 4 (ISA HardSID Quattro)
  - Windows 2000 (ISA HardSID)
+ - Windows 2000 (ISA HardSID Quattro)
  */
 
 #include "vice.h"

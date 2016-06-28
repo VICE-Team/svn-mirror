@@ -27,10 +27,15 @@
 /* Tested and confirmed working on:
 
  - Linux (/dev/port based ISA I/O, ISA HardSID)
+ - Linux (/dev/port based ISA I/O, ISA HardSID Quattro)
  - Linux (permission based ISA I/O, ISA HardSID)
+ - Linux (permission based ISA I/O, ISA HardSID Quattro)
  - NetBSD (permission based ISA I/O, ISA HardSID)
+ - NetBSD (permission based ISA I/O, ISA HardSID Quattro)
  - OpenBSD (permission based ISA I/O, ISA HardSID)
+ - OpenBSD (permission based ISA I/O, ISA HardSID Quattro)
  - FreeBSD (/dev/io based ISA I/O, ISA HardSID)
+ - FreeBSD (/dev/io based ISA I/O, ISA HardSID Quattro)
  */
 
 #include "vice.h"

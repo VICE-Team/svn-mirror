@@ -28,9 +28,9 @@
 
  - Linux (/dev/port based ISA I/O)
  - Linux (permission based ISA I/O)
- - FreeBSD 3.5.1 (/dev/io based ISA I/O)
- - NetBSD 3.1.1 (permission based ISA I/O)
- - OpenBSD 5.9 (permission based ISA I/O)
+ - FreeBSD (/dev/io based ISA I/O)
+ - NetBSD (permission based ISA I/O)
+ - OpenBSD (permission based ISA I/O)
  */
 
 #include "vice.h"

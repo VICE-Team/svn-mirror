@@ -27,10 +27,15 @@
 /* Tested and confirmed working on:
 
  - Linux (/dev/port based ISA I/O, ISA HardSID)
+ - Linux (/dev/port based ISA I/O, ISA HardSID Quattro)
  - Linux (permission based ISA I/O, ISA HardSID)
+ - Linux (permission based ISA I/O, ISA HardSID Quattro)
  - NetBSD (permission based ISA I/O, ISA HardSID)
+ - NetBSD (permission based ISA I/O, ISA HardSID Quattro)
  - OpenBSD (permission based ISA I/O, ISA HardSID)
+ - OpenBSD (permission based ISA I/O, ISA HardSID Quattro)
  - FreeBSD (/dev/io based ISA I/O, ISA HardSID)
+ - FreeBSD (/dev/io based ISA I/O, ISA HardSID Quattro)
  */
 
 #include "vice.h"
@@ -131,6 +136,8 @@ static int detect_sid(int chipno)
     return 0;
 }
 
+static char *HStype = "ISA HardSID Quattro";
+
 int hs_isa_open(void)
 {
     int j;
@@ -167,11 +174,12 @@ int hs_isa_open(void)
     /* Check for classic HardSID if 4 SIDs were found. */
     if (sids_found == 4) {
         if (detect_sid_uno()) {
+            HStype = "ISA HardSID";
             sids_found = 1;
         }
     }
 
-    log_message(LOG_DEFAULT, "ISA HardSID: opened, found %d SIDs.", sids_found);
+    log_message(LOG_DEFAULT, "%s: opened, found %d SIDs.", HStype, sids_found);
 
     return 0;
 }
@@ -188,7 +196,7 @@ int hs_isa_close(void)
 
     sids_found = -1;
 
-    log_message(LOG_DEFAULT, "ISA HardSID: closed.");
+    log_message(LOG_DEFAULT, "%s: closed.", HStype);
 
     return 0;
 }
