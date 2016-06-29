@@ -27,6 +27,7 @@
 /* Tested and confirmed working on:
 
  - MSDOS 6.00
+ - Windows 95C
  */
 
 #include "vice.h"
