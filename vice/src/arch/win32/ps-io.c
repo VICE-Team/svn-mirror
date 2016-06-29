@@ -24,6 +24,12 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - Windows 95C
+ - Windows 98SE
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_PARSID

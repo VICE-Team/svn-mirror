@@ -24,6 +24,12 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - Windows 95C (Direct ISA I/O, inpout32.dll is incompatible with windows 95)
+ - Windows 98SE (Direct ISA I/O)
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_PARSID
