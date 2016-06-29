@@ -4,7 +4,7 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 
-DEBUGBUILD=1
+DEBUGBUILD=0
 
 echo "/*"
 echo " * translate.h - Global internationalization routines."

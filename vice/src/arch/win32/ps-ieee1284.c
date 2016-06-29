@@ -31,7 +31,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+
+#ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
+#endif
+
 #include <errno.h>
 
 #undef HAVE_IEEE1284_H

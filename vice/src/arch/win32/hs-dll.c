@@ -167,7 +167,6 @@ static VOID CALLBACK ftimerproc(HWND hwnd, UINT message, UINT idTimer, DWORD dwT
 
 int hs_dll_open(void)
 {
-    int res;
     int chipno;
 
     if (!sids_found) {
@@ -182,7 +181,7 @@ int hs_dll_open(void)
 
     log_message(LOG_DEFAULT, "Detecting DLL based HardSID boards.");
 
-    res = init_interface();
+    init_interface();
 
     if (!dll) {
         log_message(LOG_DEFAULT, "Cannot open hardsid.dll.");
