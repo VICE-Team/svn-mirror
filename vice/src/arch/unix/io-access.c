@@ -122,14 +122,19 @@ static BYTE device_io_inb(WORD addr)
     BYTE b = 0;
 
     lseek(io_fd, addr, SEEK_SET);
-    read(io_fd, &b, 1);
+    if (read(io_fd, &b, 1) != 1) {
+        log_message(LOG_DEFAULT, "Could not read from '/dev/io'.");
+        return 0;
+    }
     return b;
 }
 
 static void device_io_outb(WORD addr, BYTE val)
 {
     lseek(io_fd, addr, SEEK_SET);
-    write(io_fd, &val, 1);
+    if (write(io_fd, &val, 1) != 1) {
+        log_message(LOG_DEFAULT, "Could not write to '/dev/io'.");
+    }
 }
 #endif
 
