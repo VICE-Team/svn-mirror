@@ -24,6 +24,10 @@
  *
  */
 
+/* Tested and confirmed working on:
+ - MSDOS 6.00 (PCI HardSID)
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_HARDSID
@@ -43,16 +47,20 @@
 typedef unsigned short uint16;
 typedef unsigned long uint32;
 
-static unsigned int base;
+static unsigned int base1;
+static unsigned int base2;
 
 static int sids_found = -1;
 static int hssids[MAXSID] = {-1, -1, -1, -1};
 
-static int pci_find_hardsid(int index)
+static uint32 pci_find_hardsid(int index)
 {
     int i = 0, j = 0, res;
     int bus, device, func;
+    uint32 retval;
     uint32 baseAddr;
+    uint32 baseAddr1 = 0;
+    uint32 baseAddr2 = 0;
 
     if (pci_install_check() != 0) {
         return -1;
@@ -79,30 +87,71 @@ static int pci_find_hardsid(int index)
 
         /* Check for I/O space */
         if (baseAddr & 1) {
-            return baseAddr & ~3;
+            if (baseAddr1 == 0) {
+                baseAddr1 = baseAddr;
+            } else {
+                baseAddr2 = baseAddr;
+            }
         }
     }
 
-    return -1;
+    baseAddr1 &= 0xfffc;
+    baseAddr2 &= 0xfffc;
+
+    retval = (baseAddr1 << 16) | (baseAddr2 & 0xffff);
+
+    return retval;
 }
 
 static BYTE read_sid(BYTE reg, int chipno)
 {
     BYTE ret;
 
-    outportb(base + 4, ((chipno << 6) | (reg & 0x1f) | 0x20));
+    outportb(base1 + 4, ((chipno << 6) | (reg & 0x1f) | 0x20));
     usleep(2);
-    outportb(base, 0x20);
-    ret = inportb(base);
-    outportb(base, 0x80);
+    outportb(base2 + 2, 0x20);
+    ret = inportb(base1);
+    outportb(base2 + 2, 0x80);
 
     return ret;
 }
 
 static void write_sid(BYTE reg, BYTE data, int chipno)
 {
-    outportw(base + 3, ((chipno << 14) | (reg & 0x1f) << 8) | data);
+    outportb(base1 + 3, data);
+    outportb(base1 + 4, (chipno << 6) | (reg & 0x1f));
     usleep(2);
+}
+
+static int detect_sid_uno(void)
+{
+    int i;
+    int j;
+
+    for (j = 0; j < 4; ++j) {
+        for (i = 0x18; i >= 0; --i) {
+            write_sid((unsigned short)i, 0, j);
+        }
+    }
+
+    write_sid(0x12, 0xff, 0);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid(0x1b, 3)) {
+            return 0;
+        }
+    }
+
+    write_sid(0x0e, 0xff, 0);
+    write_sid(0x0f, 0xff, 0);
+    write_sid(0x12, 0x20, 0);
+
+    for (i = 0; i < 100; ++i) {
+        if (read_sid(0x1b, 3)) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 static int detect_sid(int chipno)
@@ -133,6 +182,8 @@ static int detect_sid(int chipno)
     return 0;
 }
 
+static char *HStype = "PCI HardSID Quattro";
+
 int hs_pci_open(void)
 {
     int i, j;
@@ -149,22 +200,25 @@ int hs_pci_open(void)
 
     log_message(LOG_DEFAULT, "Detecting PCI HardSID boards.");
 
-    base = pci_find_hardsid(0);
+    base1 = pci_find_hardsid(0);
+    base2 = base1 & 0xffff;
+    base1 >>= 16;
 
-    if (base == -1) {
+    if (base1 == 0 || base2 == 0) {
         log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
         return -1;
     }
 
     /* Reset the hardsid PCI interface (as per hardsid linux driver) */
-    outportb(base + 0x00, 0xff);
-    outportb(base + 0x02, 0x00);
+    outportb(base1, 0xff);
+    outportb(base2 + 2, 0x80);
+    outportb(base1 + 2, 0x00);
     usleep(100);
-    outportb(base + 0x02, 0x24);
+    outportb(base1 + 2, 0x24);
 
     for (j = 0; j < MAXSID; ++j) {
+        hssids[sids_found] = j;
         if (detect_sid(j)) {
-            hssids[sids_found] = j;
             sids_found++;
         }
     }
@@ -172,6 +226,14 @@ int hs_pci_open(void)
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
         return -1;
+    }
+
+    /* Check for PCI HardSID if 4 SIDs were found. */
+    if (sids_found == 4) {
+        if (detect_sid_uno()) {
+            HStype = "PCI HardSID";
+            sids_found = 1;
+        }
     }
 
     /* mute all sids */
@@ -183,7 +245,7 @@ int hs_pci_open(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "PCI HardSID: opened at $%X, found %d SIDs.", base, sids_found);
+    log_message(LOG_DEFAULT, "%s: opened at $%04X and $%04X, found %d SIDs.", HStype, base1, base2, sids_found);
 
     return 0;
 }
@@ -202,7 +264,7 @@ int hs_pci_close(void)
         hssids[j] = -1;
     }
 
-    log_message(LOG_DEFAULT, "PCI HardSID: closed.");
+    log_message(LOG_DEFAULT, "%s: closed.", HStype);
 
     sids_found = -1;
 
