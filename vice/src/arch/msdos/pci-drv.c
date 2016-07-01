@@ -55,6 +55,11 @@ int pci_install_check(void)
         return -1;
     }
 
+    if (!(r.h.al & 1)) {
+        log_message(LOG_DEFAULT, "BIOS does not support PCI access mechanism #2.");
+        return -1;
+    }
+
     return 0;
 }
 
@@ -77,6 +82,7 @@ int pci_find(int vendorID, int deviceID, int index, int *bus, int *device, int *
         *bus = r.h.bh;
         *device = (r.h.bl >> 3) & 0x1f;
         *func = r.h.bl & 0x03;
+        log_message(LOG_DEFAULT, "Device %04X, vendor %04X found at PCI bus %d, slot %d.", vendorID, deviceID, *bus, *device);
     }
 
     return r.h.ah;
