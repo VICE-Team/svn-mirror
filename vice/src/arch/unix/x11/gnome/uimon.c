@@ -420,9 +420,13 @@ int uimon_out(const char *buffer)
 
 void uimon_window_close(void)
 {
-    gtk_widget_hide(fixed.window);
-    /* transfer focus to the main emulator window */
-    ui_restore_focus();
+    /* only close window if there is one: this avoids a GTK_CRITICAL warning
+     * when using a remote monitor */
+    if (fixed.window != NULL) {
+        gtk_widget_hide(fixed.window);
+        /* transfer focus to the main emulator window */
+        ui_restore_focus();
+    }
 }
 
 void uimon_notify_change(void)
