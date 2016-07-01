@@ -28,8 +28,10 @@
 
  - MSDOS 6.00 (ISA HardSID)
  - MSDOS 6.00 (ISA HardSID Quattro)
+ - MSDOS 6.00 (PCI HardSID)
  - Windows 95C (ISA HardSID)
  - Windows 95C (ISA HardSID Quattro)
+ - Windows 95C (PCI HardSID)
  - Windows 98SE (ISA HardSID)
  - Windows 98SE (ISA HardSID Quattro)
  - Windows ME (ISA HardSID)
