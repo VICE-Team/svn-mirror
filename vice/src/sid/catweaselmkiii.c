@@ -62,7 +62,7 @@ int catweaselmkiii_close(void)
     int retval = 0;
 
     if (cw3_open != -1) {
-        retval = catweaselmkiii_close();
+        retval = catweaselmkiii_drv_close();
         cw3_open = -1;
     }
     return retval;
