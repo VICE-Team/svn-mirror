@@ -149,7 +149,7 @@ static int detect_sid(int chipno)
     return 0;
 }
 
-static char *HStype = "ISA Quattro";
+static char *HStype = "ISA HardSID Quattro";
 
 int hs_isa_open(void)
 {
