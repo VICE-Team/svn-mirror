@@ -30,6 +30,8 @@
 /* Tested and confirmed working on:
  - MSDOS 6.00
  - Windows 95C
+ - Windows 98SE
+ - Windows ME
  */
 
 #include "vice.h"

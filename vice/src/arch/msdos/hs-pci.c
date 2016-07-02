@@ -26,6 +26,9 @@
 
 /* Tested and confirmed working on:
  - MSDOS 6.00 (PCI HardSID)
+ - MSDOS 6.00 (PCI HardSID Quattro)
+ - Windows 95C (PCI HardSID)
+ - Windows 95C (PCI HardSID Quattro)
  */
 
 #include "vice.h"
