@@ -56,7 +56,7 @@ int pci_install_check(void)
     }
 
     if (!(r.h.al & 1)) {
-        log_message(LOG_DEFAULT, "BIOS does not support PCI access mechanism #2.");
+        log_message(LOG_DEFAULT, "BIOS does not support PCI access mechanism #1.");
         return -1;
     }
 
