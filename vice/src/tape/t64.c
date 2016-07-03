@@ -76,6 +76,41 @@ static int check_magic(t64_header_t *hdr)
     return 0;
 }
 
+/* compar argument to qsort() call in t64_open to sort records on content
+ * member */
+static int comp_content(const void *p1, const void *p2)
+{
+    const t64_file_record_t *r1 = p1;
+    const t64_file_record_t *r2 = p2;
+
+    if (r1->contents < r2->contents) {
+        return -1;
+    } else if (r1->contents > r2->contents) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+
+/* compar argument to qsort() call in t64_open to sort records on their
+ * original position in the container */
+static int comp_index(const void *p1, const void *p2)
+{
+    const t64_file_record_t *r1 = p1;
+    const t64_file_record_t *r2 = p2;
+
+    if (r1->index < r2->index) {
+        return -1;
+    } else if (r1->index > r2->index) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+
+
 /* ------------------------------------------------------------------------- */
 
 int t64_header_read(t64_header_t *hdr, FILE *fd)
@@ -108,11 +143,20 @@ int t64_header_read(t64_header_t *hdr, FILE *fd)
         /* XXX: The correct behavior here would be to reject it, but there
            are so many broken T64 images out there, that it's better if we
            silently suffer.  */
+        log_warning(LOG_DEFAULT,
+                "t64 image reports 0 max entries, adjusting to 1");
         hdr->num_entries = 1;
     }
 
     hdr->num_used = (WORD)get_number(buf + T64_HDR_NUMUSED_OFFSET,
                                      (unsigned int)T64_HDR_NUMUSED_LEN);
+    if (hdr->num_used == 0) {
+        /* corrupt tape image */
+        log_warning(LOG_DEFAULT,
+                "t64 image reports 0 used entries, adjusting to 1");
+        hdr->num_used = 1;
+    }
+
     if (hdr->num_used > hdr->num_entries) {
         return -1;
     }
@@ -180,6 +224,10 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
     FILE *fd;
     t64_t *new;
     int i;
+    long tapesize;   /* file size in bytes */
+
+    WORD actual_size;
+    WORD reported_size;
 
     fd = zfile_fopen(name, MODE_READ);
     if (fd == NULL) {
@@ -199,12 +247,73 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
     new->file_records = lib_malloc(sizeof(t64_file_record_t)
                                    * new->header.num_entries);
 
+    /* FIXME: why does this read all entries and not just the entries
+     * actually used?*/
     for (i = 0; i < new->header.num_entries; i++) {
         if (t64_file_record_read(new->file_records + i, fd) < 0) {
             t64_destroy(new);
             return NULL;
         }
+        /* keep track of the original index in the container */
+        new->file_records[i].index = i;
     }
+
+    /* Attempt to fix bugged end addresses by sorting the records on their
+     * content member and using that information (and the size of the container)
+     * to determine the actual end address */
+
+    /* get file size */
+    if (fseek(fd, 0L, SEEK_END) != 0) {
+        t64_destroy(new);
+        return NULL;
+    }
+    tapesize = ftell(fd);
+    if (tapesize < 0) {
+        t64_destroy(new);
+        return NULL;
+    }
+
+    /* sort records on content member */
+    qsort(new->file_records, (size_t)(new->header.num_used),
+            sizeof *(new->file_records), comp_content);
+
+    /* set end addresses based on the content member of the next entry */
+    for (i = 0; i < new->header.num_used - 1; i++) {
+        actual_size = new->file_records[i + 1].contents -
+            new->file_records[i].contents;
+        reported_size = new->file_records[i].end_addr -
+            new->file_records[i].start_addr;
+
+        if (reported_size != actual_size) {
+            log_warning(LOG_DEFAULT,
+                    "invalid file size for record %d in t64 image: $%04x, "
+                    "should be $%04x, fixing",
+                    new->file_records[i].index, reported_size, actual_size);
+
+            new->file_records[i].end_addr = new->file_records[i].start_addr +
+                actual_size;
+        }
+    }
+    /* use the file size of the container to set the correct end address for
+     * the last file record */
+    reported_size = new->file_records[i].end_addr -
+        new->file_records[i].start_addr;
+    actual_size = tapesize - new->file_records[i].contents;
+    /* warn and fix if sizes mismatch */
+    if (reported_size != actual_size) {
+            log_warning(LOG_DEFAULT,
+                    "invalid file size for record %d in t64 image: $%04x, "
+                    "should be $%04x, fixing",
+                    new->file_records[i].index, reported_size, actual_size);
+
+
+        new->file_records[i].end_addr = new->file_records[i].start_addr +
+            actual_size;
+    }
+    /* restore original order of records */
+    qsort(new->file_records, (size_t)(new->header.num_used),
+            sizeof *(new->file_records), comp_index);
+
 
     new->file_name = lib_stralloc(name);
 

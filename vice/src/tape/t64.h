@@ -86,6 +86,8 @@ struct t64_file_record_s {
     WORD start_addr;
     WORD end_addr;
     DWORD contents;
+    int index;  /* index of the record in the container, required to restore
+                   the orginal record order after fixing end addresses */
 };
 typedef struct t64_file_record_s t64_file_record_t;
 
