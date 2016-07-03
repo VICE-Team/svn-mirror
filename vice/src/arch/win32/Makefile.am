@@ -55,6 +55,7 @@ libarch_a_SOURCES = \
 	hs.h \
 	hs-dll.c \
 	hs-isa.c \
+	hs-pci.c \
 	intl.c \
 	intl.h \
 	joy.c \

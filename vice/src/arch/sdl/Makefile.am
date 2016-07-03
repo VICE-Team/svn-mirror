@@ -53,6 +53,7 @@ libarch_a_SOURCES = \
 	hardsid-drv.c \
 	hs-device.c \
 	hs-isa.c \
+	hs-pci.c \
 	io-access.c \
 	joy.c \
 	joy.h \
