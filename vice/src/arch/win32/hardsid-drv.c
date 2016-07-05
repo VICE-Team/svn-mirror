@@ -30,6 +30,7 @@
  - Windows 95C (ISA HardSID Quattro, hardsid.dll)
  - Windows 95C (ISA HardSID, Direct ISA I/O, inpout32.dll is incompatible with windows 95)
  - Windows 95C (ISA HardSID Quattro, Direct ISA I/O, inpout32.dll is incompatible with windows 95)
+ - Windows 95C (PCI HardSID, Direct PCI I/O)
  - Windows 98SE (ISA HardSID, hardsid.dll)
  - Windows 98SE (ISA HardSID Quattro, hardsid.dll)
  - Windows 98SE (ISA HardSID, inpout32.dll ISA I/O)

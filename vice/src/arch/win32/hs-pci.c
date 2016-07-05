@@ -25,8 +25,9 @@
  */
 
 /* Tested and confirmed working on:
- */
 
+ - Windows 95C (PCI HardSID, Direct PCI I/O)
+ */
 
 #include "vice.h"
 
@@ -59,21 +60,29 @@ static int io2 = 0;
 static int hardsid_use_lib = 0;
 
 #ifndef MSVC_RC
-typedef short _stdcall (*inpfuncPtr)(short portaddr);
-typedef void _stdcall (*oupfuncPtr)(short portaddr, short datum);
+typedef int _stdcall (*initfuncPtr)(void);
+typedef void _stdcall (*shutdownfuncPtr)(void);
+typedef int _stdcall (*inpfuncPtr)(WORD port, PDWORD value, BYTE size);
+typedef int _stdcall (*oupfuncPtr)(WORD port, DWORD value, BYTE size);
 
+static initfuncPtr init32fp;
+static shutdownfuncPtr shutdown32fp;
 static inpfuncPtr inp32fp;
 static oupfuncPtr oup32fp;
 #else
-typedef short (CALLBACK* Inp32_t)(short);
-typedef void (CALLBACK* Out32_t)(short, short);
+typedef bool (CALLBACK* Init32_t)(void);
+typedef void (CALLBACK* Shutdown32_t)(void);
+typedef bool (CALLBACK* Inp32_t)(WORD, PDWORD, BYTE);
+typedef bool (CALLBACK* Out32_t)(WORD, DWORD, BYTE);
 
+static Init32_t Init32;
+static Shutdown32_t Shutdown32;
 static Inp32_t Inp32;
 static Out32_t Out32;
 #endif
 
 /* input/output functions */
-static void hardsid_outb(unsigned int addrint, short value)
+static void hardsid_outb(unsigned int addrint, DWORD value)
 {
     WORD addr = (WORD)addrint;
 
@@ -82,22 +91,22 @@ static void hardsid_outb(unsigned int addrint, short value)
 
     if (hardsid_use_lib) {
 #ifndef MSVC_RC
-        (oup32fp)(addr, value);
+        (oup32fp)(addr, value, 1);
 #else
-        Out32(addr, value);
+        Out32(addr, value, 1);
 #endif
     } else {
 #ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
-        outp(addr, value);
+        outp(addr, (BYTE)value);
 #else
-        _outp(addr, value);
+        _outp(addr, (BYTE)value);
 #endif
 #endif
     }
 }
 
-static void hardsid_outl(unsigned int addrint, unsigned long value)
+static void hardsid_outl(unsigned int addrint, DWORD value)
 {
     WORD addr = (WORD)addrint;
 
@@ -105,13 +114,10 @@ static void hardsid_outl(unsigned int addrint, unsigned long value)
     assert(addr == addrint);
 
     if (hardsid_use_lib) {
-/* Not implemented yet */
-#if 0
 #ifndef MSVC_RC
-        (oup32fp)(addr, value);
+        (oup32fp)(addr, value, 4);
 #else
-        Out32(addr, value);
-#endif
+        Out32(addr, value, 4);
 #endif
     } else {
 #ifdef  _M_IX86
@@ -124,19 +130,21 @@ static void hardsid_outl(unsigned int addrint, unsigned long value)
     }
 }
 
-static short hardsid_inb(unsigned int addrint)
+static BYTE hardsid_inb(unsigned int addrint)
 {
     WORD addr = (WORD)addrint;
+    DWORD retval = 0;
 
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
 
     if (hardsid_use_lib) {
 #ifndef MSVC_RC
-        return (inp32fp)(addr);
+        retval = (inp32fp)(addr, &retval, 1);
 #else
-        return Inp32(addr);
+        retval = Inp32(addr, &retval, 1);
 #endif
+        return (BYTE)retval;
     } else {
 #ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
@@ -148,24 +156,21 @@ static short hardsid_inb(unsigned int addrint)
     }
 }
 
-static unsigned long hardsid_inl(unsigned int addrint)
+static DWORD hardsid_inl(unsigned int addrint)
 {
     WORD addr = (WORD)addrint;
+    DWORD retval = 0;
 
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
 
     if (hardsid_use_lib) {
-/* Not yet implemented */
-#if 0
 #ifndef MSVC_RC
-        return (inp32fp)(addr);
+        retval = (inp32fp)(addr, &retval, 4);
 #else
-        return Inp32(addr);
+        retval = Inp32(addr, &retval, 4);
 #endif
-#else
-        return 0;
-#endif
+        return retval;
     } else {
 #ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
@@ -206,15 +211,17 @@ static HINSTANCE hLib = NULL;
 
 #ifdef _MSC_VER
 #  ifdef _WIN64
-#    define INPOUTDLLNAME "inpoutx64.dll"
+#    define INPOUTDLLNAME "winio64.dll"
 #  else
-#    define INPOUTDLLNAME "inpout32.dll"
+#    define INPOUTDLLNAME "winio32.dll"
+#    define INPOUTDLLOLDNAME "winio.dll"
 #  endif
 #else
 #  if defined(__amd64__) || defined(__x86_64__)
-#    define INPOUTDLLNAME "inpoutx64.dll"
+#    define INPOUTDLLNAME "winio64.dll"
 #  else
-#    define INPOUTDLLNAME "inpout32.dll"
+#    define INPOUTDLLNAME "winio32.dll"
+#    define INPOUTDLLOLDNAME "winio.dll"
 #  endif
 #endif
 
@@ -363,6 +370,7 @@ int hs_pci_open(void)
 {
     int i;
     int res;
+    char *openedlib = NULL;
 
     if (!sids_found) {
         return -1;
@@ -381,39 +389,67 @@ int hs_pci_open(void)
         return -1;
     }
 
-    if (hLib == NULL) {
-        hLib = LoadLibrary(INPOUTDLLNAME);
+    /* Only use dll when on win nt and up */
+    if (!(GetVersion() & 0x80000000) && hardsid_use_lib == 0) {
+
+#ifdef INPOUTDLLOLDNAME
+        if (hLib == NULL) {
+            openedlib = INPOUTDLLOLDNAME;
+            hLib = LoadLibrary(INPOUTDLLOLDNAME);
+        }
+#endif
+
+        if (hLib == NULL) {
+            hLib = LoadLibrary(INPOUTDLLNAME);
+            openedlib = INPOUTDLLNAME;
+        }
     }
 
     hardsid_use_lib = 0;
 
     if (hLib != NULL) {
-        log_message(LOG_DEFAULT, "Opened %s.", INPOUTDLLNAME);
+        log_message(LOG_DEFAULT, "Opened %s.", openedlib);
 
 #ifndef MSVC_RC
-        inp32fp = (inpfuncPtr)GetProcAddress(hLib, "Inp32");
+        inp32fp = (inpfuncPtr)GetProcAddress(hLib, "GetPortVal");
         if (inp32fp != NULL) {
-            oup32fp = (oupfuncPtr)GetProcAddress(hLib, "Out32");
+            oup32fp = (oupfuncPtr)GetProcAddress(hLib, "SetPortVal");
             if (oup32fp != NULL) {
-                log_message(LOG_DEFAULT, "Using %s for PCI I/O access.", INPOUTDLLNAME);
-                hardsid_use_lib = 1;
+                init32fp = (initfuncPtr)GetProcAddress(hLib, "InitializeWinIo");
+                if (init32fp != NULL) {
+                    shutdown32fp = (shutdownfuncPtr)GetProcAddress(hLib, "ShutdownWinIo");
+                    if (shutdown32fp != NULL) {
+                        if (init32fp()) {
+                            hardsid_use_lib = 1;
+                            log_message(LOG_DEFAULT, "Using %s for PCI I/O access.", openedlib);
+                        }
+                    }
+                }
             }
         }
 #else
-        Inp32 = (Inp32_t)GetProcAddress(hLib, "Inp32");
+        Inp32 = (Inp32_t)GetProcAddress(hLib, "GetPortVal");
         if (Inp32 != NULL) {
-            Out32 = (Out32_t)GetProcAddress(hLib, "Out32");
+            Out32 = (Out32_t)GetProcAddress(hLib, "SetPortVal");
             if (Out32 != NULL) {
-                log_message(LOG_DEFAULT, "Using %s for PCI I/O access.", INPOUTDLLNAME);
-                hardsid_use_lib = 1;
+                Init32 = (Init32_t)GetProcAddress(hLib, "InitializeWinIo");
+                if (Init32 != NULL) {
+                    Shutdown32 = (Shutdown32_t)GetProcAddress(hLib, "ShutdownWinIo");
+                    if (Shutdown32 != NULL) {
+                        if (Init32()) {
+                            hardsid_use_lib = 1;
+                            log_message(LOG_DEFAULT, "Using %s for PCI I/O access.", openedlib);
+                        }
+                    }
+                }
             }
         }
 #endif
         if (!hardsid_use_lib) {
-            log_message(LOG_DEFAULT, "Cannot get I/O functions in %s, using direct PCI I/O access.", INPOUTDLLNAME);
+            log_message(LOG_DEFAULT, "Cannot get I/O functions in %s, using direct PCI I/O access.", openedlib);
         }
     } else {
-        log_message(LOG_DEFAULT, "Cannot open %s, trying direct PCI I/O access.", INPOUTDLLNAME);
+        log_message(LOG_DEFAULT, "Cannot open %s, trying direct PCI I/O access.", openedlib);
     }
 
 
@@ -460,8 +496,13 @@ int hs_pci_close(void)
     int i;
 
     if (hardsid_use_lib) {
-       FreeLibrary(hLib);
-       hLib = NULL;
+#ifndef MSVC_RC
+        shutdown32fp();
+#else
+        Shutdown32();
+#endif
+        FreeLibrary(hLib);
+        hLib = NULL;
     }
 
     for (i = 0; i < MAXSID; ++i) {
