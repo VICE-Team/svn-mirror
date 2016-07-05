@@ -3149,10 +3149,13 @@ if test x"$is_unix" = "xyes"; then
   dnl Check cpu first
   case "$host_cpu" in
   i*86 | x86_64* | amd64*)
+      ;;
+  *)
       enable_parsid=no
       enable_ssi2001=no
       enable_hardsid=no
       enable_catweasel=no
+      ;;
   esac
 
   if test x"$enable_parsid" != "xno" -o x"$enable_ssi2001" != "xno" -o x"$enable_hardsid" != "xno" -o x"$enable_catweasel" != "xno"; then
