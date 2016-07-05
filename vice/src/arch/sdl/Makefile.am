@@ -47,6 +47,8 @@ libarch_a_SOURCES = \
 	console.c \
 	coproc.c \
 	coproc.h \
+	cw-device.c \
+	cw-pci.c \
 	dynlib.c \
 	fullscreen.c \
 	fullscreenarch.h \

@@ -2,8 +2,6 @@
  * catweaselmkiii-drv.c - Windows specific cw3 driver.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Dirk Jagdmann <doj@cubic.org>
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -26,202 +24,89 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - Windows 95C (Direct PCI I/O)
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_CATWEASELMKIII
 
-#include <stdlib.h>
-#include <string.h>
-#include <windows.h>
-
-#ifdef HAVE_WINIOCTL_H
-#include <winioctl.h>
-#endif
-
 #include "catweaselmkiii.h"
-#include "log.h"
+#include "cw.h"
 #include "types.h"
 
-/* defined for CatWeasel MK3 PCI device driver */
-#define SID_SID_PEEK_POKE CTL_CODE(FILE_DEVICE_SOUND, 0x0800UL + 1, METHOD_BUFFERED, FILE_ANY_ACCESS)
-#define SID_SET_CLOCK     CTL_CODE(FILE_DEVICE_SOUND, 0x0800UL + 4, METHOD_BUFFERED, FILE_ANY_ACCESS)
-#define SID_CMD_READ      32
+static int use_cw_pci = 0;
+static int use_cw_dll = 0;
 
-static int sids_found = -1;
-
-/* array containing file handles for up to MAXCARD CatWeasels */
-static HANDLE sidhandle[CW_MAXCARDS] = {
-    INVALID_HANDLE_VALUE,
-    INVALID_HANDLE_VALUE,
-    INVALID_HANDLE_VALUE,
-    INVALID_HANDLE_VALUE,
-};
-
-/* set all CatWeasels frequency to buf. buf=0: pal ; buf=1: ntsc */
-static void setfreq(BYTE buf)
-{
-    int i;
-
-    for (i = 0; i < CW_MAXCARDS; i++) {
-        if (sidhandle[i] != INVALID_HANDLE_VALUE) {
-            DWORD w;
-
-            DeviceIoControl(sidhandle[i], SID_SET_CLOCK, &buf, sizeof(buf), 0L, 0UL, &w, 0L);
-        }
-    }
-}
-
-/* silent al SIDs by setting all registers to 0 */
-static void mutethem(void)
-{
-    DWORD w;
-    int i;
-    BYTE buf[0x19 * 2];
-
-    for (i = 0; i <= 0x18; i++) {
-        buf[i * 2] = i;
-        buf[i * 2 + 1] = 0;
-    }
-    for (i = 0; i < CW_MAXCARDS; i++) {
-        if (sidhandle[i] != INVALID_HANDLE_VALUE) {
-            DeviceIoControl(sidhandle[i], SID_SID_PEEK_POKE, buf, sizeof(buf), 0L, 0UL, &w, 0L);
-        }
-    }
-}
-
-/* open all available CatWeasel devices */
 int catweaselmkiii_drv_open(void)
 {
-    int i;
+    int retval;
 
-    if (!sids_found) {
-        return -1;
-    }
-
-    if (sids_found > 0) {
+    retval = cw_dll_open();
+    if (!retval) {
+        use_cw_dll = 1;
         return 0;
     }
 
-    sids_found = 0;
-
-    log_message(LOG_DEFAULT, "Detecting PCI CatWeasel boards.");
-
-    /* close any open handles */
-    for (i = 0; i < CW_MAXCARDS; i++) {
-        if (sidhandle[i] != INVALID_HANDLE_VALUE) {
-            CloseHandle(sidhandle[i]), sidhandle[i] = INVALID_HANDLE_VALUE;
-        }
-    }
-
-    /* find up to four CatWeasel cards */
-    for (i = 0; i < CW_MAXCARDS; i++) {
-        char buf[32];
-
-        sprintf(buf, "\\\\.\\SID6581_%u", i + 1);
-        sidhandle[sids_found] = CreateFile(buf, GENERIC_READ, FILE_SHARE_WRITE | FILE_SHARE_READ, 0L, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0L);
-        if (sidhandle[sids_found] != INVALID_HANDLE_VALUE) {
-            log_message(LOG_DEFAULT, "Found PCI CatWeasel #%i.", sids_found + 1);
-            sids_found++;
-        }
-    }
-
-    /* if cards were found */
-    if (sids_found > 0) {
-        log_message(LOG_DEFAULT, "Found and opened a PCI CatWeasel SID.");
-
-        /* silent all found cards */
-        mutethem();
-
-        /* set frequeny of found cards */
-        setfreq((BYTE)catweaselmkiii_get_ntsc());
-
+    retval = cw_pci_open();
+    if (!retval) {
+        use_cw_pci = 1;
         return 0;
     }
 
-    log_message(LOG_DEFAULT, "No PCI CatWeasel found.");
-
-    /* no CatWeasels were found */
     return -1;
 }
 
-/* close all open device handles */
 int catweaselmkiii_drv_close(void)
 {
-    int i;
-
-    mutethem();
-    for (i = 0; i < CW_MAXCARDS; i++) {
-        if (sidhandle[i] != INVALID_HANDLE_VALUE) {
-            CloseHandle(sidhandle[i]);
-            sidhandle[i] = INVALID_HANDLE_VALUE;
-        }
+    if (use_cw_pci) {
+        use_cw_pci = 0;
+        cw_pci_close();
     }
-
-    log_message(LOG_DEFAULT, "Closed PCI CatWeasel SID.");
-
-    sids_found = -1;
-
+    if (use_cw_dll) {
+        use_cw_dll = 0;
+        cw_dll_close();
+    }
     return 0;
 }
 
-/* read register from sid. only the four read registers from $19 to
-   $1C are read from the real SID chip, all other bytes are read from
-   sidbuf[] */
 int catweaselmkiii_drv_read(WORD addr, int chipno)
 {
-    /* check if chipno is valid */
-    if (chipno < CW_MAXCARDS) {
-        /* check if addr is in read-only range, and that a card was found */
-        if (addr >= 0x19 && addr <= 0x1C && sidhandle[chipno] != INVALID_HANDLE_VALUE) {
-            /* do real read */
-            DWORD w;
-            BYTE buf[2];
-
-            buf[0] = SID_CMD_READ;
-            buf[1] = (BYTE)(addr & 0xff);
-            DeviceIoControl(sidhandle[chipno], SID_SID_PEEK_POKE, buf, 2, buf, 1, &w, 0L);
-            return buf[0];
-        }
+    if (use_cw_pci) {
+        return cw_pci_read(addr, chipno);
     }
-    log_error(LOG_ERR, "PCI CatWeasel does not support SID #%i.", chipno);
+    if (use_cw_dll) {
+        return cw_dll_read(addr, chipno);
+    }
     return 0;
 }
 
-/* write a value */
 void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
 {
-    /* check if chipno is valid */
-    if (chipno < CW_MAXCARDS) {
-        /* check if addr is valid */
-        if (addr <= 0x18) {
-            /* check if device handle is valid */
-            if (sidhandle[chipno] != INVALID_HANDLE_VALUE) {
-                /* perform real write */
-                DWORD w;
-                BYTE buf[2];
-
-                buf[0] = (BYTE)(addr & 0xff);
-                buf[1] = val;
-                DeviceIoControl(sidhandle[chipno], SID_SID_PEEK_POKE, buf, sizeof(buf), 0L, 0UL, &w, 0L);
-            }
-            return;
-        }
-        log_error(LOG_ERR, "PCI CatWeasel store at address %04x.", addr);
-        return;
+    if (use_cw_pci) {
+        cw_pci_store(addr, val, chipno);
     }
-    log_error(LOG_ERR, "PCI CatWeasel does not support SID #%i.", chipno);
+    if (use_cw_dll) {
+        cw_dll_store(addr, val, chipno);
+    }
 }
 
-/* set current main clock frequency, which gives us the possibilty to
-   choose between pal and ntsc frequencies */
 void catweaselmkiii_drv_set_machine_parameter(long cycles_per_sec)
 {
-    BYTE ntsc = (BYTE)((cycles_per_sec <= 1000000) ? 0 : 1);
-    setfreq(ntsc);
+    if (use_cw_dll) {
+        cw_dll_set_machine_parameter(cycles_per_sec);
+    }
 }
 
 int catweaselmkiii_drv_available(void)
 {
-    return sids_found;
+    if (use_cw_pci) {
+        return cw_pci_available();
+    }
+    if (use_cw_dll) {
+        return cw_dll_available();
+    }
 }
 #endif

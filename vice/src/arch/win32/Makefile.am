@@ -45,6 +45,9 @@ libarch_a_SOURCES = \
 	cbm2ui.c \
 	cbm5x0ui.c \
 	console.c \
+	cw.h \
+	cw-dll.c \
+	cw-pci.c \
 	dinput_handle.c \
 	dinput_handle.h \
 	dynlib.c \
