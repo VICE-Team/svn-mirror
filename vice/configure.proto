@@ -3146,7 +3146,16 @@ AC_SUBST(SOUND_LIBS)
 dnl Check for ParSID/SSI2001/HardSID support
 if test x"$is_unix" = "xyes"; then
 
-  if test x"$enable_parsid" != "xno" -o x"$enable_ssi2001" != "xno" -o x"$enable_hardsid" != "xno"; then
+  dnl Check cpu first
+  case "$host_cpu" in
+  i*86 | x86_64* | amd64*)
+      enable_parsid=no
+      enable_ssi2001=no
+      enable_hardsid=no
+      enable_catweasel=no
+  esac
+
+  if test x"$enable_parsid" != "xno" -o x"$enable_ssi2001" != "xno" -o x"$enable_hardsid" != "xno" -o x"$enable_catweasel" != "xno"; then
 
     LIBIEEE1284_HEADERS_PRESENT=yes
     LINUX_HARDSID_HEADER_PRESENT=yes
