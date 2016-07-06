@@ -28,7 +28,8 @@
 
  - Windows 95C (ISA HardSID, Direct ISA I/O, inpout32.dll is incompatible with windows 95)
  - Windows 95C (ISA HardSID Quattro, Direct ISA I/O, inpout32.dll is incompatible with windows 95)
- - Windows 98SE (ISA HardSID, hardsid.dll)
+ - Windows 98SE (ISA HardSID, winio.dll ISA I/O)
+ - Windows 98SE (ISA HardSID Quattro, winio.dll ISA I/O)
  - Windows 98SE (ISA HardSID, inpout32.dll ISA I/O)
  - Windows 98SE (ISA HardSID Quattro, inpout32.dll ISA I/O)
  - Windows 98SE (ISA HardSID, Direct ISA I/O)
@@ -78,23 +79,37 @@ static int sids_found = -1;
 static int hssids[MAXSID] = {-1, -1, -1, -1};
 
 static int hardsid_use_lib = 0;
+static int hardsid_use_inpout_dll = 0;
+static int hardsid_use_winio_dll = 0;
 
 #ifndef MSVC_RC
-typedef short _stdcall (*inpfuncPtr)(short portaddr);
-typedef void _stdcall (*oupfuncPtr)(short portaddr, short datum);
+typedef short _stdcall (*inpout_inpfuncPtr)(short portaddr);
+typedef void _stdcall (*inpout_oupfuncPtr)(short portaddr, short datum);
 
-static inpfuncPtr inp32fp;
-static oupfuncPtr oup32fp;
+typedef int _stdcall (*initfuncPtr)(void);
+typedef void _stdcall (*shutdownfuncPtr)(void);
+typedef int _stdcall (*winio_inpfuncPtr)(WORD port, PDWORD value, BYTE size);
+typedef int _stdcall (*winio_oupfuncPtr)(WORD port, DWORD value, BYTE size);
 #else
-typedef short (CALLBACK* Inp32_t)(short);
-typedef void (CALLBACK* Out32_t)(short, short);
+typedef short (CALLBACK* inpout_inpfuncPtr)(short);
+typedef void (CALLBACK* inpout_oupfuncPtr)(short, short);
 
-static Inp32_t Inp32;
-static Out32_t Out32;
+typedef int (CALLBACK* initfuncPtr)(void);
+typedef void (CALLBACK* shutdownfuncPtr)(void);
+typedef int (CALLBACK* winio_inpfuncPtr)(WORD, PDWORD, BYTE);
+typedef int (CALLBACK* winio_oupfuncPtr)(WORD, DWORD, BYTE);
 #endif
 
+static inpout_inpfuncPtr inpout_inp32fp;
+static inpout_oupfuncPtr inpout_oup32fp;
+
+static initfuncPtr init32fp;
+static shutdownfuncPtr shutdown32fp;
+static winio_inpfuncPtr winio_inp32fp;
+static winio_oupfuncPtr winio_oup32fp;
+
 /* input/output functions */
-static void hardsid_outb(unsigned int addrint, short value)
+static void hardsid_outb(unsigned int addrint, BYTE value)
 {
     WORD addr = (WORD)addrint;
 
@@ -102,11 +117,11 @@ static void hardsid_outb(unsigned int addrint, short value)
     assert(addr == addrint);
 
     if (hardsid_use_lib) {
-#ifndef MSVC_RC
-        (oup32fp)(addr, value);
-#else
-        Out32(addr, value);
-#endif
+        if (hardsid_use_winio_dll) {
+            winio_oup32fp(addr, (DWORD)value, 1);
+        } else {
+            inpout_oup32fp(addr, (WORD)value);
+        }
     } else {
 #ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
@@ -118,28 +133,32 @@ static void hardsid_outb(unsigned int addrint, short value)
     }
 }
 
-static short hardsid_inb(unsigned int addrint)
+static BYTE hardsid_inb(unsigned int addrint)
 {
     WORD addr = (WORD)addrint;
+    DWORD tmp;
+    BYTE retval = 0;
 
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
 
     if (hardsid_use_lib) {
-#ifndef MSVC_RC
-        return (inp32fp)(addr);
-#else
-        return Inp32(addr);
-#endif
+        if (hardsid_use_winio_dll) {
+            winio_inp32fp(addr, &tmp, 1);
+            retval = (BYTE)tmp;
+        } else {
+            retval = inpout_inp32fp(addr);
+        }
     } else {
 #ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
-        return inp(addr);
+        retval = inp(addr);
 #else
-        return _inp(addr);
+        retval = _inp(addr);
 #endif
 #endif
     }
+    return retval;
 }
 
 int hs_isa_read(WORD addr, int chipno)
@@ -168,14 +187,20 @@ static HINSTANCE hLib = NULL;
 #ifdef _MSC_VER
 #  ifdef _WIN64
 #    define INPOUTDLLNAME "inpoutx64.dll"
+#    define WINIODLLNAME  "winio64.dll"
 #  else
 #    define INPOUTDLLNAME "inpout32.dll"
+#    define WINIODLLNAME  "winio32.dll"
+#    define WINIOOLDNAME  "winio.dll"
 #  endif
 #else
 #  if defined(__amd64__) || defined(__x86_64__)
 #    define INPOUTDLLNAME "inpoutx64.dll"
+#    define WINIODLLNAME  "winio64.dll"
 #  else
 #    define INPOUTDLLNAME "inpout32.dll"
+#    define WINIODLLNAME  "winio32.dll"
+#    define WINIOOLDNAME  "winio.dll"
 #  endif
 #endif
 
@@ -241,6 +266,7 @@ static int detect_sid(int chipno)
 int hs_isa_open(void)
 {
     int i;
+    char *libname = NULL;
 
     if (!sids_found) {
         return -1;
@@ -254,41 +280,69 @@ int hs_isa_open(void)
 
     log_message(LOG_DEFAULT, "Detecting ISA HardSID boards.");
 
+#ifdef WINIOOLDNAME
     if (hLib == NULL) {
-        hLib = LoadLibrary(INPOUTDLLNAME);
+        libname = WINIOOLDNAME;
+        hLib = LoadLibrary(libname);
+        hardsid_use_inpout_dll = 0;
+        hardsid_use_winio_dll = 1;
+    }
+#endif
+
+    if (hLib == NULL) {
+        libname = WINIODLLNAME;
+        hLib = LoadLibrary(libname);
+        hardsid_use_inpout_dll = 0;
+        hardsid_use_winio_dll = 1;
+    }
+
+    if (hLib == NULL) {
+        libname = INPOUTDLLNAME;
+        hLib = LoadLibrary(libname);
+        hardsid_use_inpout_dll = 1;
+        hardsid_use_winio_dll = 0;
     }
 
     hardsid_use_lib = 0;
 
     if (hLib != NULL) {
-        log_message(LOG_DEFAULT, "Opened %s.", INPOUTDLLNAME);
+        log_message(LOG_DEFAULT, "Opened %s.", libname);
 
-#ifndef MSVC_RC
-        inp32fp = (inpfuncPtr)GetProcAddress(hLib, "Inp32");
-        if (inp32fp != NULL) {
-            oup32fp = (oupfuncPtr)GetProcAddress(hLib, "Out32");
-            if (oup32fp != NULL) {
-                log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", INPOUTDLLNAME);
-                hardsid_use_lib = 1;
+        if (hardsid_use_inpout_dll) {
+            inpout_inp32fp = (inpout_inpfuncPtr)GetProcAddress(hLib, "Inp32");
+            if (inpout_inp32fp != NULL) {
+                inpout_oup32fp = (inpout_oupfuncPtr)GetProcAddress(hLib, "Out32");
+                if (inpout_oup32fp != NULL) {
+                    log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", libname);
+                    hardsid_use_lib = 1;
+                }
+            }
+        } else {
+            winio_inp32fp = (winio_inpfuncPtr)GetProcAddress(hLib, "GetPortVal");
+            if (winio_inp32fp != NULL) {
+                winio_oup32fp = (winio_oupfuncPtr)GetProcAddress(hLib, "SetPortVal");
+                if (winio_oup32fp != NULL) {
+                    init32fp = (initfuncPtr)GetProcAddress(hLib, "InitializeWinIo");
+                    if (init32fp != NULL) {
+                        shutdown32fp = (shutdownfuncPtr)GetProcAddress(hLib, "ShutdownWinIo");
+                        if (shutdown32fp != NULL) {
+                            if (init32fp()) {
+                                log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", libname);
+                                hardsid_use_lib = 1;
+                            } else {
+                                log_message(LOG_DEFAULT, "Cannot init %s.", libname);
+                            }
+                        }
+                    }
+                }
             }
         }
-#else
-        Inp32 = (Inp32_t)GetProcAddress(hLib, "Inp32");
-        if (Inp32 != NULL) {
-            Out32 = (Out32_t)GetProcAddress(hLib, "Out32");
-            if (Out32 != NULL) {
-                log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", INPOUTDLLNAME);
-                hardsid_use_lib = 1;
-            }
-        }
-#endif
         if (!hardsid_use_lib) {
-            log_message(LOG_DEFAULT, "Cannot get I/O functions in %s, using direct I/O access.", INPOUTDLLNAME);
+            log_message(LOG_DEFAULT, "Cannot get I/O functions in %s, using direct I/O access.", libname);
         }
     } else {
-        log_message(LOG_DEFAULT, "Cannot open %s, trying direct ISA I/O access.", INPOUTDLLNAME);
+        log_message(LOG_DEFAULT, "Cannot open %s, trying direct ISA I/O access.", libname);
     }
-
 
     if (!(GetVersion() & 0x80000000) && hardsid_use_lib == 0) {
         log_message(LOG_DEFAULT, "Cannot use direct I/O access on Windows NT/2000/Server/XP/Vista/7/8/10.");
@@ -324,8 +378,13 @@ int hs_isa_close(void)
     int i;
 
     if (hardsid_use_lib) {
-       FreeLibrary(hLib);
-       hLib = NULL;
+        if (hardsid_use_winio_dll) {
+            shutdown32fp();
+        }
+        FreeLibrary(hLib);
+        hLib = NULL;
+        hardsid_use_winio_dll = 0;
+        hardsid_use_inpout_dll = 0;
     }
 
     for (i = 0; i < MAXSID; ++i) {
