@@ -25,6 +25,8 @@
  */
 
 /* Tested and confirmed working on:
+
+ - Windows 95C (Direct ISA I/O, inpout32.dll is incompatible with windows 95)
  */
 
 #include "vice.h"

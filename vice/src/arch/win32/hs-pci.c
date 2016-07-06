@@ -27,6 +27,9 @@
 /* Tested and confirmed working on:
 
  - Windows 95C (PCI HardSID, Direct PCI I/O)
+ - Windows 95C (PCI HardSID Quattro, Direct PCI I/O)
+ - Windows 98SE (PCI HardSID, Direct PCI I/O)
+ - Windows 98SE (PCI HardSID Quattro, Direct PCI I/O)
  */
 
 #include "vice.h"
@@ -389,6 +392,8 @@ int hs_pci_open(void)
         return -1;
     }
 
+    hardsid_use_lib = 0;
+
     /* Only use dll when on win nt and up */
     if (!(GetVersion() & 0x80000000) && hardsid_use_lib == 0) {
 
@@ -403,55 +408,54 @@ int hs_pci_open(void)
             hLib = LoadLibrary(INPOUTDLLNAME);
             openedlib = INPOUTDLLNAME;
         }
-    }
 
-    hardsid_use_lib = 0;
-
-    if (hLib != NULL) {
-        log_message(LOG_DEFAULT, "Opened %s.", openedlib);
+        if (hLib != NULL) {
+            log_message(LOG_DEFAULT, "Opened %s.", openedlib);
 
 #ifndef MSVC_RC
-        inp32fp = (inpfuncPtr)GetProcAddress(hLib, "GetPortVal");
-        if (inp32fp != NULL) {
-            oup32fp = (oupfuncPtr)GetProcAddress(hLib, "SetPortVal");
-            if (oup32fp != NULL) {
-                init32fp = (initfuncPtr)GetProcAddress(hLib, "InitializeWinIo");
-                if (init32fp != NULL) {
-                    shutdown32fp = (shutdownfuncPtr)GetProcAddress(hLib, "ShutdownWinIo");
-                    if (shutdown32fp != NULL) {
-                        if (init32fp()) {
-                            hardsid_use_lib = 1;
-                            log_message(LOG_DEFAULT, "Using %s for PCI I/O access.", openedlib);
+            inp32fp = (inpfuncPtr)GetProcAddress(hLib, "GetPortVal");
+            if (inp32fp != NULL) {
+                oup32fp = (oupfuncPtr)GetProcAddress(hLib, "SetPortVal");
+                if (oup32fp != NULL) {
+                    init32fp = (initfuncPtr)GetProcAddress(hLib, "InitializeWinIo");
+                    if (init32fp != NULL) {
+                        shutdown32fp = (shutdownfuncPtr)GetProcAddress(hLib, "ShutdownWinIo");
+                        if (shutdown32fp != NULL) {
+                            if (init32fp()) {
+                                hardsid_use_lib = 1;
+                                log_message(LOG_DEFAULT, "Using %s for PCI I/O access.", openedlib);
+                            }
                         }
                     }
                 }
             }
-        }
 #else
-        Inp32 = (Inp32_t)GetProcAddress(hLib, "GetPortVal");
-        if (Inp32 != NULL) {
-            Out32 = (Out32_t)GetProcAddress(hLib, "SetPortVal");
-            if (Out32 != NULL) {
-                Init32 = (Init32_t)GetProcAddress(hLib, "InitializeWinIo");
-                if (Init32 != NULL) {
-                    Shutdown32 = (Shutdown32_t)GetProcAddress(hLib, "ShutdownWinIo");
-                    if (Shutdown32 != NULL) {
-                        if (Init32()) {
-                            hardsid_use_lib = 1;
-                            log_message(LOG_DEFAULT, "Using %s for PCI I/O access.", openedlib);
+            Inp32 = (Inp32_t)GetProcAddress(hLib, "GetPortVal");
+            if (Inp32 != NULL) {
+                Out32 = (Out32_t)GetProcAddress(hLib, "SetPortVal");
+                if (Out32 != NULL) {
+                    Init32 = (Init32_t)GetProcAddress(hLib, "InitializeWinIo");
+                    if (Init32 != NULL) {
+                        Shutdown32 = (Shutdown32_t)GetProcAddress(hLib, "ShutdownWinIo");
+                        if (Shutdown32 != NULL) {
+                            if (Init32()) {
+                                hardsid_use_lib = 1;
+                                log_message(LOG_DEFAULT, "Using %s for PCI I/O access.", openedlib);
+                            }
                         }
                     }
                 }
             }
-        }
 #endif
-        if (!hardsid_use_lib) {
-            log_message(LOG_DEFAULT, "Cannot get I/O functions in %s, using direct PCI I/O access.", openedlib);
+            if (!hardsid_use_lib) {
+                log_message(LOG_DEFAULT, "Cannot get I/O functions in %s, using direct PCI I/O access.", openedlib);
+            }
+        } else {
+            log_message(LOG_DEFAULT, "Cannot open %s, trying direct PCI I/O access.", openedlib);
         }
     } else {
-        log_message(LOG_DEFAULT, "Cannot open %s, trying direct PCI I/O access.", openedlib);
+        log_message(LOG_DEFAULT, "Using direct PCI I/O access.");
     }
-
 
     if (!(GetVersion() & 0x80000000) && hardsid_use_lib == 0) {
         log_message(LOG_DEFAULT, "Cannot use direct PCI I/O access on Windows NT/2000/Server/XP/Vista/7/8/10.");

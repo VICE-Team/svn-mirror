@@ -32,6 +32,8 @@
  - Windows 95C (ISA HardSID Quattro)
  - Windows 98SE (ISA HardSID)
  - Windows 98SE (ISA HardSID Quattro)
+ - Windows 98SE (PCI HardSID)
+ - Windows 98SE (PCI HardSID Quattro)
  - Windows ME (ISA HardSID)
  - Windows ME (ISA HardSID Quattro)
  - Windows NT 4 (ISA HardSID)

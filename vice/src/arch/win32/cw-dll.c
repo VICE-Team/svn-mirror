@@ -26,6 +26,11 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - Windows 98SE
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_CATWEASELMKIII

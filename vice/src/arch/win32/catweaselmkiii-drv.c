@@ -27,6 +27,8 @@
 /* Tested and confirmed working on:
 
  - Windows 95C (Direct PCI I/O)
+ - Windows 98SE (Direct PCI I/O)
+ - Windows 98SE (Driver)
  */
 
 #include "vice.h"
