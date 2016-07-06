@@ -26,7 +26,8 @@
 
 /* Tested and confirmed working on:
 
- - Windows 95C (Direct ISA I/O, inpout32.dll is incompatible with windows 95)
+ - Windows 98SE (winio.dll ISA I/O)
+ - Windows 98SE (inpout32.dll ISA I/O)
  */
 
 #include "vice.h"
@@ -45,43 +46,61 @@
 static int sids_found = -1;
 static int pssids[MAXSID] = {-1, -1, -1};
 static int psctrl[MAXSID] = {-1, -1, -1};
-static int parsid_port_address[MAXSID] = {0, 0, 0};
+
+static int parsid_use_inpout_dll = 0;
+static int parsid_use_winio_dll = 0;
 
 #ifndef MSVC_RC
-typedef short _stdcall (*inpfuncPtr)(short portaddr);
-typedef void _stdcall (*oupfuncPtr)(short portaddr, short datum);
+typedef short _stdcall (*inpout_inpfuncPtr)(short portaddr);
+typedef void _stdcall (*inpout_oupfuncPtr)(short portaddr, short datum);
 
-static inpfuncPtr inp32fp;
-static oupfuncPtr oup32fp;
+typedef int _stdcall (*initfuncPtr)(void);
+typedef void _stdcall (*shutdownfuncPtr)(void);
+typedef int _stdcall (*winio_inpfuncPtr)(WORD port, PDWORD value, BYTE size);
+typedef int _stdcall (*winio_oupfuncPtr)(WORD port, DWORD value, BYTE size);
 #else
-typedef short (CALLBACK* Inp32_t)(short);
-typedef void (CALLBACK* Out32_t)(short, short);
+typedef short (CALLBACK* inpout_inpfuncPtr)(short);
+typedef void (CALLBACK* inpout_oupfuncPtr)(short, short);
 
-static Inp32_t Inp32;
-static Out32_t Out32;
+typedef int (CALLBACK* initfuncPtr)(void);
+typedef void (CALLBACK* shutdownfuncPtr)(void);
+typedef int (CALLBACK* winio_inpfuncPtr)(WORD, PDWORD, BYTE);
+typedef int (CALLBACK* winio_oupfuncPtr)(WORD, DWORD, BYTE);
 #endif
+
+static inpout_inpfuncPtr inpout_inp32fp;
+static inpout_oupfuncPtr inpout_oup32fp;
+
+static initfuncPtr init32fp;
+static shutdownfuncPtr shutdown32fp;
+static winio_inpfuncPtr winio_inp32fp;
+static winio_oupfuncPtr winio_oup32fp;
 
 /* input/output functions */
 static void parsid_outb(unsigned int addrint, BYTE value)
 {
     WORD addr = (WORD)addrint;
 
-#ifndef MSVC_RC
-   (oup32fp)(addr, value);
-#else
-    Out32(addr, value);
-#endif
+    if (parsid_use_winio_dll) {
+        winio_oup32fp(addr, (DWORD)value, 1);
+    } else {
+        inpout_oup32fp(addr, (WORD)value);
+    }
 }
 
 static BYTE parsid_inb(unsigned int addrint)
 {
     WORD addr = (WORD)addrint;
+    DWORD tmp;
+    BYTE retval = 0;
 
-#ifndef MSVC_RC
-    return (BYTE)(inp32fp)(addr);
-#else
-    return (BYTE)Inp32(addr);
-#endif
+    if (parsid_use_winio_dll) {
+        winio_inp32fp(addr, &tmp, 1);
+        retval = (BYTE)tmp;
+    } else {
+        retval = inpout_inp32fp(addr);
+    }
+    return retval;
 }
 
 void ps_dll_out_ctr(BYTE parsid_ctrport, int chipno)
@@ -284,14 +303,20 @@ static HINSTANCE hLib = NULL;
 #ifdef _MSC_VER
 #  ifdef _WIN64
 #    define INPOUTDLLNAME "inpoutx64.dll"
+#    define WINIODLLNAME  "winio64.dll"
 #  else
 #    define INPOUTDLLNAME "inpout32.dll"
+#    define WINIODLLNAME  "winio32.dll"
+#    define WINIOOLDNAME  "winio.dll"
 #  endif
 #else
 #  if defined(__amd64__) || defined(__x86_64__)
 #    define INPOUTDLLNAME "inpoutx64.dll"
+#    define WINIODLLNAME  "winio64.dll"
 #  else
 #    define INPOUTDLLNAME "inpout32.dll"
+#    define WINIODLLNAME  "winio32.dll"
+#    define WINIOOLDNAME  "winio.dll"
 #  endif
 #endif
 
@@ -385,6 +410,7 @@ static int detect_sid(int port)
 int ps_dll_open(void)
 {
     int j;
+    char *libname = NULL;
 
     if (!sids_found) {
         return -1;
@@ -398,42 +424,84 @@ int ps_dll_open(void)
 
     log_message(LOG_DEFAULT, "Detecting dll assisted PardSIDs.");
 
-    hLib = LoadLibrary(INPOUTDLLNAME);
-
+#ifdef WINIOOLDNAME
     if (hLib == NULL) {
-        log_message(LOG_DEFAULT, "Cannot open %s.", INPOUTDLLNAME);
-        return -1;
-    }
-
-#ifndef MSVC_RC
-    inp32fp = (inpfuncPtr)GetProcAddress(hLib, "Inp32");
-    if (inp32fp != NULL) {
-        oup32fp = (oupfuncPtr)GetProcAddress(hLib, "Out32");
-        if (oup32fp == NULL) {
-            log_message(LOG_DEFAULT, "I/O functions not found in %s.", INPOUTDLLNAME);
-            return -1;
-        }
-    } else {
-        log_message(LOG_DEFAULT, "I/O functions not found in %s.", INPOUTDLLNAME);
-        return -1;
-    }
-#else
-    Inp32 = (Inp32_t)GetProcAddress(hLib, "Inp32");
-    if (Inp32 != NULL) {
-        Out32 = (Out32_t)GetProcAddress(hLib, "Out32");
-        if (Out32 == NULL) {
-            log_message(LOG_DEFAULT, "I/O functions not found in %s.", INPOUTDLLNAME);
-            return -1;
-        }
-    } else {
-        log_message(LOG_DEFAULT, "I/O functions not found in %s.", INPOUTDLLNAME);
-        return -1;
+        libname = WINIOOLDNAME;
+        hLib = LoadLibrary(libname);
+        parsid_use_inpout_dll = 0;
+        parsid_use_winio_dll = 1;
     }
 #endif
 
+    if (hLib == NULL) {
+        libname = WINIODLLNAME;
+        hLib = LoadLibrary(libname);
+        parsid_use_inpout_dll = 0;
+        parsid_use_winio_dll = 1;
+    }
+
+    if (hLib == NULL) {
+        libname = INPOUTDLLNAME;
+        hLib = LoadLibrary(libname);
+        parsid_use_inpout_dll = 1;
+        parsid_use_winio_dll = 0;
+    }
+
+    if (hLib == NULL) {
+        log_message(LOG_DEFAULT, "Cannot open %s.", libname);
+        return -1;
+    }
+
+    if (parsid_use_inpout_dll) {
+        inpout_inp32fp = (inpout_inpfuncPtr)GetProcAddress(hLib, "Inp32");
+        if (inpout_inp32fp != NULL) {
+            inpout_oup32fp = (inpout_oupfuncPtr)GetProcAddress(hLib, "Out32");
+            if (inpout_oup32fp != NULL) {
+                log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", libname);
+            } else {
+                log_message(LOG_DEFAULT, "Cannot get 'Out32' function address in %s.", libname);
+                return -1;
+            }
+        } else {
+            log_message(LOG_DEFAULT, "Cannot get 'Inp32' function address in %s.", libname);
+            return -1;
+        }
+    } else {
+        winio_inp32fp = (winio_inpfuncPtr)GetProcAddress(hLib, "GetPortVal");
+        if (winio_inp32fp != NULL) {
+            winio_oup32fp = (winio_oupfuncPtr)GetProcAddress(hLib, "SetPortVal");
+            if (winio_oup32fp != NULL) {
+                init32fp = (initfuncPtr)GetProcAddress(hLib, "InitializeWinIo");
+                if (init32fp != NULL) {
+                    shutdown32fp = (shutdownfuncPtr)GetProcAddress(hLib, "ShutdownWinIo");
+                    if (shutdown32fp != NULL) {
+                        if (init32fp()) {
+                            log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", libname);
+                        } else {
+                            log_message(LOG_DEFAULT, "Cannot init %s.", libname);
+                            return -1;
+                        }
+                    } else {
+                        log_message(LOG_DEFAULT, "Cannot get 'ShutdownWinIo' function address in %s.", libname);
+                        return -1;
+                    }
+                } else {
+                    log_message(LOG_DEFAULT, "Cannot get 'InitializeWinIo' function address in %s.", libname);
+                    return -1;
+                }
+            } else {
+                log_message(LOG_DEFAULT, "Cannot get 'SetPortVal' function address in %s.", libname);
+                return -1;
+            }
+        } else {
+            log_message(LOG_DEFAULT, "Cannot get 'GetPortVal' function address in %s.", libname);
+            return -1;
+        }
+    }
+
     for (j = 0; j < 3; j++) {
         pssids[sids_found] = parsid_GetAddressLptPort(j + 1);
-        if (parsid_port_address[sids_found] > 0) {
+        if (pssids[sids_found] > 0) {
             if (detect_sid(sids_found)) {
                 sids_found++;
             }
@@ -457,8 +525,13 @@ int ps_dll_close(void)
     for (i = 0; i < 3; ++i) {
         pssids[i] = -1;
     }
+    if (parsid_use_winio_dll) {
+        shutdown32fp();
+    }
     FreeLibrary(hLib);
     hLib = NULL;
+    parsid_use_winio_dll = 0;
+    parsid_use_inpout_dll = 0;
 
     log_message(LOG_DEFAULT, "Dll assisted ParSID: closed");
 
