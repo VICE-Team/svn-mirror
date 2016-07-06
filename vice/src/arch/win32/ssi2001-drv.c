@@ -112,7 +112,7 @@ static void ssi2001_outb(unsigned int addrint, short value)
     }
 }
 
-static short ssi2001_inb(unsigned int addrint)
+static BYTE ssi2001_inb(unsigned int addrint)
 {
     WORD addr = (WORD)addrint;
     DWORD tmp;
