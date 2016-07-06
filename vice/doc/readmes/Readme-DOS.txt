@@ -51,7 +51,7 @@ should be:
  - a register-compatible VGA graphics card (better if it is also SVGA
    and VESA-compliant);
 
- - DOS 3 or later (or Windows 95/98).
+ - DOS 3 or later (or Windows 95/98/ME).
 
 If you want to run VICE under plain MS-DOS (and you should), also the
 CWSDPMI DPMI server is needed.  It's available in several places on
@@ -80,7 +80,16 @@ compatible sound cards, although they are not mandatory.
   are chances MIDAS support will be included again.
 
 
-VICE has been tested and verified to run properly on the following systems:
+VICE also supports hardware based SID cards:
+
+- CatWeasel MK3/MK4     : A PCI 2.0c+ compatible BIOS is needed.
+- ISA HardSID (Quattro) : Nothing extra needed.
+- PCI HardSID (Quattro) : A PCI 2.0c+ compatible BIOS is needed.
+- SSI-2001              : Nothing extra needed.
+- ParSID                : LPT1/2/3 port needed.
+
+
+VICE has been tested and verified to run properly on the following DOS (based) systems:
 
 - DRDOS 3.40
 - DRDOS 3.41
