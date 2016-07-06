@@ -29,6 +29,7 @@
 /* Tested and confirmed working on:
 
  - Windows 98SE
+ - Windows ME
  */
 
 #include "vice.h"

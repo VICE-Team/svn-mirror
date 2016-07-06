@@ -30,6 +30,7 @@
  - Windows 95C (PCI HardSID Quattro, Direct PCI I/O)
  - Windows 98SE (PCI HardSID, Direct PCI I/O)
  - Windows 98SE (PCI HardSID Quattro, Direct PCI I/O)
+ - Windows ME (PCI HardSID, Direct PCI I/O)
  */
 
 #include "vice.h"

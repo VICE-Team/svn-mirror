@@ -34,6 +34,8 @@
  - Windows 98SE (ISA HardSID Quattro, inpout32.dll ISA I/O)
  - Windows 98SE (ISA HardSID, Direct ISA I/O)
  - Windows 98SE (ISA HardSID Quattro, Direct ISA I/O)
+ - Windows ME (ISA HardSID, winio.dll ISA I/O)
+ - Windows ME (ISA HardSID Quattro, winio.dll ISA I/O)
  - Windows ME (ISA HardSID, inpout32.dll ISA I/O)
  - Windows ME (ISA HardSID Quattro, inpout32.dll ISA I/O)
  - Windows ME (ISA HardSID, Direct ISA I/O)

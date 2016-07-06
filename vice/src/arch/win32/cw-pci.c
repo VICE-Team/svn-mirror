@@ -28,6 +28,7 @@
 
  - Windows 95C (Direct PCI I/O)
  - Windows 98SE (Direct PCI I/O)
+ - Windows ME (Direct PCI I/O)
  */
 
 #include "vice.h"
