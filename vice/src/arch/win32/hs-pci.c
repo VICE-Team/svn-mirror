@@ -31,6 +31,8 @@
  - Windows 98SE (PCI HardSID, Direct PCI I/O)
  - Windows 98SE (PCI HardSID Quattro, Direct PCI I/O)
  - Windows ME (PCI HardSID, Direct PCI I/O)
+ - Windows ME (PCI HardSID Quattro, Direct PCI I/O)
+ - Windows NT 4 (PCI HardSID, winio32.dll PCI I/O)
  */
 
 #include "vice.h"
@@ -50,6 +52,7 @@
 #include "archdep.h"
 #include "hardsid.h"
 #include "log.h"
+#include "platform.h"
 #include "sid-resources.h"
 #include "types.h"
 
@@ -93,21 +96,13 @@ static void hardsid_outb(unsigned int addrint, DWORD value)
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
 
-    if (hardsid_use_lib) {
-#ifndef MSVC_RC
-        (oup32fp)(addr, value, 1);
-#else
-        Out32(addr, value, 1);
-#endif
-    } else {
 #ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
-        outp(addr, (BYTE)value);
+    outp(addr, (BYTE)value);
 #else
-        _outp(addr, (BYTE)value);
+    _outp(addr, (BYTE)value);
 #endif
 #endif
-    }
 }
 
 static void hardsid_outl(unsigned int addrint, DWORD value)
@@ -117,21 +112,13 @@ static void hardsid_outl(unsigned int addrint, DWORD value)
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
 
-    if (hardsid_use_lib) {
-#ifndef MSVC_RC
-        (oup32fp)(addr, value, 4);
-#else
-        Out32(addr, value, 4);
-#endif
-    } else {
 #ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
-        outpd(addr, value);
+    outpd(addr, value);
 #else
-        _outpd(addr, value);
+    _outpd(addr, value);
 #endif
 #endif
-    }
 }
 
 static BYTE hardsid_inb(unsigned int addrint)
@@ -142,22 +129,13 @@ static BYTE hardsid_inb(unsigned int addrint)
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
 
-    if (hardsid_use_lib) {
-#ifndef MSVC_RC
-        retval = (inp32fp)(addr, &retval, 1);
-#else
-        retval = Inp32(addr, &retval, 1);
-#endif
-        return (BYTE)retval;
-    } else {
 #ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
-        return inp(addr);
+    return inp(addr);
 #else
-        return _inp(addr);
+    return _inp(addr);
 #endif
 #endif
-    }
 }
 
 static DWORD hardsid_inl(unsigned int addrint)
@@ -168,22 +146,13 @@ static DWORD hardsid_inl(unsigned int addrint)
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
 
-    if (hardsid_use_lib) {
-#ifndef MSVC_RC
-        retval = (inp32fp)(addr, &retval, 4);
-#else
-        retval = Inp32(addr, &retval, 4);
-#endif
-        return retval;
-    } else {
 #ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
-        return inpd(addr);
+    return inpd(addr);
 #else
-        return _inpd(addr);
+    return _inpd(addr);
 #endif
 #endif
-    }
 }
 
 int hs_pci_read(WORD addr, int chipno)
@@ -321,10 +290,24 @@ static LONG RegOpenKeyEx3264(HKEY hKey, LPCTSTR lpSubKey, DWORD ulOptions, REGSA
     return retval;
 }
 
+static int is_windows_nt(void)
+{
+    char *nt = platform_get_windows_runtime_os();
+
+    if (!strncmp(nt, "Windows NT", 10)) {
+        return 1;
+    }
+    return 0;
+}
+
 static int has_pci(void)
 {
     HKEY hKey;
     LONG ret;
+
+    if (is_windows_nt()) {
+        return 1;
+    }
 
     ret = RegOpenKeyEx3264(HKEY_LOCAL_MACHINE, "Enum\\PCI", 0, KEY_QUERY_VALUE, &hKey);
     if (ret == ERROR_SUCCESS) {
