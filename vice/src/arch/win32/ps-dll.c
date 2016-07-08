@@ -28,6 +28,10 @@
 
  - Windows 98SE (winio.dll ISA I/O)
  - Windows 98SE (inpout32.dll ISA I/O)
+ - Windows ME (winio.dll ISA I/O)
+ - Windows ME (inpout32.dll ISA I/O)
+ - Windows NT 4.0 (winio32.dll ISA I/O)
+ - Windows NT 4.0 (inpout32.dll ISA I/O)
  */
 
 #include "vice.h"
@@ -49,6 +53,7 @@ static int psctrl[MAXSID] = {-1, -1, -1};
 
 static int parsid_use_inpout_dll = 0;
 static int parsid_use_winio_dll = 0;
+static int use_default_lpt_addresses = 0;
 
 #ifndef MSVC_RC
 typedef short _stdcall (*inpout_inpfuncPtr)(short portaddr);
@@ -287,6 +292,17 @@ static int parsid_GetAddressLptPort(int myPort)
         return -1;
     }
 
+    if (use_default_lpt_addresses) {
+        switch (myPort) {
+            case 1:
+                return 0x278;
+            case 2:
+                return 0x378;
+            default:
+                return 0x3bc;
+        }
+    }
+
     if (!(GetVersion() & 0x80000000)) {
         retval = parsid_GetAddressLptPortInTheRegistry(myPort);
     } else {
@@ -498,6 +514,19 @@ int ps_dll_open(void)
             return -1;
         }
     }
+
+    /* first check lpt address port returns */
+    for (j = 0; j < 3; j++) {
+        if (parsid_GetAddressLptPort(j + 1) == 0xffffffff) {
+            sids_found++;
+        }
+    }
+
+    if (sids_found == 3) {
+        use_default_lpt_addresses = 1;
+    }
+
+    sids_found = 0;
 
     for (j = 0; j < 3; j++) {
         pssids[sids_found] = parsid_GetAddressLptPort(j + 1);
