@@ -28,6 +28,7 @@
 
  - Windows 95C
  - Windows 98SE
+ - Windows ME
  */
 
 #include "vice.h"

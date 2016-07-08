@@ -37,6 +37,7 @@
  - Windows ME (ISA HardSID)
  - Windows ME (ISA HardSID Quattro)
  - Windows ME (PCI HardSID)
+ - Windows ME (PCI HardSID Quattro)
  - Windows NT 4 (ISA HardSID)
  - Windows NT 4 (ISA HardSID Quattro)
  - Windows 2000 (ISA HardSID)

@@ -33,6 +33,7 @@
  - Windows ME (PCI HardSID, Direct PCI I/O)
  - Windows ME (PCI HardSID Quattro, Direct PCI I/O)
  - Windows NT 4 (PCI HardSID, winio32.dll PCI I/O)
+ - Windows NT 4 (PCI HardSID Quattro, winio32.dll PCI I/O)
  */
 
 #include "vice.h"

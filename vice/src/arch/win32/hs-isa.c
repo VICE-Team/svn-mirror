@@ -42,6 +42,8 @@
  - Windows ME (ISA HardSID Quattro, Direct ISA I/O)
  - Windows NT 3.51 (ISA HardSID, inpout32.dll ISA I/O)
  - Windows NT 3.51 (ISA HardSID Quattro, inpout32.dll ISA I/O)
+ - Windows NT 4 (ISA HardSID, winio32.dll ISA I/O)
+ - Windows NT 4 (ISA HardSID Quattro, winio32.dll ISA I/O)
  - Windows NT 4 (ISA HardSID, inpout32.dll ISA I/O)
  - Windows NT 4 (ISA HardSID Quattro, inpout32.dll ISA I/O)
  - Windows 2000 (ISA HardSID, inpout32.dll ISA I/O)
