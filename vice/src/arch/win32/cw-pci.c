@@ -29,7 +29,9 @@
  - Windows 95C (Direct PCI I/O)
  - Windows 98SE (Direct PCI I/O)
  - Windows ME (Direct PCI I/O)
- - Windows NT 4 (winio.dll PCI I/O)
+ - Windows NT 4 (winio32.dll PCI I/O)
+ - Windows 2000 (winio32.dll PCI I/O)
+ - Windows XP (winio32.dll PCI I/O)
  */
 
 #include "vice.h"

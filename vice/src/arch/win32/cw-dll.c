@@ -30,6 +30,7 @@
 
  - Windows 98SE
  - Windows ME
+ - Windows 2000
  */
 
 #include "vice.h"

@@ -42,6 +42,8 @@
  - Windows NT 4 (ISA HardSID Quattro)
  - Windows 2000 (ISA HardSID)
  - Windows 2000 (ISA HardSID Quattro)
+ - Windows 2000 (PCI HardSID)
+ - Windows 2000 (PCI HardSID Quattro)
  */
 
 #include "vice.h"
