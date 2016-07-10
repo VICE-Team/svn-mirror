@@ -71,22 +71,17 @@ typedef int _stdcall (*initfuncPtr)(void);
 typedef void _stdcall (*shutdownfuncPtr)(void);
 typedef int _stdcall (*inpfuncPtr)(WORD port, PDWORD value, BYTE size);
 typedef int _stdcall (*oupfuncPtr)(WORD port, DWORD value, BYTE size);
+#else
+typedef bool (CALLBACK* initfuncPtr)(void);
+typedef void (CALLBACK* shutdownfuncPtr)(void);
+typedef bool (CALLBACK* inpfuncPtr)(WORD, PDWORD, BYTE);
+typedef bool (CALLBACK* oupfuncPtr)(WORD, DWORD, BYTE);
+#endif
 
 static initfuncPtr init32fp;
 static shutdownfuncPtr shutdown32fp;
 static inpfuncPtr inp32fp;
 static oupfuncPtr oup32fp;
-#else
-typedef bool (CALLBACK* Init32_t)(void);
-typedef void (CALLBACK* Shutdown32_t)(void);
-typedef bool (CALLBACK* Inp32_t)(WORD, PDWORD, BYTE);
-typedef bool (CALLBACK* Out32_t)(WORD, DWORD, BYTE);
-
-static Init32_t Init32;
-static Shutdown32_t Shutdown32;
-static Inp32_t Inp32;
-static Out32_t Out32;
-#endif
 
 /* input/output functions */
 static void cw_outb(unsigned int addrint, DWORD value)
@@ -371,7 +366,6 @@ int cw_pci_open(void)
     if (hLib != NULL) {
         log_message(LOG_DEFAULT, "Opened %s.", openedlib);
 
-#ifndef MSVC_RC
         inp32fp = (inpfuncPtr)GetProcAddress(hLib, "GetPortVal");
         if (inp32fp != NULL) {
             oup32fp = (oupfuncPtr)GetProcAddress(hLib, "SetPortVal");
@@ -383,29 +377,21 @@ int cw_pci_open(void)
                         if (init32fp()) {
                             cw_use_lib = 1;
                             log_message(LOG_DEFAULT, "Using %s for PCI I/O access.", openedlib);
+                        } else {
+                            log_message(LOG_DEFAULT, "init call failed in %s.", openedlib);
                         }
+                    } else {
+                        log_message(LOG_DEFAULT, "Cannot get 'ShutdownWinIo' function from %s.", openedlib);
                     }
+                } else {
+                    log_message(LOG_DEFAULT, "Cannot get 'InitializeWinIo' function from %s.", openedlib);
                 }
+            } else {
+                log_message(LOG_DEFAULT, "Cannot get 'SetPortVal' function from %s.", openedlib);
             }
+        } else {
+            log_message(LOG_DEFAULT, "Cannot get 'GetPortVal' function from %s.", openedlib);
         }
-#else
-        Inp32 = (Inp32_t)GetProcAddress(hLib, "GetPortVal");
-        if (Inp32 != NULL) {
-            Out32 = (Out32_t)GetProcAddress(hLib, "SetPortVal");
-            if (Out32 != NULL) {
-                Init32 = (Init32_t)GetProcAddress(hLib, "InitializeWinIo");
-                if (Init32 != NULL) {
-                    Shutdown32 = (Shutdown32_t)GetProcAddress(hLib, "ShutdownWinIo");
-                    if (Shutdown32 != NULL) {
-                        if (Init32()) {
-                            cw_use_lib = 1;
-                            log_message(LOG_DEFAULT, "Using %s for PCI I/O access.", openedlib);
-                        }
-                    }
-                }
-            }
-        }
-#endif
         if (!cw_use_lib) {
             log_message(LOG_DEFAULT, "Cannot get I/O functions in %s, using direct PCI I/O access.", openedlib);
         }
@@ -447,11 +433,7 @@ int cw_pci_close(void)
     int i;
 
     if (cw_use_lib) {
-#ifndef MSVC_RC
         shutdown32fp();
-#else
-        Shutdown32();
-#endif
         FreeLibrary(hLib);
         hLib = NULL;
     }
