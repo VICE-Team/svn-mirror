@@ -82,8 +82,12 @@
  - Windows XP (ISA HardSID Quattro, inpout32.dll ISA I/O)
  - Windows XP (PCI HardSID, winio32.dll PCI I/O)
  - Windows XP (PCI HardSID Quattro, winio32.dll PCI I/O)
+ - Windows 2003 Server (ISA HardSID, winio32.dll ISA I/O)
+ - Windows 2003 Server (ISA HardSID Quattro, winio32.dll ISA I/O)
  - Windows 2003 Server (ISA HardSID, inpout32.dll ISA I/O)
  - Windows 2003 Server (ISA HardSID Quattro, inpout32.dll ISA I/O)
+ - Windows 2003 Server (PCI HardSID, winio32.dll PCI I/O)
+ - Windows 2003 Server (PCI HardSID Quattro, winio32.dll PCI I/O)
  */
 
 #include "vice.h"

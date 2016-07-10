@@ -54,6 +54,8 @@
  - Windows XP (ISA HardSID Quattro, winio32.dll ISA I/O)
  - Windows XP (ISA HardSID, inpout32.dll ISA I/O)
  - Windows XP (ISA HardSID Quattro, inpout32.dll ISA I/O)
+ - Windows 2003 Server (ISA HardSID, winio32.dll ISA I/O)
+ - Windows 2003 Server (ISA HardSID Quattro, winio32.dll ISA I/O)
  - Windows 2003 Server (ISA HardSID, inpout32.dll ISA I/O)
  - Windows 2003 Server (ISA HardSID Quattro, inpout32.dll ISA I/O)
  */

@@ -40,6 +40,7 @@
  - Windows 2000 (inpout32.dll ISA I/O)
  - Windows XP (winio32.dll ISA I/O)
  - Windows XP (inpout32.dll ISA I/O)
+ - Windows 2003 Server (winio32.dll ISA I/O)
  - Windows 2003 Server (inpout32.dll ISA I/O)
  */
 
