@@ -52,6 +52,15 @@ static void_hook_t ui_dispatch_hook;
 static int pause_pending = 0;
 
 /* ------------------------------------------------------------------------- */
+#ifdef HAVE_NANOSLEEP
+#define TICKSPERSECOND  1000000000L  /* Nanoseconds resolution. */
+#define TICKSPERMSEC    1000000L
+#define TICKSPERUSEC    1000L
+#else
+#define TICKSPERSECOND  1000000L     /* Microseconds resolution. */
+#define TICKSPERMSEC    1000L
+#define TICKSPERUSEC    1L
+#endif
 
 /* Mac OS X has its own version of these functions. See macosx/vsyncarch.c */
 /* However, Darwin needs to use these functions. */
@@ -60,8 +69,7 @@ static int pause_pending = 0;
 /* Number of timer units per second. */
 signed long vsyncarch_frequency(void)
 {
-    /* Microseconds resolution. */
-    return 1000000;
+    return TICKSPERSECOND;
 }
 
 /* Get time in timer units. */
@@ -71,7 +79,7 @@ unsigned long vsyncarch_gettime(void)
 
     gettimeofday(&now, NULL);
 
-    return 1000000UL * now.tv_sec + now.tv_usec;
+    return (TICKSPERSECOND * now.tv_sec) + (TICKSPERUSEC * now.tv_usec);
 }
 
 #endif
@@ -90,13 +98,19 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 /* Sleep a number of timer units. */
 void vsyncarch_sleep(signed long delay)
 {
+    /* HACK: to prevent any multitasking stuff getting in the way, we return
+             immediately on delays up to 0.1ms */
+    if (delay < (TICKSPERMSEC / 10)) {
+        return;
+    }
+
 #ifdef __BEOS__
     snooze(delay);
 #else
 #ifdef HAVE_NANOSLEEP
     struct timespec ts;
-    ts.tv_sec = delay / 1000000;
-    ts.tv_nsec = (delay % 1000000) * 1000;
+    ts.tv_sec = delay / TICKSPERSECOND;
+    ts.tv_nsec = (delay % TICKSPERSECOND);
     /* wait until whole interval has elapsed */
     while (nanosleep(&ts, &ts));
 #else

@@ -491,11 +491,7 @@ static int set_suspend_time(int val, void *param)
 static int set_speed_adjustment_setting(int val, void *param)
 {
     if (val == SOUND_ADJUST_DEFAULT) {
-        if (machine_class == VICE_MACHINE_VSID) {
-            speed_adjustment_setting = SOUND_ADJUST_EXACT;
-        } else {
-            speed_adjustment_setting = SOUND_ADJUST_FLEXIBLE;
-        }
+        speed_adjustment_setting = SOUND_ADJUST_EXACT;
     } else {
         switch (val) {
             case SOUND_ADJUST_FLEXIBLE:
