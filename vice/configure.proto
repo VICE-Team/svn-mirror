@@ -3275,10 +3275,6 @@ if test x"$is_unix" = "xyes"; then
   fi
 fi
 
-dnl Check for library functions
-if test x"$is_dos" = "xno" -a x"$is_win32" = "xno"; then
-  AC_FUNC_MEMCMP
-fi
 AC_TYPE_SIGNAL
 AC_FUNC_VFORK
 AC_CHECK_TYPES(u_short)
