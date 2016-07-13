@@ -56,11 +56,13 @@
 #include "types.h"
 
 #if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+
+#define IO_PORT_ACCESS
+
 static int io_fd = -1;
 #endif
 
 #if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-
 #define IOPREAD 1
 #define IOPWRITE 2
 
@@ -162,7 +164,7 @@ static void device_io_outb(WORD addr, BYTE val)
 }
 #endif
 
-#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+#ifdef IO_PORT_ACCESS
 static void device_io_close(void)
 {
     close(io_fd);
@@ -249,7 +251,7 @@ static int vice_get_ioperm(unsigned long *iomap)
 }
 #endif
 
-#if (__NetBSD__) && (defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM))
+#if defined(__NetBSD__) && (defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM))
 #define VICE_OUTB_DEFINED
 static inline void vice_outb(WORD port, BYTE val)
 {
@@ -312,7 +314,7 @@ static inline BYTE vice_inb(WORD port)
 
 void io_access_store(WORD addr, BYTE value)
 {
-#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+#ifdef IO_PORT_ACCESS
     if (io_fd != -1) {
         device_io_outb(addr, value);
         return;
@@ -323,7 +325,7 @@ void io_access_store(WORD addr, BYTE value)
 
 BYTE io_access_read(WORD addr)
 {
-#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+#ifdef IO_PORT_ACCESS
     if (io_fd != -1) {
         return device_io_inb(addr);
     }
@@ -341,7 +343,7 @@ int io_access_map(WORD addr, WORD space)
 #endif
 
 /* Try device driver based I/O first */
-#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+#ifdef IO_PORT_ACCESS
     if (device_io_open() != -1) {
         return 0;
     }
@@ -388,7 +390,7 @@ void io_access_unmap(WORD addr, WORD space)
 #  endif
 #endif
 
-#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+#ifdef IO_PORT_ACCESS
     if (io_fd != -1) {
         device_io_close();
         return;
