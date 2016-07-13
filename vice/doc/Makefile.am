@@ -10,9 +10,11 @@ MISC_DOX = \
 	coding-guidelines.txt \
 	Documentation-Howto.txt \
 	Doxygen-Howto.txt \
+	hardware-sids.txt \
 	iec-bus.txt \
 	MacOSX-ResourceTree.txt \
-	NLS-Howto.txt
+	NLS-Howto.txt \
+	ports-status.txt
 
 TEXI_TOOLS = \
 	fixdox.sh \
