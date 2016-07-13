@@ -26,6 +26,11 @@
  *
  */
 
+/* Tested and confirmed working on:
+
+ - Linux
+ */
+
 #include "vice.h"
 
 #ifdef HAVE_CATWEASELMKIII
