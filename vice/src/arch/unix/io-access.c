@@ -30,6 +30,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
+#include <stdlib.h>
 
 #if defined(HAVE_SYS_MMAN_H) && defined(HAVE_HW_INOUT_H)
 #include <sys/mman.h>
@@ -50,6 +51,27 @@
 
 #ifdef HAVE_MACHINE_CPUFUNC_H
 #include <machine/cpufunc.h>
+#endif
+
+#if defined(SVR4) && defined(i386)
+#  include <sys/types.h>
+#  ifdef NCR
+       /* broken NCR <sys/sysi86.h> */
+#    define __STDC
+#    include <sys/sysi86.h>
+#    undef __STDC
+#  else
+#    include <sys/sysi86.h>
+#  endif
+#  ifdef SVR4
+#    if !defined(sun)
+#      include <sys/seg.h>
+#    endif
+#  endif
+#  include <sys/v86.h>
+#  ifdef sun
+#    include <sys/psw.h>
+#  endif
 #endif
 
 #include "log.h"
@@ -282,6 +304,22 @@ static inline BYTE vice_inb(WORD port)
 }
 #endif
 
+#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+#define VICE_OUTB_DEFINED
+static inline void vice_outb(WORD port, BYTE val)
+{
+    __asm__ __volatile__ ("outb (%w1)": :"a" (val), "Nd" (port));
+}
+
+static inline BYTE vice_inb(WORD port)
+{
+    BYTE retval;
+    __asm__ __volatile__ ("inb (%w1)":"=a" (retval):"Nd" (port));
+
+    return retval;
+}
+#endif
+
 #ifndef VICE_OUTB_DEFINED
 #  ifdef HAVE_OUTB_P
 static inline void vice_outb(WORD port, BYTE val)
@@ -378,6 +416,18 @@ int io_access_map(WORD addr, WORD space)
     }
 #endif
 
+#if defined(SVR4) && defined(i386)
+#  ifndef SI86IOPL
+    if (sysi86(SI86V86, V86SC_IOPL, PS_IOPL) != -1) {
+        return 0;
+    }
+#  else
+    if (sysi86(SI86IOPL, 3) != -1) {
+        return 0;
+    }
+#  endif
+#endif
+
     return -1;
 }
 
@@ -416,5 +466,13 @@ void io_access_unmap(WORD addr, WORD space)
 
 #ifdef HAVE_IOPERM
     ioperm(addr, space, 0);
+#endif
+
+#if defined(SVR4) && defined(i386)
+#  ifndef SI86IOPL
+    sysi86(SI86V86, V86SC_IOPL, 0);
+#  else
+    sysi86(SI86IOPL, 0);
+#  endif
 #endif
 }
