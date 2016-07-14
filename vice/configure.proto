@@ -4615,10 +4615,8 @@ AC_OUTPUT([Makefile
            man/Makefile
            src/Makefile
            src/debug.h
-           src/gentranslate_h.sh
            src/arch/Makefile
            src/arch/amigaos/Makefile
-           src/arch/amigaos/genintl_h.sh
            src/arch/amigaos/info-files/Makefile
            src/arch/amigaos/info-files/morphos/Makefile
            src/arch/amigaos/mui/Makefile

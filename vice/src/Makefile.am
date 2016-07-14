@@ -346,7 +346,6 @@ COMMON_EXTRA_DIST = \
 	geninfocontrib_h.sh \
 	gensvnversion.sh \
 	gentranslate_h.sh \
-	gentranslate_h.sh.in \
 	gentranslatetable.sh \
 	infocontrib.sed \
 	od2c.sh \
@@ -624,7 +623,7 @@ translate.h translate_table.h:	$(srcdir)/translate.txt $(builddir)/gentranslate
 else
 translate.h:	$(srcdir)/translate.txt ./gentranslate_h.sh
 	echo "generating translate.h..."
-	$(SHELL) ./gentranslate_h.sh <$(srcdir)/translate.txt >translate.h
+	$(SHELL) ./gentranslate_h.sh $(DEBUGBUILD) <$(srcdir)/translate.txt >translate.h
 endif
 
 if OWCC

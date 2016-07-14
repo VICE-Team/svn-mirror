@@ -143,7 +143,7 @@ EXTRA_DIST = \
 	intl_text.c \
 	fixdeps.c \
 	genamigaintl.c \
-	genintl_h.sh.in \
+	genintl_h.sh \
 	genintltable.sh \
 	intl.txt \
 	make-bindist.sh
@@ -164,5 +164,5 @@ intl.h: $(srcdir)/intl.txt
 
 intl_table.h: $(srcdir)/intl.txt
 	echo "generating intl_table.h..."
-	$(SHELL) $(srcdir)/genintltable.sh <$(srcdir)/intl.txt >intl_table.h
+	$(SHELL) $(srcdir)/genintltable.sh $(DEBUGBUILD) <$(srcdir)/intl.txt >intl_table.h
 endif
