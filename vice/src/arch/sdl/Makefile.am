@@ -153,6 +153,7 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	parsid-drv.c \
+	pci-drv.c \
 	ps-device.c \
 	ps-ieee1284.c \
 	ps-io.c \
