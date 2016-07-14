@@ -1,5 +1,5 @@
 /*
- * pci-drv.h - PCI access functions.
+ * pci-drv.h - MSDOS specific PCI access functions.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
