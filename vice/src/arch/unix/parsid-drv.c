@@ -26,8 +26,8 @@
 
 /* Tested and confirmed working on:
 
- - Linux (/dev/port based ISA I/O)
- - Linux (permission based ISA I/O)
+ - Linux 2.6 (/dev/port based ISA I/O)
+ - Linux 2.6 (permission based ISA I/O)
  - FreeBSD (/dev/io based ISA I/O)
  - NetBSD (permission based ISA I/O)
  - OpenBSD (permission bases ISA I/O)
