@@ -3175,7 +3175,7 @@ if test x"$is_unix" = "xyes"; then
     AC_CHECK_HEADERS(linux/hardsid.h,,[LINUX_HARDSID_HEADER_PRESENT=no],)
     AC_CHECK_HEADERS(linux/ppdev.h linux/parport.h,,[LINUX_PARPORT_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(dev/ppbus/ppi.h dev/ppbus/ppbconf.h,,[FREEBSD_PARPORT_HEADERS_PRESENT=no],)
-    AC_CHECK_HEADERS(cswid.h,,[CATWEASEL_HEADER_PRESENT=no],)
+    AC_CHECK_HEADERS(cwsid.h,,[CATWEASEL_HEADER_PRESENT=no],)
     AC_CHECK_HEADERS(sys/mman.h hw/inout.h,,[QNX_MMAN_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(machine/sysarch.h,,[BSD_SET_IOPERM_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(unistd.h sys/io.h machine/pio.h machine/cpufunc.h)
@@ -3192,11 +3192,6 @@ if test x"$is_unix" = "xyes"; then
         AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
         HAVE_LIBIEEE1284_SUPPORT="yes"
       fi
-    fi
-
-    if test x"$enable_catweasel" != "xno" -a x"$CATWEASEL_HEADER_PRESENT" = "xyes"; then
-      AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-      HAVE_CATWEASELMKIII_SUPPORT="yes"
     fi
 
     if test x"$PARSID_SUPPORT" != "xno" -a x"$enable_ssi2001" = "xno" -a x"$enable_hardsid" = "xno"; then
@@ -3253,6 +3248,11 @@ if test x"$is_unix" = "xyes"; then
         AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
         HAVE_SSI2001_SUPPORT="yes"
       fi
+      if test x"$enable_catweasel" != "xno"; then
+        AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+        AC_DEFINE(HAVE_CATWEASELMKIII_IO,,[Support for direct PCI I/O access Catweasel MKIII.])
+        HAVE_CATWEASELMKIII_SUPPORT="yes"
+      fi
       if test x"$enable_hardsid" != "xno"; then
         AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
         AC_DEFINE(HAVE_HARDSID_IO,,[Support for PCI/ISA HardSID.])
@@ -3262,6 +3262,10 @@ if test x"$is_unix" = "xyes"; then
       if test x"$enable_hardsid" != "xno" -a x"$LINUX_HARDSID_HEADER_PRESENT" = "xyes"; then
         AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
         HAVE_HARDSID_SUPPORT="yes"
+      fi
+      if test x"$enable_catweasel" != "xno" -a x"$CATWEASEL_HEADER_PRESENT" = "xyes"; then
+        AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+        HAVE_CATWEASELMKIII_SUPPORT="yes"
       fi
     fi
 

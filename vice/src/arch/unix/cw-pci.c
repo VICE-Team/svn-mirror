@@ -32,8 +32,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_CATWEASELMKIII
-
+#if defined(HAVE_CATWEASELMKIII) && defined(HAVE_CATWEASELMKIII_IO)
 
 #include "catweaselmkiii.h"
 #include "cw.h"

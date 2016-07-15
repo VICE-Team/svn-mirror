@@ -33,7 +33,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_CATWEASELMKIII
+#if defined(HAVE_CATWEASELMKIII) && defined(HAVE_CWSID_H)
 
 #include <sys/types.h>
 #include <sys/stat.h>
