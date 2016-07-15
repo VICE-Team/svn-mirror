@@ -64,7 +64,7 @@ static int pci_get_linux_proc_base(int vendorID, int deviceID, DWORD *base1, DWO
 }
 #endif
 
-int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2);
+int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
 {
     int retval = -1;
 
