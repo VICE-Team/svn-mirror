@@ -48,6 +48,8 @@ libarch_a_SOURCES = \
 	catweaselmkiii-drv.c \
 	coproc.h \
 	coproc.c \
+	cw-device.c \
+	cw-pci.c \
 	dynlib.c \
 	fullscreenarch.h \
 	hardsid-drv.c \

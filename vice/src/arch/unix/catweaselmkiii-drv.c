@@ -142,11 +142,5 @@ void catweaselmkiii_drv_set_machine_parameter(long cycles_per_sec)
         cw_device_set_machine_parameter(cycles_per_sec);
     }
 #endif
-
-#ifdef HAVE_CATWEASELMKIII_IO
-    if (use_cw_pci) {
-        cw_pci_set_machine_parameter(cycles_per_sec);
-    }
-#endif
 }
 #endif

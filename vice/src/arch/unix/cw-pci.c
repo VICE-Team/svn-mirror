@@ -34,6 +34,8 @@
 
 #if defined(HAVE_CATWEASELMKIII) && defined(HAVE_CATWEASELMKIII_IO)
 
+#include <unistd.h>
+
 #include "catweaselmkiii.h"
 #include "cw.h"
 #include "io-access.h"
@@ -169,8 +171,6 @@ int cw_pci_open(void)
 
 int cw_pci_close(void)
 {
-    int i;
-
     io_access_unmap(base, 256);
 
     base = -1;
