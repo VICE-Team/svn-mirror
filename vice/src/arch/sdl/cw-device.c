@@ -28,11 +28,8 @@
 
 #ifdef HAVE_CATWEASELMKIII
 
-/* Not yet implemented */
-#if 0
 #ifdef UNIX_COMPILE
 #include "../unix/cw-device.c"
-#endif
 #endif
 
 #if defined(WIN32_COMPILE) && !defined(__XBOX__)

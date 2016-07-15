@@ -34,7 +34,7 @@
 #include "types.h"
 
 #ifdef __linux
-static int pci_get_linux_proc_base(DWORD device, DWORD *base1, DWORD *base2)
+static int pci_get_linux_proc_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
 {
     FILE *f;
     char buf[512];
@@ -49,7 +49,7 @@ static int pci_get_linux_proc_base(DWORD device, DWORD *base1, DWORD *base2)
     while (fgets(buf, sizeof(buf) - 1, f)) {
         cnt = sscanf(buf, "%x %x %x %x %x", &dfn, &vend, &irq, &b1, &b2);
         if (cnt == 5) {
-            if (vend == device) {
+            if (vend == (deviceID | (vendorID << 16))) {
                 *base1 = b1;
                 *base2 = b2;
                 fclose(f);
@@ -64,12 +64,12 @@ static int pci_get_linux_proc_base(DWORD device, DWORD *base1, DWORD *base2)
 }
 #endif
 
-int pci_get_base(DWORD device, DWORD *base1, DWORD *base2)
+int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2);
 {
     int retval = -1;
 
 #ifdef __linux
-    retval = pci_get_linux_proc_base(device, base1, base2);
+    retval = pci_get_linux_proc_base(vendorID, deviceID, base1, base2);
 #endif
 
     return retval;

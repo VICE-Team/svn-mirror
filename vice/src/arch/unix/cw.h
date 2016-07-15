@@ -1,5 +1,5 @@
 /*
- * cw-pci.c - SDL UI cw-pci.c wrapper.
+ * cw.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,16 +24,28 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_CW_H
+#define VICE_CW_H
 
-#ifdef HAVE_CATWEASELMKIII
+#include "sid-snapshot.h"
+#include "types.h"
 
-#ifdef UNIX_COMPILE
-#include "../unix/cw-pci.c"
-#endif
+extern int cw_device_open(void);
+extern int cw_pci_open(void);
 
-#if defined(WIN32_COMPILE) && !defined(__XBOX__)
-#include "../win32/cw-pci.c"
-#endif
+extern int cw_device_close(void);
+extern int cw_pci_close(void);
+
+extern int cw_device_read(WORD addr, int chipno);
+extern int cw_pci_read(WORD addr, int chipno);
+
+extern void cw_device_store(WORD addr, BYTE val, int chipno);
+extern void cw_pci_store(WORD addr, BYTE val, int chipno);
+
+extern int cw_device_available(void);
+extern int cw_pci_available(void);
+
+extern void cw_device_set_machine_parameter(long cycles_per_sec);
+extern void cw_pci_set_machine_parameter(long cycles_per_sec);
 
 #endif

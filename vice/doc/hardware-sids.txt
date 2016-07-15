@@ -68,6 +68,8 @@ CatWeasel MK3/4 on PCI bus on Linux:
 ------------------------------------
 
 - using Linux driver.
+- using /dev/port PCI I/O access.
+- using ioperm() and direct PCI I/O access.
 
 
 CatWeasel MK3/4 on PCI bus on Windows:
