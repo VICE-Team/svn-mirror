@@ -40,7 +40,7 @@
 
 #include "vice.h"
 
-#if defined(HAVE_HARDSID) && defined(HAVE_HARDSID_ISA)
+#if defined(HAVE_HARDSID) && defined(HAVE_HARDSID_IO)
 
 #include <fcntl.h>
 #include <unistd.h>

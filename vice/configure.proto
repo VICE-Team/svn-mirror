@@ -3255,7 +3255,7 @@ if test x"$is_unix" = "xyes"; then
       fi
       if test x"$enable_hardsid" != "xno"; then
         AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-        AC_DEFINE(HAVE_HARDSID_ISA,,[Support for ISA HardSID.])
+        AC_DEFINE(HAVE_HARDSID_IO,,[Support for PCI/ISA HardSID.])
         HAVE_HARDSID_SUPPORT="yes"
       fi
     else
