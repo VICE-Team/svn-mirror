@@ -69,7 +69,7 @@ int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
     int retval = -1;
 
 #ifdef __linux
-    retval = pci_get_linux_proc_base(vendorID, deviceID, base1, base2);
+    retval = pci_get_linux_proc_base(vendorID, deviceID, base1, base2)
 #endif
 
     return retval;
