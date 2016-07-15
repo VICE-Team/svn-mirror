@@ -56,6 +56,7 @@ libarch_a_SOURCES = \
 	hs.h \
 	hs-linux.c \
 	hs-isa.c \
+	hs-pci.c \
 	icon.h \
 	io-access.c \
 	io-access.h \

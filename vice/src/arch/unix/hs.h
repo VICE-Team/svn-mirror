@@ -34,25 +34,32 @@
 
 extern int hs_linux_open(void);
 extern int hs_isa_open(void);
+extern int hs_pci_open(void);
 
 extern int hs_linux_close(void);
 extern int hs_isa_close(void);
+extern int hs_pci_close(void);
 
 extern void hs_linux_reset(void);
 
 extern int hs_linux_read(WORD addr, int chipno);
 extern int hs_isa_read(WORD addr, int chipno);
+extern int hs_pci_read(WORD addr, int chipno);
 
 extern void hs_linux_store(WORD addr, BYTE val, int chipno);
 extern void hs_isa_store(WORD addr, BYTE val, int chipno);
+extern void hs_pci_store(WORD addr, BYTE val, int chipno);
 
 extern int hs_linux_available(void);
 extern int hs_isa_available(void);
+extern int hs_pci_available(void);
 
 extern void hs_linux_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state);
 extern void hs_isa_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state);
+extern void hs_pci_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state);
 
 extern void hs_linux_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state);
 extern void hs_isa_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state);
+extern void hs_pci_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state);
 
 #endif

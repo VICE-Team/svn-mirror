@@ -34,11 +34,8 @@
 #define UINT_PTR unsigned int
 #endif
 
-/* Not yet. */
-#if 0
 #ifdef UNIX_COMPILE
 #include "../unix/hs-pci.c"
-#endif
 #endif
 
 #if defined(WIN32_COMPILE) && !defined(__XBOX__)

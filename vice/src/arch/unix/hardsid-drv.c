@@ -26,10 +26,14 @@
 
 /* Tested and confirmed working on:
 
- - Linux (/dev/port based ISA I/O, ISA HardSID)
- - Linux (/dev/port based ISA I/O, ISA HardSID Quattro)
- - Linux (permission based ISA I/O, ISA HardSID)
- - Linux (permission based ISA I/O, ISA HardSID Quattro)
+ - Linux 2.6 (/dev/port based ISA I/O, ISA HardSID)
+ - Linux 2.6 (/dev/port based ISA I/O, ISA HardSID Quattro)
+ - Linux 2.6 (permission based ISA I/O, ISA HardSID)
+ - Linux 2.6 (permission based ISA I/O, ISA HardSID Quattro)
+ - Linux 2.6 (/dev/port based PCI I/O, PCI HardSID)
+ - Linux 2.6 (/dev/port based PCI I/O, PCI HardSID Quattro)
+ - Linux 2.6 (permission based PCI I/O, PCI HardSID)
+ - Linux 2.6 (permission based PCI I/O, PCI HardSID Quattro)
  - NetBSD (permission based ISA I/O, ISA HardSID)
  - NetBSD (permission based ISA I/O, ISA HardSID Quattro)
  - OpenBSD (permission based ISA I/O, ISA HardSID)
@@ -48,6 +52,7 @@
 
 #ifdef HAVE_HARDSID_IO
 static int use_hs_isa = 0;
+static int use_hs_pci = 0;
 #endif
 
 #ifdef HAVE_LINUX_HARDSID_H
@@ -76,6 +81,10 @@ int hardsid_drv_open(void)
         use_hs_isa = 1;
         return 0;
     }
+    if (!hs_pci_open()) {
+        use_hs_pci = 1;
+        return 0;
+    }
 #endif
     return -1;
 }
@@ -86,6 +95,10 @@ int hardsid_drv_close(void)
     if (use_hs_isa) {
         use_hs_isa = 0;
         hs_isa_close();
+    }
+    if (use_hs_pci) {
+        use_hs_pci = 0;
+        hs_pci_close();
     }
 #endif
 #ifdef HAVE_LINUX_HARDSID_H
@@ -103,6 +116,9 @@ int hardsid_drv_read(WORD addr, int chipno)
     if (use_hs_isa) {
         return hs_isa_read(addr, chipno);
     }
+    if (use_hs_pci) {
+        return hs_pci_read(addr, chipno);
+    }
 #endif
 #ifdef HAVE_LINUX_HARDSID_H
     if (use_hs_linux) {
@@ -117,6 +133,9 @@ void hardsid_drv_store(WORD addr, BYTE val, int chipno)
 #ifdef HAVE_HARDSID_IO
     if (use_hs_isa) {
         hs_isa_store(addr, val, chipno);
+    }
+    if (use_hs_pci) {
+        hs_pci_store(addr, val, chipno);
     }
 #endif
 #ifdef HAVE_LINUX_HARDSID_H
@@ -137,6 +156,9 @@ int hardsid_drv_available(void)
     if (use_hs_isa) {
         return hs_isa_available();
     }
+    if (use_hs_pci) {
+        return hs_pci_available();
+    }
 #endif
     return 0;
 }
@@ -153,6 +175,9 @@ void hardsid_drv_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_stat
     if (use_hs_isa) {
         hs_isa_state_read(chipno, sid_state);
     }
+    if (use_hs_pci) {
+        hs_pci_state_read(chipno, sid_state);
+    }
 #endif
 #ifdef HAVE_LINUX_HARDSID_H
     if (use_hs_linux) {
@@ -166,6 +191,9 @@ void hardsid_drv_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_sta
 #ifdef HAVE_HARDSID_IO
     if (use_hs_isa) {
         hs_isa_state_write(chipno, sid_state);
+    }
+    if (use_hs_pci) {
+        hs_pci_state_write(chipno, sid_state);
     }
 #endif
 #ifdef HAVE_LINUX_HARDSID_H

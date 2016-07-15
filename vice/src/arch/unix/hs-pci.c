@@ -1,5 +1,5 @@
 /*
- * hs-isa.c - Unix specific ISA hardsid driver.
+ * hs-pci.c - Unix specific PCI hardsid driver.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -26,16 +26,10 @@
 
 /* Tested and confirmed working on:
 
- - Linux 2.6 (/dev/port based ISA I/O, ISA HardSID)
- - Linux 2.6 (/dev/port based ISA I/O, ISA HardSID Quattro)
- - Linux 2.6 (permission based ISA I/O, ISA HardSID)
- - Linux 2.6 (permission based ISA I/O, ISA HardSID Quattro)
- - NetBSD (permission based ISA I/O, ISA HardSID)
- - NetBSD (permission based ISA I/O, ISA HardSID Quattro)
- - OpenBSD (permission based ISA I/O, ISA HardSID)
- - OpenBSD (permission based ISA I/O, ISA HardSID Quattro)
- - FreeBSD (/dev/io based ISA I/O, ISA HardSID)
- - FreeBSD (/dev/io based ISA I/O, ISA HardSID Quattro)
+ - Linux 2.6 (/dev/port based PCI I/O, PCI HardSID)
+ - Linux 2.6 (/dev/port based PCI I/O, PCI HardSID Quattro)
+ - Linux 2.6 (permission based PCI I/O, PCI HardSID)
+ - Linux 2.6 (permission based PCI I/O, PCI HardSID Quattro)
  */
 
 #include "vice.h"
@@ -52,29 +46,35 @@
 #include "types.h"
 #include "log.h"
 
-#define HARDSID_BASE 0x300
 
 #define MAXSID 4
 
+static int base1 = 0;
+static int base2 = 0;
 static int sids_found = -1;
 static int hssids[MAXSID] = {-1, -1, -1, -1};
 
-void hs_isa_store(WORD addr, BYTE value, int chipno)
+BYTE hs_pci_read(WORD addr, int chipno)
 {
+    BYTE ret = 0;
+
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
-        io_access_store(HARDSID_BASE, value);
-        io_access_store(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f));
+        io_access_store(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f) | 0x20));
+        usleep(2);
+        io_access_store(base2 + 2, 0x20);
+        ret = io_access_read(base1);
+        io_access_store(base2 + 2, 0x80);
     }
+    return ret;
 }
 
-BYTE hs_isa_read(WORD addr, int chipno)
+void hs_pci_store(WORD addr, BYTE outval, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
-        io_access_store(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f) | 0x20);
+        io_access_store(base1 + 3, outval);
+        io_access_store(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f)));
         usleep(2);
-        return io_access_read(HARDSID_BASE);
     }
-    return 0;
 }
 
 static int detect_sid_uno(void)
@@ -84,24 +84,24 @@ static int detect_sid_uno(void)
 
     for (j = 0; j < 4; ++j) {
         for (i = 0x18; i >= 0; --i) {
-            hs_isa_store((WORD)i, 0, j);
+            hs_pci_store((WORD)i, 0, j);
         }
     }
 
-    hs_isa_store(0x12, 0xff, 0);
+    hs_pci_store(0x12, 0xff, 0);
 
     for (i = 0; i < 100; ++i) {
-        if (hs_isa_read(0x1b, 3)) {
+        if (hs_pci_read(0x1b, 3)) {
             return 0;
         }
     }
 
-    hs_isa_store(0x0e, 0xff, 0);
-    hs_isa_store(0x0f, 0xff, 0);
-    hs_isa_store(0x12, 0x20, 0);
+    hs_pci_store(0x0e, 0xff, 0);
+    hs_pci_store(0x0f, 0xff, 0);
+    hs_pci_store(0x12, 0x20, 0);
 
     for (i = 0; i < 100; ++i) {
-        if (hs_isa_read(0x1b, 3)) {
+        if (hs_pci_read(0x1b, 3)) {
             return 1;
         }
     }
@@ -113,34 +113,36 @@ static int detect_sid(int chipno)
     int i;
 
     for (i = 0x18; i >= 0; --i) {
-        hs_isa_store((WORD)i, 0, chipno);
+        hs_pci_store((WORD)i, 0, chipno);
     }
 
-    hs_isa_store(0x12, 0xff, chipno);
+    hs_pci_store(0x12, 0xff, chipno);
 
     for (i = 0; i < 100; ++i) {
-        if (hs_isa_read(0x1b, chipno)) {
+        if (hs_pci_read(0x1b, chipno)) {
             return 0;
         }
     }
 
-    hs_isa_store(0x0e, 0xff, chipno);
-    hs_isa_store(0x0f, 0xff, chipno);
-    hs_isa_store(0x12, 0x20, chipno);
+    hs_pci_store(0x0e, 0xff, chipno);
+    hs_pci_store(0x0f, 0xff, chipno);
+    hs_pci_store(0x12, 0x20, chipno);
 
     for (i = 0; i < 100; ++i) {
-        if (hs_isa_read(0x1b, chipno)) {
+        if (hs_pci_read(0x1b, chipno)) {
             return 1;
         }
     }
     return 0;
 }
 
-static char *HStype = "ISA HardSID Quattro";
+static char *HStype = "PCI HardSID Quattro";
 
-int hs_isa_open(void)
+int hs_pci_open(void)
 {
     int j;
+    DWORD b1 = 0;
+    DWORD b2 = 0;
 
     if (!sids_found) {
         return -1;
@@ -152,12 +154,29 @@ int hs_isa_open(void)
 
     sids_found = 0;
 
-    log_message(LOG_DEFAULT, "Detecting ISA HardSID boards.");
+    log_message(LOG_DEFAULT, "Detecting PCI HardSID boards.");
 
-    if (io_access_map(HARDSID_BASE, 2) < 0) {
-        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", HARDSID_BASE);
+    j = pci_get_base(0x6581, 0x8580, &b1, &b2);
+
+    if (j < 0) {
+        log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
         return -1;
     }
+
+    base1 = b1 & 0xfffc;
+    base2 = b2 & 0xfffc;
+
+    if (io_access_map(base1, 8) < 0) {
+        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", base1);
+        return -1;
+    }
+
+    if (io_access_map(base2, 4) < 0) {
+        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", base2);
+        return -1;
+    }
+
+    log_message(LOG_DEFAULT, "PCI HardSID board found at $%04X and $%04X.", base1, base2);
 
     for (j = 0; j < MAXSID; ++j) {
         hssids[sids_found] = j;
@@ -167,14 +186,14 @@ int hs_isa_open(void)
     }
 
     if (!sids_found) {
-        log_message(LOG_DEFAULT, "No ISA HardSID boards found.");
+        log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
         return -1;
     }
 
     /* Check for classic HardSID if 4 SIDs were found. */
     if (sids_found == 4) {
         if (detect_sid_uno()) {
-            HStype = "ISA HardSID";
+            HStype = "PCI HardSID";
             sids_found = 1;
         }
     }
@@ -184,11 +203,12 @@ int hs_isa_open(void)
     return 0;
 }
 
-int hs_isa_close(void)
+int hs_pci_close(void)
 {
     int i;
 
-    io_access_unmap(HARDSID_BASE, 2);
+    io_access_unmap(base1, 8);
+    io_access_unmap(base2, 4);
 
     for (i = 0; i < MAXSID; ++i) {
         hssids[i] = -1;
@@ -201,14 +221,14 @@ int hs_isa_close(void)
     return 0;
 }
 
-int hs_isa_available(void)
+int hs_pci_available(void)
 {
     return sids_found;
 }
 
 /* ---------------------------------------------------------------------*/
 
-void hs_isa_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
+void hs_pci_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
 {
     sid_state->hsid_main_clk = 0;
     sid_state->hsid_alarm_clk = 0;
@@ -222,7 +242,7 @@ void hs_isa_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
     sid_state->device_map[3] = 0;
 }
 
-void hs_isa_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)
+void hs_pci_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)
 {
 }
 #endif
