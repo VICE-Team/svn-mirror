@@ -43,8 +43,9 @@
 
 #include "hardsid.h"
 #include "io-access.h"
-#include "types.h"
 #include "log.h"
+#include "pci-drv.h"
+#include "types.h"
 
 
 #define MAXSID 4
