@@ -30,7 +30,7 @@
 
 #ifdef HAVE_CATWEASELMKIII
 
-#include <strings.h>
+#include <string.h>
 
 #include "catweaselmkiii.h"
 #include "sid-snapshot.h"
