@@ -24,6 +24,13 @@
  *
  */
 
+/* #define DEBUG_KCS */
+#ifdef DEBUG_KCS
+#define DBG(_x_)        log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -44,22 +51,28 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 
 /*
     KCS Power Cartridge
 
     - 16kb ROM, 128 bytes RAM
 
-    It's rather simple:
+    FIXME: the following is still a lot of guesswork. more info needed!
 
     io1:
     - the second last page of the first 8k ROM bank is visible
-    - bit 1 of the address sets EXROM and R/W sets GAME
+    - when read and address bit 1 is 0 : set 8K GAME mode
+    - when read and address bit 1 is 1 : disable cartridge
+    - when write and address bit 7 is 1 : set 16K GAME mode
+    - when write and address bit 7 is 0 and in 16K GAME Mode : set ULTIMAX mode 
+    - when write and address bit 7 is 0 and address bit 1 is 0 in ULTIMAX Mode : set 16K GAME mode 
+    - when write and address bit 7 is 0 and address bit 1 is 1 in ULTIMAX Mode : set 8K GAME mode 
 
     io2:
-    - 00-7f cartridge RAM (128 bytes), writable
-    - 80-ff open area where the GAME/EXROM lines can be read (pull resistor hack)
+    - cartridge RAM (128 bytes, second half of the page is a mirror of the first)
+    - writes go to cartridge RAM
+    - when reading, if bit 7 of the address is set, freeze mode (nmi)
+      is released. (FIXME: does not match schematic)
 
     - the cartridge starts in 16k game mode
 
@@ -71,14 +84,14 @@
     sta $de02
     sta $de80   -> ROMH on (a000)
 
-    bit $df80 at beginning of freezer NMI to find GAME/EXROM status
+    bit $df80 at beginning of freezer NMI
 
     ... and also code is running in deXX area
 */
 
 /*
  * ROM is selected if:                 OE = (!IO1 = 0) | !(!ROMH & !ROML)
- * RAM is selected if:                 CS = PHI2 & (!A7) & (!IO2)            not A4, that's a mistake on the schematic
+ * RAM is selected if:                 CS = PHI2 & (!A4) & (!IO2)           ?
  */
 
 /*      74LS275 (4 flip flops)
@@ -96,11 +109,29 @@
  */
 
 static int config;
+#ifdef DEBUG_KCS
+static int oldconfig;
+#endif
 
 static BYTE kcs_io1_read(WORD addr)
 {
-    config = (addr & 2) ? CMODE_RAM : CMODE_8KGAME;
-
+#ifdef DEBUG_KCS
+    oldconfig = config;
+#endif
+    /* FIXME: the software reads from de00 - and from all kind of adresses when
+     *        code in the IO1 ROM mirror is running. the following is not exactly
+     *        what happens */
+    /* !EXROM = A1 & 74LS90 pin8=0 */
+    if (addr & 0x02) {
+        config = CMODE_RAM;
+    } else {
+        config = CMODE_8KGAME;
+    }
+#ifdef DEBUG_KCS
+    if(oldconfig != config) {
+        DBG(("KCS: io1 r de%02x cfg: %s -> %s", addr, cart_config_string(oldconfig), cart_config_string(config)));
+    }
+#endif
     cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
@@ -112,34 +143,64 @@ static BYTE kcs_io1_peek(WORD addr)
 
 static void kcs_io1_store(WORD addr, BYTE value)
 {
-    config = (addr & 2) ? CMODE_ULTIMAX : CMODE_16KGAME;
+    int mode = CMODE_WRITE;
+#ifdef DEBUG_KCS
+    oldconfig = config;
+#endif
 
-    cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_WRITE);
+    /* FIXME: the software writes to de80 - what that does is unknown */
+    /* FIXME: the other two adresses written to are de00 and de02 */
+    if (addr & 0x80) {
+        /* address bit 7 is 1 : set 16K GAME mode */
+        config = CMODE_16KGAME;
+    } else {
+        if (config == CMODE_16KGAME) {
+            /* address bit 7 is 0 and in 16K GAME Mode : set ULTIMAX mode */
+            config = CMODE_ULTIMAX;
+        } else if (config == CMODE_ULTIMAX) {
+            if (addr & 0x02) {
+                /* address bit 7 is 0 and address bit 1 is 1 in ULTIMAX Mode : set 8K GAME mode */
+                config = CMODE_8KGAME;
+            } else {
+                /* address bit 7 is 0 and address bit 1 is 0 in ULTIMAX Mode : set 16K GAME mode */
+                config = CMODE_16KGAME;
+            }
+        }
+    }
+#ifdef DEBUG_KCS
+    if(oldconfig != config) {
+        DBG(("KCS: io1 w de%02x,%02x cfg: %s -> %s", addr, value, cart_config_string(oldconfig), cart_config_string(config)));
+    }
+#endif
+    cart_config_changed_slotmain((BYTE)config, (BYTE)config, mode);
 }
 
 static BYTE kcs_io2_read(WORD addr)
 {
     /* the software reads from df80 at beginning of nmi handler */
-    /* to determine the status of GAME and EXROM lines */
+    /* FIXME: nothing really is connected to addr bit7 according to the schematics */
     if (addr & 0x80) {
-        return ((config & 2) ? 0x80 : 0) | ((config & 1) ? 0 : 0x40) | (vicii_read_phi1() & 0x3f); /* DF80-DFFF actual config */
+        cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ | CMODE_RELEASE_FREEZE);
     }
+    /* FIXME: in the schematics A4 is connected to CS - this smells like a mistake */
     return export_ram0[addr & 0x7f];
 }
 
 static BYTE kcs_io2_peek(WORD addr)
 {
-    if (addr & 0x80) {
-        return ((config & 2) ? 0x80 : 0) | ((config & 1) ? 0 : 0x40); /* DF80-DFFF actual config */
-    }
+    /* FIXME: in the schematics A4 is connected to CS - this smells like a mistake */
     return export_ram0[addr & 0x7f];
 }
 
 static void kcs_io2_store(WORD addr, BYTE value)
 {
+#if 0
+    /* FIXME: nothing really is connected to addr bit7 according to the schematics */
     if (addr & 0x80) {
-        return; /* open area for GAME/EXROM status */
+        cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_WRITE | CMODE_RELEASE_FREEZE);
     }
+#endif
+    /* FIXME: in the schematics A4 is connected to CS - this smells like a mistake */
     export_ram0[addr & 0x7f] = value;
 }
 
@@ -193,7 +254,7 @@ static const export_resource_t export_res_kcs = {
 void kcs_freeze(void)
 {
     config = CMODE_ULTIMAX;
-    cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ /* | CMODE_RELEASE_FREEZE*/);
 }
 
 void kcs_config_init(void)
