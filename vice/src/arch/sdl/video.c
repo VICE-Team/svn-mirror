@@ -109,8 +109,14 @@ static const float sdl_gl_vertex_coord[4 * 4] = {
 };
 #endif
 
-BYTE *draw_buffer_vsid = NULL;
+#if defined(USE_SDLUI2)
+SDL_Window *new_window = NULL;
+SDL_Renderer *new_renderer = NULL;
+SDL_Texture *new_texture = NULL;
+SDL_Surface *new_screen = NULL;
+#endif
 
+BYTE *draw_buffer_vsid = NULL;
 /* ------------------------------------------------------------------------- */
 /* Video-related resources.  */
 
@@ -303,7 +309,7 @@ static const resource_string_t resources_string[] = {
     RESOURCE_STRING_LIST_END
 };
 
-#ifdef WATCOM_COMPILE
+#if defined(WATCOM_COMPILE) || defined (USE_SDLUI2)
 #define VICE_DEFAULT_BITDEPTH 32
 #else
 #define VICE_DEFAULT_BITDEPTH 0
@@ -774,10 +780,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 #else
 static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height)
 {
-    SDL_Surface *new_screen;
-    SDL_Window *new_window;
-    SDL_Renderer *new_renderer;
-    SDL_Texture *new_texture;
     Uint32 rmask, gmask, bmask, amask;
     unsigned int new_width, new_height;
     unsigned int actual_width, actual_height;
@@ -788,18 +790,28 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     unsigned int limit_h = (unsigned int)sdl_custom_height;
     int hwscale = 0;
     int lightpen_updated = 0;
+    int it;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     rmask = 0xff000000, gmask = 0x00ff0000, bmask = 0x0000ff00, amask = 0x000000ff;
 #else
-    rmask = 0x000000ff, gmask = 0x0000ff00, bmask = 0x00ff0000, amask = 0xff000000;
+    rmask = 0x00ff0000, gmask = 0x0000ff00, bmask = 0x000000ff, amask = 0xff000000;
 #endif
 
     DBG(("%s: %i,%i (%i)", __func__, *width, *height, canvas->index));
 
     new_width = *width;
     new_height = *height;
-
+/*
+	if (!new_window)
+	{
+		canvas->videoconfig->rendermode = 3;
+		canvas->videoconfig->double_size_enabled = 0;
+		canvas->videoconfig->scalex = 1;
+		canvas->videoconfig->scaley = 1;
+		canvas->videoconfig->filter = 0;
+	}
+	*/
     new_width *= canvas->videoconfig->scalex;
     new_height *= canvas->videoconfig->scaley;
 
@@ -838,10 +850,51 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         }
     }
 
+	if (new_window)
+	{
+		if (new_texture) {
+			SDL_DestroyTexture(new_texture);
+			new_texture = NULL;
+		}
+		if (new_renderer) {
+			SDL_DestroyRenderer(new_renderer);
+			new_renderer = NULL;
+		}
+		if (new_screen) {
+			SDL_FreeSurface(new_screen);
+			new_screen = NULL;
+		}
+		if (new_window) {
+			SDL_DestroyWindow(new_window);
+			new_window = NULL;
+		}
+	}
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	
     /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
-    new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, actual_width, actual_height, flags);
+    new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, actual_width, actual_height, SDL_WINDOW_OPENGL | flags);
+
+	int drv_index = -1;
+
+	SDL_GLContext ctx = SDL_GL_CreateContext(new_window);
+	SDL_GL_MakeCurrent(new_window, ctx);
+
+	for (it = 0; it < SDL_GetNumRenderDrivers(); it++) {
+		SDL_RendererInfo info;
+		SDL_GetRenderDriverInfo(it, &info);
+
+		SDL_Log("%s\n", info.name);
+
+		if (strcmp("opengles2", info.name) == 0)
+			drv_index = it;
+	}
+
     if (new_window) {
-        new_renderer = SDL_CreateRenderer(new_window, -1, 0);
+        new_renderer = SDL_CreateRenderer(new_window, drv_index, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
         if (new_renderer) {
             SDL_SetRenderDrawColor(new_renderer, 0, 0, 0, 255);
             SDL_RenderClear(new_renderer);
