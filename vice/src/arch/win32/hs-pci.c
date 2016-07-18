@@ -79,10 +79,10 @@ typedef void _stdcall (*shutdownfuncPtr)(void);
 typedef int _stdcall (*inpfuncPtr)(WORD port, PDWORD value, BYTE size);
 typedef int _stdcall (*oupfuncPtr)(WORD port, DWORD value, BYTE size);
 #else
-typedef bool (CALLBACK* initfuncPtr)(void);
+typedef int (CALLBACK* initfuncPtr)(void);
 typedef void (CALLBACK* shutdownfuncPtr)(void);
-typedef bool (CALLBACK* inpfuncPtr)(WORD, PDWORD, BYTE);
-typedef bool (CALLBACK* oupfuncPtr)(WORD, DWORD, BYTE);
+typedef int (CALLBACK* inpfuncPtr)(WORD, PDWORD, BYTE);
+typedef int (CALLBACK* oupfuncPtr)(WORD, DWORD, BYTE);
 #endif
 
 static initfuncPtr init32fp;
