@@ -41,7 +41,7 @@ sdl_lightpen_adjust_t sdl_lightpen_adjust;
 
 void sdl_lightpen_update(void)
 {
-    int x, y, on_screen, screen_num;
+    int x, y, on_screen = 0, screen_num;
     Uint8 buttons;
 
     if (!lightpen_enabled) {
