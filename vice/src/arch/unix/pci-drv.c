@@ -29,9 +29,36 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef HAVE_LIBPCI
+#include <pci/pci.h>
+#endif
+
 #include "io-access.h"
 #include "log.h"
 #include "types.h"
+
+#ifdef HAVE_LIBPCI
+static int pciutils_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
+{
+    struct pci_access *pacc;
+    struct pci_dev *dev;
+
+    pacc = pci_alloc();
+    pci_init(pacc);
+    pci_scan_bus(pacc);
+    for (dev = pacc->devices; dev; dev = dev->next) {
+        pci_fill_info(dev, PCI_FILL_IDENT | PCI_FILL_BASES);
+        if (dev->vendor_id == vendorID && dev->device_id == deviceID) {
+            *base1 = dev->base_addr[0];
+            *base2 = dev->base_addr[1];
+            pci_cleanup(pacc);
+            return 0;
+        }
+    }
+    pci_cleanup(pacc);
+    return -1;
+}
+#endif
 
 #ifdef __linux
 static int pci_get_linux_proc_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
@@ -68,8 +95,15 @@ int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
 {
     int retval = -1;
 
+#ifdef HAVE_LIBPCI
+    retval = pciutils_get_base(vendorID, deviceID, base1, base2);
+#endif
+
+
 #ifdef __linux
-    retval = pci_get_linux_proc_base(vendorID, deviceID, base1, base2);
+    if (retval < 0) {
+        retval = pci_get_linux_proc_base(vendorID, deviceID, base1, base2);
+    }
 #endif
 
     return retval;

@@ -3143,7 +3143,7 @@ fi
 AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)
 
-dnl Check for ParSID/SSI2001/HardSID support
+dnl Check for ParSID/SSI2001/HardSID/CW support
 if test x"$is_unix" = "xyes"; then
 
   dnl Check cpu first
@@ -3169,6 +3169,8 @@ if test x"$is_unix" = "xyes"; then
     PARSID_SUPPORT=no
     IOSID_SUPPORT=no
     PORTSID_SUPPORT=no
+    PCIUTILS_HEADER_PRESENT=yes
+    PCIUTILS_LIB_PRESENT=no
 
     dnl Check for needed io headers
     AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
@@ -3179,12 +3181,23 @@ if test x"$is_unix" = "xyes"; then
     AC_CHECK_HEADERS(sys/mman.h hw/inout.h,,[QNX_MMAN_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(machine/sysarch.h,,[BSD_SET_IOPERM_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(unistd.h sys/io.h machine/pio.h machine/cpufunc.h)
+    AC_CHECK_HEADERS(pci/pci.h,,[PCIUTILS_HEADER_PRESENT=no],)
 
     case "$host_os" in
     solaris*)
       PORTSID_SUPPORT=yes
       ;;
     esac
+
+    if test x"$PCIUTILS_HEADER_PRESENT" = "xyes"; then
+      AC_CHECK_LIB(pciutils, pci_fill_info,[LIBS="-lpciutils $LIBS"; PCIUTILS_LIB_PRESENT=yes],,)
+      if test x"$PCIUTILS_LIB_PRESENT" = "xno"; then
+        AC_CHECK_LIB(pci, pci_fill_info,[LIBS="-lpci $LIBS"; PCIUTILS_LIB_PRESENT=yes],,)
+      fi
+      if test x"$PCIUTILS_LIB_PRESENT" != "xno"; then
+        AC_DEFINE(HAVE_LIBPCI,,[Define to 1 if you have the 'pciutils' library.])
+      fi
+    fi
 
     if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
       AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
