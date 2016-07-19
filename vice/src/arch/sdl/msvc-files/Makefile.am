@@ -4,6 +4,7 @@ EXTRA_DIST = \
 	ffmpeg-config.h \
 	ide-config.h \
 	ide-config-mips.h \
+	ide-config-sdl2.h \
 	ide-siddefs.h \
 	ide-siddtvdefs.h \
 	inttypes.h \

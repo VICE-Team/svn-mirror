@@ -213,22 +213,37 @@ EXTRA_DIST = \
 	archdep_win32.h \
 	archdep_xbox.c \
 	archdep_xbox.h \
-	generate_msvc6_project.bat \
-	generate_msvc70_ffmpeg_project.bat \
-	generate_msvc70_project.bat \
-	generate_msvc71_ffmpeg_project.bat \
-	generate_msvc71_project.bat \
-	generate_msvc8_ffmpeg_project.bat \
-	generate_msvc8_project.bat \
-	generate_msvc9_ffmpeg_project.bat \
-	generate_msvc9_project.bat \
-	generate_msvc10_ffmpeg_project.bat \
-	generate_msvc10_project.bat \
-	generate_msvc11_ffmpeg_project.bat \
-	generate_msvc11_project.bat \
-	generate_msvc12_ffmpeg_project.bat \
-	generate_msvc12_project.bat \
-	generate_msvcmips_project.bat \
+	generate_msvc6_sdl1x.bat \
+	generate_msvc6_sdl2x.bat \
+	generate_msvc70_ffmpeg_sdl1x.bat \
+	generate_msvc70_ffmpeg_sdl2x.bat \
+	generate_msvc70_sdl1x.bat \
+	generate_msvc70_sdl2x.bat \
+	generate_msvc71_ffmpeg_sdl1x.bat \
+	generate_msvc71_ffmpeg_sdl2x.bat \
+	generate_msvc71_sdl1x.bat \
+	generate_msvc71_sdl2x.bat \
+	generate_msvc8_ffmpeg_sdl1x.bat \
+	generate_msvc8_ffmpeg_sdl2x.bat \
+	generate_msvc8_sdl1x.bat \
+	generate_msvc8_sdl2x.bat \
+	generate_msvc9_ffmpeg_sdl1x.bat \
+	genarate_msvc9_ffmpeg_sdl2x.bat \
+	generate_msvc9_sdl1x.bat \
+	generate_msvc9_sdl2x.bat \
+	generate_msvc10_ffmpeg_sdl1x.bat \
+	generate_msvc10_ffmpeg_sdl2x.bat \
+	generate_msvc10_sdl1x.bat \
+	generate_msvc10_sdl2x.bat \
+	generate_msvc11_ffmpeg_sdl1x.bat \
+	generate_msvc11_ffmpeg_sdl2x.bat \
+	generate_msvc11_sdl1x.bat \
+	generate_msvc11_sdl2x.bat \
+	generate_msvc12_ffmpeg_sdl1x.bat \
+	generate_msvc12_ffmpeg_sdl2x.bat \
+	generate_msvc12_sdl1x.bat \
+	generate_msvc12_sdl2x.bat \
+	generate_msvcmips_sdl1x.bat \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_dingoo.sh \

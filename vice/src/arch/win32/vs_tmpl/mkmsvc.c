@@ -492,7 +492,11 @@ static char *msvc_libs_gui[2] = {
 
 static char *msvc_libs_console_sdl = "version.lib wsock32.lib SDLmain.lib SDL.lib opengl32.lib";
 
+static char *msvc_libs_console_sdl2 = "version.lib wsock32.lib SDL2main.lib SDL2.lib opengl32.lib";
+
 static char *msvc_libs_gui_sdl = "comctl32.lib version.lib winmm.lib wsock32.lib SDLmain.lib SDL.lib opengl32.lib";
+
+static char *msvc_libs_gui_sdl2 = "comctl32.lib version.lib winmm.lib wsock32.lib SDL2main.lib SDL2.lib opengl32.lib";
 
 static char *msvc_preprodefs[2] = {
     "_DEBUG",
@@ -691,6 +695,8 @@ static char *msvc10_libs_console = "version.lib;wsock32.lib;advapi32.lib";
 
 static char *msvc10_libs_console_sdl = "version.lib;wsock32.lib;SDLmain.lib;SDL.lib;opengl32.lib";
 
+static char *msvc10_libs_console_sdl2 = "version.lib;wsock32.lib;SDL2main.lib;SDL2.lib;opengl32.lib";
+
 static char *msvc10_libs_gui[2] = {
     "comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ole32.lib",
     "comctl32.lib;version.lib;winmm.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib"
@@ -698,7 +704,11 @@ static char *msvc10_libs_gui[2] = {
 
 static char *msvc10_libs_gui_sdl = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDLmain.lib;SDL.lib;opengl32.lib";
 
+static char *msvc10_libs_gui_sdl2 = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDL2main.lib;SDL2.lib;opengl32.lib";
+
 static char *msvc10_libs_gui_sdl_arm = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDLmain.lib;SDL.lib;advapi32.lib";
+
+static char *msvc10_libs_gui_sdl2_arm = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDL2main.lib;SDL2.lib;advapi32.lib";
 
 static char *msvc10_project_start = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n"
                                     "<Project DefaultTargets=\"Build\" ToolsVersion=\"4.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\r\n"
@@ -1430,12 +1440,24 @@ static int output_msvc10_11_12_14_file(char *fname, int filelist, int msvc11, in
                 } else {
                     if (sdl) {
                         if (cp_type == CP_TYPE_CONSOLE) {
-                            libs = msvc10_libs_console_sdl;
+                            if (sdl == 2) {
+                                libs = msvc10_libs_console_sdl2;
+                            } else {
+                                libs = msvc10_libs_console_sdl;
+                            }
                         } else {
                             if (k == 1 && msvc11) {
-                                libs = msvc10_libs_gui_sdl_arm;
+                                if (sdl == 2) {
+                                    libs = msvc10_libs_gui_sdl2_arm;
+                                } else {
+                                    libs = msvc10_libs_gui_sdl_arm;
+                                }
                             } else {
-                                libs = msvc10_libs_gui_sdl;
+                                if (sdl == 2) {
+                                    libs = msvc10_libs_gui_sdl2;
+                                } else {
+                                    libs = msvc10_libs_gui_sdl;
+                                }
                             }
                         }
                     } else {
@@ -2113,7 +2135,7 @@ static int output_msvc9_file(char *fname, int filelist, int sdl)
                 if (i & 1) {
                     fprintf(outfile, msvc9_string_pooling);
                 }
-                fprintf(outfile, msvc9_rtl, (!(i & 1)) + (sdl * 2));
+                fprintf(outfile, msvc9_rtl, (!(i & 1)) + ((sdl ? 1 : 0) * 2));
                 if (i & 1) {
                     fprintf(outfile, msvc9_efll);
                 }
@@ -2138,9 +2160,17 @@ static int output_msvc9_file(char *fname, int filelist, int sdl)
                 if (cp_type != CP_TYPE_LIBRARY) {
                     if (sdl) {
                         if (cp_type == CP_TYPE_CONSOLE) {
-                            libs = msvc_libs_console_sdl;
+                            if (sdl == 2) {
+                                libs = msvc_libs_console_sdl2;
+                            } else {
+                                libs = msvc_libs_console_sdl;
+                            }
                         } else {
-                            libs = msvc_libs_gui_sdl;
+                            if (sdl == 2) {
+                                libs = msvc_libs_gui_sdl2;
+                            } else {
+                                libs = msvc_libs_gui_sdl;
+                            }
                         }
                     } else {
                         if (cp_type == CP_TYPE_CONSOLE) {
@@ -2846,7 +2876,7 @@ static int output_msvc8_file(char *fname, int filelist, int sdl)
                 if (i & 1) {
                     fprintf(outfile, msvc8_string_pooling);
                 }
-                fprintf(outfile, msvc8_ct_part2, (!(i & 1)) + (sdl * 2));
+                fprintf(outfile, msvc8_ct_part2, (!(i & 1)) + ((sdl ? 1 : 0) * 2));
                 if (i & 1) {
                     fprintf(outfile, msvc8_efll);
                 }
@@ -2873,9 +2903,17 @@ static int output_msvc8_file(char *fname, int filelist, int sdl)
                 } else {
                     if (sdl) {
                         if (cp_type == CP_TYPE_CONSOLE) {
-                            libs = msvc_libs_console_sdl;
+                            if (sdl == 2) {
+                                libs = msvc_libs_console_sdl2;
+                            } else {
+                                libs = msvc_libs_console_sdl;
+                            }
                         } else {
-                            libs = msvc_libs_gui_sdl;
+                            if (sdl == 2) {
+                                libs = msvc_libs_gui_sdl2;
+                            } else {
+                                libs = msvc_libs_gui_sdl;
+                            }
                         }
                     } else {
                         if (cp_type == CP_TYPE_CONSOLE) {
@@ -3174,7 +3212,11 @@ static char *msvc70_gui_libs[2] = {
 
 static char *msvc70_console_libs_sdl = "version.lib wsock32.lib SDLmain.lib SDL.lib opengl32.lib";
 
+static char *msvc70_console_libs_sdl2 = "version.lib wsock32.lib SDL2main.lib SDL2.lib opengl32.lib";
+
 static char *msvc70_gui_libs_sdl = "comctl32.lib version.lib winmm.lib wsock32.lib SDLmain.lib SDL.lib opengl32.lib";
+
+static char *msvc70_gui_libs_sdl2 = "comctl32.lib version.lib winmm.lib wsock32.lib SDL2main.lib SDL.2lib opengl32.lib";
 
 static char *msvc70_xml_header = "<?xml version=\"1.0\" encoding = \"Windows-1252\"?>\r\n";
 
@@ -3630,7 +3672,7 @@ static int output_msvc7_file(char *fname, int filelist, int version, int sdl)
             if (i & 1) {
                 fprintf(outfile, msvc70_string_pooling);
             }
-            fprintf(outfile, msvc70_compiler_tool_part3, !(i & 1) + (sdl * 2));
+            fprintf(outfile, msvc70_compiler_tool_part3, !(i & 1) + ((sdl ? 1 : 0) * 2));
             if (i & 1) {
                 fprintf(outfile, msvc70_fll);
             }
@@ -3649,9 +3691,17 @@ static int output_msvc7_file(char *fname, int filelist, int version, int sdl)
             } else {
                 if (sdl) {
                     if (cp_type == CP_TYPE_CONSOLE) {
-                        libs = msvc70_console_libs_sdl;
+                        if (sdl == 2) {
+                            libs = msvc70_console_libs_sdl2;
+                        } else {
+                            libs = msvc70_console_libs_sdl;
+                        }
                     } else {
-                        libs = msvc70_gui_libs_sdl;
+                        if (sdl == 2) {
+                            libs = msvc70_gui_libs_sdl2;
+                        } else {
+                            libs = msvc70_gui_libs_sdl;
+                        }
                     }
                 } else {
                     if (cp_type == CP_TYPE_CONSOLE) {
@@ -4045,6 +4095,8 @@ static char *msvc6_dx_libs[2] = {
 
 static char *msvc6_sdl_libs = " SDLmain.lib SDL.lib opengl32.lib";
 
+static char *msvc6_sdl2_libs = " SDL2main.lib SDL2.lib opengl32.lib";
+
 static char *msvc6_endif = "!ENDIF\r\n"
                            "\r\n";
 
@@ -4392,9 +4444,17 @@ static int output_msvc6_file(char *fname, int filelist, int sdl)
                 case CP_TYPE_CONSOLE:
                     if (sdl) {
                         if (i & 1) {
-                            fprintf(outfile, msvc6_link32_console_sdl_debug, cp_libs, msvc6_sdl_libs, cp_libs, msvc6_sdl_libs);
+                            if (sdl == 2) {
+                                fprintf(outfile, msvc6_link32_console_sdl_debug, cp_libs, msvc6_sdl2_libs, cp_libs, msvc6_sdl2_libs);
+                            } else {
+                                fprintf(outfile, msvc6_link32_console_sdl_debug, cp_libs, msvc6_sdl_libs, cp_libs, msvc6_sdl_libs);
+                            }
                         } else {
-                            fprintf(outfile, msvc6_link32_console_sdl_release, cp_libs, msvc6_sdl_libs, cp_libs, msvc6_sdl_libs);
+                            if (sdl == 2) {
+                                fprintf(outfile, msvc6_link32_console_sdl_release, cp_libs, msvc6_sdl2_libs, cp_libs, msvc6_sdl2_libs);
+                            } else {
+                                fprintf(outfile, msvc6_link32_console_sdl_release, cp_libs, msvc6_sdl_libs, cp_libs, msvc6_sdl_libs);
+                            }
                         }
                     } else {
                         fprintf(outfile, msvc6_link32_console, cp_libs, cp_libs);
@@ -4403,9 +4463,17 @@ static int output_msvc6_file(char *fname, int filelist, int sdl)
                 case CP_TYPE_GUI:
                     if (sdl) {
                         if (i & 1) {
-                            fprintf(outfile, msvc6_link32_gui_sdl_debug, cp_libs, msvc6_sdl_libs, cp_libs, msvc6_sdl_libs);
+                            if (sdl == 2) {
+                                fprintf(outfile, msvc6_link32_gui_sdl_debug, cp_libs, msvc6_sdl2_libs, cp_libs, msvc6_sdl2_libs);
+                            } else {
+                                fprintf(outfile, msvc6_link32_gui_sdl_debug, cp_libs, msvc6_sdl_libs, cp_libs, msvc6_sdl_libs);
+                            }
                         } else {
-                            fprintf(outfile, msvc6_link32_gui, cp_libs, msvc6_sdl_libs, cp_libs, msvc6_sdl_libs);
+                            if (sdl == 2) {
+                                fprintf(outfile, msvc6_link32_gui, cp_libs, msvc6_sdl2_libs, cp_libs, msvc6_sdl2_libs);
+                            } else {
+                                fprintf(outfile, msvc6_link32_gui, cp_libs, msvc6_sdl_libs, cp_libs, msvc6_sdl_libs);
+                            }
                         }
                     } else {
                         fprintf(outfile, msvc6_link32_gui, cp_libs, msvc6_dx_libs[i >> 1], cp_libs, msvc6_dx_libs[i >> 1]);
@@ -5747,6 +5815,7 @@ static void usage(void)
     printf("types are:\n");
     printf("-native = generate native project files.\n");
     printf("-sdl = generate SDL project files.\n");
+    printf("-sdl2 = generate SDL2 project files.\n");
     printf("-ffmpeg = include static ffmpeg support.\n");
 }
 
@@ -5817,6 +5886,9 @@ int main(int argc, char *argv[])
                 if (!strcmp(argv[i], "-sdl")) {
                     sdl = 1;
                 }
+                if (!strcmp(argv[i], "-sdl2")) {
+                    sdl = 2;
+                }
                 if (!strcmp(argv[i], "-ffmpeg")) {
                     ffmpeg = 1;
                 }
@@ -5835,7 +5907,7 @@ int main(int argc, char *argv[])
         }
 
         /* ONE type has to be given */
-        if (native + sdl != 1) {
+        if (native + (sdl ? 1 : 0) != 1) {
             printf("Error: One type needs to be given\n");
             error = 1;
         }
