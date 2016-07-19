@@ -243,6 +243,10 @@ EXTRA_DIST = \
 	generate_msvc12_ffmpeg_sdl2x.bat \
 	generate_msvc12_sdl1x.bat \
 	generate_msvc12_sdl2x.bat \
+	generate_msvc14_ffmpeg_sdl1x.bat \
+	generate_msvc14_ffmpeg_sdl2x.bat \
+	generate_msvc14_sdl1x.bat \
+	generate_msvc14_sdl2x.bat \
 	generate_msvcmips_sdl1x.bat \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
