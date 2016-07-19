@@ -356,6 +356,7 @@ char *archdep_default_joymap_file_name(void)
 
 FILE *archdep_open_default_log_file(void)
 {
+/* FIXME: confirm stdout works for SDL1 too
     char *fname;
     FILE *f;
 
@@ -364,6 +365,8 @@ FILE *archdep_open_default_log_file(void)
     lib_free(fname);
 
     return f;
+*/
+    return stdout;
 }
 
 int archdep_default_logger(const char *level_string, const char *txt)
