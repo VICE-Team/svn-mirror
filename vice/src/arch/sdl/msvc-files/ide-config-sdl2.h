@@ -106,8 +106,6 @@
 #define snprintf _snprintf
 #endif
 
-#define snprintf               _snprintf
-
 #define int64_t_C(c)           (c ## i64)
 #define uint64_t_C(c)          (c ## u64)
 

@@ -83,7 +83,9 @@
 #define strcasecmp(s1, s2)     _stricmp(s1, s2)
 #define HAVE_STRCASECMP        1
 
+#if defined _MSC_VER && _MSC_VER < 1900 
 #define snprintf               _snprintf
+#endif
 
 #define int64_t_C(c)           (c ## i64)
 #define uint64_t_C(c)          (c ## u64)
