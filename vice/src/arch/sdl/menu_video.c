@@ -1130,7 +1130,7 @@ const ui_menu_entry_t vic20_video_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static int palette_dyn_menu_init = 0;
+/* static int palette_dyn_menu_init = 0; */
 
 static char *video_chip1_used = NULL;
 static char *video_chip2_used = NULL;
