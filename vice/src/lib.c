@@ -429,10 +429,8 @@ const char *lib_debug_leaklist_filename[LIB_DEBUG_LEAKLIST_MAX];
 unsigned int lib_debug_leaklist_line[LIB_DEBUG_LEAKLIST_MAX];
 unsigned int lib_debug_leaklist_size[LIB_DEBUG_LEAKLIST_MAX];
 void *lib_debug_leaklist_address[LIB_DEBUG_LEAKLIST_MAX];
-#ifndef _MSC_VER
 void *lib_debug_leaklist_bt_caller[LIB_DEBUG_LEAKLIST_MAX][DEBUG_BT_MAXDEPTH];
 int lib_debug_leaklist_bt_numcaller[LIB_DEBUG_LEAKLIST_MAX];
-#endif
 
 void lib_debug_leaklist_add(unsigned int index)
 {
@@ -451,12 +449,10 @@ void lib_debug_leaklist_add(unsigned int index)
         lib_debug_leaklist_filename[i] = lib_debug_filename[index];
         lib_debug_leaklist_size[i] = lib_debug_size[index];
         lib_debug_leaklist_address[i] = lib_debug_address[index];
-#ifdef _MSC_VER
 		lib_debug_leaklist_bt_numcaller[i] = lib_debug_bt_numcaller[index];
         for (j = 0; j < DEBUG_BT_MAXDEPTH; j++) {
             lib_debug_leaklist_bt_caller[i][j] = lib_debug_bt_caller[index][j];
         }
-#endif
     } else {
         printf("Error: lib_debug_leaklist_add(): Out of slots. (increase LIB_DEBUG_LEAKLIST_MAX!)\n");
     }
