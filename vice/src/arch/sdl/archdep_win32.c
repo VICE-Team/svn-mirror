@@ -354,9 +354,16 @@ char *archdep_default_joymap_file_name(void)
     return util_concat(archdep_boot_path(), "\\sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
+/* windows programs will start with the console detached when SUBSYSTEM:WINDOWS
+   is used (which is the default). SUBSYSTEM:CONSOLE will provide a console
+   output and thus stdout. yes its ugly. */
 FILE *archdep_open_default_log_file(void)
 {
-/* FIXME: confirm stdout works for SDL1 too
+/* older versions of MSVC used to define _CONSOLE - define manually if you need
+   it */
+#ifdef _CONSOLE
+    return stdout;
+#else
     char *fname;
     FILE *f;
 
@@ -365,8 +372,7 @@ FILE *archdep_open_default_log_file(void)
     lib_free(fname);
 
     return f;
-*/
-    return stdout;
+#endif
 }
 
 int archdep_default_logger(const char *level_string, const char *txt)
