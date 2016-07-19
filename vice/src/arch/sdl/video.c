@@ -883,8 +883,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         strcat(rendername, info.name);
         strcat(rendername, " ");
 
-        if (strcmp("opengles2", info.name) == 0)
+        if (strcmp("opengles2", info.name) == 0) {
             drv_index = it;
+        }
     }
 
     log_message(sdlvideo_log, "Available Renderers: %s", rendername);
