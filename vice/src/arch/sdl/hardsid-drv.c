@@ -34,6 +34,10 @@
 #define UINT_PTR unsigned int
 #endif
 
+#ifdef BEOS_COMPILE
+#include "../beos/hardsid-drv.c"
+#endif
+
 #ifdef UNIX_COMPILE
 #include "../unix/hardsid-drv.c"
 #endif

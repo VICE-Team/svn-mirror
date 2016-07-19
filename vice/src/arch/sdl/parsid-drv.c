@@ -28,6 +28,10 @@
 
 #ifdef HAVE_PARSID
 
+#ifdef BEOS_COMPILE
+#include "../beos/parsid-drv.c"
+#endif
+
 #ifdef UNIX_COMPILE
 #include "../unix/parsid-drv.c"
 #endif

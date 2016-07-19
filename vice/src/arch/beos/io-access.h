@@ -1,13 +1,11 @@
 /*
- * pci-drv.c - pci-drv.c wrapper for the sdl ui.
+ * io-access.h - BeOS specific I/O access prototypes.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
- * This file is part of VICE, modified from the sidplay2 sources.  It is
- * a one for all driver with real timing support via real time kernel
- * extensions or through the hardware buffering.  It supports the hardsid
- * isa/pci single/quattro and also the catweasel MK3/4.
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,12 +24,16 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_IO_ACCESS_H
+#define VICE_IO_ACCESS_H
 
-#ifdef BEOS_COMPILE
-#include "../beos/pci-drv.c"
-#endif
+#include "types.h"
 
-#ifdef UNIX_COMPILE
-#include "../unix/pci-drv.c"
+extern void io_access_store_byte(WORD addr, BYTE value);
+extern BYTE io_access_read_byte(WORD addr);
+extern void io_access_store_long(WORD addr, DWORD value);
+extern DWORD io_access_read_long(WORD addr);
+extern int io_access_init(void);
+extern void io_access_shutdown(void);
+
 #endif

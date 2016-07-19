@@ -34,6 +34,10 @@
 #define UINT_PTR unsigned int
 #endif
 
+#ifdef BEOS_COMPILE
+#include "../beos/hs-isa.c"
+#endif
+
 #ifdef UNIX_COMPILE
 #include "../unix/hs-isa.c"
 #endif

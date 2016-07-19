@@ -34,6 +34,10 @@
 #define UINT_PTR unsigned int
 #endif
 
+#ifdef BEOS_COMPILE
+#include "../beos/hs-pci.c"
+#endif
+
 #ifdef UNIX_COMPILE
 #include "../unix/hs-pci.c"
 #endif

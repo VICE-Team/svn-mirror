@@ -879,6 +879,38 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
   fi
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
+  if test x"$enable_catweasel" != "xno"; then
+    AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+    HAVE_CATWEASELMKIII_SUPPORT="yes"
+  fi
+
+  if test x"$enable_hardsid" != "xno"; then
+    AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+    HAVE_HARDSID_SUPPORT="yes"
+  fi
+
+  if test x"$enable_parsid" != "xno"; then
+    AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+    HAVE_PARSID_SUPPORT="yes"
+
+    LIBIEEE1284_HEADERS_PRESENT=yes
+
+    dnl Check for needed io headers
+    AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
+
+    if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
+      AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
+      if test x"$PARSID_SUPPORT" != "xno"; then
+        AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+      fi
+    fi
+  fi
+
+  if test x"$enable_ssi2001" != "xno"; then
+    AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
+    HAVE_SSI2001_SUPPORT="yes"
+  fi
+
 elif test x"$enable_dingoo" = "xyes"; then
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes

@@ -1,13 +1,11 @@
 /*
- * pci-drv.c - pci-drv.c wrapper for the sdl ui.
+ * hs.h - BeOS hardsid specific prototypes.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
- * This file is part of VICE, modified from the sidplay2 sources.  It is
- * a one for all driver with real timing support via real time kernel
- * extensions or through the hardware buffering.  It supports the hardsid
- * isa/pci single/quattro and also the catweasel MK3/4.
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,12 +24,24 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_HS_H
+#define VICE_HS_H
 
-#ifdef BEOS_COMPILE
-#include "../beos/pci-drv.c"
-#endif
+#include "types.h"
 
-#ifdef UNIX_COMPILE
-#include "../unix/pci-drv.c"
+extern int hs_isa_open(void);
+extern int hs_pci_open(void);
+
+extern int hs_isa_close(void);
+extern int hs_pci_close(void);
+
+extern int hs_isa_read(WORD addr, int chipno);
+extern int hs_pci_read(WORD addr, int chipno);
+
+extern void hs_isa_store(WORD addr, BYTE val, int chipno);
+extern void hs_pci_store(WORD addr, BYTE val, int chipno);
+
+extern int hs_isa_available(void);
+extern int hs_pci_available(void);
+
 #endif

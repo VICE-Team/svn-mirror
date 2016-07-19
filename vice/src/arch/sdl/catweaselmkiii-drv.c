@@ -32,6 +32,10 @@
 #include "../amigaos/catweaselmkiii-drv.c"
 #endif
 
+#ifdef BEOS_COMPILE
+#include "../beos/catweaselmkiii-drv.c"
+#endif
+
 #ifdef UNIX_COMPILE
 #include "../unix/catweaselmkiii-drv.c"
 #endif

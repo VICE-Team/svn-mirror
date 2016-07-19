@@ -28,6 +28,10 @@
 
 #ifdef HAVE_SSI2001
 
+#ifdef BEOS_COMPILE
+#include "../beos/ssi2001-drv.c"
+#endif
+
 #ifdef UNIX_COMPILE
 #include "../unix/ssi2001-drv.c"
 #endif

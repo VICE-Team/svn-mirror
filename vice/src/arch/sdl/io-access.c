@@ -28,6 +28,10 @@
 
 #include "vice.h"
 
+#ifdef BEOS_COMPILE
+#include "../beos/io-access.c"
+#endif
+
 #ifdef UNIX_COMPILE
 #include "../unix/io-access.c"
 #endif
