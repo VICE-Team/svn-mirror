@@ -791,6 +791,10 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int hwscale = 0;
     int lightpen_updated = 0;
     int it;
+    int drv_index = -1;
+    char rendername[256];
+
+    memset(rendername, 0, sizeof(rendername));
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     rmask = 0xff000000, gmask = 0x00ff0000, bmask = 0x0000ff00, amask = 0x000000ff;
@@ -802,16 +806,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
     new_width = *width;
     new_height = *height;
-/*
-	if (!new_window)
-	{
-		canvas->videoconfig->rendermode = 3;
-		canvas->videoconfig->double_size_enabled = 0;
-		canvas->videoconfig->scalex = 1;
-		canvas->videoconfig->scaley = 1;
-		canvas->videoconfig->filter = 0;
-	}
-	*/
+
     new_width *= canvas->videoconfig->scalex;
     new_height *= canvas->videoconfig->scaley;
 
@@ -850,48 +845,56 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         }
     }
 
-	if (new_window)
-	{
-		if (new_texture) {
-			SDL_DestroyTexture(new_texture);
-			new_texture = NULL;
-		}
-		if (new_renderer) {
-			SDL_DestroyRenderer(new_renderer);
-			new_renderer = NULL;
-		}
-		if (new_screen) {
-			SDL_FreeSurface(new_screen);
-			new_screen = NULL;
-		}
-		if (new_window) {
-			SDL_DestroyWindow(new_window);
-			new_window = NULL;
-		}
-	}
+    if (new_window)
+    {
+        if (new_texture) {
+            SDL_DestroyTexture(new_texture);
+            new_texture = NULL;
+        }
+        if (new_renderer) {
+            SDL_DestroyRenderer(new_renderer);
+            new_renderer = NULL;
+        }
+        if (new_screen) {
+            SDL_FreeSurface(new_screen);
+            new_screen = NULL;
+        }
+        if (new_window) {
+            SDL_DestroyWindow(new_window);
+            new_window = NULL;
+        }
+    }
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-	
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+
     /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
     new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, actual_width, actual_height, SDL_WINDOW_OPENGL | flags);
 
-	int drv_index = -1;
+    SDL_GLContext ctx = SDL_GL_CreateContext(new_window);
+    SDL_GL_MakeCurrent(new_window, ctx);
 
-	SDL_GLContext ctx = SDL_GL_CreateContext(new_window);
-	SDL_GL_MakeCurrent(new_window, ctx);
+    for (it = 0; it < SDL_GetNumRenderDrivers(); it++) {
+        SDL_RendererInfo info;
+        SDL_GetRenderDriverInfo(it, &info);
 
-	for (it = 0; it < SDL_GetNumRenderDrivers(); it++) {
-		SDL_RendererInfo info;
-		SDL_GetRenderDriverInfo(it, &info);
+        strcat(rendername, info.name);
+        strcat(rendername, " ");
 
-		SDL_Log("%s\n", info.name);
+        if (strcmp("opengles2", info.name) == 0)
+            drv_index = it;
+    }
 
-		if (strcmp("opengles2", info.name) == 0)
-			drv_index = it;
-	}
+    log_message(sdlvideo_log, "Available Renderers: %s", rendername);
+
+#ifdef SDL_DEBUG
+    log_message(sdlvideo_log, "Vendor     : %s", glGetString(GL_VENDOR));
+    log_message(sdlvideo_log, "Renderer   : %s", glGetString(GL_RENDERER));
+    log_message(sdlvideo_log, "Version    : %s", glGetString(GL_VERSION));
+    log_message(sdlvideo_log, "Extensions : %s", glGetString(GL_EXTENSIONS));
+#endif
 
     if (new_window) {
         new_renderer = SDL_CreateRenderer(new_window, drv_index, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);

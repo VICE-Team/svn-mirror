@@ -53,7 +53,7 @@
 #    include <SDL2/SDL_main.h>
 #  endif
 #  ifdef HAVE_HWSCALE
-#    include <SDL2/SDL_opengl.h>
+#    include <SDL2/SDL_opengles2.h>
 #  endif
 #else
 #  ifdef USE_SDL_PREFIX
