@@ -206,7 +206,6 @@ SSI-2001 on ISA bus on FreeBSD:
 SSI-2001 on ISA bus on Linux:
 -----------------------------
 
-- using linux driver.
 - using /dev/port ISA I/O access.
 - using ioperm() and direct ISA I/O access.
 
