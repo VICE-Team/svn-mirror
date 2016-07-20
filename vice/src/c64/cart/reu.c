@@ -1283,6 +1283,10 @@ static void reu_dma_swap(WORD host_addr, unsigned int reu_addr, int host_step, i
         reu_addr = increment_reu_with_wrap_around(reu_addr, reu_step);
         len--;
     }
+    if (reu_ba.enabled && reu_ba.last_cycle) { /* extra cycle if ended while BA set */
+       machine_handle_pending_alarms(0);       /* likely needed, but not confirmed yet */
+       reu_clk_inc_post2();
+    }
     DEBUG_LOG(DEBUG_LEVEL_REGISTER2, (reu_log, "END OF BLOCK"));
     reu_dma_update_regs(host_addr, reu_addr, ++len, REU_REG_R_STATUS_END_OF_BLOCK);
 }
