@@ -111,7 +111,7 @@ void io_access_store_long(WORD addr, DWORD value)
 #endif
 }
 
-BYTE io_access_read_long(WORD addr)
+DWORD io_access_read_long(WORD addr)
 {
 #ifdef __HAIKU__
     port_io_args args = { POKE_SIGNATURE, addr, 4, 0 };
