@@ -26,6 +26,9 @@
 
 #include "vice.h"
 
+#include "log.h"
+#include "types.h"
+
 #ifdef __HAIKU__
 #include <Drivers.h>
 #include <ISA.h>
@@ -37,9 +40,6 @@
 extern int read_isa_io(int dummy, void *addr, int size);
 extern int write_isa_io(int dummy, void *addr, int size, DWORD val);
 #endif
-
-#include "log.h"
-#include "types.h"
 
 #ifdef __HAIKU__
 enum {

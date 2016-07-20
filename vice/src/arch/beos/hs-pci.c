@@ -50,11 +50,11 @@ BYTE hs_pci_read(WORD addr, int chipno)
     BYTE ret = 0;
 
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
-        io_access_store(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f) | 0x20));
+        io_access_store_byte(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f) | 0x20));
         usleep(2);
-        io_access_store(base2 + 2, 0x20);
-        ret = io_access_read(base1);
-        io_access_store(base2 + 2, 0x80);
+        io_access_store_byte(base2 + 2, 0x20);
+        ret = io_access_read_byte(base1);
+        io_access_store_byte(base2 + 2, 0x80);
     }
     return ret;
 }
@@ -62,8 +62,8 @@ BYTE hs_pci_read(WORD addr, int chipno)
 void hs_pci_store(WORD addr, BYTE outval, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
-        io_access_store(base1 + 3, outval);
-        io_access_store(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f)));
+        io_access_store_byte(base1 + 3, outval);
+        io_access_store_byte(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f)));
         usleep(2);
     }
 }

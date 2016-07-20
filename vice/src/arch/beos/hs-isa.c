@@ -47,17 +47,17 @@ static int hssids[MAXSID] = {-1, -1, -1, -1};
 void hs_isa_store(WORD addr, BYTE value, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
-        io_access_store(HARDSID_BASE, value);
-        io_access_store(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f));
+        io_access_store_byte(HARDSID_BASE, value);
+        io_access_store_byte(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f));
     }
 }
 
 BYTE hs_isa_read(WORD addr, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
-        io_access_store(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f) | 0x20);
+        io_access_store_byte(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f) | 0x20);
         usleep(2);
-        return io_access_read(HARDSID_BASE);
+        return io_access_read_byte(HARDSID_BASE);
     }
     return 0;
 }

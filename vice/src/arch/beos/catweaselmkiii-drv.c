@@ -32,7 +32,6 @@
 #ifdef HAVE_CATWEASELMKIII
 
 #include "catweaselmkiii.h"
-#include "cw.h"
 #include "io-access.h"
 #include "log.h"
 #include "pci-drv.h"

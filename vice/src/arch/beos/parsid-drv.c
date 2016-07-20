@@ -34,7 +34,6 @@
 #include "io-access.h"
 #include "log.h"
 #include "parsid.h"
-#include "ps.h"
 #include "sid-resources.h"
 #include "types.h"
 
@@ -48,7 +47,7 @@ static int sids_found = -1;
 void parsid_drv_out_ctr(BYTE parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
-        io_access_store(pssids[chipno] + 2, parsid_ctrport);
+        io_access_store_byte(pssids[chipno] + 2, parsid_ctrport);
         psctrl[chipno] = parsid_ctrport;
     }
 }
@@ -57,7 +56,7 @@ BYTE parsid_drv_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         if (psctrl[chipno] == -1) {
-            io_access_store(pssids[chipno] + 2, 0);
+            io_access_store_byte(pssids[chipno] + 2, 0);
             psctrl[chipno] = 0;
         } else {
            return (BYTE)psctrl[chipno];
@@ -76,7 +75,7 @@ static void parsid_get_ports(void)
 BYTE parsid_drv_in_data(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
-        return io_access_read(pssids[chipno]);
+        return io_access_read_byte(pssids[chipno]);
     }
     return 0;
 }
@@ -84,7 +83,7 @@ BYTE parsid_drv_in_data(int chipno)
 void parsid_drv_out_data(BYTE outval, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
-        io_access_store(pssids[chipno], outval);
+        io_access_store_byte(pssids[chipno], outval);
     }
 }
 

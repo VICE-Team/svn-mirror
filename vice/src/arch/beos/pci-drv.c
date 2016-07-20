@@ -51,7 +51,7 @@ static int pci_get_direct_base(int vendorID, int deviceID, DWORD *base1, DWORD *
                     address |= 0x10;
                     io_access_store_long(0xCF8, address);
                     *base1 = io_access_read_long(0xCFC);
-                    addesss |= 0x04;
+                    address |= 0x04;
                     io_access_store_long(0xCF8, address);
                     *base2 = io_access_read_long(0xCFC);
                     return 0;

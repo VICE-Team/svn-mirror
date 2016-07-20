@@ -45,14 +45,14 @@ static int sids_found = -1;
 void ssi2001_drv_store(WORD addr, BYTE value, int chipno)
 {
     if (chipno < MAXSID && addr < 0x20) {
-        io_access_store(SSI2008_BASE + (addr & 0x1f), value);
+        io_access_store_byte(SSI2008_BASE + (addr & 0x1f), value);
     }
 }
 
 int ssi2001_drv_read(WORD addr, int chipno)
 {
     if (chipno < MAXSID && addr < 0x20) {
-        return io_access_read(SSI2008_BASE + (addr & 0x1f));
+        return io_access_read_byte(SSI2008_BASE + (addr & 0x1f));
     }
     return 0;
 }
@@ -117,7 +117,7 @@ int ssi2001_drv_open(void)
 
 int ssi2001_drv_close(void)
 {
-    io_access_shutdown(SSI2008_BASE, 32);
+    io_access_shutdown();
 
     sids_found = -1;
 
