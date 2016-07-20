@@ -87,7 +87,21 @@
 #      include <SDL_main.h>
 #    endif
 #    ifdef HAVE_HWSCALE
-#      include <SDL_opengl.h>
+#      include <SDL_version.h>
+#      if (SDL_MAJOR_VERSION == 2)
+#        include <SDL_config.h>
+#        ifdef SDL_VIDEO_RENDER_OGL_ES2
+#          include <SDL_opengles2.h>
+#        endif
+#        ifdef SDL_VIDEO_RENDER_OGL_ES
+#          include <SDL_opengles.h>
+#        endif
+#        ifdef SDL_VIDEO_RENDER_OGL
+#          include <SDL_opengl.h>
+#        endif
+#      else
+#        include <SDL_opengl.h>
+#      endif
 #    endif
 #  endif
 #endif
