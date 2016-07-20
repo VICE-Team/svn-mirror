@@ -182,4 +182,8 @@ int catweaselmkiii_drv_available(void)
 {
     return sids_found;
 }
+
+void catweaselmkiii_drv_set_machine_parameter(long cycles_per_sec)
+{
+}
 #endif

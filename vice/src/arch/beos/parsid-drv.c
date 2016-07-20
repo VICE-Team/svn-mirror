@@ -90,58 +90,58 @@ void parsid_drv_out_data(BYTE outval, int chipno)
 static BYTE detect_sid_read(WORD addr, int chipno)
 {
     BYTE value = 0;
-    BYTE ctl = ps_io_in_ctr(chipno);
+    BYTE ctl = parsid_drv_in_ctr(chipno);
 
-    ps_io_out_data(addr & 0x1f, chipno);
+    parsid_drv_out_data(addr & 0x1f, chipno);
 
     ctl &= ~parsid_AUTOFEED;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl |= parsid_AUTOFEED;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl |= parsid_PCD;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl |= parsid_nINIT;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl |= parsid_STROBE;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
-    value = ps_io_in_data(chipno);
+    value = parsid_drv_in_data(chipno);
 
     ctl &= ~parsid_STROBE;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl &= ~parsid_PCD;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl &= ~parsid_nINIT;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
     return value;
 }
 
 static void detect_sid_store(WORD addr, BYTE outval, int chipno)
 {
-    BYTE ctl = ps_io_in_ctr(chipno);
+    BYTE ctl = parsid_drv_in_ctr(chipno);
 
-    ps_io_out_data(addr & 0x1f, chipno);
+    parsid_drv_out_data(addr & 0x1f, chipno);
 
     ctl &= ~parsid_AUTOFEED;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl |= parsid_AUTOFEED;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
-    ps_io_out_data(outval, chipno);
+    parsid_drv_out_data(outval, chipno);
 
     ctl |= parsid_STROBE;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 
     ctl &= ~parsid_STROBE;
-    ps_io_out_ctr(ctl, chipno);
+    parsid_drv_out_ctr(ctl, chipno);
 }
 
 static int detect_sid(int chipno)
@@ -238,5 +238,10 @@ int parsid_drv_close(void)
 int parsid_drv_available(void)
 {
     return sids_found;
+}
+
+void parsid_drv_sleep(int amount)
+{
+    snooze(amount);
 }
 #endif
