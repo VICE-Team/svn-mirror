@@ -31,6 +31,8 @@
 
 #ifdef HAVE_HARDSID
 
+#include <OS.h>
+
 #include "hardsid.h"
 #include "hs.h"
 #include "io-access.h"
@@ -51,7 +53,7 @@ BYTE hs_pci_read(WORD addr, int chipno)
 
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         io_access_store_byte(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f) | 0x20));
-        usleep(2);
+        snooze(2);
         io_access_store_byte(base2 + 2, 0x20);
         ret = io_access_read_byte(base1);
         io_access_store_byte(base2 + 2, 0x80);
@@ -64,7 +66,7 @@ void hs_pci_store(WORD addr, BYTE outval, int chipno)
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         io_access_store_byte(base1 + 3, outval);
         io_access_store_byte(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f)));
-        usleep(2);
+        snooze(2);
     }
 }
 

@@ -31,6 +31,8 @@
 
 #ifdef HAVE_CATWEASELMKIII
 
+#include <OS.h>
+
 #include "catweaselmkiii.h"
 #include "io-access.h"
 #include "log.h"
@@ -66,7 +68,7 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
             cmd |= 0x40;
         }
         cw_outb(base + CW_SID_CMD, cmd);
-        usleep(1);
+        snooze(1);
         return cw_inb(base + CW_SID_DAT);
     }
     return 0;
@@ -83,7 +85,7 @@ void catweaselmkiii_drv_store(WORD addr, BYTE outval, int chipno)
         }
         cw_outb(base + CW_SID_DAT, outval);
         cw_outb(base + CW_SID_CMD, cmd);
-        usleep(1);
+        snooze(1);
     }
 }
 

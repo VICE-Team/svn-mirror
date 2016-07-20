@@ -31,6 +31,8 @@
 
 #ifdef HAVE_HARDSID
 
+#include <OS.h>
+
 #include "hardsid.h"
 #include "hs.h"
 #include "io-access.h"
@@ -56,7 +58,7 @@ BYTE hs_isa_read(WORD addr, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         io_access_store_byte(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f) | 0x20);
-        usleep(2);
+        snooze(2);
         return io_access_read_byte(HARDSID_BASE);
     }
     return 0;
