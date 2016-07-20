@@ -52,18 +52,6 @@
 #  ifdef HAVE_SDLMAIN
 #    include <SDL2/SDL_main.h>
 #  endif
-#  ifdef HAVE_HWSCALE
-#    include <SDL2/SDL_config.h>
-#    ifdef SDL_VIDEO_RENDER_OGL_ES2
-#      include <SDL2/SDL_opengles2.h>
-#    endif
-#    ifdef SDL_VIDEO_RENDER_OGL_ES
-#      include <SDL2/SDL_opengles.h>
-#    endif
-#    ifdef SDL_VIDEO_RENDER_OGL
-#      include <SDL2/SDL_opengl.h>
-#    endif
-#  endif
 #else
 #  ifdef USE_SDL_PREFIX
 #    include <SDL/SDL.h>
@@ -88,18 +76,7 @@
 #    endif
 #    ifdef HAVE_HWSCALE
 #      include <SDL_version.h>
-#      if (SDL_MAJOR_VERSION == 2)
-#        include <SDL_config.h>
-#        ifdef SDL_VIDEO_RENDER_OGL_ES2
-#          include <SDL_opengles2.h>
-#        endif
-#        ifdef SDL_VIDEO_RENDER_OGL_ES
-#          include <SDL_opengles.h>
-#        endif
-#        ifdef SDL_VIDEO_RENDER_OGL
-#          include <SDL_opengl.h>
-#        endif
-#      else
+#      if (SDL_MAJOR_VERSION == 1)
 #        include <SDL_opengl.h>
 #      endif
 #    endif
