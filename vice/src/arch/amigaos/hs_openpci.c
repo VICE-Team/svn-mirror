@@ -108,6 +108,15 @@ static int detect_sid(int chipno)
     return 0;
 }
 
+#if defined(pci_obtain_card) && defined(pci_release_card)
+static void close_device(void)
+{
+    if (HSLock) {
+        pci_release_card(dev);
+    }
+}
+#endif
+
 int hs_openpci_open(void)
 {
     unsigned int i, j;
@@ -170,6 +179,9 @@ int hs_openpci_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
+#if defined(pci_obtain_card) && defined(pci_release_card)
+        close_device();
+#endif
         return -1;
     }
 
@@ -219,9 +231,7 @@ int hs_openpci_close(void)
     }
 
 #if defined(pci_obtain_card) && defined(pci_release_card)
-    if (HSLock) {
-        pci_release_card(dev);
-    }
+    close_device();
 #endif
 
     log_message(LOG_DEFAULT, "PCI HardSID: closed.");

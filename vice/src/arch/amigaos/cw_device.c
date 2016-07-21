@@ -93,6 +93,26 @@ static struct IOExtTD *gCatweaselReq[2] = {NULL, NULL};
 
 static BOOL gSwapSIDs = FALSE;
 
+static void close_device(void)
+{
+    int i;
+
+    for (i = 0; i < 2; i++) {
+        if (gCatweaselReq[i]) {
+            CloseDevice((struct IORequest *)gCatweaselReq[i]);
+            if (gCatweaselReq[i] != NULL) {
+                DeleteExtIO((struct IORequest *)gCatweaselReq[i]);
+            }
+            if (gDiskPort[i] != NULL) {
+                DeletePort(gDiskPort[i]);
+            }
+            gCatweaselReq[i] = NULL;
+            gDiskPort[i] = NULL;
+        }
+    }
+}
+
+
 int cw_device_open(void)
 {
     unsigned int i;
@@ -129,6 +149,7 @@ int cw_device_open(void)
 
     if (gSIDs == 0) {
         log_message(LOG_DEFAULT, "No device driver based CatWeasel boards found.");
+        close_device();
         return -1;
     }
 
@@ -154,20 +175,8 @@ int cw_device_close(void)
         }
     }
 
-    for (i = 0; i < 2; i++) {
-        if (gCatweaselReq[i]) {
-            CloseDevice((struct IORequest *)gCatweaselReq[i]);
-            if (gCatweaselReq[i] != NULL) {
-                DeleteExtIO((struct IORequest *)gCatweaselReq[i]);
-            }
-            if (gDiskPort[i] != NULL) {
-                DeletePort(gDiskPort[i]);
-            }
-            gCatweaselReq[i] = NULL;
-            gDiskPort[i] = NULL;
-        }
-    }
-	
+    close_device();
+
     log_message(LOG_DEFAULT, "Device driver based CatWeasel SID: closed.");
 
     sids_found = -1;

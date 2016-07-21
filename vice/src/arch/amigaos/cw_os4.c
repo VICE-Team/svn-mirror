@@ -85,6 +85,19 @@ static struct PCIDevice *CWDevPCI = NULL;
 static struct PCIResourceRange *CWDevBAR = NULL;
 int CWLock = FALSE;
 
+static void close_device(void)
+{
+    if (CWDevBAR) {
+        CWDevPCI->FreeResourceRange(CWDevBAR);
+    }
+    if (CWLock) {
+        CWDevPCI->Unlock();
+    }
+    if (IPCI) {
+        IExec->DropInterface((struct Interface *)IPCI);
+    }
+}
+
 int cw_os4_open(void)
 {
     unsigned int i;
@@ -114,6 +127,7 @@ int cw_os4_open(void)
                                     TAG_DONE);
     if (!CWDevPCI) {
         log_message(LOG_DEFAULT, "Unable to find a PCI CatWeasel board.");
+        close_device();
         return -1;
     }
 
@@ -121,6 +135,7 @@ int cw_os4_open(void)
     CWLock = CWDevPCI->Lock(PCI_LOCK_SHARED);
     if (!CWLock) {
         log_message(LOG_DEFAULT, "Unable to lock the CatWeasel. Another driver may have an exclusive lock." );
+        close_device();
         return -1;
     }
 
@@ -128,6 +143,7 @@ int cw_os4_open(void)
     CWDevBAR = CWDevPCI->GetResourceRange(0);
     if (!CWDevBAR) {
         log_message(LOG_DEFAULT, "Unable to get CatWeasel resource range 0." );
+        close_device();
         return -1;
     }
 
@@ -160,15 +176,7 @@ int cw_os4_close(void)
         write_sid(i, 0);
     }
 
-    if (CWDevBAR) {
-        CWDevPCI->FreeResourceRange(CWDevBAR);
-    }
-    if (CWLock) {
-        CWDevPCI->Unlock();
-    }
-    if (IPCI) {
-        IExec->DropInterface((struct Interface *)IPCI);
-    }
+    close_device();
 
     log_message(LOG_DEFAULT, "PCI CatWeasel SID: closed.");
 

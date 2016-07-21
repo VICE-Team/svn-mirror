@@ -81,6 +81,15 @@ static int CWLock = FALSE;
 
 static struct pci_dev *dev = NULL;
 
+#if defined(pci_obtain_card) && defined(pci_release_card)
+static void close_device(void)
+{
+    if (CWLock) {
+        pci_release_card(dev);
+    }
+}
+#endif
+
 int cw_openpci_open(void)
 {
     unsigned int i;
@@ -195,9 +204,7 @@ int cw_openpci_close(void)
     }
 
 #if defined(pci_obtain_card) && defined(pci_release_card)
-    if (CWLock) {
-        pci_release_card(dev);
-    }
+    close_device();
 #endif
 
     log_message(LOG_DEFAULT, "PCI CatWeasel SID: closed.");

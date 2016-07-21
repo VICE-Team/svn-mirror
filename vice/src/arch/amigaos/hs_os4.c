@@ -105,6 +105,19 @@ static int detect_sid(int chipno)
     return 0;
 }
 
+static void close_device(void)
+{
+    if (HSDevBAR) {
+        HSDevPCI->FreeResourceRange(HSDevBAR);
+    }
+    if (HSLock) {
+        HSDevPCI->Unlock();
+    }
+    if (IPCI) {
+        IExec->DropInterface((struct Interface *)IPCI);
+    }
+}
+
 int hs_os4_open(void)
 {
     unsigned int i, j;
@@ -139,6 +152,7 @@ int hs_os4_open(void)
                                     TAG_DONE);
     if (!HSDevPCI) {
         log_message(LOG_DEFAULT, "Unable to find a PCI HardSID board.");
+        close_device();
         return -1;
     }
 
@@ -146,6 +160,7 @@ int hs_os4_open(void)
     HSLock = HSDevPCI->Lock(PCI_LOCK_SHARED);
     if (!HSLock) {
         log_message(LOG_DEFAULT, "Unable to lock the PCI HardSID. Another driver may have an exclusive lock.");
+        close_device();
         return -1;
     }
 
@@ -153,6 +168,7 @@ int hs_os4_open(void)
     HSDevBAR = HSDevPCI->GetResourceRange(0);
     if (!HSDevBAR) {
         log_message(LOG_DEFAULT, "Unable to get PCI HardSID resource range 0.");
+        close_device();
         return -1;
     }
 
@@ -171,6 +187,7 @@ int hs_os4_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
+        close_device();
         return -1;
     }
 
@@ -202,15 +219,7 @@ int hs_os4_close(void)
         hssids[j] = -1;
     }
 
-    if (HSDevBAR) {
-        HSDevPCI->FreeResourceRange(HSDevBAR);
-    }
-    if (HSLock) {
-        HSDevPCI->Unlock();
-    }
-    if (IPCI) {
-        IExec->DropInterface((struct Interface *)IPCI);
-    }
+    close_device();
 
     log_message(LOG_DEFAULT, "PCI HardSID: closed.");
 
