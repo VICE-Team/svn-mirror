@@ -817,3 +817,13 @@ void usleep(__int64 waitTime)
     } while((time2-time1) < waitTime);
 }
 #endif
+
+#ifdef USE_SDLUI2
+char *archdep_sdl2_default_renderers[] = {
+    "direct3d11",
+    "direct3d",
+    "opengles",
+    "opengl",
+    NULL
+};
+#endif

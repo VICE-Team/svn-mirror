@@ -84,6 +84,10 @@ extern int archdep_require_vkbd(void);
 /* define if the platform supports the monitor in a seperate window */
 /* #define ARCHDEP_SEPERATE_MONITOR_WINDOW */
 
+#ifdef USE_SDLUI2
+extern char *archdep_sdl2_default_renderers[];
+#endif
+
 #ifdef AMIGA_SUPPORT
 #include "archdep_amiga.h"
 #endif

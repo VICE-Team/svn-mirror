@@ -37,6 +37,7 @@
 #include <stdio.h>
 #include "vice_sdl.h"
 
+#include "archdep.h"
 #include "cmdline.h"
 #include "fullscreen.h"
 #include "fullscreenarch.h"
@@ -107,6 +108,10 @@ static const float sdl_gl_vertex_coord[4 * 4] = {
     /* Flip X&Y */
     +1.0f, -1.0f, +1.0f, -1.0f
 };
+#endif
+
+#ifdef USE_SDLUI2
+static char *sdl2_renderer_name = NULL;
 #endif
 
 #if defined(USE_SDLUI2)
@@ -301,10 +306,26 @@ static int set_sdl_gl_flipy(int v, void *param)
 
 #endif /* HAVE_HWSCALE */
 
+#ifdef USE_SDLUI2
+static int set_sdl2_renderer_name(const char *val, void *param)
+{
+    if (!val || val[0] == '\0') {
+        util_string_set(&sdl2_renderer_name, "");
+    } else {
+        util_string_set(&sdl2_renderer_name, val);
+    }
+    return 0;
+}
+#endif
+
 static const resource_string_t resources_string[] = {
 #if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
     { "AspectRatio", "1.0", RES_EVENT_NO, NULL,
       &aspect_ratio_s, set_aspect_ratio, NULL },
+#endif
+#ifdef USE_SDLUI2
+    { "SDL2Renderer", "", RES_EVENT_NO, NULL,
+      &sdl2_renderer_name, set_sdl2_renderer_name, NULL },
 #endif
     RESOURCE_STRING_LIST_END
 };
@@ -414,6 +435,11 @@ static const cmdline_option_t cmdline_options[] = {
     { "+sdlflipy", SET_RESOURCE, 0, NULL, NULL, "SDLGLFlipY", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable Y flip" },
+#endif
+#ifdef USE_SDLUI2
+    { "-sdl2renderer", SET_RESOURCE, 1, NULL, NULL, "SDL2Renderer", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<renderer name>", "Set the preferred SDL2 renderer" },
 #endif
     CMDLINE_LIST_END
 };
@@ -791,8 +817,11 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int hwscale = 0;
     int lightpen_updated = 0;
     int it;
+    int l;
     int drv_index = -1;
     char rendername[256];
+    char **renderlist = NULL;
+    int renderamount = SDL_GetNumRenderDrivers();
 
     memset(rendername, 0, sizeof(rendername));
 
@@ -876,17 +905,46 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     SDL_GLContext ctx = SDL_GL_CreateContext(new_window);
     SDL_GL_MakeCurrent(new_window, ctx);
 
-    for (it = 0; it < SDL_GetNumRenderDrivers(); it++) {
+    /* Allocate renderlist strings */
+    renderlist = lib_malloc((renderamount + 1) * sizeof(char *));
+
+    /* Fill in the renderlist and render info string */
+    for (it = 0; it < renderamount; ++it) {
         SDL_RendererInfo info;
         SDL_GetRenderDriverInfo(it, &info);
 
         strcat(rendername, info.name);
         strcat(rendername, " ");
-
-        if (strcmp("opengles2", info.name) == 0) {
-            drv_index = it;
+        renderlist[it] = lib_stralloc(info.name);
+    }
+    renderlist[it] = NULL;
+        
+    /* Check for resource preferred renderer */
+    if (sdl2_renderer_name != NULL && *sdl2_renderer_name != '\0') {
+        for (it = 0; it < renderamount; ++it) {
+            if (!strcmp(sdl2_renderer_name, renderlist[it])) {
+                drv_index = it;
+            }
+        }
+        if (drv_index == -1) {
+            log_warning(sdlvideo_log, "Resource preferred renderer %s not available, trying arch default renderer(s)", sdl2_renderer_name);
         }
     }
+
+    /* Try arch default renderer(s) if the resource preferred renderer was not available */
+    for (l = 0; drv_index == -1 && archdep_sdl2_default_renderers[l]; ++l) {
+        for (it = 0; it < renderamount; ++it) {
+            if (!strcmp(archdep_sdl2_default_renderers[l], renderlist[it])) {
+                drv_index = it;
+            }
+        }
+    }
+
+    for (l = 0; l < renderamount; ++l) {
+        lib_free(renderlist[l]);
+    }
+    lib_free(renderlist);
+    renderlist = NULL;
 
     log_message(sdlvideo_log, "Available Renderers: %s", rendername);
 
