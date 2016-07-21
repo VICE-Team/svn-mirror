@@ -40,6 +40,20 @@ static int pci_get_direct_base(int vendorID, int deviceID, DWORD *base1, DWORD *
     int func_index;
     unsigned int address;
     unsigned int device;
+    DWORD tmp;
+    int res = 0;
+
+    io_access_store_byte(0xCFB, 0x01);
+    tmp = io_access_read_long(0xCF8);
+    io_access_store_long(0xCF8, 0x80000000);
+    if (io_access_read_long(0xCF8) == 0x80000000) {
+        res = 1;
+    }
+    io_access_store_long(0xCF8, tmp);
+
+    if (!res) {
+        return -1;
+    }
 
     for (bus_index = 0; bus_index < 256; ++bus_index) {
         for (slot_index = 0; slot_index < 32; ++slot_index) {
