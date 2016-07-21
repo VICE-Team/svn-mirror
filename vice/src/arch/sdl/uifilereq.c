@@ -257,7 +257,8 @@ static UI_MENU_CALLBACK(drive_callback)
 static char * display_drive_menu(void)
 {
     char **drives, **p;
-    char *result, *previous_drive;
+    char *result = NULL;
+    char *previous_drive;
     int drive_count = 1;
     ui_menu_entry_t *sub_menu, *pm;
     ui_menu_entry_t menu;
