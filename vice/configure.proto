@@ -4881,9 +4881,6 @@ fi
 if test x"$enable_gnomeui3" = "xyes"; then
     show_gui="GTK3"
 fi
-if test x"$enable_sdlui2" = "xyes"; then
-    show_gui="SDL2"
-fi
 if test x"$with_cocoa" = "xyes"; then
     show_gui="COCOA"
 fi
@@ -4906,7 +4903,7 @@ if test x"$is_os2" = "xyes"; then
     show_gui="DIVE (PM)"
 fi
 if test x"$is_win32" = "xyes"; then
-    if test x"$is_win32_x11" != "xyes"; then
+    if test x"$is_win32_x11" != "xyes" -a x"$show_gui" = "x"; then
         show_gui="Win32"
     fi
 fi
@@ -4916,6 +4913,10 @@ fi
 
 if test x"$enable_sdlui" = "xyes" -o x"$show_arch" = "xDingux"; then
     show_gui="SDL"
+fi
+
+if test x"$enable_sdlui2" = "xyes"; then
+    show_gui="SDL2"
 fi
 
 if test "x$ac_cv_header_sys_audio_h" = xyes; then
