@@ -358,7 +358,11 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("Version " VERSION, i);
 #endif
         i++;
+#ifdef USE_SDLUI2
+        sdl_ui_print_center("SDL2 " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, i++);
+#else
         sdl_ui_print_center("SDL " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, i++);
+#endif
         i++;
         sdl_ui_print_center("The VICE Team", i++);
         for (j = 0; core_team[j].name; j++) {
