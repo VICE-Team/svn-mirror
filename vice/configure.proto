@@ -4031,6 +4031,12 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
   AM_CONDITIONAL(SDL_COMPILE, true)
+  if test x"$enable_sdlui2" = "xyes"; then
+    SDL_VERSION=2
+  else
+    SDL_VERSION=1
+  fi
+  AC_SUBST(SDL_VERSION)
 else
   AM_CONDITIONAL(SDL_COMPILE, false)
 fi

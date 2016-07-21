@@ -3,8 +3,8 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <cpu>
-#                 $1      $2             $3              $4          $5               $6           $7
+# make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <cpu> <SDL-version>
+#                 $1      $2             $3              $4          $5               $6           $7    $8
 
 STRIP=$1
 VICEVERSION=$2
@@ -13,6 +13,7 @@ ZIPKIND=$4
 X64SC=$5
 TOPSRCDIR=$6
 CPU=$7
+SDLVERSION=$8
 
 if test x"$X64SC" = "xyes"; then
   SCFILE="x64sc"
@@ -39,48 +40,62 @@ else
   WINXX="win32"
 fi
 
-echo Generating $WINXX SDL port binary distribution.
-rm -f -r SDLVICE-$VICEVERSION-$WINXX
-mkdir SDLVICE-$VICEVERSION-$WINXX
+if test x"$SDLVERSION" = "x2"; then
+  echo Generating $WINXX SDL2 port binary distribution.
+  SDLNAME="SDL2VICE"
+else
+  echo Generating $WINXX SDL port binary distribution.
+  SDLNAME="SDLVICE"
+fi
+rm -f -r $SDLNAME-$VICEVERSION-$WINXX
+mkdir $SDLNAME-$VICEVERSION-$WINXX
 for i in $EXECUTABLES
 do
   $STRIP src/$i.exe
-  cp src/$i.exe SDLVICE-$VICEVERSION-$WINXX
+  cp src/$i.exe $SDLNAME-$VICEVERSION-$WINXX
 done
-cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 SDLVICE-$VICEVERSION-$WINXX
-cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II SDLVICE-$VICEVERSION-$WINXX
-cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET SDLVICE-$VICEVERSION-$WINXX
-cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER SDLVICE-$VICEVERSION-$WINXX
-cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 SDLVICE-$VICEVERSION-$WINXX
-cp -a $TOPSRCDIR/doc/html SDLVICE-$VICEVERSION-$WINXX
-rm SDLVICE-$VICE_VERSION-$WINXX/html/checklinks.sh
-cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README SDLVICE-$VICEVERSION-$WINXX
-cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS SDLVICE-$VICEVERSION-$WINXX
-cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt SDLVICE-$VICEVERSION-$WINXX
-rm `find SDLVICE-$VICEVERSION-$WINXX -name "Makefile*"`
-rm `find SDLVICE-$VICEVERSION-$WINXX -name "amiga_*.vkm"`
-rm `find SDLVICE-$VICEVERSION-$WINXX -name "dos_*.vkm"`
-rm `find SDLVICE-$VICEVERSION-$WINXX -name "os2*.vkm"`
-rm `find SDLVICE-$VICEVERSION-$WINXX -name "osx*.vkm"`
-rm `find SDLVICE-$VICEVERSION-$WINXX -name "beos_*.vkm"`
-rm `find SDLVICE-$VICEVERSION-$WINXX -name "x11_*.vkm"`
-rm `find SDLVICE-$VICEVERSION-$WINXX -name "win*.v*"`
-rm `find SDLVICE-$VICEVERSION-$WINXX -name "*.vsc"`
-rm SDLVICE-$VICEVERSION-$WINXX/html/texi2html
-mkdir SDLVICE-$VICEVERSION-$WINXX/doc
-cp $TOPSRCDIR/doc/vice.chm SDLVICE-$VICEVERSION-$WINXX/doc
-cp $TOPSRCDIR/doc/vice.hlp SDLVICE-$VICEVERSION-$WINXX/doc
-cp $TOPSRCDIR/doc/vice.pdf SDLVICE-$VICEVERSION-$WINXX/doc
+cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $SDLNAME-$VICEVERSION-$WINXX
+cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II $SDLNAME-$VICEVERSION-$WINXX
+cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $SDLNAME-$VICEVERSION-$WINXX
+cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $SDLNAME-$VICEVERSION-$WINXX
+cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $SDLNAME-$VICEVERSION-$WINXX
+cp -a $TOPSRCDIR/doc/html $SDLNAME-$VICEVERSION-$WINXX
+rm $SDLNAME-$VICE_VERSION-$WINXX/html/checklinks.sh
+cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $SDLNAME-$VICEVERSION-$WINXX
+cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $SDLNAME-$VICEVERSION-$WINXX
+cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt $SDLNAME-$VICEVERSION-$WINXX
+rm `find $SDLNAME-$VICEVERSION-$WINXX -name "Makefile*"`
+rm `find $SDLNAME-$VICEVERSION-$WINXX -name "amiga_*.vkm"`
+rm `find $SDLNAME-$VICEVERSION-$WINXX -name "dos_*.vkm"`
+rm `find $SDLNAME-$VICEVERSION-$WINXX -name "os2*.vkm"`
+rm `find $SDLNAME-$VICEVERSION-$WINXX -name "osx*.vkm"`
+rm `find $SDLNAME-$VICEVERSION-$WINXX -name "beos_*.vkm"`
+rm `find $SDLNAME-$VICEVERSION-$WINXX -name "x11_*.vkm"`
+rm `find $SDLNAME-$VICEVERSION-$WINXX -name "win*.v*"`
+rm `find $SDLNAME-$VICEVERSION-$WINXX -name "*.vsc"`
+rm $SDLNAME-$VICEVERSION-$WINXX/html/texi2html
+mkdir $SDLNAME-$VICEVERSION-$WINXX/doc
+cp $TOPSRCDIR/doc/vice.chm $SDLNAME-$VICEVERSION-$WINXX/doc
+cp $TOPSRCDIR/doc/vice.hlp $SDLNAME-$VICEVERSION-$WINXX/doc
+cp $TOPSRCDIR/doc/vice.pdf $SDLNAME-$VICEVERSION-$WINXX/doc
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
-    zip -r -9 -q SDLVICE-$VICEVERSION-$WINXX.zip SDLVICE-$VICEVERSION-$WINXX
+    zip -r -9 -q $SDLNAME-$VICEVERSION-$WINXX.zip $SDLNAME-$VICEVERSION-$WINXX
   else
-    $ZIP SDLVICE-$VICEVERSION-$WINXX.zip SDLVICE-$VICEVERSION-$WINXX
+    $ZIP $SDLNAME-$VICEVERSION-$WINXX.zip $SDLNAME-$VICEVERSION-$WINXX
   fi
-  rm -f -r SDLVICE-$VICEVERSION-$WINXX
-  echo $WINXX SDL port binary distribution archive generated as SDLVICE-$VICEVERSION-$WINXX.zip
+  rm -f -r $SDLNAME-$VICEVERSION-$WINXX
+  if test x"$SDLVERSION" = "x2"; then
+    echo $WINXX SDL2 port binary distribution archive generated as $SDLNAME-$VICEVERSION-$WINXX.zip
+  else
+    echo $WINXX SDL port binary distribution archive generated as $SDLNAME-$VICEVERSION-$WINXX.zip
+  fi
 else
-  echo $WINXX SDL port binary distribution directory generated as SDLVICE-$VICEVERSION-$WINXX
+  if test x"$SDLVERSION" = "x2"; then
+    echo $WINXX SDL2 port binary distribution directory generated as $SDLNAME-$VICEVERSION-$WINXX
+  else
+    echo $WINXX SDL port binary distribution directory generated as $SDLNAME-$VICEVERSION-$WINXX
+  fi
 fi
 if test x"$ENABLEARCH" = "xyes"; then
   echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
