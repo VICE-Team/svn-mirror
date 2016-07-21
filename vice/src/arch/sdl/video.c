@@ -1146,6 +1146,11 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
 
     fmt = canvas->screen->format;
 
+    if (canvas != sdl_active_canvas) {
+        DBG(("video_canvas_set_palette not active canvas, don't update hw palette"));
+        return 0;
+    }
+
     for (i = 0; i < palette->num_entries; i++) {
         if (canvas->depth == 8) {
             colors[i].r = palette->entries[i].red;
@@ -1156,11 +1161,6 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
             col = SDL_MapRGB(fmt, palette->entries[i].red, palette->entries[i].green, palette->entries[i].blue);
         }
         video_render_setphysicalcolor(canvas->videoconfig, i, col, canvas->depth);
-    }
-
-    if (canvas != sdl_active_canvas) {
-        DBG(("video_canvas_set_palette not active canvas, don't update hw palette"));
-        return 0;
     }
 
     if (canvas->depth == 8) {
