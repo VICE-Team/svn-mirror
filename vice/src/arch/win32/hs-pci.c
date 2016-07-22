@@ -340,7 +340,7 @@ static int find_pci_device(int vendorID, int deviceID)
                 address = 0x80000000 | (bus_index << 16) | (slot_index << 11) | (func_index << 8);
                 hardsid_outl(0xCF8, address);
                 device = hardsid_inl(0xCFC);
-                if (device == (vendorID | (deviceID << 16))) {
+                if (device == (unsigned int)(vendorID | (deviceID << 16))) {
                     address |= 0x10;
                     hardsid_outl(0xCF8, address);
                     io1 = hardsid_inl(0xCFC) & 0xFFFC;

@@ -131,7 +131,7 @@ static BYTE ssi2001_inb(unsigned int addrint)
             winio_inp32fp(addr, &tmp, 1);
             retval = (BYTE)tmp;
         } else {
-            retval = inpout_inp32fp(addr);
+            retval = (BYTE)inpout_inp32fp(addr);
         }
     } else {
 #ifdef  _M_IX86
@@ -142,6 +142,7 @@ static BYTE ssi2001_inb(unsigned int addrint)
 #endif
 #endif
     }
+    return retval;
 }
 
 int ssi2001_drv_read(WORD addr, int chipno)

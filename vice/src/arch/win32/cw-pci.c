@@ -310,7 +310,7 @@ static int find_pci_device(int vendorID, int deviceID)
                 address = 0x80000000 | (bus_index << 16) | (slot_index << 11) | (func_index << 8);
                 cw_outl(0xCF8, address);
                 device = cw_inl(0xCFC);
-                if (device == (vendorID | (deviceID << 16))) {
+                if (device == (unsigned int)(vendorID | (deviceID << 16))) {
                     address |= 0x10;
                     cw_outl(0xCF8, address);
                     base = cw_inl(0xCFC) & 0xFFFC;
@@ -324,7 +324,6 @@ static int find_pci_device(int vendorID, int deviceID)
 
 int cw_pci_open(void)
 {
-    int i;
     int res;
     char *openedlib = NULL;
 
@@ -430,8 +429,6 @@ int cw_pci_open(void)
 
 int cw_pci_close(void)
 {
-    int i;
-
     if (cw_use_lib) {
         shutdown32fp();
         FreeLibrary(hLib);

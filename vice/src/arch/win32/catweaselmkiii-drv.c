@@ -117,5 +117,6 @@ int catweaselmkiii_drv_available(void)
     if (use_cw_dll) {
         return cw_dll_available();
     }
+    return 0;
 }
 #endif
