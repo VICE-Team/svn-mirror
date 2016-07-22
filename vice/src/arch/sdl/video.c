@@ -822,6 +822,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     char rendername[256];
     char **renderlist = NULL;
     int renderamount = SDL_GetNumRenderDrivers();
+    SDL_GLContext ctx;
 
     memset(rendername, 0, sizeof(rendername));
 
@@ -902,7 +903,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
     new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, actual_width, actual_height, SDL_WINDOW_OPENGL | flags);
 
-    SDL_GLContext ctx = SDL_GL_CreateContext(new_window);
+    ctx = SDL_GL_CreateContext(new_window);
     SDL_GL_MakeCurrent(new_window, ctx);
 
     /* Allocate renderlist strings */
