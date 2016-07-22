@@ -10,6 +10,7 @@ READMES = \
 	Readme-MacOSX.txt \
 	Readme-OS2.txt \
 	Readme-SDL.txt \
+	Readme-SDL2.txt \
 	Readme-Unix.txt
 
 dist_doc_DATA = $(READMES)
