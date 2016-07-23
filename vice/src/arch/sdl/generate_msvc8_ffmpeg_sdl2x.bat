@@ -7,7 +7,7 @@ mkdir win32-sdl2x-msvc8-ffmpeg
 cd ..\win32\vs_tmpl
 mkmsvc.exe -ffmpeg -sdl2 -8 vice
 cd ..\..\sdl
-copy msvc-files\make-bindist.bat.proto win32-sdl2x-msvc8-ffmpeg\make-msvc-bindist.bat
+copy msvc-files\make-bindist-sdl2x.bat.proto win32-sdl2x-msvc8-ffmpeg\make-msvc-bindist.bat
 copy msvc-files\debug.h win32-sdl2x-msvc8-ffmpeg
 copy msvc-files\dirent.h win32-sdl2x-msvc8-ffmpeg
 copy msvc-files\ide-config-sdl2.h win32-sdl2x-msvc8-ffmpeg\ide-config.h

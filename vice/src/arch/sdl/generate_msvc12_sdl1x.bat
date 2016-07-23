@@ -7,7 +7,7 @@ mkdir win32-sdl1x-msvc12
 cd ..\win32\vs_tmpl
 mkmsvc.exe -sdl -12 vice
 cd ..\..\sdl
-copy msvc-files\make-bindist.bat.proto win32-sdl1x-msvc12\make-msvc-bindist.bat
+copy msvc-files\make-bindist-sdl1x.bat.proto win32-sdl1x-msvc12\make-msvc-bindist.bat
 copy msvc-files\debug.h win32-sdl1x-msvc12
 copy msvc-files\dirent.h win32-sdl1x-msvc12
 copy msvc-files\ide-config.h win32-sdl1x-msvc12

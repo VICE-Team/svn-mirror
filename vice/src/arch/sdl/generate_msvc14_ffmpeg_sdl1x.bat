@@ -7,7 +7,7 @@ mkdir win32-sdl1x-msvc14-ffmpeg
 cd ..\win32\vs_tmpl
 mkmsvc.exe -ffmpeg -sdl -14 vice
 cd ..\..\sdl
-copy msvc-files\make-bindist.bat.proto win32-sdl1x-msvc14-ffmpeg\make-msvc-bindist.bat
+copy msvc-files\make-bindist-sdl1x.bat.proto win32-sdl1x-msvc14-ffmpeg\make-msvc-bindist.bat
 copy msvc-files\debug.h win32-sdl1x-msvc14-ffmpeg
 copy msvc-files\dirent.h win32-sdl1x-msvc14-ffmpeg
 copy msvc-files\ide-config.h win32-sdl1x-msvc14-ffmpeg
