@@ -615,7 +615,15 @@
             CLK_ADD(CLK, CYCLES_1);                        \
             if (!tmp) {                                    \
                 dest_addr = reg_pc + (signed char)(value); \
-                OPCODE_DELAYS_INTERRUPT();                 \
+                                                           \
+                LOAD(reg_pc);                              \
+                CLK_ADD(CLK, CYCLES_1);                    \
+                if ((reg_pc ^ dest_addr) & 0xff00) {       \
+                    LOAD(reg_pc);                          \
+                    CLK_ADD(CLK, CYCLES_1);                \
+                } else {                                   \
+                    OPCODE_DELAYS_INTERRUPT();             \
+                }                                          \
                 JUMP(dest_addr & 0xffff);                  \
             }                                              \
         }                                                  \
@@ -642,7 +650,15 @@
                                                            \
             if (tmp) {                                     \
                 dest_addr = reg_pc + (signed char)(value); \
-                OPCODE_DELAYS_INTERRUPT();                 \
+                                                           \
+                LOAD(reg_pc);                              \
+                CLK_ADD(CLK, CYCLES_1);                    \
+                if ((reg_pc ^ dest_addr) & 0xff00) {       \
+                    LOAD(reg_pc);                          \
+                    CLK_ADD(CLK, CYCLES_1);                \
+                } else {                                   \
+                    OPCODE_DELAYS_INTERRUPT();             \
+                }                                          \
                 JUMP(dest_addr & 0xffff);                  \
             }                                              \
         }                                                  \
