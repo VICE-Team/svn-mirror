@@ -200,6 +200,9 @@ HAVE_HARDSID_SUPPORT="no "
 HAVE_MIDI_SUPPORT="no "
 HAVE_PARSID_SUPPORT="no "
 HAVE_SSI2001_SUPPORT="no "
+HAVE_IOSID_SUPPORT="no "
+HAVE_PORTSID_SUPPORT="no "
+HAVE_PCIUTILS_SUPPORT="no "
 HAVE_SYS_AUDIO_H_SUPPORT="no "
 HAVE_SYS_AUDIOIO_H_SUPPORT="no "
 USE_AIX_AUDIO_SUPPORT="no "
@@ -3228,6 +3231,7 @@ if test x"$is_unix" = "xyes"; then
       fi
       if test x"$PCIUTILS_LIB_PRESENT" != "xno"; then
         AC_DEFINE(HAVE_LIBPCI,,[Define to 1 if you have the 'pciutils' library.])
+        HAVE_PCIUTILS_SUPPORT=yes
       fi
     fi
 
@@ -3241,16 +3245,19 @@ if test x"$is_unix" = "xyes"; then
 
     if test x"$PARSID_SUPPORT" != "xno" -a x"$enable_ssi2001" = "xno" -a x"$enable_hardsid" = "xno"; then
       IOSID_SUPPORT=yes
+      HAVE_IOSID_SUPPORT=yes
     fi
 
     if test x"$LINUX_PARPORT_HEADERS_PRESENT" = "xyes"; then
       AC_DEFINE(HAVE_LINUX_PARPORT_HEADERS,,[Support for Linux par port device file.])
       PORTSID_SUPPORT=yes
+      HAVE_PORTSID_SUPPORT=yes
     fi
 
     if test x"$FREEBSD_PARPORT_HEADERS_PRESENT" = "xyes"; then
       AC_DEFINE(HAVE_FREEBSD_PARPORT_HEADERS,,[Support for FreeBSD par port device file.])
       PORTSID_SUPPORT=yes
+      HAVE_PORTSID_SUPPORT=yes
     fi
 
     if test x"$IOSID_SUPPORT" = "xno"; then
@@ -3259,6 +3266,7 @@ if test x"$is_unix" = "xyes"; then
         AC_CHECK_FUNCS(mmap_device_io in8 out8,,[QNX_MMAN_FUNCS_PRESENT=no])
         if test x"$QNX_MMAN_FUNCS_PRESENT" = "xyes"; then
           IOSID_SUPPORT=yes
+          HAVE_IOSID_SUPPORT=yes
         fi
       fi
     fi
@@ -5043,7 +5051,11 @@ fi
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xDOS" -o x"$real_arch" = "xWin32"; then
     echo "ParSID support               : $HAVE_PARSID_SUPPORT (--enable/disable-parsid)"
     echo "SSI2001 support              : $HAVE_SSI2001_SUPPORT (--enable/disable-ssi2001)"
+    echo "direct I/O access support    : $HAVE_IOSID_SUPPORT"
+    echo "lpt port access              : $HAVE_PORTSID_SUPPORT"
 fi
+
+echo "PCI utils support            : $HAVE_PCIUTILS_SUPPORT"
 
 echo "MP3 encoding support         : $USE_LAMEMP3_SUPPORT (--enable/disable-lame)"
 echo "MP3 decoding support         : $USE_MPG123_SUPPORT"
