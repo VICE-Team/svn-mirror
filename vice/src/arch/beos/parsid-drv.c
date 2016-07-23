@@ -208,6 +208,7 @@ int parsid_drv_open(void)
     }
 
     if (!sids_found) {
+        io_access_shutdown();
         return -1;
     }
 

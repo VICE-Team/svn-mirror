@@ -155,6 +155,7 @@ int hs_isa_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No ISA HardSID boards found.");
+        io_access_shutdown();
         return -1;
     }
 

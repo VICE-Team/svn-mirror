@@ -158,6 +158,7 @@ int hs_pci_open(void)
 
     if (j < 0) {
         log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
+        io_access_shutdown();
         return -1;
     }
 
@@ -175,6 +176,7 @@ int hs_pci_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
+        io_access_shutdown();
         return -1;
     }
 

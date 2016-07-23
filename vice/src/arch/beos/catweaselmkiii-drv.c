@@ -135,19 +135,21 @@ int catweaselmkiii_drv_open(void)
 
     log_message(LOG_DEFAULT, "Detecting PCI CatWeasel boards.");
 
+    if (io_access_init() < 0) {
+        log_message(LOG_DEFAULT, "Cannot get access to $%X.", base);
+        return -1;
+    }
+
     i = pci_get_base(0xe159, 0x0001, &b1, &b2);
 
     if (i < 0) {
         log_message(LOG_DEFAULT, "No PCI CatWeasel found.");
+        io_access_shutdown();
         return -1;
     }
 
     base = b1 & 0xfffc;
 
-    if (io_access_init() < 0) {
-        log_message(LOG_DEFAULT, "Cannot get access to $%X.", base);
-        return -1;
-    }
 
     log_message(LOG_DEFAULT, "PCI CatWeasel board found at $%04X.", base);
 
@@ -157,6 +159,7 @@ int catweaselmkiii_drv_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No PCI CatWeasel found.");
+        io_access_shutdown();
         return -1;
     }
 
