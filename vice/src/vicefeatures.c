@@ -115,7 +115,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(AMIGA_SUPPORT) || defined(__MSDOS__) || defined(UNIX) || defined(WIN32) /* (amiga/dos/unix/windows) */
+#if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(__MSDOS__) || defined(UNIX) || defined(WIN32) /* (amiga/beos/dos/unix/windows) */
     { "HAVE_CATWEASELMKIII", "Support for Catweasel MKIII.",
 #ifndef HAVE_CATWEASELMKIII
         0 },
@@ -218,7 +218,7 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(AMIGA_SUPPORT) || defined(__MSDOS__) || defined(UNIX) || defined(WIN32) /* (amiga/dos/unix/windows) */
+#if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(__MSDOS__) || defined(UNIX) || defined(WIN32) /* (amiga/beos/dos/unix/windows) */
     { "HAVE_HARDSID", "Support for HardSID.",
 #ifndef HAVE_HARDSID
         0 },
@@ -317,7 +317,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(__MSDOS__) || defined(UNIX) || defined(WIN32) /* (dos/unix/windows) */
+#if defined(BEOS_COMPILE) || defined(__MSDOS__) || defined(UNIX) || defined(WIN32) /* (beos/dos/unix/windows) */
     { "HAVE_PARSID", "Support for ParSID.",
 #ifndef HAVE_PARSID
         0 },
@@ -410,6 +410,14 @@ static feature_list_t featurelist[] = {
 #if defined(USE_SDLUI) || defined(USE_SDLUI2) /* (sdl) */
     { "HAVE_SDL_NUMJOYSTICKS", "Define to 1 if you have the `SDL_NumJoysticks' function.",
 #ifndef HAVE_SDL_NUMJOYSTICKS
+        0 },
+#else
+        1 },
+#endif
+#endif
+#if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(__MSDOS__) || defined(UNIX) || defined(WIN32) /* (amiga/beos/dos/unix/windows) */
+    { "HAVE_SSI2001", "Support for SSI-2001.",
+#ifndef HAVE_SSI2001
         0 },
 #else
         1 },
