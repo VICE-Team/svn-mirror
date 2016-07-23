@@ -187,6 +187,20 @@ static int detect_sid(int chipno)
     return 0;
 }
 
+static void close_device(void)
+{
+    int i;
+
+    for (i = 0; i < MAXSID; ++i) {
+        if (pssids[i] != -1) {
+            io_access_unmap(pssids[i], 3);
+            pssids[i] = -1;
+        }
+        ports[i] = -1;
+        psctrl[i] = -1;
+    }
+}
+
 int ps_io_open(void)
 {
     int i = 0;
@@ -220,6 +234,7 @@ int ps_io_open(void)
     }
 
     if (!sids_found) {
+        close_device();
         return -1;
     }
 
@@ -230,16 +245,7 @@ int ps_io_open(void)
 
 int ps_io_close(void)
 {
-    int i;
-
-    for (i = 0; i < MAXSID; ++i) {
-        if (pssids[i] != -1) {
-            io_access_unmap(pssids[i], 3);
-            pssids[i] = -1;
-        }
-        ports[i] = -1;
-        psctrl[i] = -1;
-    }
+    close_device();
 
     sids_found = -1;
 

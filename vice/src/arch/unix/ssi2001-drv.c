@@ -120,6 +120,7 @@ int ssi2001_drv_open(void)
         return 0;
     }
     log_message(LOG_DEFAULT, "No direct I/O ISA SSI2001 SID found.");
+    io_access_unmap(SSI2008_BASE, 32);
     return -1;
 }
 

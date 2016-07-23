@@ -180,6 +180,7 @@ int ps_file_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No Solaris ParSIDs found.");
+        close(fd);
         return -1;
     }
 

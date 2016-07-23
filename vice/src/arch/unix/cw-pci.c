@@ -161,6 +161,7 @@ int cw_pci_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No PCI CatWeasel found.");
+        io_access_unmap(base, 256);
         return -1;
     }
 

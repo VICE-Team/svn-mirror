@@ -174,6 +174,7 @@ int hs_pci_open(void)
 
     if (io_access_map(base2, 4) < 0) {
         log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", base2);
+        io_access_unmap(base1, 8);
         return -1;
     }
 
@@ -188,6 +189,8 @@ int hs_pci_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No PCI HardSID boards found.");
+        io_access_unmap(base1, 8);
+        io_access_unmap(base2, 4);
         return -1;
     }
 
