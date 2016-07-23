@@ -355,6 +355,15 @@ static int find_pci_device(int vendorID, int deviceID)
     return -1;
 }
 
+static void close_device(void)
+{
+    if (hardsid_use_lib) {
+        shutdown32fp();
+        FreeLibrary(hLib);
+        hLib = NULL;
+    }
+}
+
 int hs_pci_open(void)
 {
     int i;
@@ -443,6 +452,7 @@ int hs_pci_open(void)
 
     if (res < 0) {
         log_message(LOG_DEFAULT, "No PCI HardSID found.");
+        close_device();
         return -1;
     }
 
@@ -457,6 +467,7 @@ int hs_pci_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No PCI HardSID found.");
+        close_device();
         return -1;
     }
 
@@ -476,11 +487,7 @@ int hs_pci_close(void)
 {
     int i;
 
-    if (hardsid_use_lib) {
-        shutdown32fp();
-        FreeLibrary(hLib);
-        hLib = NULL;
-    }
+    close_device();
 
     for (i = 0; i < MAXSID; ++i) {
         if (hssids[i] != -1) {

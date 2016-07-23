@@ -273,6 +273,19 @@ static int detect_sid(int chipno)
     return 0;
 }
 
+static void close_device(void)
+{
+    if (hardsid_use_lib) {
+        if (hardsid_use_winio_dll) {
+            shutdown32fp();
+        }
+        FreeLibrary(hLib);
+        hLib = NULL;
+        hardsid_use_winio_dll = 0;
+        hardsid_use_inpout_dll = 0;
+    }
+}
+
 int hs_isa_open(void)
 {
     int i;
@@ -368,6 +381,7 @@ int hs_isa_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No ISA HardSID found.");
+        close_device();
         return -1;
     }
 
@@ -387,15 +401,7 @@ int hs_isa_close(void)
 {
     int i;
 
-    if (hardsid_use_lib) {
-        if (hardsid_use_winio_dll) {
-            shutdown32fp();
-        }
-        FreeLibrary(hLib);
-        hLib = NULL;
-        hardsid_use_winio_dll = 0;
-        hardsid_use_inpout_dll = 0;
-    }
+    close_device();
 
     for (i = 0; i < MAXSID; ++i) {
         if (hssids[i] != -1) {

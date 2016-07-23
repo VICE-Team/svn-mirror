@@ -322,6 +322,15 @@ static int find_pci_device(int vendorID, int deviceID)
     return -1;
 }
 
+static void close_device(void)
+{
+    if (cw_use_lib) {
+        shutdown32fp();
+        FreeLibrary(hLib);
+        hLib = NULL;
+    }
+}
+
 int cw_pci_open(void)
 {
     int res;
@@ -408,6 +417,7 @@ int cw_pci_open(void)
 
     if (res < 0) {
         log_message(LOG_DEFAULT, "No PCI CatWeasel found.");
+        close_device();
         return -1;
     }
 
@@ -419,6 +429,7 @@ int cw_pci_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No PCI CatWeasel found.");
+        close_device();
         return -1;
     }
 
@@ -429,11 +440,7 @@ int cw_pci_open(void)
 
 int cw_pci_close(void)
 {
-    if (cw_use_lib) {
-        shutdown32fp();
-        FreeLibrary(hLib);
-        hLib = NULL;
-    }
+    close_device();
 
     base = -1;
 

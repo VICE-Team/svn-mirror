@@ -429,6 +429,17 @@ static int detect_sid(int port)
     return 0;
 }
 
+static void close_device(void)
+{
+    if (parsid_use_winio_dll) {
+        shutdown32fp();
+    }
+    FreeLibrary(hLib);
+    hLib = NULL;
+    parsid_use_winio_dll = 0;
+    parsid_use_inpout_dll = 0;
+}
+
 int ps_dll_open(void)
 {
     int j;
@@ -545,6 +556,7 @@ int ps_dll_open(void)
 
     if (!sids_found) {
         log_message(LOG_DEFAULT, "No dll assisted ParSIDs found.");
+        close_device();
         return -1;
     }
 
@@ -560,13 +572,8 @@ int ps_dll_close(void)
     for (i = 0; i < 3; ++i) {
         pssids[i] = -1;
     }
-    if (parsid_use_winio_dll) {
-        shutdown32fp();
-    }
-    FreeLibrary(hLib);
-    hLib = NULL;
-    parsid_use_winio_dll = 0;
-    parsid_use_inpout_dll = 0;
+
+    close_device();
 
     log_message(LOG_DEFAULT, "Dll assisted ParSID: closed");
 

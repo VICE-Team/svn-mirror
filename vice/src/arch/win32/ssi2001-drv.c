@@ -212,6 +212,19 @@ static int detect_sid(void)
     return 0;
 }
 
+static void close_device(void)
+{
+    if (ssi2001_use_lib) {
+        if (ssi2001_use_winio_dll) {
+            shutdown32fp();
+        }
+        FreeLibrary(hLib);
+        hLib = NULL;
+        ssi2001_use_winio_dll = 0;
+        ssi2001_use_inpout_dll = 0;
+    }
+}
+
 int ssi2001_drv_open(void)
 {
     char *libname = NULL;
@@ -305,20 +318,14 @@ int ssi2001_drv_open(void)
 
     log_message(LOG_DEFAULT, "No ISA SSI2001 found.");
 
+    close_device();
+
     return -1;
 }
 
 int ssi2001_drv_close(void)
 {
-    if (ssi2001_use_lib) {
-        if (ssi2001_use_winio_dll) {
-            shutdown32fp();
-        }
-        FreeLibrary(hLib);
-        hLib = NULL;
-        ssi2001_use_winio_dll = 0;
-        ssi2001_use_inpout_dll = 0;
-    }
+    close_device();
 
     sids_found = -1;
 
