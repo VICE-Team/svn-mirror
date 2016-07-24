@@ -1,5 +1,19 @@
 ------------------------------------------------------------------------------
 
+2016-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, ChangeLog.1, ChangeLog.2, ChangeLog.3, ChangeLog.4,
+	Makefile.am, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.hlp, doc/vice.pdf, po/da.po, po/de.po,
+	po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.29
+
+2016-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am: Fixed.
+
 2016-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
