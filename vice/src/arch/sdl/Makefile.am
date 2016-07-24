@@ -228,7 +228,7 @@ EXTRA_DIST = \
 	generate_msvc8_sdl1x.bat \
 	generate_msvc8_sdl2x.bat \
 	generate_msvc9_ffmpeg_sdl1x.bat \
-	genarate_msvc9_ffmpeg_sdl2x.bat \
+	generate_msvc9_ffmpeg_sdl2x.bat \
 	generate_msvc9_sdl1x.bat \
 	generate_msvc9_sdl2x.bat \
 	generate_msvc10_ffmpeg_sdl1x.bat \
