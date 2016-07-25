@@ -37,6 +37,7 @@ SUBDIRS = \
 	rtc \
 	userport \
 	tapeport \
+	diag \
 	c64 \
 	scpu64 \
 	c64dtv \
@@ -77,6 +78,7 @@ DIST_SUBDIRS = \
 	monitor \
 	core \
 	rtc \
+	diag \
 	userport \
 	tapeport \
 	c64 \
@@ -105,6 +107,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/imagecontents \
+	-I$(top_srcdir)/src/diag \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/platform \
@@ -1177,6 +1180,7 @@ c64cartsystem_lib = $(top_builddir)/src/c64/cart/libc64cartsystem.a
 c64commoncart_lib = $(top_builddir)/src/c64/cart/libc64commoncart.a
 core_lib = $(top_builddir)/src/core/libcore.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
+diag_lib = $(top_builddir)/src/diag/libdiag.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
 driveiec_lib = $(top_builddir)/src/drive/iec/libdriveiec.a
@@ -1368,6 +1372,7 @@ x64_libs =  \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(userport_lib) \
+	$(diag_lib) \
 	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
@@ -1390,6 +1395,7 @@ x64-all: \
 	libc64cartsystem \
 	libc64cart \
 	libc64commoncart \
+	libdiag \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveiecc64exp \
@@ -1449,6 +1455,7 @@ x64sc_libs =  \
 	$(viciisc_lib) \
 	$(raster_lib) \
 	$(userport_lib) \
+	$(diag_lib) \
 	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
@@ -1471,6 +1478,7 @@ x64sc-all: \
 	libc64cartsystem \
 	libc64cart \
 	libc64commoncart \
+	libdiag \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveiecc64exp \
@@ -1521,6 +1529,7 @@ x64dtv_libs =  \
 	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(userport_lib) \
+	$(diag_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(monitor_lib) \
@@ -1550,6 +1559,7 @@ x64dtv-all: \
 	libc64dtv \
 	libc64dtvstubs \
 	libc64c64dtv \
+	libdiag \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveiecc64exp \
@@ -1608,6 +1618,7 @@ xscpu64_libs =  \
 	$(viciisc_lib) \
 	$(raster_lib) \
 	$(userport_lib) \
+	$(diag_lib) \
 	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
@@ -1635,6 +1646,7 @@ xscpu64-all: \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
+	libdiag \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveiecc64exp \
@@ -1692,6 +1704,7 @@ x128_libs =  \
 	$(vdc_lib) \
 	$(raster_lib) \
 	$(userport_lib) \
+	$(diag_lib) \
 	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
@@ -1719,6 +1732,7 @@ x128-all: \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
+	libdiag \
 	libdriveiec \
 	libdriveiec128dcr \
 	libdriveiecieee \
@@ -1773,6 +1787,7 @@ xvic_libs =  \
 	$(driver_libs) \
 	$(raster_lib) \
 	$(userport_lib) \
+	$(diag_lib) \
         $(rtc_lib) \
 	$(sid_lib) \
 	$(video_lib) \
@@ -1790,6 +1805,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 .PHONY: xvic-all
 xvic-all: \
 	$(BUILT_SOURCES) \
+	libdiag \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
@@ -1834,6 +1850,7 @@ xpet_libs =  \
 	@XPET_WINRES@ \
 	$(tapeport_lib) \
 	$(pet_lib) \
+	$(diag_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
@@ -1865,6 +1882,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 .PHONY: xpet-all
 xpet-all: \
 	$(BUILT_SOURCES) \
+	libdiag \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
@@ -1905,6 +1923,7 @@ xplus4_libs =  \
 	@XPLUS4_WINRES@ \
 	$(tapeport_lib) \
 	$(plus4_lib) \
+	$(diag_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveiecplus4exp_lib) \
@@ -1938,6 +1957,7 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 .PHONY: xplus4-all
 xplus4-all: \
 	$(BUILT_SOURCES) \
+	libdiag \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveiecplus4exp \
@@ -1980,6 +2000,7 @@ xcbm2_libs = \
 	@XCBM2_WINRES@ \
 	$(tapeport_lib) \
 	$(xcbm2_lib) \
+	$(diag_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
@@ -2020,6 +2041,7 @@ xcbm2-all: \
 	libsid \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
+	libdiag \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
@@ -2051,6 +2073,7 @@ xcbm5x0_libs = \
 	@XCBM5X0_WINRES@ \
 	$(tapeport_lib) \
 	$(xcbm5x0_lib) \
+	$(diag_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
@@ -2093,6 +2116,7 @@ xcbm5x0-all: \
 	libsid \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
+	libdiag \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
@@ -2218,7 +2242,7 @@ DISTCLEANFILES = $(BUILT_SOURCES)
 	libdiskimage libfsdevice libtape libarch libvicii libviciisc
 	libviciidtv libviciivsid libvdc libsid libcrtc libvideo libserial
 	libparallel libcore libiecbus libfileio librtc libuserport libtapeport
-	libp64 libscpu64 @RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
+	libp64 libscpu64 libdiag @RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -2254,6 +2278,8 @@ libcore:
 	(cd core && $(MAKE))
 libcrtc:
 	(cd crtc && $(MAKE))
+libdiag:
+	(cd diag && $(MAKE))
 libdiskimage:
 	(cd diskimage && $(MAKE))
 libdrive:
