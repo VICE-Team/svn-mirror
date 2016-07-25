@@ -7,12 +7,12 @@ Name                    | interface | platform(s)
 -------------------------------------------------
 CatWeasel MK3/4         | Zorro bus | AmigaOS3/AmigaOS4
 CatWeasel MK3/4         | Clockport | AmigaOS3/AmigaOS4
-CatWeasel MK3/4         | PCI bus   | AmigaOS3/AmigaOS4/MorphOS/DOS/Linux/Windows
-HardSID (Quattro)       | ISA bus   | AmigaOS3/DOS/FreeBSD/Linux/NetBSD/OpenBSD/Windows
-HardSID (Quattro)       | PCI bus   | AmigaOS3/AmigaOS4/MorphOS/DOS/Linux/Windows
+CatWeasel MK3/4         | PCI bus   | AmigaOS3/AmigaOS4/MorphOS/BeOS/DOS/Linux/Windows
+HardSID (Quattro)       | ISA bus   | AmigaOS3/BeOS/DOS/FreeBSD/Linux/NetBSD/OpenBSD/Windows
+HardSID (Quattro)       | PCI bus   | AmigaOS3/AmigaOS4/MorphOS/BeOS/DOS/Linux/Windows
 HardSID Uno/Quattro     | USB       | Windows
-ParSID                  | Par port  | DOS/FreeBSD/Linux/NetBSD/OpenBSD/Windows
-SSI-2001                | ISA bus   | AmigaOS3/DOS/FreeBSD/Linux/NetBSD/OpenBSD/Windows
+ParSID                  | Par port  | BeOS/DOS/FreeBSD/Linux/NetBSD/OpenBSD/Windows
+SSI-2001                | ISA bus   | AmigaOS3/BeOS/DOS/FreeBSD/Linux/NetBSD/OpenBSD/Windows
 
 
 CatWeasel MK3/4 on Zorro bus on AmigaOS3:
@@ -58,6 +58,12 @@ CatWeasel MK3/4 on PCI bus on MorphOS:
 - using openpci.library.
 
 
+CatWeasel MK3/4 on PCI bus on BeOS:
+-----------------------------------
+
+- using direct PCI I/O access.
+
+
 CatWeasel MK3/4 on PCI bus on DOS:
 ----------------------------------
 
@@ -85,6 +91,12 @@ HardSID (Quattro) on ISA bus on AmigaOS3:
 -----------------------------------------
 
 - using Golden Gate 2+ ISA I/O access.
+
+
+HardSID (Quattro) on ISA bus on BeOS:
+-------------------------------------
+
+- using direct ISA I/O access.
 
 
 HardSID (Quattro) on ISA bus on DOS:
@@ -147,6 +159,12 @@ HardSID (Quattro) on PCI bus on MorphOS:
 - Using openpci.library.
 
 
+HardSID (Quattro) on PCI bus on BeOS:
+-------------------------------------
+
+- Using direct PCI I/O access.
+
+
 HardSID (Quattro) on PCI bus on DOS:
 ------------------------------------
 
@@ -177,6 +195,12 @@ HardSID Uno/Quattro on USB on Windows:
 ParSID on Parallel port on DOS:
 -------------------------------
 
+- using direct I/O access.
+
+
+ParSID on Parallel port on DOS:
+-------------------------------
+
 - using direct I/O access, only ports on $278/$378/$3BC are supported.
 - using direct I/O access (95/98/ME).
 - using inpout32.dll I/O access (98/ME/NT3.51/NT4/2000/XP/2003).
@@ -188,6 +212,12 @@ SSI-2001 on ISA bus on AmigaOS3:
 --------------------------------
 
 - using Golden Gate 2+ ISA I/O access.
+
+
+SSI-2001 on ISA bus on BeOS:
+----------------------------
+
+- using direct ISA I/O access.
 
 
 SSI-2001 on ISA bus on DOS:

@@ -25,6 +25,9 @@
  */
 
 /* Tested and confirmed working on:
+
+ - BeOS Max V4b1 x86 (ISA HardSID)
+ - BeOS Max V4b1 x86 (ISA HardSID Quattro)
  */
 
 #include "vice.h"

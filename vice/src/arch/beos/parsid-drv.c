@@ -25,6 +25,8 @@
  */
 
 /* Tested and confirmed working on:
+
+ - BeOS Max V4b1 x86
  */
 
 #include "vice.h"
