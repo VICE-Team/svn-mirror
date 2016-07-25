@@ -284,7 +284,7 @@ static UNUSED x264_pthread_mutex_t cost_ref_mutex = X264_PTHREAD_MUTEX_INITIALIZ
 static uint16_t x264_cost_i4x4_mode[(QP_MAX+2)*32];
 
 #ifdef IDE_COMPILE
-static double round(double x)
+static inline double round(double x)
 {
     return (x > 0) ? floor(x + 0.5) : ceil(x - 0.5);
 }
