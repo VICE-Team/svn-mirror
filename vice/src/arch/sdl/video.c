@@ -65,6 +65,9 @@
 #define DBG(x)
 #endif
 
+typedef GLubyte* (APIENTRY * glGetString_Func)(unsigned int);
+glGetString_Func glGetStringAPI = NULL;
+
 static log_t sdlvideo_log = LOG_ERR;
 
 static int sdl_bitdepth;
@@ -895,11 +898,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         }
     }
 
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-    SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-
     /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
     new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, actual_width, actual_height, SDL_WINDOW_OPENGL | flags);
 
@@ -949,13 +947,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
     log_message(sdlvideo_log, "Available Renderers: %s", rendername);
 
-#ifdef SDL_DEBUG
-    log_message(sdlvideo_log, "Vendor     : %s", glGetString(GL_VENDOR));
-    log_message(sdlvideo_log, "Renderer   : %s", glGetString(GL_RENDERER));
-    log_message(sdlvideo_log, "Version    : %s", glGetString(GL_VERSION));
-    log_message(sdlvideo_log, "Extensions : %s", glGetString(GL_EXTENSIONS));
-#endif
-
     if (new_window) {
         new_renderer = SDL_CreateRenderer(new_window, drv_index, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
         if (new_renderer) {
@@ -996,6 +987,15 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         log_error(sdlvideo_log, "SDL_SetVideoMode failed!");
         return NULL;
     }
+
+    glGetStringAPI = (glGetString_Func)SDL_GL_GetProcAddress("glGetString");
+
+    log_message(sdlvideo_log, "Vendor     : %s", glGetStringAPI(GL_VENDOR));
+    log_message(sdlvideo_log, "Renderer   : %s", glGetStringAPI(GL_RENDERER));
+    log_message(sdlvideo_log, "Version    : %s", glGetStringAPI(GL_VERSION));
+#ifdef SDL_DEBUG
+    log_message(sdlvideo_log, "Extensions : %s", glGetStringAPI(GL_EXTENSIONS));
+#endif
 
     sdl_bitdepth = new_screen->format->BitsPerPixel;
     actual_width = new_screen->w;
