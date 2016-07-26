@@ -27,6 +27,7 @@
 /* Tested and confirmed working on:
 
  - BeOS Max V4b1 x86
+ - Zeta 1.21
  */
 
 #include "vice.h"

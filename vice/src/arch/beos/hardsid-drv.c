@@ -30,6 +30,10 @@
  - BeOS Max V4b1 x86 (ISA HardSID Quattro)
  - BeOS Max V4b1 x86 (PCI HardSID)
  - BeOS Max V4b1 x86 (PCI HardSID Quattro)
+ - Zeta 1.21 (ISA HardSID)
+ - Zeta 1.21 (ISA HardSID Quattro)
+ - Zeta 1.21 (PCI HardSID)
+ - Zeta 1.21 (PCI HardSID Quattro)
  */
 
 #include "vice.h"
