@@ -29,6 +29,7 @@ EXTRA_DIST = \
 	compat.tmpl \
 	core.tmpl \
 	crtc.tmpl \
+	diag.tmpl \
 	diskimage.tmpl \
 	drive.tmpl \
 	fileio.tmpl \

@@ -32,6 +32,7 @@ EXTRA_DIST = \
 	core.tgt \
 	crtc.tgt \
 	debug.h \
+	diag.tgt \
 	diskimage.tgt \
 	drive.tgt \
 	fileio.tgt \
