@@ -1052,7 +1052,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 {
     BYTE *backup;
 
-    if ((canvas == NULL) || (canvas->screen == NULL)) {
+    if ((canvas == NULL) || (canvas->screen == NULL) || (canvas != sdl_active_canvas)) {
         return;
     }
 
