@@ -44,7 +44,7 @@ The SDL2 port has been tested to work on:
 The SDL2 port is currently experimental and might have bugs that are not known to
 us. The bugs we do know about are:
 
-- x128 crashes.
+- x128 crashes upon exit.
 - mod keys (alt, ctrl, shift) do not work, this issue is being investigated.
 
 
