@@ -275,6 +275,10 @@ static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 static signed long key_ctrl_caps = -1;
 static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
 
+/* joyport attached keypad. */
+static signed long key_joy_keypad[KBD_JOY_KEYPAD_ROWS][KDB_JOY_KEYPAD_COLS];
+static key_joy_keypad_func_t key_joy_keypad_func = NULL;
+
 /* Is an alternative mapping active? */
 static int key_alternative = 0;
 
@@ -410,7 +414,7 @@ static void keyboard_restore_released(void)
 
 void keyboard_key_pressed(signed long key)
 {
-    int i, latch;
+    int i, j, latch;
 
     if (event_playback_active()) {
         return;
@@ -435,6 +439,17 @@ void keyboard_key_pressed(signed long key)
             key_ctrl_caps_func();
         }
         return;
+    }
+
+    if (key_joy_keypad_func != NULL) {
+        for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
+            for (j = 0; j < KDB_JOY_KEYPAD_COLS; ++j) {
+                if (key == key_joy_keypad[i][j]) {
+                    key_joy_keypad_func(i, j);
+                    return;
+                }
+            }
+        }
     }
 
 #ifdef COMMON_JOYKEYS
@@ -641,6 +656,8 @@ void keyboard_set_keyarr_any(int row, int col, int value)
             sym = key_ctrl_column4080;
         } else if (row == -4 && col == 1) {
             sym = key_ctrl_caps;
+        } else if (row == -5 && col >= 0 && col < 20) {
+            sym = key_joy_keypad[col / 5][col % 5];
         } else {
             return;
         }
@@ -745,6 +762,8 @@ static void keyboard_keyword_shiftl(void)
 
 static void keyboard_keyword_clear(void)
 {
+    int i, j;
+
     keyc_num = 0;
     keyconvmap[0].sym = ARCHDEP_KEYBOARD_SYM_NONE;
     key_ctrl_restore1 = -1;
@@ -753,6 +772,11 @@ static void keyboard_keyword_clear(void)
     key_ctrl_column4080 = -1;
     vshift = KEY_NONE;
     shiftl = KEY_NONE;
+    for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
+        for (j = 0; j < KDB_JOY_KEYPAD_COLS; ++j) {
+            key_joy_keypad[i][j] = -1;
+        }
+    }
 }
 
 static void keyboard_keyword_include(void)
@@ -864,6 +888,8 @@ static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
         key_ctrl_column4080 = sym;
     } else if (row == -4 && col == 1) {
         key_ctrl_caps = sym;
+    } else if (row == -5 && col >= 0 && col < 20) {
+        key_joy_keypad[col / 5][col % 5] = sym;
     } else {
         return -1;
     }
@@ -1005,7 +1031,7 @@ void keyboard_set_unmap_any(signed long sym)
 int keyboard_keymap_dump(const char *filename)
 {
     FILE *fp;
-    int i;
+    int i, j;
 
     if (filename == NULL) {
         return -1;
@@ -1053,6 +1079,7 @@ int keyboard_keymap_dump(const char *filename)
             "# 'keysym -3 1' second RESTORE key\n"
             "# 'keysym -4 0' 40/80 column key\n"
             "# 'keysym -4 1' CAPS (ASCII/DIN) key\n"
+            "# 'keysym -5 n' joyport keypad, key n\n"
             "#\n"
             "# Joystick direction values:\n"
             "# 0      Fire\n"
@@ -1065,7 +1092,19 @@ int keyboard_keymap_dump(const char *filename)
             "# 7      North\n"
             "# 8      North/East\n"
             "#\n\n"
-            );
+            "# Joyport keypad key layout:\n"
+            " --------------------------\n"
+            " |  0 |  1 |  2 |  3 |  4 |\n"
+            " --------------------------\n"
+            " |  5 |  6 |  7 |  8 |  9 |\n"
+            " --------------------------\n"
+            " | 10 | 11 | 12 | 13 | 14 |\n"
+            " --------------------------\n"
+            " | 15 | 16 | 17 | 18 | 19 |\n"
+            " --------------------------\n\n"
+            " When a bigger spaced key is used,\n"
+            " it uses the upper left most key value.\n"
+           );
     fprintf(fp, "!CLEAR\n");
     fprintf(fp, "!LSHIFT %d %d\n", kbd_lshiftrow, kbd_lshiftcol);
     fprintf(fp, "!RSHIFT %d %d\n", kbd_rshiftrow, kbd_rshiftcol);
@@ -1120,6 +1159,17 @@ int keyboard_keymap_dump(const char *filename)
         fprintf(fp, "\n");
     }
 
+    fprintf(fp, "#\n"
+                "# joyport attached keypad key mapping\n"
+                "#\n");
+    for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
+        for (j = 0; j < KDB_JOY_KEYPAD_COLS; ++j) {
+            if (key_joy_keypad[i][j] != -1) {
+                fprintf(fp, "%s -5 %d\n", kbd_arch_keynum_to_keyname(key_joy_keypad[i][j]), (i * 5) + j);
+            }
+        }
+    }
+
     for (i = 0; i < JOYSTICK_KEYSET_NUM_KEYS; i++) {
         if (joykeys[JOYSTICK_KEYSET_IDX_A][i] != ARCHDEP_KEYBOARD_SYM_NONE) {
             fprintf(fp, "#\n"
@@ -1165,6 +1215,11 @@ void keyboard_register_column4080_key(key_ctrl_column4080_func_t func)
 void keyboard_register_caps_key(key_ctrl_caps_func_t func)
 {
     key_ctrl_caps_func = func;
+}
+
+void keyboard_register_joy_keypad(key_joy_keypad_func_t func)
+{
+    key_joy_keypad_func = func;
 }
 #endif
 
