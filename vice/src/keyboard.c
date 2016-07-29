@@ -556,7 +556,7 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
 
 void keyboard_key_released(signed long key)
 {
-    int i, latch;
+    int i, j, latch;
 
     if (event_playback_active()) {
         return;
