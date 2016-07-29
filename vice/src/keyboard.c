@@ -445,7 +445,7 @@ void keyboard_key_pressed(signed long key)
         for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
             for (j = 0; j < KDB_JOY_KEYPAD_COLS; ++j) {
                 if (key == key_joy_keypad[i][j]) {
-                    key_joy_keypad_func(i, j);
+                    key_joy_keypad_func(i, j, 1);
                     return;
                 }
             }
@@ -567,6 +567,17 @@ void keyboard_key_released(signed long key)
         && machine_has_restore_key()) {
         keyboard_restore_released();
         return;
+    }
+
+    if (key_joy_keypad_func != NULL) {
+        for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
+            for (j = 0; j < KDB_JOY_KEYPAD_COLS; ++j) {
+                if (key == key_joy_keypad[i][j]) {
+                    key_joy_keypad_func(i, j, 0);
+                    return;
+                }
+            }
+        }
     }
 
 #ifdef COMMON_JOYKEYS
