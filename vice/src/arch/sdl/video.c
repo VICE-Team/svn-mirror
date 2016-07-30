@@ -1412,7 +1412,7 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
     DBG(("%s: (%p, %i)", __func__, canvas, canvas->index));
 
     for (i = 0; i < sdl_num_screens; ++i) {
-        if ((sdl_canvaslist[i] == canvas) && (i != sdl_active_canvas_num) && (canvas == sdl_active_canvas)) {
+        if ((sdl_canvaslist[i] == canvas) && (canvas == sdl_active_canvas)) {
             SDL_FreeSurface(sdl_canvaslist[i]->screen);
             sdl_canvaslist[i]->screen = NULL;
 #ifdef USE_SDLUI2
