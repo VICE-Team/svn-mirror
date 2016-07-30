@@ -1355,7 +1355,7 @@ void sdl_video_canvas_switch(int index)
         return;
     }
 
-    if (sdl_canvaslist[index]->screen != NULL && (canvas == sdl_active_canvas)) {
+    if (sdl_canvaslist[index]->screen != NULL) {
         SDL_FreeSurface(sdl_canvaslist[index]->screen);
         sdl_canvaslist[index]->screen = NULL;
 #ifdef USE_SDLUI2
