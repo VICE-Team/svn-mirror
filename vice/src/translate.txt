@@ -622,6 +622,9 @@ IDGS_BBRTC
 /* joyport/paperclip64.c */
 IDGS_PAPERCLIP64_DONGLE
 
+/* joyport/coplin_keypad.c */
+IDGS_COPLIN_KEYPAD
+
 /* lightpen.c */
 IDGS_LIGHTPEN_UP
 

@@ -49,6 +49,7 @@
 #include "c64ui.h"
 #include "cia.h"
 #include "clkguard.h"
+#include "coplin_keypad.h"
 #include "debug.h"
 #include "debugcart.h"
 #include "diskimage.h"
@@ -340,6 +341,10 @@ int machine_resources_init(void)
     }
     if (joyport_paperclip64_resources_init() < 0) {
         init_resource_fail("joyport paperclip64 dongle");
+        return -1;
+    }
+    if (joyport_coplin_keypad_resources_init() < 0) {
+        init_resource_fail("joyport coplin keypad");
         return -1;
     }
     if (joystick_resources_init() < 0) {

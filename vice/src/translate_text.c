@@ -3574,6 +3574,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_PAPERCLIP64_DONGLE_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/coplin_keypad.c */
+/* en */ {IDGS_COPLIN_KEYPAD,    N_("Coplin Keypad")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_COPLIN_KEYPAD_DA, ""},  /* fuzzy */
+/* de */ {IDGS_COPLIN_KEYPAD_DE, ""},  /* fuzzy */
+/* es */ {IDGS_COPLIN_KEYPAD_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_COPLIN_KEYPAD_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_COPLIN_KEYPAD_HU, ""},  /* fuzzy */
+/* it */ {IDGS_COPLIN_KEYPAD_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_COPLIN_KEYPAD_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_COPLIN_KEYPAD_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_COPLIN_KEYPAD_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_COPLIN_KEYPAD_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_COPLIN_KEYPAD_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_COPLIN_KEYPAD_TR, ""},  /* fuzzy */
+#endif
+
 /* lightpen.c */
 /* en */ {IDGS_LIGHTPEN_UP,    N_("Light Pen (up trigger)")},
 #ifdef HAS_TRANSLATION

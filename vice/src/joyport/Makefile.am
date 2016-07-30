@@ -14,6 +14,8 @@ noinst_LIBRARIES = libjoyport.a
 libjoyport_a_SOURCES = \
 	bbrtc.c \
 	bbrtc.h \
+	coplin_keypad.c \
+	coplin_keypad.h \
 	joyport.c \
 	joyport.h \
 	joystick.c \
