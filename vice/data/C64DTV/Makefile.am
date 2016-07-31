@@ -13,10 +13,16 @@ palettes = \
 	spiff.vpl
 
 x11_keymaps = \
+	x11_keyrah.vkm \
+	x11_keyrah_de.vkm \
+	x11_pos.vkm \
+	x11_pos_de.vkm \
 	x11_sym.vkm \
-	x11_pos.vkm
+	x11_sym_de.vkm
 
 sdl_keymaps = \
+	sdl_keyrah.vkm \
+	sdl_keyrah_de.vkm \
 	sdl_pos.vkm \
 	sdl_pos_da.vkm \
 	sdl_pos_de.vkm \
@@ -36,9 +42,13 @@ extra_keymaps = \
 	osx_pos.vkm \
 	osx_sym_de.vkm \
 	osx_sym.vkm \
+	win_pos.vkm \
+	win_pos_de.vkm \
+	win_sym.vkm \
 	win_sym_de.vkm \
-	win_sym_us.vkm \
-	win_pos.vkm
+	win_sym_it.vkm \
+	win_sym_us.vkm
+
 
 win32_files = \
 	win_hotkeys.vhk \
