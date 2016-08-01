@@ -205,8 +205,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_RGCD                 57 /* rgcd.c */
 #define CARTRIDGE_RRNETMK3             58 /* rrnetmk3.c */
 #define CARTRIDGE_EASYCALC             59 /* easycalc.c */
+#define CARTRIDGE_GMOD2                60 /* gmod2.c */
 
-#define CARTRIDGE_LAST                 59 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 60 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -258,6 +259,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_FUNPLAY            "Fun Play" /* also: "Power Play" */ /* http://home.nomansland.biz/~zerqent/commodore_salg/CIMG2132.JPG */
 #define CARTRIDGE_NAME_GAME_KILLER        "Game Killer" /* http://rr.pokefinder.org/wiki/Game_Killer */
 #define CARTRIDGE_NAME_GEORAM             "GEO-RAM" /* http://www.retroport.de/Rex.html */
+#define CARTRIDGE_NAME_GMOD2              "GMod2" /* http://wiki.icomp.de/wiki/GMod2 */
 #define CARTRIDGE_NAME_IDE64              "IDE64" /* see http://www.ide64.org/ */
 #define CARTRIDGE_NAME_IEEE488            "IEEE-488 Interface"
 #define CARTRIDGE_NAME_ISEPIC             "ISEPIC" /* http://rr.pokefinder.org/wiki/Isepic */

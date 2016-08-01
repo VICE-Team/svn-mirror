@@ -77,6 +77,7 @@
 #include "funplay.h"
 #include "gamekiller.h"
 #include "georam.h"
+#include "gmod2.h"
 #include "gs.h"
 #include "ide64.h"
 #include "isepic.h"
@@ -581,6 +582,8 @@ static BYTE roml_read_slotmain(WORD addr)
             return final_plus_roml_read(addr);
         case CARTRIDGE_FREEZE_MACHINE:
             return freezemachine_roml_read(addr);
+        case CARTRIDGE_GMOD2:
+            return gmod2_roml_read(addr);
         case CARTRIDGE_IDE64:
             return ide64_rom_read(addr);
         case CARTRIDGE_KINGSOFT:
@@ -783,6 +786,8 @@ static BYTE romh_read_slotmain(WORD addr)
             return final_plus_romh_read(addr);
         case CARTRIDGE_FORMEL64:
             return formel64_romh_read(addr);
+        case CARTRIDGE_GMOD2:
+            return gmod2_romh_read(addr);
         case CARTRIDGE_IDE64:
             return ide64_rom_read(addr);
         case CARTRIDGE_KINGSOFT:
@@ -887,6 +892,8 @@ BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
             return final_plus_romh_read(addr);
         case CARTRIDGE_FORMEL64:
             return formel64_romh_read_hirom(addr);
+        case CARTRIDGE_GMOD2:
+            return gmod2_romh_read(addr);
         case CARTRIDGE_IDE64:
             return ide64_rom_read(addr);
         case CARTRIDGE_KINGSOFT:
@@ -984,6 +991,9 @@ void romh_store(WORD addr, BYTE value)
             return;
         case CARTRIDGE_EASYFLASH:
             easyflash_romh_store(addr, value);
+            return;
+        case CARTRIDGE_GMOD2:
+            gmod2_romh_store(addr, value);
             return;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_romh_store(addr, value);
@@ -1176,6 +1186,7 @@ BYTE ultimax_1000_7fff_read_slot1(WORD addr)
         case CARTRIDGE_FORMEL64:
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_GMOD2:
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_EXOS:
@@ -1247,6 +1258,7 @@ void ultimax_1000_7fff_store(WORD addr, BYTE value)
         case CARTRIDGE_FORMEL64:
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_GMOD2:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
@@ -1288,6 +1300,7 @@ BYTE ultimax_a000_bfff_read_slot1(WORD addr)
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_GMOD2:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 basic, ram */
@@ -1385,6 +1398,7 @@ BYTE ultimax_c000_cfff_read_slot1(WORD addr)
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_GMOD2:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_FORMEL64:
         case CARTRIDGE_EXOS:
@@ -1899,6 +1913,9 @@ static BYTE cartridge_peek_mem_slotmain(WORD addr)
             break;
         case CARTRIDGE_GAME_KILLER:
             res = gamekiller_peek_mem(&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_GMOD2:
+            res = gmod2_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             res = magicformel_peek_mem(&export_slotmain, addr, &value);

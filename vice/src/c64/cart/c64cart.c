@@ -179,6 +179,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_FREEZE_MACHINE,      CARTRIDGE_FREEZE_MACHINE,      CARTRIDGE_GROUP_FREEZER },
     { CARTRIDGE_NAME_FUNPLAY,             CARTRIDGE_FUNPLAY,             CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_GAME_KILLER,         CARTRIDGE_GAME_KILLER,         CARTRIDGE_GROUP_FREEZER },
+    { CARTRIDGE_NAME_GMOD2,               CARTRIDGE_GMOD2,               CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_GS,                  CARTRIDGE_GS,                  CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_IDE64,               CARTRIDGE_IDE64,               CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_IEEE488,             CARTRIDGE_IEEE488,             CARTRIDGE_GROUP_UTIL },
@@ -296,6 +297,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_FREEZE_MACHINE:
         case CARTRIDGE_FUNPLAY:
         case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_GMOD2:
         case CARTRIDGE_GS:
         case CARTRIDGE_IEEE488:
         case CARTRIDGE_IDE64:

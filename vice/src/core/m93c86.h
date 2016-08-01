@@ -1,5 +1,5 @@
 /*
- * ser-eeprom.h (M24C08)
+ * m93c86.h
  *
  * Written by
  *  Groepaz/Hitmen <groepaz@gmx.net>
@@ -24,26 +24,21 @@
  *
  */
 
-#ifndef VICE_SER_EEPROM
-#define VICE_SER_EEPROM
+#ifndef VICE_M93C86
+#define VICE_M93C86
 
 #include "types.h"
 
-extern void eeprom_data_readadvance(void);
-extern BYTE eeprom_data_readbyte(void);
-extern BYTE eeprom_data_readbit(void);
-extern BYTE eeprom_data_read(void);
-extern void eeprom_cmd_reset(void);
-extern void eeprom_cmd_write(BYTE value);
-extern void eeprom_seq_reset(void);
-extern void eeprom_seq_write(BYTE value);
-extern int  eeprom_execute_command(int eeprom_mode);
-extern void eeprom_port_write(BYTE clk, BYTE data, int ddr, int status);
-extern int  eeprom_open_image(char *name, int rw);
-extern void eeprom_close_image(int rw);
+extern BYTE m93c86_read_data(void);
+extern void m93c86_write_data(BYTE value);
+extern void m93c86_write_select(BYTE value);
+extern void m93c86_write_clock(BYTE value);
+
+extern int  m93c86_open_image(char *name, int rw);
+extern void m93c86_close_image(int rw);
 
 struct snapshot_s;
-extern int eeprom_snapshot_read_module(struct snapshot_s *s);
-extern int eeprom_snapshot_write_module(struct snapshot_s *s);
+extern int m93c86_snapshot_read_module(struct snapshot_s *s);
+extern int m93c86_snapshot_write_module(struct snapshot_s *s);
 
 #endif

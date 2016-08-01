@@ -8210,6 +8210,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_TR, "MMC Replay imajýna yazma"},
 #endif
 
+/* c64/cart/gmod2.c */
+/* en */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT,    N_("Enable saving of the GMod2 ROM at exit")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_DA, "Aktivér skrivning af GMod2 ROM ved afslutning"},
+/* de */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_DE, "Speichern des GMod2 ROMs beim Beenden aktivieren"},
+/* es */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_ES, "Permitir grabar ROM GMod2 al salir"},
+/* fr */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_FR, "Activer la sauvegarde du ROM GMod2 à la fin du programme"},
+/* hu */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_IT, "Attiva salvataggio ROM della GMod2 all'uscita"},
+/* ko */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_NL, "Activeer opslaan van het GMod2 ROM bestand bij afsluiten"},
+/* pl */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_PL, "W³±cz zapis ROM GMod2 przy wyj¶ciu"},
+/* ru */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_RU, "Enable saving of the GMod2 ROM at exit"},
+/* sv */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_SV, "Aktivera sparande av GMod2-ROM vid avslutning"},
+/* tr */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_TR, "Çýkýþta GMod2 ROM'un kaydedilmesini aktif et"},
+#endif
+
+/* c64/cart/gmod2.c */
+/* en */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT,    N_("Disable saving of the GMod2 ROM at exit")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_DA, "Dektivér skrivning af GMod2 ROM ved afslutning"},
+/* de */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_DE, "Speichern des GMod2 ROMs beim Beenden deaktivieren"},
+/* es */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_ES, "Deshabilitar grabar ROM GMod2 al salir"},
+/* fr */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_FR, "Désactiver la sauvegarde du ROM GMod2 à la fin du programme"},
+/* hu */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_IT, "Disattiva salvataggio ROM della GMod2 all'uscita"},
+/* ko */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_NL, "Deactiveer het opslaan van het GMod2 ROM bestand bij afsluiten"},
+/* pl */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_PL, "Wy³±cz zapis ROM GMod2 przy wyj¶ciu"},
+/* ru */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_RU, "Disable saving of the GMod2 ROM at exit"},
+/* sv */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_SV, "Inaktivera sparande av GMod2-ROM vid avslutning"},
+/* tr */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_TR, "Çýkýþta GMod2 ROM'un kaydedilmesini pasifleþtir"},
+#endif
+
 /* c64/cart/retroreplay.c */
 /* en */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT,    N_("Enable saving of the RR ROM at exit")},
 #ifdef HAS_TRANSLATION

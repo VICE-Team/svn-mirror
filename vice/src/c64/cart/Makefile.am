@@ -88,6 +88,8 @@ libc64cart_a_SOURCES = \
 	funplay.h \
 	gamekiller.c \
 	gamekiller.h \
+	gmod2.c \
+	gmod2.h \
 	gs.c \
 	gs.h \
 	ide64.c \

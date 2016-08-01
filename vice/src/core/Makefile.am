@@ -18,6 +18,8 @@ libcore_a_SOURCES = \
 	fmopl.h \
 	mc6821core.c \
 	mc6821core.h \
+	m93c86.c \
+	m93c86.h \
 	riotcore.c \
 	ser-eeprom.c \
 	ser-eeprom.h \
