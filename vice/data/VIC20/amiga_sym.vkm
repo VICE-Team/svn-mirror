@@ -175,15 +175,15 @@
 89 -3 0                 /*          F10 -> RESTORE      */
 
 # Joyport attached keypad key mappings
-61 -5 0                 /*     KEYPAD 7 -> keypad 7     */
-62 -5 1                 /*     KEYPAD 8 -> keypad 8     */
-63 -5 2                 /*     KEYPAD 9 -> keypad 9     */
-45 -5 5                 /*     KEYPAD 4 -> keypad 4     */
-46 -5 6                 /*     KEYPAD 5 -> keypad 5     */
-47 -5 7                 /*     KEYPAD 6 -> keypad 6     */
-29 -5 10                /*     KEYPAD 1 -> keypad 1     */
-30 -5 11                /*     KEYPAD 2 -> keypad 2     */
-31 -5 12                /*     KEYPAD 3 -> keypad 3     */
-15 -5 15                /*     KEYPAD 0 -> keypad 0     */
-60 -5 16                /*   KEYPAD DEL -> keypad .     */
-67 -5 17                /* KEYPAD ENTER -> keypad enter */
+61 -5 1                 /*     KEYPAD 7 -> keypad 7     */
+62 -5 2                 /*     KEYPAD 8 -> keypad 8     */
+63 -5 3                 /*     KEYPAD 9 -> keypad 9     */
+45 -5 6                 /*     KEYPAD 4 -> keypad 4     */
+46 -5 7                 /*     KEYPAD 5 -> keypad 5     */
+47 -5 8                 /*     KEYPAD 6 -> keypad 6     */
+29 -5 11                /*     KEYPAD 1 -> keypad 1     */
+30 -5 12                /*     KEYPAD 2 -> keypad 2     */
+31 -5 13                /*     KEYPAD 3 -> keypad 3     */
+15 -5 16                /*     KEYPAD 0 -> keypad 0     */
+60 -5 17                /*   KEYPAD DEL -> keypad .     */
+67 -5 18                /* KEYPAD ENTER -> keypad enter */

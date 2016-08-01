@@ -267,15 +267,15 @@ dead_diaeresis  7 3 1  # "
 #
 # joyport attached keypad
 #
-KP_7      -5 0
-KP_8      -5 1
-KP_9      -5 2
-KP_4      -5 5
-KP_5      -5 6
-KP_6      -5 7
-KP_1      -5 10
-KP_2      -5 11
-KP_3      -5 12
-KP_0      -5 15
-KP_Delete -5 16
-KP_Enter  -5 17
+KP_7      -5 1
+KP_8      -5 2
+KP_9      -5 3
+KP_4      -5 6
+KP_5      -5 7
+KP_6      -5 8
+KP_1      -5 11
+KP_2      -5 12
+KP_3      -5 13
+KP_0      -5 16
+KP_Delete -5 17
+KP_Enter  -5 18

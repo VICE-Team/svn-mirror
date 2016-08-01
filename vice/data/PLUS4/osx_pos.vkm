@@ -145,15 +145,15 @@
 #116 6 6 8              /*       PgUp   -> Up Arrow     */
 
 # Joyport attached keypad key mappings
-89 -5 0                 /*     Numpad 7 -> keypad 7     */
-91 -5 1                 /*     Numpad 8 -> keypad 8     */
-92 -5 2                 /*     Numpad 9 -> keypad 9     */
-86 -5 5                 /*     Numpad 4 -> keypad 4     */
-87 -5 6                 /*     Numpad 5 -> keypad 5     */
-88 -5 7                 /*     Numpad 6 -> keypad 6     */
-83 -5 10                /*     Numpad 1 -> keypad 1     */
-84 -5 11                /*     Numpad 2 -> keypad 2     */
-85 -5 12                /*     Numpad 3 -> keypad 3     */
-82 -5 15                /*     Numpad 0 -> keypad 0     */
-65 -5 16                /*     Numpad . -> keypad .     */
-76 -5 17                /* Numpad Enter -> keypad enter */
+89 -5 1                 /*     Numpad 7 -> keypad 7     */
+91 -5 2                 /*     Numpad 8 -> keypad 8     */
+92 -5 3                 /*     Numpad 9 -> keypad 9     */
+86 -5 6                 /*     Numpad 4 -> keypad 4     */
+87 -5 7                 /*     Numpad 5 -> keypad 5     */
+88 -5 8                 /*     Numpad 6 -> keypad 6     */
+83 -5 11                /*     Numpad 1 -> keypad 1     */
+84 -5 12                /*     Numpad 2 -> keypad 2     */
+85 -5 13                /*     Numpad 3 -> keypad 3     */
+82 -5 16                /*     Numpad 0 -> keypad 0     */
+65 -5 17                /*     Numpad . -> keypad .     */
+76 -5 18                /* Numpad Enter -> keypad enter */
