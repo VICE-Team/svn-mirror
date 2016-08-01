@@ -243,7 +243,7 @@ static joyport_t joyport_cx85_device = {
     JOYPORT_RES_ID_KEYPAD,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_REQUIRED,
-    cx85_enable,
+    joyport_cx85_enable,
     cx85_read_dig,
     NULL,				/* no digital store */
     NULL,				/* no pot-x read */
