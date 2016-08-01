@@ -51,6 +51,7 @@
 #include "cia.h"
 #include "clkguard.h"
 #include "coplin_keypad.h"
+#include "cx85.h"
 #include "debug.h"
 #include "diskimage.h"
 #include "drive-cmdline-options.h"
@@ -440,6 +441,10 @@ int machine_resources_init(void)
     }
     if (joyport_coplin_keypad_resources_init() < 0) {
         init_resource_fail("joyport coplin keypad");
+        return -1;
+    }
+    if (joyport_cx85_resources_init() < 0) {
+        init_resource_fail("joyport cx85 keypad");
         return -1;
     }
     if (joystick_resources_init() < 0) {

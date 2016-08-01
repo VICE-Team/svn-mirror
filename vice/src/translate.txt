@@ -625,6 +625,9 @@ IDGS_PAPERCLIP64_DONGLE
 /* joyport/coplin_keypad.c */
 IDGS_COPLIN_KEYPAD
 
+/* joyport/cx85.c */
+IDGS_CX85
+
 /* lightpen.c */
 IDGS_LIGHTPEN_UP
 

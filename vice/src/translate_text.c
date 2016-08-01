@@ -3591,6 +3591,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_COPLIN_KEYPAD_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/cx85.c */
+/* en */ {IDGS_CX85,    N_("Atari CX85 keypad")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CX85_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CX85_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CX85_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CX85_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CX85_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CX85_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CX85_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CX85_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CX85_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CX85_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CX85_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CX85_TR, ""},  /* fuzzy */
+#endif
+
 /* lightpen.c */
 /* en */ {IDGS_LIGHTPEN_UP,    N_("Light Pen (up trigger)")},
 #ifdef HAS_TRANSLATION

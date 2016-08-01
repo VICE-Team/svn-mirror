@@ -16,6 +16,8 @@ libjoyport_a_SOURCES = \
 	bbrtc.h \
 	coplin_keypad.c \
 	coplin_keypad.h \
+	cx85.c \
+	cx85.h \
 	joyport.c \
 	joyport.h \
 	joystick.c \
