@@ -92,6 +92,8 @@ libarchgui_a_SOURCES = \
 	uifullscreen-menu.h \
 	uigeoram.c \
 	uigeoram.h \
+	uigmod2.c \
+	uigmod2.h \
 	uihotkey.h \
 	uiide64.c \
 	uiide64.h \
