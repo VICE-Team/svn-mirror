@@ -217,7 +217,7 @@ static BYTE cx85_read_dig(int port)
 
     retval |= 0xe0;
 
-    joyport_display_joyport(JOYPORT_ID_COPLIN_KEYPAD, (BYTE)~retval);
+    joyport_display_joyport(JOYPORT_ID_CX85_KEYPAD, (BYTE)~retval);
 
     return retval;
 }
