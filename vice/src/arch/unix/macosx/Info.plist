@@ -21,7 +21,9 @@
 	<key>CFBundleVersion</key>
 	<string>XVERSIONX</string>
 	<key>NSHighResolutionCapable</key>
-    <true/>
+	<true/>
+	<key>NSAppSleepDisabled</key>
+	<true/>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.education</string>
 </dict>

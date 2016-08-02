@@ -38,16 +38,23 @@
 /* If you divide the host time with this factor you'll get a microsec value 
    E.g. if the host time is in nanosecs then the factor will be 1000
 */
+
+#ifdef HAVE_NANOSLEEP
+#define TICKSPERSECOND 1000000000UL 
+unsigned long hostToUsFactor = 1000000UL;
+#else
+#define TICKSPERSECOND 1000000UL
 unsigned long hostToUsFactor = 1000UL;
+#endif
 
 /* Number of timer units per second. */
 signed long vsyncarch_frequency(void)
 {
     /* how to convert host time to us */
-    hostToUsFactor = (unsigned long)(CVGetHostClockFrequency() / 1000000UL);
+    hostToUsFactor = (unsigned long)(CVGetHostClockFrequency() / TICKSPERSECOND);
     
-    /* Microseconds resolution. */
-    return 1000000L;
+    /* Microseconds or nanosecond resolution. */
+    return TICKSPERSECOND;
 }
 
 /* Get time in timer units. */
