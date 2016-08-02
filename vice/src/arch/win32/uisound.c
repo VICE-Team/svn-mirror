@@ -24,7 +24,10 @@
  *
  */
 
+#include "vice.h"
+
 #include <string.h>
+#include <tchar.h>
 #include <windows.h>
 
 #include "intl.h"
@@ -154,7 +157,7 @@ static void init_sound_dialog(HWND hwnd)
 #endif
     HWND snd_hwnd;
     int i, res_value;
-    char tmp[20];
+    TCHAR tmp[20];
     int xpos;
     RECT rect;
 
@@ -194,8 +197,8 @@ static void init_sound_dialog(HWND hwnd)
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FREQ);
     resources_get_int("SoundSampleRate", &res_value);
     for (i = 0; i < sizeof(ui_sound_freq) / sizeof(*ui_sound_freq); i ++) {
-        sprintf(tmp, "%d Hz", ui_sound_freq[i]);
-        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT(tmp));
+        _stprintf(tmp, TEXT("%d Hz"), ui_sound_freq[i]);
+        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)tmp);
         if (ui_sound_freq[i] == res_value) {
             SendMessage(snd_hwnd, CB_SETCURSEL, i, 0);
         }
@@ -203,25 +206,25 @@ static void init_sound_dialog(HWND hwnd)
 
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_OUTPUT);
     resources_get_int("SoundOutput", &res_value);
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SYSTEM));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_MONO));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_STEREO));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_SYSTEM));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_MONO));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_STEREO));
     SendMessage(snd_hwnd, CB_SETCURSEL, res_value, 0);
 
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_BUFFER);
     resources_get_int("SoundBufferSize", &res_value);
     for (i = 0; i < sizeof(ui_sound_buffer) / sizeof(*ui_sound_buffer); i ++) {
-        sprintf(tmp, "%d msec", ui_sound_buffer[i]);
-        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT(tmp));
+        _stprintf(tmp, TEXT("%d msec"), ui_sound_buffer[i]);
+        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)tmp);
         if (ui_sound_buffer[i] == res_value) {
             SendMessage(snd_hwnd, CB_SETCURSEL, i, 0);
         }
     }
 
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_SYNCH);
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_FLEXIBLE));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_ADJUSTING));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_EXACT));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_FLEXIBLE));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_ADJUSTING));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_EXACT));
     resources_get_int("SoundSpeedAdjustment", &res_value);
     switch (res_value) {
         case SOUND_ADJUST_FLEXIBLE:
@@ -250,7 +253,7 @@ static void init_sound_dialog(HWND hwnd)
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE);
     resources_get_int("SoundFragmentSize", &res_value);
     for (i = 0; ui_sound_fragment_size[i] != 0; i++) {
-        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(ui_sound_fragment_size[i]));
+        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(ui_sound_fragment_size[i]));
         if (ui_sound_fragment_size_values[i] == res_value) {
             SendMessage(snd_hwnd, CB_SETCURSEL, i, 0);
         }
@@ -316,6 +319,39 @@ void ui_sound_settings_dialog(HWND hwnd)
     DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_SOUND_SETTINGS_DIALOG), hwnd, dialog_proc);
 }
 
+static TCHAR *sound_format_text[] = {
+    TEXT("AIFF"),
+    TEXT("IFF"),
+#ifdef USE_LAMEMP3
+    TEXT("MP3"),
+#endif
+#ifdef USE_FLAC
+    TEXT("FLAC"),
+#endif
+#ifdef USE_VORBIS
+    TEXT("ogg/vorbis"),
+#endif
+    TEXT("VOC"),
+    TEXT("WAV"),
+    NULL
+};
+
+static char *sound_format[] = {
+    "aiff",
+    "iff",
+#ifdef USE_LAMEMP3
+    "mp3",
+#endif
+#ifdef USE_FLAC
+    "flac",
+#endif
+#ifdef USE_VORBIS
+    "ogg",
+#endif
+    "voc",
+    "wav"
+};
+
 static void enable_sound_record_controls(HWND hwnd)
 {
     EnableWindow(GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT), 1);
@@ -354,7 +390,7 @@ static void init_sound_record_dialog(HWND hwnd)
     TCHAR *st_sound_record_file;
     int xpos;
     RECT rect;
-    unsigned int elements = 0;
+    int i;
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, sound_record_dialog_trans);
@@ -385,27 +421,10 @@ static void init_sound_record_dialog(HWND hwnd)
     uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"AIFF");
-    ++elements;
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"IFF");
-    ++elements;
-#ifdef USE_LAMEMP3
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"MP3");
-    ++elements;
-#endif
-#ifdef USE_FLAC
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"FLAC");
-    ++elements;
-#endif
-#ifdef USE_VORBIS
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"ogg/vorbis");
-    ++elements;
-#endif
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"VOC");
-    ++elements;
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"WAV");
-    ++elements;
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)elements - 1, 0);
+    for (i = 0; sound_format_text[i] != NULL; i++) {
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)sound_format_text[i]);
+    }
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)i - 1, 0);
 
     resources_get_string("SoundRecordDeviceArg", &sound_record_file);
     st_sound_record_file = system_mbstowcs_alloc(sound_record_file);
@@ -415,37 +434,21 @@ static void init_sound_record_dialog(HWND hwnd)
     enable_sound_record_controls(hwnd);
 }
 
-static char *sound_format[] = {
-    "aiff",
-    "iff",
-#ifdef USE_LAMEMP3
-    "mp3",
-#endif
-#ifdef USE_FLAC
-    "flac",
-#endif
-#ifdef USE_VORBIS
-    "ogg",
-#endif
-    "voc",
-    "wav"
-};
-
 static void end_sound_record_dialog(HWND hwnd)
 {
-    TCHAR st[MAX_PATH];
-    char s[MAX_PATH];
+    TCHAR st_name[MAX_PATH];
+    char name[MAX_PATH];
     int i;
 
     i = (int)SendMessage(GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT), CB_GETCURSEL, 0, 0);
 
-    GetDlgItemText(hwnd, IDC_SOUND_RECORD_FILE, st, MAX_PATH);
-    system_wcstombs(s, st, MAX_PATH);
+    GetDlgItemText(hwnd, IDC_SOUND_RECORD_FILE, st_name, MAX_PATH);
+    system_wcstombs(name, st_name, MAX_PATH);
 
-    util_add_extension_maxpath(s, sound_format[i], MAX_PATH);
+    util_add_extension_maxpath(name, sound_format[i], MAX_PATH);
 
     resources_set_string("SoundRecordDeviceName", "");
-    resources_set_string("SoundRecordDeviceArg", s);
+    resources_set_string("SoundRecordDeviceArg", name);
     resources_set_string("SoundRecordDeviceName", sound_format[i]);
     resources_set_int("Sound", 1);
     ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STARTED), 1);

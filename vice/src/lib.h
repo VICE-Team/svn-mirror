@@ -49,6 +49,13 @@ extern char *lib_mvsprintf(const char *fmt, va_list args);
 
 extern void lib_debug_check(void);
 
+#if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(WIN32_COMPILE)
+#include <tchar.h>
+
+size_t lib_tcstostr(char *str, const TCHAR *tcs, size_t len);
+size_t lib_strtotcs(TCHAR *tcs, const char *str, size_t len);
+#endif
+
 #ifdef LIB_DEBUG_PINPOINT
 extern void *lib_malloc_pinpoint(size_t size, const char *name, unsigned int line);
 extern void *lib_calloc_pinpoint(size_t nmemb, size_t size, const char *name, unsigned int line);

@@ -266,21 +266,21 @@ static int move_buttons_group[] = {
 };
 
 static generic_trans_table_t generic_items[] = {
-    { IDC_SELECT_DRIVE_TYPE_1540, "1540" },
-    { IDC_SELECT_DRIVE_TYPE_1541, "1541" },
-    { IDC_SELECT_DRIVE_TYPE_1541II, "1541-II" },
-    { IDC_SELECT_DRIVE_TYPE_1570, "1570" },
-    { IDC_SELECT_DRIVE_TYPE_1571, "1571" },
-    { IDC_SELECT_DRIVE_TYPE_1581, "1581" },
-    { IDC_SELECT_DRIVE_TYPE_2000, "2000" },
-    { IDC_SELECT_DRIVE_TYPE_4000, "4000" },
-    { IDC_SELECT_DRIVE_TYPE_2031, "2031" },
-    { IDC_SELECT_DRIVE_TYPE_2040, "2040" },
-    { IDC_SELECT_DRIVE_TYPE_3040, "3040" },
-    { IDC_SELECT_DRIVE_TYPE_4040, "4040" },
-    { IDC_SELECT_DRIVE_TYPE_1001, "1001" },
-    { IDC_SELECT_DRIVE_TYPE_8050, "8050" },
-    { IDC_SELECT_DRIVE_TYPE_8250, "8250" },
+    { IDC_SELECT_DRIVE_TYPE_1540,   TEXT("1540") },
+    { IDC_SELECT_DRIVE_TYPE_1541,   TEXT("1541") },
+    { IDC_SELECT_DRIVE_TYPE_1541II, TEXT("1541-II") },
+    { IDC_SELECT_DRIVE_TYPE_1570,   TEXT("1570") },
+    { IDC_SELECT_DRIVE_TYPE_1571,   TEXT("1571") },
+    { IDC_SELECT_DRIVE_TYPE_1581,   TEXT("1581") },
+    { IDC_SELECT_DRIVE_TYPE_2000,   TEXT("2000") },
+    { IDC_SELECT_DRIVE_TYPE_4000,   TEXT("4000") },
+    { IDC_SELECT_DRIVE_TYPE_2031,   TEXT("2031") },
+    { IDC_SELECT_DRIVE_TYPE_2040,   TEXT("2040") },
+    { IDC_SELECT_DRIVE_TYPE_3040,   TEXT("3040") },
+    { IDC_SELECT_DRIVE_TYPE_4040,   TEXT("4040") },
+    { IDC_SELECT_DRIVE_TYPE_1001,   TEXT("1001") },
+    { IDC_SELECT_DRIVE_TYPE_8050,   TEXT("8050") },
+    { IDC_SELECT_DRIVE_TYPE_8250,   TEXT("8250") },
     { 0, NULL }
 };
 
@@ -297,7 +297,6 @@ static void init_dialog(HWND hwnd, int num)
     HWND temp_hwnd;
     HWND parent_hwnd;
     HWND element;
-    TCHAR st[MAX_PATH];
 
     parent_hwnd = GetParent(hwnd);
 
@@ -493,10 +492,10 @@ static void init_dialog(HWND hwnd, int num)
     resources_get_int_sprintf("Drive%dParallelCable", &n, num);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_DRIVE_PARALLEL_CABLE);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_STANDARD));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Dolphin DOS 3");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Formel 64");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_NONE));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_STANDARD));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Dolphin DOS 3"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Formel 64"));
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)n, 0);
 
     resources_get_int_sprintf("Drive%dRAM2000", &n, num);
@@ -524,23 +523,20 @@ static void init_dialog(HWND hwnd, int num)
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_RTC_SAVE, n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int_sprintf("Drive%dRPM", &n, num);
-    _stprintf(st, TEXT("%d"), n);
-    SetDlgItemText(hwnd, IDC_DRIVE_RPM_VALUE, st);
+    SetDlgItemInt(hwnd, IDC_DRIVE_RPM_VALUE, n, TRUE);
 
     resources_get_int_sprintf("Drive%dWobble", &n, num);
-    _stprintf(st, TEXT("%d"), n);
-    SetDlgItemText(hwnd, IDC_DRIVE_WOBBLE_VALUE, st);
+    SetDlgItemInt(hwnd, IDC_DRIVE_WOBBLE_VALUE, n, TRUE);
 }
 
 static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
     int rpm;
-    TCHAR st[MAX_PATH];
 
     switch (msg) {
         case WM_NOTIFY:
-            if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
+            if (((NMHDR *)lparam)->code == (UINT)PSN_APPLY) {
                 resources_set_int_sprintf("Drive%dType", dialog_drive_type[num - 8], num);
                 resources_set_int_sprintf("Drive%dExtendImagePolicy", dialog_drive_extend[num - 8], num);
                 resources_set_int_sprintf("Drive%dIdleMethod", dialog_drive_idle[num - 8], num);
@@ -554,12 +550,10 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LP
                 resources_set_int_sprintf("Drive%dSuperCard", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_SUPERCARD) == BST_CHECKED ? 1 : 0), num);
                 resources_set_int_sprintf("Drive%dRTCSave", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_DRIVE_RTC_SAVE) == BST_CHECKED ? 1 : 0), num);
 
-                GetDlgItemText(hwnd, IDC_DRIVE_RPM_VALUE, st, MAX_PATH);
-                rpm = atoi(st);
+                rpm = GetDlgItemInt(hwnd, IDC_DRIVE_RPM_VALUE, NULL, TRUE);
                 resources_set_int_sprintf("Drive%dRPM", rpm, num);
 
-                GetDlgItemText(hwnd, IDC_DRIVE_WOBBLE_VALUE, st, MAX_PATH);
-                rpm = atoi(st);
+                rpm = GetDlgItemInt(hwnd, IDC_DRIVE_WOBBLE_VALUE, NULL, TRUE);
                 resources_set_int_sprintf("Drive%dWobble", rpm, num);
 
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
@@ -701,19 +695,19 @@ void uidrivec64_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = callback_8;
-    psp[0].pszTitle = translate_text(IDS_DRIVE_8);
+    psp[0].pszTitle = intl_translate_tcs(IDS_DRIVE_8);
     psp[1].pfnDlgProc = callback_9;
-    psp[1].pszTitle = translate_text(IDS_DRIVE_9);
+    psp[1].pszTitle = intl_translate_tcs(IDS_DRIVE_9);
     psp[2].pfnDlgProc = callback_10;
-    psp[2].pszTitle = translate_text(IDS_DRIVE_10);
+    psp[2].pszTitle = intl_translate_tcs(IDS_DRIVE_10);
     psp[3].pfnDlgProc = callback_11;
-    psp[3].pszTitle = translate_text(IDS_DRIVE_11);
+    psp[3].pszTitle = intl_translate_tcs(IDS_DRIVE_11);
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = translate_text(IDS_DRIVE_SETTINGS);
+    psh.pszCaption = intl_translate_tcs(IDS_DRIVE_SETTINGS);
     psh.nPages = 4;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

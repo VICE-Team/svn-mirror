@@ -34,8 +34,12 @@
  */
 #include "vice.h"
 
+#include <stdio.h>
+#include <string.h>
+#include <tchar.h>
 #include <windows.h>
 
+#include "intl.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -80,7 +84,7 @@ static const int c64_sid_baseaddress[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -
 
 int psid_ui_set_tune(resource_value_t tune, void *param);
 
-char szAppName[] = "VSID - The VICE SID player";
+TCHAR st_AppName[] = TEXT("VSID - The VICE SID player");
 char vsidstrings[VSID_S_LASTLINE + 1][80] = { { 0 } };
 
 static int current_song;
@@ -101,17 +105,20 @@ void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
     HDC hDC;
     RECT r;
     SIZE size;
-    char dummy[100];
+    char tmp[100];
+    TCHAR st_tmp[100];
+    int st_len;
 
     if (NULL != hwnd) {
         hDC = GetDC(hwnd);
 
         if (NULL != str2) {
             SelectObject(hDC, GetStockObject (SYSTEM_FIXED_FONT));
-            GetTextExtentPoint32(hDC, " ", 1, &size);
-            sprintf(dummy, str1, str2);
+            GetTextExtentPoint32(hDC, TEXT(" "), 1, &size);
+            sprintf(tmp, str1, str2);
+            st_len = system_mbstowcs(st_tmp, tmp, 100);
             SetBkColor(hDC, GetSysColor(COLOR_BTNFACE));
-            TextOut(hDC, 8 + (txout_x * size.cx), 8 + (txout_y * (size.cy + 3)), dummy, (int)strlen(dummy));
+            TextOut(hDC, 8 + (txout_x * size.cx), 8 + (txout_y * (size.cy + 3)), st_tmp, st_len);
         } else {
             GetClientRect(hwnd, &r);
             FillRect(hDC, &r, GetSysColorBrush(COLOR_BTNFACE));
@@ -123,16 +130,16 @@ void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
 /*****************************************************************************/
 
 static generic_trans_table_t generic_trans_table[] = {
-    { IDM_SOUND_VOLUME_0, "0%" },
-    { IDM_SOUND_VOLUME_5, "5%" },
-    { IDM_SOUND_VOLUME_10, "10%" },
-    { IDM_SOUND_VOLUME_25, "25%" },
-    { IDM_SOUND_VOLUME_50, "50%" },
-    { IDM_SOUND_VOLUME_75, "75%" },
-    { IDM_SOUND_VOLUME_100, "100%" },
-    { IDM_SYNC_FACTOR_PAL, "&PAL" },
-    { IDM_SYNC_FACTOR_NTSC, "&NTSC" },
-    { 0, NULL}
+    { IDM_SOUND_VOLUME_0,   TEXT("0%") },
+    { IDM_SOUND_VOLUME_5,   TEXT("5%") },
+    { IDM_SOUND_VOLUME_10,  TEXT("10%") },
+    { IDM_SOUND_VOLUME_25,  TEXT("25%") },
+    { IDM_SOUND_VOLUME_50,  TEXT("50%") },
+    { IDM_SOUND_VOLUME_75,  TEXT("75%") },
+    { IDM_SOUND_VOLUME_100, TEXT("100%") },
+    { IDM_SYNC_FACTOR_PAL,  TEXT("&PAL") },
+    { IDM_SYNC_FACTOR_NTSC, TEXT("&NTSC") },
+    { 0, NULL }
 };
 
 static ui_menu_translation_table_t vsidui_menu_translation_table[] = {
@@ -279,11 +286,11 @@ static void ui_translate_menu_items(HMENU menu, ui_menu_translation_table_t *tra
     }
 
     for (i = 0; trans_table[i].idm != 0; i++) {
-        ModifyMenu(menu, trans_table[i].idm, MF_BYCOMMAND | MF_STRING, trans_table[i].idm, translate_text(trans_table[i].ids));
+        uilib_localize_menu_item(menu, trans_table[i].idm, trans_table[i].ids);
     }
 
     for (i = 0; generic_trans_table[i].idm != 0; i++) {
-        ModifyMenu(menu, generic_trans_table[i].idm, MF_BYCOMMAND | MF_STRING, generic_trans_table[i].idm, generic_trans_table[i].text);
+        uilib_set_menu_item_text(menu, generic_trans_table[i].idm, MF_BYCOMMAND, generic_trans_table[i].idm, generic_trans_table[i].text);
     }
 }
 
@@ -312,7 +319,7 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
                     menu1 = GetSubMenu(menu, pos1);
                 }
                 if (trans_table[i].ids != 0) {
-                    ModifyMenu(menu, (UINT)pos1, MF_BYPOSITION | MF_STRING | MF_POPUP, vice_ptr_to_uint(menu1), translate_text(trans_table[i].ids));
+                    uilib_localize_menu_popup(menu, pos1, menu1, trans_table[i].ids);
                 }
                 pos2 = -1;
                 pos3 = -1;
@@ -323,7 +330,7 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
                     pos2++;
                     menu2 = GetSubMenu(menu1, pos2);
                 }
-                ModifyMenu(menu1, (UINT)pos2, MF_BYPOSITION | MF_STRING | MF_POPUP, vice_ptr_to_uint(menu2), translate_text(trans_table[i].ids));
+                uilib_localize_menu_popup(menu1, pos2, menu2, trans_table[i].ids);
                 pos3 = -1;
                 break;
             case 3:
@@ -332,7 +339,7 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
                     pos3++;
                     menu3 = GetSubMenu(menu2, pos3);
                 }
-                ModifyMenu(menu2, (UINT)pos3, MF_BYPOSITION | MF_STRING | MF_POPUP, vice_ptr_to_uint(menu3), translate_text(trans_table[i].ids));
+                uilib_localize_menu_popup(menu2, pos3, menu3, trans_table[i].ids);
                 break;
         }
         i++;
@@ -428,11 +435,11 @@ int vsid_ui_init(void)
     wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
     wndclass.hbrBackground = GetSysColorBrush(COLOR_BTNFACE);
     wndclass.lpszMenuName = MAKEINTRESOURCE(IDR_MENUVSID);
-    wndclass.lpszClassName = szAppName ;
+    wndclass.lpszClassName = st_AppName;
 
     RegisterClass(&wndclass);
     if (!hwnd) {   /* do not recreate on drag&drop */
-        hwnd = CreateWindow(szAppName, szAppName, WS_SYSMENU, 0, 0, 380, 320, NULL, NULL, winmain_instance, NULL) ;
+        hwnd = CreateWindow(st_AppName, st_AppName, WS_SYSMENU, 0, 0, 380, 340, NULL, NULL, winmain_instance, NULL);
         SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
         window_handles[0] = hwnd;
         number_of_windows++;
@@ -561,7 +568,7 @@ void vsid_ui_close(void)
     resources_get_int("SaveResourcesOnExit", &save_on_exit);
 
     if (!quitting && confirm_on_exit) {
-        if (MessageBox(hwnd, translate_text(IDS_REALLY_EXIT), TEXT("VICE"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 | MB_TASKMODAL) == IDYES) {
+        if (MessageBox(hwnd, intl_translate_tcs(IDS_REALLY_EXIT), TEXT("VICE"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 | MB_TASKMODAL) == IDYES) {
             quit = 1;
         } else {
             quit = 0;
@@ -688,6 +695,29 @@ void ui_select_vsid_tune(HWND hwnd)
 
 /*****************************************************************************/
 
+static void load_psid_file(HWND window, char *name)
+{
+    int i;
+
+    if (machine_autodetect_psid(name) >= 0) {
+        vsid_disp(0, 0,  NULL, NULL);
+        psid_init_driver();
+        vsid_ui_init();
+        machine_play_psid(0);
+        for (i = 0; i < VSID_S_LASTLINE; i++) {
+            *vsidstrings[i] = 0;
+        }
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+        songs = psid_tunes(&default_song);
+        current_song = default_song;
+        psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+        vsid_ui_display_tune_nr(current_song);
+        vsid_ui_set_default_tune(default_song);
+        vsid_ui_display_nr_of_tunes(songs);
+        InvalidateRect(window, NULL, TRUE);
+    }
+}
+
 static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 {
     int i, j, command_found = 0;
@@ -711,33 +741,14 @@ static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 
 static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 {
-    TCHAR *st_name = NULL;
     char *name = NULL;
-    int i;
 
     switch (wparam) {
         case IDM_LOAD_PSID_FILE:
-            st_name = uilib_select_file(hwnd, translate_text(IDS_PSID_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DEFAULT);
-            if (st_name != NULL) {
-                name = system_wcstombs_alloc(st_name);
-                if (machine_autodetect_psid(st_name) >= 0) {
-                    vsid_disp(0, 0,  NULL, NULL);
-                    psid_init_driver();
-                    vsid_ui_init();
-                    machine_play_psid(0);
-                    for (i = 0; i < VSID_S_LASTLINE; i++) {
-                        *vsidstrings[i] = 0;
-                    }
-                    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-                    songs = psid_tunes(&default_song);
-                    current_song = default_song;
-                    psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
-                    vsid_ui_display_tune_nr(current_song);
-                    vsid_ui_set_default_tune(default_song);
-                    vsid_ui_display_nr_of_tunes(songs);
-                }
-                system_wcstombs_free(name);
-                lib_free(st_name);
+            name = uilib_select_file(hwnd, intl_translate_tcs(IDS_PSID_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DEFAULT);
+            if (name != NULL) {
+                load_psid_file(hwnd, name);
+                lib_free(name);
             }
             break;
         case IDM_SELECT_TUNE:
@@ -792,33 +803,23 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             ui_sid_settings_dialog(hwnd, c64_sid_baseaddress);
             break;
         case IDM_SETTINGS_SAVE_FILE:
-            if ((st_name = uilib_select_file(hwnd, translate_text(IDS_SAVE_CONFIG_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
-                char *name;
-
-                name = system_wcstombs_alloc(st_name);
-
-                if (resources_save(st_name) < 0) {
+            if ((name = uilib_select_file(hwnd, intl_translate_tcs(IDS_SAVE_CONFIG_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
+                if (resources_save(name) < 0) {
                     ui_error(translate_text(IDS_CANNOT_SAVE_SETTINGS));
                 } else {
                     ui_message(translate_text(IDS_SETTINGS_SAVED_SUCCESS));
                 }
-                system_wcstombs_free(name);
-                lib_free(st_name);
+                lib_free(name);
             }
             break;
         case IDM_SETTINGS_LOAD_FILE:
-            if ((st_name = uilib_select_file(hwnd, translate_text(IDS_LOAD_CONFIG_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
-                char *name;
-
-                name = system_wcstombs_alloc(st_name);
-
-                if (resources_load(st_name) < 0) {
+            if ((name = uilib_select_file(hwnd, intl_translate_tcs(IDS_LOAD_CONFIG_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
+                if (resources_load(name) < 0) {
                     ui_error(translate_text(IDS_CANNOT_LOAD_SETTINGS));
                 } else {
                     ui_message(translate_text(IDS_SETTINGS_LOADED_SUCCESS));
                 }
-                system_wcstombs_free(name);
-                lib_free(st_name);
+                lib_free(name);
             }
             break;
         case IDM_SETTINGS_SAVE:
@@ -870,6 +871,18 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         default:
             handle_default_command(wparam, lparam, hwnd);
     }
+}
+
+static void handle_wm_dropfiles(HWND window, HDROP hDrop)
+{
+    TCHAR st_name[MAX_PATH];
+    char *name;
+
+    DragQueryFile(hDrop, 0, st_name, MAX_PATH);
+    name = system_wcstombs_alloc(st_name);
+    load_psid_file(window, name);
+    system_wcstombs_free(name);
+    DragFinish(hDrop);
 }
 
 /* Window procedure.  All messages are handled here.  */
@@ -970,30 +983,8 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             PostQuitMessage(0);
             return 0;
         case WM_DROPFILES:
-            {
-                char dummy[MAX_PATH];
-
-                DragQueryFile((HDROP)wparam, 0, dummy, sizeof(dummy) );
-                if (machine_autodetect_psid(dummy) >= 0) {
-                    vsid_disp(0, 0,  NULL, NULL);
-                    psid_init_driver();
-                    vsid_ui_init();
-                    machine_play_psid(0);
-                    for (i = 0; i < VSID_S_LASTLINE; i++) {
-                        *vsidstrings[i] = 0;
-                    }
-                    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-                    songs = psid_tunes(&default_song);
-                    current_song = default_song;
-                    psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
-                    vsid_ui_display_tune_nr(current_song);
-                    vsid_ui_set_default_tune(default_song);
-                    vsid_ui_display_nr_of_tunes(songs);
-                    InvalidateRect(window, NULL, TRUE);
-                }
-            }
+            handle_wm_dropfiles(window, (HDROP)wparam);
             return 0;
-
         case WM_PAINT:
             {
                 hdc = BeginPaint(window, &ps);

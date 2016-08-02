@@ -51,6 +51,7 @@ VICE_ARG_ENABLE_LIST(hardsid,     [  --disable-hardsid       disables HardSID su
 VICE_ARG_ENABLE_LIST(parsid,      [  --disable-parsid        disables ParSID support])
 VICE_ARG_ENABLE_LIST(bundle,      [  --disable-bundle        do not use application bundles on Macs])
 VICE_ARG_ENABLE_LIST(memmap,      [  --enable-memmap         enable the memmap feature])
+VICE_ARG_ENABLE_LIST(unicode,     [  --enable-unicode        enable Unicode UI on WinNT])
 VICE_ARG_ENABLE_LIST(editline,    [  --disable-editline      disable history in Cocoa UI's console])
 VICE_ARG_ENABLE_LIST(lame,        [  --disable-lame          disable MP3 export with LAME])
 VICE_ARG_ENABLE_LIST(static-lame, [  --enable-static-lame    enable static LAME linking])
@@ -194,6 +195,7 @@ USE_UI_THREADS_SUPPORT="no "
 HAVE_LIBXPM_SUPPORT="no "
 HAVE_VTE_SUPPORT="no "
 HAVE_D3D9_H_SUPPORT="no "
+ENABLE_UNICODE_API_SUPPORT="no "
 
 HAVE_CATWEASELMKIII_SUPPORT="no "
 HAVE_HARDSID_SUPPORT="no "
@@ -3914,6 +3916,11 @@ elif test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui
                AC_DEFINE(HAVE_GUIDLIB,,
                          [Is the GUID lib of DX SDK present?])],,$LIBS)
 
+  if test x"$enable_unicode" = "xyes"; then
+    AC_DEFINE(WIN32_UNICODE_SUPPORT,,[Use WinNT Unicode API calls.])
+    ENABLE_UNICODE_API_SUPPORT="yes"
+  fi
+
   AC_MSG_CHECKING([whether DWORD is defined as unsigned long or unsigned int in the Mingw32 headers])
   AC_TRY_COMPILE([#include <windows.h>
 extern DWORD test;
@@ -4918,7 +4925,7 @@ if test x"$is_os2" = "xyes"; then
     show_gui="DIVE (PM)"
 fi
 if test x"$is_win32" = "xyes"; then
-    if test x"$is_win32_x11" != "xyes" -a x"$show_gui" = "x"; then
+    if test x"$is_win32_x11" != "xyes"; then
         show_gui="Win32"
     fi
 fi
@@ -4981,6 +4988,10 @@ fi
 
 if test x"$real_arch" = "xWin32" -a x"$show_gui" = "xWin32"; then
     echo "Direct3D support               : $HAVE_D3D9_H_SUPPORT"
+fi
+
+if test x"$real_arch" = "xWin32"; then
+    echo "Unicode support                : $ENABLE_UNICODE_API_SUPPORT (--enable/disable-unicode)"
 fi
 
 if test x"$real_arch" = "xUnix"; then
@@ -5093,7 +5104,7 @@ echo "-----"
 echo "Joystick support            : $HAS_JOYSTICK_SUPPORT"
 echo "Mouse support               : $HAVE_MOUSE_SUPPORT"
 
-if test x"$real_arch" = "xAmiga" -a x"$real_arch" = "xBeOS"; then
+if test x"$real_arch" = "xAmiga" -o x"$real_arch" = "xBeOS"; then
     if test x"$show_gui" = "xSDL" -o x"$show_gui" = "xSDL2"; then
         echo "Lightpen support            : $HAVE_LIGHTPEN_SUPPORT"
     fi

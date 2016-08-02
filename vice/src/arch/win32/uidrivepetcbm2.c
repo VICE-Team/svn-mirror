@@ -120,13 +120,13 @@ static int move_buttons_group[] = {
 };
 
 static generic_trans_table_t generic_items[] = {
-    { IDC_SELECT_DRIVE_TYPE_2031, "2031" },
-    { IDC_SELECT_DRIVE_TYPE_2040, "2040" },
-    { IDC_SELECT_DRIVE_TYPE_3040, "3040" },
-    { IDC_SELECT_DRIVE_TYPE_4040, "4040" },
-    { IDC_SELECT_DRIVE_TYPE_1001, "1001" },
-    { IDC_SELECT_DRIVE_TYPE_8050, "8050" },
-    { IDC_SELECT_DRIVE_TYPE_8250, "8250" },
+    { IDC_SELECT_DRIVE_TYPE_2031, TEXT("2031") },
+    { IDC_SELECT_DRIVE_TYPE_2040, TEXT("2040") },
+    { IDC_SELECT_DRIVE_TYPE_3040, TEXT("3040") },
+    { IDC_SELECT_DRIVE_TYPE_4040, TEXT("4040") },
+    { IDC_SELECT_DRIVE_TYPE_1001, TEXT("1001") },
+    { IDC_SELECT_DRIVE_TYPE_8050, TEXT("8050") },
+    { IDC_SELECT_DRIVE_TYPE_8250, TEXT("8250") },
     { 0, NULL }
 };
 
@@ -227,7 +227,6 @@ static int dialog_drive_extend[4];
 static void init_dialog(HWND hwnd, int num)
 {
     int drive_type, drive_extend_image_policy, n = 0;
-    TCHAR st[MAX_PATH];
 
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2031), drive_check_type(DRIVE_TYPE_2031, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2040), drive_check_type(DRIVE_TYPE_2040, num - 8));
@@ -288,32 +287,27 @@ static void init_dialog(HWND hwnd, int num)
     CheckRadioButton(hwnd, IDC_SELECT_DRIVE_EXTEND_NEVER, IDC_SELECT_DRIVE_EXTEND_ACCESS, n);
 
     resources_get_int_sprintf("Drive%dRPM", &n, num);
-    _stprintf(st, TEXT("%d"), n);
-    SetDlgItemText(hwnd, IDC_DRIVE_RPM_VALUE, st);
+    SetDlgItemInt(hwnd, IDC_DRIVE_RPM_VALUE, n, TRUE);
 
     resources_get_int_sprintf("Drive%dWobble", &n, num);
-    _stprintf(st, TEXT("%d"), n);
-    SetDlgItemText(hwnd, IDC_DRIVE_WOBBLE_VALUE, st);
+    SetDlgItemInt(hwnd, IDC_DRIVE_WOBBLE_VALUE, n, TRUE);
 }
 
 static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
     int rpm;
-    TCHAR st[MAX_PATH];
 
     switch (msg) {
         case WM_NOTIFY:
-            if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
+            if (((NMHDR *)lparam)->code == (UINT)PSN_APPLY) {
                 resources_set_int_sprintf("Drive%dType", dialog_drive_type[num - 8], num);
                 resources_set_int_sprintf("Drive%dExtendImagePolicy", dialog_drive_extend[num - 8], num);
 
-                GetDlgItemText(hwnd, IDC_DRIVE_RPM_VALUE, st, MAX_PATH);
-                rpm = atoi(st);
+                rpm = GetDlgItemInt(hwnd, IDC_DRIVE_RPM_VALUE, NULL, TRUE);
                 resources_set_int_sprintf("Drive%dRPM", rpm, num);
 
-                GetDlgItemText(hwnd, IDC_DRIVE_WOBBLE_VALUE, st, MAX_PATH);
-                rpm = atoi(st);
+                rpm = GetDlgItemInt(hwnd, IDC_DRIVE_WOBBLE_VALUE, NULL, TRUE);
                 resources_set_int_sprintf("Drive%dWobble", rpm, num);
 
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
@@ -404,15 +398,15 @@ void uidrivepetcbm2_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = callback_8;
-    psp[0].pszTitle = translate_text(IDS_DRIVE_8);
+    psp[0].pszTitle = intl_translate_tcs(IDS_DRIVE_8);
     psp[1].pfnDlgProc = callback_9;
-    psp[1].pszTitle = translate_text(IDS_DRIVE_9);
+    psp[1].pszTitle = intl_translate_tcs(IDS_DRIVE_9);
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = translate_text(IDS_DRIVE_SETTINGS);
+    psh.pszCaption = intl_translate_tcs(IDS_DRIVE_SETTINGS);
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

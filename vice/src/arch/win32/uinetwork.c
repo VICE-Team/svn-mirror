@@ -208,23 +208,24 @@ static void init_network_dialog(HWND hwnd)
     resources_get_string("NetworkServerBindAddress", &server_bind_address);
     resources_get_int("NetworkControl", &control);
 
-    _stprintf(st, TEXT("%d"), port);
-    SetDlgItemText(hwnd, IDC_NETWORK_PORT, st);
-    SetDlgItemText(hwnd, IDC_NETWORK_SERVERNAME, TEXT(server_name));
-    SetDlgItemText(hwnd, IDC_NETWORK_SERVER_BIND, TEXT(server_bind_address));
+    SetDlgItemInt(hwnd, IDC_NETWORK_PORT, port, TRUE);
+    system_mbstowcs(st, server_name, 256);
+    SetDlgItemText(hwnd, IDC_NETWORK_SERVERNAME, st);
+    system_mbstowcs(st, server_bind_address, 256);
+    SetDlgItemText(hwnd, IDC_NETWORK_SERVER_BIND, st);
 
     switch(network_get_mode()) {
         case NETWORK_IDLE:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_IDLE));
+            SetDlgItemText(hwnd, IDC_NETWORK_MODE, intl_translate_tcs(IDS_IDLE));
             break;
         case NETWORK_SERVER:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_SERVER_LISTENING));
+            SetDlgItemText(hwnd, IDC_NETWORK_MODE, intl_translate_tcs(IDS_SERVER_LISTENING));
             break;
         case NETWORK_SERVER_CONNECTED:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_CONNECTED_SERVER));
+            SetDlgItemText(hwnd, IDC_NETWORK_MODE, intl_translate_tcs(IDS_CONNECTED_SERVER));
             break;
         case NETWORK_CLIENT:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_CONNECTED_CLIENT));
+            SetDlgItemText(hwnd, IDC_NETWORK_MODE, intl_translate_tcs(IDS_CONNECTED_CLIENT));
             break;
     }
 
@@ -253,7 +254,8 @@ static void init_network_dialog(HWND hwnd)
 
 static int set_resources(HWND hwnd)
 {
-    TCHAR st[MAX_PATH];
+    TCHAR st_text[MAX_PATH];
+    char text[MAX_PATH];
     int port;
     unsigned int control = 0;
 
@@ -290,8 +292,7 @@ static int set_resources(HWND hwnd)
 
     resources_set_int("NetworkControl", control);
 
-    GetDlgItemText(hwnd, IDC_NETWORK_PORT, st, MAX_PATH);
-    port = atoi(st);
+    port = GetDlgItemInt(hwnd, IDC_NETWORK_PORT, NULL, TRUE);
     if (port < 1 || port > 0xFFFF) {
         ui_error(translate_text(IDS_INVALID_PORT_NUMBER));
         return -1;
@@ -299,11 +300,13 @@ static int set_resources(HWND hwnd)
 
     resources_set_int("NetworkServerPort", port);
 
-    GetDlgItemText(hwnd, IDC_NETWORK_SERVERNAME, st, MAX_PATH);
-    resources_set_string("NetworkServerName", st);
+    GetDlgItemText(hwnd, IDC_NETWORK_SERVERNAME, st_text, MAX_PATH);
+    system_wcstombs(text, st_text, MAX_PATH);
+    resources_set_string("NetworkServerName", text);
 
-    GetDlgItemText(hwnd, IDC_NETWORK_SERVER_BIND, st, MAX_PATH);
-    resources_set_string("NetworkServerBindAddress", st);
+    GetDlgItemText(hwnd, IDC_NETWORK_SERVER_BIND, st_text, MAX_PATH);
+    system_wcstombs(text, st_text, MAX_PATH);
+    resources_set_string("NetworkServerBindAddress", text);
 
     return 0;
 }

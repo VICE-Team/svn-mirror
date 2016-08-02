@@ -38,6 +38,7 @@
 #include "fullscrn.h"
 #include "lib.h"
 #include "res.h"
+#include "system.h"
 #include "ui.h"
 #include "uiapi.h"
 #include "uimon.h"
@@ -70,7 +71,7 @@
 typedef struct console_private_s {
     struct console_private_s *pcpNext; /* pointer to the next console_private_t structure */
     console_t *pConsole;
-    char *pchWindowBuffer;             /* a buffer to the window contents */
+    TCHAR *pchWindowBuffer;            /* a buffer to the window contents */
     char *pchName;                     /*  the name of the window; this is used to recognize the window when re-opening */
     char *pchOnClose;                  /* the string to be returned when the window is closed */
     char *history[MAX_HISTORY];        /* ring buffer of pointers to the history entries */
@@ -186,10 +187,11 @@ static const char *get_history_entry(console_private_t *pcp)
     */
 }
 
-/*
- calculate a pointer into the pchWindowBuffer
-*/
+// calculate a TCHAR pointer into the pchWindowBuffer
 #define CALC_POS(_pcp, _xxx, _yyy) ((_pcp)->xMax * (_yyy) + (_xxx))
+
+// calculate the size of a void pointer block in the pchWindowBuffer
+#define CALC_SIZE(_pcp, _xxx, _yyy) (((_pcp)->xMax * (_yyy) + (_xxx)) * sizeof(TCHAR))
 
 static void mark_window_i(console_private_t *pcp, BOOLEAN bMark)
 {
@@ -322,6 +324,15 @@ static void redraw_window(console_private_t *pcp, LPPAINTSTRUCT pps)
     cursor(pcp, CS_RESUME);
 }
 
+static void clear_buffer(TCHAR *pos, unsigned count)
+{
+    while (count != 0)
+    {
+        *pos++ = TEXT(' ');
+        count--;
+    }
+}
+
 static void move_upwards(console_private_t *pcp)
 {
     if (pcp->yPos > 0) {
@@ -337,10 +348,10 @@ static void scroll_up(console_private_t *pcp)
     ++pcp->scroll_up;
 
     /* move all lines one line up */
-    memmove(pcp->pchWindowBuffer, &pcp->pchWindowBuffer[pcp->xMax], CALC_POS(pcp, 0, pcp->yMax - 1));
+    memmove(pcp->pchWindowBuffer, &pcp->pchWindowBuffer[pcp->xMax], CALC_SIZE(pcp, 0, pcp->yMax - 1));
 
     /* clear the last line */
-    memset(&pcp->pchWindowBuffer[CALC_POS(pcp, 0, pcp->yMax - 1)], ' ', pcp->xMax);
+    clear_buffer(&pcp->pchWindowBuffer[CALC_POS(pcp, 0, pcp->yMax - 1)], pcp->xMax);
 
     move_upwards(pcp);
 
@@ -400,7 +411,7 @@ static void get_char_dimensions(console_private_t *pcp)
 {
     SIZE size;
 
-    GetTextExtentPoint32(pcp->hdc, " ", 1, &size);
+    GetTextExtentPoint32(pcp->hdc, TEXT(" "), 1, &size);
 
     pcp->xCharDimension  = size.cx;
     pcp->yCharDimension = size.cy; 
@@ -447,10 +458,10 @@ static console_private_t *allocate_window_memory(console_private_t *pcp)
         n = pcp->xMax * pcp->yMax;
 
         /* allocate buffer for window contents */
-        pcp->pchWindowBuffer = lib_malloc(sizeof(char) * n);
+        pcp->pchWindowBuffer = lib_malloc(sizeof(TCHAR) * n);
 
         /* clear the buffer with spaces */
-        memset(pcp->pchWindowBuffer, ' ', sizeof(char) * n);
+        clear_buffer(pcp->pchWindowBuffer, n);
     }
 
     return pcp;
@@ -460,7 +471,7 @@ static console_private_t *reallocate_window_memory(console_private_t* pcp, unsig
 {
     unsigned xOldDim = pcp->xMax;
     unsigned yOldDim = pcp->yMax;
-    char *pOldBuffer = pcp->pchWindowBuffer;
+    TCHAR *pOldBuffer = pcp->pchWindowBuffer;
 
     unsigned y;
 
@@ -473,7 +484,7 @@ static console_private_t *reallocate_window_memory(console_private_t* pcp, unsig
 
     /* now, copy the contents of the old buffer into the new one */
     for (y = 0; y < yOldDim; y++) {
-        memmove(&pcp->pchWindowBuffer[CALC_POS(pcp, 0, y)], &pOldBuffer[xOldDim * y], xOldDim);
+        memmove(&pcp->pchWindowBuffer[CALC_POS(pcp, 0, y)], &pOldBuffer[xOldDim * y], sizeof(TCHAR) * xOldDim);
     }
 
     /* we're done, release the old buffer */
@@ -649,7 +660,7 @@ static void console_out_printables_only(console_private_t *pcp, char *buffer, un
     while (length > 0) {
         unsigned int partlength = min(pcp->pConsole->console_xres - pcp->xPos, length);
 
-        memcpy(&pcp->pchWindowBuffer[CALC_POS(pcp, pcp->xPos, pcp->yPos)], buffer, partlength);
+        system_mbstowcs(&pcp->pchWindowBuffer[CALC_POS(pcp, pcp->xPos, pcp->yPos)], buffer, partlength);
 
         /* draw the current line */
         TextOut(pcp->hdc, pcp->xPos * pcp->xCharDimension, pcp->yPos * pcp->yCharDimension, &(pcp->pchWindowBuffer[CALC_POS(pcp, pcp->xPos, pcp->yPos)]), partlength);
@@ -1549,8 +1560,11 @@ static console_private_t *find_console_entry(const char *id)
 
 static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hwndMdiClient, DWORD dwStyle, int x, int y, int dx, int dy)
 {
+    TCHAR st_id[12];
     console_private_t *pcp;
-    
+
+    system_mbstowcs(st_id, id, 12);
+
     pcp = find_console_entry(id);
 
     allocate_window_memory(pcp);
@@ -1567,7 +1581,7 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
 
     if (pcp->bIsMdiChild) {
         pcp->hwndConsole = CreateMDIWindow(CONSOLE_CLASS,
-                                           (LPTSTR)id,
+                                           st_id,
                                            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX | dwStyle,
                                            x, // pcp->xWindow,
                                            y, // pcp->yWindow,
@@ -1583,7 +1597,7 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
         SuspendFullscreenMode(pcp->hwndParent);
 
         pcp->hwndConsole = CreateWindow(CONSOLE_CLASS,
-                                        id,
+                                        st_id,
                                         WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX,
                                         pcp->xWindow,
                                         pcp->yWindow,

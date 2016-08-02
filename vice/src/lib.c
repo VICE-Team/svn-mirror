@@ -455,7 +455,7 @@ void lib_debug_leaklist_add(unsigned int index)
         lib_debug_leaklist_size[i] = lib_debug_size[index];
         lib_debug_leaklist_address[i] = lib_debug_address[index];
 #ifdef LIB_DEBUG_CALLER
-		lib_debug_leaklist_bt_numcaller[i] = lib_debug_bt_numcaller[index];
+        lib_debug_leaklist_bt_numcaller[i] = lib_debug_bt_numcaller[index];
         for (j = 0; j < DEBUG_BT_MAXDEPTH; j++) {
             lib_debug_leaklist_bt_caller[i][j] = lib_debug_bt_caller[index][j];
         }
@@ -733,6 +733,50 @@ char *lib_stralloc(const char *str)
     memcpy(ptr, str, size);
     return ptr;
 }
+
+#if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(WIN32_COMPILE)
+
+#ifdef WIN32_UNICODE_SUPPORT
+size_t lib_tcstostr(char *str, const wchar_t *tcs, size_t len)
+{
+    size_t cnt;
+
+    cnt = wcstombs(str, tcs, len);
+    if (cnt == len) {
+        str[--cnt] = 0;
+    }
+    return cnt;
+}
+
+size_t lib_strtotcs(wchar_t *tcs, const char *str, size_t len)
+{
+    size_t cnt;
+
+    cnt = mbstowcs(tcs, str, len);
+    if (cnt == len) {
+        tcs[--cnt] = 0;
+    }
+    return cnt;
+}
+
+#else
+
+size_t lib_tcstostr(char *str, const char *tcs, size_t len)
+{
+    strncpy(str, tcs, len);
+    str[len - 1] = 0;
+    return strlen(str);
+}
+
+size_t lib_strtotcs(char *tcs, const char *str, size_t len)
+{
+    strncpy(tcs, str, len);
+    tcs[len - 1] = 0;
+    return strlen(tcs);
+}
+#endif
+
+#endif
 
 #ifdef HAVE_WORKING_VSNPRINTF
 

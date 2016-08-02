@@ -4,6 +4,7 @@
  * Written by
  *  Markus Brenner <markus@brenner.de>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,15 +35,16 @@
 
 #include <windows.h>
 #include <prsht.h>
+#include <tchar.h>
 
 extern void system_init_dialog(HWND hwnd);
 extern void system_psh_settings(PROPSHEETHEADER *ppsh);
 
-extern size_t system_wcstombs(char *mbs, const char *wcs, size_t len);
-extern size_t system_mbstowcs(char *wcs, const char *mbs, size_t len);
-extern char *system_mbstowcs_alloc(const char *mbs);
-extern void system_mbstowcs_free(char *wcs);
-extern char *system_wcstombs_alloc(const char *wcs);
+extern size_t system_wcstombs(char *mbs, const TCHAR *wcs, size_t len);
+extern size_t system_mbstowcs(TCHAR *wcs, const char *mbs, size_t len);
+extern TCHAR *system_mbstowcs_alloc(const char *mbs);
+extern void system_mbstowcs_free(TCHAR *wcs);
+extern char *system_wcstombs_alloc(const TCHAR *wcs);
 extern void system_wcstombs_free(char *mbs);
 
 #endif

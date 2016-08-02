@@ -62,8 +62,8 @@
 #define UILIB_FILTER_FLIPLIST       (1 << 11)
 #define UILIB_FILTER_KEYMAP         (1 << 12)
 
-extern TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style);
-extern TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style, int *autostart, char *resource_readonly);
+extern char *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style);
+extern char *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style, int *autostart, char *resource_readonly);
 extern void uilib_select_browse(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int idc);
 
 extern void uilib_show_options(HWND param);
@@ -124,5 +124,11 @@ typedef struct {
 } uilib_localize_dialog_param;
 
 extern void uilib_localize_dialog(HWND hwnd, uilib_localize_dialog_param *param);
+
+extern void uilib_localize_window_text(HWND hwnd, int ids);
+
+extern void uilib_set_menu_item_text(HMENU hmenu, int pos, UINT flags, UINT idm, TCHAR *st_text);
+extern void uilib_localize_menu_item(HMENU hmenu, int idm, int ids);
+extern void uilib_localize_menu_popup(HMENU hmenu, int pos, HMENU hsub, int ids);
 
 #endif

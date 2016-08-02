@@ -27,9 +27,18 @@
 #ifndef VICE_INTL_H
 #define VICE_INTL_H
 
-extern char *intl_speed_at_text;
+#include <tchar.h>
+#include <windef.h>
+
+extern TCHAR *intl_speed_at_text;
 
 extern char *intl_translate_text(int en_resource);
+#ifdef WIN32_UNICODE_SUPPORT
+extern WCHAR *intl_translate_wcs(int en_resource);
+#define intl_translate_tcs intl_translate_wcs
+#else
+#define intl_translate_tcs intl_translate_text
+#endif
 extern int intl_translate_res(int en_resource);
 
 extern void intl_init(void);

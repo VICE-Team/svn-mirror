@@ -61,7 +61,7 @@
 #include "winmain.h"
 
 static int *autostart_result;
-static char* fontfile;
+static TCHAR *fontfile;
 static int font_loaded;
 static char *res_readonly;
 
@@ -71,6 +71,7 @@ struct uilib_filefilter_s {
 };
 typedef struct uilib_filefilter_s uilib_filefilter_t;
 
+#ifndef WIN32_UNICODE_SUPPORT
 static uilib_filefilter_t uilib_filefilter[] = {
     /* 0001 */ { IDS_ALL_FILES_FILTER, TEXT("*.*") },
     /* 0002 */ { IDS_ZIPPED_FILES_FILTER, TEXT("*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z") },
@@ -87,6 +88,7 @@ static uilib_filefilter_t uilib_filefilter[] = {
     /* 1000 */ { IDS_KEYMAP_FILES_FILTER, TEXT("*.vkm") },
     { 0, NULL }
 };
+#endif
 
 typedef struct uilib_fs_style_type_s {
     LPOFNHOOKPROC hook_proc;
@@ -103,8 +105,7 @@ static uilib_fs_style_type_t styles[UILIB_SELECTOR_STYLES_NUM + 1] = {
     /* UILIB_SELECTOR_STYLE_DEFAULT */
     { NULL, 0, "InitialDefaultDir", NULL },
     /* UILIB_SELECTOR_STYLE_TAPE */
-    { uilib_select_tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir",
-      NULL },
+    { uilib_select_tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir", NULL },
     /* UILIB_SELECTOR_STYLE_DISK */
     { uilib_select_disk_hook_proc, IDD_OPENDISK_TEMPLATE, "InitialDiskDir", NULL },
     /* UILIB_SELECTOR_STYLE_DISK_AND_TAPE */
@@ -121,29 +122,31 @@ static uilib_fs_style_type_t styles[UILIB_SELECTOR_STYLES_NUM + 1] = {
     { NULL, 0, NULL, NULL }
 };
 
-static TCHAR *ui_file_selector_initialfile[UILIB_SELECTOR_STYLES_NUM];
+static char *ui_file_selector_initialfile[UILIB_SELECTOR_STYLES_NUM];
 
 static void create_content_list(image_contents_t *contents, HWND list)
 {
-    char *start;
+    char *text;
+    TCHAR st_text[60];
     image_contents_file_list_t *p = contents->file_list;
 
-    start = image_contents_to_string(contents, 0);
-    SendMessage(list, LB_ADDSTRING, 0, (LPARAM)start);
-    lib_free(start);
+    text = image_contents_to_string(contents, 0);
+    system_mbstowcs(st_text, text, 60);
+    SendMessage(list, LB_ADDSTRING, 0, (LPARAM)st_text);
+    lib_free(text);
 
     if (p == NULL) {
-        SendMessage(list, LB_ADDSTRING, 0, (LPARAM)"(EMPTY IMAGE.)");
+        SendMessage(list, LB_ADDSTRING, 0, (LPARAM)TEXT("(EMPTY IMAGE.)"));
     } else do {
-        start = image_contents_file_to_string(p, 0);
-        SendMessage(list, LB_ADDSTRING, 0, (LPARAM)start);
-        lib_free(start);
+        text = image_contents_file_to_string(p, 0);
+        system_mbstowcs(st_text, text, 60);
+        SendMessage(list, LB_ADDSTRING, 0, (LPARAM)st_text);
+        lib_free(text);
     } while ((p = p->next) != NULL);
 
     if (contents->blocks_free >= 0) {
-        start = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
-        SendMessage(list, LB_ADDSTRING, 0, (LPARAM)start);
-        lib_free(start);
+        _stprintf(st_text, TEXT("%d BLOCKS FREE."), contents->blocks_free);
+        SendMessage(list, LB_ADDSTRING, 0, (LPARAM)st_text);
     }
 }
 
@@ -172,9 +175,10 @@ static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg, WPAR
     HWND preview;
     image_contents_t *contents;
     char filename[256];
+    TCHAR st_filename[256];
     int index;
     int append_extension = 0;
-    char *extension;
+    TCHAR *extension;
     HWND parent_hwnd;
     int xpos;
     int xstart;
@@ -201,7 +205,7 @@ static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg, WPAR
             uilib_move_and_set_element_width(hwnd, IDC_NEW_TAP_IMAGE, xstart - 10, xpos - xstart + 20);
 
             if (font_loaded) {
-                hfont = CreateFont(-12,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "cbm-directory-charset/ck!");
+                hfont = CreateFont(-12,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, TEXT("cbm-directory-charset/ck!"));
             } else {
                 /*  maybe there's a better font-definition (FIXME) */
                 /*  I think it's OK now (Tibor) */
@@ -215,8 +219,9 @@ static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg, WPAR
         case WM_NOTIFY:
             if (((OFNOTIFY*)lparam)->hdr.code == CDN_SELCHANGE) {
                 SendMessage(preview, LB_RESETCONTENT, 0, 0);
-                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom, CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
-                    if (!(GetFileAttributes(filename) & FILE_ATTRIBUTE_DIRECTORY)) {
+                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom, CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
+                    if (!(GetFileAttributes(st_filename) & FILE_ATTRIBUTE_DIRECTORY)) {
+                        system_wcstombs(filename, st_filename, 256);
                         contents = tapecontents_read(filename);
                         if (contents != NULL) {
                             create_content_list(contents, preview);
@@ -232,26 +237,27 @@ static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg, WPAR
         case WM_COMMAND:
             switch (LOWORD(wparam)) {
                 case IDC_BLANK_IMAGE:
-                    if (SendMessage(GetParent(hwnd), CDM_GETSPEC, 256, (LPARAM)filename) <= 1) {
+                    if (SendMessage(GetParent(hwnd), CDM_GETSPEC, 256, (LPARAM)st_filename) <= 1) {
                         ui_error(translate_text(IDS_PLEASE_ENTER_A_FILENAME));
                         return -1;
                     }
-                    if (strchr(filename,'.') == NULL) {
+                    if (_tcschr(st_filename, '.') == NULL) {
                         append_extension = 1;
                     } else {
                         /*  Find last dot in name */
-                        extension = strrchr(filename, '.');
+                        extension = _tcsrchr(st_filename, '.');
                         /*  Skip dot */
                         extension++;
                         /*  Figure out if it's a standard extension */
-                        if (strncasecmp(extension, "tap", 3) == 0) {
+                        if (_tcsnicmp(extension, TEXT("tap"), 3) == 0) {
                         }
                     }
-                    if (SendMessage(GetParent(hwnd), CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
+                    if (SendMessage(GetParent(hwnd), CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
                         if (append_extension) {
-                            strcat(filename, ".");
-                            strcat(filename, "tap");
+                            _tcscat(st_filename, TEXT("."));
+                            _tcscat(st_filename, TEXT("tap"));
                         }
+                        system_wcstombs(filename, st_filename, 256);
                         if (util_file_exists(filename)) {
                             int ret;
 
@@ -271,7 +277,7 @@ static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg, WPAR
                 case LBN_DBLCLK:
                     if (autostart_result != NULL) {
                         index = (int)SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
-                        if (SendMessage(GetParent(hwnd), CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
+                        if (SendMessage(GetParent(hwnd), CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
                             *autostart_result = index;
                             SendMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(IDOK, BN_CLICKED), (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
                         }
@@ -367,11 +373,11 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPAR
     image_contents_t *contents;
     char filename[256];
     TCHAR st_filename[256];
-    int counter;
+    int cnt;
     int msg_type;
     int append_extension = 0;
     int is_it_standard_extension = 0;
-    char *extension;
+    TCHAR *extension;
     int index;
     LV_FINDINFO find;
     LV_ITEM item;
@@ -388,8 +394,8 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPAR
             /* translate all dialog items */
             uilib_localize_dialog(hwnd, select_disk_hook_trans);
 
-            SetWindowText(GetDlgItem(parent_hwnd, IDOK), translate_text(IDS_ATTACH));
-            SetWindowText(GetDlgItem(parent_hwnd, IDCANCEL), translate_text(IDS_CANCEL));
+            uilib_localize_window_text(GetDlgItem(parent_hwnd, IDOK), IDS_ATTACH);
+            uilib_localize_window_text(GetDlgItem(parent_hwnd, IDCANCEL), IDS_CANCEL);
 
             /* adjust the size of the elements in the right group */
             uilib_adjust_group_width(hwnd, select_disk_right_group);
@@ -419,14 +425,14 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPAR
             }
 
             image_type_list = GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE);
-            for (counter = 0; image_type_name[counter]; counter++) {
-                SendMessage(image_type_list, CB_ADDSTRING, 0, (LPARAM)image_type_name[counter]);
+            for (cnt = 0; image_type_name[cnt]; cnt++) {
+                SendMessage(image_type_list, CB_ADDSTRING, 0, (LPARAM)image_type_name[cnt]);
             }
             SendMessage(image_type_list, CB_SETCURSEL, (WPARAM)0, 0);
 
             /* Try to use the cbm font */
             if (font_loaded) {
-                hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "cbm-directory-charset/ck!");
+                hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, TEXT("cbm-directory-charset/ck!"));
             } else {
                 /*  maybe there's a better font-definition (FIXME) */
                 /*  I think it's OK now (Tibor) */
@@ -460,7 +466,7 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPAR
                     }
                 } else if (((OFNOTIFY *)lparam)->hdr.code == CDN_FOLDERCHANGE) {
                     SendMessage(preview, LB_RESETCONTENT, 0, 0);
-                    SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), "");
+                    SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), TEXT(""));
                 }
             }
             break;
@@ -486,8 +492,8 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPAR
                         /*  Skip dot */
                         extension++;
                         /*  Figure out if it's a standard extension */
-                        for (counter = 0; image_type_name[counter]; counter++) {
-                            if (strncasecmp(extension, image_type_name[counter], (int)strlen(image_type_name[counter])) == 0) {
+                        for (cnt = 0; image_type_name[cnt]; cnt++) {
+                            if (_tcsnicmp(extension, image_type_name[cnt], (int)_tcslen(image_type_name[cnt])) == 0) {
                                 is_it_standard_extension = 1;
                                 break;
                             }
@@ -498,13 +504,13 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPAR
                         char disk_id[3];
                         char *format_name;
 
-                        counter = (int)SendMessage(GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE), CB_GETCURSEL, 0, 0);
+                        cnt = (int)SendMessage(GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE), CB_GETCURSEL, 0, 0);
                         if (append_extension) {
                             _tcscat(st_filename, TEXT("."));
-                            _tcscat(st_filename, image_type_name[counter]);
+                            _tcscat(st_filename, image_type_name[cnt]);
                         }
                         system_wcstombs(filename, st_filename, 256);
-                        if (util_file_exists(st_filename)) {
+                        if (util_file_exists(filename)) {
                             int ret;
 
                             ret = ui_messagebox(translate_text(IDS_OVERWRITE_EXISTING_IMAGE), translate_text(IDS_VICE_QUESTION), MB_YESNO | MB_ICONQUESTION);
@@ -515,7 +521,7 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPAR
                         GetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, disk_name, 17);
                         GetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, disk_id, 3);
                         format_name = lib_msprintf("%s,%s", disk_name, disk_id);
-                        if (vdrive_internal_create_format_disk_image(st_filename, format_name, image_type[counter]) < 0) {
+                        if (vdrive_internal_create_format_disk_image(filename, format_name, image_type[cnt]) < 0) {
                             ui_error(translate_text(IDS_CANNOT_CREATE_IMAGE));
                             lib_free(format_name);
                             return -1;
@@ -541,7 +547,7 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPAR
                         SendMessage(GetParent(hwnd), CDM_GETSPEC, 256, (LPARAM)st_filename);
                         if (append_extension) {
                             _tcscat(st_filename, TEXT("."));
-                            _tcscat(st_filename, image_type_name[counter]);
+                            _tcscat(st_filename, image_type_name[cnt]);
                         }
                         find.flags = LVFI_STRING;
                         find.psz = st_filename;
@@ -597,8 +603,8 @@ static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg, WPARAM wp
         case WM_INITDIALOG:
             parent_hwnd = GetParent(hwnd);
             uilib_localize_dialog(hwnd, select_hook_trans);
-            SetWindowText(GetDlgItem(parent_hwnd, IDOK), translate_text(IDS_ATTACH));
-            SetWindowText(GetDlgItem(parent_hwnd, IDCANCEL), translate_text(IDS_CANCEL));
+            uilib_localize_window_text(GetDlgItem(parent_hwnd, IDOK), IDS_ATTACH);
+            uilib_localize_window_text(GetDlgItem(parent_hwnd, IDCANCEL), IDS_CANCEL);
             uilib_adjust_element_width(hwnd, IDC_TOGGLE_ATTACH_READONLY);
             uilib_get_element_max_x(hwnd, IDC_TOGGLE_ATTACH_READONLY, &xpos);
 
@@ -610,7 +616,7 @@ static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg, WPARAM wp
 
             /* Try to use the cbm font */
             if (font_loaded) {
-                hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "cbm-directory-charset/ck!");
+                hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, TEXT("cbm-directory-charset/ck!"));
             } else {
                 /*  maybe there's a better font-definition (FIXME) */
                 /*  I think it's OK now (Tibor) */
@@ -646,7 +652,7 @@ static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg, WPARAM wp
                     }
                 } else if (((OFNOTIFY *)lparam)->hdr.code == CDN_FOLDERCHANGE) {
                     SendMessage(preview, LB_RESETCONTENT, 0, 0);
-                    SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), "");
+                    SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), TEXT(""));
                 }
             }
             break;
@@ -714,6 +720,7 @@ static void update_filter_history(DWORD current_filter, DWORD last_filterlist)
     }
 }
 
+#ifndef WIN32_UNICODE_SUPPORT
 static DWORD get_last_active_filter(DWORD last_filterlist)
 {
     filter_per_list_t *fl = filter_history.next;
@@ -764,6 +771,7 @@ static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
 
     return filter;
 }
+#endif
 
 /* ENUMLOGFONT *lpelf   - logical-font data */
 /* NEWTEXTMETRIC *lpntm - physical-font data */
@@ -776,12 +784,13 @@ static int CALLBACK EnumFontProc(ENUMLOGFONT *lpelf, NEWTEXTMETRIC *lpntm, DWORD
     return 1;
 }
 
-TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style, int *autostart, char *resource_readonly)
+char *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style, int *autostart, char *resource_readonly)
 {
     TCHAR st_name[MAX_PATH];
     char name[MAX_PATH];
     const char *initialdir = NULL;
     const char *initialfile;
+    TCHAR *st_initdir;
     TCHAR *filter;
     DWORD filterindex;
     OPENFILENAME ofn;
@@ -804,19 +813,31 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterli
     }
 
     if (initialfile != NULL) {
-        _tcscpy(st_name, initialfile);
+        system_mbstowcs(st_name, initialfile, MAX_PATH);
     }
 
     if (fontfile == NULL) {
-        fontfile = util_concat(archdep_boot_path(), "\\fonts\\cbm-directory-charset.fon", NULL);
+        char *tmpfile;
+
+        tmpfile = util_concat(archdep_boot_path(), "\\fonts\\cbm-directory-charset.fon", NULL);
+        fontfile = system_mbstowcs_alloc(tmpfile);
+        lib_free(tmpfile);
+
         font_loaded = 0;
-        EnumFontFamilies(GetDC(NULL), "cbm-directory-charset/ck!", (FONTENUMPROC)EnumFontProc, (LPARAM)&font_loaded);
+        EnumFontFamilies(GetDC(NULL), TEXT("cbm-directory-charset/ck!"), (FONTENUMPROC)EnumFontProc, (LPARAM)&font_loaded);
         if (font_loaded == 0) {
             font_loaded = AddFontResource(fontfile);
         }
     }
 
+#ifdef WIN32_UNICODE_SUPPORT
+    filter = TEXT("All Files\0*.*\0");
+    filterindex = 1;
+#else
     filter = set_filter(filterlist, &filterindex);
+#endif
+
+    st_initdir = system_mbstowcs_alloc(initialdir);
 
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
@@ -830,7 +851,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterli
     ofn.nMaxFile = sizeof(st_name);
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = initialdir;
+    ofn.lpstrInitialDir = st_initdir;
     ofn.lpstrTitle = title;
     ofn.Flags = OFN_EXPLORER | OFN_HIDEREADONLY | OFN_NOTESTFILECREATE | OFN_SHAREAWARE | OFN_ENABLESIZING;
     if (styles[style].TemplateID != 0) {
@@ -859,6 +880,8 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterli
         result = GetOpenFileName(&ofn);
     }
 
+    system_mbstowcs_free(st_initdir);
+
     update_filter_history(ofn.nFilterIndex, filterlist);
 
     if (result) {
@@ -870,7 +893,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterli
         if (styles[style].file_resource != NULL) {
             resources_set_string(styles[style].file_resource, tmpfile);
         }
-        ui_file_selector_initialfile[style] = system_mbstowcs_alloc(tmpfile);
+        ui_file_selector_initialfile[style] = lib_stralloc(tmpfile);
         resources_set_string(styles[style].initialdir_resource, tmpdir);
         ret = system_wcstombs_alloc(st_name);
 
@@ -883,7 +906,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterli
     return ret;
 }
 
-TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style)
+char *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style)
 {
     return uilib_select_file_autostart(hwnd, title, filterlist, type, style, NULL, NULL);
 }
@@ -891,11 +914,17 @@ TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist, unsign
 void uilib_select_browse(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int idc)
 {
     TCHAR *st_name;
-    st_name = uilib_select_file(hwnd, title, filterlist, type, UILIB_SELECTOR_STYLE_DEFAULT);
+    char *name;
+
+    name = uilib_select_file(hwnd, title, filterlist, type, UILIB_SELECTOR_STYLE_DEFAULT);
+
+    st_name = system_mbstowcs_alloc(name);
     if (st_name != NULL) {
         SetDlgItemText(hwnd, idc, st_name);
-        lib_free(st_name);
+        system_mbstowcs_free(st_name);
     }
+
+    lib_free(name);
 }
 
 BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
@@ -907,7 +936,7 @@ BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
         return FALSE;
     }
 
-    return TRUE;	
+    return TRUE;
 }
 
 HWND GetParentHWND()
@@ -968,7 +997,7 @@ void AutoHideScrollBar(HWND hWnd, int fnBar)
     BOOL bResult;
     SCROLLINFO scInfo;
     UINT uiDiff;
-	
+
     scInfo.cbSize = sizeof(scInfo);
     scInfo.fMask = SIF_RANGE | SIF_PAGE;
     bResult = GetScrollInfo(hWnd, fnBar, &scInfo);
@@ -1045,7 +1074,7 @@ void uilib_shutdown(void)
         lib_free(ui_file_selector_initialfile[i]);
     }
 
-    lib_free(fontfile);
+    system_mbstowcs_free(fontfile);
 
     f1 = filter_history.next;
 
@@ -1097,9 +1126,9 @@ static INT_PTR CALLBACK uilib_dialogbox_dialog_proc(HWND hwnd, UINT msg, WPARAM 
             element = GetDlgItem(hwnd, uilib_dialogbox_param->idc_dialog_trans);
             SetWindowText(element, uilib_dialogbox_param->idc_dialog_trans_text);
             element = GetDlgItem(hwnd, IDOK);
-            SetWindowText(element, translate_text(IDS_OK));
+            uilib_localize_window_text(element, IDS_OK);
             element = GetDlgItem(hwnd, IDCANCEL);
-            SetWindowText(element, translate_text(IDS_CANCEL));
+            uilib_localize_window_text(element, IDS_CANCEL);
             SetWindowText(hwnd, uilib_dialogbox_param->idd_dialog_caption);
             uilib_adjust_element_width(hwnd, uilib_dialogbox_param->idc_dialog_trans);
             uilib_get_element_max_x(hwnd, uilib_dialogbox_param->idc_dialog_trans, &xpos);
@@ -1125,12 +1154,12 @@ void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize)
     HFONT hFont;
     HFONT hOldFont;
     int strlen;
-    char *buffer;
+    TCHAR *buffer;
     SIZE  size;
 
     hFont = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
-    strlen = (int)SendMessage(hwnd, WM_GETTEXTLENGTH, 0, 0);
-    buffer = malloc(strlen + 1);
+    strlen = GetWindowTextLength(hwnd);
+    buffer = lib_malloc((strlen + 1) * sizeof(TCHAR));
     GetWindowText(hwnd, buffer, strlen + 1);
 
     hdc = GetDC(hwnd);
@@ -1138,7 +1167,7 @@ void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize)
 
     GetTextExtentPoint32(hdc, buffer, strlen, &size);
 
-    free(buffer);
+    lib_free(buffer);
 
     SelectObject(hdc, hOldFont);
     ReleaseDC(hwnd, hdc);
@@ -1410,16 +1439,28 @@ void uilib_get_element_min_x(HWND hwnd, int idc, int *width)
     *width = element_rect.left;
 }
 
+void uilib_localize_window_text(HWND hwnd, int ids)
+{
+    TCHAR st_buf[80];
+    TCHAR *st_text;
+
+    if ((ids >= 0x10000) || !(st_text = intl_translate_tcs(ids))) {
+        lib_strtotcs(st_buf, translate_text(ids), 80);
+        st_text = st_buf;
+    }
+    SetWindowText(hwnd, st_text);
+}
+
 void uilib_localize_dialog(HWND hwnd, uilib_localize_dialog_param *param)
 {
     HWND element;
 
     while (param->idc || param->ids) {
         if (param->element_type == -1) {
-            SetWindowText(hwnd, translate_text(param->ids));
+            uilib_localize_window_text(hwnd, param->ids);
         } else if (param->element_type == 0) {
             element = GetDlgItem(hwnd, param->idc);
-            SetWindowText(element, translate_text(param->ids));
+            uilib_localize_window_text(element, param->ids);
         }
         param++;
     }
@@ -1485,4 +1526,33 @@ int uilib_get_center_distance_group(HWND hwnd, int *group_boxes)
         MoveWindow(hwnd, rect.left, rect.top, (distance * (i + 1)) + (size * i), rect.bottom - rect.top, TRUE);
     }
     return distance;
+}
+
+void uilib_set_menu_item_text(HMENU hmenu, int pos, UINT flags, UINT idm, TCHAR *st_text)
+{
+    ModifyMenu(hmenu, (UINT)pos, flags | MF_STRING, idm, st_text);
+}
+
+void uilib_localize_menu_item(HMENU hmenu, int idm, int ids)
+{
+    TCHAR st_buf[80];
+    TCHAR *st_text;
+
+    if ((ids >= 0x10000) || !(st_text = intl_translate_tcs(ids))) {
+        lib_strtotcs(st_buf, translate_text(ids), 80);
+        st_text = st_buf;
+    }
+    uilib_set_menu_item_text(hmenu, idm, MF_BYCOMMAND, idm, st_text);
+}
+
+void uilib_localize_menu_popup(HMENU hmenu, int pos, HMENU hsub, int ids)
+{
+    TCHAR st_buf[80];
+    TCHAR *st_text;
+
+    if ((ids >= 0x10000) || !(st_text = intl_translate_tcs(ids))) {
+        lib_strtotcs(st_buf, translate_text(ids), 80);
+        st_text = st_buf;
+    }
+    uilib_set_menu_item_text(hmenu, pos, MF_BYPOSITION | MF_POPUP, vice_ptr_to_uint(hsub), st_text);
 }

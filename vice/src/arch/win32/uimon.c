@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <tchar.h>
 #include <windows.h>
 #include <commctrl.h>
 
@@ -45,6 +46,7 @@
 #include "mon_util.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "translate.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -157,7 +159,7 @@ uimon_client_windows_t *first_client_window = NULL;
 
 static char *pchCommandLine   = NULL;
 
-#define CONTENTS_CLASS MONITOR_CLASS ":Contents"
+#define CONTENTS_CLASS MONITOR_CLASS TEXT(":Contents")
 
 static HWND hwndParent = NULL;
 static HWND hwndActive = NULL;
@@ -367,7 +369,7 @@ static HWND CreateAToolbar(HWND hwnd)
 }
 
 static HWND iOpenGeneric(HWND hwnd, DWORD dwStyleMDI, DWORD dwStylePopup, int x, int y, int dx, int dy, int as_popup,
-                         internal_window_procedure_t *window_procedure, char *WindowName, window_type_t window_type, size_t private_data_size)
+                         internal_window_procedure_t *window_procedure, TCHAR *WindowName, window_type_t window_type, size_t private_data_size)
 {
     HWND hwndNew;
     window_data_t * window_data = lib_malloc(sizeof * window_data);
@@ -427,7 +429,7 @@ static HWND iOpenGeneric(HWND hwnd, DWORD dwStyleMDI, DWORD dwStylePopup, int x,
 
 static HWND iOpenDisassembly(HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy)
 {
-    return iOpenGeneric(hwnd, dwStyle, WS_OVERLAPPEDWINDOW | WS_VSCROLL | dwStyle, x, y, dx, dy, OPEN_DISASSEMBLY_AS_POPUP, dis_window_proc, "Disassembly", WT_DISASSEMBLY, sizeof(dis_private_t));
+    return iOpenGeneric(hwnd, dwStyle, WS_OVERLAPPEDWINDOW | WS_VSCROLL | dwStyle, x, y, dx, dy, OPEN_DISASSEMBLY_AS_POPUP, dis_window_proc, TEXT("Disassembly"), WT_DISASSEMBLY, sizeof(dis_private_t));
 }
 
 static HWND OpenDisassembly(HWND hwnd)
@@ -438,7 +440,7 @@ static HWND OpenDisassembly(HWND hwnd)
 
 static HWND iOpenMemory(HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy)
 {
-    return iOpenGeneric(hwnd, dwStyle, WS_OVERLAPPEDWINDOW | WS_VSCROLL|dwStyle, x, y, dx, dy, OPEN_MEMORY_AS_POPUP, mem_window_proc, "Memory", WT_MEMORY, sizeof(mem_private_t));
+    return iOpenGeneric(hwnd, dwStyle, WS_OVERLAPPEDWINDOW | WS_VSCROLL|dwStyle, x, y, dx, dy, OPEN_MEMORY_AS_POPUP, mem_window_proc, TEXT("Memory"), WT_MEMORY, sizeof(mem_private_t));
 }
 
 static HWND OpenMemory(HWND hwnd)
@@ -474,7 +476,7 @@ static HWND OpenConsole(HWND hwnd, BOOLEAN bOpen)
 
 static HWND iOpenRegistry(HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy)
 {
-    return iOpenGeneric(hwnd, dwStyle, WS_CAPTION | WS_POPUPWINDOW | dwStyle, x, y, dx, dy, OPEN_REGISTRY_AS_POPUP, reg_window_proc, "Register", WT_REGISTER, sizeof(reg_private_t));
+    return iOpenGeneric(hwnd, dwStyle, WS_CAPTION | WS_POPUPWINDOW | dwStyle, x, y, dx, dy, OPEN_REGISTRY_AS_POPUP, reg_window_proc, TEXT("Register"), WT_REGISTER, sizeof(reg_private_t));
 }
 
 static HWND OpenRegistry(HWND hwnd)
@@ -1023,30 +1025,30 @@ static void SetMemspace(HWND hwnd, window_data_t *window_data, MEMSPACE memspace
     int drive_true_emulation;
     WORD ulMask = MDDPC_SET_DRIVE8 | MDDPC_SET_DRIVE9 | MDDPC_SET_DRIVE10 | MDDPC_SET_DRIVE11;
 
-    char *pText = "";
+    TCHAR *pText = TEXT("");
 
     window_data->extra->memspace = memspace;
 
     switch (memspace) {
         case e_comp_space:
             bComputer = TRUE;
-            pText = "Computer";
+            pText = TEXT("Computer");
             break;
         case e_disk8_space:
             bDrive8 = TRUE;
-            pText = "Drive 8";
+            pText = TEXT("Drive 8");
             break;
         case e_disk9_space:
             bDrive9 = TRUE;
-            pText = "Drive 9";
+            pText = TEXT("Drive 9");
             break;
         case e_disk10_space:
             bDrive10 = TRUE;
-            pText = "Drive 10";
+            pText = TEXT("Drive 10");
             break;
         case e_disk11_space:
             bDrive11 = TRUE;
-            pText = "Drive 11";
+            pText = TEXT("Drive 11");
             break;
         /* 
             these two cases should not occur; 
@@ -1073,17 +1075,17 @@ static void SetMemspace(HWND hwnd, window_data_t *window_data, MEMSPACE memspace
     CHECK(IDM_MON_DRIVE11, drive_true_emulation ? bDrive11 : FALSE);
 
     if (drive_true_emulation) {
-        char pOldText[256];
+        TCHAR pOldText[256];
         int  n = GetWindowText(hwnd, pOldText, 256);
 
         if (n != 0) {
-            char *pWrite = strchr(pOldText, ':');
+            TCHAR *pWrite = _tcschr(pOldText, TEXT(':'));
             if (pWrite == NULL) {
-                pWrite = strchr(pOldText, 0);
-                *pWrite = ':';
+                pWrite = _tcschr(pOldText, 0);
+                *pWrite = TEXT(':');
             }
         
-            strcpy(++pWrite, pText);
+            _tcscpy(++pWrite, pText);
             SetWindowText(hwnd, pOldText);
         }
     }
@@ -1294,7 +1296,7 @@ static LRESULT CALLBACK mon_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
                 CLIENTCREATESTRUCT ccs;
                 ccs.hWindowMenu  = GetSubMenu(GetMenu(hwnd), 3);
                 ccs.idFirstChild = IDM_WNDCHILD;
-                hwndMdiClient = CreateWindow("MdiClient", NULL, WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VSCROLL | WS_HSCROLL,
+                hwndMdiClient = CreateWindow(TEXT("MdiClient"), NULL, WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VSCROLL | WS_HSCROLL,
                                              0, 0, 0, 0, hwnd, (HMENU)0xCAC, winmain_instance, (LPSTR)&ccs);
 
                 ResizeMdiClient(hwnd);
@@ -1382,7 +1384,7 @@ static BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
 
     for (p = pMonRegs, cnt = 0; p->name != NULL; p++, cnt++)
     {
-        char buffer[5];
+        TCHAR st_buf[12];
         int namelen = (int)strlen(p->name);
         int center = 0;
         int vallen;
@@ -1399,7 +1401,7 @@ static BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
             unsigned int changed_i = changedbits << (16 - p->size);
 
             for (i = 0;i < p->size; i++) {
-                char pw = val & 0x8000 ? '1' : '0';
+                TCHAR pw = val & 0x8000 ? TEXT('1') : TEXT('0');
                 BOOL changed = changed_i & 0x8000 ? TRUE : FALSE;
 
                 val <<= 1;
@@ -1415,28 +1417,29 @@ static BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
             switch (p->size) {
                 case 8:
                    vallen = 2;
-                    sprintf(buffer, "%02X ", p->val);
+                    _stprintf(st_buf, TEXT("%02X "), p->val);
                     break;
                 case 16:
                     vallen = 4;
-                    sprintf(buffer, "%04X ", p->val );
+                    _stprintf(st_buf, TEXT("%04X "), p->val );
                     break;
                 default:
                     vallen = namelen;
-                    buffer[0] = 0;
+                    st_buf[0] = 0;
                     break;
             }
 
             // output value of register
             SetTextColor(hdc, RGB(changedbits ? 0xFF : 0, 0, 0));
-            TextOut(hdc, x * prp->charwidth, prp->charheight, buffer, vallen);
+            TextOut(hdc, x * prp->charwidth, prp->charheight, st_buf, vallen);
         }
 
         center = (vallen - namelen) / 2;
 
         // output name of register
         SetTextColor(hdc, RGB(0, 0, 0));
-        TextOut(hdc, (x + center) * prp->charwidth, 0, p->name, namelen);
+        system_mbstowcs(st_buf, p->name, 12);
+        TextOut(hdc, (x + center) * prp->charwidth, 0, st_buf, namelen);
 
         x += vallen + 1;
     }
@@ -1488,9 +1491,7 @@ static VOID GetCursorPosAtMessageTime(LPPOINT point)
 {
     DWORD pos = GetMessagePos();
 
-    POINTS tmp_points = MAKEPOINTS(pos);
-
-    POINTSTOPOINT(*point, tmp_points);
+    POINTSTOPOINT(*point, pos);
 }
 
 typedef int ExecuteGenericPopup_callback_t(HMENU hPopupMenu, WORD ulDefault, WORD ulMask, int * nMenuCount, void * pContext);
@@ -1500,7 +1501,7 @@ typedef int ExecuteGenericPopup_callback_t(HMENU hPopupMenu, WORD ulDefault, WOR
     mii.fState = _ENABLE_ | ((ulDefault & _FLAG_) ? MFS_DEFAULT : 0); \
     mii.wID = _ID_;                                                   \
     mii.dwTypeData = _TEXT_;                                          \
-    mii.cch = strlen(mii.dwTypeData);                                 \
+    mii.cch = _tcslen(mii.dwTypeData);                                \
     InsertMenuItem( hPopupMenu, nMenuCount++, 1, &mii );
 
 #define MAKE_ENTRY(_ID_, _TEXT_) \
@@ -1511,11 +1512,11 @@ typedef int ExecuteGenericPopup_callback_t(HMENU hPopupMenu, WORD ulDefault, WOR
         if (ulDefault & _FLAG_) {                       \
             uDefaultCommand = _ID_;                     \
         }                                               \
-        IMAKE_ENTRY(_FLAG_, _ID_, _TEXT_, MFS_ENABLED); \
+        IMAKE_ENTRY(_FLAG_, _ID_, _TEXT_, MFS_ENABLED) \
     }
 
 #define MAKE_ENDISABLE_ENTRY(_FLAGS_, _ID_, _TEXT_) \
-    IMAKE_ENTRY(0, _ID_, _TEXT_, ((ulMask & _FLAGS_) ? MFS_ENABLED : (MFS_GRAYED|MFS_DISABLED)));
+    IMAKE_ENTRY(0, _ID_, _TEXT_, ((ulMask & _FLAGS_) ? MFS_ENABLED : MFS_DISABLED))
 
 #define MAKE_SEPARATOR()                               \
     mii.fType = MFT_SEPARATOR;                         \
@@ -1559,11 +1560,11 @@ static int ExecuteGenericPopup(HWND hwnd, LPARAM lParam, BOOL bExecuteDefault, E
         }
 
         if (ulMask & (MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE8 | MDDPC_SET_DRIVE9 | MDDPC_SET_DRIVE10 | MDDPC_SET_DRIVE11)) {
-            MAKE_ENDISABLE_ENTRY(MDDPC_SET_COMPUTER, IDM_MON_COMPUTER, "&Computer" );
-            MAKE_ENDISABLE_ENTRY(MDDPC_SET_DRIVE8, IDM_MON_DRIVE8, "Drive &8");
-            MAKE_ENDISABLE_ENTRY(MDDPC_SET_DRIVE9, IDM_MON_DRIVE9, "Drive &9");
-            MAKE_ENDISABLE_ENTRY(MDDPC_SET_DRIVE10, IDM_MON_DRIVE10, "Drive 1&0");
-            MAKE_ENDISABLE_ENTRY(MDDPC_SET_DRIVE11, IDM_MON_DRIVE11, "Drive 1&1");
+            MAKE_ENDISABLE_ENTRY(MDDPC_SET_COMPUTER, IDM_MON_COMPUTER, TEXT("&Computer"));
+            MAKE_ENDISABLE_ENTRY(MDDPC_SET_DRIVE8, IDM_MON_DRIVE8, TEXT("Drive &8"));
+            MAKE_ENDISABLE_ENTRY(MDDPC_SET_DRIVE9, IDM_MON_DRIVE9, TEXT("Drive &9"));
+            MAKE_ENDISABLE_ENTRY(MDDPC_SET_DRIVE10, IDM_MON_DRIVE10, TEXT("Drive 1&0"));
+            MAKE_ENDISABLE_ENTRY(MDDPC_SET_DRIVE11, IDM_MON_DRIVE11, TEXT("Drive 1&1"));
         }
 
         GetCursorPosAtMessageTime(&curpos);
@@ -1609,7 +1610,7 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
                 SelectObject(hdc, GetStockObject(ANSI_FIXED_FONT));
 
                 // get height and width of a character
-                GetTextExtentPoint32(hdc, " ", 1, &size);
+                GetTextExtentPoint32(hdc, TEXT(" "), 1, &size);
                 prp->charwidth  = size.cx;
                 prp->charheight = size.cy;
 
@@ -1724,19 +1725,19 @@ static int ExecuteDisassemblyPopup_callback(HMENU hPopupMenu, WORD ulDefault, WO
     mii.fMask = MIIM_STATE | MIIM_ID | MIIM_TYPE;
     mii.fType = MFT_STRING;
 
-    MAKE_ENTRY(IDM_MON_GOTO_PC, "go &to PC");
-    MAKE_ENTRY(IDM_MON_GOTO_ADDRESS, "&go to address");
+    MAKE_ENTRY(IDM_MON_GOTO_PC, TEXT("go &to PC"));
+    MAKE_ENTRY(IDM_MON_GOTO_ADDRESS, TEXT("&go to address"));
 
     MAKE_SEPARATOR();
 
-    MAKE_ENTRY(IDM_MON_SET_NEXT_INSTRUCTION, "set &next instruction");
+    MAKE_ENTRY(IDM_MON_SET_NEXT_INSTRUCTION, TEXT("set &next instruction"));
 
     MAKE_SEPARATOR();
 
-    MAKE_COND_ENTRY(MDDPC_SET_BREAKPOINT, IDM_MON_SET_BP, "&set breakpoint");
-    MAKE_COND_ENTRY(MDDPC_UNSET_BREAKPOINT, IDM_MON_UNSET_BP, "&unset breakpoint");
-    MAKE_COND_ENTRY(MDDPC_ENABLE_BREAKPOINT, IDM_MON_ENABLE_BP, "&enable breakpoint");
-    MAKE_COND_ENTRY(MDDPC_DISABLE_BREAKPOINT, IDM_MON_DISABLE_BP, "&disable breakpoint");
+    MAKE_COND_ENTRY(MDDPC_SET_BREAKPOINT, IDM_MON_SET_BP, TEXT("&set breakpoint"));
+    MAKE_COND_ENTRY(MDDPC_UNSET_BREAKPOINT, IDM_MON_UNSET_BP, TEXT("&unset breakpoint"));
+    MAKE_COND_ENTRY(MDDPC_ENABLE_BREAKPOINT, IDM_MON_ENABLE_BP, TEXT("&enable breakpoint"));
+    MAKE_COND_ENTRY(MDDPC_DISABLE_BREAKPOINT, IDM_MON_DISABLE_BP, TEXT("&disable breakpoint"));
 
     *nNewMenuCount = nMenuCount;
 
@@ -1766,8 +1767,8 @@ static int ExecuteMemoryPopup_callback(HMENU hPopupMenu, WORD ulDefault, WORD ul
     mii.fMask = MIIM_STATE | MIIM_ID | MIIM_TYPE;
     mii.fType = MFT_STRING;
 
-    MAKE_ENTRY(IDM_MON_GOTO_PC, "go &to PC");
-    MAKE_ENTRY(IDM_MON_GOTO_ADDRESS, "&go to address");
+    MAKE_ENTRY(IDM_MON_GOTO_PC, TEXT("go &to PC"));
+    MAKE_ENTRY(IDM_MON_GOTO_ADDRESS, TEXT("&go to address"));
 
     MAKE_SEPARATOR();
 
@@ -1938,6 +1939,8 @@ static BOOL CALLBACK navigate_window_proc(HWND hwnd, UINT msg, WPARAM wParam,LPA
     return FALSE;
 }
 
+#define ST_BUF_LEN 128
+
 /* window procedure */
 static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, window_data_t *window_data)
 {
@@ -1977,7 +1980,7 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
                 SelectObject(hdc, GetStockObject(ANSI_FIXED_FONT));
 
                 // get height and width of a character
-                GetTextExtentPoint32(hdc, " ", 1, &size);
+                GetTextExtentPoint32(hdc, TEXT(" "), 1, &size);
                 pdp->charwidth = size.cx;
                 pdp->charheight = size.cy;
 
@@ -2075,6 +2078,7 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
                 if (md_contents) {
                     for (i = 0; i < nHeightToPrint; i++) {
+                        TCHAR st_buf[ST_BUF_LEN];
                         mon_disassembly_t *next = md_contents->next;
 
                         LINETYPE lt;
@@ -2110,7 +2114,8 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
                         SetTextColor(hdc, crText);
                         SetBkColor(hdc, crBack);
 
-                        TextOut(hdc, 0, i * pdp->charheight, md_contents->content, md_contents->length);
+                        system_mbstowcs(st_buf, md_contents->content, ST_BUF_LEN);
+                        TextOut(hdc, 0, i * pdp->charheight, st_buf, md_contents->length);
 
                         /* make sure we clear all that is right from the text */
                         SelectObject(hdc, hbrushBack[lt]);
@@ -2191,7 +2196,7 @@ static LRESULT CALLBACK mem_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
                 mon_memory_init(&pmp->mmp);
 
                 // get height and width of a character
-                GetTextExtentPoint32(hdc, " ", 1, &size);
+                GetTextExtentPoint32(hdc, TEXT(" "), 1, &size);
                 pmp->charwidth = size.cx;
                 pmp->charheight = size.cy;
 
@@ -2214,6 +2219,7 @@ static LRESULT CALLBACK mem_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
         case WM_PAINT:
             {
 #if 0
+                TCHAR st_buf[ST_BUF_LEN];
                 mon_memory_t * contents = NULL;
                 PAINTSTRUCT ps;
                 HDC hdc;
@@ -2265,7 +2271,8 @@ static LRESULT CALLBACK mem_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
                         SetTextColor(hdc, crText);
                         SetBkColor(hdc, crBack);
 
-                        TextOut(hdc, 0, i * pmp->charheight, contents->content, contents->length);
+                        system_mbstowcs(st_buf, contents->content, ST_BUF_LEN);
+                        TextOut(hdc, 0, i * pmp->charheight, st_buf, contents->length);
 
                         /* make sure we clear all that is right from the text */
                         Rectangle(hdc, contents->length * pmp->charwidth, i * pmp->charheight, rect.right + 1, (i + 1) * pmp->charheight);
@@ -2277,6 +2284,7 @@ static LRESULT CALLBACK mem_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
                 }
                 EndPaint(hwnd, &ps);
 #else
+                TCHAR st_buf[ST_BUF_LEN];
                 mon_disassembly_t *md_contents = NULL;
                 PAINTSTRUCT ps;
                 HDC hdc;
@@ -2373,7 +2381,8 @@ static LRESULT CALLBACK mem_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
                     SetTextColor(hdc, crText);
                     SetBkColor(hdc, crBack);
 
-                    TextOut(hdc, 0, i * pmp->charheight, md_contents->content, md_contents->length);
+                    system_mbstowcs(st_buf, md_contents->content, ST_BUF_LEN);
+                    TextOut(hdc, 0, i * pmp->charheight, st_buf, md_contents->length);
 
                     /* make sure we clear all that is right from the text */
                     SelectObject(hdc, hbrushBack[lt]);
@@ -2602,7 +2611,8 @@ console_t *uimon_window_open(void)
     uimon_init();
 
     hwndMonitor = CreateWindow(MONITOR_CLASS,
-                               "VICE monitor", WS_OVERLAPPED | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX,
+                               TEXT("VICE monitor"),
+                               WS_OVERLAPPED | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX,
                                x, y,
                                dx, dy,
                                NULL, // @SRT GetActiveWindow(),

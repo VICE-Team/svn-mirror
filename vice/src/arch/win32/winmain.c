@@ -58,7 +58,7 @@ extern void __GetMainArgs(int *, char ***, char ***, int);
 #  endif
 #endif
 
-int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance, TCHAR *cmd_line, int cmd_show)
+int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, char *cmd_line, int cmd_show)
 {
     winmain_instance = instance;
     winmain_prev_instance = prev_instance;
@@ -82,16 +82,17 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance, TCHAR *cmd_line,
 #  endif
 #  ifndef IDE_COMPILE
     if (!__argc) {
-        TCHAR *vice_cmdline;
-        TCHAR *vice_argv[4096] ;
+        // For now we always pass 8-bit args to main_program()
+        char *vice_cmdline;
+        char *vice_argv[256] ;
         int vice_argc = 0;
 
-        vice_cmdline = lib_stralloc(GetCommandLine());
+        vice_cmdline = lib_stralloc(GetCommandLineA());
 
-        vice_argv[vice_argc] = _tcstok(vice_cmdline, TEXT(" \t"));
+        vice_argv[vice_argc] = strtok(vice_cmdline, " \t");
         while (vice_argv[vice_argc] != 0) {
             vice_argc++;
-            vice_argv[vice_argc] = _tcstok(0, TEXT(" \t"));
+            vice_argv[vice_argc] = strtok(0, " \t");
         }
         main_program(vice_argc, vice_argv);
         lib_free(vice_cmdline);
@@ -113,9 +114,9 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance, TCHAR *cmd_line,
         __GetMainArgs(&vice_argc, &vice_argv, &dummy, -1);
         main_program(vice_argc, vice_argv);
     }
-#else
+#  else
     main_program(_argc, _argv);
-#endif
+#  endif
 #endif
 
     return 0;

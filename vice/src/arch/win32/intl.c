@@ -536,6 +536,11 @@ static char *intl_add_hotkey(char *text, int ids, int lang)
 
 /* --------------------------------------------------------------------- */
 
+#ifdef WIN32_UNICODE_SUPPORT
+static WCHAR *intl_wcs_table[LAST_IDS + 16][countof(language_table)];
+static BYTE wcs_cache[(((LAST_IDS / 16) + 1) / 8) + 1];
+#endif
+
 static char *intl_text_table[LAST_IDS + 16][countof(language_table)];
 static BYTE text_cache[(((LAST_IDS / 16) + 1) / 8) + 1];
 
@@ -543,6 +548,11 @@ static BYTE text_cache[(((LAST_IDS / 16) + 1) / 8) + 1];
 
 static void intl_text_init(void)
 {
+#ifdef WIN32_UNICODE_SUPPORT
+    ZeroMemory(intl_wcs_table, sizeof(intl_wcs_table));
+    ZeroMemory(wcs_cache, sizeof(wcs_cache));
+#endif
+
     ZeroMemory(intl_text_table, sizeof(intl_text_table));
     ZeroMemory(text_cache, sizeof(text_cache));
 
@@ -567,11 +577,61 @@ static void intl_text_free(void)
     unsigned int i, j;
 
     for (i = 0; i < countof(language_table); i++) {
+#ifdef WIN32_UNICODE_SUPPORT
+        for (j = 0; j < countof(intl_wcs_table); j++) {
+            lib_free(intl_wcs_table[j][i]);
+        }
+#endif
         for (j = 0; j < countof(intl_text_table); j++) {
             lib_free(intl_text_table[j][i]);
         }
     }
 }
+
+#ifdef WIN32_UNICODE_SUPPORT
+WCHAR *intl_translate_wcs(int en_resource)
+{
+    WCHAR *p, *text;
+    unsigned int i;
+    int j, k;
+    HRSRC hRes;
+    HGLOBAL hGlob;
+    int length;
+
+    if (!(wcs_cache[en_resource >> 7] & (1 << ((en_resource >> 4) & 7)))) {
+        j = (en_resource >> 4) + 1;
+        for (i = 0; i < countof(language_table); i++) {
+            hRes = FindResourceEx(NULL, RT_STRING, MAKEINTRESOURCE(j), (WORD)MAKELANGID(windows_to_iso[i].windows_code, SUBLANG_NEUTRAL));
+            if (hRes) {
+                hGlob = LoadResource(NULL, hRes);
+                p = LockResource(hGlob);
+                for (k = 0; k < 16; k++) {
+                    length = *p++;
+                    text = lib_malloc((length + 1) * sizeof(WCHAR));
+                    ZeroMemory(text, (length + 1) * sizeof(WCHAR));
+                    memcpy(text, p, length * sizeof(WCHAR));
+                    p = p + length;
+                    intl_wcs_table[((j - 1) << 4) + k][i] = text;
+/*                  if (hotkeys_loaded) {
+                        intl_text_table[((j - 1) << 4) + k][i] = intl_add_hotkey(intl_text_table[((j - 1) << 4) + k][i], ((j - 1) << 4) + k, i);
+                    } */
+                }
+                FreeResource(hGlob);
+            } else {
+                for (k = 0; k < 16; k++) {
+                    intl_wcs_table[((j - 1) << 4) + k][i] = NULL;
+                }
+            }
+        }
+        wcs_cache[en_resource >> 7] |= (1 << ((en_resource >> 4) & 7));
+    }
+    text = intl_wcs_table[en_resource][current_language_index];
+    if (text == NULL) {
+        text = intl_wcs_table[en_resource][0];
+    }
+    return text;
+}
+#endif
 
 char *intl_translate_text(int en_resource)
 {
@@ -620,7 +680,7 @@ char *intl_translate_text(int en_resource)
 /* pre-translated main window caption text so the emulation won't
    slow down because of all the translation calls */
 
-char *intl_speed_at_text;
+TCHAR *intl_speed_at_text;
 
 /* --------------------------------------------------------------------- */
 
@@ -654,7 +714,7 @@ void intl_shutdown(void)
 
 static void intl_update_pre_translated_text(void)
 {
-    intl_speed_at_text=intl_translate_text(IDS_S_AT_D_SPEED);
+    intl_speed_at_text = intl_translate_tcs(IDS_S_AT_D_SPEED);
 }
 
 char *intl_arch_language_init(void)

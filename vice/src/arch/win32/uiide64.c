@@ -153,8 +153,8 @@ static void init_ide64_shortbus_dialog(HWND hwnd)
     uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_IDE64_SB_DIGIMAX_ADDRESS);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"$DE40");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"$DE48");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("$DE40"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("$DE48"));
     resources_get_int("SBDIGIMAXBase", &res_value);
     active_value = 0;
     for (res_value_loop = 0; ui_ide64_shortbus_digimax_base[res_value_loop] != -1; res_value_loop++) {
@@ -173,6 +173,7 @@ static void init_ide64_v4_dialog(HWND hwnd)
     int res_value;
     int xtemp;
     const char *server_bind_address;
+    TCHAR st[256];
     HWND parent_hwnd;
     HWND temp_hwnd;
     int res_value_loop;
@@ -196,9 +197,9 @@ static void init_ide64_v4_dialog(HWND hwnd)
     uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_IDE64_VERSION);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"V3");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"V4.1");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"V4.2");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("V3"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("V4.1"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("V4.2"));
     resources_get_int("IDE64version", &res_value);
     active_value = 0;
     for (res_value_loop = 0; ui_ide64_version[res_value_loop] != -1; res_value_loop++) {
@@ -215,7 +216,8 @@ static void init_ide64_v4_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_IDE64_RTC_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_string("IDE64USBServerAddress", &server_bind_address);
-    SetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, TEXT(server_bind_address));
+    system_mbstowcs(st, server_bind_address, 256);
+    SetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, st);
 }
 
 static void init_ide64_dialog(HWND hwnd, int num)
@@ -301,7 +303,8 @@ static INT_PTR CALLBACK dialog_shortbus_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    TCHAR st[MAX_PATH];
+    TCHAR st_text[MAX_PATH];
+    char text[MAX_PATH];
     int type;
 
     switch (msg) {
@@ -310,8 +313,9 @@ static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
                 resources_set_int("IDE64version", ui_ide64_version[SendMessage(GetDlgItem(hwnd, IDC_IDE64_VERSION), CB_GETCURSEL, 0, 0)]);
                 resources_set_int("IDE64USBServer", (IsDlgButtonChecked(hwnd, IDC_IDE64_USB_SERVER) == BST_CHECKED ? 1 : 0));
                 resources_set_int("IDE64RTCSave", (IsDlgButtonChecked(hwnd, IDC_IDE64_RTC_SAVE) == BST_CHECKED ? 1 : 0));
-                GetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, st, MAX_PATH);
-                resources_set_string("IDE64USBServerAddress", st);
+                GetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, st_text, MAX_PATH);
+                system_wcstombs(text, st_text, MAX_PATH);
+                resources_set_string("IDE64USBServerAddress", text);
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
@@ -377,7 +381,7 @@ static INT_PTR CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam,
                     update_text(hwnd);
                     break;
                 case IDC_IDE64_HDIMAGE_BROWSE:
-                    uilib_select_browse(hwnd, translate_text(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL | UILIB_FILTER_IDE64, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_FILE);
+                    uilib_select_browse(hwnd, intl_translate_tcs(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL | UILIB_FILTER_IDE64, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_FILE);
                     break;
             }
             return TRUE;
@@ -444,23 +448,23 @@ void uiide64_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = dialog_shortbus_proc;
-    psp[0].pszTitle = translate_text(IDS_IDE64_SHORTBUS_SETTINGS);
+    psp[0].pszTitle = intl_translate_tcs(IDS_IDE64_SHORTBUS_SETTINGS);
     psp[1].pfnDlgProc = dialog_v4_proc;
-    psp[1].pszTitle = translate_text(IDS_IDE64_V4_SETTINGS);
+    psp[1].pszTitle = intl_translate_tcs(IDS_IDE64_V4_SETTINGS);
     psp[2].pfnDlgProc = callback_1;
-    psp[2].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_1_SETTINGS);
+    psp[2].pszTitle = intl_translate_tcs(IDS_IDE64_HD_IMAGE_1_SETTINGS);
     psp[3].pfnDlgProc = callback_2;
-    psp[3].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_2_SETTINGS);
+    psp[3].pszTitle = intl_translate_tcs(IDS_IDE64_HD_IMAGE_2_SETTINGS);
     psp[4].pfnDlgProc = callback_3;
-    psp[4].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_3_SETTINGS);
+    psp[4].pszTitle = intl_translate_tcs(IDS_IDE64_HD_IMAGE_3_SETTINGS);
     psp[5].pfnDlgProc = callback_4;
-    psp[5].pszTitle = translate_text(IDS_IDE64_HD_IMAGE_4_SETTINGS);
+    psp[5].pszTitle = intl_translate_tcs(IDS_IDE64_HD_IMAGE_4_SETTINGS);
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = translate_text(IDS_IDE64_SETTINGS);
+    psh.pszCaption = intl_translate_tcs(IDS_IDE64_SETTINGS);
     psh.nPages = 6;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

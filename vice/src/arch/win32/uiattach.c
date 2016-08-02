@@ -47,12 +47,16 @@
 
 static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
 {
-    TCHAR *st_name;
+    TCHAR *st_title;
+    char *name;
     char *resource;
     int unit = 8;
     int autostart_index = -1;
 
     SuspendFullscreenModeKeep(hwnd);
+
+    st_title = intl_translate_tcs(IDS_ATTACH_DISK_IMAGE);
+
     switch (wparam & 0xffff) {
         case IDM_ATTACH_8:
             unit = 8;
@@ -68,8 +72,8 @@ static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
             break;
     }
     resource = lib_msprintf("AttachDevice%dReadonly", unit);
-    if ((st_name = uilib_select_file_autostart(hwnd,
-                                               translate_text(IDS_ATTACH_DISK_IMAGE),
+    if ((name = uilib_select_file_autostart(hwnd,
+                                               st_title,
                                                UILIB_FILTER_DISK |
 #ifdef HAVE_ZLIB
                                                UILIB_FILTER_ZIP |
@@ -78,9 +82,6 @@ static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
                                                UILIB_SELECTOR_TYPE_FILE_LOAD,
                                                UILIB_SELECTOR_STYLE_DISK,
                                                &autostart_index, resource)) != NULL) {
-        char *name;
-
-        name = system_wcstombs_alloc(st_name);
         if (autostart_index >= 0) {
             if (autostart_autodetect(name, NULL, autostart_index, AUTOSTART_MODE_RUN) < 0) {
                 ui_error(translate_text(IDS_CANNOT_AUTOSTART_FILE));
@@ -90,8 +91,7 @@ static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
                 ui_error(translate_text(IDS_CANNOT_ATTACH_FILE));
             }
         }
-        system_wcstombs_free(name);
-        lib_free(st_name);
+        lib_free(name);
     }
     ResumeFullscreenModeKeep(hwnd);
     lib_free(resource);
@@ -99,22 +99,23 @@ static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
 
 static void uiattach_tape_dialog(HWND hwnd)
 {
-    TCHAR *st_name;
+    TCHAR *st_title;
+    char *name;
     int autostart_index = -1;
 
     SuspendFullscreenModeKeep(hwnd);
-    if ((st_name = uilib_select_file_autostart(hwnd,
-                                               translate_text(IDS_ATTACH_TAPE_IMAGE),
-                                               UILIB_FILTER_TAPE |
-#ifdef HAVE_ZLIB
-                                               UILIB_FILTER_ZIP |
-#endif
-                                               UILIB_FILTER_ALL,
-                                               UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_TAPE,
-                                               &autostart_index, NULL)) != NULL) {
-        char *name;
 
-        name = system_wcstombs_alloc(st_name);
+    st_title = intl_translate_tcs(IDS_ATTACH_TAPE_IMAGE);
+
+    if ((name = uilib_select_file_autostart(hwnd,
+                                            st_title,
+                                            UILIB_FILTER_TAPE |
+#ifdef HAVE_ZLIB
+                                            UILIB_FILTER_ZIP |
+#endif
+                                            UILIB_FILTER_ALL,
+                                            UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_TAPE,
+                                            &autostart_index, NULL)) != NULL) {
         if (autostart_index >= 0) {
             if (autostart_autodetect(name, NULL, autostart_index, AUTOSTART_MODE_RUN) < 0) {
                 ui_error(translate_text(IDS_CANNOT_AUTOSTART_FILE));
@@ -124,40 +125,38 @@ static void uiattach_tape_dialog(HWND hwnd)
                 ui_error(translate_text(IDS_CANNOT_ATTACH_FILE));
             }
         }
-        system_wcstombs_free(name);
-        lib_free(st_name);
+        lib_free(name);
     }
     ResumeFullscreenModeKeep(hwnd);
 }
 
 static void uiattach_autostart_dialog(HWND hwnd)
 {
-    TCHAR *st_name;
+    TCHAR *st_title;
+    char *name;
     int autostart_index = 0;
     char *resource;
 
-    resource = lib_msprintf("AttachDevice%dReadonly", 8);
-    if ((st_name = uilib_select_file_autostart(hwnd,
-                                               translate_text(IDS_AUTOSTART_IMAGE),
-                                               UILIB_FILTER_CBM |
-                                               UILIB_FILTER_DISK |
-                                               UILIB_FILTER_TAPE |
-#ifdef HAVE_ZLIB
-                                               UILIB_FILTER_ZIP |
-#endif
-                                               UILIB_FILTER_PRGP00 |
-                                               UILIB_FILTER_ALL,
-                                               UILIB_SELECTOR_TYPE_FILE_LOAD,
-                                               UILIB_SELECTOR_STYLE_DISK_AND_TAPE,
-                                               &autostart_index, resource)) != NULL) {
-        char *name;
+    st_title = intl_translate_tcs(IDS_AUTOSTART_IMAGE);
 
-        name = system_wcstombs_alloc(st_name);
+    resource = lib_msprintf("AttachDevice%dReadonly", 8);
+    if ((name = uilib_select_file_autostart(hwnd,
+                                            st_title,
+                                            UILIB_FILTER_CBM |
+                                            UILIB_FILTER_DISK |
+                                            UILIB_FILTER_TAPE |
+#ifdef HAVE_ZLIB
+                                            UILIB_FILTER_ZIP |
+#endif
+                                            UILIB_FILTER_PRGP00 |
+                                            UILIB_FILTER_ALL,
+                                            UILIB_SELECTOR_TYPE_FILE_LOAD,
+                                            UILIB_SELECTOR_STYLE_DISK_AND_TAPE,
+                                            &autostart_index, resource)) != NULL) {
         if (autostart_autodetect(name, NULL, autostart_index, AUTOSTART_MODE_RUN) < 0) {
             ui_error(translate_text(IDS_CANNOT_AUTOSTART_FILE));
         }
-        system_wcstombs_free(name);
-        lib_free(st_name);
+        lib_free(name);
     }
     lib_free(resource);
 }
