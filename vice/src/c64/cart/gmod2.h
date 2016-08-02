@@ -55,6 +55,7 @@ extern int gmod2_bin_save(const char *filename);
 extern int gmod2_crt_save(const char *filename);
 extern int gmod2_flush_image(void);
 extern void gmod2_detach(void);
+extern int gmod2_cart_enabled(void);
 
 extern int gmod2_cmdline_options_init(void);
 extern int gmod2_resources_init(void);

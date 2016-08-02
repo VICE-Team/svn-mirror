@@ -82,18 +82,23 @@
 
 #define GMOD2_FLASH_SIZE (512*1024)
 
+static int gmod2_enabled = 0;
+
 /* current GAME/EXROM mode */
 static int gmod2_cmode = CMODE_8KGAME;
 
 /* current bank */
 static int gmod2_bank;
-static int gmod2_bios_write = 0;
+static int gmod2_flash_write = 0;
 
 /* the 29F010 statemachine */
 static flash040_context_t *flashrom_state = NULL;
 
 static char *gmod2_filename = NULL;
 static int gmod2_filetype = 0;
+
+static char *gmod2_eeprom_filename = NULL;
+static int gmod2_eeprom_rw = 0;
 
 static int eeprom_cs = 0;
 
@@ -136,12 +141,12 @@ BYTE gmod2_io1_read(WORD addr)
     DBG(("io1 r %04x\n", addr));
 
     if ((addr & 0xff) == 0) {
-            gmod2_io1_device.io_source_valid = 1;
-            if (eeprom_cs) {
-                return (m93c86_read_data() << 7) | (vicii_read_phi1() & 0x7f);
-            } else {
-                return (vicii_read_phi1() & 0xff);
-            }
+        gmod2_io1_device.io_source_valid = 1;
+        if (eeprom_cs) {
+            return (m93c86_read_data() << 7) | (vicii_read_phi1() & 0x7f);
+        } else {
+            return (vicii_read_phi1() & 0xff);
+        }
     }
     return 0;
 }
@@ -149,7 +154,7 @@ BYTE gmod2_io1_read(WORD addr)
 BYTE gmod2_io1_peek(WORD addr)
 {
     if ((addr & 0xff) == 0) {
-            return (m93c86_read_data() << 7);
+        return (m93c86_read_data() << 7);
     }
     return 0;
 }
@@ -292,39 +297,93 @@ void gmod2_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
-static int set_gmod2_bios_write(int val, void *param)
+static int set_mmcr_eeprom_filename(const char *name, void *param)
 {
-    gmod2_bios_write = val ? 1 : 0;
+    if (gmod2_eeprom_filename != NULL && name != NULL && strcmp(name, gmod2_eeprom_filename) == 0) {
+        return 0;
+    }
+
+    if (name != NULL && *name != '\0') {
+        if (util_check_filename_access(name) < 0) {
+            return -1;
+        }
+    }
+
+    util_string_set(&gmod2_eeprom_filename, name);
+
+    if (gmod2_enabled) {
+        return m93c86_open_image(gmod2_eeprom_filename, gmod2_eeprom_rw);
+    }
 
     return 0;
 }
 
+static int set_gmod2_eeprom_rw(int val, void* param)
+{
+    gmod2_eeprom_rw = val ? 1 : 0;
+    return 0;
+}
+
+static int set_gmod2_flash_write(int val, void *param)
+{
+    gmod2_flash_write = val ? 1 : 0;
+
+    return 0;
+}
+
+static const resource_string_t resources_string[] = {
+    { "GMod2EEPROMImage", "", RES_EVENT_NO, NULL,
+      &gmod2_eeprom_filename, set_mmcr_eeprom_filename, NULL },
+    { NULL }
+};
+
 static const resource_int_t resources_int[] = {
-    { "GMod2BiosWrite", 0, RES_EVENT_NO, NULL,
-      &gmod2_bios_write, set_gmod2_bios_write, NULL },
+    { "GMod2FlashWrite", 0, RES_EVENT_NO, NULL,
+      &gmod2_flash_write, set_gmod2_flash_write, NULL },
+    { "GMod2EEPROMRW", 1, RES_EVENT_NO, NULL,
+      &gmod2_eeprom_rw, set_gmod2_eeprom_rw, NULL },
     { NULL }
 };
 
 int gmod2_resources_init(void)
 {
+    if (resources_register_string(resources_string) < 0) {
+        return -1;
+    }
     return resources_register_int(resources_int);
 }
 
 void gmod2_resources_shutdown(void)
 {
+    lib_free(gmod2_eeprom_filename);
 }
 
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-gmod2bioswrite", SET_RESOURCE, 0,
-      NULL, NULL, "GMod2BiosWrite", (resource_value_t)1,
+    { "-gmod2eepromimage", SET_RESOURCE, 1,
+      NULL, NULL, "GMod2EEPROMImage", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_P_FILE, IDCLS_SELECT_GMOD2_EEPROM_IMAGE,
+      NULL, NULL },
+    { "-gmod2eepromrw", SET_RESOURCE, 0,
+      NULL, NULL, "GMod2EEPROMRW", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_GMOD2_EEPROM_WRITE_ENABLE,
+      NULL, NULL },
+    { "+gmod2eepromrw", SET_RESOURCE, 0,
+      NULL, NULL, "GMod2EEPROMRW", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_GMOD2_EEPROM_WRITE_DISABLE,
+      NULL, NULL },
+    { "-gmod2flashwrite", SET_RESOURCE, 0,
+      NULL, NULL, "GMod2FlashWrite", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT,
       NULL, NULL },
-    { "+gmod2bioswrite", SET_RESOURCE, 0,
-      NULL, NULL, "GMod2BiosWrite", (resource_value_t)0,
+    { "+gmod2flashwrite", SET_RESOURCE, 0,
+      NULL, NULL, "GMod2FlashWrite", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT,
       NULL, NULL },
@@ -343,6 +402,9 @@ static int gmod2_common_attach(void)
     }
 
     gmod2_io1_list_item = io_source_register(&gmod2_io1_device);
+    m93c86_open_image(gmod2_eeprom_filename, gmod2_eeprom_rw);
+
+    gmod2_enabled = 1;
 
     return 0;
 }
@@ -460,7 +522,7 @@ int gmod2_flush_image(void)
 
 void gmod2_detach(void)
 {
-    if (gmod2_bios_write && flashrom_state->flash_dirty) {
+    if (gmod2_flash_write && flashrom_state->flash_dirty) {
         gmod2_flush_image();
     }
 
@@ -469,9 +531,17 @@ void gmod2_detach(void)
     flashrom_state = NULL;
     lib_free(gmod2_filename);
     gmod2_filename = NULL;
+    m93c86_close_image(gmod2_eeprom_rw);
     export_remove(&export_res);
     io_source_unregister(gmod2_io1_list_item);
     gmod2_io1_list_item = NULL;
+
+    gmod2_enabled = 0;
+}
+
+int gmod2_cart_enabled(void)
+{
+    return gmod2_enabled;
 }
 
 /* ---------------------------------------------------------------------*/

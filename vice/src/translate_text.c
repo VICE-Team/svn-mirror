@@ -8210,6 +8210,57 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_TR, "MMC Replay imajýna yazma"},
 #endif
 
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE,    N_("Specify GMod2 EEPROM image filename")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_DA, "Angiv filnavn for GMod2 EEPROM-image"},
+/* de */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_DE, "GMod2 EEPROM Imagedatei wählen"},
+/* es */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_ES, "Especificar nombre fichero imagen EEPROM GMod2"},
+/* fr */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_FR, "Spécifier le nom du fichier de l'image EEPROM GMod2"},
+/* hu */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_IT, "Specifica il nome file immagine della EEPROM GMod2"},
+/* ko */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_NL, "Geef de naam van het GMod2 EEPROM bestand"},
+/* pl */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_PL, "Okre¶l nazwê pliku obrazu EEPROM GMod2"},
+/* ru */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_RU, "Specify GMod2 EEPROM image filename"},
+/* sv */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_SV, "Ange filnamn för GMod2 EEPROM-avbildning"},
+/* tr */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_TR, "GMod2 EEPROM imaj dosyaismini belirt"},
+#endif
+
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE,    N_("Enable writes to GMod2 EEPROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_DA, "Tillad skrivning til GMod2 EEPROM-image"},
+/* de */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_DE, "Erlaube Schreibzugriff auf GMod2 EEPROM Imagedatei"},
+/* es */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_ES, "Permitir grabación en imagen EEPROM GMod2"},
+/* fr */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_FR, "Permetre l'écriture à l'image GMod2 EEPROM"},
+/* hu */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_IT, "Attiva scrittura su immagine EEPROM GMod2"},
+/* ko */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_KO, "GMod2 EEPROM ÀÌ¹ÌÁö ¿¡ ¾²±â °¡´ÉÇÏ°Ô ÇÏ±â"},
+/* nl */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_NL, "Aktiveer schrijven naar GMod2 EEPROM bestand"},
+/* pl */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_PL, "W³±cz zapis do obrazu EEPROM GMod2"},
+/* ru */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_RU, "Enable writes to GMod2 EEPROM image"},
+/* sv */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_SV, "Aktivera skrivning till GMod2 EEPROM-avbildning"},
+/* tr */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_TR, "GMod2 EEPROM imajýnda yazmalarý aktif et"},
+#endif
+
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE,    N_("Disable writes to GMod2 EEPROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_DA, "Skriv ikke til GMod2 EEPROM-image"},
+/* de */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_DE, "Schreibzugriff auf GMod2 EEPROM Imagedatei verhindern"},
+/* es */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_ES, "Deshabilitar grabación en imagen EEPROM GMod2"},
+/* fr */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_FR, "Interdire l'écriture à l'image GMod2 EEPROM"},
+/* hu */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_IT, "Disattiva scrittura su immagine EEPROM GMod2"},
+/* ko */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_NL, "Deactiveer schrijven naar GMod2 EEPROM bestand"},
+/* pl */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_PL, "Wy³±cz zapis do obrazu EEPROM GMod2"},
+/* ru */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_RU, "Disable writes to GMod2 EEPROM image"},
+/* sv */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_SV, "Inaktivera skrivning till GMod2 EEPROM-avbildning"},
+/* tr */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_TR, "GMod2 EEPROM imajýnda yazmalarý pasifleþtir"},
+#endif
+
 /* c64/cart/gmod2.c */
 /* en */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT,    N_("Enable saving of the GMod2 ROM at exit")},
 #ifdef HAS_TRANSLATION
