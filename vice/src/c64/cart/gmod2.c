@@ -297,7 +297,7 @@ void gmod2_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
-static int set_mmcr_eeprom_filename(const char *name, void *param)
+static int set_gmod2_eeprom_filename(const char *name, void *param)
 {
     if (gmod2_eeprom_filename != NULL && name != NULL && strcmp(name, gmod2_eeprom_filename) == 0) {
         return 0;
@@ -333,7 +333,7 @@ static int set_gmod2_flash_write(int val, void *param)
 
 static const resource_string_t resources_string[] = {
     { "GMod2EEPROMImage", "", RES_EVENT_NO, NULL,
-      &gmod2_eeprom_filename, set_mmcr_eeprom_filename, NULL },
+      &gmod2_eeprom_filename, set_gmod2_eeprom_filename, NULL },
     { NULL }
 };
 
