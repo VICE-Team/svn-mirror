@@ -137,22 +137,10 @@
 277 6 0 8              /*          Ins -> Pound        */
 127 6 6 8              /*          Del -> Up Arrow     */
 
-256 4 7 8              /*     NumPad 0 -> 0            */
-257 0 0 8              /*     NumPad 1 -> 1            */
-258 0 7 8              /*     NumPad 2 -> 2            */
-259 1 0 8              /*     NumPad 3 -> 3            */
-260 1 7 8              /*     NumPad 4 -> 4            */
-261 2 0 8              /*     NumPad 5 -> 5            */
-262 2 7 8              /*     NumPad 6 -> 6            */
-263 3 0 8              /*     NumPad 7 -> 7            */
-264 3 7 8              /*     NumPad 8 -> 8            */
-265 4 0 8              /*     NumPad 9 -> 9            */
-266 5 3 8              /*     NumPad , -> ,            */
 267 6 3 8              /*     NumPad / -> /            */
 268 6 1 8              /*     NumPad * -> *            */
 269 5 7 8              /*     NumPad - -> -            */
 270 5 0 8              /*     NumPad + -> +            */
-271 7 1 8              /* NumPad Enter -> Return       */
 
 # this code is given by two different keys on fi/se layout!
 314 6 1 8              /*      compose -> *            */

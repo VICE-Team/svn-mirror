@@ -137,19 +137,8 @@
 #68 -1 -1 0     /*          F10 -> (no key)     */
 #69 -1 -1 0     /*     Num Lock -> (no key)     */
 #70 -1 -1 0     /*  Scroll Lock -> (no key)     */
-#71 -1 -1 0     /*     Numpad 7 -> (no key)     */
-#72 -1 -1 0     /*     Numpad 8 -> (no key)     */
-#73 -1 -1 0     /*     Numpad 9 -> (no key)     */
 #74 -1 -1 0     /*     Numpad - -> (no key)     */
-#75 -1 -1 0     /*     Numpad 4 -> (no key)     */
-#76 -1 -1 0     /*     Numpad 5 -> (no key)     */
-#77 -1 -1 0     /*     Numpad 6 -> (no key)     */
 #78 -1 -1 0     /*     Numpad + -> (no key)     */
-#79 -1 -1 0     /*     Numpad 1 -> (no key)     */
-#80 -1 -1 0     /*     Numpad 2 -> (no key)     */
-#81 -1 -1 0     /*     Numpad 3 -> (no key)     */
-#82 -1 -1 0     /*     Numpad 0 -> (no key)     */
-#83 -1 -1 0     /*     Numpad . -> (no key)     */
 #84 -1 -1 0     /*       SysReq -> (no key)     */
 #85 -1 -1 0     /*           85 -> (no key)     */
 #86 -1 -1 0     /*           86 -> (no key)     */
@@ -165,7 +154,6 @@
 #96 -1 -1 0     /*       PgDown -> (no key)     */
 97 6 0 8        /*          Ins -> Pound        */
 98 6 6 8        /*          Del -> Up Arrow     */
-#99 -1 -1 0     /* Numpad Enter -> (no key)     */
 #100 -1 -1 0    /*   Right Ctrl -> (no key)     */
 #101 -1 -1 0    /*        Pause -> (no key)     */
 #102 -1 -1 0    /*       PrtScr -> (no key)     */

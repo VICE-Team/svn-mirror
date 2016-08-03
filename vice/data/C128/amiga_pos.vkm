@@ -131,7 +131,6 @@
 85 0 6 1                /*           F6 -> F6           */
 86 0 3 8                /*           F7 -> F7           */
 87 0 3 1                /*           F8 -> F8           */
-#88 -1 -1 0             /*           F9 -> (no key)     */
 89 -3 0                 /*          F10 -> RESTORE      */
 #90 -1 -1 0             /*      NUMLOCK -> (no key)     */
 #91 -1 -1 0             /*      SCRLOCK -> (no key)     */
@@ -141,7 +140,6 @@
 95 6 6 8                /*         HELP -> Up Arrow     */
 96 1 7 2                /*   Left Shift -> Left Shift   */
 97 6 4 4                /*  Right Shift -> Right Shift  */
-#98 -1 -1 0             /*     CAPSLOCK -> (no key)     */
 99 7 5 8                /*         Ctrl -> CBM          */
 #100 -1 -1 0            /*     LEFT ALT -> (no key)     */
 #101 -1 -1 0            /*    RIGHT ALT -> (no key)     */
@@ -149,7 +147,6 @@
 #103 -1 -1 0            /*  RIGHT AMIGA -> (no key)     */
 
 # CAPS (ASCII/DIN) key
-83 -4 1                 /*           F4 -> CAPS         */
+98 -4 1                 /*     CAPSLOCK -> CAPS         */
 # 40/80 column key
-87 -4 0                 /*           F7 -> 40/80COL     */
-
+88 -4 0                 /*           F9 -> 40/80COL     */

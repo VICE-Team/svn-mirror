@@ -98,23 +98,11 @@
 228 6 2 1              /* (de)      ae -> ]            */
 246 5 5 1              /* (de)      oe -> [            */
 252 5 6 0              /* (de)      ue -> @            */
-256 4 3 8              /*     NumPad 0 -> 0            */
-257 7 0 8              /*     NumPad 1 -> 1            */
-258 7 3 8              /*     NumPad 2 -> 2            */
-259 1 0 8              /*     NumPad 3 -> 3            */
-260 1 3 8              /*     NumPad 4 -> 4            */
-261 2 0 8              /*     NumPad 5 -> 5            */
-262 2 3 8              /*     NumPad 6 -> 6            */
-263 3 0 8              /*     NumPad 7 -> 7            */
-264 3 3 8              /*     NumPad 8 -> 8            */
-265 4 0 8              /*     NumPad 9 -> 9            */
-266 5 7 8              /*     NumPad , -> ,            */
 267 6 7 8              /*     NumPad / -> /            */
 268 6 1 8              /*     NumPad * -> *            */
 269 5 3 8              /*     NumPad - -> -            */
 27 7 7 8               /*          ESC -> Run/Stop     */
 270 5 0 8              /*     NumPad + -> +            */
-271 0 1 8              /* NumPad Enter -> Return       */
 273 0 7 1              /*           Up -> CRSR UP      */
 274 0 7 8              /*         Down -> CRSR DOWN    */
 275 0 2 8              /*        Right -> CRSR RIGHT   */

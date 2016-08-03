@@ -125,7 +125,6 @@
 #86 0 3 8               /*           F7 -> F7           */
 #87 0 3 1               /*           F8 -> F8           */
 #88 -1 -1 0             /*           F9 -> (no key)     */
-#89 -1 -1 0             /*          F10 -> (no key)     */
 #90 -1 -1 0             /*      NUMLOCK -> (no key)     */
 #91 -1 -1 0             /*      SCRLOCK -> (no key)     */
 #92 -1 -1 0             /* KEYPAD SLASH -> (no key)     */
@@ -143,4 +142,3 @@
 
 # Restore key mappings
 89 -3 0                 /*          F10 -> RESTORE      */
-

@@ -142,7 +142,6 @@
 #63 -1 -1 0          /*          Fn ->               */
 
 #64 -1 -1 0          /*           (no key)           */
-#65 -1 -1 0          /*     Numpad . -> (no key)     */
 #66 -1 -1 0          /*          &&& -> (no key)     */
 #67 -1 -1 0          /*     Numpad * -> (no key)     */
 #68 -1 -1 0          /*           (no key)           */
@@ -153,20 +152,8 @@
 #73 -1 -1 0          /*          &&& -> (no key)     */
 #74 -1 -1 0          /*          &&& -> (no key)     */
 #75 -1 -1 0          /*     Numpad / -> (no key)     */
-#76 -1 -1 0          /* Numpad Enter -> (no key)     */
 #77 -1 -1 0          /*          &&& -> (no key)     */
 #78 -1 -1 0          /*     Numpad - -> (no key)     */
-
-#82 -1 -1 0          /*     Numpad 0 -> (no key)     */
-#83 -1 -1 0          /*     Numpad 1 -> (no key)     */
-#84 -1 -1 0          /*     Numpad 2 -> (no key)     */
-#85 -1 -1 0          /*     Numpad 3 -> (no key)     */
-#86 -1 -1 0          /*     Numpad 4 -> (no key)     */
-#87 -1 -1 0          /*     Numpad 5 -> (no key)     */
-#88 -1 -1 0          /*     Numpad 6 -> (no key)     */
-#89 -1 -1 0          /*     Numpad 7 -> (no key)     */
-#91 -1 -1 0          /*     Numpad 8 -> (no key)     */
-#92 -1 -1 0          /*     Numpad 9 -> (no key)     */
 
 96  0 6 8           /*           F5 -> F5           */
 97  0 6 1           /*           F6 -> F6           */

@@ -99,7 +99,6 @@
 30 0 0 8            /*    Backspace -> Del          */
 31 6 0 8            /*          Ins -> Pound        */
 32 6 3 8            /*         Home -> CLR/HOME     */
-#33 -1 -1 0         /*         PgUp -> (no key)     */
 #34 -1 -1 0         /*     Num Lock -> (no key)     */
 #35 -1 -1 0         /*     Numpad / -> (no key)     */
 36 6 1 8            /*       Grey * -> *            */
@@ -121,9 +120,6 @@
 52 6 6 8            /*          Del -> Up Arrow     */
 #53 -1 -1 0         /*          End -> (no key)     */
 #54 -1 -1 0         /*       PgDown -> (no key)     */
-#55 -1 -1 0         /*     Numpad 7 -> (no key)     */
-#56 -1 -1 0         /*     Numpad 8 -> (no key)     */
-#57 -1 -1 0         /*     Numpad 9 -> (no key)     */
 #58 -1 -1 0         /*     Numpad + -> (no key)     */
 59 7 7 8            /*    Caps Lock -> Run/Stop     */
 60 1 2 8            /*            A -> A            */
@@ -138,9 +134,6 @@
 69 5 5 8            /*            ; -> :            */
 70 6 2 8            /*            ' -> ;            */
 71 0 1 8            /*       Return -> Return       */
-#72 -1 -1 0         /*     Numpad 4 -> (no key)     */
-#73 -1 -1 0         /*     Numpad 5 -> (no key)     */
-#74 -1 -1 0         /*     Numpad 6 -> (no key)     */
 75 1 7 2            /*   Left Shift -> Left Shift   */
 76 1 4 8            /*            Z -> Z            */
 77 2 7 8            /*            X -> X            */
@@ -154,10 +147,6 @@
 85 6 7 8            /*            / -> /            */
 86 6 4 4            /*  Right Shift -> Right Shift  */
 87 0 7 1            /*           Up -> CRSR UP      */
-#88 -1 -1 0         /*     Numpad 1 -> (no key)     */
-#89 -1 -1 0         /*     Numpad 2 -> (no key)     */
-#90 -1 -1 0         /*     Numpad 3 -> (no key)     */
-#91 -1 -1 0         /* Numpad Enter -> (no key)     */
 92 7 5 8            /*    Left Ctrl -> CBM          */
 #93 -1 -1 0         /*     Left Alt -> (no key)     */
 94 7 4 8            /*        Space -> Space        */
@@ -166,8 +155,6 @@
 97 0 2 1            /*         Left -> CRSR LEFT    */
 98 0 7 8            /*         Down -> CRSR DOWN    */
 99 0 2 8            /*        Right -> CRSR RIGHT   */
-#100 -1 -1 0        /*     Numpad 0 -> (no key)     */
-#101 -1 -1 0        /*     Numpad . -> (no key)     */
 #102 -1 -1 0        /*   Left Win95 -> (no key)     */
 #103 -1 -1 0        /*  Right Win95 -> (no key)     */
 #104 -1 -1 0        /*       SysReq -> (no key)     */
