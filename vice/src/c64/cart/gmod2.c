@@ -138,7 +138,7 @@ BYTE gmod2_io1_read(WORD addr)
 {
     gmod2_io1_device.io_source_valid = 0;
 
-    DBG(("io1 r %04x\n", addr));
+    /* DBG(("io1 r %04x (cs:%d)\n", addr, eeprom_cs)); */
 
     if ((addr & 0xff) == 0) {
         gmod2_io1_device.io_source_valid = 1;
@@ -163,7 +163,7 @@ void gmod2_io1_store(WORD addr, BYTE value)
 {
     int mode = CMODE_WRITE;
 
-    DBG(("io1 w %04x %02x\n", addr, value));
+    DBG(("io1 w %04x %02x (cs:%d data:%d clock:%d)\n", addr, value, (value >> 6) & 1, (value >> 4) & 1, (value >> 5) & 1));
 
     if ((addr & 0xff) == 0) {
         gmod2_bank = value & 0x3f;

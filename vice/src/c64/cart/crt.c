@@ -133,12 +133,12 @@ static FILE *crt_open(const char *filename, crt_header_t *header)
 
     do {
         if (fread(crt_header, sizeof(crt_header), 1, fd) < 1) {
-            log_error(LOG_DEFAULT, "could not read CRT header.\n");
+            log_error(LOG_DEFAULT, "could not read CRT header.");
             break;
         }
 
         if (memcmp(crt_header, CRT_HEADER, 16)) {
-            log_error(LOG_DEFAULT, "CRT header invalid.\n");
+            log_error(LOG_DEFAULT, "CRT header invalid.");
             break;
         }
 

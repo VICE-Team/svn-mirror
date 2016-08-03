@@ -24,8 +24,10 @@
  *
  */
 
+
 /* this implements the M93C86 EEPROM in 16 bit mode as used by the GMod2 cartridge.
-   other types can probably be supported with some reworking too */
+   other types (M93C86-x M93C76-x M93C66-x M93C56-x M93C46-x) can probably be 
+   supported with some reworking too (if we ever need it) */
 
 /* #define M93C86DEBUG */
 
@@ -82,6 +84,11 @@ static int ready_busy_status = 1;
 #define CMDWRAL 8
 #define CMDREADDUMMY 9
 #define CMDREADDATA 10
+#define CMDISBUSY 11
+#define CMDISREADY 12
+
+#define STATUSREADY 1
+#define STATUSBUSY 0
 
 static void reset_input_shiftreg(void)
 {
@@ -94,18 +101,18 @@ BYTE m93c86_read_data(void)
 {
     if (eeprom_cs == 1) {
         switch (command) {
-            case CMDWRITE:
-            case CMDWRAL:
-            case CMDERAL:
+            case CMDISBUSY:
                 /* the software will see one busy state for one read, this is not
                    quite what really happens */
-                if (ready_busy_status == 0) {
-                    ready_busy_status = 1;
-                    return 0;
-                } else {
+                    LOG(("busy status is 1"));
+                    command = CMDISREADY;
+                    return STATUSBUSY;
+                break;
+            case CMDISREADY:
+                    LOG(("busy status is 0, end of command"));
+                    ready_busy_status = STATUSREADY;
                     command = 0;
-                    return 1;
-                }
+                    return STATUSREADY;
                 break;
             default:
                 return eeprom_data_out;
@@ -128,6 +135,15 @@ void m93c86_write_select(BYTE value)
     /* Each instruction is preceded by a rising edge on Chip Select Input with Serial Clock being held low. */
     if ((eeprom_cs == 0) && (value == 1) && (eeprom_clock == 0)) {
         reset_input_shiftreg();
+    } else if ((eeprom_cs == 1) && (value == 0)) {
+        /* a write or erase command kicks off on falling edge on CS and then signals busy state */
+        switch (command) {
+            case CMDWRITE:
+            case CMDWRAL:
+            case CMDERAL:
+                command = CMDISBUSY;
+                break;
+        }
     }
     eeprom_cs = value;
     if (eeprom_cs == 0) {
@@ -236,36 +252,53 @@ void m93c86_write_clock(BYTE value)
                             LOG(("CMD: write enable"));
                             break;
                         case CMDERAL:
-                            ready_busy_status = 0;
-                            reset_input_shiftreg();
-                            memset(m93c86_data, 0xff, M93C86_SIZE);
-                            command = 0;
-                            LOG(("CMD: erase all"));
+                            if (write_enable_status == 0) {
+                                log_error(LOG_DEFAULT, "EEPROM: write not permitted for CMD 'erase all'");
+                                reset_input_shiftreg();
+                                command = 0;
+                            } else {
+                                ready_busy_status = STATUSBUSY;
+                                reset_input_shiftreg();
+                                memset(m93c86_data, 0xff, M93C86_SIZE);
+                                LOG(("CMD: erase all"));
+                            }
                             break;
                     }
                     break;
                 case 29:
                     switch (command) {
                         case CMDWRITE:
-                            addr = ((input_shiftreg >> 16) & 0x3ff);
-                            data0 = ((input_shiftreg >> 8) & 0xff);
-                            data1 = ((input_shiftreg >> 0) & 0xff);
-                            ready_busy_status = 0;
-                            reset_input_shiftreg();
-                            m93c86_data[(addr << 1)] = data0;
-                            m93c86_data[(addr << 1) + 1] = data1;
-                            LOG(("CMD: write addr %04x %02x %02x", addr, data0, data1));
-                            break;
-                        case CMDWRAL:
-                            data0 = ((input_shiftreg >> 8) & 0xff);
-                            data1 = ((input_shiftreg >> 0) & 0xff);
-                            ready_busy_status = 0;
-                            reset_input_shiftreg();
-                            for (addr = 0; addr < (M93C86_SIZE / 2); addr++) {
+                            if (write_enable_status == 0) {
+                                log_error(LOG_DEFAULT, "EEPROM: write not permitted for CMD 'write'");
+                                reset_input_shiftreg();
+                                command = 0;
+                            } else {
+                                addr = ((input_shiftreg >> 16) & 0x3ff);
+                                data0 = ((input_shiftreg >> 8) & 0xff);
+                                data1 = ((input_shiftreg >> 0) & 0xff);
+                                ready_busy_status = STATUSBUSY;
+                                reset_input_shiftreg();
                                 m93c86_data[(addr << 1)] = data0;
                                 m93c86_data[(addr << 1) + 1] = data1;
+                                LOG(("CMD: write addr %04x %02x %02x", addr, data0, data1));
                             }
-                            LOG(("CMD: write all %02x %02x", data0, data1));
+                            break;
+                        case CMDWRAL:
+                            if (write_enable_status == 0) {
+                                log_error(LOG_DEFAULT, "EEPROM: write not permitted for CMD 'write all'");
+                                reset_input_shiftreg();
+                                command = 0;
+                            } else {
+                                data0 = ((input_shiftreg >> 8) & 0xff);
+                                data1 = ((input_shiftreg >> 0) & 0xff);
+                                ready_busy_status = STATUSBUSY;
+                                reset_input_shiftreg();
+                                for (addr = 0; addr < (M93C86_SIZE / 2); addr++) {
+                                    m93c86_data[(addr << 1)] = data0;
+                                    m93c86_data[(addr << 1) + 1] = data1;
+                                }
+                                LOG(("CMD: write all %02x %02x", data0, data1));
+                            }
                             break;
                     }
                     break;
