@@ -888,7 +888,6 @@ static void handle_wm_dropfiles(HWND window, HDROP hDrop)
 /* Window procedure.  All messages are handled here.  */
 static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    HDC hdc;
     PAINTSTRUCT ps;
     int i;
     int vol;
@@ -987,7 +986,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             return 0;
         case WM_PAINT:
             {
-                hdc = BeginPaint(window, &ps);
+                BeginPaint(window, &ps);
                 if (*vsidstrings[VSID_S_TIMER]) {    /* start only when timer string has been filled */
                     for (i = 0; i < VSID_S_LASTLINE; i++) {
                         vsid_disp(0, i, "%s", vsidstrings[i]);
