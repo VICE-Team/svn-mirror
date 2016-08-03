@@ -95,6 +95,7 @@ BYTE m93c86_read_data(void)
     if (eeprom_cs == 1) {
         switch (command) {
             case CMDWRITE:
+            case CMDWRAL:
             case CMDERAL:
                 /* the software will see one busy state for one read, this is not
                    quite what really happens */
