@@ -294,11 +294,11 @@ void gmod2_config_setup(BYTE *rawcart)
 
 static int set_gmod2_eeprom_filename(const char *name, void *param)
 {
-    if (gmod2_eeprom_filename != NULL && name != NULL && strcmp(name, gmod2_eeprom_filename) == 0) {
+    if ((gmod2_eeprom_filename != NULL) && (name != NULL) && (strcmp(name, gmod2_eeprom_filename) == 0)) {
         return 0;
     }
 
-    if (name != NULL && *name != '\0') {
+    if ((name != NULL) && (*name != '\0')) {
         if (util_check_filename_access(name) < 0) {
             return -1;
         }
@@ -532,11 +532,6 @@ void gmod2_detach(void)
     gmod2_io1_list_item = NULL;
 
     gmod2_enabled = 0;
-}
-
-int gmod2_cart_enabled(void)
-{
-    return gmod2_enabled;
 }
 
 /* ---------------------------------------------------------------------*/
