@@ -786,8 +786,6 @@ static BYTE romh_read_slotmain(WORD addr)
             return final_plus_romh_read(addr);
         case CARTRIDGE_FORMEL64:
             return formel64_romh_read(addr);
-        case CARTRIDGE_GMOD2:
-            return gmod2_romh_read(addr);
         case CARTRIDGE_IDE64:
             return ide64_rom_read(addr);
         case CARTRIDGE_KINGSOFT:
@@ -806,6 +804,7 @@ static BYTE romh_read_slotmain(WORD addr)
             return snapshot64_romh_read(addr);
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
+        case CARTRIDGE_GMOD2:
             /* fake ultimax hack, read from ram */
             return ram_read(addr);
         /* return mem_read_without_ultimax(addr); */
@@ -892,8 +891,6 @@ BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
             return final_plus_romh_read(addr);
         case CARTRIDGE_FORMEL64:
             return formel64_romh_read_hirom(addr);
-        case CARTRIDGE_GMOD2:
-            return gmod2_romh_read(addr);
         case CARTRIDGE_IDE64:
             return ide64_rom_read(addr);
         case CARTRIDGE_KINGSOFT:
@@ -910,6 +907,9 @@ BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
             return snapshot64_romh_read(addr);
         case CARTRIDGE_STARDOS:
             return stardos_romh_read(addr);
+        case CARTRIDGE_GMOD2:
+            /* ultimax only enabled on writes */
+            return mem_read_without_ultimax(addr);
         case CARTRIDGE_ACTION_REPLAY4:
         case CARTRIDGE_FINAL_III:
         case CARTRIDGE_FREEZE_FRAME:

@@ -192,13 +192,6 @@ BYTE gmod2_roml_read(WORD addr)
     return flash040core_read(flashrom_state, (addr & 0x1fff) + (roml_bank << 13));
 }
 
-/* ---------------------------------------------------------------------*/
-
-BYTE gmod2_romh_read(WORD addr)
-{
-    return flash040core_read(flashrom_state, (addr & 0x1fff) + (roml_bank << 13));
-}
-
 void gmod2_romh_store(WORD addr, BYTE value)
 {
     flash040core_store(flashrom_state, (addr & 0x1fff) + (roml_bank << 13), value);
@@ -246,6 +239,8 @@ void gmod2_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
     *start = 0;
     *limit = 0;
 }
+
+/* ---------------------------------------------------------------------*/
 
 static int gmod2_dump(void)
 {

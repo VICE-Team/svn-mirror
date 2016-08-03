@@ -40,7 +40,6 @@
 struct snapshot_s;
 
 extern BYTE gmod2_roml_read(WORD addr);
-extern BYTE gmod2_romh_read(WORD addr);
 extern void gmod2_romh_store(WORD addr, BYTE value);
 
 extern int gmod2_peek_mem(export_t *export, WORD addr, BYTE *value);
