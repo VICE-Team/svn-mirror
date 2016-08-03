@@ -48,7 +48,6 @@
 #include <windows.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <conio.h>
 #include <assert.h>
 
 #ifdef HAVE_UNISTD_H
@@ -62,6 +61,7 @@
 #include "platform.h"
 #include "sid-resources.h"
 #include "types.h"
+#include "wininpoutp.h"
 
 #define MAXSID 4
 
@@ -126,7 +126,6 @@ static void hardsid_outl(unsigned int addrint, DWORD value)
 static BYTE hardsid_inb(unsigned int addrint)
 {
     WORD addr = (WORD)addrint;
-    DWORD retval = 0;
 
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
@@ -143,7 +142,6 @@ static BYTE hardsid_inb(unsigned int addrint)
 static DWORD hardsid_inl(unsigned int addrint)
 {
     WORD addr = (WORD)addrint;
-    DWORD retval = 0;
 
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);

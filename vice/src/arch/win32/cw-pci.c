@@ -40,7 +40,6 @@
 #include <windows.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <conio.h>
 #include <assert.h>
 
 #ifdef HAVE_UNISTD_H
@@ -55,6 +54,7 @@
 #include "platform.h"
 #include "sid-resources.h"
 #include "types.h"
+#include "wininpoutp.h"
 
 #define CW_SID_DAT 0xd8
 #define CW_SID_CMD 0xdc
@@ -119,7 +119,6 @@ static void cw_outl(unsigned int addrint, DWORD value)
 static BYTE cw_inb(unsigned int addrint)
 {
     WORD addr = (WORD)addrint;
-    DWORD retval = 0;
 
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);
@@ -136,7 +135,6 @@ static BYTE cw_inb(unsigned int addrint)
 static DWORD cw_inl(unsigned int addrint)
 {
     WORD addr = (WORD)addrint;
-    DWORD retval = 0;
 
     /* make sure the above conversion did not loose any details */
     assert(addr == addrint);

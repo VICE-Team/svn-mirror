@@ -67,7 +67,6 @@
 #include <windows.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <conio.h>
 #include <assert.h>
 
 #ifdef HAVE_UNISTD_H
@@ -80,6 +79,7 @@
 #include "log.h"
 #include "sid-resources.h"
 #include "types.h"
+#include "wininpoutp.h"
 
 #define HARDSID_BASE 0x300
 

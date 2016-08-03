@@ -50,11 +50,11 @@
 #include <windows.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <conio.h>
 #include <assert.h>
 
 #include "log.h"
 #include "types.h"
+#include "wininpoutp.h"
 
 #define SSI2008_BASE 0x280
 

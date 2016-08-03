@@ -41,6 +41,7 @@
 #include "parsid.h"
 #include "ps.h"
 #include "types.h"
+#include "wininpoutp.h"
 
 #define MAXSID 3
 
@@ -48,7 +49,6 @@ static int sids_found = -1;
 
 static int pssids[MAXSID] = {-1, -1, -1};
 static int psctrl[MAXSID] = {-1, -1, -1};
-static int parsid_port_address[MAXSID] = {0, 0, 0};
 
 /* input/output functions */
 static void parsid_outb(unsigned int addrint, BYTE value)
