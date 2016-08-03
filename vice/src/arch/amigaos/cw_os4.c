@@ -161,7 +161,7 @@ int cw_os4_open(void)
         write_sid(i, 0);
     }
 
-    log_message(LOG_DEFAULT, "PCI CatWeasel SID: opened at $%X.", CWDevBar->BaseAddress);
+    log_message(LOG_DEFAULT, "PCI CatWeasel SID: opened at $%X.", CWDevBAR->BaseAddress);
 
     sids_found = 1;
 
