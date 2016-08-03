@@ -53,9 +53,12 @@
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uimagicvoice.h"
+#include "mui/uimmc64.h"
+#include "mui/uimmcreplay.h"
 #include "mui/uimouse.h"
 #include "mui/uiprinter.h"
 #include "mui/uiramcart.h"
+#include "mui/uiretroreplay.h"
 #include "mui/uireu.h"
 #include "mui/uiromc128settings.h"
 #include "mui/uirs232user.h"
@@ -157,6 +160,15 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_RAMCART_SETTINGS:
             ui_ramcart_settings_dialog(canvas);
+            break;
+        case IDM_MMC64_SETTINGS:
+            ui_mmc64_settings_dialog(canvas);
+            break;
+        case IDM_MMCREPLAY_SETTINGS:
+            ui_mmcreplay_settings_dialog(canvas);
+            break;
+        case IDM_RETROREPLAY_SETTINGS:
+            ui_retroreplay_settings_dialog();
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_c64_settings_dialog();
