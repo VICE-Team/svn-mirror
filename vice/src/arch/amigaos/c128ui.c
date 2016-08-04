@@ -47,6 +47,7 @@
 #include "mui/uieasyflash.h"
 #include "mui/uiexpert.h"
 #include "mui/uigeoram.h"
+#include "mui/uigmod2.h"
 #include "mui/uiide64.h"
 #include "mui/uiiocollisions.h"
 #include "mui/uijoyport.h"
@@ -169,6 +170,9 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_RETROREPLAY_SETTINGS:
             ui_retroreplay_settings_dialog();
+            break;
+        case IDM_GMOD2_SETTINGS:
+            ui_gmod2_settings_dialog(canvas);
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_c64_settings_dialog();

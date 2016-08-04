@@ -3960,6 +3960,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_MMC64_SETTINGS_SV, "MMC64-inställningar......" },
 /* tr */ { IDMS_MMC64_SETTINGS_TR, "MMC64 ayarlarý..." },
 
+/* en */ { IDMS_GMOD2_SETTINGS,    "GMod2 settings..." },
+/* da */ { IDMS_GMOD2_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_GMOD2_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_GMOD2_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_GMOD2_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_GMOD2_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_GMOD2_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_GMOD2_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_GMOD2_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_GMOD2_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_GMOD2_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_GMOD2_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_GMOD2_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_MMCREPLAY_SETTINGS,    "MMC Replay settings..." },
 /* da */ { IDMS_MMCREPLAY_SETTINGS_DA, "MMC Replay-indstillinger..." },
 /* de */ { IDMS_MMCREPLAY_SETTINGS_DE, "MMC Replay Einstellungen..." },
@@ -10416,6 +10430,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_RESCUE_MODE_RU, "Rescue mode" },
 /* sv */ { IDS_RESCUE_MODE_SV, "Räddningsläge" },
 /* tr */ { IDS_RESCUE_MODE_TR, "Kurtarma modu" },
+
+/* en */ { IDS_GMOD2_SETTINGS,    "GMod2 settings" },
+/* da */ { IDS_GMOD2_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_GMOD2_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_GMOD2_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_GMOD2_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_GMOD2_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_GMOD2_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_GMOD2_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_GMOD2_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_GMOD2_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_GMOD2_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_GMOD2_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_GMOD2_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_MMCREPLAY_SETTINGS,    "MMC Replay settings" },
 /* da */ { IDS_MMCREPLAY_SETTINGS_DA, "MMC Replay-indstillinger" },

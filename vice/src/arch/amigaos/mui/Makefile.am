@@ -76,6 +76,8 @@ libarchmui_a_SOURCES = \
 	uifliplist.h \
 	uigeoram.c \
 	uigeoram.h \
+	uigmod2.c \
+	uigmod2.h \
 	uiide64.c \
 	uiide64.h \
 	uiiocollisions.c \
