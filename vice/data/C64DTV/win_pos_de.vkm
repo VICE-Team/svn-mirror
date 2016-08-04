@@ -121,7 +121,6 @@
 52 5 4 8               /*            . -> .            */
 53 6 7 8               /*            / -> /            */
 54 6 4 4               /*  Right Shift -> Right Shift  */
-55 6 1 8               /*       Grey * -> *            */
 #56 -1 -1 0            /*     Left Alt -> (no key)     */
 57 7 4 8               /*        Space -> Space        */
 58 7 7 8               /*    Caps Lock -> Run/Stop     */
@@ -135,11 +134,6 @@
 66 0 3 1               /*           F8 -> F8           */
 #67 -1 -1 0            /*           F9 -> (no key)     */
 #68 -1 -1 0            /*          F10 -> (no key)     */
-#69 -1 -1 0            /*     Num Lock -> (no key)     */
-#70 -1 -1 0            /*  Scroll Lock -> (no key)     */
-#74 -1 -1 0            /*     Numpad - -> (no key)     */
-#78 -1 -1 0            /*     Numpad + -> (no key)     */
-#84 -1 -1 0            /*       SysReq -> (no key)     */
 #85 -1 -1 0            /*           85 -> (no key)     */
 #86 -1 -1 0            /*           86 -> (no key)     */
 #87 -1 -1 0            /*          F11 -> (no key)     */
@@ -155,8 +149,6 @@
 98 6 6 8               /*          Del -> Up Arrow     */
 #100 -1 -1 0           /*   Right Ctrl -> (no key)     */
 #101 -1 -1 0           /*        Pause -> (no key)     */
-#102 -1 -1 0           /*       PrtScr -> (no key)     */
-#103 -1 -1 0           /*     Numpad / -> (no key)     */
 #104 -1 -1 0           /*    Right Alt -> (no key)     */
 #105 -1 -1 0           /*        Break -> (no key)     */
 #106 -1 -1 0           /*   Left Win95 -> (no key)     */
@@ -194,15 +186,23 @@
 91 -3 0         /*         PgUp -> RESTORE      */
 
 # Joyport attached keypad key mappings
+69 -5 0         /*     Num Lock -> keypad x0    */
 71 -5 1         /*     Numpad 7 -> keypad 7     */
 72 -5 2         /*     Numpad 8 -> keypad 8     */
 73 -5 3         /*     Numpad 9 -> keypad 9     */
+103 -5 4        /*     Numpad / -> keypad /     */
+70 -5 5         /*  Scroll Lock -> keypad x1    */
 75 -5 6         /*     Numpad 4 -> keypad 4     */
 76 -5 7         /*     Numpad 5 -> keypad 5     */
 77 -5 8         /*     Numpad 6 -> keypad 6     */
+55 -5 9         /*     Numpad * -> keypad *     */
+84 -5 10        /*       SysReq -> keypad x2    */
 79 -5 11        /*     Numpad 1 -> keypad 1     */
 80 -5 12        /*     Numpad 2 -> keypad 2     */
 81 -5 13        /*     Numpad 3 -> keypad 3     */
+74 -5 14        /*     Numpad - -> keypad -     */
+102 -5 15       /*       PrtScr -> keypad x3    */
 82 -5 16        /*     Numpad 0 -> keypad 0     */
 83 -5 17        /*     Numpad . -> keypad .     */
 99 -5 18        /* Numpad Enter -> keypad enter */
+78 -5 19        /*     Numpad + -> keypad +     */

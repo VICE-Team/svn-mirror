@@ -166,15 +166,23 @@
 0 -3 1
 
 # Joyport attached keypad key mappings
+300 -5 0              /*      NumLock -> keypad x0    */
 263 -5 1              /*     NumPad 7 -> keypad 7     */
 264 -5 2              /*     NumPad 8 -> keypad 8     */
 265 -5 3              /*     NumPad 9 -> keypad 9     */
+267 -5 4              /*     NumPad / -> keypad /     */
+302 -5 5              /*   ScrollLock -> keypad x1    */
 260 -5 6              /*     NumPad 4 -> keypad 4     */
 261 -5 7              /*     NumPad 5 -> keypad 5     */
 262 -5 8              /*     NumPad 6 -> keypad 6     */
+268 -5 9              /*     NumPad * -> keypad *     */
+317 -5 10             /*       SysReq -> keypad x2    */
 257 -5 11             /*     NumPad 1 -> keypad 1     */
 258 -5 12             /*     NumPad 2 -> keypad 2     */
 259 -5 13             /*     NumPad 3 -> keypad 3     */
+269 -5 14             /*     NumPad - -> keypad -     */
+316 -5 15             /*       PrtScr -> keypad x3    */
 256 -5 16             /*     NumPad 0 -> keypad 0     */
 266 -5 17             /*     NumPad , -> keypad .     */
 271 -5 18             /* NumPad Enter -> keypad enter */
+270 -5 19             /*     NumPad + -> keypad +     */

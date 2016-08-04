@@ -128,7 +128,6 @@
 #71 -1 -1 0             /*              -> (no key)     */
 #72 -1 -1 0             /*              -> (no key)     */
 #73 -1 -1 0             /*              -> (no key)     */
-#74 -1 -1 0             /*     KEYPAD - -> (no key)     */
 #75 -1 -1 0             /*              -> (no key)     */
 76 5 3 8                /*           Up -> CRSR UP      */
 77 5 0 8                /*         Down -> CRSR DOWN    */
@@ -143,11 +142,6 @@
 86 0 3 1                /*           F7 -> F7           */
 87 0 3 8                /*           F8 -> HELP         */
 #88 -1 -1 0             /*           F9 -> (no key)     */
-#90 -1 -1 0             /*      NUMLOCK -> (no key)     */
-#91 -1 -1 0             /*      SCRLOCK -> (no key)     */
-#92 -1 -1 0             /* KEYPAD SLASH -> (no key)     */
-#93 -1 -1 0             /*     KEYPAD * -> (no key)     */
-#94 -1 -1 0             /*     KEYPAD + -> (no key)     */
 #95 -1 -1 0             /*         HELP -> (no key)     */
 96 1 7 2                /*   Left Shift -> Left Shift   */
 97 1 7 4                /*  Right Shift -> Right Shift  */
@@ -156,21 +150,28 @@
 #100 -1 -1 0            /*     LEFT ALT -> (no key)     */
 #101 -1 -1 0            /*    RIGHT ALT -> (no key)     */
 #102 -1 -1 0            /*   LEFT AMIGA -> (no key)     */
-#103 -1 -1 0            /*  RIGHT AMIGA -> (no key)     */
 
 # Restore key mappings
 89 -3 0                 /*          F10 -> RESTORE      */
 
 # Joyport attached keypad key mappings
+90 -5 0                 /*      NUMLOCK -> keypad x0    */
 61 -5 1                 /*     KEYPAD 7 -> keypad 7     */
 62 -5 2                 /*     KEYPAD 8 -> keypad 8     */
 63 -5 3                 /*     KEYPAD 9 -> keypad 9     */
+92 -5 4                 /* KEYPAD SLASH -> keypad /     */
+91 -5 5                 /*      SCRLOCK -> keypad x1    */
 45 -5 6                 /*     KEYPAD 4 -> keypad 4     */
 46 -5 7                 /*     KEYPAD 5 -> keypad 5     */
 47 -5 8                 /*     KEYPAD 6 -> keypad 6     */
+93 -5 9                 /*     KEYPAD * -> keypad *     */
+102 -5 10               /*   LEFT AMIGA -> keypad x2    */
 29 -5 11                /*     KEYPAD 1 -> keypad 1     */
 30 -5 12                /*     KEYPAD 2 -> keypad 2     */
 31 -5 13                /*     KEYPAD 3 -> keypad 3     */
+74 -5 14                /*     KEYPAD - -> keypad -     */
+103 -5 15               /*  RIGHT AMIGA -> keypad x3    */
 15 -5 16                /*     KEYPAD 0 -> keypad 0     */
 60 -5 17                /*   KEYPAD DEL -> keypad .     */
 67 -5 18                /* KEYPAD ENTER -> keypad enter */
+94 -5 19                /*     KEYPAD + -> keypad +     */

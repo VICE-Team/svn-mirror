@@ -143,17 +143,12 @@
 
 #64 -1 -1 0          /*           (no key)           */
 #66 -1 -1 0          /*          &&& -> (no key)     */
-#67 -1 -1 0          /*     Numpad * -> (no key)     */
 #68 -1 -1 0          /*           (no key)           */
-#69 -1 -1 0          /*     Numpad + -> (no key)     */
 #70 -1 -1 0          /*          &&& -> (no key)     */
-#71 -1 -1 0          /* Numpad Clear -> (no key)     */
 #72 -1 -1 0          /*          &&& -> (no key)     */
 #73 -1 -1 0          /*          &&& -> (no key)     */
 #74 -1 -1 0          /*          &&& -> (no key)     */
-#75 -1 -1 0          /*     Numpad / -> (no key)     */
 #77 -1 -1 0          /*          &&& -> (no key)     */
-#78 -1 -1 0          /*     Numpad - -> (no key)     */
 
 96  0 6 8           /*           F5 -> F5           */
 97  0 6 1           /*           F6 -> F6           */
@@ -179,15 +174,23 @@
 126 0 7 1           /*           Up -> CRSR UP      */
 
 # Joyport attached keypad key mappings
+71 -5 0             /* Numpad Clear -> keypad x0    */
 89 -5 1             /*     Numpad 7 -> keypad 7     */
 91 -5 2             /*     Numpad 8 -> keypad 8     */
 92 -5 3             /*     Numpad 9 -> keypad 9     */
+75 -5 4             /*     Numpad / -> keypad /     */
+105 -5 5            /*          F13 -> keypad x1    */
 86 -5 6             /*     Numpad 4 -> keypad 4     */
 87 -5 7             /*     Numpad 5 -> keypad 5     */
 88 -5 8             /*     Numpad 6 -> keypad 6     */
+67 -5 9             /*     Numpad * -> keypad *     */
+107 -5 10           /*          F14 -> keypad x2    */
 83 -5 11            /*     Numpad 1 -> keypad 1     */
 84 -5 12            /*     Numpad 2 -> keypad 2     */
 85 -5 13            /*     Numpad 3 -> keypad 3     */
+78 -5 14            /*     Numpad - -> keypad -     */
+113 -5 15           /*          F15 -> keypad x3    */
 82 -5 16            /*     Numpad 0 -> keypad 0     */
 65 -5 17            /*     Numpad . -> keypad .     */
 76 -5 18            /* Numpad Enter -> keypad enter */
+69 -5 19            /*     Numpad + -> keypad +     */

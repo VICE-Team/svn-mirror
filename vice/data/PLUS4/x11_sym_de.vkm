@@ -246,16 +246,26 @@ z 1 4 8
 Page_Up      -3 0
 Prior        -3 1
 
-# Joyport attached keypad key mappings
-KP_7      -5 1
-KP_8      -5 2
-KP_9      -5 3
-KP_4      -5 6
-KP_5      -5 7
-KP_6      -5 8
-KP_1      -5 11
-KP_2      -5 12
-KP_3      -5 13
-KP_0      -5 16
-KP_Delete -5 17
-KP_Enter  -5 18
+#
+# joyport attached keypad
+#
+Num_Lock    -5 0
+KP_7        -5 1
+KP_8        -5 2
+KP_9        -5 3
+KP_Divide   -5 4
+Scroll_Lock -5 5
+KP_4        -5 6
+KP_5        -5 7
+KP_6        -5 8
+KP_Multiply -5 9
+Sys_Req     -5 10
+KP_1        -5 11
+KP_2        -5 12
+KP_3        -5 13
+KP_Subtract -5 14
+Print       -5 15
+KP_0        -5 16
+KP_Delete   -5 17
+KP_Enter    -5 18
+KP_Add      -5 19
