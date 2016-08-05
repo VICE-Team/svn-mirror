@@ -53,6 +53,7 @@ extern "C" {
 #include "machine.h"
 #include "resources.h"
 #include "screenshot.h"
+#include "snapshot.h"
 #include "tape.h"
 #include "tapecontents.h"
 #include "ui.h"
