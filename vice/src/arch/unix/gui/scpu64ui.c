@@ -54,6 +54,7 @@
 #include "uiedit.h"
 #include "uiexpert.h"
 #include "uigeoram.h"
+#include "uigmod2.h"
 #include "uiide64.h"
 #include "uiisepic.h"
 #include "uijoyport.h"
@@ -319,6 +320,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_EASYFLASH, UI_MENU_TYPE_NORMAL,
       NULL, NULL, easyflash_submenu },
+    { CARTRIDGE_NAME_GMOD2, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, gmod2_submenu },
     { CARTRIDGE_NAME_IDE64, UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_submenu },
     { CARTRIDGE_NAME_MMC64, UI_MENU_TYPE_NORMAL,
