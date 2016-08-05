@@ -52,6 +52,7 @@
 #include "uieasyflash.h"
 #include "uiexpert.h"
 #include "uigeoram.h"
+#include "uigmod2.h"
 #include "uiide64.h"
 #include "uiiocollisions.h"
 #include "uiisepic.h"
@@ -233,6 +234,8 @@ int c64ui_init(void)
     uimmcreplay_init(ui_ioextensions_submenu);
 
     uiretroreplay_init(ui_ioextensions_submenu);
+
+    uigmod2_init(ui_ioextensions_submenu);
 
     uirrnetmk3_init(ui_ioextensions_submenu);
 
