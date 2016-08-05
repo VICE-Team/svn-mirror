@@ -267,13 +267,13 @@ ui_res_possible_values BurstMod[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values MMC64Revision[] = {
+static ui_res_possible_values MMC64Revision[] = {
     { 0, MENU_MMC64_REVISION_A },
     { 1, MENU_MMC64_REVISION_B },
     { -1, 0 }
 };
 
-ui_res_possible_values MMC64CardType[] = {
+static ui_res_possible_values MMC64CardType[] = {
     { 0, MENU_MMC64_CARD_TYPE_AUTO },
     { 1, MENU_MMC64_CARD_TYPE_MMC },
     { 2, MENU_MMC64_CARD_TYPE_SD },
@@ -281,7 +281,7 @@ ui_res_possible_values MMC64CardType[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values MMCRCardType[] = {
+static ui_res_possible_values MMCRCardType[] = {
     { 0, MENU_MMCR_CARD_TYPE_AUTO },
     { 1, MENU_MMCR_CARD_TYPE_MMC },
     { 2, MENU_MMCR_CARD_TYPE_SD },

@@ -99,6 +99,14 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "RAMCARTImageWrite", MENU_TOGGLE_RAMCART_SWC },
     { "DIGIMAX", MENU_TOGGLE_DIGIMAX },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
+    { "MMC64", MENU_TOGGLE_MMC64 },
+    { "MMC64_flashjumper", MENU_TOGGLE_MMC64_FLASHJUMPER },
+    { "MMC64_bios_write", MENU_TOGGLE_MMC64_SAVE },
+    { "MMC64_RO", MENU_TOGGLE_MMC64_READ_ONLY },
+    { "MMCREEPROMRW", MENU_TOGGLE_MMCR_EEPROM_READ_WRITE },
+    { "MMCRImageWrite", MENU_TOGGLE_MMCR_EEPROM_SWC },
+    { "MMCRRescueMode", MENU_TOGGLE_MMCR_RESCUE_MODE },
+    { "MMCRCardRW", MENU_TOGGLE_MMCR_READ_WRITE },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "SmartMouseRTCSave", MENU_TOGGLE_SMART_MOUSE_RTC_SAVE },
     { "VDCDoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
@@ -320,6 +328,28 @@ static ui_res_possible_values IOCollisions[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values MMC64Revision[] = {
+    { 0, MENU_MMC64_REVISION_A },
+    { 1, MENU_MMC64_REVISION_B },
+    { -1, 0 }
+};
+
+static ui_res_possible_values MMC64CardType[] = {
+    { 0, MENU_MMC64_CARD_TYPE_AUTO },
+    { 1, MENU_MMC64_CARD_TYPE_MMC },
+    { 2, MENU_MMC64_CARD_TYPE_SD },
+    { 3, MENU_MMC64_CARD_TYPE_SDHC },
+    { -1, 0 }
+};
+
+static ui_res_possible_values MMCRCardType[] = {
+    { 0, MENU_MMCR_CARD_TYPE_AUTO },
+    { 1, MENU_MMCR_CARD_TYPE_MMC },
+    { 2, MENU_MMCR_CARD_TYPE_SD },
+    { 3, MENU_MMCR_CARD_TYPE_SDHC },
+    { -1, 0 }
+};
+
 ui_res_value_list c128_ui_res_values[] = {
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Dev", c128AciaDevice },
@@ -342,6 +372,9 @@ ui_res_value_list c128_ui_res_values[] = {
     { "InternalFunctionROM", internal_function_rom },
     { "ExternalFunctionROM", external_function_rom },
     { "DS12C887RTCbase", c128_DS12C887RTC_base },
+    { "MMC64_revision", MMC64Revision },
+    { "MMC64_sd_type", MMC64CardType },
+    { "MMCRSDType", MMCRCardType },
     { "IDE64version", c128_IDE64version },
     { "JoyPort1Device", c128_JoyPort1Device },
     { "JoyPort2Device", c128_JoyPort2Device },
@@ -416,6 +449,18 @@ static void c128_ui_specific(void *msg, void *window)
                 break;
             case MENU_RAMCART_FILE:
                 ui_select_file(B_SAVE_PANEL, RAMCART_FILE, (void*)0);
+                break;
+            case MENU_MMC64_BIOS_FILE:
+                ui_select_file(B_OPEN_PANEL, MMC64_BIOS_FILE, (void*)0);
+                break;
+            case MENU_MMC64_IMAGE_FILE:
+                ui_select_file(B_OPEN_PANEL, MMC64_IMAGE_FILE, (void*)0);
+                break;
+            case MENU_MMCR_EEPROM_FILE:
+                ui_select_file(B_OPEN_PANEL, MMCR_EEPROM_FILE, (void*)0);
+                break;
+            case MENU_MMCR_IMAGE_FILE:
+                ui_select_file(B_OPEN_PANEL, MMCR_IMAGE_FILE, (void*)0);
                 break;
             case MENU_IDE64_FILE1:
                 ui_select_file(B_SAVE_PANEL, IDE64_FILE1, (void*)0);

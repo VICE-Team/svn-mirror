@@ -1058,7 +1058,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->AddItem(new BMenuItem("HANNES 4096K", new BMessage(MENU_PLUS4_MEMORY_HACK_H4096K)));
     }
 
-    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128) {
             menu->AddItem(submenu = new BMenu("MMC64 Options"));
                 submenu->AddItem(new BMenuItem("MMC64 emulation", new BMessage(MENU_TOGGLE_MMC64)));
                 submenu->AddItem(extsubmenu = new BMenu("MMC64 revision"));
@@ -1089,9 +1089,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->AddItem(new BMenuItem("SDHC", new BMessage(MENU_MMCR_CARD_TYPE_SDHC)));
                 submenu->AddItem(new BMenuItem("MMC Replay Image read/write", new BMessage(MENU_TOGGLE_MMCR_READ_WRITE)));
                 submenu->AddItem(new BMenuItem("MMC Replay Image File", new BMessage(MENU_MMCR_IMAGE_FILE)));
-    }
 
-    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128) {
             menu->AddItem(submenu = new BMenu("Retro Replay Options"));
                 submenu->AddItem(new BMenuItem("Enable RR flash jumper", new BMessage(MENU_TOGGLE_RR_FLASH_JUMPER)));
                 submenu->AddItem(new BMenuItem("Enable RR bank jumper", new BMessage(MENU_TOGGLE_RR_BANK_JUMPER)));
