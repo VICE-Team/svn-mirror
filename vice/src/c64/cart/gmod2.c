@@ -176,10 +176,10 @@ void gmod2_io1_store(WORD addr, BYTE value)
             gmod2_cmode = CMODE_RAM;
         }
         eeprom_cs = (value >> 6) & 1;
-        m93c86_write_select(eeprom_cs);
+        m93c86_write_select((BYTE)eeprom_cs);
         if (eeprom_cs) {
-            m93c86_write_data((value >> 4) & 1);
-            m93c86_write_clock((value >> 5) & 1);
+            m93c86_write_data((BYTE)((value >> 4) & 1));
+            m93c86_write_clock((BYTE)((value >> 5) & 1));
         }
         cart_config_changed_slotmain(CMODE_8KGAME, (BYTE)(gmod2_cmode | (gmod2_bank << CMODE_BANK_SHIFT)), mode);
     }
@@ -263,7 +263,7 @@ void gmod2_config_init(void)
     gmod2_cmode = CMODE_8KGAME;
     cart_config_changed_slotmain((BYTE)gmod2_cmode, (BYTE)gmod2_cmode, CMODE_READ);
     eeprom_cs = 0;
-    m93c86_write_select(eeprom_cs);
+    m93c86_write_select((BYTE)eeprom_cs);
     flash040core_reset(flashrom_state);
 }
 
@@ -272,7 +272,7 @@ void gmod2_reset(void)
     gmod2_cmode = CMODE_8KGAME;
     cart_config_changed_slotmain((BYTE)gmod2_cmode, (BYTE)gmod2_cmode, CMODE_READ);
     eeprom_cs = 0;
-    m93c86_write_select(eeprom_cs);
+    m93c86_write_select((BYTE)eeprom_cs);
 
     /* on the real hardware pressing reset would NOT reset the flash statemachine,
        only a powercycle would help. we do it here anyway :)
