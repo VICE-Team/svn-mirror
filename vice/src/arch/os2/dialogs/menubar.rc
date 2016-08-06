@@ -977,6 +977,13 @@ BEGIN
             END
         END
 
+        SUBMENU "GMod2 Settings",                         IDM_GMOD2_SETTINGS,           MIS_TEXT
+        BEGIN
+            MENUITEM "Write to EEPROM when changed",      IDM_GMOD2_EEPROM_WRITE,       MIS_TEXT
+            MENUITEM "GMod2 EEPROM Filename",             IDM_GMOD2_EEPROM_FILE,        MIS_TEXT
+            MENUITEM "GMod2 flash read/write",            IDM_GMOD2_FLASH_READWRITE,    MIS_TEXT
+        END
+
         SUBMENU "DigiMAX Settings",                       IDM_DIGIMAX_SETTINGS,         MIS_TEXT
         BEGIN
             MENUITEM "~DigiMAX - Cartridge",              IDM_DIGIMAX,                  MIS_TEXT

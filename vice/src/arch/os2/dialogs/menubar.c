@@ -1252,6 +1252,16 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             resources_set_int("RRrevision", 1);
             return;
 
+        case IDM_GMOD2_EEPROM_WRITE:
+            toggle("GMOD2EEPROMRW");
+            return;
+        case IDM_GMOD2_EEPROM_FILE:
+            resources_set_string("GMod2EEPROMImage", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_GMOD2_FLASH_READWRITE:
+            toggle("GMod2FlashWrite");
+            return;
+
 #ifdef __X64__
         case IDM_PLUS60KD040:
             resources_set_int("PLUS60Kbase", 0xd040);
@@ -2017,6 +2027,10 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_MMCR_SD_TYPE_MMC, val == 1);
             WinCheckMenuItem(hwnd, IDM_MMCR_SD_TYPE_SD, val == 2);
             WinCheckMenuItem(hwnd, IDM_MMCR_SD_TYPE_SDHC, val == 3);
+            return;
+        case IDM_GMOD2_SETTINGS:
+            WinCheckRes(hwnd, IDM_GMOD2_EEPROM_WRITE, "GMOD2EEPROMRW");
+            WinCheckRes(hwnd, IDM_GMOD2_FLASH_READWRITE, "GMod2FlashWrite");
             return;
 
         case IDM_FILE:

@@ -307,6 +307,11 @@
 #define IDM_MMCR_SD_TYPE_SD          0x25d
 #define IDM_MMCR_SD_TYPE_SDHC        0x25e
 
+#define IDM_GMOD2_SETTINGS           0x16d
+#define IDM_GMOD2_EEPROM_WRITE       0x17c
+#define IDM_GMOD2_EEPROM_FILE        0x18b
+#define IDM_GMOD2_FLASH_READWRITE    0x2a2
+
 #define IDM_RR_SETTINGS              0x2f3
 #define IDM_RR_FLASH_WRITE           0x2f4
 #define IDM_RR_FLASH_JUMPER          0x2f5

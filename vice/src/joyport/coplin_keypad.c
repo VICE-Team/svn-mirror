@@ -131,9 +131,13 @@ static int joyport_coplin_keypad_enable(int port, int value)
 
     if (val) {
         memset(keys, 0, 12);
+#ifdef COMMON_KBD
         keyboard_register_joy_keypad(handle_keys);
+#endif
     } else {
+#ifdef COMMON_KBD
         keyboard_register_joy_keypad(NULL);
+#endif
     }
 
     coplin_keypad_enabled = val;

@@ -147,9 +147,13 @@ static int joyport_cx85_enable(int port, int value)
 
     if (val) {
         memset(keys, 0, 20);
+#ifdef COMMON_KBD
         keyboard_register_joy_keypad(handle_keys);
+#endif
     } else {
+#ifdef COMMON_KBD
         keyboard_register_joy_keypad(NULL);
+#endif
     }
 
     cx85_enabled = val;
