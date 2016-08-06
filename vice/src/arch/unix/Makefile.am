@@ -48,6 +48,7 @@ libarch_a_SOURCES = \
 	catweaselmkiii-drv.c \
 	coproc.h \
 	coproc.c \
+	cw.h \
 	cw-device.c \
 	cw-pci.c \
 	dynlib.c \
