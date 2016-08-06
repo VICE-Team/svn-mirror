@@ -154,6 +154,7 @@ static c64_cart_flush_t carts[] = {
     { CARTRIDGE_GEORAM, "GEORAM", "GEORAMfilename" },
     { CARTRIDGE_MMC64, "MMC64", "MMC64BIOSfilename" },
     { CARTRIDGE_MMC_REPLAY, NULL, "MMCREEPROMImage" },
+    { CARTRIDGE_GMOD2, NULL, "GMod2EEPROMImage" },
     { CARTRIDGE_RETRO_REPLAY, NULL, NULL },
     { 0, NULL, NULL }
 };
@@ -773,6 +774,31 @@ static const ui_menu_entry_t retroreplay_cart_menu[] = {
 };
 
 
+/* GMod2 */
+
+UI_MENU_DEFINE_FILE_STRING(GMod2EEPROMImage)
+UI_MENU_DEFINE_TOGGLE(GMOD2EEPROMRW)
+UI_MENU_DEFINE_TOGGLE(GMod2FlashWrite)
+
+static const ui_menu_entry_t gmod2_cart_menu[] = {
+    SDL_MENU_ITEM_TITLE("EEPROM image"),
+    { "EEPROM image file",
+      MENU_ENTRY_DIALOG,
+      file_string_GMod2EEPROMImage_callback,
+      (ui_callback_data_t)"Select " CARTRIDGE_NAME_GMOD2 " EEPROM image" },
+    { "Enable writes to EEPROM image",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_GMOD2EEPROMRW_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Flash image"),
+    { "Enable writes to flash image",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_GMod2FlashWrite_callback,
+      NULL },
+    SDL_MENU_LIST_END
+};
+
 /* RRNET MK3 */
 UI_MENU_DEFINE_TOGGLE(RRNETMK3_flashjumper)
 UI_MENU_DEFINE_TOGGLE(RRNETMK3_bios_write)
@@ -960,6 +986,10 @@ ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)retroreplay_cart_menu },
+    { CARTRIDGE_NAME_GMOD2,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)gmod2_cart_menu },
     { CARTRIDGE_NAME_RRNETMK3,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1064,6 +1094,10 @@ ui_menu_entry_t c128cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)retroreplay_cart_menu },
+    { CARTRIDGE_NAME_GMOD2,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)gmod2_cart_menu },
     { CARTRIDGE_NAME_MAGIC_VOICE,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1152,6 +1186,10 @@ ui_menu_entry_t scpu64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)retroreplay_cart_menu },
+    { CARTRIDGE_NAME_GMOD2,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)gmod2_cart_menu },
     { CARTRIDGE_NAME_MAGIC_VOICE,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
