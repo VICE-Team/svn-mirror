@@ -157,7 +157,7 @@ int ui_empty_disk_dialog(char *name)
     }
 
     strcpy(name, fname);
-    lib_free(fname);
+    g_free(fname);
 
     /* format label */
     dname = gtk_entry_get_text(GTK_ENTRY(diskname));
