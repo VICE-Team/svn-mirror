@@ -14577,6 +14577,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_TR, "$B000 adresindeki 4K uzantýsý ROM ismini belirt"},
 #endif
 
+/* vic20/cart/behrbonz.c */
+/* en */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME,    N_("Specify Behr Bonz extension ROM name")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_DA, "Angiv navn på MegaCart-udviddelses-ROM"},
+/* de */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_DE, "Behr Bonz Erweiterungs ROM wählen"},
+/* es */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_ES, "Especificar nombre ROM extendida Mega Cart"},
+/* fr */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_FR, "Spécifier le nom de l'extension ROM Behr Bonz"},
+/* hu */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_HU, "Adja meg a Behr Bonz ROM kiterjesztés nevét"},
+/* it */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_IT, "Specifica il nome dell'estensione ROM Behr Bonz"},
+/* ko */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_NL, "Geef de naam van het bestand voor de Behr Bonz ROM"},
+/* pl */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_PL, "Okre¶l nazwê ROM rozszerzenia Behr Bonz"},
+/* ru */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_RU, "Specify Behr Bonz extension ROM name"},
+/* sv */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_SV, "Ange namn på Behr Bonz-utöknings-ROM"},
+/* tr */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_TR, "Behr Bonz uzantýsý ROM ismini belirt"},
+#endif
+
 /* vic20/cart/vic20cart.c */
 /* en */ {IDCLS_SPECIFY_GENERIC_ROM_NAME,    N_("Specify generic extension ROM name")},
 #ifdef HAS_TRANSLATION

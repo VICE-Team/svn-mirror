@@ -1607,7 +1607,7 @@ static const char* file_filters[] = {
 /* flac */ "*.flac",
 /* ogg/vorbis */ "*.ogg",
 /* serial */ "ttyS*",
-/* vic20cart */ "*.prg",
+/* vic20cart */ "*.{prg,bin}",
 /* sid */ "*.{psid,sid}",
 /* dtvrom */ "*.bin",
 /* compressed */ "*.*z*",

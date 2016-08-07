@@ -323,6 +323,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_UM              7   /* ultimem.c */
 #define CARTRIDGE_VIC20_IO2_RAM         8   /* ioramcart.c */
 #define CARTRIDGE_VIC20_IO3_RAM         9   /* ioramcart.c */
+#define CARTRIDGE_VIC20_BEHRBONZ       10   /* behrbonz.c */
 
 /*
  * VIC20 Generic cartridges
@@ -350,6 +351,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_16KB_6000    0x8015
 
 /* list of canonical names for the VIC20 cartridges: */
+#define CARTRIDGE_VIC20_NAME_BEHRBONZ        "Behr Bonz"
 #define CARTRIDGE_VIC20_NAME_FINAL_EXPANSION "Final Expansion"
 #define CARTRIDGE_VIC20_NAME_MEGACART        "Mega-Cart" /* http://mega-cart.com/ */
 #define CARTRIDGE_VIC20_NAME_UM              "UltiMem"
