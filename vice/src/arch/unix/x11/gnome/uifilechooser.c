@@ -110,7 +110,9 @@ GtkWidget *build_file_selector(const char *title, GtkWidget **attach_write_prote
 
         gtk_tree_view_append_column(GTK_TREE_VIEW(image_preview_list), column);
 
+        /* ignored on Gtk3:
         gtk_widget_set_size_request(image_preview_list, 350, 180);
+        */
         gtk_tree_view_set_headers_clickable(GTK_TREE_VIEW(image_preview_list), FALSE);
 
         gtk_container_set_border_width(GTK_CONTAINER(image_preview_list), 1);
@@ -118,6 +120,11 @@ GtkWidget *build_file_selector(const char *title, GtkWidget **attach_write_prote
         gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(image_preview_list)), GTK_SELECTION_SINGLE);
 
         scrollw = gtk_scrolled_window_new(NULL, NULL);
+
+        /* this works though, both on Gtk2 and Gtk3: 410 pixels makes the
+         * horizontal scrollbar disappear */
+        gtk_widget_set_size_request(scrollw, 410, 180);
+
         gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
         gtk_container_set_border_width(GTK_CONTAINER(scrollw), 1);
         gtk_container_add(GTK_CONTAINER(scrollw), image_preview_list);
