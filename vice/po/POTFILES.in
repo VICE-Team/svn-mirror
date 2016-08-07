@@ -147,6 +147,7 @@ src/arch/win32/resds12c887rtc.rc.po.c
 src/arch/win32/reseasyflash.rc.po.c
 src/arch/win32/resexpert.rc.po.c
 src/arch/win32/resgeoram.rc.po.c
+src/arch/win32/resgmod2.rc.po.c
 src/arch/win32/reside64.rc.po.c
 src/arch/win32/resiocollisions.rc.po.c
 src/arch/win32/resisepic.rc.po.c

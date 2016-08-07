@@ -56,6 +56,7 @@
 #include "uieasyflash.h"
 #include "uiexpert.h"
 #include "uigeoram.h"
+#include "uigmod2.h"
 #include "uiide64.h"
 #include "uiiocollisions.h"
 #include "uiisepic.h"
@@ -363,6 +364,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_MMC64_SETTINGS, IDS_MI_MMC64_SETTINGS },
     { IDM_MMCREPLAY_SETTINGS, IDS_MI_MMCREPLAY_SETTINGS },
     { IDM_RR_SETTINGS, IDS_MI_RR_SETTINGS },
+    { IDM_GMOD2_SETTINGS, IDS_MI_GMOD2_SETTINGS },
     { IDM_RRNETMK3_SETTINGS, IDS_MI_RRNETMK3_SETTINGS },
     { IDM_MAGICVOICE_SETTINGS, IDS_MI_MAGICVOICE_SETTINGS },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS },
@@ -739,6 +741,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_RR_SETTINGS:
             ui_rr_settings_dialog(hwnd);
+            break;
+        case IDM_GMOD2_SETTINGS:
+            ui_gmod2_settings_dialog(hwnd);
             break;
         case IDM_RRNETMK3_SETTINGS:
             ui_rrnetmk3_settings_dialog(hwnd);

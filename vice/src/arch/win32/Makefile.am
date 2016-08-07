@@ -104,6 +104,7 @@ libarch_a_SOURCES = \
 	reseasyflash.rc \
 	resexpert.rc \
 	resgeoram.rc \
+	resgmod2.rc \
 	reside64.rc \
 	resiocollisions.rc \
 	resisepic.rc \
@@ -220,6 +221,8 @@ libarch_a_SOURCES = \
 	uifliplist.h \
 	uigeoram.c \
 	uigeoram.h \
+	uigmod2.c \
+	uigmod2.h \
 	uihelp.c \
 	uihelp.h \
 	uiide64.c \
@@ -431,7 +434,7 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/ressampler.rc $(srcdir)/resuserportrtcds1307.rc \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
-	$(top_builddir)/src/debug.h
+	$(srcdir)/resgmod2.rc $(top_builddir)/src/debug.h
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
 	$(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc \
@@ -446,7 +449,8 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resjoyport.rc $(srcdir)/resuserportrtc58321a.rc \
 	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/ressampler.rc \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
-	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc
+	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
+	$(srcdir)/resgmod2.rc
 
 resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
@@ -463,7 +467,8 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resuserportrtc58321a.rc $(srcdir)/resuserportrtcds1307.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/resrrnetmk3.rc \
 	$(srcdir)/rescpclockf83.rc $(srcdir)/restapelog.rc \
-	$(srcdir)/resiocollisions.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resiocollisions.rc $(srcdir)/resgmod2.rc \
+	$(top_builddir)/src/debug.h
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
@@ -479,7 +484,8 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resjoyport.rc $(srcdir)/resuserportrtc58321a.rc \
 	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/ressampler.rc \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
-	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc
+	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
+	$(srcdir)/resgmod2.rc
 
 resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
@@ -496,7 +502,8 @@ resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia
 	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/resjoyport.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/resrrnetmk3.rc \
 	$(srcdir)/rescpclockf83.rc $(srcdir)/restapelog.rc \
-	$(srcdir)/resiocollisions.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resiocollisions.rc $(srcdir)/resgmod2.rc \
+	$(top_builddir)/src/debug.h
 	cat >resscpu64cat.rc $(srcdir)/resscpu64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
@@ -512,7 +519,7 @@ resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia
 	$(srcdir)/resuserportrtc58321a.rc $(srcdir)/resuserportrtcds1307.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/resrrnetmk3.rc \
 	$(srcdir)/rescpclockf83.rc $(srcdir)/restapelog.rc \
-	$(srcdir)/resiocollisions.rc
+	$(srcdir)/resiocollisions.rc $(srcdir)/resgmod2.rc
 
 resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc \
