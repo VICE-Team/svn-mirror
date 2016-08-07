@@ -124,7 +124,7 @@ int sdl_ui_hotkey_map(ui_menu_entry_t *item)
     /* TODO check if key/event is suitable */
     switch (e.type) {
         case SDL_KEYDOWN:
-            sdlkbd_set_hotkey(e.key.keysym.sym, e.key.keysym.mod, item);
+            sdlkbd_set_hotkey(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod, item);
             break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
         case SDL_JOYAXISMOTION:

@@ -413,10 +413,10 @@ ui_menu_action_t ui_dispatch_events(void)
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_KEYDOWN:
-                retval = sdlkbd_press(e.key.keysym.sym, e.key.keysym.mod);
+                retval = sdlkbd_press(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
                 break;
             case SDL_KEYUP:
-                retval = sdlkbd_release(e.key.keysym.sym, e.key.keysym.mod);
+                retval = sdlkbd_release(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
@@ -502,7 +502,7 @@ static int confirm_on_exit;
 
 static int set_ui_menukey(int val, void *param)
 {
-    sdl_ui_menukeys[vice_ptr_to_int(param)] = val;
+    sdl_ui_menukeys[vice_ptr_to_int(param)] = SDL2x_to_SDL1x_Keys(val);
     return 0;
 }
 

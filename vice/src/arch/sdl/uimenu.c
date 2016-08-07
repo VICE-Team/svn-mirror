@@ -490,7 +490,7 @@ static int sdl_ui_readline_vkbd_press(SDLKey *key, SDLMod *mod, Uint16 *c_uni, i
     }
 
     if (b & 0x80) {
-        *key = keytable_pc_special[b & 0x7f];
+        *key = SDL2x_to_SDL1x_Keys(keytable_pc_special[b & 0x7f]);
         *c_uni = 0;
     } else {
         *key = SDLK_UNKNOWN;
@@ -530,7 +530,7 @@ static int sdl_ui_readline_vkbd_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
                 break;
             case MENU_ACTION_MAP:
             case MENU_ACTION_EXIT:
-                *key = PC_VKBD_ACTIVATE;
+                *key = SDL2x_to_SDL1x_Keys(PC_VKBD_ACTIVATE);
                 done = 1;
                 break;
             default:
@@ -614,14 +614,16 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
         switch (e.type) {
             case SDL_KEYDOWN:
-                *key = e.key.keysym.sym;
+                *key = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
                 *mod = e.key.keysym.mod;
-/* FIXME: fix for SDL2 */
-#ifndef USE_SDLUI2
+#ifdef USE_SDLUI2
+                *c_uni = SDL_GetKeyFromScancode(e.key.keysym.scancode);
+#else
                 *c_uni = e.key.keysym.unicode;
 #endif
                 got_key = 1;
                 break;
+
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
                 action = sdljoy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
@@ -641,20 +643,20 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
         switch (action) {
             case MENU_ACTION_LEFT:
-                *key = SDLK_LEFT;
+                *key = SDL2x_to_SDL1x_Keys(SDLK_LEFT);
                 got_key = 1;
                 break;
             case MENU_ACTION_RIGHT:
-                *key = SDLK_RIGHT;
+                *key = SDL2x_to_SDL1x_Keys(SDLK_RIGHT);
                 got_key = 1;
                 break;
             case MENU_ACTION_SELECT:
-                *key = SDLK_RETURN;
+                *key = SDL2x_to_SDL1x_Keys(SDLK_RETURN);
                 got_key = 1;
                 break;
             case MENU_ACTION_CANCEL:
             case MENU_ACTION_MAP:
-                *key = PC_VKBD_ACTIVATE;
+                *key = SDL2x_to_SDL1x_Keys(PC_VKBD_ACTIVATE);
                 got_key = 1;
                 break;
             case MENU_ACTION_UP:

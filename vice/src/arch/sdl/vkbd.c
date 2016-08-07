@@ -208,9 +208,9 @@ static void sdl_vkbd_key_map(void)
             if (!unmap) {
                 vkbd_shiftflags = (1 << 3);
                 sdl_ui_external_menu_activate((ui_menu_entry_t *)shift_menu);
-                keyboard_set_map_any((signed long)e.key.keysym.sym, mr, mc, vkbd_shiftflags);
+                keyboard_set_map_any((signed long)SDL2x_to_SDL1x_Keys(e.key.keysym.sym), mr, mc, vkbd_shiftflags);
             } else {
-                keyboard_set_unmap_any((signed long)e.key.keysym.sym);
+                keyboard_set_unmap_any((signed long)SDL2x_to_SDL1x_Keys(e.key.keysym.sym));
             }
             break;
 #ifdef HAVE_SDL_NUMJOYSTICKS

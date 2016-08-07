@@ -62,6 +62,8 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 #define SDLK_SCROLLOCK SDLK_SCROLLLOCK
 #endif
 
+extern SDLKey SDL2x_to_SDL1x_Keys(SDLKey key);
+
 extern ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod);
 extern ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod);
 
