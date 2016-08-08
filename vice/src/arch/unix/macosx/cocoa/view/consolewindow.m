@@ -30,6 +30,8 @@
 
 @implementation ConsoleWindow
 
+#define BUFFER_SIZE 102400
+
 - (id)initWithContentRect:(NSRect)rect title:(NSString *)title
 {
     unsigned int style = NSUtilityWindowMask | NSTitledWindowMask |
@@ -72,23 +74,19 @@
     log_file = 0;
     log_pipe = nil;
 
+    buffer = [[NSMutableString alloc] initWithCapacity:BUFFER_SIZE];
+
     return self;
 }
-
-#define BUFFER_SIZE 1024
 
 - (void)appendText:(NSString*)text
 {
     if (text==nil)
         return;
-    
-    if (buffer==nil)
-        buffer = [[NSMutableString alloc] initWithCapacity:BUFFER_SIZE];
 
     [buffer appendString:text];
-    
-    unichar lastChar = [text characterAtIndex:[text length]-1];
-    if (([buffer length] >= BUFFER_SIZE)||(lastChar == '\n'))
+
+    if (([buffer length] >= BUFFER_SIZE))
         [self flushBuffer];
 }
 
@@ -96,27 +94,28 @@
 {
     NSRange end = [log_view rangeForUserTextChange];
     [log_view replaceCharactersInRange:end withString:prompt];
-    
+
     NSRange new = NSMakeRange(end.location, [prompt length]-1);
     [log_view setTextColor:[NSColor blueColor] range:new];
 
     NSRange newEnd = [log_view rangeForUserTextChange];
-    [log_view scrollRangeToVisible:newEnd];    
+    [log_view scrollRangeToVisible:newEnd];
 }
 
 - (void)flushBuffer
 {
-    if (buffer==nil)
+    if (buffer.length==0)
         return;
-    
+
     NSRange end = [log_view rangeForUserTextChange];
+    [log_view.textStorage beginEditing];
     [log_view replaceCharactersInRange:end withString:buffer];
+    [log_view.textStorage endEditing];
     NSRange newEnd = [log_view rangeForUserTextChange];
     [log_view scrollRangeToVisible:newEnd];    
-    
-    [buffer release];
-    buffer = nil;
-}
+
+    [buffer setString:@""];
+ }
 
 - (void)dealloc
 {    
@@ -126,6 +125,7 @@
     fclose(log_file);
     [log_pipe dealloc];
 
+    [buffer release];
     [super dealloc];
 }
 
@@ -137,7 +137,6 @@
     [self appendText:[[[NSString alloc] initWithBytes:[data bytes] 
                                               length:[data length]
                                               encoding:NSUTF8StringEncoding] autorelease]];
-
     [[notification object] readInBackgroundAndNotify];
 }
 
