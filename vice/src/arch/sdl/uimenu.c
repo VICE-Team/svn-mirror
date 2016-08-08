@@ -404,7 +404,7 @@ static void sdl_ui_trap(WORD addr, void *data)
 /* ------------------------------------------------------------------ */
 /* Readline static functions/variables */
 
-#define PC_VKBD_ACTIVATE SDLK_F10
+#define PC_VKBD_ACTIVATE VICE_SDLK_F10
 #define PC_VKBD_W 17
 #define PC_VKBD_H 4
 
@@ -429,13 +429,13 @@ static const BYTE keytable_pc_shift[] =
     "   \x87ZXCVBNM<>?\x87\x85\x86";
 
 static const SDLKey keytable_pc_special[] = {
-    SDLK_BACKSPACE,
-    SDLK_ESCAPE,
-    SDLK_RETURN,
-    SDLK_LEFT,
-    SDLK_RIGHT,
-    SDLK_HOME,
-    SDLK_END,
+    VICE_SDLK_BACKSPACE,
+    VICE_SDLK_ESCAPE,
+    VICE_SDLK_RETURN,
+    VICE_SDLK_LEFT,
+    VICE_SDLK_RIGHT,
+    VICE_SDLK_HOME,
+    VICE_SDLK_END,
     PC_VKBD_ACTIVATE,
     -1
 };
@@ -491,7 +491,7 @@ static int sdl_ui_readline_vkbd_press(SDLKey *key, SDLMod *mod, Uint16 *c_uni, i
     }
 
     if (b & 0x80) {
-        *key = SDL2x_to_SDL1x_Keys(keytable_pc_special[b & 0x7f]);
+        *key = keytable_pc_special[b & 0x7f];
         *c_uni = 0;
     } else {
         *key = SDLK_UNKNOWN;
@@ -627,8 +627,9 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 #ifdef USE_SDLUI2
                 /* For SDL2x only get 'special' keys from keydown event. */
                 for (i = 0; keytable_pc_special[i] != -1; ++i) {
-                    if (e.key.keysym.sym == keytable_pc_special[i]) {
-                        *c_uni = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
+                    SDLKey special = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
+                    if (special == keytable_pc_special[i]) {
+                        *c_uni = special;
                         got_key = 1;
                     }
                 }
@@ -1180,20 +1181,20 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
         }
 
         switch (key) {
-            case SDLK_LEFT:
+            case VICE_SDLK_LEFT:
                 if (i > 0) {
                     --i;
                 }
                 break;
-            case SDLK_RIGHT:
+            case VICE_SDLK_RIGHT:
                 if (i < (int)size) {
                     ++i;
                 }
                 break;
-            case SDLK_HOME:
+            case VICE_SDLK_HOME:
                 i = 0;
                 break;
-            case SDLK_END:
+            case VICE_SDLK_END:
                 i = size;
                 break;
             case PC_VKBD_ACTIVATE:
@@ -1209,7 +1210,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
                     }
                 }
                 break;
-            case SDLK_BACKSPACE:
+            case VICE_SDLK_BACKSPACE:
                 if (i > 0) {
                     memmove(new_string + i - 1, new_string + i, size - i + 1);
                     --size;
@@ -1223,11 +1224,11 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
                     string_changed = 1;
                 }
                 break;
-            case SDLK_ESCAPE:
+            case VICE_SDLK_ESCAPE:
                 string_changed = 0;
                 escaped = 1;
             /* fall through */
-            case SDLK_RETURN:
+            case VICE_SDLK_RETURN:
                 if (pc_vkbd_state) {
                     sdl_ui_readline_vkbd_erase();
                 }
