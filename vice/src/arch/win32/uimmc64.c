@@ -221,12 +221,12 @@ static void end_mmc64_dialog(HWND hwnd)
 
 static void browse_mmc64_bios_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select file for MMC64 BIOS"), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMC64_BIOS_FILE);
+    uilib_select_browse(hwnd, translate_text(IDS_MMC64_BIOS_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMC64_BIOS_FILE);
 }
 
 static void browse_mmc64_image_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select file for MMC64 image"), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMC64_IMAGE_FILE);
+    uilib_select_browse(hwnd, translate_text(IDS_MMC64_CARD_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMC64_IMAGE_FILE);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

@@ -456,7 +456,7 @@ static void end_sound_record_dialog(HWND hwnd)
 
 static void browse_sound_record_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select Sound Record File"), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_SOUND_RECORD_FILE);
+    uilib_select_browse(hwnd, translate_text(IDS_SOUND_RECORD_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_SOUND_RECORD_FILE);
 }
 
 static INT_PTR CALLBACK sound_record_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

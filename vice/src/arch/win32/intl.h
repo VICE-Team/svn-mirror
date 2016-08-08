@@ -27,6 +27,7 @@
 #ifndef VICE_INTL_H
 #define VICE_INTL_H
 
+#include <windows.h>
 #include <tchar.h>
 #include <windef.h>
 

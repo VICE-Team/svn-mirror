@@ -65,6 +65,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "MMC/SD Image read-only"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD Image File"
   IDS_MMC64_SDTYPE_LABEL     "Card type"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 
 
@@ -81,6 +83,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "MMC/SD-image skrivebeskyttet"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD-image"
   IDS_MMC64_SDTYPE_LABEL     "Korttype"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 
 
@@ -97,6 +101,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "MMC/SD Image Schreibschutz"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD Image Name"
   IDS_MMC64_SDTYPE_LABEL     "Card Typ"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 
 
@@ -113,6 +119,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "Imagen MMC/SD de sólo lectura"
   IDS_MMC64_IMAGE_FILE_LABEL "Fichero imagen MMC/SD"
   IDS_MMC64_SDTYPE_LABEL     "Tipo de tarjeta"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 
 
@@ -129,6 +137,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "Image MMC/SD en lecture seule"
   IDS_MMC64_IMAGE_FILE_LABEL "Nom d'image MMC/SD"
   IDS_MMC64_SDTYPE_LABEL     "Type de carte"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 
 
@@ -148,6 +158,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "MMC/SD képmás csak olvasható"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD képmás fájl"
   IDS_MMC64_SDTYPE_LABEL     "Card type"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -167,6 +179,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "Immagine MMC/SD in sola lettura"
   IDS_MMC64_IMAGE_FILE_LABEL "File immagine MMC/SD"
   IDS_MMC64_SDTYPE_LABEL     "Tipo card"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 
 
@@ -186,6 +200,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "MMC/SD Image read-only"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD Image File"
   IDS_MMC64_SDTYPE_LABEL     "Ä«µå Á¾·ù"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -205,6 +221,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "MMC/SD bestand alleen-lezen"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD bestand"
   IDS_MMC64_SDTYPE_LABEL     "Card soort"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 
 
@@ -224,6 +242,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "Obraz MMC/SC tylko do odczytu"
   IDS_MMC64_IMAGE_FILE_LABEL "Plik obrazu MMC/SD"
   IDS_MMC64_SDTYPE_LABEL     "Typ karty"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -246,6 +266,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "MMC/SD Image read-only"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD Image File"
   IDS_MMC64_SDTYPE_LABEL     "Card type"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -265,6 +287,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "MMC/SD-avbildning skrivskyddad"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD-avbildningsfil"
   IDS_MMC64_SDTYPE_LABEL     "Korttyp"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 
 
@@ -284,9 +308,9 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "Salt Okunur MMC/SD Imajý"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD Imaj Dosyasý"
   IDS_MMC64_SDTYPE_LABEL     "Kart tipi"
+  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-

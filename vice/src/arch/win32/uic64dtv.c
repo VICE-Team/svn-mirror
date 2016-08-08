@@ -291,7 +291,7 @@ static void end_c64dtv_create_flash_dialog(HWND hwnd)
 
 static void browse_c64dtv_bios_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select file for C64DTV ROM"), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_C64DTV_ROM_IMAGE_FILE);
+    uilib_select_browse(hwnd, translate_text(IDS_C64DTV_ROM_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_C64DTV_ROM_IMAGE_FILE);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

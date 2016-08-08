@@ -213,12 +213,12 @@ static void end_mmcreplay_dialog(HWND hwnd)
 
 static void browse_mmcreplay_cardimage_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select file for MMC Replay Card Image"), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMCREPLAY_CARDIMAGE);
+    uilib_select_browse(hwnd, translate_text(IDS_MMCREPLAY_CARD_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMCREPLAY_CARDIMAGE);
 }
 
 static void browse_mmcreplay_eeprom_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select file for MMC Replay EEPROM image"), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMCREPLAY_EEPROMIMAGE);
+    uilib_select_browse(hwnd, translate_text(IDS_MMCREPLAY_EEPROM_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMCREPLAY_EEPROMIMAGE);
 }
 
 
