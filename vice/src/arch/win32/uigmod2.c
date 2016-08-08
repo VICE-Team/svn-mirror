@@ -89,9 +89,7 @@ static int move_buttons_group[] = {
 
 static void init_gmod2_dialog(HWND hwnd)
 {
-    HWND temp_hwnd;
     int res_value;
-    int res_value_loop;
     int xpos;
     const char *gmod2_eeprom_file;
     TCHAR *st_gmod2_eeprom_file;
