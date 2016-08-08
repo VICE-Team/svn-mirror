@@ -115,6 +115,8 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "MMCRImageWrite", MENU_TOGGLE_MMCR_EEPROM_SWC },
     { "MMCRRescueMode", MENU_TOGGLE_MMCR_RESCUE_MODE },
     { "MMCRCardRW", MENU_TOGGLE_MMCR_READ_WRITE },
+    { "GMod2FlashWrite", MENU_TOGGLE_GMOD2_FLASH_READ_WRITE },
+    { "GMOD2EEPROMRW", MENU_TOGGLE_GMOD2_EEPROM_SWC },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "SmartMouseRTCSave", MENU_TOGGLE_SMART_MOUSE_RTC_SAVE },
     { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
@@ -536,6 +538,9 @@ static void c64_ui_specific(void *msg, void *window)
                 break;
             case MENU_MMCR_IMAGE_FILE:
                 ui_select_file(B_OPEN_PANEL, MMCR_IMAGE_FILE, (void*)0);
+                break;
+            case MENU_GMOD2_EEPROM_FILE:
+                ui_select_file(B_OPEN_PANEL, GMOD2_EEPROM_FILE, (void*)0);
                 break;
             case MENU_EXPERT_FILE:
                 ui_select_file(B_OPEN_PANEL, EXPERT_FILE, (void*)0);

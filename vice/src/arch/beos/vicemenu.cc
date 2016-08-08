@@ -1076,6 +1076,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->AddItem(new BMenuItem("SDHC", new BMessage(MENU_MMC64_CARD_TYPE_SDHC)));
                 submenu->AddItem(new BMenuItem("MMC64 Image read-only", new BMessage(MENU_TOGGLE_MMC64_READ_ONLY)));
                 submenu->AddItem(new BMenuItem("MMC64 Image File", new BMessage(MENU_MMC64_IMAGE_FILE)));
+
             menu->AddItem(submenu = new BMenu("MMC Replay Options"));
                 submenu->AddItem(new BMenuItem("EEPROM read/write", new BMessage(MENU_TOGGLE_MMCR_EEPROM_READ_WRITE)));
                 submenu->AddItem(new BMenuItem("Save EEPROM image when changed", new BMessage(MENU_TOGGLE_MMCR_EEPROM_SWC)));
@@ -1098,9 +1099,16 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("Retro Replay", new BMessage(MENU_RR_REV_RETRO)));
                     extsubmenu->AddItem(new BMenuItem("Nordic Replay", new BMessage(MENU_RR_REV_NORDIC)));
+
+            menu->AddItem(submenu = new BMenu("GMod2 Options"));
+                submenu->AddItem(new BMenuItem("FLASH read/write", new BMessage(MENU_TOGGLE_GMOD2_FLASH_READ_WRITE)));
+                submenu->AddItem(new BMenuItem("Save EEPROM image when changed", new BMessage(MENU_TOGGLE_GMOD2_EEPROM_SWC)));
+                submenu->AddItem(new BMenuItem("EEPROM File", new BMessage(MENU_GMOD2_EEPROM_FILE)));
+
             menu->AddItem(submenu = new BMenu("RR-NET MK3 Options"));
                 submenu->AddItem(new BMenuItem("Enable RR-NET MK3 flash jumper", new BMessage(MENU_TOGGLE_RRNET_MK3_FLASH_JUMPER)));
                 submenu->AddItem(new BMenuItem("Save RR-NET MK3 flash when changed", new BMessage(MENU_TOGGLE_SAVE_RRNET_MK3_FLASH)));
+
             menu->AddItem(submenu = new BMenu("Super Snapshot 5 Options"));
                 submenu->AddItem(new BMenuItem("Enable 32KB RAM addon", new BMessage(MENU_TOGGLE_SS5_32K)));
     }

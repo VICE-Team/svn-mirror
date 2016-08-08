@@ -344,6 +344,9 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
     if (filetype == MMCR_IMAGE_FILE) {
         sprintf(title, "Select MMC Replay image file");
     }
+    if (filetype == GMOD2_EEPROM_FILE) {
+        sprintf(title, "Select GMod2 EEPROM file");
+    }
     if (filetype == C64DTV_ROM_FILE) {
         sprintf(title, "Select C64DTV ROM file");
     }
@@ -717,6 +720,8 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("MMCREEPROMImage", path->Path());
         } else if (last_filetype[0] == MMCR_IMAGE_FILE) {
             resources_set_string("MMCRCardImage", path->Path());
+        } else if (last_filetype[0] == GMOD2_EEPROM_FILE) {
+            resources_set_string("GMod2EEPROMImage", path->Path());
         }
         delete path;    
     }
