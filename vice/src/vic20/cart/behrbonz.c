@@ -61,12 +61,15 @@
 
 /* ------------------------------------------------------------------------- */
 
-static enum { BUTTON_RESET, SOFTWARE_RESET } reset_mode = BUTTON_RESET;
+#define BUTTON_RESET 0
+#define SOFTWARE_RESET 1
+static BYTE reset_mode = BUTTON_RESET;
 
 #define CART_ROM_SIZE 0x200000
 static BYTE *cart_rom = NULL;
 
 static BYTE bank_reg = 0;
+static BYTE write_once = 1;
 
 /* ------------------------------------------------------------------------- */
 
@@ -119,10 +122,13 @@ static void behrbonz_io3_store(WORD addr, BYTE value)
     /* with the original cartridge a write to the register changes the bank and
        triggers a reset. also the bank can not be changed anymore until the next
        power cycle */
-    bank_reg = value & 0x7f;
     DBG(("behrbonz_io3_store %04x,%02x\n", addr, value));
-    reset_mode = SOFTWARE_RESET;
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    if (write_once) {
+        bank_reg = value & 0x7f;
+        reset_mode = SOFTWARE_RESET;
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    }
+    write_once = 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -139,6 +145,7 @@ void behrbonz_reset(void)
     /* FIXME: the actual cartridge will only reset the bank to 0 on a power cycle */
     if (reset_mode == BUTTON_RESET) {
         bank_reg = 0;
+        write_once = 1;
     }
     reset_mode = BUTTON_RESET;
     DBG(("behrbonz_reset bank %02x\n", bank_reg));
@@ -205,7 +212,7 @@ void behrbonz_detach(void)
 /* ------------------------------------------------------------------------- */
 
 #define VIC20CART_DUMP_VER_MAJOR   0
-#define VIC20CART_DUMP_VER_MINOR   1
+#define VIC20CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "BEHRBONZ"
 
 int behrbonz_snapshot_write_module(snapshot_t *s)
@@ -219,6 +226,8 @@ int behrbonz_snapshot_write_module(snapshot_t *s)
 
     if (0
         || (SMW_B(m, bank_reg) < 0)
+        || (SMW_B(m, reset_mode) < 0)
+        || (SMW_B(m, write_once) < 0)
         || (SMW_BA(m, cart_rom, CART_ROM_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -249,6 +258,8 @@ int behrbonz_snapshot_read_module(snapshot_t *s)
 
     if (0
         || (SMR_B(m, &bank_reg) < 0)
+        || (SMR_B(m, &reset_mode) < 0)
+        || (SMR_B(m, &write_once) < 0)
         || (SMR_BA(m, cart_rom, CART_ROM_SIZE) < 0)) {
         snapshot_module_close(m);
         lib_free(cart_rom);
