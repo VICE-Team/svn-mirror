@@ -436,7 +436,8 @@ static const SDLKey keytable_pc_special[] = {
     SDLK_RIGHT,
     SDLK_HOME,
     SDLK_END,
-    PC_VKBD_ACTIVATE
+    PC_VKBD_ACTIVATE,
+    -1
 };
 
 static int pc_vkbd_pos_x, pc_vkbd_pos_y, pc_vkbd_x, pc_vkbd_y;
@@ -546,9 +547,16 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
     SDL_Event e;
     int got_key = 0;
     ui_menu_action_t action = MENU_ACTION_NONE;
+#ifdef USE_SDLUI2
+    int i;
+#endif
 
     *mod = KMOD_NONE;
     *c_uni = 0;
+
+#ifdef USE_SDLUI2
+    SDL_StartTextInput();
+#endif
 
     do {
 #ifdef ANDROID_COMPILE
@@ -617,12 +625,30 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
                 *key = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
                 *mod = e.key.keysym.mod;
 #ifdef USE_SDLUI2
-                *c_uni = SDL_GetKeyFromScancode(e.key.keysym.scancode);
+                /* For SDL2x only get 'special' keys from keydown event. */
+                for (i = 0; keytable_pc_special[i] != -1; ++i) {
+                    if (e.key.keysym.sym == keytable_pc_special[i]) {
+                        *c_uni = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
+                        got_key = 1;
+                    }
+                }
 #else
                 *c_uni = e.key.keysym.unicode;
-#endif
                 got_key = 1;
+#endif
                 break;
+
+#ifdef USE_SDLUI2
+            case SDL_TEXTINPUT:
+                if (e.text.text[0] != 0) {
+                    *key = e.text.text[0];
+                    *c_uni = (Uint16)e.text.text[0];
+                    SDL_StopTextInput();
+                    SDL_StartTextInput();
+                    got_key = 1;
+                }
+                break;
+#endif
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
@@ -666,6 +692,10 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
         }
 
     } while (!got_key);
+
+#ifdef USE_SDLUI2
+    SDL_StopTextInput();
+#endif
 
     return got_key;
 }
