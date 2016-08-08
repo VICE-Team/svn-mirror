@@ -270,7 +270,7 @@ void WaveformGenerator::synchronize()
 // The MSB is used to create the falling edge of the triangle by inverting
 // the lower 11 bits. The MSB is thrown away and the lower 11 bits are
 // left-shifted (half the resolution, full amplitude).
-// Ring modulation substitutes the MSB with MSB EOR sync_source MSB.
+// Ring modulation substitutes the MSB with MSB EOR NOT sync_source MSB.
 //
 
 // Sawtooth:
@@ -430,7 +430,7 @@ RESID_INLINE void WaveformGenerator::set_noise_output()
 // 
 // Pulse+Triangle:
 // The accumulator is used to look up an OSC3 sample. When ring modulation is
-// selected, the accumulator MSB is substituted with MSB EOR sync_source MSB.
+// selected, the accumulator MSB is substituted with MSB EOR NOT sync_source MSB.
 // 
 // Pulse+Sawtooth:
 // The accumulator is used to look up an OSC3 sample.
@@ -452,7 +452,7 @@ void WaveformGenerator::set_waveform_output()
   if (likely(waveform)) {
     // The bit masks no_pulse and no_noise are used to achieve branch-free
     // calculation of the output value.
-    int ix = (accumulator ^ (sync_source->accumulator & ring_msb_mask)) >> 12;
+    int ix = (accumulator ^ (~sync_source->accumulator & ring_msb_mask)) >> 12;
     waveform_output =
       wave[ix] & (no_pulse | pulse_output) & no_noise_or_noise_output;
     if (unlikely(waveform > 0x8)) {
@@ -489,7 +489,7 @@ void WaveformGenerator::set_waveform_output(cycle_count delta_t)
   if (likely(waveform)) {
     // The bit masks no_pulse and no_noise are used to achieve branch-free
     // calculation of the output value.
-    int ix = (accumulator ^ (sync_source->accumulator & ring_msb_mask)) >> 12;
+    int ix = (accumulator ^ (~sync_source->accumulator & ring_msb_mask)) >> 12;
     waveform_output =
       wave[ix] & (no_pulse | pulse_output) & no_noise_or_noise_output;
     if (unlikely(waveform > 0x8)) {
