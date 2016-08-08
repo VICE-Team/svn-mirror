@@ -670,20 +670,20 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
         switch (action) {
             case MENU_ACTION_LEFT:
-                *key = SDL2x_to_SDL1x_Keys(SDLK_LEFT);
+                *key = VICE_SDLK_LEFT;
                 got_key = 1;
                 break;
             case MENU_ACTION_RIGHT:
-                *key = SDL2x_to_SDL1x_Keys(SDLK_RIGHT);
+                *key = VICE_SDLK_RIGHT;
                 got_key = 1;
                 break;
             case MENU_ACTION_SELECT:
-                *key = SDL2x_to_SDL1x_Keys(SDLK_RETURN);
+                *key = VICE_SDLK_RETURN;
                 got_key = 1;
                 break;
             case MENU_ACTION_CANCEL:
             case MENU_ACTION_MAP:
-                *key = SDL2x_to_SDL1x_Keys(PC_VKBD_ACTIVATE);
+                *key = PC_VKBD_ACTIVATE;
                 got_key = 1;
                 break;
             case MENU_ACTION_UP:
