@@ -88,7 +88,7 @@ static int sdl_num_screens = 0;
 static video_canvas_t *sdl_canvaslist[MAX_CANVAS_NUM];
 video_canvas_t *sdl_active_canvas = NULL;
 
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
+#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
 static int sdl_gl_mode;
 static GLint screen_texture;
 
@@ -225,7 +225,7 @@ static int set_sdl_window_height(int h, void *param)
     return 0;
 }
 
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
+#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
 static int set_sdl_gl_aspect_mode(int v, void *param)
 {
     int old_v = sdl_gl_aspect_mode;
@@ -322,7 +322,7 @@ static int set_sdl2_renderer_name(const char *val, void *param)
 #endif
 
 static const resource_string_t resources_string[] = {
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
+#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
     { "AspectRatio", "1.0", RES_EVENT_NO, NULL,
       &aspect_ratio_s, set_aspect_ratio, NULL },
 #endif
@@ -362,7 +362,7 @@ static const resource_int_t resources_int[] = {
       &sdl_window_width, set_sdl_window_width, NULL },
     { "SDLWindowHeight", 0, RES_EVENT_NO, NULL,
       &sdl_window_height, set_sdl_window_height, NULL },
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
+#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
     { "SDLGLAspectMode", SDL_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
       &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
     { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
@@ -398,7 +398,7 @@ void video_arch_resources_shutdown(void)
         joy_arch_resources_shutdown();
     }
 
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
+#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
     lib_free(aspect_ratio_s);
 #endif
 }
@@ -419,7 +419,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "-sdlcustomh", SET_RESOURCE, 1, NULL, NULL, "SDLCustomHeight", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<height>", "Set custom resolution height" },
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
+#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
     { "-sdlaspectmode", SET_RESOURCE, 1, NULL, NULL, "SDLGLAspectMode", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<mode>", "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)" },
@@ -507,7 +507,7 @@ static int sdl_video_canvas_limit(unsigned int limit_w, unsigned int limit_h, un
     return 0;
 }
 
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
+#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
 static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned int dest_w, unsigned int dest_h)
 {
     int dest_x = 0, dest_y = 0;
@@ -542,7 +542,11 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
     sdl_lightpen_adjust.scale_x = (double)(src_w) / (double)(dest_w);
     sdl_lightpen_adjust.scale_y = (double)(src_h) / (double)(dest_h);
 
+#ifndef USE_SDLUI2
     glViewport(dest_x, dest_y, dest_w, dest_h);
+#else
+    SDL_RenderSetLogicalSize(new_renderer, dest_w, dest_h);
+#endif
 }
 #endif
 
@@ -951,8 +955,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             SDL_RenderPresent(new_renderer);
             new_screen = SDL_CreateRGBSurface(0, actual_width, actual_height, 32, rmask, gmask, bmask, amask);
             if (new_screen) {
+                SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
                 if (fullscreen) {
-                    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
                     SDL_RenderSetLogicalSize(new_renderer, actual_width, actual_height);
                 }
                 new_texture = SDL_CreateTexture(new_renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, actual_width, actual_height);
@@ -1306,9 +1310,14 @@ static void sdl_video_resize(unsigned int w, unsigned int h)
     } else
 #endif /*  HAVE_HWSCALE */
     {
+        sdl_gl_set_viewport(sdl_active_canvas->width, sdl_active_canvas->height, w, h);
+        sdl_active_canvas->actual_width = w;
+        sdl_active_canvas->actual_height = h;
+#ifndef USE_SDLUI2
         sdl_active_canvas->draw_buffer->canvas_physical_width = w;
         sdl_active_canvas->draw_buffer->canvas_physical_height = h;
         video_viewport_resize(sdl_active_canvas, 0);
+#endif
     }
 }
 
@@ -1327,7 +1336,7 @@ void sdl_video_restore_size(void)
 /* special case handling for the SDL window resize event */
 void sdl_video_resize_event(unsigned int w, unsigned int h)
 {
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
+#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
 
     DBG(("%s: %ix%i", __func__, w, h));
     if ((w == 0) || (h == 0)) {

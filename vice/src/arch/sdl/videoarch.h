@@ -109,7 +109,7 @@ extern BYTE *draw_buffer_vsid;
 #define SDL_LIMIT_MODE_MAX   1
 #define SDL_LIMIT_MODE_FIXED 2
 
-#ifdef HAVE_HWSCALE
+#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
 /* Modes of fixed aspect ratio */
 #define SDL_ASPECT_MODE_OFF    0
 #define SDL_ASPECT_MODE_CUSTOM 1

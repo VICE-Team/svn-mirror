@@ -78,6 +78,25 @@ static int sdl_ui_ready = 0;
 /* Misc. SDL event handling */
 void ui_handle_misc_sdl_event(SDL_Event e)
 {
+#ifdef USE_SDLUI2
+    if (e.type == SDL_WINDOWEVENT) {
+        switch (e.window.event) {
+            case SDL_WINDOWEVENT_RESIZED:
+                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_RESIZED (%d,%d)", (unsigned int)e.window.data1, (unsigned int)e.window.data2));
+                sdl_video_resize_event((unsigned int)e.window.data1, (unsigned int)e.window.data2);
+                video_canvas_refresh_all(sdl_active_canvas);
+                break;
+            case SDL_WINDOWEVENT_FOCUS_GAINED:
+                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_FOCUS_GAINED"));
+                video_canvas_refresh_all(sdl_active_canvas);
+                break;
+            case SDL_WINDOWEVENT_EXPOSED:
+                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_EXPOSED"));
+                video_canvas_refresh_all(sdl_active_canvas);
+                break;
+        }
+    }
+#endif
     switch (e.type) {
         case SDL_QUIT:
             DBG(("ui_handle_misc_sdl_event: SDL_QUIT"));
