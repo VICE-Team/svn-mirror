@@ -44,6 +44,7 @@ BEGIN
     SUBMENU "~Attach Cartridge",                          IDM_VIC20_ATTACH_CARTRIDGE,   MIS_TEXT
     BEGIN
         MENUITEM "Generic Image",                         IDM_VIC20_CART_GENERIC,       MIS_TEXT
+        MENUITEM "Behr Bonz Image",                       IDM_VIC20_CART_BEHR_BONZ,     MIS_TEXT
         MENUITEM "MegaCart Image",                        IDM_VIC20_CART_MEGACART,      MIS_TEXT
         MENUITEM "Final Expansion Image",                 IDM_VIC20_CART_FINAL_EXP,     MIS_TEXT
         MENUITEM "Vic Flash Plugin Image",                IDM_VIC20_CART_VFP,           MIS_TEXT

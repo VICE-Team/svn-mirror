@@ -398,6 +398,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
                 ui_error("Cannot load cartridge image.");
             }
             return;
+        case IDM_VIC20_CART_BEHR_BONZ:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_BEHRBONZ, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
         case IDM_VIC20_CART_MEGACART:
             if (cartridge_attach_image(CARTRIDGE_VIC20_MEGACART, ViceFileSelect(hwnd, 1)) < 0) {
                 ui_error("Cannot load cartridge image.");
