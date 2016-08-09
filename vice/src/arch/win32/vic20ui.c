@@ -360,6 +360,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_IO3_RAM_ENABLE, IDS_MI_IO3_RAM_ENABLE },
     { IDM_VFLIMOD_ENABLE, IDS_MI_VFLIMOD_ENABLE },
     { IDM_CART_VIC20_GENERIC, IDS_MI_CART_VIC20_GENERIC },
+    { IDM_CART_VIC20_BEHR_BONZ, IDS_MI_CART_VIC20_BEHR_BONZ },
     { IDM_CART_VIC20_MEGACART, IDS_MI_CART_VIC20_MEGACART },
     { IDM_CART_VIC20_FINAL_EXPANSION, IDS_MI_CART_VIC20_FINAL_EXPANSION },
     { IDM_CART_VIC20_UM, IDS_MI_CART_VIC20_UM },
@@ -563,6 +564,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_CART_VIC20_FP:
             uicart_attach_special(hwnd, translate_text(IDS_SELECT_FP), UILIB_FILTER_ALL, CARTRIDGE_VIC20_FP);
+            break;
+        case IDM_CART_VIC20_BEHR_BONZ:
+            uicart_attach_special(hwnd, translate_text(IDS_SELECT_BEHR_BONZ), UILIB_FILTER_ALL, CARTRIDGE_VIC20_BEHRBONZ);
             break;
         case IDM_CART_VIC20_MEGACART:
             uicart_attach_special(hwnd, translate_text(IDS_SELECT_MEGACART), UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);
