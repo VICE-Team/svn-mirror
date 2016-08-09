@@ -223,6 +223,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
     if (machine_class == VICE_MACHINE_VIC20) {
         uppermenu->AddItem(menu = new BMenu("Attach cartridge image"));
             menu->AddItem(new BMenuItem("Generic cartridge image", new BMessage(MENU_CART_VIC20_GENERIC)));
+            menu->AddItem(new BMenuItem("Behr Bonz image", new BMessage(MENU_CART_VIC20_BEHR_BONZ)));
             menu->AddItem(new BMenuItem("Mega-Cart image", new BMessage(MENU_CART_VIC20_MEGACART)));
             menu->AddItem(new BMenuItem("Final Expansion image", new BMessage(MENU_CART_VIC20_FINAL_EXPANSION)));
             menu->AddItem(new BMenuItem("UltiMem image", new BMessage(MENU_CART_VIC20_UM)));

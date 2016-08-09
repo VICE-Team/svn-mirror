@@ -461,6 +461,9 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
     if (filetype == VIC20_FP_FILE) {
         sprintf(title, "Select Vic Flash Plugin file");
     }
+    if (filetype == VIC20_BEHR_BONZ_FILE) {
+        sprintf(title, "Select Behr Bonz file");
+    }
     if (filetype == VIC20_MEGACART_FILE) {
         sprintf(title, "Select Mega-Cart file");
     }
@@ -912,6 +915,10 @@ void ui_select_file_action(BMessage *msg)
             }
         } else if (last_filetype[1] == VIC20_FP_FILE) {
             if (cartridge_attach_image(CARTRIDGE_VIC20_FP, fullpath) < 0) {
+                ui_error("Invalid cartridge image");
+            }
+        } else if (last_filetype[1] == VIC20_BEHR_BONZ_FILE) {
+            if (cartridge_attach_image(CARTRIDGE_VIC20_BEHRBONZ, fullpath) < 0) {
                 ui_error("Invalid cartridge image");
             }
         } else if (last_filetype[1] == VIC20_MEGACART_FILE) {
