@@ -45,6 +45,7 @@
 #include "uicontents.h"
 #include "uidrivestatus.h"
 #include "uifileentry.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uitapestatus.h"
 #include "util.h"

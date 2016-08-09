@@ -28,6 +28,7 @@
 #define UIFILECHOOSER_H_
 
 #include "uiarch.h"
+#include "uilib.h"
 #include "uifilechooser.h"
 
 extern GtkWidget *build_file_selector(const char *title, GtkWidget **attach_write_protect, 
