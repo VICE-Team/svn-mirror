@@ -48,6 +48,9 @@ static UI_MENU_CALLBACK(attach_cart_callback)
 
     if (activated) {
         switch (vice_ptr_to_int(param)) {
+            case CARTRIDGE_VIC20_BEHRBONZ:
+                title = "Select " CARTRIDGE_VIC20_NAME_BEHRBONZ " image";
+                break;
             case CARTRIDGE_VIC20_UM:
                 title = "Select " CARTRIDGE_VIC20_NAME_UM " image";
                 break;
@@ -407,6 +410,10 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_VIC20_GENERIC },
+    { "Attach " CARTRIDGE_VIC20_NAME_BEHRBONZ " image",
+      MENU_ENTRY_DIALOG,
+      attach_cart_callback,
+      (ui_callback_data_t)CARTRIDGE_VIC20_BEHRBONZ },
     { "Attach " CARTRIDGE_VIC20_NAME_MEGACART " image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
