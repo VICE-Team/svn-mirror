@@ -115,9 +115,7 @@ static const float sdl_gl_vertex_coord[4 * 4] = {
 
 #ifdef USE_SDLUI2
 static char *sdl2_renderer_name = NULL;
-#endif
-
-#if defined(USE_SDLUI2)
+SDL_RendererFlip flip;
 SDL_Window *new_window = NULL;
 SDL_Renderer *new_renderer = NULL;
 SDL_Texture *new_texture = NULL;
@@ -293,7 +291,15 @@ static int set_sdl_gl_flipx(int v, void *param)
 {
     sdl_gl_flipx = v ? 1 : 0;
 
+#ifdef USE_SDLUI2
+    if (sdl_gl_flipx) {
+        flip |= SDL_FLIP_HORIZONTAL;
+    } else {
+        flip &= ~SDL_FLIP_HORIZONTAL;
+    }
+#else
     update_vertex_base();
+#endif
 
     return 0;
 }
@@ -302,7 +308,15 @@ static int set_sdl_gl_flipy(int v, void *param)
 {
     sdl_gl_flipy = v ? 1 : 0;
 
+#ifdef USE_SDLUI2
+    if (sdl_gl_flipy) {
+        flip |= SDL_FLIP_VERTICAL;
+    } else {
+        flip &= ~SDL_FLIP_VERTICAL;
+    }
+#else
     update_vertex_base();
+#endif
 
     return 0;
 }
@@ -1119,7 +1133,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 #else
     SDL_UpdateTexture(canvas->texture, NULL, canvas->screen->pixels, w * sizeof (Uint32));
     SDL_RenderClear(canvas->renderer);
-    SDL_RenderCopy(canvas->renderer, canvas->texture, NULL, NULL);
+    SDL_RenderCopyEx(new_renderer, new_texture, NULL, NULL, 0, NULL, flip);
     SDL_RenderPresent(canvas->renderer);
 #endif
 
