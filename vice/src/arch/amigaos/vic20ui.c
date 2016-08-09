@@ -132,6 +132,9 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
         case IDM_CART_VIC20_FP:
             uicart_attach_special(canvas, translate_text(IDS_SELECT_FP), UILIB_FILTER_ALL, CARTRIDGE_VIC20_FP);
             break;
+        case IDM_CART_VIC20_BEHR_BONZ:
+            uicart_attach_special(canvas, translate_text(IDS_SELECT_BEHR_BONZ), UILIB_FILTER_ALL, CARTRIDGE_VIC20_BEHRBONZ);
+            break;
         case IDM_CART_VIC20_MEGACART:
             uicart_attach_special(canvas, translate_text(IDS_SELECT_MEGACART), UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);
             break;

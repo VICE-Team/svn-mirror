@@ -432,6 +432,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_GENERIC_IMAGE_SV, "Generisk avbild..." },
 /* tr */ { IDMS_GENERIC_IMAGE_TR, "Jenerik imaj..." },
 
+/* en */ { IDMS_BEHR_BONZ_IMAGE,    "Behr Bonz image..." },
+/* da */ { IDMS_BEHR_BONZ_IMAGE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_BEHR_BONZ_IMAGE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_BEHR_BONZ_IMAGE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_BEHR_BONZ_IMAGE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_BEHR_BONZ_IMAGE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_BEHR_BONZ_IMAGE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_BEHR_BONZ_IMAGE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_BEHR_BONZ_IMAGE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_BEHR_BONZ_IMAGE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_BEHR_BONZ_IMAGE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_BEHR_BONZ_IMAGE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_BEHR_BONZ_IMAGE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_MEGA_CART_IMAGE,    "Mega-Cart image..." },
 /* da */ { IDMS_MEGA_CART_IMAGE_DA, "Mega-Cart image..." },
 /* de */ { IDMS_MEGA_CART_IMAGE_DE, "Mega-Cart Image..." },
@@ -10514,6 +10528,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_SELECT_FP_RU, "Select Vic Flash Plugin image" },
 /* sv */ { IDS_SELECT_FP_SV, "Välj avbildning för Vic Flash-insticksmodul" },
 /* tr */ { IDS_SELECT_FP_TR, "Vic Flash Plugin imajý seç" },
+
+/* en */ { IDS_SELECT_BEHR_BONZ,    "Select Behr Bonz image" },
+/* da */ { IDS_SELECT_BEHR_BONZ_DA, "" },  /* fuzzy */
+/* de */ { IDS_SELECT_BEHR_BONZ_DE, "" },  /* fuzzy */
+/* es */ { IDS_SELECT_BEHR_BONZ_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SELECT_BEHR_BONZ_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SELECT_BEHR_BONZ_HU, "" },  /* fuzzy */
+/* it */ { IDS_SELECT_BEHR_BONZ_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SELECT_BEHR_BONZ_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SELECT_BEHR_BONZ_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SELECT_BEHR_BONZ_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SELECT_BEHR_BONZ_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SELECT_BEHR_BONZ_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SELECT_BEHR_BONZ_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SELECT_MEGACART,    "Select Mega-Cart image" },
 /* da */ { IDS_SELECT_MEGACART_DA, "Vælg MegaCart-imagefil" },
