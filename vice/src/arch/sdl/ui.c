@@ -102,7 +102,6 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             DBG(("ui_handle_misc_sdl_event: SDL_QUIT"));
             ui_sdl_quit();
             break;
-/* FIXME: fix for SDL2 */
 #ifndef USE_SDLUI2
         case SDL_VIDEORESIZE:
             DBG(("ui_handle_misc_sdl_event: SDL_VIDEORESIZE (%d,%d)", (unsigned int)e.resize.w, (unsigned int)e.resize.h));
