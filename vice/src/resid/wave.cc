@@ -97,6 +97,8 @@ WaveformGenerator::WaveformGenerator()
   // Accumulator's even bits are high on powerup
   accumulator = 0x555555;
 
+  tri_saw_pipeline = 0x555;
+
   reset();
 }
 

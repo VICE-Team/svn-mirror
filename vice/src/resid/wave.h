@@ -98,6 +98,9 @@ protected:
   // The control register right-shifted 4 bits; used for waveform table lookup.
   reg8 waveform;
 
+  // 8580 tri/saw pipeline
+  reg12 tri_saw_pipeline;
+
   // The remaining control register bits.
   reg8 test;
   reg8 ring_mod;
@@ -453,8 +456,19 @@ void WaveformGenerator::set_waveform_output()
     // The bit masks no_pulse and no_noise are used to achieve branch-free
     // calculation of the output value.
     int ix = (accumulator ^ (~sync_source->accumulator & ring_msb_mask)) >> 12;
-    waveform_output =
-      wave[ix] & (no_pulse | pulse_output) & no_noise_or_noise_output;
+
+    // Triangle/Sawtooth output is delayed half cycle on 8580
+    if ((waveform & 3) && (sid_model == MOS8580))
+    {
+        waveform_output = tri_saw_pipeline;
+        tri_saw_pipeline = wave[ix];
+    }
+    else
+    {
+        waveform_output = wave[ix];
+    }
+
+    waveform_output &= (no_pulse | pulse_output) & no_noise_or_noise_output;
     if (unlikely(waveform > 0x8)) {
       // Combined waveforms write to the shift register.
       write_shift_register();
@@ -490,6 +504,7 @@ void WaveformGenerator::set_waveform_output(cycle_count delta_t)
     // The bit masks no_pulse and no_noise are used to achieve branch-free
     // calculation of the output value.
     int ix = (accumulator ^ (~sync_source->accumulator & ring_msb_mask)) >> 12;
+    // Triangle/Sawtooth output delay for the 8580 is not modeled
     waveform_output =
       wave[ix] & (no_pulse | pulse_output) & no_noise_or_noise_output;
     if (unlikely(waveform > 0x8)) {

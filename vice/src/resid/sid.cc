@@ -180,12 +180,13 @@ void SID::write(reg8 offset, reg8 value)
   bus_value = value;
   bus_value_ttl = databus_ttl;
 
-  if (sid_model == MOS8580) {
-    // One cycle pipeline delay on the MOS8580; delay write.
+  if (unlikely(sampling == SAMPLE_FAST) && (sid_model == MOS8580)) {
+    // Fake one cycle pipeline delay on the MOS8580
+    // when using non cycle accurate emulation.
+    // This will make the SID detection method work.
     write_pipeline = 1;
   }
   else {
-    // No pipeline delay on the MOS6581; write immediately.
     write();
   }
 }
