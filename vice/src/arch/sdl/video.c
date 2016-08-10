@@ -835,7 +835,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int limit = sdl_limit_mode;
     unsigned int limit_w = (unsigned int)sdl_custom_width;
     unsigned int limit_h = (unsigned int)sdl_custom_height;
-    int hwscale = 0;
     int lightpen_updated = 0;
     int it;
     int l;
@@ -844,6 +843,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     char **renderlist = NULL;
     int renderamount = SDL_GetNumRenderDrivers();
     SDL_GLContext ctx;
+    SDL_RendererInfo info;
 
     memset(rendername, 0, sizeof(rendername));
 
@@ -866,9 +866,10 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
     if (fullscreen) {
-        flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
         if (canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
-            limit = SDL_LIMIT_MODE_FIXED;
+            flags = SDL_WINDOW_FULLSCREEN;
+        } else {
+            flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
         }
     } else {
         flags = SDL_WINDOW_RESIZABLE;
@@ -886,19 +887,14 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
     /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
     if (sdl_video_canvas_limit(limit_w, limit_h, &actual_width, &actual_height, limit)) {
-        if (!hwscale) {
-            canvas->draw_buffer->canvas_physical_width = actual_width;
-            canvas->draw_buffer->canvas_physical_height = actual_height;
-            video_viewport_resize(sdl_active_canvas, 0);
-            if (sdl_ui_finalized) {
-                return canvas; /* exit here as video_viewport_resize will recall */
-            }
-        }
+        canvas->draw_buffer->canvas_physical_width = actual_width;
+        canvas->draw_buffer->canvas_physical_height = actual_height;
     }
 
     if (new_window) {
         if (new_screen) {
             SDL_FreeSurface(new_screen);
+            new_screen = NULL;
         }
         if (new_texture) {
             SDL_DestroyTexture(new_texture);
@@ -923,7 +919,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
     /* Fill in the renderlist and render info string */
     for (it = 0; it < renderamount; ++it) {
-        SDL_RendererInfo info;
         SDL_GetRenderDriverInfo(it, &info);
 
         strcat(rendername, info.name);
@@ -970,9 +965,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             new_screen = SDL_CreateRGBSurface(0, actual_width, actual_height, 32, rmask, gmask, bmask, amask);
             if (new_screen) {
                 SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-                if (fullscreen) {
-                    SDL_RenderSetLogicalSize(new_renderer, actual_width, actual_height);
-                }
                 new_texture = SDL_CreateTexture(new_renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, actual_width, actual_height);
                 if (!new_texture) {
                     SDL_FreeSurface(new_screen);
@@ -1031,7 +1023,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         resources_set_int("SDLWindowHeight", actual_height);
     }
 
-    log_message(sdlvideo_log, "%s (%s) %ix%i %ibpp %s%s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", actual_width, actual_height, sdl_bitdepth, hwscale ? "OpenGL " : "", (canvas->fullscreenconfig->enable) ? "(fullscreen)" : "");
+    SDL_GetRenderDriverInfo(drv_index, &info);
+
+    log_message(sdlvideo_log, "%s (%s) %ix%i %ibpp using %s%s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", actual_width, actual_height, sdl_bitdepth, info.name, (canvas->fullscreenconfig->enable) ? "(fullscreen)" : "");
 #ifdef SDL_DEBUG
     log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
 #endif
