@@ -61,3 +61,6 @@ frontend/lame$(EXEEXT):
 
 frontend/mp3x$(EXEEXT): frontend/lame$(EXEEXT)
 
+install:
+
+install-stuff:	install-recursive

@@ -142,9 +142,9 @@ if test x"$shared" = "xyes"; then
   fi
 else
   if test x"$hostprefix" != "x"; then
-    config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables --host=$host"
+    config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$prefix $extra_generic_enables --host=$host"
   else
-    config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables"
+    config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$prefix $extra_generic_enables"
   fi
 fi
 cat <<__END
@@ -152,7 +152,12 @@ Running configure in liblame with $config_line
 __END
 
 ${NEW_SHELL} $config_line
-$makecommand install
+
+if test x"$shared" = "xyes"; then
+    $makecommand install-stuff
+else
+    $makecommand -e prefix=$cur/../libffmpeg install-stuff
+fi
 
 if test x"$shared" != "xyes"; then
   if [ ! -d "$cur/../libffmpeg/lib" ]; then
@@ -178,9 +183,9 @@ if test x"$shared" = "xyes"; then
   fi
 else
   if test x"$hostprefix" != "x"; then
-    config_line="$srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --host=$host --cross-prefix=$hostprefix-"
+    config_line="$srcdir/../libx264/configure --enable-static --prefix=$prefix --host=$host --cross-prefix=$hostprefix-"
   else
-    config_line="$srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --compiler=${compiler}"
+    config_line="$srcdir/../libx264/configure --enable-static --prefix=$prefix --compiler=${compiler}"
   fi
 fi
 
@@ -189,7 +194,12 @@ Running configure in libx264 with $config_line --extra-cflags="-Wno-deprecated-d
 __END
 
 ${NEW_SHELL} $config_line --extra-cflags="-Wno-deprecated-declarations"
-$makecommand install
+
+if test x"$shared" = "xyes"; then
+    $makecommand install-stuff
+else
+    $makecommand -e prefix=$cur/../libffmpeg install-stuff
+fi
 
 if test x"$shared" != "xyes"; then
   if [ -f "$cur/../libffmpeg/lib64/libx264.a" ]; then

@@ -3031,13 +3031,13 @@ libavutil/ffversion.h .version:
 -include .version
 
 ifdef AVPROGS
-install: install-progs install-data
+install:
 endif
 
 ifdef VICEBUILD
-install: install-libs install-headers
+install:
 else
-install: install-libs
+install:
 endif
 
 ifdef VICEBUILD

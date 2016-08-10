@@ -1250,7 +1250,8 @@ fi
 
 if [ "$cli" = "yes" ]; then
     echo 'default: cli' >> config.mak
-    echo 'install: install-cli' >> config.mak
+    echo 'install:' >> config.mak
+    echo 'install-stuff: install-cli' >> config.mak
 fi
 
 if [ "$shared" = "yes" ]; then
@@ -1285,12 +1286,14 @@ if [ "$shared" = "yes" ]; then
         echo "SOFLAGS=-shared -Wl,-soname,\$(SONAME) $SOFLAGS" >> config.mak
     fi
     echo 'default: lib-shared' >> config.mak
-    echo 'install: install-lib-shared' >> config.mak
+    echo 'install:' >> config.mak
+    echo 'install-stuff: install-lib-shared' >> config.mak
 fi
 
 if [ "$static" = "yes" ]; then
     echo 'default: lib-static' >> config.mak
-    echo 'install: install-lib-static' >> config.mak
+    echo 'install:' >> config.mak
+    echo 'install-stuff: install-lib-static' >> config.mak
 fi
 
 if [ "$cli_libx264" = "system" ] ; then
