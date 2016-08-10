@@ -76,6 +76,14 @@ typedef unsigned (*ffmpeg_version_t)(void);
 #define AVCodecID              CodecID
 #endif
 
+#if LIBAVUTIL_VERSION_INT < AV_VERSION_INT(55,17,103)
+#define VICE_AV_PIX_FMT_RGB24 PIX_FMT_RGB24
+#define VICE_AV_PixelFormat PixelFormat
+#else
+#define VICE_AV_PIX_FMT_RGB24 AV_PIX_FMT_RGB24
+#define VICE_AV_PixelFormat AVPixelFormat
+#endif
+
 /* avcodec fucntions */
 typedef void(*av_init_packet_t)(AVPacket *pkt);
 typedef int(*avcodec_open2_t)(AVCodecContext*, AVCodec*, AVDictionary **);
@@ -118,7 +126,7 @@ typedef void(*av_dict_free_t)(AVDictionary**);
 
 /* swscale functions */
 typedef struct SwsContext * (*sws_getContext_t)(int srcW, int srcH,
-                                                enum PixelFormat srcFormat, int dstW, int dstH, enum PixelFormat dstFormat,
+                                                enum VICE_AV_PixelFormat srcFormat, int dstW, int dstH, enum VICE_AV_PixelFormat dstFormat,
                                                 int flags, SwsFilter *srcFilter, SwsFilter *dstFilter, double *param);
 typedef void (*sws_freeContext_t)(struct SwsContext *swsContext);
 typedef int (*sws_scale_t)(struct SwsContext *context, uint8_t* srcSlice[],
