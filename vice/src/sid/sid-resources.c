@@ -299,7 +299,7 @@ static int set_sid_hardsid_right(int val, void *param)
 
 #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 static const resource_int_t resid_resources_int[] = {
-    { "SidResidSampling", SID_RESID_SAMPLING_FAST, RES_EVENT_NO, NULL,
+    { "SidResidSampling", SID_RESID_SAMPLING_RESAMPLING, RES_EVENT_NO, NULL,
       &sid_resid_sampling, set_sid_resid_sampling, NULL },
     { "SidResidPassband", 90, RES_EVENT_NO, NULL,
       &sid_resid_passband, set_sid_resid_passband, NULL },
