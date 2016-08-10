@@ -1133,7 +1133,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 #else
     SDL_UpdateTexture(canvas->texture, NULL, canvas->screen->pixels, w * sizeof (Uint32));
     SDL_RenderClear(canvas->renderer);
-    SDL_RenderCopyEx(new_renderer, new_texture, NULL, NULL, 0, NULL, flip);
+    SDL_RenderCopyEx(canvas->renderer, canvas->texture, NULL, NULL, 0, NULL, flip);
     SDL_RenderPresent(canvas->renderer);
 #endif
 
