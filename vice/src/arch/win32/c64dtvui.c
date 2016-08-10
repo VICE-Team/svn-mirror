@@ -403,14 +403,14 @@ static uilib_dialog_group c64dtv_drive_right_group[] = {
 };
 
 static generic_trans_table_t c64dtv_generic_trans[] = {
-    { IDC_1540, "1540" },
-    { IDC_1541, "1541" },
-    { IDC_1541_II, "1541-II" },
-    { IDC_1570, "1570" },
-    { IDC_1571, "1571" },
-    { IDC_1581, "1581" },
-    { IDC_2000, "2000" },
-    { IDC_4000, "4000" },
+    { IDC_1540,    TEXT("1540") },
+    { IDC_1541,    TEXT("1541") },
+    { IDC_1541_II, TEXT("1541-II") },
+    { IDC_1570,    TEXT("1570") },
+    { IDC_1571,    TEXT("1571") },
+    { IDC_1581,    TEXT("1581") },
+    { IDC_2000,    TEXT("2000") },
+    { IDC_4000,    TEXT("4000") },
     { 0, NULL }
 };
 

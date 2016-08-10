@@ -685,22 +685,22 @@ static uilib_dialog_group c128_drive_right_group[] = {
 };
 
 static generic_trans_table_t c128_generic_trans[] = {
-    { IDC_1540, "1540" },
-    { IDC_1541, "1541" },
-    { IDC_1541_II, "1541-II" },
-    { IDC_1570, "1570" },
-    { IDC_1571, "1571" },
-    { IDC_1571CR, "1571CR" },
-    { IDC_1581, "1581" },
-    { IDC_2000, "2000" },
-    { IDC_4000, "4000" },
-    { IDC_2031, "2031" },
-    { IDC_2040, "2040" },
-    { IDC_3040, "3040" },
-    { IDC_4040, "4040" },
-    { IDC_1001, "1001" },
-    { IDC_PROFDOS, "Professional DOS" },
-    { IDC_SUPERCARD, "SuperCard+" },
+    { IDC_1540,      TEXT("1540") },
+    { IDC_1541,      TEXT("1541") },
+    { IDC_1541_II,   TEXT("1541-II") },
+    { IDC_1570,      TEXT("1570") },
+    { IDC_1571,      TEXT("1571") },
+    { IDC_1571CR,    TEXT("1571CR") },
+    { IDC_1581,      TEXT("1581") },
+    { IDC_2000,      TEXT("2000") },
+    { IDC_4000,      TEXT("4000") },
+    { IDC_2031,      TEXT("2031") },
+    { IDC_2040,      TEXT("2040") },
+    { IDC_3040,      TEXT("3040") },
+    { IDC_4040,      TEXT("4040") },
+    { IDC_1001,      TEXT("1001") },
+    { IDC_PROFDOS,   TEXT("Professional DOS") },
+    { IDC_SUPERCARD, TEXT("SuperCard+") },
     { 0, NULL }
 };
 
@@ -713,7 +713,6 @@ static void cart_generic_dynmenu(HMENU menu)
 {
     cartridge_info_t *cart_info = cartridge_get_info_list();
     int i;
-    char *name;
 
     cart_min_id = current_dyn_id;
 
@@ -723,9 +722,7 @@ static void cart_generic_dynmenu(HMENU menu)
 
     for (i = 0; cart_info[i].name; ++i) {
         if (cart_info[i].flags == CARTRIDGE_GROUP_GENERIC) {
-            name = util_concat(cart_info[i].name, " ", translate_text(IDS_IMAGE), "...", NULL);
-            AppendMenu(menu, MF_STRING, current_dyn_id++, name);
-            lib_free(name);
+            uic64cart_add_menu_item(menu, cart_info[i].name, current_dyn_id++);
         }
     }
 }
@@ -734,15 +731,12 @@ static void cart_ramex_dynmenu(HMENU menu)
 {
     cartridge_info_t *cart_info = cartridge_get_info_list();
     int i;
-    char *name;
 
     DeleteMenu(menu, 0, MF_BYPOSITION);
 
     for (i = 0; cart_info[i].name; ++i) {
         if (cart_info[i].flags == CARTRIDGE_GROUP_RAMEX) {
-            name = util_concat(cart_info[i].name, " ", translate_text(IDS_IMAGE), "...", NULL);
-            AppendMenu(menu, MF_STRING, current_dyn_id++, name);
-            lib_free(name);
+            uic64cart_add_menu_item(menu, cart_info[i].name, current_dyn_id++);
         }
     }
 }
@@ -751,15 +745,12 @@ static void cart_freezer_dynmenu(HMENU menu)
 {
     cartridge_info_t *cart_info = cartridge_get_info_list();
     int i;
-    char *name;
 
     DeleteMenu(menu, 0, MF_BYPOSITION);
 
     for (i = 0; cart_info[i].name; ++i) {
         if (cart_info[i].flags == CARTRIDGE_GROUP_FREEZER) {
-            name = util_concat(cart_info[i].name, " ", translate_text(IDS_IMAGE), "...", NULL);
-            AppendMenu(menu, MF_STRING, current_dyn_id++, name);
-            lib_free(name);
+            uic64cart_add_menu_item(menu, cart_info[i].name, current_dyn_id++);
         }
     }
 }
@@ -768,15 +759,12 @@ static void cart_game_dynmenu(HMENU menu)
 {
     cartridge_info_t *cart_info = cartridge_get_info_list();
     int i;
-    char *name;
 
     DeleteMenu(menu, 0, MF_BYPOSITION);
 
     for (i = 0; cart_info[i].name; ++i) {
         if (cart_info[i].flags == CARTRIDGE_GROUP_GAME) {
-            name = util_concat(cart_info[i].name, " ", translate_text(IDS_IMAGE), "...", NULL);
-            AppendMenu(menu, MF_STRING, current_dyn_id++, name);
-            lib_free(name);
+            uic64cart_add_menu_item(menu, cart_info[i].name, current_dyn_id++);
         }
     }
 }
@@ -785,15 +773,12 @@ static void cart_util_dynmenu(HMENU menu)
 {
     cartridge_info_t *cart_info = cartridge_get_info_list();
     int i;
-    char *name;
 
     DeleteMenu(menu, 0, MF_BYPOSITION);
 
     for (i = 0; cart_info[i].name; ++i) {
         if (cart_info[i].flags == CARTRIDGE_GROUP_UTIL) {
-            name = util_concat(cart_info[i].name, " ", translate_text(IDS_IMAGE), "...", NULL);
-            AppendMenu(menu, MF_STRING, current_dyn_id++, name);
-            lib_free(name);
+            uic64cart_add_menu_item(menu, cart_info[i].name, current_dyn_id++);
         }
     }
     cart_max_id = current_dyn_id - 1;

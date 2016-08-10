@@ -33,6 +33,7 @@
 
 #include "cartridge.h"
 #include "debug.h"
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
@@ -531,51 +532,51 @@ static uilib_dialog_group vic20_drive_right_group[] = {
 };
 
 static generic_trans_table_t vic20_generic_trans[] = {
-    { IDC_1540, "1540" },
-    { IDC_1541, "1541" },
-    { IDC_1541_II, "1541-II" },
-    { IDC_1570, "1570" },
-    { IDC_1571, "1571" },
-    { IDC_1581, "1581" },
-    { IDC_2000, "2000" },
-    { IDC_4000, "4000" },
-    { IDC_2031, "2031" },
-    { IDC_2040, "2040" },
-    { IDC_3040, "3040" },
-    { IDC_4040, "4040" },
-    { IDC_1001, "1001" },
+    { IDC_1540,    TEXT("1540") },
+    { IDC_1541,    TEXT("1541") },
+    { IDC_1541_II, TEXT("1541-II") },
+    { IDC_1570,    TEXT("1570") },
+    { IDC_1571,    TEXT("1571") },
+    { IDC_1581,    TEXT("1581") },
+    { IDC_2000,    TEXT("2000") },
+    { IDC_4000,    TEXT("4000") },
+    { IDC_2031,    TEXT("2031") },
+    { IDC_2040,    TEXT("2040") },
+    { IDC_3040,    TEXT("3040") },
+    { IDC_4040,    TEXT("4040") },
+    { IDC_1001,    TEXT("1001") },
     { 0, NULL }
 };
 
 /* Probably one should simply remove the size numbers from the IDM_* stuff */
 static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
 {
-    TCHAR *st_name;
+    char *name;
 
     switch (wparam) {
         case IDM_VIC20MODEL_SETTINGS:
             ui_vic20model_settings_dialog(hwnd);
             break;
         case IDM_CART_VIC20_GENERIC:
-            uicart_attach_special(hwnd, translate_text(IDS_SELECT_GENERIC), UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
+            uicart_attach_special(hwnd, intl_translate_tcs(IDS_SELECT_GENERIC), UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
             break;
         case IDM_CART_VIC20_UM:
-            uicart_attach_special(hwnd, translate_text(IDS_SELECT_UM), UILIB_FILTER_ALL, CARTRIDGE_VIC20_UM);
+            uicart_attach_special(hwnd, intl_translate_tcs(IDS_SELECT_UM), UILIB_FILTER_ALL, CARTRIDGE_VIC20_UM);
             break;
         case IDM_CART_VIC20_FP:
-            uicart_attach_special(hwnd, translate_text(IDS_SELECT_FP), UILIB_FILTER_ALL, CARTRIDGE_VIC20_FP);
+            uicart_attach_special(hwnd, intl_translate_tcs(IDS_SELECT_FP), UILIB_FILTER_ALL, CARTRIDGE_VIC20_FP);
             break;
         case IDM_CART_VIC20_BEHR_BONZ:
-            uicart_attach_special(hwnd, translate_text(IDS_SELECT_BEHR_BONZ), UILIB_FILTER_ALL, CARTRIDGE_VIC20_BEHRBONZ);
+            uicart_attach_special(hwnd, intl_translate_tcs(IDS_SELECT_BEHR_BONZ), UILIB_FILTER_ALL, CARTRIDGE_VIC20_BEHRBONZ);
             break;
         case IDM_CART_VIC20_MEGACART:
-            uicart_attach_special(hwnd, translate_text(IDS_SELECT_MEGACART), UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);
+            uicart_attach_special(hwnd, intl_translate_tcs(IDS_SELECT_MEGACART), UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);
             break;
         case IDM_CART_VIC20_FINAL_EXPANSION:
-            uicart_attach_special(hwnd, translate_text(IDS_SELECT_FINAL_EXPANSION), UILIB_FILTER_ALL, CARTRIDGE_VIC20_FINAL_EXPANSION);
+            uicart_attach_special(hwnd, intl_translate_tcs(IDS_SELECT_FINAL_EXPANSION), UILIB_FILTER_ALL, CARTRIDGE_VIC20_FINAL_EXPANSION);
             break;
         case IDM_CART_SMART_ATTACH:
-            uicart_attach_special(hwnd, translate_text(IDS_SELECT_CARTRIDGE_IMAGE), UILIB_FILTER_ALL, CARTRIDGE_VIC20_DETECT);
+            uicart_attach_special(hwnd, intl_translate_tcs(IDS_SELECT_CARTRIDGE_IMAGE), UILIB_FILTER_ALL, CARTRIDGE_VIC20_DETECT);
             break;
         case IDM_CART_VIC20_8KB_2000:
         case IDM_CART_VIC20_16KB_4000:
@@ -659,14 +660,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
             break;
         case IDM_MEGACART_WRITEBACK_FILE:
-            if ((st_name = uilib_select_file(hwnd, translate_text(IDS_MI_MEGACART_WRITEBACK_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
-                char *name;
-
-                name = system_wcstombs_alloc(st_name);
-
+            if ((name = uilib_select_file(hwnd, intl_translate_tcs(IDS_MI_MEGACART_WRITEBACK_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
                 resources_set_string("MegaCartNvRAMfilename", name);
-                system_wcstombs_free(name);
-                lib_free(st_name);
+                lib_free(name);
             }
             break;
         case IDM_SAMPLER_SETTINGS:

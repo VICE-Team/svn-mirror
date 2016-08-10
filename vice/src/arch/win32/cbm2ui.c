@@ -446,11 +446,11 @@ static uilib_dialog_group cbm2_drive_right_group[] = {
 };
 
 static generic_trans_table_t cbm2_generic_trans[] = {
-    { IDC_2031, "2031" },
-    { IDC_2040, "2040" },
-    { IDC_3040, "3040" },
-    { IDC_4040, "4040" },
-    { IDC_1001, "1001" },
+    { IDC_2031, TEXT("2031") },
+    { IDC_2040, TEXT("2040") },
+    { IDC_3040, TEXT("3040") },
+    { IDC_4040, TEXT("4040") },
+    { IDC_1001, TEXT("1001") },
     { 0, NULL }
 };
 

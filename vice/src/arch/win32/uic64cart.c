@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <tchar.h>
 #include <windows.h>
 
 #include "cartridge.h"
@@ -137,6 +138,16 @@ static void uic64cart_attach(WPARAM wparam, HWND hwnd,
                              const uicart_params_t *cartridges)
 {
     uicart_attach(wparam, hwnd, cartridges);
+}
+
+void uic64cart_add_menu_item(HMENU menu, const char *name, int menu_id)
+{
+    TCHAR st_name[32];
+    TCHAR st_text[64];
+
+    system_mbstowcs(st_name, name, 32);
+    _stprintf(st_text, TEXT("%s %s..."), st_name, intl_translate_tcs(IDS_IMAGE));
+    AppendMenu(menu, MF_STRING, menu_id, st_text);
 }
 
 void uic64cart_proc(WPARAM wparam, HWND hwnd, int min_id, int max_id)

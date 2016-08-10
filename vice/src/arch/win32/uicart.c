@@ -42,9 +42,9 @@
 void uicart_attach(WPARAM wparam, HWND hwnd, const uicart_params_t *cartridges)
 {
     int i;
-    TCHAR *st_name;
-    char *title;
-    char *trans_title = NULL;
+    TCHAR *title;
+    char *trans_title;
+    char *name;
 
     i = 0;
 
@@ -58,39 +58,31 @@ void uicart_attach(WPARAM wparam, HWND hwnd, const uicart_params_t *cartridges)
     }
 
     if (cartridges[i].title) {
-        title = translate_text(cartridges[i].title);
+        title = system_mbstowcs_alloc(translate_text(cartridges[i].title));
     } else {
         trans_title = lib_msprintf(translate_text(IDS_ATTACH_S_IMAGE), cartridges[i].trans_title);
-        title = trans_title;
+        title = system_mbstowcs_alloc(trans_title);
+        lib_free(trans_title);
     }
 
-    if ((st_name = uilib_select_file(hwnd, title, cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_CART)) != NULL) {
-        char *name;
-
-        name = system_wcstombs_alloc(st_name);
+    if ((name = uilib_select_file(hwnd, title, cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_CART)) != NULL) {
         if (cartridge_attach_image(cartridges[i].type, name) < 0) {
             ui_error(translate_text(IDS_INVALID_CARTRIDGE_IMAGE));
         }
-        system_wcstombs_free(name);
-        lib_free(st_name);
+        lib_free(name);
     }
-    if (trans_title) {
-        lib_free(trans_title);
-    }
+    system_mbstowcs_free(title);
 }
 
 void uicart_attach_special(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type)
 {
-    TCHAR *st_name = NULL;
     char *name;
 
-    st_name = uilib_select_file(hwnd, title, filterlist, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DEFAULT);
-    if (st_name != NULL) {
-        name = system_wcstombs_alloc(st_name);
+    name = uilib_select_file(hwnd, title, filterlist, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DEFAULT);
+    if (name != NULL) {
         if (cartridge_attach_image(type, name) < 0) {
             ui_error(translate_text(IDS_INVALID_CARTRIDGE_IMAGE));
         }
-        system_wcstombs_free(name);
-        lib_free(st_name);
+        lib_free(name);
     }
 }
