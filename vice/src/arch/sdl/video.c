@@ -1324,10 +1324,11 @@ static void sdl_video_resize(unsigned int w, unsigned int h)
     } else
 #endif /*  HAVE_HWSCALE */
     {
+#ifdef USE_SDLUI2
         sdl_gl_set_viewport(sdl_active_canvas->width, sdl_active_canvas->height, w, h);
         sdl_active_canvas->actual_width = w;
         sdl_active_canvas->actual_height = h;
-#ifndef USE_SDLUI2
+#else
         sdl_active_canvas->draw_buffer->canvas_physical_width = w;
         sdl_active_canvas->draw_buffer->canvas_physical_height = h;
         video_viewport_resize(sdl_active_canvas, 0);
