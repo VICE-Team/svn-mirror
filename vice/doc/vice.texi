@@ -17446,6 +17446,8 @@ Freeze Machine .crt file
 Fun Play .crt file
 @item gk
 Game Killer .crt file
+@item gmod2
+GMod2 .crt file
 @item gs
 C64 Games System .crt file
 @item ide64
