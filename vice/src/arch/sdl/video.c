@@ -889,6 +889,10 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     if (sdl_video_canvas_limit(limit_w, limit_h, &actual_width, &actual_height, limit)) {
         canvas->draw_buffer->canvas_physical_width = actual_width;
         canvas->draw_buffer->canvas_physical_height = actual_height;
+        video_viewport_resize(sdl_active_canvas, 0);
+        if (sdl_ui_finalized) {
+            return canvas; /* exit here as video_viewport_resize will recall */
+        }
     }
 
     if (new_window) {
