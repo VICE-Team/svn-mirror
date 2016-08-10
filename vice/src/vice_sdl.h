@@ -99,7 +99,6 @@
 #  ifndef SDL_VIDEO_OPENGL
 #    undef HAVE_HWSCALE
 #  endif
-#  define _CONSOLE
 #endif
 
 /* Undefine HAVE_SDL_NUMJOYSTICKS for msvc if SDL.dll was compiled without joystick support */
