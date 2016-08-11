@@ -660,7 +660,11 @@ static void console_out_printables_only(console_private_t *pcp, char *buffer, un
     while (length > 0) {
         unsigned int partlength = min(pcp->pConsole->console_xres - pcp->xPos, length);
 
-        system_mbstowcs(&pcp->pchWindowBuffer[CALC_POS(pcp, pcp->xPos, pcp->yPos)], buffer, partlength);
+#ifdef WIN32_UNICODE_SUPPORT
+        mbstowcs(&pcp->pchWindowBuffer[CALC_POS(pcp, pcp->xPos, pcp->yPos)], buffer, partlength);
+#else
+        memcpy(&pcp->pchWindowBuffer[CALC_POS(pcp, pcp->xPos, pcp->yPos)], buffer, partlength);
+#endif
 
         /* draw the current line */
         TextOut(pcp->hdc, pcp->xPos * pcp->xCharDimension, pcp->yPos * pcp->yCharDimension, &(pcp->pchWindowBuffer[CALC_POS(pcp, pcp->xPos, pcp->yPos)]), partlength);
