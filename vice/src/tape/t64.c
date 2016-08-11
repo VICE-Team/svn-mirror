@@ -279,8 +279,7 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
 
     /* set end addresses based on the content member of the next entry */
     for (i = 0; i < new->header.num_used - 1; i++) {
-        actual_size = new->file_records[i + 1].contents -
-            new->file_records[i].contents;
+        actual_size = (WORD)(new->file_records[i + 1].contents - new->file_records[i].contents);
         reported_size = new->file_records[i].end_addr -
             new->file_records[i].start_addr;
 
@@ -298,7 +297,7 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
      * the last file record */
     reported_size = new->file_records[i].end_addr -
         new->file_records[i].start_addr;
-    actual_size = tapesize - new->file_records[i].contents;
+    actual_size = (WORD)(tapesize - new->file_records[i].contents);
     /* warn and fix if sizes mismatch */
     if (reported_size != actual_size) {
             log_warning(LOG_DEFAULT,

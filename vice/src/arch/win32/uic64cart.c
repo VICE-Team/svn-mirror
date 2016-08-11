@@ -38,6 +38,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "res.h"
+#include "system.h"
 #include "translate.h"
 #include "ui.h"
 #include "uiapi.h"
