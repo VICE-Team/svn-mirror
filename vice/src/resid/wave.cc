@@ -224,7 +224,7 @@ void WaveformGenerator::writeCONTROL_REG(reg8 control)
 
 reg8 WaveformGenerator::readOSC()
 {
-  return waveform_output >> 4;
+  return osc3 >> 4;
 }
 
 // ----------------------------------------------------------------------------
@@ -254,6 +254,7 @@ void WaveformGenerator::reset()
   shift_pipeline = 0;
 
   waveform_output = 0;
+  osc3 = 0;
   floating_output_ttl = 0;
 }
 
