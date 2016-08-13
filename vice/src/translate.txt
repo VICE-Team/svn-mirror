@@ -628,6 +628,9 @@ IDGS_COPLIN_KEYPAD
 /* joyport/cx85.c */
 IDGS_CX85
 
+/* joyport/rushware_keypad.c */
+IDGS_RUSHWARE_KEYPAD
+
 /* lightpen.c */
 IDGS_LIGHTPEN_UP
 

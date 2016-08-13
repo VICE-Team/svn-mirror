@@ -3608,6 +3608,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_CX85_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/rushware_keypad.c */
+/* en */ {IDGS_RUSHWARE_KEYPAD,    N_("RushWare Keypad")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_RUSHWARE_KEYPAD_DA, ""},  /* fuzzy */
+/* de */ {IDGS_RUSHWARE_KEYPAD_DE, ""},  /* fuzzy */
+/* es */ {IDGS_RUSHWARE_KEYPAD_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_RUSHWARE_KEYPAD_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RUSHWARE_KEYPAD_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RUSHWARE_KEYPAD_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_RUSHWARE_KEYPAD_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_RUSHWARE_KEYPAD_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RUSHWARE_KEYPAD_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_RUSHWARE_KEYPAD_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_RUSHWARE_KEYPAD_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_RUSHWARE_KEYPAD_TR, ""},  /* fuzzy */
+#endif
+
 /* lightpen.c */
 /* en */ {IDGS_LIGHTPEN_UP,    N_("Light Pen (up trigger)")},
 #ifdef HAS_TRANSLATION

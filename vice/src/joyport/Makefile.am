@@ -28,6 +28,8 @@ libjoyport_a_SOURCES = \
 	mouse.h \
 	paperclip64.c \
 	paperclip64.h \
+	rushware_keypad.c \
+	rushware_keypad.h \
 	sampler2bit.c \
 	sampler2bit.h \
 	sampler4bit.c \

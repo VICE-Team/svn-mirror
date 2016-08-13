@@ -82,6 +82,7 @@
 #include "printer.h"
 #include "resources.h"
 #include "rs232drv.h"
+#include "rushware_keypad.h"
 #include "sampler.h"
 #include "sampler2bit.h"
 #include "sampler4bit.h"
@@ -266,6 +267,10 @@ int machine_resources_init(void)
     }
     if (joyport_cx85_resources_init() < 0) {
         init_resource_fail("joyport cx85 keypad");
+        return -1;
+    }
+    if (joyport_rushware_keypad_resources_init() < 0) {
+        init_resource_fail("joyport rushware keypad");
         return -1;
     }
     if (joystick_resources_init() < 0) {
