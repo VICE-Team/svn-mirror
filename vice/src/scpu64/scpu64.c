@@ -46,6 +46,7 @@
 #include "c64keyboard.h"
 #include "scpu64mem.h"
 #include "c64rsuser.h"
+#include "cardkey.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cia.h"
@@ -455,6 +456,10 @@ int machine_resources_init(void)
     }
     if (joyport_cx85_resources_init() < 0) {
         init_resource_fail("joyport cx85 keypad");
+        return -1;
+    }
+    if (joyport_cardkey_resources_init() < 0) {
+        init_resource_fail("joyport cardkey keypad");
         return -1;
     }
     if (joystick_resources_init() < 0) {

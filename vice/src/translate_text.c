@@ -3642,6 +3642,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_RUSHWARE_KEYPAD_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/cardkey.c */
+/* en */ {IDGS_CARDKEY,    N_("Cardco Cardkey 1 keypad")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CARDKEY_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CARDKEY_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CARDKEY_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CARDKEY_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CARDKEY_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CARDKEY_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CARDKEY_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CARDKEY_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CARDKEY_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CARDKEY_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CARDKEY_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CARDKEY_TR, ""},  /* fuzzy */
+#endif
+
 /* lightpen.c */
 /* en */ {IDGS_LIGHTPEN_UP,    N_("Light Pen (up trigger)")},
 #ifdef HAS_TRANSLATION

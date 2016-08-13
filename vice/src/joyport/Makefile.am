@@ -14,6 +14,8 @@ noinst_LIBRARIES = libjoyport.a
 libjoyport_a_SOURCES = \
 	bbrtc.c \
 	bbrtc.h \
+	cardkey.c \
+	cardkey.h \
 	coplin_keypad.c \
 	coplin_keypad.h \
 	cx21.c \

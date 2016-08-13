@@ -634,6 +634,9 @@ IDGS_CX85
 /* joyport/rushware_keypad.c */
 IDGS_RUSHWARE_KEYPAD
 
+/* joyport/cardkey.c */
+IDGS_CARDKEY
+
 /* lightpen.c */
 IDGS_LIGHTPEN_UP
 

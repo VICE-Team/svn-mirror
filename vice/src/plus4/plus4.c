@@ -32,6 +32,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "bbrtc.h"
+#include "cardkey.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "clkguard.h"
@@ -445,6 +446,10 @@ int machine_resources_init(void)
     }
     if (joyport_rushware_keypad_resources_init() < 0) {
         init_resource_fail("joyport rushware keypad");
+        return -1;
+    }
+    if (joyport_cardkey_resources_init() < 0) {
+        init_resource_fail("joyport cardkey keypad");
         return -1;
     }
     if (joystick_resources_init() < 0) {
