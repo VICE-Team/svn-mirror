@@ -3591,6 +3591,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_COPLIN_KEYPAD_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/cx21.c */
+/* en */ {IDGS_CX21,    N_("Atari CX21 keypad")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CX21_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CX21_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CX21_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CX21_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CX21_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CX21_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CX21_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CX21_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CX21_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CX21_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CX21_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CX21_TR, ""},  /* fuzzy */
+#endif
+
 /* joyport/cx85.c */
 /* en */ {IDGS_CX85,    N_("Atari CX85 keypad")},
 #ifdef HAS_TRANSLATION
