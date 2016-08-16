@@ -473,7 +473,7 @@ void WaveformGenerator::set_waveform_output()
         osc3 = waveform_output;
     }
 
-    if (unlikely(waveform > 0x8)) {
+    if (unlikely(waveform > 0x8) && likely(!test) && likely(shift_pipeline != 1)) {
       // Combined waveforms write to the shift register.
       write_shift_register();
     }
@@ -512,7 +512,7 @@ void WaveformGenerator::set_waveform_output(cycle_count delta_t)
       wave[ix] & (no_pulse | pulse_output) & no_noise_or_noise_output;
     // Triangle/Sawtooth output delay for the 8580 is not modeled
     osc3 = waveform_output;
-    if (unlikely(waveform > 0x8)) {
+    if (unlikely(waveform > 0x8) && likely(!test)) {
       // Combined waveforms write to the shift register.
       // NB! Since cycles are skipped in delta_t clocking, writes will be
       // missed. Single cycle clocking must be used for 100% correct operation.
