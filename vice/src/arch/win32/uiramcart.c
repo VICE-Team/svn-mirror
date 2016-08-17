@@ -161,7 +161,7 @@ static void init_ramcart_dialog(HWND hwnd)
         TCHAR st[10];
 
         _itot(ui_ramcart_size[res_value_loop], st, 10);
-        _tcscat(st, translate_text(IDS_SPACE_KB));
+        _tcscat(st, intl_translate_tcs(IDS_SPACE_KB));
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_int("RAMCARTsize", &res_value);
@@ -198,7 +198,7 @@ static void end_ramcart_dialog(HWND hwnd)
 
 static void browse_ramcart_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_RAMCART_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_RAMCART_FILE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_RAMCART_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_RAMCART_FILE);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

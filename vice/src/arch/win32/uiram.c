@@ -58,7 +58,8 @@ static int last_patterninvert = -1;
 static void update_preview(HWND hwnd)
 {
     int curr_startvalue, curr_valueinvert, curr_patterninvert;
-    TCHAR *s_win;
+    char *s_win;
+    TCHAR *st_win;
 
     resources_get_int("RAMInitStartValue", &curr_startvalue);
     resources_get_int("RAMInitValueInvert", &curr_valueinvert);
@@ -68,7 +69,9 @@ static void update_preview(HWND hwnd)
         (curr_patterninvert != last_patterninvert)) {
         s_win = lib_malloc(65536 * 4);
         ram_init_print_pattern(s_win, 65536, "\r\n");
-        SetDlgItemText(hwnd, IDC_RAMINIT_PREVIEW, s_win);
+        st_win = system_mbstowcs_alloc(s_win);
+        SetDlgItemText(hwnd, IDC_RAMINIT_PREVIEW, st_win);
+        system_mbstowcs_free(st_win);
         lib_free(s_win);
         last_startvalue = curr_startvalue;
         last_valueinvert = curr_valueinvert;

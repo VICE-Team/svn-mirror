@@ -151,7 +151,7 @@ static BOOL browse_command(HWND hwnd, unsigned int command)
         if ((unsigned int)command == settings[n].idc_browse) {
             TCHAR st_realname[100];
 
-            _stprintf(st_realname, translate_text(IDS_LOAD_S_ROM_IMAGE), settings[n].realname);
+            _stprintf(st_realname, intl_translate_tcs(IDS_LOAD_S_ROM_IMAGE), settings[n].realname);
 
             uilib_select_browse(hwnd, st_realname, UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, settings[n].idc_filename);
             return TRUE;
@@ -253,15 +253,15 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
     psp[1].pfnCallback = NULL;
 
     psp[0].pfnDlgProc = dialog_proc_main;
-    psp[0].pszTitle = translate_text(IDS_COMPUTER);
+    psp[0].pszTitle = intl_translate_tcs(IDS_COMPUTER);
     psp[1].pfnDlgProc = dialog_proc_drive;
-    psp[1].pszTitle = translate_text(IDS_DRIVE);
+    psp[1].pszTitle = intl_translate_tcs(IDS_DRIVE);
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = translate_text(IDS_ROM_SETTINGS);
+    psh.pszCaption = intl_translate_tcs(IDS_ROM_SETTINGS);
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
