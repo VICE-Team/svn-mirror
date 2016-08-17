@@ -827,7 +827,11 @@ static void init_extra_joystick_dialog(HWND hwnd)
             joyamount = 2;
         }
         res_value++;
-        SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value - 1, 0);
+        } else {
+            SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+        }
     }
 
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_DEV1);
@@ -1354,7 +1358,11 @@ static INT_PTR CALLBACK dialog_proc_2(HWND hwnd, UINT msg, WPARAM wparam, LPARAM
                     } else {
                         res_value--;
                         resources_set_int("UserportJoy", 1);
-                        resources_set_int("UserportJoyType", res_value);
+                        if (machine_class == VICE_MACHINE_PLUS4) {
+                            resources_set_int("UserportJoyType", res_value + 1);
+                        } else {
+                            resources_set_int("UserportJoyType", res_value);
+                        }
                     }
                     resources_set_int("JoyDevice3", (int)SendMessage(GetDlgItem(hwnd, IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
                     resources_set_int("JoyFire3Button", (int)SendMessage(GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON), CB_GETCURSEL, 0, 0));
