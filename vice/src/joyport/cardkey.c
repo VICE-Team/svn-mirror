@@ -207,7 +207,7 @@ static BYTE cardkey_read_dig(int port)
           keys[KEYPAD_KEY_DOT];
     retval |= tmp;
 
-    retval |= 0xe0;
+    retval |= 0xf0;
 
     joyport_display_joyport(JOYPORT_ID_CARDCO_KEYPAD, (BYTE)~retval);
 
