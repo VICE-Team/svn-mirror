@@ -559,7 +559,7 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
 #ifndef USE_SDLUI2
     glViewport(dest_x, dest_y, dest_w, dest_h);
 #else
-    SDL_RenderSetLogicalSize(new_renderer, dest_w, dest_h);
+    SDL_RenderSetLogicalSize(sdl_active_canvas->renderer, dest_w, dest_h);
 #endif
 }
 #endif
