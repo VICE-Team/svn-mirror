@@ -67,8 +67,7 @@ static GtkWidget *native_tedluma, *native_crtccolor;
 #ifdef HAVE_FFMPEG
 static GtkWidget *ffmpg_opts, *ffmpg_audio, *ffmpg_video;
 static GtkWidget *ffmpeg_omenu, *acmenu, *vcmenu, *fpsmenu, *ffmpg_audio, *ffmpg_video;
-static const char *selected_driver;
-static int selected_driver_allocated;
+static char *selected_driver = NULL;
 static int selected_ac, selected_vc;
 static void ffmpeg_details (GtkWidget *w, gpointer data);
 #endif
@@ -137,10 +136,12 @@ static void ffmpeg_output_driver_changed(GtkWidget *w, gpointer data)
             do {
                 gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, 0, &drv_name, 1, &index, -1);
                 found = !strcmp(drv_name, current_driver);
-                lib_free(drv_name);
+                g_free(drv_name);
             } while (!found && gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter));
             if (found) {
-                selected_driver = current_driver;
+                /* make copy through lib_stralloc() to avoid freeing const
+                 * data */
+                selected_driver = lib_stralloc(current_driver);
                 gtk_combo_box_set_active(GTK_COMBO_BOX(ffmpeg_omenu), index);
             }
             gtk_widget_set_sensitive(ffmpg_opts, TRUE);
@@ -149,8 +150,8 @@ static void ffmpeg_output_driver_changed(GtkWidget *w, gpointer data)
         gtk_widget_set_sensitive(ffmpg_opts, FALSE);
     } else {
         if (ffmpg_opts) { 
-	    gtk_widget_hide(ffmpg_opts);
-	}
+            gtk_widget_hide(ffmpg_opts);
+        }
 #endif
         if (is_native()) {
             int n0 = 0, n1 = 0, n2 = 0, n3 = 0, n4 = 0;
@@ -288,6 +289,8 @@ static void ffmpeg_details(GtkWidget *w, gpointer data)
     GtkTreeIter iter;
     GtkListStore *ac_store, *vc_store;
 
+    gchararray sd_tmp = NULL;
+
     g_return_if_fail(GTK_IS_COMBO_BOX(w));
 
     resources_get_int("FFMPEGAudioCodec", &current_ac_id);
@@ -299,12 +302,16 @@ static void ffmpeg_details(GtkWidget *w, gpointer data)
         return;
     }
 
-    if (selected_driver && selected_driver_allocated) {
-        lib_free(selected_driver); 
+    if (selected_driver != NULL) {
+        lib_free(selected_driver);
     }
-    
-    gtk_tree_model_get(GTK_TREE_MODEL(gtk_combo_box_get_model(GTK_COMBO_BOX(w))), &iter, DRV_NAME, &selected_driver, DRV_ACMENU, &ac_store, DRV_VCMENU, &vc_store, -1);
-    selected_driver_allocated = 1;
+
+    gtk_tree_model_get(GTK_TREE_MODEL(gtk_combo_box_get_model(GTK_COMBO_BOX(w))), &iter, DRV_NAME, &sd_tmp, DRV_ACMENU, &ac_store, DRV_VCMENU, &vc_store, -1);
+    /* Make a copy so we can later use lib_free(). Things allocated by
+     * Gtk/GObject should be freed with g_free() not lib_free(), this caused
+     * uiscreenshot_shutdown() to leak memory */
+    selected_driver = lib_stralloc(sd_tmp);
+    g_free(sd_tmp);
 
     if (ac_store) {
         GtkListStore *store;
@@ -834,8 +841,10 @@ void uiscreenshot_shutdown(void)
     lib_free(buttons);
     buttons = NULL;
 #ifdef HAVE_FFMPEG
-    lib_free(selected_driver);
-    selected_driver = NULL;
+    if (selected_driver != NULL) {
+        lib_free(selected_driver);
+        selected_driver = NULL;
+    }
 #endif
     if (screenshot_dialog && GTK_IS_WIDGET(screenshot_dialog)) {
         gtk_widget_destroy(screenshot_dialog);
