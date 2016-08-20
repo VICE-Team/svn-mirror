@@ -259,6 +259,7 @@ void machine_shutdown(void)
     }
 
     screenshot_at_exit();
+    screenshot_shutdown();
 
     file_system_detach_disk_shutdown();
 
