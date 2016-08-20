@@ -120,6 +120,8 @@ SDL_Window *new_window = NULL;
 SDL_Renderer *new_renderer = NULL;
 SDL_Texture *new_texture = NULL;
 SDL_Surface *new_screen = NULL;
+Uint32 rmask, gmask, bmask, amask;
+int texformat = 0;
 #endif
 
 BYTE *draw_buffer_vsid = NULL;
@@ -128,6 +130,7 @@ BYTE *draw_buffer_vsid = NULL;
 
 static int set_sdl_bitdepth(int d, void *param)
 {
+#ifndef USE_SDLUI2
     switch (d) {
         case 0:
         case 8:
@@ -138,6 +141,42 @@ static int set_sdl_bitdepth(int d, void *param)
             break;
         default:
             return -1;
+#else
+    switch (d) {
+        case 8:
+            texformat = SDL_PIXELFORMAT_RGB332;
+            rmask = 0x00000000, gmask = 0x00000000, bmask = 0x00000000, amask = 0x00000000;
+            break;
+        case 15:
+            /* Fixme: add render support for that format */
+            return -1;
+        case 16:
+            texformat = SDL_PIXELFORMAT_RGB565;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+            rmask = 0x000000f8, gmask = 0x000007e0, bmask = 0x00001f00, amask = 0x00000000;
+#else
+            rmask = 0x0000f800, gmask = 0x000007e0, bmask = 0x0000001f, amask = 0x00000000;
+#endif
+            break;
+        case 24:
+            texformat = SDL_PIXELFORMAT_BGR24;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+            rmask = 0x0000ff00, gmask = 0x00ff0000, bmask = 0xff000000, amask = 0x000000ff;
+#else
+            rmask = 0x00ff0000, gmask = 0x0000ff00, bmask = 0x000000ff, amask = 0xff000000;
+#endif
+            break;
+        case 32:
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+            rmask = 0x0000ff00, gmask = 0x00ff0000, bmask = 0xff000000, amask = 0x000000ff;
+#else
+            rmask = 0x00ff0000, gmask = 0x0000ff00, bmask = 0x000000ff, amask = 0xff000000;
+#endif
+            texformat = SDL_PIXELFORMAT_ARGB8888;
+            break;
+        default:
+            return -1;
+#endif
     }
 
     if (sdl_bitdepth == d) {
@@ -827,7 +866,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 #else
 static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height)
 {
-    Uint32 rmask, gmask, bmask, amask;
     unsigned int new_width, new_height;
     unsigned int actual_width, actual_height;
     int flags;
@@ -846,12 +884,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     SDL_RendererInfo info;
 
     memset(rendername, 0, sizeof(rendername));
-
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    rmask = 0x0000ff00, gmask = 0x00ff0000, bmask = 0xff000000, amask = 0x000000ff;
-#else
-    rmask = 0x00ff0000, gmask = 0x0000ff00, bmask = 0x000000ff, amask = 0xff000000;
-#endif
 
     DBG(("%s: %i,%i (%i)", __func__, *width, *height, canvas->index));
 
@@ -966,10 +998,10 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             SDL_SetRenderDrawColor(new_renderer, 0, 0, 0, 255);
             SDL_RenderClear(new_renderer);
             SDL_RenderPresent(new_renderer);
-            new_screen = SDL_CreateRGBSurface(0, actual_width, actual_height, 32, rmask, gmask, bmask, amask);
+            new_screen = SDL_CreateRGBSurface(0, actual_width, actual_height, sdl_bitdepth, rmask, gmask, bmask, amask);
             if (new_screen) {
                 SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-                new_texture = SDL_CreateTexture(new_renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, actual_width, actual_height);
+                new_texture = SDL_CreateTexture(new_renderer, texformat, SDL_TEXTUREACCESS_STREAMING, actual_width, actual_height);
                 if (!new_texture) {
                     SDL_FreeSurface(new_screen);
                     new_screen = NULL;
@@ -1129,7 +1161,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
         SDL_UnlockSurface(canvas->screen);
     }
 #else
-    SDL_UpdateTexture(canvas->texture, NULL, canvas->screen->pixels, w * sizeof (Uint32));
+    SDL_UpdateTexture(canvas->texture, NULL, canvas->screen->pixels, canvas->screen->pitch);
     SDL_RenderClear(canvas->renderer);
     SDL_RenderCopyEx(canvas->renderer, canvas->texture, NULL, NULL, 0, NULL, flip);
     SDL_RenderPresent(canvas->renderer);
