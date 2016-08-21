@@ -69,6 +69,12 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
                     break;
                 case VICII_NO_BORDERS:
                     break;
+                case VICII_TV_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_NTSC_TV_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_TV_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_NTSC_TV_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_NTSC_TV_LAST_DISPLAYED_LINE;
+                    break;
             }
             break;
         case MACHINE_SYNC_NTSCOLD:
@@ -93,6 +99,12 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
                     vicii.last_displayed_line = VICII_NTSCOLD_DEBUG_LAST_DISPLAYED_LINE;
                     break;
                 case VICII_NO_BORDERS:
+                    break;
+                case VICII_TV_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_NTSCOLD_TV_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_NTSCOLD_TV_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_NTSCOLD_TV_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_NTSCOLD_TV_LAST_DISPLAYED_LINE;
                     break;
             }
             break;
@@ -119,6 +131,12 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
                     break;
                 case VICII_NO_BORDERS:
                     break;
+                case VICII_TV_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_PALN_TV_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_PALN_TV_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_PALN_TV_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_PALN_TV_LAST_DISPLAYED_LINE;
+                    break;
             }
             break;
         case MACHINE_SYNC_PAL:
@@ -144,6 +162,12 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
                     vicii.last_displayed_line = VICII_PAL_DEBUG_LAST_DISPLAYED_LINE;
                     break;
                 case VICII_NO_BORDERS:
+                    break;
+                case VICII_TV_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_PAL_TV_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_PAL_TV_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_PAL_TV_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_PAL_TV_LAST_DISPLAYED_LINE;
                     break;
             }
             break;

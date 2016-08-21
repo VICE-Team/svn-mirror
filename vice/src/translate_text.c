@@ -14952,17 +14952,17 @@ translate_t string_table[] = {
 #endif
 
 /* vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_BORDER_MODE,    N_("Set border display mode (0: normal, 1: full, 2: debug)")},
+/* en */ {IDCLS_SET_BORDER_MODE,    N_("Set border display mode (0: normal, 1: full, 2: debug, 3: none, 4: TV)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BORDER_MODE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_BORDER_MODE_DE, "Rahmen Darstellung Modus (0: Normal, 1: Voll, 2: Debug)"},
-/* es */ {IDCLS_SET_BORDER_MODE_ES, "Seleccionar tipo de borde (0: normal, 1: completo, 2: depuración)"},
+/* de */ {IDCLS_SET_BORDER_MODE_DE, "Rahmen Darstellung Modus (0: Normal, 1: Voll, 2: Debug, 3: Keine, 4: Fernseher)"},
+/* es */ {IDCLS_SET_BORDER_MODE_ES, "Seleccionar tipo de borde (0: normal, 1: completo, 2: depuración)"},  /* fuzzy */
 /* fr */ {IDCLS_SET_BORDER_MODE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_BORDER_MODE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_BORDER_MODE_IT, "Imposta la modalità di visualizzazione del bordo (0: normale, 1: intero, 2: debug)"},
+/* hu */ {IDCLS_SET_BORDER_MODE_HU, "Keret mérete (0: normál, 1: teljes, 2: minden ciklus, 3: nincs, 4: TV)"},
+/* it */ {IDCLS_SET_BORDER_MODE_IT, "Imposta la modalità di visualizzazione del bordo (0: normale, 1: intero, 2: debug)"},  /* fuzzy */
 /* ko */ {IDCLS_SET_BORDER_MODE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_BORDER_MODE_NL, "Zet border weergavemodus (0: normaal, 1: volledig, 2: debug)"},
-/* pl */ {IDCLS_SET_BORDER_MODE_PL, "Okre¶l tryb wy¶wietlania ramki (0: zwyk³a, 1: pe³na, 2: debug)"},
+/* nl */ {IDCLS_SET_BORDER_MODE_NL, "Zet border weergavemodus (0: normaal, 1: volledig, 2: debug)"},  /* fuzzy */
+/* pl */ {IDCLS_SET_BORDER_MODE_PL, "Okre¶l tryb wy¶wietlania ramki (0: zwyk³a, 1: pe³na, 2: debug)"},  /* fuzzy */
 /* ru */ {IDCLS_SET_BORDER_MODE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_BORDER_MODE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_BORDER_MODE_TR, ""},  /* fuzzy */

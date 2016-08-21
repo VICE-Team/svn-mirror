@@ -54,6 +54,8 @@ int border_set_func(const char *value, void *extra_param)
         vicii_resources.border_mode = VICII_DEBUG_BORDERS;
     } else if (strcmp(value, "3") == 0 || strcmp(value, "none") == 0) {
         vicii_resources.border_mode = VICII_NO_BORDERS;
+    } else if (strcmp(value, "4") == 0 || strcmp(value, "tv") == 0) {
+        vicii_resources.border_mode = VICII_TV_BORDERS;
     } else {
         vicii_resources.border_mode = VICII_NORMAL_BORDERS;
     }
