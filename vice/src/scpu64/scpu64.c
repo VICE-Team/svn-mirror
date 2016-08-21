@@ -1062,42 +1062,8 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
     *half_cycle = (int)scpu64_get_half_cycle();
 }
 
-void machine_change_timing(int timeval)
+void machine_change_timing(int timeval, int border_mode)
 {
-    int border_mode;
-
-    switch (timeval) {
-        default:
-        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-            timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
-            border_mode = VICII_NORMAL_BORDERS;
-            break;
-        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-            timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
-            border_mode = VICII_FULL_BORDERS;
-            break;
-        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-            timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
-            border_mode = VICII_DEBUG_BORDERS;
-            break;
-        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
-        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
-        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
-            timeval ^= VICII_BORDER_MODE(VICII_NO_BORDERS);
-            border_mode = VICII_NO_BORDERS;
-            break;
-    }
-
     switch (timeval) {
         case MACHINE_SYNC_PAL:
             machine_timing.cycles_per_sec = SCPU64_PAL_CYCLES_PER_SEC;

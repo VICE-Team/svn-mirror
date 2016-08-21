@@ -123,7 +123,6 @@ static int set_kernal_revision(int val, void *param)
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
-    int border_mode = 0;
 
     if (sync_factor != val) {
         change_timing = 1;
@@ -133,25 +132,25 @@ static int set_sync_factor(int val, void *param)
         case MACHINE_SYNC_PAL:
             sync_factor = val;
             if (change_timing) {
-                machine_change_timing(MACHINE_SYNC_PAL ^ border_mode);
+                machine_change_timing(MACHINE_SYNC_PAL, 0);
             }
             break;
         case MACHINE_SYNC_NTSC:
             sync_factor = val;
             if (change_timing) {
-                machine_change_timing(MACHINE_SYNC_NTSC ^ border_mode);
+                machine_change_timing(MACHINE_SYNC_NTSC, 0);
             }
             break;
         case MACHINE_SYNC_NTSCOLD:
             sync_factor = val;
             if (change_timing) {
-                machine_change_timing(MACHINE_SYNC_NTSCOLD ^ border_mode);
+                machine_change_timing(MACHINE_SYNC_NTSCOLD, 0);
             }
             break;
         case MACHINE_SYNC_PALN:
             sync_factor = val;
             if (change_timing) {
-                machine_change_timing(MACHINE_SYNC_PALN ^ border_mode);
+                machine_change_timing(MACHINE_SYNC_PALN, 0);
             }
             break;
         default:

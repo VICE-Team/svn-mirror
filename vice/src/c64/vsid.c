@@ -332,10 +332,8 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
     *half_cycle = (int)-1;
 }
 
-void machine_change_timing(int timeval)
+void machine_change_timing(int timeval, int border_mode)
 {
-    timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
-
     switch (timeval) {
         case MACHINE_SYNC_PAL:
             machine_timing.cycles_per_sec = C64_PAL_CYCLES_PER_SEC;

@@ -154,7 +154,7 @@ extern int machine_sid2_check_range(unsigned int sid2_adr);
 extern int machine_sid3_check_range(unsigned int sid3_adr);
 
 /* Change the timing parameters of the maching (for example PAL/NTSC).  */
-extern void machine_change_timing(int timeval);
+extern void machine_change_timing(int timeval, int border_mode);
 
 /* Get screenshot data.  */
 struct screenshot_s;

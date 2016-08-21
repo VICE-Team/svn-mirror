@@ -1068,34 +1068,8 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
     *half_cycle = (int)-1;
 }
 
-void machine_change_timing(int timeval)
+void machine_change_timing(int timeval, int border_mode)
 {
-    int border_mode;
-
-    switch (timeval) {
-        default:
-        case MACHINE_SYNC_PAL ^ VIC_BORDER_MODE(VIC_NORMAL_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VIC_BORDER_MODE(VIC_NORMAL_BORDERS):
-            timeval ^= VIC_BORDER_MODE(VIC_NORMAL_BORDERS);
-            border_mode = VIC_NORMAL_BORDERS;
-            break;
-        case MACHINE_SYNC_PAL ^ VIC_BORDER_MODE(VIC_FULL_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VIC_BORDER_MODE(VIC_FULL_BORDERS):
-            timeval ^= VIC_BORDER_MODE(VIC_FULL_BORDERS);
-            border_mode = VIC_FULL_BORDERS;
-            break;
-        case MACHINE_SYNC_PAL ^ VIC_BORDER_MODE(VIC_DEBUG_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VIC_BORDER_MODE(VIC_DEBUG_BORDERS):
-            timeval ^= VIC_BORDER_MODE(VIC_DEBUG_BORDERS);
-            border_mode = VIC_DEBUG_BORDERS;
-            break;
-        case MACHINE_SYNC_PAL ^ VIC_BORDER_MODE(VIC_NO_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VIC_BORDER_MODE(VIC_NO_BORDERS):
-            timeval ^= VIC_BORDER_MODE(VIC_NO_BORDERS);
-            border_mode = VIC_NO_BORDERS;
-            break;
-    }
-
     switch (timeval) {
         case MACHINE_SYNC_PAL:
             machine_timing.cycles_per_sec = VIC20_PAL_CYCLES_PER_SEC;
