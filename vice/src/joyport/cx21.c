@@ -98,7 +98,7 @@ key	pin	pin	comments
 static int cx21_enabled = 0;
 
 static int keys[12];
-static BYTE port = 0xff;
+static BYTE port = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -137,93 +137,66 @@ static int joyport_cx21_enable(int port, int value)
     return 0;
 }
 
-static BYTE cx21_read_dig(int port)
+static BYTE cx21_read_dig(int p)
 {
     BYTE retval = 0;
 
-
     if (keys[KEYPAD_KEY_3]) {
-        if ((port & 1) && (port & 0x10)) {
-            retval |= 0x11;
-        }
-    }
-
-    if (keys[KEYPAD_KEY_2] || keys[KEYPAD_KEY_1]) {
-        if ((port & 1)) {
-            retval |= 0x1;
+        if (port & 1) {
+            retval = 0x10;
         }
     }
 
     if (keys[KEYPAD_KEY_6]) {
-        if ((port & 2) && (port & 0x10)) {
-            retval |= 0x12;
-        }
-    }
-
-    if (keys[KEYPAD_KEY_5] || keys[KEYPAD_KEY_4]) {
-        if ((port & 2)) {
-            retval |= 0x2;
+        if (port & 2) {
+            retval = 0x10;
         }
     }
 
     if (keys[KEYPAD_KEY_9]) {
-        if ((port & 4) && (port & 0x10)) {
-            retval |= 0x14;
-        }
-    }
-
-    if (keys[KEYPAD_KEY_8] || keys[KEYPAD_KEY_7]) {
-        if ((port & 4)) {
-            retval |= 0x4;
+        if (port & 4) {
+            retval = 0x10;
         }
     }
 
     if (keys[KEYPAD_KEY_HASH]) {
-        if ((port & 8) && (port & 0x10)) {
-            retval |= 0x18;
+        if (port & 8) {
+            retval = 0x10;
         }
     }
 
-    if (keys[KEYPAD_KEY_0] || keys[KEYPAD_KEY_MULT]) {
-        if ((port & 8)) {
-            retval |= 0x8;
-        }
-    }
+    joyport_display_joyport(JOYPORT_ID_CX21_KEYPAD, (BYTE)retval);
 
-    retval |= 0xe0;
-
-    joyport_display_joyport(JOYPORT_ID_CX21_KEYPAD, (BYTE)~retval);
-
-    return retval;
+    return ~retval;
 }
 
 static void cx21_store_dig(BYTE val)
 {
-    port = val;
+    port = ~val;
 }
 
 static BYTE cx21_read_potx(void)
 {
     if (keys[KEYPAD_KEY_2]) {
-        if (!(port & 1)) {
+        if (port & 1) {
             return 0;
         }
     }
 
     if (keys[KEYPAD_KEY_5]) {
-        if (!(port & 2)) {
+        if (port & 2) {
             return 0;
         }
     }
 
     if (keys[KEYPAD_KEY_8]) {
-        if (!(port & 4)) {
+        if (port & 4) {
             return 0;
         }
     }
 
     if (keys[KEYPAD_KEY_0]) {
-        if (!(port & 8)) {
+        if (port & 8) {
             return 0;
         }
     }
@@ -234,25 +207,25 @@ static BYTE cx21_read_potx(void)
 static BYTE cx21_read_poty(void)
 {
     if (keys[KEYPAD_KEY_1]) {
-        if (!(port & 1)) {
+        if (port & 1) {
             return 0;
         }
     }
 
     if (keys[KEYPAD_KEY_4]) {
-        if (!(port & 2)) {
+        if (port & 2) {
             return 0;
         }
     }
 
     if (keys[KEYPAD_KEY_7]) {
-        if (!(port & 4)) {
+        if (port & 4) {
             return 0;
         }
     }
 
     if (keys[KEYPAD_KEY_MULT]) {
-        if (!(port & 8)) {
+        if (port & 8) {
             return 0;
         }
     }
