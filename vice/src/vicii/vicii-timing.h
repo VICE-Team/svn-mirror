@@ -70,12 +70,23 @@
    - "normal" shows all lines visible on a typical monitor
    - "full" shows all lines minus the vertical retrace
    - "debug" mode shows all lines, including vertical retrace
+
+The screen is displayed on a 4:3 monitor. So if the width is 384 pixels
+then the height is 288 lines assuming square pixels.
+
+The PAL pixel aspect ratio is 0.93650794 therefore 270 lines are enough
+to fill the screen. Monitors are usually centered, so 35-35 lines will be
+shown on top and bottom.
+
+PALN has a pixel aspect ratio of 0.90769231 which gives 261 lines.
+This is split in a 30-31.
+
 */
 #define VICII_NO_BORDER_FIRST_DISPLAYED_LINE         51
 #define VICII_NO_BORDER_LAST_DISPLAYED_LINE          250
 
 #define VICII_PAL_NORMAL_FIRST_DISPLAYED_LINE        0x10   /* 16 */
-#define VICII_PAL_NORMAL_LAST_DISPLAYED_LINE         0x11f  /* 287 */
+#define VICII_PAL_NORMAL_LAST_DISPLAYED_LINE         0x11d  /* 285 */
 #define VICII_PAL_FULL_FIRST_DISPLAYED_LINE          0x08   /* 8 */
 #define VICII_PAL_FULL_LAST_DISPLAYED_LINE           0x12c  /* 300 */
 #define VICII_PAL_DEBUG_FIRST_DISPLAYED_LINE         0x00   /* 0 */
@@ -101,8 +112,8 @@ The screen is displayed on a 4:3 monitor. So if the width is 384 pixels
 then the height is 288 lines assuming square pixels.
 
 The NTSC pixel aspect ratio is 0.75 therefore 216 lines are enough to
-fill the screen. As monitors are usually centered 8-8 lines will be shown
-on top and bottom.
+fill the screen. Monitors are usually centered, so 8-8 lines will be
+shown on top and bottom.
 
 Old NTSC has a pixel aspect ratio of 0.76171875 which gives 219 lines.
 This is split in a 9-10.
@@ -122,8 +133,8 @@ This is split in a 9-10.
 #define VICII_NTSCOLD_DEBUG_FIRST_DISPLAYED_LINE     0x14   /* 0 + 20 */
 #define VICII_NTSCOLD_DEBUG_LAST_DISPLAYED_LINE      0x119  /* 261 + 20 */
 
-#define VICII_PALN_NORMAL_FIRST_DISPLAYED_LINE       0x10   /* 16 */
-#define VICII_PALN_NORMAL_LAST_DISPLAYED_LINE        0x11f  /* 287 */
+#define VICII_PALN_NORMAL_FIRST_DISPLAYED_LINE       0x15   /* 21 */
+#define VICII_PALN_NORMAL_LAST_DISPLAYED_LINE        0x119  /* 281 */
 #define VICII_PALN_FULL_FIRST_DISPLAYED_LINE         0x08   /* 8 */
 #define VICII_PALN_FULL_LAST_DISPLAYED_LINE          0x12c  /* 300 */
 #define VICII_PALN_DEBUG_FIRST_DISPLAYED_LINE        0x00   /* 0 */
