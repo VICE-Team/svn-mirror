@@ -3319,7 +3319,7 @@ static char *msvc70_console_libs_sdl2 = "version.lib wsock32.lib SDL2main.lib SD
 
 static char *msvc70_gui_libs_sdl = "comctl32.lib version.lib winmm.lib wsock32.lib SDLmain.lib SDL.lib opengl32.lib";
 
-static char *msvc70_gui_libs_sdl2 = "comctl32.lib version.lib winmm.lib wsock32.lib SDL2main.lib SDL.2lib opengl32.lib";
+static char *msvc70_gui_libs_sdl2 = "comctl32.lib version.lib winmm.lib wsock32.lib SDL2main.lib SDL2.lib opengl32.lib";
 
 static char *msvc70_xml_header = "<?xml version=\"1.0\" encoding = \"Windows-1252\"?>\r\n";
 
