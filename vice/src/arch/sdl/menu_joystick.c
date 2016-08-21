@@ -31,6 +31,7 @@
 
 #include "joy.h"
 #include "joystick.h"
+#include "kbd.h"
 #include "lib.h"
 #include "menu_common.h"
 #include "menu_joystick.h"

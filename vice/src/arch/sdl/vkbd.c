@@ -32,6 +32,7 @@
 #include <stdio.h>
 
 #include "joy.h"
+#include "kbd.h"
 #include "keyboard.h"
 #include "menu_common.h"
 #include "types.h"
