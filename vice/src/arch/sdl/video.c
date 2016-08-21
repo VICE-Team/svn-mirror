@@ -145,7 +145,7 @@ static int set_sdl_bitdepth(int d, void *param)
     switch (d) {
         case 8:
             texformat = SDL_PIXELFORMAT_RGB332;
-            rmask = 0x00000000, gmask = 0x00000000, bmask = 0x00000000, amask = 0x00000000;
+            rmask = 0x000000e0, gmask = 0x0000001c, bmask = 0x00000003, amask = 0x00000000;
             break;
         case 15:
             /* Fixme: add render support for that format */
@@ -1255,24 +1255,28 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
     }
 
     for (i = 0; i < palette->num_entries; i++) {
+#ifndef USE_SDLUI2
         if (canvas->depth == 8) {
             colors[i].r = palette->entries[i].red;
             colors[i].b = palette->entries[i].blue;
             colors[i].g = palette->entries[i].green;
             col = i;
         } else {
+#else
+        if (canvas->depth % 8 == 0) {
+#endif
             col = SDL_MapRGB(fmt, palette->entries[i].red, palette->entries[i].green, palette->entries[i].blue);
         }
         video_render_setphysicalcolor(canvas->videoconfig, i, col, canvas->depth);
     }
 
-    if (canvas->depth == 8) {
 #ifndef USE_SDLUI2
+    if (canvas->depth == 8) {
         SDL_SetColors(canvas->screen, colors, 0, palette->num_entries);
-#else
-        SDL_SetPaletteColors(canvas->screen->format->palette, colors, 0, palette->num_entries);
-#endif
     } else {
+#else
+    if (canvas->depth % 8 == 0) {
+#endif
         for (i = 0; i < 256; i++) {
             video_render_setrawrgb(i, SDL_MapRGB(fmt, (Uint8)i, 0, 0), SDL_MapRGB(fmt, 0, (Uint8)i, 0), SDL_MapRGB(fmt, 0, 0, (Uint8)i));
         }
