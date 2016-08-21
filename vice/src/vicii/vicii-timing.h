@@ -96,16 +96,27 @@ NTSC display ranges:
   - exactly in the middle is the vertical retrace
   - one less for old ntsc (?)
 - makes 263 lines total (262 for old ntsc)
+
+The screen is displayed on a 4:3 monitor. So if the width is 384 pixels
+then the height is 288 lines assuming square pixels.
+
+The NTSC pixel aspect ratio is 0.75 therefore 216 lines are enough to
+fill the screen. As monitors are usually centered 8-8 lines will be shown
+on top and bottom.
+
+Old NTSC has a pixel aspect ratio of 0.76171875 which gives 219 lines.
+This is split in a 9-10.
+
 */
-#define VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE       0x1c   /* 8 + 20 */
-#define VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE        0x112  /* 254 + 20 */
+#define VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE       0x2b   /* 51 - 8 */
+#define VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE        0x102  /* 250 + 8 */
 #define VICII_NTSC_FULL_FIRST_DISPLAYED_LINE         0x16   /* 2 + 20 */
 #define VICII_NTSC_FULL_LAST_DISPLAYED_LINE          0x112  /* 254 + 20 */
 #define VICII_NTSC_DEBUG_FIRST_DISPLAYED_LINE        0x14   /* 0 + 20 */
 #define VICII_NTSC_DEBUG_LAST_DISPLAYED_LINE         0x11a  /* 262 + 20 */
 
-#define VICII_NTSCOLD_NORMAL_FIRST_DISPLAYED_LINE    0x1c   /* 8 + 20 */
-#define VICII_NTSCOLD_NORMAL_LAST_DISPLAYED_LINE     0x112  /* 254 + 20 */
+#define VICII_NTSCOLD_NORMAL_FIRST_DISPLAYED_LINE    0x2a   /* 51 - 9 */
+#define VICII_NTSCOLD_NORMAL_LAST_DISPLAYED_LINE     0x104  /* 250 + 10 */
 #define VICII_NTSCOLD_FULL_FIRST_DISPLAYED_LINE      0x16   /* 2 + 20 */
 #define VICII_NTSCOLD_FULL_LAST_DISPLAYED_LINE       0x112  /* 254 + 20 */
 #define VICII_NTSCOLD_DEBUG_FIRST_DISPLAYED_LINE     0x14   /* 0 + 20 */
