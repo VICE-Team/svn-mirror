@@ -282,6 +282,9 @@ static int set_sdl_gl_aspect_mode(int v, void *param)
     if (old_v != v) {
         if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
             video_viewport_resize(sdl_active_canvas, 1);
+#ifdef USE_SDLUI2
+            sdl_video_resize_event(sdl_active_canvas->actual_width, sdl_active_canvas->actual_height);
+#endif
         }
     }
 
@@ -317,7 +320,7 @@ static int set_aspect_ratio(const char *val, void *param)
         if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
             video_viewport_resize(sdl_active_canvas, 1);
 #ifdef USE_SDLUI2
-            sdl_video_resize_event(sdl_active_canvas->actual_width * aspect_ratio, sdl_active_canvas->actual_width * aspect_ratio);
+            sdl_video_resize_event(sdl_active_canvas->actual_width, sdl_active_canvas->actual_height);
 #endif
         }
     }
