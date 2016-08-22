@@ -30,10 +30,13 @@
 
 #include "types.h"
 
-#define IMAGE_CONTENTS_NAME_LEN       16
-#define IMAGE_CONTENTS_ID_LEN         5
-#define IMAGE_CONTENTS_FILE_NAME_LEN  16
-#define IMAGE_CONTENTS_TYPE_LEN       5
+#define IMAGE_CONTENTS_NAME_LEN         16  /**< standard length of container
+                                                 names, such D64 */
+#define IMAGE_CONTENTS_NAME_T64_LEN     24  /**< length of a T64 container
+                                                 name */
+#define IMAGE_CONTENTS_ID_LEN           5
+#define IMAGE_CONTENTS_FILE_NAME_LEN    16
+#define IMAGE_CONTENTS_TYPE_LEN         5
 
 struct image_contents_file_list_s {
     BYTE name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
@@ -46,7 +49,7 @@ struct image_contents_file_list_s {
 typedef struct image_contents_file_list_s image_contents_file_list_t;
 
 struct image_contents_s {
-    BYTE name[IMAGE_CONTENTS_NAME_LEN + 1];
+    BYTE name[IMAGE_CONTENTS_NAME_T64_LEN + 1];
     BYTE id[IMAGE_CONTENTS_ID_LEN + 1];
     int blocks_free;   /* -1: No free space information.  */
     image_contents_file_list_t *file_list;

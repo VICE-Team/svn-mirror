@@ -590,12 +590,6 @@ int t64_read(t64_t *t64, BYTE *buf, size_t size)
  */
 void t64_get_header(t64_t *t64, BYTE *name)
 {
-    /* XXX: should be the following, but the description gets copied to
-     *      struct members of length 16 (`IMAGE_CONTENTS_NAME_LEN` in
-     *      src/imagecontents.h): */
-#if 0
     memcpy(name, t64->header.description, T64_HDR_DESCRIPTION_LEN);
-#endif
-    memcpy(name, t64->header.description, T64_REC_CBMNAME_LEN);
 }
 

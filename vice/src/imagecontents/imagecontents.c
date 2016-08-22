@@ -81,7 +81,8 @@ void image_contents_screencode_destroy(image_contents_screencode_t *c)
 image_contents_screencode_t *image_contents_to_screencode(image_contents_t
                                                           *contents)
 {
-    BYTE *buf, rawline[50];
+    BYTE *buf;
+    BYTE rawline[64];   /* FIXME: shouldn't be an integer literal */
     unsigned int len, i;
     image_contents_screencode_t *image_contents_screencode, *screencode_ptr;
     image_contents_file_list_t *p;
