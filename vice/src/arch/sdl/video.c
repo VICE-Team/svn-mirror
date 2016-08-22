@@ -89,8 +89,11 @@ static video_canvas_t *sdl_canvaslist[MAX_CANVAS_NUM];
 video_canvas_t *sdl_active_canvas = NULL;
 
 #if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
+#ifndef USE_SDLUI2 
 static int sdl_gl_mode;
 static GLint screen_texture;
+static int sdl_gl_vertex_base = 0;
+#endif
 
 static int sdl_gl_aspect_mode;
 static char *aspect_ratio_s = NULL;
@@ -98,8 +101,6 @@ static double aspect_ratio;
 
 static int sdl_gl_flipx;
 static int sdl_gl_flipy;
-
-static int sdl_gl_vertex_base = 0;
 
 static const float sdl_gl_vertex_coord[4 * 4] = {
     /* Normal */
@@ -324,10 +325,12 @@ static int set_aspect_ratio(const char *val, void *param)
     return 0;
 }
 
+#ifndef USE_SDLUI2
 static void update_vertex_base(void)
 {
     sdl_gl_vertex_base = (sdl_gl_flipx << 2) | (sdl_gl_flipy << 3);
 }
+#endif
 
 static int set_sdl_gl_flipx(int v, void *param)
 {
@@ -1244,9 +1247,11 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 
 int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *palette)
 {
-    unsigned int i, col;
+    unsigned int i, col = 0;
     SDL_PixelFormat *fmt;
+#ifndef USE_SDLUI2
     SDL_Color colors[256];
+#endif
 
     DBG(("video_canvas_set_palette canvas: %p", canvas));
 
