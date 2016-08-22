@@ -51,8 +51,8 @@ static const char *magic_headers[] = {
     NULL
 };
 
-/* ------------------------------------------------------------------------- */
 
+/* --------------------------- Static functions -----------------------------*/
 
 /** \brief  Parse \a n bytes of \a p for a little endian unsigned integer
  *
@@ -96,7 +96,7 @@ static int check_magic(t64_header_t *hdr)
 }
 
 
-/** \brief  `compar` argument to qsort(3) call in t64_open
+/** \brief  `compar` argument to qsort(3) call in t64_open()
  *
  * Compares offsets in T64 container of \a p1 and \p2 and returns a value like
  * strcmp(). Used to sort records on their data offset, which is required to
@@ -122,7 +122,7 @@ static int comp_content(const void *p1, const void *p2)
 }
 
 
-/** \brief  `compar` argument to qsort(3) call in t64_open
+/** \brief  `compar` argument to qsort(3) call in t64_open()
  *
  * Compares original index of \a p1 and \a p2 in T64 container and returns a
  * value like strcmp(). Required to restore the original order of records
@@ -148,8 +148,61 @@ static int comp_index(const void *p1, const void *p2)
 }
 
 
+/** \brief  Read and parse a file record
+ *
+ * \param[out]  rec     T64 file record
+ * \param[in]   fd      file descriptor
+ *
+ * \return  0 on success, -1 on failure
+ */
+static int t64_file_record_read(t64_file_record_t *rec, FILE *fd)
+{
+    BYTE buf[T64_REC_SIZE];
 
-/* ------------------------------------------------------------------------- */
+    if (fread(buf, T64_REC_SIZE, 1, fd) != 1) {
+        return -1;
+    }
+
+    rec->entry_type = buf[T64_REC_ENTRYTYPE_OFFSET];
+    memcpy(rec->cbm_name, buf + T64_REC_CBMNAME_OFFSET, T64_REC_CBMNAME_LEN);
+    rec->cbm_type = buf[T64_REC_CBMTYPE_OFFSET];
+    rec->start_addr = (WORD)get_number(buf + T64_REC_STARTADDR_OFFSET,
+            (unsigned int)T64_REC_STARTADDR_LEN);
+    rec->end_addr = (WORD)get_number(buf + T64_REC_ENDADDR_OFFSET,
+            (unsigned int)T64_REC_ENDADDR_LEN);
+    rec->contents = get_number(buf +
+            T64_REC_CONTENTS_OFFSET, T64_REC_CONTENTS_LEN);
+
+    return 0;
+}
+
+
+/** \brief  Calculate file size for \a rec
+ *
+ * \return  file size in bytes
+ */
+static int t64_file_record_get_size(t64_file_record_t *rec)
+{
+    return (int)(rec->end_addr - rec->start_addr);
+}
+
+
+/** \brief  Get pointer to file record at index \a num in \a t64
+ *
+ * \param[in]   t64     T64 container
+ * \param[in]   num     index in directory of \a t64
+ *
+ * \return  file record or `NULL` on failure
+ */
+static t64_file_record_t *t64_get_file_record(t64_t *t64, unsigned int num)
+{
+    if (num >= t64->header.num_entries) {
+        return NULL;
+    }
+
+    return t64->file_records + num;
+}
+
 
 /** \brief  Read and parse T64 header into \a hdr from file \a fd
  *
@@ -158,7 +211,7 @@ static int comp_index(const void *p1, const void *p2)
  *
  * \return  0 on success, -1 on failure
  */
-int t64_header_read(t64_header_t *hdr, FILE *fd)
+static int t64_header_read(t64_header_t *hdr, FILE *fd)
 {
     BYTE buf[T64_HDR_SIZE];
 
@@ -213,50 +266,12 @@ int t64_header_read(t64_header_t *hdr, FILE *fd)
 }
 
 
-/** \brief  Read and parse a file record
- *
- * \param[out]  rec     T64 file record
- * \param[in]   fd      file descriptor
- *
- * \return  0 on success, -1 on failure
- */
-int t64_file_record_read(t64_file_record_t *rec, FILE *fd)
-{
-    BYTE buf[T64_REC_SIZE];
-
-    if (fread(buf, T64_REC_SIZE, 1, fd) != 1) {
-        return -1;
-    }
-
-    rec->entry_type = buf[T64_REC_ENTRYTYPE_OFFSET];
-    memcpy(rec->cbm_name, buf + T64_REC_CBMNAME_OFFSET, T64_REC_CBMNAME_LEN);
-    rec->cbm_type = buf[T64_REC_CBMTYPE_OFFSET];
-    rec->start_addr = (WORD)get_number(buf + T64_REC_STARTADDR_OFFSET,
-            (unsigned int)T64_REC_STARTADDR_LEN);
-    rec->end_addr = (WORD)get_number(buf + T64_REC_ENDADDR_OFFSET,
-            (unsigned int)T64_REC_ENDADDR_LEN);
-    rec->contents = get_number(buf +
-            T64_REC_CONTENTS_OFFSET, T64_REC_CONTENTS_LEN);
-
-    return 0;
-}
-
-
-/** \brief  Calculate file size for \a rec
- *
- * \return  file size in bytes
- */
-int t64_file_record_get_size(t64_file_record_t *rec)
-{
-    return (int)(rec->end_addr - rec->start_addr);
-}
-
 
 /** \brief  Allocate memory for new T64 container and initialize members
  *
  * \return  new T64 object
  */
-t64_t *t64_new(void)
+static t64_t *t64_new(void)
 {
     t64_t *new64;
 
@@ -276,7 +291,7 @@ t64_t *t64_new(void)
  *
  * \param[in,out]   t64 T64 container
  */
-void t64_destroy(t64_t *t64)
+static void t64_destroy(t64_t *t64)
 {
     if (t64->fd != NULL) {
         zfile_fclose(t64->fd);
@@ -286,6 +301,175 @@ void t64_destroy(t64_t *t64)
     lib_free(t64);
 }
 
+
+
+/* --------------------------- Public functions -----------------------------*/
+
+/* ------------------------- File record functions --------------------------*/
+
+
+/** \brief  Move file index in \a t64 to the first file record
+ *
+ * \param[in]   t64 T64 container
+ *
+ * \return  0 on success, -1 on failure
+ */
+int t64_seek_start(t64_t *t64)
+{
+    return t64_seek_to_file(t64, 0);
+}
+
+
+/** \brief  Move file index in \a t64 to \a file_number
+ *
+ * \param[in,out]   t64         T64 container
+ * \param[in]       file_number index in directory of \a t64
+ *
+ * \return  0 on success, -1 on failure
+ */
+int t64_seek_to_file(t64_t *t64, int file_number)
+{
+    if (t64 == NULL || file_number < 0
+            || file_number >= t64->header.num_entries) {
+        return -1;
+    }
+
+    t64->current_file_number = file_number;
+    t64->current_file_seek_position = 0;
+
+    return 0;
+}
+
+
+/** \brief  Move file index record in \a t64 to next record
+ *
+ * Moves the directory index one record forward, if no such record exists AND
+ * \a allow_rewind is true, move to the first record.
+ *
+ * \param[in,out]   t64             T64 container
+ * \param[in]       allow_rewind    allow rewinding the 'tape' once
+ *
+ * \return  0 on success, -1 on failure
+ */
+int t64_seek_to_next_file(t64_t *t64, unsigned int allow_rewind)
+{
+    int n;
+
+    if (t64 == NULL) {
+        return -1;
+    }
+
+    if (t64->current_file_number < 0) {
+        n = -1;
+    } else {
+        n = t64->current_file_number;
+    }
+
+    while (1) {
+        t64_file_record_t *rec;
+
+        n++;
+        if (n >= t64->header.num_entries) {
+            if (allow_rewind) {
+                n = 0;
+                allow_rewind = 0; /* Do not let this happen again.  */
+            } else {
+                return -1;
+            }
+        }
+
+        rec = t64->file_records + n;
+        if (rec->entry_type == T64_FILE_RECORD_NORMAL) {
+            t64->current_file_number = n;
+            t64->current_file_seek_position = 0;
+            return t64->current_file_number;
+        }
+    }
+}
+
+
+/** \brief  Get pointer to current file record
+ *
+ * \param[in]   t64     T64 container
+ *
+ * \return  file record on `NULL` on failure
+ */
+t64_file_record_t *t64_get_current_file_record(t64_t *t64)
+{
+    if (t64->current_file_number < 0) {
+        log_error(LOG_ERR, "T64: Negative file number.");
+        return NULL;
+    }
+    return t64_get_file_record(t64, (unsigned int)(t64->current_file_number));
+}
+
+
+/** \brief  Read \a size bytes of the current file record in \a t64 into \a buf
+ *
+ * \param[in,out]   t64     T64 container
+ * \param[out]      buf     buffer to store file data
+ * \param[in]       size    number of bytes to read
+ *
+ * \return      number of bytes read or -1 on failure
+ *
+ * \todo        should return `long`, fread(3) returns `long`, not `int`
+ */
+int t64_read(t64_t *t64, BYTE *buf, size_t size)
+{
+    t64_file_record_t *rec;
+    int recsize;
+    long offset;
+    long amount;
+
+    if (t64 == NULL || t64->fd == NULL || t64->current_file_number < 0
+            || size == 0) {
+        return -1;
+    }
+
+    rec = t64->file_records + t64->current_file_number;
+    recsize = t64_file_record_get_size(rec);
+    offset = rec->contents + t64->current_file_seek_position;
+
+    if (fseek(t64->fd, offset, SEEK_SET) != 0) {
+        return -1;
+    }
+
+    /* limit size of the block that is to be read to not exceed the end of the
+     * T64 container */
+    if (recsize < (int)(t64->current_file_seek_position + size)) {
+        if (t64->current_file_seek_position > recsize) {
+            return -1;
+        }
+        size = (size_t)(recsize - t64->current_file_seek_position);
+    }
+
+    amount = fread(buf, 1, size, t64->fd);
+    if (amount != (long)size) {
+        return -1;
+    }
+    t64->current_file_seek_position += (int)amount;
+
+    return amount;
+}
+
+
+/** \brief  Copy tape description in \a t64 to \a name
+ *
+ * Copies the tape description string in \a t64 to \a name. Doesn't terminate
+ * string with nul if the string is 24 bytes.
+ *
+ * \param[in]   t64     T64 container
+ * \param[out]  name    destination for description, should be at least 24
+ *                      bytes
+ */
+void t64_get_header(t64_t *t64, BYTE *name)
+{
+    memcpy(name, t64->header.description, T64_HDR_DESCRIPTION_LEN);
+}
+
+
+
+/* ----------------------- T64 container functions --------------------------*/
 
 /** \brief  Try to open file \a name as a T64 container
  *
@@ -414,182 +598,4 @@ int t64_close(t64_t *t64)
     return retval;
 }
 
-/* ------------------------------------------------------------------------- */
-
-
-/** \brief  Move file index in \a t64 to the first file record
- *
- * \param[in]   t64 T64 container
- *
- * \return  0 on success, -1 on failure
- */
-int t64_seek_start(t64_t *t64)
-{
-    return t64_seek_to_file(t64, 0);
-}
-
-
-/** \brief  Move file index in \a t64 to \a file_number
- *
- * \param[in,out]   t64         T64 container
- * \param[in]       file_number index in directory of \a t64
- *
- * \return  0 on success, -1 on failure
- */
-int t64_seek_to_file(t64_t *t64, int file_number)
-{
-    if (t64 == NULL || file_number < 0
-            || file_number >= t64->header.num_entries) {
-        return -1;
-    }
-
-    t64->current_file_number = file_number;
-    t64->current_file_seek_position = 0;
-
-    return 0;
-}
-
-
-/** \brief  Move file index record in \a t64 to next record
- *
- * Moves the directory index one record forward, if no such record exists AND
- * \a allow_rewind is true, move to the first record.
- *
- * \param[in,out]   t64             T64 container
- * \param[in]       allow_rewind    allow rewinding the 'tape' once
- *
- * \return  0 on success, -1 on failure
- */
-int t64_seek_to_next_file(t64_t *t64, unsigned int allow_rewind)
-{
-    int n;
-
-    if (t64 == NULL) {
-        return -1;
-    }
-
-    if (t64->current_file_number < 0) {
-        n = -1;
-    } else {
-        n = t64->current_file_number;
-    }
-
-    while (1) {
-        t64_file_record_t *rec;
-
-        n++;
-        if (n >= t64->header.num_entries) {
-            if (allow_rewind) {
-                n = 0;
-                allow_rewind = 0; /* Do not let this happen again.  */
-            } else {
-                return -1;
-            }
-        }
-
-        rec = t64->file_records + n;
-        if (rec->entry_type == T64_FILE_RECORD_NORMAL) {
-            t64->current_file_number = n;
-            t64->current_file_seek_position = 0;
-            return t64->current_file_number;
-        }
-    }
-}
-
-
-/** \brief  Get pointer to file record at index \a num in \a t64
- *
- * \param[in]   t64     T64 container
- * \param[in]   num     index in directory of \a t64
- *
- * \return  file record or `NULL` on failure
- */
-t64_file_record_t *t64_get_file_record(t64_t *t64, unsigned int num)
-{
-    if (num >= t64->header.num_entries) {
-        return NULL;
-    }
-
-    return t64->file_records + num;
-}
-
-
-/** \brief  Get pointer to current file record
- *
- * \param[in]   t64     T64 container
- *
- * \return  file record on `NULL` on failure
- */
-t64_file_record_t *t64_get_current_file_record(t64_t *t64)
-{
-    if (t64->current_file_number < 0) {
-        log_error(LOG_ERR, "T64: Negative file number.");
-        return NULL;
-    }
-    return t64_get_file_record(t64, (unsigned int)(t64->current_file_number));
-}
-
-
-/** \brief  Read \a size bytes of the current file record in \a t64 into \a buf
- *
- * \param[in,out]   t64     T64 container
- * \param[out]      buf     buffer to store file data
- * \param[in]       size    number of bytes to read
- *
- * \return      number of bytes read or -1 on failure
- *
- * \todo        should return `long`, fread(3) returns `long`, not `int`
- */
-int t64_read(t64_t *t64, BYTE *buf, size_t size)
-{
-    t64_file_record_t *rec;
-    int recsize;
-    long offset;
-    long amount;
-
-    if (t64 == NULL || t64->fd == NULL || t64->current_file_number < 0
-            || size == 0) {
-        return -1;
-    }
-
-    rec = t64->file_records + t64->current_file_number;
-    recsize = t64_file_record_get_size(rec);
-    offset = rec->contents + t64->current_file_seek_position;
-
-    if (fseek(t64->fd, offset, SEEK_SET) != 0) {
-        return -1;
-    }
-
-    /* limit size of the block that is to be read to not exceed the end of the
-     * T64 container */
-    if (recsize < (int)(t64->current_file_seek_position + size)) {
-        if (t64->current_file_seek_position > recsize) {
-            return -1;
-        }
-        size = (size_t)(recsize - t64->current_file_seek_position);
-    }
-
-    amount = fread(buf, 1, size, t64->fd);
-    if (amount != (long)size) {
-        return -1;
-    }
-    t64->current_file_seek_position += (int)amount;
-
-    return (int)amount;
-}
-
-
-/** \brief  Copy tape description in \a t64 to \a name
- *
- * Copies the tape description string in \a t64 to \a name. Doesn't terminate
- * string with nul if the string is 24 bytes.
- *
- * \param[in]   t64     T64 container
- * \param[out]  name    destination for description, should be at least 24
- *                      bytes
- */
-void t64_get_header(t64_t *t64, BYTE *name)
-{
-    memcpy(name, t64->header.description, T64_HDR_DESCRIPTION_LEN);
-}
 

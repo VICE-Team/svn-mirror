@@ -213,20 +213,12 @@ typedef struct t64 t64_t;
  * t64_get_file_record()
  */
 
-extern int t64_header_read(t64_header_t *hdr, FILE *fd);
-extern int t64_file_record_read(t64_file_record_t *rec, FILE *fd);
-extern int t64_file_record_get_size(t64_file_record_t *rec);
-
-extern t64_t *t64_new(void);
-extern void t64_destroy(t64_t *t64);
-
 extern t64_t *t64_open(const char *name, unsigned int *read_only);
 extern int t64_close(t64_t *t64);
 
 extern int t64_seek_start(t64_t *t64);
 extern int t64_seek_to_file(t64_t *t64, int file_number);
 extern int t64_seek_to_next_file(t64_t *t64, unsigned int allow_rewind);
-extern t64_file_record_t *t64_get_file_record(t64_t *t64, unsigned int num);
 extern t64_file_record_t *t64_get_current_file_record(t64_t *t64);
 extern int t64_read(t64_t *t64, BYTE *buf, size_t size);
 extern void t64_get_header(t64_t *t64, BYTE *name);
