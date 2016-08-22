@@ -71,10 +71,6 @@ static const ui_menu_entry_t vicii_border_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VICIIBorderMode_callback,
       (ui_callback_data_t)VICII_NO_BORDERS },
-    { "TV",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIBorderMode_callback,
-      (ui_callback_data_t)VICII_TV_BORDERS },
     SDL_MENU_LIST_END
 };
 

@@ -6965,7 +6965,7 @@ Integer specifying rendering filter.
 @vindex VICIIBorderMode
 @item VICIIBorderMode
 Integer specifying border display mode.
-(0: normal, 1: full, 2: debug, 3: none, 4: TV)
+(0: normal, 1: full, 2: debug, 3: none)
 
 @end table
 
@@ -7044,7 +7044,7 @@ Select fullscreen mode
 @item -VICIIborders <mode>
 Set VIC-II border display mode
 (@code{VICIIBorderMode}).
-(0: normal, 1: full, 2: debug, 3: none, 4: TV)
+(0: normal, 1: full, 2: debug, 3: none)
 
 @findex -VICIImodel
 @item -VICIImodel <model>

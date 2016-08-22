@@ -54,7 +54,6 @@ static int set_border_mode(int val, void *param)
         case VICII_FULL_BORDERS:
         case VICII_DEBUG_BORDERS:
         case VICII_NO_BORDERS:
-        case VICII_TV_BORDERS:
             break;
         default:
             return -1;

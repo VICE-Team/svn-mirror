@@ -95,7 +95,7 @@ static void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
     BYTE *line_base;
     BYTE color;
 
-    if (line >= screenshot->height) {
+    if (line > screenshot->height) {
         log_error(screenshot_log, "Invalild line `%i' request.", line);
         return;
     }

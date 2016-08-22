@@ -48,7 +48,6 @@ static uilib_localize_dialog_param vicii_dialog[] = {
     { IDC_TOGGLE_VICII_FULLBORDERS, IDS_VICII_FULLBORDERS, 0 },
     { IDC_TOGGLE_VICII_DEBUGBORDERS, IDS_VICII_DEBUGBORDERS, 0 },
     { IDC_TOGGLE_VICII_NOBORDERS, IDS_VICII_NOBORDERS, 0 },
-    { IDC_TOGGLE_VICII_TVBORDERS, IDS_VICII_TVBORDERS, 0 },
     { IDC_VICII_SPRITEGROUP, IDS_VICII_SPRITEGROUP, 0 },
     { IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0 },
     { IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0 },
@@ -65,7 +64,6 @@ static uilib_localize_dialog_param viciisc_dialog[] = {
     { IDC_TOGGLE_VICII_FULLBORDERS, IDS_VICII_FULLBORDERS, 0 },
     { IDC_TOGGLE_VICII_DEBUGBORDERS, IDS_VICII_DEBUGBORDERS, 0 },
     { IDC_TOGGLE_VICII_NOBORDERS, IDS_VICII_NOBORDERS, 0 },
-    { IDC_TOGGLE_VICII_TVBORDERS, IDS_VICII_TVBORDERS, 0 },
     { IDC_VICII_SPRITEGROUP, IDS_VICII_SPRITEGROUP, 0 },
     { IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0 },
     { IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0 },
@@ -190,11 +188,8 @@ static void init_vicii_dialog(HWND hwnd)
         case VICII_NO_BORDERS:
             n = IDC_TOGGLE_VICII_NOBORDERS;
             break;
-        case VICII_TV_BORDERS:
-            n = IDC_TOGGLE_VICII_TVBORDERS;
-            break;
     }
-    CheckRadioButton(hwnd, IDC_TOGGLE_VICII_NORMALBORDERS, IDC_TOGGLE_VICII_TVBORDERS, n);
+    CheckRadioButton(hwnd, IDC_TOGGLE_VICII_NORMALBORDERS, IDC_TOGGLE_VICII_NOBORDERS, n);
 
     resources_get_int("VICIICheckSsColl", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC, n ? BST_CHECKED : BST_UNCHECKED);
@@ -212,7 +207,6 @@ static void end_vicii_dialog(HWND hwnd)
 {
     resources_set_int("VICIIBorderMode", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_DEBUGBORDERS) == BST_CHECKED ? VICII_DEBUG_BORDERS : 
                       IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_FULLBORDERS) == BST_CHECKED ? VICII_FULL_BORDERS :
-                      IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_TVBORDERS) == BST_CHECKED ? VICII_TV_BORDERS :
                       IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_NORMALBORDERS) == BST_CHECKED ? VICII_NORMAL_BORDERS : VICII_NO_BORDERS));
 
     resources_set_int("VICIICheckSsColl", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
@@ -246,7 +240,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                 case IDC_TOGGLE_VICII_FULLBORDERS:
                 case IDC_TOGGLE_VICII_DEBUGBORDERS:
                 case IDC_TOGGLE_VICII_NOBORDERS:
-                case IDC_TOGGLE_VICII_TVBORDERS:
                 case IDC_TOGGLE_VICII_SSC:
                 case IDC_TOGGLE_VICII_SBC:
                 case IDC_C64VICII_LIST:

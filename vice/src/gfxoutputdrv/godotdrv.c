@@ -63,7 +63,7 @@ static int godotdrv_write_file_header(screenshot_t *screenshot)
         }
         return 0;
     }
-    if (fprintf(fd, "GOD1%c%c%c%c", 0, 0, screenshot->width / 8, (screenshot->height + 7) / 8) < 0) {
+    if (fprintf(fd, "GOD1%c%c%c%c", 0, 0, screenshot->width / 8, screenshot->height / 8) < 0) {
         return -1;
     }
     return 0;
@@ -108,11 +108,7 @@ static int godotdrv_write(screenshot_t *screenshot)
     gfxoutputdrv_data_t *sdata;
 
     sdata = screenshot->gfxoutputdrv_data;
-    if (sdata->line < screenshot->height) {
-        (screenshot->convert_line)(screenshot, sdata->data + (sdata->line & 7) * screenshot->width, sdata->line, SCREENSHOT_MODE_PALETTE);
-    } else {
-        memset(sdata->data + (sdata->line & 7) * screenshot->width, 0, screenshot->width);
-    }
+    (screenshot->convert_line)(screenshot, sdata->data + (sdata->line & 7) * screenshot->width, sdata->line, SCREENSHOT_MODE_PALETTE);
 
     if ((sdata->line & 7) == 7) {
         native_data_t native;
@@ -188,7 +184,7 @@ static int godotdrv_save(screenshot_t *screenshot, const char *filename)
     }
 
     for (screenshot->gfxoutputdrv_data->line = 0;
-         screenshot->gfxoutputdrv_data->line < ((screenshot->height + 7) / 8) * 8;
+         screenshot->gfxoutputdrv_data->line < screenshot->height;
          (screenshot->gfxoutputdrv_data->line)++) {
         godotdrv_write(screenshot);
     }
