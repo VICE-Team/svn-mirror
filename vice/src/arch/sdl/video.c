@@ -315,6 +315,9 @@ static int set_aspect_ratio(const char *val, void *param)
     if (old_aspect != aspect_ratio) {
         if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
             video_viewport_resize(sdl_active_canvas, 1);
+#ifdef USE_SDLUI2
+            sdl_video_resize_event(sdl_active_canvas->actual_width * aspect_ratio, sdl_active_canvas->actual_width * aspect_ratio);
+#endif
         }
     }
 
@@ -999,6 +1002,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             SDL_RenderClear(new_renderer);
             SDL_RenderPresent(new_renderer);
             new_screen = SDL_CreateRGBSurface(0, actual_width, actual_height, sdl_bitdepth, rmask, gmask, bmask, amask);
+            if (fullscreen) {
+                SDL_RenderSetLogicalSize(new_renderer, actual_width, actual_height);
+            }
             if (new_screen) {
                 SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
                 new_texture = SDL_CreateTexture(new_renderer, texformat, SDL_TEXTUREACCESS_STREAMING, actual_width, actual_height);
@@ -1052,6 +1058,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     canvas->texture = new_texture;
     canvas->actual_width = actual_width;
     canvas->actual_height = actual_height;
+#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES2)
+    canvas->videoconfig->hwscale = 1;
+#endif
 
     /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
     if (!fullscreen) {
