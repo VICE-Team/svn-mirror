@@ -61,7 +61,7 @@ typedef struct tapeport_device_s {
     /* set write line */
     void (*toggle_write_bit)(int write_bit);
 
-    /* set motor line */
+    /* set sense line */
     void (*set_sense_out)(int sense);
 
     /* read line change on passthrough port, NULL if no passthrough port present */
