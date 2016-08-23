@@ -78,6 +78,8 @@ static userport_device_t sampler_device = {
     userport_8bss_store_pa3,
     1, /* pc pin needed */
     NULL, /* NO sp1 write */
+    NULL, /* NO sp1 read */
+    NULL, /* NO sp2 write */
     NULL, /* NO sp2 read */
     "Userport8BSS",
     0xff,

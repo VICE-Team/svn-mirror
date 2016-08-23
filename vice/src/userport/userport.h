@@ -83,6 +83,12 @@ typedef struct userport_device_s {
     /* Store sp1 pin */
     void (*store_sp1)(void);
 
+    /* Read sp1 pin */
+    void (*read_sp1)(void);
+
+    /* Store sp2 pin */
+    void (*store_sp2)(void);
+
     /* Read sp2 pin */
     void (*read_sp2)(void);
 
