@@ -29,31 +29,30 @@
 
 #include "types.h"
 
-#define C64_DIAG_USERPORT_CNT1    0
-#define C64_DIAG_USERPORT_SP1     1
-#define C64_DIAG_USERPORT_CNT2    2
-#define C64_DIAG_USERPORT_SP2     3
-#define C64_DIAG_USERPORT_PC2     4
-#define C64_DIAG_USERPORT_PA3     5
-#define C64_DIAG_USERPORT_FLAG2   6
-#define C64_DIAG_USERPORT_PB0     7
-#define C64_DIAG_USERPORT_PB1     8
-#define C64_DIAG_USERPORT_PB2     9
-#define C64_DIAG_USERPORT_PB3     10
-#define C64_DIAG_USERPORT_PB4     11
-#define C64_DIAG_USERPORT_PB5     12
-#define C64_DIAG_USERPORT_PB6     13
-#define C64_DIAG_USERPORT_PB7     14
-#define C64_DIAG_USERPORT_PA2     15
+#define C64_DIAG_USERPORT_PB0     0
+#define C64_DIAG_USERPORT_PB1     1
+#define C64_DIAG_USERPORT_PB2     2
+#define C64_DIAG_USERPORT_PB3     3
+#define C64_DIAG_USERPORT_PB4     4
+#define C64_DIAG_USERPORT_PB5     5
+#define C64_DIAG_USERPORT_PB6     6
+#define C64_DIAG_USERPORT_PB7     7
 
-#define C64_DIAG_USERPORT_PINS    16
+#define C64_DIAG_USERPORT_PA2     2
+#define C64_DIAG_USERPORT_PA3     3
+
+#define C64_DIAG_USERPORT_SP1     0
+#define C64_DIAG_USERPORT_SP2     1
+
+#define C64_DIAG_USERPORT_CNT1    0
+#define C64_DIAG_USERPORT_CNT2    1
+#define C64_DIAG_USERPORT_PC2     2
+#define C64_DIAG_USERPORT_FLAG2   3
 
 #define C64_DIAG_TAPEPORT_MOTOR   0
 #define C64_DIAG_TAPEPORT_READ    1
 #define C64_DIAG_TAPEPORT_WRITE   2
 #define C64_DIAG_TAPEPORT_SENSE   3
-
-#define C64_DIAG_TAPEPORT_PINS    4
 
 #define C64_DIAG_JOYPORT_UP       0
 #define C64_DIAG_JOYPORT_DOWN     1
@@ -62,8 +61,6 @@
 #define C64_DIAG_JOYPORT_POTY     4
 #define C64_DIAG_JOYPORT_BUTTON   5
 #define C64_DIAG_JOYPORT_POTX     6
-
-#define C64_DIAG_JOYPORT_PINS     7
 
 #define C64_DIAG_KEYBOARD_PA0     0
 #define C64_DIAG_KEYBOARD_PA1     1
@@ -82,25 +79,33 @@
 #define C64_DIAG_KEYBOARD_PB6     14
 #define C64_DIAG_KEYBOARD_PB7     15
 
-#define C64_DIAG_KEYBOARD_PINS    16
-
 #define C64_DIAG_SERIAL_SRQ       0
 #define C64_DIAG_SERIAL_ATN       1
 #define C64_DIAG_SERIAL_CLK       2
 #define C64_DIAG_SERIAL_DATA      3
 
-#define C64_DIAG_SERIAL_PINS      4
-
 extern void c64_diag_586220_init(void);
-extern void c64_diag_586220_store_userport(BYTE pin, BYTE val);
-extern BYTE c64_diag_586220_read_userport(BYTE pin);
-extern void c64_diag_586220_store_tapeport(BYTE pin, BYTE val);
-extern BYTE c64_diag_586220_read_tapeport(BYTE pin);
-extern void c64_diag_586220_store_joyport(BYTE port, BYTE pin, BYTE val);
-extern BYTE c64_diag_586220_read_joyport(BYTE port, BYTE pin);
-extern void c64_diag_586220_store_keyboard(BYTE pin, BYTE val);
-extern BYTE c64_diag_586220_read_keyboard(BYTE pin);
-extern void c64_diag_586220_store_serial(BYTE pin, BYTE val);
-extern BYTE c64_diag_586220_read_serial(BYTE pin);
+
+extern void c64_diag_586220_store_userport_pax(BYTE val);
+extern BYTE c64_diag_586220_read_userport_pax(void);
+extern void c64_diag_586220_store_userport_pbx(BYTE val);
+extern BYTE c64_diag_586220_read_userport_pbx(void);
+
+extern void c64_diag_586220_store_userport_sp(BYTE port, BYTE val);
+extern BYTE c64_diag_586220_read_userport_sp(BYTE port);
+
+extern void c64_diag_586220_store_tapeport(BYTE val);
+extern BYTE c64_diag_586220_read_tapeport(void);
+
+extern void c64_diag_586220_store_joyport_dig(BYTE port, BYTE val);
+extern BYTE c64_diag_586220_read_joyport_dig(BYTE port);
+
+extern BYTE c64_diag_586220_read_joyport_pot(void);
+
+extern void c64_diag_586220_store_keyboard(BYTE port, BYTE val);
+extern BYTE c64_diag_586220_read_keyboard(BYTE port);
+
+extern void c64_diag_586220_store_serial(BYTE val);
+extern BYTE c64_diag_586220_read_serial(void);
 
 #endif
