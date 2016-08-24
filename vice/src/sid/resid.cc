@@ -42,6 +42,14 @@ using std::sprintf;
 
 extern "C" {
 
+#ifdef _MSC_VER
+#  if (_MSC_VER == 1500)
+#    define _IVEC_H_INCLUDED
+#    define _FVEC_H_INCLUDED
+#    define _DVEC_H_INCLUDED
+#  endif
+#endif
+
 /* QNX has problems with const and inline definitions
    in its string.h file when using g++ */
 
