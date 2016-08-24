@@ -275,6 +275,22 @@ void c64meminit(unsigned int base)
             }
         }
     }
+    /* Setup write Hook for when ROMH is NOT selected at $A000-$BFFF in 16K Game */
+    for (j = 24; j < 32; j++) {
+        if (!c64meminit_romh_config[j]) {
+            for (i = 0xa0; i <= 0xbf; i++) {
+                mem_set_write_hook(base + j, i, ramh_no_ultimax_store);
+            }
+        }
+    }
+    /* Setup write Hook for when ROMH is NOT selected at $a000-$bFFF when cart is off */
+    for (j = 0; j < 8; j++) {
+        if (!c64meminit_romh_config[j]) {
+            for (i = 0xa0; i <= 0xbf; i++) {
+                mem_set_write_hook(base + j, i, ramh_no_ultimax_store);
+            }
+        }
+    }
     /* Setup ROMH at $E000-$FFFF (ultimax)  */
     for (j = 16; j < 24; j++) {
         if (c64meminit_romh_config[j]) {

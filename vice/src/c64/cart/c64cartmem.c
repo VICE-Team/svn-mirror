@@ -1030,7 +1030,7 @@ void romh_no_ultimax_store(WORD addr, BYTE value)
     /* "Slot 1" */
     if (dqbb_cart_enabled()) {
         dqbb_romh_store(addr, value);
-        return;
+        return; /* ? */
     }
 
     /* "Main Slot" */
@@ -1147,10 +1147,43 @@ void raml_no_ultimax_store(WORD addr, BYTE value)
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_roml_store(addr, value);
             break;
+        case CARTRIDGE_PAGEFOX:
+            pagefox_roml_store(addr, value);
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_roml_no_ultimax_store(addr, value)) {
                 return; /* FIXME: this is weird */
             }
+            break;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
+    }
+
+    /* store to c64 ram */
+    /* DBG(("c64 ram    w 8000: %04x %02x\n", addr, value)); */
+    ram_store(addr, value);
+    /* mem_store_without_romlh(addr, value); */
+}
+
+/* RAMH store (ROMH _NOT_ selected) - mapped to A000-Bfff in 16kGame
+
+   WARNING:
+      mem_store_without_ultimax(addr, value)
+      must NOT be called by any functions called here, as this will cause an
+      endless loop
+*/
+void ramh_no_ultimax_store(WORD addr, BYTE value)
+{
+    /* DBG(("game ram    w 8000: %04x %02x\n", addr, value)); */
+
+    /* "Slot 0" */
+    /* "Slot 1" */
+
+    /* "Main Slot" */
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_PAGEFOX:
+            pagefox_romh_store(addr, value);
             break;
         case CARTRIDGE_CRT: /* invalid */
             DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
