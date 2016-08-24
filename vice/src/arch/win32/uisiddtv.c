@@ -81,19 +81,33 @@ static void enable_hardsid_sid_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_SID_HARDSID_LEFT_ENGINE), is_enabled);
 }
 
+static uilib_localize_dialog_param general_sid_dialog_trans[] = {
+    { IDC_SID_GENGROUP1, IDS_SID_GENGROUP1, 0 },
+    { IDC_SID_FILTERS, IDS_SID_FILTERS, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_localize_dialog_param parent_dialog_trans[] = {
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
 static void init_general_sid_dialog(HWND hwnd)
 {
-    HWND sid_hwnd;
+    HWND sid_hwnd, parent_hwnd;
     int res_value, i;
     int active_value;
 
-    sid_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP1);
-    SetWindowText(sid_hwnd, translate_text(IDS_SID_GENGROUP1));
-    sid_hwnd = GetDlgItem(hwnd, IDC_SID_FILTERS);
-    SetWindowText(sid_hwnd, translate_text(IDS_SID_FILTERS));
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, general_sid_dialog_trans);
+
+    parent_hwnd = GetParent(hwnd);
+
+    /* translate the parent window items */
+    uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
 
     /* Setup status */
-
     resources_get_int("SidFilters", &res_value);
     CheckDlgButton(hwnd, IDC_SID_FILTERS, res_value ? BST_CHECKED : BST_UNCHECKED);
 
@@ -108,9 +122,7 @@ static void init_general_sid_dialog(HWND hwnd)
     for (i = 0; ui_sid_engine_model_list[i]; i++) {
         TCHAR st[40];
 
-        /* Use "%hs" because the strings are in common code,
-           and hence are char rather than TCHAR */
-        _stprintf(st, TEXT("%hs"), ui_sid_engine_model_list[i]->name);
+        system_mbstowcs(st, ui_sid_engine_model_list[i]->name, 40);
         SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
         if (ui_sid_engine_model_list[i]->value == res_value) {
             active_value = i;
@@ -146,30 +158,36 @@ static void resize_general_sid_dialog(HWND hwnd)
     MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top, xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
 }
 
+static uilib_localize_dialog_param resid_sid_dialog_trans[] = {
+    { IDC_SID_RESID_GROUP, IDS_SID_RESID_GROUP, 0 },
+    { IDC_SID_RESID_SAMPLE, IDS_SID_RESID_SAMPLE, 0 },
+    { IDC_SID_RESID_PASSBAND, IDS_SID_RESID_PASSBAND, 0 },
+    { 0, 0, 0 }
+};
+
 static void init_resid_sid_dialog(HWND hwnd)
 {
     HWND sid_hwnd;
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
     int res_value, i;
     TCHAR st[10];
+#endif
 
-    sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_GROUP);
-    SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_GROUP));
-    sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLE);
-    SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_SAMPLE));
-    sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND);
-    SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_PASSBAND));
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, resid_sid_dialog_trans);
 
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
     resources_get_int("SidResidSampling", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING);
     for (i = 0; ui_sid_samplemethod[i]; i++) {
-        SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(ui_sid_samplemethod[i]));
+        SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(ui_sid_samplemethod[i]));
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     resources_get_int("SidResidPassband", &res_value);
     _stprintf(st, TEXT("%d"), res_value);
     SetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND_VALUE, st);
-
+#endif
     enable_resid_sid_controls(hwnd);
 }
 
@@ -215,16 +233,20 @@ static void resize_resid_sid_dialog(HWND hwnd)
     MoveWindow(child_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
 }
 
+static uilib_localize_dialog_param hardsid_sid_dialog_trans[] = {
+    { IDC_HARDSID_GROUP, IDS_HARDSID_GROUP, 0 },
+    { IDC_HARDSID_LEFT_LABEL, IDS_HARDSID_LEFT_LABEL, 0 },
+    { 0, 0, 0 }
+};
+
 static void init_hardsid_sid_dialog(HWND hwnd)
 {
     HWND sid_hwnd;
     int res_value;
     unsigned int available, device;
 
-    sid_hwnd = GetDlgItem(hwnd, IDC_HARDSID_GROUP);
-    SetWindowText(sid_hwnd, translate_text(IDS_HARDSID_GROUP));
-    sid_hwnd = GetDlgItem(hwnd, IDC_HARDSID_LEFT_LABEL);
-    SetWindowText(sid_hwnd, translate_text(IDS_HARDSID_LEFT_LABEL));
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, hardsid_sid_dialog_trans);
 
     available = hardsid_available();
     device = 0;
@@ -414,7 +436,7 @@ void ui_siddtv_settings_dialog(HWND hwnd)
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_SID_GENERAL_SETTINGS_DIALOG);
     psp[0].pszIcon = NULL;
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_SID_GENERAL_SETTINGS_DIALOG);
+    psp[0].u1.pszTemplate = MAKEINTRESOURCE(IDD_SID_GENERAL_SETTINGS_DIALOG);
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
@@ -427,7 +449,7 @@ void ui_siddtv_settings_dialog(HWND hwnd)
     psp[1].pszTemplate = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
     psp[1].pszIcon = NULL;
 #else
-    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
+    psp[1].u1.pszTemplate = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
     psp[1].u2.pszIcon = NULL;
 #endif
     psp[1].lParam = 0;
@@ -441,7 +463,7 @@ void ui_siddtv_settings_dialog(HWND hwnd)
         psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_SID_HARDSID_SETTINGS_DIALOG));
         psp[2].pszIcon = NULL;
 #else
-        psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(translate_res(IDD_SID_HARDSID_SETTINGS_DIALOG));
+        psp[2].u1.pszTemplate = MAKEINTRESOURCE(translate_res(IDD_SID_HARDSID_SETTINGS_DIALOG));
         psp[2].u2.pszIcon = NULL;
 #endif
         psp[2].lParam = 0;
@@ -449,9 +471,13 @@ void ui_siddtv_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = general_dialog_proc;
-    psp[0].pszTitle = translate_text(IDS_GENERAL);
+    psp[0].pszTitle = intl_translate_tcs(IDS_GENERAL);
     psp[1].pfnDlgProc = resid_dialog_proc;
-    psp[1].pszTitle = TEXT("ReSID-DTV");
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        psp[1].pszTitle = TEXT("ReSID-DTV");
+    } else {
+        psp[1].pszTitle = TEXT("ReSID");
+    }
     if (hardsid_available()) {
         psp[2].pfnDlgProc = hardsid_dialog_proc;
         psp[2].pszTitle = TEXT("HardSID");
@@ -461,7 +487,7 @@ void ui_siddtv_settings_dialog(HWND hwnd)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = translate_text(IDS_SID_SETTINGS);
+    psh.pszCaption = intl_translate_tcs(IDS_SID_SETTINGS);
     if (hardsid_available()) {
         psh.nPages = 3;
     } else {
@@ -472,7 +498,7 @@ void ui_siddtv_settings_dialog(HWND hwnd)
     psh.nStartPage = 0;
     psh.ppsp = psp;
 #else
-    psh.DUMMYUNIONNAME.pszIcon = NULL;
+    psh.u1.pszIcon = NULL;
     psh.u2.nStartPage = 0;
     psh.u3.ppsp = psp;
 #endif
