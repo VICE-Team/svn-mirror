@@ -135,8 +135,10 @@ extern BYTE read_userport_pa3(BYTE orig);
 extern void store_userport_pa3(BYTE val);
 extern void set_userport_flag(BYTE val);
 extern BYTE read_userport_pc(BYTE orig);
+extern BYTE read_userport_sp1(BYTE orig);
 extern void store_userport_sp1(void);
 extern BYTE read_userport_sp2(BYTE orig);
+extern void store_userport_sp2(void);
 
 extern int userport_resources_init(void);
 extern void userport_resources_shutdown(void);
