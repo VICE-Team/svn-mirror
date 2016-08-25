@@ -270,7 +270,7 @@ static void read_sdr(cia_context_t *cia_context)
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
     if ((cia_context->c_cia[CIA_CRA] & 0x49) == 0x41) {
-        store_userport_sp1();
+        store_userport_sp1(byte);
     }
     c128fastiec_fast_cpu_write(byte);
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)

@@ -410,14 +410,14 @@ void set_userport_flag(BYTE val)
     }
 }
 
-void store_userport_sp1(void)
+void store_userport_sp1(BYTE val)
 {
     userport_device_list_t *current = userport_head.next;
 
     if (userport_active) {
         while (current) {
             if (current->device->store_sp1 != NULL) {
-                current->device->store_sp1();
+                current->device->store_sp1(val);
             }
             current = current->next;
         }
@@ -465,14 +465,14 @@ BYTE read_userport_sp1(BYTE orig)
     return retval;
 }
 
-void store_userport_sp2(void)
+void store_userport_sp2(BYTE val)
 {
     userport_device_list_t *current = userport_head.next;
 
     if (userport_active) {
         while (current) {
             if (current->device->store_sp2 != NULL) {
-                current->device->store_sp2();
+                current->device->store_sp2(val);
             }
             current = current->next;
         }

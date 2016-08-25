@@ -3948,6 +3948,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_USERPORT_DS1307_TR, ""},  /* fuzzy */
 #endif
 
+/* userport/userport_diag_586220_harness.c */
+/* en */ {IDGS_USERPORT_DIAG_586220_HARNESS,    N_("Userport diag 586220 harness")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_USERPORT_DIAG_586220_HARNESS_DA, ""},  /* fuzzy */
+/* de */ {IDGS_USERPORT_DIAG_586220_HARNESS_DE, ""},  /* fuzzy */
+/* es */ {IDGS_USERPORT_DIAG_586220_HARNESS_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_USERPORT_DIAG_586220_HARNESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_USERPORT_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_USERPORT_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_USERPORT_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_USERPORT_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_USERPORT_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_USERPORT_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_USERPORT_DIAG_586220_HARNESS_TR, ""},  /* fuzzy */
+#endif
+
 /* tapeport/tapertc.c */
 /* en */ {IDGS_TAPE_RTC,    N_("Tape RTC (PCF8583)")},
 #ifdef HAS_TRANSLATION
@@ -7103,6 +7120,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_diag_586220_harness.c */
+/* en */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS,    N_("Enable Userport diag 586220 harness module")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_diag_586220_harness.c */
+/* en */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS,    N_("Disable Userport diag 586220 harness module")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_TR, ""},  /* fuzzy */
 #endif
 
 /* joyport/bbrtc.c */

@@ -115,6 +115,7 @@
 #include "userport_4bit_sampler.h"
 #include "userport_8bss.h"
 #include "userport_dac.h"
+#include "userport_diag_586220_harness.h"
 #include "userport_digimax.h"
 #include "userport_joystick.h"
 #include "userport_rtc_58321a.h"
@@ -675,6 +676,10 @@ int machine_resources_init(void)
         init_resource_fail("userport 8bit stereo sampler");
         return -1;
     }
+    if (userport_diag_586220_harness_resources_init() < 0) {
+        init_resource_fail("userport diag 586220 harness");
+        return -1;
+    }
     if (cartio_resources_init() < 0) {
         init_resource_fail("cartio");
         return -1;
@@ -882,6 +887,10 @@ int machine_cmdline_options_init(void)
     }
     if (userport_8bss_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport 8bit stereo sampler");
+        return -1;
+    }
+    if (userport_diag_586220_harness_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport diag 586220 harness");
         return -1;
     }
     if (cartio_cmdline_options_init() < 0) {

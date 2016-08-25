@@ -688,6 +688,9 @@ IDGS_USERPORT_RTC58321A
 /* userport/userport_rtc_ds1307.c */
 IDGS_USERPORT_DS1307
 
+/* userport/userport_diag_586220_harness.c */
+IDGS_USERPORT_DIAG_586220_HARNESS
+
 /* tapeport/tapertc.c */
 IDGS_TAPE_RTC
 
@@ -3140,6 +3143,12 @@ IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE
 
 /* userport/userport_rtc_ds1307.c */
 IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE
+
+/* userport/userport_diag_586220_harness.c */
+IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS
+
+/* userport/userport_diag_586220_harness.c */
+IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS
 
 /* joyport/bbrtc.c */
 IDCLS_ENABLE_BBRTC_SAVE

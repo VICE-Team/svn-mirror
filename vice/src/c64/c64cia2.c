@@ -288,7 +288,7 @@ static void read_sdr(cia_context_t *cia_context)
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
     if ((cia2_cra & 0x59) == 0x51) {
-        store_userport_sp2();
+        store_userport_sp2(byte);
     }
 
     if (c64iec_active) {
