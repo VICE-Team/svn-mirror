@@ -2650,8 +2650,8 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
         }
         vdrive_iec_close(vdrive, 1);
 
-        /* Adjust for the last block */
-        if (lbsize < 255) {
+        /* Adjust for the last block, but not for the last file */
+        if (lbsize < 255 && dentries > 1) {
             len = 254 + 1 - lbsize;
             if (fread(buff, 1, len, f2) != len) {
                 return FD_RDERR;
