@@ -31,6 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -40,11 +41,11 @@
 #include "uimmcreplay.h"
 #include "winmain.h"
 
-static char *ui_mmcreplay_sdtype[] = {
-    "Auto",
-    "MMC",
-    "SD",
-    "SDHC",
+static TCHAR *ui_mmcreplay_sdtype[] = {
+    TEXT("Auto"),
+    TEXT("MMC"),
+    TEXT("SD"),
+    TEXT("SDHC"),
     NULL
 };
 
@@ -193,16 +194,16 @@ static void init_mmcreplay_dialog(HWND hwnd)
 
 static void end_mmcreplay_dialog(HWND hwnd)
 {
-    TCHAR st[MAX_PATH];
-    char s[MAX_PATH];
+    TCHAR st_name[MAX_PATH];
+    char name[MAX_PATH];
 
-    GetDlgItemText(hwnd, IDC_MMCREPLAY_CARDIMAGE, st, MAX_PATH);
-    system_wcstombs(s, st, MAX_PATH);
-    resources_set_string("MMCRCardImage", s);
+    GetDlgItemText(hwnd, IDC_MMCREPLAY_CARDIMAGE, st_name, MAX_PATH);
+    system_wcstombs(name, st_name, MAX_PATH);
+    resources_set_string("MMCRCardImage", name);
 
-    GetDlgItemText(hwnd, IDC_MMCREPLAY_EEPROMIMAGE, st, MAX_PATH);
-    system_wcstombs(s, st, MAX_PATH);
-    resources_set_string("MMCREEPROMImage", s);
+    GetDlgItemText(hwnd, IDC_MMCREPLAY_EEPROMIMAGE, st_name, MAX_PATH);
+    system_wcstombs(name, st_name, MAX_PATH);
+    resources_set_string("MMCREEPROMImage", name);
 
     resources_set_int("MMCRCardRW", (IsDlgButtonChecked(hwnd, IDC_MMCREPLAY_CARDRW) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("MMCRImageWrite", (IsDlgButtonChecked(hwnd, IDC_MMCREPLAY_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
@@ -213,12 +214,12 @@ static void end_mmcreplay_dialog(HWND hwnd)
 
 static void browse_mmcreplay_cardimage_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_MMCREPLAY_CARD_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMCREPLAY_CARDIMAGE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_MMCREPLAY_CARD_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMCREPLAY_CARDIMAGE);
 }
 
 static void browse_mmcreplay_eeprom_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_MMCREPLAY_EEPROM_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMCREPLAY_EEPROMIMAGE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_MMCREPLAY_EEPROM_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_MMCREPLAY_EEPROMIMAGE);
 }
 
 

@@ -31,6 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -137,12 +138,12 @@ static void init_gmod2_dialog(HWND hwnd)
 
 static void end_gmod2_dialog(HWND hwnd)
 {
-    TCHAR st[MAX_PATH];
-    char s[MAX_PATH];
+    TCHAR st_name[MAX_PATH];
+    char name[MAX_PATH];
 
-    GetDlgItemText(hwnd, IDC_GMOD2_EEPROMIMAGE, st, MAX_PATH);
-    system_wcstombs(s, st, MAX_PATH);
-    resources_set_string("GMod2EEPROMImage", s);
+    GetDlgItemText(hwnd, IDC_GMOD2_EEPROMIMAGE, st_name, MAX_PATH);
+    system_wcstombs(name, st_name, MAX_PATH);
+    resources_set_string("GMod2EEPROMImage", name);
 
     resources_set_int("GMod2FlashWrite", (IsDlgButtonChecked(hwnd, IDC_GMOD2_FLASHRW) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("GMOD2EEPROMRW", (IsDlgButtonChecked(hwnd, IDC_GMOD2_EEPROMRW) == BST_CHECKED ? 1 : 0 ));
@@ -150,7 +151,7 @@ static void end_gmod2_dialog(HWND hwnd)
 
 static void browse_gmod2_eeprom_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_GMOD2_EEPROM_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_GMOD2_EEPROMIMAGE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_GMOD2_EEPROM_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_GMOD2_EEPROMIMAGE);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

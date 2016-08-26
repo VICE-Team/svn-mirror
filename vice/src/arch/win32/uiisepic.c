@@ -137,21 +137,21 @@ static void init_isepic_dialog(HWND hwnd)
 
 static void end_isepic_dialog(HWND hwnd)
 {
-    TCHAR st[MAX_PATH];
-    char s[MAX_PATH];
+    TCHAR st_name[MAX_PATH];
+    char name[MAX_PATH];
 
     resources_set_int("IsepicCartridgeEnabled", (IsDlgButtonChecked(hwnd, IDC_ISEPIC_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("IsepicSwitch", (IsDlgButtonChecked(hwnd, IDC_ISEPIC_SWITCH) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("IsepicImageWrite", (IsDlgButtonChecked(hwnd, IDC_ISEPIC_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
-    GetDlgItemText(hwnd, IDC_ISEPIC_FILE, st, MAX_PATH);
-    system_wcstombs(s, st, MAX_PATH);
-    resources_set_string("Isepicfilename", s);
+    GetDlgItemText(hwnd, IDC_ISEPIC_FILE, st_name, MAX_PATH);
+    system_wcstombs(name, st_name, MAX_PATH);
+    resources_set_string("Isepicfilename", name);
 }
 
 static void browse_isepic_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_SELECT_FILE_ISEPIC), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_ISEPIC_FILE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_SELECT_FILE_ISEPIC), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_ISEPIC_FILE);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

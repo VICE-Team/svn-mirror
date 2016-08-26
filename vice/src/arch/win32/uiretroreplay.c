@@ -32,6 +32,7 @@
 #include <tchar.h>
 
 #include "cartridge.h"
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -121,8 +122,8 @@ static void init_rr_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_RR_SAVE_WHEN_CHANGED, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_RR_REVISION);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)CARTRIDGE_NAME_RETRO_REPLAY);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)CARTRIDGE_NAME_NORDIC_REPLAY);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT(CARTRIDGE_NAME_RETRO_REPLAY));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT(CARTRIDGE_NAME_NORDIC_REPLAY));
     resources_get_int("RRrevision", &res_value);
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }

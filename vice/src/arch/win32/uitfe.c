@@ -31,11 +31,13 @@
 #include <stdio.h>
 #include <windows.h>
 
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "rawnet.h"
+#include "system.h"
 #include "translate.h"
 #include "uitfe.h"
 #include "winmain.h"
@@ -82,8 +84,8 @@ static int gray_ungray_items(HWND hwnd)
         EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE_T), 0);
         EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE), 0);
         EnableWindow(GetDlgItem(hwnd, IDOK), 0);
-        SetWindowText(GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE_NAME), "");
-        SetWindowText(GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE_DESC), "");
+        SetWindowText(GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE_NAME), TEXT(""));
+        SetWindowText(GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE_DESC), TEXT(""));
         enable = 0;
     } else {
         enable = SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE), CB_GETCURSEL, 0, 0) ? 1 : 0;
@@ -98,18 +100,24 @@ static int gray_ungray_items(HWND hwnd)
     if (enable) {
         char *pname = NULL;
         char *pdescription = NULL;
+        TCHAR *st_name;
+        TCHAR *st_description;
 
         number = (int)SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE), CB_GETCURSEL, 0, 0);
 
         if (get_tfename(number, &pname, &pdescription)) {
-            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME), pname);
-            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC), pdescription);
+            st_name = system_mbstowcs_alloc(pname);
+            st_description = system_mbstowcs_alloc(pdescription);
+            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME), st_name);
+            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC), st_description);
+            system_mbstowcs_free(st_name);
+            system_mbstowcs_free(st_description);
             lib_free(pname);
             lib_free(pdescription);
         }
     } else {
-        SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME), "");
-        SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC), "");
+        SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME), TEXT(""));
+        SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC), TEXT(""));
     }
 
     return disabled ? 1 : 0;
@@ -166,11 +174,11 @@ static void init_tfe_dialog(HWND hwnd)
     resources_get_int("ETHERNET_AS_RR", &tfe_as_rr_net);
     active_value = tfe_as_rr_net ? 2 : (tfe_enabled ? 1 : 0);
 
-    temp_hwnd=GetDlgItem(hwnd,IDC_TFE_SETTINGS_ENABLE);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Disabled");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"TFE");
+    temp_hwnd = GetDlgItem(hwnd,IDC_TFE_SETTINGS_ENABLE);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Disabled"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("TFE"));
     if (machine_class != VICE_MACHINE_VIC20) {
-        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"RR Net");
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("RR Net"));
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
@@ -187,8 +195,11 @@ static void init_tfe_dialog(HWND hwnd)
         char *pname;
         char *pdescription;
         char *combined;
+        TCHAR *st_name;
+        TCHAR *st_description;
+        TCHAR *st_combined;
 
-        temp_hwnd = GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE);
+        temp_hwnd = GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE);
 
         for (cnt = 0; rawnet_enumadapter(&pname, &pdescription); cnt++) {
             BOOL this_entry = FALSE;
@@ -196,10 +207,17 @@ static void init_tfe_dialog(HWND hwnd)
             if (strcmp(pname, interface_name) == 0) {
                 this_entry = TRUE;
             }
-            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME), pname);
-            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC), pdescription);
+            st_name = system_mbstowcs_alloc(pname);
+            st_description = system_mbstowcs_alloc(pdescription);
+            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME), st_name);
+            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC), st_description);
+            system_mbstowcs_free(st_name);
+            system_mbstowcs_free(st_description);
+
             combined = util_concat(pdescription, " (", pname, ")", NULL);
-            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)combined);
+            st_combined = system_mbstowcs_alloc(combined);
+            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st_combined);
+            system_mbstowcs_free(st_description);
             lib_free(combined);
             lib_free(pname);
             lib_free(pdescription);
@@ -214,7 +232,7 @@ static void init_tfe_dialog(HWND hwnd)
 
     if (gray_ungray_items(hwnd)) {
         /* we have a problem: TFE is disabled. Give a message to the user */
-        MessageBox(hwnd, translate_text(IDS_TFE_PROBLEM), translate_text(IDS_TFE_RRNET_SUPPORT), MB_ICONINFORMATION | MB_OK);
+        MessageBox(hwnd, intl_translate_tcs(IDS_TFE_PROBLEM), intl_translate_tcs(IDS_TFE_RRNET_SUPPORT), MB_ICONINFORMATION | MB_OK);
 
         /* just quit the dialog before it is open */
         SendMessage( hwnd, WM_COMMAND, IDCANCEL, 0);
@@ -226,6 +244,7 @@ static void save_tfe_dialog(HWND hwnd)
     int active_value;
     int tfe_enabled;
     int tfe_as_rr_net;
+    TCHAR st_buffer[256];
     char buffer[256];
 
     active_value = (int)SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE), CB_GETCURSEL, 0, 0);
@@ -236,8 +255,8 @@ static void save_tfe_dialog(HWND hwnd)
     resources_set_int("ETHERNET_ACTIVE", tfe_enabled);
     resources_set_int("ETHERNET_AS_RR", tfe_as_rr_net);
 
-    buffer[255] = '\0';
-    GetDlgItemText(hwnd, IDC_TFE_SETTINGS_INTERFACE, buffer, 255);
+    GetDlgItemText(hwnd, IDC_TFE_SETTINGS_INTERFACE, st_buffer, 256);
+    system_wcstombs(buffer, st_buffer, 256);
     resources_set_string("ETHERNET_INTERFACE", buffer);
 
     if (machine_class == VICE_MACHINE_VIC20) {

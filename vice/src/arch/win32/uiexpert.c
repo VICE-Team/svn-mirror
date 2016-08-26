@@ -141,7 +141,7 @@ static void init_expert_dialog(HWND hwnd)
 
     temp_hwnd = GetDlgItem(hwnd, IDC_EXPERT_MODE);
     for (res_value_loop = 0; ui_expert_mode[res_value_loop] != 0; res_value_loop++) {
-        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(ui_expert_mode[res_value_loop]));
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(ui_expert_mode[res_value_loop]));
     }
     resources_get_int("ExpertCartridgeMode", &res_value);
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -156,21 +156,21 @@ static void init_expert_dialog(HWND hwnd)
 
 static void end_expert_dialog(HWND hwnd)
 {
-    TCHAR st[MAX_PATH];
-    char s[MAX_PATH];
+    TCHAR st_name[MAX_PATH];
+    char name[MAX_PATH];
 
     resources_set_int("ExpertCartridgeEnabled", (IsDlgButtonChecked(hwnd, IDC_EXPERT_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("ExpertImageWrite", (IsDlgButtonChecked(hwnd, IDC_EXPERT_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("ExpertCartridgeMode", (int)SendMessage(GetDlgItem(hwnd, IDC_EXPERT_MODE), CB_GETCURSEL, 0, 0));
 
-    GetDlgItemText(hwnd, IDC_EXPERT_FILE, st, MAX_PATH);
-    system_wcstombs(s, st, MAX_PATH);
-    resources_set_string("Expertfilename", s);
+    GetDlgItemText(hwnd, IDC_EXPERT_FILE, st_name, MAX_PATH);
+    system_wcstombs(name, st_name, MAX_PATH);
+    resources_set_string("Expertfilename", name);
 }
 
 static void browse_expert_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_SELECT_FILE_EXPERT), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_EXPERT_FILE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_SELECT_FILE_EXPERT), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_EXPERT_FILE);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

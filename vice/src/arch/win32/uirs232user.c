@@ -110,7 +110,7 @@ static void init_rs232user_dialog(HWND hwnd)
     for (res_value_loop = 0; res_value_loop < RS232_NUM_DEVICES; res_value_loop++) {
         TCHAR st[20];
 
-        _stprintf(st, translate_text(IDS_RS232_DEVICE_I), res_value_loop + 1);
+        _stprintf(st, intl_translate_tcs(IDS_RS232_DEVICE_I), res_value_loop + 1);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -134,7 +134,7 @@ static void init_rs232user_dialog(HWND hwnd)
 
     resources_get_int("RsUserBaud", &res_value);
     active_value = 0;
-    for (res_value_loop = 0; res_value_loop < RS232_NUM_DEVICES; res_value_loop++) {
+    for (res_value_loop = 0; res_value_loop < NUM_OF_BAUDRATES; res_value_loop++) {
         if (baudrates[res_value_loop] == res_value) {
             active_value = res_value_loop;
         }
