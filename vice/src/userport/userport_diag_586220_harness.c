@@ -198,7 +198,7 @@ static void userport_diag_586220_harness_store_pa3(BYTE value)
 
 static void userport_diag_586220_harness_read_sp1(void)
 {
-    return c64_diag_586220_read_userport_sp(0);
+    diag_586220_harness_device.retval = c64_diag_586220_read_userport_sp(0);
 }
 
 static void userport_diag_586220_harness_store_sp1(BYTE value)
@@ -208,7 +208,7 @@ static void userport_diag_586220_harness_store_sp1(BYTE value)
 
 static void userport_diag_586220_harness_read_sp2(void)
 {
-    return c64_diag_586220_read_userport_sp(1);
+    diag_586220_harness_device.retval = c64_diag_586220_read_userport_sp(1);
 }
 
 static void userport_diag_586220_harness_store_sp2(BYTE value)
