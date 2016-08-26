@@ -1,8 +1,8 @@
 /*
- * console.h - Console access interface.
+ * console.c - Console access interface.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
