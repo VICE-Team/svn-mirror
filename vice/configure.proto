@@ -3382,7 +3382,7 @@ dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with `--without-readline'.
 READLINE_LIBS=
 EDITLINE_LIBS=
-if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+if test x"$is_unix_x11" = "xyes"; then
   if test x"$with_readline" != "xno" ; then
     READLINE_HEADER_PRESENT=yes
     AC_CHECK_HEADERS(readline/readline.h,,[READLINE_HEADER_PRESENT=no],)
@@ -3415,6 +3415,10 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
               [-lcurses],)
     fi
 
+    if test x"$enable_sdlui" != "xno" -o x"$enable_sdlui2" != "xno"; then
+      READLINE=""
+    fi
+
     if test "$ac_cv_lib_readline_readline" = "yes"; then
       AC_CHECK_LIB(readline, rl_readline_name,
              [ AC_DEFINE(HAVE_RLNAME,,
@@ -3422,7 +3426,9 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
     fi
     LIBS="${old_LIBS}"
   else
-    READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
+    if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+      READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
+    fi
   fi
 dnl ----- editline support for Cocoa -----
 elif test x"$enable_editline" != "xno" -a x"$with_cocoa" = "xyes" ; then
@@ -4038,6 +4044,9 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/msvc/wpcap"
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
+  fi
+  if test x"$ac_cv_lib_readline_readline" = "xyes"; then
+    AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
   fi
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   HAS_JOYSTICK_SUPPORT="yes"

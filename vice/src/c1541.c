@@ -366,7 +366,12 @@ static char *read_line(const char *prompt)
 
 #else
 
+#ifdef HAVE_READLINE_READLINE_H
+#include <readline/readline.h>
+#include <readline/history.h>
+#else
 # include "editline.h"
+#endif
 
 static char *read_line(const char *prompt)
 {
