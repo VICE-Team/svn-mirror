@@ -216,6 +216,9 @@ EXTRA_DIST = \
 	archdep_win32.h \
 	archdep_xbox.c \
 	archdep_xbox.h \
+	console_amiga.c \
+	console_sdl.c \
+	console_unix.c \
 	generate_msvc6_sdl1x.bat \
 	generate_msvc6_sdl2x.bat \
 	generate_msvc70_ffmpeg_sdl1x.bat \
