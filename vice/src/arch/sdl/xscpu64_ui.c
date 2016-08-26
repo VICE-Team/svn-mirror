@@ -40,6 +40,7 @@
 #include "menu_jam.h"
 #include "menu_joyport.h"
 #include "menu_midi.h"
+#include "menu_monitor.h"
 #include "menu_network.h"
 #include "menu_printer.h"
 #include "menu_reset.h"
@@ -121,9 +122,9 @@ static const ui_menu_entry_t xscpu64_main_menu[] = {
       pause_callback,
       NULL },
     { "Monitor",
-      MENU_ENTRY_OTHER,
-      monitor_callback,
-      NULL },
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)monitor_menu },
     { "Virtual keyboard",
       MENU_ENTRY_OTHER,
       vkbd_callback,

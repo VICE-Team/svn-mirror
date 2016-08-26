@@ -538,6 +538,16 @@ static int set_confirm_on_exit(int val, void *param)
     return 0;
 }
 
+#ifdef ALLOW_NATIVE_MONITOR
+int native_monitor;
+
+static int set_native_monitor(int val, void *param)
+{
+    native_monitor = val;
+    return 0;
+}
+#endif
+
 #ifdef __sortix__
 #define DEFAULT_MENU_KEY SDLK_END
 #endif
@@ -569,6 +579,10 @@ static const resource_int_t resources_int[] = {
       &save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 0, RES_EVENT_NO, NULL,
       &confirm_on_exit, set_confirm_on_exit, NULL },
+#ifdef ALLOW_NATIVE_MONITOR
+    { "NativeMonitor", 0, RES_EVENT_NO, NULL,
+      &native_monitor, set_native_monitor, NULL },
+#endif
     RESOURCE_INT_LIST_END
 };
 
@@ -652,6 +666,14 @@ static const cmdline_option_t cmdline_options[] = {
     { "+confirmonexit", SET_RESOURCE, 0, NULL, NULL, "ConfirmOnExit", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable confirm on exit" },
+#ifdef ALLOW_NATIVE_MONITOR
+    { "-nativemonitor", SET_RESOURCE, 0, NULL, NULL, "NativeMonitor", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable native monitor" },
+    { "+nativemonitor", SET_RESOURCE, 0, NULL, NULL, "NativeMonitor", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable native monitor" },
+#endif
     CMDLINE_LIST_END
 };
 

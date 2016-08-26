@@ -1,8 +1,11 @@
 /*
- * console.c - Console access interface wrapper.
+ * console.c - SDL specific console access interface.
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *
+ * Based on code by
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,11 +29,40 @@
 
 #include "vice.h"
 
-#if defined(UNIX_COMPILE)
-#define CONSOLE_ARCH_INCLUDED
-#include "console_unix.c"
+#include <stdio.h>
+
+#include "console.h"
+
+int console_init(void)
+{
+    return 0;
+}
+
+char *console_in(console_t *log, const char *prompt)
+{
+    return NULL;
+}
+
+int console_out(console_t *log, const char *format, ...)
+{
+#ifdef SDL_DEBUG
+    fprintf(stderr, "%s - remove this\n", __func__);
 #endif
 
-#ifndef CONSOLE_ARCH_INCLUDED
-#include "console_sdl.c"
-#endif
+    return 0;
+}
+
+int console_close_all(void)
+{
+    return 0;
+}
+
+console_t *console_open(const char *id)
+{
+    return NULL;
+}
+
+int console_close(console_t *log)
+{
+    return 0;
+}

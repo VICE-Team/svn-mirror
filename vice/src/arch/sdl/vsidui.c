@@ -45,6 +45,7 @@
 #include "menu_debug.h"
 #include "menu_help.h"
 #include "menu_jam.h"
+#include "menu_monitor.h"
 #include "menu_reset.h"
 #include "menu_settings.h"
 #include "menu_sid.h"
@@ -293,9 +294,9 @@ static const ui_menu_entry_t vsid_main_menu[] = {
       pause_callback,
       NULL },
     { "Monitor",
-      MENU_ENTRY_OTHER,
-      monitor_callback,
-      NULL },
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)monitor_menu },
 #ifdef DEBUG
     { "Debug",
       MENU_ENTRY_SUBMENU,

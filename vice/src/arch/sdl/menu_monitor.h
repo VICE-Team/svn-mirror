@@ -1,8 +1,8 @@
 /*
- * console.c - Console access interface wrapper.
+ * menu_monitor.h - Monitor menu for SDL UI.
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,13 +24,13 @@
  *
  */
 
+#ifndef VICE_MENU_MONITOR_H
+#define VICE_MENU_MONITOR_H
+
 #include "vice.h"
+#include "types.h"
+#include "uimenu.h"
 
-#if defined(UNIX_COMPILE)
-#define CONSOLE_ARCH_INCLUDED
-#include "console_unix.c"
-#endif
+extern const ui_menu_entry_t monitor_menu[];
 
-#ifndef CONSOLE_ARCH_INCLUDED
-#include "console_sdl.c"
 #endif

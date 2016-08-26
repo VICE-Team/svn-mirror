@@ -45,6 +45,7 @@ libarch_a_SOURCES = \
 	blockdev.c \
 	catweaselmkiii-drv.c \
 	console.c \
+	console_unix.c \
 	coproc.c \
 	coproc.h \
 	cw-device.c \
@@ -101,6 +102,8 @@ libarch_a_SOURCES = \
 	menu_joystick.h \
 	menu_midi.c \
 	menu_midi.h \
+	menu_monitor.c \
+	menu_monitor.h \
 	menu_mouse.c \
 	menu_mouse.h \
 	menu_network.c \

@@ -140,9 +140,6 @@ static UI_MENU_CALLBACK(custom_disconnect_callback)
     return NULL;
 }
 
-UI_MENU_DEFINE_TOGGLE(MonitorServer)
-UI_MENU_DEFINE_STRING(MonitorServerAddress)
-
 const ui_menu_entry_t network_menu[] = {
     SDL_MENU_ITEM_TITLE("Netplay"),
     { "Server name",
@@ -173,16 +170,6 @@ const ui_menu_entry_t network_menu[] = {
       MENU_ENTRY_OTHER,
       custom_disconnect_callback,
       NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Remote monitor"),
-    { "Enable remote monitor",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MonitorServer_callback,
-      NULL },
-    { "Monitor address",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_MonitorServerAddress_callback,
-      (ui_callback_data_t)"Set remote monitor server address" },
     SDL_MENU_LIST_END
 };
 

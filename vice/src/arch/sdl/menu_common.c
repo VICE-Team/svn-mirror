@@ -119,22 +119,6 @@ UI_MENU_CALLBACK(pause_callback)
     return NULL;
 }
 
-UI_MENU_CALLBACK(monitor_callback)
-{
-    if (activated) {
-        if (sdl_menu_state) {
-            monitor_startup(e_default_space);
-        } else {
-            /* The monitor was activated with a hotkey.
-               In this case, the trap is needed for the machine state to be
-               properly imported. */
-            monitor_startup_trap();
-        }
-        return sdl_menu_text_exit_ui;
-    }
-    return NULL;
-}
-
 UI_MENU_CALLBACK(vkbd_callback)
 {
     if (activated) {
