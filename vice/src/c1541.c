@@ -90,8 +90,10 @@
 
 /* #define DEBUG_DRIVE */
 
-#define MAXARG          256
-#define MAXDRIVE        1
+#define MAXARG          256     /**< maximum number arguments to a command */
+
+
+#define DRIVE_COUNT     4       /**< number of virtual drives */
 
 #define C1541_VERSION_MAJOR     4
 #define C1541_VERSION_MINOR     0
@@ -101,7 +103,7 @@ const char machine_name[] = "C1541";
 /* Global clock counter.  */
 CLOCK clk = 0L;
 
-static vdrive_t *drives[4] = { NULL, NULL, NULL, NULL };
+static vdrive_t *drives[DRIVE_COUNT] = { NULL, NULL, NULL, NULL };
 static unsigned int p00save[4] = { 0, 0, 0, 0 };
 
 static int drive_number = 0;
@@ -598,9 +600,34 @@ static int lookup_and_execute_command(int nargs, char **args)
     }
 }
 
-static char *extract_unit_from_file_name(const char *name,
+
+/** \brief  Get unit index (0-3) from \a name
+ *
+ * \param[in]   name        filename
+ * \param[out]  unit_return drive unit index
+ *
+ * \return  pointer into \a name after the ':' or `NULL` on failure
+ *
+ * \todo    make both \a name and return value `const`
+ */
+static char *extract_unit_from_file_name(char *name,
                                          unsigned int *unit_return)
 {
+    static const char *specs[DRIVE_COUNT] = {
+        "@8:", "@9:", "@10:", "@11:"
+    };
+    unsigned int i;
+
+    for (i = 0; i < DRIVE_COUNT; i++) {
+        size_t len = strlen(specs[i]);
+        if (strncmp(specs[i], name, len) == 0) {
+            *unit_return = i;
+            return name + len;
+        }
+    }
+    return NULL;
+#if 0
+    /* FIXME: doesn't support units #10 or #11 */
     if (name[0] == '@' && name[2] == ':'
         && (name[1] == '8' || name[1] == '9')) {
         *unit_return = (unsigned int)(name[1] - '8');
@@ -608,6 +635,7 @@ static char *extract_unit_from_file_name(const char *name,
     } else {
         return NULL;
     }
+#endif
 }
 
 static int is_valid_cbm_file_name(const char *name)
@@ -689,7 +717,7 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
    header.  */
 static int open_image(int dev, char *name, int create, int disktype)
 {
-    if (dev < 0 || dev > MAXDRIVE) {
+    if (dev < 0 || dev >= DRIVE_COUNT) {
         return -1;
     }
 
@@ -825,7 +853,7 @@ static int block_cmd(int nargs, char **args)
 
 static int copy_cmd(int nargs, char **args)
 {
-    char *p;
+    const char *p;
     char *dest_name_ascii, *dest_name_petscii;
     unsigned int dest_unit, src_unit;
     int i;
@@ -962,7 +990,8 @@ static int delete_cmd(int nargs, char **args)
 
     for (i = 1; i < nargs; i++) {
         unsigned int dnr;
-        char *p, *name;
+        char *p;
+        char *name;
         char *command;
 
         p = extract_unit_from_file_name(args[i], &dnr);
@@ -1469,7 +1498,7 @@ static int quit_cmd(int nargs, char **args)
 {
     int i;
 
-    for (i = 0; i <= MAXDRIVE; i++) {
+    for (i = 0; i <= DRIVE_COUNT; i++) {
         close_disk_image(drives[i], i + 8);
     }
 
@@ -3080,15 +3109,16 @@ int main(int argc, char **argv)
     }
     nargs = 0;
 
-    drives[0] = lib_calloc(1, sizeof(vdrive_t));
-    drives[1] = lib_calloc(1, sizeof(vdrive_t));
+    for (i = 0; i < DRIVE_COUNT; i++) {
+        drives[i] = lib_calloc(1, sizeof *drives[i]);
+    }
 
     retval = 0;
 
     /* The first arguments without leading `-' are interpreted as disk images
        to attach.  */
     for (i = 1; i < argc && *argv[i] != '-'; i++) {
-        if (i - 1 > MAXDRIVE) {
+        if (i - 1 == DRIVE_COUNT) {
             fprintf(stderr, "Ignoring disk image `%s'.\n", argv[i]);
         } else {
             open_disk_image(drives[i - 1], argv[i], i - 1 + 8);
@@ -3148,7 +3178,7 @@ int main(int argc, char **argv)
         }
     }
 
-    for (i = 0; i <= MAXDRIVE; i++) {
+    for (i = 0; i <= DRIVE_COUNT; i++) {
         if (drives[i]) {
             close_disk_image(drives[i], i + 8);
         }
