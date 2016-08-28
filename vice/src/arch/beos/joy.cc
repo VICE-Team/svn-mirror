@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * FIXME: Due to some problems with Be's BJoystick implementation
  * the current implementation is quite ugly and should be rewritten

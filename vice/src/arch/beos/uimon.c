@@ -2,7 +2,7 @@
  * uimon.c - Monitor access interface.
  *
  * Written by
- *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

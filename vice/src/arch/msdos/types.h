@@ -6,6 +6,7 @@
  *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
