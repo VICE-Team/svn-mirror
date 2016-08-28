@@ -2,7 +2,7 @@
  * blockdev.h
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Mathias Roslund <vice.emu@amidog.se>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
