@@ -1,5 +1,5 @@
 /*
- * uic64memoryhacks.c - C64 256k/+60K/+256K EXPANSION UI interface for MS-DOS.
+ * uiplus4memoryhacks.c - Plus4 CSORY 256K / HANNES 256K/1024K/4096K memory hacks
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

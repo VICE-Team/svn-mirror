@@ -1,8 +1,8 @@
 /*
- * ui.c - The user interface for Vice/2.
+ * uicmdline.c - The command line user interface.
  *
  * Written by
- *  Thomas Bretz <tbretz@gsi.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -23,6 +23,7 @@
  *  02111-1307  USA.
  *
  */
+
 #include <stdio.h>
 
 #include "cmdline.h"
