@@ -2,7 +2,8 @@
  * kbd.h - SDL specfic keyboard driver.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README file for copyright notice.

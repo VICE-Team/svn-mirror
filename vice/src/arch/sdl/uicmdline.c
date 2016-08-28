@@ -2,7 +2,7 @@
  * uicmdline.c
  *
  * Written by
- *  Thomas Bretz <tbretz@gsi.de>
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

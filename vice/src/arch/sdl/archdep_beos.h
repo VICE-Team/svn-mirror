@@ -2,7 +2,7 @@
  * archdep_beos.h - Miscellaneous system-specific stuff.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

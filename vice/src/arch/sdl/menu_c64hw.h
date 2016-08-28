@@ -2,6 +2,7 @@
  * menu_c64hw.h - C64 HW menu for SDL UI.
  *
  * Written by
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

@@ -128,11 +128,6 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Unload Cart $6-7***"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_cartridge,
       (ui_callback_data_t)CARTRIDGE_CBM2_16KB_6000, NULL },
-/*
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Set cartridge as default"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)default_cartridge, NULL, NULL },
-*/
     { NULL }
 };
 
@@ -141,9 +136,5 @@ ui_menu_entry_t ui_cbm2cart_commands_menu[] = {
       NULL, NULL, attach_cartridge_image_submenu },
     { N_("Detach cartridge image(s)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_cartridge, NULL, NULL },
-/*
-    { N_("Cartridge freeze"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)freeze_cartridge, NULL, NULL, KEYSYM_z, UI_HOTMOD_META },
-*/
     { NULL }
 };

@@ -1,6 +1,10 @@
 /*
  * videoarch.h - SDL graphics routines.
  *
+ * Written by:
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *
  * based on the X11 version written by
  *  Ettore Perazzoli
  *  Teemu Rantanen <tvr@cs.hut.fi>
