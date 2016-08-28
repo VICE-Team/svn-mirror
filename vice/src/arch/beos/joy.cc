@@ -70,18 +70,6 @@ static int joystick_initialized = 0;
 hardware_joystick_t hardware_joystick[MAX_HARDWARE_JOYSTICK];
 int hardware_joystick_count = 0;
 
-#if 0
-#define KEYSET_FIRE 0
-#define KEYSET_SW   1
-#define KEYSET_S    2
-#define KEYSET_SE   3
-#define KEYSET_W    4
-#define KEYSET_E    5
-#define KEYSET_NW   6
-#define KEYSET_N    7
-#define KEYSET_NE   8
-#endif
-
 static void joystick_close_device(int port_idx)
 {
     int device_num;
@@ -343,49 +331,6 @@ void joystick_update(void)
     }
 }
 
-#if 0
-/* Joystick-through-keyboard.
-   This code has done nothing since VICE 1.21, but was still executed as
-   recently as 2.3.12
-*/
-BYTE handle_keyset_mapping(int joyport, int *set, kbd_code_t kcode, int pressed)
-{
-    BYTE value = 0;
-
-    {
-        if (kcode == set[KEYSET_NW]) {    /* North-West */
-            value = 5;
-        } else if (kcode == set[KEYSET_N]) { /* North */
-            value = 1;
-        } else if (kcode == set[KEYSET_NE]) { /* North-East */
-            value = 9;
-        } else if (kcode == set[KEYSET_E]) { /* East */
-            value = 8;
-        } else if (kcode == set[KEYSET_SE]) { /* South-East */
-            value = 10;
-        } else if (kcode == set[KEYSET_S]) { /* South */
-            value = 2;
-        } else if (kcode == set[KEYSET_SW]) { /* South-West */
-            value = 6;
-        } else if (kcode == set[KEYSET_W]) { /* West */
-            value = 4;
-        } else if (kcode == set[KEYSET_FIRE]) { /* Fire */
-            value = 16;
-        } else {
-            return 0;
-        }
-
-        if (pressed) {
-            joystick_set_value_or(joyport, value);
-        } else {
-            joystick_set_value_and(joyport, (BYTE) ~value);
-        }
-    }
-
-    return value;
-}
-#endif
-
 /* FIXME: src/joystick.c has code which handles keysets and also numpad.
    The numpad code here functions slightly differently and overrides the
    common code. The two should be merged. */
@@ -441,17 +386,6 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
                 joystick_set_value_and(port_idx + 1, (BYTE) ~value);
             }
         }
-
-#if 0
-        /* Notice we have to handle all the keysets even when one key is used
-           more than once (the most intuitive behavior).  */
-        if (joy_dev == JOYDEV_KEYSET1) {
-            value |= handle_keyset_mapping(port_idx + 1, keyset1, kcode, pressed);
-        }
-        if (joy_dev == JOYDEV_KEYSET2) {
-            value |= handle_keyset_mapping(port_idx + 1, keyset2, kcode, pressed);
-        }
-#endif
     }
 
     return value;
