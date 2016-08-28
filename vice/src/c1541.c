@@ -377,11 +377,13 @@ static char *read_line(const char *prompt)
 
 static char *read_line(const char *prompt)
 {
-    static char *line;
+    static char *line = NULL;
 
-    free(line);
+    if (line != NULL) {
+        free(line);
+    }
     line = readline(prompt);
-    if (line != 0 && *line != 0) {
+    if (line != NULL && *line != 0) {
         add_history(line);
     }
     return line;
@@ -1019,7 +1021,13 @@ static int delete_cmd(int nargs, char **args)
 
         lib_free(command);
 
-        printf("ERRORCODE %i\n", status);
+        /* vdrive_command_execute() returns CBMDOS_IPE_DELETED even if no
+         * files where actually scratched, so just display error messages that
+         * actual mean something, not "ERRORCODE 1" */
+        if (status != CBMDOS_IPE_OK && status != CBMDOS_IPE_DELETED) {
+            printf("%02d, %s, 00, 00\n",
+                    status, cbmdos_errortext((unsigned int)status));
+        }
     }
 
     return FD_OK;
@@ -3098,6 +3106,11 @@ int main(int argc, char **argv)
 
     archdep_init(&argc, argv);
 
+#ifdef HAVE_READLINE_READLINE_H
+    printf("USING GNU READLINE\n");
+    using_history();
+#endif
+
     /* This causes all the logging messages from the various VICE modules to
        appear on stdout.  */
     log_init_with_fd(stdout);
@@ -3184,6 +3197,9 @@ int main(int argc, char **argv)
         }
     }
 
+#ifdef HAVE_READLINE_READLINE_H
+    clear_history();
+#endif
     return retval;
 }
 
