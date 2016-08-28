@@ -886,6 +886,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int it;
     int l;
     int drv_index = -1;
+    double aspect = 1.0;
     char rendername[256];
     char **renderlist = NULL;
     int renderamount = SDL_GetNumRenderDrivers();
@@ -895,6 +896,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     memset(rendername, 0, sizeof(rendername));
 
     DBG(("%s: %i,%i (%i)", __func__, *width, *height, canvas->index));
+
+    aspect = aspect_ratio;
 
     new_width = *width;
     new_height = *height;
@@ -917,10 +920,13 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
     if (!sdl_ui_finalized) { /* remember first size */
-        double aspect = 1.0;
         sdl_active_canvas->real_width = (unsigned int)((double)new_width * aspect + 0.5);
         sdl_active_canvas->real_height = new_height;
         DBG(("first: %d:%d\n", sdl_active_canvas->real_width, sdl_active_canvas->real_height));
+    }
+
+    if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE && !fullscreen) {
+        aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
     }
 
     actual_width = new_width;
@@ -954,7 +960,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
     /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
-    new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, actual_width, actual_height, SDL_WINDOW_OPENGL | flags);
+    new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (unsigned int)((double)actual_width * aspect), actual_height, SDL_WINDOW_OPENGL | flags);
 
     ctx = SDL_GL_CreateContext(new_window);
     SDL_GL_MakeCurrent(new_window, ctx);
