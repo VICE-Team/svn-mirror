@@ -4,6 +4,7 @@
  * Written by
  *  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
  *  Ulmer Lionel <ulmer@poly.polytechnique.fr>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * Patches by
  *  Daniel Sladic <sladic@eecg.toronto.edu>

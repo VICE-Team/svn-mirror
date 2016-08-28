@@ -22,6 +22,7 @@
  * 	totty@cs.uiuc.edu
  *
  * Small changes by Ettore Perazzoli <ettore@comm2000.it>, search for [EP].
+ * More small changes by  Marco van den Heuvel <blackystardust68@yahoo.com>.
  */ 
 
 #include "vice.h"

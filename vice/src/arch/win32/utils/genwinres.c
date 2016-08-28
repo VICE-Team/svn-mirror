@@ -205,6 +205,7 @@ int main(int argc, char **argv)
         fprintf(houtput, " *  Andreas Boose <viceteam@t-online.de>\n");
         fprintf(houtput, " *  Ettore Perazzoli <ettore@comm2000.it>\n");
         fprintf(houtput, " *  Tibor Biczo <crown@t-online.hu>\n");
+        fprintf(houtput, " *  Marco van den Heuvel <blackystardust68@yahoo.com>\n");
         fprintf(houtput, " *\n");
         fprintf(houtput, " * This file is part of VICE, the Versatile Commodore Emulator.\n");
         fprintf(houtput, " * See README for copyright notice.\n");
