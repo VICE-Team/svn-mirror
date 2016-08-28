@@ -3,6 +3,7 @@
  *
  * Written by
  *  Mathias Roslund <vice.emu@amidog.se>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -43,11 +44,6 @@
 
 int joystick_inited = 0;
 
-#if 0
-/* Joystick devices. Use joystick_port_map in the common code instead. */
-static int joystick_device[4];
-#endif
-
 int joy_arch_init(void)
 {
     if (joystick_inited == 0) {
@@ -82,43 +78,8 @@ int joy_arch_set_device(int port_idx, int joy_dev)
     return 0;
 }
 
-#if 0
-static const resource_int_t joy1_resources_int[] = {
-    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[0], set_joystick_device, (void *)0 },
-    { NULL }
-};
-
-static const resource_int_t joy2_resources_int[] = {
-    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[1], set_joystick_device, (void *)1 },
-    { NULL }
-};
-
-static const resource_int_t joy3_resources_int[] = {
-    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[2], set_joystick_device, (void *)2 },
-    { NULL }
-};
-
-static const resource_int_t joy4_resources_int[] = {
-    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[3], set_joystick_device, (void *)3 },
-    { NULL }
-};
-
-static const resource_int_t resources_int[] = {
-    { NULL }
-};
-#endif
-
 int joy_arch_resources_init(void)
 {
-#if 0
-    if (resources_register_int(resources_int) < 0) {
-        return -1;
-    }
-#endif
     return joyai_init_resources();
 }
 

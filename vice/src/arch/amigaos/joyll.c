@@ -46,10 +46,6 @@
 
 int joystick_inited = 0;
 
-#if 0
-/* Joystick devices. Use joystick_port_map in the common code instead. */
-static int joystick_device[5];
-#endif
 static int joystick_fire[5];
 
 int joy_arch_init(void)
@@ -129,50 +125,30 @@ static int set_joystick_fire(int value, void *param)
 }
 
 static const resource_int_t joy1_resources_int[] = {
-#if 0
-    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[0], set_joystick_device, (void *)0 },
-#endif
     { "JoyFire1", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[0], set_joystick_fire, (void *)0 },
     { NULL }
 };
 
 static const resource_int_t joy2_resources_int[] = {
-#if 0
-    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[1], set_joystick_device, (void *)1 },
-#endif
     { "JoyFire2", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[1], set_joystick_fire, (void *)1 },
     { NULL }
 };
 
 static const resource_int_t joy3_resources_int[] = {
-#if 0
-    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[2], set_joystick_device, (void *)2 },
-#endif
     { "JoyFire3", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[2], set_joystick_fire, (void *)2 },
     { NULL }
 };
 
 static const resource_int_t joy4_resources_int[] = {
-#if 0
-    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[3], set_joystick_device, (void *)3 },
-#endif
     { "JoyFire4", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[3], set_joystick_fire, (void *)3 },
     { NULL }
 };
 
 static const resource_int_t joy5_resources_int[] = {
-#if 0
-    { "JoyDevice5", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[4], set_joystick_device, (void *)4 },
-#endif
     { "JoyFire5", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[4], set_joystick_fire, (void *)4 },
     { NULL }
