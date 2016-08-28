@@ -61,6 +61,8 @@ extern void datasette_event_playback(CLOCK offset, void *data);
 /* Emulator specific functions.  */
 extern void machine_trigger_flux_change(unsigned int on);
 extern void machine_set_tape_sense(int sense);
+extern void machine_set_tape_write_in(int val);
+extern void machine_set_tape_motor_in(int val);
 
 extern void datasette_set_tape_sense(int sense);
 

@@ -127,6 +127,9 @@ static int vbank = 0;
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
 
+static int tape_write_in = 0;
+static int tape_motor_in = 0;
+
 /* Current memory configuration.  */
 static int mem_config;
 
@@ -284,7 +287,7 @@ void mem_set_ram_config(BYTE value)
 
 void mem_pla_config_changed(void)
 {
-    c64pla_config_changed(tape_sense, caps_sense, 0x57);
+    c64pla_config_changed(tape_sense, tape_write_in, tape_motor_in, caps_sense, 0x57);
 
     mmu_set_config64(((~pport.dir | pport.data) & 0x7) | (export.exrom << 3) | (export.game << 4));
 
@@ -852,6 +855,20 @@ void mem_powerup(void)
 void mem_set_tape_sense(int sense)
 {
     tape_sense = sense;
+    mem_pla_config_changed();
+}
+
+/* Set the tape write in. */
+void mem_set_tape_write_in(int val)
+{
+    tape_write_in = val;
+    mem_pla_config_changed();
+}
+
+/* Set the tape motor in. */
+void mem_set_tape_motor_in(int val)
+{
+    tape_motor_in = val;
     mem_pla_config_changed();
 }
 

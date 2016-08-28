@@ -1,8 +1,8 @@
 /*
- * vic20datasette.c - VIC20 specific CBM cassette implementation.
+ * tape_diag_58220_harness.h: Tapeport part of the 586220 diagnostic harness emulation.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,30 +24,12 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_TAPE_DIAG_586220_HARNESS_H
+#define VICE_TAPE_DIAG_586220_HARNESS_H
 
-#include "datasette.h"
-#include "via.h"
-#include "vic20.h"
-#include "vic20via.h"
+#include "types.h"
 
+extern int tape_diag_586220_harness_resources_init(void);
+extern int tape_diag_586220_harness_cmdline_options_init(void);
 
-void machine_trigger_flux_change(unsigned int on)
-{
-    viacore_signal(machine_context.via1, VIA_SIG_CA1, VIA_SIG_FALL);
-}
-
-void machine_set_tape_sense(int sense)
-{
-    via2_set_tape_sense(sense);
-}
-
-void machine_set_tape_write_in(int val)
-{
-    via2_set_tape_write_in(val);
-}
-
-void machine_set_tape_motor_in(int val)
-{
-    via2_set_tape_motor_in(val);
-}
+#endif

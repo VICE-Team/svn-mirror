@@ -2,7 +2,8 @@ AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/rtc
+	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/diag
 
 noinst_LIBRARIES = libtapeport.a
 
@@ -13,6 +14,8 @@ libtapeport_a_SOURCES = \
 	dtl-basic-dongle.h \
 	sense-dongle.c \
 	sense-dongle.h \
+	tape_diag_586220_harness.c \
+	tape_diag_586220_harness.h \
 	tapelog.c \
 	tapelog.h \
 	tapeport.c \

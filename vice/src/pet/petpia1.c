@@ -126,12 +126,26 @@ int pia1_cmdline_options_init(void)
 }
 
 static int tape1_sense = 0;
+static int tape1_write_in = 0;
+static int tape1_motor_in = 0;
 
 static int old_cb2_status = 0xff;
 
 void pia1_set_tape_sense(int v)
 {
     tape1_sense = v;
+}
+
+/* FIXME: find out how the pet can read the write and motor lines */
+
+void pia1_set_tape_write_in(int v)
+{
+    tape1_write_in = v;
+}
+
+void pia1_set_tape_motor_in(int v)
+{
+    tape1_motor_in = v;
 }
 
 /* ------------------------------------------------------------------------- */

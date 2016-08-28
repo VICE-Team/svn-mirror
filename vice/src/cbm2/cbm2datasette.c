@@ -41,3 +41,13 @@ void machine_set_tape_sense(int sense)
 {
     tpi1_set_tape_sense(sense);
 }
+
+void machine_set_tape_write_in(int val)
+{
+    tpi1_set_tape_write_in(val);
+}
+
+void machine_set_tape_motor_in(int val)
+{
+    tpi1_set_tape_motor_in(val);
+}

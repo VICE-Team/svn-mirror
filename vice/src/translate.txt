@@ -832,6 +832,9 @@ IDGS_DATASETTE
 /* tapeport/tapelog.c */
 IDGS_TAPE_LOG
 
+/* tapeport/tape_diag_586220_harness.c */
+IDGS_TAPE_DIAG_586220_HARNESS
+
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* joystick.c */
@@ -1203,6 +1206,12 @@ IDCLS_ENABLE_TAPELOG_LOG_TO_LOG
 
 /* tapeport/tapelog.c */
 IDCLS_SPECIFY_TAPELOG_NAME
+
+/* tapeport/tape_diag_586220_harness.c */
+IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS
+
+/* tapeport/tape_diag_586220_harness.c */
+IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS
 
 /* c64/cart/georam.c */
 IDCLS_ENABLE_GEORAM

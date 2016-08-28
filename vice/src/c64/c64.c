@@ -107,6 +107,7 @@
 #include "sid.h"
 #include "sound.h"
 #include "tape.h"
+#include "tape_diag_586220_harness.h"
 #include "tapeport.h"
 #include "translate.h"
 #include "traps.h"
@@ -640,6 +641,10 @@ int machine_resources_init(void)
         init_resource_fail("tapeport");
         return -1;
     }
+    if (tape_diag_586220_harness_resources_init() < 0) {
+        init_resource_fail("tape diag 586220 harness");
+        return -1;
+    }
     if (datasette_resources_init() < 0) {
         init_resource_fail("datasette");
         return -1;
@@ -851,6 +856,10 @@ int machine_cmdline_options_init(void)
     }
     if (tapeport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("tapeport");
+        return -1;
+    }
+    if (tape_diag_586220_harness_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("tape diag 586220 harness");
         return -1;
     }
     if (datasette_cmdline_options_init() < 0) {

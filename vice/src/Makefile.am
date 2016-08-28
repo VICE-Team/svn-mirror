@@ -1353,6 +1353,7 @@ x64_libs =  \
 	@X64_WINRES@ \
 	$(tapeport_lib) \
 	$(c64_lib) \
+	$(tapeport_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
@@ -1436,6 +1437,7 @@ x64sc_libs =  \
 	@X64_WINRES@ \
 	$(tapeport_lib) \
 	$(c64sc_lib) \
+	$(tapeport_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
@@ -1682,6 +1684,7 @@ x128_libs =  \
 	@X128_WINRES@ \
 	$(tapeport_lib) \
 	$(c128_lib) \
+	$(tapeport_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \

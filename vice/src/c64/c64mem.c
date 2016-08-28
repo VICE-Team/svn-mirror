@@ -116,6 +116,9 @@ static int mem_config;
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
 
+static int tape_write_in = 0;
+static int tape_motor_in = 0;
+
 /* Current watchpoint state. 1 = watchpoints active, 0 = no watchpoints */
 static int watchpoints_active;
 
@@ -205,7 +208,7 @@ void mem_pla_config_changed(void)
 {
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3) | (export.game << 4));
 
-    c64pla_config_changed(tape_sense, 1, 0x17);
+    c64pla_config_changed(tape_sense, tape_write_in, tape_motor_in, 1, 0x17);
 
     if (watchpoints_active) {
         _mem_read_tab_ptr = mem_read_tab_watch;
@@ -795,6 +798,20 @@ void mem_set_vbank(int new_vbank)
 void mem_set_tape_sense(int sense)
 {
     tape_sense = sense;
+    mem_pla_config_changed();
+}
+
+/* Set the tape write in.  */
+void mem_set_tape_write_in(int val)
+{
+    tape_write_in = val;
+    mem_pla_config_changed();
+}
+
+/* Set the tape motor in.  */
+void mem_set_tape_motor_in(int val)
+{
+    tape_motor_in = val;
     mem_pla_config_changed();
 }
 

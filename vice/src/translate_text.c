@@ -4118,6 +4118,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_TAPE_LOG_TR, ""},  /* fuzzy */
 #endif
 
+/* tapeport/tape_diag_586220_harness.c */
+/* en */ {IDGS_TAPE_DIAG_586220_HARNESS,    N_("Tape 586220 diagnostics harness module")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_TAPE_DIAG_586220_HARNESS_DA, ""},  /* fuzzy */
+/* de */ {IDGS_TAPE_DIAG_586220_HARNESS_DE, ""},  /* fuzzy */
+/* es */ {IDGS_TAPE_DIAG_586220_HARNESS_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_TAPE_DIAG_586220_HARNESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_TAPE_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_TAPE_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_TAPE_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_TAPE_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_TAPE_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_TAPE_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_TAPE_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_TAPE_DIAG_586220_HARNESS_TR, ""},  /* fuzzy */
+#endif
+
 /* snapshot.c */
 /* en */ {IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S,    N_("EOF while writing to module %s in snapshot %s")},
 #ifdef HAS_TRANSLATION
@@ -6455,6 +6472,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_SAMPLE_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SAMPLE_NAME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_SAMPLE_NAME_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tape_diag_586220_harness.c */
+/* en */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS,    N_("Enable the tape part of the 586220 diagnostics harness")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_TR, ""},  /* fuzzy */
+#endif
+
+/* tapeport/tape_diag_586220_harness.c */
+/* en */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS,    N_("Disable the tape part of the 586220 diagnostics harness")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_TR, ""},  /* fuzzy */
 #endif
 
 /* tapeport/tapelog.c */

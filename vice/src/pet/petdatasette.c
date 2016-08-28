@@ -39,3 +39,13 @@ void machine_set_tape_sense(int sense)
 {
     pia1_set_tape_sense(sense);
 }
+
+void machine_set_tape_write_in(int val)
+{
+    pia1_set_tape_write_in(val);
+}
+
+void machine_set_tape_motor_in(int val)
+{
+    pia1_set_tape_motor_in(val);
+}

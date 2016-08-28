@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "c64_diag_586220_harness.h"
+#include "datasette.h"
 #include "types.h"
 
 static BYTE c64_diag_userport_pax = 0;
@@ -42,6 +43,7 @@ static BYTE c64_diag_joyport1 = 0;
 static BYTE c64_diag_keyboard_pax = 0;
 static BYTE c64_diag_keyboard_pbx = 0;
 static BYTE c64_diag_serial = 0;
+static BYTE c64_diag_switches = 0;
 
 void c64_diag_586220_init(void)
 {
@@ -55,6 +57,7 @@ void c64_diag_586220_init(void)
     c64_diag_keyboard_pax = 0;
     c64_diag_keyboard_pbx = 0;
     c64_diag_serial = 0;
+    c64_diag_switches = 0;
 }
 
 void c64_diag_586220_store_userport_pax(BYTE val)
@@ -76,9 +79,31 @@ void c64_diag_586220_store_userport_sp(BYTE port, BYTE val)
     }
 }
 
-void c64_diag_586220_store_tapeport(BYTE val)
+void c64_diag_586220_store_tapeport(BYTE pin, BYTE val)
 {
-    c64_diag_tapeport = val;
+    c64_diag_tapeport &= ~(1 << pin);
+    c64_diag_tapeport |= (val << pin);
+
+    switch (pin) {
+        case C64_DIAG_TAPEPORT_MOTOR:
+            machine_set_tape_write_in(val);
+            break;
+        case C64_DIAG_TAPEPORT_READ:
+            machine_set_tape_sense(val);
+            break;
+        case C64_DIAG_TAPEPORT_WRITE:
+            machine_set_tape_motor_in(val);
+            break;
+        case C64_DIAG_TAPEPORT_SENSE:
+            machine_trigger_flux_change(val);
+            break;
+    }
+
+    if (c64_diag_tapeport & 5) {
+        c64_diag_switches = 1;
+    } else {
+        c64_diag_switches = 0;
+    }
 }
 
 void c64_diag_586220_store_joyport_dig(BYTE port, BYTE val)
@@ -132,20 +157,21 @@ BYTE c64_diag_586220_read_userport_sp(BYTE port)
     return c64_diag_userport_sp1;
 }
 
-BYTE c64_diag_586220_read_tapeport(void)
+BYTE c64_diag_586220_read_tapeport(BYTE pin)
 {
     BYTE retval;
 
     retval = c64_diag_tapeport & 0xf5;
     retval |= (c64_diag_tapeport & 8) >> 2;
     retval |= (c64_diag_tapeport & 2) << 2;
+    retval &= (1 << pin);
 
     return retval;
 }
 
 BYTE c64_diag_586220_read_joyport_dig(BYTE port)
 {
-    if (!(c64_diag_tapeport & (1 << C64_DIAG_TAPEPORT_MOTOR)) || !(c64_diag_tapeport & (1 << C64_DIAG_TAPEPORT_WRITE))) {
+    if (c64_diag_switches) {
         if (!port) {
             return c64_diag_joyport1;
         }

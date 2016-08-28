@@ -94,8 +94,8 @@ extern BYTE c64_diag_586220_read_userport_pbx(void);
 extern void c64_diag_586220_store_userport_sp(BYTE port, BYTE val);
 extern BYTE c64_diag_586220_read_userport_sp(BYTE port);
 
-extern void c64_diag_586220_store_tapeport(BYTE val);
-extern BYTE c64_diag_586220_read_tapeport(void);
+extern void c64_diag_586220_store_tapeport(BYTE pin, BYTE val);
+extern BYTE c64_diag_586220_read_tapeport(BYTE pin);
 
 extern void c64_diag_586220_store_joyport_dig(BYTE port, BYTE val);
 extern BYTE c64_diag_586220_read_joyport_dig(BYTE port);

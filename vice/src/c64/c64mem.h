@@ -73,6 +73,8 @@ extern BYTE colorram_read(WORD addr);
 
 extern void mem_pla_config_changed(void);
 extern void mem_set_tape_sense(int sense);
+extern void mem_set_tape_write_in(int val);
+extern void mem_set_tape_motor_in(int val);
 
 extern BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 
