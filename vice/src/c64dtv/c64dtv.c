@@ -6,6 +6,7 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  Daniel Kahlin <daniel@kahlin.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
