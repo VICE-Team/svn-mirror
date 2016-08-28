@@ -945,14 +945,14 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         flags = SDL_WINDOW_RESIZABLE;
     }
 
+    if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE && !fullscreen) {
+        aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
+    }
+
     if (!sdl_ui_finalized) { /* remember first size */
         sdl_active_canvas->real_width = (unsigned int)((double)new_width * aspect + 0.5);
         sdl_active_canvas->real_height = new_height;
         DBG(("first: %d:%d\n", sdl_active_canvas->real_width, sdl_active_canvas->real_height));
-    }
-
-    if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE && !fullscreen) {
-        aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
     }
 
     actual_width = new_width;
