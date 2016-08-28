@@ -377,11 +377,9 @@ static char *read_line(const char *prompt)
 
 static char *read_line(const char *prompt)
 {
-    static char *line = NULL;
+    static char *line;
 
-    if (line != NULL) {
-        free(line);
-    }
+    free(line);
     line = readline(prompt);
     if (line != NULL && *line != 0) {
         add_history(line);
@@ -3106,11 +3104,6 @@ int main(int argc, char **argv)
 
     archdep_init(&argc, argv);
 
-#ifdef HAVE_READLINE_READLINE_H
-    printf("USING GNU READLINE\n");
-    using_history();
-#endif
-
     /* This causes all the logging messages from the various VICE modules to
        appear on stdout.  */
     log_init_with_fd(stdout);
@@ -3197,9 +3190,6 @@ int main(int argc, char **argv)
         }
     }
 
-#ifdef HAVE_READLINE_READLINE_H
-    clear_history();
-#endif
     return retval;
 }
 
