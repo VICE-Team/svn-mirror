@@ -127,10 +127,6 @@ static ui_menu_entry_t renderer_submenu[] = {
       (ui_callback_data_t)VIDEO_FILTER_NONE, NULL },
     { N_("CRT emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CrtcFilter,
       (ui_callback_data_t)VIDEO_FILTER_CRT, NULL },
-#if 0
-    { N_("Scale2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CrtcFilter,
-      (ui_callback_data_t)VIDEO_FILTER_SCALE2X, NULL },
-#endif
     { NULL }
 };
 
