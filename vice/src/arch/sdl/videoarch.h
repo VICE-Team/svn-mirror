@@ -114,6 +114,10 @@ extern BYTE *draw_buffer_vsid;
 #define SDL_ASPECT_MODE_OFF    0
 #define SDL_ASPECT_MODE_CUSTOM 1
 #define SDL_ASPECT_MODE_TRUE   2
+
+/* Filtering modes */
+#define SDL_FILTER_NEAREST     0
+#define SDL_FILTER_LINEAR      1
 #endif
 
 #endif

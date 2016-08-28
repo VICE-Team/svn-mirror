@@ -112,6 +112,9 @@ static const float sdl_gl_vertex_coord[4 * 4] = {
     /* Flip X&Y */
     +1.0f, -1.0f, +1.0f, -1.0f
 };
+
+static int sdl_gl_filter_res;
+static int sdl_gl_filter;
 #endif
 
 #ifdef USE_SDLUI2
@@ -369,6 +372,24 @@ static int set_sdl_gl_flipy(int v, void *param)
     return 0;
 }
 
+static int set_sdl_gl_filter(int v, void *param)
+{
+    switch (v) {
+        case SDL_FILTER_NEAREST:
+            sdl_gl_filter = GL_NEAREST;
+            break;
+
+        case SDL_FILTER_LINEAR:
+            sdl_gl_filter = GL_LINEAR;
+            break;
+
+        default:
+            return -1;
+    }
+
+    sdl_gl_filter_res = v;
+    return 0;
+}
 #endif /* HAVE_HWSCALE */
 
 #ifdef USE_SDLUI2
@@ -431,6 +452,8 @@ static const resource_int_t resources_int[] = {
       &sdl_gl_flipx, set_sdl_gl_flipx, NULL },
     { "SDLGLFlipY", 0, RES_EVENT_NO, NULL,
       &sdl_gl_flipy, set_sdl_gl_flipy, NULL },
+    { "SDLGLFilter", SDL_FILTER_LINEAR, RES_EVENT_NO, NULL,
+      &sdl_gl_filter_res, set_sdl_gl_filter, NULL },
 #endif
     RESOURCE_INT_LIST_END
 };
@@ -500,6 +523,9 @@ static const cmdline_option_t cmdline_options[] = {
     { "+sdlflipy", SET_RESOURCE, 0, NULL, NULL, "SDLGLFlipY", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable Y flip" },
+    { "-sdlglfilter", SET_RESOURCE, 1, NULL, NULL, "SDLGLFilter", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<mode>", "Set OpenGL filtering mode (0 = nearest, 1 = linear)" },
 #endif
 #ifdef USE_SDLUI2
     { "-sdl2renderer", SET_RESOURCE, 1, NULL, NULL, "SDL2Renderer", NULL,
@@ -1221,8 +1247,8 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, screen_texture);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, sdl_gl_filter);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, sdl_gl_filter);
         glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, sdl_gl_mode, canvas->width, canvas->height, 0, sdl_gl_mode, GL_UNSIGNED_BYTE, canvas->screen->pixels);
 
         glBegin(GL_QUADS);
