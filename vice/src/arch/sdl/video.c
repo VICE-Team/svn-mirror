@@ -986,7 +986,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         new_window = NULL;
     }
 
-    /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
+    /* Optain the Window with the corresponding size and behavior based on the flags */
     new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (unsigned int)((double)actual_width * aspect), actual_height, SDL_WINDOW_OPENGL | flags);
 
     ctx = SDL_GL_CreateContext(new_window);
