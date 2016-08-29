@@ -125,8 +125,8 @@ SDL_Window *new_window = NULL;
 SDL_Renderer *new_renderer = NULL;
 SDL_Texture *new_texture = NULL;
 SDL_Surface *new_screen = NULL;
-Uint32 rmask, gmask, bmask, amask;
-int texformat = 0;
+static Uint32 rmask, gmask, bmask, amask;
+static int texformat = 0;
 #endif
 
 BYTE *draw_buffer_vsid = NULL;
