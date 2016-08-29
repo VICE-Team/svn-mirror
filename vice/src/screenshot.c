@@ -6,6 +6,7 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

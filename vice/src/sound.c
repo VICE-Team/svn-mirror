@@ -3,6 +3,7 @@
  *
  * Written by
  *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * Resource and cmdline code by
  *  Ettore Perazzoli <ettore@comm2000.it>

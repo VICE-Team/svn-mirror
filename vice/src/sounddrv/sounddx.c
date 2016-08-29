@@ -5,6 +5,7 @@
  *  Tibor Biczo <crown@mail.matav.hu>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
