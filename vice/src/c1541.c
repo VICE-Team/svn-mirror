@@ -1,4 +1,6 @@
-/*
+/** \file   src/c1541.c
+ * \brief   Stand-alone disk image maintenance program
+ *
  * c1541.c - Stand-alone disk image maintenance program.
  *
  * Written by
@@ -95,28 +97,52 @@
 
 #define DRIVE_COUNT     4       /**< number of virtual drives */
 
-#define C1541_VERSION_MAJOR     4
-#define C1541_VERSION_MINOR     0
+#define C1541_VERSION_MAJOR     4   /**< c1541 major version number */
+#define C1541_VERSION_MINOR     0   /**< c1541 minor version number */
 
+/** \brief  Machine name
+ */
 const char machine_name[] = "C1541";
 
 /* Global clock counter.  */
 CLOCK clk = 0L;
 
-static vdrive_t *drives[DRIVE_COUNT] = { NULL, NULL, NULL, NULL };
-static unsigned int p00save[4] = { 0, 0, 0, 0 };
 
+/** \brief  Array of virtual drives
+ */
+static vdrive_t *drives[DRIVE_COUNT] = { NULL, NULL, NULL, NULL };
+
+
+/** \brief  Flags for each virtual drive indicating P00 mode
+ *
+ * When zero, reading files from the host OS is done with FILEIO_MODE_RAW, if
+ * non-zero, reading files is done with FILEIO_MODE_P00
+ */
+static unsigned int p00save[DRIVE_COUNT] = { 0, 0, 0, 0 };
+
+
+/** \brief  Current virtual drive used
+ */
 static int drive_number = 0;
 
+
+/** \brief  Flag indicating if c1541 is used in interactive mode
+ */
 static int interactive_mode = 0;
 
-/* Local functions.  */
+
+/*
+ * forward declaration of functions
+ */
+
+/* command handlers */
 static int attach_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
 static int check_drive(int dev, int mode);
 static int copy_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
 static int extract_cmd(int nargs, char **args);
+static int extract_geos_cmd(int nargs, char **args);
 static int format_cmd(int nargs, char **args);
 static int help_cmd(int nargs, char **args);
 static int info_cmd(int nargs, char **args);
@@ -126,6 +152,7 @@ static int p00save_cmd(int nargs, char **args);
 static int quit_cmd(int nargs, char **args);
 static int raw_cmd(int nargs, char **args); /* @ */
 static int read_cmd(int nargs, char **args);
+static int read_geos_cmd(int nargs, char **args);
 static int rename_cmd(int nargs, char **args);
 static int show_cmd(int nargs, char **args);
 static int tape_cmd(int nargs, char **args);
@@ -134,19 +161,19 @@ static int unlynx_cmd(int nargs, char **args);
 static int validate_cmd(int nargs, char **args);
 static int verbose_cmd(int nargs, char **args);
 static int write_cmd(int nargs, char **args);
+static int write_geos_cmd(int nargs, char **args);
 static int zcreate_cmd(int nargs, char **args);
 
 static int open_image(int dev, char *name, int create, int disktype);
 
 int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii);
-static int read_geos_cmd(int nargs, char **args);
 static int fix_ts(int unit, unsigned int trk, unsigned int sec,
                   unsigned int next_trk, unsigned int next_sec,
                   unsigned int blk_offset);
 static int internal_write_geos_file(int unit, FILE* f);
-static int write_geos_cmd(int nargs, char **args);
-static int extract_geos_cmd(int nargs, char **args);
 
+
+/* FIXME: why are these declared when not used? (Compyx) */
 int rom1540_loaded = 0;
 int rom1541_loaded = 0;
 int rom1541ii_loaded = 0;
@@ -202,25 +229,34 @@ void ui_error(const char *format, ...)
 
 /* ------------------------------------------------------------------------- */
 
-struct command {
-    const char *name;
-    const char *syntax;
-    const char *description;
-    unsigned int min_args, max_args;
-    int (*func)(int nargs, char **args);
+/** \brief  c1541 command data struct
+ */
+struct command_s {
+    const char *name;                       /**< command name */
+    const char *syntax;                     /**< command syntax help */
+    const char *description;                /**< command description */
+    unsigned int min_args;                  /**< minimum number of arguments */
+    unsigned int max_args;                  /**< maximum number of arguments */
+    int (*func)(int nargs, char **args);    /**< command handler */
 };
-typedef struct command command_t;
+typedef struct command_s command_t;
 
+
+/** \brief  List of commands
+ */
 const command_t command_list[] = {
     { "@",
       "@ [<command>]",
       "Execute specified CBM DOS command and print the current status of the\n"
       "drive.  If no <command> is specified, just print the status.",
-      0, 1, raw_cmd },
+      0, 1,
+      raw_cmd },
     { "?",
       "? [<command>]",
-      "Explain specified command.  If no command is specified, list available\n"      "ones.",
-      0, 1, help_cmd },
+      "Explain specified command.  If no command is specified, "
+      "list available\n"      "ones.",
+      0, 1,
+      help_cmd },
     { "attach",
       "attach <diskimage> [<unit>]",
       "Attach <diskimage> to <unit> (default unit is 8).",
@@ -229,12 +265,14 @@ const command_t command_list[] = {
     { "block",
       "block <track> <sector> <disp> [<drive>]",
       "Show specified disk block in hex form.",
-      3, 4, block_cmd },
+      3, 4,
+      block_cmd },
     { "copy",
       "copy <source1> [<source2> ... <sourceN>] <destination>",
-      "Copy `source1' ... `sourceN' into destination.  If N > 1, `destination'\n"
-      "must be a simple drive specifier (@n:).",
-      2, MAXARG, copy_cmd },
+      "Copy `source1' ... `sourceN' into destination.  If N > 1, "
+      "`destination'\n must be a simple drive specifier (@n:).",
+      2, MAXARG,
+      copy_cmd },
     { "delete",
       "delete <file1> [<file2> ... <fileN>]",
       "Delete the specified files.",
@@ -248,44 +286,53 @@ const command_t command_list[] = {
     { "exit",
       "exit",
       "Exit (same as `quit').",
-      0, 0, quit_cmd },
+      0, 0,
+      quit_cmd },
     { "extract",
       "extract [<unit>]",
       "Extract all the files to the file system.",
-      0, 1, extract_cmd },
+      0, 1,
+      extract_cmd },
     { "format",
       "format <diskname,id> [<type> <imagename>] [<unit>]",
       "If <unit> is specified, format the disk in unit <unit>.\n"
       "If <type> and <imagename> are specified, create a new image named\n"
-      "<imagename>, attach it to unit 8 and format it.  <type> is a disk image\n"
-      "type, and must be either `x64', `d64' (both VC1541/2031), `g64' (VC1541/2031,\n"
-      "but in GCR coding, `d67' (2040 DOS1), `d71' (VC1571), `d81' (VC1581), \n"
-      "`d80' (CBM8050) or `d82' (CBM8250). Otherwise, format the disk in \n"
-      "the current unit, if any.",
+      "<imagename>, attach it to unit 8 and format it.  <type> is a disk "
+      "image\ntype, and must be either `x64', `d64' (both VC1541/2031), "
+      "`g64' (VC1541/2031,\nbut in GCR coding), `d67' (2040 DOS1), "
+      "`d71' (VC1571), `d81' (VC1581), \n`d80' (CBM8050) or `d82' (CBM8250). "
+      "Otherwise, format the disk in \nthe current unit, if any.",
       1, 4,
       format_cmd },
     { "geosread",
       "geosread <source> [<destination>]",
-      "Read GEOS <source> from the disk image and copy it as a Convert file into \n"
-      "<destination> in the file system.  If <destination> is not specified, copy \n"
-      "it into a file with the same name as <source>.",
-      1, 2, read_geos_cmd },
+      "Read GEOS <source> from the disk image and copy it as a Convert file "
+      "into \n<destination> in the file system.  If <destination> is not "
+      "specified, copy \nit into a file with the same name as <source>.",
+      1, 2,
+      read_geos_cmd },
     { "geoswrite",
       "geoswrite <source>",
       "Write GOES Convert file <source> from the file system on a disk image.",
-      1, 1, write_geos_cmd },
+      1, 1,
+      write_geos_cmd },
     { "geosextract",
       "geosextract <source>",
       "Extract all the files to the file system and GEOS Convert them.",
-      0, 1, extract_geos_cmd },
+      0, 1,
+      extract_geos_cmd },
     { "help",
       "help [<command>]",
-      "Explain specified command.  If no command is specified, list available\n"      "ones.",
-      0, 1, help_cmd },
+      "Explain specified command.  If no command is specified, list "
+      "available\n"      "ones.",
+      0, 1,
+      help_cmd },
     { "info",
       "info [<unit>]",
-      "Display information about unit <unit> (if unspecified, use the current\n"      "one).",
-      0, 1, info_cmd },
+      "Display information about unit <unit> (if unspecified, use the "
+      "current\none).",
+      0, 1,
+      info_cmd },
     { "list",
       "list [<pattern>]",
       "List files matching <pattern> (default is all files).",
@@ -294,60 +341,78 @@ const command_t command_list[] = {
     { "name",
       "name <diskname>[,<id>] <unit>",
       "Change image name.",
-      1, 2, name_cmd },
+      1, 2,
+      name_cmd },
     { "p00save",
       "p00save <enable> [<unit>]",
       "Save P00 files to the file system.",
-      1, 2, p00save_cmd },
+      1, 2,
+      p00save_cmd },
     { "quit",
       "quit",
       "Exit (same as `exit').",
-      0, 0, quit_cmd },
+      0, 0,
+      quit_cmd },
     { "read",
       "read <source> [<destination>]",
       "Read <source> from the disk image and copy it into <destination> in\n"
       "the file system.  If <destination> is not specified, copy it into a\n"
       "file with the same name as <source>.",
-      1, 2, read_cmd },
+      1, 2,
+      read_cmd },
     { "rename",
       "rename <oldname> <newname>",
       "Rename <oldname> into <newname>.  The files must be on the same drive.",
-      2, 2, rename_cmd },
+      2, 2,
+      rename_cmd },
     { "show",
       "show [copying | warranty]",
       "Show conditions for redistributing copies of C1541 (`copying') or the\n"
       "various kinds of warranty you do not have with C1541 (`warranty').",
-      1, 1, show_cmd },
+      1, 1,
+      show_cmd },
     { "tape",
       "tape <t64name> [<file1> ... <fileN>]",
       "Extract files from a T64 image into the current drive.",
-      1, MAXARG, tape_cmd },
+      1, MAXARG,
+      tape_cmd },
     { "unit",
       "unit <number>",
       "Make unit <number> the current unit.",
-      1, 1, unit_cmd },
+      1, 1,
+      unit_cmd },
     { "unlynx",
       "unlynx <lynxname> [<unit>]",
-      "Extract the specified Lynx image file into the specified unit (default\n"
-      "is the current unit).",
-      1, 2, unlynx_cmd },
+      "Extract the specified Lynx image file into the specified unit "
+      "(default\nis the current unit).",
+      1, 2,
+      unlynx_cmd },
     { "validate",
       "validate [<unit>]",
-      "Validate the disk in unit <unit>.  If <unit> is not specified, validate\n"
-      "the disk in the current unit.",
-      0, 1, validate_cmd },
+      "Validate the disk in unit <unit>.  If <unit> is not specified, "
+      "validate\nthe disk in the current unit.",
+      0, 1,
+      validate_cmd },
     { "verbose",
       "verbose",
       "Enable verbose output.",
-      0, 0, verbose_cmd },
+      0, 0,
+      verbose_cmd },
     { "write",
       "write <source> [<destination>]",
-      "Write <source> from the file system into <destination> on a disk image.", 1, 2, write_cmd },
+      "Write <source> from the file system into <destination> on a disk "
+      "image.",
+      1, 2,
+      write_cmd },
+    /* FIXME: name is wrong: this doesn't create a zipcoded archive, but
+     *        dissolves one, so a better name would be 'unzip' or 'zdecode'.
+     * (Compyx) */
     { "zcreate",
       "zcreate <d64name> <zipname> [<label,id>]",
       "Create a D64 disk image out of a set of four Zipcoded files named\n"
       "`1!<zipname>', `2!<zipname>', `3!<zipname>' and `4!<zipname>'.",
-      2, 3, zcreate_cmd },
+      2, 3,
+      zcreate_cmd },
     { NULL, NULL, NULL, 0, 0, NULL }
 };
 
@@ -355,11 +420,18 @@ const command_t command_list[] = {
 
 #ifndef HAVE_READLINE
 
+/** \brief  Read a line of input from stdin
+ *
+ * \param[in]   prompt  prompt to display to the user
+ *
+ * \return  line read from stdout
+ */
 static char *read_line(const char *prompt)
 {
     static char line[1024];
 
-    line[sizeof(line) - 1] = 0; /* Make sure there is a 0 at the end of the string */
+    /* Make sure there is a 0 at the end of the string */
+    line[sizeof(line) - 1] = 0; 
 
     fputs(prompt, stdout);
     fflush(stdout);
@@ -375,6 +447,12 @@ static char *read_line(const char *prompt)
 # include "editline.h"
 #endif
 
+/** \brief  Read a line of input from stdin
+ *
+ * \param[in]   prompt  prompt to display to the user
+ *
+ * \return  line read from stdout
+ */
 static char *read_line(const char *prompt)
 {
     static char *line;
@@ -389,6 +467,15 @@ static char *read_line(const char *prompt)
 
 #endif
 
+
+/** \brief  Split \a line into a list of arguments
+ *
+ * \param[in]   line    input string
+ * \param[out]  nargs   number of arguments parsed from \a line
+ * \param[out]  args    arguments parsed from \a line
+ *
+ * \return  0 on success, -1 on failure
+ */
 static int split_args(const char *line, int *nargs, char **args)
 {
     const char *s;
@@ -412,10 +499,10 @@ static int split_args(const char *line, int *nargs, char **args)
                 begin_of_arg = 0;
                 *(d++) = *(++s);
                 continue;
-            case ' ':
-            case '\t':
-            case '\n':
-            case '\r':
+            case ' ':   /* fallthrough */
+            case '\t':  /* fallthrough */
+            case '\n':  /* fallthrough */
+            case '\r':  /* fallthrough */
             case 0:
                 if (*s == 0 && in_quote) {
                     fprintf(stderr, "Unbalanced quotes.\n");
@@ -426,9 +513,7 @@ static int split_args(const char *line, int *nargs, char **args)
                         fprintf(stderr, "Too many arguments.\n");
                         return -1;
                     } else {
-                        size_t len;
-
-                        len = d - tmp;
+                        size_t len = (size_t)(d - tmp);
                         if (args[*nargs] != NULL) {
                             args[*nargs] = lib_realloc(args[*nargs], len + 1);
                         } else {
@@ -456,6 +541,14 @@ static int split_args(const char *line, int *nargs, char **args)
     return 0;
 }
 
+
+/** \brief  Convert \a arg to int
+ *
+ * \param[in]   arg             string containing a possible integer literal
+ * \param[out]  return_value    \a arg convert to int
+ *
+ * \return  0 on success, -1 on failure
+ */
 static int arg_to_int(const char *arg, int *return_value)
 {
     char *tailptr;
@@ -480,6 +573,11 @@ static int arg_to_int(const char *arg, int *return_value)
     return 0;
 }
 
+
+/** \brief  Print error message for \a errval on stderr
+ *
+ * \param[in]   errval  error code
+ */
 static void print_error_message(int errval)
 {
     if (errval < 0) {
@@ -528,47 +626,59 @@ static void print_error_message(int errval)
     }
 }
 
-#define LOOKUP_NOTFOUND         -1
-#define LOOKUP_AMBIGUOUS        -2
-#define LOOKUP_SUCCESSFUL(n)    ((n) >= 0)
+/** \brief  Return code for lookup_command(): command not found
+ */
+#define LOOKUP_NOTFOUND -1
+
+/** \brief  Return code for lookup_command(): input matches multiple commands
+ */
+#define LOOKUP_AMBIGUOUS -2
+
+/** \brief  Look up \a cmd in the command list
+ *
+ * \param[in]   cmd command name or part of command name
+ *
+ * \return  index in command array on success, < 0 on failure
+ */
 static int lookup_command(const char *cmd)
 {
-    size_t cmd_len;
-    int match;
+    size_t cmd_len = strlen(cmd);
+    int match = LOOKUP_NOTFOUND;
     int i;
 
-    match = LOOKUP_NOTFOUND;
-    cmd_len = strlen(cmd);
-
     for (i = 0; command_list[i].name != NULL; i++) {
-        size_t len;
+        size_t len = strlen(command_list[i].name);
 
-        len = strlen(command_list[i].name);
         if (len < cmd_len) {
+            /* cmd will never match current command in list */
             continue;
         }
-
         if (memcmp(command_list[i].name, cmd, cmd_len) == 0) {
-            if (match != -1) {
+            if (match != LOOKUP_NOTFOUND) {
                 return LOOKUP_AMBIGUOUS;
             }
             match = i;
             if (len == cmd_len) {
-                break;          /* Exact match.  */
+                break;  /* exact match */
             }
         }
     }
-
     return match;
 }
 
+
+/** \brief  Look up \a cmd and execute
+ *
+ * \param[in]   nargs   number of arguments in \a args
+ * \param[in]   args    arguments
+ *
+ * \return  0 on success, -1 on failure
+ */
 static int lookup_and_execute_command(int nargs, char **args)
 {
-    int match;
+    int match = lookup_command(args[0]);
 
-    match = lookup_command(args[0]);
-
-    if (LOOKUP_SUCCESSFUL(match)) {
+    if (match >= 0) {
         const command_t *cp;
 
         cp = &command_list[match];
@@ -590,11 +700,11 @@ static int lookup_and_execute_command(int nargs, char **args)
         }
     } else {
         if (match == LOOKUP_AMBIGUOUS) {
-            fprintf(stderr,
-                    "Command `%s' is ambiguous.  Try `help'.\n", args[0]);
+            fprintf(stderr, "Command `%s' is ambiguous.  Try `help'.\n",
+                    args[0]);
         } else {
-            fprintf(stderr,
-                    "Command `%s' unrecognized.  Try `help'.\n", args[0]);
+            fprintf(stderr, "Command `%s' unrecognized.  Try `help'.\n",
+                    args[0]);
         }
         return -1;
     }
@@ -626,18 +736,15 @@ static char *extract_unit_from_file_name(char *name,
         }
     }
     return NULL;
-#if 0
-    /* FIXME: doesn't support units #10 or #11 */
-    if (name[0] == '@' && name[2] == ':'
-        && (name[1] == '8' || name[1] == '9')) {
-        *unit_return = (unsigned int)(name[1] - '8');
-        return (char *)name + 3;
-    } else {
-        return NULL;
-    }
-#endif
 }
 
+
+/** \brief  Check if \a name is a valid filename
+ *
+ * \param[in]   name    filename
+ *
+ * \return  bool
+ */
 static int is_valid_cbm_file_name(const char *name)
 {
     /* Notice that ':' is the same on PETSCII and ASCII.  */
@@ -676,6 +783,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
     P64ImageCreate((PP64Image)image->p64);
     image->read_only = 0;
 
+    /* FIXME: memory leak (compyx) */
     disk_image_name_set(image, lib_stralloc(name));
 
     if (disk_image_open(image) < 0) {
@@ -735,12 +843,29 @@ static int open_image(int dev, char *name, int create, int disktype)
     return 0;
 }
 
+
+/** \brief  Check \a dev for some limit
+ *
+ * \param[in]   dev     device number
+ * \param[in]   flags   flags which determine the check(s)
+ *
+ * FIXME:   Only two things are checked, making the whole `flags` param
+ *          rather pointless, not to mention 'flags' makes me think its a
+ *          combination of bits indicating various tests. It's not.
+ *          Functions using this function only check the return value for <0,
+ *          and then return their own FD_FOO constant.
+ *
+ * \return  FD_BADDEV, FD_NOTREADY, FD_OK
+ */
 static int check_drive(int dev, int flags)
 {
     vdrive_t *vdrive;
 
+    /* FIXME: this makes the dev number check return many false positives,
+     *        why not simply check dev without AND'ing? */
     dev &= 7;
-    if (dev < 0 || dev > 3) {
+
+    if (dev < 0 || dev >= (DRIVE_COUNT - 1)) {
         return FD_BADDEV;
     }
 
@@ -827,8 +952,7 @@ static int block_cmd(int nargs, char **args)
     }
 
     /* Read one block */
-    if (vdrive_read_sector(vdrive, sector_data, track, sector)
-        != 0) {
+    if (vdrive_read_sector(vdrive, sector_data, track, sector) != 0) {
         fprintf(stderr, "Cannot read track %i sector %i.", track, sector);
         return FD_RDERR;
     }
@@ -1268,19 +1392,12 @@ static int help_cmd(int nargs, char **args)
         int match;
 
         match = lookup_command(args[1]);
-        switch (match) {
-            case LOOKUP_AMBIGUOUS:
-                fprintf(stderr, "Command `%s' is ambiguous.\n", args[1]);
-                break;
-            case LOOKUP_NOTFOUND:
-                fprintf(stderr, "Unknown command `%s'.\n", args[1]);
-                break;
-            default:
-                if (LOOKUP_SUCCESSFUL(match)) {
-                    printf("Syntax: %s\n%s\n",
-                           command_list[match].syntax,
-                           command_list[match].description);
-                }
+        if (match < 0) {
+            fprintf(stderr, "Unknown command `%s'.\n", args[1]);
+        } else {
+            printf("Syntax: %s\n%s\n",
+                    command_list[match].syntax,
+                    command_list[match].description);
         }
     }
 
@@ -1517,6 +1634,15 @@ static int verbose_cmd(int nargs, char **args)
     return log_set_verbose(1);
 }
 
+/** \brief  PETSCII filename length
+ *
+ * XXX: temporary to fix the use of integer literals in read_cmd() until I
+ *      figure out which constant I should really use (there's quite a few
+ *      define's for the filename length in VICE)
+ */
+#define PETSCII_FILENAME_LEN    16
+
+
 static int read_cmd(int nargs, char **args)
 {
     char *src_name_petscii, *src_name_ascii;
@@ -1539,6 +1665,7 @@ static int read_cmd(int nargs, char **args)
         return FD_NOTREADY;
     }
 
+    /* check for P00 save mode */
     if (p00save[dnr]) {
         format = FILEIO_FORMAT_P00;
     }
@@ -1570,9 +1697,10 @@ static int read_cmd(int nargs, char **args)
 
     /* Get real filename from the disk file.  Slot must be defined by
        vdrive_iec_open().  */
-    actual_name = lib_malloc(17);  /* FIXME: Should be a #define.  */
-    memcpy(actual_name, drives[dnr]->buffers[0].slot + SLOT_NAME_OFFSET, 16);
-    actual_name[16] = 0;
+    actual_name = lib_malloc(PETSCII_FILENAME_LEN + 1);
+    memcpy(actual_name, drives[dnr]->buffers[0].slot + SLOT_NAME_OFFSET,
+            PETSCII_FILENAME_LEN);
+    actual_name[PETSCII_FILENAME_LEN] = 0;
 
     if (nargs == 3) {
         if (strcmp(args[2], "-") == 0) {
@@ -3102,6 +3230,8 @@ int main(int argc, char **argv)
     int i;
     int retval;
 
+    lib_init_rand();
+
     archdep_init(&argc, argv);
 
     /* This causes all the logging messages from the various VICE modules to
@@ -3190,6 +3320,8 @@ int main(int argc, char **argv)
         }
     }
 
+
+    lib_debug_check();
     return retval;
 }
 
