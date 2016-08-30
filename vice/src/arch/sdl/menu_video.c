@@ -356,9 +356,9 @@ static const ui_menu_entry_t aspect_menu[] = {
     SDL_MENU_LIST_END
 };
 
+#ifndef USE_SDLUI2
 UI_MENU_DEFINE_RADIO(SDLGLFilter)
 
-#ifndef USE_SDLUI2
 static const ui_menu_entry_t filter_menu[] = {
     { "Nearest",
       MENU_ENTRY_RESOURCE_RADIO,
