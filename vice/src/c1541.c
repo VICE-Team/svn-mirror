@@ -1504,7 +1504,7 @@ static int quit_cmd(int nargs, char **args)
 {
     int i;
 
-    for (i = 0; i <= DRIVE_COUNT; i++) {
+    for (i = 0; i < DRIVE_COUNT; i++) {
         close_disk_image(drives[i], i + 8);
     }
 
@@ -3124,7 +3124,7 @@ int main(int argc, char **argv)
     /* The first arguments without leading `-' are interpreted as disk images
        to attach.  */
     for (i = 1; i < argc && *argv[i] != '-'; i++) {
-        if (i - 1 == DRIVE_COUNT) {
+        if ((i - 1) == DRIVE_COUNT) {
             fprintf(stderr, "Ignoring disk image `%s'.\n", argv[i]);
         } else {
             open_disk_image(drives[i - 1], argv[i], i - 1 + 8);
@@ -3184,7 +3184,7 @@ int main(int argc, char **argv)
         }
     }
 
-    for (i = 0; i <= DRIVE_COUNT; i++) {
+    for (i = 0; i < DRIVE_COUNT; i++) {
         if (drives[i]) {
             close_disk_image(drives[i], i + 8);
         }
