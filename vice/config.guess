@@ -1,6 +1,10 @@
 #! /bin/sh
 # Attempt to guess a canonical system name.
 #   Copyright 1992-2016 Free Software Foundation, Inc.
+#
+# Some modifications written by
+#   Marco van den Heuvel <blackystardust68@yahoo.com>
+#
 
 timestamp='2016-05-15'
 

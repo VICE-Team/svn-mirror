@@ -1,12 +1,34 @@
-#! /usr/bin/perl
+#!/usr/bin/perl
 
 #
-# This is a simple texi2html converter which also generates the files needed
-# for chm creation.
+# t2h.pl - a simple texi2html converter which also generates the files needed for chm creation.
 #
-# It was written by Peter Verhas and is allowed to be used by the VICE project.
+# Written by
+#  Peter Verhas
 #
-# Modified by Marco van den Heuvel for use with the vice.texi file.
+# Modified for VICE by
+#  Marco van den Heuvel <blackystardust68@yahoo.com>
+#
+# This file is part of VICE, the Versatile Commodore Emulator.
+# See README for copyright notice.
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+#  02111-1307  USA.
+#
+# Usage: t2h.pl <texi-file>
+#                $1
 #
 
 sub getitoc {
@@ -21,7 +43,6 @@ sub getitoc {
   for $i (@TOCI){
     my $k = lc $TOC{$i};
     $k =~ s/\W//;
-#    if( $k eq $p ){ print "Warning: $r is sloppy. It is supposed to be $TOC{$i}\n"; }
     return $i if $k eq $p;
     }
 
@@ -32,11 +53,9 @@ sub getitoc {
     my $k = lc $TOC{$i};
     $k =~ s/\s.*$//;
     $k =~ s/\W.*$//;
-#    if( $k eq $p ){ "Warning: $r is sloppy. It is supposed to be $TOC{$i}\n"; }
     return $i if $k eq $p;
     }
 
-#  print "Warning: xref $r is not defined\n";
   return undef;
   }
 
@@ -98,10 +117,7 @@ sub rtfizee {
     die "unclosed verbatim";
     }
   $line = join("\n",@linarr);
-#  $line =~ s[\@example][\{\\f1\\fs18 ]g;
-#  $line =~ s[\@end\s+example][\\par\}]g;
 
-#  $line =~ s[\;][\\;]g;
   if( $filext eq '#' ){
     while( $line =~ m[\@xref\{(.*?)\}] ){
       my $itoc = &getitoc($1);
