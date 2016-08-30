@@ -783,8 +783,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
     P64ImageCreate((PP64Image)image->p64);
     image->read_only = 0;
 
-    /* FIXME: memory leak (compyx) */
-    disk_image_name_set(image, lib_stralloc(name));
+    disk_image_name_set(image, name);
 
     if (disk_image_open(image) < 0) {
         P64ImageDestroy((PP64Image)image->p64);
@@ -1512,7 +1511,8 @@ static int list_match_pattern(char *pat, char *str)
 */
 static int list_cmd(int nargs, char **args)
 {
-    char *pattern, *name;
+    char *pattern;
+    const char *name;
     image_contents_t *listing;
     unsigned int dnr;
     vdrive_t *vdrive;

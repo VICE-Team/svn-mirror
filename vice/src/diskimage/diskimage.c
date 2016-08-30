@@ -258,12 +258,12 @@ void disk_image_detach_log(const disk_image_t *image, signed int lognum,
 }
 /*-----------------------------------------------------------------------*/
 
-void disk_image_fsimage_name_set(disk_image_t *image, char *name)
+void disk_image_fsimage_name_set(disk_image_t *image, const char *name)
 {
     fsimage_name_set(image, name);
 }
 
-char *disk_image_fsimage_name_get(const disk_image_t *image)
+const char *disk_image_fsimage_name_get(const disk_image_t *image)
 {
     return fsimage_name_get(image);
 }
@@ -280,7 +280,7 @@ int disk_image_fsimage_create(const char *name, unsigned int type)
 
 /*-----------------------------------------------------------------------*/
 
-void disk_image_rawimage_name_set(disk_image_t *image, char *name)
+void disk_image_rawimage_name_set(disk_image_t *image, const char *name)
 {
 #ifdef HAVE_RAWDRIVE
     rawimage_name_set(image, name);
@@ -296,7 +296,7 @@ void disk_image_rawimage_driver_name_set(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
-void disk_image_name_set(disk_image_t *image, char *name)
+void disk_image_name_set(disk_image_t *image, const char *name)
 {
     switch (image->device) {
         case DISK_IMAGE_DEVICE_FS:
@@ -310,7 +310,7 @@ void disk_image_name_set(disk_image_t *image, char *name)
     }
 }
 
-char *disk_image_name_get(const disk_image_t *image)
+const char *disk_image_name_get(const disk_image_t *image)
 {
     switch (image->device) {
         case DISK_IMAGE_DEVICE_FS:
