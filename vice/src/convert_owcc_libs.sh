@@ -1,9 +1,29 @@
 #!/bin/sh
 
-# this file converts openwatcom *.lib files to lib*.a files
-# imho this is a bug in the owcc program, it should be able
-# to handle *.lib files when -l* is given, when this is
-# corrected in owcc this script can be removed.
+#
+# convert_owcc_libs.sh - convert openwatcom *.lib files to lib*.a files
+#
+# Written by
+#  Marco van den Heuvel <blackystardust68@yahoo.com>
+#
+# This file is part of VICE, the Versatile Commodore Emulator.
+# See README for copyright notice.
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+#  02111-1307  USA.
+#
 
 for i in $*
 do
