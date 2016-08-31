@@ -1,3 +1,5 @@
+@echo off
+
 rem makebindist.bat - make binary distribution for the OS/2 port
 rem
 rem Written by
@@ -22,7 +24,6 @@ rem  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 rem  02111-1307  USA.
 rem
 
-@echo off
 call ..\..\win32\vice-version.bat
 set VICEDIR=Vice2-%VICEVERSION%
 if not exist x64.exe goto missingwatcom
