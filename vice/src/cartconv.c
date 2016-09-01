@@ -53,6 +53,7 @@ static int loadfile_offset = 0;
 static unsigned int loadfile_size = 0;
 static char *output_filename = NULL;
 static char *input_filename[33];
+static char *basic_filename = NULL;
 static char *cart_name = NULL;
 static signed char cart_type = -1;
 static char convert_to_bin = 0;
@@ -83,6 +84,7 @@ typedef struct cart_s {
     char *name;
     char *opt;
     void (*save)(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char gameline, unsigned char exromline);
+    int (*load_basic)(void);
 } cart_t;
 
 typedef struct sorted_cart_s {
@@ -108,9 +110,12 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
 static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 static void save_easycalc_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 
+/* some prototypes to basic load routines */
+static int load_generic_basic(void);
+
 /* this table must be in correct order so it can be indexed by CRT ID */
 /*
-    exrom, game, sizes, bank size, load addr, num banks, data type, name, option, saver
+    exrom, game, sizes, bank size, load addr, num banks, data type, name, option, saver, basic loader
 
     num banks == 0 - take number of banks from input file size
 */
@@ -123,68 +128,92 @@ static const cart_t cart_info[] = {
 /* FIXME: initial exrom/game values are often wrong in this table
  *        don't forget to also update vice.texi accordingly */
 
-    {0, 1, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB | CARTRIDGE_SIZE_12KB | CARTRIDGE_SIZE_16KB, 0, 0, 0, 0, "Generic Cartridge", NULL, save_generic_crt},
-    {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, CARTRIDGE_NAME_ACTION_REPLAY, "ar5", save_regular_crt}, /* this is NOT AR1, but 4.2,5,6 etc */
-    {0, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 2, 0, CARTRIDGE_NAME_KCS_POWER, "kcs", save_2_blocks_crt},
-    {1, 1, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_256KB, 0x4000, 0x8000, 0, 0, CARTRIDGE_NAME_FINAL_III, "fc3", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0, 2, 0, CARTRIDGE_NAME_SIMONS_BASIC, "simon", save_2_blocks_crt},
-    {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_128KB | CARTRIDGE_SIZE_256KB | CARTRIDGE_SIZE_512KB, 0x2000, 0, 0, 0, CARTRIDGE_NAME_OCEAN, "ocean", save_ocean_crt},
-    {1, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 2, CARTRIDGE_NAME_EXPERT, "expert", NULL},
-    {0, 0, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, CARTRIDGE_NAME_FUNPLAY, "fp", save_funplay_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, CARTRIDGE_NAME_SUPER_GAMES, "sg", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, CARTRIDGE_NAME_ATOMIC_POWER, "ap", save_regular_crt},
-    {1, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_EPYX_FASTLOAD, "epyx", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, CARTRIDGE_NAME_WESTERMANN, "wl", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_REX, "ru", save_regular_crt},
-    {1, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, CARTRIDGE_NAME_FINAL_I, "fc1", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_96KB | CARTRIDGE_SIZE_128KB, 0x2000, 0xe000, 0, 0, CARTRIDGE_NAME_MAGIC_FORMEL, "mf", save_regular_crt}, /* FIXME: 64k (v1), 96k (v2) and 128k (full) bins exist */
-    {1, 0, CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 64, 0, CARTRIDGE_NAME_GS, "gs", save_regular_crt},
-    {1, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, CARTRIDGE_NAME_WARPSPEED, "ws", save_regular_crt},
-    {1, 0, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, CARTRIDGE_NAME_DINAMIC, "din", save_regular_crt},
-    {1, 1, CARTRIDGE_SIZE_20KB, 0, 0, 3, 0, CARTRIDGE_NAME_ZAXXON, "zaxxon", save_zaxxon_crt},
-    {0, 1, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_MAGIC_DESK, "md", save_regular_crt},
-    {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, "ss5", save_regular_crt},
-    {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, CARTRIDGE_NAME_COMAL80, "comal", save_regular_crt},
-    {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_STRUCTURED_BASIC, "sb", save_regular_crt},
-    {1, 1, CARTRIDGE_SIZE_16KB | CARTRIDGE_SIZE_32KB, 0x4000, 0x8000, 0, 0, CARTRIDGE_NAME_ROSS, "ross", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_8KB, 0, 0x8000, 0, 0, CARTRIDGE_NAME_DELA_EP64, "dep64", save_delaep64_crt},
-    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_DELA_EP7x8, "dep7x8", save_delaep7x8_crt},
-    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_DELA_EP256, "dep256", save_delaep256_crt},
-    {0, 1, CARTRIDGE_SIZE_8KB, 0, 0x8000, 0, 0, CARTRIDGE_NAME_REX_EP256, "rep256", save_rexep256_crt},
-    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_MIKRO_ASSEMBLER, "mikro", save_regular_crt},
-    {1, 1, CARTRIDGE_SIZE_24KB | CARTRIDGE_SIZE_32KB, 0x8000, 0x0000, 1, 0, CARTRIDGE_NAME_FINAL_PLUS, "fcp", save_fcplus_crt},
-    {0, 1, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, CARTRIDGE_NAME_ACTION_REPLAY4, "ar4", save_regular_crt},
-    {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 4, 0, CARTRIDGE_NAME_STARDOS, "star", save_stardos_crt},
-    {1, 0, CARTRIDGE_SIZE_1024KB, 0x2000, 0, 128, 0, CARTRIDGE_NAME_EASYFLASH, "easy", save_easyflash_crt},
-    {0, 0, 0, 0, 0, 0, 0, CARTRIDGE_NAME_EASYFLASH_XBANK, NULL, NULL}, /* TODO ?? */
-    {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_CAPTURE, "cap", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_ACTION_REPLAY3, "ar3", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_RETRO_REPLAY, "rr", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_MMC64, "mmc64", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_MMC_REPLAY, "mmcr", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB | CARTRIDGE_SIZE_512KB, 0x4000, 0x8000, 0, 2, CARTRIDGE_NAME_IDE64, "ide64", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_32KB, 0x4000, 0x8000, 2, 0, CARTRIDGE_NAME_SUPER_SNAPSHOT, "ss4", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_4KB, 0x1000, 0x8000, 1, 0, CARTRIDGE_NAME_IEEE488, "ieee", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0xe000, 1, 0, CARTRIDGE_NAME_GAME_KILLER, "gk", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_256KB, 0x2000, 0x8000, 32, 0, CARTRIDGE_NAME_P64, "p64", save_regular_crt},
-    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0xe000, 1, 0, CARTRIDGE_NAME_EXOS, "exos", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_FREEZE_FRAME, "ff", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_16KB | CARTRIDGE_SIZE_32KB, 0x4000, 0x8000, 0, 0, CARTRIDGE_NAME_FREEZE_MACHINE, "fm", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_4KB, 0x1000, 0xe000, 1, 0, CARTRIDGE_NAME_SNAPSHOT64, "s64", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_SUPER_EXPLODE_V5, "se5", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, CARTRIDGE_NAME_MAGIC_VOICE, "mv", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_ACTION_REPLAY2, "ar2", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_MACH5, "mach5", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_DIASHOW_MAKER, "dsm", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, CARTRIDGE_NAME_PAGEFOX, "pf", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_24KB, 0x2000, 0x8000, 3, 0, CARTRIDGE_NAME_KINGSOFT, "ks", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, CARTRIDGE_NAME_SILVERROCK_128, "silver", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0xe000, 4, 0, CARTRIDGE_NAME_FORMEL64, "f64", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, CARTRIDGE_NAME_RGCD, "rgcd", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_RRNETMK3, "rrnet", save_regular_crt},
-    {1, 1, CARTRIDGE_SIZE_24KB, 0, 0, 3, 0, CARTRIDGE_NAME_EASYCALC, "ecr", save_easycalc_crt},
-    {0, 1, CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 64, 0, CARTRIDGE_NAME_GMOD2, "gmod2", save_regular_crt},
-    {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
+    {0, 1, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB | CARTRIDGE_SIZE_12KB | CARTRIDGE_SIZE_16KB, 0, 0, 0, 0, "Generic Cartridge", NULL, save_generic_crt, load_generic_basic},
+    {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, CARTRIDGE_NAME_ACTION_REPLAY, "ar5", save_regular_crt, NULL}, /* this is NOT AR1, but 4.2,5,6 etc */
+    {0, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 2, 0, CARTRIDGE_NAME_KCS_POWER, "kcs", save_2_blocks_crt, NULL},
+    {1, 1, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_256KB, 0x4000, 0x8000, 0, 0, CARTRIDGE_NAME_FINAL_III, "fc3", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0, 2, 0, CARTRIDGE_NAME_SIMONS_BASIC, "simon", save_2_blocks_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_128KB | CARTRIDGE_SIZE_256KB | CARTRIDGE_SIZE_512KB, 0x2000, 0, 0, 0, CARTRIDGE_NAME_OCEAN, "ocean", save_ocean_crt, NULL},
+    {1, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 2, CARTRIDGE_NAME_EXPERT, "expert", NULL, NULL},
+    {0, 0, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, CARTRIDGE_NAME_FUNPLAY, "fp", save_funplay_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, CARTRIDGE_NAME_SUPER_GAMES, "sg", save_regular_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, CARTRIDGE_NAME_ATOMIC_POWER, "ap", save_regular_crt, NULL},
+    {1, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_EPYX_FASTLOAD, "epyx", save_regular_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, CARTRIDGE_NAME_WESTERMANN, "wl", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_REX, "ru", save_regular_crt, NULL},
+    {1, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, CARTRIDGE_NAME_FINAL_I, "fc1", save_regular_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_96KB | CARTRIDGE_SIZE_128KB, 0x2000, 0xe000, 0, 0, CARTRIDGE_NAME_MAGIC_FORMEL, "mf", save_regular_crt, NULL}, /* FIXME: 64k (v1), 96k (v2) and 128k (full) bins exist */
+    {1, 0, CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 64, 0, CARTRIDGE_NAME_GS, "gs", save_regular_crt, NULL},
+    {1, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, CARTRIDGE_NAME_WARPSPEED, "ws", save_regular_crt, NULL},
+    {1, 0, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, CARTRIDGE_NAME_DINAMIC, "din", save_regular_crt, NULL},
+    {1, 1, CARTRIDGE_SIZE_20KB, 0, 0, 3, 0, CARTRIDGE_NAME_ZAXXON, "zaxxon", save_zaxxon_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_MAGIC_DESK, "md", save_regular_crt, NULL},
+    {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, "ss5", save_regular_crt, NULL},
+    {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, CARTRIDGE_NAME_COMAL80, "comal", save_regular_crt, NULL},
+    {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_STRUCTURED_BASIC, "sb", save_regular_crt, NULL},
+    {1, 1, CARTRIDGE_SIZE_16KB | CARTRIDGE_SIZE_32KB, 0x4000, 0x8000, 0, 0, CARTRIDGE_NAME_ROSS, "ross", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0, 0x8000, 0, 0, CARTRIDGE_NAME_DELA_EP64, "dep64", save_delaep64_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_DELA_EP7x8, "dep7x8", save_delaep7x8_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_DELA_EP256, "dep256", save_delaep256_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0, 0x8000, 0, 0, CARTRIDGE_NAME_REX_EP256, "rep256", save_rexep256_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_MIKRO_ASSEMBLER, "mikro", save_regular_crt, NULL},
+    {1, 1, CARTRIDGE_SIZE_24KB | CARTRIDGE_SIZE_32KB, 0x8000, 0x0000, 1, 0, CARTRIDGE_NAME_FINAL_PLUS, "fcp", save_fcplus_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, CARTRIDGE_NAME_ACTION_REPLAY4, "ar4", save_regular_crt, NULL},
+    {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 4, 0, CARTRIDGE_NAME_STARDOS, "star", save_stardos_crt, NULL},
+    {1, 0, CARTRIDGE_SIZE_1024KB, 0x2000, 0, 128, 0, CARTRIDGE_NAME_EASYFLASH, "easy", save_easyflash_crt, NULL},
+    {0, 0, 0, 0, 0, 0, 0, CARTRIDGE_NAME_EASYFLASH_XBANK, NULL, NULL, NULL}, /* TODO ?? */
+    {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_CAPTURE, "cap", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_ACTION_REPLAY3, "ar3", save_regular_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_RETRO_REPLAY, "rr", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_MMC64, "mmc64", save_regular_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_MMC_REPLAY, "mmcr", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB | CARTRIDGE_SIZE_512KB, 0x4000, 0x8000, 0, 2, CARTRIDGE_NAME_IDE64, "ide64", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_32KB, 0x4000, 0x8000, 2, 0, CARTRIDGE_NAME_SUPER_SNAPSHOT, "ss4", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_4KB, 0x1000, 0x8000, 1, 0, CARTRIDGE_NAME_IEEE488, "ieee", save_regular_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0xe000, 1, 0, CARTRIDGE_NAME_GAME_KILLER, "gk", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_256KB, 0x2000, 0x8000, 32, 0, CARTRIDGE_NAME_P64, "p64", save_regular_crt, NULL},
+    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0xe000, 1, 0, CARTRIDGE_NAME_EXOS, "exos", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_FREEZE_FRAME, "ff", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_16KB | CARTRIDGE_SIZE_32KB, 0x4000, 0x8000, 0, 0, CARTRIDGE_NAME_FREEZE_MACHINE, "fm", save_regular_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_4KB, 0x1000, 0xe000, 1, 0, CARTRIDGE_NAME_SNAPSHOT64, "s64", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_SUPER_EXPLODE_V5, "se5", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, CARTRIDGE_NAME_MAGIC_VOICE, "mv", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_ACTION_REPLAY2, "ar2", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_MACH5, "mach5", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_DIASHOW_MAKER, "dsm", save_regular_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, CARTRIDGE_NAME_PAGEFOX, "pf", save_regular_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_24KB, 0x2000, 0x8000, 3, 0, CARTRIDGE_NAME_KINGSOFT, "ks", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, CARTRIDGE_NAME_SILVERROCK_128, "silver", save_regular_crt, NULL},
+    {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0xe000, 4, 0, CARTRIDGE_NAME_FORMEL64, "f64", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, CARTRIDGE_NAME_RGCD, "rgcd", save_regular_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_RRNETMK3, "rrnet", save_regular_crt, NULL},
+    {1, 1, CARTRIDGE_SIZE_24KB, 0, 0, 3, 0, CARTRIDGE_NAME_EASYCALC, "ecr", save_easycalc_crt, NULL},
+    {0, 1, CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 64, 0, CARTRIDGE_NAME_GMOD2, "gmod2", save_regular_crt, NULL},
+    {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL}
+};
+
+/* Hardcoded for now, might become autogenerated when more carts are supported */
+static unsigned char generic_basic_startup[] = {
+    0x09, 0x80, 0x25, 0x80, 0xC3, 0xC2, 0xCD, 0x38,
+    0x30, 0x8E, 0x16, 0xD0, 0x20, 0xA3, 0xFD, 0x20,
+    0x50, 0xFD, 0x20, 0x15, 0xFD, 0x20, 0x5B, 0xFF,
+    0x58, 0x20, 0x53, 0xE4, 0x20, 0xBF, 0xE3, 0x20,
+    0x22, 0xE4, 0xA2, 0xFB, 0x9A, 0xA9, 0x53, 0x8D,
+    0x77, 0x02, 0x8D, 0x79, 0x02, 0xA9, 0x59, 0x8D,
+    0x78, 0x02, 0xA9, 0x33, 0x8D, 0x7A, 0x02, 0xA9,
+    0x32, 0x8D, 0x7B, 0x02, 0xA9, 0x38, 0x8D, 0x7C,
+    0x02, 0xA9, 0x35, 0x8D, 0x7D, 0x02, 0xA9, 0x35,
+    0x8D, 0x7E, 0x02, 0xA9, 0x0D, 0x8D, 0x7F, 0x02,
+    0xA9, 0x09, 0x85, 0xC6, 0x6C, 0x00, 0xA0, 0x78,
+    0xA2, 0x81, 0x86, 0x23, 0xA0, 0x08, 0x84, 0x25,
+    0xA0, 0x00, 0x84, 0x22, 0x84, 0x24, 0xB1, 0x22,
+    0x91, 0x24, 0xC8, 0xD0, 0xF9, 0xE8, 0x86, 0x23,
+    0xE6, 0x25, 0xE0, 0xA0, 0xD0, 0xF0, 0xA9, 0x52,
+    0x8D, 0x77, 0x02, 0xA9, 0x55, 0x8D, 0x78, 0x02,
+    0xA9, 0x4E, 0x8D, 0x79, 0x02, 0xA9, 0x0D, 0x8D,
+    0x7A, 0x02, 0xA9, 0x04, 0x85, 0xC6, 0xA9, 0x26,
+    0x85, 0x2E, 0x85, 0x30, 0x85, 0x32, 0xA9, 0x01,
+    0x85, 0x2D, 0x85, 0x2F, 0x85, 0x31, 0x58, 0x60
 };
 
 #ifndef HAVE_MEMMOVE
@@ -268,6 +297,9 @@ static void cleanup(void)
     }
     if (cart_name != NULL) {
         free(cart_name);
+    }
+    if (basic_filename != NULL) {
+        free(basic_filename);
     }
     for (i = 0; i < 33; i++) {
         if (input_filename[i] != NULL) {
@@ -353,14 +385,15 @@ static void usage_types(void)
 static void usage(void)
 {
     cleanup();
-    printf("convert:    cartconv [-r] [-q] [-t cart type] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
+    printf("convert:    cartconv [-r] [-q] [-t cart type] <-i \"input bin name\" | -b \"input basic name\"> <-o \"output bin name\"> [-n \"cart name\"] [-l load address]\n");
     printf("print info: cartconv [-r] -f \"input name\"\n\n");
     printf("-f <name>    print info on file\n");
     printf("-r           repair mode (accept broken input files)\n");
     printf("-p           accept non padded binaries as input\n");
     printf("-t <type>    output cart type\n");
-    printf("-i <name>    input filename\n");
-    printf("-o <name>    output filename\n");
+    printf("-b <name>    input basic filename (create cart from basic file)\n");
+    printf("-i <name>    input bin/crt filename\n");
+    printf("-o <name>    output bin/crt filename\n");
     printf("-n <name>    crt cart name\n");
     printf("-l <addr>    load address\n");
     printf("-q           quiet\n");
@@ -480,6 +513,14 @@ static int checkflag(char *flg, char *arg)
                 usage();
             }
             return 2;
+        case 'b':
+            checkarg(arg);
+            if (basic_filename == NULL) {
+                basic_filename = strdup(arg);
+            } else {
+                usage();
+            }
+            return 2;
         case 'n':
             checkarg(arg);
             if (cart_name == NULL) {
@@ -547,6 +588,51 @@ static void too_many_inputs(void)
     exit(1);
 }
 
+/* this loads a basic program and prepares it for conversion to a generic crt file */
+static int load_generic_basic(void)
+{
+    /* check for ultimax, because it's not supported for basic */
+    if (convert_to_ultimax) {
+        fprintf(stderr, "Error: Cannot convert basic to ultimax cart\n");
+        return -1;
+    }
+
+    loadfile_offset = 0;
+    infile = fopen(basic_filename, "rb");
+    if (infile == NULL) {
+        fprintf(stderr, "Error: Can't open %s\n", basic_filename);
+        return -1;
+    }
+    if (fread(filebuffer, 1, 16, infile) != 16) {
+        fprintf(stderr, "Error: Can't read %s\n", basic_filename);
+        fclose(infile);
+        return -1;
+    }
+    loadfile_is_crt = 0;
+    loadfile_size = (unsigned int)fread(filebuffer + 0x10, 1, 0x100000 - 14, infile) + 0x10;
+    loadfile_size -= 2;
+    fclose(infile);
+
+    /* check size, it has to be $1DFF or below */
+    if (loadfile_size > 0x1dff) {
+        fprintf(stderr, "Error: basic file is too big for a generic 8kb cart\n");
+        return -1;
+    }
+
+    /* check load address, only $0801 is supported */
+    if (filebuffer[0] != 1 && filebuffer[1] != 8) {
+        fprintf(stderr, "Error: basic file is not loaded at $0801\n");
+        return -1;
+    }
+
+    /* move basic part to correct location */
+    memmove(filebuffer + 0x101, filebuffer + 2, 0x2000);
+    filebuffer[0x100] = 0;
+    memcpy(filebuffer, generic_basic_startup, sizeof(generic_basic_startup));
+    loadfile_size = 0x2000;
+
+    return 0;
+}
 
 /* this loads the easyflash cart and puts it as the interleaved way into
    the buffer for easy binary saving */
@@ -769,9 +855,15 @@ static int write_chip_package(unsigned int length, unsigned int bankint, unsigne
 static void bin2crt_ok(void)
 {
     if (!quiet_mode) {
-        printf("Input file : %s\n", input_filename[0]);
-        printf("Output file : %s\n", output_filename);
-        printf("Conversion from binary format to %s .crt successful.\n", cart_info[(unsigned char)cart_type].name);
+        if (basic_filename != NULL) {
+            printf("Input file : %s\n", basic_filename);
+            printf("Output file : %s\n", output_filename);
+            printf("Conversion from basic program to %s .crt successful.\n", cart_info[(unsigned char)cart_type].name);
+        } else {
+            printf("Input file : %s\n", input_filename[0]);
+            printf("Output file : %s\n", output_filename);
+            printf("Conversion from binary format to %s .crt successful.\n", cart_info[(unsigned char)cart_type].name);
+        }
     }
 }
 
@@ -1660,19 +1752,42 @@ int main(int argc, char *argv[])
         cleanup();
         exit(1);
     }
-    if (input_filenames == 0) {
+    if (input_filenames == 0 && basic_filename == NULL) {
         fprintf(stderr, "Error: no input filename\n");
         cleanup();
         exit(1);
     }
-    if (!strcmp(output_filename, input_filename[0])) {
+    if (input_filenames != 0 && !strcmp(output_filename, input_filename[0])) {
         fprintf(stderr, "Error: output filename = input filename\n");
         cleanup();
         exit(1);
     }
-    if (load_input_file(input_filename[0]) < 0) {
+    if (basic_filename != NULL && input_filenames != 0) {
+        fprintf(stderr, "Error: cannot use -b and -i together\n");
         cleanup();
         exit(1);
+    }
+    if (basic_filename != NULL) {
+        if (cart_type == -1) {
+            fprintf(stderr, "Error, basic to cart can only be done to crt format\n");
+            cleanup();
+            exit(1);
+        }
+        if (cart_info[(unsigned char)cart_type].load_basic != NULL) {
+            if (cart_info[(unsigned char)cart_type].load_basic() < 0) {
+                cleanup();
+                exit(1);
+            }
+        } else {
+            fprintf(stderr, "Error: cart type does not support basic to cart conversion (yet)\n");
+            cleanup();
+            exit(1);
+        }
+    } else {
+        if (load_input_file(input_filename[0]) < 0) {
+            cleanup();
+            exit(1);
+        }
     }
     if (input_filenames > 1 && cart_type != CARTRIDGE_DELA_EP64 && cart_type != CARTRIDGE_DELA_EP256 &&
         cart_type != CARTRIDGE_DELA_EP7x8 && cart_type != CARTRIDGE_REX_EP256 && loadfile_cart_type != CARTRIDGE_DELA_EP64 &&
