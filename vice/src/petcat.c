@@ -1810,7 +1810,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     fprintf(stderr, "error: line %d - unknown control code: %s\n", linum, p);
                     exit(-1);
                 }
-/*	    DBG(("controlcode end\n")); */
+/*    DBG(("controlcode end\n")); */
             } else if (rem_data_mode) {
                 /* if we have already encountered a REM or a DATA,
                    simply copy the char */
