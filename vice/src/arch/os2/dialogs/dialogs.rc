@@ -117,6 +117,8 @@ BEGIN
         TEXT("VICE (I386 OS/2 VAC++)", 15, 208, 180, 7)
 #endif
         /* start core members */
+        TEXT("Copyright (c) 2016-2016 Bas Wassink", 15, 153, 180, 7)
+        TEXT("Copyright (c) 2016-2016 AreaScout", 15, 146, 180, 7)
         TEXT("Copyright (c) 2015-2016 BSzili", 15, 139, 180, 7)
         TEXT("Copyright (c) 2011-2016 Stefan Haubenthal", 15, 132, 180, 7)
         TEXT("Copyright (c) 2011-2016 Kajtar Zsolt", 15, 125, 180, 7)

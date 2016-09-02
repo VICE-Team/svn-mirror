@@ -185,6 +185,8 @@ Copyright @copyright{} 2011-2016 Marcus Sutton
 Copyright @copyright{} 2011-2016 Kajtar Zsolt
 Copyright @copyright{} 2011-2016 Stefan Haubenthal
 Copyright @copyright{} 2015-2016 BSzili
+Copyright @copyright{} 2016-2016 AreaScout
+Copyright @copyright{} 2016-2016 Bas Wassink
 @c ---vice-core-team-end---
 
 @c ---ex-team---

@@ -156,6 +156,9 @@ s/@b{Uffe Jakobsen}/Uffe Jakobsen <microtop@starion.dk>/g
 s/@b{Derrick Inksley}/Derrick Inksley <dink@lemon64>/g
 s/@b{Ian Gledhill}/Ian Gledhill <ian.gledhill@btinternet.com>/g
 s/@b{Locnet}/Locnet <android.locnet@gmail.com>/g
+s/@b{BSzili}/BSzili <BSzili@users.sourceforge.net>/g
+s/@b{AreaScout}/AreaScout <areascout@gmx.at>/g
+s/@b{Bas Wassink}/Bas Wassink <b.wassink@ziggo.nl>/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g
