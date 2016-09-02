@@ -792,6 +792,11 @@
 #define KEY_WOW64_32KEY 0x0200
 #endif
 
+#ifndef WIN32_UNICODE_SUPPORT
+#define _tcslen strlen
+#define _tcsncmp strncmp
+#endif
+
 typedef BOOL (WINAPI *VGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef void (WINAPI *VGNSI)(LPSYSTEM_INFO);
 
@@ -1179,7 +1184,9 @@ static void get_ReactOS_ver_string(char **retval)
     OSVERSIONINFO RosVersionInfo;
     unsigned RosVersionLen;
     LPTSTR RosVersion;
+#ifdef WIN32_UNICODE_SUPPORT
     TCHAR PT[128];
+#endif
 
     RosVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 
@@ -1188,16 +1195,29 @@ static void get_ReactOS_ver_string(char **retval)
         RosVersion = RosVersionInfo.szCSDVersion + _tcslen(RosVersionInfo.szCSDVersion) + 1;
         RosVersionLen = sizeof(RosVersionInfo.szCSDVersion) / sizeof(RosVersionInfo.szCSDVersion[0]) - (RosVersion - RosVersionInfo.szCSDVersion);
         if (7 <= RosVersionLen && 0 == _tcsncmp(RosVersion, TEXT("ReactOS"), 7)) {
+#ifndef WIN32_UNICODE_SUPPORT
+            sprintf(*retval, "%s", RosVersion);
+#else
             _stprintf(PT, TEXT("%s"), RosVersion);
+#endif
         } else {
+#ifndef WIN32_UNICODE_SUPPORT
+            sprintf(*retval, "ReactOS");
+#else
             _stprintf(PT, TEXT("ReactOS %s"), RosVersion);
+#endif
         }
     } else {
+#ifndef WIN32_UNICODE_SUPPORT
+        sprintf(*retval, "ReactOS");
+#else
         _stprintf(PT, TEXT("ReactOS"));
+#endif
     }
 
+#ifdef WIN32_UNICODE_SUPPORT
     lib_tcstostr(*retval, PT, 128);
-
+#endif
 }
 
 static int IsWine(void)
