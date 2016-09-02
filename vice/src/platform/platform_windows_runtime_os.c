@@ -153,7 +153,10 @@
 
 #include <windows.h>
 #include <stdio.h>
+
+#if !defined(__CYGWIN32__) && !defined(__CYGWIN__) && defined(WIN32_COMPILE)
 #include <tchar.h>
+#endif
 
 #define VICE_DEBUG_H
 #include "lib.h"
