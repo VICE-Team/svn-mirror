@@ -8366,86 +8366,86 @@ translate_t string_table[] = {
 /* c64/cart/mmcreplay.c */
 /* en */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE,    N_("Specify GMod2 EEPROM image filename")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_DA, "Angiv filnavn for GMod2 EEPROM-image"},
-/* de */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_DE, "GMod2 EEPROM Imagedatei wählen"},
-/* es */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_ES, "Especificar nombre fichero imagen EEPROM GMod2"},
-/* fr */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_FR, "Spécifier le nom du fichier de l'image EEPROM GMod2"},
+/* da */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_IT, "Specifica il nome file immagine della EEPROM GMod2"},
+/* it */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_NL, "Geef de naam van het GMod2 EEPROM bestand"},
-/* pl */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_PL, "Okre¶l nazwê pliku obrazu EEPROM GMod2"},
-/* ru */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_RU, "Specify GMod2 EEPROM image filename"},
-/* sv */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_SV, "Ange filnamn för GMod2 EEPROM-avbildning"},
-/* tr */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_TR, "GMod2 EEPROM imaj dosyaismini belirt"},
+/* nl */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/mmcreplay.c */
 /* en */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE,    N_("Enable writes to GMod2 EEPROM image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_DA, "Tillad skrivning til GMod2 EEPROM-image"},
-/* de */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_DE, "Erlaube Schreibzugriff auf GMod2 EEPROM Imagedatei"},
-/* es */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_ES, "Permitir grabación en imagen EEPROM GMod2"},
-/* fr */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_FR, "Permetre l'écriture à l'image GMod2 EEPROM"},
+/* da */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_IT, "Attiva scrittura su immagine EEPROM GMod2"},
-/* ko */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_KO, "GMod2 EEPROM ÀÌ¹ÌÁö ¿¡ ¾²±â °¡´ÉÇÏ°Ô ÇÏ±â"},
-/* nl */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_NL, "Aktiveer schrijven naar GMod2 EEPROM bestand"},
-/* pl */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_PL, "W³±cz zapis do obrazu EEPROM GMod2"},
-/* ru */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_RU, "Enable writes to GMod2 EEPROM image"},
-/* sv */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_SV, "Aktivera skrivning till GMod2 EEPROM-avbildning"},
-/* tr */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_TR, "GMod2 EEPROM imajýnda yazmalarý aktif et"},
+/* it */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/mmcreplay.c */
 /* en */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE,    N_("Disable writes to GMod2 EEPROM image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_DA, "Skriv ikke til GMod2 EEPROM-image"},
-/* de */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_DE, "Schreibzugriff auf GMod2 EEPROM Imagedatei verhindern"},
-/* es */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_ES, "Deshabilitar grabación en imagen EEPROM GMod2"},
-/* fr */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_FR, "Interdire l'écriture à l'image GMod2 EEPROM"},
+/* da */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_IT, "Disattiva scrittura su immagine EEPROM GMod2"},
+/* it */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_NL, "Deactiveer schrijven naar GMod2 EEPROM bestand"},
-/* pl */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_PL, "Wy³±cz zapis do obrazu EEPROM GMod2"},
-/* ru */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_RU, "Disable writes to GMod2 EEPROM image"},
-/* sv */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_SV, "Inaktivera skrivning till GMod2 EEPROM-avbildning"},
-/* tr */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_TR, "GMod2 EEPROM imajýnda yazmalarý pasifleþtir"},
+/* nl */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/gmod2.c */
 /* en */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT,    N_("Enable saving of the GMod2 ROM at exit")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_DA, "Aktivér skrivning af GMod2 ROM ved afslutning"},
-/* de */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_DE, "Speichern des GMod2 ROMs beim Beenden aktivieren"},
-/* es */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_ES, "Permitir grabar ROM GMod2 al salir"},
-/* fr */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_FR, "Activer la sauvegarde du ROM GMod2 à la fin du programme"},
+/* da */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_IT, "Attiva salvataggio ROM della GMod2 all'uscita"},
+/* it */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_NL, "Activeer opslaan van het GMod2 ROM bestand bij afsluiten"},
-/* pl */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_PL, "W³±cz zapis ROM GMod2 przy wyj¶ciu"},
-/* ru */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_RU, "Enable saving of the GMod2 ROM at exit"},
-/* sv */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_SV, "Aktivera sparande av GMod2-ROM vid avslutning"},
-/* tr */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_TR, "Çýkýþta GMod2 ROM'un kaydedilmesini aktif et"},
+/* nl */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/gmod2.c */
 /* en */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT,    N_("Disable saving of the GMod2 ROM at exit")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_DA, "Dektivér skrivning af GMod2 ROM ved afslutning"},
-/* de */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_DE, "Speichern des GMod2 ROMs beim Beenden deaktivieren"},
-/* es */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_ES, "Deshabilitar grabar ROM GMod2 al salir"},
-/* fr */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_FR, "Désactiver la sauvegarde du ROM GMod2 à la fin du programme"},
+/* da */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_IT, "Disattiva salvataggio ROM della GMod2 all'uscita"},
+/* it */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_NL, "Deactiveer het opslaan van het GMod2 ROM bestand bij afsluiten"},
-/* pl */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_PL, "Wy³±cz zapis ROM GMod2 przy wyj¶ciu"},
-/* ru */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_RU, "Disable saving of the GMod2 ROM at exit"},
-/* sv */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_SV, "Inaktivera sparande av GMod2-ROM vid avslutning"},
-/* tr */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_TR, "Çýkýþta GMod2 ROM'un kaydedilmesini pasifleþtir"},
+/* nl */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/retroreplay.c */
@@ -14733,18 +14733,18 @@ translate_t string_table[] = {
 /* vic20/cart/behrbonz.c */
 /* en */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME,    N_("Specify Behr Bonz extension ROM name")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_DA, "Angiv navn på MegaCart-udviddelses-ROM"},
-/* de */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_DE, "Behr Bonz Erweiterungs ROM wählen"},
-/* es */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_ES, "Especificar nombre ROM extendida Mega Cart"},
-/* fr */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_FR, "Spécifier le nom de l'extension ROM Behr Bonz"},
-/* hu */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_HU, "Adja meg a Behr Bonz ROM kiterjesztés nevét"},
-/* it */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_IT, "Specifica il nome dell'estensione ROM Behr Bonz"},
+/* da */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_NL, "Geef de naam van het bestand voor de Behr Bonz ROM"},
-/* pl */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_PL, "Okre¶l nazwê ROM rozszerzenia Behr Bonz"},
-/* ru */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_RU, "Specify Behr Bonz extension ROM name"},
-/* sv */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_SV, "Ange namn på Behr Bonz-utöknings-ROM"},
-/* tr */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_TR, "Behr Bonz uzantýsý ROM ismini belirt"},
+/* nl */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* vic20/cart/vic20cart.c */
