@@ -50,7 +50,7 @@ extern char *lib_mvsprintf(const char *fmt, va_list args);
 
 extern void lib_debug_check(void);
 
-#if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(WIN32_COMPILE)
+#if !defined(__CYGWIN32__) && !defined(__CYGWIN__) && defined(WIN32_COMPILE)
 #include <tchar.h>
 
 size_t lib_tcstostr(char *str, const TCHAR *tcs, size_t len);
