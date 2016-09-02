@@ -14600,6 +14600,9 @@ The following cartridge types are supported:
 `gk'
      Game Killer .crt file
 
+`gmod2'
+     GMod2 .crt file
+
 `gs'
      C64 Games System .crt file
 
