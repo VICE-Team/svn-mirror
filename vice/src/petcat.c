@@ -519,9 +519,13 @@ typedef struct basic_list_s {
     char *name;
 } basic_list_t;
 
+/* #define WIP */
+
 static basic_list_t basic_list[] = {
+#ifdef WIP
     { B_1,        75, 0xCB, 0x0801, 0, 0,    NULL, /* fix */    "1",         "PET Basic v1.0" },
     { B_2,        76, 0xDD, 0x0801, 0, 0,    NULL, /* fix */    "2",         "Basic v2.0" },
+#endif
     { B_SUPEREXP, 18, 0xDD, 0x0401, 0, 0xCC, superexpkwcc,      "superexp",  "Basic v2.0 with Super Expander (VIC20)" },
     { B_TURTLE,   34, 0xED, 0x3701, 0, 0xCC, turtlekwcc,        "turtle",    "Basic v2.0 with Turtle Basic v1.0 (VIC20)" },
     { B_SIMON,   128, 0xCB, 0x0801, 1, 0,    simonskw,          "simon",     "Basic v2.0 with Simon's Basic (C64)" },
@@ -529,9 +533,11 @@ static basic_list_t basic_list[] = {
     { B_ATBAS,    43, 0xF6, 0x0801, 0, 0xCC, atbasickwcc,       "a",         "Basic v2.0 with @Basic (C64)" },
     { B_4,        15, 0xDA, 0x0801, 0, 0xCC, petkwcc,           "40",        "Basic v4.0 (PET)" },
     { B_4E,       24, 0xE3, 0x0801, 0, 0xCC, petkwcc,           "4e",        "Basic v4.0 extension (C64)" },
+#ifdef WIP
     { B_35,      126, 0xCB, 0x1001, 0, 0,    NULL, /* fix */    "3",         "Basic v3.5 (C16)" },
     { B_7,        39, 0x26, 0x1c01, 2, 0,    NULL, /* fix */    "70",        "Basic v7.0 (C128)" },
     { B_10,       62, 0x3D, 0x2001, 2, 0,    NULL, /* fix */    "10",        "Basic v10.0 (C65/C64DX)" },
+#endif
     { B_FC3,      29, 0xE8, 0x0801, 0, 0xCC, fc3kw,             "f",         "Basic v2.0 with Final Cartridge III (C64)" },
     { B_ULTRA,    51, 0xFE, 0x2c01, 0, 0xCC, ultrabasic64kwcc,  "ultra",     "Basic v2.0 with Ultrabasic-64 (C64)" },
     { B_GRAPH,    51, 0xFE, 0x1001, 0, 0xCC, graphicsbasickwcc, "graph",     "Basic v2.0 with Graphics basic (C64)" },
@@ -542,7 +548,9 @@ static basic_list_t basic_list[] = {
     { B_DRAGO,    13, 0xD8, 0x0801, 0, 0xCC, dragobasickwcc,    "drago",     "Basic v2.0 with Drago basic v2.2 (C64)" },
     { B_REU,      14, 0xDA, 0x0801, 0, 0xCC, reubasickwcc,      "reu",       "Basic v2.0 with REU-basic (C64)" },
     { B_BASL,     51, 0xFE, 0x0801, 0, 0xCC, baslkwcc,          "lightning", "Basic v2.0 with Basic Lightning (C64)" },
+#ifdef WIP
     { B_71,       56, 0x39, 0x1c01, 2, 0,    NULL, /* fix */    "71",        "Basic v7.1 (C128)" },
+#endif
     { B_MAGIC,    50, 0xFD, 0x0801, 0, 0xCC, magickwcc,         "magic",     "Basic v2.0 with Magic Basic (C64)" },
     { B_EASY,     51, 0xFE, 0x3001, 0, 0xCC, easykwcc,          "easy",      "Basic v2.0 with Easy Basic (VIC20)" },
     { B_BLARG,    11, 0xEA, 0x0801, 0, 0xE0, blargkwe0,         "blarg",     "Basic v2.0 with Blarg (C64)" },
