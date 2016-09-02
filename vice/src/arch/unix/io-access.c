@@ -340,12 +340,18 @@ static inline void vice_outb(WORD port, BYTE val)
 #    else
 static inline void vice_outb(WORD port, BYTE val)
 {
+#ifdef HAVE_OUTB
     outb(val, port);
+#endif
 }
 #    endif
 static inline BYTE vice_inb(WORD port)
 {
+#ifdef HAVE_INB
     return inb(port);
+#else
+    return 0;
+#endif
 }
 #  endif
 #endif
