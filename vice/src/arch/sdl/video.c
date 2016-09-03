@@ -90,7 +90,7 @@ static video_canvas_t *sdl_canvaslist[MAX_CANVAS_NUM];
 video_canvas_t *sdl_active_canvas = NULL;
 
 #if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
-#ifndef USE_SDLUI2 
+#ifndef USE_SDLUI2
 static int sdl_gl_mode;
 static GLint screen_texture;
 static int sdl_gl_vertex_base = 0;
@@ -909,6 +909,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     char rendername[256];
     char **renderlist = NULL;
     int renderamount = SDL_GetNumRenderDrivers();
+    static unsigned int window_h = 0;
+    static unsigned int window_w = 0;
     SDL_GLContext ctx;
     SDL_RendererInfo info;
 
@@ -951,7 +953,17 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     actual_width = new_width;
     actual_height = new_height;
 
-    /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
+    if (!fullscreen) {
+        /* if no window geometry given then create one. */
+        if (!sdl_window_width || !sdl_window_height) {
+            window_w = (unsigned int)((double)new_width * aspect + 0.5);
+            window_h = new_height;
+        } else { /* full window size remembering when aspect ratio is not important */
+            window_w = (unsigned int)sdl_window_width;
+            window_h = (unsigned int)sdl_window_height;
+        }
+    }
+
     if (sdl_video_canvas_limit(limit_w, limit_h, &actual_width, &actual_height, limit)) {
         canvas->draw_buffer->canvas_physical_width = actual_width;
         canvas->draw_buffer->canvas_physical_height = actual_height;
@@ -979,7 +991,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
     /* Obtain the Window with the corresponding size and behavior based on the flags */
-    new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (unsigned int)((double)actual_width * aspect), actual_height, SDL_WINDOW_OPENGL | flags);
+    new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window_w, window_h, SDL_WINDOW_OPENGL | flags);
 
     ctx = SDL_GL_CreateContext(new_window);
     SDL_GL_MakeCurrent(new_window, ctx);
@@ -1093,12 +1105,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     canvas->videoconfig->hwscale = 1;
 #endif
 
-    /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
-    if (!fullscreen) {
-        resources_set_int("SDLWindowWidth", actual_width);
-        resources_set_int("SDLWindowHeight", actual_height);
-    }
-
     SDL_GetRenderDriverInfo(drv_index, &info);
 
     log_message(sdlvideo_log, "%s (%s) %ix%i %ibpp using %s%s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", actual_width, actual_height, sdl_bitdepth, info.name, (canvas->fullscreenconfig->enable) ? " (fullscreen)" : "");
@@ -1107,7 +1113,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 #endif
 
     /* Update lightpen adjustment parameters */
-    /* Fixme: fix for x128 (if canvas == sdl_active_canvas) { ... } */
     if (!lightpen_updated) {
         sdl_lightpen_adjust.max_x = actual_width;
         sdl_lightpen_adjust.max_y = actual_height;
@@ -1117,6 +1122,14 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
     video_canvas_set_palette(canvas, canvas->palette);
+
+    SDL_Event sdlevent;
+    sdlevent.type = SDL_WINDOWEVENT;
+    sdlevent.window.event = SDL_WINDOWEVENT_RESIZED;
+    sdlevent.window.data1 = sdl_window_width;
+    sdlevent.window.data2 = sdl_window_height;
+
+    SDL_PushEvent(&sdlevent);
 
     return canvas;
 }
