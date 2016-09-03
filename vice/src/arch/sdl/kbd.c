@@ -223,8 +223,13 @@ SDLKey SDL2x_to_SDL1x_Keys(SDLKey key)
             if (SDL2xKeys[i].SDL2x == key) {
                 return SDL2xKeys[i].SDL1x;
             }
+        } /* fallthrough, unknown SDL2x key */
+    } else { /* SDL1 format key may come from ini file */
+        for (i = 0; SDL2xKeys[i].SDL1x; ++i) {
+            if (SDL2xKeys[i].SDL1x == key) {
+                return SDL2xKeys[i].SDL1x;
+            }
         }
-        /* fallthrough, unknown SDL2x key */
     }
 
     /* unicode key, so return 'unknown' */
