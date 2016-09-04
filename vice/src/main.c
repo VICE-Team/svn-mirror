@@ -236,8 +236,8 @@ int main_program(int argc, char **argv)
     n = 0; *term_tmp = 0;
     for (i = 0; core_team[i].name != NULL; i++) {
         name_len = strlen(core_team[i].name);
-        /* XXX: reject ridiculously long names for now */
-        if (n + (int)name_len + 3 > TERM_TMP_SIZE) {
+        /* XXX: reject names that will never fit, for now */
+        if ((int)name_len + 3 > TERM_TMP_SIZE) {
             log_warning(LOG_DEFAULT, "%s:%d: name '%s' too large for buffer",
                     __FILE__, __LINE__, core_team[i].name);
             break;  /* this will still write out whatever was in the buffer */
