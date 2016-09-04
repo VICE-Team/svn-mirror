@@ -117,7 +117,12 @@ static char* append_string_to_input_buffer(char *old_input_buffer, GtkWidget *te
         char *char_in, *char_out = new_input_buffer + strlen(new_input_buffer);
 
         for (char_in = new_string; *char_in; char_in++) {
+#if CHAR_MIN < 0
             if (*char_in < 0 || *char_in >= 32) {
+#else
+            /* char is unsigned on raspberry Pi 2B with GCC */
+            if (*char_in >= 32) {
+#endif
                 *char_out++ = *char_in;
             }
         }
