@@ -1590,7 +1590,7 @@ static int p_expand(int version, int addr, int ctrls)
                             fprintf(dest, "($ce%02x)", c);
                         }
                         continue;
-                    } else if (c == 0xfe) {
+                    } else if (c == 0xfe && basic_list[version - 1].prefixfe) {
                         if (version == B_SXC) {
                             if ((c = getc(source)) <= basic_list[B_SXC - 1].max_token) {
                                 fprintf(dest, "%s", basic_list[version - 1].tokens[c]);
