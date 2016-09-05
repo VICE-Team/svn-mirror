@@ -1304,8 +1304,9 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
 
     fmt = canvas->screen->format;
 
-    if (canvas != sdl_active_canvas) {
-        DBG(("video_canvas_set_palette not active canvas, don't update hw palette"));
+    /* Fixme: needs further investigation how it can reach here without being fully initialized */
+    if (canvas != sdl_active_canvas || canvas->width != canvas->screen->w) {
+        DBG(("video_canvas_set_palette not active canvas or window not created, don't update hw palette"));
         return 0;
     }
 
