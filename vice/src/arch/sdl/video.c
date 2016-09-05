@@ -125,7 +125,7 @@ SDL_Window *new_window = NULL;
 SDL_Renderer *new_renderer = NULL;
 SDL_Texture *new_texture = NULL;
 SDL_Surface *new_screen = NULL;
-static Uint32 rmask, gmask, bmask, amask;
+static Uint32 rmask = 0, gmask = 0, bmask = 0, amask = 0;
 static int texformat = 0;
 #endif
 
@@ -645,7 +645,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int hwscale = 0;
     int lightpen_updated = 0;
 #ifdef HAVE_HWSCALE
-    int rbits, gbits, bbits;
+    int rbits = 0, gbits = 0, bbits = 0;
     const Uint32
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
