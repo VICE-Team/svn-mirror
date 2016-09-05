@@ -991,7 +991,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
     /* Obtain the Window with the corresponding size and behavior based on the flags */
-    new_window = SDL_CreateWindow("VICE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window_w, window_h, SDL_WINDOW_OPENGL | flags);
+    new_window = SDL_CreateWindow(canvas->viewport->title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window_w, window_h, SDL_WINDOW_OPENGL | flags);
 
     ctx = SDL_GL_CreateContext(new_window);
     SDL_GL_MakeCurrent(new_window, ctx);
