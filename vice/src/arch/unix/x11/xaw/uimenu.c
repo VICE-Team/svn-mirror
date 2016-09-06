@@ -947,7 +947,10 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
                 num_checkmark_menu_items_max += 100;
                 checkmark_menu_items = lib_realloc(checkmark_menu_items, num_checkmark_menu_items_max * sizeof(Widget));
             }
-            XtAddCallback(new_item, XtNdestroyCallback, tick_destroy, (XtPointer)num_checkmark_menu_items);
+            /* cast num_checkmark_menu_items to long and then to void *, so
+             * casting to XtPointer (void*) is safe. (BW) */
+            XtAddCallback(new_item, XtNdestroyCallback, tick_destroy,
+                    (XtPointer)int_to_void_ptr(num_checkmark_menu_items));
             checkmark_menu_items[num_checkmark_menu_items++] = new_item;
         }
 
