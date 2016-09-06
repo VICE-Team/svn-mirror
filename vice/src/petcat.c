@@ -1874,7 +1874,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             match++;
 
                             /* Check if the keyword is a REM or a DATA */
-                            switch (c) {
+                            switch (ctmp) {
                                 case TOKEN_DATA:
                                     rem_data_mode = 1;
                                     rem_data_endchar = ':';
