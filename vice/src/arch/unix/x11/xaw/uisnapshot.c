@@ -71,6 +71,7 @@
 #include "uilib.h"
 #include "uisnapshot.h"
 #include "util.h"
+#include "snapshot.h"
 
 static Widget snapshot_dialog;
 static Widget snapshot_dialog_pane;
