@@ -283,7 +283,10 @@ static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
     reSID::SID::State state;
     unsigned int i;
 
-    state = psid->sid->read_state();
+    /* when sound is disabled *psid is NULL */
+    if (psid) {
+        state = psid->sid->read_state();
+    }
 
     for (i = 0; i < 0x20; i++) {
         sid_state->sid_register[i] = (BYTE)state.sid_register[i];
