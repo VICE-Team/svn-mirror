@@ -56,7 +56,7 @@ LPDIRECT3D9 d3d;
 
 int video_setup_dx9(void)
 {
-    d3d9dll = LoadLibrary("d3d9.dll");
+    d3d9dll = LoadLibrary(TEXT("d3d9.dll"));
     if (d3d9dll == NULL) {
         return -1;
     }

@@ -29,6 +29,7 @@
 
 #include <windows.h>
 #include <prsht.h>
+#include <tchar.h>
 
 #include "fullscrn.h"
 #include "lib.h"
@@ -37,6 +38,7 @@
 #include "res.h"
 #include "resources.h"
 #include "statusbar.h"
+#include "system.h"
 #include "translate.h"
 #include "ui.h"
 #include "uilib.h"
@@ -341,7 +343,7 @@ void SwitchToFullscreenMode(HWND hwnd)
         video_device_release_dx9(c);
         ui_set_render_window(c, 1);
         video_device_create_dx9(c, 1);
-		video_canvas_reset_dx9(c);
+        video_canvas_reset_dx9(c);
         video_canvas_refresh_all(c);
     }
 #endif
@@ -778,7 +780,7 @@ static void init_fullscreen_dialog(HWND hwnd)
     int distance;
     int size;
     double fval;
-    TCHAR newval[64];
+    TCHAR st_text[64];
     video_canvas_t *canvas;
 
     canvas = video_canvas_for_hwnd(GetParent(GetParent(hwnd)));
@@ -825,7 +827,8 @@ static void init_fullscreen_dialog(HWND hwnd)
     SendMessage(setting_hwnd, CB_RESETCONTENT, 0, 0);
     dev = devices;
     while (dev != NULL) {
-        SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)dev->desc);
+        system_mbstowcs(st_text, dev->desc, 64);
+        SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)st_text);
         dev = dev->next;
     }
     SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)fullscreen_device, 0);
@@ -835,7 +838,8 @@ static void init_fullscreen_dialog(HWND hwnd)
     SendMessage(setting_hwnd, CB_RESETCONTENT, 0, 0);
     value = bitdepthlist;
     while (value != NULL) {
-        SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)value->text);
+        system_mbstowcs(st_text, value->text, 64);
+        SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)st_text);
         value = value->next;
     }
     SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)GetIndexFromList(bitdepthlist, fullscreen_bitdepth), 0);
@@ -845,7 +849,8 @@ static void init_fullscreen_dialog(HWND hwnd)
     SendMessage(setting_hwnd, CB_RESETCONTENT, 0, 0);
     value = resolutionlist;
     while (value != NULL) {
-        SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)value->text);
+        system_mbstowcs(st_text, value->text, 64);
+        SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)st_text);
         value = value->next;
     }
     SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)GetIndexFromList(resolutionlist, (fullscreen_width << 16) + fullscreen_height), 0);
@@ -855,7 +860,8 @@ static void init_fullscreen_dialog(HWND hwnd)
     SendMessage(setting_hwnd, CB_RESETCONTENT, 0, 0);
     value = refresh_rates;
     while (value != NULL) {
-        SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)value->text);
+        system_mbstowcs(st_text, value->text, 64);
+        SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)st_text);
         value = value->next;
     }
     SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)GetIndexFromList(refresh_rates, fullscreen_refreshrate), 0);
@@ -872,12 +878,12 @@ static void init_fullscreen_dialog(HWND hwnd)
         enable_aspect_ratio(hwnd);
 
         fval = ((double)aspect_ratio) / 1000.0;
-        _stprintf(newval, TEXT("%.3f"), (float)fval);
-        SetDlgItemText(hwnd, IDC_ASPECT_RATIO, newval);
+        _stprintf(st_text, TEXT("%.3f"), (float)fval);
+        SetDlgItemText(hwnd, IDC_ASPECT_RATIO, st_text);
 
         fval = canvas->geometry->pixel_aspect_ratio;
-        _stprintf(newval, TEXT("%.3f"), (float)fval);
-        SetDlgItemText(hwnd, IDC_GEOMETRY_ASPECT_RATIO, newval);
+        _stprintf(st_text, TEXT("%.3f"), (float)fval);
+        SetDlgItemText(hwnd, IDC_GEOMETRY_ASPECT_RATIO, st_text);
     }
 }
 
