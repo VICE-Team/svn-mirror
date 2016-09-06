@@ -544,7 +544,7 @@ static basic_list_t basic_list[] = {
     { B_PEG,      33, 0xEC, 0x0401, 0, 0xCC, pegbasickwcc,      "pegasus",   0, 0, 0, "Basic v2.0 with Pegasus basic v4.0 (C64)" },
     { B_X,        33, 0xEC, 0x0801, 0, 0xCC, xbasickwcc,        "xbasic",    0, 0, 0, "Basic v2.0 with Xbasic (C64)" },
     { B_DRAGO,    13, 0xD8, 0x0801, 0, 0xCC, dragobasickwcc,    "drago",     0, 0, 0, "Basic v2.0 with Drago basic v2.2 (C64)" },
-    { B_REU,      14, 0xDA, 0x0801, 0, 0xCC, reubasickwcc,      "reu",       0, 0, 0, "Basic v2.0 with REU-basic (C64)" },
+    { B_REU,      15, 0xDA, 0x0801, 0, 0xCC, reubasickwcc,      "reu",       0, 0, 0, "Basic v2.0 with REU-basic (C64)" },
     { B_BASL,     51, 0xFE, 0x0801, 0, 0xCC, baslkwcc,          "lightning", 0, 0, 0, "Basic v2.0 with Basic Lightning (C64)" },
     { B_71,       56, 0x39, 0x1c01, 2, 0,    NULL, /* fix */    "71",        0, 1, 1, "Basic v7.1 (C128)" },
     { B_MAGIC,    50, 0xFD, 0x0801, 0, 0xCC, magickwcc,         "magic",     0, 0, 0, "Basic v2.0 with Magic Basic (C64)" },
