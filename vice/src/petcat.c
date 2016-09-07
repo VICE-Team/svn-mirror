@@ -558,7 +558,7 @@ static basic_list_t basic_list[] = {
     { B_SUPERBAS, 36, 0xFE, 0x0801, 0, 0xDB, superbaskwdb,      "superbas",  0, 0, 0, "Basic v2.0 with Super Basic (C64)" },
     { B_EXPBAS64, 42, 0xF5, 0x0801, 0, 0xCC, expbas64kwcc,      "exp64",     0, 0, 0, "Basic v2.0 with Expanded Basic (C64)" },
     { B_SXC,      32, 0x1F, 0x0801, 0, 0,    sxckwfe,           "sxc",       0, 0, 1, "Basic v2.0 with Super Expander Chip (C64)" },
-    { B_WARSAW,   36, 0xFE, 0x0801, 0, 0xDB, warsawkwdb,        "warsaw",    0, 0, 0, "Basic v2.0 with Warsaw Basic (C64)" },
+    { B_WARSAW,   36, 0xFE, 0x0801, 0, 0xDB, warsawkwdb,        "bwarsaw",   0, 0, 0, "Basic v2.0 with Warsaw Basic (C64)" },
     { B_EXPBAS20, 24, 0xE3, 0x0801, 0, 0xCC, expbas20kwcc,      "exp20",     0, 0, 0, "Basic v2.0 with Expanded Basic (VIC20)" },
     { B_SUPERGRA, 50, 0xFE, 0x0801, 0, 0xCC, supergrakw,        "supergra",  0, 0, 0, "Basic v2.0 with Supergrafik 64 (C64)" },
     { B_KIPPER,   18, 0xF2, 0x0801, 0, 0xE1, kipperkwe1,        "k",         0, 0, 0, "Basic v2.0 with Kipper Basic (C64)" },
