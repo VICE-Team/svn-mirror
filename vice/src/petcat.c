@@ -458,17 +458,15 @@ const char *expbas20kwcc[] = {
     "reg(",  "dpek(", "pdl",   "joy",   "dpok",   "do",    "until", "old"
 };
 
-/* Data Becker Supergrafik 64 (C64) by Sven Droll -- Tokens 0xCC - 0xFD */
+/* Data Becker Supergrafik 64 (C64) by Sven Droll -- Tokens 0xD7 - 0xFD */
 
 const char *supergrakw[] = {
-    " ",      " ",       "   ",    " ",      " ",         " ",       " ",
-    " ",      " ",       " ",      " ",      "directory", "spower",  "gcomb",
-    "dtaset", "merge",   "renum",  "key",    "trans",     " ",       "tune",
-    "sound",  "volume=", "filter", "sread",  "define",    "set",     "swait",
-    "smode",  "gmode",   "gclear", "gmove",  "plot",      "draw",    "fill",
-    "frame",  "invers",  "text",   "circle", "paddle",    "scale=",  "color=",
-    "scol=",  "pcol=",   "gsave",  "gload",  "hcopy",     "ireturn", "if#",
-    "paint"
+    "directory", "spower", "gcomb",  "dtaset", "merge",   "renum",  "key",
+    "trans",     "",       "tune",   "sound",  "volume=", "filter", "sread",
+    "define",    "set",    "swait",  "smode",  "gmode",   "gclear", "gmove",
+    "plot",      "draw",   "fill",   "frame",  "invers",  "text",   "circle",
+    "paddle",    "scale=", "color=", "scol=",  "pcol=",   "gsave",  "gload",
+    "hcopy",     "ireturn", "if#",   "paint",  "eval"
 };
 
 /* Kipper Basic (C64) by Marco van den Heuvel -- Tokens 0xE1 - 0xF2 */
@@ -560,7 +558,7 @@ static basic_list_t basic_list[] = {
     { B_SXC,      32, 0x1F, 0x0801, 0, 0,    sxckwfe,           "sxc",       0, 0, 1, "Basic v2.0 with Super Expander Chip (C64)" },
     { B_WARSAW,   36, 0xFE, 0x0801, 0, 0xDB, warsawkwdb,        "bwarsaw",   0, 0, 0, "Basic v2.0 with Warsaw Basic (C64)" },
     { B_EXPBAS20, 24, 0xE3, 0x0801, 0, 0xCC, expbas20kwcc,      "exp20",     0, 0, 0, "Basic v2.0 with Expanded Basic (VIC20)" },
-    { B_SUPERGRA, 50, 0xFE, 0x0801, 0, 0xCC, supergrakw,        "supergra",  0, 0, 0, "Basic v2.0 with Supergrafik 64 (C64)" },
+    { B_SUPERGRA, 40, 0xFE, 0x0801, 0, 0xD7, supergrakw,        "supergra",  0, 0, 0, "Basic v2.0 with Supergrafik 64 (C64)" },
     { B_KIPPER,   18, 0xF2, 0x0801, 0, 0xE1, kipperkwe1,        "k",         0, 0, 0, "Basic v2.0 with Kipper Basic (C64)" },
     { B_BOB,      16, 0xF0, 0x0801, 0, 0xE1, bobkwe1,           "bb",        0, 0, 0, "Basic v2.0 with Basic on Bails (C64)" },
     { B_EVE,      46, 0xF9, 0x0801, 0, 0xCC, evekwcc,           "eve",       0, 0, 0, "Basic v2.0 with Eve Basic (C64)" },
