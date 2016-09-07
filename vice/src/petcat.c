@@ -1834,8 +1834,17 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                  * and this part will copy the char over to the new buffer */
             } else if (isalpha(*p2) || strchr("+-*/^>=<", *p2)) {
                 /* FE and CE prefixes are checked first */
-                if (version == B_7 || version == B_71 || version == B_10 || version == B_SXC) {
+                if (version == B_7 || version == B_71 || version == B_10 || version == B_SXC || version == B_SIMON) {
                     switch (version) {
+                       case B_SIMON:
+                            if ((c = sstrcmp(p2, basic_list[version - 1].tokens, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
+                                *p1++ = 0x64;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                                match2++;
+                            }
+                            break;
                         case B_10:
                             if ((c = sstrcmp(p2, kwfe, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = 0xfe;
@@ -1982,15 +1991,6 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                                 *p1++ = ctmp | 0x80;
                                 p2 += kwlentmp;
                             }
-                        }
-                        break;
-
-                   case B_SIMON:
-                        if ((c = sstrcmp(p2, basic_list[version - 1].tokens, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
-                            *p1++ = 0x64;
-                            *p1++ = c;
-                            p2 += kwlen;
-                            match++;
                         }
                         break;
 
