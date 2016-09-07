@@ -1834,6 +1834,20 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     switch (version) {
                         case B_10:
                         case B_71:
+                            if ((c = sstrcmp(p2, kwfe71, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
+                                *p1++ = 0xfe;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                                match2++;
+                            } else if ((c = sstrcmp(p2, kwce, basic_list[version - 1].token_offset, NUM_KWCE)) != KW_NONE) {
+                                *p1++ = 0xce;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                                match2++;
+                            }
+                            break;
                         case B_7:
                             if ((c = sstrcmp(p2, kwfe, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = 0xfe;
