@@ -522,7 +522,7 @@ typedef struct basic_list_s {
 
 static basic_list_t basic_list[] = {
    /* version    num  max   load   off start tokens             verselect    64 ce fe name */
-    { B_1,        75, 0xCB, 0x0801, 0, 0,    NULL, /* fix */    "1",         0, 0, 0, "PET Basic v1.0" },
+    { B_1,        75, 0xCB, 0x0801, 0, 0,    NULL, /* fix */    "1p",        0, 0, 0, "PET Basic v1.0" },
     { B_2,        76, 0xDD, 0x0801, 0, 0,    NULL, /* fix */    "2",         0, 0, 0, "Basic v2.0" },
     { B_SUPEREXP, 18, 0xDD, 0x0401, 0, 0xCC, superexpkwcc,      "superexp",  0, 0, 0, "Basic v2.0 with Super Expander (VIC20)" },
     { B_TURTLE,   34, 0xED, 0x3701, 0, 0xCC, turtlekwcc,        "turtle",    0, 0, 0, "Basic v2.0 with Turtle Basic v1.0 (VIC20)" },
@@ -812,6 +812,10 @@ const char *kwce[] = {
     "xor", "rwindow", "pointer"
 };
 
+const char *kwce10[] = {
+    "",    "",        "pot",     "bump", "lpen", "rsppos", "rsprite", "rspcolor",
+    "xor", "rwindow", "pointer"
+};
 
 const char *kwfe[] = {
     "",         "",      "bank",     "filter", "play",    "tempo",  "movspr", "sprite",
@@ -1257,7 +1261,7 @@ static void list_keywords(int version)
 
         if (version != B_SXC) {
             for (n = basic_list[version - 1].token_offset; n < NUM_KWCE; n++) {
-                printf("%s\t", kwce[n] /*, 0xce, n*/);
+                printf("%s\t", (version == B_10) ? kwce10[n] : kwce[n] /*, 0xce, n*/);
             }
         }
     } else {
@@ -1589,7 +1593,7 @@ static int p_expand(int version, int addr, int ctrls)
                 if (version != B_35 && version != B_FC3) {
                     if (c == 0xce && basic_list[version - 1].prefixce) {            /* 'rlum' on V3.5*/
                         if ((c = getc(source)) <= MAX_KWCE) {
-                            fprintf(dest, "%s", kwce[c]);
+                            fprintf(dest, "%s", (version == B_10) ? kwce10[c] : kwce[c]);
                         } else {
                             fprintf(dest, "($ce%02x)", c);
                         }
@@ -1833,6 +1837,20 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                 if (version == B_7 || version == B_71 || version == B_10 || version == B_SXC) {
                     switch (version) {
                         case B_10:
+                            if ((c = sstrcmp(p2, kwfe, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
+                                *p1++ = 0xfe;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                                match2++;
+                            } else if ((c = sstrcmp(p2, kwce10, basic_list[version - 1].token_offset, NUM_KWCE)) != KW_NONE) {
+                                *p1++ = 0xce;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                                match2++;
+                            }
+                            break;
                         case B_71:
                             if ((c = sstrcmp(p2, kwfe71, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = 0xfe;
