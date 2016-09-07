@@ -559,8 +559,8 @@ static basic_list_t basic_list[] = {
     { B_WARSAW,   36, 0xFE, 0x0801, 0, 0xDB, warsawkwdb,        "bwarsaw",   0, 0, 0, "Basic v2.0 with Warsaw Basic (C64)" },
     { B_EXPBAS20, 24, 0xE3, 0x0801, 0, 0xCC, expbas20kwcc,      "exp20",     0, 0, 0, "Basic v2.0 with Expanded Basic (VIC20)" },
     { B_SUPERGRA, 40, 0xFE, 0x0801, 0, 0xD7, supergrakw,        "supergra",  0, 0, 0, "Basic v2.0 with Supergrafik 64 (C64)" },
-    { B_KIPPER,   18, 0xF2, 0x0801, 0, 0xE1, kipperkwe1,        "k",         0, 0, 0, "Basic v2.0 with Kipper Basic (C64)" },
-    { B_BOB,      16, 0xF0, 0x0801, 0, 0xE1, bobkwe1,           "bb",        0, 0, 0, "Basic v2.0 with Basic on Bails (C64)" },
+    { B_KIPPER,   18, 0xF2, 0x0801, 0, 0xE1, kipperkwe1,        "bk",        0, 0, 0, "Basic v2.0 with Kipper Basic (C64)" },
+    { B_BOB,      16, 0xF0, 0x0801, 0, 0xE1, bobkwe1,           "bob",       0, 0, 0, "Basic v2.0 with Basic on Bails (C64)" },
     { B_EVE,      46, 0xF9, 0x0801, 0, 0xCC, evekwcc,           "eve",       0, 0, 0, "Basic v2.0 with Eve Basic (C64)" },
     { B_TT64,     26, 0xF4, 0x5b01, 0, 0xDB, tt64kwdb,          "tt64",      0, 0, 0, "Basic v2.0 with The Tool 64 (C64)" },
     { -1,         -1, -1,   -1,     0, 0,    NULL,              NULL,        0, 0, 0, NULL }
@@ -1840,11 +1840,13 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                                 *p1++ = c;
                                 p2 += kwlen;
                                 match++;
+                                match2++;
                             } else if ((c = sstrcmp(p2, kwce, basic_list[version - 1].token_offset, NUM_KWCE)) != KW_NONE) {
                                 *p1++ = 0xce;
                                 *p1++ = c;
                                 p2 += kwlen;
                                 match++;
+                                match2++;
                             }
                             break;
                         case B_SXC:
