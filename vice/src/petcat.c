@@ -1247,8 +1247,14 @@ static void list_keywords(int version)
 
 
     if (version == B_7 || version == B_71 || version == B_10 || version == B_SXC) {
-        for (n = basic_list[version - 1].token_offset; n < basic_list[version - 1].num_tokens; n++) {
-            printf("%s\t", kwfe[n] /*, 0xfe, n*/);
+        if (version == B_SXC) {
+            for (n = basic_list[version - 1].token_offset; n < basic_list[version - 1].num_tokens; n++) {
+                printf("%s\t", basic_list[version - 1].tokens[n] /*, 0xfe, n*/);
+            }
+        } else {
+            for (n = basic_list[version - 1].token_offset; n < basic_list[version - 1].num_tokens; n++) {
+                printf("%s\t", kwfe[n] /*, 0xfe, n*/);
+            }
         }
 
         if (version != B_SXC) {
@@ -1678,12 +1684,12 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
     static char line[MAX_INLINE_LEN + 1];
     static char tokenizedline[MAX_OUTLINE_LEN + 1];
-    unsigned char *p1, *p2, quote;
+    unsigned char *p1, *p2, *p3, quote;
     int c;
     int ctmp = -1;
     int kwlentmp = -1;
     unsigned char rem_data_mode, rem_data_endchar = '\0';
-    unsigned int len = 0, match;
+    unsigned int len = 0, match, match2;
     unsigned int linum = 10;
 
     /* put start address to output file */
@@ -1719,6 +1725,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
             }
 
             match = 0;
+            match2 = 0;
             if (quote) {
                 /*
                  * control code evaluation
@@ -1848,6 +1855,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                                 *p1++ = c;
                                 p2 += kwlen;
                                 match++;
+                                match2++;
                             }
                             break;
                     }
@@ -1954,8 +1962,8 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         }
                         break;
 
-                    default:
-                        if (match) {
+                   default:
+                        if (match && !match2) {
                             *p1++ = ctmp | 0x80;
                             p2 += kwlentmp;
                         }
@@ -1981,11 +1989,13 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
         /*  DBG(("output line petscii: %s\n", tokenizedline)); */
 
         *p1 = 0;
-        if ((len = (int)strlen(tokenizedline)) > 0) {
+        p3 = (unsigned char *)tokenizedline;
+        if ((len = (p1 - p3)) > 0) {
             addr += (len + 5);
-            fprintf(dest, "%c%c%c%c%s%c", addr & 255, (addr >> 8) & 255,
-                    linum & 255, (linum >> 8) & 255, tokenizedline, '\0');
-
+            fprintf(dest, "%c%c%c%c", addr & 255, (addr >> 8) & 255,
+                    linum & 255, (linum >> 8) & 255);
+            fwrite(tokenizedline, 1, len, dest);
+            fprintf(dest, "%c", '\0');
             linum += 2; /* auto line numbering by default */
         }
 
