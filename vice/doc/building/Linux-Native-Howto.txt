@@ -25,7 +25,7 @@ $ sudo apt-get install texi2html
 $ sudo apt-get install flex
 $ sudo apt-get install libreadline-dev
 $ sudo apt-get install libxaw7-dev
-$ sudo apt-get install tex-info
+$ sudo apt-get install texinfo
 
 if you have those installed, do run autogen.sh inside the vice dir:
 $ cd trunk/vice/
@@ -48,7 +48,7 @@ note: VICE expects ROM images at /usr/lib/vice, if you've not installed VICE
       In that case, tell x64sc where to find the ROM's:
       $ ./src/x64sc -kernal data/C64/kernal \
                     -basic data/C64/basic \
-		    -chargen data/C64/chargen
+                    -chargen data/C64/chargen
       Once you've succesfully run `make install`, the ROM's will be present at
       /usr/lib/vice and the above command won't be necessary anymore.
 
