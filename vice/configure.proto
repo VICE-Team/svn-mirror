@@ -1311,7 +1311,7 @@ if test x"$enable_nls" != "xno" -a x"$is_unix" = "xyes"; then
 	AC_DEFINE(HAVE_LIBINTL_H,,[use libintl for NLS.])
 	AC_DEFINE_UNQUOTED(DATADIRNAME, "$DATADIRNAME",[NLS datadirname.])
 	dnl this is prefixed with PREFIX
-	AC_DEFINE(NLS_LOCALEDIR, PREFIX"/"DATADIRNAME"/locale",[NLS local directory.])
+	AC_DEFINE(NLS_LOCALEDIR, [PREFIX "/" DATADIRNAME "/locale"],[NLS local directory.])
       else
         AC_MSG_WARN([libintl.h not found, disabling NLS])
         USE_NLS=no
