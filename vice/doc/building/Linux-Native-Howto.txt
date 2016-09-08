@@ -86,7 +86,8 @@ $ sudo apt-get install libavcodec-dev     # for video capturing support
 $ sudo apt-get install libavformat-dev
 $ sudo apt-get install libswscale-dev
 $ sudo apt-get install yasm               # required for --enable-static-ffmpeg
-                                          # and --enable-shared-ffmpeg
+                                          # and --enable-shared-ffmpeg, yasm
+                                          # needs to be >=1.2.0
 
 reconfigure with a few more options:
 $ ./configure --enable-arch=native --with-resid --with-x --enable-gnomeui \
