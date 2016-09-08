@@ -66,15 +66,17 @@ $ ./src/x64
 <...>
 See the "About VICE" command for more info.
 
-X11: GTK version compiled with: 2.24 (xf86 ext:yes cairo:yes pango:yes VTE:yes hwscale:yes fullscreen:yes ui-threads:no)
+X11: GTK version compiled with: 2.24 (xf86 ext:yes cairo:yes pango:yes VTE:yes
+hwscale:yes fullscreen:yes ui-threads:no)
 XRandR: XRandR reports current display: 1280x1024@60
 <...>
 
 install additional packages:
 
 $ sudo apt-get install libgtk2.0-cil-dev  # for GTK2 UI
-$ sudo apt-get install libgtkglext1-dev   # for hardware scaling / open-gl support
-$ sudo apt-get install libvte-dev         # (NOT libvte-2.90/2.91-dev) for GUI monitor terminal window
+$ sudo apt-get install libgtkglext1-dev   # for hardware scaling/openGL support
+$ sudo apt-get install libvte-dev         # (NOT libvte-2.90/2.91-dev) for GUI
+                                          # monitor terminal window
 
 $ sudo apt-get install libpulse-dev       # for pulse audio support
 
@@ -83,9 +85,13 @@ $ sudo apt-get install libpcap-dev        # for ethernet emulation
 $ sudo apt-get install libavcodec-dev     # for video capturing support
 $ sudo apt-get install libavformat-dev
 $ sudo apt-get install libswscale-dev
+$ sudo apt-get install yasm               # required for --enable-static-ffmpeg
+                                          # and --enable-shared-ffmpeg
 
 reconfigure with a few more options:
-$ ./configure --enable-arch=native --with-resid --with-x --enable-gnomeui --enable-ethernet --with-pulse --enable-fullscreen --enable-memmap --enable-vte
+$ ./configure --enable-arch=native --with-resid --with-x --enable-gnomeui \
+    --enable-ethernet --with-pulse --enable-fullscreen --enable-memmap \
+    --enable-vte
 
 compile again...
 $ make
@@ -97,9 +103,10 @@ $ sudo make install
 3. staying up to date
 --------------------------------------------------------------------------------
 
-once you did all this, you can keep your local work directory, and build yourself
-a cutting edge version simply by doing:
+Once you did all this, you can keep your local work directory, and build
+yourself a cutting edge version simply by doing:
 
 $ svn up
 $ make
 $ sudo make install
+
