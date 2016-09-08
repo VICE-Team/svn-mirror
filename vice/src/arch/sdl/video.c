@@ -1469,18 +1469,12 @@ void sdl_video_canvas_switch(int index)
         return;
     }
 
+#ifndef USE_SDLUI2
     if (sdl_canvaslist[index]->screen != NULL) {
         SDL_FreeSurface(sdl_canvaslist[index]->screen);
         sdl_canvaslist[index]->screen = NULL;
-#ifdef USE_SDLUI2
-        SDL_DestroyTexture(sdl_canvaslist[index]->texture);
-        sdl_canvaslist[index]->texture = NULL;
-        SDL_DestroyRenderer(sdl_canvaslist[index]->renderer);
-        sdl_canvaslist[index]->renderer = NULL;
-        SDL_DestroyWindow(sdl_canvaslist[index]->window);
-        sdl_canvaslist[index]->window = NULL;
-#endif
     }
+#endif
 
     sdl_active_canvas_num = index;
 
