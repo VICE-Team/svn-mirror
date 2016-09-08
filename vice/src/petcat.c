@@ -1918,7 +1918,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     }
 
                     if ((ctmp = sstrcmp(p2, keyword, 0, max)) != KW_NONE) {
-                        if ((version == B_35) || (c != 0x4e)) {  /* Skip prefix */
+                        if ((version == B_35) || (ctmp != 0x4e)) {  /* Skip prefix */
                             kwlentmp = kwlen;
                             match++;
 
