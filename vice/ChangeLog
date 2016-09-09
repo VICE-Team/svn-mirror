@@ -1,5 +1,1882 @@
 ------------------------------------------------------------------------------
 
+2016-09-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.hlp, doc/vice.pdf, po/da.po, po/de.po,
+	po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.30
+
+2016-09-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Fix C++11 warning
+
+2016-09-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/building/Linux-Native-Howto.txt: Add yasm minimal version note
+
+2016-09-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/building/Linux-Native-Howto.txt: Add yasm for ffmpeg building,
+	reduce line length to 80 chars.
+
+2016-09-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: petcat fix.
+
+2016-09-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/building/Linux-Native-Howto.txt: Fix typo and remove tabs
+
+2016-09-08  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: segfault in c128 when switch VICII vs.
+	VDC chip
+
+2016-09-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Fixed for simons basic.
+
+2016-09-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Fixed for basic 10.
+
+2016-09-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Fixed for basic 7.1
+
+2016-09-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Some more petcat fixes.
+
+2016-09-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Some more petcat fixes.
+
+2016-09-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Some more petcat fixes.
+
+2016-09-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Fixed for prefixed tokens with a '0' as command id.
+
+2016-09-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/xaw/uisnapshot.c: Fix missing prototype for
+	snapshot_display_error()
+
+2016-09-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Another petcat fix.
+
+2016-09-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Another petcat fix.
+
+2016-09-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/xaw/uimenu.c: Fix casting int to void*
+
+2016-09-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/building/Linux-Native-Howto.txt: Add missing tex-info package,
+	add note about missing ROM's
+
+2016-09-06  groepaz <groepaz@gmx.net>
+
+	* src/sid/resid.cc: dont read sid state when sid is not initialized,
+	fixes bug #787
+
+2016-09-05  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/uivideo.c,
+	src/arch/win32/video-dx9.c: win32 Unicode and general fixes: DX9 and
+	Video settings dialog.
+
+2016-09-05  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: crash when x128 being reseted soft/hard,
+	bug #788
+
+2016-09-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Another petcat fix.
+
+2016-09-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Another petcat fix.
+
+2016-09-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_openbsd_runtime_os.c,
+	src/platform/platform_openbsd_version.h: Updated for OpenBSD 6.0
+
+2016-09-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Some petcat fixes.
+
+2016-09-05  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Add: SDL1 like window title
+
+2016-09-05  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: warnings
+
+2016-09-04  groepaz <groepaz@gmx.net>
+
+	* data/PET/sdl_sym.vkm: include business keyboard by default for
+	symbolic mapping, fixes bug #786
+
+2016-09-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/main.c: Fix stupid mistake
+
+2016-09-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/uimon.c: Fix GCC warning on Raspberry Pi 2B
+
+2016-09-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/main.c: Fix buffer overflow
+
+2016-09-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/libavcodec/allcodecs.c,
+	src/lib/libffmpeg/libavformat/allformats.c: Use 'old style'
+	codec/format selection for all versions of msvc.
+
+2016-09-03  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/kbd.c: Fix: SDL1 format key in ini file was not
+	respected
+
+2016-09-03  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/ui.c, src/arch/sdl/video.c: Fix: this fixes bug #768
+	window size in sdl-vice.ini
+
+2016-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/io-access.c: Don't use inb/outb if the functions are
+	not present.
+
+2016-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added a check for 'inb' and 'outb' functions.
+
+2016-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Fixed for non-unicode
+	builds.
+
+2016-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Fixed for cygwin.
+
+2016-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rs232drv/rs232.c: Warning fixes.
+
+2016-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib.h: Fixed for cygwin.
+
+2016-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/resgmod2.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2016-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2016-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt: Updated.
+
+2016-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* AUTHORS, README, doc/html/index.html, doc/vice.texi, man/vice.1,
+	src/arch/os2/dialogs/dialogs.rc,
+	src/arch/unix/macosx/Resources/Credits.html, src/infocontrib.sed:
+	Added AreaScout and Compyx as new core team members.
+
+2016-09-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/petcat.c: Remove evil tab
+
+2016-09-01  groepaz <groepaz@gmx.net>
+
+	* src/petcat.c: revert, that was crap
+
+2016-09-01  groepaz <groepaz@gmx.net>
+
+	* src/petcat.c: comment out unimplemented basic dialects
+
+2016-09-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/monitor/mon_drive.c: mon_drive.c: fix assignment of const to
+	non-const
+
+2016-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartconv.c: Reverted to previous state.
+
+2016-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartconv.c: Added the ability to convert a basic program to a
+	cartridge image (-b filename), for now only 8kb generic cart
+	($8000-$9fff) supported.
+
+2016-08-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* check-activity.sh, doc/html/checklinks.sh, doc/html/texi2html,
+	doc/mkdoxy.sh, doc/src2doxy.sh, doc/txt2doxy.sh, src/findhacks.sh:
+	Added more standardized script 'headers'.
+
+2016-08-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/convert_owcc_libs.sh, src/geninfocontrib_h.sh,
+	src/gensvnversion.sh, src/gentranslate_h.sh, src/gentranslatetable.sh,
+	src/lib/ffmpeg/configure.gnu, src/od2c.sh, src/palette2c.sh,
+	src/sedinfocontrib_h.sh, src/wrap-u-ar.sh: Added more standardized
+	script 'headers'.
+
+2016-08-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ppc-ar.sh, src/arch/beos/ppc-cc.sh,
+	src/arch/os2/watcom/genwt.bat, src/arch/os2/watcom/genwt.cmd,
+	src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/generate_msvc10_ffmpeg_sdl1x.bat,
+	src/arch/sdl/generate_msvc10_ffmpeg_sdl2x.bat,
+	src/arch/sdl/generate_msvc10_sdl1x.bat,
+	src/arch/sdl/generate_msvc10_sdl2x.bat,
+	src/arch/sdl/generate_msvc11_ffmpeg_sdl1x.bat,
+	src/arch/sdl/generate_msvc11_ffmpeg_sdl2x.bat,
+	src/arch/sdl/generate_msvc11_sdl1x.bat,
+	src/arch/sdl/generate_msvc11_sdl2x.bat,
+	src/arch/sdl/generate_msvc12_ffmpeg_sdl1x.bat,
+	src/arch/sdl/generate_msvc12_ffmpeg_sdl2x.bat,
+	src/arch/sdl/generate_msvc12_sdl1x.bat,
+	src/arch/sdl/generate_msvc12_sdl2x.bat,
+	src/arch/sdl/generate_msvc14_ffmpeg_sdl1x.bat,
+	src/arch/sdl/generate_msvc14_ffmpeg_sdl2x.bat,
+	src/arch/sdl/generate_msvc14_sdl1x.bat,
+	src/arch/sdl/generate_msvc14_sdl2x.bat,
+	src/arch/sdl/generate_msvc6_sdl1x.bat,
+	src/arch/sdl/generate_msvc6_sdl2x.bat,
+	src/arch/sdl/generate_msvc70_ffmpeg_sdl1x.bat,
+	src/arch/sdl/generate_msvc70_ffmpeg_sdl2x.bat,
+	src/arch/sdl/generate_msvc70_sdl1x.bat,
+	src/arch/sdl/generate_msvc70_sdl2x.bat,
+	src/arch/sdl/generate_msvc71_ffmpeg_sdl1x.bat,
+	src/arch/sdl/generate_msvc71_ffmpeg_sdl2x.bat,
+	src/arch/sdl/generate_msvc71_sdl1x.bat,
+	src/arch/sdl/generate_msvc71_sdl2x.bat,
+	src/arch/sdl/generate_msvc8_ffmpeg_sdl1x.bat,
+	src/arch/sdl/generate_msvc8_ffmpeg_sdl2x.bat,
+	src/arch/sdl/generate_msvc8_sdl1x.bat,
+	src/arch/sdl/generate_msvc8_sdl2x.bat,
+	src/arch/sdl/generate_msvc9_ffmpeg_sdl1x.bat,
+	src/arch/sdl/generate_msvc9_ffmpeg_sdl2x.bat,
+	src/arch/sdl/generate_msvc9_sdl1x.bat,
+	src/arch/sdl/generate_msvc9_sdl2x.bat,
+	src/arch/sdl/generate_msvcmips_sdl1x.bat,
+	src/arch/sdl/msvc-files/make-bindist-mips.bat.proto,
+	src/arch/sdl/msvc-files/make-bindist-sdl1x.bat.proto,
+	src/arch/sdl/msvc-files/make-bindist-sdl2x.bat.proto,
+	src/arch/sdl/msvc-files/winid_arm.bat,
+	src/arch/sdl/msvc-files/winid_ia64.bat,
+	src/arch/sdl/msvc-files/winid_x64.bat,
+	src/arch/sdl/msvc-files/winid_x86.bat,
+	src/arch/sdl/qnx4/make-bindist.sh,
+	src/arch/sdl/syllable-files/install.sh,
+	src/arch/sdl/syllable-files/uninstall.sh,
+	src/arch/sdl/win32-watcom/genwt.bat,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/unix/hpux/getdate.pl, src/arch/unix/hpux/getnow.pl,
+	src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/macosx/make-bindist.sh,
+	src/arch/unix/macosx/vice-launcher.sh,
+	src/arch/unix/macosx/x11-launcher.sh, src/arch/unix/minix/minix-ar.sh,
+	src/arch/unix/next_open_rhap/make-bindist.sh,
+	src/arch/unix/next_open_rhap/nextfix.sh,
+	src/arch/unix/qnx4/make-bindist.sh,
+	src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/unix/sco_sol/make-bindist.sh,
+	src/arch/unix/skyos/make-bindist.sh,
+	src/arch/win32/generate_msvc10_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc10_project.bat,
+	src/arch/win32/generate_msvc11_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc11_project.bat,
+	src/arch/win32/generate_msvc12_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc12_project.bat,
+	src/arch/win32/generate_msvc14_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc14_project.bat,
+	src/arch/win32/generate_msvc6_project.bat,
+	src/arch/win32/generate_msvc70_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc70_project.bat,
+	src/arch/win32/generate_msvc71_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc71_project.bat,
+	src/arch/win32/generate_msvc8_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc8_project.bat,
+	src/arch/win32/generate_msvc9_ffmpeg_project.bat,
+	src/arch/win32/generate_msvc9_project.bat,
+	src/arch/win32/genmenuid.sh, src/arch/win32/genstringid.sh,
+	src/arch/win32/genwinres.sh, src/arch/win32/make-bindist.sh,
+	src/arch/win32/msvc/make-msvc-bindist-native.bat.proto,
+	src/arch/win32/msvc/winid_arm.bat, src/arch/win32/msvc/winid_ia64.bat,
+	src/arch/win32/msvc/winid_x64.bat, src/arch/win32/msvc/winid_x86.bat,
+	src/arch/win32/watcom/genwt.bat,
+	src/arch/win32/watcom/make-watcom-bindist.bat,
+	src/arch/win32/watcom/watcom-ar.sh, src/bin2c.sh: Added more
+	standardized script 'headers'.
+
+2016-08-31  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: simplify RGB mask and tested it under ppc
+	big endian with mesa software rasterizer 
+
+2016-08-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/amigaos/genintl_h.sh, src/arch/amigaos/genintltable.sh,
+	src/arch/amigaos/make-bindist.sh, src/arch/beos/make-bindist.sh,
+	src/arch/msdos/make-bindist.sh, src/arch/os2/makedist.cmd,
+	src/arch/os2/watcom/makebindist.bat,
+	src/arch/os2/watcom/makebindist.cmd,
+	src/arch/sdl/make-bindist_amiga.sh, src/arch/sdl/make-bindist_beos.sh,
+	src/arch/sdl/make-bindist_dingoo.sh,
+	src/arch/sdl/make-bindist_dingoo_native.sh,
+	src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/sdl/make-bindist_scosol.sh,
+	src/arch/sdl/make-bindist_skyos.sh,
+	src/arch/sdl/make-bindist_syllable.sh,
+	src/arch/sdl/make-bindist_win32.sh: Added more standardized script
+	'headers'.
+
+2016-08-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/attach.c, src/c1541.c, src/c64/vsidstubs.c,
+	src/diskimage/diskimage.c, src/diskimage/fsimage.c,
+	src/diskimage/fsimage.h, src/diskimage/rawimage.c,
+	src/diskimage/rawimage.h, src/diskimage.h,
+	src/vdrive/vdrive-internal.c: Move image name allocation
+	responsibilities from callers to callee.
+
+2016-08-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: Partial fixes, docs and cleanups. Got through
+	the first 1000 lines or so.
+
+2016-08-30  groepaz <groepaz@gmx.net>
+
+	* build/macosx/build-allext.sh, build/macosx/build-ffmpeglame.sh,
+	build/macosx/build-gtk.sh, build/macosx/build-hidutils.sh,
+	build/macosx/build-inc.sh, build/macosx/build-pcaplibnet.sh,
+	build/macosx/build-sdlmain.sh, build/macosx/build-vice-dist.sh,
+	build/macosx/build-vice-release.sh, build/minix3/build-package.sh,
+	build/minix3/build-sdl-package.sh, build/nextstep/build.sh,
+	build/openstep/build.sh, build/openwatcom/win32-build.sh,
+	build/rhapsody/build.sh, config.guess, config.rpath, doc/fixdox.sh,
+	doc/t2h.pl, doc/texi2chm.sh, doc/texi2guide.sh, gcccpu.sh,
+	po/check_obsolete.sh, po/gen_win32_files.sh: Added more standardized
+	script 'headers'.
+
+2016-08-30  groepaz <groepaz@gmx.net>
+
+	* src/c1541.c: fix out of bounds array accesses
+
+2016-08-30  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/menu_video.c: Fix: warning
+
+2016-08-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/amigaos/build-os4-native.sh, build/beos/intel-build-sdl.sh,
+	build/beos/intel-build.sh, build/beos/ppc-build-sdl.sh,
+	build/beos/ppc-build.sh: Started on a run to standardize the 'headers'
+	of scripts, providing a way to see what the script is used for, who
+	made it and what parameters are used (if any).
+
+2016-08-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/archapi.h, src/cartconv.c, src/cartio.h, src/cartridge.h,
+	src/catweaselmkiii.h, src/datasette.c, src/datasette.h,
+	src/gfxoutput.h, src/gfxoutputdrv/gfxoutput.c, src/h6809regs.h,
+	src/hardsid.h, src/info.c, src/info.h, src/ioutil.c, src/ioutil.h,
+	src/joyport/joystick.c, src/joyport/joystick.h,
+	src/joyport/lightpen.c, src/joyport/lightpen.h, src/joyport/mouse.c,
+	src/joyport/mouse.h, src/lib.c, src/lib.h, src/monitor/mon_assemble.h,
+	src/monitor/mon_disassemble.c, src/pet/pet.c, src/pet/pet.h,
+	src/pet/petdatasette.c, src/pet/petmem.c, src/pet/petmem.h,
+	src/pet/petpia1.c, src/pet/petsound.c, src/pet/petvia.c,
+	src/plus4/plus4-resources.c, src/plus4/plus4-resources.h,
+	src/plus4/plus4.c, src/plus4/plus4.h, src/plus4/plus4acia.c,
+	src/plus4/plus4acia.h, src/plus4/plus4datasette.c,
+	src/plus4/plus4mem.c, src/plus4/plus4pio1.c, src/plus4/plus4pio1.h,
+	src/plus4/ted-sound.c, src/plus4/ted-sound.h,
+	src/printerdrv/interface-userport.c,
+	src/printerdrv/interface-userport.h, src/rs232drv/rs232.h,
+	src/rs232drv/rs232net.c, src/scpu64/scpu64.c, src/scpu64/scpu64.h,
+	src/screenshot.c, src/screenshot.h, src/sid/sid-cmdline-options.c,
+	src/sid/sid-cmdline-options.h, src/sid/sid-resources.c,
+	src/sid/sid-resources.h, src/sid/sid-snapshot.h, src/sid/sid.c,
+	src/sid/sid.h, src/snapshot.c, src/snapshot.h, src/socket.c,
+	src/sound.c, src/sound.h, src/sounddrv/soundahi.c,
+	src/sounddrv/sounddx.c, src/util.c, src/util.h, src/vic20/vic20.c,
+	src/vic20/vic20.h, src/vic20/vic20datasette.c, src/vic20/vic20mem.c,
+	src/vic20/vic20mem.h, src/vicefeatures.c, src/vicefeatures.h: Some
+	more cosmetic fixes.
+
+2016-08-29  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: typo 
+
+2016-08-29  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: cosmetics
+
+2016-08-29  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: cleanup
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui-resources.c, src/arch/win32/uisid.c,
+	src/arch/win32/uisid.h, src/arch/win32/uisound.c,
+	src/arch/win32/uisound.h, src/arch/win32/uivicii.h,
+	src/arch/win32/uivideo.c, src/arch/win32/uivideo.h,
+	src/arch/win32/vic20ui.c, src/arch/win32/winmain.c,
+	src/arch/win32/winmain.h, src/c128/c128-cmdline-options.c,
+	src/c128/c128-cmdline-options.h, src/c128/c128-resources.c,
+	src/c128/c128-resources.h, src/c128/c128.c, src/c128/c128.h,
+	src/c128/c128cia1.c, src/c128/c128cpu.c, src/c128/c128mem.c,
+	src/c128/c128mem.h, src/c128/c128mmu.c, src/c128/c128mmu.h,
+	src/c128/functionrom.c, src/c128/functionrom.h,
+	src/c64/c64-cmdline-options.c, src/c64/c64.c, src/c64/c64.h,
+	src/c64/c64cia1.c, src/c64/c64cia2.c, src/c64/c64datasette.c,
+	src/c64/c64io.c, src/c64/c64mem.c, src/c64/c64mem.h,
+	src/c64/c64meminit.c, src/c64/c64meminit.h, src/c64/c64memlimit.c,
+	src/c64/c64memlimit.h, src/c64/c64memsc.c, src/c64/c64model.c,
+	src/c64/c64model.h, src/c64/c64pla.c, src/c64/c64pla.h,
+	src/c64/c64scmodel.c, src/c64/cart/c64acia.h, src/c64/cart/c64acia1.c,
+	src/c64/cart/crt.c, src/c64/cart/crt.h, src/c64/cart/daa.c,
+	src/c64/cart/daa.h, src/c64/vsid-cmdline-options.c,
+	src/c64/vsid-resources.c, src/c64/vsidmem.c,
+	src/c64/vsidmemsnapshot.c, src/c64dtv/c64dtv.c,
+	src/c64dtv/c64dtvcia2.c, src/cbm2/cbm2.c, src/cbm2/cbm2.h,
+	src/cbm2/cbm2cia1.c, src/cbm2/cbm2datasette.c, src/cbm2/cbm5x0.c: Some
+	more cosmetic fixes.
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/archdep.c, src/arch/unix/archdep.h,
+	src/arch/unix/joy.c, src/arch/unix/joy_usb.c, src/arch/unix/types.h,
+	src/arch/unix/unixmain.c, src/arch/unix/x11/gnome/uijoystatus.c,
+	src/arch/unix/x11/gnome/uijoystatus.h, src/arch/unix/x11/qnxipc.h,
+	src/arch/unix/x11/qnxshm.c, src/arch/unix/x11/qnxshm.h,
+	src/arch/unix/x11/xaw/widgets/Directory.c, src/arch/win32/archdep.c,
+	src/arch/win32/archdep.h, src/arch/win32/c128ui.c,
+	src/arch/win32/c64dtvui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/genwinres.sh,
+	src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/res.rc, src/arch/win32/types.h, src/arch/win32/ui.c,
+	src/arch/win32/ui.h, src/arch/win32/uiacia.c, src/arch/win32/uiacia.h,
+	src/arch/win32/uic128.c, src/arch/win32/uic128.h,
+	src/arch/win32/uic64cart.c, src/arch/win32/uic64cart.h,
+	src/arch/win32/uidatasette.c, src/arch/win32/uidatasette.h,
+	src/arch/win32/uidrivec128.c, src/arch/win32/uidrivec128.h,
+	src/arch/win32/uidrivec64.c, src/arch/win32/uidrivec64.h,
+	src/arch/win32/uidrivepetcbm2.c, src/arch/win32/uidrivepetcbm2.h,
+	src/arch/win32/uidriveplus4.c, src/arch/win32/uidriveplus4.h,
+	src/arch/win32/uidrivevic20.c, src/arch/win32/uidrivevic20.h,
+	src/arch/win32/uihelp.c, src/arch/win32/uihelp.h,
+	src/arch/win32/uiide64.h, src/arch/win32/uijoystick.c,
+	src/arch/win32/uijoystick.h, src/arch/win32/uilib.c,
+	src/arch/win32/uilib.h, src/arch/win32/uimediafile.c,
+	src/arch/win32/uimediafile.h, src/arch/win32/uimmcreplay.c,
+	src/arch/win32/uimmcreplay.h, src/arch/win32/uiperipheral.c,
+	src/arch/win32/uiperipheral.h, src/arch/win32/uiplus4mem.c,
+	src/arch/win32/uiplus4mem.h, src/arch/win32/utils/genwinres.c: More
+	cosmetic fixes.
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uijoystick2.c,
+	src/arch/unix/gui/uijoystick2.h, src/arch/unix/gui/uisound.c,
+	src/arch/unix/gui/uisound.h, src/arch/unix/gui/vic20ui.c: More
+	cosmetic fixes.
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/types.h, src/arch/sdl/archdep_amiga.c,
+	src/arch/sdl/archdep_amiga.h, src/arch/sdl/archdep_beos.c,
+	src/arch/sdl/archdep_beos.h, src/arch/sdl/archdep_unix.c,
+	src/arch/sdl/archdep_unix.h, src/arch/sdl/archdep_win32.c,
+	src/arch/sdl/archdep_win32.h, src/arch/sdl/archdep_xbox.c,
+	src/arch/sdl/archdep_xbox.h, src/arch/sdl/kbd.h,
+	src/arch/sdl/menu_c64hw.c, src/arch/sdl/menu_c64hw.h,
+	src/arch/sdl/menu_common.h, src/arch/sdl/menu_joystick.c,
+	src/arch/sdl/menu_joystick.h, src/arch/sdl/menu_sid.c,
+	src/arch/sdl/menu_sid.h, src/arch/sdl/menu_tape.c,
+	src/arch/sdl/menu_tape.h, src/arch/sdl/menu_vic20hw.c,
+	src/arch/sdl/menu_vic20hw.h, src/arch/sdl/sdlmain.c,
+	src/arch/sdl/signals.c, src/arch/sdl/types.h, src/arch/sdl/ui.c,
+	src/arch/sdl/ui.h, src/arch/sdl/uicmdline.c, src/arch/sdl/uimenu.c,
+	src/arch/sdl/uimenu.h, src/arch/sdl/video.c, src/arch/sdl/videoarch.h,
+	src/arch/sdl/vsyncarch.c, src/arch/unix/gui/c128ui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uicbm2cart.c,
+	src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uicommands.h: More
+	cosmetic fixes.
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/archdep.c, src/arch/os2/archdep.h: More cosmetic fixes.
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uicmdline.c, src/arch/msdos/uijoystick.c,
+	src/arch/msdos/uijoystick.h, src/arch/msdos/uiplus4memoryhacks.c,
+	src/arch/msdos/uisound.c, src/arch/msdos/uisound.h,
+	src/arch/msdos/vic20ui.c, src/arch/os2/dialogs/dialogs.c,
+	src/arch/os2/dialogs/dialogs.h, src/arch/os2/dialogs/dialogs.rc,
+	src/arch/os2/dialogs/dlg-color.h,
+	src/arch/os2/dialogs/dlg-datasette.c,
+	src/arch/os2/dialogs/dlg-datasette.h,
+	src/arch/os2/dialogs/dlg-datasette.rc,
+	src/arch/os2/dialogs/dlg-fileio.c, src/arch/os2/dialogs/dlg-fileio.h,
+	src/arch/os2/dialogs/dlg-fileio.rc,
+	src/arch/os2/dialogs/dlg-joystick.c,
+	src/arch/os2/dialogs/dlg-joystick.h,
+	src/arch/os2/dialogs/dlg-joystick.rc, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc: More
+	cosmetic fixes.
+
+2016-08-28  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: needed a view lines above
+
+2016-08-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Revert accidental inclusion of untested readline fixes
+	in my previous commit. Sorry.
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/joy.cc, src/arch/beos/joy.h, src/arch/beos/petui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/types.h, src/arch/beos/ui.cc,
+	src/arch/beos/ui.h, src/arch/beos/ui_datasette.cc,
+	src/arch/beos/ui_datasette.h, src/arch/beos/ui_file.cc,
+	src/arch/beos/ui_file.h, src/arch/beos/ui_joystick.cc,
+	src/arch/beos/ui_joystick.h, src/arch/beos/ui_pet.cc,
+	src/arch/beos/ui_pet.h, src/arch/beos/ui_vic20.cc,
+	src/arch/beos/ui_vic20.h, src/arch/beos/uimon.c,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.h,
+	src/arch/msdos/c128ui.c, src/arch/msdos/c64ui.c,
+	src/arch/msdos/cbm2ui.c, src/arch/msdos/cbm5x0ui.c,
+	src/arch/msdos/joy.c, src/arch/msdos/joy.h, src/arch/msdos/menudefs.c,
+	src/arch/msdos/menudefs.h, src/arch/msdos/petui.c,
+	src/arch/msdos/plus4ui.c, src/arch/msdos/types.h,
+	src/arch/msdos/uic64cart.c, src/arch/msdos/uic64cart.h: More cosmetic
+	fixes.
+
+2016-08-28  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/menu_video.c, src/arch/sdl/video.c,
+	src/arch/sdl/videoarch.h: Add: applied patch #132 
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/joy.cc: Removed (properly) '#if 0'ed code.
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joy.h, src/arch/amigaos/joyai.c,
+	src/arch/amigaos/joyai.h, src/arch/amigaos/petui.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4ui.c,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/rawnetarch.c,
+	src/arch/amigaos/rs232.c, src/arch/amigaos/timer.c,
+	src/arch/amigaos/timer.h, src/arch/amigaos/types.h,
+	src/arch/amigaos/ui.h, src/arch/amigaos/uiapi.c,
+	src/arch/amigaos/uiattach.c, src/arch/amigaos/uiattach.h,
+	src/arch/amigaos/uires.h, src/arch/amigaos/vic20ui.c,
+	src/arch/amigaos/vic20uires.h, src/arch/amigaos/videoarch.h,
+	src/arch/amigaos/vsyncapi.c, src/arch/beos/archdep.c,
+	src/arch/beos/archdep.h, src/arch/beos/c128ui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc: Cosmetic fixes.
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joy.c, src/arch/amigaos/joyll.c: Removed (properly)
+	'#if 0'ed code.
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/ahi.c, src/arch/amigaos/ahi.h,
+	src/arch/amigaos/amigamain.c, src/arch/amigaos/archdep.c,
+	src/arch/amigaos/archdep.h, src/arch/amigaos/blockdev.c,
+	src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/cbm2ui.c, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/cbm5x0ui.c, src/arch/amigaos/mui/mui.c,
+	src/arch/amigaos/mui/mui.h, src/arch/amigaos/mui/uidrivec128.c,
+	src/arch/amigaos/mui/uidrivec128.h, src/arch/amigaos/mui/uidrivec64.c,
+	src/arch/amigaos/mui/uidrivec64.h,
+	src/arch/amigaos/mui/uidrivepetcbm2.c,
+	src/arch/amigaos/mui/uidrivepetcbm2.h,
+	src/arch/amigaos/mui/uidriveplus4.c,
+	src/arch/amigaos/mui/uidriveplus4.h,
+	src/arch/amigaos/mui/uijoystick.c, src/arch/amigaos/mui/uijoystick.h,
+	src/arch/amigaos/mui/uinetwork.c, src/arch/amigaos/mui/uinetwork.h,
+	src/arch/amigaos/mui/uisid.c, src/arch/amigaos/mui/uisid.h,
+	src/arch/amigaos/mui/uisound.c, src/arch/amigaos/mui/uisound.h:
+	Cosmetic fixes, started checking/fixing my name for 'written by'
+	sections so that people can see what code I've dealt with.
+
+2016-08-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541::delete_cmd(): change 'ERRORCODE 1' into
+	something a little more meaningful
+
+2016-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/os2/watcom/tapeport.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/sdl/win32-watcom/tapeport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/tapeport.tmpl,
+	src/arch/win32/watcom/tapeport.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c128/c128.c, src/c128/c128mem.c, src/c64/c64.c,
+	src/c64/c64datasette.c, src/c64/c64mem.c, src/c64/c64mem.h,
+	src/c64/c64memsc.c, src/c64/c64pla.c, src/c64/c64pla.h,
+	src/c64/vsidmem.c, src/c64/vsidpla.c, src/c64dtv/c64dtvmem.c,
+	src/c64dtv/c64dtvpla.c, src/cbm2/cbm2datasette.c, src/cbm2/cbm2tpi.h,
+	src/cbm2/cbm2tpi1.c, src/datasette.c, src/datasette.h,
+	src/diag/c64_diag_586220_harness.c,
+	src/diag/c64_diag_586220_harness.h, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/pet/petdatasette.c, src/pet/petpia.h,
+	src/pet/petpia1.c, src/plus4/plus4datasette.c, src/plus4/plus4mem.c,
+	src/plus4/plus4mem.h, src/tapeport/Makefile.am,
+	src/tapeport/cp-clockf83.c, src/tapeport/dtl-basic-dongle.c,
+	src/tapeport/sense-dongle.c, src/tapeport/tape_diag_586220_harness.c,
+	src/tapeport/tape_diag_586220_harness.h, src/tapeport/tapelog.c,
+	src/tapeport/tapeport.c, src/tapeport/tapeport.h, src/translate.txt,
+	src/translate_text.c, src/vic20/vic20datasette.c,
+	src/vic20/vic20via.h, src/vic20/vic20via2.c: Added experimental/wip
+	tape port part of the c64 586220 diagnostics harness.
+
+2016-08-28  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: fixed aspect ratio is not 1.0, it should
+	be the pixel aspect ratio + adjusted window size to that new value
+
+2016-08-28  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: cosmetics
+
+2016-08-28  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: RGB24 mask for big endian machines
+
+2016-08-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Fix segfaults when using units #10 or #11
+
+2016-08-26  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uiacia.c, src/arch/win32/uic64dtv.c,
+	src/arch/win32/uiexpert.c, src/arch/win32/uigmod2.c,
+	src/arch/win32/uiisepic.c, src/arch/win32/uimmc64.c,
+	src/arch/win32/uimmcreplay.c, src/arch/win32/uiretroreplay.c,
+	src/arch/win32/uirs232user.c, src/arch/win32/uitfe.c: win32 Unicode
+	fixes: Various (mostly cart / I/O) dialogs.
+
+2016-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/6510dtvcore.c, src/arch/os2/watcom/monitor.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/sdl/win32-watcom/monitor.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/monitor.tmpl,
+	src/arch/win32/watcom/monitor.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c64/c64cpu.c, src/c64/c64cpusc.c, src/mainc64cpu.c,
+	src/mainviccpu.c, src/monitor/Makefile.am, src/monitor/mon_memmap.c,
+	src/monitor/mon_memmap.h, src/monitor/mon_parse.y,
+	src/monitor/monitor.c, src/monitor/montypes.h, src/monitor.h,
+	src/vic20/vic20cpu.c: Applied patch (#133) by 'Drive-by Patch': Split
+	memmap to mon_memmap, some fixes.
+
+2016-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/console.c,
+	src/arch/sdl/console_amiga.c: Added amigaos native monitor windows
+	support to the sdl port.
+
+2016-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/console.c: Cosmetic fix.
+
+2016-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/console.c,
+	src/arch/sdl/console_sdl.c, src/arch/sdl/console_unix.c,
+	src/arch/sdl/menu_common.c, src/arch/sdl/menu_common.h,
+	src/arch/sdl/menu_monitor.c, src/arch/sdl/menu_monitor.h,
+	src/arch/sdl/menu_network.c, src/arch/sdl/ui.c, src/arch/sdl/ui.h,
+	src/arch/sdl/uimon.c, src/arch/sdl/vsidui.c,
+	src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/sdl/x128_ui.c,
+	src/arch/sdl/x64_ui.c, src/arch/sdl/x64dtv_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xcbm2_ui.c,
+	src/arch/sdl/xpet_ui.c, src/arch/sdl/xplus4_ui.c,
+	src/arch/sdl/xscpu64_ui.c, src/arch/sdl/xvic_ui.c,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl: Applied slightly rewritten patch
+	by 'Drive-by Patch': This patch adds native monitor support for SDL on
+	Unix. Native monitor in this case is the terminal the emulator was
+	started on, which is far superior to the SDL UI monitor. Code is
+	adapted from the dead VICEminus fork.
+
+2016-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/userport/userport_diag_586220_harness.c: Fixed.
+
+2016-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/c1541.c: Applied patch (#129) by
+	'Drive-by Patch': This patch allows readline to be used with SDL. Also
+	includes a fix for c1541 to use the readline headers instead of the
+	editline one under arch/unix/.
+
+2016-08-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Fix 'Floppy read failed' bug in c1541's unlynx command
+
+2016-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/userport.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/userport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/userport.tmpl,
+	src/arch/win32/watcom/userport.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c128/c128.c, src/c128/c128cia1.c, src/c64/c64.c,
+	src/c64/c64cia1.c, src/c64/c64cia2.c, src/translate.txt,
+	src/translate_text.c, src/userport/Makefile.am,
+	src/userport/userport.c, src/userport/userport.h,
+	src/userport/userport_diag_586220_harness.c,
+	src/userport/userport_diag_586220_harness.h,
+	src/userport/userport_joystick.c: Added the wip userport part of the
+	c64 586220 diagnostics harness, doesn't work correctly yet, needs more
+	investigating.
+
+2016-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/resid.cc: Fixed for msvc9/vs2008.
+
+2016-08-24  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64meminit.c, src/c64/cart/c64cartmem.c,
+	src/c64/cart/c64cartmem.h, src/c64/cart/pagefox.c: fix memory mapping
+	for pagefox cartridge, the RAM is write enabled even when it is not
+	selected and the cartridge is not enabled
+
+2016-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ds12c887rtc.h, src/c64/cart/sfx_soundexpander.h,
+	src/c64/cart/sfx_soundsampler.h, src/joyport/bbrtc.h,
+	src/joyport/sampler2bit.h, src/joyport/sampler4bit.h,
+	src/tapeport/tapelog.h, src/userport/userport_4bit_sampler.h,
+	src/userport/userport_8bss.h, src/userport/userport_dac.h,
+	src/userport/userport_joystick.h, src/userport/userport_rtc_58321a.h,
+	src/userport/userport_rtc_ds1307.h: Cosmetic fixes.
+
+2016-08-24  groepaz <groepaz@gmx.net>
+
+	* src/userport/userport.h: added missing prototypes
+
+2016-08-24  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uisid.c, src/arch/win32/uisidcart.c,
+	src/arch/win32/uisiddtv.c, src/arch/win32/uisound.c: win32 Unicode
+	fixes: SID dialogs.
+
+2016-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128cia1.c, src/c64/c64cia1.c, src/c64/c64cia2.c,
+	src/printerdrv/interface-userport.c, src/userport/userport.c,
+	src/userport/userport.h, src/userport/userport_4bit_sampler.c,
+	src/userport/userport_8bss.c, src/userport/userport_dac.c,
+	src/userport/userport_digimax.c, src/userport/userport_joystick.c,
+	src/userport/userport_rtc_58321a.c,
+	src/userport/userport_rtc_ds1307.c: Extended the userport system a
+	bit.
+
+2016-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/userport/userport_8bss.c, src/userport/userport_digimax.c:
+	Fixed.
+
+2016-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/diag/c64_diag_586220_harness.c,
+	src/diag/c64_diag_586220_harness.h: Some improvements.
+
+2016-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/tapeport/tapeport.h: Comment fix.
+
+2016-08-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/tape/t64.c, src/tape/t64.h: Make functions in t64.c static which
+	do not require external linkage
+
+2016-08-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/imagecontents/imagecontents.c, src/imagecontents.h,
+	src/tape/t64.c: Fix truncating container name of T64 images in image
+	content previews
+
+2016-08-22  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: aspect ratio again
+
+2016-08-22  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: some warnings
+
+2016-08-22  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Add: aspect ratio fixes
+
+2016-08-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/tape/t64.c, src/tape/t64.h: T64 code cleanup/bugfixes, full
+	Doxygen documentation added
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi, src/arch/sdl/menu_video.c,
+	src/arch/unix/gui/uivicii.c, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resvicii.rc, src/arch/win32/uivicii.c,
+	src/gfxoutputdrv/godotdrv.c, src/screenshot.c, src/translate_text.c,
+	src/vicii/vicii-cmdline-options.c, src/vicii/vicii-resources.c,
+	src/vicii/vicii-timing.c, src/vicii/vicii-timing.h, src/vicii.h,
+	src/viciisc/vicii-timing.c, src/viciisc/vicii-timing.h: Revert, this
+	was unwelcome
+
+2016-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Fixed for msvc 7.0
+
+2016-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_joystick.c, src/arch/sdl/vkbd.c,
+	src/samplerdrv/file_drv.c: Some warning fixes.
+
+2016-08-21  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Add: complete the RGB332 8bit palette
+
+2016-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/cx21.c: Fixed.
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/menu_video.c: Add VICII TV border option for SDL
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/resvicii.rc,
+	src/arch/win32/uivicii.c: Try to add VIC-II TV border option
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/uivicii.c: Add option for VICII TV border
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi, src/translate_text.c,
+	src/vicii/vicii-cmdline-options.c, src/vicii/vicii-resources.c,
+	src/vicii/vicii-timing.c, src/vicii/vicii-timing.h, src/vicii.h,
+	src/viciisc/vicii-timing.c, src/viciisc/vicii-timing.h: Add TV border
+	mode
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii.h: Unused now
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128-resources.c, src/c128/c128.c, src/c64/c64-resources.c,
+	src/c64/c64.c, src/c64/vsid-resources.c, src/c64/vsid.c,
+	src/c64dtv/c64dtv-resources.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2-resources.c, src/cbm2/cbm2.c,
+	src/cbm2/cbm5x0-resources.c, src/cbm2/cbm5x0.c, src/machine.h,
+	src/pet/pet-resources.c, src/pet/pet.c, src/plus4/plus4-resources.c,
+	src/plus4/plus4.c, src/plus4/ted-cmdline-options.c,
+	src/plus4/ted-resources.c, src/plus4/ted.h,
+	src/scpu64/scpu64-resources.c, src/scpu64/scpu64.c,
+	src/vic20/vic-cmdline-options.c, src/vic20/vic-resources.c,
+	src/vic20/vic20-resources.c, src/vic20/vic20.c,
+	src/vicii/vicii-cmdline-options.c, src/vicii/vicii-resources.c,
+	src/viciisc/vicii-cmdline-options.c, src/viciivsid/viciivsid.h: Use
+	proper parameter instead of bit hacking
+
+2016-08-21  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: set alpha value for RGB24 to zero
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/gfxoutputdrv/godotdrv.c: Round up to next block
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/screenshot.c: Off by 1
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-timing.h, src/viciisc/vicii-timing.h: Adjust VICII
+	PAL(N) vertical borders
+
+2016-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-timing.h, src/viciisc/vicii-timing.h: Fix NTSC VICII
+	vertical border heights
+
+2016-08-20  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Add: bit depth 8/16/24/32 are now working and
+	selectable via commandline
+
+2016-08-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: Fix memory leaks and
+	undefined behaviour in gnome/uiscreenshot.c
+
+2016-08-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/machine.c, src/screenshot.c, src/screenshot.h: Fix memory leaks
+	in src/screenshot.c
+
+2016-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/cardkey.c: Fixed.
+
+2016-08-19  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Add: Use the global structure memory here
+
+2016-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4-sidcart.c: Fixed.
+
+2016-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4pio1.c: Fixed.
+
+2016-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uijoystick.c: Fixed for xplus4.
+
+2016-08-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uihelp.c: win32 Unicode and translation fixes: Help and
+	About menu items.
+
+2016-08-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* doc/WinNT-Unicode.txt: Added some documentation for the win32
+	Unicode build.
+
+2016-08-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uigeoram.c, src/arch/win32/uiram.c,
+	src/arch/win32/uiramcart.c, src/arch/win32/uireu.c,
+	src/arch/win32/uirom.c: win32 Unicode fixes: RAM / ROM / cart related.
+	(Files I forgot to commit with r31569.)
+
+2016-08-16  groepaz <groepaz@gmx.net>
+
+	* src/resid/wave.h: (hopefully) fix the noise writeback and lfsr
+	details. patch by Leandro Nini, should fix bug #746
+
+2016-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64cia2.c: Undo a modification that was done for testing
+	purposes and accidentally got committed, causing sp1/sp2 to fail.
+
+2016-08-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/joyport.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/joyport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/joyport.tmpl,
+	src/arch/win32/watcom/joyport.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c128/c128.c, src/c64/c64.c, src/cbm2/cbm5x0.c,
+	src/joyport/Makefile.am, src/joyport/cardkey.c, src/joyport/cardkey.h,
+	src/plus4/plus4.c, src/scpu64/scpu64.c, src/translate.txt,
+	src/translate_text.c, src/vic20/vic20.c: Added cardco cardkey support.
+
+2016-08-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/joyport.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/joyport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/joyport.tmpl,
+	src/arch/win32/watcom/joyport.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c128/c128.c, src/c64/c64.c, src/cbm2/cbm5x0.c,
+	src/joyport/Makefile.am, src/joyport/cx21.c, src/joyport/cx21.h,
+	src/plus4/plus4.c, src/scpu64/scpu64.c, src/translate.txt,
+	src/translate_text.c, src/vic20/vic20.c: Added atari cx21 keypad
+	support.
+
+2016-08-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/joyport.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/joyport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/joyport.tmpl,
+	src/arch/win32/watcom/joyport.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c, src/cbm2/cbm2.c,
+	src/cbm2/cbm5x0.c, src/joyport/Makefile.am, src/joyport/joyport.h,
+	src/joyport/rushware_keypad.c, src/joyport/rushware_keypad.h,
+	src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/translate.txt, src/translate_text.c, src/vic20/vic20.c: Added
+	rushware (AKA EXTAS) keypad support.
+
+2016-08-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4.c: Extended the cx85 keypad to work on the sidcard
+	of the plus4.
+
+2016-08-12  groepaz <groepaz@gmx.net>
+
+	* src/resid/wave.cc, src/resid/wave.h: As the OSC3 register is sampled
+	in the first clock phase while the tri/saw output is latched on the
+	second phase the delay will be noticed only on OSC3 read, since we
+	produce the waveform output when phi2 is high. patch by Leandro Nini
+
+2016-08-11  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/console.c: Stopped null chars from getting into the
+	WinVICE monitor console. (Sorry. :( )
+
+2016-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.guess, config.sub: Updated 'config.guess' and 'config.sub'.
+
+2016-08-11  AreaScout <areascout@gmx.at>
+
+	* config.guess: Add: new config.guess dated 2013
+
+2016-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uic64cart.c, src/tape/t64.c: Some warning fixes.
+
+2016-08-11  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: cosmetics
+
+2016-08-11  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/menu_video.c: Fix: suppress compile warnings 
+
+2016-08-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpeglib.h: Fixed
+	for ffmpeg 3.x.
+
+2016-08-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu, src/lib/libffmpeg/Makefile,
+	src/lib/liblame/Makefile.am, src/lib/liblame/Makefile.in,
+	src/lib/libx264/configure: Fixed 'internal' ffmpeg library/header
+	installation.
+
+2016-08-10  AreaScout <areascout@gmx.at>
+
+	* src/vice_sdl.h: Fix: include SDL_opengl.h also if GL headers not
+	present
+
+2016-08-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, man/cartconv.1: Added the gmod2 cart to the cartconv
+	dox.
+
+2016-08-10  AreaScout <areascout@gmx.at>
+
+	* src/vice_sdl.h, Fix: remove accidentally commit
+
+2016-08-10  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c, src/vice_sdl.h: Fix: video viewport resize is
+	still needed 
+
+2016-08-10  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Add: fullscreen mode 'custom' now works, other
+	then the default fullscreen which is always using the current desktop
+	screensize settings, the custom one does switch your desktop to the
+	one you have chosen, so one has to know what he uses as the screen
+	resolution + add better driver info to console output
+
+2016-08-10  groepaz <groepaz@gmx.net>
+
+	* src/resid/sid.cc, src/resid/wave.cc, src/resid/wave.h: register
+	writes are NOT delayed by a cycle on 8580 - instead the perceived
+	delay is caused by a half cycle delay in the sawtooth/triangle output.
+	patch by Leandro Nini, fixes bug #777
+
+2016-08-10  groepaz <groepaz@gmx.net>
+
+	* src/sid/sid-resources.c: change default SID sampling method to
+	'resampling', since 'fast' is not cycle accurate
+
+2016-08-10  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/scpu64ui.c,
+	src/arch/win32/uic64cart.c, src/arch/win32/uic64cart.h,
+	src/arch/win32/uicart.c, src/arch/win32/vic20ui.c: win32 Unicode
+	fixes: RAM / ROM / cart related.
+
+2016-08-09  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: use the canvas structures
+
+2016-08-09  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: make SDL1 without HWSCALE work again
+
+2016-08-09  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uifilechooser.c,
+	src/arch/unix/x11/gnome/uifilechooser.h: added missing includes
+
+2016-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_vic20cart.c: Added behr bonz cart to the sdl gui.
+
+2016-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/vic20ui.c: Added behr bonz cart to the dos tui.
+
+2016-08-09  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Add: make flip x/y work for sdl2 port
+
+2016-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.txt, src/arch/beos/ui_file.cc,
+	src/arch/beos/ui_file.h, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc, Added behr bonz cart to the beos gui.
+
+2016-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/uires.h, src/arch/amigaos/vic20ui.c,
+	src/arch/amigaos/vic20uires.h: Added behr bonz cart to the amiga gui.
+
+2016-08-09  groepaz <groepaz@gmx.net>
+
+	* src/resid/wave.cc: The oscillator's value is 55555 at power up (all
+	bits are 1 but odd ones are stored inverted) and is not changed on
+	reset. patch by Leandro Nini. fixes bug #778
+
+2016-08-09  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/ui.c: Fixed with r31554
+
+2016-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/vic20ui.c: Added behr bonz
+	cart to the windows gui.
+
+2016-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added behr bonz cart to the os/2 gui.
+
+2016-08-09  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/menu_video.c, src/arch/sdl/ui.c, src/arch/sdl/video.c,
+	src/arch/sdl/videoarch.h: Add: aspect ratio to sdl2ui + fix for bad
+	looking CRT render when scaling the window, X and Y flip has to be
+	done in another way and will follow soon 
+
+2016-08-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/cocoa/view/consolewindow.m: applied patch to
+	fix speed of console output under OSX. UNTESTED. patch by Andreas
+	Larsson and P-a Backstrom
+
+2016-08-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.txt, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vicemenu.cc: Added gmod2 cart to the beos gui.
+
+2016-08-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/intl.h, src/arch/win32/res.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uic64dtv.c, src/arch/win32/uimmc64.c,
+	src/arch/win32/uimmcreplay.c, src/arch/win32/uisound.c: Added some
+	previously untranslated items.
+
+2016-08-08  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/behrbonz.c: make register write-once like on the real
+	cart
+
+2016-08-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uigmod2.c: Fixed some warnings.
+
+2016-08-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/vic20cart.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/vic20cart.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/vic20cart.tmpl,
+	src/arch/win32/watcom/vic20cart.tgt, src/arch/win32/watcom/vice.wpj:
+	Added behrbonz cart to the various project files.
+
+2016-08-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/uimenu.c: Use some VICE_SDLK_* for special keys directy
+	instead of using a function to translate them.
+
+2016-08-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/kbd.h, src/arch/sdl/uimenu.c: Added sdl2x handling of
+	'special' keys while in 'menu mode'.
+
+2016-08-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/uimenu.c: Added 'shifted keys' support for sdl2x gui.
+
+2016-08-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resgmod2.rc, src/arch/win32/uigmod2.c,
+	src/arch/win32/uigmod2.h: Added missing files.
+
+2016-08-08  groepaz <groepaz@gmx.net>
+
+	* src/resid/wave.h: The effect of the top bit of the ring modulating
+	voice was inverted. patch by Leandro Nini, fixes bug #773
+
+2016-08-08  groepaz <groepaz@gmx.net>
+
+	* src/resid/sid.cc, src/resid/sid.h: Reading from a write-only or
+	non-existing register returns the value left on the internal data bus,
+	which is refreshed not only on writes but also on valid reads from the
+	read-only registers. patch by Leandro Nini, fixes bug #774
+
+2016-08-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/kbd.c, src/arch/sdl/kbd.h,
+	src/arch/sdl/menu_joystick.c, src/arch/sdl/menu_settings.c,
+	src/arch/sdl/ui.c, src/arch/sdl/uihotkey.c, src/arch/sdl/uimenu.c,
+	src/arch/sdl/vkbd.c: Added SDL2x to SDL1x key translation, this makes
+	the keys work like SDL1x keys, no unicode translation is done yet,
+	also added AreaScout's  SDL_GetKeyFromScancode() ui menu fix, but it
+	does not seem to take shifted keys into account, more investigation
+	will be done.
+
+2016-08-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vic20ui.c, src/arch/unix/x11/gnome/uifileentry.c,
+	src/arch/unix/x11/xaw/x11ui.c, src/cartridge.h, src/translate.txt,
+	src/translate_text.c, src/vic20/cart/Makefile.am,
+	src/vic20/cart/behrbonz.c, src/vic20/cart/behrbonz.h,
+	src/vic20/cart/vic20cart.c, src/vic20/cart/vic20cartmem.c: added
+	support for the 'BehrBonz' vic20 cartridge
+
+2016-08-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/kbd.h: Added some more SDL2x to SDL1x keycode defines.
+
+2016-08-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c: Updated.
+
+2016-08-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/scpu64ui.c, src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/vice.wpj:
+	Added gmod2 cart to the windows gui.
+
+2016-08-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/uifilechooser.c: fix resizing of the
+	disk-content preview in open file dialog. fixes bug #772
+
+2016-08-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/uiedisk.c: use g_free to free memory
+	allocated by GTK.
+
+2016-08-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc, src/joyport/coplin_keypad.c,
+	src/joyport/cx85.c: Added gmod2 cart to the os/2 gui.
+
+2016-08-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c64cart.c: Added gmod2 cart to the sdl gui.
+
+2016-08-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/gmod2.c: Fixed some warnings.
+
+2016-08-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/Makefile.am: Added missing header file
+	(thanx Leonardo).
+
+2016-08-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/vicemenu.cc: For some reason
+	the beos port of x128 didn't include the mmc64, mmcreplay and
+	retroreplay menu items.
+
+2016-08-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_file.cc: Added missing include.
+
+2016-08-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/scpu64ui.c: Added gmod2 gui elements to the dos
+	xscpu64.
+
+2016-08-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/scpu64ui.c, src/arch/amigaos/scpu64uires.h: Added
+	gmod2 gui elements to the amiga xscpu64.
+
+2016-08-04  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/scpu64ui.c, forgot to add gmod2 gui to xscpu64
+
+2016-08-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/uigmod2.c,
+	src/arch/msdos/uigmod2.h: Added gmod2 cart to the dos tui.
+
+2016-08-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/Makefile.am, src/arch/amigaos/mui/uigmod2.c,
+	src/arch/amigaos/mui/uigmod2.h, src/arch/amigaos/uires.h: Added gmod2
+	cart to the amiga gui.
+
+2016-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C64/amiga_pos.vkm, data/C64/amiga_sym.vkm,
+	data/C64/beos_pos.vkm, data/C64/beos_sym.vkm, data/C64/dos_pos.vkm,
+	data/C64/dos_sym.vkm, data/C64/osx_pos.vkm, data/C64/osx_sym.vkm,
+	data/C64/osx_sym_de.vkm, data/C64/sdl_keyrah.vkm,
+	data/C64/sdl_keyrah_de.vkm, data/C64/sdl_pos.vkm,
+	data/C64/sdl_pos_da.vkm, data/C64/sdl_pos_de.vkm,
+	data/C64/sdl_pos_fi.vkm, data/C64/sdl_pos_no.vkm,
+	data/C64/sdl_sym.vkm, data/C64/win_pos.vkm, data/C64/win_pos_de.vkm,
+	data/C64/win_sym.vkm, data/C64/win_sym_de.vkm,
+	data/C64/win_sym_it.vkm, data/C64/x11_keyrah.vkm,
+	data/C64/x11_keyrah_de.vkm, data/C64/x11_pos.vkm,
+	data/C64/x11_pos_de.vkm, data/C64/x11_sym.vkm,
+	data/C64/x11_sym_de.vkm, data/C64DTV/amiga_pos.vkm,
+	data/C64DTV/amiga_sym.vkm, data/C64DTV/beos_pos.vkm,
+	data/C64DTV/beos_sym.vkm, data/C64DTV/dos_pos.vkm,
+	data/C64DTV/dos_sym.vkm, data/C64DTV/osx_pos.vkm,
+	data/C64DTV/osx_sym.vkm, data/C64DTV/osx_sym_de.vkm,
+	data/C64DTV/sdl_keyrah.vkm, data/C64DTV/sdl_keyrah_de.vkm,
+	data/C64DTV/sdl_pos.vkm, data/C64DTV/sdl_pos_da.vkm,
+	data/C64DTV/sdl_pos_de.vkm, data/C64DTV/sdl_pos_fi.vkm,
+	data/C64DTV/sdl_pos_no.vkm, data/C64DTV/sdl_sym.vkm,
+	data/C64DTV/win_pos.vkm, data/C64DTV/win_pos_de.vkm,
+	data/C64DTV/win_sym.vkm, data/C64DTV/win_sym_de.vkm,
+	data/C64DTV/win_sym_it.vkm, data/C64DTV/x11_keyrah.vkm,
+	data/C64DTV/x11_keyrah_de.vkm, data/C64DTV/x11_pos.vkm,
+	data/C64DTV/x11_pos_de.vkm, data/C64DTV/x11_sym.vkm,
+	data/C64DTV/x11_sym_de.vkm, data/PLUS4/amiga_pos.vkm,
+	data/PLUS4/amiga_sym.vkm, data/PLUS4/beos_pos.vkm,
+	data/PLUS4/beos_sym.vkm, data/PLUS4/dos_pos.vkm,
+	data/PLUS4/dos_sym.vkm, data/PLUS4/osx_pos.vkm,
+	data/PLUS4/osx_sym.vkm, data/PLUS4/sdl_pos.vkm,
+	data/PLUS4/win_pos.vkm, data/PLUS4/win_sym.vkm,
+	data/PLUS4/x11_pos.vkm, data/PLUS4/x11_sym.vkm,
+	data/PLUS4/x11_sym_de.vkm, data/SCPU64/amiga_pos.vkm,
+	data/SCPU64/amiga_sym.vkm, data/SCPU64/beos_pos.vkm,
+	data/SCPU64/beos_sym.vkm, data/SCPU64/dos_pos.vkm,
+	data/SCPU64/dos_sym.vkm, data/SCPU64/osx_pos.vkm,
+	data/SCPU64/osx_sym.vkm, data/SCPU64/osx_sym_de.vkm,
+	data/SCPU64/sdl_keyrah.vkm, data/SCPU64/sdl_keyrah_de.vkm,
+	data/SCPU64/sdl_pos.vkm, data/SCPU64/sdl_pos_da.vkm,
+	data/SCPU64/sdl_pos_de.vkm, data/SCPU64/sdl_pos_fi.vkm,
+	data/SCPU64/sdl_pos_no.vkm, data/SCPU64/sdl_sym.vkm,
+	data/SCPU64/win_pos.vkm, data/SCPU64/win_pos_de.vkm,
+	data/SCPU64/win_sym.vkm, data/SCPU64/win_sym_de.vkm,
+	data/SCPU64/win_sym_it.vkm, data/SCPU64/x11_keyrah.vkm,
+	data/SCPU64/x11_keyrah_de.vkm, data/SCPU64/x11_pos.vkm,
+	data/SCPU64/x11_pos_de.vkm, data/SCPU64/x11_sym.vkm,
+	data/SCPU64/x11_sym_de.vkm, data/VIC20/amiga_pos.vkm,
+	data/VIC20/amiga_sym.vkm, data/VIC20/beos_pos.vkm,
+	data/VIC20/beos_sym.vkm, data/VIC20/dos_pos.vkm,
+	data/VIC20/dos_sym.vkm, data/VIC20/osx_pos.vkm,
+	data/VIC20/osx_sym.vkm, data/VIC20/sdl_pos.vkm,
+	data/VIC20/sdl_pos_fi.vkm, data/VIC20/win_pos.vkm,
+	data/VIC20/win_sym.vkm, data/VIC20/win_sym_US.vkm,
+	data/VIC20/x11_pos.vkm, data/VIC20/x11_sym.vkm: Added previously
+	missing keys to the keypad keymap files.
+
+2016-08-03  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/gmod2.c, src/c64/cart/gmod2.h: remove unused
+	gmod2_cart_enabled()
+
+2016-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h: For some
+	reason the amiga port of x128 didn't include the mmc64, mmcreplay and
+	retroreplay menu items and dialogs.
+
+2016-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/cw_os4.c: Fixed.
+
+2016-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uigmod2.c, src/arch/unix/gui/uigmod2.h,
+	src/c64/cart/gmod2.c, src/c64/cart/gmod2.h, src/core/m93c86.c,
+	src/core/m93c86.h: Fixed the svn props of the recently added gmod2
+	files.
+
+2016-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C128/amiga_pos.vkm, data/C128/amiga_sym.vkm,
+	data/C64/amiga_pos.vkm, data/C64/amiga_sym.vkm, data/C64/beos_pos.vkm,
+	data/C64/beos_sym.vkm, data/C64/dos_pos.vkm, data/C64/dos_sym.vkm,
+	data/C64/osx_pos.vkm, data/C64/osx_sym.vkm, data/C64/osx_sym_de.vkm,
+	data/C64/sdl_pos_da.vkm, data/C64/sdl_pos_de.vkm,
+	data/C64/sdl_pos_fi.vkm, data/C64/win_pos.vkm,
+	data/C64/win_pos_de.vkm, data/C64/win_sym.vkm,
+	data/C64/win_sym_de.vkm, data/C64/win_sym_it.vkm,
+	data/C64DTV/amiga_pos.vkm, data/C64DTV/amiga_sym.vkm,
+	data/C64DTV/beos_pos.vkm, data/C64DTV/beos_sym.vkm,
+	data/C64DTV/dos_pos.vkm, data/C64DTV/dos_sym.vkm,
+	data/C64DTV/osx_pos.vkm, data/C64DTV/osx_sym.vkm,
+	data/C64DTV/osx_sym_de.vkm, data/C64DTV/sdl_pos_da.vkm,
+	data/C64DTV/sdl_pos_de.vkm, data/C64DTV/sdl_pos_fi.vkm,
+	data/C64DTV/win_pos.vkm, data/C64DTV/win_pos_de.vkm,
+	data/C64DTV/win_sym.vkm, data/C64DTV/win_sym_de.vkm,
+	data/C64DTV/win_sym_it.vkm, data/CBM-II/amiga_pos.vkm,
+	data/CBM-II/amiga_sym.vkm, data/PET/amiga_buuk_sym.vkm,
+	data/PET/amiga_grus_sym.vkm, data/PLUS4/amiga_pos.vkm,
+	data/PLUS4/amiga_sym.vkm, data/PLUS4/beos_pos.vkm,
+	data/PLUS4/beos_sym.vkm, data/PLUS4/dos_pos.vkm,
+	data/PLUS4/dos_sym.vkm, data/PLUS4/win_pos.vkm,
+	data/PLUS4/win_sym.vkm, data/SCPU64/amiga_pos.vkm,
+	data/SCPU64/amiga_sym.vkm, data/SCPU64/beos_pos.vkm,
+	data/SCPU64/beos_sym.vkm, data/SCPU64/dos_pos.vkm,
+	data/SCPU64/dos_sym.vkm, data/SCPU64/osx_pos.vkm,
+	data/SCPU64/osx_sym.vkm, data/SCPU64/osx_sym_de.vkm,
+	data/SCPU64/sdl_pos_da.vkm, data/SCPU64/sdl_pos_de.vkm,
+	data/SCPU64/sdl_pos_fi.vkm, data/SCPU64/win_pos.vkm,
+	data/SCPU64/win_pos_de.vkm, data/SCPU64/win_sym.vkm,
+	data/SCPU64/win_sym_de.vkm, data/SCPU64/win_sym_it.vkm,
+	data/VIC20/amiga_pos.vkm, data/VIC20/amiga_sym.vkm,
+	data/VIC20/beos_pos.vkm, data/VIC20/beos_sym.vkm,
+	data/VIC20/dos_pos.vkm, data/VIC20/dos_sym.vkm,
+	data/VIC20/sdl_pos_fi.vkm, data/VIC20/win_pos.vkm,
+	data/VIC20/win_sym.vkm, data/VIC20/win_sym_US.vkm: keymap cleanup.
+
+2016-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/cw-pci.c,
+	src/arch/win32/hs-isa.c, src/arch/win32/hs-pci.c,
+	src/arch/win32/ps-io.c, src/arch/win32/ssi2001-drv.c,
+	src/arch/win32/wininpoutp.h: Added a file to take care of inp*/outp*
+	function definitions and 'conio.h' including.
+
+2016-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vsidui.c: Warning fixes.
+
+2016-08-03  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/crt.c, src/c64/cart/gmod2.c, src/core/m93c86.c: better
+	handling of busy state, fix ERAL command
+
+2016-08-03  groepaz <groepaz@gmx.net>
+
+	* src/core/m93c86.c: fixed 'write all' command
+
+2016-08-02  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/gmod2.c,
+	src/c64/cart/gmod2.h: fix mapping in flash mode, ultimax is only
+	active when writing
+
+2016-08-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/Info.plist, src/arch/unix/macosx/vsyncarch.c:
+	Applied osx vsync fix patch by P-a Backstrom: HAVE_NANOSLEEP is not
+	handled at all in unix/macosx/vsyncarch.c, making timing go totally
+	bananas. Also, an OS X feature known as App Nap can cause odd
+	nanosleep() behaviour. Therefore the patch also disables this feature
+	for the application.
+
+2016-08-02  Marcus Sutton <loggedoubt@gmail.com>
+
+	* configure.proto, src/arch/win32/archdep.c, src/arch/win32/console.c,
+	src/arch/win32/intl.c, src/arch/win32/intl.h,
+	src/arch/win32/mingw32/system.h, src/arch/win32/msvc/system.h,
+	src/arch/win32/system.c, src/arch/win32/ui.c, src/arch/win32/ui.h,
+	src/arch/win32/uiattach.c, src/arch/win32/uidrivec128.c,
+	src/arch/win32/uidrivec64.c, src/arch/win32/uidrivec64dtv.c,
+	src/arch/win32/uidrivepetcbm2.c, src/arch/win32/uidriveplus4.c,
+	src/arch/win32/uidrivevic20.c, src/arch/win32/uiide64.c,
+	src/arch/win32/uilib.c, src/arch/win32/uilib.h,
+	src/arch/win32/uimon.c, src/arch/win32/uinetwork.c,
+	src/arch/win32/uisound.c, src/arch/win32/vsidui.c,
+	src/arch/win32/winmain.c, src/lib.c, src/lib.h,
+	src/platform/platform_windows_runtime_os.c, src/vice.h: Resurrected
+	the long-dead WinNT Unicode build of WinVICE. Huge numbers of things
+	fixed / still broken. Configure with --enable-unicode to test.
+
+2016-08-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c128ui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/uigmod2.c, src/arch/unix/gui/uigmod2.h: added GUI
+	elements for gmod2 to unix port
+
+2016-08-02  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/gmod2.c: fix bad copypasta
+
+2016-08-02  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/gmod2.c, src/c64/cart/gmod2.h, src/core/m93c86.c,
+	src/translate.txt, src/translate_text.c: added rudimentary EEPROM
+	emulation to gmod2 cartridge
+
+2016-08-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/c64cart.tgt, src/arch/os2/watcom/core.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/sdl/win32-watcom/c64cart.tgt,
+	src/arch/sdl/win32-watcom/core.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/c64cart.tmpl, src/arch/win32/vs_tmpl/core.tmpl,
+	src/arch/win32/watcom/c64cart.tgt, src/arch/win32/watcom/core.tgt,
+	src/arch/win32/watcom/vice.wpj: Added gmod2 cart related files to the
+	various project files.
+
+2016-08-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/cx85.c: ID fix.
+
+2016-08-01  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
+	src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	src/c64/cart/crt.c, src/c64/cart/gmod2.c, src/c64/cart/gmod2.h,
+	src/cartconv.c, src/cartridge.h, src/core/Makefile.am,
+	src/core/m93c86.c, src/core/m93c86.h, src/core/ser-eeprom.c,
+	src/core/ser-eeprom.h, src/translate.txt, src/translate_text.c:
+	beginning of GMod2 cartridge implementation. Flashing works, EEPROM
+	not implemented yet.
+
+2016-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/cx85.c: Fixed.
+
+2016-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/joyport.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/joyport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/joyport.tmpl,
+	src/arch/win32/watcom/joyport.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c128/c128.c, src/c64/c64.c, src/cbm2/cbm5x0.c,
+	src/joyport/Makefile.am, src/joyport/cx85.c, src/joyport/cx85.h,
+	src/scpu64/scpu64.c, src/translate.txt, src/translate_text.c,
+	src/vic20/vic20.c: Added atari cx85 keypad emulation.
+
+2016-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/tapeport.tmpl: Applied msvc template fix
+	patch by CS: When building WinVice with Visual Studio 2013 Express,
+	the tapeport project is often built before the required "translate.h"
+	header file has been generated, and as a consequence the build fails.
+	This patch should fix that.
+
+2016-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C64/amiga_pos.vkm, data/C64/amiga_sym.vkm,
+	data/C64/beos_pos.vkm, data/C64/beos_sym.vkm, data/C64/dos_pos.vkm,
+	data/C64/dos_sym.vkm, data/C64/osx_pos.vkm, data/C64/osx_sym.vkm,
+	data/C64/osx_sym_de.vkm, data/C64/sdl_keyrah.vkm,
+	data/C64/sdl_keyrah_de.vkm, data/C64/sdl_pos.vkm,
+	data/C64/sdl_pos_da.vkm, data/C64/sdl_pos_de.vkm,
+	data/C64/sdl_pos_fi.vkm, data/C64/sdl_pos_no.vkm,
+	data/C64/sdl_sym.vkm, data/C64/win_pos.vkm, data/C64/win_pos_de.vkm,
+	data/C64/win_sym.vkm, data/C64/win_sym_de.vkm,
+	data/C64/win_sym_it.vkm, data/C64/x11_keyrah.vkm,
+	data/C64/x11_keyrah_de.vkm, data/C64/x11_pos.vkm,
+	data/C64/x11_pos_de.vkm, data/C64/x11_sym.vkm,
+	data/C64/x11_sym_de.vkm, data/C64DTV/amiga_pos.vkm,
+	data/C64DTV/amiga_sym.vkm, data/C64DTV/beos_pos.vkm,
+	data/C64DTV/beos_sym.vkm, data/C64DTV/dos_pos.vkm,
+	data/C64DTV/dos_sym.vkm, data/C64DTV/osx_pos.vkm,
+	data/C64DTV/osx_sym.vkm, data/C64DTV/osx_sym_de.vkm,
+	data/C64DTV/sdl_keyrah.vkm, data/C64DTV/sdl_keyrah_de.vkm,
+	data/C64DTV/sdl_pos.vkm, data/C64DTV/sdl_pos_da.vkm,
+	data/C64DTV/sdl_pos_de.vkm, data/C64DTV/sdl_pos_fi.vkm,
+	data/C64DTV/sdl_pos_no.vkm, data/C64DTV/sdl_sym.vkm,
+	data/C64DTV/win_pos.vkm, data/C64DTV/win_pos_de.vkm,
+	data/C64DTV/win_sym.vkm, data/C64DTV/win_sym_de.vkm,
+	data/C64DTV/win_sym_it.vkm, data/C64DTV/x11_keyrah.vkm,
+	data/C64DTV/x11_keyrah_de.vkm, data/C64DTV/x11_pos.vkm,
+	data/C64DTV/x11_pos_de.vkm, data/C64DTV/x11_sym.vkm,
+	data/C64DTV/x11_sym_de.vkm, data/PLUS4/amiga_pos.vkm,
+	data/PLUS4/amiga_sym.vkm, data/PLUS4/beos_pos.vkm,
+	data/PLUS4/beos_sym.vkm, data/PLUS4/dos_pos.vkm,
+	data/PLUS4/dos_sym.vkm, data/PLUS4/osx_pos.vkm,
+	data/PLUS4/osx_sym.vkm, data/PLUS4/sdl_pos.vkm,
+	data/PLUS4/win_pos.vkm, data/PLUS4/win_sym.vkm,
+	data/PLUS4/x11_pos.vkm, data/PLUS4/x11_sym.vkm,
+	data/PLUS4/x11_sym_de.vkm, data/SCPU64/amiga_pos.vkm,
+	data/SCPU64/amiga_sym.vkm, data/SCPU64/beos_pos.vkm,
+	data/SCPU64/beos_sym.vkm, data/SCPU64/dos_pos.vkm,
+	data/SCPU64/dos_sym.vkm, data/SCPU64/osx_pos.vkm,
+	data/SCPU64/osx_sym.vkm, data/SCPU64/osx_sym_de.vkm,
+	data/SCPU64/sdl_keyrah.vkm, data/SCPU64/sdl_keyrah_de.vkm,
+	data/SCPU64/sdl_pos.vkm, data/SCPU64/sdl_pos_da.vkm,
+	data/SCPU64/sdl_pos_de.vkm, data/SCPU64/sdl_pos_fi.vkm,
+	data/SCPU64/sdl_pos_no.vkm, data/SCPU64/sdl_sym.vkm,
+	data/SCPU64/win_pos.vkm, data/SCPU64/win_pos_de.vkm,
+	data/SCPU64/win_sym.vkm, data/SCPU64/win_sym_de.vkm,
+	data/SCPU64/win_sym_it.vkm, data/SCPU64/x11_keyrah.vkm,
+	data/SCPU64/x11_keyrah_de.vkm, data/SCPU64/x11_pos.vkm,
+	data/SCPU64/x11_pos_de.vkm, data/SCPU64/x11_sym.vkm,
+	data/SCPU64/x11_sym_de.vkm, data/VIC20/amiga_pos.vkm,
+	data/VIC20/amiga_sym.vkm, data/VIC20/beos_pos.vkm,
+	data/VIC20/beos_sym.vkm, data/VIC20/dos_pos.vkm,
+	data/VIC20/dos_sym.vkm, data/VIC20/osx_pos.vkm,
+	data/VIC20/osx_sym.vkm, data/VIC20/sdl_pos.vkm,
+	data/VIC20/sdl_pos_fi.vkm, data/VIC20/win_pos.vkm,
+	data/VIC20/win_sym.vkm, data/VIC20/win_sym_US.vkm,
+	data/VIC20/x11_pos.vkm, data/VIC20/x11_sym.vkm,
+	src/joyport/coplin_keypad.c: Shifted the numerical part of the keypad
+	layout to the center, that way the keypads will have a somewhat
+	consistent layout.
+
+2016-07-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C64DTV/Makefile.am, data/C64DTV/amiga_pos.vkm,
+	data/C64DTV/amiga_sym.vkm, data/C64DTV/beos_pos.vkm,
+	data/C64DTV/beos_sym.vkm, data/C64DTV/dos_pos.vkm,
+	data/C64DTV/dos_sym.vkm, data/C64DTV/osx_pos.vkm,
+	data/C64DTV/osx_sym.vkm, data/C64DTV/osx_sym_de.vkm,
+	data/C64DTV/sdl_keyrah.vkm, data/C64DTV/sdl_keyrah_de.vkm,
+	data/C64DTV/sdl_pos.vkm, data/C64DTV/sdl_pos_da.vkm,
+	data/C64DTV/sdl_pos_de.vkm, data/C64DTV/sdl_pos_fi.vkm,
+	data/C64DTV/sdl_pos_no.vkm, data/C64DTV/sdl_sym.vkm,
+	data/C64DTV/win_pos.vkm, data/C64DTV/win_pos_de.vkm,
+	data/C64DTV/win_sym.vkm, data/C64DTV/win_sym_de.vkm,
+	data/C64DTV/win_sym_it.vkm, data/C64DTV/x11_keyrah.vkm,
+	data/C64DTV/x11_keyrah_de.vkm, data/C64DTV/x11_pos.vkm,
+	data/C64DTV/x11_pos_de.vkm, data/C64DTV/x11_sym.vkm,
+	data/C64DTV/x11_sym_de.vkm, data/PLUS4/amiga_pos.vkm,
+	data/PLUS4/amiga_sym.vkm, data/PLUS4/beos_pos.vkm,
+	data/PLUS4/beos_sym.vkm, data/PLUS4/dos_pos.vkm,
+	data/PLUS4/dos_sym.vkm, data/PLUS4/osx_pos.vkm,
+	data/PLUS4/osx_sym.vkm, data/PLUS4/sdl_pos.vkm,
+	data/PLUS4/win_pos.vkm, data/PLUS4/win_sym.vkm,
+	data/PLUS4/x11_pos.vkm, data/PLUS4/x11_sym.vkm,
+	data/PLUS4/x11_sym_de.vkm, data/SCPU64/Makefile.am,
+	data/SCPU64/amiga_pos.vkm, data/SCPU64/amiga_sym.vkm,
+	data/SCPU64/beos_pos.vkm, data/SCPU64/beos_sym.vkm,
+	data/SCPU64/dos_pos.vkm, data/SCPU64/dos_sym.vkm,
+	data/SCPU64/osx_pos.vkm, data/SCPU64/osx_sym.vkm,
+	data/SCPU64/osx_sym_de.vkm, data/SCPU64/sdl_keyrah.vkm,
+	data/SCPU64/sdl_keyrah_de.vkm, data/SCPU64/sdl_pos.vkm,
+	data/SCPU64/sdl_pos_da.vkm, data/SCPU64/sdl_pos_de.vkm,
+	data/SCPU64/sdl_pos_fi.vkm, data/SCPU64/sdl_pos_no.vkm,
+	data/SCPU64/sdl_sym.vkm, data/SCPU64/win_pos.vkm,
+	data/SCPU64/win_pos_de.vkm, data/SCPU64/win_sym.vkm,
+	data/SCPU64/win_sym_de.vkm, data/SCPU64/win_sym_it.vkm,
+	data/SCPU64/x11_keyrah.vkm, data/SCPU64/x11_keyrah_de.vkm,
+	data/SCPU64/x11_pos.vkm, data/SCPU64/x11_pos_de.vkm,
+	data/SCPU64/x11_sym.vkm, data/SCPU64/x11_sym_de.vkm,
+	data/VIC20/amiga_pos.vkm, data/VIC20/amiga_sym.vkm,
+	data/VIC20/beos_pos.vkm, data/VIC20/beos_sym.vkm,
+	data/VIC20/dos_pos.vkm, data/VIC20/dos_sym.vkm,
+	data/VIC20/osx_pos.vkm, data/VIC20/osx_sym.vkm,
+	data/VIC20/sdl_pos.vkm, data/VIC20/sdl_pos_fi.vkm,
+	data/VIC20/win_pos.vkm, data/VIC20/win_sym.vkm,
+	data/VIC20/win_sym_US.vkm, data/VIC20/x11_pos.vkm,
+	data/VIC20/x11_sym.vkm: Added 'joyport attached keypad' key mappings
+	to the c64dtv, scpu64, vic20 and plus4 keymap files.
+
+2016-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C64/amiga_pos.vkm, data/C64/amiga_sym.vkm,
+	data/C64/beos_pos.vkm, data/C64/beos_sym.vkm, data/C64/dos_pos.vkm,
+	data/C64/dos_sym.vkm, data/C64/osx_pos.vkm, data/C64/osx_sym.vkm,
+	data/C64/osx_sym_de.vkm, data/C64/sdl_keyrah.vkm,
+	data/C64/sdl_keyrah_de.vkm, data/C64/sdl_pos.vkm,
+	data/C64/sdl_pos_da.vkm, data/C64/sdl_pos_de.vkm,
+	data/C64/sdl_pos_fi.vkm, data/C64/sdl_pos_no.vkm,
+	data/C64/sdl_sym.vkm, data/C64/win_pos.vkm, data/C64/win_pos_de.vkm,
+	data/C64/win_sym.vkm, data/C64/win_sym_de.vkm,
+	data/C64/win_sym_it.vkm, data/C64/x11_keyrah.vkm,
+	data/C64/x11_keyrah_de.vkm, data/C64/x11_pos.vkm,
+	data/C64/x11_pos_de.vkm, data/C64/x11_sym.vkm,
+	data/C64/x11_sym_de.vkm, src/arch/os2/watcom/joyport.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/sdl/win32-watcom/joyport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/joyport.tmpl,
+	src/arch/win32/watcom/joyport.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c, src/cbm2/cbm2.c,
+	src/cbm2/cbm5x0.c, src/joyport/Makefile.am,
+	src/joyport/coplin_keypad.c, src/joyport/coplin_keypad.h,
+	src/keyboard.c, src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/translate.txt, src/translate_text.c, src/vic20/vic20.c: Added
+	'coplin keypad' emulation
+	(http://www.64hdd.com/projects/c64-proj3.html), and added keypad keys
+	to the c64 .vkm files (other emu .vkm files will follow).
+
+2016-07-30  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: change big endian byteorder to fit ARGB
+
+2016-07-30  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: uninitialized here :(
+
+2016-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/keyboard.h: Removed double typedef.
+
+2016-07-29  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: fix: remove useless if condition
+
+2016-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/keyboard.c: Fixed.
+
+2016-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/keyboard.c, src/keyboard.h: Handle keypad presses and releases
+	properly.
+
+2016-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/paperclip64.h: Cosmetic fix.
+
+2016-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/keyboard.c, src/keyboard.h: Added 'joyport based keypad' support
+	to the common keyboard code, it uses row '-5' and uses an array with a
+	max of 20 keys. To be used in the 'future' keypad emulation.
+
+2016-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/readmes/Readme-SDL2.txt: Updated.
+
+2016-07-29  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: x128 exit crash fix.
+
+2016-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/Makefile.am, src/arch/os2/watcom/diag.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/diag.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/x128.tgt, src/arch/sdl/win32-watcom/x64.tgt,
+	src/arch/sdl/win32-watcom/x64sc.tgt,
+	src/arch/sdl/win32-watcom/xscpu64.tgt,
+	src/arch/win32/vs_tmpl/Makefile.am, src/arch/win32/vs_tmpl/diag.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/x128.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl,
+	src/arch/win32/watcom/Makefile.am, src/arch/win32/watcom/diag.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/watcom/x128.tgt,
+	src/arch/win32/watcom/x64.tgt, src/arch/win32/watcom/x64sc.tgt,
+	src/arch/win32/watcom/xscpu64.tgt: Added the c64 diag harness source
+	file to the various project files.
+
+2016-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/readmes/Readme-SDL2.txt: Updated SDL2 readme file.
+
+2016-07-27  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: x128 crash fix.
+
+2016-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/catweaselmkiii-drv.c, src/arch/beos/hardsid-drv.c,
+	src/arch/beos/hs-isa.c, src/arch/beos/hs-pci.c,
+	src/arch/beos/parsid-drv.c, src/arch/beos/ssi2001-drv.c: Updated.
+
+2016-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/diag, src/diag/Makefile.am,
+	src/diag/c64_diag_586220_harness.c,
+	src/diag/c64_diag_586220_harness.h: Started on diagnostic harness
+	emulation, no code is 'hooked in' yet.
+
+2016-07-25  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: SDL2 video fix.
+
+2016-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/encoder/analyse.c: Inlined the 'round' function in
+	the 'included' ffmpeg code.
+
+2016-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/hardware-sids.txt, src/arch/beos/catweaselmkiii-drv.c,
+	src/arch/beos/hardsid-drv.c, src/arch/beos/hs-isa.c,
+	src/arch/beos/hs-pci.c, src/arch/beos/parsid-drv.c,
+	src/arch/beos/ssi2001-drv.c: Updated.
+
 2016-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, ChangeLog.1, ChangeLog.2, ChangeLog.3, ChangeLog.4,

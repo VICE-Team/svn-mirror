@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 10:40-0700\n"
+"POT-Creation-Date: 2016-09-09 08:35-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -1955,8 +1955,8 @@ msgid "Overwrite running playback"
 msgstr "*A futó visszajátszás felülírása"
 
 #: src/arch/unix/gui/uicommands.c:554 src/arch/unix/x11/gnome/uisnapshot.c:47
-#: src/arch/unix/x11/xaw/uisnapshot.c:102
-#: src/arch/unix/x11/xaw/uisnapshot.c:315 src/arch/win32/res.rc.po.c:1125
+#: src/arch/unix/x11/xaw/uisnapshot.c:103
+#: src/arch/unix/x11/xaw/uisnapshot.c:316 src/arch/win32/res.rc.po.c:1125
 #: src/arch/win32/res.rc.po.c:1624 src/arch/amigaos/intl_text.c.po.c:1265
 #: src/arch/amigaos/intl_text.c.po.c:10830
 msgid "Save snapshot image"
@@ -2757,15 +2757,15 @@ msgstr "BIOS mentése változás után"
 msgid "Prg"
 msgstr "Prg"
 
-#: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:237
-#: src/arch/unix/x11/xaw/uisnapshot.c:274 src/arch/win32/resexpert.rc.po.c:45
+#: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:238
+#: src/arch/unix/x11/xaw/uisnapshot.c:275 src/arch/win32/resexpert.rc.po.c:45
 #: src/arch/win32/respetcolour.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:7257
 msgid "Off"
 msgstr "Ki"
 
-#: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:248
-#: src/arch/unix/x11/xaw/uisnapshot.c:285 src/arch/win32/resexpert.rc.po.c:47
+#: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:249
+#: src/arch/unix/x11/xaw/uisnapshot.c:286 src/arch/win32/resexpert.rc.po.c:47
 #: src/arch/amigaos/intl_text.c.po.c:7285
 msgid "On"
 msgstr "Be"
@@ -2783,7 +2783,7 @@ msgstr "Töltés"
 #: src/arch/unix/gui/uifliplist.c:89 src/arch/unix/x11/xaw/uicartridge.c:184
 #: src/arch/unix/x11/xaw/uiedisk.c:481
 #: src/arch/unix/x11/xaw/uiscreenshot.c:1137
-#: src/arch/unix/x11/xaw/uisnapshot.c:296 src/arch/win32/res.rc.po.c:1453
+#: src/arch/unix/x11/xaw/uisnapshot.c:297 src/arch/win32/res.rc.po.c:1453
 #: src/arch/win32/res.rc.po.c:1745 src/arch/amigaos/intl_text.c.po.c:5437
 msgid "Save"
 msgstr "Mentés"
@@ -5407,18 +5407,18 @@ msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Nem sikerült a `%s' pillanatképet elkészíteni `%s' formátumban."
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:52
-#: src/arch/unix/x11/xaw/uisnapshot.c:145
+#: src/arch/unix/x11/xaw/uisnapshot.c:146
 msgid "Snapshot options"
 msgstr "Pillanatkép opciók"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:55
-#: src/arch/unix/x11/xaw/uisnapshot.c:143 src/arch/win32/res.rc.po.c:1350
+#: src/arch/unix/x11/xaw/uisnapshot.c:144 src/arch/win32/res.rc.po.c:1350
 #: src/arch/amigaos/intl_text.c.po.c:10858
 msgid "Save currently attached disk images"
 msgstr "A jelenleg csatolt lemezek mentése"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:59
-#: src/arch/unix/x11/xaw/uisnapshot.c:144 src/arch/win32/res.rc.po.c:1351
+#: src/arch/unix/x11/xaw/uisnapshot.c:145 src/arch/win32/res.rc.po.c:1351
 #: src/arch/amigaos/intl_text.c.po.c:10872
 msgid "Save currently loaded ROM images"
 msgstr "A jelenleg betöltött ROM-ok mentése"
@@ -5505,20 +5505,20 @@ msgstr "VICE információ"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:130 src/arch/unix/x11/xaw/uiedisk.c:243
 #: src/arch/unix/x11/xaw/uiscreenshot.c:1019
-#: src/arch/unix/x11/xaw/uisnapshot.c:142 src/arch/win32/resc128.rc.po.c:758
+#: src/arch/unix/x11/xaw/uisnapshot.c:143 src/arch/win32/resc128.rc.po.c:758
 msgid "File name"
 msgstr "Fájlnév"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:168 src/arch/unix/x11/xaw/uiedisk.c:281
 #: src/arch/unix/x11/xaw/uiscreenshot.c:1060
-#: src/arch/unix/x11/xaw/uisnapshot.c:183 src/arch/win32/res.rc.po.c:1290
+#: src/arch/unix/x11/xaw/uisnapshot.c:184 src/arch/win32/res.rc.po.c:1290
 #: src/arch/win32/res.rc.po.c:1311 src/arch/amigaos/intl_text.c.po.c:5451
 msgid "Browse"
 msgstr "Tallóz"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:190 src/arch/unix/x11/xaw/uiedisk.c:487
 #: src/arch/unix/x11/xaw/uiscreenshot.c:1143
-#: src/arch/unix/x11/xaw/uisnapshot.c:302 src/arch/win32/res.rc.po.c:871
+#: src/arch/unix/x11/xaw/uisnapshot.c:303 src/arch/win32/res.rc.po.c:871
 #: src/arch/win32/res.rc.po.c:1288 src/arch/amigaos/intl_text.c.po.c:5633
 msgid "Cancel"
 msgstr "Mégsem"
