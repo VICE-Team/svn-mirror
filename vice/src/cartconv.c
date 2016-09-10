@@ -69,6 +69,7 @@ static unsigned char chipbuffer[16];
 static int repair_mode = 0;
 static int input_padding = 0;
 static int quiet_mode = 0;
+static int omit_empty_banks = 1;
 
 static int load_input_file(char *filename);
 
@@ -358,6 +359,7 @@ static void usage(void)
     printf("-f <name>    print info on file\n");
     printf("-r           repair mode (accept broken input files)\n");
     printf("-p           accept non padded binaries as input\n");
+    printf("-b           output all banks (do not optimize the .crt file)\n");
     printf("-t <type>    output cart type\n");
     printf("-i <name>    input filename\n");
     printf("-o <name>    output filename\n");
@@ -372,7 +374,7 @@ static void printbanks(char *name)
 {
     FILE *f;
     unsigned char b[0x10];
-    unsigned long len;
+    unsigned long len, filelen;
     unsigned long pos;
     unsigned int type, bank, start, size;
     char *typestr[4] = { "ROM", "RAM", "FLASH", "UNK" };
@@ -380,6 +382,9 @@ static void printbanks(char *name)
     unsigned long tsize;
 
     f = fopen(name, "rb");
+    fseek(f, 0, SEEK_END);
+    filelen = ftell(f);
+
     tsize = 0; numbanks = 0;
     if (f) {
         fseek(f, 0x40, SEEK_SET); /* skip crt header */
@@ -402,6 +407,10 @@ static void printbanks(char *name)
             printf("$%06lx %-1c%-1c%-1c%-1c %-5s #%03d $%04x $%04x $%04lx\n", pos, b[0], b[1], b[2], b[3], typestr[type], bank, start, size, len);
             if ((size + 0x10) > len) {
                 printf("  Error: data size exceeds chunk length\n");
+            }
+            if (len > (filelen - pos)) {
+                printf("  Error: data size exceeds end of file\n");
+                break;
             }
             pos += len;
             numbanks++;
@@ -465,6 +474,9 @@ static int checkflag(char *flg, char *arg)
             return 2;
         case 'r':
             repair_mode = 1;
+            return 1;
+        case 'b':
+            omit_empty_banks = 0;
             return 1;
         case 'q':
             quiet_mode = 1;
@@ -890,7 +902,7 @@ static void save_easyflash_crt(unsigned int p1, unsigned int p2, unsigned int p3
 
     for (i = 0; i < 64; i++) {
         for (j = 0; j < 2; j++) {
-            if (check_empty_easyflash() == 1) {
+            if ((omit_empty_banks == 1) && (check_empty_easyflash() == 1)) {
                 loadfile_offset += 0x2000;
             } else {
                 if (write_chip_package(0x2000, i, (j == 0) ? 0x8000 : 0xa000, 2) < 0) {
