@@ -4445,9 +4445,8 @@ msgid "Attach generic image"
 msgstr "Koppel algemeen bestand"
 
 #: src/arch/unix/gui/vic20ui.c:321
-#, fuzzy
 msgid "Attach Behr Bonz image"
-msgstr "Koppel flash rom bestand"
+msgstr "Koppel Behr Bonz bestand"
 
 #: src/arch/unix/gui/vic20ui.c:324
 msgid "Attach Mega-Cart image"
@@ -7120,9 +7119,8 @@ msgstr "Retro Replay instellingen"
 #: src/arch/win32/res.rc.po.c:1686 src/arch/win32/resgmod2.rc.po.c:33
 #: src/arch/amigaos/intl_text.c.po.c:3953
 #: src/arch/amigaos/intl_text.c.po.c:10424
-#, fuzzy
 msgid "GMod2 settings"
-msgstr "Model instellingen"
+msgstr "GMod2 instellingen"
 
 #: src/arch/win32/res.rc.po.c:1687
 msgid "RRNET MK3 settings"
@@ -7949,19 +7947,16 @@ msgid "Save GEO-RAM image when changed"
 msgstr "GEO-RAM bestand opslaan indien gewijzigd"
 
 #: src/arch/win32/resgmod2.rc.po.c:35
-#, fuzzy
 msgid "Flash read/write"
-msgstr "Card lees/schrijf"
+msgstr "Flash lees/schrijf"
 
 #: src/arch/win32/resgmod2.rc.po.c:36
-#, fuzzy
 msgid "Save GMod2 EEPROM when changed"
-msgstr "MMC Replay EEPROM opslaan indien gewijzigd"
+msgstr "GMod2 EEPROM opslaan indien gewijzigd"
 
 #: src/arch/win32/resgmod2.rc.po.c:37
-#, fuzzy
 msgid "Select file for GMod2 EEPROM image"
-msgstr "Selecteer bestand voor GEO-RAM"
+msgstr "Selecteer bestand voor GMod2 EEPROM"
 
 #: src/arch/win32/reside64.rc.po.c:71
 msgid "IDE64 V4 settings"
@@ -8120,14 +8115,12 @@ msgid "MMC/SD Image File"
 msgstr "MMC/SD bestand"
 
 #: src/arch/win32/resmmc64.rc.po.c:60
-#, fuzzy
 msgid "Select file for MMC64 BIOS"
-msgstr "Selecteer bestand voor C64DTV ROM"
+msgstr "Selecteer bestand voor MMC64 BIOS"
 
 #: src/arch/win32/resmmc64.rc.po.c:61
-#, fuzzy
 msgid "Select file for MMC64 card image"
-msgstr "Selecteer bestand voor C64 256K"
+msgstr "Selecteer bestand voor MMC64 card"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:10410
@@ -8144,14 +8137,12 @@ msgid "Save MMC Replay EEPROM when changed"
 msgstr "MMC Replay EEPROM opslaan indien gewijzigd"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:54
-#, fuzzy
 msgid "Select file for MMC Replay card image"
-msgstr "Aktiveer schrijven naar MMC Replay card bestand"
+msgstr "Selecteer bestand voor MMC Repley card"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:55
-#, fuzzy
 msgid "Select file for MMC Replay EEPROM image"
-msgstr "Aktiveer schrijven naar MMC Replay EEPROM bestand"
+msgstr "Selecteer bestand voor MMC Replay EEPROM"
 
 #: src/arch/win32/resmouse.rc.po.c:42
 msgid "sensitivity"
@@ -8649,9 +8640,8 @@ msgid "Select generic cartridge image"
 msgstr "Selecteer algemeen cartridge bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:576 src/arch/amigaos/intl_text.c.po.c:10508
-#, fuzzy
 msgid "Select Behr Bonz image"
-msgstr "Selecteer Mega-Cart bestand"
+msgstr "Selecteer Behr Bonz bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:577 src/arch/amigaos/intl_text.c.po.c:10522
 msgid "Select Mega-Cart image"
@@ -8686,9 +8676,8 @@ msgid "Generic image"
 msgstr "Algemeen bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:590 src/arch/amigaos/intl_text.c.po.c:411
-#, fuzzy
 msgid "Behr Bonz image"
-msgstr "Algemeen 8KB bestand"
+msgstr "Behr Bonz bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:591 src/arch/amigaos/intl_text.c.po.c:425
 msgid "Mega-Cart image"
@@ -11183,23 +11172,23 @@ msgstr "Paperclip64 dongle"
 
 #: src/translate_text.c.po.c:3534
 msgid "Coplin Keypad"
-msgstr ""
+msgstr "Coplin toetsenblok"
 
 #: src/translate_text.c.po.c:3551
 msgid "Atari CX21 keypad"
-msgstr ""
+msgstr "Atari CX21 toetsenblok"
 
 #: src/translate_text.c.po.c:3568
 msgid "Atari CX85 keypad"
-msgstr ""
+msgstr "Atari CX85 toetsenblok"
 
 #: src/translate_text.c.po.c:3585
 msgid "RushWare Keypad"
-msgstr ""
+msgstr "RushWare toetsenblok"
 
 #: src/translate_text.c.po.c:3602
 msgid "Cardco Cardkey 1 keypad"
-msgstr ""
+msgstr "Cardco Cardkey 1 toetsenblok"
 
 #: src/translate_text.c.po.c:3619
 msgid "Light Pen (up trigger)"
@@ -11253,7 +11242,7 @@ msgstr "Userport RTC (DS1307)"
 
 #: src/translate_text.c.po.c:3908
 msgid "Userport diag 586220 harness"
-msgstr ""
+msgstr "Userport diag 586220 gareel"
 
 #: src/translate_text.c.po.c:3925
 msgid "Tape RTC (PCF8583)"
@@ -11293,7 +11282,7 @@ msgstr "Tape Log"
 
 #: src/translate_text.c.po.c:4078
 msgid "Tape 586220 diagnostics harness module"
-msgstr ""
+msgstr "Tape 586220 diagnostics gareel module"
 
 #: src/translate_text.c.po.c:4095
 #, c-format
@@ -11882,11 +11871,11 @@ msgstr "Geef naam van het samplebestand"
 
 #: src/translate_text.c.po.c:6401
 msgid "Enable the tape part of the 586220 diagnostics harness"
-msgstr ""
+msgstr "Activeer het tape onderdeel van de 586220 diagnostics gareel"
 
 #: src/translate_text.c.po.c:6418
 msgid "Disable the tape part of the 586220 diagnostics harness"
-msgstr ""
+msgstr "Deactiveer het tape onderdeel van de 586220 diagnostics gareel"
 
 #: src/translate_text.c.po.c:6435
 msgid "Enable the tape log device"
@@ -12036,14 +12025,12 @@ msgid "Disable saving of the Userport RTC (DS1307) data when changed."
 msgstr "Deactiveer opslaan van de Userport RTC (DS1307) data indien gewijzigd."
 
 #: src/translate_text.c.po.c:7098
-#, fuzzy
 msgid "Enable Userport diag 586220 harness module"
-msgstr "Activeer Userport 4bit sampler"
+msgstr "Activeer Userport diag 586220 gareel module"
 
 #: src/translate_text.c.po.c:7115
-#, fuzzy
 msgid "Disable Userport diag 586220 harness module"
-msgstr "Deactiveer de Userport 4bit sampler"
+msgstr "Deactiveer de Userport diag 586220 gareel module"
 
 #: src/translate_text.c.po.c:7132
 msgid "Enable saving of the BBRTC data when changed."
@@ -12289,29 +12276,24 @@ msgid "Do not write to MMC Replay image"
 msgstr "Schrijf niet naar MMC Replay bestand"
 
 #: src/translate_text.c.po.c:8288
-#, fuzzy
 msgid "Specify GMod2 EEPROM image filename"
-msgstr "Geef de naam van het MMC Replay EEPROM bestand"
+msgstr "Geef de naam van het GMod2 EEPROM bestand"
 
 #: src/translate_text.c.po.c:8305
-#, fuzzy
 msgid "Enable writes to GMod2 EEPROM image"
-msgstr "Aktiveer schrijven naar MMC Replay EEPROM bestand"
+msgstr "Aktiveer schrijven naar GMod2 EEPROM bestand"
 
 #: src/translate_text.c.po.c:8322
-#, fuzzy
 msgid "Disable writes to GMod2 EEPROM image"
-msgstr "Deactiveer schrijven naar MMC Replay EEPROM bestand"
+msgstr "Deactiveer schrijven naar GMod2 EEPROM bestand"
 
 #: src/translate_text.c.po.c:8339
-#, fuzzy
 msgid "Enable saving of the GMod2 ROM at exit"
-msgstr "Activeer opslaan van het RR ROM bestand bij afsluiten"
+msgstr "Activeer opslaan van het GMod2 ROM bestand bij afsluiten"
 
 #: src/translate_text.c.po.c:8356
-#, fuzzy
 msgid "Disable saving of the GMod2 ROM at exit"
-msgstr "Deactiveer het opslaan van het RR ROM bestand bij afsluiten"
+msgstr "Deactiveer het opslaan van het GMod2 ROM bestand bij afsluiten"
 
 #: src/translate_text.c.po.c:8373
 msgid "Enable saving of the RR ROM at exit"
@@ -13744,9 +13726,8 @@ msgid "Specify 4K extension ROM name at $B000"
 msgstr "Geef de naam van het bestand voor de 4K ROM op $B000"
 
 #: src/translate_text.c.po.c:14649
-#, fuzzy
 msgid "Specify Behr Bonz extension ROM name"
-msgstr "Geef de naam van het bestand voor de algemene ROM"
+msgstr "Geef de naam van het bestand voor de Behr Bonz uitbreidings ROM"
 
 #: src/translate_text.c.po.c:14666
 msgid "Specify generic extension ROM name"
