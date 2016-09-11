@@ -14810,101 +14810,29 @@ petcat command line options
      BASIC version.
 
 BASIC Versions:
-`1'
+`10'
+     Basic v10.0 program (C64DX)
+
+`1p'
      PET Basic V1.0
 
 `2'
      Basic v2.0
 
-`superexp'
-     Basic v2.0 with Super Expander (VIC20)
-
-`turtle'
-     Basic v2.0 with Turtle Basic by Craig Bruce (VIC20)
-
-`mighty'
-     Basic v2.0 with Mighty Basic by Craig Bruce (VIC20)
-
-`a'
-     Basic v2.0 with AtBasic (C64)
-
-`simon'
-     Basic v2.0 with Simons' Basic extension (C64)
-
-`speech'
-     Basic v2.0 with Speech Basic v2.7 (C64)
-
-`F'
-     Basic v2.0 with Final Cartridge III (C64)
-
-`ultra'
-     Basic v2.0 with Ultrabasic-64 (C64)
-
-`graph'
-     Basic v2.0 with Graphics basic (C64)
-
-`WSB'
-     Basic v2.0 with WS basic (C64)
-
-`WSBF'
-     Basic v2.0 with WS basic final (C64)
-
-`Pegasus'
-     Basic v2.0 with Pegasus basic 4.0 (C64)
-
-`Xbasic'
-     Basic v2.0 with Xbasic (C64)
-
-`Drago'
-     Basic v2.0 with Drago basic 2.2 (C64)
-
-`REU'
-     Basic v2.0 with REU-basic (C64)
-
-`Lightning'
-     Basic v2.0 with Basic Lightning (C64)
-
-`magic'
-     Basic v2.0 with Magic Basic (C64)
-
-`easy'
-     Basic v2.0 with Easy Basic (VIC20)
-
-`blarg'
-     Basic v2.0 with Blarg (C64)
-
-`Game'
-     Basic v2.0 with Game Basic (C64)
-
-`BSX'
-     Basic v2.0 with Basex (C64)
-
-`superbas'
-     Basic v2.0 with Super Basic (C64)
-
-`exp20'
-     Basic 2.0 with Expanded Basic (VIC20)
-
-`exp64'
-     Basic 2.0 with Expanded Basic (C64)
-
-`sxc'
-     Basic 2.0 with Super Expander Chip (C64)
-
-`warsaw'
-     Basic 2.0 with Warsaw Basic (C64)
-
-`4v'
-     Basic 2.0 with Basic 4.0 extensions (VIC20)
-
-`4 -w4e'
-     PET Basic v4.0 program (PET/C64)
-
-`5'
-     Basic 2.0 with Basic 5.0 extensions (VIC20)
-
 `3'
      Basic v3.5 program (C16)
+
+`40'
+     Basic 4.0 (PET)
+
+`4e'
+     Basic v2.0 with Basic 4.0 extension (C64)
+
+`4v'
+     Basic v2.0 with Basic 4.0 extensions (VIC20)
+
+`5'
+     Basic v2.0 with Basic 5.0 extensions (VIC20)
 
 `70'
      Basic v7.0 program (C128)
@@ -14912,8 +14840,98 @@ BASIC Versions:
 `71'
      Basic v7.1 program (C128)
 
-`10'
-     Basic v10.0 program (C64DX)
+`a'
+     Basic v2.0 with AtBasic (C64)
+
+`bk'
+     Basic v2.0 with Kipper Basic (C64)
+
+`blarg'
+     Basic v2.0 with Blarg (C64)
+
+`bob'
+     Basic v2.0 with Basic on Bails (C64)
+
+`bsx'
+     Basic v2.0 with Basex (C64)
+
+`bwarsaw'
+     Basic v2.0 with Warsaw Basic (C64)
+
+`bws'
+     Basic v2.0 with WS basic (C64)
+
+`bwsf'
+     Basic v2.0 with WS basic final (C64)
+
+`drago'
+     Basic v2.0 with Drago basic v2.2 (C64)
+
+`easy'
+     Basic v2.0 with Easy Basic (VIC20)
+
+`eve'
+     Basic v2.0 with Eve Basic (C64)
+
+`exp20'
+     Basic v2.0 with Expanded Basic (VIC20)
+
+`exp64'
+     Basic v2.0 with Expanded Basic (C64)
+
+`f'
+     Basic v2.0 with Final Cartridge III (C64)
+
+`game'
+     Basic v2.0 with Game Basic (C64)
+
+`graph'
+     Basic v2.0 with Graphics basic (C64)
+
+`lightning'
+     Basic v2.0 with Basic Lightning (C64)
+
+`magic'
+     Basic v2.0 with Magic Basic (C64)
+
+`mighty'
+     Basic v2.0 with Mighty Basic by Craig Bruce (VIC20)
+
+`pegasus'
+     Basic v2.0 with Pegasus basic v4.0 (C64)
+
+`reu'
+     Basic v2.0 with REU-basic (C64)
+
+`simon'
+     Basic v2.0 with Simons' Basic extension (C64)
+
+`speech'
+     Basic v2.0 with Speech Basic v2.7 (C64)
+
+`superbas'
+     Basic v2.0 with Super Basic (C64)
+
+`superexp'
+     Basic v2.0 with Super Expander (VIC20)
+
+`supergra'
+     Basic v2.0 with Supergrafik 64 (C64)
+
+`sxc'
+     Basic v2.0 with Super Expander Chip (C64)
+
+`tt64'
+     Basic v2.0 with The Tool 64 (C64)
+
+`turtle'
+     Basic v2.0 with Turtle Basic by Craig Bruce (VIC20)
+
+`ultra'
+     Basic v2.0 with Ultrabasic-64 (C64)
+
+`xbasic'
+     Basic v2.0 with Xbasic (C64)
 
 petcat examples
 ===============

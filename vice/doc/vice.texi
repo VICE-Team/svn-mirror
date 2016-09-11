@@ -17619,76 +17619,88 @@ Force overwritten the output file. The default depends on the BASIC version.
 
 BASIC Versions:
 @table @code
-@item 1
+@item 10
+Basic v10.0 program (C64DX)
+@item 1p
 PET Basic V1.0
 @item 2
 Basic v2.0
-@item superexp
-Basic v2.0 with Super Expander (VIC20)
-@item turtle
-Basic v2.0 with Turtle Basic by Craig Bruce (VIC20)
-@item mighty
-Basic v2.0 with Mighty Basic by Craig Bruce (VIC20)
-@item a
-Basic v2.0 with AtBasic (C64)
-@item simon
-Basic v2.0 with Simons' Basic extension (C64)
-@item speech
-Basic v2.0 with Speech Basic v2.7 (C64)
-@item F
-Basic v2.0 with Final Cartridge III (C64)
-@item ultra
-Basic v2.0 with Ultrabasic-64 (C64)
-@item graph
-Basic v2.0 with Graphics basic (C64)
-@item WSB
-Basic v2.0 with WS basic (C64)
-@item WSBF
-Basic v2.0 with WS basic final (C64)
-@item Pegasus
-Basic v2.0 with Pegasus basic 4.0 (C64)
-@item Xbasic
-Basic v2.0 with Xbasic (C64)
-@item Drago
-Basic v2.0 with Drago basic 2.2 (C64)
-@item REU
-Basic v2.0 with REU-basic (C64)
-@item Lightning
-Basic v2.0 with Basic Lightning (C64)
-@item magic
-Basic v2.0 with Magic Basic (C64)
-@item easy
-Basic v2.0 with Easy Basic (VIC20)
-@item blarg
-Basic v2.0 with Blarg (C64)
-@item Game
-Basic v2.0 with Game Basic (C64)
-@item BSX
-Basic v2.0 with Basex (C64)
-@item superbas
-Basic v2.0 with Super Basic (C64)
-@item exp20
-Basic 2.0 with Expanded Basic (VIC20)
-@item exp64
-Basic 2.0 with Expanded Basic (C64)
-@item sxc
-Basic 2.0 with Super Expander Chip (C64)
-@item warsaw
-Basic 2.0 with Warsaw Basic (C64)
-@item 4v
-Basic 2.0 with Basic 4.0 extensions (VIC20)
-@item 4 -w4e
-PET Basic v4.0 program (PET/C64)
-@item 5
-Basic 2.0 with Basic 5.0 extensions (VIC20)
 @item 3
 Basic v3.5 program (C16)
+@item 40
+Basic 4.0 (PET)
+@item 4e
+Basic v2.0 with Basic 4.0 extension (C64)
+@item 4v
+Basic v2.0 with Basic 4.0 extensions (VIC20)
+@item 5
+Basic v2.0 with Basic 5.0 extensions (VIC20)
 @item 70
 Basic v7.0 program (C128)
 @item 71
 Basic v7.1 program (C128)
-@item 10
-Basic v10.0 program (C64DX)
+@item a
+Basic v2.0 with AtBasic (C64)
+@item bk
+Basic v2.0 with Kipper Basic (C64)
+@item blarg
+Basic v2.0 with Blarg (C64)
+@item bob
+Basic v2.0 with Basic on Bails (C64)
+@item bsx
+Basic v2.0 with Basex (C64)
+@item bwarsaw
+Basic v2.0 with Warsaw Basic (C64)
+@item bws
+Basic v2.0 with WS basic (C64)
+@item bwsf
+Basic v2.0 with WS basic final (C64)
+@item drago
+Basic v2.0 with Drago basic v2.2 (C64)
+@item easy
+Basic v2.0 with Easy Basic (VIC20)
+@item eve
+Basic v2.0 with Eve Basic (C64)
+@item exp20
+Basic v2.0 with Expanded Basic (VIC20)
+@item exp64
+Basic v2.0 with Expanded Basic (C64)
+@item f
+Basic v2.0 with Final Cartridge III (C64)
+@item game
+Basic v2.0 with Game Basic (C64)
+@item graph
+Basic v2.0 with Graphics basic (C64)
+@item lightning
+Basic v2.0 with Basic Lightning (C64)
+@item magic
+Basic v2.0 with Magic Basic (C64)
+@item mighty
+Basic v2.0 with Mighty Basic by Craig Bruce (VIC20)
+@item pegasus
+Basic v2.0 with Pegasus basic v4.0 (C64)
+@item reu
+Basic v2.0 with REU-basic (C64)
+@item simon
+Basic v2.0 with Simons' Basic extension (C64)
+@item speech
+Basic v2.0 with Speech Basic v2.7 (C64)
+@item superbas
+Basic v2.0 with Super Basic (C64)
+@item superexp
+Basic v2.0 with Super Expander (VIC20)
+@item supergra
+Basic v2.0 with Supergrafik 64 (C64)
+@item sxc
+Basic v2.0 with Super Expander Chip (C64)
+@item tt64
+Basic v2.0 with The Tool 64 (C64)
+@item turtle
+Basic v2.0 with Turtle Basic by Craig Bruce (VIC20)
+@item ultra
+Basic v2.0 with Ultrabasic-64 (C64)
+@item xbasic
+Basic v2.0 with Xbasic (C64)
 @end table
 
 @c @node FIXME
