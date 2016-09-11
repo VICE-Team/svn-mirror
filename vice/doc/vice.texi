@@ -17382,9 +17382,20 @@ named file. It can't be used in conjuction with any of the other parameters.
 @cindex -r
 @item -r
 This parameter is optional, it enables repair mode (accept broken input files)
+@cindex -p
+@item -p
+This parameter is optional, when it is given cartconv will accept input files that
+do not match the cartridge sizes (useful for development).
+@cindex -b
+@item -b
+This parameter is optional, when it is given cartconv will not omit banks that
+are empty (filled with $ff).
 @cindex -q
 @item -q
 This parameter is optional, it disables all non-error messages
+@cindex --types
+@item --types
+This parameter is optional. It shows all supported cartridge types (see below).
 @end table
 
 The following cartridge types are supported:
