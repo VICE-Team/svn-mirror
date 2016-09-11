@@ -440,7 +440,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_BEHR_BONZ_IMAGE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_BEHR_BONZ_IMAGE_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_BEHR_BONZ_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_BEHR_BONZ_IMAGE_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_BEHR_BONZ_IMAGE_NL, "Behr Bonz bestand..." },
 /* pl */ { IDMS_BEHR_BONZ_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_BEHR_BONZ_IMAGE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_BEHR_BONZ_IMAGE_SV, "" },  /* fuzzy */
@@ -3982,7 +3982,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_GMOD2_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_GMOD2_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_GMOD2_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_GMOD2_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_GMOD2_SETTINGS_NL, "GMod2 instellingen..." },
 /* pl */ { IDMS_GMOD2_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_GMOD2_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_GMOD2_SETTINGS_SV, "" },  /* fuzzy */
@@ -10453,7 +10453,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_GMOD2_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_GMOD2_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_GMOD2_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_GMOD2_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_GMOD2_SETTINGS_NL, "GMod2 instellingen" },
 /* pl */ { IDS_GMOD2_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_GMOD2_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_GMOD2_SETTINGS_SV, "" },  /* fuzzy */
@@ -10537,7 +10537,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SELECT_BEHR_BONZ_HU, "" },  /* fuzzy */
 /* it */ { IDS_SELECT_BEHR_BONZ_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SELECT_BEHR_BONZ_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SELECT_BEHR_BONZ_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SELECT_BEHR_BONZ_NL, "Selecteer Behr Bonz bestand" },
 /* pl */ { IDS_SELECT_BEHR_BONZ_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SELECT_BEHR_BONZ_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SELECT_BEHR_BONZ_SV, "" },  /* fuzzy */

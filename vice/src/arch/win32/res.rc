@@ -7646,7 +7646,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS                "MMC64 instellingen..."
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay instellingen..."
   IDS_MI_RR_SETTINGS                   "Retro Replay instellingen..."
-  IDS_MI_GMOD2_SETTINGS                "GMod2 settings..."
+  IDS_MI_GMOD2_SETTINGS                "GMod2 instellingen..."
   IDS_MI_RRNETMK3_SETTINGS             "RRNET MK3 instellingen..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice instellingen..."
 #ifdef HAVE_MIDI

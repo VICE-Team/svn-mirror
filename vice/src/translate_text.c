@@ -3584,7 +3584,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_COPLIN_KEYPAD_HU, ""},  /* fuzzy */
 /* it */ {IDGS_COPLIN_KEYPAD_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_COPLIN_KEYPAD_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_COPLIN_KEYPAD_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_COPLIN_KEYPAD_NL, "Coplin toetsenblok"},
 /* pl */ {IDGS_COPLIN_KEYPAD_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_COPLIN_KEYPAD_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_COPLIN_KEYPAD_SV, ""},  /* fuzzy */
@@ -3601,7 +3601,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CX21_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CX21_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CX21_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CX21_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CX21_NL, "Atari CX21 toetsenblok"},
 /* pl */ {IDGS_CX21_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CX21_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CX21_SV, ""},  /* fuzzy */
@@ -3618,7 +3618,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CX85_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CX85_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CX85_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CX85_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CX85_NL, "Atari CX85 toetsenblok"},
 /* pl */ {IDGS_CX85_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CX85_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CX85_SV, ""},  /* fuzzy */
@@ -3635,7 +3635,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_RUSHWARE_KEYPAD_HU, ""},  /* fuzzy */
 /* it */ {IDGS_RUSHWARE_KEYPAD_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_RUSHWARE_KEYPAD_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RUSHWARE_KEYPAD_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RUSHWARE_KEYPAD_NL, "RushWare toetsenblok"},
 /* pl */ {IDGS_RUSHWARE_KEYPAD_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_RUSHWARE_KEYPAD_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_RUSHWARE_KEYPAD_SV, ""},  /* fuzzy */
@@ -3652,7 +3652,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_CARDKEY_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CARDKEY_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_CARDKEY_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_CARDKEY_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_CARDKEY_NL, "Cardco Cardkey 1 toetsenblok"},
 /* pl */ {IDGS_CARDKEY_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_CARDKEY_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_CARDKEY_SV, ""},  /* fuzzy */
@@ -3958,7 +3958,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_USERPORT_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_USERPORT_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_USERPORT_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_USERPORT_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_USERPORT_DIAG_586220_HARNESS_NL, "Userport diag 586220 gareel"},
 /* pl */ {IDGS_USERPORT_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_USERPORT_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_USERPORT_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
@@ -4128,7 +4128,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_TAPE_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_TAPE_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_TAPE_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_TAPE_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_TAPE_DIAG_586220_HARNESS_NL, "Tape 586220 diagnostics gareel module"},
 /* pl */ {IDGS_TAPE_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_TAPE_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_TAPE_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
@@ -6484,7 +6484,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_NL, "Activeer het tape onderdeel van de 586220 diagnostics gareel"},
 /* pl */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
@@ -6501,7 +6501,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_NL, "Deactiveer het tape onderdeel van de 586220 diagnostics gareel"},
 /* pl */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
@@ -7183,7 +7183,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_NL, "Activeer Userport diag 586220 gareel module"},
 /* pl */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
@@ -7200,7 +7200,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_NL, "Deactiveer de Userport diag 586220 gareel module"},
 /* pl */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
@@ -8373,7 +8373,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_NL, "Geef de naam van het GMod2 EEPROM bestand"},
 /* pl */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_GMOD2_EEPROM_IMAGE_SV, ""},  /* fuzzy */
@@ -8390,7 +8390,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_NL, "Aktiveer schrijven naar GMod2 EEPROM bestand"},
 /* pl */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_GMOD2_EEPROM_WRITE_ENABLE_SV, ""},  /* fuzzy */
@@ -8407,7 +8407,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_NL, "Deactiveer schrijven naar GMod2 EEPROM bestand"},
 /* pl */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_GMOD2_EEPROM_WRITE_DISABLE_SV, ""},  /* fuzzy */
@@ -8424,7 +8424,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_NL, "Activeer opslaan van het GMod2 ROM bestand bij afsluiten"},
 /* pl */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT_SV, ""},  /* fuzzy */
@@ -8441,7 +8441,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_NL, "Deactiveer het opslaan van het GMod2 ROM bestand bij afsluiten"},
 /* pl */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT_SV, ""},  /* fuzzy */
@@ -14740,7 +14740,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_NL, "Geef de naam van het bestand voor de Behr Bonz uitbreidings ROM"},
 /* pl */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_BEHRBONZ_ROM_NAME_SV, ""},  /* fuzzy */

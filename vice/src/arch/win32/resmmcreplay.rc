@@ -207,8 +207,8 @@ BEGIN
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card soort"
   IDS_MMCREPLAY_READ_WRITE          "lees/schrijf"
   IDS_MMCREPLAY_WRITE_ENABLE        "MMC Replay EEPROM opslaan indien gewijzigd"
-  IDS_MMCREPLAY_CARD_SELECT_FILE    "Select file for MMC Replay card image"
-  IDS_MMCREPLAY_EEPROM_SELECT_FILE  "Select file for MMC Replay EEPROM image"
+  IDS_MMCREPLAY_CARD_SELECT_FILE    "Selecteer bestand voor MMC Repley card"
+  IDS_MMCREPLAY_EEPROM_SELECT_FILE  "Selecteer bestand voor MMC Replay EEPROM"
 END
 
 
@@ -296,3 +296,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

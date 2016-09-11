@@ -221,8 +221,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "MMC/SD bestand alleen-lezen"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD bestand"
   IDS_MMC64_SDTYPE_LABEL     "Card soort"
-  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
-  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
+  IDS_MMC64_BIOS_SELECT_FILE "Selecteer bestand voor MMC64 BIOS"
+  IDS_MMC64_CARD_SELECT_FILE "Selecteer bestand voor MMC64 card"
 END
 
 
@@ -314,3 +314,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+
