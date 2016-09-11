@@ -520,6 +520,11 @@ typedef struct basic_list_s {
     char *name;
 } basic_list_t;
 
+typedef struct sorted_basic_s {
+    char *version_select;
+    char *name;
+} sorted_basic_t;
+
 static basic_list_t basic_list[] = {
    /* version    num  max   load   off start tokens             verselect    64 ce fe name */
     { B_1,        75, 0xCB, 0x0801, 0, 0,    NULL, /* fix */    "1p",        0, 0, 0, "PET Basic v1.0" },
@@ -1138,9 +1143,45 @@ int main(int argc, char **argv)
 }
 
 /* ------------------------------------------------------------------------- */
+
+static int count_valid_option_elements(void)
+{
+    int i = 0;
+
+    while (basic_list[i].name) {
+        ++i;
+    }
+    return i;
+}
+
+static int compare_elements(const void *op1, const void *op2)
+{
+    sorted_basic_t *p1 = (sorted_basic_t *)op1;
+    sorted_basic_t *p2 = (sorted_basic_t *)op2;
+
+    return strcmp(p1->version_select, p2->version_select);
+}
+
+
 void usage(char *progname)
 {
-    int i;
+    int i = 0;
+    int amount;
+    sorted_basic_t *sorted_option_elements;
+
+    /* get the amount of valid options */
+    amount = count_valid_option_elements();
+
+    sorted_option_elements = malloc(amount * sizeof(sorted_basic_t));
+
+    /* fill in the array with the information needed */
+    while (basic_list[i].name) {
+        sorted_option_elements[i].version_select = basic_list[i].version_select;
+        sorted_option_elements[i].name = basic_list[i].name;
+        ++i;
+    }
+
+    qsort(sorted_option_elements, amount, sizeof(sorted_basic_t), compare_elements);
 
     fprintf(stdout,
             "\n\t%s V%4.2f PL %d -- Basic list/crunch utility.\n\tPart of "PACKAGE " "VERSION "\n",
@@ -1174,9 +1215,11 @@ void usage(char *progname)
             "   \t\tThe default depends on the BASIC version.\n");
 
     fprintf(stdout, "\n\tVersions:\n");
-    for (i = 0; basic_list[i].version_select; ++i) {
-            fprintf(stdout, "\t%s\t%s\n", basic_list[i].version_select, basic_list[i].name);
+    for (i = 0; i < amount; ++i) {
+        fprintf(stdout, "\t%s\t%s\n", sorted_option_elements[i].version_select, sorted_option_elements[i].name);
     }
+    free(sorted_option_elements);
+
     fprintf(stdout, "\n");
 
     fprintf(stdout, "\tUsage examples:\n"
