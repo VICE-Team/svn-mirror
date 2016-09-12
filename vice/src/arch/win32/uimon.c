@@ -1489,9 +1489,13 @@ static BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
 */
 static VOID GetCursorPosAtMessageTime(LPPOINT point)
 {
+#ifdef WATCOM_COMPILE
+    GetCursorPos(point);
+#else
     DWORD pos = GetMessagePos();
 
     POINTSTOPOINT(*point, pos);
+#endif
 }
 
 typedef int ExecuteGenericPopup_callback_t(HMENU hPopupMenu, WORD ulDefault, WORD ulMask, int * nMenuCount, void * pContext);

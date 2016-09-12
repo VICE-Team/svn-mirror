@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-55
-.;..;..\..\..;..\..\..\rtc;$(%watcom)\h;$(%watcom)\h\nt
+69
+.;..;..\..\..;..\..\..\rtc;..\..\..\diag;$(%watcom)\h;$(%watcom)\h\nt
 0
 18
 MVState
