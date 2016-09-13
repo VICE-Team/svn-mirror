@@ -36,9 +36,11 @@
 #include "ioutil.h"
 #include "log.h"
 #include "snapshot.h"
+#include "svnversion.h"
 #include "translate.h"
 #include "types.h"
 #include "uiapi.h"
+#include "version.h"
 #include "vsync.h"
 #include "zfile.h"
 
@@ -49,8 +51,10 @@ static char *current_machine_name = NULL;
 static char *current_filename = NULL;
 
 char snapshot_magic_string[] = "VICE Snapshot File\032";
+char snapshot_version_magic_string[] = "VICE Version\032";
 
 #define SNAPSHOT_MAGIC_LEN              19
+#define SNAPSHOT_VERSION_MAGIC_LEN      13
 
 struct snapshot_module_s {
     /* File descriptor.  */
@@ -666,6 +670,7 @@ snapshot_t *snapshot_create(const char *filename, BYTE major_version, BYTE minor
 {
     FILE *f;
     snapshot_t *s;
+    unsigned char viceversion[4] = { VERSION_RC_NUMBER };
 
     current_filename = (char *)filename;
 
@@ -694,6 +699,21 @@ snapshot_t *snapshot_create(const char *filename, BYTE major_version, BYTE minor
         goto fail;
     }
 
+    /* VICE version and revision */
+    if (snapshot_write_padded_string(f, snapshot_version_magic_string, (BYTE)0, SNAPSHOT_VERSION_MAGIC_LEN) < 0) {
+        snapshot_error = SNAPSHOT_CANNOT_WRITE_MAGIC_STRING_ERROR;
+        goto fail;
+    }
+
+    if (snapshot_write_byte(f, viceversion[0]) < 0
+        || snapshot_write_byte(f, viceversion[1]) < 0
+        || snapshot_write_byte(f, viceversion[2]) < 0
+        || snapshot_write_byte(f, viceversion[3]) < 0
+        || snapshot_write_dword(f, VICE_SVN_REV_NUMBER) < 0) {
+        snapshot_error = SNAPSHOT_CANNOT_WRITE_VERSION_ERROR;
+        goto fail;
+    }
+
     s = lib_malloc(sizeof(snapshot_t));
     s->file = f;
     s->first_module_offset = ftell(f);
@@ -707,12 +727,17 @@ fail:
     return NULL;
 }
 
+/* informal only, used by the error message created below */
+static unsigned char snapshot_viceversion[4];
+static unsigned int snapshot_vicerevision;
+
 snapshot_t *snapshot_open(const char *filename, BYTE *major_version_return, BYTE *minor_version_return, const char *snapshot_machine_name)
 {
     FILE *f;
     char magic[SNAPSHOT_MAGIC_LEN];
     snapshot_t *s = NULL;
     int machine_name_len;
+    size_t offs;
 
     current_machine_name = (char *)snapshot_machine_name;
     current_filename = (char *)filename;
@@ -753,6 +778,28 @@ snapshot_t *snapshot_open(const char *filename, BYTE *major_version_return, BYTE
         goto fail;
     }
 
+    /* VICE version and revision */
+    memset(snapshot_viceversion, 0, 4);
+    snapshot_vicerevision = 0;
+    offs = ftell(f);
+
+    if (snapshot_read_byte_array(f, (BYTE *)magic, SNAPSHOT_VERSION_MAGIC_LEN) < 0
+        || memcmp(magic, snapshot_version_magic_string, SNAPSHOT_VERSION_MAGIC_LEN) != 0) {
+        /* old snapshots do not contain VICE version */
+        fseek(f, offs, SEEK_SET);
+        log_warning(LOG_DEFAULT, "attempting to load pre 2.4.30 snapshot");
+    } else {
+        /* actually read the version */
+        if (snapshot_read_byte(f, &snapshot_viceversion[0]) < 0
+            || snapshot_read_byte(f, &snapshot_viceversion[1]) < 0
+            || snapshot_read_byte(f, &snapshot_viceversion[2]) < 0
+            || snapshot_read_byte(f, &snapshot_viceversion[3]) < 0
+            || snapshot_read_dword(f, &snapshot_vicerevision) < 0) {
+            snapshot_error = SNAPSHOT_CANNOT_READ_VERSION_ERROR;
+            goto fail;
+        }
+    }
+
     s = lib_malloc(sizeof(snapshot_t));
     s->file = f;
     s->first_module_offset = ftell(f);
@@ -788,6 +835,23 @@ int snapshot_close(snapshot_t *s)
 
     lib_free(s);
     return retval;
+}
+
+static void display_error_with_vice_version(char *text, char *filename)
+{
+    char *vmessage = lib_malloc(0x100);
+    char *message = lib_malloc(0x100 + strlen(text));
+    if (snapshot_vicerevision == 0) {
+        /* generic message for the case when no version is present in the snapshot */
+        strcpy(vmessage, translate_text(IDGS_SNAPSHOT_OLD_VICE_VERSION));
+    } else {
+        sprintf(vmessage, translate_text(IDGS_SNAPSHOT_VICE_VERSION),
+                snapshot_viceversion[0], snapshot_viceversion[1], snapshot_viceversion[2], snapshot_vicerevision);
+    }
+    sprintf(message, "%s\n\n%s", text, vmessage);
+    ui_error(message, filename);
+    lib_free(message);
+    lib_free(vmessage);
 }
 
 void snapshot_display_error(void)
@@ -888,12 +952,10 @@ void snapshot_display_error(void)
             ui_error(translate_text(IDGS_EOF_CLOSING_SNAPSHOT_S), current_filename);
             break;
         case SNAPSHOT_MODULE_HIGHER_VERSION:
-            /* FIXME: it should also tell the module version, and what VICE version was used to save the snapshot (if possible) */
-            ui_error(translate_text(IDGS_SNAPSHOT_HIGHER_VERSION), current_filename);
+            display_error_with_vice_version(translate_text(IDGS_SNAPSHOT_HIGHER_VERSION), current_filename);
             break;
         case SNAPSHOT_MODULE_INCOMPATIBLE:
-            /* FIXME: it should also tell the module version, and what VICE version was used to save the snapshot (if possible) */
-            ui_error(translate_text(IDGS_INCOMPATIBLE_SNAPSHOT), current_filename);
+            display_error_with_vice_version(translate_text(IDGS_INCOMPATIBLE_SNAPSHOT), current_filename);
             break;
     }
 }

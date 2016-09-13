@@ -4645,6 +4645,40 @@ translate_t string_table[] = {
 /* tr */ {IDGS_INCOMPATIBLE_SNAPSHOT_TR, ""},  /* fuzzy */
 #endif
 
+/* snapshot.c */
+/* en */ {IDGS_SNAPSHOT_VICE_VERSION,    N_("Snapshot was created by VICE Version %d.%d.%d r%d.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SNAPSHOT_VICE_VERSION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SNAPSHOT_VICE_VERSION_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SNAPSHOT_VICE_VERSION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SNAPSHOT_VICE_VERSION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SNAPSHOT_VICE_VERSION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SNAPSHOT_VICE_VERSION_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SNAPSHOT_VICE_VERSION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SNAPSHOT_VICE_VERSION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SNAPSHOT_VICE_VERSION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SNAPSHOT_VICE_VERSION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SNAPSHOT_VICE_VERSION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SNAPSHOT_VICE_VERSION_TR, ""},  /* fuzzy */
+#endif
+
+/* snapshot.c */
+/* en */ {IDGS_SNAPSHOT_OLD_VICE_VERSION,    N_("Snapshot was created by VICE Version 2.4.30 or older.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */
