@@ -1620,7 +1620,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
 
     old_name = mon_symbol_table_lookup_name(mem, loc);
     old_addr = mon_symbol_table_lookup_addr(mem, name);
-    if (old_name && addr_location(old_addr) != addr) {
+    if (old_name && (MON_ADDR)addr_location(old_addr) != addr) {
         mon_out("Warning: label(s) for address $%04x already exist.\n", loc);
     }
     if (old_addr >= 0) {

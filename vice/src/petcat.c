@@ -2017,7 +2017,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     case B_SUPERBAS:
                         if ((c = sstrcmp(p2, basic_list[version - 1].tokens, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
                             if (match) {
-                                if (kwlen >= kwlentmp) {
+                                if ((int)kwlen >= kwlentmp) {
                                     *p1++ = c + basic_list[version - 1].token_start;
                                     p2 += kwlen;
                                 } else {
@@ -2235,7 +2235,7 @@ static int sstrcmp_codes(unsigned char *line, const char **wordlist, int token, 
 */
 static unsigned char sstrcmp(unsigned char *line, const char **wordlist, int token, int maxitems)
 {
-    int j;
+    unsigned int j;
     const char *p, *q;
     int retval = (KW_NONE);
 
