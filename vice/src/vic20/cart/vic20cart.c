@@ -651,7 +651,7 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
     int new_cart_type, cartridge_reset;
     BYTE i;
-    BYTE number_of_carts;
+    BYTE number_of_carts = 0;
     int cart_ids[VIC20CART_DUMP_MAX_CARTS];
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
@@ -667,24 +667,32 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    if (SMR_B(m, &number_of_carts) < 0) {
-        goto fail;
-    }
-
-    /* Not much to do if no carts in snapshot */
-    if (number_of_carts == 0) {
-        return snapshot_module_close(m);
-    }
-
-    if (number_of_carts > VIC20CART_DUMP_MAX_CARTS) {
-        DBG(("CART snapshot read: carts %i > max %i\n", number_of_carts, VIC20CART_DUMP_MAX_CARTS));
-        goto fail;
-    }
-
-    /* Read cart IDs */
-    for (i = 0; i < number_of_carts; i++) {
-        if (SMR_DW_INT(m, &cart_ids[i]) < 0) {
+    if (vminor < 1) {
+        /* FIXME: test if loading older snapshots with cartridge actually works */
+        if (new_cart_type != CARTRIDGE_NONE) {
+            number_of_carts = 1;
+            cart_ids[0] = new_cart_type;
+        }
+    } else {
+        if (SMR_B(m, &number_of_carts) < 0) {
             goto fail;
+        }
+
+        /* Not much to do if no carts in snapshot */
+        if (number_of_carts == 0) {
+            return snapshot_module_close(m);
+        }
+
+        if (number_of_carts > VIC20CART_DUMP_MAX_CARTS) {
+            DBG(("CART snapshot read: carts %i > max %i\n", number_of_carts, VIC20CART_DUMP_MAX_CARTS));
+            goto fail;
+        }
+
+        /* Read cart IDs */
+        for (i = 0; i < number_of_carts; i++) {
+            if (SMR_DW_INT(m, &cart_ids[i]) < 0) {
+                goto fail;
+            }
         }
     }
 
