@@ -644,7 +644,7 @@ static void init_vsid_dialog(HWND hwnd)
 
     temp_hwnd = GetDlgItem(hwnd, IDC_VSID_TUNE);
     for (i = 0; i < songs; i++) {
-        _stprintf(st, TEXT("%d"), i + 1);
+        _itot(i + 1, st, 10);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)current_song - 1, 0);

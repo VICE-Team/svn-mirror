@@ -3927,10 +3927,19 @@ elif test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui
     ENABLE_UNICODE_API_SUPPORT="yes"
   fi
 
+  AC_MSG_CHECKING([if we have an ISO C99 compliant vswprintf function])
+  AC_TRY_COMPILE([#include <stdarg.h>
+                  #include <wchar.h>],
+                 [va_list args;
+                  wchar_t buf[10];
+                  vswprintf(buf, 10, L"%d", args)],
+                 [AC_DEFINE(HAVE_STDC_VSWPRINTF,,[Do we have an ISO C99 compliant vswprintf function?])
+                  AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
+
   AC_MSG_CHECKING([whether DWORD is defined as unsigned long or unsigned int in the Mingw32 headers])
   AC_TRY_COMPILE([#include <windows.h>
-extern DWORD test;
-unsigned long test; ],
+                  extern DWORD test;
+                  unsigned long test; ],
                  ,
                  [ AC_DEFINE(DWORD_IS_LONG,,
                    [Is DWORD defined as long or int in the Windows header files?])

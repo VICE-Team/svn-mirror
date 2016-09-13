@@ -34,6 +34,10 @@
 #include <string.h>
 #include <time.h>
 
+#ifdef WIN32_UNICODE_SUPPORT
+#include <wchar.h>
+#endif
+
 #ifdef AMIGA_SUPPORT
 #ifndef __USE_INLINE__
 #define __USE_INLINE__
@@ -738,6 +742,7 @@ char *lib_stralloc(const char *str)
 #if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(WIN32_COMPILE)
 
 #ifdef WIN32_UNICODE_SUPPORT
+
 size_t lib_tcstostr(char *str, const wchar_t *tcs, size_t len)
 {
     size_t cnt;
@@ -760,6 +765,23 @@ size_t lib_strtotcs(wchar_t *tcs, const char *str, size_t len)
     return cnt;
 }
 
+int lib_swprintf(wchar_t *wcs, size_t len, const wchar_t *fmt, ...)
+{
+    va_list args;
+    int ret;
+
+    va_start(args, fmt);
+#ifdef HAVE_STDC_VSWPRINTF
+    ret = vswprintf(wcs, len, fmt, args);
+#else
+    /* alternately we use a Microsoft CRT func */
+    ret = _vsnwprintf(wcs, len, fmt, args);
+#endif
+    va_end(args);
+
+    return ret;
+}
+
 #else
 
 size_t lib_tcstostr(char *str, const char *tcs, size_t len)
@@ -775,9 +797,26 @@ size_t lib_strtotcs(char *tcs, const char *str, size_t len)
     tcs[len - 1] = 0;
     return strlen(tcs);
 }
+
+int lib_snprintf(char *str, size_t len, const char *fmt, ...)
+{
+    va_list args;
+    int ret;
+
+    va_start(args, fmt);
+#ifdef HAVE_VSNPRINTF
+    ret = vsnprintf(str, len, fmt, args);
+#else
+    /* fake version which ignores len */
+    ret = vsprintf(str, fmt, args);
+#endif
+    va_end(args);
+
+    return ret;
+}
 #endif
 
-#endif
+#endif /* CYGWIN or WIN32_COMPILE */
 
 #ifdef HAVE_WORKING_VSNPRINTF
 

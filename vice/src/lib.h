@@ -50,12 +50,25 @@ extern char *lib_mvsprintf(const char *fmt, va_list args);
 
 extern void lib_debug_check(void);
 
-#if !defined(__CYGWIN32__) && !defined(__CYGWIN__) && defined(WIN32_COMPILE)
-#include <tchar.h>
+#if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(WIN32_COMPILE)
 
-size_t lib_tcstostr(char *str, const TCHAR *tcs, size_t len);
-size_t lib_strtotcs(TCHAR *tcs, const char *str, size_t len);
+#ifdef WIN32_UNICODE_SUPPORT
+#include <wchar.h>
+
+extern size_t lib_tcstostr(char *str, const wchar_t *tcs, size_t len);
+extern size_t lib_strtotcs(wchar_t *tcs, const char *str, size_t len);
+
+extern int lib_swprintf(wchar_t *wcs, size_t len, const wchar_t *fmt, ...);
+#define lib_sntprintf lib_swprintf
+#else
+extern size_t lib_tcstostr(char *str, const char *tcs, size_t len);
+extern size_t lib_strtotcs(char *tcs, const char *str, size_t len);
+
+extern int lib_snprintf(char *str, size_t len, const char *fmt, ...);
+#define lib_sntprintf lib_snprintf
 #endif
+
+#endif /* CYGWIN or WIN32_COMPILE */
 
 #ifdef LIB_DEBUG_PINPOINT
 extern void *lib_malloc_pinpoint(size_t size, const char *name, unsigned int line);

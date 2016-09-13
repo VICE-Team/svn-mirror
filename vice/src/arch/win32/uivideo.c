@@ -219,27 +219,27 @@ static void init_color_dialog(HWND hwnd, Chip_Parameters *chip_type)
 
     resources_get_int(chip_type->res_colors_gamma, &val);
     fval = ((double)val) / 1000.0;
-    _stprintf(st_val, TEXT("%.3f"), (float)fval);
+    lib_sntprintf(st_val, 32, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAMMA, st_val);
 
     resources_get_int(chip_type->res_colors_tint, &val);
     fval = ((double)val) / 1000.0;
-    _stprintf(st_val, TEXT("%.3f"), (float)fval);
+    lib_sntprintf(st_val, 32, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_TINT, st_val);
 
     resources_get_int(chip_type->res_colors_saturation, &val);
     fval = ((double)val) / 1000.0;
-    _stprintf(st_val, TEXT("%.3f"), (float)fval);
+    lib_sntprintf(st_val, 32, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_SATURATION, st_val);
 
     resources_get_int(chip_type->res_colors_contrast, &val);
     fval = ((double)val) / 1000.0;
-    _stprintf(st_val, TEXT("%.3f"), (float)fval);
+    lib_sntprintf(st_val, 32, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_CONTRAST, st_val);
 
     resources_get_int(chip_type->res_colors_brightness, &val);
     fval = ((double)val) / 1000.0;
-    _stprintf(st_val, TEXT("%.3f"), (float)fval);
+    lib_sntprintf(st_val, 32, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRIGHTNESS, st_val);
 
     /* palette */
@@ -316,22 +316,22 @@ static void init_crt_emulation_dialog(HWND hwnd, Chip_Parameters *chip_type)
 
     resources_get_int(chip_type->res_crt_emu_scanlineshade, &val);
     fval = ((double)val) / 1000.0;
-    _stprintf(st_val, TEXT("%.3f"), (float)fval);
+    lib_sntprintf(st_val, 16, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_CRT_SCANLINE_SHADE, st_val);
 
     resources_get_int(chip_type->res_crt_emu_blur, &val);
     fval = ((double)val) / 1000.0;
-    _stprintf(st_val, TEXT("%.3f"), (float)fval);
+    lib_sntprintf(st_val, 16, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_CRT_BLUR, st_val);
 
     resources_get_int(chip_type->res_crt_emu_oddlinephase, &val);
     fval = ((double)val) / 1000.0;
-    _stprintf(st_val, TEXT("%.3f"), (float)fval);
+    lib_sntprintf(st_val, 16, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_CRT_ODDLINE_PHASE, st_val);
 
     resources_get_int(chip_type->res_crt_emu_oddlineoffset, &val);
     fval = ((double)val) / 1000.0;
-    _stprintf(st_val, TEXT("%.3f"), (float)fval);
+    lib_sntprintf(st_val, 16, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_CRT_ODDLINE_OFFSET, st_val);
 
     resources_get_int(chip_type->res_audio_leak, &val);

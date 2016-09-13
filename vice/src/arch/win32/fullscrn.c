@@ -878,11 +878,11 @@ static void init_fullscreen_dialog(HWND hwnd)
         enable_aspect_ratio(hwnd);
 
         fval = ((double)aspect_ratio) / 1000.0;
-        _stprintf(st_text, TEXT("%.3f"), (float)fval);
+        lib_sntprintf(st_text, 64, TEXT("%.3f"), (float)fval);
         SetDlgItemText(hwnd, IDC_ASPECT_RATIO, st_text);
 
         fval = canvas->geometry->pixel_aspect_ratio;
-        _stprintf(st_text, TEXT("%.3f"), (float)fval);
+        lib_sntprintf(st_text, 64, TEXT("%.3f"), (float)fval);
         SetDlgItemText(hwnd, IDC_GEOMETRY_ASPECT_RATIO, st_text);
     }
 }

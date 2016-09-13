@@ -32,6 +32,7 @@
 #include <tchar.h>
 
 #include "intl.h"
+#include "lib.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
@@ -221,7 +222,7 @@ static void init_acia_dialog(HWND hwnd)
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE);
     for (i = 0; i < RS232_NUM_DEVICES; i++) {
         TCHAR st[20];
-        _stprintf(st, intl_translate_tcs(IDS_RS232_DEVICE_I), i + 1);
+        lib_sntprintf(st, 20, intl_translate_tcs(IDS_RS232_DEVICE_I), i + 1);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -252,7 +253,7 @@ static void init_acia_dialog(HWND hwnd)
     for (res_value_loop = 0; current_base_address[res_value_loop] != -1; res_value_loop++) {
         TCHAR st[10];
 
-        _stprintf(st, TEXT("$%X"), current_base_address[res_value_loop]);
+        lib_sntprintf(st, 10, TEXT("$%X"), current_base_address[res_value_loop]);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     for (res_value_loop = 0; current_base_address[res_value_loop] != -1; res_value_loop++) {
@@ -348,7 +349,7 @@ static void init_plus4_acia_dialog(HWND hwnd)
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE);
     for (i = 0; i < RS232_NUM_DEVICES; i++) {
         TCHAR st[20];
-        _stprintf(st, intl_translate_tcs(IDS_RS232_DEVICE_I), i + 1);
+        lib_sntprintf(st, 20, intl_translate_tcs(IDS_RS232_DEVICE_I), i + 1);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -420,7 +421,7 @@ static void init_nonc64_acia_dialog(HWND hwnd)
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE);
     for (i = 0; i < RS232_NUM_DEVICES; i++) {
         TCHAR st[20];
-        _stprintf(st, intl_translate_tcs(IDS_RS232_DEVICE_I), i + 1);
+        lib_sntprintf(st, 20, intl_translate_tcs(IDS_RS232_DEVICE_I), i + 1);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);

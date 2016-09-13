@@ -1199,7 +1199,7 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     for (index = 0; index < number_of_windows; index++) {
         st_title = hwnd_titles[index];
 
-        _stprintf(st_buf, intl_speed_at_text, st_title, (int)(percent + .5), (int)(framerate + .5), st_warp);
+        lib_sntprintf(st_buf, 80, intl_speed_at_text, st_title, (int)(percent + .5), (int)(framerate + .5), st_warp);
 
         SetWindowText(window_handles[index], st_buf);
     }
@@ -1427,11 +1427,11 @@ void ui_display_paused(int flag)
             TCHAR *st_pause = intl_translate_tcs(IDS_PAUSED);
             TCHAR *st_frame = intl_translate_tcs(IDS_FRAME_NUMBER);
 
-            _stprintf(st_buf, TEXT("%s (%s: %s%i)"), st_title, st_pause, st_frame, vsync_frame_counter);
+            lib_sntprintf(st_buf, 80, TEXT("%s (%s: %s%i)"), st_title, st_pause, st_frame, vsync_frame_counter);
         } else {
             TCHAR *st_resume = intl_translate_tcs(IDS_RESUMED);
 
-            _stprintf(st_buf, TEXT("%s (%s)"), st_title, st_resume);
+            lib_sntprintf(st_buf, 80, TEXT("%s (%s)"), st_title, st_resume);
         }
 
         /* HACK: dont update the title in VSID. since the vsid ui is kindof standalone hack, that doesnt really work */

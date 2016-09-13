@@ -148,7 +148,7 @@ void uic64cart_add_menu_item(HMENU menu, const char *name, int menu_id)
     TCHAR st_text[64];
 
     system_mbstowcs(st_name, name, 32);
-    _stprintf(st_text, TEXT("%s %s..."), st_name, intl_translate_tcs(IDS_IMAGE));
+    lib_sntprintf(st_text, 64, TEXT("%s %s..."), st_name, intl_translate_tcs(IDS_IMAGE));
     AppendMenu(menu, MF_STRING, menu_id, st_text);
 }
 
