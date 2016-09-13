@@ -853,7 +853,7 @@ static const char snap_module_name_extended1[] = "SIDEXTENDED";
 static const char snap_module_name_extended2[] = "SIDEXTENDED2";
 static const char snap_module_name_extended3[] = "SIDEXTENDED3";
 #define SNAP_MAJOR_EXTENDED 1
-#define SNAP_MINOR_EXTENDED 2
+#define SNAP_MINOR_EXTENDED 3
 
 static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
 {
