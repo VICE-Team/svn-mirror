@@ -17633,19 +17633,19 @@ BASIC Versions:
 @item 10
 Basic v10.0 program (C64DX)
 @item 1p
-PET Basic V1.0
+PET Basic v1.0
 @item 2
 Basic v2.0
 @item 3
 Basic v3.5 program (C16)
 @item 40
-Basic 4.0 (PET)
+Basic v4.0 (PET)
 @item 4e
-Basic v2.0 with Basic 4.0 extension (C64)
+Basic v2.0 with Basic v4.0 extension (C64)
 @item 4v
-Basic v2.0 with Basic 4.0 extensions (VIC20)
+Basic v2.0 with Basic v4.0 extensions (VIC20)
 @item 5
-Basic v2.0 with Basic 5.0 extensions (VIC20)
+Basic v2.0 with Basic v5.0 extensions (VIC20)
 @item 70
 Basic v7.0 program (C128)
 @item 71
@@ -17663,9 +17663,9 @@ Basic v2.0 with Basex (C64)
 @item bwarsaw
 Basic v2.0 with Warsaw Basic (C64)
 @item bws
-Basic v2.0 with WS basic (C64)
+Basic v2.0 with WS Basic (C64)
 @item bwsf
-Basic v2.0 with WS basic final (C64)
+Basic v2.0 with WS Basic final (C64)
 @item drago
 Basic v2.0 with Drago basic v2.2 (C64)
 @item easy
@@ -17689,9 +17689,9 @@ Basic v2.0 with Magic Basic (C64)
 @item mighty
 Basic v2.0 with Mighty Basic by Craig Bruce (VIC20)
 @item pegasus
-Basic v2.0 with Pegasus basic v4.0 (C64)
+Basic v2.0 with Pegasus Basic v4.0 (C64)
 @item reu
-Basic v2.0 with REU-basic (C64)
+Basic v2.0 with REU-Basic (C64)
 @item simon
 Basic v2.0 with Simons' Basic extension (C64)
 @item speech
