@@ -17631,25 +17631,25 @@ Force overwritten the output file. The default depends on the BASIC version.
 BASIC Versions:
 @table @code
 @item 10
-Basic v10.0 program (C64DX)
+Basic v10.0 (C65/C64DX)
 @item 1p
-PET Basic v1.0
+Basic v1.0 (PET)
 @item 2
-Basic v2.0
+Basic v2.0 (C64/VIC20/PET)
 @item 3
-Basic v3.5 program (C16)
+Basic v3.5 (C16)
 @item 40
-Basic v4.0 (PET)
+Basic v4.0 (PET/CBM2)
 @item 4e
 Basic v2.0 with Basic v4.0 extension (C64)
 @item 4v
-Basic v2.0 with Basic v4.0 extensions (VIC20)
+Basic v2.0 with Basic v4.0 extension (VIC20)
 @item 5
-Basic v2.0 with Basic v5.0 extensions (VIC20)
+Basic v2.0 with Basic v5.0 extension (VIC20)
 @item 70
-Basic v7.0 program (C128)
+Basic v7.0 (C128)
 @item 71
-Basic v7.1 program (C128)
+Basic v7.0 with Basic v7.1 extension (C128)
 @item a
 Basic v2.0 with AtBasic (C64)
 @item bk
