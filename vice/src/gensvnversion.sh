@@ -32,8 +32,8 @@ svnrevision=`$1 $2`
 
 # a mixed range revision with local modifications may give output like this:
 # 4123:4168MSP
-# split only the right (highest) revision from it
-svnrevisionnr=`echo $svnrevision | sed 's/[0-9]*:\([0-9]*\).*/\1/'`
+# first split the second part from the first, then remove the non-numeric part
+svnrevisionnr=`echo $svnrevision | sed 's/.*:\(.*\)/\1/' | sed 's/\([0-9]*\).*/\1/'`
 
 # if the output file exists, and contains the same svnrevisionnr, then exit
 # early and do not produce a new output file
