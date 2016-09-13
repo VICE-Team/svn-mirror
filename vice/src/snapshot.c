@@ -888,9 +888,11 @@ void snapshot_display_error(void)
             ui_error(translate_text(IDGS_EOF_CLOSING_SNAPSHOT_S), current_filename);
             break;
         case SNAPSHOT_MODULE_HIGHER_VERSION:
+            /* FIXME: it should also tell the module version, and what VICE version was used to save the snapshot (if possible) */
             ui_error(translate_text(IDGS_SNAPSHOT_HIGHER_VERSION), current_filename);
             break;
         case SNAPSHOT_MODULE_INCOMPATIBLE:
+            /* FIXME: it should also tell the module version, and what VICE version was used to save the snapshot (if possible) */
             ui_error(translate_text(IDGS_INCOMPATIBLE_SNAPSHOT), current_filename);
             break;
     }
