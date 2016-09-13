@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,6 +32,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "intl.h"
 #include "joyport.h"
 #include "lib.h"
 #include "res.h"
@@ -42,33 +44,36 @@
 #include "uimouse.h"
 #include "winmain.h"
 
-static int ports[5] = { 0, 0, 0, 0, 0};
-static joyport_desc_t *devices_port_1 = NULL;
-static joyport_desc_t *devices_port_2 = NULL;
-static joyport_desc_t *devices_port_3 = NULL;
-static joyport_desc_t *devices_port_4 = NULL;
-static joyport_desc_t *devices_port_5 = NULL;
+static int ports[JOYPORT_MAX_PORTS] = { 0, 0, 0, 0, 0};
+
+typedef struct port_param_s {
+    int idc_label;
+    int idc_cb;
+    const char *resname;
+    joyport_desc_t *devices;
+} port_param_t;
+
+static port_param_t port_params[JOYPORT_MAX_PORTS] = {
+    { IDC_JOYPORT1_LABEL, IDC_JOYPORT1, "JoyPort1Device", NULL },
+    { IDC_JOYPORT2_LABEL, IDC_JOYPORT2, "JoyPort2Device", NULL },
+    { IDC_JOYPORT3_LABEL, IDC_JOYPORT3, "JoyPort3Device", NULL },
+    { IDC_JOYPORT4_LABEL, IDC_JOYPORT4, "JoyPort4Device", NULL },
+    { IDC_JOYPORT5_LABEL, IDC_JOYPORT5, "JoyPort5Device", NULL }
+};
 
 static void enable_joyport_controls(HWND hwnd)
 {
-    if (ports[JOYPORT_1]) {
-        EnableWindow(GetDlgItem(hwnd, IDC_JOYPORT1), 1);
-    }
-    if (ports[JOYPORT_2]) {
-        EnableWindow(GetDlgItem(hwnd, IDC_JOYPORT2), 1);
-    }
-    if (ports[JOYPORT_3]) {
-        EnableWindow(GetDlgItem(hwnd, IDC_JOYPORT3), 1);
-    }
-    if (ports[JOYPORT_4]) {
-        EnableWindow(GetDlgItem(hwnd, IDC_JOYPORT4), 1);
-    }
-    if (ports[JOYPORT_5]) {
-        EnableWindow(GetDlgItem(hwnd, IDC_JOYPORT5), 1);
+    int port;
+
+    for (port = 0; port < JOYPORT_MAX_PORTS; port++) {
+        if (ports[port]) {
+            EnableWindow(GetDlgItem(hwnd, port_params[port].idc_cb), 1);
+        }
     }
 }
 
 static uilib_localize_dialog_param joyport_dialog_trans[] = {
+    { 0, IDS_JOYPORT_CAPTION, -1 },
     { IDC_JOYPORT_BBRTC_SAVE, IDS_JOYPORT_BBRTC_SAVE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
@@ -86,94 +91,32 @@ static int move_buttons_group[] = {
 
 static void init_joyport_dialog(HWND hwnd)
 {
-    HWND temp_hwnd1;
-    HWND temp_hwnd2 = 0;
-    HWND temp_hwnd3 = 0;
-    HWND temp_hwnd4 = 0;
-    HWND temp_hwnd5 = 0;
-    HWND element;
-    int res_value = 0;
-    int res_value1 = 0;
-    int res_value2 = 0;
-    int res_value3 = 0;
-    int res_value4 = 0;
-    int res_value5 = 0;
+    TCHAR st_name[48];
+    TCHAR st_text[64];
+    HWND port_hwnd;
+    int res_value;
     int xpos;
     RECT rect;
+    int port;
     int i = 0;
-    int joy1 = 0;
-    int joy2 = 0;
-    int joy3 = 0;
-    int joy4 = 0;
-    int joy5 = 0;
-    char *tmp_text = NULL;
-
-    devices_port_1 = joyport_get_valid_devices(JOYPORT_1);
-    devices_port_2 = joyport_get_valid_devices(JOYPORT_2);
-    devices_port_3 = joyport_get_valid_devices(JOYPORT_3);
-    devices_port_4 = joyport_get_valid_devices(JOYPORT_4);
-    devices_port_5 = joyport_get_valid_devices(JOYPORT_5);
+    int joy = 0;
 
     /* localize possible port items, and build left and right groups */
-    if (ports[JOYPORT_1]) {
-        tmp_text = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_1)));
-        element = GetDlgItem(hwnd, IDC_JOYPORT1_LABEL);
-        SetWindowText(element, tmp_text);
-        lib_free(tmp_text);
-        joyport_left_group[i].idc = IDC_JOYPORT1_LABEL;
-        joyport_left_group[i].element_type = 0;
-        joyport_right_group[i].idc = IDC_JOYPORT1;
-        joyport_right_group[i].element_type = 0;
-        ++i;
+    for (port = 0; port < JOYPORT_MAX_PORTS; port++) {
+        if (ports[port]) {
+            EnableWindow(GetDlgItem(hwnd, port_params[port].idc_cb), 1);
+            /* port trans names are in common code, so we must convert them */
+            system_mbstowcs(st_name, translate_text(joyport_get_port_trans_name(port)), 48);
+            lib_sntprintf(st_text, 64, intl_translate_tcs(IDS_JOYPORT_S_DEVICE), st_name);
+            port_hwnd = GetDlgItem(hwnd, port_params[port].idc_label);
+            SetWindowText(port_hwnd, st_text);
+            joyport_left_group[i].idc = port_params[port].idc_label;
+            joyport_left_group[i].element_type = 0;
+            joyport_right_group[i].idc = port_params[port].idc_cb;
+            joyport_right_group[i].element_type = 0;
+            ++i;
+        }
     }
-
-    if (ports[JOYPORT_2]) {
-        tmp_text = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_2)));
-        element = GetDlgItem(hwnd, IDC_JOYPORT2_LABEL);
-        SetWindowText(element, tmp_text);
-        lib_free(tmp_text);
-        joyport_left_group[i].idc = IDC_JOYPORT2_LABEL;
-        joyport_left_group[i].element_type = 0;
-        joyport_right_group[i].idc = IDC_JOYPORT2;
-        joyport_right_group[i].element_type = 0;
-        ++i;
-    }  
-
-    if (ports[JOYPORT_3]) {
-        tmp_text = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_3)));
-        element = GetDlgItem(hwnd, IDC_JOYPORT3_LABEL);
-        SetWindowText(element, tmp_text);
-        lib_free(tmp_text);
-        joyport_left_group[i].idc = IDC_JOYPORT3_LABEL;
-        joyport_left_group[i].element_type = 0;
-        joyport_right_group[i].idc = IDC_JOYPORT3;
-        joyport_right_group[i].element_type = 0;
-        ++i;
-    }  
-
-    if (ports[JOYPORT_4]) {
-        tmp_text = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_4)));
-        element = GetDlgItem(hwnd, IDC_JOYPORT4_LABEL);
-        SetWindowText(element, tmp_text);
-        lib_free(tmp_text);
-        joyport_left_group[i].idc = IDC_JOYPORT4_LABEL;
-        joyport_left_group[i].element_type = 0;
-        joyport_right_group[i].idc = IDC_JOYPORT4;
-        joyport_right_group[i].element_type = 0;
-        ++i;
-    }  
-
-    if (ports[JOYPORT_5]) {
-        tmp_text = lib_msprintf(translate_text(IDS_JOYPORT_S_DEVICE), translate_text(joyport_get_port_trans_name(JOYPORT_5)));
-        element = GetDlgItem(hwnd, IDC_JOYPORT5_LABEL);
-        SetWindowText(element, tmp_text);
-        lib_free(tmp_text);
-        joyport_left_group[i].idc = IDC_JOYPORT5_LABEL;
-        joyport_left_group[i].element_type = 0;
-        joyport_right_group[i].idc = IDC_JOYPORT5;
-        joyport_right_group[i].element_type = 0;
-        ++i;
-    }  
 
     joyport_left_group[i].idc = 0;
     joyport_left_group[i].element_type = 0;
@@ -203,64 +146,22 @@ static void init_joyport_dialog(HWND hwnd)
     uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     /* handle items of the ports */
-    if (ports[JOYPORT_1]) {
-        temp_hwnd1 = GetDlgItem(hwnd, IDC_JOYPORT1);
-        resources_get_int("JoyPort1Device", &joy1);
-        for (i = 0; devices_port_1[i].name; ++i) {
-            SendMessage(temp_hwnd1, CB_ADDSTRING, 0, (LPARAM)translate_text(devices_port_1[i].trans_name));
-            if (devices_port_1[i].id == joy1) {
-                res_value1 = i;
+    for (port = 0; port < JOYPORT_MAX_PORTS; port++) {
+        if (ports[port]) {
+            port_params[port].devices = joyport_get_valid_devices(port);
+            port_hwnd = GetDlgItem(hwnd, port_params[port].idc_cb);
+            resources_get_int(port_params[port].resname, &joy);
+            res_value = 0;
+            for (i = 0; port_params[port].devices[i].name; i++) {
+                /* device trans names are in common code, so we must convert them */
+                system_mbstowcs(st_name, translate_text(port_params[port].devices[i].trans_name), 48);
+                SendMessage(port_hwnd, CB_ADDSTRING, 0, (LPARAM)st_name);
+                if (port_params[port].devices[i].id == joy) {
+                    res_value = i;
+                }
             }
+            SendMessage(port_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
         }
-        SendMessage(temp_hwnd1, CB_SETCURSEL, (WPARAM)res_value1, 0);
-    }
-
-    if (ports[JOYPORT_2]) {
-        temp_hwnd2 = GetDlgItem(hwnd, IDC_JOYPORT2);
-        resources_get_int("JoyPort2Device", &joy2);
-        for (i = 0; devices_port_2[i].name; ++i) {
-            SendMessage(temp_hwnd2, CB_ADDSTRING, 0, (LPARAM)translate_text(devices_port_2[i].trans_name));
-            if (devices_port_2[i].id == joy2) {
-                res_value2 = i;
-            }
-        }
-        SendMessage(temp_hwnd2, CB_SETCURSEL, (WPARAM)res_value2, 0);
-    }
-
-    if (ports[JOYPORT_3]) {
-        temp_hwnd3 = GetDlgItem(hwnd, IDC_JOYPORT3);
-        resources_get_int("JoyPort3Device", &joy3);
-        for (i = 0; devices_port_3[i].name; ++i) {
-            SendMessage(temp_hwnd3, CB_ADDSTRING, 0, (LPARAM)translate_text(devices_port_3[i].trans_name));
-            if (devices_port_3[i].id == joy3) {
-                res_value3 = i;
-            }
-        }
-        SendMessage(temp_hwnd3, CB_SETCURSEL, (WPARAM)res_value3, 0);
-    }
-
-    if (ports[JOYPORT_4]) {
-        temp_hwnd4 = GetDlgItem(hwnd, IDC_JOYPORT4);
-        resources_get_int("JoyPort4Device", &joy4);
-        for (i = 0; devices_port_4[i].name; ++i) {
-            SendMessage(temp_hwnd4, CB_ADDSTRING, 0, (LPARAM)translate_text(devices_port_4[i].trans_name));
-            if (devices_port_4[i].id == joy4) {
-                res_value4 = i;
-            }
-        }
-        SendMessage(temp_hwnd4, CB_SETCURSEL, (WPARAM)res_value4, 0);
-    }
-
-    if (ports[JOYPORT_5]) {
-        temp_hwnd5 = GetDlgItem(hwnd, IDC_JOYPORT5);
-        resources_get_int("JoyPort5Device", &joy5);
-        for (i = 0; devices_port_5[i].name; ++i) {
-            SendMessage(temp_hwnd5, CB_ADDSTRING, 0, (LPARAM)translate_text(devices_port_5[i].trans_name));
-            if (devices_port_5[i].id == joy5) {
-                res_value5 = i;
-            }
-        }
-        SendMessage(temp_hwnd5, CB_SETCURSEL, (WPARAM)res_value5, 0);
     }
 
     resources_get_int("BBRTCSave", &res_value);
@@ -271,91 +172,41 @@ static void init_joyport_dialog(HWND hwnd)
 
 static void free_device_ports(void)
 {
-    if (devices_port_1) {
-        lib_free(devices_port_1);
-        devices_port_1 = NULL;
-    }
-    if (devices_port_2) {
-        lib_free(devices_port_2);
-        devices_port_2 = NULL;
-    }
-    if (devices_port_3) {
-        lib_free(devices_port_3);
-        devices_port_3 = NULL;
-    }
-    if (devices_port_4) {
-        lib_free(devices_port_4);
-        devices_port_4 = NULL;
-    }
-    if (devices_port_5) {
-        lib_free(devices_port_5);
-        devices_port_5 = NULL;
+    int port;
+
+    for (port = 0; port < JOYPORT_MAX_PORTS; port++) {
+        if (port_params[port].devices) {
+            lib_free(port_params[port].devices);
+            port_params[port].devices = NULL;
+        }
     }
 }
 
 static void end_joyport_dialog(HWND hwnd)
 {
-    int joy1 = 0;
-    int joy2 = 0;
-    int joy3 = 0;
-    int joy4 = 0;
-    int joy5 = 0;
-    int id1 = 0;
-    int id2 = 0;
-    int id3 = 0;
-    int id4 = 0;
-    int id5 = 0;
+    int port;
+    int joy = 0;
+    int id = 0;
 
     /* Because all ports need to be set at the same time,
        and actually they are set one at a time,
        set all ports to 'NONE' so there are 'fake' conflicts.
      */
-    if (ports[JOYPORT_1]) {
-        resources_set_int("JoyPort1Device", JOYPORT_ID_NONE);
-    }
-    if (ports[JOYPORT_2]) {
-        resources_set_int("JoyPort2Device", JOYPORT_ID_NONE);
-    }
-    if (ports[JOYPORT_3]) {
-        resources_set_int("JoyPort3Device", JOYPORT_ID_NONE);
-    }
-    if (ports[JOYPORT_4]) {
-        resources_set_int("JoyPort4Device", JOYPORT_ID_NONE);
-    }
-    if (ports[JOYPORT_5]) {
-        resources_set_int("JoyPort5Device", JOYPORT_ID_NONE);
+    for (port = 0; port < JOYPORT_MAX_PORTS; port++) {
+        if (ports[port]) {
+            resources_set_int(port_params[port].resname, JOYPORT_ID_NONE);
+        }
     }
 
-    if (ports[JOYPORT_1]) {
-        joy1 = (int)SendMessage(GetDlgItem(hwnd, IDC_JOYPORT1), CB_GETCURSEL, 0, 0);
-        id1 = devices_port_1[joy1].id;
-        resources_set_int("JoyPort1Device", id1);
-    }
-
-    if (ports[JOYPORT_2]) {
-        joy2 = (int)SendMessage(GetDlgItem(hwnd, IDC_JOYPORT2), CB_GETCURSEL, 0, 0);
-        id2 = devices_port_2[joy2].id;
-        resources_set_int("JoyPort2Device", id2);
-    }
-    if (ports[JOYPORT_3]) {
-        joy3 = (int)SendMessage(GetDlgItem(hwnd, IDC_JOYPORT3), CB_GETCURSEL, 0, 0);
-        id3 = devices_port_3[joy3].id;
-        resources_set_int("JoyPort3Device", id3);
-    }
-    if (ports[JOYPORT_4]) {
-        joy4 = (int)SendMessage(GetDlgItem(hwnd, IDC_JOYPORT4), CB_GETCURSEL, 0, 0);
-        id4 = devices_port_4[joy4].id;
-        resources_set_int("JoyPort4Device", id4);
-    }
-    if (ports[JOYPORT_5]) {
-        joy5 = (int)SendMessage(GetDlgItem(hwnd, IDC_JOYPORT5), CB_GETCURSEL, 0, 0);
-        id5 = devices_port_5[joy5].id;
-        resources_set_int("JoyPort5Device", id5);
+    for (port = 0; port < JOYPORT_MAX_PORTS; port++) {
+        if (ports[port]) {
+            joy = (int)SendMessage(GetDlgItem(hwnd, port_params[port].idc_cb), CB_GETCURSEL, 0, 0);
+            id = port_params[port].devices[joy].id;
+            resources_set_int(port_params[port].resname, id);
+        }
     }
 
     resources_set_int("BBRTCSave", (IsDlgButtonChecked(hwnd, IDC_JOYPORT_BBRTC_SAVE) == BST_CHECKED ? 1 : 0 ));
-
-    free_device_ports();
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
