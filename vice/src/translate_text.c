@@ -4646,7 +4646,7 @@ translate_t string_table[] = {
 #endif
 
 /* snapshot.c */
-/* en */ {IDGS_SNAPSHOT_VICE_VERSION,    N_("Snapshot was created by VICE Version %d.%d.%d r%d.")},
+/* en */ {IDGS_SNAPSHOT_VICE_VERSION,    N_("Snapshot was created by VICE Version %d.%d.%d")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SNAPSHOT_VICE_VERSION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SNAPSHOT_VICE_VERSION_DE, ""},  /* fuzzy */
@@ -4663,7 +4663,7 @@ translate_t string_table[] = {
 #endif
 
 /* snapshot.c */
-/* en */ {IDGS_SNAPSHOT_OLD_VICE_VERSION,    N_("Snapshot was created by VICE Version 2.4.30 or older.")},
+/* en */ {IDGS_SNAPSHOT_OLD_VICE_VERSION,    N_("Snapshot was created by VICE Version 2.4.30 or older")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_DE, ""},  /* fuzzy */

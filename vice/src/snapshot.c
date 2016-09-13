@@ -36,7 +36,9 @@
 #include "ioutil.h"
 #include "log.h"
 #include "snapshot.h"
+#ifdef USE_SVN_REVISION
 #include "svnversion.h"
+#endif
 #include "translate.h"
 #include "types.h"
 #include "uiapi.h"
@@ -709,7 +711,11 @@ snapshot_t *snapshot_create(const char *filename, BYTE major_version, BYTE minor
         || snapshot_write_byte(f, viceversion[1]) < 0
         || snapshot_write_byte(f, viceversion[2]) < 0
         || snapshot_write_byte(f, viceversion[3]) < 0
+#ifdef USE_SVN_REVISION
         || snapshot_write_dword(f, VICE_SVN_REV_NUMBER) < 0) {
+#else
+        || snapshot_write_dword(f, 0) < 0) {
+#endif
         snapshot_error = SNAPSHOT_CANNOT_WRITE_VERSION_ERROR;
         goto fail;
     }
@@ -841,14 +847,18 @@ static void display_error_with_vice_version(char *text, char *filename)
 {
     char *vmessage = lib_malloc(0x100);
     char *message = lib_malloc(0x100 + strlen(text));
-    if (snapshot_vicerevision == 0) {
+    if ((snapshot_viceversion[0] == 0) && (snapshot_viceversion[1] == 0)) {
         /* generic message for the case when no version is present in the snapshot */
         strcpy(vmessage, translate_text(IDGS_SNAPSHOT_OLD_VICE_VERSION));
     } else {
         sprintf(vmessage, translate_text(IDGS_SNAPSHOT_VICE_VERSION),
-                snapshot_viceversion[0], snapshot_viceversion[1], snapshot_viceversion[2], snapshot_vicerevision);
+                snapshot_viceversion[0], snapshot_viceversion[1], snapshot_viceversion[2]);
+        if (snapshot_vicerevision != 0) {
+            sprintf(message, " (r%d)", snapshot_vicerevision);
+            strcat(vmessage, message);
+        }
     }
-    sprintf(message, "%s\n\n%s", text, vmessage);
+    sprintf(message, "%s\n\n%s.", text, vmessage);
     ui_error(message, filename);
     lib_free(message);
     lib_free(vmessage);
