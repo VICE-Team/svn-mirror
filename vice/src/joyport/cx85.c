@@ -125,6 +125,7 @@ static int keys[20];
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef COMMON_KBD
 static void handle_keys(int row, int col, int pressed)
 {
     /* ignore non-existing keys */
@@ -134,6 +135,7 @@ static void handle_keys(int row, int col, int pressed)
 
     keys[(row * 5) + col] = pressed;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 

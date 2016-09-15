@@ -102,6 +102,7 @@ static BYTE port = 0;
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef COMMON_KBD
 static void handle_keys(int row, int col, int pressed)
 {
     if (row < 0 || row > 3 || col < 1 || col > 3) {
@@ -110,6 +111,7 @@ static void handle_keys(int row, int col, int pressed)
 
     keys[(row * 3) + col - 1] = pressed;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 

@@ -120,6 +120,7 @@ static int keys[16];
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef COMMON_KBD
 static void handle_keys(int row, int col, int pressed)
 {
     if (row < 0 || row > 3 || col < 1 || col > 4) {
@@ -128,6 +129,7 @@ static void handle_keys(int row, int col, int pressed)
 
     keys[(row * 4) + col - 1] = pressed;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
