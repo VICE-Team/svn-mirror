@@ -58,7 +58,7 @@ typedef signed char SIGNED_CHAR;
 
 /* Definitions see os2mdef.h */
 #ifndef BYTE
-typedef char BYTE;
+typedef unsigned char BYTE;
 #endif
 
 typedef unsigned short WORD;
