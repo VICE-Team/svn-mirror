@@ -67,8 +67,8 @@ o?2??Include directories:
 1
 17
 WString
-204
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\raster;..\..\..\drive;..\..\..\tape;..\..\..\sid;..\..\..\vic20;..\..\..\vic20\cart;..\..\..\c64\cart;..\..\..\rtc;..\..\..\joyport;..\..\..\samplerdrv
+218
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\raster;..\..\..\drive;..\..\..\tape;..\..\..\sid;..\..\..\vic20;..\..\..\vic20\cart;..\..\..\c64\cart;..\..\..\rtc;..\..\..\joyport;..\..\..\samplerdrv;..\..\..\diag
 0
 18
 MVState
