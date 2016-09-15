@@ -735,7 +735,7 @@ fail:
 
 /* informal only, used by the error message created below */
 static unsigned char snapshot_viceversion[4];
-static unsigned int snapshot_vicerevision;
+static DWORD snapshot_vicerevision;
 
 snapshot_t *snapshot_open(const char *filename, BYTE *major_version_return, BYTE *minor_version_return, const char *snapshot_machine_name)
 {
