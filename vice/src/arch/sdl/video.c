@@ -1123,13 +1123,15 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
     video_canvas_set_palette(canvas, canvas->palette);
 
-    SDL_Event sdlevent;
-    sdlevent.type = SDL_WINDOWEVENT;
-    sdlevent.window.event = SDL_WINDOWEVENT_RESIZED;
-    sdlevent.window.data1 = sdl_window_width;
-    sdlevent.window.data2 = sdl_window_height;
+    if ((sdl_window_width || sdl_window_height) && !fullscreen) {
+        SDL_Event sdlevent;
+        sdlevent.type = SDL_WINDOWEVENT;
+        sdlevent.window.event = SDL_WINDOWEVENT_RESIZED;
+        sdlevent.window.data1 = sdl_window_width;
+        sdlevent.window.data2 = sdl_window_height;
 
-    SDL_PushEvent(&sdlevent);
+        SDL_PushEvent(&sdlevent);
+    }
 
     return canvas;
 }
