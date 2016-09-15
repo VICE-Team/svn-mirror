@@ -60,10 +60,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#ifdef __OS2__
-#include "snippets/dirport.h"
-#endif
-
 #ifdef __NeXT__
 #include <sys/dir.h>
 #define dirent direct

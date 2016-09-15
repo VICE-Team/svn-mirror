@@ -6,8 +6,6 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libpm.a
 
 libpm_a_SOURCES = \
-	dirport.c \
-	dirport.h \
 	filedlg.h \
 	filedlg.c \
 	isatty.c \
