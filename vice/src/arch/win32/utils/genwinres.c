@@ -291,4 +291,6 @@ int main(int argc, char **argv)
     if (soutput) {
         fclose(soutput);
     }
+
+    return 0;
 }
