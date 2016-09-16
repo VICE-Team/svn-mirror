@@ -303,6 +303,7 @@ RCFLAGS="$RCFLAGS"
 CHECK_CFLAGS=""
 HAVE_GETOPT_LONG=1
 cross_prefix=""
+yasm_prog=""
 
 EXE=""
 AS_EXT=".S"
@@ -434,6 +435,9 @@ for opt do
                 echo "Supplied chroma format must be 420, 422, 444 or all."
                 exit 1
             fi
+            ;;
+        --yasm-prog=*)
+            yasm_prog="$optarg"
             ;;
 
         *)
@@ -609,7 +613,11 @@ stack_alignment=16
 case $host_cpu in
     i*86)
         ARCH="X86"
-        AS="yasm"
+        if test x"$yasm_prog" != "x"; then
+            AS="$yasm_prog"
+        else
+            AS="yasm"
+        fi
         AS_EXT=".asm"
         ASFLAGS="$ASFLAGS -O2 -DARCH_X86_64=0 -I\$(SRCPATH)/common/x86/"
         if [ $compiler = GNU ]; then
@@ -650,7 +658,11 @@ case $host_cpu in
         ;;
     x86_64)
         ARCH="X86_64"
-        AS="yasm"
+        if test x"$yasm_prog" != "x"; then
+            AS="$yasm_prog"
+        else
+            AS="yasm"
+        fi
         AS_EXT=".asm"
         ASFLAGS="$ASFLAGS -DARCH_X86_64=1 -I\$(SRCPATH)/common/x86/"
         [ $compiler = GNU ] && CFLAGS="-m64 $CFLAGS" && LDFLAGS="-m64 $LDFLAGS"
