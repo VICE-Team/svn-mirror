@@ -1089,24 +1089,24 @@ be found that works for both.
 #define JSR_FIXUP_MSB(x)
 #endif
 
-#define JSR()                                  \
-    do {                                       \
-        BYTE addr_msb;                         \
-        WORD dest_addr;                        \
-        if (!SKIP_CYCLE) {                     \
-            STACK_PEEK();                      \
-            CLK_INC();                         \
-        }                                      \
-        INC_PC(2);                             \
-        PUSH(((reg_pc) >> 8) & 0xff);          \
-        CLK_INC();                             \
-        PUSH((reg_pc) & 0xff);                 \
-        CLK_INC();                             \
-        addr_msb = LOAD(reg_pc);               \
-        JSR_FIXUP_MSB(addr_msb);               \
-        dest_addr = (p1 | (addr_msb << 8));    \
-        CLK_INC();                             \
-        JUMP(dest_addr);                       \
+#define JSR()                                     \
+    do {                                          \
+        BYTE addr_msb;                            \
+        WORD dest_addr;                           \
+        if (!SKIP_CYCLE) {                        \
+            STACK_PEEK();                         \
+            CLK_INC();                            \
+        }                                         \
+        INC_PC(2);                                \
+        PUSH(((reg_pc) >> 8) & 0xff);             \
+        CLK_INC();                                \
+        PUSH((reg_pc) & 0xff);                    \
+        CLK_INC();                                \
+        addr_msb = LOAD(reg_pc);                  \
+        JSR_FIXUP_MSB(addr_msb);                  \
+        dest_addr = (WORD)(p1 | (addr_msb << 8)); \
+        CLK_INC();                                \
+        JUMP(dest_addr);                          \
     } while (0)
 
 #define LAS()                                          \
