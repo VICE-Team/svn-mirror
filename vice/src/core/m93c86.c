@@ -160,7 +160,7 @@ void m93c86_write_clock(BYTE value)
     if ((eeprom_cs == 1) && (value == 1) && (eeprom_clock == 0)) {
         if (command == CMDREADDUMMY) {
             /* FIXME: this is kinda hackery, but works. *shrug* */
-            output_shiftreg = m93c86_data[addr];
+            output_shiftreg = m93c86_data[(addr << 1)];
 
             eeprom_data_out = 0;
             output_count = 0;
@@ -176,11 +176,17 @@ void m93c86_write_clock(BYTE value)
             eeprom_data_out = (output_shiftreg >> 7) & 1;
             output_shiftreg <<= 1;
             output_count++;
-            if (output_count == 8) {
-                addr = (addr + 1) & (M93C86_SIZE - 1);
-                output_shiftreg = m93c86_data[addr];
-                output_count = 0;
-                LOG(("reload output from %04x with %02x", addr, output_shiftreg));
+            switch(output_count) {
+                case 8:
+                    output_shiftreg = m93c86_data[(addr << 1) + 1];
+                    LOG(("reload output from %04x with %02x", addr, output_shiftreg));
+                    break;
+                case 16:
+                    addr = (addr + 1) & ((M93C86_SIZE / 2) - 1);
+                    output_shiftreg = m93c86_data[(addr << 1)];
+                    output_count = 0;
+                    LOG(("reload output from %04x with %02x", addr, output_shiftreg));
+                    break;
             }
         } else {
             /* shift internal shift register */
