@@ -53,13 +53,11 @@ static void paste_callback(GtkClipboard *clipboard, const gchar *text, gpointer 
     if (text == NULL) {
         return;
     }
-    text_in_petscii = strdup(text);
+    text_in_petscii = lib_stralloc(text);
 
-    if (text_in_petscii) {
-        charset_petconvstring((unsigned char*)text_in_petscii, 0);
-        kbdbuf_feed(text_in_petscii);
-        free(text_in_petscii);
-    }
+    charset_petconvstring((unsigned char*)text_in_petscii, 0);
+    kbdbuf_feed(text_in_petscii);
+    lib_free(text_in_petscii);
 }
 
 static UI_CALLBACK(ui_edit_command_paste)
@@ -78,3 +76,4 @@ ui_menu_entry_t ui_edit_commands_menu[] = {
       NULL, NULL, ui_edit_commands_submenu },
     { NULL }
 };
+

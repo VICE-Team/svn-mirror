@@ -542,6 +542,7 @@ void ui_shutdown(void)
 {
     unsigned int i;
     ui_common_shutdown();
+    ui_menu_shutdown();
     for (i = 0; i < num_app_shells; i++) {
         lib_free(app_shells[i].title);
         if (machine_class == VICE_MACHINE_VSID) {

@@ -107,10 +107,35 @@ static hotkey_t hotkeys[MAX_HOTKEYS];
 
 /* ------------------------------------------------------------------------- */
 
+
+/** \brief  Module initialization function
+ *
+ * \note    Initializing the hotkeys array is not needed since ISO C guarantees
+ *          static objects to get initialized to 0/NULL, including aggregate
+ *          types
+ *
+ * \return  0 on success (always for now)
+ */
 int ui_menu_init(void)
 {
-    return(0);
+
+    return 0;
 }
+
+/** \brief  Module shutdown function
+ *
+ * Frees memory used by hotkey names
+ */
+void ui_menu_shutdown(void)
+{
+    int i;
+    for (i = 0; i < MAX_HOTKEYS; i++) {
+        if (hotkeys[i].name != NULL) {
+            lib_free(hotkeys[i].name);
+        }
+    }
+}
+
 
 static void delete_checkmark_cb(GtkWidget *w, gpointer data)
 {
@@ -145,7 +170,7 @@ static void add_accelerator(const char *name, GtkWidget *w, GtkAccelGroup *accel
         } else {
             hotkeys[numhotkeys].key = accel_key;
             hotkeys[numhotkeys].mod = mod;
-            hotkeys[numhotkeys].name = strdup(name);
+            hotkeys[numhotkeys].name = lib_stralloc(name);
             DBGHK(("add_accelerator: new hotkey idx:%2d key:%04x '%c' mod:%04x (%s)", numhotkeys, accel_key, accel_key, mod, name));
             ++numhotkeys;
         }
