@@ -311,7 +311,7 @@ else
 fi
 
 user_cflags=$CFLAGS
-AC_PROG_CC([clang gcc cc])
+AC_PROG_CC([gcc clang cc])
 AC_LIB_PROG_LD
 
 AC_HEADER_TIOCGWINSZ
