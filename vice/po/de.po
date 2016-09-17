@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-09 08:35-0700\n"
-"PO-Revision-Date: 2016-06-05 11:16+0200\n"
+"PO-Revision-Date: 2016-09-17 17:58+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -377,7 +377,7 @@ msgstr "Kein"
 
 #: src/arch/unix/gui/c128ui.c:217
 msgid "Function ROM image"
-msgstr "Function ROM Image Datei"
+msgstr "Function ROM Imagedatei"
 
 #: src/arch/unix/gui/c128ui.c:221
 #, c-format
@@ -3206,7 +3206,7 @@ msgstr "Flashjumper aktivieren"
 #: src/arch/win32/resmmcreplay.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:10340
 msgid "Card image file"
-msgstr "Card Image Datei"
+msgstr "Card Imagedatei"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:95 src/arch/unix/gui/uimmcreplay.c:80
@@ -3236,7 +3236,7 @@ msgstr "Rescue Modus aktivieren"
 #: src/arch/win32/resmmcreplay.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:10368
 msgid "EEPROM image file"
-msgstr "EEPROM Image Datei"
+msgstr "EEPROM Imagedatei"
 
 #: src/arch/unix/gui/uimmcreplay.c:89 src/translate_text.c.po.c:8186
 msgid "Enable writes to MMC Replay EEPROM image"
@@ -4427,9 +4427,8 @@ msgid "Attach generic image"
 msgstr "Universal Image einlegen"
 
 #: src/arch/unix/gui/vic20ui.c:321
-#, fuzzy
 msgid "Attach Behr Bonz image"
-msgstr "Universal 8Kb Image einlegen"
+msgstr "Behr Bonz Image einlegen"
 
 #: src/arch/unix/gui/vic20ui.c:324
 msgid "Attach Mega-Cart image"
@@ -5418,7 +5417,7 @@ msgstr "Standard wiederhergestellt"
 
 #: src/arch/win32/res.rc.po.c:1057 src/arch/amigaos/intl_text.c.po.c:5269
 msgid "Cannot attach specified file"
-msgstr "Kann Image Datei nicht einlegen"
+msgstr "Kann Imagedatei nicht einlegen"
 
 #: src/arch/win32/res.rc.po.c:1058
 #, c-format
@@ -5663,7 +5662,7 @@ msgstr "Kann Snapshot Datei nicht laden"
 #: src/arch/win32/res.rc.po.c:1121
 #, c-format
 msgid "Load %s ROM image"
-msgstr "Lade %s ROM Image Datei"
+msgstr "Lade %s ROM Imagedatei"
 
 #: src/arch/win32/res.rc.po.c:1122 src/arch/win32/res.rc.po.c:1761
 msgid "Computer"
@@ -5779,7 +5778,7 @@ msgstr "Erweiterungsmodul Structured Basic (raw) Image einlegen"
 
 #: src/arch/win32/res.rc.po.c:1156 src/arch/amigaos/intl_text.c.po.c:10550
 msgid "Select cartridge file"
-msgstr "Erweiterungsmodul Image Datei wählen"
+msgstr "Erweiterungsmodul Imagedatei wählen"
 
 #: src/arch/win32/res.rc.po.c:1159 src/arch/amigaos/intl_text.c.po.c:5773
 msgid "Select start snapshot for event history"
@@ -5922,12 +5921,12 @@ msgid ""
 "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.p64;*.x64)"
 msgstr ""
-"Disk Image Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
+"Disk Imagedateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.p64;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1206
 msgid "Tape image files (*.t64;*.tap)"
-msgstr "Band Image Dateien (*.t64;*.tap)"
+msgstr "Band Imagedateien (*.t64;*.tap)"
 
 #: src/arch/win32/res.rc.po.c:1207
 msgid ""
@@ -6558,11 +6557,11 @@ msgstr "An bestehende Log Datei anhängen"
 
 #: src/arch/win32/res.rc.po.c:1444 src/arch/amigaos/intl_text.c.po.c:6249
 msgid "Image Contents"
-msgstr "Image Datei Inhalt"
+msgstr "Imagedatei Inhalt"
 
 #: src/arch/win32/res.rc.po.c:1445 src/arch/amigaos/intl_text.c.po.c:6193
 msgid "New Image"
-msgstr "Neue Image Datei"
+msgstr "Neue Imagedatei"
 
 #: src/arch/win32/res.rc.po.c:1446
 msgid "image"
@@ -6579,11 +6578,11 @@ msgstr "ID"
 
 #: src/arch/win32/res.rc.po.c:1451 src/arch/amigaos/intl_text.c.po.c:6179
 msgid "Create Image"
-msgstr "Image Datei erzeugen"
+msgstr "Imagedatei erzeugen"
 
 #: src/arch/win32/res.rc.po.c:1452 src/arch/amigaos/intl_text.c.po.c:6207
 msgid "New TAP Image"
-msgstr "Neue TAP Image Datei"
+msgstr "Neue TAP Imagedatei"
 
 #: src/arch/win32/res.rc.po.c:1454
 msgid "Select Driver"
@@ -7096,9 +7095,8 @@ msgstr "Retro Replay Einstellungen"
 #: src/arch/win32/res.rc.po.c:1686 src/arch/win32/resgmod2.rc.po.c:33
 #: src/arch/amigaos/intl_text.c.po.c:3953
 #: src/arch/amigaos/intl_text.c.po.c:10424
-#, fuzzy
 msgid "GMod2 settings"
-msgstr "Modell Einstellungen"
+msgstr "GMod2 Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1687
 msgid "RRNET MK3 settings"
@@ -7418,11 +7416,11 @@ msgstr "VDC Revision"
 
 #: src/arch/win32/resc128.rc.po.c:725 src/arch/amigaos/intl_text.c.po.c:11530
 msgid "Select Internal Function ROM file"
-msgstr "Internes Funktions ROM Image Datei auswählen"
+msgstr "Internes Funktions ROM Imagedatei auswählen"
 
 #: src/arch/win32/resc128.rc.po.c:726 src/arch/amigaos/intl_text.c.po.c:11544
 msgid "Select External Function ROM file"
-msgstr "Externes Funktions ROM Image Datei auswählen"
+msgstr "Externes Funktions ROM Imagedatei auswählen"
 
 #: src/arch/win32/resc128.rc.po.c:729 src/arch/win32/rescbm2common.rc.po.c:146
 msgid "RAM banks"
@@ -7656,7 +7654,7 @@ msgstr "Hummer ADC Aktivieren"
 
 #: src/arch/win32/resc64dtv.rc.po.c:471 src/arch/win32/resc64dtv.rc.po.c:484
 msgid "Create DTV Flash Image"
-msgstr "DTV Image Datei erzeugen"
+msgstr "DTV Imagedatei erzeugen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:472
 msgid "DTV ROM Creation"
@@ -7925,19 +7923,16 @@ msgid "Save GEO-RAM image when changed"
 msgstr "GEO-RAM Imagedatei bei Änderung speichern"
 
 #: src/arch/win32/resgmod2.rc.po.c:35
-#, fuzzy
 msgid "Flash read/write"
-msgstr "Card lese/schreibe"
+msgstr "Flahs lese/schreibe"
 
 #: src/arch/win32/resgmod2.rc.po.c:36
-#, fuzzy
 msgid "Save GMod2 EEPROM when changed"
-msgstr "MMC Replay EEPROM bei Änderung speichern"
+msgstr "GMod2 EEPROM bei Änderung speichern"
 
 #: src/arch/win32/resgmod2.rc.po.c:37
-#, fuzzy
 msgid "Select file for GMod2 EEPROM image"
-msgstr "Datei für GEORAM auswählen"
+msgstr "Imagedatei für GMod2 EEPROM auswählen"
 
 #: src/arch/win32/reside64.rc.po.c:71
 msgid "IDE64 V4 settings"
@@ -7985,7 +7980,7 @@ msgstr "IDE64 RTC Daten bei Änderung speichern"
 
 #: src/arch/win32/reside64.rc.po.c:83
 msgid "ATA device image file"
-msgstr "ATA Gerät Image Datei"
+msgstr "ATA Gerät Imagedatei"
 
 #: src/arch/win32/reside64.rc.po.c:84
 msgid "Geometry"
@@ -7998,7 +7993,7 @@ msgstr "Gesamtgröße: %iKB"
 
 #: src/arch/win32/reside64.rc.po.c:90
 msgid "Select ATA device image file"
-msgstr "ATA Gerät Image Datei auswählen"
+msgstr "ATA Gerät Imagedatei auswählen"
 
 #: src/arch/win32/reside64.rc.po.c:91
 msgid "IDE64 USB Server address to bind to"
@@ -8096,14 +8091,12 @@ msgid "MMC/SD Image File"
 msgstr "MMC/SD Image Name"
 
 #: src/arch/win32/resmmc64.rc.po.c:60
-#, fuzzy
 msgid "Select file for MMC64 BIOS"
-msgstr "Datei für C64DTV ROM auswählen"
+msgstr "Datei für MMC64 BIOS auswählen"
 
 #: src/arch/win32/resmmc64.rc.po.c:61
-#, fuzzy
 msgid "Select file for MMC64 card image"
-msgstr "Datei für C64 256K auswählen"
+msgstr "Datei für MMC64 Kartenimage auswählen"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:10410
@@ -8120,14 +8113,12 @@ msgid "Save MMC Replay EEPROM when changed"
 msgstr "MMC Replay EEPROM bei Änderung speichern"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:54
-#, fuzzy
 msgid "Select file for MMC Replay card image"
-msgstr "Erlaube Schreibzugriff auf MMC Replay Imagedatei"
+msgstr "Datei für MMC Replay Kartenimage auswählen"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:55
-#, fuzzy
 msgid "Select file for MMC Replay EEPROM image"
-msgstr "Erlaube Schreibzugriff auf MMC Replay EEPROM Imagedatei"
+msgstr "Datei für MMC Replay EEPROM Image auswählen"
 
 #: src/arch/win32/resmouse.rc.po.c:42
 msgid "sensitivity"
@@ -8305,27 +8296,27 @@ msgstr "Plus4 Modell"
 
 #: src/arch/win32/resplus4.rc.po.c:508 src/arch/amigaos/intl_text.c.po.c:593
 msgid "C0 low  image"
-msgstr "C0 low Image Datei"
+msgstr "C0 low Imagedatei"
 
 #: src/arch/win32/resplus4.rc.po.c:509 src/arch/amigaos/intl_text.c.po.c:607
 msgid "C0 high image"
-msgstr "C0 high Image Datei"
+msgstr "C0 high Imagedatei"
 
 #: src/arch/win32/resplus4.rc.po.c:510 src/arch/amigaos/intl_text.c.po.c:621
 msgid "C1 low  image"
-msgstr "C1 low Image Datei"
+msgstr "C1 low Imagedatei"
 
 #: src/arch/win32/resplus4.rc.po.c:511 src/arch/amigaos/intl_text.c.po.c:635
 msgid "C1 high image"
-msgstr "C1 high Image Datei"
+msgstr "C1 high Imagedatei"
 
 #: src/arch/win32/resplus4.rc.po.c:512 src/arch/amigaos/intl_text.c.po.c:649
 msgid "C2 low  image"
-msgstr "C2 low  Image Datei"
+msgstr "C2 low  Imagedatei"
 
 #: src/arch/win32/resplus4.rc.po.c:513 src/arch/amigaos/intl_text.c.po.c:663
 msgid "C2 high image"
-msgstr "C2 high Image Datei"
+msgstr "C2 high Imagedatei"
 
 #: src/arch/win32/resplus4.rc.po.c:515 src/arch/win32/resv364speech.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4261
@@ -8622,12 +8613,11 @@ msgstr "Alle (Blöcke 0/1/2/3/5)"
 
 #: src/arch/win32/resvic20.rc.po.c:575 src/arch/amigaos/intl_text.c.po.c:10466
 msgid "Select generic cartridge image"
-msgstr "Unverselles Erweiterungsmodul Image Datei wählen"
+msgstr "Unverselles Erweiterungsmodul Imagedatei wählen"
 
 #: src/arch/win32/resvic20.rc.po.c:576 src/arch/amigaos/intl_text.c.po.c:10508
-#, fuzzy
 msgid "Select Behr Bonz image"
-msgstr "Universelle Image Datei wählen"
+msgstr "Behr Bonz Imagedatei wählen"
 
 #: src/arch/win32/resvic20.rc.po.c:577 src/arch/amigaos/intl_text.c.po.c:10522
 msgid "Select Mega-Cart image"
@@ -8635,7 +8625,7 @@ msgstr "Mega-Cart Image Date wählen"
 
 #: src/arch/win32/resvic20.rc.po.c:578 src/arch/amigaos/intl_text.c.po.c:10536
 msgid "Select Final Expansion image"
-msgstr "Final Expansion Image Datei auswählen"
+msgstr "Final Expansion Imagedatei auswählen"
 
 #: src/arch/win32/resvic20.rc.po.c:579 src/arch/amigaos/intl_text.c.po.c:10480
 msgid "Select UltiMem image"
@@ -8662,9 +8652,8 @@ msgid "Generic image"
 msgstr "Generisches Image"
 
 #: src/arch/win32/resvic20.rc.po.c:590 src/arch/amigaos/intl_text.c.po.c:411
-#, fuzzy
 msgid "Behr Bonz image"
-msgstr "DQBB Image"
+msgstr "Behr Bonz Image"
 
 #: src/arch/win32/resvic20.rc.po.c:591 src/arch/amigaos/intl_text.c.po.c:425
 msgid "Mega-Cart image"
@@ -8785,11 +8774,11 @@ msgstr "CPU JAM Aktion Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:677
 msgid "Function low  image (3plus1)"
-msgstr "Funktions ROM Image Datei low (3plus1)"
+msgstr "Funktions ROM Imagedatei low (3plus1)"
 
 #: src/arch/amigaos/intl_text.c.po.c:691 src/arch/amigaos/intl_text.c.po.c:817
 msgid "Function high image (3plus1)"
-msgstr "Funktions ROM Image Datei high (3plus1)"
+msgstr "Funktions ROM Imagedatei high (3plus1)"
 
 #: src/arch/amigaos/intl_text.c.po.c:845
 msgid "Generic 8KB image"
@@ -9716,7 +9705,7 @@ msgstr "HD Image Name"
 
 #: src/arch/amigaos/intl_text.c.po.c:9948
 msgid "Select HD image file"
-msgstr "HD Image Datei auswählen"
+msgstr "HD Imagedatei auswählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:10018
 msgid "IDE64 version"
@@ -9757,7 +9746,7 @@ msgstr "EEPROM Datei wählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:10326
 msgid "Select card image file"
-msgstr "Card Image Datei auswählen"
+msgstr "Card Imagedatei auswählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:10354
 msgid "Card read/write"
@@ -11160,24 +11149,23 @@ msgstr "Paperclip64 Dongle"
 
 #: src/translate_text.c.po.c:3534
 msgid "Coplin Keypad"
-msgstr ""
+msgstr "Coplin Keypad"
 
 #: src/translate_text.c.po.c:3551
-#, fuzzy
 msgid "Atari CX21 keypad"
-msgstr "Atari CX-22 Trackball"
+msgstr "Atari CX-21 Keypad"
 
 #: src/translate_text.c.po.c:3568
 msgid "Atari CX85 keypad"
-msgstr ""
+msgstr "Atari CX85 keypad"
 
 #: src/translate_text.c.po.c:3585
 msgid "RushWare Keypad"
-msgstr ""
+msgstr "RushWare Keypad"
 
 #: src/translate_text.c.po.c:3602
 msgid "Cardco Cardkey 1 keypad"
-msgstr ""
+msgstr "Cardco Cardkey 1 Keypad"
 
 #: src/translate_text.c.po.c:3619
 msgid "Light Pen (up trigger)"
@@ -11231,7 +11219,7 @@ msgstr "Userport RTC (DS1307)"
 
 #: src/translate_text.c.po.c:3908
 msgid "Userport diag 586220 harness"
-msgstr ""
+msgstr "Userport Diag 586220 Harness"
 
 #: src/translate_text.c.po.c:3925
 msgid "Tape RTC (PCF8583)"
@@ -11271,7 +11259,7 @@ msgstr "Bandlog"
 
 #: src/translate_text.c.po.c:4078
 msgid "Tape 586220 diagnostics harness module"
-msgstr ""
+msgstr "Tape 586220 Diagnose Harness Modul"
 
 #: src/translate_text.c.po.c:4095
 #, c-format
@@ -11843,11 +11831,11 @@ msgstr "Namen für Sample Datei wählen"
 
 #: src/translate_text.c.po.c:6401
 msgid "Enable the tape part of the 586220 diagnostics harness"
-msgstr ""
+msgstr "586220 Diagnose Harness für Bandteil aktivieren"
 
 #: src/translate_text.c.po.c:6418
 msgid "Disable the tape part of the 586220 diagnostics harness"
-msgstr ""
+msgstr "586220 Diagnose Harness für Bandteil deaktivieren"
 
 #: src/translate_text.c.po.c:6435
 msgid "Enable the tape log device"
@@ -11875,7 +11863,7 @@ msgstr "GEO-RAM Erweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:6554
 msgid "Specify name of GEORAM image"
-msgstr "GEORAM Image Datei wählen"
+msgstr "GEORAM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:6571
 msgid "Allow writing to GEORAM image"
@@ -11938,7 +11926,7 @@ msgstr "Größe des PET RAM Speicher und Erweiterungsmodul. (128/512/1024/2048)"
 
 #: src/translate_text.c.po.c:6826
 msgid "Specify name of PET DWW image"
-msgstr "Namen für PET DWW Image Datei wählen"
+msgstr "Namen für PET DWW Imagedatei wählen"
 
 #: src/translate_text.c.po.c:6860
 msgid "Disable the PET DWW hi-res board"
@@ -11997,14 +11985,12 @@ msgid "Disable saving of the Userport RTC (DS1307) data when changed."
 msgstr "Userport RTC (DS1307) Daten bei Änderung nicht speichern."
 
 #: src/translate_text.c.po.c:7098
-#, fuzzy
 msgid "Enable Userport diag 586220 harness module"
-msgstr "Userport 4bit Sampler aktivieren"
+msgstr "Userport Diag 586220 Harnessmodul aktivieren"
 
 #: src/translate_text.c.po.c:7115
-#, fuzzy
 msgid "Disable Userport diag 586220 harness module"
-msgstr "Userport 4bit Sampler deaktivieren"
+msgstr "Userport Diag 586220 Harnessmodul deaktivieren"
 
 #: src/translate_text.c.po.c:7132
 msgid "Enable saving of the BBRTC data when changed."
@@ -12064,7 +12050,7 @@ msgstr "RamCart Erweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:7438
 msgid "Specify name of RAMCART image"
-msgstr "Name für RAMCART Image Datei wählen"
+msgstr "Name für RAMCART Imagedatei wählen"
 
 #: src/translate_text.c.po.c:7455
 msgid "Allow writing to RAMCart image"
@@ -12136,7 +12122,7 @@ msgstr "Kein Schreibzugriff auf ISEPIC Image"
 
 #: src/translate_text.c.po.c:7778
 msgid "Specify name of Magic Voice ROM image"
-msgstr "Name für Magic Voice ROM Image Datei wählen"
+msgstr "Name für Magic Voice ROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:7795
 msgid "Enable the Magic Voice cartridge"
@@ -12156,7 +12142,7 @@ msgstr "Name für MMC64 BIOS Datei spezifizieren"
 
 #: src/translate_text.c.po.c:7880
 msgid "Specify name of MMC64 image"
-msgstr "Name der MMC64 Image Datei wählen"
+msgstr "Name der MMC64 Imagedatei wählen"
 
 #: src/translate_text.c.po.c:7897
 msgid "Specify MMC64 revision (0: Rev A, 1: Rev B)"
@@ -12247,29 +12233,24 @@ msgid "Do not write to MMC Replay image"
 msgstr "Kein Schreibzugriff auf MMC Replay Image"
 
 #: src/translate_text.c.po.c:8288
-#, fuzzy
 msgid "Specify GMod2 EEPROM image filename"
-msgstr "MMC Replay EEPROM Imagedatei wählen"
+msgstr "GMod2 EEPROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:8305
-#, fuzzy
 msgid "Enable writes to GMod2 EEPROM image"
-msgstr "Erlaube Schreibzugriff auf EEPROM Image"
+msgstr "Erlaube Schreibzugriff auf GMod2 EEPROM Image"
 
 #: src/translate_text.c.po.c:8322
-#, fuzzy
 msgid "Disable writes to GMod2 EEPROM image"
-msgstr "Schreibzugriff auf MMC Replay EEPROM Imagedatei verhindern"
+msgstr "Schreibzugriff auf GMod2 EEPROM Imagedatei verhindern"
 
 #: src/translate_text.c.po.c:8339
-#, fuzzy
 msgid "Enable saving of the GMod2 ROM at exit"
-msgstr "Speichern des RR ROMs beim Beenden aktivieren"
+msgstr "Speichern des GMod2 ROMs beim Beenden aktivieren"
 
 #: src/translate_text.c.po.c:8356
-#, fuzzy
 msgid "Disable saving of the GMod2 ROM at exit"
-msgstr "Speichern des RR ROMs beim Beenden deaktivieren"
+msgstr "Speichern des GMod2 ROMs beim Beenden deaktivieren"
 
 #: src/translate_text.c.po.c:8373
 msgid "Enable saving of the RR ROM at exit"
@@ -12309,7 +12290,7 @@ msgstr "RAM Speichererweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:8560
 msgid "Specify name of REU image"
-msgstr "Namen für REU Image Datei wählen"
+msgstr "Namen für REU Imagedatei wählen"
 
 #: src/translate_text.c.po.c:8577
 msgid "Allow writing to REU image"
@@ -12568,7 +12549,7 @@ msgstr "Standard Modul deaktivieren"
 
 #: src/translate_text.c.po.c:9939
 msgid "Specify name of IDE64 image file"
-msgstr "Namen für IDE64 Image Datei wählen"
+msgstr "Namen für IDE64 Imagedatei wählen"
 
 #: src/translate_text.c.po.c:9973
 msgid "Set number of cylinders for the IDE64 emulation."
@@ -12584,7 +12565,7 @@ msgstr "Anzahl der Sektoren für IDE64 Emulation."
 
 #: src/translate_text.c.po.c:10041
 msgid "Do not autodetect geometry of formatted images"
-msgstr "Geometrie von formatierten Image Dateien nicht automatisch erkennen"
+msgstr "Geometrie von formatierten Imagedateien nicht automatisch erkennen"
 
 #: src/translate_text.c.po.c:10058
 msgid "IDE64 cartridge version"
@@ -12644,19 +12625,19 @@ msgstr "RAM Größe wählen (128/256/512/1024 kByte)"
 
 #: src/translate_text.c.po.c:10330
 msgid "Specify name of cartridge ROM image for $1000"
-msgstr "Name für ROM Module Image Datei ($1000)"
+msgstr "Name für ROM Module Imagedatei ($1000)"
 
 #: src/translate_text.c.po.c:10347
 msgid "Specify name of cartridge ROM image for $2000-$3fff"
-msgstr "Name für ROM Module Image Datei ($2000-3fff)"
+msgstr "Name für ROM Module Imagedatei ($2000-3fff)"
 
 #: src/translate_text.c.po.c:10364
 msgid "Specify name of cartridge ROM image for $4000-$5fff"
-msgstr "Name für ROM Module Image Datei ($4000-5fff)"
+msgstr "Name für ROM Module Imagedatei ($4000-5fff)"
 
 #: src/translate_text.c.po.c:10381
 msgid "Specify name of cartridge ROM image for $6000-$7fff"
-msgstr "Name für ROM Module Image Datei ($6000-7fff)"
+msgstr "Name für ROM Module Imagedatei ($6000-7fff)"
 
 #: src/translate_text.c.po.c:10398
 msgid "Enable RAM mapping in $0800-$0FFF"
@@ -12831,27 +12812,27 @@ msgstr "40 Spur Erweiterungsmethode (0: nie, 1: Rückfrage, 2: bei Bedarf)"
 
 #: src/translate_text.c.po.c:11063
 msgid "Specify name of 1540 DOS ROM image"
-msgstr "Name der 1540 DOS ROM Image Datei wählen"
+msgstr "Name der 1540 DOS ROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:11080
 msgid "Specify name of 1541 DOS ROM image"
-msgstr "Name der 1541 DOS ROM Image Datei wählen"
+msgstr "Name der 1541 DOS ROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:11097
 msgid "Specify name of 1541-II DOS ROM image"
-msgstr "Name der 1541-II DOS ROM Image Datei wählen"
+msgstr "Name der 1541-II DOS ROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:11114
 msgid "Specify name of 1570 DOS ROM image"
-msgstr "Name der 1570 DOS ROM Image Datei wählen"
+msgstr "Name der 1570 DOS ROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:11131
 msgid "Specify name of 1571 DOS ROM image"
-msgstr "Name der 1571 DOS ROM Image Datei wählen"
+msgstr "Name der 1571 DOS ROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:11148
 msgid "Specify name of 1581 DOS ROM image"
-msgstr "Name der 1581 DOS ROM Image Datei wählen"
+msgstr "Name der 1581 DOS ROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:11165
 msgid "Specify name of 2000 DOS ROM image"
@@ -13099,19 +13080,19 @@ msgstr ""
 
 #: src/translate_text.c.po.c:12202
 msgid "Specify name of Editor ROM image"
-msgstr "Name für Editor ROM Image Datei wählen"
+msgstr "Name für Editor ROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:12219
 msgid "Specify 4K extension ROM name at $9***"
-msgstr "4K Erweiterungs ROM Datei Name bei $9*** wählen"
+msgstr "4K Erweiterungs ROM Dateiname bei $9*** wählen"
 
 #: src/translate_text.c.po.c:12236
 msgid "Specify 4K extension ROM name at $A***"
-msgstr "4K Erweiterungs ROM Datei Name bei $A*** wählen"
+msgstr "4K Erweiterungs ROM Dateiname bei $A*** wählen"
 
 #: src/translate_text.c.po.c:12253
 msgid "Specify 4K extension ROM name at $B***"
-msgstr "4K Erweiterungs ROM Datei Name bei $B*** wählen"
+msgstr "4K Erweiterungs ROM Dateiname bei $B*** wählen"
 
 #: src/translate_text.c.po.c:12270
 msgid "Enable PET8296 4K RAM mapping at $9***"
@@ -13171,27 +13152,27 @@ msgstr "Setze SuperPET CPU Schalter auf 'Prog'"
 
 #: src/translate_text.c.po.c:12525
 msgid "Specify 4K to 24K ROM file name at $A000 for 6809"
-msgstr "4K-24K Erweiterungs ROM Datei Name für $A000 für 6809 wählen"
+msgstr "4K-24K Erweiterungs ROM Dateiname für $A000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:12542
 msgid "Specify 4K to 20K ROM file name at $B000 for 6809"
-msgstr "4K-20K Erweiterungs ROM Datei Name für $B000 für 6809 wählen"
+msgstr "4K-20K Erweiterungs ROM Dateiname für $B000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:12559
 msgid "Specify 4K to 16K ROM file name at $C000 for 6809"
-msgstr "4K-16K Erweiterungs ROM Datei Name für $C000 für 6809 wählen"
+msgstr "4K-16K Erweiterungs ROM Dateiname für $C000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:12576
 msgid "Specify 4K to 12K ROM file name at $D000 for 6809"
-msgstr "4K-12K Erweiterungs ROM Datei Name für $D000 für 6809 wählen"
+msgstr "4K-12K Erweiterungs ROM Dateiname für $D000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:12593
 msgid "Specify 2K or 8K ROM file name at $E000 for 6809"
-msgstr "4K-8K Erweiterungs ROM Datei Name für $E000 für 6809 wählen"
+msgstr "4K-8K Erweiterungs ROM Dateiname für $E000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:12610
 msgid "Specify 4K ROM file name at $F000 for 6809"
-msgstr "4K Erweiterungs ROM Datei Name für $F000 für 6809 wählen"
+msgstr "4K Erweiterungs ROM Dateiname für $F000 für 6809 wählen"
 
 #: src/translate_text.c.po.c:12627
 msgid "RGBI colour extension to PET 4032"
@@ -13654,28 +13635,27 @@ msgstr "VIC-1112 IEEE488 Schnittstelle deaktivieren"
 
 #: src/translate_text.c.po.c:14564
 msgid "Specify 4/8/16K extension ROM name at $2000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $2000 wählen"
+msgstr "4/8/16K Erweiterungs ROM Dateiname für $2000 wählen"
 
 #: src/translate_text.c.po.c:14581
 msgid "Specify 4/8/16K extension ROM name at $4000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $4000 wählen"
+msgstr "4/8/16K Erweiterungs ROM Dateiname für $4000 wählen"
 
 #: src/translate_text.c.po.c:14598
 msgid "Specify 4/8/16K extension ROM name at $6000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $6000 wählen"
+msgstr "4/8/16K Erweiterungs ROM Dateiname für $6000 wählen"
 
 #: src/translate_text.c.po.c:14615
 msgid "Specify 4/8K extension ROM name at $A000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $A000 wählen"
+msgstr "4/8/16K Erweiterungs ROM Dateiname für $A000 wählen"
 
 #: src/translate_text.c.po.c:14632
 msgid "Specify 4K extension ROM name at $B000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $B000 wählen"
+msgstr "4/8/16K Erweiterungs ROM Dateiname für $B000 wählen"
 
 #: src/translate_text.c.po.c:14649
-#, fuzzy
 msgid "Specify Behr Bonz extension ROM name"
-msgstr "Generisches Erweiterungs ROM wählen"
+msgstr "Behr Bonz Erweiterungs ROM Dateiname wählen"
 
 #: src/translate_text.c.po.c:14666
 msgid "Specify generic extension ROM name"
@@ -14085,31 +14065,31 @@ msgstr ""
 
 #: src/translate_text.c.po.c:16492
 msgid "Attach and autostart tape/disk image <name>"
-msgstr "Einlegen und Autostart Disk/Band Image Datei <Name>"
+msgstr "Einlegen und Autostart Disk/Band Imagedatei <Name>"
 
 #: src/translate_text.c.po.c:16509
 msgid "Attach and autoload tape/disk image <name>"
-msgstr "Einlegen und Autoload Disk/Band Image Datei <Name>"
+msgstr "Einlegen und Autoload Disk/Band Imagedatei <Name>"
 
 #: src/translate_text.c.po.c:16526
 msgid "Attach <name> as a tape image"
-msgstr "Image Datei <Name> einlegen"
+msgstr "Imagedatei <Name> einlegen"
 
 #: src/translate_text.c.po.c:16543
 msgid "Attach <name> as a disk image in drive #8"
-msgstr "Image Datei <Name> im Laufwerk #8 einlegen"
+msgstr "Imagedatei <Name> im Laufwerk #8 einlegen"
 
 #: src/translate_text.c.po.c:16560
 msgid "Attach <name> as a disk image in drive #9"
-msgstr "Image Datei <Name> im Laufwerk #9 einlegen"
+msgstr "Imagedatei <Name> im Laufwerk #9 einlegen"
 
 #: src/translate_text.c.po.c:16577
 msgid "Attach <name> as a disk image in drive #10"
-msgstr "Image Datei <Name> im Laufwerk #10 einlegen"
+msgstr "Imagedatei <Name> im Laufwerk #10 einlegen"
 
 #: src/translate_text.c.po.c:16594
 msgid "Attach <name> as a disk image in drive #11"
-msgstr "Image Datei <Name> im Laufwerk #11 einlegen"
+msgstr "Imagedatei <Name> im Laufwerk #11 einlegen"
 
 #: src/translate_text.c.po.c:16645
 msgid "Set additional keyboard buffer delay (0: use default)"
@@ -14288,11 +14268,11 @@ msgstr "Iso Sprachcode spezifizieren"
 
 #: src/translate_text.c.po.c:17444
 msgid "Specify name of PLUS256K image"
-msgstr "Name der PLUS256K Image Datei wählen"
+msgstr "Name der PLUS256K Imagedatei wählen"
 
 #: src/translate_text.c.po.c:17461
 msgid "Specify name of PLUS60K image"
-msgstr "Name der PLUS60K Image Datei wählen"
+msgstr "Name der PLUS60K Imagedatei wählen"
 
 #: src/translate_text.c.po.c:17478
 msgid "Base address of the PLUS60K expansion. (0xD040/0xD100)"
@@ -14300,7 +14280,7 @@ msgstr "Basis Adresse für PLUS60K Erweiterung. (0xD040/0xD100)"
 
 #: src/translate_text.c.po.c:17495
 msgid "Specify name of 256K image"
-msgstr "Name der 256K Image Datei wählen"
+msgstr "Name der 256K Imagedatei wählen"
 
 #: src/translate_text.c.po.c:17512
 msgid "Base address of the 256K expansion. (0xDE00/0xDE80/0xDF00/0xDF80)"
@@ -15459,10 +15439,10 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "Joystick ports austauschen"
 
 #~ msgid "Select internal function ROM image"
-#~ msgstr "Internes Funktions ROM Image Datei auswählen"
+#~ msgstr "Internes Funktions ROM Imagedatei auswählen"
 
 #~ msgid "Select external function ROM image"
-#~ msgstr "Externes Funktions ROM Image Datei auswählen"
+#~ msgstr "Externes Funktions ROM Imagedatei auswählen"
 
 #~ msgid "SFX Sound Expander Settings"
 #~ msgstr "SFX Sound Expander Einstellungen"
@@ -15882,7 +15862,7 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "Card Imagedateiname"
 
 #~ msgid "Cannot create image"
-#~ msgstr "Kann Image Datei nicht erzeugen"
+#~ msgstr "Kann Imagedatei nicht erzeugen"
 
 #~ msgid "Cartridge Settings"
 #~ msgstr "Erweiterungsmodul Einstellungen"
@@ -15927,7 +15907,7 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "Block 5"
 
 #~ msgid "Autodetect geometry of formatted images"
-#~ msgstr "Geometrie von formatierten Image Dateien automatisch erkennen"
+#~ msgstr "Geometrie von formatierten Imagedateien automatisch erkennen"
 
 #~ msgid "Attach EasyFlash image"
 #~ msgstr "EasyFlash Image einlegen"
