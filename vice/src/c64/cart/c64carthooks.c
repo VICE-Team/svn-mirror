@@ -1562,6 +1562,9 @@ void cart_detach(int type)
         case CARTRIDGE_FUNPLAY:
             funplay_detach();
             break;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_detach();
+            break;
         case CARTRIDGE_GENERIC_16KB:
             generic_16kb_detach();
             break;
