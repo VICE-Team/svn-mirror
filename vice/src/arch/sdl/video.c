@@ -66,8 +66,10 @@
 #define DBG(x)
 #endif
 
+#ifdef USE_SDLUI2
 typedef GLubyte* (APIENTRY * glGetString_Func)(unsigned int);
 glGetString_Func glGetStringAPI = NULL;
+#endif
 
 static log_t sdlvideo_log = LOG_ERR;
 
