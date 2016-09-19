@@ -25839,11 +25839,9 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???‚????????????
 @c @node FIXME
 @subsubsection 54 - Kingsoft
 
-@c FIXME: todo
-
 @multitable @columnfractions .3 .7
 @item Size
-@tab -
+@tab 24Kb (3 banks of 8Kb)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25851,8 +25849,42 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???‚????????????
 @item Startup mode
 @tab 16k Game
 @item Load address
-@tab -
+@tab $8000-$9FFF
 @end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 36 00 00 00 00 00 00 00 00  ???@@???6????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 09 80 A2 89 C3 C2 CD 38 30 20 D3 83 78 8D 00 DE  ?..‰...80?.ƒx?.
+@dots{}
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+2060: 72 A2 05 A5 45 10 01 CA A5 46 10 02 CA CA 86 28  r.?¥E??.¥F??..†(
+@dots{}
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
+4070: 78 A2 FF 9A D8 A9 08 8D 16 D0 A0 00 98 99 02 00  x.?...? ?. ?˜™??
+@end example
+
+    This cart has 24Kb ROM (3 8Kb Eproms)
+
+@example
+    reading io1:
+    - switches to 16k game mode
+    - first eprom mapped to 8000 (ROML)
+    - second eprom mapped to A000 (ROMH)
+
+    writing io1:
+    - switches to ultimax mode _only_:
+      - if 0xc000 > address >= 0x8000
+      - if address >= 0xe000
+      (meaning 0x0000-0x7fff and 0xc000-0xdfff gives normal c64 ram/io)
+    - first eprom mapped to 8000 (ROML)
+    - third eprom mapped to e000 (ROMH)
+#end example
 
 @c @node FIXME
 @subsubsection 55 - Silverrock 128
