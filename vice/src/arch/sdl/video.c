@@ -909,8 +909,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     char rendername[256];
     char **renderlist = NULL;
     int renderamount = SDL_GetNumRenderDrivers();
-    static unsigned int window_h = 0;
-    static unsigned int window_w = 0;
+    unsigned int window_h = 0;
+    unsigned int window_w = 0;
     SDL_GLContext ctx;
     SDL_RendererInfo info;
 
@@ -956,8 +956,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     if (!fullscreen) {
         /* if no window geometry given then create one. */
         if (!sdl_window_width || !sdl_window_height) {
-            window_w = (unsigned int)((double)new_width * aspect + 0.5);
-            window_h = new_height;
+            window_w = sdl_window_width = (unsigned int)((double)new_width * aspect + 0.5);
+            window_h = sdl_window_height = new_height;
         } else { /* full window size remembering when aspect ratio is not important */
             window_w = (unsigned int)sdl_window_width;
             window_h = (unsigned int)sdl_window_height;
@@ -1451,8 +1451,10 @@ void sdl_video_resize_event(unsigned int w, unsigned int h)
         return;
     }
     sdl_video_resize(w, h);
-    resources_set_int("SDLWindowWidth", sdl_active_canvas->actual_width);
-    resources_set_int("SDLWindowHeight", sdl_active_canvas->actual_height);
+    if (!sdl_active_canvas->fullscreenconfig->enable) {
+        resources_set_int("SDLWindowWidth", sdl_active_canvas->actual_width);
+        resources_set_int("SDLWindowHeight", sdl_active_canvas->actual_height);
+    }
 
 #endif /*  HAVE_HWSCALE */
 }
