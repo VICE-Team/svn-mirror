@@ -1604,6 +1604,9 @@ void cart_detach(int type)
         case CARTRIDGE_OCEAN:
             ocean_detach();
             break;
+        case CARTRIDGE_P64:
+            p64_detach();
+            break;
         case CARTRIDGE_PAGEFOX:
             pagefox_detach();
             break;
