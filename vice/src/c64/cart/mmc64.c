@@ -247,7 +247,7 @@ static io_source_list_t *mmc64_io1_list_item = NULL;
 static io_source_list_t *mmc64_io2_list_item = NULL;
 
 static const export_resource_t export_res = {
-    CARTRIDGE_NAME_MMC64, 1, 0, &mmc64_io1_device, &mmc64_io2_device, CARTRIDGE_MMC64
+    CARTRIDGE_NAME_MMC64, 1, 1, &mmc64_io1_device, &mmc64_io2_device, CARTRIDGE_MMC64
 };
 
 /* ---------------------------------------------------------------------*/
