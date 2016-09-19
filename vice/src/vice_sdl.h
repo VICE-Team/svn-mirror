@@ -104,6 +104,7 @@
 #  ifdef SDL_JOYSTICK_DISABLED
 #    undef HAVE_SDL_NUMJOYSTICKS
 #  endif
+#define _CONSOLE
 #endif
 
 /* restore HAVE_STRDUP definition if it is not defined */
