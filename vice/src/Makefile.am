@@ -461,6 +461,10 @@ EXTRA_DIST = $(COMMON_EXTRA_DIST) $(RESID_EXTRA_DIST) $(RESIDDTV_EXTRA_DIST)
 
 endif
 
+if NATIVE_TOOLS
+GENFILES = $(builddir)/geninfocontrib $(builddir)/gentranslate bin2c palette2c
+endif
+
 if EMBEDDED
 EMBEDDED_H_FILES = \
 	c128basic64.h \
@@ -551,7 +555,6 @@ EMBEDDED_H_FILES = \
 
 if NATIVE_TOOLS
 EMBEDDED_DEPENDS = bin2c bin2c.sh palette2c palette2c.sh
-GENFILES = $(builddir)/geninfocontrib $(builddir)/gentranslate bin2c palette2c
 else
 EMBEDDED_DEPENDS = bin2c.sh palette2c.sh
 endif
