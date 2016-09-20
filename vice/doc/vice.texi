@@ -25884,7 +25884,7 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???‚????????????
       (meaning 0x0000-0x7fff and 0xc000-0xdfff gives normal c64 ram/io)
     - first eprom mapped to 8000 (ROML)
     - third eprom mapped to e000 (ROMH)
-#end example
+@end example
 
 @c @node FIXME
 @subsubsection 55 - Silverrock 128
