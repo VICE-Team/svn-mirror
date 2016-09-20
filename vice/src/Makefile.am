@@ -551,6 +551,7 @@ EMBEDDED_H_FILES = \
 
 if NATIVE_TOOLS
 EMBEDDED_DEPENDS = bin2c bin2c.sh palette2c palette2c.sh
+GENFILES = $(builddir)/geninfocontrib $(builddir)/gentranslate bin2c palette2c
 else
 EMBEDDED_DEPENDS = bin2c.sh palette2c.sh
 endif
@@ -2235,7 +2236,7 @@ cartconv_SOURCES = cartconv.c
 cartconv_LDADD = @INTLLIBS@
 
 # distclean
-DISTCLEANFILES = $(BUILT_SOURCES)
+DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 
 # Special targets to build libraries in subdirectories.
 
