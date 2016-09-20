@@ -77,6 +77,16 @@ const char *fsimage_name_get(const disk_image_t *image)
     return fsimage->name;
 }
 
+
+/** \brief  Get file descriptor for \a image
+ *
+ * \param[in]   image   disk image
+ *
+ * \return  file descriptor
+ *
+ * XXX: \a image should not be const, since we return the a member we later use
+ *      to manipulate the image.
+ */
 void *fsimage_fd_get(const disk_image_t *image)
 {
     fsimage_t *fsimage;

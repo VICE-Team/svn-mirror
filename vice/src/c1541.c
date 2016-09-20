@@ -122,8 +122,10 @@ static unsigned int p00save[DRIVE_COUNT] = { 0, 0, 0, 0 };
 
 
 /** \brief  Current virtual drive used
+ *
+ * This is an index into the `drives` array, NOT a device/unit number
  */
-static int drive_number = 0;
+static int drive_index = 0;
 
 
 /** \brief  Flag indicating if c1541 is used in interactive mode
@@ -894,7 +896,7 @@ static int attach_cmd(int nargs, char **args)
     switch (nargs) {
         case 2:
             /* attach <image> */
-            dev = drive_number;
+            dev = drive_index;
             break;
         case 3:
             /* attach <image> <unit> */
@@ -937,7 +939,7 @@ static int block_cmd(int nargs, char **args)
         }
         drive -= 8;
     } else {
-        drive = drive_number;
+        drive = drive_index;
     }
 
     if (check_drive(drive, CHK_RDY) < 0) {
@@ -991,7 +993,7 @@ static int copy_cmd(int nargs, char **args)
         dest_name_ascii = lib_stralloc(args[nargs - 1]);
         dest_name_petscii = lib_stralloc(dest_name_ascii);
         charset_petconvstring((BYTE *)dest_name_petscii, 0);
-        dest_unit = drive_number;
+        dest_unit = drive_index;
     } else {
         if (*p != 0) {
             if (nargs > 3) {
@@ -1024,7 +1026,7 @@ static int copy_cmd(int nargs, char **args)
 
         if (p == NULL) {
             src_name_ascii = lib_stralloc(args[i]);
-            src_unit = drive_number;
+            src_unit = drive_index;
         } else {
             if (check_drive(src_unit, CHK_RDY) < 0) {
                 return FD_NOTREADY;
@@ -1107,7 +1109,7 @@ static int delete_cmd(int nargs, char **args)
 {
     int i = 1, status;
 
-    if (check_drive(drive_number, CHK_RDY) < 0) {
+    if (check_drive(drive_index, CHK_RDY) < 0) {
         return FD_NOTREADY;
     }
 
@@ -1120,7 +1122,7 @@ static int delete_cmd(int nargs, char **args)
         p = extract_unit_from_file_name(args[i], &dnr);
 
         if (p == NULL) {
-            dnr = drive_number;
+            dnr = drive_index;
             name = args[i];
         } else {
             name = p;
@@ -1300,7 +1302,7 @@ static int format_cmd(int nargs, char **args)
     switch (nargs) {
         case 2:
             /* format <diskname,id> */
-            unit = drive_number;
+            unit = drive_index;
             break;
         case 3:
             /* format <diskname,id> <unit> */
@@ -1420,7 +1422,7 @@ static int info_cmd(int nargs, char **args)
         }
         dnr = unit - 8;
     } else {
-        dnr = drive_number;
+        dnr = drive_index;
     }
 
     if (check_drive(dnr, CHK_RDY) < 0) {
@@ -1521,14 +1523,14 @@ static int list_cmd(int nargs, char **args)
         /* list <pattern> */
         pattern = extract_unit_from_file_name(args[1], &dnr);
         if (pattern == NULL) {
-            dnr = drive_number;
+            dnr = drive_index;
         } else if (*pattern == 0) {
             pattern = NULL;
         }
     } else {
         /* list */
         pattern = NULL;
-        dnr = drive_number;
+        dnr = drive_index;
     }
 
     if (check_drive(dnr, CHK_RDY) < 0) {
@@ -1585,7 +1587,7 @@ static int name_cmd(int nargs, char **args)
         }
         unit -= 8;
     } else {
-        unit = drive_number;
+        unit = drive_index;
     }
 
     if (check_drive(unit, CHK_RDY) < 0) {
@@ -1658,7 +1660,7 @@ static int read_cmd(int nargs, char **args)
 
     p = extract_unit_from_file_name(args[1], &dnr);
     if (p == NULL) {
-        dnr = drive_number;
+        dnr = drive_index;
     }
 
     if (check_drive(dnr, CHK_RDY) < 0) {
@@ -2023,7 +2025,7 @@ static int read_geos_cmd(int nargs, char **args)
 
     p = extract_unit_from_file_name(args[1], &unit);
     if (p == NULL) {
-        unit = drive_number;
+        unit = drive_index;
     }
 
     if (check_drive(unit, CHK_RDY) < 0) {
@@ -2371,7 +2373,7 @@ static int write_geos_cmd(int nargs, char **args)
 
     /* geoswrite <source> */
     dest_name_ascii = NULL;
-    unit = drive_number;
+    unit = drive_index;
 
     if (check_drive(unit, CHK_RDY) < 0) {
         return FD_NOTREADY;
@@ -2466,7 +2468,7 @@ static int rename_cmd(int nargs, char **args)
 
     p = extract_unit_from_file_name(args[1], &src_unit);
     if (p == NULL) {
-        src_unit = drive_number;
+        src_unit = drive_index;
         src_name = lib_stralloc(args[1]);
     } else {
         src_name = lib_stralloc(p);
@@ -2474,7 +2476,7 @@ static int rename_cmd(int nargs, char **args)
 
     p = extract_unit_from_file_name(args[2], &dest_unit);
     if (p == NULL) {
-        dest_unit = drive_number;
+        dest_unit = drive_index;
         dest_name = lib_stralloc(args[2]);
     } else {
         dest_name = lib_stralloc(p);
@@ -2543,11 +2545,11 @@ static int tape_cmd(int nargs, char **args)
     vdrive_t *drive;
     int count;
 
-    if (check_drive(drive_number, CHK_RDY) < 0) {
+    if (check_drive(drive_index, CHK_RDY) < 0) {
         return FD_NOTREADY;
     }
 
-    drive = drives[drive_number];
+    drive = drives[drive_index];
 
     tape_image = tape_internal_open_tape_image(args[1], 1);
 
@@ -2604,7 +2606,7 @@ static int tape_cmd(int nargs, char **args)
                                     (int)name_len, 1, NULL)) {
                     fprintf(stderr,
                             "Cannot open `%s' for writing on drive %d.\n",
-                            dest_name_ascii, drive_number + 8);
+                            dest_name_ascii, drive_index + 8);
                     lib_free(dest_name_petscii);
                     lib_free(dest_name_ascii);
                     continue;
@@ -2612,7 +2614,7 @@ static int tape_cmd(int nargs, char **args)
 
                 fprintf(stderr, "Writing `%s' ($%04X - $%04X) to drive %d.\n",
                         dest_name_ascii, rec->start_addr, rec->end_addr,
-                        drive_number + 8);
+                        drive_index + 8);
 
                 vdrive_iec_write(drive, ((BYTE)(rec->start_addr & 0xff)), 1);
                 vdrive_iec_write(drive, ((BYTE)(rec->start_addr >> 8)), 1);
@@ -2629,7 +2631,7 @@ static int tape_cmd(int nargs, char **args)
                 }
 
                 for (i = 0; i < file_size; i++) {
-                    if (vdrive_iec_write(drives[drive_number],
+                    if (vdrive_iec_write(drives[drive_index],
                                          ((BYTE)(buf[i])), 1)) {
                         tape_internal_close_tape_image(tape_image);
                         lib_free(dest_name_petscii);
@@ -2651,14 +2653,14 @@ static int tape_cmd(int nargs, char **args)
                 if (retval) {
                     fprintf(stderr,
                             "Cannot open `%s' for writing on drive %d.\n",
-                            dest_name_ascii, drive_number + 8);
+                            dest_name_ascii, drive_index + 8);
                     lib_free(dest_name_petscii);
                     lib_free(dest_name_ascii);
                     continue;
                 }
 
                 fprintf(stderr, "Writing SEQ file `%s' to drive %d.\n",
-                        dest_name_ascii, drive_number + 8);
+                        dest_name_ascii, drive_index + 8);
 
                 do {
                     retval = tape_read(tape_image, &b, 1);
@@ -2667,7 +2669,7 @@ static int tape_cmd(int nargs, char **args)
                         fprintf(stderr,
                                 "Unexpected end of tape: file may be truncated.\n");
                         break;
-                    } else if (vdrive_iec_write(drives[drive_number], b, 2)) {
+                    } else if (vdrive_iec_write(drives[drive_index], b, 2)) {
                         tape_internal_close_tape_image(tape_image);
                         lib_free(dest_name_petscii);
                         lib_free(dest_name_ascii);
@@ -2698,7 +2700,7 @@ static int unit_cmd(int nargs, char **args)
         return FD_BADDEV;
     }
 
-    drive_number = dev & 3;
+    drive_index = dev & 3;
     return FD_OK;
 }
 
@@ -2842,7 +2844,7 @@ static int unlynx_cmd(int nargs, char **args)
     int rc;
 
     if (nargs < 3) {
-        dev = drive_number;
+        dev = drive_index;
     } else {
         if (arg_to_int(args[2], &dev) < 0) {
             return FD_BADDEV;
@@ -2953,7 +2955,7 @@ static int validate_cmd(int nargs, char **args)
     switch (nargs) {
         case 1:
             /* validate */
-            dnr = drive_number;
+            dnr = drive_index;
             break;
         case 2:
             {
@@ -2992,7 +2994,7 @@ static int write_cmd(int nargs, char **args)
         /* write <source> <dest> */
         p = extract_unit_from_file_name(args[2], &dnr);
         if (p == NULL) {
-            dnr = drive_number;
+            dnr = drive_index;
             dest_name = lib_stralloc(args[2]);
         } else {
             if (*p != 0) {
@@ -3007,7 +3009,7 @@ static int write_cmd(int nargs, char **args)
     } else {
         /* write <source> */
         dest_name = NULL;
-        dnr = drive_number;
+        dnr = drive_index;
     }
 
     if (check_drive(dnr, CHK_RDY) < 0) {
@@ -3069,7 +3071,7 @@ static int write_cmd(int nargs, char **args)
 
 static int zcreate_cmd(int nargs, char **args)
 {
-    vdrive_t *vdrive = drives[drive_number];
+    vdrive_t *vdrive = drives[drive_index];
     FILE *fsfd = NULL;
     unsigned int track, sector;
     unsigned int count;
@@ -3079,7 +3081,7 @@ static int zcreate_cmd(int nargs, char **args)
 
     /* Open image or create a new one.  If the file exists, it must have
        valid header.  */
-    if (open_image(drive_number, args[1], 1, DISK_IMAGE_TYPE_D64) < 0) {
+    if (open_image(drive_index, args[1], 1, DISK_IMAGE_TYPE_D64) < 0) {
         return FD_BADIMAGE;
     }
 
@@ -3201,7 +3203,7 @@ static int zcreate_cmd(int nargs, char **args)
 
 static int raw_cmd(int nargs, char **args)
 {
-    vdrive_t *vdrive = drives[drive_number];
+    vdrive_t *vdrive = drives[drive_index];
 
     if (vdrive == NULL || vdrive->buffers[15].buffer == NULL) {
         return FD_NOTREADY;
@@ -3280,7 +3282,7 @@ int main(int argc, char **argv)
 
         while (1) {
             lib_free(buf);
-            buf = lib_msprintf("c1541 #%d> ", drive_number | 8);
+            buf = lib_msprintf("c1541 #%d> ", drive_index | 8);
             line = read_line(buf);
 
             if (line == NULL) {
