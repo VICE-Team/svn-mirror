@@ -25889,11 +25889,9 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???‚????????????
 @c @node FIXME
 @subsubsection 55 - Silverrock 128
 
-@c FIXME: todo
-
 @multitable @columnfractions .3 .7
 @item Size
-@tab 128k (16 banks of 8k)
+@tab 128Kb (16 banks of 8Kb)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25904,21 +25902,193 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???‚????????????
 @tab $8000-$9FFF
 @end multitable
 
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+00000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+00010: 00 00 00 40 01 00 00 37 00 01 00 00 00 00 00 00  ???@@???7????????
+00020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+00030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+00040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+00050: 09 80 09 80 C3 C2 CD 38 30 78 A2 FF 9A D8 A9 00  ?.?....80?.?...?
+@dots{}
+02050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+02060: 00 21 1D A9 90 1B 67 70 FD B0 04 C3 19 B9 11 2D  ???. ?gp?°?.?¹??
+@dots{}
+04060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
+04070: 00 41 62 92 AD 71 32 87 08 20 BE 90 4C 36 8F 20  ?Ab.q2.??. L6 ?
+@dots{}
+06070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP????????.???
+06080: 00 61 00 02 02 03 0D 40 82 15 D0 A1 08 40 84 00  ?a?????@@‚?..?@@„?
+@dots{}
+08080: 43 48 49 50 00 00 20 10 00 00 00 04 80 00 20 00  CHIP????????.???
+08090: 00 81 8A 85 0D F0 8A 28 83 F8 8A 00 8B 58 83 60  ? Š…??Š?ƒ?Š?‹Xƒ`
+@dots{}
+0A090: 43 48 49 50 00 00 20 10 00 00 00 05 80 00 20 00  CHIP????????.???
+0A0A0: 00 A1 C2 E3 C4 86 32 14 00 C5 40 EA 13 CA CB CC  ?....†2??.@@.?...
+@dots{}
+0C0A0: 43 48 49 50 00 00 20 10 00 00 00 06 80 00 20 00  CHIP????????.???
+0C0B0: 00 C1 81 59 60 00 81 5D D9 58 5E EE 58 6E 3C 28  ?. Y`? ].X^?Xn<?
+@dots{}
+0E0B0: 43 48 49 50 00 00 20 10 00 00 00 07 80 00 20 00  CHIP????????.???
+0E0C0: 00 E1 0F BF 3D 56 00 7E 52 FD 50 03 AA 00 0D 40  ???.=V?~R?P?×??@@
+@dots{}
+100C0: 43 48 49 50 00 00 20 10 00 00 00 08 80 00 20 00  CHIP????????.???
+100D0: 01 01 B9 D1 0D 15 89 55 65 45 41 C5 01 45 45 A8  ??¹.??‰UeEA.?EE?
+@dots{}
+120D0: 43 48 49 50 00 00 20 10 00 00 00 09 80 00 20 00  CHIP????????.???
+120E0: 01 21 0C C7 29 54 41 29 4D C5 06 24 C7 24 8F 81  ???.?TA?M.??.?  
+@dots{}
+140E0: 43 48 49 50 00 00 20 10 00 00 00 0A 80 00 20 00  CHIP????????.???
+140F0: 01 41 EA 87 7A AF 95 67 BD F7 00 7D 6E C4 5D A6  ?A..z»•g???.n.]?
+@dots{}
+160F0: 43 48 49 50 00 00 20 10 00 00 00 0B 80 00 20 00  CHIP????????.???
+16100: 01 61 6A 92 6B 93 6B 94 6C 95 6D 96 6E 97 6E 98  ?aj.k.k”l•m–n—n˜
+@dots{}
+18100: 43 48 49 50 00 00 20 10 00 00 00 0C 80 00 20 00  CHIP????????.???
+18110: 01 81 0E 83 0D 0B 0F 81 FF 28 28 1E E3 0A 14 62  ? ?ƒ??? ????.??b
+@dots{}
+1A110: 43 48 49 50 00 00 20 10 00 00 00 0D 80 00 20 00  CHIP????????.???
+1A120: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+@dots{}
+1C120: 43 48 49 50 00 00 20 10 00 00 00 0E 80 00 20 00  CHIP????????.???
+1C130: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+@dots{}
+1E130: 43 48 49 50 00 00 20 10 00 00 00 0F 80 00 20 00  CHIP????????.???
+1E140: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+@end example
+
+Cartridge hardware is designed around a 128Kb ROM (PROM or Mask ROM) which is
+divided into 16 banks each of 8Kb. When adressing the onboard bank-switching logic
+the requested ROM bank is mapped at address range $8000-$9fff (8Kb)
+
+The cartridge PCB layout was cost-optimized for mass-production purposes.
+
+The address-/data-lines and bank-switching logic uses the closest address-/data-lines
+with shortest and most direct path/distance in order to avoid too much PCB re-routing
+and keep production costs as low as possible.
+
+This means that the respective address-/data-lines from the cartridge port
+may not necessarily connect with the corresponding address-/data-line of
+the ROM according to the official specs of the ROM.
+
+This has over the years given some headaches and invalid dumps when cartridge
+dumpers that wanted to dump the cartridge contents by de-soldering the ROM and
+dumping it using an EPROM programmer/reader.
+
+The image extracted from such an operation would need transformation according
+to the actual cartridge PCB re-routing of address-/data-lines. Alternatively
+one can make an adapter that implements this applied re-routing of the
+address-/data-lines.
+
+This mass-production cost optimization also results in an obscured bank-switching
+address pattern/values more info on that later.
+
+[HWrev1]: The original "Hugo" PCB [HWrev1] is labeled "HUGO Copyright 1990"
+on both sides of the PCB.
+PCB production date is stamped on the back og PCB in the format: "YYMM"
+1Mbit 27C010 EPROM or PROM (typical Atmel)
+"Hugo" PCB [HWrev1] contains the following discrete logic IC components:
+74LS00N (DIP) and 74LS237N (DIP)
+DIP pitch (pin spacing) 2.54mm (0.1 inch)
+Assembly/production facilities: Philips, Strandlodsvej (Amager), Copenhagen, Denmark
+
+[HWrev1] Bank-switching pattern:
+In order for the rom contents to appear as a continuous memory layout the following
+ROM bank-switching pattern must be applied by writing to adress 0xDE00:
+Cartridge bank-switching values: 00 80 10 90 20 a0 30 b0 40 c0 50 d0 60 e0 70 f0
+Writing the bank-switch value to any address in address-range 0xDE00-0xDEFF
+will work.
+
+[HWrev2]: Revised PCB [HWrev2] for SMD mount is labeled "SO-A4-1"
+on both sides of PCB.
+1Mbit Mask ROM (SOIC-32)
+PCB contains the following discrete logic SMD IC components:
+74HCT02T (SOIC-14) and 74HCT174T (SOIC-16)
+SOIC (pitch) pin spacing 1.27mm (SMD mounted)
+Assembly/production facilities: Sono Press, Germany.
+
+[HWrev2] Uses alternative bank-switching pattern:
+Writing *ANY* value to address 0xDE0y (offset y) will select ROM bank y
+Cartridge still has 16 banks and the lower four bits in the address selects
+the right bank. Hence the valid address range is 0xDE00-0xDE0F
+
 @c @node FIXME
 @subsubsection 56 - Formel 64
 
-@c FIXME: todo
-
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32kb (4 banks of 8k)
+@tab 32Kb (4 banks of 8Kb)
 @item EXROM
-@tab active (lo) (0)
+@tab inactive (hi) (1)
 @item GAME
 @tab active (lo) (0)
+@item Startup mode
+@tab Ultimax
 @item Load address
 @tab $E000-$FFFF
 @end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 38 00 00 00 00 00 00 00 00  ???@@???8????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
+0050: 48 A9 FC 0C A9 FE 8D C2 DF 68 48 C9 8C F0 1C C9  H.??.? .?hH.Œ??.
+@dots{}
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 E0 00 20 00  CHIP????????????
+2060: EA EA 58 48 A9 FC 8D C2 DF 4C 6E E2 EA EA A9 FA  ..XH.? .?Ln....?
+@dots{}
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 E0 00 20 00  CHIP????????????
+4070: 4C 86 E4 A9 FE 78 8D C2 DF 60 78 8C C3 DF A9 FA  L†?.?x .?`xŒ.?.?
+@dots{}
+6070: 43 48 49 50 00 00 20 10 00 00 00 03 E0 00 20 00  CHIP????????????
+6080: EA EA 48 58 A9 FC 8D C2 DF 68 48 C9 46 D0 7E 68  ..HX.? .?hH.F.~h
+@end example
+
+the following is a quick overview of how the cartridge works, as its a bit
+unusual and different from most other cartridges:
+
+@example
+- 27256 EPROM (32k)
+- 7430 TTL
+- MC6821
+- 1 button (reset)
+
+rom bank 0x00 - 0x03 (0x04) 8192* 4 32k mapped to e000
+MC6821 registers mapped to io2 at dfc0..dfc4
+
+- press reset and hold delete to get the main menu
+- press reset and hold control to skip cbm80 check (dont start additional cartridge)
+
+- press RESTORE, then...
+  - left arrow, return  show disk directory
+  - delete, 1           load"*" from disk, run
+  - f1/f2               ? (disk stuff?)
+  - f3/f4               ? (disk stuff?)
+  - f5/f6, q            enter monitor
+  - f7/f8, 2            show drive error channel
+  - control, cursor     back to basic
+
+  - type "help" in basic to get a list of available commands
+
+*** MC6821 Port usage
+
+Port A (parallel cable to floppy drive):
+dfc0 port a ddr
+dfc1 port a (in/out)
+
+Port B (controls banking)
+dfc2 port b ddr ($7f)
+dfc3 port b (out)
+
+bit3    1 = rom at $e000 enabled, 0 = cartridge disabled
+bit1-2  rom bank number
+bit0    ?
+@end example
 
 @c @node FIXME
 @subsubsection 57 - RGCD
