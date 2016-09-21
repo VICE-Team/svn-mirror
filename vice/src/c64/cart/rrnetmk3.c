@@ -127,7 +127,7 @@ static io_source_t rrnetmk3_io1_device = {
 static io_source_list_t *rrnetmk3_io1_list_item = NULL;
 
 static const export_resource_t export_res = {
-    CARTRIDGE_NAME_RRNETMK3, 1, 0, &rrnetmk3_io1_device, NULL, CARTRIDGE_RRNETMK3
+    CARTRIDGE_NAME_RRNETMK3, 0, 1, &rrnetmk3_io1_device, NULL, CARTRIDGE_RRNETMK3
 };
 
 /* ---------------------------------------------------------------------*/
