@@ -14508,8 +14508,21 @@ The cartconv program has the following parameters:
      This parameter is optional, it enables repair mode (accept broken
      input files)
 
+`-p'
+     This parameter is optional, when it is given cartconv will accept
+     input files that do not match the cartridge sizes (useful for
+     development).
+
+`-b'
+     This parameter is optional, when it is given cartconv will not
+     omit banks that are empty (filled with $ff).
+
 `-q'
      This parameter is optional, it disables all non-error messages
+
+`--types'
+     This parameter is optional. It shows all supported cartridge types
+     (see below).
 
 The following cartridge types are supported:
 
@@ -14811,34 +14824,34 @@ petcat command line options
 
 BASIC Versions:
 `10'
-     Basic v10.0 program (C64DX)
+     Basic v10.0 (C65/C64DX)
 
 `1p'
-     PET Basic V1.0
+     Basic v1.0 (PET)
 
 `2'
-     Basic v2.0
+     Basic v2.0 (C64/VIC20/PET)
 
 `3'
-     Basic v3.5 program (C16)
+     Basic v3.5 (C16)
 
 `40'
-     Basic 4.0 (PET)
+     Basic v4.0 (PET/CBM2)
 
 `4e'
-     Basic v2.0 with Basic 4.0 extension (C64)
+     Basic v2.0 with Basic v4.0 extension (C64)
 
 `4v'
-     Basic v2.0 with Basic 4.0 extensions (VIC20)
+     Basic v2.0 with Basic v4.0 extension (VIC20)
 
 `5'
-     Basic v2.0 with Basic 5.0 extensions (VIC20)
+     Basic v2.0 with Basic v5.0 extension (VIC20)
 
 `70'
-     Basic v7.0 program (C128)
+     Basic v7.0 (C128)
 
 `71'
-     Basic v7.1 program (C128)
+     Basic v7.0 with Basic v7.1 extension (C128)
 
 `a'
      Basic v2.0 with AtBasic (C64)
@@ -14859,10 +14872,10 @@ BASIC Versions:
      Basic v2.0 with Warsaw Basic (C64)
 
 `bws'
-     Basic v2.0 with WS basic (C64)
+     Basic v2.0 with WS Basic (C64)
 
 `bwsf'
-     Basic v2.0 with WS basic final (C64)
+     Basic v2.0 with WS Basic final (C64)
 
 `drago'
      Basic v2.0 with Drago basic v2.2 (C64)
@@ -14898,10 +14911,10 @@ BASIC Versions:
      Basic v2.0 with Mighty Basic by Craig Bruce (VIC20)
 
 `pegasus'
-     Basic v2.0 with Pegasus basic v4.0 (C64)
+     Basic v2.0 with Pegasus Basic v4.0 (C64)
 
 `reu'
-     Basic v2.0 with REU-basic (C64)
+     Basic v2.0 with REU-Basic (C64)
 
 `simon'
      Basic v2.0 with Simons' Basic extension (C64)
@@ -17671,6 +17684,8 @@ Mutant Camels"...
                            56 - Formel 64
                            57 - RGCD
                            58 - RR-Net MK3
+                           59 - EasyCalc
+                           60 - GMod2
                    0018 - Cartridge port EXROM line status
                            0 - active (lo)
                            1 - inactive (hi)
@@ -17818,12 +17833,12 @@ address  $8000-BFFF  multitable
 .................
 
 .3 .7  Size  32Kb (4 banks of 8Kb each)  EXROM  active (lo) (0)  GAME
-active (lo) (0)  Load address  $8000-9FFF (all modules)  multitable
+inactive (hi) (1)  Load address  $8000-9FFF (all modules)  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
            -----------------------------------------------   ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 01 00 00 00 00 00 00 00 00   ???@????????????
+     0010: 00 00 00 40 01 00 00 01 00 01 00 00 00 00 00 00   ???@????????????
      0020: 41 63 74 69 6F 6E 20 52 65 70 6C 61 79 20 56 00   Action?Replay?V?
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
@@ -17875,7 +17890,7 @@ inactive (hi) (1)  Load address  $8000-BFFF (all modules)  multitable
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
            -----------------------------------------------   ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 03 01 01 00 00 00 00 00 00   ???@????????????
+     0010: 00 00 00 40 01 00 00 03 00 00 00 00 00 00 00 00   ???@????????????
      0020: 46 69 6E 61 6C 20 43 61 72 74 72 69 64 67 65 20   Final?Cartridge?
      0030: 49 49 49 20 31 39 38 37 00 00 00 00 00 00 00 00   III?1987????????
      0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@?
@@ -17941,7 +17956,7 @@ inactive (hi) (1)  Load address  module #1 - $8000-9FFF
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
            -----------------------------------------------   ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 04 00 01 00 00 00 00 00 00   ???@????????????
+     0010: 00 00 00 40 01 00 00 04 00 00 00 00 00 00 00 00   ???@????????????
      0020: 53 69 6D 6F 6E 27 73 20 42 61 73 69 63 00 00 00   Simon's?Basic???
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
@@ -18018,13 +18033,13 @@ always     set.
 6 - Expert Cartridge
 ....................
 
-.3 .7  Size  8Kb  EXROM  inactive (hi) (1)  GAME  inactive (hi) (1)
-Load address  $8000-9FFF  multitable
+.3 .7  Size  8Kb  EXROM  inactive (hi) (1)  GAME  active (lo) (0)  Load
+address  $8000-9FFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
            -----------------------------------------------   ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 06 01 01 00 00 00 00 00 00   ???@????????????
+     0010: 00 00 00 40 01 00 00 06 01 00 00 00 00 00 00 00   ???@????????????
      0020: 45 78 70 65 72 74 20 43 61 72 74 72 69 64 67 65   Expert?Cartridge
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
      0040: 43 48 49 50 00 00 40 10 00 02 00 00 80 00 20 00   CHIP??@?????.???
@@ -18034,13 +18049,13 @@ Load address  $8000-9FFF  multitable
 ........................
 
 .3 .7  Size  128Kb (16 banks of 8Kb modules)  EXROM  active (lo) (0)
-GAME  active (lo) (0)  Load address  $8000-9FFF (all modules)
+GAME  inactive (hi) (1)  Load address  $8000-9FFF (all modules)
 multitable
 
             00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
             -----------------------------------------------   ----------------
      00000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-     00010: 00 00 00 40 01 00 00 07 00 00 00 00 00 00 00 00   ???@????????????
+     00010: 00 00 00 40 01 00 00 07 00 01 00 00 00 00 00 00   ???@????????????
      00020: 46 55 4E 20 50 4C 41 59 00 00 00 00 00 00 00 00   FUN?PLAY????????
      00030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
      00040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
@@ -18132,12 +18147,12 @@ $DF00 register is as follows:
 ................
 
 .3 .7  Size  32Kb (4 banks of 8Kb modules)  EXROM  active (lo) (0)  GAME
-active (lo) (0)  Load address  $8000-9FFF (all modules)  multitable
+inactive (hi) (1)  Load address  $8000-9FFF (all modules)  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
            -----------------------------------------------   ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 09 00 00 00 00 00 00 00 00   ???@????????????
+     0010: 00 00 00 40 01 00 00 09 00 01 00 00 00 00 00 00   ???@????????????
      0020: 41 74 6F 6D 69 63 20 50 6F 77 65 72 00 00 00 00   Atomic?Power????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
@@ -18179,13 +18194,13 @@ The cart RAM or ROM is available through a window in the I/O-2 range.
 10 - Epyx Fastload
 ..................
 
-.3 .7  Size  8Kb  EXROM  inactive (hi) (1)  GAME  inactive (hi) (1)
-Load address  $8000-9FFF  multitable
+.3 .7  Size  8Kb  EXROM  active (lo) (0)  GAME  inactive (hi) (1)  Load
+address  $8000-9FFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
            -----------------------------------------------   ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 0A 01 01 00 00 00 00 00 00   ???@????????????
+     0010: 00 00 00 40 01 00 00 0A 00 01 00 00 00 00 00 00   ???@????????????
      0020: 45 50 59 58 20 46 41 53 54 4C 4F 41 44 00 00 00   EPYX?FASTLOAD???
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
@@ -18237,13 +18252,13 @@ Reading from $DF00-DFBF disables ROM, reading from $DFC0-DFFF enables
 13 - Final Cartridge I
 ......................
 
-.3 .7  Size  16Kb  EXROM  inactive (hi) (1)  GAME  inactive (hi) (1)
-Load address  $8000-BFFF  multitable
+.3 .7  Size  16Kb  EXROM  active (lo) (0)  GAME  active (lo) (0)  Load
+address  $8000-BFFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
            -----------------------------------------------   ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 0D 01 01 00 00 00 00 00 00   ???@????????????
+     0010: 00 00 00 40 01 00 00 0D 00 00 00 00 00 00 00 00   ???@????????????
      0020: 54 68 65 20 46 69 6E 61 6C 20 43 61 72 74 72 69   The?Final?Cartri
      0030: 64 67 65 20 49 00 00 00 00 00 00 00 00 00 00 00   dge?I???????????
      0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@?
@@ -18257,13 +18272,13 @@ The cart ROM is visible in I/O-1 and I/O-2.
 14 - Magic Formel
 .................
 
-.3 .7  Size  64Kb (8 banks of 8Kb)  EXROM  active (lo) (0)  GAME
+.3 .7  Size  64Kb (8 banks of 8Kb)  EXROM  inactive (hi) (1)  GAME
 active (lo) (0)  Load Address  $E000-FFFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 0E 01 01 00 00 00 00 00 00  ???@????????????
+     0010: 00 00 00 40 01 00 00 0E 01 00 00 00 00 00 00 00  ???@????????????
      0020: 4D 61 67 69 63 20 46 6F 72 6D 65 6C 00 00 00 00  Magic?Formel????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
@@ -18293,9 +18308,8 @@ active (lo) (0)  Load Address  $E000-FFFF  multitable
 15 - C64 Game System, System 3
 ..............................
 
-.3 .7  Size  512Kb (64 banks of 8Kb each)  EXROM  inactive (hi) (1)
-GAME  active (lo) (0)  Load address  $8000-9FFF (all modules)
-multitable
+.3 .7  Size  512Kb (64 banks of 8Kb each)  EXROM  active (lo) (0)  GAME
+inactive (hi) (1)  Load address  $8000-9FFF (all modules)  multitable
 
              00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
              -----------------------------------------------  ----------------
@@ -18344,7 +18358,7 @@ address  $8000-BFFF  multitable
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 10 01 01 00 00 00 00 00 00  ???@????????????
+     0010: 00 00 00 40 01 00 00 10 00 00 00 00 00 00 00 00  ???@????????????
      0020: 57 61 72 70 73 70 65 65 64 00 00 00 00 00 00 00  Warpspeed???????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
@@ -18361,9 +18375,8 @@ mapped to cartridge ROM.
 17 - Dinamic
 ............
 
-.3 .7  Size  128Kb (16 banks of 8Kb each)  EXROM  inactive (hi) (1)
-GAME  active (lo) (0)  Load address  $8000-9FFF (all modules)
-multitable
+.3 .7  Size  128Kb (16 banks of 8Kb each)  EXROM  active (lo) (0)  GAME
+inactive (hi) (1)  Load address  $8000-9FFF (all modules)  multitable
 
              00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
              -----------------------------------------------  ----------------
@@ -18401,8 +18414,8 @@ field.      In the cartridge header, EXROM ($18) is set to 0, GAME
 18 - Zaxxon, Super Zaxxon (SEGA)
 ................................
 
-.3 .7  Size  20Kb (3 banks of different sizes)  EXROM  inactive (hi) (1)
-GAME  inactive (hi) (1)  Load address  $8000-8FFF (mirrored in
+.3 .7  Size  20Kb (3 banks of different sizes)  EXROM  active (lo) (0)
+GAME  active (lo) (0)  Load address  $8000-8FFF (mirrored in
 $9000-9FFF, module 0, chip U1)                     $A000-BFFF (banked
 modules 1 and 2, chip U2)  multitable
 
@@ -18481,13 +18494,13 @@ Here is a list of the known cartridges:
 20 - Super Snapshot V5
 ......................
 
-.3 .7  Size  64Kb (4 banks of 16Kb each)  EXROM  inactive (hi) (1)  GAME
-inactive (hi) (1)  Load address  $8000-BFFF  multitable
+.3 .7  Size  64Kb (4 banks of 16Kb each)  EXROM  active (lo) (0)  GAME
+active (lo) (0)  Load address  $8000-BFFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 14 01 01 00 00 00 00 00 00  ???@????????????
+     0010: 00 00 00 40 01 00 00 14 00 00 00 00 00 00 00 00  ???@????????????
      0020: 53 75 70 65 72 20 53 6E 61 70 73 68 6F 74 20 35  Super?Snapshot?5
      0030: 20 4E 54 53 43 00 00 00 00 00 00 00 00 00 00 00  ?NTSC???????????
      0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
@@ -18525,7 +18538,7 @@ active (low) (0)  Load address  $8000-BFFF  multitable
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 15 01 01 00 00 00 00 00 00  ???@????????????
+     0010: 00 00 00 40 01 00 00 15 00 00 00 00 00 00 00 00  ???@????????????
      0020: 43 6F 6D 61 6C 20 38 30 00 00 00 00 00 00 00 00  Comal?80????????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
@@ -18574,7 +18587,7 @@ access     to $DE03 will switch off EXROM.
 .........
 
 .3 .7  Size  16Kb or 32Kb sizes (1 or 2 banks of 16Kb each)  EXROM
-inactive (hi) (1)  GAME  inactive (hi) (1)  Load address  $8000-BFFF
+active (lo) (0)  GAME  active (lo) (0)  Load address  $8000-BFFF
 multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
@@ -18597,7 +18610,7 @@ Any read access to $DE00 will switch in bank 1 (if cart is  32Kb).  Any
 
 .3 .7  Size  8Kb to 72kb sizes (1 to 9 banks of 8Kb each,
                or 1 bank of 8Kb and 1 or 2 banks
-       of 32Kb each)  EXROM  inactive (hi) (1)  GAME  active (lo) (0)
+       of 32Kb each)  EXROM  active (lo) (0)  GAME  inactive (hi) (1)
 Load address  $8000-9FFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
@@ -18641,7 +18654,7 @@ Setting bit 7 high will switch off EXROM.
 ...............
 
 .3 .7  Size  8Kb to 64kb sizes (1 to 8 banks of 8Kb each)  EXROM
-inactive (hi) (1)  GAME  active (lo) (0)  Load address  $8000-9FFF
+active (lo) (0)  GAME  inactive (hi) (1)  Load address  $8000-9FFF
 multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
@@ -18681,7 +18694,7 @@ The bit values for each eprom bank is:
 ...............
 
 .3 .7  Size  8Kb to 262kb sizes (1 to 33 banks of 8Kb each)  EXROM
-inactive (hi) (1)  GAME  active (lo) (0)  Load address  $8000-9FFF
+active (lo) (0)  GAME  inactive (hi) (1)  Load address  $8000-9FFF
 multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
@@ -18724,9 +18737,8 @@ Setting bit 7 high will switch off EXROM.
 ..............
 
 .3 .7  Size  8Kb to 262kb sizes (1 bank of 8Kb and 1 to 8 banks of
-either                                8Kb, 16Kb or 32Kb)  EXROM
-inactive (hi) (1)  GAME  active (lo) (0)  Load address  $8000-9FFF
-multitable
+either                                8Kb, 16Kb or 32Kb)  EXROM  active
+(lo) (0)  GAME  inactive (hi) (1)  Load address  $8000-9FFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
@@ -18771,8 +18783,8 @@ switches on the EXROM.
 28 - Mikro Assembler
 ....................
 
-.3 .7  Size  8Kb (1 bank of 8Kb)  EXROM  inactive (hi) (1)  GAME
-active (lo) (0)  Load address  $8000-9FFF  multitable
+.3 .7  Size  8Kb (1 bank of 8Kb)  EXROM  active (lo) (0)  GAME
+inactive (hi) (1)  Load address  $8000-9FFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
@@ -18790,12 +18802,12 @@ The $9E00-$9EFF range is mirrored at $DE00-$DEFF. The $9F00-$9FFF range
 .........................
 
 .3 .7  Size  32Kb (1 bank of 32Kb)  EXROM  inactive (hi) (1)  GAME
-inactive (hi) (1)  Load address  $0000-$7FFF  multitable
+active (lo) (0)  Load address  $0000-$7FFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 1D 00 01 00 00 00 00 00 00  ???@????????????
+     0010: 00 00 00 40 01 00 00 1D 01 00 00 00 00 00 00 00  ???@????????????
      0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 80 10 00 00 00 00 00 00 80 00  CHIP??.???????.?
@@ -18855,14 +18867,14 @@ The first page of the currently banked ROM block can be  read  in  the
 31 - Stardos
 ............
 
-.3 .7  Size  16Kb (2 banks of 8Kb)  EXROM  active (lo) (0)  GAME
-inactive (hi) (1)  Load address  $8000-$9FFF (bank 0),
- $E000-$FFFF (bank 1)  multitable
+.3 .7  Size  16Kb (2 banks of 8Kb)  EXROM  inactive (hi) (1)  GAME
+active (lo) (0)  Load address  $8000-$9FFF (bank 0),
+$E000-$FFFF (bank 1)  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 1F 00 01 00 00 00 00 00 00  ???@????????????
+     0010: 00 00 00 40 01 00 00 1F 01 00 00 00 00 00 00 00  ???@????????????
      0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -18893,7 +18905,7 @@ $E000-$FFFF (ROMH)  multitable
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 20 00 01 00 00 00 00 00 00  ???@????????????
+     0010: 00 00 00 40 01 00 00 20 01 00 00 00 00 00 00 00  ???@????????????
      0020: 45 61 73 79 46 6C 61 73 68 20 43 61 72 74 72 69  EasyFlash?Cartri
      0030: 64 67 65 00 00 00 00 00 00 00 00 00 00 00 00 00  dge?????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
@@ -18930,13 +18942,13 @@ Consequently VICE does (can) not load files of this type.
 34 - Capture
 ............
 
-.3 .7  Size  8Kb (1 bank of 8Kb)  EXROM  active (lo) (0)  GAME  active
-(lo) (0)  Load address  $E000-$FFFF  multitable
+.3 .7  Size  8Kb (1 bank of 8Kb)  EXROM  inactive (hi) (1)  GAME
+inactive (hi) (1)  Load address  $E000-$FFFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 22 00 01 00 00 00 00 00 00  ???@???"????????
+     0010: 00 00 00 40 01 00 00 22 00 00 00 00 00 00 00 00  ???@???"????????
      0020: 4D 61 67 69 63 20 46 6F 72 6D 65 6C 00 00 00 00  Magic?Formel????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 01 E0 00 20 00  CHIP????????????
@@ -18997,13 +19009,13 @@ I/O-1     range:
 .................
 
 .3 .7  Size  32Kb, 64Kb or 128Kb (4, 8 or 16 banks of 8Kb)  EXROM
-active (lo) (0)  GAME  active (lo) (0)  Load address  $8000-$9FFF
+active (lo) (0)  GAME  inactive (hi) (1)  Load address  $8000-$9FFF
 multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 24 00 00 00 00 00 00 00 00  ???@???$????????
+     0010: 00 00 00 40 01 00 00 24 00 01 00 00 00 00 00 00  ???@???$????????
      0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -19338,12 +19350,12 @@ $DE32 register:
 ......................
 
 .3 .7  Size  32Kb (4 banks of 8Kb)  EXROM  active (lo) (0)  GAME
-inactive (hi) (1)  Load address  $8000-$9FFF  multitable
+active (lo) (0)  Load address  $8000-$9FFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 28 00 01 00 00 00 00 00 00  ???@???(????????
+     0010: 00 00 00 40 01 00 00 28 00 00 00 00 00 00 00 00  ???@???(????????
      0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -19417,13 +19429,13 @@ The cart uses a TPI for the  IEEE488  interface/communication  in  the
 42 - Game Killer
 ................
 
-.3 .7  Size  8Kb (1 bank of 8Kb)  EXROM  active (lo) (0)  GAME  active
-(lo) (0)  Load address  $E000-$FFFF  multitable
+.3 .7  Size  8Kb (1 bank of 8Kb)  EXROM  inactive (hi) (1)  GAME
+active (lo) (0)  Load address  $E000-$FFFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 2A 00 00 00 00 00 00 00 00  ???@???*????????
+     0010: 00 00 00 40 01 00 00 2A 01 00 00 00 00 00 00 00  ???@???*????????
      0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
@@ -19535,8 +19547,8 @@ both $8000-$9FFF and     $E000-$FFFF.
 47 - Snapshot 64
 ................
 
-.3 .7  Size  4Kb (1 bank of 4Kb)  EXROM  active (lo) (0)  GAME  active
-(lo) (0)  Load address  $E000-$EFFF  multitable
+.3 .7  Size  4Kb (1 bank of 4Kb)  EXROM  inactive (hi) (1)  GAME
+inactive (hi) (1)  Load address  $E000-$EFFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
@@ -19585,14 +19597,14 @@ $DF00,     which is used to select what ROM bank is used.
 49 - Magic Voice
 ................
 
-.3 .7  Size  16Kb (2 banks of 8Kb)  EXROM  active (lo) (0)  GAME
-inactive (hi) (1)  Load address  $8000-$9FFF (bank 1),
- $A000-$BFFF (bank 2)  multitable
+.3 .7  Size  16Kb (2 banks of 8Kb)  EXROM  inactive (hi) (1)  GAME
+active (lo) (0)  Load address  $8000-$9FFF (bank 1),
+$A000-$BFFF (bank 2)  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 31 00 01 00 00 00 00 00 00  ???@???1????????
+     0010: 00 00 00 40 01 00 00 31 01 00 00 00 00 00 00 00  ???@???1????????
      0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -19703,7 +19715,7 @@ multitable
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 35 01 01 00 00 00 00 00 00  ???@???5????????
+     0010: 00 00 00 40 01 00 00 35 00 00 00 00 00 00 00 00  ???@???5????????
      0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
      0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
      0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
@@ -19745,28 +19757,260 @@ it  is           suggested to write $FF to the register.
 54 - Kingsoft
 .............
 
-.3 .7  Size  -  EXROM  active (lo) (0)  GAME  active (lo) (0)  Startup
-mode  16k Game  Load address  -  multitable
+.3 .7  Size  24Kb (3 banks of 8Kb)  EXROM  active (lo) (0)  GAME
+active (lo) (0)  Startup mode  16k Game  Load address  $8000-$9FFF
+multitable
+
+           00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+           -----------------------------------------------  ----------------
+     0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+     0010: 00 00 00 40 01 00 00 36 00 00 00 00 00 00 00 00  ???@???6????????
+     0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+     0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+     0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+     0050: 09 80 A2 89 C3 C2 CD 38 30 20 D3 83 78 8D 00 DE  ?..	...80?.ƒx?.
+     ...
+     2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+     2060: 72 A2 05 A5 45 10 01 CA A5 46 10 02 CA CA 86 28  r.?¥E??.¥F??..†(
+     ...
+     4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
+     4070: 78 A2 FF 9A D8 A9 08 8D 16 D0 A0 00 98 99 02 00  x.?...? ?. ?˜™??
+
+This cart has 24Kb ROM (3 8Kb Eproms)
+
+         reading io1:
+         - switches to 16k game mode
+         - first eprom mapped to 8000 (ROML)
+         - second eprom mapped to A000 (ROMH)
+     
+         writing io1:
+         - switches to ultimax mode _only_:
+           - if 0xc000 > address >= 0x8000
+           - if address >= 0xe000
+           (meaning 0x0000-0x7fff and 0xc000-0xdfff gives normal c64 ram/io)
+         - first eprom mapped to 8000 (ROML)
+         - third eprom mapped to e000 (ROMH)
 
 55 - Silverrock 128
 ...................
 
-.3 .7  Size  128k (16 banks of 8k)  EXROM  active (lo) (0)  GAME
+.3 .7  Size  128Kb (16 banks of 8Kb)  EXROM  active (lo) (0)  GAME
 inactive (hi) (1)  Startup mode  8k Game  Load address  $8000-$9FFF
 multitable
+
+            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+            -----------------------------------------------  ----------------
+     00000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+     00010: 00 00 00 40 01 00 00 37 00 01 00 00 00 00 00 00  ???@???7????????
+     00020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+     00030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+     00040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+     00050: 09 80 09 80 C3 C2 CD 38 30 78 A2 FF 9A D8 A9 00  ?.?....80?.?...?
+     ...
+     02050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+     02060: 00 21 1D A9 90 1B 67 70 FD B0 04 C3 19 B9 11 2D  ???. ?gp?°?.?¹??
+     ...
+     04060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
+     04070: 00 41 62 92 AD 71 32 87 08 20 BE 90 4C 36 8F 20  ?Ab.q2.??. L6 ?
+     ...
+     06070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP????????.???
+     06080: 00 61 00 02 02 03 0D 40 82 15 D0 A1 08 40 84 00  ?a?????@‚?..?@„?
+     ...
+     08080: 43 48 49 50 00 00 20 10 00 00 00 04 80 00 20 00  CHIP????????.???
+     08090: 00 81 8A 85 0D F0 8A 28 83 F8 8A 00 8B 58 83 60  ? 
+…??
+?ƒ?
+?‹Xƒ`
+     ...
+     0A090: 43 48 49 50 00 00 20 10 00 00 00 05 80 00 20 00  CHIP????????.???
+     0A0A0: 00 A1 C2 E3 C4 86 32 14 00 C5 40 EA 13 CA CB CC  ?....†2??.@.?...
+     ...
+     0C0A0: 43 48 49 50 00 00 20 10 00 00 00 06 80 00 20 00  CHIP????????.???
+     0C0B0: 00 C1 81 59 60 00 81 5D D9 58 5E EE 58 6E 3C 28  ?. Y`? ].X^?Xn<?
+     ...
+     0E0B0: 43 48 49 50 00 00 20 10 00 00 00 07 80 00 20 00  CHIP????????.???
+     0E0C0: 00 E1 0F BF 3D 56 00 7E 52 FD 50 03 AA 00 0D 40  ???.=V?~R?P?×??@
+     ...
+     100C0: 43 48 49 50 00 00 20 10 00 00 00 08 80 00 20 00  CHIP????????.???
+     100D0: 01 01 B9 D1 0D 15 89 55 65 45 41 C5 01 45 45 A8  ??¹.??	UeEA.?EE?
+     ...
+     120D0: 43 48 49 50 00 00 20 10 00 00 00 09 80 00 20 00  CHIP????????.???
+     120E0: 01 21 0C C7 29 54 41 29 4D C5 06 24 C7 24 8F 81  ???.?TA?M.??.?
+     ...
+     140E0: 43 48 49 50 00 00 20 10 00 00 00 0A 80 00 20 00  CHIP????????.???
+     140F0: 01 41 EA 87 7A AF 95 67 BD F7 00 7D 6E C4 5D A6  ?A..z»•g???.n.]?
+     ...
+     160F0: 43 48 49 50 00 00 20 10 00 00 00 0B 80 00 20 00  CHIP????????.???
+     16100: 01 61 6A 92 6B 93 6B 94 6C 95 6D 96 6E 97 6E 98  ?aj.k.k”l•m–n—n˜
+     ...
+     18100: 43 48 49 50 00 00 20 10 00 00 00 0C 80 00 20 00  CHIP????????.???
+     18110: 01 81 0E 83 0D 0B 0F 81 FF 28 28 1E E3 0A 14 62  ? ?ƒ??? ????.??b
+     ...
+     1A110: 43 48 49 50 00 00 20 10 00 00 00 0D 80 00 20 00  CHIP????????.???
+     1A120: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+     ...
+     1C120: 43 48 49 50 00 00 20 10 00 00 00 0E 80 00 20 00  CHIP????????.???
+     1C130: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+     ...
+     1E130: 43 48 49 50 00 00 20 10 00 00 00 0F 80 00 20 00  CHIP????????.???
+     1E140: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+
+Cartridge hardware is designed around a 128Kb ROM (PROM or Mask ROM)
+which is divided into 16 banks each of 8Kb. When adressing the onboard
+bank-switching logic the requested ROM bank is mapped at address range
+$8000-$9fff (8Kb)
+
+The cartridge PCB layout was cost-optimized for mass-production
+purposes.
+
+The address-/data-lines and bank-switching logic uses the closest
+address-/data-lines with shortest and most direct path/distance in
+order to avoid too much PCB re-routing and keep production costs as low
+as possible.
+
+This means that the respective address-/data-lines from the cartridge
+port may not necessarily connect with the corresponding
+address-/data-line of the ROM according to the official specs of the
+ROM.
+
+This has over the years given some headaches and invalid dumps when
+cartridge dumpers that wanted to dump the cartridge contents by
+de-soldering the ROM and dumping it using an EPROM programmer/reader.
+
+The image extracted from such an operation would need transformation
+according to the actual cartridge PCB re-routing of
+address-/data-lines. Alternatively one can make an adapter that
+implements this applied re-routing of the address-/data-lines.
+
+This mass-production cost optimization also results in an obscured
+bank-switching address pattern/values more info on that later.
+
+[HWrev1]: The original "Hugo" PCB [HWrev1] is labeled "HUGO Copyright
+1990" on both sides of the PCB.  PCB production date is stamped on the
+back og PCB in the format: "YYMM" 1Mbit 27C010 EPROM or PROM (typical
+Atmel) "Hugo" PCB [HWrev1] contains the following discrete logic IC
+components: 74LS00N (DIP) and 74LS237N (DIP) DIP pitch (pin spacing)
+2.54mm (0.1 inch) Assembly/production facilities: Philips,
+Strandlodsvej (Amager), Copenhagen, Denmark
+
+[HWrev1] Bank-switching pattern: In order for the rom contents to
+appear as a continuous memory layout the following ROM bank-switching
+pattern must be applied by writing to adress 0xDE00: Cartridge
+bank-switching values: 00 80 10 90 20 a0 30 b0 40 c0 50 d0 60 e0 70 f0
+Writing the bank-switch value to any address in address-range
+0xDE00-0xDEFF will work.
+
+[HWrev2]: Revised PCB [HWrev2] for SMD mount is labeled "SO-A4-1" on
+both sides of PCB.  1Mbit Mask ROM (SOIC-32) PCB contains the following
+discrete logic SMD IC components: 74HCT02T (SOIC-14) and 74HCT174T
+(SOIC-16) SOIC (pitch) pin spacing 1.27mm (SMD mounted)
+Assembly/production facilities: Sono Press, Germany.
+
+[HWrev2] Uses alternative bank-switching pattern: Writing *ANY* value
+to address 0xDE0y (offset y) will select ROM bank y Cartridge still has
+16 banks and the lower four bits in the address selects the right bank.
+Hence the valid address range is 0xDE00-0xDE0F
 
 56 - Formel 64
 ..............
 
-.3 .7  Size  32kb (4 banks of 8k)  EXROM  active (lo) (0)  GAME  active
-(lo) (0)  Load address  $E000-$FFFF  multitable
+.3 .7  Size  32Kb (4 banks of 8Kb)  EXROM  inactive (hi) (1)  GAME
+active (lo) (0)  Startup mode  Ultimax  Load address  $E000-$FFFF
+multitable
+
+           00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+           -----------------------------------------------  ----------------
+     0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+     0010: 00 00 00 40 01 00 00 38 00 00 00 00 00 00 00 00  ???@???8????????
+     0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+     0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+     0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
+     0050: 48 A9 FC 0C A9 FE 8D C2 DF 68 48 C9 8C F0 1C C9  H.??.? .?hH.Œ??.
+     ...
+     2050: 43 48 49 50 00 00 20 10 00 00 00 01 E0 00 20 00  CHIP????????????
+     2060: EA EA 58 48 A9 FC 8D C2 DF 4C 6E E2 EA EA A9 FA  ..XH.? .?Ln....?
+     ...
+     4060: 43 48 49 50 00 00 20 10 00 00 00 02 E0 00 20 00  CHIP????????????
+     4070: 4C 86 E4 A9 FE 78 8D C2 DF 60 78 8C C3 DF A9 FA  L†?.?x .?`xŒ.?.?
+     ...
+     6070: 43 48 49 50 00 00 20 10 00 00 00 03 E0 00 20 00  CHIP????????????
+     6080: EA EA 48 58 A9 FC 8D C2 DF 68 48 C9 46 D0 7E 68  ..HX.? .?hH.F.~h
+
+the following is a quick overview of how the cartridge works, as its a
+bit unusual and different from most other cartridges:
+
+     - 27256 EPROM (32k)
+     - 7430 TTL
+     - MC6821
+     - 1 button (reset)
+     
+     rom bank 0x00 - 0x03 (0x04) 8192* 4 32k mapped to e000
+     MC6821 registers mapped to io2 at dfc0..dfc4
+     
+     - press reset and hold delete to get the main menu
+     - press reset and hold control to skip cbm80 check (dont start additional cartridge)
+     
+     - press RESTORE, then...
+       - left arrow, return  show disk directory
+       - delete, 1           load"*" from disk, run
+       - f1/f2               ? (disk stuff?)
+       - f3/f4               ? (disk stuff?)
+       - f5/f6, q            enter monitor
+       - f7/f8, 2            show drive error channel
+       - control, cursor     back to basic
+     
+       - type "help" in basic to get a list of available commands
+     
+     *** MC6821 Port usage
+     
+     Port A (parallel cable to floppy drive):
+     dfc0 port a ddr
+     dfc1 port a (in/out)
+     
+     Port B (controls banking)
+     dfc2 port b ddr ($7f)
+     dfc3 port b (out)
+     
+     bit3    1 = rom at $e000 enabled, 0 = cartridge disabled
+     bit1-2  rom bank number
+     bit0    ?
 
 57 - RGCD
 .........
 
-.3 .7  Size  64kb (8 banks of 8k)  EXROM  active (lo) (0)  GAME
+.3 .7  Size  64Kb (8 banks of 8Kb)  EXROM  active (lo) (0)  GAME
 inactive (hi) (1)  Startup mode  8k Game  Load address  $8000-$9FFF
 multitable
+
+           00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+           -----------------------------------------------  ----------------
+     0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+     0010: 00 00 00 40 01 00 00 39 00 01 00 00 00 00 00 00  ???@???9????????
+     0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+     0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+     0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+     0050: 0C 80 0C 80 C3 C2 CD 38 30 31 30 34 8E 16 D0 20  ?.?....80104.?.?
+     ...
+     2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+     2060: B9 0A 72 AB 0B F0 08 C9 2F 0C 10 27 E8 EF 5A C5  ¹?r«???.??????Z.
+     ...
+     4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
+     4070: C0 B4 6C A6 6A 0A 14 5E 65 AD 94 02 86 C8 30 1F  .?l?j??^e”?†.0?
+     ...
+     6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP????????.???
+     6080: A4 89 C6 3A C4 60 F0 10 4D F5 89 F0 13 6C E0 78  ?	.:.`??M?	??l?x
+     ...
+     8080: 43 48 49 50 00 00 20 10 00 00 00 04 80 00 20 00  CHIP????????.???
+     8090: 00 0B 08 14 00 9E 32 30 36 31 00 00 00 A0 35 BA  ?????ž2061??? 5÷
+     ...
+     A090: 43 48 49 50 00 00 20 10 00 00 00 05 80 00 20 00  CHIP????????.???
+     A0A0: 1B 4A 00 53 90 77 8E 1A 1D 94 00 A6 E2 50 29 11  ?J?S w.??”???P??
+     ...
+     C0A0: 43 48 49 50 00 00 20 10 00 00 00 06 80 00 20 00  CHIP????????.???
+     C0B0: 14 F7 2E 1A 34 B4 60 53 07 88 C4 F0 21 F6 88 20  ????4?`S?ˆ.???ˆ?
+     ...
+     E0B0: 43 48 49 50 00 00 20 10 00 00 00 07 80 00 20 00  CHIP????????.???
+     E0C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 
 This cartridge type is very similar to the Magic Desk cart type: ROM
 memory     is  organized  in  8Kb  ($2000)  banks  located  at
@@ -19779,8 +20023,17 @@ $DE00.
 58 - RR-Net MK3
 ...............
 
-.3 .7  Size  8kb  EXROM  active (lo) (0)  GAME  inactive (hi) (1)
+.3 .7  Size  8Kb  EXROM  active (lo) (0)  GAME  inactive (hi) (1)
 Startup mode  8k Game  Load address  $8000-$9FFF  multitable
+
+           00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+           -----------------------------------------------  ----------------
+     0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+     0010: 00 00 00 40 01 00 00 3A 00 01 00 00 00 00 00 00  ???@???:????????
+     0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+     0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+     0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+     0050: 09 80 09 80 C3 C2 CD 38 30 78 A2 FF 9A D8 8E 16  ?.?....80x.?...?
 
 This cartridge has a CS8900a based RR-Net compatible network interface,
 and     on  8Kb  ($2000)  bank ROM  located  at  $8000-$9FFF.  The ROM
@@ -19788,6 +20041,75 @@ can be switched     on/off by writing to the IO1 space:
 
          a write to $de80 enables the ROM
          a write to $de88 disables the ROM
+
+59 - EasyCalc
+.............
+
+.3 .7  Size  24Kb (3 banks of 8Kb)  EXROM  active (lo) (0)  GAME
+active (lo) (0)  Startup mode  16k Game  Load address  $8000-$9FFF
+(bank 1),                    $A000-$BFFF (banks 2/3)  multitable
+
+           00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+           -----------------------------------------------  ----------------
+     0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+     0010: 00 00 00 40 01 00 00 3B 00 00 00 00 00 00 00 00  ???@???;????????
+     0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+     0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+     0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+     0050: 59 89 BC FE C3 C2 CD 38 30 0B 80 B1 84 48 E6 84  Y	??...80?.±„Hµ„
+     ...
+     2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP???????? ???
+     2060: 04 0B 20 52 45 50 4C 49 43 41 54 45 20 FB 89 0F  ???REPLICATE??	?
+     ...
+     4060: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIP???????? ???
+     4070: 02 10 B5 00 C9 E3 D0 01 C8 C9 E2 D0 01 C8 C9 E0  ??µ?...?....?..?
+
+This cart uses 8Kb mapped in at $8000-$9FFF and 2 banks of 8Kb mapped
+in at $A000-$BFFF.
+
+The bank at $A000-$BFFF is selected by bit 0 of the address of a write
+access to I/O-1.
+
+         A0 | bank
+         ---------
+          0 |  0
+          1 |  1
+
+60 - GMod2
+..........
+
+.3 .7  Size  512Kb (64 banks of 8Kb)  EXROM  active (lo) (0)  GAME
+inactive (hi) (1)  Startup mode  8k Game  Load address  $8000-$9FFF
+multitable
+
+            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+            -----------------------------------------------  ----------------
+     00000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+     00010: 00 00 00 40 01 00 00 3C 00 01 00 00 00 00 00 00  ???@???<????????
+     00020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+     00030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+     00040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+     00050: 09 80 09 80 C3 C2 CD 38 30 78 8E 16 D0 20 A3 FD  ?.?....80x.?.?£?
+     ...
+     02050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+     02060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+     ...
+     7E430: 43 48 49 50 00 00 20 10 00 00 00 3F 80 00 20 00  CHIP????????.???
+     7E440: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+
+GMod2 (Individual Computers)
+
+This cart uses 512K Flash ROM (29F040) in 64 banks, mapped in at
+$8000-$9fff and has a 2K serial EEPROM (m93C86).
+
+         io1
+             - register at de00
+     
+             bit7   (rw)  write enable (write 1), EEPROM data output (read)
+             bit6   (ro)  EXROM (0=active) and EEPROM chip select (1=selected)
+             bit5-0 (ro)  rom bank  bit5 EEPROM clock bit4 EEPROM data input
+     
+         see http://wiki.icomp.de/wiki/GMod2
 
 The PSID image format for ripped SID tunes
 ==========================================
@@ -21057,6 +21379,7 @@ Concept Index
 
 
  @{" +cart " Link "PLUS4-specific"}                                PLUS4-specific
+ @{" -types " Link "c1541 executing shell commands"}                               c1541 executing shell commands
  @{" -1 " Link "Command-line initialization"}                                   Command-line initialization
  @{" -10 " Link "Command-line initialization"}                                  Command-line initialization
  @{" -11 " Link "Command-line initialization"}                                  Command-line initialization
@@ -21071,8 +21394,9 @@ Concept Index
  @{" -attach8rw " Link "Command-line initialization"}                           Command-line initialization
  @{" -attach9rw " Link "Command-line initialization"}                           Command-line initialization
  @{" -autoload " Link "Command-line initialization"}                            Command-line initialization
- @{" -autostart " Link "Command-line initialization"}                           Command-line initialization
  @{" -autostart " Link "Command-line autostart"}                           Command-line autostart
+ @{" -autostart " Link "Command-line initialization"}                           Command-line initialization
+ @{" -b " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -c " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -cart " Link "PLUS4-specific"}                                PLUS4-specific
  @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
@@ -21081,8 +21405,8 @@ Concept Index
  @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart6 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart6 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
- @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cartA " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cartB " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartB " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cartfe " Link "VIC20 cartridges"}                              VIC20 cartridges
@@ -21105,8 +21429,8 @@ Concept Index
  @{" -ffmpegaudiobitrate " Link "C500 data module"}                  C500 data module
  @{" -ffmpegvideobitrate " Link "C500 data module"}                  C500 data module
  @{" -h " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
- @{" -help " Link "c1541 executing shell commands"}                                c1541 executing shell commands
  @{" -help " Link "Command-line initialization"}                                Command-line initialization
+ @{" -help " Link "c1541 executing shell commands"}                                c1541 executing shell commands
  @{" -i " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -ic " Link "c1541 executing shell commands"}                                  c1541 executing shell commands
  @{" -IDE64USB, +IDE64USB " Link "C64 cartridges"}                 C64 cartridges
@@ -21127,6 +21451,7 @@ Concept Index
  @{" -nh " Link "c1541 executing shell commands"}                                  c1541 executing shell commands
  @{" -o " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -o <name> " Link "c1541 executing shell commands"}                            c1541 executing shell commands
+ @{" -p " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -q " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -r " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -raminitvalueinvert " Link "Monitor options"}                  Monitor options
@@ -21148,8 +21473,8 @@ Concept Index
  @{" -TEDVidmodefullmode " Link "PLUS4-specific"}                  PLUS4-specific
  @{" -TEDXRANDRfullmode " Link "PLUS4-specific"}                   PLUS4-specific
  @{" -text " Link "c1541 executing shell commands"}                                c1541 executing shell commands
- @{" -tfe, +tfe " Link "C64 I-O extension options"}                           C64 I-O extension options
  @{" -tfe, +tfe " Link "VIC20 cartridges"}                           VIC20 cartridges
+ @{" -tfe, +tfe " Link "C64 I-O extension options"}                           C64 I-O extension options
  @{" -tfeif " Link "C64 I-O extension options"}                               C64 I-O extension options
  @{" -tfeif " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -tfeioswap, +tfeioswap " Link "VIC20 cartridges"}               VIC20 cartridges
