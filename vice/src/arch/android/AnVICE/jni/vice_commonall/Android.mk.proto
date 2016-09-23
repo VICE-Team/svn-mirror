@@ -35,6 +35,7 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/userport \
 				$(LOCAL_PATH)/../../../../../../src/joyport \
 				$(LOCAL_PATH)/../../../../../../src/platform \
+				$(LOCAL_PATH)/../../../../../../src/samplerdrv \
 				$(LOCAL_PATH)/../../../../../../src/rtc \
 				$(LOCAL_PATH)/../../../../../../src/c64 \
 				$(LOCAL_PATH)/../../../../../../src/c64dtv \
