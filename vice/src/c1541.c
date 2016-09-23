@@ -840,6 +840,8 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
         disk_image_media_destroy(image);
         disk_image_destroy(image);
         vdrive->image = NULL;
+        /* also clean up buffer using by the vdrive */
+        vdrive_device_shutdown(vdrive);
     }
 }
 
@@ -1568,12 +1570,18 @@ static int list_match_pattern(char *pat, char *str)
     return 1;
 }
 
-/*
-    FIXME: diskcontents_read internally opens/closes the disk image, including
-           a complete reset of internal vdrive variables. this makes things like
-           changing sub partitions and sub directories inside images impossible
-           from the c1541 shell.
-*/
+/** \brief  Show directory listing of a drive
+ *
+ * \param[in]   nargs   number of arguments
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure (`FD_NOTREADY`)
+ *
+ * FIXME: diskcontents_read internally opens/closes the disk image, including
+ *        a complete reset of internal vdrive variables. this makes things like
+ *        changing sub partitions and sub directories inside images impossible
+ *        from the c1541 shell.
+ */
 static int list_cmd(int nargs, char **args)
 {
     char *pattern;
@@ -1627,8 +1635,9 @@ static int list_cmd(int nargs, char **args)
         if (listing->blocks_free >= 0) {
             printf("%d blocks free.\n", listing->blocks_free);
         }
+        /* free image constents */
+        image_contents_destroy(listing);
     }
-
     return FD_OK;
 }
 
@@ -3295,7 +3304,10 @@ int main(int argc, char **argv)
     int i;
     int retval;
 
-    lib_init_rand();
+    /* properly init GNU readline, if available */
+#ifdef HAVE_READLINE_READLINE_H
+    using_history();
+#endif
 
     archdep_init(&argc, argv);
 
@@ -3361,9 +3373,10 @@ int main(int argc, char **argv)
                 split_args(line, &nargs, args);
                 if (nargs > 0) {
                     lookup_and_execute_command(nargs, args);
-                }
+               }
             }
         }
+        lib_free(buf);
     } else {
         while (i < argc) {
             args[0] = argv[i] + 1;
@@ -3379,13 +3392,29 @@ int main(int argc, char **argv)
         }
     }
 
+    /* free memory used by the virtual drives */
     for (i = 0; i < DRIVE_COUNT; i++) {
         if (drives[i]) {
             close_disk_image(drives[i], i + 8);
+            lib_free(drives[i]);
         }
     }
+    /* free memory used by the argument 'parser' */
+    for (i = 0; i < MAXARG; i++) {
+        if (args[i] != NULL) {
+            lib_free(args[i]);
+        }
+    }
+    /* properly clean up GNU readline's history, if used */
+#ifdef HAVE_READLINE_READLINE_H
+    clear_history();
+#endif
+    /* free memory used by archdep */
+    archdep_shutdown();
+    /* free memory used by the log module */
+    log_close_all();
 
-
+    /* dump some information on memory allocations and possible memory leaks */
     lib_debug_check();
     return retval;
 }
