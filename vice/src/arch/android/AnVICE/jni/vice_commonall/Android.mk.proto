@@ -33,7 +33,7 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/imagecontents \
 				$(LOCAL_PATH)/../../../../../../src/monitor \
 				$(LOCAL_PATH)/../../../../../../src/userport \
-                $(LOCAL_PATH)/../../../../../../src/joyport \
+				$(LOCAL_PATH)/../../../../../../src/joyport \
 				$(LOCAL_PATH)/../../../../../../src/platform \
 				$(LOCAL_PATH)/../../../../../../src/rtc \
 				$(LOCAL_PATH)/../../../../../../src/c64 \
@@ -45,8 +45,8 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/vic20 \
 				$(LOCAL_PATH)/../../../../../../src/scpu64 \
 				$(LOCAL_PATH)/../../../../../../src/sid \
-                $(LOCAL_PATH)/../../../../../../src/tape \
-                $(LOCAL_PATH)/../../../../../../src/tapeport \
+				$(LOCAL_PATH)/../../../../../../src/tape \
+				$(LOCAL_PATH)/../../../../../../src/tapeport \
 				$(LOCAL_PATH)/../../../../../../src/raster \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
