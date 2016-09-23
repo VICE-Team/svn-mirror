@@ -52,12 +52,15 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/cart/c64tpi.c \
 	$(MY_PATH2)/src/c64/cart/capture.c \
 	$(MY_PATH2)/src/c64/cart/comal80.c \
+	$(MY_PATH2)/src/c64/cart/cpmcart.c \
+	$(MY_PATH2)/src/c64/cart/debugcart.c \
 	$(MY_PATH2)/src/c64/cart/delaep256.c \
 	$(MY_PATH2)/src/c64/cart/delaep64.c \
 	$(MY_PATH2)/src/c64/cart/delaep7x8.c \
 	$(MY_PATH2)/src/c64/cart/diashowmaker.c \
 	$(MY_PATH2)/src/c64/cart/dinamic.c \
 	$(MY_PATH2)/src/c64/cart/dqbb.c \
+	$(MY_PATH2)/src/c64/cart/easycalc.c \
 	$(MY_PATH2)/src/c64/cart/easyflash.c \
 	$(MY_PATH2)/src/c64/cart/epyxfastload.c \
 	$(MY_PATH2)/src/c64/cart/exos.c \
@@ -70,6 +73,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/cart/freezemachine.c \
 	$(MY_PATH2)/src/c64/cart/funplay.c \
 	$(MY_PATH2)/src/c64/cart/gamekiller.c \
+	$(MY_PATH2)/src/c64/cart/gmod2.c \
 	$(MY_PATH2)/src/c64/cart/gs.c \
 	$(MY_PATH2)/src/c64/cart/ide64.c \
 	$(MY_PATH2)/src/c64/cart/isepic.c \
@@ -90,7 +94,11 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/cart/reu.c \
 	$(MY_PATH2)/src/c64/cart/rexep256.c \
 	$(MY_PATH2)/src/c64/cart/rexutility.c \
+	$(MY_PATH2)/src/c64/cart/rgcd.c \
 	$(MY_PATH2)/src/c64/cart/ross.c \
+	$(MY_PATH2)/src/c64/cart/rrnetmk3.c \
+	$(MY_PATH2)/src/c64/cart/shortbus.c \
+	$(MY_PATH2)/src/c64/cart/shortbus_digimax.c \
 	$(MY_PATH2)/src/c64/cart/silverrock128.c \
 	$(MY_PATH2)/src/c64/cart/simonsbasic.c \
 	$(MY_PATH2)/src/c64/cart/snapshot64.c \

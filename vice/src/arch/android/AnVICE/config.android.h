@@ -348,6 +348,9 @@
 /* Enable 1351 mouse support */
 #define HAVE_MOUSE /**/
 
+/* Enable lightpen support */
+#define HAVE_LIGHTPEN
+
 /* Use nanosleep instead of usleep */
 #define HAVE_NANOSLEEP /**/
 

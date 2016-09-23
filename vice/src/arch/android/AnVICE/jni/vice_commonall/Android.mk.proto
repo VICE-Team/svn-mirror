@@ -200,6 +200,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/translate.c \
 	$(MY_PATH2)/src/traps.c \
 	$(MY_PATH2)/src/util.c \
+	$(MY_PATH2)/src/vicefeatures.c \
 	$(MY_PATH2)/src/vsync.c \
 	$(MY_PATH2)/src/zfile.c \
 	$(MY_PATH2)/src/zipcode.c \
