@@ -53,6 +53,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/cart/capture.c \
 	$(MY_PATH2)/src/c64/cart/comal80.c \
 	$(MY_PATH2)/src/c64/cart/cpmcart.c \
+	$(MY_PATH2)/src/c64/cart/daa.c \
 	$(MY_PATH2)/src/c64/cart/debugcart.c \
 	$(MY_PATH2)/src/c64/cart/delaep256.c \
 	$(MY_PATH2)/src/c64/cart/delaep64.c \

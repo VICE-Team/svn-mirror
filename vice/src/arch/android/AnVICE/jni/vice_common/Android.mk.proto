@@ -75,6 +75,7 @@ LOCAL_SRC_FILES += \
 	$(MY_PATH2)/src/gfxoutputdrv/bmpdrv.c \
 	$(MY_PATH2)/src/gfxoutputdrv/doodledrv.c \
 	$(MY_PATH2)/src/gfxoutputdrv/gfxoutput.c \
+	$(MY_PATH2)/src/gfxoutputdrv/godotdrv.c \
 	$(MY_PATH2)/src/gfxoutputdrv/iffdrv.c \
 	$(MY_PATH2)/src/gfxoutputdrv/koaladrv.c \
 	$(MY_PATH2)/src/gfxoutputdrv/nativedrv.c \

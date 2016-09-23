@@ -87,8 +87,10 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/menu_ffmpeg.c \
 	$(MY_PATH2)/src/arch/sdl/menu_help.c \
 	$(MY_PATH2)/src/arch/sdl/menu_jam.c \
+	$(MY_PATH2)/src/arch/sdl/menu_joyport.c \
 	$(MY_PATH2)/src/arch/sdl/menu_joystick.c \
 	$(MY_PATH2)/src/arch/sdl/menu_midi.c \
+	$(MY_PATH2)/src/arch/sdl/menu_monitor.c \
 	$(MY_PATH2)/src/arch/sdl/menu_mouse.c \
 	$(MY_PATH2)/src/arch/sdl/menu_network.c \
 	$(MY_PATH2)/src/arch/sdl/menu_petcart.c \
@@ -100,6 +102,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/menu_reset.c \
 	$(MY_PATH2)/src/arch/sdl/menu_rom.c \
 	$(MY_PATH2)/src/arch/sdl/menu_rs232.c \
+	$(MY_PATH2)/src/arch/sdl/menu_sampler.c \
 	$(MY_PATH2)/src/arch/sdl/menu_scpu64hw.c \
 	$(MY_PATH2)/src/arch/sdl/menu_screenshot.c \
 	$(MY_PATH2)/src/arch/sdl/menu_settings.c \
