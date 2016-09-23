@@ -1,6 +1,8 @@
 /** \file   src/c1541.c
  * \brief   Stand-alone disk image maintenance program
- *
+ */
+
+/*
  * c1541.c - Stand-alone disk image maintenance program.
  *
  * Written by
@@ -408,7 +410,7 @@ const command_t command_list[] = {
       write_cmd },
     /* FIXME: name is wrong: this doesn't create a zipcoded archive, but
      *        dissolves one, so a better name would be 'unzip' or 'zdecode'.
-     * (Compyx) */
+     * (BW) */
     { "zcreate",
       "zcreate <d64name> <zipname> [<label,id>]",
       "Create a D64 disk image out of a set of four Zipcoded files named\n"
@@ -755,6 +757,19 @@ static int is_valid_cbm_file_name(const char *name)
 
 /* ------------------------------------------------------------------------- */
 
+
+/** \brief  Open a disk image
+ *
+ * Depending on \a name, this either opens a block device (a seekable device,
+ * such as an USB stick), a character device (a real drive using OpenCBM)
+ * or an image stored on the host file system.
+ *
+ * \param[in,out]   vdrive  virtual drive
+ * \param[in]       name    path to disk image file/data
+ * \param[in]       unit    unit to attach disk to
+ *
+ * \return 0 on success <0 on failure
+ */
 static int open_disk_image(vdrive_t *vdrive, const char *name,
                            unsigned int unit)
 {
@@ -802,6 +817,12 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
     return 0;
 }
 
+
+/** \brief  Close disk (image) attached to \a vdrive
+ *
+ * \param[in,out]   vdrive  virtual drive
+ * \param[in]       unit    unit number
+ */
 static void close_disk_image(vdrive_t *vdrive, int unit)
 {
     disk_image_t *image;
@@ -822,8 +843,21 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
     }
 }
 
-/* Open image or create a new one.  If the file exists, it must have valid
-   header.  */
+/** \brief  Open image or create a new one
+ *
+ * If the file exists, it must have valid header.
+ *
+ * The \a dev parameter is also used as a unit number by add 8 to it, meaning
+ * units 8-11 can be used.
+ *
+ * \param[in]   dev         index in the virtual drive array, must be in the
+ *                          range [0 .. DRIVE_COUNT-1]
+ * \param[in]   name        disk/device name
+ * \param[in]   create      create image (boolean)
+ * \param[in]   disktype    disk type enumerator
+ *
+ * \return  0 on success, < 0 on failure
+ */
 static int open_image(int dev, char *name, int create, int disktype)
 {
     if (dev < 0 || dev >= DRIVE_COUNT) {
@@ -889,6 +923,18 @@ static int check_drive(int dev, int flags)
    reliable to get the original value back when we convert ASCII -> PETSCII
    and then PETSCII -> ASCII again.  */
 
+
+/** \brief  'attach' command handler
+ *
+ * Attach a disk image to a virtual drive.
+ * Syntax: `attach <image-file> [<unit-number>]`, where unit-number must be
+ * 8-11.
+ *
+ * \param[in]   nargs   number of arguments
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, `FD_BADDEV` on failure
+ */
 static int attach_cmd(int nargs, char **args)
 {
     int dev = 0;
@@ -914,6 +960,18 @@ static int attach_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+
+/** \brief  'block' command handler
+ *
+ * Display a hex dump of a block on a device
+ * Syntax: `block <track> <sector> <offset> [<unit>]`
+ *
+ * \param[in]   nargs   number of arguments
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure: `FD_BAD_TS`, `FD_BADVAL`, `FD_BADDEC`,
+ *          `FD_NOTREADY`, `FD_RDERR`
+ */
 static int block_cmd(int nargs, char **args)
 {
     int drive, disp;
@@ -927,6 +985,11 @@ static int block_cmd(int nargs, char **args)
         return FD_BAD_TS;
     }
     if (arg_to_int(args[3], &disp) < 0) {
+        return FD_BADVAL;
+    }
+    if (disp < 0) {
+        fprintf(stderr, "Error: negative value for `disp` argument: %d\n",
+                disp);
         return FD_BADVAL;
     }
 
