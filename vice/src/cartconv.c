@@ -463,10 +463,10 @@ static void printinfo(char *name)
     printf("Hardware ID: %d (%s)\n", crtid, idname);
     printf("Mode: exrom: %d game: %d (%s)\n", headerbuffer[0x18], headerbuffer[0x19], modename);
     if (exrom_warning) {
-        printf(exrom_warning);
+        printf("%s", exrom_warning);
     }
     if (game_warning) {
-        printf(game_warning);
+        printf("%s", game_warning);
     }
     printbanks(name);
     exit (0);
