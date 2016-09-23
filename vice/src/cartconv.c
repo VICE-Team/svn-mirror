@@ -426,6 +426,9 @@ static void printinfo(char *name)
     int crtid;
     char *idname, *modename;
     char cartname[0x20 + 1];
+    char *exrom_warning = NULL;
+    char *game_warning = NULL;
+
     if (load_input_file(name) < 0) {
         printf("Error: this file seems broken.\n\n");
     }
@@ -448,11 +451,23 @@ static void printinfo(char *name)
     } else {
         modename = "?";
     }
+    if (crtid && headerbuffer[0x18] != cart_info[crtid].exrom) {
+        exrom_warning = "Warning: exrom in crt image set incorrectly.\n";
+    }
+    if (crtid && headerbuffer[0x19] != cart_info[crtid].game) {
+        game_warning = "Warning: game in crt image set incorrectly.\n";
+    }
     memcpy(cartname, &headerbuffer[0x20], 0x20); cartname[0x20] = 0;
     printf("CRT Version: %d.%d\n", headerbuffer[0x14], headerbuffer[0x15]);
     printf("Name: %s\n", cartname);
     printf("Hardware ID: %d (%s)\n", crtid, idname);
     printf("Mode: exrom: %d game: %d (%s)\n", headerbuffer[0x18], headerbuffer[0x19], modename);
+    if (exrom_warning) {
+        printf(exrom_warning);
+    }
+    if (game_warning) {
+        printf(game_warning);
+    }
     printbanks(name);
     exit (0);
 }
