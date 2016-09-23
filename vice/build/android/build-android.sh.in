@@ -34,7 +34,7 @@ C128_ROMS="kernal chargen basiclo basichi basic64 kernal64 sdl_sym.vkm"
 PET_ROMS="kernal4 basic4 chargen edit4b80 sdl_buks.vkm"
 PLUS4_ROMS="kernal basic 3plus1lo 3plus1hi sdl_sym.vkm"
 VIC20_ROMS="kernal basic chargen sdl_sym.vkm"
-DRIVE_ROMS="d1541II d1571cr dos1001 dos1540 dos1541 dos1551 dos1570 dos1571 dos2000 dos2031 dos2040 dos3040 dos4000 dos4040"
+DRIVE_ROMS="d1541II d1571cr dos1001 dos1540 dos1541 dos1551 dos1570 dos1571 dos2031 dos2040 dos3040 dos4040"
 
 ROMS_EXTERNAL="0"
 ROMS_PUSHED="1"
