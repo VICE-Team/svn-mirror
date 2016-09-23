@@ -24,6 +24,7 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/rtc \
 				$(LOCAL_PATH)/../../../../../../src/core \
 				$(LOCAL_PATH)/../../../../../../src \
+                $(LOACL_PATH)/../../../../../../src/samplerdrv \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)
 
@@ -42,7 +43,10 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/cart/georam.c \
 	$(MY_PATH2)/src/c64/cart/sfx_soundexpander.c \
 	$(MY_PATH2)/src/c64/cart/sfx_soundsampler.c \
-	$(MY_PATH2)/src/c64/cart/tfe.c
+	$(MY_PATH2)/src/c64/cart/tfe.c \
+	$(MY_PATH2)/src/samplerdrv/file_drv.c \
+	$(MY_PATH2)/src/samplerdrv/portaudio_drv.c \
+	$(MY_PATH2)/src/samplerdrv/sampler.c
 
 LOCAL_ARM_MODE := arm
 

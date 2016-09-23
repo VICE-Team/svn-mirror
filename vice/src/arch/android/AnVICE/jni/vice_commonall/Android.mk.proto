@@ -33,6 +33,7 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/imagecontents \
 				$(LOCAL_PATH)/../../../../../../src/monitor \
 				$(LOCAL_PATH)/../../../../../../src/userport \
+                $(LOCAL_PATH)/../../../../../../src/joyport \
 				$(LOCAL_PATH)/../../../../../../src/platform \
 				$(LOCAL_PATH)/../../../../../../src/rtc \
 				$(LOCAL_PATH)/../../../../../../src/c64 \
@@ -44,6 +45,8 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/vic20 \
 				$(LOCAL_PATH)/../../../../../../src/scpu64 \
 				$(LOCAL_PATH)/../../../../../../src/sid \
+                $(LOCAL_PATH)/../../../../../../src/tape \
+                $(LOCAL_PATH)/../../../../../../src/tapeport \
 				$(LOCAL_PATH)/../../../../../../src/raster \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
@@ -60,11 +63,11 @@ LOCAL_CPP_EXTENSION := .cpp
 LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/archdep.c \
 	$(MY_PATH2)/src/arch/sdl/blockdev.c \
-	$(MY_PATH2)/src/arch/sdl/catweaselmkiii.c \
+	$(MY_PATH2)/src/arch/sdl/catweaselmkiii-drv.c \
 	$(MY_PATH2)/src/arch/sdl/console.c \
 	$(MY_PATH2)/src/arch/sdl/dynlib.c \
 	$(MY_PATH2)/src/arch/sdl/fullscreen.c \
-	$(MY_PATH2)/src/arch/sdl/hardsid.c \
+	$(MY_PATH2)/src/arch/sdl/hardsid-drv.c \
 	$(MY_PATH2)/src/arch/sdl/joy.c \
 	$(MY_PATH2)/src/arch/sdl/kbd.c \
 	$(MY_PATH2)/src/arch/sdl/lightpendrv.c \
@@ -85,7 +88,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/menu_help.c \
 	$(MY_PATH2)/src/arch/sdl/menu_jam.c \
 	$(MY_PATH2)/src/arch/sdl/menu_joystick.c \
-	$(MY_PATH2)/src/arch/sdl/menu_lightpen.c \
+	$(MY_PATH2)/src/arch/sdl/lightpendrv.c \
 	$(MY_PATH2)/src/arch/sdl/menu_midi.c \
 	$(MY_PATH2)/src/arch/sdl/menu_mouse.c \
 	$(MY_PATH2)/src/arch/sdl/menu_network.c \
@@ -172,7 +175,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/initcmdline.c \
 	$(MY_PATH2)/src/interrupt.c \
 	$(MY_PATH2)/src/ioutil.c \
-	$(MY_PATH2)/src/joystick.c \
+	$(MY_PATH2)/src/joyport/joystick.c \
 	$(MY_PATH2)/src/kbdbuf.c \
 	$(MY_PATH2)/src/keyboard.c \
 	$(MY_PATH2)/src/lib.c \

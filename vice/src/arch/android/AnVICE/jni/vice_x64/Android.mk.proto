@@ -26,9 +26,13 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/lib/p64 \
 				$(LOCAL_PATH)/../../../../../../src/tape \
 				$(LOCAL_PATH)/../../../../../../src/userport \
+                $(LOCAL_PATH)/../../../../../../src/joyport \
+                $(LOCAL_PATH)/../../../../../../src/tapeport \
+                $(LOCAL_PATH)/../../../../../../src/samplerdrv \
 				$(LOCAL_PATH)/../../../../../../src/video \
 				$(LOCAL_PATH)/../../../../../../src/drive/iec/c64exp \
 				$(LOCAL_PATH)/../../../../../../src/rtc \
+                $(LOCAL_PATH)/../../../../../../src/diag \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)
@@ -78,7 +82,29 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/plus60k.c \
 	$(MY_PATH2)/src/c64/psid.c \
 	$(MY_PATH2)/src/c64/reloc65.c \
-	$(MY_PATH2)/src/mouse.c \
+	$(MY_PATH2)/src/joyport/mouse.c \
+	$(MY_PATH2)/src/joyport/bbrtc.c \
+	$(MY_PATH2)/src/joyport/cardkey.c \
+	$(MY_PATH2)/src/joyport/coplin_keypad.c \
+	$(MY_PATH2)/src/joyport/cx21.c \
+	$(MY_PATH2)/src/joyport/cx85.c \
+	$(MY_PATH2)/src/joyport/joyport.c \
+	$(MY_PATH2)/src/joyport/joystick.c \
+	$(MY_PATH2)/src/joyport/lightpen.c \
+	$(MY_PATH2)/src/joyport/paperclip64.c \
+	$(MY_PATH2)/src/joyport/rushware_keypad.c \
+	$(MY_PATH2)/src/joyport/sampler2bit.c \
+	$(MY_PATH2)/src/joyport/sampler4bit.c \
+	$(MY_PATH2)/src/tapeport/cp-clockf83.c \
+	$(MY_PATH2)/src/tapeport/dtl-basic-dongle.c \
+	$(MY_PATH2)/src/tapeport/sense-dongle.c \
+	$(MY_PATH2)/src/tapeport/tape_diag_586220_harness.c \
+	$(MY_PATH2)/src/tapeport/tapelog.c \
+	$(MY_PATH2)/src/tapeport/tapeport.c \
+	$(MY_PATH2)/src/samplerdrv/file_drv.c \
+	$(MY_PATH2)/src/samplerdrv/portaudio_drv.c \
+	$(MY_PATH2)/src/samplerdrv/sampler.c \
+    $(MY_PATH2)/src/diag/c64_diag_586220_harness.c \
 	$(MY_PATH2)/src/maincpu.c
 	
 LOCAL_ARM_MODE := arm
