@@ -1,3 +1,10 @@
+/** \file   src/imagecontents.c
+ * \brief   Extract the directory listing from disk/tape images
+ *
+ * Used in c1541, autostart, mon_file and the 'attach disk image' dialogs in
+ * various ports
+ */
+
 /*
  * imagecontents.c - Extract the directory from disk/tape images.
  *
@@ -43,6 +50,14 @@
 
 /* ------------------------------------------------------------------------- */
 
+
+/** \brief  Create a new directory listing object
+ *
+ * This allocates memory on the heap, so the pointer returned should be passed
+ * to image_contents_destroy() when done.
+ *
+ * \return  image contents object
+ */
 image_contents_t *image_contents_new(void)
 {
     image_contents_t *newimg;
@@ -55,17 +70,27 @@ image_contents_t *image_contents_new(void)
     return newimg;
 }
 
+/** \brief  Free memory used by \a contents and its members
+ *
+ * \param[in/out]   contents    image contents object
+ */
 void image_contents_destroy(image_contents_t *contents)
 {
-    image_contents_file_list_t *p, *h;
+    image_contents_file_list_t *node = contents->file_list;
 
-    for (p = contents->file_list; p != NULL; h = p, p = p->next, lib_free(h))
-    {
+    while (node != NULL) {
+        image_contents_file_list_t *next = node->next;
+        lib_free(node);
+        node = next;
     }
-
     lib_free(contents);
 }
 
+
+/** \brief  Free memory used by image contents as a list of screen codes
+ *
+ * \param[in,out]   c   screencode contents object
+ */
 void image_contents_screencode_destroy(image_contents_screencode_t *c)
 {
     image_contents_screencode_t *h;
@@ -78,6 +103,16 @@ void image_contents_screencode_destroy(image_contents_screencode_t *c)
     }
 }
 
+
+/** \brief  Write out directory listing as a list of screencodes
+ *
+ * This function allocates memory on the heap, so after use call
+ * image_contents_screen_code_destroy() to clean up.
+ *
+ * \param[in]   constents   image contents object
+ *
+ * \return  image contents as a list of screencode strings
+ */
 image_contents_screencode_t *image_contents_to_screencode(image_contents_t
                                                           *contents)
 {
@@ -155,6 +190,14 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
     return image_contents_screencode;
 }
 
+
+/** \brief  Generate the first line of a directory listing (0 name id)
+ *
+ * \param[in]   contents            image contents object
+ * \param[in]   convert_to_ascii    convert to ASCII (boolean)
+ *
+ * \return  heap allocated string, free with lib_free()
+ */
 char *image_contents_to_string(image_contents_t * contents,
                                char convert_to_ascii)
 {
@@ -166,6 +209,13 @@ char *image_contents_to_string(image_contents_t * contents,
     return string;
 }
 
+
+/** \brief  Convert filename in \a p to '\"<filename>\"'
+ *
+ * \param[in]   p   image contents file list
+ *
+ * \return  converted string, _not_ allocated on the heap, _not_ MT safe
+ */
 static char *image_contents_get_filename(image_contents_file_list_t * p)
 {
     int i;
@@ -180,7 +230,7 @@ static char *image_contents_get_filename(image_contents_file_list_t * p)
             print_name[i + 1] = '?'; /* better than showing a reversed @ */
         } else if (p->name[i] == 0xa0) {
             encountered_a0++;
-            if (encountered_a0 == 1) {
+            if (encountered_a0) {
                 print_name[i + 1] = '\"';
             } else {
                 print_name[i + 1] = 0x20;
@@ -197,7 +247,16 @@ static char *image_contents_get_filename(image_contents_file_list_t * p)
     return print_name;
 }
 
-char *image_contents_filename_to_string(image_contents_file_list_t * p, char convert_to_ascii)
+
+/** \brief  Get filename for directory listing, optionally converting to ASCII
+ *
+ * \param[in]   p   image contents file list
+ * \param[in]   convert_to_ascii    convert string to ASCII (boolean)
+ *
+ * \return  allocated string, free with lib_free()
+ */
+char *image_contents_filename_to_string(image_contents_file_list_t * p,
+                                        char convert_to_ascii)
 {
     char *print_name;
     char *string;
@@ -212,7 +271,15 @@ char *image_contents_filename_to_string(image_contents_file_list_t * p, char con
     return string;
 }
 
-char *image_contents_file_to_string(image_contents_file_list_t * p,
+
+/** \brief  Generate a '<blocks> "<filename>" *prg<' line from \a p
+ *
+ * \param[in]   p                   image contents file list
+ * \param[in]   convert_to_ascii    convert to ASCII (boolean)
+ *
+ * \return  allocated string, free with lib_free()
+ */
+char *image_contents_file_to_string(image_contents_file_list_t *p,
                                     char convert_to_ascii)
 {
     char *print_name;
@@ -228,6 +295,15 @@ char *image_contents_file_to_string(image_contents_file_list_t * p,
     return string;
 }
 
+
+/** \brief  Get image contents file name by index
+ *
+ * \param[in]   contents    image contents object
+ * \param[in]   file_index  index in \a contents' file list
+ *
+ * \return  allocated string, free with lib_free(), or `NULL` when
+ *          \a file_index was too large
+ */
 char *image_contents_filename_by_number(image_contents_t *contents,
                                         unsigned int file_index)
 {
@@ -250,7 +326,12 @@ char *image_contents_filename_by_number(image_contents_t *contents,
         }
     }
 
+    /* XXX: WTF is this? Why have this weird and undocumented side effect?
+     * Removed and added a proper call to image_contents_destroy() to the
+     * calling code in src/autostart.c (BW) */
+#if 0
     image_contents_destroy(contents);
-
+#endif
     return s;
 }
+
