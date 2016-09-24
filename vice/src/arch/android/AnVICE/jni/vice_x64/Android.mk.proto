@@ -83,19 +83,6 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/plus60k.c \
 	$(MY_PATH2)/src/c64/psid.c \
 	$(MY_PATH2)/src/c64/reloc65.c \
-	$(MY_PATH2)/src/joyport/mouse.c \
-	$(MY_PATH2)/src/joyport/bbrtc.c \
-	$(MY_PATH2)/src/joyport/cardkey.c \
-	$(MY_PATH2)/src/joyport/coplin_keypad.c \
-	$(MY_PATH2)/src/joyport/cx21.c \
-	$(MY_PATH2)/src/joyport/cx85.c \
-	$(MY_PATH2)/src/joyport/joyport.c \
-	$(MY_PATH2)/src/joyport/joystick.c \
-	$(MY_PATH2)/src/joyport/lightpen.c \
-	$(MY_PATH2)/src/joyport/paperclip64.c \
-	$(MY_PATH2)/src/joyport/rushware_keypad.c \
-	$(MY_PATH2)/src/joyport/sampler2bit.c \
-	$(MY_PATH2)/src/joyport/sampler4bit.c \
 	$(MY_PATH2)/src/tapeport/cp-clockf83.c \
 	$(MY_PATH2)/src/tapeport/dtl-basic-dongle.c \
 	$(MY_PATH2)/src/tapeport/sense-dongle.c \
