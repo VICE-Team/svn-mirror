@@ -419,7 +419,7 @@ if test x"$CPUS" = "x"; then
   CPUS="armeabi"
 fi
 
-if test x"$CPUS" = "xarmeabi armeabi-v7a arm64-v8a mips mips64 x86"; then
+if test x"$CPUS" = "xarmeabi armeabi-v7a arm64-v8a mips mips64 x86 x86_64"; then
   CPULABEL="all"
 else
   CPULABEL=$CPUS
