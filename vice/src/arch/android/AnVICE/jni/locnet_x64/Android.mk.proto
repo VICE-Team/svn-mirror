@@ -45,7 +45,8 @@ LOCAL_STATIC_LIBRARIES := \
 	vice_c64exp \
 	vice_commoncart \
 	vice_commonall \
-	vice_common
+	vice_common \
+	vice_joyport
 
 LOCAL_LDLIBS := -lz -llog
 

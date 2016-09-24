@@ -21,6 +21,7 @@ SUBDIRS = \
 	vice_crtc \
 	vice_iec \
 	vice_ieeepar \
+	vice_joyport \
 	vice_tape \
 	vice_vicii \
 	vice_viciisc \
