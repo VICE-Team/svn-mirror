@@ -83,7 +83,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-#define PETCATVERSION   2.21
+#define PETCATVERSION   2.22
 #define PETCATLEVEL     1
 
 #define B_1              1
@@ -129,6 +129,16 @@
 #define B_BOB           39
 #define B_EVE           40
 #define B_TT64          41
+#define B_HANDY         42
+
+
+/* Handy Basic (VIC20) -- Tokens 0xCC - 0xE1 */
+
+const char *handykwcc[] = { 
+    "move",  "pop",   "else", "volume", "pause", "base", "reset",  "copychr",
+    "color", "sound", "fill", "beep",   "put",   "take", "accept", "kill",
+    "rtime", "cls",   "old",  "rkey",   "joy",   "grab"
+};
 
 /* Super Expander (VIC20) -- Tokens 0xCC - 0xDD */
 
@@ -568,6 +578,7 @@ static basic_list_t basic_list[] = {
     { B_BOB,      16, 0xF0, 0x0801, 0, 0xE1, bobkwe1,           "bob",       0, 0, 0, "Basic v2.0 with Basic on Bails (C64)" },
     { B_EVE,      46, 0xF9, 0x0801, 0, 0xCC, evekwcc,           "eve",       0, 0, 0, "Basic v2.0 with Eve Basic (C64)" },
     { B_TT64,     26, 0xF4, 0x5b01, 0, 0xDB, tt64kwdb,          "tt64",      0, 0, 0, "Basic v2.0 with The Tool 64 (C64)" },
+    { B_HANDY,    22, 0xE1, 0x1801, 0, 0xCC, handykwcc,         "handy",     0, 0, 0, "Basic v2.0 with Handy Basic v1.0 (VIC20)" },
     { -1,         -1, -1,   -1,     0, 0,    NULL,              NULL,        0, 0, 0, NULL }
 };
 
@@ -1343,6 +1354,7 @@ static void list_keywords(int version)
             case B_EVE:
             case B_SIMON:
             case B_TT64:
+            case B_HANDY:
                 for (n = basic_list[version - 1].token_offset; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", basic_list[version -1].tokens[n] /*, n + 0xcc*/);
                 }
@@ -1693,6 +1705,7 @@ static int p_expand(int version, int addr, int ctrls)
                     case B_BOB:
                     case B_EVE:
                     case B_TT64:
+                    case B_HANDY:
                         if (c >= basic_list[version - 1].token_start && c <= basic_list[version - 1].max_token) {
                             fprintf(dest, "%s", basic_list[version - 1].tokens[c - basic_list[version - 1].token_start]);
                         }
@@ -2015,6 +2028,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     case B_TT64:
                     case B_WARSAW:
                     case B_SUPERBAS:
+                    case B_HANDY:
                         if ((c = sstrcmp(p2, basic_list[version - 1].tokens, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
                             if (match) {
                                 if ((int)kwlen >= kwlentmp) {
