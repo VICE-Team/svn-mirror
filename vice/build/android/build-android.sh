@@ -80,7 +80,7 @@ if test x"$1" = "x"; then
     options="$options release"
   fi
 
-  echo "What cpu(s) to compile for ? (armeabi, armeabi-v7a, arm64-v8a, mips, mips64, x86, all) [armeabi]"
+  echo "What cpu(s) to compile for ? (armeabi, armeabi-v7a, arm64-v8a, mips, mips64, x86, x86_64, all) [armeabi]"
   read answer
   if test x"$answer" = "xall"; then
     options="$options all-cpu"
@@ -142,11 +142,18 @@ do
     x86build=yes
     validoption=yes
   fi
+  if test x"$i" = "xx86_64"; then
+    x86_64build=yes
+    validoption=yes
+  fi  
   if test x"$i" = "xall-cpu"; then
     armbuild=yes
     arm7abuild=yes
+    arm64build=yes
     mipsbuild=yes
+    mips64build=yes
     x86build=yes
+    x86_64build=yes
     validoption=yes
   fi
   if test x"$i" = "xhelp"; then
@@ -303,6 +310,7 @@ if test x"$showusage" = "xyes"; then
   echo "  mips         - build for mips device"
   echo "  mips64       - build for mips64 device"
   echo "  x86          - build for x86 device"
+  echo "  x86_64       - build for x86_64 device"
   echo "  all-cpu      - build for all cpu devices"
   echo "emulators:"
   echo "  x64          - build x64     \(AnVICE_x64\)     only"
@@ -383,7 +391,7 @@ if test x"$mipsbuild" = "xyes"; then
   fi
 fi
 
-if test x"$mipsbuild" = "xyes"; then
+if test x"$mips64build" = "xyes"; then
   if test x"$CPUS" = "x"; then
     CPUS="mips64"
   else
@@ -396,6 +404,14 @@ if test x"$x86build" = "xyes"; then
     CPUS="x86"
   else
     CPUS="$CPUS x86"
+  fi
+fi
+
+if test x"$x86_64build" = "xyes"; then
+  if test x"$CPUS" = "x"; then
+    CPUS="x86_64"
+  else
+    CPUS="$CPUS x86_64"
   fi
 fi
 
