@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VICEVERSION=2.4.30
+VICEVERSION=@VERSION@
 
 X64_STATUS_MESSAGE="x64 compiles correctly and runs correctly."
 X64SC_STATUS_MESSAGE="x64sc compiles correctly and runs correctly albeit slow, only meant for high end android devices."
@@ -80,7 +80,7 @@ if test x"$1" = "x"; then
     options="$options release"
   fi
 
-  echo "What cpu(s) to compile for ? (armeabi, armeabi-v7a, mips, x86, all) [armeabi]"
+  echo "What cpu(s) to compile for ? (armeabi, armeabi-v7a, arm64-v8a, mips, mips64, x86, all) [armeabi]"
   read answer
   if test x"$answer" = "xall"; then
     options="$options all-cpu"
@@ -126,10 +126,18 @@ do
     arm7abuild=yes
     validoption=yes
   fi
+  if test x"$i" = "xarm64-v8a"; then
+    arm64build=yes
+    validoption=yes
+  fi  
   if test x"$i" = "xmips"; then
     mipsbuild=yes
     validoption=yes
   fi
+  if test x"$i" = "xmips64"; then
+    mips64build=yes
+    validoption=yes
+  fi  
   if test x"$i" = "xx86"; then
     x86build=yes
     validoption=yes
@@ -291,7 +299,9 @@ if test x"$showusage" = "xyes"; then
   echo "cpu-types:"
   echo "  armeabi      - build for soft-fpu arm device"
   echo "  armeabi-v7a  - build for hw-fpu arm device"
+  echo "  arm64-v8a    - build for arm64 device"
   echo "  mips         - build for mips device"
+  echo "  mips64       - build for mips64 device"
   echo "  x86          - build for x86 device"
   echo "  all-cpu      - build for all cpu devices"
   echo "emulators:"
@@ -357,11 +367,27 @@ if test x"$arm7abuild" = "xyes"; then
   fi
 fi
 
+if test x"$arm64build" = "xyes"; then
+  if test x"$CPUS" = "x"; then
+    CPUS="arm64-v8a"
+  else
+    CPUS="$CPUS arm64-v8a"
+  fi
+fi
+
 if test x"$mipsbuild" = "xyes"; then
   if test x"$CPUS" = "x"; then
     CPUS="mips"
   else
     CPUS="$CPUS mips"
+  fi
+fi
+
+if test x"$mipsbuild" = "xyes"; then
+  if test x"$CPUS" = "x"; then
+    CPUS="mips64"
+  else
+    CPUS="$CPUS mips64"
   fi
 fi
 
@@ -377,7 +403,7 @@ if test x"$CPUS" = "x"; then
   CPUS="armeabi"
 fi
 
-if test x"$CPUS" = "xarmeabi armeabi-v7a mips x86"; then
+if test x"$CPUS" = "xarmeabi armeabi-v7a arm64-v8a mips mips64 x86"; then
   CPULABEL="all"
 else
   CPULABEL=$CPUS
