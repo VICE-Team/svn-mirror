@@ -1567,7 +1567,7 @@ static int scan_integer(const char *line, unsigned int *num, unsigned int *digit
 static int p_expand(int version, int addr, int ctrls)
 {
     static char line[4];
-    unsigned int c;
+    unsigned int c = 0;
     int quote, spnum, directory = 0;
     int sysflg = 0;
 
