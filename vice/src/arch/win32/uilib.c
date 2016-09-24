@@ -72,7 +72,6 @@ struct uilib_filefilter_s {
 };
 typedef struct uilib_filefilter_s uilib_filefilter_t;
 
-#ifndef WIN32_UNICODE_SUPPORT
 static uilib_filefilter_t uilib_filefilter[] = {
     /* 0001 */ { IDS_ALL_FILES_FILTER, TEXT("*.*") },
     /* 0002 */ { IDS_ZIPPED_FILES_FILTER, TEXT("*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z") },
@@ -87,9 +86,9 @@ static uilib_filefilter_t uilib_filefilter[] = {
     /* 0400 */ { IDS_RAW_CART_FILES_FILTER, TEXT("*.bin") },
     /* 0800 */ { IDS_FLIP_LIST_FILES_FILTER, TEXT("*.vfl") },
     /* 1000 */ { IDS_KEYMAP_FILES_FILTER, TEXT("*.vkm") },
-    { 0, NULL }
 };
-#endif
+
+#define UILIB_FILTER_LAST 12
 
 typedef struct uilib_fs_style_type_s {
     LPOFNHOOKPROC hook_proc;
@@ -146,7 +145,7 @@ static void create_content_list(image_contents_t *contents, HWND list)
     } while ((p = p->next) != NULL);
 
     if (contents->blocks_free >= 0) {
-        _stprintf(st_text, TEXT("%d BLOCKS FREE."), contents->blocks_free);
+        lib_sntprintf(st_text, 60, TEXT("%d BLOCKS FREE."), contents->blocks_free);
         SendMessage(list, LB_ADDSTRING, 0, (LPARAM)st_text);
     }
 }
@@ -721,7 +720,6 @@ static void update_filter_history(DWORD current_filter, DWORD last_filterlist)
     }
 }
 
-#ifndef WIN32_UNICODE_SUPPORT
 static DWORD get_last_active_filter(DWORD last_filterlist)
 {
     filter_per_list_t *fl = filter_history.next;
@@ -739,29 +737,26 @@ static DWORD get_last_active_filter(DWORD last_filterlist)
 
 static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
 {
-    DWORD i;
-    DWORD b;
-    TCHAR *filter;
-    DWORD current_len, name_len, pattern_len;
+    int i;
+    TCHAR *filter = NULL;
+    int current_len, name_len, pattern_len;
 
-    filter = lib_malloc(sizeof(TCHAR));
-
-    *filter = TEXT('\0');
-
-    current_len = 1;
+    current_len = 0;
 
     /* create the strings for the file filters */
-    for (i = 0, b = 1; uilib_filefilter[i].name != 0; i++, b <<= 1) {
-        if (filterlist & b) {
-            name_len = (DWORD)(_tcslen(translate_text(uilib_filefilter[i].name)) + 1) * sizeof(TCHAR);
-            pattern_len = (DWORD)(_tcslen(uilib_filefilter[i].pattern) + 1) * sizeof(TCHAR);
-            filter = lib_realloc(filter, current_len + name_len + pattern_len);
-            memmove(filter + name_len + pattern_len, filter, current_len);
-            memcpy(filter, translate_text(uilib_filefilter[i].name), name_len);
-            memcpy(filter + name_len, uilib_filefilter[i].pattern, pattern_len);
-            current_len += name_len + pattern_len;
+    for (i = UILIB_FILTER_LAST; i >= 0; i--) {
+        if (filterlist & (1 << i)) {
+            name_len = _tcslen(intl_translate_tcs(uilib_filefilter[i].name)) + 1;
+            pattern_len = _tcslen(uilib_filefilter[i].pattern) + 1;
+            filter = lib_realloc(filter, (current_len + name_len + pattern_len + 1) * sizeof(TCHAR));
+            _tcscpy(filter + current_len, intl_translate_tcs(uilib_filefilter[i].name));
+            current_len += name_len;
+            _tcscpy(filter + current_len, uilib_filefilter[i].pattern);
+            current_len += pattern_len;
         }
     }
+
+    *(filter + current_len) = '\0';
 
     /* search for the most recent file filter */
     *filterindex = get_last_active_filter(filterlist);
@@ -772,7 +767,6 @@ static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
 
     return filter;
 }
-#endif
 
 /* ENUMLOGFONT *lpelf   - logical-font data */
 /* NEWTEXTMETRIC *lpntm - physical-font data */
@@ -831,12 +825,7 @@ char *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterlis
         }
     }
 
-#ifdef WIN32_UNICODE_SUPPORT
-    filter = TEXT("All Files\0*.*\0");
-    filterindex = 1;
-#else
     filter = set_filter(filterlist, &filterindex);
-#endif
 
     st_initdir = system_mbstowcs_alloc(initialdir);
 
