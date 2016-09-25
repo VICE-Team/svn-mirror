@@ -56,8 +56,11 @@ curdir=`pwd`
 # set all cpu builds to no
 armbuild=no
 arm7abuild=no
+arm64build=no
 mipsbuild=no
+mips64build=no
 x86build=no
+x86_64build=no
 
 showusage=no
 
