@@ -413,7 +413,8 @@ case "$host_os" in
 esac
 
 dnl Add /usr/local/lib to LDFLAGS for FreeBSD
-dnl required to get FreeBSD to notice libpci and lXrandr 
+dnl required to get FreeBSD to notice many libraries like libpci, libXrandr,
+dnl libSDL*, etc 
 case "$host_os" in
   freebsd*)
     LDFLAGS="$LDFLAGS -L/usr/local/lib"
