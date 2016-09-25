@@ -32,7 +32,7 @@ LOCAL_CPP_EXTENSION := .cpp
 
 LOCAL_SRC_FILES := ../locnet/locnet_loader.cpp
 
-LOCAL_STATIC_LIBRARIES := \
+LOCAL_WHOLE_STATIC_LIBRARIES := \
 	locnet_al \
 	vice_commonall \
 	vice_x64 \
@@ -44,8 +44,6 @@ LOCAL_STATIC_LIBRARIES := \
 	vice_ieeepar \
 	vice_c64exp \
 	vice_commoncart \
-	vice_commonall \
-	vice_common \
 	vice_joyport
 
 LOCAL_LDLIBS := -lz -llog

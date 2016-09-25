@@ -178,12 +178,10 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/initcmdline.c \
 	$(MY_PATH2)/src/interrupt.c \
 	$(MY_PATH2)/src/ioutil.c \
-	$(MY_PATH2)/src/joyport/joystick.c \
 	$(MY_PATH2)/src/kbdbuf.c \
 	$(MY_PATH2)/src/keyboard.c \
 	$(MY_PATH2)/src/lib.c \
 	$(MY_PATH2)/src/libm_math.c \
-	$(MY_PATH2)/src/joyport/lightpen.c \
 	$(MY_PATH2)/src/log.c \
 	$(MY_PATH2)/src/machine-bus.c \
 	$(MY_PATH2)/src/machine.c \

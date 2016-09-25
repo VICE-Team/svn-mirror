@@ -13,9 +13,7 @@ $(MY_PATH2)/src/fsdevice \
 $(MY_PATH2)/src/userport \
 $(MY_PATH2)/src/lib/p64 \
 $(MY_PATH2)/src/drive/iecieee \
-$(MY_PATH2)/src/drive/iec \
 $(MY_PATH2)/src/drive/iec128dcr \
-$(MY_PATH2)/src/drive/ieee \
 $(MY_PATH2)/src/drive/tcbm \
 $(MY_PATH2)/src/printerdrv \
 $(MY_PATH2)/src/rs232drv \
