@@ -72,15 +72,6 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/joy.c \
 	$(MY_PATH2)/src/arch/sdl/kbd.c \
 	$(MY_PATH2)/src/arch/sdl/lightpendrv.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c128hw.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64_common_expansions.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64_expansions.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64cart.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64dtvhw.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64hw.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64model.c \
-	$(MY_PATH2)/src/arch/sdl/menu_cbm2cart.c \
-	$(MY_PATH2)/src/arch/sdl/menu_cbm2hw.c \
 	$(MY_PATH2)/src/arch/sdl/menu_common.c \
 	$(MY_PATH2)/src/arch/sdl/menu_debug.c \
 	$(MY_PATH2)/src/arch/sdl/menu_drive.c \
@@ -94,17 +85,12 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/menu_monitor.c \
 	$(MY_PATH2)/src/arch/sdl/menu_mouse.c \
 	$(MY_PATH2)/src/arch/sdl/menu_network.c \
-	$(MY_PATH2)/src/arch/sdl/menu_petcart.c \
-	$(MY_PATH2)/src/arch/sdl/menu_pethw.c \
-	$(MY_PATH2)/src/arch/sdl/menu_plus4cart.c \
-	$(MY_PATH2)/src/arch/sdl/menu_plus4hw.c \
 	$(MY_PATH2)/src/arch/sdl/menu_printer.c \
 	$(MY_PATH2)/src/arch/sdl/menu_ram.c \
 	$(MY_PATH2)/src/arch/sdl/menu_reset.c \
 	$(MY_PATH2)/src/arch/sdl/menu_rom.c \
 	$(MY_PATH2)/src/arch/sdl/menu_rs232.c \
 	$(MY_PATH2)/src/arch/sdl/menu_sampler.c \
-	$(MY_PATH2)/src/arch/sdl/menu_scpu64hw.c \
 	$(MY_PATH2)/src/arch/sdl/menu_screenshot.c \
 	$(MY_PATH2)/src/arch/sdl/menu_settings.c \
 	$(MY_PATH2)/src/arch/sdl/menu_sid.c \
@@ -113,8 +99,6 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/menu_speed.c \
 	$(MY_PATH2)/src/arch/sdl/menu_tape.c \
 	$(MY_PATH2)/src/arch/sdl/menu_tfe.c \
-	$(MY_PATH2)/src/arch/sdl/menu_vic20cart.c \
-	$(MY_PATH2)/src/arch/sdl/menu_vic20hw.c \
 	$(MY_PATH2)/src/arch/sdl/menu_video.c \
 	$(MY_PATH2)/src/arch/sdl/mousedrv.c \
 	$(MY_PATH2)/src/arch/sdl/rawnetarch.c \
@@ -135,15 +119,6 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/vkbd.c \
 	$(MY_PATH2)/src/arch/sdl/vsidui.c \
 	$(MY_PATH2)/src/arch/sdl/vsyncarch.c \
-	$(MY_PATH2)/src/arch/sdl/x128_ui.c \
-	$(MY_PATH2)/src/arch/sdl/x64_ui.c \
-	$(MY_PATH2)/src/arch/sdl/x64dtv_ui.c \
-	$(MY_PATH2)/src/arch/sdl/x64sc_ui.c \
-	$(MY_PATH2)/src/arch/sdl/xcbm2_ui.c \
-	$(MY_PATH2)/src/arch/sdl/xpet_ui.c \
-	$(MY_PATH2)/src/arch/sdl/xplus4_ui.c \
-	$(MY_PATH2)/src/arch/sdl/xscpu64_ui.c \
-	$(MY_PATH2)/src/arch/sdl/xvic_ui.c \
 	$(MY_PATH2)/src/serial/fsdrive.c \
 	$(MY_PATH2)/src/serial/serial.c \
 	$(MY_PATH2)/src/serial/serial-device.c \

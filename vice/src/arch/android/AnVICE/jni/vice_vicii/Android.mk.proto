@@ -37,7 +37,6 @@ LOCAL_CPP_EXTENSION := .cpp
 
 LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/vicii/vicii-badline.c \
-	$(MY_PATH2)/src/vicii/vicii-clock-stretch.c \
 	$(MY_PATH2)/src/vicii/vicii-cmdline-options.c \
 	$(MY_PATH2)/src/vicii/vicii-color.c \
 	$(MY_PATH2)/src/vicii/vicii-draw.c \

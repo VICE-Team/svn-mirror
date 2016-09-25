@@ -20,6 +20,7 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH) \
 				$(LOCAL_PATH)/../../../../../../src/arch/sdl \
 				$(LOCAL_PATH)/../../../../../../src/c64/cart \
+				$(LOCAL_PATH)/../../../../../../src/c64 \
 				$(LOCAL_PATH)/../../../../../../src/sid \
 				$(LOCAL_PATH)/../../../../../../src/vicii \
 				$(LOCAL_PATH)/../../../../../../src/drive \
@@ -93,7 +94,13 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/samplerdrv/portaudio_drv.c \
 	$(MY_PATH2)/src/samplerdrv/sampler.c \
 	$(MY_PATH2)/src/diag/c64_diag_586220_harness.c \
-	$(MY_PATH2)/src/maincpu.c
+	$(MY_PATH2)/src/maincpu.c \
+	$(MY_PATH2)/src/arch/sdl/x64_ui.c \
+	$(MY_PATH2)/src/arch/sdl/menu_c64_common_expansions.c \
+	$(MY_PATH2)/src/arch/sdl/menu_c64_expansions.c \
+	$(MY_PATH2)/src/arch/sdl/menu_c64cart.c \
+	$(MY_PATH2)/src/arch/sdl/menu_c64hw.c \
+	$(MY_PATH2)/src/arch/sdl/menu_c64model.c
 	
 LOCAL_ARM_MODE := arm
 
