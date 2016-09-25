@@ -13,7 +13,7 @@ EXTRA_DIST = \
 	build.xml \
 	clean.sh \
 	config.android.h \
-	local.properties \
+	local.properties.proto \
 	proguard.cfg \
 	proguard-project.txt \
 	project.properties \
