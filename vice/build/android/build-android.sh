@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VICEVERSION=@VERSION@
+VICEVERSION=2.4.30
 
 X64_STATUS_MESSAGE="x64 compiles correctly and runs correctly."
 X64SC_STATUS_MESSAGE="x64sc compiles correctly and runs correctly albeit slow, only meant for high end android devices."
@@ -132,7 +132,7 @@ do
   if test x"$i" = "xarm64-v8a"; then
     arm64build=yes
     validoption=yes
-  fi  
+  fi
   if test x"$i" = "xmips"; then
     mipsbuild=yes
     validoption=yes
@@ -140,7 +140,7 @@ do
   if test x"$i" = "xmips64"; then
     mips64build=yes
     validoption=yes
-  fi  
+  fi
   if test x"$i" = "xx86"; then
     x86build=yes
     validoption=yes
@@ -148,7 +148,7 @@ do
   if test x"$i" = "xx86_64"; then
     x86_64build=yes
     validoption=yes
-  fi  
+  fi
   if test x"$i" = "xall-cpu"; then
     armbuild=yes
     arm7abuild=yes
@@ -483,6 +483,7 @@ if test x"$emulator" = "xx64"; then
   cp vice_tape/Android.mk.proto vice_tape/Android.mk
   cp vice_vicii/Android.mk.proto vice_vicii/Android.mk
   cp vice_x64/Android.mk.proto vice_x64/Android.mk
+  cp vice_joyport/Android.mk.proto vice_joyport/Android.mk
 fi
 
 if test x"$emulator" = "xx64sc"; then
