@@ -364,6 +364,11 @@ if test x"$emulator" = "xall emulators"; then
   fi
 fi
 
+if test x"$ANDROID_HOME" = "x"; then
+  echo "Please set \$ANDROID_HOME"
+  exit 1
+fi
+
 CPUS=""
 
 if test x"$armbuild" = "xyes"; then
@@ -455,7 +460,12 @@ ${SHELL} ./gentranslate_h.sh <translate.txt >translate.h
 echo generating src/infocontrib.h
 ${SHELL} ./geninfocontrib_h.sh infocontrib.h <../doc/vice.texi | sed -f infocontrib.sed >infocontrib.h
 
-cd arch/android/AnVICE/jni
+cd arch/android/AnVICE
+
+echo generating local.properties
+sed "s|\@ANDROID_HOME\@|$ANDROID_HOME|g" <local.properties.proto >local.properties
+
+cd jni
 
 echo generating Application.mk
 cp Application.mk.proto Application.mk
