@@ -289,6 +289,12 @@ dnl check for debug build
 if test x"$enable_debug" = "xyes"; then
   DEBUGBUILD=1
   DEBUG_SUPPORT="yes"
+  dnl PCBSD/FreeBSD needs -lexecinfo for debug builds
+  case "$host_os" in
+    freebsd*)  
+      LIBS="$LIBS -lexecinfo"
+    ;;
+  esac
 else
   DEBUGBUILD=0
 fi
@@ -404,6 +410,13 @@ case "$host_os" in
     ar_check=no
     posix_check=yes
     ;;
+esac
+
+dnl Add /usr/local/lib to LDFLAGS for FreeBSD
+case "$host_os" in
+  freebsd*)
+    LDFLAGS="$LDFLAGS -L/usr/local/lib"
+  ;;
 esac
 
 dnl Enable the SDL UI by default for syllable.
