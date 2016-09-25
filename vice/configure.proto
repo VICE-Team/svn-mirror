@@ -413,6 +413,7 @@ case "$host_os" in
 esac
 
 dnl Add /usr/local/lib to LDFLAGS for FreeBSD
+dnl required to get FreeBSD to notice libpci and lXrandr 
 case "$host_os" in
   freebsd*)
     LDFLAGS="$LDFLAGS -L/usr/local/lib"
@@ -1568,6 +1569,17 @@ else
     RESID_DTV_INCLUDES="-I\$(top_builddir)/src/resid-dtv"
     RESID_DTV_DEP=libresiddtv
     RESIDDTVSUB=resid-dtv
+
+    dnl ReSID on FreeBSD needs -I/usr/local/include if NLS is used otherwise it
+    dnl won't find <libintl.h>
+    case "$host_os" in
+      freebsd*)
+        if test x"$enable_nls" != "xno"; then
+          CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+        fi
+      ;;
+    esac
+
   fi
   AC_LANG_RESTORE
 fi
