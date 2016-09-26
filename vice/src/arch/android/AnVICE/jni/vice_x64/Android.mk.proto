@@ -56,6 +56,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/c64bus.c \
 	$(MY_PATH2)/src/c64/c64cia1.c \
 	$(MY_PATH2)/src/c64/c64cia2.c \
+	$(MY_PATH2)/src/c64/c64cpu.c \
 	$(MY_PATH2)/src/c64/c64datasette.c \
 	$(MY_PATH2)/src/c64/c64drive.c \
 	$(MY_PATH2)/src/c64/c64embedded.c \
@@ -94,7 +95,6 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/samplerdrv/portaudio_drv.c \
 	$(MY_PATH2)/src/samplerdrv/sampler.c \
 	$(MY_PATH2)/src/diag/c64_diag_586220_harness.c \
-	$(MY_PATH2)/src/maincpu.c \
 	$(MY_PATH2)/src/arch/sdl/x64_ui.c \
 	$(MY_PATH2)/src/arch/sdl/menu_c64_common_expansions.c \
 	$(MY_PATH2)/src/arch/sdl/menu_c64_expansions.c \
