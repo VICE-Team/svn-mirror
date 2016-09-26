@@ -213,6 +213,7 @@ do {                                                                 \
 #define SDL_memcpy4(dst, src, len)   SDL_memcpy(dst, src, (len) << 2)
 #endif
 
+#if 0
 #if defined(__GNUC__) && defined(i386)
 #define SDL_revcpy(dst, src, len)                  \
 do {                                               \
@@ -239,6 +240,7 @@ do {                                               \
             break;                                 \
     }                                              \
 } while(0)
+#endif
 #endif
 
 extern DECLSPEC void * SDLCALL SDL_revcpy(void *dst, const void *src, size_t len);
