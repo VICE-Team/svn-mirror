@@ -6,8 +6,6 @@ LOCAL_MODULE := vice_joyport
 
 MY_PATH2 := ../../../../../..
 
-CG_SUBDIRS := $(MY_PATH2)/src/joyport
-
 # Add more subdirs here, like src/subdir1 src/subdir2
 
 MY_PATH := $(LOCAL_PATH)
@@ -37,7 +35,19 @@ LOCAL_CXXFLAGS := $(LOCAL_CFLAGS)
 #Change C++ file extension as appropriate
 LOCAL_CPP_EXTENSION := .cpp
 
-LOCAL_SRC_FILES := $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(LOCAL_PATH)/$(F)/*.c))))
+LOCAL_SRC_FILES := \
+	$(MY_PATH2)/src/joyport/bbrtc.c \
+        $(MY_PATH2)/src/joyport/cardkey.c \
+        $(MY_PATH2)/src/joyport/coplin_keypad.c \
+        $(MY_PATH2)/src/joyport/cx21.c \
+        $(MY_PATH2)/src/joyport/cx85.c \
+        $(MY_PATH2)/src/joyport/joyport.c \
+        $(MY_PATH2)/src/joyport/joystick.c \
+        $(MY_PATH2)/src/joyport/lightpen.c \
+        $(MY_PATH2)/src/joyport/paperclip64.c \
+        $(MY_PATH2)/src/joyport/rushware_keypad.c \
+        $(MY_PATH2)/src/joyport/sampler2bit.c \
+        $(MY_PATH2)/src/joyport/sampler4bit.c
 	
 LOCAL_ARM_MODE := arm
 
