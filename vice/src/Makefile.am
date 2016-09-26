@@ -357,6 +357,8 @@ COMMON_EXTRA_DIST = \
 	piacore.c \
 	sedinfocontrib_h.sh \
 	translate.txt \
+	vice-version.sh \
+	vice-version.sh.in \
 	wrap-u-ar.sh
 
 # RESID_EXTRA_DIST is a list of files in the resid directory that need to be

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-VICEVERSION=2.4.30
-
 X64_STATUS_MESSAGE="x64 compiles correctly and runs correctly."
 X64SC_STATUS_MESSAGE="x64sc compiles correctly and runs correctly albeit slow, only meant for high end android devices."
 X64DTV_STATUS_MESSAGE="x64dtv compiles correctly and runs correctly."
@@ -50,6 +48,8 @@ if [ ! -f configure.proto ]; then
     exit 1
   fi
 fi
+
+VICEVERSION=`src/vice-version.sh`
 
 curdir=`pwd`
 

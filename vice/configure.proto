@@ -4713,7 +4713,6 @@ AC_OUTPUT([Makefile
            vice-mint-sdl.spec
            build/Makefile
            build/amigaos/Makefile
-           build/android/build-android.sh
            build/android/Makefile
            build/beos/Makefile
            build/macosx/Makefile
@@ -4901,6 +4900,7 @@ AC_OUTPUT([Makefile
            src/viciivsid/Makefile
            src/video/Makefile
            src/version.h
+           src/vice-version.sh
            po/Makefile.in
            ])
 
