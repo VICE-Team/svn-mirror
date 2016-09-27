@@ -285,22 +285,6 @@ if test x"$enable_memmap" = "xyes"; then
   FEATURE_CPUMEMHISTORY_SUPPORT="yes"
 fi
 
-dnl check for debug build
-if test x"$enable_debug" = "xyes"; then
-  DEBUGBUILD=1
-  DEBUG_SUPPORT="yes"
-  dnl PCBSD/FreeBSD needs -lexecinfo for debug builds
-  case "$host_os" in
-    freebsd*)  
-      LIBS="$LIBS -lexecinfo"
-    ;;
-  esac
-else
-  DEBUGBUILD=0
-fi
-
-AC_SUBST(DEBUGBUILD)
-
 if test x"$enable_gnomeui" = "xyes" ; then
   AC_DEFINE(USE_GNOMEUI,,[Use GNOME UI.])
 fi
@@ -1210,6 +1194,30 @@ dnl All other UN*X systems
   ;;
 esac
 fi
+
+
+dnl check for debug build
+if test x"$enable_debug" = "xyes"; then
+  DEBUGBUILD=1
+  DEBUG_SUPPORT="yes"
+  dnl PCBSD/FreeBSD needs -lexecinfo for debug builds
+  AC_CHECK_FUNC(backtrace_symbols,
+                have_backtrace_symbols="yes",
+                have_backtrace_symbols="no")
+
+  if test x"$have_backtrace_symbols" != "xyes"; then
+    AC_CHECK_LIB(execinfo,
+                 backtrace_symbols,
+                 LIBS="$LIBS -lexecinfo",
+                 AC_MSG_ERROR([libexecinfo is required for debug builds.]))
+  fi
+else
+  DEBUGBUILD=0
+fi
+
+AC_SUBST(DEBUGBUILD)
+
+
 
 dnl This enables the embedded data files feature, which should
 dnl only be used for developing new ports or for ports for which
