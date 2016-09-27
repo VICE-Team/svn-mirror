@@ -346,6 +346,9 @@ do
     --enable-make-command*)
       argvalid=yes
       ;;
+    --enable-yasm-command*)
+      argvalid=yes
+      ;;
     --enable-full-host*)
       argvalid=yes
       ;;
