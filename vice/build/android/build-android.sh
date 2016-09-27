@@ -49,7 +49,7 @@ if [ ! -f configure.proto ]; then
   fi
 fi
 
-VICEVERSION=`src/vice-version.sh`
+VICEVERSION=`${SHELL} src/vice-version.sh`
 
 curdir=`pwd`
 
