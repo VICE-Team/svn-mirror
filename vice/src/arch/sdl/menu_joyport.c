@@ -42,11 +42,11 @@ UI_MENU_DEFINE_RADIO(JoyPort3Device)
 UI_MENU_DEFINE_RADIO(JoyPort4Device)
 UI_MENU_DEFINE_RADIO(JoyPort5Device)
 
-static ui_menu_entry_t joyport1_dyn_menu[JOYPORT_MAX_DEVICES];
-static ui_menu_entry_t joyport2_dyn_menu[JOYPORT_MAX_DEVICES];
-static ui_menu_entry_t joyport3_dyn_menu[JOYPORT_MAX_DEVICES];
-static ui_menu_entry_t joyport4_dyn_menu[JOYPORT_MAX_DEVICES];
-static ui_menu_entry_t joyport5_dyn_menu[JOYPORT_MAX_DEVICES];
+static ui_menu_entry_t joyport1_dyn_menu[JOYPORT_MAX_DEVICES + 1];
+static ui_menu_entry_t joyport2_dyn_menu[JOYPORT_MAX_DEVICES + 1];
+static ui_menu_entry_t joyport3_dyn_menu[JOYPORT_MAX_DEVICES + 1];
+static ui_menu_entry_t joyport4_dyn_menu[JOYPORT_MAX_DEVICES + 1];
+static ui_menu_entry_t joyport5_dyn_menu[JOYPORT_MAX_DEVICES + 1];
 
 static int joyport1_dyn_menu_init = 0;
 static int joyport2_dyn_menu_init = 0;
