@@ -84,7 +84,6 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/patchrom.c \
 	$(MY_PATH2)/src/c64/plus256k.c \
 	$(MY_PATH2)/src/c64/plus60k.c \
-	$(MY_PATH2)/src/c64/psid.c \
 	$(MY_PATH2)/src/c64/reloc65.c \
 	$(MY_PATH2)/src/joyport/mouse.c \
 	$(MY_PATH2)/src/tapeport/cp-clockf83.c \
@@ -102,7 +101,8 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/menu_c64_expansions.c \
 	$(MY_PATH2)/src/arch/sdl/menu_c64cart.c \
 	$(MY_PATH2)/src/arch/sdl/menu_c64hw.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64model.c
+	$(MY_PATH2)/src/arch/sdl/menu_c64model.c \
+	$(MY_PATH2)/src/userport/userport_diag_586220_harness.c
 
 LOCAL_ARM_MODE := arm
 

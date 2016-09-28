@@ -66,13 +66,17 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/c64fastiec.c \
 	$(MY_PATH2)/src/c64/c64keyboard.c \
 	$(MY_PATH2)/src/c64/c64parallel.c \
-	$(MY_PATH2)/src/c64/c64printer.c \
 	$(MY_PATH2)/src/c64/c64rom.c \
 	$(MY_PATH2)/src/c64/c64romset.c \
 	$(MY_PATH2)/src/c64/c64rsuser.c \
 	$(MY_PATH2)/src/c64/c64video.c \
 	$(MY_PATH2)/src/c64/patchrom.c \
-	$(MY_PATH2)/src/ps2mouse.c
+	$(MY_PATH2)/src/ps2mouse.c \
+	$(MY_PATH2)/src/samplerdrv/file_drv.c \
+	$(MY_PATH2)/src/samplerdrv/portaudio_drv.c \
+	$(MY_PATH2)/src/samplerdrv/sampler.c \
+	$(MY_PATH2)/src/arch/sdl/x64dtv_ui.c \
+	$(MY_PATH2)/src/arch/sdl/menu_c64dtvhw.c
 
 LOCAL_SRC_FILES += $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(LOCAL_PATH)/$(F)/*.c))))
 

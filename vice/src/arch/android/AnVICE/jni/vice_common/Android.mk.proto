@@ -10,7 +10,6 @@ CG_SUBDIRS := \
 $(MY_PATH2)/src/drive \
 $(MY_PATH2)/src/fileio \
 $(MY_PATH2)/src/fsdevice \
-$(MY_PATH2)/src/userport \
 $(MY_PATH2)/src/lib/p64 \
 $(MY_PATH2)/src/drive/iecieee \
 $(MY_PATH2)/src/drive/iec128dcr \
@@ -78,7 +77,15 @@ LOCAL_SRC_FILES += \
 	$(MY_PATH2)/src/gfxoutputdrv/koaladrv.c \
 	$(MY_PATH2)/src/gfxoutputdrv/nativedrv.c \
 	$(MY_PATH2)/src/gfxoutputdrv/pcxdrv.c \
-	$(MY_PATH2)/src/gfxoutputdrv/ppmdrv.c
+	$(MY_PATH2)/src/gfxoutputdrv/ppmdrv.c \
+        $(MY_PATH2)/src/userport/userport.c \
+        $(MY_PATH2)/src/userport/userport_4bit_sampler.c \
+        $(MY_PATH2)/src/userport/userport_8bss.c \
+        $(MY_PATH2)/src/userport/userport_dac.c \
+        $(MY_PATH2)/src/userport/userport_digimax.c \
+        $(MY_PATH2)/src/userport/userport_joystick.c \
+        $(MY_PATH2)/src/userport/userport_rtc_58321a.c \
+        $(MY_PATH2)/src/userport/userport_rtc_ds1307.c
 	
 LOCAL_ARM_MODE := arm
 
