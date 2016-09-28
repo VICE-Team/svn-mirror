@@ -525,6 +525,7 @@ if test x"$emulator" = "xx64dtv"; then
   cp vice_tape/Android.mk.proto vice_tape/Android.mk
   cp vice_vicii/Android.mk.proto vice_vicii/Android.mk
   cp vice_x64dtv/Android.mk.proto vice_x64dtv/Android.mk
+  cp vice_joyport/Android.mk.proto vice_joyport/Android.mk
 fi
 
 if test x"$emulator" = "xxscpu64"; then
