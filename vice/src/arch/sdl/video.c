@@ -913,6 +913,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int renderamount = SDL_GetNumRenderDrivers();
     unsigned int window_h = 0;
     unsigned int window_w = 0;
+	unsigned int temp_h = 0;
+	unsigned int temp_w = 0;
     SDL_GLContext ctx;
     SDL_RendererInfo info;
 
@@ -1089,6 +1091,13 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 #ifdef SDL_DEBUG
     log_message(sdlvideo_log, "Extensions : %s", glGetStringAPI(GL_EXTENSIONS));
 #endif
+
+    // some Devices, OS do not provide a windowing system they have always a fixed width/height, check and set window size
+    SDL_GetWindowSize(new_window, &temp_w, &temp_h);
+    if (temp_w != window_w && temp_h != window_h && !fullscreen) {
+        sdl_window_width = temp_w;
+        sdl_window_height = temp_h;
+    }
 
     sdl_bitdepth = new_screen->format->BitsPerPixel;
     actual_width = new_screen->w;
