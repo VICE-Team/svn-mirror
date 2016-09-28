@@ -168,6 +168,8 @@ libc64cart_a_SOURCES = \
 libc64commoncart_a_SOURCES = \
 	c64acia.h \
 	c64acia1.c \
+	cs8900io.c \
+	cs8900io.h \
 	digimax.c \
 	digimax.h \
 	ds12c887rtc.c \

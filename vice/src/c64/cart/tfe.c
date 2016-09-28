@@ -4,6 +4,7 @@
  * Written by
  *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
  *  Christian Vogelgsang <chris@vogelgsang.org>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -45,7 +46,6 @@
 #include "crc32.h"
 #include "export.h"
 #include "lib.h"
-#include "log.h"
 #include "machine.h"
 #include "monitor.h"
 #include "rawnet.h"
@@ -55,6 +55,7 @@
 #include "util.h"
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API
+#include "cs8900io.h"
 #include "mmc64.h"
 #include "mmcreplay.h"
 #include "retroreplay.h"
@@ -74,21 +75,13 @@
     FIXME: create better logic to handle clockports
 */
 
-/* #define TFE_DEBUG */
-
-#ifdef TFE_DEBUG
-#define DBG(x)  printf x
-#else
-#define DBG(x)
-#endif
-
 /* ------------------------------------------------------------------------- */
 /*    resources support functions                                            */
 
-/* some prototypes are needed */
-static void tfe_store(WORD io_address, BYTE byte);
+/* Some prototypes are needed */
 static BYTE tfe_read(WORD io_address);
 static BYTE tfe_peek(WORD io_address);
+static void tfe_store(WORD io_address, BYTE byte);
 static int tfe_dump(void);
 
 static io_source_t rrnet_io1_mmc64_device = {
@@ -207,24 +200,11 @@ static io_source_list_t *tfe_list_item = NULL;
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
 
-/*
- This variable is used when we need to postpone the initialization
- because tfe_init() is not yet called
-*/
-static int should_activate = 0;
-
-static log_t tfe_log = LOG_ERR;
-
-/* Flag: Can we even use TFE, or is the hardware not available? */
-static int tfe_cannot_use = 0;
-
 /* Flag: Do we have the TFE enabled?  */
 static int tfe_enabled = 0;
 
 /* Flag: Do we use the "original" memory map or the memory map of the RR-Net? */
 int tfe_as_rr_net = 0;
-
-static char *tfe_interface = NULL;
 
 /* Flag: swap io1/io2, currently only used for vic20 masC=uerade,
          but future usage of an io-swapper is possible */
@@ -235,102 +215,28 @@ static int tfe_io_swap = 0;
 
 void tfe_reset(void)
 {
-    if (tfe_enabled && !should_activate) {
-        cs8900_reset();
-    }
+    cs8900io_reset();
 }
-
-#ifdef DOS_TFE
-static void set_standard_tfe_interface(void)
-{
-    char *dev, errbuf[PCAP_ERRBUF_SIZE];
-    dev = pcap_lookupdev(errbuf);
-    util_string_set(&tfe_interface, dev);
-}
-#endif
 
 static int tfe_activate(void)
 {
-#ifdef TFE_DEBUG
-    log_message(tfe_log, "tfe_activate().");
-#endif
-
-    if (tfe_log != LOG_ERR) {
-#ifdef DOS_TFE
-        set_standard_tfe_interface();
-#endif
-        switch (cs8900_activate(tfe_interface)) {
-            case -1:
-                tfe_enabled = 0;
-                break;
-            case -2:
-                tfe_enabled = 0;
-                tfe_cannot_use = 1;
-                break;
-        }
-    } else {
-        should_activate = 1;
-    }
-    return 0;
+    return cs8900io_enable(tfe_as_rr_net);
 }
 
 static int tfe_deactivate(void)
 {
-#ifdef TFE_DEBUG
-    log_message(tfe_log, "tfe_deactivate().");
-#endif
-
-    if (should_activate) {
-        should_activate = 0;
-    } else {
-        tfe_enabled = 0;
-        should_activate = 0;
-        /* FIXME: WTH check for tfe_log here? */
-        if (tfe_log != LOG_ERR) {
-            return cs8900_deactivate();
-        }
-    }
-
-    return 0;
+    return cs8900io_disable();
 }
 
 void tfe_init(void)
 {
-    tfe_log = log_open("TFE");
-
-    rawnet_set_should_accept_func(cs8900_should_accept);
-    if (cs8900_init() < 0) {
-        tfe_enabled = 0;
-        tfe_cannot_use = 1;
-    }
-
-    if (should_activate) {
-        should_activate = 0;
-        if (tfe_activate() < 0) {
-            tfe_enabled = 0;
-            tfe_cannot_use = 1;
-        }
-    }
+    cs8900io_init();
 }
 
 void tfe_detach(void)
 {
-#ifdef TFE_DEBUG
-    log_message(tfe_log, "tfe_shutdown().");
-#endif
-
-    if (tfe_enabled) {
-        cs8900_shutdown();
-        tfe_enabled = 0;
-        should_activate = 0;
-#ifdef TFE_DEBUG
-        log_message(tfe_log, "...2");
-#endif
-    }
-
-#ifdef TFE_DEBUG
-    log_message(tfe_log, "tfe_shutdown() done.");
-#endif
+    cs8900io_disable();
+    tfe_enabled = 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -364,7 +270,6 @@ void tfe_clockport_changed(void)
         export_remove(&export_res);
         export_res.io1 = tfe_current_device;
         if (export_add(&export_res) < 0) {
-            DBG(("TFE: set tfe_clockport_changed: error\n"));
             tfe_list_item = NULL;
             tfe_enabled = 0;
             return;
@@ -399,10 +304,7 @@ static BYTE tfe_read(WORD io_address)
     }
     tfe_current_device->io_source_valid = 1;
 
-    if (!tfe_cannot_use) {
-        return cs8900_read(io_address);
-    }
-    return 0;
+    return cs8900io_read(io_address);
 }
 
 /* ----- peek byte with no sideeffects from I/O range in VICE ----- */
@@ -415,10 +317,7 @@ static BYTE tfe_peek(WORD io_address)
         }
         io_address ^= 0x08;
     }
-    if (!tfe_cannot_use) {
-        return cs8900_peek(io_address);
-    }
-    return 0;
+    return cs8900io_peek(io_address);
 }
 
 /* ----- write byte to I/O range of VICE ----- */
@@ -432,9 +331,7 @@ static void tfe_store(WORD io_address, BYTE byte)
         io_address ^= 0x08;
     }
 
-    if (!tfe_cannot_use) {
-        cs8900_store(io_address, byte);
-    }
+    cs8900io_store(io_address, byte);
 }
 
 static int tfe_dump(void)
@@ -444,34 +341,7 @@ static int tfe_dump(void)
             tfe_current_device->start_address,
             tfe_current_device->end_address);
 
-    return cs8900_dump();
-}
-
-static int set_tfe_disabled(int val, void *param)
-{
-    /* dummy function since we don't want "disabled" to be stored on disk */
-    return 0;
-}
-
-static int set_tfe_rr_net(int value, void *param)
-{
-    int val = value ? 1 : 0;
-
-    if (!tfe_cannot_use) {
-        if (!val) {
-            /* TFE should not be used as rr net */
-            if (tfe_as_rr_net) {
-                tfe_as_rr_net = 0;
-                tfe_clockport_changed();
-            }
-        } else {
-            if (!tfe_as_rr_net) {
-                tfe_as_rr_net = 1;
-                tfe_clockport_changed();
-            }
-        }
-    }
-    return 0;
+    return cs8900io_dump();
 }
 
 int tfe_cart_enabled(void)
@@ -483,83 +353,49 @@ static int set_tfe_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    if (!tfe_cannot_use) {
-        if (!val) {
-            /* TFE should be deactived */
-            if (tfe_enabled) {
-                tfe_enabled = 0;
-                if (tfe_deactivate() < 0) {
-                    DBG(("TFE: set disabled: error\n"));
-                    return -1;
-                }
-                io_source_unregister(tfe_list_item);
+    if (!val) {
+        /* TFE should be deactived */
+        if (tfe_enabled) {
+            tfe_enabled = 0;
+            if (tfe_deactivate() < 0) {
+                return -1;
+            }
+            io_source_unregister(tfe_list_item);
+            tfe_list_item = NULL;
+            export_remove(&export_res);
+        }
+    } else {
+        if (!tfe_enabled) {
+            tfe_enabled = 1;
+            if (tfe_activate() < 0) {
+                return -1;
+            }
+            export_res.io1 = tfe_current_device;
+            if (export_add(&export_res) < 0) {
                 tfe_list_item = NULL;
-                export_remove(&export_res);
+                tfe_enabled = 0;
+                return -1;
             }
-            tfe_clockport_changed();
-            return 0;
-        } else {
-            if (!tfe_enabled) {
-                tfe_enabled = 1;
-                if (tfe_activate() < 0) {
-                    return -1;
+            if (machine_class == VICE_MACHINE_VIC20) {
+                /* set correct addresses for masC=uerade */
+                if (tfe_io_swap) {
+                    tfe_current_device->start_address = 0x9c00;
+                    tfe_current_device->end_address = 0x9fff;
+                } else {
+                    tfe_current_device->start_address = 0x9800;
+                    tfe_current_device->end_address = 0x9bff;
                 }
-                export_res.io1 = tfe_current_device;
-                if (export_add(&export_res) < 0) {
-                    DBG(("TFE: set enabled: error\n"));
-                    tfe_list_item = NULL;
-                    tfe_enabled = 0;
-                    return -1;
-                }
-                if (machine_class == VICE_MACHINE_VIC20) {
-                    /* set correct addresses for masC=uerade */
-                    if (tfe_io_swap) {
-                        tfe_current_device->start_address = 0x9c00;
-                        tfe_current_device->end_address = 0x9fff;
-                    } else {
-                        tfe_current_device->start_address = 0x9800;
-                        tfe_current_device->end_address = 0x9bff;
-                    }
-                }
-                tfe_list_item = io_source_register(tfe_current_device);
             }
-            tfe_clockport_changed();
-            return 0;
+            tfe_list_item = io_source_register(tfe_current_device);
         }
     }
-    return 0;
-}
-
-static int set_tfe_interface(const char *name, void *param)
-{
-    if (tfe_interface != NULL && name != NULL && strcmp(name, tfe_interface) == 0) {
-        return 0;
-    }
-
-    util_string_set(&tfe_interface, name);
-
-    /* if the last interface name was wrong then allow a retry with new name: */
-    tfe_cannot_use = 0;
-
-    if (tfe_enabled) {
-        /* ethernet is enabled, make sure that the new name is
-           taken account of
-         */
-        if (tfe_deactivate() < 0) {
-            return -1;
-        }
-        if (tfe_activate() < 0) {
-            return -1;
-        }
-        /* virtually reset the LAN chip */
-        tfe_reset();
-    }
+    tfe_clockport_changed();
     return 0;
 }
 
 int tfe_enable(void)
 {
-    return resources_set_int("ETHERNET_ACTIVE", 1);
+    return resources_set_int("TFE_ACTIVE", 1);
 }
 
 static int set_tfe_io_swap(int value, void *param)
@@ -580,20 +416,9 @@ static int set_tfe_io_swap(int value, void *param)
     return 0;
 }
 
-static const resource_string_t resources_string[] = {
-    { "ETHERNET_INTERFACE",
-      ARCHDEP_ETHERNET_DEFAULT_DEVICE, RES_EVENT_NO, NULL,
-      &tfe_interface, set_tfe_interface, NULL },
-    { NULL }
-};
-
 static const resource_int_t resources_int[] = {
-    { "ETHERNET_DISABLED", 0, RES_EVENT_NO, NULL,
-      &tfe_cannot_use, set_tfe_disabled, NULL },
-    { "ETHERNET_ACTIVE", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "TFE_ACTIVE", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &tfe_enabled, set_tfe_enabled, NULL },
-    { "ETHERNET_AS_RR", 0, RES_EVENT_NO, NULL,
-      &tfe_as_rr_net, set_tfe_rr_net, NULL },
     { NULL }
 };
 
@@ -605,7 +430,7 @@ static const resource_int_t resources_mascuerade_int[] = {
 
 int tfe_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0) {
+    if (cs8900io_resources_init() < 0) {
         return -1;
     }
 
@@ -620,7 +445,7 @@ int tfe_resources_init(void)
 
 void tfe_resources_shutdown(void)
 {
-    lib_free(tfe_interface);
+    cs8900io_resources_shutdown();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -629,29 +454,14 @@ void tfe_resources_shutdown(void)
 static const cmdline_option_t cmdline_options[] =
 {
     { "-tfe", SET_RESOURCE, 0,
-      NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)1,
+      NULL, NULL, "TFE_ACTIVE", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_TFE,
       NULL, NULL },
     { "+tfe", SET_RESOURCE, 0,
-      NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)0,
+      NULL, NULL, "TFE_ACTIVE", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_TFE,
-      NULL, NULL },
-    { "-tfeif", SET_RESOURCE, 1,
-      NULL, NULL, "ETHERNET_INTERFACE", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_TFE_INTERFACE,
-      NULL, NULL },
-    { "-tferrnet", SET_RESOURCE, 0,
-      NULL, NULL, "ETHERNET_AS_RR", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_TFE_AS_RRNET,
-      NULL, NULL },
-    { "+tferrnet", SET_RESOURCE, 0,
-      NULL, NULL, "ETHERNET_AS_RR", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_TFE_AS_RRNET,
       NULL, NULL },
     { NULL }
 };
@@ -673,6 +483,10 @@ static const cmdline_option_t cmdline_mascuerade_options[] =
 
 int tfe_cmdline_options_init(void)
 {
+    if (cs8900io_cmdline_options_init() < 0) {
+        return -1;
+    }
+
     if (machine_class == VICE_MACHINE_VIC20) {
         if (cmdline_register_options(cmdline_mascuerade_options) < 0) {
             return -1;

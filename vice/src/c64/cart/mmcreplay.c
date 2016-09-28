@@ -1408,6 +1408,7 @@ void mmcreplay_io1_store(WORD addr, BYTE value)
                 if (mmcr_clockport_enabled != (value & 1)) {
                     mmcr_clockport_enabled = value & 1; /* bit 0 */
 #ifdef HAVE_TFE
+                    tfe_as_rr_net = 1;
                     tfe_clockport_changed();
 #endif
                 }
@@ -2257,6 +2258,7 @@ void mmcreplay_set_stdcfg(void)
 #endif
 
 #ifdef HAVE_TFE
+    tfe_as_rr_net = 1;
     tfe_clockport_changed();
 #endif
 }

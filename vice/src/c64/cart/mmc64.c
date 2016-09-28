@@ -285,6 +285,7 @@ void mmc64_reset(void)
     if (mmc64_clockport_enabled != 1) {
         mmc64_clockport_enabled = 1;
 #ifdef HAVE_TFE
+        tfe_as_rr_net = 1;
         tfe_clockport_changed();
 #endif
     }
@@ -575,6 +576,7 @@ static void mmc64_clockport_enable_store(WORD addr, BYTE value)
     if ((value & 1) != mmc64_clockport_enabled) {
         mmc64_clockport_enabled = value & 1;
 #ifdef HAVE_TFE
+        tfe_as_rr_net = 1;
         tfe_clockport_changed();
 #endif
     }
@@ -692,6 +694,7 @@ static void mmc64_reg_store(WORD addr, BYTE value, int active)
                     io_source_unregister(mmc64_clockport_list_item);
                     mmc64_clockport_list_item = io_source_register(mmc64_current_clockport_device);
 #ifdef HAVE_TFE
+                    tfe_as_rr_net = 1;
                     tfe_clockport_changed();
 #endif
                 } else {
@@ -700,6 +703,7 @@ static void mmc64_reg_store(WORD addr, BYTE value, int active)
                     io_source_unregister(mmc64_clockport_list_item);
                     mmc64_clockport_list_item = io_source_register(mmc64_current_clockport_device);
 #ifdef HAVE_TFE
+                    tfe_as_rr_net = 1;
                     tfe_clockport_changed();
 #endif
                 }

@@ -351,6 +351,7 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                     if (rr_clockport_enabled != (value & 1)) {
                         rr_clockport_enabled = value & 1;
 #ifdef HAVE_TFE
+                        tfe_as_rr_net = 1;
                         tfe_clockport_changed();
 #endif
                     }
@@ -713,6 +714,7 @@ void retroreplay_reset(void)
     */
     flash040core_reset(flashrom_state);
 #ifdef HAVE_TFE
+    tfe_as_rr_net = 1;
     tfe_clockport_changed();
 #endif
 }
@@ -865,6 +867,7 @@ static int retroreplay_common_attach(void)
     retroreplay_io2_list_item = io_source_register(&retroreplay_io2_device);
 
 #ifdef HAVE_TFE
+    tfe_as_rr_net = 1;
     tfe_clockport_changed();
 #endif
 
@@ -1076,6 +1079,7 @@ void retroreplay_detach(void)
     retroreplay_io1_list_item = NULL;
     retroreplay_io2_list_item = NULL;
 #ifdef HAVE_TFE
+    tfe_as_rr_net = 1;
     tfe_clockport_changed();
 #endif
 }
