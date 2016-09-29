@@ -1516,7 +1516,7 @@ if test x"$with_resid" = "xno"; then
 else
   AC_LANG_SAVE
   AC_LANG_CPLUSPLUS
-  AC_PROG_CXX([clang++ g++ cc])
+  AC_PROG_CXX([g++ clang++ cc])
 
   dnl when using --host=, check if the C++ compiler is the intended cross compiler
   if [[ x"$ac_cv_prog_cc_cross" != "xno" -a x"$toolchain_check" != "xno" ]]; then
