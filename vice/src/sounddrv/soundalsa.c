@@ -34,6 +34,11 @@
 #include "log.h"
 #include "sound.h"
 
+/* NetBSD doesn't define ESTRPIPE, this fix I noticed in gstreamer code */
+#ifndef ESTRPIPE
+#define ESTRPIPE EPIPE
+#endif
+
 static snd_pcm_t *handle;
 static int alsa_bufsize;
 static int alsa_fragsize;
