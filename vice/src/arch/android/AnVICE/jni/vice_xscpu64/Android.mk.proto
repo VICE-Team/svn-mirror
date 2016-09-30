@@ -33,6 +33,9 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/raster \
 				$(LOCAL_PATH)/../../../../../../src/drive/iec/c64exp \
 				$(LOCAL_PATH)/../../../../../../src/rtc \
+				$(LOCAL_PATH)/../../../../../../src/joyport \
+				$(LOCAL_PATH)/../../../../../../src/tapeport \
+				$(LOCAL_PATH)/../../../../../../src/samplerdrv \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)
@@ -49,7 +52,6 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/c64bus.c \
 	$(MY_PATH2)/src/c64/c64cia1.c \
 	$(MY_PATH2)/src/c64/c64cia2.c \
-	$(MY_PATH2)/src/c64/c64datasette.c \
 	$(MY_PATH2)/src/c64/c64drive.c \
 	$(MY_PATH2)/src/c64/c64embedded.c \
 	$(MY_PATH2)/src/c64/c64export.c \
@@ -57,18 +59,22 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/c64iec.c \
 	$(MY_PATH2)/src/c64/c64io.c \
 	$(MY_PATH2)/src/c64/c64keyboard.c \
-	$(MY_PATH2)/src/c64/c64memsnapshot.c \
-	$(MY_PATH2)/src/c64/c64scmodel.c \
 	$(MY_PATH2)/src/c64/c64parallel.c \
-	$(MY_PATH2)/src/c64/c64pla.c \
 	$(MY_PATH2)/src/c64/c64printer.c \
 	$(MY_PATH2)/src/c64/c64romset.c \
 	$(MY_PATH2)/src/c64/c64rsuser.c \
 	$(MY_PATH2)/src/c64/c64sound.c \
 	$(MY_PATH2)/src/c64/c64video.c \
-	$(MY_PATH2)/src/c64/patchrom.c \
 	$(MY_PATH2)/src/c64/reloc65.c \
-	$(MY_PATH2)/src/mouse.c
+	$(MY_PATH2)/src/samplerdrv/file_drv.c \
+	$(MY_PATH2)/src/samplerdrv/portaudio_drv.c \
+	$(MY_PATH2)/src/samplerdrv/sampler.c \
+	$(MY_PATH2)/src/joyport/mouse.c \
+	$(MY_PATH2)/src/arch/sdl/xscpu64_ui.c \
+	$(MY_PATH2)/src/arch/sdl/menu_scpu64hw.c \
+	$(MY_PATH2)/src/arch/sdl/menu_c64cart.c \
+	$(MY_PATH2)/src/arch/sdl/menu_c64model.c \
+	$(MY_PATH2)/src/arch/sdl/menu_c64_common_expansions.c
 
 LOCAL_SRC_FILES += $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(LOCAL_PATH)/$(F)/*.c))))
 
