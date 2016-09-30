@@ -1075,11 +1075,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             new_screen = NULL;
         }
     } else {
-        new_screen = NULL;
-    }
-
-    if (!new_screen) {
-        log_error(sdlvideo_log, "SDL_SetVideoMode failed!");
+        log_error(sdlvideo_log, "SDL_CreateWindow failed!");
         return NULL;
     }
 
