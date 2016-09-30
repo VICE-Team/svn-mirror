@@ -2736,12 +2736,9 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
             old_LIBS="$LIBS"
             LIBS="$LIBS -lGL"
             if test x"$use_sdl2_prefix" = "xyes"; then
-                AC_TRY_LINK([#include <SDL2/SDL_opengl.h>],
-                            [glViewport(1,2,3,4)],
-                            [AC_MSG_RESULT(yes);
-                             have_opengl_lib=yes],
-                            [AC_MSG_RESULT(no);
-                             LIBS="$old_LIBS"])
+                AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
+                HAVE_HWSCALE_SUPPORT="yes"
+                LIBS="$old_LIBS"
             else
                 if test x"$use_sdl_prefix" = "xyes"; then
                     AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
