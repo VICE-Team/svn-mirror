@@ -34,6 +34,9 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/tape \
 				$(LOCAL_PATH)/../../../../../../src/c64/cart \
 				$(LOCAL_PATH)/../../../../../../src/rtc \
+                                $(LOCAL_PATH)/../../../../../../src/joyport \
+                                $(LOCAL_PATH)/../../../../../../src/tapeport \
+                                $(LOCAL_PATH)/../../../../../../src/samplerdrv \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)
@@ -48,7 +51,19 @@ LOCAL_CPP_EXTENSION := .cpp
 
 LOCAL_SRC_FILES := $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(LOCAL_PATH)/$(F)/*.c))))
 
-LOCAL_SRC_FILES += $(MY_PATH2)/src/mouse.c
+LOCAL_SRC_FILES += \
+	$(MY_PATH2)/src/joyport/mouse.c \
+	$(MY_PATH2)/src/tapeport/cp-clockf83.c \
+	$(MY_PATH2)/src/tapeport/dtl-basic-dongle.c \
+	$(MY_PATH2)/src/tapeport/sense-dongle.c \
+	$(MY_PATH2)/src/tapeport/tapelog.c \
+	$(MY_PATH2)/src/tapeport/tapeport.c \
+	$(MY_PATH2)/src/samplerdrv/file_drv.c \
+	$(MY_PATH2)/src/samplerdrv/portaudio_drv.c \
+	$(MY_PATH2)/src/samplerdrv/sampler.c \
+        $(MY_PATH2)/src/arch/sdl/xvic_ui.c \
+        $(MY_PATH2)/src/arch/sdl/menu_vic20cart.c \
+        $(MY_PATH2)/src/arch/sdl/menu_vic20hw.c
 
 LOCAL_ARM_MODE := arm
 

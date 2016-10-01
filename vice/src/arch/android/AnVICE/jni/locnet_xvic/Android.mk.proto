@@ -17,6 +17,7 @@ LOCAL_CFLAGS := -DANDROID_COMPILE -D__XVIC__
 LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/../locnet/include \
 				$(LOCAL_PATH)/../sdl/include \
 				$(LOCAL_PATH)/../../../../../../src/ \
+                                $(LOCAL_PATH)/../../../../../../src/joyport \
 				$(LOCAL_PATH)/../../../../../../src/arch/sdl \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)
@@ -31,7 +32,7 @@ LOCAL_CPP_EXTENSION := .cpp
 
 LOCAL_SRC_FILES := ../locnet/locnet_loader.cpp
 
-LOCAL_STATIC_LIBRARIES := \
+LOCAL_WHOLE_STATIC_LIBRARIES := \
 	locnet_al \
 	vice_commonall \
 	vice_xvic \
@@ -41,8 +42,7 @@ LOCAL_STATIC_LIBRARIES := \
 	vice_ieeepar \
 	vice_commoncart \
 	vice_xvic \
-	vice_commonall \
-	vice_common
+	vice_joyport
 
 LOCAL_LDLIBS := -lz -llog
 
