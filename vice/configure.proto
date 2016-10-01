@@ -325,6 +325,11 @@ case "$host_os" in
     if test -d "/usr/X11R7/lib"; then
       rtp=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/X11R7/lib"`
       LDFLAGS="$LDFLAGS $rtp"
+    else
+      if test -d "/usr/X11R6/lib"; then
+        rtp=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/X11R6/lib"`
+        LDFLAGS="$LDFLAGS $rtp"
+      fi
     fi
     ;;
   *)
