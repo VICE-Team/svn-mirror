@@ -913,8 +913,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int renderamount = SDL_GetNumRenderDrivers();
     unsigned int window_h = 0;
     unsigned int window_w = 0;
-	int temp_h = 0;
-	int temp_w = 0;
+    int temp_h = 0;
+    int temp_w = 0;
     SDL_GLContext ctx;
     SDL_RendererInfo info;
 
