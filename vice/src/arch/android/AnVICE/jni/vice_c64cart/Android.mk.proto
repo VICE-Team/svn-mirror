@@ -51,6 +51,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/cart/c64-midi.c \
 	$(MY_PATH2)/src/c64/cart/c64tpi.c \
 	$(MY_PATH2)/src/c64/cart/capture.c \
+        $(MY_PATH2)/src/c64/cart/clockport.c \
 	$(MY_PATH2)/src/c64/cart/comal80.c \
 	$(MY_PATH2)/src/c64/cart/cpmcart.c \
 	$(MY_PATH2)/src/c64/cart/daa.c \
