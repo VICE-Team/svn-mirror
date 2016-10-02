@@ -316,7 +316,9 @@ dnl required to get FreeBSD to notice many libraries like libpci, libXrandr,
 dnl libSDL*, etc 
 case "$host_os" in
   freebsd*)
-    LDFLAGS="$LDFLAGS -L/usr/local/lib"
+    CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+    fbsdrtp=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
+    LDFLAGS="$LDFLAGS $fbsdrtp"
     ;;
   netbsd*)
     CPPFLAGS="$CPPFLAGS -I/usr/pkg/include -I/usr/include"
@@ -1596,17 +1598,6 @@ else
     RESID_DTV_INCLUDES="-I\$(top_builddir)/src/resid-dtv"
     RESID_DTV_DEP=libresiddtv
     RESIDDTVSUB=resid-dtv
-
-    dnl ReSID on FreeBSD needs -I/usr/local/include if NLS is used otherwise it
-    dnl won't find <libintl.h>
-    case "$host_os" in
-      freebsd*)
-        if test x"$enable_nls" != "xno"; then
-          CPPFLAGS="$CPPFLAGS -I/usr/local/include"
-        fi
-      ;;
-    esac
-
   fi
   AC_LANG_RESTORE
 fi
