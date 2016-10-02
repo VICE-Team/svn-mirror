@@ -569,6 +569,7 @@ if test x"$emulator" = "xxplus4"; then
   cp vice_ieeepar/Android.mk.proto vice_ieeepar/Android.mk
   cp vice_tape/Android.mk.proto vice_tape/Android.mk
   cp vice_xplus4/Android.mk.proto vice_xplus4/Android.mk
+  cp vice_joyport/Android.mk.proto vice_joyport/Android.mk
 fi
 
 if test x"$emulator" = "xxcbm5x0"; then
