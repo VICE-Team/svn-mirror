@@ -799,6 +799,12 @@ IDGS_SNAPSHOT_VICE_VERSION
 /* snapshot.c */
 IDGS_SNAPSHOT_OLD_VICE_VERSION
 
+/* c64/cart/clockport-rrnet.c */
+IDGS_CLOCKPORT_RRNET_IN_USE_BY_S
+
+/* c64/cart/cs8900io.c */
+IDGS_CS8900_IN_USE_BY_S
+
 /* tapeport/tapertc.c */
 IDCLS_ENABLE_TAPERTC
 
@@ -3251,6 +3257,9 @@ IDCLS_ENABLE_DS12C887RTC_SAVE
 
 /* c64/cart/ds12c887rtc.c */
 IDCLS_DISABLE_DS12C887RTC_SAVE
+
+/* c64/cart/rrnetmk3.c */
+IDCLS_CLOCKPORT_DEVICE
 
 /* c64/cart/sfx_soundexpander.c */
 IDCLS_ENABLE_SFX_SE

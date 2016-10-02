@@ -4679,6 +4679,40 @@ translate_t string_table[] = {
 /* tr */ {IDGS_SNAPSHOT_OLD_VICE_VERSION_TR, ""},  /* fuzzy */
 #endif
 
+/* c64/cart/clockport-rrnet.c */
+/* en */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S,    N_("ClockPort RRNET already in use by %s.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/cs8900io.c */
+/* en */ {IDGS_CS8900_IN_USE_BY_S,    N_("ClockPort RRNET already in use by %s.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CS8900_IN_USE_BY_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CS8900_IN_USE_BY_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CS8900_IN_USE_BY_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CS8900_IN_USE_BY_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CS8900_IN_USE_BY_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CS8900_IN_USE_BY_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CS8900_IN_USE_BY_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CS8900_IN_USE_BY_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CS8900_IN_USE_BY_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CS8900_IN_USE_BY_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CS8900_IN_USE_BY_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CS8900_IN_USE_BY_S_TR, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* joystick.c */
@@ -18800,6 +18834,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_DS12C887RTC_SAVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DS12C887RTC_SAVE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_DS12C887RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/rrnetmk3.c */
+/* en */ {IDCLS_CLOCKPORT_DEVICE,    N_("Clockport device")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_CLOCKPORT_DEVICE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_CLOCKPORT_DEVICE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_CLOCKPORT_DEVICE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_CLOCKPORT_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_CLOCKPORT_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_CLOCKPORT_DEVICE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_CLOCKPORT_DEVICE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_CLOCKPORT_DEVICE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_CLOCKPORT_DEVICE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_CLOCKPORT_DEVICE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_CLOCKPORT_DEVICE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_CLOCKPORT_DEVICE_TR, ""},  /* fuzzy */
 #endif
 
 #ifdef HAVE_NETWORK

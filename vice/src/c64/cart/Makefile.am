@@ -42,6 +42,10 @@ libc64cart_a_SOURCES = \
 	c64tpi.h \
 	capture.c \
 	capture.h \
+	clockport.c \
+	clockport.h \
+	clockport-rrnet.c \
+	clockport-rrnet.h \
 	comal80.c \
 	comal80.h \
 	cpmcart.c \

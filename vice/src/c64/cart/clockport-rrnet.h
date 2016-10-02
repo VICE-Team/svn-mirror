@@ -1,11 +1,8 @@
 /*
- * cs8900io.h - CS8900 I/O for TFE and RRNET (clockport) carts.
+ * clockport_rrnet.h - ClockPort RRNET emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
- * Based on code by
- *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,27 +24,11 @@
  *
  */
 
-#ifndef VICE_TFE_H
-#define VICE_TFE_H
+#ifndef VICE_CLOCKPORT_RRNET_H
+#define VICE_CLOCKPORT_RRNET_H
 
-#ifdef HAVE_TFE
+extern int clockport_rrnet_init(void);
+extern void clockport_rrnet_shutdown(void);
+extern clockport_device_t *clockport_rrnet_open_device(char *owner);
 
-extern int cs8900io_cart_enabled(void);
-
-extern void cs8900io_init(void);
-extern int cs8900io_resources_init(void);
-extern void cs8900io_resources_shutdown(void);
-extern int cs8900io_cmdline_options_init(void);
-
-extern void cs8900io_reset(void);
-extern void cs8900io_detach(void);
-extern int cs8900io_enable(char *owner);
-extern int cs8900io_disable(void);
-
-extern void cs8900io_store(WORD io_address, BYTE byte);
-extern BYTE cs8900io_read(WORD io_address);
-extern BYTE cs8900io_peek(WORD io_address);
-extern int cs8900io_dump(void);
-
-#endif
 #endif

@@ -36,6 +36,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #ifdef DOS_TFE
 #include <pcap.h>
 #endif
@@ -55,6 +56,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"
+#include "uiapi.h"
 #include "util.h"
 
 /* #define CS8900IO_DEBUG */
@@ -81,9 +83,7 @@ static int cs8900io_cannot_use = 0;
 
 /* Flag: Do we have the CS8900 I/O enabled?  */
 static int cs8900io_enabled = 0;
-
-/* Flag: Do we use the "original" memory map or the memory map of the RR-Net? */
-int cs8900io_as_rr_net = 0;
+static char *cs8900io_owner = NULL;
 
 static char *cs8900io_interface = NULL;
 
@@ -195,14 +195,6 @@ void cs8900io_detach(void)
 /* ----- read byte from I/O range in VICE ----- */
 BYTE cs8900io_read(WORD io_address)
 {
-    if (cs8900io_as_rr_net) {
-        /* rr status register is handled by rr cartidge */
-        if (io_address < 0x02) {
-            return 0;
-        }
-        io_address ^= 0x08;
-    }
-
     if (!cs8900io_cannot_use) {
         return cs8900_read(io_address);
     }
@@ -218,14 +210,6 @@ BYTE cs8900io_peek(WORD io_address)
 /* ----- write byte to I/O range of VICE ----- */
 void cs8900io_store(WORD io_address, BYTE byte)
 {
-    if (cs8900io_as_rr_net) {
-        /* rr control register is handled by rr cartidge */
-        if (io_address < 0x02) {
-            return;
-        }
-        io_address ^= 0x08;
-    }
-
     if (!cs8900io_cannot_use) {
         cs8900_store(io_address, byte);
     }
@@ -247,7 +231,7 @@ int cs8900io_cart_enabled(void)
     return cs8900io_enabled;
 }
 
-int cs8900io_enable(int rrnet)
+int cs8900io_enable(char *owner)
 {
     if (!cs8900io_cannot_use) {
         if (!cs8900io_enabled) {
@@ -255,12 +239,15 @@ int cs8900io_enable(int rrnet)
                 return -1;
             }
             cs8900io_enabled = 1;
-            cs8900io_as_rr_net = rrnet;
+        } else {
+            ui_error(translate_text(IDGS_CS8900_IN_USE_BY_S), cs8900io_owner);
+            return -1;
         }
         cs8900io_reset();
+        cs8900io_owner = owner;
         return 0;
     }
-    return 0;
+    return -1;
 }
 
 int cs8900io_disable(void)
@@ -273,9 +260,9 @@ int cs8900io_disable(void)
                 DBG(("CS8900 I/O: set disabled: error\n"));
                 return -1;
             }
+            cs8900io_reset();
+            cs8900io_owner = NULL;
         }
-        cs8900io_reset();
-        return 0;
     }
     return 0;
 }

@@ -129,21 +129,6 @@ static io_source_t rrnet_io1_mmcreplay_device = {
     0
 };
 
-static io_source_t rrnet_io1_mk3_device = {
-    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_RRNETMK3,
-    IO_DETACH_RESOURCE,
-    "ETHERNET_ACTIVE",
-    0xde02, 0xde0f, 0x0f,
-    0,
-    tfe_store,
-    tfe_read,
-    tfe_peek,
-    tfe_dump,
-    CARTRIDGE_TFE,
-    0,
-    0
-};
-
 static io_source_t rrnet_io1_device = {
     CARTRIDGE_NAME_RRNET,
     IO_DETACH_RESOURCE,
@@ -220,7 +205,7 @@ void tfe_reset(void)
 
 static int tfe_activate(void)
 {
-    return cs8900io_enable(tfe_as_rr_net);
+    return cs8900io_enable("TFE");
 }
 
 static int tfe_deactivate(void)
@@ -259,9 +244,6 @@ void tfe_clockport_changed(void)
         }
         if (mmcreplay_cart_enabled() && mmcr_clockport_enabled) {
             tfe_current_device = &rrnet_io1_mmcreplay_device;
-        }
-        if (rrnetmk3_cart_enabled()) {
-            tfe_current_device = &rrnet_io1_mk3_device;
         }
     }
     /* if adapter is already enabled then reset the LAN chip */
