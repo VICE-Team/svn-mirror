@@ -334,6 +334,11 @@ case "$host_os" in
       fi
     fi
     ;;
+  dragonfly*)
+    CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+    dfbsdrtp=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
+    LDFLAGS="$LDFLAGS $dfbsdrtp -L/usr/local/lib"
+    ;;
   *)
     ;;
 esac
