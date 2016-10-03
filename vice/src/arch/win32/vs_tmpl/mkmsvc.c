@@ -492,11 +492,11 @@ static char *msvc_libs_gui[2] = {
 
 static char *msvc_libs_console_sdl = "version.lib wsock32.lib SDLmain.lib SDL.lib opengl32.lib";
 
-static char *msvc_libs_console_sdl2 = "version.lib wsock32.lib SDL2main.lib SDL2.lib opengl32.lib";
+static char *msvc_libs_console_sdl2 = "version.lib wsock32.lib SDL2main.lib SDL2.lib";
 
 static char *msvc_libs_gui_sdl = "comctl32.lib version.lib winmm.lib wsock32.lib SDLmain.lib SDL.lib opengl32.lib";
 
-static char *msvc_libs_gui_sdl2 = "comctl32.lib version.lib winmm.lib wsock32.lib SDL2main.lib SDL2.lib opengl32.lib";
+static char *msvc_libs_gui_sdl2 = "comctl32.lib version.lib winmm.lib wsock32.lib SDL2main.lib SDL2.lib";
 
 static char *msvc_preprodefs[2] = {
     "_DEBUG",
@@ -695,7 +695,7 @@ static char *msvc10_libs_console = "version.lib;wsock32.lib;advapi32.lib";
 
 static char *msvc10_libs_console_sdl = "version.lib;wsock32.lib;SDLmain.lib;SDL.lib;opengl32.lib";
 
-static char *msvc10_libs_console_sdl2 = "version.lib;wsock32.lib;SDL2main.lib;SDL2.lib;opengl32.lib";
+static char *msvc10_libs_console_sdl2 = "version.lib;wsock32.lib;SDL2main.lib;SDL2.lib";
 
 static char *msvc10_libs_gui[2] = {
     "comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ole32.lib",
@@ -704,7 +704,7 @@ static char *msvc10_libs_gui[2] = {
 
 static char *msvc10_libs_gui_sdl = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDLmain.lib;SDL.lib;opengl32.lib";
 
-static char *msvc10_libs_gui_sdl2 = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDL2main.lib;SDL2.lib;opengl32.lib";
+static char *msvc10_libs_gui_sdl2 = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDL2main.lib;SDL2.lib";
 
 static char *msvc10_libs_gui_sdl_arm = "comctl32.lib;version.lib;winmm.lib;wsock32.lib;SDLmain.lib;SDL.lib;advapi32.lib";
 
@@ -3315,11 +3315,11 @@ static char *msvc70_gui_libs[2] = {
 
 static char *msvc70_console_libs_sdl = "version.lib wsock32.lib SDLmain.lib SDL.lib opengl32.lib";
 
-static char *msvc70_console_libs_sdl2 = "version.lib wsock32.lib SDL2main.lib SDL2.lib opengl32.lib";
+static char *msvc70_console_libs_sdl2 = "version.lib wsock32.lib SDL2main.lib SDL2.lib";
 
 static char *msvc70_gui_libs_sdl = "comctl32.lib version.lib winmm.lib wsock32.lib SDLmain.lib SDL.lib opengl32.lib";
 
-static char *msvc70_gui_libs_sdl2 = "comctl32.lib version.lib winmm.lib wsock32.lib SDL2main.lib SDL2.lib opengl32.lib";
+static char *msvc70_gui_libs_sdl2 = "comctl32.lib version.lib winmm.lib wsock32.lib SDL2main.lib SDL2.lib";
 
 static char *msvc70_xml_header = "<?xml version=\"1.0\" encoding = \"Windows-1252\"?>\r\n";
 
@@ -4222,7 +4222,7 @@ static char *msvc6_dx_libs[2] = {
 
 static char *msvc6_sdl_libs = " SDLmain.lib SDL.lib opengl32.lib";
 
-static char *msvc6_sdl2_libs = " SDL2main.lib SDL2.lib opengl32.lib";
+static char *msvc6_sdl2_libs = " SDL2main.lib SDL2.lib";
 
 static char *msvc6_endif = "!ENDIF\r\n"
                            "\r\n";
