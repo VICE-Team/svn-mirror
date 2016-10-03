@@ -948,6 +948,15 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
     }
 
+    if (sdl_video_canvas_limit(limit_w, limit_h, &new_width, &new_height, limit)) {
+        canvas->draw_buffer->canvas_physical_width = new_width;
+        canvas->draw_buffer->canvas_physical_height = new_height;
+        video_viewport_resize(sdl_active_canvas, 0);
+        if (sdl_ui_finalized) {
+            return canvas; /* exit here as video_viewport_resize will recall */
+        }
+    }
+
     if (!sdl_ui_finalized) { /* remember first size */
         sdl_active_canvas->real_width = (unsigned int)((double)new_width * aspect + 0.5);
         sdl_active_canvas->real_height = new_height;
@@ -965,15 +974,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         } else { /* full window size remembering when aspect ratio is not important */
             window_w = (unsigned int)sdl_window_width;
             window_h = (unsigned int)sdl_window_height;
-        }
-    }
-
-    if (sdl_video_canvas_limit(limit_w, limit_h, &actual_width, &actual_height, limit)) {
-        canvas->draw_buffer->canvas_physical_width = actual_width;
-        canvas->draw_buffer->canvas_physical_height = actual_height;
-        video_viewport_resize(sdl_active_canvas, 0);
-        if (sdl_ui_finalized) {
-            return canvas; /* exit here as video_viewport_resize will recall */
         }
     }
 
