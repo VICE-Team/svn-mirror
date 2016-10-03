@@ -40,6 +40,7 @@
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "clockport.h"
 #include "cmdline.h"
 #include "crt.h"
 #include "export.h"
@@ -94,6 +95,10 @@ int mmc64_clockport_enabled = 1;
 
 /* MMC64 clockport base address */
 int mmc64_hw_clockport = 0xde02;
+
+/* Current clockport device */
+static int clockport_device_id = CLOCKPORT_DEVICE_NONE;
+static clockport_device_t *clockport_device = NULL;
 
 /* MMC64 bios writable */
 static int mmc64_bios_write;
@@ -157,6 +162,8 @@ static const char STRING_MMC64[] = CARTRIDGE_NAME_MMC64;
 static int mmc64_activate(void);
 static int mmc64_deactivate(void);
 
+static char *clockport_device_names = NULL;
+
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
@@ -170,7 +177,11 @@ static BYTE mmc64_io2_read(WORD addr);
 static BYTE mmc64_io2_peek(WORD addr);
 static int mmc64_dump(void);
 
-static io_source_t mmc64_io1_clockport_device = {
+static BYTE mmc64_clockport_read(WORD io_address);
+static BYTE mmc64_clockport_peek(WORD io_address);
+static void mmc64_clockport_store(WORD io_address, BYTE byte);
+
+static io_source_t mmc64_io1_clockport_enable_device = {
     CARTRIDGE_NAME_MMC64 " Clockport enable",
     IO_DETACH_RESOURCE,
     "MMC64",
@@ -186,7 +197,7 @@ static io_source_t mmc64_io1_clockport_device = {
 };
 
 /* FIXME: register map doesnt show a register at $df21 - is this correct? */
-static io_source_t mmc64_io2_clockport_device = {
+static io_source_t mmc64_io2_clockport_enable_device = {
     CARTRIDGE_NAME_MMC64 " Clockport enable",
     IO_DETACH_RESOURCE,
     "MMC64",
@@ -201,6 +212,37 @@ static io_source_t mmc64_io2_clockport_device = {
     0
 };
 
+static io_source_t mmc64_io1_clockport_device = {
+    CARTRIDGE_NAME_MMC64 " Clockport",
+    IO_DETACH_RESOURCE,
+    "MMC64ClockPort",
+    0xde02, 0xde0f, 0x0f,
+    0,
+    mmc64_clockport_store,
+    mmc64_clockport_read,
+    mmc64_clockport_peek,
+    mmc64_dump,
+    CARTRIDGE_MMC64,
+    0,
+    0
+};
+
+static io_source_t mmc64_io2_clockport_device = {
+    CARTRIDGE_NAME_MMC64 " Clockport",
+    IO_DETACH_RESOURCE,
+    "MMC64ClockPort",
+    0xdf22, 0xdf2f, 0x0f,
+    0,
+    mmc64_clockport_store,
+    mmc64_clockport_read,
+    mmc64_clockport_peek,
+    mmc64_dump,
+    CARTRIDGE_MMC64,
+    0,
+    0
+};
+
+static io_source_t *mmc64_current_clockport_enable_device = &mmc64_io1_clockport_enable_device;
 static io_source_t *mmc64_current_clockport_device = &mmc64_io1_clockport_device;
 
 /* FIXME: register/handle the clockport resource properly */
@@ -243,6 +285,7 @@ static io_source_t mmc64_io1_device = {
 };
 
 static io_source_list_t *mmc64_clockport_list_item = NULL;
+static io_source_list_t *mmc64_clockport_enable_list_item = NULL;
 static io_source_list_t *mmc64_io1_list_item = NULL;
 static io_source_list_t *mmc64_io2_list_item = NULL;
 
@@ -284,10 +327,9 @@ void mmc64_reset(void)
 
     if (mmc64_clockport_enabled != 1) {
         mmc64_clockport_enabled = 1;
-#ifdef HAVE_TFE
-        tfe_as_rr_net = 1;
-        tfe_clockport_changed();
-#endif
+        if (mmc64_enabled && clockport_device) {
+            clockport_device->reset(clockport_device->device_context);
+        }
     }
     if (mmc64_enabled) {
 #if USEPASSTHROUGHHACK
@@ -327,6 +369,65 @@ static int mmc64_deactivate(void)
     return 0;
 }
 
+static int set_mmc64_clockport_device(int val, void *param)
+{
+    if (val == clockport_device_id) {
+        return 0;
+    }
+
+    if (!mmc64_enabled) {
+        clockport_device_id = val;
+    }
+
+    if (clockport_device_id != CLOCKPORT_DEVICE_NONE) {
+        clockport_device->close(clockport_device);
+        clockport_device_id = CLOCKPORT_DEVICE_NONE;
+        clockport_device = NULL;
+    }
+
+    if (val != CLOCKPORT_DEVICE_NONE) {
+        clockport_device = clockport_open_device(val, (char *)STRING_MMC64);
+        if (!clockport_device) {
+            return -1;
+        }
+        clockport_device_id = val;
+    }
+    return 0;
+}
+
+static int clockport_activate(void)
+{
+    if (mmc64_enabled) {
+        return 0;
+    }
+
+    if (clockport_device_id == CLOCKPORT_DEVICE_NONE) {
+        return 0;
+    }
+
+    clockport_device = clockport_open_device(clockport_device_id, (char *)STRING_MMC64);
+    if (!clockport_device) {
+        return -1;
+    }
+    return 0;
+}
+
+static int clockport_deactivate(void)
+{
+    if (!mmc64_enabled) {
+        return 0;
+    }
+
+    if (clockport_device_id == CLOCKPORT_DEVICE_NONE) {
+        return 0;
+    }
+
+    clockport_device->close(clockport_device);
+    clockport_device = NULL;
+
+    return 0;
+}
+
 /* FIXME: resetting the c64 should be handled in the upper layer */
 static int set_mmc64_enabled(int value, void *param)
 {
@@ -361,9 +462,13 @@ static int set_mmc64_enabled(int value, void *param)
                 if (mmc64_activate() < 0) {
                     return -1;
                 }
+                if (clockport_activate() < 0) {
+                    return -1;
+                }
                 mmc64_enabled = 1;
                 cart_set_port_exrom_slot0(1);
                 cart_port_config_changed_slot0();
+                mmc64_clockport_enable_list_item = io_source_register(mmc64_current_clockport_enable_device);
                 mmc64_clockport_list_item = io_source_register(mmc64_current_clockport_device);
                 mmc64_io1_list_item = io_source_register(&mmc64_io1_device);
                 mmc64_io2_list_item = io_source_register(&mmc64_io2_device);
@@ -375,14 +480,17 @@ static int set_mmc64_enabled(int value, void *param)
         if (mmc64_deactivate() < 0) {
             return -1;
         }
+        clockport_deactivate();
         cart_power_off();
         export_remove(&export_res);
         mmc64_enabled = 0;
         cart_set_port_exrom_slot0(0);
         cart_port_config_changed_slot0();
+        io_source_unregister(mmc64_clockport_enable_list_item);
         io_source_unregister(mmc64_clockport_list_item);
         io_source_unregister(mmc64_io1_list_item);
         io_source_unregister(mmc64_io2_list_item);
+        mmc64_clockport_enable_list_item = NULL;
         mmc64_clockport_list_item = NULL;
         mmc64_io1_list_item = NULL;
         mmc64_io2_list_item = NULL;
@@ -575,10 +683,6 @@ static void mmc64_clockport_enable_store(WORD addr, BYTE value)
 {
     if ((value & 1) != mmc64_clockport_enabled) {
         mmc64_clockport_enabled = value & 1;
-#ifdef HAVE_TFE
-        tfe_as_rr_net = 1;
-        tfe_clockport_changed();
-#endif
     }
 }
 
@@ -691,21 +795,19 @@ static void mmc64_reg_store(WORD addr, BYTE value, int active)
                 if (mmc64_cport) {
                     mmc64_hw_clockport = 0xdf22;
                     mmc64_current_clockport_device = &mmc64_io2_clockport_device;
+                    mmc64_current_clockport_enable_device = &mmc64_io2_clockport_enable_device;
                     io_source_unregister(mmc64_clockport_list_item);
                     mmc64_clockport_list_item = io_source_register(mmc64_current_clockport_device);
-#ifdef HAVE_TFE
-                    tfe_as_rr_net = 1;
-                    tfe_clockport_changed();
-#endif
+                    io_source_unregister(mmc64_clockport_enable_list_item);
+                    mmc64_clockport_enable_list_item = io_source_register(mmc64_current_clockport_enable_device);
                 } else {
                     mmc64_hw_clockport = 0xde02;
                     mmc64_current_clockport_device = &mmc64_io1_clockport_device;
                     io_source_unregister(mmc64_clockport_list_item);
                     mmc64_clockport_list_item = io_source_register(mmc64_current_clockport_device);
-#ifdef HAVE_TFE
-                    tfe_as_rr_net = 1;
-                    tfe_clockport_changed();
-#endif
+                    mmc64_current_clockport_enable_device = &mmc64_io1_clockport_enable_device;
+                    io_source_unregister(mmc64_clockport_enable_list_item);
+                    mmc64_clockport_enable_list_item = io_source_register(mmc64_current_clockport_enable_device);
                 }
                 return;
             }
@@ -927,10 +1029,49 @@ static BYTE mmc64_io1_peek(WORD addr)
 
 /* ---------------------------------------------------------------------*/
 
+static BYTE mmc64_clockport_read(WORD address)
+{
+    if (clockport_device) {
+        if (address < 0x02) {
+            mmc64_current_clockport_device->io_source_valid = 0;
+            return 0;
+        }
+        mmc64_current_clockport_device->io_source_valid = 1;
+
+        return clockport_device->read(address, clockport_device->device_context);
+    }
+    return 0;
+}
+
+static BYTE mmc64_clockport_peek(WORD address)
+{
+    if (clockport_device) {
+        if (address < 0x02) {
+            return 0;
+        }
+        return clockport_device->peek(address, clockport_device->device_context);
+    }
+    return 0;
+}
+
+static void mmc64_clockport_store(WORD address, BYTE byte)
+{
+    if (clockport_device) {
+        if (address < 0x02) {
+            return;
+        }
+
+        clockport_device->store(address, byte, clockport_device->device_context);
+    }
+}
+
+/* ---------------------------------------------------------------------*/
+
 static int mmc64_dump(void)
 {
     mon_out("Clockport is %s.\n", mmc64_clockport_enabled ? "enabled" : "disabled");
     mon_out("Clockport mapped to $%04x.\n", mmc64_hw_clockport);
+    mon_out("Clockport device %s\n", clockport_device_id_to_name(clockport_device_id));
 
     return 0;
 }
@@ -1001,6 +1142,8 @@ static const resource_int_t resources_int[] = {
       &mmc64_bios_write, set_mmc64_bios_write, NULL },
     { "MMC64_sd_type", MMC64_TYPE_AUTO, RES_EVENT_NO, NULL,
       &mmc64_sd_type, set_mmc64_sd_type, NULL },
+    { "MMC64ClockPort", 0, RES_EVENT_NO, NULL,
+      &clockport_device_id, set_mmc64_clockport_device, NULL },
     { NULL }
 };
 
@@ -1019,6 +1162,8 @@ void mmc64_resources_shutdown(void)
     lib_free(mmc64_image_filename);
     mmc64_bios_filename = NULL;
     mmc64_image_filename = NULL;
+    lib_free(clockport_device_names);
+    clockport_device_names = NULL;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1088,9 +1233,42 @@ static const cmdline_option_t cmdline_options[] =
   { NULL }
 };
 
+static cmdline_option_t clockport_cmdline_options[] =
+{
+    { "-rrnetmk3clockportdevice", SET_RESOURCE, 1,
+      NULL, NULL, "RRNETMK3ClockPort", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      IDCLS_P_DEVICE, IDCLS_CLOCKPORT_DEVICE,
+      NULL, NULL },
+    { NULL }
+};
+
 int mmc64_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
+    int i;
+    char *tmp;
+    char number[10];
+
+    if (cmdline_register_options(cmdline_options) < 0) {
+        return -1;
+    }
+
+    sprintf(number, "%d", clockport_supported_devices[0].id);
+
+    clockport_device_names = util_concat(". (", number, ": ", clockport_supported_devices[0].name, NULL);
+
+    for (i = 1; clockport_supported_devices[i].name; ++i) {
+        tmp = clockport_device_names;
+        sprintf(number, "%d", clockport_supported_devices[i].id);
+        clockport_device_names = util_concat(tmp, ", ", number, ": ", clockport_supported_devices[i].name, NULL);
+        lib_free(tmp);
+    }
+    tmp = clockport_device_names;
+    clockport_device_names = util_concat(tmp, ")", NULL);
+    lib_free(tmp);
+    clockport_cmdline_options[0].description = clockport_device_names;
+
+    return cmdline_register_options(clockport_cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */

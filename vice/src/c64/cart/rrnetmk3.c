@@ -136,7 +136,7 @@ static io_source_t rrnetmk3_io1_device = {
 };
 
 static io_source_t rrnetmk3_clockport_io1_device = {
-    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_RRNETMK3 "Clockport",
+    CARTRIDGE_NAME_RRNETMK3 "Clockport",
     IO_DETACH_RESOURCE,
     "RRNETMK3ClockPort",
     0xde02, 0xde0f, 0x0f,
@@ -299,30 +299,38 @@ static BYTE rrnetmk3_io1_peek(WORD addr)
 
 static BYTE rrnetmk3_clockport_read(WORD address)
 {
-    if (address < 0x02) {
-        rrnetmk3_clockport_io1_device.io_source_valid = 0;
-        return 0;
-    }
-    rrnetmk3_clockport_io1_device.io_source_valid = 1;
+    if (clockport_device) {
+        if (address < 0x02) {
+            rrnetmk3_clockport_io1_device.io_source_valid = 0;
+            return 0;
+        }
+        rrnetmk3_clockport_io1_device.io_source_valid = 1;
 
-    return clockport_device->read(address, clockport_device->device_context);
+        return clockport_device->read(address, clockport_device->device_context);
+    }
+    return 0;
 }
 
 static BYTE rrnetmk3_clockport_peek(WORD address)
 {
-    if (address < 0x02) {
-        return 0;
+    if (clockport_device) {
+        if (address < 0x02) {
+            return 0;
+        }
+        return clockport_device->peek(address, clockport_device->device_context);
     }
-    return clockport_device->read(address, clockport_device->device_context);
+    return 0;
 }
 
 static void rrnetmk3_clockport_store(WORD address, BYTE byte)
 {
-    if (address < 0x02) {
-        return;
-    }
+    if (clockport_device) {
+        if (address < 0x02) {
+            return;
+        }
 
-    clockport_device->store(address, byte, clockport_device->device_context);
+        clockport_device->store(address, byte, clockport_device->device_context);
+    }
 }
 
 /* ---------------------------------------------------------------------*/

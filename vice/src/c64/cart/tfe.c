@@ -56,10 +56,6 @@
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #include "cs8900io.h"
-#include "mmc64.h"
-#include "mmcreplay.h"
-#include "retroreplay.h"
-#include "rrnetmk3.h"
 #include "tfe.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
@@ -84,51 +80,6 @@ static BYTE tfe_peek(WORD io_address);
 static void tfe_store(WORD io_address, BYTE byte);
 static int tfe_dump(void);
 
-static io_source_t rrnet_io1_mmc64_device = {
-    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_MMC64 " Clockport",
-    IO_DETACH_RESOURCE,
-    "ETHERNET_ACTIVE",
-    0xde02, 0xde0f, 0x0f,
-    0,
-    tfe_store,
-    tfe_read,
-    tfe_peek,
-    tfe_dump,
-    CARTRIDGE_TFE,
-    0,
-    0
-};
-
-static io_source_t rrnet_io1_retroreplay_device = {
-    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_RETRO_REPLAY " Clockport",
-    IO_DETACH_RESOURCE,
-    "ETHERNET_ACTIVE",
-    0xde02, 0xde0f, 0x0f,
-    0,
-    tfe_store,
-    tfe_read,
-    tfe_peek,
-    tfe_dump,
-    CARTRIDGE_TFE,
-    0,
-    0
-};
-
-static io_source_t rrnet_io1_mmcreplay_device = {
-    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_MMC_REPLAY " Clockport",
-    IO_DETACH_RESOURCE,
-    "ETHERNET_ACTIVE",
-    0xde02, 0xde0f, 0x0f,
-    0,
-    tfe_store,
-    tfe_read,
-    tfe_peek,
-    tfe_dump,
-    CARTRIDGE_TFE,
-    0,
-    0
-};
-
 static io_source_t rrnet_io1_device = {
     CARTRIDGE_NAME_RRNET,
     IO_DETACH_RESOURCE,
@@ -149,21 +100,6 @@ static io_source_t tfe_io1_device = {
     IO_DETACH_RESOURCE,
     "ETHERNET_ACTIVE",
     0xde00, 0xdeff, 0x0f,
-    0,
-    tfe_store,
-    tfe_read,
-    tfe_peek,
-    tfe_dump,
-    CARTRIDGE_TFE,
-    0,
-    0
-};
-
-static io_source_t rrnet_io2_mmc64_device = {
-    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_MMC64 " Clockport",
-    IO_DETACH_RESOURCE,
-    "ETHERNET_ACTIVE",
-    0xdf22, 0xdf2f, 0x0f,
     0,
     tfe_store,
     tfe_read,
@@ -233,18 +169,6 @@ void tfe_clockport_changed(void)
         tfe_current_device = &tfe_io1_device;
     } else {
         tfe_current_device = &rrnet_io1_device;
-        if (mmc64_cart_enabled() && (mmc64_hw_clockport == 0xde02) && mmc64_clockport_enabled) {
-            tfe_current_device = &rrnet_io1_mmc64_device;
-        }
-        if (mmc64_cart_enabled() && (mmc64_hw_clockport == 0xdf12) && mmc64_clockport_enabled) {
-            tfe_current_device = &rrnet_io2_mmc64_device;
-        }
-        if (retroreplay_cart_enabled() && rr_clockport_enabled) {
-            tfe_current_device = &rrnet_io1_retroreplay_device;
-        }
-        if (mmcreplay_cart_enabled() && mmcr_clockport_enabled) {
-            tfe_current_device = &rrnet_io1_mmcreplay_device;
-        }
     }
     /* if adapter is already enabled then reset the LAN chip */
     if (tfe_enabled) {
