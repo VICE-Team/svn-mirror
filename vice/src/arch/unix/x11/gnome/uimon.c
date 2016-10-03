@@ -472,8 +472,8 @@ static void fill_completions(const char *string_so_far, int initial_chars, int t
 
 static void find_next_token(const char *string_so_far, int start_of_search, int *start_of_token, int *token_len)
 {
-    for(*start_of_token = start_of_search; string_so_far[*start_of_token] && isspace(string_so_far[*start_of_token]); (*start_of_token)++);
-    for(*token_len = 0; string_so_far[*start_of_token + *token_len] && !isspace(string_so_far[*start_of_token + *token_len]); (*token_len)++);
+    for(*start_of_token = start_of_search; string_so_far[*start_of_token] && isspace((int)(string_so_far[*start_of_token])); (*start_of_token)++);
+    for(*token_len = 0; string_so_far[*start_of_token + *token_len] && !isspace((int)(string_so_far[*start_of_token + *token_len])); (*token_len)++);
 }
 
 static gboolean is_token_in(const char *string_so_far, int token_len, const linenoiseCompletions *lc)
@@ -515,7 +515,7 @@ static void monitor_completions(const char *string_so_far, linenoiseCompletions 
         struct linenoiseCompletions files_lc = {0, NULL};
         int i;
 
-        for (start_of_token += token_len; string_so_far[start_of_token] && isspace(string_so_far[start_of_token]); start_of_token++);
+        for (start_of_token += token_len; string_so_far[start_of_token] && isspace((int)(string_so_far[start_of_token])); start_of_token++);
         if (string_so_far[start_of_token] != '"') {
             char *string_to_append = concat_strings(string_so_far, start_of_token, "\"");
             linenoiseAddCompletion(lc, string_to_append);
