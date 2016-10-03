@@ -63,12 +63,7 @@
     "The Final Ethernet" Cartridge
 
     - the original TFE cart simply contains a cs8900a mapped to de00.
-    - this implementation also emulates various configurations of the
-      very similar "rr-net" clockport addon.
-    - for register documentation refer to the cs8900a datasheet and/or
-      the respective register documentation for mmc64, retroreplay, mmcr
-
-    FIXME: create better logic to handle clockports
+    - for register documentation refer to the cs8900a datasheet
 */
 
 /* ------------------------------------------------------------------------- */
@@ -80,22 +75,7 @@ static BYTE tfe_peek(WORD io_address);
 static void tfe_store(WORD io_address, BYTE byte);
 static int tfe_dump(void);
 
-static io_source_t rrnet_io1_device = {
-    CARTRIDGE_NAME_RRNET,
-    IO_DETACH_RESOURCE,
-    "ETHERNET_ACTIVE",
-    0xde00, 0xde0f, 0x0f,
-    0,
-    tfe_store,
-    tfe_read,
-    tfe_peek,
-    tfe_dump,
-    CARTRIDGE_TFE,
-    0,
-    0
-};
-
-static io_source_t tfe_io1_device = {
+static io_source_t tfe_device = {
     CARTRIDGE_NAME_TFE,
     IO_DETACH_RESOURCE,
     "ETHERNET_ACTIVE",
@@ -111,11 +91,10 @@ static io_source_t tfe_io1_device = {
 };
 
 static export_resource_t export_res = {
-    CARTRIDGE_NAME_TFE, 0, 0, &tfe_io1_device, NULL, CARTRIDGE_TFE
+    CARTRIDGE_NAME_TFE, 0, 0, &tfe_device, NULL, CARTRIDGE_TFE
 };
 
 /* current configurations */
-static io_source_t *tfe_current_device = &tfe_io1_device;
 static io_source_list_t *tfe_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
@@ -123,9 +102,6 @@ static io_source_list_t *tfe_list_item = NULL;
 
 /* Flag: Do we have the TFE enabled?  */
 static int tfe_enabled = 0;
-
-/* Flag: Do we use the "original" memory map or the memory map of the RR-Net? */
-int tfe_as_rr_net = 0;
 
 /* Flag: swap io1/io2, currently only used for vic20 masC=uerade,
          but future usage of an io-swapper is possible */
@@ -161,54 +137,11 @@ void tfe_detach(void)
 }
 
 /* ------------------------------------------------------------------------- */
-/* retroreplay/mmc64 clockport changes helper function */
-
-void tfe_clockport_changed(void)
-{
-    if (!tfe_as_rr_net) {
-        tfe_current_device = &tfe_io1_device;
-    } else {
-        tfe_current_device = &rrnet_io1_device;
-    }
-    /* if adapter is already enabled then reset the LAN chip */
-    if (tfe_enabled) {
-        io_source_unregister(tfe_list_item);
-        export_remove(&export_res);
-        export_res.io1 = tfe_current_device;
-        if (export_add(&export_res) < 0) {
-            tfe_list_item = NULL;
-            tfe_enabled = 0;
-            return;
-        }
-        if (machine_class == VICE_MACHINE_VIC20) {
-            /* set correct addresses for masC=uerade */
-            if (tfe_io_swap) {
-                tfe_current_device->start_address = 0x9c00;
-                tfe_current_device->end_address = 0x9fff;
-            } else {
-                tfe_current_device->start_address = 0x9800;
-                tfe_current_device->end_address = 0x9bff;
-            }
-        }
-        tfe_list_item = io_source_register(tfe_current_device);
-        tfe_reset();
-    }
-}
-
-/* ------------------------------------------------------------------------- */
 
 /* ----- read byte from I/O range in VICE ----- */
 static BYTE tfe_read(WORD io_address)
 {
-    if (tfe_as_rr_net) {
-        /* rr status register is handled by rr cartidge */
-        if (io_address < 0x02) {
-            tfe_current_device->io_source_valid = 0;
-            return 0;
-        }
-        io_address ^= 0x08;
-    }
-    tfe_current_device->io_source_valid = 1;
+    tfe_device.io_source_valid = 1;
 
     return cs8900io_read(io_address);
 }
@@ -216,36 +149,21 @@ static BYTE tfe_read(WORD io_address)
 /* ----- peek byte with no sideeffects from I/O range in VICE ----- */
 static BYTE tfe_peek(WORD io_address)
 {
-    if (tfe_as_rr_net) {
-        /* rr status register is handled by rr cartidge */
-        if (io_address < 0x02) {
-            return 0;
-        }
-        io_address ^= 0x08;
-    }
     return cs8900io_peek(io_address);
 }
 
 /* ----- write byte to I/O range of VICE ----- */
 static void tfe_store(WORD io_address, BYTE byte)
 {
-    if (tfe_as_rr_net) {
-        /* rr control register is handled by rr cartidge */
-        if (io_address < 0x02) {
-            return;
-        }
-        io_address ^= 0x08;
-    }
-
     cs8900io_store(io_address, byte);
 }
 
 static int tfe_dump(void)
 {
     mon_out("CS8900 mapped to $%04x ($%04x-$%04x).\n",
-            tfe_current_device->start_address & ~tfe_current_device->address_mask,
-            tfe_current_device->start_address,
-            tfe_current_device->end_address);
+            tfe_device.start_address & ~tfe_device.address_mask,
+            tfe_device.start_address,
+            tfe_device.end_address);
 
     return cs8900io_dump();
 }
@@ -276,7 +194,7 @@ static int set_tfe_enabled(int value, void *param)
             if (tfe_activate() < 0) {
                 return -1;
             }
-            export_res.io1 = tfe_current_device;
+            export_res.io1 = &tfe_device;
             if (export_add(&export_res) < 0) {
                 tfe_list_item = NULL;
                 tfe_enabled = 0;
@@ -285,17 +203,16 @@ static int set_tfe_enabled(int value, void *param)
             if (machine_class == VICE_MACHINE_VIC20) {
                 /* set correct addresses for masC=uerade */
                 if (tfe_io_swap) {
-                    tfe_current_device->start_address = 0x9c00;
-                    tfe_current_device->end_address = 0x9fff;
+                    tfe_device.start_address = 0x9c00;
+                    tfe_device.end_address = 0x9fff;
                 } else {
-                    tfe_current_device->start_address = 0x9800;
-                    tfe_current_device->end_address = 0x9bff;
+                    tfe_device.start_address = 0x9800;
+                    tfe_device.end_address = 0x9bff;
                 }
             }
-            tfe_list_item = io_source_register(tfe_current_device);
+            tfe_list_item = io_source_register(&tfe_device);
         }
     }
-    tfe_clockport_changed();
     return 0;
 }
 

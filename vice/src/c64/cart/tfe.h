@@ -54,6 +54,4 @@ extern void tfe_reset(void);
 extern void tfe_detach(void);
 extern int tfe_enable(void);
 
-extern void tfe_clockport_changed(void);
-
 #endif
