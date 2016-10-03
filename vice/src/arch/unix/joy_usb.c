@@ -54,8 +54,17 @@ extern log_t joystick_log;
 #endif
 
 #ifdef __DragonFly__
-# include <bus/usb/usb.h>
-# include <bus/usb/usbhid.h>
+/* sys/param.h contains the __DragonFly_version macro */
+# include <sys/param.h>
+# if __DragonFly_version >= 300200
+/* DragonFly >= 3.2 (USB4BSD stack) */
+#  include <bus/u4b/usb.h>
+#  include <bus/u4b/usbhid.h>
+# else
+/* DragonFly < 3.2: old USB stack */
+#  include <bus/usb/usb.h>
+#  include <bus/usb/usbhid.h>
+# endif
 #else
 # ifdef __FreeBSD__
 #  include <sys/ioccom.h>
