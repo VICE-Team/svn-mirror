@@ -145,7 +145,7 @@ done
 NEW_SHELL=""
 
 if test x"$BASH" = "x"; then
-  for i in "/bin/bash /usr/bin/bash /usr/local/bin/bash"
+  for i in /bin/bash /usr/bin/bash /usr/local/bin/bash /usr/pkg/bin/bash
   do
     if test -e "$i"; then
       NEW_SHELL=$i
