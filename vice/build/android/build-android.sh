@@ -832,7 +832,7 @@ if test x"$romhandling" = "x$ROMS_ASSET"; then
   done
 fi
 
-ndk-build
+ndk-build -j$(nproc)
 
 echo generating needed java files
 
