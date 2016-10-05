@@ -140,7 +140,7 @@ GtkWidget *build_file_selector(const char *title, GtkWidget **attach_write_prote
         }
     }
 
-    extra = gtk_hbox_new(FALSE, 5);
+    extra = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 
     /* Write protect checkbox */
     if (attach_write_protect) {

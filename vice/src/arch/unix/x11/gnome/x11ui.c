@@ -668,10 +668,10 @@ static void build_screen_canvas_widget(video_canvas_t *c)
          *
          * We do this to make fullscreen work. More gory details in the
          * x11ui_fullscreen about how "nice" that is to get to work. */
-        GtkWidget *canvascontainer1 = gtk_hbox_new(FALSE, 0);
+        GtkWidget *canvascontainer1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
         gtk_widget_show(canvascontainer1);
         gtk_container_add(GTK_CONTAINER(c->pane), canvascontainer1);
-        GtkWidget *canvascontainer2 = gtk_vbox_new(FALSE, 0);
+        GtkWidget *canvascontainer2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_show(canvascontainer2);
         gtk_box_pack_start(GTK_BOX(canvascontainer1), canvascontainer2, TRUE, FALSE, 0);
         gtk_box_pack_start(GTK_BOX(canvascontainer2), new_canvas, TRUE, FALSE, 0);
@@ -797,7 +797,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     gtk_window_set_title(GTK_WINDOW(new_window), title);
 
     /* create all widgets for this window */
-    panelcontainer = gtk_vbox_new(FALSE, 0);
+    panelcontainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_container_add(GTK_CONTAINER(new_window), panelcontainer);
     gtk_widget_show(panelcontainer);
 

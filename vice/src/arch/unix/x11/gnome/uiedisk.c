@@ -73,10 +73,10 @@ static GtkWidget *build_empty_disk_dialog(void)
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
 
     frame = gtk_frame_new(_("Disk options"));
-    box = gtk_vbox_new(0, FALSE);
+    box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     /* Diskname */
-    hbox = gtk_hbox_new(0, FALSE);
+    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     tmp = gtk_label_new(_("Disk name:"));
     gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
@@ -100,7 +100,7 @@ static GtkWidget *build_empty_disk_dialog(void)
     gtk_box_pack_start(GTK_BOX(box), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
-    hbox = gtk_hbox_new(0, FALSE);
+    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
     for (i = 0; type_radio[i].label; i++) {
         if (i == 0) {

@@ -240,14 +240,14 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
     gtk_frame_set_label_align(GTK_FRAME(f), 0.025f, 0);
     gtk_frame_set_shadow_type(GTK_FRAME(f), GTK_SHADOW_IN);
 
-    b = gtk_vbox_new(FALSE, 5);
+    b = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
     for (i = 0; i < NUMSLIDERS; ++i) {
 
         resname = util_concat(ctrls[i].perchip ? chip : "", ctrls[i].res, NULL);
-        hb = gtk_hbox_new(FALSE, 0);
+        hb = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
-        c = gtk_hbox_new(FALSE, 0);
+        c = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
         gtk_widget_set_size_request(GTK_WIDGET(c), 10 * getmaxlen(), 10);
 
         ctrldata[i].label = ctrls[i].label;
@@ -289,7 +289,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
     }
 
     /* "Reset" button */
-    box = gtk_hbox_new(FALSE, 0);
+    box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
     rb = gtk_button_new_with_label(_("Reset"));
     gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);

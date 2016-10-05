@@ -222,15 +222,15 @@ static GtkWidget *build_netplay_dialog(void)
 
     f = gtk_frame_new(_("Netplay Settings"));
 
-    h = gtk_hbox_new(FALSE, 5);
-    ctrls = b = gtk_vbox_new(FALSE, 5);
+    h = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+    ctrls = b = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
-    hb = gtk_hbox_new(FALSE, 0);
+    hb = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
     /* start row */
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
     gtk_widget_show(hb);
-    hb = gtk_hbox_new(FALSE, 0);
+    hb = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     /* button "start server" */
     rb = gtk_button_new_with_label(_("Start server"));
@@ -266,7 +266,7 @@ static GtkWidget *build_netplay_dialog(void)
     /* start row */
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 10);
     gtk_widget_show(hb);
-    hb = gtk_hbox_new(FALSE, 0);
+    hb = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
     /* button "connect to server" */
     rb = gtk_button_new_with_label(connect_to);
@@ -302,7 +302,7 @@ static GtkWidget *build_netplay_dialog(void)
     /* start row */
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
     gtk_widget_show(hb);
-    hb = gtk_hbox_new(FALSE, 0);
+    hb = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
     /* start row */
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
@@ -321,8 +321,8 @@ static GtkWidget *build_netplay_dialog(void)
         int i;
 
         cf = gtk_frame_new(_("Control"));
-        h = gtk_hbox_new(FALSE, 10);
-        v = gtk_vbox_new(FALSE, 10);
+        h = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+        v = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
         gtk_container_add(GTK_CONTAINER(h), v);
         gtk_widget_show(v);
         gtk_container_add(GTK_CONTAINER(cf), h);
@@ -365,7 +365,7 @@ static GtkWidget *build_netplay_dialog(void)
     gtk_widget_set_can_focus(rb, 0);
     gtk_widget_show(rb);
 
-    h = gtk_hbox_new(FALSE, 5);
+    h = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
     /* label "current mode */
     l = gtk_label_new(current_mode_text);
     gtk_container_add(GTK_CONTAINER(h), l);

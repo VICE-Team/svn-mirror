@@ -373,7 +373,7 @@ console_t *uimon_window_open(void)
         scrollbar = gtk_vscrollbar_new(vte_terminal_get_adjustment (VTE_TERMINAL(fixed.term)));
 #endif
 
-        horizontal_container = gtk_hbox_new(FALSE, 0);
+        horizontal_container = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
         gtk_container_add(GTK_CONTAINER(fixed.window), horizontal_container);
         gtk_container_add(GTK_CONTAINER(horizontal_container), fixed.term);
         gtk_container_add(GTK_CONTAINER(horizontal_container), scrollbar);

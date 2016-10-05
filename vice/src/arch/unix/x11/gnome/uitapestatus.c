@@ -160,7 +160,7 @@ void build_tape_status_widget(app_shell_type *as, GdkWindow *window)
     frame = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 
-    as->tape_status.box = gtk_hbox_new(FALSE, 0);
+    as->tape_status.box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_container_add(GTK_CONTAINER(frame), as->tape_status.box);
     gtk_widget_show(as->tape_status.box);
 

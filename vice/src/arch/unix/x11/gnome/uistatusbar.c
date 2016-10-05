@@ -278,7 +278,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
     char *empty = util_concat("<", _("empty"), ">", NULL);
     int num_app_shells = get_num_shells();
 
-    status_bar = gtk_hbox_new(FALSE, 0);
+    status_bar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
     gtk_box_pack_end(GTK_BOX(pane), status_bar, FALSE, FALSE, 0);
     gtk_widget_show(status_bar);

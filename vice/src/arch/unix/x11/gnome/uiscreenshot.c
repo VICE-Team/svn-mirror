@@ -444,8 +444,8 @@ static GtkWidget *build_native_options(void)
 {
     GtkWidget *vbox, *omenu, *hbox, *tmp, *table, *align;
 
-    vbox = gtk_vbox_new(FALSE, 5);
-    hbox = gtk_hbox_new(0, FALSE);
+    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     table = gtk_table_new(3, 4, FALSE);
 
     tmp = gtk_label_new(_("Oversize handling"));
@@ -593,7 +593,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
 
     frame = gtk_frame_new(_("Media Format"));
-    vbox = gtk_vbox_new(FALSE, 5);
+    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
     if (! buttons) {
         buttons = lib_malloc(sizeof(img_type_buttons) * num_buttons);

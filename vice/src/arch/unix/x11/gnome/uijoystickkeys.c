@@ -102,7 +102,7 @@ UI_CALLBACK(ui_keyset_dialog)
     resources_get_int("KeySet2North", (void *)&keys[16]);
     resources_get_int("KeySet2NorthEast", (void *)&keys[17]);
 
-    vb = gtk_vbox_new(FALSE, 0);
+    vb = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     keyset1 = gtk_table_new(3, 3, TRUE);
     keyset2 = gtk_table_new(3, 3, TRUE);
     label[0] = gtk_label_new("Southwest");
@@ -127,7 +127,7 @@ UI_CALLBACK(ui_keyset_dialog)
     for (i = 0;i < 18; i++) {
         char *keylabel = (keys[i] != 0) ? gdk_keyval_name(keys[i]) : "None";
 
-        box[i] = gtk_vbox_new(FALSE, 0);
+        box[i] = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         button[i] = gtk_toggle_button_new();
         gtk_button_set_label(GTK_BUTTON(button[i]), keylabel);
         gtk_box_pack_start(GTK_BOX(box[i]), button[i], TRUE, TRUE, 0);

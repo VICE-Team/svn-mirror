@@ -108,6 +108,10 @@ extern int gtk_widget_get_allocated_height(GtkWidget *widget);
 extern int gtk_widget_get_allocated_width(GtkWidget *widget);
 #endif
 
+#if !GTK_CHECK_VERSION(3, 0, 0)
+extern GtkWidget *gtk_box_new(GtkOrientation orientation, gint spacing);
+#endif
+
 /* Work around an incompatible change in GDK header files
  * http://git.gnome.org/browse/gtk+/commit/gdk/gdkkeysyms.h?id=913cdf3be750a1e74c09b20edf55a57f9a919fcc */
 

@@ -83,3 +83,27 @@ int gtk_widget_get_allocated_width(GtkWidget *widget)
     return allocation.width;
 }
 #endif
+
+#if !GTK_CHECK_VERSION(3, 0, 0)
+/** \brief  Create box widget
+ *
+ * \param[in]   orientation orientation of the box:
+ *                          GTK_ORIENTATION_HORIZONTAL/GTK_ORIENTATION_VERTICAL
+ * \param[in]   spacing     spacing to add between widgets
+ *
+ * \return  new GtkBox
+ *
+ * \note    Since gtk_[hv]_box() use a `homogeneous` argument, which is missing
+ *          for gtk_box_new(), I use `FALSE` for its value, since all VICE
+ *          code uses that as its value.
+ */
+GtkWidget *gtk_box_new(GtkOrientation orientation, gint spacing)
+{
+    if (orientation == GTK_ORIENTATION_HORIZONTAL) {
+        return gtk_hbox_new(FALSE, spacing);
+    } else {
+        return gtk_vbox_new(FALSE, spacing);
+    }
+}
+#endif
+

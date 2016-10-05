@@ -221,7 +221,7 @@ GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
     int i;
     char *empty = util_concat("<", _("empty"), ">", NULL);
 
-    drive_box = gtk_hbox_new(FALSE, 0);
+    drive_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     for (i = 0; i < NUM_DRIVES; i++) {
         char label[256];
 
@@ -231,7 +231,7 @@ GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
         gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 
         sprintf(label, _("Drive %d "), i + 8);
-        as->drive_status[i].box = gtk_hbox_new(FALSE, 0);
+        as->drive_status[i].box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
         gtk_container_add(GTK_CONTAINER(frame), as->drive_status[i].box);
         gtk_widget_show(as->drive_status[i].box);
