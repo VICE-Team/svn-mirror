@@ -1235,8 +1235,8 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t clockport_cmdline_options[] =
 {
-    { "-rrnetmk3clockportdevice", SET_RESOURCE, 1,
-      NULL, NULL, "RRNETMK3ClockPort", NULL,
+    { "-mmc64clockportdevice", SET_RESOURCE, 1,
+      NULL, NULL, "MMC64ClockPort", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_DEVICE, IDCLS_CLOCKPORT_DEVICE,
       NULL, NULL },
