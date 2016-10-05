@@ -382,6 +382,15 @@ if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; 
   fi
 fi
 
+dnl Test for bash for building static/shared ffmpeg
+if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
+  AC_CHECK_PROG(ffmpeg_have_bash, bash, "yes", "no")
+  if test x"$ffmpeg_have_bash" != "xyes"; then
+    AC_MSG_ERROR([bash is required for ffmpeg compiling])
+  fi
+fi
+
+
 if test x"$host_os" = "xminix"; then
   AC_DEFINE(MINIX_SUPPORT,,[do we need minix support])
   CFLAGS="$CFLAGS -D_MINIX -D_POSIX_SOURCE"
