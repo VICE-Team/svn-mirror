@@ -144,6 +144,8 @@ libc64cart_a_SOURCES = \
 	shortbus.h \
 	shortbus_digimax.c \
 	shortbus_digimax.h \
+	shortbus_etfe.c \
+	shortbus_etfe.h \
 	silverrock128.c \
 	silverrock128.h \
 	simonsbasic.c \

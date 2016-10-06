@@ -18649,6 +18649,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_SHORTBUS_DIGIMAX_TR, ""},  /* fuzzy */
 #endif
 
+/* c64/cart/shortbus_etfe.c */
+/* en */ {IDCLS_ENABLE_SHORTBUS_ETFE,    N_("Enable the Short Bus TFE expansion")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SHORTBUS_ETFE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SHORTBUS_ETFE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_SHORTBUS_ETFE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SHORTBUS_ETFE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SHORTBUS_ETFE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SHORTBUS_ETFE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_SHORTBUS_ETFE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SHORTBUS_ETFE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_SHORTBUS_ETFE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_SHORTBUS_ETFE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SHORTBUS_ETFE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SHORTBUS_ETFE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/shortbus_etfe.c */
+/* en */ {IDCLS_DISABLE_SHORTBUS_ETFE,    N_("Disable the Short Bus TFE expansion")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SHORTBUS_ETFE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SHORTBUS_ETFE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_SHORTBUS_ETFE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SHORTBUS_ETFE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SHORTBUS_ETFE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SHORTBUS_ETFE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_SHORTBUS_ETFE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SHORTBUS_ETFE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_SHORTBUS_ETFE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_SHORTBUS_ETFE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SHORTBUS_ETFE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SHORTBUS_ETFE_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/digimax.c */
 /* en */ {IDCLS_ENABLE_DIGIMAX,    N_("Enable the DigiMAX cartridge")},
 #ifdef HAS_TRANSLATION
@@ -18715,6 +18749,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SHORTBUS_DIGIMAX_BASE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SHORTBUS_DIGIMAX_BASE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SHORTBUS_DIGIMAX_BASE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/shortbus_etfe.c */
+/* en */ {IDCLS_SHORTBUS_ETFE_BASE,    N_("Base address of the Short Bus ETFE expansion")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SHORTBUS_ETFE_BASE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SHORTBUS_ETFE_BASE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SHORTBUS_ETFE_BASE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SHORTBUS_ETFE_BASE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SHORTBUS_ETFE_BASE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SHORTBUS_ETFE_BASE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SHORTBUS_ETFE_BASE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SHORTBUS_ETFE_BASE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SHORTBUS_ETFE_BASE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SHORTBUS_ETFE_BASE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SHORTBUS_ETFE_BASE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SHORTBUS_ETFE_BASE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/ds12c887rtc.c */

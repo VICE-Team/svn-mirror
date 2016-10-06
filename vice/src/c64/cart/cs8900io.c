@@ -87,6 +87,10 @@ static char *cs8900io_owner = NULL;
 
 static char *cs8900io_interface = NULL;
 
+static int cs8900io_init_done = 0;
+static int cs8900io_resources_init_done = 0;
+static int cs8900io_cmdline_init_done = 0;
+
 /* ------------------------------------------------------------------------- */
 /*    initialization and deinitialization functions                          */
 
@@ -153,20 +157,23 @@ static int cs8900io_deactivate(void)
 
 void cs8900io_init(void)
 {
-    cs8900io_log = log_open("CS8900 I/O");
+    if (!cs8900io_init_done) {
+        cs8900io_log = log_open("CS8900 I/O");
 
-    rawnet_set_should_accept_func(cs8900_should_accept);
-    if (cs8900_init() < 0) {
-        cs8900io_enabled = 0;
-        cs8900io_cannot_use = 1;
-    }
-
-    if (should_activate) {
-        should_activate = 0;
-        if (cs8900io_activate() < 0) {
+        rawnet_set_should_accept_func(cs8900_should_accept);
+        if (cs8900_init() < 0) {
             cs8900io_enabled = 0;
             cs8900io_cannot_use = 1;
         }
+
+        if (should_activate) {
+            should_activate = 0;
+            if (cs8900io_activate() < 0) {
+                cs8900io_enabled = 0;
+                cs8900io_cannot_use = 1;
+            }
+        }
+        cs8900io_init_done = 1;
     }
 }
 
@@ -309,11 +316,14 @@ static const resource_int_t resources_int[] = {
 
 int cs8900io_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0) {
-        return -1;
+    if (!cs8900io_resources_init_done) {
+        if (resources_register_string(resources_string) < 0 ||
+            resources_register_int(resources_int) < 0) {
+            return -1;
+        }
+        cs8900io_resources_init_done = 1;
     }
-
-    return resources_register_int(resources_int);
+    return 0;
 }
 
 void cs8900io_resources_shutdown(void)
@@ -336,7 +346,13 @@ static const cmdline_option_t cmdline_options[] =
 
 int cs8900io_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
+    if (!cs8900io_cmdline_init_done) {
+        if (cmdline_register_options(cmdline_options) < 0) {
+            return -1;
+        }
+        cs8900io_cmdline_init_done = 1;
+    }
+    return 0;
 }
 
 #endif /* #ifdef HAVE_TFE */

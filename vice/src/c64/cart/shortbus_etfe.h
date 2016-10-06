@@ -1,5 +1,5 @@
 /*
- * cs8900io.h - CS8900 I/O for TFE and RRNET (clockport) carts.
+ * shortbus_etfe.h - ETFE ("The final ethernet") emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -27,29 +27,29 @@
  *
  */
 
-#ifndef VICE_TFE_H
-#define VICE_TFE_H
-
 #ifdef HAVE_TFE
+#else
+  #error TFE.H should not be included if HAVE_TFE is not defined!
+#endif /* #ifdef HAVE_TFE */
 
-#include "types.h"
+#ifndef VICE_SHORTBUS_ETFE_H
+#define VICE_SHORTBUS_ETFE_H
 
-extern int cs8900io_cart_enabled(void);
+#include "snapshot.h"
 
-extern void cs8900io_init(void);
-extern int cs8900io_resources_init(void);
-extern void cs8900io_resources_shutdown(void);
-extern int cs8900io_cmdline_options_init(void);
+extern int shortbus_etfe_resources_init(void);
+extern void shortbus_etfe_resources_shutdown(void);
 
-extern void cs8900io_reset(void);
-extern void cs8900io_detach(void);
-extern int cs8900io_enable(char *owner);
-extern int cs8900io_disable(void);
+extern int shortbus_etfe_cmdline_options_init(void);
 
-extern void cs8900io_store(WORD io_address, BYTE byte);
-extern BYTE cs8900io_read(WORD io_address);
-extern BYTE cs8900io_peek(WORD io_address);
-extern int cs8900io_dump(void);
+extern void shortbus_etfe_unregister(void);
+extern void shortbus_etfe_register(void);
 
-#endif
+extern void shortbus_etfe_reset(void);
+
+extern int shortbus_etfe_enabled(void);
+
+extern int shortbus_etfe_write_snapshot_module(snapshot_t *s);
+extern int shortbus_etfe_read_snapshot_module(snapshot_t *s);
+
 #endif
