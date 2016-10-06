@@ -940,6 +940,7 @@ static int check_drive(int dev, int flags)
 static int attach_cmd(int nargs, char **args)
 {
     int dev = 0;
+    char *path = NULL;
 
     switch (nargs) {
         case 2:
@@ -958,7 +959,10 @@ static int attach_cmd(int nargs, char **args)
         return FD_BADDEV;
     }
 
-    open_disk_image(drives[dev & 3], args[1], (dev & 3) + 8);
+    /* expand path so we can use ~ for the HOME dir */
+    archdep_expand_path(&path, args[1]);
+    open_disk_image(drives[dev & 3], path, (dev & 3) + 8);
+    lib_free(path);
     return FD_OK;
 }
 
@@ -3399,12 +3403,14 @@ int main(int argc, char **argv)
             lib_free(drives[i]);
         }
     }
+#if 0
     /* free memory used by the argument 'parser' */
     for (i = 0; i < MAXARG; i++) {
         if (args[i] != NULL) {
             lib_free(args[i]);
         }
     }
+#endif
     /* properly clean up GNU readline's history, if used */
 #ifdef HAVE_READLINE_READLINE_H
     clear_history();
