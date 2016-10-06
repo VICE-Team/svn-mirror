@@ -43,7 +43,6 @@ extern int tfe_snapshot_read_module(struct snapshot_s *s);
 extern int tfe_snapshot_write_module(struct snapshot_s *s);
 
 extern int tfe_cart_enabled(void);
-extern int tfe_as_rr_net;
 
 extern void tfe_init(void);
 extern int tfe_resources_init(void);
