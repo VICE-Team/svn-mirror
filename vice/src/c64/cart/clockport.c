@@ -48,7 +48,7 @@
 clockport_supported_devices_t clockport_supported_devices[] = {
     { CLOCKPORT_DEVICE_NONE,          "None" },
 #ifdef HAVE_TFE
-    { CLOCKPORT_DEVICE_RRNET, "RRNet" },
+    { CLOCKPORT_DEVICE_RRNET,         "RRNet" },
 #endif
 #if 0
     { CLOCKPORT_DEVICE_ETH64_II,      "ETH64-II" },
@@ -56,7 +56,7 @@ clockport_supported_devices_t clockport_supported_devices[] = {
     { CLOCKPORT_DEVICE_MP3_64,        "MP3@64" },
     { CLOCKPORT_DEVICE_CW3_SID,       "CatWeasel MKIII SID" },
 #endif
-    { -1                      ,       NULL }
+    { -1,                             NULL }
 };
 
 char *clockport_device_id_to_name(int id)
