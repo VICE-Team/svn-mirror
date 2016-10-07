@@ -190,6 +190,7 @@ static int set_rrnetmk3_clockport_device(int val, void *param)
 
     if (!rrnetmk3_enabled) {
         clockport_device_id = val;
+        return 0;
     }
 
     if (clockport_device_id != CLOCKPORT_DEVICE_NONE) {

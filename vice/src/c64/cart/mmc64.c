@@ -377,6 +377,7 @@ static int set_mmc64_clockport_device(int val, void *param)
 
     if (!mmc64_enabled) {
         clockport_device_id = val;
+        return 0;
     }
 
     if (clockport_device_id != CLOCKPORT_DEVICE_NONE) {

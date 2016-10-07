@@ -2534,6 +2534,7 @@ static int set_mmcr_clockport_device(int val, void *param)
 
     if (!mmcr_enabled) {
         clockport_device_id = val;
+        return 0;
     }
 
     if (clockport_device_id != CLOCKPORT_DEVICE_NONE) {
