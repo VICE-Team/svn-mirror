@@ -342,8 +342,8 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeInit(JNIEnv *env, jobj
     myLoader.frameskip = 0;
     myLoader.cycles = 1500;
     myLoader.soundEnable = 1;
-    myLoader.cycleHack = 1;
-    myLoader.refreshHack = 1;
+    myLoader.cycleHack = 0;
+    myLoader.refreshHack = 0;
 }
 
 extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativePause(JNIEnv *env, jobject obj, jint state)
