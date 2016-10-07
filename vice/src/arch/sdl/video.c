@@ -1079,6 +1079,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         return NULL;
     }
 
+    /* here SDL2 knows about what driver is used and has that loaded via dlopen (default behavior), 
+       NOW we can get the proc adress from opengl/es/1/2 functions in there */
     glGetStringAPI = (glGetString_Func)SDL_GL_GetProcAddress("glGetString");
 
     log_message(sdlvideo_log, "Vendor     : %s", glGetStringAPI(GL_VENDOR));
@@ -1088,7 +1090,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     log_message(sdlvideo_log, "Extensions : %s", glGetStringAPI(GL_EXTENSIONS));
 #endif
 
-    // some Devices, OS do not provide a windowing system they have always a fixed width/height, check and set window size
+    /* some devices, OS do not provide a windowing system they have always a fixed width/height, 
+       check if our desired window size is different from real size, needed by apect ratio */
     SDL_GetWindowSize(new_window, &temp_w, &temp_h);
     if (temp_w != window_w && temp_h != window_h && !fullscreen) {
         sdl_window_width = (unsigned int)temp_w;
