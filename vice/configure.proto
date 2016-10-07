@@ -616,7 +616,8 @@ fi
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
 
 if test x"$SVN" != "x:"; then
-  svnrevision=`$SVN info $ac_dir | grep Revision | cut -d " " -f 2`
+  svnrevision=`$SVN 2>dummy.tmp info $ac_dir | grep Revision | cut -d " " -f 2`
+  rm dummy.tmp
   if test x"$svnrevision" != "x"; then
     AM_CONDITIONAL(USE_SVN_REVISION, true)
     AC_DEFINE(USE_SVN_REVISION,,[define when using the svn revision in addition to the version])
