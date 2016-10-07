@@ -1,4 +1,1004 @@
+Revision: 31967
+Author: blackystardust
+Date: Friday, October 07, 2016 10:56:51 AM
+Message:
+Added clockport emulation to ide64.
+----
+Modified : /trunk/vice/src/c64/cart/ide64.c
+
+Revision: 31966
+Author: blackystardust
+Date: Friday, October 07, 2016 10:42:15 AM
+Message:
+Ignore/silence svn error output when checking for svn revision.
+----
+Modified : /trunk/vice/configure.proto
+
+Revision: 31965
+Author: blackystardust
+Date: Friday, October 07, 2016 10:23:24 AM
+Message:
+Some clockport fixes.
+----
+Modified : /trunk/vice/src/c64/cart/mmc64.c
+Modified : /trunk/vice/src/c64/cart/mmcreplay.c
+Modified : /trunk/vice/src/c64/cart/retroreplay.c
+Modified : /trunk/vice/src/c64/cart/rrnetmk3.c
+
+Revision: 31964
+Author: areascout
+Date: Friday, October 07, 2016 10:20:58 AM
+Message:
+Fix: cosmetics on some notes
+----
+Modified : /trunk/vice/src/arch/sdl/video.c
+
+Revision: 31963
+Author: areascout
+Date: Friday, October 07, 2016 10:13:20 AM
+Message:
+Fix: refresh rate for android port
+----
+Modified : /trunk/vice/src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp
+Modified : /trunk/vice/src/arch/sdl/ui.c
+
+Revision: 31962
+Author: compyx
+Date: Thursday, October 06, 2016 2:39:03 PM
+Message:
+Temporary c1541 fix
+----
+Modified : /trunk/vice/src/c1541.c
+
+Revision: 31961
+Author: blackystardust
+Date: Thursday, October 06, 2016 12:57:56 PM
+Message:
+Added 'etfe' shortbus device emulation.
+----
+Modified : /trunk/vice/src/arch/os2/watcom/c64cart.tgt
+Modified : /trunk/vice/src/arch/os2/watcom/vice.wpj
+Modified : /trunk/vice/src/arch/sdl/win32-watcom/c64cart.tgt
+Modified : /trunk/vice/src/arch/sdl/win32-watcom/vice.wpj
+Modified : /trunk/vice/src/arch/win32/vs_tmpl/c64cart.tmpl
+Modified : /trunk/vice/src/arch/win32/watcom/c64cart.tgt
+Modified : /trunk/vice/src/arch/win32/watcom/vice.wpj
+Modified : /trunk/vice/src/c64/cart/Makefile.am
+Modified : /trunk/vice/src/c64/cart/cs8900io.c
+Modified : /trunk/vice/src/c64/cart/cs8900io.h
+Modified : /trunk/vice/src/c64/cart/shortbus.c
+Added : /trunk/vice/src/c64/cart/shortbus_etfe.c
+Added : /trunk/vice/src/c64/cart/shortbus_etfe.h
+Modified : /trunk/vice/src/translate.txt
+Modified : /trunk/vice/src/translate_text.c
+
+Revision: 31960
+Author: blackystardust
+Date: Thursday, October 06, 2016 12:52:45 PM
+Message:
+Cosmetic fixes.
+----
+Modified : /trunk/vice/src/c64/cart/clockport.c
+
+Revision: 31959
+Author: blackystardust
+Date: Thursday, October 06, 2016 12:50:24 PM
+Message:
+Completely remove 'tfe_as_rr_net'.
+----
+Modified : /trunk/vice/src/c64/cart/tfe.h
+
+Revision: 31958
+Author: compyx
+Date: Wednesday, October 05, 2016 2:02:13 PM
+Message:
+Check for bash if static/shared ffmpeg
+----
+Modified : /trunk/vice/configure.proto
+
+Revision: 31957
+Author: compyx
+Date: Wednesday, October 05, 2016 1:36:05 PM
+Message:
+Fix bash lookup for ancient BSD shells
+----
+Modified : /trunk/vice/src/lib/ffmpeg/configure.gnu
+
+Revision: 31956
+Author: compyx
+Date: Wednesday, October 05, 2016 8:49:15 AM
+Message:
+Gtk2->Gtk3: replace all gtk_hbox_new()/gtk_vbox_new() calls with gtk_box_new()
+----
+Modified : /trunk/vice/src/arch/unix/x11/gnome/gtk2legacy.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/gtk2legacy.h
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uicontents.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uidrivestatus.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uiedisk.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uifilechooser.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uijoystatus.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uijoystickkeys.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uimon.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uinetplay.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uipalcontrol.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uiscreenshot.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uisnapshot.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uistatusbar.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uitapestatus.c
+Modified : /trunk/vice/src/arch/unix/x11/gnome/x11ui.c
+
+Revision: 31955
+Author: compyx
+Date: Wednesday, October 05, 2016 5:52:07 AM
+Message:
+Fix probable copy/paste error, hope I got it right
+----
+Modified : /trunk/vice/src/c64/cart/mmc64.c
+
+Revision: 31954
+Author: areascout
+Date: Wednesday, October 05, 2016 5:29:56 AM
+Message:
+Add: build android binaries with the available number of processing units
+----
+Modified : /trunk/vice/build/android/build-android.sh
+
+Revision: 31953
+Author: blackystardust
+Date: Monday, October 03, 2016 3:01:48 PM
+Message:
+Cleaned up the tfe cart of any clockport code.
+----
+Modified : /trunk/vice/src/c64/cart/tfe.c
+Modified : /trunk/vice/src/c64/cart/tfe.h
+
+Revision: 31952
+Author: compyx
+Date: Monday, October 03, 2016 2:54:41 PM
+Message:
+Fix weird logic
+----
+Modified : /trunk/vice/src/parallel/parallel-trap.c
+
+Revision: 31951
+Author: compyx
+Date: Monday, October 03, 2016 12:11:24 PM
+Message:
+Add proper linker/runtime configuration for DragonflyBSD
+----
+Modified : /trunk/vice/configure.proto
+
+Revision: 31950
+Author: blackystardust
+Date: Monday, October 03, 2016 12:09:50 PM
+Message:
+Regenerated.
+----
+Modified : /trunk/vice/src/arch/win32/vs_tmpl/mkmsvc.exe
+
+Revision: 31949
+Author: areascout
+Date: Monday, October 03, 2016 11:58:59 AM
+Message:
+Fix: remove not needed opengl32 library from visual studio build tool
+----
+Modified : /trunk/vice/src/arch/win32/vs_tmpl/mkmsvc.c
+
+Revision: 31948
+Author: compyx
+Date: Monday, October 03, 2016 11:42:53 AM
+Message:
+Fix DragonflyBSD USB stack includes
+----
+Modified : /trunk/vice/src/arch/unix/joy_usb.c
+
+Revision: 31947
+Author: blackystardust
+Date: Monday, October 03, 2016 11:14:41 AM
+Message:
+Tied mmc64, mmcr and retroreplay into the clockport system.
+----
+Modified : /trunk/vice/src/c64/cart/mmc64.c
+Modified : /trunk/vice/src/c64/cart/mmcreplay.c
+Modified : /trunk/vice/src/c64/cart/retroreplay.c
+Modified : /trunk/vice/src/c64/cart/rrnetmk3.c
+Modified : /trunk/vice/src/c64/cart/tfe.c
+
+Revision: 31945
+Author: compyx
+Date: Monday, October 03, 2016 10:54:51 AM
+Message:
+Fix __u_char typedef for DragonflyBSD
+----
+Modified : /trunk/vice/src/opencbm.h
+
+Revision: 31944
+Author: compyx
+Date: Monday, October 03, 2016 5:17:14 AM
+Message:
+Fix another char-based indexing warning on NetBSD
+----
+Modified : /trunk/vice/src/arch/sdl/archdep_unix.c
+
+Revision: 31943
+Author: compyx
+Date: Monday, October 03, 2016 4:46:36 AM
+Message:
+Fix char-based array indexing warnings on NetBSD
+----
+Modified : /trunk/vice/src/arch/unix/x11/gnome/uimon.c
+
+Revision: 31942
+Author: areascout
+Date: Monday, October 03, 2016 3:56:38 AM
+Message:
+Fix: init vice with SDLLimitMode other then 0 in recource file (blackscreen)
+----
+Modified : /trunk/vice/src/arch/sdl/video.c
+
+Revision: 31941
+Author: blackystardust
+Date: Sunday, October 02, 2016 2:48:13 PM
+Message:
+Changed the android settings files to only hold non-default items.
+----
+Modified : /trunk/vice/src/arch/android/AnVICE/assets-proto/sdl-vicerc-x128
+Modified : /trunk/vice/src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64
+Modified : /trunk/vice/src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64dtv
+Modified : /trunk/vice/src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64sc
+Modified : /trunk/vice/src/arch/android/AnVICE/assets-proto/sdl-vicerc-xcbm2
+Modified : /trunk/vice/src/arch/android/AnVICE/assets-proto/sdl-vicerc-xcbm5x0
+Modified : /trunk/vice/src/arch/android/AnVICE/assets-proto/sdl-vicerc-xpet
+Modified : /trunk/vice/src/arch/android/AnVICE/assets-proto/sdl-vicerc-xplus4
+Modified : /trunk/vice/src/arch/android/AnVICE/assets-proto/sdl-vicerc-xscpu64
+Modified : /trunk/vice/src/arch/android/AnVICE/assets-proto/sdl-vicerc-xvic
+
+Revision: 31940
+Author: blackystardust
+Date: Sunday, October 02, 2016 1:19:33 PM
+Message:
+Fixed xplus4 android build.
+----
+Modified : /trunk/vice/build/android/build-android.sh
+Modified : /trunk/vice/src/arch/android/AnVICE/jni/locnet_xplus4/Android.mk.proto
+Modified : /trunk/vice/src/arch/android/AnVICE/jni/vice_xplus4/Android.mk.proto
+
 ------------------------------------------------------------------------------
+
+2016-10-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_c64cart/Android.mk.proto: Added
+	clockport.c to the android builds.
+
+2016-10-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2016-10-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/c64cart.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/c64cart.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/c64cart.tmpl,
+	src/arch/win32/watcom/c64cart.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c64/cart/Makefile.am, src/c64/cart/clockport-rrnet.c,
+	src/c64/cart/clockport-rrnet.h, src/c64/cart/clockport.c,
+	src/c64/cart/clockport.h, src/c64/cart/cs8900io.c,
+	src/c64/cart/cs8900io.h, src/c64/cart/rrnetmk3.c, src/c64/cart/tfe.c,
+	src/translate.txt, src/translate_text.c: Added clockport system, moved
+	rrnetmk3 over to the clockport system, rest to follow.
+
+2016-10-02  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: cosmetics
+
+2016-10-02  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: warning
+
+2016-10-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Update FreeBSD linker configuration
+
+2016-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/locnet_xvic/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xvic/Android.mk.proto: Fixed android
+	xvic build.
+
+2016-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fix runtime path for X11R6 NetBSD.
+
+2016-10-01  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/vsidui.c: Fix: sid menu creation for vsid
+
+2016-10-01  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/xcbm2_ui.c: Fix: sid menu creation for xcbm5x0
+
+2016-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE, src/arch/android/AnVICE/assets,
+	src/arch/android/AnVICE/jni/vice_joyport: Added some svn ignores.
+
+2016-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/locnet_xscpu64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xscpu64/Android.mk.proto: Fixed
+	android xscpu64 build.
+
+2016-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Application.mk.proto: Update api level
+	to 16.
+
+2016-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/monitor/monitor.c: Added check and replacement
+	function for 'stpcpy'.
+
+2016-09-30  AreaScout <areascout@gmx.at>
+
+	* configure.proto: Fix: remove libGL from linking, it was not needed
+	nor used, no opengl function to link for
+
+2016-09-30  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: log error message
+
+2016-09-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: NetBSD build updates
+
+2016-09-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/locnet_x128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x128/Android.mk.proto: Fixed android
+	x128 build.
+
+2016-09-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundalsa.c: Workaround to get ALSA to compile on
+	NetBSD
+
+2016-09-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: clang++ g++ cc -> g++ clang++ cc
+
+2016-09-28  AreaScout <areascout@gmx.at>
+
+	* src/arch/android/AnVICE/assets-proto/sdl-vicerc-x128,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64dtv,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64sc,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xcbm2,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xcbm5x0,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xpet,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xplus4,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xscpu64,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xvic: Fix: sound
+	crackling on android devices
+
+2016-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64dtv/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64sc/Android.mk.proto: Fixed android
+	x64dtv build.
+
+2016-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/c64commoncart.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/c64commoncart.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/c64commoncart.tmpl,
+	src/arch/win32/watcom/c64commoncart.tgt,
+	src/arch/win32/watcom/vice.wpj, src/c64/cart/Makefile.am,
+	src/c64/cart/cs8900io.c, src/c64/cart/cs8900io.h,
+	src/c64/cart/mmc64.c, src/c64/cart/mmcreplay.c,
+	src/c64/cart/retroreplay.c, src/c64/cart/rrnetmk3.c,
+	src/c64/cart/tfe.c: Abstracted the cs8900 I/O calls so that the tfe
+	and rrnet-clockport carts can use cs8900io_* calls and be properly
+	separated, all this in preparation for an upcoming clockport system.
+
+2016-09-28  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: window aspect ratio on devices with no
+	windowing system
+
+2016-09-28  AreaScout <areascout@gmx.at>
+
+	* src/vice_sdl.h: Fix: remove _CONSOLE definition and log to file as a
+	default
+
+2016-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/locnet_x64dtv/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64dtv/Android.mk.proto: Fixed
+	android x64dtv build.
+
+2016-09-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_joyport.c: Fixed sdl joyport (1) menu bug.
+
+2016-09-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh: Fixed.
+
+2016-09-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4: Fixed line-endings.
+
+2016-09-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4: Ignore --enable-yasm-command in main configure.
+
+2016-09-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: More robust and portable check for
+	backtrace_symbols when requesting debug build
+
+2016-09-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_joyport/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64sc/Android.mk.proto: Moved mouse.c
+	to a different android build file.
+
+2016-09-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/locnet_x64sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64sc/Android.mk.proto: Fixed x64sc
+	android build.
+
+2016-09-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/Makefile.am, build/android/build-android.sh,
+	build/android/build-android.sh.in, configure.proto, src/Makefile.am,
+	src/vice-version.sh, src/vice-version.sh.in: Better way of getting the
+	current vice version for unix scripts.
+
+2016-09-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto: Use correct
+	cpu source file.
+
+2016-09-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/sdl/include/SDL_stdinc.h: Fixed for x86.
+
+2016-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in:
+	Fixed.
+
+2016-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/local.properties.proto: Fixed.
+
+2016-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh.in,
+	src/arch/android/AnVICE/Makefile.am,
+	src/arch/android/AnVICE/local.properties,
+	src/arch/android/AnVICE/local.properties.proto: Generate android
+	local.properties using the $ANDROID_HOME env var.
+
+2016-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_vicii/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto: Fixed for x64,
+	libx64.so now builds on current ndk.
+
+2016-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/locnet_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commoncart/Android.mk.proto: Changed
+	android library linking to 'whole' and removed duplicate object files
+	for x64.
+
+2016-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/vice_joyport/Android.mk.proto: Some fixes.
+
+2016-09-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Update comment
+
+2016-09-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Fix ReSID build failure when using NLS on FreeBSD
+
+2016-09-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Fix linker errors for debug builds and libpci on
+	FreeBSD/PC-BSD
+
+2016-09-25  AreaScout <areascout@gmx.at>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in:
+	Fix: android buildscript
+
+2016-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto: Fixed.
+
+2016-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_joyport,
+	src/arch/android/AnVICE/jni/vice_joyport/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_joyport/Makefile.am: Made separate
+	joyport build for android.
+
+2016-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh.in: Fixed.
+
+2016-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in:
+	Fix 'infocontrib.h' generation problem.
+
+2016-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Added petcat handy basic support.
+
+2016-09-24  AreaScout <areascout@gmx.at>
+
+	* build/android/build-android.sh: Fix: all-cpu :)
+
+2016-09-24  AreaScout <areascout@gmx.at>
+
+	* build/android/build-android.sh: Add: x86_64 architecture + all-cpu
+	fixes
+
+2016-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Warning fix.
+
+2016-09-24  AreaScout <areascout@gmx.at>
+
+	* build/android/build-android.sh: Add: android arm64-v8a and mips64
+	architecture
+
+2016-09-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uilib.c: win32 Unicode fix: File selector filter
+	list.
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto: More
+	android linker error fixes.
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_c64cart/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto: More
+	android linker error fixes.
+
+2016-09-23  AreaScout <areascout@gmx.at>
+
+	* src/arch/android/AnVICE/jni/vice_common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto: Fix:
+	cosmetics, tab vs. spaces
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/config.android.h,
+	src/arch/android/AnVICE/jni/vice_c64cart/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto: More android
+	linker error fixes.
+
+2016-09-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/samplerdrv/sampler.c: Fix memory leak in cmdline handling in
+	samplerdrv
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh: Fixed here too.
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh.in: Fixed infocontrib.h generation.
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_commoncart/Android.mk.proto: Fixed
+	typo and indentation.
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto: fixed
+	lightpen.c location.
+
+2016-09-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cartconv.c: Fix 'not a string literal warnings'
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/locnet_x64/Android.mk.proto: Added
+	joyport include dir.
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto: Removed
+	duplicated lightpendrv.c line.
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in:
+	Removed dos2000 and dos4000 files from the roms list.
+
+2016-09-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/autostart.c, src/imagecontents/imagecontents.c,
+	src/imagecontents.h: Fix weird memory deallocation side-effect. Add
+	more doxygen stuff.
+
+2016-09-23  AreaScout <areascout@gmx.at>
+
+	* src/arch/android/AnVICE/jni/vice_common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commoncart/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto: Add: update
+	some of the android make files -> wip
+
+2016-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartconv.c: Added game/exrom line warnings when showing
+	information about a .crt file.
+
+2016-09-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cbmimage.c, src/cbmimage.h: Add more doxygen stuff
+
+2016-09-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Fix a lot of memory leaks in main(), list_cmd() and a
+	few others.
+
+2016-09-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Reject negative 'disp' argument for 'block' command'
+
+2016-09-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/diskimage/fsimage-create.c, src/diskimage/fsimage-create.h: More
+	doxygen stuff
+
+2016-09-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/diskconstants.h: Add doxygen stuff
+
+2016-09-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/diskimage/fsimage-check.c, src/diskimage/fsimage-check.h: Add
+	doxygen docblocks
+
+2016-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt: Updated for latest cart documentation
+	changes.
+
+2016-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/texi2html: Escape literal left curly brackets (fixes
+	warnings/errors from perl 5.22+).
+
+2016-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/c64/cart/rrnetmk3.c, src/cartconv.c: Added rrnet
+	mkiii, easycalc and gmod carts to the documentation.
+
+2016-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/c64/cart/rgcd.c: Updated RGCD cart documentation.
+
+2016-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Put in the proper location.
+
+2016-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Added native-tools generated files to the
+	'distclean' files.
+
+2016-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/cartconv.c: Added silverrock 128 and formel64
+	cart documentation.
+
+2016-09-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, src/diskimage/diskimage.c, src/diskimage/fsimage.c: Add
+	doxygen docstrings, add some fixme/xxx notes, small fixes.
+
+2016-09-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi: Fix error in vice.texi
+
+2016-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added kingsoft cart documentation.
+
+2016-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/c64/cart/exos.c, src/c64/cart/mach5.c,
+	src/c64/cart/prophet64.c, src/c64/cart/superexplode5.c,
+	src/cartconv.c: Some more cart fixes.
+
+2016-09-19  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c: detach prophet64 properly
+
+2016-09-19  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c: detach gamekiller properly
+
+2016-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/c64/cart/actionreplay3.c, src/c64/cart/c64tpi.c,
+	src/c64/cart/delaep256.c, src/c64/cart/delaep64.c,
+	src/c64/cart/delaep7x8.c, src/c64/cart/dinamic.c,
+	src/c64/cart/epyxfastload.c, src/c64/cart/expert.c,
+	src/c64/cart/final.c, src/c64/cart/final3.c, src/c64/cart/funplay.c,
+	src/c64/cart/gamekiller.c, src/c64/cart/gs.c,
+	src/c64/cart/magicdesk.c, src/c64/cart/mikroass.c,
+	src/c64/cart/mmc64.c, src/c64/cart/rexep256.c,
+	src/c64/cart/rexutility.c, src/c64/cart/warpspeed.c,
+	src/c64/cart/westermann.c, src/cartconv.c: Started on making the cart
+	game/exrom lines in the 'export' struct, cartconv and dox
+	consistent/correct.
+
+2016-09-19  AreaScout <areascout@gmx.at>
+
+	* src/vice_sdl.h: Add: always define console for SDL1/2 and MSVC
+	builds, so it needs only /SUBSYSTEM:CONSOLE linker directive to get
+	console output
+
+2016-09-19  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: only used in SDL2
+
+2016-09-19  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: cleanup window scale after fullscreen
+
+2016-09-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64export.c: Added c64/c128 exrom/game lines status messages
+	for the monitor 'export' command.
+
+2016-09-17  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Summary: Updated.
+
+2016-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/6510dtvcore.c: Warning fix.
+
+2016-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/lib/ffmpeg/configure.gnu,
+	src/lib/libx264/configure: Fix 'yasm' command checks in libx264 and
+	ffmpeg.
+
+2016-09-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Add yasm version check to configure
+
+2016-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Compiler order change, now: gcc, clang, cc.
+
+2016-09-16  groepaz <groepaz@gmx.net>
+
+	* src/core/m93c86.c: fix eeprom read offset. patch by chester
+	kollschen
+
+2016-09-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/uiedit.c, src/arch/unix/x11/gnome/uimenu.c,
+	src/arch/unix/x11/gnome/uimenu.h, src/arch/unix/x11/gnome/x11ui.c: Fix
+	memory leak in Gnome ui code, replace strdup()/free() with
+	lib_stralloc()/lib_free() for better debugging
+
+2016-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/snippets/Makefile.am, src/arch/os2/snippets/dirport.c,
+	src/arch/os2/snippets/dirport.h, src/arch/os2/types.h,
+	src/arch/os2/watcom/archdep.tgt, src/arch/os2/watcom/vice.wpj,
+	src/ioutil.c: Since os/2 vac++ is no longer supported, use ow
+	readdir/opendir/closedir functions and remove os/2 vac++ dirport
+	files.
+
+2016-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/cardkey.c, src/joyport/coplin_keypad.c,
+	src/joyport/cx21.c, src/joyport/cx85.c, src/joyport/rushware_keypad.c:
+	Some more warning fixes.
+
+2016-09-15  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/ui.c, src/arch/sdl/video.c: Fix: move fullscreen check
+	to canvas_create when we push the event + check width height for null
+
+2016-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/types.h: Warning fix: make sure 'BYTE' is 'unsigned'.
+
+2016-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/snapshot.c: Warning fix: use DWORD instead of unsigned int.
+
+2016-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid-dtv/sid.cc: Warning fix: comparison between two constant
+	enums, and worse, the comparison is always false.
+
+2016-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/genwinres.c: Warning fix: return a value from
+	the main function.
+
+2016-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/tapeport.tgt, src/arch/os2/watcom/userport.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/x128.tgt,
+	src/arch/os2/watcom/x64.tgt, src/arch/os2/watcom/x64sc.tgt,
+	src/arch/os2/watcom/xscpu64.tgt: Fixed os/2 ow build.
+
+2016-09-14  groepaz <groepaz@gmx.net>
+
+	* src/core/ciacore.c: improved cia_peek
+
+2016-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Fixed some loading addresses.
+
+2016-09-13  groepaz <groepaz@gmx.net>
+
+	* src/gensvnversion.sh: first split at :, then remove non numeric
+	characters
+
+2016-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/monitor.c, src/petcat.c: Some warning fixes.
+
+2016-09-13  groepaz <groepaz@gmx.net>
+
+	* src/snapshot.c, src/translate_text.c: only use svnversion.h if
+	USE_SVN_REVISION is defined
+
+2016-09-13  groepaz <groepaz@gmx.net>
+
+	src/sid/sid-snapshot.c: forgot to bump version
+
+2016-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	doc/vice.texi, src/petcat.c: Some more cosmetic fixes.
+
+2016-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/petcat.c: Some cosmetic fixes.
+
+2016-09-13  groepaz <groepaz@gmx.net>
+
+	src/sid/sid-snapshot.c: added version check
+
+2016-09-13  groepaz <groepaz@gmx.net>
+
+	* src/snapshot.c, src/translate.txt, src/translate_text.c: write
+	current VICE version into the snapshots so it can be displayed in
+	error messages. added respective message for the case when there is a
+	version mismatch
+
+2016-09-13  groepaz <groepaz@gmx.net>
+
+	* src/core/viacore.c: bump major version for VIA snapshot module
+
+2016-09-13  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/vic20cart.c: fix out of bounds read when loading
+	older snapshot with cartridge. needs testing
+
+2016-09-13  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/resjoyport.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uijoyport.c: win32 Unicode and general fixes: Joyport
+	settings dialog.
+
+2016-09-12  Marcus Sutton <loggedoubt@gmail.com>
+
+	* configure.proto, src/arch/win32/fullscrn.c,
+	src/arch/win32/mingw32/system.h, src/arch/win32/ui.c,
+	src/arch/win32/uiacia.c, src/arch/win32/uic64cart.c,
+	src/arch/win32/uirs232user.c, src/arch/win32/uivideo.c,
+	src/arch/win32/vsidui.c, src/lib.c, src/lib.h,
+	src/platform/platform_windows_runtime_os.c: Added functions/macros to
+	replace _stprintf() when it is broken or <tchar.h> is unavailable.
+	Hopefully this improves portability.
+
+2016-09-12  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128-snapshot.c, src/c64/c64-snapshot.c,
+	src/c64/vsid-snapshot.c, src/c64dtv/c64dtv-snapshot.c,
+	src/cbm2/cbm2-snapshot.c, src/cbm2/cbm5x0-snapshot.c,
+	src/pet/pet-snapshot.c, src/plus4/plus4-snapshot.c,
+	src/scpu64/scpu64-snapshot.c, src/snapshot.c,
+	src/vic20/vic20-snapshot.c: pop up a message window when the snapshot
+	version does not match
+
+2016-09-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uimon.c, src/arch/win32/watcom/tapeport.tgt,
+	src/arch/win32/watcom/userport.tgt, src/arch/win32/watcom/vice.wpj:
+	Fixed win32 ow build.
+
+2016-09-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/tapeport.tgt,
+	src/arch/sdl/win32-watcom/userport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj: Fixed sdl ow build.
+
+2016-09-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resgmod2.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2016-09-11  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: updated cartconv section
+
+2016-09-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2016-09-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.texi, doc/vice.txt: Updated petcat section.
+
+2016-09-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Changed the list of supported basic dialects to come
+	out sorted.
+
+2016-09-10  AreaScout <areascout@gmx.at>
+
+	* src/arch/win32/videoarch.h: Add: Common Controls 6.0 visuals for
+	msvc win32/64 port - styled buttons etc.
+
+2016-09-10  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c: added check for the case when the size given in a
+	CHIP header exceeds the length of the crt file. also added
+	-b commandline switch to disable 'optimizing' of easyflash .crt files.
 
 2016-09-09  Marco van den Heuvel <blackystardust68@yahoo.com>
 

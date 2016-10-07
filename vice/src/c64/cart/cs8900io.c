@@ -328,7 +328,9 @@ int cs8900io_resources_init(void)
 
 void cs8900io_resources_shutdown(void)
 {
-    lib_free(cs8900io_interface);
+    if (cs8900io_interface) {
+        lib_free(cs8900io_interface);
+    }
 }
 
 /* ------------------------------------------------------------------------- */

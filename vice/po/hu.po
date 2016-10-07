@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-02 10:45-0700\n"
+"POT-Creation-Date: 2016-10-07 13:50-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -8513,7 +8513,7 @@ msgstr "MMC64 bõvítés engedélyezése"
 msgid "Save CP Clock F83 RTC data when changed"
 msgstr "BIOS &mentése változás után"
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18568
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18602
 #, fuzzy
 msgid "Enable the DigiMAX cartridge"
 msgstr "Digimax cartridge engedélyezése"
@@ -15755,122 +15755,137 @@ msgstr "RAMCART bõvítés engedélyezése"
 msgid "Disable the Short Bus DigiMAX expansion"
 msgstr "RAMCART bõvítés tiltása"
 
+#: src/translate_text.c.po.c:18568
+#, fuzzy
+msgid "Enable the Short Bus TFE expansion"
+msgstr "RAMCART bõvítés engedélyezése"
+
 #: src/translate_text.c.po.c:18585
+#, fuzzy
+msgid "Disable the Short Bus TFE expansion"
+msgstr "RAMCART bõvítés tiltása"
+
+#: src/translate_text.c.po.c:18619
 #, fuzzy
 msgid "Disable the DigiMAX cartridge"
 msgstr "Digimax cartridge tiltása"
 
-#: src/translate_text.c.po.c:18602
+#: src/translate_text.c.po.c:18636
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "A digimax cartridge báziscíme"
 
-#: src/translate_text.c.po.c:18619
+#: src/translate_text.c.po.c:18653
 #, fuzzy
 msgid "Base address of the Short Bus DigiMAX expansion"
 msgstr "A digimax cartridge báziscíme"
 
-#: src/translate_text.c.po.c:18636
+#: src/translate_text.c.po.c:18670
+#, fuzzy
+msgid "Base address of the Short Bus ETFE expansion"
+msgstr "A digimax cartridge báziscíme"
+
+#: src/translate_text.c.po.c:18687
 #, fuzzy
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr "SID kártya *engedélyezése"
 
-#: src/translate_text.c.po.c:18653
+#: src/translate_text.c.po.c:18704
 #, fuzzy
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr "Isepic cartridge tiltása"
 
-#: src/translate_text.c.po.c:18670
+#: src/translate_text.c.po.c:18721
 #, fuzzy
 msgid "Set the RTC oscillator to 'halted'"
 msgstr "MMC64 kártya írható/olvasható"
 
-#: src/translate_text.c.po.c:18687
+#: src/translate_text.c.po.c:18738
 msgid "Set the RTC oscillator to 'running'"
 msgstr ""
 
-#: src/translate_text.c.po.c:18704
+#: src/translate_text.c.po.c:18755
 #, fuzzy
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "A digimax cartridge báziscíme"
 
-#: src/translate_text.c.po.c:18721
+#: src/translate_text.c.po.c:18772
 #, fuzzy
 msgid "Enable saving of the DS12C887 RTC data when changed."
 msgstr "SID kártya *engedélyezése"
 
-#: src/translate_text.c.po.c:18738
+#: src/translate_text.c.po.c:18789
 #, fuzzy
 msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "Isepic cartridge tiltása"
 
-#: src/translate_text.c.po.c:18755
+#: src/translate_text.c.po.c:18806
 #, fuzzy
 msgid "Clockport device"
 msgstr "1-es botkormány eszköz"
 
-#: src/translate_text.c.po.c:18773
+#: src/translate_text.c.po.c:18824
 #, fuzzy
 msgid "hostname"
 msgstr "A gazdagép neve:"
 
-#: src/translate_text.c.po.c:18790
+#: src/translate_text.c.po.c:18841
 #, fuzzy
 msgid "port"
 msgstr "<port>"
 
-#: src/translate_text.c.po.c:18807
+#: src/translate_text.c.po.c:18858
 #, fuzzy
 msgid "Set the netplay server hostname"
 msgstr "Netplay kiszolgáló név"
 
-#: src/translate_text.c.po.c:18824
+#: src/translate_text.c.po.c:18875
 msgid "Set the netplay binding address"
 msgstr ""
 
-#: src/translate_text.c.po.c:18841
+#: src/translate_text.c.po.c:18892
 #, fuzzy
 msgid "Set the netplay port"
 msgstr "Netplay TCP port"
 
-#: src/translate_text.c.po.c:18858
+#: src/translate_text.c.po.c:18909
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
 msgstr ""
 
-#: src/translate_text.c.po.c:18876
+#: src/translate_text.c.po.c:18927
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr ""
 
-#: src/translate_text.c.po.c:18893
+#: src/translate_text.c.po.c:18944
 msgid "Turn on Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:18910
+#: src/translate_text.c.po.c:18961
 msgid "Turn off Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:18927
+#: src/translate_text.c.po.c:18978
 msgid "Turn on Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:18944
+#: src/translate_text.c.po.c:18995
 msgid "Turn off Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:18961
+#: src/translate_text.c.po.c:19012
 #, fuzzy
 msgid "Enable HiRes Emulation Board"
 msgstr "Fényceruza emuláció engedélyezése"
 
-#: src/translate_text.c.po.c:18978
+#: src/translate_text.c.po.c:19029
 #, fuzzy
 msgid "Disable HiRes Emulation Board"
 msgstr "Fényceruza emuláció engedélyezése"
 
-#: src/translate_text.c.po.c:18996
+#: src/translate_text.c.po.c:19047
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Hangeszköz neve"

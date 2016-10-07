@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-02 10:45-0700\n"
+"POT-Creation-Date: 2016-10-07 13:50-0700\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -7868,7 +7868,7 @@ msgstr "Activeer de CP Clock F83 uitbreiding"
 msgid "Save CP Clock F83 RTC data when changed"
 msgstr "Sla de CP Clock F83 RTC data op indien gewijzigd"
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18568
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18602
 msgid "Enable the DigiMAX cartridge"
 msgstr "Activeer de DigiMAX cartridge"
 
@@ -14576,71 +14576,86 @@ msgstr "Activeer de Short Bus DigiMAX uitbreiding"
 msgid "Disable the Short Bus DigiMAX expansion"
 msgstr "Deactiveer de Short Bus DigiMAX uitbreiding"
 
+#: src/translate_text.c.po.c:18568
+#, fuzzy
+msgid "Enable the Short Bus TFE expansion"
+msgstr "Activeer de Short Bus DigiMAX uitbreiding"
+
 #: src/translate_text.c.po.c:18585
+#, fuzzy
+msgid "Disable the Short Bus TFE expansion"
+msgstr "Deactiveer de Short Bus DigiMAX uitbreiding"
+
+#: src/translate_text.c.po.c:18619
 msgid "Disable the DigiMAX cartridge"
 msgstr "Deactiveer de DigiMAX cartridge"
 
-#: src/translate_text.c.po.c:18602
+#: src/translate_text.c.po.c:18636
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basisadres van de DigiMAX cartridge"
 
-#: src/translate_text.c.po.c:18619
+#: src/translate_text.c.po.c:18653
 msgid "Base address of the Short Bus DigiMAX expansion"
 msgstr "Basisadres van de Short Bus DigiMAX uitbreiding"
 
-#: src/translate_text.c.po.c:18636
+#: src/translate_text.c.po.c:18670
+#, fuzzy
+msgid "Base address of the Short Bus ETFE expansion"
+msgstr "Basisadres van de Short Bus DigiMAX uitbreiding"
+
+#: src/translate_text.c.po.c:18687
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr "Activeer de DS12C887 RTC cartridge"
 
-#: src/translate_text.c.po.c:18653
+#: src/translate_text.c.po.c:18704
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr "Deactiveer de DS12C887 RTC cartridge"
 
-#: src/translate_text.c.po.c:18670
+#: src/translate_text.c.po.c:18721
 msgid "Set the RTC oscillator to 'halted'"
 msgstr "Zet de RTC oscillator als 'gestopt'"
 
-#: src/translate_text.c.po.c:18687
+#: src/translate_text.c.po.c:18738
 msgid "Set the RTC oscillator to 'running'"
 msgstr "Zet de RTC oscillator als 'werkend'"
 
-#: src/translate_text.c.po.c:18704
+#: src/translate_text.c.po.c:18755
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "Basisadres van de DS12C887 RTC cartridge"
 
-#: src/translate_text.c.po.c:18721
+#: src/translate_text.c.po.c:18772
 msgid "Enable saving of the DS12C887 RTC data when changed."
 msgstr "Activeer opslaan van de DS12C887 RTC data indien gewijzigd."
 
-#: src/translate_text.c.po.c:18738
+#: src/translate_text.c.po.c:18789
 msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "Deactiveer opslaan van de DS12C887 RTC data indien gewijzigd."
 
-#: src/translate_text.c.po.c:18755
+#: src/translate_text.c.po.c:18806
 msgid "Clockport device"
 msgstr "Clockport apparaat"
 
-#: src/translate_text.c.po.c:18773
+#: src/translate_text.c.po.c:18824
 msgid "hostname"
 msgstr "Hostnaam"
 
-#: src/translate_text.c.po.c:18790
+#: src/translate_text.c.po.c:18841
 msgid "port"
 msgstr "poort"
 
-#: src/translate_text.c.po.c:18807
+#: src/translate_text.c.po.c:18858
 msgid "Set the netplay server hostname"
 msgstr "Zet de netplay server hostnaam"
 
-#: src/translate_text.c.po.c:18824
+#: src/translate_text.c.po.c:18875
 msgid "Set the netplay binding address"
 msgstr "Zet het netplay binding adres"
 
-#: src/translate_text.c.po.c:18841
+#: src/translate_text.c.po.c:18892
 msgid "Set the netplay port"
 msgstr "Zet de netplay poort"
 
-#: src/translate_text.c.po.c:18858
+#: src/translate_text.c.po.c:18909
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
@@ -14650,34 +14665,34 @@ msgstr ""
 "apparaten en bronnen), elk onderdeel heeft een waarde (0: Geen, 1: Server, "
 "2: Client, 3: Beide)"
 
-#: src/translate_text.c.po.c:18876
+#: src/translate_text.c.po.c:18927
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr "Grootte van het SIMM RAM (0/1/4/8/16 MB)"
 
-#: src/translate_text.c.po.c:18893
+#: src/translate_text.c.po.c:18944
 msgid "Turn on Jiffy switch"
 msgstr "Activeer Jiffy schakelaar"
 
-#: src/translate_text.c.po.c:18910
+#: src/translate_text.c.po.c:18961
 msgid "Turn off Jiffy switch"
 msgstr "Deactiveer Jiffy schakelaar"
 
-#: src/translate_text.c.po.c:18927
+#: src/translate_text.c.po.c:18978
 msgid "Turn on Speed switch"
 msgstr "Activeer snelheid schakelaar"
 
-#: src/translate_text.c.po.c:18944
+#: src/translate_text.c.po.c:18995
 msgid "Turn off Speed switch"
 msgstr "Deactiveer snelheid schakelaar"
 
-#: src/translate_text.c.po.c:18961
+#: src/translate_text.c.po.c:19012
 msgid "Enable HiRes Emulation Board"
 msgstr "Activeer PET High Res Emulation bord"
 
-#: src/translate_text.c.po.c:18978
+#: src/translate_text.c.po.c:19029
 msgid "Disable HiRes Emulation Board"
 msgstr "Deactiveer PET High Res Emulation bord"
 
-#: src/translate_text.c.po.c:18996
+#: src/translate_text.c.po.c:19047
 msgid "Set raw drive device name"
 msgstr "Zet binair drive apparaatnaam"

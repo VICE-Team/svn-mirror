@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-02 10:45-0700\n"
+"POT-Creation-Date: 2016-10-07 13:50-0700\n"
 "PO-Revision-Date: 2012-12-29 13:44-0800\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: ko <ko@li.org>\n"
@@ -7723,7 +7723,7 @@ msgstr ""
 msgid "Save CP Clock F83 RTC data when changed"
 msgstr ""
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18568
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18602
 msgid "Enable the DigiMAX cartridge"
 msgstr ""
 
@@ -14075,106 +14075,118 @@ msgstr ""
 msgid "Disable the Short Bus DigiMAX expansion"
 msgstr ""
 
-#: src/translate_text.c.po.c:18585
-msgid "Disable the DigiMAX cartridge"
+#: src/translate_text.c.po.c:18568
+msgid "Enable the Short Bus TFE expansion"
 msgstr ""
 
-#: src/translate_text.c.po.c:18602
-msgid "Base address of the DigiMAX cartridge"
+#: src/translate_text.c.po.c:18585
+msgid "Disable the Short Bus TFE expansion"
 msgstr ""
 
 #: src/translate_text.c.po.c:18619
-msgid "Base address of the Short Bus DigiMAX expansion"
+msgid "Disable the DigiMAX cartridge"
 msgstr ""
 
 #: src/translate_text.c.po.c:18636
-msgid "Enable the DS12C887 RTC cartridge"
+msgid "Base address of the DigiMAX cartridge"
 msgstr ""
 
 #: src/translate_text.c.po.c:18653
-msgid "Disable the DS12C887 RTC cartridge"
+msgid "Base address of the Short Bus DigiMAX expansion"
 msgstr ""
 
 #: src/translate_text.c.po.c:18670
-msgid "Set the RTC oscillator to 'halted'"
+msgid "Base address of the Short Bus ETFE expansion"
 msgstr ""
 
 #: src/translate_text.c.po.c:18687
-msgid "Set the RTC oscillator to 'running'"
+msgid "Enable the DS12C887 RTC cartridge"
 msgstr ""
 
 #: src/translate_text.c.po.c:18704
-msgid "Base address of the DS12C887 RTC cartridge"
+msgid "Disable the DS12C887 RTC cartridge"
 msgstr ""
 
 #: src/translate_text.c.po.c:18721
-msgid "Enable saving of the DS12C887 RTC data when changed."
+msgid "Set the RTC oscillator to 'halted'"
 msgstr ""
 
 #: src/translate_text.c.po.c:18738
-msgid "Disable saving of the DS12C887 RTC data when changed."
+msgid "Set the RTC oscillator to 'running'"
 msgstr ""
 
 #: src/translate_text.c.po.c:18755
+msgid "Base address of the DS12C887 RTC cartridge"
+msgstr ""
+
+#: src/translate_text.c.po.c:18772
+msgid "Enable saving of the DS12C887 RTC data when changed."
+msgstr ""
+
+#: src/translate_text.c.po.c:18789
+msgid "Disable saving of the DS12C887 RTC data when changed."
+msgstr ""
+
+#: src/translate_text.c.po.c:18806
 msgid "Clockport device"
 msgstr ""
 
-#: src/translate_text.c.po.c:18773
+#: src/translate_text.c.po.c:18824
 msgid "hostname"
 msgstr ""
 
-#: src/translate_text.c.po.c:18790
+#: src/translate_text.c.po.c:18841
 msgid "port"
 msgstr ""
 
-#: src/translate_text.c.po.c:18807
+#: src/translate_text.c.po.c:18858
 msgid "Set the netplay server hostname"
 msgstr ""
 
-#: src/translate_text.c.po.c:18824
+#: src/translate_text.c.po.c:18875
 msgid "Set the netplay binding address"
 msgstr ""
 
-#: src/translate_text.c.po.c:18841
+#: src/translate_text.c.po.c:18892
 msgid "Set the netplay port"
 msgstr ""
 
-#: src/translate_text.c.po.c:18858
+#: src/translate_text.c.po.c:18909
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
 msgstr ""
 
-#: src/translate_text.c.po.c:18876
+#: src/translate_text.c.po.c:18927
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr ""
 
-#: src/translate_text.c.po.c:18893
+#: src/translate_text.c.po.c:18944
 msgid "Turn on Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:18910
+#: src/translate_text.c.po.c:18961
 msgid "Turn off Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:18927
+#: src/translate_text.c.po.c:18978
 msgid "Turn on Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:18944
+#: src/translate_text.c.po.c:18995
 msgid "Turn off Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:18961
+#: src/translate_text.c.po.c:19012
 msgid "Enable HiRes Emulation Board"
 msgstr ""
 
-#: src/translate_text.c.po.c:18978
+#: src/translate_text.c.po.c:19029
 msgid "Disable HiRes Emulation Board"
 msgstr ""
 
-#: src/translate_text.c.po.c:18996
+#: src/translate_text.c.po.c:19047
 msgid "Set raw drive device name"
 msgstr ""
 

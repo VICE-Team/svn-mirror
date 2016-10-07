@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-02 10:45-0700\n"
+"POT-Creation-Date: 2016-10-07 13:50-0700\n"
 "PO-Revision-Date: 2015-04-10 14:51+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -7987,7 +7987,7 @@ msgstr "Attiva l'espansione MMC64"
 msgid "Save CP Clock F83 RTC data when changed"
 msgstr "Salva i dati RTC alla modifica"
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18568
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18602
 msgid "Enable the DigiMAX cartridge"
 msgstr "Attiva la cartuccia DigiMAX"
 
@@ -14897,112 +14897,127 @@ msgstr "Attiva l'espansione RamCart"
 msgid "Disable the Short Bus DigiMAX expansion"
 msgstr "Disattiva l'espansione RamCart"
 
+#: src/translate_text.c.po.c:18568
+#, fuzzy
+msgid "Enable the Short Bus TFE expansion"
+msgstr "Attiva l'espansione RamCart"
+
 #: src/translate_text.c.po.c:18585
+#, fuzzy
+msgid "Disable the Short Bus TFE expansion"
+msgstr "Disattiva l'espansione RamCart"
+
+#: src/translate_text.c.po.c:18619
 msgid "Disable the DigiMAX cartridge"
 msgstr "Disattiva la cartuccia DigiMAX"
 
-#: src/translate_text.c.po.c:18602
+#: src/translate_text.c.po.c:18636
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Indirizzo base della cartuccia DigiMAX"
 
-#: src/translate_text.c.po.c:18619
+#: src/translate_text.c.po.c:18653
 #, fuzzy
 msgid "Base address of the Short Bus DigiMAX expansion"
 msgstr "Indirizzo base della cartuccia DigiMAX"
 
-#: src/translate_text.c.po.c:18636
+#: src/translate_text.c.po.c:18670
+#, fuzzy
+msgid "Base address of the Short Bus ETFE expansion"
+msgstr "Indirizzo base della cartuccia DigiMAX"
+
+#: src/translate_text.c.po.c:18687
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr "Attiva la cartuccia DS12C887 RTC"
 
-#: src/translate_text.c.po.c:18653
+#: src/translate_text.c.po.c:18704
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr "Disattiva la cartuccia DS12C887 RTC"
 
-#: src/translate_text.c.po.c:18670
+#: src/translate_text.c.po.c:18721
 msgid "Set the RTC oscillator to 'halted'"
 msgstr "Imposta l'oscillatore RTC a 'halted'"
 
-#: src/translate_text.c.po.c:18687
+#: src/translate_text.c.po.c:18738
 msgid "Set the RTC oscillator to 'running'"
 msgstr "Imposta l'oscillatore RTC a 'running'"
 
-#: src/translate_text.c.po.c:18704
+#: src/translate_text.c.po.c:18755
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "Indirizzo base della cartuccia DS12C887 RTC"
 
-#: src/translate_text.c.po.c:18721
+#: src/translate_text.c.po.c:18772
 msgid "Enable saving of the DS12C887 RTC data when changed."
 msgstr "Attiva il salvataggio dei dati RTC del DS12C887 alla modifica."
 
-#: src/translate_text.c.po.c:18738
+#: src/translate_text.c.po.c:18789
 msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "Disattiva il salvataggio dei dati RTC del DS12C887 alla modifica."
 
-#: src/translate_text.c.po.c:18755
+#: src/translate_text.c.po.c:18806
 #, fuzzy
 msgid "Clockport device"
 msgstr "Dispositivo Joystick 1"
 
-#: src/translate_text.c.po.c:18773
+#: src/translate_text.c.po.c:18824
 #, fuzzy
 msgid "hostname"
 msgstr "Nome host:"
 
-#: src/translate_text.c.po.c:18790
+#: src/translate_text.c.po.c:18841
 #, fuzzy
 msgid "port"
 msgstr "<porta>"
 
-#: src/translate_text.c.po.c:18807
+#: src/translate_text.c.po.c:18858
 #, fuzzy
 msgid "Set the netplay server hostname"
 msgstr "Nome del server Netplay"
 
-#: src/translate_text.c.po.c:18824
+#: src/translate_text.c.po.c:18875
 msgid "Set the netplay binding address"
 msgstr ""
 
-#: src/translate_text.c.po.c:18841
+#: src/translate_text.c.po.c:18892
 #, fuzzy
 msgid "Set the netplay port"
 msgstr "Porta TCP per netplay"
 
-#: src/translate_text.c.po.c:18858
+#: src/translate_text.c.po.c:18909
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
 msgstr ""
 
-#: src/translate_text.c.po.c:18876
+#: src/translate_text.c.po.c:18927
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr "Dimensione della RAM SIMM (0/1/4/8/16 MB)"
 
-#: src/translate_text.c.po.c:18893
+#: src/translate_text.c.po.c:18944
 msgid "Turn on Jiffy switch"
 msgstr "Attiva pulsante Jiffy"
 
-#: src/translate_text.c.po.c:18910
+#: src/translate_text.c.po.c:18961
 msgid "Turn off Jiffy switch"
 msgstr "Disattiva pulsante Jiffy"
 
-#: src/translate_text.c.po.c:18927
+#: src/translate_text.c.po.c:18978
 msgid "Turn on Speed switch"
 msgstr "Attiva pulsante di velocità"
 
-#: src/translate_text.c.po.c:18944
+#: src/translate_text.c.po.c:18995
 msgid "Turn off Speed switch"
 msgstr "Disattiva pulsante di velocità"
 
-#: src/translate_text.c.po.c:18961
+#: src/translate_text.c.po.c:19012
 msgid "Enable HiRes Emulation Board"
 msgstr "Attiva scheda HiRes Emulation"
 
-#: src/translate_text.c.po.c:18978
+#: src/translate_text.c.po.c:19029
 msgid "Disable HiRes Emulation Board"
 msgstr "Disattiva scheda HiRes Emulation"
 
-#: src/translate_text.c.po.c:18996
+#: src/translate_text.c.po.c:19047
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Nome scheda audio"
