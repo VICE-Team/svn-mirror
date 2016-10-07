@@ -11450,16 +11450,16 @@ msgstr "Momentopname %s is niet kompatibel (te oud)"
 #: src/translate_text.c.po.c:4605
 #, c-format
 msgid "Snapshot was created by VICE Version %d.%d.%d"
-msgstr ""
+msgstr "Momentopname was gemaakt met VICE Versie %d.%d.%d"
 
 #: src/translate_text.c.po.c:4622
 msgid "Snapshot was created by VICE Version 2.4.30 or older"
-msgstr ""
+msgstr "Momentopname was gemaakt met VICE Versie 2.4.30 of ouder"
 
 #: src/translate_text.c.po.c:4639 src/translate_text.c.po.c:4656
-#, fuzzy, c-format
+#, c-format
 msgid "ClockPort RRNET already in use by %s."
-msgstr "Sampler systeem wordt al gebruikt door %s."
+msgstr "ClockPort RRNET wordt al gebruikt door %s."
 
 #: src/translate_text.c.po.c:4675
 msgid "Enable opposite joystick directions"
@@ -14617,9 +14617,8 @@ msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "Deactiveer opslaan van de DS12C887 RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:18755
-#, fuzzy
 msgid "Clockport device"
-msgstr "Userport apparaat"
+msgstr "Clockport apparaat"
 
 #: src/translate_text.c.po.c:18773
 msgid "hostname"
