@@ -225,7 +225,7 @@ public class DosBoxMenuUtility {
             context.mPrefScaleFilterOn = sharedPrefs.getBoolean(PREF_KEY_SCALE_FILTER_ON, false);
             context.mPrefScaleFactor = sharedPrefs.getInt(PREF_KEY_SCALE_FACTOR, 100);
             context.mPrefScaleMode = sharedPrefs.getInt(PREF_KEY_SCALE_MODE, DosBoxSurfaceView.SCALE_MODE_CUSTOM);
-            context.mPrefFrameskip = sharedPrefs.getInt(PREF_KEY_FRAMESKIP, 2);
+            context.mPrefFrameskip = sharedPrefs.getInt(PREF_KEY_FRAMESKIP, 0);
             context.mPrefCycles = sharedPrefs.getInt(PREF_KEY_CYCLES, 0);
             context.mPrefMemorySize = sharedPrefs.getInt(PREF_KEY_MEMORY_SIZE, 4);
             context.mPrefHardkeyOn = sharedPrefs.getBoolean(PREF_KEY_HARDKEY_ON, true);

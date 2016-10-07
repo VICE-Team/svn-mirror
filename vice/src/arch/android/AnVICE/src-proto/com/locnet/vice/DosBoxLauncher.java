@@ -83,7 +83,7 @@ public class DosBoxLauncher extends Activity {
     public boolean mPrefHardkeyOn = true;
     public String mPrefKeyMapping = DosBoxMenuUtility.DEFAULT_KEY_MAPPING;
     public int mPrefCycles = 0; 
-    public int mPrefFrameskip = 2; 
+    public int mPrefFrameskip = 0;
     public int mPrefMemorySize = 4; 
     public int mPrefScaleFactor = 100;
     public boolean mPrefTapClickOn = true;

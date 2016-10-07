@@ -206,7 +206,7 @@ ui_menu_action_t ui_dispatch_events(void)
         int value = loadf->frameskip;
 
         loadf->frameskip = 0;
-        resources_set_int("RefreshRate", ((value > 0) && (value <= 10)) ? (value) : 1);
+        resources_set_int("RefreshRate", ((value > 0) && (value <= 10)) ? value : 1);
     }
     if (loadf->abort) {
         loadf->abort = 0;
