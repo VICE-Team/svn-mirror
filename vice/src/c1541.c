@@ -474,6 +474,9 @@ static char *read_line(const char *prompt)
 
 /** \brief  Split \a line into a list of arguments
  *
+ * The \a args array is reused on each call, (re)allocating elements when
+ * required.
+ *
  * \param[in]   line    input string
  * \param[out]  nargs   number of arguments parsed from \a line
  * \param[out]  args    arguments parsed from \a line
@@ -3308,11 +3311,6 @@ int main(int argc, char **argv)
     int i;
     int retval;
 
-    /* properly init GNU readline, if available */
-#ifdef HAVE_READLINE_READLINE_H
-    using_history();
-#endif
-
     archdep_init(&argc, argv);
 
     /* This causes all the logging messages from the various VICE modules to
@@ -3348,6 +3346,12 @@ int main(int argc, char **argv)
 
         /* Interactive mode.  */
         interactive_mode = 1;
+
+        /* properly init GNU readline, if available */
+#ifdef HAVE_READLINE_READLINE_H
+        using_history();
+#endif
+
         printf("C1541 Version %d.%02d.\n",
                C1541_VERSION_MAJOR, C1541_VERSION_MINOR);
         printf("Copyright 1995-2016 The VICE Development Team.\n"
@@ -3381,6 +3385,16 @@ int main(int argc, char **argv)
             }
         }
         lib_free(buf);
+        /* free memory used by the argument 'parser' */
+        for (i = 0; i < MAXARG; i++) {
+            if (args[i] != NULL) {
+                lib_free(args[i]);
+            }
+        }
+        /* properly clean up GNU readline's history, if used */
+#ifdef HAVE_READLINE_READLINE_H
+        clear_history();
+#endif
     } else {
         while (i < argc) {
             args[0] = argv[i] + 1;
@@ -3403,18 +3417,6 @@ int main(int argc, char **argv)
             lib_free(drives[i]);
         }
     }
-#if 0
-    /* free memory used by the argument 'parser' */
-    for (i = 0; i < MAXARG; i++) {
-        if (args[i] != NULL) {
-            lib_free(args[i]);
-        }
-    }
-#endif
-    /* properly clean up GNU readline's history, if used */
-#ifdef HAVE_READLINE_READLINE_H
-    clear_history();
-#endif
     /* free memory used by archdep */
     archdep_shutdown();
     /* free memory used by the log module */
