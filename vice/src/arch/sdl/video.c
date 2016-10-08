@@ -1111,9 +1111,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     canvas->texture = new_texture;
     canvas->actual_width = actual_width;
     canvas->actual_height = actual_height;
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES2)
     canvas->videoconfig->hwscale = 1;
-#endif
 
     SDL_GetRenderDriverInfo(drv_index, &info);
 
