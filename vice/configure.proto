@@ -120,6 +120,14 @@ if test x"$enable_dingoo" = "xyes" -a x"$enable_dingux" = "xyes"; then
   AC_MSG_ERROR([conflicting UI options: --enable-dingoo --enable-dingux])
 fi
 
+dnl Test for bash for building static/shared ffmpeg
+if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
+  AC_CHECK_PROG(ffmpeg_have_bash, bash, "yes", "no")
+  if test x"$ffmpeg_have_bash" != "xyes"; then
+    AC_MSG_ERROR([bash is required for ffmpeg compiling])
+  fi
+fi
+
 dnl check for conflicting ffmpeg options
 vice_ffmpeg_list="--enable-static-ffmpeg --enable-shared-ffmpeg --enable-external-ffmpeg"
 vice_ffmpeg_1=none
@@ -381,15 +389,6 @@ if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; 
     MAKE="$make_cmd"
   fi
 fi
-
-dnl Test for bash for building static/shared ffmpeg
-if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
-  AC_CHECK_PROG(ffmpeg_have_bash, bash, "yes", "no")
-  if test x"$ffmpeg_have_bash" != "xyes"; then
-    AC_MSG_ERROR([bash is required for ffmpeg compiling])
-  fi
-fi
-
 
 if test x"$host_os" = "xminix"; then
   AC_DEFINE(MINIX_SUPPORT,,[do we need minix support])
