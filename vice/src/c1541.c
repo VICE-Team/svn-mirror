@@ -1480,6 +1480,13 @@ static int help_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+/** \brief  'info' command handler
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure (`FD_BADDEV`, `FD_NOTREADY`)
+ */
 static int info_cmd(int nargs, char **args)
 {
     vdrive_t *vdrive;
@@ -1493,6 +1500,12 @@ static int info_cmd(int nargs, char **args)
             return FD_BADDEV;
         }
         if (check_drive(unit, CHK_NUM) < 0) {
+            return FD_BADDEV;
+        }
+        /* Bad design of check_drive causes a unit numbers 0-7 to get accepted
+         * and then segfault c1541.
+         * So a little hack for now, before I look at check_drive() */
+        if (unit < 8 || unit > 11) {
             return FD_BADDEV;
         }
         dnr = unit - 8;
@@ -1532,15 +1545,18 @@ static int info_cmd(int nargs, char **args)
             return FD_NOTREADY;
     }
 
-    printf("Description: %s\n", "None.");
-    printf("Disk Format: %s.\n", format_name);
-/*printf("Sides\t   : %d.\n", hdr.sides);*/
-    printf("Tracks\t   : %d.\n", vdrive->image->tracks);
+    /* pretty useless (BW)
+    printf("Description  : %s\n", "None.");
+     */
+    printf("disk format  : %s\n", format_name);
+    /* printf("Sides\t   : %d.\n", hdr.sides);*/
+    printf("track count  : %d\n", vdrive->image->tracks);
     if (vdrive->image->device == DISK_IMAGE_DEVICE_FS) {
-        printf(((vdrive->image->media.fsimage)->error_info.map)
-               ? "Error Block present.\n" : "No Error Block.\n");
+        printf("error block  : %s\n",
+                ((vdrive->image->media.fsimage)->error_info.map)
+                ? "Yes" : "No");
     }
-    printf("Write protect: %s.\n", vdrive->image->read_only ? "On" : "Off");
+    printf("write protect: %s\n", vdrive->image->read_only ? "On" : "Off");
 
     return FD_OK;
 }

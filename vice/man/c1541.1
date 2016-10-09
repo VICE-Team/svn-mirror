@@ -67,8 +67,8 @@ write \fIfsname\fR to \fIimage\fR as \fI1541name\fR (\fIfsname\fR by default).
 .B \-block \fItrack\fR \fIsector\fR \fI[offset]\fR \fI[unit]\fR (block \fItrack\fR \fIsector\fR \fI[offset]\fR \fI[unit]\fR)
 show disk blocks in hex format.
 .TP
-.B \-info \fIimage\fR \fI['descr']\fR (info \fI['descr']\fR)
-show version information about image.
+.B \-info \fIimage\fR \fI[unit]\fR (info \fI[unit]\fR)
+show information about image (format, geometry, error-block, write-protect)
 .P
 When more than one command is specified in batch mode, all of them are
 executed in the same order they have on the command line.
