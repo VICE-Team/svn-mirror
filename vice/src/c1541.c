@@ -267,9 +267,9 @@ const command_t command_list[] = {
       1, 2,
       attach_cmd },
     { "block",
-      "block <track> <sector> <disp> [<drive>]",
+      "block <track> <sector> [<offset>] [<drive>]",
       "Show specified disk block in hex form.",
-      3, 4,
+      2, 4,
       block_cmd },
     { "copy",
       "copy <source1> [<source2> ... <sourceN>] <destination>",
@@ -973,7 +973,7 @@ static int attach_cmd(int nargs, char **args)
 /** \brief  'block' command handler
  *
  * Display a hex dump of a block on a device
- * Syntax: `block <track> <sector> <offset> [<unit>]`
+ * Syntax: `block <track> <sector> [<offset>] [<unit>]`
  *
  * \param[in]   nargs   number of arguments
  * \param[in]   args    argument list
@@ -983,23 +983,26 @@ static int attach_cmd(int nargs, char **args)
  */
 static int block_cmd(int nargs, char **args)
 {
-    int drive, disp;
+    int drive, offset = 0;
     int track, sector;
     vdrive_t *vdrive;
     BYTE *buf, str[20], sector_data[256];
     int cnt;
 
-    /* block <track> <sector> <disp> [<drive>] show disk blocks in hex form */
+    /* block <track> <sector> [offset] [<drive>] show disk blocks in hex form */
     if (arg_to_int(args[1], &track) < 0 || arg_to_int(args[2], &sector) < 0) {
         return FD_BAD_TS;
     }
-    if (arg_to_int(args[3], &disp) < 0) {
-        return FD_BADVAL;
-    }
-    if (disp < 0) {
-        fprintf(stderr, "Error: negative value for `disp` argument: %d\n",
-                disp);
-        return FD_BADVAL;
+
+    if (nargs >= 4) {
+        if (arg_to_int(args[3], &offset) < 0) {
+            return FD_BADVAL;
+        }
+        if (offset < 0) {
+            fprintf(stderr, "Error: negative value for `offset` argument: %d\n",
+                    offset);
+            return FD_BADVAL;
+        }
     }
 
     if (nargs == 5) {
@@ -1036,12 +1039,12 @@ static int block_cmd(int nargs, char **args)
 
     printf("<%2d: %2d %2d>\n", drive, track, sector);
     str[16] = 0;
-    for (; disp < 256; ) {
-        printf("> %02X ", disp & 255);
-        for (cnt = 0; cnt < 16; cnt++, disp++) {
-            printf(" %02X", buf[disp & 255]);
-            str[cnt] = (buf[disp & 255] < ' ' ?
-                        '.' : charset_p_toascii(buf[disp & 255], 0));
+    while (offset < 256) {
+        printf("> %02X ", offset & 255);
+        for (cnt = 0; cnt < 16; cnt++, offset++) {
+            printf(" %02X", buf[offset & 255]);
+            str[cnt] = (buf[offset & 255] < ' ' ?
+                        '.' : charset_p_toascii(buf[offset & 255], 0));
         }
         printf("  ;%s\n", str);
     }
