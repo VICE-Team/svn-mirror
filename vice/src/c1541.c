@@ -726,6 +726,10 @@ static int lookup_and_execute_command(int nargs, char **args)
  * \return  pointer into \a name after the ':' or `NULL` on failure
  *
  * \todo    make both \a name and return value `const`
+ *
+ * FIXME:   this function needs to be rebuilt to reject @[num]: where `num` is
+ *          not a valid unit number. prototype and behaviour should be more
+ *          like strtold() (BW)
  */
 static char *extract_unit_from_file_name(char *name,
                                          unsigned int *unit_return)
@@ -742,8 +746,39 @@ static char *extract_unit_from_file_name(char *name,
             return name + len;
         }
     }
+    *unit_return = -1;
     return NULL;
 }
+
+
+/** \brief  Parse unit number from a '@<unit>' string
+ *
+ * \param[in]   name    string to parse
+ * \param[out]  endptr  pointer to string after the '@<unit>:' stuff
+ *
+ * \return  unit number if successful, 0 if no '@<unit>:' was found
+ */
+static int extract_unit_from_file_name_compyx(char *name, char **endptr)
+{
+    long result;
+
+    if (name == NULL || *name == '\0' || *name != '@') {
+        *endptr = name;
+        return 0;
+    }
+
+    /* try to parse an integer between '@' and ':' */
+    result = strtold(name + 1, endptr);
+    if (*endptr != NULL && **endptr == ':') {
+        /* got something */
+        (*endptr)++;
+        return result;
+    }
+    *endptr = name;
+    return 0;
+}
+
+
 
 
 /** \brief  Check if \a name is a valid filename
@@ -1544,13 +1579,7 @@ static int info_cmd(int nargs, char **args)
         if (arg_to_int(args[1], &unit) < 0) {
             return FD_BADDEV;
         }
-        if (check_drive(unit, CHK_NUM) < 0) {
-            return FD_BADDEV;
-        }
-        /* Bad design of check_drive causes a unit numbers 0-7 to get accepted
-         * and then segfault c1541.
-         * So a little hack for now, before I look at check_drive() */
-        if (unit < 8 || unit > 11) {
+        if (check_drive_unit(unit) < 0) {
             return FD_BADDEV;
         }
         dnr = unit - 8;
@@ -1558,7 +1587,7 @@ static int info_cmd(int nargs, char **args)
         dnr = drive_index;
     }
 
-    if (check_drive(dnr, CHK_RDY) < 0) {
+    if (check_drive_ready(dnr) < 0) {
         return FD_NOTREADY;
     }
 
@@ -1660,26 +1689,32 @@ static int list_cmd(int nargs, char **args)
     image_contents_t *listing;
     unsigned int dnr;
     vdrive_t *vdrive;
+    int unit;
 
     if (nargs > 1) {
-        /* list <pattern> */
-        pattern = extract_unit_from_file_name(args[1], &dnr);
-        if (pattern == NULL) {
+        /* use new version call untill all old calls are replaced */
+        unit = extract_unit_from_file_name_compyx(args[1], &pattern);
+        if (unit == 0) {
             dnr = drive_index;
-        } else if (*pattern == 0) {
-            pattern = NULL;
+        } else {
+            dnr = unit -8;
         }
+
     } else {
         /* list */
         pattern = NULL;
         dnr = drive_index;
     }
 
-    if (check_drive(dnr, CHK_RDY) < 0) {
+    if (check_drive_index(dnr) < 0) {
+        return FD_BADDEV;
+    }
+
+    if (check_drive_ready(dnr) < 0) {
         return FD_NOTREADY;
     }
 
-    vdrive = drives[dnr & 3];
+    vdrive = drives[dnr];
     name = disk_image_name_get(vdrive->image);
 
     listing = diskcontents_read(name, dnr + 8);
