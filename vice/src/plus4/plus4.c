@@ -774,10 +774,6 @@ int machine_specific_init(void)
     /* Setup trap handling.  */
     traps_init();
 
-    if (!video_disabled_mode) {
-        joystick_init();
-    }
-
     gfxoutput_init();
 
 #ifdef HAVE_MOUSE
@@ -867,6 +863,10 @@ int machine_specific_init(void)
 
     if (!console_mode) {
         plus4ui_init();
+    }
+
+    if (!video_disabled_mode) {
+        joystick_init();
     }
 
     cs256k_init();

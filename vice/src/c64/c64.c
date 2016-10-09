@@ -1052,15 +1052,15 @@ int machine_specific_init(void)
     /* Initialize the C64-specific I/O */
     c64io_init();
 
-    if (!video_disabled_mode) {
-        joystick_init();
-    }
-
     gfxoutput_init();
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {
         c64_mem_ui_init();
+    }
+
+    if (!video_disabled_mode) {
+        joystick_init();
     }
 
     /* Initialize glue logic.  */

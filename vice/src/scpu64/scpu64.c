@@ -814,10 +814,6 @@ int machine_specific_init(void)
     /* Setup trap handling.  */
     traps_init();
 
-    if (!video_disabled_mode) {
-        joystick_init();
-    }
-
     gfxoutput_init();
 
     /* Initialize serial traps.  */
@@ -905,6 +901,10 @@ int machine_specific_init(void)
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {
         scpu64ui_init();
+    }
+
+    if (!video_disabled_mode) {
+        joystick_init();
     }
 
     /* Initialize glue logic.  */

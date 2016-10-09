@@ -647,10 +647,6 @@ int machine_specific_init(void)
         return -1;
     }
 
-    if (!video_disabled_mode) {
-        joystick_init();
-    }
-
     gfxoutput_init();
 
     log_message(pet_log, "Initializing IEEE488 bus...");
@@ -728,6 +724,10 @@ int machine_specific_init(void)
     /* Initialize the PET-specific part of the UI.  */
     if (!console_mode) {
         petui_init();
+    }
+
+    if (!video_disabled_mode) {
+        joystick_init();
     }
 
     /* Initialize the PET Ram and Expansion Unit. */

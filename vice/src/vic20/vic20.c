@@ -822,10 +822,6 @@ int machine_specific_init(void)
     /* Setup trap handling.  */
     traps_init();
 
-    if (!video_disabled_mode) {
-        joystick_init();
-    }
-
     gfxoutput_init();
 
     /* Initialize serial traps.  If user does not want them, or if the
@@ -924,6 +920,10 @@ int machine_specific_init(void)
     /* Initialize the VIC20-specific part of the UI.  */
     if (!console_mode) {
         vic20ui_init();
+    }
+
+    if (!video_disabled_mode) {
+        joystick_init();
     }
 
     vic20iec_init();

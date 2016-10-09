@@ -641,10 +641,6 @@ int machine_specific_init(void)
     serial_trap_init(0xa4);
     serial_iec_bus_init();
 
-    if (!video_disabled_mode) {
-        joystick_init();
-    }
-
     gfxoutput_init();
 
     /* Initialize flash traps.  */
@@ -719,6 +715,10 @@ int machine_specific_init(void)
     /* Initialize the C64DTV-specific part of the UI.  */
     if (!console_mode) {
         c64dtvui_init();
+    }
+
+    if (!video_disabled_mode) {
+        joystick_init();
     }
 
     /* Initialize the C64DTV.  */

@@ -644,10 +644,6 @@ int machine_specific_init(void)
         return -1;
     }
 
-    if (!video_disabled_mode) {
-        joystick_init();
-    }
-
     gfxoutput_init();
 
 #ifdef HAVE_MOUSE
@@ -736,6 +732,10 @@ int machine_specific_init(void)
     /* Initialize the CBM-II-specific part of the UI.  */
     if (!console_mode) {
         cbm5x0ui_init();
+    }
+
+    if (!video_disabled_mode) {
+        joystick_init();
     }
 
     cbm2iec_init();
