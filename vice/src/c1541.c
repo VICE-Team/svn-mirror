@@ -896,6 +896,8 @@ static int open_image(int dev, char *name, int create, int disktype)
  *          and then return their own FD_FOO constant.
  *
  * \return  FD_BADDEV, FD_NOTREADY, FD_OK
+ *
+ * \deprecated
  */
 static int check_drive(int dev, int flags)
 {
@@ -917,6 +919,50 @@ static int check_drive(int dev, int flags)
 
     return FD_OK;
 }
+
+
+/** \brief  Check if \a unit is a valid drive unit number
+ *
+ * \param[in]   unit number as on the real machine
+ *
+ * \return  0 (`FD_OK`) on success, < 0 (`FD_BADDEV`) on failure
+ */
+static int check_drive_unit(int unit)
+{
+    return (unit >= 8 && unit <= (DRIVE_COUNT + 8)) ? FD_OK : FD_BADDEV;
+}
+
+
+/** \brief  Check if \a index is a valid index into the vdrive array
+ *
+ * \param[in]   index   index in vdrive array
+ *
+ * \return  0 (`FD_OK`) on success, < 0 (`FD_BADDEV`) on failure
+ */
+static int check_drive_index(int index)
+{
+    return (index >= 0 && index < DRIVE_COUNT) ? FD_OK : FD_BADDEV;
+}
+
+
+/** \brief  Check if vdrive at \a index is ready
+ *
+ * \param[in]   index   index in the vdrive array
+ *
+ * \return  0 (`FD_OK`) on success, < 0 (`FD_BADDEV` or `FD_NOTREADY`) on
+ *          failure
+ */
+static int check_drive_ready(int index)
+{
+    int status = check_drive_index(index);
+    if (status == FD_OK) {
+        if (drives[index] == NULL || drives[index]->image == NULL) {
+            status = FD_NOTREADY;
+        }
+    }
+    return status;
+}
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -955,16 +1001,15 @@ static int attach_cmd(int nargs, char **args)
             if (arg_to_int(args[2], &dev) < 0) {
                 return FD_BADDEV;
             }
+            if (check_drive_unit(dev) != FD_OK) {
+                return FD_BADDEV;
+            }
+            dev -= 8;
             break;
     }
 
-    if (check_drive(dev, CHK_NUM) < 0) {
-        return FD_BADDEV;
-    }
-
-    /* expand path so we can use ~ for the HOME dir */
     archdep_expand_path(&path, args[1]);
-    open_disk_image(drives[dev & 3], path, (dev & 3) + 8);
+    open_disk_image(drives[dev], path, dev + 8);
     lib_free(path);
     return FD_OK;
 }
@@ -1009,7 +1054,7 @@ static int block_cmd(int nargs, char **args)
         if (arg_to_int(args[4], &drive) < 0) {
             return FD_BADDEV;
         }
-        if (check_drive(drive, CHK_NUM) < 0) {
+        if (check_drive_unit(drive) < 0) {
             return FD_BADDEV;
         }
         drive -= 8;
@@ -1017,11 +1062,11 @@ static int block_cmd(int nargs, char **args)
         drive = drive_index;
     }
 
-    if (check_drive(drive, CHK_RDY) < 0) {
+    if (check_drive_ready(drive) < 0) {
         return FD_NOTREADY;
     }
 
-    vdrive = drives[drive & 3];
+    vdrive = drives[drive];
 
     if (disk_image_check_sector(vdrive->image, track, sector) < 0) {
         return FD_BAD_TS;
