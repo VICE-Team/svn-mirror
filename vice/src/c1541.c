@@ -905,7 +905,7 @@ static int check_drive(int dev, int flags)
      *        why not simply check dev without AND'ing? */
     dev &= 7;
 
-    if (dev < 0 || dev >= (DRIVE_COUNT - 1)) {
+    if (dev < 0 || dev >= DRIVE_COUNT) {
         return FD_BADDEV;
     }
 
