@@ -230,7 +230,7 @@ static char *image_contents_get_filename(image_contents_file_list_t * p)
             print_name[i + 1] = '?'; /* better than showing a reversed @ */
         } else if (p->name[i] == 0xa0) {
             encountered_a0++;
-            if (encountered_a0) {
+            if (encountered_a0 == 1) {
                 print_name[i + 1] = '\"';
             } else {
                 print_name[i + 1] = 0x20;
