@@ -177,6 +177,18 @@
 #  endif
 #endif
 
+#if (__DragonFly_version==400200)
+#define PLATFORM_OS "DragonFly BSD 4.2.x"
+#endif
+
+#if (__DragonFly_version==400400)
+#define PLATFORM_OS "DragonFly BSD 4.4.x"
+#endif
+
+#if (__DragonFly_version==400600)
+#define PLATFORM_OS "DragonFly BSD 4.6.x"
+#endif
+
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "DragonFly BSD"
 #endif
