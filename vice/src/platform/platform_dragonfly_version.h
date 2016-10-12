@@ -172,7 +172,11 @@
 #    if (OPENSSL_VERSION_NUMBER==0x100010dfL)
 #      define PLATFORM_OS "DragonFly BSD 4.0.5"
 #    else
-#      define PLATFORM_OS "DragonFly BSD 4.0.1/4.0.2"
+#      if (OPENSSL_VERSION_NUMBER==0x100010efL)
+#        define PLATFORM_OS "DragonFly BSD 4.0.6"
+#      else
+#        define PLATFORM_OS "DragonFly BSD 4.0.1/4.0.2"
+#      endif
 #    endif
 #  endif
 #endif
