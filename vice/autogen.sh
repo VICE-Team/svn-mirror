@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 #
 # autogen.sh - generate the auto* files of VICE
@@ -25,6 +25,13 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
+
+# minimum automake version required (1.10.3 was the lowest version above 1.9 I
+# could test against)
+AM_VERSION_REQ_MAJ=1
+AM_VERSION_REQ_MIN=10
+AM_VERSION_REQ_REV=3
+
 
 generate_configure_in() {
 	# $1 - major automake version
@@ -55,6 +62,27 @@ get_automake_version() {
 
 	automake_version=$4
 }
+
+
+# Check minimum required automake version against used automake
+check_automake_version() {
+	# $1 version string ("M.m.r")
+	am_maj=`echo "$1" | cut -d '.' -f 1`
+	am_min=`echo "$1" | cut -d '.' -f 2`
+	am_rev=`echo "$1" | cut -d '.' -f 3`
+	
+	echo -n "Checking automake version >= $AM_VERSION_REQ_MAJ.$AM_VERSION_REQ_MIN.$AM_VERSION_REQ_REV .. "
+
+	if test $am_maj -ge $AM_VERSION_REQ_MAJ \
+		-a $am_min -ge $AM_VERSION_REQ_MIN \
+		-a $am_rev -ge $AM_VERSION_REQ_REV; then
+		echo "OK: $automake_version"
+	else
+		echo "failed: $automake_version, please update automake."
+		exit 1
+	fi
+}
+
 
 do_command() {
 	# $1 - command
@@ -118,6 +146,7 @@ buildfiles() {
 
 automake_line=`automake --version`
 get_automake_version $automake_line
+check_automake_version $automake_version
 old_IFS=$IFS
 IFS="."
 generate_configure_in $automake_version
