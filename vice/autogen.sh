@@ -26,11 +26,15 @@
 #  02111-1307  USA.
 #
 
+# minimum autoconf version required
+ACONF_VERSION_REQ_MAJ=2
+ACONF_VERSION_REQ_MIN=60
+
 # minimum automake version required (1.10.3 was the lowest version above 1.9 I
 # could test against)
-AM_VERSION_REQ_MAJ=1
-AM_VERSION_REQ_MIN=10
-AM_VERSION_REQ_REV=3
+AMAKE_VERSION_REQ_MAJ=1
+AMAKE_VERSION_REQ_MIN=10
+AMAKE_VERSION_REQ_REV=3
 
 
 generate_configure_in() {
@@ -54,6 +58,33 @@ generate_configure_in() {
 	fi
 }
 
+get_autoconf_version() {
+	# $1 - "autoconf"
+	# $2 - "(GNU"
+	# $3 - "Autconf)"
+	# $4 - version
+
+	autoconf_version=$4
+}
+
+# Check minimum required autoconf version against used autoconf
+check_autoconf_version() {
+	# $1 - version string ("M.m")
+	aconf_maj=`echo "$1" | cut -d '.' -f 1`
+	aconf_min=`echo "$1" | cut -d '.' -f 2`
+
+	echo -n "Checking autoconf version >= $ACONF_VERSION_REQ_MAJ.$ACONF_VERSION_REQ_MIN .. "
+
+	if test $aconf_maj -ge $ACONF_VERSION_REQ_MAJ \
+		-a $aconf_min -ge $ACONF_VERSION_REQ_MIN; then
+		echo "OK: $autoconf_version"
+	else
+		echo "failed: $autoconf_version, please update autoconf."
+		exit 1
+	fi
+}
+
+
 get_automake_version() {
 	# $1 - "automake"
 	# $2 - "(GNU"
@@ -67,15 +98,15 @@ get_automake_version() {
 # Check minimum required automake version against used automake
 check_automake_version() {
 	# $1 version string ("M.m.r")
-	am_maj=`echo "$1" | cut -d '.' -f 1`
-	am_min=`echo "$1" | cut -d '.' -f 2`
-	am_rev=`echo "$1" | cut -d '.' -f 3`
+	amake_maj=`echo "$1" | cut -d '.' -f 1`
+	amake_min=`echo "$1" | cut -d '.' -f 2`
+	amake_rev=`echo "$1" | cut -d '.' -f 3`
 	
-	echo -n "Checking automake version >= $AM_VERSION_REQ_MAJ.$AM_VERSION_REQ_MIN.$AM_VERSION_REQ_REV .. "
+	echo -n "Checking automake version >= $AMAKE_VERSION_REQ_MAJ.$AMAKE_VERSION_REQ_MIN.$AMAKE_VERSION_REQ_REV .. "
 
-	if test $am_maj -ge $AM_VERSION_REQ_MAJ \
-		-a $am_min -ge $AM_VERSION_REQ_MIN \
-		-a $am_rev -ge $AM_VERSION_REQ_REV; then
+	if test $amake_maj -ge $AMAKE_VERSION_REQ_MAJ \
+		-a $amake_min -ge $AMAKE_VERSION_REQ_MIN \
+		-a $amake_rev -ge $AMAKE_VERSION_REQ_REV; then
 		echo "OK: $automake_version"
 	else
 		echo "failed: $automake_version, please update automake."
@@ -144,6 +175,11 @@ buildfiles() {
 	fi
 }
 
+# Script entry point
+
+autoconf_line=`autoconf --version`
+get_autoconf_version $autoconf_line
+check_autoconf_version $autoconf_version
 automake_line=`automake --version`
 get_automake_version $automake_line
 check_automake_version $automake_version
