@@ -179,10 +179,10 @@ buildfiles() {
 
 autoconf_line=`autoconf --version`
 get_autoconf_version $autoconf_line
-check_autoconf_version $autoconf_version
+# check_autoconf_version $autoconf_version
 automake_line=`automake --version`
 get_automake_version $automake_line
-check_automake_version $automake_version
+# check_automake_version $automake_version
 old_IFS=$IFS
 IFS="."
 generate_configure_in $automake_version
