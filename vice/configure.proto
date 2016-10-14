@@ -529,11 +529,25 @@ if test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"; 
     AC_MSG_ERROR([yasm needed for ffmpeg compile])
   fi
   dnl Check minimum yasm version required
-  yasm_ver=$`$YASM --version | head -n 1 | cut -d ' ' -f 2`
-  yasm_maj=$`echo "$yasm_ver" | cut -d '.' -f 1`
-  yasm_min=$`echo "$yasm_ver" | cut -d '.' -f 2`
-  yasm_rev=$`echo "$yasm_ver" | cut -d '.' -f 3`
-  if ! test $yasm_maj -ge $YASM_VERSION_MAJOR -a $yasm_min -ge $YASM_VERSION_MINOR -a $yasm_rev -ge $YASM_VERSION_BUILD; then
+  yasm_ver=`$YASM --version | head -n 1 | cut -d ' ' -f 2`
+  yasm_maj=`echo "$yasm_ver" | cut -d '.' -f 1`
+  yasm_min=`echo "$yasm_ver" | cut -d '.' -f 2`
+  yasm_rev=`echo "$yasm_ver" | cut -d '.' -f 3`
+  yasm_ok=false
+
+  if test "$yasm_maj" -gt "$YASM_VERION_MAJOR"; then
+    yasm_ok=true
+  elif test "$yasm_maj" -eq "$YASM_VERSION_MAJOR"; then
+    if test "$yasm_min" -gt "$YASM_VERSION_MINOR"; then
+      yasm_ok=true
+    elif test "$yasm_min" -eq "$YASM_VERSION_MINOR"; then
+      if test "$yasm_rev" -ge "$YASM_VERSION_BUILD"; then
+        yasm_ok=true
+      fi
+    fi
+  fi
+
+  if test x"$yasm_ok" != x"true"; then
     AC_MSG_ERROR([yasm 1.2.0 or higher required])
   fi
 fi
