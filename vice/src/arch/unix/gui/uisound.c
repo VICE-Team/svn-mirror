@@ -189,10 +189,10 @@ void uisound_menu_create(void)
     devices_submenu = lib_calloc((size_t)(num + 1), sizeof(ui_menu_entry_t));
 
     for (i = 0; i < num ; i++) {
-        devices_submenu[i].string = (ui_callback_data_t)lib_msprintf("%s", sound_device_name(i));
+        devices_submenu[i].string = (ui_callback_data_t)sound_device_name(i);
         devices_submenu[i].type = UI_MENU_TYPE_TICK;
         devices_submenu[i].callback = (ui_callback_t)radio_SoundDeviceName;
-        devices_submenu[i].callback_data = (ui_callback_data_t)lib_stralloc(sound_device_name(i));
+        devices_submenu[i].callback_data = (ui_callback_data_t)sound_device_name(i);
     }
 
     sound_settings_submenu[2].sub_menu = devices_submenu;
@@ -200,24 +200,5 @@ void uisound_menu_create(void)
 
 void uisound_menu_shutdown(void)
 {
-    unsigned int i;
-    ui_menu_entry_t *devices_submenu = NULL;
-
-    devices_submenu = sound_settings_submenu[2].sub_menu;
-
-    if (devices_submenu == NULL) {
-        return;
-    }
-
-    sound_settings_submenu[2].sub_menu = NULL;
-
-    i = 0;
-
-    while (devices_submenu[i].string != NULL) {
-        lib_free(devices_submenu[i].string);
-        lib_free(devices_submenu[i].callback_data);
-        i++;
-    }
-
-    lib_free(devices_submenu);
+    lib_free(sound_settings_submenu[2].sub_menu);
 }
