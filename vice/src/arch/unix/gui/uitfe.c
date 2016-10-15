@@ -36,8 +36,10 @@
 #include "uitfe.h"
 #include "util.h"
 
+#if 0
 UI_MENU_DEFINE_TOGGLE(ETHERNET_ACTIVE)
 UI_MENU_DEFINE_TOGGLE(ETHERNET_AS_RR)
+#endif
 UI_MENU_DEFINE_TOGGLE(TFEIOSwap)
 
 UI_CALLBACK(set_interface_name)
@@ -52,11 +54,13 @@ UI_CALLBACK(set_interface_name)
 }
 
 ui_menu_entry_t tfe_c64_submenu[] = {
+#if 0
     { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ETHERNET_ACTIVE, NULL, NULL },
     /* Translators: "RR-Net" is the name of the network addon and should not get translated */
     { N_("RR-Net compatibility mode"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ETHERNET_AS_RR, NULL, NULL },
+#endif
     { N_("Interface"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_interface_name,
       (ui_callback_data_t)"ETHERNET_INTERFACE", NULL },
@@ -64,13 +68,17 @@ ui_menu_entry_t tfe_c64_submenu[] = {
 };
 
 ui_menu_entry_t tfe_vic20_submenu[] = {
+#if 0
     { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ETHERNET_ACTIVE, NULL, NULL },
+#endif
     /* Translators: "RR-Net" is the name of the network addon and should not get translated */
     { N_("MasC=uerade I/O swap"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TFEIOSwap, NULL, NULL },
+#if 0
     { N_("RR-Net compatibility mode"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ETHERNET_AS_RR, NULL, NULL },
+#endif
     { N_("Interface"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_interface_name,
       (ui_callback_data_t)"ETHERNET_INTERFACE", NULL },
