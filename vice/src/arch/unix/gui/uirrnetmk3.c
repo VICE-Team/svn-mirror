@@ -35,13 +35,46 @@
 #include "uimenu.h"
 #include "uirrnetmk3.h"
 
+#include "clockport.h"
+
 UI_MENU_DEFINE_TOGGLE(RRNETMK3_flashjumper)
 UI_MENU_DEFINE_TOGGLE(RRNETMK3_bios_write)
+UI_MENU_DEFINE_RADIO(RRNETMK3ClockPort);
 
 static UI_CALLBACK(rrnetmk3_flush_callback);
 static UI_CALLBACK(rrnetmk3_save_callback);
 
+
+/** \brief  Submenu for clock port device selection
+ *
+ * Remove #if 0's when support for those devices has been implemented
+ *
+ * TODO: add string constants in src/c64/cart/clockport.h for the device names
+ */
+static ui_menu_entry_t rrnetmk3_clockport_device_submenu[] = {
+    { "None", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
+        (ui_callback_data_t)CLOCKPORT_DEVICE_NONE, NULL },
+#if 0
+    { "ETH64-II", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
+        (ui_callback_data_t)CLOCKPORT_DEVICE_ETH64_II, NULL },
+#endif
+    { "RRNet", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
+        (ui_callback_data_t)CLOCKPORT_DEVICE_RRNET, NULL }
+#if 0
+,
+    { "Silver Surfer", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
+        (ui_callback_data_t)CLOCKPORT_DEVICE_SILVER_SURFER, NULL },
+    { "MP3@64", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
+        (ui_callback_data_t)CLOCKPORT_DEVICE_MP3_64, NULL },
+    { "CatWeasel MKIII SID", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
+        (ui_callback_data_t)CLOCKPORT_DEVICE_CW3_SID, NULL }
+#endif
+};
+
+
 ui_menu_entry_t rrnetmk3_submenu[] = {
+    { N_("Clockport device"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, rrnetmk3_clockport_device_submenu },
     { N_("Enable flashjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRNETMK3_flashjumper, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -53,6 +86,7 @@ ui_menu_entry_t rrnetmk3_submenu[] = {
       (ui_callback_t)rrnetmk3_save_callback, NULL, NULL },
     { NULL }
 };
+
 
 static UI_CALLBACK(rrnetmk3_save_callback)
 {
@@ -73,3 +107,4 @@ static UI_CALLBACK(rrnetmk3_flush_callback)
         }
     }
 }
+
