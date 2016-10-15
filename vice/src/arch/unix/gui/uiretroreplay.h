@@ -31,4 +31,7 @@
 
 extern struct ui_menu_entry_s retroreplay_submenu[];
 
+extern void uiretroreplay_menu_create(void);
+extern void uiretroreplay_menu_shutdown(void);
+
 #endif

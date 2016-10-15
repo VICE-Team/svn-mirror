@@ -33,6 +33,7 @@
 #include "uicartridge.h"
 #include "uilib.h"
 #include "uimenu.h"
+#include "uiclockport-device.h"
 #include "uimmcreplay.h"
 
 UI_MENU_DEFINE_TOGGLE(MMCRCardRW)
@@ -40,6 +41,7 @@ UI_MENU_DEFINE_TOGGLE(MMCREEPROMRW)
 UI_MENU_DEFINE_TOGGLE(MMCRRescueMode)
 UI_MENU_DEFINE_RADIO(MMCRSDType)
 UI_MENU_DEFINE_TOGGLE(MMCRImageWrite) /* FIXME */
+UI_MENU_DEFINE_RADIO(MMCRClockPort)
 
 static UI_CALLBACK(mmcreplay_flush_callback);
 static UI_CALLBACK(mmcreplay_save_callback);
@@ -64,6 +66,10 @@ static ui_menu_entry_t mmcreplay_sd_type_submenu[] = {
 ui_menu_entry_t mmcreplay_submenu[] = {
     { N_("Enable rescue mode"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMCRRescueMode, NULL, NULL },
+
+    { N_("Clockport device"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, NULL }, /* the dynamically generated clockport menu goes
+                               here */
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMCRImageWrite, NULL, NULL },
@@ -121,5 +127,22 @@ UI_CALLBACK(set_mmcreplay_eeprom_filename)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("MMC Replay EEPROM image filename"),
                         UILIB_FILTER_ALL);
+}
+
+
+/** \brief  Generate dynamic menu for clockport device selection
+ */
+void uimmcr_menu_create(void)
+{
+    ui_menu_entry_t *cpdev_menu = uiclockport_device_menu_create(
+            (ui_callback_t)radio_MMCRClockPort);
+    mmcreplay_submenu[1].sub_menu = cpdev_menu;
+}
+
+/** \brief  Clean up memory used by clockport device selection menu
+ */
+void uimmcr_menu_shutdown(void)
+{
+    uiclockport_device_menu_shutdown(mmcreplay_submenu[1].sub_menu);
 }
 

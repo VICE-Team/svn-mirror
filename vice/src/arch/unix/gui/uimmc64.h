@@ -31,4 +31,7 @@
 
 extern struct ui_menu_entry_s mmc64_submenu[];
 
+extern void uimmc64_menu_create(void);
+extern void uimmc64_menu_shutdown(void);
+
 #endif

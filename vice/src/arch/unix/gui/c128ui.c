@@ -715,6 +715,9 @@ static void c128ui_dynamic_menu_create(void)
     uijoyport_menu_create(1, 1, 1, 1, 0);
     uisid_model_menu_create();
     uirrnetmk3_menu_create();
+    uimmc64_menu_create();
+    uimmcr_menu_create();
+    uiretroreplay_menu_create();
 }
 
 static void c128ui_dynamic_menu_shutdown(void)
@@ -728,6 +731,9 @@ static void c128ui_dynamic_menu_shutdown(void)
     uijoyport_menu_shutdown();
     uisid_model_menu_shutdown();
     uirrnetmk3_menu_shutdown();
+    uimmc64_menu_shutdown();
+    uimmcr_menu_shutdown();
+    uiretroreplay_menu_shutdown();
 }
 
 int c128ui_init(void)

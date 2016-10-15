@@ -31,5 +31,8 @@
 
 extern struct ui_menu_entry_s mmcreplay_submenu[];
 
+void uimmcr_menu_create(void);
+void uimmcr_menu_shutdown(void);
+
 #endif
 

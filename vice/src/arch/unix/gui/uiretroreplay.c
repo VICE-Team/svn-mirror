@@ -33,12 +33,15 @@
 #include "uicartridge.h"
 #include "uilib.h"
 #include "uimenu.h"
+#include "uiclockport-device.h"
 #include "uiretroreplay.h"
 
 UI_MENU_DEFINE_TOGGLE(RRFlashJumper)
 UI_MENU_DEFINE_TOGGLE(RRBankJumper)
 UI_MENU_DEFINE_TOGGLE(RRBiosWrite)
 UI_MENU_DEFINE_RADIO(RRrevision)
+UI_MENU_DEFINE_RADIO(RRClockPort)
+
 
 static UI_CALLBACK(retroreplay_flush_callback);
 static UI_CALLBACK(retroreplay_save_callback);
@@ -58,6 +61,10 @@ ui_menu_entry_t retroreplay_submenu[] = {
       (ui_callback_t)toggle_RRBankJumper, NULL, NULL },
     { N_("Revision"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, retroreplay_revision_submenu },
+
+    { N_("Clockport device"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, NULL },
+
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRBiosWrite, NULL, NULL },
@@ -87,3 +94,21 @@ static UI_CALLBACK(retroreplay_flush_callback)
         }
     }
 }
+
+
+/** \brief  Generate dynamic menu for clockport device selection
+ */
+void uiretroreplay_menu_create(void)
+{
+    ui_menu_entry_t *cpdev_menu = uiclockport_device_menu_create(
+            (ui_callback_t)radio_RRClockPort);
+    retroreplay_submenu[3].sub_menu = cpdev_menu;
+}
+
+/** \brief  Clean up memory used by clockport device selection menu
+ */
+void uiretroreplay_menu_shutdown(void)
+{
+    uiclockport_device_menu_shutdown(retroreplay_submenu[3].sub_menu);
+}
+

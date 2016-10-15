@@ -34,6 +34,7 @@
 #include "uicartridge.h"
 #include "uilib.h"
 #include "uimenu.h"
+#include "uiclockport-device.h"
 #include "uimmc64.h"
 
 UI_MENU_DEFINE_TOGGLE(MMC64)
@@ -41,6 +42,7 @@ UI_MENU_DEFINE_RADIO(MMC64_revision)
 UI_MENU_DEFINE_TOGGLE(MMC64_flashjumper)
 UI_MENU_DEFINE_TOGGLE(MMC64_bios_write)
 UI_MENU_DEFINE_RADIO(MMC64_sd_type)
+UI_MENU_DEFINE_RADIO(MMC64ClockPort)
 
 UI_CALLBACK(set_mmc64_bios_name);
 static UI_CALLBACK(mmc64_flush_callback);
@@ -76,6 +78,10 @@ ui_menu_entry_t mmc64_submenu[] = {
       (ui_callback_t)toggle_MMC64_flashjumper, NULL, NULL },
     { N_("Revision"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmc64_revision_submenu },
+
+    { N_("Clockport device"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, NULL },
+
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_mmc64_bios_name,
@@ -140,5 +146,22 @@ static UI_CALLBACK(mmc64_flush_callback)
 UI_CALLBACK(set_mmc64_image_name)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("MMC64 image"), UILIB_FILTER_ALL);
+}
+
+
+/** \brief  Generate dynamic menu for clockport device selection
+ */
+void uimmc64_menu_create(void)
+{
+    ui_menu_entry_t *cpdev_menu = uiclockport_device_menu_create(
+            (ui_callback_t)radio_MMC64ClockPort);
+    mmc64_submenu[3].sub_menu = cpdev_menu;
+}
+
+/** \brief  Clean up memory used by clockport device selection menu
+ */
+void uimmc64_menu_shutdown(void)
+{
+    uiclockport_device_menu_shutdown(mmc64_submenu[3].sub_menu);
 }
 
