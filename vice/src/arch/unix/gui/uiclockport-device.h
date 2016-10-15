@@ -1,8 +1,8 @@
 /*
- * uirrnetmk3.h
+ * uiclockport-device.h
  *
  * Written by
- *  Groepaz <groepaz@gmx.net>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,14 +24,13 @@
  *
  */
 
-#ifndef VICE_UIRRNETMK3_H
-#define VICE_UIRRNETMK3_H
+#ifndef VICE_UICLOCKPORT_DEVICE_H
+#define VICE_UICLOCKPORT_DEVICE_H
 
 #include "uimenu.h"
 
-extern struct ui_menu_entry_s rrnetmk3_submenu[];
-
-extern void uirrnetmk3_menu_create(void);
-extern void uirrnetmk3_menu_shutdown(void);
+extern ui_menu_entry_t *uiclockport_device_menu_create(ui_callback_t callback);
+extern void uiclockport_device_menu_shutdown(ui_menu_entry_t *menu);
 
 #endif
+

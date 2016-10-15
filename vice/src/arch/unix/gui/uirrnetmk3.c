@@ -33,7 +33,10 @@
 #include "uicartridge.h"
 #include "uilib.h"
 #include "uimenu.h"
+#include "uiclockport-device.h"
+
 #include "uirrnetmk3.h"
+
 
 #include "clockport.h"
 
@@ -45,36 +48,10 @@ static UI_CALLBACK(rrnetmk3_flush_callback);
 static UI_CALLBACK(rrnetmk3_save_callback);
 
 
-/** \brief  Submenu for clock port device selection
- *
- * Remove #if 0's when support for those devices has been implemented
- *
- * TODO: add string constants in src/c64/cart/clockport.h for the device names
- */
-static ui_menu_entry_t rrnetmk3_clockport_device_submenu[] = {
-    { "None", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
-        (ui_callback_data_t)CLOCKPORT_DEVICE_NONE, NULL },
-#if 0
-    { "ETH64-II", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
-        (ui_callback_data_t)CLOCKPORT_DEVICE_ETH64_II, NULL },
-#endif
-    { "RRNet", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
-        (ui_callback_data_t)CLOCKPORT_DEVICE_RRNET, NULL }
-#if 0
-,
-    { "Silver Surfer", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
-        (ui_callback_data_t)CLOCKPORT_DEVICE_SILVER_SURFER, NULL },
-    { "MP3@64", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
-        (ui_callback_data_t)CLOCKPORT_DEVICE_MP3_64, NULL },
-    { "CatWeasel MKIII SID", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRNETMK3ClockPort,
-        (ui_callback_data_t)CLOCKPORT_DEVICE_CW3_SID, NULL }
-#endif
-};
-
-
 ui_menu_entry_t rrnetmk3_submenu[] = {
     { N_("Clockport device"), UI_MENU_TYPE_NORMAL,
-        NULL, NULL, rrnetmk3_clockport_device_submenu },
+        NULL, NULL, NULL }, /* when moving this item: also adjust the index
+                               used in uirrnetmk3_menu_create() */
     { N_("Enable flashjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRNETMK3_flashjumper, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -106,5 +83,22 @@ static UI_CALLBACK(rrnetmk3_flush_callback)
             ui_error(_("Can not save cartridge"));
         }
     }
+}
+
+
+/** \brief  Generate dynamic menu for clockport device selection
+ */
+void uirrnetmk3_menu_create(void)
+{
+    ui_menu_entry_t *cpdev_menu = uiclockport_device_menu_create(
+            (ui_callback_t)radio_RRNETMK3ClockPort);
+    rrnetmk3_submenu[0].sub_menu = cpdev_menu;
+}
+
+/** \brief  Clean up memory used by clockport device selection menu
+ */
+void uirrnetmk3_menu_shutdown(void)
+{
+    uiclockport_device_menu_shutdown(rrnetmk3_submenu[0].sub_menu);
 }
 
