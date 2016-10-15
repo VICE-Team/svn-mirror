@@ -37,11 +37,14 @@
 #include "clockport-rrnet.h"
 #endif
 
+#ifdef USE_MPG123
+#include "clockport-mp3at64.h"
+#endif
+
 /* TODO */
 #if 0
 #include "clockport_eth64_ii.h"
 #include "clockport_silver_surfer.h"
-#include "clockport_mp3_64.h"
 #include "clockport_cw3_sid.h"
 #endif
 
@@ -50,10 +53,12 @@ clockport_supported_devices_t clockport_supported_devices[] = {
 #ifdef HAVE_TFE
     { CLOCKPORT_DEVICE_RRNET,         "RRNet" },
 #endif
+#ifdef USE_MPG123
+    { CLOCKPORT_DEVICE_MP3_64,        "MP3@64" },
+#endif
 #if 0
     { CLOCKPORT_DEVICE_ETH64_II,      "ETH64-II" },
     { CLOCKPORT_DEVICE_SILVER_SURFER, "Silver Surfer" },
-    { CLOCKPORT_DEVICE_MP3_64,        "MP3@64" },
     { CLOCKPORT_DEVICE_CW3_SID,       "CatWeasel MKIII SID" },
 #endif
     { -1,                             NULL }
@@ -80,11 +85,14 @@ int clockport_resources_init(void)
     clockport_rrnet_init();
 #endif
 
+#ifdef USE_MPG123
+    clockport_mp3at64_init();
+#endif
+
     /* TODO */
 #if 0
     clockport_eth64_ii_init();
     clockport_silver_surfer_init();
-    clockport_mp3_64_init();
     clockport_cw3_sid_init();
 #endif
 
@@ -106,11 +114,14 @@ void clockport_resources_shutdown(void)
     clockport_rrnet_shutdown();
 #endif
 
+#ifdef USE_MPG123
+    clockport_mp3at64_shutdown();
+#endif
+
     /* TODO */
 #if 0
     clockport_eth64_ii_shutdown();
     clockport_silver_surfer_shutdown();
-    clockport_mp3_64_shutdown();
     clockport_cw3_sid_shutdown();
 #endif
 }
@@ -128,6 +139,12 @@ clockport_device_t *clockport_open_device(int deviceid, char *owner)
             break;
 #endif
 
+#ifdef USE_MPG123
+        case CLOCKPORT_DEVICE_MP3_64:
+            retval = clockport_mp3at64_open_device(owner);
+            break;
+#endif
+
         /* TODO */
 #if 0
         case CLOCKPORT_DEVICE_ETH64_II:
@@ -135,9 +152,6 @@ clockport_device_t *clockport_open_device(int deviceid, char *owner)
             break;
         case CLOCKPORT_DEVICE_SILVER_SURFER:
             retval = clockport_silver_surfer_open_device(owner);
-            break;
-        case CLOCKPORT_DEVICE_MP3_64:
-            retval = clockport_mp3_64_open_device(owner);
             break;
         case CLOCKPORT_DEVICE_CW3_SID:
             retval = clockport_cw3_sid_open_device(owner);

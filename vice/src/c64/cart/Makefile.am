@@ -44,6 +44,8 @@ libc64cart_a_SOURCES = \
 	capture.h \
 	clockport.c \
 	clockport.h \
+	clockport-mp3at64.c \
+	clockport-mp3at64.h \
 	clockport-rrnet.c \
 	clockport-rrnet.h \
 	comal80.c \

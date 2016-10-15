@@ -62,7 +62,18 @@ static void clockport_rrnet_store(WORD address, BYTE val, void *context)
     cs8900io_store(address, val);
 }
 
-static BYTE clockport_rrnet_read(WORD address, void *context)
+static BYTE clockport_rrnet_read(WORD address, int *valid, void *context)
+{
+    if (address < 0x02) {
+        return 0;
+    }
+    address ^= 0x08;
+
+    *valid = 1;
+    return cs8900io_read(address);
+}
+
+static BYTE clockport_rrnet_peek(WORD address, void *context)
 {
     if (address < 0x02) {
         return 0;
@@ -70,11 +81,6 @@ static BYTE clockport_rrnet_read(WORD address, void *context)
     address ^= 0x08;
 
     return cs8900io_read(address);
-}
-
-static BYTE clockport_rrnet_peek(WORD address, void *context)
-{
-    return clockport_rrnet_read(address, context);
 }
 
 static void clockport_rrnet_reset(void *context)

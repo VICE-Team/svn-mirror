@@ -1343,8 +1343,7 @@ static void ide64_ds1302_store(WORD addr, BYTE value)
 static BYTE ide64_clockport_read(WORD address)
 {
     if (clockport_device) {
-        ide64_clockport_device.io_source_valid = 1;
-        return clockport_device->read(address, clockport_device->device_context);
+        return clockport_device->read(address, &ide64_clockport_device.io_source_valid, clockport_device->device_context);
     }
     return 0;
 }

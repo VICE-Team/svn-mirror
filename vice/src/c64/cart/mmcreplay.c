@@ -1864,9 +1864,7 @@ static BYTE mmcreplay_clockport_read(WORD address)
             mmcreplay_clockport_device.io_source_valid = 0;
             return 0;
         }
-        mmcreplay_clockport_device.io_source_valid = 1;
-
-        return clockport_device->read(address, clockport_device->device_context);
+        return clockport_device->read(address, &mmcreplay_clockport_device.io_source_valid, clockport_device->device_context);
     }
     return 0;
 }

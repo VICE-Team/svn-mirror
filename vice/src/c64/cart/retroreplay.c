@@ -212,9 +212,7 @@ static BYTE retroreplay_clockport_read(WORD address)
                 retroreplay_clockport_io1_device.io_source_valid = 0;
                 return 0;
             }
-            retroreplay_clockport_io1_device.io_source_valid = 1;
-
-            return clockport_device->read(address, clockport_device->device_context);
+            return clockport_device->read(address, &retroreplay_clockport_io1_device.io_source_valid, clockport_device->device_context);
         }
     }
     return 0;

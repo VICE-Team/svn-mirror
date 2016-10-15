@@ -4696,8 +4696,25 @@ translate_t string_table[] = {
 /* tr */ {IDGS_CLOCKPORT_RRNET_IN_USE_BY_S_TR, ""},  /* fuzzy */
 #endif
 
+/* c64/cart/clockport-mp3at64.c */
+/* en */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S,    N_("ClockPort MP3@64 already in use by %s.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_DA, ""},  /* fuzzy */
+/* de */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_DE, ""},  /* fuzzy */
+/* es */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/cs8900io.c */
-/* en */ {IDGS_CS8900_IN_USE_BY_S,    N_("ClockPort RRNET already in use by %s.")},
+/* en */ {IDGS_CS8900_IN_USE_BY_S,    N_("CS8900 already in use by %s.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CS8900_IN_USE_BY_S_DA, ""},  /* fuzzy */
 /* de */ {IDGS_CS8900_IN_USE_BY_S_DE, ""},  /* fuzzy */

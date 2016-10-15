@@ -802,6 +802,9 @@ IDGS_SNAPSHOT_OLD_VICE_VERSION
 /* c64/cart/clockport-rrnet.c */
 IDGS_CLOCKPORT_RRNET_IN_USE_BY_S
 
+/* c64/cart/clockport-mp3at64.c */
+IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S
+
 /* c64/cart/cs8900io.c */
 IDGS_CS8900_IN_USE_BY_S
 

@@ -1037,9 +1037,7 @@ static BYTE mmc64_clockport_read(WORD address)
             mmc64_current_clockport_device->io_source_valid = 0;
             return 0;
         }
-        mmc64_current_clockport_device->io_source_valid = 1;
-
-        return clockport_device->read(address, clockport_device->device_context);
+        return clockport_device->read(address, &mmc64_current_clockport_device->io_source_valid, clockport_device->device_context);
     }
     return 0;
 }

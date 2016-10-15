@@ -26783,8 +26783,9 @@ test programs. Various bug(fixe)s. ;-)
 @b{Martin Pottendorfer}
 Implemented the Gnome Port based on Oliver Schaertels GTK+
 port. Added support code for internationalization based on
-gettext. Improved the *nix fullscreen support. Translated the
-UI to German. Implemented the fliplists + UI (*nix).
+gettext. Improved the *nix fullscreen support. Added multi-
+threaded GUI display for *nix. Translated the UI to German.
+Implemented the fliplists + UI (*nix).
 
 @item
 @b{Marco van den Heuvel}
@@ -26807,15 +26808,20 @@ Expander support. Added PCI support to the Amiga and DOS ports.
 Rewrote the sound system into a modular one, added always mono
 and always stereo support for the sound output. Added the RTC
 system. Added digiblaster support. Added 3rd SID support. Added
-the 6309 CPU emulation. Added the 65(S)C02 emulation. And
-lots of other fixes and improvements.
+the 6309 CPU emulation. Added the 65(S)C02 emulation. Added the
+65816 emulation. Added native screenshot (koala/doodle)
+support. Added 6502/6510/8500/8502 cpu port unused bit fading.
+Added vice.chm (windows), vice.guide (amiga), vice.hlp
+(windows), vice.inf (os/2), vice.pdf (generic) and vice.txt
+documentation generation. Added Android port based on
+'AnVICE 1.0.5'. And lots of other fixes and improvements.
 
 @item
 @b{Fabrizio Gennari}
 Added some improvements to the DOS and GTK+ ports. Changed the
 Windows video to use GDI as fallback, making it compile without
 DX if needed. Fixed the t64 support. Added monitor window support
-using VTE to the GTK+ GUI.
+using VTE to the GTK+ GUI. Made some monitor fixes.
 
 @item
 @b{Daniel Kahlin}
@@ -26833,9 +26839,10 @@ many test programs for hardware analysis.
 Added new more precise CRT emulation. Added support for the new
 cartridge system and many new cartridges. Fixed up parts of
 cartconv, c1541 and petcat. Added video to audio leak sound support.
-Implemented many bug fixes. 
-Wrote test programs. Updated this document after a long period
-of outdated mess.
+Improved the GTK3 GUI. Added x64(sc)/x128/x64dtv/xplus4/xvic model
+selection system. Added KoalaPad emulation. Wrote alot of test
+programs. Updated this document after a long period of outdated
+mess. And various fixes and improvements.
 
 @item
 @b{Errol Smith}
@@ -26846,18 +26853,21 @@ Improved VDC emulation.
 Contributed some PET, including PET DWW hires, Xaw, lightpen,
 hardware scaling, and disk drive patches. Added proper SuperPET
 support, including 6809/6309 CPU emulation. Maintains the Xaw UI.
+Added PET HRE (High Res Emulator) board emulation. Added the
+2-chip colour board for the Universal PET mainboard.
 
 @item
 @b{Marcus Sutton}
 Made some console, dialog and joystick fixes for the BeOS port.
-Maintains the BeOS port.
+Maintains the BeOS port. Added some GTK2 fixes.
 
 @item
 @b{Kajtar Zsolt}
 Wrote the IDE64 interface emulation, FD2000/4000 drive emulation, SCPU64
 emulation and alot of fixes. Improved the mouse support. Added drive
 burst modification support. Added 1541 drive sounds emulation. Improved
-c64 cart emulation.
+c64 cart emulation. Added DAC high pass filtering. Added the xscpu64
+emulator. And fixed various issues.
 
 @end itemize
 
@@ -26880,17 +26890,18 @@ Added new monitor commands, features and improvements.
 @item
 @b{Ingo Korb}
 Corrected block allocation and interleave for c1541/vdrive,
-added rudimentary xplus4 tape recording support, corrected a
-case of missing Pi symbols in petcat, changed the trap opcode
-byte, stopped the high-level serial drive code from responding
-to addresses 16-30 and was forced to update this entry himself.
+added rudimentary xplus4 tape recording support, fixed some GTK2
+issues, corrected a case of missing Pi symbols in petcat, changed
+the trap opcode byte, stopped the high-level serial drive code
+from responding to addresses 16-30 and was forced to update this
+entry himself.
 
 @item
 @b{Antti S. Lankila}
 Made the ReSID-fp engine, rewrote the PAL emulation code and
 fixed the sound core for lower latency. Rewrote DTV SID support
 (ReSID-dtv). Improved 1541 drive rotation emulation. Worked on
-x64sc.
+x64sc. Added RSID BASIC tunes support to vsid.
 
 @item
 @b{Christian Vogelgsang}

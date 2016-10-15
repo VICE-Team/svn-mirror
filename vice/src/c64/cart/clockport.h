@@ -40,7 +40,7 @@ typedef struct clockport_device_s {
     char *owner;
     int devicenr;
     void (*store)(WORD address, BYTE byte, void *context);
-    BYTE (*read)(WORD address, void *context);
+    BYTE (*read)(WORD address, int *valid, void *context);
     BYTE (*peek)(WORD address, void *context);
     void (*reset)(void *context);
     int (*dump)(void *context);
