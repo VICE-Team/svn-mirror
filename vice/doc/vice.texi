@@ -26821,7 +26821,8 @@ documentation generation. Added Android port based on
 Added some improvements to the DOS and GTK+ ports. Changed the
 Windows video to use GDI as fallback, making it compile without
 DX if needed. Fixed the t64 support. Added monitor window support
-using VTE to the GTK+ GUI. Made some monitor fixes.
+using VTE to the GTK+ GUI. Made some monitor fixes. Fixed some
+tape code issues.
 
 @item
 @b{Daniel Kahlin}
@@ -26840,13 +26841,16 @@ Added new more precise CRT emulation. Added support for the new
 cartridge system and many new cartridges. Fixed up parts of
 cartconv, c1541 and petcat. Added video to audio leak sound support.
 Improved the GTK3 GUI. Added x64(sc)/x128/x64dtv/xplus4/xvic model
-selection system. Added KoalaPad emulation. Wrote alot of test
-programs. Updated this document after a long period of outdated
-mess. And various fixes and improvements.
+selection system. Added KoalaPad emulation. Added keyrah keymaps.
+Added joystick keys mapping to the keymap system. CIA emulation
+improvements. Added basic support for compute gazette sidplayer
+files (mus/str) to vsid. Wrote alot of test programs. Updated this
+document after a long period of outdated mess. And various fixes
+and improvements.
 
 @item
 @b{Errol Smith}
-Improved VDC emulation.
+Improved VDC emulation. Improved MPS803 printer emulation.
 
 @item
 @b{Olaf Seibert}
@@ -26854,12 +26858,14 @@ Contributed some PET, including PET DWW hires, Xaw, lightpen,
 hardware scaling, and disk drive patches. Added proper SuperPET
 support, including 6809/6309 CPU emulation. Maintains the Xaw UI.
 Added PET HRE (High Res Emulator) board emulation. Added the
-2-chip colour board for the Universal PET mainboard.
+2-chip colour board for the Universal PET mainboard. Added
+support for "printer/plotter" Commodore 1520.
 
 @item
 @b{Marcus Sutton}
 Made some console, dialog and joystick fixes for the BeOS port.
-Maintains the BeOS port. Added some GTK2 fixes.
+Maintains the BeOS port. Added some GTK2 fixes. Fixed some PET model
+selection issues.
 
 @item
 @b{Kajtar Zsolt}
@@ -26867,7 +26873,8 @@ Wrote the IDE64 interface emulation, FD2000/4000 drive emulation, SCPU64
 emulation and alot of fixes. Improved the mouse support. Added drive
 burst modification support. Added 1541 drive sounds emulation. Improved
 c64 cart emulation. Added DAC high pass filtering. Added the xscpu64
-emulator. And fixed various issues.
+emulator. Added scroll wheel support for the Micromys mouse emulation.
+And fixed various issues.
 
 @end itemize
 
@@ -26901,7 +26908,8 @@ entry himself.
 Made the ReSID-fp engine, rewrote the PAL emulation code and
 fixed the sound core for lower latency. Rewrote DTV SID support
 (ReSID-dtv). Improved 1541 drive rotation emulation. Worked on
-x64sc. Added RSID BASIC tunes support to vsid.
+x64sc. Added RSID BASIC tunes support to vsid. Several ReSID
+fixes and improvements.
 
 @item
 @b{Christian Vogelgsang}
@@ -27217,7 +27225,9 @@ Added support for Expert and Super Snapshot carts.
 @b{Derrick Inksley}
 Fixed loading of zip files with brackets ([]) in
 the filename for the windows port. Added drive selection
-functionality to the window sdl port.
+functionality to the window sdl port. Some drive sound
+fixes. Fixed some windows drag'n'drop issues. Fixed some
+monitor code issues.
 
 @item
 @b{Craig Jackson}
@@ -27230,7 +27240,8 @@ Wrote the Catweasel sound driver.
 @item
 @b{Uffe Jakobsen}
 Wrote the Silverrock cartridge emulation and fixed the
-ocean cartridge bank wrap.
+ocean cartridge bank wrap. Fixed some network code
+issues. Fixed some monitor issues.
 
 @item
 @b{Lasse Jyrkinen}
@@ -27243,12 +27254,15 @@ Provided the swedish UI translations in the past.
 @item
 @b{Greg King}
 Added a working RTC to the emulation of the IDE64
-cartridge. Provided some vdrive fixes.
+cartridge. Provided some vdrive fixes. Added Inkwell
+Systems lightpen support. Fixed some monitor code
+issues.
 
 @item
 @b{Michael Klein}
-Contributed the ESD sound driver, basic support for the OPENCBM
-library and some other patches.
+Fixed some MacOSX code issues. Contributed the ESD sound
+driver, basic support for the OPENCBM library and some
+other patches.
 
 @item
 @b{Frank König}

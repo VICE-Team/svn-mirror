@@ -12,6 +12,68 @@ If you run into trouble please try removing any VICE configuration files
 left from previous installs.
 (vice.ini / .vicerc / vice2.cfg / vice-sdl.ini depending on platform)
 
+* Changes in VICE 3.0
+======================
+
+** General
+----------
+
+- New SDL based Android port.
+
+- New SCPU64 emulator (xscpu64).
+
+- New native (koala/doodle) screenshot support.
+
+- New KoalaPad emulation.
+
+- New high pass filter emulation for DAC based devices (SFX sound sampler,
+  DigiMAX cartridge, DigiMAX shortbus device, userport DAC,
+  userport DigiMAX device, DigiBlaster SIDcart add-on).
+
+- New "printer/plotter" Commodore 1520 emulation.
+
+- New scroll wheel support for the Micromys mouse emulation.
+
+- New Inkwell Systems lightpen emulation.
+
+- New keyrah keymaps.
+
+- Documentation in PDF and TXT format.
+
+** PET changes
+--------------
+
+- New PET HRE (High Res Emulator) board emulation.
+
+- New 2-chip colour board emulation.
+
+** VSID changes
+---------------
+
+- New RSID BASIC tunes support.
+
+- New Compute Gazette SIDplayer files (mus/str) support.
+
+** Unix changes
+---------------
+
+- New multi-threaded GUI display.
+
+** MS-Windows changes
+---------------------
+
+- Documentation in CHM and HLP format.
+
+** AmigaOS changes
+------------------
+
+- Documentation in AmigaGuide format.
+
+** OS/2 changes
+---------------
+
+- Documentation in INF format.
+
 * Changes in VICE 2.4
 ======================
 
