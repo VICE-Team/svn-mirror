@@ -26859,7 +26859,7 @@ hardware scaling, and disk drive patches. Added proper SuperPET
 support, including 6809/6309 CPU emulation. Maintains the Xaw UI.
 Added PET HRE (High Res Emulator) board emulation. Added the
 2-chip colour board for the Universal PET mainboard. Added
-support for "printer/plotter" Commodore 1520.
+support for 'printer/plotter' Commodore 1520.
 
 @item
 @b{Marcus Sutton}
@@ -26874,7 +26874,7 @@ emulation and alot of fixes. Improved the mouse support. Added drive
 burst modification support. Added 1541 drive sounds emulation. Improved
 c64 cart emulation. Added DAC high pass filtering. Added the xscpu64
 emulator. Added scroll wheel support for the Micromys mouse emulation.
-And fixed various issues.
+Added Swiss ROM support to x128. And fixed various issues.
 
 @end itemize
 
