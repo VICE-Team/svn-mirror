@@ -38,9 +38,9 @@
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
-#include "clockport.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "cs8900io.h"
 #include "export.h"
 #include "lib.h"
 #include "log.h"
@@ -85,10 +85,6 @@ static int rrnetmk3_enabled;
 /* RRNETMK3 bios writable */
 static int rrnetmk3_bios_write;
 
-/* Current clockport device */
-static int clockport_device_id = CLOCKPORT_DEVICE_NONE;
-static clockport_device_t *clockport_device = NULL;
-
 /* Bios file name */
 static char *rrnetmk3_bios_filename = NULL;
 
@@ -107,8 +103,6 @@ static int rrnetmk3_bios_type = 0;
 
 static const char STRING_RRNETMK3[] = CARTRIDGE_NAME_RRNETMK3;
 
-static char *clockport_device_names = NULL;
-
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
@@ -116,9 +110,9 @@ static void rrnetmk3_io1_store(WORD addr, BYTE value);
 static BYTE rrnetmk3_io1_peek(WORD addr);
 static int rrnetmk3_dump(void);
 
-static BYTE rrnetmk3_clockport_read(WORD io_address);
-static BYTE rrnetmk3_clockport_peek(WORD io_address);
-static void rrnetmk3_clockport_store(WORD io_address, BYTE byte);
+static BYTE rrnetmk3_cs8900_read(WORD io_address);
+static BYTE rrnetmk3_cs8900_peek(WORD io_address);
+static void rrnetmk3_cs8900_store(WORD io_address, BYTE byte);
 
 static io_source_t rrnetmk3_io1_device = {
     CARTRIDGE_NAME_RRNETMK3,
@@ -135,15 +129,15 @@ static io_source_t rrnetmk3_io1_device = {
     0
 };
 
-static io_source_t rrnetmk3_clockport_io1_device = {
-    CARTRIDGE_NAME_RRNETMK3 "Clockport",
+static io_source_t rrnetmk3_cs8900_io1_device = {
+    CARTRIDGE_NAME_RRNETMK3,
     IO_DETACH_RESOURCE,
-    "RRNETMK3ClockPort",
+    "RRNETMK3",
     0xde02, 0xde0f, 0x0f,
     0,
-    rrnetmk3_clockport_store,
-    rrnetmk3_clockport_read,
-    rrnetmk3_clockport_peek,
+    rrnetmk3_cs8900_store,
+    rrnetmk3_cs8900_read,
+    rrnetmk3_cs8900_peek,
     rrnetmk3_dump,
     CARTRIDGE_RRNETMK3,
     0,
@@ -151,7 +145,7 @@ static io_source_t rrnetmk3_clockport_io1_device = {
 };
 
 static io_source_list_t *rrnetmk3_io1_list_item = NULL;
-static io_source_list_t *rrnetmk3_clockport_list_item = NULL;
+static io_source_list_t *rrnetmk3_cs8900_list_item = NULL;
 
 static const export_resource_t export_res = {
     CARTRIDGE_NAME_RRNETMK3, 0, 1, &rrnetmk3_io1_device, NULL, CARTRIDGE_RRNETMK3
@@ -163,8 +157,8 @@ static const export_resource_t export_res = {
 void rrnetmk3_reset(void)
 {
     rrnetmk3_biossel = rrnetmk3_hw_flashjumper; /* disable bios at reset when flash jumper is set */
-    if (rrnetmk3_enabled && clockport_device) {
-        clockport_device->reset(clockport_device->device_context);
+    if (rrnetmk3_enabled) {
+        cs8900io_reset();
     }
     cart_config_changed_slotmain(CMODE_RAM, (BYTE)(rrnetmk3_biossel ? CMODE_RAM : CMODE_8KGAME), CMODE_READ);
 }
@@ -179,66 +173,6 @@ static int set_rrnetmk3_flashjumper(int val, void *param)
 static int set_rrnetmk3_bios_write(int val, void *param)
 {
     rrnetmk3_bios_write = val ? 1 : 0;
-    return 0;
-}
-
-static int set_rrnetmk3_clockport_device(int val, void *param)
-{
-    if (val == clockport_device_id) {
-        return 0;
-    }
-
-    if (!rrnetmk3_enabled) {
-        clockport_device_id = val;
-        return 0;
-    }
-
-    if (clockport_device_id != CLOCKPORT_DEVICE_NONE) {
-        clockport_device->close(clockport_device);
-        clockport_device_id = CLOCKPORT_DEVICE_NONE;
-        clockport_device = NULL;
-    }
-
-    if (val != CLOCKPORT_DEVICE_NONE) {
-        clockport_device = clockport_open_device(val, (char *)STRING_RRNETMK3);
-        if (!clockport_device) {
-            return -1;
-        }
-        clockport_device_id = val;
-    }
-    return 0;
-}
-
-static int clockport_activate(void)
-{
-    if (rrnetmk3_enabled) {
-        return 0;
-    }
-
-    if (clockport_device_id == CLOCKPORT_DEVICE_NONE) {
-        return 0;
-    }
-
-    clockport_device = clockport_open_device(clockport_device_id, (char *)STRING_RRNETMK3);
-    if (!clockport_device) {
-        return -1;
-    }
-    return 0;
-}
-
-static int clockport_deactivate(void)
-{
-    if (!rrnetmk3_enabled) {
-        return 0;
-    }
-
-    if (clockport_device_id == CLOCKPORT_DEVICE_NONE) {
-        return 0;
-    }
-
-    clockport_device->close(clockport_device);
-    clockport_device = NULL;
-
     return 0;
 }
 
@@ -298,38 +232,36 @@ static BYTE rrnetmk3_io1_peek(WORD addr)
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE rrnetmk3_clockport_read(WORD address)
+static BYTE rrnetmk3_cs8900_read(WORD address)
 {
-    if (clockport_device) {
-        if (address < 0x02) {
-            rrnetmk3_clockport_io1_device.io_source_valid = 0;
-            return 0;
-        }
-        return clockport_device->read(address, &rrnetmk3_clockport_io1_device.io_source_valid, clockport_device->device_context);
+    if (address < 0x02) {
+        rrnetmk3_cs8900_io1_device.io_source_valid = 0;
+        return 0;
     }
-    return 0;
+    address ^= 0x08;
+
+    rrnetmk3_cs8900_io1_device.io_source_valid = 1;
+    return cs8900io_read(address);
 }
 
-static BYTE rrnetmk3_clockport_peek(WORD address)
+static BYTE rrnetmk3_cs8900_peek(WORD address)
 {
-    if (clockport_device) {
-        if (address < 0x02) {
-            return 0;
-        }
-        return clockport_device->peek(address, clockport_device->device_context);
+    if (address < 0x02) {
+        return 0;
     }
-    return 0;
+    address ^= 0x08;
+
+    return cs8900io_read(address);
 }
 
-static void rrnetmk3_clockport_store(WORD address, BYTE byte)
+static void rrnetmk3_cs8900_store(WORD address, BYTE byte)
 {
-    if (clockport_device) {
-        if (address < 0x02) {
-            return;
-        }
-
-        clockport_device->store(address, byte, clockport_device->device_context);
+    if (address < 0x02) {
+        return;
     }
+    address ^= 0x08;
+
+    cs8900io_store(address, byte);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -338,10 +270,6 @@ static int rrnetmk3_dump(void)
 {
     mon_out("Flashmode jumper is %s.\n", rrnetmk3_hw_flashjumper ? "set" : "not set");
     mon_out("ROM is %s.\n", rrnetmk3_biossel ? "not enabled" : "enabled");
-    mon_out("Clockport mapped to $%04x ($%04x-$%04x), clockport device: %s.\n",
-            rrnetmk3_clockport_io1_device.start_address & ~rrnetmk3_clockport_io1_device.address_mask,
-            rrnetmk3_clockport_io1_device.start_address,
-            rrnetmk3_clockport_io1_device.end_address, clockport_device_id_to_name(clockport_device_id));
 
     return 0;
 }
@@ -389,8 +317,6 @@ static const resource_int_t resources_int[] = {
       &rrnetmk3_hw_flashjumper, set_rrnetmk3_flashjumper, NULL },
     { "RRNETMK3_bios_write", 0, RES_EVENT_NO, NULL,
       &rrnetmk3_bios_write, set_rrnetmk3_bios_write, NULL },
-    { "RRNETMK3ClockPort", 0, RES_EVENT_NO, NULL,
-      &clockport_device_id, set_rrnetmk3_clockport_device, NULL },
     { NULL }
 };
 
@@ -401,8 +327,6 @@ int rrnetmk3_resources_init(void)
 
 void rrnetmk3_resources_shutdown(void)
 {
-    lib_free(clockport_device_names);
-    clockport_device_names = NULL;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -431,43 +355,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
   { NULL }
 };
-
-static cmdline_option_t clockport_cmdline_options[] =
-{
-    { "-rrnetmk3clockportdevice", SET_RESOURCE, 1,
-      NULL, NULL, "RRNETMK3ClockPort", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
-      IDCLS_P_DEVICE, IDCLS_CLOCKPORT_DEVICE,
-      NULL, NULL },
-    { NULL }
-};
-
 int rrnetmk3_cmdline_options_init(void)
 {
-    int i;
-    char *tmp;
-    char number[10];
-
-    if (cmdline_register_options(cmdline_options) < 0) {
-        return -1;
-    }
-
-    sprintf(number, "%d", clockport_supported_devices[0].id);
-
-    clockport_device_names = util_concat(". (", number, ": ", clockport_supported_devices[0].name, NULL);
-
-    for (i = 1; clockport_supported_devices[i].name; ++i) {
-        tmp = clockport_device_names;
-        sprintf(number, "%d", clockport_supported_devices[i].id);
-        clockport_device_names = util_concat(tmp, ", ", number, ": ", clockport_supported_devices[i].name, NULL);
-        lib_free(tmp);
-    }
-    tmp = clockport_device_names;
-    clockport_device_names = util_concat(tmp, ")", NULL);
-    lib_free(tmp);
-    clockport_cmdline_options[0].description = clockport_device_names;
-
-    return cmdline_register_options(clockport_cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -475,6 +365,7 @@ int rrnetmk3_cmdline_options_init(void)
 void rrnetmk3_init(void)
 {
     rrnetmk3_log = log_open("RRNETMK3");
+    cs8900io_init();
 }
 
 void rrnetmk3_config_setup(BYTE *rawcart)
@@ -492,8 +383,7 @@ static int rrnetmk3_common_attach(void)
         return -1;
     } else {
         LOG(("RRNETMK3: export registered"));
-        if (clockport_activate() < 0) {
-            LOG(("RRNETMK3: clockport did not activate"));
+        if (cs8900io_enable(CARTRIDGE_NAME_RRNETMK3) < 0) {
             return -1;
         }
         rrnetmk3_bios_changed = 0;
@@ -501,7 +391,7 @@ static int rrnetmk3_common_attach(void)
         cart_set_port_exrom_slotmain(1);
         cart_port_config_changed_slotmain();
         rrnetmk3_io1_list_item = io_source_register(&rrnetmk3_io1_device);
-        rrnetmk3_clockport_list_item = io_source_register(&rrnetmk3_clockport_io1_device);
+        rrnetmk3_cs8900_list_item = io_source_register(&rrnetmk3_cs8900_io1_device);
         rrnetmk3_reset();
     }
     return 0;
@@ -618,14 +508,14 @@ void rrnetmk3_detach(void)
     }
     cart_power_off();
     export_remove(&export_res);
-    clockport_deactivate();
+    cs8900io_disable();
     rrnetmk3_enabled = 0;
     cart_set_port_exrom_slotmain(0);
     cart_port_config_changed_slotmain();
     io_source_unregister(rrnetmk3_io1_list_item);
     rrnetmk3_io1_list_item = NULL;
-    io_source_unregister(rrnetmk3_clockport_list_item);
-    rrnetmk3_clockport_list_item = NULL;
+    io_source_unregister(rrnetmk3_cs8900_list_item);
+    rrnetmk3_cs8900_list_item = NULL;
     lib_free(rrnetmk3_bios_filename);
     rrnetmk3_bios_filename = NULL;
 }
