@@ -589,11 +589,11 @@ int resources_set_string(const char *name, const char *value)
 
 void resources_set_value_event(void *data, int size)
 {
-    const char *name;
-    const char *valueptr;
+    char *name;
+    char *valueptr;
     resource_ram_t *r;
 
-    name = (const char *)data;
+    name = data;
     valueptr = name + strlen(name) + 1;
     r = lookup(name);
     if (r->type == RES_INTEGER) {
