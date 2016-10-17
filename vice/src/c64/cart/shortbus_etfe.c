@@ -260,7 +260,7 @@ int shortbus_etfe_cmdline_options_init(void)
         return -1;
     }
 
-    temp1 = util_gen_hex_address_list(0xde00, 0xde10, 0x10);
+    temp1 = util_gen_hex_address_list(0xde00, 0xde20, 0x10);
     shortbus_etfe_address_list = util_concat(". (", temp1, ")", NULL);
     lib_free(temp1);
 
