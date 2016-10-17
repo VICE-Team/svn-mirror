@@ -55,6 +55,8 @@ libarchgui_a_SOURCES = \
 	uicommands.h \
 	uicrtc.c \
 	uicrtc.h \
+	uics8900.c \
+	uics8900.h \
 	uidatasette.c \
 	uidatasette.h \
 	uidigimax.c \

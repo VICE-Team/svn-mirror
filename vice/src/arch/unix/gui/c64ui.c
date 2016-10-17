@@ -48,6 +48,7 @@
 #include "uic64cart.h"
 #include "uic64memoryhacks.h"
 #include "uicommands.h"
+#include "uics8900.h"
 #include "uidatasette.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
@@ -420,10 +421,12 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, UI_MENU_TYPE_NORMAL,
       NULL, NULL, supersnapshot_v5_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
+
 #ifdef HAVE_TFE
-    { N_("Ethernet emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, tfe_c64_submenu },
+    { N_("CS8900 settings"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, uics8900_submenu },
 #endif
+
     { CARTRIDGE_NAME_RRNETMK3, UI_MENU_TYPE_NORMAL,
       NULL, NULL, rrnetmk3_submenu },
     { CARTRIDGE_NAME_IEEE488, UI_MENU_TYPE_NORMAL,
