@@ -33,6 +33,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "uiapi.h"
+#include "uiclockport-device.h"
 #include "uiide64.h"
 #include "uilib.h"
 #include "uimenu.h"
@@ -43,6 +44,8 @@ UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize2)
 UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize3)
 UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize4)
 UI_MENU_DEFINE_RADIO(IDE64version)
+UI_MENU_DEFINE_RADIO(IDE64ClockPort)
+
 
 static UI_CALLBACK(set_ide64_image_name)
 {
@@ -293,6 +296,10 @@ ui_menu_entry_t ide64_submenu[] = {
       (ui_callback_data_t)"IDE64USBServerAddress", NULL },
     { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IDE64RTCSave, NULL, NULL },
+
+    { N_("Clockport device"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, NULL },
+
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Device 1 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_hd1_submenu },
@@ -307,3 +314,21 @@ ui_menu_entry_t ide64_submenu[] = {
       NULL, NULL, ide64_shortbus_submenu },
     { NULL }
 };
+
+
+/** \brief  Handle dynamic menu creation for the IDE64 submenu
+ */
+void uiide64_menu_create(void)
+{
+    ui_menu_entry_t *cp_dev_submenu = uiclockport_device_menu_create(
+            (ui_callback_t)radio_IDE64ClockPort);
+    ide64_submenu[4].sub_menu = cp_dev_submenu;
+}
+
+
+/** \brief  Clean up memory used by dynamic submenus
+ */
+void uiide64_menu_shutdown(void)
+{
+    uiclockport_device_menu_shutdown(ide64_submenu[4].sub_menu);
+}

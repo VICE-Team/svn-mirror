@@ -648,6 +648,7 @@ static void c64ui_dynamic_menu_create(void)
     uikeyboard_menu_create();
     uijoyport_menu_create(1, 1, 1, 1, 0);
     uisid_model_menu_create();
+    uiide64_menu_create();
     uimmc64_menu_create();
     uimmcr_menu_create();
     uiretroreplay_menu_create();
@@ -662,6 +663,7 @@ static void c64ui_dynamic_menu_shutdown(void)
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
     uisid_model_menu_shutdown();
+    uiide64_menu_shutdown();
     uimmc64_menu_shutdown();
     uimmcr_menu_shutdown();
     uiretroreplay_menu_shutdown();
