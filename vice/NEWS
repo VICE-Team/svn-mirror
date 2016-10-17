@@ -36,9 +36,27 @@ left from previous installs.
 
 - New Inkwell Systems lightpen emulation.
 
+- New 1540 drive emulation.
+
 - New keyrah keymaps.
 
+- Extended the 'RS232 net' support to all platforms that support networking.
+
+- RTC offset and RAM contents can now be saved.
+
 - Documentation in PDF and TXT format.
+
+** C64/C128 changes
+-------------------
+
+- New IDE64 USB server emulation.
+
+- New RGCD cartridge emulation.
+
+** C128 changes
+---------------
+
+- New Swiss ROM support.
 
 ** PET changes
 --------------
