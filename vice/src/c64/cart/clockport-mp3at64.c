@@ -331,7 +331,7 @@ static int mp3_get_mpeg_version(void)
         case 3:
             return 0;
     }
-    return -1;
+    return 0;
 }
 
 static int mp3_get_bitrate(void)
