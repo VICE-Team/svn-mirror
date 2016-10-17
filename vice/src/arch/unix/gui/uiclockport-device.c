@@ -48,7 +48,8 @@ ui_menu_entry_t *uiclockport_device_menu_create(ui_callback_t callback)
     unsigned int num;
 
     /* determine number of entries required */
-    while (clockport_supported_devices[i].id >= 0) {
+    while (clockport_supported_devices[i].id >= 0
+            && clockport_supported_devices[i].name != NULL) {
         i++;
     }
     num = i;

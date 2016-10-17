@@ -273,6 +273,17 @@ static ui_menu_entry_t ide64_shortbus_digimax_address_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(SBETFEbase)
+
+static ui_menu_entry_t ide64_shortbus_etfe_address_submenu[] = {
+    { "$DE00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SBETFEbase,
+        (ui_callback_data_t)0xde00, NULL },
+    { "$DE10", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SBETFEbase,
+        (ui_callback_data_t)0xde10, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(SBETFE)
 UI_MENU_DEFINE_TOGGLE(SBDIGIMAX)
 
 static ui_menu_entry_t ide64_shortbus_submenu[] = {
@@ -280,8 +291,16 @@ static ui_menu_entry_t ide64_shortbus_submenu[] = {
       (ui_callback_t)toggle_SBDIGIMAX, NULL, NULL },
     { N_("DigiMAX address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_shortbus_digimax_address_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { "ETFE", UI_MENU_TYPE_TICK,
+        (ui_callback_t)toggle_SBETFE, NULL, NULL },
+    { N_("ETFTE address"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, ide64_shortbus_etfe_address_submenu },
     { NULL }
 };
+
+
+
 
 UI_MENU_DEFINE_TOGGLE(IDE64USBServer)
 UI_MENU_DEFINE_TOGGLE(IDE64RTCSave)
