@@ -42,16 +42,12 @@
 
 UI_MENU_DEFINE_TOGGLE(RRNETMK3_flashjumper)
 UI_MENU_DEFINE_TOGGLE(RRNETMK3_bios_write)
-UI_MENU_DEFINE_RADIO(RRNETMK3ClockPort);
 
 static UI_CALLBACK(rrnetmk3_flush_callback);
 static UI_CALLBACK(rrnetmk3_save_callback);
 
 
 ui_menu_entry_t rrnetmk3_submenu[] = {
-    { N_("Clockport device"), UI_MENU_TYPE_NORMAL,
-        NULL, NULL, NULL }, /* when moving this item: also adjust the index
-                               used in uirrnetmk3_menu_create() */
     { N_("Enable flashjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRNETMK3_flashjumper, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -83,22 +79,5 @@ static UI_CALLBACK(rrnetmk3_flush_callback)
             ui_error(_("Can not save cartridge"));
         }
     }
-}
-
-
-/** \brief  Generate dynamic menu for clockport device selection
- */
-void uirrnetmk3_menu_create(void)
-{
-    ui_menu_entry_t *cpdev_menu = uiclockport_device_menu_create(
-            (ui_callback_t)radio_RRNETMK3ClockPort);
-    rrnetmk3_submenu[0].sub_menu = cpdev_menu;
-}
-
-/** \brief  Clean up memory used by clockport device selection menu
- */
-void uirrnetmk3_menu_shutdown(void)
-{
-    uiclockport_device_menu_shutdown(rrnetmk3_submenu[0].sub_menu);
 }
 

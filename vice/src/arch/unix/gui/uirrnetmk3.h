@@ -31,7 +31,4 @@
 
 extern struct ui_menu_entry_s rrnetmk3_submenu[];
 
-extern void uirrnetmk3_menu_create(void);
-extern void uirrnetmk3_menu_shutdown(void);
-
 #endif
