@@ -78,7 +78,7 @@ static int tfe_dump(void);
 static io_source_t tfe_device = {
     CARTRIDGE_NAME_TFE,
     IO_DETACH_RESOURCE,
-    "ETHERNET_ACTIVE",
+    "TFE_ACTIVE",
     0xde00, 0xdeff, 0x0f,
     0,
     tfe_store,
