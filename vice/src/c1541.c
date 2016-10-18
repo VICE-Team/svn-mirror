@@ -768,7 +768,7 @@ static int extract_unit_from_file_name_compyx(char *name, char **endptr)
     }
 
     /* try to parse an integer between '@' and ':' */
-    result = strtol(name + 1, endptr);
+    result = strtol(name + 1, endptr, 10);
     if (*endptr != NULL && **endptr == ':') {
         /* got something */
         (*endptr)++;
