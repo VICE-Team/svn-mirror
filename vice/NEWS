@@ -72,6 +72,8 @@ left from previous installs.
 
 - New Compute Gazette SIDplayer files (mus/str) support.
 
+- New psid v4 3sid support.
+
 ** Unix changes
 ---------------
 

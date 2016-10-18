@@ -26852,8 +26852,9 @@ improvements. Added basic support for compute gazette sidplayer
 files (mus/str) to vsid. Wrote alot of test programs. Added
 'available features' code. Fixed/added some items in the OSX GUI.
 Added random tape wobble emulation. Added 64k RGCD cartridge
-emulation. Updated this document after a long period of outdated
-mess. And various fixes and improvements.
+emulation. Added psid v4 3sid support to vsid. Updated this
+document after a long period of outdated mess. And various fixes
+and improvements.
 
 @item
 @b{Errol Smith}
