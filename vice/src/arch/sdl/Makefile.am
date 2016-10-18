@@ -90,6 +90,8 @@ libarch_a_SOURCES = \
 	menu_drive.h \
 	menu_drive_rom.c \
 	menu_drive_rom.h \
+	menu_ethernet.c \
+	menu_ethernet.h \
 	menu_ffmpeg.c \
 	menu_ffmpeg.h \
 	menu_help.c \

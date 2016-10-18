@@ -56,6 +56,7 @@
 #include "menu_tape.h"
 
 #ifdef HAVE_TFE
+#include "menu_ethernet.h"
 #include "menu_tfe.h"
 #endif
 
@@ -267,10 +268,14 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       toggle_VFLImod_callback,
       NULL },
 #ifdef HAVE_TFE
+    { "Ethernet settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ethernet_menu },
     { CARTRIDGE_NAME_TFE " settings (MasC=uerade)",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)tfe_menu },
+      (ui_callback_data_t)tfe20_menu },
 #endif
 #ifdef HAVE_MOUSE
     { "Paddle emulation",

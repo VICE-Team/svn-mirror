@@ -57,6 +57,7 @@
 #include "menu_tape.h"
 
 #ifdef HAVE_TFE
+#include "menu_ethernet.h"
 #include "menu_tfe.h"
 #endif
 
@@ -263,6 +264,10 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       (ui_callback_data_t)midi_c64_menu },
 #endif
 #ifdef HAVE_TFE
+    { "Ethernet settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ethernet_menu },
     { CARTRIDGE_NAME_TFE " settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
