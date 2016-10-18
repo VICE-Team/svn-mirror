@@ -349,6 +349,29 @@ static const ui_menu_entry_t ide64_digimax_menu[] = {
     SDL_MENU_LIST_END
 };
 
+#ifdef HAVE_TFE
+UI_MENU_DEFINE_TOGGLE(SBETFE)
+UI_MENU_DEFINE_RADIO(SBETFEbase)
+
+static const ui_menu_entry_t ide64_etfe_menu[] = {
+    SDL_MENU_ITEM_TITLE("ETFE settings"),
+    { "Enable ETFE device",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SBETFE_callback,
+      NULL },
+    SDL_MENU_ITEM_TITLE("ETFE device address"),
+    { "$de00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SBETFEbase_callback,
+      (ui_callback_data_t)0xde00 },
+    { "$de10",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SBETFEbase_callback,
+      (ui_callback_data_t)0xde10 },
+    SDL_MENU_LIST_END
+};
+#endif
+
 const ui_menu_entry_t ide64_menu[] = {
     SDL_MENU_ITEM_TITLE("Cartridge version"),
     { "V3",
@@ -402,5 +425,11 @@ const ui_menu_entry_t ide64_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ide64_digimax_menu },
+#ifdef HAVE_TFE
+    { "ETFE settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ide64_etfe_menu },
+#endif
     SDL_MENU_LIST_END
 };
