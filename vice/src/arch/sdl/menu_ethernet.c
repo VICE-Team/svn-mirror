@@ -48,7 +48,7 @@ void sdl_menu_ethernet_interface_free(void)
 
 UI_MENU_DEFINE_STRING(ETHERNET_INTERFACE)
 
-#define VICE_SDL_TFE_ARCHDEP_ITEMS        \
+#define VICE_SDL_ETHERNET_ARCHDEP_ITEMS   \
     { "Interface",                        \
       MENU_ENTRY_RESOURCE_STRING,         \
       string_ETHERNET_INTERFACE_callback, \
