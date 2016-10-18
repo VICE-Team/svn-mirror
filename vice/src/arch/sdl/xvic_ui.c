@@ -36,6 +36,7 @@
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"
+#include "menu_ethernet.h"
 #include "menu_ffmpeg.h"
 #include "menu_help.h"
 #include "menu_jam.h"
@@ -231,6 +232,10 @@ void vic20ui_shutdown(void)
 #ifdef HAVE_MIDI
     sdl_menu_midi_in_free();
     sdl_menu_midi_out_free();
+#endif
+
+#ifdef HAVE_TFE
+    sdl_menu_ethernet_interface_free();
 #endif
 
 #ifdef HAVE_FFMPEG
