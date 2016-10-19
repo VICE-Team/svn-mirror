@@ -238,9 +238,12 @@ static BYTE rrnetmk3_cs8900_read(WORD address)
         rrnetmk3_cs8900_io1_device.io_source_valid = 0;
         return 0;
     }
+    rrnetmk3_cs8900_io1_device.io_source_valid = 1;
+    if (address > 0x0b) {
+        return rrnetmk3_bios[(0x1ff0 + address) + rrnetmk3_bios_offset];
+    }
     address ^= 0x08;
 
-    rrnetmk3_cs8900_io1_device.io_source_valid = 1;
     return cs8900io_read(address);
 }
 
@@ -248,6 +251,9 @@ static BYTE rrnetmk3_cs8900_peek(WORD address)
 {
     if (address < 0x02) {
         return 0;
+    }
+    if (address > 0x0b) {
+        return rrnetmk3_bios[(0x1ff0 + address) + rrnetmk3_bios_offset];
     }
     address ^= 0x08;
 
