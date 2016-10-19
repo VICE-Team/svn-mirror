@@ -20,15 +20,25 @@ left from previous installs.
 
 - New SDL based Android port.
 
-- New SCPU64 emulator (xscpu64).
+- New Windows RT port.
 
-- New native (koala/doodle) screenshot support.
+- New Sortix port.
+
+- New SCPU64 emulator (xscpu64).
 
 - New KoalaPad emulation.
 
 - New high pass filter emulation for DAC based devices (SFX sound sampler,
   DigiMAX cartridge, DigiMAX shortbus device, userport DAC,
   userport DigiMAX device, DigiBlaster SIDcart add-on).
+
+- New sampler sound input support, used by sfx sound sampler, digiblaster
+  and userport/joyport sampler devices.
+
+- New joyport system which currently supports attaching the following
+  devices: joysticks, mice, lightpens, bbrtc, cardkey keypad, coplin
+  keypad, atari cx21 keypad, atari cx85 keypad, paperclip 64 dongle,
+  rushware keypad and 2/4 bit samplers.
 
 - New "printer/plotter" Commodore 1520 emulation.
 
@@ -37,6 +47,10 @@ left from previous installs.
 - New Inkwell Systems lightpen emulation.
 
 - New 1540 drive emulation.
+
+- New native (koala/doodle) screenshot support.
+
+- new godot screenshot support.
 
 - New keyrah keymaps.
 
@@ -49,6 +63,8 @@ left from previous installs.
 ** C64/C128 changes
 -------------------
 
+- New IDE64 v4.2 emulation.
+
 - New IDE64 USB server emulation.
 
 - New RGCD cartridge emulation.
@@ -58,12 +74,33 @@ left from previous installs.
 
 - New Swiss ROM support.
 
+** C64 changes
+--------------
+
+- New Sony CXA2025AS NTSC palette.
+
 ** PET changes
 --------------
 
 - New PET HRE (High Res Emulator) board emulation.
 
 - New 2-chip colour board emulation.
+
+** VIC20 changes
+----------------
+
+- New mike's palette files.
+
+** PETCAT changes
+-----------------
+
+- New Kipper Basic support.
+
+- New Basic on Bails support.
+
+- New The Tool 64 support.
+
+- New Eve Basic support.
 
 ** VSID changes
 ---------------

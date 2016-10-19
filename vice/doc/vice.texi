@@ -26819,7 +26819,15 @@ documentation generation. Added Android port based on
 'AnVICE 1.0.5'. Improved/fixed the 'in-source' FFMPEG support
 and fixed it for msvc7.0 and up. Generalized the 'RS232 net'
 support to be able to be used on any network supporting arch.
-And lots of other fixes and improvements.
+Started the SDL2 port. Added generic sampler input support.
+Added new joyport system and converted the joystick, mouse and
+lightpen code to use the new system. Added joyport attached
+rtc. Added joyport attached cardkey keypad. Added joyport
+attached coplin keypad. Added joyport attached atari cx21
+keypad. Added joyport attached atari cx85 keypad. Added joyport
+attached paperclip 64 dongle. Added joyport attached rushware
+keypad. Added joyport attached 2/4 bit samplers. And lots of
+other fixes and improvements.
 
 @item
 @b{Fabrizio Gennari}
@@ -26852,9 +26860,10 @@ improvements. Added basic support for compute gazette sidplayer
 files (mus/str) to vsid. Wrote alot of test programs. Added
 'available features' code. Fixed/added some items in the OSX GUI.
 Added random tape wobble emulation. Added 64k RGCD cartridge
-emulation. Added psid v4 3sid support to vsid. Updated this
-document after a long period of outdated mess. And various fixes
-and improvements.
+emulation. Added psid v4 3sid support to vsid. Added single frame
+advance. Added drive RPM and wobble support. Updated this document
+after a long period of outdated mess. And various fixes and
+improvements.
 
 @item
 @b{Errol Smith}
@@ -26883,7 +26892,8 @@ burst modification support. Added 1541 drive sounds emulation. Improved
 c64 cart emulation. Added DAC high pass filtering. Added the xscpu64
 emulator. Added scroll wheel support for the Micromys mouse emulation.
 Added Swiss ROM support to x128. Added IDE64 USB server emulation. Added
-1540 drive emulation. And fixed various issues.
+1540 drive emulation. Improved monitor support. Improved vdrive
+compatibility. Added godot screenshot support. And fixed various issues.
 
 @end itemize
 
