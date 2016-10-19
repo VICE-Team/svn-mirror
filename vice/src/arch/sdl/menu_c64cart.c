@@ -34,6 +34,7 @@
 #include "c64cart.h"
 #include "cartridge.h"
 #include "cartio.h"
+#include "clockport.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "machine.h"
@@ -562,6 +563,10 @@ static const ui_menu_entry_t georam_menu[] = {
 
 /* MMC64 */
 
+UI_MENU_DEFINE_RADIO(MMC64ClockPort)
+
+static ui_menu_entry_t mmc64_clockport_device_menu[CLOCKPORT_MAX_ENTRIES + 1];
+
 UI_MENU_DEFINE_RADIO(MMC64_sd_type)
 
 static const ui_menu_entry_t mmc64_sd_type_menu[] = {
@@ -644,11 +649,20 @@ static const ui_menu_entry_t mmc64_cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)mmc64_sd_type_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Clockport device",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)mmc64_clockport_device_menu },
     SDL_MENU_LIST_END
 };
 
 
 /* MMC Replay */
+
+UI_MENU_DEFINE_RADIO(MMCRClockPort)
+
+static ui_menu_entry_t mmcreplay_clockport_device_menu[CLOCKPORT_MAX_ENTRIES + 1];
 
 UI_MENU_DEFINE_RADIO(MMCRSDType)
 
@@ -722,11 +736,20 @@ static const ui_menu_entry_t mmcreplay_cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)mmcreplay_sd_type_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Clockport device",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)mmcreplay_clockport_device_menu },
     SDL_MENU_LIST_END
 };
 
 
 /* Retro Replay */
+
+UI_MENU_DEFINE_RADIO(RRClockPort)
+
+static ui_menu_entry_t retroreplay_clockport_device_menu[CLOCKPORT_MAX_ENTRIES + 1];
 
 UI_MENU_DEFINE_TOGGLE(RRBankJumper)
 UI_MENU_DEFINE_RADIO(RRRevision)
@@ -770,6 +793,11 @@ static const ui_menu_entry_t retroreplay_cart_menu[] = {
       MENU_ENTRY_OTHER,
       c64_cart_save_callback,
       (ui_callback_data_t)CARTRIDGE_RETRO_REPLAY },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Clockport device",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)retroreplay_clockport_device_menu },
     SDL_MENU_LIST_END
 };
 
@@ -1204,3 +1232,40 @@ ui_menu_entry_t scpu64cart_menu[] = {
       NULL },
     SDL_MENU_LIST_END
 };
+
+void uiclockport_rr_mmc_menu_create(void)
+{
+    int i;
+ 
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        mmc64_clockport_device_menu[i].string = clockport_supported_devices[i].name;
+        mmc64_clockport_device_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+        mmc64_clockport_device_menu[i].callback = radio_MMC64ClockPort_callback;
+        mmc64_clockport_device_menu[i].data = (ui_callback_data_t)int_to_void_ptr(clockport_supported_devices[i].id);
+
+        mmcreplay_clockport_device_menu[i].string = clockport_supported_devices[i].name;
+        mmcreplay_clockport_device_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+        mmcreplay_clockport_device_menu[i].callback = radio_MMCRClockPort_callback;
+        mmcreplay_clockport_device_menu[i].data = (ui_callback_data_t)int_to_void_ptr(clockport_supported_devices[i].id);
+
+        retroreplay_clockport_device_menu[i].string = clockport_supported_devices[i].name;
+        retroreplay_clockport_device_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+        retroreplay_clockport_device_menu[i].callback = radio_RRClockPort_callback;
+        retroreplay_clockport_device_menu[i].data = (ui_callback_data_t)int_to_void_ptr(clockport_supported_devices[i].id);
+    }
+
+    mmc64_clockport_device_menu[i].string = NULL;
+    mmc64_clockport_device_menu[i].type = MENU_ENTRY_TEXT;
+    mmc64_clockport_device_menu[i].callback = NULL;
+    mmc64_clockport_device_menu[i].data = NULL;
+
+    mmcreplay_clockport_device_menu[i].string = NULL;
+    mmcreplay_clockport_device_menu[i].type = MENU_ENTRY_TEXT;
+    mmcreplay_clockport_device_menu[i].callback = NULL;
+    mmcreplay_clockport_device_menu[i].data = NULL;
+
+    retroreplay_clockport_device_menu[i].string = NULL;
+    retroreplay_clockport_device_menu[i].type = MENU_ENTRY_TEXT;
+    retroreplay_clockport_device_menu[i].callback = NULL;
+    retroreplay_clockport_device_menu[i].data = NULL;
+}

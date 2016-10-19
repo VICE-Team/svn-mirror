@@ -31,6 +31,7 @@
 #include "types.h"
 
 #include "cartridge.h"
+#include "clockport.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_common.h"
 #include "uimenu.h"
@@ -194,6 +195,10 @@ const ui_menu_entry_t ds12c887rtc_c128_menu[] = {
 
 
 /* IDE64 CART MENU */
+
+UI_MENU_DEFINE_RADIO(IDE64ClockPort)
+
+static ui_menu_entry_t ide64_clockport_device_menu[CLOCKPORT_MAX_ENTRIES + 1];
 
 UI_MENU_DEFINE_TOGGLE(IDE64RTCSave)
 UI_MENU_DEFINE_RADIO(IDE64version)
@@ -420,6 +425,11 @@ const ui_menu_entry_t ide64_menu[] = {
       submenu_callback,
       (ui_callback_data_t)ide64_menu_HD_4 },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Clockport device",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ide64_clockport_device_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Shortbus Device settings"),
     { "DigiMAX settings",
       MENU_ENTRY_SUBMENU,
@@ -433,3 +443,20 @@ const ui_menu_entry_t ide64_menu[] = {
 #endif
     SDL_MENU_LIST_END
 };
+
+void uiclockport_ide64_menu_create(void)
+{
+    int i;
+
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        ide64_clockport_device_menu[i].string = clockport_supported_devices[i].name;
+        ide64_clockport_device_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+        ide64_clockport_device_menu[i].callback = radio_IDE64ClockPort_callback;
+        ide64_clockport_device_menu[i].data = (ui_callback_data_t)int_to_void_ptr(clockport_supported_devices[i].id);
+    }
+
+    ide64_clockport_device_menu[i].string = NULL;
+    ide64_clockport_device_menu[i].type = MENU_ENTRY_TEXT;
+    ide64_clockport_device_menu[i].callback = NULL;
+    ide64_clockport_device_menu[i].data = NULL;
+}

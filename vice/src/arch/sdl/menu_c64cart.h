@@ -36,4 +36,6 @@ extern ui_menu_entry_t c64cart_menu[];
 extern ui_menu_entry_t scpu64cart_menu[];
 extern void uicart_menu_create(void);
 
+void uiclockport_rr_mmc_menu_create(void);
+
 #endif

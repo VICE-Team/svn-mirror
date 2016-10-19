@@ -31,6 +31,7 @@
 
 #include "debug.h"
 #include "c64mem.h"
+#include "menu_c64_common_expansions.h"
 #include "menu_c64cart.h"
 #include "menu_common.h"
 #include "menu_debug.h"
@@ -170,6 +171,8 @@ int scpu64ui_init(void)
     uikeyboard_menu_create();
     uipalette_menu_create("VICII", NULL);
     uisid_menu_create();
+    uiclockport_rr_mmc_menu_create();
+    uiclockport_ide64_menu_create();
 
     sdl_ui_set_main_menu(xscpu64_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);

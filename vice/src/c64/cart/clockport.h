@@ -36,6 +36,8 @@
 #define CLOCKPORT_DEVICE_MP3_64          4
 #define CLOCKPORT_DEVICE_CW3_SID         5
 
+#define CLOCKPORT_MAX_ENTRIES            6
+
 typedef struct clockport_device_s {
     char *owner;
     int devicenr;
