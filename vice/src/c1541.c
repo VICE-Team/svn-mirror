@@ -139,6 +139,12 @@ static int interactive_mode = 0;
  * forward declaration of functions
  */
 
+static int check_drive_unit(int unit);
+static int check_drive_index(int index);
+static int check_drive_ready(int index);
+
+
+
 /* command handlers */
 static int attach_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
@@ -751,12 +757,13 @@ static char *extract_unit_from_file_name(char *name,
 }
 
 
-/** \brief  Parse unit number from a '@<unit>' string
+/** \brief  Parse and validate unit number from a '@<unit>:' string
  *
  * \param[in]   name    string to parse
  * \param[out]  endptr  pointer to string after the '@<unit>:' stuff
  *
- * \return  unit number if successful, 0 if no '@<unit>:' was found
+ * \return  unit number if successful, 0 if no '@<unit>:' was found, -1 if the
+ *          parsed unit number is invalid
  */
 static int extract_unit_from_file_name_compyx(char *name, char **endptr)
 {
@@ -772,7 +779,11 @@ static int extract_unit_from_file_name_compyx(char *name, char **endptr)
     if (*endptr != NULL && **endptr == ':') {
         /* got something */
         (*endptr)++;
-        return result;
+        if (check_drive_unit((int)result)) {
+            return (int)result;
+        } else {
+            return -1;
+        }
     }
     *endptr = name;
     return 0;
