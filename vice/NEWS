@@ -35,16 +35,11 @@ left from previous installs.
 - New sampler sound input support, used by sfx sound sampler, digiblaster
   and userport/joyport sampler devices.
 
-- New joyport system which currently supports attaching the following
-  devices: joysticks, mice, lightpens, bbrtc, cardkey keypad, coplin
-  keypad, atari cx21 keypad, atari cx85 keypad, paperclip 64 dongle,
-  rushware keypad and 2/4 bit samplers.
-
-- New "printer/plotter" Commodore 1520 emulation.
+- New Inkwell Systems lightpen emulation.
 
 - New scroll wheel support for the Micromys mouse emulation.
 
-- New Inkwell Systems lightpen emulation.
+- New "printer/plotter" Commodore 1520 emulation.
 
 - New 1540 drive emulation.
 
@@ -69,6 +64,17 @@ left from previous installs.
 
 - New RGCD cartridge emulation.
 
+- New joyport system which currently supports attaching the following
+  devices to the native ports: joystick, paddles, 1351 mouse, neos mouse,
+  amiga mouse, atari cx22 mouse, atari-st mouse, smartmouse, micromys
+  mouse, koalapad, generic lightpens, datel light pen, magnum light phaser,
+  stack light rifle, inkwell light pen, 2bit sampler, 4bit sampler, bbrtc,
+  paperclip64 dongle, coplin keypad, cardco cardkey 1 keypad, atari cx85
+  keypad, rushware keypad, atari cx21 keypad. And the following devices to
+  the various userport joystick adapters: joystick, neos mouse, amiga mouse,
+  atari cx22 mouse, atari-st mouse, 2bit sampler, 4bit sampler, bbrtc,
+  paperclip64 dongle, coplin keypad, rushware keypad.
+
 ** C128 changes
 ---------------
 
@@ -79,6 +85,50 @@ left from previous installs.
 
 - New Sony CXA2025AS NTSC palette.
 
+** C64DTV changes
+-----------------
+
+- New joyport system which currently supports attaching the following
+  devices to the native ports: joystick, 2bit sampler, 4bit sampler,
+  bbrtc, paperclip64 dongle, coplin keypad, rushware keypad. And the
+  following devices to the hummer userport joystick adapter: joystick,
+  2bit sampler, 4bit sampler, bbrtc, paperclip64 dongle, coplin keypad,
+  rushware keypad.
+
+** VIC20 changes
+----------------
+
+- New mike's palette files.
+
+- New joyport system which currently supports attaching the following
+  devices to the native port: joystick, paddles, 1351 mouse, neos mouse,
+  amiga mouse, atari cx22 mouse, atari-st mouse, smartmouse, micromys
+  mouse, koalapad, generic lightpens, datel light pen, magnum light phaser,
+  stack light rifle, inkwell light pen, 2bit sampler, 4bit sampler, bbrtc,
+  paperclip64 dongle, coplin keypad, cardco cardkey 1 keypad, atari cx85
+  keypad, rushware keypad, atari cx21 keypad. And the following devices to
+  the various userport joystick adapters: joystick, neos mouse, amiga mouse,
+  atari cx22 mouse, atari-st mouse, 2bit sampler, 4bit sampler, bbrtc,
+  paperclip64 dongle, coplin keypad, rushware keypad.
+
+** PLUS4 changes
+----------------
+
+- New userport emulation.
+
+- New joyport system which currently supports attaching the following
+  devices to the native port: joystick, neos mouse, amiga mouse, atari cx22
+  mouse, atari-st mouse, 2bit sampler, 4bit sampler, bbrtc, paperclip64
+  dongle, coplin keypad, rushware keypad. The following devices to the
+  various userport joystick adapters: joystick, neos mouse, amiga mouse,
+  atari cx22 mouse, atari-st mouse, 2bit sampler, 4bit sampler, bbrtc,
+  paperclip64 dongle, coplin keypad, rushware keypad. And the following
+  devices to the sidcart joystick port: joystick, paddles, 1351 mouse,
+  neos mouse, amiga mouse, atari cx22 mouse, atari-st mouse, smartmouse,
+  micromys mouse, koalapad, 2bit sampler, 4bit sampler, bbrtc, paperclip64
+  dongle, coplin keypad, cardco cardkey 1 keypad, atari cx85 keypad,
+  rushware keypad, atari cx21 keypad.
+
 ** PET changes
 --------------
 
@@ -86,10 +136,30 @@ left from previous installs.
 
 - New 2-chip colour board emulation.
 
-** VIC20 changes
-----------------
+- New joyport system which currently supports attaching the following
+  devices to the various userport joystick adapters: joystick, neos
+  mouse, amiga mouse, atari cx22 mouse, atari-st mouse, 2bit sampler,
+  4bit sampler, bbrtc, paperclip64 dongle, coplin keypad, rushware
+  keypad.
 
-- New mike's palette files.
+** CBM6x0/7x0 changes
+---------------------
+
+- New joyport system which currently supports attaching the following
+  devices to the various userport joystick adapters: joystick, neos
+  mouse, amiga mouse, atari cx22 mouse, atari-st mouse, 2bit sampler,
+  4bit sampler, bbrtc, paperclip64 dongle, coplin keypad, rushware
+  keypad.
+
+** CBM5x0 changes
+-----------------
+
+- New joyport system which currently supports attaching the following
+  devices to the native port: joystick, paddles, 1351 mouse, neos mouse,
+  amiga mouse, atari cx22 mouse, atari-st mouse, smartmouse, micromys
+  mouse, koalapad, 2bit sampler, 4bit sampler, bbrtc, paperclip64 dongle,
+  coplin keypad, cardco cardkey 1 keypad, atari cx85 keypad, rushware
+  keypad, atari cx21 keypad.
 
 ** PETCAT changes
 -----------------
