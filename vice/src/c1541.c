@@ -1154,7 +1154,7 @@ static int copy_cmd(int nargs, char **args)
         if (nargs > 3) {
             fprintf(stderr,
                     "The destination must be a drive if multiple sources are specified.\n");
-            return FD_OK;           /* FIXME */
+            return FD_BADDEV;
         }
         dest_name_ascii = lib_stralloc(args[nargs - 1]);
         dest_name_petscii = lib_stralloc(dest_name_ascii);
@@ -1165,7 +1165,7 @@ static int copy_cmd(int nargs, char **args)
             if (nargs > 3) {
                 fprintf(stderr,
                         "The destination must be a drive if multiple sources are specified.\n");
-                return FD_OK;           /* FIXME */
+                return FD_BADDEV;
             }
             dest_name_ascii = lib_stralloc(p);
             dest_name_petscii = lib_stralloc(dest_name_ascii);
@@ -1178,7 +1178,7 @@ static int copy_cmd(int nargs, char **args)
     if (dest_name_ascii != NULL && !is_valid_cbm_file_name(dest_name_ascii)) {
         fprintf(stderr,
                 "`%s' is not a valid CBM DOS file name.\n", dest_name_ascii);
-        return FD_OK;               /* FIXME */
+        return FD_BADNAME;
     }
 
     if (check_drive(dest_unit, CHK_RDY) < 0) {
@@ -1481,11 +1481,10 @@ static int format_cmd(int nargs, char **args)
                 return FD_BADDEV;
             }
             break;
-        case 4:
+        case 4: /* fallthrough */
         case 5:
-            /* format <diskname,id> <type> <imagename> */
+            /* format <diskname,id> <type> <imagename> [<unit>] */
             /* Create a new image.  */
-            /* FIXME: I want a unit number here too.  */
             *args[2] = util_tolower(*args[2]);
             if (strcmp(args[2], "d64") == 0) {
                 disk_type = DISK_IMAGE_TYPE_D64;
@@ -1533,7 +1532,7 @@ static int format_cmd(int nargs, char **args)
     printf("Unit: %i\n", unit);
     if (!strchr(args[1], ',')) {
         fprintf(stderr, "There must be ID on the name.\n");
-        return FD_OK;
+        return FD_BADNAME;
     }
 
     if (check_drive(unit, CHK_RDY) < 0) {
@@ -1877,7 +1876,7 @@ static int read_cmd(int nargs, char **args)
         fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n",
                 src_name_ascii);
         lib_free(src_name_ascii);
-        return FD_OK;               /* FIXME */
+        return FD_BADNAME;
     }
 
     src_name_petscii = lib_stralloc(src_name_ascii);
@@ -2237,7 +2236,7 @@ static int read_geos_cmd(int nargs, char **args)
         fprintf(stderr,
                 "`%s' is not a valid CBM DOS file name.\n", src_name_ascii);
         lib_free(src_name_ascii);
-        return FD_OK;               /* FIXME */
+        return FD_BADNAME;
     }
 
     src_name_petscii = lib_stralloc(src_name_ascii);
@@ -2681,7 +2680,7 @@ static int rename_cmd(int nargs, char **args)
         fprintf(stderr, "Source and destination must be on the same unit.\n");
         lib_free(src_name);
         lib_free(dest_name);
-        return FD_OK;               /* FIXME */
+        return FD_BADDEV;
     }
 
     if (check_drive(dest_unit, CHK_RDY) < 0) {
@@ -2694,14 +2693,14 @@ static int rename_cmd(int nargs, char **args)
         fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n", src_name);
         lib_free(src_name);
         lib_free(dest_name);
-        return FD_OK;               /* FIXME */
+        return FD_BADNAME;
     }
 
     if (!is_valid_cbm_file_name(dest_name)) {
         fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n", dest_name);
         lib_free(src_name);
         lib_free(dest_name);
-        return FD_OK;               /* FIXME */
+        return FD_BADNAME;
     }
 
     printf("Renaming `%s' to `%s'\n", src_name, dest_name);
@@ -2887,15 +2886,23 @@ static int tape_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+
+/** \brief  Select current device
+ *
+ * \param[in]   nargs   number of arguments
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure
+ */
 static int unit_cmd(int nargs, char **args)
 {
     int dev;
 
-    if (arg_to_int(args[1], &dev) < 0 || check_drive(dev, CHK_NUM) < 0) {
+    if (arg_to_int(args[1], &dev) < 0 || check_drive_unit(dev) < 0) {
         return FD_BADDEV;
     }
 
-    drive_index = dev & 3;
+    drive_index = dev - 8;
     return FD_OK;
 }
 
