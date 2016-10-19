@@ -91,7 +91,9 @@
 
 /* Cart is activated.  */
 static int rr_active = 0;
-int rr_clockport_enabled = 0;
+static int rr_clockport_enabled = 0;
+
+static int rr_enabled = 0;
 
 /* freeze logic state */
 static int rr_frozen = 0;
@@ -777,7 +779,7 @@ void retroreplay_reset(void)
        only a powercycle would help. we do it here anyway :)
     */
     flash040core_reset(flashrom_state);
-    if (rr_active && clockport_device) {
+    if (rr_enabled && clockport_device) {
         clockport_device->reset(clockport_device->device_context);
     }
 }
@@ -858,7 +860,7 @@ static int set_rr_clockport_device(int val, void *param)
         return 0;
     }
 
-    if (!rr_active) {
+    if (!rr_enabled) {
         clockport_device_id = val;
         return 0;
     }
@@ -881,7 +883,7 @@ static int set_rr_clockport_device(int val, void *param)
 
 static int clockport_activate(void)
 {
-    if (rr_active) {
+    if (rr_enabled) {
         return 0;
     }
 
@@ -898,7 +900,7 @@ static int clockport_activate(void)
 
 static int clockport_deactivate(void)
 {
-    if (!rr_active) {
+    if (!rr_enabled) {
         return 0;
     }
 
@@ -1030,6 +1032,8 @@ static int retroreplay_common_attach(void)
     if (clockport_activate() < 0) {
         return -1;
     }
+
+    rr_enabled = 1;
 
     return 0;
 }
@@ -1241,6 +1245,7 @@ void retroreplay_detach(void)
     retroreplay_io1_list_item = NULL;
     retroreplay_io2_list_item = NULL;
     retroreplay_clockport_io1_list_item = NULL;
+    rr_enabled = 0;
 }
 
 /* ---------------------------------------------------------------------*/
