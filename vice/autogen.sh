@@ -199,9 +199,18 @@ buildfiles() {
 # Script entry point
 
 autoconf_line=`autoconf --version`
+if test x"$autoconf_line" = "x"; then
+  echo "No autoconf installed"
+  exit 1
+fi
 get_autoconf_version $autoconf_line
 check_autoconf_version $autoconf_version
+
 automake_line=`automake --version`
+if test x"$automake_line" = "x"; then
+  echo "No automake installed"
+  exit 1
+fi
 get_automake_version $automake_line
 check_automake_version $automake_version
 old_IFS=$IFS
