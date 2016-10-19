@@ -1463,7 +1463,7 @@ static int format_cmd(int nargs, char **args)
 {
     char *command;
     int disk_type;
-    int unit = -1;
+    int unit = -1;  /* index into the vdrive array, misnomer */
 
     switch (nargs) {
         case 2:
@@ -1474,7 +1474,7 @@ static int format_cmd(int nargs, char **args)
             /* format <diskname,id> <unit> */
             /* Format the disk image in unit <unit>.  */
             if (arg_to_int(args[2], &unit) >= 0
-                && check_drive(unit, CHK_NUM) >= 0) {
+                && check_drive_unit(unit) >= 0) {
                 /* It's a valid unit number.  */
                 unit -= 8;
             } else {
@@ -1514,7 +1514,11 @@ static int format_cmd(int nargs, char **args)
             }
             if (nargs > 4) {
                 arg_to_int(args[4], &unit);
-                unit -= 8;
+                if (check_drive_unit(unit) >= 0) {
+                    unit -= 8;
+                } else {
+                    return FD_BADDEV;
+                }
             } else {
                 unit = 0;
             }
@@ -1707,8 +1711,10 @@ static int list_cmd(int nargs, char **args)
         unit = extract_unit_from_file_name_compyx(args[1], &pattern);
         if (unit == 0) {
             dnr = drive_index;
+        } else if (unit > 0) {
+            dnr = unit - 8;
         } else {
-            dnr = unit -8;
+            return FD_BADDEV;
         }
 
     } else {
