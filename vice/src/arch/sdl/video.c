@@ -96,6 +96,17 @@ video_canvas_t *sdl_active_canvas = NULL;
 static int sdl_gl_mode;
 static GLint screen_texture;
 static int sdl_gl_vertex_base = 0;
+
+static const float sdl_gl_vertex_coord[4 * 4] = {
+	/* Normal */
+	-1.0f, +1.0f, -1.0f, +1.0f,
+	/* Flip X */
+	+1.0f, +1.0f, -1.0f, -1.0f,
+	/* Flip Y */
+	-1.0f, -1.0f, +1.0f, +1.0f,
+	/* Flip X&Y */
+	+1.0f, -1.0f, +1.0f, -1.0f
+};
 #endif
 
 static int sdl_gl_aspect_mode;
@@ -104,17 +115,6 @@ static double aspect_ratio;
 
 static int sdl_gl_flipx;
 static int sdl_gl_flipy;
-
-static const float sdl_gl_vertex_coord[4 * 4] = {
-    /* Normal */
-    -1.0f, +1.0f, -1.0f, +1.0f,
-    /* Flip X */
-    +1.0f, +1.0f, -1.0f, -1.0f,
-    /* Flip Y */
-    -1.0f, -1.0f, +1.0f, +1.0f,
-    /* Flip X&Y */
-    +1.0f, -1.0f, +1.0f, -1.0f
-};
 
 static int sdl_gl_filter_res;
 static int sdl_gl_filter;
