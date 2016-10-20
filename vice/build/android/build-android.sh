@@ -451,6 +451,8 @@ fi
 
 cd src
 
+cp arch/android/AnVICE/debug.h.proto ./debug.h
+
 echo generating src/translate_table.h
 ${SHELL} ./gentranslatetable.sh <translate.txt >translate_table.h
 
