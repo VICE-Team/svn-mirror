@@ -273,6 +273,7 @@ static ui_menu_entry_t ide64_shortbus_digimax_address_submenu[] = {
     { NULL }
 };
 
+#ifdef HAVE_TFE
 UI_MENU_DEFINE_RADIO(SBETFEbase)
 
 static ui_menu_entry_t ide64_shortbus_etfe_address_submenu[] = {
@@ -284,6 +285,8 @@ static ui_menu_entry_t ide64_shortbus_etfe_address_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(SBETFE)
+#endif
+
 UI_MENU_DEFINE_TOGGLE(SBDIGIMAX)
 
 static ui_menu_entry_t ide64_shortbus_submenu[] = {
