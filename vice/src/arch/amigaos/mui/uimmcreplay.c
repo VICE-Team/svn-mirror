@@ -31,6 +31,7 @@
 #include "mui.h"
 
 #include "uimmcreplay.h"
+#include "clockport.h"
 #include "intl.h"
 #include "translate.h"
 
@@ -66,6 +67,9 @@ static const int ui_mmcreplay_card_type_values[] = {
     -1
 };
 
+static char *ui_mmcreplay_clockport_devices[CLOCKPORT_MAX_ENTRIES + 1];
+static int ui_mmcreplay_clockport_devices_values[CLOCKPORT_MAX_ENTRIES + 1];
+
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_FILENAME, "MMCRCardImage", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "MMCRCardRW", ui_mmcreplay_enable, ui_mmcreplay_enable_values, NULL },
@@ -74,6 +78,7 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "MMCREEPROMRW", ui_mmcreplay_enable, ui_mmcreplay_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "MMCRRescueMode", ui_mmcreplay_enable, ui_mmcreplay_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "MMCRSDType", ui_mmcreplay_card_type, ui_mmcreplay_card_type_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "MMCRClockPort", ui_mmcreplay_clockport_devices, ui_mmcreplay_clockport_devices_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -125,6 +130,7 @@ static APTR build_gui(void)
            CYCLE(ui_to_from[4].object, translate_text(IDS_EEPROM_READ_WRITE), ui_mmcreplay_enable)
            CYCLE(ui_to_from[5].object, translate_text(IDS_RESCUE_MODE), ui_mmcreplay_enable)
            CYCLE(ui_to_from[6].object, translate_text(IDS_SD_TYPE), ui_mmcreplay_card_type)
+           CYCLE(ui_to_from[7].object, translate_text(IDS_CLOCKPORT_DEVICE), ui_mmcreplay_clockport_devices)
            OK_CANCEL_BUTTON
          End;
 
@@ -148,6 +154,14 @@ static APTR build_gui(void)
 void ui_mmcreplay_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
+    int i;
+
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        ui_mmcreplay_clockport_devices[i] = clockport_supported_devices[i].name;
+        ui_mmcreplay_clockport_devices_values[i] = clockport_supported_devices[i].id;
+    }
+    ui_mmcreplay_clockport_devices[i] = NULL;
+    ui_mmcreplay_clockport_devices_values[i] = -1;
 
     mmcreplay_canvas = canvas;
     intl_convert_mui_table(ui_mmcreplay_enable_translate, ui_mmcreplay_enable);

@@ -31,6 +31,7 @@
 #include "mui.h"
 
 #include "uimmc64.h"
+#include "clockport.h"
 #include "intl.h"
 #include "translate.h"
 
@@ -78,6 +79,9 @@ static const int ui_mmc64_card_type_values[] = {
    -1
 };
 
+static char *ui_mmc64_clockport_devices[CLOCKPORT_MAX_ENTRIES + 1];
+static int ui_mmc64_clockport_devices_values[CLOCKPORT_MAX_ENTRIES + 1];
+
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_FILENAME, "MMC64BIOSfilename", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "MMC64", ui_mmc64_enable, ui_mmc64_enable_values, NULL },
@@ -87,6 +91,7 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "MMC64_RO", ui_mmc64_enable, ui_mmc64_enable_values, NULL },
     { NULL, MUI_TYPE_FILENAME, "MMC64imagefilename", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "MMC64_sd_type", ui_mmc64_card_type, ui_mmc64_card_type_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "MMC64ClockPort", ui_mmc64_clockport_devices, ui_mmc64_clockport_devices_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -139,6 +144,7 @@ static APTR build_gui(void)
            CYCLE(ui_to_from[5].object, translate_text(IDS_MMC64_IMAGE_READ_ONLY), ui_mmc64_enable)
            FILENAME(ui_to_from[6].object, translate_text(IDS_MMC64_IMAGE_FILE), browse_button_image)
            CYCLE(ui_to_from[7].object, translate_text(IDS_SD_TYPE), ui_mmc64_card_type)
+           CYCLE(ui_to_from[8].object, translate_text(IDS_CLOCKPORT_DEVICE), ui_mmc64_clockport_devices)
            OK_CANCEL_BUTTON
          End;
 
@@ -162,6 +168,14 @@ static APTR build_gui(void)
 void ui_mmc64_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
+    int i;
+
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        ui_mmc64_clockport_devices[i] = clockport_supported_devices[i].name;
+        ui_mmc64_clockport_devices_values[i] = clockport_supported_devices[i].id;
+    }
+    ui_mmc64_clockport_devices[i] = NULL;
+    ui_mmc64_clockport_devices_values[i] = -1;
 
     mmc64_canvas = canvas;
     intl_convert_mui_table(ui_mmc64_enable_translate, ui_mmc64_enable);

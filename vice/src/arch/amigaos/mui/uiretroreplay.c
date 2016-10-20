@@ -31,6 +31,7 @@
 #include "mui.h"
 
 #include "uiretroreplay.h"
+#include "clockport.h"
 #include "intl.h"
 #include "translate.h"
 
@@ -60,11 +61,15 @@ static const int ui_retroreplay_revision_values[] = {
     -1
 };
 
+static char *ui_retroreplay_clockport_devices[CLOCKPORT_MAX_ENTRIES + 1];
+static int ui_retroreplay_clockport_devices_values[CLOCKPORT_MAX_ENTRIES + 1];
+
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "RRFlashJumper", ui_retroreplay_enable, ui_retroreplay_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "RRBankJumper", ui_retroreplay_enable, ui_retroreplay_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "RRrevision", ui_retroreplay_revision, ui_retroreplay_revision_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "RRBiosWrite", ui_retroreplay_enable, ui_retroreplay_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "RRClockPort", ui_retroreplay_clockport_devices, ui_retroreplay_clockport_devices_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -79,6 +84,7 @@ static APTR build_gui(void)
            CYCLE(ui_to_from[1].object, translate_text(IDS_BANK_JUMPER), ui_retroreplay_enable)
            CYCLE(ui_to_from[2].object, translate_text(IDS_BIOS_REVISION), ui_retroreplay_revision)
            CYCLE(ui_to_from[3].object, translate_text(IDS_SAVE_BIOS_WHEN_CHANGED), ui_retroreplay_enable)
+           CYCLE(ui_to_from[4].object, translate_text(IDS_CLOCKPORT_DEVICE), ui_retroreplay_clockport_devices)
            OK_CANCEL_BUTTON
          End;
 
@@ -96,6 +102,14 @@ static APTR build_gui(void)
 void ui_retroreplay_settings_dialog(void)
 {
     APTR window;
+    int i;
+
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        ui_retroreplay_clockport_devices[i] = clockport_supported_devices[i].name;
+        ui_retroreplay_clockport_devices_values[i] = clockport_supported_devices[i].id;
+    }
+    ui_retroreplay_clockport_devices[i] = NULL;
+    ui_retroreplay_clockport_devices_values[i] = -1;
 
     intl_convert_mui_table(ui_retroreplay_enable_translate, ui_retroreplay_enable);
 

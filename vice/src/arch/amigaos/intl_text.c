@@ -10305,6 +10305,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SD_TYPE_SV, "Korttyp" },
 /* tr */ { IDS_SD_TYPE_TR, "Kart tipi" },
 
+/* en */ { IDS_CLOCKPORT_DEVICE,    "Clockport device" },
+/* da */ { IDS_CLOCKPORT_DEVICE_DA, "" },  /* fuzzy */
+/* de */ { IDS_CLOCKPORT_DEVICE_DE, "" },  /* fuzzy */
+/* es */ { IDS_CLOCKPORT_DEVICE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CLOCKPORT_DEVICE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CLOCKPORT_DEVICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_CLOCKPORT_DEVICE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CLOCKPORT_DEVICE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CLOCKPORT_DEVICE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CLOCKPORT_DEVICE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CLOCKPORT_DEVICE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CLOCKPORT_DEVICE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CLOCKPORT_DEVICE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_SELECT_MMC64_IMAGE_FILE,    "Select MMC/SD image file" },
 /* da */ { IDS_SELECT_MMC64_IMAGE_FILE_DA, "Vælg MMC/SD-image" },
 /* de */ { IDS_SELECT_MMC64_IMAGE_FILE_DE, "MMC/SD Image Date wählen" },
