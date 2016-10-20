@@ -400,12 +400,23 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
 #endif
 }
 
-/* return malloc'd version of full pathname of orig_name */
+/** \brief  Return malloc'd version of full pathname of orig_name
+ *
+ * Returns the absolute path of \a orig_name. Expands '~' to the user's home
+ * path.
+ *
+ * \param[out]  return_path pointer to expand path destination
+ * \param[in]   orig_name   original path
+ *
+ * \return  0
+ */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
     /* Unix version.  */
     if (*orig_name == '/') {
         *return_path = lib_stralloc(orig_name);
+    } else if (*orig_name == '~' && *(orig_name +1) == '/') {
+        *return_path = util_concat(archdep_home_path(), orig_name + 1, NULL);
     } else {
         static char *cwd;
 
