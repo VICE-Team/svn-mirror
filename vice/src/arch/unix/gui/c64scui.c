@@ -367,7 +367,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
 
 #ifdef HAVE_FTE
-    { N_("CS8900 settings"), UI_MENU_TYPE_NORMAL,
+    { N_("Ethernet settings"), UI_MENU_TYPE_NORMAL,
         NULL, NULL, uics8900_submenu },
 #endif
 
