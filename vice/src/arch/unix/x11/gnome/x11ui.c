@@ -274,7 +274,7 @@ static void get_window_resources(video_canvas_t *canvas, int *x, int *y, int *w,
 */
 
 #if !defined(HAVE_VTE)
-int ui_focus_monitor(void) 
+int ui_focus_monitor(void)
 {
     int i;
     Display *disp;
@@ -329,7 +329,7 @@ void ui_restore_focus(void)
 
     XCloseDisplay(disp);
 }
-#else 
+#else
 /*
     restore the main emulator window and transfer focus to it. in detail this
     function should:
@@ -400,7 +400,7 @@ int ui_init(int *argc, char **argv)
 int ui_init2(int *argc, char **argv)
 #else
 int ui_init(int *argc, char **argv)
-#endif	/* USE_UI_THREADS */
+#endif        /* USE_UI_THREADS */
 {
     if (console_mode) {
         return 0;
@@ -408,7 +408,7 @@ int ui_init(int *argc, char **argv)
 
 #ifdef USE_UI_THREADS
     XInitThreads();
-    /* init threads */	
+    /* init threads */
     /* gdk_threads_init(); */ /* commented out, as it causes troubles on NetBSD */
 #endif
 
@@ -422,7 +422,7 @@ int ui_init(int *argc, char **argv)
         }
     }
 #endif
-    
+
 #ifdef HAVE_HWSCALE
     if (gtk_gl_init_check(argc, &argv) == TRUE) {
         glClear(GL_COLOR_BUFFER_BIT);
@@ -431,7 +431,7 @@ int ui_init(int *argc, char **argv)
         glTexEnvi(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_ENV_MODE, GL_DECAL);
         glEnable(GL_BLEND);
     }
-    
+
 #endif
 
 #ifdef DEBUG_X11UI
@@ -456,15 +456,15 @@ int ui_init(int *argc, char **argv)
 }
 
 #ifdef USE_UI_THREADS
-int ui_init_finish() 
+int ui_init_finish()
 {
     return dthread_ui_init_finish();
 }
-    
+
 /* Continue GUI initialization after resources are set. */
 int ui_init_finish2(void)
 #else
-int ui_init_finish() 
+int ui_init_finish()
 #endif /* USE_UI_THREADS */
 {
 #ifdef HAVE_CAIRO
@@ -535,7 +535,7 @@ int ui_init_finalize(void)
  * FIXME: although the OS does ofcourse take care of it, we should still cleanly
  *        free all memory allocated by lib_.. functions, since that will make
  *        tracking down actual memory leaks using --enable-debug much easier.
- * 
+ *
  * TODO:  menu structures (uimenu.c:222,224,256)
  */
 void ui_shutdown(void)
@@ -554,7 +554,7 @@ void ui_shutdown(void)
 }
 
 /* exit the application */
-static gboolean delete_event_callback(GtkWidget *w, GdkEvent *e, gpointer data) 
+static gboolean delete_event_callback(GtkWidget *w, GdkEvent *e, gpointer data)
 {
     vsync_suspend_speed_eval();
     ui_exit();
@@ -608,7 +608,7 @@ static void build_screen_canvas_widget(video_canvas_t *c)
 #endif /* USE_UI_THREADS */
 {
     GtkWidget *new_canvas = gtk_drawing_area_new();
-    
+
     DBG(("build_screen_canvas_widget %p", c));
 
     /* if the eventbox already has a child, get rid of it, we are resizing */
@@ -685,14 +685,14 @@ static void build_screen_canvas_widget(video_canvas_t *c)
 explicitly setup the events we want to handle. the following are the remaining
 events that are NOT handled:
 
-GDK_BUTTON_MOTION_MASK         GDK_MOTION_NOTIFY (while a button is pressed) 
-GDK_BUTTON1_MOTION_MASK        GDK_MOTION_NOTIFY (while button 1 is pressed) 
-GDK_BUTTON2_MOTION_MASK        GDK_MOTION_NOTIFY (while button 2 is pressed) 
-GDK_BUTTON3_MOTION_MASK        GDK_MOTION_NOTIFY (while button 3 is pressed) 
-GDK_PROPERTY_CHANGE_MASK       GDK_PROPERTY_NOTIFY 
-GDK_PROXIMITY_IN_MASK          GDK_PROXIMITY_IN 
-GDK_PROXIMITY_OUT_MASK         GDK_PROXIMITY_OUT 
-GDK_SUBSTRUCTURE_MASK          Receive  GDK_STRUCTURE_MASK events for child windows 
+GDK_BUTTON_MOTION_MASK         GDK_MOTION_NOTIFY (while a button is pressed)
+GDK_BUTTON1_MOTION_MASK        GDK_MOTION_NOTIFY (while button 1 is pressed)
+GDK_BUTTON2_MOTION_MASK        GDK_MOTION_NOTIFY (while button 2 is pressed)
+GDK_BUTTON3_MOTION_MASK        GDK_MOTION_NOTIFY (while button 3 is pressed)
+GDK_PROPERTY_CHANGE_MASK       GDK_PROPERTY_NOTIFY
+GDK_PROXIMITY_IN_MASK          GDK_PROXIMITY_IN
+GDK_PROXIMITY_OUT_MASK         GDK_PROXIMITY_OUT
+GDK_SUBSTRUCTURE_MASK          Receive  GDK_STRUCTURE_MASK events for child windows
 */
     if (c->draw_buffer->canvas_physical_width) { /* HACK: do not connect events to initial dummy canvas */
         gtk_widget_add_events(new_canvas,
@@ -741,20 +741,20 @@ static void get_initial_window_geo(video_canvas_t *canvas, int *x, int *y, int *
 }
 
 
-/* Create a shell with a canvas widget in it.  
+/* Create a shell with a canvas widget in it.
    called from arch/unix/gui/vsidui.c:vsid_ui_init (vsid) or
                arch/unix/x11/gnome/gnomevideo.c:video_canvas_create (other)
  */
 
 #ifdef USE_UI_THREADS
-int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, int no_autorepeat) 
+int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, int no_autorepeat)
 {
     return dthread_ui_open_canvas_window(c, title, w, h, no_autorepeat);
 }
 
 int ui_open_canvas_window2(video_canvas_t *c, const char *title, int w, int h, int no_autorepeat)
 #else
-int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, int no_autorepeat) 
+int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, int no_autorepeat)
 #endif
 {
     GtkWidget *new_window, *topmenu, *panelcontainer, *pal_ctrl_widget = NULL;
@@ -903,14 +903,14 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 explicitly setup the events we want to handle. the following are the remaining
 events that are NOT handled:
 
-GDK_BUTTON_MOTION_MASK         GDK_MOTION_NOTIFY (while a button is pressed) 
-GDK_BUTTON1_MOTION_MASK        GDK_MOTION_NOTIFY (while button 1 is pressed) 
-GDK_BUTTON2_MOTION_MASK        GDK_MOTION_NOTIFY (while button 2 is pressed) 
-GDK_BUTTON3_MOTION_MASK        GDK_MOTION_NOTIFY (while button 3 is pressed) 
-GDK_PROPERTY_CHANGE_MASK       GDK_PROPERTY_NOTIFY 
-GDK_PROXIMITY_IN_MASK          GDK_PROXIMITY_IN 
-GDK_PROXIMITY_OUT_MASK         GDK_PROXIMITY_OUT 
-GDK_SUBSTRUCTURE_MASK          Receive  GDK_STRUCTURE_MASK events for child windows 
+GDK_BUTTON_MOTION_MASK         GDK_MOTION_NOTIFY (while a button is pressed)
+GDK_BUTTON1_MOTION_MASK        GDK_MOTION_NOTIFY (while button 1 is pressed)
+GDK_BUTTON2_MOTION_MASK        GDK_MOTION_NOTIFY (while button 2 is pressed)
+GDK_BUTTON3_MOTION_MASK        GDK_MOTION_NOTIFY (while button 3 is pressed)
+GDK_PROPERTY_CHANGE_MASK       GDK_PROPERTY_NOTIFY
+GDK_PROXIMITY_IN_MASK          GDK_PROXIMITY_IN
+GDK_PROXIMITY_OUT_MASK         GDK_PROXIMITY_OUT
+GDK_SUBSTRUCTURE_MASK          Receive  GDK_STRUCTURE_MASK events for child windows
 */
     gtk_widget_add_events(new_window,
                             GDK_LEAVE_NOTIFY_MASK |
@@ -941,7 +941,7 @@ void ui_set_topmenu(ui_menu_entry_t *menu)
         DBG(("ui_set_topmenu %d: %p", i, app_shells[i].topmenu));
         if (app_shells[i].topmenu) {
             gtk_container_foreach(GTK_CONTAINER(app_shells[i].topmenu), (GtkCallback)gtk_widget_destroy, NULL);
-	    /* gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), app_shells[i].accel); */
+            /* gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), app_shells[i].accel); */
             ui_menu_create(app_shells[i].topmenu, app_shells[i].accel, "TopLevelMenu", menu);
         }
     }
@@ -950,7 +950,7 @@ void ui_set_topmenu(ui_menu_entry_t *menu)
 }
 
 /* FIXME: we need to know the height of the menubar when calculating the
-          initial window size and geometry hints. since this currently happens 
+          initial window size and geometry hints. since this currently happens
           before we want to show the window, the size is still unknown. this is
           worked around by using a resource to save the last known size (which
           probably wont change often :))
@@ -1012,7 +1012,7 @@ void ui_set_application_icon(const char *icon_data[])
     iconlist = g_list_append (iconlist, icon);
 
     for (i = 0; i < num_app_shells; i++) {
-        gdk_window_set_icon_list(gtk_widget_get_window(app_shells[i].shell), iconlist);    
+        gdk_window_set_icon_list(gtk_widget_get_window(app_shells[i].shell), iconlist);
     }
 }
 #endif
@@ -1027,7 +1027,7 @@ void ui_dispatch_next_event(void)
 }
 
 #ifdef USE_UI_THREADS
-void ui_dispatch_events(void) 
+void ui_dispatch_events(void)
 {
     dthread_ui_dispatch_events();
 }
@@ -1035,8 +1035,8 @@ void ui_dispatch_events(void)
 /* Dispatch all the pending UI events. */
 void ui_dispatch_events2(void)
 #else
-void ui_dispatch_events(void) 
-#endif	/* USE_UI_THREADS */
+void ui_dispatch_events(void)
+#endif        /* USE_UI_THREADS */
 {
     while (gtk_events_pending()) {
         ui_dispatch_next_event();
@@ -1248,15 +1248,15 @@ static void setup_aspect_geo(video_canvas_t *canvas, int winw, int winh)
             appshell->geo.min_aspect = aspect;
             appshell->geo.max_aspect = aspect;
             appshell->geo.min_width = (int)((float)winw * taspect);
-	    appshell->geo.max_width = 0;
-	    appshell->geo.max_height = 0;
+            appshell->geo.max_width = 0;
+            appshell->geo.max_height = 0;
         }
 /*
 #ifdef HAVE_FULLSCREEN
     }
 #endif
 */
-    DBG(("setup_aspect_geo out min w:%d h:%d max w:%d h:%d asp %f %f", appshell->geo.min_width, appshell->geo.min_height, 
+    DBG(("setup_aspect_geo out min w:%d h:%d max w:%d h:%d asp %f %f", appshell->geo.min_width, appshell->geo.min_height,
          appshell->geo.max_width, appshell->geo.max_height, appshell->geo.min_aspect, appshell->geo.max_aspect));
 }
 
@@ -1334,7 +1334,7 @@ void ui_trigger_resize(void)
 void ui_trigger_resize2(void)
 #else
 void ui_trigger_resize(void)
-#endif	/* USE_UI_THREADS */
+#endif        /* USE_UI_THREADS */
 {
     GtkWidget *toplevel = get_active_toplevel();
     if ((toplevel) && (gtk_widget_get_window(toplevel))) {
@@ -1375,10 +1375,10 @@ void ui_trigger_window_resize(video_canvas_t *canvas)
 #endif
         DBG(("ui_trigger_window_resize (w:%d h:%d)", window_width, window_height));
         event.configure.width = window_width;
-        event.configure.height = window_height - 
-	    (topmenu_get_height(canvas) + 
-	     statusbar_get_height(canvas) +
-	     palctrl_get_height(canvas));
+        event.configure.height = window_height -
+            (topmenu_get_height(canvas) +
+             statusbar_get_height(canvas) +
+             palctrl_get_height(canvas));
         configure_callback_canvas(canvas->emuwindow, &event, canvas);
     }
 }
@@ -1502,8 +1502,8 @@ void ui_unblock_shells(void)
     for (i = 0; i < num_app_shells; i++) {
         gtk_widget_set_sensitive(app_shells[i].shell, TRUE);
     }
-    /* this is an ugly workaround to fix the focus issue on pop-down reported by count zero 
-       - dead keyboard after popdown of some dialogs 
+    /* this is an ugly workaround to fix the focus issue on pop-down reported by count zero
+       - dead keyboard after popdown of some dialogs
        this is neither correct nor elegant, as it messes with the mousecursor,
        which is evil UI design, imho; unfortunately I don't know a "better" way :( - pottendo */
     keyboard_key_clear();
@@ -1511,7 +1511,7 @@ void ui_unblock_shells(void)
         if (machine_class == VICE_MACHINE_VSID) {
             /* FIXME */
         } else {
-            gdk_pointer_grab(gtk_widget_get_window(canvas->emuwindow), 1, 0, 
+            gdk_pointer_grab(gtk_widget_get_window(canvas->emuwindow), 1, 0,
                              gtk_widget_get_window(canvas->emuwindow),
                              NULL, GDK_CURRENT_TIME);
         }
@@ -1632,15 +1632,15 @@ static gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
 }
 
 #ifdef USE_UI_THREADS
-gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer client_data) 
+gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer client_data)
 {
     return dthread_configure_callback_canvas(w, event, client_data);
 }
 
 gboolean configure_callback_canvas2(GtkWidget *w, GdkEvent *event, gpointer client_data)
 #else
-gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer client_data) 
-#endif	/* USE_UI_THREADS */
+gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer client_data)
+#endif        /* USE_UI_THREADS */
 {
     GdkEventConfigure *e = &event->configure;
     video_canvas_t *canvas = (video_canvas_t *) client_data;
@@ -1658,7 +1658,7 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer clien
         return 0;
     }
 
-    if ((canvas == NULL) || (canvas->app_shell >= num_app_shells) || 
+    if ((canvas == NULL) || (canvas->app_shell >= num_app_shells) ||
         (canvas != app_shells[canvas->app_shell].canvas)) {
         log_error(ui_log, "configure_callback_canvas: bad params");
         return 0;
@@ -1733,8 +1733,8 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer clien
 }
 
 /*
-  connected to "configure-event" of the window, which is emitted to size, 
-  position and stack order events. 
+  connected to "configure-event" of the window, which is emitted to size,
+  position and stack order events.
 */
 static gboolean configure_callback_app(GtkWidget *w, GdkEvent *event, gpointer client_data)
 {
@@ -1810,12 +1810,12 @@ void gl_setup_textures(video_canvas_t *c, struct s_mbufs *buffers)
     tw = buffers[0].w;
     th = buffers[0].h;
     for (i = 0; i < MAX_BUFFERS; i++) {
-	glGenTextures(1, &buffers[i].bindId);
-	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, buffers[i].bindId);
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0, GL_RGBA, 
-		     GL_UNSIGNED_BYTE, buffers[i].buffer);
+        glGenTextures(1, &buffers[i].bindId);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, buffers[i].bindId);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0, GL_RGBA,
+                     GL_UNSIGNED_BYTE, buffers[i].buffer);
     }
 
     gdk_gl_drawable_gl_end (gl_drawable);
@@ -1836,11 +1836,11 @@ void gl_update_texture(struct s_mbufs *buffer)
 #ifndef GL_ABGR_EXT
 #error "Your headers do not supply GL_ABGR_EXT. Disable HWSCALE and try again."
 #endif
-    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0, 
-		 GL_ABGR_EXT, GL_UNSIGNED_BYTE, buffer->buffer);
+    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0,
+                 GL_ABGR_EXT, GL_UNSIGNED_BYTE, buffer->buffer);
 #else
-    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0, 
-		 GL_RGBA, GL_UNSIGNED_BYTE, buffer->buffer);
+    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, buffer->buffer);
 #endif
 }
 
@@ -1848,34 +1848,34 @@ void gl_draw_quad(float alpha, int tw, int th)
 {
     glBegin (GL_QUADS);
     {
-	/* glColor4f(1.0f,1.0f,1.0f,alpha);*/
-	glColor4f(alpha, alpha, alpha, alpha);
-	/* Lower Right Of Texture */
-	glTexCoord2f(0.0f, 0.0f); glVertex2f(-(tw/2), (th/2));
-	/* Upper Right Of Texture */
-	glTexCoord2f(0.0f, th); glVertex2f(-(tw/2), -(th/2));
-	/* Upper Left Of Texture */
-	glTexCoord2f(tw, th); glVertex2f((tw/2), -(th/2));
-	/* Lower Left Of Texture */
-	glTexCoord2f(tw, 0.0f); glVertex2f((tw/2), (th/2));
+        /* glColor4f(1.0f,1.0f,1.0f,alpha);*/
+        glColor4f(alpha, alpha, alpha, alpha);
+        /* Lower Right Of Texture */
+        glTexCoord2f(0.0f, 0.0f); glVertex2f(-(tw/2), (th/2));
+        /* Upper Right Of Texture */
+        glTexCoord2f(0.0f, th); glVertex2f(-(tw/2), -(th/2));
+        /* Upper Left Of Texture */
+        glTexCoord2f(tw, th); glVertex2f((tw/2), -(th/2));
+        /* Lower Left Of Texture */
+        glTexCoord2f(tw, 0.0f); glVertex2f((tw/2), (th/2));
     }
     glEnd ();
 }
 
-void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas, 
-		      struct s_mbufs *buffers, int from, int to, int do_swap)
+void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
+                      struct s_mbufs *buffers, int from, int to, int do_swap)
 {
     int tw, th, d, i = 0;
     struct s_mbufs *t;
-	    
+
     if (!GTK_IS_WIDGET(w)) {
-	DBG(("widget not initalized %s", __FUNCTION__));
-	return;
+        DBG(("widget not initalized %s", __FUNCTION__));
+        return;
     }
     if (canvas->videoconfig->hwscale == 0) {
-	return;
+        return;
     }
-    
+
     GdkGLContext *gl_context = gtk_widget_get_gl_context(w);
     GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable(w);
     gdk_gl_drawable_gl_begin(gl_drawable, gl_context);
@@ -1884,61 +1884,61 @@ void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
     th = buffers[0].h;
 
     /* DBG(("%s: from: %d, to: %d", __FUNCTION__, from, to)); */
-    
+
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glEnable(GL_BLEND);
-    
+
     t = &buffers[from];
     d = ((to - from) + MAX_BUFFERS) % MAX_BUFFERS + 1;
     if (d < 2) {
-	goto lframe;
+        goto lframe;
     }
-	
+
     glBlendFunc( GL_ONE, GL_ONE );
     gl_update_texture(t);
     gl_draw_quad(t->alpha, tw, th);
-    
+
     d-=2;                 /* first has been drawn, last is outside of loop */
     t = t->next;
     for (i = 0; i < d; i++, t=t->next) {
-	glBlendFunc(GL_ONE, GL_ONE);    
-	gl_update_texture(t);
-	gl_draw_quad(t->alpha, tw, th);      
+        glBlendFunc(GL_ONE, GL_ONE);
+        gl_update_texture(t);
+        gl_draw_quad(t->alpha, tw, th);
     }
   lframe:
-    glBlendFunc(GL_ONE, GL_ONE);    
+    glBlendFunc(GL_ONE, GL_ONE);
     gl_update_texture(t);
     gl_draw_quad(t->alpha, tw, th);
 
 #if 0
     /* draw vertical line as reference for smooth animations */
     {
-	static int x = 0;
-	
-	glDisable(GL_TEXTURE_RECTANGLE_EXT);
-	glDisable(GL_BLEND);
-	glColor4f(1.0f, 1.0f, 0, 1.0f);
-	glBegin(GL_LINES);
-	    glVertex2f(x, 0);
-	    glVertex2f(x, 200);
-	glEnd();
-	x-=3;
-	if (x < -200) {
-	    x = 200;
-	}
+        static int x = 0;
+
+        glDisable(GL_TEXTURE_RECTANGLE_EXT);
+        glDisable(GL_BLEND);
+        glColor4f(1.0f, 1.0f, 0, 1.0f);
+        glBegin(GL_LINES);
+            glVertex2f(x, 0);
+            glVertex2f(x, 200);
+        glEnd();
+        x-=3;
+        if (x < -200) {
+            x = 200;
+        }
     }
 #endif
-    
+
     if (do_swap) {
-	gdk_gl_drawable_swap_buffers (gl_drawable);
-    }     
+        gdk_gl_drawable_swap_buffers (gl_drawable);
+    }
     gdk_gl_drawable_gl_end (gl_drawable);
 }
 #endif  /* HAVE_HWSCALE */
 
 void gtk_render_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data,
-		       video_canvas_t *canvas)
+                       video_canvas_t *canvas)
 {
 #if !defined(HAVE_CAIRO)
         int x = e->area.x;
@@ -1946,47 +1946,47 @@ void gtk_render_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data,
         int width = e->area.width;
         int height = e->area.height;
 
-        gdk_draw_image(w->window, app_gc, canvas->gdk_image, x, y, x, y, 
-		       width, height);
+        gdk_draw_image(w->window, app_gc, canvas->gdk_image, x, y, x, y,
+                       width, height);
 #else
-        canvas->cairo_ctx = 
-	    gdk_cairo_create(gtk_widget_get_window(canvas->emuwindow));
+        canvas->cairo_ctx =
+            gdk_cairo_create(gtk_widget_get_window(canvas->emuwindow));
         if (canvas->cairo_ctx != NULL) {
             /* FIXME: this always redraws the entire canvas area */
-            gdk_cairo_set_source_pixbuf(canvas->cairo_ctx, 
-					canvas->gdk_pixbuf, 0, 0);
+            gdk_cairo_set_source_pixbuf(canvas->cairo_ctx,
+                                        canvas->gdk_pixbuf, 0, 0);
             cairo_paint (canvas->cairo_ctx);
             cairo_destroy(canvas->cairo_ctx);
         }
-#endif	/* !HAVE_CAIRO */
+#endif        /* !HAVE_CAIRO */
 }
 
 /* this callback actually renders the canvas to screen using opengl or gtk */
-gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data) 
+gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
 
     /* DBG(("exposure callback")); */
-    
-    if ((canvas == NULL) || 
-	(canvas->app_shell >= num_app_shells) || 
+
+    if ((canvas == NULL) ||
+        (canvas->app_shell >= num_app_shells) ||
         (canvas != app_shells[canvas->app_shell].canvas)) {
         log_error(ui_log, "exposure_callback_canvas: bad params");
         return 0;
     }
 #ifdef USE_UI_THREADS
     if (canvas->videoconfig->hwscale == 0) {
-	gtk_render_canvas(w, e, client_data, canvas);
+        gtk_render_canvas(w, e, client_data, canvas);
     }
-    return 0; /* rendering is handled by the display thread */ 
+    return 0; /* rendering is handled by the display thread */
 #endif
 
-    /* DBG(("exposure_callback_canvas canvas w/h %d/%d", 
+    /* DBG(("exposure_callback_canvas canvas w/h %d/%d",
        canvas->gdk_image->width, canvas->gdk_image->height)); */
 
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
-	static struct s_mbufs t;
+        static struct s_mbufs t;
 #if !defined(HAVE_CAIRO)
         t.w = canvas->gdk_image->width;
         t.h = canvas->gdk_image->height;
@@ -1995,12 +1995,12 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         t.w = canvas->draw_buffer->canvas_physical_width;
         t.h = canvas->draw_buffer->canvas_physical_height;
 #endif /* !HAVE_CAIRO */
-	t.buffer = canvas->hwscale_image;
-	t.alpha = 1.0;
-	gl_render_canvas(w, canvas, &t, 0, 0, 1);
-	return 0;
+        t.buffer = canvas->hwscale_image;
+        t.alpha = 1.0;
+        gl_render_canvas(w, canvas, &t, 0, 0, 1);
+        return 0;
     }
-#endif	/* HAVE_HWSCALE */
+#endif        /* HAVE_HWSCALE */
     gtk_render_canvas(w, e, client_data, canvas);
     return 0;
 }
