@@ -72,11 +72,11 @@ static void init_plus4_memory_hacks_dialog(HWND hwnd)
     uilib_move_group(hwnd, plus4_memory_hacks_rightgroup, xsize + 30);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_PLUS4_MEMORY_HACKS_DEVICE);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"CSORY 256K");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"HANNES 256K");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"HANNES 1024K");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"HANNES 4096K");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_NONE));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("CSORY 256K"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("HANNES 256K"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("HANNES 1024K"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("HANNES 4096K"));
 
     resources_get_int("MemoryHack", &res_value);
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);

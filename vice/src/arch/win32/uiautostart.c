@@ -141,9 +141,9 @@ static void init_autostart_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_AUTOSTART_PRG_MODE);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_AUTOSTART_VIRTUAL_FS));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_AUTOSTART_INJECT));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_AUTOSTART_DISK));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_AUTOSTART_VIRTUAL_FS));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_AUTOSTART_INJECT));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_AUTOSTART_DISK));
     resources_get_int("AutostartPrgMode", &res_value);
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
@@ -172,7 +172,9 @@ static void end_autostart_dialog(HWND hwnd)
 
 static void browse_autostart_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_AUTOSTART_DISK_IMAGE_FILE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE),
+                        UILIB_FILTER_ALL | UILIB_FILTER_DISK,
+                        UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_AUTOSTART_DISK_IMAGE_FILE);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

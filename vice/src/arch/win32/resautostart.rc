@@ -29,13 +29,13 @@ BEGIN
     LTEXT         "", IDC_AUTOSTART_PRG_MODE_LABEL,
                   9, 44, 53, 8
     COMBOBOX      IDC_AUTOSTART_PRG_MODE,
-                  66, 42, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                  66, 42, 60, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT         "", IDC_AUTOSTART_DISK_IMAGE_FILE_LABEL,
                   9, 64, 50, 8
     PUSHBUTTON    "", IDC_AUTOSTART_DISK_IMAGE_BROWSE,
                   66, 62, 50, 14, 0
     EDITTEXT      IDC_AUTOSTART_DISK_IMAGE_FILE,
-                  9, 78, 160, 12, WS_TABSTOP
+                  9, 78, 160, 12, ES_AUTOHSCROLL | WS_TABSTOP
     DEFPUSHBUTTON "", IDOK,
                   30, 110, 50, 14, WS_TABSTOP
     PUSHBUTTON    "", IDCANCEL,

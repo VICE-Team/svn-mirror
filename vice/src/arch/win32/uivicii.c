@@ -32,6 +32,7 @@
 
 #include <windows.h>
 
+#include "intl.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
@@ -130,20 +131,18 @@ static void init_vicii_dialog(HWND hwnd)
     HWND sub_hwnd;
     int i, n;
     int res_value, index = 0;
-    TCHAR st[20];
 
-    if (machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
         uilib_localize_dialog(hwnd, viciisc_dialog);
     } else {
         uilib_localize_dialog(hwnd, vicii_dialog);
     }
 
     sub_hwnd = GetDlgItem(hwnd, IDC_C64VICII_LIST);
-    if (machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
         resources_get_int("VICIIModel", &res_value);
         for (i = 0; ui_c64vicii[i] != 0; i++) {
-            _stprintf(st, TEXT("%s"), translate_text(ui_c64vicii[i]));
-            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(ui_c64vicii[i]));
             if (ui_c64vicii_values[i] == res_value) {
                 index = i;
             }
@@ -151,8 +150,7 @@ static void init_vicii_dialog(HWND hwnd)
     } else {
         resources_get_int("MachineVideoStandard", &res_value);
         for (i = 0; ui_c64video_standard[i] != 0; i++) {
-            _stprintf(st, TEXT("%s"), ui_c64video_standard[i]);
-            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_c64video_standard[i]);
             if (ui_c64video_standard_values[i] == res_value) {
                 index = i;
             }
@@ -160,12 +158,11 @@ static void init_vicii_dialog(HWND hwnd)
     }
     SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)index, 0);
 
-    if (machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
         resources_get_int("GlueLogic", &res_value);
         sub_hwnd = GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST);
         for (i = 0; ui_c64gluelogic[i] != 0; i++) {
-            _stprintf(st, TEXT("%s"), translate_text(ui_c64gluelogic[i]));
-            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(ui_c64gluelogic[i]));
             if (ui_c64gluelogic_values[i] == res_value) {
                 index = i;
             }
@@ -197,7 +194,7 @@ static void init_vicii_dialog(HWND hwnd)
     resources_get_int("VICIICheckSbColl", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SBC, n ? BST_CHECKED : BST_UNCHECKED);
 
-    if (machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
         resources_get_int("VICIIVSPBug", &n);
         CheckDlgButton(hwnd, IDC_TOGGLE_VICII_VSP_BUG, n ? BST_CHECKED : BST_UNCHECKED);
     }
@@ -213,7 +210,7 @@ static void end_vicii_dialog(HWND hwnd)
 
     resources_set_int("VICIICheckSbColl", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_SBC) == BST_CHECKED ? 1 : 0 ));
 
-    if (machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
         resources_set_int("VICIIModel", ui_c64vicii_values[(int)SendMessage(GetDlgItem(hwnd, IDC_C64VICII_LIST), CB_GETCURSEL, 0, 0)]);
         resources_set_int("VICIIVSPBug", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_VSP_BUG) == BST_CHECKED ? 1 : 0 ));
         resources_set_int("GlueLogic", ui_c64gluelogic_values[(int)SendMessage(GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST), CB_GETCURSEL, 0, 0)]);
@@ -258,7 +255,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 
 void ui_vicii_settings_dialog(HWND hwnd)
 {
-    if (machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
         DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VICIISC_DIALOG), hwnd, dialog_proc);
     } else {
         DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VICII_DIALOG), hwnd, dialog_proc);

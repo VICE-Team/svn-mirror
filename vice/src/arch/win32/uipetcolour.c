@@ -27,7 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 #include <windows.h>
 #include <tchar.h>
 
@@ -68,7 +68,7 @@ static void init_petcolour_dialog(HWND hwnd)
     int res_value;
     int xsize, ysize;
     HWND temp_hwnd;
-    TCHAR st[100];
+    TCHAR st[10];
 
     uilib_localize_dialog(hwnd, petcolour_dialog);
     uilib_adjust_group_width(hwnd, petcolour_leftgroup);
@@ -77,16 +77,13 @@ static void init_petcolour_dialog(HWND hwnd)
 
     resources_get_int("PETColour", &res_value);
     temp_hwnd = GetDlgItem(hwnd, IDC_PETCOLOUR_TYPE);
-    _stprintf(st, TEXT("%s"), translate_text(IDS_PETCOLOUR_OFF));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
-    _stprintf(st, TEXT("%s"), "RGBI");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
-    _stprintf(st, TEXT("%s"), translate_text(IDS_PETCOLOUR_ANALOG));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_PETCOLOUR_OFF));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("RGBI"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_PETCOLOUR_ANALOG));
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     resources_get_int("PETColourBG", &res_value);
-    _stprintf(st, TEXT("%d"), res_value);
+    _itot(res_value, st, 10);
     SetDlgItemText(hwnd, IDC_PETCOLOUR_BG_VALUE, st);
 }
 

@@ -17,29 +17,29 @@ BEGIN
     COMBOBOX      IDC_C64_256K_BASE,
                   45, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT         "", IDC_C64_256K_FILE_LABEL,
-                  9, 39, 30, 8
+                  9, 41, 30, 8
     PUSHBUTTON    "", IDC_C64_256K_BROWSE,
                   45, 37, 50, 14, 0
     EDITTEXT      IDC_C64_256K_FILE,
-                  9, 53, 160, 12, WS_TABSTOP
+                  9, 53, 160, 12, ES_AUTOHSCROLL | WS_TABSTOP
 
     LTEXT         "", IDC_PLUS60K_BASE_LABEL,
-                  9, 65, 30, 8
+                  9, 69, 30, 8
     COMBOBOX      IDC_PLUS60K_BASE,
-                  45, 63, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                  45, 67, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT         "", IDC_PLUS60K_FILE_LABEL,
-                  9, 80, 30, 8
+                  9, 86, 30, 8
     PUSHBUTTON    "", IDC_PLUS60K_BROWSE,
-                  45, 78, 50, 14, 0
+                  45, 82, 50, 14, 0
     EDITTEXT      IDC_PLUS60K_FILE,
-                  9, 94, 160, 12, WS_TABSTOP
+                  9, 98, 160, 12, ES_AUTOHSCROLL | WS_TABSTOP
 
     LTEXT         "", IDC_PLUS256K_FILE_LABEL,
-                  9, 107, 30, 8
+                  9, 117, 30, 8
     PUSHBUTTON    "", IDC_PLUS256K_BROWSE,
-                  45, 105, 50, 14, 0
+                  45, 113, 50, 14, 0
     EDITTEXT      IDC_PLUS256K_FILE,
-                  9, 121, 160, 12, WS_TABSTOP
+                  9, 129, 160, 12, ES_AUTOHSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON "", IDOK,
                   30, 148, 50, 14, WS_TABSTOP

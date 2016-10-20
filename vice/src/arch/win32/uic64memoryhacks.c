@@ -32,6 +32,7 @@
 #include <tchar.h>
 
 #include "intl.h"
+#include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -110,10 +111,10 @@ static void init_c64_memory_hacks_dialog(HWND hwnd)
     uilib_move_group(hwnd, c64_memory_hacks_rightgroup, xsize + 30);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_C64_MEMORY_HACKS_DEVICE);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C64 256K");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"+60K");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"+256K");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_NONE));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("C64 256K"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("+60K"));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("+256K"));
 
     resources_get_int("MemoryHack", &res_value);
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -122,7 +123,7 @@ static void init_c64_memory_hacks_dialog(HWND hwnd)
     for (res_value_loop = 0; res_value_loop < NUM_OF_C64_256K_BASE; res_value_loop++) {
         TCHAR st[10];
 
-        _stprintf(st, "$%X", ui_c64_256k_base[res_value_loop]);
+        lib_sntprintf(st, 10, TEXT("$%X"), ui_c64_256k_base[res_value_loop]);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_int("C64_256Kbase", &res_value);
@@ -143,7 +144,7 @@ static void init_c64_memory_hacks_dialog(HWND hwnd)
     for (res_value_loop = 0; res_value_loop < NUM_OF_PLUS60K_BASE; res_value_loop++) {
         TCHAR st[10];
 
-        _stprintf(st, "$%X", ui_plus60k_base[res_value_loop]);
+        lib_sntprintf(st, 10, TEXT("$%X"), ui_plus60k_base[res_value_loop]);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_int("PLUS60Kbase", &res_value);
@@ -192,17 +193,17 @@ static void end_c64_memory_hacks_dialog(HWND hwnd)
 
 static void browse_c64_256k_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_C64_256K_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_C64_256K_FILE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_C64_256K_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_C64_256K_FILE);
 }
 
 static void browse_plus60k_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_PLUS60K_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_PLUS60K_FILE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_PLUS60K_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_PLUS60K_FILE);
 }
 
 static void browse_plus256k_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_PLUS256K_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_PLUS256K_FILE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_PLUS256K_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_PLUS256K_FILE);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

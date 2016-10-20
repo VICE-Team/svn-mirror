@@ -36,7 +36,7 @@ BEGIN
     LTEXT           "", IDC_C64VICII_LABEL,
                     4, 142, 60, 8
     COMBOBOX        IDC_C64VICII_LIST,
-                    45, 141, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    45, 141, 60, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "", IDOK, 15, 170, 50, 14, WS_TABSTOP
     PUSHBUTTON      "", IDCANCEL, 70, 170, 50, 14, WS_TABSTOP
@@ -68,12 +68,12 @@ BEGIN
     LTEXT           "", IDC_C64VICII_LABEL,
                     4, 142, 60, 8  
     COMBOBOX        IDC_C64VICII_LIST,
-                    45, 141, 70, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    45, 141, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     LTEXT           "", IDC_C64GLUELOGIC_LABEL,
                     4, 157, 60, 8
     COMBOBOX        IDC_C64GLUELOGIC_LIST,
-                    45, 156, 70, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    45, 156, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     AUTOCHECKBOX    "", IDC_TOGGLE_VICII_VSP_BUG,
                     15, 172, 115, 10, BS_AUTOCHECKBOX | WS_TABSTOP

@@ -72,9 +72,9 @@ static uilib_dialog_group cbm2_size_group[] = {
 };
 
 static generic_trans_table_t generic_items[] = {
-    { IDC_SELECT_CBMII_HW0, "&7x0 (50 Hz)" },
-    { IDC_SELECT_CBMII_HW1, "6x0 &60 Hz" },
-    { IDC_SELECT_CBMII_HW2, "6x0 &50 Hz" },
+    { IDC_SELECT_CBMII_HW0, TEXT("&7x0 (50 Hz)") },
+    { IDC_SELECT_CBMII_HW1, TEXT("6x0 &60 Hz") },
+    { IDC_SELECT_CBMII_HW2, TEXT("6x0 &50 Hz") },
     { 0, NULL }
 };
 
@@ -360,30 +360,30 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = dialog_proc;
-    psp[0].pszTitle = translate_text(IDS_MODEL);
+    psp[0].pszTitle = intl_translate_tcs(IDS_MODEL);
     psp[1].pfnDlgProc = memory_dialog_proc;
-    psp[1].pszTitle = translate_text(IDS_MEMORY);
+    psp[1].pszTitle = intl_translate_tcs(IDS_MEMORY);
 
 #ifdef _ANONYMOUS_UNION
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
     psp[1].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
-    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
+    psp[0].u1.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
+    psp[1].u1.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
 #endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = translate_text(IDS_CBM2_SETTINGS);
+    psh.pszCaption = intl_translate_tcs(IDS_CBM2_SETTINGS);
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
     psh.ppsp = psp;
 #else
-    psh.DUMMYUNIONNAME.pszIcon = NULL;
+    psh.u1.pszIcon = NULL;
     psh.u2.nStartPage = 0;
     psh.u3.ppsp = psp;
 #endif

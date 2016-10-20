@@ -12,9 +12,9 @@ BEGIN
     COMBOBOX      IDC_PETCOLOUR_TYPE,
                   65, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT         "", IDC_PETCOLOUR_BG,
-                  15, 24, 60, 8
+                  9, 29, 60, 8
     EDITTEXT      IDC_PETCOLOUR_BG_VALUE,
-                  80, 25, 20, 12, WS_TABSTOP
+                  80, 28, 20, 12, WS_TABSTOP
 
     DEFPUSHBUTTON "", IDOK,
                   30, 90, 50, 14, WS_TABSTOP

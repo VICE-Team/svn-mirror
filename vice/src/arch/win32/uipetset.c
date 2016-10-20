@@ -41,7 +41,7 @@
 #include "winlong.h"
 #include "winmain.h"
 
-static uilib_localize_dialog_param model_dialog_trans[] = {
+static uilib_localize_dialog_param mem_dialog_trans[] = {
     { IDC_PET_MEMORY, IDS_MEMORY, 0 },
     { 0, 0, 0 }
 };
@@ -52,12 +52,12 @@ static uilib_localize_dialog_param parent_dialog_trans[] = {
     { 0, 0, 0 }
 };
 
-static uilib_dialog_group model_main_group[] = {
+static uilib_dialog_group mem_main_group[] = {
     { IDC_PET_MEMORY, 1 },
     { 0, 0 }
 };
 
-static uilib_dialog_group model_right_group[] = {
+static uilib_dialog_group mem_left_group[] = {
     { IDC_PET_MEMORY, 0 },
     { IDC_SELECT_PET_MEM4K, 0 },
     { IDC_SELECT_PET_MEM8K, 0 },
@@ -68,8 +68,7 @@ static uilib_dialog_group model_right_group[] = {
     { 0, 0 }
 };
 
-/* unused?
-static uilib_dialog_group model_right_move_group[] = {
+static uilib_dialog_group mem_left_move_group[] = {
     { IDC_SELECT_PET_MEM4K, 0 },
     { IDC_SELECT_PET_MEM8K, 0 },
     { IDC_SELECT_PET_MEM16K, 0 },
@@ -78,19 +77,18 @@ static uilib_dialog_group model_right_move_group[] = {
     { IDC_SELECT_PET_MEM128K, 0 },
     { 0, 0 }
 };
-*/
 
 static generic_trans_table_t generic_items[] = {
-    { IDC_SELECT_PET_MEM4K, "4KB" },
-    { IDC_SELECT_PET_MEM8K, "8KB" },
-    { IDC_SELECT_PET_MEM16K, "16KB" },
-    { IDC_SELECT_PET_MEM32K, "32KB" },
-    { IDC_SELECT_PET_MEM96K, "96KB" },
-    { IDC_SELECT_PET_MEM128K, "128KB" },
+    { IDC_SELECT_PET_MEM4K,   TEXT("4KB")   },
+    { IDC_SELECT_PET_MEM8K,   TEXT("8KB")   },
+    { IDC_SELECT_PET_MEM16K,  TEXT("16KB")  },
+    { IDC_SELECT_PET_MEM32K,  TEXT("32KB")  },
+    { IDC_SELECT_PET_MEM96K,  TEXT("96KB")  },
+    { IDC_SELECT_PET_MEM128K, TEXT("128KB") },
     { 0, NULL }
 };
 
-static void init_model_dialog(HWND hwnd)
+static void init_mem_dialog(HWND hwnd)
 {
     int n, res;
     HWND parent_hwnd;
@@ -100,7 +98,7 @@ static void init_model_dialog(HWND hwnd)
     parent_hwnd = GetParent(hwnd);
 
     /* translate all dialog items */
-    uilib_localize_dialog(hwnd, model_dialog_trans);
+    uilib_localize_dialog(hwnd, mem_dialog_trans);
 
     /* translate all dialog items of the parent */
     uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
@@ -112,13 +110,13 @@ static void init_model_dialog(HWND hwnd)
     }
 
     /* adjust the size of the elements in the main group */
-    uilib_adjust_group_width(hwnd, model_main_group);
+    uilib_adjust_group_width(hwnd, mem_main_group);
 
-    /* get the min x of the right group */
-    uilib_get_group_min_x(hwnd, model_right_group, &xstart);
+    /* get the min x of the left move group */
+    uilib_get_group_min_x(hwnd, mem_left_move_group, &xstart);
 
-    /* get the max x of the right group */
-    uilib_get_group_max_x(hwnd, model_right_group, &xpos);
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, mem_left_group, &xpos);
 
     /* resize and move the group box to the correct position */
     uilib_move_and_set_element_width(hwnd, IDC_PET_MEMORY, xstart - 10, xpos - xstart + 20);
@@ -206,7 +204,7 @@ static uilib_dialog_group io_right_group[] = {
 };
 
 static generic_trans_table_t generic_items2[] = {
-    { IDC_PET_CRTC, "&CRTC" },
+    { IDC_PET_CRTC, TEXT("&CRTC") },
     { 0, NULL }
 };
 
@@ -395,7 +393,7 @@ static void init_pet8296_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAMA, n ? BST_CHECKED : BST_UNCHECKED);
 }
 
-static INT_PTR CALLBACK model_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK mem_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
 
@@ -420,7 +418,7 @@ static INT_PTR CALLBACK model_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
             }
             return FALSE;
         case WM_INITDIALOG:
-            init_model_dialog(hwnd);
+            init_mem_dialog(hwnd);
             return TRUE;
         case WM_COMMAND:
             type = LOWORD(wparam);
@@ -553,10 +551,10 @@ void ui_pet_settings_dialog(HWND hwnd)
         psp[i].pfnCallback = NULL;
     }
 
-    psp[0].pfnDlgProc = model_dialog_proc;
-    psp[0].pszTitle = translate_text(IDS_MEMORY);
+    psp[0].pfnDlgProc = mem_dialog_proc;
+    psp[0].pszTitle = intl_translate_tcs(IDS_MEMORY);
     psp[1].pfnDlgProc = io_dialog_proc;
-    psp[1].pszTitle = translate_text(IDS_INPUT_OUTPUT);
+    psp[1].pszTitle = intl_translate_tcs(IDS_INPUT_OUTPUT);
     psp[2].pfnDlgProc = superpet_io_dialog_proc;
     psp[2].pszTitle = TEXT("Super PET");
     psp[3].pfnDlgProc = pet8296_dialog_proc;
@@ -568,24 +566,24 @@ void ui_pet_settings_dialog(HWND hwnd)
     psp[2].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
     psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_MEMORY_DIALOG);
-    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
-    psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
-    psp[3].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
+    psp[0].u1.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_MEMORY_DIALOG);
+    psp[1].u1.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
+    psp[2].u1.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
+    psp[3].u1.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
 #endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = translate_text(IDS_PET_SETTINGS);
+    psh.pszCaption = intl_translate_tcs(IDS_PET_SETTINGS);
     psh.nPages = 4;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
     psh.ppsp = psp;
 #else
-    psh.DUMMYUNIONNAME.pszIcon = NULL;
+    psh.u1.pszIcon = NULL;
     psh.u2.nStartPage = 0;
     psh.u3.ppsp = psp;
 #endif
