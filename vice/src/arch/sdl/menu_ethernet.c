@@ -120,8 +120,6 @@ UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
 
 /* Common menus */
 
-UI_MENU_DEFINE_TOGGLE(ETHERNET_ACTIVE)
-
 static UI_MENU_CALLBACK(show_ETHERNET_DISABLED_callback)
 {
     int value;
@@ -136,10 +134,6 @@ const ui_menu_entry_t ethernet_menu[] = {
       MENU_ENTRY_TEXT,
       show_ETHERNET_DISABLED_callback,
       (ui_callback_data_t)1 },
-    { "Ethernet emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_ETHERNET_ACTIVE_callback,
-      NULL },
     VICE_SDL_ETHERNET_ARCHDEP_ITEMS
     SDL_MENU_LIST_END
 };
