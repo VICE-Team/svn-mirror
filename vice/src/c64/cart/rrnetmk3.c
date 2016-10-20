@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_TFE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -55,9 +57,7 @@
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #include "rrnetmk3.h"
-#ifdef HAVE_TFE
 #include "tfe.h"
-#endif
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /*
@@ -158,9 +158,7 @@ void rrnetmk3_reset(void)
 {
     rrnetmk3_biossel = rrnetmk3_hw_flashjumper; /* disable bios at reset when flash jumper is set */
     if (rrnetmk3_enabled) {
-#ifdef HAVE_TFE
         cs8900io_reset();
-#endif
     }
     cart_config_changed_slotmain(CMODE_RAM, (BYTE)(rrnetmk3_biossel ? CMODE_RAM : CMODE_8KGAME), CMODE_READ);
 }
@@ -245,11 +243,7 @@ static BYTE rrnetmk3_cs8900_read(WORD address)
         return rrnetmk3_bios[(0x1ff0 + address) + rrnetmk3_bios_offset];
     }
     address ^= 0x08;
-#ifdef HAVE_TFE
     return cs8900io_read(address);
-#else
-    return 0;
-#endif
 }
 
 static BYTE rrnetmk3_cs8900_peek(WORD address)
@@ -262,11 +256,7 @@ static BYTE rrnetmk3_cs8900_peek(WORD address)
     }
     address ^= 0x08;
 
-#ifdef HAVE_TFE
     return cs8900io_read(address);
-#else
-    return 0;
-#endif
 }
 
 static void rrnetmk3_cs8900_store(WORD address, BYTE byte)
@@ -276,9 +266,7 @@ static void rrnetmk3_cs8900_store(WORD address, BYTE byte)
     }
     address ^= 0x08;
 
-#ifdef HAVE_TFE
     cs8900io_store(address, byte);
-#endif
 }
 
 /* ---------------------------------------------------------------------*/
@@ -382,9 +370,7 @@ int rrnetmk3_cmdline_options_init(void)
 void rrnetmk3_init(void)
 {
     rrnetmk3_log = log_open("RRNETMK3");
-#ifdef HAVE_TFE
     cs8900io_init();
-#endif
 }
 
 void rrnetmk3_config_setup(BYTE *rawcart)
@@ -402,11 +388,9 @@ static int rrnetmk3_common_attach(void)
         return -1;
     } else {
         LOG(("RRNETMK3: export registered"));
-#ifdef HAVE_TFE
         if (cs8900io_enable(CARTRIDGE_NAME_RRNETMK3) < 0) {
             return -1;
         }
-#endif
         rrnetmk3_bios_changed = 0;
         rrnetmk3_enabled = 1;
         cart_set_port_exrom_slotmain(1);
@@ -603,3 +587,6 @@ int rrnetmk3_snapshot_read_module(snapshot_t *s)
     return 0;
 #endif
 }
+
+#endif
+

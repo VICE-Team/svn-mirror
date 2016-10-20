@@ -477,9 +477,11 @@ int crt_attach(const char *filename, BYTE *rawcart)
         case CARTRIDGE_RGCD:
             rc = rgcd_crt_attach(fd, rawcart);
             break;
+#ifdef HAVE_TFE
         case CARTRIDGE_RRNETMK3:
             rc = rrnetmk3_crt_attach(fd, rawcart, filename);
             break;
+#endif
         case CARTRIDGE_ROSS:
             rc = ross_crt_attach(fd, rawcart);
             break;

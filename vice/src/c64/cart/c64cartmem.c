@@ -594,8 +594,10 @@ static BYTE roml_read_slotmain(WORD addr)
             return pagefox_roml_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_roml_read(addr);
+#ifdef HAVE_TFE
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_roml_read(addr);
+#endif
         case CARTRIDGE_STARDOS:
             return stardos_roml_read(addr);
         case CARTRIDGE_SNAPSHOT64:
@@ -737,9 +739,11 @@ void roml_store(WORD addr, BYTE value)
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_roml_store(addr, value);
             return;
+#ifdef HAVE_TFE
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_roml_store(addr, value);
             return;
+#endif
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_FORMEL64:
@@ -1097,11 +1101,13 @@ void roml_no_ultimax_store(WORD addr, BYTE value)
                 return; /* FIXME: this is weird */
             }
             break;
+#ifdef HAVE_TFE
         case CARTRIDGE_RRNETMK3:
             if (rrnetmk3_roml_store(addr, value)) {
                 return; /* FAKE ultimax, if EEPROM was being written to, dont write to RAM */
             }
             break;
+#endif
         case CARTRIDGE_IDE64:
             ide64_rom_store(addr, value);
             break;
@@ -1956,9 +1962,11 @@ static BYTE cartridge_peek_mem_slotmain(WORD addr)
         case CARTRIDGE_RETRO_REPLAY:
             res = retroreplay_peek_mem(&export_slotmain, addr, &value);
             break;
+#ifdef HAVE_TFE
         case CARTRIDGE_RRNETMK3:
             res = rrnetmk3_peek_mem(&export_slotmain, addr, &value);
             break;
+#endif
         case CARTRIDGE_STARDOS:
             res = stardos_peek_mem(&export_slotmain, addr, &value);
             break;
