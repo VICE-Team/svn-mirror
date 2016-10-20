@@ -98,14 +98,14 @@ static GLint screen_texture;
 static int sdl_gl_vertex_base = 0;
 
 static const float sdl_gl_vertex_coord[4 * 4] = {
-	/* Normal */
-	-1.0f, +1.0f, -1.0f, +1.0f,
-	/* Flip X */
-	+1.0f, +1.0f, -1.0f, -1.0f,
-	/* Flip Y */
-	-1.0f, -1.0f, +1.0f, +1.0f,
-	/* Flip X&Y */
-	+1.0f, -1.0f, +1.0f, -1.0f
+    /* Normal */
+    -1.0f, +1.0f, -1.0f, +1.0f,
+    /* Flip X */
+    +1.0f, +1.0f, -1.0f, -1.0f,
+    /* Flip Y */
+    -1.0f, -1.0f, +1.0f, +1.0f,
+    /* Flip X&Y */
+    +1.0f, -1.0f, +1.0f, -1.0f
 };
 #endif
 
