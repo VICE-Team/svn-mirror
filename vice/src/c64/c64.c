@@ -1039,6 +1039,11 @@ int machine_specific_init(void)
     userport_dac_sound_chip_init();
     userport_digimax_sound_chip_init();
 
+    /* Initialize mp3@64 */
+#ifdef USE_MPG123
+    clockport_mp3at64_sound_chip_init();
+#endif
+
     drive_sound_init();
     video_sound_init();
 
