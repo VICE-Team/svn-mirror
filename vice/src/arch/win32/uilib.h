@@ -68,7 +68,7 @@ extern char *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD fi
 extern void uilib_select_browse(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int idc);
 
 extern void uilib_show_options(HWND param);
-extern void ui_show_text(HWND hParent, const char *szCaption, const char *szHeader, const char *szText);
+extern void ui_show_text(HWND hParent, int ids_caption, LPCTSTR st_header, const char *szText);
 
 extern int ui_messagebox(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
 extern void uilib_shutdown(void);

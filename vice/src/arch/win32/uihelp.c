@@ -303,17 +303,17 @@ void uihelp_dialog(HWND hwnd, WPARAM wparam)
             break;
         case IDM_FEATURES:
             features = get_compiletime_features();
-            ui_show_text(hwnd, translate_text(IDS_VICE_FEATURES), translate_text(IDS_WHAT_FEATURES_ARE_AVAILABLE), features);
+            ui_show_text(hwnd, IDS_VICE_FEATURES, intl_translate_tcs(IDS_WHAT_FEATURES_ARE_AVAILABLE), features);
             lib_free(features);
             break;
         case IDM_CONTRIBUTORS:
-            ui_show_text(hwnd, translate_text(IDS_VICE_CONTRIBUTORS), translate_text(IDS_WHO_MADE_WHAT), info_contrib_text);
+            ui_show_text(hwnd, IDS_VICE_CONTRIBUTORS, intl_translate_tcs(IDS_WHO_MADE_WHAT), info_contrib_text);
             break;
         case IDM_LICENSE:
-            ui_show_text(hwnd, translate_text(IDS_LICENSE), "VICE license (GNU General Public License)", info_license_text);
+            ui_show_text(hwnd, IDS_LICENSE, TEXT("VICE license (GNU General Public License)"), info_license_text);
             break;
         case IDM_WARRANTY:
-            ui_show_text(hwnd, translate_text(IDS_NO_WARRANTY), translate_text(IDS_VICE_WITHOUT_WARRANTY), info_warranty_text);
+            ui_show_text(hwnd, IDS_NO_WARRANTY, intl_translate_tcs(IDS_VICE_WITHOUT_WARRANTY), info_warranty_text);
             break;
         case IDM_CMDLINE:
             uilib_show_options(hwnd);

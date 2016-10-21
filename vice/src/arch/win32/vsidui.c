@@ -866,7 +866,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             uihelp_dialog(hwnd, wparam);
             break;
         case IDM_KEYS:
-            ui_show_text(hwnd, translate_text(IDS_VSID_KEYS), translate_text(IDS_VSID_KEYS_AVAILABLE), shortcut_keys_txt);
+            ui_show_text(hwnd, IDS_VSID_KEYS, intl_translate_tcs(IDS_VSID_KEYS_AVAILABLE), shortcut_keys_txt);
             break;
         default:
             handle_default_command(wparam, lparam, hwnd);

@@ -950,15 +950,16 @@ HWND GetParentHWND()
 INT_PTR CALLBACK TextDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 struct TEXTDLGDATA {
-    char *szCaption;
-    char *szHeader;
-    char *szText;
+    LPCTSTR st_caption;
+    LPCTSTR st_header;
+    LPCTSTR st_text;
 };
 
-void ui_show_text(HWND hWnd, const char* szCaption, const char* szHeader, const char* szText)
+void ui_show_text(HWND hWnd, int ids_caption, LPCTSTR st_header, const char* szText)
 {
     struct TEXTDLGDATA info;
-    char * szRNText;
+    TCHAR * szRNText;
+#ifndef WIN32_UNICODE_SUPPORT
     int i, j;
 
     szRNText = (char*)HeapAlloc(GetProcessHeap(), 0, 2 * lstrlen(szText) + 1);
@@ -970,18 +971,23 @@ void ui_show_text(HWND hWnd, const char* szCaption, const char* szHeader, const 
         szRNText[j++] = szText[i++];
     }
     szRNText[j] = '\0';
+#else
+    szRNText = TEXT("Not yet implemented for Unicode build.");
+#endif
 
-    info.szCaption = (char *)szCaption;
-    info.szHeader = (char *)szHeader;
-    info.szText = szRNText;
+    info.st_caption = intl_translate_tcs(ids_caption);
+    info.st_header = st_header;
+    info.st_text = szRNText;
 
     DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_TEXTDLG), hWnd, TextDlgProc, (LPARAM)&info);
+#ifndef WIN32_UNICODE_SUPPORT
     HeapFree(GetProcessHeap(), 0, szRNText);
+#endif
 }
 
 // FIXME: the client area with the scroll bars 
-//		disabled would be larger, this function
-//		is not perfect.
+//        disabled would be larger, this function
+//        is not perfect.
 void AutoHideScrollBar(HWND hWnd, int fnBar)
 {
     BOOL bResult;
@@ -1009,11 +1015,11 @@ INT_PTR CALLBACK TextDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
             {
                 struct TEXTDLGDATA* pInfo = (struct TEXTDLGDATA*) lParam;
 
-                SetWindowText(hwndDlg,pInfo->szCaption);
-                SetDlgItemText(hwndDlg, IDC_HEADER, pInfo->szHeader);
-                SetDlgItemText(hwndDlg, IDOK, translate_text(IDS_OK));
+                SetWindowText(hwndDlg, pInfo->st_caption);
+                SetDlgItemText(hwndDlg, IDC_HEADER, pInfo->st_header);
+                SetDlgItemText(hwndDlg, IDOK, intl_translate_tcs(IDS_OK));
 
-                SetDlgItemText(hwndDlg, IDC_TEXT, pInfo->szText);
+                SetDlgItemText(hwndDlg, IDC_TEXT, pInfo->st_text);
                 SendDlgItemMessage(hwndDlg, IDC_TEXT, EM_SETREADONLY, 1, 0);
                 AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT), SB_HORZ);
                 AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT), SB_VERT);
@@ -1051,7 +1057,7 @@ void uilib_show_options(HWND param)
     char *options;
 
     options = cmdline_options_string();
-    ui_show_text(param, translate_text(IDS_COMMAND_LINE_OPTIONS), translate_text(IDS_COMMAND_OPTIONS_AVAIL), options);
+    ui_show_text(param, IDS_COMMAND_LINE_OPTIONS, intl_translate_tcs(IDS_COMMAND_OPTIONS_AVAIL), options);
     lib_free(options);
 }
 
