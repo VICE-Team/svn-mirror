@@ -35,42 +35,25 @@
 #include "tuimenu.h"
 #include "uitfe.h"
 
-TUI_MENU_DEFINE_TOGGLE(ETHERNET_ACTIVE)
+TUI_MENU_DEFINE_TOGGLE(TFE_ACTIVE)
 TUI_MENU_DEFINE_TOGGLE(TFEIOSwap)
-TUI_MENU_DEFINE_RADIO(ETHERNET_AS_RR)
-
-static TUI_MENU_CALLBACK(ethernet_as_rr_submenu_callback)
-{
-    int value;
-    char *s;
-
-    resources_get_int("ETHERNET_AS_RR", &value);
-    s = (value) ? "RRNET" : "TFE";
-    return s;
-}
 
 static tui_menu_item_def_t ethernet_as_rr_submenu[] = {
-    { "_TFE", NULL, radio_ETHERNET_AS_RR_callback,
+    { "_TFE", NULL, radio_TFE_ACTIVE_callback,
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_RRNET", NULL, radio_ETHERNET_AS_RR_callback,
-      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
 static tui_menu_item_def_t tfe_c64_menu_items[] = {
-    { "_Enable Ethernet:", "Emulate Ethernet Cartridge",
-      toggle_ETHERNET_ACTIVE_callback, NULL, 3,
+    { "_Enable TFE:", "Emulate Ethernet Cartridge",
+      toggle_TFE_ACTIVE_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_TFE or RRNET:", "Select which type to use",
-      ethernet_as_rr_submenu_callback, NULL, 7,
-      TUI_MENU_BEH_CONTINUE, ethernet_as_rr_submenu,
-      "Ethernet type" },
     { NULL }
 };
 
 static tui_menu_item_def_t tfe_vic20_menu_items[] = {
-    { "_Enable Ethernet:", "Emulate Ethernet Cartridge",
-      toggle_ETHERNET_ACTIVE_callback, NULL, 3,
+    { "_Enable TFE:", "Emulate Ethernet Cartridge",
+      toggle_TFE_ACTIVE_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Enable MasC=uerade I/O swap:", "Map TFE I/O to vic20 I/O-3",
       toggle_TFEIOSwap_callback, NULL, 3,
