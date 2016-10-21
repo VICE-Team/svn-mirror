@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "clockport.h"
 #include "ide64.h"
 #include "resources.h"
 #include "tui.h"
@@ -45,6 +46,7 @@ TUI_MENU_DEFINE_FILENAME(IDE64Image1, "IDE64 primary master")
 TUI_MENU_DEFINE_FILENAME(IDE64Image2, "IDE64 primary slave")
 TUI_MENU_DEFINE_FILENAME(IDE64Image3, "IDE64 secondary master")
 TUI_MENU_DEFINE_FILENAME(IDE64Image4, "IDE64 secondary slave")
+TUI_MENU_DEFINE_RADIO(IDE64ClockPort)
 
 static TUI_MENU_CALLBACK(ui_set_cylinders_callback)
 {
@@ -343,6 +345,28 @@ static tui_menu_item_def_t ide64_version_submenu[] = {
     { NULL }
 };
 
+static TUI_MENU_CALLBACK(ide64_clockport_submenu_callback)
+{
+    int value;
+    char *s = NULL;
+    int i;
+
+    resources_get_int("IDE64ClockPort", &value);
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        if (clockport_supported_devices[i].id == value) {
+            s = clockport_supported_devices[i].name;
+        }
+    }
+
+    if (!s) {
+        s = "Unknown";
+    }
+
+    return s;
+}
+
+static tui_menu_item_def_t ide64_clockport_submenu[CLOCKPORT_MAX_ENTRIES + 1];
+
 static tui_menu_item_def_t ide64_menu_items[] = {
     { "IDE64 _revision:", "Select revision of IDE64",
       ide64_version_submenu_callback, NULL, 7,
@@ -364,6 +388,10 @@ static tui_menu_item_def_t ide64_menu_items[] = {
       NULL, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ide64_shortbus_menu_items,
       "Shortbus devices" },
+    { "IDE64 _clockport device:", "Select the clockport device",
+      ide64_clockport_submenu_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, ide64_clockport_submenu,
+      "IDE64 clockport device" },
     { "IDE64 primary master settings:", "Primary master settings",
       NULL, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ide64_hd1_menu_items,
@@ -386,6 +414,27 @@ static tui_menu_item_def_t ide64_menu_items[] = {
 void uiide64_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_ide64_submenu;
+    int i;
+
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        ide64_clockport_submenu[i].label = clockport_supported_devices[i].name;
+        ide64_clockport_submenu[i].help_string = NULL;
+        ide64_clockport_submenu[i].callback = radio_IDE64ClockPort_callback;
+        ide64_clockport_submenu[i].callback_param = (void *)clockport_supported_devices[i].id;
+        ide64_clockport_submenu[i].par_string_max_len = 20;
+        ide64_clockport_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
+        ide64_clockport_submenu[i].submenu = NULL;
+        ide64_clockport_submenu[i].submenu_title = NULL;
+    }
+
+    ide64_clockport_submenu[i].label = NULL;
+    ide64_clockport_submenu[i].help_string = NULL;
+    ide64_clockport_submenu[i].callback = NULL;
+    ide64_clockport_submenu[i].callback_param = NULL;
+    ide64_clockport_submenu[i].par_string_max_len = 0;
+    ide64_clockport_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
+    ide64_clockport_submenu[i].submenu = NULL;
+    ide64_clockport_submenu[i].submenu_title = NULL;
 
     ui_ide64_submenu = tui_menu_create("IDE64 settings", 1);
 
