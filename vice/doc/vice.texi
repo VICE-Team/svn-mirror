@@ -27152,8 +27152,14 @@ invaluable information about the VIC-II chip: without this, the
 VIC-II implementation would not have been possible.
 
 @item
+@b{Anthony J. Bentley}
+Provided some man page fixes.
+
 @b{Eliseo Bianchi}
 Provided the italian Amiga translations.
+
+@b{Enrico Bruttomesso}
+Improved some italian translations.
 
 @item
 @b{ck!}
@@ -27356,6 +27362,10 @@ good guy reviewing and commenting changes in the background.
 @item
 @b{Roberto Muscedere}
 Improved support for REL files.
+
+@item
+@b{Leandro Nini}
+Improved ReSID emulation. And fixed some c64dtv cpu opcode issues.
 
 @item
 @b{Tomi Ollila}
