@@ -27146,6 +27146,10 @@ External contributors:
 @itemize @bullet
 
 @item
+@b{Alexis Ballier}
+Provided some ffmpeg fixes.
+
+@item
 @b{Christian Bauer}
 Wrote the very interesting ``VIC article'' from which we got
 invaluable information about the VIC-II chip: without this, the
@@ -27350,6 +27354,16 @@ wrong, unaccessable, and missing.
 Contributed some patches to the fast disk drive emulation.
 
 @item
+@b{mjhn}
+Provided some *nix 'readme' fixes.
+
+@item
+@b{Moiree}
+Provided some command line fixes. Improved the build system. Fixed
+some vsid bugs. Fixed some SDL GUI issues. Fixed some documentation
+items.
+
+@item
 @b{Luca Montecchiani}
 Contributed a new Unix joystick driver.
 
@@ -27378,6 +27392,10 @@ Digitalized the C64 colors used in the (old) default palette.
 @item
 @b{Lasse Öörni}
 Contributed the Windows Multimedia sound driver
+
+@item
+@b{Stein Pedersen}
+Fixed windows midi driver for 64bit windows.
 
 @item
 @b{Helfried Peyrl}
@@ -27496,6 +27514,10 @@ Made improvements to the GP2x port.
 @b{Lionel Ulmer}
 Implemented joystick support for Linux and a first try of a SID
 emulation for SGI machines.
+
+@item
+@b{vonred}
+Added multiple monitor support to the windows port.
 
 @item
 @b{Krister Walfridsson}

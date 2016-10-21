@@ -162,6 +162,11 @@ s/@b{Bas Wassink}/Bas Wassink <b.wassink@ziggo.nl>/g
 s/@b{Anthony J. Bentley}/Anthony J. Bentley <anthonyjbentley@users.sourceforge.net>/g
 s/@b{Leandro Nini}/Leandro Nini <drfiemost@email.it>/g
 s/@b{Enrico Bruttomesso}/Enrico Bruttomesso <enrico.br71@gmail.com>/g
+s/@b{Alexis Ballier}/Alexis Ballier <aballier@users.sourceforge.net>/g
+s/@{Moiree}/Moiree <hootee7ieyie7s@users.sourceforge.net>/g
+s/@{Stein Pedersen}/Stein Pedersen <galfodo@users.sourceforge.net>/g
+s/@{vonred}/vonred <vonred@users.sourceforge.net>/g
+s/@{mjhn}/mjhn <mjhn@users.sourceforge.net>/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g
