@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "clockport.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
@@ -39,6 +40,7 @@ TUI_MENU_DEFINE_TOGGLE(MMC64_flashjumper)
 TUI_MENU_DEFINE_TOGGLE(MMC64_bios_write)
 TUI_MENU_DEFINE_TOGGLE(MMC64_RO)
 TUI_MENU_DEFINE_RADIO(MMC64_sd_type)
+TUI_MENU_DEFINE_RADIO(MMC64ClockPort)
 TUI_MENU_DEFINE_FILENAME(MMC64BIOSfilename, "MMC64 BIOS")
 TUI_MENU_DEFINE_FILENAME(MMC64imagefilename, "MMC64 MMC/SD")
 
@@ -96,6 +98,28 @@ static tui_menu_item_def_t mmc64_sd_type_submenu[] = {
     { NULL }
 };
 
+static TUI_MENU_CALLBACK(mmc64_clockport_submenu_callback)
+{
+    int value;
+    char *s = NULL;
+    int i;
+
+    resources_get_int("MMC64ClockPort", &value);
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        if (clockport_supported_devices[i].id == value) {
+            s = clockport_supported_devices[i].name;
+        }
+    }
+
+    if (!s) {
+        s = "Unknown";
+    }
+
+    return s;
+}
+
+static tui_menu_item_def_t mmc64_clockport_submenu[CLOCKPORT_MAX_ENTRIES + 1];
+
 static tui_menu_item_def_t mmc64_menu_items[] = {
     { "_Enable MMC64:", "Emulate MMC64",
       toggle_MMC64_callback, NULL, 3,
@@ -123,12 +147,37 @@ static tui_menu_item_def_t mmc64_menu_items[] = {
     { "MMC64 i_mage file:", "Select the MMC64 MMC/SD image file",
       filename_MMC64imagefilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "MMC64 _clockport device:", "Select the clockport device",
+      mmc64_clockport_submenu_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, mmc64_clockport_submenu,
+      "MMC64 clockport device" },
     { NULL }
 };
 
 void uimmc64_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_mmc64_submenu;
+    int i;
+
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        mmc64_clockport_submenu[i].label = clockport_supported_devices[i].name;
+        mmc64_clockport_submenu[i].help_string = NULL;
+        mmc64_clockport_submenu[i].callback = radio_MMC64ClockPort_callback;
+        mmc64_clockport_submenu[i].callback_param = (void *)clockport_supported_devices[i].id;
+        mmc64_clockport_submenu[i].par_string_max_len = 20;
+        mmc64_clockport_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
+        mmc64_clockport_submenu[i].submenu = NULL;
+        mmc64_clockport_submenu[i].submenu_title = NULL;
+    }
+
+    mmc64_clockport_submenu[i].label = NULL;
+    mmc64_clockport_submenu[i].help_string = NULL;
+    mmc64_clockport_submenu[i].callback = NULL;
+    mmc64_clockport_submenu[i].callback_param = NULL;
+    mmc64_clockport_submenu[i].par_string_max_len = 0;
+    mmc64_clockport_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
+    mmc64_clockport_submenu[i].submenu = NULL;
+    mmc64_clockport_submenu[i].submenu_title = NULL;
 
     ui_mmc64_submenu = tui_menu_create("MMC64 settings", 1);
 

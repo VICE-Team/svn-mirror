@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "clockport.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
@@ -37,6 +38,7 @@ TUI_MENU_DEFINE_TOGGLE(RRFlashJumper)
 TUI_MENU_DEFINE_TOGGLE(RRBankJumper)
 TUI_MENU_DEFINE_RADIO(RRrevision)
 TUI_MENU_DEFINE_TOGGLE(RRBiosWrite)
+TUI_MENU_DEFINE_RADIO(RRClockPort)
 
 static TUI_MENU_CALLBACK(retroreplay_revision_submenu_callback)
 {
@@ -64,6 +66,28 @@ static tui_menu_item_def_t retroreplay_revision_submenu[] = {
     { NULL }
 };
 
+static TUI_MENU_CALLBACK(retroreplay_clockport_submenu_callback)
+{
+    int value;
+    char *s = NULL;
+    int i;
+
+    resources_get_int("RRClockPort", &value);
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        if (clockport_supported_devices[i].id == value) {
+            s = clockport_supported_devices[i].name;
+        }
+    }
+
+    if (!s) {
+        s = "Unknown";
+    }
+
+    return s;
+}
+
+static tui_menu_item_def_t retroreplay_clockport_submenu[CLOCKPORT_MAX_ENTRIES + 1];
+
 static tui_menu_item_def_t retroreplay_menu_items[] = {
     { "Retro Replay flash jumper:", "Enable Retro Replay flash jumper",
       toggle_RRFlashJumper_callback, NULL, 3,
@@ -78,12 +102,37 @@ static tui_menu_item_def_t retroreplay_menu_items[] = {
     { "Save Retro Replay BIOS when changed:", "Enable Retro Replay BIOS save when changed",
       toggle_RRBiosWrite_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Retro Replay _clockport device:", "Select the clockport device",
+      retroreplay_clockport_submenu_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, retroreplay_clockport_submenu,
+      "Retro Replay clockport device" },
     { NULL }
 };
 
 void uiretroreplay_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_retroreplay_submenu;
+    int i;
+
+    for (i = 0; clockport_supported_devices[i].name; ++i) {
+        retroreplay_clockport_submenu[i].label = clockport_supported_devices[i].name;
+        retroreplay_clockport_submenu[i].help_string = NULL;
+        retroreplay_clockport_submenu[i].callback = radio_RRClockPort_callback;
+        retroreplay_clockport_submenu[i].callback_param = (void *)clockport_supported_devices[i].id;
+        retroreplay_clockport_submenu[i].par_string_max_len = 20;
+        retroreplay_clockport_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
+        retroreplay_clockport_submenu[i].submenu = NULL;
+        retroreplay_clockport_submenu[i].submenu_title = NULL;
+    }
+
+    retroreplay_clockport_submenu[i].label = NULL;
+    retroreplay_clockport_submenu[i].help_string = NULL;
+    retroreplay_clockport_submenu[i].callback = NULL;
+    retroreplay_clockport_submenu[i].callback_param = NULL;
+    retroreplay_clockport_submenu[i].par_string_max_len = 0;
+    retroreplay_clockport_submenu[i].behavior = TUI_MENU_BEH_CLOSE;
+    retroreplay_clockport_submenu[i].submenu = NULL;
+    retroreplay_clockport_submenu[i].submenu_title = NULL;
 
     ui_retroreplay_submenu = tui_menu_create("Retro Replay settings", 1);
 
