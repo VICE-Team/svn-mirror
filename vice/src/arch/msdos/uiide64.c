@@ -282,6 +282,37 @@ static tui_menu_item_def_t digimax_address_submenu[] = {
     { NULL }
 };
 
+#ifdef HAVE_TFE
+TUI_MENU_DEFINE_TOGGLE(SBETFE)
+TUI_MENU_DEFINE_RADIO(SBETFEbase)
+
+static TUI_MENU_CALLBACK(etfe_address_submenu_callback)
+{
+    int value;
+    static char s[10];
+
+    resources_get_int("SBETFEbase", &value);
+    switch (value) {
+        default:
+        case 0xde00:
+            strcpy(s, "$DE00");
+            break;
+        case 0xde10:
+            strcpy(s, "$DE10");
+            break;
+    }
+    return s;
+}
+
+static tui_menu_item_def_t etfe_address_submenu[] = {
+    { "$DE_00", NULL, radio_SBETFEbase_callback,
+      (void *)0xde00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$DE_10", NULL, radio_SBETFEbase_callback,
+      (void *)0xde10, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+#endif
+
 static tui_menu_item_def_t ide64_shortbus_menu_items[] = {
     { "_DigiMAX device:", "Enable DigiMAX device",
       toggle_SBDIGIMAX_callback, NULL, 3,
@@ -289,7 +320,16 @@ static tui_menu_item_def_t ide64_shortbus_menu_items[] = {
     { "Digimax _address:", "Select base address of the DigiMAX device",
       digimax_address_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, digimax_address_submenu,
-      "IDE64 revision" },
+      "Digimax address" },
+#ifdef HAVE_TFE
+    { "_ETFE device:", "Enable ETFE device",
+      toggle_SBETFE_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "ETFE a_ddress:", "Select base address of the ETFE device",
+      etfe_address_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, etfe_address_submenu,
+      "ETFE address" },
+#endif
     { NULL }
 };
 
