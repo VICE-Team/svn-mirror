@@ -140,6 +140,8 @@ clockport_device_t *clockport_rrnet_open_device(char *owner)
     retval->close = clockport_rrnet_close;
     retval->device_context = NULL;
 
+    clockport_rrnet_enabled = 1;
+
     return retval;
 }
 
