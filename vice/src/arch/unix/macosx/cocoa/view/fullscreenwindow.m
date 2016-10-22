@@ -28,8 +28,10 @@
 #import "fullscreenwindow.h"
 #import "vicewindow.h"
 
+#ifndef MAC_OS_X_VERSION_10_12
 // for SetSystemUIMode:
 #include <QuickTime/QuickTime.h>
+#endif
 
 @implementation FullscreenWindow
 
@@ -84,12 +86,20 @@
 -(void)becomeKeyWindow
 {
     [super becomeKeyWindow];
+#ifndef MAC_OS_X_VERSION_10_12
     SetSystemUIMode( kUIModeAllHidden, kUIOptionAutoShowMenuBar);
+#else
+    [NSApp setPresentationOptions:(NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar)];
+#endif
 }
 
 -(void)resignKeyWindow
 {
+#ifndef MAC_OS_X_VERSION_10_12
     SetSystemUIMode( kUIModeNormal, 0);
+#else
+    [NSApp setPresentationOptions:NSApplicationPresentationDefault];
+#endif
     [super resignKeyWindow];
 }
 
