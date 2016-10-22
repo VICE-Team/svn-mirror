@@ -175,8 +175,6 @@ static UI_MENU_CALLBACK(custom_sidsubmenu_callback)
     return submenu_radio_callback(0, sid_c64_menu[0].data);
 }
 
-UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
-
 #define CIA_MODEL_MENU(xyz)                                     \
     UI_MENU_DEFINE_RADIO(CIA##xyz##Model)                       \
     static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
@@ -245,10 +243,6 @@ const ui_menu_entry_t c64sc_model_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)viciisc_model_submenu },
-    { "New luminances",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIINewLuminances_callback,
-      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     { "SID settings",
       MENU_ENTRY_SUBMENU,
@@ -292,10 +286,6 @@ const ui_menu_entry_t scpu64_model_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)viciisc_model_submenu },
-    { "New luminances",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIINewLuminances_callback,
-      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     { "SID settings",
       MENU_ENTRY_SUBMENU,
@@ -364,10 +354,6 @@ const ui_menu_entry_t c64_model_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)video_standard_submenu },
-    { "New luminances",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIINewLuminances_callback,
-      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     { "SID settings",
       MENU_ENTRY_SUBMENU,
