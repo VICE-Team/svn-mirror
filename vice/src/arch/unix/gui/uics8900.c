@@ -47,10 +47,6 @@
 /** \brief  Menu item to disable ethernet support */
 UI_MENU_DEFINE_TOGGLE(ETHERNET_DISABLED)
 
-/** \brief  Menu item (toggle button) to enable/disable ethernet emulation
- */
-UI_MENU_DEFINE_TOGGLE(ETHERNET_ACTIVE)
-
 
 /** \brief  Callback for setting the ethernet interface
  */
@@ -66,8 +62,6 @@ UI_CALLBACK(uics8900_set_interface_name)
 ui_menu_entry_t uics8900_submenu[] = {
     { N_("Ethernet support"), UI_MENU_TYPE_TICK,
         (ui_callback_t)toggle_ETHERNET_DISABLED, NULL, NULL },
-    { N_("Ethernet emulation"), UI_MENU_TYPE_TICK,
-        (ui_callback_t)toggle_ETHERNET_ACTIVE, NULL, NULL },
     { N_("Interface"), UI_MENU_TYPE_DOTS,
         (ui_callback_t)uics8900_set_interface_name,
         (ui_callback_data_t)"ETHERNET_INTERFACE", NULL },

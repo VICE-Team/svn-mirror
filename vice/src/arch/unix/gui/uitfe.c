@@ -56,7 +56,7 @@ UI_CALLBACK(set_interface_name)
 }
 
 ui_menu_entry_t tfe_c64_submenu[] = {
-    { N_("Enable"), UI_MENU_TYPE_TICK,
+    { N_("TFE emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TFE_ACTIVE, NULL, NULL },
 #if 0
     /* Translators: "RR-Net" is the name of the network addon and should not get translated */

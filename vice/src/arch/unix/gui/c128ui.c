@@ -277,7 +277,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, UI_MENU_TYPE_NORMAL,
       NULL, NULL, supersnapshot_v5_submenu },
 #ifdef HAVE_TFE
-    { N_("The Final Ethernet"), UI_MENU_TYPE_NORMAL,
+    { N_("The Final Ethernet settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, tfe_c64_submenu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
