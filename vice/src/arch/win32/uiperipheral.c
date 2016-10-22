@@ -1154,11 +1154,11 @@ static void uiperipheral_dialog(HWND hwnd)
     psh.nPages = no_of_drives + no_of_printers + EXTRA_DEVICES;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
-    psh.nStartPage = i + 2;
+    psh.nStartPage = i + 3;
     psh.ppsp = psp;
 #else
     psh.DUMMYUNIONNAME.pszIcon = NULL;
-    psh.u2.nStartPage = i + 2;
+    psh.u2.nStartPage = i + 3;
     psh.u3.ppsp = psp;
 #endif
     psh.pfnCallback = NULL;
