@@ -64,6 +64,10 @@ left from previous installs.
 
 - New RGCD cartridge emulation.
 
+- New Final Cartridge III+ emulation.
+
+- New rrnet mk3 cartridge emulation.
+
 - New joyport system which currently supports attaching the following
   devices to the native ports: joystick, paddles, 1351 mouse, neos mouse,
   amiga mouse, atari cx22 mouse, atari-st mouse, smartmouse, micromys
@@ -75,6 +79,12 @@ left from previous installs.
   atari cx22 mouse, atari-st mouse, 2bit sampler, 4bit sampler, bbrtc,
   paperclip64 dongle, coplin keypad, rushware keypad.
 
+- New Userport system which currently supports attaching the following
+  devices: rtc58321a, ds1307 rtc, dac, digimax, 4bit mono sampler, 8bit
+  stereo sampler, cga joystick adapter, pet joystick adapter, hummer
+  joystick adapter, oem joystick adapter, hit joystick adapter, kingsoft
+  joystick adapter, starbyte joystick adapter.
+
 ** C128 changes
 ---------------
 
@@ -84,6 +94,8 @@ left from previous installs.
 --------------
 
 - New Sony CXA2025AS NTSC palette.
+
+- New CP/M (Z80) cartridge emulation.
 
 ** C64DTV changes
 -----------------
@@ -95,10 +107,17 @@ left from previous installs.
   2bit sampler, 4bit sampler, bbrtc, paperclip64 dongle, coplin keypad,
   rushware keypad.
 
+- New Userport system which currently supports attaching the following
+  devices: hummer joystick adapter.
+
 ** VIC20 changes
 ----------------
 
-- New mike's palette files.
+- New UltiMem cartridge emulation.
+
+- New I/O-2 RAM cartridge emulation.
+
+- New I/O-3 RAM cartridge emulation.
 
 - New joyport system which currently supports attaching the following
   devices to the native port: joystick, paddles, 1351 mouse, neos mouse,
@@ -110,6 +129,10 @@ left from previous installs.
   the various userport joystick adapters: joystick, neos mouse, amiga mouse,
   atari cx22 mouse, atari-st mouse, 2bit sampler, 4bit sampler, bbrtc,
   paperclip64 dongle, coplin keypad, rushware keypad.
+
+- New Userport system which currently supports attaching the following
+  devices: rtc58321a, ds1307 rtc, dac, cga joystick adapter, pet
+  joystick adapter, hummer joystick adapter, oem joystick adapter.
 
 ** PLUS4 changes
 ----------------
@@ -129,6 +152,10 @@ left from previous installs.
   dongle, coplin keypad, cardco cardkey 1 keypad, atari cx85 keypad,
   rushware keypad, atari cx21 keypad.
 
+- New Userport system which currently supports attaching the following
+  devices: dac, pet joystick adapter, hummer joystick adapter, oem
+  joystick adapter.
+
 ** PET changes
 --------------
 
@@ -142,6 +169,10 @@ left from previous installs.
   4bit sampler, bbrtc, paperclip64 dongle, coplin keypad, rushware
   keypad.
 
+- New Userport system which currently supports attaching the following
+  devices: rtc58321a, ds1307 rtc, dac, cga joystick adapter, pet
+  joystick adapter, hummer joystick adapter, oem joystick adapter.
+
 ** CBM6x0/7x0 changes
 ---------------------
 
@@ -150,6 +181,11 @@ left from previous installs.
   mouse, amiga mouse, atari cx22 mouse, atari-st mouse, 2bit sampler,
   4bit sampler, bbrtc, paperclip64 dongle, coplin keypad, rushware
   keypad.
+
+- New Userport system which currently supports attaching the following
+  devices: rtc58321a, ds1307 rtc, dac, digimax, 4bit mono sampler, 8bit
+  stereo sampler, cga joystick adapter, pet joystick adapter, hummer
+  joystick adapter, oem joystick adapter.
 
 ** CBM5x0 changes
 -----------------
@@ -185,6 +221,8 @@ left from previous installs.
 ---------------
 
 - New multi-threaded GUI display.
+
+- New joystick status items in the GTK GUI.
 
 ** MS-Windows changes
 ---------------------

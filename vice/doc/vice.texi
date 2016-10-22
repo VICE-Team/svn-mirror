@@ -26826,8 +26826,9 @@ rtc. Added joyport attached cardkey keypad. Added joyport
 attached coplin keypad. Added joyport attached atari cx21
 keypad. Added joyport attached atari cx85 keypad. Added joyport
 attached paperclip 64 dongle. Added joyport attached rushware
-keypad. Added joyport attached 2/4 bit samplers. And lots of
-other fixes and improvements.
+keypad. Added joyport attached 2/4 bit samplers. Added vic20
+I/O-2 and I/O-3 RAM support. Added the c64 cp/m (z80) cartridge.
+And lots of other fixes and improvements.
 
 @item
 @b{Fabrizio Gennari}
@@ -26861,9 +26862,9 @@ files (mus/str) to vsid. Wrote alot of test programs. Added
 'available features' code. Fixed/added some items in the OSX GUI.
 Added random tape wobble emulation. Added 64k RGCD cartridge
 emulation. Added psid v4 3sid support to vsid. Added single frame
-advance. Added drive RPM and wobble support. Updated this document
-after a long period of outdated mess. And various fixes and
-improvements.
+advance. Added drive RPM and wobble support. Added rrnet mk3
+emulation. Updated this document after a long period of outdated
+mess. And various fixes and improvements.
 
 @item
 @b{Errol Smith}
@@ -27270,7 +27271,8 @@ Wrote the Catweasel sound driver.
 @b{Uffe Jakobsen}
 Wrote the Silverrock cartridge emulation and fixed the
 ocean cartridge bank wrap. Fixed some network code
-issues. Fixed some monitor issues.
+issues. Fixed some monitor issues. Provided some SDL
+port fixes.
 
 @item
 @b{Lasse Jyrkinen}
@@ -27285,7 +27287,8 @@ Provided the swedish UI translations in the past.
 Added a working RTC to the emulation of the IDE64
 cartridge. Provided some vdrive fixes. Added Inkwell
 Systems lightpen support. Fixed some monitor code
-issues.
+issues. Provided some windows port fixes. Provided some
+SDL port fixes.
 
 @item
 @b{Michael Klein}
@@ -27320,7 +27323,9 @@ Amiga ports.
 Atari ST mouse and Atari CX-22 trackball emulation and pixel
 aspect fixes. Improved the Amiga mouse emulation. Improved
 the vic20 sound output. Added windows POV hat support.
-Improved sound fragment size handling.
+Improved sound fragment size handling. Provided some windows
+fixes. Provided some gtk port fixes. Provided some SDL port
+fixes.
 
 @item
 @b{Locnet}
@@ -27334,7 +27339,8 @@ CPU emulation.
 @item
 @b{Marko Mäkelä}
 Wrote lots of CPU documentation. Wrote the VIC Flash Plugin
-cartridge emulation in xvic.
+cartridge emulation in xvic. Wrote the Ultimem cartridge
+emulation in xvic.
 
 @item
 @b{mar77i}
