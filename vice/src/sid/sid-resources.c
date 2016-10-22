@@ -196,7 +196,10 @@ static int set_sid_model(int val, void *param)
             sid_model = SID_MODEL_DTVSID;
         } else
 #endif
-        if (machine_class == VICE_MACHINE_C128) {
+        if ((machine_class == VICE_MACHINE_C128) || 
+            (machine_class == VICE_MACHINE_C64) ||
+            (machine_class == VICE_MACHINE_C64SC) ||
+            (machine_class == VICE_MACHINE_SCPU64)){
             sid_model = SID_MODEL_8580;
         }
     }
