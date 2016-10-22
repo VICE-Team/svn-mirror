@@ -136,11 +136,9 @@ static int ide64_rtc_save;
 static int clockport_device_id = CLOCKPORT_DEVICE_NONE;
 static clockport_device_t *clockport_device = NULL;
 
-static const char STRING_IDE64[] = CARTRIDGE_NAME_IDE64;
+static const char STRING_IDE64_CLOCKPORT[] = CARTRIDGE_NAME_IDE64 " Clockport";
 
 static char *clockport_device_names = NULL;
-
-
 
 /* ---------------------------------------------------------------------*/
 
@@ -275,7 +273,11 @@ static const export_resource_t export_res[6] = {
 
 static int clockport_activate(void)
 {
-    if (ide64_enabled) {
+    if (!ide64_enabled) {
+        return 0;
+    }
+
+    if (clockport_device) {
         return 0;
     }
 
@@ -283,7 +285,7 @@ static int clockport_activate(void)
         return 0;
     }
 
-    clockport_device = clockport_open_device(clockport_device_id, (char *)STRING_IDE64);
+    clockport_device = clockport_open_device(clockport_device_id, (char *)STRING_IDE64_CLOCKPORT);
     if (!clockport_device) {
         return -1;
     }
@@ -688,7 +690,7 @@ static int set_ide64_clockport_device(int val, void *param)
     }
 
     if (val != CLOCKPORT_DEVICE_NONE) {
-        clockport_device = clockport_open_device(val, (char *)STRING_IDE64);
+        clockport_device = clockport_open_device(val, (char *)STRING_IDE64_CLOCKPORT);
         if (!clockport_device) {
             return -1;
         }
