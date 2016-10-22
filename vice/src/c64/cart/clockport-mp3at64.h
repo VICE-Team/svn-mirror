@@ -27,6 +27,8 @@
 #ifndef VICE_CLOCKPORT_MP3AT64_H
 #define VICE_CLOCKPORT_MP3AT64_H
 
+#include "clockport.h"
+
 extern int clockport_mp3at64_init(void);
 extern void clockport_mp3at64_shutdown(void);
 extern clockport_device_t *clockport_mp3at64_open_device(char *owner);

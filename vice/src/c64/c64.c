@@ -58,6 +58,7 @@
 #include "cartridge.h"
 #include "cia.h"
 #include "clkguard.h"
+#include "clockport-mp3at64.h"
 #include "coplin_keypad.h"
 #include "cx21.h"
 #include "cx85.h"
