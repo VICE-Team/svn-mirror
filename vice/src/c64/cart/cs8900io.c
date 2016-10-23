@@ -36,10 +36,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#ifdef DOS_TFE
 #include <pcap.h>
-#endif
 
 #include "archdep.h"
 #include "cartio.h"
@@ -101,14 +98,14 @@ void cs8900io_reset(void)
     }
 }
 
-#ifdef DOS_TFE
-static void set_standard_cs8900io_interface(void)
+static char *get_standard_cs8900io_interface(void)
 {
     char *dev, errbuf[PCAP_ERRBUF_SIZE];
+
     dev = pcap_lookupdev(errbuf);
-    util_string_set(&cs8900io_interface, dev);
+
+    return dev;
 }
-#endif
 
 static int cs8900io_activate(void)
 {
@@ -117,9 +114,6 @@ static int cs8900io_activate(void)
 #endif
 
     if (cs8900io_log != LOG_ERR) {
-#ifdef DOS_TFE
-        set_standard_cs8900io_interface();
-#endif
         switch (cs8900_activate(cs8900io_interface)) {
             case -1:
                 cs8900io_enabled = 0;
@@ -316,7 +310,16 @@ static const resource_int_t resources_int[] = {
 
 int cs8900io_resources_init(void)
 {
+    char *default_if = NULL;
+
     if (!cs8900io_resources_init_done) {
+
+        default_if = get_standard_cs8900io_interface();
+
+        if (default_if) {
+            resources_string[0].factory_value = default_if;
+        }
+
         if (resources_register_string(resources_string) < 0 ||
             resources_register_int(resources_int) < 0) {
             return -1;
@@ -328,12 +331,6 @@ int cs8900io_resources_init(void)
 
 void cs8900io_resources_shutdown(void)
 {
-    /* the generic resources cleanup takes care of this */
-#if 0
-    if (cs8900io_interface) {
-        lib_free(cs8900io_interface);
-    }
-#endif
 }
 
 /* ------------------------------------------------------------------------- */
