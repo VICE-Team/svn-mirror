@@ -34,9 +34,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef DOS_TFE
-#include <pcap.h>
-#endif
 
 #include "archdep.h"
 #include "cartio.h"
