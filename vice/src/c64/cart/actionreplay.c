@@ -214,7 +214,7 @@ static int actionreplay_dump(void)
     mon_out("EXROM line: %s, GAME line: %s, Mode: %s\n",
             (regvalue & 2) ? "high" : "low",
             (regvalue & 1) ? "low" : "high",
-            cart_config_string(regvalue & 3));
+            cart_config_string((BYTE)(regvalue & 3)));
     mon_out("ROM bank: %d, cart state: %s, reset freeze: %s\n",
             (regvalue & 0x18) >> 3,
             (regvalue & 4) ? "disabled" : "enabled",

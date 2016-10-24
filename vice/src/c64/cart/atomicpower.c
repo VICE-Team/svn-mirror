@@ -215,7 +215,7 @@ static int atomicpower_dump(void)
     mon_out("EXROM line: %s, GAME line: %s, Mode: %s\n",
             (atomicpower_control_reg & 2) ? "high" : "low",
             (atomicpower_control_reg & 1) ? "low" : "high",
-            cart_config_string(atomicpower_control_reg & 3));
+            cart_config_string((BYTE)(atomicpower_control_reg & 3)));
     mon_out("ROM bank: %d, cart state: %s, reset freeze: %s\n",
             (atomicpower_control_reg & 0x18) >> 3,
             (atomicpower_control_reg & 4) ? "disabled" : "enabled",

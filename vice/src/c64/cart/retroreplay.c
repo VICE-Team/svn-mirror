@@ -710,7 +710,7 @@ static int retroreplay_dump(void)
     mon_out("EXROM line: %s, GAME line: %s, Mode: %s\n",
             (rr_cmode & 2) ? "high" : "low",
             (rr_cmode & 1) ? "low" : "high",
-            cart_config_string(rr_cmode & 3));
+            cart_config_string((BYTE)(rr_cmode & 3)));
     mon_out("ROM bank: %d\n", (rr_bank));
     /* FIXME: take system RAM and cart mode(s) into account here */
     /* FIXME: this is very inaccurate */
