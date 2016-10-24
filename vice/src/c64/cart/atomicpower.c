@@ -266,6 +266,8 @@ void atomicpower_romh_store(WORD addr, BYTE value)
 
 void atomicpower_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
+/* FIXME: this is broken, code-in-ram execution from AR "acid test" fails */
+#if 0
     switch (addr & 0xe000) {
         case 0x8000:
             if (export_ram) {
@@ -297,6 +299,7 @@ void atomicpower_mmu_translate(unsigned int addr, BYTE **base, int *start, int *
         default:
             break;
     }
+#endif
     *base = NULL;
     *start = 0;
     *limit = 0;
