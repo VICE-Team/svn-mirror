@@ -4093,22 +4093,22 @@ static char *msvc6_base_cpp_lib_gui_part1_sdl[2] = {
 };
 
 static char *msvc6_base_cpp_lib_gui_part2_native_noffmpeg[4] = {
-    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"NODIRECTX\" /D \"NDEBUG\" /YX /FD /c",
-    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"NODIRECTX\" /D \"_DEBUG\" /YX /FD /c",
-    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\"  /D \"NDEBUG\" /YX /FD /c",
-    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_DEBUG\" /YX /FD /c"
+    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"NODIRECTX\" /D \"NDEBUG\" /YX /Zm200 /FD /c",
+    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"NODIRECTX\" /D \"_DEBUG\" /YX /Zm200 /FD /c",
+    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\"  /D \"NDEBUG\" /YX /Zm200 /FD /c",
+    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_DEBUG\" /YX /Zm200 /FD /c"
 };
 
 static char *msvc6_base_cpp_lib_gui_part2_native_ffmpeg[4] = {
-    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"STATIC_FFMPEG\" /D \"DONT_USE_UNISTD_H\" /D \"NODIRECTX\" /D \"NDEBUG\" /YX /FD /c",
-    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"STATIC_FFMPEG\" /D \"DONT_USE_UNISTD_H\" /D \"NODIRECTX\" /D \"_DEBUG\" /YX /FD /c",
-    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"STATIC_FFMPEG\" /D \"DONT_USE_UNISTD_H\"  /D \"NDEBUG\" /YX /FD /c",
-    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"STATIC_FFMPEG\" /D \"DONT_USE_UNISTD_H\" /D \"_DEBUG\" /YX /FD /c"
+    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"STATIC_FFMPEG\" /D \"DONT_USE_UNISTD_H\" /D \"NODIRECTX\" /D \"NDEBUG\" /YX /Zm200 /FD /c",
+    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"STATIC_FFMPEG\" /D \"DONT_USE_UNISTD_H\" /D \"NODIRECTX\" /D \"_DEBUG\" /YX /Zm200 /FD /c",
+    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"STATIC_FFMPEG\" /D \"DONT_USE_UNISTD_H\"  /D \"NDEBUG\" /YX /Zm200 /FD /c",
+    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"STATIC_FFMPEG\" /D \"DONT_USE_UNISTD_H\" /D \"_DEBUG\" /YX /Zm200 /FD /c"
 };
 
 static char *msvc6_base_cpp_lib_gui_part2_sdl[2] = {
-    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\"  /D \"NDEBUG\" /YX /FD /c",
-    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_DEBUG\" /YX /FD /c"
+    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\"  /D \"NDEBUG\" /YX /Zm200 /FD /c",
+    " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_DEBUG\" /YX /Zm200 /FD /c"
 };
 
 static char *msvc6_base_cpp_cc_native_noffmpeg[4] = {
@@ -4130,7 +4130,7 @@ static char *msvc6_base_cpp_cc_sdl[2] = {
     " /D \"WIN32\" /D \"_WINDOWS\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_DEBUG\" /D PACKAGE=\\\"%s\\\" /D VERSION=\\\"0.7\\\" /D SIZEOF_INT=4"
 };
 
-static char *msvc6_base_cpp_cc_end = " /YX /FD /c\r\n";
+static char *msvc6_base_cpp_cc_end = " /YX /FD /Zm200 /c\r\n";
 
 static char *msvc6_base_cpp_console_part1_native[4] = {
     "/MT /W3 /GX /O2",
@@ -4145,10 +4145,10 @@ static char *msvc6_base_cpp_console_part1_sdl[2] = {
 };
 
 static char *msvc6_base_cpp_console_part2[4] = {
-    " /D \"WIN32\" /D \"_CONSOLE\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_MBCS\" /D \"NDEBUG\" /YX /FD /c",
-    " /D \"WIN32\" /D \"_CONSOLE\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H \"/D \"_MBCS\" /D \"_DEBUG\" /YX /FD /c",
-    " /D \"WIN32\" /D \"_CONSOLE\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_MBCS\" /D \"NDEBUG\" /YX /FD /c",
-    " /D \"WIN32\" /D \"_CONSOLE\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_MBCS\" /D \"_DEBUG\" /YX /FD /c"
+    " /D \"WIN32\" /D \"_CONSOLE\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_MBCS\" /D \"NDEBUG\" /YX /FD /Zm200 /c",
+    " /D \"WIN32\" /D \"_CONSOLE\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H \"/D \"_MBCS\" /D \"_DEBUG\" /YX /FD /Zm200 /c",
+    " /D \"WIN32\" /D \"_CONSOLE\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_MBCS\" /D \"NDEBUG\" /YX /FD /Zm200 /c",
+    " /D \"WIN32\" /D \"_CONSOLE\" /D \"IDE_COMPILE\" /D \"DONT_USE_UNISTD_H\" /D \"_MBCS\" /D \"_DEBUG\" /YX /FD /Zm200 /c"
 };
 
 static char *msvc6_base_mtl[2] = {
