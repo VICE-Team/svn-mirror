@@ -29,6 +29,7 @@ VICE_ARG_WITH_LIST(alsa,          [  --without-alsa          do not use the ALSA
 VICE_ARG_WITH_LIST(oss,           [  --without-oss           do not use the OSS sound system])
 VICE_ARG_WITH_LIST(sdlsound,      [  --with-sdlsound         use SDL sound system])
 VICE_ARG_WITH_LIST(resid,         [  --without-resid         do not use the reSID engine])
+VICE_ARG_WITH_LIST(jpeg,          [  --without-jpeg          do not use the JPEG screenshot system])
 VICE_ARG_WITH_LIST(png,           [  --without-png           do not use the PNG screenshot system])
 VICE_ARG_WITH_LIST(zlib,          [  --without-zlib          do not use the zlib support])
 VICE_ARG_WITH_LIST(picasso96,     [  --with-picasso96        use Amiga P96 grafix system instead of cgx])
@@ -3595,14 +3596,16 @@ if test x"$ac_cv_header_gif_lib_h" = "xyes" ; then
   fi
 fi
 
-dnl Check for the JPEG library.
-AC_CHECK_HEADER(jpeglib.h,,)
-if test x"$ac_cv_header_jpeglib_h" = "xyes" ; then
-  AC_CHECK_LIB(jpeg, jpeg_CreateCompress, [ 
-               GFXOUTPUT_LIBS="-ljpeg $GFXOUTPUT_LIBS";
-               GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS jpegdrv.o";
-               HAVE_JPEG_SUPPORT="yes";
-               AC_DEFINE(HAVE_JPEG,,[Can we use the JPEG library?]) ],,)
+if test x"$with_jpeg" != "xno" ; then
+  dnl Check for the JPEG library.
+  AC_CHECK_HEADER(jpeglib.h,,)
+  if test x"$ac_cv_header_jpeglib_h" = "xyes" ; then
+    AC_CHECK_LIB(jpeg, jpeg_CreateCompress, [ 
+                 GFXOUTPUT_LIBS="-ljpeg $GFXOUTPUT_LIBS";
+                 GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS jpegdrv.o";
+                 HAVE_JPEG_SUPPORT="yes";
+                 AC_DEFINE(HAVE_JPEG,,[Can we use the JPEG library?]) ],,)
+  fi
 fi
 
 LIBS="$old_LIBS"
@@ -5177,7 +5180,7 @@ echo "SCREENSHOTS"
 echo "-----------"
 
 echo "GIF encoding support : $HAVE_GIF_SUPPORT"
-echo "JPEG encoding support: $HAVE_JPEG_SUPPORT"
+echo "JPEG encoding support: $HAVE_JPEG_SUPPORT (--with/without-jpeg)"
 echo "PNG encoding support : $HAVE_PNG_SUPPORT (--with/without-png)"
 
 echo ""
