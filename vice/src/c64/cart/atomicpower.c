@@ -212,22 +212,18 @@ static void atomicpower_io2_store(WORD addr, BYTE value)
 
 static int atomicpower_dump(void)
 {
-    int bank = ((atomicpower_control_reg & 0x80) >> 5) | ((atomicpower_control_reg & 0x18) >> 3);
-    int freeze_reset = (atomicpower_control_reg & 0x40) ? 1 : 0;
-    int ram_enable = (atomicpower_control_reg & 0x20) ? 1 : 0;
-    int cart_disable = (atomicpower_control_reg & 4) ? 1 : 0;
-    int exrom = (atomicpower_control_reg & 2) ? 1 : 0;
-    char *exrom_line = (exrom) ? "high" : "low";
-    int game = atomicpower_control_reg & 1;
-    char *game_line = (game) ? "low" : "high";
-
-    mon_out("Bank: %d, Freeze Reset: %d, RAM Enable: %d, Cart Disable: %d, EXROM: %s, GAME: %s\n",
-            bank, freeze_reset, ram_enable, cart_disable, exrom_line, game_line);
-
-    /* TODO: what is at $8000-$9FFF (cart RAM, cart ROM, system RAM),
-             what is at $A000-$BFFF (cart RAM, BASIC ROM)
-     */
-
+    mon_out("EXROM line: %s, GAME line: %s, Mode: %s\n",
+            (atomicpower_control_reg & 2) ? "high" : "low",
+            (atomicpower_control_reg & 1) ? "low" : "high",
+            cart_config_string(atomicpower_control_reg & 3));
+    mon_out("ROM bank: %d, cart state: %s, reset freeze: %s\n",
+            (atomicpower_control_reg & 0x18) >> 3,
+            (atomicpower_control_reg & 4) ? "disabled" : "enabled",
+            (atomicpower_control_reg & 0x40) ? "yes" : "no");
+    /* FIXME: take system RAM and cart mode(s) into account here */
+    mon_out("$8000-$9FFF: %s\n", (export_ram) ? "RAM" : "ROM");
+    mon_out("$A000-$BFFF: %s\n", (export_ram_at_a000) ? "RAM" : "ROM");
+    mon_out("$DF00-$DFFF: %s\n", (export_ram || export_ram_at_a000) ? "RAM" : "ROM");
     return 0;
 }
 

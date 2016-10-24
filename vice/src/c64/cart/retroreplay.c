@@ -699,12 +699,6 @@ void retroreplay_mmu_translate(unsigned int addr, BYTE **base, int *start, int *
 
 static int retroreplay_dump(void)
 {
-    char *mode[4] = {
-        "8k game",
-        "16k game",
-        "RAM",
-        "ultimax"
-    };
     /* FIXME: incomplete */
     mon_out("Retro Replay registers are %s.\n", rr_active ? "enabled" : "disabled");
     mon_out("Clockport is %s.\n", rr_clockport_enabled ? "enabled" : "disabled");
@@ -712,7 +706,17 @@ static int retroreplay_dump(void)
         mon_out("Clockport device: %s.\n", clockport_device_id_to_name(clockport_device_id));
     }
     mon_out("Freeze status: %s.\n", rr_frozen ? "frozen" : "released");
-    mon_out("GAME/EXROM status: %s.\n", mode[rr_cmode]);
+
+    mon_out("EXROM line: %s, GAME line: %s, Mode: %s\n",
+            (rr_cmode & 2) ? "high" : "low",
+            (rr_cmode & 1) ? "low" : "high",
+            cart_config_string(rr_cmode & 3));
+    mon_out("ROM bank: %d\n", (rr_bank));
+    /* FIXME: take system RAM and cart mode(s) into account here */
+    /* FIXME: this is very inaccurate */
+    mon_out("$8000-$9FFF: %s\n", (export_ram) ? "RAM" : "ROM");
+    mon_out("$A000-$BFFF: %s\n", (export_ram_at_a000) ? "RAM" : "ROM");
+    mon_out("$DF00-$DFFF: %s\n", (export_ram || export_ram_at_a000) ? "RAM" : "ROM");
 
     return 0;
 }
