@@ -1509,6 +1509,9 @@ IDCLS_ENABLE_TFE_AS_RRNET
 
 /* c64/cart/tfe.c */
 IDCLS_DISABLE_TFE_AS_RRNET
+
+/* c64/cart/cs8900io.c */
+IDCLS_ETHERNET_INTERFACE
 #endif   /* HAVE_TFE */
 
 /* c64/cart/c64cart.c */

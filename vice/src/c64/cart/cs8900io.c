@@ -36,7 +36,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pcap.h>
 
 #include "archdep.h"
 #include "cartio.h"
@@ -98,15 +97,6 @@ void cs8900io_reset(void)
     }
 }
 
-static char *get_standard_cs8900io_interface(void)
-{
-    char *dev, errbuf[PCAP_ERRBUF_SIZE];
-
-    dev = pcap_lookupdev(errbuf);
-
-    return dev;
-}
-
 static int cs8900io_activate(void)
 {
 #ifdef CS8900IO_DEBUG
@@ -140,7 +130,7 @@ static int cs8900io_deactivate(void)
     } else {
         cs8900io_enabled = 0;
         should_activate = 0;
-        /* FIXME: WTH check for tfe_log here? */
+        /* FIXME: WTH check for cs8900io_log here? */
         if (cs8900io_log != LOG_ERR) {
             return cs8900_deactivate();
         }
@@ -314,9 +304,12 @@ int cs8900io_resources_init(void)
 
     if (!cs8900io_resources_init_done) {
 
-        default_if = get_standard_cs8900io_interface();
+        default_if = rawnet_get_standard_interface();
 
         if (default_if) {
+#if 1
+            log_message(LOG_DEFAULT, "default if: %s", default_if);
+#endif
             resources_string[0].factory_value = default_if;
         }
 
@@ -341,7 +334,7 @@ static const cmdline_option_t cmdline_options[] =
     { "-cs8900ioif", SET_RESOURCE, 1,
       NULL, NULL, "ETHERNET_INTERFACE", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_TFE_INTERFACE,
+      IDCLS_P_NAME, IDCLS_ETHERNET_INTERFACE,
       NULL, NULL },
     { NULL }
 };

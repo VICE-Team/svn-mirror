@@ -68,5 +68,6 @@ extern void rawnet_set_should_accept_func(int (*func)(unsigned char *, int, int 
 extern int rawnet_enumadapter_open(void);
 extern int rawnet_enumadapter(char **ppname, char **ppdescription);
 extern int rawnet_enumadapter_close(void);
+extern char *rawnet_get_standard_interface(void);
 
 #endif

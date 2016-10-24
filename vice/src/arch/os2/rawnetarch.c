@@ -354,4 +354,8 @@ int rawnet_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index
     return 1;
 }
 
+char *rawnet_arch_get_standard_interface(void)
+{
+    return NULL;
+}
 #endif /* #ifdef HAVE_TFE */

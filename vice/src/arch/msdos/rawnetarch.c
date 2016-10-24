@@ -538,4 +538,12 @@ int _dma_request(int ch, const char *dev_name)
     return (0);  /* to-do */
 }
 
+char *rawnet_arch_get_standard_interface(void)
+{
+    char *dev, errbuf[PCAP_ERRBUF_SIZE];
+
+    dev = pcap_lookupdev(errbuf);
+
+    return dev;
+}
 #endif /* #ifdef HAVE_TFE */

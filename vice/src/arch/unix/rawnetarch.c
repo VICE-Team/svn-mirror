@@ -530,4 +530,12 @@ int rawnet_arch_receive(BYTE *pbuffer, int *plen, int  *phashed, int *phash_inde
     return 0;
 }
 
+char *rawnet_arch_get_standard_interface(void)
+{
+    char *dev, errbuf[PCAP_ERRBUF_SIZE];
+
+    dev = pcap_lookupdev(errbuf);
+
+    return dev;
+}
 #endif /* #ifdef HAVE_TFE */

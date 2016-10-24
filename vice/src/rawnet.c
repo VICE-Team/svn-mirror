@@ -71,4 +71,8 @@ int rawnet_enumadapter_close(void)
     return rawnet_arch_enumadapter_close();
 }
 
+char *rawnet_get_standard_interface(void)
+{
+    return rawnet_arch_get_standard_interface();
+}
 #endif /* #ifdef HAVE_TFE */

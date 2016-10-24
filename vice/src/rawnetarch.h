@@ -61,4 +61,6 @@ extern int rawnet_arch_enumadapter_open(void);
 extern int rawnet_arch_enumadapter(char **ppname, char **ppdescription);
 extern int rawnet_arch_enumadapter_close(void);
 
+extern char *rawnet_arch_get_standard_interface(void);
+
 #endif

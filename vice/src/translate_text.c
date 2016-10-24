@@ -8873,6 +8873,23 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_DISABLE_TFE_AS_RRNET_SV, "Inaktivera RRNet-läge på TFE-emulering"},
 /* tr */ {IDCLS_DISABLE_TFE_AS_RRNET_TR, "TFE emülasyonunun RRNet modunu pasifleþtir"},
 #endif
+
+/* c64/cart/cs8900io.c */
+/* en */ {IDCLS_ETHERNET_INTERFACE,    N_("Set the system ethernet interface")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ETHERNET_INTERFACE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ETHERNET_INTERFACE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ETHERNET_INTERFACE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ETHERNET_INTERFACE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ETHERNET_INTERFACE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ETHERNET_INTERFACE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ETHERNET_INTERFACE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ETHERNET_INTERFACE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ETHERNET_INTERFACE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ETHERNET_INTERFACE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ETHERNET_INTERFACE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ETHERNET_INTERFACE_TR, ""},  /* fuzzy */
+#endif
 #endif
 
 /* c64/cart/c64cart.c */

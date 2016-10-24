@@ -55,6 +55,7 @@ typedef int (*pcap_datalink_t)(pcap_t *);
 typedef int (*pcap_findalldevs_t)(pcap_if_t **, char *);
 typedef void (*pcap_freealldevs_t)(pcap_if_t *);
 typedef int (*pcap_sendpacket_t)(pcap_t *p, u_char *buf, int size);
+typedef char *(*pcap_lookupdev_t)(char *);
 
 /** #define RAWNET_DEBUG_ARCH 1 **/
 /** #define RAWNET_DEBUG_PKTDUMP 1 **/
@@ -70,6 +71,7 @@ static pcap_findalldevs_t p_pcap_findalldevs;
 static pcap_freealldevs_t p_pcap_freealldevs;
 static pcap_sendpacket_t p_pcap_sendpacket;
 static pcap_datalink_t p_pcap_datalink;
+static pcap_lookupdev_t p_pcap_lookupdev;
 
 static HINSTANCE pcap_library = NULL;
 
@@ -125,6 +127,7 @@ static void TfePcapFreeLibrary(void)
         p_pcap_freealldevs = NULL;
         p_pcap_sendpacket = NULL;
         p_pcap_datalink = NULL;
+        p_pcap_lookupdev = NULL;
     }
 }
 
@@ -154,6 +157,7 @@ static BOOL TfePcapLoadLibrary(void)
         GET_PROC_ADDRESS_AND_TEST(pcap_freealldevs);
         GET_PROC_ADDRESS_AND_TEST(pcap_sendpacket);
         GET_PROC_ADDRESS_AND_TEST(pcap_datalink);
+        GET_PROC_ADDRESS_AND_TEST(pcap_lookupdev);
     }
 
     return TRUE;
@@ -525,5 +529,18 @@ int rawnet_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index
     }
 
     return 0;
+}
+
+char *rawnet_arch_get_standard_interface(void)
+{
+    char *dev, errbuf[PCAP_ERRBUF_SIZE];
+
+    if (!TfePcapLoadLibrary()) {
+        return NULL;
+    }
+
+    dev = (*p_pcap_lookupdev)(errbuf);
+
+    return dev;
 }
 #endif /* #ifdef HAVE_TFE */
