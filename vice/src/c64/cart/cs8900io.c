@@ -295,7 +295,7 @@ static int set_cs8900io_interface(const char *name, void *param)
     return 0;
 }
 
-static const resource_string_t resources_string[] = {
+static resource_string_t resources_string[] = {
     { "ETHERNET_INTERFACE",
       ARCHDEP_ETHERNET_DEFAULT_DEVICE, RES_EVENT_NO, NULL,
       &cs8900io_interface, set_cs8900io_interface, NULL },
