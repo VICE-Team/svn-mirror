@@ -24,7 +24,7 @@ AC_SUBST(RESID_INLINING)
 AC_SUBST(RESID_INLINE)
 
 dnl Checks for programs.
-AC_PROG_CXX([clang++ g++])
+AC_PROG_CXX([g++ clang++])
 
 dnl Set CXXFLAGS for g++. Use -fno-exceptions if supported.
 if test "$GXX" = yes; then
