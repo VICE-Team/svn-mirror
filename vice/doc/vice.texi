@@ -26822,13 +26822,20 @@ support to be able to be used on any network supporting arch.
 Started the SDL2 port. Added generic sampler input support.
 Added new joyport system and converted the joystick, mouse and
 lightpen code to use the new system. Added joyport attached
-rtc. Added joyport attached cardkey keypad. Added joyport
-attached coplin keypad. Added joyport attached atari cx21
-keypad. Added joyport attached atari cx85 keypad. Added joyport
-attached paperclip 64 dongle. Added joyport attached rushware
-keypad. Added joyport attached 2/4 bit samplers. Added vic20
-I/O-2 and I/O-3 RAM support. Added the c64 cp/m (z80) cartridge.
-And lots of other fixes and improvements.
+rtc (bbrtc). Added joyport attached cardkey keypad. Added
+joyport attached coplin keypad. Added joyport attached atari
+cx21 keypad. Added joyport attached atari cx85 keypad. Added
+joyport attached paperclip 64 dongle. Added joyport attached
+rushware keypad. Added joyport attached 2/4 bit samplers. Added
+vic20 I/O-2 and I/O-3 RAM support. Added the c64 cp/m (z80)
+cartridge. Added IDE64 digimax short bus device emulation.
+Added tapeport system and the tapelog, cp-clockf83, tape-sense
+dongle, and (not yet working) dtl basic dongle devices. Added
+easy calc result cartridge emulation. Added hardware SID I/O
+access system which allows CW3, HardSID, ParSID and SSI2001 to
+work on AmigaOS, BeOS, DOS, SDL, *nix and windows with and
+without device drivers. And lots of other fixes and
+improvements.
 
 @item
 @b{Fabrizio Gennari}
@@ -26858,13 +26865,15 @@ Improved the GTK3 GUI. Added x64(sc)/x128/x64dtv/xplus4/xvic model
 selection system. Added KoalaPad emulation. Added keyrah keymaps.
 Added joystick keys mapping to the keymap system. CIA emulation
 improvements. Added basic support for compute gazette sidplayer
-files (mus/str) to vsid. Wrote alot of test programs. Added
+files (mus/str) to vsid. Added new palette files. Added
 'available features' code. Fixed/added some items in the OSX GUI.
 Added random tape wobble emulation. Added 64k RGCD cartridge
 emulation. Added psid v4 3sid support to vsid. Added single frame
 advance. Added drive RPM and wobble support. Added rrnet mk3
-emulation. Updated this document after a long period of outdated
-mess. And various fixes and improvements.
+emulation. Added GMod2 cartridge emulation. Added xvic BehrBonz
+cartridge emulation. Wrote alot of test programs. Updated this
+document after a long period of outdated mess. And various fixes
+and improvements.
 
 @item
 @b{Errol Smith}
@@ -26883,7 +26892,7 @@ support for 'printer/plotter' Commodore 1520.
 @b{Marcus Sutton}
 Made some console, dialog and joystick fixes for the BeOS port.
 Maintains the BeOS port. Added some GTK2 fixes. Fixed some PET model
-selection issues.
+selection issues. Revived the Windows NT Unicode port.
 
 @item
 @b{Kajtar Zsolt}

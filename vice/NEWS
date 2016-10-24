@@ -35,6 +35,9 @@ left from previous installs.
 - New sampler sound input support, used by sfx sound sampler, digiblaster
   and userport/joyport sampler devices.
 
+- New tapeport system supporting the following devices: datasette, tapelog,
+  cp-clockf83, tape-sense dongle, (not yet working) dtl basic dongle.
+
 - New Inkwell Systems lightpen emulation.
 
 - New scroll wheel support for the Micromys mouse emulation.
@@ -62,11 +65,17 @@ left from previous installs.
 
 - New IDE64 USB server emulation.
 
+- New IDE64 DigiMAX short bus device emulation.
+
 - New RGCD cartridge emulation.
 
 - New Final Cartridge III+ emulation.
 
 - New rrnet mk3 cartridge emulation.
+
+- New easy calc result cartridge emulation.
+
+- New GMod2 cartridge emulation.
 
 - New joyport system which currently supports attaching the following
   devices to the native ports: joystick, paddles, 1351 mouse, neos mouse,
@@ -118,6 +127,10 @@ left from previous installs.
 - New I/O-2 RAM cartridge emulation.
 
 - New I/O-3 RAM cartridge emulation.
+
+- New BehrBonz cartridge emulation.
+
+- New mike's VFLI modification emulation.
 
 - New joyport system which currently supports attaching the following
   devices to the native port: joystick, paddles, 1351 mouse, neos mouse,
@@ -224,15 +237,40 @@ left from previous installs.
 
 - New joystick status items in the GTK GUI.
 
+- New hardware SID I/O access system which allows PCI CW3,
+  ISA/PCI HardSID, ParSID and SSI2001 to work with and
+  without device drivers.
+
 ** MS-Windows changes
 ---------------------
 
 - Documentation in CHM and HLP format.
 
+- New hardware SID I/O access system which allows PCI CW3,
+  ISA/PCI HardSID, ParSID and SSI2001 to work with and
+  without device drivers.
+
 ** AmigaOS changes
 ------------------
 
+- New hardware SID I/O access system which allows
+  clockport/Zorro/PCI CW3, ISA/PCI HardSID and SSI2001 to
+  work with and without device drivers.
+
 - Documentation in AmigaGuide format.
+
+** BeOS changes
+---------------
+- New hardware SID I/O access system which allows PCI CW3,
+  ISA/PCI HardSID, ParSID and SSI2001 to work with and
+  without device drivers.
+
+** DOS changes
+--------------
+
+- New hardware SID I/O access system which allows PCI CW3,
+  ISA/PCI HardSID, ParSID and SSI2001 to work with and
+  without device drivers.
 
 ** OS/2 changes
 ---------------
