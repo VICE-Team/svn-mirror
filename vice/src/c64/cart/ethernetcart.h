@@ -1,8 +1,8 @@
 /*
- * tfe.h - TFE ("The final ethernet") emulation.
+ * ethernetcart.h - Generic CS8900 based ethernet cartridge emulation.
  *
  * Written by
- *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,7 +26,7 @@
 
 #ifdef HAVE_TFE
 #else
-  #error TFE.H should not be included if HAVE_TFE is not defined!
+  #error ETHERNETCART.H should not be included if HAVE_TFE is not defined!
 #endif /* #ifdef HAVE_TFE */
 
 #ifndef CARTRIDGE_INCLUDE_PRIVATE_API
@@ -35,22 +35,25 @@
 #endif
 #endif
 
-#ifndef VICE_TFE_H
-#define VICE_TFE_H
+#ifndef VICE_ETHERNETCART_H
+#define VICE_ETHERNETCART_H
+
+#define ETHERNETCART_MODE_TFE     0
+#define ETHERNETCART_MODE_RRNET   1
 
 struct snapshot_s;
-extern int tfe_snapshot_read_module(struct snapshot_s *s);
-extern int tfe_snapshot_write_module(struct snapshot_s *s);
+extern int ethernetcart_snapshot_read_module(struct snapshot_s *s);
+extern int ethernetcart_snapshot_write_module(struct snapshot_s *s);
 
-extern int tfe_cart_enabled(void);
+extern int ethernetcart_cart_enabled(void);
 
-extern void tfe_init(void);
-extern int tfe_resources_init(void);
-extern void tfe_resources_shutdown(void);
-extern int tfe_cmdline_options_init(void);
+extern void ethernetcart_init(void);
+extern int ethernetcart_resources_init(void);
+extern void ethernetcart_resources_shutdown(void);
+extern int ethernetcart_cmdline_options_init(void);
 
-extern void tfe_reset(void);
-extern void tfe_detach(void);
-extern int tfe_enable(void);
+extern void ethernetcart_reset(void);
+extern void ethernetcart_detach(void);
+extern int ethernetcart_enable(void);
 
 #endif

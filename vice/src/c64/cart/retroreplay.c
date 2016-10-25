@@ -56,9 +56,6 @@
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #include "retroreplay.h"
 #include "reu.h"
-#ifdef HAVE_TFE
-#include "tfe.h"
-#endif
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /*

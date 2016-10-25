@@ -118,7 +118,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_MIDI_NAMESOFT      -111 /* c64-midi.c */
 #define CARTRIDGE_MIDI_MAPLIN        -112 /* c64-midi.c */
 #define CARTRIDGE_DS12C887RTC        -113 /* ds12c887rtc.c */
-#define CARTRIDGE_TFE                -116 /* tfe.c */
+#define CARTRIDGE_TFE                -116 /* ethernetcart.c */
 #define CARTRIDGE_TURBO232           -117 /* c64acia1.c */
 #define CARTRIDGE_SWIFTLINK          -118 /* c64acia1.c */
 #define CARTRIDGE_ACIA               -119 /* c64acia1.c */
@@ -248,6 +248,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_EASYFLASH          "EasyFlash" /* see http://skoe.de/easyflash/ */
 #define CARTRIDGE_NAME_EASYFLASH_XBANK    "EasyFlash Xbank" /* see http://skoe.de/easyflash/ */
 #define CARTRIDGE_NAME_EPYX_FASTLOAD      "Epyx FastLoad" /* http://rr.pokefinder.org/wiki/Epyx_FastLoad */
+#define CARTRIDGE_NAME_ETHERNETCART       "Ethernet cartridge"
 #define CARTRIDGE_NAME_EXOS               "EXOS" /* http://rr.pokefinder.org/wiki/ExOS */
 #define CARTRIDGE_NAME_EXPERT             "Expert Cartridge" /* http://rr.pokefinder.org/wiki/Expert_Cartridge */
 #define CARTRIDGE_NAME_FINAL_I            "The Final Cartridge" /* http://rr.pokefinder.org/wiki/Final_Cartridge */

@@ -231,8 +231,8 @@ WVList
 0
 55
 MItem
-26
-..\..\..\c64\cart\georam.c
+32
+..\..\..\c64\cart\ethernetcart.c
 56
 WString
 4
@@ -249,8 +249,8 @@ WVList
 0
 59
 MItem
-37
-..\..\..\c64\cart\sfx_soundexpander.c
+26
+..\..\..\c64\cart\georam.c
 60
 WString
 4
@@ -267,8 +267,8 @@ WVList
 0
 63
 MItem
-36
-..\..\..\c64\cart\sfx_soundsampler.c
+37
+..\..\..\c64\cart\sfx_soundexpander.c
 64
 WString
 4
@@ -285,8 +285,8 @@ WVList
 0
 67
 MItem
-23
-..\..\..\c64\cart\tfe.c
+36
+..\..\..\c64\cart\sfx_soundsampler.c
 68
 WString
 4

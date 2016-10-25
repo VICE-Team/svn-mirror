@@ -526,7 +526,8 @@ void cart_romlbank_set_slotmain(unsigned int bank)
         reu
         midi
         acia
-        clockport (tfe)
+        clockport
+	ethernetcart
 
               hook                    default
 

@@ -182,11 +182,11 @@ libc64commoncart_a_SOURCES = \
 	digimax.h \
 	ds12c887rtc.c \
 	ds12c887rtc.h \
+	ethernetcart.c \
+	ethernetcart.h \
 	georam.c \
 	georam.h \
 	sfx_soundexpander.c \
 	sfx_soundexpander.h \
 	sfx_soundsampler.c \
-	sfx_soundsampler.h \
-	tfe.c \
-	tfe.h
+	sfx_soundsampler.h

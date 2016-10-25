@@ -6797,8 +6797,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DONT_SWAP_CART_IO_TR, "G/Ç haritalamasýný yer deðiþtirme (harita kartý G/Ç-1 ile VIC20 G/Ç-2 ve kart G/Ç-2 ile VIC20 G/Ç-3)"},
 #endif
 
-/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
-   c64/cart/tfe.c */
+/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c */
 /* en */ {IDCLS_MAP_CART_IO_2,    N_("Swap io mapping (map cart I/O to VIC20 I/O-2)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MAP_CART_IO_2_DA, "Ombyt I/O-forbindelse (forbind cart I/O til VIC20 I/O-2)"},
@@ -6815,8 +6814,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_MAP_CART_IO_2_TR, "G/Ç haritalamasýný yer deðiþtir (harita kartý G/Ç ile VIC20 G/Ç-2)"},
 #endif
 
-/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
-   c64/cart/tfe.c */
+/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c */
 /* en */ {IDCLS_MAP_CART_IO_3,    N_("Don't swap io mapping (map cart I/O to VIC20 I/O-3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MAP_CART_IO_3_DA, "Ombyt ikke I/O-forbindelse (forbind cart I/O til VIC20 I/O-3)"},
@@ -8789,89 +8787,106 @@ translate_t string_table[] = {
 #endif
 
 #ifdef HAVE_TFE
-/* c64/cart/tfe.c */
-/* en */ {IDCLS_ENABLE_TFE,    N_("Enable the TFE (\"The Final Ethernet\") unit")},
+/* c64/cart/ethernetcart.c */
+/* en */ {IDCLS_ENABLE_TFE,    N_("Enable the Ethernet Cartridge in TFE (\"The Final Ethernet\") mode and set TFE default address")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_TFE_DA, "Aktivér TFE-enhed (\"The Final Ethernet\")"},
-/* de */ {IDCLS_ENABLE_TFE_DE, "TFE (\"the final ethernet\") Erweiterung aktivitieren"},
-/* es */ {IDCLS_ENABLE_TFE_ES, "Permitir unidad TFE (\"The Final Ethernet\")"},
-/* fr */ {IDCLS_ENABLE_TFE_FR, "Activer l'unité TFE (\"The Final Ethernet\")"},
-/* hu */ {IDCLS_ENABLE_TFE_HU, "TFE (\"the final ethernet\") egység engedélyezése"},
-/* it */ {IDCLS_ENABLE_TFE_IT, "Attiva l'unità TFE (\"The Final Ethernet\")"},
+/* da */ {IDCLS_ENABLE_TFE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TFE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_TFE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_TFE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TFE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TFE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_TFE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TFE_NL, "Activeer de TFE (\"The Final Ethernet\") eenheid"},
-/* pl */ {IDCLS_ENABLE_TFE_PL, "W³±cz jednostkê TFE (\"The Final Ethernet\")"},
-/* ru */ {IDCLS_ENABLE_TFE_RU, "Enable the TFE (\"The Final Ethernet\") unit"},
-/* sv */ {IDCLS_ENABLE_TFE_SV, "Aktivera TFE-enhet (\"The Final Ethernet\")"},
-/* tr */ {IDCLS_ENABLE_TFE_TR, "TFE (\"The Final Ethernet\") birimini aktif et"},
+/* nl */ {IDCLS_ENABLE_TFE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_TFE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_TFE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TFE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_TFE_TR, ""},  /* fuzzy */
 #endif
 
-/* c64/cart/tfe.c */
-/* en */ {IDCLS_DISABLE_TFE,    N_("Disable the TFE (\"The Final Ethernet\") unit")},
+/* c64/cart/ethernetcart.c */
+/* en */ {IDCLS_ENABLE_RRNET,    N_("Enable the Ethernet Cartridge in RR-NET/64NIC/FB-NET mode and set RR-NET default address")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TFE_DA, "Deaktivér TFE-enhed (\"The Final Ethernet\")"},
-/* de */ {IDCLS_DISABLE_TFE_DE, "TFE (\"the final ethernet\") Erweiterung deaktivitieren"},
-/* es */ {IDCLS_DISABLE_TFE_ES, "Deshabilitar unidad TFE (\"The Final Ethernet\")"},
-/* fr */ {IDCLS_DISABLE_TFE_FR, "Désactiver l'unité TFE (\"The Final Ethernet\")"},
-/* hu */ {IDCLS_DISABLE_TFE_HU, "TFE (\"The Final Ethernet\") egység tiltása"},
-/* it */ {IDCLS_DISABLE_TFE_IT, "Disattiva l'unità TFE (\"The Final Ethernet\")"},
-/* ko */ {IDCLS_DISABLE_TFE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TFE_NL, "Deactiveer de TFE (\"The Final Ethernet\") eenheid"},
-/* pl */ {IDCLS_DISABLE_TFE_PL, "Wy³±cz jednostkê TFE (\"The Final Ethernet\")"},
-/* ru */ {IDCLS_DISABLE_TFE_RU, "Disable the TFE (\"The Final Ethernet\") unit"},
-/* sv */ {IDCLS_DISABLE_TFE_SV, "Inaktivera TFE-enhet (\"The Final Ethernet\")"},
-/* tr */ {IDCLS_DISABLE_TFE_TR, "TFE (\"The Final Ethernet\") birimini pasifleþtir"},
+/* da */ {IDCLS_ENABLE_RRNET_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_RRNET_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_RRNET_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_RRNET_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_RRNET_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_RRNET_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_RRNET_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_RRNET_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_RRNET_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_RRNET_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_RRNET_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_RRNET_TR, ""},  /* fuzzy */
 #endif
 
-/* c64/cart/tfe.c */
-/* en */ {IDCLS_TFE_INTERFACE,    N_("Set the system ethernet interface for TFE emulation")},
+/* c64/cart/ethernetcart.c */
+/* en */ {IDCLS_ENABLE_ETHERNETCART,    N_("Enable the Ethernet Cartridge (TFE/RR-NET/64NIC/FB-NET)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_TFE_INTERFACE_DA, "Indstil systemets netkort til TFE-emulering"},
-/* de */ {IDCLS_TFE_INTERFACE_DE, "Setze die System Ethernet Schnittstelle für die TFE Emulation"},
-/* es */ {IDCLS_TFE_INTERFACE_ES, "Seleccionar interface sistema ethernet para emulación TFE"},
-/* fr */ {IDCLS_TFE_INTERFACE_FR, "Définir l’interface ethernet pour l’émulation TFE"},
-/* hu */ {IDCLS_TFE_INTERFACE_HU, "Rendszer ethernet eszköz beállítása TFE emulációhoz"},
-/* it */ {IDCLS_TFE_INTERFACE_IT, "Imposta l'interfaccia ethernet per l'emulazione TFE"},
-/* ko */ {IDCLS_TFE_INTERFACE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_TFE_INTERFACE_NL, "Zet de systeem ethernetinterface voor de TFE emulatie"},
-/* pl */ {IDCLS_TFE_INTERFACE_PL, "Ustaw interfejs systemowy ethernet emulacji TFE"},
-/* ru */ {IDCLS_TFE_INTERFACE_RU, "Set the system ethernet interface for TFE emulation"},
-/* sv */ {IDCLS_TFE_INTERFACE_SV, "Ställ in systemets ethernetgränssnitt för TFE-emulering"},
-/* tr */ {IDCLS_TFE_INTERFACE_TR, "Sistem ethernet arabirimini TFE emülasyonu için ayarla"},
+/* da */ {IDCLS_ENABLE_ETHERNETCART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_ETHERNETCART_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_ETHERNETCART_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_ETHERNETCART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_ETHERNETCART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_ETHERNETCART_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_ETHERNETCART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_ETHERNETCART_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_ETHERNETCART_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_ETHERNETCART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_ETHERNETCART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_ETHERNETCART_TR, ""},  /* fuzzy */
 #endif
 
-/* c64/cart/tfe.c */
-/* en */ {IDCLS_ENABLE_TFE_AS_RRNET,    N_("Enable RRNet mode of TFE emulation")},
+/* c64/cart/ethernetcart.c */
+/* en */ {IDCLS_DISABLE_ETHERNETCART,    N_("Disable the Ethernet Cartridge (TFE/RR-NET/64NIC/FB-NET)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_TFE_AS_RRNET_DA, "Aktivér RRNet-tilstand af TFE-emulering"},
-/* de */ {IDCLS_ENABLE_TFE_AS_RRNET_DE, "RRNet Modus der TFE Emulation aktivieren"},
-/* es */ {IDCLS_ENABLE_TFE_AS_RRNET_ES, "Permitir emulación TFE en modo RRNet"},
-/* fr */ {IDCLS_ENABLE_TFE_AS_RRNET_FR, "Activer le mode RRNet de l’émulation TFE"},
-/* hu */ {IDCLS_ENABLE_TFE_AS_RRNET_HU, "RRNet mód engedélyezése TFE emulációhoz"},
-/* it */ {IDCLS_ENABLE_TFE_AS_RRNET_IT, "Attiva la modalità RRNet dell'emulazione TFE"},
-/* ko */ {IDCLS_ENABLE_TFE_AS_RRNET_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TFE_AS_RRNET_NL, "Activeer RRNet modus van de TFE emulatie"},
-/* pl */ {IDCLS_ENABLE_TFE_AS_RRNET_PL, "W³±cz tryb RRNet emulacji TFE"},
-/* ru */ {IDCLS_ENABLE_TFE_AS_RRNET_RU, "Enable RRNet mode of TFE emulation"},
-/* sv */ {IDCLS_ENABLE_TFE_AS_RRNET_SV, "Aktivera RRNet-läge på TFE-emulering"},
-/* tr */ {IDCLS_ENABLE_TFE_AS_RRNET_TR, "TFE emülasyonunun RRNet modunu aktif et"},
+/* da */ {IDCLS_DISABLE_ETHERNETCART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_ETHERNETCART_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_ETHERNETCART_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_ETHERNETCART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_ETHERNETCART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_ETHERNETCART_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_ETHERNETCART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_ETHERNETCART_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_ETHERNETCART_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_ETHERNETCART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_ETHERNETCART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_ETHERNETCART_TR, ""},  /* fuzzy */
 #endif
 
-/* c64/cart/tfe.c */
-/* en */ {IDCLS_DISABLE_TFE_AS_RRNET,    N_("Disable RRNet mode of TFE emulation")},
+/* c64/cart/ethernetcart.c */
+/* en */ {IDCLS_ETHERNETCART_BASE,    N_("Base address of the Ethernet Cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TFE_AS_RRNET_DA, "Deaktivér RRNet-läge af TFE-emulering"},
-/* de */ {IDCLS_DISABLE_TFE_AS_RRNET_DE, "RRNet Modus der TFE Emulation deaktivieren"},
-/* es */ {IDCLS_DISABLE_TFE_AS_RRNET_ES, "Deshabilitar emulación TFE en modo RRNet"},
-/* fr */ {IDCLS_DISABLE_TFE_AS_RRNET_FR, "Désactiver le mode RRNet de l’émulation TFE"},
-/* hu */ {IDCLS_DISABLE_TFE_AS_RRNET_HU, "RRNet mód tiltása TFE emulációhoz"},
-/* it */ {IDCLS_DISABLE_TFE_AS_RRNET_IT, "Disattiva la modalità RRNet dell'emulazione TFE"},
-/* ko */ {IDCLS_DISABLE_TFE_AS_RRNET_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TFE_AS_RRNET_NL, "Deactiveer RRNet modus van de TFE emulatie"},
-/* pl */ {IDCLS_DISABLE_TFE_AS_RRNET_PL, "Wy³±cz tryb RRNet emulacji TFE"},
-/* ru */ {IDCLS_DISABLE_TFE_AS_RRNET_RU, "Disable RRNet mode of TFE emulation"},
-/* sv */ {IDCLS_DISABLE_TFE_AS_RRNET_SV, "Inaktivera RRNet-läge på TFE-emulering"},
-/* tr */ {IDCLS_DISABLE_TFE_AS_RRNET_TR, "TFE emülasyonunun RRNet modunu pasifleþtir"},
+/* da */ {IDCLS_ETHERNETCART_BASE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ETHERNETCART_BASE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ETHERNETCART_BASE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ETHERNETCART_BASE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ETHERNETCART_BASE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ETHERNETCART_BASE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ETHERNETCART_BASE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ETHERNETCART_BASE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ETHERNETCART_BASE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ETHERNETCART_BASE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ETHERNETCART_BASE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ETHERNETCART_BASE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ethernetcart.c */
+/* en */ {IDCLS_ETHERNETCART_MODE,    N_("Mode of Ethernet Cartridge (0: TFE, 1: RR-NET/64NIC/FB-NET)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ETHERNETCART_MODE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ETHERNETCART_MODE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ETHERNETCART_MODE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ETHERNETCART_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ETHERNETCART_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ETHERNETCART_MODE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ETHERNETCART_MODE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ETHERNETCART_MODE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ETHERNETCART_MODE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ETHERNETCART_MODE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ETHERNETCART_MODE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ETHERNETCART_MODE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/cs8900io.c */

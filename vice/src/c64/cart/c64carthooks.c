@@ -131,7 +131,7 @@
 #include "supersnapshot.h"
 #include "supersnapshot4.h"
 #ifdef HAVE_TFE
-#include "tfe.h"
+#include "ethernetcart.h"
 #endif
 #include "warpspeed.h"
 #include "westermann.h"
@@ -559,7 +559,7 @@ int cart_cmdline_options_init(void)
         || sfx_soundexpander_cmdline_options_init() < 0
         || sfx_soundsampler_cmdline_options_init() < 0
 #ifdef HAVE_TFE
-        || tfe_cmdline_options_init() < 0
+        || ethernetcart_cmdline_options_init() < 0
 #endif
         /* "Main Slot" */
         || easyflash_cmdline_options_init() < 0
@@ -615,7 +615,7 @@ int cart_resources_init(void)
         || sfx_soundexpander_resources_init() < 0
         || sfx_soundsampler_resources_init() < 0
 #ifdef HAVE_TFE
-        || tfe_resources_init() < 0
+        || ethernetcart_resources_init() < 0
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         || aciacart_resources_init() < 0
@@ -660,7 +660,7 @@ void cart_resources_shutdown(void)
     sfx_soundexpander_resources_shutdown();
     sfx_soundsampler_resources_shutdown();
 #ifdef HAVE_TFE
-    tfe_resources_shutdown();
+    ethernetcart_resources_shutdown();
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     aciacart_resources_shutdown();
@@ -810,7 +810,7 @@ int cart_type_enabled(int type)
             return sfx_soundsampler_cart_enabled();
 #ifdef HAVE_TFE
         case CARTRIDGE_TFE:
-            return tfe_cart_enabled();
+            return ethernetcart_cart_enabled();
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         case CARTRIDGE_TURBO232:
@@ -1371,7 +1371,7 @@ int cartridge_enable(int type)
             break;
 #ifdef HAVE_TFE
         case CARTRIDGE_TFE:
-            tfe_enable();
+            ethernetcart_enable();
             break;
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -1421,7 +1421,7 @@ void cart_detach_all(void)
     sfx_soundexpander_detach();
     sfx_soundsampler_detach();
 #ifdef HAVE_TFE
-    tfe_detach();
+    ethernetcart_detach();
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     aciacart_detach();
@@ -1496,7 +1496,7 @@ void cart_detach(int type)
             break;
 #ifdef HAVE_TFE
         case CARTRIDGE_TFE:
-            tfe_detach();
+            ethernetcart_detach();
             break;
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -1716,7 +1716,7 @@ void cart_init(void)
     /* sfx sound expander */
     /* sfx sound sampler */
 #ifdef HAVE_TFE
-    tfe_init();
+    ethernetcart_init();
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     aciacart_init();
@@ -1998,8 +1998,8 @@ void cartridge_reset(void)
         sfx_soundsampler_reset();
     }
 #ifdef HAVE_TFE
-    if (tfe_cart_enabled()) {
-        tfe_reset();
+    if (ethernetcart_cart_enabled()) {
+        ethernetcart_reset();
     }
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -2975,7 +2975,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 break;
 #ifdef HAVE_TFE
             case CARTRIDGE_TFE:
-                if (tfe_snapshot_write_module(s) < 0) {
+                if (ethernetcart_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -3466,7 +3466,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
 #ifdef HAVE_TFE
             case CARTRIDGE_TFE:
-                if (tfe_snapshot_read_module(s) < 0) {
+                if (ethernetcart_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

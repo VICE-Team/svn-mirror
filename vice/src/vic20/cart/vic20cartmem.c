@@ -46,7 +46,7 @@
 #ifdef HAVE_TFE
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #define CARTRIDGE_INCLUDE_PUBLIC_API
-#include "tfe.h"
+#include "ethernetcart.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 #undef CARTRIDGE_INCLUDE_PUBLIC_API
 #endif
@@ -409,7 +409,7 @@ void cartridge_init(void)
     finalexpansion_init();
     vic_fp_init();
 #ifdef HAVE_TFE
-    tfe_init();
+    ethernetcart_init();
 #endif
     aciacart_init();
     georam_init();
@@ -438,8 +438,8 @@ void cartridge_reset(void)
             break;
     }
 #ifdef HAVE_TFE
-    if (tfe_cart_enabled()) {
-        tfe_reset();
+    if (ethernetcart_cart_enabled()) {
+        ethernetcart_reset();
     }
 #endif
     if (aciacart_cart_enabled()) {
@@ -522,7 +522,7 @@ static void cart_detach_all(void)
     sfx_soundexpander_detach();
     sfx_soundsampler_detach();
 #ifdef HAVE_TFE
-    tfe_detach();
+    ethernetcart_detach();
 #endif
 }
 

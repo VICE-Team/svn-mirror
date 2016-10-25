@@ -57,7 +57,6 @@
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #include "rrnetmk3.h"
-#include "tfe.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /*

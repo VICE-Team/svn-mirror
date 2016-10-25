@@ -1264,12 +1264,10 @@ IDCLS_SWAP_CART_IO
 /* c64/cart/georam.c */
 IDCLS_DONT_SWAP_CART_IO
 
-/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
-   c64/cart/tfe.c */
+/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c */
 IDCLS_MAP_CART_IO_2
 
-/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
-   c64/cart/tfe.c */
+/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c */
 IDCLS_MAP_CART_IO_3
 
 /* c64/psid.c */
@@ -1495,20 +1493,23 @@ IDCLS_DO_NOT_WRITE_TO_REU_IMAGE
 IDCLS_REU_SIZE
 
 #ifdef HAVE_TFE
-/* c64/cart/tfe.c */
+/* c64/cart/ethernetcart.c */
 IDCLS_ENABLE_TFE
 
-/* c64/cart/tfe.c */
-IDCLS_DISABLE_TFE
+/* c64/cart/ethernetcart.c */
+IDCLS_ENABLE_RRNET
 
-/* c64/cart/tfe.c */
-IDCLS_TFE_INTERFACE
+/* c64/cart/ethernetcart.c */
+IDCLS_ENABLE_ETHERNETCART
 
-/* c64/cart/tfe.c */
-IDCLS_ENABLE_TFE_AS_RRNET
+/* c64/cart/ethernetcart.c */
+IDCLS_DISABLE_ETHERNETCART
 
-/* c64/cart/tfe.c */
-IDCLS_DISABLE_TFE_AS_RRNET
+/* c64/cart/ethernetcart.c */
+IDCLS_ETHERNETCART_BASE
+
+/* c64/cart/ethernetcart.c */
+IDCLS_ETHERNETCART_MODE
 
 /* c64/cart/cs8900io.c */
 IDCLS_ETHERNET_INTERFACE
