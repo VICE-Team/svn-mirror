@@ -63,7 +63,7 @@
     2K serial EEPROM (m93C86)
 
     io1
-        - register at de00
+        - register at de00 (mirrored over IO1 bank)
 
         bit7   (rw)  write enable (write 1), EEPROM data output (read)
         bit6   (ro)  EXROM (0=active) and EEPROM chip select (1=selected)
@@ -100,7 +100,7 @@ static int gmod2_filetype = 0;
 static char *gmod2_eeprom_filename = NULL;
 static int gmod2_eeprom_rw = 0;
 
-static int eeprom_cs = 0;
+static int eeprom_cs = 0, eeprom_data = 0, eeprom_clock = 0;
 
 static const char STRING_GMOD2[] = CARTRIDGE_NAME_GMOD2;
 
@@ -153,10 +153,7 @@ BYTE gmod2_io1_read(WORD addr)
 
 BYTE gmod2_io1_peek(WORD addr)
 {
-    if ((addr & 0xff) == 0) {
-        return (m93c86_read_data() << 7);
-    }
-    return 0;
+    return (m93c86_read_data() << 7);
 }
 
 void gmod2_io1_store(WORD addr, BYTE value)
@@ -165,24 +162,24 @@ void gmod2_io1_store(WORD addr, BYTE value)
 
     DBG(("io1 w %04x %02x (cs:%d data:%d clock:%d)\n", addr, value, (value >> 6) & 1, (value >> 4) & 1, (value >> 5) & 1));
 
-    if ((addr & 0xff) == 0) {
-        gmod2_bank = value & 0x3f;
-        if ((value & 0xc0) == 0xc0) {
-            // FIXME: flash mode enable, ultimax for e000-ffff
-            gmod2_cmode = CMODE_ULTIMAX;
-        } else if ((value & 0x40) == 0x00) {
-            gmod2_cmode = CMODE_8KGAME;
-        } else if ((value & 0x40) == 0x40) {
-            gmod2_cmode = CMODE_RAM;
-        }
-        eeprom_cs = (value >> 6) & 1;
-        m93c86_write_select((BYTE)eeprom_cs);
-        if (eeprom_cs) {
-            m93c86_write_data((BYTE)((value >> 4) & 1));
-            m93c86_write_clock((BYTE)((value >> 5) & 1));
-        }
-        cart_config_changed_slotmain(CMODE_8KGAME, (BYTE)(gmod2_cmode | (gmod2_bank << CMODE_BANK_SHIFT)), mode);
+    gmod2_bank = value & 0x3f;
+    if ((value & 0xc0) == 0xc0) {
+        // FIXME: flash mode enable, ultimax for e000-ffff
+        gmod2_cmode = CMODE_ULTIMAX;
+    } else if ((value & 0x40) == 0x00) {
+        gmod2_cmode = CMODE_8KGAME;
+    } else if ((value & 0x40) == 0x40) {
+        gmod2_cmode = CMODE_RAM;
     }
+    eeprom_cs = (value >> 6) & 1;
+    eeprom_data = (value >> 4) & 1;
+    eeprom_clock = (value >> 5) & 1;
+    m93c86_write_select((BYTE)eeprom_cs);
+    if (eeprom_cs) {
+        m93c86_write_data((BYTE)(eeprom_data));
+        m93c86_write_clock((BYTE)(eeprom_clock));
+    }
+    cart_config_changed_slotmain(CMODE_8KGAME, (BYTE)(gmod2_cmode | (gmod2_bank << CMODE_BANK_SHIFT)), mode);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -244,14 +241,12 @@ void gmod2_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 
 static int gmod2_dump(void)
 {
-    char *mode[4] = {
-        "8k game",
-        "16k game",
-        "RAM",
-        "ultimax"
-    };
     /* FIXME: incomplete */
-    mon_out("GAME/EXROM status: %s.\n", mode[gmod2_cmode]);
+    mon_out("GAME/EXROM status: %s%s\n", 
+            cart_config_string(gmod2_cmode),
+            (gmod2_cmode == CMODE_ULTIMAX) ? " (Flash mode)" : "");
+    mon_out("ROM bank: %d\n", gmod2_bank);
+    mon_out("EEPROM CS: %d data: %d clock: %d\n", eeprom_cs, eeprom_data, eeprom_clock);
 
     return 0;
 }
