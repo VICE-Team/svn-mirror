@@ -208,7 +208,14 @@
 #endif
 
 #if (__DragonFly_version==400600)
-#define PLATFORM_OS "DragonFly BSD 4.6.x"
+#  include <openssl/opensslv.h>
+#  if (OPENSSL_VERSION_NUMBER==0x1000114fL)
+#    define PLATFORM_OS "DragonFly BSD 4.6.0"
+#  elif (OPENSSL_VERSION_NUMBER==0x1000115fL)
+#    define PLATFORM_OS "DragonFly BSD 4.6.1"
+#  else
+#    define PLATFORM_OS "DragonFly BSD 4.6.x"
+#  endif
 #endif
 
 #ifndef PLATFORM_OS
