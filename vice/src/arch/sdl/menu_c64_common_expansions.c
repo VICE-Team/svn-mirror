@@ -375,6 +375,10 @@ static const ui_menu_entry_t ide64_etfe_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SBETFEbase_callback,
       (ui_callback_data_t)0xde10 },
+    { "$df00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SBETFEbase_callback,
+      (ui_callback_data_t)0xdf00 },
     SDL_MENU_LIST_END
 };
 #endif

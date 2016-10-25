@@ -302,6 +302,9 @@ static TUI_MENU_CALLBACK(etfe_address_submenu_callback)
         case 0xde10:
             strcpy(s, "$DE10");
             break;
+        case 0xdf00:
+            strcpy(s, "$DF00");
+            break;
     }
     return s;
 }
@@ -311,6 +314,8 @@ static tui_menu_item_def_t etfe_address_submenu[] = {
       (void *)0xde00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$DE_10", NULL, radio_SBETFEbase_callback,
       (void *)0xde10, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$D_F00", NULL, radio_SBETFEbase_callback,
+      (void *)0xdf00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 #endif

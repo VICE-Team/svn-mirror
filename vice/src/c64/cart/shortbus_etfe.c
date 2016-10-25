@@ -1,9 +1,7 @@
 /*
- * tfe.c - TFE ("The final ethernet") emulation.
+ * etfe.c - Short Bus ETFE emulation.
  *
  * Written by
- *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
- *  Christian Vogelgsang <chris@vogelgsang.org>
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -49,7 +47,7 @@
 /*
     "The Shortbus ETFE "Final Ethernet" device
 
-    - it simply contains a cs8900a mapped to de00 or de10.
+    - it simply contains a cs8900a mapped to $de00, $de10 or $df00.
     - for register documentation refer to the cs8900a datasheet
 */
 
@@ -175,6 +173,7 @@ static int set_shortbus_etfe_base(int val, void *param)
     switch (addr) {
         case 0xde00:
         case 0xde10:
+        case 0xdf00:
             shortbus_etfe_device.start_address = (WORD)addr;
             shortbus_etfe_device.end_address = (WORD)(addr + 0xf);
             break;
@@ -254,15 +253,11 @@ static cmdline_option_t base_cmdline_options[] =
 
 int shortbus_etfe_cmdline_options_init(void)
 {
-    char *temp1;
-
     if (cmdline_register_options(cmdline_options) < 0) {
         return -1;
     }
 
-    temp1 = util_gen_hex_address_list(0xde00, 0xde20, 0x10);
-    shortbus_etfe_address_list = util_concat(". (", temp1, ")", NULL);
-    lib_free(temp1);
+    shortbus_etfe_address_list = lib_stralloc(". (56832: $de00, 56848: $de10, 57088: $df00)");
 
     base_cmdline_options[0].description = shortbus_etfe_address_list;
 

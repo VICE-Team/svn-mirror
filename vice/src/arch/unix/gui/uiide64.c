@@ -281,6 +281,8 @@ static ui_menu_entry_t ide64_shortbus_etfe_address_submenu[] = {
         (ui_callback_data_t)0xde00, NULL },
     { "$DE10", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SBETFEbase,
         (ui_callback_data_t)0xde10, NULL },
+    { "$DF00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SBETFEbase,
+        (ui_callback_data_t)0xdf00, NULL },
     { NULL }
 };
 
