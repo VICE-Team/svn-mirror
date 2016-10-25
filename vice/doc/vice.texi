@@ -26834,7 +26834,9 @@ dongle, and (not yet working) dtl basic dongle devices. Added
 easy calc result cartridge emulation. Added hardware SID I/O
 access system which allows CW3, HardSID, ParSID and SSI2001 to
 work on AmigaOS, BeOS, DOS, SDL, *nix and windows with and
-without device drivers. And lots of other fixes and
+without device drivers. Added clockport system for mmc64,
+mmcreplay, retroreplay and ide64. Added rrnet clockport device.
+Added mp3@64 clockport device. And lots of other fixes and
 improvements.
 
 @item

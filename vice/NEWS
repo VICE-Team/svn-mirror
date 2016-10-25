@@ -67,6 +67,8 @@ left from previous installs.
 
 - New IDE64 DigiMAX short bus device emulation.
 
+- New IDE64 ETFE short bus device emulation.
+
 - New RGCD cartridge emulation.
 
 - New Final Cartridge III+ emulation.
@@ -76,6 +78,12 @@ left from previous installs.
 - New easy calc result cartridge emulation.
 
 - New GMod2 cartridge emulation.
+
+- New MMC64, MMCReplay, RetroReplay and IDE64 clockport emulation.
+
+- New RRNET clockport device emulation.
+
+- New MP3@64 clockport device emulation.
 
 - New joyport system which currently supports attaching the following
   devices to the native ports: joystick, paddles, 1351 mouse, neos mouse,
