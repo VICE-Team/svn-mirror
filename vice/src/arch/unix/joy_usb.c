@@ -156,7 +156,7 @@ static void usb_free_item(struct usb_joy_item **item)
 
 int usb_joystick_init(void)
 {
-    int i, j, id, fd;
+    int i, j, id = 0, fd;
     report_desc_t report;
     struct hid_item h;
     struct hid_data *d;
