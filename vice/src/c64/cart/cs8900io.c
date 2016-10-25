@@ -307,9 +307,6 @@ int cs8900io_resources_init(void)
         default_if = rawnet_get_standard_interface();
 
         if (default_if) {
-#if 1
-            log_message(LOG_DEFAULT, "default if: %s", default_if);
-#endif
             resources_string[0].factory_value = default_if;
         }
 
