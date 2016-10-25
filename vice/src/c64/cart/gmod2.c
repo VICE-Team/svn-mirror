@@ -140,15 +140,11 @@ BYTE gmod2_io1_read(WORD addr)
 
     /* DBG(("io1 r %04x (cs:%d)\n", addr, eeprom_cs)); */
 
-    if ((addr & 0xff) == 0) {
-        gmod2_io1_device.io_source_valid = 1;
-        if (eeprom_cs) {
-            return (m93c86_read_data() << 7) | (vicii_read_phi1() & 0x7f);
-        } else {
-            return (vicii_read_phi1() & 0xff);
-        }
+    gmod2_io1_device.io_source_valid = 1;
+    if (eeprom_cs) {
+        return (m93c86_read_data() << 7) | (vicii_read_phi1() & 0x7f);
     }
-    return 0;
+    return (vicii_read_phi1() & 0xff);
 }
 
 BYTE gmod2_io1_peek(WORD addr)
