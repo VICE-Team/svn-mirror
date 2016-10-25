@@ -38,11 +38,6 @@
 
 #include "uics8900.h"
 
-/* XXX: copied the menu structure and the used resources from the SDL UI, not
- *      quite clear what the distinction is between 'ethernet support' and
- *      'ethernet emulation' (BW)
- */
-
 
 /** \brief  Menu item to disable ethernet support */
 UI_MENU_DEFINE_TOGGLE(ETHERNET_DISABLED)
