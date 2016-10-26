@@ -764,7 +764,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
     char *p, *ret_sting;
 
     p = readline(prompt);
-#ifdef HAVE_READLINE
+#if defined(HAVE_READLINE) && defined(HAVE_READLINE_READLINE_H)
     if (p && *p) {
         add_history(p);
     }

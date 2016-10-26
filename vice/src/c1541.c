@@ -428,34 +428,9 @@ const command_t command_list[] = {
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef HAVE_READLINE
-
-/** \brief  Read a line of input from stdin
- *
- * \param[in]   prompt  prompt to display to the user
- *
- * \return  line read from stdout
- */
-static char *read_line(const char *prompt)
-{
-    static char line[1024];
-
-    /* Make sure there is a 0 at the end of the string */
-    line[sizeof(line) - 1] = 0; 
-
-    fputs(prompt, stdout);
-    fflush(stdout);
-    return fgets(line, sizeof(line) - 1, stdin);
-}
-
-#else
-
-#ifdef HAVE_READLINE_READLINE_H
+#if defined(HAVE_READLINE) && defined(HAVE_READLINE_READLINE_H)
 #include <readline/readline.h>
 #include <readline/history.h>
-#else
-# include "editline.h"
-#endif
 
 /** \brief  Read a line of input from stdin
  *
@@ -475,7 +450,28 @@ static char *read_line(const char *prompt)
     return line;
 }
 
+#else
+
+/** \brief  Read a line of input from stdin
+ *
+ * \param[in]   prompt  prompt to display to the user
+ *
+ * \return  line read from stdout
+ */
+static char *read_line(const char *prompt)
+{
+    static char line[1024];
+
+    /* Make sure there is a 0 at the end of the string */
+    line[sizeof(line) - 1] = 0; 
+
+    fputs(prompt, stdout);
+    fflush(stdout);
+    return fgets(line, sizeof(line) - 1, stdin);
+}
+
 #endif
+
 
 
 /** \brief  Split \a line into a list of arguments
