@@ -175,7 +175,7 @@ static int clockport_mp3at64_sound_machine_cycle_based(void)
 
 static int clockport_mp3at64_sound_machine_channels(void)
 {
-    return 2;
+    return 1;
 }
 
 static sound_chip_t clockport_mp3at64_sound_chip = {
