@@ -52,6 +52,11 @@
 #include "uidrivevic20.h"
 #include "uids12c887rtc.h"
 #include "uiedit.h"
+
+#ifdef HAVE_TFE
+#include "uiethernetcart.h"
+#endif
+
 #include "uigeoram.h"
 #include "uijoyport.h"
 #include "uijoystick2.h"
@@ -78,7 +83,6 @@
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
 #include "uitapeport.h"
-#include "uitfe.h"
 #include "uiuserport.h"
 #include "uivic.h"
 #include "util.h"
@@ -536,9 +540,12 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
       NULL, NULL, soundsampler_submenu },
 #ifdef HAVE_TFE
+    { "--", UI_MENU_TYPE_SEPARATOR },
+
     { N_("Ethernet emulation (MasC=uerade)"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, tfe_vic20_submenu },
+      NULL, NULL, ethernetcart_vic20_submenu },
 #endif
+
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef HAVE_MIDI
     { N_("MIDI emulation"), UI_MENU_TYPE_NORMAL,
@@ -742,6 +749,9 @@ static void vic20ui_dynamic_menu_create(void)
     uikeyboard_menu_create();
     uijoyport_menu_create(1, 0, 1, 1, 0);
     uisid_model_menu_create();
+#ifdef HAVE_TFE
+    uiethernetcart_menu_create();
+#endif
 }
 
 static void vic20ui_dynamic_menu_shutdown(void)
@@ -752,6 +762,9 @@ static void vic20ui_dynamic_menu_shutdown(void)
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
     uisid_model_menu_shutdown();
+#ifdef HAVE_TFE
+    uiethernetcart_menu_shutdown();
+#endif
 }
 
 int vic20ui_init(void)

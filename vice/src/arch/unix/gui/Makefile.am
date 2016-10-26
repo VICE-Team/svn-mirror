@@ -89,6 +89,8 @@ libarchgui_a_SOURCES = \
 	uieasyflash.h \
 	uiedisk.h \
 	uiedit.h \
+	uiethernetcart.c \
+	uiethernetcart.h \
 	uiexpert.c \
 	uiexpert.h \
 	uifliplist.c \
@@ -194,8 +196,6 @@ libarchgui_a_SOURCES = \
 	uitapeport.h \
 	uited.c \
 	uited.h \
-	uitfe.c \
-	uitfe.h \
 	uitpi.c \
 	uitpi.h \
 	uiuserport.c \

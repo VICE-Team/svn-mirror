@@ -1,8 +1,9 @@
-/*
- * uitfe.h
+/** \file   src/arch/unix/gui/uiethernetcart.h
+ * \brief   Ethernet cartridge UI items - header
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,12 +25,16 @@
  *
  */
 
-#ifndef VICE_UITFE_H
-#define VICE_UITFE_H
+#ifndef VICE_UIETHERNETCART_H
+#define VICE_UIETHERNETCART_H
 
 #include "uimenu.h"
 
-extern struct ui_menu_entry_s tfe_c64_submenu[];
-extern struct ui_menu_entry_s tfe_vic20_submenu[];
+extern struct ui_menu_entry_s ethernetcart_c64_submenu[];
+extern struct ui_menu_entry_s ethernetcart_vic20_submenu[];
 
-#endif
+void uiethernetcart_menu_create(void);
+void uiethernetcart_menu_shutdown(void);
+
+#endif  /* indef VICE_UIETHERNETCART_H */
+

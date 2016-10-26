@@ -36,6 +36,7 @@ src/arch/unix/gui/uidrivepetcbm2.c
 src/arch/unix/gui/uidriveplus4.c
 src/arch/unix/gui/uidrivevic20.c
 src/arch/unix/gui/uieasyflash.c
+src/arch/unix/gui/uiethernetcart.c
 src/arch/unix/gui/uiexpert.c
 src/arch/unix/gui/uifliplist.c
 src/arch/unix/gui/uifullscreen-menu.h
@@ -76,7 +77,6 @@ src/arch/unix/gui/uisid.c
 src/arch/unix/gui/uisound.c
 src/arch/unix/gui/uisoundexpander.c
 src/arch/unix/gui/uited.c
-src/arch/unix/gui/uitfe.c
 src/arch/unix/gui/uitpi.c
 src/arch/unix/gui/uiv364speech.c
 src/arch/unix/gui/uivdc.c

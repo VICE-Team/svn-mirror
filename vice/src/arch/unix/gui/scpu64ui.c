@@ -52,6 +52,11 @@
 #include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiedit.h"
+
+#ifdef HAVE_TFE
+#include "uiethernetcart.h"
+#endif
+
 #include "uiexpert.h"
 #include "uigeoram.h"
 #include "uigmod2.h"
@@ -88,7 +93,6 @@
 #include "uisound.h"
 #include "uisoundexpander.h"
 #include "uisupersnapshot.h"
-#include "uitfe.h"
 #include "uitpi.h"
 #include "uiuserport.h"
 #include "uivicii.h"
@@ -332,11 +336,12 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, retroreplay_submenu },
     { CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, UI_MENU_TYPE_NORMAL,
       NULL, NULL, supersnapshot_v5_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef HAVE_TFE
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Ethernet emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, tfe_c64_submenu },
+      NULL, NULL, ethernetcart_c64_submenu },
 #endif
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_RRNETMK3, UI_MENU_TYPE_NORMAL,
       NULL, NULL, rrnetmk3_submenu },
     { CARTRIDGE_NAME_IEEE488, UI_MENU_TYPE_NORMAL,
@@ -599,6 +604,9 @@ static void scpu64ui_dynamic_menu_create(void)
     uikeyboard_menu_create();
     uijoyport_menu_create(1, 1, 1, 1, 0);
     uisid_model_menu_create();
+#ifdef HAVE_TFE
+    uiethernetcart_menu_create();
+#endif
 }
 
 static void scpu64ui_dynamic_menu_shutdown(void)
@@ -610,6 +618,9 @@ static void scpu64ui_dynamic_menu_shutdown(void)
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
     uisid_model_menu_shutdown();
+#ifdef HAVE_TFE
+    uiethernetcart_menu_shutdown();
+#endif
 }
 
 int scpu64ui_init(void)

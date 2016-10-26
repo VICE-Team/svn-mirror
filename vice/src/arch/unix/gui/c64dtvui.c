@@ -58,7 +58,6 @@
 #include "uisettings.h"
 #include "uisid.h"
 #include "uisound.h"
-#include "uitfe.h"
 #include "uivicii.h"
 #include "vsync.h"
 

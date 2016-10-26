@@ -62,6 +62,11 @@
 #include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiedit.h"
+
+#ifdef HAVE_TFE
+#include "uiethernetcart.h"
+#endif
+
 #include "uiexpert.h"
 #include "uigeoram.h"
 #include "uigmod2.h"
@@ -102,7 +107,6 @@
 #include "uisoundexpander.h"
 #include "uisupersnapshot.h"
 #include "uitapeport.h"
-#include "uitfe.h"
 #include "uitpi.h"
 #include "uiuserport.h"
 #include "uivicii.h"
@@ -370,14 +374,16 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, UI_MENU_TYPE_NORMAL,
       NULL, NULL, supersnapshot_v5_submenu },
 #ifdef HAVE_TFE
-    { N_("The Final Ethernet"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, tfe_c64_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Ethernet settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ethernetcart_c64_submenu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
-
+#if 0
 #ifdef HAVE_TFE
     { N_("Ethernet settings"), UI_MENU_TYPE_NORMAL,
         NULL, NULL, uics8900_submenu },
+#endif
 #endif
 
 #ifdef HAVE_TFE
@@ -669,6 +675,9 @@ static void c64ui_dynamic_menu_create(void)
     uimmc64_menu_create();
     uimmcr_menu_create();
     uiretroreplay_menu_create();
+#ifdef HAVE_TFE
+    uiethernetcart_menu_create();
+#endif
 }
 
 static void c64ui_dynamic_menu_shutdown(void)
@@ -684,6 +693,9 @@ static void c64ui_dynamic_menu_shutdown(void)
     uimmc64_menu_shutdown();
     uimmcr_menu_shutdown();
     uiretroreplay_menu_shutdown();
+#ifdef HAVE_TFE
+    uiethernetcart_menu_shutdown();
+#endif
 }
 
 int c64scui_init(void)
