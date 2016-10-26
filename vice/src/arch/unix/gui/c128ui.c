@@ -293,13 +293,10 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Ethernet cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ethernetcart_c64_submenu },
-#endif
-    { "--", UI_MENU_TYPE_SEPARATOR },
-
-#ifdef HAVE_TFE
     { CARTRIDGE_NAME_RRNETMK3, UI_MENU_TYPE_NORMAL,
       NULL, NULL, rrnetmk3_submenu },
 #endif
+    { "--", UI_MENU_TYPE_SEPARATOR },
 
     { CARTRIDGE_NAME_IEEE488, UI_MENU_TYPE_NORMAL,
       NULL, NULL, tpi_submenu },

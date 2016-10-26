@@ -548,7 +548,6 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("Ethernet cartridge (MasC=uerade)"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ethernetcart_vic20_submenu },
 #endif
-
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef HAVE_MIDI
     { N_("MIDI emulation"), UI_MENU_TYPE_NORMAL,
