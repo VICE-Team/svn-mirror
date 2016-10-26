@@ -147,27 +147,46 @@ static BYTE ethernetcart_read(WORD io_address)
 {
     ethernetcart_device.io_source_valid = 1;
 
+    if (ethernetcart_mode == ETHERNETCART_MODE_RRNET) {
+        io_address ^= 8;
+        if (io_address < 2) {
+            return 0;
+        }
+    }
     return cs8900io_read(io_address);
 }
 
 /* ----- peek byte with no sideeffects from I/O range in VICE ----- */
 static BYTE ethernetcart_peek(WORD io_address)
 {
+    if (ethernetcart_mode == ETHERNETCART_MODE_RRNET) {
+        io_address ^= 8;
+        if (io_address < 2) {
+            return 0;
+        }
+    }
     return cs8900io_peek(io_address);
 }
 
 /* ----- write byte to I/O range of VICE ----- */
 static void ethernetcart_store(WORD io_address, BYTE byte)
 {
+    if (ethernetcart_mode == ETHERNETCART_MODE_RRNET) {
+        io_address ^= 8;
+        if (io_address < 2) {
+            return;
+        }
+    }
     cs8900io_store(io_address, byte);
 }
 
 static int ethernetcart_dump(void)
 {
-    mon_out("CS8900 mapped to $%04x ($%04x-$%04x).\n",
+    mon_out("CS8900 mapped to $%04x ($%04x-$%04x), Mode: %s.\n",
             ethernetcart_device.start_address & ~ethernetcart_device.address_mask,
             ethernetcart_device.start_address,
-            ethernetcart_device.end_address);
+            ethernetcart_device.end_address,
+            ethernetcart_mode ? "RR-Net" : "TFE" );
 
     return cs8900io_dump();
 }
