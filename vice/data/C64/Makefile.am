@@ -17,13 +17,13 @@ palettes = \
 	c64hq.vpl \
 	c64s.vpl \
 	ccs64.vpl \
-	default.vpl \
 	frodo.vpl \
 	godot.vpl \
 	pc64.vpl \
 	vice.vpl \
 	pepto-ntsc-sony.vpl \
 	pepto-ntsc.vpl \
+	pepto-pal.vpl \
 	pepto-palold.vpl \
 	community-colors.vpl \
 	ptoing.vpl \

@@ -9,7 +9,7 @@ romsets = \
 	default.vrs
 
 palettes = \
-	default.vpl \
+	vice.vpl \
 	mike-pal.vpl \
 	mike-ntsc.vpl
 

@@ -4,51 +4,51 @@
 # Syntax:
 # Red Green Blue Dither
 #
-
+#
 # Black
 00 00 00 0
 
 # White
-FF FF FF E
+FD FE FC E
 
 # Red
-68 37 2b 4
+BE 1A 24 4
 
 # Cyan
-70 a4 b2 C
+30 E6 C6 C
 
 # Purple
-6f 3d 86 8
+B4 1A E2 8
 
 # Green
-58 8d 43 4
+1F D2 1E 4
 
 # Blue
-35 28 79 4
+21 1B AE 4
 
 # Yellow
-b8 c7 6f C
+DF F6 0A C
 
 # Orange
-6f 4f 25 4
+B8 41 04 4
 
 # Brown
-43 39 00 4
+6A 33 04 4
 
 # Light Red
-9a 67 59 8
+FE 4A 57 8
 
 # Dark Gray
-44 44 44 4
+42 45 40 4
 
 # Medium Gray
-6c 6c 6c 8
+70 74 6F 8
 
 # Light Green
-9a d2 84 8
+59 FE 59 8
 
 # Light Blue
-6c 5e b5 8
+5F 53 FE 8
 
 # Light Gray
-95 95 95 C
+A4 A7 A2 C

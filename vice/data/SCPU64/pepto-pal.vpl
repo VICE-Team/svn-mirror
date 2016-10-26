@@ -9,46 +9,46 @@
 00 00 00 0
 
 # White
-FD FE FC E
+FF FF FF E
 
 # Red
-BE 1A 24 4
+68 37 2b 4
 
 # Cyan
-30 E6 C6 C
+70 a4 b2 C
 
 # Purple
-B4 1A E2 8
+6f 3d 86 8
 
 # Green
-1F D2 1E 4
+58 8d 43 4
 
 # Blue
-21 1B AE 4
+35 28 79 4
 
 # Yellow
-DF F6 0A C
+b8 c7 6f C
 
 # Orange
-B8 41 04 4
+6f 4f 25 4
 
 # Brown
-6A 33 04 4
+43 39 00 4
 
 # Light Red
-FE 4A 57 8
+9a 67 59 8
 
 # Dark Gray
-42 45 40 4
+44 44 44 4
 
 # Medium Gray
-70 74 6F 8
+6c 6c 6c 8
 
 # Light Green
-59 FE 59 8
+9a d2 84 8
 
 # Light Blue
-5F 53 FE 8
+6c 5e b5 8
 
 # Light Gray
-A4 A7 A2 C
+95 95 95 C
