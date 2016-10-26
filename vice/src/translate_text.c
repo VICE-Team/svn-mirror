@@ -8788,7 +8788,7 @@ translate_t string_table[] = {
 
 #ifdef HAVE_TFE
 /* c64/cart/ethernetcart.c */
-/* en */ {IDCLS_ENABLE_TFE,    N_("Enable the Ethernet Cartridge in TFE (\"The Final Ethernet\") mode and set TFE default address")},
+/* en */ {IDCLS_ENABLE_TFE,    N_("Enable the Ethernet Cartridge in TFE (\"The Final Ethernet\") compatible mode and set default I/O address")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TFE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_TFE_DE, ""},  /* fuzzy */
@@ -8805,7 +8805,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ethernetcart.c */
-/* en */ {IDCLS_ENABLE_RRNET,    N_("Enable the Ethernet Cartridge in RR-NET/64NIC/FB-NET mode and set RR-NET default address")},
+/* en */ {IDCLS_ENABLE_RRNET,    N_("Enable the Ethernet Cartridge in RR-Net compatible mode and set default I/O address")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_RRNET_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_RRNET_DE, ""},  /* fuzzy */
@@ -8822,7 +8822,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ethernetcart.c */
-/* en */ {IDCLS_ENABLE_ETHERNETCART,    N_("Enable the Ethernet Cartridge (TFE/RR-NET/64NIC/FB-NET)")},
+/* en */ {IDCLS_ENABLE_ETHERNETCART,    N_("Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_ETHERNETCART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_ETHERNETCART_DE, ""},  /* fuzzy */
@@ -8839,7 +8839,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ethernetcart.c */
-/* en */ {IDCLS_DISABLE_ETHERNETCART,    N_("Disable the Ethernet Cartridge (TFE/RR-NET/64NIC/FB-NET)")},
+/* en */ {IDCLS_DISABLE_ETHERNETCART,    N_("Disable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_ETHERNETCART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_ETHERNETCART_DE, ""},  /* fuzzy */
@@ -8873,7 +8873,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ethernetcart.c */
-/* en */ {IDCLS_ETHERNETCART_MODE,    N_("Mode of Ethernet Cartridge (0: TFE, 1: RR-NET/64NIC/FB-NET)")},
+/* en */ {IDCLS_ETHERNETCART_MODE,    N_("Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ETHERNETCART_MODE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ETHERNETCART_MODE_DE, ""},  /* fuzzy */
