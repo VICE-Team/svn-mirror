@@ -46,7 +46,6 @@ UI_MENU_DEFINE_TOGGLE(TFEIOSwap)
 UI_MENU_DEFINE_TOGGLE(TFE_ACTIVE)
 #endif
 
-UI_MENU_DEFINE_TOGGLE(ETHERNET_DISABLED)
 UI_MENU_DEFINE_TOGGLE(ETHERNETCART_ACTIVE)
 UI_MENU_DEFINE_RADIO(ETHERNETCARTMode)
 UI_MENU_DEFINE_RADIO(ETHERNETCARTBase)
@@ -101,22 +100,12 @@ static ui_menu_entry_t ethernetcart_vic20_base_submenu[] = {
 /** \brief  Ethernet emulation/cartridge submenu for C64
  */
 ui_menu_entry_t ethernetcart_c64_submenu[] = {
-    { N_("Disable ethernet emulation"), UI_MENU_TYPE_TICK,
-        (ui_callback_t)toggle_ETHERNET_DISABLED, NULL, NULL },
     { N_("Cartridge enabled"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ETHERNETCART_ACTIVE, NULL, NULL },
     { N_("Cartridge mode"), UI_MENU_TYPE_NORMAL,
         NULL, NULL, ethernetcart_mode_submenu },
     { N_("Cartridge I/O area"), UI_MENU_TYPE_NORMAL,
         NULL, NULL, ethernetcart_c64_base_submenu },
-#if 0
-    /* Translators: "RR-Net" is the name of the network addon and should not get translated */
-    { N_("RR-Net compatibility mode"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_ETHERNET_AS_RR, NULL, NULL },
-#endif
-    { N_("Interface"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_interface_name,
-      (ui_callback_data_t)"ETHERNET_INTERFACE", NULL },
 
     { NULL }
 };
@@ -139,9 +128,6 @@ ui_menu_entry_t ethernetcart_vic20_submenu[] = {
     { N_("Cartridge I/O area"), UI_MENU_TYPE_NORMAL,
         NULL, NULL, ethernetcart_vic20_base_submenu },
 
-    { N_("Interface"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_interface_name,
-      (ui_callback_data_t)"ETHERNET_INTERFACE", NULL },
     { NULL }
 };
 

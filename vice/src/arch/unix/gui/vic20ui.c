@@ -45,6 +45,9 @@
 #include "uiapi.h"
 #include "uiattach.h"
 #include "uicommands.h"
+#ifdef HAVE_TFE
+#include "uics8900.h"
+#endif
 #include "uidatasette.h"
 #include "uidigimax.h"
 #include "uidrive.h"
@@ -542,7 +545,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 #ifdef HAVE_TFE
     { "--", UI_MENU_TYPE_SEPARATOR },
 
-    { N_("Ethernet emulation (MasC=uerade)"), UI_MENU_TYPE_NORMAL,
+    { N_("Ethernet cartridge (MasC=uerade)"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ethernetcart_vic20_submenu },
 #endif
 
@@ -579,6 +582,10 @@ static ui_menu_entry_t vic20_menu[] = {
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232_vic20_submenu },
+#endif
+#ifdef HAVE_TFE
+    { N_("Ethernet settings"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, uics8900_submenu },
 #endif
     { NULL }
 };

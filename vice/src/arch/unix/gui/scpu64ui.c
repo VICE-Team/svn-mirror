@@ -43,6 +43,9 @@
 #include "uiattach.h"
 #include "uic64cart.h"
 #include "uicommands.h"
+#ifdef HAVE_TFE
+#include "uics8900.h"
+#endif
 #include "uidigimax.h"
 #include "uidqbb.h"
 #include "uidrive.h"
@@ -338,7 +341,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, supersnapshot_v5_submenu },
 #ifdef HAVE_TFE
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Ethernet emulation"), UI_MENU_TYPE_NORMAL,
+    { N_("Ethernet cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ethernetcart_c64_submenu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -449,6 +452,10 @@ static ui_menu_entry_t scpu64_menu[] = {
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232_c64_submenu },
+#endif
+#ifdef HAVE_TFE
+    { N_("Ethernet settings"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, uics8900_submenu },
 #endif
     { NULL }
 };
