@@ -764,9 +764,11 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
     char *p, *ret_sting;
 
     p = readline(prompt);
+#ifdef HAVE_READLINE
     if (p && *p) {
         add_history(p);
     }
+#endif
     ret_sting = lib_stralloc(p);
     free(p);
 
