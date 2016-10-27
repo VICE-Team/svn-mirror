@@ -734,6 +734,7 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
 
     if (registered_hotkeys != NULL) {
         lib_free(registered_hotkeys);
+        registered_hotkeys = NULL;
         num_registered_hotkeys = num_allocated_hotkeys = 0;
     }
 
@@ -1087,6 +1088,8 @@ void _ui_menu_string_radio_helper(Widget w, ui_callback_data_t client_data, ui_c
 void uimenu_shutdown(void)
 {
     lib_free(registered_hotkeys);
+    registered_hotkeys = NULL;
     lib_free(checkmark_menu_items);
+    checkmark_menu_items = NULL;
     ui_about_shutdown();
 }
