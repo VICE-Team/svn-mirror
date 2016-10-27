@@ -65,6 +65,7 @@
 #include "screenshot.h"
 #include "vice-event.h"
 #include "x11ui.h"
+#include "uijoystatus.h"
 #include "uipalcontrol.h"
 
 extern log_t ui_log;  // TODO to header file
@@ -365,6 +366,8 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                         NULL);
     lib_free(button_title);
     XtAddCallback(event_playback_button, XtNcallback, event_playback_button_callback, NULL);
+
+    build_joystick_status_widgets(&app_shells[app_shell], notification_box);
 
     {
         Widget list[3];

@@ -3,7 +3,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/arch/unix/x11 \
-	-I$(top_srcdir)/src/arch/unix/x11/xaw
+	-I$(top_srcdir)/src/arch/unix/x11/xaw \
+	-I$(top_srcdir)/src/arch/unix/x11/xaw/widgets
 
 noinst_LIBRARIES = libwidgets.a
 
@@ -20,6 +21,10 @@ libwidgets_a_SOURCES = \
 	FileSel.c \
 	FileSel.h \
 	FileSelP.h \
+	Joystick.c \
+	Joystick.h \
+	JoystickP.h \
+	Joystick.xt \
 	MultiList.c \
 	MultiList.h \
 	MultiListP.h \

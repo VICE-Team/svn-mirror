@@ -15,6 +15,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src/joyport \
+	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/arch/unix/gui \
 	-I$(top_srcdir)/src/arch/unix/x11
 
@@ -36,6 +37,8 @@ libxawui_a_SOURCES = \
 	uidrivestatus.c \
 	uiedisk.c \
 	uiedit.c \
+	uijoystatus.c \
+	uijoystatus.h \
 	uimenu.c \
 	uimenu.h \
 	uinetplay.c \

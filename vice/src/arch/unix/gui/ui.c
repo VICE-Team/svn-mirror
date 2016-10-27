@@ -96,14 +96,11 @@ void ui_common_shutdown(void)
     uiscreenshot_shutdown();
 }
 
-/* FIXME: implement for XAW */
 extern void ui_display_joystick_status_widget(int joystick_number, int status);
 
 void ui_display_joyport(BYTE *joyport)
 {
-/* FIXME: implement for XAW */
     if (machine_class != VICE_MACHINE_VSID) {
-#ifdef USE_GNOMEUI
         int n;
         DBG(("ui_display_joyport %02x %02x %02x %02x %02x\n",
             joyport[0], joyport[1], joyport[2], joyport[3], joyport[4]));
@@ -113,7 +110,6 @@ void ui_display_joyport(BYTE *joyport)
         }
 #else
         ui_display_joystick_status_widget(joyport[0], joyport[1 + n]);
-#endif
 #endif
     }
 }

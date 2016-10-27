@@ -35,6 +35,7 @@
 #include <X11/keysym.h>
 
 #include "types.h"
+#include "joystick.h"
 #include "ui.h"
 #include "uitapestatus.h"
 
@@ -121,6 +122,7 @@ typedef struct {
     int drive_nleds[NUM_DRIVES];
     tape_widgets_t tape_widgets[NUM_TAPES];
     struct video_canvas_s *video_canvas;
+    Widget joystick_status[JOYSTICK_NUM];
 } app_shell_type;
 
 extern app_shell_type app_shells[MAX_APP_SHELLS];
