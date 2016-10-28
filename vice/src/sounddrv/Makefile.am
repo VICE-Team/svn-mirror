@@ -22,7 +22,6 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundflac.c \
 	soundhpux.c \
 	soundmidas.c \
-	soundmmos2.c \
 	soundmp3.c \
 	soundpulse.c \
 	soundsdl.c \
