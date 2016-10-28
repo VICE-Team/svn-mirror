@@ -12,24 +12,46 @@ SUBDIRS = \
 	locnet_xplus4 \
 	locnet_xvic \
 	sdl \
-	vice_c64cart \
-	vice_c64exp \
-	vice_cbm2common \
-	vice_common \
-	vice_commonall \
-	vice_commoncart \
-	vice_crtc \
-	vice_iec \
-	vice_ieeepar \
-	vice_joyport \
-	vice_tape \
-	vice_vicii \
-	vice_viciisc \
-	vice_x128 \
 	vice_x64 \
+	vice_x64_128_5x0 \
+	vice_x64_dtv_128_2_5x0_pet_4 \
+	vice_x64_dtv_128_5x0 \
+	vice_x64_dtv_128_5x0_4 \
+	vice_x64_dtv_128_5x0_4_20 \
+	vice_x64_sc \
+	vice_x64_sc_128 \
+	vice_x64_sc_128_2_5x0_pet_4_20 \
+	vice_x64_sc_dtv \
+	vice_x64_sc_dtv_128_2_5x0_pet_4_20 \
+	vice_x64_sc_dtv_scpu \
+	vice_x64_sc_dtv_scpu_128 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_20 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_pet_20 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_4_20 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20 \
+	vice_x64_sc_dtv_scpu_128_2_pet_4_20 \
+	vice_x64_sc_dtv_scpu_128_4_20 \
+	vice_x64_sc_dtv_scpu_128_20 \
+	vice_x64_sc_scpu \
+	vice_x64_sc_scpu_128 \
+	vice_x64_sc_scpu_128_2 \
+	vice_x64_sc_scpu_128_2_20 \
+	vice_x64_sc_scpu_128_2_5x0_pet_4_20 \
+	vice_x64_sc_scpu_128_2_pet_4_20 \
+	vice_x64_sc_scpu_128_2_pet_20 \
+	vice_x64_sc_scpu_128_4 \
+	vice_x64_sc_scpu_128_20 \
+	vice_x64_sc_scpu_128_5x0_4_20 \
 	vice_x64dtv \
 	vice_x64sc \
+	vice_x64sc_20 \
+	vice_x64sc_scpu \
+	vice_x64sc_scpu_128_2_pet_4_20 \
+	vice_x128 \
+	vice_x128_2_5x0_pet \
 	vice_xcbm2 \
+	vice_xcbm2_5x0 \
+	vice_xcbm2_pet \
 	vice_xcbm5x0 \
 	vice_xpet \
 	vice_xplus4 \

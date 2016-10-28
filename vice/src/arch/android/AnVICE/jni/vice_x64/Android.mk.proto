@@ -19,21 +19,6 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../locnet/include \
 				$(LOCAL_PATH) \
 				$(LOCAL_PATH)/../../../../../../src/arch/sdl \
-				$(LOCAL_PATH)/../../../../../../src/c64/cart \
-				$(LOCAL_PATH)/../../../../../../src/c64 \
-				$(LOCAL_PATH)/../../../../../../src/sid \
-				$(LOCAL_PATH)/../../../../../../src/vicii \
-				$(LOCAL_PATH)/../../../../../../src/drive \
-				$(LOCAL_PATH)/../../../../../../src/lib/p64 \
-				$(LOCAL_PATH)/../../../../../../src/tape \
-				$(LOCAL_PATH)/../../../../../../src/userport \
-				$(LOCAL_PATH)/../../../../../../src/joyport \
-				$(LOCAL_PATH)/../../../../../../src/tapeport \
-				$(LOCAL_PATH)/../../../../../../src/samplerdrv \
-				$(LOCAL_PATH)/../../../../../../src/video \
-				$(LOCAL_PATH)/../../../../../../src/drive/iec/c64exp \
-				$(LOCAL_PATH)/../../../../../../src/rtc \
-				$(LOCAL_PATH)/../../../../../../src/diag \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)
@@ -47,61 +32,10 @@ LOCAL_CXXFLAGS := $(LOCAL_CFLAGS)
 LOCAL_CPP_EXTENSION := .cpp
 
 LOCAL_SRC_FILES := \
-	$(MY_PATH2)/src/c64/c64-cmdline-options.c \
-	$(MY_PATH2)/src/c64/c64-memory-hacks.c \
-	$(MY_PATH2)/src/c64/c64-resources.c \
-	$(MY_PATH2)/src/c64/c64-snapshot.c \
-	$(MY_PATH2)/src/c64/c64.c \
-	$(MY_PATH2)/src/c64/c64_256k.c \
-	$(MY_PATH2)/src/c64/c64bus.c \
-	$(MY_PATH2)/src/c64/c64cia1.c \
-	$(MY_PATH2)/src/c64/c64cia2.c \
-	$(MY_PATH2)/src/c64/c64cpu.c \
-	$(MY_PATH2)/src/c64/c64datasette.c \
-	$(MY_PATH2)/src/c64/c64drive.c \
-	$(MY_PATH2)/src/c64/c64embedded.c \
-	$(MY_PATH2)/src/c64/c64export.c \
-	$(MY_PATH2)/src/c64/c64fastiec.c \
-	$(MY_PATH2)/src/c64/c64gluelogic.c \
-	$(MY_PATH2)/src/c64/c64iec.c \
-	$(MY_PATH2)/src/c64/c64io.c \
-	$(MY_PATH2)/src/c64/c64keyboard.c \
-	$(MY_PATH2)/src/c64/c64mem.c \
-	$(MY_PATH2)/src/c64/c64meminit.c \
-	$(MY_PATH2)/src/c64/c64memlimit.c \
-	$(MY_PATH2)/src/c64/c64memrom.c \
-	$(MY_PATH2)/src/c64/c64memsnapshot.c \
-	$(MY_PATH2)/src/c64/c64model.c \
-	$(MY_PATH2)/src/c64/c64parallel.c \
-	$(MY_PATH2)/src/c64/c64pla.c \
-	$(MY_PATH2)/src/c64/c64printer.c \
-	$(MY_PATH2)/src/c64/c64rom.c \
-	$(MY_PATH2)/src/c64/c64romset.c \
-	$(MY_PATH2)/src/c64/c64rsuser.c \
-	$(MY_PATH2)/src/c64/c64sound.c \
-	$(MY_PATH2)/src/c64/c64video.c \
-	$(MY_PATH2)/src/c64/patchrom.c \
-	$(MY_PATH2)/src/c64/plus256k.c \
-	$(MY_PATH2)/src/c64/plus60k.c \
-	$(MY_PATH2)/src/c64/reloc65.c \
-	$(MY_PATH2)/src/joyport/mouse.c \
-	$(MY_PATH2)/src/tapeport/cp-clockf83.c \
-	$(MY_PATH2)/src/tapeport/dtl-basic-dongle.c \
-	$(MY_PATH2)/src/tapeport/sense-dongle.c \
-	$(MY_PATH2)/src/tapeport/tape_diag_586220_harness.c \
-	$(MY_PATH2)/src/tapeport/tapelog.c \
-	$(MY_PATH2)/src/tapeport/tapeport.c \
-	$(MY_PATH2)/src/samplerdrv/file_drv.c \
-	$(MY_PATH2)/src/samplerdrv/portaudio_drv.c \
-	$(MY_PATH2)/src/samplerdrv/sampler.c \
-	$(MY_PATH2)/src/diag/c64_diag_586220_harness.c \
 	$(MY_PATH2)/src/arch/sdl/x64_ui.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64_common_expansions.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64_expansions.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64cart.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64hw.c \
-	$(MY_PATH2)/src/arch/sdl/menu_c64model.c \
-	$(MY_PATH2)/src/userport/userport_diag_586220_harness.c
+	$(MY_PATH2)/src/c64/c64cpu.c \
+	$(MY_PATH2)/src/c64/c64mem.c \
+	$(MY_PATH2)/src/c64/c64model.c
 	
 LOCAL_ARM_MODE := arm
 

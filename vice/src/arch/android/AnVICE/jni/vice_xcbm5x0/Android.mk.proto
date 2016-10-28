@@ -39,10 +39,12 @@ LOCAL_CPP_EXTENSION := .cpp
 
 LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/cbm2/cbm5x0.c \
-	$(MY_PATH2)/src/cbm2/cbm5x0-resources.c \
-	$(MY_PATH2)/src/cbm2/cbm5x0-snapshot.c \
+	$(MY_PATH2)/src/cbm2/cbm5x0cia1.c \
 	$(MY_PATH2)/src/cbm2/cbm5x0mem.c \
+	$(MY_PATH2)/src/cbm2/cbm5x0printer.c \
+	$(MY_PATH2)/src/cbm2/cbm5x0-resources.c \
 	$(MY_PATH2)/src/cbm2/cbm5x0rom.c \
+	$(MY_PATH2)/src/cbm2/cbm5x0-snapshot.c \
 	$(MY_PATH2)/src/cbm2/cbm5x0video.c
 
 LOCAL_ARM_MODE := arm

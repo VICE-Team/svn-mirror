@@ -29,6 +29,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef HAVE_QUICKTIME
+
 #include <QuickTime/QuickTime.h>
 #include <CoreVideo/CVPixelBuffer.h>
 
@@ -660,3 +662,4 @@ void gfxoutput_init_quicktime(int help)
 
     gfxoutput_register(&quicktime_drv);
 }
+#endif

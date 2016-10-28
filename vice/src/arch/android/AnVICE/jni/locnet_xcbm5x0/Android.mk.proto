@@ -33,15 +33,17 @@ LOCAL_SRC_FILES := ../locnet/locnet_loader.cpp
 
 LOCAL_STATIC_LIBRARIES := \
 	locnet_al \
-	vice_commonall \
-	vice_xcbm5x0 \
-	vice_cbm2common \
-	vice_common \
-	vice_tape \
-	vice_vicii \
-	vice_ieeepar \
-	vice_commonall \
-	vice_common
+	vice_x64_dtv_128_5x0 \
+	vice_x64_sc_128_2_5x0_pet_4_20 \
+	vice_x64_sc_dtv_128_2_5x0_pet_4_20 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_20 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_4_20 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20 \
+	vice_x64_sc_scpu_128_2_5x0_pet_4_20 \
+	vice_x64_sc_scpu_128_5x0_4_20 \
+	vice_x128_2_5x0_pet \
+	vice_xcbm2_5x0 \
+	vice_xcbm5x0
 
 LOCAL_LDLIBS := -lz -llog
 

@@ -29,6 +29,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef HAVE_RAWDRIVE
+
 #include "archdep.h"
 #include "blockdev.h"
 #include "cmdline.h"
@@ -185,3 +187,4 @@ int rawimage_cmdline_options_init()
 
     return blockdev_cmdline_options_init();
 }
+#endif

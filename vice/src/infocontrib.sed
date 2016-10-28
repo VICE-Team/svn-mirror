@@ -163,10 +163,16 @@ s/@b{Anthony J. Bentley}/Anthony J. Bentley <anthonyjbentley@users.sourceforge.n
 s/@b{Leandro Nini}/Leandro Nini <drfiemost@email.it>/g
 s/@b{Enrico Bruttomesso}/Enrico Bruttomesso <enrico.br71@gmail.com>/g
 s/@b{Alexis Ballier}/Alexis Ballier <aballier@users.sourceforge.net>/g
-s/@{Moiree}/Moiree <hootee7ieyie7s@users.sourceforge.net>/g
-s/@{Stein Pedersen}/Stein Pedersen <galfodo@users.sourceforge.net>/g
-s/@{vonred}/vonred <vonred@users.sourceforge.net>/g
-s/@{mjhn}/mjhn <mjhn@users.sourceforge.net>/g
+s/@b{Moiree}/Moiree <hootee7ieyie7s@users.sourceforge.net>/g
+s/@b{Stein Pedersen}/Stein Pedersen <galfodo@users.sourceforge.net>/g
+s/@b{vonred}/vonred <vonred@users.sourceforge.net>/g
+s/@b{mjhn}/mjhn <mjhn@users.sourceforge.net>/g
+s/@b{Frank Buss}/Frank Buss/g
+s/@b{David Wood}/David Wood/g
+s/@b{Count Zero}/Count Zero <count0@pokefinder.org>/g
+s/@b{Lioncash}/LionCash <lioncash@users.sourceforge.net>/g
+s/@b{lvd}/lvd <lvd.mhm@gmail.com>/g
+s/@b{Michael Steil}/Michael Steil <mist64@mac.com>/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g

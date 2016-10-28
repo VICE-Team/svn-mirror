@@ -29,6 +29,8 @@
 
 #include <stdio.h>
 
+#if defined(AMIGA_SUPPORT) && defined(HAVE_DEVICES_AHI_H)
+
 #include "sound.h"
 #include "ahi.h"
 
@@ -104,3 +106,4 @@ int sound_init_ahi_device(void)
 {
     return sound_register_device(&ahi_device);
 }
+#endif

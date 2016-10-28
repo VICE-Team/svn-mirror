@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#ifdef USE_ALSA
+
 #define ALSA_PCM_NEW_HW_PARAMS_API
 
 #include "alsa/asoundlib.h"
@@ -252,3 +254,4 @@ int sound_init_alsa_device(void)
 {
     return sound_register_device(&alsa_device);
 }
+#endif

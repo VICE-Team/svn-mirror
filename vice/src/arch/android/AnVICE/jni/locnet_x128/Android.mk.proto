@@ -34,17 +34,29 @@ LOCAL_SRC_FILES := ../locnet/locnet_loader.cpp
 
 LOCAL_WHOLE_STATIC_LIBRARIES := \
 	locnet_al \
-	vice_commonall \
+	vice_x64_128_5x0 \
+	vice_x64_dtv_128_5x0 \
+	vice_x64_sc_128 \
+	vice_x64_sc_128_2_5x0_pet_4_20 \
+	vice_x64_sc_dtv_128_2_5x0_pet_4_20 \
+	vice_x64_sc_dtv_scpu_128 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_20 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_4_20 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20 \
+	vice_x64_sc_dtv_scpu_128_2_pet_4_20 \
+	vice_x64_sc_dtv_scpu_128_4_20 \
+	vice_x64_sc_dtv_scpu_128_20 \
+	vice_x64_sc_scpu_128 \
+	vice_x64_sc_scpu_128_2 \
+	vice_x64_sc_scpu_128_2_5x0_pet_4_20 \
+	vice_x64_sc_scpu_128_2_pet_4_20 \
+	vice_x64_sc_scpu_128_2_pet_20 \
+	vice_x64_sc_scpu_128_4 \
+	vice_x64_sc_scpu_128_20 \
+	vice_x64_sc_scpu_128_5x0_4_20 \
+	vice_x64sc_scpu_128_2_pet_4_20 \
 	vice_x128 \
-	vice_common \
-	vice_tape \
-	vice_vicii \
-	vice_c64cart \
-	vice_iec \
-	vice_ieeepar \
-	vice_c64exp \
-	vice_commoncart \
-	vice_joyport
+	vice_x128_2_5x0_pet
 
 LOCAL_LDLIBS := -lz -llog
 
