@@ -483,7 +483,7 @@ static int checkflag(char *flg, char *arg)
 {
     int i;
 
-    switch (tolower(flg[1])) {
+    switch (tolower((int)(flg[1]))) {
         case 'f':
             printinfo(arg);
             return 2;
