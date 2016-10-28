@@ -1183,9 +1183,11 @@ int autostart_disk(const char *file_name, const char *program_name,
     /* Get program name first to avoid more than one file handle open on
        image.  */
     if (!program_name && program_number > 0) {
-        image_contents_t * contents = diskcontents_filesystem_read(file_name);
-        name = image_contents_filename_by_number(contents, program_number);
-        image_contents_destroy(contents);
+        image_contents_t *contents = diskcontents_filesystem_read(file_name);
+        if (contents) {
+            name = image_contents_filename_by_number(contents, program_number);
+            image_contents_destroy(contents);
+        }
     } else {
         name = lib_stralloc(program_name ? program_name : "*");
     }
