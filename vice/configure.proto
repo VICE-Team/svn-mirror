@@ -323,26 +323,26 @@ dnl Add runtime/linker paths for *BSD
 case "$host_os" in
   freebsd*)
     CPPFLAGS="$CPPFLAGS -I/usr/local/include"
-    fbsdrtp=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
+    fbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
     LDFLAGS="$LDFLAGS $fbsdrtp -L/usr/local/lib"
     ;;
   netbsd*)
     CPPFLAGS="$CPPFLAGS -I/usr/pkg/include -I/usr/include"
-    nbsdrtp=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/pkg/lib"`
+    nbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/pkg/lib"`
     LDFLAGS="$LDFLAGS $nbsdrtp -L/usr/pkg/lib"
     if test -d "/usr/X11R7/lib"; then
-      rtp=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/X11R7/lib"`
+      rtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/X11R7/lib"`
       LDFLAGS="$LDFLAGS $rtp"
     else
       if test -d "/usr/X11R6/lib"; then
-        rtp=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/X11R6/lib"`
+        rtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/X11R6/lib"`
         LDFLAGS="$LDFLAGS $rtp"
       fi
     fi
     ;;
   dragonfly*)
     CPPFLAGS="$CPPFLAGS -I/usr/local/include"
-    dfbsdrtp=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
+    dfbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
     LDFLAGS="$LDFLAGS $dfbsdrtp -L/usr/local/lib"
     ;;
   *)
@@ -4745,7 +4745,7 @@ AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR",
 
 
 # Add path with private dynamic ffmpeg libs to the search path
-rpath_line=`${CONFIG_SHELL-/bin/sh} config.rpath "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "$VICEDIR/lib"`
+rpath_line=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "$VICEDIR/lib"`
 LDFLAGS="$LDFLAGS $rpath_line"
 
 AC_OUTPUT([Makefile
