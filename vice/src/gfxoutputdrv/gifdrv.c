@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#if defined(HAVE_GIF) && !defined(USE_GIF_DLL)
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -288,3 +290,4 @@ void gfxoutput_init_gif(int help)
     }
     gfxoutput_register(&gif_drv);
 }
+#endif
