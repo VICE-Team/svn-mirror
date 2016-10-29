@@ -14,10 +14,7 @@ SUBDIRS = \
 	sdl \
 	vice_x64 \
 	vice_x64_128_5x0 \
-	vice_x64_dtv_128_2_5x0_pet_4 \
 	vice_x64_dtv_128_5x0 \
-	vice_x64_dtv_128_5x0_4 \
-	vice_x64_dtv_128_5x0_4_20 \
 	vice_x64_sc \
 	vice_x64_sc_128 \
 	vice_x64_sc_128_2_5x0_pet_4_20 \
@@ -26,7 +23,6 @@ SUBDIRS = \
 	vice_x64_sc_dtv_scpu \
 	vice_x64_sc_dtv_scpu_128 \
 	vice_x64_sc_dtv_scpu_128_2_5x0_20 \
-	vice_x64_sc_dtv_scpu_128_2_5x0_pet_20 \
 	vice_x64_sc_dtv_scpu_128_2_5x0_4_20 \
 	vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20 \
 	vice_x64_sc_dtv_scpu_128_2_pet_4_20 \
@@ -35,7 +31,6 @@ SUBDIRS = \
 	vice_x64_sc_scpu \
 	vice_x64_sc_scpu_128 \
 	vice_x64_sc_scpu_128_2 \
-	vice_x64_sc_scpu_128_2_20 \
 	vice_x64_sc_scpu_128_2_5x0_pet_4_20 \
 	vice_x64_sc_scpu_128_2_pet_4_20 \
 	vice_x64_sc_scpu_128_2_pet_20 \
@@ -44,7 +39,6 @@ SUBDIRS = \
 	vice_x64_sc_scpu_128_5x0_4_20 \
 	vice_x64dtv \
 	vice_x64sc \
-	vice_x64sc_20 \
 	vice_x64sc_scpu \
 	vice_x64sc_scpu_128_2_pet_4_20 \
 	vice_x128 \
