@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#ifdef HAVE_PNG
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -302,3 +303,4 @@ void gfxoutput_init_png(int help)
     }
     gfxoutput_register(&png_drv);
 }
+#endif

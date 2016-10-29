@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#ifdef HAVE_JPEG
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -234,3 +235,4 @@ void gfxoutput_init_jpeg(int help)
     }
     gfxoutput_register(&jpeg_drv);
 }
+#endif
