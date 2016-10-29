@@ -272,6 +272,26 @@ char *image_contents_filename_to_string(image_contents_file_list_t * p,
 }
 
 
+/** \brief  Get the file type and flags for a file
+ *
+ * \param[in]   p                   image contents file entry
+ * \param[in]   convert_to_ascii    convert string to ASCII from PETSCII
+ *
+ * \return  5-character string: 'SFFFL', where S is the scratched '*' char or
+ *          a space, FFF is the file type (PRG etc) and L is the locked '<'
+ *          char or space.
+ */
+char *image_contents_filetype_to_string(image_contents_file_list_t *p,
+                                        char convert_to_ascii)
+{
+    char *type = lib_stralloc((const char *)(p->type));
+    if (convert_to_ascii) {
+        charset_petconvstring((BYTE *)type, 1);
+    }
+    return type;
+}
+
+
 /** \brief  Generate a '<blocks> "<filename>" *prg<' line from \a p
  *
  * \param[in]   p                   image contents file list
@@ -325,13 +345,6 @@ char *image_contents_filename_by_number(image_contents_t *contents,
             s = lib_stralloc((char *)(current->name));
         }
     }
-
-    /* XXX: WTF is this? Why have this weird and undocumented side effect?
-     * Removed and added a proper call to image_contents_destroy() to the
-     * calling code in src/autostart.c (BW) */
-#if 0
-    image_contents_destroy(contents);
-#endif
     return s;
 }
 

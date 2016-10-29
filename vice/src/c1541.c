@@ -13,6 +13,7 @@
  *  Daniel Sladic <sladic@eecg.toronto.edu>
  *  Ricardo Ferreira <storm@esoterica.pt>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Patches by
  *  Olaf Seibert <rhialto@mbfys.kun.nl>
@@ -1645,6 +1646,7 @@ static int info_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+#if 0
 static int list_match_pattern(char *pat, char *str)
 {
     int n;
@@ -1679,6 +1681,137 @@ static int list_match_pattern(char *pat, char *str)
     }
     return 1;
 }
+#endif
+
+
+/** \brief  Match \a name and \a type against \a pattern
+ *
+ * Matches \a name against \a pattern and optionally against filetype \a type
+ * if present in the \a pattern.
+ * The pattern is the standard CBM wildcard pattern: '*' and '?' with optional
+ * '=X' where X is one of S, P or R.
+ *
+ * \param[in]   name    filename
+ * \param[in]   type    filetype
+ * \param[in]   pattern wildcard pattern
+ * \param]in]   plen    length of pattern
+ *
+ * return   bool
+ */
+static int match_sub_pattern(const char *name, int type,
+                             const char *pattern, int plen)
+{
+    int n;
+    int p;
+
+    p = 0;
+#if 0
+    printf(".. name = '%s'\n", name);
+    printf(".. subpattern = '");
+    while (p < plen) {
+        putchar(pattern[p]);
+        p++;
+    }
+    printf("'\n");
+#endif
+    /* first check if we have a filetype specifier */
+    if (plen > 2 && pattern[plen - 2] == '=') {
+        if (toupper((int)(pattern[plen -1])) != type) {
+            return 0;
+        } else {
+            /* reduce pattern size (strip off '=X') */
+            plen -= 2;
+        }
+    }
+
+    /* match using * and ? */
+    p = 0;
+    n = 1;  /* skip '"'" */
+    while (p < plen && name[n] != '\0' && name[n] != '"') {
+        if (pattern[p] == '*') {
+            return 1;
+        }
+        if (pattern[p] != name[n] && pattern[p] != '?') {
+            return 0;
+        }
+        p++;
+        n++;
+    }
+    if (name[n] != '"' && name[n] != '\0') {
+        /* leftover chars in name, but pattern had ended, no match */
+        return 0;
+    }
+    return 1;
+}
+
+
+
+/** \brief  Test a file \a name and \a type against \a pattern
+ *
+ * This function can handle multiple patterns separated by comma's, and supports
+ * specifying a file type per sub pattern.
+ *
+ * Example: "foo*=p,b?r*=s", will match PRG files against "foo*" and SEQ files
+ * against "b?r*". A match is found if any of the sub patterns matches (in other
+ * words: OR).
+ *
+ * WARNING: It appears CBM DOS only allows a single file type test, use two or
+ * more results in a `?FILE NOT FOUND  ERROR`. The =X specifier can also only
+ * come last, anything after =X results in an error. (In C1541 this doesn't
+ * matter, but in VDrive it does).
+ *
+ * \param[in]   name    filename
+ * \param[in]   type    filetype (eg " prg<")
+ * \param[in]   pattern pattern to match against
+ *
+ * \return  bool
+ */
+static int list_file_matches_pattern(const char *name,
+                                     const char *type,
+                                     const char *pattern)
+{
+    int i;
+    int ftype;
+    int plen;
+
+    /* get filetype as single token */
+    ftype = toupper(type[1]);   /* P, S, D, R, U */
+
+    /* pattern length */
+    plen = (strlen(pattern));
+
+    i = 0;
+    /* check quotes */
+    if (pattern[0] == '"') {
+        if (pattern[plen - 1] != '"') {
+            return 0;   /* unmatched quotes, fail */
+        }
+        i++;
+    }
+
+    while (i < plen) {
+        int k = i;
+        while (k < plen && pattern[k] != ',') {
+            k++;
+        }
+        /* got sub pattern */
+        if (k - i > 0) {
+            if (match_sub_pattern(name, ftype, pattern + i, k - i)) {
+                return 1;
+            }
+        } else {
+            k++;    /* empty sub pattern, fail or continue */
+        }
+        if (pattern[k] == ',' || pattern[k] == '"') {
+            k++;
+        }
+        i = k;
+    }
+
+    return 0;
+}
+
+
 
 /** \brief  Show directory listing of a drive
  *
@@ -1696,6 +1829,7 @@ static int list_cmd(int nargs, char **args)
 {
     char *pattern;
     const char *name;
+    char *type;
     image_contents_t *listing;
     unsigned int dnr;
     vdrive_t *vdrive;
@@ -1742,12 +1876,15 @@ static int list_cmd(int nargs, char **args)
         } else {
             do {
                 string = image_contents_filename_to_string(element, 1);
-                if ((pattern == NULL) || list_match_pattern(pattern, string)) {
+                type = image_contents_filetype_to_string(element, 1);
+                if ((pattern == NULL) || list_file_matches_pattern(string,
+                            type, pattern)) {
                     lib_free(string);
                     string = image_contents_file_to_string(element, 1);
                     printf("%s\n", string);
                 }
                 lib_free(string);
+                lib_free(type);
             } while ((element = element->next) != NULL);
         }
         if (listing->blocks_free >= 0) {
