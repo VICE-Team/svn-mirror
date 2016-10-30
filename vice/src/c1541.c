@@ -405,9 +405,9 @@ const command_t command_list[] = {
       0, 1,
       validate_cmd },
     { "verbose",
-      "verbose",
-      "Enable verbose output.",
-      0, 0,
+      "verbose [off]",
+      "Enable verbose output. Use 'verbose off' to disable.",
+      0, 1,
       verbose_cmd },
     { "write",
       "write <source> [<destination>]",
@@ -1968,9 +1968,23 @@ static int quit_cmd(int nargs, char **args)
     return 0;   /* OSF1 cc complains */
 }
 
+
+/** \brief  Be verbose - enable output of extra logging information
+ *
+ * If 'off' is given as an argument, verbose is turned off again.
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  0
+ */
 static int verbose_cmd(int nargs, char **args)
 {
-    return log_set_verbose(1);
+    if (nargs >= 2 && strcmp(args[1], "off") == 0) {
+        return log_set_verbose(0);
+    } else {
+        return log_set_verbose(1);
+    }
 }
 
 /** \brief  PETSCII filename length
