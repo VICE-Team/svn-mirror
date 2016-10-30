@@ -18,13 +18,16 @@ CG_SRCDIR := $(LOCAL_PATH)
 LOCAL_CFLAGS := -DANDROID_COMPILE
 
 LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
-				$(LOCAL_PATH)/../sdl/include \
-				$(LOCAL_PATH)/../locnet/include \
-				$(LOCAL_PATH) \
-				$(LOCAL_PATH)/../../../../../../src/arch/sdl \
-				$(LOCAL_PATH)/../../../../../../src \
-				$(LOCAL_PATH)/../.. \
-				$(LOCAL_PATH)
+			$(LOCAL_PATH)/../sdl/include \
+			$(LOCAL_PATH)/../locnet/include \
+			$(LOCAL_PATH) \
+			$(LOCAL_PATH)/../../../../../../src/arch/sdl \
+			$(LOCAL_PATH)/../../../../../../src/raster \
+			$(LOCAL_PATH)/../../../../../../src/c64 \
+			$(LOCAL_PATH)/../../../../../../src/c64/cart \
+			$(LOCAL_PATH)/../../../../../../src \
+			$(LOCAL_PATH)/../.. \
+			$(LOCAL_PATH)
 
 LOCAL_PATH := $(MY_PATH)
 
