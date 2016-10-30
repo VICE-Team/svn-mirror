@@ -515,8 +515,8 @@ fi
 
 if test x"$emulator" = "xx64sc"; then
   cp Android.mk.proto Android.mk
-  cp locnet_x64sc/Android.mk.proto locnet_x64sc/Android.mk
-  cp locnet_al/Android.mk.proto locnet_al/Android.mk
+#  cp locnet_x64sc/Android.mk.proto locnet_x64sc/Android.mk
+#  cp locnet_al/Android.mk.proto locnet_al/Android.mk
 #  cp vice_x64_sc/Android.mk.proto vice_x64_sc/Android.mk
 #  cp vice_x64_sc_128/Android.mk.proto vice_x64_sc_128/Android.mk
 #  cp vice_x64_sc_128_2_5x0_pet_4_20/Android.mk.proto vice_x64_sc_128_2_5x0_pet_4_20/Android.mk
@@ -549,7 +549,7 @@ if test x"$emulator" = "xx64dtv"; then
   cp Android.mk.proto Android.mk
   cp locnet_x64dtv/Android.mk.proto locnet_x64dtv/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
-  cp vice_x64_dtv_128_5x0/Android.mk.proto vice_x64_dtv_128_5x0/Android.mkAndroid.mk
+  cp vice_x64_dtv_128_5x0/Android.mk.proto vice_x64_dtv_128_5x0/Android.mk
   cp vice_x64_sc_dtv/Android.mk.proto vice_x64_sc_dtv/Android.mk
   cp vice_x64_sc_dtv_128_2_5x0_pet_4_20/Android.mk.proto vice_x64_sc_dtv_128_2_5x0_pet_4_20/Android.mk
   cp vice_x64_sc_dtv_scpu/Android.mk.proto vice_x64_sc_dtv_scpu/Android.mk
