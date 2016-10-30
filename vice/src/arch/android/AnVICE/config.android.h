@@ -412,7 +412,7 @@
 /* #undef HAVE_QUICKTIME */
 
 /* Support for block device disk image access. */
-#define HAVE_RAWDRIVE /**/
+/* #define HAVE_RAWDRIVE */
 
 /* Are we using the readline library replacement? */
 /* #undef HAVE_READLINE */

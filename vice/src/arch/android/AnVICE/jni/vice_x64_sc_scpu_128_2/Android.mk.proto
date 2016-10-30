@@ -19,6 +19,7 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../locnet/include \
 				$(LOCAL_PATH) \
 				$(LOCAL_PATH)/../../../../../../src/arch/sdl \
+				$(LOCAL_PATH)/../../../../../../src/samplerdrv \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)

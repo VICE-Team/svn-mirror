@@ -24,6 +24,7 @@ SUBDIRS = \
 	vice_x64_sc_dtv_scpu_128 \
 	vice_x64_sc_dtv_scpu_128_2_5x0_20 \
 	vice_x64_sc_dtv_scpu_128_2_5x0_4_20 \
+	vice_x64_sc_dtv_scpu_128_2_5x0_pet_4 \
 	vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20 \
 	vice_x64_sc_dtv_scpu_128_2_pet_4_20 \
 	vice_x64_sc_dtv_scpu_128_4_20 \

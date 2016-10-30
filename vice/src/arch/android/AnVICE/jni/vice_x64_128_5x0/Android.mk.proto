@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := vice_xvic
+LOCAL_MODULE := vice_x64_128_5x0
 
 MY_PATH2 := ../../../../../..
 
@@ -19,6 +19,8 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../locnet/include \
 				$(LOCAL_PATH) \
 				$(LOCAL_PATH)/../../../../../../src/arch/sdl \
+				$(LOCAL_PATH)/../../../../../../src/raster \
+				$(LOCAL_PATH)/../../../../../../src/c64dtv \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)
