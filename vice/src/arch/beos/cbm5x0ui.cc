@@ -43,6 +43,7 @@ extern "C" {
 #include "joyport.h"
 #include "ui.h"
 #include "ui_cbm5x0.h"
+#include "ui_cia.h"
 #include "ui_drive.h"
 #include "ui_printer.h"
 #include "ui_sid.h"
@@ -91,12 +92,6 @@ ui_res_possible_values cbm5x0RenderFilters[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values cbm5x0_cia1models[] = {
-    { 0, MENU_CIA1_MODEL_6526_OLD },
-    { 1, MENU_CIA1_MODEL_6526A_NEW },
-    { -1, 0 }
-};
-
 static ui_res_possible_values DoodleMultiColor[] = {
     { NATIVE_SS_MC2HR_BLACK_WHITE, MENU_SCREENSHOT_DOODLE_MULTICOLOR_BLACK_WHITE },
     { NATIVE_SS_MC2HR_2_COLORS, MENU_SCREENSHOT_DOODLE_MULTICOLOR_2_COLORS },
@@ -116,7 +111,6 @@ static ui_res_possible_values IOCollisions[] = {
 ui_res_value_list cbm5x0_ui_res_values[] = {
     { "Acia1Dev", cbm5x0AciaDevice },
     { "VICIIFilter", cbm5x0RenderFilters },
-    { "CIA1Model", cbm5x0_cia1models },
     { "JoyPort1Device", cbm5x0_JoyPort1Device },
     { "JoyPort2Device", cbm5x0_JoyPort2Device },
     { "DoodleMultiColorHandling", DoodleMultiColor },
@@ -186,6 +180,9 @@ void cbm5x0_ui_specific(void *msg, void *window)
             break;
         case MENU_SID_SETTINGS:
             ui_sid(NULL);
+            break;
+        case MENU_CIA_SETTINGS:
+            ui_cia(1);
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(cbm5x0_drive_types, HAS_NO_CAPS);

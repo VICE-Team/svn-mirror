@@ -604,16 +604,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->AddItem(new BMenuItem("6567R56A (old NTSC)", new BMessage(MENU_VICII_MODEL_6567R56A_OLD_NTSC)));
                     extsubmenu->AddItem(new BMenuItem("6572 (PAL-N)", new BMessage(MENU_VICII_MODEL_6572_PAL_N)));
                 submenu->AddItem(new BMenuItem("New luminances", new BMessage(MENU_VICII_NEW_LUMINANCES)));
-            }
-                submenu->AddItem(extsubmenu = new BMenu("CIA-1 model"));
-                    extsubmenu->SetRadioMode(true);
-                    extsubmenu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA1_MODEL_6526_OLD)));
-                    extsubmenu->AddItem(new BMenuItem("6526 (new)", new BMessage(MENU_CIA1_MODEL_6526A_NEW)));
-                submenu->AddItem(extsubmenu = new BMenu("CIA-2 model"));
-                    extsubmenu->SetRadioMode(true);
-                    extsubmenu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA2_MODEL_6526_OLD)));
-                    extsubmenu->AddItem(new BMenuItem("6526 (new)", new BMessage(MENU_CIA2_MODEL_6526A_NEW)));
-            if (machine_class != VICE_MACHINE_C64) {
+
                 submenu->AddItem(extsubmenu = new BMenu("Glue logic"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("Discrete", new BMessage(MENU_GLUE_LOGIC_DISCRETE)));
@@ -698,19 +689,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
             menu->AddItem(new BMenuItem("VIC21/SuperVIC", new BMessage(MENU_VIC20_MODEL_VIC21)));
     }
 
-    if (machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
-        uppermenu->AddItem(menu = new BMenu("CIA-1 model"));
-            menu->SetRadioMode(true);
-            menu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA1_MODEL_6526_OLD)));
-            menu->AddItem(new BMenuItem("6526 (new)", new BMessage(MENU_CIA1_MODEL_6526A_NEW)));
-    }
-
     if (machine_class == VICE_MACHINE_C128) {
-        uppermenu->AddItem(menu = new BMenu("CIA-2 model"));
-            menu->SetRadioMode(true);
-            menu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA2_MODEL_6526_OLD)));
-            menu->AddItem(new BMenuItem("6526 (new)", new BMessage(MENU_CIA2_MODEL_6526A_NEW)));
-
         uppermenu->AddItem(menu = new BMenu("Internal Function ROM options"));
             menu->AddItem(submenu = new BMenu("Internal Function ROM type"));
                 submenu->SetRadioMode(true);
@@ -1440,6 +1419,12 @@ BMenuBar *menu_create(int machine_class, int window_nr)
     if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_PLUS4 ||
         machine_class == VICE_MACHINE_PET) {
         uppermenu->AddItem(new BMenuItem("SID cartridge ...", new BMessage(MENU_SIDCART_SETTINGS)));
+    }
+
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128 ||
+        machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
+        uppermenu->AddItem(new BMenuItem("CIA ...", new BMessage(MENU_CIA_SETTINGS)));
     }
 
     uppermenu->AddItem(menu = new BMenu("Computer ROM ..."));

@@ -68,6 +68,8 @@ libarch_a_SOURCES = \
 	ui_cbm2.h \
 	ui_cbm5x0.cc \
 	ui_cbm5x0.h \
+	ui_cia.cc \
+	ui_cia.h \
 	ui_datasette.cc \
 	ui_datasette.h \
 	ui_drive.cc \

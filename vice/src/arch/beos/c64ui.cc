@@ -57,6 +57,7 @@ extern "C" {
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
+#include "ui_cia.h"
 #include "ui_drive.h"
 #include "ui_ide64.h"
 #include "ui_printer.h"
@@ -303,18 +304,6 @@ ui_res_possible_values viciimodels[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values cia1models[] = {
-    { 0, MENU_CIA1_MODEL_6526_OLD },
-    { 1, MENU_CIA1_MODEL_6526A_NEW },
-    { -1, 0 }
-};
-
-ui_res_possible_values cia2models[] = {
-    { 0, MENU_CIA2_MODEL_6526_OLD },
-    { 1, MENU_CIA2_MODEL_6526A_NEW },
-    { -1, 0 }
-};
-
 ui_res_possible_values gluelogic[] = {
     { 0, MENU_GLUE_LOGIC_DISCRETE },
     { 1, MENU_GLUE_LOGIC_CUSTOM_IC },
@@ -393,8 +382,6 @@ ui_res_value_list c64_ui_res_values[] = {
     { "MMC64_revision", MMC64Revision },
     { "MMC64_sd_type", MMC64CardType },
     { "MMCRSDType", MMCRCardType },
-    { "CIA1Model", cia1models },
-    { "CIA2Model", cia2models },
     { "GlueLogic", gluelogic },
     { "VICIIFilter", RenderFilters },
     { "ExpertCartridgeMode", ExpertModes },
@@ -470,6 +457,9 @@ static void c64_ui_specific(void *msg, void *window)
                 break;
             case MENU_SID_SETTINGS:
                 ui_sid(c64_sid_address_base);
+                break;
+            case MENU_CIA_SETTINGS:
+                ui_cia(2);
                 break;
             case MENU_DRIVE_SETTINGS:
                 ui_drive(c64_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);

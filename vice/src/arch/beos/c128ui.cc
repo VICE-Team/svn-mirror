@@ -54,6 +54,7 @@ extern "C" {
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
+#include "ui_cia.h"
 #include "ui_drive.h"
 #include "ui_ide64.h"
 #include "ui_printer.h"
@@ -273,18 +274,6 @@ ui_res_possible_values c128RRrevs[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values c128_cia1models[] = {
-    { 0, MENU_CIA1_MODEL_6526_OLD },
-    { 1, MENU_CIA1_MODEL_6526A_NEW },
-    { -1, 0 }
-};
-
-ui_res_possible_values c128_cia2models[] = {
-    { 0, MENU_CIA2_MODEL_6526_OLD },
-    { 1, MENU_CIA2_MODEL_6526A_NEW },
-    { -1, 0 }
-};
-
 ui_res_possible_values internal_function_rom[] = {
     { 0, MENU_C128_INTERNAL_FUNCTION_NONE },
     { 1, MENU_C128_INTERNAL_FUNCTION_ROM },
@@ -370,8 +359,6 @@ ui_res_value_list c128_ui_res_values[] = {
     { "VDCRevision", c128VDCrev },
     { "ExpertCartridgeMode", c128ExpertModes },
     { "RRrevision", c128RRrevs },
-    { "CIA1Model", c128_cia1models },
-    { "CIA2Model", c128_cia2models },
     { "InternalFunctionROM", internal_function_rom },
     { "ExternalFunctionROM", external_function_rom },
     { "DS12C887RTCbase", c128_DS12C887RTC_base },
@@ -437,6 +424,9 @@ static void c128_ui_specific(void *msg, void *window)
                 break;
             case MENU_SID_SETTINGS:
                 ui_sid(c128_sid_address_base);
+                break;
+            case MENU_CIA_SETTINGS:
+                ui_cia(2);
                 break;
             case MENU_DRIVE_SETTINGS:
                 ui_drive(c128_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);

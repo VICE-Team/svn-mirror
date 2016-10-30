@@ -54,6 +54,7 @@ extern "C" {
 #include "scpu64ui.h"
 #include "types.h"
 #include "ui.h"
+#include "ui_cia.h"
 #include "ui_drive.h"
 #include "ui_ide64.h"
 #include "ui_printer.h"
@@ -288,18 +289,6 @@ ui_res_possible_values scpu64ui_viciimodels[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values scpu64ui_cia1models[] = {
-    { 0, MENU_CIA1_MODEL_6526_OLD },
-    { 1, MENU_CIA1_MODEL_6526A_NEW },
-    { -1, 0 }
-};
-
-ui_res_possible_values scpu64ui_cia2models[] = {
-    { 0, MENU_CIA2_MODEL_6526_OLD },
-    { 1, MENU_CIA2_MODEL_6526A_NEW },
-    { -1, 0 }
-};
-
 ui_res_possible_values scpu64ui_gluelogic[] = {
     { 0, MENU_GLUE_LOGIC_DISCRETE },
     { 1, MENU_GLUE_LOGIC_CUSTOM_IC },
@@ -376,8 +365,6 @@ ui_res_value_list scpu64_ui_res_values[] = {
     { "MMC64_revision", scpu64ui_MMC64Revision },
     { "MMC64_sd_type", scpu64ui_MMC64CardType },
     { "MMCRSDType", scpu64ui_MMCRCardType },
-    { "CIA1Model", scpu64ui_cia1models },
-    { "CIA2Model", scpu64ui_cia2models },
     { "GlueLogic", scpu64ui_gluelogic },
     { "VICIIFilter", scpu64ui_RenderFilters },
     { "ExpertCartridgeMode", scpu64ui_ExpertModes },
@@ -448,6 +435,9 @@ static void scpu64_ui_specific(void *msg, void *window)
                 break;
             case MENU_SID_SETTINGS:
                 ui_sid(scpu64_sid_address_base);
+                break;
+            case MENU_CIA_SETTINGS:
+                ui_cia(2);
                 break;
             case MENU_DRIVE_SETTINGS:
                 ui_drive(scpu64_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);
