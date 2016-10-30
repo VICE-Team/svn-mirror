@@ -1775,7 +1775,7 @@ static int list_file_matches_pattern(const char *name,
     int plen;
 
     /* get filetype as single token */
-    ftype = toupper(type[1]);   /* P, S, D, R, U */
+    ftype = toupper((int)(type[1]));   /* P, S, D, R, U */
 
     /* pattern length */
     plen = (strlen(pattern));
@@ -1896,6 +1896,16 @@ static int list_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+
+/** \brief  Change disk name and id
+ *
+ * Syntax: name "diskname[,id]" [unit]
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return 0 on succes, < 0 on failure (`FD_BADEV` or `FD_NOTREADY`)
+ */
 static int name_cmd(int nargs, char **args)
 {
     char *id;
@@ -1909,7 +1919,7 @@ static int name_cmd(int nargs, char **args)
         if (arg_to_int(args[2], &unit) < 0) {
             return FD_BADDEV;
         }
-        if (check_drive(unit, CHK_NUM) < 0) {
+        if (check_drive_unit(unit) < 0) {
             return FD_BADDEV;
         }
         unit -= 8;
@@ -1917,7 +1927,7 @@ static int name_cmd(int nargs, char **args)
         unit = drive_index;
     }
 
-    if (check_drive(unit, CHK_RDY) < 0) {
+    if (check_drive_ready(unit) < 0) {
         return FD_NOTREADY;
     }
 
