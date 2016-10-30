@@ -24,6 +24,8 @@ left from previous installs.
 
 - New Sortix port.
 
+- New SDL2 support.
+
 - New SCPU64 emulator (xscpu64).
 
 - New KoalaPad emulation.
@@ -58,8 +60,8 @@ left from previous installs.
 
 - Documentation in PDF and TXT format.
 
-** C64/C128 changes
--------------------
+** C64(SC)/C128 changes
+-----------------------
 
 - New IDE64 v4.2 emulation.
 
@@ -107,12 +109,17 @@ left from previous installs.
 
 - New Swiss ROM support.
 
-** C64 changes
---------------
+** C64(SC) changes
+------------------
 
 - New Sony CXA2025AS NTSC palette.
 
 - New CP/M (Z80) cartridge emulation.
+
+** C64SC changes
+----------------
+
+- New VICII VSP-bug emulation.
 
 ** C64DTV changes
 -----------------

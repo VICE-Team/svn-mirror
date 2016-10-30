@@ -26873,9 +26873,9 @@ Added random tape wobble emulation. Added 64k RGCD cartridge
 emulation. Added psid v4 3sid support to vsid. Added single frame
 advance. Added drive RPM and wobble support. Added rrnet mk3
 emulation. Added GMod2 cartridge emulation. Added xvic BehrBonz
-cartridge emulation. Wrote alot of test programs. Updated this
-document after a long period of outdated mess. And various fixes
-and improvements.
+cartridge emulation. Added VICII VSP-bug emulation. Wrote alot of
+test programs. Updated this document after a long period of
+outdated mess. And various fixes and improvements.
 
 @item
 @b{Errol Smith}
@@ -26906,6 +26906,23 @@ emulator. Added scroll wheel support for the Micromys mouse emulation.
 Added Swiss ROM support to x128. Added IDE64 USB server emulation. Added
 1540 drive emulation. Improved monitor support. Improved vdrive
 compatibility. Added godot screenshot support. And fixed various issues.
+
+@item
+@b{BSzili}
+Provided many amigaos4 fixes. Maintains the amigaos based and derived
+ports.
+
+@item
+@b{AreaScout}
+Fixed the SDL2 port. Revived the Android port. Maintains the SDL1,
+SDL2 and Android ports.
+
+@item
+@b{Bas Wassink}
+Fixed some gtk2/3 issues. Fixed t64 file handling. Fixed memory
+leaks. Added more doxygen documentation. Fixed c1541 issues.
+Updated the Linux-Native-Howto.txt file. Added yasm version
+checking. Fixed runtime linker path issues with *BSD.
 
 @end itemize
 
@@ -27171,11 +27188,17 @@ VIC-II implementation would not have been possible.
 @b{Anthony J. Bentley}
 Provided some man page fixes.
 
+@item
 @b{Eliseo Bianchi}
 Provided the italian Amiga translations.
 
+@item
 @b{Enrico Bruttomesso}
 Improved some italian translations.
+
+@item
+@b{Frank Buss}
+Provide some midi fixes.
 
 @item
 @b{ck!}
@@ -27190,6 +27213,10 @@ Added win32 vsid GUI and contributed various patches.
 Provided the GP2X port.
 
 @item
+@b{Hans Deragon}
+Added support for dead keys in X11.
+
+@item
 @b{Paul David Doherty}
 Wrote @code{zip2disk}, on which the Zipcode support in @code{c1541} is based.
 
@@ -27201,6 +27228,12 @@ Added Supergrafik support to petcat.
 @b{Peter Edwards}
 Implemented the SDL UI slider control and fixed some
 GP2X/Dingoo SDL UI issues.
+
+@item
+@b{István Fábián}
+Contributed a initial patch with the more correct 1541 bus
+timing code and which gave us hints for to improving the 1541
+emulation.
 
 @item
 @b{Daniel Fandrich}
@@ -27339,6 +27372,11 @@ fixes. Provided some gtk port fixes. Provided some SDL port
 fixes.
 
 @item
+@b{Lioncash}
+Provided some c1541 fixes. Fixed some 'geninfocontrib' helper tool
+issues. Fixed some 'embedded' build issues. Fixed some memory leaks.
+
+@item
 @b{Locnet}
 Made the initial android port of x64.
 
@@ -27346,6 +27384,10 @@ Made the initial android port of x64.
 @b{Wolfgang Lorenz}
 Wrote an excellent 6510 test suite that helped us to debug the
 CPU emulation.
+
+@item
+@b{lvd}
+Provided some monitor fixes.
 
 @item
 @b{Marko Mäkelä}
@@ -27356,6 +27398,12 @@ emulation in xvic.
 @item
 @b{mar77i}
 Fixed some resource handling issues.
+
+@item
+@b{Robert McIntyre}
+Bugged people enough to get the improved g64 support rolling, 
+updated g64 support to allow variable-length tracks, and 
+performed initial development of half-track support.
 
 @item
 @b{Robert W. McMullen}
@@ -27438,6 +27486,10 @@ the beginning of the story@dots{}
 Rewrote the VIC20 sound code.
 
 @item
+@b{Peter Rittwage}
+Made 1541 GCR hardware tests.
+
+@item
 @b{David Roden}
 Fixed various issues related to ffmpeg settings.
 
@@ -27503,6 +27555,10 @@ Wrote the Win32 text lister.
 Provided the MMC64 emulation.
 
 @item
+@b{Michael Steil}
+Provided some c1541 fixes.
+
+@item
 @b{Dominique Strigl}
 Contributed miscellaneous patches in the old X64 times.
 
@@ -27518,6 +27574,10 @@ Added initial support for 16/24 bpp X11 displays.
 @item
 @b{Philip Timmermann}
 Did a lot of research about the VIC-II colors.
+
+@item
+@b{TMLPiper}
+Provided fixes for the osx port.
 
 @item
 @b{Brian Totty}
@@ -27561,20 +27621,12 @@ Contributed the @code{extract} command in @code{c1541}.
 Did some IDE64 and C1541 fixes.
 
 @item
-@b{Peter Rittwage}
-Made 1541 GCR hardware tests.
+@b{David Wood}
+Provided some monitor fixes.
 
 @item
-@b{Robert McIntyre}
-Bugged people enough to get the improved g64 support rolling, 
-updated g64 support to allow variable-length tracks, and 
-performed initial development of half-track support.
-
-@item
-@b{István Fábián}
-Contributed a initial patch with the more correct 1541 bus
-timing code and which gave us hints for to improving the 1541
-emulation.
+@b{Count Zero}
+Fixed some monitor issues.
 
 @end itemize
 
