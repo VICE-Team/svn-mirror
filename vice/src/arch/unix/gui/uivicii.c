@@ -209,9 +209,11 @@ static UI_CALLBACK(toggle_VICIIVSPBug)
         return;
     }
 
+    resources_get_int("VICIIVSPBug", &n);
     if (!CHECK_MENUS) {
-        resources_get_int("VICIIVSPBug", &n);
         resources_set_int("VICIIVSPBug", (n ^ 1) & 1);
+    } else {
+        ui_menu_set_tick(w, n & 1);
     }
 }
 
