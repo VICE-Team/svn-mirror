@@ -42,6 +42,7 @@
 #include "mui/uiburstmod.h"
 #include "mui/uic64memoryhacks.h"
 #include "mui/uic64model.h"
+#include "mui/uic64scmodel.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec64.h"
 #include "mui/uids12c887rtc.h"
@@ -144,7 +145,11 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             c64model_set(C64MODEL_ULTIMAX);
             break;
         case IDM_C64_MODEL_CUSTOM:
-            ui_c64_model_custom_dialog();
+            if (machine_class == VICE_MACHINE_C64SC) {
+                ui_c64sc_model_custom_dialog();
+            } else {
+                ui_c64_model_custom_dialog();
+            }
             break;
         case IDM_VICII_SETTINGS:
             ui_vicii_settings_dialog();

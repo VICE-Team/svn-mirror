@@ -38,6 +38,8 @@ libarchmui_a_SOURCES = \
 	uic64memoryhacks.h \
 	uic64model.c \
 	uic64model.h \
+	uic64scmodel.c \
+	uic64scmodel.h \
 	uic128settings.c \
 	uic128settings.h \
 	uicbm2settings.c \
@@ -142,6 +144,8 @@ libarchmui_a_SOURCES = \
 	uisampler.h \
 	uiscpu64.c \
 	uiscpu64.h \
+	uiscpu64model.c \
+	uiscpu64model.h \
 	uiscreenshot.c \
 	uiscreenshot.h \
 	uisid.c \

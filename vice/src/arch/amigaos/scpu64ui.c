@@ -39,7 +39,6 @@
 
 #include "mui/uiacia.h"
 #include "mui/uiburstmod.h"
-#include "mui/uic64model.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec64.h"
 #include "mui/uids12c887rtc.h"
@@ -62,8 +61,9 @@
 #include "mui/uireu.h"
 #include "mui/uiromscpu64settings.h"
 #include "mui/uirs232user.h"
-#include "mui/uiscpu64.h"
 #include "mui/uisampler.h"
+#include "mui/uiscpu64.h"
+#include "mui/uiscpu64model.h"
 #include "mui/uisid.h"
 #include "mui/uisoundexpander.h"
 #include "mui/uivicii.h"
@@ -133,7 +133,7 @@ static int scpu64_ui_specific(video_canvas_t *canvas, int idm)
             c64model_set(C64MODEL_C64_GS);
             break;
         case IDM_C64_MODEL_CUSTOM:
-            ui_c64_model_custom_dialog();
+            ui_scpu64_model_custom_dialog();
             break;
         case IDM_VICII_SETTINGS:
             ui_vicii_settings_dialog();

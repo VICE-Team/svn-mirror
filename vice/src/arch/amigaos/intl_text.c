@@ -9395,6 +9395,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PRINTER_SETTINGS_SV, "Skrivarinställningar" },
 /* tr */ { IDS_PRINTER_SETTINGS_TR, "Yazýcý ayarlarý" },
 
+/* en */ { IDS_VICII_MODEL_SELECTION,    "VICII model selection" },
+/* da */ { IDS_VICII_MODEL_SELECTION_DA, "" },  /* fuzzy */
+/* de */ { IDS_VICII_MODEL_SELECTION_DE, "" },  /* fuzzy */
+/* es */ { IDS_VICII_MODEL_SELECTION_ES, "" },  /* fuzzy */
+/* fr */ { IDS_VICII_MODEL_SELECTION_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VICII_MODEL_SELECTION_HU, "" },  /* fuzzy */
+/* it */ { IDS_VICII_MODEL_SELECTION_IT, "" },  /* fuzzy */
+/* ko */ { IDS_VICII_MODEL_SELECTION_KO, "" },  /* fuzzy */
+/* nl */ { IDS_VICII_MODEL_SELECTION_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VICII_MODEL_SELECTION_PL, "" },  /* fuzzy */
+/* ru */ { IDS_VICII_MODEL_SELECTION_RU, "" },  /* fuzzy */
+/* sv */ { IDS_VICII_MODEL_SELECTION_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VICII_MODEL_SELECTION_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_MAGIC_VOICE_FILENAME,    "Magic Voice file" },
 /* da */ { IDS_MAGIC_VOICE_FILENAME_DA, "Magic Voice-fil" },
 /* de */ { IDS_MAGIC_VOICE_FILENAME_DE, "Magic Voice Datei" },
@@ -12908,6 +12922,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_IEC_RESET_RU, "" },  /* fuzzy */
 /* sv */ { IDS_IEC_RESET_SV, "" },  /* fuzzy */
 /* tr */ { IDS_IEC_RESET_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_KERNAL_REVISION,    "Kernal revision" },
+/* da */ { IDS_KERNAL_REVISION_DA, "" },  /* fuzzy */
+/* de */ { IDS_KERNAL_REVISION_DE, "" },  /* fuzzy */
+/* es */ { IDS_KERNAL_REVISION_ES, "" },  /* fuzzy */
+/* fr */ { IDS_KERNAL_REVISION_FR, "" },  /* fuzzy */
+/* hu */ { IDS_KERNAL_REVISION_HU, "" },  /* fuzzy */
+/* it */ { IDS_KERNAL_REVISION_IT, "" },  /* fuzzy */
+/* ko */ { IDS_KERNAL_REVISION_KO, "" },  /* fuzzy */
+/* nl */ { IDS_KERNAL_REVISION_NL, "" },  /* fuzzy */
+/* pl */ { IDS_KERNAL_REVISION_PL, "" },  /* fuzzy */
+/* ru */ { IDS_KERNAL_REVISION_RU, "" },  /* fuzzy */
+/* sv */ { IDS_KERNAL_REVISION_SV, "" },  /* fuzzy */
+/* tr */ { IDS_KERNAL_REVISION_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_C64_MODEL_SETTINGS,    "C64 model settings" },
 /* da */ { IDS_C64_MODEL_SETTINGS_DA, "C64-model indstillinger" },

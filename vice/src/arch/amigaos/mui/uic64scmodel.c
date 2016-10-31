@@ -1,5 +1,5 @@
 /*
- * uic64model.c
+ * uic64scmodel.c
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -26,18 +26,12 @@
 
 #include "vice.h"
 
-#ifdef AMIGA_OS4
-#define ASL_PRE_V38_NAMES
-#endif
-
-#include "private.h"
-
 #ifdef AMIGA_M68K
 #define _INLINE_MUIMASTER_H
 #endif
 #include "mui.h"
 
-#include "uic64model.h"
+#include "uic64scmodel.h"
 #include "vicii.h"
 #include "intl.h"
 #include "translate.h"
@@ -56,6 +50,30 @@ static const int ui_iec_reset_enable_values[] = {
     -1
 };
 
+static int ui_vicii_models_translate[] = {
+    IDS_6569_PAL,
+    IDS_8565_PAL,
+    IDS_6569R1_OLD_PAL,
+    IDS_6567_NTSC,
+    IDS_8562_NTSC,
+    IDS_6567R56A_OLD_NTSC,
+    IDS_6572_PAL_N,
+    0
+};
+
+static char *ui_vicii_models[countof(ui_vicii_models_translate)];
+
+static const int ui_vicii_models_values[] = {
+    VICII_MODEL_6569,
+    VICII_MODEL_8565,
+    VICII_MODEL_6569R1,
+    VICII_MODEL_6567,
+    VICII_MODEL_8562,
+    VICII_MODEL_6567R56A,
+    VICII_MODEL_6572,
+    -1
+};
+
 static int ui_cia_models_translate[] = {
     IDS_6526_OLD,
     IDS_6526A_NEW,
@@ -65,6 +83,20 @@ static int ui_cia_models_translate[] = {
 static char *ui_cia_models[countof(ui_cia_models_translate)];
 
 static const int ui_cia_models_values[] = {
+    0,
+    1,
+    -1
+};
+
+static int ui_glue_logic_translate[] = {
+    IDS_DISCRETE,
+    IDS_CUSTOM_IC,
+    0
+};
+
+static char *ui_glue_logic[countof(ui_glue_logic_translate)];
+
+static const int ui_glue_logic_values[] = {
     0,
     1,
     -1
@@ -89,122 +121,28 @@ static int ui_kernal_rev_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
+    { NULL, MUI_TYPE_CYCLE, "VICIIModel", ui_vicii_models, ui_vicii_models_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "CIA1Model", ui_cia_models, ui_cia_models_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "CIA2Model", ui_cia_models, ui_cia_models_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "GlueLogic", ui_glue_logic, ui_glue_logic_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "IECReset", ui_iec_reset_enable, ui_iec_reset_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "KernalRev", ui_kernal_rev, ui_kernal_rev_values, NULL },
     UI_END /* mandatory */
 };
 
-#define VICMODEL_UNKNOWN -1
-#define VICMODEL_NUM 5
-
-struct vicmodel_s {
-    int video;
-    int luma;
-};
-
-static struct vicmodel_s vicmodels[] = {
-    { MACHINE_SYNC_PAL,     1 }, /* VICII_MODEL_PALG */
-    { MACHINE_SYNC_PAL,     0 }, /* VICII_MODEL_PALG_OLD */
-    { MACHINE_SYNC_NTSC,    1 }, /* VICII_MODEL_NTSCM */
-    { MACHINE_SYNC_NTSCOLD, 0 }, /* VICII_MODEL_NTSCM_OLD */
-    { MACHINE_SYNC_PALN,    1 }  /* VICII_MODEL_PALN */
-};
-
-static int vicmodel_get_temp(int video)
-{
-    int i;
-
-    for (i = 0; i < VICMODEL_NUM; ++i) {
-        if (vicmodels[i].video == video) {
-            return i;
-        }
-    }
-
-    return VICMODEL_UNKNOWN;
-}
-
-static int vicmodel_get(void)
-{
-    int video;
-
-    if (resources_get_int("MachineVideoStandard", &video) < 0) {
-        return -1;
-    }
-
-    return vicmodel_get_temp(video);
-}
-
-static void vicmodel_set(int model)
-{
-    int old_model;
-
-    old_model = vicmodel_get();
-
-    if ((model == old_model) || (model == VICMODEL_UNKNOWN)) {
-        return;
-    }
-
-    resources_set_int("MachineVideoStandard", vicmodels[model].video);
-}
-
-enum {
-    REQ_VICII_MODEL_PALN,
-    REQ_VICII_MODEL_PALG,
-    REQ_VICII_MODEL_OLDPALG,
-    REQ_VICII_MODEL_NTSCM,
-    REQ_VICII_MODEL_OLDNTSCM
-};
-
-static ULONG vicii_model(struct Hook *hook, Object *obj, APTR arg)
-{
-    int vicii = ui_requester(translate_text(IDMES_VICE_MESSAGE), tmp, "PAL-G|Old PAL-G|NTSC-M|Old NTSC-M|PAL-N", 0);
-    int viciiset = -1;
-
-    switch (vicii) {
-        case REQ_VICII_MODEL_PALN:
-            viciiset = VICII_MODEL_PALN;
-            break;
-        case REQ_VICII_MODEL_PALG:
-            viciiset = VICII_MODEL_PALG;
-            break;
-        case REQ_VICII_MODEL_OLDPALG:
-            viciiset = VICII_MODEL_PALG_OLD;
-            break;
-        case REQ_VICII_MODEL_NTSCM:
-            viciiset = VICII_MODEL_NTSCM;
-            break;
-        case REQ_VICII_MODEL_OLDNTSCM:
-            viciiset = VICII_MODEL_NTSCM_OLD;
-    }
-
-    if (viciiset != -1) {
-        vicmodel_set(viciiset);
-    }
-
-    return 0;
-}
-
 static APTR build_gui(void)
 {
     APTR app, ui, ok, cancel;
-    APTR vicii_model_button;
-
-#ifdef AMIGA_MORPHOS
-    static const struct Hook VICIImodelHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)vicii_model, NULL };
-#else
-    static const struct Hook VICIImodelHook = { { NULL, NULL }, (VOID *)vicii_model, NULL, NULL };
-#endif
 
     app = mui_get_app();
 
     ui = GroupObject,
-           BUTTON(vicii_model_button, translate_text(IDS_VICII_MODEL_SELECTION))
-           CYCLE(ui_to_from[0].object, translate_text(IDS_CIA1_MODEL), ui_cia_models)
-           CYCLE(ui_to_from[1].object, translate_text(IDS_CIA2_MODEL), ui_cia_models)
-           CYCLE(ui_to_from[2].object, translate_text(IDS_IEC_RESET), ui_iec_reset_enable)
-           CYCLE(ui_to_from[3].object, translate_text(IDS_KERNAL_REVISION), ui_kernal_rev)
+           CYCLE(ui_to_from[0].object, translate_text(IDS_VICII_MODEL), ui_vicii_models)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_CIA1_MODEL), ui_cia_models)
+           CYCLE(ui_to_from[2].object, translate_text(IDS_CIA2_MODEL), ui_cia_models)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_GLUE_LOGIC), ui_glue_logic)
+           CYCLE(ui_to_from[4].object, translate_text(IDS_IEC_RESET), ui_iec_reset_enable)
+           CYCLE(ui_to_from[5].object, translate_text(IDS_KERNAL_REVISION), ui_kernal_rev)
            OK_CANCEL_BUTTON
          End;
 
@@ -214,20 +152,19 @@ static APTR build_gui(void)
 
         DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
                  app, 2, MUIM_Application_ReturnID, BTN_OK);
-
-        DoMethod(vicii_model_button, MUIM_Notify, MUIA_Pressed, FALSE,
-                 app, 2, MUIM_CallHook, &VICIImodelHook);
     }
 
     return ui;
 }
 
-void ui_c64_model_custom_dialog(void)
+void ui_c64sc_model_custom_dialog(void)
 {
     APTR window;
 
+    intl_convert_mui_table(ui_vicii_models_translate, ui_vicii_models);
     intl_convert_mui_table(ui_iec_reset_enable_translate, ui_iec_reset_enable);
     intl_convert_mui_table(ui_cia_models_translate, ui_cia_models);
+    intl_convert_mui_table(ui_glue_logic_translate, ui_glue_logic);
 
     window = mui_make_simple_window(build_gui(), translate_text(IDS_C64_MODEL_SETTINGS));
 
