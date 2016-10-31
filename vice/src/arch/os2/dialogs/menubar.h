@@ -664,6 +664,11 @@
 #define IDM_8562_NTSC                0x1db
 #define IDM_6567R56A_OLD_NTSC        0x1dc
 #define IDM_6572_PAL_N               0x1dd
+#define IDM_PALG                     0x35a
+#define IDM_OLD_PALG                 0x35b
+#define IDM_NTSCM                    0x35c
+#define IDM_OLD_NTSCM                0x35d
+#define IDM_PALN                     0x35e
 #define IDM_VICII_NEW_LUMINANCES     0x1de
 #define IDM_CIA1_MODEL               0x1df
 #define IDM_CIA1_6526_OLD            0x1e0
@@ -674,6 +679,13 @@
 #define IDM_GLUE_LOGIC               0x1e5
 #define IDM_DISCRETE                 0x1e6
 #define IDM_CUSTOM_IC                0x1e7
+
+#define IDM_KERNAL_REVISION          0x35f
+#define IDM_KERNAL_REV_1             0x361
+#define IDM_KERNAL_REV_2             0x362
+#define IDM_KERNAL_REV_3             0x363
+#define IDM_KERNAL_SX64              0x364
+#define IDM_KERNAL_4064              0x365
 
 #define IDM_C128_MODEL               0x2fa
 #define IDM_C128PAL                  0x2fb

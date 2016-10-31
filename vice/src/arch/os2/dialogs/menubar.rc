@@ -591,7 +591,7 @@ BEGIN
         END
 #endif // __X128__
 
-#ifdef __X64SC__
+#if defined(__X64SC__) || defined(__X64__) || defined(__XSCPU64__)
         SUBMENU "C64 model",                              IDM_C64_MODEL,                MIS_TEXT
         BEGIN
             MENUITEM "C64 PAL",                           IDM_C64PAL,                   MIS_TEXT
@@ -605,13 +605,16 @@ BEGIN
             MENUITEM "C64 SX NTSC",                       IDM_C64SXNTSC,                MIS_TEXT
             MENUITEM "Japanese",                          IDM_C64JAP,                   MIS_TEXT
             MENUITEM "C64 GS",                            IDM_C64GS,                    MIS_TEXT
+#ifndef (__XSCPU64__)
             MENUITEM "PET64 PAL",                         IDM_PET64PAL,                 MIS_TEXT
             MENUITEM "PET64 NTSC",                        IDM_PET64NTSC,                MIS_TEXT
             MENUITEM "MAX Machine",                       IDM_ULTIMAX,                  MIS_TEXT
+#endif
             SUBMENU "Custom C64 model",                   IDM_CUSTOM_C64_MODEL,         MIS_TEXT
             BEGIN
                 SUBMENU "VICII model",                    IDM_VICII_MODEL,              MIS_TEXT
                 BEGIN
+#if defined(__X64SC__) || defined(__XSCPU64__)
                     MENUITEM "6569 (PAL)",                IDM_6569_PAL,                 MIS_TEXT
                     MENUITEM "8565 (PAL)",                IDM_8565_PAL,                 MIS_TEXT
                     MENUITEM "6569R1 (old PAL)",          IDM_6569R1_OLD_PAL,           MIS_TEXT
@@ -619,6 +622,13 @@ BEGIN
                     MENUITEM "8562 (NTSC)",               IDM_8562_NTSC,                MIS_TEXT
                     MENUITEM "6567R56A (old NTSC)",       IDM_6567R56A_OLD_NTSC,        MIS_TEXT
                     MENUITEM "6572 (PAL-N)",              IDM_6572_PAL_N,               MIS_TEXT
+#else
+                    MENUITEM "PAL-G",                     IDM_PALG,                     MIS_TEXT
+                    MENUITEM "Old PAL-G",                 IDM_OLD_PALG,                 MIS_TEXT
+                    MENUITEM "NTSC-M",                    IDM_NTSCM,                    MIS_TEXT
+                    MENUITEM "Old NTSC-M",                IDM_OLD_NTSCM,                MIS_TEXT
+                    MENUITEM "PAL-N",                     IDM_PALN,                     MIS_TEXT
+#endif
                 END
                 MENUITEM "New luminances",                IDM_VICII_NEW_LUMINANCES,     MIS_TEXT
                 SUBMENU "CIA-1 model",                    IDM_CIA1_MODEL,               MIS_TEXT
@@ -631,11 +641,23 @@ BEGIN
                     MENUITEM "6526 (old)",                IDM_CIA2_6526_OLD,            MIS_TEXT
                     MENUITEM "6526A (new)",               IDM_CIA2_6526A_NEW,           MIS_TEXT
                 END
+#if defined(__X64SC__) || defined(__XSCPU64__)
                 SUBMENU "Glue logic",                     IDM_GLUE_LOGIC,               MIS_TEXT
                 BEGIN
                     MENUITEM "Discrete",                  IDM_DISCRETE,                 MIS_TEXT
                     MENUITEM "Custom IC",                 IDM_CUSTOM_IC,                MIS_TEXT
                 END
+#endif
+#ifndef (__XSCPU64__)
+                SUBMENU "Kernal revision",                IDM_KERNAL_REVISION,          MIS_TEXT
+                BEGIN
+                    MENUITEM "Rev 1",                     IDM_KERNAL_REV_1,             MIS_TEXT
+                    MENUITEM "Rev 2",                     IDM_KERNAL_REV_2,             MIS_TEXT
+                    MENUITEM "Rev 3",                     IDM_KERNAL_REV_3,             MIS_TEXT
+                    MENUITEM "SX-64",                     IDM_KERNAL_SX64,              MIS_TEXT
+                    MENUITEM "4064",                      IDM_KERNAL_4064,              MIS_TEXT
+                END
+#endif
             END
         END
 #endif

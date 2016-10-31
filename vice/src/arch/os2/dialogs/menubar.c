@@ -82,6 +82,10 @@
 #include "c64dtv-resources.h"
 #endif
 
+#if defined(__X64__) || defined(__X64SC__)
+#include "c64-resources.h"
+#endif
+
 #if defined(__X64__) || defined(__XSCPU64__)
 #include "c64model.h"        // c64model_set(), C64MODEL_*
 #endif
@@ -337,6 +341,61 @@ void ChangeSpeed(HWND hwnd, int idm)
 
 // --------------------------------------------------------------------------
 
+#ifdef __X64__
+#define VICMODEL_UNKNOWN -1
+#define VICMODEL_NUM 5
+
+struct vicmodel_s {
+    int video;
+    int luma;
+};
+
+static struct vicmodel_s vicmodels[] = {
+    { MACHINE_SYNC_PAL,     1 }, /* VICII_MODEL_PALG */
+    { MACHINE_SYNC_PAL,     0 }, /* VICII_MODEL_PALG_OLD */
+    { MACHINE_SYNC_NTSC,    1 }, /* VICII_MODEL_NTSCM */
+    { MACHINE_SYNC_NTSCOLD, 0 }, /* VICII_MODEL_NTSCM_OLD */
+    { MACHINE_SYNC_PALN,    1 }  /* VICII_MODEL_PALN */
+};
+
+static int vicmodel_get_temp(int video)
+{
+    int i;
+
+    for (i = 0; i < VICMODEL_NUM; ++i) {
+        if (vicmodels[i].video == video) {
+            return i;
+        }
+    }
+
+    return VICMODEL_UNKNOWN;
+}
+
+static int vicmodel_get(void)
+{
+    int video;
+
+    if (resources_get_int("MachineVideoStandard", &video) < 0) {
+        return -1;
+    }
+
+    return vicmodel_get_temp(video);
+}
+
+static void vicmodel_set(int model)
+{
+    int old_model;
+
+    old_model = vicmodel_get();
+
+    if ((model == old_model) || (model == VICMODEL_UNKNOWN)) {
+        return;
+    }
+
+    resources_set_int("MachineVideoStandard", vicmodels[model].video);
+}
+#endif
+
 #ifdef __XPET__
 static int sidaddr1 = 0x8f00;
 static int sidaddr2 = 0xe900;
@@ -542,6 +601,24 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
+#if defined(__X64__) || defined(__X64SC__)
+        case IDM_KERNAL_REV_1:
+            resources_set_int("KernalRev", C64_KERNAL_REV1);
+            return;
+        case IDM_KERNAL_REV_2:
+            resources_set_int("KernalRev", C64_KERNAL_REV2);
+            return;
+        case IDM_KERNAL_REV_3:
+            resources_set_int("KernalRev", C64_KERNAL_REV3);
+            return;
+        case IDM_KERNAL_SX64:
+            resources_set_int("KernalRev", C64_KERNAL_SX64);
+            return;
+        case IDM_KERNAL_4064:
+            resources_set_int("KernalRev", C64_KERNAL_4064);
+            return;
+#endif
+
 #if defined(__X64__) || defined(__X128__) || defined(__XCBM2__) || defined(__XSCPU64__)
         case IDM_CIA1_6526_OLD:
             resources_set_int("CIA1Model", 0);
@@ -557,7 +634,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#if (defined(__X64__) || defined(__XSCPU64__)) && !defined(__VSID__)
+#if (defined(__X64__) || defined(__X64SC__) || defined(__XSCPU64__)) && !defined(__VSID__)
         case IDM_C64PAL:
         case IDM_C64CPAL:
         case IDM_C64OLDPAL:
@@ -571,11 +648,14 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_C64SXNTSC:
         case IDM_C64JAP:
         case IDM_C64GS:
+#ifndef __XSCPU64__
         case IDM_PET64PAL:
         case IDM_PET64NTSC:
         case IDM_ULTIMAX:
+#endif
             c64model_set(C64MODEL_C64SX_PAL + idm - IDM_C64SXPAL);
             return;
+#if defined(__X64SC__) || defined(__XSCPU64__)
         case IDM_6569_PAL:
         case IDM_8565_PAL:
         case IDM_6569R1_OLD_PAL:
@@ -585,12 +665,29 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_6572_PAL_N:
             resources_set_int("VICIIModel", VICII_MODEL_6569 + IDM_6569_PAL - idm);
             return;
-        case IDM_VICII_NEW_LUMINANCES:
-            toggle("VICIINewLuminances");
-            return;
         case IDM_DISCRETE:
         case IDM_CUSTOM_IC:
             resources_set_int("GlueLogic", idm - IDM_DISCRETE);
+            return;
+#else
+        case IDM_PALG:
+            vicmodel_set(VICII_MODEL_PALG);
+            return;
+        case IDM_OLD_PALG:
+            vicmodel_set(VICII_MODEL_PALG_OLD);
+            return;
+        case IDM_NTSCM:
+            vicmodel_set(VICII_MODEL_NTSCM);
+            return;
+        case IDM_OLD_NTSCM:
+            vicmodel_set(VICII_MODEL_NTSCM_OLD);
+            return;
+        case IDM_PALN:
+            vicmodel_set(VICII_MODEL_PALN);
+            return;
+#endif
+        case IDM_VICII_NEW_LUMINANCES:
+            toggle("VICIINewLuminances");
             return;
 #endif
 
@@ -1967,12 +2064,24 @@ void menu_select(HWND hwnd, USHORT item)
             return;
 #endif
 
+#if defined(__X64__) || defined(__X64SC__)
+        case IDM_KERNAL_REVISION:
+            resources_get_int("KernalRev", &val);
+            WinCheckMenuItem(hwnd, IDM_KERNAL_REV_1, val == C64_KERNAL_REV1);
+            WinCheckMenuItem(hwnd, IDM_KERNAL_REV_2, val == C64_KERNAL_REV2);
+            WinCheckMenuItem(hwnd, IDM_KERNAL_REV_3, val == C64_KERNAL_REV3);
+            WinCheckMenuItem(hwnd, IDM_KERNAL_SX64, val == C64_KERNAL_SX64);
+            WinCheckMenuItem(hwnd, IDM_KERNAL_4064, val == C64_KERNAL_4064);
+            return;
+#endif
+
 #if defined(__X64__) || defined(__XSCPU64__)
         case IDM_CUSTOM_C64_MODEL:
             resources_get_int("VICIINewLuminances", &val);
             WinCheckMenuItem(hwnd, IDM_VICII_NEW_LUMINANCES, val);
             return;
         case IDM_VICII_MODEL:
+#if defined(__X64SC__) || defined(__XSCPU64__)
             resources_get_int("VICIIModel", &val);
             WinCheckMenuItem(hwnd, IDM_6569_PAL,          val == VICII_MODEL_6569);
             WinCheckMenuItem(hwnd, IDM_8565_PAL,          val == VICII_MODEL_8565);
@@ -1981,6 +2090,14 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_8562_NTSC,         val == VICII_MODEL_8562);
             WinCheckMenuItem(hwnd, IDM_6567R56A_OLD_NTSC, val == VICII_MODEL_6567R56A);
             WinCheckMenuItem(hwnd, IDM_6572_PAL_N,        val == VICII_MODEL_6572);
+#else
+            val = vicmodel_get();
+            WinCheckMenuItem(hwnd, IDM_PALG,      val == VICII_MODEL_PALG);
+            WinCheckMenuItem(hwnd, IDM_OLD_PALG,  val == VICII_MODEL_PALG_OLD);
+            WinCheckMenuItem(hwnd, IDM_NTSCM,     val == VICII_MODEL_NTSCM);
+            WinCheckMenuItem(hwnd, IDM_OLD_NTSCM, val == VICII_MODEL_NTSCM_OLD);
+            WinCheckMenuItem(hwnd, IDM_PALN,      val == VICII_MODEL_PALN);
+#endif
             return;
         case IDM_GLUE_LOGIC:
             resources_get_int("GlueLogic", &val);
@@ -2307,7 +2424,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_PLUS256KFILE, val == MEMORY_HACK_PLUS256K);
 #endif
 
-#ifdef __X64SC__
+#if (defined(__X64SC__) || defined(__X64__) || defined(__XSCPU64__)) && !defined(__VSID__)
             val = c64model_get();
             WinCheckMenuItem(hwnd, IDM_C64PAL, val == C64MODEL_C64_PAL);
             WinCheckMenuItem(hwnd, IDM_C64CPAL, val == C64MODEL_C64C_PAL);
@@ -2320,17 +2437,11 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_C64SXNTSC, val == C64MODEL_C64SX_NTSC);
             WinCheckMenuItem(hwnd, IDM_C64JAP, val == C64MODEL_C64_JAP);
             WinCheckMenuItem(hwnd, IDM_C64GS, val == C64MODEL_C64_GS);
+#ifndef __XSCPU64__
             WinCheckMenuItem(hwnd, IDM_PET64PAL, val == C64MODEL_PET64_PAL);
             WinCheckMenuItem(hwnd, IDM_PET64NTSC, val == C64MODEL_PET64_NTSC);
             WinCheckMenuItem(hwnd, IDM_ULTIMAX, val == C64MODEL_ULTIMAX);
-            resources_get_int("VICIIModel", &val);
-            WinCheckMenuItem(hwnd, IDM_6569_PAL, val == VICII_MODEL_6569);
-            WinCheckMenuItem(hwnd, IDM_8565_PAL, val == VICII_MODEL_8565);
-            WinCheckMenuItem(hwnd, IDM_6569R1_OLD_PAL, val == VICII_MODEL_6569R1);
-            WinCheckMenuItem(hwnd, IDM_6567_NTSC, val == VICII_MODEL_6567);
-            WinCheckMenuItem(hwnd, IDM_8562_NTSC, val == VICII_MODEL_8562);
-            WinCheckMenuItem(hwnd, IDM_6567R56A_OLD_NTSC, val == VICII_MODEL_6567R56A);
-            WinCheckMenuItem(hwnd, IDM_6572_PAL_N, val == VICII_MODEL_6572);
+#endif
 #endif
 #endif
 
