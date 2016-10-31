@@ -35,60 +35,116 @@
 #include "uic64model.h"
 #include "vicii.h"
 
-TUI_MENU_DEFINE_RADIO(VICIIModel)
 TUI_MENU_DEFINE_RADIO(CIA1Model)
 TUI_MENU_DEFINE_RADIO(CIA2Model)
-TUI_MENU_DEFINE_RADIO(GlueLogic)
 TUI_MENU_DEFINE_TOGGLE(IECReset)
+TUI_MENU_DEFINE_RADIO(KernalRev)
+
+#define VICMODEL_UNKNOWN -1
+#define VICMODEL_NUM 5
+
+struct vicmodel_s {
+    int video;
+    int luma;
+};
+
+static struct vicmodel_s vicmodels[] = {
+    { MACHINE_SYNC_PAL,     1 }, /* VICII_MODEL_PALG */
+    { MACHINE_SYNC_PAL,     0 }, /* VICII_MODEL_PALG_OLD */
+    { MACHINE_SYNC_NTSC,    1 }, /* VICII_MODEL_NTSCM */
+    { MACHINE_SYNC_NTSCOLD, 0 }, /* VICII_MODEL_NTSCM_OLD */
+    { MACHINE_SYNC_PALN,    1 }  /* VICII_MODEL_PALN */
+};
+
+static int vicmodel_get_temp(int video)
+{
+    int i;
+
+    for (i = 0; i < VICMODEL_NUM; ++i) {
+        if (vicmodels[i].video == video) {
+            return i;
+        }
+    }
+
+    return VICMODEL_UNKNOWN;
+}
+
+static int vicmodel_get(void)
+{
+    int video;
+
+    if (resources_get_int("MachineVideoStandard", &video) < 0) {
+        return -1;
+    }
+
+    return vicmodel_get_temp(video);
+}
+
+static void vicmodel_set(int model)
+{
+    int old_model;
+
+    old_model = vicmodel_get();
+
+    if ((model == old_model) || (model == VICMODEL_UNKNOWN)) {
+        return;
+    }
+
+    resources_set_int("MachineVideoStandard", vicmodels[model].video);
+}
+
+static TUI_MENU_CALLBACK(radio_VICIIModel_callback)
+{
+    if (been_activated) {
+        vicmodel_set(param);
+        *become_default = 1;
+    } else {
+        int v = vicmodel_get();
+
+        if (v == param) {
+            *become_default = 1;
+        }
+    }
+    return NULL;
+}
 
 static TUI_MENU_CALLBACK(vicii_model_submenu_callback)
 {
-    int value;
+    int value = vicmodel_get();
     char *s;
 
-    resources_get_int("VICIIModel", &value);
     switch (value) {
         default:
-        case VICII_MODEL_6569:
-            s = "6569 (PAL)";
+        case VICII_MODEL_PALG:
+            s = "PAL-G";
             break;
-        case VICII_MODEL_8565:
-            s = "8565 (PAL)";
+        case VICII_MODEL_PALG_OLD:
+            s = "Old PAL-G";
             break;
-        case VICII_MODEL_6569R1:
-            s = "6569R1 (old PAL)";
+        case VICII_MODEL_NTSCM:
+            s = "NTSC-M";
             break;
-        case VICII_MODEL_6567:
-            s = "6567 (NTSC)";
+        case VICII_MODEL_NTSCM_OLD:
+            s = "Old NTSC-M";
             break;
-        case VICII_MODEL_8562:
-            s = "8562 (NTSC)";
-            break;
-        case VICII_MODEL_6567R56A:
-            s = "6567R56A (old NTSC)";
-            break;
-        case VICII_MODEL_6572:
-            s = "6572 (PAL-N)";
+        case VICII_MODEL_PALN:
+            s = "PAL-N";
             break;
     }
     return s;
 }
 
 static tui_menu_item_def_t vicii_model_submenu[] = {
-    { "6569 (PAL)", NULL, radio_VICIIModel_callback,
-      (void *)VICII_MODEL_6569, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "8565 (PAL)", NULL, radio_VICIIModel_callback,
-      (void *)VICII_MODEL_8565, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "6569R1 (old PAL)", NULL, radio_VICIIModel_callback,
-      (void *)VICII_MODEL_6569R1, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "6567 (NTSC)", NULL, radio_VICIIModel_callback,
-      (void *)VICII_MODEL_6567, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "8562 (NTSC)", NULL, radio_VICIIModel_callback,
-      (void *)VICII_MODEL_8562, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "6567R56A (old NTSC)", NULL, radio_VICIIModel_callback,
-      (void *)VICII_MODEL_6567R56A, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "6572 (PAL-N)", NULL, radio_VICIIModel_callback,
-      (void *)VICII_MODEL_6572, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "PAL-G", NULL, radio_VICIIModel_callback,
+      (void *)VICII_MODEL_PALG, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Old PAL-G", NULL, radio_VICIIModel_callback,
+      (void *)VICII_MODEL_PALG_OLD, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "NTSC-M", NULL, radio_VICIIModel_callback,
+      (void *)VICII_MODEL_NTSCM, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Old NTSC-M", NULL, radio_VICIIModel_callback,
+      (void *)VICII_MODEL_NTSCM_OLD, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "PAL-N", NULL, radio_VICIIModel_callback,
+      (void *)VICII_MODEL_PALN, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
@@ -142,29 +198,51 @@ static tui_menu_item_def_t cia2_model_submenu[] = {
     { NULL }
 };
 
-static TUI_MENU_CALLBACK(gluelogic_submenu_callback)
+static char *get_kernal_rev(int value)
 {
-    int value;
-    char *s;
+    char *retval;
 
-    resources_get_int("GlueLogic", &value);
     switch (value) {
         default:
-        case 0:
-            s = "Discrete";
+        case C64_KERNAL_REV1:
+            retval = "Rev 1";
             break;
-        case 1:
-            s = "Custom IC";
+        case C64_KERNAL_REV2:
+            retval = "Rev 2";
+            break;
+        case C64_KERNAL_REV3:
+            retval = "Rev 3";
+            break;
+        case C64_KERNAL_SX64:
+            retval = "SX-64";
+            break;
+        case C64_KERNAL_4064:
+            retval = "4064";
             break;
     }
-    return s;
+    return retval;
 }
 
-static tui_menu_item_def_t gluelogic_submenu[] = {
-    { "Discrete", NULL, radio_GlueLogic_callback,
-      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Custom IC", NULL, radio_GlueLogic_callback,
-      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+static TUI_MENU_CALLBACK(kernal_rev_submenu_callback)
+{
+    int value;
+
+    resources_get_int("KernalRev", &value);
+
+    return get_kernal_rev(value);
+}
+
+static tui_menu_item_def_t kernal_rev_submenu[] = {
+    { "Rev 1", NULL, radio_KernalRev_callback,
+      (void *)C64_KERNAL_REV1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Rev 2", NULL, radio_KernalRev_callback,
+      (void *)C64_KERNAL_REV2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Rev 3", NULL, radio_KernalRev_callback,
+      (void *)C64_KERNAL_REV3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "SX-64", NULL, radio_KernalRev_callback,
+      (void *)C64_KERNAL_SX64, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "4064", NULL, radio_KernalRev_callback,
+      (void *)C64_KERNAL_4064, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
@@ -185,10 +263,10 @@ static tui_menu_item_def_t c64_custom_model_menu_items[] = {
       cia2_model_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, cia2_model_submenu,
       "CIA 2 model" },
-    { "Glue logic:", "Select the kind of glue logic",
-      gluelogic_submenu_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, gluelogic_submenu,
-      "Glue logic" },
+    { "_Kernal revision:", "Select the Kernal revision",
+      kernal_rev_submenu_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, kernal_rev_submenu,
+      "Kernal revision" },
     { NULL }
 };
 

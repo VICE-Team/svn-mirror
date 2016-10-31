@@ -106,6 +106,8 @@ libarch_a_SOURCES = \
 	uic64memoryhacks.h \
 	uic64model.c \
 	uic64model.h \
+	uic64scmodel.c \
+	uic64scmodel.h \
 	uic128model.c \
 	uic128model.h \
 	uicbm2model.c \

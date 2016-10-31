@@ -1,5 +1,5 @@
 /*
- * uiscpu64model.c - SCPU64 model selection UI for MS-DOS.
+ * uic64scmodel.c - C64SC model selection UI for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -32,7 +32,7 @@
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
-#include "uiscpu64model.h"
+#include "uic64scmodel.h"
 #include "vicii.h"
 
 TUI_MENU_DEFINE_RADIO(VICIIModel)
@@ -40,6 +40,7 @@ TUI_MENU_DEFINE_RADIO(CIA1Model)
 TUI_MENU_DEFINE_RADIO(CIA2Model)
 TUI_MENU_DEFINE_RADIO(GlueLogic)
 TUI_MENU_DEFINE_TOGGLE(IECReset)
+TUI_MENU_DEFINE_TOGGLE(KernalRev)
 
 static TUI_MENU_CALLBACK(vicii_model_submenu_callback)
 {
@@ -168,6 +169,54 @@ static tui_menu_item_def_t gluelogic_submenu[] = {
     { NULL }
 };
 
+static char *get_kernal_rev(int value)
+{
+    char *retval;
+
+    switch (value) {
+        default:
+        case C64_KERNAL_REV1:
+            retval = "Rev 1";
+            break;
+        case C64_KERNAL_REV2:
+            retval = "Rev 2";
+            break;
+        case C64_KERNAL_REV3:
+            retval = "Rev 3";
+            break;
+        case C64_KERNAL_SX64:
+            retval = "SX-64";
+            break;
+        case C64_KERNAL_4064:
+            retval = "4064";
+            break;
+    }
+    return retval;
+}
+
+static TUI_MENU_CALLBACK(kernal_rev_submenu_callback)
+{
+    int value;
+
+    resources_get_int("KernalRev", &value);
+
+    return get_kernal_rev(value);
+}
+
+static tui_menu_item_def_t kernal_rev_submenu[] = {
+    { "Rev 1", NULL, radio_KernalRev_callback,
+      (void *)C64_KERNAL_REV1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Rev 2", NULL, radio_KernalRev_callback,
+      (void *)C64_KERNAL_REV2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Rev 3", NULL, radio_KernalRev_callback,
+      (void *)C64_KERNAL_REV3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "SX-64", NULL, radio_KernalRev_callback,
+      (void *)C64_KERNAL_SX64, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "4064", NULL, radio_KernalRev_callback,
+      (void *)C64_KERNAL_4064, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
 static tui_menu_item_def_t c64_custom_model_menu_items[] = {
     { "_VICII model:", "Select the VICII model",
       vicii_model_submenu_callback, NULL, 20,
@@ -189,6 +238,10 @@ static tui_menu_item_def_t c64_custom_model_menu_items[] = {
       gluelogic_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, gluelogic_submenu,
       "Glue logic" },
+    { "_Kernal revision:", "Select the Kernal revision",
+      kernal_rev_submenu_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, kernal_rev_submenu,
+      "Kernal revision" },
     { NULL }
 };
 
@@ -253,15 +306,27 @@ static tui_menu_item_def_t c64_model_items[] = {
       "Configure the emulator to emulate a C64 GS machine and do a soft RESET",
       set_model_callback, (void *)C64MODEL_C64_GS, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "_L: PET64 PAL",
+      "Configure the emulator to emulate a PET64 PAL machine and do a soft RESET",
+      set_model_callback, (void *)C64MODEL_PET64_PAL, 0,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "_M: PET64 NTSC",
+      "Configure the emulator to emulate a PET64 NTSC machine and do a soft RESET",
+      set_model_callback, (void *)C64MODEL_PET64_NTSC, 0,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "_N: MAX Machine",
+      "Configure the emulator to emulate a MAX Machine and do a soft RESET",
+      set_model_callback, (void *)C64MODEL_ULTIMAX, 0,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
     { "--" },
-    { "_L: Custom",
+    { "_O: Custom",
       "Set custom model options",
       NULL, NULL, 0,
       TUI_MENU_BEH_CONTINUE, c64_custom_model_menu_items, "Set custom C64 model" },
     { NULL }
 };
 
-void uiscpu64model_init(struct tui_menu *parent_submenu)
+void uic64scmodel_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_c64model_submenu;
 

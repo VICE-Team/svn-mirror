@@ -46,6 +46,7 @@
 #include "uic64cart.h"
 #include "uic64memoryhacks.h"
 #include "uic64model.h"
+#include "uic64scmodel.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
 #include "uidrive.h"
@@ -185,6 +186,8 @@ int c64ui_init(void)
     ui_ioextensions_submenu = tui_menu_create("I/O extensions", 1);
 
     if (machine_class == VICE_MACHINE_C64SC) {
+        uic64scmodel_init(ui_special_submenu);
+    } else {
         uic64model_init(ui_special_submenu);
     }
 
