@@ -25,6 +25,9 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/vicii \
 				$(LOCAL_PATH)/../../../../../../src/video \
 				$(LOCAL_PATH)/../../../../../../src/tape \
+				$(LOCAL_PATH)/../../../../../../src/joyport \
+				$(LOCAL_PATH)/../../../../../../src/samplerdrv \
+				$(LOCAL_PATH)/../../../../../../src/tapeport \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)
