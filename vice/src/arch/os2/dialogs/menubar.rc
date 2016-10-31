@@ -177,6 +177,16 @@ BEGIN
         END
         MENUITEM "Screenshot vice2.~png",                 IDM_PRINTSCRN,                MIS_TEXT
         MENUITEM SEPARATOR
+        SUBMENU "~JAM Action",                            IDM_JAM_ACTION,               MIS_TEXT
+        BEGIN
+            MENUITEM "Dialog",                            IDM_JAM_ACTION_DIALOG,        MIS_TEXT
+            MENUITEM "Continue",                          IDM_JAM_ACTION_CONTINUE,      MIS_TEXT
+            MENUITEM "Monitor",                           IDM_JAM_ACTION_MONITOR,       MIS_TEXT
+            MENUITEM "Soft Reset",                        IDM_JAM_ACTION_RESET,         MIS_TEXT
+            MENUITEM "Hard Reset",                        IDM_JAM_ACTION_HARD_RESET,    MIS_TEXT
+            MENUITEM "Quit",                              IDM_JAM_ACTION_QUIT,          MIS_TEXT
+        END
+        MENUITEM SEPARATOR
         SUBMENU "~Reset",                                 IDM_RESET,                    MIS_TEXT
         BEGIN
             MENUITEM "~Soft Reset\tAlt-R",                IDM_SOFTRESET,                MIS_TEXT

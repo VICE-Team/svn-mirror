@@ -872,6 +872,15 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
+        case IDM_JAM_ACTION_DIALOG:
+        case IDM_JAM_ACTION_CONTINUE:
+        case IDM_JAM_ACTION_MONITOR:
+        case IDM_JAM_ACTION_RESET:
+        case IDM_JAM_ACTION_HARD_RESET:
+        case IDM_JAM_ACTION_QUIT:
+            resources_set_int("JAMAction", idm - IDM_JAM_ACTION_DIALOG);
+            return;
+
 #if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__XSCPU64__)
         case IDM_GEORAM:
             toggle("GEORAM");
@@ -1934,6 +1943,16 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_CBM2_RESET_ON_CART_CHNG, val == 1);
             return;
 #endif
+
+        case IDM_JAM_ACTION:
+            resources_get_int("JAMAction", &val);
+            WinCheckMenuItem(hwnd, IDM_JAM_ACTION_DIALOG, val == MACHINE_JAM_ACTION_DIALOG);
+            WinCheckMenuItem(hwnd, IDM_JAM_ACTION_CONTINUE, val == MACHINE_JAM_ACTION_CONTINUE);
+            WinCheckMenuItem(hwnd, IDM_JAM_ACTION_MONITOR, val == MACHINE_JAM_ACTION_MONITOR);
+            WinCheckMenuItem(hwnd, IDM_JAM_ACTION_RESET, val == MACHINE_JAM_ACTION_RESET);
+            WinCheckMenuItem(hwnd, IDM_JAM_ACTION_HARD_RESET, val == MACHINE_JAM_ACTION_HARD_RESET);
+            WinCheckMenuItem(hwnd, IDM_JAM_ACTION_QUIT, val == MACHINE_JAM_ACTION_QUIT);
+            return;
 
 #if defined(__X64__) || defined(__X128__) || defined(__XCBM2__) || defined(__XSCPU64__)
         case IDM_CIA1_MODEL:

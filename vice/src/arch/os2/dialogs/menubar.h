@@ -37,6 +37,7 @@
 #define IDM_ATTACH                   0x104
 #define IDM_DETACH                   0x105
 #define IDM_SNAPSHOT                 0x106
+#define IDM_JAM_ACTION               0x353
 #define IDM_RESET                    0x107
 #define IDM_VIEW                     0x108
 #define IDM_EMULATOR                 0x109
@@ -71,6 +72,13 @@
 #define IDM_LOGWIN                   0x10d
 #define IDM_COLOR                    0x10e
 #define IDM_COLOR2                   0x2bf
+
+#define IDM_JAM_ACTION_DIALOG        0x354
+#define IDM_JAM_ACTION_CONTINUE      0x355
+#define IDM_JAM_ACTION_MONITOR       0x356
+#define IDM_JAM_ACTION_RESET         0x357
+#define IDM_JAM_ACTION_HARD_RESET    0x358
+#define IDM_JAM_ACTION_QUIT          0x359
 
 #define IDM_BURSTMOD                 0x2e2
 #define IDM_BURST_NONE               0x2e3
