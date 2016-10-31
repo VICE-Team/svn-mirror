@@ -31,10 +31,12 @@
 #include "types.h"
 
 #include "c64model.h"
+#include "c64-resources.h"
 #include "cia.h"
 #include "machine.h"
 #include "menu_common.h"
 #include "menu_sid.h"
+#include "resources.h"
 #include "uimenu.h"
 #include "vicii.h"
 
@@ -194,6 +196,32 @@ CIA_MODEL_MENU(2)
 
 UI_MENU_DEFINE_TOGGLE(IECReset)
 
+UI_MENU_DEFINE_RADIO(KernalRev)
+
+static const ui_menu_entry_t kernal_rev_submenu[] = {
+    { "Rev 1",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KernalRev_callback,
+      (ui_callback_data_t)C64_KERNAL_REV1 },
+    { "Rev 2",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KernalRev_callback,
+      (ui_callback_data_t)C64_KERNAL_REV2 },
+    { "Rev 3",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KernalRev_callback,
+      (ui_callback_data_t)C64_KERNAL_REV3 },
+    { "SX-64",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KernalRev_callback,
+      (ui_callback_data_t)C64_KERNAL_SX64 },
+    { "4064",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KernalRev_callback,
+      (ui_callback_data_t)C64_KERNAL_4064 },
+    SDL_MENU_LIST_END
+};
+
 /* ------------------------------------------------------------------------- */
 /* x64sc */
 
@@ -273,8 +301,16 @@ const ui_menu_entry_t c64sc_model_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IECReset_callback,
       NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Kernal revision",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)kernal_rev_submenu },
     SDL_MENU_LIST_END
 };
+
+/* ------------------------------------------------------------------------- */
+/* xscpu64 */
 
 const ui_menu_entry_t scpu64_model_menu[] = {
     { "C64 model",
@@ -322,25 +358,96 @@ const ui_menu_entry_t scpu64_model_menu[] = {
 /* ------------------------------------------------------------------------- */
 /* x64 */
 
-UI_MENU_DEFINE_RADIO(MachineVideoStandard)
+#define VICMODEL_UNKNOWN -1
+#define VICMODEL_NUM 5
 
-static const ui_menu_entry_t video_standard_submenu[] = {
-    { "PAL",
+struct vicmodel_s {
+    int video;
+    int luma;
+};
+
+static struct vicmodel_s vicmodels[] = {
+    { MACHINE_SYNC_PAL,     1 }, /* VICII_MODEL_PALG */
+    { MACHINE_SYNC_PAL,     0 }, /* VICII_MODEL_PALG_OLD */
+    { MACHINE_SYNC_NTSC,    1 }, /* VICII_MODEL_NTSCM */
+    { MACHINE_SYNC_NTSCOLD, 0 }, /* VICII_MODEL_NTSCM_OLD */
+    { MACHINE_SYNC_PALN,    1 }  /* VICII_MODEL_PALN */
+};
+
+static int vicmodel_get_temp(int video)
+{
+    int i;
+
+    for (i = 0; i < VICMODEL_NUM; ++i) {
+        if (vicmodels[i].video == video) {
+            return i;
+        }
+    }
+
+    return VICMODEL_UNKNOWN;
+}
+
+static int vicmodel_get(void)
+{
+    int video;
+
+    if (resources_get_int("MachineVideoStandard", &video) < 0) {
+        return -1;
+    }
+
+    return vicmodel_get_temp(video);
+}
+
+static void vicmodel_set(int model)
+{
+    int old_model;
+
+    old_model = vicmodel_get();
+
+    if ((model == old_model) || (model == VICMODEL_UNKNOWN)) {
+        return;
+    }
+
+    resources_set_int("MachineVideoStandard", vicmodels[model].video);
+}
+
+static const char *x64_ui_vicii_model(int activated, ui_callback_data_t param)
+{
+    int val = vice_ptr_to_int(param);
+
+    if (activated) {
+        vicmodel_set(val);
+    } else {
+        int v = vicmodel_get();
+
+        if (v == val) {
+            return sdl_menu_text_tick;
+        }
+    }
+    return NULL;
+}
+
+static const ui_menu_entry_t vicii_model_submenu[] = {
+    { "PAL-G",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
+      x64_ui_vicii_model,
+      (ui_callback_data_t)VICII_MODEL_PALG },
+    { "Old PAL-G",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { "Old NTSC",
+      x64_ui_vicii_model,
+      (ui_callback_data_t)VICII_MODEL_PALG_OLD },
+    { "NTSC-M",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSCOLD },
+      x64_ui_vicii_model,
+      (ui_callback_data_t)VICII_MODEL_NTSCM },
+    { "Old NTSC-M",
+      MENU_ENTRY_RESOURCE_RADIO,
+      x64_ui_vicii_model,
+      (ui_callback_data_t)VICII_MODEL_NTSCM_OLD },
     { "PAL-N",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PALN },
+      x64_ui_vicii_model,
+      (ui_callback_data_t)VICII_MODEL_PALN },
     SDL_MENU_LIST_END
 };
 
@@ -350,10 +457,10 @@ const ui_menu_entry_t c64_model_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)c64_model_submenu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video standard",
+    { "VICII model",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
-      (ui_callback_data_t)video_standard_submenu },
+      (ui_callback_data_t)vicii_model_submenu },
     SDL_MENU_ITEM_SEPARATOR,
     { "SID settings",
       MENU_ENTRY_SUBMENU,
@@ -374,5 +481,10 @@ const ui_menu_entry_t c64_model_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IECReset_callback,
       NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Kernal revision",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)kernal_rev_submenu },
     SDL_MENU_LIST_END
 };
