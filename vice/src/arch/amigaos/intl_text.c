@@ -12405,6 +12405,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_VOLUME_SV, "Volym (0-100 %)" },
 /* tr */ { IDS_VOLUME_TR, "Ses Düzeyi (0-100%)" },
 
+/* en */ { IDS_RANDOM_TAPE_WOBBLE,    "Random tape wobble" },
+/* da */ { IDS_RANDOM_TAPE_WOBBLE_DA, "" },  /* fuzzy */
+/* de */ { IDS_RANDOM_TAPE_WOBBLE_DE, "" },  /* fuzzy */
+/* es */ { IDS_RANDOM_TAPE_WOBBLE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_RANDOM_TAPE_WOBBLE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RANDOM_TAPE_WOBBLE_HU, "" },  /* fuzzy */
+/* it */ { IDS_RANDOM_TAPE_WOBBLE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_RANDOM_TAPE_WOBBLE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_RANDOM_TAPE_WOBBLE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_RANDOM_TAPE_WOBBLE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_RANDOM_TAPE_WOBBLE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_RANDOM_TAPE_WOBBLE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_RANDOM_TAPE_WOBBLE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_SOUND_OUTPUT_MODE,    "Sound output mode" },
 /* da */ { IDS_SOUND_OUTPUT_MODE_DA, "Lydindstillinger" },
 /* de */ { IDS_SOUND_OUTPUT_MODE_DE, "Ton Ausgabe Modus" },
