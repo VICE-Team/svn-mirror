@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 
 #include <stdio.h>
 
@@ -138,4 +138,4 @@ const ui_menu_entry_t ethernet_menu[] = {
     SDL_MENU_LIST_END
 };
 
-#endif /* HAVE_TFE */
+#endif /* HAVE_PCAP */

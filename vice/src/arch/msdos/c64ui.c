@@ -69,7 +69,7 @@
 #include "uisoundexpander.h"
 #include "uiss5.h"
 #include "uitapeport.h"
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #include "uitfe.h"
 #endif
 #include "uiuserport.h"
@@ -249,7 +249,7 @@ int c64ui_init(void)
 
     uimagicvoice_init(ui_ioextensions_submenu);
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     uitfe_c64_init(ui_ioextensions_submenu);
 #endif
 

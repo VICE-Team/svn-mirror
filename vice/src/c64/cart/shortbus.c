@@ -34,7 +34,7 @@
 
 #include "shortbus_digimax.h"
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #include "shortbus_etfe.h"
 #endif
 
@@ -50,7 +50,7 @@ int shortbus_resources_init(void)
         return -1;
     }
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     if (shortbus_etfe_resources_init() < 0) {
         return -1;
     }
@@ -74,7 +74,7 @@ void shortbus_resources_shutdown(void)
 {
     shortbus_digimax_resources_shutdown();
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     shortbus_etfe_resources_shutdown();
 #endif
 
@@ -92,7 +92,7 @@ int shortbus_cmdline_options_init(void)
         return -1;
     }
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     if (shortbus_etfe_cmdline_options_init() < 0) {
         return -1;
     }
@@ -116,7 +116,7 @@ extern void shortbus_unregister(void)
 {
     shortbus_digimax_unregister();
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     shortbus_etfe_unregister();
 #endif
 
@@ -132,7 +132,7 @@ extern void shortbus_register(void)
 {
     shortbus_digimax_register();
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     shortbus_etfe_register();
 #endif
 
@@ -147,7 +147,7 @@ void shortbus_reset(void)
 {
     shortbus_digimax_reset();
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     shortbus_etfe_reset();
 #endif
 
@@ -186,7 +186,7 @@ int shortbus_write_snapshot_module(snapshot_t *s)
         devices[0] = 1;
     }
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     if (shortbus_etfe_enabled()) {
         ++active_devices;
         devices[2] = 1;
@@ -229,7 +229,7 @@ int shortbus_write_snapshot_module(snapshot_t *s)
             }
         }
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         if (devices[2]) {
             if (shortbus_etfe_write_snapshot_module(s) < 0) {
                 return -1;
@@ -292,7 +292,7 @@ int shortbus_read_snapshot_module(snapshot_t *s)
             }        
         }
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         if (devices[2]) {
             if (shortbus_etfe_read_snapshot_module(s) < 0) {
                 return -1;

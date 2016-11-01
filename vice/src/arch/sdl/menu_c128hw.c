@@ -56,7 +56,7 @@
 #include "menu_sid.h"
 #include "menu_tape.h"
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #include "menu_ethernet.h"
 #include "menu_tfe.h"
 #endif
@@ -263,7 +263,7 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)midi_c64_menu },
 #endif
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     { "Ethernet settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

@@ -27,9 +27,9 @@
 #ifndef VICE_UITFE_H
 #define VICE_UITFE_H
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 extern void ui_tfe_settings_dialog(HWND hwnd);
 
-#endif // #ifdef HAVE_TFE
+#endif // #ifdef HAVE_PCAP
 
 #endif

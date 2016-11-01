@@ -27,7 +27,7 @@
 #ifndef UITFE_H
 #define UITFE_H
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 struct tui_menu;
 
 extern void uitfe_c64_init(struct tui_menu *parent_submenu);

@@ -151,9 +151,9 @@ static const ui_menu_grey_function_t grayed_list_function[] = {
 
 /* List of resources that can be grayed out from the menus.  */
 static const ui_menu_toggle_t grayed_list_res[] = {
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 /*    { "ETHERNET_DISABLED", IDM_TFE_SETTINGS }, */
-#endif /* #ifdef HAVE_TFE */
+#endif /* #ifdef HAVE_PCAP */
     { NULL, 0 }
 };
 

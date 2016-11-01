@@ -380,7 +380,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS_MASCUERADE },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS_MASCUERADE },
     { IDM_DS12C887RTC_SETTINGS, IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE },
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     { IDM_TFE_SETTINGS, IDS_MI_TFE_SETTINGS_MASCUERADE },
 #endif
     { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS_MASCUERADE },
@@ -613,7 +613,7 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_DS12C887RTC_SETTINGS:
             ui_ds12c887rtc_settings_dialog(hwnd);
             break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case IDM_TFE_SETTINGS:
            ui_tfe_settings_dialog(hwnd);
            break;

@@ -567,7 +567,7 @@
 #define HAVE_SYS_TYPES_H 1
 
 /* Support for The Final Ethernet */
-/* #undef HAVE_TFE */
+/* #undef HAVE_PCAP */
 
 /* Define to 1 if you have the <UMS/UMSAudioDevice.h> header file. */
 /* #undef HAVE_UMS_UMSAUDIODEVICE_H */

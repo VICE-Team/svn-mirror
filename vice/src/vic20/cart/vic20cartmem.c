@@ -43,7 +43,7 @@
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
 #include "sidcart.h"
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #define CARTRIDGE_INCLUDE_PUBLIC_API
 #include "ethernetcart.h"
@@ -408,7 +408,7 @@ void cartridge_init(void)
     megacart_init();
     finalexpansion_init();
     vic_fp_init();
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     ethernetcart_init();
 #endif
     aciacart_init();
@@ -437,7 +437,7 @@ void cartridge_reset(void)
             finalexpansion_reset();
             break;
     }
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     if (ethernetcart_cart_enabled()) {
         ethernetcart_reset();
     }
@@ -521,7 +521,7 @@ static void cart_detach_all(void)
     georam_detach();
     sfx_soundexpander_detach();
     sfx_soundsampler_detach();
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     ethernetcart_detach();
 #endif
 }

@@ -52,7 +52,7 @@
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
 #include "uitapeport.h"
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #include "uitfe.h"
 #endif
 #include "uivic20model.h"
@@ -594,7 +594,7 @@ int vic20ui_init(void)
     uigeoram_vic20_init(ui_ioextensions_submenu);
     uisoundexpander_vic20_init(ui_ioextensions_submenu);
     uisoundsampler_init(ui_ioextensions_submenu);
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     uitfe_vic20_init(ui_ioextensions_submenu);
 #endif
 

@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 
 #include <assert.h>
 #include <stdio.h>
@@ -534,4 +534,4 @@ int ethernetcart_snapshot_read_module(snapshot_t *s)
 #endif
 }
 
-#endif /* #ifdef HAVE_TFE */
+#endif /* #ifdef HAVE_PCAP */

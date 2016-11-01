@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 
 #include <stdio.h>
 #include <windows.h>
@@ -301,4 +301,4 @@ void ui_tfe_settings_dialog(HWND hwnd)
     }
 }
 
-#endif // #ifdef HAVE_TFE
+#endif // #ifdef HAVE_PCAP

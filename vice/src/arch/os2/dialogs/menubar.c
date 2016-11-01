@@ -1018,7 +1018,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_DS12C887RTC_SAVE:
             toggle("DS12C887RTCSave");
             return;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case IDM_TFE:
             toggle("ETHERNET_ACTIVE");
             return;
@@ -1104,7 +1104,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_SFX_SS_IO_SWAP:
             toggle("SFXSoundSamplerIOSwap");
             return;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case IDM_TFE_IO_SWAP:
             toggle("TFEIOSwap");
             return;
@@ -2343,7 +2343,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_DS12C887RTC, val);
             WinEnableMenuItem(hwnd, IDM_DS12C887RTCBASE, val);
             WinEnableMenuItem(hwnd, IDM_DS12C887RTC_SAVE, val);
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
             resources_get_int("ETHERNET_ACTIVE", &val);
             WinCheckMenuItem(hwnd, IDM_TFE, val);
 #ifdef __XVIC__

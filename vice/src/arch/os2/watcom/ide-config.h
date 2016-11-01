@@ -119,7 +119,7 @@
 
 //#define HAVE_OPENCBM          0
 //#define HAVE_RAWDRIVE         0
-//#define HAVE_TFE              1
+//#define HAVE_PCAP              1
 
 /* This seems to be needed to prevent the emulator from FPEs */
 #define FIXPOINT_ARITHMETIC   1

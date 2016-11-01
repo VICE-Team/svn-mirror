@@ -1827,7 +1827,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX settings..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
   IDS_MI_IDE64_SETTINGS                "IDE64 settings..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Ethernet settings..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "ACIA settings..."
@@ -2554,7 +2554,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX-indstillinger..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC-indstillinger..."
   IDS_MI_IDE64_SETTINGS                "IDE64-indstillinger..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Ethernetindstillinger..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "ACIA-indstillinger..."
@@ -3281,7 +3281,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX Einstellungen..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC Einstellungen..."
   IDS_MI_IDE64_SETTINGS                "IDE64 Einstellungen..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Ethernet Einstellungen..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "ACIA Einstellungen..."
@@ -4008,7 +4008,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "Ajustes DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Ajustes DS12C887 RTC..."
   IDS_MI_IDE64_SETTINGS                "Ajustes IDE64..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Ajustes Ethernet..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "Ajustes ACIA..."
@@ -4735,7 +4735,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "Paramètres DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Paramètres DS12C887 RTC..."
   IDS_MI_IDE64_SETTINGS                "Paramètres IDE64..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Paramètres Ethernet..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "Paramètres ACIA..."
@@ -5465,7 +5465,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX settings..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
   IDS_MI_IDE64_SETTINGS                "IDE64 beállításai..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Ethernet settings..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "ACIA settings..."
@@ -6195,7 +6195,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "Impostazioni DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Impostazioni RTC DS12C887..."
   IDS_MI_IDE64_SETTINGS                "Impostazioni IDE64..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Impostazioni Ethernet..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "Impostazioni ACIA..."
@@ -6925,7 +6925,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX ¼³Á¤..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
   IDS_MI_IDE64_SETTINGS                "IDE64 ¼³Á¤..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "ÀÌ´õ³Ý ¼³Á¤..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "ACIA ¼³Á¤..."
@@ -7655,7 +7655,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX instellingen..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC instellingen..."
   IDS_MI_IDE64_SETTINGS                "IDE64 instellingen..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Ethernet instellingen..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "ACIA instellingen..."
@@ -8385,7 +8385,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "Ustawienia DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Ustawienia DS12C887 RTC..."
   IDS_MI_IDE64_SETTINGS                "Ustawienia IDE64..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Ustawienia Ethernet..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "Ustawienia ACIA..."
@@ -9118,7 +9118,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX settings..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
   IDS_MI_IDE64_SETTINGS                "IDE64 settings..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Ethernet settings..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "ACIA settings..."
@@ -9848,7 +9848,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX-inställningar..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC-inställningar..."
   IDS_MI_IDE64_SETTINGS                "IDE64-inställningar..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Ethernetinställningar..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "ACIA-inställningar..."
@@ -10578,7 +10578,7 @@ BEGIN
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX ayarlarý..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC ayarlarý..."
   IDS_MI_IDE64_SETTINGS                "IDE64 ayarlarý..."
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
   IDS_MI_TFE_SETTINGS                  "Ethernet Ayarlarý..."
 #endif
   IDS_MI_ACIA_SETTINGS                 "ACIA Ayarlarý..."

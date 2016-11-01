@@ -45,7 +45,7 @@
 #include "uic64cart.h"
 #include "uicommands.h"
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #include "uics8900.h"
 #endif
 
@@ -59,7 +59,7 @@
 #include "uieasyflash.h"
 #include "uiedit.h"
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #include "uiethernetcart.h"
 #endif
 
@@ -86,7 +86,7 @@
 #include "uiretroreplay.h"
 #include "uireu.h"
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #include "uirrnetmk3.h"
 #endif
 
@@ -289,7 +289,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, retroreplay_submenu },
     { CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, UI_MENU_TYPE_NORMAL,
       NULL, NULL, supersnapshot_v5_submenu },
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Ethernet cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ethernetcart_c64_submenu },
@@ -558,7 +558,7 @@ static ui_menu_entry_t c128_menu[] = {
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232_c128_submenu },
 #endif
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     { N_("Ethernet settings"), UI_MENU_TYPE_NORMAL,
         NULL, NULL, uics8900_submenu },
 #endif
@@ -737,7 +737,7 @@ static void c128ui_dynamic_menu_create(void)
     uimmc64_menu_create();
     uimmcr_menu_create();
     uiretroreplay_menu_create();
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     uiethernetcart_menu_create();
 #endif
 }
@@ -756,7 +756,7 @@ static void c128ui_dynamic_menu_shutdown(void)
     uimmc64_menu_shutdown();
     uimmcr_menu_shutdown();
     uiretroreplay_menu_shutdown();
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     uiethernetcart_menu_shutdown();
 #endif
 }

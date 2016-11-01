@@ -26921,8 +26921,9 @@ SDL2 and Android ports.
 @b{Bas Wassink}
 Fixed some gtk2/3 issues. Fixed t64 file handling. Fixed memory
 leaks. Added more doxygen documentation. Fixed c1541 issues.
-Updated the Linux-Native-Howto.txt file. Added yasm version
-checking. Fixed runtime linker path issues with *BSD.
+Updated the Linux-Native-Howto.txt file. Added autoconf, automake and
+yasm version checking. Fixed runtime linker path issues with *BSD. Fixed
+out-of-tree building.
 
 @end itemize
 

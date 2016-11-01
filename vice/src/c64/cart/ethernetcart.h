@@ -24,10 +24,10 @@
  *
  */
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #else
-  #error ETHERNETCART.H should not be included if HAVE_TFE is not defined!
-#endif /* #ifdef HAVE_TFE */
+  #error ETHERNETCART.H should not be included if HAVE_PCAP is not defined!
+#endif /* #ifdef HAVE_PCAP */
 
 #ifndef CARTRIDGE_INCLUDE_PRIVATE_API
 #ifndef CARTRIDGE_INCLUDE_PUBLIC_API

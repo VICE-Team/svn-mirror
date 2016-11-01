@@ -66,7 +66,7 @@
 #define HAVE_SNPRINTF			1
 
 #define DWORD_IS_LONG           1
-#define HAVE_TFE                1
+#define HAVE_PCAP                1
 
 #ifndef _M_IA64
 #define HAVE_FFMPEG             1

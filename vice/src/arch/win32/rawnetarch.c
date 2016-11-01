@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_TFE 
+#ifdef HAVE_PCAP 
 
 /* #define WPCAP */
 
@@ -543,4 +543,4 @@ char *rawnet_arch_get_standard_interface(void)
 
     return dev;
 }
-#endif /* #ifdef HAVE_TFE */
+#endif /* #ifdef HAVE_PCAP */

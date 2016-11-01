@@ -868,7 +868,7 @@ BEGIN
 
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         MENUITEM "TFE - Cartridge",                       IDM_TFE,                      MIS_TEXT
 #endif
 
@@ -1223,7 +1223,7 @@ BEGIN
             MENUITEM "SFX Sound Sampler cartridge",       IDM_SFX_SS,                   MIS_TEXT
             MENUITEM "SFX Sound Sampler I/O Swap",        IDM_SFX_SS_IO_SWAP,           MIS_TEXT
         END
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         SUBMENU "TFE Settings (MasC=uerade)",             IDM_TFE_SETTINGS,             MIS_TEXT
         BEGIN
             MENUITEM "TFE - Cartridge",                   IDM_TFE,                      MIS_TEXT

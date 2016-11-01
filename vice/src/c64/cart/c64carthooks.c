@@ -130,7 +130,7 @@
 #include "superexplode5.h"
 #include "supersnapshot.h"
 #include "supersnapshot4.h"
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #include "ethernetcart.h"
 #endif
 #include "warpspeed.h"
@@ -449,7 +449,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_RGCD_CART,
       NULL, NULL },
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     { "-cartrrnet", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_RRNETMK3, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -558,7 +558,7 @@ int cart_cmdline_options_init(void)
         || reu_cmdline_options_init() < 0
         || sfx_soundexpander_cmdline_options_init() < 0
         || sfx_soundsampler_cmdline_options_init() < 0
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         || ethernetcart_cmdline_options_init() < 0
 #endif
         /* "Main Slot" */
@@ -567,7 +567,7 @@ int cart_cmdline_options_init(void)
         || ide64_cmdline_options_init() < 0
         || mmcreplay_cmdline_options_init() < 0
         || retroreplay_cmdline_options_init() < 0
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         || rrnetmk3_cmdline_options_init() < 0
 #endif
         || supersnapshot_v5_cmdline_options_init() < 0
@@ -614,7 +614,7 @@ int cart_resources_init(void)
         || reu_resources_init() < 0
         || sfx_soundexpander_resources_init() < 0
         || sfx_soundsampler_resources_init() < 0
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         || ethernetcart_resources_init() < 0
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -626,7 +626,7 @@ int cart_resources_init(void)
         || ide64_resources_init() < 0
         || mmcreplay_resources_init() < 0
         || retroreplay_resources_init() < 0
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         || rrnetmk3_resources_init() < 0
 #endif
         || supersnapshot_v5_resources_init() < 0
@@ -659,7 +659,7 @@ void cart_resources_shutdown(void)
     reu_resources_shutdown();
     sfx_soundexpander_resources_shutdown();
     sfx_soundsampler_resources_shutdown();
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     ethernetcart_resources_shutdown();
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -672,7 +672,7 @@ void cart_resources_shutdown(void)
     ide64_resources_shutdown();
     mmcreplay_resources_shutdown();
     retroreplay_resources_shutdown();
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     rrnetmk3_resources_shutdown();
 #endif
     supersnapshot_v5_resources_shutdown();
@@ -808,7 +808,7 @@ int cart_type_enabled(int type)
             return sfx_soundexpander_cart_enabled();
         case CARTRIDGE_SFX_SOUND_SAMPLER:
             return sfx_soundsampler_cart_enabled();
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_TFE:
             return ethernetcart_cart_enabled();
 #endif
@@ -860,7 +860,7 @@ const char *cart_get_file_name(int type)
 #endif
         case CARTRIDGE_SFX_SOUND_EXPANDER:
         case CARTRIDGE_SFX_SOUND_SAMPLER:
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_TFE:
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -1005,7 +1005,7 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return rexep256_bin_attach(filename, rawcart);
         case CARTRIDGE_RGCD:
             return rgcd_bin_attach(filename, rawcart);
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_bin_attach(filename, rawcart);
 #endif
@@ -1213,7 +1213,7 @@ void cart_attach(int type, BYTE *rawcart)
         case CARTRIDGE_ROSS:
             ross_config_setup(rawcart);
             break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_config_setup(rawcart);
             break;
@@ -1369,7 +1369,7 @@ int cartridge_enable(int type)
         case CARTRIDGE_SFX_SOUND_SAMPLER:
             sfx_soundsampler_enable();
             break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_TFE:
             ethernetcart_enable();
             break;
@@ -1420,7 +1420,7 @@ void cart_detach_all(void)
     reu_detach();
     sfx_soundexpander_detach();
     sfx_soundsampler_detach();
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     ethernetcart_detach();
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -1494,7 +1494,7 @@ void cart_detach(int type)
         case CARTRIDGE_SFX_SOUND_SAMPLER:
             sfx_soundsampler_detach();
             break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_TFE:
             ethernetcart_detach();
             break;
@@ -1634,7 +1634,7 @@ void cart_detach(int type)
         case CARTRIDGE_RGCD:
             rgcd_detach();
             break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_detach();
             break;
@@ -1715,7 +1715,7 @@ void cart_init(void)
     reu_init();
     /* sfx sound expander */
     /* sfx sound sampler */
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     ethernetcart_init();
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -1881,7 +1881,7 @@ void cartridge_init_config(void)
         case CARTRIDGE_RGCD:
             rgcd_config_init();
             break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_config_init();
             break;
@@ -1997,7 +1997,7 @@ void cartridge_reset(void)
     if (sfx_soundsampler_cart_enabled()) {
         sfx_soundsampler_reset();
     }
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     if (ethernetcart_cart_enabled()) {
         ethernetcart_reset();
     }
@@ -2048,7 +2048,7 @@ void cartridge_reset(void)
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_reset();
             break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_reset();
             break;
@@ -2265,7 +2265,7 @@ int cartridge_flush_image(int type)
             return mmcreplay_flush_image();
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_flush_image();
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_flush_image();
 #endif
@@ -2309,7 +2309,7 @@ int cartridge_bin_save(int type, const char *filename)
             return mmcreplay_bin_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_save(filename);
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_bin_save(filename);
 #endif
@@ -2350,7 +2350,7 @@ int cartridge_crt_save(int type, const char *filename)
             return mmcreplay_crt_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_crt_save(filename);
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_crt_save(filename);
 #endif
@@ -2483,7 +2483,7 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_mmu_translate(addr, base, start, limit);
             return;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_mmu_translate(addr, base, start, limit);
             return;
@@ -2858,7 +2858,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
             case CARTRIDGE_RRNETMK3:
                 if (rrnetmk3_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2973,7 +2973,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
             case CARTRIDGE_TFE:
                 if (ethernetcart_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3349,7 +3349,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     goto fail2;
                 }
                 break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
             case CARTRIDGE_RRNETMK3:
                 if (rrnetmk3_snapshot_read_module(s) < 0) {
                     goto fail2;
@@ -3464,7 +3464,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     goto fail2;
                 }
                 break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
             case CARTRIDGE_TFE:
                 if (ethernetcart_snapshot_read_module(s) < 0) {
                     goto fail2;

@@ -27,10 +27,10 @@
  *
  */
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 #else
-  #error TFE.H should not be included if HAVE_TFE is not defined!
-#endif /* #ifdef HAVE_TFE */
+  #error TFE.H should not be included if HAVE_PCAP is not defined!
+#endif /* #ifdef HAVE_PCAP */
 
 #ifndef VICE_SHORTBUS_ETFE_H
 #define VICE_SHORTBUS_ETFE_H

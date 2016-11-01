@@ -293,7 +293,7 @@ BEGIN
             MENUITEM "", IDM_RRNETMK3_SETTINGS
             MENUITEM "", IDM_TOGGLE_SS5_32K
             MENUITEM SEPARATOR
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
             MENUITEM "", IDM_TFE_SETTINGS
 #endif
             MENUITEM "", IDM_IEEE488

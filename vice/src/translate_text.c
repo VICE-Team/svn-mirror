@@ -8786,7 +8786,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_REU_SIZE_TR, ""},  /* fuzzy */
 #endif
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 /* c64/cart/ethernetcart.c */
 /* en */ {IDCLS_ENABLE_TFE,    N_("Enable the Ethernet Cartridge in TFE (\"The Final Ethernet\") compatible mode and set default I/O address")},
 #ifdef HAS_TRANSLATION

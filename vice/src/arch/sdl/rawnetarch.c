@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 
 #ifdef UNIX_COMPILE
 #include "../unix/rawnetarch.c"

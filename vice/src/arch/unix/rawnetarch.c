@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_TFE 
+#ifdef HAVE_PCAP 
 
 /* if we have a pcap version with either pcap_sendpacket or pcap_inject, do not use libnet anymore! */
 #if defined(HAVE_PCAP_SENDPACKET) || defined(HAVE_PCAP_INJECT)
@@ -538,4 +538,4 @@ char *rawnet_arch_get_standard_interface(void)
 
     return dev;
 }
-#endif /* #ifdef HAVE_TFE */
+#endif /* #ifdef HAVE_PCAP */

@@ -198,7 +198,7 @@ void c64ui_shutdown(void)
     sdl_menu_midi_out_free();
 #endif
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     sdl_menu_ethernet_interface_free();
 #endif
 

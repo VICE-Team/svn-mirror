@@ -28,7 +28,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_TFE 
+#ifdef HAVE_PCAP 
 
 #if 0
 #include "pcap.h"
@@ -506,4 +506,4 @@ int rawnet_arch_receive(BYTE *pbuffer  ,    /* where to store a frame */
     return 0;
 }
 
-#endif /* #ifdef HAVE_TFE */
+#endif /* #ifdef HAVE_PCAP */

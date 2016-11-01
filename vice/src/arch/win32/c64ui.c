@@ -372,7 +372,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_DS12C887RTC_SETTINGS, IDS_MI_DS12C887RTC_SETTINGS },
     { IDM_C64BURSTMOD_SETTINGS, IDS_MI_C64BURSTMOD_SETTINGS },
     { IDM_IDE64_SETTINGS, IDS_MI_IDE64_SETTINGS },
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
     { IDM_TFE_SETTINGS, IDS_MI_TFE_SETTINGS },
 #endif
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
@@ -780,7 +780,7 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
                                   c64_main_left_group, c64_main_middle_group, c64_main_right_group,
                                   c64_drive_left_group, c64_drive_middle_group, c64_drive_right_group);
             break;
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
         case IDM_TFE_SETTINGS:
            ui_tfe_settings_dialog(hwnd);
            break;

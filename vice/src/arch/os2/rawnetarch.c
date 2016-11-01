@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_TFE
+#ifdef HAVE_PCAP
 
 #include <os2.h>
 #include <string.h>
@@ -358,4 +358,4 @@ char *rawnet_arch_get_standard_interface(void)
 {
     return NULL;
 }
-#endif /* #ifdef HAVE_TFE */
+#endif /* #ifdef HAVE_PCAP */
