@@ -96,6 +96,7 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VDCStretchVertical", IDM_TOGGLE_VERTICAL_STRETCH },
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
+    { "SSRamExpansion", IDM_TOGGLE_SS5_32K_ADDON },
     { "UserportRTC58321a", IDM_TOGGLE_USERPORT_RTC_58321A },
     { "UserportRTC58321aSave", IDM_TOGGLE_USERPORT_RTC_58321A_SAVE },
     { NULL, 0 }
