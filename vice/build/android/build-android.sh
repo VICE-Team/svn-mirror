@@ -454,10 +454,10 @@ cd src
 cp arch/android/AnVICE/debug.h.proto ./debug.h
 
 echo generating src/translate_table.h
-# ${SHELL} ./gentranslatetable.sh <translate.txt >translate_table.h
+${SHELL} ./gentranslatetable.sh <translate.txt >translate_table.h
 
 echo generating src/translate.h
-# ${SHELL} ./gentranslate_h.sh <translate.txt >translate.h
+${SHELL} ./gentranslate_h.sh <translate.txt >translate.h
 
 echo generating src/infocontrib.h
 ${SHELL} ./geninfocontrib_h.sh infocontrib.h <../doc/vice.texi | sed -f infocontrib.sed >infocontrib.h
@@ -593,22 +593,22 @@ fi
 
 if test x"$emulator" = "xxvic"; then
   cp Android.mk.proto Android.mk
-#  cp locnet_xvic/Android.mk.proto locnet_xvic/Android.mk
-#  cp locnet_al/Android.mk.proto locnet_al/Android.mk
-#  cp vice_x64_sc_128_2_5x0_pet_4_20/Android.mk.proto vice_x64_sc_128_2_5x0_pet_4_20/Android.mk
-#  cp vice_x64_sc_dtv_128_2_5x0_pet_4_20/Android.mk.proto vice_x64_sc_dtv_128_2_5x0_pet_4_20/Android.mk
-#  cp vice_x64_sc_dtv_scpu_128_2_5x0_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_2_5x0_20/Android.mk
-#  cp vice_x64_sc_dtv_scpu_128_2_5x0_4_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_2_5x0_4_20/Android.mk
-#  cp vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20/Android.mk
-#  cp vice_x64_sc_dtv_scpu_128_2_pet_4_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_2_pet_4_20/Android.mk
-#  cp vice_x64_sc_dtv_scpu_128_4_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_4_20/Android.mk
-#  cp vice_x64_sc_dtv_scpu_128_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_20/Android.mk
-#  cp vice_x64_sc_scpu_128_2_5x0_pet_4_20/Android.mk.proto vice_x64_sc_scpu_128_2_5x0_pet_4_20/Android.mk
-#  cp vice_x64_sc_scpu_128_2_pet_4_20/Android.mk.proto vice_x64_sc_scpu_128_2_pet_4_20/Android.mk
-#  cp vice_x64_sc_scpu_128_2_pet_20/Android.mk.proto vice_x64_sc_scpu_128_2_pet_20/Android.mk
-#  cp vice_x64_sc_scpu_128_20/Android.mk.proto vice_x64_sc_scpu_128_20/Android.mk
-#  cp vice_x64_sc_scpu_128_5x0_4_20/Android.mk.proto vice_x64_sc_scpu_128_5x0_4_20/Android.mk
-#  cp vice_x64sc_scpu_128_2_pet_4_20/Android.mk.proto vice_x64sc_scpu_128_2_pet_4_20/Android.mk
+  cp locnet_xvic/Android.mk.proto locnet_xvic/Android.mk
+  cp locnet_al/Android.mk.proto locnet_al/Android.mk
+  cp vice_x64_sc_128_2_5x0_pet_4_20/Android.mk.proto vice_x64_sc_128_2_5x0_pet_4_20/Android.mk
+  cp vice_x64_sc_dtv_128_2_5x0_pet_4_20/Android.mk.proto vice_x64_sc_dtv_128_2_5x0_pet_4_20/Android.mk
+  cp vice_x64_sc_dtv_scpu_128_2_5x0_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_2_5x0_20/Android.mk
+  cp vice_x64_sc_dtv_scpu_128_2_5x0_4_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_2_5x0_4_20/Android.mk
+  cp vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20/Android.mk
+  cp vice_x64_sc_dtv_scpu_128_2_pet_4_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_2_pet_4_20/Android.mk
+  cp vice_x64_sc_dtv_scpu_128_4_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_4_20/Android.mk
+  cp vice_x64_sc_dtv_scpu_128_20/Android.mk.proto vice_x64_sc_dtv_scpu_128_20/Android.mk
+  cp vice_x64_sc_scpu_128_2_5x0_pet_4_20/Android.mk.proto vice_x64_sc_scpu_128_2_5x0_pet_4_20/Android.mk
+  cp vice_x64_sc_scpu_128_2_pet_4_20/Android.mk.proto vice_x64_sc_scpu_128_2_pet_4_20/Android.mk
+  cp vice_x64_sc_scpu_128_2_pet_20/Android.mk.proto vice_x64_sc_scpu_128_2_pet_20/Android.mk
+  cp vice_x64_sc_scpu_128_20/Android.mk.proto vice_x64_sc_scpu_128_20/Android.mk
+  cp vice_x64_sc_scpu_128_5x0_4_20/Android.mk.proto vice_x64_sc_scpu_128_5x0_4_20/Android.mk
+  cp vice_x64sc_scpu_128_2_pet_4_20/Android.mk.proto vice_x64sc_scpu_128_2_pet_4_20/Android.mk
   cp vice_xvic/Android.mk.proto vice_xvic/Android.mk
 fi
 
