@@ -109,6 +109,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "DS12C887RTCSave", MENU_TOGGLE_DS12C887_RTC_SAVE },
     { "IO2RAM", MENU_TOGGLE_IO2_RAM },
     { "IO3RAM", MENU_TOGGLE_IO3_RAM },
+    { "VFLImod", MENU_TOGGLE_VFLI },
     { "UserportDAC", MENU_TOGGLE_USERPORT_DAC },
     { "UserportRTC58321a", MENU_TOGGLE_USERPORT_58321A },
     { "UserportRTC58321aSave", MENU_TOGGLE_USERPORT_58321A_SAVE },

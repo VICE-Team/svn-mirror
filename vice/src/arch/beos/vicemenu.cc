@@ -1151,6 +1151,10 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         uppermenu->AddItem(new BMenuItem("IEEE488 Interface", new BMessage(MENU_TOGGLE_IEEE488)));
     }
 
+    if (machine_class == VICE_MACHINE_VIC20) {
+        uppermenu->AddItem(new BMenuItem("VFLI modification", new BMessage(MENU_TOGGLE_VFLI)));
+    }
+
     if (machine_class == VICE_MACHINE_C64 ||
         machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_SCPU64 ||
