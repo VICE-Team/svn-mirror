@@ -11999,6 +11999,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DS12C887RTC_BASE_SV, "DS12C887 RTC-bas" },
 /* tr */ { IDS_DS12C887RTC_BASE_TR, "DS12C887 RTC tabaný" },
 
+/* en */ { IDS_DS12C887RTC_RUN_MODE,    "DS12C887 RTC running mode" },
+/* da */ { IDS_DS12C887RTC_RUN_MODE_DA, "" },  /* fuzzy */
+/* de */ { IDS_DS12C887RTC_RUN_MODE_DE, "" },  /* fuzzy */
+/* es */ { IDS_DS12C887RTC_RUN_MODE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DS12C887RTC_RUN_MODE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DS12C887RTC_RUN_MODE_HU, "" },  /* fuzzy */
+/* it */ { IDS_DS12C887RTC_RUN_MODE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DS12C887RTC_RUN_MODE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DS12C887RTC_RUN_MODE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DS12C887RTC_RUN_MODE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DS12C887RTC_RUN_MODE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DS12C887RTC_RUN_MODE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DS12C887RTC_RUN_MODE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_DS12C887RTC_SAVE,    "Enable DS12C887 RTC data saving" },
 /* da */ { IDS_DS12C887RTC_SAVE_DA, "" },  /* fuzzy */
 /* de */ { IDS_DS12C887RTC_SAVE_DE, "DS12C887 RTC Speicherung aktivieren" },
@@ -13454,6 +13468,34 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_IO_COLLISION_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_IO_COLLISION_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_IO_COLLISION_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_RUNNING,    "Running" },
+/* da */ { IDS_RUNNING_DA, "" },  /* fuzzy */
+/* de */ { IDS_RUNNING_DE, "" },  /* fuzzy */
+/* es */ { IDS_RUNNING_ES, "" },  /* fuzzy */
+/* fr */ { IDS_RUNNING_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RUNNING_HU, "" },  /* fuzzy */
+/* it */ { IDS_RUNNING_IT, "" },  /* fuzzy */
+/* ko */ { IDS_RUNNING_KO, "" },  /* fuzzy */
+/* nl */ { IDS_RUNNING_NL, "" },  /* fuzzy */
+/* pl */ { IDS_RUNNING_PL, "" },  /* fuzzy */
+/* ru */ { IDS_RUNNING_RU, "" },  /* fuzzy */
+/* sv */ { IDS_RUNNING_SV, "" },  /* fuzzy */
+/* tr */ { IDS_RUNNING_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_HALTED,    "Halted" },
+/* da */ { IDS_HALTED_DA, "" },  /* fuzzy */
+/* de */ { IDS_HALTED_DE, "" },  /* fuzzy */
+/* es */ { IDS_HALTED_ES, "" },  /* fuzzy */
+/* fr */ { IDS_HALTED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_HALTED_HU, "" },  /* fuzzy */
+/* it */ { IDS_HALTED_IT, "" },  /* fuzzy */
+/* ko */ { IDS_HALTED_KO, "" },  /* fuzzy */
+/* nl */ { IDS_HALTED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_HALTED_PL, "" },  /* fuzzy */
+/* ru */ { IDS_HALTED_RU, "" },  /* fuzzy */
+/* sv */ { IDS_HALTED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_HALTED_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PSID_SELECT,    "Select SID file to load" },
 /* da */ { IDS_PSID_SELECT_DA, "Vælg SID-fil" },

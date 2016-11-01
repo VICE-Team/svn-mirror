@@ -94,9 +94,24 @@ static const int ui_ds12c887rtc_vic20_base_values[] = {
     -1
 };
 
+static int ui_ds12c887rtc_run_mode_translate[] = {
+    IDS_HALTED,
+    IDS_RUNNING,
+    0
+};
+
+static char *ui_ds12c887rtc_run_mode[countof(ui_ds12c887rtc_run_mode_translate)];
+
+static const int ui_ds12c887rtc_run_mode_values[] = {
+    0,
+    1,
+    -1
+};
+
 static ui_to_from_t ui_to_from64[] = {
     { NULL, MUI_TYPE_CYCLE, "DS12C887RTC", ui_ds12c887rtc_enable, ui_ds12c887rtc_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "DS12C887RTCbase", ui_ds12c887rtc_c64_base, ui_ds12c887rtc_c64_base_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "DS12C887RTCRunMode", ui_ds12c887rtc_run_mode, ui_ds12c887rtc_run_mode_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "DS12C887RTCSave", ui_ds12c887rtc_enable, ui_ds12c887rtc_enable_values, NULL },
     UI_END /* mandatory */
 };
@@ -104,6 +119,7 @@ static ui_to_from_t ui_to_from64[] = {
 static ui_to_from_t ui_to_from128[] = {
     { NULL, MUI_TYPE_CYCLE, "DS12C887RTC", ui_ds12c887rtc_enable, ui_ds12c887rtc_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "DS12C887RTCbase", ui_ds12c887rtc_c128_base, ui_ds12c887rtc_c128_base_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "DS12C887RTCRunMode", ui_ds12c887rtc_run_mode, ui_ds12c887rtc_run_mode_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "DS12C887RTCSave", ui_ds12c887rtc_enable, ui_ds12c887rtc_enable_values, NULL },
     UI_END /* mandatory */
 };
@@ -111,6 +127,7 @@ static ui_to_from_t ui_to_from128[] = {
 static ui_to_from_t ui_to_from20[] = {
     { NULL, MUI_TYPE_CYCLE, "DS12C887RTC", ui_ds12c887rtc_enable, ui_ds12c887rtc_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "DS12C887RTCbase", ui_ds12c887rtc_vic20_base, ui_ds12c887rtc_vic20_base_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "DS12C887RTCRunMode", ui_ds12c887rtc_run_mode, ui_ds12c887rtc_run_mode_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "DS12C887RTCSave", ui_ds12c887rtc_enable, ui_ds12c887rtc_enable_values, NULL },
     UI_END /* mandatory */
 };
@@ -124,7 +141,8 @@ static APTR build_gui64(void)
     ui = GroupObject,
            CYCLE(ui_to_from64[0].object, translate_text(IDS_DS12C887RTC_ENABLED), ui_ds12c887rtc_enable)
            CYCLE(ui_to_from64[1].object, translate_text(IDS_DS12C887RTC_BASE), ui_ds12c887rtc_c64_base)
-           CYCLE(ui_to_from64[2].object, translate_text(IDS_DS12C887RTC_SAVE), ui_ds12c887rtc_enable)
+           CYCLE(ui_to_from64[2].object, translate_text(IDS_DS12C887RTC_RUN_MODE), ui_ds12c887rtc_run_mode)
+           CYCLE(ui_to_from64[3].object, translate_text(IDS_DS12C887RTC_SAVE), ui_ds12c887rtc_enable)
            OK_CANCEL_BUTTON
          End;
 
@@ -148,7 +166,8 @@ static APTR build_gui128(void)
     ui = GroupObject,
            CYCLE(ui_to_from128[0].object, translate_text(IDS_DS12C887RTC_ENABLED), ui_ds12c887rtc_enable)
            CYCLE(ui_to_from128[1].object, translate_text(IDS_DS12C887RTC_BASE), ui_ds12c887rtc_c128_base)
-           CYCLE(ui_to_from128[2].object, translate_text(IDS_DS12C887RTC_SAVE), ui_ds12c887rtc_enable)
+           CYCLE(ui_to_from128[2].object, translate_text(IDS_DS12C887RTC_RUN_MODE), ui_ds12c887rtc_run_mode)
+           CYCLE(ui_to_from128[3].object, translate_text(IDS_DS12C887RTC_SAVE), ui_ds12c887rtc_enable)
            OK_CANCEL_BUTTON
          End;
 
@@ -172,7 +191,8 @@ static APTR build_gui20(void)
     ui = GroupObject,
            CYCLE(ui_to_from20[0].object, translate_text(IDS_DS12C887RTC_ENABLED), ui_ds12c887rtc_enable)
            CYCLE(ui_to_from20[1].object, translate_text(IDS_DS12C887RTC_BASE), ui_ds12c887rtc_vic20_base)
-           CYCLE(ui_to_from20[2].object, translate_text(IDS_DS12C887RTC_SAVE), ui_ds12c887rtc_enable)
+           CYCLE(ui_to_from20[2].object, translate_text(IDS_DS12C887RTC_RUN_MODE), ui_ds12c887rtc_run_mode)
+           CYCLE(ui_to_from20[3].object, translate_text(IDS_DS12C887RTC_SAVE), ui_ds12c887rtc_enable)
            OK_CANCEL_BUTTON
          End;
 
@@ -193,6 +213,7 @@ void ui_ds12c887rtc_c64_settings_dialog(video_canvas_t *canvas)
 
     ds12c887rtc_canvas = canvas;
     intl_convert_mui_table(ui_ds12c887rtc_enable_translate, ui_ds12c887rtc_enable);
+    intl_convert_mui_table(ui_ds12c887rtc_run_mode_translate, ui_ds12c887rtc_run_mode);
 
     window = mui_make_simple_window(build_gui64(), translate_text(IDS_DS12C887RTC_SETTINGS));
 
@@ -215,6 +236,7 @@ void ui_ds12c887rtc_c128_settings_dialog(video_canvas_t *canvas)
 
     ds12c887rtc_canvas = canvas;
     intl_convert_mui_table(ui_ds12c887rtc_enable_translate, ui_ds12c887rtc_enable);
+    intl_convert_mui_table(ui_ds12c887rtc_run_mode_translate, ui_ds12c887rtc_run_mode);
 
     window = mui_make_simple_window(build_gui128(), translate_text(IDS_DS12C887RTC_SETTINGS));
 
@@ -237,6 +259,7 @@ void ui_ds12c887rtc_vic20_settings_dialog(video_canvas_t *canvas)
 
     ds12c887rtc_canvas = canvas;
     intl_convert_mui_table(ui_ds12c887rtc_enable_translate, ui_ds12c887rtc_enable);
+    intl_convert_mui_table(ui_ds12c887rtc_run_mode_translate, ui_ds12c887rtc_run_mode);
 
     window = mui_make_simple_window(build_gui20(), translate_text(IDS_DS12C887RTC_SETTINGS));
 
