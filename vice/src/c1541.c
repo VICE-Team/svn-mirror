@@ -972,7 +972,7 @@ static int check_drive(int dev, int flags)
  */
 static int check_drive_unit(int unit)
 {
-    return (unit >= 8 && unit <= (DRIVE_COUNT + 8)) ? FD_OK : FD_BADDEV;
+    return (unit >= 8 && unit < (DRIVE_COUNT + 8)) ? FD_OK : FD_BADDEV;
 }
 
 
@@ -3317,31 +3317,34 @@ static int unlynx_cmd(int nargs, char **args)
     return rc;
 }
 
+
+/** \brief  Validate contents of a drive
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure
+ */
 static int validate_cmd(int nargs, char **args)
 {
-    int dnr;
+    int dnr = drive_index;
 
-    switch (nargs) {
-        case 1:
-            /* validate */
-            dnr = drive_index;
-            break;
-        case 2:
-            {
-                int unit;
+    /* get unit number from args */
+    if (nargs >= 2) {
+        int unit;
 
-                /* validate <unit> */
-                if (arg_to_int(args[1], &unit) < 0) {
-                    return FD_BADDEV;
-                }
-                dnr = unit - 8;
-                break;
-            }
-        default:
-            return FD_BADVAL;
+        if (arg_to_int(args[1], &unit) < 0) {
+            return FD_BADDEV;
+        }
+        /* check for valid unit number */
+        if (check_drive_unit(unit) < 0) {
+            return FD_BADDEV;
+        }
+        dnr = unit - 8;
     }
 
-    if (check_drive(dnr, CHK_RDY) < 0) {
+    /* check if drive is ready */
+    if (check_drive_ready(dnr) < 0) {
         return FD_NOTREADY;
     }
 
