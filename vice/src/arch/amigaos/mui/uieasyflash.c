@@ -51,6 +51,7 @@ static const int ui_easyflash_enable_values[] = {
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "EasyFlashJumper", ui_easyflash_enable, ui_easyflash_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "EasyFlashWriteCRT", ui_easyflash_enable, ui_easyflash_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "EasyFlashOptimizeCRT", ui_easyflash_enable, ui_easyflash_enable_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -78,6 +79,7 @@ static APTR build_gui(void)
     ui = GroupObject,
            CYCLE(ui_to_from[0].object, translate_text(IDS_EASYFLASH_JUMPER), ui_easyflash_enable)
            CYCLE(ui_to_from[1].object, translate_text(IDS_SAVE_EASYFLASH_CRT_ON_DETACH), ui_easyflash_enable)
+           CYCLE(ui_to_from[2].object, translate_text(IDS_OPTIMIZE_EASYFLASH_CRT_SAVE), ui_easyflash_enable)
            BUTTON(action_button, translate_text(IDS_SAVE_EASYFLASH_CRT_NOW))
            OK_CANCEL_BUTTON
          End;

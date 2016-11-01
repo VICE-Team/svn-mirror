@@ -12727,6 +12727,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SAVE_EASYFLASH_CRT_ON_DETACH_SV, "Spara till EasyFlash-CRT-fil vid frånkoppling" },
 /* tr */ { IDS_SAVE_EASYFLASH_CRT_ON_DETACH_TR, "Çýkartýldýðýnda EasyFlash CRT dosyasýna kaydet" },
 
+/* en */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE,    "Optimize EasyFlash CRT when saving to file" },
+/* da */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_DA, "" },  /* fuzzy */
+/* de */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_DE, "" },  /* fuzzy */
+/* es */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_HU, "" },  /* fuzzy */
+/* it */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_OPTIMIZE_EASYFLASH_CRT_SAVE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_SAVE_EASYFLASH_CRT_NOW,    "Save to EasyFlash CRT now" },
 /* da */ { IDS_SAVE_EASYFLASH_CRT_NOW_DA, "Gem til EasyFlash CRT nu" },
 /* de */ { IDS_SAVE_EASYFLASH_CRT_NOW_DE, "EasyFlash CRT Imagedatei jetzt speichern" },
