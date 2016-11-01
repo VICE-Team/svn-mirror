@@ -3202,6 +3202,16 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
     return FD_OK;
 }
 
+
+/** \brief  Unlynx a Lynx container onto a virtual device
+ *
+ * Syntax: unlynx \<filename> [\<unit>]
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure
+ */
 static int unlynx_cmd(int nargs, char **args)
 {
     vdrive_t *vdrive;
@@ -3211,6 +3221,7 @@ static int unlynx_cmd(int nargs, char **args)
     BYTE val;
     char buff[256];
     int rc;
+    char *path;
 
     if (nargs < 3) {
         dev = drive_index;
@@ -3218,22 +3229,24 @@ static int unlynx_cmd(int nargs, char **args)
         if (arg_to_int(args[2], &dev) < 0) {
             return FD_BADDEV;
         }
-        if (check_drive(dev, CHK_NUM) < 0) {
+        if (check_drive_unit(dev) < 0) {
             return FD_BADDEV;
         }
         dev -= 8;
     }
 
-    if (check_drive(dev, CHK_RDY) < 0) {
+    if (check_drive_ready(dev) < 0) {
         return FD_NOTREADY;
     }
 
-    vdrive = drives[dev & 3];
+    vdrive = drives[dev];
+    archdep_expand_path(&path, args[1]);
 
-    f = fopen(args[1], MODE_READ);
+    f = fopen(path, MODE_READ);
 
     if (f == NULL) {
-        fprintf(stderr, "Cannot open `%s' for reading.\n", args[1]);
+        fprintf(stderr, "Cannot open `%s' for reading.\n", path);
+        lib_free(path);
         return FD_NOTRD;
     }
 
@@ -3260,6 +3273,7 @@ static int unlynx_cmd(int nargs, char **args)
     cnt = 0;
     while (1) {
         if (fread(&val, 1, 1, f) != 1) {
+            lib_free(path);
             return FD_RDERR;
         }
         if (val != 13) {
@@ -3274,6 +3288,7 @@ static int unlynx_cmd(int nargs, char **args)
     if (util_string_to_long(buff, NULL, 10, &dirsize) < 0 || dirsize <= 0) {
         fprintf(stderr, "Invalid Lynx file.\n");
         fclose(f);
+        lib_free(path);
         return FD_RDERR;
     }
 
@@ -3281,6 +3296,7 @@ static int unlynx_cmd(int nargs, char **args)
     cnt = 0;
     while (1) {
         if (fread(&val, 1, 1, f) != 1) {
+            lib_free(path);
             return FD_RDERR;
         }
         if (val != 13 && cnt < 256 - 1) {
@@ -3295,15 +3311,17 @@ static int unlynx_cmd(int nargs, char **args)
     if (util_string_to_long(buff, NULL, 10, &dentries) < 0 || dentries <= 0) {
         fprintf(stderr, "Invalid Lynx file.\n");
         fclose(f);
+        lib_free(path);
         return FD_RDERR;
     }
 
     /* Open the file for reading of the chained data */
-    f2 = fopen(args[1], MODE_READ);
+    f2 = fopen(path, MODE_READ);
 
     if (f2 == NULL) {
-        fprintf(stderr, "Cannot open `%s' for reading.\n", args[1]);
+        fprintf(stderr, "Cannot open `%s' for reading.\n", path);
         fclose(f);
+        lib_free(path);
         return FD_NOTRD;
     }
 
@@ -3313,7 +3331,7 @@ static int unlynx_cmd(int nargs, char **args)
 
     fclose(f);
     fclose(f2);
-
+    lib_free(path);
     return rc;
 }
 
