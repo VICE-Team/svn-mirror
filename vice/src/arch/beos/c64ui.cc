@@ -45,6 +45,7 @@
 extern "C" {
 #include "archdep.h"
 #include "c64-memory-hacks.h"
+#include "c64-resources.h"
 #include "c64ui.h"
 #include "c64model.h"
 #include "cartio.h"
