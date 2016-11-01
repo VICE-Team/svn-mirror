@@ -27412,7 +27412,7 @@ Provided parts of the widget set for implementing the Xaw GUI.
 
 @item
 @b{Jennifer Medkief}
-Is in charge of checking up on the GUIs for elements that are
+Was in charge of checking up on the GUIs for elements that are
 wrong, unaccessable, and missing.
 
 @item
