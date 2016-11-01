@@ -49,6 +49,9 @@
 #include "uidrive.h"
 #include "uids12c887rtc.h"
 #include "uieasyflash.h"
+#ifdef HAVE_PCAP
+#include "uiethernetcart.h"
+#endif
 #include "uiexpert.h"
 #include "uigeoram.h"
 #include "uigmod2.h"
@@ -65,9 +68,6 @@
 #include "uisoundexpander.h"
 #include "uiss5.h"
 #include "uitapeport.h"
-#ifdef HAVE_PCAP
-#include "uitfe.h"
-#endif
 #include "uiuserport.h"
 #include "uivideo.h"
 
@@ -392,7 +392,7 @@ int c128ui_init(void)
     uimagicvoice_init(ui_ioextensions_submenu);
 
 #ifdef HAVE_PCAP
-    uitfe_c64_init(ui_ioextensions_submenu);
+    uiethernetcart_c64_init(ui_ioextensions_submenu);
 #endif
 
     uieasyflash_init(ui_ioextensions_submenu);

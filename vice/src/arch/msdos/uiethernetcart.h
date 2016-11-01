@@ -1,5 +1,5 @@
 /*
- * uitfe.h - TFE and RRNET UI interface for MS-DOS.
+ * uiethernetcart.h - Ethernet Cart UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,14 +24,14 @@
  *
  */
 
-#ifndef UITFE_H
-#define UITFE_H
+#ifndef UIETHERNETCART_H
+#define UIETHERNETCART_H
 
 #ifdef HAVE_PCAP
 struct tui_menu;
 
-extern void uitfe_c64_init(struct tui_menu *parent_submenu);
-extern void uitfe_vic20_init(struct tui_menu *parent_submenu);
+extern void uiethernetcart_c64_init(struct tui_menu *parent_submenu);
+extern void uiethernetcart_vic20_init(struct tui_menu *parent_submenu);
 
 #endif
 

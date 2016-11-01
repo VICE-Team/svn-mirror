@@ -46,15 +46,15 @@
 #include "uidigimax.h"
 #include "uidrive.h"
 #include "uids12c887rtc.h"
+#ifdef HAVE_PCAP
+#include "uiethernetcart.h"
+#endif
 #include "uigeoram.h"
 #include "uiiocollisions.h"
 #include "uisidcart.h"
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
 #include "uitapeport.h"
-#ifdef HAVE_PCAP
-#include "uitfe.h"
-#endif
 #include "uivic20model.h"
 #include "uivideo.h"
 #include "uiuserport.h"
@@ -595,7 +595,7 @@ int vic20ui_init(void)
     uisoundexpander_vic20_init(ui_ioextensions_submenu);
     uisoundsampler_init(ui_ioextensions_submenu);
 #ifdef HAVE_PCAP
-    uitfe_vic20_init(ui_ioextensions_submenu);
+    uiethernetcart_vic20_init(ui_ioextensions_submenu);
 #endif
 
     uiuserport_pet_vic20_init(ui_ioextensions_submenu);
