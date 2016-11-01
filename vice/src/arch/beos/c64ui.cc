@@ -54,6 +54,7 @@ extern "C" {
 #include "gfxoutput.h"
 #include "joyport.h"
 #include "keyboard.h"
+#include "machine.h"
 #include "mouse.h"
 #include "resources.h"
 #include "types.h"
