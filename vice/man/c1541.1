@@ -1,4 +1,4 @@
-.TH C1541 1 "October 2016" "VICE"
+.TH C1541 1 "November 2016" "VICE"
 .SH NAME
 c1541 \- a stand alone disk image maintenance program
 .SH SYNOPSIS
@@ -34,26 +34,29 @@ show disk blocks in hex format.
 concatenate \fIoldname1\fR, \fIoldname2\fR... into \fInewname\fR on \fIimage\fR
 (can be used to copy files).
 .TP
-.B \-create \fIimage\fR \fIdump\fR \fI['descr']\fR (create \fIimage\fR \fIdump\fR \fI['descr']\fR
-build \fIimage\fR from raw dump file \fIdump\fR (i.e. convert from \fID64\fR
-to \fIX64\fR file).
-.TP
 .B \-delete \fIimage\fR \fIfiles...\fR (delete \fIfiles...\fR)
 delete \fIfiles\fR from \fIimage\fR
 .TP
-.B \-detach \fIimage\fR (detach \fIimage\fR)
-detach \fIimage\fR from
-.IR c1541.
-.TP
-.B \-dir \fI[pattern]\fR (dir)
+.B \-dir \fI[pattern]\fR (dir \fI[pattern]\fR)
 list directory. See the \fBlist\fR command for details.
 .TP
-.B \-extract \fIimage\fR (extract)
+.B \-extract \fIimage\fR (extract \fIimage\fR)
 extract all files from \fIimage\fR.
 .TP
 .B \-format \fIimage\fR (format \fIimage\fR '\fIname,id\fR')
 format the disk image \fIimage\fR with the specified label.  \fIimage\fR is
 created if it does not exist.
+.TP
+.B \-geosextract \fIsource\fR (geosextract \fIsource\fR)
+extract all the files to the file system and GEOS Convert them.
+.TP
+.B \-geosread \fIsource\fR \fI[destination]\fR (geosread \fIsource\fR \fI[destination]\fR)
+read GEOS \fIsource\fR from the disk image and copy it as a Convert file into
+\fIdestination\fR in the file system. If \fIdestination\fR is not specified,
+copy it into a file with the same name as \fIsource\fR.
+.TP
+.B \-geoswrite \fIsource\fR (geoswrite \fIsource\fR)
+write GEOS Convert file \fIsource\fR from the file system on a disk image.
 .TP
 .B \-help \fI[command]\fR (help)
 show help on all commands or more detailed help on a specific \fIcommand\fR
@@ -68,11 +71,20 @@ with '=X', where \fBX\fR is one of \fBS\fR, \fBP\fR, \fBU\fR or \fBR\fR.
 Multiple sub patterns can be specified by using comma's.
 .TP
 .B \-name \fIdiskname[,id]\fR \fI[unit]\fR (name \fIdiskname[,id]\fR \fI[unit]\fR)
-set diskname and optionally id
+set diskname and optionally id.
+.TP
+.B \-p00save \fIenable\fR \fI[unit]\fR (p00save \fIenable\fR \fI[unit\fR)
+save P00 files to the file system.
 .TP
 .B \-read \fIimage\fR \fI1541name\fR \fI[fsname]\fR (read \fI1541name\fR \fI[fsname]\fR)
 extract \fI1541name\fR from the disk image into \fIfsname\fR (\fI1541name\fR
 by default) from \fIimage\fR.
+.TP
+.B \-rename \fIoldname\fR \fInewname\fR (rename \fIoldname\fR \fInewname\fR)
+rename files. The files must be on the same drive.
+.TP
+.B \-show \fI'copying'\fR|\fI'warranty'\fR (show \fI'copying'\fR|\fI'warranty'\fR)
+show license or warranty information.
 .TP
 .B \-tape \fIimage\fR \fItapeimage\fR \fI[files...]\fR (tape \fIimage\fR \fItapeimage\fR \fI[files...]\fR)
 transfer \fIfiles\fR from \fItapeimage\fR to \fIimage\fR (default is all files).

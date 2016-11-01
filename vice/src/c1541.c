@@ -324,7 +324,7 @@ const command_t command_list[] = {
       read_geos_cmd },
     { "geoswrite",
       "geoswrite <source>",
-      "Write GOES Convert file <source> from the file system on a disk image.",
+      "Write GEOS Convert file <source> from the file system on a disk image.",
       1, 1,
       write_geos_cmd },
     { "geosextract",
@@ -1890,7 +1890,7 @@ static int list_cmd(int nargs, char **args)
         if (listing->blocks_free >= 0) {
             printf("%d blocks free.\n", listing->blocks_free);
         }
-        /* free image constents */
+        /* free image contents */
         image_contents_destroy(listing);
     }
     return FD_OK;
@@ -2875,6 +2875,16 @@ static int rename_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+
+/** \brief  Show license or warranty information
+ *
+ * Syntax: show copying|warranty
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \returns 0
+ */
 static int show_cmd(int nargs, char **args)
 {
     if (strcasecmp(args[1], "copying") == 0) {
@@ -3707,6 +3717,16 @@ int main(int argc, char **argv)
     return retval;
 }
 
+
+/** \brief  Enable\disable saving of files as P00
+ *
+ * Syntax: p00save \<enable> [\<unit>]
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure
+ */
 static int p00save_cmd(int nargs, char **args)
 {
     int dnr = 0, enable;
@@ -3717,7 +3737,7 @@ static int p00save_cmd(int nargs, char **args)
         if (arg_to_int(args[2], &dnr) < 0) {
             return FD_BADDEV;
         }
-        if (check_drive(dnr, CHK_NUM) < 0) {
+        if (check_drive_unit(dnr) < 0) {
             return FD_BADDEV;
         }
         dnr -= 8;
