@@ -609,8 +609,25 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("Discrete", new BMessage(MENU_GLUE_LOGIC_DISCRETE)));
                     extsubmenu->AddItem(new BMenuItem("Custom IC", new BMessage(MENU_GLUE_LOGIC_CUSTOM_IC)));
+            } else {
+                submenu->AddItem(extsubmenu = new BMenu("VICII model"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("PAL-G", new BMessage(MENU_VICII_MODEL_PALG)));
+                    extsubmenu->AddItem(new BMenuItem("Old PAL-G", new BMessage(MENU_VICII_MODEL_OLD_PALG)));
+                    extsubmenu->AddItem(new BMenuItem("NTSC-M", new BMessage(MENU_VICII_MODEL_NTSCM)));
+                    extsubmenu->AddItem(new BMenuItem("Old NTSC-M", new BMessage(MENU_VICII_MODEL_OLD_NTSCM)));
+                    extsubmenu->AddItem(new BMenuItem("PAL-N", new BMessage(MENU_VICII_MODEL_PALN)));
             }
                 submenu->AddItem(new BMenuItem("Reset IEC bus with computer", new BMessage(MENU_IEC_RESET)));
+            if (machine_class != VICE_MACHINE_SCPU64) {
+                submenu->AddItem(extsubmenu = new BMenu("Kernal revision"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Rev 1", new BMessage(MENU_KERNAL_REV_1)));
+                    extsubmenu->AddItem(new BMenuItem("Rev 2", new BMessage(MENU_KERNAL_REV_2)));
+                    extsubmenu->AddItem(new BMenuItem("Rev 3", new BMessage(MENU_KERNAL_REV_3)));
+                    extsubmenu->AddItem(new BMenuItem("SX-64", new BMessage(MENU_KERNAL_REV_SX64)));
+                    extsubmenu->AddItem(new BMenuItem("4064", new BMessage(MENU_KERNAL_REV_4064)));
+            }
     }
 
     if (machine_class == VICE_MACHINE_PLUS4) {

@@ -69,6 +69,59 @@ extern "C" {
 #include "video.h"
 }
 
+#define VICMODEL_UNKNOWN -1
+#define VICMODEL_NUM 5
+
+struct vicmodel_s {
+    int video;
+    int luma;
+};
+
+static struct vicmodel_s vicmodels[] = {
+    { MACHINE_SYNC_PAL,     1 }, /* VICII_MODEL_PALG */
+    { MACHINE_SYNC_PAL,     0 }, /* VICII_MODEL_PALG_OLD */
+    { MACHINE_SYNC_NTSC,    1 }, /* VICII_MODEL_NTSCM */
+    { MACHINE_SYNC_NTSCOLD, 0 }, /* VICII_MODEL_NTSCM_OLD */
+    { MACHINE_SYNC_PALN,    1 }  /* VICII_MODEL_PALN */
+};
+
+static int vicmodel_get_temp(int video)
+{
+    int i;
+
+    for (i = 0; i < VICMODEL_NUM; ++i) {
+        if (vicmodels[i].video == video) {
+            return i;
+        }
+    }
+
+    return VICMODEL_UNKNOWN;
+}
+
+static int vicmodel_get(void)
+{
+    int video;
+
+    if (resources_get_int("MachineVideoStandard", &video) < 0) {
+        return -1;
+    }
+
+    return vicmodel_get_temp(video);
+}
+
+static void vicmodel_set(int model)
+{
+    int old_model;
+
+    old_model = vicmodel_get();
+
+    if ((model == old_model) || (model == VICMODEL_UNKNOWN)) {
+        return;
+    }
+
+    resources_set_int("MachineVideoStandard", vicmodels[model].video);
+}
+
 static ui_drive_type_t c64_drive_types[] = {
     { "1540", DRIVE_TYPE_1540 },
     { "1541", DRIVE_TYPE_1541 },
@@ -362,6 +415,15 @@ static ui_res_possible_values IOCollisions[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values KernalRev[] = {
+    { C64_KERNAL_REV1, MENU_KERNAL_REV_1 },
+    { C64_KERNAL_REV2, MENU_KERNAL_REV_2 },
+    { C64_KERNAL_REV3, MENU_KERNAL_REV_3 },
+    { C64_KERNAL_SX64, MENU_KERNAL_REV_SX64 },
+    { C64_KERNAL_4064, MENU_KERNAL_REV_4064 },
+    { -1, 0 }
+};
+
 /* VICIIModel has to be first for the hack below to work */
 ui_res_value_list c64_ui_res_values[] = {
     { "VICIIModel", viciimodels },
@@ -395,6 +457,7 @@ ui_res_value_list c64_ui_res_values[] = {
     { "JoyPort4Device", c64_JoyPort4Device },
     { "DoodleMultiColorHandling", DoodleMultiColor },
     { "IOCollisionHandling", IOCollisions },
+    { "KernalRev", KernalRev },
     { NULL, NULL }
 };
 
@@ -636,6 +699,21 @@ static void c64_ui_specific(void *msg, void *window)
                 break;
             case MENU_DRIVE_SUPERCARD_ROM_FILE:
                 ui_select_file(B_SAVE_PANEL, DRIVE_SUPERCARD_ROM_FILE, (void*)0);
+                break;
+            case MENU_VICII_MODEL_PALG:
+                vicmodel_set(VICII_MODEL_PALG);
+                break;
+            case MENU_VICII_MODEL_OLD_PALG:
+                vicmodel_set(VICII_MODEL_PALG_OLD);
+                break;
+            case MENU_VICII_MODEL_NTSCM:
+                vicmodel_set(VICII_MODEL_NTSCM);
+                break;
+            case MENU_VICII_MODEL_OLD_NTSCM:
+                vicmodel_set(VICII_MODEL_NTSCM_OLD);
+                break;
+            case MENU_VICII_MODEL_PALN:
+                vicmodel_set(VICII_MODEL_PALN);
                 break;
             default:
                 break;
