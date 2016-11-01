@@ -28,5 +28,7 @@
 #define VICE_UIVICII_H
 
 extern void ui_vicii_settings_dialog(void);
+extern void ui_viciisc_settings_dialog(void);
+extern void ui_viciidtv_settings_dialog(void);
 
 #endif

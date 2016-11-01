@@ -9899,6 +9899,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_NEW_LUMINANCES_SV, "Nya ljusstyrkor" },
 /* tr */ { IDS_NEW_LUMINANCES_TR, "Yeni parlaklýklar" },
 
+/* en */ { IDS_VSPBUG,    "VSP bug" },
+/* da */ { IDS_VSPBUG_DA, "" },  /* fuzzy */
+/* de */ { IDS_VSPBUG_DE, "" },  /* fuzzy */
+/* es */ { IDS_VSPBUG_ES, "" },  /* fuzzy */
+/* fr */ { IDS_VSPBUG_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VSPBUG_HU, "" },  /* fuzzy */
+/* it */ { IDS_VSPBUG_IT, "" },  /* fuzzy */
+/* ko */ { IDS_VSPBUG_KO, "" },  /* fuzzy */
+/* nl */ { IDS_VSPBUG_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VSPBUG_PL, "" },  /* fuzzy */
+/* ru */ { IDS_VSPBUG_RU, "" },  /* fuzzy */
+/* sv */ { IDS_VSPBUG_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VSPBUG_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_VICII_SETTINGS,    "VIC-II settings" },
 /* da */ { IDS_VICII_SETTINGS_DA, "VIC-II-indstillinger" },
 /* de */ { IDS_VICII_SETTINGS_DE, "VIC-II Einstellungen" },

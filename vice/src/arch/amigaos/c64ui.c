@@ -152,7 +152,11 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             }
             break;
         case IDM_VICII_SETTINGS:
-            ui_vicii_settings_dialog();
+            if (machine_class == VICE_MACHINE_C64SC) {
+                ui_viciisc_settings_dialog();
+            } else {
+                ui_vicii_settings_dialog();
+            }
             break;
         case IDM_SID_SETTINGS:
             ui_sid_settings64_dialog();

@@ -92,7 +92,7 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
             ui_c64dtv_settings_dialog(canvas);
             break;
         case IDM_VICII_SETTINGS:
-            ui_vicii_settings_dialog();
+            ui_viciidtv_settings_dialog();
             break;
         case IDM_SID_SETTINGS:
             ui_siddtv_settings_dialog();

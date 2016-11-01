@@ -136,7 +136,7 @@ static int scpu64_ui_specific(video_canvas_t *canvas, int idm)
             ui_scpu64_model_custom_dialog();
             break;
         case IDM_VICII_SETTINGS:
-            ui_vicii_settings_dialog();
+            ui_viciisc_settings_dialog();
             break;
         case IDM_SCPU64_SETTINGS:
             ui_scpu64_settings_dialog();

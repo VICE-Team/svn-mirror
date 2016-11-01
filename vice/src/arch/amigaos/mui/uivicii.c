@@ -67,7 +67,14 @@ static const int ui_vicii_borders_values[] = {
     -1
 };
 
-static ui_to_from_t ui_to_from[] = {
+static ui_to_from_t ui_to_from_64[] = {
+    { NULL, MUI_TYPE_CYCLE, "VICIIBorderMode", ui_vicii_borders, ui_vicii_borders_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "VICIICheckSsColl", ui_vicii_enable, ui_vicii_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "VICIICheckSbColl", ui_vicii_enable, ui_vicii_enable_values, NULL },
+    UI_END /* mandatory */
+};
+
+static ui_to_from_t ui_to_from_dtv[] = {
     { NULL, MUI_TYPE_CYCLE, "VICIIBorderMode", ui_vicii_borders, ui_vicii_borders_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "VICIICheckSsColl", ui_vicii_enable, ui_vicii_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "VICIICheckSbColl", ui_vicii_enable, ui_vicii_enable_values, NULL },
@@ -75,7 +82,24 @@ static ui_to_from_t ui_to_from[] = {
     UI_END /* mandatory */
 };
 
-static APTR build_gui(void)
+static ui_to_from_t ui_to_from_sc[] = {
+    { NULL, MUI_TYPE_CYCLE, "VICIIBorderMode", ui_vicii_borders, ui_vicii_borders_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "VICIICheckSsColl", ui_vicii_enable, ui_vicii_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "VICIICheckSbColl", ui_vicii_enable, ui_vicii_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "VICIIVSPBug", ui_vicii_enable, ui_vicii_enable_values, NULL },
+    UI_END /* mandatory */
+};
+
+static APTR build_gui_64(void)
+{
+    return GroupObject,
+             CYCLE(ui_to_from[0].object, translate_text(IDS_BORDER_MODE), ui_vicii_borders)
+             CYCLE(ui_to_from[1].object, translate_text(IDS_SPRITE_SPRITE_COL), ui_vicii_enable)
+             CYCLE(ui_to_from[2].object, translate_text(IDS_SPRITE_BACKGROUND_COL), ui_vicii_enable)
+           End;
+}
+
+static APTR build_gui_dtv(void)
 {
     return GroupObject,
              CYCLE(ui_to_from[0].object, translate_text(IDS_BORDER_MODE), ui_vicii_borders)
@@ -85,9 +109,33 @@ static APTR build_gui(void)
            End;
 }
 
+static APTR build_gui_sc(void)
+{
+    return GroupObject,
+             CYCLE(ui_to_from[0].object, translate_text(IDS_BORDER_MODE), ui_vicii_borders)
+             CYCLE(ui_to_from[1].object, translate_text(IDS_SPRITE_SPRITE_COL), ui_vicii_enable)
+             CYCLE(ui_to_from[2].object, translate_text(IDS_SPRITE_BACKGROUND_COL), ui_vicii_enable)
+             CYCLE(ui_to_from[3].object, translate_text(IDS_VSPBUG), ui_vicii_enable)
+           End;
+}
+
 void ui_vicii_settings_dialog(void)
 {
     intl_convert_mui_table(ui_vicii_enable_translate, ui_vicii_enable);
     intl_convert_mui_table(ui_vicii_borders_translate, ui_vicii_borders);
-    mui_show_dialog(build_gui(), translate_text(IDS_VICII_SETTINGS), ui_to_from);
+    mui_show_dialog(build_gui_64(), translate_text(IDS_VICII_SETTINGS), ui_to_from);
+}
+
+void ui_viciidtv_settings_dialog(void)
+{
+    intl_convert_mui_table(ui_vicii_enable_translate, ui_vicii_enable);
+    intl_convert_mui_table(ui_vicii_borders_translate, ui_vicii_borders);
+    mui_show_dialog(build_gui_dtv(), translate_text(IDS_VICII_SETTINGS), ui_to_from);
+}
+
+void ui_viciisc_settings_dialog(void)
+{
+    intl_convert_mui_table(ui_vicii_enable_translate, ui_vicii_enable);
+    intl_convert_mui_table(ui_vicii_borders_translate, ui_vicii_borders);
+    mui_show_dialog(build_gui_sc(), translate_text(IDS_VICII_SETTINGS), ui_to_from);
 }
