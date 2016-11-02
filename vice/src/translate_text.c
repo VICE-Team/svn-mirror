@@ -18699,7 +18699,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/shortbus_etfe.c */
-/* en */ {IDCLS_ENABLE_SHORTBUS_ETFE,    N_("Enable the Short Bus TFE expansion")},
+/* en */ {IDCLS_ENABLE_SHORTBUS_ETFE,    N_("Enable the Short Bus ETFE expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SHORTBUS_ETFE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_SHORTBUS_ETFE_DE, ""},  /* fuzzy */
@@ -18716,7 +18716,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/shortbus_etfe.c */
-/* en */ {IDCLS_DISABLE_SHORTBUS_ETFE,    N_("Disable the Short Bus TFE expansion")},
+/* en */ {IDCLS_DISABLE_SHORTBUS_ETFE,    N_("Disable the Short Bus ETFE expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SHORTBUS_ETFE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_SHORTBUS_ETFE_DE, ""},  /* fuzzy */
