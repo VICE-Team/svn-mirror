@@ -38,24 +38,24 @@ AMAKE_VERSION_REQ_REV=3
 
 
 generate_configure_in() {
-	# $1 - major automake version
-	# $2 - minor automake version
-	# $3 - build
+    # $1 - major automake version
+    # $2 - minor automake version
+    # $3 - build
 
-	configure_needs_ac=no
-	if [ $1 -gt 1 ]; then
-		configure_needs_ac=yes
-	else
-		if [ $2 -gt 12 ]; then
-			configure_needs_ac=yes
-		fi
-	fi
+    configure_needs_ac=no
+    if [ $1 -gt 1 ]; then
+        configure_needs_ac=yes
+    else
+        if [ $2 -gt 12 ]; then
+            configure_needs_ac=yes
+        fi
+    fi
 
-	if test x"$configure_needs_ac" = "xyes"; then
-		sed s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g <configure.proto >configure.ac
-	else
-		cp configure.proto configure.ac
-	fi
+    if test x"$configure_needs_ac" = "xyes"; then
+        sed s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g <configure.proto >configure.ac
+    else
+        cp configure.proto configure.ac
+    fi
 }
 
 
@@ -96,12 +96,12 @@ check_autoconf_version() {
 
 
 get_automake_version() {
-	# $1 - "automake"
-	# $2 - "(GNU"
-	# $3 - "Automake)"
-	# $4 - version
+    # $1 - "automake"
+    # $2 - "(GNU"
+    # $3 - "Automake)"
+    # $4 - version
 
-	automake_version=$4
+    automake_version=$4
 }
 
 
@@ -137,79 +137,79 @@ check_automake_version() {
 
 
 do_command() {
-	# $1 - command
-	# $2 - options
+    # $1 - command
+    # $2 - options
 
-	echo `pwd`: $1 $2
-	$1 $2 > .$1.out 2>&1
-	ret=$?
-	if [ ! $ret = 0 ] ; then
-		echo "ERROR: $1 failed in `pwd`"
-		exit 1
-	fi
+    echo `pwd`: $1 $2
+    $1 $2 > .$1.out 2>&1
+    ret=$?
+    if [ ! $ret = 0 ] ; then
+        echo "ERROR: $1 failed in `pwd`"
+        exit 1
+    fi
 }
 
 do_aclocal() {
-	do_command aclocal
+    do_command aclocal
 }
 
 do_autoconf() {
-	do_command autoconf -f
+    do_command autoconf -f
 }
 
 do_autoheader() {
-	if [ -e configure.in ]; then
-		if [ ! x"`sed -ne "s/.*AM_CONFIG_HEADER\((.*)\).*/\1/p" configure.in`" = x ]; then
-			do_command autoheader
-		fi
-	else
-		do_command autoheader
-	fi
+    if [ -e configure.in ]; then
+        if [ ! x"`sed -ne "s/.*AM_CONFIG_HEADER\((.*)\).*/\1/p" configure.in`" = x ]; then
+            do_command autoheader
+        fi
+    else
+        do_command autoheader
+    fi
 }
 
 do_automake() {
-	do_command automake "-a -c" # " -f"
+    do_command automake "-a -c" # " -f"
 }
 
 buildfiles() {
-	FILES_TO_REMEMBER="INSTALL"
+    FILES_TO_REMEMBER="INSTALL"
 
-	# Save some files which should not be overwritten
+    # Save some files which should not be overwritten
 
-	if [ -f configure.ac ] || [ -f configure.in ]; then
+    if [ -f configure.ac ] || [ -f configure.in ]; then
 
-		for A in $FILES_TO_REMEMBER; do
-			[ -e $A ] && mv $A $A.backup
-		done
+        for A in $FILES_TO_REMEMBER; do
+            [ -e $A ] && mv $A $A.backup
+        done
 
-		do_aclocal
+        do_aclocal
 
-		do_autoconf
-		do_autoheader
-		do_automake
+        do_autoconf
+        do_autoheader
+        do_automake
 
-		# Restore the files which should not be overwritten
+        # Restore the files which should not be overwritten
 
-		for A in $FILES_TO_REMEMBER; do
-			[ -e $A ] && mv $A.backup $A
-		done
-	fi
+        for A in $FILES_TO_REMEMBER; do
+            [ -e $A ] && mv $A.backup $A
+        done
+    fi
 }
 
 # Script entry point
 
 autoconf_line=`autoconf --version`
 if test x"$autoconf_line" = "x"; then
-  echo "No autoconf installed"
-  exit 1
+    echo "No autoconf installed"
+    exit 1
 fi
 get_autoconf_version $autoconf_line
 check_autoconf_version $autoconf_version
 
 automake_line=`automake --version`
 if test x"$automake_line" = "x"; then
-  echo "No automake installed"
-  exit 1
+    echo "No automake installed"
+    exit 1
 fi
 get_automake_version $automake_line
 check_automake_version $automake_version
@@ -221,24 +221,25 @@ IFS=$old_IFS
 SUBDIRECTORIES=`sed -ne "s/.*AC_CONFIG_SUBDIRS(\(.*\)).*/\1/p" configure.ac`
 
 for A in $SUBDIRECTORIES; do
-	(
-	cd $A
-	buildfiles
-	)
+    (
+    cd $A
+    buildfiles
+    )
 done
 
 buildfiles
 
 if [ x"$1" = x"--dist" ]; then
 
-	./configure
-	(cd src/monitor/; make mon_lex.c mon_parse.c)
+    ./configure
+    (cd src/monitor/; make mon_lex.c mon_parse.c)
 
-	(cd po; make cat-id-tbl.c)
+    (cd po; make cat-id-tbl.c)
 
-	SVN_ADD_FILES="configure src/config.h.in config.guess config.sub src/monitor/mon_parse.c src/monitor/mon_parse.h src/monitor/mon_lex.c src/resid/depcomp src/resid/mkinstalldirs src/resid/missing src/resid/install-sh doc/texinfo.tex po/cat-id-tbl.c"
-	SVN_ADD_MAKEFILES="`find . -name Makefile.in`"
+    SVN_ADD_FILES="configure src/config.h.in config.guess config.sub src/monitor/mon_parse.c src/monitor/mon_parse.h src/monitor/mon_lex.c src/resid/depcomp src/resid/mkinstalldirs src/resid/missing src/resid/install-sh doc/texinfo.tex po/cat-id-tbl.c"
+    SVN_ADD_MAKEFILES="`find . -name Makefile.in`"
 
-	svn add $SVN_ADD_FILES $SVN_ADD_MAKEFILES
+    svn add $SVN_ADD_FILES $SVN_ADD_MAKEFILES
 
 fi
+
