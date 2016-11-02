@@ -10008,11 +10008,11 @@ msgstr "Schermafdruk instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:13504
 msgid "Running"
-msgstr ""
+msgstr "Werkend"
 
 #: src/arch/amigaos/intl_text.c.po.c:13518
 msgid "Halted"
-msgstr ""
+msgstr "Gestopt"
 
 #: src/arch/amigaos/intl_text.c.po.c:13532
 msgid "Select SID file to load"
@@ -12429,13 +12429,13 @@ msgstr ""
 msgid ""
 "Enable the Ethernet Cartridge in TFE (\"The Final Ethernet\") compatible "
 "mode and set default I/O address"
-msgstr ""
+msgstr "Activeer de Ethernet Cartridge in TFE (\"The Final Ethernet\") compatibel modus en zet het standaard I/O adres"
 
 #: src/translate_text.c.po.c:8731
 msgid ""
 "Enable the Ethernet Cartridge in RR-Net compatible mode and set default I/O "
 "address"
-msgstr ""
+msgstr "Activeer de Ethernet Cartridge in RR-Net compatibel modus en zet het standaard I/O adres"
 
 #: src/translate_text.c.po.c:8748
 msgid "Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)"
@@ -14650,14 +14650,12 @@ msgid "Disable the Short Bus DigiMAX expansion"
 msgstr "Deactiveer de Short Bus DigiMAX uitbreiding"
 
 #: src/translate_text.c.po.c:18619
-#, fuzzy
 msgid "Enable the Short Bus ETFE expansion"
-msgstr "Activeer de Short Bus DigiMAX uitbreiding"
+msgstr "Activeer de Short Bus ETFE uitbreiding"
 
 #: src/translate_text.c.po.c:18636
-#, fuzzy
 msgid "Disable the Short Bus ETFE expansion"
-msgstr "Deactiveer de Short Bus DigiMAX uitbreiding"
+msgstr "Deactiveer de Short Bus ETFE uitbreiding"
 
 #: src/translate_text.c.po.c:18670
 msgid "Disable the DigiMAX cartridge"
@@ -14672,9 +14670,8 @@ msgid "Base address of the Short Bus DigiMAX expansion"
 msgstr "Basisadres van de Short Bus DigiMAX uitbreiding"
 
 #: src/translate_text.c.po.c:18721
-#, fuzzy
 msgid "Base address of the Short Bus ETFE expansion"
-msgstr "Basisadres van de Short Bus DigiMAX uitbreiding"
+msgstr "Basisadres van de Short Bus ETFE uitbreiding"
 
 #: src/translate_text.c.po.c:18738
 msgid "Enable the DS12C887 RTC cartridge"
