@@ -395,7 +395,7 @@ void sid_c64_build_menu(void)
     sid_engine_model_submenu[count].callback = NULL;
     sid_engine_model_submenu[count].callback_param = NULL;
     sid_engine_model_submenu[count].par_string_max_len = 0;
-    sid_engine_model_submenu[count].behavior = NULL;
+    sid_engine_model_submenu[count].behavior = 0;
     sid_engine_model_submenu[count].submenu = NULL;
     sid_engine_model_submenu[count].submenu_title = NULL;
 
