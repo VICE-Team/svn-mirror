@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "c64model.h"
+#include "machine.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
