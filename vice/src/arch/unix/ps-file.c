@@ -100,7 +100,7 @@ BYTE ps_file_in_data(int chipno)
 
         ioctl(fd, IOPREAD, &tmpbuf);
     }
-    return tmpval.port_value;
+    return tmpbuf.port_value;
 }
 
 void ps_file_out_data(BYTE outval, int chipno)
