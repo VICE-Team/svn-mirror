@@ -161,15 +161,21 @@ static ui_menu_entry_t *uiethernetcart_io_submenu_create(ui_callback_t callback,
 }
 
 
+/** \brief  Clean up memory used by \a menu and its items
+ *
+ * \param[in,out]   menu    dynamically generated sub menu
+ */
 static void uiethernetcart_io_submenu_shutdown(ui_menu_entry_t *menu)
 {
-    int i = 0;
+    if (menu != NULL) {
+        int i = 0;
 
-    while (menu[i].string != NULL) {
-        lib_free(menu[i].string);
-        i++;
+        while (menu[i].string != NULL) {
+            lib_free(menu[i].string);
+            i++;
+        }
+        lib_free(menu);
     }
-    lib_free(menu);
 }
 
 
@@ -177,30 +183,54 @@ static void uiethernetcart_io_submenu_shutdown(ui_menu_entry_t *menu)
  */
 void uiethernetcart_menu_create(void)
 {
-    if (machine_class != VICE_MACHINE_VIC20) {
-        ethernetcart_c64_base_submenu[0].sub_menu = uiethernetcart_io_submenu_create(
-                (ui_callback_t)radio_ETHERNETCARTBase, 0xde00, 0x10, 16);
-        ethernetcart_c64_base_submenu[1].sub_menu = uiethernetcart_io_submenu_create(
-               (ui_callback_t)radio_ETHERNETCARTBase, 0xdf00, 0x10, 16);
-    } else {
-        ethernetcart_vic20_base_submenu[0].sub_menu = uiethernetcart_io_submenu_create(
-                (ui_callback_t)radio_ETHERNETCARTBase, 0x9800, 0x10, 16);
-        ethernetcart_vic20_base_submenu[1].sub_menu = uiethernetcart_io_submenu_create(
-                (ui_callback_t)radio_ETHERNETCARTBase, 0x9c00, 0x10, 16);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fallthrough */
+        case VICE_MACHINE_C64SC:    /* fallthrough */
+        case VICE_MACHINE_C128:     /* fallthrough */
+        case VICE_MACHINE_SCPU64:
+            ethernetcart_c64_base_submenu[0].sub_menu =
+                uiethernetcart_io_submenu_create(
+                        (ui_callback_t)radio_ETHERNETCARTBase, 0xde00, 0x10, 16);
+            ethernetcart_c64_base_submenu[1].sub_menu =
+                uiethernetcart_io_submenu_create(
+                        (ui_callback_t)radio_ETHERNETCARTBase, 0xdf00, 0x10, 16);
+            break;
+        case VICE_MACHINE_VIC20:
+            ethernetcart_vic20_base_submenu[0].sub_menu =
+                uiethernetcart_io_submenu_create(
+                        (ui_callback_t)radio_ETHERNETCARTBase, 0x9800, 0x10, 16);
+            ethernetcart_vic20_base_submenu[1].sub_menu =
+                uiethernetcart_io_submenu_create(
+                        (ui_callback_t)radio_ETHERNETCARTBase, 0x9c00, 0x10, 16);
+            break;
+        default:
+            break;
     }
 }
-
 
 /** \brief  Clean up dynamically generated portions of the ethernet menu
  */
 void uiethernetcart_menu_shutdown(void)
 {
-    if (machine_class != VICE_MACHINE_VIC20) {
-        uiethernetcart_io_submenu_shutdown(ethernetcart_c64_base_submenu[0].sub_menu);
-        uiethernetcart_io_submenu_shutdown(ethernetcart_c64_base_submenu[1].sub_menu);
-    } else {
-        uiethernetcart_io_submenu_shutdown(ethernetcart_vic20_base_submenu[0].sub_menu);
-        uiethernetcart_io_submenu_shutdown(ethernetcart_vic20_base_submenu[1].sub_menu);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fallthrough */
+        case VICE_MACHINE_C64SC:    /* fallthrough */
+        case VICE_MACHINE_C128:     /* fallthrough */
+        case VICE_MACHINE_SCPU64:
+            uiethernetcart_io_submenu_shutdown(
+                    ethernetcart_c64_base_submenu[0].sub_menu);
+            uiethernetcart_io_submenu_shutdown(
+                    ethernetcart_c64_base_submenu[1].sub_menu);
+            break;
+        case VICE_MACHINE_VIC20:
+            uiethernetcart_io_submenu_shutdown(
+                    ethernetcart_vic20_base_submenu[0].sub_menu);
+            uiethernetcart_io_submenu_shutdown(
+                    ethernetcart_vic20_base_submenu[1].sub_menu);
+            break;
+        default:
+            break;
+
     }
 }
 
