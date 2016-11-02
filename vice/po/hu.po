@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-02 14:40-0700\n"
+"POT-Creation-Date: 2016-11-02 14:56-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -15845,12 +15845,12 @@ msgstr "RAMCART bõvítés tiltása"
 
 #: src/translate_text.c.po.c:18619
 #, fuzzy
-msgid "Enable the Short Bus TFE expansion"
+msgid "Enable the Short Bus ETFE expansion"
 msgstr "RAMCART bõvítés engedélyezése"
 
 #: src/translate_text.c.po.c:18636
 #, fuzzy
-msgid "Disable the Short Bus TFE expansion"
+msgid "Disable the Short Bus ETFE expansion"
 msgstr "RAMCART bõvítés tiltása"
 
 #: src/translate_text.c.po.c:18670

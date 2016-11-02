@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-02 14:40-0700\n"
+"POT-Creation-Date: 2016-11-02 14:56-0700\n"
 "PO-Revision-Date: 2012-10-29 17:47+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice@symlink.dk>\n"
 "Language-Team: Danish <vice@symlink.dk>\n"
@@ -15073,12 +15073,12 @@ msgstr "Deaktivér RamCart-udviddelse"
 
 #: src/translate_text.c.po.c:18619
 #, fuzzy
-msgid "Enable the Short Bus TFE expansion"
+msgid "Enable the Short Bus ETFE expansion"
 msgstr "Aktivér RamCart-udviddelsen"
 
 #: src/translate_text.c.po.c:18636
 #, fuzzy
-msgid "Disable the Short Bus TFE expansion"
+msgid "Disable the Short Bus ETFE expansion"
 msgstr "Deaktivér RamCart-udviddelse"
 
 #: src/translate_text.c.po.c:18670

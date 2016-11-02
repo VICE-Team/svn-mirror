@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-02 14:40-0700\n"
+"POT-Creation-Date: 2016-11-02 14:56-0700\n"
 "PO-Revision-Date: 2015-01-25 11:14+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
@@ -14929,12 +14929,12 @@ msgstr "Deshabilitar expansión RamCart"
 
 #: src/translate_text.c.po.c:18619
 #, fuzzy
-msgid "Enable the Short Bus TFE expansion"
+msgid "Enable the Short Bus ETFE expansion"
 msgstr "Permitir expansión RAMCART"
 
 #: src/translate_text.c.po.c:18636
 #, fuzzy
-msgid "Disable the Short Bus TFE expansion"
+msgid "Disable the Short Bus ETFE expansion"
 msgstr "Deshabilitar expansión RamCart"
 
 #: src/translate_text.c.po.c:18670

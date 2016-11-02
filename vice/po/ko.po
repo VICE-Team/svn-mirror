@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-02 14:40-0700\n"
+"POT-Creation-Date: 2016-11-02 14:56-0700\n"
 "PO-Revision-Date: 2012-12-29 13:44-0800\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: ko <ko@li.org>\n"
@@ -14149,11 +14149,11 @@ msgid "Disable the Short Bus DigiMAX expansion"
 msgstr ""
 
 #: src/translate_text.c.po.c:18619
-msgid "Enable the Short Bus TFE expansion"
+msgid "Enable the Short Bus ETFE expansion"
 msgstr ""
 
 #: src/translate_text.c.po.c:18636
-msgid "Disable the Short Bus TFE expansion"
+msgid "Disable the Short Bus ETFE expansion"
 msgstr ""
 
 #: src/translate_text.c.po.c:18670
