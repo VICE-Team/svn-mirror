@@ -133,8 +133,6 @@ libarch_a_SOURCES = \
 	uids12c887rtc.h \
 	uieasyflash.c \
 	uieasyflash.h \
-	uiethernet.c \
-	uiethernet.h \
 	uiethernetcart.c \
 	uiethernetcart.h \
 	uiexpert.c \
