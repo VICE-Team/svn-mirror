@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "c64model.h"
+#include "c64-resources.h"
 #include "machine.h"
 #include "resources.h"
 #include "tui.h"
