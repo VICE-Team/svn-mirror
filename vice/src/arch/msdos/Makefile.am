@@ -135,6 +135,8 @@ libarch_a_SOURCES = \
 	uieasyflash.h \
 	uiethernet.c \
 	uiethernet.h \
+	uiethernetcart.c \
+	uiethernetcart.h \
 	uiexpert.c \
 	uiexpert.h \
 	uigeoram.c \
@@ -217,8 +219,6 @@ libarch_a_SOURCES = \
 	uiss5.h \
 	uitapeport.c \
 	uitapeport.h \
-	uitfe.c \
-	uitfe.h \
 	uiuserport.c \
 	uiuserport.h \
 	uiv364speech.c \
