@@ -67,9 +67,9 @@ UI_CALLBACK(set_interface_name)
 /** \brief  Submenu to select the emulated ethernet cartridge
  */
 static ui_menu_entry_t ethernetcart_mode_submenu[] = {
-    { N_("TFE"), UI_MENU_TYPE_TICK,
+    { "TFE", UI_MENU_TYPE_TICK,
         (ui_callback_t)radio_ETHERNETCARTMode, (ui_callback_data_t)0, NULL },
-    { N_("RR-Net"), UI_MENU_TYPE_TICK,
+    { "RR-Net", UI_MENU_TYPE_TICK,
         (ui_callback_t)radio_ETHERNETCARTMode, (ui_callback_data_t)1, NULL },
     { NULL }
 };
@@ -78,9 +78,9 @@ static ui_menu_entry_t ethernetcart_mode_submenu[] = {
 /** \brief  Submenu to select the I/O area the cart uses on C64
  */
 static ui_menu_entry_t ethernetcart_c64_base_submenu[] = {
-    { N_("$DExx"), UI_MENU_TYPE_NORMAL,
+    { "$DExx", UI_MENU_TYPE_NORMAL,
         NULL, NULL, NULL },
-    { N_("$DFxx"), UI_MENU_TYPE_NORMAL,
+    { "$DFxx", UI_MENU_TYPE_NORMAL,
         NULL, NULL, NULL },
     { NULL }
 };
@@ -89,9 +89,9 @@ static ui_menu_entry_t ethernetcart_c64_base_submenu[] = {
 /** \brief  Submenu to select the I/O area the cart uses on VIC20
  */
 static ui_menu_entry_t ethernetcart_vic20_base_submenu[] = {
-    { N_("$98xx"), UI_MENU_TYPE_NORMAL,
+    { "$98xx", UI_MENU_TYPE_NORMAL,
         NULL, NULL, NULL },
-    { N_("$9cxx"), UI_MENU_TYPE_NORMAL,
+    { "$9cxx", UI_MENU_TYPE_NORMAL,
         NULL, NULL, NULL },
     { NULL }
 };
@@ -111,20 +111,10 @@ ui_menu_entry_t ethernetcart_c64_submenu[] = {
 };
 
 ui_menu_entry_t ethernetcart_vic20_submenu[] = {
-#if 0
-    { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_ETHERNET_ACTIVE, NULL, NULL },
-#endif
-    /* Translators: "RR-Net" is the name of the network addon and should not get translated */
-#if 0
-    { N_("MasC=uerade I/O swap"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_TFEIOSwap, NULL, NULL },
-#endif
-#if 0
-    { N_("RR-Net compatibility mode"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_ETHERNET_AS_RR, NULL, NULL },
-#endif
-
+    { N_("Cartridge enabled"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_ETHERNETCART_ACTIVE, NULL, NULL },
+    { N_("Cartridge mode"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, ethernetcart_mode_submenu },
     { N_("Cartridge I/O area"), UI_MENU_TYPE_NORMAL,
         NULL, NULL, ethernetcart_vic20_base_submenu },
 
@@ -233,6 +223,4 @@ void uiethernetcart_menu_shutdown(void)
 
     }
 }
-
-
 #endif
