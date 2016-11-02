@@ -1004,7 +1004,9 @@ void machine_specific_shutdown(void)
 
     sid_cmdline_options_shutdown();
 
-    scpu64ui_shutdown();
+    if (!console_mode) {
+        scpu64ui_shutdown();
+    }
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

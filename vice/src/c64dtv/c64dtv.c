@@ -792,7 +792,9 @@ void machine_specific_shutdown(void)
 
     c64dtvmem_shutdown();
 
-    c64dtvui_shutdown();
+    if (!console_mode) {
+        c64dtvui_shutdown();
+    }
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

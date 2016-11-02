@@ -938,7 +938,9 @@ void machine_specific_shutdown(void)
     mouse_shutdown();
 #endif
 
-    plus4ui_shutdown();
+    if (!console_mode) {
+        plus4ui_shutdown();
+    }
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

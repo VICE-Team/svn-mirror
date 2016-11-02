@@ -804,7 +804,9 @@ void machine_specific_shutdown(void)
     /* close the video chip(s) */
     vicii_shutdown();
 
-    cbm5x0ui_shutdown();
+    if (!console_mode) {
+        cbm5x0ui_shutdown();
+    }
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

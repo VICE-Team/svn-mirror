@@ -1230,7 +1230,9 @@ void machine_specific_shutdown(void)
 
     sid_cmdline_options_shutdown();
 
-    c128ui_shutdown();
+    if (!console_mode) {
+        c128ui_shutdown();
+    }
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

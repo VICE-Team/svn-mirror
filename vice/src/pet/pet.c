@@ -805,7 +805,9 @@ void machine_specific_shutdown(void)
     mouse_shutdown();
 #endif
 
-    petui_shutdown();
+    if (!console_mode) {
+        petui_shutdown();
+    }
 }
 
 /* ------------------------------------------------------------------------- */

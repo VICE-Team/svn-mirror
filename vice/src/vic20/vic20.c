@@ -1015,7 +1015,9 @@ void machine_specific_shutdown(void)
     /* close the video chip(s) */
     vic_shutdown();
 
-    vic20ui_shutdown();
+    if (!console_mode) {
+        vic20ui_shutdown();
+    }
 }
 
 /* ------------------------------------------------------------------------- */
