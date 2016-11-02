@@ -1,14 +1,14 @@
 # Dutch Translation File for VICE
-# Copyright (C) 2005-2011
+# Copyright (C) 2005-2016
 # This file is distributed under the same license as the PACKAGE package.
-# Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2011.
+# Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2016.
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-02 14:40-0700\n"
-"PO-Revision-Date: 2011-02-16 20:47+0100\n"
+"PO-Revision-Date: 2016-11-02 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
 "Language: \n"
@@ -2613,21 +2613,18 @@ msgstr "Ethernetinterface"
 
 #: src/arch/unix/gui/uiethernetcart.c:103
 #: src/arch/unix/gui/uiethernetcart.c:114
-#, fuzzy
 msgid "Cartridge enabled"
-msgstr "Cartridge freeze"
+msgstr "Cartridge actief"
 
 #: src/arch/unix/gui/uiethernetcart.c:105
 #: src/arch/unix/gui/uiethernetcart.c:116
-#, fuzzy
 msgid "Cartridge mode"
-msgstr "Expert Cartridge modus"
+msgstr "Cartridge modus"
 
 #: src/arch/unix/gui/uiethernetcart.c:107
 #: src/arch/unix/gui/uiethernetcart.c:118
-#, fuzzy
 msgid "Cartridge I/O area"
-msgstr "Cartridge freeze"
+msgstr "Cartridge I/O gebied"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:7285
@@ -2880,9 +2877,8 @@ msgid "DigiMAX address"
 msgstr "DigiMAX basisadres"
 
 #: src/arch/unix/gui/uiide64.c:303
-#, fuzzy
 msgid "ETFE address"
-msgstr "adres"
+msgstr "ETFE adres"
 
 #: src/arch/unix/gui/uiide64.c:316 src/arch/unix/gui/uimmc64.c:79
 #: src/arch/unix/gui/uiretroreplay.c:62 src/arch/unix/gui/uivdc.c:213
@@ -4542,9 +4538,8 @@ msgid "VFLI modification"
 msgstr "VFLI modificatie"
 
 #: src/arch/unix/gui/vic20ui.c:548
-#, fuzzy
 msgid "Ethernet cartridge (MasC=uerade)"
-msgstr "Ethernetemulatie (MasC=uerade)"
+msgstr "Ethernet cartridge (MasC=uerade)"
 
 #: src/arch/unix/gui/vic20ui.c:561
 msgid "I/O collision handling ($9000-$93FF / $9800-$9FFF)"
@@ -9198,9 +9193,8 @@ msgid "Select file for PLUS256K"
 msgstr "Selecteer bestand voor PLUS256K"
 
 #: src/arch/amigaos/intl_text.c.po.c:4121
-#, fuzzy
 msgid "Enable the Super Snapshot 5 32KB addon"
-msgstr "Activeer de Super Snapshot 5 32KB RAM uitbreiding"
+msgstr "Activeer de Super Snapshot 5 32KB uitbreiding"
 
 #: src/arch/amigaos/intl_text.c.po.c:4135 src/translate_text.c.po.c:18245
 msgid "Enable the CP/M cartridge"
@@ -9716,9 +9710,8 @@ msgid "IEC emulation for device #7"
 msgstr "IEC emulatie voor printer #7"
 
 #: src/arch/amigaos/intl_text.c.po.c:9388
-#, fuzzy
 msgid "VICII model selection"
-msgstr "VIC20 model instellingen"
+msgstr "VICII model instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:9444
 msgid "Userport RS232"
@@ -9902,9 +9895,8 @@ msgid "DS12C887 RTC Enabled"
 msgstr "DS12C887 Aan/Uit"
 
 #: src/arch/amigaos/intl_text.c.po.c:12006
-#, fuzzy
 msgid "DS12C887 RTC running mode"
-msgstr "DS12C887 RTC instellingen"
+msgstr "DS12C887 RTC start modus"
 
 #: src/arch/amigaos/intl_text.c.po.c:12020
 msgid "Enable DS12C887 RTC data saving"
@@ -9935,9 +9927,8 @@ msgid "Volume (0-100%)"
 msgstr "Volume (0-100%)"
 
 #: src/arch/amigaos/intl_text.c.po.c:12398
-#, fuzzy
 msgid "Random tape wobble"
-msgstr "Willekeurige datasette tape wiebel"
+msgstr "Willekeurige tape wiebel"
 
 #: src/arch/amigaos/intl_text.c.po.c:12468
 msgid "Mouse type"
@@ -9956,9 +9947,8 @@ msgid "Save to EasyFlash CRT file on detach"
 msgstr "Sla op naar het EasyFlash CRT bestand bij ontkoppelen"
 
 #: src/arch/amigaos/intl_text.c.po.c:12720
-#, fuzzy
 msgid "Optimize EasyFlash CRT when saving to file"
-msgstr "Optimalizeer het bestand bij opslaan"
+msgstr "Optimalizeer het EasyFlash CRT bestand bij opslaan"
 
 #: src/arch/amigaos/intl_text.c.po.c:12734
 msgid "Save to EasyFlash CRT now"
@@ -9969,9 +9959,8 @@ msgid "Reset IEC bus with computer"
 msgstr "Reset IEC bus met de computer"
 
 #: src/arch/amigaos/intl_text.c.po.c:12972
-#, fuzzy
 msgid "Kernal revision"
-msgstr "Kernal Revisie"
+msgstr "Kernal revisie"
 
 #: src/arch/amigaos/intl_text.c.po.c:13000
 msgid "CIA model settings"
@@ -11524,14 +11513,14 @@ msgid "ClockPort RRNET already in use by %s."
 msgstr "ClockPort RRNET wordt al gebruikt door %s."
 
 #: src/translate_text.c.po.c:4656
-#, fuzzy, c-format
+#, c-format
 msgid "ClockPort MP3@64 already in use by %s."
-msgstr "ClockPort RRNET wordt al gebruikt door %s."
+msgstr "ClockPort MP3@64 wordt al gebruikt door %s."
 
 #: src/translate_text.c.po.c:4673
-#, fuzzy, c-format
+#, c-format
 msgid "CS8900 already in use by %s."
-msgstr "Sampler systeem wordt al gebruikt door %s."
+msgstr "CS8900 wordt al gebruikt door %s."
 
 #: src/translate_text.c.po.c:4692
 msgid "Enable opposite joystick directions"
@@ -12449,28 +12438,24 @@ msgid ""
 msgstr ""
 
 #: src/translate_text.c.po.c:8748
-#, fuzzy
 msgid "Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)"
-msgstr "Activeer Expert Cartridge"
+msgstr "Activeer de Ethern Cartridge (TFE/RR-Net/64NIC/FB-NET)"
 
 #: src/translate_text.c.po.c:8765
-#, fuzzy
 msgid "Disable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)"
-msgstr "Deactiveer de Expert Cartridge"
+msgstr "Deactiveer de Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)"
 
 #: src/translate_text.c.po.c:8782
-#, fuzzy
 msgid "Base address of the Ethernet Cartridge"
-msgstr "Basisadres van de DigiMAX cartridge"
+msgstr "Basisadres van de Ethernet Cartridge"
 
 #: src/translate_text.c.po.c:8799
 msgid "Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)"
-msgstr ""
+msgstr "Modus van den Ethernet Cartridge (0: TFE, 1: RR-Net)"
 
 #: src/translate_text.c.po.c:8816
-#, fuzzy
 msgid "Set the system ethernet interface"
-msgstr "Zet de systeem ethernetinterface voor de TFE emulatie"
+msgstr "Zet de systeem ethernetinterface"
 
 #: src/translate_text.c.po.c:8834
 msgid "Reset machine if a cartridge is attached or detached"
