@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-01 18:32-0700\n"
+"POT-Creation-Date: 2016-11-02 14:40-0700\n"
 "PO-Revision-Date: 2016-11-02 19:12+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -1125,14 +1125,14 @@ msgstr "RAM Einstellungen"
 #: src/arch/unix/gui/plus4ui.c:152 src/arch/unix/gui/plus4ui.c:158
 #: src/arch/unix/gui/uic64dtv.c:127 src/arch/unix/gui/uic64dtv.c:133
 #: src/arch/unix/gui/uidigimax.c:111 src/arch/unix/gui/uidigimax.c:119
-#: src/arch/unix/gui/uidqbb.c:46 src/arch/unix/gui/uiethernetcart.c:115
-#: src/arch/unix/gui/uiexpert.c:50 src/arch/unix/gui/uigeoram.c:66
-#: src/arch/unix/gui/uigeoram.c:84 src/arch/unix/gui/uiisepic.c:46
-#: src/arch/unix/gui/uimagicvoice.c:49 src/arch/unix/gui/uimidi.c:82
-#: src/arch/unix/gui/uimidi.c:100 src/arch/unix/gui/uimmc64.c:75
-#: src/arch/unix/gui/uipetdww.c:43 src/arch/unix/gui/uipetreu.c:56
-#: src/arch/unix/gui/uips2mouse.c:40 src/arch/unix/gui/uiramcart.c:56
-#: src/arch/unix/gui/uireu.c:67 src/arch/unix/gui/uisoundexpander.c:49
+#: src/arch/unix/gui/uidqbb.c:46 src/arch/unix/gui/uiexpert.c:50
+#: src/arch/unix/gui/uigeoram.c:66 src/arch/unix/gui/uigeoram.c:84
+#: src/arch/unix/gui/uiisepic.c:46 src/arch/unix/gui/uimagicvoice.c:49
+#: src/arch/unix/gui/uimidi.c:82 src/arch/unix/gui/uimidi.c:100
+#: src/arch/unix/gui/uimmc64.c:75 src/arch/unix/gui/uipetdww.c:43
+#: src/arch/unix/gui/uipetreu.c:56 src/arch/unix/gui/uips2mouse.c:40
+#: src/arch/unix/gui/uiramcart.c:56 src/arch/unix/gui/uireu.c:67
+#: src/arch/unix/gui/uisoundexpander.c:49
 #: src/arch/unix/gui/uisoundexpander.c:57 src/arch/unix/gui/uitpi.c:49
 #: src/arch/unix/gui/uiv364speech.c:49 src/arch/unix/gui/vic20ui.c:172
 #: src/arch/amigaos/intl_text.c.po.c:1041
@@ -2601,52 +2601,20 @@ msgstr "Imagedatei beim Speichern optimieren"
 msgid "Ethernet interface"
 msgstr "Ethernet Schnittstelle"
 
-#: src/arch/unix/gui/uiethernetcart.c:70
-msgid "TFE"
-msgstr "TFE"
-
-#: src/arch/unix/gui/uiethernetcart.c:72
-msgid "RR-Net"
-msgstr "RR-Net"
-
-#: src/arch/unix/gui/uiethernetcart.c:81
-msgid "$DExx"
-msgstr "$DExx"
-
-#: src/arch/unix/gui/uiethernetcart.c:83
-msgid "$DFxx"
-msgstr "$DFxx"
-
-#: src/arch/unix/gui/uiethernetcart.c:92
-msgid "$98xx"
-msgstr "$98xx"
-
-#: src/arch/unix/gui/uiethernetcart.c:94
-msgid "$9cxx"
-msgstr "$9cxx"
-
 #: src/arch/unix/gui/uiethernetcart.c:103
+#: src/arch/unix/gui/uiethernetcart.c:114
 msgid "Cartridge enabled"
 msgstr "Erweiterungsmodul aktiviert"
 
 #: src/arch/unix/gui/uiethernetcart.c:105
+#: src/arch/unix/gui/uiethernetcart.c:116
 msgid "Cartridge mode"
 msgstr "Erweiterungsmodul Modus"
 
 #: src/arch/unix/gui/uiethernetcart.c:107
-#: src/arch/unix/gui/uiethernetcart.c:128
+#: src/arch/unix/gui/uiethernetcart.c:118
 msgid "Cartridge I/O area"
 msgstr "Erweiterungsmodul I/O Bereich"
-
-#: src/arch/unix/gui/uiethernetcart.c:120 src/arch/unix/gui/uigeoram.c:86
-#: src/arch/unix/gui/uisoundexpander.c:59
-#: src/arch/amigaos/intl_text.c.po.c:7131
-msgid "MasC=uerade I/O swap"
-msgstr "MasC=uerade I/O swap"
-
-#: src/arch/unix/gui/uiethernetcart.c:124
-msgid "RR-Net compatibility mode"
-msgstr "RR-Net kompatibler Modus"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:7285
@@ -2803,6 +2771,11 @@ msgstr "Vollbild Gerät"
 #: src/arch/unix/gui/uireu.c:69
 msgid "Size"
 msgstr "Größe"
+
+#: src/arch/unix/gui/uigeoram.c:86 src/arch/unix/gui/uisoundexpander.c:59
+#: src/arch/amigaos/intl_text.c.po.c:7131
+msgid "MasC=uerade I/O swap"
+msgstr "MasC=uerade I/O swap"
 
 #: src/arch/unix/gui/uigeoram.c:101 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:7145
@@ -12411,7 +12384,9 @@ msgstr "Größe der RAM Erweiterung. (128/256/512/1024/2048/4096/8192/16384)"
 msgid ""
 "Enable the Ethernet Cartridge in TFE (\"The Final Ethernet\") compatible "
 "mode and set default I/O address"
-msgstr "Aktiviere Ethernet Erweiterungsmodul in TFE (\"The Final Ethernet\") kompatiblen Modus und setze die Standard I/O Adresse"
+msgstr ""
+"Aktiviere Ethernet Erweiterungsmodul in TFE (\"The Final Ethernet\") "
+"kompatiblen Modus und setze die Standard I/O Adresse"
 
 #: src/translate_text.c.po.c:8731
 msgid ""
@@ -14706,6 +14681,27 @@ msgstr "HiRes Emulation Board aktivieren"
 #: src/translate_text.c.po.c:19098
 msgid "Set raw drive device name"
 msgstr "Raw Laufwerk Gerätename setzen"
+
+#~ msgid "TFE"
+#~ msgstr "TFE"
+
+#~ msgid "RR-Net"
+#~ msgstr "RR-Net"
+
+#~ msgid "$DExx"
+#~ msgstr "$DExx"
+
+#~ msgid "$DFxx"
+#~ msgstr "$DFxx"
+
+#~ msgid "$98xx"
+#~ msgstr "$98xx"
+
+#~ msgid "$9cxx"
+#~ msgstr "$9cxx"
+
+#~ msgid "RR-Net compatibility mode"
+#~ msgstr "RR-Net kompatibler Modus"
 
 #~ msgid "Ethernet emulation"
 #~ msgstr "Ethernet Emulation"

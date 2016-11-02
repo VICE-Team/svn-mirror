@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-01 18:32-0700\n"
+"POT-Creation-Date: 2016-11-02 14:40-0700\n"
 "PO-Revision-Date: 2012-10-29 17:47+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice@symlink.dk>\n"
 "Language-Team: Danish <vice@symlink.dk>\n"
@@ -1146,14 +1146,14 @@ msgstr "RAM-indstillinger"
 #: src/arch/unix/gui/plus4ui.c:152 src/arch/unix/gui/plus4ui.c:158
 #: src/arch/unix/gui/uic64dtv.c:127 src/arch/unix/gui/uic64dtv.c:133
 #: src/arch/unix/gui/uidigimax.c:111 src/arch/unix/gui/uidigimax.c:119
-#: src/arch/unix/gui/uidqbb.c:46 src/arch/unix/gui/uiethernetcart.c:115
-#: src/arch/unix/gui/uiexpert.c:50 src/arch/unix/gui/uigeoram.c:66
-#: src/arch/unix/gui/uigeoram.c:84 src/arch/unix/gui/uiisepic.c:46
-#: src/arch/unix/gui/uimagicvoice.c:49 src/arch/unix/gui/uimidi.c:82
-#: src/arch/unix/gui/uimidi.c:100 src/arch/unix/gui/uimmc64.c:75
-#: src/arch/unix/gui/uipetdww.c:43 src/arch/unix/gui/uipetreu.c:56
-#: src/arch/unix/gui/uips2mouse.c:40 src/arch/unix/gui/uiramcart.c:56
-#: src/arch/unix/gui/uireu.c:67 src/arch/unix/gui/uisoundexpander.c:49
+#: src/arch/unix/gui/uidqbb.c:46 src/arch/unix/gui/uiexpert.c:50
+#: src/arch/unix/gui/uigeoram.c:66 src/arch/unix/gui/uigeoram.c:84
+#: src/arch/unix/gui/uiisepic.c:46 src/arch/unix/gui/uimagicvoice.c:49
+#: src/arch/unix/gui/uimidi.c:82 src/arch/unix/gui/uimidi.c:100
+#: src/arch/unix/gui/uimmc64.c:75 src/arch/unix/gui/uipetdww.c:43
+#: src/arch/unix/gui/uipetreu.c:56 src/arch/unix/gui/uips2mouse.c:40
+#: src/arch/unix/gui/uiramcart.c:56 src/arch/unix/gui/uireu.c:67
+#: src/arch/unix/gui/uisoundexpander.c:49
 #: src/arch/unix/gui/uisoundexpander.c:57 src/arch/unix/gui/uitpi.c:49
 #: src/arch/unix/gui/uiv364speech.c:49 src/arch/unix/gui/vic20ui.c:172
 #: src/arch/amigaos/intl_text.c.po.c:1041
@@ -2649,55 +2649,23 @@ msgstr "Gem image ved ændringer"
 msgid "Ethernet interface"
 msgstr "Netværksinterface"
 
-#: src/arch/unix/gui/uiethernetcart.c:70
-msgid "TFE"
-msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:72
-msgid "RR-Net"
-msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:81
-msgid "$DExx"
-msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:83
-msgid "$DFxx"
-msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:92
-msgid "$98xx"
-msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:94
-msgid "$9cxx"
-msgstr ""
-
 #: src/arch/unix/gui/uiethernetcart.c:103
+#: src/arch/unix/gui/uiethernetcart.c:114
 #, fuzzy
 msgid "Cartridge enabled"
 msgstr "Cartridgets frys-funktion"
 
 #: src/arch/unix/gui/uiethernetcart.c:105
+#: src/arch/unix/gui/uiethernetcart.c:116
 #, fuzzy
 msgid "Cartridge mode"
 msgstr "Expert Cartridge-tilstand"
 
 #: src/arch/unix/gui/uiethernetcart.c:107
-#: src/arch/unix/gui/uiethernetcart.c:128
+#: src/arch/unix/gui/uiethernetcart.c:118
 #, fuzzy
 msgid "Cartridge I/O area"
 msgstr "Cartridgets frys-funktion"
-
-#: src/arch/unix/gui/uiethernetcart.c:120 src/arch/unix/gui/uigeoram.c:86
-#: src/arch/unix/gui/uisoundexpander.c:59
-#: src/arch/amigaos/intl_text.c.po.c:7131
-msgid "MasC=uerade I/O swap"
-msgstr "MasC=uerade I/O ombytning"
-
-#: src/arch/unix/gui/uiethernetcart.c:124
-msgid "RR-Net compatibility mode"
-msgstr "RR-NET-kompatibilitesttilstand"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:7285
@@ -2854,6 +2822,11 @@ msgstr "Fuldskærmsenhed"
 #: src/arch/unix/gui/uireu.c:69
 msgid "Size"
 msgstr "Størrelse"
+
+#: src/arch/unix/gui/uigeoram.c:86 src/arch/unix/gui/uisoundexpander.c:59
+#: src/arch/amigaos/intl_text.c.po.c:7131
+msgid "MasC=uerade I/O swap"
+msgstr "MasC=uerade I/O ombytning"
 
 #: src/arch/unix/gui/uigeoram.c:101 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:7145
@@ -15222,6 +15195,9 @@ msgstr "Aktivér lyspen-emulering"
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Navn på lydenhed"
+
+#~ msgid "RR-Net compatibility mode"
+#~ msgstr "RR-NET-kompatibilitesttilstand"
 
 #~ msgid "Ethernet emulation"
 #~ msgstr "Ethernetemulering"

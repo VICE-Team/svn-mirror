@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-01 18:32-0700\n"
+"POT-Creation-Date: 2016-11-02 14:40-0700\n"
 "PO-Revision-Date: 2012-12-29 13:44-0800\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: ko <ko@li.org>\n"
@@ -1059,14 +1059,14 @@ msgstr "RAM 셋팅"
 #: src/arch/unix/gui/plus4ui.c:152 src/arch/unix/gui/plus4ui.c:158
 #: src/arch/unix/gui/uic64dtv.c:127 src/arch/unix/gui/uic64dtv.c:133
 #: src/arch/unix/gui/uidigimax.c:111 src/arch/unix/gui/uidigimax.c:119
-#: src/arch/unix/gui/uidqbb.c:46 src/arch/unix/gui/uiethernetcart.c:115
-#: src/arch/unix/gui/uiexpert.c:50 src/arch/unix/gui/uigeoram.c:66
-#: src/arch/unix/gui/uigeoram.c:84 src/arch/unix/gui/uiisepic.c:46
-#: src/arch/unix/gui/uimagicvoice.c:49 src/arch/unix/gui/uimidi.c:82
-#: src/arch/unix/gui/uimidi.c:100 src/arch/unix/gui/uimmc64.c:75
-#: src/arch/unix/gui/uipetdww.c:43 src/arch/unix/gui/uipetreu.c:56
-#: src/arch/unix/gui/uips2mouse.c:40 src/arch/unix/gui/uiramcart.c:56
-#: src/arch/unix/gui/uireu.c:67 src/arch/unix/gui/uisoundexpander.c:49
+#: src/arch/unix/gui/uidqbb.c:46 src/arch/unix/gui/uiexpert.c:50
+#: src/arch/unix/gui/uigeoram.c:66 src/arch/unix/gui/uigeoram.c:84
+#: src/arch/unix/gui/uiisepic.c:46 src/arch/unix/gui/uimagicvoice.c:49
+#: src/arch/unix/gui/uimidi.c:82 src/arch/unix/gui/uimidi.c:100
+#: src/arch/unix/gui/uimmc64.c:75 src/arch/unix/gui/uipetdww.c:43
+#: src/arch/unix/gui/uipetreu.c:56 src/arch/unix/gui/uips2mouse.c:40
+#: src/arch/unix/gui/uiramcart.c:56 src/arch/unix/gui/uireu.c:67
+#: src/arch/unix/gui/uisoundexpander.c:49
 #: src/arch/unix/gui/uisoundexpander.c:57 src/arch/unix/gui/uitpi.c:49
 #: src/arch/unix/gui/uiv364speech.c:49 src/arch/unix/gui/vic20ui.c:172
 #: src/arch/amigaos/intl_text.c.po.c:1041
@@ -2533,52 +2533,20 @@ msgstr ""
 msgid "Ethernet interface"
 msgstr "이더넷 인터페이스"
 
-#: src/arch/unix/gui/uiethernetcart.c:70
-msgid "TFE"
-msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:72
-msgid "RR-Net"
-msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:81
-msgid "$DExx"
-msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:83
-msgid "$DFxx"
-msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:92
-msgid "$98xx"
-msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:94
-msgid "$9cxx"
-msgstr ""
-
 #: src/arch/unix/gui/uiethernetcart.c:103
+#: src/arch/unix/gui/uiethernetcart.c:114
 msgid "Cartridge enabled"
 msgstr ""
 
 #: src/arch/unix/gui/uiethernetcart.c:105
+#: src/arch/unix/gui/uiethernetcart.c:116
 msgid "Cartridge mode"
 msgstr ""
 
 #: src/arch/unix/gui/uiethernetcart.c:107
-#: src/arch/unix/gui/uiethernetcart.c:128
+#: src/arch/unix/gui/uiethernetcart.c:118
 msgid "Cartridge I/O area"
 msgstr ""
-
-#: src/arch/unix/gui/uiethernetcart.c:120 src/arch/unix/gui/uigeoram.c:86
-#: src/arch/unix/gui/uisoundexpander.c:59
-#: src/arch/amigaos/intl_text.c.po.c:7131
-msgid "MasC=uerade I/O swap"
-msgstr "MasC=uerade I/O 스왑"
-
-#: src/arch/unix/gui/uiethernetcart.c:124
-msgid "RR-Net compatibility mode"
-msgstr "RR-Net 호환 모드"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:7285
@@ -2735,6 +2703,11 @@ msgstr "전체화면 디바이스"
 #: src/arch/unix/gui/uireu.c:69
 msgid "Size"
 msgstr "크기"
+
+#: src/arch/unix/gui/uigeoram.c:86 src/arch/unix/gui/uisoundexpander.c:59
+#: src/arch/amigaos/intl_text.c.po.c:7131
+msgid "MasC=uerade I/O swap"
+msgstr "MasC=uerade I/O 스왑"
 
 #: src/arch/unix/gui/uigeoram.c:101 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:7145
@@ -14285,6 +14258,9 @@ msgstr ""
 #: src/translate_text.c.po.c:19098
 msgid "Set raw drive device name"
 msgstr ""
+
+#~ msgid "RR-Net compatibility mode"
+#~ msgstr "RR-Net 호환 모드"
 
 #~ msgid "Ethernet emulation"
 #~ msgstr "이더넷 에뮬레이터"
