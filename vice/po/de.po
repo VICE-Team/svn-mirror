@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-01 18:32-0700\n"
-"PO-Revision-Date: 2016-10-08 14:17+0200\n"
+"PO-Revision-Date: 2016-11-02 19:12+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -422,9 +422,8 @@ msgstr "Bänke 2 & 3"
 
 #: src/arch/unix/gui/c128ui.c:294 src/arch/unix/gui/c64scui.c:378
 #: src/arch/unix/gui/c64ui.c:436
-#, fuzzy
 msgid "Ethernet cartridge"
-msgstr "Universelle Erweiterungsmodule"
+msgstr "Ethernet Erweiterungsmodul"
 
 #: src/arch/unix/gui/c128ui.c:309 src/arch/unix/gui/c64scui.c:394
 #: src/arch/unix/gui/c64ui.c:453 src/arch/unix/gui/vic20ui.c:553
@@ -2604,43 +2603,40 @@ msgstr "Ethernet Schnittstelle"
 
 #: src/arch/unix/gui/uiethernetcart.c:70
 msgid "TFE"
-msgstr ""
+msgstr "TFE"
 
 #: src/arch/unix/gui/uiethernetcart.c:72
 msgid "RR-Net"
-msgstr ""
+msgstr "RR-Net"
 
 #: src/arch/unix/gui/uiethernetcart.c:81
 msgid "$DExx"
-msgstr ""
+msgstr "$DExx"
 
 #: src/arch/unix/gui/uiethernetcart.c:83
 msgid "$DFxx"
-msgstr ""
+msgstr "$DFxx"
 
 #: src/arch/unix/gui/uiethernetcart.c:92
 msgid "$98xx"
-msgstr ""
+msgstr "$98xx"
 
 #: src/arch/unix/gui/uiethernetcart.c:94
 msgid "$9cxx"
-msgstr ""
+msgstr "$9cxx"
 
 #: src/arch/unix/gui/uiethernetcart.c:103
-#, fuzzy
 msgid "Cartridge enabled"
-msgstr "Erweiterungsmodul Freeze"
+msgstr "Erweiterungsmodul aktiviert"
 
 #: src/arch/unix/gui/uiethernetcart.c:105
-#, fuzzy
 msgid "Cartridge mode"
-msgstr "Expert Cartridge Modus"
+msgstr "Erweiterungsmodul Modus"
 
 #: src/arch/unix/gui/uiethernetcart.c:107
 #: src/arch/unix/gui/uiethernetcart.c:128
-#, fuzzy
 msgid "Cartridge I/O area"
-msgstr "Erweiterungsmodul Freeze"
+msgstr "Erweiterungsmodul I/O Bereich"
 
 #: src/arch/unix/gui/uiethernetcart.c:120 src/arch/unix/gui/uigeoram.c:86
 #: src/arch/unix/gui/uisoundexpander.c:59
@@ -2898,9 +2894,8 @@ msgid "DigiMAX address"
 msgstr "DigiMAX Adresse"
 
 #: src/arch/unix/gui/uiide64.c:303
-#, fuzzy
 msgid "ETFE address"
-msgstr "Adresse"
+msgstr "ETFE Adresse"
 
 #: src/arch/unix/gui/uiide64.c:316 src/arch/unix/gui/uimmc64.c:79
 #: src/arch/unix/gui/uiretroreplay.c:62 src/arch/unix/gui/uivdc.c:213
@@ -4552,9 +4547,8 @@ msgid "VFLI modification"
 msgstr "VFLI Modifikation"
 
 #: src/arch/unix/gui/vic20ui.c:548
-#, fuzzy
 msgid "Ethernet cartridge (MasC=uerade)"
-msgstr "Ethernet Emulation (MasC=uerade)"
+msgstr "Ethernet Erweiterungsmodul (MasC=uerade)"
 
 #: src/arch/unix/gui/vic20ui.c:561
 msgid "I/O collision handling ($9000-$93FF / $9800-$9FFF)"
@@ -9202,9 +9196,8 @@ msgid "Select file for PLUS256K"
 msgstr "Datei für PLUS256K auswählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:4121
-#, fuzzy
 msgid "Enable the Super Snapshot 5 32KB addon"
-msgstr "Super Snapshot 5 32K RAM Erweiterung aktivieren"
+msgstr "Super Snapshot 5 32KB Erweiterung aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:4135 src/translate_text.c.po.c:18245
 msgid "Enable the CP/M cartridge"
@@ -9726,9 +9719,8 @@ msgid "IEC emulation for device #7"
 msgstr "IEC Emulation für Gerät #7"
 
 #: src/arch/amigaos/intl_text.c.po.c:9388
-#, fuzzy
 msgid "VICII model selection"
-msgstr "VIC20 Modell Einstellungen"
+msgstr "VICII Modell Auswahl"
 
 #: src/arch/amigaos/intl_text.c.po.c:9444
 msgid "Userport RS232"
@@ -9912,9 +9904,8 @@ msgid "DS12C887 RTC Enabled"
 msgstr "DS12C887 RTC aktiviert"
 
 #: src/arch/amigaos/intl_text.c.po.c:12006
-#, fuzzy
 msgid "DS12C887 RTC running mode"
-msgstr "DS12C887 RTC Einstellungen"
+msgstr "DS12C887 RTC Ausführungsmodus"
 
 #: src/arch/amigaos/intl_text.c.po.c:12020
 msgid "Enable DS12C887 RTC data saving"
@@ -9945,9 +9936,8 @@ msgid "Volume (0-100%)"
 msgstr "Lautstärke (0-100%)"
 
 #: src/arch/amigaos/intl_text.c.po.c:12398
-#, fuzzy
 msgid "Random tape wobble"
-msgstr "Bandlaufwerk zufälliges Bandeiern"
+msgstr "Zufälliges Bandeiern"
 
 #: src/arch/amigaos/intl_text.c.po.c:12468
 msgid "Mouse type"
@@ -9966,9 +9956,8 @@ msgid "Save to EasyFlash CRT file on detach"
 msgstr "EasyFlash CRT Imagedatei beim entfernen speichern"
 
 #: src/arch/amigaos/intl_text.c.po.c:12720
-#, fuzzy
 msgid "Optimize EasyFlash CRT when saving to file"
-msgstr "Imagedatei beim Speichern optimieren"
+msgstr "EasyFlash CRT beim Speichern optimieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:12734
 msgid "Save to EasyFlash CRT now"
@@ -9979,7 +9968,6 @@ msgid "Reset IEC bus with computer"
 msgstr "IEC mit Computer zurücksetzen"
 
 #: src/arch/amigaos/intl_text.c.po.c:12972
-#, fuzzy
 msgid "Kernal revision"
 msgstr "Kernal Revision"
 
@@ -10029,11 +10017,11 @@ msgstr "Screenshot Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:13504
 msgid "Running"
-msgstr ""
+msgstr "Laufend"
 
 #: src/arch/amigaos/intl_text.c.po.c:13518
 msgid "Halted"
-msgstr ""
+msgstr "Gestoppt"
 
 #: src/arch/amigaos/intl_text.c.po.c:13532
 msgid "Select SID file to load"
@@ -11520,14 +11508,14 @@ msgid "ClockPort RRNET already in use by %s."
 msgstr "Clockport RRNET bereits von %s benutzt."
 
 #: src/translate_text.c.po.c:4656
-#, fuzzy, c-format
+#, c-format
 msgid "ClockPort MP3@64 already in use by %s."
-msgstr "Clockport RRNET bereits von %s benutzt."
+msgstr "Clockport MP3@64 bereits von %s benutzt."
 
 #: src/translate_text.c.po.c:4673
-#, fuzzy, c-format
+#, c-format
 msgid "CS8900 already in use by %s."
-msgstr "Sample System bereits von %s benutzt."
+msgstr "CS8900 bereits von %s benutzt."
 
 #: src/translate_text.c.po.c:4692
 msgid "Enable opposite joystick directions"
@@ -12423,37 +12411,35 @@ msgstr "Größe der RAM Erweiterung. (128/256/512/1024/2048/4096/8192/16384)"
 msgid ""
 "Enable the Ethernet Cartridge in TFE (\"The Final Ethernet\") compatible "
 "mode and set default I/O address"
-msgstr ""
+msgstr "Aktiviere Ethernet Erweiterungsmodul in TFE (\"The Final Ethernet\") kompatiblen Modus und setze die Standard I/O Adresse"
 
 #: src/translate_text.c.po.c:8731
 msgid ""
 "Enable the Ethernet Cartridge in RR-Net compatible mode and set default I/O "
 "address"
 msgstr ""
+"Aktiviere Ethernet Erweiterungsmodul in RR-Net kompatiblen Modus uns\n"
+"setze die Standard I/O Adresse"
 
 #: src/translate_text.c.po.c:8748
-#, fuzzy
 msgid "Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)"
-msgstr "Expert Cartridge aktivieren"
+msgstr "Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET) aktivieren"
 
 #: src/translate_text.c.po.c:8765
-#, fuzzy
 msgid "Disable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)"
-msgstr "Expert Cartridge deaktivieren"
+msgstr "Ethernet Cartridge  (TFE/RR-Net/64NIC/FB-NET)deaktivieren"
 
 #: src/translate_text.c.po.c:8782
-#, fuzzy
 msgid "Base address of the Ethernet Cartridge"
-msgstr "Basis Adresse für DigiMAX Erweiterung"
+msgstr "Basis Adresse für Ethernet Erweiterungmodul"
 
 #: src/translate_text.c.po.c:8799
 msgid "Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)"
-msgstr ""
+msgstr "Modus des Ethernet Erweiterungsmoduls (0: TFE, 1: RR-Net)"
 
 #: src/translate_text.c.po.c:8816
-#, fuzzy
 msgid "Set the system ethernet interface"
-msgstr "Setze die System Ethernet Schnittstelle für die TFE Emulation"
+msgstr "Setze die System Ethernet Schnittstelle"
 
 #: src/translate_text.c.po.c:8834
 msgid "Reset machine if a cartridge is attached or detached"
