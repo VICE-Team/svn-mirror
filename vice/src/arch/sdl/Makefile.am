@@ -93,6 +93,8 @@ libarch_a_SOURCES = \
 	menu_drive_rom.h \
 	menu_ethernet.c \
 	menu_ethernet.h \
+	menu_ethernetcart.c \
+	menu_ethernetcart.h \
 	menu_ffmpeg.c \
 	menu_ffmpeg.h \
 	menu_help.c \
@@ -147,8 +149,6 @@ libarch_a_SOURCES = \
 	menu_speed.h \
 	menu_tape.c \
 	menu_tape.h \
-	menu_tfe.c \
-	menu_tfe.h \
 	menu_vic20cart.c \
 	menu_vic20cart.h \
 	menu_vic20hw.c \

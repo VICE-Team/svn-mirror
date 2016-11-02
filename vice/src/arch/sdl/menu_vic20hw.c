@@ -57,7 +57,7 @@
 
 #ifdef HAVE_PCAP
 #include "menu_ethernet.h"
-#include "menu_tfe.h"
+#include "menu_ethernetcart.h"
 #endif
 
 #include "resources.h"
@@ -272,10 +272,10 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ethernet_menu },
-    { CARTRIDGE_NAME_TFE " settings (MasC=uerade)",
+    { "Ethernet Cart settings (MasC=uerade)",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)tfe20_menu },
+      (ui_callback_data_t)ethernetcart20_menu },
 #endif
 #ifdef HAVE_MOUSE
     { "Paddle emulation",

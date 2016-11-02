@@ -57,7 +57,7 @@
 
 #ifdef HAVE_PCAP
 #include "menu_ethernet.h"
-#include "menu_tfe.h"
+#include "menu_ethernetcart.h"
 #endif
 
 #include "uimenu.h"
@@ -221,10 +221,10 @@ const ui_menu_entry_t scpu64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ethernet_menu },
-    { CARTRIDGE_NAME_TFE " settings",
+    { "Ethernet Cart settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)tfe_menu },
+      (ui_callback_data_t)ethernetcart_menu },
 #endif
     { "Burst Mode Modification",
       MENU_ENTRY_SUBMENU,

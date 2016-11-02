@@ -1,8 +1,9 @@
 /*
- * menu_tfe.h - TFE menu for SDL UI.
+ * menu_ethernetcart.h - Ethernet Cart menu for SDL UI.
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,14 +25,14 @@
  *
  */
 
-#ifndef VICE_MENU_TFE_H
-#define VICE_MENU_TFE_H
+#ifndef VICE_MENU_ETHERNETCART_H
+#define VICE_MENU_ETHERNETCART_H
 
 #include "vice.h"
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t tfe_menu[];
-extern const ui_menu_entry_t tfe20_menu[];
+extern const ui_menu_entry_t ethernetcart_menu[];
+extern const ui_menu_entry_t ethernetcart20_menu[];
 
 #endif
