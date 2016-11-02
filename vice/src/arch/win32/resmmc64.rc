@@ -101,8 +101,8 @@ BEGIN
   IDS_MMC64_IMAGE_RO         "MMC/SD Image Schreibschutz"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD Image Name"
   IDS_MMC64_SDTYPE_LABEL     "Card Typ"
-  IDS_MMC64_BIOS_SELECT_FILE "Select file for MMC64 BIOS"
-  IDS_MMC64_CARD_SELECT_FILE "Select file for MMC64 card image"
+  IDS_MMC64_BIOS_SELECT_FILE "Datei für MMC64 BIOS auswählen"
+  IDS_MMC64_CARD_SELECT_FILE "Datei für MMC64 Kartenimage auswählen"
 END
 
 

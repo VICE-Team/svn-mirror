@@ -64,11 +64,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_GMOD2_CAPTION             "GMod2 settings"
-  IDS_GMOD2_EEPROMIMAGE_LABEL   "EEPROM Image Datei"
-  IDS_GMOD2_FLASH_READ_WRITE    "Flash read/write"
-  IDS_GMOD2_EEPROM_READ_WRITE   "Save GMod2 EEPROM when changed"
-  IDS_GMOD2_EEPROM_SELECT_FILE  "Select file for GMod2 EEPROM image"
+  IDS_GMOD2_CAPTION             "GMod2 Einstellungen"
+  IDS_GMOD2_EEPROMIMAGE_LABEL   "EEPROM Imagedatei"
+  IDS_GMOD2_FLASH_READ_WRITE    "Flahs lese/schreibe"
+  IDS_GMOD2_EEPROM_READ_WRITE   "GMod2 EEPROM bei Änderung speichern"
+  IDS_GMOD2_EEPROM_SELECT_FILE  "Imagedatei für GMod2 EEPROM auswählen"
 END
 
 

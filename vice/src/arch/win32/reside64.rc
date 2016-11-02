@@ -154,14 +154,14 @@ BEGIN
     IDS_IDE64_VERSION               "IDE64 V4 aktivieren"
     IDS_IDE64_USB_SERVER            "IDE64 USB Server aktivieren"
     IDS_IDE64_RTC_SAVE              "IDE64 RTC Daten bei Änderung speichern"
-    IDS_IDE64_IMAGE                 "ATA Gerät Image Datei"
+    IDS_IDE64_IMAGE                 "ATA Gerät Imagedatei"
     IDS_IDE64_GEOMETRY              "Geometrie"
     IDS_IDE64_AUTODETECT            "Image Größe automatisch erkennen"
     IDS_IDE64_CYLINDERS             "Zylinder"
     IDS_IDE64_HEADS                 "Köpfe"
     IDS_IDE64_SECTORS               "Sektoren"
     IDS_IDE64_TOTAL_SIZE            "Gesamtgröße: %iKB"
-    IDS_IDE64_SELECT_IMAGE          "ATA Gerät Image Datei auswählen"
+    IDS_IDE64_SELECT_IMAGE          "ATA Gerät Imagedatei auswählen"
     IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server Adresse"
 END
 

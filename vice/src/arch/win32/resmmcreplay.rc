@@ -87,14 +87,14 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MMCREPLAY_CAPTION             "MMC Replay Einstellungen"
-  IDS_MMCREPLAY_CARDIMAGE_LABEL     "Card Image Datei"
-  IDS_MMCREPLAY_EEPROMIMAGE_LABEL   "EEPROM Image Datei"
+  IDS_MMCREPLAY_CARDIMAGE_LABEL     "Card Imagedatei"
+  IDS_MMCREPLAY_EEPROMIMAGE_LABEL   "EEPROM Imagedatei"
   IDS_MMCREPLAY_RESCUEMODE          "Rescue Modus"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card Typ"
   IDS_MMCREPLAY_READ_WRITE          "lese/schreibe"
   IDS_MMCREPLAY_WRITE_ENABLE        "MMC Replay EEPROM bei Änderung speichern"
-  IDS_MMCREPLAY_CARD_SELECT_FILE    "Select file for MMC Replay card image"
-  IDS_MMCREPLAY_EEPROM_SELECT_FILE  "Select file for MMC Replay EEPROM image"
+  IDS_MMCREPLAY_CARD_SELECT_FILE    "Datei für MMC Replay Kartenimage auswählen"
+  IDS_MMCREPLAY_EEPROM_SELECT_FILE  "Datei für MMC Replay EEPROM Image auswählen"
 END
 
 

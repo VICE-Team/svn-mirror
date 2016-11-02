@@ -12429,13 +12429,17 @@ msgstr ""
 msgid ""
 "Enable the Ethernet Cartridge in TFE (\"The Final Ethernet\") compatible "
 "mode and set default I/O address"
-msgstr "Activeer de Ethernet Cartridge in TFE (\"The Final Ethernet\") compatibel modus en zet het standaard I/O adres"
+msgstr ""
+"Activeer de Ethernet Cartridge in TFE (\"The Final Ethernet\") compatibel "
+"modus en zet het standaard I/O adres"
 
 #: src/translate_text.c.po.c:8731
 msgid ""
 "Enable the Ethernet Cartridge in RR-Net compatible mode and set default I/O "
 "address"
-msgstr "Activeer de Ethernet Cartridge in RR-Net compatibel modus en zet het standaard I/O adres"
+msgstr ""
+"Activeer de Ethernet Cartridge in RR-Net compatibel modus en zet het "
+"standaard I/O adres"
 
 #: src/translate_text.c.po.c:8748
 msgid "Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)"
