@@ -743,9 +743,14 @@ int ui_init(int *argc, char **argv)
     prepare_wm_command_data(*argc, argv);
 
     /* Create the toplevel. */
+    /* Using `sessionShellWidgetClass` in this call works with some WM's, but
+     * causes the UI init to hang later on other WM's
+     *
+     * Xfce4, Mate and Cinnamon on Debian 8.6 failed, OpenBox worked. -- BW
+     */
     _ui_top_level = XtOpenApplication(&app_context, "VICE", NULL, 0,
             argc, argv, fallback_resources + skip_resources,
-            sessionShellWidgetClass, NULL, 0);
+            applicationShellWidgetClass, NULL, 0);
     if (!_ui_top_level) {
         return -1;
     }
