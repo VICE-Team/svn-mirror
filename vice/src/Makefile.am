@@ -630,9 +630,9 @@ translate.h translate_table.h:	$(srcdir)/translate.txt $(builddir)/gentranslate
 	echo "generating translate.h..."
 	$(builddir)/gentranslate $(srcdir)/translate.txt ./translate.h ./translate_table.h
 else
-translate.h:	$(srcdir)/translate.txt ./gentranslate_h.sh
+translate.h:	$(srcdir)/translate.txt $(srcdir)/gentranslate_h.sh
 	echo "generating translate.h..."
-	$(SHELL) ./gentranslate_h.sh $(DEBUGBUILD) <$(srcdir)/translate.txt >translate.h
+	$(SHELL) $(srcdir)/gentranslate_h.sh $(DEBUGBUILD) <$(srcdir)/translate.txt >translate.h
 endif
 
 if OWCC
