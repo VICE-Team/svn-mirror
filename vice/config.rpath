@@ -247,7 +247,7 @@ if test "$with_gnu_ld" = yes; then
           ;;
         *)
           if $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
-            hardcode_libdir_flag_spec=`test -z "$SCOABSPATH" && echo "${wl}-rpath,$VICELIBDIR"`'
+            hardcode_libdir_flag_spec=`test -z '$SCOABSPATH' && echo "${wl}-rpath,$VICELIBDIR"`
           else
             ld_shlibs=no
           fi
@@ -504,11 +504,11 @@ else
     sysv4*uw2* | sysv5OpenUNIX* | sysv5UnixWare7.[01].[10]* | unixware7* | sco3.2v5.0.[024]*)
       ;;
     sysv5* | sco3.2v5* | sco5v6*)
-      hardcode_libdir_flag_spec='`test -z "$SCOABSPATH" && echo "${wl}-R,$VICELIBDIR"`'
+      hardcode_libdir_flag_spec=`test -z '$SCOABSPATH' && echo "${wl}-R,$VICELIBDIR"`
       hardcode_libdir_separator=':'
       ;;
     uts4*)
-      hardcode_libdir_flag_spec='-L$libdir'
+      hardcode_libdir_flag_spec="-L$VICELIBDIR"
       ;;
     *)
       ld_shlibs=no
