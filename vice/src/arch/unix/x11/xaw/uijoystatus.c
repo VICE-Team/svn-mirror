@@ -59,7 +59,7 @@ static const char *joynames[JOYSTICK_NUM] = {
 
 void ui_display_joystick_status_widget(int joystick_number, int status)
 {
-    int i, n;
+    int i;
     int upjoy = 0, sidjoy = 0, typejoy = USERPORT_JOYSTICK_HUMMER;
     int num_app_shells = get_num_shells();
 
@@ -90,7 +90,7 @@ void ui_display_joystick_status_widget(int joystick_number, int status)
         Widget ds = app_shells[i].joystick_status[joystick_number];
 
         if (ds != None) {
-            Arg			args[1];
+            Arg                 args[1];
             Widget              show[JOYSTICK_NUM];
             Widget              hide[JOYSTICK_NUM];
             int                 showcnt, hidecnt;
@@ -184,15 +184,15 @@ void build_joystick_status_widgets(app_shell_type *as, Widget parent)
 
         as->joystick_status[i] =
             XtVaCreateManagedWidget(joynames[i],
-				   joystickWidgetClass, parent,
-				   XtNwidth, 21,
-				   XtNheight, 21,
-				   XtNenableBits, 0,
-				   XtNoffColor, drive_led_off_pixel,
-				   XtNdirectionColor, drive_led_on_green_pixel,
-                                   XtNfireColor, drive_led_on_red_pixel,
-				   XtNborderWidth, 0,
-				   NULL);
+                    joystickWidgetClass, parent,
+                    XtNwidth, 21,
+                    XtNheight, 21,
+                    XtNenableBits, 0,
+                    XtNoffColor, drive_led_off_pixel,
+                    XtNdirectionColor, drive_led_on_green_pixel,
+                    XtNfireColor, drive_led_on_red_pixel,
+                    XtNborderWidth, 0,
+                    NULL);
     }
 }
 
