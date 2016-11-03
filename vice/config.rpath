@@ -194,7 +194,7 @@ if test "$with_gnu_ld" = yes; then
         powerpc)
           ;;
         m68k)
-          hardcode_libdir_flag_spec='-L$libdir'
+          hardcode_libdir_flag_spec="-L$VICELIBDIR"
           hardcode_minus_L=yes
           ;;
       esac
@@ -209,7 +209,7 @@ if test "$with_gnu_ld" = yes; then
     cygwin* | mingw* | pw32* | cegcc*)
       # hardcode_libdir_flag_spec is actually meaningless, as there is
       # no search path for DLLs.
-      hardcode_libdir_flag_spec='-L$libdir'
+      hardcode_libdir_flag_spec="-L$VICELIBDIR"
       if $LD --help 2>&1 | grep 'auto-import' > /dev/null; then
         :
       else
@@ -220,7 +220,7 @@ if test "$with_gnu_ld" = yes; then
       ;;
     interix[3-9]*)
       hardcode_direct=no
-      hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
+      hardcode_libdir_flag_spec="${wl}-rpath,$VICELIBDIR"
       ;;
     gnu* | linux* | tpf* | k*bsd*-gnu | kopensolaris*-gnu)
       if $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
@@ -247,7 +247,7 @@ if test "$with_gnu_ld" = yes; then
           ;;
         *)
           if $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
-            hardcode_libdir_flag_spec='`test -z "$SCOABSPATH" && echo ${wl}-rpath,$libdir`'
+            hardcode_libdir_flag_spec=`test -z "$SCOABSPATH" && echo "${wl}-rpath,$VICELIBDIR"`'
           else
             ld_shlibs=no
           fi
@@ -314,7 +314,7 @@ else
             # We have old collect2
             hardcode_direct=unsupported
             hardcode_minus_L=yes
-            hardcode_libdir_flag_spec='-L$libdir'
+            hardcode_libdir_flag_spec="-L$VICELIBDIR"
             hardcode_libdir_separator=
           fi
           ;;
@@ -335,12 +335,12 @@ else
       rm -f conftest.c conftest
       # End _LT_AC_SYS_LIBPATH_AIX.
       if test "$aix_use_runtimelinking" = yes; then
-        hardcode_libdir_flag_spec='${wl}-blibpath:$libdir:'"$aix_libpath"
+        hardcode_libdir_flag_spec="${wl}-blibpath:$VICELIBDIR:$aix_libpath"
       else
         if test "$host_cpu" = ia64; then
-          hardcode_libdir_flag_spec='${wl}-R $libdir:/usr/lib:/lib'
+          hardcode_libdir_flag_spec="${wl}-R $VICELIBDIR:/usr/lib:/lib"
         else
-          hardcode_libdir_flag_spec='${wl}-blibpath:$libdir:'"$aix_libpath"
+          hardcode_libdir_flag_spec="${wl}-blibpath:$VICELIBDIR:$aix_libpath"
         fi
       fi
       ;;
@@ -349,7 +349,7 @@ else
         powerpc)
           ;;
         m68k)
-          hardcode_libdir_flag_spec='-L$libdir'
+          hardcode_libdir_flag_spec="-L$VICELIBDIR"
           hardcode_minus_L=yes
           ;;
       esac
@@ -373,10 +373,10 @@ else
       fi
       ;;
     dgux*)
-      hardcode_libdir_flag_spec='-L$libdir'
+      hardcode_libdir_flag_spec="-L$VICELIBDIR"
       ;;
     freebsd2.2*)
-      hardcode_libdir_flag_spec='-R$libdir'
+      hardcode_libdir_flag_spec="-R$VICELIBDIR"
       hardcode_direct=yes
       ;;
     freebsd2*)
@@ -384,11 +384,11 @@ else
       hardcode_minus_L=yes
       ;;
     freebsd* | dragonfly*)
-      hardcode_libdir_flag_spec='-R$libdir'
+      hardcode_libdir_flag_spec="-R$VICELIBDIR"
       hardcode_direct=yes
       ;;
     hpux9*)
-      hardcode_libdir_flag_spec='${wl}+b ${wl}$libdir'
+      hardcode_libdir_flag_spec="${wl}+b ${wl}$VICELIBDIR"
       hardcode_libdir_separator=:
       hardcode_direct=yes
       # hardcode_minus_L: Not really in the search PATH,
@@ -397,7 +397,7 @@ else
       ;;
     hpux10*)
       if test "$with_gnu_ld" = no; then
-        hardcode_libdir_flag_spec='${wl}+b ${wl}$libdir'
+        hardcode_libdir_flag_spec="${wl}+b ${wl}$VICELIBDIR"
         hardcode_libdir_separator=:
         hardcode_direct=yes
         # hardcode_minus_L: Not really in the search PATH,
@@ -407,7 +407,7 @@ else
       ;;
     hpux11*)
       if test "$with_gnu_ld" = no; then
-        hardcode_libdir_flag_spec='${wl}+b ${wl}$libdir'
+        hardcode_libdir_flag_spec="${wl}+b ${wl}$VICELIBDIR"
         hardcode_libdir_separator=:
         case $host_cpu in
           hppa*64*|ia64*)
@@ -423,16 +423,16 @@ else
       fi
       ;;
     irix5* | irix6* | nonstopux*)
-      hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
+      hardcode_libdir_flag_spec="${wl}-rpath ${wl}$VICELIBDIR"
       hardcode_libdir_separator=:
       ;;
     netbsd*)
-      hardcode_libdir_flag_spec='-R$libdir'
+      hardcode_libdir_flag_spec="-R$VICELIBDIR"
       hardcode_direct=yes
       ;;
     newsos6)
       hardcode_direct=yes
-      hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
+      hardcode_libdir_flag_spec="${wl}-rpath ${wl}$VICELIBDIR"
       hardcode_libdir_separator=:
       ;;
     *nto* | *qnx*)
@@ -441,14 +441,14 @@ else
       if test -f /usr/libexec/ld.so; then
         hardcode_direct=yes
         if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
-          hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
+          hardcode_libdir_flag_spec="${wl}-rpath,$VICELIBDIR"
         else
           case "$host_os" in
             openbsd[01].* | openbsd2.[0-7] | openbsd2.[0-7].*)
-              hardcode_libdir_flag_spec='-R$libdir'
+              hardcode_libdir_flag_spec="-R$VICELIBDIR"
               ;;
             *)
-              hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
+              hardcode_libdir_flag_spec="${wl}-rpath,$VICELIBDIR"
               ;;
           esac
         fi
@@ -457,27 +457,27 @@ else
       fi
       ;;
     os2*)
-      hardcode_libdir_flag_spec='-L$libdir'
+      hardcode_libdir_flag_spec="-L$VICELIBDIR"
       hardcode_minus_L=yes
       ;;
     osf3*)
-      hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
+      hardcode_libdir_flag_spec="${wl}-rpath ${wl}$VICELIBDIR"
       hardcode_libdir_separator=:
       ;;
     osf4* | osf5*)
       if test "$GCC" = yes; then
-        hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
+        hardcode_libdir_flag_spec="${wl}-rpath ${wl}$VICELIBDIR"
       else
         # Both cc and cxx compiler support -rpath directly
-        hardcode_libdir_flag_spec='-rpath $libdir'
+        hardcode_libdir_flag_spec="-rpath $VICELIBDIR"
       fi
       hardcode_libdir_separator=:
       ;;
     solaris*)
-      hardcode_libdir_flag_spec='-R$libdir'
+      hardcode_libdir_flag_spec="-R$VICELIBDIR"
       ;;
     sunos4*)
-      hardcode_libdir_flag_spec='-L$libdir'
+      hardcode_libdir_flag_spec="-L$VICELIBDIR"
       hardcode_direct=yes
       hardcode_minus_L=yes
       ;;
@@ -504,7 +504,7 @@ else
     sysv4*uw2* | sysv5OpenUNIX* | sysv5UnixWare7.[01].[10]* | unixware7* | sco3.2v5.0.[024]*)
       ;;
     sysv5* | sco3.2v5* | sco5v6*)
-      hardcode_libdir_flag_spec='`test -z "$SCOABSPATH" && echo ${wl}-R,$libdir`'
+      hardcode_libdir_flag_spec='`test -z "$SCOABSPATH" && echo "${wl}-R,$VICELIBDIR"`'
       hardcode_libdir_separator=':'
       ;;
     uts4*)
