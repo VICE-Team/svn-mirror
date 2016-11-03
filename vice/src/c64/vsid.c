@@ -114,6 +114,12 @@ int machine_resources_init(void)
         init_resource_fail("debug cart");
         return -1;
     }
+#ifdef DEBUG
+    if (debug_resources_init() < 0) {
+        init_resource_fail("debug");
+        return -1;
+    }
+#endif
     return 0;
 }
 

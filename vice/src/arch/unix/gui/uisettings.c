@@ -460,8 +460,39 @@ ui_menu_entry_t debug_settings_submenu[] = {
     { NULL }
 };
 
+ui_menu_entry_t debug_settings_submenu_vsid[] = {
+    { N_("Trace Mode"), UI_MENU_TYPE_NORMAL, NULL, NULL, debug_tracemode_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Main CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL },
+#if 0
+    { "--", UI_MENU_TYPE_SEPARATOR },
+
+    { N_("Drive0 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive0CPU_TRACE, NULL, NULL },
+    { N_("Drive1 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive1CPU_TRACE, NULL, NULL },
+    { N_("Drive2 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive2CPU_TRACE, NULL, NULL },
+    { N_("Drive3 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive3CPU_TRACE, NULL, NULL },
+#endif
+    { "--", UI_MENU_TYPE_SEPARATOR }, /* replaced by extra items in XY_dynamic_menu_create() (eg DTV) */
+    { N_("Autoplay playback frames"), UI_MENU_TYPE_DOTS, (ui_callback_t)set_auto_playback_frames, NULL, NULL },
+    { N_("Save core dump"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_DoCoreDump, NULL, NULL },
+    { NULL }
+};
+
+
+
+
 ui_menu_entry_t ui_debug_settings_menu[] = {
     { N_("Debug settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, debug_settings_submenu },
     { NULL }
 };
+
+
+ui_menu_entry_t ui_debug_settings_menu_vsid[] = {
+    { N_("Debug settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, debug_settings_submenu_vsid },
+    { NULL }
+};
+
+
+
+
 #endif

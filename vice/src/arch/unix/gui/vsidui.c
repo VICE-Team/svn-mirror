@@ -395,7 +395,7 @@ static ui_menu_entry_t vsidui_right_menu[] = {
       NULL, NULL, ui_help_commands_menu },
 #ifdef DEBUG
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_debug_settings_menu },
+      NULL, NULL, ui_debug_settings_menu_vsid },
 #endif
     { NULL }
 };
@@ -436,7 +436,7 @@ static ui_menu_entry_t vsidui_top_menu[] = {
       NULL, NULL, vsidui_settings_menu },
 #ifdef DEBUG
     { N_("Debug"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, debug_settings_submenu },
+      NULL, NULL, debug_settings_submenu_vsid },
 #endif
     /* Translators: RJ means right justify and should be
         saved in your tranlation! e.g. german "RJHilfe" */
