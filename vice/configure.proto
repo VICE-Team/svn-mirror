@@ -319,6 +319,22 @@ user_cflags=$CFLAGS
 AC_PROG_CC([gcc clang cc])
 AC_LIB_PROG_LD
 
+
+dnl Add runtime/linker paths for OpenIndiana
+case "$host_os" in
+  solaris*)
+    CPPFLAGS="$CPPFLAGS -I/usr/gnu/include"
+    solrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" /usr/gnu/bin/ld yes "$host" "/usr/gnu/lib"`
+    LDFLAGS="$LDFLAGS $solrtp -L/usr/gnu/lib"
+    if test -d "/opt/csw"; then
+      CPPFLAGS="$CPPFLAGS -I/opt/csw/include"
+      solrtp_csw=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" /usr/gnu/bin/ld yes "$host" "/opt/csw/lib"`
+      LDFLAGS="$LDFLAGS $solrtp_csw -L/opt/csw/lib"
+    fi
+    ;;
+esac
+
+
 dnl Add runtime/linker paths for *BSD
 case "$host_os" in
   freebsd*)

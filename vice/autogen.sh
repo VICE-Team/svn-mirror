@@ -179,7 +179,7 @@ buildfiles() {
     if [ -f configure.ac ] || [ -f configure.in ]; then
 
         for A in $FILES_TO_REMEMBER; do
-            [ -e $A ] && mv $A $A.backup
+            [ -e $A ] && mv -f $A $A.backup
         done
 
         do_aclocal
@@ -191,7 +191,7 @@ buildfiles() {
         # Restore the files which should not be overwritten
 
         for A in $FILES_TO_REMEMBER; do
-            [ -e $A ] && mv $A.backup $A
+            [ -e $A ] && mv -f $A.backup $A
         done
     fi
 }
