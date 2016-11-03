@@ -664,4 +664,11 @@ escaped_libname_spec=`echo "X$libname_spec" | sed -e 's/^X//' -e "$sed_quote_sub
 escaped_library_names_spec=`echo "X$library_names_spec" | sed -e 's/^X//' -e "$sed_quote_subst"`
 escaped_hardcode_libdir_flag_spec=`echo "X$hardcode_libdir_flag_spec" | sed -e 's/^X//' -e "$sed_quote_subst"`
 
+if test x"$escaped_hardcode_libdir_flag_spec" = "x"; then
+    case "$host_os" in
+        solaris*)
+            escaped_hardcode_libdir_flag_spec="-R$libname"
+    esac
+fi
+
 echo "$escaped_hardcode_libdir_flag_spec"
