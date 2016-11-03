@@ -1,5 +1,1469 @@
 ------------------------------------------------------------------------------
 
+2016-11-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	ChangeLog, configure.proto, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.txt, po/da.po,
+	po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h, src/vice-version.sh:
+	VICE 2.4.32
+
+2016-11-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.rpath: Fixed quotation.
+
+2016-11-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.rpath: Fixed escaping.
+
+2016-11-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.rpath: Re-added solaris exception.
+
+2016-11-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.rpath: Fixed in general, host was re-set.
+
+2016-11-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Applied patch #136 by Uffe Jakobsen: When
+	performing out-of-tree cross compiles gentranslate_h.sh could not be
+	found because of its path (./gentranslate_h.sh) - this patch simply
+	changes "." to "$(srcdir)".
+
+2016-11-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.rpath: Slight update for solaris.
+
+2016-11-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Fix Xaw UI init failure with some
+	session managers
+
+2016-11-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uisettings.c, src/arch/unix/gui/uisettings.h,
+	src/arch/unix/gui/vsidui.c, src/c64/vsid.c: Add debug resource init to
+	vsid, update *nix UI for vsid to not display drive CPU items
+
+2016-11-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* autogen.sh, configure.proto: Update build system to support
+	OpenIndiana
+
+2016-11-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/xaw/uijoystatus.c: Fix warning, convert tabs to
+	spaces
+
+2016-11-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/cbm5x0ui.cc, src/arch/beos/constants.txt,
+	src/arch/beos/petui.cc, src/arch/beos/plus4ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/ui.cc,
+	src/arch/beos/ui_joystick.cc, src/arch/beos/ui_joystick.h,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Fixed BeVICE
+	Joyport/Joystick menus and dialogs.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/resgmod2.rc, src/arch/win32/reside64.rc,
+	src/arch/win32/resjoyport.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resvic20.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did yet another 'make update-po'.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate_text.c: Fixed some items.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Partly updated.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did another 'make update-po'.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uiethernetcart.c: Removed N_(...) from items that
+	don't need translation and added missing elements to the vic20
+	ethernetcart menu.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uisidc128.c, src/arch/msdos/uisidcart.c,
+	src/arch/msdos/uisidcbm2.c, src/arch/msdos/uisiddtv.c: Some more
+	fixes.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uisidc64.c: Fixed.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am: Removed non-existing items.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am: Fixed rename in makefile.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uic64scmodel.c: Fixed.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uic64model.c, src/arch/msdos/uic64scmodel.c: Added
+	some more missing includes.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uic64model.c: Added missing include.
+
+2016-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_c128hw.c,
+	src/arch/sdl/menu_c64hw.c, src/arch/sdl/menu_ethernetcart.c,
+	src/arch/sdl/menu_ethernetcart.h, src/arch/sdl/menu_scpu64hw.c,
+	src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_tfe.h,
+	src/arch/sdl/menu_vic20hw.c, src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/sdl/x128_ui.c,
+	src/arch/sdl/x64_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xscpu64_ui.c, src/arch/win32/vs_tmpl/arch_sdl.tmpl:
+	Changed tfe items to ethernet cart items in the sdl gui.
+
+2016-11-02  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Summary: Updated.
+
+2016-11-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/ps-file.c: Fix typo
+
+2016-11-02  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/pet/pet.c, src/plus4/plus4.c,
+	src/scpu64/scpu64.c, src/vic20/vic20.c: do not call gui shutdown in
+	console mode
+
+2016-11-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uiethernetcart.c: Be more explicit when
+	determining machine type
+
+2016-11-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* autogen.sh: Replace tabs with spaces, make indentation four spaces
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/scpu64ui.c,
+	src/arch/msdos/uiethernetcart.c, src/arch/msdos/uiethernetcart.h,
+	src/arch/msdos/uitfe.c, src/arch/msdos/uitfe.h,
+	src/arch/msdos/vic20ui.c: Changed tfe items to ethernet cart items in
+	the dos tui.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.txt, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc: Added vic20 vfli items to the beos gui.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: 'Is'->'Was'.
+
+2016-11-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto, doc/vice.texi, src/arch/amigaos/c128ui.c,
+	src/arch/amigaos/c128uires.h, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/rawnetarch.c,
+	src/arch/amigaos/scpu64ui.c, src/arch/amigaos/scpu64uires.h,
+	src/arch/android/AnVICE/config.android.h, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/rawnetarch.c,
+	src/arch/msdos/scpu64ui.c, src/arch/msdos/uiide64.c,
+	src/arch/msdos/uitfe.c, src/arch/msdos/uitfe.h,
+	src/arch/msdos/vic20ui.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.rc, src/arch/os2/rawnetarch.c,
+	src/arch/os2/watcom/ide-config.h, src/arch/sdl/menu_c128hw.c,
+	src/arch/sdl/menu_c64_common_expansions.c, src/arch/sdl/menu_c64hw.c,
+	src/arch/sdl/menu_ethernet.c, src/arch/sdl/menu_scpu64hw.c,
+	src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_vic20hw.c,
+	src/arch/sdl/msvc-files/ide-config-mips.h,
+	src/arch/sdl/msvc-files/ide-config-sdl2.h,
+	src/arch/sdl/msvc-files/ide-config.h, src/arch/sdl/rawnetarch.c,
+	src/arch/sdl/win32-watcom/ide-config.h, src/arch/sdl/x128_ui.c,
+	src/arch/sdl/x64_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xscpu64_ui.c, src/arch/sdl/xvic_ui.c,
+	src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uiethernetcart.c, src/arch/unix/gui/uiide64.c,
+	src/arch/unix/gui/vic20ui.c, src/arch/unix/rawnetarch.c,
+	src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/msvc/ide-config.h, src/arch/win32/rawnetarch.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/ui.c, src/arch/win32/uitfe.c, src/arch/win32/uitfe.h,
+	src/arch/win32/vic20ui.c, src/c64/cart/c64cart.c,
+	src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	src/c64/cart/clockport-rrnet.c, src/c64/cart/clockport.c,
+	src/c64/cart/crt.c, src/c64/cart/cs8900io.c, src/c64/cart/cs8900io.h,
+	src/c64/cart/ethernetcart.c, src/c64/cart/ethernetcart.h,
+	src/c64/cart/rrnetmk3.c, src/c64/cart/shortbus.c,
+	src/c64/cart/shortbus_etfe.c, src/c64/cart/shortbus_etfe.h,
+	src/core/cs8900.c, src/core/cs8900.h, src/rawnet.c, src/rawnet.h,
+	src/rawnetarch.h, src/translate.txt, src/translate_text.c,
+	src/vic20/cart/vic20cart.c, src/vic20/cart/vic20cartmem.c,
+	src/vicefeatures.c: Change HAVE_TFE to HAVE_PCAP
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc: Added another missing include.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc: Added missing include.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.txt,
+	src/arch/beos/vicemenu.cc: Fixed the x64, x64sc and xscpu64 model
+	items and custom model items in the beos gui.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/scpu64ui.c, src/arch/amigaos/scpu64uires.h,
+	src/arch/amigaos/uires.h: Added SS5 32K addon items to the amiga gui.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uieasyflash.c: Added easyflash crt optimize items
+	to the amiga gui.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uidatasette.c: Added tape wobble items to the
+	amiga gui.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64dtvui.c, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uivicii.c, src/arch/amigaos/mui/uivicii.h,
+	src/arch/amigaos/scpu64ui.c: Added VSP bug item to the amiga gui.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uids12c887rtc.c: Added ds12c887 run mode items to
+	the amiga gui.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/vice_xvic/Android.mk.proto: Fixed xvic
+	android build.
+
+2016-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/vice_xscpu64/Android.mk.proto: Fixed
+	xscpu64 android build.
+
+2016-11-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: Add proper unit/device checks and tilde
+	expansion to unlynx_cmd(), update docs
+
+2016-11-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Fix validate_cmd(): reject unit 12+, don't segfault
+
+2016-11-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: Some c1541 updates
+
+2016-10-31  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uivicii.c: added missing handling for menu
+	updates, fixes bug #806
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c64model.c: Fixed the x64, x64sc and xscpu64 model
+	items and custom model items in the sdl gui.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/vice_xplus4/Android.mk.proto: Fixed xplus4
+	android build.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/locnet_xpet/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xpet/Android.mk.proto: Fixed the xpet
+	android build.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c64ui.c,
+	src/arch/msdos/uic64model.c, src/arch/msdos/uic64scmodel.c,
+	src/arch/msdos/uic64scmodel.h, src/arch/msdos/uiscpu64model.c: Fixed
+	the x64, x64sc and xscpu64 model items and custom model items in the
+	dos tui.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64ui.c, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/Makefile.am,
+	src/arch/amigaos/mui/uic64model.c,
+	src/arch/amigaos/mui/uic64scmodel.c,
+	src/arch/amigaos/mui/uic64scmodel.h,
+	src/arch/amigaos/mui/uiscpu64model.c,
+	src/arch/amigaos/mui/uiscpu64model.h, src/arch/amigaos/scpu64ui.c:
+	Fixed the x64, x64sc and xscpu64 model items and custom model items in
+	the amiga gui.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Fixed the x64, x64sc and xscpu64
+	model items and custom model items in the os/2 gui.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/locnet_xcbm5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm5x0/Android.mk.proto: Fixed
+	android xcbm5x0 build.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added 'jam action' items to the os/2
+	gui.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/locnet_xcbm2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm2_5x0/Android.mk.proto: Fixed
+	xcbm2 android build.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/vice_x128/Android.mk.proto: Fixed android
+	x128 build.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_x128_2_5x0_pet,
+	src/arch/android/AnVICE/jni/vice_x64_128_5x0,
+	src/arch/android/AnVICE/jni/vice_x64_dtv_128_5x0,
+	src/arch/android/AnVICE/jni/vice_x64_sc,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128_2_5x0_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_5x0_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_4,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_5x0_4_20,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_xcbm2_5x0: Added some svn ignores.
+
+2016-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am: Fixed.
+
+2016-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/vice_x64sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu/Android.mk.proto: Fixed
+	for android x64sc.
+
+2016-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/jni/vice_x64dtv/Android.mk.proto: Fixed
+	android x64dtv build.
+
+2016-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/sounddrv.tgt, src/arch/os2/watcom/vice.wpj:
+	Removed soundmmos2 from the os/2 ow project files.
+
+2016-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_x128_2_5x0_pet,
+	src/arch/android/AnVICE/jni/vice_x64_128_5x0,
+	src/arch/android/AnVICE/jni/vice_x64_dtv_128_5x0,
+	src/arch/android/AnVICE/jni/vice_x64_sc,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128_2_5x0_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_5x0_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_4,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_5x0_4_20,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_xcbm2_5x0: Added some svn ignores.
+
+2016-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed.
+
+2016-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, configure.proto,
+	src/arch/android/AnVICE/config.android.h,
+	src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_x128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_x64dtv/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_x64sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xcbm2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xcbm5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xpet/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xplus4/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xscpu64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_128_5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_dtv_128_5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128_2_5x0_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_5x0_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_20/Android.mk.proto:
+	Fixed for android x64 build.
+
+2016-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS, doc/vice.texi, src/infocontrib.sed: Some more 3.0 updates.
+
+2016-10-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: c1541: Update verbose command to accept
+	optional 'off' argument, update man page
+
+2016-10-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: c1541: update name_cmd, add documentation
+	to man page
+
+2016-10-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1: Some c1541 man page updates
+
+2016-10-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/c128ui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/cbm5x0ui.cc, src/arch/beos/constants.txt,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/ui_cia.cc,
+	src/arch/beos/ui_cia.h, src/arch/beos/vicemenu.cc: Added a CIA
+	settings dialog to BeVICE.
+
+2016-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/jpegdrv.c, src/gfxoutputdrv/pngdrv.c: Guarded.
+
+2016-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/gifdrv.c: Guarded.
+
+2016-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/serial/realdevice.c: Guarded.
+
+2016-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am: Fixed.
+
+2016-10-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, src/imagecontents/imagecontents.c, src/imagecontents.h:
+	c1541: Add proper (sub)pattern and file type matching for the dir/list
+	command. Sub patterns can now be specified using comma's and file
+	types can be matched by appending '=[PRSU]' to a (sub) pattern.
+
+2016-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, configure.proto,
+	src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_x128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_x64dtv/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_x64sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xcbm2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xcbm5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xpet/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xplus4/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xscpu64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xvic/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_c64cart,
+	src/arch/android/AnVICE/jni/vice_c64exp,
+	src/arch/android/AnVICE/jni/vice_cbm2common,
+	src/arch/android/AnVICE/jni/vice_common,
+	src/arch/android/AnVICE/jni/vice_commonall,
+	src/arch/android/AnVICE/jni/vice_commoncart,
+	src/arch/android/AnVICE/jni/vice_crtc,
+	src/arch/android/AnVICE/jni/vice_iec,
+	src/arch/android/AnVICE/jni/vice_ieeepar,
+	src/arch/android/AnVICE/jni/vice_joyport,
+	src/arch/android/AnVICE/jni/vice_tape,
+	src/arch/android/AnVICE/jni/vice_vicii,
+	src/arch/android/AnVICE/jni/vice_viciisc,
+	src/arch/android/AnVICE/jni/vice_x128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x128_2_5x0_pet,
+	src/arch/android/AnVICE/jni/vice_x128_2_5x0_pet/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x128_2_5x0_pet/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_128_5x0,
+	src/arch/android/AnVICE/jni/vice_x64_128_5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_128_5x0/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_dtv_128_5x0,
+	src/arch/android/AnVICE/jni/vice_x64_dtv_128_5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_dtv_128_5x0/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc,
+	src/arch/android/AnVICE/jni/vice_x64_sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128_2_5x0_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128_2_5x0_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128_2_5x0_pet_4_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_128_2_5x0_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_128_2_5x0_pet_4_20/Android.mk.proto, 
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_4_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_pet_4_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_4_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_5x0_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_5x0_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_5x0_pet_4_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_4_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_4,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_4/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_4/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_5x0_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_5x0_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_5x0_4_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64dtv/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu_128_2_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64sc_scpu_128_2_pet_4_20/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_xcbm2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm2_5x0,
+	src/arch/android/AnVICE/jni/vice_xcbm2_5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm2_5x0/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_xcbm2_pet,
+	src/arch/android/AnVICE/jni/vice_xcbm2_pet/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xpet/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xplus4/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xscpu64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xvic/Android.mk.proto,
+	src/diskimage/rawimage.c, src/gfxoutputdrv/quicktimedrv.c,
+	src/infocontrib.sed, src/sounddrv/soundahi.c, src/sounddrv/soundaix.c,
+	src/sounddrv/soundallegro.c, src/sounddrv/soundalsa.c,
+	src/sounddrv/soundarts.c, src/sounddrv/soundbeos.cc,
+	src/sounddrv/soundbsp.cc, src/sounddrv/soundcoreaudio.c,
+	src/sounddrv/sounddart.c, src/sounddrv/soundhpux.c,
+	src/sounddrv/soundmidas.c, src/sounddrv/soundpulse.c,
+	src/sounddrv/soundsdl.c, src/sounddrv/soundsgi.c,
+	src/sounddrv/soundsun.c, src/sounddrv/sounduss.c,
+	src/sounddrv/soundwmm.c: Modularized the android build, temporarily
+	breaks the android build, build fixes to come.
+
+2016-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sounddrv/Makefile.am, src/sounddrv/soundmmos2.c: Removed unused
+	soundmmos2 sound driver.
+
+2016-10-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cartconv.c: Fix 'array subscript is char' warning on NetBSD
+
+2016-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_version.h: Support NetBSD 7.0.2
+
+2016-10-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Fix runtimepath/linker configuration for *BSD to
+	allow out-of-tree building
+
+2016-10-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/vdrive/vdrive-command.c, src/vdrive/vdrive-dir.c,
+	src/vdrive/vdrive-dir.h: Add filetype filter support in wildcard
+	patterns for vdrive, patch by Simon Rowe
+
+2016-10-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/autostart.c: Fix invalid free(), this should fix bug #804
+
+2016-10-27  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/ui.c, src/arch/unix/x11/xaw/Makefile.am,
+	src/arch/unix/x11/xaw/uiarch.h, src/arch/unix/x11/xaw/uijoystatus.c,
+	src/arch/unix/x11/xaw/uijoystatus.h,
+	src/arch/unix/x11/xaw/uistatusbar.c,
+	src/arch/unix/x11/xaw/widgets/Joystick.c,
+	src/arch/unix/x11/xaw/widgets/Joystick.h,
+	src/arch/unix/x11/xaw/widgets/Joystick.xt,
+	src/arch/unix/x11/xaw/widgets/JoystickP.h,
+	src/arch/unix/x11/xaw/widgets/Makefile.am: Add Joystick indicators to
+	the xaw gui, very similar to the gnome ones. This is done with a
+	proper X toolkit widget, which was generated with the help of TwiXt,
+	the Templated Widgets for Xt from https://github.com/Rhialto/twiXt .
+
+2016-10-27  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uimenu.c, src/arch/unix/x11/xaw/x11ui.c:
+	Cleaner shutdown procedures: Set some pointers to NULL after being
+	freed. Use (more of the) X-provided methods for cleaning up widget
+	hierarchies. This helps with reducing apparent memory leaks in
+	Valgrind tests.
+
+2016-10-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/uimon.c, src/c1541.c: Fix build errors for
+	gnome/uimon.c and c1541.c when readline isn't installed
+
+2016-10-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/clockport-mp3at64.c: Made the default channel config
+	mono, should fix the 'now I only have sound on my left speaker' issue.
+
+2016-10-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimon.c: added missing ifdef
+
+2016-10-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* data/C128/Makefile.am, data/C128/default.vpl,
+	data/C128/pepto-pal.vpl, data/C128/vice.vpl, data/C64/Makefile.am,
+	data/C64/default.vpl, data/C64/pepto-pal.vpl, data/C64/vice.vpl,
+	data/PLUS4/Makefile.am, data/PLUS4/default.vpl, data/PLUS4/vice.vpl,
+	data/SCPU64/Makefile.am, data/SCPU64/default.vpl,
+	data/SCPU64/pepto-pal.vpl, data/SCPU64/vice.vpl,
+	data/VIC20/Makefile.am, data/VIC20/default.vpl, data/VIC20/vice.vpl,
+	src/palette.c: Rename vice.vpl to pepto-pal.vpl, rename default.vpl to
+	vice.vpl, update buildsystem to install the proper palettes
+
+2016-10-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/vic20ui.c: *nix UI cosmetics
+
+2016-10-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uics8900.c, src/arch/unix/gui/uiethernetcart.c,
+	src/arch/unix/gui/vic20ui.c: Update *nix UI: add 'Ethernet settings'
+	submenu to 'settings' menu, add 'Ethernet cartridge' submenu to I/O
+	submenu
+
+2016-10-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* po/POTFILES.in, src/arch/unix/gui/Makefile.am,
+	src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/scpu64ui.c, src/arch/unix/gui/uiethernetcart.c,
+	src/arch/unix/gui/uiethernetcart.h, src/arch/unix/gui/uitfe.c,
+	src/arch/unix/gui/uitfe.h, src/arch/unix/gui/vic20ui.c: Update *nix
+	UI, collecting ethernet emulation settings in a single submenu, see
+	devlog item r32092. Needs testing
+
+2016-10-26  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/ethernetcart.c: in rr-net mode show actual range in
+	dump output
+
+2016-10-26  groepaz <groepaz@gmx.net>
+
+	* src/translate_text.c: fixed messages
+
+2016-10-26  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/ethernetcart.c: actually implement rr-net mode :)
+
+2016-10-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi: Properly escape at sign this time ;)
+
+2016-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiide64.c, src/arch/sdl/menu_c64_common_expansions.c,
+	src/arch/unix/gui/uiide64.c, src/c64/cart/shortbus_etfe.c: Added
+	address $df00 to the possible locations for the ide64 shortbus etfe
+	(already added the address to the dos, sdl and *nix guis).
+
+2016-10-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi: Fix error in vice.texi
+
+2016-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_commoncart/Android.mk.proto,
+	src/arch/os2/watcom/c64commoncart.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/c64commoncart.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/c64commoncart.tmpl,
+	src/arch/win32/watcom/c64commoncart.tgt,
+	src/arch/win32/watcom/vice.wpj, src/c64/cart/Makefile.am,
+	src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	src/c64/cart/ethernetcart.c, src/c64/cart/ethernetcart.h,
+	src/c64/cart/mmc64.c, src/c64/cart/mmcreplay.c,
+	src/c64/cart/retroreplay.c, src/c64/cart/rrnetmk3.c,
+	src/c64/cart/tfe.c, src/c64/cart/tfe.h, src/cartridge.h,
+	src/translate.txt, src/translate_text.c, src/vic20/cart/vic20cart.c,
+	src/vic20/cart/vic20cartmem.c: Renamed src/c64/cart/tfe.c to
+	src/c64/cart/ethernetcart.c, turning it into a generic ethernet
+	cartridge emulation file.
+
+2016-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/cs8900io.c: Remove debug msg.
+
+2016-10-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uics8900.c: Update *nix
+	UI menus and includes related to ethernet emulation
+
+2016-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS, doc/vice.texi: Some more 3.0 updates.
+
+2016-10-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/platform/platform_beos_runtime_os.c: Add Haiku nightly build
+	hrev50610 to platform
+
+2016-10-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/joy_usb.c: Fix warning
+
+2016-10-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/platform/platform_dragonfly_runtime_os.c,
+	src/platform/platform_dragonfly_version.h: Add DragonFly BSD 4.6.1 to
+	platform
+
+2016-10-25  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/gmod2.c: register is mirrored in whole IO1, also when
+	reading :)
+
+2016-10-25  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/gmod2.c: register is mirrored in whole IO1
+
+2016-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/rawnetarch.c, src/arch/os2/rawnetarch.c,
+	src/arch/unix/rawnetarch.c, src/arch/win32/rawnetarch.c,
+	src/c64/cart/cs8900io.c, src/rawnet.c, src/rawnet.h, src/rawnetarch.h,
+	src/translate.txt, src/translate_text.c: Better way of getting the
+	default ethernet interface.
+
+2016-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/actionreplay.c, src/c64/cart/atomicpower.c,
+	src/c64/cart/retroreplay.c: Some warning fixes.
+
+2016-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Increased compiler heap size for growing infocontrib.h string.
+
+2016-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS, doc/vice.texi: Some more 3.0 updates.
+
+2016-10-24  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/actionreplay.c, src/c64/cart/atomicpower.c,
+	src/c64/cart/retroreplay.c: improved i/o dump output a bit
+
+2016-10-24  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/atomicpower.c: disable mmu translate stuff, it makes
+	code execution test from the ar acidtest program fail
+
+2016-10-24  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/cs8900io.c: assigning value to constant does not
+	work :)
+
+2016-10-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/resid/configure.in, src/resid-dtv/configure.in: Changed the
+	order ReSID(-DTV) configure searches for compilers to match main
+	configure.
+
+2016-10-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* configure.proto: Added configure option to disable checking for JPEG
+	support. (May improve portability of binaries built on Haiku.)
+
+2016-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/tfe.c: Removed useless include.
+
+2016-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/cs8900io.c: Get default ethernet interface from
+	'pcap_lookupdev()', fallback on archdep defined interface if function
+	returns 'NULL'.
+
+2016-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c64model.c: Completely removed old
+	'vicii luminances' items from the sdl gui.
+
+2016-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/cocoa/view/fullscreenwindow.m: Untested fix for
+	osx 10.12 (sierra).
+
+2016-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_macosx.h: Added untested compile time
+	recognition of macos sierra.
+
+2016-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c64_common_expansions.c: Properly seperate ide64
+	shortbus menu items.
+
+2016-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c: Use a better string for ide64 clockport.
+
+2016-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/clockport-rrnet.c: Fixed enabling/disabling clockport
+	rrnet device.
+
+2016-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS, doc/vice.texi: Some more 3.0 updates.
+
+2016-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiperipheral.c: Fixed default page of the windows
+	peripheral settings dialog.
+
+2016-10-22  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64-resources.c, src/c64/c64gluelogic.c,
+	src/scpu64/scpu64-resources.c, src/scpu64/scpu64gluelogic.c,
+	src/sid/sid-resources.c, src/viciisc/vicii-resources.c: changed
+	default C64 model to C64C
+
+2016-10-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/uics8900.c, src/arch/unix/gui/uitfe.c: Fix *nix
+	ethernet/TFE GUI items
+
+2016-10-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/cart/clockport-mp3at64.h:
+	Add missing includes
+
+2016-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/infocontrib.sed: Some more 3.0 updates.
+
+2016-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c: Hooked up the mp3@64 to the sound
+	system init.
+
+2016-10-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uihelp.c, src/arch/win32/uilib.c,
+	src/arch/win32/uilib.h, src/arch/win32/vsidui.c: win32 Unicode fix:
+	Stopped Help menu text dialogs causing crashes; contents are still not
+	displayed.
+
+2016-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uitfe.c: Fixed tfe menu for the dos tui.
+
+2016-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiide64.c: Added ide64 clockport selection to the dos
+	tui.
+
+2016-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uimmc64.c, src/arch/msdos/uimmcreplay.c,
+	src/arch/msdos/uiretroreplay.c: Added mmc64, mmcr and rr clockport
+	selection to the dos tui.
+
+2016-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiide64.c: Added ide64 etfe shortbus device items to
+	the dos tui.
+
+2016-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/shortbus_digimax.c: Fixed ide64 shortbus digimax device
+	activation, 'real' activation still depends on both the host device
+	(ide64) AND guest device (shortbus digimax) being activated.
+
+2016-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/infocontrib.sed: Some more 3.0 updates.
+
+2016-10-20  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/resautostart.rc, src/arch/win32/resc64memoryhacks.rc,
+	src/arch/win32/respetcolour.rc, src/arch/win32/resvicii.rc,
+	src/arch/win32/uiautostart.c, src/arch/win32/uic128.c,
+	src/arch/win32/uic64memoryhacks.c, src/arch/win32/uicbm2set.c,
+	src/arch/win32/uicbm5x0set.c, src/arch/win32/uicia.c,
+	src/arch/win32/uiperipheral.c, src/arch/win32/uipetcolour.c,
+	src/arch/win32/uipetset.c, src/arch/win32/uiplus4memoryhacks.c,
+	src/arch/win32/uivicii.c: win32 Unicode and dialog box control fixes
+	for various dialogs.
+
+2016-10-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uiide64.c, src/arch/amigaos/mui/uimmc64.c,
+	src/arch/amigaos/mui/uimmcreplay.c,
+	src/arch/amigaos/mui/uiretroreplay.c: Added clockport device selection
+	for ide64, mmc64, mmcr and rr to the amiga gui.
+
+2016-10-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, src/arch/android/AnVICE/Makefile.am,
+	src/arch/android/AnVICE/debug.h.proto: Added android specific
+	debug.h(.proto) so the android build doesn't need on a configure run
+	anymore.
+
+2016-10-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_ethernet.c: Completely remove "ETHERNET_ACTIVE"
+	resource.
+
+2016-10-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64cart.c, src/c64/cart/c64carthooks.c,
+	src/c64/cart/c64cartmem.c, src/c64/cart/crt.c,
+	src/c64/cart/retroreplay.h, src/c64/cart/rrnetmk3.c: Only compile
+	rrnetmk3 if pcap is available.
+
+2016-10-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Replace tabs with spaces, remove
+	trailing whitespace
+
+2016-10-20  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: tab vs spaces
+
+2016-10-20  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: warning
+
+2016-10-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/archdep.c: Add tilde expansion, for c1541 on *nix
+
+2016-10-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uics8900.c: Gtk: change
+	'c8900 settings' to 'Ethernet settings', update submenuto closely
+	resemble the SDL version
+
+2016-10-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uiide64.c: Gtk: don't generate shortbus ETFE
+	submenu in IDE64 menu when builing without ethernet support
+
+2016-10-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c64/cart/rrnetmk3.c: Temporary fix to allow VICE to compile
+	without ethernet support
+
+2016-10-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/Makefile.am, src/c64/cart/retroreplay.h: Fix build
+	failures
+
+2016-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS: Some more 3.0 updates.
+
+2016-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/retroreplay.c: Use 'rr_enabled' for indicating
+	attach/detach of the cart.
+
+2016-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* autogen.sh: Check if autoconf/automake are installed.
+
+2016-10-19  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/rrnetmk3.c: return last 4 bytes of the ROM in I/O to
+	expose the MAC adress like the real RR-Net MK3 does
+
+2016-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c64_common_expansions.c,
+	src/arch/sdl/menu_c64_common_expansions.h,
+	src/arch/sdl/menu_c64cart.c, src/arch/sdl/menu_c64cart.h,
+	src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xscpu64_ui.c,
+	src/c64/cart/clockport.h: Added retroreplay, mmc64, mmcreplay and
+	ide64 clockport device selection menus to the sdl gui.
+
+2016-10-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Return values fixes, fix unit number check in
+	unit_cmd()
+
+2016-10-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, c1541: fix segfault in format_cmd() when using unit
+	16-19 in short form, add check for unit number in long form
+
+2016-10-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Make extract_unit...() validate unit number parsed
+
+2016-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS, doc/vice.texi: Some more 3.0 updates.
+
+2016-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xscpu64_ui.c,
+	src/arch/sdl/xvic_ui.c: Added missing includes.
+
+2016-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c64_common_expansions.c: Added IDE64 ETFE settings
+	menu to the sdl gui.
+
+2016-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_ethernet.c: Fixed.
+
+2016-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_c128hw.c,
+	src/arch/sdl/menu_c64hw.c, src/arch/sdl/menu_ethernet.c,
+	src/arch/sdl/menu_ethernet.h, src/arch/sdl/menu_scpu64hw.c,
+	src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_tfe.h,
+	src/arch/sdl/menu_vic20hw.c, src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl: Added new ethernet menu and
+	fixed the tfe menu for the sdl port.
+
+2016-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS, doc/vice.texi: Some more 3.0 updates.
+
+2016-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c1541.c: Fixed to use base 10.
+
+2016-10-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c1541.c: Fixed a possible typo: a call is made to strtold() with
+	the result being put in a long, however strtold returns a long double,
+	therefor I assume the function call was meant to be strtol.
+
+2016-10-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/building/Linux-Native-Howto.txt: Update Linux build docs
+
+2016-10-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/resources.c: Remove weird casts
+
+2016-10-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/tfe.c: Fixed i/o collision detach resource.
+
+2016-10-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS, doc/vice.texi: Some more 3.0 contributors/news updates.
+
+2016-10-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/clockport-mp3at64.c: Make gcc happy.
+
+2016-10-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c64/cart/shortbus_etfe.c: Fix shortbus command line option
+	-sbtfebase help
+
+2016-10-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uiide64.c,
+	src/arch/unix/gui/uitfe.c: Add The Final Ethernet
+	(resource TFE_ACTIVE) to *nix GUI, update a few other ethernet related
+	GUI items
+
+2016-10-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/uifilechooser.c: Add toggling of image
+	contents preview in Gtk UI, may need widget resizing as well
+
+2016-10-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uiclockport-device.c, src/arch/unix/gui/uiide64.c:
+	Add shortbus ETFE GUI items for *nix (x64 only for now).
+
+2016-10-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/uics8900.c, src/arch/unix/gui/uics8900.h: Add cs8900
+	settings stub in *nix GUI (x64 only for now)
+
+2016-10-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uiide64.c,
+	src/arch/unix/gui/uiide64.h: Add clockport device selection for IDE64
+	in *nix GUI
+
+2016-10-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uirrnetmk3.c,
+	src/arch/unix/gui/uirrnetmk3.h: Remove RRNetMk3 clockport device
+	selection from *nix GUI
+
+2016-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Fixed.
+
+2016-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS, doc/vice.texi: Started on some contributors and new file
+	preparation for VICE 3.0
+
+2016-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/rrnetmk3.c: Removed clockport from the rrnetmk3
+	emulation, since the actual hardware isn't a clockport host.
+
+2016-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/os2/watcom/c64cart.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/sdl/win32-watcom/c64cart.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/c64cart.tmpl,
+	src/arch/win32/watcom/c64cart.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c64/cart/Makefile.am, src/c64/cart/clockport-mp3at64.c,
+	src/c64/cart/clockport-mp3at64.h, src/c64/cart/clockport-rrnet.c,
+	src/c64/cart/clockport.c, src/c64/cart/clockport.h,
+	src/c64/cart/ide64.c, src/c64/cart/mmc64.c, src/c64/cart/mmcreplay.c,
+	src/c64/cart/retroreplay.c, src/c64/cart/rrnetmk3.c,
+	src/translate.txt, src/translate_text.c: Added mp3@64 clockport device
+	emulation, functionally untested and experimental.
+
+2016-10-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uisound.c: Don't make copies of const stuff
+
+2016-10-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uimmc64.c,
+	src/arch/unix/gui/uimmc64.h, src/arch/unix/gui/uimmcreplay.c,
+	src/arch/unix/gui/uimmcreplay.h, src/arch/unix/gui/uiretroreplay.c,
+	src/arch/unix/gui/uiretroreplay.h: Add clockport device selection *nix
+	GUI items for MMC64 MMCR RR in x64, x64sc and x128. See devlog r31947.
+
+2016-10-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c128ui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/uiclockport-device.c,
+	src/arch/unix/gui/uiclockport-device.h,
+	src/arch/unix/gui/uirrnetmk3.c, src/arch/unix/gui/uirrnetmk3.h: Add
+	dynamic generation of clockport device settings submenu for unix GUIs,
+	only used in rrnetmk3 menu in x64, x64sc and x128 for now. Please test
+
+2016-10-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uirrnetmk3.c: Add clockport device selection to
+	*nix gui for RR-Net MK3, see devlog r31937. Unsupported devices
+	commented out for now. Could do with #define's for the device names
+
+2016-10-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uitfe.c: Remove *nix gui items related to removed
+	resources ETHERNET_ACTIVE and ETHERNET_AS_RR, see devlog entry r31917
+
+2016-10-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Fix yasm version check
+
+2016-10-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed configure breakage.
+
+2016-10-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* autogen.sh: Add proper autoconf/automake version checks
+
+2016-10-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_dragonfly_version.h: Fixed for more recent
+	dfbsd versions.
+
+2016-10-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* autogen.sh: Disable autoconf/automake checks, unreliable
+
+2016-10-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Change subshell syntax to , not all shells can
+	handle the former syntax
+
+2016-10-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* autogen.sh: Add autoconf version check to autogen.sh
+
+2016-10-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_help.c: Fix casting away of const
+
+2016-10-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* autogen.sh: Add automake version check to autogen.sh
+
+2016-10-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/platform/platform_dragonfly_runtime_os.c,
+	src/platform/platform_dragonfly_version.h,
+	src/platform/platform_openbsd_runtime_os.c: Updates in src/platform
+
+2016-10-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_dragonfly_version.h: Fixed for dfbsd 4.0.6
+
+2016-10-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/platform/platform_openbsd_runtime_os.c,
+	src/platform/platform_openbsd_version.h: Remove OpenBSD 6.0 amd64 from
+	platform_openbsd_runtime_os.c, fix typo in platform_openbsd_version.h
+
+2016-10-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_dragonfly_version.h: Fixed the guard.
+
+2016-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_dragonfly_version.h: Updated for some major
+	version changes of dfbsd.
+
+2016-10-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/platform/platform_netbsd_runtime_os.c,
+	src/platform/platform_openbsd_runtime_os.c: Add OpenBSD and NetBSD
+	amd64 builds to platform
+
+2016-10-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/imagecontents/imagecontents.c: Fix multiple quotes bug
+
+2016-10-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto, src/platform/platform_freebsd_runtime_os.c: Update
+	build system for FreeBSD 11.0
+
+2016-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_freebsd_version.h: Updated for FreeBSD 11.0
+
+2016-10-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: fix list_cmd() to not accept '@<dev>:' when dev
+	is illegal, don't default to unit 8. accept '@<dev>' without colon as
+	part of the match pattern.
+
+2016-10-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: add sane replacements for check_drive() to
+	remove unit-number/drive-index mixups and confusion
+
+2016-10-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: fix FD_BADDEV bug for unit 11
+
+2016-10-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: c1541: fix segfault in info_cmd when using
+	a unit number outside 8-11. clean up command output
+
+2016-10-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: c1541: make offset-in-block optional for
+	'block' command
+
+2016-10-09  AreaScout <areascout@gmx.at>
+
+	* src/c64/c64.c, src/c64dtv/c64dtv.c, src/cbm2/cbm2.c,
+	src/cbm2/cbm5x0.c, src/pet/pet.c, src/plus4/plus4.c,
+	src/scpu64/scpu64.c, src/vic20/vic20.c: Fix: bug #796 menu actions in
+	joystick map file didn't work
+
+2016-10-08  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: not explicitly important, should always
+	catch here
+
+2016-10-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Add resources cleanup and readline setup/cleanup to
+	interactive mode
+
+2016-10-08  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2016-10-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Move bash check for ffmpeg up so ffmpeg configure
+	doesn't run before the bash check
+
 2016-10-07  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* doc/vice.chm, doc/vice.hlp, doc/vice.pdf: VICE 2.4.31
