@@ -57,6 +57,7 @@ extern "C" {
 #include "ui_cia.h"
 #include "ui_drive.h"
 #include "ui_ide64.h"
+#include "ui_joystick.h"
 #include "ui_printer.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
@@ -438,6 +439,12 @@ static void scpu64_ui_specific(void *msg, void *window)
                 break;
             case MENU_CIA_SETTINGS:
                 ui_cia(2);
+                break;
+            case MENU_JOYSTICK_SETTINGS:
+                ui_joystick(1, 2);
+                break;
+            case MENU_USERPORT_JOY_SETTINGS:
+                ui_joystick(3, 4);
                 break;
             case MENU_DRIVE_SETTINGS:
                 ui_drive(scpu64_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);

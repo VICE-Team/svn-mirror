@@ -53,6 +53,7 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "ui_drive.h"
+#include "ui_joystick.h"
 #include "ui_pet.h"
 #include "ui_printer.h"
 #include "ui_sidcart.h"
@@ -196,6 +197,9 @@ void pet_ui_specific(void *msg, void *window)
             break;
         case MENU_VIDEO_SETTINGS:
             ui_video(UI_VIDEO_CHIP_CRTC);
+            break;
+        case MENU_USERPORT_JOY_SETTINGS:
+            ui_joystick(3, 4);
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(pet_drive_types, HAS_NO_CAPS);

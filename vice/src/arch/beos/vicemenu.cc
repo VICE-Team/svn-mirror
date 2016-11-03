@@ -1155,24 +1155,17 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         uppermenu->AddItem(new BMenuItem("VFLI modification", new BMessage(MENU_TOGGLE_VFLI)));
     }
 
-    if (machine_class == VICE_MACHINE_C64 ||
-        machine_class == VICE_MACHINE_C64SC ||
-        machine_class == VICE_MACHINE_SCPU64 ||
-        machine_class == VICE_MACHINE_C128 ||
-        machine_class == VICE_MACHINE_CBM6x0 ||
-        machine_class == VICE_MACHINE_PET ||
-        machine_class == VICE_MACHINE_VIC20 ||
-        machine_class == VICE_MACHINE_PLUS4) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128 ||
+        machine_class == VICE_MACHINE_CBM6x0 || machine_class == VICE_MACHINE_PET ||
+        machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_PLUS4) {
         menu->AddItem(submenu = new BMenu("Userport devices"));
             submenu->AddItem(new BMenuItem("Enable userport DAC", new BMessage(MENU_TOGGLE_USERPORT_DAC)));
     }
 
-    if (machine_class == VICE_MACHINE_C64 ||
-        machine_class == VICE_MACHINE_C64SC ||
-        machine_class == VICE_MACHINE_SCPU64 ||
-        machine_class == VICE_MACHINE_C128 ||
-        machine_class == VICE_MACHINE_CBM6x0 ||
-        machine_class == VICE_MACHINE_PET ||
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128 ||
+        machine_class == VICE_MACHINE_CBM6x0 || machine_class == VICE_MACHINE_PET ||
         machine_class == VICE_MACHINE_VIC20) {
             submenu->AddItem(new BMenuItem("Enable userport RTC (58321A)", new BMessage(MENU_TOGGLE_USERPORT_58321A)));
             submenu->AddItem(new BMenuItem("Save userport RTC (58321A) data when changed", new BMessage(MENU_TOGGLE_USERPORT_58321A_SAVE)));
@@ -1180,10 +1173,8 @@ BMenuBar *menu_create(int machine_class, int window_nr)
             submenu->AddItem(new BMenuItem("Save userport RTC (DS1307) data when changed", new BMessage(MENU_TOGGLE_USERPORT_DS1307_SAVE)));
     }
 
-    if (machine_class == VICE_MACHINE_C64 ||
-        machine_class == VICE_MACHINE_C64SC ||
-        machine_class == VICE_MACHINE_SCPU64 ||
-        machine_class == VICE_MACHINE_C128 ||
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128 ||
         machine_class == VICE_MACHINE_CBM6x0) {
             submenu->AddItem(new BMenuItem("Enable userport DigiMAX", new BMessage(MENU_TOGGLE_USERPORT_DIGIMAX)));
             submenu->AddItem(new BMenuItem("Enable userport 4bit sampler", new BMessage(MENU_TOGGLE_USERPORT_4BIT_SAMPLER)));
@@ -1363,11 +1354,42 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 lib_free(tmp_text);
             }
             menu->AddSeparatorItem();
-            menu->AddItem(new BMenuItem("Save BBRTC data when changed", new BMessage(MENU_BBRTC_DATA_SAVE)));
+            menu->AddItem(new BMenuItem("Joystick/Keyset settings ...", new BMessage(MENU_JOYSTICK_SETTINGS)));
+
+        if (machine_class != VICE_MACHINE_CBM5x0) {
+            menu->AddItem(new BMenuItem("Userport joystick emulation", new BMessage(MENU_TOGGLE_USERPORT_JOY)));
+            menu->AddItem(new BMenuItem("Userport joystick settings ...", new BMessage(MENU_USERPORT_JOY_SETTINGS)));
+            if (machine_class != VICE_MACHINE_C64DTV) {
+                menu->AddItem(submenu = new BMenu("Userport joystick type"));
+                    submenu->SetRadioMode(true);
+                    submenu->AddItem(new BMenuItem("CGA", new BMessage(MENU_USERPORT_JOY_CGA)));
+                    submenu->AddItem(new BMenuItem("PET", new BMessage(MENU_USERPORT_JOY_PET)));
+                    submenu->AddItem(new BMenuItem("Hummer", new BMessage(MENU_USERPORT_JOY_HUMMER)));
+                    submenu->AddItem(new BMenuItem("OEM", new BMessage(MENU_USERPORT_JOY_OEM)));
+                if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+                    machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128) {
+                    submenu->AddItem(new BMenuItem("HIT", new BMessage(MENU_USERPORT_JOY_HIT)));
+                    submenu->AddItem(new BMenuItem("Kingsoft", new BMessage(MENU_USERPORT_JOY_KINGSOFT)));
+                    submenu->AddItem(new BMenuItem("Starbyte", new BMessage(MENU_USERPORT_JOY_STARBYTE)));
+                }
+            }
+        }
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            menu->AddItem(new BMenuItem("SID cart joystick emulation", new BMessage(MENU_TOGGLE_SIDCART_JOY)));
+            menu->AddItem(new BMenuItem("SID cart joystick settings ...", new BMessage(MENU_SIDCART_JOY_SETTINGS)));
+        }
+            menu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
+
             menu->AddSeparatorItem();
-            menu->AddItem(submenu = new BMenu("Joystick settings"));
-                submenu->AddItem(new BMenuItem("Joystick/Keyset settings ...", new BMessage(MENU_JOYSTICK_SETTINGS)));
-                submenu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
+            menu->AddItem(new BMenuItem("Save BBRTC data when changed", new BMessage(MENU_TOGGLE_BBRTC_DATA_SAVE)));
+        if (machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PET) {
+                menu->AddItem(new BMenuItem("Save Smart Mouse RTC data when changed", new BMessage(MENU_TOGGLE_SMART_MOUSE_RTC_SAVE)));
+        }
+
+        uppermenu->AddSeparatorItem();
+        uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
+        uppermenu->AddSeparatorItem();
+
         if (devices_port_1) {
             lib_free(devices_port_1);
         }
@@ -1383,49 +1405,6 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         if (devices_port_5) {
             lib_free(devices_port_5);
         }
-    }
-
-    if (machine_class != VICE_MACHINE_VSID) {
-        uppermenu->AddItem(menu = new BMenu("Extra Joystick settings"));
-        if (machine_class == VICE_MACHINE_PLUS4) {
-            menu->AddItem(new BMenuItem("SID cart joystick emulation", new BMessage(MENU_TOGGLE_SIDCART_JOY)));
-            menu->AddItem(new BMenuItem("SID cart joystick settings ...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
-        }
-        if (machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_PLUS4) {
-            menu->AddItem(new BMenuItem("Userport joystick emulation", new BMessage(MENU_TOGGLE_USERPORT_JOY)));
-            menu->AddItem(new BMenuItem("Userport joystick settings ...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
-            if (machine_class != VICE_MACHINE_C64DTV) {
-                menu->AddItem(submenu = new BMenu("Userport joystick type"));
-                    submenu->SetRadioMode(true);
-                    submenu->AddItem(new BMenuItem("CGA", new BMessage(MENU_USERPORT_JOY_CGA)));
-                    submenu->AddItem(new BMenuItem("PET", new BMessage(MENU_USERPORT_JOY_PET)));
-                    submenu->AddItem(new BMenuItem("Hummer", new BMessage(MENU_USERPORT_JOY_HUMMER)));
-                    submenu->AddItem(new BMenuItem("OEM", new BMessage(MENU_USERPORT_JOY_OEM)));
-                if (machine_class == VICE_MACHINE_C64 ||
-                    machine_class == VICE_MACHINE_C64SC ||
-                    machine_class == VICE_MACHINE_C128 ||
-                    machine_class == VICE_MACHINE_SCPU64) {
-                    submenu->AddItem(new BMenuItem("HIT", new BMessage(MENU_USERPORT_JOY_HIT)));
-                    submenu->AddItem(new BMenuItem("Kingsoft", new BMessage(MENU_USERPORT_JOY_KINGSOFT)));
-                    submenu->AddItem(new BMenuItem("Starbyte", new BMessage(MENU_USERPORT_JOY_STARBYTE)));
-                }
-            }
-        }
-        if (get_devices == NULL) {
-            menu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
-        }
-    }
-
-    if (get_devices != NULL) {
-        if (machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PET) {
-            uppermenu->AddItem(menu = new BMenu("Mouse Options"));
-                menu->AddItem(new BMenuItem("Save Smart Mouse RTC data when changed", new BMessage(MENU_TOGGLE_SMART_MOUSE_RTC_SAVE)));
-        }
-    }
-
-    if (get_devices != NULL) {
-        uppermenu->AddSeparatorItem();
-        uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
     }
 
     uppermenu->AddItem(new BMenuItem("Sound ...", new BMessage(MENU_SOUND_SETTINGS)));

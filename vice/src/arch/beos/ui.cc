@@ -89,7 +89,6 @@ extern "C" {
 #include "ui.h"
 #include "ui_datasette.h"
 #include "ui_device.h"
-#include "ui_joystick.h"
 #include "ui_netplay.h"
 #include "ui_ram.h"
 #include "ui_sound.h"
@@ -142,7 +141,7 @@ ui_menu_toggle  non_vsid_toggles[] = {
     { "CPClockF83", MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83 },
     { "CPClockF83Save", MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83_SAVE },
     { "TapeLog", MENU_TOGGLE_TAPEPORT_TAPELOG },
-    { "BBRTCSave", MENU_BBRTC_DATA_SAVE },
+    { "BBRTCSave", MENU_TOGGLE_BBRTC_DATA_SAVE },
     { NULL, 0 }
 };
 
@@ -1008,12 +1007,6 @@ void ui_dispatch_events(void)
                 break;
             case MENU_DATASETTE_SETTINGS:
                 ui_datasette();
-                break;
-            case MENU_JOYSTICK_SETTINGS:
-                ui_joystick();
-                break;
-            case MENU_EXTRA_JOYSTICK_SETTINGS:
-                ui_extra_joystick();
                 break;
             case MENU_SOUND_SETTINGS:
                 ui_sound();

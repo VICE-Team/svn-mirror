@@ -45,6 +45,7 @@ extern "C" {
 #include "ui_cbm5x0.h"
 #include "ui_cia.h"
 #include "ui_drive.h"
+#include "ui_joystick.h"
 #include "ui_printer.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
@@ -183,6 +184,9 @@ void cbm5x0_ui_specific(void *msg, void *window)
             break;
         case MENU_CIA_SETTINGS:
             ui_cia(1);
+            break;
+        case MENU_JOYSTICK_SETTINGS:
+            ui_joystick(1, 2);
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(cbm5x0_drive_types, HAS_NO_CAPS);

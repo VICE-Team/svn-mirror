@@ -54,6 +54,7 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "ui_drive.h"
+#include "ui_joystick.h"
 #include "ui_printer.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
@@ -148,6 +149,12 @@ void c64dtv_ui_specific(void *msg, void *window)
             break;
         case MENU_SID_SETTINGS:
             ui_sid(NULL);
+            break;
+        case MENU_JOYSTICK_SETTINGS:
+            ui_joystick(1, 2);
+            break;
+        case MENU_USERPORT_JOY_SETTINGS:
+            ui_joystick(3, 0);
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(c64dtv_drive_types, HAS_NO_CAPS);

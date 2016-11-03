@@ -52,6 +52,7 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "ui_drive.h"
+#include "ui_joystick.h"
 #include "ui_printer.h"
 #include "ui_sidcart.h"
 #include "ui_vic20.h"
@@ -337,6 +338,12 @@ void vic20_ui_specific(void *msg, void *window)
             break;
         case MENU_VIC_SETTINGS:
             ui_vic();
+            break;
+        case MENU_JOYSTICK_SETTINGS:
+            ui_joystick(1, 0);
+            break;
+        case MENU_USERPORT_JOY_SETTINGS:
+            ui_joystick(3, 4);
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(vic20_drive_types, HAS_NO_CAPS);

@@ -46,6 +46,7 @@ extern "C" {
 #include "ui_cbm2.h"
 #include "ui_cia.h"
 #include "ui_drive.h"
+#include "ui_joystick.h"
 #include "ui_printer.h"
 #include "ui_sid.h"
 #include "ui_video.h"
@@ -214,6 +215,9 @@ void cbm2_ui_specific(void *msg, void *window)
             break;
         case MENU_CIA_SETTINGS:
             ui_cia(1);
+            break;
+        case MENU_USERPORT_JOY_SETTINGS:
+            ui_joystick(3, 4);
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(cbm2_drive_types, HAS_NO_CAPS);

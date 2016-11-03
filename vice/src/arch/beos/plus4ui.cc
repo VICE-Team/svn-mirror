@@ -56,6 +56,7 @@ extern "C" {
 #include "resources.h"
 #include "ui.h"
 #include "ui_drive.h"
+#include "ui_joystick.h"
 #include "ui_printer.h"
 #include "ui_sidcart.h"
 #include "ui_ted.h"
@@ -216,6 +217,15 @@ static void plus4_ui_specific(void *msg, void *window)
             break;
         case MENU_TED_SETTINGS:
             ui_ted();
+            break;
+        case MENU_JOYSTICK_SETTINGS:
+            ui_joystick(1, 2);
+            break;
+        case MENU_USERPORT_JOY_SETTINGS:
+            ui_joystick(3, 4);
+            break;
+        case MENU_SIDCART_JOY_SETTINGS:
+            ui_joystick(5, 0);
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(plus4_drive_types, HAS_PARA_CABLE);
