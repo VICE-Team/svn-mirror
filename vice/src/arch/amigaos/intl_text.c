@@ -10500,6 +10500,34 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_CLOCKPORT_DEVICE_SV, "" },  /* fuzzy */
 /* tr */ { IDS_CLOCKPORT_DEVICE_TR, "" },  /* fuzzy */
 
+/* en */ { IDS_SHORTBUS_DIGIMAX,    "Short bus DigiMAX device" },
+/* da */ { IDS_SHORTBUS_DIGIMAX_DA, "" },  /* fuzzy */
+/* de */ { IDS_SHORTBUS_DIGIMAX_DE, "" },  /* fuzzy */
+/* es */ { IDS_SHORTBUS_DIGIMAX_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SHORTBUS_DIGIMAX_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SHORTBUS_DIGIMAX_HU, "" },  /* fuzzy */
+/* it */ { IDS_SHORTBUS_DIGIMAX_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SHORTBUS_DIGIMAX_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SHORTBUS_DIGIMAX_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SHORTBUS_DIGIMAX_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SHORTBUS_DIGIMAX_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SHORTBUS_DIGIMAX_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SHORTBUS_DIGIMAX_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SHORTBUS_DIGIMAX_BASE,    "Short bus DigiMAX base address" },
+/* da */ { IDS_SHORTBUS_DIGIMAX_BASE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SHORTBUS_DIGIMAX_BASE_DE, "" },  /* fuzzy */
+/* es */ { IDS_SHORTBUS_DIGIMAX_BASE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SHORTBUS_DIGIMAX_BASE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SHORTBUS_DIGIMAX_BASE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SHORTBUS_DIGIMAX_BASE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SHORTBUS_DIGIMAX_BASE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SHORTBUS_DIGIMAX_BASE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SHORTBUS_DIGIMAX_BASE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SHORTBUS_DIGIMAX_BASE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SHORTBUS_DIGIMAX_BASE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SHORTBUS_DIGIMAX_BASE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_SELECT_MMC64_IMAGE_FILE,    "Select MMC/SD image file" },
 /* da */ { IDS_SELECT_MMC64_IMAGE_FILE_DA, "Vælg MMC/SD-image" },
 /* de */ { IDS_SELECT_MMC64_IMAGE_FILE_DE, "MMC/SD Image Date wählen" },

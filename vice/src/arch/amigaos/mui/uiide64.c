@@ -80,6 +80,18 @@ static const int ui_ide64_version_values[] = {
     -1
 };
 
+static char *ui_ide64_shortbus_digimax_base[] = {
+    "$DE40",
+    "$DE48",
+    NULL
+};
+
+static const int ui_ide64_shortbus_digimax_base_values[] = {
+    0xde40,
+    0xde48,
+    -1
+};
+
 static char *ui_ide64_clockport_devices[CLOCKPORT_MAX_ENTRIES + 1];
 static int ui_ide64_clockport_devices_values[CLOCKPORT_MAX_ENTRIES + 1];
 
@@ -89,6 +101,8 @@ static ui_to_from_t ui_to_from_v4[] = {
     { NULL, MUI_TYPE_TEXT, "IDE64USBServerAddress", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "IDE64RTCSave", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "IDE64ClockPort", ui_ide64_clockport_devices, ui_ide64_clockport_devices_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SBDIGIMAX", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SBDIGIMAXbase", ui_ide64_shortbus_digimax_base, ui_ide64_shortbus_digimax_base_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -305,6 +319,8 @@ static APTR build_gui(void)
            STRING(ui_to_from_v4[2].object, translate_text(IDS_USB_SERVER_ADDRESS), 50+1)
            CYCLE(ui_to_from_v4[3].object, translate_text(IDS_IDE64_RTC_SAVE), ui_ide64_autodetect)
            CYCLE(ui_to_from_v4[4].object, translate_text(IDS_CLOCKPORT_DEVICE), ui_mmc64_clockport_devices)
+           CYCLE(ui_to_from_v4[5].object, translate_text(IDS_SHORTBUS_DIGIMAX), ui_ide64_autodetect)
+           CYCLE(ui_to_from_v4[6].object, translate_text(IDS_SHORTBUS_DIGIMAX_BASE), ui_ide64_shortbus_digimax_base)
            BUTTON(hd_button1, translate_text(IDS_IDE64_HD_1_SETTINGS))
            BUTTON(hd_button2, translate_text(IDS_IDE64_HD_2_SETTINGS))
            BUTTON(hd_button3, translate_text(IDS_IDE64_HD_3_SETTINGS))
