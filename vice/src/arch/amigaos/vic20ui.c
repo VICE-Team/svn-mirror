@@ -55,6 +55,8 @@
 #include "mui/uisidcart.h"
 #include "mui/uisoundexpander.h"
 #include "mui/uisoundsampler.h"
+#include "mui/uiuserportds1307.h"
+#include "mui/uiuserportrtc58321a.h"
 #include "mui/uivic.h"
 #include "mui/uivic20mem.h"
 #include "mui/uivideo.h"
@@ -73,8 +75,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
     { "IO2RAM", IDM_IO2_RAM_ENABLE },
     { "IO3RAM", IDM_IO3_RAM_ENABLE },
-    { "UserportRTC58321a", IDM_TOGGLE_USERPORT_RTC_58321A },
-    { "UserportRTC58321aSave", IDM_TOGGLE_USERPORT_RTC_58321A_SAVE },
+    { "UserportDAC", IDM_TOGGLE_USERPORT_DAC },
     { NULL, 0 }
 };
 
@@ -165,6 +166,12 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_PRINTER_SETTINGS:
             ui_printer_settings_dialog(canvas, 0, 1);
+            break;
+        case IDM_USERPORT_RTC58321A_SETTINGS:
+            ui_userport_rtc58321a_settings_dialog();
+            break;
+        case IDM_USERPORT_DS1307_RTC_SETTINGS:
+            ui_userport_ds1307_rtc_settings_dialog();
             break;
         case IDM_RS232USER_SETTINGS:
             ui_rs232user_settings_dialog();

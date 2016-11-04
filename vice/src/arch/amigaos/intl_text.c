@@ -3778,6 +3778,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_C128_SETTINGS_SV, "C128-inställningar..." },
 /* tr */ { IDMS_C128_SETTINGS_TR, "C128 ayarlarý..." },
 
+/* en */ { IDMS_USERPORT_DEVICE_SETTINGS,    "Userport device settings" },
+/* da */ { IDMS_USERPORT_DEVICE_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_USERPORT_DEVICE_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_USERPORT_DEVICE_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_USERPORT_DEVICE_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_USERPORT_DEVICE_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_USERPORT_DEVICE_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_USERPORT_DEVICE_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_USERPORT_DEVICE_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_USERPORT_DEVICE_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_USERPORT_DEVICE_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_USERPORT_DEVICE_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_USERPORT_DEVICE_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_CART_IO_SETTINGS,    "Cartridge/IO settings" },
 /* da */ { IDMS_CART_IO_SETTINGS_DA, "Modul/IO-indstillinger" },
 /* de */ { IDMS_CART_IO_SETTINGS_DE, "Erweiterungsmodul I/O Einstellungen" },
@@ -4170,34 +4184,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_CPM_CART_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_ENABLE_CPM_CART_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_ENABLE_USERPORT_RTC_58321A,    "Enable the Userport RTC (58321a)" },
-/* da */ { IDMS_ENABLE_USERPORT_RTC_58321A_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_USERPORT_RTC_58321A_DE, "Userport RTC (58321a) aktivieren" },
-/* es */ { IDMS_ENABLE_USERPORT_RTC_58321A_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_ENABLE_USERPORT_RTC_58321A_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_ENABLE_USERPORT_RTC_58321A_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ENABLE_USERPORT_RTC_58321A_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_ENABLE_USERPORT_RTC_58321A_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_USERPORT_RTC_58321A_NL, "Activeer de Userport RTC (58321a)" },
-/* pl */ { IDMS_ENABLE_USERPORT_RTC_58321A_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_ENABLE_USERPORT_RTC_58321A_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ENABLE_USERPORT_RTC_58321A_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_ENABLE_USERPORT_RTC_58321A_TR, "" },  /* fuzzy */
-
-/* en */ { IDMS_USERPORT_RTC_58321A_SAVE,    "Enable saving the Userport RTC (58321a) data" },
-/* da */ { IDMS_USERPORT_RTC_58321A_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_USERPORT_RTC_58321A_SAVE_DE, "Userport RTC (58321a) Datenspeicherung aktivieren" },
-/* es */ { IDMS_USERPORT_RTC_58321A_SAVE_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_USERPORT_RTC_58321A_SAVE_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_USERPORT_RTC_58321A_SAVE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_USERPORT_RTC_58321A_SAVE_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_USERPORT_RTC_58321A_SAVE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_USERPORT_RTC_58321A_SAVE_NL, "Activeer opslaan van de Userport RTC (58321a) data" },
-/* pl */ { IDMS_USERPORT_RTC_58321A_SAVE_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_USERPORT_RTC_58321A_SAVE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_USERPORT_RTC_58321A_SAVE_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_USERPORT_RTC_58321A_SAVE_TR, "" },  /* fuzzy */
-
 /* en */ { IDMS_BURST_MOD_SETTINGS,    "Drive burst modification settings..." },
 /* da */ { IDMS_BURST_MOD_SETTINGS_DA, "Drev burst-modifikations-indstillinger..." },
 /* de */ { IDMS_BURST_MOD_SETTINGS_DE, "Laufwerk Burstmodifkation Einstellungen..." },
@@ -4239,6 +4225,48 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDMS_ENABLE_USERPORT_DAC_RU, "Enable Userport DAC for sound output" },
 /* sv */ { IDMS_ENABLE_USERPORT_DAC_SV, "Aktivera D/A-omvandlare på användarporten för ljudutdata" },
 /* tr */ { IDMS_ENABLE_USERPORT_DAC_TR, "Ses çýkýþý için Userport DAC'ý aktif et" },
+
+/* en */ { IDMS_ENABLE_USERPORT_DIGIMAX,    "Enable Userport DigiMAX device" },
+/* da */ { IDMS_ENABLE_USERPORT_DIGIMAX_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_DIGIMAX_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ENABLE_USERPORT_DIGIMAX_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_USERPORT_DIGIMAX_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_USERPORT_DIGIMAX_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_USERPORT_DIGIMAX_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ENABLE_USERPORT_DIGIMAX_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_DIGIMAX_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_USERPORT_DIGIMAX_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ENABLE_USERPORT_DIGIMAX_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_USERPORT_DIGIMAX_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_USERPORT_DIGIMAX_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER,    "Enable Userport 4bit sampler" },
+/* da */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_ENABLE_USERPORT_8BSS,    "Enable Userport 8bit stereo sampler" },
+/* da */ { IDMS_ENABLE_USERPORT_8BSS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_8BSS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ENABLE_USERPORT_8BSS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_USERPORT_8BSS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_USERPORT_8BSS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_USERPORT_8BSS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ENABLE_USERPORT_8BSS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_8BSS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_USERPORT_8BSS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ENABLE_USERPORT_8BSS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_USERPORT_8BSS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_USERPORT_8BSS_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_ETHERNET_SETTINGS,    "Ethernet settings..." },
 /* da */ { IDMS_ETHERNET_SETTINGS_DA, "Ethernetindstillinger..." },
@@ -4477,6 +4505,34 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDMS_RS232_USERPORT_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_RS232_USERPORT_SETTINGS_SV, "RS232-användarportinställningar..." },
 /* tr */ { IDMS_RS232_USERPORT_SETTINGS_TR, "RS232 userport ayarlarý..." },
+
+/* en */ { IDMS_USERPORT_RTC58321A_SETTINGS,    "Userport RTC58321a settings..." },
+/* da */ { IDMS_USERPORT_RTC58321A_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_USERPORT_RTC58321A_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_USERPORT_RTC58321A_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_USERPORT_RTC58321A_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_USERPORT_RTC58321A_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_USERPORT_RTC58321A_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_USERPORT_RTC58321A_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_USERPORT_RTC58321A_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_USERPORT_RTC58321A_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_USERPORT_RTC58321A_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_USERPORT_RTC58321A_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_USERPORT_RTC58321A_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_USERPORT_DS1307_RTC_SETTINGS,    "Userport DS1307 RTC settings..." },
+/* da */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_SAVE_CURRENT_SETTINGS_FILE,    "Save current settings to specified file" },
 /* da */ { IDMS_SAVE_CURRENT_SETTINGS_FILE_DA, "Gem indstillinger som" },
@@ -7221,6 +7277,90 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_GEORAM_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_GEORAM_SETTINGS_SV, "GEO-RAM-inställningar" },
 /* tr */ { IDS_GEORAM_SETTINGS_TR, "GEO-RAM ayarlarý" },
+
+/* en */ { IDS_USERPORT_DS1307_RTC_ENABLE,    "Enable Userport DS1307 RTC" },
+/* da */ { IDS_USERPORT_DS1307_RTC_ENABLE_DA, "" },  /* fuzzy */
+/* de */ { IDS_USERPORT_DS1307_RTC_ENABLE_DE, "" },  /* fuzzy */
+/* es */ { IDS_USERPORT_DS1307_RTC_ENABLE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_USERPORT_DS1307_RTC_ENABLE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USERPORT_DS1307_RTC_ENABLE_HU, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_DS1307_RTC_ENABLE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_USERPORT_DS1307_RTC_ENABLE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_DS1307_RTC_ENABLE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USERPORT_DS1307_RTC_ENABLE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_USERPORT_DS1307_RTC_ENABLE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_USERPORT_DS1307_RTC_ENABLE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USERPORT_DS1307_RTC_ENABLE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA,    "Save Userport DS1307 RTC data when changed" },
+/* da */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_DE, "" },  /* fuzzy */
+/* es */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USERPORT_DS1307_RTC_SETTINGS,    "Userport DS1307 RTC settings" },
+/* da */ { IDS_USERPORT_DS1307_RTC_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_USERPORT_DS1307_RTC_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_USERPORT_DS1307_RTC_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_USERPORT_DS1307_RTC_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USERPORT_DS1307_RTC_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_DS1307_RTC_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_USERPORT_DS1307_RTC_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_DS1307_RTC_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USERPORT_DS1307_RTC_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_USERPORT_DS1307_RTC_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_USERPORT_DS1307_RTC_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USERPORT_DS1307_RTC_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USERPORT_RTC58321A_ENABLE,    "Enable Userport RTC58321a" },
+/* da */ { IDS_USERPORT_RTC58321A_ENABLE_DA, "" },  /* fuzzy */
+/* de */ { IDS_USERPORT_RTC58321A_ENABLE_DE, "" },  /* fuzzy */
+/* es */ { IDS_USERPORT_RTC58321A_ENABLE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_USERPORT_RTC58321A_ENABLE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USERPORT_RTC58321A_ENABLE_HU, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_RTC58321A_ENABLE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_USERPORT_RTC58321A_ENABLE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_RTC58321A_ENABLE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USERPORT_RTC58321A_ENABLE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_USERPORT_RTC58321A_ENABLE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_USERPORT_RTC58321A_ENABLE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USERPORT_RTC58321A_ENABLE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SAVE_USERPORT_RTC58321A_DATA,    "Save Userport RTC58321a data when changed" },
+/* da */ { IDS_SAVE_USERPORT_RTC58321A_DATA_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_USERPORT_RTC58321A_DATA_DE, "" },  /* fuzzy */
+/* es */ { IDS_SAVE_USERPORT_RTC58321A_DATA_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SAVE_USERPORT_RTC58321A_DATA_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_USERPORT_RTC58321A_DATA_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_USERPORT_RTC58321A_DATA_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SAVE_USERPORT_RTC58321A_DATA_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_USERPORT_RTC58321A_DATA_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAVE_USERPORT_RTC58321A_DATA_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SAVE_USERPORT_RTC58321A_DATA_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_USERPORT_RTC58321A_DATA_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAVE_USERPORT_RTC58321A_DATA_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USERPORT_RTC58321A_SETTINGS,    "Userport RTC58321a settings" },
+/* da */ { IDS_USERPORT_RTC58321A_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_USERPORT_RTC58321A_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_USERPORT_RTC58321A_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_USERPORT_RTC58321A_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USERPORT_RTC58321A_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_RTC58321A_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_USERPORT_RTC58321A_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_RTC58321A_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USERPORT_RTC58321A_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_USERPORT_RTC58321A_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_USERPORT_RTC58321A_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USERPORT_RTC58321A_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SAMPLER_FILENAME_SELECT,    "Select file to be used as sampler input" },
 /* da */ { IDS_SAMPLER_FILENAME_SELECT_DA, "" },  /* fuzzy */

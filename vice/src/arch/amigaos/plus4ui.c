@@ -65,6 +65,7 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "Mouse", IDM_MOUSE },
+    { "UserportDAC", IDM_TOGGLE_USERPORT_DAC },
     { NULL, 0 }
 };
 

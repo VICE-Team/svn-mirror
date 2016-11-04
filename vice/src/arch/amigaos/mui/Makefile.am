@@ -164,6 +164,10 @@ libarchmui_a_SOURCES = \
 	uisoundsampler.h \
 	uited.c \
 	uited.h \
+	uiuserportds1307rtc.c \
+	uiuserportds1307rtc.h \
+	uiuserportrtc58321a.c \
+	uiuserportrtc58321a.h \
 	uiv364speech.c \
 	uiv364speech.h \
 	uivic.c \

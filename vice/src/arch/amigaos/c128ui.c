@@ -67,6 +67,8 @@
 #include "mui/uisampler.h"
 #include "mui/uisid.h"
 #include "mui/uisoundexpander.h"
+#include "mui/uiuserportds1307.h"
+#include "mui/uiuserportrtc58321a.h"
 #include "mui/uivicii.h"
 #include "mui/uivideo.h"
 
@@ -97,8 +99,10 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { "SSRamExpansion", IDM_TOGGLE_SS5_32K_ADDON },
-    { "UserportRTC58321a", IDM_TOGGLE_USERPORT_RTC_58321A },
-    { "UserportRTC58321aSave", IDM_TOGGLE_USERPORT_RTC_58321A_SAVE },
+    { "UserportDAC", IDM_TOGGLE_USERPORT_DAC },
+    { "UserportDIGIMAX", IDM_TOGGLE_USERPORT_DIGIMAX },
+    { "Userport4bitSampler", IDM_TOGGLE_USERPORT_4BIT_SAMPLER },
+    { "Userport8BSS", IDM_TOGGLE_USERPORT_8BSS },
     { NULL, 0 }
 };
 
@@ -213,6 +217,12 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_PRINTER_SETTINGS:
             ui_printer_settings_dialog(canvas, 0, 1);
+            break;
+        case IDM_USERPORT_RTC58321A_SETTINGS:
+            ui_userport_rtc58321a_settings_dialog();
+            break;
+        case IDM_USERPORT_DS1307_RTC_SETTINGS:
+            ui_userport_ds1307_rtc_settings_dialog();
             break;
         case IDM_ACIA_SETTINGS:
             ui_acia128_settings_dialog();

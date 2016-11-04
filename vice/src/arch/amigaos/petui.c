@@ -51,6 +51,8 @@
 #include "mui/uirompetsettings.h"
 #include "mui/uisampler.h"
 #include "mui/uisidcart.h"
+#include "mui/uiuserportds1307.h"
+#include "mui/uiuserportrtc58321a.h"
 #include "mui/uivideo.h"
 
 static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
@@ -62,8 +64,6 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "PETHRE", IDM_ENABLE_PETHRE },
     { "UserportDAC", IDM_TOGGLE_USERPORT_DAC },
     { "Mouse", IDM_MOUSE },
-    { "UserportRTC58321a", IDM_TOGGLE_USERPORT_RTC_58321A },
-    { "UserportRTC58321aSave", IDM_TOGGLE_USERPORT_RTC_58321A_SAVE },
     { NULL, 0 }
 };
 
@@ -135,6 +135,12 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_PRINTER_SETTINGS:
             ui_printer_settings_dialog(canvas, 1, 1);
+            break;
+        case IDM_USERPORT_RTC58321A_SETTINGS:
+            ui_userport_rtc58321a_settings_dialog();
+            break;
+        case IDM_USERPORT_DS1307_RTC_SETTINGS:
+            ui_userport_ds1307_rtc_settings_dialog();
             break;
         case IDM_ACIA_SETTINGS:
             ui_acia_settings_dialog();
