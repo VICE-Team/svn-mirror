@@ -53,7 +53,21 @@ static int ui_joyport_4_values[JOYPORT_MAX_DEVICES + 1];
 static char *ui_joyport_5[JOYPORT_MAX_DEVICES + 1];
 static int ui_joyport_5_values[JOYPORT_MAX_DEVICES + 1];
 
-static ui_to_from_t ui_to_from[JOYPORT_MAX_PORTS + 1];
+static int ui_joyport_enable_translate[] = {
+    IDMS_DISABLED,
+    IDS_ENABLED,
+    0
+};
+
+static char *ui_joyport_enable[countof(ui_isepic_enable_translate)];
+
+static const int ui_joyport_enable_values[] = {
+    0,
+    1,
+    -1
+};
+
+static ui_to_from_t ui_to_from[JOYPORT_MAX_PORTS + 2];
 
 static APTR build_gui(void)
 {
@@ -95,6 +109,7 @@ static APTR build_gui(void)
                    CYCLE(ui_to_from[2].object, joyport3_device, ui_joyport_3)
                    CYCLE(ui_to_from[3].object, joyport4_device, ui_joyport_4)
                    CYCLE(ui_to_from[4].object, joyport5_device, ui_joyport_5)
+                   CYCLE(ui_to_from[5].object, translate_text(IDS_SAVE_BBRTC_DATA_WHEN_CHANGED), ui_joyport_enable)
                    OK_CANCEL_BUTTON
                  End;
              break;
@@ -104,14 +119,16 @@ static APTR build_gui(void)
                    CYCLE(ui_to_from[1].object, joyport2_device, ui_joyport_2)
                    CYCLE(ui_to_from[2].object, joyport3_device, ui_joyport_3)
                    CYCLE(ui_to_from[3].object, joyport4_device, ui_joyport_4)
+                   CYCLE(ui_to_from[4].object, translate_text(IDS_SAVE_BBRTC_DATA_WHEN_CHANGED), ui_joyport_enable)
                    OK_CANCEL_BUTTON
                  End;
              break;
         case 22:
             ui = GroupObject,
                    CYCLE(ui_to_from[0].object, joyport1_device, ui_joyport_1)
-                   CYCLE(ui_to_from[2].object, joyport3_device, ui_joyport_3)
-                   CYCLE(ui_to_from[3].object, joyport4_device, ui_joyport_4)
+                   CYCLE(ui_to_from[1].object, joyport3_device, ui_joyport_3)
+                   CYCLE(ui_to_from[2].object, joyport4_device, ui_joyport_4)
+                   CYCLE(ui_to_from[3].object, translate_text(IDS_SAVE_BBRTC_DATA_WHEN_CHANGED), ui_joyport_enable)
                    OK_CANCEL_BUTTON
                  End;
              break;
@@ -120,6 +137,7 @@ static APTR build_gui(void)
                    CYCLE(ui_to_from[0].object, joyport1_device, ui_joyport_1)
                    CYCLE(ui_to_from[1].object, joyport2_device, ui_joyport_2)
                    CYCLE(ui_to_from[2].object, joyport3_device, ui_joyport_3)
+                   CYCLE(ui_to_from[3].object, translate_text(IDS_SAVE_BBRTC_DATA_WHEN_CHANGED), ui_joyport_enable)
                    OK_CANCEL_BUTTON
                  End;
              break;
@@ -127,13 +145,15 @@ static APTR build_gui(void)
             ui = GroupObject,
                    CYCLE(ui_to_from[0].object, joyport1_device, ui_joyport_1)
                    CYCLE(ui_to_from[1].object, joyport2_device, ui_joyport_2)
+                   CYCLE(ui_to_from[2].object, translate_text(IDS_SAVE_BBRTC_DATA_WHEN_CHANGED), ui_joyport_enable)
                    OK_CANCEL_BUTTON
                  End;
              break;
         case 6:
             ui = GroupObject,
-                   CYCLE(ui_to_from[2].object, joyport3_device, ui_joyport_3)
-                   CYCLE(ui_to_from[3].object, joyport4_device, ui_joyport_4)
+                   CYCLE(ui_to_from[0].object, joyport3_device, ui_joyport_3)
+                   CYCLE(ui_to_from[1].object, joyport4_device, ui_joyport_4)
+                   CYCLE(ui_to_from[2].object, translate_text(IDS_SAVE_BBRTC_DATA_WHEN_CHANGED), ui_joyport_enable)
                    OK_CANCEL_BUTTON
                  End;
              break;
@@ -258,6 +278,14 @@ void ui_joyport_settings_dialog(int port1, int port2, int port3, int port4, int 
         ++j;
     }
 
+    ui_to_from[j].object = NULL;
+    ui_to_from[j].type = MUI_TYPE_CYCLE;
+    ui_to_from[j].resource = "BBRTCSave"
+    ui_to_from[j].strings = ui_joyport_enable;
+    ui_to_from[j].values = ui_joyport_enable_values;
+    ui_to_from[j].string_choices = NULL;
+    ++j;
+    
     ui_to_from[j].object = NULL;
     ui_to_from[j].type = MUI_TYPE_NONE;
     ui_to_from[j].resource = NULL;

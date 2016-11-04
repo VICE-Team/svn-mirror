@@ -7656,6 +7656,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ISEPIC_FILENAME_SELECT_SV, "Välj fil för ISEPIC" },
 /* tr */ { IDS_ISEPIC_FILENAME_SELECT_TR, "ISEPIC için dosya seçin" },
 
+/* en */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED,    "Save BBRTC data when changed" },
+/* da */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_DE, "" },  /* fuzzy */
+/* es */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_EASYFLASH_SETTINGS,    "EasyFlash settings" },
 /* da */ { IDS_EASYFLASH_SETTINGS_DA, "EasyFlash-indstillinger" },
 /* de */ { IDS_EASYFLASH_SETTINGS_DE, "EasyFlash Einstellungen" },
