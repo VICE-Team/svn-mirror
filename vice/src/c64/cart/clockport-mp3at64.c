@@ -218,10 +218,10 @@ static int clockport_mp3at64_sound_machine_init(sound_t *psid, int speed, int cy
 
 static void clockport_mp3at64_sound_machine_close(sound_t *psid)
 {
+    int i;
     mpg123_delete(mh);
     mpg123_exit();
     mh = NULL;
-    int i;
 
     for (i = 0; i < MP3_BUFFERS; ++i) {
         if (mp3_output_buffers[i]) {
