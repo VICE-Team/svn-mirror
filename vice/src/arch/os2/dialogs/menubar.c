@@ -1141,6 +1141,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_EASYFLASH_JUMPER:
             toggle("EasyFlashJumper");
             return;
+        case IDM_EASYFLASH_OPTIMIZE_CRT:
+            toggle("EasyFlashOptimizeCRT");
+            return;
         case IDM_EASYFLASH_AUTOSAVE:
             toggle("EasyFlashWriteCRT");
             return;
@@ -2421,6 +2424,8 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_MAGICVOICE, val);
             resources_get_int("EasyFlashJumper", &val);
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_JUMPER, val);
+            resources_get_int( "EasyFlashOptimizeCRT", &val);
+            WinCheckMenuItem(hwnd, IDM_EASYFLASH_OPTIMIZE_CRT, val);
             resources_get_int("EasyFlashWriteCRT", &val);
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_AUTOSAVE, val);
             resources_get_int("UserportRTC58321a", &val);

@@ -1070,6 +1070,7 @@ BEGIN
         SUBMENU "EasyFlash Settings",                         IDM_EASYFLASH_SETTINGS,   MIS_TEXT
         BEGIN
             MENUITEM "EasyFlash Jumper",                      IDM_EASYFLASH_JUMPER,     MIS_TEXT
+            MENUITEM "Optimize EasyFlash CRT when saving",    IDM_EASYFLASH_OPTIMIZE_CRT, MIS_TEXT
             MENUITEM "Save to EasyFlash .crt file on detach", IDM_EASYFLASH_AUTOSAVE,   MIS_TEXT
             MENUITEM "Save to EasyFlash .crt file now",       IDM_EASYFLASH_SAVE_NOW,   MIS_TEXT
         END
