@@ -48,7 +48,7 @@ static const int ui_rtc58321a_enable_values[] = {
     -1
 };
 
-static ui_to_from_t ui_to[] = {
+static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "UserportRTC58321a", ui_rtc58321a_enable, ui_rtc58321a_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "UserportRTC58321aSave", ui_rtc58321a_enable, ui_rtc58321a_enable_values, NULL },
     UI_END /* mandatory */

@@ -52,7 +52,7 @@
 #include "mui/uiromcbm2settings.h"
 #include "mui/uisampler.h"
 #include "mui/uisid.h"
-#include "mui/uiuserportds1307.h"
+#include "mui/uiuserportds1307rtc.h"
 #include "mui/uiuserportrtc58321a.h"
 #include "mui/uivideo.h"
 

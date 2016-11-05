@@ -31,6 +31,7 @@
 #endif
 #include "mui.h"
 
+#include "c64-resources.h"
 #include "uic64scmodel.h"
 #include "vicii.h"
 #include "intl.h"

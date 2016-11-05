@@ -37,6 +37,7 @@
 #endif
 #include "mui.h"
 
+#include "c64-resources.h"
 #include "uic64model.h"
 #include "vicii.h"
 #include "intl.h"
@@ -159,7 +160,7 @@ enum {
 
 static ULONG vicii_model(struct Hook *hook, Object *obj, APTR arg)
 {
-    int vicii = ui_requester(translate_text(IDMES_VICE_MESSAGE), tmp, "PAL-G|Old PAL-G|NTSC-M|Old NTSC-M|PAL-N", 0);
+    int vicii = ui_requester(translate_text(IDMES_VICE_MESSAGE), translate_text(IDS_CHOOSE_VICII_MODEL), "PAL-G|Old PAL-G|NTSC-M|Old NTSC-M|PAL-N", 0);
     int viciiset = -1;
 
     switch (vicii) {

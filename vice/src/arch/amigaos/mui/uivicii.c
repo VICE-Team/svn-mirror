@@ -93,29 +93,29 @@ static ui_to_from_t ui_to_from_sc[] = {
 static APTR build_gui_64(void)
 {
     return GroupObject,
-             CYCLE(ui_to_from[0].object, translate_text(IDS_BORDER_MODE), ui_vicii_borders)
-             CYCLE(ui_to_from[1].object, translate_text(IDS_SPRITE_SPRITE_COL), ui_vicii_enable)
-             CYCLE(ui_to_from[2].object, translate_text(IDS_SPRITE_BACKGROUND_COL), ui_vicii_enable)
+             CYCLE(ui_to_from_64[0].object, translate_text(IDS_BORDER_MODE), ui_vicii_borders)
+             CYCLE(ui_to_from_64[1].object, translate_text(IDS_SPRITE_SPRITE_COL), ui_vicii_enable)
+             CYCLE(ui_to_from_64[2].object, translate_text(IDS_SPRITE_BACKGROUND_COL), ui_vicii_enable)
            End;
 }
 
 static APTR build_gui_dtv(void)
 {
     return GroupObject,
-             CYCLE(ui_to_from[0].object, translate_text(IDS_BORDER_MODE), ui_vicii_borders)
-             CYCLE(ui_to_from[1].object, translate_text(IDS_SPRITE_SPRITE_COL), ui_vicii_enable)
-             CYCLE(ui_to_from[2].object, translate_text(IDS_SPRITE_BACKGROUND_COL), ui_vicii_enable)
-             CYCLE(ui_to_from[3].object, translate_text(IDS_NEW_LUMINANCES), ui_vicii_enable)
+             CYCLE(ui_to_from_dtv[0].object, translate_text(IDS_BORDER_MODE), ui_vicii_borders)
+             CYCLE(ui_to_from_dtv[1].object, translate_text(IDS_SPRITE_SPRITE_COL), ui_vicii_enable)
+             CYCLE(ui_to_from_dtv[2].object, translate_text(IDS_SPRITE_BACKGROUND_COL), ui_vicii_enable)
+             CYCLE(ui_to_from_dtv[3].object, translate_text(IDS_NEW_LUMINANCES), ui_vicii_enable)
            End;
 }
 
 static APTR build_gui_sc(void)
 {
     return GroupObject,
-             CYCLE(ui_to_from[0].object, translate_text(IDS_BORDER_MODE), ui_vicii_borders)
-             CYCLE(ui_to_from[1].object, translate_text(IDS_SPRITE_SPRITE_COL), ui_vicii_enable)
-             CYCLE(ui_to_from[2].object, translate_text(IDS_SPRITE_BACKGROUND_COL), ui_vicii_enable)
-             CYCLE(ui_to_from[3].object, translate_text(IDS_VSPBUG), ui_vicii_enable)
+             CYCLE(ui_to_from_sc[0].object, translate_text(IDS_BORDER_MODE), ui_vicii_borders)
+             CYCLE(ui_to_from_sc[1].object, translate_text(IDS_SPRITE_SPRITE_COL), ui_vicii_enable)
+             CYCLE(ui_to_from_sc[2].object, translate_text(IDS_SPRITE_BACKGROUND_COL), ui_vicii_enable)
+             CYCLE(ui_to_from_sc[3].object, translate_text(IDS_VSPBUG), ui_vicii_enable)
            End;
 }
 
@@ -123,19 +123,19 @@ void ui_vicii_settings_dialog(void)
 {
     intl_convert_mui_table(ui_vicii_enable_translate, ui_vicii_enable);
     intl_convert_mui_table(ui_vicii_borders_translate, ui_vicii_borders);
-    mui_show_dialog(build_gui_64(), translate_text(IDS_VICII_SETTINGS), ui_to_from);
+    mui_show_dialog(build_gui_64(), translate_text(IDS_VICII_SETTINGS), ui_to_from_64);
 }
 
 void ui_viciidtv_settings_dialog(void)
 {
     intl_convert_mui_table(ui_vicii_enable_translate, ui_vicii_enable);
     intl_convert_mui_table(ui_vicii_borders_translate, ui_vicii_borders);
-    mui_show_dialog(build_gui_dtv(), translate_text(IDS_VICII_SETTINGS), ui_to_from);
+    mui_show_dialog(build_gui_dtv(), translate_text(IDS_VICII_SETTINGS), ui_to_from_dtv);
 }
 
 void ui_viciisc_settings_dialog(void)
 {
     intl_convert_mui_table(ui_vicii_enable_translate, ui_vicii_enable);
     intl_convert_mui_table(ui_vicii_borders_translate, ui_vicii_borders);
-    mui_show_dialog(build_gui_sc(), translate_text(IDS_VICII_SETTINGS), ui_to_from);
+    mui_show_dialog(build_gui_sc(), translate_text(IDS_VICII_SETTINGS), ui_to_from_sc);
 }

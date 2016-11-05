@@ -51,7 +51,7 @@
 #include "mui/uirompetsettings.h"
 #include "mui/uisampler.h"
 #include "mui/uisidcart.h"
-#include "mui/uiuserportds1307.h"
+#include "mui/uiuserportds1307rtc.h"
 #include "mui/uiuserportrtc58321a.h"
 #include "mui/uivideo.h"
 

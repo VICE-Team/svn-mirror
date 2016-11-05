@@ -66,7 +66,7 @@
 #include "mui/uiscpu64model.h"
 #include "mui/uisid.h"
 #include "mui/uisoundexpander.h"
-#include "mui/uiuserportds1307.h"
+#include "mui/uiuserportds1307rtc.h"
 #include "mui/uiuserportrtc58321a.h"
 #include "mui/uivicii.h"
 #include "mui/uivideo.h"

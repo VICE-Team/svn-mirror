@@ -55,7 +55,7 @@
 #include "mui/uisidcart.h"
 #include "mui/uisoundexpander.h"
 #include "mui/uisoundsampler.h"
-#include "mui/uiuserportds1307.h"
+#include "mui/uiuserportds1307rtc.h"
 #include "mui/uiuserportrtc58321a.h"
 #include "mui/uivic.h"
 #include "mui/uivic20mem.h"

@@ -48,7 +48,7 @@ static const int ui_ds1307_enable_values[] = {
     -1
 };
 
-static ui_to_from_t ui_to[] = {
+static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "UserportRTCDS1307", ui_ds1307_enable, ui_ds1307_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "UserportRTCDS1307Save", ui_ds1307_enable, ui_ds1307_enable_values, NULL },
     UI_END /* mandatory */

@@ -5766,6 +5766,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SAVE_S_SCREENSHOT_SV, "Spara %s-skärmdump" },
 /* tr */ { IDS_SAVE_S_SCREENSHOT_TR, "%s ekran görüntüsünü kaydet" },
 
+/* en */ { IDS_CHOOSE_VICII_MODEL,    "Choose VICII model" },
+/* da */ { IDS_CHOOSE_VICII_MODEL_DA, "" },  /* fuzzy */
+/* de */ { IDS_CHOOSE_VICII_MODEL_DE, "" },  /* fuzzy */
+/* es */ { IDS_CHOOSE_VICII_MODEL_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CHOOSE_VICII_MODEL_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CHOOSE_VICII_MODEL_HU, "" },  /* fuzzy */
+/* it */ { IDS_CHOOSE_VICII_MODEL_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CHOOSE_VICII_MODEL_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CHOOSE_VICII_MODEL_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CHOOSE_VICII_MODEL_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CHOOSE_VICII_MODEL_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CHOOSE_VICII_MODEL_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CHOOSE_VICII_MODEL_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_DETACHED_DEVICE_D,    "Detached device %d" },
 /* da */ { IDS_DETACHED_DEVICE_D_DA, "Frakoblet enhed %d" },
 /* de */ { IDS_DETACHED_DEVICE_D_DE, "Gerät %d entfernt" },
@@ -8497,6 +8511,7 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DISABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DISABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
 /* tr */ { IDS_DISABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
+#endif
 
 /* en */ { IDS_PET_REU_SIZE,    "PET REU size" },
 /* da */ { IDS_PET_REU_SIZE_DA, "PET REU størrelse" },

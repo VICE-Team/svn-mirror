@@ -59,7 +59,7 @@ static int ui_joyport_enable_translate[] = {
     0
 };
 
-static char *ui_joyport_enable[countof(ui_isepic_enable_translate)];
+static char *ui_joyport_enable[countof(ui_joyport_enable_translate)];
 
 static const int ui_joyport_enable_values[] = {
     0,
@@ -280,7 +280,7 @@ void ui_joyport_settings_dialog(int port1, int port2, int port3, int port4, int 
 
     ui_to_from[j].object = NULL;
     ui_to_from[j].type = MUI_TYPE_CYCLE;
-    ui_to_from[j].resource = "BBRTCSave"
+    ui_to_from[j].resource = "BBRTCSave";
     ui_to_from[j].strings = ui_joyport_enable;
     ui_to_from[j].values = ui_joyport_enable_values;
     ui_to_from[j].string_choices = NULL;
