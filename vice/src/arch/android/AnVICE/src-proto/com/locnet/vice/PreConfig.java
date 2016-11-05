@@ -143,7 +143,18 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final String CBM2_SDL_SYM_NAME = "sdl_sym.vkm";
 
     public static final String C128_KERNAL_NAME = "kernal";
+    public static final String C128_KERNALCH_NAME = "kernalch";
+    public static final String C128_KERNALDE_NAME = "kernalde";
+    public static final String C128_KERNALFI_NAME = "kernalfi";
+    public static final String C128_KERNALFR_NAME = "kernalfr";
+    public static final String C128_KERNALIT_NAME = "kernalit";
+    public static final String C128_KERNALNO_NAME = "kernalno";
+    public static final String C128_KERNALSE_NAME = "kernalse";
+    public static final String C128_CHARGCH_NAME = "chargch";
+    public static final String C128_CHARGDE_NAME = "chargde";
     public static final String C128_CHARGEN_NAME = "chargen";
+    public static final String C128_CHARGFR_NAME = "chargfr";
+    public static final String C128_CHARGSE_NAME = "chargse";
     public static final String C128_BASICLO_NAME = "basiclo";
     public static final String C128_BASICHI_NAME = "basichi";
     public static final String C128_BASIC64_NAME = "basic64";
@@ -1070,8 +1081,19 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     boolean checkC128ROMS() {
         int present = 0;
 
+        present += checkFileExistanceInPath(C128_PATH, C128_CHARGCH_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_CHARGDE_NAME);
         present += checkFileExistanceInPath(C128_PATH, C128_CHARGEN_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_CHARGFR_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_CHARGSE_NAME);
         present += checkFileExistanceInPath(C128_PATH, C128_KERNAL_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_KERNALCH_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_KERNALDE_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_KERNALFI_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_KERNALFR_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_KERNALIT_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_KERNALNO_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_KERNALSE_NAME);
         present += checkFileExistanceInPath(C128_PATH, C128_BASICLO_NAME);
         present += checkFileExistanceInPath(C128_PATH, C128_BASICHI_NAME);
         present += checkFileExistanceInPath(C128_PATH, C128_BASIC64_NAME);
@@ -1218,12 +1240,45 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     }
 
     boolean copyC128ROMS() {
+        if (!copyAssetFileToPath(C128_PATH, C128_CHARGCH_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_CHARGDE_NAME)) {
+            return false;
+        }
         if (!copyAssetFileToPath(C128_PATH, C128_CHARGEN_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_CHARGFR_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_CHARGSE_NAME)) {
             return false;
         }
         if (!copyAssetFileToPath(C128_PATH, C128_KERNAL_NAME)) {
             return false;
         }
+        if (!copyAssetFileToPath(C128_PATH, C128_KERNALCH_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_KERNALDE_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_KERNALFI_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_KERNALFR_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_KERNALIT_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_KERNALNO_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_KERNALSE_NAME)) {
+            return false;
+        }        
         if (!copyAssetFileToPath(C128_PATH, C128_BASICLO_NAME)) {
             return false;
         }
