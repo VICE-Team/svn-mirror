@@ -78,7 +78,7 @@ static APTR build_gui(void)
     return ui;
 }
 
-void ui_userport_ds1307rtc_settings_dialog(void)
+void ui_userport_ds1307_rtc_settings_dialog(void)
 {
     APTR window;
 

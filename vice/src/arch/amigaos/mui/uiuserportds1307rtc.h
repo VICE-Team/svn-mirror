@@ -27,6 +27,6 @@
 #ifndef VICE_UIUSERPORTDS1307RTC_H
 #define VICE_UIUSERPORTDS1307RTC_H
 
-extern void ui_userport_ds1307rtc_settings_dialog(void);
+extern void ui_userport_ds1307_rtc_settings_dialog(void);
 
 #endif
