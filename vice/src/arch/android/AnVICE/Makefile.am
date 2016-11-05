@@ -12,7 +12,7 @@ EXTRA_DIST = \
 	AndroidManifest.xml.in \
 	build.xml \
 	clean.sh \
-	config.android.h \
+	config.android.h.proto \
 	debug.h.proto \
 	local.properties.proto \
 	proguard.cfg \
