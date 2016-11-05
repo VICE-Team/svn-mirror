@@ -1610,6 +1610,11 @@ int keyboard_resources_init(void)
     int nsym, npos, mapping, idx, type;
     const char *name;
 
+    /* VSID doesn't have a keyboard */
+    if (machine_class == VICE_MACHINE_VSID) {
+        return 0;
+    }
+
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
@@ -1679,6 +1684,10 @@ int keyboard_resources_init(void)
 
 void keyboard_resources_shutdown(void)
 {
+    /* VSID doesn't have a keyboard */
+    if (machine_class == VICE_MACHINE_VSID) {
+        return;
+    }
     lib_free(machine_keymap_file_list[KBD_INDEX_SYM]);
     lib_free(machine_keymap_file_list[KBD_INDEX_POS]);
     lib_free(machine_keymap_file_list[KBD_INDEX_USERSYM]);
@@ -1728,7 +1737,10 @@ static cmdline_option_t const cmdline_options[] =
 
 int keyboard_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
+    if (machine_class != VICE_MACHINE_VSID) {
+        return cmdline_register_options(cmdline_options);
+    }
+    return 0;
 }
 #endif  /* COMMON_KBD */
 
