@@ -3792,6 +3792,76 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_USERPORT_DEVICE_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_USERPORT_DEVICE_SETTINGS_TR, "" },  /* fuzzy */
 
+/* en */ { IDMS_TAPEPORT_DEVICE_SETTINGS,    "Tapeport device settings" },
+/* da */ { IDMS_TAPEPORT_DEVICE_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_TAPEPORT_DEVICE_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_TAPEPORT_DEVICE_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_TAPEPORT_DEVICE_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_TAPEPORT_DEVICE_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_TAPEPORT_DEVICE_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_TAPEPORT_DEVICE_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_TAPEPORT_DEVICE_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_TAPEPORT_DEVICE_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_TAPEPORT_DEVICE_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_TAPEPORT_DEVICE_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_TAPEPORT_DEVICE_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_TAPELOG_SETTINGS,    "TapeLog device settings..." },
+/* da */ { IDMS_TAPELOG_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_TAPELOG_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_TAPELOG_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_TAPELOG_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_TAPELOG_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_TAPELOG_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_TAPELOG_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_TAPELOG_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_TAPELOG_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_TAPELOG_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_TAPELOG_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_TAPELOG_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_CPCLOCKF83_SETTINGS,    "CP CLock F83 RTC device settings..." },
+/* da */ { IDMS_CPCLOCKF83_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_CPCLOCKF83_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_CPCLOCKF83_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_CPCLOCKF83_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_CPCLOCKF83_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_CPCLOCKF83_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_CPCLOCKF83_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_CPCLOCKF83_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_CPCLOCKF83_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_CPCLOCKF83_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_CPCLOCKF83_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_CPCLOCKF83_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_ENABLE_TAPE_SENSE_DONGLE,    "Enable tape sense dongle" },
+/* da */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_ENABLE_DTL_BASIC_DONGLE,    "Enable DTL Basic dongle" },
+/* da */ { IDMS_ENABLE_DTL_BASIC_DONGLE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_DTL_BASIC_DONGLE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ENABLE_DTL_BASIC_DONGLE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_DTL_BASIC_DONGLE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_DTL_BASIC_DONGLE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_DTL_BASIC_DONGLE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ENABLE_DTL_BASIC_DONGLE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_DTL_BASIC_DONGLE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_DTL_BASIC_DONGLE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ENABLE_DTL_BASIC_DONGLE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_DTL_BASIC_DONGLE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_DTL_BASIC_DONGLE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_CART_IO_SETTINGS,    "Cartridge/IO settings" },
 /* da */ { IDMS_CART_IO_SETTINGS_DA, "Modul/IO-indstillinger" },
 /* de */ { IDMS_CART_IO_SETTINGS_DE, "Erweiterungsmodul I/O Einstellungen" },
@@ -6942,6 +7012,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_CBM5X0_SETTINGS_SV, "CBM5x0-inställningar" },
 /* tr */ { IDS_CBM5X0_SETTINGS_TR, "CBM5x0 ayarlarý" },
 
+/* en */ { IDS_DATASETTE,    "Datasette" },
+/* da */ { IDS_DATASETTE_DA, "" },  /* fuzzy */
+/* de */ { IDS_DATASETTE_DE, "" },  /* fuzzy */
+/* es */ { IDS_DATASETTE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DATASETTE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DATASETTE_HU, "" },  /* fuzzy */
+/* it */ { IDS_DATASETTE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DATASETTE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DATASETTE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DATASETTE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DATASETTE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DATASETTE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DATASETTE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_RESET_DATASETTE_WITH_CPU,    "Reset Datasette with CPU" },
 /* da */ { IDS_RESET_DATASETTE_WITH_CPU_DA, "Reset Datasette ved CPU-reset" },
 /* de */ { IDS_RESET_DATASETTE_WITH_CPU_DE, "Zurücksetzen des Bandlaufwerks bei CPU Reset" },
@@ -6997,6 +7081,146 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DATASETTE_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DATASETTE_SETTINGS_SV, "Datasetteinställningar" },
 /* tr */ { IDS_DATASETTE_SETTINGS_TR, "Teyp Ayarlarý" },
+
+/* en */ { IDS_CP_CLOCK_F83,    "CP Clock F83" },
+/* da */ { IDS_CP_CLOCK_F83_DA, "" },  /* fuzzy */
+/* de */ { IDS_CP_CLOCK_F83_DE, "" },  /* fuzzy */
+/* es */ { IDS_CP_CLOCK_F83_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CP_CLOCK_F83_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CP_CLOCK_F83_HU, "" },  /* fuzzy */
+/* it */ { IDS_CP_CLOCK_F83_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CP_CLOCK_F83_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CP_CLOCK_F83_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CP_CLOCK_F83_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CP_CLOCK_F83_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CP_CLOCK_F83_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CP_CLOCK_F83_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA,    "Save CP Clock F83 RTC data when changed" },
+/* da */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_DE, "" },  /* fuzzy */
+/* es */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CP_CLOCK_F83_SETTINGS,    "CP Clock F83 settings" },
+/* da */ { IDS_CP_CLOCK_F83_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_CP_CLOCK_F83_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_CP_CLOCK_F83_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CP_CLOCK_F83_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CP_CLOCK_F83_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_CP_CLOCK_F83_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CP_CLOCK_F83_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CP_CLOCK_F83_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CP_CLOCK_F83_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CP_CLOCK_F83_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CP_CLOCK_F83_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CP_CLOCK_F83_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_GENERIC_LOGFILE,    "Generic logfile" },
+/* da */ { IDS_GENERIC_LOGFILE_DA, "" },  /* fuzzy */
+/* de */ { IDS_GENERIC_LOGFILE_DE, "" },  /* fuzzy */
+/* es */ { IDS_GENERIC_LOGFILE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_GENERIC_LOGFILE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_GENERIC_LOGFILE_HU, "" },  /* fuzzy */
+/* it */ { IDS_GENERIC_LOGFILE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_GENERIC_LOGFILE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_GENERIC_LOGFILE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_GENERIC_LOGFILE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_GENERIC_LOGFILE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_GENERIC_LOGFILE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_GENERIC_LOGFILE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SPECIFIED_TAPELOG_FILE,    "Generic logfile" },
+/* da */ { IDS_SPECIFIED_TAPELOG_FILE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFIED_TAPELOG_FILE_DE, "" },  /* fuzzy */
+/* es */ { IDS_SPECIFIED_TAPELOG_FILE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SPECIFIED_TAPELOG_FILE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SPECIFIED_TAPELOG_FILE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SPECIFIED_TAPELOG_FILE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SPECIFIED_TAPELOG_FILE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFIED_TAPELOG_FILE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SPECIFIED_TAPELOG_FILE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SPECIFIED_TAPELOG_FILE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SPECIFIED_TAPELOG_FILE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SPECIFIED_TAPELOG_FILE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_TAPELOG,    "TapeLog" },
+/* da */ { IDS_TAPELOG_DA, "" },  /* fuzzy */
+/* de */ { IDS_TAPELOG_DE, "" },  /* fuzzy */
+/* es */ { IDS_TAPELOG_ES, "" },  /* fuzzy */
+/* fr */ { IDS_TAPELOG_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TAPELOG_HU, "" },  /* fuzzy */
+/* it */ { IDS_TAPELOG_IT, "" },  /* fuzzy */
+/* ko */ { IDS_TAPELOG_KO, "" },  /* fuzzy */
+/* nl */ { IDS_TAPELOG_NL, "" },  /* fuzzy */
+/* pl */ { IDS_TAPELOG_PL, "" },  /* fuzzy */
+/* ru */ { IDS_TAPELOG_RU, "" },  /* fuzzy */
+/* sv */ { IDS_TAPELOG_SV, "" },  /* fuzzy */
+/* tr */ { IDS_TAPELOG_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_TAPELOG_DESTINATION,    "TapeLog messages destination" },
+/* da */ { IDS_TAPELOG_DESTINATION_DA, "" },  /* fuzzy */
+/* de */ { IDS_TAPELOG_DESTINATION_DE, "" },  /* fuzzy */
+/* es */ { IDS_TAPELOG_DESTINATION_ES, "" },  /* fuzzy */
+/* fr */ { IDS_TAPELOG_DESTINATION_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TAPELOG_DESTINATION_HU, "" },  /* fuzzy */
+/* it */ { IDS_TAPELOG_DESTINATION_IT, "" },  /* fuzzy */
+/* ko */ { IDS_TAPELOG_DESTINATION_KO, "" },  /* fuzzy */
+/* nl */ { IDS_TAPELOG_DESTINATION_NL, "" },  /* fuzzy */
+/* pl */ { IDS_TAPELOG_DESTINATION_PL, "" },  /* fuzzy */
+/* ru */ { IDS_TAPELOG_DESTINATION_RU, "" },  /* fuzzy */
+/* sv */ { IDS_TAPELOG_DESTINATION_SV, "" },  /* fuzzy */
+/* tr */ { IDS_TAPELOG_DESTINATION_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_TAPELOG_FILENAME_SELECT,    "Select file for TapeLog" },
+/* da */ { IDS_TAPELOG_FILENAME_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_TAPELOG_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* es */ { IDS_TAPELOG_FILENAME_SELECT_ES, "" },  /* fuzzy */
+/* fr */ { IDS_TAPELOG_FILENAME_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TAPELOG_FILENAME_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_TAPELOG_FILENAME_SELECT_IT, "" },  /* fuzzy */
+/* ko */ { IDS_TAPELOG_FILENAME_SELECT_KO, "" },  /* fuzzy */
+/* nl */ { IDS_TAPELOG_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_TAPELOG_FILENAME_SELECT_PL, "" },  /* fuzzy */
+/* ru */ { IDS_TAPELOG_FILENAME_SELECT_RU, "" },  /* fuzzy */
+/* sv */ { IDS_TAPELOG_FILENAME_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_TAPELOG_FILENAME_SELECT_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_TAPELOG_FILENAME,    "TapeLog file" },
+/* da */ { IDS_TAPELOG_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_TAPELOG_FILENAME_DE, "" },  /* fuzzy */
+/* es */ { IDS_TAPELOG_FILENAME_ES, "" },  /* fuzzy */
+/* fr */ { IDS_TAPELOG_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TAPELOG_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_TAPELOG_FILENAME_IT, "" },  /* fuzzy */
+/* ko */ { IDS_TAPELOG_FILENAME_KO, "" },  /* fuzzy */
+/* nl */ { IDS_TAPELOG_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_TAPELOG_FILENAME_PL, "" },  /* fuzzy */
+/* ru */ { IDS_TAPELOG_FILENAME_RU, "" },  /* fuzzy */
+/* sv */ { IDS_TAPELOG_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_TAPELOG_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_TAPELOG_SETTINGS,    "TapeLog settings" },
+/* da */ { IDS_TAPELOG_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_TAPELOG_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_TAPELOG_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_TAPELOG_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TAPELOG_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_TAPELOG_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_TAPELOG_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_TAPELOG_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_TAPELOG_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_TAPELOG_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_TAPELOG_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_TAPELOG_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_NEVER_EXTEND,    "Never extend" },
 /* da */ { IDS_NEVER_EXTEND_DA, "Udvid aldrig" },

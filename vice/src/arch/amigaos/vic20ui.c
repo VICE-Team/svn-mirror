@@ -39,6 +39,8 @@
 #include "vic20uires.h"
 
 #include "mui/uiacia.h"
+#include "mui/uicpclockf83.h"
+#include "mui/uidatasette.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivevic20.h"
 #include "mui/uids12c887rtc.h"
@@ -55,6 +57,7 @@
 #include "mui/uisidcart.h"
 #include "mui/uisoundexpander.h"
 #include "mui/uisoundsampler.h"
+#include "mui/uitapelog.h"
 #include "mui/uiuserportds1307rtc.h"
 #include "mui/uiuserportrtc58321a.h"
 #include "mui/uivic.h"
@@ -76,6 +79,8 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "IO2RAM", IDM_IO2_RAM_ENABLE },
     { "IO3RAM", IDM_IO3_RAM_ENABLE },
     { "UserportDAC", IDM_TOGGLE_USERPORT_DAC },
+    { "TapeSenseDongle", IDM_TOGGLE_TAPE_SENSE_DONGLE },
+    { "DTLBasicDongle", IDM_TOGGLE_DTL_BASIC_DONGLE },
     { NULL, 0 }
 };
 
@@ -229,6 +234,15 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
+        case IDM_DATASETTE_SETTINGS:
+            ui_datasette_settings_dialog();
+            break;
+        case IDM_TAPELOG_SETTINGS:
+            ui_tapelog_settings_dialog(canvas);
+            break;
+        case IDM_CPCLOCKF83_SETTINGS:
+            ui_cpclockf83_settings_dialog();
             break;
     }
 

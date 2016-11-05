@@ -43,6 +43,8 @@
 #include "mui/uic64memoryhacks.h"
 #include "mui/uic64model.h"
 #include "mui/uic64scmodel.h"
+#include "mui/uicpclockf83.h"
+#include "mui/uidatasette.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec64.h"
 #include "mui/uids12c887rtc.h"
@@ -68,6 +70,7 @@
 #include "mui/uisampler.h"
 #include "mui/uisid.h"
 #include "mui/uisoundexpander.h"
+#include "mui/uitapelog.h"
 #include "mui/uiuserportds1307rtc.h"
 #include "mui/uiuserportrtc58321a.h"
 #include "mui/uivicii.h"
@@ -87,6 +90,8 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "UserportDIGIMAX", IDM_TOGGLE_USERPORT_DIGIMAX },
     { "Userport4bitSampler", IDM_TOGGLE_USERPORT_4BIT_SAMPLER },
     { "Userport8BSS", IDM_TOGGLE_USERPORT_8BSS },
+    { "TapeSenseDongle", IDM_TOGGLE_TAPE_SENSE_DONGLE },
+    { "DTLBasicDongle", IDM_TOGGLE_DTL_BASIC_DONGLE },
     { NULL, 0 }
 };
 
@@ -275,6 +280,15 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_IO_COLLISION_SETTINGS:
             ui_iocollisions_settings_dialog();
+            break;
+        case IDM_DATASETTE_SETTINGS:
+            ui_datasette_settings_dialog();
+            break;
+        case IDM_TAPELOG_SETTINGS:
+            ui_tapelog_settings_dialog(canvas);
+            break;
+        case IDM_CPCLOCKF83_SETTINGS:
+            ui_cpclockf83_settings_dialog();
             break;
     }
 

@@ -49,6 +49,8 @@ libarchmui_a_SOURCES = \
 	uicbm5x0settings.h \
 	uiciamodel.c \
 	uiciamodel.h \
+	uicpclockf83.c \
+	uicpclockf83.h \
 	uidatasette.c \
 	uidatasette.h \
 	uidigimax.c \
@@ -163,6 +165,8 @@ libarchmui_a_SOURCES = \
 	uisoundexpander.h \
 	uisoundsampler.c \
 	uisoundsampler.h \
+	uitapelog.c \
+	uitapelog.h \
 	uited.c \
 	uited.h \
 	uiuserportds1307rtc.c \

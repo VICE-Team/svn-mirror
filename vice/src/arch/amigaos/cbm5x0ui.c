@@ -41,6 +41,8 @@
 #include "mui/uiacia.h"
 #include "mui/uicbm5x0settings.h"
 #include "mui/uiciamodel.h"
+#include "mui/uicpclockf83.h"
+#include "mui/uidatasette.h"
 #include "mui/uidrivepetcbm2.h"
 #include "mui/uiiocollisions.h"
 #include "mui/uijoyport.h"
@@ -51,6 +53,7 @@
 #include "mui/uiromcbm2settings.h"
 #include "mui/uisampler.h"
 #include "mui/uisid.h"
+#include "mui/uitapelog.h"
 #include "mui/uivideo.h"
 
 static const ui_menu_toggle_t cbm5x0_ui_menu_toggles[] = {
@@ -60,6 +63,8 @@ static const ui_menu_toggle_t cbm5x0_ui_menu_toggles[] = {
     { "VICIIAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "Mouse", IDM_MOUSE },
+    { "TapeSenseDongle", IDM_TOGGLE_TAPE_SENSE_DONGLE },
+    { "DTLBasicDongle", IDM_TOGGLE_DTL_BASIC_DONGLE },
     { NULL, 0 }
 };
 
@@ -171,6 +176,15 @@ static int cbm5x0_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
+        case IDM_DATASETTE_SETTINGS:
+            ui_datasette_settings_dialog();
+            break;
+        case IDM_TAPELOG_SETTINGS:
+            ui_tapelog_settings_dialog(canvas);
+            break;
+        case IDM_CPCLOCKF83_SETTINGS:
+            ui_cpclockf83_settings_dialog();
             break;
     }
 

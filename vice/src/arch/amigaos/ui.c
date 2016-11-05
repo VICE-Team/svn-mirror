@@ -64,7 +64,6 @@
 #include "mui/filereq.h"
 #include "mui/mui.h"
 #include "mui/uiautostart.h"
-#include "mui/uidatasette.h"
 #include "mui/uidrivesound.h"
 #include "mui/uifliplist.h"
 #include "mui/uijamaction.h"
@@ -873,9 +872,6 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
             break;
         case IDM_NATIVE_SCREENSHOT_SETTINGS:
             ui_screenshot_settings_dialog();
-            break;
-        case IDM_DATASETTE_SETTINGS:
-            ui_datasette_settings_dialog();
             break;
         case IDM_RAM_SETTINGS:
             ui_ram_settings_dialog();
