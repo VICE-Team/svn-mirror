@@ -603,7 +603,6 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->AddItem(new BMenuItem("8562 (NTSC)", new BMessage(MENU_VICII_MODEL_8562_NTSC)));
                     extsubmenu->AddItem(new BMenuItem("6567R56A (old NTSC)", new BMessage(MENU_VICII_MODEL_6567R56A_OLD_NTSC)));
                     extsubmenu->AddItem(new BMenuItem("6572 (PAL-N)", new BMessage(MENU_VICII_MODEL_6572_PAL_N)));
-                submenu->AddItem(new BMenuItem("New luminances", new BMessage(MENU_VICII_NEW_LUMINANCES)));
 
                 submenu->AddItem(extsubmenu = new BMenu("Glue logic"));
                     extsubmenu->SetRadioMode(true);
