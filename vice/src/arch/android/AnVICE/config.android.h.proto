@@ -804,7 +804,7 @@
 /* #undef USE_XF86_VIDMODE_EXT */
 
 /* Version number of package */
-#define VERSION "2.3"
+#define VERSION @VERSION@
 
 /* Win32 Version string. */
 #define VERSION_RC "$VERSION_RC"

@@ -464,6 +464,9 @@ ${SHELL} ./geninfocontrib_h.sh infocontrib.h <../doc/vice.texi | sed -f infocont
 
 cd arch/android/AnVICE
 
+echo generating config.android.h and versions info
+sed "s|\@VERSION\@|$VICEVERSION|g" <config.android.h.proto >config.android.h
+
 echo generating local.properties
 sed "s|\@ANDROID_HOME\@|$ANDROID_HOME|g" <local.properties.proto >local.properties
 
