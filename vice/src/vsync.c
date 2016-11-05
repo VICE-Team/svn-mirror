@@ -149,8 +149,28 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
+
+static const resource_int_t resources_int_vsid[] = {
+    { "Speed", 100, RES_EVENT_SAME, NULL,
+      &relative_speed, set_relative_speed, NULL },
+    { "WarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      /* FIXME: maybe RES_EVENT_NO */
+      &warp_mode_enabled, set_warp_mode, NULL },
+#ifdef DINGOO_NATIVE
+    { "OverClock", 0, RES_EVENT_STRICT, (resource_value_t)1,
+      /* FIXME: maybe RES_EVENT_NO */
+      &overclock_mode_enabled, set_overclock_mode, NULL },
+#endif
+    { NULL }
+};
+
+
+
 int vsync_resources_init(void)
 {
+    if (machine_class == VICE_MACHINE_VSID) {
+        return resources_register_int(resources_int_vsid);
+    }
     return resources_register_int(resources_int);
 }
 
@@ -181,8 +201,32 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
+
+static const cmdline_option_t cmdline_options_vsid[] = {
+    { "-speed", SET_RESOURCE, 1,
+      NULL, NULL, "Speed", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_PERCENT, IDCLS_LIMIT_SPEED_TO_VALUE,
+      NULL, NULL },
+    { "-warp", SET_RESOURCE, 0,
+      NULL, NULL, "WarpMode", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_WARP_MODE,
+      NULL, NULL },
+    { "+warp", SET_RESOURCE, 0,
+      NULL, NULL, "WarpMode", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_WARP_MODE,
+      NULL, NULL },
+    { NULL }
+};
+
+
 int vsync_cmdline_options_init(void)
 {
+    if (machine_class == VICE_MACHINE_VSID) {
+        return cmdline_register_options(cmdline_options_vsid);
+    }
     return cmdline_register_options(cmdline_options);
 }
 
