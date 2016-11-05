@@ -844,6 +844,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle(EXTERNAL_PALETTE);
             return;
 
+#if defined(__X64SC__) || defined(__XSCPU64__)
+        case IDM_VICII_VSP_BUG:
+            toggle("VICIIVSPBug");
+            return;
+#endif
+
         case IDM_DSIZE:
             interrupt_maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SIZE);
             return;

@@ -145,6 +145,8 @@
 #define IDM_HARDRESET                0x12d
 #define IDM_EXIT                     0x12f
 
+#define IDM_VICII_VSP_BUG            0x369
+
 #define IDM_DSIZE                    0x131
 #define IDM_DSCAN                    0x132
 #define IDM_EXTERNALPAL              0x135

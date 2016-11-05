@@ -302,6 +302,9 @@ BEGIN
                 MENUITEM "Debug borders",                 IDM_BORDER_DEBUG,             MIS_TEXT
                 MENUITEM "No borders",                    IDM_BORDER_NONE,              MIS_TEXT
             END
+#if defined(__X64SC__) || defined(__XSCPU64__)
+            MENUITEM "VICII VSP bug",                     IDM_VICII_VSP_BUG,            MIS_TEXT
+#endif
         END
 #endif
 
