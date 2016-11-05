@@ -397,6 +397,14 @@
 
 #define IDM_PLUS256KFILE             0x14e
 
+#define IDM_MEMPLUS4_HACKS_SETTINGS  0x36a
+#define IDM_PLUS4_MEMORY_HACK_DEVICE 0x36b
+#define IDM_MEMORY_PLUS4HACK_NONE    0x36c
+#define IDM_MEMORY_PLUS4HACK_C256K   0x36d
+#define IDM_MEMORY_PLUS4HACK_H256K   0x36e
+#define IDM_MEMORY_PLUS4HACK_H1024K  0x36f
+#define IDM_MEMORY_PLUS4HACK_H4096K  0x370
+
 #define IDM_DQBB_SETTINGS            0x1f1
 #define IDM_DQBB                     0x1b1
 #define IDM_SAVE_DQBB                0x26d

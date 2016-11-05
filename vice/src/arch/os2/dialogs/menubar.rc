@@ -1153,6 +1153,18 @@ BEGIN
 #endif
 
 #ifdef __XPLUS4__
+        SUBMENU "PLUS4 Memory Expansion Hack Settings",   IDM_MEMPLUS4_HACKS_SETTINGS,    MIS_TEXT
+        BEGIN
+            SUBMENU "PLUS4 Memory Expansion Hack Device", IDM_PLUS4_MEMORY_HACK_DEVICE,   MIS_TEXT
+            BEGIN
+                MENUITEM "None",                          IDM_MEMORY_PLUS4HACK_NONE,      MIS_TEXT
+                MENUITEM "CSORY 256K",                    IDM_MEMORY_PLUS4HACK_C256K,     MIS_TEXT
+                MENUITEM "HANNES 256K",                   IDM_MEMORY_PLUS4HACK_H256K,     MIS_TEXT
+                MENUITEM "HANNES 1024K",                  IDM_MEMORY_PLUS4HACK_H1024K,    MIS_TEXT
+                MENUITEM "HANNES 4096K",                  IDM_MEMORY_PLUS4HACK_H4096K,    MIS_TEXT
+            END
+        END
+
         SUBMENU "V364 Speech Settings",                   IDM_V364SPEECH_SETTINGS,      MIS_TEXT
         BEGIN
             MENUITEM "~V364 Speech - ROM",                IDM_V364SPEECH,               MIS_TEXT

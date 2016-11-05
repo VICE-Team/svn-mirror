@@ -95,6 +95,7 @@
 #endif
 
 #ifdef __XPLUS4__
+#include "plus4memhacks.h"
 #include "plus4model.h"
 #include "ted.h"
 #endif
@@ -1386,6 +1387,24 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_GMOD2_FLASH_READWRITE:
             toggle("GMod2FlashWrite");
             return;
+
+#ifdef __XPLUS4__
+        case IDM_MEMORY_PLUS4HACK_NONE:
+            resources_set_int("MemoryHack", MEMORY_HACK_NONE);
+            return;
+        case IDM_MEMORY_PLUS4HACK_C256K:
+            resources_set_int("MemoryHack", MEMORY_HACK_C256K);
+            return;
+        case IDM_MEMORY_PLUS4HACK_H256K:
+            resources_set_int("MemoryHack", MEMORY_HACK_H256K);
+            return;
+        case IDM_MEMORY_PLUS4HACK_H1024K:
+            resources_set_int("MemoryHack", MEMORY_HACK_H1024K);
+            return;
+        case IDM_MEMORY_PLUS4HACK_H4096K:
+            resources_set_int("MemoryHack", MEMORY_HACK_H4096K);
+            return;
+#endif
 
 #ifdef __X64__
         case IDM_PLUS60KD040:
@@ -2793,6 +2812,17 @@ void menu_select(HWND hwnd, USHORT item)
                     WinCheckMenuItem(hwnd, IDM_C128INT | i, val == i);
                 }
             }
+            return;
+#endif
+
+#ifdef __XPLUS4__
+        case IDM_PLUS4_MEMORY_HACK_DEVICE:
+            resources_get_int("MemoryHack", &val);
+            WinCheckMenuItem(hwnd, IDM_MEMORY_PLUS4HACK_NONE, val == MEMORY_HACK_NONE);
+            WinCheckMenuItem(hwnd, IDM_MEMORY_PLUS4HACK_C256K, val == MEMORY_HACK_C256K);
+            WinCheckMenuItem(hwnd, IDM_MEMORY_PLUS4HACK_H256K, val == MEMORY_HACK_H256K);
+            WinCheckMenuItem(hwnd, IDM_MEMORY_PLUS4HACK_H1024K, val == MEMORY_HACK_H1024K);
+            WinCheckMenuItem(hwnd, IDM_MEMORY_PLUS4HACK_H4096K, val == MEMORY_HACK_H4096K);
             return;
 #endif
 
