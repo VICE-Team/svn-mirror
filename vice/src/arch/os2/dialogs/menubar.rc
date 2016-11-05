@@ -175,7 +175,18 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Set to ~Defaults",                  IDM_DEFAULTCONFIG,            MIS_TEXT
         END
-        MENUITEM "Screenshot vice2.~png",                 IDM_PRINTSCRN,                MIS_TEXT
+        SUBMENU "Screenshots",                            IDM_SCREENSHOTS               MIS_TEXT
+        BEGIN
+            MENUITEM "Save BMP screenshot",               IDM_SCREENSHOT_BMP,           MIS_TEXT
+            MENUITEM "Save Doodle screenshot",            IDM_SCREENSHOT_DOODLE,        MIS_TEXT
+            MENUITEM "Save Doodle compressed screenshot", IDM_SCREENSHOT_DOODLE_CMPR,   MIS_TEXT
+            MENUITEM "Save Godot screenshot",             IDM_SCREENSHOT_GODOT,         MIS_TEXT
+            MENUITEM "Save IFF screenshot",               IDM_SCREENSHOT_IFF,           MIS_TEXT
+            MENUITEM "Save Koala screenshot",             IDM_SCREENSHOT_KOALA,         MIS_TEXT
+            MENUITEM "Save Koala compressed screenshot",  IDM_SCREENSHOT_KOALA_CMPR,    MIS_TEXT
+            MENUITEM "Save PCX screenshot",               IDM_SCREENSHOT_PCX,           MIS_TEXT
+            MENUITEM "Save PPM screenshot",               IDM_SCREENSHOT_PPM,           MIS_TEXT
+        END
         MENUITEM SEPARATOR
         SUBMENU "~JAM Action",                            IDM_JAM_ACTION,               MIS_TEXT
         BEGIN
@@ -1413,7 +1424,6 @@ END
 
 ACCELTABLE IDM_VICE2 MOVEABLE DISCARDABLE
 BEGIN
-    VK_PRINTSCRN, IDM_PRINTSCRN,   ALT, VIRTUALKEY
     VK_F1,        IDM_MENUBAR,     ALT, VIRTUALKEY
     VK_F1,        IDM_MENUBAR,     ALT, SHIFT, VIRTUALKEY
     VK_F2,        IDM_FILESAVE,    ALT, VIRTUALKEY

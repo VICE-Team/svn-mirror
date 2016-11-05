@@ -248,16 +248,6 @@ static void save_snapshot(WORD addr, void *hwnd)
     lib_free(name);
 }
 
-void save_screenshot(HWND hwnd)
-{
-    char *name = util_concat(archdep_boot_path(), "\\vice2.png", NULL);
-
-    if (!screenshot_save("PNG", name, (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER))) {
-        log_debug("Screenshot saved as '%s' successfully.", name);
-    }
-    lib_free(name);
-}
-
 // --------------------------------------------------------------------------
 
 char *printer_res(const char *res, const int num)
@@ -411,6 +401,15 @@ static int sidaddr2 = 0xfe80;
 static int sidaddr1 = 0x9800;
 static int sidaddr2 = 0x9c00;
 #endif
+
+static void save_ui_screenshot(char *type, HWND hwnd)
+{
+    if (screenshot_save(type, ViceFileSelect(hwnd, 1), (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)) < 0) {
+        ui_error("Screenshot failed.");
+    } else {
+        ui_message("Screenshot saved.");
+    }
+}
 
 void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 {
@@ -790,6 +789,34 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
+        case IDM_SCREENSHOT_BMP:
+            save_ui_screenshot("BMP", hwnd);
+            return;
+        case IDM_SCREENSHOT_DOODLE:
+            save_ui_screenshot("DOODLE", hwnd);
+            return;
+        case IDM_SCREENSHOT_DOODLE_CMPR:
+            save_ui_screenshot("DOODLE_COMPRESSED", hwnd);
+            return;
+        case IDM_SCREENSHOT_GODOT:
+            save_ui_screenshot("4BT", hwnd);
+            return;
+        case IDM_SCREENSHOT_IFF:
+            save_ui_screenshot("IFF", hwnd);
+            return;
+        case IDM_SCREENSHOT_KOALA:
+            save_ui_screenshot("KOALA", hwnd);
+            return;
+        case IDM_SCREENSHOT_KOALA_CMPR:
+            save_ui_screenshot("KOALA_COMPRESSED", hwnd);
+            return;
+        case IDM_SCREENSHOT_PCX:
+            save_ui_screenshot("PCX", hwnd);
+            return;
+        case IDM_SCREENSHOT_PPM:
+            save_ui_screenshot("PPM", hwnd);
+            return;
+
         case IDM_FLIPNEXT8:
         case IDM_FLIPNEXT9:
         case IDM_FLIPPREV8:
@@ -812,9 +839,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_SNAPSAVE:
             interrupt_maincpu_trigger_trap(save_snapshot, (void*)hwnd);
-            return;
-        case IDM_PRINTSCRN:
-            save_screenshot(hwnd);
             return;
         case IDM_HARDRESET:
             hardreset_dialog(hwnd);

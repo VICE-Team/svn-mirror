@@ -73,6 +73,17 @@
 #define IDM_COLOR                    0x10e
 #define IDM_COLOR2                   0x2bf
 
+#define IDM_SCREENSHOTS              0x372
+#define IDM_SCREENSHOT_BMP           0x12b
+#define IDM_SCREENSHOT_DOODLE        0x373
+#define IDM_SCREENSHOT_DOODLE_CMPR   0x374
+#define IDM_SCREENSHOT_GODOT         0x375
+#define IDM_SCREENSHOT_IFF           0x376
+#define IDM_SCREENSHOT_KOALA         0x377
+#define IDM_SCREENSHOT_KOALA_CMPR    0x378
+#define IDM_SCREENSHOT_PCX           0x379
+#define IDM_SCREENSHOT_PPM           0x37a
+
 #define IDM_JAM_ACTION_DIALOG        0x354
 #define IDM_JAM_ACTION_CONTINUE      0x355
 #define IDM_JAM_ACTION_MONITOR       0x356
@@ -140,7 +151,6 @@
 #define IDM_READCONFIG               0x128
 #define IDM_WRITECONFIG              0x129
 #define IDM_DEFAULTCONFIG            0x12a
-#define IDM_PRINTSCRN                0x12b
 #define IDM_SOFTRESET                0x12c
 #define IDM_HARDRESET                0x12d
 #define IDM_EXIT                     0x12f
