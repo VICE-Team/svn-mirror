@@ -226,7 +226,7 @@ static NSString *help_texts[] = {
     }
 }
 
-- (int)tag
+- (NSInteger)tag
 {
     // callback from button pressed
     return driveNumber + driveBase;

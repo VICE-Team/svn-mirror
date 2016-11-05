@@ -27,6 +27,7 @@
 #include "resources.h"
 #include "autostart.h"
 #include "attach.h"
+#include "charset.h"
 #include "vsync.h"
 #include "drive.h"
 #include "monitor.h"
@@ -36,6 +37,7 @@
 #include "monitor/mon_breakpoint.h"
 #include "machine.h"
 #include "keyboard.h"
+#include "kbdbuf.h"
 #include "diskimage.h"
 #include "mousedrv.h"
 #include "lightpen.h"
@@ -756,7 +758,7 @@ extern void mouse_move_f(float x, float y);
         int len = [string length];
         char *pstr = (char *)malloc(len + 1);
         memcpy(pstr,cstr,len+1);
-        charset_petconvstring(pstr,0);
+        charset_petconvstring((BYTE*)pstr,0);
         
         kbdbuf_feed(pstr);
         

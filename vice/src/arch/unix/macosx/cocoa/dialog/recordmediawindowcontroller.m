@@ -46,7 +46,7 @@
 
 -(void)windowDidLoad
 {
-    NSString *fileName = [NSString stringWithString:@"~/capture"];
+    NSString *fileName = @"~/capture";
     [mediaFileName setStringValue:[fileName stringByExpandingTildeInPath]];
     [stopRecord setEnabled:FALSE];
 

@@ -128,8 +128,8 @@
 
 - (void)toggleWindow:(id)sender
 {
+    NSWindow *window = [self window];  // note: this may lazily load the window, so do this before testing isWindowLoaded
     BOOL isLoaded = [self isWindowLoaded];
-    NSWindow *window = [self window];
     if(isLoaded) {
         if([window isVisible]) {
             [window orderOut:sender];

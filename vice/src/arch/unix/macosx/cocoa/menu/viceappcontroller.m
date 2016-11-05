@@ -188,7 +188,7 @@
 
     if ([panel runModal] == NSFileHandlingPanelOKButton) {
         int type = [type_button indexOfSelectedItem];
-        NSString * path = [[panel filename] stringByAppendingPathExtension:[extensions objectAtIndex:type]];
+        NSString * path = [[[panel URL] path] stringByAppendingPathExtension:[extensions objectAtIndex:type]];
 
         if (![[VICEApplication theMachineController] 
                     createDiskImage:type
@@ -312,7 +312,7 @@
     if ([panel runModal] == NSFileHandlingPanelOKButton) {
         BOOL saveRoms  = ([saveRomsCheck state] == NSOnState);
         BOOL saveDisks = ([saveDisksCheck state] == NSOnState);
-        NSString * path = [panel filename];
+        NSString * path = [[panel URL] path];
         if (path!=nil) {
             [[VICEApplication theMachineController] saveSnapshot:path withROMS:saveRoms andDisks:saveDisks];
         }

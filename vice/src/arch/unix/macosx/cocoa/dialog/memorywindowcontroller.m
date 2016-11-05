@@ -238,7 +238,7 @@
     return theValue;
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     if(data == nil) {
         return 0;

@@ -755,7 +755,7 @@ const float control_win_width = 200;
 
 - (void)toggleDebuggerWindow:(id)sender
 {
-    int tag = [sender tag];
+    NSInteger tag = [sender tag];
     switch(tag) {
         case TAG_CPU_REGISTERS:
             [cpuRegisterWC toggleWindow:sender];

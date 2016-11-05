@@ -27,7 +27,7 @@
 
 #import "debuggerwindowcontroller.h"
 
-@interface MemoryWindowController : DebuggerWindowController
+@interface MemoryWindowController : DebuggerWindowController <NSTableViewDataSource>
 {
     IBOutlet NSTableView *memoryTable;
 

@@ -47,6 +47,10 @@
 -(void)windowDidLoad
 {
     [super windowDidLoad];
+#ifdef MÓNITOR_DEBUG
+    NSLog(@"reg: -> set data source");
+#endif
+    [registerTable setDataSource:self];
  }
 
 -(void)readRegisters
@@ -68,11 +72,6 @@
 -(void)monitorInitDone:(NSNotification *)notification
 {
     [super monitorInitDone:notification];    
-
-#ifdef MÓNITOR_DEBUG
-    NSLog(@"reg: -> set data source");
-#endif
-    [registerTable setDataSource:self];
 }
 
 -(void)monitorUpdate:(NSNotification *)notification
@@ -122,7 +121,7 @@
         }
         
         // format value
-        if(flags & 1 == 1)  {
+        if((flags & 1) == 1)  {
             // requested binary output
             theValue = [DebuggerWindowController toBinaryString:value width:8];
         } else {
@@ -146,7 +145,7 @@
 
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     if(registers) {
         int num = [registers count];

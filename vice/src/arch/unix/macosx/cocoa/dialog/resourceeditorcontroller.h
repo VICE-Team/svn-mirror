@@ -27,7 +27,7 @@
 #import "viceresourcewindowcontroller.h"
 #import "resourcetreeitem.h"
 
-@interface ResourceEditorController : VICEResourceWindowController
+@interface ResourceEditorController : VICEResourceWindowController <NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
     ResourceTreeItem *rootItem;
     IBOutlet NSOutlineView *treeView;

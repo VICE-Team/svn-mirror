@@ -27,7 +27,7 @@
 
 #import "debuggerwindowcontroller.h"
 
-@interface RegisterWindowController : DebuggerWindowController
+@interface RegisterWindowController : DebuggerWindowController <NSTableViewDataSource>
 {
     IBOutlet NSTableView *registerTable;
 

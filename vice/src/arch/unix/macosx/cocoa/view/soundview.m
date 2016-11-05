@@ -60,7 +60,7 @@ static const char *maxVolStr = "{\\rtf1\\ansi\\ansicpg1252\\cocoartf949\\cocoasu
     // min volume
     minVolume = [[NSTextField alloc] initWithFrame:NSMakeRect(0,-4,bw,h)];
     NSData *rtfMinVolString = [NSData dataWithBytes:minVolStr length:strlen(minVolStr)];
-    [minVolume setStringValue:[[NSAttributedString alloc] initWithRTF:rtfMinVolString documentAttributes:NULL]];
+    [minVolume setAttributedStringValue:[[NSAttributedString alloc] initWithRTF:rtfMinVolString documentAttributes:NULL]];
     [minVolume setDrawsBackground:NO];
     [minVolume setEditable:NO];
     [minVolume setBordered:NO];
@@ -70,7 +70,7 @@ static const char *maxVolStr = "{\\rtf1\\ansi\\ansicpg1252\\cocoartf949\\cocoasu
     // max volume
     maxVolume = [[NSTextField alloc] initWithFrame:NSMakeRect(w-1*bw,-4,bw,h)];
     NSData *rtfMaxVolString = [NSData dataWithBytes:maxVolStr length:strlen(maxVolStr)];
-    [maxVolume setStringValue:[[NSAttributedString alloc] initWithRTF:rtfMaxVolString documentAttributes:NULL]];
+    [maxVolume setAttributedStringValue:[[NSAttributedString alloc] initWithRTF:rtfMaxVolString documentAttributes:NULL]];
     [maxVolume setDrawsBackground:NO];
     [maxVolume setEditable:NO];
     [maxVolume setBordered:NO];

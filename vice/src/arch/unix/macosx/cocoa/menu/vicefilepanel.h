@@ -26,7 +26,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface VICEFilePanel : NSObject
+@interface VICEFilePanel : NSObject <NSOpenSavePanelDelegate>
 {
     NSDictionary *extensionMap;
 

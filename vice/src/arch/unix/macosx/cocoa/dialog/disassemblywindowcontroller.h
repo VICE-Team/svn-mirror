@@ -29,7 +29,7 @@
 #define MAX_SIZE        65536
 #define LINES_PER_CALL  64
 
-@interface DisassemblyWindowController : DebuggerWindowController
+@interface DisassemblyWindowController : DebuggerWindowController <NSMenuDelegate, NSTableViewDataSource>
 {
     IBOutlet NSTableView *memoryTable;
 

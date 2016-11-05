@@ -27,6 +27,7 @@
 #include "main.h"
 #include "vsync.h"
 #include "machine.h"
+#include "monitor.h"
 
 #import "vicemachine.h"
 #import "vicemachinecontroller.h"
