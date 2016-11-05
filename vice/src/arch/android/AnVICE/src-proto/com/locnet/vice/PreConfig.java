@@ -148,7 +148,7 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final String C128_BASICHI_NAME = "basichi";
     public static final String C128_BASIC64_NAME = "basic64";
     public static final String C128_KERNAL64_NAME = "kernal64";
-    public static final String C128_SDL_SYM_NAME = "sdl_sym.vkm";
+    public static final String C128_SDL_SYM_NAME = "sdl_pos.vkm";
 
     public static final String PET_KERNAL_NAME = "kernal4";
     public static final String PET_BASIC_NAME = "basic4";
