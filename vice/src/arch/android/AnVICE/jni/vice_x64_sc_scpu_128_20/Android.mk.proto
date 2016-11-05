@@ -38,7 +38,7 @@ LOCAL_CPP_EXTENSION := .cpp
 LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/menu_ethernet.c \
 	$(MY_PATH2)/src/arch/sdl/menu_midi.c \
-	$(MY_PATH2)/src/arch/sdl/menu_tfe.c \
+	$(MY_PATH2)/src/arch/sdl/menu_ethernetcart.c \
 	$(MY_PATH2)/src/arch/sdl/mididrv.c \
 	$(MY_PATH2)/src/c64/cart/c64acia1.c \
 	$(MY_PATH2)/src/c64/cart/cs8900io.c \
