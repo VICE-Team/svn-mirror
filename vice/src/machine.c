@@ -375,8 +375,10 @@ static const resource_int_t resources_int[] = {
 
 int machine_common_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0) {
-        return -1;
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (resources_register_string(resources_string) < 0) {
+           return -1;
+        }
     }
     return resources_register_int(resources_int);
 }
@@ -396,8 +398,20 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
+
+static const cmdline_option_t cmdline_options_vsid[] = {
+    { "-jamaction", SET_RESOURCE, 1, NULL, NULL, "JAMAction", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID, IDCLS_P_TYPE, IDCLS_SET_MACHINE_JAM_ACTION,
+      NULL, NULL },
+    { NULL }
+};
+
 int machine_common_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
+    if (machine_class != VICE_MACHINE_VSID) {
+        return cmdline_register_options(cmdline_options);
+    } else {
+        return cmdline_register_options(cmdline_options_vsid);
+    }
 }
 
