@@ -26,11 +26,11 @@ MACHINE_ALL="100"
 C64_ROMS="kernal basic chargen sdl_sym.vkm"
 C64DTV_ROMS="kernal basic chargen dtvrom.bin sdl_sym.vkm"
 SCPU64_ROMS="chargen scpu64 sdl_sym.vkm"
-CBM5X0_ROMS="kernal.500 basic.500 chargen.500 sdl_buks.vkm"
-CBM2_ROMS="kernal basic.128 chargen.600 sdl_buks.vkm"
+CBM5X0_ROMS="kernal.500 basic.500 chargen.500 sdl_sym.vkm"
+CBM2_ROMS="kernal basic.128 chargen.600 sdl_sym.vkm"
 C128_ROMS="kernal chargen basiclo basichi basic64 kernal64 sdl_sym.vkm"
-PET_ROMS="kernal4 basic4 chargen edit4b80 sdl_buks.vkm"
-PLUS4_ROMS="kernal basic 3plus1lo 3plus1hi sdl_sym.vkm"
+PET_ROMS="kernal4 basic4 chargen edit4b80 sdl_sym.vkm"
+PLUS4_ROMS="kernal basic 3plus1lo 3plus1hi sdl_pos.vkm"
 VIC20_ROMS="kernal basic chargen sdl_sym.vkm"
 DRIVE_ROMS="d1541II d1571cr dos1001 dos1540 dos1541 dos1551 dos1570 dos1571 dos2031 dos2040 dos3040 dos4040"
 
@@ -825,7 +825,7 @@ if test x"$emulator" = "xxplus4"; then
   sed -e 's/@VICE@/AnVICE_xplus4/g' -e 's/@VICE_ROM@/PLUS4 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-xplus4 assets/sdl-vicerc
   if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
-    cp ../../../../data/PLUS4/sdl_sym.vkm assets/sdl_sym.vkm
+    cp ../../../../data/PLUS4/sdl_pos.vkm assets/sdl_pos.vkm
   fi
 fi
 
@@ -833,7 +833,7 @@ if test x"$emulator" = "xxcbm5x0"; then
   sed -e 's/@VICE@/AnVICE_xcbm5x0/g' -e 's/@VICE_ROM@/CBM5X0 ROM \(KERNAL.500\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-xcbm5x0 assets/sdl-vicerc
   if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
-    cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+    cp ../../../../data/CBM-II/sdl_sym.vkm assets/sdl_sym.vkm
   fi
 fi
 
@@ -849,7 +849,7 @@ if test x"$emulator" = "xxcbm2"; then
   sed -e 's/@VICE@/AnVICE_xcbm2/g' -e 's/@VICE_ROM@/CBM2 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-xcbm2 assets/sdl-vicerc
   if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
-    cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+    cp ../../../../data/CBM-II/sdl_sym.vkm assets/sdl_sym.vkm
   fi
 fi
 
@@ -857,7 +857,7 @@ if test x"$emulator" = "xxpet"; then
   sed -e 's/@VICE@/AnVICE_xpet/g' -e 's/@VICE_ROM@/PET ROM \(KERNAL4\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-xpet assets/sdl-vicerc
   if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
-    cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+    cp ../../../../data/CBM-II/sdl_sym.vkm assets/sdl_sym.vkm
   fi
 fi
 
@@ -919,7 +919,7 @@ if test x"$romhandling" = "x$ROMS_ASSET"; then
   if test x"$emulator" = "xxpet" -o x"$emulator" = "xall emulators"; then
     for i in $PET_ROMS
     do
-      cp ../../../../data/PET/$i assets/pet_$i
+      cp ../../../../data/CBM-II/$i assets/pet_$i
     done
   fi
 
