@@ -1094,6 +1094,13 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
+        case IDM_DS12C887RTC_HALTED:
+            resources_set_int("DS12C887RTCRunMode", 0);
+            return;
+        case IDM_DS12C887RTC_RUNNING:
+            resources_set_int("DS12C887RTCRunMode", 1);
+            return;
+
 #ifdef __XVIC__
         case IDM_GEORAM_IO_SWAP:
             toggle("GEORAMIOSwap");
@@ -2342,6 +2349,7 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("DS12C887RTC", &val);
             WinCheckMenuItem(hwnd, IDM_DS12C887RTC, val);
             WinEnableMenuItem(hwnd, IDM_DS12C887RTCBASE, val);
+            WinEnableMenuItem(hwnd, IDM_DS12C887RTCRUNMODE, val);
             WinEnableMenuItem(hwnd, IDM_DS12C887RTC_SAVE, val);
 #ifdef HAVE_PCAP
             resources_get_int("ETHERNET_ACTIVE", &val);
@@ -2652,7 +2660,7 @@ void menu_select(HWND hwnd, USHORT item)
             return;
         case IDM_DS12C887RTC_SETTINGS:
             resources_get_int("DS12C887RTCSave", &val);
-            WinCheckMenuItem(hwnd, IDM_DS12C887RTC_SETTINGS, val);
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTC_SAVE, val);
             return;
 #ifndef __XVIC__
         case IDM_DIGIMAXBASE:
@@ -2714,6 +2722,10 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_DS12C887RTC9C00, val == 0x9c00);
             return;
 #endif
+        case IDM_DS12C887RTCRUNMODE:
+            resources_get_int( "DS12C887RTCRunMode", &val);
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTC_HALTED, !val);
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTC_RUNNING, val);
 #endif
 
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)

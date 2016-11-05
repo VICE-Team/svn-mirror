@@ -361,6 +361,9 @@
 #define IDM_DS12C887RTC9800          0x324
 #define IDM_DS12C887RTC9C00          0x325
 #define IDM_DS12C887RTC_SAVE         0x34b
+#define IDM_DS12C887RTCRUNMODE       0x366
+#define IDM_DS12C887RTC_HALTED       0x367
+#define IDM_DS12C887RTC_RUNNING      0x368
 
 #define IDM_SFX_SE_SETTINGS          0x1f0
 #define IDM_SFX_SE                   0x192

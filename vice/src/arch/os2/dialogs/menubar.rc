@@ -1057,6 +1057,11 @@ BEGIN
                 MENUITEM "$DF00",                         IDM_DS12C887RTCDF00,          MIS_TEXT
             END
             MENUITEM "Save DS12C887 RTC data when changed", IDM_DS12C887RTC_SAVE,       MIS_TEXT
+            SUBMENU  "DS12C887 RTC ~Running mode",        IDM_DS12C887RTCRUNMODE,       MIS_TEXT
+            BEGIN
+                MENUITEM "Halted",                        IDM_DS12C887RTC_HALTED,       MIS_TEXT
+                MENUITEM "Running",                       IDM_DS12C887RTC_RUNNING,      MIS_TEXT
+            END
         END
 
         SUBMENU "EasyFlash Settings",                         IDM_EASYFLASH_SETTINGS,   MIS_TEXT
