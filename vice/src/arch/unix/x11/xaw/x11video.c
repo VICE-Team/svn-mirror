@@ -154,7 +154,6 @@ static int set_fourcc(const char *val, void *param)
     } else {
         fourcc = 0;
     }
-    
     return 0;
 }
 
@@ -235,11 +234,13 @@ int video_arch_resources_init(void)
 #ifdef HAVE_OPENGL_SYNC
     openGL_register_resources();
 #endif
-    if (resources_register_string(resources_string) < 0) {
-        return -1;
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (resources_register_string(resources_string) < 0) {
+            return -1;
+        }
+        return resources_register_int(resources_int);
     }
-
-    return resources_register_int(resources_int);
+    return 0;
 }
 
 void video_arch_resources_shutdown(void)
@@ -311,7 +312,10 @@ static const cmdline_option_t cmdline_options[] = {
 
 int video_arch_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
+    if (machine_class != VICE_MACHINE_VSID) {
+        return cmdline_register_options(cmdline_options);
+    }
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */

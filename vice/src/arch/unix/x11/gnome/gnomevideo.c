@@ -102,7 +102,10 @@ int video_arch_resources_init(void)
 #ifdef HAVE_OPENGL_SYNC
     openGL_register_resources();
 #endif
-    return resources_register_int(resources_int);
+    if (machine_class != VICE_MACHINE_VSID) {
+        return resources_register_int(resources_int);
+    }
+    return 0;
 }
 
 void video_arch_resources_shutdown(void)
@@ -147,7 +150,10 @@ static const cmdline_option_t cmdline_options[] = {
 
 int video_arch_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
+    if (machine_class != VICE_MACHINE_VSID) {
+        return cmdline_register_options(cmdline_options);
+    }
+    return 0;
 }
 
 /* called from video/video-canvas.c:video_canvas_init */
