@@ -42,6 +42,9 @@
 
 #include <proto/lowlevel.h>
 
+/* FIXME: This file needs to be updated to match the defines in arch/amigaos/joyll.h.
+   UI elements for configuring JoyKeys would also be good.  */
+
 static int ui_joystick_device_translate[] = {
     IDS_NONE,
     IDS_KEYPAD,
