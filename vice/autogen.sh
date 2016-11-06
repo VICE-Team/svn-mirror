@@ -30,11 +30,11 @@
 ACONF_VERSION_REQ_MAJ=2
 ACONF_VERSION_REQ_MIN=60
 
-# minimum automake version required (1.10.3 was the lowest version above 1.9 I
+# minimum automake version required (1.10.2 was the lowest version above 1.9 I
 # could test against)
 AMAKE_VERSION_REQ_MAJ=1
 AMAKE_VERSION_REQ_MIN=10
-AMAKE_VERSION_REQ_REV=3
+AMAKE_VERSION_REQ_REV=2
 
 
 generate_configure_in() {
