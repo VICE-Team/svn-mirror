@@ -1101,6 +1101,10 @@ BEGIN
 
         MENUITEM "Supersnapshot 5 32K addon",             IDM_SS5_32K_ADDON,            MIS_TEXT
 
+#if defined(__X64__) || defined(__X64SC__)
+        MENUITEM "C64 CP/M (Z80) cartridge",              IDM_C64_CPM,                  MIS_TEXT
+#endif
+
         SUBMENU "Userport RTC (58321a) Settings",         IDM_USERPORT_RTC_58321A_SETTINGS, MIS_TEXT
         BEGIN
             MENUITEM "Userport RTC (58321a)",             IDM_USERPORT_RTC_58321A,      MIS_TEXT

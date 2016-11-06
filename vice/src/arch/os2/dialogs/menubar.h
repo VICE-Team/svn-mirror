@@ -390,6 +390,8 @@
 
 #define IDM_SS5_32K_ADDON            0x37b
 
+#define IDM_C64_CPM                  0x381
+
 #define IDM_EASYFLASH_SETTINGS       0x1ef
 #define IDM_EASYFLASH_JUMPER         0x1c2
 #define IDM_EASYFLASH_OPTIMIZE_CRT   0x371

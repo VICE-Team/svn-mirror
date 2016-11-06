@@ -1051,6 +1051,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_SS5_32K_ADDON:
             toggle("SSRamExpansion");
             return;
+#if defined(__X64__) || defined(__X64SC__)
+        case IDM_C64_CPM:
+            toggle("CPMCart");
+            return;
+#endif
         case IDM_SFX_SE_3526:
             resources_set_int("SFXSoundExpanderChip", 3526);
             return;
@@ -2408,6 +2413,10 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
             resources_get_int("SFXSoundSampler", &val);
             WinCheckMenuItem(hwnd, IDM_SFX_SS, val);
+#if defined(__X64__) || defined(__X64SC__)
+            resources_get_int("CPMCart", &val);
+            WinCheckMenuItem(hwnd, IDM_C64_CPM, val);
+#endif
 #ifdef __XVIC__
             WinEnableMenuItem(hwnd, IDM_SFX_SS_IO_SWAP, val);
             WinCheckRes(hwnd, IDM_SFX_SS_IO_SWAP, "SFXSoundSamplerIOSwap");
