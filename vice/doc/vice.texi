@@ -7256,7 +7256,7 @@ Integer specifying what SID engine will be used.
 @vindex SidResidSampling
 @item SidResidSampling
 Integer specifying the sampling method (@code{0}: Fast, @code{1}:
-Interpolation, @code{2}: Resampling)
+Interpolation, @code{2}: Resampling, @code{3}: Fast Resampling)
 
 @vindex SidResidPassband
 @item SidResidPassband
@@ -11002,12 +11002,12 @@ use memory at $8800 as colour RAM.
 There are two versions of the extension:
 
 with digital colour (RGBI), which can select 16 foreground and 16
-background colours for each charcter cell. The The 8 colour bits are
+background colours for each character cell. The 8 colour bits are
 used as RGBI RGBI, with the most significant bits for the background,
 and the least significant bits for the foreground.
 
-with analog colour, which can use 256 foreground colours for each
-character cell. The 8 colour bits are used as RRR GGG BB.
+With analog colour, which can use 256 foreground colours for each
+character cell, the 8 colour bits are used as RRR GGG BB.
 
 @node PET colors
 @subsection Changing screen colors
