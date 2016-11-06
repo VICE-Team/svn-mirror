@@ -402,6 +402,9 @@
 #define IDM_VIC20_MC_FILE            0x21e
 #define IDM_VIC20_UM_WRITEBACK       0x37d
 
+#define IDM_VIC20_IO2_RAM            0x37e
+#define IDM_VIC20_IO3_RAM            0x37f
+
 #define IDM_MEMORY_HACKS_SETTINGS    0x1f3
 
 #define IDM_PLUS60KBASE              0x17d
