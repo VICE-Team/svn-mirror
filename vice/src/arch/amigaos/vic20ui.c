@@ -78,6 +78,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
     { "IO2RAM", IDM_IO2_RAM_ENABLE },
     { "IO3RAM", IDM_IO3_RAM_ENABLE },
+    { "VFLImod", IDM_VFLI_MOD_ENABLE },
     { "UserportDAC", IDM_TOGGLE_USERPORT_DAC },
     { "TapeSenseDongle", IDM_TOGGLE_TAPE_SENSE_DONGLE },
     { "DTLBasicDongle", IDM_TOGGLE_DTL_BASIC_DONGLE },

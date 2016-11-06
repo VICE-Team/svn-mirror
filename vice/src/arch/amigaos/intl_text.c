@@ -4548,6 +4548,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_IO3_RAM_ENABLE_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_IO3_RAM_ENABLE_TR, "" },  /* fuzzy */
 
+/* en */ { IDMS_VFLI_MOD_ENABLE,    "Enable VFLI modification" },
+/* da */ { IDMS_VFLI_MOD_ENABLE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_VFLI_MOD_ENABLE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_VFLI_MOD_ENABLE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_VFLI_MOD_ENABLE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_VFLI_MOD_ENABLE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_VFLI_MOD_ENABLE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_VFLI_MOD_ENABLE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_VFLI_MOD_ENABLE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_VFLI_MOD_ENABLE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_VFLI_MOD_ENABLE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_VFLI_MOD_ENABLE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_VFLI_MOD_ENABLE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_C64DTV_SETTINGS,    "C64DTV settings..." },
 /* da */ { IDMS_C64DTV_SETTINGS_DA, "C64DTV-indstillinger..." },
 /* de */ { IDMS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen..." },
