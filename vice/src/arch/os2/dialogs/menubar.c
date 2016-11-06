@@ -478,6 +478,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
                 ui_error("Cannot load cartridge image.");
             }
             return;
+        case IDM_VIC20_CART_UM:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_UM, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
         case IDM_VIC20_CART_SMART_ATTACH:
             if (cartridge_attach_image(CARTRIDGE_VIC20_DETECT, ViceFileSelect(hwnd, 1)) < 0) {
                 ui_error("Cannot load cartridge image.");
@@ -991,6 +996,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_VIC20_VFP_WRITEBACK:
             toggle("VicFlashPluginWriteBack");
+            return;
+        case IDM_VIC20_UM_WRITEBACK:
+            toggle("UltiMemWriteBack");
             return;
         case IDM_VIC20_MC_WRITEBACK:
             toggle("MegaCartNvRAMWriteBack");
@@ -2603,6 +2611,7 @@ void menu_select(HWND hwnd, USHORT item)
 #ifdef __XVIC__
             WinCheckRes(hwnd, IDM_VIC20_FE_WRITEBACK, "FinalExpansionWriteBack");
             WinCheckRes(hwnd, IDM_VIC20_VFP_WRITEBACK, "VicFlashPluginWriteBack");
+            WinCheckRes(hwnd, IDM_VIC20_UM_WRITEBACK, "UltiMemWriteBack");
             WinCheckRes(hwnd, IDM_VIC20_MC_WRITEBACK, "MegaCartNvRAMWriteBack");
 #endif
 
