@@ -175,7 +175,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Set to ~Defaults",                  IDM_DEFAULTCONFIG,            MIS_TEXT
         END
-        SUBMENU "Screenshots",                            IDM_SCREENSHOTS               MIS_TEXT
+        SUBMENU "Screenshots",                            IDM_SCREENSHOTS,              MIS_TEXT
         BEGIN
             MENUITEM "Save BMP screenshot",               IDM_SCREENSHOT_BMP,           MIS_TEXT
             MENUITEM "Save Doodle screenshot",            IDM_SCREENSHOT_DOODLE,        MIS_TEXT
@@ -1097,6 +1097,8 @@ BEGIN
         END
 
         MENUITEM "SFX Sound Sampler cartridge",           IDM_SFX_SS,                   MIS_TEXT
+
+        MENUITEM "Supersnapshot 5 32K addon",             IDM_SS5_32K_ADDON,            MIS_TEXT
 
         SUBMENU "Userport RTC (58321a) Settings",         IDM_USERPORT_RTC_58321A_SETTINGS, MIS_TEXT
         BEGIN

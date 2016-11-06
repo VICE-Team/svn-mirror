@@ -388,6 +388,8 @@
 #define IDM_SFX_SS                   0x112
 #define IDM_SFX_SS_IO_SWAP           0x2c9
 
+#define IDM_SS5_32K_ADDON            0x37b
+
 #define IDM_EASYFLASH_SETTINGS       0x1ef
 #define IDM_EASYFLASH_JUMPER         0x1c2
 #define IDM_EASYFLASH_OPTIMIZE_CRT   0x371

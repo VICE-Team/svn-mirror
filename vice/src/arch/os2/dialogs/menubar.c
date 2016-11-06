@@ -1034,6 +1034,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_SFX_SS:
             toggle("SFXSoundSampler");
             return;
+        case IDM_SS5_32K_ADDON:
+            toggle("SSRamExpansion");
+            return;
         case IDM_SFX_SE_3526:
             resources_set_int("SFXSoundExpanderChip", 3526);
             return;
