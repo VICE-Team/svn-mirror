@@ -1,5 +1,5 @@
 /*
- * dialogs.h - The dialog windows.
+ * dlg-ide64.h - IDE64 dialog windows.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,7 +24,7 @@
  *
  */
 
-// Datasette Dialog
+// IDE64 Dialog
 #define IDE64_CYLS      0x10
 #define IDE64_HEADS     0x11
 #define IDE64_SECTORS   0x12
