@@ -100,6 +100,20 @@
 
 #define DRIVE_COUNT     4       /**< number of virtual drives */
 
+
+/** \brief  Minimum unit number for virtual drives
+ *
+ * This will probably always be 8, but using a symbolic constant is neater
+ */
+#define UNIT_MIN        8
+
+/** \brief  Maximum unit number for virtual drives
+ *
+ * This depends on the number of virtual devices, but most likely will never
+ * exceed 11.
+ */
+#define UNIT_MAX        (UNIT_MIN - DRIVE_COUNT - 1)
+
 #define C1541_VERSION_MAJOR     4   /**< c1541 major version number */
 #define C1541_VERSION_MINOR     0   /**< c1541 minor version number */
 
@@ -919,7 +933,7 @@ static int open_image(int dev, char *name, int create, int disktype)
         }
     }
 
-    if (open_disk_image(drives[dev], name, dev + 8) < 0) {
+    if (open_disk_image(drives[dev], name, dev + UNIT_MIN) < 0) {
         printf("Cannot open disk image.\n");
         return -1;
     }
@@ -972,7 +986,7 @@ static int check_drive(int dev, int flags)
  */
 static int check_drive_unit(int unit)
 {
-    return (unit >= 8 && unit < (DRIVE_COUNT + 8)) ? FD_OK : FD_BADDEV;
+    return (unit >= UNIT_MIN && unit < UNIT_MAX) ? FD_OK : FD_BADDEV;
 }
 
 
@@ -1047,12 +1061,12 @@ static int attach_cmd(int nargs, char **args)
             if (check_drive_unit(dev) != FD_OK) {
                 return FD_BADDEV;
             }
-            dev -= 8;
+            dev -= UNIT_MIN;
             break;
     }
 
     archdep_expand_path(&path, args[1]);
-    open_disk_image(drives[dev], path, dev + 8);
+    open_disk_image(drives[dev], path, dev + UNIT_MIN);
     lib_free(path);
     return FD_OK;
 }
@@ -1100,7 +1114,7 @@ static int block_cmd(int nargs, char **args)
         if (check_drive_unit(drive) < 0) {
             return FD_BADDEV;
         }
-        drive -= 8;
+        drive -= UNIT_MIN;
     } else {
         drive = drive_index;
     }
@@ -1300,7 +1314,7 @@ static int delete_cmd(int nargs, char **args)
         command = util_concat("s:", name, NULL);
         charset_petconvstring((BYTE *)command, 0);
 
-        printf("Deleting `%s' on unit %d.\n", name, dnr + 8);
+        printf("Deleting `%s' on unit %d.\n", name, dnr + UNIT_MIN);
 
         status = vdrive_command_execute(drives[dnr], (BYTE *)command,
                                         (unsigned int)strlen(command));
@@ -1337,30 +1351,27 @@ static int extract_cmd_common(int nargs, char **args, int geos)
     int dnr = 0, track, sector;
     vdrive_t *floppy;
     BYTE *buf, *str;
-    int err;
     int channel = 2;
 
     if (nargs == 2) {
         if (arg_to_int(args[1], &dnr) < 0) {
             return FD_BADDEV;
         }
-        if (check_drive(dnr, CHK_NUM) < 0) {
+        if (check_drive_unit(dnr) < 0) {
             return FD_BADDEV;
         }
-        dnr -= 8;
+        dnr -= UNIT_MIN;
     }
 
-    err = check_drive(dnr, CHK_RDY);
-
-    if (err < 0) {
-        return err;
+    if (check_drive_ready(dnr) < 0) {
+        return FD_NOTREADY;
     }
 
-    floppy = drives[dnr & 3];
+    floppy = drives[dnr];
 
     if (vdrive_iec_open(floppy, (const BYTE *)"#", 1, channel, NULL)) {
         fprintf(stderr, "Cannot open buffer #%d in unit %d.\n", channel,
-                dnr + 8);
+                dnr + UNIT_MIN);
         return FD_RDERR;
     }
 
@@ -1385,18 +1396,20 @@ static int extract_cmd_common(int nargs, char **args, int geos)
             BYTE file_type = buf[i + SLOT_TYPE_OFFSET];
 
             if (((file_type & 7) == CBMDOS_FT_SEQ
-                 || (file_type & 7) == CBMDOS_FT_PRG
-                 || (file_type & 7) == CBMDOS_FT_USR)
-                && (file_type & CBMDOS_FT_CLOSED)) {
-                int len;
+                        || (file_type & 7) == CBMDOS_FT_PRG
+                        || (file_type & 7) == CBMDOS_FT_USR)
+                    && (file_type & CBMDOS_FT_CLOSED)) {
                 BYTE *file_name = buf + i + SLOT_NAME_OFFSET;
-                BYTE c, name[17], cbm_name[17];
-                FILE *fd;
                 int status = 0;
+                BYTE c;
+                BYTE name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
+                BYTE cbm_name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
+                FILE *fd;
+                int len;
 
-                memset(name, 0, 17);
-                memset(cbm_name, 0, 17);
-                for (len = 0; len < 16; len++) {
+                memset(name, 0, sizeof(name));
+                memset(cbm_name, 0, sizeof(cbm_name));
+                for (len = 0; len < IMAGE_CONTENTS_FILE_NAME_LEN; len++) {
                     if (file_name[len] == 0xa0) {
                         break;
                     } else {
@@ -1410,7 +1423,8 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 unix_filename((char *)name); /* For now, convert '/' to '_'. */
                 if (vdrive_iec_open(floppy, cbm_name, len, 0, NULL)) {
                     fprintf(stderr,
-                            "Cannot open `%s' on unit %d.\n", name, dnr + 8);
+                            "Cannot open `%s' on unit %d.\n",
+                            name, dnr + UNIT_MIN);
                     continue;
                 }
                 fd = fopen((char *)name, MODE_WRITE);
@@ -1473,7 +1487,7 @@ static int format_cmd(int nargs, char **args)
             if (arg_to_int(args[2], &unit) >= 0
                 && check_drive_unit(unit) >= 0) {
                 /* It's a valid unit number.  */
-                unit -= 8;
+                unit -= UNIT_MIN;
             } else {
                 return FD_BADDEV;
             }
@@ -1511,7 +1525,7 @@ static int format_cmd(int nargs, char **args)
             if (nargs > 4) {
                 arg_to_int(args[4], &unit);
                 if (check_drive_unit(unit) >= 0) {
-                    unit -= 8;
+                    unit -= UNIT_MIN;
                 } else {
                     return FD_BADDEV;
                 }
@@ -1593,7 +1607,7 @@ static int info_cmd(int nargs, char **args)
         if (check_drive_unit(unit) < 0) {
             return FD_BADDEV;
         }
-        dnr = unit - 8;
+        dnr = unit - UNIT_MIN;
     } else {
         dnr = drive_index;
     }
@@ -1841,7 +1855,7 @@ static int list_cmd(int nargs, char **args)
         if (unit == 0) {
             dnr = drive_index;
         } else if (unit > 0) {
-            dnr = unit - 8;
+            dnr = unit - UNIT_MIN;
         } else {
             return FD_BADDEV;
         }
@@ -1863,7 +1877,7 @@ static int list_cmd(int nargs, char **args)
     vdrive = drives[dnr];
     name = disk_image_name_get(vdrive->image);
 
-    listing = diskcontents_read(name, dnr + 8);
+    listing = diskcontents_read(name, dnr + UNIT_MIN);
 
     if (listing != NULL) {
         char *string = image_contents_to_string(listing, 1);
@@ -1922,7 +1936,7 @@ static int name_cmd(int nargs, char **args)
         if (check_drive_unit(unit) < 0) {
             return FD_BADDEV;
         }
-        unit -= 8;
+        unit -= UNIT_MIN;
     } else {
         unit = drive_index;
     }
@@ -1941,13 +1955,13 @@ static int name_cmd(int nargs, char **args)
     }
 
     dst = &vdrive->bam[vdrive->bam_name];
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < IMAGE_CONTENTS_NAME_LEN; i++) {
         *dst++ = *name ? *name++ : 0xa0;
     }
 
     if (id) {
         dst = &vdrive->bam[vdrive->bam_id];
-        for (i = 0; i < 5 && *id; i++) {
+        for (i = 0; i < IMAGE_CONTENTS_ID_LEN && *id; i++) {
             *dst++ = *id++;
         }
     }
@@ -1961,7 +1975,7 @@ static int quit_cmd(int nargs, char **args)
     int i;
 
     for (i = 0; i < DRIVE_COUNT; i++) {
-        close_disk_image(drives[i], i + 8);
+        close_disk_image(drives[i], i + UNIT_MIN);
     }
 
     exit(0);
@@ -1986,14 +2000,6 @@ static int verbose_cmd(int nargs, char **args)
         return log_set_verbose(1);
     }
 }
-
-/** \brief  PETSCII filename length
- *
- * XXX: temporary to fix the use of integer literals in read_cmd() until I
- *      figure out which constant I should really use (there's quite a few
- *      define's for the filename length in VICE)
- */
-#define PETSCII_FILENAME_LEN    16
 
 
 static int read_cmd(int nargs, char **args)
@@ -2050,10 +2056,10 @@ static int read_cmd(int nargs, char **args)
 
     /* Get real filename from the disk file.  Slot must be defined by
        vdrive_iec_open().  */
-    actual_name = lib_malloc(PETSCII_FILENAME_LEN + 1);
+    actual_name = lib_malloc(IMAGE_CONTENTS_FILE_NAME_LEN + 1);
     memcpy(actual_name, drives[dnr]->buffers[0].slot + SLOT_NAME_OFFSET,
-            PETSCII_FILENAME_LEN);
-    actual_name[PETSCII_FILENAME_LEN] = 0;
+            IMAGE_CONTENTS_FILE_NAME_LEN);
+    actual_name[IMAGE_CONTENTS_FILE_NAME_LEN] = 0;
 
     if (nargs == 3) {
         if (strcmp(args[2], "-") == 0) {
@@ -2097,7 +2103,7 @@ static int read_cmd(int nargs, char **args)
         }
     }                           /* stdout */
 
-    printf("Reading file `%s' from unit %d.\n", src_name_ascii, dnr + 8);
+    printf("Reading file `%s' from unit %d.\n", src_name_ascii, dnr + UNIT_MIN);
 
     do {
         status = vdrive_iec_read(drives[dnr], &c, 0);
@@ -2906,7 +2912,7 @@ static int tape_cmd(int nargs, char **args)
     vdrive_t *drive;
     int count;
 
-    if (check_drive(drive_index, CHK_RDY) < 0) {
+    if (check_drive_ready(drive_index) < 0) {
         return FD_NOTREADY;
     }
 
@@ -3069,14 +3075,15 @@ static int unit_cmd(int nargs, char **args)
         return FD_BADDEV;
     }
 
-    drive_index = dev - 8;
+    drive_index = dev - UNIT_MIN;
     return FD_OK;
 }
 
 static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
 {
     long lbsize, bsize;
-    char cname[20], ftype;
+    char cname[20]; /* FIXME: remove magic number */
+    char ftype;
     BYTE val;
     int cnt;
     unsigned int len;
@@ -3232,7 +3239,7 @@ static int unlynx_cmd(int nargs, char **args)
         if (check_drive_unit(dev) < 0) {
             return FD_BADDEV;
         }
-        dev -= 8;
+        dev -= UNIT_MIN;
     }
 
     if (check_drive_ready(dev) < 0) {
@@ -3358,7 +3365,7 @@ static int validate_cmd(int nargs, char **args)
         if (check_drive_unit(unit) < 0) {
             return FD_BADDEV;
         }
-        dnr = unit - 8;
+        dnr = unit - UNIT_MIN;
     }
 
     /* check if drive is ready */
@@ -3402,7 +3409,10 @@ static int write_cmd(int nargs, char **args)
         dnr = drive_index;
     }
 
-    if (check_drive(dnr, CHK_RDY) < 0) {
+    if (check_drive_index(dnr) < 0) {
+        return FD_BADDEV;
+    }
+    if (check_drive_ready(dnr) < 0) {
         return FD_NOTREADY;
     }
 
