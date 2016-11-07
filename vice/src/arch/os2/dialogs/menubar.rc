@@ -1126,6 +1126,14 @@ BEGIN
         MENUITEM "C64 CP/M (Z80) cartridge",              IDM_C64_CPM,                  MIS_TEXT
 #endif
 
+#ifdef HAVE_PCAP
+        SUBMENU "RR-Net MKIII Settings",                  IDM_RRNETMK3_SETTINGS,        MIS_TEXT
+        BEGIN
+            MENUITEM "Flash jumper",                      IDM_RRNETMK3_FLASH_JUMPER,    MIS_TEXT
+            MENUITEM "Write to BIOS",                     IDM_RRNETMK3_BIOS_WRITE,      MIS_TEXT
+        END
+#endif
+
         SUBMENU "Userport RTC (58321a) Settings",         IDM_USERPORT_RTC_58321A_SETTINGS, MIS_TEXT
         BEGIN
             MENUITEM "Userport RTC (58321a)",             IDM_USERPORT_RTC_58321A,      MIS_TEXT

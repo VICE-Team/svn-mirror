@@ -407,6 +407,10 @@
 
 #define IDM_C64_CPM                  0x381
 
+#define IDM_RRNETMK3_SETTINGS        0x392
+#define IDM_RRNETMK3_FLASH_JUMPER    0x1a3
+#define IDM_RRNETMK3_BIOS_WRITE      0x391
+
 #define IDM_EASYFLASH_SETTINGS       0x1ef
 #define IDM_EASYFLASH_JUMPER         0x1c2
 #define IDM_EASYFLASH_OPTIMIZE_CRT   0x371

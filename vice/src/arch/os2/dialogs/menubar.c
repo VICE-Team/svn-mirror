@@ -1048,6 +1048,14 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_SFX_SS:
             toggle("SFXSoundSampler");
             return;
+#ifdef HAVE_PCAP
+        case IDM_RRNETMK3_FLASH_JUMPER:
+            toggle("RRNETMK3_flashjumper");
+            return;
+        case IDM_RRNETMK3_BIOS_WRITE:
+            toggle("RRNETMK3_bios_write");
+            return;
+#endif
         case IDM_SS5_32K_ADDON:
             toggle("SSRamExpansion");
             return;
@@ -2446,6 +2454,10 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("SFXSoundExpander", &val);
             WinCheckMenuItem(hwnd, IDM_SFX_SE, val);
             WinEnableMenuItem(hwnd, IDM_SFX_SE_TYPE, val);
+#ifdef HAVE_PCAP
+            WinCheckRes(hwnd, IDM_RRNETMK3_FLASH_JUMPER, "RRNETMK3_flashjumper");
+            WinCheckRes(hwnd, IDM_RRNETMK3_BIOS_WRITE, "RRNETMK3_bios_write");
+#endif
 #ifdef __XVIC__
             WinEnableMenuItem(hwnd, IDM_SFX_SE_IO_SWAP, val);
             WinCheckRes(hwnd, IDM_SFX_SE_IO_SWAP, "SFXSoundExpanderIOSwap");
