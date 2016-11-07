@@ -314,6 +314,10 @@
 #define IDM_IDE64_AUTO4              0x2c2
 #define IDM_IDE64_GEO4               0x2b3
 #define IDM_IDE64_RTC_SAVE           0x34c
+#define IDM_IDE64_SB_DIGIMAX         0x393
+#define IDM_IDE64_SB_DIGIMAX_BASE    0x394
+#define IDM_IDE64_SB_DIGIMAX_DE40    0x395
+#define IDM_IDE64_SB_DIGIMAX_DE48    0x396
 
 #define IDM_MMC64_SETTINGS           0x229
 #define IDM_MMC64                    0x22a

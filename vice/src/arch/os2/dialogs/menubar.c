@@ -1325,6 +1325,15 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_IDE64_RTC_SAVE:
             toggle("IDE64RTCSave");
             return;
+        case IDM_IDE64_SB_DIGIMAX:
+            toggle("SBDIGIMAX");
+            return;
+        case IDM_IDE64_SB_DIGIMAX_DE40:
+            resources_set_int("SBDIGIMAXbase", 0xde40);
+            return;
+        case IDM_IDE64_SB_DIGIMAX_DE48:
+            resources_set_int("SBDIGIMAXbase", 0xde48);
+            return;
         case IDM_IDE64_IMAGE1:
             resources_set_string("IDE64Image1", ViceFileSelect(hwnd, 1));
             return;
@@ -2237,12 +2246,18 @@ void menu_select(HWND hwnd, USHORT item)
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case IDM_IDE64_SETTINGS:
             WinCheckRes(hwnd, IDM_IDE64_RTC_SAVE, "IDE64RTCSave");
+            WinCheckRes(hwnd, IDM_IDE64_SB_DIGIMAX,"SBDIGIMAX");
             return;
         case IDM_IDE64_REVISION:
             resources_get_int("IDE64version", &val);
             WinCheckMenuItem(hwnd, IDM_IDE64_VER_3, val == 0);
             WinCheckMenuItem(hwnd, IDM_IDE64_VER_41, val == 1);
             WinCheckMenuItem(hwnd, IDM_IDE64_VER_42, val == 2);
+            return;
+        case IDM_IDE64_SB_DIGIMAX_BASE:
+            resources_get_int("SBDIGIMAXbase", &val);
+            WinCheckMenuItem(hwnd, IDM_IDE64_SB_DIGIMAX_DE40, val == 0xde40);
+            WinCheckMenuItem(hwnd, IDM_IDE64_SB_DIGIMAX_DE48, val == 0xde48);
             return;
         case IDM_IDE64_HD1:
             WinCheckRes(hwnd, IDM_IDE64_AUTO1, "IDE64AutodetectSize1");

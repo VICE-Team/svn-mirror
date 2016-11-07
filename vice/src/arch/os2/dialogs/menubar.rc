@@ -971,6 +971,12 @@ BEGIN
                 MENUITEM "Version 4.1",                   IDM_IDE64_VER_41,             MIS_TEXT
                 MENUITEM "Version 4.2",                   IDM_IDE64_VER_42,             MIS_TEXT
             END
+            MENUITEM "Short Bus DigiMAX device",          IDM_IDE64_SB_DIGIMAX,         MIS_TEXT
+            SUBMENU "Short Bus DigiMAX base",             IDM_IDE64_SB_DIGIMAX_BASE,    MIS_TEXT
+            BEGIN
+                MENUITEM "$DE40",                         IDM_IDE64_SB_DIGIMAX_DE40,    MIS_TEXT
+                MENUITEM "$DE48",                         IDM_IDE64_SB_DIGIMAX_DE48,    MIS_TEXT
+            END
             SUBMENU "Primary master settings",            IDM_IDE64_HD1,                MIS_TEXT
             BEGIN
                 MENUITEM "Image name",                    IDM_IDE64_IMAGE1,             MIS_TEXT
