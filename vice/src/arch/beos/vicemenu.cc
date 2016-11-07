@@ -1072,6 +1072,15 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->AddItem(new BMenuItem("SDHC", new BMessage(MENU_MMC64_CARD_TYPE_SDHC)));
                 submenu->AddItem(new BMenuItem("MMC64 Image read-only", new BMessage(MENU_TOGGLE_MMC64_READ_ONLY)));
                 submenu->AddItem(new BMenuItem("MMC64 Image File", new BMessage(MENU_MMC64_IMAGE_FILE)));
+                submenu->AddItem(extsubmenu = new BMenu("MMC64 ClockPort device"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_MMC64_CLOCKPORT_NONE)));
+#ifdef HAVE_PCAP
+                    extsubmenu->AddItem(new BMenuItem("RR-Net", new BMessage(MENU_MMC64_CLOCKPORT_RRNET)));
+#endif
+#ifdef USE_MPG123
+                    extsubmenu->AddItem(new BMenuItem("MP3@64", new BMessage(MENU_MMC64_CLOCKPORT_MP3AT64)));
+#endif
 
             menu->AddItem(submenu = new BMenu("MMC Replay Options"));
                 submenu->AddItem(new BMenuItem("EEPROM read/write", new BMessage(MENU_TOGGLE_MMCR_EEPROM_READ_WRITE)));
@@ -1086,6 +1095,15 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->AddItem(new BMenuItem("SDHC", new BMessage(MENU_MMCR_CARD_TYPE_SDHC)));
                 submenu->AddItem(new BMenuItem("MMC Replay Image read/write", new BMessage(MENU_TOGGLE_MMCR_READ_WRITE)));
                 submenu->AddItem(new BMenuItem("MMC Replay Image File", new BMessage(MENU_MMCR_IMAGE_FILE)));
+                submenu->AddItem(extsubmenu = new BMenu("MMC Replay ClockPort device"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_MMCR_CLOCKPORT_NONE)));
+#ifdef HAVE_PCAP
+                    extsubmenu->AddItem(new BMenuItem("RR-Net", new BMessage(MENU_MMCR_CLOCKPORT_RRNET)));
+#endif
+#ifdef USE_MPG123
+                    extsubmenu->AddItem(new BMenuItem("MP3@64", new BMessage(MENU_MMCR_CLOCKPORT_MP3AT64)));
+#endif
 
             menu->AddItem(submenu = new BMenu("Retro Replay Options"));
                 submenu->AddItem(new BMenuItem("Enable RR flash jumper", new BMessage(MENU_TOGGLE_RR_FLASH_JUMPER)));
@@ -1095,6 +1113,15 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("Retro Replay", new BMessage(MENU_RR_REV_RETRO)));
                     extsubmenu->AddItem(new BMenuItem("Nordic Replay", new BMessage(MENU_RR_REV_NORDIC)));
+                submenu->AddItem(extsubmenu = new BMenu("Retro Replay ClockPort device"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_RR_CLOCKPORT_NONE)));
+#ifdef HAVE_PCAP
+                    extsubmenu->AddItem(new BMenuItem("RR-Net", new BMessage(MENU_RR_CLOCKPORT_RRNET)));
+#endif
+#ifdef USE_MPG123
+                    extsubmenu->AddItem(new BMenuItem("MP3@64", new BMessage(MENU_RR_CLOCKPORT_MP3AT64)));
+#endif
 
             menu->AddItem(submenu = new BMenu("GMod2 Options"));
                 submenu->AddItem(new BMenuItem("FLASH read/write", new BMessage(MENU_TOGGLE_GMOD2_FLASH_READ_WRITE)));

@@ -47,6 +47,7 @@ extern "C" {
 #include "c128ui.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "clockport.h"
 #include "constants.h"
 #include "gfxoutput.h"
 #include "joyport.h"
@@ -335,11 +336,44 @@ static ui_res_possible_values MMC64CardType[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values MMC64ClockPortDevice[] = {
+    { CLOCKPORT_DEVICE_NONE, MENU_MMC64_CLOCKPORT_NONE },
+#ifdef HAVE_PCAP
+    { CLOCKPORT_DEVICE_RRNET, MENU_MMC64_CLOCKPORT_RRNET },
+#endif
+#ifdef USE_MPG123
+    { CLOCKPORT_DEVICE_MP3_64, MENU_MMC64_CLOCKPORT_MP3AT64 },
+#endif
+    { -1, 0 }
+};
+
 static ui_res_possible_values MMCRCardType[] = {
     { 0, MENU_MMCR_CARD_TYPE_AUTO },
     { 1, MENU_MMCR_CARD_TYPE_MMC },
     { 2, MENU_MMCR_CARD_TYPE_SD },
     { 3, MENU_MMCR_CARD_TYPE_SDHC },
+    { -1, 0 }
+};
+
+static ui_res_possible_values MMCRClockPortDevice[] = {
+    { CLOCKPORT_DEVICE_NONE, MENU_MMCR_CLOCKPORT_NONE },
+#ifdef HAVE_PCAP
+    { CLOCKPORT_DEVICE_RRNET, MENU_MMCR_CLOCKPORT_RRNET },
+#endif
+#ifdef USE_MPG123
+    { CLOCKPORT_DEVICE_MP3_64, MENU_MMCR_CLOCKPORT_MP3AT64 },
+#endif
+    { -1, 0 }
+};
+
+static ui_res_possible_values RRClockPortDevice[] = {
+    { CLOCKPORT_DEVICE_NONE, MENU_RR_CLOCKPORT_NONE },
+#ifdef HAVE_PCAP
+    { CLOCKPORT_DEVICE_RRNET, MENU_RR_CLOCKPORT_RRNET },
+#endif
+#ifdef USE_MPG123
+    { CLOCKPORT_DEVICE_MP3_64, MENU_RR_CLOCKPORT_MP3AT64 },
+#endif
     { -1, 0 }
 };
 
@@ -373,6 +407,9 @@ ui_res_value_list c128_ui_res_values[] = {
     { "JoyPort4Device", c128_JoyPort4Device },
     { "DoodleMultiColorHandling", DoodleMultiColor },
     { "IOCollisionHandling", IOCollisions },
+    { "RRClockPort", RRClockPortDevice },
+    { "MMCRClockPort", MMCRClockPortDevice },
+    { "MMC64ClockPort", MMC64ClockPortDevice },
     { NULL, NULL }
 };
 
