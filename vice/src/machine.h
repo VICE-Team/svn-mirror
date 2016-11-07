@@ -49,11 +49,11 @@ extern const char machine_name[];
 #define VICE_MACHINE_VSID      10
 #define VICE_MACHINE_SCPU64    11
 
-/* Sync factors.  */
-#define MACHINE_SYNC_PAL     -1
-#define MACHINE_SYNC_NTSC    -2
-#define MACHINE_SYNC_NTSCOLD -3
-#define MACHINE_SYNC_PALN    -4
+/* Sync factors (changed to positive 2016-11-07, BW)  */
+#define MACHINE_SYNC_PAL     1
+#define MACHINE_SYNC_NTSC    2
+#define MACHINE_SYNC_NTSCOLD 3
+#define MACHINE_SYNC_PALN    4
 
 struct machine_timing_s {
     unsigned int cycles_per_line;

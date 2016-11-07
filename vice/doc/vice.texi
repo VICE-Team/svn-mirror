@@ -7817,7 +7817,7 @@ Integer that specifies the base address of the 256K RAM expansion.
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine
-(-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+(4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
 
 @end table
 
@@ -7875,22 +7875,22 @@ Base address of the 256K expansion
 @findex -pal
 @item -pal
 Use PAL sync factor
-(@code{MachineVideoStandard=-1}).
+(@code{MachineVideoStandard=1}).
 
 @findex -ntsc
 @item -ntsc
 Use NTSC sync factor
-(@code{MachineVideoStandard=-2}).
+(@code{MachineVideoStandard=2}).
 
 @findex -ntscold
 @item -ntscold
 Use old NTSC sync factor
-(@code{MachineVideoStandard=-3}).
+(@code{MachineVideoStandard=3}).
 
 @findex -paln
 @item -paln
 Use PAL-N sync factor
-(@code{MachineVideoStandard=-4}).
+(@code{MachineVideoStandard=4}).
 
 @findex -model
 @item -model <Model>
@@ -8386,7 +8386,7 @@ Integer specifying the C128 machine type.
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine
-(-1: PAL, -2: NTSC).
+(1: PAL, 2: NTSC).
 
 @end table
 
@@ -8416,12 +8416,12 @@ Always switch to C128 mode on reset
 @findex -pal
 @item -pal
 Use PAL sync factor
-(@code{MachineVideoStandard=-1}).
+(@code{MachineVideoStandard=1}).
 
 @findex -ntsc
 @item -ntsc
 Use NTSC sync factor
-(@code{MachineVideoStandard=-2}).
+(@code{MachineVideoStandard=2}).
 
 @findex -model
 @item -model <Model>
@@ -8684,7 +8684,7 @@ Boolean, enables Flash ROM logging.
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine.
-(-1: PAL, -2: NTSC)
+(1: PAL, 2: NTSC)
 
 @end table
 
@@ -8702,12 +8702,12 @@ Set the DTV model
 @findex -pal
 @item -pal
 Use PAL sync factor
-(@code{MachineVideoStandard=-1}).
+(@code{MachineVideoStandard=1}).
 
 @findex -ntsc
 @item -ntsc
 Use NTSC sync factor
-(@code{MachineVideoStandard=-2}).
+(@code{MachineVideoStandard=2}).
 
 @findex -chargen
 @item -chargen <name>
@@ -8748,7 +8748,7 @@ String specifying the name of the SCPU64 ROM (default @file{scpu64}).
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine
-(-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+(4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
 
 @vindex IECReset
 @item IECReset
@@ -8806,22 +8806,22 @@ Set the C64 model
 @findex -pal
 @item -pal
 Use PAL sync factor
-(@code{MachineVideoStandard=-1}).
+(@code{MachineVideoStandard=1}).
 
 @findex -ntsc
 @item -ntsc
 Use NTSC sync factor
-(@code{MachineVideoStandard=-2}).
+(@code{MachineVideoStandard=2}).
 
 @findex -ntscold
 @item -ntscold
 Use old NTSC sync factor
-(@code{MachineVideoStandard=-3}).
+(@code{MachineVideoStandard=3}).
 
 @findex -paln
 @item -paln
 Use PAL-N sync factor
-(@code{MachineVideoStandard=-4}).
+(@code{MachineVideoStandard=4}).
 
 @findex -iecreset
 @item -iecreset <value>
@@ -9137,7 +9137,7 @@ Boolean specifying whether the IEEE488 interface should be emulated or not.
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine
-(-1: PAL, -2: NTSC).
+(1: PAL, 2: NTSC).
 
 @end table
 
@@ -9385,12 +9385,12 @@ Specify the VIC20 model you want to emulate
 @findex -pal
 @item -pal
 Use PAL sync factor
-(@code{MachineVideoStandard=-1}).
+(@code{MachineVideoStandard=1}).
 
 @findex -ntsc
 @item -ntsc
 Use NTSC sync factor
-(@code{MachineVideoStandard=-2}).
+(@code{MachineVideoStandard=2}).
 
 @end table
 
@@ -10203,7 +10203,7 @@ Specify name of Cartridge 2 high ROM image
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine
-(-1: PAL, -2: NTSC).
+(1: PAL, 2: NTSC).
 
 @vindex RamSize
 @item RamSize
@@ -10237,12 +10237,12 @@ Specify the PLUS4 model you want to emulate
 @findex -pal
 @item -pal
 Use PAL sync factor
-(@code{MachineVideoStandard=-1}).
+(@code{MachineVideoStandard=1}).
 
 @findex -ntsc
 @item -ntsc
 Use NTSC sync factor
-(@code{MachineVideoStandard=-2}).
+(@code{MachineVideoStandard=2}).
 
 @findex -ramsize
 @item -ramsize <ramsize>
@@ -10881,7 +10881,7 @@ the BASIC, but directly jumps into the builtin machine monitor.
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine
-(-1: PAL, -2: NTSC).
+(1: PAL, 2: NTSC).
 
 @vindex CPUswitch
 @item CPUswitch
@@ -10899,12 +10899,12 @@ These are the commandline options specific for the PET models.
 @findex -pal
 @item -pal
 Use PAL sync factor
-(@code{MachineVideoStandard=-1}).
+(@code{MachineVideoStandard=1}).
 
 @findex -ntsc
 @item -ntsc
 Use NTSC sync factor
-(@code{MachineVideoStandard=-2}).
+(@code{MachineVideoStandard=2}).
 
 @findex -model
 @item -model <model>
@@ -11277,7 +11277,7 @@ String specifying the name of the Basic ROM
 @item MachineVideoStandard
 @c will be 'fixed' for xcbm2 later, for now xcbm5x0 only
 Integer that specifies the video standard of the emulated machine
-(-1: PAL, -2: NTSC).
+(1: PAL, 2: NTSC).
 
 @end table
 
@@ -11379,12 +11379,12 @@ These are the commandline options specific for the CBM-II models.
 @findex -pal
 @item -pal
 Use PAL sync factor
-(@code{MachineVideoStandard=-1}).
+(@code{MachineVideoStandard=1}).
 
 @findex -ntsc
 @item -ntsc
 Use NTSC sync factor
-(@code{MachineVideoStandard=-2}).
+(@code{MachineVideoStandard=2}).
 
 @findex -ramsize
 @item -ramsize <ramsize>
@@ -11515,7 +11515,7 @@ Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine
-(-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+(4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
 
 @end table
 
@@ -11552,22 +11552,22 @@ Specify name of the Basic ROM image
 @findex -pal
 @item -pal
 Use PAL sync factor
-(@code{MachineVideoStandard=-1}).
+(@code{MachineVideoStandard=1}).
 
 @findex -ntsc
 @item -ntsc
 Use NTSC sync factor
-(@code{MachineVideoStandard=-2}).
+(@code{MachineVideoStandard=2}).
 
 @findex -ntscold
 @item -ntscold
 Use old NTSC sync factor
-(@code{MachineVideoStandard=-3}).
+(@code{MachineVideoStandard=3}).
 
 @findex -paln
 @item -paln
 Use PAL-N sync factor
-(@code{MachineVideoStandard=-4}).
+(@code{MachineVideoStandard=4}).
 
 @end table
 
