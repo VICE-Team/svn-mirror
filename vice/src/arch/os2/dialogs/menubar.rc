@@ -881,6 +881,28 @@ BEGIN
         END
 #endif
 
+#ifndef (__VSID__)
+        SUBMENU "Sampler Settings",                       IDM_SAMPLER_SETTINGS,         MIS_TEXT
+        BEGIN
+            SUBMENU "Sampler Gain",                       IDM_SAMPLER_GAIN,             MIS_TEXT
+            BEGIN
+                MENUITEM "5%",                            IDM_SAMPLER_GAIN_5,           MIS_TEXT
+                MENUITEM "10%",                           IDM_SAMPLER_GAIN_10,          MIS_TEXT
+                MENUITEM "25%",                           IDM_SAMPLER_GAIN_25,          MIS_TEXT
+                MENUITEM "50%",                           IDM_SAMPLER_GAIN_50,          MIS_TEXT
+                MENUITEM "75%",                           IDM_SAMPLER_GAIN_75,          MIS_TEXT
+                MENUITEM "100%",                          IDM_SAMPLER_GAIN_100,         MIS_TEXT
+                MENUITEM "105%",                          IDM_SAMPLER_GAIN_105,         MIS_TEXT
+                MENUITEM "110%",                          IDM_SAMPLER_GAIN_110,         MIS_TEXT
+                MENUITEM "125%",                          IDM_SAMPLER_GAIN_125,         MIS_TEXT
+                MENUITEM "150%",                          IDM_SAMPLER_GAIN_150,         MIS_TEXT
+                MENUITEM "175%",                          IDM_SAMPLER_GAIN_175,         MIS_TEXT
+                MENUITEM "200%",                          IDM_SAMPLER_GAIN_200,         MIS_TEXT
+            END
+            MENUITEM "Sample Filename",                   IDM_SAMPLER_FILE,             MIS_TEXT
+        END
+#endif
+
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
 
 #ifdef HAVE_PCAP

@@ -232,6 +232,22 @@
 
 #define IDM_C64DTV_HUMMER_ADC        0x1cb
 
+#define IDM_SAMPLER_SETTINGS         0x382
+#define IDM_SAMPLER_GAIN             0x383
+#define IDM_SAMPLER_GAIN_5           0x384
+#define IDM_SAMPLER_GAIN_10          0x385
+#define IDM_SAMPLER_GAIN_25          0x386
+#define IDM_SAMPLER_GAIN_50          0x387
+#define IDM_SAMPLER_GAIN_75          0x388
+#define IDM_SAMPLER_GAIN_100         0x389
+#define IDM_SAMPLER_GAIN_105         0x38a
+#define IDM_SAMPLER_GAIN_110         0x38b
+#define IDM_SAMPLER_GAIN_125         0x38c
+#define IDM_SAMPLER_GAIN_150         0x38d
+#define IDM_SAMPLER_GAIN_175         0x38e
+#define IDM_SAMPLER_GAIN_200         0x38f
+#define IDM_SAMPLER_FILE             0x390
+
 #define IDM_REU_SETTINGS             0x1eb
 #define IDM_REU                      0x149
 #define IDM_REUSIZE                  0x150

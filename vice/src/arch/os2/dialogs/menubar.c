@@ -1455,6 +1455,48 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
+#ifndef __VSID__
+        case IDM_SAMPLER_GAIN_5:
+            resources_set_int("SamplerGain", 5);
+            return;
+        case IDM_SAMPLER_GAIN_10:
+            resources_set_int("SamplerGain", 10);
+            return;
+        case IDM_SAMPLER_GAIN_25:
+            resources_set_int("SamplerGain", 25);
+            return;
+        case IDM_SAMPLER_GAIN_50:
+            resources_set_int("SamplerGain", 50);
+            return;
+        case IDM_SAMPLER_GAIN_75:
+            resources_set_int("SamplerGain", 75);
+            return;
+        case IDM_SAMPLER_GAIN_100:
+            resources_set_int("SamplerGain", 100);
+            return;
+        case IDM_SAMPLER_GAIN_105:
+            resources_set_int("SamplerGain", 105);
+            return;
+        case IDM_SAMPLER_GAIN_110:
+            resources_set_int("SamplerGain", 110);
+            return;
+        case IDM_SAMPLER_GAIN_125:
+            resources_set_int("SamplerGain", 125);
+            return;
+        case IDM_SAMPLER_GAIN_150:
+            resources_set_int("SamplerGain", 150);
+            return;
+        case IDM_SAMPLER_GAIN_175:
+            resources_set_int("SamplerGain", 175);
+            return;
+        case IDM_SAMPLER_GAIN_200:
+            resources_set_int("SamplerGain", 200);
+            return;
+        case IDM_SAMPLER_FILE:
+            resources_set_string("SampleName", ViceFileSelect(hwnd, 1));
+            return;
+#endif
+
 #ifdef __X64__
         case IDM_PLUS60KD040:
             resources_set_int("PLUS60Kbase", 0xd040);
@@ -2809,6 +2851,23 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int( "DS12C887RTCRunMode", &val);
             WinCheckMenuItem(hwnd, IDM_DS12C887RTC_HALTED, !val);
             WinCheckMenuItem(hwnd, IDM_DS12C887RTC_RUNNING, val);
+#endif
+
+#ifndef __VSID__
+        case IDM_SAMPLER_GAIN:
+            resources_get_int("SamplerGain", &val);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_5, val == 5);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_10, val == 10);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_25, val == 25);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_50, val == 50);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_75, val == 75);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_100, val == 100);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_105, val == 105);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_110, val == 110);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_125, val == 125);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_150, val == 150);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_175, val == 175);
+            WinCheckMenuItem(hwnd, IDM_SAMPLER_GAIN_200, val == 200);
 #endif
 
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
