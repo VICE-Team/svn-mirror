@@ -165,7 +165,7 @@ inline static void line_becomes_bad(const int cycle)
         vicii.bad_line = 1;
 
         /* If in idle state, counter is not incremented.  */
-        if (vicii.idle_state) {
+        if (vicii.idle_state && cycle >= VICII_FETCH_CYCLE) {
             vicii.mem_counter_inc = 0;
         }
 
