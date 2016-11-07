@@ -54,6 +54,8 @@
 #include "vicii.h"
 #include "c64fastiec.h"
 
+/* force  commit */
+
 #define KBD_INDEX_C64_SYM   0
 #define KBD_INDEX_C64_POS   1
 #define KBD_INDEX_C64_SYMDE 2
