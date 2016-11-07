@@ -55,7 +55,6 @@ libvsid_a_SOURCES = \
 	reloc65.c \
 	vsid.c \
 	vsid-cmdline-options.c \
-	vsid-resources.c \
 	vsid-snapshot.c \
 	vsidcia1.c \
 	vsidcia2.c \
