@@ -1060,7 +1060,6 @@ BEGIN
             MENUITEM "~DigiMAX - Cartridge",              IDM_DIGIMAX,                  MIS_TEXT
             SUBMENU  "DigiMAX ~Base",                     IDM_DIGIMAXBASE,              MIS_TEXT
             BEGIN
-                MENUITEM "Userport",                      IDM_DIGIMAXDD00,              MIS_TEXT
                 MENUITEM "$DE00",                         IDM_DIGIMAXDE00,              MIS_TEXT
                 MENUITEM "$DE20",                         IDM_DIGIMAXDE20,              MIS_TEXT
                 MENUITEM "$DE40",                         IDM_DIGIMAXDE40,              MIS_TEXT

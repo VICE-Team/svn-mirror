@@ -1308,9 +1308,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_EXPERT_MODE_ON:
             resources_set_int("ExpertCartridgeMode", idm - IDM_EXPERT_MODE_OFF);
             return;
-        case IDM_DIGIMAXDD00:
-            resources_set_int("DIGIMAXbase", 0xdd00);
-            return;
 
         case IDM_IDE64_VER_3:
         case IDM_IDE64_VER_41:
@@ -2790,7 +2787,6 @@ void menu_select(HWND hwnd, USHORT item)
 #ifndef __XVIC__
         case IDM_DIGIMAXBASE:
             resources_get_int("DIGIMAXbase", &val);
-            WinCheckMenuItem(hwnd, IDM_DIGIMAXDD00, val == 0xdd00);
             WinCheckMenuItem(hwnd, IDM_DIGIMAXDE00, val == 0xde00);
             WinCheckMenuItem(hwnd, IDM_DIGIMAXDE20, val == 0xde20);
             WinCheckMenuItem(hwnd, IDM_DIGIMAXDE40, val == 0xde40);

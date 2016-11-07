@@ -360,7 +360,6 @@
 #define IDM_DIGIMAX_SETTINGS         0x1ee
 #define IDM_DIGIMAX                  0x1a1
 #define IDM_DIGIMAXBASE              0x1a2
-#define IDM_DIGIMAXDD00              0x1a3
 #define IDM_DIGIMAXDE00              0x950
 #define IDM_DIGIMAXDE20              0x951
 #define IDM_DIGIMAXDE40              0x952
