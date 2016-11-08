@@ -176,6 +176,8 @@ inline static void line_becomes_bad(const int cycle)
            Anyway, we cannot do it here as the `ycounter' handling
            must happen in as in idle state.  */
         vicii.force_display_state = 1;
+
+        if (cycle == VICII_FETCH_CYCLE + VICII_SCREEN_TEXTCOLS + 7) vicii.mem_counter_inc = 0;
     }
     vicii.ycounter_reset_checked = 1;
 }
