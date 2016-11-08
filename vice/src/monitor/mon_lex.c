@@ -1,5 +1,5 @@
 
-#line 3 "mon_lex.c"
+#line 3 "../../../vice/src/monitor/mon_lex.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -8,7 +8,7 @@
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 5
-#define YY_FLEX_SUBMINOR_VERSION 35
+#define YY_FLEX_SUBMINOR_VERSION 39
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
@@ -53,7 +53,6 @@ typedef int flex_int32_t;
 typedef unsigned char flex_uint8_t; 
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
-#endif /* ! C99 */
 
 /* Limits of integral types. */
 #ifndef INT8_MIN
@@ -83,6 +82,8 @@ typedef unsigned int flex_uint32_t;
 #ifndef UINT32_MAX
 #define UINT32_MAX             (4294967295U)
 #endif
+
+#endif /* ! C99 */
 
 #endif /* ! FLEXINT_H */
 
@@ -140,7 +141,15 @@ typedef unsigned int flex_uint32_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k.
+ * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
+ * Ditto for the __ia64__ case accordingly.
+ */
+#define YY_BUF_SIZE 32768
+#else
 #define YY_BUF_SIZE 16384
+#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -152,7 +161,12 @@ typedef unsigned int flex_uint32_t;
 typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #endif
 
-extern int yyleng;
+#ifndef YY_TYPEDEF_YY_SIZE_T
+#define YY_TYPEDEF_YY_SIZE_T
+typedef size_t yy_size_t;
+#endif
+
+extern yy_size_t yyleng;
 
 extern FILE *yyin, *yyout;
 
@@ -161,6 +175,7 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_LAST_MATCH 2
 
     #define YY_LESS_LINENO(n)
+    #define YY_LINENO_REWIND_TO(ptr)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -177,11 +192,6 @@ extern FILE *yyin, *yyout;
 	while ( 0 )
 
 #define unput(c) yyunput( c, (yytext_ptr)  )
-
-#ifndef YY_TYPEDEF_YY_SIZE_T
-#define YY_TYPEDEF_YY_SIZE_T
-typedef size_t yy_size_t;
-#endif
 
 #ifndef YY_STRUCT_YY_BUFFER_STATE
 #define YY_STRUCT_YY_BUFFER_STATE
@@ -200,7 +210,7 @@ struct yy_buffer_state
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
 	 */
-	int yy_n_chars;
+	yy_size_t yy_n_chars;
 
 	/* Whether we "own" the buffer - i.e., we know we created it,
 	 * and can realloc() it to grow it, and should free() it to
@@ -270,8 +280,8 @@ static YY_BUFFER_STATE * yy_buffer_stack = 0; /**< Stack as an array. */
 
 /* yy_hold_char holds the character lost when yytext is formed. */
 static char yy_hold_char;
-static int yy_n_chars;		/* number of characters read into yy_ch_buf */
-int yyleng;
+static yy_size_t yy_n_chars;		/* number of characters read into yy_ch_buf */
+yy_size_t yyleng;
 
 /* Points to current character in buffer. */
 static char *yy_c_buf_p = (char *) 0;
@@ -299,7 +309,7 @@ static void yy_init_buffer (YY_BUFFER_STATE b,FILE *file  );
 
 YY_BUFFER_STATE yy_scan_buffer (char *base,yy_size_t size  );
 YY_BUFFER_STATE yy_scan_string (yyconst char *yy_str  );
-YY_BUFFER_STATE yy_scan_bytes (yyconst char *bytes,int len  );
+YY_BUFFER_STATE yy_scan_bytes (yyconst char *bytes,yy_size_t len  );
 
 void *yyalloc (yy_size_t  );
 void *yyrealloc (void *,yy_size_t  );
@@ -1484,7 +1494,7 @@ static int yy_more_len = 0;
 #define YY_MORE_ADJ (yy_more_len)
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "mon_lex.l"
+#line 1 "../../../vice/src/monitor/mon_lex.l"
 /* -*- C -*-
  *
  * mon_lex.l - Lexer for the VICE built-in monitor.
@@ -1513,7 +1523,7 @@ char *yytext;
  *  02111-1307  USA.
  *
  */
-#line 31 "mon_lex.l"
+#line 31 "../../../vice/src/monitor/mon_lex.l"
 
 /* Lexer for x64 monitor */
 
@@ -1604,7 +1614,7 @@ send:
 
 #define YY_NO_INPUT 1
 
-#line 1608 "mon_lex.c"
+#line 1618 "../../../vice/src/monitor/mon_lex.c"
 
 #define INITIAL 0
 #define FNAME 1
@@ -1654,7 +1664,7 @@ FILE *yyget_out (void );
 
 void yyset_out  (FILE * out_str  );
 
-int yyget_leng (void );
+yy_size_t yyget_leng (void );
 
 char *yyget_text (void );
 
@@ -1694,7 +1704,12 @@ static int input (void );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k */
+#define YY_READ_BUF_SIZE 16384
+#else
 #define YY_READ_BUF_SIZE 8192
+#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -1702,7 +1717,7 @@ static int input (void );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
-#define ECHO fwrite( yytext, yyleng, 1, yyout )
+#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
@@ -1726,7 +1741,7 @@ static int input (void );
 	else \
 		{ \
 		errno=0; \
-		while ( (result = fread(buf, 1, max_size, yyin))==0 && ferror(yyin)) \
+		while ( (result = fread(buf, 1, (yy_size_t) max_size, yyin)) == 0 && ferror(yyin)) \
 			{ \
 			if( errno != EINTR) \
 				{ \
@@ -1795,26 +1810,6 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 129 "mon_lex.l"
-
-
-
-   if (new_cmd) {
-      if (!(asm_mode && opt_asm)) {
-         last_len = cur_len = 0;
-      }
-      if (asm_mode) {
-         BEGIN (ASM_MODE);
-         opt_asm = 0;
-      } else {
-         BEGIN (CMD);
-      }
-      new_cmd = 0;
-   }
-
-
-#line 1817 "mon_lex.c"
-
 	if ( !(yy_init) )
 		{
 		(yy_init) = 1;
@@ -1847,6 +1842,27 @@ YY_DECL
 		yy_load_buffer_state( );
 		}
 
+	{
+#line 129 "../../../vice/src/monitor/mon_lex.l"
+
+
+
+   if (new_cmd) {
+      if (!(asm_mode && opt_asm)) {
+         last_len = cur_len = 0;
+      }
+      if (asm_mode) {
+         BEGIN (ASM_MODE);
+         opt_asm = 0;
+      } else {
+         BEGIN (CMD);
+      }
+      new_cmd = 0;
+   }
+
+
+#line 1865 "../../../vice/src/monitor/mon_lex.c"
+
 	while ( 1 )		/* loops until end-of-file is reached */
 		{
 		(yy_more_len) = 0;
@@ -1873,7 +1889,7 @@ YY_DECL
 yy_match:
 		do
 			{
-			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
+			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
@@ -1934,474 +1950,474 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 147 "mon_lex.l"
+#line 147 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(ROL);           return CMD_COMMENT; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 148 "mon_lex.l"
+#line 148 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CONVERT_OP; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 149 "mon_lex.l"
+#line 149 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_ENTER_DATA; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 150 "mon_lex.l"
+#line 150 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(ROL);           return CMD_DISK; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 151 "mon_lex.l"
+#line 151 "../../../vice/src/monitor/mon_lex.l"
 { opt_asm = 1; BEGIN(INITIAL); return CMD_ASSEMBLE; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 152 "mon_lex.l"
+#line 152 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_ADD_LABEL; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 153 "mon_lex.l"
+#line 153 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_ATTACH; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 154 "mon_lex.l"
+#line 154 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_AUTOSTART; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 155 "mon_lex.l"
+#line 155 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_AUTOLOAD; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 156 "mon_lex.l"
+#line 156 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(BNAME);         return CMD_BANK; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 157 "mon_lex.l"
+#line 157 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_BLOAD; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 158 "mon_lex.l"
+#line 158 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_BLOCK_READ; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 159 "mon_lex.l"
+#line 159 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_BREAK; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 160 "mon_lex.l"
+#line 160 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_BSAVE; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 161 "mon_lex.l"
+#line 161 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_BACKTRACE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 162 "mon_lex.l"
+#line 162 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_BLOCK_WRITE; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 163 "mon_lex.l"
+#line 163 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_CARTFREEZE; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 164 "mon_lex.l"
+#line 164 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(ROL);           return CMD_CHDIR; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 165 "mon_lex.l"
+#line 165 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_CLEAR_LABELS; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 166 "mon_lex.l"
+#line 166 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_COMMAND; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 167 "mon_lex.l"
+#line 167 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_COMPARE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 168 "mon_lex.l"
+#line 168 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_CONDITION; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 169 "mon_lex.l"
+#line 169 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(CTYPE);         return CMD_CPU; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 170 "mon_lex.l"
+#line 170 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_CPUHISTORY; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 171 "mon_lex.l"
+#line 171 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(ROL);           return CMD_DIR; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 172 "mon_lex.l"
+#line 172 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_DISASSEMBLE; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 173 "mon_lex.l"
+#line 173 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_DELETE; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 174 "mon_lex.l"
+#line 174 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_DEL_LABEL; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 175 "mon_lex.l"
+#line 175 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_DEVICE; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 176 "mon_lex.l"
+#line 176 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_DETACH; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 177 "mon_lex.l"
+#line 177 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_CHECKPT_OFF; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 178 "mon_lex.l"
+#line 178 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_DUMP; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 179 "mon_lex.l"
+#line 179 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_CHECKPT_ON; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 180 "mon_lex.l"
+#line 180 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_EXIT; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 181 "mon_lex.l"
+#line 181 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_EXPORT; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 182 "mon_lex.l"
+#line 182 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_FILL; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 183 "mon_lex.l"
+#line 183 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_GOTO; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 184 "mon_lex.l"
+#line 184 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(ROL);           return CMD_HELP; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 185 "mon_lex.l"
+#line 185 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_HUNT; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 186 "mon_lex.l"
+#line 186 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_TEXT_DISPLAY; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 187 "mon_lex.l"
+#line 187 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_SCREENCODE_DISPLAY; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 188 "mon_lex.l"
+#line 188 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_IGNORE; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 189 "mon_lex.l"
+#line 189 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_IO; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 190 "mon_lex.l"
+#line 190 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(ROL);           return CMD_KEYBUF; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 191 "mon_lex.l"
+#line 191 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_LIST; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 192 "mon_lex.l"
+#line 192 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_LOAD; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 193 "mon_lex.l"
+#line 193 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_LOAD_LABELS; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 194 "mon_lex.l"
+#line 194 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_MEM_DISPLAY; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 195 "mon_lex.l"
+#line 195 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_CHAR_DISPLAY; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 196 "mon_lex.l"
+#line 196 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);       return CMD_MEMMAPSAVE; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 197 "mon_lex.l"
+#line 197 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_MEMMAPSHOW; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 198 "mon_lex.l"
+#line 198 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_MEMMAPZAP; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 199 "mon_lex.l"
+#line 199 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_MOVE; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 200 "mon_lex.l"
+#line 200 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_SPRITE_DISPLAY; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 201 "mon_lex.l"
+#line 201 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_NEXT; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 202 "mon_lex.l"
+#line 202 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_PLAYBACK; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 203 "mon_lex.l"
+#line 203 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_PRINT; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 204 "mon_lex.l"
+#line 204 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_PWD; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 205 "mon_lex.l"
+#line 205 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_QUIT; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 206 "mon_lex.l"
+#line 206 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(RADIX);         return CMD_RADIX; }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 207 "mon_lex.l"
+#line 207 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_RECORD; }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 208 "mon_lex.l"
+#line 208 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(REG_ASGN);      return CMD_REGISTERS; }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 209 "mon_lex.l"
+#line 209 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_MON_RESET; }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 210 "mon_lex.l"
+#line 210 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);    return CMD_RESOURCE_GET; }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 211 "mon_lex.l"
+#line 211 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);    return CMD_RESOURCE_SET; }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 212 "mon_lex.l"
+#line 212 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME); return CMD_LOAD_RESOURCES; }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 213 "mon_lex.l"
+#line 213 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME); return CMD_SAVE_RESOURCES; }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 214 "mon_lex.l"
+#line 214 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_RETURN; }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 215 "mon_lex.l"
+#line 215 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_SAVE; }
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 216 "mon_lex.l"
+#line 216 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_SAVE_LABELS; }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 217 "mon_lex.l"
+#line 217 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_SCREEN; }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 218 "mon_lex.l"
+#line 218 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);        return CMD_SCREENSHOT; }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 219 "mon_lex.l"
+#line 219 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_SHOW_LABELS; }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 220 "mon_lex.l"
+#line 220 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_SIDEFX; }
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 221 "mon_lex.l"
+#line 221 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_STEP; }
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 222 "mon_lex.l"
+#line 222 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_MON_STOP; }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 223 "mon_lex.l"
+#line 223 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_STOPWATCH; }
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 224 "mon_lex.l"
+#line 224 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_TAPECTRL; }
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 225 "mon_lex.l"
+#line 225 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_TRACE; }
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 226 "mon_lex.l"
+#line 226 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_UNTIL; }
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 227 "mon_lex.l"
+#line 227 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(FNAME);         return CMD_UNDUMP; }
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 228 "mon_lex.l"
+#line 228 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_WATCH; }
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 229 "mon_lex.l"
+#line 229 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(INITIAL);       return CMD_YYDEBUG; }
 	YY_BREAK
 
 /* this is not a real command, but could be a label name for a label assignment */
 case 84:
 YY_RULE_SETUP
-#line 232 "mon_lex.l"
+#line 232 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN(LABEL_ASGN); yylval.str = lib_stralloc(yytext); return CMD_LABEL_ASGN; }
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 234 "mon_lex.l"
+#line 234 "../../../vice/src/monitor/mon_lex.l"
 { new_cmd = 1; return CMD_SEP; }
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 236 "mon_lex.l"
+#line 236 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_ON; return TOGGLE; }
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 237 "mon_lex.l"
+#line 237 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_OFF; return TOGGLE; }
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 238 "mon_lex.l"
+#line 238 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_TOGGLE; return TOGGLE; }
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 240 "mon_lex.l"
+#line 240 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_load; return MEM_OP; }
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 241 "mon_lex.l"
+#line 241 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_store; return MEM_OP; }
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 242 "mon_lex.l"
+#line 242 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_exec; return MEM_OP; }
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 244 "mon_lex.l"
+#line 244 "../../../vice/src/monitor/mon_lex.l"
 { return RESET; }
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 246 "mon_lex.l"
+#line 246 "../../../vice/src/monitor/mon_lex.l"
 { BEGIN (COND_MODE); return IF; }
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 248 "mon_lex.l"
+#line 248 "../../../vice/src/monitor/mon_lex.l"
 { if (!quote) {
                      quote = 1;
                      BEGIN (STR);
@@ -2410,7 +2426,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 254 "mon_lex.l"
+#line 254 "../../../vice/src/monitor/mon_lex.l"
 { if (quote) {
                      if ((yyleng > 1) && (yytext[yyleng - 2] == '\\')) {
                          yymore(); /* skip escaped quote */
@@ -2433,7 +2449,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
-#line 274 "mon_lex.l"
+#line 274 "../../../vice/src/monitor/mon_lex.l"
 { if (yytext[yyleng - 1] == '\\') {
                      yymore(); /* skip escaped quote */
                   } else {
@@ -2446,22 +2462,22 @@ YY_RULE_SETUP
 /* prefixes for numbers */
 case 97:
 YY_RULE_SETUP
-#line 284 "mon_lex.l"
+#line 284 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_hexadecimal; return INPUT_SPEC; }
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 285 "mon_lex.l"
+#line 285 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_decimal; return INPUT_SPEC; }
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 286 "mon_lex.l"
+#line 286 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_binary; return INPUT_SPEC; }
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 287 "mon_lex.l"
+#line 287 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_octal; return INPUT_SPEC; }
 	YY_BREAK
 /* \.TA		{ yylval.i = e_text_ascii; return INPUT_SPEC; } */
@@ -2472,22 +2488,22 @@ YY_RULE_SETUP
 /* used by the "radix" command */
 case 101:
 YY_RULE_SETUP
-#line 295 "mon_lex.l"
+#line 295 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_decimal; return RADIX_TYPE; }
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 296 "mon_lex.l"
+#line 296 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_hexadecimal; return RADIX_TYPE; }
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
-#line 297 "mon_lex.l"
+#line 297 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_binary; return RADIX_TYPE; }
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 298 "mon_lex.l"
+#line 298 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_octal; return RADIX_TYPE; }
 	YY_BREAK
 /* <RADIX>C		{ yylval.i = e_character; return RADIX_TYPE; } */
@@ -2497,12 +2513,12 @@ YY_RULE_SETUP
 /* used (currently) by the "memory" command */
 case 105:
 YY_RULE_SETUP
-#line 305 "mon_lex.l"
+#line 305 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_hexadecimal; return RADIX_TYPE; }
 	YY_BREAK
 case 106:
 YY_RULE_SETUP
-#line 306 "mon_lex.l"
+#line 306 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_octal; return RADIX_TYPE; }
 	YY_BREAK
 /* 'b' and 'd' are ambiguous (could be either radix or hex value),
@@ -2510,7 +2526,7 @@ YY_RULE_SETUP
     (fortunately, rarely used) radix argument to the memory command */
 case 107:
 YY_RULE_SETUP
-#line 310 "mon_lex.l"
+#line 310 "../../../vice/src/monitor/mon_lex.l"
 { if (yytext[0] == 'D') {
                         yylval.i = e_decimal; return RADIX_TYPE;
                       } else {
@@ -2520,7 +2536,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
-#line 316 "mon_lex.l"
+#line 316 "../../../vice/src/monitor/mon_lex.l"
 { if (yytext[0] == 'B') {
                         yylval.i = e_binary; return RADIX_TYPE;
                       } else {
@@ -2530,43 +2546,43 @@ YY_RULE_SETUP
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 323 "mon_lex.l"
+#line 323 "../../../vice/src/monitor/mon_lex.l"
 { return MEM_COMP; }
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
-#line 324 "mon_lex.l"
+#line 324 "../../../vice/src/monitor/mon_lex.l"
 { return MEM_DISK8; }
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
-#line 325 "mon_lex.l"
+#line 325 "../../../vice/src/monitor/mon_lex.l"
 { return MEM_DISK9; }
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
-#line 326 "mon_lex.l"
+#line 326 "../../../vice/src/monitor/mon_lex.l"
 { return MEM_DISK10; }
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
-#line 327 "mon_lex.l"
+#line 327 "../../../vice/src/monitor/mon_lex.l"
 { return MEM_DISK11; }
 	YY_BREAK
 case 114:
 YY_RULE_SETUP
-#line 329 "mon_lex.l"
+#line 329 "../../../vice/src/monitor/mon_lex.l"
 { yylval.str = lib_stralloc(yytext); return CPUTYPE; }
 	YY_BREAK
 case 115:
 YY_RULE_SETUP
-#line 331 "mon_lex.l"
+#line 331 "../../../vice/src/monitor/mon_lex.l"
 
 	YY_BREAK
 case 116:
 /* rule 116 can match eol */
 YY_RULE_SETUP
-#line 332 "mon_lex.l"
+#line 332 "../../../vice/src/monitor/mon_lex.l"
 { dont_match_reg_a = 0;
                  new_cmd = 1;
                  opt_asm = 0;
@@ -2577,916 +2593,916 @@ YY_RULE_SETUP
 	YY_BREAK
 case 117:
 YY_RULE_SETUP
-#line 340 "mon_lex.l"
+#line 340 "../../../vice/src/monitor/mon_lex.l"
 { yytext[yyleng-1] = '\0';
                 yylval.str = lib_stralloc(yytext+1);
                 BEGIN (INITIAL); return FILENAME; }
 	YY_BREAK
 case 118:
 YY_RULE_SETUP
-#line 344 "mon_lex.l"
+#line 344 "../../../vice/src/monitor/mon_lex.l"
 { yylval.str = lib_stralloc(yytext); return BANKNAME; }
 	YY_BREAK
 case 119:
 YY_RULE_SETUP
-#line 346 "mon_lex.l"
+#line 346 "../../../vice/src/monitor/mon_lex.l"
 { yylval.str = lib_stralloc(yytext); return R_O_L; }
 	YY_BREAK
 /* see monitor.c and montypes.h for the commented list */
 
 case 120:
 YY_RULE_SETUP
-#line 350 "mon_lex.l"
+#line 350 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_A; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
 	YY_BREAK
 case 121:
 YY_RULE_SETUP
-#line 351 "mon_lex.l"
+#line 351 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_X; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09 */
 	YY_BREAK
 case 122:
 YY_RULE_SETUP
-#line 352 "mon_lex.l"
+#line 352 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_Y; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09 */
 	YY_BREAK
 case 123:
 YY_RULE_SETUP
-#line 353 "mon_lex.l"
+#line 353 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_PC; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
 	YY_BREAK
 case 124:
 YY_RULE_SETUP
-#line 354 "mon_lex.l"
+#line 354 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_SP; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
 	YY_BREAK
 case 125:
 YY_RULE_SETUP
-#line 355 "mon_lex.l"
+#line 355 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_FLAGS; return MON_REGISTER; }	/* 65xx/c64dtv/658xx */
 	YY_BREAK
 case 126:
 YY_RULE_SETUP
-#line 356 "mon_lex.l"
+#line 356 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_FLAGS; return MON_REGISTER; }	/* 6x09 */
 	YY_BREAK
 case 127:
 YY_RULE_SETUP
-#line 358 "mon_lex.l"
+#line 358 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_B; return MON_REGISTER; }		/* 658xx/6x09/z80 */
 	YY_BREAK
 case 128:
 YY_RULE_SETUP
-#line 359 "mon_lex.l"
+#line 359 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_C; return MON_REGISTER; }		/* 658xx/z80 */
 	YY_BREAK
 case 129:
 YY_RULE_SETUP
-#line 360 "mon_lex.l"
+#line 360 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_DPR; return MON_REGISTER; }	/* 658xx */
 	YY_BREAK
 case 130:
 YY_RULE_SETUP
-#line 361 "mon_lex.l"
+#line 361 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_PBR; return MON_REGISTER; }	/* 658xx */
 	YY_BREAK
 case 131:
 YY_RULE_SETUP
-#line 362 "mon_lex.l"
+#line 362 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_DBR; return MON_REGISTER; }	/* 658xx */
 	YY_BREAK
 case 132:
 YY_RULE_SETUP
-#line 363 "mon_lex.l"
+#line 363 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_E; return MON_REGISTER; }		/* 658xx/6309/z80 */
 	YY_BREAK
 case 133:
 YY_RULE_SETUP
-#line 365 "mon_lex.l"
+#line 365 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R3; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 134:
 YY_RULE_SETUP
-#line 366 "mon_lex.l"
+#line 366 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R4; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 135:
 YY_RULE_SETUP
-#line 367 "mon_lex.l"
+#line 367 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R5; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 136:
 YY_RULE_SETUP
-#line 368 "mon_lex.l"
+#line 368 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R6; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 137:
 YY_RULE_SETUP
-#line 369 "mon_lex.l"
+#line 369 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R7; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 138:
 YY_RULE_SETUP
-#line 370 "mon_lex.l"
+#line 370 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R8; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 139:
 YY_RULE_SETUP
-#line 371 "mon_lex.l"
+#line 371 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R9; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 140:
 YY_RULE_SETUP
-#line 372 "mon_lex.l"
+#line 372 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R10; return MON_REGISTER; }	/* c64dtv */
 	YY_BREAK
 case 141:
 YY_RULE_SETUP
-#line 373 "mon_lex.l"
+#line 373 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R11; return MON_REGISTER; }	/* c64dtv */
 	YY_BREAK
 case 142:
 YY_RULE_SETUP
-#line 374 "mon_lex.l"
+#line 374 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R12; return MON_REGISTER; }	/* c64dtv */
 	YY_BREAK
 case 143:
 YY_RULE_SETUP
-#line 375 "mon_lex.l"
+#line 375 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R13; return MON_REGISTER; }	/* c64dtv */
 	YY_BREAK
 case 144:
 YY_RULE_SETUP
-#line 376 "mon_lex.l"
+#line 376 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R14; return MON_REGISTER; }	/* c64dtv */
 	YY_BREAK
 case 145:
 YY_RULE_SETUP
-#line 377 "mon_lex.l"
+#line 377 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R15; return MON_REGISTER; }	/* c64dtv */
 	YY_BREAK
 case 146:
 YY_RULE_SETUP
-#line 378 "mon_lex.l"
+#line 378 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_ACM; return MON_REGISTER; }	/* c64dtv */
 	YY_BREAK
 case 147:
 YY_RULE_SETUP
-#line 379 "mon_lex.l"
+#line 379 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_YXM; return MON_REGISTER; }	/* c64dtv */
 	YY_BREAK
 case 148:
 YY_RULE_SETUP
-#line 381 "mon_lex.l"
+#line 381 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_D; return MON_REGISTER; }		/* 6x09/z80 */
 	YY_BREAK
 case 149:
 YY_RULE_SETUP
-#line 382 "mon_lex.l"
+#line 382 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_DP; return MON_REGISTER; }		/* 6x09 */
 	YY_BREAK
 case 150:
 YY_RULE_SETUP
-#line 383 "mon_lex.l"
+#line 383 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_U; return MON_REGISTER; }		/* 6x09 */
 	YY_BREAK
 case 151:
 YY_RULE_SETUP
-#line 385 "mon_lex.l"
+#line 385 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_AF; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 152:
 YY_RULE_SETUP
-#line 386 "mon_lex.l"
+#line 386 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_BC; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 153:
 YY_RULE_SETUP
-#line 387 "mon_lex.l"
+#line 387 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_DE; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 154:
 YY_RULE_SETUP
-#line 388 "mon_lex.l"
+#line 388 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_HL; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 155:
 YY_RULE_SETUP
-#line 389 "mon_lex.l"
+#line 389 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IX; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 156:
 YY_RULE_SETUP
-#line 390 "mon_lex.l"
+#line 390 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IY; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 157:
 YY_RULE_SETUP
-#line 391 "mon_lex.l"
+#line 391 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_I; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 158:
 YY_RULE_SETUP
-#line 392 "mon_lex.l"
+#line 392 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 159:
 YY_RULE_SETUP
-#line 393 "mon_lex.l"
+#line 393 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_AF2; return MON_REGISTER; }	/* z80 */
 	YY_BREAK
 case 160:
 YY_RULE_SETUP
-#line 394 "mon_lex.l"
+#line 394 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_BC2; return MON_REGISTER; }	/* z80 */
 	YY_BREAK
 case 161:
 YY_RULE_SETUP
-#line 395 "mon_lex.l"
+#line 395 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_DE2; return MON_REGISTER; }	/* z80 */
 	YY_BREAK
 case 162:
 YY_RULE_SETUP
-#line 396 "mon_lex.l"
+#line 396 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_HL2; return MON_REGISTER; }	/* z80 */
 	YY_BREAK
 case 163:
 YY_RULE_SETUP
-#line 398 "mon_lex.l"
+#line 398 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_F; return MON_REGISTER; }		/* 6309 */
 	YY_BREAK
 case 164:
 YY_RULE_SETUP
-#line 399 "mon_lex.l"
+#line 399 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_W; return MON_REGISTER; }		/* 6309 */
 	YY_BREAK
 case 165:
 YY_RULE_SETUP
-#line 400 "mon_lex.l"
+#line 400 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_Q; return MON_REGISTER; }		/* 6309 */
 	YY_BREAK
 case 166:
 YY_RULE_SETUP
-#line 401 "mon_lex.l"
+#line 401 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_V; return MON_REGISTER; }		/* 6309 */
 	YY_BREAK
 case 167:
 YY_RULE_SETUP
-#line 402 "mon_lex.l"
+#line 402 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_MD; return MON_REGISTER; }		/* 6309 */
 	YY_BREAK
 case 168:
 YY_RULE_SETUP
-#line 404 "mon_lex.l"
+#line 404 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_H; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 169:
 YY_RULE_SETUP
-#line 405 "mon_lex.l"
+#line 405 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_L; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 170:
 YY_RULE_SETUP
-#line 406 "mon_lex.l"
+#line 406 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IXL; return MON_REGISTER; }	/* z80 */
 	YY_BREAK
 case 171:
 YY_RULE_SETUP
-#line 407 "mon_lex.l"
+#line 407 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IXH; return MON_REGISTER; }	/* z80 */
 	YY_BREAK
 case 172:
 YY_RULE_SETUP
-#line 408 "mon_lex.l"
+#line 408 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IYL; return MON_REGISTER; }	/* z80 */
 	YY_BREAK
 case 173:
 YY_RULE_SETUP
-#line 409 "mon_lex.l"
+#line 409 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IYH; return MON_REGISTER; }	/* z80 */
 	YY_BREAK
 
 
 case 174:
 YY_RULE_SETUP
-#line 413 "mon_lex.l"
+#line 413 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_EQU; return COMPARE_OP; }
 	YY_BREAK
 case 175:
 YY_RULE_SETUP
-#line 414 "mon_lex.l"
+#line 414 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_NEQ; return COMPARE_OP; }
 	YY_BREAK
 case 176:
 YY_RULE_SETUP
-#line 415 "mon_lex.l"
+#line 415 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_LTE; return COMPARE_OP; }
 	YY_BREAK
 case 177:
 YY_RULE_SETUP
-#line 416 "mon_lex.l"
+#line 416 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_LT;  return COMPARE_OP; }
 	YY_BREAK
 case 178:
 YY_RULE_SETUP
-#line 417 "mon_lex.l"
+#line 417 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_GT;  return COMPARE_OP; }
 	YY_BREAK
 case 179:
 YY_RULE_SETUP
-#line 418 "mon_lex.l"
+#line 418 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_GTE; return COMPARE_OP; }
 	YY_BREAK
 case 180:
 YY_RULE_SETUP
-#line 419 "mon_lex.l"
+#line 419 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_AND; return COMPARE_OP; }
 	YY_BREAK
 case 181:
 YY_RULE_SETUP
-#line 420 "mon_lex.l"
+#line 420 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_OR;  return COMPARE_OP; }
 	YY_BREAK
 case 182:
 YY_RULE_SETUP
-#line 422 "mon_lex.l"
+#line 422 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_A; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
 	YY_BREAK
 case 183:
 YY_RULE_SETUP
-#line 423 "mon_lex.l"
+#line 423 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_X; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09 */
 	YY_BREAK
 case 184:
 YY_RULE_SETUP
-#line 424 "mon_lex.l"
+#line 424 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_Y; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09 */
 	YY_BREAK
 case 185:
 YY_RULE_SETUP
-#line 425 "mon_lex.l"
+#line 425 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_PC; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
 	YY_BREAK
 case 186:
 YY_RULE_SETUP
-#line 426 "mon_lex.l"
+#line 426 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_SP; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
 	YY_BREAK
 case 187:
 YY_RULE_SETUP
-#line 427 "mon_lex.l"
+#line 427 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_FLAGS; return MON_REGISTER; }	/* 65xx/c64dtv/658xx */
 	YY_BREAK
 case 188:
 YY_RULE_SETUP
-#line 428 "mon_lex.l"
+#line 428 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_FLAGS; return MON_REGISTER; }	/* 6x09 */
 	YY_BREAK
 case 189:
 YY_RULE_SETUP
-#line 430 "mon_lex.l"
+#line 430 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_B; return MON_REGISTER; }		/* 658xx/6x09/z80 */
 	YY_BREAK
 case 190:
 YY_RULE_SETUP
-#line 431 "mon_lex.l"
+#line 431 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_C; return MON_REGISTER; }		/* 658xx/z80 */
 	YY_BREAK
 case 191:
 YY_RULE_SETUP
-#line 432 "mon_lex.l"
+#line 432 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_DPR; return MON_REGISTER; }		/* 658xx */
 	YY_BREAK
 case 192:
 YY_RULE_SETUP
-#line 433 "mon_lex.l"
+#line 433 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_PBR; return MON_REGISTER; }		/* 658xx */
 	YY_BREAK
 case 193:
 YY_RULE_SETUP
-#line 434 "mon_lex.l"
+#line 434 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_DBR; return MON_REGISTER; }		/* 658xx */
 	YY_BREAK
 case 194:
 YY_RULE_SETUP
-#line 435 "mon_lex.l"
+#line 435 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_E; return MON_REGISTER; }		/* 658xx/6309/z80 */
 	YY_BREAK
 case 195:
 YY_RULE_SETUP
-#line 437 "mon_lex.l"
+#line 437 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R3; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 196:
 YY_RULE_SETUP
-#line 438 "mon_lex.l"
+#line 438 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R4; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 197:
 YY_RULE_SETUP
-#line 439 "mon_lex.l"
+#line 439 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R5; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 198:
 YY_RULE_SETUP
-#line 440 "mon_lex.l"
+#line 440 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R6; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 199:
 YY_RULE_SETUP
-#line 441 "mon_lex.l"
+#line 441 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R7; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 200:
 YY_RULE_SETUP
-#line 442 "mon_lex.l"
+#line 442 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R8; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 201:
 YY_RULE_SETUP
-#line 443 "mon_lex.l"
+#line 443 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R9; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 202:
 YY_RULE_SETUP
-#line 444 "mon_lex.l"
+#line 444 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R10; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 203:
 YY_RULE_SETUP
-#line 445 "mon_lex.l"
+#line 445 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R11; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 204:
 YY_RULE_SETUP
-#line 446 "mon_lex.l"
+#line 446 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R12; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 205:
 YY_RULE_SETUP
-#line 447 "mon_lex.l"
+#line 447 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R13; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 206:
 YY_RULE_SETUP
-#line 448 "mon_lex.l"
+#line 448 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R14; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 207:
 YY_RULE_SETUP
-#line 449 "mon_lex.l"
+#line 449 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R15; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 208:
 YY_RULE_SETUP
-#line 450 "mon_lex.l"
+#line 450 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_ACM; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 209:
 YY_RULE_SETUP
-#line 451 "mon_lex.l"
+#line 451 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_YXM; return MON_REGISTER; }		/* c64dtv */
 	YY_BREAK
 case 210:
 YY_RULE_SETUP
-#line 453 "mon_lex.l"
+#line 453 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_D; return MON_REGISTER; }		/* 6x09/z80 */
 	YY_BREAK
 case 211:
 YY_RULE_SETUP
-#line 454 "mon_lex.l"
+#line 454 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_DP; return MON_REGISTER; }		/* 6x09 */
 	YY_BREAK
 case 212:
 YY_RULE_SETUP
-#line 455 "mon_lex.l"
+#line 455 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_U; return MON_REGISTER; }		/* 6x09 */
 	YY_BREAK
 case 213:
 YY_RULE_SETUP
-#line 457 "mon_lex.l"
+#line 457 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_AF; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 214:
 YY_RULE_SETUP
-#line 458 "mon_lex.l"
+#line 458 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_BC; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 215:
 YY_RULE_SETUP
-#line 459 "mon_lex.l"
+#line 459 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_DE; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 216:
 YY_RULE_SETUP
-#line 460 "mon_lex.l"
+#line 460 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_HL; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 217:
 YY_RULE_SETUP
-#line 461 "mon_lex.l"
+#line 461 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IX; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 218:
 YY_RULE_SETUP
-#line 462 "mon_lex.l"
+#line 462 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IY; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 219:
 YY_RULE_SETUP
-#line 463 "mon_lex.l"
+#line 463 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_I; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 220:
 YY_RULE_SETUP
-#line 464 "mon_lex.l"
+#line 464 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_R; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 221:
 YY_RULE_SETUP
-#line 465 "mon_lex.l"
+#line 465 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_AF2; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 222:
 YY_RULE_SETUP
-#line 466 "mon_lex.l"
+#line 466 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_BC2; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 223:
 YY_RULE_SETUP
-#line 467 "mon_lex.l"
+#line 467 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_DE2; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 224:
 YY_RULE_SETUP
-#line 468 "mon_lex.l"
+#line 468 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_HL2; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 225:
 YY_RULE_SETUP
-#line 470 "mon_lex.l"
+#line 470 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_F; return MON_REGISTER; }		/* 6309 */
 	YY_BREAK
 case 226:
 YY_RULE_SETUP
-#line 471 "mon_lex.l"
+#line 471 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_W; return MON_REGISTER; }		/* 6309 */
 	YY_BREAK
 case 227:
 YY_RULE_SETUP
-#line 472 "mon_lex.l"
+#line 472 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_Q; return MON_REGISTER; }		/* 6309 */
 	YY_BREAK
 case 228:
 YY_RULE_SETUP
-#line 473 "mon_lex.l"
+#line 473 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_V; return MON_REGISTER; }		/* 6309 */
 	YY_BREAK
 case 229:
 YY_RULE_SETUP
-#line 474 "mon_lex.l"
+#line 474 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_MD; return MON_REGISTER; }		/* 6309 */
 	YY_BREAK
 case 230:
 YY_RULE_SETUP
-#line 476 "mon_lex.l"
+#line 476 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_H; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 231:
 YY_RULE_SETUP
-#line 477 "mon_lex.l"
+#line 477 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_L; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 232:
 YY_RULE_SETUP
-#line 478 "mon_lex.l"
+#line 478 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IXH; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 233:
 YY_RULE_SETUP
-#line 479 "mon_lex.l"
+#line 479 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IXL; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 234:
 YY_RULE_SETUP
-#line 480 "mon_lex.l"
+#line 480 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IYH; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 235:
 YY_RULE_SETUP
-#line 481 "mon_lex.l"
+#line 481 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = e_IYL; return MON_REGISTER; }		/* z80 */
 	YY_BREAK
 case 236:
 YY_RULE_SETUP
-#line 483 "mon_lex.l"
+#line 483 "../../../vice/src/monitor/mon_lex.l"
 { return L_PAREN; }
 	YY_BREAK
 case 237:
 YY_RULE_SETUP
-#line 484 "mon_lex.l"
+#line 484 "../../../vice/src/monitor/mon_lex.l"
 { return R_PAREN; }
 	YY_BREAK
 case 238:
 YY_RULE_SETUP
-#line 485 "mon_lex.l"
+#line 485 "../../../vice/src/monitor/mon_lex.l"
 { return L_BRACKET; }
 	YY_BREAK
 case 239:
 YY_RULE_SETUP
-#line 486 "mon_lex.l"
+#line 486 "../../../vice/src/monitor/mon_lex.l"
 { return R_BRACKET; }
 	YY_BREAK
 
 case 240:
 YY_RULE_SETUP
-#line 489 "mon_lex.l"
+#line 489 "../../../vice/src/monitor/mon_lex.l"
 {
     yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 241:
 YY_RULE_SETUP
-#line 491 "mon_lex.l"
+#line 491 "../../../vice/src/monitor/mon_lex.l"
 {
     yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 242:
 YY_RULE_SETUP
-#line 493 "mon_lex.l"
+#line 493 "../../../vice/src/monitor/mon_lex.l"
 {
     yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 243:
 YY_RULE_SETUP
-#line 495 "mon_lex.l"
+#line 495 "../../../vice/src/monitor/mon_lex.l"
 {
     yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 244:
 YY_RULE_SETUP
-#line 497 "mon_lex.l"
+#line 497 "../../../vice/src/monitor/mon_lex.l"
 {
     yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 245:
 YY_RULE_SETUP
-#line 499 "mon_lex.l"
+#line 499 "../../../vice/src/monitor/mon_lex.l"
 {
     yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 246:
 YY_RULE_SETUP
-#line 501 "mon_lex.l"
+#line 501 "../../../vice/src/monitor/mon_lex.l"
 {
     yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 247:
 YY_RULE_SETUP
-#line 503 "mon_lex.l"
+#line 503 "../../../vice/src/monitor/mon_lex.l"
 {
     yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 248:
 YY_RULE_SETUP
-#line 505 "mon_lex.l"
+#line 505 "../../../vice/src/monitor/mon_lex.l"
 { return REG_AF; }
 	YY_BREAK
 case 249:
 YY_RULE_SETUP
-#line 506 "mon_lex.l"
+#line 506 "../../../vice/src/monitor/mon_lex.l"
 { return REG_BC; }
 	YY_BREAK
 case 250:
 YY_RULE_SETUP
-#line 507 "mon_lex.l"
+#line 507 "../../../vice/src/monitor/mon_lex.l"
 { return REG_DE; }
 	YY_BREAK
 case 251:
 YY_RULE_SETUP
-#line 508 "mon_lex.l"
+#line 508 "../../../vice/src/monitor/mon_lex.l"
 { return REG_HL; }
 	YY_BREAK
 case 252:
 YY_RULE_SETUP
-#line 509 "mon_lex.l"
+#line 509 "../../../vice/src/monitor/mon_lex.l"
 { return REG_IX; }
 	YY_BREAK
 case 253:
 YY_RULE_SETUP
-#line 510 "mon_lex.l"
+#line 510 "../../../vice/src/monitor/mon_lex.l"
 { return REG_IXH; }
 	YY_BREAK
 case 254:
 YY_RULE_SETUP
-#line 511 "mon_lex.l"
+#line 511 "../../../vice/src/monitor/mon_lex.l"
 { return REG_IXL; }
 	YY_BREAK
 case 255:
 YY_RULE_SETUP
-#line 512 "mon_lex.l"
+#line 512 "../../../vice/src/monitor/mon_lex.l"
 { return REG_IY; }
 	YY_BREAK
 case 256:
 YY_RULE_SETUP
-#line 513 "mon_lex.l"
+#line 513 "../../../vice/src/monitor/mon_lex.l"
 { return REG_IYH; }
 	YY_BREAK
 case 257:
 YY_RULE_SETUP
-#line 514 "mon_lex.l"
+#line 514 "../../../vice/src/monitor/mon_lex.l"
 { return REG_IYL; }
 	YY_BREAK
 case 258:
 YY_RULE_SETUP
-#line 515 "mon_lex.l"
+#line 515 "../../../vice/src/monitor/mon_lex.l"
 { yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 259:
 YY_RULE_SETUP
-#line 516 "mon_lex.l"
+#line 516 "../../../vice/src/monitor/mon_lex.l"
 { yylval.str = lib_stralloc(yytext); return LABEL; }
 	YY_BREAK
 case 260:
 /* rule 260 can match eol */
 YY_RULE_SETUP
-#line 518 "mon_lex.l"
+#line 518 "../../../vice/src/monitor/mon_lex.l"
 { if (!dont_match_reg_a) return REG_A;
                                         yylval.i = 0x0a; return H_NUMBER; }
 	YY_BREAK
 case 261:
 YY_RULE_SETUP
-#line 520 "mon_lex.l"
+#line 520 "../../../vice/src/monitor/mon_lex.l"
 { return REG_B; }
 	YY_BREAK
 case 262:
 YY_RULE_SETUP
-#line 521 "mon_lex.l"
+#line 521 "../../../vice/src/monitor/mon_lex.l"
 { return REG_C; }
 	YY_BREAK
 case 263:
 YY_RULE_SETUP
-#line 522 "mon_lex.l"
+#line 522 "../../../vice/src/monitor/mon_lex.l"
 { return REG_D; }
 	YY_BREAK
 case 264:
 YY_RULE_SETUP
-#line 523 "mon_lex.l"
+#line 523 "../../../vice/src/monitor/mon_lex.l"
 { return REG_E; }
 	YY_BREAK
 case 265:
 YY_RULE_SETUP
-#line 524 "mon_lex.l"
+#line 524 "../../../vice/src/monitor/mon_lex.l"
 { return REG_H; }
 	YY_BREAK
 case 266:
 YY_RULE_SETUP
-#line 525 "mon_lex.l"
+#line 525 "../../../vice/src/monitor/mon_lex.l"
 { return REG_L; }
 	YY_BREAK
 case 267:
 YY_RULE_SETUP
-#line 526 "mon_lex.l"
+#line 526 "../../../vice/src/monitor/mon_lex.l"
 { return REG_S; }
 	YY_BREAK
 case 268:
 YY_RULE_SETUP
-#line 527 "mon_lex.l"
+#line 527 "../../../vice/src/monitor/mon_lex.l"
 { return REG_U; }
 	YY_BREAK
 case 269:
 YY_RULE_SETUP
-#line 528 "mon_lex.l"
+#line 528 "../../../vice/src/monitor/mon_lex.l"
 { return REG_X; }
 	YY_BREAK
 case 270:
 YY_RULE_SETUP
-#line 529 "mon_lex.l"
+#line 529 "../../../vice/src/monitor/mon_lex.l"
 { return REG_Y; }
 	YY_BREAK
 case 271:
 YY_RULE_SETUP
-#line 531 "mon_lex.l"
+#line 531 "../../../vice/src/monitor/mon_lex.l"
 { dont_match_reg_a = 1; return L_PAREN; }
 	YY_BREAK
 case 272:
 YY_RULE_SETUP
-#line 532 "mon_lex.l"
+#line 532 "../../../vice/src/monitor/mon_lex.l"
 { dont_match_reg_a = 0; return R_PAREN; }
 	YY_BREAK
 case 273:
 YY_RULE_SETUP
-#line 533 "mon_lex.l"
+#line 533 "../../../vice/src/monitor/mon_lex.l"
 { dont_match_reg_a = 1; return L_BRACKET; }
 	YY_BREAK
 case 274:
 YY_RULE_SETUP
-#line 534 "mon_lex.l"
+#line 534 "../../../vice/src/monitor/mon_lex.l"
 { dont_match_reg_a = 0; return R_BRACKET; }
 	YY_BREAK
 case 275:
 YY_RULE_SETUP
-#line 535 "mon_lex.l"
+#line 535 "../../../vice/src/monitor/mon_lex.l"
 { dont_match_reg_a = 1; return ARG_IMMEDIATE; }
 	YY_BREAK
 case 276:
 YY_RULE_SETUP
-#line 536 "mon_lex.l"
+#line 536 "../../../vice/src/monitor/mon_lex.l"
 { dont_match_reg_a = 0; return INST_SEP; }
 	YY_BREAK
 case 277:
 YY_RULE_SETUP
-#line 537 "mon_lex.l"
+#line 537 "../../../vice/src/monitor/mon_lex.l"
 { dont_match_reg_a = 1; return LESS_THAN; }
 	YY_BREAK
 case 278:
 YY_RULE_SETUP
-#line 538 "mon_lex.l"
+#line 538 "../../../vice/src/monitor/mon_lex.l"
 { return PLUS; }
 	YY_BREAK
 case 279:
 YY_RULE_SETUP
-#line 539 "mon_lex.l"
+#line 539 "../../../vice/src/monitor/mon_lex.l"
 { return MINUS; }
 	YY_BREAK
 
 case 280:
 YY_RULE_SETUP
-#line 542 "mon_lex.l"
+#line 542 "../../../vice/src/monitor/mon_lex.l"
 { yylval.str = lib_stralloc(yytext); return H_RANGE_GUESS; }
 	YY_BREAK
 case 281:
 YY_RULE_SETUP
-#line 543 "mon_lex.l"
+#line 543 "../../../vice/src/monitor/mon_lex.l"
 { yylval.str = lib_stralloc(yytext); return B_NUMBER_GUESS; }
 	YY_BREAK
 case 282:
 YY_RULE_SETUP
-#line 544 "mon_lex.l"
+#line 544 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }
 	YY_BREAK
 case 283:
 YY_RULE_SETUP
-#line 545 "mon_lex.l"
+#line 545 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = strtol(yytext+1, NULL, 8); return O_NUMBER; }
 	YY_BREAK
 case 284:
 YY_RULE_SETUP
-#line 546 "mon_lex.l"
+#line 546 "../../../vice/src/monitor/mon_lex.l"
 { yylval.str = lib_stralloc(yytext); return O_NUMBER_GUESS; }
 	YY_BREAK
 case 285:
 YY_RULE_SETUP
-#line 547 "mon_lex.l"
+#line 547 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = strtol(yytext+1, NULL, 10); return D_NUMBER; }
 	YY_BREAK
 case 286:
 YY_RULE_SETUP
-#line 548 "mon_lex.l"
+#line 548 "../../../vice/src/monitor/mon_lex.l"
 { yylval.str = lib_stralloc(yytext); return D_NUMBER_GUESS; }
 	YY_BREAK
 case 287:
 YY_RULE_SETUP
-#line 549 "mon_lex.l"
+#line 549 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = 0x00; return MASK; }
 	YY_BREAK
 case 288:
 YY_RULE_SETUP
-#line 550 "mon_lex.l"
+#line 550 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
 	YY_BREAK
 case 289:
 YY_RULE_SETUP
-#line 551 "mon_lex.l"
+#line 551 "../../../vice/src/monitor/mon_lex.l"
 { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
 	YY_BREAK
 
 case 290:
 YY_RULE_SETUP
-#line 554 "mon_lex.l"
+#line 554 "../../../vice/src/monitor/mon_lex.l"
 { return EQUALS; }
 	YY_BREAK
 case 291:
 YY_RULE_SETUP
-#line 555 "mon_lex.l"
+#line 555 "../../../vice/src/monitor/mon_lex.l"
 { return COMMA; }
 	YY_BREAK
 /* After a label assignment there may be a ; comment to EOL */
 case 292:
 YY_RULE_SETUP
-#line 558 "mon_lex.l"
+#line 558 "../../../vice/src/monitor/mon_lex.l"
 { return LABEL_ASGN_COMMENT; }
 	YY_BREAK
 case 293:
 /* rule 293 can match eol */
 YY_RULE_SETUP
-#line 560 "mon_lex.l"
+#line 560 "../../../vice/src/monitor/mon_lex.l"
 { return yytext[0]; }
 	YY_BREAK
 case 294:
 YY_RULE_SETUP
-#line 562 "mon_lex.l"
+#line 562 "../../../vice/src/monitor/mon_lex.l"
 ECHO;
 	YY_BREAK
-#line 3490 "mon_lex.c"
+#line 3506 "../../../vice/src/monitor/mon_lex.c"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(FNAME):
 			case YY_STATE_EOF(CMD):
@@ -3628,6 +3644,7 @@ ECHO;
 			"fatal flex scanner internal error--no action found" );
 	} /* end of action switch */
 		} /* end of scanning one token */
+	} /* end of user's declarations */
 } /* end of yylex */
 
 /* yy_get_next_buffer - try to read in a new buffer
@@ -3699,7 +3716,7 @@ static int yy_get_next_buffer (void)
 
 		/* Read in more data. */
 		YY_INPUT( (&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move]),
-			(yy_n_chars), (size_t) num_to_read );
+			(yy_n_chars), num_to_read );
 
 		YY_CURRENT_BUFFER_LVALUE->yy_n_chars = (yy_n_chars);
 		}
@@ -3789,7 +3806,7 @@ static int yy_get_next_buffer (void)
 	if ( ! yy_is_jam )
 		*(yy_state_ptr)++ = yy_current_state;
 
-	return yy_is_jam ? 0 : yy_current_state;
+		return yy_is_jam ? 0 : yy_current_state;
 }
 
 #ifndef YY_NO_INPUT
@@ -3816,7 +3833,7 @@ static int yy_get_next_buffer (void)
 
 		else
 			{ /* need more input */
-			int offset = (yy_c_buf_p) - (yytext_ptr);
+			yy_size_t offset = (yy_c_buf_p) - (yytext_ptr);
 			++(yy_c_buf_p);
 
 			switch ( yy_get_next_buffer(  ) )
@@ -3976,10 +3993,6 @@ static void yy_load_buffer_state  (void)
 	yyfree((void *) b  );
 }
 
-#ifndef __cplusplus
-extern int isatty (int );
-#endif /* __cplusplus */
-    
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
  * such as during a yyrestart() or at EOF.
@@ -4092,7 +4105,7 @@ void yypop_buffer_state (void)
  */
 static void yyensure_buffer_stack (void)
 {
-	int num_to_alloc;
+	yy_size_t num_to_alloc;
     
 	if (!(yy_buffer_stack)) {
 
@@ -4184,17 +4197,17 @@ YY_BUFFER_STATE yy_scan_string (yyconst char * yystr )
 
 /** Setup the input buffer state to scan the given bytes. The next call to yylex() will
  * scan from a @e copy of @a bytes.
- * @param bytes the byte buffer to scan
- * @param len the number of bytes in the buffer pointed to by @a bytes.
+ * @param yybytes the byte buffer to scan
+ * @param _yybytes_len the number of bytes in the buffer pointed to by @a bytes.
  * 
  * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, int  _yybytes_len )
+YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len )
 {
 	YY_BUFFER_STATE b;
 	char *buf;
 	yy_size_t n;
-	int i;
+	yy_size_t i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = _yybytes_len + 2;
@@ -4276,7 +4289,7 @@ FILE *yyget_out  (void)
 /** Get the length of the current token.
  * 
  */
-int yyget_leng  (void)
+yy_size_t yyget_leng  (void)
 {
         return yyleng;
 }
@@ -4432,7 +4445,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 562 "mon_lex.l"
+#line 561 "../../../vice/src/monitor/mon_lex.l"
 
 
 
