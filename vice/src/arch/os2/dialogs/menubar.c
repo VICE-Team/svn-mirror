@@ -452,6 +452,43 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             WinActivateWindow(hwndLog, 1);
             return;
 
+#ifndef __XCBM5X0__
+        case IDM_USERPORT_DAC:
+            toggle("UserportDAC");
+            return;
+        case IDM_USERPORT_DIGIMAX:
+            toggle("UserportDIGIMAX");
+            return;
+        case IDM_USERPORT_4BIT_SAMPLER:
+            toggle("Userport4bitSampler");
+            return;
+        case IDM_USERPORT_8BSS:
+            toggle("Userport8BSS");
+            return;
+#ifndef __XPLUS4__
+        case IDM_USERPORT_RTC58321A_SETTINGS:
+            WinCheckRes(hwnd, IDM_USERPORT_RTC58321A, "UserportRTC58321a");
+            WinCheckRes(hwnd, IDM_USERPORT_RTC58321A_SAVE, "UserportRTC58321aSave");
+            return;
+        case IDM_USERPORT_DS1307_RTC_SETTINGS:
+            WinCheckRes(hwnd, IDM_USERPORT_DS1307_RTC, "UserportRTCDS1307");
+            WinCheckRes(hwnd, IDM_USERPORT_DS1307_RTC_SAVE, "UserportRTCDS1307Save");
+            return;
+        case IDM_USERPORT_RTC58321A:
+            toggle("UserportRTC58321a");
+            return;
+        case IDM_USERPORT_RTC58321A_SAVE:
+            toggle("UserportRTC58321aSave");
+            return;
+        case IDM_USERPORT_DS1307_RTC:
+            toggle("UserportRTCDS1307");
+            return;
+        case IDM_USERPORT_DS1307_RTC_SAVE:
+            toggle("UserportRTCDS1307Save");
+            return;
+#endif
+#endif
+
 #ifdef __XVIC__
         case IDM_VIC20_CART_GENERIC:
             if (cartridge_attach_image(CARTRIDGE_VIC20_GENERIC, ViceFileSelect(hwnd, 1)) < 0) {
@@ -1626,10 +1663,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_PETHRE:
             toggle("PETHRE");
             return;
-
-        case IDM_PET_USERPORT_DAC:
-            toggle("UserportDAC");
-            return;
 #endif
 
 #ifdef HAVE_MOUSE
@@ -2076,27 +2109,30 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_SIDCART_JOY:
             toggle("SIDCartJoy");
             return;
-        case IDM_USERPORT_JOY_SETUP:
-            joystick_extra_dialog(hwnd);
-            return;
 #endif
 
-#if !defined(__XPLUS4__) && !defined(__XCBM5X0__)
+#ifndef __XCBM5X0__
         case IDM_USERPORT_JOY:
             toggle("UserportJoy");
             return;
+#if !defined(__XPLUS4__) && !defined(__X64DTV__)
         case IDM_USERPORT_JOY_CGA:
             resources_set_int("UserportJoyType", USERPORT_JOYSTICK_CGA);
             return;
+#endif
+#ifndef __X64DTV__
         case IDM_USERPORT_JOY_PET:
             resources_set_int("UserportJoyType", USERPORT_JOYSTICK_PET);
             return;
+#endif
         case IDM_USERPORT_JOY_HUMMER:
             resources_set_int("UserportJoyType", USERPORT_JOYSTICK_HUMMER);
             return;
+#ifndef __X64DTV__
         case IDM_USERPORT_JOY_OEM:
             resources_set_int("UserportJoyType", USERPORT_JOYSTICK_OEM);
             return;
+#endif
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case IDM_USERPORT_JOY_HIT:
             resources_set_int("UserportJoyType", USERPORT_JOYSTICK_HIT);
@@ -2156,6 +2192,15 @@ void menu_select(HWND hwnd, USHORT item)
     int val;
 
     switch (item) {
+
+#ifndef __XCBM5X0__
+        case IDM_USERPORT_DEVICE_SETTINGS:
+            WinCheckRes(hwnd, IDM_USERPORT_DAC, "UserportDAC");
+            WinCheckRes(hwnd, IDM_USERPORT_DIGIMAX, "UserportDIGIMAX");
+            WinCheckRes(hwnd, IDM_USERPORT_4BIT_SAMPLER, "Userport4bitSampler");
+            WinCheckRes(hwnd, IDM_USERPORT_8BSS, "Userport8BSS");
+            return;
+#endif
 
 #ifdef __XVIC__
         case IDM_VIC20_ATTACH_CARTRIDGE:
@@ -2685,8 +2730,6 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_DIAGPIN, "DiagPin");
             WinCheckRes(hwnd, IDM_SUPERPET, "SuperPET");
             WinCheckRes(hwnd, IDM_CRTC, "Crtc");
-            resources_get_int("UserportDAC", &val);
-            WinCheckMenuItem(hwnd, IDM_PET_USERPORT_DAC, val);
 #endif // __XPET__
 
 #ifdef __XVIC__

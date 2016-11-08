@@ -261,14 +261,20 @@ BEGIN
         END
 #endif
 
-#if !defined(__XCBM5X0__) && !defined(__XPLUS4__)
+#ifndef __XCBM5X0__
         MENUITEM "Userport joystick adapter",             IDM_USERPORT_JOY,             MIS_TEXT
         SUBMENU "Userport joystick type",                 IDM_USERPORT_JOY_TYPE,        MIS_TEXT
         BEGIN
+#if !defined(__XPLUS4__) && !defined(__X64DTV__)
             MENUITEM "CGA",                               IDM_USERPORT_JOY_CGA,         MIS_TEXT
+#endif
+#ifndef __X64DTV__
             MENUITEM "PET",                               IDM_USERPORT_JOY_PET,         MIS_TEXT
+#endif
             MENUITEM "Hummer",                            IDM_USERPORT_JOY_HUMMER,      MIS_TEXT
+#ifdef __X64DTV__
             MENUITEM "OEM",                               IDM_USERPORT_JOY_OEM,         MIS_TEXT
+#endif
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
             MENUITEM "HIT",                               IDM_USERPORT_JOY_HIT,         MIS_TEXT
             MENUITEM "Kingsoft",                          IDM_USERPORT_JOY_KINGSOFT,    MIS_TEXT
@@ -830,7 +836,7 @@ BEGIN
         END
 #endif
 
-#ifdef __X128
+#ifdef __X128__
         MENUITEM "RAM banks 2 & 3",                       IDM_C128FULLBANKS,            MIS_TEXT
 #endif
 
@@ -853,7 +859,6 @@ BEGIN
             MENUITEM "PET DWW Filename",                  IDM_PETDWWFILE,               MIS_TEXT
         END
         MENUITEM "PET H~RE",                              IDM_PETHRE,                   MIS_TEXT
-        MENUITEM "PET Userport ~DAC",                     IDM_PET_USERPORT_DAC,         MIS_TEXT
 #endif
 
 #if defined(__X64__) || defined(__XSCPU64__)
@@ -1307,6 +1312,30 @@ BEGIN
             MENUITEM "TFE I/O Swap",                      IDM_TFE_IO_SWAP,              MIS_TEXT
         END
 #endif
+#endif
+
+#ifndef __XCBM5X0__
+        SUBMENU "Userport Device Settings",                   IDM_USERPORT_DEVICE_SETTINGS,     MIS_TEXT
+        BEGIN
+            MENUITEM "Userport DAC",                          IDM_USERPORT_DAC,                 MIS_TEXT
+#if !defined(__XPET__) && !defined(__XPLUS4__) && !defined(__XVIC__)
+            MENUITEM "Userport DigiMAX",                      IDM_USERPORT_DIGIMAX,             MIS_TEXT
+            MENUITEM "Userport 4bit Sampler",                 IDM_USERPORT_4BIT_SAMPLER,        MIS_TEXT
+            MENUITEM "Userport 8bit Stereo Sampler",          IDM_USERPORT_8BSS,                MIS_TEXT
+#endif
+#ifndef __XPLUS4__
+            SUBMENU "Userport RTC58321a Settings",            IDM_USERPORT_RTC58321A_SETTINGS,  MIS_TEXT
+            BEGIN
+                MENUITEM "RTC58321a",                         IDM_USERPORT_RTC58321A,           MIS_TEXT
+                MENUITEM "Save RTC58321a data when changed",  IDM_USERPORT_RTC58321A_SAVE,      MIS_TEXT
+            END
+            SUBMENU "Userport DS1307 RTC Settings",           IDM_USERPORT_DS1307_RTC_SETTINGS, MIS_TEXT
+            BEGIN
+                MENUITEM "DS1307 RTC",                        IDM_USERPORT_DS1307_RTC,          MIS_TEXT
+                MENUITEM "Save DS1307 RTC data when changed", IDM_USERPORT_DS1307_RTC_SAVE,     MIS_TEXT
+            END
+#endif
+        END
 #endif
 
 #ifdef __X128__

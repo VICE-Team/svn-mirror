@@ -496,8 +496,6 @@
 
 #define IDM_PETHRE                   0x335
 
-#define IDM_PET_USERPORT_DAC         0x1cc
-
 #define IDM_USERPORT_RTC_58321A_SETTINGS 0x34d
 #define IDM_USERPORT_RTC_58321A          0x326
 #define IDM_USERPORT_RTC_58321A_SAVE     0x34e
@@ -918,6 +916,19 @@
 #define IDM_C128IT                   0x804
 #define IDM_C128NO                   0x805
 #define IDM_C128SW                   0x806
+
+#define IDM_USERPORT_DEVICE_SETTINGS     0x397
+#define IDM_USERPORT_DAC                 0x1cc
+#define IDM_USERPORT_DIGIMAX             0x398
+#define IDM_USERPORT_4BIT_SAMPLER        0x399
+#define IDM_USERPORT_8BSS                0x39a
+#define IDM_USERPORT_RTC58321A_SETTINGS  0x39b
+#define IDM_USERPORT_RTC58321A           0x39c
+#define IDM_USERPORT_RTC58321A_SAVE      0x39d
+#define IDM_USERPORT_DS1307_RTC_SETTINGS 0x39e
+#define IDM_USERPORT_DS1307_RTC          0x39f
+#define IDM_USERPORT_DS1307_RTC_SAVE     0x3a0
+
 
 void menu_action(HWND hwnd, USHORT item); //, MPARAM mp2);
 void menu_select(HWND hwnd, USHORT item);
