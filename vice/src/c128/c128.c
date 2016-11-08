@@ -60,9 +60,6 @@
 #include "cia.h"
 #include "clkguard.h"
 #include "clockport-mp3at64.h"
-#include "coplin_keypad.h"
-#include "cx21.h"
-#include "cx85.h"
 #include "datasette.h"
 #include "debug.h"
 #include "diskimage.h"
@@ -97,7 +94,6 @@
 #include "printer.h"
 #include "rs232drv.h"
 #include "rsuser.h"
-#include "rushware_keypad.h"
 #include "sampler.h"
 #include "sampler2bit.h"
 #include "sampler4bit.h"
@@ -603,26 +599,6 @@ int machine_resources_init(void)
     }
     if (joyport_paperclip64_resources_init() < 0) {
         init_resource_fail("joyport paperclip64 dongle");
-        return -1;
-    }
-    if (joyport_coplin_keypad_resources_init() < 0) {
-        init_resource_fail("joyport coplin keypad");
-        return -1;
-    }
-    if (joyport_cx21_resources_init() < 0) {
-        init_resource_fail("joyport cx21 keypad");
-        return -1;
-    }
-    if (joyport_cx85_resources_init() < 0) {
-        init_resource_fail("joyport cx85 keypad");
-        return -1;
-    }
-    if (joyport_rushware_keypad_resources_init() < 0) {
-        init_resource_fail("joyport rushware keypad");
-        return -1;
-    }
-    if (joyport_cardkey_resources_init() < 0) {
-        init_resource_fail("joyport cardkey keypad");
         return -1;
     }
     if (joystick_resources_init() < 0) {
