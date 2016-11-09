@@ -5016,7 +5016,7 @@ Set the ACIA mode
 Set the ACIA interrupt
 (@code{Acia1Irq})
 (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
-(0: None, 1: NMI, 2: IRQ)
+(0: None, 1: IRQ, 2: NMI)
 
 @cindex -rsuser, +rsuser
 @item -rsuser
