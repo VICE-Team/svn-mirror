@@ -32,6 +32,7 @@
 #include "uimenu.h"
 
 extern ui_menu_entry_t settings_manager_menu[];
+extern ui_menu_entry_t settings_manager_menu_vsid[];
 extern void uikeyboard_menu_create(void);
 
 #endif

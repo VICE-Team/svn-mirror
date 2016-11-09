@@ -285,10 +285,12 @@ static const ui_menu_entry_t vsid_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)jam_menu },
+#if 0
     { "Speed settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)speed_menu },
+#endif
     { "Pause",
       MENU_ENTRY_OTHER,
       pause_callback,
@@ -310,7 +312,7 @@ static const ui_menu_entry_t vsid_main_menu[] = {
     { "Settings management",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)settings_manager_menu },
+      (ui_callback_data_t)settings_manager_menu_vsid },
     { "Quit emulator",
       MENU_ENTRY_OTHER,
       quit_callback,
