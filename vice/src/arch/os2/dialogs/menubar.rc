@@ -1228,6 +1228,7 @@ BEGIN
 #ifdef __XVIC__
         MENUITEM "I/O-2 RAM",                             IDM_VIC20_IO2_RAM,            MIS_TEXT
         MENUITEM "I/O-3 RAM",                             IDM_VIC20_IO3_RAM,            MIS_TEXT
+        MENUITEM "VFLI Mod",                              IDM_VIC20_VFLI_MOD,           MIS_TEXT
         MENUITEM "Final Expansion Writeback",             IDM_VIC20_FE_WRITEBACK,       MIS_TEXT
         MENUITEM "Vic Flash Plugin Writeback",            IDM_VIC20_VFP_WRITEBACK,      MIS_TEXT
         MENUITEM "MegaCart NvRAM Writeback",              IDM_VIC20_MC_WRITEBACK,       MIS_TEXT

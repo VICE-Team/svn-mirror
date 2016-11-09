@@ -430,6 +430,8 @@
 #define IDM_VIC20_IO2_RAM            0x37e
 #define IDM_VIC20_IO3_RAM            0x37f
 
+#define IDM_VIC20_VFLI_MOD           0x3fe
+
 #define IDM_MEMORY_HACKS_SETTINGS    0x1f3
 
 #define IDM_PLUS60KBASE              0x17d

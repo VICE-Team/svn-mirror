@@ -1348,6 +1348,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_VIC20_IO3_RAM:
             toggle("IO3RAM");
             return;
+        case IDM_VIC20_VFLI_MOD:
+            toggle("VFLImod");
+            return;
         case IDM_VIC20_FE_WRITEBACK:
             toggle("FinalExpansionWriteBack");
             return;
@@ -3197,6 +3200,7 @@ void menu_select(HWND hwnd, USHORT item)
 #ifdef __XVIC__
             WinCheckRes(hwnd, IDM_VIC20_IO2_RAM, "IO2RAM");
             WinCheckRes(hwnd, IDM_VIC20_IO3_RAM, "IO3RAM");
+            WinCheckRes(hwnd, IDM_VIC20_VFLI_MOD, "VFLImod");
             WinCheckRes(hwnd, IDM_VIC20_FE_WRITEBACK, "FinalExpansionWriteBack");
             WinCheckRes(hwnd, IDM_VIC20_VFP_WRITEBACK, "VicFlashPluginWriteBack");
             WinCheckRes(hwnd, IDM_VIC20_UM_WRITEBACK, "UltiMemWriteBack");
