@@ -64,7 +64,7 @@
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
 #include "userport_joystick.h"
 #include "c64-memory-hacks.h"
-
+#include "joyport.h"
 
 #if defined(__X128__) || defined(__X64__)
 #include "cartridge.h"
@@ -411,6 +411,12 @@ static void save_ui_screenshot(char *type, HWND hwnd)
     }
 }
 
+#if defined(__X64__) || defined(__X64SC__) || defined(__XSCPU64__)
+#define __X64ALL__
+#else
+#undef __X64ALL__
+#endif
+
 void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 {
     switch (idm) {
@@ -452,6 +458,322 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             WinActivateWindow(hwndLog, 1);
             return;
 
+        case IDM_JOYPORT_DEVICES:
+            return;
+
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_1_NONE:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_NONE);
+            return;
+        case IDM_JOYPORT_1_JOYSTICK:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_JOYSTICK);
+            return;
+        case IDM_JOYPORT_1_SAMPLER_2BIT:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_SAMPLER_2BIT);
+            return;
+        case IDM_JOYPORT_1_SAMPLER_4BIT:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_SAMPLER_4BIT);
+            return;
+        case IDM_JOYPORT_1_BBRTC:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_BBRTC);
+            return;
+        case IDM_JOYPORT_1_PAPERCLIP64:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_PAPERCLIP64);
+            return;
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XVIC__)
+        case IDM_JOYPORT_1_PADDLES:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_PADDLES);
+            return;
+        case IDM_JOYPORT_1_MOUSE_1351:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_MOUSE_1351);
+            return;
+        case IDM_JOYPORT_1_MOUSE_SMART:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_MOUSE_SMART);
+            return;
+        case IDM_JOYPORT_1_MOUSE_MICROMYS:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_MOUSE_MICROMYS);
+            return;
+        case IDM_JOYPORT_1_KOALAPAD:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_KOALAPAD);
+            return;
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_1_MOUSE_NEOS:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_MOUSE_NEOS);
+            return;
+        case IDM_JOYPORT_1_MOUSE_AMIGA:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_MOUSE_AMIGA);
+            return;
+        case IDM_JOYPORT_1_MOUSE_CX22:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_MOUSE_CX22);
+            return;
+        case IDM_JOYPORT_1_MOUSE_ST:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_MOUSE_ST);
+            return;
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XVIC__)
+        case IDM_JOYPORT_1_LIGHTPEN_U:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_LIGHTPEN_U);
+            return;
+        case IDM_JOYPORT_1_LIGHTPEN_L:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_LIGHTPEN_L);
+            return;
+        case IDM_JOYPORT_1_LIGHTPEN_DATEL:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_LIGHTPEN_DATEL);
+            return;
+        case IDM_JOYPORT_1_LIGHTGUN_Y:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_LIGHTGUN_Y);
+            return;
+        case IDM_JOYPORT_1_LIGHTGUN_L:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_LIGHTGUN_L);
+            return;
+        case IDM_JOYPORT_1_LIGHTPEN_INKWELL:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_LIGHTPEN_INKWELL);
+            return;
+#endif
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_1_COPLIN_KEYPAD:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_COPLIN_KEYPAD);
+            return;
+        case IDM_JOYPORT_1_RUSHWARE_KEYPAD:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_RUSHWARE_KEYPAD);
+            return;
+#endif
+#if defined(__X64ALL__) || defined(__XVIC__)
+        case IDM_JOYPORT_1_CARDCO_KEYPAD:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_CARDCO_KEYPAD);
+            return;
+        case IDM_JOYPORT_1_CX85_KEYPAD:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_CX85_KEYPAD);
+            return;
+        case IDM_JOYPORT_1_CX21_KEYPAD:
+            resources_set_int("JoyPort1Device", JOYPORT_ID_CX21_KEYPAD);
+            return;
+#endif
+#endif
+
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__)
+        case IDM_JOYPORT_2_NONE:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_NONE);
+            return;
+        case IDM_JOYPORT_2_JOYSTICK:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_JOYSTICK);
+            return;
+        case IDM_JOYPORT_2_SAMPLER_2BIT:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_SAMPLER_2BIT);
+            return;
+        case IDM_JOYPORT_2_SAMPLER_4BIT:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_SAMPLER_4BIT);
+            return;
+        case IDM_JOYPORT_2_BBRTC:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_BBRTC);
+            return;
+        case IDM_JOYPORT_2_PAPERCLIP64:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_PAPERCLIP64);
+            return;
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__)
+        case IDM_JOYPORT_2_PADDLES:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_PADDLES);
+            return;
+        case IDM_JOYPORT_2_MOUSE_1351:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_MOUSE_1351);
+            return;
+        case IDM_JOYPORT_2_MOUSE_SMART:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_MOUSE_SMART);
+            return;
+        case IDM_JOYPORT_2_MOUSE_MICROMYS:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_MOUSE_MICROMYS);
+            return;
+        case IDM_JOYPORT_2_KOALAPAD:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_KOALAPAD);
+            return;
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__)
+        case IDM_JOYPORT_2_MOUSE_NEOS:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_MOUSE_NEOS);
+            return;
+        case IDM_JOYPORT_2_MOUSE_AMIGA:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_MOUSE_AMIGA);
+            return;
+        case IDM_JOYPORT_2_MOUSE_CX22:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_MOUSE_CX22);
+            return;
+        case IDM_JOYPORT_2_MOUSE_ST:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_MOUSE_ST);
+            return;
+#endif
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__XPLUS4__)
+        case IDM_JOYPORT_2_COPLIN_KEYPAD:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_COPLIN_KEYPAD);
+            return;
+        case IDM_JOYPORT_2_RUSHWARE_KEYPAD:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_RUSHWARE_KEYPAD);
+            return;
+#endif
+#ifdef __X64ALL__
+        case IDM_JOYPORT_2_CARDCO_KEYPAD:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_CARDCO_KEYPAD);
+            return;
+        case IDM_JOYPORT_2_CX85_KEYPAD:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_CX85_KEYPAD);
+            return;
+        case IDM_JOYPORT_2_CX21_KEYPAD:
+            resources_set_int("JoyPort2Device", JOYPORT_ID_CX21_KEYPAD);
+            return;
+#endif
+#endif
+
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM2__) || defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_3_NONE:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_NONE);
+            return;
+        case IDM_JOYPORT_3_JOYSTICK:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_JOYSTICK);
+            return;
+        case IDM_JOYPORT_3_SAMPLER_2BIT:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_SAMPLER_2BIT);
+            return;
+        case IDM_JOYPORT_3_SAMPLER_4BIT:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_SAMPLER_4BIT);
+            return;
+        case IDM_JOYPORT_3_BBRTC:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_BBRTC);
+            return;
+        case IDM_JOYPORT_3_PAPERCLIP64:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_PAPERCLIP64);
+            return;
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM2__) || defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_3_MOUSE_NEOS:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_MOUSE_NEOS);
+            return;
+        case IDM_JOYPORT_3_MOUSE_AMIGA:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_MOUSE_AMIGA);
+            return;
+        case IDM_JOYPORT_3_MOUSE_CX22:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_MOUSE_CX22);
+            return;
+        case IDM_JOYPORT_3_MOUSE_ST:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_MOUSE_ST);
+            return;
+#endif
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_3_COPLIN_KEYPAD:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_COPLIN_KEYPAD);
+            return;
+        case IDM_JOYPORT_3_RUSHWARE_KEYPAD:
+            resources_set_int("JoyPort3Device", JOYPORT_ID_RUSHWARE_KEYPAD);
+            return;
+#endif
+#endif
+
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM2__) || defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_4_NONE:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_NONE);
+            return;
+        case IDM_JOYPORT_4_JOYSTICK:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_JOYSTICK);
+            return;
+        case IDM_JOYPORT_4_MOUSE_NEOS:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_MOUSE_NEOS);
+            return;
+        case IDM_JOYPORT_4_MOUSE_AMIGA:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_MOUSE_AMIGA);
+            return;
+        case IDM_JOYPORT_4_MOUSE_CX22:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_MOUSE_CX22);
+            return;
+        case IDM_JOYPORT_4_MOUSE_ST:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_MOUSE_ST);
+            return;
+        case IDM_JOYPORT_4_SAMPLER_2BIT:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_SAMPLER_2BIT);
+            return;
+        case IDM_JOYPORT_4_SAMPLER_4BIT:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_SAMPLER_4BIT);
+            return;
+        case IDM_JOYPORT_4_BBRTC:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_BBRTC);
+            return;
+        case IDM_JOYPORT_4_PAPERCLIP64:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_PAPERCLIP64);
+            return;
+#if defined(__X64ALL__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_4_COPLIN_KEYPAD:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_COPLIN_KEYPAD);
+            return;
+        case IDM_JOYPORT_4_RUSHWARE_KEYPAD:
+            resources_set_int("JoyPort4Device", JOYPORT_ID_RUSHWARE_KEYPAD);
+            return;
+#endif
+#endif
+
+#ifdef __XPLUS4__
+        case IDM_JOYPORT_5_NONE:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_NONE);
+            return;
+        case IDM_JOYPORT_5_JOYSTICK:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_JOYSTICK);
+            return;
+        case IDM_JOYPORT_5_PADDLES:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_PADDLES);
+            return;
+        case IDM_JOYPORT_5_MOUSE_1351:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_MOUSE_1351);
+            return;
+        case IDM_JOYPORT_5_MOUSE_NEOS:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_MOUSE_NEOS);
+            return;
+        case IDM_JOYPORT_5_MOUSE_AMIGA:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_MOUSE_AMIGA);
+            return;
+        case IDM_JOYPORT_5_MOUSE_CX22:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_MOUSE_CX22);
+            return;
+        case IDM_JOYPORT_5_MOUSE_ST:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_MOUSE_ST);
+            return;
+        case IDM_JOYPORT_5_MOUSE_SMART:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_MOUSE_SMART);
+            return;
+        case IDM_JOYPORT_5_MOUSE_MICROMYS:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_MOUSE_MICROMYS);
+            return;
+        case IDM_JOYPORT_5_KOALAPAD:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_KOALAPAD);
+            return;
+        case IDM_JOYPORT_5_SAMPLER_2BIT:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_SAMPLER_2BIT);
+            return;
+        case IDM_JOYPORT_5_SAMPLER_4BIT:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_SAMPLER_4BIT);
+            return;
+        case IDM_JOYPORT_5_BBRTC:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_BBRTC);
+            return;
+        case IDM_JOYPORT_5_PAPERCLIP64:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_PAPERCLIP64);
+            return;
+        case IDM_JOYPORT_5_COPLIN_KEYPAD:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_COPLIN_KEYPAD);
+            return;
+        case IDM_JOYPORT_5_CARDCO_KEYPAD:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_CARDCO_KEYPAD);
+            return;
+        case IDM_JOYPORT_5_CX85_KEYPAD:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_CX85_KEYPAD);
+            return;
+        case IDM_JOYPORT_5_RUSHWARE_KEYPAD:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_RUSHWARE_KEYPAD);
+            return;
+        case IDM_JOYPORT_5_CX21_KEYPAD:
+            resources_set_int("JoyPort5Device", JOYPORT_ID_CX21_KEYPAD);
+            return;
+#endif
+
+        case IDM_JOYPORT_BBRTC_SAVE:
+            toggle("BBRTCSave");
+            return;
+
 #ifndef __XCBM5X0__
         case IDM_USERPORT_DAC:
             toggle("UserportDAC");
@@ -466,14 +788,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle("Userport8BSS");
             return;
 #ifndef __XPLUS4__
-        case IDM_USERPORT_RTC58321A_SETTINGS:
-            WinCheckRes(hwnd, IDM_USERPORT_RTC58321A, "UserportRTC58321a");
-            WinCheckRes(hwnd, IDM_USERPORT_RTC58321A_SAVE, "UserportRTC58321aSave");
-            return;
-        case IDM_USERPORT_DS1307_RTC_SETTINGS:
-            WinCheckRes(hwnd, IDM_USERPORT_DS1307_RTC, "UserportRTCDS1307");
-            WinCheckRes(hwnd, IDM_USERPORT_DS1307_RTC_SAVE, "UserportRTCDS1307Save");
-            return;
         case IDM_USERPORT_RTC58321A:
             toggle("UserportRTC58321a");
             return;
@@ -2193,6 +2507,164 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_USERPORT_DIGIMAX, "UserportDIGIMAX");
             WinCheckRes(hwnd, IDM_USERPORT_4BIT_SAMPLER, "Userport4bitSampler");
             WinCheckRes(hwnd, IDM_USERPORT_8BSS, "Userport8BSS");
+            return;
+#ifndef __XPLUS4__
+        case IDM_USERPORT_RTC58321A_SETTINGS:
+            WinCheckRes(hwnd, IDM_USERPORT_RTC58321A, "UserportRTC58321a");
+            WinCheckRes(hwnd, IDM_USERPORT_RTC58321A_SAVE, "UserportRTC58321aSave");
+            return;
+        case IDM_USERPORT_DS1307_RTC_SETTINGS:
+            WinCheckRes(hwnd, IDM_USERPORT_DS1307_RTC, "UserportRTCDS1307");
+            WinCheckRes(hwnd, IDM_USERPORT_DS1307_RTC_SAVE, "UserportRTCDS1307Save");
+            return;
+#endif
+#endif
+
+        case IDM_JOYPORT_DEVICES:
+            WinCheckRes(hwnd, IDM_JOYPORT_BBRTC_SAVE, "BBRTCSave");
+            return;
+
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_1_DEVICE:
+            resources_get_int("JoyPort1Device", &val);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_NONE, val == JOYPORT_ID_NONE);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_JOYSTICK, val == JOYPORT_ID_JOYSTICK);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_SAMPLER_2BIT, val == JOYPORT_ID_SAMPLER_2BIT);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_SAMPLER_4BIT, val == JOYPORT_ID_SAMPLER_4BIT);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_BBRTC, val == JOYPORT_ID_BBRTC);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_PAPERCLIP64, val == JOYPORT_ID_PAPERCLIP64);
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XVIC__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_PADDLES, val == JOYPORT_ID_PADDLES);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_MOUSE_1351, val == JOYPORT_ID_MOUSE_1351);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_MOUSE_SMART, val == JOYPORT_ID_MOUSE_SMART);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_MOUSE_MICROMYS, val == JOYPORT_ID_MOUSE_MICROMYS);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_KOALAPAD, val == JOYPORT_ID_KOALAPAD);
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__) || defined(__XVIC__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_MOUSE_NEOS, val == JOYPORT_ID_MOUSE_NEOS);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_MOUSE_AMIGA, val == JOYPORT_ID_MOUSE_AMIGA);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_MOUSE_CX22, val == JOYPORT_ID_MOUSE_CX22);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_MOUSE_ST, val == JOYPORT_ID_MOUSE_ST);
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XVIC__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_LIGHTPEN_U, val == JOYPORT_ID_LIGHTPEN_U);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_LIGHTPEN_L, val == JOYPORT_ID_LIGHTPEN_L);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_LIGHTPEN_DATEL, val == JOYPORT_ID_LIGHTPEN_DATEL);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_LIGHTGUN_Y, val == JOYPORT_ID_LIGHTGUN_Y);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_LIGHTGUN_L, val == JOYPORT_ID_LIGHTGUN_L);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_LIGHTPEN_INKWELL, val == JOYPORT_ID_LIGHTPEN_INKWELL);
+#endif
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__XPLUS4__) || defined(__XVIC__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_COPLIN_KEYPAD, val == JOYPORT_ID_COPLIN_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_RUSHWARE_KEYPAD, val == JOYPORT_ID_RUSHWARE_KEYPAD);
+#endif
+#if defined(__X64ALL__) || defined(__XVIC__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_CARDCO_KEYPAD, val == JOYPORT_ID_CARDCO_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_CX85_KEYPAD, val == JOYPORT_ID_CX85_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_1_CX21_KEYPAD, val == JOYPORT_ID_CX21_KEYPAD);
+#endif
+            return;
+#endif
+
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__)
+        case IDM_JOYPORT_2_DEVICE:
+            resources_get_int("JoyPort2Device", &val);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_NONE, val == JOYPORT_ID_NONE);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_JOYSTICK, val == JOYPORT_ID_JOYSTICK);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_SAMPLER_2BIT, val == JOYPORT_ID_SAMPLER_2BIT);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_SAMPLER_4BIT, val == JOYPORT_ID_SAMPLER_4BIT);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_BBRTC, val == JOYPORT_ID_BBRTC);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_PAPERCLIP64, val == JOYPORT_ID_PAPERCLIP64);
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_PADDLES, val == JOYPORT_ID_PADDLES);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_MOUSE_1351, val == JOYPORT_ID_MOUSE_1351);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_MOUSE_SMART, val == JOYPORT_ID_MOUSE_SMART);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_MOUSE_MICROMYS, val == JOYPORT_ID_MOUSE_MICROMYS);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_KOALAPAD, val == JOYPORT_ID_KOALAPAD);
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_MOUSE_NEOS, val == JOYPORT_ID_MOUSE_NEOS);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_MOUSE_AMIGA, val == JOYPORT_ID_MOUSE_AMIGA);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_MOUSE_CX22, val == JOYPORT_ID_MOUSE_CX22);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_MOUSE_ST, val == JOYPORT_ID_MOUSE_ST);
+#endif
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__XPLUS4__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_COPLIN_KEYPAD, val == JOYPORT_ID_COPLIN_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_RUSHWARE_KEYPAD, val == JOYPORT_ID_RUSHWARE_KEYPAD);
+#endif
+#ifdef __X64ALL__
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_CARDCO_KEYPAD, val == JOYPORT_ID_CARDCO_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_CX85_KEYPAD, val == JOYPORT_ID_CX85_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_2_CX21_KEYPAD, val == JOYPORT_ID_CX21_KEYPAD);
+#endif
+            return;
+#endif
+
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM2__) || defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_3_DEVICE:
+            resources_get_int("JoyPort3Device", &val);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_NONE, val == JOYPORT_ID_NONE);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_JOYSTICK, val == JOYPORT_ID_JOYSTICK);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_SAMPLER_2BIT, val == JOYPORT_ID_SAMPLER_2BIT);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_SAMPLER_4BIT, val == JOYPORT_ID_SAMPLER_4BIT);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_BBRTC, val == JOYPORT_ID_BBRTC);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_PAPERCLIP64, val == JOYPORT_ID_PAPERCLIP64);
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM2__) || defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_MOUSE_NEOS, val == JOYPORT_ID_MOUSE_NEOS);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_MOUSE_AMIGA, val == JOYPORT_ID_MOUSE_AMIGA);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_MOUSE_CX22, val == JOYPORT_ID_MOUSE_CX22);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_MOUSE_ST, val == JOYPORT_ID_MOUSE_ST);
+#endif
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__XPLUS4__) || defined(__XVIC__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_COPLIN_KEYPAD, val == JOYPORT_ID_COPLIN_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_3_RUSHWARE_KEYPAD, val == JOYPORT_ID_RUSHWARE_KEYPAD);
+#endif
+            return;
+#endif
+
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM2__) || defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_JOYPORT_4_DEVICE:
+            resources_get_int("JoyPort4Device", &val);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_NONE, val == JOYPORT_ID_NONE);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_JOYSTICK, val == JOYPORT_ID_JOYSTICK);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_MOUSE_NEOS, val == JOYPORT_ID_MOUSE_NEOS);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_MOUSE_AMIGA, val == JOYPORT_ID_MOUSE_AMIGA);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_MOUSE_CX22, val == JOYPORT_ID_MOUSE_CX22);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_MOUSE_ST, val == JOYPORT_ID_MOUSE_ST);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_SAMPLER_2BIT, val == JOYPORT_ID_SAMPLER_2BIT);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_SAMPLER_4BIT, val == JOYPORT_ID_SAMPLER_4BIT);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_BBRTC, val == JOYPORT_ID_BBRTC);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_PAPERCLIP64, val == JOYPORT_ID_PAPERCLIP64);
+#if defined(__X64ALL__) || defined(__XPLUS4__) || defined(__XVIC__)
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_COPLIN_KEYPAD, val == JOYPORT_ID_COPLIN_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_4_RUSHWARE_KEYPAD, val == JOYPORT_ID_RUSHWARE_KEYPAD);
+#endif
+            return;
+#endif
+
+#ifdef __XPLUS4__
+        case IDM_JOYPORT_5_DEVICE:
+            resources_get_int("JoyPort4Device", &val);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_NONE, val == JOYPORT_ID_NONE);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_JOYSTICK, val == JOYPORT_ID_JOYSTICK);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_PADDLES, val == JOYPORT_ID_PADDLES);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_MOUSE_1351, val == JOYPORT_ID_MOUSE_1351);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_MOUSE_NEOS, val == JOYPORT_ID_MOUSE_NEOS);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_MOUSE_AMIGA, val == JOYPORT_ID_MOUSE_AMIGA);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_MOUSE_CX22, val == JOYPORT_ID_MOUSE_CX22);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_MOUSE_ST, val == JOYPORT_ID_MOUSE_ST);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_MOUSE_SMART, val == JOYPORT_ID_MOUSE_SMART);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_MOUSE_MICROMYS, val == JOYPORT_ID_MOUSE_MICROMYS);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_KOALAPAD, val == JOYPORT_ID_KOALAPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_SAMPLER_2BIT, val == JOYPORT_ID_SAMPLER_2BIT);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_SAMPLER_4BIT, val == JOYPORT_ID_SAMPLER_4BIT);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_BBRTC, val == JOYPORT_ID_BBRTC);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_PAPERCLIP64, val == JOYPORT_ID_PAPERCLIP64);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_COPLIN_KEYPAD, val == JOYPORT_ID_COPLIN_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_CARDCO_KEYPAD, val == JOYPORT_ID_CARDCO_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_CX85_KEYPAD, val == JOYPORT_ID_CX85_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_RUSHWARE_KEYPAD, val == JOYPORT_ID_RUSHWARE_KEYPAD);
+            WinCheckMenuItem(hwnd, IDM_JOYPORT_5_CX21_KEYPAD, val == JOYPORT_ID_CX21_KEYPAD);
             return;
 #endif
 

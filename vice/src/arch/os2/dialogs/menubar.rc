@@ -1332,6 +1332,168 @@ BEGIN
         END
 #endif
 
+#if defined(__X64__) || defined(__X64SC__) || defined(__XSCPU64__)
+#define __X64ALL__
+#else
+#undef __X64ALL__
+#endif
+
+        SUBMENU "Control Port Settings",        IDM_JOYPORT_DEVICES,            MIS_TEXT
+        BEGIN
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__) || defined(__XVIC__)
+            SUBMENU "Control Port 1 Device",        IDM_JOYPORT_1_DEVICE,           MIS_TEXT
+            BEGIN
+                MENUITEM "None",                    IDM_JOYPORT_1_NONE,             MIS_TEXT
+                MENUITEM "Joystick",                IDM_JOYPORT_1_JOYSTICK,         MIS_TEXT
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XVIC__)
+                MENUITEM "Paddles",                 IDM_JOYPORT_1_PADDLES,          MIS_TEXT
+                MENUITEM "Mouse (1351)",            IDM_JOYPORT_1_MOUSE_1351,       MIS_TEXT
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__) || defined(__XVIC__)
+                MENUITEM "Mouse (NEOS)",            IDM_JOYPORT_1_MOUSE_NEOS,       MIS_TEXT
+                MENUITEM "Mouse (Amiga)",           IDM_JOYPORT_1_MOUSE_AMIGA,      MIS_TEXT
+                MENUITEM "Mouse (CX22)",            IDM_JOYPORT_1_MOUSE_CX22,       MIS_TEXT
+                MENUITEM "Mouse (Atari-ST)",        IDM_JOYPORT_1_MOUSE_ST,         MIS_TEXT
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XVIC__)
+                MENUITEM "Mouse (SmartMouse)",      IDM_JOYPORT_1_MOUSE_SMART,      MIS_TEXT
+                MENUITEM "Mouse (MicroMys)",        IDM_JOYPORT_1_MOUSE_MICROMYS,   MIS_TEXT
+                MENUITEM "KoalaPad",                IDM_JOYPORT_1_KOALAPAD,         MIS_TEXT
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XVIC__)
+                MENUITEM "Lightpen (up trigger)",   IDM_JOYPORT_1_LIGHTPEN_U,       MIS_TEXT
+                MENUITEM "Lightpen (left trigger)", IDM_JOYPORT_1_LIGHTPEN_L,       MIS_TEXT
+                MENUITEM "Datel Lightpen",          IDM_JOYPORT_1_LIGHTPEN_DATEL,   MIS_TEXT
+                MENUITEM "Magnum Light Phaser",     IDM_JOYPORT_1_LIGHTGUN_Y,       MIS_TEXT
+                MENUITEM "Stack Light Rifle",       IDM_JOYPORT_1_LIGHTGUN_L,       MIS_TEXT
+                MENUITEM "Inkwell Lightpen",        IDM_JOYPORT_1_LIGHTPEN_INKWELL, MIS_TEXT
+#endif
+                MENUITEM "Sampler (2bit)",          IDM_JOYPORT_1_SAMPLER_2BIT,     MIS_TEXT
+                MENUITEM "Sampler (4bit)",          IDM_JOYPORT_1_SAMPLER_4BIT,     MIS_TEXT
+                MENUITEM "BBRTC",                   IDM_JOYPORT_1_BBRTC,            MIS_TEXT
+                MENUITEM "Paperclip64 Dongle",      IDM_JOYPORT_1_PAPERCLIP64,      MIS_TEXT
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__XPLUS4__) || defined(__XVIC__)
+                MENUITEM "Coplin Keypad",           IDM_JOYPORT_1_COPLIN_KEYPAD,    MIS_TEXT
+                MENUITEM "RushWare Keypad",         IDM_JOYPORT_1_RUSHWARE_KEYPAD,  MIS_TEXT
+#endif
+#if defined(__X64ALL__) || defined(__XVIC__)
+                MENUITEM "Cardco Cardkey 1 Keypad", IDM_JOYPORT_1_CARDCO_KEYPAD,    MIS_TEXT
+                MENUITEM "Atari CX85 Keypad",       IDM_JOYPORT_1_CX85_KEYPAD,      MIS_TEXT
+                MENUITEM "Atari CX21 Keypad",       IDM_JOYPORT_1_CX21_KEYPAD,      MIS_TEXT
+#endif
+            END
+#endif
+
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__)
+            SUBMENU "Control Port 2 Device",        IDM_JOYPORT_2_DEVICE,           MIS_TEXT
+            BEGIN
+                MENUITEM "None",                    IDM_JOYPORT_2_NONE,             MIS_TEXT
+                MENUITEM "Joystick",                IDM_JOYPORT_2_JOYSTICK,         MIS_TEXT
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__)
+                MENUITEM "Paddles",                 IDM_JOYPORT_2_PADDLES,          MIS_TEXT
+                MENUITEM "Mouse (1351)",            IDM_JOYPORT_2_MOUSE_1351,       MIS_TEXT
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__)
+                MENUITEM "Mouse (NEOS)",            IDM_JOYPORT_2_MOUSE_NEOS,       MIS_TEXT
+                MENUITEM "Mouse (Amiga)",           IDM_JOYPORT_2_MOUSE_AMIGA,      MIS_TEXT
+                MENUITEM "Mouse (CX22)",            IDM_JOYPORT_2_MOUSE_CX22,       MIS_TEXT
+                MENUITEM "Mouse (Atari-ST)",        IDM_JOYPORT_2_MOUSE_ST,         MIS_TEXT
+#endif
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__)
+                MENUITEM "Mouse (SmartMouse)",      IDM_JOYPORT_2_MOUSE_SMART,      MIS_TEXT
+                MENUITEM "Mouse (MicroMys)",        IDM_JOYPORT_2_MOUSE_MICROMYS,   MIS_TEXT
+                MENUITEM "KoalaPad",                IDM_JOYPORT_2_KOALAPAD,         MIS_TEXT
+#endif
+                MENUITEM "Sampler (2bit)",          IDM_JOYPORT_2_SAMPLER_2BIT,     MIS_TEXT
+                MENUITEM "Sampler (4bit)",          IDM_JOYPORT_2_SAMPLER_4BIT,     MIS_TEXT
+                MENUITEM "BBRTC",                   IDM_JOYPORT_2_BBRTC,            MIS_TEXT
+                MENUITEM "Paperclip64 Dongle",      IDM_JOYPORT_2_PAPERCLIP64,      MIS_TEXT
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__XPLUS4__)
+                MENUITEM "Coplin Keypad",           IDM_JOYPORT_2_COPLIN_KEYPAD,    MIS_TEXT
+#endif
+#ifdef __X64ALL__
+                MENUITEM "Cardco Keypad",           IDM_JOYPORT_2_CARDCO_KEYPAD,    MIS_TEXT
+                MENUITEM "CX85 Keypad",             IDM_JOYPORT_2_CX85_KEYPAD,      MIS_TEXT
+#endif
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__XPLUS4__)
+                MENUITEM "RushWare Keypad",         IDM_JOYPORT_2_RUSHWARE_KEYPAD,  MIS_TEXT
+#endif
+#ifdef __X64ALL__
+                MENUITEM "CX21 Keypad",             IDM_JOYPORT_2_CX21_KEYPAD,      MIS_TEXT
+#endif
+            END
+#endif
+
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM2__) || defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+            SUBMENU "Control Port 3 Device",        IDM_JOYPORT_3_DEVICE,           MIS_TEXT
+            BEGIN
+                MENUITEM "None",                    IDM_JOYPORT_3_NONE,             MIS_TEXT
+                MENUITEM "Joystick",                IDM_JOYPORT_3_JOYSTICK,         MIS_TEXT
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM2__) || defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+                MENUITEM "Mouse (NEOS)",            IDM_JOYPORT_3_MOUSE_NEOS,       MIS_TEXT
+                MENUITEM "Mouse (Amiga)",           IDM_JOYPORT_3_MOUSE_AMIGA,      MIS_TEXT
+                MENUITEM "Mouse (CX22)",            IDM_JOYPORT_3_MOUSE_CX22,       MIS_TEXT
+                MENUITEM "Mouse (Atari-ST)",        IDM_JOYPORT_3_MOUSE_ST,         MIS_TEXT
+#endif
+                MENUITEM "Sampler (2bit)",          IDM_JOYPORT_3_SAMPLER_2BIT,     MIS_TEXT
+                MENUITEM "Sampler (4bit)",          IDM_JOYPORT_3_SAMPLER_4BIT,     MIS_TEXT
+                MENUITEM "BBRTC",                   IDM_JOYPORT_3_BBRTC,            MIS_TEXT
+                MENUITEM "Paperclip64",             IDM_JOYPORT_3_PAPERCLIP64,      MIS_TEXT
+#if defined(__X64ALL__) || defined(__X64DTV__) || defined(__XPLUS4__) || defined(__XVIC__)
+                MENUITEM "Coplin Keypad",           IDM_JOYPORT_3_COPLIN_KEYPAD,    MIS_TEXT
+                MENUITEM "RushWare Keypad",         IDM_JOYPORT_3_RUSHWARE_KEYPAD,  MIS_TEXT
+#endif
+            END
+#endif
+
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM2__) || defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+            SUBMENU "Control Port 4 Device",        IDM_JOYPORT_4_DEVICE,           MIS_TEXT
+            BEGIN
+                MENUITEM "None",                    IDM_JOYPORT_4_NONE,             MIS_TEXT
+                MENUITEM "Joystick",                IDM_JOYPORT_4_JOYSTICK,         MIS_TEXT
+                MENUITEM "Mouse (NEOS)",            IDM_JOYPORT_4_MOUSE_NEOS,       MIS_TEXT
+                MENUITEM "Mouse (Amiga)",           IDM_JOYPORT_4_MOUSE_AMIGA,      MIS_TEXT
+                MENUITEM "Mouse (CX22)",            IDM_JOYPORT_4_MOUSE_CX22,       MIS_TEXT
+                MENUITEM "Mouse (Atari-ST)",        IDM_JOYPORT_4_MOUSE_ST,         MIS_TEXT
+                MENUITEM "Sampler (2bit)",          IDM_JOYPORT_4_SAMPLER_2BIT,     MIS_TEXT
+                MENUITEM "Sampler (4bit)",          IDM_JOYPORT_4_SAMPLER_4BIT,     MIS_TEXT
+                MENUITEM "BBRTC",                   IDM_JOYPORT_4_BBRTC,            MIS_TEXT
+                MENUITEM "Paperclip64",             IDM_JOYPORT_4_PAPERCLIP64,      MIS_TEXT
+#if defined(__X64ALL__) || defined(__XPLUS4__) || defined(__XVIC__)
+                MENUITEM "Coplin Keypad",           IDM_JOYPORT_4_COPLIN_KEYPAD,    MIS_TEXT
+                MENUITEM "RushWare Keypad",         IDM_JOYPORT_4_RUSHWARE_KEYPAD,  MIS_TEXT
+#endif
+            END
+#endif
+
+#ifdef __XPLUS4__
+            SUBMENU "Control Port 5 Device",        IDM_JOYPORT_5_DEVICE,           MIS_TEXT
+            BEGIN
+                MENUITEM "None",                    IDM_JOYPORT_5_NONE,             MIS_TEXT
+                MENUITEM "Joystick",                IDM_JOYPORT_5_JOYSTICK,         MIS_TEXT
+                MENUITEM "Paddles",                 IDM_JOYPORT_5_PADDLES,          MIS_TEXT
+                MENUITEM "Mouse (1351)",            IDM_JOYPORT_5_MOUSE_1351,       MIS_TEXT
+                MENUITEM "Mouse (NEOS)",            IDM_JOYPORT_5_MOUSE_NEOS,       MIS_TEXT
+                MENUITEM "Mouse (Amiga)",           IDM_JOYPORT_5_MOUSE_AMIGA,      MIS_TEXT
+                MENUITEM "Mouse (CX22)",            IDM_JOYPORT_5_MOUSE_CX22,       MIS_TEXT
+                MENUITEM "Mouse (Atari-ST)",        IDM_JOYPORT_5_MOUSE_ST,         MIS_TEXT
+                MENUITEM "Mouse (SmartMouse)",      IDM_JOYPORT_5_MOUSE_SMART,      MIS_TEXT
+                MENUITEM "Mouse (MicroMys)",        IDM_JOYPORT_5_MOUSE_MICROMYS,   MIS_TEXT
+                MENUITEM "KoalaPad",                IDM_JOYPORT_5_KOALAPAD,         MIS_TEXT
+                MENUITEM "Sampler (2bit)",          IDM_JOYPORT_5_SAMPLER_2BIT,     MIS_TEXT
+                MENUITEM "Sampler (4bit)",          IDM_JOYPORT_5_SAMPLER_4BIT,     MIS_TEXT
+                MENUITEM "BBRTC",                   IDM_JOYPORT_5_BBRTC,            MIS_TEXT
+                MENUITEM "Paperclip64",             IDM_JOYPORT_5_PAPERCLIP64,      MIS_TEXT
+                MENUITEM "Coplin Keypad",           IDM_JOYPORT_5_COPLIN_KEYPAD,    MIS_TEXT
+                MENUITEM "Cardco Cardkey 1 Keypad", IDM_JOYPORT_5_CARDCO_KEYPAD,    MIS_TEXT
+                MENUITEM "Atari CX85 Keypad",       IDM_JOYPORT_5_CX85_KEYPAD,      MIS_TEXT
+                MENUITEM "RushWare Keypad",         IDM_JOYPORT_5_RUSHWARE_KEYPAD,  MIS_TEXT
+                MENUITEM "Atari CX21 Keypad",       IDM_JOYPORT_5_CX21_KEYPAD,      MIS_TEXT
+            END
+#endif
+            MENUITEM "Save BBRTC data when changed", IDM_JOYPORT_BBRTC_SAVE,        MIS_TEXT
+        END
+
 #ifdef __X128__
         SUBMENU "Machine Type",                           IDM_C128TYPE,                 MIS_TEXT
         BEGIN

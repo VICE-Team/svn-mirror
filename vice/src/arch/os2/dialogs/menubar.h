@@ -925,6 +925,109 @@
 #define IDM_USERPORT_DS1307_RTC          0x39f
 #define IDM_USERPORT_DS1307_RTC_SAVE     0x3a0
 
+#define IDM_JOYPORT_DEVICES            0x326
+
+#define IDM_JOYPORT_1_DEVICE           0x34d
+#define IDM_JOYPORT_1_NONE             0x34e
+#define IDM_JOYPORT_1_JOYSTICK         0x3a1
+#define IDM_JOYPORT_1_PADDLES          0x3a2
+#define IDM_JOYPORT_1_MOUSE_1351       0x3a3
+#define IDM_JOYPORT_1_MOUSE_NEOS       0x3a4
+#define IDM_JOYPORT_1_MOUSE_AMIGA      0x3a5
+#define IDM_JOYPORT_1_MOUSE_CX22       0x3a6
+#define IDM_JOYPORT_1_MOUSE_ST         0x3a7
+#define IDM_JOYPORT_1_MOUSE_SMART      0x3a8
+#define IDM_JOYPORT_1_MOUSE_MICROMYS   0x3a9
+#define IDM_JOYPORT_1_KOALAPAD         0x3aa
+#define IDM_JOYPORT_1_LIGHTPEN_U       0x3ab
+#define IDM_JOYPORT_1_LIGHTPEN_L       0x3ac
+#define IDM_JOYPORT_1_LIGHTPEN_DATEL   0x3ad
+#define IDM_JOYPORT_1_LIGHTGUN_Y       0x3ae
+#define IDM_JOYPORT_1_LIGHTGUN_L       0x3af
+#define IDM_JOYPORT_1_LIGHTPEN_INKWELL 0x3b0
+#define IDM_JOYPORT_1_SAMPLER_2BIT     0x3b1
+#define IDM_JOYPORT_1_SAMPLER_4BIT     0x3b2
+#define IDM_JOYPORT_1_BBRTC            0x3b3
+#define IDM_JOYPORT_1_PAPERCLIP64      0x3b4
+#define IDM_JOYPORT_1_COPLIN_KEYPAD    0x3b5
+#define IDM_JOYPORT_1_CARDCO_KEYPAD    0x3b6
+#define IDM_JOYPORT_1_CX85_KEYPAD      0x3b7
+#define IDM_JOYPORT_1_RUSHWARE_KEYPAD  0x3b8
+#define IDM_JOYPORT_1_CX21_KEYPAD      0x3b9
+
+#define IDM_JOYPORT_2_DEVICE           0x3ba
+#define IDM_JOYPORT_2_NONE             0x3bb
+#define IDM_JOYPORT_2_JOYSTICK         0x3bc
+#define IDM_JOYPORT_2_PADDLES          0x3bd
+#define IDM_JOYPORT_2_MOUSE_1351       0x3be
+#define IDM_JOYPORT_2_MOUSE_NEOS       0x3bf
+#define IDM_JOYPORT_2_MOUSE_AMIGA      0x3c0
+#define IDM_JOYPORT_2_MOUSE_CX22       0x3c1
+#define IDM_JOYPORT_2_MOUSE_ST         0x3c2
+#define IDM_JOYPORT_2_MOUSE_SMART      0x3c3
+#define IDM_JOYPORT_2_MOUSE_MICROMYS   0x3c4
+#define IDM_JOYPORT_2_KOALAPAD         0x3c5
+#define IDM_JOYPORT_2_SAMPLER_2BIT     0x3c6
+#define IDM_JOYPORT_2_SAMPLER_4BIT     0x3c7
+#define IDM_JOYPORT_2_BBRTC            0x3c8
+#define IDM_JOYPORT_2_PAPERCLIP64      0x3c9
+#define IDM_JOYPORT_2_COPLIN_KEYPAD    0x3ca
+#define IDM_JOYPORT_2_CARDCO_KEYPAD    0x3cb
+#define IDM_JOYPORT_2_CX85_KEYPAD      0x3cc
+#define IDM_JOYPORT_2_RUSHWARE_KEYPAD  0x3cd
+#define IDM_JOYPORT_2_CX21_KEYPAD      0x3ce
+
+#define IDM_JOYPORT_3_DEVICE           0x3cf
+#define IDM_JOYPORT_3_NONE             0x3d0
+#define IDM_JOYPORT_3_JOYSTICK         0x3d1
+#define IDM_JOYPORT_3_MOUSE_NEOS       0x3d2
+#define IDM_JOYPORT_3_MOUSE_AMIGA      0x3d3
+#define IDM_JOYPORT_3_MOUSE_CX22       0x3d4
+#define IDM_JOYPORT_3_MOUSE_ST         0x3d5
+#define IDM_JOYPORT_3_SAMPLER_2BIT     0x3d6
+#define IDM_JOYPORT_3_SAMPLER_4BIT     0x3d7
+#define IDM_JOYPORT_3_BBRTC            0x3d8
+#define IDM_JOYPORT_3_PAPERCLIP64      0x3d9
+#define IDM_JOYPORT_3_COPLIN_KEYPAD    0x3da
+#define IDM_JOYPORT_3_RUSHWARE_KEYPAD  0x3db
+
+#define IDM_JOYPORT_4_DEVICE           0x3dc
+#define IDM_JOYPORT_4_NONE             0x3dd
+#define IDM_JOYPORT_4_JOYSTICK         0x3de
+#define IDM_JOYPORT_4_MOUSE_NEOS       0x3df
+#define IDM_JOYPORT_4_MOUSE_AMIGA      0x3e0
+#define IDM_JOYPORT_4_MOUSE_CX22       0x3e1
+#define IDM_JOYPORT_4_MOUSE_ST         0x3e2
+#define IDM_JOYPORT_4_SAMPLER_2BIT     0x3e3
+#define IDM_JOYPORT_4_SAMPLER_4BIT     0x3e4
+#define IDM_JOYPORT_4_BBRTC            0x3e5
+#define IDM_JOYPORT_4_PAPERCLIP64      0x3e6
+#define IDM_JOYPORT_4_COPLIN_KEYPAD    0x3e7
+#define IDM_JOYPORT_4_RUSHWARE_KEYPAD  0x3e8
+
+#define IDM_JOYPORT_5_DEVICE           0x3e9
+#define IDM_JOYPORT_5_NONE             0x3ea
+#define IDM_JOYPORT_5_JOYSTICK         0x3eb
+#define IDM_JOYPORT_5_PADDLES          0x3ec
+#define IDM_JOYPORT_5_MOUSE_1351       0x3ed
+#define IDM_JOYPORT_5_MOUSE_NEOS       0x3ee
+#define IDM_JOYPORT_5_MOUSE_AMIGA      0x3ef
+#define IDM_JOYPORT_5_MOUSE_CX22       0x3f0
+#define IDM_JOYPORT_5_MOUSE_ST         0x3f1
+#define IDM_JOYPORT_5_MOUSE_SMART      0x3f2
+#define IDM_JOYPORT_5_MOUSE_MICROMYS   0x3f3
+#define IDM_JOYPORT_5_KOALAPAD         0x3f4
+#define IDM_JOYPORT_5_SAMPLER_2BIT     0x3f5
+#define IDM_JOYPORT_5_SAMPLER_4BIT     0x3f6
+#define IDM_JOYPORT_5_BBRTC            0x3f7
+#define IDM_JOYPORT_5_PAPERCLIP64      0x3f8
+#define IDM_JOYPORT_5_COPLIN_KEYPAD    0x3f9
+#define IDM_JOYPORT_5_CARDCO_KEYPAD    0x3fa
+#define IDM_JOYPORT_5_CX85_KEYPAD      0x3fb
+#define IDM_JOYPORT_5_RUSHWARE_KEYPAD  0x3fc
+#define IDM_JOYPORT_5_CX21_KEYPAD      0x3fd
+
+#define IDM_JOYPORT_BBRTC_SAVE         0x3ff
 
 void menu_action(HWND hwnd, USHORT item); //, MPARAM mp2);
 void menu_select(HWND hwnd, USHORT item);
