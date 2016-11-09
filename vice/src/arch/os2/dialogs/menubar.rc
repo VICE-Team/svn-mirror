@@ -651,7 +651,6 @@ BEGIN
                     MENUITEM "PAL-N",                     IDM_PALN,                     MIS_TEXT
 #endif
                 END
-                MENUITEM "New luminances",                IDM_VICII_NEW_LUMINANCES,     MIS_TEXT
                 SUBMENU "CIA-1 model",                    IDM_CIA1_MODEL,               MIS_TEXT
                 BEGIN
                     MENUITEM "6526 (old)",                IDM_CIA1_6526_OLD,            MIS_TEXT
@@ -728,6 +727,7 @@ BEGIN
             MENUITEM "DTV3 NTSC",                         IDM_DTV3NTSC,                 MIS_TEXT
             MENUITEM "HUMMER NTSC",                       IDM_HUMMERNTSC,               MIS_TEXT
         END
+        MENUITEM "New luminances",                        IDM_VICII_NEW_LUMINANCES,     MIS_TEXT
 #endif
 
 #ifdef __XCBM__

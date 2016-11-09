@@ -1042,6 +1042,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             vicmodel_set(VICII_MODEL_PALN);
             return;
 #endif
+#endif
+
+#ifdef __X64DTV__
         case IDM_VICII_NEW_LUMINANCES:
             toggle("VICIINewLuminances");
             return;
