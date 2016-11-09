@@ -159,7 +159,7 @@ inline static void line_becomes_bad(const int cycle)
         /* Remember we have done a DMA.  */
         vicii.memory_fetch_done = 2;
     } else if (cycle <= VICII_FETCH_CYCLE + VICII_SCREEN_TEXTCOLS + 6) {
-        /* Bad line has been generated after fetch interval, but
+        /* Bad line has been generated outside fetch interval, but
            before `vicii.raster.ycounter' is incremented.  */
 
         vicii.bad_line = 1;
