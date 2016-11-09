@@ -1144,12 +1144,6 @@ BEGIN
             MENUITEM "Write to BIOS",                     IDM_RRNETMK3_BIOS_WRITE,      MIS_TEXT
         END
 #endif
-
-        SUBMENU "Userport RTC (58321a) Settings",         IDM_USERPORT_RTC_58321A_SETTINGS, MIS_TEXT
-        BEGIN
-            MENUITEM "Userport RTC (58321a)",             IDM_USERPORT_RTC_58321A,      MIS_TEXT
-            MENUITEM "Save Userport RTC (58321a) data when changed", IDM_USERPORT_RTC_58321A_SAVE,      MIS_TEXT
-        END
 #endif // __X64__ || __X128__
 
 #if defined(__X64__) || defined(__XSCPU64__)

@@ -496,10 +496,6 @@
 
 #define IDM_PETHRE                   0x335
 
-#define IDM_USERPORT_RTC_58321A_SETTINGS 0x34d
-#define IDM_USERPORT_RTC_58321A          0x326
-#define IDM_USERPORT_RTC_58321A_SAVE     0x34e
-
 #define IDM_TFE_SETTINGS             0x2ca
 #define IDM_TFE                      0x158
 #define IDM_TFE_IO_SWAP              0x2cb
