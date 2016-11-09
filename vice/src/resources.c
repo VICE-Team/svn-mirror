@@ -294,7 +294,7 @@ int resources_register_string(const resource_string_t *r)
     resource_ram_t *dp;
 
     DBG(("resources_register_string name:'%s'\n", r->name ? r->name : "<empty/null>"));
-    
+
     sp = r;
     dp = resources + num_resources;
     while (sp->name != NULL) {
@@ -352,6 +352,45 @@ static void resources_free(void)
 
 void resources_shutdown(void)
 {
+#ifdef DBGRESOURCES
+    int i;
+
+    printf("DBGRESOURCES: dumping resources: name, type\n");
+    for (i = 0; i < num_resources; i++) {
+        resource_ram_t *res = resources + i;
+
+        printf("RES\t%s\t", res->name);
+        switch (res->type) {
+            case RES_INTEGER:
+                printf("integer");
+                /* attempting to access default/current values of some
+                 * resources fails, such as `VICIIFullscreenDevice` which is
+                 * a resource constructed in the UI code */
+#if 0
+                if (res->value_ptr != NULL && res->factory_value != NULL) {
+                    printf("\t%d\t%d",
+                            vice_ptr_to_int(res->factory_value),
+                            vice_ptr_to_int(*(res->value_ptr)));
+                }
+#endif
+                break;
+            case RES_STRING:
+                printf("string");
+#if 0
+                if (res->value_ptr != NULL && res->factory_value != NULL) {
+                    printf("\t%s\t%s",
+                            (char *)(res->factory_value),
+                            *(char **)res->value_ptr);
+                }
+#endif
+                break;
+            default:
+                printf("???\t???\t???");
+        }
+        putchar('\n');
+
+    }
+#endif
     resources_free();
 
     lib_free(resources);
