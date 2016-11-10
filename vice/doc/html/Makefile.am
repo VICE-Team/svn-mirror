@@ -6,7 +6,7 @@ docdir = $(realdocdir)
 doc_DATA = \
 	amigaos.html \
 	beos.html \
-	images/CommodoreInnovationPriceSoftware2008.jpg \
+	images/CIPS2008.jpg \
 	images/new.gif \
 	images/vice-logo.jpg \
 	images/vice-logo-small.png \
