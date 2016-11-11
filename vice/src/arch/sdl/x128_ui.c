@@ -212,6 +212,7 @@ void c128ui_shutdown(void)
 {
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
+    uicart_menu_shutdown();
 #ifdef HAVE_MIDI
     sdl_menu_midi_in_free();
     sdl_menu_midi_out_free();

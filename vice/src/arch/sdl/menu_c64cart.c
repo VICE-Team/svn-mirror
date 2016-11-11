@@ -93,7 +93,7 @@ static void makegroup(cartridge_info_t *cartlist, ui_menu_entry_t *entry, int fl
     memset(entry, 0, sizeof(ui_menu_entry_t));
 }
 
-static ui_menu_entry_t *attach_raw_cart_menu;
+static ui_menu_entry_t *attach_raw_cart_menu = NULL;
 
 void uicart_menu_create(void)
 {
@@ -111,6 +111,15 @@ void uicart_menu_create(void)
         c64cart_menu[1].data = attach_raw_cart_menu;
     }
 }
+
+
+void uicart_menu_shutdown(void)
+{
+    if (attach_raw_cart_menu != NULL) {
+        lib_free(attach_raw_cart_menu);
+    }
+}
+
 
 static UI_MENU_CALLBACK(detach_c64_cart_callback)
 {
@@ -1236,7 +1245,7 @@ ui_menu_entry_t scpu64cart_menu[] = {
 void uiclockport_rr_mmc_menu_create(void)
 {
     int i;
- 
+
     for (i = 0; clockport_supported_devices[i].name; ++i) {
         mmc64_clockport_device_menu[i].string = clockport_supported_devices[i].name;
         mmc64_clockport_device_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
