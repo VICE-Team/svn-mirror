@@ -352,6 +352,7 @@ int cbm5x0ui_init(void)
 void cbm5x0ui_shutdown(void)
 {
     uikeyboard_menu_shutdown();
+    uisid_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif

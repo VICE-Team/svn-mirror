@@ -41,5 +41,6 @@ extern ui_menu_entry_t sid_plus4_menu[];
 extern ui_menu_entry_t sid_vic_menu[];
 
 extern void uisid_menu_create(void);
+extern void uisid_menu_shutdown(void);
 
 #endif

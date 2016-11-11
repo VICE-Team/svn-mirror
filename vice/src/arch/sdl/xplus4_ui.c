@@ -208,6 +208,7 @@ int plus4ui_init(void)
 void plus4ui_shutdown(void)
 {
     uikeyboard_menu_shutdown();
+    uisid_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif

@@ -632,6 +632,7 @@ ui_menu_entry_t sid_plus4_menu[] = {
     SDL_MENU_LIST_END
 };
 
+
 void uisid_menu_create(void)
 {
     sid_engine_model_t **list = sid_get_engine_model_list();
@@ -661,3 +662,13 @@ void uisid_menu_create(void)
     sid_pet_menu[1].data = (ui_callback_data_t)sid_model_menu;
     sid_plus4_menu[1].data = (ui_callback_data_t)sid_model_menu;
 }
+
+/** \brief  Clean up memory used by the SID model menu
+ */
+void uisid_menu_shutdown(void)
+{
+    if (sid_model_menu != NULL) {
+        lib_free(sid_model_menu);
+    }
+}
+
