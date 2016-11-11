@@ -422,6 +422,8 @@ static ui_menu_entry_t vsidui_settings_menu[] = {
       NULL, NULL, ui_sound_settings_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, psid_menu },
+    { "Maximum speed", UI_MENU_TYPE_NORMAL,
+       NULL, NULL, set_maximum_speed_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_settings_settings_menu },
     { NULL }

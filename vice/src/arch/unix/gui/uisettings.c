@@ -39,6 +39,7 @@
 #include "debug.h"
 #include "fliplist.h"
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "types.h"
 #include "uiapi.h"
@@ -142,11 +143,13 @@ static UI_CALLBACK(set_maximum_speed)
             ui_menu_set_tick(w, 0);
         }
         if (UI_MENU_CB_PARAM == 0) {
-            int current_refresh_rate;
+            if (machine_class != VICE_MACHINE_VSID) {
+                int current_refresh_rate;
 
-            resources_get_int("RefreshRate", &current_refresh_rate);
+                resources_get_int("RefreshRate", &current_refresh_rate);
 
-            ui_menu_set_sensitive(w, current_refresh_rate != 0);
+                ui_menu_set_sensitive(w, current_refresh_rate != 0);
+            }
         }
     }
 }
@@ -165,34 +168,43 @@ static UI_CALLBACK(set_custom_maximum_speed)
     }
 
     if (CHECK_MENUS) {
-	switch (current_speed) {
-	case 200:
-	case 100:
-	case  50:
-	case  20:
-	case  10:
-	case   0:
-            ui_menu_set_tick(w, 0);
-	    break;
-	default:
-            ui_menu_set_tick(w, 1);
-	}
+        switch (current_speed) {
+            case 200:
+            case 100:
+            case  50:
+            case  20:
+            case  10:
+            case   0:
+                ui_menu_set_tick(w, 0);
+                break;
+            default:
+                ui_menu_set_tick(w, 1);
+        }
     } else {
         vsync_suspend_speed_eval();
         msg_string = lib_stralloc(_("Enter speed"));
         button = ui_input_string(_("Maximum speed"), msg_string, input_string, 32);
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
-            int current_refresh_rate;
-
-            resources_get_int("RefreshRate", &current_refresh_rate);
-
             i = atoi(input_string);
-            if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0 && current_speed != i) {
-                resources_set_int("Speed", i);
-                ui_update_menus();
+            if (machine_class != VICE_MACHINE_VSID) {
+                int current_refresh_rate;
+
+                resources_get_int("RefreshRate", &current_refresh_rate);
+
+                if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0 && current_speed != i) {
+                    resources_set_int("Speed", i);
+                    ui_update_menus();
+                } else {
+                    ui_error(_("Invalid speed value"));
+                }
             } else {
-                ui_error(_("Invalid speed value"));
+                if (i > 0 && i != current_speed) {
+                    resources_set_int("Speed", i);
+                    ui_update_menus();
+                } else {
+                    ui_error(_("Invalid speed value"));
+                }
             }
         }
     }
@@ -352,7 +364,7 @@ static ui_menu_entry_t set_refresh_rate_submenu[] = {
  * If you change the list of maximum speeds,
  * also adjust set_custom_maximum_speed().
  */
-static ui_menu_entry_t set_maximum_speed_submenu[] = {
+ui_menu_entry_t set_maximum_speed_submenu[] = {
     { "200%", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_maximum_speed, (ui_callback_data_t)200, NULL },
     { "100%", UI_MENU_TYPE_TICK,
