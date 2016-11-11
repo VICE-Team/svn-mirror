@@ -456,4 +456,5 @@ void vsid_ui_setdrv(char* driver_info_text)
 
 void vsid_ui_close(void)
 {
+    uikeyboard_menu_shutdown();
 }

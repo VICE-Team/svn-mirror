@@ -187,6 +187,13 @@ void uikeyboard_menu_create(void)
 }
 
 
+void uikeyboard_menu_shutdown(void)
+{
+    lib_free(settings_manager_menu[10].data);
+}
+
+
+
 static UI_MENU_CALLBACK(load_sym_keymap_callback)
 {
     if (activated) {
