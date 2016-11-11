@@ -285,12 +285,10 @@ static const ui_menu_entry_t vsid_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)jam_menu },
-#if 0
     { "Speed settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)speed_menu },
-#endif
+      (ui_callback_data_t)speed_menu_vsid },
     { "Pause",
       MENU_ENTRY_OTHER,
       pause_callback,

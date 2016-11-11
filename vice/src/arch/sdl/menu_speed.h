@@ -32,5 +32,6 @@
 #include "uimenu.h"
 
 extern const ui_menu_entry_t speed_menu[];
+extern const ui_menu_entry_t speed_menu_vsid[];
 
 #endif
