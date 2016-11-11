@@ -231,6 +231,7 @@ void vic20ui_shutdown(void)
 {
     uisid_menu_shutdown();
     uikeyboard_menu_shutdown();
+    uipalette_menu_shutdown();
 #ifdef HAVE_MIDI
     sdl_menu_midi_in_free();
     sdl_menu_midi_out_free();

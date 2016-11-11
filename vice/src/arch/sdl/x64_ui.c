@@ -196,6 +196,7 @@ void c64ui_shutdown(void)
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
     uicart_menu_shutdown();
+    uipalette_menu_shutdown();
 
 #ifdef HAVE_MIDI
     sdl_menu_midi_in_free();

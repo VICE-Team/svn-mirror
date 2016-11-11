@@ -236,6 +236,7 @@ void petui_shutdown(void)
 {
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
+    uipalette_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif

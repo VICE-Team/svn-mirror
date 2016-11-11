@@ -1357,3 +1357,36 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
         palette_menu2[3].data = NULL;
     }
 }
+
+
+/** \brief  Free memory used by the items of \a menu and \a menu itself
+ *
+ * \param[in,out]   menu    heap-allocated sub menu
+ *
+ * \note    the \a menu must be terminated with an empty entry
+ */
+static void palette_dyn_menu_free(ui_menu_entry_t *menu)
+{
+    ui_menu_entry_t *item = menu;
+    while (item->string != NULL) {
+        lib_free(item->string);
+        lib_free(item->data);
+        item++;
+    }
+    lib_free(menu);
+}
+
+
+/** \brief  Clean up memory used by the palette sub menu(s)
+ */
+void uipalette_menu_shutdown(void)
+{
+    if (palette_dyn_menu1 != NULL) {
+        palette_dyn_menu_free(palette_dyn_menu1);
+    }
+    if (palette_dyn_menu2 != NULL) {
+        palette_dyn_menu_free(palette_dyn_menu2);
+    }
+}
+
+
