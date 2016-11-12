@@ -475,7 +475,7 @@ static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
     disk_image_close(image);
 
     if (image != NULL) {
-        P64ImageDestroy((PPImage)image->p64);
+        P64ImageDestroy((PP64Image)image->p64);
         lib_free(image->p64);
     }
 
