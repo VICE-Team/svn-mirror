@@ -160,6 +160,7 @@
 #define IDM_DSIZE                    0x131
 #define IDM_DSCAN                    0x132
 #define IDM_EXTERNALPAL              0x135
+#define IDM_PALETTES                 0x470
 #define IDM_EXTERNALPAL_FILE         0x2bb
 #define IDM_AUDIO_LEAK               0x2bd
 #define IDM_CRT                      0x2c4
@@ -169,6 +170,32 @@
 #define IDM_RENDER_SCALE2X           0x2cf
 #define IDM_VIDEO_SETTINGS           0x133
 #define IDM_VDC_VIDEO_SETTINGS       0x134
+
+#define IDM_PALETTE_C64HQ            0x471
+#define IDM_PALETTE_C64S             0x472
+#define IDM_PALETTE_CCS64            0x473
+#define IDM_PALETTE_COMMUNITY_COLORS 0x474
+#define IDM_PALETTE_DEEKAY           0x475
+#define IDM_PALETTE_DEFAULT          0x476
+#define IDM_PALETTE_FRODO            0x477
+#define IDM_PALETTE_GODOT            0x478
+#define IDM_PALETTE_PC64             0x479
+#define IDM_PALETTE_PEPTO_NTSC       0x47a
+#define IDM_PALETTE_PEPTO_NTSC_SONY  0x47b
+#define IDM_PALETTE_PEPTO_PAL        0x47c
+#define IDM_PALETTE_PEPTO_PAL_OLD    0x47d
+#define IDM_PALETTE_PTOING           0x47e
+#define IDM_PALETTE_RGB              0x47f
+#define IDM_PALETTE_SPIFF            0x482
+#define IDM_PALETTE_VICE             0x483
+#define IDM_PALETTE_AMBER            0x484
+#define IDM_PALETTE_GREEN            0x485
+#define IDM_PALETTE_WHITE            0x486
+#define IDM_PALETTE_MIKE_NTSC        0x487
+#define IDM_PALETTE_MIKE_PAL         0x488
+#define IDM_VDC_PALETTES             0x489
+#define IDM_PALETTE_VDC_COMP         0x48a
+#define IDM_PALETTE_VDC_DEFT         0x48b
 
 #define IDM_BORDER_MODE              0x2eb
 #define IDM_BORDER_NORMAL            0x2ec

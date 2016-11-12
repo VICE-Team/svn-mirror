@@ -1434,6 +1434,105 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle(EXTERNAL_PALETTE);
             return;
 
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XSCPU64__)
+        case IDM_PALETTE_C64HQ:
+            resources_set_string("VICIIPaletteFile", "c64hq.vpl");
+            return;
+        case IDM_PALETTE_C64S:
+            resources_set_string("VICIIPaletteFile", "c64s.vpl");
+            return;
+        case IDM_PALETTE_CCS64:
+            resources_set_string("VICIIPaletteFile", "ccs64.vpl");
+            return;
+        case IDM_PALETTE_COMMUNITY_COLORS:
+            resources_set_string("VICIIPaletteFile", "community-colors.vpl");
+            return;
+        case IDM_PALETTE_DEEKAY:
+            resources_set_string("VICIIPaletteFile", "deekay.vpl");
+            return;
+#ifdef __XCBM5X0__
+        case IDM_PALETTE_DEFAULT:
+            resources_set_string("VICIIPaletteFile", "default.vpl");
+            return;
+#endif
+        case IDM_PALETTE_FRODO:
+            resources_set_string("VICIIPaletteFile", "frodo.vpl");
+            return;
+        case IDM_PALETTE_GODOT:
+            resources_set_string("VICIIPaletteFile", "godot.vpl");
+            return;
+        case IDM_PALETTE_PC64:
+            resources_set_string("VICIIPaletteFile", "pc64.vpl");
+            return;
+        case IDM_PALETTE_PEPTO_NTSC:
+            resources_set_string("VICIIPaletteFile", "pepto-ntsc.vpl");
+            return;
+        case IDM_PALETTE_PEPTO_NTSC_SONY:
+            resources_set_string("VICIIPaletteFile", "pepto-ntsc-sony.vpl");
+            return;
+#ifndef __XCBM5X0__
+        case IDM_PALETTE_PEPTO_PAL:
+            resources_set_string("VICIIPaletteFile", "pepto-pal.vpl");
+            return;
+#endif
+        case IDM_PALETTE_PEPTO_PAL_OLD:
+            resources_set_string("VICIIPaletteFile", "pepto-palold.vpl");
+            return;
+        case IDM_PALETTE_PTOING:
+            resources_set_string("VICIIPaletteFile", "ptoing.vpl");
+            return;
+        case IDM_PALETTE_RGB:
+            resources_set_string("VICIIPaletteFile", "rgb.vpl");
+            return;
+#ifdef __X64DTV__
+        case IDM_PALETTE_SPIFF:
+            resources_set_string("VICIIPaletteFile", "spiff.vpl");
+            return;
+#endif
+        case IDM_PALETTE_VICE:
+            resources_set_string("VICIIPaletteFile", "vice.vpl");
+            return;
+#endif
+
+#if defined(__XPET__) || defined(__XCBM2__)
+        case IDM_PALETTE_AMBER:
+            resources_set_string("CrtcPaletteFile", "amber.vpl");
+            return;
+        case IDM_PALETTE_GREEN:
+            resources_set_string("CrtcPaletteFile", "green.vpl");
+            return;
+        case IDM_PALETTE_WHITE:
+            resources_set_string("CrtcPaletteFile", "white.vpl");
+            return;
+#endif
+
+#ifdef __XPLUS4__
+        case IDM_PALETTE_VICE:
+            resources_set_string("TEDPaletteFile", "vice.vpl");
+            return;
+#endif
+
+#ifdef __XVIC__
+        case IDM_PALETTE_MIKE_NTSC:
+            resources_set_string("VICPaletteFile", "mike-ntsc.vpl");
+            return;
+        case IDM_PALETTE_MIKE_PAL:
+            resources_set_string("VICPaletteFile", "mike-pal.vpl");
+            return;
+        case IDM_PALETTE_VICE:
+            resources_set_string("VICPaletteFile", "vice.vpl");
+            return;
+#endif
+
+#ifdef __X128__
+        case IDM_PALETTE_VDC_COMP:
+            resources_set_string("VDCPaletteFile", "vdc_comp.vpl");
+            return;
+        case IDM_PALETTE_VDC_DEFT:
+            resources_set_string("VDCPaletteFile", "vdc_deft.vpl");
+            return;
+#endif
+
 #if defined(__X64SC__) || defined(__XSCPU64__)
         case IDM_VICII_VSP_BUG:
             toggle("VICIIVSPBug");

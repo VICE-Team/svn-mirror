@@ -381,6 +381,34 @@ BEGIN
             MENUITEM "VICII Double Size\tAlt-2",          IDM_DSIZE,                    MIS_TEXT
             MENUITEM "VICII Double Scan",                 IDM_DSCAN,                    MIS_TEXT
             MENUITEM "VICII External Palette",            IDM_EXTERNALPAL,              MIS_TEXT
+            SUBMENU "VICII Palettes",                     IDM_PALETTES,                 MIS_TEXT
+            BEGIN
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XSCPU64__)
+                MENUITEM "C64HQ",                         IDM_PALETTE_C64HQ,            MIS_TEXT
+                MENUITEM "C64S",                          IDM_PALETTE_C64S,             MIS_TEXT
+                MENUITEM "CCS64",                         IDM_PALETTE_CCS64,            MIS_TEXT
+                MENUITEM "COMMUNITY COLORS",              IDM_PALETTE_COMMUNITY_COLORS, MIS_TEXT
+                MENUITEM "DEEKAY",                        IDM_PALETTE_DEEKAY,           MIS_TEXT
+#ifdef __XCBM5X0__
+                MENUITEM "DEFAULT",                       IDM_PALETTE_DEFAULT,          MIS_TEXT
+#endif
+                MENUITEM "FRODO",                         IDM_PALETTE_FRODO,            MIS_TEXT
+                MENUITEM "GODOT",                         IDM_PALETTE_GODOT,            MIS_TEXT
+                MENUITEM "PC64",                          IDM_PALETTE_PC64,             MIS_TEXT
+                MENUITEM "PEPTO NTSC",                    IDM_PALETTE_PEPTO_NTSC,       MIS_TEXT
+                MENUITEM "PEPTO NTSC SONY",               IDM_PALETTE_PEPTO_NTSC_SONY,  MIS_TEXT
+#ifndef __XCBM5X0__
+                MENUITEM "PEPTO PAL",                     IDM_PALETTE_PEPTO_PAL,        MIS_TEXT
+#endif
+                MENUITEM "PEPTO PAL OLD",                 IDM_PALETTE_PEPTO_PAL_OLD,    MIS_TEXT
+                MENUITEM "PTOING",                        IDM_PALETTE_PTOING,           MIS_TEXT
+                MENUITEM "RGB",                           IDM_PALETTE_RGB,              MIS_TEXT
+#ifdef __X64DTV__
+                MENUITEM "SPIFF",                         IDM_PALETTE_SPIFF,            MIS_TEXT
+#endif
+                MENUITEM "VICE",                          IDM_PALETTE_VICE,             MIS_TEXT
+#endif
+            END
             MENUITEM "VICII External Palette File",       IDM_EXTERNALPAL_FILE,         MIS_TEXT
             MENUITEM "VICII Audio Leak",                  IDM_AUDIO_LEAK,               MIS_TEXT
             MENUITEM "VICII Colors",                      IDM_COLOR,                    MIS_TEXT
@@ -412,6 +440,12 @@ BEGIN
             MENUITEM "CRTC Double Scan",                  IDM_DSCAN,                    MIS_TEXT
             MENUITEM "CRTC Vertical Stretch",             IDM_VERTICAL_STRETCH,         MIS_TEXT
             MENUITEM "CRTC External Palette",             IDM_EXTERNALPAL,              MIS_TEXT
+            SUBMENU "CRTC Palettes",                      IDM_PALETTES,                 MIS_TEXT
+            BEGIN
+                MENUITEM "AMBER",                         IDM_PALETTE_AMBER,            MIS_TEXT
+                MENUITEM "GREEN",                         IDM_PALETTE_GREEN,            MIS_TEXT
+                MENUITEM "WHITE",                         IDM_PALETTE_WHITE,            MIS_TEXT
+            END
             MENUITEM "CRTC External Palette File",        IDM_EXTERNALPAL_FILE,         MIS_TEXT
             MENUITEM "CRTC Audio Leak",                   IDM_AUDIO_LEAK,               MIS_TEXT
             MENUITEM "CRTC Colors",                       IDM_COLOR,                    MIS_TEXT
@@ -432,6 +466,10 @@ BEGIN
             MENUITEM "TED Double Size\tAlt-2",            IDM_DSIZE,                    MIS_TEXT
             MENUITEM "TED Double Scan",                   IDM_DSCAN,                    MIS_TEXT
             MENUITEM "TED External Palette",              IDM_EXTERNALPAL,              MIS_TEXT
+            SUBMENU "TED Palettes",                       IDM_PALETTES,                 MIS_TEXT
+            BEGIN
+                MENUITEM "VICE",                          IDM_PALETTE_VICE,             MIS_TEXT
+            END
             MENUITEM "TED External Palette File",         IDM_EXTERNALPAL_FILE,         MIS_TEXT
             MENUITEM "TED Audio Leak",                    IDM_AUDIO_LEAK,               MIS_TEXT
             MENUITEM "TED Colors",                        IDM_COLOR,                    MIS_TEXT
@@ -459,6 +497,12 @@ BEGIN
             MENUITEM "VIC Double Size\tAlt-2",            IDM_DSIZE,                    MIS_TEXT
             MENUITEM "VIC Double Scan",                   IDM_DSCAN,                    MIS_TEXT
             MENUITEM "VIC External Palette",              IDM_EXTERNALPAL,              MIS_TEXT
+            SUBMENU "VIC Palettes",                       IDM_PALETTES,                 MIS_TEXT
+            BEGIN
+                MENUITEM "MIKE NTSC",                     IDM_PALETTE_MIKE_NTSC,        MIS_TEXT
+                MENUITEM "MIKE PAL",                      IDM_PALETTE_MIKE_PAL,         MIS_TEXT
+                MENUITEM "VICE",                          IDM_PALETTE_VICE,             MIS_TEXT
+            END
             MENUITEM "VIC External Palette File",         IDM_EXTERNALPAL_FILE,         MIS_TEXT
             MENUITEM "VIC Audio Leak",                    IDM_AUDIO_LEAK,               MIS_TEXT
             MENUITEM "VIC Colors",                        IDM_COLOR,                    MIS_TEXT
@@ -487,6 +531,11 @@ BEGIN
             MENUITEM "VDC Double Scan",                   IDM_VDCDSCAN,                 MIS_TEXT
             MENUITEM "VDC Vertical Stretch",              IDM_VERTICAL_STRETCH,         MIS_TEXT
             MENUITEM "VDC External Palette",              IDM_VDCEXTERNALPAL,           MIS_TEXT
+            SUBMENU "VDC Palettes",                       IDM_VDC_PALETTES,             MIS_TEXT
+            BEGIN
+                MENUITEM "VDC COMP",                      IDM_PALETTE_VDC_COMP,         MIS_TEXT
+                MENUITEM "VDC DEFT",                      IDM_PALETTE_VDC_DEFT,         MIS_TEXT
+            END
             MENUITEM "VDC External Palette File",         IDM_VDCEXTERNALPAL_FILE,      MIS_TEXT
             MENUITEM "VDC Audio Leak",                    IDM_VDCAUDIO_LEAK,            MIS_TEXT
             MENUITEM "VDC Colors",                        IDM_COLOR2,                   MIS_TEXT
