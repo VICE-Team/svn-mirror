@@ -12,7 +12,7 @@
 
 // template of dialog for all languages
 
-IDD_RR_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 100
+IDD_RR_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -26,11 +26,15 @@ BEGIN
                     66, 37, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_RR_SAVE_WHEN_CHANGED,
                     7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "", IDC_RR_CLOCKPORT_DEVICE_LABEL,
+                    9, 70, 53, 8
+    COMBOBOX        IDC_RR_CLOCKPORT_DEVICE,
+                    66, 68, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "", IDOK,
-                    30, 85, 50, 14, WS_TABSTOP
+                    30, 115, 50, 14, WS_TABSTOP
     PUSHBUTTON      "", IDCANCEL,
-                    90, 85, 50, 14, WS_TABSTOP
+                    90, 115, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -40,10 +44,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
-  IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
-  IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_FLASH_JUMPER           "Enable RR flash jumper"
+  IDS_RR_BANK_JUMPER            "Enable RR bank jumper"
+  IDS_RR_REVISION_LABEL         "Revision"
+  IDS_RR_BIOS_SAVE              "Save RR flash when changed"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -56,6 +61,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "Aktivér RR bankjumper"
   IDS_RR_REVISION_LABEL "Udgave"
   IDS_RR_BIOS_SAVE      "Gem RR flash ved ændringer"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -68,6 +74,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "RR Bankjumper aktivieren"
   IDS_RR_REVISION_LABEL "Revision"
   IDS_RR_BIOS_SAVE      "RR Imagedatei bei Änderung speichern"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -80,6 +87,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "Permitir commutación de bancos RR"
   IDS_RR_REVISION_LABEL "Revisión"
   IDS_RR_BIOS_SAVE      "Grabar Flash RR cuando cambie"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -92,6 +100,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "Activer le RR bank jumper"
   IDS_RR_REVISION_LABEL "Révision"
   IDS_RR_BIOS_SAVE      "Enregistrer le RR flash lorsque modifié"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -107,6 +116,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
   IDS_RR_REVISION_LABEL "Változatszám"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -122,6 +132,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "Attiva ponticello bank della RR"
   IDS_RR_REVISION_LABEL "Revisione"
   IDS_RR_BIOS_SAVE      "Salva la flash della RR alla modifica"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -137,6 +148,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
   IDS_RR_REVISION_LABEL "¼öÁ¤"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -152,6 +164,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "Activeer RR bank jumper"
   IDS_RR_REVISION_LABEL "Revisie"
   IDS_RR_BIOS_SAVE      "RR flash bestand opslaan indien gewijzigd"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -167,6 +180,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "Ustaw zworkê bank RR"
   IDS_RR_REVISION_LABEL "Wersja"
   IDS_RR_BIOS_SAVE      "Zapisuj RR flash przy zmianie"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -185,6 +199,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
   IDS_RR_REVISION_LABEL "Revision"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -200,6 +215,7 @@ BEGIN
   IDS_RR_BANK_JUMPER    "Aktivera RR-bankbygel"
   IDS_RR_REVISION_LABEL "Utgåva"
   IDS_RR_BIOS_SAVE      "Spara RR-flash när ändrad"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -215,9 +231,8 @@ BEGIN
   IDS_RR_BANK_JUMPER    "RR bank jumperý aktif et"
   IDS_RR_REVISION_LABEL "Revizyon"
   IDS_RR_BIOS_SAVE      "RR flashini deðiþtiðinde kaydet"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-
