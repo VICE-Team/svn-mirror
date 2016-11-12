@@ -28,6 +28,8 @@
 #include "dialogs.h"
 #include "menubar.h" 
 
+#include "cartridge.h"
+
 #ifdef WATCOM_COMPILE
 #include <pmwin.h>
 #include <pmhelp.h>
@@ -103,17 +105,93 @@ BEGIN
         MENUITEM SEPARATOR
         SUBMENU "~Attach Cartridge",                      IDM_CARTRIDGE,                MIS_TEXT
         BEGIN
-            MENUITEM "Generic ~Image",                    IDM_CRTGEN,                   MIS_TEXT
-            MENUITEM "Generic ~8kB Image",                IDM_CRTGEN8KB,                MIS_TEXT
-            MENUITEM "Generic ~16kB Image",               IDM_CRTGEN16KB,               MIS_TEXT
-            MENUITEM "32kB Action ~Replay",               IDM_CRTACTREPL,               MIS_TEXT
-            MENUITEM "32kB Atomic ~Power",                IDM_CRTATOMPOW,               MIS_TEXT
-            MENUITEM "8kB Epyx ~FastLoader",              IDM_CRTEPYX,                  MIS_TEXT
-            MENUITEM "~32kB Super Snapshot",              IDM_CRTSSSHOT,                MIS_TEXT
-            MENUITEM "~64kB Super Snapshot",              IDM_CRTSSSHOT5,               MIS_TEXT
-            MENUITEM "16kB ~Westermann Learning",         IDM_CRTWEST,                  MIS_TEXT
-            MENUITEM "~CBM IEEE-488 Interface",           IDM_CRTIEEE,                  MIS_TEXT
-            MENUITEM "I~DE64",                            IDM_CRTIDE64,                 MIS_TEXT
+            MENUITEM "CRT Image",                         IDM_CRTGEN,                   MIS_TEXT
+            SUBMENU "Generic Cartridges",                 IDM_CARTRIDGE_GENERIC_GROUP,  MIS_TEXT
+            BEGIN
+                MENUITEM CARTRIDGE_NAME_GENERIC_8KB,      IDM_CRTGEN8KB,                MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_GENERIC_16KB,     IDM_CRTGEN16KB,               MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_ULTIMAX,          IDM_CRTGENULTI,               MIS_TEXT
+            END
+#ifndef __XSCPU64__
+            SUBMENU "Freezer Cartridges",                 IDM_CARTRIDGE_FREEZER_GROUP,  MIS_TEXT
+            BEGIN
+                MENUITEM CARTRIDGE_NAME_ACTION_REPLAY,    IDM_CRTACTREPL,               MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_ACTION_REPLAY2,   IDM_CRTACTREPL2,              MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_ACTION_REPLAY3,   IDM_CRTACTREPL3,              MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_ACTION_REPLAY4,   IDM_CRTACTREPL4,              MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_ATOMIC_POWER,     IDM_CRTATOMPOW,               MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_CAPTURE,          IDM_CRTCAPTURE,               MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_DIASHOW_MAKER,    IDM_CRTDIASHOWMAKER,          MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_EXPERT,           IDM_CRTEXPERT,                MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_FINAL_I,          IDM_CRTFC1,                   MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_FINAL_III,        IDM_CRTFC3,                   MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_FINAL_PLUS,       IDM_CRTFCPLUS,                MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_FORMEL64,         IDM_CRTFORMEL64,              MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_FREEZE_FRAME,     IDM_CRTFREEZEFRAME,           MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_FREEZE_MACHINE,   IDM_CRTFREEZEMACHINE,         MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_GAME_KILLER,      IDM_CRTGAMEKILLER,            MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_KCS_POWER,        IDM_CRTKCSPOWER,              MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_MAGIC_FORMEL,     IDM_CRTMAGICFORMEL,           MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_MMC_REPLAY,       IDM_CRTMMCR,                  MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_RETRO_REPLAY,     IDM_CRTRR,                    MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_SNAPSHOT64,       IDM_SS64,                     MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_SUPER_SNAPSHOT,   IDM_CRTSSSHOT,                MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_SUPER_SNAPSHOT_V5,IDM_CRTSSSHOT5,               MIS_TEXT
+            END
+#endif
+            SUBMENU "Utility Cartridges",                 IDM_CARTRIDGE_UTIL_GROUP,     MIS_TEXT
+            BEGIN
+                MENUITEM CARTRIDGE_NAME_COMAL80,          IDM_CRTCOMAL80,               MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_DELA_EP256,       IDM_CRTDELAEP256,             MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_DELA_EP64,        IDM_CRTDELAEP64,              MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_DELA_EP7x8,       IDM_CRTDELAEP7x8,             MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_EASYCALC,         IDM_CRTEASYCALC,              MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_EASYFLASH,        IDM_CRTEASYFLASH,             MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_EPYX_FASTLOAD,    IDM_CRTEPYX,                  MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_EXOS,             IDM_CRTEXOS,                  MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_IDE64,            IDM_CRTIDE64,                 MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_IEEE488,          IDM_CRTIEEE,                  MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_KINGSOFT,         IDM_CRTKINGSOFT,              MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_MACH5,            IDM_CRTMACH5,                 MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_MAGIC_DESK,       IDM_CRTMAGICDESK,             MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_MAGIC_VOICE,      IDM_CRTMAGICVOICE,            MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_MIKRO_ASSEMBLER,  IDM_CRTMIKROASS,              MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_MMC64,            IDM_CRTMMC64,                 MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_P64,              IDM_CRTP64,                   MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_PAGEFOX,          IDM_CRTPAGEFOX,               MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_REX,              IDM_CRTREX,                   MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_REX_EP256,        IDM_CRTREXEP256,              MIS_TEXT
+#ifdef HAVE_PCAP
+                MENUITEM CARTRIDGE_NAME_RRNETMK3,         IDM_CRTRRNETMK3,              MIS_TEXT
+#endif
+                MENUITEM CARTRIDGE_NAME_ROSS,             IDM_CRTROSS,                  MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_SIMONS_BASIC,     IDM_CRTSIMON,                 MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_STARDOS,          IDM_CRTSTARDOS,               MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_STRUCTURED_BASIC, IDM_CRTSBASIC,                MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_SUPER_EXPLODE_V5, IDM_CRTSE5,                   MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_WARPSPEED,        IDM_CRTWARPSPEED,             MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_WESTERMANN,       IDM_CRTWEST,                  MIS_TEXT
+            END
+            SUBMENU "Game Cartridges",                    IDM_CARTRIDGE_GAME_GROUP,     MIS_TEXT
+            BEGIN
+                MENUITEM CARTRIDGE_NAME_DINAMIC,          IDM_CRTDINAMIC,               MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_FUNPLAY,          IDM_CRTFUNPLAY,               MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_GMOD2,            IDM_CRTGMOD2,                 MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_GS,               IDM_CRTGS,                    MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_OCEAN,            IDM_CRTOCEAN,                 MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_RGCD,             IDM_CRTRGCD,                  MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_SILVERROCK_128,   IDM_CRTSILVERROCK128,         MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_SUPER_GAMES,      IDM_CRTSUPERGAMES,            MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_ZAXXON,           IDM_CRTZAXXON,                MIS_TEXT
+            END
+            SUBMENU "RAM Expansion Cartridges",           IDM_CARTRIDGE_RAMEX_GROUP,    MIS_TEXT
+            BEGIN
+                MENUITEM CARTRIDGE_NAME_DQBB,             IDM_CRTDQBB,                  MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_GEORAM,           IDM_CRTGEORAM,                MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_ISEPIC,           IDM_CRTISEPIC,                MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_RAMCART,          IDM_CRTRAMCART,               MIS_TEXT
+                MENUITEM CARTRIDGE_NAME_REU,              IDM_CRTREU,                   MIS_TEXT
+            END
         END
 #ifndef __XSCPU64__
         MENUITEM "Press Free~ze Button",                  IDM_CRTFREEZE,                MIS_TEXT

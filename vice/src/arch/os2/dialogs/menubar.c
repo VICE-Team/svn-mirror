@@ -1123,18 +1123,214 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
 #if (defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)) && !defined(__VSID__)
         case IDM_CRTGEN:
-        case IDM_CRTGEN8KB:
-        case IDM_CRTGEN16KB:
-        case IDM_CRTACTREPL:
-        case IDM_CRTATOMPOW:
-        case IDM_CRTEPYX:
-        case IDM_CRTSSSHOT:
-        case IDM_CRTSSSHOT5:
-        case IDM_CRTWEST:
-        case IDM_CRTIEEE:
-        case IDM_CRTIDE64:
-            ViceFileDialog(hwnd, 0x0b00 | (idm & 0xf), FDS_OPEN_DIALOG);
+            ViceFileDialog(hwnd, 0x0b00, FDS_OPEN_DIALOG);
             return;
+        case IDM_CRTGEN8KB:
+            ViceFileDialog(hwnd, 0x0b01, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTGEN16KB:
+            ViceFileDialog(hwnd, 0x0b02, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTGENULTI:
+            ViceFileDialog(hwnd, 0x0b03, FDS_OPEN_DIALOG);
+            return;
+#ifndef __XSCPU64__
+        case IDM_CRTACTREPL:
+            ViceFileDialog(hwnd, 0x0b04, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTACTREPL2:
+            ViceFileDialog(hwnd, 0x0b05, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTACTREPL3:
+            ViceFileDialog(hwnd, 0x0b06, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTACTREPL4:
+            ViceFileDialog(hwnd, 0x0b07, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTATOMPOW:
+            ViceFileDialog(hwnd, 0x0b08, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTCAPTURE:
+            ViceFileDialog(hwnd, 0x0b09, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTDIASHOWMAKER:
+            ViceFileDialog(hwnd, 0x0b0a, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTEXPERT:
+            ViceFileDialog(hwnd, 0x0b0b, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTFC1:
+            ViceFileDialog(hwnd, 0x0b0c, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTFC3:
+            ViceFileDialog(hwnd, 0x0b0d, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTFCPLUS:
+            ViceFileDialog(hwnd, 0x0b0e, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTFORMEL64:
+            ViceFileDialog(hwnd, 0x0b0f, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTFREEZEFRAME:
+            ViceFileDialog(hwnd, 0x0b10, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTFREEZEMACHINE:
+            ViceFileDialog(hwnd, 0x0b11, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTGAMEKILLER:
+            ViceFileDialog(hwnd, 0x0b12, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTKCSPOWER:
+            ViceFileDialog(hwnd, 0x0b13, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTMAGICFORMEL:
+            ViceFileDialog(hwnd, 0x0b14, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTMMCR:
+            ViceFileDialog(hwnd, 0x0b15, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTRR:
+            ViceFileDialog(hwnd, 0x0b16, FDS_OPEN_DIALOG);
+            return;
+        case IDM_SS64:
+            ViceFileDialog(hwnd, 0x0b17, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTSSSHOT:
+            ViceFileDialog(hwnd, 0x0b18, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTSSSHOT5:
+            ViceFileDialog(hwnd, 0x0b19, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTCOMAL80:
+            ViceFileDialog(hwnd, 0x0b1a, FDS_OPEN_DIALOG);
+            return;
+#endif
+        case IDM_CRTDELAEP256:
+            ViceFileDialog(hwnd, 0x0b1b, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTDELAEP64:
+            ViceFileDialog(hwnd, 0x0b1c, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTDELAEP7x8:
+            ViceFileDialog(hwnd, 0x0b1d, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTEASYCALC:
+            ViceFileDialog(hwnd, 0x0b1e, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTEASYFLASH:
+            ViceFileDialog(hwnd, 0x0b1f, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTEPYX:
+            ViceFileDialog(hwnd, 0x0b20, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTEXOS:
+            ViceFileDialog(hwnd, 0x0b21, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTIDE64:
+            ViceFileDialog(hwnd, 0x0b22, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTIEEE:
+            ViceFileDialog(hwnd, 0x0b23, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTKINGSOFT:
+            ViceFileDialog(hwnd, 0x0b24, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTMACH5:
+            ViceFileDialog(hwnd, 0x0b25, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTMAGICDESK:
+            ViceFileDialog(hwnd, 0x0b26, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTMAGICVOICE:
+            ViceFileDialog(hwnd, 0x0b27, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTMIKROASS:
+            ViceFileDialog(hwnd, 0x0b28, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTMMC64:
+            ViceFileDialog(hwnd, 0x0b29, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTP64:
+            ViceFileDialog(hwnd, 0x0b2a, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTPAGEFOX:
+            ViceFileDialog(hwnd, 0x0b2b, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTREX:
+            ViceFileDialog(hwnd, 0x0b2c, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTREXEP256:
+            ViceFileDialog(hwnd, 0x0b2d, FDS_OPEN_DIALOG);
+            return;
+#ifdef HAVE_PCAP
+        case IDM_CRTRRNETMK3:
+            ViceFileDialog(hwnd, 0x0b2e, FDS_OPEN_DIALOG);
+            return;
+#endif
+        case IDM_CRTROSS:
+            ViceFileDialog(hwnd, 0x0b2f, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTSIMON:
+            ViceFileDialog(hwnd, 0x0b30, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTSTARDOS:
+            ViceFileDialog(hwnd, 0x0b31, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTSBASIC:
+            ViceFileDialog(hwnd, 0x0b32, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTSE5:
+            ViceFileDialog(hwnd, 0x0b33, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTWARPSPEED:
+            ViceFileDialog(hwnd, 0x0b34, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTWEST:
+            ViceFileDialog(hwnd, 0x0b35, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTDINAMIC:
+            ViceFileDialog(hwnd, 0x0b36, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTFUNPLAY:
+            ViceFileDialog(hwnd, 0x0b37, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTGMOD2:
+            ViceFileDialog(hwnd, 0x0b38, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTGS:
+            ViceFileDialog(hwnd, 0x0b39, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTOCEAN:
+            ViceFileDialog(hwnd, 0x0b3a, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTRGCD:
+            ViceFileDialog(hwnd, 0x0b3b, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTSILVERROCK128:
+            ViceFileDialog(hwnd, 0x0b3c, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTSUPERGAMES:
+            ViceFileDialog(hwnd, 0x0b3d, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTZAXXON:
+            ViceFileDialog(hwnd, 0x0b3e, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTDQBB:
+            ViceFileDialog(hwnd, 0x0b3f, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTGEORAM:
+            ViceFileDialog(hwnd, 0x0b40, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTISEPIC:
+            ViceFileDialog(hwnd, 0x0b41, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTRAMCART:
+            ViceFileDialog(hwnd, 0x0b42, FDS_OPEN_DIALOG);
+            return;
+        case IDM_CRTREU:
+            ViceFileDialog(hwnd, 0x0b43, FDS_OPEN_DIALOG);
+            return;
+
         case IDM_CARTRIDGEDET:
             cartridge_detach_image(-1);
             return;
@@ -2847,20 +3043,6 @@ void menu_select(HWND hwnd, USHORT item)
                                                    val == CARTRIDGE_FINAL_I);
 #endif
             WinEnableMenuItem(hwnd, IDM_CRTSAVEIMG, val == CARTRIDGE_EXPERT);
-            return;
-        case IDM_CARTRIDGE:
-            resources_get_int("CartridgeType", &val);
-            WinCheckMenuItem(hwnd, IDM_CRTGEN, val == CARTRIDGE_CRT);
-            WinCheckMenuItem(hwnd, IDM_CRTGEN8KB, val == CARTRIDGE_GENERIC_8KB);
-            WinCheckMenuItem(hwnd, IDM_CRTGEN16KB, val == CARTRIDGE_GENERIC_16KB);
-            WinCheckMenuItem(hwnd, IDM_CRTACTREPL, val == CARTRIDGE_ACTION_REPLAY);
-            WinCheckMenuItem(hwnd, IDM_CRTATOMPOW, val == CARTRIDGE_ATOMIC_POWER);
-            WinCheckMenuItem(hwnd, IDM_CRTEPYX, val == CARTRIDGE_EPYX_FASTLOAD);
-            WinCheckMenuItem(hwnd, IDM_CRTSSSHOT, val == CARTRIDGE_SUPER_SNAPSHOT);
-            WinCheckMenuItem(hwnd, IDM_CRTSSSHOT5, val == CARTRIDGE_SUPER_SNAPSHOT_V5);
-            WinCheckMenuItem(hwnd, IDM_CRTWEST, val == CARTRIDGE_WESTERMANN);
-            WinCheckMenuItem(hwnd, IDM_CRTIEEE, val == CARTRIDGE_IEEE488);
-            WinCheckMenuItem(hwnd, IDM_CRTIDE64, val == CARTRIDGE_IDE64);
             return;
 #endif
 

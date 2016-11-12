@@ -213,17 +213,74 @@ static subaction_t SubPal[] = {
 
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
 static subaction_t SubCart[] = {
-    { "as Generic Cartridge", FilterCart },
-    { "as Generic 8kB Cartridge", FilterCart },
-    { "as Generic 16kB Cartridge", FilterCart },
-    { "as 32kB Action Replay Cartridge", FilterCart },
-    { "as 32kB Atomic Power Cartridge", FilterCart },
-    { "as 8kB Epyx Fastloader Cartridge", FilterCart },
-    { "as 32kB Super Snapshot Cartridge", FilterCart },
-    { "as 64kB Super Snapshot Cartridge", FilterCart },
-    { "as 16kB Westermann learning Cartridge", FilterCart },
-    { "as CBM IEEE488 Cartridge", FilterCart },
-    { "as IDE64 Cartridge", FilterCart },
+    { "as CRT ", FilterCart },						/* 0x00 */
+    { "as " CARTRIDGE_NAME_GENERIC_8KB, FilterCart },		/* 0x01 */
+    { "as " CARTRIDGE_NAME_GENERIC_16KB, FilterCart },	/* 0x02 */
+    { "as " CARTRIDGE_NAME_ULTIMAX, FilterCart },		/* 0x03 */
+    { "as " CARTRIDGE_NAME_ACTION_REPLAY, FilterCart },	/* 0x04 */
+    { "as " CARTRIDGE_NAME_ACTION_REPLAY2, FilterCart },	/* 0x05 */
+    { "as " CARTRIDGE_NAME_ACTION_REPLAY3, FilterCart },	/* 0x06 */
+    { "as " CARTRIDGE_NAME_ACTION_REPLAY4, FilterCart },	/* 0x07 */
+    { "as " CARTRIDGE_NAME_ATOMIC_POWER, FilterCart },	/* 0x08 */
+    { "as " CARTRIDGE_NAME_CAPTURE, FilterCart },		/* 0x09 */
+    { "as " CARTRIDGE_NAME_DIASHOW_MAKER, FilterCart },	/* 0x0a */
+    { "as " CARTRIDGE_NAME_EXPERT, FilterCart },		/* 0x0b */
+    { "as " CARTRIDGE_NAME_FINAL_I, FilterCart },		/* 0x0c */
+    { "as " CARTRIDGE_NAME_FINAL_III, FilterCart },		/* 0x0d */
+    { "as " CARTRIDGE_NAME_FINAL_PLUS, FilterCart },		/* 0x0e */
+    { "as " CARTRIDGE_NAME_FORMEL64, FilterCart },		/* 0x0f */
+    { "as " CARTRIDGE_NAME_FREEZE_FRAME, FilterCart },	/* 0x10 */
+    { "as " CARTRIDGE_NAME_FREEZE_MACHINE, FilterCart },	/* 0x11 */
+    { "as " CARTRIDGE_NAME_GAME_KILLER, FilterCart },		/* 0x12 */
+    { "as " CARTRIDGE_NAME_KCS_POWER, FilterCart },		/* 0x13 */
+    { "as " CARTRIDGE_NAME_MAGIC_FORMEL, FilterCart },	/* 0x14 */
+    { "as " CARTRIDGE_NAME_MMC_REPLAY, FilterCart },		/* 0x15 */
+    { "as " CARTRIDGE_NAME_RETRO_REPLAY, FilterCart },	/* 0x16 */
+    { "as " CARTRIDGE_NAME_SNAPSHOT64, FilterCart },		/* 0x17 */
+    { "as " CARTRIDGE_NAME_SUPER_SNAPSHOT, FilterCart },	/* 0x18 */
+    { "as " CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, FilterCart },/* 0x19 */
+    { "as " CARTRIDGE_NAME_COMAL80, FilterCart },		/* 0x1a */
+    { "as " CARTRIDGE_NAME_DELA_EP256, FilterCart },		/* 0x1b */
+    { "as " CARTRIDGE_NAME_DELA_EP64, FilterCart },		/* 0x1c */
+    { "as " CARTRIDGE_NAME_DELA_EP7x8, FilterCart },		/* 0x1d */
+    { "as " CARTRIDGE_NAME_EASYCALC, FilterCart },		/* 0x1e */
+    { "as " CARTRIDGE_NAME_EASYFLASH, FilterCart },		/* 0x1f */
+    { "as " CARTRIDGE_NAME_EPYX_FASTLOAD, FilterCart },	/* 0x20 */
+    { "as " CARTRIDGE_NAME_EXOS, FilterCart },			/* 0x21 */
+    { "as " CARTRIDGE_NAME_IDE64, FilterCart },			/* 0x22 */
+    { "as " CARTRIDGE_NAME_IEEE488, FilterCart },		/* 0x23 */
+    { "as " CARTRIDGE_NAME_KINGSOFT, FilterCart },		/* 0x24 */
+    { "as " CARTRIDGE_NAME_MACH5, FilterCart },			/* 0x25 */
+    { "as " CARTRIDGE_NAME_MAGIC_DESK, FilterCart },		/* 0x26 */
+    { "as " CARTRIDGE_NAME_MAGIC_VOICE, FilterCart },		/* 0x27 */
+    { "as " CARTRIDGE_NAME_MIKRO_ASSEMBLER, FilterCart },	/* 0x28 */
+    { "as " CARTRIDGE_NAME_MMC64, FilterCart },			/* 0x29 */
+    { "as " CARTRIDGE_NAME_P64, FilterCart },			/* 0x2a */
+    { "as " CARTRIDGE_NAME_PAGEFOX, FilterCart },		/* 0x2b */
+    { "as " CARTRIDGE_NAME_REX, FilterCart },			/* 0x2c */
+    { "as " CARTRIDGE_NAME_REX_EP256, FilterCart },		/* 0x2d */
+    { "as " CARTRIDGE_NAME_RRNETMK3, FilterCart },		/* 0x2e */
+    { "as " CARTRIDGE_NAME_ROSS, FilterCart },			/* 0x2f */
+    { "as " CARTRIDGE_NAME_SIMONS_BASIC, FilterCart },	/* 0x30 */
+    { "as " CARTRIDGE_NAME_STARDOS, FilterCart },		/* 0x31 */
+    { "as " CARTRIDGE_NAME_STRUCTURED_BASIC, FilterCart },	/* 0x32 */
+    { "as " CARTRIDGE_NAME_SUPER_EXPLODE_V5, FilterCart },	/* 0x33 */
+    { "as " CARTRIDGE_NAME_WARPSPEED, FilterCart },		/* 0x34 */
+    { "as " CARTRIDGE_NAME_WESTERMANN, FilterCart },		/* 0x35 */
+    { "as " CARTRIDGE_NAME_DINAMIC, FilterCart },		/* 0x36 */
+    { "as " CARTRIDGE_NAME_FUNPLAY, FilterCart },		/* 0x37 */
+    { "as " CARTRIDGE_NAME_GMOD2, FilterCart },			/* 0x38 */
+    { "as " CARTRIDGE_NAME_GS, FilterCart },			/* 0x39 */
+    { "as " CARTRIDGE_NAME_OCEAN, FilterCart },			/* 0x3a */
+    { "as " CARTRIDGE_NAME_RGCD, FilterCart },			/* 0x3b */
+    { "as " CARTRIDGE_NAME_SILVERROCK_128, FilterCart },	/* 0x3c */
+    { "as " CARTRIDGE_NAME_SUPER_GAMES, FilterCart },		/* 0x3d */
+    { "as " CARTRIDGE_NAME_ZAXXON, FilterCart },		/* 0x3e */
+    { "as " CARTRIDGE_NAME_DQBB, FilterCart },			/* 0x3f */
+    { "as " CARTRIDGE_NAME_GEORAM, FilterCart },		/* 0x40 */
+    { "as " CARTRIDGE_NAME_ISEPIC, FilterCart },		/* 0x41 */
+    { "as " CARTRIDGE_NAME_RAMCART, FilterCart },		/* 0x42 */
+    { "as " CARTRIDGE_NAME_REU, FilterCart },			/* 0x43 */
     { NULL }
 };
 #endif
@@ -524,28 +581,146 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case 10:
             switch (sact) {
-                case 0:
+                case 0x00:
                     return cartridge_attach_image(CARTRIDGE_CRT, szpath);
-                case 1:
+                case 0x01:
                     return cartridge_attach_image(CARTRIDGE_GENERIC_8KB, szpath);
-                case 2:
+                case 0x02:
                     return cartridge_attach_image(CARTRIDGE_GENERIC_16KB, szpath);
-                case 3:
+                case 0x03:
+                    return cartridge_attach_image(CARTRIDGE_ULTIMAX, szpath);
+#ifndef __XSCPU64__
+                case 0x04:
                     return cartridge_attach_image(CARTRIDGE_ACTION_REPLAY, szpath);
-                case 4:
+                case 0x05:
+                    return cartridge_attach_image(CARTRIDGE_ACTION_REPLAY2, szpath);
+                case 0x06:
+                    return cartridge_attach_image(CARTRIDGE_ACTION_REPLAY3, szpath);
+                case 0x07:
+                    return cartridge_attach_image(CARTRIDGE_ACTION_REPLAY4, szpath);
+                case 0x08:
                     return cartridge_attach_image(CARTRIDGE_ATOMIC_POWER, szpath);
-                case 5:
-                    return cartridge_attach_image(CARTRIDGE_EPYX_FASTLOAD, szpath);
-                case 6:
+                case 0x09:
+                    return cartridge_attach_image(CARTRIDGE_CAPTURE, szpath);
+                case 0x0a:
+                    return cartridge_attach_image(CARTRIDGE_DIASHOW_MAKER, szpath);
+                case 0x0b:
+                    return cartridge_attach_image(CARTRIDGE_EXPERT, szpath);
+                case 0x0c:
+                    return cartridge_attach_image(CARTRIDGE_FINAL_I, szpath);
+                case 0x0d:
+                    return cartridge_attach_image(CARTRIDGE_FINAL_III, szpath);
+                case 0x0e:
+                    return cartridge_attach_image(CARTRIDGE_FINAL_PLUS, szpath);
+                case 0x0f:
+                    return cartridge_attach_image(CARTRIDGE_FORMEL64, szpath);
+                case 0x10:
+                    return cartridge_attach_image(CARTRIDGE_FREEZE_FRAME, szpath);
+                case 0x11:
+                    return cartridge_attach_image(CARTRIDGE_FREEZE_MACHINE, szpath);
+                case 0x12:
+                    return cartridge_attach_image(CARTRIDGE_GAME_KILLER, szpath);
+                case 0x13:
+                    return cartridge_attach_image(CARTRIDGE_KCS_POWER, szpath);
+                case 0x14:
+                    return cartridge_attach_image(CARTRIDGE_MAGIC_FORMEL, szpath);
+                case 0x15:
+                    return cartridge_attach_image(CARTRIDGE_MMC_REPLAY, szpath);
+                case 0x16:
+                    return cartridge_attach_image(CARTRIDGE_RETRO_REPLAY, szpath);
+                case 0x17:
+                    return cartridge_attach_image(CARTRIDGE_SNAPSHOT64, szpath);
+                case 0x18:
                     return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT, szpath);
-                case 7:
+                case 0x19:
                     return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT_V5, szpath);
-                case 8:
-                    return cartridge_attach_image(CARTRIDGE_WESTERMANN, szpath);
-                case 9:
-                    return cartridge_attach_image(CARTRIDGE_IEEE488, szpath);
-                case 10:
+#endif
+                case 0x1a:
+                    return cartridge_attach_image(CARTRIDGE_COMAL80, szpath);
+                case 0x1b:
+                    return cartridge_attach_image(CARTRIDGE_DELA_EP256, szpath);
+                case 0x1c:
+                    return cartridge_attach_image(CARTRIDGE_DELA_EP64, szpath);
+                case 0x1d:
+                    return cartridge_attach_image(CARTRIDGE_DELA_EP7x8, szpath);
+                case 0x1e:
+                    return cartridge_attach_image(CARTRIDGE_EASYCALC, szpath);
+                case 0x1f:
+                    return cartridge_attach_image(CARTRIDGE_EASYFLASH, szpath);
+                case 0x20:
+                    return cartridge_attach_image(CARTRIDGE_EPYX_FASTLOAD, szpath);
+                case 0x21:
+                    return cartridge_attach_image(CARTRIDGE_EXOS, szpath);
+                case 0x22:
                     return cartridge_attach_image(CARTRIDGE_IDE64, szpath);
+                case 0x23:
+                    return cartridge_attach_image(CARTRIDGE_IEEE488, szpath);
+                case 0x24:
+                    return cartridge_attach_image(CARTRIDGE_KINGSOFT, szpath);
+                case 0x25:
+                    return cartridge_attach_image(CARTRIDGE_MACH5, szpath);
+                case 0x26:
+                    return cartridge_attach_image(CARTRIDGE_MAGIC_DESK, szpath);
+                case 0x27:
+                    return cartridge_attach_image(CARTRIDGE_MAGIC_VOICE, szpath);
+                case 0x28:
+                    return cartridge_attach_image(CARTRIDGE_MIKRO_ASSEMBLER, szpath);
+                case 0x29:
+                    return cartridge_attach_image(CARTRIDGE_MMC64, szpath);
+                case 0x2a:
+                    return cartridge_attach_image(CARTRIDGE_P64, szpath);
+                case 0x2b:
+                    return cartridge_attach_image(CARTRIDGE_PAGEFOX, szpath);
+                case 0x2c:
+                    return cartridge_attach_image(CARTRIDGE_REX, szpath);
+                case 0x2d:
+                    return cartridge_attach_image(CARTRIDGE_REX_EP256, szpath);
+#ifdef HAVE_PCAP
+                case 0x2e:
+                    return cartridge_attach_image(CARTRIDGE_RRNETMK3, szpath);
+#endif
+                case 0x2f:
+                    return cartridge_attach_image(CARTRIDGE_ROSS, szpath);
+                case 0x30:
+                    return cartridge_attach_image(CARTRIDGE_SIMONS_BASIC, szpath);
+                case 0x31:
+                    return cartridge_attach_image(CARTRIDGE_STARDOS, szpath);
+                case 0x32:
+                    return cartridge_attach_image(CARTRIDGE_STRUCTURED_BASIC, szpath);
+                case 0x33:
+                    return cartridge_attach_image(CARTRIDGE_SUPER_EXPLODE_V5, szpath);
+                case 0x34:
+                    return cartridge_attach_image(CARTRIDGE_WARPSPEED, szpath);
+                case 0x35:
+                    return cartridge_attach_image(CARTRIDGE_WESTERMANN, szpath);
+                case 0x36:
+                    return cartridge_attach_image(CARTRIDGE_DINAMIC, szpath);
+                case 0x37:
+                    return cartridge_attach_image(CARTRIDGE_FUNPLAY, szpath);
+                case 0x38:
+                    return cartridge_attach_image(CARTRIDGE_GMOD2, szpath);
+                case 0x39:
+                    return cartridge_attach_image(CARTRIDGE_GS, szpath);
+                case 0x3a:
+                    return cartridge_attach_image(CARTRIDGE_OCEAN, szpath);
+                case 0x3b:
+                    return cartridge_attach_image(CARTRIDGE_RGCD, szpath);
+                case 0x3c:
+                    return cartridge_attach_image(CARTRIDGE_SILVERROCK_128, szpath);
+                case 0x3d:
+                    return cartridge_attach_image(CARTRIDGE_SUPER_GAMES, szpath);
+                case 0x3e:
+                    return cartridge_attach_image(CARTRIDGE_ZAXXON, szpath);
+                case 0x3f:
+                    return cartridge_attach_image(CARTRIDGE_DQBB, szpath);
+                case 0x40:
+                    return cartridge_attach_image(CARTRIDGE_GEORAM, szpath);
+                case 0x41:
+                    return cartridge_attach_image(CARTRIDGE_ISEPIC, szpath);
+                case 0x42:
+                    return cartridge_attach_image(CARTRIDGE_RAMCART, szpath);
+                case 0x43:
+                    return cartridge_attach_image(CARTRIDGE_REU, szpath);
             }
             return -1;
 #endif
