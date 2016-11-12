@@ -318,6 +318,11 @@
 #define IDM_IDE64_SB_DIGIMAX_BASE    0x394
 #define IDM_IDE64_SB_DIGIMAX_DE40    0x395
 #define IDM_IDE64_SB_DIGIMAX_DE48    0x396
+#define IDM_IDE64_SB_ETFE            0x45f
+#define IDM_IDE64_SB_ETFE_BASE       0x460
+#define IDM_IDE64_SB_ETFE_DE00       0x461
+#define IDM_IDE64_SB_ETFE_DE10       0x462
+#define IDM_IDE64_SB_ETFE_DF00       0x463
 
 #define IDM_MMC64_SETTINGS           0x229
 #define IDM_MMC64                    0x22a

@@ -1120,6 +1120,15 @@ BEGIN
                 MENUITEM "$DE40",                         IDM_IDE64_SB_DIGIMAX_DE40,    MIS_TEXT
                 MENUITEM "$DE48",                         IDM_IDE64_SB_DIGIMAX_DE48,    MIS_TEXT
             END
+#ifdef HAVE_PCAP
+            MENUITEM "Short Bus ETFE device",             IDM_IDE64_SB_ETFE,            MIS_TEXT
+            SUBMENU "Short Bus ETFE base",                IDM_IDE64_SB_ETFE_BASE,       MIS_TEXT
+            BEGIN
+                MENUITEM "$DE00",                         IDM_IDE64_SB_ETFE_DE00,       MIS_TEXT
+                MENUITEM "$DE10",                         IDM_IDE64_SB_ETFE_DE10,       MIS_TEXT
+                MENUITEM "$DF00",                         IDM_IDE64_SB_ETFE_DF00,       MIS_TEXT
+            END
+#endif
             SUBMENU "Primary master settings",            IDM_IDE64_HD1,                MIS_TEXT
             BEGIN
                 MENUITEM "Image name",                    IDM_IDE64_IMAGE1,             MIS_TEXT

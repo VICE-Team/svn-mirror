@@ -1996,6 +1996,20 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_IDE64_SB_DIGIMAX_DE48:
             resources_set_int("SBDIGIMAXbase", 0xde48);
             return;
+#ifdef HAVE_PCAP
+        case IDM_IDE64_SB_ETFE:
+            toggle("SBETFE");
+            return;
+        case IDM_IDE64_SB_ETFE_DE00:
+            resources_set_int("SBETFEbase", 0xde00);
+            return;
+        case IDM_IDE64_SB_ETFE_DE10:
+            resources_set_int("SBETFEbase", 0xde10);
+            return;
+        case IDM_IDE64_SB_ETFE_DF00:
+            resources_set_int("SBETFEbase", 0xdf00);
+            return;
+#endif
         case IDM_IDE64_IMAGE1:
             resources_set_string("IDE64Image1", ViceFileSelect(hwnd, 1));
             return;
@@ -3038,7 +3052,10 @@ void menu_select(HWND hwnd, USHORT item)
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case IDM_IDE64_SETTINGS:
             WinCheckRes(hwnd, IDM_IDE64_RTC_SAVE, "IDE64RTCSave");
-            WinCheckRes(hwnd, IDM_IDE64_SB_DIGIMAX,"SBDIGIMAX");
+            WinCheckRes(hwnd, IDM_IDE64_SB_DIGIMAX, "SBDIGIMAX");
+#ifdef HAVE_PCAP
+            WinCheckRes(hwnd, IDM_IDE64_SB_ETFE, "SBETFE");
+#endif
             return;
         case IDM_IDE64_REVISION:
             resources_get_int("IDE64version", &val);
@@ -3051,6 +3068,14 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_IDE64_SB_DIGIMAX_DE40, val == 0xde40);
             WinCheckMenuItem(hwnd, IDM_IDE64_SB_DIGIMAX_DE48, val == 0xde48);
             return;
+#ifdef HAVE_PCAP
+        case IDM_IDE64_SB_ETFE_BASE:
+            resources_get_int("SBETFEbase", &val);
+            WinCheckMenuItem(hwnd, IDM_IDE64_SB_ETFE_DE00, val == 0xde00);
+            WinCheckMenuItem(hwnd, IDM_IDE64_SB_ETFE_DE10, val == 0xde10);
+            WinCheckMenuItem(hwnd, IDM_IDE64_SB_ETFE_DF00, val == 0xdf00);
+            return;
+#endif
         case IDM_IDE64_HD1:
             WinCheckRes(hwnd, IDM_IDE64_AUTO1, "IDE64AutodetectSize1");
             return;
