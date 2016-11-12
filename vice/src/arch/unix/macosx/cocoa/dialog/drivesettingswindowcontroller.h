@@ -45,6 +45,8 @@
     IBOutlet NSButton *driveExpansion_6000;
     IBOutlet NSButton *driveExpansion_8000;
     IBOutlet NSButton *driveExpansion_A000;
+    IBOutlet NSTextField *RPM;
+    IBOutlet NSTextField *wobble;
 
     int driveTypeMap[DRIVE_TYPE_NUM];
     int numDriveTypes;
@@ -69,6 +71,8 @@
 -(IBAction)changedDriveExpansionA000:(id)sender;
 -(IBAction)changedIdleMethod:(id)sender;
 -(IBAction)toggledParallelCable:(id)sender;
+-(IBAction)changedRPM:(NSTextField*)sender;
+-(IBAction)changedWobble:(NSTextField*)sender;
 
 -(int)mapToDriveType:(int)driveId;
 -(int)mapFromDriveType:(int)driveType;

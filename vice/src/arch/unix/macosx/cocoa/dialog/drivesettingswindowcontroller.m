@@ -186,6 +186,21 @@
             [parallelCable selectCellAtRow:parallelCableVal column:0];
         }
 
+        int hasRPM = (driveTypeVal!=DRIVE_TYPE_NONE);
+
+        if (hasRPM) {
+            RPM.enabled = true;
+            wobble.enabled = true;
+            RPM.floatValue = [self getIntResource:@"Drive%dRPM" withNumber:driveNum]/100.0f;
+            wobble.floatValue = [self getIntResource:@"Drive%dWobble" withNumber:driveNum]/100.0f;
+        }
+        else {
+            RPM.enabled = false;
+            wobble.enabled = false;
+            RPM.stringValue = @"";
+            wobble.stringValue = @"";
+        }
+
     } else {
         // disable all controls
         [driveType setEnabled:false];
@@ -203,6 +218,10 @@
         if(hasParallel) {
             [parallelCable setEnabled:false];
         }
+        RPM.selectable = RPM.editable = false;
+        wobble.selectable = wobble.editable = false;
+        RPM.stringValue = @"";
+        wobble.stringValue = @"";
     }
 }
 
@@ -331,6 +350,34 @@
     [self setIntResource:@"Drive%dParallelCable"
               withNumber:driveNum
                  toValue:type];
+}
+
+-(void)changedRPM:(NSTextField*)sender
+{
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
+    float _RPM = [(NSTextField*)sender floatValue];
+    _RPM = (_RPM<  30.0f)?  30.0f:
+           (_RPM>3000.0f)?3000.0f:
+            _RPM;
+
+    [self setIntResource:@"Drive%dRPM"
+              withNumber:driveNum
+                 toValue: (int)((_RPM*100.0f)+0.5f)];
+    RPM.floatValue = [self getIntResource:@"Drive%dRPM" withNumber:driveNum]/100.0f;
+}
+
+-(void)changedWobble:(NSTextField*)sender
+{
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
+    float _wobble = [(NSTextField*)sender floatValue];
+    _wobble = (_wobble<   0.0f)?   0.0f:
+              (_wobble>1000.0f)?1000.0f:
+               _wobble;
+
+    [self setIntResource:@"Drive%dWobble"
+              withNumber:driveNum
+                 toValue: (int)((_wobble*100.0f)+0.5f)];
+    wobble.floatValue = [self getIntResource:@"Drive%dWobble" withNumber:driveNum]/100.0f;
 }
 
 @end
