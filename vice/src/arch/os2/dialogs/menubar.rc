@@ -1175,6 +1175,16 @@ BEGIN
                 MENUITEM "SD",                            IDM_MMC64_SD_TYPE_SD,         MIS_TEXT
                 MENUITEM "SDHC",                          IDM_MMC64_SD_TYPE_SDHC,       MIS_TEXT
             END
+            SUBMENU "MMC64 ClockPort",                    IDM_MMC64_CLOCKPORT_DEVICE,   MIS_TEXT
+            BEGIN
+                MENUITEM "None",                          IDM_MMC64_CLOCKPORT_NONE,     MIS_TEXT
+#ifdef HAVE_PCAP
+                MENUITEM "RR-Net",                        IDM_MMC64_CLOCKPORT_RRNET,    MIS_TEXT
+#endif
+#ifdef USE_MPG123
+                MENUITEM "MP3@64",                        IDM_MMC64_CLOCKPORT_MP3AT64,  MIS_TEXT
+#endif
+            END
         END
 
         SUBMENU "MMC Replay Settings",                    IDM_MMCR_SETTINGS,            MIS_TEXT
@@ -1192,6 +1202,16 @@ BEGIN
                 MENUITEM "SD",                            IDM_MMCR_SD_TYPE_SD,          MIS_TEXT
                 MENUITEM "SDHC",                          IDM_MMCR_SD_TYPE_SDHC,        MIS_TEXT
             END
+            SUBMENU "MMC Replay ClockPort",               IDM_MMCR_CLOCKPORT_DEVICE,    MIS_TEXT
+            BEGIN
+                MENUITEM "None",                          IDM_MMCR_CLOCKPORT_NONE,      MIS_TEXT
+#ifdef HAVE_PCAP
+                MENUITEM "RR-Net",                        IDM_MMCR_CLOCKPORT_RRNET,     MIS_TEXT
+#endif
+#ifdef USE_MPG123
+                MENUITEM "MP3@64",                        IDM_MMCR_CLOCKPORT_MP3AT64,   MIS_TEXT
+#endif
+            END
         END
 
         SUBMENU "Retro Replay Settings",                  IDM_RR_SETTINGS,              MIS_TEXT
@@ -1203,6 +1223,16 @@ BEGIN
             BEGIN
                 MENUITEM "Retro Replay",                  IDM_RR_REV_RR,                MIS_TEXT
                 MENUITEM "Nordic Replay",                 IDM_RR_REV_NR,                MIS_TEXT
+            END
+            SUBMENU "Retro Replay ClockPort",             IDM_RR_CLOCKPORT_DEVICE,      MIS_TEXT
+            BEGIN
+                MENUITEM "None",                          IDM_RR_CLOCKPORT_NONE,        MIS_TEXT
+#ifdef HAVE_PCAP
+                MENUITEM "RR-Net",                        IDM_RR_CLOCKPORT_RRNET,       MIS_TEXT
+#endif
+#ifdef USE_MPG123
+                MENUITEM "MP3@64",                        IDM_RR_CLOCKPORT_MP3AT64,     MIS_TEXT
+#endif
             END
         END
 

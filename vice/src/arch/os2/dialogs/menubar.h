@@ -339,6 +339,10 @@
 #define IDM_MMC64_SD_TYPE_MMC        0x249
 #define IDM_MMC64_SD_TYPE_SD         0x24a
 #define IDM_MMC64_SD_TYPE_SDHC       0x24b
+#define IDM_MMC64_CLOCKPORT_DEVICE   0x464
+#define IDM_MMC64_CLOCKPORT_NONE     0x465
+#define IDM_MMC64_CLOCKPORT_RRNET    0x466
+#define IDM_MMC64_CLOCKPORT_MP3AT64  0x467
 
 #define IDM_MMCR_SETTINGS            0x24c
 #define IDM_MMCR_RESCUE_MODE         0x24d
@@ -352,6 +356,10 @@
 #define IDM_MMCR_SD_TYPE_MMC         0x25c
 #define IDM_MMCR_SD_TYPE_SD          0x25d
 #define IDM_MMCR_SD_TYPE_SDHC        0x25e
+#define IDM_MMCR_CLOCKPORT_DEVICE    0x468
+#define IDM_MMCR_CLOCKPORT_NONE      0x469
+#define IDM_MMCR_CLOCKPORT_RRNET     0x46a
+#define IDM_MMCR_CLOCKPORT_MP3AT64   0x46b
 
 #define IDM_GMOD2_SETTINGS           0x16d
 #define IDM_GMOD2_EEPROM_WRITE       0x17c
@@ -365,6 +373,10 @@
 #define IDM_RR_REVISION              0x2f7
 #define IDM_RR_REV_RR                0x2f8
 #define IDM_RR_REV_NR                0x2f9
+#define IDM_RR_CLOCKPORT_DEVICE      0x46c
+#define IDM_RR_CLOCKPORT_NONE        0x46d
+#define IDM_RR_CLOCKPORT_RRNET       0x46e
+#define IDM_RR_CLOCKPORT_MP3AT64     0x46f
 
 #define IDM_DIGIMAX_SETTINGS         0x1ee
 #define IDM_DIGIMAX                  0x1a1

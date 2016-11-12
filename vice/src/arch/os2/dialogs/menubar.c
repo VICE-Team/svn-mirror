@@ -70,6 +70,10 @@
 #include "cartridge.h"
 #endif
 
+#if !defined(__VSID__) && (defined(__X64__) || defined(__X128__) || defined(__XSCPU64__))
+#include "clockport.h"
+#endif
+
 #if defined(__X128__) || defined(__X64__) || defined(__X64DTV__) || defined(__XCBM5X0__) || defined(__XSCPU64__)
 #include "vicii.h"
 #endif
@@ -2075,6 +2079,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_MMC64_SD_TYPE_SDHC:
             resources_set_int("MMC64_sd_type", idm - IDM_MMC64_SD_TYPE_AUTO);
             return;
+        case IDM_MMC64_CLOCKPORT_NONE:
+            resources_set_int("MMC64ClockPort", CLOCKPORT_DEVICE_NONE);
+            return;
+#ifdef HAVE_PCAP
+        case IDM_MMC64_CLOCKPORT_RRNET:
+            resources_set_int("MMC64ClockPort", CLOCKPORT_DEVICE_RRNET);
+            return;
+#endif
+#ifdef USE_MPG123
+        case IDM_MMC64_CLOCKPORT_MP3AT64:
+            resources_set_int("MMC64ClockPort", CLOCKPORT_DEVICE_MP3_64);
+            return;
+#endif
 
         case IDM_MMCR_RESCUE_MODE:
             toggle("MMCRRescueMode");
@@ -2100,6 +2117,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_MMCR_SD_TYPE_SDHC:
             resources_set_int("MMCRSDType", idm - IDM_MMCR_SD_TYPE_AUTO);
             return;
+        case IDM_MMCR_CLOCKPORT_NONE:
+            resources_set_int("MMCRClockPort", CLOCKPORT_DEVICE_NONE);
+            return;
+#ifdef HAVE_PCAP
+        case IDM_MMCR_CLOCKPORT_RRNET:
+            resources_set_int("MMCRClockPort", CLOCKPORT_DEVICE_RRNET);
+            return;
+#endif
+#ifdef USE_MPG123
+        case IDM_MMCR_CLOCKPORT_MP3AT64:
+            resources_set_int("MMCRClockPort", CLOCKPORT_DEVICE_MP3_64);
+            return;
+#endif
 
         case IDM_RR_FLASH_WRITE:
             toggle("RRBiosWrite");
@@ -2116,6 +2146,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_RR_REV_NR:
             resources_set_int("RRrevision", 1);
             return;
+        case IDM_RR_CLOCKPORT_NONE:
+            resources_set_int("RRClockPort", CLOCKPORT_DEVICE_NONE);
+            return;
+#ifdef HAVE_PCAP
+        case IDM_RR_CLOCKPORT_RRNET:
+            resources_set_int("RRClockPort", CLOCKPORT_DEVICE_RRNET);
+            return;
+#endif
+#ifdef USE_MPG123
+        case IDM_RR_CLOCKPORT_MP3AT64:
+            resources_set_int("RRClockPort", CLOCKPORT_DEVICE_MP3_64);
+            return;
+#endif
 
         case IDM_GMOD2_EEPROM_WRITE:
             toggle("GMOD2EEPROMRW");
@@ -3049,7 +3092,7 @@ void menu_select(HWND hwnd, USHORT item)
             return;
 #endif
 
-#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
+#if !defined(__VSID__) && (defined(__X64__) || defined(__X128__) || defined(__XSCPU64__))
         case IDM_IDE64_SETTINGS:
             WinCheckRes(hwnd, IDM_IDE64_RTC_SAVE, "IDE64RTCSave");
             WinCheckRes(hwnd, IDM_IDE64_SB_DIGIMAX, "SBDIGIMAX");
@@ -3107,6 +3150,17 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_MMC64_SD_TYPE_SD, val == 2);
             WinCheckMenuItem(hwnd, IDM_MMC64_SD_TYPE_SDHC, val == 3);
             return;
+        case IDM_MMC64_CLOCKPORT_DEVICE:
+            resources_get_int("MMC64ClockPort", &val);
+            WinCheckMenuItem(hwnd, IDM_MMC64_CLOCKPORT_NONE, val == CLOCKPORT_DEVICE_NONE);
+#ifdef HAVE_PCAP
+            WinCheckMenuItem(hwnd, IDM_MMC64_CLOCKPORT_RRNET, val == CLOCKPORT_DEVICE_RRNET);
+#endif
+#ifdef USE_MPG123
+            WinCheckMenuItem(hwnd, IDM_MMC64_CLOCKPORT_MP3AT64, val == CLOCKPORT_DEVICE_MP3_64);
+#endif
+            return;
+
 
         case IDM_RR_SETTINGS:
             WinCheckRes(hwnd, IDM_RR_FLASH_WRITE, "RRBiosWrite");
@@ -3115,6 +3169,16 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("RRrevision", &val);
             WinCheckMenuItem(hwnd, IDM_RR_REV_RR, val == 0);
             WinCheckMenuItem(hwnd, IDM_RR_REV_NR, val == 1);
+            return;
+        case IDM_RR_CLOCKPORT_DEVICE:
+            resources_get_int("RRClockPort", &val);
+            WinCheckMenuItem(hwnd, IDM_RR_CLOCKPORT_NONE, val == CLOCKPORT_DEVICE_NONE);
+#ifdef HAVE_PCAP
+            WinCheckMenuItem(hwnd, IDM_RR_CLOCKPORT_RRNET, val == CLOCKPORT_DEVICE_RRNET);
+#endif
+#ifdef USE_MPG123
+            WinCheckMenuItem(hwnd, IDM_RR_CLOCKPORT_MP3AT64, val == CLOCKPORT_DEVICE_MP3_64);
+#endif
             return;
 
         case IDM_MMCR_SETTINGS:
@@ -3129,6 +3193,16 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_MMCR_SD_TYPE_MMC, val == 1);
             WinCheckMenuItem(hwnd, IDM_MMCR_SD_TYPE_SD, val == 2);
             WinCheckMenuItem(hwnd, IDM_MMCR_SD_TYPE_SDHC, val == 3);
+            return;
+        case IDM_MMCR_CLOCKPORT_DEVICE:
+            resources_get_int("MMCRClockPort", &val);
+            WinCheckMenuItem(hwnd, IDM_MMCR_CLOCKPORT_NONE, val == CLOCKPORT_DEVICE_NONE);
+#ifdef HAVE_PCAP
+            WinCheckMenuItem(hwnd, IDM_MMCR_CLOCKPORT_RRNET, val == CLOCKPORT_DEVICE_RRNET);
+#endif
+#ifdef USE_MPG123
+            WinCheckMenuItem(hwnd, IDM_MMCR_CLOCKPORT_MP3AT64, val == CLOCKPORT_DEVICE_MP3_64);
+#endif
             return;
         case IDM_GMOD2_SETTINGS:
             WinCheckRes(hwnd, IDM_GMOD2_EEPROM_WRITE, "GMOD2EEPROMRW");
