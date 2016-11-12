@@ -1,8 +1,8 @@
 /*
- * uitfe.h - Implementation of the REU settings dialog box.
+ * uiethernetcart.h - Implementation of the Ethernet Cart settings dialog box.
  *
  * Written by
- *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,12 +24,9 @@
  *
  */
 
-#ifndef VICE_UITFE_H
-#define VICE_UITFE_H
+#ifndef VICE_UIETHERNETCART_H
+#define VICE_UIETHERNETCART_H
 
-#ifdef HAVE_PCAP
-extern void ui_tfe_settings_dialog(HWND hwnd);
-
-#endif // #ifdef HAVE_PCAP
+extern void ui_ethernetcart_settings_dialog(HWND hwnd);
 
 #endif

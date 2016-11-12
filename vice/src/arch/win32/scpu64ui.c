@@ -46,6 +46,8 @@
 #include "uidrivec64.h"
 #include "uids12c887rtc.h"
 #include "uieasyflash.h"
+#include "uiethernet.h"
+#include "uiethernetcart.h"
 #include "uiexpert.h"
 #include "uigeoram.h"
 #include "uigmod2.h"
@@ -72,7 +74,6 @@
 #include "uiscpu64model.h"
 #include "uisid.h"
 #include "uisoundexpander.h"
-#include "uitfe.h"
 #include "uiuserportrtc58321a.h"
 #include "uiuserportrtcds1307.h"
 #include "uivicii.h"
@@ -345,7 +346,8 @@ ui_menu_translation_table_t scpu64ui_menu_translation_table[] = {
     { IDM_C64BURSTMOD_SETTINGS, IDS_MI_C64BURSTMOD_SETTINGS },
     { IDM_IDE64_SETTINGS, IDS_MI_IDE64_SETTINGS },
 #ifdef HAVE_PCAP
-    { IDM_TFE_SETTINGS, IDS_MI_TFE_SETTINGS },
+    { IDM_ETHERNET_SETTINGS, IDS_MI_ETHERNET_SETTINGS },
+    { IDM_ETHERNETCART_SETTINGS, IDS_MI_ETHERNETCART_SETTINGS },
 #endif
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
     { IDM_RS232USER_SETTINGS, IDS_MI_RS232USER_SETTINGS },
@@ -733,8 +735,11 @@ static void scpu64_ui_specific(WPARAM wparam, HWND hwnd)
                                   scpu64_drive_left_group, scpu64_drive_middle_group, scpu64_drive_right_group);
             break;
 #ifdef HAVE_PCAP
-        case IDM_TFE_SETTINGS:
-           ui_tfe_settings_dialog(hwnd);
+        case IDM_ETHERNET_SETTINGS:
+           ui_ethernet_settings_dialog(hwnd);
+           break;
+        case IDM_ETHERNETCART_SETTINGS:
+           ui_ethernetcart_settings_dialog(hwnd);
            break;
 #endif
         case IDM_VIDEO_SETTINGS:

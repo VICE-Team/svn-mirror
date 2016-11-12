@@ -145,6 +145,8 @@ src/arch/win32/resdriveplus4.rc.po.c
 src/arch/win32/resdrivevic20.rc.po.c
 src/arch/win32/resds12c887rtc.rc.po.c
 src/arch/win32/reseasyflash.rc.po.c
+src/arch/win32/resethernet.rc.po.c
+src/arch/win32/resethernetcart.rc.po.c
 src/arch/win32/resexpert.rc.po.c
 src/arch/win32/resgeoram.rc.po.c
 src/arch/win32/resgmod2.rc.po.c
@@ -177,7 +179,6 @@ src/arch/win32/ressoundexpander.rc.po.c
 src/arch/win32/ressoundsampler.rc.po.c
 src/arch/win32/restapelog.rc.po.c
 src/arch/win32/rested.rc.po.c
-src/arch/win32/restfe.rc.po.c
 src/arch/win32/resuserportrtc58321a.rc.po.c
 src/arch/win32/resuserportrtcds1307.rc.po.c
 src/arch/win32/resv364speech.rc.po.c

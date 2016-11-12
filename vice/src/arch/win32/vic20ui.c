@@ -47,6 +47,8 @@
 #include "uidigimax.h"
 #include "uidrivevic20.h"
 #include "uids12c887rtc.h"
+#include "uiethernet.h"
+#include "uiethernetcart.h"
 #include "uigeoram.h"
 #include "uiiocollisions.h"
 #include "uijoyport.h"
@@ -62,7 +64,6 @@
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
 #include "uitapelog.h"
-#include "uitfe.h"
 #include "uiuserportrtc58321a.h"
 #include "uiuserportrtcds1307.h"
 #include "uivic.h"
@@ -381,7 +382,8 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS_MASCUERADE },
     { IDM_DS12C887RTC_SETTINGS, IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE },
 #ifdef HAVE_PCAP
-    { IDM_TFE_SETTINGS, IDS_MI_TFE_SETTINGS_MASCUERADE },
+    { IDM_ETHERNET_SETTINGS, IDS_MI_ETHERNET_SETTINGS },
+    { IDM_ETHERNETCART_SETTINGS, IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE },
 #endif
     { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS_MASCUERADE },
     { IDM_SFX_SS_SETTINGS, IDS_MI_SFX_SS_SETTINGS_MASCUERADE },
@@ -614,8 +616,11 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             ui_ds12c887rtc_settings_dialog(hwnd);
             break;
 #ifdef HAVE_PCAP
-        case IDM_TFE_SETTINGS:
-           ui_tfe_settings_dialog(hwnd);
+        case IDM_ETHERNET_SETTINGS:
+           ui_ethernet_settings_dialog(hwnd);
+           break;
+        case IDM_ETHERNETCART_SETTINGS:
+           ui_ethernetcart_settings_dialog(hwnd);
            break;
 #endif
         case IDM_SFX_SE_SETTINGS:
