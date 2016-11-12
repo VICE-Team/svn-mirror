@@ -634,31 +634,8 @@ BEGIN
 #endif
         END
 
-#if defined(HAVE_MOUSE) && (defined(__X128__) || defined(__X64__) || defined(__XSCPU64__))
-        SUBMENU "Mouse Type",                             IDM_MOUSE_TYPE,               MIS_TEXT
-        BEGIN
-            MENUITEM "~1351",                             IDM_MOUSE_TYPE_1351,          MIS_TEXT
-            MENUITEM "~NEOS",                             IDM_MOUSE_TYPE_NEOS,          MIS_TEXT
-            MENUITEM "~AMIGA",                            IDM_MOUSE_TYPE_AMIGA,         MIS_TEXT
-            MENUITEM "~PADDLE",                           IDM_MOUSE_TYPE_PADDLE,        MIS_TEXT
-            MENUITEM "Atari ~CX-22",                      IDM_MOUSE_TYPE_CX22,          MIS_TEXT
-            MENUITEM "Atari ~ST",                         IDM_MOUSE_TYPE_ST,            MIS_TEXT
-            MENUITEM "Smart",                             IDM_MOUSE_TYPE_SMART,         MIS_TEXT
-            MENUITEM "MicroMys",                          IDM_MOUSE_TYPE_MICROMYS,      MIS_TEXT
-            MENUITEM "Koalapad",                          IDM_MOUSE_TYPE_KOALAPAD,      MIS_TEXT
-        END
-        SUBMENU "Mouse port",                             IDM_MOUSE_PORT,               MIS_TEXT
-        BEGIN
-            MENUITEM "Port ~1",                           IDM_MOUSE_PORT_1,             MIS_TEXT
-            MENUITEM "Port ~2",                           IDM_MOUSE_PORT_2,             MIS_TEXT
-        END
-        MENUITEM "Save Smart Mouse RTC data when changed",IDM_SMART_MOUSE_RTC_SAVE,     MIS_TEXT
+#ifndef __VSID__
         MENUITEM "~Grab Mouse Events",                    IDM_MOUSE,                    MIS_TEXT
-        MENUITEM "~Hide Mouse Pointer",                   IDM_HIDEMOUSE,                MIS_TEXT
-#endif
-
-#if defined(HAVE_MOUSE) && defined(__XVIC__)
-        MENUITEM "~Enable Paddles",                       IDM_MOUSE,                    MIS_TEXT
         MENUITEM "~Hide Mouse Pointer",                   IDM_HIDEMOUSE,                MIS_TEXT
 #endif
 
@@ -1570,7 +1547,10 @@ BEGIN
                 MENUITEM "Atari CX21 Keypad",       IDM_JOYPORT_5_CX21_KEYPAD,      MIS_TEXT
             END
 #endif
-            MENUITEM "Save BBRTC data when changed", IDM_JOYPORT_BBRTC_SAVE,        MIS_TEXT
+            MENUITEM "Save BBRTC data when changed",          IDM_JOYPORT_BBRTC_SAVE,       MIS_TEXT
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XVIC__) || defined(__XPLUS4__)
+            MENUITEM "Save Smart Mouse RTC data when changed",IDM_SMART_MOUSE_RTC_SAVE,     MIS_TEXT
+#endif
         END
 
 #ifdef __X128__

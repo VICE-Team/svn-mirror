@@ -504,20 +504,6 @@
 
 #define IDM_MOUSE                    0x151
 #define IDM_HIDEMOUSE                0x152
-#define IDM_MOUSE_TYPE               0x140
-#define IDM_MOUSE_TYPE_1351          0x15a
-#define IDM_MOUSE_TYPE_NEOS          0x15b
-#define IDM_MOUSE_TYPE_AMIGA         0x15c
-#define IDM_MOUSE_TYPE_PADDLE        0x15d
-#define IDM_MOUSE_TYPE_CX22          0x2ae
-#define IDM_MOUSE_TYPE_ST            0x2af
-#define IDM_MOUSE_TYPE_SMART         0x30e
-#define IDM_MOUSE_TYPE_MICROMYS      0x32b
-#define IDM_MOUSE_TYPE_KOALAPAD      0x341
-
-#define IDM_MOUSE_PORT               0x15e
-#define IDM_MOUSE_PORT_1             0x15f
-#define IDM_MOUSE_PORT_2             0x18a
 
 #define IDM_SMART_MOUSE_RTC_SAVE     0x34f
 

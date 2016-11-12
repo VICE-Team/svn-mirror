@@ -774,6 +774,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle("BBRTCSave");
             return;
 
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XVIC__) || defined(__XPLUS4__)
+        case IDM_SMART_MOUSE_RTC_SAVE:
+            toggle("SmartMouseRTCSave");
+            return;
+#endif
+
 #ifndef __XCBM5X0__
         case IDM_USERPORT_DAC:
             toggle("UserportDAC");
@@ -2175,53 +2181,14 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#ifdef HAVE_MOUSE
+#ifndef __VSID__
         case IDM_MOUSE:
             toggle("Mouse");
             return;
         case IDM_HIDEMOUSE:
             toggle("HideMousePtr");
             return;
-        case IDM_SMART_MOUSE_RTC_SAVE:
-            toggle("SmartMouseRTCSave");
-            return;
-
-#if defined(__X128__) || defined(__X64__) || defined(__XSCPU64__)
-        case IDM_MOUSE_TYPE_1351:
-            resources_set_int("Mousetype", MOUSE_TYPE_1351);
-            return;
-        case IDM_MOUSE_TYPE_NEOS:
-            resources_set_int("Mousetype", MOUSE_TYPE_NEOS);
-            return;
-        case IDM_MOUSE_TYPE_AMIGA:
-            resources_set_int("Mousetype", MOUSE_TYPE_AMIGA);
-            return;
-        case IDM_MOUSE_TYPE_PADDLE:
-            resources_set_int("Mousetype", MOUSE_TYPE_PADDLE);
-            return;
-        case IDM_MOUSE_TYPE_CX22:
-            resources_set_int("Mousetype", MOUSE_TYPE_CX22);
-            return;
-        case IDM_MOUSE_TYPE_ST:
-            resources_set_int("Mousetype", MOUSE_TYPE_ST);
-            return;
-        case IDM_MOUSE_TYPE_SMART:
-            resources_set_int("Mousetype", MOUSE_TYPE_SMART);
-            return;
-        case IDM_MOUSE_TYPE_MICROMYS:
-            resources_set_int("Mousetype", MOUSE_TYPE_MICROMYS);
-            return;
-        case IDM_MOUSE_TYPE_KOALAPAD:
-            resources_set_int("Mousetype", MOUSE_TYPE_KOALAPAD);
-            return;
-        case IDM_MOUSE_PORT_1:
-            resources_set_int("Mouseport", 1);
-            return;
-        case IDM_MOUSE_PORT_2:
-            resources_set_int("Mouseport", 2);
-            return;
 #endif
-#endif // HAVE_MOUSE
 
         case IDM_PRT4IEC:
         case IDM_PRT5IEC:
@@ -2724,6 +2691,9 @@ void menu_select(HWND hwnd, USHORT item)
 
         case IDM_JOYPORT_DEVICES:
             WinCheckRes(hwnd, IDM_JOYPORT_BBRTC_SAVE, "BBRTCSave");
+#if defined(__X64ALL__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XVIC__) || defined(__XPLUS4__)
+            WinCheckRes(hwnd, IDM_SMART_MOUSE_RTC_SAVE, "SmartMouseRTCSave");
+#endif
             return;
 
 #if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__) || defined(__XVIC__)
@@ -3132,16 +3102,10 @@ void menu_select(HWND hwnd, USHORT item)
 
         case IDM_SETUP:
 
-#ifdef HAVE_MOUSE
+#ifndef __VSID__
             WinCheckRes(hwnd, IDM_MOUSE, "Mouse");
             WinCheckRes(hwnd, IDM_HIDEMOUSE, "HideMousePtr");
-            WinCheckRes(hwnd, IDM_SMART_MOUSE_RTC_SAVE, "SmartMouseRTCSave");
-
-#if defined(__X128__) || defined(__X64__) || defined(__XSCPU64__)
-            WinEnableMenuItem(hwnd, IDM_MOUSE_TYPE, 1);
-            WinEnableMenuItem(hwnd, IDM_MOUSE_PORT, 1);
 #endif
-#endif // HAVE_MOUSE
 
 #ifdef __X128__
             WinCheckRes(hwnd, IDM_C128FULLBANKS, "C128FullBanks");
@@ -3402,26 +3366,6 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_AUTOSTART_PRG_INJECT, val == 1);
             WinCheckMenuItem(hwnd, IDM_AUTOSTART_PRG_DISK_IMAGE, val == 2);
             return;
-
-#if defined(HAVE_MOUSE) && (defined(__X64__) || defined(__X128__) || defined(__XSCPU64__))
-        case IDM_MOUSE_TYPE:
-            resources_get_int("Mousetype", &val);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_1351, val == MOUSE_TYPE_1351);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_NEOS, val == MOUSE_TYPE_NEOS);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_AMIGA, val == MOUSE_TYPE_AMIGA);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_PADDLE, val == MOUSE_TYPE_PADDLE);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_CX22, val == MOUSE_TYPE_CX22);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_ST, val == MOUSE_TYPE_ST);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_SMART, val == MOUSE_TYPE_SMART);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_MICROMYS, val == MOUSE_TYPE_MICROMYS);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_KOALAPAD, val == MOUSE_TYPE_KOALAPAD);
-            return;
-        case IDM_MOUSE_PORT:
-            resources_get_int("Mouseport", &val);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_PORT_1, val == 1);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_PORT_2, val == 2);
-            return;
-#endif
 
         case IDM_PRINTER4:
         case IDM_PRINTER5:
