@@ -38,8 +38,10 @@ FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "", IDC_IDE64_SB_DIGIMAX,
                     10, 14, 160, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "", IDC_IDE64_SB_DIGIMAX_ADDRESS_LABEL,
+                    9, 31, 50, 8
     COMBOBOX        IDC_IDE64_SB_DIGIMAX_ADDRESS,
-                    10, 29, 90, 10, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    85, 29, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------

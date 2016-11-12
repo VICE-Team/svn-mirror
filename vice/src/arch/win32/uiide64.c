@@ -97,7 +97,7 @@ static void update_text(HWND hwnd)
 
 static uilib_localize_dialog_param ide64_shortbus_dialog[] = {
     { IDC_IDE64_SB_DIGIMAX, IDS_IDE64_SB_DIGIMAX, 0 },
-    { IDC_IDE64_SB_DIGIMAX_ADDRESS, IDS_IDE64_SB_DIGIMAX_ADDRESS, 0 },
+    { IDC_IDE64_SB_DIGIMAX_ADDRESS_LABEL, IDS_IDE64_SB_DIGIMAX_ADDRESS, 0 },
     { 0, 0, 0 }
 };
 
@@ -136,6 +136,16 @@ static uilib_dialog_group ide64_rightgroup[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group ide64_sb_left_group[] = {
+    { IDC_IDE64_SB_DIGIMAX_ADDRESS_LABEL, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group ide64_sb_right_group[] = {
+    { IDC_IDE64_SB_DIGIMAX_ADDRESS, 0 },
+    { 0, 0 }
+};
+
 static void init_ide64_shortbus_dialog(HWND hwnd)
 {
     int res_value;
@@ -143,6 +153,7 @@ static void init_ide64_shortbus_dialog(HWND hwnd)
     HWND temp_hwnd;
     int res_value_loop;
     int active_value;
+    int xpos;
 
     parent_hwnd = GetParent(hwnd);
 
@@ -151,6 +162,15 @@ static void init_ide64_shortbus_dialog(HWND hwnd)
 
     /* translate the parent window items */
     uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, ide64_sb_left_group);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, ide64_sb_left_group, &xpos);
+
+    /* move the right group to the correct position */
+    uilib_move_group(hwnd, ide64_sb_right_group, xpos + 10);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_IDE64_SB_DIGIMAX_ADDRESS);
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("$DE40"));
