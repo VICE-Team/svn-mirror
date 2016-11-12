@@ -963,12 +963,95 @@ BEGIN
         END
 #endif
 
-#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
-
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__) || defined(__XVIC__)
 #ifdef HAVE_PCAP
-        MENUITEM "TFE - Cartridge",                       IDM_TFE,                      MIS_TEXT
+#ifdef __XVIC__
+        SUBMENU "Ethernet Cart Settings (MasC=uerade)",   IDM_ETHERNETCART_SETTINGS,    MIS_TEXT
+#else
+        SUBMENU "Ethernet Cart Settings",                 IDM_ETHERNETCART_SETTINGS,    MIS_TEXT
+#endif
+        BEGIN
+            MENUITEM "Ethernet Cartridge",                IDM_ETHERNETCART,             MIS_TEXT
+            SUBMENU "Ethernet Cart Mode",                 IDM_ETHERNETCART_MODE,        MIS_TEXT
+            BEGIN
+                MENUITEM "TFE",                           IDM_ETHERNETCART_MODE_TFE,    MIS_TEXT
+                MENUITEM "RR-Net",                        IDM_ETHERNETCART_MODE_RRNET,  MIS_TEXT
+            END
+            SUBMENU "Ethernet Cart Address",              IDM_ETHERNETCART_ADDRESS,     MIS_TEXT
+            BEGIN
+#ifdef __XVIC__
+                MENUITEM "$9800",                         IDM_ETHERNETCART_ADDR_000,    MIS_TEXT
+                MENUITEM "$9810",                         IDM_ETHERNETCART_ADDR_010,    MIS_TEXT
+                MENUITEM "$9820",                         IDM_ETHERNETCART_ADDR_020,    MIS_TEXT
+                MENUITEM "$9830",                         IDM_ETHERNETCART_ADDR_030,    MIS_TEXT
+                MENUITEM "$9840",                         IDM_ETHERNETCART_ADDR_040,    MIS_TEXT
+                MENUITEM "$9850",                         IDM_ETHERNETCART_ADDR_050,    MIS_TEXT
+                MENUITEM "$9860",                         IDM_ETHERNETCART_ADDR_060,    MIS_TEXT
+                MENUITEM "$9870",                         IDM_ETHERNETCART_ADDR_070,    MIS_TEXT
+                MENUITEM "$9880",                         IDM_ETHERNETCART_ADDR_080,    MIS_TEXT
+                MENUITEM "$9890",                         IDM_ETHERNETCART_ADDR_090,    MIS_TEXT
+                MENUITEM "$98A0",                         IDM_ETHERNETCART_ADDR_0A0,    MIS_TEXT
+                MENUITEM "$98B0",                         IDM_ETHERNETCART_ADDR_0B0,    MIS_TEXT
+                MENUITEM "$98C0",                         IDM_ETHERNETCART_ADDR_0C0,    MIS_TEXT
+                MENUITEM "$98D0",                         IDM_ETHERNETCART_ADDR_0D0,    MIS_TEXT
+                MENUITEM "$98E0",                         IDM_ETHERNETCART_ADDR_0E0,    MIS_TEXT
+                MENUITEM "$98F0",                         IDM_ETHERNETCART_ADDR_0F0,    MIS_TEXT
+                MENUITEM "$9C00",                         IDM_ETHERNETCART_ADDR_100,    MIS_TEXT
+                MENUITEM "$9C10",                         IDM_ETHERNETCART_ADDR_110,    MIS_TEXT
+                MENUITEM "$9C20",                         IDM_ETHERNETCART_ADDR_120,    MIS_TEXT
+                MENUITEM "$9C30",                         IDM_ETHERNETCART_ADDR_130,    MIS_TEXT
+                MENUITEM "$9C40",                         IDM_ETHERNETCART_ADDR_140,    MIS_TEXT
+                MENUITEM "$9C50",                         IDM_ETHERNETCART_ADDR_150,    MIS_TEXT
+                MENUITEM "$9C60",                         IDM_ETHERNETCART_ADDR_160,    MIS_TEXT
+                MENUITEM "$9C70",                         IDM_ETHERNETCART_ADDR_170,    MIS_TEXT
+                MENUITEM "$9C80",                         IDM_ETHERNETCART_ADDR_180,    MIS_TEXT
+                MENUITEM "$9C90",                         IDM_ETHERNETCART_ADDR_190,    MIS_TEXT
+                MENUITEM "$9CA0",                         IDM_ETHERNETCART_ADDR_1A0,    MIS_TEXT
+                MENUITEM "$9CB0",                         IDM_ETHERNETCART_ADDR_1B0,    MIS_TEXT
+                MENUITEM "$9CC0",                         IDM_ETHERNETCART_ADDR_1C0,    MIS_TEXT
+                MENUITEM "$9CD0",                         IDM_ETHERNETCART_ADDR_1D0,    MIS_TEXT
+                MENUITEM "$9CE0",                         IDM_ETHERNETCART_ADDR_1E0,    MIS_TEXT
+                MENUITEM "$9CF0",                         IDM_ETHERNETCART_ADDR_1F0,    MIS_TEXT
+#else
+                MENUITEM "$DE00",                         IDM_ETHERNETCART_ADDR_000,    MIS_TEXT
+                MENUITEM "$DE10",                         IDM_ETHERNETCART_ADDR_010,    MIS_TEXT
+                MENUITEM "$DE20",                         IDM_ETHERNETCART_ADDR_020,    MIS_TEXT
+                MENUITEM "$DE30",                         IDM_ETHERNETCART_ADDR_030,    MIS_TEXT
+                MENUITEM "$DE40",                         IDM_ETHERNETCART_ADDR_040,    MIS_TEXT
+                MENUITEM "$DE50",                         IDM_ETHERNETCART_ADDR_050,    MIS_TEXT
+                MENUITEM "$DE60",                         IDM_ETHERNETCART_ADDR_060,    MIS_TEXT
+                MENUITEM "$DE70",                         IDM_ETHERNETCART_ADDR_070,    MIS_TEXT
+                MENUITEM "$DE80",                         IDM_ETHERNETCART_ADDR_080,    MIS_TEXT
+                MENUITEM "$DE90",                         IDM_ETHERNETCART_ADDR_090,    MIS_TEXT
+                MENUITEM "$DEA0",                         IDM_ETHERNETCART_ADDR_0A0,    MIS_TEXT
+                MENUITEM "$DEB0",                         IDM_ETHERNETCART_ADDR_0B0,    MIS_TEXT
+                MENUITEM "$DEC0",                         IDM_ETHERNETCART_ADDR_0C0,    MIS_TEXT
+                MENUITEM "$DED0",                         IDM_ETHERNETCART_ADDR_0D0,    MIS_TEXT
+                MENUITEM "$DEE0",                         IDM_ETHERNETCART_ADDR_0E0,    MIS_TEXT
+                MENUITEM "$DEF0",                         IDM_ETHERNETCART_ADDR_0F0,    MIS_TEXT
+                MENUITEM "$DF00",                         IDM_ETHERNETCART_ADDR_100,    MIS_TEXT
+                MENUITEM "$DF10",                         IDM_ETHERNETCART_ADDR_110,    MIS_TEXT
+                MENUITEM "$DF20",                         IDM_ETHERNETCART_ADDR_120,    MIS_TEXT
+                MENUITEM "$DF30",                         IDM_ETHERNETCART_ADDR_130,    MIS_TEXT
+                MENUITEM "$DF40",                         IDM_ETHERNETCART_ADDR_140,    MIS_TEXT
+                MENUITEM "$DF50",                         IDM_ETHERNETCART_ADDR_150,    MIS_TEXT
+                MENUITEM "$DF60",                         IDM_ETHERNETCART_ADDR_160,    MIS_TEXT
+                MENUITEM "$DF70",                         IDM_ETHERNETCART_ADDR_170,    MIS_TEXT
+                MENUITEM "$DF80",                         IDM_ETHERNETCART_ADDR_180,    MIS_TEXT
+                MENUITEM "$DF90",                         IDM_ETHERNETCART_ADDR_190,    MIS_TEXT
+                MENUITEM "$DFA0",                         IDM_ETHERNETCART_ADDR_1A0,    MIS_TEXT
+                MENUITEM "$DFB0",                         IDM_ETHERNETCART_ADDR_1B0,    MIS_TEXT
+                MENUITEM "$DFC0",                         IDM_ETHERNETCART_ADDR_1C0,    MIS_TEXT
+                MENUITEM "$DFD0",                         IDM_ETHERNETCART_ADDR_1D0,    MIS_TEXT
+                MENUITEM "$DFE0",                         IDM_ETHERNETCART_ADDR_1E0,    MIS_TEXT
+                MENUITEM "$DFF0",                         IDM_ETHERNETCART_ADDR_1F0,    MIS_TEXT
+#endif
+            END
+        END
+#endif
 #endif
 
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         SUBMENU "REU Settings",                           IDM_REU_SETTINGS,             MIS_TEXT
         BEGIN
             MENUITEM "R~EU - Memory Extension",           IDM_REU,                      MIS_TEXT
@@ -1355,13 +1438,6 @@ BEGIN
             MENUITEM "SFX Sound Sampler cartridge",       IDM_SFX_SS,                   MIS_TEXT
             MENUITEM "SFX Sound Sampler I/O Swap",        IDM_SFX_SS_IO_SWAP,           MIS_TEXT
         END
-#ifdef HAVE_PCAP
-        SUBMENU "TFE Settings (MasC=uerade)",             IDM_TFE_SETTINGS,             MIS_TEXT
-        BEGIN
-            MENUITEM "TFE - Cartridge",                   IDM_TFE,                      MIS_TEXT
-            MENUITEM "TFE I/O Swap",                      IDM_TFE_IO_SWAP,              MIS_TEXT
-        END
-#endif
 #endif
 
 #ifndef __XCBM5X0__

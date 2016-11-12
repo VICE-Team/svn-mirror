@@ -1638,9 +1638,123 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_DS12C887RTC_SAVE:
             toggle("DS12C887RTCSave");
             return;
+#endif
+
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__) || defined(__XVIC__)
 #ifdef HAVE_PCAP
-        case IDM_TFE:
-            toggle("ETHERNET_ACTIVE");
+        case IDM_ETHERNETCART:
+            toggle("ETHERNETCART_ACTIVE");
+            return;
+        case IDM_ETHERNETCART_MODE_TFE:
+            resources_set_int("ETHERNETCARTMode", 0);
+            return;
+        case IDM_ETHERNETCART_MODE_RRNET:
+            resources_set_int("ETHERNETCARTMode", 1);
+            return;
+
+#ifdef __XVIC__
+#define ECBASE0 0x9800
+#define ECBASE1 0x9c00
+#else
+#define ECBASE0 0xde00
+#define ECBASE1 0xdf00
+#endif
+
+        case IDM_ETHERNETCART_ADDR_000:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0x00);
+            return;
+        case IDM_ETHERNETCART_ADDR_010:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0x10);
+            return;
+        case IDM_ETHERNETCART_ADDR_020:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0x20);
+            return;
+        case IDM_ETHERNETCART_ADDR_030:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0x30);
+            return;
+        case IDM_ETHERNETCART_ADDR_040:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0x40);
+            return;
+        case IDM_ETHERNETCART_ADDR_050:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0x50);
+            return;
+        case IDM_ETHERNETCART_ADDR_060:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0x60);
+            return;
+        case IDM_ETHERNETCART_ADDR_070:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0x70);
+            return;
+        case IDM_ETHERNETCART_ADDR_080:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0x80);
+            return;
+        case IDM_ETHERNETCART_ADDR_090:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0x90);
+            return;
+        case IDM_ETHERNETCART_ADDR_0A0:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0xa0);
+            return;
+        case IDM_ETHERNETCART_ADDR_0B0:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0xb0);
+            return;
+        case IDM_ETHERNETCART_ADDR_0C0:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0xc0);
+            return;
+        case IDM_ETHERNETCART_ADDR_0D0:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0xd0);
+            return;
+        case IDM_ETHERNETCART_ADDR_0E0:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0xe0);
+            return;
+        case IDM_ETHERNETCART_ADDR_0F0:
+            resources_set_int("ETHERNETCARTBase", ECBASE0 | 0xf0);
+            return;
+        case IDM_ETHERNETCART_ADDR_100:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0x00);
+            return;
+        case IDM_ETHERNETCART_ADDR_110:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0x10);
+            return;
+        case IDM_ETHERNETCART_ADDR_120:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0x20);
+            return;
+        case IDM_ETHERNETCART_ADDR_130:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0x30);
+            return;
+        case IDM_ETHERNETCART_ADDR_140:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0x40);
+            return;
+        case IDM_ETHERNETCART_ADDR_150:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0x50);
+            return;
+        case IDM_ETHERNETCART_ADDR_160:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0x60);
+            return;
+        case IDM_ETHERNETCART_ADDR_170:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0x70);
+            return;
+        case IDM_ETHERNETCART_ADDR_180:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0x80);
+            return;
+        case IDM_ETHERNETCART_ADDR_190:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0x90);
+            return;
+        case IDM_ETHERNETCART_ADDR_1A0:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0xa0);
+            return;
+        case IDM_ETHERNETCART_ADDR_1B0:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0xb0);
+            return;
+        case IDM_ETHERNETCART_ADDR_1C0:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0xc0);
+            return;
+        case IDM_ETHERNETCART_ADDR_1D0:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0xd0);
+            return;
+        case IDM_ETHERNETCART_ADDR_1E0:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0xe0);
+            return;
+        case IDM_ETHERNETCART_ADDR_1F0:
+            resources_set_int("ETHERNETCARTBase", ECBASE1 | 0xf0);
             return;
 #endif
 #endif
@@ -1731,11 +1845,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_SFX_SS_IO_SWAP:
             toggle("SFXSoundSamplerIOSwap");
             return;
-#ifdef HAVE_PCAP
-        case IDM_TFE_IO_SWAP:
-            toggle("TFEIOSwap");
-            return;
-#endif
 #endif
 
 #if (defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)) && !defined(__VSID__)
@@ -3087,6 +3196,89 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
             return;
 
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__) || defined(__XVIC__)
+#ifdef HAVE_PCAP
+        case IDM_ETHERNETCART_SETTINGS:
+            WinCheckRes(hwnd, IDM_ETHERNETCART, "ETHERNETCART_ACTIVE");
+            return;
+        case IDM_ETHERNETCART_MODE:
+            resources_get_int("ETHERNETCARTMode", &val);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_MODE_TFE, val == 0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_MODE_RRNET, val == 1);
+            return
+        case IDM_ETHERNETCART_ADDRESS:
+            resources_get_int("ETHERNETCARTBase", &val);
+#ifdef __XVIC__
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_000, val == 0x9800);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_010, val == 0x9810);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_020, val == 0x9820);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_030, val == 0x9830);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_040, val == 0x9840);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_050, val == 0x9850);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_060, val == 0x9860);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_070, val == 0x9870);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_080, val == 0x9880);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_090, val == 0x9890);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0A0, val == 0x98a0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0B0, val == 0x98b0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0C0, val == 0x98c0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0D0, val == 0x98d0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0E0, val == 0x98e0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0F0, val == 0x98f0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_100, val == 0x9c00);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_110, val == 0x9c10);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_120, val == 0x9c20);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_130, val == 0x9c30);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_140, val == 0x9c40);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_150, val == 0x9c50);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_160, val == 0x9c60);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_170, val == 0x9c70);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_180, val == 0x9c80);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_190, val == 0x9c90);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1A0, val == 0x9ca0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1B0, val == 0x9cb0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1C0, val == 0x9cc0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1D0, val == 0x9cd0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1E0, val == 0x9ce0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1F0, val == 0x9cf0);
+#else /* __XVIC__ */
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_000, val == 0xde00);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_010, val == 0xde10);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_020, val == 0xde20);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_030, val == 0xde30);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_040, val == 0xde40);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_050, val == 0xde50);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_060, val == 0xde60);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_070, val == 0xde70);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_080, val == 0xde80);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_090, val == 0xde90);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0A0, val == 0xdea0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0B0, val == 0xdeb0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0C0, val == 0xdec0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0D0, val == 0xded0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0E0, val == 0xdee0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_0F0, val == 0xdef0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_100, val == 0xdf00);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_110, val == 0xdf10);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_120, val == 0xdf20);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_130, val == 0xdf30);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_140, val == 0xdf40);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_150, val == 0xdf50);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_160, val == 0xdf60);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_170, val == 0xdf70);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_180, val == 0xdf80);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_190, val == 0xdf90);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1A0, val == 0xdfa0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1B0, val == 0xdfb0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1C0, val == 0xdfc0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1D0, val == 0xdfd0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1E0, val == 0xdfe0);
+            WinCheckMenuItem(hwnd, IDM_ETHERNETCART_ADDR_1F0, val == 0xdff0);
+#endif /* __XVIC__ */
+#endif /* HAVE_PCAP */
+            return;
+#endif
+
 #if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__X64DTV__) || defined(__XSCPU64__)
         case IDM_VIDEOSTD:
             resources_get_int("MachineVideoStandard", &val);
@@ -3158,14 +3350,6 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_DS12C887RTCBASE, val);
             WinEnableMenuItem(hwnd, IDM_DS12C887RTCRUNMODE, val);
             WinEnableMenuItem(hwnd, IDM_DS12C887RTC_SAVE, val);
-#ifdef HAVE_PCAP
-            resources_get_int("ETHERNET_ACTIVE", &val);
-            WinCheckMenuItem(hwnd, IDM_TFE, val);
-#ifdef __XVIC__
-            WinEnableMenuItem(hwnd, IDM_TFE_IO_SWAP, val);
-            WinCheckRes(hwnd, IDM_TFE_IO_SWAP, "TFEIOSwap");
-#endif
-#endif
 #endif
 
 #if defined(__X64__) || defined(__XSCPU64__)
