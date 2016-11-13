@@ -45,90 +45,6 @@ static const uicart_params_t c64_ui_cartridges[] = {
         UILIB_FILTER_ALL | UILIB_FILTER_CRT
     },
     {
-        IDM_CART_ATTACH_8KB,
-        CARTRIDGE_GENERIC_8KB,
-        IDS_ATTACH_RAW_8KB_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_16KB,
-        CARTRIDGE_GENERIC_16KB,
-        IDS_ATTACH_RAW_16KB_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_AR,
-        CARTRIDGE_ACTION_REPLAY,
-        IDS_ATTACH_ACTION_REPLAY_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_AR3,
-        CARTRIDGE_ACTION_REPLAY3,
-        IDS_ATTACH_ACTION_REPLAY3_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_AR4,
-        CARTRIDGE_ACTION_REPLAY4,
-        IDS_ATTACH_ACTION_REPLAY4_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_STARDOS,
-        CARTRIDGE_STARDOS,
-        IDS_ATTACH_STARDOS_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_AT,
-        CARTRIDGE_ATOMIC_POWER,
-        IDS_ATTACH_ATOMIC_POWER_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_EPYX,
-        CARTRIDGE_EPYX_FASTLOAD,
-        IDS_ATTACH_EPYX_FASTLOAD_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_IEEE488,
-        CARTRIDGE_IEEE488,
-        IDS_ATTACH_IEEE488_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_RR,
-        CARTRIDGE_RETRO_REPLAY,
-        IDS_ATTACH_RETRO_REPLAY_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_IDE64,
-        CARTRIDGE_IDE64,
-        IDS_ATTACH_IDE64_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_SS4,
-        CARTRIDGE_SUPER_SNAPSHOT,
-        IDS_ATTACH_SS4_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_SS5,
-        CARTRIDGE_SUPER_SNAPSHOT_V5,
-        IDS_ATTACH_SS5_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_STB,
-        CARTRIDGE_STRUCTURED_BASIC,
-        IDS_ATTACH_SB_IMAGE,
-        UILIB_FILTER_ALL | UILIB_FILTER_BIN
-    },
-    {
         0, 0, 0, 0
     }
 };
@@ -142,20 +58,6 @@ void uic64cart_proc(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
         case IDM_CART_ATTACH_CRT:
-        case IDM_CART_ATTACH_8KB:
-        case IDM_CART_ATTACH_16KB:
-        case IDM_CART_ATTACH_AR:
-        case IDM_CART_ATTACH_AR3:
-        case IDM_CART_ATTACH_AR4:
-        case IDM_CART_ATTACH_STARDOS:
-        case IDM_CART_ATTACH_AT:
-        case IDM_CART_ATTACH_EPYX:
-        case IDM_CART_ATTACH_IEEE488:
-        case IDM_CART_ATTACH_RR:
-        case IDM_CART_ATTACH_IDE64:
-        case IDM_CART_ATTACH_SS4:
-        case IDM_CART_ATTACH_SS5:
-        case IDM_CART_ATTACH_STB:
             uic64cart_attach(canvas, idm, c64_ui_cartridges);
             break;
         case IDM_CART_SET_DEFAULT:

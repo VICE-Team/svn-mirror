@@ -41,6 +41,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uic128settings.h"
+#include "mui/uic64cart.h"
 #include "mui/uiciamodel.h"
 #include "mui/uicpclockf83.h"
 #include "mui/uidatasette.h"
@@ -116,6 +117,21 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
     uic64cart_proc(canvas, idm);
 
     switch (idm) {
+        case IDM_CART_ATTACH_GENERIC:
+            ui_c64cart_generic_settings_dialog(canvas);
+            break;
+        case IDM_CART_ATTACH_FREEZER:
+            ui_c64cart_freezer_settings_dialog(canvas);
+            break;
+        case IDM_CART_ATTACH_UTIL:
+            ui_c64cart_util_settings_dialog(canvas);
+            break;
+        case IDM_CART_ATTACH_GAME:
+            ui_c64cart_game_settings_dialog(canvas);
+            break;
+        case IDM_CART_ATTACH_RAMEX:
+            ui_c64cart_ramex_settings_dialog(canvas);
+            break;
         case IDM_C128_MODEL_C128_PAL:
             c128model_set(C128MODEL_C128_PAL);
             break;

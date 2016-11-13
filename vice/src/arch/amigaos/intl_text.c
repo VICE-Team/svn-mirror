@@ -866,201 +866,75 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_CRT_IMAGE_SV, "CRT-fil..." },
 /* tr */ { IDMS_CRT_IMAGE_TR, "CRT imajý..." },
 
-/* en */ { IDMS_GENERIC_8KB_IMAGE,    "Generic 8KB image..." },
-/* da */ { IDMS_GENERIC_8KB_IMAGE_DA, "Standard 8KB-image..." },
-/* de */ { IDMS_GENERIC_8KB_IMAGE_DE, "Generisches 8kB Image..." },
-/* es */ { IDMS_GENERIC_8KB_IMAGE_ES, "Imagen genérica 8KB..." },
-/* fr */ { IDMS_GENERIC_8KB_IMAGE_FR, "Image générique 8 ko..." },
-/* hu */ { IDMS_GENERIC_8KB_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_GENERIC_8KB_IMAGE_IT, "Immagine generica di 8KB..." },
-/* ko */ { IDMS_GENERIC_8KB_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_GENERIC_8KB_IMAGE_NL, "Algemeen 8KB bestand..." },
-/* pl */ { IDMS_GENERIC_8KB_IMAGE_PL, "Obraz Generic 8KB..." },
-/* ru */ { IDMS_GENERIC_8KB_IMAGE_RU, "Generic 8KB image..." },
-/* sv */ { IDMS_GENERIC_8KB_IMAGE_SV, "Vanlig 8KB-fil..." },
-/* tr */ { IDMS_GENERIC_8KB_IMAGE_TR, "8KB Jenerik imaj..." },
+/* en */ { IDMS_GENERIC_CARTS,    "Generic Cartridges..." },
+/* da */ { IDMS_GENERIC_CARTS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_GENERIC_CARTS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_GENERIC_CARTS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_GENERIC_CARTS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_GENERIC_CARTS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_GENERIC_CARTS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_GENERIC_CARTS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_GENERIC_CARTS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_GENERIC_CARTS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_GENERIC_CARTS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_GENERIC_CARTS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_GENERIC_CARTS_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_GENERIC_16KB_IMAGE,    "Generic 16KB image..." },
-/* da */ { IDMS_GENERIC_16KB_IMAGE_DA, "Standard 16KB-image..." },
-/* de */ { IDMS_GENERIC_16KB_IMAGE_DE, "Generisches 16kB Image..." },
-/* es */ { IDMS_GENERIC_16KB_IMAGE_ES, "Imagen genérica 16KB..." },
-/* fr */ { IDMS_GENERIC_16KB_IMAGE_FR, "Image générique 16 ko..." },
-/* hu */ { IDMS_GENERIC_16KB_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_GENERIC_16KB_IMAGE_IT, "Immagine generica di 16KB..." },
-/* ko */ { IDMS_GENERIC_16KB_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_GENERIC_16KB_IMAGE_NL, "Algemeen 16KB bestand..." },
-/* pl */ { IDMS_GENERIC_16KB_IMAGE_PL, "Obraz Generic 16KB..." },
-/* ru */ { IDMS_GENERIC_16KB_IMAGE_RU, "Generic 16KB image..." },
-/* sv */ { IDMS_GENERIC_16KB_IMAGE_SV, "Vanlig 16KB-fil..." },
-/* tr */ { IDMS_GENERIC_16KB_IMAGE_TR, "16KB Jenerik imaj..." },
+/* en */ { IDMS_FREEZER_CARTS,    "Freezer Cartridges..." },
+/* da */ { IDMS_FREEZER_CARTS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_FREEZER_CARTS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_FREEZER_CARTS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_FREEZER_CARTS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_FREEZER_CARTS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_FREEZER_CARTS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_FREEZER_CARTS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_FREEZER_CARTS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_FREEZER_CARTS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_FREEZER_CARTS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_FREEZER_CARTS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_FREEZER_CARTS_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_ACTION_REPLAY_IMAGE,    "Action Replay image..." },
-/* da */ { IDMS_ACTION_REPLAY_IMAGE_DA, "Action Replay-image..." },
-/* de */ { IDMS_ACTION_REPLAY_IMAGE_DE, "Action Replay Image..." },
-/* es */ { IDMS_ACTION_REPLAY_IMAGE_ES, "Imagen Action Replay..." },
-/* fr */ { IDMS_ACTION_REPLAY_IMAGE_FR, "Image Action Replay..." },
-/* hu */ { IDMS_ACTION_REPLAY_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ACTION_REPLAY_IMAGE_IT, "Immagine Action Replay..." },
-/* ko */ { IDMS_ACTION_REPLAY_IMAGE_KO, "Action Replay ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_ACTION_REPLAY_IMAGE_NL, "Action Replay bestand..." },
-/* pl */ { IDMS_ACTION_REPLAY_IMAGE_PL, "Obraz Action Replay..." },
-/* ru */ { IDMS_ACTION_REPLAY_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ACTION_REPLAY_IMAGE_SV, "Action Replay-fil..." },
-/* tr */ { IDMS_ACTION_REPLAY_IMAGE_TR, "Action Replay imajý..." },
+/* en */ { IDMS_UTIL_CARTS,    "Utility Cartridges..." },
+/* da */ { IDMS_UTIL_CARTS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_UTIL_CARTS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_UTIL_CARTS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_UTIL_CARTS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_UTIL_CARTS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_UTIL_CARTS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_UTIL_CARTS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_UTIL_CARTS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_UTIL_CARTS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_UTIL_CARTS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_UTIL_CARTS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_UTIL_CARTS_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_ACTION_REPLAY3_IMAGE,    "Action Replay MK3 image..." },
-/* da */ { IDMS_ACTION_REPLAY3_IMAGE_DA, "Action Replay MK3 image..." },
-/* de */ { IDMS_ACTION_REPLAY3_IMAGE_DE, "Action Replay MK3 Image..." },
-/* es */ { IDMS_ACTION_REPLAY3_IMAGE_ES, "Imagen Action Replay MK3..." },
-/* fr */ { IDMS_ACTION_REPLAY3_IMAGE_FR, "Image Action Replay MK3..." },
-/* hu */ { IDMS_ACTION_REPLAY3_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ACTION_REPLAY3_IMAGE_IT, "Immagine Action Replay MK3..." },
-/* ko */ { IDMS_ACTION_REPLAY3_IMAGE_KO, "Action Replay MK3 ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_ACTION_REPLAY3_IMAGE_NL, "Action Replay MK3 bestand..." },
-/* pl */ { IDMS_ACTION_REPLAY3_IMAGE_PL, "Obraz Action Replay MK3..." },
-/* ru */ { IDMS_ACTION_REPLAY3_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ACTION_REPLAY3_IMAGE_SV, "Action Replay MK3-fil..." },
-/* tr */ { IDMS_ACTION_REPLAY3_IMAGE_TR, "Action Replay MK3 imajý..." },
+/* en */ { IDMS_GAME_CARTS,    "Game Cartridges..." },
+/* da */ { IDMS_GAME_CARTS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_GAME_CARTS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_GAME_CARTS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_GAME_CARTS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_GAME_CARTS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_GAME_CARTS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_GAME_CARTS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_GAME_CARTS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_GAME_CARTS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_GAME_CARTS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_GAME_CARTS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_GAME_CARTS_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_ACTION_REPLAY4_IMAGE,    "Action Replay MK4 image..." },
-/* da */ { IDMS_ACTION_REPLAY4_IMAGE_DA, "Action Replay MK4 image..." },
-/* de */ { IDMS_ACTION_REPLAY4_IMAGE_DE, "Action Replay MK4 Image..." },
-/* es */ { IDMS_ACTION_REPLAY4_IMAGE_ES, "Imagen Action Replay MK4..." },
-/* fr */ { IDMS_ACTION_REPLAY4_IMAGE_FR, "Image Action Replay MK4..." },
-/* hu */ { IDMS_ACTION_REPLAY4_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ACTION_REPLAY4_IMAGE_IT, "Immagine Action Replay MK4..." },
-/* ko */ { IDMS_ACTION_REPLAY4_IMAGE_KO, "Action Replay MK4 ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_ACTION_REPLAY4_IMAGE_NL, "Action Replay MK4 bestand..." },
-/* pl */ { IDMS_ACTION_REPLAY4_IMAGE_PL, "Obraz Action Replay MK4..." },
-/* ru */ { IDMS_ACTION_REPLAY4_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ACTION_REPLAY4_IMAGE_SV, "Action Replay MK4-fil..." },
-/* tr */ { IDMS_ACTION_REPLAY4_IMAGE_TR, "Action Replay MK4 imajý..." },
-
-/* en */ { IDMS_STARDOS_IMAGE,    "Stardos image..." },
-/* da */ { IDMS_STARDOS_IMAGE_DA, "Stardos image..." },
-/* de */ { IDMS_STARDOS_IMAGE_DE, "Stardos Image..." },
-/* es */ { IDMS_STARDOS_IMAGE_ES, "Imagen Stardos..." },
-/* fr */ { IDMS_STARDOS_IMAGE_FR, "Image Stardos..." },
-/* hu */ { IDMS_STARDOS_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_STARDOS_IMAGE_IT, "Immagine Stardos..." },
-/* ko */ { IDMS_STARDOS_IMAGE_KO, "Stardos ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_STARDOS_IMAGE_NL, "Stardos bestand..." },
-/* pl */ { IDMS_STARDOS_IMAGE_PL, "Obraz Stardos..." },
-/* ru */ { IDMS_STARDOS_IMAGE_RU, "Stardos image..." },
-/* sv */ { IDMS_STARDOS_IMAGE_SV, "Stardos-fil..." },
-/* tr */ { IDMS_STARDOS_IMAGE_TR, "Stardos imajý..." },
-
-/* en */ { IDMS_ATOMIC_POWER_IMAGE,    "Atomic Power image..." },
-/* da */ { IDMS_ATOMIC_POWER_IMAGE_DA, "Atomic Power-image..." },
-/* de */ { IDMS_ATOMIC_POWER_IMAGE_DE, "Atomic Power Image..." },
-/* es */ { IDMS_ATOMIC_POWER_IMAGE_ES, "Imagen Atomic Power..." },
-/* fr */ { IDMS_ATOMIC_POWER_IMAGE_FR, "Image Atomic Power..." },
-/* hu */ { IDMS_ATOMIC_POWER_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ATOMIC_POWER_IMAGE_IT, "Immagine Atomic Power..." },
-/* ko */ { IDMS_ATOMIC_POWER_IMAGE_KO, "Atomic Power ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_ATOMIC_POWER_IMAGE_NL, "Atomic Power bestand..." },
-/* pl */ { IDMS_ATOMIC_POWER_IMAGE_PL, "Obraz Atomic Power..." },
-/* ru */ { IDMS_ATOMIC_POWER_IMAGE_RU, "Atomic Power image..." },
-/* sv */ { IDMS_ATOMIC_POWER_IMAGE_SV, "Atomic Power-fil..." },
-/* tr */ { IDMS_ATOMIC_POWER_IMAGE_TR, "Atomic Power imajý..." },
-
-/* en */ { IDMS_EPYX_FASTLOAD_IMAGE,    "Epyx FastLoad image..." },
-/* da */ { IDMS_EPYX_FASTLOAD_IMAGE_DA, "Epyx FastLoad image..." },
-/* de */ { IDMS_EPYX_FASTLOAD_IMAGE_DE, "Epyx Fastload Image..." },
-/* es */ { IDMS_EPYX_FASTLOAD_IMAGE_ES, "Imagen Epyx FastLoad..." },
-/* fr */ { IDMS_EPYX_FASTLOAD_IMAGE_FR, "Image Epyx FastLoad..." },
-/* hu */ { IDMS_EPYX_FASTLOAD_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_EPYX_FASTLOAD_IMAGE_IT, "Immagine Epyx FastLoad..." },
-/* ko */ { IDMS_EPYX_FASTLOAD_IMAGE_KO, "Epyx FastLoad ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_EPYX_FASTLOAD_IMAGE_NL, "Epyx FastLoad bestand..." },
-/* pl */ { IDMS_EPYX_FASTLOAD_IMAGE_PL, "Obraz Epyx FastLoad..." },
-/* ru */ { IDMS_EPYX_FASTLOAD_IMAGE_RU, "Epyx FastLoad image..." },
-/* sv */ { IDMS_EPYX_FASTLOAD_IMAGE_SV, "Epyx FastLoad-fil..." },
-/* tr */ { IDMS_EPYX_FASTLOAD_IMAGE_TR, "Epyx FastLoad imajý..." },
-
-/* en */ { IDMS_IEEE488_INTERFACE_IMAGE,    "IEEE488 Interface image..." },
-/* da */ { IDMS_IEEE488_INTERFACE_IMAGE_DA, "IEEE488-interface image..." },
-/* de */ { IDMS_IEEE488_INTERFACE_IMAGE_DE, "IEEE 488 Schnittstellenmodul..." },
-/* es */ { IDMS_IEEE488_INTERFACE_IMAGE_ES, "Imagen periférico IEEE 488..." },
-/* fr */ { IDMS_IEEE488_INTERFACE_IMAGE_FR, "Image d'Interface IEEE-488..." },
-/* hu */ { IDMS_IEEE488_INTERFACE_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_IEEE488_INTERFACE_IMAGE_IT, "Immagine interfaccia IEEE 488..." },
-/* ko */ { IDMS_IEEE488_INTERFACE_IMAGE_KO, "IEEE488 ÀÎÅÍÆäÀÌ½º ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_IEEE488_INTERFACE_IMAGE_NL, "IEEE488 interfacebestand..." },
-/* pl */ { IDMS_IEEE488_INTERFACE_IMAGE_PL, "Obraz interfejsu IEEE488..." },
-/* ru */ { IDMS_IEEE488_INTERFACE_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_IEEE488_INTERFACE_IMAGE_SV, "IEEE488-gränssnittsfil..." },
-/* tr */ { IDMS_IEEE488_INTERFACE_IMAGE_TR, "IEEE 488 Arabirimi imajý..." },
-
-/* en */ { IDMS_RETRO_REPLAY_IMAGE,    "Retro Replay image..." },
-/* da */ { IDMS_RETRO_REPLAY_IMAGE_DA, "Retro Replay-image..." },
-/* de */ { IDMS_RETRO_REPLAY_IMAGE_DE, "Retro Replay Image..." },
-/* es */ { IDMS_RETRO_REPLAY_IMAGE_ES, "Imagen Retro Replay..." },
-/* fr */ { IDMS_RETRO_REPLAY_IMAGE_FR, "Image Retro Replay..." },
-/* hu */ { IDMS_RETRO_REPLAY_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_RETRO_REPLAY_IMAGE_IT, "Immagine Retro Replay..." },
-/* ko */ { IDMS_RETRO_REPLAY_IMAGE_KO, "Retro Replay ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_RETRO_REPLAY_IMAGE_NL, "Retro Replay bestand..." },
-/* pl */ { IDMS_RETRO_REPLAY_IMAGE_PL, "Obraz Retro Replay..." },
-/* ru */ { IDMS_RETRO_REPLAY_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_RETRO_REPLAY_IMAGE_SV, "Retro Replay-fil..." },
-/* tr */ { IDMS_RETRO_REPLAY_IMAGE_TR, "Retro Replay imajý..." },
-
-/* en */ { IDMS_IDE64_INTERFACE_IMAGE,    "IDE64 interface image..." },
-/* da */ { IDMS_IDE64_INTERFACE_IMAGE_DA, "IDE64-interface image..." },
-/* de */ { IDMS_IDE64_INTERFACE_IMAGE_DE, "IDE64 Schnittstellenmodul..." },
-/* es */ { IDMS_IDE64_INTERFACE_IMAGE_ES, "Imagen interface IDE64..." },
-/* fr */ { IDMS_IDE64_INTERFACE_IMAGE_FR, "Image d'Interface IDE64..." },
-/* hu */ { IDMS_IDE64_INTERFACE_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_IDE64_INTERFACE_IMAGE_IT, "Immagine interfaccia IDE64..." },
-/* ko */ { IDMS_IDE64_INTERFACE_IMAGE_KO, "IDE64 ÀÎÅÍÆäÀÌ½º ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_IDE64_INTERFACE_IMAGE_NL, "IDE64 interfacebestand..." },
-/* pl */ { IDMS_IDE64_INTERFACE_IMAGE_PL, "Obraz interfejsu IDE64..." },
-/* ru */ { IDMS_IDE64_INTERFACE_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_IDE64_INTERFACE_IMAGE_SV, "IDE64-gränssnittsfil..." },
-/* tr */ { IDMS_IDE64_INTERFACE_IMAGE_TR, "IDE64 arabirim imajý..." },
-
-/* en */ { IDMS_SUPER_SNAPSHOT_4_IMAGE,    "Super Snapshot V4 image..." },
-/* da */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_DA, "Super Snapshot V4 image..." },
-/* de */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_DE, "Super Snapshot V4 Image..." },
-/* es */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_ES, "Imagen Super Snapshot V4..." },
-/* fr */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_FR, "Image Super Snapshot V4..." },
-/* hu */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_IT, "Immagine Super Snapshot V4..." },
-/* ko */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_KO, "Super Snapshot V4 ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_NL, "Super Snapshot V4 bestand..." },
-/* pl */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_PL, "Obraz Super Snapshot V4..." },
-/* ru */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_RU, "Super Snapshot V4 image..." },
-/* sv */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_SV, "Super Snapshot V4-fil..." },
-/* tr */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_TR, "Super Snapshot V4 imajý..." },
-
-/* en */ { IDMS_SUPER_SNAPSHOT_5_IMAGE,    "Super Snapshot V5 image..." },
-/* da */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_DA, "Super Snapshot V5 image..." },
-/* de */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_DE, "Super Snapshot V5 Image..." },
-/* es */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_ES, "Imagen Super Snapshot V5..." },
-/* fr */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_FR, "Image Super Snapshot V5..." },
-/* hu */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_IT, "Immagine Super Snapshot V5..." },
-/* ko */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_KO, "Super Snapshot V5 ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_NL, "Super Snapshot V5 bestand..." },
-/* pl */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_PL, "Obraz Super Snapshot V5..." },
-/* ru */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_RU, "Super Snapshot V5 image..." },
-/* sv */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_SV, "Super Snapshot V5-fil..." },
-/* tr */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_TR, "Super Snapshot V5 imajý..." },
-
-/* en */ { IDMS_STRUCTURED_BASIC_IMAGE,    "Structured BASIC image..." },
-/* da */ { IDMS_STRUCTURED_BASIC_IMAGE_DA, "Structured BASIC-image..." },
-/* de */ { IDMS_STRUCTURED_BASIC_IMAGE_DE, "Structured Basic Image..." },
-/* es */ { IDMS_STRUCTURED_BASIC_IMAGE_ES, "Imagen Structured BASIC..." },
-/* fr */ { IDMS_STRUCTURED_BASIC_IMAGE_FR, "Image BASIC structurée..." },
-/* hu */ { IDMS_STRUCTURED_BASIC_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_STRUCTURED_BASIC_IMAGE_IT, "Immagine Structured BASIC..." },
-/* ko */ { IDMS_STRUCTURED_BASIC_IMAGE_KO, "Structured BASIC ÀÌ¹ÌÁö..." },
-/* nl */ { IDMS_STRUCTURED_BASIC_IMAGE_NL, "Structured BASIC bestand..." },
-/* pl */ { IDMS_STRUCTURED_BASIC_IMAGE_PL, "Obraz Structured BASIC..." },
-/* ru */ { IDMS_STRUCTURED_BASIC_IMAGE_RU, "Structured BASIC image..." },
-/* sv */ { IDMS_STRUCTURED_BASIC_IMAGE_SV, "Structured BASIC-fil..." },
-/* tr */ { IDMS_STRUCTURED_BASIC_IMAGE_TR, "Structured BASIC imajý..." },
+/* en */ { IDMS_RAMEX_CARTS,    "RAM Expansion Cartridges..." },
+/* da */ { IDMS_RAMEX_CARTS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_RAMEX_CARTS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_RAMEX_CARTS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_RAMEX_CARTS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_RAMEX_CARTS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_RAMEX_CARTS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_RAMEX_CARTS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_RAMEX_CARTS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_RAMEX_CARTS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_RAMEX_CARTS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_RAMEX_CARTS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_RAMEX_CARTS_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_ENABLE,    "Enable" },
 /* da */ { IDMS_ENABLE_DA, "Aktivér" },
@@ -13986,6 +13860,76 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_HALTED_RU, "" },  /* fuzzy */
 /* sv */ { IDS_HALTED_SV, "" },  /* fuzzy */
 /* tr */ { IDS_HALTED_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_GENERIC_CARTS,    "Generic Cartridges" },
+/* da */ { IDS_GENERIC_CARTS_DA, "" },  /* fuzzy */
+/* de */ { IDS_GENERIC_CARTS_DE, "" },  /* fuzzy */
+/* es */ { IDS_GENERIC_CARTS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_GENERIC_CARTS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_GENERIC_CARTS_HU, "" },  /* fuzzy */
+/* it */ { IDS_GENERIC_CARTS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_GENERIC_CARTS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_GENERIC_CARTS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_GENERIC_CARTS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_GENERIC_CARTS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_GENERIC_CARTS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_GENERIC_CARTS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_FREEZER_CARTS,    "Freezer Cartridges" },
+/* da */ { IDS_FREEZER_CARTS_DA, "" },  /* fuzzy */
+/* de */ { IDS_FREEZER_CARTS_DE, "" },  /* fuzzy */
+/* es */ { IDS_FREEZER_CARTS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_FREEZER_CARTS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_FREEZER_CARTS_HU, "" },  /* fuzzy */
+/* it */ { IDS_FREEZER_CARTS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_FREEZER_CARTS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_FREEZER_CARTS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_FREEZER_CARTS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_FREEZER_CARTS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_FREEZER_CARTS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_FREEZER_CARTS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_UTIL_CARTS,    "Utility Cartridges" },
+/* da */ { IDS_UTIL_CARTS_DA, "" },  /* fuzzy */
+/* de */ { IDS_UTIL_CARTS_DE, "" },  /* fuzzy */
+/* es */ { IDS_UTIL_CARTS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_UTIL_CARTS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_UTIL_CARTS_HU, "" },  /* fuzzy */
+/* it */ { IDS_UTIL_CARTS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_UTIL_CARTS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_UTIL_CARTS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_UTIL_CARTS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_UTIL_CARTS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_UTIL_CARTS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_UTIL_CARTS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_GAME_CARTS,    "Game Cartridges" },
+/* da */ { IDS_GAME_CARTS_DA, "" },  /* fuzzy */
+/* de */ { IDS_GAME_CARTS_DE, "" },  /* fuzzy */
+/* es */ { IDS_GAME_CARTS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_GAME_CARTS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_GAME_CARTS_HU, "" },  /* fuzzy */
+/* it */ { IDS_GAME_CARTS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_GAME_CARTS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_GAME_CARTS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_GAME_CARTS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_GAME_CARTS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_GAME_CARTS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_GAME_CARTS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_RAMEX_CARTS,    "RAM Expansion Cartridges" },
+/* da */ { IDS_RAMEX_CARTS_DA, "" },  /* fuzzy */
+/* de */ { IDS_RAMEX_CARTS_DE, "" },  /* fuzzy */
+/* es */ { IDS_RAMEX_CARTS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_RAMEX_CARTS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RAMEX_CARTS_HU, "" },  /* fuzzy */
+/* it */ { IDS_RAMEX_CARTS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_RAMEX_CARTS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_RAMEX_CARTS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_RAMEX_CARTS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_RAMEX_CARTS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_RAMEX_CARTS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_RAMEX_CARTS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PSID_SELECT,    "Select SID file to load" },
 /* da */ { IDS_PSID_SELECT_DA, "Vælg SID-fil" },

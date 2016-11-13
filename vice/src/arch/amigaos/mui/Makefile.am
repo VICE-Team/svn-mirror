@@ -33,6 +33,8 @@ libarchmui_a_SOURCES = \
 	uiautostart.h \
 	uiburstmod.c \
 	uiburstmod.h \
+	uic64cart.c \
+	uic64cart.h \
 	uic64dtv.c \
 	uic64dtv.h \
 	uic64memoryhacks.c \

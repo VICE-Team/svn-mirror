@@ -40,6 +40,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uiburstmod.h"
+#include "mui/uic64cart.h"
 #include "mui/uic64memoryhacks.h"
 #include "mui/uic64model.h"
 #include "mui/uic64scmodel.h"
@@ -100,6 +101,21 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
     uic64cart_proc(canvas, idm);
 
     switch (idm) {
+        case IDM_CART_ATTACH_GENERIC:
+            ui_c64cart_generic_settings_dialog(canvas);
+            break;
+        case IDM_CART_ATTACH_FREEZER:
+            ui_c64cart_freezer_settings_dialog(canvas);
+            break;
+        case IDM_CART_ATTACH_UTIL:
+            ui_c64cart_util_settings_dialog(canvas);
+            break;
+        case IDM_CART_ATTACH_GAME:
+            ui_c64cart_game_settings_dialog(canvas);
+            break;
+        case IDM_CART_ATTACH_RAMEX:
+            ui_c64cart_ramex_settings_dialog(canvas);
+            break;
         case IDM_PALETTE_SETTINGS:
             ui_video_palette_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile", translate_text(IDS_VICII_PALETTE_FILENAME));
             break;
