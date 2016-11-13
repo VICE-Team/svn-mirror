@@ -2149,6 +2149,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_IDE64_GEO4:
             ide64_dialog(hwnd, 4);
             return;
+        case IDM_IDE64_CLOCKPORT_NONE:
+            resources_set_int("IDE64ClockPort", CLOCKPORT_DEVICE_NONE);
+            return;
+#ifdef HAVE_PCAP
+        case IDM_IDE64_CLOCKPORT_RRNET:
+            resources_set_int("IDE64ClockPort", CLOCKPORT_DEVICE_RRNET);
+            return;
+#endif
+#ifdef USE_MPG123
+        case IDM_IDE64_CLOCKPORT_MP3AT64:
+            resources_set_int("IDE64ClockPort", CLOCKPORT_DEVICE_MP3_64);
+            return;
+#endif
 
         case IDM_MMC64:
             toggle("MMC64");
@@ -3229,6 +3242,17 @@ void menu_select(HWND hwnd, USHORT item)
             return;
         case IDM_IDE64_HD4:
             WinCheckRes(hwnd, IDM_IDE64_AUTO4, "IDE64AutodetectSize4");
+            return;
+
+        case IDM_IDE64_CLOCKPORT_DEVICE:
+            resources_get_int("IDE64ClockPort", &val);
+            WinCheckMenuItem(hwnd, IDM_IDE64_CLOCKPORT_NONE, val == CLOCKPORT_DEVICE_NONE);
+#ifdef HAVE_PCAP
+            WinCheckMenuItem(hwnd, IDM_IDE64_CLOCKPORT_RRNET, val == CLOCKPORT_DEVICE_RRNET);
+#endif
+#ifdef USE_MPG123
+            WinCheckMenuItem(hwnd, IDM_IDE64_CLOCKPORT_MP3AT64, val == CLOCKPORT_DEVICE_MP3_64);
+#endif
             return;
 
         case IDM_MMC64_SETTINGS:

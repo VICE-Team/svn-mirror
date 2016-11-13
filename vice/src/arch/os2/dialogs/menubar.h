@@ -350,6 +350,10 @@
 #define IDM_IDE64_SB_ETFE_DE00       0x461
 #define IDM_IDE64_SB_ETFE_DE10       0x462
 #define IDM_IDE64_SB_ETFE_DF00       0x463
+#define IDM_IDE64_CLOCKPORT_DEVICE   0x48c
+#define IDM_IDE64_CLOCKPORT_NONE     0x48d
+#define IDM_IDE64_CLOCKPORT_RRNET    0x48e
+#define IDM_IDE64_CLOCKPORT_MP3AT64  0x48f
 
 #define IDM_MMC64_SETTINGS           0x229
 #define IDM_MMC64                    0x22a
