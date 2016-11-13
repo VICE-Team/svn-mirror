@@ -38,6 +38,7 @@ libplatform_a_SOURCES = \
 	platform_openbsd_runtime_os.c \
 	platform_openbsd_version.h \
 	platform_os2_runtime_os.c \
+	platform_qnx6_runtime_os.c \
 	platform_qnx6_version.h \
 	platform_rhapsody_runtime_os.c \
 	platform_skyos_runtime_os.c \
