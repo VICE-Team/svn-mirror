@@ -474,11 +474,12 @@ static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
     }
     disk_image_close(image);
 
+#if 0
     if (image != NULL) {
         P64ImageDestroy((PP64Image)image->p64);
         lib_free(image->p64);
     }
-
+#endif
     disk_image_media_destroy(image);
 }
 
@@ -567,8 +568,10 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     }
     if (err) {
         disk_image_close(image);
+#if 0
         P64ImageDestroy((PP64Image)image->p64);
         lib_free(image->p64);
+#endif
         disk_image_media_destroy(image);
         disk_image_destroy(image);
         *imgptr = NULL;
