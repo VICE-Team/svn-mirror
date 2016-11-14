@@ -134,23 +134,24 @@ void JoystickClassPartInitialize(WidgetClass  class )
 
 void JoystickInitialize(Widget  request , Widget  new , ArgList  args , Cardinal *  num_args )
 {
-JoystickWidget joy = (JoystickWidget)new;
+    JoystickWidget joy = (JoystickWidget)new;
+    XGCValues values;
 
-	joy->joystick.led_xsize = 4;	/* arbitrary value */
-	joy->joystick.led_ysize = 4;	/* arbitrary value */
+    joy->joystick.led_xsize = 4;	/* arbitrary value */
+    joy->joystick.led_ysize = 4;	/* arbitrary value */
 
-	XGCValues values;
-	values.foreground = joy->joystick.direction_color;
-	values.background = joy->core.background_pixel;
-	values.line_width = 0;
-	/* Below are defaults but specify them anyway */
-	values.line_style = LineSolid;
-	values.join_style = JoinMiter;
-	values.fill_style = FillSolid;
-	values.fill_rule  = EvenOddRule;
-	values.clip_mask  = None;
-	values.plane_mask  = ~0;
-	values.function = GXcopy;
+    values.foreground = joy->joystick.direction_color;
+    values.background = joy->core.background_pixel;
+    values.line_width = 0;
+
+    /* Below are defaults but specify them anyway */
+    values.line_style = LineSolid;
+    values.join_style = JoinMiter;
+    values.fill_style = FillSolid;
+    values.fill_rule  = EvenOddRule;
+    values.clip_mask  = None;
+    values.plane_mask  = ~0;
+    values.function = GXcopy;
 
 	/*
 	 * Create a Graphics Context with the above attributes.
