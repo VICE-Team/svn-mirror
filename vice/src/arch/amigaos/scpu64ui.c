@@ -52,6 +52,7 @@
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
+#include "mui/uikeymap.h"
 #include "mui/uimagicvoice.h"
 #include "mui/uimmc64.h"
 #include "mui/uimmcreplay.h"
@@ -243,7 +244,7 @@ static int scpu64_ui_specific(video_canvas_t *canvas, int idm)
             ui_rs232user_settings_dialog();
             break;
         case IDM_KEYBOARD_SETTINGS:
-//          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            ui_keymap_settings_dialog(canvas);
             break;
         case IDM_JOYPORT_SETTINGS:
             ui_joyport_settings_dialog(1, 1, 1, 1, 0);

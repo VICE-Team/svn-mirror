@@ -41,6 +41,7 @@
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
+#include "mui/uikeymap.h"
 #include "mui/uiprinter.h"
 #include "mui/uiromc64settings.h"
 #include "mui/uisampler.h"
@@ -128,7 +129,7 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
             ui_sampler_settings_dialog(canvas);
             break;
         case IDM_KEYBOARD_SETTINGS:
-//          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            ui_keymap_settings_dialog(canvas);
             break;
     }
 

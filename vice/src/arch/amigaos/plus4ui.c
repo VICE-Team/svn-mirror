@@ -50,6 +50,7 @@
 #include "mui/uijoyport.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
+#include "mui/uikeymap.h"
 #include "mui/uimouse.h"
 #include "mui/uiplus4settings.h"
 #include "mui/uiprinter.h"
@@ -226,7 +227,7 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             ui_iocollisions_settings_dialog();
             break;
         case IDM_KEYBOARD_SETTINGS:
-//          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            ui_keymap_settings_dialog(canvas);
             break;
         case IDM_DATASETTE_SETTINGS:
             ui_datasette_settings_dialog();

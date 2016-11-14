@@ -99,6 +99,8 @@ libarchmui_a_SOURCES = \
 	uijoystick.h \
 	uijoystickll.c \
 	uijoystickll.h \
+	uikeymap.c \
+	uikeymap.h \
 	uimagicvoice.c \
 	uimagicvoice.h \
 	uimmc64.c \

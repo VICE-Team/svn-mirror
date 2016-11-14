@@ -13931,6 +13931,160 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAMEX_CARTS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_RAMEX_CARTS_TR, "" },  /* fuzzy */
 
+/* en */ { IDS_SYMBOLIC,    "Symbolic" },
+/* da */ { IDS_SYMBOLIC_DA, "" },  /* fuzzy */
+/* de */ { IDS_SYMBOLIC_DE, "" },  /* fuzzy */
+/* es */ { IDS_SYMBOLIC_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SYMBOLIC_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SYMBOLIC_HU, "" },  /* fuzzy */
+/* it */ { IDS_SYMBOLIC_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SYMBOLIC_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SYMBOLIC_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SYMBOLIC_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SYMBOLIC_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SYMBOLIC_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SYMBOLIC_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_POSITIONAL,    "Positional" },
+/* da */ { IDS_POSITIONAL_DA, "" },  /* fuzzy */
+/* de */ { IDS_POSITIONAL_DE, "" },  /* fuzzy */
+/* es */ { IDS_POSITIONAL_ES, "" },  /* fuzzy */
+/* fr */ { IDS_POSITIONAL_FR, "" },  /* fuzzy */
+/* hu */ { IDS_POSITIONAL_HU, "" },  /* fuzzy */
+/* it */ { IDS_POSITIONAL_IT, "" },  /* fuzzy */
+/* ko */ { IDS_POSITIONAL_KO, "" },  /* fuzzy */
+/* nl */ { IDS_POSITIONAL_NL, "" },  /* fuzzy */
+/* pl */ { IDS_POSITIONAL_PL, "" },  /* fuzzy */
+/* ru */ { IDS_POSITIONAL_RU, "" },  /* fuzzy */
+/* sv */ { IDS_POSITIONAL_SV, "" },  /* fuzzy */
+/* tr */ { IDS_POSITIONAL_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SYMBOLIC_USER,    "Symbolic (user)" },
+/* da */ { IDS_SYMBOLIC_USER_DA, "" },  /* fuzzy */
+/* de */ { IDS_SYMBOLIC_USER_DE, "" },  /* fuzzy */
+/* es */ { IDS_SYMBOLIC_USER_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SYMBOLIC_USER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SYMBOLIC_USER_HU, "" },  /* fuzzy */
+/* it */ { IDS_SYMBOLIC_USER_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SYMBOLIC_USER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SYMBOLIC_USER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SYMBOLIC_USER_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SYMBOLIC_USER_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SYMBOLIC_USER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SYMBOLIC_USER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_POSITIONAL_USER,    "Positional (user)" },
+/* da */ { IDS_POSITIONAL_USER_DA, "" },  /* fuzzy */
+/* de */ { IDS_POSITIONAL_USER_DE, "" },  /* fuzzy */
+/* es */ { IDS_POSITIONAL_USER_ES, "" },  /* fuzzy */
+/* fr */ { IDS_POSITIONAL_USER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_POSITIONAL_USER_HU, "" },  /* fuzzy */
+/* it */ { IDS_POSITIONAL_USER_IT, "" },  /* fuzzy */
+/* ko */ { IDS_POSITIONAL_USER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_POSITIONAL_USER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_POSITIONAL_USER_PL, "" },  /* fuzzy */
+/* ru */ { IDS_POSITIONAL_USER_RU, "" },  /* fuzzy */
+/* sv */ { IDS_POSITIONAL_USER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_POSITIONAL_USER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT,    "Select file for user symbolic keymap" },
+/* da */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* es */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT,    "Select file for user positional keymap" },
+/* da */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* es */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_ES, "" },  /* fuzzy */
+/* fr */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_IT, "" },  /* fuzzy */
+/* ko */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_KO, "" },  /* fuzzy */
+/* nl */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_PL, "" },  /* fuzzy */
+/* ru */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_RU, "" },  /* fuzzy */
+/* sv */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_ACTIVE_KEYMAP,    "Active keymap" },
+/* da */ { IDS_ACTIVE_KEYMAP_DA, "" },  /* fuzzy */
+/* de */ { IDS_ACTIVE_KEYMAP_DE, "" },  /* fuzzy */
+/* es */ { IDS_ACTIVE_KEYMAP_ES, "" },  /* fuzzy */
+/* fr */ { IDS_ACTIVE_KEYMAP_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ACTIVE_KEYMAP_HU, "" },  /* fuzzy */
+/* it */ { IDS_ACTIVE_KEYMAP_IT, "" },  /* fuzzy */
+/* ko */ { IDS_ACTIVE_KEYMAP_KO, "" },  /* fuzzy */
+/* nl */ { IDS_ACTIVE_KEYMAP_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ACTIVE_KEYMAP_PL, "" },  /* fuzzy */
+/* ru */ { IDS_ACTIVE_KEYMAP_RU, "" },  /* fuzzy */
+/* sv */ { IDS_ACTIVE_KEYMAP_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ACTIVE_KEYMAP_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_KEYBOARD_MAPPING,    "Keyboard mapping" },
+/* da */ { IDS_KEYBOARD_MAPPING_DA, "" },  /* fuzzy */
+/* de */ { IDS_KEYBOARD_MAPPING_DE, "" },  /* fuzzy */
+/* es */ { IDS_KEYBOARD_MAPPING_ES, "" },  /* fuzzy */
+/* fr */ { IDS_KEYBOARD_MAPPING_FR, "" },  /* fuzzy */
+/* hu */ { IDS_KEYBOARD_MAPPING_HU, "" },  /* fuzzy */
+/* it */ { IDS_KEYBOARD_MAPPING_IT, "" },  /* fuzzy */
+/* ko */ { IDS_KEYBOARD_MAPPING_KO, "" },  /* fuzzy */
+/* nl */ { IDS_KEYBOARD_MAPPING_NL, "" },  /* fuzzy */
+/* pl */ { IDS_KEYBOARD_MAPPING_PL, "" },  /* fuzzy */
+/* ru */ { IDS_KEYBOARD_MAPPING_RU, "" },  /* fuzzy */
+/* sv */ { IDS_KEYBOARD_MAPPING_SV, "" },  /* fuzzy */
+/* tr */ { IDS_KEYBOARD_MAPPING_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME,    "User symbolic keymap file" },
+/* da */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_DE, "" },  /* fuzzy */
+/* es */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_ES, "" },  /* fuzzy */
+/* fr */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_IT, "" },  /* fuzzy */
+/* ko */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_KO, "" },  /* fuzzy */
+/* nl */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_PL, "" },  /* fuzzy */
+/* ru */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_RU, "" },  /* fuzzy */
+/* sv */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME,    "User positional keymap file" },
+/* da */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_DE, "" },  /* fuzzy */
+/* es */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_ES, "" },  /* fuzzy */
+/* fr */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_IT, "" },  /* fuzzy */
+/* ko */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_KO, "" },  /* fuzzy */
+/* nl */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_PL, "" },  /* fuzzy */
+/* ru */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_RU, "" },  /* fuzzy */
+/* sv */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_KEYMAP_SETTINGS,    "Keymap settings" },
+/* da */ { IDS_KEYMAP_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_KEYMAP_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_KEYMAP_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_KEYMAP_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_KEYMAP_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_KEYMAP_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_KEYMAP_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_KEYMAP_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_KEYMAP_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_KEYMAP_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_KEYMAP_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_KEYMAP_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_PSID_SELECT,    "Select SID file to load" },
 /* da */ { IDS_PSID_SELECT_DA, "Vælg SID-fil" },
 /* de */ { IDS_PSID_SELECT_DE, "SID Datei wählen" },

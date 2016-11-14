@@ -99,25 +99,10 @@ static const int ui_pet_enable_values[] = {
     -1
 };
 
-static int ui_pet_keyboard_translate[] = {
-    IDS_GRAPHICS,
-    IDS_BUSINESS_UK,
-    0
-};
-
-static char *ui_pet_keyboard[countof(ui_pet_keyboard_translate)];
-
-static const int ui_pet_keyboard_values[] = {
-    2,
-    0,
-    -1
-};
-
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "RamSize", ui_pet_ram_size, ui_pet_ram_size_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "VideoSize", ui_pet_video, ui_pet_video_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "IOSize", ui_pet_io_size, ui_pet_io_size_values, NULL },
-    { NULL, MUI_TYPE_CYCLE, "KeymapIndex", ui_pet_keyboard, ui_pet_keyboard_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "Crtc", ui_pet_enable, ui_pet_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SuperPET", ui_pet_enable, ui_pet_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "Ram9", ui_pet_enable, ui_pet_enable_values, NULL },
@@ -135,11 +120,10 @@ static APTR build_gui(void)
            CYCLE(ui_to_from[0].object, translate_text(IDS_MEMORY), ui_pet_ram_size)
            CYCLE(ui_to_from[1].object, translate_text(IDS_VIDEO_SIZE), ui_pet_video)
            CYCLE(ui_to_from[2].object, translate_text(IDS_IO_SIZE), ui_pet_io_size)
-           CYCLE(ui_to_from[3].object, translate_text(IDS_KEYBOARD), ui_pet_keyboard)
-           CYCLE(ui_to_from[4].object, translate_text(IDS_CRTC_CHIP), ui_pet_enable)
-           CYCLE(ui_to_from[5].object, translate_text(IDS_SUPERPET_IO), ui_pet_enable)
-           CYCLE(ui_to_from[6].object, translate_text(IDS_9xxx_AS_RAM), ui_pet_enable)
-           CYCLE(ui_to_from[7].object, translate_text(IDS_Axxx_AS_RAM), ui_pet_enable)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_CRTC_CHIP), ui_pet_enable)
+           CYCLE(ui_to_from[4].object, translate_text(IDS_SUPERPET_IO), ui_pet_enable)
+           CYCLE(ui_to_from[5].object, translate_text(IDS_9xxx_AS_RAM), ui_pet_enable)
+           CYCLE(ui_to_from[6].object, translate_text(IDS_Axxx_AS_RAM), ui_pet_enable)
            OK_CANCEL_BUTTON
          End;
 
@@ -161,7 +145,6 @@ void ui_pet_settings_dialog(void)
     intl_convert_mui_table(ui_pet_video_translate, ui_pet_video);
     intl_convert_mui_table(ui_pet_io_size_translate, ui_pet_io_size);
     intl_convert_mui_table(ui_pet_enable_translate, ui_pet_enable);
-    intl_convert_mui_table(ui_pet_keyboard_translate, ui_pet_keyboard);
 
     window = mui_make_simple_window(build_gui(), translate_text(IDS_PET_SETTINGS));
 
