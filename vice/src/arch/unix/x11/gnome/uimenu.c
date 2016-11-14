@@ -90,7 +90,14 @@ typedef struct {
     ui_menu_cb_obj obj;
 } checkmark_t;
 
+/** \brief  List of checkmark objects
+ */
 static GList *checkmark_list = NULL;
+
+/** \brief  List of callback object
+ */
+static GList *object_list = NULL;
+
 
 int num_checkmark_menu_items = 0; /* !static because vsidui needs it. ugly! */
 
@@ -124,28 +131,58 @@ int ui_menu_init(void)
 
 /** \brief  Module shutdown function
  *
- * Frees memory used by hotkey names
+ * Frees memory used by hotkey names, checkmarks, menu callback objects. For
+ * some reason the "destroy" signal handler of the checkmarks never gets called
+ * so we clean up like this.
+ *
+ * A cleaner way would be the event handler way, but I have no idea why they
+ * aren't called (BW)
  */
 void ui_menu_shutdown(void)
 {
+    GList *list;
     int i;
+
+    /* free hotkey names */
     for (i = 0; i < MAX_HOTKEYS; i++) {
         if (hotkeys[i].name != NULL) {
             lib_free(hotkeys[i].name);
         }
     }
+    /* free checkmarks */
+    list = checkmark_list;
+    while (list != NULL) {
+        GList *next = list->next;
+        checkmark_t *cm = (checkmark_t *)list->data;
+        lib_free(cm->name);
+        lib_free(cm);
+        list = next;
+    }
+    g_list_free(checkmark_list);
+
+    /* free menu objects */
+    list = object_list;
+    while (list != NULL) {
+        GList *next = list->next;
+        ui_menu_cb_obj *obj = (ui_menu_cb_obj *)list->data;
+        lib_free(obj);
+        list = next;
+    }
+    g_list_free(object_list);
 }
 
-
+#if 0
 static void delete_checkmark_cb(GtkWidget *w, gpointer data)
 {
     checkmark_t *cm;
 
+    printf("delete_checkmark_cb() called\n");
     cm = (checkmark_t *)data;
     checkmark_list = g_list_remove(checkmark_list, data);
     lib_free(cm->name);
     lib_free(cm);
 }
+#endif
 
 static void add_accelerator(const char *name, GtkWidget *w, GtkAccelGroup *accel, guint accel_key, ui_hotkey_modifier_t mod)
 {
@@ -267,26 +304,39 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
             if (list[i].callback) {
                 if (update_item) {
                     checkmark_t *cmt;
-                    /* FIXME: memory leak */
                     cmt = lib_malloc(sizeof(checkmark_t));
-                    /* FIXME: memory leak */
                     cmt->name = lib_stralloc(list[i].string);
                     cmt->w = new_item;
                     cmt->cb = list[i].callback;
                     cmt->obj.value = (void*)list[i].callback_data;
                     cmt->obj.status = CB_NORMAL;
-                    cmt->handlerid = g_signal_connect(G_OBJECT(new_item), "activate", G_CALLBACK(list[i].callback), (gpointer)&(cmt->obj)); 
-                    g_signal_connect(G_OBJECT(new_item), "destroy", G_CALLBACK(delete_checkmark_cb), (gpointer)cmt);
+                    cmt->handlerid = g_signal_connect(
+                            G_OBJECT(new_item),
+                            "activate",
+                            G_CALLBACK(list[i].callback),
+                            (gpointer)&(cmt->obj));
+                    /* never gets triggered for some reason */
+                    #if 0
+                    g_signal_connect(
+                            G_OBJECT(new_item),
+                            "destroy",
+                            G_CALLBACK(delete_checkmark_cb),
+                            (gpointer)cmt);
+                    #endif
                     /* Add this item to the list of calls to perform to update the
                     menu status. e.g. checkmarks or submenus */
                     checkmark_list = g_list_prepend(checkmark_list, cmt);
                 } else {
                     ui_menu_cb_obj *obj;
-                    /* FIXME: memory leak */
                     obj = lib_malloc(sizeof(ui_menu_cb_obj));
                     obj->value = (void*)list[i].callback_data;
                     obj->status = CB_NORMAL;
-                    g_signal_connect(G_OBJECT(new_item), "activate", G_CALLBACK(list[i].callback), (gpointer)obj); 
+                    g_signal_connect(
+                            G_OBJECT(new_item),
+                            "activate",
+                            G_CALLBACK(list[i].callback),
+                            (gpointer)obj);
+                    object_list = g_list_prepend(object_list, obj);
                 }
             }
 
