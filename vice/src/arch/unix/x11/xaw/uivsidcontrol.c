@@ -183,3 +183,32 @@ void ui_vsid_setdrv(const char *c)
     info = lib_stralloc(c);
     update_line();
 }
+
+
+void ui_vsid_control_shutdown(void)
+{
+    if (author != NULL) {
+        lib_free(author);
+    }
+    if (copyright != NULL) {
+        lib_free(copyright);
+    }
+    if (info != NULL) {
+        lib_free(info);
+    }
+    if (irq != NULL) {
+        lib_free(irq);
+    }
+    if (name != NULL) {
+        lib_free(name);
+    }
+    if (model != NULL) {
+        lib_free(model);
+    }
+    if (vsidsync != NULL) {
+        lib_free(vsidsync);
+    }
+    if (line != NULL) {
+        lib_free(line);
+    }
+}

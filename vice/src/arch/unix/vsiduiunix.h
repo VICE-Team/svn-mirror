@@ -45,4 +45,6 @@ extern void ui_vsid_setmodel(const char *a);
 extern void ui_vsid_setirq(const char *a);
 extern void ui_vsid_setdrv(const char *info);
 
+extern void ui_vsid_control_shutdown(void);
+
 #endif

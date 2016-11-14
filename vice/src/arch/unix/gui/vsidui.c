@@ -548,6 +548,9 @@ void vsid_ui_close(void) /* FIXME: bad name */
     uisound_menu_shutdown();
     uisid_model_menu_shutdown();
     vsid_close_menus();
+#ifndef USE_GNOMEUI
+    ui_vsid_control_shutdown();
+#endif
 }
 
 /******************************************************************************/
