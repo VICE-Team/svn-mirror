@@ -30,7 +30,7 @@
 
 #include "vice.h"
 
-#ifdef __SKYOS__
+#ifdef __QNXNTO__
 
 #include <sys/utsname.h>
 #include <string.h>
