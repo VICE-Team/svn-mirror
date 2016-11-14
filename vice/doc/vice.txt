@@ -3637,7 +3637,7 @@ time).  (0: Normal, 1: Swiftlink, 2: Turbo232)
 '-acia1irq <interrupt>'
 Set the ACIA interrupt ('Acia1Irq') (x64, x64sc, xscpu64, xvic and
 x128 only, and only if RS232 support is enabled and supported at
-compile time).  (0: None, 1: NMI, 2: IRQ)
+compile time).  (0: None, 1: IRQ, 2: NMI)
 
 '-rsuser'
 '+rsuser'
@@ -4924,9 +4924,13 @@ detection systems can sometimes make you invincible (although there
 is also a chance that also enemies become invincible then).
 
 * "Color set" can be used to dynamically change the palette file
-being used by choosing one of the available predefined color sets:
+being used by choosing one of the available predefined color sets,
+for example:
 
-* 'default.vpl' ("default"), the default VICE palette;
+* 'pepto-pal.vpl' ("Pepto PAL"), a Palette calculated by Philip
+"Pepto" Timmermann (<http://www.pepto.de/projects/colorvic/>).
+(This is the default)
+* 'vic.vpl' ("VICE"), the old default VICE palette.
 * 'c64s.vpl' ("C64S"), palette taken from the shareware C64S
 emulator by Miha Peternel.
 * 'ccs64.vpl' ("CCS64"), palette taken from the shareware CCS64
@@ -5230,7 +5234,7 @@ Port 2, 6: ParSID Port 3)
 
 'SidResidSampling'
 Integer specifying the sampling method ('0': Fast, '1':
-Interpolation, '2': Resampling)
+Interpolation, '2': Resampling, '3': Fast Resampling)
 
 'SidResidPassband'
 Integer specifying the resampling filter passband in percentage of
@@ -5655,7 +5659,7 @@ Integer that specifies the base address of the 256K RAM expansion.
 
 'MachineVideoStandard'
 Integer that specifies the video standard of the emulated machine
-(-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+(4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
 
 7.1.8.2 C64 command-line options
 ................................
@@ -5689,16 +5693,16 @@ Base address of the 256K expansion ('C64_256Kbase').
 (0xDE00/0xDE80/0xDF00/0xDF80)
 
 '-pal'
-Use PAL sync factor ('MachineVideoStandard=-1').
+Use PAL sync factor ('MachineVideoStandard=1').
 
 '-ntsc'
-Use NTSC sync factor ('MachineVideoStandard=-2').
+Use NTSC sync factor ('MachineVideoStandard=2').
 
 '-ntscold'
-Use old NTSC sync factor ('MachineVideoStandard=-3').
+Use old NTSC sync factor ('MachineVideoStandard=3').
 
 '-paln'
-Use PAL-N sync factor ('MachineVideoStandard=-4').
+Use PAL-N sync factor ('MachineVideoStandard=4').
 
 '-model <Model>'
 Set the C64 model ('VICIIModel', 'CIA1Model', 'CIA2Model',
@@ -6061,7 +6065,7 @@ Swedish)
 
 'MachineVideoStandard'
 Integer that specifies the video standard of the emulated machine
-(-1: PAL, -2: NTSC).
+(1: PAL, 2: NTSC).
 
 7.2.3.2 C128 command-line options
 .................................
@@ -6078,10 +6082,10 @@ Always switch to C64 mode on reset ('Go64Mode=1'.
 Always switch to C128 mode on reset ('Go64Mode=0'.
 
 '-pal'
-Use PAL sync factor ('MachineVideoStandard=-1').
+Use PAL sync factor ('MachineVideoStandard=1').
 
 '-ntsc'
-Use NTSC sync factor ('MachineVideoStandard=-2').
+Use NTSC sync factor ('MachineVideoStandard=2').
 
 '-model <Model>'
 Set the C128 model ('MachineVideoStandard', 'CIA1Model',
@@ -6273,7 +6277,7 @@ Boolean, enables Flash ROM logging.
 
 'MachineVideoStandard'
 Integer that specifies the video standard of the emulated machine.
-(-1: PAL, -2: NTSC)
+(1: PAL, 2: NTSC)
 
 7.3.8 DTV command-line options
 ------------------------------
@@ -6283,10 +6287,10 @@ Set the DTV model ('MachineVideoStandard', 'DtvRevision',
 'HummerADC').  (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)
 
 '-pal'
-Use PAL sync factor ('MachineVideoStandard=-1').
+Use PAL sync factor ('MachineVideoStandard=1').
 
 '-ntsc'
-Use NTSC sync factor ('MachineVideoStandard=-2').
+Use NTSC sync factor ('MachineVideoStandard=2').
 
 '-chargen <name>'
 Specify filename of the character generator ROM file
@@ -6313,7 +6317,7 @@ String specifying the name of the SCPU64 ROM (default 'scpu64').
 
 'MachineVideoStandard'
 Integer that specifies the video standard of the emulated machine
-(-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+(4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
 
 'IECReset'
 Integer specifying if the IEC bus resets when the CPU resets.  (0:
@@ -6353,16 +6357,16 @@ Set the C64 model ('MachineVideoStandard', 'CIA1Model',
 drean, jap, c64gs)
 
 '-pal'
-Use PAL sync factor ('MachineVideoStandard=-1').
+Use PAL sync factor ('MachineVideoStandard=1').
 
 '-ntsc'
-Use NTSC sync factor ('MachineVideoStandard=-2').
+Use NTSC sync factor ('MachineVideoStandard=2').
 
 '-ntscold'
-Use old NTSC sync factor ('MachineVideoStandard=-3').
+Use old NTSC sync factor ('MachineVideoStandard=3').
 
 '-paln'
-Use PAL-N sync factor ('MachineVideoStandard=-4').
+Use PAL-N sync factor ('MachineVideoStandard=4').
 
 '-iecreset <value>'
 Set IEC reset bahaviour ('IECReset').  (0: Do not reset with CPU
@@ -6597,7 +6601,7 @@ or not.
 
 'MachineVideoStandard'
 Integer that specifies the video standard of the emulated machine
-(-1: PAL, -2: NTSC).
+(1: PAL, 2: NTSC).
 
 7.5.2.2 VIC20 cartridge command-line options
 ............................................
@@ -6786,10 +6790,10 @@ Specify the VIC20 model you want to emulate
 'RamBlock3' and 'RamBlock5').  (vic20/vic20pal/vic20ntsc, vic21)
 
 '-pal'
-Use PAL sync factor ('MachineVideoStandard=-1').
+Use PAL sync factor ('MachineVideoStandard=1').
 
 '-ntsc'
-Use NTSC sync factor ('MachineVideoStandard=-2').
+Use NTSC sync factor ('MachineVideoStandard=2').
 
 7.5.3 VIC settings
 ------------------
@@ -7341,7 +7345,7 @@ Specify name of Cartridge 2 high ROM image ('c2HiName').
 
 'MachineVideoStandard'
 Integer that specifies the video standard of the emulated machine
-(-1: PAL, -2: NTSC).
+(1: PAL, 2: NTSC).
 
 'RamSize'
 Integer specifying the size of the memory in kByte.  (16, 32, 64)
@@ -7364,10 +7368,10 @@ Specify the PLUS4 model you want to emulate
 plus4/plus4pal/plus4ntsc, v364/cv364, c232)
 
 '-pal'
-Use PAL sync factor ('MachineVideoStandard=-1').
+Use PAL sync factor ('MachineVideoStandard=1').
 
 '-ntsc'
-Use NTSC sync factor ('MachineVideoStandard=-2').
+Use NTSC sync factor ('MachineVideoStandard=2').
 
 '-ramsize <ramsize>'
 Specify size of RAM installed in kb ('RamSize').  (16, 32, 64)
@@ -7820,7 +7824,7 @@ the BASIC, but directly jumps into the builtin machine monitor.
 
 'MachineVideoStandard'
 Integer that specifies the video standard of the emulated machine
-(-1: PAL, -2: NTSC).
+(1: PAL, 2: NTSC).
 
 'CPUswitch'
 Integer specifying the status of the SuperPET CPU switch (0: 6502,
@@ -7832,10 +7836,10 @@ Integer specifying the status of the SuperPET CPU switch (0: 6502,
 These are the commandline options specific for the PET models.
 
 '-pal'
-Use PAL sync factor ('MachineVideoStandard=-1').
+Use PAL sync factor ('MachineVideoStandard=1').
 
 '-ntsc'
-Use NTSC sync factor ('MachineVideoStandard=-2').
+Use NTSC sync factor ('MachineVideoStandard=2').
 
 '-model <model>'
 Specify the PET model you want to emulate ('Basic1', 'Basic1Chars',
@@ -8137,7 +8141,7 @@ String specifying the name of the Basic ROM (default for xcbm2:
 
 'MachineVideoStandard'
 Integer that specifies the video standard of the emulated machine
-(-1: PAL, -2: NTSC).
+(1: PAL, 2: NTSC).
 
 Choosing a common CBM-II model is done from the right-button menu
 instead, by choosing an item from the "Model defaults" submenu.
@@ -8211,10 +8215,10 @@ $6000-$7FFF ('Cart6Name').
 These are the commandline options specific for the CBM-II models.
 
 '-pal'
-Use PAL sync factor ('MachineVideoStandard=-1').
+Use PAL sync factor ('MachineVideoStandard=1').
 
 '-ntsc'
-Use NTSC sync factor ('MachineVideoStandard=-2').
+Use NTSC sync factor ('MachineVideoStandard=2').
 
 '-ramsize <ramsize>'
 Specify size of RAM ('RamSize').  xcbm2: (128, 256, 512, 1024)
@@ -8316,7 +8320,7 @@ Commodore 4064 (also known as "PET64" or "Educator 64") ROM.
 
 'MachineVideoStandard'
 Integer that specifies the video standard of the emulated machine
-(-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+(4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
 
 7.9.1.2 VSID command-line options
 .................................
@@ -8338,16 +8342,16 @@ Specify name of the Kernal ROM image ('KernalName').
 Specify name of the Basic ROM image ('BasicName').
 
 '-pal'
-Use PAL sync factor ('MachineVideoStandard=-1').
+Use PAL sync factor ('MachineVideoStandard=1').
 
 '-ntsc'
-Use NTSC sync factor ('MachineVideoStandard=-2').
+Use NTSC sync factor ('MachineVideoStandard=2').
 
 '-ntscold'
-Use old NTSC sync factor ('MachineVideoStandard=-3').
+Use old NTSC sync factor ('MachineVideoStandard=3').
 
 '-paln'
-Use PAL-N sync factor ('MachineVideoStandard=-4').
+Use PAL-N sync factor ('MachineVideoStandard=4').
 
 8 Platform-specific features
 ****************************
@@ -19759,14 +19763,14 @@ Concept Index
 
 * Menu:
 
-* +cart:                                 PLUS4-specific.    (line  7246)
+* +cart:                                 PLUS4-specific.    (line  7250)
 * -1:                                    Command-line initialization.
 (line   994)
 * -10:                                   Command-line initialization.
 (line   998)
 * -11:                                   Command-line initialization.
 (line   999)
-* -6809romB:                             PET system ROM.    (line  7788)
+* -6809romB:                             PET system ROM.    (line  7792)
 * -8:                                    Command-line initialization.
 (line   995)
 * -9:                                    Command-line initialization.
@@ -19774,8 +19778,8 @@ Concept Index
 * -?:                                    Command-line initialization.
 (line   969)
 * -? <1>:                                c1541 executing shell commands.
-(line 12727)
-* -acia, +acia:                          PLUS4-specific.    (line  7380)
+(line 12731)
+* -acia, +acia:                          PLUS4-specific.    (line  7384)
 * -attach10rw:                           Command-line initialization.
 (line  1011)
 * -attach11rw:                           Command-line initialization.
@@ -19791,63 +19795,63 @@ Concept Index
 * -autostart <1>:                        Command-line autostart.
 (line  1039)
 * -b:                                    c1541 executing shell commands.
-(line 12548)
+(line 12552)
 * -c:                                    c1541 executing shell commands.
-(line 12731)
-* -cart:                                 PLUS4-specific.    (line  7245)
-* -cart2:                                VIC20 cartridges.  (line  6617)
+(line 12735)
+* -cart:                                 PLUS4-specific.    (line  7249)
+* -cart2:                                VIC20 cartridges.  (line  6621)
 * -cart2 <1>:                            VIC20 system ROM options.
-(line  7045)
-* -cart4:                                VIC20 cartridges.  (line  6618)
+(line  7049)
+* -cart4:                                VIC20 cartridges.  (line  6622)
 * -cart4 <1>:                            VIC20 system ROM options.
-(line  7045)
-* -cart6:                                VIC20 cartridges.  (line  6620)
+(line  7049)
+* -cart6:                                VIC20 cartridges.  (line  6624)
 * -cart6 <1>:                            VIC20 system ROM options.
-(line  7045)
-* -cartA:                                VIC20 cartridges.  (line  6622)
+(line  7049)
+* -cartA:                                VIC20 cartridges.  (line  6626)
 * -cartA <1>:                            VIC20 system ROM options.
-(line  7045)
-* -cartB:                                VIC20 cartridges.  (line  6624)
+(line  7049)
+* -cartB:                                VIC20 cartridges.  (line  6628)
 * -cartB <1>:                            VIC20 system ROM options.
-(line  7045)
-* -cartfe:                               VIC20 cartridges.  (line  6641)
-* -cartfp:                               VIC20 cartridges.  (line  6649)
-* -cartgeneric:                          VIC20 cartridges.  (line  6626)
-* -cartmega:                             VIC20 cartridges.  (line  6630)
+(line  7049)
+* -cartfe:                               VIC20 cartridges.  (line  6645)
+* -cartfp:                               VIC20 cartridges.  (line  6653)
+* -cartgeneric:                          VIC20 cartridges.  (line  6630)
+* -cartmega:                             VIC20 cartridges.  (line  6634)
 * -chdir:                                Command-line initialization.
 (line   986)
 * -config:                               Command-line initialization.
 (line   974)
 * -console:                              Command-line initialization.
 (line   984)
-* -CrtcVidmodefullmode:                  CRTC Settings.     (line  7602)
+* -CrtcVidmodefullmode:                  CRTC Settings.     (line  7606)
 * -d:                                    c1541 executing shell commands.
-(line 12738)
+(line 12742)
 * -default:                              Command-line initialization.
 (line   970)
-* -dtvblitterlog, +dtvblitterlog:        Debug.             (line  6208)
-* -dtvdmalog, +dtvdmalog:                Debug.             (line  6212)
-* -dtvflashlog, +dtvflashlog:            Debug.             (line  6216)
+* -dtvblitterlog, +dtvblitterlog:        Debug.             (line  6212)
+* -dtvdmalog, +dtvdmalog:                Debug.             (line  6216)
+* -dtvflashlog, +dtvflashlog:            Debug.             (line  6220)
 * -extrajoydev1:                         Control port options.
 (line  2274)
 * -extrajoydev2:                         Control port options.
 (line  2274)
 * -f:                                    c1541 executing shell commands.
-(line 12537)
+(line 12541)
 * -f <1>:                                c1541 executing shell commands.
-(line 12760)
-* -ffmpegaudiobitrate:                   C500 data module.  (line 11578)
-* -ffmpegvideobitrate:                   C500 data module.  (line 11579)
+(line 12764)
+* -ffmpegaudiobitrate:                   C500 data module.  (line 11582)
+* -ffmpegvideobitrate:                   C500 data module.  (line 11583)
 * -h:                                    c1541 executing shell commands.
-(line 12740)
+(line 12744)
 * -help:                                 Command-line initialization.
 (line   968)
 * -help <1>:                             c1541 executing shell commands.
-(line 12726)
+(line 12730)
 * -i:                                    c1541 executing shell commands.
-(line 12520)
+(line 12524)
 * -ic:                                   c1541 executing shell commands.
-(line 12736)
+(line 12740)
 * -IDE64USB, +IDE64USB:                  C64 cartridges.    (line  4630)
 * -IDE64USBAddress:                      C64 cartridges.    (line  4632)
 * -initbreak:                            Monitor options.   (line  3720)
@@ -19856,43 +19860,43 @@ Concept Index
 * -joydev2:                              Control port options.
 (line  2270)
 * -k:                                    c1541 executing shell commands.
-(line 12754)
+(line 12758)
 * -k<version>:                           c1541 executing shell commands.
-(line 12752)
+(line 12756)
 * -keybuf:                               Command-line initialization.
 (line   982)
 * -l:                                    c1541 executing shell commands.
-(line 12533)
+(line 12537)
 * -l <1>:                                c1541 executing shell commands.
-(line 12756)
+(line 12760)
 * -mitshm, +mitshm:                      Shared memory problems.
 (line   868)
 * -moncommands:                          Monitor options.   (line  3714)
 * -mouse, +mouse:                        Control port options.
 (line  2295)
 * -n:                                    c1541 executing shell commands.
-(line 12530)
+(line 12534)
 * -nc:                                   c1541 executing shell commands.
-(line 12733)
+(line 12737)
 * -nh:                                   c1541 executing shell commands.
-(line 12742)
+(line 12746)
 * -o:                                    c1541 executing shell commands.
-(line 12524)
+(line 12528)
 * -o <name>:                             c1541 executing shell commands.
-(line 12758)
+(line 12762)
 * -p:                                    c1541 executing shell commands.
-(line 12544)
+(line 12548)
 * -q:                                    c1541 executing shell commands.
-(line 12551)
+(line 12555)
 * -r:                                    c1541 executing shell commands.
-(line 12541)
+(line 12545)
 * -raminitvalueinvert:                   Monitor options.   (line  3761)
 * -remotemonitor, +remotemonitor:        Monitor options.   (line  3729)
 * -remotemonitoraddress:                 Monitor options.   (line  3733)
-* -residfilterbias:                      SID options.       (line  5312)
-* -residgain:                            SID options.       (line  5309)
-* -residpass:                            SID options.       (line  5305)
-* -residsamp:                            SID options.       (line  5300)
+* -residfilterbias:                      SID options.       (line  5316)
+* -residgain:                            SID options.       (line  5313)
+* -residpass:                            SID options.       (line  5309)
+* -residsamp:                            SID options.       (line  5304)
 * -rsdev1:                               RS232 options.     (line  3608)
 * -rsdev2:                               RS232 options.     (line  3609)
 * -rsdev3:                               RS232 options.     (line  3610)
@@ -19901,158 +19905,158 @@ Concept Index
 * -rsuserbaud:                           RS232 options.     (line  3648)
 * -rsuserdev:                            RS232 options.     (line  3651)
 * -skip <n>:                             c1541 executing shell commands.
-(line 12744)
+(line 12748)
 * -t:                                    c1541 executing shell commands.
-(line 12527)
-* -TEDVidmodefullmode:                   PLUS4-specific.    (line  7159)
-* -TEDXRANDRfullmode:                    PLUS4-specific.    (line  7158)
+(line 12531)
+* -TEDVidmodefullmode:                   PLUS4-specific.    (line  7163)
+* -TEDXRANDRfullmode:                    PLUS4-specific.    (line  7162)
 * -text:                                 c1541 executing shell commands.
-(line 12746)
+(line 12750)
 * -tfe, +tfe:                            C64 I/O extension options.
-(line  5545)
-* -tfe, +tfe <1>:                        VIC20 cartridges.  (line  6691)
-* -tfeif:                                C64 I/O extension options.
-(line  5547)
-* -tfeif <1>:                            VIC20 cartridges.  (line  6694)
-* -tfeioswap, +tfeioswap:                VIC20 cartridges.  (line  6689)
-* -tferrnet, +tferrnet:                  C64 I/O extension options.
 (line  5549)
-* -tferrnet, +tferrnet <1>:              VIC20 cartridges.  (line  6696)
+* -tfe, +tfe <1>:                        VIC20 cartridges.  (line  6695)
+* -tfeif:                                C64 I/O extension options.
+(line  5551)
+* -tfeif <1>:                            VIC20 cartridges.  (line  6698)
+* -tfeioswap, +tfeioswap:                VIC20 cartridges.  (line  6693)
+* -tferrnet, +tferrnet:                  C64 I/O extension options.
+(line  5553)
+* -tferrnet, +tferrnet <1>:              VIC20 cartridges.  (line  6700)
 * -types:                                c1541 executing shell commands.
-(line 12553)
+(line 12557)
 * -v:                                    c1541 executing shell commands.
-(line 12729)
+(line 12733)
 * -VDCfulldevice:                        SDL-specific features.
-(line  9522)
-* -VDCVidmodefullmode:                   C128-specific.     (line  5817)
-* -VDCXRANDRfullmode:                    C128-specific.     (line  5816)
+(line  9526)
+* -VDCVidmodefullmode:                   C128-specific.     (line  5821)
+* -VDCXRANDRfullmode:                    C128-specific.     (line  5820)
 * -verbose:                              Command-line initialization.
 (line   981)
-* -VICIIVidmodefullmode:                 VIC-II options.    (line  5074)
-* -VICIIXRANDRfullmode:                  VIC-II options.    (line  5073)
-* -VICVidmodefullmode:                   VIC20 cartridges.  (line  6894)
-* -VICXRANDRfullmode:                    VIC20 cartridges.  (line  6893)
+* -VICIIVidmodefullmode:                 VIC-II options.    (line  5078)
+* -VICIIXRANDRfullmode:                  VIC-II options.    (line  5077)
+* -VICVidmodefullmode:                   VIC20 cartridges.  (line  6898)
+* -VICXRANDRfullmode:                    VIC20 cartridges.  (line  6897)
 * -w<version>:                           c1541 executing shell commands.
-(line 12750)
+(line 12754)
 * ACIA (Swiftlink, Turbo232):            C64 I/O extension settings.
-(line  5328)
+(line  5332)
 * Audio buffer size:                     Sound settings.    (line  2334)
 * Converting X64 files into D64:         Supported file formats.
 (line   828)
 * DigiMAX:                               C64 I/O extension settings.
-(line  5330)
+(line  5334)
 * Double-scan mode.:                     Video settings.    (line  1938)
 * Double-size mode:                      Video settings.    (line  1933)
 * DS12C887 RTC:                          C64 I/O extension settings.
-(line  5332)
-* DWW:                                   PET DWW high resolution grapics.
-(line  7936)
-* Ethernet (The Final Ethernet, RR-Net): C64 I/O extension settings.
-(line  5334)
-* GEO-RAM:                               C64 I/O extension settings.
 (line  5336)
+* DWW:                                   PET DWW high resolution grapics.
+(line  7940)
+* Ethernet (The Final Ethernet, RR-Net): C64 I/O extension settings.
+(line  5338)
+* GEO-RAM:                               C64 I/O extension settings.
+(line  5340)
 * HP-UX and Solaris audio problems:      Sound problems.    (line   855)
 * HRE:                                   PET HRE (HiRes Emulator) high resolution grapics.
-(line  8009)
+(line  8013)
 * HRG:                                   PET HRE (HiRes Emulator) high resolution grapics.
-(line  8021)
+(line  8025)
 * JOY_TYPE_2PADS:                        DOS-specific features.
-(line  8965)
-* JOY_TYPE_4BUTTON:                      DOS-specific features.
-(line  8967)
-* JOY_TYPE_6BUTTON:                      DOS-specific features.
 (line  8969)
-* JOY_TYPE_8BUTTON:                      DOS-specific features.
+* JOY_TYPE_4BUTTON:                      DOS-specific features.
 (line  8971)
-* JOY_TYPE_AUTODETECT:                   DOS-specific features.
-(line  8957)
-* JOY_TYPE_DB9_LPT1:                     DOS-specific features.
-(line  9044)
-* JOY_TYPE_DB9_LPT2:                     DOS-specific features.
-(line  9044)
-* JOY_TYPE_DB9_LPT3:                     DOS-specific features.
-(line  9044)
-* JOY_TYPE_FSPRO:                        DOS-specific features.
+* JOY_TYPE_6BUTTON:                      DOS-specific features.
 (line  8973)
-* JOY_TYPE_GAMEPAD_PRO:                  DOS-specific features.
-(line  8994)
-* JOY_TYPE_GRIP:                         DOS-specific features.
-(line  8996)
-* JOY_TYPE_GRIP4:                        DOS-specific features.
-(line  8998)
-* JOY_TYPE_IFSEGA_ISA:                   DOS-specific features.
-(line  9062)
-* JOY_TYPE_IFSEGA_PCI:                   DOS-specific features.
-(line  9062)
-* JOY_TYPE_IFSEGA_PCI_FAST:              DOS-specific features.
-(line  9062)
-* JOY_TYPE_N64PAD_LPT1:                  DOS-specific features.
-(line  9027)
-* JOY_TYPE_N64PAD_LPT2:                  DOS-specific features.
-(line  9027)
-* JOY_TYPE_N64PAD_LPT3:                  DOS-specific features.
-(line  9027)
-* JOY_TYPE_NONE:                         DOS-specific features.
+* JOY_TYPE_8BUTTON:                      DOS-specific features.
+(line  8975)
+* JOY_TYPE_AUTODETECT:                   DOS-specific features.
 (line  8961)
-* JOY_TYPE_PSXPAD_LPT1:                  DOS-specific features.
-(line  9005)
-* JOY_TYPE_PSXPAD_LPT2:                  DOS-specific features.
-(line  9005)
-* JOY_TYPE_PSXPAD_LPT3:                  DOS-specific features.
-(line  9005)
-* JOY_TYPE_SIDEWINDER:                   DOS-specific features.
-(line  8984)
-* JOY_TYPE_SIDEWINDER_AG:                DOS-specific features.
-(line  8988)
-* JOY_TYPE_SIDEWINDER_PP:                DOS-specific features.
-(line  8991)
-* JOY_TYPE_SNESPAD_LPT1:                 DOS-specific features.
-(line  9001)
-* JOY_TYPE_SNESPAD_LPT2:                 DOS-specific features.
-(line  9001)
-* JOY_TYPE_SNESPAD_LPT3:                 DOS-specific features.
-(line  9001)
-* JOY_TYPE_STANDARD:                     DOS-specific features.
-(line  8963)
-* JOY_TYPE_TURBOGRAFIX_LPT1:             DOS-specific features.
-(line  9052)
-* JOY_TYPE_TURBOGRAFIX_LPT2:             DOS-specific features.
-(line  9052)
-* JOY_TYPE_TURBOGRAFIX_LPT3:             DOS-specific features.
-(line  9052)
-* JOY_TYPE_WINGEX:                       DOS-specific features.
+* JOY_TYPE_DB9_LPT1:                     DOS-specific features.
+(line  9048)
+* JOY_TYPE_DB9_LPT2:                     DOS-specific features.
+(line  9048)
+* JOY_TYPE_DB9_LPT3:                     DOS-specific features.
+(line  9048)
+* JOY_TYPE_FSPRO:                        DOS-specific features.
 (line  8977)
+* JOY_TYPE_GAMEPAD_PRO:                  DOS-specific features.
+(line  8998)
+* JOY_TYPE_GRIP:                         DOS-specific features.
+(line  9000)
+* JOY_TYPE_GRIP4:                        DOS-specific features.
+(line  9002)
+* JOY_TYPE_IFSEGA_ISA:                   DOS-specific features.
+(line  9066)
+* JOY_TYPE_IFSEGA_PCI:                   DOS-specific features.
+(line  9066)
+* JOY_TYPE_IFSEGA_PCI_FAST:              DOS-specific features.
+(line  9066)
+* JOY_TYPE_N64PAD_LPT1:                  DOS-specific features.
+(line  9031)
+* JOY_TYPE_N64PAD_LPT2:                  DOS-specific features.
+(line  9031)
+* JOY_TYPE_N64PAD_LPT3:                  DOS-specific features.
+(line  9031)
+* JOY_TYPE_NONE:                         DOS-specific features.
+(line  8965)
+* JOY_TYPE_PSXPAD_LPT1:                  DOS-specific features.
+(line  9009)
+* JOY_TYPE_PSXPAD_LPT2:                  DOS-specific features.
+(line  9009)
+* JOY_TYPE_PSXPAD_LPT3:                  DOS-specific features.
+(line  9009)
+* JOY_TYPE_SIDEWINDER:                   DOS-specific features.
+(line  8988)
+* JOY_TYPE_SIDEWINDER_AG:                DOS-specific features.
+(line  8992)
+* JOY_TYPE_SIDEWINDER_PP:                DOS-specific features.
+(line  8995)
+* JOY_TYPE_SNESPAD_LPT1:                 DOS-specific features.
+(line  9005)
+* JOY_TYPE_SNESPAD_LPT2:                 DOS-specific features.
+(line  9005)
+* JOY_TYPE_SNESPAD_LPT3:                 DOS-specific features.
+(line  9005)
+* JOY_TYPE_STANDARD:                     DOS-specific features.
+(line  8967)
+* JOY_TYPE_TURBOGRAFIX_LPT1:             DOS-specific features.
+(line  9056)
+* JOY_TYPE_TURBOGRAFIX_LPT2:             DOS-specific features.
+(line  9056)
+* JOY_TYPE_TURBOGRAFIX_LPT3:             DOS-specific features.
+(line  9056)
+* JOY_TYPE_WINGEX:                       DOS-specific features.
+(line  8981)
 * JOY_TYPE_WINGWARRIOR:                  DOS-specific features.
-(line  9060)
+(line  9064)
 * Limiting emulation speed:              Performance settings.
 (line  1859)
 * Loosing control on low-end systems:    Video settings.    (line  1943)
 * MIDI (Passport, Datel, Maplin, Namesoft, Sequential): C64 I/O extension settings.
-(line  5338)
+(line  5342)
 * MITSHM:                                Shared memory problems.
 (line   868)
 * OSS/Linux problems:                    Sound problems.    (line   860)
 * Refresh rate:                          Performance settings.
 (line  1866)
-* reSID resampling passband:             SID settings.      (line  5175)
-* reSID samping method:                  SID settings.      (line  5156)
+* reSID resampling passband:             SID settings.      (line  5179)
+* reSID samping method:                  SID settings.      (line  5160)
 * REU:                                   C64 I/O extension settings.
-(line  5340)
+(line  5344)
 * Sample rate:                           Sound settings.    (line  2329)
-* Second SID:                            SID settings.      (line  5133)
-* Second SID base address:               SID settings.      (line  5139)
+* Second SID:                            SID settings.      (line  5137)
+* Second SID base address:               SID settings.      (line  5143)
 * SFX Sound Expander:                    C64 I/O extension settings.
-(line  5345)
+(line  5349)
 * SFX Sound Sampler:                     C64 I/O extension settings.
-(line  5347)
-* SID filters:                           SID settings.      (line  5144)
-* SID models:                            SID settings.      (line  5149)
+(line  5351)
+* SID filters:                           SID settings.      (line  5148)
+* SID models:                            SID settings.      (line  5153)
 * Sound buffer size:                     Sound settings.    (line  2334)
 * Sound speed adjustment:                Sound settings.    (line  2315)
 * Sound suspend time:                    Sound settings.    (line  2339)
 * Sound syncronization:                  Sound settings.    (line  2315)
 * Sprite collision detection:            VIC-II settings.   (line  4920)
-* Toggling reSID emulation:              SID settings.      (line  5153)
+* Toggling reSID emulation:              SID settings.      (line  5157)
 * Turning sound playback on/off:         Sound settings.    (line  2313)
 * Using XSync():                         Video settings.    (line  1943)
 * VIC-II color sets:                     VIC-II settings.   (line  4927)
@@ -20065,21 +20069,21 @@ Index of Resources
 
 * Menu:
 
-* 40/80ColumnKey:                        C128-specific.     (line  6048)
+* 40/80ColumnKey:                        C128-specific.     (line  6052)
 * Acia1Base:                             RS232 resources.   (line  3576)
 * Acia1Dev:                              RS232 resources.   (line  3571)
 * Acia1Enable:                           RS232 resources.   (line  3565)
-* Acia1Enable <1>:                       PLUS4-specific.    (line  7354)
+* Acia1Enable <1>:                       PLUS4-specific.    (line  7358)
 * Acia1Irq:                              RS232 resources.   (line  3588)
 * Acia1Mode:                             RS232 resources.   (line  3582)
 * AlwaysOnTop:                           Windows-specific features.
-(line 10221)
+(line 10225)
 * AspectRatio:                           SDL-specific features.
-(line  9363)
+(line  9367)
 * AspectRatio <1>:                       XAW-specific features.
-(line  9965)
+(line  9969)
 * AspectRatio <2>:                       Windows-specific features.
-(line 10362)
+(line 10366)
 * AttachDevice10Readonly:                Misc resources.    (line  3810)
 * AttachDevice11Readonly:                Misc resources.    (line  3810)
 * AttachDevice8Readonly:                 Misc resources.    (line  3810)
@@ -20100,142 +20104,142 @@ Index of Resources
 (line  1776)
 * AutostartWarp:                         Resources and command-line.
 (line  1784)
-* Basic1:                                PET model.         (line  7425)
-* Basic1Chars:                           PET model.         (line  7429)
-* Basic64Name:                           C128-specific.     (line  5928)
-* BasicHiName:                           C128-specific.     (line  5921)
-* BasicLoName:                           C128-specific.     (line  5921)
+* Basic1:                                PET model.         (line  7429)
+* Basic1Chars:                           PET model.         (line  7433)
+* Basic64Name:                           C128-specific.     (line  5932)
+* BasicHiName:                           C128-specific.     (line  5925)
+* BasicLoName:                           C128-specific.     (line  5925)
 * BasicName:                             C64 system ROM resources.
-(line  5569)
+(line  5573)
 * BasicName <1>:                         Monitor DTV features.
-(line  6247)
+(line  6251)
 * BasicName <2>:                         VIC20 system ROM resources.
-(line  7025)
-* BasicName <3>:                         PLUS4-specific.    (line  7289)
-* BasicName <4>:                         PET model.         (line  7449)
-* BasicName <5>:                         CBM-II model.      (line  8136)
-* BasicName <6>:                         VSID-specific.     (line  8297)
+(line  7029)
+* BasicName <3>:                         PLUS4-specific.    (line  7293)
+* BasicName <4>:                         PET model.         (line  7453)
+* BasicName <5>:                         CBM-II model.      (line  8140)
+* BasicName <6>:                         VSID-specific.     (line  8301)
 * BoardType:                             C64 system ROM options.
-(line  5628)
+(line  5632)
 * BurstMod:                              C64 system ROM options.
-(line  5624)
-* BurstMod <1>:                          SCPU64-specific.   (line  6323)
-* C128FullBanks:                         C128-specific.     (line  6055)
-* c1hiName:                              PLUS4-specific.    (line  7301)
-* c1loName:                              PLUS4-specific.    (line  7298)
-* c2hiName:                              PLUS4-specific.    (line  7307)
-* c2loName:                              PLUS4-specific.    (line  7304)
+(line  5628)
+* BurstMod <1>:                          SCPU64-specific.   (line  6327)
+* C128FullBanks:                         C128-specific.     (line  6059)
+* c1hiName:                              PLUS4-specific.    (line  7305)
+* c1loName:                              PLUS4-specific.    (line  7302)
+* c2hiName:                              PLUS4-specific.    (line  7311)
+* c2loName:                              PLUS4-specific.    (line  7308)
 * c64dtvromfilename:                     Monitor DTV features.
-(line  6250)
+(line  6254)
 * c64dtvromrw:                           Monitor DTV features.
-(line  6253)
+(line  6257)
 * C64_256Kbase:                          C64 system ROM options.
-(line  5653)
+(line  5657)
 * C64_256Kfilename:                      C64 system ROM options.
-(line  5650)
-* Cart1Name:                             CBM-II model.      (line  8104)
-* Cart2Name:                             CBM-II model.      (line  8108)
-* Cart4Name:                             CBM-II model.      (line  8112)
-* Cart6Name:                             CBM-II model.      (line  8116)
+(line  5654)
+* Cart1Name:                             CBM-II model.      (line  8108)
+* Cart2Name:                             CBM-II model.      (line  8112)
+* Cart4Name:                             CBM-II model.      (line  8116)
+* Cart6Name:                             CBM-II model.      (line  8120)
 * CartridgeFile:                         C64 cartridges.    (line  4199)
-* CartridgeFile <1>:                     VIC20 cartridges.  (line  6469)
+* CartridgeFile <1>:                     VIC20 cartridges.  (line  6473)
 * CartridgeReset:                        C64 cartridges.    (line  4125)
-* CartridgeReset <1>:                    VIC20 cartridges.  (line  6439)
-* CartridgeReset <2>:                    PLUS4-specific.    (line  7209)
-* CartridgeReset <3>:                    CBM-II model.      (line  8100)
+* CartridgeReset <1>:                    VIC20 cartridges.  (line  6443)
+* CartridgeReset <2>:                    PLUS4-specific.    (line  7213)
+* CartridgeReset <3>:                    CBM-II model.      (line  8104)
 * CartridgeType:                         C64 cartridges.    (line  4129)
-* CartridgeType <1>:                     VIC20 cartridges.  (line  6443)
-* ChargenCHName:                         C128-specific.     (line  5892)
-* ChargenDEName:                         C128-specific.     (line  5880)
-* ChargenFRName:                         C128-specific.     (line  5884)
-* ChargenIntName:                        C128-specific.     (line  5876)
+* CartridgeType <1>:                     VIC20 cartridges.  (line  6447)
+* ChargenCHName:                         C128-specific.     (line  5896)
+* ChargenDEName:                         C128-specific.     (line  5884)
+* ChargenFRName:                         C128-specific.     (line  5888)
+* ChargenIntName:                        C128-specific.     (line  5880)
 * ChargenName:                           C64 system ROM resources.
-(line  5572)
+(line  5576)
 * ChargenName <1>:                       Monitor DTV features.
-(line  6240)
-* ChargenName <2>:                       SCPU64-specific.   (line  6308)
+(line  6244)
+* ChargenName <2>:                       SCPU64-specific.   (line  6312)
 * ChargenName <3>:                       VIC20 system ROM resources.
-(line  7028)
-* ChargenName <4>:                       PET model.         (line  7442)
-* ChargenName <5>:                       CBM-II model.      (line  8128)
-* ChargenName <6>:                       VSID-specific.     (line  8290)
-* ChargenSEName:                         C128-specific.     (line  5888)
+(line  7032)
+* ChargenName <4>:                       PET model.         (line  7446)
+* ChargenName <5>:                       CBM-II model.      (line  8132)
+* ChargenName <6>:                       VSID-specific.     (line  8294)
+* ChargenSEName:                         C128-specific.     (line  5892)
 * CIA1Model:                             C64 cartridges.    (line  4888)
 * CIA2Model:                             C64 cartridges.    (line  4892)
 * ConfirmOnExit:                         AmigaOS-specific features.
-(line  8407)
+(line  8411)
 * ConfirmOnExit <1>:                     BeOS-specific features.
-(line  8873)
+(line  8877)
 * ConfirmOnExit <2>:                     SDL-specific features.
-(line  9218)
+(line  9222)
 * ConfirmOnExit <3>:                     Unix-specific features.
-(line  9613)
+(line  9617)
 * ConfirmOnExit <4>:                     Windows-specific features.
-(line 10204)
-* CPUswitch:                             PET settings.      (line  7826)
-* Crtc:                                  CRTC Settings.     (line  7498)
-* CrtcAudioLeak:                         CRTC Settings.     (line  7554)
-* CrtcColorBrightness:                   CRTC Settings.     (line  7529)
-* CrtcColorContrast:                     CRTC Settings.     (line  7525)
-* CrtcColorGamma:                        CRTC Settings.     (line  7533)
-* CrtcColorSaturation:                   CRTC Settings.     (line  7521)
-* CrtcColorTint:                         CRTC Settings.     (line  7536)
-* CrtcDoubleScan:                        CRTC Settings.     (line  7508)
-* CrtcDoubleSize:                        CRTC Settings.     (line  7505)
-* CrtcExternalPalette:                   CRTC Settings.     (line  7518)
-* CrtcFilter:                            CRTC Settings.     (line  7558)
+(line 10208)
+* CPUswitch:                             PET settings.      (line  7830)
+* Crtc:                                  CRTC Settings.     (line  7502)
+* CrtcAudioLeak:                         CRTC Settings.     (line  7558)
+* CrtcColorBrightness:                   CRTC Settings.     (line  7533)
+* CrtcColorContrast:                     CRTC Settings.     (line  7529)
+* CrtcColorGamma:                        CRTC Settings.     (line  7537)
+* CrtcColorSaturation:                   CRTC Settings.     (line  7525)
+* CrtcColorTint:                         CRTC Settings.     (line  7540)
+* CrtcDoubleScan:                        CRTC Settings.     (line  7512)
+* CrtcDoubleSize:                        CRTC Settings.     (line  7509)
+* CrtcExternalPalette:                   CRTC Settings.     (line  7522)
+* CrtcFilter:                            CRTC Settings.     (line  7562)
 * CrtcFullscreen:                        SDL-specific features.
-(line  9277)
-* CrtcFullscreen <1>:                    Unix-specific features.
-(line  9630)
-* CrtcFullscreenDevice:                  SDL-specific features.
-(line  9274)
-* CrtcFullscreenDevice <1>:              Unix-specific features.
-(line  9627)
-* CrtcFullscreenStatusbar:               SDL-specific features.
 (line  9281)
-* CrtcFullscreenStatusbar <1>:           Unix-specific features.
+* CrtcFullscreen <1>:                    Unix-specific features.
 (line  9634)
+* CrtcFullscreenDevice:                  SDL-specific features.
+(line  9278)
+* CrtcFullscreenDevice <1>:              Unix-specific features.
+(line  9631)
+* CrtcFullscreenStatusbar:               SDL-specific features.
+(line  9285)
+* CrtcFullscreenStatusbar <1>:           Unix-specific features.
+(line  9638)
 * CrtcHwScale:                           SDL-specific features.
-(line  9270)
+(line  9274)
 * CrtcHwScale <1>:                       Unix-specific features.
-(line  9623)
-* CrtcPALBlur:                           CRTC Settings.     (line  7543)
-* CrtcPaletteFile:                       CRTC Settings.     (line  7514)
-* CrtcPALOddLineOffset:                  CRTC Settings.     (line  7550)
-* CrtcPALOddLinePhase:                   CRTC Settings.     (line  7547)
-* CrtcPALScanLineShade:                  CRTC Settings.     (line  7539)
+(line  9627)
+* CrtcPALBlur:                           CRTC Settings.     (line  7547)
+* CrtcPaletteFile:                       CRTC Settings.     (line  7518)
+* CrtcPALOddLineOffset:                  CRTC Settings.     (line  7554)
+* CrtcPALOddLinePhase:                   CRTC Settings.     (line  7551)
+* CrtcPALScanLineShade:                  CRTC Settings.     (line  7543)
 * CrtcSDLFullscreenMode:                 SDL-specific features.
-(line  9267)
-* CrtcStretchVertical:                   CRTC Settings.     (line  7511)
-* CrtcVideoCache:                        CRTC Settings.     (line  7502)
+(line  9271)
+* CrtcStretchVertical:                   CRTC Settings.     (line  7515)
+* CrtcVideoCache:                        CRTC Settings.     (line  7506)
 * CrtcVidmodeFullscreenMode:             XAW-specific features.
-(line 10009)
+(line 10013)
 * CrtcXRANDRFullscreenMode:              XAW-specific features.
-(line  9987)
+(line  9991)
 * DatasetteResetWithCPU:                 Sound options.     (line  2510)
 * DatasetteSpeedTuning:                  Sound options.     (line  2517)
 * DatasetteTapeWobble:                   Sound options.     (line  2521)
 * DatasetteZeroGapDelay:                 Sound options.     (line  2514)
-* DiagPin:                               PET model.         (line  7438)
-* DIGIBLASTER:                           PLUS4-specific.    (line  7213)
+* DiagPin:                               PET model.         (line  7442)
+* DIGIBLASTER:                           PLUS4-specific.    (line  7217)
 * DIGIMAX:                               C64 I/O extension resources.
-(line  5352)
-* DIGIMAX <1>:                           VIC20 cartridges.  (line  6571)
-* DIGIMAXbase:                           C64 I/O extension resources.
 (line  5356)
-* DIGIMAXbase <1>:                       VIC20 cartridges.  (line  6575)
+* DIGIMAX <1>:                           VIC20 cartridges.  (line  6575)
+* DIGIMAXbase:                           C64 I/O extension resources.
+(line  5360)
+* DIGIMAXbase <1>:                       VIC20 cartridges.  (line  6579)
 * Directory:                             Misc resources.    (line  3783)
 * DirectWindow:                          BeOS-specific features.
-(line  8876)
+(line  8880)
 * DisplayDepth:                          XAW-specific features.
-(line  9921)
+(line  9925)
 * DoCoreDump:                            Misc resources.    (line  3789)
-* DoodleCRTCTextColor:                   C500 data module.  (line 11490)
-* DoodleMultiColorHandling:              C500 data module.  (line 11481)
-* DoodleOversizeHandling:                C500 data module.  (line 11470)
-* DoodleTEDLumHandling:                  C500 data module.  (line 11486)
-* DoodleUndersizeHandling:               C500 data module.  (line 11477)
+* DoodleCRTCTextColor:                   C500 data module.  (line 11494)
+* DoodleMultiColorHandling:              C500 data module.  (line 11485)
+* DoodleOversizeHandling:                C500 data module.  (line 11474)
+* DoodleTEDLumHandling:                  C500 data module.  (line 11490)
+* DoodleUndersizeHandling:               C500 data module.  (line 11481)
 * DosName1001:                           Drive resources.   (line  2779)
 * DosName1540:                           Drive resources.   (line  2760)
 * DosName1541:                           Drive resources.   (line  2760)
@@ -20316,60 +20320,60 @@ Index of Resources
 * DriveSuperCardName:                    Drive resources.   (line  2791)
 * DriveTrueEmulation:                    Drive resources.   (line  2638)
 * DS12C887RTC:                           C64 I/O extension resources.
-(line  5361)
-* DS12C887RTC <1>:                       VIC20 cartridges.  (line  6580)
-* DS12C887RTCbase:                       C64 I/O extension resources.
 (line  5365)
-* DS12C887RTCbase <1>:                   VIC20 cartridges.  (line  6584)
+* DS12C887RTC <1>:                       VIC20 cartridges.  (line  6584)
+* DS12C887RTCbase:                       C64 I/O extension resources.
+(line  5369)
+* DS12C887RTCbase <1>:                   VIC20 cartridges.  (line  6588)
 * DS12C887RTCRunMode:                    C64 I/O extension resources.
-(line  5370)
-* DS12C887RTCRunMode <1>:                VIC20 cartridges.  (line  6587)
-* DS12C887RTCSave:                       C64 I/O extension resources.
 (line  5374)
-* DS12C887RTCSave <1>:                   VIC20 cartridges.  (line  6591)
+* DS12C887RTCRunMode <1>:                VIC20 cartridges.  (line  6591)
+* DS12C887RTCSave:                       C64 I/O extension resources.
+(line  5378)
+* DS12C887RTCSave <1>:                   VIC20 cartridges.  (line  6595)
 * DtvBlitterLog:                         Monitor DTV features.
-(line  6268)
+(line  6272)
 * DtvDMALog:                             Monitor DTV features.
-(line  6269)
+(line  6273)
 * DtvFlashLog:                           Monitor DTV features.
-(line  6271)
+(line  6275)
 * DtvRevision:                           Monitor DTV features.
-(line  6237)
+(line  6241)
 * DX9Disable:                            Windows-specific features.
-(line 10320)
+(line 10324)
 * DXPrimarySurfaceRendering:             Windows-specific features.
-(line 10325)
+(line 10329)
 * EasyFlashJumper:                       C64 cartridges.    (line  4215)
 * EasyFlashOptimizeCRT:                  C64 cartridges.    (line  4223)
 * EasyFlashWriteCRT:                     C64 cartridges.    (line  4218)
-* EditorName:                            PET model.         (line  7452)
-* EoiBlank:                              PET model.         (line  7434)
+* EditorName:                            PET model.         (line  7456)
+* EoiBlank:                              PET model.         (line  7438)
 * ETHERNET_ACTIVE:                       C64 I/O extension resources.
-(line  5378)
+(line  5382)
 * ETHERNET_AS_RR:                        C64 I/O extension resources.
-(line  5386)
+(line  5390)
 * ETHERNET_DISABLED:                     C64 I/O extension resources.
-(line  5383)
+(line  5387)
 * ETHERNET_INTERFACE:                    C64 I/O extension resources.
-(line  5380)
-* EventEndSnapshot:                      C500 data module.  (line 11701)
-* EventImageInclude:                     C500 data module.  (line 11710)
-* EventSnapshotDir:                      C500 data module.  (line 11693)
-* EventStartMode:                        C500 data module.  (line 11705)
-* EventStartSnapshot:                    C500 data module.  (line 11697)
+(line  5384)
+* EventEndSnapshot:                      C500 data module.  (line 11705)
+* EventImageInclude:                     C500 data module.  (line 11714)
+* EventSnapshotDir:                      C500 data module.  (line 11697)
+* EventStartMode:                        C500 data module.  (line 11709)
+* EventStartSnapshot:                    C500 data module.  (line 11701)
 * ExpertCartridgeEnabled:                C64 cartridges.    (line  4227)
 * ExpertCartridgeMode:                   C64 cartridges.    (line  4239)
 * Expertfilename:                        C64 cartridges.    (line  4231)
 * ExpertImageWrite:                      C64 cartridges.    (line  4234)
-* ExternalFunctionName:                  C128-specific.     (line  5947)
-* ExternalFunctionROM:                   C128-specific.     (line  5943)
-* ExternalFunctionROMRTCSave:            C128-specific.     (line  5951)
-* FFMPEGAudioBitrate:                    C500 data module.  (line 11516)
-* FFMPEGAudioCodec:                      C500 data module.  (line 11520)
-* FFMPEGFormat:                          C500 data module.  (line 11515)
-* FFMPEGVideoBitrate:                    C500 data module.  (line 11518)
-* FFMPEGVideoCodec:                      C500 data module.  (line 11522)
-* FFMPEGVideoHalveFramerate:             C500 data module.  (line 11524)
+* ExternalFunctionName:                  C128-specific.     (line  5951)
+* ExternalFunctionROM:                   C128-specific.     (line  5947)
+* ExternalFunctionROMRTCSave:            C128-specific.     (line  5955)
+* FFMPEGAudioBitrate:                    C500 data module.  (line 11520)
+* FFMPEGAudioCodec:                      C500 data module.  (line 11524)
+* FFMPEGFormat:                          C500 data module.  (line 11519)
+* FFMPEGVideoBitrate:                    C500 data module.  (line 11522)
+* FFMPEGVideoCodec:                      C500 data module.  (line 11526)
+* FFMPEGVideoHalveFramerate:             C500 data module.  (line 11528)
 * FileSystemDevice10:                    File system device resources.
 (line  3140)
 * FileSystemDevice11:                    File system device resources.
@@ -20378,12 +20382,12 @@ Index of Resources
 (line  3140)
 * FileSystemDevice9:                     File system device resources.
 (line  3140)
-* FinalExpansionWriteBack:               VIC20 cartridges.  (line  6486)
+* FinalExpansionWriteBack:               VIC20 cartridges.  (line  6490)
 * FlashTrueFS:                           Monitor DTV features.
-(line  6259)
+(line  6263)
 * FliplistName:                          Misc resources.    (line  3806)
 * FOURCC:                                XAW-specific features.
-(line  9977)
+(line  9981)
 * FSDevice10ConvertP00:                  File system device resources.
 (line  3148)
 * FSDevice10Dir:                         File system device resources.
@@ -20417,57 +20421,57 @@ Index of Resources
 * FSDevice9SaveP00:                      File system device resources.
 (line  3156)
 * FSFlashDir:                            Monitor DTV features.
-(line  6256)
+(line  6260)
 * FullscreenDevice:                      Windows-specific features.
-(line 10333)
-* FullscreenEnabled:                     AmigaOS-specific features.
-(line  8396)
-* FullscreenEnabled <1>:                 Windows-specific features.
-(line 10329)
-* FullscreenHeight:                      Windows-specific features.
-(line 10341)
-* FullscreenRefreshRate:                 Windows-specific features.
-(line 10345)
-* FullscreenWidth:                       Windows-specific features.
 (line 10337)
-* FunctionHighName:                      PLUS4-specific.    (line  7295)
-* FunctionLowName:                       PLUS4-specific.    (line  7292)
-* GenericCartridgeFile2000:              VIC20 cartridges.  (line  6479)
-* GenericCartridgeFile4000:              VIC20 cartridges.  (line  6479)
-* GenericCartridgeFile6000:              VIC20 cartridges.  (line  6479)
-* GenericCartridgeFileA000:              VIC20 cartridges.  (line  6479)
-* GenericCartridgeFileB000:              VIC20 cartridges.  (line  6479)
+* FullscreenEnabled:                     AmigaOS-specific features.
+(line  8400)
+* FullscreenEnabled <1>:                 Windows-specific features.
+(line 10333)
+* FullscreenHeight:                      Windows-specific features.
+(line 10345)
+* FullscreenRefreshRate:                 Windows-specific features.
+(line 10349)
+* FullscreenWidth:                       Windows-specific features.
+(line 10341)
+* FunctionHighName:                      PLUS4-specific.    (line  7299)
+* FunctionLowName:                       PLUS4-specific.    (line  7296)
+* GenericCartridgeFile2000:              VIC20 cartridges.  (line  6483)
+* GenericCartridgeFile4000:              VIC20 cartridges.  (line  6483)
+* GenericCartridgeFile6000:              VIC20 cartridges.  (line  6483)
+* GenericCartridgeFileA000:              VIC20 cartridges.  (line  6483)
+* GenericCartridgeFileB000:              VIC20 cartridges.  (line  6483)
 * GEORAM:                                C64 I/O extension resources.
-(line  5391)
-* GEORAM <1>:                            VIC20 cartridges.  (line  6542)
-* GEORAMfilename:                        C64 I/O extension resources.
 (line  5395)
-* GEORAMfilename <1>:                    VIC20 cartridges.  (line  6539)
+* GEORAM <1>:                            VIC20 cartridges.  (line  6546)
+* GEORAMfilename:                        C64 I/O extension resources.
+(line  5399)
+* GEORAMfilename <1>:                    VIC20 cartridges.  (line  6543)
 * GEORAMImageWrite:                      C64 I/O extension resources.
-(line  5398)
-* GEORAMImageWrite <1>:                  VIC20 cartridges.  (line  6550)
-* GEORAMIOSwap:                          VIC20 cartridges.  (line  6555)
+(line  5402)
+* GEORAMImageWrite <1>:                  VIC20 cartridges.  (line  6554)
+* GEORAMIOSwap:                          VIC20 cartridges.  (line  6559)
 * GEORAMsize:                            C64 I/O extension resources.
-(line  5403)
-* GEORAMsize <1>:                        VIC20 cartridges.  (line  6546)
+(line  5407)
+* GEORAMsize <1>:                        VIC20 cartridges.  (line  6550)
 * GlueLogic:                             C64 system ROM options.
-(line  5620)
-* GlueLogic <1>:                         SCPU64-specific.   (line  6336)
-* Go64Mode:                              C128-specific.     (line  6052)
-* H6809RomAName:                         PET system ROM.    (line  7747)
-* H6809RomBName:                         PET system ROM.    (line  7747)
-* H6809RomCName:                         PET system ROM.    (line  7747)
-* H6809RomDName:                         PET system ROM.    (line  7747)
-* H6809RomEName:                         PET system ROM.    (line  7747)
-* H6809RomFName:                         PET system ROM.    (line  7747)
+(line  5624)
+* GlueLogic <1>:                         SCPU64-specific.   (line  6340)
+* Go64Mode:                              C128-specific.     (line  6056)
+* H6809RomAName:                         PET system ROM.    (line  7751)
+* H6809RomBName:                         PET system ROM.    (line  7751)
+* H6809RomCName:                         PET system ROM.    (line  7751)
+* H6809RomDName:                         PET system ROM.    (line  7751)
+* H6809RomEName:                         PET system ROM.    (line  7751)
+* H6809RomFName:                         PET system ROM.    (line  7751)
 * HotkeyFile:                            SDL-specific features.
-(line  9182)
+(line  9186)
 * HTMLBrowserCommand:                    Unix-specific features.
-(line  9616)
+(line  9620)
 * HummerADC:                             Monitor DTV features.
-(line  6262)
+(line  6266)
 * HwJoyType:                             DOS-specific features.
-(line  9087)
+(line  9091)
 * HwScalePossible:                       Video resources.   (line  2022)
 * IDE64AutodetectSize1:                  C64 cartridges.    (line  4277)
 * IDE64AutodetectSize2:                  C64 cartridges.    (line  4277)
@@ -20506,205 +20510,205 @@ Index of Resources
 * IECDevice9:                            File system device resources.
 (line  3133)
 * IECReset:                              C64 system ROM options.
-(line  5632)
-* IECReset <1>:                          SCPU64-specific.   (line  6319)
+(line  5636)
+* IECReset <1>:                          SCPU64-specific.   (line  6323)
 * IEEE488:                               C64 cartridges.    (line  4295)
-* IEEE488 <1>:                           VIC20 cartridges.  (line  6595)
+* IEEE488 <1>:                           VIC20 cartridges.  (line  6599)
 * IEEE488Image:                          C64 cartridges.    (line  4299)
 * InitialAutostartDir:                   AmigaOS-specific features.
-(line  8382)
+(line  8386)
 * InitialAutostartDir <1>:               Windows-specific features.
-(line 10185)
+(line 10189)
 * InitialCartDir:                        AmigaOS-specific features.
-(line  8387)
+(line  8391)
 * InitialCartDir <1>:                    Windows-specific features.
-(line 10190)
+(line 10194)
 * InitialDefaultDir:                     AmigaOS-specific features.
-(line  8369)
-* InitialDefaultDir <1>:                 Windows-specific features.
-(line 10172)
-* InitialDiskDir:                        AmigaOS-specific features.
-(line  8378)
-* InitialDiskDir <1>:                    Windows-specific features.
-(line 10181)
-* InitialSnapshotDir:                    AmigaOS-specific features.
-(line  8392)
-* InitialSnapshotDir <1>:                Windows-specific features.
-(line 10195)
-* InitialTapeDir:                        AmigaOS-specific features.
 (line  8373)
+* InitialDefaultDir <1>:                 Windows-specific features.
+(line 10176)
+* InitialDiskDir:                        AmigaOS-specific features.
+(line  8382)
+* InitialDiskDir <1>:                    Windows-specific features.
+(line 10185)
+* InitialSnapshotDir:                    AmigaOS-specific features.
+(line  8396)
+* InitialSnapshotDir <1>:                Windows-specific features.
+(line 10199)
+* InitialTapeDir:                        AmigaOS-specific features.
+(line  8377)
 * InitialTapeDir <1>:                    Windows-specific features.
-(line 10174)
-* InternalFunctionName:                  C128-specific.     (line  5935)
-* InternalFunctionROM:                   C128-specific.     (line  5931)
-* InternalFunctionROMRTCSave:            C128-specific.     (line  5939)
-* IO2RAM:                                VIC20 cartridges.  (line  6509)
-* IO3RAM:                                VIC20 cartridges.  (line  6513)
+(line 10178)
+* InternalFunctionName:                  C128-specific.     (line  5939)
+* InternalFunctionROM:                   C128-specific.     (line  5935)
+* InternalFunctionROMRTCSave:            C128-specific.     (line  5943)
+* IO2RAM:                                VIC20 cartridges.  (line  6513)
+* IO3RAM:                                VIC20 cartridges.  (line  6517)
 * IOCollisionHandling:                   C64 cartridges.    (line  4119)
-* IOCollisionHandling <1>:               VIC20 cartridges.  (line  6473)
-* IOSize:                                PET model.         (line  7405)
+* IOCollisionHandling <1>:               VIC20 cartridges.  (line  6477)
+* IOSize:                                PET model.         (line  7409)
 * IsepicCartridgeEnabled:                C64 cartridges.    (line  4302)
 * Isepicfilename:                        C64 cartridges.    (line  4305)
 * IsepicImageWrite:                      C64 cartridges.    (line  4312)
 * IsepicSwitch:                          C64 cartridges.    (line  4308)
 * JAMAction:                             Misc resources.    (line  3778)
-* JiffySwitch:                           SCPU64-specific.   (line  6330)
+* JiffySwitch:                           SCPU64-specific.   (line  6334)
 * JOYAI1_Down:                           AmigaOS4-specific features.
-(line  8584)
-* JOYAI1_Fire:                           AmigaOS4-specific features.
-(line  8608)
-* JOYAI1_ID:                             AmigaOS4-specific features.
-(line  8570)
-* JOYAI1_Left:                           AmigaOS4-specific features.
-(line  8592)
-* JOYAI1_Right:                          AmigaOS4-specific features.
-(line  8600)
-* JOYAI1_Up:                             AmigaOS4-specific features.
-(line  8576)
-* JOYAI2_Down:                           AmigaOS4-specific features.
 (line  8588)
-* JOYAI2_Fire:                           AmigaOS4-specific features.
+* JOYAI1_Fire:                           AmigaOS4-specific features.
 (line  8612)
-* JOYAI2_ID:                             AmigaOS4-specific features.
-(line  8573)
-* JOYAI2_Left:                           AmigaOS4-specific features.
+* JOYAI1_ID:                             AmigaOS4-specific features.
+(line  8574)
+* JOYAI1_Left:                           AmigaOS4-specific features.
 (line  8596)
-* JOYAI2_Right:                          AmigaOS4-specific features.
+* JOYAI1_Right:                          AmigaOS4-specific features.
 (line  8604)
-* JOYAI2_Up:                             AmigaOS4-specific features.
+* JOYAI1_Up:                             AmigaOS4-specific features.
 (line  8580)
+* JOYAI2_Down:                           AmigaOS4-specific features.
+(line  8592)
+* JOYAI2_Fire:                           AmigaOS4-specific features.
+(line  8616)
+* JOYAI2_ID:                             AmigaOS4-specific features.
+(line  8577)
+* JOYAI2_Left:                           AmigaOS4-specific features.
+(line  8600)
+* JOYAI2_Right:                          AmigaOS4-specific features.
+(line  8608)
+* JOYAI2_Up:                             AmigaOS4-specific features.
+(line  8584)
 * JoyAutofire1Button:                    Windows-specific features.
-(line 10266)
+(line 10270)
 * JoyAutofire1Speed:                     Windows-specific features.
-(line 10249)
-* JoyAutofire2Button:                    Windows-specific features.
-(line 10271)
-* JoyAutofire2Speed:                     Windows-specific features.
 (line 10253)
-* JoyAutofire3Button:                    Windows-specific features.
-(line 10276)
-* JoyAutofire3Speed:                     Windows-specific features.
+* JoyAutofire2Button:                    Windows-specific features.
+(line 10275)
+* JoyAutofire2Speed:                     Windows-specific features.
 (line 10257)
-* JoyAutofire4Button:                    Windows-specific features.
-(line 10281)
-* JoyAutofire4Speed:                     Windows-specific features.
+* JoyAutofire3Button:                    Windows-specific features.
+(line 10280)
+* JoyAutofire3Speed:                     Windows-specific features.
 (line 10261)
+* JoyAutofire4Button:                    Windows-specific features.
+(line 10285)
+* JoyAutofire4Speed:                     Windows-specific features.
+(line 10265)
 * JoyDevice1:                            Control port options.
 (line  2206)
 * JoyDevice1 <1>:                        AmigaOS3-specific features.
-(line  8493)
+(line  8497)
 * JoyDevice1 <2>:                        AmigaOS4-specific features.
-(line  8616)
+(line  8620)
 * JoyDevice1 <3>:                        MorphOS-specific features.
-(line  8696)
+(line  8700)
 * JoyDevice1 <4>:                        AROS-specific features.
-(line  8791)
+(line  8795)
 * JoyDevice1 <5>:                        BeOS-specific features.
-(line  8879)
+(line  8883)
 * JoyDevice1 <6>:                        DOS-specific features.
-(line  9091)
+(line  9095)
 * JoyDevice1 <7>:                        SDL-specific features.
-(line  9239)
+(line  9243)
 * JoyDevice1 <8>:                        Unix-specific features.
-(line  9700)
+(line  9704)
 * JoyDevice1 <9>:                        Windows-specific features.
-(line 10225)
+(line 10229)
 * JoyDevice2:                            Control port options.
 (line  2206)
 * JoyDevice2 <1>:                        AmigaOS3-specific features.
-(line  8499)
+(line  8503)
 * JoyDevice2 <2>:                        AmigaOS4-specific features.
-(line  8621)
+(line  8625)
 * JoyDevice2 <3>:                        MorphOS-specific features.
-(line  8702)
+(line  8706)
 * JoyDevice2 <4>:                        AROS-specific features.
-(line  8797)
+(line  8801)
 * JoyDevice2 <5>:                        BeOS-specific features.
-(line  8885)
+(line  8889)
 * JoyDevice2 <6>:                        DOS-specific features.
-(line  9097)
+(line  9101)
 * JoyDevice2 <7>:                        SDL-specific features.
-(line  9246)
+(line  9250)
 * JoyDevice2 <8>:                        Unix-specific features.
-(line  9709)
+(line  9713)
 * JoyDevice2 <9>:                        Windows-specific features.
-(line 10231)
+(line 10235)
 * JoyDevice3:                            Control port options.
 (line  2206)
 * JoyDevice3 <1>:                        AmigaOS3-specific features.
-(line  8505)
+(line  8509)
 * JoyDevice3 <2>:                        AmigaOS4-specific features.
-(line  8627)
+(line  8631)
 * JoyDevice3 <3>:                        MorphOS-specific features.
-(line  8708)
+(line  8712)
 * JoyDevice3 <4>:                        AROS-specific features.
-(line  8803)
+(line  8807)
 * JoyDevice3 <5>:                        BeOS-specific features.
-(line  8891)
+(line  8895)
 * JoyDevice3 <6>:                        DOS-specific features.
-(line  9103)
+(line  9107)
 * JoyDevice3 <7>:                        SDL-specific features.
-(line  9253)
+(line  9257)
 * JoyDevice3 <8>:                        Unix-specific features.
-(line  9718)
+(line  9722)
 * JoyDevice3 <9>:                        Windows-specific features.
-(line 10237)
+(line 10241)
 * JoyDevice4:                            Control port options.
 (line  2206)
 * JoyDevice4 <1>:                        AmigaOS3-specific features.
-(line  8511)
+(line  8515)
 * JoyDevice4 <2>:                        AmigaOS4-specific features.
-(line  8632)
+(line  8636)
 * JoyDevice4 <3>:                        MorphOS-specific features.
-(line  8714)
+(line  8718)
 * JoyDevice4 <4>:                        AROS-specific features.
-(line  8809)
+(line  8813)
 * JoyDevice4 <5>:                        BeOS-specific features.
-(line  8897)
+(line  8901)
 * JoyDevice4 <6>:                        DOS-specific features.
-(line  9109)
+(line  9113)
 * JoyDevice4 <7>:                        SDL-specific features.
-(line  9260)
+(line  9264)
 * JoyDevice4 <8>:                        Unix-specific features.
-(line  9727)
+(line  9731)
 * JoyDevice4 <9>:                        Windows-specific features.
-(line 10243)
+(line 10247)
 * JoyFire1:                              AmigaOS3-specific features.
-(line  8473)
+(line  8477)
 * JoyFire1 <1>:                          MorphOS-specific features.
-(line  8676)
+(line  8680)
 * JoyFire1 <2>:                          AROS-specific features.
-(line  8771)
+(line  8775)
 * JoyFire1Button:                        Windows-specific features.
-(line 10286)
+(line 10290)
 * JoyFire2:                              AmigaOS3-specific features.
-(line  8478)
+(line  8482)
 * JoyFire2 <1>:                          MorphOS-specific features.
-(line  8681)
+(line  8685)
 * JoyFire2 <2>:                          AROS-specific features.
-(line  8776)
+(line  8780)
 * JoyFire2Button:                        Windows-specific features.
-(line 10291)
+(line 10295)
 * JoyFire3:                              AmigaOS3-specific features.
-(line  8483)
+(line  8487)
 * JoyFire3 <1>:                          MorphOS-specific features.
-(line  8686)
+(line  8690)
 * JoyFire3 <2>:                          AROS-specific features.
-(line  8781)
+(line  8785)
 * JoyFire3Button:                        Windows-specific features.
-(line 10296)
+(line 10300)
 * JoyFire4:                              AmigaOS3-specific features.
-(line  8488)
+(line  8492)
 * JoyFire4 <1>:                          MorphOS-specific features.
-(line  8691)
+(line  8695)
 * JoyFire4 <2>:                          AROS-specific features.
-(line  8786)
+(line  8790)
 * JoyFire4Button:                        Windows-specific features.
-(line 10301)
+(line 10305)
 * JoyFuzz:                               SDL-specific features.
-(line  9385)
+(line  9389)
 * JoyMapFile:                            SDL-specific features.
-(line  9379)
+(line  9383)
 * JoyOpposite:                           Control port options.
 (line  2218)
 * JoyPort1Device:                        Control port resources.
@@ -20716,40 +20720,40 @@ Index of Resources
 * JoyPort4Device:                        Control port resources.
 (line  2153)
 * JoystickDisplay:                       BeOS-specific features.
-(line  8864)
+(line  8868)
 * JoyThreshold:                          SDL-specific features.
-(line  9382)
+(line  9386)
 * KbdbufDelay:                           Control port options.
 (line  2264)
 * KeepAspectRatio:                       XAW-specific features.
-(line  9968)
+(line  9972)
 * KeepAspectRatio <1>:                   GTK-specific features.
-(line 10128)
+(line 10132)
 * KeepAspectRatio <2>:                   Windows-specific features.
-(line 10353)
+(line 10357)
 * KeepMonitorOpen:                       Monitor options.   (line  3700)
-* Kernal64Name:                          C128-specific.     (line  5925)
-* KernalCHName:                          C128-specific.     (line  5918)
-* KernalDEName:                          C128-specific.     (line  5900)
-* KernalFIName:                          C128-specific.     (line  5903)
-* KernalFRName:                          C128-specific.     (line  5906)
-* KernalIntName:                         C128-specific.     (line  5896)
-* KernalITName:                          C128-specific.     (line  5909)
+* Kernal64Name:                          C128-specific.     (line  5929)
+* KernalCHName:                          C128-specific.     (line  5922)
+* KernalDEName:                          C128-specific.     (line  5904)
+* KernalFIName:                          C128-specific.     (line  5907)
+* KernalFRName:                          C128-specific.     (line  5910)
+* KernalIntName:                         C128-specific.     (line  5900)
+* KernalITName:                          C128-specific.     (line  5913)
 * KernalName:                            C64 system ROM resources.
-(line  5576)
+(line  5580)
 * KernalName <1>:                        Monitor DTV features.
-(line  6244)
+(line  6248)
 * KernalName <2>:                        VIC20 system ROM resources.
-(line  7022)
-* KernalName <3>:                        PLUS4-specific.    (line  7286)
-* KernalName <4>:                        PET model.         (line  7446)
-* KernalName <5>:                        CBM-II model.      (line  8132)
-* KernalName <6>:                        VSID-specific.     (line  8294)
-* KernalNOName:                          C128-specific.     (line  5912)
+(line  7026)
+* KernalName <3>:                        PLUS4-specific.    (line  7290)
+* KernalName <4>:                        PET model.         (line  7450)
+* KernalName <5>:                        CBM-II model.      (line  8136)
+* KernalName <6>:                        VSID-specific.     (line  8298)
+* KernalNOName:                          C128-specific.     (line  5916)
 * KernalRev:                             C64 system ROM resources.
-(line  5579)
-* KernalRev <1>:                         VSID-specific.     (line  8300)
-* KernalSEName:                          C128-specific.     (line  5915)
+(line  5583)
+* KernalRev <1>:                         VSID-specific.     (line  8304)
+* KernalSEName:                          C128-specific.     (line  5919)
 * KeyboardMapping:                       Keyboard resources.
 (line  2081)
 * KeyboardType:                          Keyboard resources.
@@ -20802,64 +20806,64 @@ Index of Resources
 (line  2248)
 * KeySetEnable:                          Control port options.
 (line  2260)
-* KoalaCRTCTextColor:                    C500 data module.  (line 11510)
-* KoalaOversizeHandling:                 C500 data module.  (line 11495)
-* KoalaTEDLumHandling:                   C500 data module.  (line 11506)
-* KoalaUndersizeHandling:                C500 data module.  (line 11502)
+* KoalaCRTCTextColor:                    C500 data module.  (line 11514)
+* KoalaOversizeHandling:                 C500 data module.  (line 11499)
+* KoalaTEDLumHandling:                   C500 data module.  (line 11510)
+* KoalaUndersizeHandling:                C500 data module.  (line 11506)
 * LogFileName:                           Misc resources.    (line  3803)
-* MachineType:                           C128-specific.     (line  6058)
+* MachineType:                           C128-specific.     (line  6062)
 * MachineVideoStandard:                  C64 system ROM options.
-(line  5657)
-* MachineVideoStandard <1>:              C128-specific.     (line  6063)
+(line  5661)
+* MachineVideoStandard <1>:              C128-specific.     (line  6067)
 * MachineVideoStandard <2>:              Monitor DTV features.
-(line  6275)
-* MachineVideoStandard <3>:              SCPU64-specific.   (line  6315)
-* MachineVideoStandard <4>:              VIC20 cartridges.  (line  6599)
-* MachineVideoStandard <5>:              PLUS4-specific.    (line  7343)
-* MachineVideoStandard <6>:              PET settings.      (line  7822)
-* MachineVideoStandard <7>:              CBM-II model.      (line  8140)
-* MachineVideoStandard <8>:              VSID-specific.     (line  8319)
+(line  6279)
+* MachineVideoStandard <3>:              SCPU64-specific.   (line  6319)
+* MachineVideoStandard <4>:              VIC20 cartridges.  (line  6603)
+* MachineVideoStandard <5>:              PLUS4-specific.    (line  7347)
+* MachineVideoStandard <6>:              PET settings.      (line  7826)
+* MachineVideoStandard <7>:              CBM-II model.      (line  8144)
+* MachineVideoStandard <8>:              VSID-specific.     (line  8323)
 * MagicVoiceCartridgeEnabled:            C64 cartridges.    (line  4317)
 * MagicVoiceImage:                       C64 cartridges.    (line  4321)
-* MegaCartNvRAMfilename:                 VIC20 cartridges.  (line  6496)
-* MegaCartNvRAMWriteBack:                VIC20 cartridges.  (line  6499)
+* MegaCartNvRAMfilename:                 VIC20 cartridges.  (line  6500)
+* MegaCartNvRAMWriteBack:                VIC20 cartridges.  (line  6503)
 * MemoryHack:                            C64 system ROM options.
-(line  5636)
-* MemoryHack <1>:                        PLUS4-specific.    (line  7350)
+(line  5640)
+* MemoryHack <1>:                        PLUS4-specific.    (line  7354)
 * MenuKey:                               SDL-specific features.
-(line  9186)
+(line  9190)
 * MenuKeyCancel:                         SDL-specific features.
-(line  9204)
+(line  9208)
 * MenuKeyDown:                           SDL-specific features.
-(line  9192)
+(line  9196)
 * MenuKeyExit:                           SDL-specific features.
-(line  9207)
+(line  9211)
 * MenuKeyLeft:                           SDL-specific features.
-(line  9195)
+(line  9199)
 * MenuKeyMap:                            SDL-specific features.
-(line  9210)
+(line  9214)
 * MenuKeyRight:                          SDL-specific features.
-(line  9198)
+(line  9202)
 * MenuKeySelect:                         SDL-specific features.
-(line  9201)
+(line  9205)
 * MenuKeyUp:                             SDL-specific features.
-(line  9189)
+(line  9193)
 * MIDIDriver:                            Unix-specific features.
-(line  9764)
+(line  9768)
 * MIDIEnable:                            C64 I/O extension resources.
-(line  5407)
+(line  5411)
 * MIDIInDev:                             Unix-specific features.
-(line  9753)
-* MIDIInDev <1>:                         Windows-specific features.
-(line 10309)
-* MIDIMode:                              C64 I/O extension resources.
-(line  5412)
-* MIDIOutDev:                            Unix-specific features.
 (line  9757)
-* MIDIOutDev <1>:                        Windows-specific features.
+* MIDIInDev <1>:                         Windows-specific features.
 (line 10313)
+* MIDIMode:                              C64 I/O extension resources.
+(line  5416)
+* MIDIOutDev:                            Unix-specific features.
+(line  9761)
+* MIDIOutDev <1>:                        Windows-specific features.
+(line 10317)
 * MITSHM:                                XAW-specific features.
-(line  9936)
+(line  9940)
 * MMC64:                                 C64 cartridges.    (line  4324)
 * MMC64BIOSfilename:                     C64 cartridges.    (line  4327)
 * MMC64imagefilename:                    C64 cartridges.    (line  4342)
@@ -20875,15 +20879,15 @@ Index of Resources
 * MMCRImageWrite:                        C64 cartridges.    (line  4364)
 * MMCRRescueMode:                        C64 cartridges.    (line  4360)
 * MMCRSDType:                            C64 cartridges.    (line  4373)
-* ModelLine:                             CBM-II model.      (line  8120)
+* ModelLine:                             CBM-II model.      (line  8124)
 * MonitorDimensions:                     Windows-specific features.
-(line 10169)
+(line 10173)
 * MonitorServer:                         Monitor options.   (line  3705)
 * MonitorServerAddress:                  Monitor options.   (line  3706)
 * Mouse:                                 Control port options.
 (line  2233)
 * MouseSensitivity:                      Windows-specific features.
-(line 10165)
+(line 10169)
 * NetworkControl:                        Misc resources.    (line  3798)
 * NetworkServerBindAddress:              Misc resources.    (line  3794)
 * NetworkServerName:                     Misc resources.    (line  3793)
@@ -20891,29 +20895,29 @@ Index of Resources
 * openGL_no_sync:                        Video resources.   (line  2025)
 * openGL_sync:                           Video resources.   (line  2024)
 * OverClock:                             SDL-specific features.
-(line  9390)
+(line  9394)
 * PETColour:                             PET I/O extensions.
-(line  7666)
-* PETColourBG:                           PET I/O extensions.
 (line  7670)
+* PETColourBG:                           PET I/O extensions.
+(line  7674)
 * PETDWW:                                PET I/O extensions.
-(line  7657)
+(line  7661)
 * PETDWWfilename:                        PET I/O extensions.
-(line  7660)
+(line  7664)
 * PETHRE:                                PET I/O extensions.
-(line  7663)
+(line  7667)
 * PETREU:                                PET I/O extensions.
-(line  7647)
+(line  7651)
 * PETREUfilename:                        PET I/O extensions.
-(line  7650)
+(line  7654)
 * PETREUsize:                            PET I/O extensions.
-(line  7653)
+(line  7657)
 * PLUS256Kfilename:                      C64 system ROM options.
-(line  5647)
+(line  5651)
 * PLUS60Kbase:                           C64 system ROM options.
-(line  5643)
+(line  5647)
 * PLUS60Kfilename:                       C64 system ROM options.
-(line  5640)
+(line  5644)
 * Printer4:                              Printer resources. (line  3340)
 * Printer4Driver:                        Printer resources. (line  3350)
 * Printer4Output:                        Printer resources. (line  3361)
@@ -20935,29 +20939,29 @@ Index of Resources
 * PrinterUserportOutput:                 Printer resources. (line  3377)
 * PrinterUserportTextDevice:             Printer resources. (line  3369)
 * PrivateColormap:                       XAW-specific features.
-(line  9926)
+(line  9930)
 * ps2mouse:                              Monitor DTV features.
-(line  6265)
-* PSIDKeepEnv:                           VSID-specific.     (line  8283)
-* PSIDTune:                              VSID-specific.     (line  8287)
-* Ram08:                                 CBM-II model.      (line  8076)
-* Ram1:                                  CBM-II model.      (line  8080)
-* Ram2:                                  CBM-II model.      (line  8084)
-* Ram4:                                  CBM-II model.      (line  8088)
-* Ram6:                                  CBM-II model.      (line  8092)
-* Ram9:                                  PET model.         (line  7413)
-* RamA:                                  PET model.         (line  7417)
+(line  6269)
+* PSIDKeepEnv:                           VSID-specific.     (line  8287)
+* PSIDTune:                              VSID-specific.     (line  8291)
+* Ram08:                                 CBM-II model.      (line  8080)
+* Ram1:                                  CBM-II model.      (line  8084)
+* Ram2:                                  CBM-II model.      (line  8088)
+* Ram4:                                  CBM-II model.      (line  8092)
+* Ram6:                                  CBM-II model.      (line  8096)
+* Ram9:                                  PET model.         (line  7417)
+* RamA:                                  PET model.         (line  7421)
 * RAMBlock0:                             VIC20 memconf resources.
-(line  6974)
+(line  6978)
 * RAMBlock1:                             VIC20 memconf resources.
-(line  6974)
+(line  6978)
 * RAMBlock2:                             VIC20 memconf resources.
-(line  6974)
+(line  6978)
 * RAMBlock3:                             VIC20 memconf resources.
-(line  6974)
+(line  6978)
 * RAMBlock5:                             VIC20 memconf resources.
-(line  6974)
-* RamC:                                  CBM-II model.      (line  8096)
+(line  6978)
+* RamC:                                  CBM-II model.      (line  8100)
 * RAMCART:                               C64 cartridges.    (line  4380)
 * RAMCARTfilename:                       C64 cartridges.    (line  4383)
 * RAMCARTImageWrite:                     C64 cartridges.    (line  4386)
@@ -20966,109 +20970,109 @@ Index of Resources
 * RAMInitPatternInvert:                  Monitor options.   (line  3750)
 * RAMInitStartValue:                     Monitor options.   (line  3742)
 * RAMInitValueInvert:                    Monitor options.   (line  3746)
-* RamSize:                               PLUS4-specific.    (line  7347)
-* RamSize <1>:                           PET model.         (line  7401)
-* RamSize <2>:                           CBM-II model.      (line  8072)
+* RamSize:                               PLUS4-specific.    (line  7351)
+* RamSize <1>:                           PET model.         (line  7405)
+* RamSize <2>:                           CBM-II model.      (line  8076)
 * RawDriveDriver:                        Drive resources.   (line  2634)
 * RefreshRate:                           Performance resources.
 (line  1892)
 * RefreshRate <1>:                       Video resources.   (line  2033)
 * REU:                                   C64 I/O extension resources.
-(line  5418)
-* REUfilename:                           C64 I/O extension resources.
 (line  5422)
+* REUfilename:                           C64 I/O extension resources.
+(line  5426)
 * REUImageWrite:                         C64 I/O extension resources.
-(line  5425)
+(line  5429)
 * REUsize:                               C64 I/O extension resources.
-(line  5430)
-* RomModule9Name:                        PET model.         (line  7456)
-* RomModuleAName:                        PET model.         (line  7460)
-* RomModuleBName:                        PET model.         (line  7464)
+(line  5434)
+* RomModule9Name:                        PET model.         (line  7460)
+* RomModuleAName:                        PET model.         (line  7464)
+* RomModuleBName:                        PET model.         (line  7468)
 * RRBankJumper:                          C64 cartridges.    (line  4404)
 * RRBiosWrite:                           C64 cartridges.    (line  4407)
 * RRFlashJumper:                         C64 cartridges.    (line  4401)
 * RRrevision:                            C64 cartridges.    (line  4397)
 * RsDevice1:                             RS232 resources.   (line  3559)
 * RsDevice1Baud:                         Unix-specific features.
-(line  9771)
+(line  9775)
 * RsDevice2:                             RS232 resources.   (line  3559)
 * RsDevice2Baud:                         Unix-specific features.
-(line  9771)
+(line  9775)
 * RsDevice3:                             RS232 resources.   (line  3559)
 * RsDevice3Baud:                         Unix-specific features.
-(line  9771)
+(line  9775)
 * RsDevice4:                             RS232 resources.   (line  3559)
 * RsDevice4Baud:                         Unix-specific features.
-(line  9771)
+(line  9775)
 * RsUserBaud:                            RS232 resources.   (line  3597)
 * RsUserDev:                             RS232 resources.   (line  3601)
 * RsUserEnable:                          RS232 resources.   (line  3593)
 * SaveResourcesOnExit:                   AmigaOS-specific features.
-(line  8402)
+(line  8406)
 * SaveResourcesOnExit <1>:               BeOS-specific features.
-(line  8868)
+(line  8872)
 * SaveResourcesOnExit <2>:               SDL-specific features.
-(line  9213)
+(line  9217)
 * SaveResourcesOnExit <3>:               Unix-specific features.
-(line  9608)
+(line  9612)
 * SaveResourcesOnExit <4>:               Windows-specific features.
-(line 10199)
-* SCPU64Name:                            SCPU64-specific.   (line  6312)
+(line 10203)
+* SCPU64Name:                            SCPU64-specific.   (line  6316)
 * SDLBitdepth:                           SDL-specific features.
-(line  9225)
-* SDLCustomHeight:                       SDL-specific features.
-(line  9236)
-* SDLCustomWidth:                        SDL-specific features.
-(line  9233)
-* SDLGLAspectMode:                       SDL-specific features.
-(line  9366)
-* SDLGLFlipX:                            SDL-specific features.
-(line  9370)
-* SDLGLFlipY:                            SDL-specific features.
-(line  9373)
-* SDLLimitMode:                          SDL-specific features.
 (line  9229)
+* SDLCustomHeight:                       SDL-specific features.
+(line  9240)
+* SDLCustomWidth:                        SDL-specific features.
+(line  9237)
+* SDLGLAspectMode:                       SDL-specific features.
+(line  9370)
+* SDLGLFlipX:                            SDL-specific features.
+(line  9374)
+* SDLGLFlipY:                            SDL-specific features.
+(line  9377)
+* SDLLimitMode:                          SDL-specific features.
+(line  9233)
 * SDLStatusbar:                          SDL-specific features.
-(line  9221)
+(line  9225)
 * SFXSoundExpander:                      C64 I/O extension resources.
-(line  5434)
-* SFXSoundExpander <1>:                  VIC20 cartridges.  (line  6520)
-* SFXSoundExpanderChip:                  C64 I/O extension resources.
 (line  5438)
-* SFXSoundExpanderChip <1>:              VIC20 cartridges.  (line  6524)
-* SFXSoundExpanderIOSwap:                VIC20 cartridges.  (line  6527)
+* SFXSoundExpander <1>:                  VIC20 cartridges.  (line  6524)
+* SFXSoundExpanderChip:                  C64 I/O extension resources.
+(line  5442)
+* SFXSoundExpanderChip <1>:              VIC20 cartridges.  (line  6528)
+* SFXSoundExpanderIOSwap:                VIC20 cartridges.  (line  6531)
 * SFXSoundSampler:                       C64 I/O extension resources.
-(line  5441)
-* SFXSoundSampler <1>:                   VIC20 cartridges.  (line  6531)
-* SFXSoundSamplerIOSwap:                 VIC20 cartridges.  (line  6535)
+(line  5445)
+* SFXSoundSampler <1>:                   VIC20 cartridges.  (line  6535)
+* SFXSoundSamplerIOSwap:                 VIC20 cartridges.  (line  6539)
 * ShowStatusbar:                         DOS-specific features.
-(line  9076)
-* SidAddress:                            VIC20 cartridges.  (line  6563)
-* SidAddress <1>:                        PLUS4-specific.    (line  7225)
+(line  9080)
+* SidAddress:                            VIC20 cartridges.  (line  6567)
+* SidAddress <1>:                        PLUS4-specific.    (line  7229)
 * SidAddress <2>:                        PET I/O extensions.
-(line  7680)
-* SidCart:                               VIC20 cartridges.  (line  6560)
-* SidCart <1>:                           PLUS4-specific.    (line  7222)
-* SidCart <2>:                           PET I/O extensions.
-(line  7677)
-* SIDCartJoy:                            PLUS4-specific.    (line  7233)
-* SidClock:                              VIC20 cartridges.  (line  6567)
-* SidClock <1>:                          PLUS4-specific.    (line  7229)
-* SidClock <2>:                          PET I/O extensions.
 (line  7684)
-* SidEngine:                             SID resources.     (line  5227)
-* SidFilters:                            SID resources.     (line  5219)
-* SidModel:                              SID resources.     (line  5223)
-* SidResidFilterBias:                    SID resources.     (line  5241)
-* SidResidGain:                          SID resources.     (line  5240)
-* SidResidPassband:                      SID resources.     (line  5236)
-* SidResidSampling:                      SID resources.     (line  5232)
-* SidStereo:                             SID resources.     (line  5187)
-* SidStereoAddressStart:                 SID resources.     (line  5191)
-* SidTripleAddressStart:                 SID resources.     (line  5205)
-* SIMMSize:                              SCPU64-specific.   (line  6327)
+* SidCart:                               VIC20 cartridges.  (line  6564)
+* SidCart <1>:                           PLUS4-specific.    (line  7226)
+* SidCart <2>:                           PET I/O extensions.
+(line  7681)
+* SIDCartJoy:                            PLUS4-specific.    (line  7237)
+* SidClock:                              VIC20 cartridges.  (line  6571)
+* SidClock <1>:                          PLUS4-specific.    (line  7233)
+* SidClock <2>:                          PET I/O extensions.
+(line  7688)
+* SidEngine:                             SID resources.     (line  5231)
+* SidFilters:                            SID resources.     (line  5223)
+* SidModel:                              SID resources.     (line  5227)
+* SidResidFilterBias:                    SID resources.     (line  5245)
+* SidResidGain:                          SID resources.     (line  5244)
+* SidResidPassband:                      SID resources.     (line  5240)
+* SidResidSampling:                      SID resources.     (line  5236)
+* SidStereo:                             SID resources.     (line  5191)
+* SidStereoAddressStart:                 SID resources.     (line  5195)
+* SidTripleAddressStart:                 SID resources.     (line  5209)
+* SIMMSize:                              SCPU64-specific.   (line  6331)
 * SingleCPU:                             Windows-specific features.
-(line 10207)
+(line 10211)
 * Sound:                                 Sound resources.   (line  2346)
 * SoundBufferSize:                       Sound resources.   (line  2358)
 * SoundDeviceArg:                        Sound resources.   (line  2405)
@@ -21081,73 +21085,73 @@ Index of Resources
 * SoundSpeedAdjustment:                  Sound resources.   (line  2349)
 * SoundSuspendTime:                      Sound resources.   (line  2361)
 * SoundVolume:                           Sound resources.   (line  2440)
-* SpeechEnabled:                         PLUS4-specific.    (line  7216)
-* SpeechImage:                           PLUS4-specific.    (line  7219)
+* SpeechEnabled:                         PLUS4-specific.    (line  7220)
+* SpeechImage:                           PLUS4-specific.    (line  7223)
 * Speed:                                 Performance resources.
 (line  1888)
 * Speed <1>:                             Video resources.   (line  2029)
-* SpeedSwitch:                           SCPU64-specific.   (line  6333)
+* SpeedSwitch:                           SCPU64-specific.   (line  6337)
 * SSRamExpansion:                        C64 cartridges.    (line  4412)
 * StatusBarEnabled:                      AmigaOS-specific features.
-(line  8399)
-* SuperPET:                              PET model.         (line  7421)
-* TEDAudioLeak:                          PLUS4-specific.    (line  7117)
-* TEDBorderMode:                         PLUS4-specific.    (line  7125)
-* TEDColorBrightness:                    PLUS4-specific.    (line  7092)
-* TEDColorContrast:                      PLUS4-specific.    (line  7088)
-* TEDColorGamma:                         PLUS4-specific.    (line  7096)
-* TEDColorSaturation:                    PLUS4-specific.    (line  7084)
-* TEDColorTint:                          PLUS4-specific.    (line  7099)
-* TEDDoubleScan:                         PLUS4-specific.    (line  7074)
-* TEDDoubleSize:                         PLUS4-specific.    (line  7071)
-* TEDExternalPalette:                    PLUS4-specific.    (line  7081)
-* TEDFilter:                             PLUS4-specific.    (line  7121)
+(line  8403)
+* SuperPET:                              PET model.         (line  7425)
+* TEDAudioLeak:                          PLUS4-specific.    (line  7121)
+* TEDBorderMode:                         PLUS4-specific.    (line  7129)
+* TEDColorBrightness:                    PLUS4-specific.    (line  7096)
+* TEDColorContrast:                      PLUS4-specific.    (line  7092)
+* TEDColorGamma:                         PLUS4-specific.    (line  7100)
+* TEDColorSaturation:                    PLUS4-specific.    (line  7088)
+* TEDColorTint:                          PLUS4-specific.    (line  7103)
+* TEDDoubleScan:                         PLUS4-specific.    (line  7078)
+* TEDDoubleSize:                         PLUS4-specific.    (line  7075)
+* TEDExternalPalette:                    PLUS4-specific.    (line  7085)
+* TEDFilter:                             PLUS4-specific.    (line  7125)
 * TEDFullscreen:                         SDL-specific features.
-(line  9295)
-* TEDFullscreen <1>:                     Unix-specific features.
-(line  9645)
-* TEDFullscreenDevice:                   SDL-specific features.
-(line  9292)
-* TEDFullscreenDevice <1>:               Unix-specific features.
-(line  9642)
-* TEDFullscreenStatusbar:                SDL-specific features.
 (line  9299)
-* TEDFullscreenStatusbar <1>:            Unix-specific features.
+* TEDFullscreen <1>:                     Unix-specific features.
 (line  9649)
+* TEDFullscreenDevice:                   SDL-specific features.
+(line  9296)
+* TEDFullscreenDevice <1>:               Unix-specific features.
+(line  9646)
+* TEDFullscreenStatusbar:                SDL-specific features.
+(line  9303)
+* TEDFullscreenStatusbar <1>:            Unix-specific features.
+(line  9653)
 * TEDHwScale:                            SDL-specific features.
-(line  9288)
+(line  9292)
 * TEDHwScale <1>:                        Unix-specific features.
-(line  9638)
-* TEDPALBlur:                            PLUS4-specific.    (line  7106)
-* TEDPaletteFile:                        PLUS4-specific.    (line  7077)
-* TEDPALOddLineOffset:                   PLUS4-specific.    (line  7113)
-* TEDPALOddLinePhase:                    PLUS4-specific.    (line  7110)
-* TEDPALScanLineShade:                   PLUS4-specific.    (line  7102)
+(line  9642)
+* TEDPALBlur:                            PLUS4-specific.    (line  7110)
+* TEDPaletteFile:                        PLUS4-specific.    (line  7081)
+* TEDPALOddLineOffset:                   PLUS4-specific.    (line  7117)
+* TEDPALOddLinePhase:                    PLUS4-specific.    (line  7114)
+* TEDPALScanLineShade:                   PLUS4-specific.    (line  7106)
 * TEDSDLFullscreenMode:                  SDL-specific features.
-(line  9285)
-* TEDVideoCache:                         PLUS4-specific.    (line  7068)
+(line  9289)
+* TEDVideoCache:                         PLUS4-specific.    (line  7072)
 * TEDVidmodeFullscreenMode:              XAW-specific features.
-(line 10012)
+(line 10016)
 * TEDXRANDRFullscreenMode:               XAW-specific features.
-(line  9990)
-* TFEIOSwap:                             VIC20 cartridges.  (line  6517)
+(line  9994)
+* TFEIOSwap:                             VIC20 cartridges.  (line  6521)
 * TripleBuffering:                       DOS-specific features.
-(line  9118)
+(line  9122)
 * TrueAspectRatio:                       XAW-specific features.
-(line  9973)
+(line  9977)
 * TrueAspectRatio <1>:                   GTK-specific features.
-(line 10133)
+(line 10137)
 * TrueAspectRatio <2>:                   Windows-specific features.
-(line 10358)
-* UltiMemWriteBack:                      VIC20 cartridges.  (line  6504)
+(line 10362)
+* UltiMemWriteBack:                      VIC20 cartridges.  (line  6508)
 * UseFullscreen:                         XAW-specific features.
-(line  9983)
+(line  9987)
 * UseFullscreen <1>:                     XAW-specific features.
-(line 10006)
+(line 10010)
 * UseLeds:                               DOS-specific features.
-(line  9072)
+(line  9076)
 * UserportDAC:                           PET I/O extensions.
-(line  7674)
+(line  7678)
 * UserportJoy:                           Control port options.
 (line  2222)
 * UserportJoyType:                       Control port options.
@@ -21155,172 +21159,172 @@ Index of Resources
 * UserportRTC:                           Misc resources.    (line  3817)
 * UserportRTCSave:                       Misc resources.    (line  3821)
 * UseXSync:                              XAW-specific features.
-(line  9932)
+(line  9936)
 * VBLANKSync:                            Windows-specific features.
-(line 10349)
-* VDC64KB:                               C128-specific.     (line  5719)
-* VDCAudioLeak:                          C128-specific.     (line  5778)
-* VDCColorBrightness:                    C128-specific.     (line  5753)
-* VDCColorContrast:                      C128-specific.     (line  5749)
-* VDCColorGamma:                         C128-specific.     (line  5757)
-* VDCColorSaturation:                    C128-specific.     (line  5745)
-* VDCColorTint:                          C128-specific.     (line  5760)
-* VDCDoubleScan:                         C128-specific.     (line  5732)
-* VDCDoubleSize:                         C128-specific.     (line  5729)
-* VDCExternalPalette:                    C128-specific.     (line  5742)
-* VDCFilter:                             C128-specific.     (line  5782)
+(line 10353)
+* VDC64KB:                               C128-specific.     (line  5723)
+* VDCAudioLeak:                          C128-specific.     (line  5782)
+* VDCColorBrightness:                    C128-specific.     (line  5757)
+* VDCColorContrast:                      C128-specific.     (line  5753)
+* VDCColorGamma:                         C128-specific.     (line  5761)
+* VDCColorSaturation:                    C128-specific.     (line  5749)
+* VDCColorTint:                          C128-specific.     (line  5764)
+* VDCDoubleScan:                         C128-specific.     (line  5736)
+* VDCDoubleSize:                         C128-specific.     (line  5733)
+* VDCExternalPalette:                    C128-specific.     (line  5746)
+* VDCFilter:                             C128-specific.     (line  5786)
 * VDCFullscreen:                         SDL-specific features.
-(line  9313)
-* VDCFullscreen <1>:                     Unix-specific features.
-(line  9660)
-* VDCFullscreenDevice:                   SDL-specific features.
-(line  9310)
-* VDCFullscreenDevice <1>:               Unix-specific features.
-(line  9657)
-* VDCFullscreenStatusbar:                SDL-specific features.
 (line  9317)
-* VDCFullscreenStatusbar <1>:            Unix-specific features.
+* VDCFullscreen <1>:                     Unix-specific features.
 (line  9664)
-* VDCHwScale:                            SDL-specific features.
-(line  9306)
-* VDCHwScale <1>:                        Unix-specific features.
-(line  9653)
-* VDCPALBlur:                            C128-specific.     (line  5767)
-* VDCPaletteFile:                        C128-specific.     (line  5738)
-* VDCPALOddLineOffset:                   C128-specific.     (line  5774)
-* VDCPALOddLinePhase:                    C128-specific.     (line  5771)
-* VDCPALScanLineShade:                   C128-specific.     (line  5763)
-* VDCRevision:                           C128-specific.     (line  5722)
-* VDCSDLFullscreenMode:                  SDL-specific features.
-(line  9303)
-* VDCStretchVertical:                    C128-specific.     (line  5735)
-* VDCVideoCache:                         C128-specific.     (line  5726)
-* VDCVidmodeFullscreenMode:              XAW-specific features.
-(line 10015)
-* VDCXRANDRFullscreenMode:               XAW-specific features.
-(line  9993)
-* VGAMode:                               DOS-specific features.
-(line  9080)
-* VICAudioLeak:                          VIC20 cartridges.  (line  6850)
-* VICBorderMode:                         VIC20 cartridges.  (line  6858)
-* VICColorBrightness:                    VIC20 cartridges.  (line  6825)
-* VICColorContrast:                      VIC20 cartridges.  (line  6821)
-* VICColorGamma:                         VIC20 cartridges.  (line  6829)
-* VICColorSaturation:                    VIC20 cartridges.  (line  6817)
-* VICColorTint:                          VIC20 cartridges.  (line  6832)
-* VICDoubleScan:                         VIC20 cartridges.  (line  6807)
-* VICDoubleSize:                         VIC20 cartridges.  (line  6804)
-* VICExternalPalette:                    VIC20 cartridges.  (line  6814)
-* VICFilter:                             VIC20 cartridges.  (line  6854)
-* VicFlashPluginWriteBack:               VIC20 cartridges.  (line  6491)
-* VICFullscreen:                         SDL-specific features.
-(line  9331)
-* VICFullscreen <1>:                     Unix-specific features.
-(line  9675)
-* VICFullscreenDevice:                   SDL-specific features.
-(line  9328)
-* VICFullscreenDevice <1>:               Unix-specific features.
-(line  9672)
-* VICFullscreenStatusbar:                SDL-specific features.
-(line  9335)
-* VICFullscreenStatusbar <1>:            Unix-specific features.
-(line  9679)
-* VICHwScale:                            SDL-specific features.
-(line  9324)
-* VICHwScale <1>:                        Unix-specific features.
-(line  9668)
-* VICIIAudioLeak:                        VIC-II resources.  (line  5015)
-* VICIIBorderMode:                       VIC-II resources.  (line  5023)
-* VICIICheckSbColl:                      VIC-II resources.  (line  4955)
-* VICIICheckSsColl:                      VIC-II resources.  (line  4951)
-* VICIIColorBrightness:                  VIC-II resources.  (line  4990)
-* VICIIColorContrast:                    VIC-II resources.  (line  4986)
-* VICIIColorGamma:                       VIC-II resources.  (line  4994)
-* VICIIColorSaturation:                  VIC-II resources.  (line  4982)
-* VICIIColorTint:                        VIC-II resources.  (line  4997)
-* VICIIDoubleScan:                       VIC-II resources.  (line  4969)
-* VICIIDoubleSize:                       VIC-II resources.  (line  4966)
-* VICIIExternalPalette:                  VIC-II resources.  (line  4979)
-* VICIIFilter:                           VIC-II resources.  (line  5019)
-* VICIIFullscreen:                       SDL-specific features.
-(line  9351)
-* VICIIFullscreen <1>:                   Unix-specific features.
-(line  9691)
-* VICIIFullscreenDevice:                 SDL-specific features.
-(line  9347)
-* VICIIFullscreenDevice <1>:             Unix-specific features.
-(line  9687)
-* VICIIFullscreenStatusbar:              SDL-specific features.
-(line  9355)
-* VICIIFullscreenStatusbar <1>:          Unix-specific features.
-(line  9695)
-* VICIIHwScale:                          SDL-specific features.
-(line  9343)
-* VICIIHwScale <1>:                      Unix-specific features.
-(line  9683)
-* VICIIModel:                            VIC-II resources.  (line  4947)
-* VICIINewLuminances:                    VIC-II resources.  (line  4972)
-* VICIIPALBlur:                          VIC-II resources.  (line  5004)
-* VICIIPaletteFile:                      VIC-II resources.  (line  4975)
-* VICIIPALOddLineOffset:                 VIC-II resources.  (line  5011)
-* VICIIPALOddLinePhase:                  VIC-II resources.  (line  5008)
-* VICIIPALScanLineShade:                 VIC-II resources.  (line  5000)
-* VICIISDLFullscreenMode:                SDL-specific features.
-(line  9339)
-* VICIIVideoCache:                       VIC-II resources.  (line  4963)
-* VICIIVidmodeFullscreenMode:            XAW-specific features.
-(line 10021)
-* VICIIVSPBug:                           VIC-II resources.  (line  4959)
-* VICIIXRANDRFullscreenMode:             XAW-specific features.
-(line  9999)
-* VICPALBlur:                            VIC20 cartridges.  (line  6839)
-* VICPaletteFile:                        VIC20 cartridges.  (line  6810)
-* VICPALOddLineOffset:                   VIC20 cartridges.  (line  6846)
-* VICPALOddLinePhase:                    VIC20 cartridges.  (line  6843)
-* VICPALScanLineShade:                   VIC20 cartridges.  (line  6835)
-* VICSDLFullscreenMode:                  SDL-specific features.
+* VDCFullscreenDevice:                   SDL-specific features.
+(line  9314)
+* VDCFullscreenDevice <1>:               Unix-specific features.
+(line  9661)
+* VDCFullscreenStatusbar:                SDL-specific features.
 (line  9321)
-* VICVideoCache:                         VIC20 cartridges.  (line  6801)
+* VDCFullscreenStatusbar <1>:            Unix-specific features.
+(line  9668)
+* VDCHwScale:                            SDL-specific features.
+(line  9310)
+* VDCHwScale <1>:                        Unix-specific features.
+(line  9657)
+* VDCPALBlur:                            C128-specific.     (line  5771)
+* VDCPaletteFile:                        C128-specific.     (line  5742)
+* VDCPALOddLineOffset:                   C128-specific.     (line  5778)
+* VDCPALOddLinePhase:                    C128-specific.     (line  5775)
+* VDCPALScanLineShade:                   C128-specific.     (line  5767)
+* VDCRevision:                           C128-specific.     (line  5726)
+* VDCSDLFullscreenMode:                  SDL-specific features.
+(line  9307)
+* VDCStretchVertical:                    C128-specific.     (line  5739)
+* VDCVideoCache:                         C128-specific.     (line  5730)
+* VDCVidmodeFullscreenMode:              XAW-specific features.
+(line 10019)
+* VDCXRANDRFullscreenMode:               XAW-specific features.
+(line  9997)
+* VGAMode:                               DOS-specific features.
+(line  9084)
+* VICAudioLeak:                          VIC20 cartridges.  (line  6854)
+* VICBorderMode:                         VIC20 cartridges.  (line  6862)
+* VICColorBrightness:                    VIC20 cartridges.  (line  6829)
+* VICColorContrast:                      VIC20 cartridges.  (line  6825)
+* VICColorGamma:                         VIC20 cartridges.  (line  6833)
+* VICColorSaturation:                    VIC20 cartridges.  (line  6821)
+* VICColorTint:                          VIC20 cartridges.  (line  6836)
+* VICDoubleScan:                         VIC20 cartridges.  (line  6811)
+* VICDoubleSize:                         VIC20 cartridges.  (line  6808)
+* VICExternalPalette:                    VIC20 cartridges.  (line  6818)
+* VICFilter:                             VIC20 cartridges.  (line  6858)
+* VicFlashPluginWriteBack:               VIC20 cartridges.  (line  6495)
+* VICFullscreen:                         SDL-specific features.
+(line  9335)
+* VICFullscreen <1>:                     Unix-specific features.
+(line  9679)
+* VICFullscreenDevice:                   SDL-specific features.
+(line  9332)
+* VICFullscreenDevice <1>:               Unix-specific features.
+(line  9676)
+* VICFullscreenStatusbar:                SDL-specific features.
+(line  9339)
+* VICFullscreenStatusbar <1>:            Unix-specific features.
+(line  9683)
+* VICHwScale:                            SDL-specific features.
+(line  9328)
+* VICHwScale <1>:                        Unix-specific features.
+(line  9672)
+* VICIIAudioLeak:                        VIC-II resources.  (line  5019)
+* VICIIBorderMode:                       VIC-II resources.  (line  5027)
+* VICIICheckSbColl:                      VIC-II resources.  (line  4959)
+* VICIICheckSsColl:                      VIC-II resources.  (line  4955)
+* VICIIColorBrightness:                  VIC-II resources.  (line  4994)
+* VICIIColorContrast:                    VIC-II resources.  (line  4990)
+* VICIIColorGamma:                       VIC-II resources.  (line  4998)
+* VICIIColorSaturation:                  VIC-II resources.  (line  4986)
+* VICIIColorTint:                        VIC-II resources.  (line  5001)
+* VICIIDoubleScan:                       VIC-II resources.  (line  4973)
+* VICIIDoubleSize:                       VIC-II resources.  (line  4970)
+* VICIIExternalPalette:                  VIC-II resources.  (line  4983)
+* VICIIFilter:                           VIC-II resources.  (line  5023)
+* VICIIFullscreen:                       SDL-specific features.
+(line  9355)
+* VICIIFullscreen <1>:                   Unix-specific features.
+(line  9695)
+* VICIIFullscreenDevice:                 SDL-specific features.
+(line  9351)
+* VICIIFullscreenDevice <1>:             Unix-specific features.
+(line  9691)
+* VICIIFullscreenStatusbar:              SDL-specific features.
+(line  9359)
+* VICIIFullscreenStatusbar <1>:          Unix-specific features.
+(line  9699)
+* VICIIHwScale:                          SDL-specific features.
+(line  9347)
+* VICIIHwScale <1>:                      Unix-specific features.
+(line  9687)
+* VICIIModel:                            VIC-II resources.  (line  4951)
+* VICIINewLuminances:                    VIC-II resources.  (line  4976)
+* VICIIPALBlur:                          VIC-II resources.  (line  5008)
+* VICIIPaletteFile:                      VIC-II resources.  (line  4979)
+* VICIIPALOddLineOffset:                 VIC-II resources.  (line  5015)
+* VICIIPALOddLinePhase:                  VIC-II resources.  (line  5012)
+* VICIIPALScanLineShade:                 VIC-II resources.  (line  5004)
+* VICIISDLFullscreenMode:                SDL-specific features.
+(line  9343)
+* VICIIVideoCache:                       VIC-II resources.  (line  4967)
+* VICIIVidmodeFullscreenMode:            XAW-specific features.
+(line 10025)
+* VICIIVSPBug:                           VIC-II resources.  (line  4963)
+* VICIIXRANDRFullscreenMode:             XAW-specific features.
+(line 10003)
+* VICPALBlur:                            VIC20 cartridges.  (line  6843)
+* VICPaletteFile:                        VIC20 cartridges.  (line  6814)
+* VICPALOddLineOffset:                   VIC20 cartridges.  (line  6850)
+* VICPALOddLinePhase:                    VIC20 cartridges.  (line  6847)
+* VICPALScanLineShade:                   VIC20 cartridges.  (line  6839)
+* VICSDLFullscreenMode:                  SDL-specific features.
+(line  9325)
+* VICVideoCache:                         VIC20 cartridges.  (line  6805)
 * VICVidmodeFullscreenMode:              XAW-specific features.
-(line 10018)
+(line 10022)
 * VICXRANDRFullscreenMode:               XAW-specific features.
-(line  9996)
+(line 10000)
 * VideoOverlayEnabled:                   AmigaOS3-specific features.
-(line  8521)
+(line  8525)
 * VideoOverlayEnabled <1>:               MorphOS-specific features.
-(line  8724)
+(line  8728)
 * VideoOverlayEnabled <2>:               AROS-specific features.
-(line  8819)
-* VideoSize:                             PET model.         (line  7409)
+(line  8823)
+* VideoSize:                             PET model.         (line  7413)
 * VirtualDevices:                        No traps resources.
 (line  3484)
 * WarpMode:                              Performance resources.
 (line  1897)
 * WarpMode <1>:                          Video resources.   (line  2038)
 * Window0Height:                         XAW-specific features.
-(line  9948)
+(line  9952)
 * Window0Width:                          XAW-specific features.
-(line  9948)
+(line  9952)
 * Window0Xpos:                           XAW-specific features.
-(line  9948)
+(line  9952)
 * Window0Xpos <1>:                       Windows-specific features.
-(line 10211)
+(line 10215)
 * Window0Ypos:                           XAW-specific features.
-(line  9948)
+(line  9952)
 * Window0Ypos <1>:                       Windows-specific features.
-(line 10211)
+(line 10215)
 * Window1Height:                         XAW-specific features.
-(line  9955)
+(line  9959)
 * Window1Width:                          XAW-specific features.
-(line  9955)
+(line  9959)
 * Window1Xpos:                           XAW-specific features.
-(line  9955)
+(line  9959)
 * Window1Xpos <1>:                       Windows-specific features.
-(line 10216)
+(line 10220)
 * Window1Ypos:                           XAW-specific features.
-(line  9955)
+(line  9959)
 * Window1Ypos <1>:                       Windows-specific features.
-(line 10216)
+(line 10220)
 
 Index of Command-line options
 *****************************
@@ -21328,30 +21332,30 @@ Index of Command-line options
 * Menu:
 
 * +cart:                                 C64 cartridges.    (line  4424)
-* +cart <1>:                             CBM-II model.      (line  8185)
+* +cart <1>:                             CBM-II model.      (line  8189)
 * -256kbase:                             C64 system ROM options.
-(line  5688)
+(line  5692)
 * -256kimage:                            C64 system ROM options.
-(line  5685)
-* -40col:                                C128-specific.     (line  6070)
-* -6809romA:                             PET system ROM.    (line  7784)
-* -6809romC:                             PET system ROM.    (line  7792)
-* -6809romD:                             PET system ROM.    (line  7796)
-* -6809romE:                             PET system ROM.    (line  7800)
-* -6809romF:                             PET system ROM.    (line  7803)
-* -80col:                                C128-specific.     (line  6073)
+(line  5689)
+* -40col:                                C128-specific.     (line  6074)
+* -6809romA:                             PET system ROM.    (line  7788)
+* -6809romC:                             PET system ROM.    (line  7796)
+* -6809romD:                             PET system ROM.    (line  7800)
+* -6809romE:                             PET system ROM.    (line  7804)
+* -6809romF:                             PET system ROM.    (line  7807)
+* -80col:                                C128-specific.     (line  6077)
 * -acia1, +acia1:                        RS232 options.     (line  3615)
 * -acia1base:                            RS232 options.     (line  3627)
 * -acia1irq:                             RS232 options.     (line  3638)
 * -acia1mode:                            RS232 options.     (line  3633)
 * -alwaysontop, +alwaysontop:            Windows-specific features.
-(line 10413)
+(line 10417)
 * -aspect:                               SDL-specific features.
-(line  9569)
+(line  9573)
 * -aspect <1>:                           XAW-specific features.
-(line 10051)
+(line 10055)
 * -aspect <2>:                           Windows-specific features.
-(line 10493)
+(line 10497)
 * -attach10ro:                           Command-line initialization.
 (line  1002)
 * -attach11ro:                           Command-line initialization.
@@ -21375,37 +21379,37 @@ Index of Command-line options
 * -autostartwithcolon, +autostartwithcolon: Resources and command-line.
 (line  1821)
 * -basic:                                C64 system ROM options.
-(line  5601)
+(line  5605)
 * -basic <1>:                            Monitor DTV features.
-(line  6299)
+(line  6303)
 * -basic <2>:                            VIC20 system ROM options.
-(line  7038)
-* -basic <3>:                            PET system ROM.    (line  7762)
-* -basic <4>:                            CBM-II model.      (line  8178)
-* -basic <5>:                            VSID-specific.     (line  8339)
-* -basic <Name>:                         PLUS4-specific.    (line  7316)
-* -basic1, +basic1:                      PET settings.      (line  7882)
-* -basic1char, +basic1char:              PET settings.      (line  7887)
-* -basic64:                              C128-specific.     (line  5958)
-* -basichi:                              C128-specific.     (line  5967)
-* -basiclo:                              C128-specific.     (line  5964)
+(line  7042)
+* -basic <3>:                            PET system ROM.    (line  7766)
+* -basic <4>:                            CBM-II model.      (line  8182)
+* -basic <5>:                            VSID-specific.     (line  8343)
+* -basic <Name>:                         PLUS4-specific.    (line  7320)
+* -basic1, +basic1:                      PET settings.      (line  7886)
+* -basic1char, +basic1char:              PET settings.      (line  7891)
+* -basic64:                              C128-specific.     (line  5962)
+* -basichi:                              C128-specific.     (line  5971)
+* -basiclo:                              C128-specific.     (line  5968)
 * -basicload, +basicload:                Resources and command-line.
 (line  1814)
 * -burstmod:                             C64 I/O extension options.
-(line  5554)
-* -burstmod <1>:                         SCPU64-specific.   (line  6372)
-* -c128fullbanks, +c128fullbanks:        C128-specific.     (line  6092)
-* -c1hi:                                 PLUS4-specific.    (line  7328)
-* -c1lo:                                 PLUS4-specific.    (line  7325)
-* -c2hi:                                 PLUS4-specific.    (line  7334)
-* -c2lo:                                 PLUS4-specific.    (line  7331)
-* -c64dtvromimage:                       C64DTV ROM image.  (line  6133)
-* -c64dtvromrw, +c64dtvromrw:            C64DTV ROM image.  (line  6136)
-* -cart1:                                CBM-II model.      (line  8194)
+(line  5558)
+* -burstmod <1>:                         SCPU64-specific.   (line  6376)
+* -c128fullbanks, +c128fullbanks:        C128-specific.     (line  6096)
+* -c1hi:                                 PLUS4-specific.    (line  7332)
+* -c1lo:                                 PLUS4-specific.    (line  7329)
+* -c2hi:                                 PLUS4-specific.    (line  7338)
+* -c2lo:                                 PLUS4-specific.    (line  7335)
+* -c64dtvromimage:                       C64DTV ROM image.  (line  6137)
+* -c64dtvromrw, +c64dtvromrw:            C64DTV ROM image.  (line  6140)
+* -cart1:                                CBM-II model.      (line  8198)
 * -cart16:                               C64 cartridges.    (line  4436)
-* -cart2:                                CBM-II model.      (line  8198)
-* -cart4:                                CBM-II model.      (line  8202)
-* -cart6:                                CBM-II model.      (line  8206)
+* -cart2:                                CBM-II model.      (line  8202)
+* -cart4:                                CBM-II model.      (line  8206)
+* -cart6:                                CBM-II model.      (line  8210)
 * -cart8:                                C64 cartridges.    (line  4433)
 * -cartap:                               C64 cartridges.    (line  4445)
 * -cartar2:                              C64 cartridges.    (line  4448)
@@ -21433,7 +21437,7 @@ Index of Command-line options
 * -cartfm:                               C64 cartridges.    (line  4556)
 * -cartfp:                               C64 cartridges.    (line  4559)
 * -cartgeoram:                           C64 I/O extension options.
-(line  5497)
+(line  5501)
 * -cartgk:                               C64 cartridges.    (line  4562)
 * -cartgs:                               C64 cartridges.    (line  4565)
 * -cartide64:                            C64 cartridges.    (line  4568)
@@ -21454,11 +21458,11 @@ Index of Command-line options
 * -cartramcart:                          C64 cartridges.    (line  4782)
 * -cartrep256:                           C64 cartridges.    (line  4806)
 * -cartreset, +cartreset:                C64 cartridges.    (line  4428)
-* -cartreset, +cartreset <1>:            VIC20 cartridges.  (line  6612)
-* -cartreset, +cartreset <2>:            PLUS4-specific.    (line  7240)
-* -cartreset, +cartreset <3>:            CBM-II model.      (line  8189)
+* -cartreset, +cartreset <1>:            VIC20 cartridges.  (line  6616)
+* -cartreset, +cartreset <2>:            PLUS4-specific.    (line  7244)
+* -cartreset, +cartreset <3>:            CBM-II model.      (line  8193)
 * -cartreu:                              C64 I/O extension options.
-(line  5517)
+(line  5521)
 * -cartrgcd:                             C64 cartridges.    (line  4809)
 * -cartross:                             C64 cartridges.    (line  4812)
 * -cartrr:                               C64 cartridges.    (line  4818)
@@ -21477,42 +21481,42 @@ Index of Command-line options
 * -cartwl:                               C64 cartridges.    (line  4873)
 * -cartws:                               C64 cartridges.    (line  4876)
 * -cartzaxxon:                           C64 cartridges.    (line  4879)
-* -chargch:                              C128-specific.     (line  6010)
-* -chargde:                              C128-specific.     (line  5998)
+* -chargch:                              C128-specific.     (line  6014)
+* -chargde:                              C128-specific.     (line  6002)
 * -chargen:                              C64 system ROM options.
-(line  5604)
-* -chargen <1>:                          C128-specific.     (line  5994)
+(line  5608)
+* -chargen <1>:                          C128-specific.     (line  5998)
 * -chargen <2>:                          Monitor DTV features.
-(line  6292)
-* -chargen <3>:                          SCPU64-specific.   (line  6343)
+(line  6296)
+* -chargen <3>:                          SCPU64-specific.   (line  6347)
 * -chargen <4>:                          VIC20 system ROM options.
-(line  7041)
-* -chargen <5>:                          PET system ROM.    (line  7768)
-* -chargen <6>:                          CBM-II model.      (line  8181)
-* -chargen <7>:                          VSID-specific.     (line  8333)
-* -chargfr:                              C128-specific.     (line  6002)
-* -chargse:                              C128-specific.     (line  6006)
+(line  7045)
+* -chargen <5>:                          PET system ROM.    (line  7772)
+* -chargen <6>:                          CBM-II model.      (line  8185)
+* -chargen <7>:                          VSID-specific.     (line  8337)
+* -chargfr:                              C128-specific.     (line  6006)
+* -chargse:                              C128-specific.     (line  6010)
 * -cia1model:                            C64 cartridges.    (line  4905)
 * -cia2model:                            C64 cartridges.    (line  4909)
 * -ciamodel:                             C64 cartridges.    (line  4900)
 * -colormap, +colormap:                  XAW-specific features.
-(line 10032)
+(line 10036)
 * -colour-analog:                        PET I/O extensions.
-(line  7724)
+(line  7728)
 * -colour-analog-bg:                     PET I/O extensions.
-(line  7727)
+(line  7731)
 * -colour-rgbi:                          PET I/O extensions.
-(line  7721)
+(line  7725)
 * -confirmexit, +confirmexit:            AmigaOS-specific features.
-(line  8453)
+(line  8457)
 * -confirmexit, +confirmexit <1>:        BeOS-specific features.
-(line  8916)
+(line  8920)
 * -confirmexit, +confirmexit <2>:        SDL-specific features.
-(line  9432)
+(line  9436)
 * -confirmexit, +confirmexit <3>:        Unix-specific features.
-(line  9787)
+(line  9791)
 * -confirmexit, +confirmexit <4>:        Windows-specific features.
-(line 10403)
+(line 10407)
 * -controlport1device:                   Control port options.
 (line  2162)
 * -controlport2device:                   Control port options.
@@ -21522,45 +21526,45 @@ Index of Command-line options
 * -controlport4device:                   Control port options.
 (line  2194)
 * -core, +core:                          Misc options.      (line  3836)
-* -cpu6502:                              PET settings.      (line  7873)
-* -cpu6809:                              PET settings.      (line  7876)
-* -cpuprog:                              PET settings.      (line  7879)
-* -crtc, +crtc:                          CRTC Settings.     (line  7565)
-* -Crtcaudioleak, +Crtcaudioleak:        CRTC Settings.     (line  7636)
-* -Crtcbrightness:                       CRTC Settings.     (line  7612)
-* -Crtccontrast:                         CRTC Settings.     (line  7609)
-* -Crtccrtblur:                          CRTC Settings.     (line  7629)
-* -Crtccrtscanlineshade:                 CRTC Settings.     (line  7632)
-* -Crtcdscan, +Crtcdscan:                CRTC Settings.     (line  7584)
-* -Crtcdsize, +Crtcdsize:                CRTC Settings.     (line  7574)
-* -Crtcextpal:                           CRTC Settings.     (line  7596)
-* -Crtcfilter:                           CRTC Settings.     (line  7589)
+* -cpu6502:                              PET settings.      (line  7877)
+* -cpu6809:                              PET settings.      (line  7880)
+* -cpuprog:                              PET settings.      (line  7883)
+* -crtc, +crtc:                          CRTC Settings.     (line  7569)
+* -Crtcaudioleak, +Crtcaudioleak:        CRTC Settings.     (line  7640)
+* -Crtcbrightness:                       CRTC Settings.     (line  7616)
+* -Crtccontrast:                         CRTC Settings.     (line  7613)
+* -Crtccrtblur:                          CRTC Settings.     (line  7633)
+* -Crtccrtscanlineshade:                 CRTC Settings.     (line  7636)
+* -Crtcdscan, +Crtcdscan:                CRTC Settings.     (line  7588)
+* -Crtcdsize, +Crtcdsize:                CRTC Settings.     (line  7578)
+* -Crtcextpal:                           CRTC Settings.     (line  7600)
+* -Crtcfilter:                           CRTC Settings.     (line  7593)
 * -CRTCfull, +CRTCfull:                  SDL-specific features.
-(line  9493)
+(line  9497)
 * -CRTCfulldevice:                       SDL-specific features.
-(line  9489)
+(line  9493)
 * -CRTCfulldevice <1>:                   Unix-specific features.
-(line  9801)
-* -Crtcgamma:                            CRTC Settings.     (line  7616)
+(line  9805)
+* -Crtcgamma:                            CRTC Settings.     (line  7620)
 * -CRTChwscale, +CRTChwscale:            SDL-specific features.
-(line  9484)
+(line  9488)
 * -CRTChwscale, +CRTChwscale <1>:        Unix-specific features.
-(line  9796)
-* -Crtcintpal:                           CRTC Settings.     (line  7593)
-* -Crtcoddlinesoffset:                   CRTC Settings.     (line  7625)
-* -Crtcoddlinesphase:                    CRTC Settings.     (line  7622)
-* -Crtcpalette:                          CRTC Settings.     (line  7599)
-* -Crtcsaturation:                       CRTC Settings.     (line  7605)
+(line  9800)
+* -Crtcintpal:                           CRTC Settings.     (line  7597)
+* -Crtcoddlinesoffset:                   CRTC Settings.     (line  7629)
+* -Crtcoddlinesphase:                    CRTC Settings.     (line  7626)
+* -Crtcpalette:                          CRTC Settings.     (line  7603)
+* -Crtcsaturation:                       CRTC Settings.     (line  7609)
 * -CRTCSDLfullmode:                      SDL-specific features.
-(line  9480)
+(line  9484)
 * -CRTCstretchvertical, +CRTCstretchvertical: CRTC Settings.
-(line  7579)
-* -Crtctint:                             CRTC Settings.     (line  7619)
-* -Crtcvcache, +Crtcvcache:              CRTC Settings.     (line  7569)
+(line  7583)
+* -Crtctint:                             CRTC Settings.     (line  7623)
+* -Crtcvcache, +Crtcvcache:              CRTC Settings.     (line  7573)
 * -CrtcVidmodefullmode:                  XAW-specific features.
-(line 10102)
+(line 10106)
 * -CrtcXRANDRfullmode:                   XAW-specific features.
-(line 10077)
+(line 10081)
 * -debug, +debug:                        Misc options.      (line  3841)
 * -device10:                             File system device options.
 (line  3201)
@@ -21574,24 +21578,24 @@ Index of Command-line options
 (line  3201)
 * -device9:                              File system device options.
 (line  3201)
-* -diagpin, +diagpin:                    PET settings.      (line  7897)
-* -digiblaster, +digiblaster:            PLUS4-specific.    (line  7250)
+* -diagpin, +diagpin:                    PET settings.      (line  7901)
+* -digiblaster, +digiblaster:            PLUS4-specific.    (line  7254)
 * -digimax, +digimax:                    C64 I/O extension options.
-(line  5448)
-* -digimax, +digimax <1>:                VIC20 cartridges.  (line  6701)
-* -digimaxbase:                          C64 I/O extension options.
 (line  5452)
-* -digimaxbase <1>:                      VIC20 cartridges.  (line  6706)
+* -digimax, +digimax <1>:                VIC20 cartridges.  (line  6705)
+* -digimaxbase:                          C64 I/O extension options.
+(line  5456)
+* -digimaxbase <1>:                      VIC20 cartridges.  (line  6710)
 * -directory:                            Misc options.      (line  3833)
 * -directwindow, +directwindow:          BeOS-specific features.
-(line  8921)
+(line  8925)
 * -displaydepth:                         XAW-specific features.
-(line 10028)
-* -doodlecrtctextcolor:                  C500 data module.  (line 11553)
-* -doodlemc:                             C500 data module.  (line 11543)
-* -doodleoversize:                       C500 data module.  (line 11531)
-* -doodletedlum:                         C500 data module.  (line 11548)
-* -doodleundersize:                      C500 data module.  (line 11538)
+(line 10032)
+* -doodlecrtctextcolor:                  C500 data module.  (line 11557)
+* -doodlemc:                             C500 data module.  (line 11547)
+* -doodleoversize:                       C500 data module.  (line 11535)
+* -doodletedlum:                         C500 data module.  (line 11552)
+* -doodleundersize:                      C500 data module.  (line 11542)
 * -dos1001:                              Drive options.     (line  2954)
 * -dos1540:                              Drive options.     (line  2898)
 * -dos1541:                              Drive options.     (line  2902)
@@ -21665,89 +21669,89 @@ Index of Command-line options
 * -drivesound, +drivesound:              Drive options.     (line  2803)
 * -drivesoundvolume:                     Drive options.     (line  2808)
 * -ds12c887rtc, +ds12c887rtc:            C64 I/O extension options.
-(line  5458)
-* -ds12c887rtc, +ds12c887rtc <1>:        VIC20 cartridges.  (line  6711)
+(line  5462)
+* -ds12c887rtc, +ds12c887rtc <1>:        VIC20 cartridges.  (line  6715)
 * -ds12c887rtcbase:                      C64 I/O extension options.
-(line  5463)
-* -ds12c887rtcbase <1>:                  VIC20 cartridges.  (line  6716)
+(line  5467)
+* -ds12c887rtcbase <1>:                  VIC20 cartridges.  (line  6720)
 * -ds12c887rtchalted, -ds12c887rtcrunning: C64 I/O extension options.
-(line  5468)
+(line  5472)
 * -ds12c887rtchalted, -ds12c887rtcrunning <1>: VIC20 cartridges.
-(line  6720)
+(line  6724)
 * -ds12c887rtcsave, +ds12c887rtcsave:    C64 I/O extension options.
-(line  5475)
-* -ds12c887rtcsave, +ds12c887rtcsave <1>: VIC20 cartridges. (line  6727)
+(line  5479)
+* -ds12c887rtcsave, +ds12c887rtcsave <1>: VIC20 cartridges. (line  6731)
 * -dsresetwithcpu, +dsresetwithcpu:      Sound options.     (line  2528)
 * -dsspeedtuning:                        Sound options.     (line  2537)
 * -dstapewobble:                         Sound options.     (line  2541)
 * -dszerogapdelay:                       Sound options.     (line  2533)
-* -dtvrev:                               DTV revision.      (line  6161)
+* -dtvrev:                               DTV revision.      (line  6165)
 * -dx9disable:                           Windows-specific features.
-(line 10452)
-* -dx9enable:                            Windows-specific features.
 (line 10456)
-* -dxpsrender, +dxpsrender:              Windows-specific features.
+* -dx9enable:                            Windows-specific features.
 (line 10460)
+* -dxpsrender, +dxpsrender:              Windows-specific features.
+(line 10464)
 * -easyflashcrtoptimize, +easyflashcrtoptimize: C64 cartridges.
 (line  4509)
 * -easyflashcrtwrite, +easyflashcrtwrite: C64 cartridges.   (line  4504)
 * -easyflashjumper, +easyflashjumper:    C64 cartridges.    (line  4499)
-* -editor:                               PET system ROM.    (line  7765)
-* -eoiblank, +eoiblank:                  PET settings.      (line  7892)
-* -eventendsnapshot:                     C500 data module.  (line 11728)
-* -eventimageinc / +eventimageinc:       C500 data module.  (line 11737)
-* -eventsnapshotdir:                     C500 data module.  (line 11720)
-* -eventstartmode:                       C500 data module.  (line 11732)
-* -eventstartsnapshot:                   C500 data module.  (line 11724)
+* -editor:                               PET system ROM.    (line  7769)
+* -eoiblank, +eoiblank:                  PET settings.      (line  7896)
+* -eventendsnapshot:                     C500 data module.  (line 11732)
+* -eventimageinc / +eventimageinc:       C500 data module.  (line 11741)
+* -eventsnapshotdir:                     C500 data module.  (line 11724)
+* -eventstartmode:                       C500 data module.  (line 11736)
+* -eventstartsnapshot:                   C500 data module.  (line 11728)
 * -expert, +expert:                      C64 cartridges.    (line  4524)
 * -expertimagename:                      C64 cartridges.    (line  4529)
 * -expertimagerw, +expertimagerw:        C64 cartridges.    (line  4532)
 * -expertmode:                           C64 cartridges.    (line  4537)
-* -extfrom:                              C128-specific.     (line  6032)
-* -extfunc:                              C128-specific.     (line  6028)
-* -extfuncrtcsave, +extfuncrtcsave:      C128-specific.     (line  6036)
+* -extfrom:                              C128-specific.     (line  6036)
+* -extfunc:                              C128-specific.     (line  6032)
+* -extfuncrtcsave, +extfuncrtcsave:      C128-specific.     (line  6040)
 * -extrajoydev1:                         AmigaOS3-specific features.
-(line  8534)
-* -extrajoydev1 <1>:                     AmigaOS4-specific features.
-(line  8651)
-* -extrajoydev1 <2>:                     MorphOS-specific features.
-(line  8740)
-* -extrajoydev1 <3>:                     AROS-specific features.
-(line  8835)
-* -extrajoydev1 <4>:                     BeOS-specific features.
-(line  8936)
-* -extrajoydev1 <5>:                     DOS-specific features.
-(line  9152)
-* -extrajoydev1 <6>:                     SDL-specific features.
-(line  9468)
-* -extrajoydev1 <7>:                     Unix-specific features.
-(line  9852)
-* -extrajoydev1 <8>:                     Windows-specific features.
-(line 10428)
-* -extrajoydev2:                         AmigaOS3-specific features.
 (line  8538)
+* -extrajoydev1 <1>:                     AmigaOS4-specific features.
+(line  8655)
+* -extrajoydev1 <2>:                     MorphOS-specific features.
+(line  8744)
+* -extrajoydev1 <3>:                     AROS-specific features.
+(line  8839)
+* -extrajoydev1 <4>:                     BeOS-specific features.
+(line  8940)
+* -extrajoydev1 <5>:                     DOS-specific features.
+(line  9156)
+* -extrajoydev1 <6>:                     SDL-specific features.
+(line  9472)
+* -extrajoydev1 <7>:                     Unix-specific features.
+(line  9856)
+* -extrajoydev1 <8>:                     Windows-specific features.
+(line 10432)
+* -extrajoydev2:                         AmigaOS3-specific features.
+(line  8542)
 * -extrajoydev2 <1>:                     AmigaOS4-specific features.
-(line  8656)
+(line  8660)
 * -extrajoydev2 <2>:                     MorphOS-specific features.
-(line  8745)
+(line  8749)
 * -extrajoydev2 <3>:                     AROS-specific features.
-(line  8840)
+(line  8844)
 * -extrajoydev2 <4>:                     BeOS-specific features.
-(line  8941)
+(line  8945)
 * -extrajoydev2 <5>:                     DOS-specific features.
-(line  9157)
+(line  9161)
 * -extrajoydev2 <6>:                     SDL-specific features.
-(line  9474)
+(line  9478)
 * -extrajoydev2 <7>:                     Unix-specific features.
-(line  9860)
+(line  9864)
 * -extrajoydev2 <8>:                     Windows-specific features.
-(line 10433)
-* -fewriteback, +fewriteback:            VIC20 cartridges.  (line  6644)
+(line 10437)
+* -fewriteback, +fewriteback:            VIC20 cartridges.  (line  6648)
 * -flipname:                             File system device options.
 (line  3286)
 * -fourcc:                               XAW-specific features.
-(line 10066)
-* -fpwriteback, +fpwriteback:            VIC20 cartridges.  (line  6652)
+(line 10070)
+* -fpwriteback, +fpwriteback:            VIC20 cartridges.  (line  6656)
 * -fs10:                                 File system device options.
 (line  3210)
 * -fs10convertp00 / +fs10convertp00:     File system device options.
@@ -21780,41 +21784,41 @@ Index of Command-line options
 (line  3268)
 * -fs9savep00 / +fs9savep00:             File system device options.
 (line  3247)
-* -fsflash:                              C64DTV ROM image.  (line  6150)
+* -fsflash:                              C64DTV ROM image.  (line  6154)
 * -fullscreen, +fullscreen:              AmigaOS-specific features.
-(line  8438)
+(line  8442)
 * -fullscreen, +fullscreen <1>:          XAW-specific features.
-(line 10072)
+(line 10076)
 * -fullscreen, +fullscreen <2>:          XAW-specific features.
-(line 10097)
+(line 10101)
 * -fullscreen, +fullscreen <3>:          Windows-specific features.
-(line 10466)
+(line 10470)
 * -fullscreendevice:                     Windows-specific features.
-(line 10471)
-* -functionhi:                           PLUS4-specific.    (line  7322)
-* -functionlo:                           PLUS4-specific.    (line  7319)
+(line 10475)
+* -functionhi:                           PLUS4-specific.    (line  7326)
+* -functionlo:                           PLUS4-specific.    (line  7323)
 * -georam, +georam:                      C64 I/O extension options.
-(line  5493)
-* -georam, +georam <1>:                  VIC20 cartridges.  (line  6767)
+(line  5497)
+* -georam, +georam <1>:                  VIC20 cartridges.  (line  6771)
 * -georamimage:                          C64 I/O extension options.
-(line  5500)
-* -georamimage <1>:                      VIC20 cartridges.  (line  6772)
+(line  5504)
+* -georamimage <1>:                      VIC20 cartridges.  (line  6776)
 * -georamimagerw, +georamimagerw:        C64 I/O extension options.
-(line  5503)
-* -georamimagerw, +georamimagerw <1>:    VIC20 cartridges.  (line  6775)
-* -georamioswap, +georamioswap:          VIC20 cartridges.  (line  6760)
+(line  5507)
+* -georamimagerw, +georamimagerw <1>:    VIC20 cartridges.  (line  6779)
+* -georamioswap, +georamioswap:          VIC20 cartridges.  (line  6764)
 * -georamsize:                           C64 I/O extension options.
-(line  5508)
-* -georamsize <1>:                       VIC20 cartridges.  (line  6780)
+(line  5512)
+* -georamsize <1>:                       VIC20 cartridges.  (line  6784)
 * -gluelogictype:                        C64 system ROM options.
-(line  5664)
-* -gluelogictype <1>:                    SCPU64-specific.   (line  6389)
-* -go64, +go64:                          C128-specific.     (line  6076)
+(line  5668)
+* -gluelogictype <1>:                    SCPU64-specific.   (line  6393)
+* -go64, +go64:                          C128-specific.     (line  6080)
 * -hotkeyfile:                           SDL-specific features.
-(line  9396)
+(line  9400)
 * -htmlbrowser:                          Unix-specific features.
-(line  9792)
-* -hummeradc, +hummeradc:                Userport.          (line  6193)
+(line  9796)
+* -hummeradc, +hummeradc:                Userport.          (line  6197)
 * -IDE64autosize1, +IDE64autosize1:      C64 cartridges.    (line  4602)
 * -IDE64autosize2, +IDE64autosize2:      C64 cartridges.    (line  4608)
 * -IDE64autosize3, +IDE64autosize3:      C64 cartridges.    (line  4614)
@@ -21850,126 +21854,126 @@ Index of Command-line options
 * -iecdevice9, +iecdevice9:              File system device options.
 (line  3186)
 * -iecreset:                             C64 system ROM options.
-(line  5667)
-* -iecreset <1>:                         SCPU64-specific.   (line  6368)
+(line  5671)
+* -iecreset <1>:                         SCPU64-specific.   (line  6372)
 * -ieee488, +ieee488:                    C64 cartridges.    (line  4644)
-* -ieee488, +ieee488 <1>:                VIC20 cartridges.  (line  6672)
+* -ieee488, +ieee488 <1>:                VIC20 cartridges.  (line  6676)
 * -ieee488image:                         C64 cartridges.    (line  4647)
 * -initialautostartdir:                  AmigaOS-specific features.
-(line  8426)
-* -initialautostartdir <1>:              Windows-specific features.
-(line 10386)
-* -initialcartdir:                       AmigaOS-specific features.
 (line  8430)
-* -initialcartdir <1>:                   Windows-specific features.
+* -initialautostartdir <1>:              Windows-specific features.
 (line 10390)
-* -initialdefaultdir:                    AmigaOS-specific features.
-(line  8413)
-* -initialdefaultdir <1>:                Windows-specific features.
-(line 10373)
-* -initialdiskdir:                       AmigaOS-specific features.
-(line  8422)
-* -initialdiskdir <1>:                   Windows-specific features.
-(line 10382)
-* -initialsnapshotdir:                   AmigaOS-specific features.
+* -initialcartdir:                       AmigaOS-specific features.
 (line  8434)
-* -initialsnapshotdir <1>:               Windows-specific features.
+* -initialcartdir <1>:                   Windows-specific features.
 (line 10394)
-* -initialtapedir:                       AmigaOS-specific features.
+* -initialdefaultdir:                    AmigaOS-specific features.
 (line  8417)
-* -initialtapedir <1>:                   Windows-specific features.
+* -initialdefaultdir <1>:                Windows-specific features.
 (line 10377)
-* -intfrom:                              C128-specific.     (line  6018)
-* -intfunc:                              C128-specific.     (line  6014)
-* -intfuncrtcsave, +intfuncrtcsave:      C128-specific.     (line  6022)
-* -io2ram, +io2ram:                      VIC20 cartridges.  (line  6662)
-* -io3ram, +io3ram:                      VIC20 cartridges.  (line  6667)
+* -initialdiskdir:                       AmigaOS-specific features.
+(line  8426)
+* -initialdiskdir <1>:                   Windows-specific features.
+(line 10386)
+* -initialsnapshotdir:                   AmigaOS-specific features.
+(line  8438)
+* -initialsnapshotdir <1>:               Windows-specific features.
+(line 10398)
+* -initialtapedir:                       AmigaOS-specific features.
+(line  8421)
+* -initialtapedir <1>:                   Windows-specific features.
+(line 10381)
+* -intfrom:                              C128-specific.     (line  6022)
+* -intfunc:                              C128-specific.     (line  6018)
+* -intfuncrtcsave, +intfuncrtcsave:      C128-specific.     (line  6026)
+* -io2ram, +io2ram:                      VIC20 cartridges.  (line  6666)
+* -io3ram, +io3ram:                      VIC20 cartridges.  (line  6671)
 * -iocollision:                          C64 cartridges.    (line  4418)
-* -iocollision <1>:                      VIC20 cartridges.  (line  6606)
-* -iosize:                               PET settings.      (line  7849)
+* -iocollision <1>:                      VIC20 cartridges.  (line  6610)
+* -iosize:                               PET settings.      (line  7853)
 * -isepic, +isepic:                      C64 cartridges.    (line  4651)
 * -isepicimagename:                      C64 cartridges.    (line  4664)
 * -isepicimagerw, +isepicimagerw:        C64 cartridges.    (line  4667)
 * -isepicswitch, +isepicswitch:          C64 cartridges.    (line  4656)
 * -jamaction:                            Misc options.      (line  3828)
-* -jiffyswitch, +jiffyswitch:            SCPU64-specific.   (line  6381)
+* -jiffyswitch, +jiffyswitch:            SCPU64-specific.   (line  6385)
 * -joydev1:                              AmigaOS3-specific features.
-(line  8527)
+(line  8531)
 * -joydev1 <1>:                          AmigaOS4-specific features.
-(line  8641)
+(line  8645)
 * -joydev1 <2>:                          MorphOS-specific features.
-(line  8730)
+(line  8734)
 * -joydev1 <3>:                          AROS-specific features.
-(line  8825)
+(line  8829)
 * -joydev1 <4>:                          BeOS-specific features.
-(line  8926)
+(line  8930)
 * -joydev1 <5>:                          DOS-specific features.
-(line  9142)
+(line  9146)
 * -joydev1 <6>:                          SDL-specific features.
-(line  9456)
+(line  9460)
 * -joydev1 <7>:                          Unix-specific features.
-(line  9836)
+(line  9840)
 * -joydev1 <8>:                          Windows-specific features.
-(line 10418)
+(line 10422)
 * -joydev2:                              AmigaOS3-specific features.
-(line  8530)
+(line  8534)
 * -joydev2 <1>:                          AmigaOS4-specific features.
-(line  8646)
+(line  8650)
 * -joydev2 <2>:                          MorphOS-specific features.
-(line  8735)
+(line  8739)
 * -joydev2 <3>:                          AROS-specific features.
-(line  8830)
+(line  8834)
 * -joydev2 <4>:                          BeOS-specific features.
-(line  8931)
+(line  8935)
 * -joydev2 <5>:                          DOS-specific features.
-(line  9147)
+(line  9151)
 * -joydev2 <6>:                          SDL-specific features.
-(line  9462)
+(line  9466)
 * -joydev2 <7>:                          Unix-specific features.
-(line  9844)
+(line  9848)
 * -joydev2 <8>:                          Windows-specific features.
-(line 10423)
+(line 10427)
 * -joydisplay, +joydisplay:              BeOS-specific features.
-(line  8906)
+(line  8910)
 * -joyfuzz:                              SDL-specific features.
-(line  9596)
+(line  9600)
 * -joyhwtype:                            DOS-specific features.
-(line  9138)
+(line  9142)
 * -joymap:                               SDL-specific features.
-(line  9590)
+(line  9594)
 * -joyopposite, +joyopposite:            Control port options.
 (line  2279)
 * -joythreshold:                         SDL-specific features.
-(line  9593)
+(line  9597)
 * -keepaspect, +keepaspect:              XAW-specific features.
-(line 10054)
+(line 10058)
 * -keepaspect, +keepaspect <1>:          GTK-specific features.
-(line 10140)
+(line 10144)
 * -keepaspect, +keepaspect <2>:          Windows-specific features.
-(line 10480)
-* -keepenv:                              VSID-specific.     (line  8326)
+(line 10484)
+* -keepenv:                              VSID-specific.     (line  8330)
 * -keepmonopen, +keepmonopen:            Monitor options.   (line  3724)
 * -kernal:                               C64 system ROM options.
-(line  5608)
-* -kernal <1>:                           C128-specific.     (line  5970)
+(line  5612)
+* -kernal <1>:                           C128-specific.     (line  5974)
 * -kernal <2>:                           Monitor DTV features.
-(line  6296)
+(line  6300)
 * -kernal <3>:                           VIC20 system ROM options.
-(line  7035)
-* -kernal <4>:                           PET system ROM.    (line  7759)
-* -kernal <5>:                           CBM-II model.      (line  8175)
-* -kernal <6>:                           VSID-specific.     (line  8336)
-* -kernal <Name>:                        PLUS4-specific.    (line  7313)
-* -kernal64:                             C128-specific.     (line  5961)
-* -kernalch:                             C128-specific.     (line  5991)
-* -kernalde:                             C128-specific.     (line  5973)
-* -kernalfi:                             C128-specific.     (line  5976)
-* -kernalfr:                             C128-specific.     (line  5979)
-* -kernalit:                             C128-specific.     (line  5982)
-* -kernalno:                             C128-specific.     (line  5985)
+(line  7039)
+* -kernal <4>:                           PET system ROM.    (line  7763)
+* -kernal <5>:                           CBM-II model.      (line  8179)
+* -kernal <6>:                           VSID-specific.     (line  8340)
+* -kernal <Name>:                        PLUS4-specific.    (line  7317)
+* -kernal64:                             C128-specific.     (line  5965)
+* -kernalch:                             C128-specific.     (line  5995)
+* -kernalde:                             C128-specific.     (line  5977)
+* -kernalfi:                             C128-specific.     (line  5980)
+* -kernalfr:                             C128-specific.     (line  5983)
+* -kernalit:                             C128-specific.     (line  5986)
+* -kernalno:                             C128-specific.     (line  5989)
 * -kernalrev:                            C64 system ROM options.
-(line  5611)
-* -kernalse:                             C128-specific.     (line  5988)
+(line  5615)
+* -kernalse:                             C128-specific.     (line  5992)
 * -keyboardmapping:                      Keyboard options.  (line  2105)
 * -keyboardtype:                         Keyboard options.  (line  2110)
 * -keybuf-delay:                         Control port options.
@@ -21977,58 +21981,58 @@ Index of Command-line options
 * -keymap:                               Keyboard options.  (line  2093)
 * -keyset, +keyset:                      Control port options.
 (line  2299)
-* -koalacrtctextcolor:                   C500 data module.  (line 11574)
-* -koalaoversize:                        C500 data module.  (line 11557)
-* -koalatedlum:                          C500 data module.  (line 11569)
-* -koalaundersize:                       C500 data module.  (line 11564)
+* -koalacrtctextcolor:                   C500 data module.  (line 11578)
+* -koalaoversize:                        C500 data module.  (line 11561)
+* -koalatedlum:                          C500 data module.  (line 11573)
+* -koalaundersize:                       C500 data module.  (line 11568)
 * -leds, +leds:                          DOS-specific features.
-(line  9124)
+(line  9128)
 * -logfile:                              Command-line initialization.
 (line   978)
-* -machinetype:                          C128-specific.     (line  6097)
+* -machinetype:                          C128-specific.     (line  6101)
 * -magicvoice, +magicvoice:              C64 cartridges.    (line  4768)
 * -magicvoiceimage:                      C64 cartridges.    (line  4764)
-* -mcnvramfile:                          VIC20 cartridges.  (line  6633)
-* -mcnvramwriteback, +mcnvramwriteback:  VIC20 cartridges.  (line  6636)
+* -mcnvramfile:                          VIC20 cartridges.  (line  6637)
+* -mcnvramwriteback, +mcnvramwriteback:  VIC20 cartridges.  (line  6640)
 * -memory:                               VIC20 memconf options.
-(line  6985)
+(line  6989)
 * -memoryexphack:                        C64 system ROM options.
-(line  5671)
-* -memoryexphack <1>:                    PLUS4-specific.    (line  7376)
+(line  5675)
+* -memoryexphack <1>:                    PLUS4-specific.    (line  7380)
 * -menukey:                              SDL-specific features.
-(line  9400)
+(line  9404)
 * -menukeycancel:                        SDL-specific features.
-(line  9418)
+(line  9422)
 * -menukeydown:                          SDL-specific features.
-(line  9406)
+(line  9410)
 * -menukeyexit:                          SDL-specific features.
-(line  9421)
+(line  9425)
 * -menukeyleft:                          SDL-specific features.
-(line  9409)
+(line  9413)
 * -menukeymap:                           SDL-specific features.
-(line  9424)
+(line  9428)
 * -menukeyright:                         SDL-specific features.
-(line  9412)
+(line  9416)
 * -menukeyselect:                        SDL-specific features.
-(line  9415)
+(line  9419)
 * -menukeyup:                            SDL-specific features.
-(line  9403)
+(line  9407)
 * -midi, +midi:                          C64 I/O extension options.
-(line  5486)
+(line  5490)
 * -mididrv:                              Unix-specific features.
-(line  9896)
+(line  9900)
 * -midiin:                               Unix-specific features.
-(line  9885)
-* -midiin <1>:                           Windows-specific features.
-(line 10441)
-* -midiout:                              Unix-specific features.
 (line  9889)
-* -midiout <1>:                          Windows-specific features.
+* -midiin <1>:                           Windows-specific features.
 (line 10445)
+* -midiout:                              Unix-specific features.
+(line  9893)
+* -midiout <1>:                          Windows-specific features.
+(line 10449)
 * -miditype:                             C64 I/O extension options.
-(line  5480)
+(line  5484)
 * -mitshm, +mitshm:                      XAW-specific features.
-(line 10043)
+(line 10047)
 * -mmc64, +mmc64:                        C64 cartridges.    (line  4690)
 * -mmc64bios:                            C64 cartridges.    (line  4697)
 * -mmc64biosreadonly:                    C64 cartridges.    (line  4717)
@@ -22047,76 +22051,76 @@ Index of Command-line options
 * -mmcrrescue, +mmcrrescue:              C64 cartridges.    (line  4731)
 * -mmcrsdtype:                           C64 cartridges.    (line  4741)
 * -model:                                C64 system ROM options.
-(line  5704)
-* -model <1>:                            C128-specific.     (line  6087)
+(line  5708)
+* -model <1>:                            C128-specific.     (line  6091)
 * -model <2>:                            Monitor DTV features.
-(line  6282)
-* -model <3>:                            SCPU64-specific.   (line  6350)
-* -model <4>:                            VIC20 cartridges.  (line  6784)
-* -model <5>:                            PLUS4-specific.    (line  7360)
-* -model <6>:                            PET settings.      (line  7841)
+(line  6286)
+* -model <3>:                            SCPU64-specific.   (line  6354)
+* -model <4>:                            VIC20 cartridges.  (line  6788)
+* -model <5>:                            PLUS4-specific.    (line  7364)
+* -model <6>:                            PET settings.      (line  7845)
 * -model <7>:                            CBM-II commandline options.
-(line  8255)
+(line  8259)
 * -mousesensitivity:                     Windows-specific features.
-(line 10369)
+(line 10373)
 * -myaciadev:                            RS232 options.     (line  3622)
 * -ntsc:                                 C64 system ROM options.
-(line  5695)
-* -ntsc <1>:                             C128-specific.     (line  6084)
+(line  5699)
+* -ntsc <1>:                             C128-specific.     (line  6088)
 * -ntsc <2>:                             Monitor DTV features.
-(line  6289)
-* -ntsc <3>:                             SCPU64-specific.   (line  6359)
-* -ntsc <4>:                             VIC20 cartridges.  (line  6792)
-* -ntsc <5>:                             PLUS4-specific.    (line  7370)
-* -ntsc <6>:                             PET settings.      (line  7838)
+(line  6293)
+* -ntsc <3>:                             SCPU64-specific.   (line  6363)
+* -ntsc <4>:                             VIC20 cartridges.  (line  6796)
+* -ntsc <5>:                             PLUS4-specific.    (line  7374)
+* -ntsc <6>:                             PET settings.      (line  7842)
 * -ntsc <7>:                             CBM-II commandline options.
-(line  8218)
-* -ntsc <8>:                             VSID-specific.     (line  8345)
+(line  8222)
+* -ntsc <8>:                             VSID-specific.     (line  8349)
 * -ntscold:                              C64 system ROM options.
-(line  5698)
-* -ntscold <1>:                          SCPU64-specific.   (line  6362)
-* -ntscold <2>:                          VSID-specific.     (line  8348)
+(line  5702)
+* -ntscold <1>:                          SCPU64-specific.   (line  6366)
+* -ntscold <2>:                          VSID-specific.     (line  8352)
 * -pal:                                  C64 system ROM options.
-(line  5692)
-* -pal <1>:                              C128-specific.     (line  6081)
+(line  5696)
+* -pal <1>:                              C128-specific.     (line  6085)
 * -pal <2>:                              Monitor DTV features.
-(line  6286)
-* -pal <3>:                              SCPU64-specific.   (line  6356)
-* -pal <4>:                              VIC20 cartridges.  (line  6789)
-* -pal <5>:                              PLUS4-specific.    (line  7367)
-* -pal <6>:                              PET settings.      (line  7835)
+(line  6290)
+* -pal <3>:                              SCPU64-specific.   (line  6360)
+* -pal <4>:                              VIC20 cartridges.  (line  6793)
+* -pal <5>:                              PLUS4-specific.    (line  7371)
+* -pal <6>:                              PET settings.      (line  7839)
 * -pal <7>:                              CBM-II commandline options.
-(line  8215)
-* -pal <8>:                              VSID-specific.     (line  8342)
+(line  8219)
+* -pal <8>:                              VSID-specific.     (line  8346)
 * -paln:                                 C64 system ROM options.
-(line  5701)
-* -paln <1>:                             SCPU64-specific.   (line  6365)
-* -paln <2>:                             VSID-specific.     (line  8351)
+(line  5705)
+* -paln <1>:                             SCPU64-specific.   (line  6369)
+* -paln <2>:                             VSID-specific.     (line  8355)
 * -parallel10:                           Drive options.     (line  2856)
 * -parallel11:                           Drive options.     (line  2856)
 * -parallel8:                            Drive options.     (line  2856)
 * -parallel9:                            Drive options.     (line  2856)
 * -petdww, +petdww:                      PET I/O extensions.
-(line  7708)
+(line  7712)
 * -petdwwimage:                          PET I/O extensions.
-(line  7713)
+(line  7717)
 * -pethre, +pethre:                      PET I/O extensions.
-(line  7716)
-* -petram9, +petram9:                    PET settings.      (line  7859)
-* -petramA, +petramA:                    PET settings.      (line  7864)
+(line  7720)
+* -petram9, +petram9:                    PET settings.      (line  7863)
+* -petramA, +petramA:                    PET settings.      (line  7868)
 * -petreu, +petreu:                      PET I/O extensions.
-(line  7691)
+(line  7695)
 * -petreuimage:                          PET I/O extensions.
-(line  7696)
-* -petreuramsize:                        PET I/O extensions.
 (line  7700)
-* -playback:                             C500 data module.  (line 11717)
+* -petreuramsize:                        PET I/O extensions.
+(line  7704)
+* -playback:                             C500 data module.  (line 11721)
 * -plus256kimage:                        C64 system ROM options.
-(line  5682)
+(line  5686)
 * -plus60kbase:                          C64 system ROM options.
-(line  5678)
+(line  5682)
 * -plus60kimage:                         C64 system ROM options.
-(line  5675)
+(line  5679)
 * -poskeymap:                            Keyboard options.  (line  2101)
 * -pr4drv:                               Printer options.   (line  3443)
 * -pr4output:                            Printer options.   (line  3431)
@@ -22135,19 +22139,19 @@ Index of Command-line options
 * -pruserdrv:                            Printer options.   (line  3468)
 * -pruseroutput:                         Printer options.   (line  3464)
 * -prusertxtdev:                         Printer options.   (line  3460)
-* -ps2mouse, +ps2mouse:                  Userport.          (line  6197)
+* -ps2mouse, +ps2mouse:                  Userport.          (line  6201)
 * -ram08, +ram08:                        CBM-II commandline options.
-(line  8225)
+(line  8229)
 * -ram1, +ram1:                          CBM-II commandline options.
-(line  8230)
+(line  8234)
 * -ram2, +ram2:                          CBM-II commandline options.
-(line  8235)
+(line  8239)
 * -ram4, +ram4:                          CBM-II commandline options.
-(line  8240)
+(line  8244)
 * -ram6, +ram6:                          CBM-II commandline options.
-(line  8245)
+(line  8249)
 * -ramC, +ramC:                          CBM-II commandline options.
-(line  8250)
+(line  8254)
 * -ramcart, +ramcart:                    C64 cartridges.    (line  4785)
 * -ramcartimage:                         C64 cartridges.    (line  4792)
 * -ramcartimagerw, +ramcartimagerw:      C64 cartridges.    (line  4795)
@@ -22156,92 +22160,92 @@ Index of Command-line options
 * -ramcartsize:                          C64 cartridges.    (line  4789)
 * -raminitpatterninvert:                 Monitor options.   (line  3765)
 * -raminitstartvalue:                    Monitor options.   (line  3757)
-* -ramsize:                              PLUS4-specific.    (line  7373)
-* -ramsize <1>:                          PET settings.      (line  7852)
+* -ramsize:                              PLUS4-specific.    (line  7377)
+* -ramsize <1>:                          PET settings.      (line  7856)
 * -ramsize <2>:                          CBM-II commandline options.
-(line  8221)
+(line  8225)
 * -refresh:                              Performance options.
 (line  1907)
 * -reu, +reu:                            C64 I/O extension options.
-(line  5512)
+(line  5516)
 * -reuimage:                             C64 I/O extension options.
-(line  5520)
+(line  5524)
 * -reuimagerw, +reuimagerw:              C64 I/O extension options.
-(line  5523)
+(line  5527)
 * -reusize:                              C64 I/O extension options.
-(line  5528)
-* -rom9:                                 PET system ROM.    (line  7772)
-* -romA:                                 PET system ROM.    (line  7776)
-* -romB:                                 PET system ROM.    (line  7780)
+(line  5532)
+* -rom9:                                 PET system ROM.    (line  7776)
+* -romA:                                 PET system ROM.    (line  7780)
+* -romB:                                 PET system ROM.    (line  7784)
 * -rrbankjumper, +rrbankjumper:          C64 cartridges.    (line  4826)
 * -rrbioswrite, +rrbioswrite:            C64 cartridges.    (line  4821)
 * -rrflashjumper, +rrflashjumper:        C64 cartridges.    (line  4830)
 * -rrrev:                                C64 cartridges.    (line  4834)
 * -rsdev1baud:                           Unix-specific features.
-(line  9903)
+(line  9907)
 * -rsdev2baud:                           Unix-specific features.
-(line  9904)
+(line  9908)
 * -rsdev3baud:                           Unix-specific features.
-(line  9905)
+(line  9909)
 * -rsdev4baud:                           Unix-specific features.
-(line  9906)
+(line  9910)
 * -saveres, +saveres:                    AmigaOS-specific features.
-(line  8448)
+(line  8452)
 * -saveres, +saveres <1>:                BeOS-specific features.
-(line  8911)
+(line  8915)
 * -saveres, +saveres <2>:                SDL-specific features.
-(line  9427)
+(line  9431)
 * -saveres, +saveres <3>:                Unix-specific features.
-(line  9782)
+(line  9786)
 * -saveres, +saveres <4>:                Windows-specific features.
-(line 10398)
-* -scpu64:                               SCPU64-specific.   (line  6347)
+(line 10402)
+* -scpu64:                               SCPU64-specific.   (line  6351)
 * -sdlaspectmode:                        SDL-specific features.
-(line  9572)
-* -sdlbitdepth:                          SDL-specific features.
-(line  9442)
-* -sdlcustomh:                           SDL-specific features.
-(line  9453)
-* -sdlcustomw:                           SDL-specific features.
-(line  9450)
-* -sdlflipx, +sdlflipx:                  SDL-specific features.
 (line  9576)
-* -sdlflipy, +sdlflipy:                  SDL-specific features.
-(line  9581)
-* -sdllimitmode:                         SDL-specific features.
+* -sdlbitdepth:                          SDL-specific features.
 (line  9446)
+* -sdlcustomh:                           SDL-specific features.
+(line  9457)
+* -sdlcustomw:                           SDL-specific features.
+(line  9454)
+* -sdlflipx, +sdlflipx:                  SDL-specific features.
+(line  9580)
+* -sdlflipy, +sdlflipy:                  SDL-specific features.
+(line  9585)
+* -sdllimitmode:                         SDL-specific features.
+(line  9450)
 * -sfxse, +sfxse:                        C64 I/O extension options.
-(line  5532)
-* -sfxse, +sfxse <1>:                    VIC20 cartridges.  (line  6732)
-* -sfxseioswap, +sfxseioswap:            VIC20 cartridges.  (line  6741)
+(line  5536)
+* -sfxse, +sfxse <1>:                    VIC20 cartridges.  (line  6736)
+* -sfxseioswap, +sfxseioswap:            VIC20 cartridges.  (line  6745)
 * -sfxsetype:                            C64 I/O extension options.
-(line  5537)
-* -sfxsetype <1>:                        VIC20 cartridges.  (line  6738)
+(line  5541)
+* -sfxsetype <1>:                        VIC20 cartridges.  (line  6742)
 * -sfxss, +sfxss:                        C64 I/O extension options.
-(line  5540)
-* -sfxss, +sfxss <1>:                    VIC20 cartridges.  (line  6755)
-* -sfxssioswap, +sfxssioswap:            VIC20 cartridges.  (line  6748)
-* -sidcart, +sidcart:                    VIC20 cartridges.  (line  6677)
-* -sidcart, +sidcart <1>:                PLUS4-specific.    (line  7255)
+(line  5544)
+* -sfxss, +sfxss <1>:                    VIC20 cartridges.  (line  6759)
+* -sfxssioswap, +sfxssioswap:            VIC20 cartridges.  (line  6752)
+* -sidcart, +sidcart:                    VIC20 cartridges.  (line  6681)
+* -sidcart, +sidcart <1>:                PLUS4-specific.    (line  7259)
 * -sidcart, +sidcart <2>:                PET I/O extensions.
-(line  7730)
-* -sidcartaddress:                       VIC20 cartridges.  (line  6681)
-* -sidcartaddress <1>:                   PLUS4-specific.    (line  7264)
-* -sidcartaddress <2>:                   PET I/O extensions.
 (line  7734)
-* -sidcartclock:                         VIC20 cartridges.  (line  6685)
-* -sidcartclock <1>:                     PLUS4-specific.    (line  7268)
-* -sidcartclock <2>:                     PET I/O extensions.
+* -sidcartaddress:                       VIC20 cartridges.  (line  6685)
+* -sidcartaddress <1>:                   PLUS4-specific.    (line  7268)
+* -sidcartaddress <2>:                   PET I/O extensions.
 (line  7738)
-* -sidcartjoy, +sidcartjoy:              PLUS4-specific.    (line  7259)
-* -sidenginemodel:                       SID options.       (line  5283)
-* -sidfilters, +sidfilters:              SID options.       (line  5295)
-* -sidstereo:                            SID options.       (line  5249)
-* -sidstereoaddress:                     SID options.       (line  5253)
-* -sidtripleaddress:                     SID options.       (line  5268)
-* -simmsize:                             SCPU64-specific.   (line  6378)
+* -sidcartclock:                         VIC20 cartridges.  (line  6689)
+* -sidcartclock <1>:                     PLUS4-specific.    (line  7272)
+* -sidcartclock <2>:                     PET I/O extensions.
+(line  7742)
+* -sidcartjoy, +sidcartjoy:              PLUS4-specific.    (line  7263)
+* -sidenginemodel:                       SID options.       (line  5287)
+* -sidfilters, +sidfilters:              SID options.       (line  5299)
+* -sidstereo:                            SID options.       (line  5253)
+* -sidstereoaddress:                     SID options.       (line  5257)
+* -sidtripleaddress:                     SID options.       (line  5272)
+* -simmsize:                             SCPU64-specific.   (line  6382)
 * -singlecpu, +singlecpu:                Windows-specific features.
-(line 10408)
+(line 10412)
 * -sound, +sound:                        Sound options.     (line  2454)
 * -soundarg:                             Sound options.     (line  2482)
 * -soundbufsize:                         Sound options.     (line  2470)
@@ -22254,69 +22258,69 @@ Index of Command-line options
 * -soundsuspend:                         Sound options.     (line  2494)
 * -soundsync:                            Sound options.     (line  2458)
 * -soundvolume:                          Sound options.     (line  2498)
-* -speech, +speech:                      PLUS4-specific.    (line  7272)
-* -speechrom:                            PLUS4-specific.    (line  7277)
+* -speech, +speech:                      PLUS4-specific.    (line  7276)
+* -speechrom:                            PLUS4-specific.    (line  7281)
 * -speed:                                Performance options.
 (line  1903)
-* -speedswitch, +speedswitch:            SCPU64-specific.   (line  6385)
+* -speedswitch, +speedswitch:            SCPU64-specific.   (line  6389)
 * -ssramexpansion, +ssramexpansion:      C64 cartridges.    (line  4865)
 * -statusbar:                            DOS-specific features.
-(line  9128)
+(line  9132)
 * -statusbar, +statusbar:                AmigaOS-specific features.
-(line  8443)
+(line  8447)
 * -statusbar, +statusbar <1>:            SDL-specific features.
-(line  9437)
+(line  9441)
 * -supercard:                            Drive options.     (line  3082)
-* -superpet, +superpet:                  PET settings.      (line  7869)
+* -superpet, +superpet:                  PET settings.      (line  7873)
 * -symkeymap:                            Keyboard options.  (line  2097)
-* -TEDaudioleak, +TEDaudioleak:          PLUS4-specific.    (line  7198)
-* -TEDborders:                           PLUS4-specific.    (line  7163)
-* -TEDbrightness:                        PLUS4-specific.    (line  7174)
-* -TEDcontrast:                          PLUS4-specific.    (line  7171)
-* -TEDcrtblur:                           PLUS4-specific.    (line  7191)
-* -TEDcrtscanlineshade:                  PLUS4-specific.    (line  7194)
-* -TEDdscan, +TEDdscan:                  PLUS4-specific.    (line  7141)
-* -TEDdsize, +TEDdsize:                  PLUS4-specific.    (line  7137)
-* -TEDextpal:                            PLUS4-specific.    (line  7152)
-* -TEDfilter:                            PLUS4-specific.    (line  7145)
+* -TEDaudioleak, +TEDaudioleak:          PLUS4-specific.    (line  7202)
+* -TEDborders:                           PLUS4-specific.    (line  7167)
+* -TEDbrightness:                        PLUS4-specific.    (line  7178)
+* -TEDcontrast:                          PLUS4-specific.    (line  7175)
+* -TEDcrtblur:                           PLUS4-specific.    (line  7195)
+* -TEDcrtscanlineshade:                  PLUS4-specific.    (line  7198)
+* -TEDdscan, +TEDdscan:                  PLUS4-specific.    (line  7145)
+* -TEDdsize, +TEDdsize:                  PLUS4-specific.    (line  7141)
+* -TEDextpal:                            PLUS4-specific.    (line  7156)
+* -TEDfilter:                            PLUS4-specific.    (line  7149)
 * -TEDfull, +TEDfull:                    SDL-specific features.
-(line  9509)
+(line  9513)
 * -TEDfulldevice:                        SDL-specific features.
-(line  9506)
+(line  9510)
 * -TEDfulldevice <1>:                    Unix-specific features.
-(line  9810)
-* -TEDgamma:                             PLUS4-specific.    (line  7178)
+(line  9814)
+* -TEDgamma:                             PLUS4-specific.    (line  7182)
 * -TEDhwscale, +TEDhwscale:              SDL-specific features.
-(line  9501)
+(line  9505)
 * -TEDhwscale, +TEDhwscale <1>:          Unix-specific features.
-(line  9805)
-* -TEDintpal:                            PLUS4-specific.    (line  7149)
-* -TEDoddlinesoffset:                    PLUS4-specific.    (line  7187)
-* -TEDoddlinesphase:                     PLUS4-specific.    (line  7184)
-* -TEDpalette:                           PLUS4-specific.    (line  7155)
-* -TEDsaturation:                        PLUS4-specific.    (line  7167)
+(line  9809)
+* -TEDintpal:                            PLUS4-specific.    (line  7153)
+* -TEDoddlinesoffset:                    PLUS4-specific.    (line  7191)
+* -TEDoddlinesphase:                     PLUS4-specific.    (line  7188)
+* -TEDpalette:                           PLUS4-specific.    (line  7159)
+* -TEDsaturation:                        PLUS4-specific.    (line  7171)
 * -TEDSDLfullmode:                       SDL-specific features.
-(line  9498)
-* -TEDtint:                              PLUS4-specific.    (line  7181)
-* -TEDvcache, +TEDvcache:                PLUS4-specific.    (line  7132)
+(line  9502)
+* -TEDtint:                              PLUS4-specific.    (line  7185)
+* -TEDvcache, +TEDvcache:                PLUS4-specific.    (line  7136)
 * -TEDVidmodefullmode:                   XAW-specific features.
-(line 10106)
+(line 10110)
 * -TEDXRANDRfullmode:                    XAW-specific features.
-(line 10081)
+(line 10085)
 * -triplebuf, +triplebuf:                DOS-specific features.
-(line  9165)
+(line  9169)
 * -trueaspect, +trueaspect:              XAW-specific features.
-(line 10061)
+(line 10065)
 * -trueaspect, +trueaspect <1>:          GTK-specific features.
-(line 10147)
+(line 10151)
 * -trueaspect, +trueaspect <2>:          Windows-specific features.
-(line 10487)
+(line 10491)
 * -truedrive, +truedrive:                Drive options.     (line  2798)
-* -trueflashfs, +trueflashfs:            C64DTV ROM image.  (line  6145)
-* -tune:                                 VSID-specific.     (line  8330)
-* -umwriteback, +umwriteback:            VIC20 cartridges.  (line  6657)
+* -trueflashfs, +trueflashfs:            C64DTV ROM image.  (line  6149)
+* -tune:                                 VSID-specific.     (line  8334)
+* -umwriteback, +umwriteback:            VIC20 cartridges.  (line  6661)
 * -userportdac, +userportdac:            PET I/O extensions.
-(line  7704)
+(line  7708)
 * -userportjoy, +userportjoy:            Control port options.
 (line  2284)
 * -userportjoytype:                      Control port options.
@@ -22324,127 +22328,127 @@ Index of Command-line options
 * -userportrtc, +userportrtc:            Misc options.      (line  3846)
 * -userportrtcsave, +userportrtcsave:    Misc options.      (line  3851)
 * -vblanksync, +vblanksync:              Windows-specific features.
-(line 10475)
-* -VDC16KB:                              C128-specific.     (line  5821)
-* -VDC64KB:                              C128-specific.     (line  5824)
-* -VDCaudioleak, +VDCaudioleak:          C128-specific.     (line  5861)
-* -VDCbrightness:                        C128-specific.     (line  5837)
-* -VDCcontrast:                          C128-specific.     (line  5834)
-* -VDCcrtblur:                           C128-specific.     (line  5854)
-* -VDCcrtscanlineshade:                  C128-specific.     (line  5857)
-* -VDCdscan, +VDCdscan:                  C128-specific.     (line  5803)
-* -VDCdsize, +VDCdsize:                  C128-specific.     (line  5794)
-* -VDCextpal:                            C128-specific.     (line  5810)
-* -VDCfilter:                            C128-specific.     (line  5866)
+(line 10479)
+* -VDC16KB:                              C128-specific.     (line  5825)
+* -VDC64KB:                              C128-specific.     (line  5828)
+* -VDCaudioleak, +VDCaudioleak:          C128-specific.     (line  5865)
+* -VDCbrightness:                        C128-specific.     (line  5841)
+* -VDCcontrast:                          C128-specific.     (line  5838)
+* -VDCcrtblur:                           C128-specific.     (line  5858)
+* -VDCcrtscanlineshade:                  C128-specific.     (line  5861)
+* -VDCdscan, +VDCdscan:                  C128-specific.     (line  5807)
+* -VDCdsize, +VDCdsize:                  C128-specific.     (line  5798)
+* -VDCextpal:                            C128-specific.     (line  5814)
+* -VDCfilter:                            C128-specific.     (line  5870)
 * -VDCfull, +VDCfull:                    SDL-specific features.
-(line  9525)
-* -VDCgamma:                             C128-specific.     (line  5841)
+(line  9529)
+* -VDCgamma:                             C128-specific.     (line  5845)
 * -VDChwscale, +VDChwscale:              SDL-specific features.
-(line  9517)
+(line  9521)
 * -VDChwscale, +VDChwscale <1>:          Unix-specific features.
-(line  9813)
-* -VDCintpal:                            C128-specific.     (line  5807)
-* -VDCoddlinesoffset:                    C128-specific.     (line  5850)
-* -VDCoddlinesphase:                     C128-specific.     (line  5847)
-* -VDCpalette:                           C128-specific.     (line  5813)
-* -VDCRevision:                          C128-specific.     (line  5827)
-* -VDCsaturation:                        C128-specific.     (line  5830)
+(line  9817)
+* -VDCintpal:                            C128-specific.     (line  5811)
+* -VDCoddlinesoffset:                    C128-specific.     (line  5854)
+* -VDCoddlinesphase:                     C128-specific.     (line  5851)
+* -VDCpalette:                           C128-specific.     (line  5817)
+* -VDCRevision:                          C128-specific.     (line  5831)
+* -VDCsaturation:                        C128-specific.     (line  5834)
 * -VDCSDLfullmode:                       SDL-specific features.
-(line  9514)
-* -VDCstretchvertical, +VDCstretchvertical: C128-specific.  (line  5798)
-* -VDCtint:                              C128-specific.     (line  5844)
-* -VDCvcache, +VDCvcache:                C128-specific.     (line  5789)
+(line  9518)
+* -VDCstretchvertical, +VDCstretchvertical: C128-specific.  (line  5802)
+* -VDCtint:                              C128-specific.     (line  5848)
+* -VDCvcache, +VDCvcache:                C128-specific.     (line  5793)
 * -VDCVidmodefullmode:                   XAW-specific features.
-(line 10109)
+(line 10113)
 * -VDCXRANDRfullmode:                    XAW-specific features.
-(line 10084)
+(line 10088)
 * -vgamode:                              DOS-specific features.
-(line  9131)
-* -VICaudioleak, +VICaudioleak:          VIC20 cartridges.  (line  6933)
-* -VICborders:                           VIC20 cartridges.  (line  6898)
-* -VICbrightness:                        VIC20 cartridges.  (line  6909)
-* -VICcontrast:                          VIC20 cartridges.  (line  6906)
-* -VICcrtblur:                           VIC20 cartridges.  (line  6926)
-* -VICcrtscanlineshade:                  VIC20 cartridges.  (line  6929)
-* -VICdscan, +VICdscan:                  VIC20 cartridges.  (line  6875)
-* -VICdsize, +VICdsize:                  VIC20 cartridges.  (line  6870)
-* -VICextpal:                            VIC20 cartridges.  (line  6890)
-* -VICfilter:                            VIC20 cartridges.  (line  6880)
+(line  9135)
+* -VICaudioleak, +VICaudioleak:          VIC20 cartridges.  (line  6937)
+* -VICborders:                           VIC20 cartridges.  (line  6902)
+* -VICbrightness:                        VIC20 cartridges.  (line  6913)
+* -VICcontrast:                          VIC20 cartridges.  (line  6910)
+* -VICcrtblur:                           VIC20 cartridges.  (line  6930)
+* -VICcrtscanlineshade:                  VIC20 cartridges.  (line  6933)
+* -VICdscan, +VICdscan:                  VIC20 cartridges.  (line  6879)
+* -VICdsize, +VICdsize:                  VIC20 cartridges.  (line  6874)
+* -VICextpal:                            VIC20 cartridges.  (line  6894)
+* -VICfilter:                            VIC20 cartridges.  (line  6884)
 * -VICfull, +VICfull:                    SDL-specific features.
-(line  9541)
+(line  9545)
 * -VICfulldevice:                        SDL-specific features.
-(line  9538)
+(line  9542)
 * -VICfulldevice <1>:                    Unix-specific features.
-(line  9823)
-* -VICgamma:                             VIC20 cartridges.  (line  6913)
+(line  9827)
+* -VICgamma:                             VIC20 cartridges.  (line  6917)
 * -VIChwscale, +VIChwscale:              SDL-specific features.
-(line  9533)
+(line  9537)
 * -VIChwscale, +VIChwscale <1>:          Unix-specific features.
-(line  9818)
-* -VICIIaudioleak, +VICIIaudioleak:      VIC-II options.    (line  5122)
-* -VICIIborders:                         VIC-II options.    (line  5078)
-* -VICIIbrightness:                      VIC-II options.    (line  5098)
-* -VICIIchecksb, +VICIIchecksb:          VIC-II options.    (line  5035)
-* -VICIIcheckss, +VICIIcheckss:          VIC-II options.    (line  5030)
-* -VICIIcontrast:                        VIC-II options.    (line  5095)
-* -VICIIcrtblur:                         VIC-II options.    (line  5115)
-* -VICIIcrtscanlineshade:                VIC-II options.    (line  5118)
-* -VICIIdscan, +VICIIdscan:              VIC-II options.    (line  5055)
-* -VICIIdsize, +VICIIdsize:              VIC-II options.    (line  5050)
-* -VICIIextpal:                          VIC-II options.    (line  5067)
-* -VICIIfilter:                          VIC-II options.    (line  5060)
+(line  9822)
+* -VICIIaudioleak, +VICIIaudioleak:      VIC-II options.    (line  5126)
+* -VICIIborders:                         VIC-II options.    (line  5082)
+* -VICIIbrightness:                      VIC-II options.    (line  5102)
+* -VICIIchecksb, +VICIIchecksb:          VIC-II options.    (line  5039)
+* -VICIIcheckss, +VICIIcheckss:          VIC-II options.    (line  5034)
+* -VICIIcontrast:                        VIC-II options.    (line  5099)
+* -VICIIcrtblur:                         VIC-II options.    (line  5119)
+* -VICIIcrtscanlineshade:                VIC-II options.    (line  5122)
+* -VICIIdscan, +VICIIdscan:              VIC-II options.    (line  5059)
+* -VICIIdsize, +VICIIdsize:              VIC-II options.    (line  5054)
+* -VICIIextpal:                          VIC-II options.    (line  5071)
+* -VICIIfilter:                          VIC-II options.    (line  5064)
 * -VICIIfull, +VICIIfull:                SDL-specific features.
-(line  9560)
+(line  9564)
 * -VICIIfulldevice:                      SDL-specific features.
-(line  9556)
+(line  9560)
 * -VICIIfulldevice <1>:                  Unix-specific features.
-(line  9832)
-* -VICIIgamma:                           VIC-II options.    (line  5102)
+(line  9836)
+* -VICIIgamma:                           VIC-II options.    (line  5106)
 * -VICIIhwscale, +VICIIhwscale:          SDL-specific features.
-(line  9550)
+(line  9554)
 * -VICIIhwscale, +VICIIhwscale <1>:      Unix-specific features.
-(line  9826)
-* -VICIIintpal:                          VIC-II options.    (line  5064)
-* -VICIImodel:                           VIC-II options.    (line  5082)
-* -VICIInewluminance, +VICIInewluminance: VIC-II options.   (line  5086)
-* -VICIIoddlinesoffset:                  VIC-II options.    (line  5111)
-* -VICIIoddlinesphase:                   VIC-II options.    (line  5108)
-* -VICIIpalette:                         VIC-II options.    (line  5070)
-* -VICIIsaturation:                      VIC-II options.    (line  5091)
+(line  9830)
+* -VICIIintpal:                          VIC-II options.    (line  5068)
+* -VICIImodel:                           VIC-II options.    (line  5086)
+* -VICIInewluminance, +VICIInewluminance: VIC-II options.   (line  5090)
+* -VICIIoddlinesoffset:                  VIC-II options.    (line  5115)
+* -VICIIoddlinesphase:                   VIC-II options.    (line  5112)
+* -VICIIpalette:                         VIC-II options.    (line  5074)
+* -VICIIsaturation:                      VIC-II options.    (line  5095)
 * -VICIISDLfullmode:                     SDL-specific features.
-(line  9546)
-* -VICIItint:                            VIC-II options.    (line  5105)
-* -VICIIvcache, +VICIIvcache:            VIC-II options.    (line  5045)
+(line  9550)
+* -VICIItint:                            VIC-II options.    (line  5109)
+* -VICIIvcache, +VICIIvcache:            VIC-II options.    (line  5049)
 * -VICIIVidmodefullmode:                 XAW-specific features.
-(line 10115)
-* -VICIIvspbug, +VICIIvspbug:            VIC-II options.    (line  5040)
+(line 10119)
+* -VICIIvspbug, +VICIIvspbug:            VIC-II options.    (line  5044)
 * -VICIIXRANDRfullmode:                  XAW-specific features.
-(line 10090)
-* -VICintpal:                            VIC20 cartridges.  (line  6887)
-* -VICoddlinesoffset:                    VIC20 cartridges.  (line  6922)
-* -VICoddlinesphase:                     VIC20 cartridges.  (line  6919)
-* -VICpalette:                           VIC20 cartridges.  (line  6884)
-* -VICsaturation:                        VIC20 cartridges.  (line  6902)
+(line 10094)
+* -VICintpal:                            VIC20 cartridges.  (line  6891)
+* -VICoddlinesoffset:                    VIC20 cartridges.  (line  6926)
+* -VICoddlinesphase:                     VIC20 cartridges.  (line  6923)
+* -VICpalette:                           VIC20 cartridges.  (line  6888)
+* -VICsaturation:                        VIC20 cartridges.  (line  6906)
 * -VICSDLfullmode:                       SDL-specific features.
-(line  9530)
-* -VICtint:                              VIC20 cartridges.  (line  6916)
-* -VICvcache, +VICvcache:                VIC20 cartridges.  (line  6865)
+(line  9534)
+* -VICtint:                              VIC20 cartridges.  (line  6920)
+* -VICvcache, +VICvcache:                VIC20 cartridges.  (line  6869)
 * -VICVidmodefullmode:                   XAW-specific features.
-(line 10112)
+(line 10116)
 * -VICXRANDRfullmode:                    XAW-specific features.
-(line 10087)
+(line 10091)
 * -videooverlay, +videooverlay:          AmigaOS3-specific features.
-(line  8548)
+(line  8552)
 * -videooverlay, +videooverlay <1>:      MorphOS-specific features.
-(line  8754)
+(line  8758)
 * -videooverlay, +videooverlay <2>:      AROS-specific features.
-(line  8849)
-* -videosize:                            PET settings.      (line  7855)
+(line  8853)
+* -videosize:                            PET settings.      (line  7859)
 * -virtualdev, +virtualdev:              No traps options.  (line  3493)
 * -warp, +warp:                          Performance options.
 (line  1912)
 * -xsync, +xsync:                        XAW-specific features.
-(line 10038)
+(line 10042)
 
 1 GNU GENERAL PUBLIC LICENSE
 Preamble

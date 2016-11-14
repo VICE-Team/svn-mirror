@@ -6827,28 +6827,26 @@ chance that also enemies become invincible then).
 
 @cindex VIC-II color sets
 @item
-``Color set'' can be used to dynamically change the palette file
-being used by choosing one of the available predefined color sets:
+``Color set'' can be used to dynamically change the palette file being used by 
+choosing one of the available predefined color sets, for example:
 
 @itemize @bullet
 @item
-@file{default.vpl} (``default''), the default VICE palette;
+@file{pepto-pal.vpl} (``Pepto PAL''), a Palette calculated by Philip "Pepto" Timmermann
+(@uref{http://www.pepto.de/projects/colorvic/}). (This is the default)
 @item
-@file{c64s.vpl} (``C64S''), palette taken from the shareware C64S
-emulator by Miha Peternel.
+@file{vic.vpl} (``VICE''), the old default VICE palette.
 @item
-@file{ccs64.vpl} (``CCS64''), palette taken from the shareware CCS64
-emulator by Per Håkan Sundell.
+@file{c64s.vpl} (``C64S''), palette taken from the shareware C64S emulator by Miha Peternel.
 @item
-@file{frodo.vpl} (``Frodo''), palette taken from the free Frodo emulator
-by Christian Bauer
+@file{ccs64.vpl} (``CCS64''), palette taken from the shareware CCS64 emulator by Per Håkan Sundell.
+@item
+@file{frodo.vpl} (``Frodo''), palette taken from the free Frodo emulator by Christian Bauer
 (@uref{http://www.uni-mainz.de/~bauec002/FRMain.html}).
 @item
-@file{pc64.vpl} (``PC64''), palette taken from the free PC64 emulator by
-Wolfgang Lorenz.
+@file{pc64.vpl} (``PC64''), palette taken from the free PC64 emulator by Wolfgang Lorenz.
 @item
-@file{godot.vpl} (``GoDot''), palette as suggested by the authors of the
-C64 graphics package GoDot
+@file{godot.vpl} (``GoDot''), palette as suggested by the authors of the C64 graphics package GoDot
 (@uref{http://users.aol.com/howtogodot/welcome.htm}).
 @end itemize
 
