@@ -107,6 +107,8 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
     Widget tape_counter_label[NUM_TAPES];
     Widget tape_button_status[NUM_TAPES];
     Widget pal_ctrl_widget;
+    Widget portholefrom;
+    const char *portholefromdir;
     char *button_title;
     int has_tape, notification_width;
     int i;
@@ -276,6 +278,12 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
             app_shells[app_shell].drive_widgets[d].status = drive_status[d];
             strcpy(&(last_attached_images[d][0]), "");
         }
+
+        portholefromdir = XtNfromVert;
+        portholefrom = drive_status[2];
+    } else {
+        portholefromdir = XtNfromHoriz;
+        portholefrom = speed_label;
     }
 
     /*
@@ -310,7 +318,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                             XtNbackground, "red1",
 #endif
                                             /* Constraints: */
-                                            XtNfromVert, drive_status[2],
+                                            portholefromdir, portholefrom,
                                             XtNtop, XawChainBottom,
                                             XtNbottom, XawChainBottom,
                                             XtNleft, XawChainLeft,
