@@ -98,6 +98,10 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 /* Sleep a number of timer units. */
 void vsyncarch_sleep(signed long delay)
 {
+#ifdef HAVE_NANOSLEEP
+    struct timespec ts;
+#endif
+
     /* HACK: to prevent any multitasking stuff getting in the way, we return
              immediately on delays up to 0.1ms */
     if (delay < (TICKSPERMSEC / 10)) {
@@ -108,7 +112,6 @@ void vsyncarch_sleep(signed long delay)
     snooze(delay);
 #else
 #ifdef HAVE_NANOSLEEP
-    struct timespec ts;
     ts.tv_sec = delay / TICKSPERSECOND;
     ts.tv_nsec = (delay % TICKSPERSECOND);
     /* wait until whole interval has elapsed */
