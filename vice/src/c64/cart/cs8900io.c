@@ -321,6 +321,11 @@ int cs8900io_resources_init(void)
 
 void cs8900io_resources_shutdown(void)
 {
+    /* clean up string allocated by resources_set_defaults() */
+    if (cs8900io_interface != NULL) {
+        lib_free(cs8900io_interface);
+        cs8900io_interface = NULL;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
