@@ -45,6 +45,7 @@ TAPEPORT | TAPELOG
 #include <string.h>
 
 #include "cmdline.h"
+#include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "resources.h"
@@ -274,6 +275,15 @@ int tapelog_resources_init(void)
 
     return resources_register_int(resources_int);
 }
+
+
+void tapelog_resources_shutdown(void)
+{
+    if (tapelog_filename != NULL) {
+        lib_free(tapelog_filename);
+    }
+}
+
 
 /* ------------------------------------------------------------------------- */
 
