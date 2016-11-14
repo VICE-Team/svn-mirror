@@ -66,6 +66,7 @@
 #include "uidrive.h"
 #include "uijoyport.h"
 #include "uijoystick.h"
+#include "uikeymap.h"
 
 #ifdef HAVE_NETWORK
 #include "uinetplay.h"
@@ -1185,6 +1186,8 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps, int 
                              NULL, 0,
                              TUI_MENU_BEH_CONTINUE);
     }
+
+    uikeymap_init(ui_main_menu);
 
     uisound_init(ui_main_menu);
     uisampler_init(ui_main_menu);

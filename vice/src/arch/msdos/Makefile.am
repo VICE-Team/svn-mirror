@@ -151,6 +151,8 @@ libarch_a_SOURCES = \
 	uijoyport.h \
 	uijoystick.c \
 	uijoystick.h \
+	uikeymap.c \
+	uikeymap.h \
 	uimagicvoice.c \
 	uimagicvoice.h \
 	uimon.c \

@@ -164,27 +164,6 @@ TUI_MENU_DEFINE_TOGGLE(SuperPET)
 TUI_MENU_DEFINE_TOGGLE(Ram9)
 TUI_MENU_DEFINE_TOGGLE(RamA)
 
-static TUI_MENU_CALLBACK(set_keyboard_callback)
-{
-    int value;
-
-    resources_get_int("KeymapIndex", &value);
-
-    if (been_activated) {
-        value = (value == 2) ? 0 : 2;
-        resources_set_int("KeymapIndex", value);
-    }
-
-    switch (value) {
-        case 0:
-            return "Business (UK)";
-        case 2:
-            return "Graphics";
-        default:
-            return "Unknown";
-    }
-}
-
 static tui_menu_item_def_t special_menu_items[] = {
     { "  _Video Width:",
       "Specify CRTC video size",
@@ -213,10 +192,6 @@ static tui_menu_item_def_t special_menu_items[] = {
     { "  Enable $_A*** RAM:",
       "Enable RAM at $A000-$AFFF (only available on 8296)",
       toggle_RamA_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "  _Keyboard Type:",
-      "Specify keyboard type (graphics or business)",
-      set_keyboard_callback, NULL, 13,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
