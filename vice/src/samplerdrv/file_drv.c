@@ -2150,6 +2150,15 @@ static int sampler_file_resources_init(void)
     return resources_register_string(resources_string);
 }
 
+
+static void sampler_file_resources_shutdown(void)
+{
+    if (sample_name != NULL) {
+        lib_free(sample_name);
+    }
+}
+
+
 /* ---------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] =
@@ -2236,3 +2245,11 @@ void fileaudio_init(void)
 
     sampler_device_register(&file_device, SAMPLER_DEVICE_FILE);
 }
+
+
+void fileaudio_shutdown(void)
+{
+    sampler_file_resources_shutdown();
+}
+
+

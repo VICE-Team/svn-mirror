@@ -237,6 +237,7 @@ void sampler_resources_shutdown(void)
         lib_free(cmdline_devices);
         cmdline_devices = NULL;
     }
+    fileaudio_shutdown();
 }
 
 /* ------------------------------------------------------------------------- */
