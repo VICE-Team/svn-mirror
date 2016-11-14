@@ -33,6 +33,7 @@
 #include <windows.h>
 #include <prsht.h>
 
+#include "clockport.h"
 #include "intl.h"
 #include "lib.h"
 #include "res.h"
@@ -119,6 +120,7 @@ static uilib_localize_dialog_param ide64_v4_dialog[] = {
     { IDC_IDE64_USB_SERVER, IDS_IDE64_USB_SERVER, 0 },
     { IDC_IDE64_RTC_SAVE, IDS_IDE64_RTC_SAVE, 0 },
     { IDC_IDE64_USB_SERVER_BIND_LABEL, IDS_IDE64_USB_SERVER_BIND_LABEL, 0 },
+    { IDC_IDE64_CLOCKPORT_DEVICE_LABEL, IDS_IDE64_CLOCKPORT_DEVICE_LABEL, 0 },
     { 0, 0, 0 }
 };
 
@@ -225,6 +227,8 @@ static void init_ide64_shortbus_dialog(HWND hwnd)
 #endif
 }
 
+static int clockport_ids[CLOCKPORT_MAX_ENTRIES + 1];
+
 static void init_ide64_v4_dialog(HWND hwnd)
 {
     int res_value;
@@ -235,6 +239,8 @@ static void init_ide64_v4_dialog(HWND hwnd)
     HWND temp_hwnd;
     int res_value_loop;
     int active_value;
+    int current_val = 0;
+    TCHAR *st_clockport_device_name;
 
     parent_hwnd = GetParent(hwnd);
 
@@ -275,6 +281,19 @@ static void init_ide64_v4_dialog(HWND hwnd)
     resources_get_string("IDE64USBServerAddress", &server_bind_address);
     system_mbstowcs(st, server_bind_address, 256);
     SetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, st);
+
+    resources_get_int("IDE64ClockPort", &res_value);
+    temp_hwnd = GetDlgItem(hwnd, IDC_IDE64_CLOCKPORT_DEVICE);
+    for (res_value_loop = 0; clockport_supported_devices[res_value_loop].name; res_value_loop++) {
+        st_clockport_device_name = system_mbstowcs_alloc(clockport_supported_devices[res_value_loop].name);
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st_clockport_device_name);
+        system_mbstowcs_free(st_clockport_device_name);
+        clockport_ids[res_value_loop] = clockport_supported_devices[res_value_loop].id;
+        if (clockport_ids[res_value_loop] == res_value) {
+            current_val = res_value_loop;
+        }
+    }
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)current_val, 0);
 }
 
 static void init_ide64_dialog(HWND hwnd, int num)
@@ -381,6 +400,7 @@ static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
                 GetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, st_text, MAX_PATH);
                 system_wcstombs(text, st_text, MAX_PATH);
                 resources_set_string("IDE64USBServerAddress", text);
+                resources_set_int("IDE64ClockPort", clockport_ids[(int)SendMessage(GetDlgItem(hwnd, IDC_IDE64_CLOCKPORT_DEVICE), CB_GETCURSEL, 0, 0)]);
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }

@@ -26,6 +26,10 @@ BEGIN
                     9, 60, 50, 8
     EDITTEXT        IDC_ID64_USB_SERVER_BIND,
                     51, 61, 95, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    LTEXT           "", IDC_IDE64_CLOCKPORT_DEVICE_LABEL,
+                    9, 77, 30, 8
+    COMBOBOX        IDC_IDE64_CLOCKPORT_DEVICE,
+                    40, 75, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -95,31 +99,32 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
-    IDS_IDE64_SHORTBUS_SETTINGS     "IDE64 shortbus settings"
-    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primary master device settings"
-    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primary slave device settings"
-    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondary master device settings"
-    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondary slave device settings"
-    IDS_IDE64_SETTINGS              "IDE64 settings"
-    IDS_IDE64_SB_DIGIMAX            "IDE64 shortbus DigiMAX device"
-    IDS_IDE64_SB_DIGIMAX_ADDRESS    "IDE64 shortbus DigiMAX device address"
+    IDS_IDE64_V4_SETTINGS            "IDE64 V4 settings"
+    IDS_IDE64_SHORTBUS_SETTINGS      "IDE64 shortbus settings"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS    "IDE64 primary master device settings"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS    "IDE64 primary slave device settings"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS    "IDE64 secondary master device settings"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS    "IDE64 secondary slave device settings"
+    IDS_IDE64_SETTINGS               "IDE64 settings"
+    IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
+    IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
 #ifdef HAVE_PCAP
-    IDS_IDE64_SB_ETFE               "IDE64 shortbus ETFE device"
-    IDS_IDE64_SB_ETFE_ADDRESS       "IDE64 shortbus ETFE device address"
+    IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
+    IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
-    IDS_IDE64_VERSION               "Enable IDE64 V4"
-    IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
-    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
-    IDS_IDE64_IMAGE                 "ATA device image file"
-    IDS_IDE64_GEOMETRY              "Geometry"
-    IDS_IDE64_AUTODETECT            "Autodetect image size"
-    IDS_IDE64_CYLINDERS             "Cylinders"
-    IDS_IDE64_HEADS                 "Heads"
-    IDS_IDE64_SECTORS               "Sectors"
-    IDS_IDE64_TOTAL_SIZE            "Total size: %iKB"
-    IDS_IDE64_SELECT_IMAGE          "Select ATA device image file"
-    IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_VERSION                "Enable IDE64 V4"
+    IDS_IDE64_USB_SERVER             "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE               "Save IDE64 RTC data when changed"
+    IDS_IDE64_IMAGE                  "ATA device image file"
+    IDS_IDE64_GEOMETRY               "Geometry"
+    IDS_IDE64_AUTODETECT             "Autodetect image size"
+    IDS_IDE64_CYLINDERS              "Cylinders"
+    IDS_IDE64_HEADS                  "Heads"
+    IDS_IDE64_SECTORS                "Sectors"
+    IDS_IDE64_TOTAL_SIZE             "Total size: %iKB"
+    IDS_IDE64_SELECT_IMAGE           "Select ATA device image file"
+    IDS_IDE64_USB_SERVER_BIND_LABEL  "IDE64 USB Server address to bind to"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -153,6 +158,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Total størrelse: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Angiv ATA-enhedsimagefil"
     IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -186,6 +192,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Gesamtgröße: %iKB"
     IDS_IDE64_SELECT_IMAGE          "ATA Gerät Imagedatei auswählen"
     IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server Adresse"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -219,6 +226,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Tamaño total: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Seleccionar fichero imagen periférico ATA"
     IDS_IDE64_USB_SERVER_BIND_LABEL "Direccion servidor IDE64 USB para enlazar"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -252,6 +260,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Taille totale: %iKo"
     IDS_IDE64_SELECT_IMAGE          "Sélectionnez le fichier image du périphérique ATA"
     IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -288,6 +297,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Teljes méret: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Select ATA device image file"
     IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -324,6 +334,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Dimensione totale: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Seleziona file immagine dispositivo ATA"
     IDS_IDE64_USB_SERVER_BIND_LABEL "Indirizzo server IDE64 USB a cui collegarsi"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -360,6 +371,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Total size"
     IDS_IDE64_SELECT_IMAGE          "Select ATA device image file"
     IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -396,6 +408,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Totale grootte: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Selecteer ATA apparaat bestand"
     IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB server adres waaraan gebonden moet worden"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -432,6 +445,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Ca³kowity rozmiar: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Wybierz plik obrazu urz±dzenia ATA"
     IDS_IDE64_USB_SERVER_BIND_LABEL "Adres serwera USB IDE64"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -471,6 +485,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "¾ÑéØÙ àÐ×ÜÕà: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Select ATA device image file"
     IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -507,6 +522,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Total storlek: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Ange ATA-enhetsavbildning"
     IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 
 
@@ -543,9 +559,8 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Toplam boyut: %iKB"
     IDS_IDE64_SELECT_IMAGE          "ATA sürücü imaj dosyasý seç"
     IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-
