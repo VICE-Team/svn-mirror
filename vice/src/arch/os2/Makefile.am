@@ -24,7 +24,6 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
-	makedist.cmd \
 	mousedrv.c \
 	mousedrv.h \
 	os2main.c \
@@ -48,7 +47,4 @@ EXTRA_DIST = \
 	vice.def \
 	ide-siddefs.h \
 	ide-siddtvdefs.h \
-	install.cmd \
-	makedist.cmd \
-	makeclean.cmd
-
+	install.cmd
