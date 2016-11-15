@@ -49,15 +49,15 @@ else
   android_device=""
 fi
 
-C64_FILES="basic c64hq.vpl c64s.vpl ccs64.vpl chargen default.vpl default.vrs edkernal frodo.vpl godot.vpl gskernal jpchrgen jpkernal kernal pc64.vpl sdl_sym.vkm sdl_sym_da.vkm sdl_sym_de.vkm sdl_sym_fi.vkm sdl_sym_no.vkm sxkernal vice.vpl"
-SCPU64_FILES="c64hq.vpl c64s.vpl ccs64.vpl chargen default.vpl default.vrs frodo.vpl godot.vpl jpchrgen pc64.vpl scpu64 sdl_sym.vkm sdl_sym_da.vkm sdl_sym_de.vkm sdl_sym_fi.vkm sdl_sym_no.vkm vice.vpl"
-C64DTV_FILES="basic chargen default.vrs dtvrom.bin kernal sdl_sym.vkm sdl_sym_da.vkm sdl_sym_de.vkm sdl_sym_fi.vkm sdl_sym_no.vkm"
-C128_FILES="basic64 basichi basiclo c64hq.vpl c64s.vpl ccs64.vpl chargde chargen chargfr chargse default.vpl default.vrs frodo.vpl godot.vpl kernal kernal64 kernalde kernalfi kernalfr kernalit kernalno kernalse pc64.vpl sdl_sym.vkm vdc_comp.vpl vdc_deft.vpl vice.vpl"
-CBM2_FILES="amber.vpl basic.128 basic.256 basic.500 c64hq.vpl c64s.vpl ccs64.vpl chargen.500 chargen.600 chargen.700 default.vpl frodo.vpl godot.vpl green.vpl kernal kernal.500 pc64.vpl rom128h.vrs rom128l.vrs rom256h.vrs rom256l.vrs rom500.vrs sdl_buks.vkm white.vpl"
-PET_FILES="amber.vpl basic1 basic2 basic4 characters.901640-01.bin chargen chargen.de edit1g edit2b edit2g edit4b40 edit4b80 edit4g40 green.vpl kernal1 kernal2 kernal4 rom1g.vrs rom2b.vrs rom2g.vrs rom4b40.vrs rom4b80.vrs rom4g40.vrs romsuperpet.vrs sdl_bgrs.vkm sdl_buks.vkm waterloo-a000.901898-01.bin waterloo-b000.901898-02.bin waterloo-c000.901898-03.bin waterloo-d000.901898-04.bin waterloo-e000.901897-01.bin waterloo-f000.901898-05.bin white.vpl"
-PLUS4_FILES="3plus1hi 3plus1lo basic c2lo.364 default.vpl default.vrs kernal kernel.005 kernal.232 kernal.364 sdl_sym.vkm vice.vpl"
-VIC20_FILES="basic chargen default.vpl default.vrs kernal sdl_pos_fi.vkm sdl_sym.vkm"
-DRIVE_FILES="d1541II d1571cr dos1001 dos1540 dos1541 dos1551 dos1570 dos1571 dos1581 dos2000 dos2031 dos2040 dos3040 dos4000 dos4040"
+C64_FILES="basic c64hq.vpl c64s.vpl ccs64.vpl chargen community-colors.vpl deekay.vpl default.vrs edkernal frodo.vpl godot.vpl gskernal jpchrgen jpkernal kernal pc64.vpl pepto-ntsc.vpl pepto-ntsc-sony.vpl pepto-pal.vpl pepto-palold.vpl ptoing.vpl rgb.vpl sdl_pos.vkm sdl_pos_da.vkm sdl_pos_de.vkm sdl_pos_fi.vkm sdl_pos_no.vkm sdl_sym.vkm sxkernal vice.vpl"
+SCPU64_FILES="c64hq.vpl c64s.vpl ccs64.vpl chargen community-colors.vpl deekay.vpl default.vrs frodo.vpl godot.vpl jpchrgen pc64.vpl pepto-ntsc.vpl pepto-ntsc-sony.vpl pepto-pal.vpl pepto-palold.vpl ptoing.vpl rgb.vpl scpu64 sdl_pos.vkm sdl_pos_da.vkm sdl_pos_de.vkm sdl_pos_fi.vkm sdl_pos_no.vkm sdl_sym.vkm vice.vpl"
+C64DTV_FILES="basic chargen default.vrs dtvrom.bin kernal sdl_pos.vkm sdl_pos_da.vkm sdl_pos_de.vkm sdl_pos_fi.vkm sdl_pos_no.vkm sdl_sym.vkm spiff.vpl"
+C128_FILES="basic64 basichi basiclo c64hq.vpl c64s.vpl ccs64.vpl chargch chargde chargen chargfr chargse community-colors.vpl deekay.vpl default.vrs frodo.vpl godot.vpl kernal kernal64 kernalch kernalde kernalfi kernalfr kernalit kernalno kernalse pc64.vpl pepto-ntsc.vpl pepto-ntsc-sony.vpl pepto-pal.vpl pepto-palold.vpl ptoing.vpl rgb.vpl sdl_pos.vkm vdc_comp.vpl vdc_deft.vpl vice.vpl"
+CBM2_FILES="amber.vpl basic.128 basic.256 basic.500 c64hq.vpl c64s.vpl ccs64.vpl chargen.500 chargen.600 chargen.700 community-colors.vpl deekay.vpl frodo.vpl godot.vpl green.vpl kernal kernal.500 pc64.vpl pepto-ntsc.vpl pepto-ntsc-sony.vpl pepto-pal.vpl pepto-palold.vpl ptoing.vpl rgb.vpl rom128h.vrs rom128l.vrs rom256h.vrs rom256l.vrs rom500.vrs sdl_sym.vkm vice.vpl white.vpl"
+PET_FILES="amber.vpl basic1 basic2 basic4 characters.901640-01.bin chargen chargen.de edit1g edit2b edit2g edit4b40 edit4b80 edit4g40 green.vpl hre.vrs hre-9000.324992-02.bin hre-a000.324993-02.bin kernal1 kernal2 kernal4 rom1g.vrs rom2b.vrs rom2g.vrs rom4b40.vrs rom4b80.vrs rom4g40.vrs romsuperpet.vrs sdl_buuk_sym.vkm sdl_grus_sym.vkm sdl_sym.vkm waterloo-a000.901898-01.bin waterloo-b000.901898-02.bin waterloo-c000.901898-03.bin waterloo-d000.901898-04.bin waterloo-e000.901897-01.bin waterloo-f000.901898-05.bin white.vpl"
+PLUS4_FILES="3plus1hi 3plus1lo basic c2lo.364 default.vrs kernal kernal.005 kernal.232 kernal.364 sdl_pos.vkm vice.vpl"
+VIC20_FILES="basic chargen default.vrs kernal mike-ntsc.vpl mike-pal.vpl sdl_pos.vkm sdl_pos_fi.vkm vice.vpl"
+DRIVE_FILES="d1541II d1571cr dos1001 dos1540 dos1541 dos1551 dos1570 dos1571 dos1581 dos2031 dos2040 dos3040 dos4040"
 
 `adb $android_device shell rm -r $android_path/vice >/dev/null`
 result=`adb $android_device shell mkdir $android_path/vice`
