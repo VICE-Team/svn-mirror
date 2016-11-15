@@ -59,9 +59,9 @@
 #include "superpet_waterloo_e000.h"
 #include "superpet_waterloo_f000.h"
 
-#include "pet_amber_vpl.h"
-#include "pet_green_vpl.h"
-#include "pet_white_vpl.h"
+#include "crtc_amber_vpl.h"
+#include "crtc_green_vpl.h"
+#include "crtc_white_vpl.h"
 
 static embedded_t petfiles[] = {
     { "chargen", 0x800, 0x800, 0x800, petchargen_embedded },
@@ -88,9 +88,9 @@ static embedded_t petfiles[] = {
 };
 
 static embedded_palette_t palette_files[] = {
-    { "amber", "amber.vpl", 2, pet_amber_vpl },
-    { "green", "green.vpl", 2, pet_green_vpl },
-    { "white", "white.vpl", 2, pet_white_vpl },
+    { "amber", "amber.vpl", 2, crtc_amber_vpl },
+    { "green", "green.vpl", 2, crtc_green_vpl },
+    { "white", "white.vpl", 2, crtc_white_vpl },
     { NULL }
 };
 

@@ -39,8 +39,7 @@
 #include "machine.h"
 #include "plus4mem.h"
 
-#include "plus4_default_vpl.h"
-#include "c64_vice_vpl.h"
+#include "ted_vice_vpl.h"
 
 static embedded_t plus4files[] = {
     { "basic", PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE, NULL },
@@ -51,8 +50,7 @@ static embedded_t plus4files[] = {
 };
 
 static embedded_palette_t palette_files[] = {
-    { "default", "default.vpl", 128, plus4_default_vpl },
-    { "vice", "vice.vpl", 16, c64_vice_vpl      },
+    { "vice", "vice.vpl", 16, ted_vice_vpl },
     { NULL }
 };
 
