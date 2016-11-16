@@ -475,6 +475,10 @@ static void vsid_create_menus(void)
         lib_free(tune_menu[i].string);
     }
 
+#ifdef USE_GNOMEUI
+    ui_menu_shutdown();
+#endif
+
     /* Get number of tunes in current PSID. */
     tunes = psid_tunes(&default_tune);
 
@@ -545,6 +549,11 @@ int vsid_ui_init(void)
 /* void vsid_ui_shutdown(void) */
 void vsid_ui_close(void) /* FIXME: bad name */
 {
+    if (psidpath != NULL) {
+        lib_free(psidpath);
+        psidpath = NULL;
+    }
+
     uisound_menu_shutdown();
     uisid_model_menu_shutdown();
     vsid_close_menus();

@@ -137,6 +137,10 @@ int ui_menu_init(void)
  *
  * A cleaner way would be the event handler way, but I have no idea why they
  * aren't called (BW)
+ *
+ * FIXME:   The code setting stuff to NULL/0 is required because VSID uses an
+ *          ugly hack to create its 'tunes' submenu: the entire menu is
+ *          recreated each time a PSID is loaded.
  */
 void ui_menu_shutdown(void)
 {
@@ -147,8 +151,10 @@ void ui_menu_shutdown(void)
     for (i = 0; i < MAX_HOTKEYS; i++) {
         if (hotkeys[i].name != NULL) {
             lib_free(hotkeys[i].name);
+            hotkeys[i].name = NULL;
         }
     }
+    numhotkeys = 0;
     /* free checkmarks */
     list = checkmark_list;
     while (list != NULL) {
@@ -159,6 +165,7 @@ void ui_menu_shutdown(void)
         list = next;
     }
     g_list_free(checkmark_list);
+    checkmark_list = NULL;
 
     /* free menu objects */
     list = object_list;
@@ -169,6 +176,7 @@ void ui_menu_shutdown(void)
         list = next;
     }
     g_list_free(object_list);
+    object_list = NULL;
 }
 
 #if 0
