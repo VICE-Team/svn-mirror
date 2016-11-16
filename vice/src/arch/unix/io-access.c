@@ -454,7 +454,7 @@ void io_access_unmap(WORD addr, WORD space)
 #endif
 
 #ifdef HAVE_MMAP_DEVICE_IO
-    mmunmap_device_io(space, addr);
+    munmap_device_io(space, addr);
 #endif
 
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)

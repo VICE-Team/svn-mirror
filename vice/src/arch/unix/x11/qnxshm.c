@@ -24,11 +24,12 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #if defined(__QNX__) && !defined(__QNXNTO__)
 
 #include <sys/types.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "qnxshm.h"
 
