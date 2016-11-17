@@ -4890,7 +4890,6 @@ AC_OUTPUT([Makefile
            src/arch/sdl/win32-watcom/Makefile
            src/arch/unix/Makefile
            src/arch/unix/gui/Makefile
-           src/arch/unix/hpux/Makefile
            src/arch/unix/minix/Makefile
            src/arch/unix/next_open_rhap/Makefile
            src/arch/unix/next_open_rhap/vice.info
