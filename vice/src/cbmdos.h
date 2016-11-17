@@ -122,7 +122,7 @@ struct cbmdos_cmd_parse_s {
     unsigned int readmode; /* output */
     unsigned int filetype; /* output */
     unsigned int recordlength; /* output */
-    unsigned int drive; /* output: drive number */
+    int drive; /* output: drive number */
 };
 typedef struct cbmdos_cmd_parse_s cbmdos_cmd_parse_t;
 
