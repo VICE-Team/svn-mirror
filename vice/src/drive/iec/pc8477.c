@@ -1000,7 +1000,7 @@ static void pc8477_store(pc8477_t *drv, WORD addr, BYTE byte)
                 case PC8477_WAIT:
                     drv->cmdp = 0;
                     drv->resp = 0;
-                    for (i = 0; i < sizeof(pc8477_commands) / sizeof(pc8477_commands[0]); i++) {
+                    for (i = 0; i < (int)(sizeof(pc8477_commands) / sizeof(pc8477_commands[0])); i++) {
                         if (pc8477_commands[i].command == (pc8477_cmd_t)(pc8477_commands[i].mask & byte)) {
                             break;
                         }
