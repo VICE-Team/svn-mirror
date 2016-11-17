@@ -106,21 +106,6 @@ static const ui_menu_toggle_t toggle_list[] = {
     { NULL, 0 }
 };
 
-static const ui_res_possible_values_t RefreshRateValues[] = {
-    { 0, IDM_REFRESH_RATE_AUTO },
-    { 1, IDM_REFRESH_RATE_1 },
-    { 2, IDM_REFRESH_RATE_2 },
-    { 3, IDM_REFRESH_RATE_3 },
-    { 4, IDM_REFRESH_RATE_4 },
-    { 5, IDM_REFRESH_RATE_5 },
-    { 6, IDM_REFRESH_RATE_6 },
-    { 7, IDM_REFRESH_RATE_7 },
-    { 8, IDM_REFRESH_RATE_8 },
-    { 9, IDM_REFRESH_RATE_9 },
-    { 10, IDM_REFRESH_RATE_10 },
-    { -1, 0 }
-};
-
 static ui_res_possible_values_t SpeedValues[] = {
     { 0, IDM_MAXIMUM_SPEED_NO_LIMIT },
     { 10, IDM_MAXIMUM_SPEED_10 },
@@ -132,7 +117,6 @@ static ui_res_possible_values_t SpeedValues[] = {
 };
 
 static const ui_res_value_list_t value_list[] = {
-    { "RefreshRate", RefreshRateValues, 0 },
     { "Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM },
     { NULL, NULL, 0 }
 };
