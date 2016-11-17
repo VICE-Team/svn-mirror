@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-03 13:54-0700\n"
-"PO-Revision-Date: 2012-12-29 13:44-0800\n"
-"Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
+"PO-Revision-Date: 2016-11-17 12:03+0100\n"
+"Last-Translator: David Renz <admin@lunix-os.de>\n"
 "Language-Team: ko <ko@li.org>\n"
-"Language: Korean\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CP949\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: src/arch/unix/joy.c:83
 msgid ""
@@ -170,11 +171,11 @@ msgstr ""
 
 #: src/arch/unix/mididrv.c:672 src/arch/win32/res.rc.po.c:1292
 msgid "Specify MIDI-In device"
-msgstr "미디 인 디바이스의 이름을 정하세요"
+msgstr "미디 인 디바이스의 이름을 명시하세요"
 
 #: src/arch/unix/mididrv.c:677 src/arch/win32/res.rc.po.c:1293
 msgid "Specify MIDI-Out device"
-msgstr "미다 아웃 디바이스의 이름을 정하세요"
+msgstr "미다 아웃 디바이스의 이름을 명시하세요"
 
 #: src/arch/unix/mididrv.c:683
 msgid "<Driver>"
@@ -191,15 +192,15 @@ msgstr ""
 
 #: src/arch/unix/rs232dev.c:195
 msgid "Specify baudrate of first RS232 device"
-msgstr "처음 RS232 디바이스 의 보드 레이트를 명시하세요"
+msgstr "첫번째 RS232 디바이스 의 보드 레이트를 명시하세요"
 
 #: src/arch/unix/rs232dev.c:200
 msgid "Specify baudrate of second RS232 device"
-msgstr "두번쩨 RS232 디바이스의 보드 레이트를 명시하세요"
+msgstr "두번째 RS232 디바이스의 보드 레이트를 명시하세요"
 
 #: src/arch/unix/rs232dev.c:205
 msgid "Specify baudrate of third RS232 device"
-msgstr "세번쩨 RS232 디바이스의 보드 레이트를 명시하세요"
+msgstr "세번째 RS232 디바이스의 보드 레이트를 명시하세요"
 
 #: src/arch/unix/rs232dev.c:210
 msgid "Specify baudrate of fourth RS232 device"
@@ -225,12 +226,12 @@ msgstr ""
 #: src/arch/unix/gui/c128ui.c:159 src/arch/unix/gui/c64scui.c:300
 #: src/arch/unix/gui/c64ui.c:357 src/arch/unix/gui/vsidui.c:237
 msgid "Second SID base address"
-msgstr "세컨드 SID 에서 사용가능한 주소"
+msgstr "두번째 SID 기준 주소"
 
 #: src/arch/unix/gui/c128ui.c:160 src/arch/unix/gui/c64scui.c:301
 #: src/arch/unix/gui/c64ui.c:358 src/arch/unix/gui/vsidui.c:238
 msgid "Third SID base address"
-msgstr ""
+msgstr "세번째 SID 기준 주소"
 
 #.
 #. { N_("Second SID"), UI_MENU_TYPE_TICK,
@@ -258,7 +259,7 @@ msgstr "reSID 샘플링 방법"
 #: src/arch/unix/gui/c64scui.c:308 src/arch/unix/gui/c64ui.c:365
 #: src/arch/unix/gui/cbm2ui.c:426 src/arch/unix/gui/vsidui.c:245
 msgid "reSID resampling passband"
-msgstr "reSID 샘플링 패스 밴드"
+msgstr "reSID 샘플링 통과 대역 (패스 밴드)"
 
 #: src/arch/unix/gui/c128ui.c:187 src/arch/unix/gui/c64scui.c:331
 #: src/arch/unix/gui/c64ui.c:388 src/arch/unix/gui/cbm2ui.c:93
@@ -313,14 +314,14 @@ msgstr "없음"
 
 #: src/arch/unix/gui/c128ui.c:230
 msgid "Function ROM image"
-msgstr "function ROM 파일"
+msgstr "Function ROM 파일"
 
 #: src/arch/unix/gui/c128ui.c:234
 #, c-format
 msgid ""
 "Could not load function ROM image\n"
 "'%s'"
-msgstr "function ROM 이미지 '%s' 을 불러올수 없습니다"
+msgstr "Function ROM 이미지 '%s' 을 로드할 수 없습니다"
 
 #: src/arch/unix/gui/c128ui.c:240 src/arch/win32/resc128.rc.po.c:757
 msgid "Internal Function ROM type"
@@ -340,7 +341,7 @@ msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:250 src/arch/amigaos/intl_text.c.po.c:11669
 msgid "External Function ROM file"
-msgstr "외부함수 ROM 파일"
+msgstr "외부 함수 ROM 파일"
 
 #: src/arch/unix/gui/c128ui.c:253
 msgid "enable external Function ROM RTC saving"
@@ -352,7 +353,7 @@ msgstr "Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:261
 msgid "Banks 2 & 3"
-msgstr "뱅크 2&3"
+msgstr "뱅크 2 & 3"
 
 #: src/arch/unix/gui/c128ui.c:294 src/arch/unix/gui/c64scui.c:378
 #: src/arch/unix/gui/c64ui.c:436
@@ -362,7 +363,7 @@ msgstr ""
 #: src/arch/unix/gui/c128ui.c:309 src/arch/unix/gui/c64scui.c:394
 #: src/arch/unix/gui/c64ui.c:453 src/arch/unix/gui/vic20ui.c:553
 msgid "MIDI emulation"
-msgstr "MIDI 에뮬레이터"
+msgstr "MIDI \t에뮬레이션"
 
 #: src/arch/unix/gui/c128ui.c:324 src/arch/unix/gui/c64scui.c:411
 #: src/arch/unix/gui/c64ui.c:470
@@ -383,7 +384,7 @@ msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:337
 msgid "Load new German Kernal ROM"
-msgstr "세로운 독일 Kernal ROM 을 불러오세요"
+msgstr "세로운 독일 Kernal ROM을 로드하세요"
 
 #: src/arch/unix/gui/c128ui.c:340
 msgid "Load new Finnish Kernal ROM"
@@ -411,11 +412,11 @@ msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:359
 msgid "Load new Basic Lo ROM"
-msgstr "세로운 Basic Lo ROM 을 불러오세요"
+msgstr "세로운 Basic Lo ROM을 로드하세요"
 
 #: src/arch/unix/gui/c128ui.c:362
 msgid "Load new Basic Hi ROM"
-msgstr "세로운 Basic Hi ROM 을 불러오세요"
+msgstr "세로운 Basic Hi ROM을 로드하세요"
 
 #: src/arch/unix/gui/c128ui.c:366
 msgid "Load new International character ROM"
@@ -450,7 +451,7 @@ msgstr ""
 #: src/arch/unix/gui/cbm2ui.c:142 src/arch/unix/gui/plus4ui.c:194
 #: src/arch/unix/gui/vic20ui.c:201
 msgid "Load default ROMs"
-msgstr "디폴트 ROMs 불러오기"
+msgstr "기본 ROM들을 로드하기"
 
 #: src/arch/unix/gui/c128ui.c:396 src/arch/unix/gui/c64dtvui.c:116
 #: src/arch/unix/gui/c64scui.c:438 src/arch/unix/gui/c64ui.c:497
@@ -458,7 +459,7 @@ msgstr "디폴트 ROMs 불러오기"
 #: src/arch/unix/gui/petui.c:286 src/arch/unix/gui/plus4ui.c:198
 #: src/arch/unix/gui/vic20ui.c:204
 msgid "Load new computer ROM"
-msgstr "세로운 컴퓨터 ROM 불러오기"
+msgstr "세로운 컴퓨터 ROM을 로드하기"
 
 #: src/arch/unix/gui/c128ui.c:398 src/arch/unix/gui/c64dtvui.c:118
 #: src/arch/unix/gui/c64scui.c:440 src/arch/unix/gui/c64ui.c:499
@@ -466,7 +467,7 @@ msgstr "세로운 컴퓨터 ROM 불러오기"
 #: src/arch/unix/gui/petui.c:288 src/arch/unix/gui/plus4ui.c:200
 #: src/arch/unix/gui/vic20ui.c:206
 msgid "Load new drive ROM"
-msgstr "세로운 드라이브 ROM 불러오기"
+msgstr "세로운 드라이브 ROM을 로드하기"
 
 #: src/arch/unix/gui/c128ui.c:400 src/arch/unix/gui/c64scui.c:442
 #: src/arch/unix/gui/c64ui.c:501
@@ -491,15 +492,15 @@ msgstr "ROM 셋 파일"
 
 #: src/arch/unix/gui/c128ui.c:429
 msgid "VIC II Save media file"
-msgstr "VIC II 미디어 파일 저장"
+msgstr "VIC II 미디어 저장 파일"
 
 #: src/arch/unix/gui/c128ui.c:431
 msgid "VDC Save media file"
-msgstr "VDC 미디어 파일 저장"
+msgstr "VDC 미디어 저장 파일"
 
 #: src/arch/unix/gui/c128ui.c:437
 msgid "Screenshots"
-msgstr "스크린샷"
+msgstr "스크린샷들"
 
 #: src/arch/unix/gui/c128ui.c:479 src/arch/win32/resc128.rc.po.c:748
 #: src/arch/amigaos/intl_text.c.po.c:4653
@@ -547,14 +548,14 @@ msgstr ""
 #: src/arch/unix/gui/cbm2ui.c:301 src/arch/win32/rescia.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:12845
 msgid "6526 (old)"
-msgstr "6526 (오래된)"
+msgstr "6526 (구형)"
 
 #: src/arch/unix/gui/c128ui.c:504 src/arch/unix/gui/c128ui.c:513
 #: src/arch/unix/gui/c64scui.c:195 src/arch/unix/gui/c64scui.c:205
 #: src/arch/unix/gui/c64ui.c:263 src/arch/unix/gui/c64ui.c:273
 #: src/arch/unix/gui/cbm2ui.c:303
 msgid "6526 (new)"
-msgstr "6526 (새로운)"
+msgstr "6526 (신)"
 
 #: src/arch/unix/gui/c128ui.c:519 src/arch/win32/resc128.rc.po.c:764
 msgid "C128 model"
@@ -563,7 +564,7 @@ msgstr ""
 #: src/arch/unix/gui/c128ui.c:522 src/arch/win32/resc128.rc.po.c:727
 #: src/arch/amigaos/intl_text.c.po.c:11613
 msgid "Machine type"
-msgstr "머신 종류"
+msgstr "컴퓨터 유형"
 
 #: src/arch/unix/gui/c128ui.c:524 src/arch/unix/gui/c64dtvui.c:160
 #: src/arch/unix/gui/c64scui.c:246 src/arch/unix/gui/c64ui.c:304
@@ -590,7 +591,7 @@ msgstr "CIA 2 모델"
 
 #: src/arch/unix/gui/c128ui.c:535 src/translate_text.c.po.c:5821
 msgid "Always switch to C64 mode on reset"
-msgstr "다시시작하면 항상 C64 모드 로 바뀝니다"
+msgstr "다시 시작하면 항상 C64 모드 로 바뀝니다"
 
 #: src/arch/unix/gui/c128ui.c:543 src/arch/unix/gui/c64dtvui.c:172
 #: src/arch/unix/gui/c64scui.c:479 src/arch/unix/gui/c64ui.c:538
@@ -641,7 +642,7 @@ msgstr "SID 설정"
 
 #: src/arch/unix/gui/c128ui.c:555
 msgid "Memory and I/O extensions"
-msgstr "메모리 와 I/O 확장"
+msgstr "메모리와 I/O 확장"
 
 #: src/arch/unix/gui/c128ui.c:558 src/arch/unix/gui/c64scui.c:492
 #: src/arch/unix/gui/c64ui.c:551 src/arch/unix/gui/cbm2ui.c:449
@@ -678,14 +679,14 @@ msgstr "프린터 셋팅"
 #: src/arch/unix/gui/petui.c:543 src/arch/unix/gui/plus4ui.c:443
 #: src/arch/unix/gui/vic20ui.c:699
 msgid "Enable Virtual Devices"
-msgstr "버츄얼 디바이스 사용가능하게 하기"
+msgstr "버츄얼 디바이스 사용을 가능하게 하기"
 
 #: src/arch/unix/gui/c128ui.c:674 src/arch/unix/gui/c64scui.c:608
 #: src/arch/unix/gui/c64ui.c:667 src/arch/unix/gui/cbm2ui.c:611
 #: src/arch/unix/gui/cbm2ui.c:647 src/arch/unix/gui/petui.c:550
 #: src/arch/unix/gui/plus4ui.c:450 src/arch/unix/gui/vic20ui.c:706
 msgid "Mouse emulation"
-msgstr "마우스 에뮬레이터"
+msgstr "마우스 에뮬레이션"
 
 #: src/arch/unix/gui/c128ui.c:689 src/arch/unix/gui/c64dtvui.c:298
 #: src/arch/unix/gui/c64scui.c:623 src/arch/unix/gui/c64ui.c:682
@@ -758,7 +759,7 @@ msgstr "설정"
 #: src/arch/win32/resscpu64.rc.po.c:110 src/arch/win32/resvic20.rc.po.c:118
 #: src/arch/amigaos/intl_text.c.po.c:12369
 msgid "Debug"
-msgstr "디벅"
+msgstr "디버그"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
@@ -775,20 +776,20 @@ msgstr "RJ도움"
 #: src/arch/unix/gui/petui.c:232 src/arch/unix/gui/plus4ui.c:174
 #: src/arch/unix/gui/vic20ui.c:188
 msgid "Load new kernal ROM"
-msgstr "세로운 kernal ROM 불러오기"
+msgstr "세로운 kernal ROM을 로드하기"
 
 #: src/arch/unix/gui/c64dtvui.c:102 src/arch/unix/gui/c64scui.c:424
 #: src/arch/unix/gui/c64ui.c:483 src/arch/unix/gui/cbm2ui.c:135
 #: src/arch/unix/gui/petui.c:238 src/arch/unix/gui/plus4ui.c:176
 #: src/arch/unix/gui/vic20ui.c:191
 msgid "Load new BASIC ROM"
-msgstr "세로운 BASIC ROM 불러오기"
+msgstr "세로운 BASIC ROM을 로드하기"
 
 #: src/arch/unix/gui/c64dtvui.c:105 src/arch/unix/gui/c64scui.c:427
 #: src/arch/unix/gui/c64ui.c:486 src/arch/unix/gui/cbm2ui.c:132
 #: src/arch/unix/gui/petui.c:291 src/arch/unix/gui/vic20ui.c:194
 msgid "Load new character ROM"
-msgstr "세로운 ROM 케릭터 불러오기"
+msgstr "세로운 케릭터 ROM을 로드하기"
 
 #. pop up and run the dialog
 #: src/arch/unix/gui/c64dtvui.c:147 src/arch/unix/gui/c64scui.c:471
@@ -797,7 +798,7 @@ msgstr "세로운 ROM 케릭터 불러오기"
 #: src/arch/unix/gui/vic20ui.c:446 src/arch/unix/x11/gnome/uiscreenshot.c:587
 #: src/arch/unix/x11/gnome/uiscreenshot.c:768 src/arch/win32/res.rc.po.c:1227
 msgid "Save media file"
-msgstr "미디어 파일을 저장하세요"
+msgstr "미디어 파일을 저장하기"
 
 #: src/arch/unix/gui/c64dtvui.c:155
 msgid "DTV model"
@@ -838,35 +839,35 @@ msgstr ""
 #: src/arch/win32/resc64.rc.po.c:585 src/arch/win32/resscpu64.rc.po.c:563
 #: src/arch/amigaos/intl_text.c.po.c:2357
 msgid "C64 old PAL"
-msgstr "C64 올드 PAL"
+msgstr "C64 구형 PAL"
 
 #: src/arch/unix/gui/c64scui.c:149 src/arch/unix/gui/c64ui.c:203
 #: src/arch/win32/resc64.rc.po.c:588 src/arch/win32/resscpu64.rc.po.c:566
 #: src/arch/amigaos/intl_text.c.po.c:2399
 msgid "C64 old NTSC"
-msgstr "C64 올드 NTSC"
+msgstr "C64 구형 NTSC"
 
 #: src/arch/unix/gui/c64scui.c:177 src/arch/win32/resc64.rc.po.c:574
 #: src/arch/win32/resscpu64.rc.po.c:577
 #: src/arch/amigaos/intl_text.c.po.c:12775
 msgid "6569R1 (old PAL)"
-msgstr "6569R1 (올드 PAL)"
+msgstr "6569R1 (구형 PAL)"
 
 #: src/arch/unix/gui/c64scui.c:183 src/arch/win32/resc64.rc.po.c:577
 #: src/arch/win32/resscpu64.rc.po.c:580
 #: src/arch/amigaos/intl_text.c.po.c:12817
 msgid "6567R56A (old NTSC)"
-msgstr "6567R56A (올드 NTSC)"
+msgstr "6567R56A (구형 NTSC)"
 
 #: src/arch/unix/gui/c64scui.c:213 src/arch/win32/resvicii.rc.po.c:93
 #: src/arch/amigaos/intl_text.c.po.c:12873
 msgid "Discrete"
-msgstr "다른"
+msgstr "이산형"
 
 #: src/arch/unix/gui/c64scui.c:215 src/arch/win32/resvicii.rc.po.c:94
 #: src/arch/amigaos/intl_text.c.po.c:12887
 msgid "Custom IC"
-msgstr "커스텀 IC"
+msgstr "특정 IC"
 
 #: src/arch/unix/gui/c64scui.c:223 src/arch/unix/gui/c64ui.c:281
 msgid "yes"
@@ -950,12 +951,12 @@ msgstr ""
 
 #: src/arch/unix/gui/c64ui.c:247
 msgid "Old PAL-G"
-msgstr "올드 PAL-G"
+msgstr "구형 PAL-G"
 
 #: src/arch/unix/gui/c64ui.c:251 src/arch/unix/gui/vsidui.c:320
 #: src/arch/amigaos/intl_text.c.po.c:2231
 msgid "Old NTSC-M"
-msgstr "올드 NTSC-M"
+msgstr "구형 NTSC-M"
 
 #: src/arch/unix/gui/c64ui.c:402
 msgid "Memory Expansions Hack"

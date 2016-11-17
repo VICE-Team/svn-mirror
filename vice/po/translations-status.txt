@@ -13,4 +13,4 @@ tr     Turkish      72      639         206
 da     Danish       72      638         207
 ru     Russian      62      618         560
 hu     Hungarian    41     1432         389
-ko     Korean       30        0        2151
+ko     Korean       30        0        2150
