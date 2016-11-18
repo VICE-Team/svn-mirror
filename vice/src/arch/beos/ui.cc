@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -63,7 +64,6 @@ extern "C" {
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h" 
-#include "joy.h"
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -109,7 +109,7 @@ extern "C" {
 }
 
 /* sometimes we may need pointers to the ViceWindows */
-#define MAX_WINDOWS 10
+#define MAX_WINDOWS 2
 ViceWindow *windowlist[MAX_WINDOWS];
 int window_count = 0;
 
@@ -135,7 +135,6 @@ ui_menu_toggle  non_vsid_toggles[] = {
     { "AutostartHandleTrueDriveEmulation", MENU_TOGGLE_HANDLE_TDE_AUTOSTART },
     { "UserportJoy", MENU_TOGGLE_USERPORT_JOY },
     { "JoyOpposite", MENU_ALLOW_OPPOSITE_JOY },
-    { "Datasette", MENU_TOGGLE_TAPEPORT_DATASETTE },
     { "TapeSenseDongle", MENU_TOGGLE_TAPEPORT_TAPE_SENSE_DONGLE },
     { "DTLBasicDongle", MENU_TOGGLE_TAPEPORT_DTL_BASIC_DONGLE },
     { "CPClockF83", MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83 },
@@ -752,6 +751,9 @@ int ui_handle_string_items(ui_res_string_list *string_list, int msg_item_id)
     return 0;
 }
 
+/* This is called when turning datasette on/off from the menu. */
+static void ui_draw_tape_status();
+
 void ui_dispatch_events(void)
 {
     int i;
@@ -892,6 +894,11 @@ void ui_dispatch_events(void)
                 break;
             case MENU_DATASETTE_COUNTER:
                 datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
+                break;
+            case MENU_TOGGLE_TAPEPORT_DATASETTE:
+                resources_toggle("Datasette", NULL);
+                ui_update_menus();
+                ui_draw_tape_status();
                 break;
             case MENU_SNAPSHOT_LOAD:
                 ui_select_file(B_OPEN_PANEL, SNAPSHOTLOAD_FILE, (void*)0);
@@ -1568,12 +1575,19 @@ static int ui_tape_control = -1;
 
 static void ui_draw_tape_status()
 {
+    int enabled = 0;
     int i;
+
+    if (machine_class != VICE_MACHINE_VSID && machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_SCPU64) {
+        resources_get_int("Datasette", &enabled);
+    }
+
+    enabled |= ui_tape_enabled;
 
     for (i = 0; i < window_count; i++) {
         while (!windowlist[i]->Lock());
         if (windowlist[i]->statusbar) {
-            windowlist[i]->statusbar->DisplayTapeStatus(ui_tape_enabled, ui_tape_counter, ui_tape_motor, ui_tape_control);
+            windowlist[i]->statusbar->DisplayTapeStatus(enabled, ui_tape_counter, ui_tape_motor, ui_tape_control);
         }
         windowlist[i]->Unlock();
     }
@@ -1696,12 +1710,14 @@ void ui_display_joyport(BYTE *joyport)
 
 void ui_statusbar_update()
 {
-    ui_display_drive_status(0);
-    ui_display_image(0);
-    ui_display_drive_status(1);
-    ui_display_image(1);
-    ui_display_image(-1);
+    int i;
+
+    for (i = 0; i < 4; i++) {
+        ui_display_drive_status(i);
+        ui_display_image(i);
+    }
     ui_draw_tape_status();
+    ui_display_image(-1);
     ui_enable_joyport();
 }
 

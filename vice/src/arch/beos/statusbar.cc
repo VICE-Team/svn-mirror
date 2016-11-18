@@ -191,7 +191,7 @@ void ViceStatusbar::DisplayTapeStatus(int enabled, int counter, int motor, int c
     const BPoint rewind_button2[] = { BPoint(5, 3), BPoint(2, 6), BPoint(5, 9) };
 
     frame = status_rect.OffsetByCopy(0, 52);
-    sprintf(str, "T:  %03d", counter % 1000);
+    sprintf(str, " T: %03d", counter % 1000);
     statusbitmap->Lock();
     drawview->SetLowColor(statusbar_background);
     drawview->FillRect(frame, B_SOLID_LOW);
