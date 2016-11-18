@@ -64,6 +64,7 @@ extern "C" {
 }
 
 extern ViceWindow *windowlist[];
+extern int window_count;
 
 static int last_fileparam[2]; /* 0=filepanel, 1=savepanel */
 static int last_filetype[2];
@@ -662,7 +663,11 @@ void ui_select_file_action(BMessage *msg)
     status_t err;
     BPath *path;
     struct video_canvas_s *c0 = (struct video_canvas_s *)windowlist[0]->canvas;
-    struct video_canvas_s *c1 = (struct video_canvas_s *)windowlist[1]->canvas;
+    struct video_canvas_s *c1 = NULL;
+
+    if (window_count == 2) {
+        c1 = (struct video_canvas_s *)windowlist[1]->canvas;
+    }
 
     if (msg->what == B_REFS_RECEIVED) {
         /* an open action */            
