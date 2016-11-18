@@ -133,9 +133,21 @@ static const int drive_extend_values[] = {
     -1
 };
 
-#define DECL(device)                                                                                                     \
-    { NULL, MUI_TYPE_RADIO, "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device, NULL }, \
-    { NULL, MUI_TYPE_RADIO, "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values, NULL },
+static int ui_rpm_range[] = {
+    25000,
+    35000
+};
+
+static int ui_wobble_range[] = {
+    0,
+    1000
+};
+
+#define DECL(device)                                                                                                       \
+    { NULL, MUI_TYPE_RADIO,   "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device, NULL }, \
+    { NULL, MUI_TYPE_RADIO,   "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values, NULL },      \
+    { NULL, MUI_TYPE_INTEGER, "Drive" #device "RPM", NULL, ui_rpm_range, NULL },                                           \
+    { NULL, MUI_TYPE_INTEGER, "Drive" #device "Wobble", NULL, ui_wobble_range, NULL },
 
 #define DECL_NUM (2)
 
@@ -168,6 +180,18 @@ static APTR build_gui(void)
                    MUIA_Frame, MUIV_Frame_Group,
                    MUIA_FrameTitle, translate_text(IDS_40_TRACK_HANDLING),
                    MUIA_Radio_Entries, drive_extend_strings,
+                 End,
+                 Child, ui_to_from[2].object = StringObject,
+                   MUIA_Frame, MUIV_Frame_String,
+                   MUIA_FrameTitle, translate_text(IDS_DRIVE_RPM),
+                   MUIA_String_Accept, "0123456789",
+                   MUIA_String_MaxLen, 5+1,
+                 End,
+                 Child, ui_to_from[3].object = StringObject,
+                   MUIA_Frame, MUIV_Frame_String,
+                   MUIA_FrameTitle, translate_text(IDS_DRIVE_WOBBLE),
+                   MUIA_String_Accept, "0123456789",
+                   MUIA_String_MaxLen, 5+1,
                  End,
                End;
 

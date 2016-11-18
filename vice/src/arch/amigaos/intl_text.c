@@ -7306,6 +7306,34 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DRIVE_RTC_SAVE_SV, "" },  /* fuzzy */
 /* tr */ { IDS_DRIVE_RTC_SAVE_TR, "" },  /* fuzzy */
 
+/* en */ { IDS_DRIVE_RPM,    "RPM (25000..35000)" },
+/* da */ { IDS_DRIVE_RPM_DA, "" },  /* fuzzy */
+/* de */ { IDS_DRIVE_RPM_DE, "" },  /* fuzzy */
+/* es */ { IDS_DRIVE_RPM_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DRIVE_RPM_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DRIVE_RPM_HU, "" },  /* fuzzy */
+/* it */ { IDS_DRIVE_RPM_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DRIVE_RPM_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DRIVE_RPM_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DRIVE_RPM_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DRIVE_RPM_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DRIVE_RPM_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DRIVE_RPM_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DRIVE_WOBBLE,    "Wobble (0..1000)" },
+/* da */ { IDS_DRIVE_WOBBLE_DA, "" },  /* fuzzy */
+/* de */ { IDS_DRIVE_WOBBLE_DE, "" },  /* fuzzy */
+/* es */ { IDS_DRIVE_WOBBLE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DRIVE_WOBBLE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DRIVE_WOBBLE_HU, "" },  /* fuzzy */
+/* it */ { IDS_DRIVE_WOBBLE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DRIVE_WOBBLE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DRIVE_WOBBLE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DRIVE_WOBBLE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DRIVE_WOBBLE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DRIVE_WOBBLE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DRIVE_WOBBLE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_DRIVE_SETTINGS,    "Drive settings" },
 /* da */ { IDS_DRIVE_SETTINGS_DA, "Diskettedrevsindstillinger" },
 /* de */ { IDS_DRIVE_SETTINGS_DE, "Floppy Einstellungen" },
