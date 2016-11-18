@@ -69,7 +69,6 @@ VICE_ARG_ENABLE_LIST(embedded,    [  --enable-embedded       enable embedding of
 VICE_ARG_ENABLE_LIST(hidmgr,      [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
 VICE_ARG_ENABLE_LIST(hidutils,    [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
 VICE_ARG_ENABLE_LIST(debug,       [  --enable-debug          enable debug source options])
-VICE_ARG_ENABLE_LIST(debug-code,  [  --enable-debug-code     enable debugging code])
 VICE_ARG_ENABLE_LIST(native-tools,[  --enable-native-tools[[=compiler]]    enable native tools instead of scripts])
 
 dnl register ReSID options here to pass arg checks
