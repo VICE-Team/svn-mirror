@@ -319,6 +319,23 @@ AC_PROG_CC([gcc clang cc])
 AC_LIB_PROG_LD
 
 
+dnl Set proper mkfontdir path for QNX6
+case "$host_os" in
+  nto*)
+    if test -d "/opt/X11R6"; then
+      AC_SUBST(MKFONTDIR_BIN, "/opt/X11R6/bin/mkfontdir")
+    else
+      if test -d "/opt/X11R7"; then
+        AC_SUBST(MKFONTDIR_BIN, "/opt/X11R7/bin/mkfontdir")
+      fi
+    fi
+    ;;
+  *)
+    AC_SUBST(MKFONTDIR_BIN, "mkfontdir")
+    ;;
+esac
+
+
 dnl Add runtime/linker paths for OpenIndiana
 case "$host_os" in
   solaris*)

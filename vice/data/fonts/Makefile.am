@@ -22,4 +22,4 @@ install: install-data-am
 @SDL_COMPILE_FALSE@	@echo "Preparing fontdir..." ; \
 @SDL_COMPILE_FALSE@	cd $(DESTDIR)$(fontsdir) ; \
 @SDL_COMPILE_FALSE@	bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \
-@SDL_COMPILE_FALSE@	mkfontdir .
+@SDL_COMPILE_FALSE@	${MKFONTDIR_BIN} .
