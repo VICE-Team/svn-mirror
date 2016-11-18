@@ -44,7 +44,7 @@
 #endif
 #include "mui.h"
 
-static ui_port_range[] = {
+static int ui_port_range[] = {
     0,
     0xffff
 };
