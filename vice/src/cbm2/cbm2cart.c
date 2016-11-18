@@ -296,16 +296,16 @@ int cartridge_resources_init(void)
 
 void cartridge_resources_shutdown(void)
 {
-    if (cart1_name != NULL) {
+    if (cart_1_name != NULL) {
         lib_free(cart_1_name);
     }
-    if (cart2_name != NULL) {
+    if (cart_2_name != NULL) {
         lib_free(cart_2_name);
     }
-    if (cart4_name != NULL) {
+    if (cart_4_name != NULL) {
         lib_free(cart_4_name);
     }
-    if (cart8_name != NULL) {
+    if (cart_6_name != NULL) {
         lib_free(cart_6_name);
     }
 }
