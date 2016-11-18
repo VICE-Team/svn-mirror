@@ -594,9 +594,6 @@ static void mp3at64_store_mp3_data(BYTE val)
                                     if (mp3_get_channels() != 2) {
                                         mp3_mono_to_stereo(block);
                                     }
-                                    if (mp3_get_channels() != 2) {
-                                        mp3_mono_to_stereo(block);
-                                    }
                                     if (mp3_get_sampling_rate() != mp3_output_rate) {
                                         mp3_resample(block, mp3_get_sampling_rate());
                                     }
