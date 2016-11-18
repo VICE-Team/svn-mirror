@@ -351,6 +351,7 @@ void machine_resources_shutdown(void)
     joyport_bbrtc_resources_shutdown();
     tapeport_resources_shutdown();
     debugcart_resources_shutdown();
+    cartridge_resources_shutdown();
 }
 
 /* CBM-II-specific command-line option initialization.  */
