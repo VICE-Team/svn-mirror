@@ -1,8 +1,8 @@
 /*
- * uikeyboard.h - Keyboard settings dialog box.
+ * uikeymap.h - Implementation of the keymap settings dialog box.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,14 +24,9 @@
  *
  */
 
-#ifndef VICE_UIKEYBOARD_H
-#define VICE_UIKEYBOARD_H
+#ifndef VICE_UIKEYMAP_H
+#define VICE_UIKEYMAP_H
 
-#include "uilib.h"
-
-extern HACCEL uikeyboard_create_accelerator_table(void);
-extern void uikeyboard_menu_shortcuts(HMENU menu);
-extern void uikeyboard_shutdown(void);
+extern void ui_keymap_settings_dialog(HWND hwnd);
 
 #endif
-

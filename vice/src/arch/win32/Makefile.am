@@ -112,6 +112,7 @@ libarch_a_SOURCES = \
 	resiocollisions.rc \
 	resisepic.rc \
 	resjoyport.rc \
+	reskeymap.rc \
 	resmagicvoice.rc \
 	resmidi.rc \
 	resmmc64.rc \
@@ -243,6 +244,8 @@ libarch_a_SOURCES = \
 	uijoystick.h \
 	uikeyboard.c \
 	uikeyboard.h \
+	uikeymap.c \
+	uikeymap.h \
 	uilib.c \
 	uilib.h \
 	uimagicvoice.c \
@@ -439,7 +442,8 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
 	$(srcdir)/resgmod2.rc $(srcdir)/resethernet.rc \
-	$(srcdir)/resethernetcart.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resethernetcart.rc $(srcdir)/reskeymap.rc \
+	$(top_builddir)/src/debug.h
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
 	$(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc \
@@ -455,7 +459,8 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/ressampler.rc $(srcdir)/resrrnetmk3.rc \
 	$(srcdir)/rescpclockf83.rc $(srcdir)/restapelog.rc \
 	$(srcdir)/resiocollisions.rc $(srcdir)/resgmod2.rc \
-	$(srcdir)/resethernet.rc $(srcdir)/resethernetcart.rc
+	$(srcdir)/resethernet.rc $(srcdir)/resethernetcart.rc \
+	$(srcdir)/reskeymap.rc
 
 resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
@@ -473,7 +478,8 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
 	$(srcdir)/resgmod2.rc $(srcdir)/resethernet.rc \
-	$(srcdir)/resethernetcart.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resethernetcart.rc $(srcdir)/reskeymap.rc \
+	$(top_builddir)/src/debug.h
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
@@ -491,7 +497,7 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
 	$(srcdir)/resgmod2.rc $(srcdir)/resethernet.rc \
-	$(srcdir)/resethernetcart.rc
+	$(srcdir)/resethernetcart.rc $(srcdir)/reskeymap.rc
 
 resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc \
@@ -509,7 +515,8 @@ resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
 	$(srcdir)/resgmod2.rc $(srcdir)/resethernet.rc \
-	$(srcdir)/resethernetcart.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resethernetcart.rc $(srcdir)/reskeymap.rc \
+	$(top_builddir)/src/debug.h
 	cat >resscpu64cat.rc $(srcdir)/resscpu64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
@@ -526,17 +533,17 @@ resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
 	$(srcdir)/resgmod2.rc $(srcdir)/resethernet.rc \
-	$(srcdir)/resethernetcart.rc
+	$(srcdir)/resethernetcart.rc $(srcdir)/reskeymap.rc
 
 resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resdrivec64dtv.rc $(srcdir)/resautostart.rc \
-	$(srcdir)/resjoyport.rc $(srcdir)/ressampler.rc \
+	$(srcdir)/resjoyport.rc $(srcdir)/ressampler.rc $(srcdir)/reskeymap.rc \
 	$(top_builddir)/src/debug.h
 	cat >resc64dtvcat.rc $(srcdir)/resc64dtv.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivec64dtv.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resjoyport.rc \
-	$(srcdir)/ressampler.rc $(srcdir)/resvicii.rc
+	$(srcdir)/ressampler.rc $(srcdir)/resvicii.rc $(srcdir)reskeymap.rc
 
 rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
@@ -545,14 +552,15 @@ rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/resuserportrtc58321a.rc \
 	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/rescpclockf83.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
-	$(top_builddir)/src/debug.h
+	$(srcdir)/reskeymap.rc $(top_builddir)/src/debug.h
 	cat >rescbm2cat.rc $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/ressiddtv.rc $(srcdir)/resautostart.rc \
 	$(srcdir)/rescia.rc $(srcdir)/resjoyport.rc $(srcdir)/resmouse.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/resuserportrtc58321a.rc \
 	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/rescpclockf83.rc \
-	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc
+	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
+	$(srcdir)/reskeymap.rc
 
 rescbm5x0cat.rc: $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
@@ -560,13 +568,15 @@ rescbm5x0cat.rc: $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/resvicii.rc $(srcdir)/rescia.rc $(srcdir)/resjoyport.rc \
 	$(srcdir)/resmouse.rc $(srcdir)/ressampler.rc \
 	$(srcdir)/rescpclockf83.rc $(srcdir)/restapelog.rc \
-	$(srcdir)/resiocollisions.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resiocollisions.rc $(srcdir)/reskeymap.rc \
+	$(top_builddir)/src/debug.h
 	cat >rescbm5x0cat.rc $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc $(srcdir)/resautostart.rc \
 	$(srcdir)/resjoyport.rc $(srcdir)/rescia.rc $(srcdir)/resmouse.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/rescpclockf83.rc \
-	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc
+	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
+	$(srcdir)/reskeymap.rc
 
 respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
@@ -575,7 +585,8 @@ respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resjoyport.rc $(srcdir)/resmouse.rc $(srcdir)/ressampler.rc \
 	$(srcdir)/resuserportrtc58321a.rc $(srcdir)/resuserportrtcds1307.rc \
 	$(srcdir)/rescpclockf83.rc $(srcdir)/restapelog.rc \
-	$(srcdir)/resiocollisions.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resiocollisions.rc $(srcdir)/reskeymap.rc \
+	$(top_builddir)/src/debug.h
 	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc \
@@ -584,7 +595,7 @@ respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resmouse.rc $(srcdir)/ressampler.rc \
 	$(srcdir)/resuserportrtc58321a.rc $(srcdir)/resuserportrtcds1307.rc \
 	$(srcdir)/rescpclockf83.rc $(srcdir)/restapelog.rc \
-	$(srcdir)/resiocollisions.rc
+	$(srcdir)/resiocollisions.rc $(srcdir)/reskeymap.rc
 
 resplus4cat.rc: $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
@@ -593,14 +604,15 @@ resplus4cat.rc: $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resmouse.rc $(srcdir)/resplus4memoryhacks.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/rescpclockf83.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
-	$(top_builddir)/src/debug.h
+	$(srcdir)/reskeymap.rc $(top_builddir)/src/debug.h
 	cat >resplus4cat.rc $(srcdir)/resplus4.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/resv364speech.rc $(srcdir)/ressidcart.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resjoyport.rc $(srcdir)/rested.rc \
 	$(srcdir)/resmouse.rc $(srcdir)/resplus4memoryhacks.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/rescpclockf83.rc \
-	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc
+	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
+	$(srcdir)/reskeymap.rc
 
 resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resrs232user.rc $(srcdir)/resdrivevic20.rc \
@@ -613,7 +625,8 @@ resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resuserportrtc58321a.rc $(srcdir)/resuserportrtcds1307.rc \
 	$(srcdir)/rescpclockf83.rc $(srcdir)/restapelog.rc \
 	$(srcdir)/resiocollisions.rc $(srcdir)/resethernet.rc \
-	$(srcdir)/resethernetcart.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resethernetcart.rc $(srcdir)/reskeymap.rc \
+	$(top_builddir)/src/debug.h
 	cat >resvic20cat.rc $(srcdir)/resvic20.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivevic20.rc $(srcdir)/resrs232user.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
@@ -625,7 +638,7 @@ resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resuserportrtc58321a.rc $(srcdir)/resuserportrtcds1307.rc \
 	$(srcdir)/rescpclockf83.rc $(srcdir)/restapelog.rc \
 	$(srcdir)/resiocollisions.rc $(srcdir)/resethernet.rc \
-	$(srcdir)/resethernetcart.rc
+	$(srcdir)/resethernetcart.rc $(srcdir)/reskeymap.rc
 
 resvsidcat.rc: $(srcdir)/resvsid.rc $(srcdir)/res.rc res.h $(srcdir)/ressid.rc \
 	$(srcdir)/resvicii.rc $(top_builddir)/src/debug.h

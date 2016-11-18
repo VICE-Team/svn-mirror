@@ -45,6 +45,7 @@
 #include "uijoyport.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
+#include "uikeymap.h"
 #include "uilib.h"
 #include "uimouse.h"
 #include "uiplus4cart.h"
@@ -104,83 +105,6 @@ static const uirom_settings_t uirom_settings[] = {
 
 static const ui_res_value_list_t plus4_ui_res_values[] = {
     { NULL, NULL, 0 }
-};
-
-/* FIXME: the keyboard selection dialog can be made generic */
-#define PLUS4UI_KBD_NUM_MAP 4
-
-static const uikeyboard_mapping_entry_t mapping_entry[PLUS4UI_KBD_NUM_MAP] = {
-    { IDC_PLUS4KBD_MAPPING_SELECT_SYM, IDC_PLUS4KBD_MAPPING_SYM,
-      IDC_PLUS4KBD_MAPPING_SYM_BROWSE, "KeymapSymFile" },
-    { IDC_PLUS4KBD_MAPPING_SELECT_POS, IDC_PLUS4KBD_MAPPING_POS,
-      IDC_PLUS4KBD_MAPPING_POS_BROWSE, "KeymapPosFile" },
-    { IDC_PLUS4KBD_MAPPING_SELECT_USERSYM, IDC_PLUS4KBD_MAPPING_USERSYM,
-      IDC_PLUS4KBD_MAPPING_USERSYM_BROWSE, "KeymapUserSymFile" },
-    { IDC_PLUS4KBD_MAPPING_SELECT_USERPOS, IDC_PLUS4KBD_MAPPING_USERPOS,
-      IDC_PLUS4KBD_MAPPING_USERPOS_BROWSE, "KeymapUserPosFile" },
-};
-
-static uilib_localize_dialog_param plus4_kbd_trans[] = {
-    { IDC_PLUS4KBD_MAPPING_SELECT_SYM, IDS_SYMBOLIC, 0 },
-    { IDC_PLUS4KBD_MAPPING_SELECT_POS, IDS_POSITIONAL, 0 },
-    { IDC_PLUS4KBD_MAPPING_SELECT_USERSYM, IDS_SYMBOLIC, 0 },
-    { IDC_PLUS4KBD_MAPPING_SELECT_USERPOS, IDS_POSITIONAL, 0 },
-    { IDC_PLUS4KBD_MAPPING_SYM_BROWSE, IDS_BROWSE, 0 },
-    { IDC_PLUS4KBD_MAPPING_POS_BROWSE, IDS_BROWSE, 0 },
-    { IDC_PLUS4KBD_MAPPING_USERSYM_BROWSE, IDS_BROWSE, 0 },
-    { IDC_PLUS4KBD_MAPPING_USERPOS_BROWSE, IDS_BROWSE, 0 },
-    { IDC_PLUS4KBD_MAPPING_DUMP, IDS_DUMP_KEYSET, 0 },
-    { IDC_KBD_SHORTCUT_DUMP, IDS_DUMP_SHORTCUTS, 0 },
-    { 0, 0, 0 }
-};
-
-static uilib_dialog_group plus4_kbd_left_group[] = {
-    { IDC_PLUS4KBD_MAPPING_SELECT_SYM, 1 },
-    { IDC_PLUS4KBD_MAPPING_SELECT_POS, 1 },
-    { IDC_PLUS4KBD_MAPPING_SELECT_USERSYM, 1 },
-    { IDC_PLUS4KBD_MAPPING_SELECT_USERPOS, 1 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group plus4_kbd_middle_group[] = {
-    { IDC_PLUS4KBD_MAPPING_SYM, 0 },
-    { IDC_PLUS4KBD_MAPPING_POS, 0 },
-    { IDC_PLUS4KBD_MAPPING_USERSYM, 0 },
-    { IDC_PLUS4KBD_MAPPING_USERPOS, 0 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group plus4_kbd_right_group[] = {
-    { IDC_PLUS4KBD_MAPPING_SYM_BROWSE, 0 },
-    { IDC_PLUS4KBD_MAPPING_POS_BROWSE, 0 },
-    { IDC_PLUS4KBD_MAPPING_USERSYM_BROWSE, 0 },
-    { IDC_PLUS4KBD_MAPPING_USERPOS_BROWSE, 0 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group plus4_kbd_buttons_group[] = {
-    { IDC_PLUS4KBD_MAPPING_DUMP, 1 },
-    { IDC_KBD_SHORTCUT_DUMP, 1 },
-    { 0, 0 }
-};
-
-static int plus4_kbd_move_buttons_group[] = {
-    IDC_PLUS4KBD_MAPPING_DUMP,
-    IDC_KBD_SHORTCUT_DUMP,
-    0
-};
-
-static uikeyboard_config_t uikeyboard_config = {
-    IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG,
-    PLUS4UI_KBD_NUM_MAP,
-    mapping_entry,
-    IDC_PLUS4KBD_MAPPING_DUMP,
-    plus4_kbd_trans,
-    plus4_kbd_left_group,
-    plus4_kbd_middle_group,
-    plus4_kbd_right_group,
-    plus4_kbd_buttons_group,
-    plus4_kbd_move_buttons_group
 };
 
 ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
@@ -527,7 +451,7 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
             ui_sidcart_settings_dialog(hwnd);
             break;
         case IDM_KEYBOARD_SETTINGS:
-            uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            ui_keymap_settings_dialog(hwnd);
             break;
         case IDM_MOUSE_SETTINGS:
             ui_mouse_settings_dialog(hwnd, 1);

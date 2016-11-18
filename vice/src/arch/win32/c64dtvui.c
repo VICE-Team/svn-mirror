@@ -45,6 +45,7 @@
 #include "uijoyport.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
+#include "uikeymap.h"
 #include "uilib.h"
 #include "uirom.h"
 #include "uirs232user.h"
@@ -85,83 +86,6 @@ static const uirom_settings_t uirom_settings[] = {
     { UIROM_TYPE_DRIVE, TEXT("4000"), "DosName4000",
       IDC_DRIVEROM_4000_FILE, IDC_DRIVEROM_4000_BROWSE },
     { 0, NULL, NULL, 0, 0 }
-};
-
-/* FIXME: the keyboard selection dialog can be made generic */
-#define C64DTVUI_KBD_NUM_MAP 4
-
-static const uikeyboard_mapping_entry_t mapping_entry[C64DTVUI_KBD_NUM_MAP] = {
-    { IDC_C64KBD_MAPPING_SELECT_SYM, IDC_C64KBD_MAPPING_SYM,
-      IDC_C64KBD_MAPPING_SYM_BROWSE, "KeymapSymFile" },
-    { IDC_C64KBD_MAPPING_SELECT_POS, IDC_C64KBD_MAPPING_POS,
-      IDC_C64KBD_MAPPING_POS_BROWSE, "KeymapPosFile" },
-    { IDC_C64KBD_MAPPING_SELECT_USERSYM, IDC_C64KBD_MAPPING_USERSYM,
-      IDC_C64KBD_MAPPING_USERSYM_BROWSE, "KeymapUserSymFile" },
-    { IDC_C64KBD_MAPPING_SELECT_USERPOS, IDC_C64KBD_MAPPING_USERPOS,
-      IDC_C64KBD_MAPPING_USERPOS_BROWSE, "KeymapUserPosFile" },
-};
-
-static uilib_localize_dialog_param c64dtv_kbd_trans[] = {
-    { IDC_C64KBD_MAPPING_SELECT_SYM, IDS_SYMBOLIC, 0 },
-    { IDC_C64KBD_MAPPING_SELECT_POS, IDS_POSITIONAL, 0 },
-    { IDC_C64KBD_MAPPING_SELECT_USERSYM, IDS_SYMBOLIC, 0 },
-    { IDC_C64KBD_MAPPING_SELECT_USERPOS, IDS_POSITIONAL, 0 },
-    { IDC_C64KBD_MAPPING_SYM_BROWSE, IDS_BROWSE, 0 },
-    { IDC_C64KBD_MAPPING_POS_BROWSE, IDS_BROWSE, 0 },
-    { IDC_C64KBD_MAPPING_USERSYM_BROWSE, IDS_BROWSE, 0 },
-    { IDC_C64KBD_MAPPING_USERPOS_BROWSE, IDS_BROWSE, 0 },
-    { IDC_C64KBD_MAPPING_DUMP, IDS_DUMP_KEYSET, 0 },
-    { IDC_KBD_SHORTCUT_DUMP, IDS_DUMP_SHORTCUTS, 0 },
-    { 0, 0, 0 }
-};
-
-static uilib_dialog_group c64dtv_kbd_left_group[] = {
-    { IDC_C64KBD_MAPPING_SELECT_SYM, 1 },
-    { IDC_C64KBD_MAPPING_SELECT_POS, 1 },
-    { IDC_C64KBD_MAPPING_SELECT_USERSYM, 1 },
-    { IDC_C64KBD_MAPPING_SELECT_USERPOS, 1 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group c64dtv_kbd_middle_group[] = {
-    { IDC_C64KBD_MAPPING_SYM, 0 },
-    { IDC_C64KBD_MAPPING_POS, 0 },
-    { IDC_C64KBD_MAPPING_USERSYM, 0 },
-    { IDC_C64KBD_MAPPING_USERPOS, 0 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group c64dtv_kbd_right_group[] = {
-    { IDC_C64KBD_MAPPING_SYM_BROWSE, 0 },
-    { IDC_C64KBD_MAPPING_POS_BROWSE, 0 },
-    { IDC_C64KBD_MAPPING_USERSYM_BROWSE, 0 },
-    { IDC_C64KBD_MAPPING_USERPOS_BROWSE, 0 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group c64dtv_kbd_buttons_group[] = {
-    { IDC_C64KBD_MAPPING_DUMP, 1 },
-    { IDC_KBD_SHORTCUT_DUMP, 1 },
-    { 0, 0 }
-};
-
-static int c64dtv_kbd_move_buttons_group[] = {
-    IDC_C64KBD_MAPPING_DUMP,
-    IDC_KBD_SHORTCUT_DUMP,
-    0
-};
-
-static uikeyboard_config_t uikeyboard_config = {
-    IDD_C64KBD_MAPPING_SETTINGS_DIALOG,
-    C64DTVUI_KBD_NUM_MAP,
-    mapping_entry,
-    IDC_C64KBD_MAPPING_DUMP,
-    c64dtv_kbd_trans,
-    c64dtv_kbd_left_group,
-    c64dtv_kbd_middle_group,
-    c64dtv_kbd_right_group,
-    c64dtv_kbd_buttons_group,
-    c64dtv_kbd_move_buttons_group
 };
 
 ui_menu_translation_table_t c64dtvui_menu_translation_table[] = {
@@ -441,7 +365,7 @@ static void c64dtv_ui_specific(WPARAM wparam, HWND hwnd)
             uidrivec64dtv_settings_dialog(hwnd);
             break;
         case IDM_KEYBOARD_SETTINGS:
-            uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            ui_keymap_settings_dialog(hwnd);
             break;
         case IDM_ATTACH_DTV_FLASH:
             ui_c64dtv_attach_flash_dialog(hwnd);

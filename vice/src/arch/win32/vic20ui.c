@@ -54,6 +54,7 @@
 #include "uijoyport.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
+#include "uikeymap.h"
 #include "uilib.h"
 #include "uimidi.h"
 #include "uimouse.h"
@@ -126,83 +127,6 @@ static const uirom_settings_t uirom_settings[] = {
     { UIROM_TYPE_DRIVE, TEXT("1001"), "DosName1001",
       IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE },
     { 0, NULL, NULL, 0, 0 }
-};
-
-/* FIXME: the keyboard selection dialog can be made generic */
-#define VIC20UI_KBD_NUM_MAP 4
-
-static const uikeyboard_mapping_entry_t mapping_entry[VIC20UI_KBD_NUM_MAP] = {
-    { IDC_VIC20KBD_MAPPING_SELECT_SYM, IDC_VIC20KBD_MAPPING_SYM,
-      IDC_VIC20KBD_MAPPING_SYM_BROWSE, "KeymapSymFile" },
-    { IDC_VIC20KBD_MAPPING_SELECT_POS, IDC_VIC20KBD_MAPPING_POS,
-      IDC_VIC20KBD_MAPPING_POS_BROWSE, "KeymapPosFile" },
-    { IDC_VIC20KBD_MAPPING_SELECT_USERSYM, IDC_VIC20KBD_MAPPING_USERSYM,
-      IDC_VIC20KBD_MAPPING_USERSYM_BROWSE, "KeymapUserSymFile" },
-    { IDC_VIC20KBD_MAPPING_SELECT_USERPOS, IDC_VIC20KBD_MAPPING_USERPOS,
-      IDC_VIC20KBD_MAPPING_USERPOS_BROWSE, "KeymapUserPosFile" },
-};
-
-static uilib_localize_dialog_param vic20_kbd_trans[] = {
-    { IDC_VIC20KBD_MAPPING_SELECT_SYM, IDS_SYMBOLIC, 0 },
-    { IDC_VIC20KBD_MAPPING_SELECT_POS, IDS_POSITIONAL, 0 },
-    { IDC_VIC20KBD_MAPPING_SELECT_USERSYM, IDS_SYMBOLIC, 0 },
-    { IDC_VIC20KBD_MAPPING_SELECT_USERPOS, IDS_POSITIONAL, 0 },
-    { IDC_VIC20KBD_MAPPING_SYM_BROWSE, IDS_BROWSE, 0 },
-    { IDC_VIC20KBD_MAPPING_POS_BROWSE, IDS_BROWSE, 0 },
-    { IDC_VIC20KBD_MAPPING_USERSYM_BROWSE, IDS_BROWSE, 0 },
-    { IDC_VIC20KBD_MAPPING_USERPOS_BROWSE, IDS_BROWSE, 0 },
-    { IDC_VIC20KBD_MAPPING_DUMP, IDS_DUMP_KEYSET, 0 },
-    { IDC_KBD_SHORTCUT_DUMP, IDS_DUMP_SHORTCUTS, 0 },
-    { 0, 0, 0 }
-};
-
-static uilib_dialog_group vic20_kbd_left_group[] = {
-    { IDC_VIC20KBD_MAPPING_SELECT_SYM, 1 },
-    { IDC_VIC20KBD_MAPPING_SELECT_POS, 1 },
-    { IDC_VIC20KBD_MAPPING_SELECT_USERSYM, 1 },
-    { IDC_VIC20KBD_MAPPING_SELECT_USERPOS, 1 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group vic20_kbd_middle_group[] = {
-    { IDC_VIC20KBD_MAPPING_SYM, 0 },
-    { IDC_VIC20KBD_MAPPING_POS, 0 },
-    { IDC_VIC20KBD_MAPPING_USERSYM, 0 },
-    { IDC_VIC20KBD_MAPPING_USERPOS, 0 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group vic20_kbd_right_group[] = {
-    { IDC_VIC20KBD_MAPPING_SYM_BROWSE, 0 },
-    { IDC_VIC20KBD_MAPPING_POS_BROWSE, 0 },
-    { IDC_VIC20KBD_MAPPING_USERSYM_BROWSE, 0 },
-    { IDC_VIC20KBD_MAPPING_USERPOS_BROWSE, 0 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group vic20_kbd_buttons_group[] = {
-    { IDC_VIC20KBD_MAPPING_DUMP, 1 },
-    { IDC_KBD_SHORTCUT_DUMP, 1 },
-    { 0, 0 }
-};
-
-static int vic20_kbd_move_buttons_group[] = {
-    IDC_VIC20KBD_MAPPING_DUMP,
-    IDC_KBD_SHORTCUT_DUMP,
-    0
-};
-
-static uikeyboard_config_t uikeyboard_config = {
-    IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG,
-    VIC20UI_KBD_NUM_MAP,
-    mapping_entry,
-    IDC_VIC20KBD_MAPPING_DUMP,
-    vic20_kbd_trans,
-    vic20_kbd_left_group,
-    vic20_kbd_middle_group,
-    vic20_kbd_right_group,
-    vic20_kbd_buttons_group,
-    vic20_kbd_move_buttons_group
 };
 
 static const uicart_params_t vic20_ui_cartridges[] = {
@@ -663,7 +587,7 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             ui_rs232user_settings_dialog(hwnd);
             break;
         case IDM_KEYBOARD_SETTINGS:
-            uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            ui_keymap_settings_dialog(hwnd);
             break;
         case IDM_MEGACART_WRITEBACK_FILE:
             if ((name = uilib_select_file(hwnd, intl_translate_tcs(IDS_MI_MEGACART_WRITEBACK_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
