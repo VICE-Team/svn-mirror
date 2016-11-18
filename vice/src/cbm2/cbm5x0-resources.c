@@ -56,14 +56,14 @@ static char *kernal_rom_name = NULL;
 static char *chargen_name = NULL;
 static char *basic_rom_name = NULL;
 
-static const BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
-
 int cbm2_model_line = 0;
 
 int cia1_model = CIA_MODEL_6526;
 
 static int set_cbm2_model_line(int val, void *param)
 {
+    static const BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
+
     switch (val) {
         case LINE_6x0_60HZ:
         case LINE_6x0_50HZ:

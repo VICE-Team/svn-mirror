@@ -55,14 +55,14 @@ static char *kernal_rom_name = NULL;
 static char *chargen_name = NULL;
 static char *basic_rom_name = NULL;
 
-static const BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
-
 int cbm2_model_line = 0;
 
 int cia1_model = CIA_MODEL_6526;
 
 static int set_cbm2_model_line(int val, void *param)
 {
+    static const BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
+
     switch (val) {
         case LINE_7x0_50HZ:
         case LINE_6x0_60HZ:
@@ -75,8 +75,7 @@ static int set_cbm2_model_line(int val, void *param)
     cbm2_model_line = val;
 
     set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
-
-    crtc_set_screen_options(80, 25 * (cbm2_model_line ? 10 : 14));
+    crtc_set_screen_options(80, 25 * ((cbm2_model_line != LINE_7x0_50HZ) ? 10 : 14));
 
     return 0;
 }
