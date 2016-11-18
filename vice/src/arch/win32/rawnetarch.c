@@ -138,7 +138,7 @@ static void EthernetPcapFreeLibrary(void)
 static BOOL EthernetPcapLoadLibrary(void)
 {
     if (!pcap_library) {
-        pcap_library = LoadLibrary("wpcap.dll");
+        pcap_library = LoadLibrary(TEXT("wpcap.dll"));
 
         if (!pcap_library) {
             log_message(rawnet_arch_log, "LoadLibrary WPCAP.DLL failed!");
@@ -164,9 +164,9 @@ static BOOL EthernetPcapLoadLibrary(void)
 /*
  These functions let the UI enumerate the available interfaces.
 
- First, EthernetEnumAdapterOpen() is used to start enumeration.
+ First, rawnet_arch_enumadapter_open() is used to start enumeration.
 
- EthernetEnumAdapter is then used to gather information for each adapter present
+ rawnet_arch_enumadapter is then used to gather information for each adapter present
  on the system, where:
 
    ppname points to a pointer which will hold the name of the interface
@@ -175,10 +175,10 @@ static BOOL EthernetPcapLoadLibrary(void)
    For each of these parameters, new memory is allocated, so it has to be
    freed with lib_free().
 
- EthernetEnumAdapterClose() must be used to stop processing.
+ rawnet_arch_enumadapter_close() must be used to stop processing.
 
  Each function returns 1 on success, and 0 on failure.
- EthernetEnumAdapter() only fails if there is no more adpater; in this case, 
+ rawnet_arch_enumadapter() only fails if there is no more adpater; in this case,
    *ppname and *ppdescription are not altered.
 */
 int rawnet_arch_enumadapter_open(void)
@@ -188,12 +188,12 @@ int rawnet_arch_enumadapter_open(void)
     }
 
     if ((*p_pcap_findalldevs)(&EthernetPcapAlldevs, EthernetPcapErrbuf) == -1) {
-        log_message(rawnet_arch_log, "ERROR in EthernetEnumAdapterOpen: pcap_findalldevs: '%s'", EthernetPcapErrbuf);
+        log_message(rawnet_arch_log, "ERROR in rawnet_arch_enumadapter_open: pcap_findalldevs: '%s'", EthernetPcapErrbuf);
         return 0;
     }
 
     if (!EthernetPcapAlldevs) {
-        log_message(rawnet_arch_log, "ERROR in EthernetEnumAdapterOpen, finding all pcap devices - Do we have the necessary privilege rights?");
+        log_message(rawnet_arch_log, "ERROR in rawnet_arch_enumadapter_open, finding all pcap devices - Do we have the necessary privilege rights?");
         return 0;
     }
 
@@ -370,15 +370,15 @@ void rawnet_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver)
 #endif
 }
 
-typedef struct Ethernet_PCAP_INTERNAL_tag {
+typedef struct Ethernet_PCAP_internal_s {
     unsigned int len;
     BYTE *buffer;
-} Ethernet_PCAP_INTERNAL;
+} Ethernet_PCAP_internal_t;
 
 /* Callback function invoked by libpcap for every incoming packet */
 static void EthernetPcapPacketHandler(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data)
 {
-    Ethernet_PCAP_INTERNAL *pinternal = (void*)param;
+    Ethernet_PCAP_internal_t *pinternal = (void*)param;
 
     /* determine the count of bytes which has been returned, 
      * but make sure not to overrun the buffer 
@@ -400,7 +400,7 @@ static void EthernetPcapPacketHandler(u_char *param, const struct pcap_pkthdr *h
 
    At most 'len' bytes are copied.
 */
-static int rawnet_arch_receive_frame(Ethernet_PCAP_INTERNAL *pinternal)
+static int rawnet_arch_receive_frame(Ethernet_PCAP_internal_t *pinternal)
 {
     int ret = -1;
 
@@ -486,7 +486,7 @@ int rawnet_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index
 {
     int len;
 
-    Ethernet_PCAP_INTERNAL internal;
+    Ethernet_PCAP_internal_t internal;
 
     internal.len = *plen;
     internal.buffer = pbuffer;
