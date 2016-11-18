@@ -896,8 +896,8 @@ int crtc_dump(void)
             crtc.framelines,
             htotal * crtc.framelines);
     mon_out(" timing:                   %dHz horizontal, %dHz vertical\n", 
-            machine_get_cycles_per_second() / htotal,
-            machine_get_cycles_per_second() / (htotal * crtc.framelines)
+            (int)(machine_get_cycles_per_second() / htotal),
+            (int)(machine_get_cycles_per_second() / (htotal * crtc.framelines))
            );
     if ((regs[CRTC_REG_MODECTRL] & 4) == 0) {
         /* binary mode */
