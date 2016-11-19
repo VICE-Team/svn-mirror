@@ -1880,6 +1880,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "~Commandline Options",                  IDM_CMDLINE,                  MIS_TEXT
         MENUITEM "Available ~Video Modes",                IDM_FSMODES,                  MIS_TEXT
+        MENUITEM "VICE features",                         IDM_VICE_FEATURES,            MIS_TEXT
         MENUITEM SEPARATOR
         MENUITEM "~About Vice/2...",                      IDM_ABOUT,                    MIS_TEXT
     END

@@ -2924,6 +2924,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_ABOUT:
             about_dialog(hwnd);
             return;
+        case IDM_VICE_FEATURES:
+            ui_show_features((void*)hwnd);
+            return;
         case IDM_EXIT:
             {
                 extern int trigger_shutdown;

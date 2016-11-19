@@ -3,6 +3,7 @@
  *
  * Written by
  *  Thomas Bretz <tbretz@gsi.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -110,6 +111,81 @@ HWND cmdopt_dialog(HWND hwnd)
     }
 
     hwnd2 = WinLoadStdDlg(hwnd?hwnd:HWND_DESKTOP, pm_cmdopt, DLG_CMDOPT, NULL);
+
+    if (hwnd) {
+        //
+        // if the dialog is opened from the menubar while the
+        // emulator is still running, remove the entry for
+        // the dialog from the switch list
+        //
+        HSWITCH hswitch = WinQuerySwitchHandle(hwnd2, 0);
+        WinRemoveSwitchEntry(hswitch);
+    }
+
+    return hwnd2;
+}
+
+/*----------------------------------------------------------------- */
+
+static MRESULT EXPENTRY pm_features(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
+{
+    switch (msg) {
+        case WM_INITDLG:
+            {
+                HPOINTER hicon=WinLoadPointer(HWND_DESKTOP, NULLHANDLE, IDM_VICE2);
+                if (hicon) {
+                    WinSendMsg(hwnd, WM_SETICON, MPFROMLONG(hicon), MPVOID);
+                }
+            }
+            return FALSE;
+        case WM_INSERT:
+            //
+            // insert a new line to the text
+            //
+            if (mp2) {
+                WinDlgLboxInsertItem(hwnd, LB_FEATURES, mp1);
+            } else {
+                WinDlgLboxInsertItem(hwnd, LB_FEATURES, (char*)mp1);
+                WinDlgLboxSettop(hwnd, LB_FEATURES);
+            }
+            return FALSE;
+        case WM_MINMAXFRAME:
+        case WM_ADJUSTWINDOWPOS:
+            {
+                //
+                // resize dialog
+                //
+                SWP *swp=(SWP*)mp1;
+
+                if (!(swp->fl & SWP_SIZE)) {
+                    break;
+                }
+
+                if (swp->cx < 320) {
+                    swp->cx = 320;
+                }
+                if (swp->cy < 100) {
+                    swp->cy = 100;
+                }
+                WinSetWindowPos(WinWindowFromID(hwnd, LB_FEATURES), 0, 0, 0, swp->cx - 2 * WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME),
+                                swp->cy - 2 * WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME) - WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR) - 2, SWP_SIZE);
+            }
+            break;
+    }
+    return WinDefDlgProc (hwnd, msg, mp1, mp2);
+}
+
+/*----------------------------------------------------------------- */
+
+HWND features_dialog(HWND hwnd)
+{
+    static HWND hwnd2 = NULLHANDLE;
+
+    if (WinIsWindowVisible(hwnd2)) {
+        return NULLHANDLE;
+    }
+
+    hwnd2 = WinLoadStdDlg(hwnd?hwnd:HWND_DESKTOP, pm_features, DLG_FEATURES, NULL);
 
     if (hwnd) {
         //

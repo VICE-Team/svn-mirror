@@ -56,6 +56,7 @@
 #define DLG_LOGGING        0x10e0
 #define DLG_VSID           0x10f0
 #define DLG_FSMODES        0x1100
+#define DLG_FEATURES       0x1110
 #define DLG_JOYSTICK       0x1400
 #define DLG_CALIBRATE      0x1405
 #define DLG_KEYSET         0x140f
@@ -84,6 +85,9 @@
 
 // Logging Dialog
 #define LB_LOG         0x10
+
+// Features Dialog
+#define LB_FEATURES    0x10
 
 //
 //  ------------- My Styles -------------
@@ -139,6 +143,7 @@ extern void create_dialog(HWND hwnd);
 extern HWND cmdopt_dialog(HWND hwnd);
 extern HWND fsmodes_dialog(HWND hwnd);
 extern void log_dialog(int state);
+extern HWND features_dialog(HWND hwnd);
 
 extern void hardreset_dialog (HWND hwnd);
 extern void softreset_dialog (HWND hwnd);
@@ -146,5 +151,7 @@ extern void softreset_dialog (HWND hwnd);
 extern int  isEmulatorPaused(void);
 extern void emulator_pause(void);
 extern void emulator_resume(void);
+
+extern void ui_show_features(void *arg);
 
 #endif

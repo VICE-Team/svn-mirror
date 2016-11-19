@@ -130,6 +130,7 @@
 #define IDM_CMDLINE                  0x11e
 #define IDM_FSMODES                  0x11f
 #define IDM_ABOUT                    0x13c
+#define IDM_VICE_FEATURES            0x492
 
 #define IDM_ATTACHTAPE               0x120
 #define IDM_ATTACH8                  0x121
