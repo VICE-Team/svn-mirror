@@ -543,7 +543,7 @@ resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 	cat >resc64dtvcat.rc $(srcdir)/resc64dtv.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivec64dtv.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resjoyport.rc \
-	$(srcdir)/ressampler.rc $(srcdir)/resvicii.rc $(srcdir)reskeymap.rc
+	$(srcdir)/ressampler.rc $(srcdir)/resvicii.rc $(srcdir)/reskeymap.rc
 
 rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
