@@ -74,7 +74,7 @@ static BOOL get_ethernetname(int number, char **ppname, char **ppdescription)
 
 static int gray_ungray_items(HWND hwnd)
 {
-    int enable;
+    int enable = 1;
     int number;
 
     int disabled = 0;
