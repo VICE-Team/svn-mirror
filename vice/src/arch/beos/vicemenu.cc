@@ -471,17 +471,20 @@ BMenuBar *menu_create(int machine_class, int window_nr)
             menu->AddItem(new BMenuItem("1/8", new BMessage(MENU_REFRESH_RATE_8)));
             menu->AddItem(new BMenuItem("1/9", new BMessage(MENU_REFRESH_RATE_9)));
             menu->AddItem(new BMenuItem("1/10", new BMessage(MENU_REFRESH_RATE_10)));
+    }
 
-        /* maximum speed */
-        uppermenu->AddItem(menu = new BMenu("Maximum Speed"));
-            menu->SetRadioMode(true);
-            menu->AddItem(new BMenuItem("No Limit", new BMessage(MENU_MAXIMUM_SPEED_NO_LIMIT)));
-            menu->AddItem(new BMenuItem("200%", new BMessage(MENU_MAXIMUM_SPEED_200)));
-            menu->AddItem(new BMenuItem("100%", new BMessage(MENU_MAXIMUM_SPEED_100)));
-            menu->AddItem(new BMenuItem("50%", new BMessage(MENU_MAXIMUM_SPEED_50)));
-            menu->AddItem(new BMenuItem("20%", new BMessage(MENU_MAXIMUM_SPEED_20)));
-            menu->AddItem(new BMenuItem("10%", new BMessage(MENU_MAXIMUM_SPEED_10)));
-        uppermenu->AddItem(new BMenuItem("Warp Mode", new BMessage(MENU_TOGGLE_WARP_MODE),'W'));
+    /* maximum speed */
+    uppermenu->AddItem(menu = new BMenu("Maximum Speed"));
+        menu->SetRadioMode(true);
+        menu->AddItem(new BMenuItem("No Limit", new BMessage(MENU_MAXIMUM_SPEED_NO_LIMIT)));
+        menu->AddItem(new BMenuItem("200%", new BMessage(MENU_MAXIMUM_SPEED_200)));
+        menu->AddItem(new BMenuItem("100%", new BMessage(MENU_MAXIMUM_SPEED_100)));
+        menu->AddItem(new BMenuItem("50%", new BMessage(MENU_MAXIMUM_SPEED_50)));
+        menu->AddItem(new BMenuItem("20%", new BMessage(MENU_MAXIMUM_SPEED_20)));
+        menu->AddItem(new BMenuItem("10%", new BMessage(MENU_MAXIMUM_SPEED_10)));
+    uppermenu->AddItem(new BMenuItem("Warp Mode", new BMessage(MENU_TOGGLE_WARP_MODE),'W'));
+
+    if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddSeparatorItem();
 
         /* video options */
