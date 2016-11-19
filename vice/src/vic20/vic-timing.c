@@ -37,11 +37,6 @@ void vic_timing_set(machine_timing_t *machine_timing, int border_mode)
 {
     int mode;
 
-#if defined(USE_SDLUI) || defined(USE_SDLUI2)
-    if (sdl_menu_state == SDL_MENU_ACTIVE) {
-        border_mode = 0;
-    }
-#endif
     resources_get_int("MachineVideoStandard", &mode);
 
     switch (mode) {

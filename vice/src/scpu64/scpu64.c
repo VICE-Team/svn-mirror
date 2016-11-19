@@ -1119,6 +1119,8 @@ void machine_change_timing(int timeval, int border_mode)
 
     cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_sec, machine_timing.power_freq);
     cia2_set_timing(machine_context.cia2, machine_timing.cycles_per_sec, machine_timing.power_freq);
+
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }
 
 /* ------------------------------------------------------------------------- */
