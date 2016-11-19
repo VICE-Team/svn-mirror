@@ -215,4 +215,8 @@ extern char *machine_get_keyboard_type_name(int type);
 
 extern int machine_register_userport(void);
 
+#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#define SDL_MENU_ACTIVE 1
+extern int sdl_menu_state;
+#endif
 #endif

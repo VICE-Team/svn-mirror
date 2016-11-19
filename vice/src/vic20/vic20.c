@@ -1111,8 +1111,6 @@ void machine_change_timing(int timeval, int border_mode)
     vic_change_timing(&machine_timing, border_mode);
 
     mem_patch_kernal();
-
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }
 
 /* ------------------------------------------------------------------------- */

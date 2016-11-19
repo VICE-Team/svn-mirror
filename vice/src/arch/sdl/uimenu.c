@@ -854,6 +854,10 @@ menufont_t *sdl_ui_get_menu_font(void)
 
 void sdl_ui_activate_pre_action(void)
 {
+    int border_mode = 0, sync;
+    char resource_name[20];
+
+    memset(resource_name, 0, sizeof(resource_name));
 #ifdef HAVE_FFMPEG
     if (screenshot_is_recording()) {
         screenshot_stop_recording();
@@ -876,12 +880,25 @@ void sdl_ui_activate_pre_action(void)
 #endif
     sdl_menu_state = 1;
     ui_check_mouse_cursor();
+    /* If we have a non standard border mode we have to change back to full borders */
+    strcat(resource_name, sdl_active_canvas->videoconfig->chip_name);
+    strcat(resource_name, "BorderMode");
+    resources_get_int(resource_name, &border_mode);
+
+    if (border_mode > 0) {
+        if (resources_get_int("MachineVideoStandard", &sync) < 0) {
+            sync = MACHINE_SYNC_PAL;
+        }
+        machine_change_timing(sync, border_mode);
+    }
 }
 
 void sdl_ui_activate_post_action(void)
 {
-    int warp_state;
+    int warp_state, border_mode = 0, sync;
+    char resource_name[20];
 
+    memset(resource_name, 0, sizeof(resource_name));
     sdl_menu_state = 0;
     ui_check_mouse_cursor();
 #ifndef USE_SDLUI2
@@ -902,6 +919,17 @@ void sdl_ui_activate_post_action(void)
     /* SDL mode: prevent core dump - pressing menu key in -console mode causes parent_raster to be NULL */
     if (sdl_active_canvas->parent_raster) {
         raster_force_repaint(sdl_active_canvas->parent_raster);
+    }
+    /* If we want to change the border mode, we have to change it on non active menu */
+    strcat(resource_name, sdl_active_canvas->videoconfig->chip_name);
+    strcat(resource_name, "BorderMode");
+    resources_get_int(resource_name, &border_mode);
+
+    if (border_mode > 0) {
+        if (resources_get_int("MachineVideoStandard", &sync) < 0) {
+            sync = MACHINE_SYNC_PAL;
+        }
+        machine_change_timing(sync, border_mode);
     }
 }
 
