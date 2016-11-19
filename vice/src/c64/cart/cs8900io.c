@@ -111,7 +111,8 @@ static int cs8900io_activate(void)
             case -2:
                 cs8900io_enabled = 0;
                 cs8900io_cannot_use = 1;
-                break;
+                ui_error("No PCAP library is installed, cannot use ethernet based devices.");
+                return -1;
         }
     } else {
         should_activate = 1;
