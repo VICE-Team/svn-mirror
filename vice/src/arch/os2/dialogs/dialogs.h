@@ -57,6 +57,7 @@
 #define DLG_VSID           0x10f0
 #define DLG_FSMODES        0x1100
 #define DLG_FEATURES       0x1110
+#define DLG_TEXT_INPUT     0x1120
 #define DLG_JOYSTICK       0x1400
 #define DLG_CALIBRATE      0x1405
 #define DLG_KEYSET         0x140f
@@ -70,6 +71,17 @@
 #define PTR_INFO       0x101
 #define PTR_SKULL      0x102
 #define PTR_NOTE       0x103
+
+#define IDC_TEXT_INPUT_LABEL 0x2001
+#define IDC_TEXT_INPUT       0x2002
+
+#ifndef EM_SETTEXTLIMIT
+#define EM_SETTEXTLIMIT 0x0143
+#endif
+
+#ifndef EM_SETSEL
+#define EM_SETSEL 0x0142
+#endif
 
 // Monitor Dialog
 #define WM_INSERT      WM_USER+0x1
@@ -153,5 +165,7 @@ extern void emulator_pause(void);
 extern void emulator_resume(void);
 
 extern void ui_show_features(void *arg);
+
+extern char *text_input_dialog(HWND hwnd, char *title, char *text);
 
 #endif

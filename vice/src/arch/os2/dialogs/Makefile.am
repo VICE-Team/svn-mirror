@@ -44,4 +44,5 @@ libdialogs_a_SOURCES = \
 	dlg-monitor.rc \
 	dlg-cmdopt.c \
 	dlg-create.c \
-	dlg-reset.c 
+	dlg-reset.c \
+	dlg-text-input.c
