@@ -130,15 +130,20 @@ void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
 /*****************************************************************************/
 
 static generic_trans_table_t generic_trans_table[] = {
-    { IDM_SOUND_VOLUME_0,   TEXT("0%") },
-    { IDM_SOUND_VOLUME_5,   TEXT("5%") },
-    { IDM_SOUND_VOLUME_10,  TEXT("10%") },
-    { IDM_SOUND_VOLUME_25,  TEXT("25%") },
-    { IDM_SOUND_VOLUME_50,  TEXT("50%") },
-    { IDM_SOUND_VOLUME_75,  TEXT("75%") },
-    { IDM_SOUND_VOLUME_100, TEXT("100%") },
-    { IDM_SYNC_FACTOR_PAL,  TEXT("&PAL") },
-    { IDM_SYNC_FACTOR_NTSC, TEXT("&NTSC") },
+    { IDM_SOUND_VOLUME_0,    TEXT("0%") },
+    { IDM_SOUND_VOLUME_5,    TEXT("5%") },
+    { IDM_SOUND_VOLUME_10,   TEXT("10%") },
+    { IDM_SOUND_VOLUME_25,   TEXT("25%") },
+    { IDM_SOUND_VOLUME_50,   TEXT("50%") },
+    { IDM_SOUND_VOLUME_75,   TEXT("75%") },
+    { IDM_SOUND_VOLUME_100,  TEXT("100%") },
+    { IDM_SYNC_FACTOR_PAL,   TEXT("&PAL") },
+    { IDM_SYNC_FACTOR_NTSC,  TEXT("&NTSC") },
+    { IDM_MAXIMUM_SPEED_200, TEXT("200%") },
+    { IDM_MAXIMUM_SPEED_100, TEXT("100%") },
+    { IDM_MAXIMUM_SPEED_50,  TEXT("50%") },
+    { IDM_MAXIMUM_SPEED_20,  TEXT("20%") },
+    { IDM_MAXIMUM_SPEED_10,  TEXT("10%") },
     { 0, NULL }
 };
 
@@ -152,10 +157,6 @@ static ui_menu_translation_table_t vsidui_menu_translation_table[] = {
     { IDM_TOGGLE_SOUND, IDS_MI_TOGGLE_SOUND },
     { IDM_SOUND_RECORD_START, IDS_MI_SOUND_RECORD_START },
     { IDM_SOUND_RECORD_STOP, IDS_MI_SOUND_RECORD_STOP },
-    { IDM_REFRESH_RATE_AUTO, IDS_MI_REFRESH_RATE_AUTO },
-    { IDM_MAXIMUM_SPEED_NO_LIMIT, IDS_MI_MAXIMUM_SPEED_NO_LIMIT },
-    { IDM_MAXIMUM_SPEED_CUSTOM, IDS_MI_MAXIMUM_SPEED_CUSTOM },
-    { IDM_TOGGLE_WARP_MODE, IDS_MI_TOGGLE_WARP_MODE },
     { IDM_TOGGLE_ALWAYSONTOP, IDS_MI_TOGGLE_ALWAYSONTOP },
     { IDM_TOGGLE_CPU_AFFINITY, IDS_MI_TOGGLE_CPU_AFFINITY },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
@@ -192,6 +193,9 @@ static ui_menu_translation_table_t vsidui_menu_translation_table[] = {
     { IDM_PREVIOUS_TUNE, IDS_MI_PREVIOUS_TUNE },
     { IDM_PSID_OVERRIDE, IDS_MI_PSID_OVERRIDE },
     { IDM_MONITOR, IDS_MI_MONITOR },
+    { IDM_MAXIMUM_SPEED_NO_LIMIT, IDS_MI_MAXIMUM_SPEED_NO_LIMIT },
+    { IDM_MAXIMUM_SPEED_CUSTOM, IDS_MI_MAXIMUM_SPEED_CUSTOM },
+    { IDM_TOGGLE_WARP_MODE, IDS_MI_TOGGLE_WARP_MODE },
     { 0, 0 }
 };
 
@@ -201,6 +205,7 @@ static ui_popup_translation_table_t vsidui_popup_translation_table[] = {
     { 2, IDS_MP_RESET, NULL },
     { 1, IDS_MP_TUNES, NULL },
     { 1, IDS_MP_SETTINGS, NULL },
+    { 2, IDS_MP_MAXIMUM_SPEED, NULL },
     { 2, IDS_MP_SOUND_VOLUME, NULL },
     { 2, IDS_MP_VIDEO_STANDARD, NULL },
     { 1, IDS_MP_LANGUAGE, NULL },
@@ -238,6 +243,16 @@ static const ui_res_possible_values_t SoundVolume[] = {
     { -1, 0 }
 };
 
+static const ui_res_possible_values_t SpeedValues[] = {
+    { 200, IDM_MAXIMUM_SPEED_200 },
+    { 100, IDM_MAXIMUM_SPEED_100 },
+    { 50, IDM_MAXIMUM_SPEED_50, },
+    { 20, IDM_MAXIMUM_SPEED_20 },
+    { 10, IDM_MAXIMUM_SPEED_10 },
+    { 0, IDM_MAXIMUM_SPEED_NO_LIMIT },
+    { -1, 0 }
+};
+
 #ifdef DEBUG
 static const ui_res_possible_values_t TraceMode[] = {
     { DEBUG_NORMAL, IDM_DEBUG_MODE_NORMAL },
@@ -254,6 +269,7 @@ static const ui_res_value_list_t value_list[] = {
 #ifdef DEBUG
     { "TraceMode", TraceMode, 0},
 #endif
+    { "Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM },
     { NULL, NULL, 0 }
 };
 
@@ -784,6 +800,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         case IDM_MONITOR:
             monitor_startup_trap();
             break;
+        case IDM_MAXIMUM_SPEED_CUSTOM:
+            ui_speed_settings_dialog(hwnd);
+            break;
         case IDM_EXIT:
             PostMessage(hwnd, WM_CLOSE, wparam, lparam);
             break;
@@ -792,9 +811,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             break;
         case IDM_SOUND_RECORD_STOP:
             resources_set_string("SoundRecordDeviceName", "");
-            break;
-        case IDM_MAXIMUM_SPEED_CUSTOM:
-            ui_speed_settings_dialog(hwnd);
             break;
         case IDM_SOUND_SETTINGS:
             ui_sound_settings_dialog(hwnd);
