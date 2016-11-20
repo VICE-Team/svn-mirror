@@ -400,25 +400,32 @@ _END
                            <QPM:File>c64hq.vpl</QPM:File>
                            <QPM:File>c64s.vpl</QPM:File>
                            <QPM:File>ccs64.vpl</QPM:File>
+                           <QPM:File>chargch</QPM:File>
                            <QPM:File>chargde</QPM:File>
                            <QPM:File>chargen</QPM:File>
                            <QPM:File>chargfr</QPM:File>
                            <QPM:File>chargse</QPM:File>
-                           <QPM:File>chargch</QPM:File>
-                           <QPM:File>default.vpl</QPM:File>
+                           <QPM:File>community-colors.vpl</QPM:File>
+                           <QPM:File>deekay.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>frodo.vpl</QPM:File>
                            <QPM:File>godot.vpl</QPM:File>
                            <QPM:File>kernal</QPM:File>
                            <QPM:File>kernal64</QPM:File>
+                           <QPM:File>kernalch</QPM:File>
                            <QPM:File>kernalde</QPM:File>
                            <QPM:File>kernalfi</QPM:File>
                            <QPM:File>kernalfr</QPM:File>
                            <QPM:File>kernalit</QPM:File>
                            <QPM:File>kernalno</QPM:File>
                            <QPM:File>kernalse</QPM:File>
-                           <QPM:File>kernalch</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
+                           <QPM:File>pepto-ntsc.vpl</QPM:File>
+                           <QPM:File>pepto-ntsc-sony.vpl</QPM:File>
+                           <QPM:File>pepto-pal.vpl</QPM:File>
+                           <QPM:File>pepto-palold.vpl</QPM:File>
+                           <QPM:File>ptoing.vpl</QPM:File>
+                           <QPM:File>rgb.vpl</QPM:File>
                            <QPM:File>vdc_comp.vpl</QPM:File>
                            <QPM:File>vdc_deft.vpl</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
@@ -433,7 +440,8 @@ _END
                            <QPM:File>c64s.vpl</QPM:File>
                            <QPM:File>ccs64.vpl</QPM:File>
                            <QPM:File>chargen</QPM:File>
-                           <QPM:File>default.vpl</QPM:File>
+                           <QPM:File>community-colors.vpl</QPM:File>
+                           <QPM:File>deekay.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>edkernal</QPM:File>
                            <QPM:File>frodo.vpl</QPM:File>
@@ -443,12 +451,18 @@ _END
                            <QPM:File>jpkernal</QPM:File>
                            <QPM:File>kernal</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
+                           <QPM:File>pepto-ntsc.vpl</QPM:File>
+                           <QPM:File>pepto-ntsc-sony.vpl</QPM:File>
+                           <QPM:File>pepto-pal.vpl</QPM:File>
+                           <QPM:File>pepto-palold.vpl</QPM:File>
+                           <QPM:File>ptoing.vpl</QPM:File>
+                           <QPM:File>rgb.vpl</QPM:File>
                            <QPM:File>sxkernal</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                            <QPM:File>x11_pos.vkm</QPM:File>
-                           <QPM:File>x11_posger.vkm</QPM:File>
+                           <QPM:File>x11_pos_de.vkm</QPM:File>
                            <QPM:File>x11_sym.vkm</QPM:File>
-                           <QPM:File>x11_symger.vkm</QPM:File>
+                           <QPM:File>x11_sym_de.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="SCPU64">
@@ -456,29 +470,40 @@ _END
                            <QPM:File>c64s.vpl</QPM:File>
                            <QPM:File>ccs64.vpl</QPM:File>
                            <QPM:File>chargen</QPM:File>
-                           <QPM:File>default.vpl</QPM:File>
+                           <QPM:File>community-colors.vpl</QPM:File>
+                           <QPM:File>deekay.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>frodo.vpl</QPM:File>
                            <QPM:File>godot.vpl</QPM:File>
-                           <QPM:File>pc64.vpl</QPM:File>
-                           <QPM:File>scpu64</QPM:File>
                            <QPM:File>jpchrgen</QPM:File>
+                           <QPM:File>pc64.vpl</QPM:File>
+                           <QPM:File>pepto-ntsc.vpl</QPM:File>
+                           <QPM:File>pepto-ntsc-sony.vpl</QPM:File>
+                           <QPM:File>pepto-pal.vpl</QPM:File>
+                           <QPM:File>pepto-palold.vpl</QPM:File>
+                           <QPM:File>ptoing.vpl</QPM:File>
+                           <QPM:File>rgb.vpl</QPM:File>
+                           <QPM:File>scpu64</QPM:File>
                            <QPM:File>scpu64mem.sym</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                            <QPM:File>x11_pos.vkm</QPM:File>
-                           <QPM:File>x11_posger.vkm</QPM:File>
+                           <QPM:File>x11_pos_de.vkm</QPM:File>
                            <QPM:File>x11_sym.vkm</QPM:File>
-                           <QPM:File>x11_symger.vkm</QPM:File>
+                           <QPM:File>x11_sym_de.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="C64DTV">
                            <QPM:File>basic</QPM:File>
+                           <QPM:File>c64mem.sym</QPM:File>
                            <QPM:File>chargen</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>dtvrom.bin</QPM:File>
                            <QPM:File>kernal</QPM:File>
+                           <QPM:File>spiff.vpl</QPM:File>
                            <QPM:File>x11_pos.vkm</QPM:File>
+                           <QPM:File>x11_pos_de.vkm</QPM:File>
                            <QPM:File>x11_sym.vkm</QPM:File>
+                           <QPM:File>x11_sym_de.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="CBM-II">
@@ -492,32 +517,40 @@ _END
                            <QPM:File>chargen.500</QPM:File>
                            <QPM:File>chargen.600</QPM:File>
                            <QPM:File>chargen.700</QPM:File>
-                           <QPM:File>default.vpl</QPM:File>
+                           <QPM:File>community-colors.vpl</QPM:File>
+                           <QPM:File>deekay.vpl</QPM:File>
                            <QPM:File>frodo.vpl</QPM:File>
                            <QPM:File>godot.vpl</QPM:File>
                            <QPM:File>green.vpl</QPM:File>
                            <QPM:File>kernal</QPM:File>
                            <QPM:File>kernal.500</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
+                           <QPM:File>pepto-ntsc.vpl</QPM:File>
+                           <QPM:File>pepto-ntsc-sony.vpl</QPM:File>
+                           <QPM:File>pepto-pal.vpl</QPM:File>
+                           <QPM:File>pepto-palold.vpl</QPM:File>
+                           <QPM:File>ptoing.vpl</QPM:File>
+                           <QPM:File>rgb.vpl</QPM:File>
                            <QPM:File>rom128h.vrs</QPM:File>
                            <QPM:File>rom128l.vrs</QPM:File>
                            <QPM:File>rom256h.vrs</QPM:File>
                            <QPM:File>rom256l.vrs</QPM:File>
                            <QPM:File>rom500.vrs</QPM:File>
+                           <QPM:File>vice.vpl</QPM:File>
                            <QPM:File>white.vpl</QPM:File>
-                           <QPM:File>x11_buks.vkm</QPM:File>
-                           <QPM:File>x11_buks_de.vkm</QPM:File>
+                           <QPM:File>x11_sym.vkm</QPM:File>
+                           <QPM:File>x11_sym_de.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="DRIVES">
+                           <QPM:File>d1541II</QPM:File>
+                           <QPM:File>d1571cr</QPM:File>
                            <QPM:File>dos1001</QPM:File>
                            <QPM:File>dos1540</QPM:File>
                            <QPM:File>dos1541</QPM:File>
-                           <QPM:File>d1541II</QPM:File>
                            <QPM:File>dos1551</QPM:File>
                            <QPM:File>dos1570</QPM:File>
                            <QPM:File>dos1571</QPM:File>
-                           <QPM:File>d1571cr</QPM:File>
                            <QPM:File>dos1581</QPM:File>
                            <QPM:File>dos2031</QPM:File>
                            <QPM:File>dos2040</QPM:File>
@@ -540,6 +573,9 @@ _END
                            <QPM:File>edit4b80</QPM:File>
                            <QPM:File>edit4g40</QPM:File>
                            <QPM:File>green.vpl</QPM:File>
+                           <QPM:File>hre.vrs</QPM:File>
+                           <QPM:File>hre-9000.324992-02.bin</QPM:File>
+                           <QPM:File>hre-a000.324993-02.bin</QPM:File>
                            <QPM:File>kernal1</QPM:File>
                            <QPM:File>kernal2</QPM:File>
                            <QPM:File>kernal4</QPM:File>
@@ -557,18 +593,19 @@ _END
                            <QPM:File>waterloo-e000.901897-01.bin</QPM:File>
                            <QPM:File>waterloo-f000.901898-05.bin</QPM:File>
                            <QPM:File>white.vpl</QPM:File>
-                           <QPM:File>x11_bdep.vkm</QPM:File>
-                           <QPM:File>x11_bdep_de.vkm</QPM:File>
-                           <QPM:File>x11_bdes.vkm</QPM:File>
-                           <QPM:File>x11_bdes_de.vkm</QPM:File>
-                           <QPM:File>x11_bgrp.vkm</QPM:File>
-                           <QPM:File>x11_bgrp_de.vkm</QPM:File>
-                           <QPM:File>x11_bgrs.vkm</QPM:File>
-                           <QPM:File>x11_bgrs_de.vkm</QPM:File>
-                           <QPM:File>x11_bukp.vkm</QPM:File>
-                           <QPM:File>x11_bukp_de.vkm</QPM:File>
-                           <QPM:File>x11_buks.vkm</QPM:File>
-                           <QPM:File>x11_buks_de.vkm</QPM:File>
+                           <QPM:File>x11_bude_pos.vkm</QPM:File>
+                           <QPM:File>x11_bude_pos_de.vkm</QPM:File>
+                           <QPM:File>x11_bude_sym.vkm</QPM:File>
+                           <QPM:File>x11_bude_sym_de.vkm</QPM:File>
+                           <QPM:File>x11_buuk_pos.vkm</QPM:File>
+                           <QPM:File>x11_buuk_pos_de.vkm</QPM:File>
+                           <QPM:File>x11_buuk_sym.vkm</QPM:File>
+                           <QPM:File>x11_buuk_sym_de.vkm</QPM:File>
+                           <QPM:File>x11_grus_pos.vkm</QPM:File>
+                           <QPM:File>x11_grus_pos_de.vkm</QPM:File>
+                           <QPM:File>x11_grus_sym.vkm</QPM:File>
+                           <QPM:File>x11_grus_sym_de.vkm</QPM:File>
+                           <QPM:File>x11_sym.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="PLUS4">
@@ -576,7 +613,6 @@ _END
                            <QPM:File>3plus1lo</QPM:File>
                            <QPM:File>basic</QPM:File>
                            <QPM:File>c2lo.364</QPM:File>
-                           <QPM:File>default.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>kernal</QPM:File>
                            <QPM:File>kernal.005</QPM:File>
@@ -589,30 +625,36 @@ _END
                         </QPM:Dir>
 
                         <QPM:Dir name="PRINTER">
+                           <QPM:File>1520.vpl</QPM:File>
                            <QPM:File>cbm1526</QPM:File>
                            <QPM:File>mps801</QPM:File>
                            <QPM:File>mps803</QPM:File>
                            <QPM:File>mps803.vpl</QPM:File>
+                           <QPM:File>nl10.vpl</QPM:File>
                            <QPM:File>nl10-cbm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="VIC20">
                            <QPM:File>basic</QPM:File>
                            <QPM:File>chargen</QPM:File>
-                           <QPM:File>default.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>kernal</QPM:File>
+                           <QPM:File>mike-ntsc.vpl</QPM:File>
+                           <QPM:File>mike-pal.vpl</QPM:File>
+                           <QPM:File>vice.vpl</QPM:File>
                            <QPM:File>x11_pos.vkm</QPM:File>
                            <QPM:File>x11_sym.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="doc">
+                           <QPM:File>Android-Howto.txt</QPM:File>
                            <QPM:File>CIA-README.txt</QPM:File>
+                           <QPM:File>CIPS2008.jpg</QPM:File>
                            <QPM:File>COPYING</QPM:File>
-                           <QPM:File>CommodoreInnovationPriceSoftware2008.jpg</QPM:File>
                            <QPM:File>Documentation-Howto.txt</QPM:File>
                            <QPM:File>Doxygen-Howto.txt</QPM:File>
                            <QPM:File>Linux-Mingw32-Howto.txt</QPM:File>
+                           <QPM:File>Linux-Native-Howto.txt</QPM:File>
                            <QPM:File>MSDOS-Ethernet-Howto.txt</QPM:File>
                            <QPM:File>MSDOS-Howto.txt</QPM:File>
                            <QPM:File>MacOSX-Howto.txt</QPM:File>
@@ -621,22 +663,28 @@ _END
                            <QPM:File>NEWS</QPM:File>
                            <QPM:File>NLS-Howto.txt</QPM:File>
                            <QPM:File>OpenVMS-Howto.txt</QPM:File>
+                           <QPM:File>OpenWatcom-Howto.txt</QPM:File>
                            <QPM:File>Readme-Amiga.txt</QPM:File>
                            <QPM:File>Readme-BeOS.txt</QPM:File>
                            <QPM:File>Readme-DOS.txt</QPM:File>
                            <QPM:File>Readme-MacOSX.txt</QPM:File>
                            <QPM:File>Readme-OS2.txt</QPM:File>
                            <QPM:File>Readme-SDL.txt</QPM:File>
+                           <QPM:File>Readme-SDL2.txt</QPM:File>
+                           <QPM:File>Readme-Unix.txt</QPM:File>
                            <QPM:File>SDL-Howto.txt</QPM:File>
                            <QPM:File>Win32-Cygwin-Howto.txt</QPM:File>
+                           <QPM:File>Win32-MSVC-Howto.txt</QPM:File>
                            <QPM:File>Win32-Mingw32-Howto.txt</QPM:File>
                            <QPM:File>amigaos.html</QPM:File>
                            <QPM:File>beos.html</QPM:File>
                            <QPM:File>coding-guidelines.txt</QPM:File>
+                           <QPM:File>hardware-sids.txt</QPM:File>
                            <QPM:File>iec-bus.txt</QPM:File>
                            <QPM:File>index.html</QPM:File>
                            <QPM:File>macosx.html</QPM:File>
                            <QPM:File>new.gif</QPM:File>
+                           <QPM:File>ports-status.txt</QPM:File>
                            <QPM:File>qnx.html</QPM:File>
                            <QPM:File>sco.html</QPM:File>
                            <QPM:File>solaris.html</QPM:File>
@@ -663,6 +711,8 @@ _END
                            <QPM:File>vice_19.html</QPM:File>
                            <QPM:File>vice_2.html</QPM:File>
                            <QPM:File>vice_20.html</QPM:File>
+                           <QPM:File>vice_21.html</QPM:File>
+                           <QPM:File>vice_22.html</QPM:File>
                            <QPM:File>vice_3.html</QPM:File>
                            <QPM:File>vice_4.html</QPM:File>
                            <QPM:File>vice_5.html</QPM:File>
@@ -674,15 +724,19 @@ _END
                         </QPM:Dir>
 
                         <QPM:Dir name="fonts">
+                           <QPM:File>CBM.ttf</QPM:File>
                            <QPM:File>fonts.dir</QPM:File>
+                           <QPM:File>vice-cbm.bdf</QPM:File>
                            <QPM:File>vice-cbm.pcf</QPM:File>
                         </QPM:Dir>
                      </QPM:Dir>
                   </QPM:Dir>
 
+
                   <QPM:Dir name="man">
                      <QPM:Dir name="man1">
                         <QPM:File>c1541.1</QPM:File>
+                        <QPM:File>cartconv.1</QPM:File>
                         <QPM:File>petcat.1</QPM:File>
                         <QPM:File>vice.1</QPM:File>
                      </QPM:Dir>
