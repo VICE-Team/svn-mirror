@@ -40,10 +40,7 @@
 #include <stdlib.h>        // _beginthread
 #include <stdio.h>
 #include <string.h>
-
-#ifdef WATCOM_COMPILE
 #include <process.h>
-#endif
 
 #include "dialogs.h"
 #include "menubar.h"

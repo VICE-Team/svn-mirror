@@ -48,12 +48,10 @@
 #include <ctype.h>
 #include <process.h>
 
-#if defined(__IBMC__) || defined(WATCOM_COMPILE)
 #include <io.h>
 #include <fcntl.h>
 #include <direct.h>
 #include <sys/stat.h>
-#endif
 
 #ifndef HAVE_GETTIMEOFDAY
 #include <sys/timeb.h>

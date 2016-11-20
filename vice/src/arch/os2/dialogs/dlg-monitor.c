@@ -38,10 +38,7 @@
 #include "vice.h"
 
 #include <os2.h>
-
-#ifdef WATCOM_COMPILE
 #include <process.h>
-#endif
 
 #include "dialogs.h"
 #include "dlg-monitor.h"

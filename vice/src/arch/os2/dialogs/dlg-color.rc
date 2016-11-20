@@ -28,10 +28,8 @@
 #include "dialogs.h"
 #include "dlg-color.h" 
 
-#ifdef WATCOM_COMPILE
 #include <pmwin.h>
 #include <pmstddlg.h>
-#endif
 
 #define STY_SLIDER WC_SLIDER, SLS_HORIZONTAL | SLS_BOTTOM | SLS_BUTTONSRIGHT | SLS_HOMELEFT | SLS_RIBBONSTRIP | SLS_SNAPTOINCREMENT | SLS_PRIMARYSCALE1 | WS_TABSTOP | WS_VISIBLE
 

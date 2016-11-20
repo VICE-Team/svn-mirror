@@ -27,10 +27,8 @@
 #include "dialogs.h"
 #include "dlg-drive.h" 
 
-#ifdef WATCOM_COMPILE
 #include <pmwin.h>
 #include <pmstddlg.h>
-#endif
 
 DLGTEMPLATE DLG_DRIVE 850 MOVEABLE DISCARDABLE
 BEGIN

@@ -40,31 +40,19 @@
 
 #include <os2.h>
 
-#ifdef WATCOM_COMPILE
 #define INCL_MMIOOS2
-#else
-#define INCL_MMIO
-#endif
-
 #define INCL_MM_OS2          // DiveBlitImageLines
+
 #include <os2me.h>
 
-#if defined(__IBMC__) || defined(WATCOM_COMPILE)
 #include "fullscr.h"
 #include <fourcc.h>
-#endif
 
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
-#ifdef __EMX__
-#include <graph.h>
-#endif
-
-#ifdef WATCOM_COMPILE
 #include <process.h>
-#endif
 
 #include "video.h"
 #include "videoarch.h"

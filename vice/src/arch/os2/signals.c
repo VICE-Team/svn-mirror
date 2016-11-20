@@ -37,7 +37,6 @@
 #include "monitor.h"
 #include "signals.h"
 
-#if defined(__IBMC__) || defined(WATCOM_COMPILE)
 char sys_siglist[][9] = {
     "NULL",
     "SIGILL",
@@ -51,34 +50,6 @@ char sys_siglist[][9] = {
     "SIGUSR3",
     "SIGBREAK"
 };
-#endif
-
-#ifdef __EMXC__
-char sys_siglist[][] = {
-    "NULL",
-    "SIGHUP",
-    "SIGINT",
-    "SIGQUIT",
-    "SIGILL",
-    "SIGTRAP",
-    "SIGABRT",
-    "SIGEMT",
-    "SIGFPE",
-    "SIGKILL",
-    "SIGBUS",
-    "SIGSEGV",
-    "SIGSYS",
-    "SIGPIPE",
-    "SIGALRM",
-    "SIGTERM",
-    "SIGUSR1",
-    "SIGUSR2",
-    "SIGCHLD",
-    "SIG19",
-    "SIG20",
-    "SIGBREAK"
-};
-#endif
 
 #if !defined(__X1541__) && !defined(__PETCAT__)
 extern int trigger_shutdown;
@@ -117,11 +88,6 @@ void signals_init(int do_core_dumps)
         signal(SIGABRT, break64);
         signal(SIGTERM, break64);
         signal(SIGBREAK, break64);
-#if !defined(__IBMC__) && !defined(WATCOM_COMPILE)
-        signal(SIGPIPE, break64);
-        signal(SIGHUP, break64);
-        signal(SIGQUIT, break64);
-#endif
     }
 }
 

@@ -50,7 +50,6 @@ int toggle(const char *resource_name)
 
 void ViceErrorDlg(HWND hwnd, int id, char *text)
 {
-#ifdef WATCOM_COMPILE
     struct _MB2INFO mb;
     struct _MB2D mbtemp;
 
@@ -63,11 +62,7 @@ void ViceErrorDlg(HWND hwnd, int id, char *text)
     mbtemp.idButton = 0;
     mbtemp.flStyle = BS_DEFAULT;
     mb.mb2d[0]=mbtemp;
-#else
-    MB2INFO mb = { sizeof(MB2INFO), WinLoadPointer(HWND_DESKTOP, NULLHANDLE, id),
-                  1, MB_CUSTOMICON|WS_VISIBLE, NULLHANDLE, "      OK      ",
-                  0, BS_DEFAULT };
-#endif
+
     WinMessageBox2(HWND_DESKTOP, hwnd, text, "VICE/2 Error", 0, &mb);
 }
 

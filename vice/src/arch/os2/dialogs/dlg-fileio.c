@@ -355,11 +355,7 @@ struct _trapaction {
     int pending;
     int rc;
     const char *path;
-#ifdef WATCOM_COMPILE
     HWND hwnd;
-#else
-    const HWND hwnd;
-#endif
     int (*execute)(struct _trapaction*);
 };
 
@@ -419,7 +415,6 @@ static int trap(const HWND hwnd, int (*func)(trapaction_t*), const char *path)
 {
     const int paused = isEmulatorPaused();
 
-#ifdef WATCOM_COMPILE
     trapaction_t handle;
 
     handle.pending = TRUE;
@@ -427,9 +422,6 @@ static int trap(const HWND hwnd, int (*func)(trapaction_t*), const char *path)
     handle.path = path;
     handle.hwnd = hwnd;
     handle.execute = func;
-#else
-    trapaction_t handle = { TRUE, 0, path, hwnd, func };
-#endif
 
     interrupt_maincpu_trigger_trap(exec_func, &handle);
 
@@ -1284,7 +1276,6 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     const action_t *action = fdlg->fl & FDS_OPEN_DIALOG ? LoadAction : SaveAction;
                     char *txt = util_concat("The following action couldn't be performed:\n", action[act].type, " ", action[act].subact[sact].action, NULL);
                     HPOINTER hpt = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, 0x101);
-#ifdef WATCOM_COMPILE
                     struct _MB2D mbtemp;
                     struct _MB2INFO mb;
 
@@ -1297,17 +1288,6 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     mbtemp.idButton = 0;
                     mbtemp.flStyle = BS_DEFAULT;
                     mb.mb2d[0] = mbtemp;
-#else
-                    MB2INFO mb = {
-                        sizeof(MB2INFO),
-                        hpt,
-                        1,
-                        MB_CUSTOMICON | WS_VISIBLE,
-                        NULLHANDLE,
-                        "      OK      ",
-                        0,
-                        BS_DEFAULT};
-#endif
                     WinMessageBox2(HWND_DESKTOP, hwnd, txt, "VICE/2 Error", 0, &mb);
                     lib_free(txt);
                     return FALSE;
