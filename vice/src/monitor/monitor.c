@@ -745,6 +745,11 @@ void mon_print_convert(int val)
     mon_out("\n");
 }
 
+void mon_clear_buffer(void)
+{
+    data_buf_len = 0;
+}
+
 void mon_add_number_to_buffer(int number)
 {
     unsigned int i = data_buf_len;
