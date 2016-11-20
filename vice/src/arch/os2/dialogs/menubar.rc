@@ -387,17 +387,12 @@ BEGIN
                 MENUITEM "CCS64",                         IDM_PALETTE_CCS64,            MIS_TEXT
                 MENUITEM "COMMUNITY COLORS",              IDM_PALETTE_COMMUNITY_COLORS, MIS_TEXT
                 MENUITEM "DEEKAY",                        IDM_PALETTE_DEEKAY,           MIS_TEXT
-#ifdef __XCBM5X0__
-                MENUITEM "DEFAULT",                       IDM_PALETTE_DEFAULT,          MIS_TEXT
-#endif
                 MENUITEM "FRODO",                         IDM_PALETTE_FRODO,            MIS_TEXT
                 MENUITEM "GODOT",                         IDM_PALETTE_GODOT,            MIS_TEXT
                 MENUITEM "PC64",                          IDM_PALETTE_PC64,             MIS_TEXT
                 MENUITEM "PEPTO NTSC",                    IDM_PALETTE_PEPTO_NTSC,       MIS_TEXT
                 MENUITEM "PEPTO NTSC SONY",               IDM_PALETTE_PEPTO_NTSC_SONY,  MIS_TEXT
-#ifndef __XCBM5X0__
                 MENUITEM "PEPTO PAL",                     IDM_PALETTE_PEPTO_PAL,        MIS_TEXT
-#endif
                 MENUITEM "PEPTO PAL OLD",                 IDM_PALETTE_PEPTO_PAL_OLD,    MIS_TEXT
                 MENUITEM "PTOING",                        IDM_PALETTE_PTOING,           MIS_TEXT
                 MENUITEM "RGB",                           IDM_PALETTE_RGB,              MIS_TEXT

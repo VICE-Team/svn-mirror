@@ -177,7 +177,6 @@
 #define IDM_PALETTE_CCS64            0x473
 #define IDM_PALETTE_COMMUNITY_COLORS 0x474
 #define IDM_PALETTE_DEEKAY           0x475
-#define IDM_PALETTE_DEFAULT          0x476
 #define IDM_PALETTE_FRODO            0x477
 #define IDM_PALETTE_GODOT            0x478
 #define IDM_PALETTE_PC64             0x479

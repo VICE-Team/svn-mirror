@@ -1450,11 +1450,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_PALETTE_DEEKAY:
             resources_set_string("VICIIPaletteFile", "deekay.vpl");
             return;
-#ifdef __XCBM5X0__
-        case IDM_PALETTE_DEFAULT:
-            resources_set_string("VICIIPaletteFile", "default.vpl");
-            return;
-#endif
         case IDM_PALETTE_FRODO:
             resources_set_string("VICIIPaletteFile", "frodo.vpl");
             return;
@@ -1470,11 +1465,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_PALETTE_PEPTO_NTSC_SONY:
             resources_set_string("VICIIPaletteFile", "pepto-ntsc-sony.vpl");
             return;
-#ifndef __XCBM5X0__
         case IDM_PALETTE_PEPTO_PAL:
             resources_set_string("VICIIPaletteFile", "pepto-pal.vpl");
             return;
-#endif
         case IDM_PALETTE_PEPTO_PAL_OLD:
             resources_set_string("VICIIPaletteFile", "pepto-palold.vpl");
             return;
