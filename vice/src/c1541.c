@@ -412,6 +412,12 @@ const command_t command_list[] = {
       "(default\nis the current unit).",
       1, 2,
       unlynx_cmd },
+    { "unzip",
+      "unzip <d64name> <zipname> [<label,id>]",
+      "Create a D64 disk image out of a set of four Zipcoded files named\n"
+      "`1!<zipname>', `2!<zipname>', `3!<zipname>' and `4!<zipname>'.",
+      2, 3,
+      zcreate_cmd },
     { "validate",
       "validate [<unit>]",
       "Validate the disk in unit <unit>.  If <unit> is not specified, "
