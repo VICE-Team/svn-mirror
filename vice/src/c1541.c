@@ -451,13 +451,15 @@ const command_t command_list[] = {
  *
  * \param[in]   prompt  prompt to display to the user
  *
- * \return  line read from stdout
+ * \return  line read from stdin
  */
 static char *read_line(const char *prompt)
 {
-    static char *line;
+    static char *line = NULL;
 
-    free(line);
+    if (line != NULL) {
+        free(line);
+    }
     line = readline(prompt);
     if (line != NULL && *line != 0) {
         add_history(line);
@@ -471,7 +473,7 @@ static char *read_line(const char *prompt)
  *
  * \param[in]   prompt  prompt to display to the user
  *
- * \return  line read from stdout
+ * \return  line read from stdin
  */
 static char *read_line(const char *prompt)
 {
@@ -3685,6 +3687,7 @@ int main(int argc, char **argv)
                " for details.\n");
 
         while (1) {
+            fflush(stderr);
             lib_free(buf);
             buf = lib_msprintf("c1541 #%d> ", drive_index | 8);
             line = read_line(buf);
