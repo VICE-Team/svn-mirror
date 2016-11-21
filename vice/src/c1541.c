@@ -3694,7 +3694,8 @@ int main(int argc, char **argv)
 
             if (line == NULL) {
                 putchar('\n');
-                fflush(stdout), fflush(stderr);
+                fflush(stdout);
+                fflush(stderr);
                 break;
             }
 
