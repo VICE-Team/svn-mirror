@@ -43,12 +43,14 @@
 #include "util.h"
 #include "vsync.h"
 
+
+static char *last_dir = NULL;
+
 static UI_CALLBACK(attach_cartridge)
 {
     int type = vice_ptr_to_int(UI_MENU_CB_PARAM);
     char *filename;
     ui_button_t button;
-    static char *last_dir;
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_CARTRIDGE, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
@@ -197,4 +199,8 @@ void uicart_menu_shutdown(void)
         lib_free(attach_cartridge_image_util_submenu);
         attach_cartridge_image_util_submenu = NULL;
     }
+    if (last_dir != NULL) {
+        lib_free(last_dir);
+    }
 }
+
