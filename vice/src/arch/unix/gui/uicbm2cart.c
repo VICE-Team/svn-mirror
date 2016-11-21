@@ -40,12 +40,13 @@
 #include "util.h"
 #include "vsync.h"
 
+static char *last_dir = NULL;
+
 static UI_CALLBACK(attach_cartridge)
 {
     int type = vice_ptr_to_int(UI_MENU_CB_PARAM);
     char *filename;
     ui_button_t button;
-    static char *last_dir;
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_CARTRIDGE, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
@@ -138,3 +139,21 @@ ui_menu_entry_t ui_cbm2cart_commands_menu[] = {
       (ui_callback_t)detach_cartridge, NULL, NULL },
     { NULL }
 };
+
+
+/** \brief  For symmetry, doesn't do anything (yet)
+ */
+void uicbm2cart_menu_create(void)
+{
+    /* NOP */
+}
+
+/** \brief  Clean up memory used by the UI
+ */
+void uicbm2cart_menu_shutdown(void)
+{
+    if (last_dir != NULL) {
+        lib_free(last_dir);
+    }
+}
+

@@ -725,6 +725,7 @@ static void cbm2ui_dynamic_menu_create(void)
     }
     uikeyboard_menu_create();
     uisid_model_menu_create();
+    uicbm2cart_menu_create();
 }
 
 static void cbm2ui_dynamic_menu_shutdown(void)
@@ -739,6 +740,7 @@ static void cbm2ui_dynamic_menu_shutdown(void)
     uikeyboard_menu_shutdown();
     uijoyport_menu_shutdown();
     uisid_model_menu_shutdown();
+    uicbm2cart_menu_shutdown();
 }
 
 int cbm2ui_init(void)

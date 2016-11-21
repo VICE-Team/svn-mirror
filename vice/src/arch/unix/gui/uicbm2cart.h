@@ -31,4 +31,7 @@
 
 extern struct ui_menu_entry_s ui_cbm2cart_commands_menu[];
 
+void uicbm2cart_menu_create(void);
+void uicbm2cart_menu_shutdown(void);
+
 #endif
