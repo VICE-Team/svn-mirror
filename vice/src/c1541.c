@@ -112,7 +112,7 @@
  * This depends on the number of virtual devices, but most likely will never
  * exceed 11.
  */
-#define UNIT_MAX        (UNIT_MIN - DRIVE_COUNT - 1)
+#define UNIT_MAX        (UNIT_MIN + DRIVE_COUNT - 1)
 
 #define C1541_VERSION_MAJOR     4   /**< c1541 major version number */
 #define C1541_VERSION_MINOR     0   /**< c1541 minor version number */
