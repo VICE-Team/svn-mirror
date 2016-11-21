@@ -55,13 +55,6 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
                 WinSendMsg(hwnd, WM_COUNTER,  (void*)ui_status.lastTapeCounter, 0);
                 WinSendMsg(hwnd, WM_TAPESTAT, (void*)ui_status.lastTapeCtrlStat, (void*)ui_status.lastTapeStatus);
                 WinShowDlg(hwnd, SS_SPIN, ui_status.lastTapeMotor && ui_status.lastTapeStatus);
-
-                resources_get_int("DatasetteResetWithCPU", &val);
-                WinCheckButton(hwnd, CB_RESETWCPU, val);
-                resources_get_int("DatasetteZeroGapDelay", &val);
-                WinSetDlgSpinVal(hwnd, SPB_DELAY, (val / 100));
-                resources_get_int("DatasetteSpeedTuning", &val);
-                WinSetDlgSpinVal(hwnd, SPB_GAP, val);
             }
             break;
         case WM_COUNTER:
@@ -102,26 +95,6 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
                 case PB_TDETACH:
                     tape_image_detach(1);
                     return FALSE;
-            }
-            break;
-        case WM_CONTROL:
-            switch (SHORT1FROMMP(mp1)) {
-                case CB_RESETWCPU:
-                    toggle("DatasetteResetWithCPU");
-                    break;
-                case SPB_DELAY:
-                    if (SHORT2FROMMP(mp1) == SPBN_ENDSPIN) {
-                        const ULONG val = WinGetSpinVal((HWND)mp2);
-
-                        resources_set_int("DatasetteZeroGapDelay", val * 100);
-                    }
-                    break;
-                case SPB_GAP:
-                    if (SHORT2FROMMP(mp1) == SPBN_ENDSPIN) {
-                        const ULONG val = WinGetSpinVal((HWND)mp2);
-                        resources_set_int("DatasetteSpeedTuning", val);
-                    }
-                    break;
             }
             break;
     }

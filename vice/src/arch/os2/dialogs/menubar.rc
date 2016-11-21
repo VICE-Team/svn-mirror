@@ -362,7 +362,7 @@ BEGIN
 
         MENUITEM "Allow opposite joystick directions",    IDM_ALLOW_OPPOSITE_JOY,       MIS_TEXT
 
-#ifndef __X64DTV__
+#if !defined(__X64DTV__) && !defined(__XSCPU64__)
         MENUITEM "Datasette ~Control\tAlt-C",             IDM_DATASETTE,                MIS_TEXT
 #endif
 
@@ -1719,6 +1719,37 @@ BEGIN
             MENUITEM "Save Smart Mouse RTC data when changed",IDM_SMART_MOUSE_RTC_SAVE,     MIS_TEXT
 #endif
         END
+
+#if !defined(__X64DTV__) && !defined(__XSCPU64__)
+        SUBMENU "Tape Port Devices",                      IDM_TAPEPORT_DEVICES,         MIS_TEXT
+        BEGIN
+            SUBMENU "Datasette Settings",                 IDM_DATASETTE_SETTINGS,       MIS_TEXT
+            BEGIN
+                MENUITEM "Datasette Enable",              IDM_DATASETTE_ENABLE,         MIS_TEXT
+                MENUITEM "Reset with CPU",                IDM_DATASETTE_RESET_WITH_CPU, MIS_TEXT
+                MENUITEM "Zero Gap Delay",                IDM_DATASETTE_ZERO_GAP_DELAY, MIS_TEXT
+                MENUITEM "Speed Tuning",                  IDM_DATASETTE_SPEED_TUNING,   MIS_TEXT
+                MENUITEM "Tape Wobble",                   IDM_DATASETTE_TAPE_WOBBLE,    MIS_TEXT
+            END
+            SUBMENU "Tape Log Settings",                  IDM_TAPELOG_SETTINGS,         MIS_TEXT
+            BEGIN
+                MENUITEM "Tape Log Enable",               IDM_TAPELOG_ENABLE,           MIS_TEXT
+                SUBMENU "Tape Log Destination",           IDM_TAPELOG_DESTINATION,      MIS_TEXT
+                BEGIN
+                    MENUITEM "Generic emulator logfile",  IDM_TAPELOG_EMULOG,           MIS_TEXT
+                    MENUITEM "User specified file",       IDM_TAPELOG_USERLOG,          MIS_TEXT
+                END
+                MENUITEM "User Tape Log Filename",        IDM_TAPELOG_FILENAME,         MIS_TEXT
+            END
+            SUBMENU "CP Clock F83 Settings",              IDM_CP_CLOCK_F83_SETTINGS,    MIS_TEXT
+            BEGIN
+                MENUITEM "CP Clock F83 Enable",           IDM_CP_CLOCK_F83_ENABLE,      MIS_TEXT
+                MENUITEM "Save CP Clock F83 RTC data",    IDM_CP_CLOCK_F83_SAVE,        MIS_TEXT
+            END
+            MENUITEM "Tape Sense Dongle Enable",          IDM_TAPE_SENSE_DONGLE_ENABLE, MIS_TEXT
+            MENUITEM "DTL Basic Dongle Enable",           IDM_DTL_BASIC_DONGLE_ENABLE,  MIS_TEXT
+        END
+#endif
 
 #ifdef __X128__
         SUBMENU "Machine Type",                           IDM_C128TYPE,                 MIS_TEXT

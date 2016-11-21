@@ -1162,5 +1162,28 @@
 
 #define IDM_JOYPORT_BBRTC_SAVE         0x3ff
 
+#define IDM_TAPEPORT_DEVICES           0x476
+#define IDM_TAPE_SENSE_DONGLE_ENABLE   0x4a2
+#define IDM_DTL_BASIC_DONGLE_ENABLE    0x4a3
+
+#define IDM_DATASETTE_SETTINGS         0x493
+#define IDM_DATASETTE_ENABLE           0x494
+#define IDM_DATASETTE_RESET_WITH_CPU   0x495
+#define IDM_DATASETTE_ZERO_GAP_DELAY   0x496
+#define IDM_DATASETTE_SPEED_TUNING     0x497
+#define IDM_DATASETTE_TAPE_WOBBLE      0x498
+
+#define IDM_TAPELOG_SETTINGS           0x499
+#define IDM_TAPELOG_ENABLE             0x49a
+#define IDM_TAPELOG_DESTINATION        0x49b
+#define IDM_TAPELOG_EMULOG             0x49c
+#define IDM_TAPELOG_USERLOG            0x49d
+#define IDM_TAPELOG_FILENAME           0x49e
+
+#define IDM_CP_CLOCK_F83_SETTINGS      0x49f
+#define IDM_CP_CLOCK_F83_ENABLE        0x4a0
+#define IDM_CP_CLOCK_F83_SAVE          0x4a1
+
+
 void menu_action(HWND hwnd, USHORT item); //, MPARAM mp2);
 void menu_select(HWND hwnd, USHORT item);

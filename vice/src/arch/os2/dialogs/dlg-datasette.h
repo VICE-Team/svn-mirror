@@ -36,9 +36,6 @@
 
 #define SPB_COUNT    0x17
 #define SS_SPIN      0x18
-#define CB_RESETWCPU 0x19
-#define SPB_DELAY    0x1a
-#define SPB_GAP      0x1b
 #define PB_TATTACH   0x1c
 #define PB_TDETACH   0x1d
 

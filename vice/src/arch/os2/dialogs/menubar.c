@@ -423,6 +423,10 @@ static void save_ui_screenshot(char *type, HWND hwnd)
 
 void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 {
+    char int_tmp[10];
+    int tmp_res;
+    char *retval;
+
     switch (idm) {
         case IDM_PLUS:
         case IDM_MINUS:
@@ -462,8 +466,56 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             WinActivateWindow(hwndLog, 1);
             return;
 
-        case IDM_JOYPORT_DEVICES:
+#if !defined(__X64DTV__) && !defined(__XSCPU64__)
+        case IDM_DATASETTE_ENABLE:
+            toggle("Datasette");
             return;
+        case IDM_DATASETTE_RESET_WITH_CPU:
+            toggle("DatasetteResetWithCPU");
+            return;
+        case IDM_DATASETTE_ZERO_GAP_DELAY:
+            resources_get_int("DatasetteZeroGapDelay", &tmp_res);
+            sprintf(int_tmp, "%d", tmp_res);
+            retval = text_input_dialog(hwnd, "Zero Gap Delay", int_tmp);
+            resources_set_int("DatasetteZeroGapDelay", atoi(retval));
+            return;
+        case IDM_DATASETTE_SPEED_TUNING:
+            resources_get_int("DatasetteSpeedTuning", &tmp_res);
+            sprintf(int_tmp, "%d", tmp_res);
+            retval = text_input_dialog(hwnd, "Speed Tuning", int_tmp);
+            resources_set_int("DatasetteSpeedTuning", atoi(retval));
+            return;
+        case IDM_DATASETTE_TAPE_WOBBLE:
+            resources_get_int("DatasetteTapeWobble", &tmp_res);
+            sprintf(int_tmp, "%d", tmp_res);
+            retval = text_input_dialog(hwnd, "Tape Wobble", int_tmp);
+            resources_set_int("DatasetteTapeWobble", atoi(retval));
+            return;
+        case IDM_TAPELOG_ENABLE:
+            toggle("TapeLog");
+            return;
+        case IDM_TAPELOG_EMULOG:
+            resources_set_int("TapeLogDestination", 0);
+            return;
+        case IDM_TAPELOG_USERLOG:
+            resources_set_int("TapeLogDestination", 1);
+            return;
+        case IDM_TAPELOG_FILENAME:
+            resources_set_string("TapeLogfilename", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_CP_CLOCK_F83_ENABLE:
+            toggle("CPClockF83");
+            return;
+        case IDM_CP_CLOCK_F83_SAVE:
+            toggle("CPClockF83Save");
+            return;
+        case IDM_TAPE_SENSE_DONGLE_ENABLE:
+            toggle("TapeSenseDongle");
+            return;
+        case IDM_DTL_BASIC_DONGLE_ENABLE:
+            toggle("DTLBasicDongle");
+            return;
+#endif
 
 #if defined(__X64ALL__) || defined(__X64DTV__) || defined(__X128__) || defined(__XCBM5X0__) || defined(__XPLUS4__) || defined(__XVIC__)
         case IDM_JOYPORT_1_NONE:
@@ -3111,6 +3163,29 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_JOYPORT_5_CX85_KEYPAD, val == JOYPORT_ID_CX85_KEYPAD);
             WinCheckMenuItem(hwnd, IDM_JOYPORT_5_RUSHWARE_KEYPAD, val == JOYPORT_ID_RUSHWARE_KEYPAD);
             WinCheckMenuItem(hwnd, IDM_JOYPORT_5_CX21_KEYPAD, val == JOYPORT_ID_CX21_KEYPAD);
+            return;
+#endif
+
+#if !defined(__X64DTV__) && !defined(__XSCPU64__)
+        case IDM_TAPEPORT_DEVICES:
+            WinCheckRes(hwnd, IDM_TAPE_SENSE_DONGLE_ENABLE, "TapeSenseDongle");
+            WinCheckRes(hwnd, IDM_DTL_BASIC_DONGLE_ENABLE, "DTLBasicDongle");
+            return;
+        case IDM_DATASETTE_SETTINGS:
+            WinCheckRes(hwnd, IDM_DATASETTE_ENABLE, "Datasette");
+            WinCheckRes(hwnd, IDM_DATASETTE_RESET_WITH_CPU, "DatasetteResetWithCPU");
+            return;
+        case IDM_TAPELOG_SETTINGS:
+            WinCheckRes(hwnd, IDM_TAPELOG_ENABLE, "TapeLog");
+            return;
+        case IDM_TAPELOG_DESTINATION:
+            resources_get_int("TapeLogDestination", &val);
+            WinCheckMenuItem(hwnd, IDM_TAPELOG_EMULOG, val == 0);
+            WinCheckMenuItem(hwnd, IDM_TAPELOG_USERLOG, val == 1);
+            return;
+        case IDM_CP_CLOCK_F83_SETTINGS:
+            WinCheckRes(hwnd, IDM_CP_CLOCK_F83_ENABLE, "CPClockF83");
+            WinCheckRes(hwnd, IDM_CP_CLOCK_F83_SAVE, "CPClockF83Save");
             return;
 #endif
 

@@ -51,18 +51,5 @@ BEGIN
             CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
         CONTROL "Motor on", SS_SPIN, 62, 60, 35, 12, WC_STATIC, SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
         CONTROL "", ID_NONE, 7, 21, 140, 40, STY_GROUPBOX
-        CONTROL "Reset Datasette with CPU", CB_RESETWCPU, 14, 44, 125, 10, STY_AUTOCHECKBOX
-        TEXT("0-Delay", 14, 36)
-        TEXT("x100 cycles", 92, 36)
-
-        // Delay in cyles for a zero in a tape-file
-        CONTROL "", SPB_DELAY, 52, 35, 38, 12, STY_SPINBUTTON
-            CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
-
-        // number of cycles added to each gap in file
-        TEXT("Gap offset", 14, 25)
-        TEXT("cycles", 114, 25)
-        CONTROL "", SPB_GAP, 74, 24, 38, 12, STY_SPINBUTTON
-            CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
     END
 END
