@@ -202,6 +202,32 @@ static gboolean pal_ctrl_reset(GtkWidget *w, gpointer data)
     return 0;
 }
 
+/* set all sliders to value of associated resource */
+static gboolean pal_ctrl_refresh(pal_res_t *p)
+{
+    unsigned int i;
+    int tmp;
+
+    for (i = 0; i < NUMSLIDERS; i++) {
+        if ((ctrls[i].vsid == 0) && (machine_class == VICE_MACHINE_VSID)) {
+            tmp = 0;
+        } else {
+            resources_get_int(p[i].res, (void *)&tmp);
+        }
+        tmp = (tmp - p[i].offset) * p[i].scale;
+        if (tmp < 0) {
+            tmp = 0;
+        } else if (tmp > 40100) {
+            tmp = 40100;
+        }
+
+        if (p[i].adj) {
+            gtk_adjustment_set_value(GTK_ADJUSTMENT(p[i].adj), (gfloat)tmp);
+        }
+    }
+    return 0;
+}
+
 void ui_update_palctrl(void)
 {
     int i;
@@ -209,6 +235,7 @@ void ui_update_palctrl(void)
 
     for (i = 0; i < num_app_shells; i++) {
         pal_res_t *p = (pal_res_t *)app_shells[i].pal_ctrl_data;
+        pal_ctrl_refresh(p);
         pal_ctrl_update_internal(p);
         ui_trigger_window_resize(p->canvas);
     }
