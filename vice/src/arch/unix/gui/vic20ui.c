@@ -262,12 +262,13 @@ static ui_menu_entry_t memory_settings_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static char *last_dir;
+
 static UI_CALLBACK(attach_cartridge)
 {
     int type = vice_ptr_to_int(UI_MENU_CB_PARAM);
     char *filename;
     ui_button_t button;
-    static char *last_dir;
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_VIC20CART, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
@@ -794,5 +795,8 @@ int vic20ui_init(void)
 
 void vic20ui_shutdown(void)
 {
+    if (last_dir != NULL) {
+        lib_free(last_dir);
+    }
     vic20ui_dynamic_menu_shutdown();
 }
