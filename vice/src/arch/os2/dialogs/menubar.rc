@@ -1181,6 +1181,13 @@ BEGIN
                 MENUITEM "$DF00",                         IDM_IDE64_SB_ETFE_DF00,       MIS_TEXT
             END
 #endif
+
+            SUBMENU "USB Server settings",                IDM_IDE64_USB_SRVR_SETTINGS,  MIS_TEXT
+            BEGIN
+                MENUITEM "USB Server Enable",             IDM_IDE64_USB_SERVER_ENABLE,  MIS_TEXT
+                MENUITEM "USB Server Address",            IDM_IDE64_USB_SERVER_ADDR,    MIS_TEXT
+            END
+
             SUBMENU "Primary master settings",            IDM_IDE64_HD1,                MIS_TEXT
             BEGIN
                 MENUITEM "Image name",                    IDM_IDE64_IMAGE1,             MIS_TEXT

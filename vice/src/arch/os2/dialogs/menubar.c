@@ -2207,6 +2207,18 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             resources_set_int("IDE64ClockPort", CLOCKPORT_DEVICE_MP3_64);
             return;
 #endif
+        case IDM_IDE64_USB_SERVER_ENABLE:
+            toggle("IDE64USBServer");
+            return;
+        case IDM_IDE64_USB_SERVER_ADDR:
+            {
+                const char *addr;
+
+                resources_get_string("IDE64USBServerAddress", &addr);
+                retval = text_input_dialog(hwnd, "USB Server Address", addr);
+                resources_set_string("IDE64USBServerAddress", retval);
+            }
+            return;
 
         case IDM_MMC64:
             toggle("MMC64");
@@ -3324,6 +3336,10 @@ void menu_select(HWND hwnd, USHORT item)
 #ifdef USE_MPG123
             WinCheckMenuItem(hwnd, IDM_IDE64_CLOCKPORT_MP3AT64, val == CLOCKPORT_DEVICE_MP3_64);
 #endif
+            return;
+
+        case IDM_IDE64_USB_SRVR_SETTINGS:
+            WinCheckRes(hwnd, IDM_IDE64_USB_SERVER_ENABLE, "IDE64USBServer");
             return;
 
         case IDM_MMC64_SETTINGS:
