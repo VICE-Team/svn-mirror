@@ -17748,6 +17748,7 @@ supported by the emulators.
 
 The @code{T64} File Structure was developed by Miha Peternel for use in
 the C64S emulator.  It is easy to use and allows future extensions.
+And it sucks balls.
 
 @menu
 * T64 file structure::
