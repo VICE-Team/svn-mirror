@@ -994,7 +994,7 @@ static int check_drive(int dev, int flags)
  */
 static int check_drive_unit(int unit)
 {
-    return (unit >= UNIT_MIN && unit < UNIT_MAX) ? FD_OK : FD_BADDEV;
+    return (unit >= UNIT_MIN && unit <= UNIT_MAX) ? FD_OK : FD_BADDEV;
 }
 
 
