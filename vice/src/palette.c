@@ -323,7 +323,8 @@ static palette_info_t palettelist[] = {
     { "Crtc",  "Amber",              "amber"},
     { "Crtc",  "Black/White",        "white"},
     /* data/PLUS4/ */
-    { "TED",   "VICE",               "vice"}, /* default */
+    { "TED",   "YAPE (PAL)",         "yape-pal"}, /* default */
+    { "TED",   "YAPE (NTSC)",        "yape-ntsc"},
 
     { NULL, 0, 0 }
 };

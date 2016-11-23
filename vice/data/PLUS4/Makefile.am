@@ -14,7 +14,8 @@ romsets = \
 	default.vrs
 
 palettes = \
-	vice.vpl
+	yape-pal.vpl \
+	yape-ntsc.vpl
 
 x11_keymaps = \
 	x11_pos.vkm \
