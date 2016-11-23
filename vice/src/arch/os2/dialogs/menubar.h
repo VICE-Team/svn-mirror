@@ -196,6 +196,9 @@
 #define IDM_VDC_PALETTES             0x489
 #define IDM_PALETTE_VDC_COMP         0x48a
 #define IDM_PALETTE_VDC_DEFT         0x48b
+#define IDM_PALETTE_YAPE_NTSC        0x4a6
+#define IDM_PALETTE_YAPE_PAL         0x4a7
+
 
 #define IDM_BORDER_MODE              0x2eb
 #define IDM_BORDER_NORMAL            0x2ec

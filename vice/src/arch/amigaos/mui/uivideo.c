@@ -370,14 +370,16 @@ static APTR build_gui_palette_crtc(void)
     return ui;
 }
 
-PAL_SET(VICE_TED, "TEDPaletteFile", "vice.vpl")
+PAL_SET(YAPE_NTSC, "TEDPaletteFile", "yape-ntsc.vpl")
+PAL_SET(YAPE_PAL, "TEDPaletteFile", "yape-pal.vpl")
 
 static APTR build_gui_palette_ted(void)
 {
     APTR app, ui, ok, browse_button, cancel;
-    APTR vice_button;
+    APTR yape_ntsc_button, yape_pal_button;
 
-    PAL_HOOK(VICE_TEDHook, VICE_TED);
+    PAL_HOOK(YAPE_NTSCHook, YAPE_NTSC);
+    PAL_HOOK(YAPE_PALHook, YAPE_PAL);
 
 #ifdef AMIGA_MORPHOS
     static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse_palette, NULL };
@@ -388,7 +390,8 @@ static APTR build_gui_palette_ted(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           BUTTON(vice_button, "vice")
+           BUTTON(yape_ntsc_button, "yape-ntsc")
+           BUTTON(yape_pal_button, "yape-pal")
            CYCLE(ui_to_from_palette[0].object, ui_to_from_palette[0].resource, ui_video_enable)
            FILENAME(ui_to_from_palette[1].object, video_palette_filename_text, browse_button)
            OK_CANCEL_BUTTON
@@ -404,7 +407,8 @@ static APTR build_gui_palette_ted(void)
         DoMethod(browse_button, MUIM_Notify, MUIA_Pressed, FALSE,
                  app, 2, MUIM_CallHook, &BrowseFileHook);
 
-        PAL_METHOD(vice_button, VICE_TEDHook);
+        PAL_METHOD(yape_ntsc_button, YAPE_NTSCHook);
+        PAL_METHOD(yape_pal_button, YAPE_PALHook);
     }
 
     return ui;

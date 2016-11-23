@@ -1552,8 +1552,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #endif
 
 #ifdef __XPLUS4__
-        case IDM_PALETTE_VICE:
-            resources_set_string("TEDPaletteFile", "vice.vpl");
+        case IDM_PALETTE_YAPE_NTSC:
+            resources_set_string("TEDPaletteFile", "yape-ntsc.vpl");
+            return;
+        case IDM_PALETTE_YAPE_PAL:
+            resources_set_string("TEDPaletteFile", "yape-pal.vpl");
             return;
 #endif
 

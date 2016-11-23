@@ -461,7 +461,8 @@ BEGIN
             MENUITEM "TED External Palette",              IDM_EXTERNALPAL,              MIS_TEXT
             SUBMENU "TED Palettes",                       IDM_PALETTES,                 MIS_TEXT
             BEGIN
-                MENUITEM "VICE",                          IDM_PALETTE_VICE,             MIS_TEXT
+                MENUITEM "YAPE NTSC",                     IDM_PALETTE_YAPE_NTSC,        MIS_TEXT
+                MENUITEM "YAPE PAL",                      IDM_PALETTE_YAPE_PAL,         MIS_TEXT
             END
             MENUITEM "TED External Palette File",         IDM_EXTERNALPAL_FILE,         MIS_TEXT
             MENUITEM "TED Audio Leak",                    IDM_AUDIO_LEAK,               MIS_TEXT
