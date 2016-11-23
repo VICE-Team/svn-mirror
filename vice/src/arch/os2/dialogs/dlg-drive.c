@@ -208,11 +208,6 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 case CB_READONLY:
                     toggle_drive_res("AttachDevice%dReadonly", drive);
                     break;
-                case CB_PARALLEL:
-                    if (drive == 0 || drive == 1) {
-                        toggle_drive_res("Drive%dParallelCable", drive);
-                    }
-                    break;
                 case RB_NEVER:
                 case RB_ASK:
                 case RB_ALWAYS:
@@ -274,6 +269,14 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                         resources_set_int_sprintf("Drive%dType", val, drive + 8);
                     }
                     return FALSE;
+                case CBS_PARALLEL:
+                    if (SHORT2FROMMP(mp1) == CBN_ENTER && (drive == 0 || drive == 1)) {
+                        const int nr  = WinQueryLboxSelectedItem((HWND)mp2);
+                        const int val = WinLboxItemHandle((HWND)mp2, nr);
+
+                        resources_set_int_sprintf("Drive%dParallelCable", val, drive + 8);
+                    }
+                    return FALSE;
             }
         }
         break;
@@ -322,6 +325,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         drive = (int)mp1;
             {
                 const HWND lbox = WinWindowFromID(hwnd, CBS_TYPE);
+                HWND pbox;
                 int type = 0;
                 int val;
                 int res;
@@ -363,13 +367,25 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 }
                 WinLboxSelectItem(lbox, type);
 
-                WinCheckButton(hwnd, CB_PARALLEL, drive89 && get_drive_res("Drive%dParallelCable", drive) != 0);
+                pbox = WinWindowFromID(hwnd, CBS_PARALLEL);
+                res = get_drive_res("Drive%dParallelCable", drive);
+                WinLboxEmpty(pbox);
+                WinLboxInsertItem(pbox, "None");
+                WinLboxSetItemHandle(pbox, 0, DRIVE_PC_NONE);
+                WinLboxInsertItem(pbox, "Standard");
+                WinLboxSetItemHandle(pbox, 1, DRIVE_PC_STANDARD);
+                WinLboxInsertItem(pbox, "Dolphin DOS 3");
+                WinLboxSetItemHandle(pbox, 2, DRIVE_PC_DD3);
+                WinLboxInsertItem(pbox, "Formel64");
+                WinLboxSetItemHandle(pbox, 3, DRIVE_PC_FORMEL64);
+                WinLboxSelectItem(pbox, res);
+
                 WinCheckButton(hwnd, CB_MEM2000, drive89 && get_drive_res("Drive%dRAM2000", drive) != 0);
                 WinCheckButton(hwnd, CB_MEM4000, drive89 && get_drive_res("Drive%dRAM4000", drive) != 0);
                 WinCheckButton(hwnd, CB_MEM6000, drive89 && get_drive_res("Drive%dRAM6000", drive) != 0);
                 WinCheckButton(hwnd, CB_MEM8000, drive89 && get_drive_res("Drive%dRAM8000", drive) != 0);
                 WinCheckButton(hwnd, CB_MEMA000, drive89 && get_drive_res("Drive%dRAMA000", drive) != 0);
-                WinEnableControl(hwnd, CB_PARALLEL, drive89 && val);
+                WinEnableControl(hwnd, CBS_PARALLEL, drive89 && val);
                 WinEnableControl(hwnd, RB_NEVER, drive89 && val);
                 WinEnableControl(hwnd, RB_ASK, drive89 && val);
                 WinEnableControl(hwnd, RB_ALWAYS, drive89 && val);

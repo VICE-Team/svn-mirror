@@ -45,7 +45,7 @@
 #define CBS_IMAGE      0x1033
 #define CBS_PATH       0x1034
 #define CBS_TYPE       0x1035
-#define CB_PARALLEL    0x1036
+#define CBS_PARALLEL   0x1036
 
 #define CB_ALLOWACCESS 0x1037
 #define CB_CONVERTP00  0x1038
