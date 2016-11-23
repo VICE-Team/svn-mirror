@@ -205,6 +205,12 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 case CB_MEMA000:
                     toggle_drive_res("Drive%dRAMA000", drive);
                     break;
+                case CB_ROMPDOS:
+                    toggle_drive_res("Drive%dProfDOS", drive);
+                    break;
+                case CB_ROMSCP:
+                    toggle_drive_res("Drive%dSuperCard", drive);
+                    break;
                 case CB_READONLY:
                     toggle_drive_res("AttachDevice%dReadonly", drive);
                     break;
@@ -385,6 +391,8 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 WinCheckButton(hwnd, CB_MEM6000, drive89 && get_drive_res("Drive%dRAM6000", drive) != 0);
                 WinCheckButton(hwnd, CB_MEM8000, drive89 && get_drive_res("Drive%dRAM8000", drive) != 0);
                 WinCheckButton(hwnd, CB_MEMA000, drive89 && get_drive_res("Drive%dRAMA000", drive) != 0);
+                WinCheckButton(hwnd, CB_ROMPDOS, drive89 && get_drive_res("Drive%dProfDOS", drive) != 0);
+                WinCheckButton(hwnd, CB_ROMSCP, drive89 && get_drive_res("Drive%dSuperCard", drive) != 0);
                 WinEnableControl(hwnd, CBS_PARALLEL, drive89 && val);
                 WinEnableControl(hwnd, RB_NEVER, drive89 && val);
                 WinEnableControl(hwnd, RB_ASK, drive89 && val);
@@ -398,6 +406,8 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 WinEnableControl(hwnd, CB_MEM6000, drive89 && val);
                 WinEnableControl(hwnd, CB_MEM8000, drive89 && val);
                 WinEnableControl(hwnd, CB_MEMA000, drive89 && val);
+                WinEnableControl(hwnd, CB_ROMPDOS, drive89 && val);
+                WinEnableControl(hwnd, CB_ROMSCP, drive89 && val);
                 {
                     int acc  = get_drive_res("FileSystemDevice%d", drive) != 0;
                     int conv = get_drive_res("FSDevice%dConvertP00", drive) != 0;
