@@ -2451,7 +2451,8 @@ Integer specifying the autostart mode for prg files
 
 @vindex AutostartDelayRandom
 @item AutostartDelayRandom
-Boolean, enables a short (0-10 frames) random delay on autostart
+Boolean, enables a short (0-10 frames) random delay on autostart. This is added
+to the @code{AutostartDelay}
 (all emulators except vsid).
 
 @vindex AutostartDelay
@@ -17748,7 +17749,6 @@ supported by the emulators.
 
 The @code{T64} File Structure was developed by Miha Peternel for use in
 the C64S emulator.  It is easy to use and allows future extensions.
-And it sucks balls.
 
 @menu
 * T64 file structure::

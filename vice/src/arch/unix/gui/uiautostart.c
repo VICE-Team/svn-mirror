@@ -65,7 +65,7 @@ UI_CALLBACK(set_autostart_delay)
     resources_get_int("AutostartDelay", &i);
 
     sprintf(input_string, "%d", i);
-    msg_string = lib_stralloc(_("Enter maximum random autostart delay in frames\n(max. 1000, 0 means default)"));
+    msg_string = lib_stralloc(_("Enter autostart delay in seconds\n(max. 1000, 0 means default)"));
     button = ui_input_string(_("Autostart delay"), msg_string, input_string, 32);
     lib_free(msg_string);
     if (button == UI_BUTTON_OK) {
@@ -99,7 +99,7 @@ ui_menu_entry_t uiautostart_settings_submenu[] = {
       (ui_callback_t)toggle_AutostartWarp, NULL, NULL },
     { N_("Autostart random delay"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AutostartDelayRandom, NULL, NULL },
-    { N_("Maximum random autostart delay"), UI_MENU_TYPE_DOTS,
+    { N_("Autostart fixed delay"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_autostart_delay,
       NULL, NULL },
     { N_("Use ':' with RUN"), UI_MENU_TYPE_TICK,
