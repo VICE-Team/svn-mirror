@@ -535,9 +535,9 @@ static const char *vname_chip_colors[] = { "ColorSaturation", "ColorContrast", "
 
 static resource_int_t resources_chip_colors[] =
 {
-    { NULL, 1250, RES_EVENT_NO, NULL,
+    { NULL, 1000, RES_EVENT_NO, NULL,
       NULL, set_color_saturation, NULL },
-    { NULL, 1250, RES_EVENT_NO, NULL,
+    { NULL, 1000, RES_EVENT_NO, NULL,
       NULL, set_color_contrast, NULL },
     { NULL, 1000, RES_EVENT_NO, NULL,
       NULL, set_color_brightness, NULL },
@@ -860,6 +860,13 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_colors[2].value_ptr = &((*canvas)->videoconfig->video_resources.color_brightness);
         resources_chip_colors[3].value_ptr = &((*canvas)->videoconfig->video_resources.color_gamma);
         resources_chip_colors[4].value_ptr = &((*canvas)->videoconfig->video_resources.color_tint);
+
+        if (!strcmp(chipname, "VICII")) {
+            resources_chip_colors[0].factory_value = 1250; /* saturation */
+            resources_chip_colors[1].factory_value = 1250; /* contrast */
+        } else if (!strcmp(chipname, "TED")) {
+            resources_chip_colors[0].factory_value = 1250; /* saturation */
+        }
 
         if (resources_register_int(resources_chip_colors) < 0) {
             return -1;
