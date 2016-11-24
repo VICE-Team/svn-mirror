@@ -1088,6 +1088,40 @@ UI_MENU_DEFINE_TOGGLE(AutostartRunWithColon)
 UI_MENU_DEFINE_RADIO(AutostartPrgMode)
 UI_MENU_DEFINE_STRING(AutostartPrgDiskImage)
 
+
+static UI_MENU_CALLBACK(custom_AutostartDelay_callback)
+{
+    static char buf[20];
+    char *value;
+    int previous;
+    int new_value;
+
+    resources_get_int("AutostartDelay", &previous);
+
+    if (activated) {
+        sprintf(buf, "%d", previous);
+        value = sdl_ui_text_input_dialog(
+                "Autostart delay in seconds (0 = default, max = 1000)", buf);
+        if (value) {
+            new_value = (int)strtol(value, NULL, 10);
+            if (new_value < 0) {
+                new_value = 0;
+            } else if (new_value > 1000) {
+                new_value = 1000;
+            }
+            if (new_value != previous) {
+                resources_set_int("AutostartDelay", new_value);
+            }
+            lib_free(value);
+        }
+    } else {
+        sprintf(buf, "%d seconds", previous);
+        return buf;
+    }
+    return NULL;
+}
+
+
 static const ui_menu_entry_t autostart_settings_menu[] = {
     { "Handle TDE on autostart",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -1096,6 +1130,10 @@ static const ui_menu_entry_t autostart_settings_menu[] = {
     { "Autostart warp",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_AutostartWarp_callback,
+      NULL },
+    { "Autostart delay",
+      MENU_ENTRY_RESOURCE_INT,
+      custom_AutostartDelay_callback,
       NULL },
     { "Autostart random delay",
       MENU_ENTRY_RESOURCE_TOGGLE,
