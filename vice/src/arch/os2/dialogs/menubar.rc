@@ -600,6 +600,7 @@ BEGIN
             MENUITEM "Autostart warp",                    IDM_AUTOSTART_WARP,           MIS_TEXT
             MENUITEM "Run with ':'",                      IDM_RUN_WITH_COLON,           MIS_TEXT
             MENUITEM "Load to BASIC start",               IDM_LOAD_TO_BASIC_START,      MIS_TEXT
+            MENUITEM "Autostart delay (secs)",            IDM_AUTOSTART_DELAY,          MIS_TEXT
             MENUITEM "Autostart random delay",            IDM_AUTOSTART_RANDOM_DELAY,   MIS_TEXT
             SUBMENU "Autostart PRG mode",                 IDM_AUTOSTART_PRG_MODE,       MIS_TEXT
             BEGIN

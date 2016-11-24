@@ -2469,6 +2469,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_LOAD_TO_BASIC_START:
             toggle("AutostartBasicLoad");
             return;
+        case IDM_AUTOSTART_DELAY:
+            resources_get_int("AutostartDelay", &tmp_res);
+            sprintf(int_tmp, "%d", tmp_res);
+            retval = text_input_dialog(hwnd, "Autostart Delay in seconds", int_tmp);
+            resources_set_int("AutostartDelay", atoi(retval));
+            return;
         case IDM_AUTOSTART_RANDOM_DELAY:
             toggle("AutostartDelayRandom");
             return;
