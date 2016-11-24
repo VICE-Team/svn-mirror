@@ -568,7 +568,7 @@ if test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"; 
   yasm_rev=`echo "$yasm_ver" | cut -d '.' -f 3`
   yasm_ok=false
 
-  if test $yasm_maj -gt $YASM_VERION_MAJOR; then
+  if test $yasm_maj -gt $YASM_VERSION_MAJOR; then
     yasm_ok=true
   elif test $yasm_maj -eq $YASM_VERSION_MAJOR; then
     if test $yasm_min -gt $YASM_VERSION_MINOR; then
