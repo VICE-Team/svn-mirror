@@ -102,7 +102,7 @@ DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLL
         msg->AddInt32("type", i);
         msg->AddInt32("device", device_num);
 
-        checkboxp00[i] = new BCheckBox(BRect(150,30 + i * 20, 260, 40 + i * 20), p00_text[i], p00_text[i], msg);
+        checkboxp00[i] = new BCheckBox(BRect(150, 30 + i * 20, 300, 40 + i * 20), p00_text[i], p00_text[i], msg);
         box->AddChild(checkboxp00[i]);
     }
     UpdateP00(device_num);
@@ -143,7 +143,7 @@ class DeviceWindow : public BWindow {
 static DeviceWindow *devicewindow = NULL;
 
 DeviceWindow::DeviceWindow() 
-    : BWindow(BRect(50, 50, 400, 270),"Device settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 420, 280),"Device settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BRect frame;
     BTabView *tabview;
