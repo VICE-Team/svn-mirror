@@ -87,6 +87,7 @@ extern "C" {
 #include "translate.h"
 #include "types.h"
 #include "ui.h"
+#include "ui_autostart.h"
 #include "ui_datasette.h"
 #include "ui_device.h"
 #include "ui_netplay.h"
@@ -820,6 +821,9 @@ void ui_dispatch_events(void)
                 break;
             case MENU_RESET_HARD:
                 machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+                break;
+            case MENU_AUTOSTART_DELAY:
+                ui_autostart();
                 break;
             case MENU_AUTOSTART_PRG_DISK_IMAGE_SELECT:
                 ui_select_file(B_OPEN_PANEL, AUTOSTART_DISK_IMAGE_FILE, (void*)0);

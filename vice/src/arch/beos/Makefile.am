@@ -65,6 +65,8 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.cc \
 	ui.h \
+	ui_autostart.cc \
+	ui_autostart.h \
 	ui_cbm2.cc \
 	ui_cbm2.h \
 	ui_cbm5x0.cc \
