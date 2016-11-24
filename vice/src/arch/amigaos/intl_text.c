@@ -12951,6 +12951,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_WARP_ON_AUTOSTART_SV, "Starta warp automatiskt" },
 /* tr */ { IDS_WARP_ON_AUTOSTART_TR, "Warp modunda otomatik baþlat" },
 
+/* en */ { IDS_AUTOSTART_DELAY,    "Autostart delay (in seconds)" },
+/* da */ { IDS_AUTOSTART_DELAY_DA, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_DELAY_DE, "" },  /* fuzzy */
+/* es */ { IDS_AUTOSTART_DELAY_ES, "" },  /* fuzzy */
+/* fr */ { IDS_AUTOSTART_DELAY_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTOSTART_DELAY_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_DELAY_IT, "" },  /* fuzzy */
+/* ko */ { IDS_AUTOSTART_DELAY_KO, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_DELAY_NL, "" },  /* fuzzy */
+/* pl */ { IDS_AUTOSTART_DELAY_PL, "" },  /* fuzzy */
+/* ru */ { IDS_AUTOSTART_DELAY_RU, "" },  /* fuzzy */
+/* sv */ { IDS_AUTOSTART_DELAY_SV, "" },  /* fuzzy */
+/* tr */ { IDS_AUTOSTART_DELAY_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_AUTOSTART_RANDOM_DELAY,    "Autostart random delay" },
 /* da */ { IDS_AUTOSTART_RANDOM_DELAY_DA, "Tilfældig forsinkelse på autostart" },
 /* de */ { IDS_AUTOSTART_RANDOM_DELAY_DE, "Autostart Zufallsverzögerung" },
