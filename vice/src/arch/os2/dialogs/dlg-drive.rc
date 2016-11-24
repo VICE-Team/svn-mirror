@@ -81,6 +81,7 @@ BEGIN
         TEXT("Enable Drive ROM Extension:", 13, 58)
         CONTROL "Professional DOS", CB_ROMPDOS, 13, 48, 75, 10, STY_AUTOCHECKBOX
         CONTROL "SuperCard+", CB_ROMSCP, 93, 48, 75, 10, STY_AUTOCHECKBOX
+        CONTROL "Save RTC data", CB_RTCSAVE, 173, 48, 75, 10, STY_AUTOCHECKBOX
         TEXT("Fliplist:", 98, 20)
         CONTROL "Add", PB_FLIPADD, 129, 18, 40, 12, STY_PUSHBUTTON
         CONTROL "Remove", PB_FLIPREMOVE, 173, 18, 40, 12, STY_PUSHBUTTON

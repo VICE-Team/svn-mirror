@@ -71,6 +71,7 @@
 #define CB_MEMA000     0x104c
 #define CB_ROMPDOS     0x104d
 #define CB_ROMSCP      0x104e
+#define CB_RTCSAVE     0x104f
 
 #define WM_SWITCH      WM_USER + 0x1
 #define WM_SWITCHTT    WM_USER + 0x2
