@@ -885,6 +885,16 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 submenu->AddItem(new BMenuItem("IDE64 device #3 image size ...", new BMessage(MENU_IDE64_SIZE3)));
                 submenu->AddItem(new BMenuItem("IDE64 device #4 File", new BMessage(MENU_IDE64_FILE4)));
                 submenu->AddItem(new BMenuItem("IDE64 device #4 image size ...", new BMessage(MENU_IDE64_SIZE4)));
+                submenu->AddItem(extsubmenu = new BMenu("IDE64 ClockPort device"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_IDE64_CLOCKPORT_NONE)));
+#ifdef HAVE_PCAP
+                    extsubmenu->AddItem(new BMenuItem("RR-Net", new BMessage(MENU_IDE64_CLOCKPORT_RRNET)));
+#endif
+#ifdef USE_MPG123
+                    extsubmenu->AddItem(new BMenuItem("MP3@64", new BMessage(MENU_IDE64_CLOCKPORT_MP3AT64)));
+#endif
+
 
             menu->AddItem(submenu = new BMenu("Magic Voice Options"));
                 submenu->AddItem(new BMenuItem("Magic Voice emulation", new BMessage(MENU_TOGGLE_MAGICVOICE)));
