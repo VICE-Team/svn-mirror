@@ -861,11 +861,19 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_colors[3].value_ptr = &((*canvas)->videoconfig->video_resources.color_gamma);
         resources_chip_colors[4].value_ptr = &((*canvas)->videoconfig->video_resources.color_tint);
 
-        if (!strcmp(chipname, "VICII")) {
+        resources_chip_colors[0].factory_value = 1000; /* saturation */
+        resources_chip_colors[1].factory_value = 1000; /* contrast */
+        if (!strcmp(chipname, "VIC")) {
+            resources_chip_colors[0].factory_value = 1500; /* saturation */
+            resources_chip_colors[1].factory_value = 1250; /* contrast */
+        } else if (!strcmp(chipname, "VICII")) {
             resources_chip_colors[0].factory_value = 1250; /* saturation */
             resources_chip_colors[1].factory_value = 1250; /* contrast */
         } else if (!strcmp(chipname, "TED")) {
             resources_chip_colors[0].factory_value = 1250; /* saturation */
+        } else if (!strcmp(chipname, "Crtc")) {
+            resources_chip_colors[0].factory_value = 1750; /* saturation */
+            resources_chip_colors[1].factory_value = 1250; /* contrast */
         }
 
         if (resources_register_int(resources_chip_colors) < 0) {
@@ -878,8 +886,8 @@ int video_resources_chip_init(const char *chipname,
             ++i;
         }
     } else {
-        set_color_saturation(1250, (void *)*canvas);
-        set_color_contrast(1250, (void *)*canvas);
+        set_color_saturation(1000, (void *)*canvas);
+        set_color_contrast(1000, (void *)*canvas);
         set_color_brightness(1000, (void *)*canvas);
         set_color_gamma(2200, (void *)*canvas);
         set_color_tint(1000, (void *)*canvas);
@@ -899,6 +907,19 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_crtemu[3].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_offset);
         resources_chip_crtemu[4].value_ptr = &((*canvas)->videoconfig->video_resources.audioleak);
 
+        resources_chip_crtemu[2].factory_value = 1000; /* oddlines phase */
+        resources_chip_crtemu[3].factory_value = 1000; /* oddlines offset */
+        if (!strcmp(chipname, "VIC")) {
+            resources_chip_crtemu[2].factory_value = 1125; /* oddlines phase */
+            resources_chip_crtemu[3].factory_value = 1125; /* oddlines offset */
+        } else if (!strcmp(chipname, "VICII")) {
+            resources_chip_crtemu[2].factory_value = 1250; /* oddlines phase */
+            resources_chip_crtemu[3].factory_value = 750; /* oddlines offset */
+        } else if (!strcmp(chipname, "TED")) {
+            resources_chip_crtemu[2].factory_value = 1250; /* oddlines phase */
+            resources_chip_crtemu[3].factory_value = 750; /* oddlines offset */
+        }
+
         if (resources_register_int(resources_chip_crtemu) < 0) {
             return -1;
         }
@@ -909,10 +930,10 @@ int video_resources_chip_init(const char *chipname,
             ++i;
         }
     } else {
-        set_pal_scanlineshade(750, (void *)*canvas);
-        set_pal_blur(500, (void *)*canvas);
-        set_pal_oddlinesphase(1125, (void *)*canvas);
-        set_pal_oddlinesoffset(875, (void *)*canvas);
+        set_pal_scanlineshade(1000, (void *)*canvas);
+        set_pal_blur(0, (void *)*canvas);
+        set_pal_oddlinesphase(1000, (void *)*canvas);
+        set_pal_oddlinesoffset(1000, (void *)*canvas);
         set_audioleak(0, (void *)*canvas);
     }
 
