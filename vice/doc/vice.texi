@@ -8845,13 +8845,13 @@ Set the size of the SIMM RAM
 @findex -jiffyswitch, +jiffyswitch
 @item -jiffyswitch
 @itemx +jiffyswitch
-Enable/disable the jiffy swicth
+Enable/disable the jiffy switch
 (@code{JiffySwitch=1}, @code{JiffySwitch=0}).
 
 @findex -speedswitch, +speedswitch
 @item -speedswitch
 @itemx +speedswitch
-Enable/disable the speed swicth
+Enable/disable the speed switch
 (@code{SpeedSwitch=1}, @code{SpeedSwitch=0}).
 
 @findex -gluelogictype
