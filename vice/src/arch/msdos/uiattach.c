@@ -174,6 +174,31 @@ TUI_MENU_DEFINE_TOGGLE(AutostartBasicLoad)
 TUI_MENU_DEFINE_TOGGLE(AutostartDelayRandom)
 TUI_MENU_DEFINE_RADIO(AutostartPrgMode)
 
+static TUI_MENU_CALLBACK(ui_set_AutostartDelay_callback)
+{
+    if (been_activated) {
+        int delay, value;
+        char buf[10];
+
+        resources_get_int("AutostartDelay", &delay);
+        sprintf(buf, "%d", delay);
+
+        if (tui_input_string("Autostar delay", "Enter autostart delay to use:", buf, 10) == 0) {
+            value = atoi(buf);
+            if (value > 1000) {
+                value = 1000;
+            } else if (value < 0) {
+                value = 0;
+            }
+            resources_set_int("AutostartDelay", value);
+            tui_message("Autostart delay set to : %d", value);
+        } else {
+            return NULL;
+        }
+    }
+    return NULL;
+}
+
 static TUI_MENU_CALLBACK(autostart_prg_mode_submenu_callback)
 {
     int value;
@@ -242,6 +267,10 @@ static tui_menu_item_def_t ui_autostart_menu_def[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Load to BASIC start", "Load without ,1",
       toggle_AutostartBasicLoad_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Delay (in secs)",
+      "Set the delay to use",
+      ui_set_AutostartDelay_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Random delay", "Random delay",
       toggle_AutostartDelayRandom_callback, NULL, 3,
