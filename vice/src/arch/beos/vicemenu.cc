@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -885,6 +886,19 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 submenu->AddItem(new BMenuItem("IDE64 device #3 image size ...", new BMessage(MENU_IDE64_SIZE3)));
                 submenu->AddItem(new BMenuItem("IDE64 device #4 File", new BMessage(MENU_IDE64_FILE4)));
                 submenu->AddItem(new BMenuItem("IDE64 device #4 image size ...", new BMessage(MENU_IDE64_SIZE4)));
+                submenu->AddItem(new BMenuItem("IDE64 shortbus DigiMAX emulation", new BMessage(MENU_TOGGLE_IDE64_SB_DIGIMAX)));
+                submenu->AddItem(extsubmenu = new BMenu("IDE64 shortbus DigiMAX base"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("$DE40", new BMessage(MENU_IDE64_SB_DIGIMAX_BASE_DE40)));
+                    extsubmenu->AddItem(new BMenuItem("$DE48", new BMessage(MENU_IDE64_SB_DIGIMAX_BASE_DE48)));
+#ifdef HAVE_PCAP
+                submenu->AddItem(new BMenuItem("IDE64 shortbus ETFE device emulation", new BMessage(MENU_TOGGLE_IDE64_SB_ETFE)));
+                submenu->AddItem(extsubmenu = new BMenu("IDE64 shortbus ETFE device base"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("$DE00", new BMessage(MENU_IDE64_SB_ETFE_BASE_DE00)));
+                    extsubmenu->AddItem(new BMenuItem("$DE10", new BMessage(MENU_IDE64_SB_ETFE_BASE_DE10)));
+                    extsubmenu->AddItem(new BMenuItem("$DF00", new BMessage(MENU_IDE64_SB_ETFE_BASE_DF00)));
+#endif
                 submenu->AddItem(extsubmenu = new BMenu("IDE64 ClockPort device"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_IDE64_CLOCKPORT_NONE)));
@@ -1142,9 +1156,11 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 submenu->AddItem(new BMenuItem("Save EEPROM image when changed", new BMessage(MENU_TOGGLE_GMOD2_EEPROM_SWC)));
                 submenu->AddItem(new BMenuItem("EEPROM File", new BMessage(MENU_GMOD2_EEPROM_FILE)));
 
+#ifdef HAVE_PCAP
             menu->AddItem(submenu = new BMenu("RR-NET MK3 Options"));
                 submenu->AddItem(new BMenuItem("Enable RR-NET MK3 flash jumper", new BMessage(MENU_TOGGLE_RRNET_MK3_FLASH_JUMPER)));
                 submenu->AddItem(new BMenuItem("Save RR-NET MK3 flash when changed", new BMessage(MENU_TOGGLE_SAVE_RRNET_MK3_FLASH)));
+#endif
 
             menu->AddItem(submenu = new BMenu("Super Snapshot 5 Options"));
                 submenu->AddItem(new BMenuItem("Enable 32KB RAM addon", new BMessage(MENU_TOGGLE_SS5_32K)));
