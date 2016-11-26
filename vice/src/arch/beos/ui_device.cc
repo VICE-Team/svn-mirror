@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -70,14 +71,11 @@ class DeviceView : public BView {
 
 DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLLOW_NONE, B_WILL_DRAW)
 {
-    const char *instruction_text = "Remember that these settings only work if\n"
-                                   "  - True Drive Emulation is disabled\n"
-                                   "  - Virtual Devices are enabled\n"
-                                   "  - no diskimage is attached";
     BButton *button;
     BTextView *instruction;
     BMessage *msg;
     BBox *box;
+    BRect frame;
     const char *disk_image, *dir;
     int i;
     char rpm_res_name[32];
@@ -85,6 +83,12 @@ DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLL
 
     int rpm_value;
     int wobble_value;
+
+    const char *instruction_text = "Remember that these settings only work if\n"
+                                   "  - True Drive Emulation is disabled\n"
+                                   "  - Virtual Devices are enabled\n"
+                                   "  - no diskimage is attached";
+
 
     BView::SetViewColor(220, 220, 220, 0);
 
@@ -116,13 +120,23 @@ DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLL
     }
     UpdateP00(device_num);
 
-    /* Add drive RPM and Wobble items */
+    /* some explanations */
+    frame = box->Bounds();
+    frame.InsetBy(10, 10);
+    frame.top += 90;
+    frame.bottom -= 125;
+    instruction = new BTextView(frame, "instructions", BRect(20, 5, frame.Width() - 20, 40), B_FOLLOW_NONE, B_WILL_DRAW);
+    instruction->MakeEditable(false);
+    instruction->MakeSelectable(false);
+    instruction->SetViewColor(180, 180, 180, 0);
+    instruction->SetText(instruction_text);
+    box->AddChild(instruction);    /* Add drive RPM and Wobble items */
     sprintf(rpm_res_name, "Drive%dRPM", device_num);
     resources_get_int(rpm_res_name, &rpm_value);
 
     msg = new BMessage(MESSAGE_DEVICE_RPM);
     msg->AddInt32("device", device_num);
-    rpm_slider = new BSlider(BRect(10, 100, 320, 30), rpm_res_name, "Drive RPM",
+    rpm_slider = new BSlider(BRect(10, 180, 320, 30), rpm_res_name, "Drive RPM",
             msg, 28000, 32000, B_TRIANGLE_THUMB);
     rpm_slider->SetValue(rpm_value);
     rpm_slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
@@ -135,7 +149,7 @@ DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLL
  
     msg = new BMessage(MESSAGE_DEVICE_WOBBLE);
     msg->AddInt32("device", device_num);
-    wobble_slider = new BSlider(BRect(10, 165, 320, 30), wobble_res_name,
+    wobble_slider = new BSlider(BRect(10, 245, 320, 30), wobble_res_name,
             "Drive Wobble", msg, 0, 500, B_TRIANGLE_THUMB);
     wobble_slider->SetValue(wobble_value);
     wobble_slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
@@ -143,19 +157,6 @@ DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLL
     wobble_slider->SetLimitLabels("0", "5.00");
     box->AddChild(wobble_slider);
 
-
-
-
-    /* some explanations */
-    r=box->Bounds();
-    r.InsetBy(5, 5);
-    r.top += 230;
-    instruction = new BTextView(r, "instructions", BRect(20, 5, r.Width() - 20, r.Height() - 5), B_FOLLOW_NONE, B_WILL_DRAW);
-    box->AddChild(instruction);
-    instruction->MakeEditable(false);
-    instruction->MakeSelectable(false);
-    instruction->SetViewColor(180, 180, 180, 0);
-    instruction->SetText(instruction_text);
 }
 
 void DeviceView::UpdateP00(int device_num)
@@ -177,20 +178,26 @@ class DeviceWindow : public BWindow {
     private:
         DeviceView *dv[4]; /* pointers to the Devices 8-11 */
         BTextControl *printertextcontrol;
+        BSlider *volume_slider;
 };
 
 static DeviceWindow *devicewindow = NULL;
 
 DeviceWindow::DeviceWindow() 
-    : BWindow(BRect(50, 50, 420, 420),"Device settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 420, 500),"Device settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
+    BBox *box;
     BRect frame;
     BTabView *tabview;
     BTab *tab;
+    BMessage *msg;
+    BTextView *instruction;
     int device_num;
     char str[20];
+    int volume_value;
 
     frame = Bounds();
+    frame.bottom -= 90;
     tabview = new BTabView(frame, "tab_view");
     tabview->SetViewColor(220, 220, 220, 0);
 
@@ -198,7 +205,6 @@ DeviceWindow::DeviceWindow()
     frame.InsetBy(5, 5);
     frame.OffsetTo(3, 3);
     frame.bottom -= tabview->TabHeight();
-
     /* the disk devices 8-11 */
     for (device_num = 8; device_num < 12; device_num++) {
         tab = new BTab();
@@ -209,6 +215,30 @@ DeviceWindow::DeviceWindow()
 
     AddChild(tabview);
     tabview->SetTabWidth(B_WIDTH_FROM_WIDEST);
+
+    // this code sucks, but so does the BeOS 'layout' handling
+
+    frame = Bounds();
+    frame.top = 360;
+    frame.InsetBy(0, 0);
+    box =  new BBox(frame);
+    box->SetViewColor(220, 220, 220, 0);
+
+    // add volume slider
+    resources_get_int("DriveSoundEmulationVolume", &volume_value);
+    msg = new BMessage(MESSAGE_DEVICE_VOLUME);
+    volume_slider = new BSlider(BRect(20, 10, 300, 30),
+            "DriveSoundEmulationVolume",
+            "Drive sound emulation volume",
+            msg, 0, 4000, B_TRIANGLE_THUMB);
+    volume_slider->SetValue(volume_value);
+    volume_slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+    volume_slider->SetHashMarkCount(11);
+    volume_slider->SetLimitLabels("0", "100");
+    box->AddChild(volume_slider);
+    
+    AddChild(box); 
+
     Show();
 }
 
@@ -274,6 +304,11 @@ void DeviceWindow::MessageReceived(BMessage *msg)
         case MESSAGE_DEVICE_WOBBLE:
             res_val = dv[device_num - 8]->wobble_slider->Value();
             resources_set_int_sprintf("Drive%dWobble", res_val, device_num);
+            break;
+
+        case MESSAGE_DEVICE_VOLUME:
+            res_val = volume_slider->Value();
+            resources_set_int("DriveSoundEmulationVolume", res_val);
             break;
 
         default:
