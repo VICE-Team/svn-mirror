@@ -26,16 +26,20 @@ BEGIN
                   87, 17, 50, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     AUTOCHECKBOX  "", IDC_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION,
                   7, 27, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT         "", IDC_AUTOSTART_DELAY,
+                  7, 44, 60, 8
+    EDITTEXT      IDC_AUTOSTART_DELAY_VALUE,
+                  66, 44, 40, 12, WS_TABSTOP
     LTEXT         "", IDC_AUTOSTART_PRG_MODE_LABEL,
-                  9, 44, 53, 8
+                  9, 64, 53, 8
     COMBOBOX      IDC_AUTOSTART_PRG_MODE,
-                  66, 42, 60, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                  66, 62, 60, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT         "", IDC_AUTOSTART_DISK_IMAGE_FILE_LABEL,
-                  9, 64, 50, 8
+                  9, 84, 50, 8
     PUSHBUTTON    "", IDC_AUTOSTART_DISK_IMAGE_BROWSE,
-                  66, 62, 50, 14, 0
+                  66, 82, 50, 14, 0
     EDITTEXT      IDC_AUTOSTART_DISK_IMAGE_FILE,
-                  9, 78, 160, 12, ES_AUTOHSCROLL | WS_TABSTOP
+                  9, 98, 160, 12, ES_AUTOHSCROLL | WS_TABSTOP
     DEFPUSHBUTTON "", IDOK,
                   30, 110, 50, 14, WS_TABSTOP
     PUSHBUTTON    "", IDCANCEL,
@@ -61,6 +65,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtual FS"
     IDS_AUTOSTART_INJECT                        "Inject to RAM"
     IDS_AUTOSTART_DISK                          "Disk image"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 
 
@@ -81,6 +86,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtuelt FS"
     IDS_AUTOSTART_INJECT                        "Indskyd til RAM"
     IDS_AUTOSTART_DISK                          "Diskimage"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 
 
@@ -101,6 +107,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtual FS"
     IDS_AUTOSTART_INJECT                        "Inject ins RAM"
     IDS_AUTOSTART_DISK                          "Disk Image"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 
 
@@ -121,6 +128,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "FS virtual"
     IDS_AUTOSTART_INJECT                        "Introd. en RAM"
     IDS_AUTOSTART_DISK                          "Imag. disco"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 
 
@@ -141,6 +149,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "SF virtuel"
     IDS_AUTOSTART_INJECT                        "Injecter dans le RAM"
     IDS_AUTOSTART_DISK                          "Image de disque"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 
 
@@ -164,6 +173,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtuális fájlrendszer"
     IDS_AUTOSTART_INJECT                        "Inject to RAM"
     IDS_AUTOSTART_DISK                          "Lemez képmás"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -187,6 +197,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtual FS"
     IDS_AUTOSTART_INJECT                        "Immetti su RAM"
     IDS_AUTOSTART_DISK                          "Immagine disco"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 
 
@@ -210,6 +221,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "¹öÃß¾ó ÆÄÀÏ½ºÅ¸ÀÏ"
     IDS_AUTOSTART_INJECT                        "RAM ¿¡ ÁÖÀÔÇÏ±â"
     IDS_AUTOSTART_DISK                          "µð½ºÅ© ÀÌ¹ÌÁö"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -233,6 +245,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtueel Bestandssysteem"
     IDS_AUTOSTART_INJECT                        "injecteer in RAM"
     IDS_AUTOSTART_DISK                          "Disk bestand"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 
 
@@ -256,6 +269,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Wirtualny system plików"
     IDS_AUTOSTART_INJECT                        "Wy¶lij do RAM-u"
     IDS_AUTOSTART_DISK                          "Obraz dyskietki"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -282,6 +296,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtual FS"
     IDS_AUTOSTART_INJECT                        "Inject to RAM"
     IDS_AUTOSTART_DISK                          "¾ÑàÐ× ÔØáÚÐ"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -305,6 +320,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtuellt FS"
     IDS_AUTOSTART_INJECT                        "Lägg in i RAM"
     IDS_AUTOSTART_DISK                          "Diskavbildning"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 
 
@@ -328,9 +344,8 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Sanal FS"
     IDS_AUTOSTART_INJECT                        "RAM'e enjekte et"
     IDS_AUTOSTART_DISK                          "Disk imajý"
+    IDS_AUTOSTART_DELAY                         "Autostart delay"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-

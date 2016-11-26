@@ -48,6 +48,7 @@ static uilib_localize_dialog_param autostart_dialog[] = {
     { IDC_AUTOSTART_LOAD_TO_BASIC, IDS_AUTOSTART_LOAD_TO_BASIC, 0 },
     { IDC_AUTOSTART_RANDOM_DELAY, IDS_AUTOSTART_RANDOM_DELAY, 0 },
     { IDC_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION, IDS_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION, 0 },
+    { IDC_AUTOSTART_DELAY, IDS_AUTOSTART_DELAY, 0 },
     { IDC_AUTOSTART_PRG_MODE_LABEL, IDS_AUTOSTART_PRG_MODE, 0 },
     { IDC_AUTOSTART_DISK_IMAGE_FILE_LABEL, IDS_AUTOSTART_PRG_DISK_IMAGE, 0 },
     { IDC_AUTOSTART_DISK_IMAGE_BROWSE, IDS_BROWSE, 0 },
@@ -88,6 +89,16 @@ static uilib_dialog_group autostart_rightgroup3[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group autostart_leftgroup4[] = {
+    { IDC_AUTOSTART_DELAY, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group autostart_rightgroup4[] = {
+    { IDC_AUTOSTART_DELAY_VALUE, 0 },
+    { 0, 0 }
+};
+
 static int move_buttons_group[] = {
     IDOK,
     IDCANCEL,
@@ -112,6 +123,15 @@ static void init_autostart_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, autostart_leftgroup2);
     uilib_move_group(hwnd, autostart_rightgroup2, xsize2 + 30);
 
+    /* adjust width of left group 4 */
+    uilib_adjust_group_width(hwnd, autostart_leftgroup4);
+
+    /* get the max x of the left group 4 elements */
+    uilib_get_group_max_x(hwnd, autostart_leftgroup4, &xsize);
+
+    /* move right group 4 elements */
+    uilib_move_group(hwnd, autostart_rightgroup4, xsize + 10);
+
     /* get the max x of the rightgroup3 elements */
     uilib_get_group_max_x(hwnd, autostart_rightgroup3, &xsize);
 
@@ -133,6 +153,9 @@ static void init_autostart_dialog(HWND hwnd)
     
     resources_get_int("AutostartBasicLoad", &res_value);
     CheckDlgButton(hwnd, IDC_AUTOSTART_LOAD_TO_BASIC, res_value ? BST_CHECKED : BST_UNCHECKED);
+
+    resources_get_int("AutostartDelay", &res_value);
+    SetDlgItemInt(hwnd, IDC_AUTOSTART_DELAY_VALUE, res_value, TRUE);
 
     resources_get_int("AutostartDelayRandom", &res_value);
     CheckDlgButton(hwnd, IDC_AUTOSTART_RANDOM_DELAY, res_value ? BST_CHECKED : BST_UNCHECKED);
@@ -161,6 +184,7 @@ static void end_autostart_dialog(HWND hwnd)
     resources_set_int("AutostartWarp", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_WARP) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("AutostartRunWithColon", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_USE_COLON_WITH_RUN) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("AutostartBasicLoad", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_LOAD_TO_BASIC) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("AutostartDelay", GetDlgItemInt(hwnd, IDC_AUTOSTART_DELAY_VALUE, NULL, TRUE));
     resources_set_int("AutostartDelayRandom", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_RANDOM_DELAY) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("AutostartHandleTrueDriveEmulation", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("AutostartPrgMode", (int)SendMessage(GetDlgItem(hwnd, IDC_AUTOSTART_PRG_MODE), CB_GETCURSEL, 0, 0));
