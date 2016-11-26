@@ -51,6 +51,7 @@ extern void archdep_set_current_drive(const char *drive);
 /* Virtual keyboard handling */
 extern int archdep_require_vkbd(void);
 
+#ifndef BEOS_COMPILE
 /* Video chip scaling.  */
 #define ARCHDEP_VICII_DSIZE   1
 #define ARCHDEP_VICII_DSCAN   1
@@ -67,6 +68,7 @@ extern int archdep_require_vkbd(void);
 #define ARCHDEP_TED_DSIZE     1
 #define ARCHDEP_TED_DSCAN     1
 #define ARCHDEP_TED_HWSCALE   1
+#endif
 
 /* Video chip double buffering.  */
 #define ARCHDEP_VICII_DBUF 0
