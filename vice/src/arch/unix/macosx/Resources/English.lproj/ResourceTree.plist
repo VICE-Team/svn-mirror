@@ -331,6 +331,15 @@
 					<key>Card Type</key>
 					<string>MMC64_sd_type,e,Auto,MMC,SD,SDHC</string>
 				</dict>
+				<key>GMod2</key>
+				<dict>
+					<key>Flash Write</key>
+					<string>GMOD2FlashWrite,b</string>
+					<key>EEPROM Image</key>
+					<string>GMOD2EEPROMImage,fs</string>
+					<key>EEPROM R/W</key>
+					<string>GMOD2EEPROMRW,b</string>
+				</dict>
 				<key>MMCReplay</key>
 				<dict>
 					<key>Write Image</key>
@@ -1143,7 +1152,9 @@
 	<dict>
 		<key>Autostart</key>
 		<dict>
-			<key>Random Delay</key>
+			<key>Fixed Delay</key>
+			<string>AutostartDelay,i</string>
+			<key>Additional random Delay</key>
 			<string>AutostartDelayRandom,b</string>
 			<key>Handle True Drive Emulation</key>
 			<string>AutostartHandleTrueDriveEmulation,b</string>

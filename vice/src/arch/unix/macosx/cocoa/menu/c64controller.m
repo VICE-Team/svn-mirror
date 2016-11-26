@@ -68,6 +68,7 @@
         [NSNumber numberWithInt:CARTRIDGE_FUNPLAY], @ CARTRIDGE_NAME_FUNPLAY,
         
         [NSNumber numberWithInt:CARTRIDGE_GAME_KILLER], @ CARTRIDGE_NAME_GAME_KILLER,
+        [NSNumber numberWithInt:CARTRIDGE_GMOD2], @ CARTRIDGE_NAME_GMOD2,
         [NSNumber numberWithInt:CARTRIDGE_GS], @ CARTRIDGE_NAME_GS,
 
         [NSNumber numberWithInt:CARTRIDGE_IDE64], @ CARTRIDGE_NAME_IDE64,
