@@ -798,7 +798,7 @@ static int extract_unit_from_file_name_compyx(char *name, char **endptr)
     if (*endptr != NULL && **endptr == ':') {
         /* got something */
         (*endptr)++;
-        if (check_drive_unit((int)result)) {
+        if (check_drive_unit((int)result) == FD_OK) {
             return (int)result;
         } else {
             return -1;
@@ -1290,28 +1290,45 @@ static int copy_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+
+/** \brief  Delete (scratch) file(s) from disk image(s)
+ *
+ * Delete one or more files. Each file can have a unit number (@\<unit>:) in
+ * front of it to indicate which unit to use.
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure
+ */
 static int delete_cmd(int nargs, char **args)
 {
-    int i = 1, status;
-
-    if (check_drive(drive_index, CHK_RDY) < 0) {
-        return FD_NOTREADY;
-    }
+    int i;
 
     for (i = 1; i < nargs; i++) {
-        unsigned int dnr;
+        int unit;   /* unit number */
+        int dnr;    /* index in drives array */
         char *p;
         char *name;
         char *command;
+        int status;
 
-        p = extract_unit_from_file_name(args[i], &dnr);
-
-        if (p == NULL) {
-            dnr = drive_index;
-            name = args[i];
-        } else {
-            name = p;
+        unit = extract_unit_from_file_name_compyx(args[i], &p);
+        if (unit < 0) {
+            /* illegal unit between '@' and ':' */
+            return FD_BADDEV;
         }
+        if (unit == 0) {
+            /* no '@<unit>:' found, use current device */
+            dnr = drive_index;
+        } else {
+            dnr = unit - UNIT_MIN;    /* set proper device index */
+        }
+        if (check_drive_ready(dnr) < 0) {
+            return FD_NOTREADY;
+        }
+        name = p;   /* update pointer to name */
+
 
         if (!is_valid_cbm_file_name(name)) {
             fprintf(stderr,
@@ -1322,7 +1339,7 @@ static int delete_cmd(int nargs, char **args)
         command = util_concat("s:", name, NULL);
         charset_petconvstring((BYTE *)command, 0);
 
-        printf("Deleting `%s' on unit %d.\n", name, dnr + UNIT_MIN);
+        printf("Deleting `%s' on unit %d.\n", name, unit);
 
         status = vdrive_command_execute(drives[dnr], (BYTE *)command,
                                         (unsigned int)strlen(command));
