@@ -31,6 +31,8 @@ const uint32 MESSAGE_DEVICE_P00         = 'MDV1';
 const uint32 MESSAGE_DEVICE_BROWSE      = 'MDV2';
 const uint32 MESSAGE_DEVICE_BROWSE_END  = 'MDV3';
 const uint32 MESSAGE_DEVICE_DIRECTORY   = 'MDV4';
+const uint32 MESSAGE_DEVICE_RPM         = 'MDV5';
+const uint32 MESSAGE_DEVICE_WOBBLE      = 'MDV6';
 
 extern void ui_device(void);
 

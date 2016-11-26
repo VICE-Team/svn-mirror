@@ -30,6 +30,7 @@
 #include <FilePanel.h>
 #include <Path.h>
 #include <RadioButton.h>
+#include <Slider.h>
 #include <string.h>
 #include <TabView.h>
 #include <TextControl.h>
@@ -56,12 +57,15 @@ static const char *p00_text[] = {
     "Hide non-P00 files"
 };
 
+
 class DeviceView : public BView {
     public:
         DeviceView(BRect r, int device_num);
         void UpdateP00(int device_num);
         BTextControl *dirtextcontrol;
         BCheckBox *checkboxp00[3];
+        BSlider *rpm_slider;
+        BSlider *wobble_slider;
 };
 
 DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLLOW_NONE, B_WILL_DRAW)
@@ -76,6 +80,11 @@ DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLL
     BBox *box;
     const char *disk_image, *dir;
     int i;
+    char rpm_res_name[32];
+    char wobble_res_name[32];
+
+    int rpm_value;
+    int wobble_value;
 
     BView::SetViewColor(220, 220, 220, 0);
 
@@ -107,10 +116,40 @@ DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLL
     }
     UpdateP00(device_num);
 
+    /* Add drive RPM and Wobble items */
+    sprintf(rpm_res_name, "Drive%dRPM", device_num);
+    resources_get_int(rpm_res_name, &rpm_value);
+
+    msg = new BMessage(MESSAGE_DEVICE_RPM);
+    msg->AddInt32("device", device_num);
+    rpm_slider = new BSlider(BRect(10, 100, 320, 30), rpm_res_name, "Drive RPM",
+            msg, 28000, 32000, B_TRIANGLE_THUMB);
+    rpm_slider->SetValue(rpm_value);
+    rpm_slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+    rpm_slider->SetHashMarkCount(21);
+    rpm_slider->SetLimitLabels("280.00", "320.00");
+    box->AddChild(rpm_slider);
+
+    sprintf(wobble_res_name, "Drive%dWobble", device_num);
+    resources_get_int(wobble_res_name, &wobble_value);
+ 
+    msg = new BMessage(MESSAGE_DEVICE_WOBBLE);
+    msg->AddInt32("device", device_num);
+    wobble_slider = new BSlider(BRect(10, 165, 320, 30), wobble_res_name,
+            "Drive Wobble", msg, 0, 500, B_TRIANGLE_THUMB);
+    wobble_slider->SetValue(wobble_value);
+    wobble_slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+    wobble_slider->SetHashMarkCount(26);
+    wobble_slider->SetLimitLabels("0", "5.00");
+    box->AddChild(wobble_slider);
+
+
+
+
     /* some explanations */
     r=box->Bounds();
     r.InsetBy(5, 5);
-    r.top += 100;
+    r.top += 230;
     instruction = new BTextView(r, "instructions", BRect(20, 5, r.Width() - 20, r.Height() - 5), B_FOLLOW_NONE, B_WILL_DRAW);
     box->AddChild(instruction);
     instruction->MakeEditable(false);
@@ -143,7 +182,7 @@ class DeviceWindow : public BWindow {
 static DeviceWindow *devicewindow = NULL;
 
 DeviceWindow::DeviceWindow() 
-    : BWindow(BRect(50, 50, 420, 280),"Device settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 420, 420),"Device settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BRect frame;
     BTabView *tabview;
@@ -226,6 +265,17 @@ void DeviceWindow::MessageReceived(BMessage *msg)
         case MESSAGE_DEVICE_DIRECTORY:
             resources_set_string_sprintf("FSDevice%dDir", dv[device_num - 8]->dirtextcontrol->Text(), device_num);
             break;
+
+        case MESSAGE_DEVICE_RPM:
+            res_val = dv[device_num - 8]->rpm_slider->Value();
+            resources_set_int_sprintf("Drive%dRPM", res_val, device_num);
+            break;
+
+        case MESSAGE_DEVICE_WOBBLE:
+            res_val = dv[device_num - 8]->wobble_slider->Value();
+            resources_set_int_sprintf("Drive%dWobble", res_val, device_num);
+            break;
+
         default:
             BWindow::MessageReceived(msg);
     }
