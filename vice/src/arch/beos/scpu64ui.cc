@@ -257,6 +257,17 @@ ui_res_possible_values scpu64ui_BurstMod[] = {
     { -1, 0 }
 };
 
+static ui_res_possible_values IDE64ClockPortDevice[] = {
+    { CLOCKPORT_DEVICE_NONE, MENU_IDE64_CLOCKPORT_NONE },
+#ifdef HAVE_PCAP
+    { CLOCKPORT_DEVICE_RRNET, MENU_IDE64_CLOCKPORT_RRNET },
+#endif
+#ifdef USE_MPG123
+    { CLOCKPORT_DEVICE_MP3_64, MENU_IDE64_CLOCKPORT_MP3AT64 },
+#endif
+    { -1, 0 }
+};
+
 static ui_res_possible_values scpu64ui_MMC64Revision[] = {
     { 0, MENU_MMC64_REVISION_A },
     { 1, MENU_MMC64_REVISION_B },
@@ -414,6 +425,7 @@ ui_res_value_list scpu64_ui_res_values[] = {
     { "RRClockPort", RRClockPortDevice },
     { "MMCRClockPort", MMCRClockPortDevice },
     { "MMC64ClockPort", MMC64ClockPortDevice },
+    { "IDE64ClockPort", IDE64ClockPortDevice },
     { NULL, NULL }
 };
 
