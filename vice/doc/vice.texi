@@ -3784,7 +3784,8 @@ equal 30000.
 @itemx Drive9Wobble
 @itemx Drive10Wobble
 @itemx Drive11Wobble
-Integers specifying the random wobble that will be added the rotation speed.
+Integers specifying the random deviation of the rotation speed, multiplied by 100
+so 100 equals +/- 1rpm.
 
 @vindex DosName1540
 @vindex DosName1541
