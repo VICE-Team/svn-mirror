@@ -726,6 +726,13 @@ const char *d_ctrl1[0x20] = {
     "",              "",               "",           "",       "RED",    "RIGHT",  "GREEN",      "BLUE"
 };
 
+/* 0x00 - 0x1f Basic v3.5 (C16/Plus4) (extra {flon}{flof}{help}{dblu}{pink}{blgn}{lblu}{blu}{lgrn})*/
+static const char *e_ctrl1[0x20] = {
+    "",              "CTRL-A",         "CTRL-B",     "stop",   "CTRL-D", "wht",    "CTRL-F",     "CTRL-G",
+    "dish",          "ensh",           "\n",         "CTRL-K", "CTRL-L", "\n",     "swlc",       "CTRL-O",
+    "CTRL-P",        "down",           "rvon",       "home",   "del",    "CTRL-U", "CTRL-V",     "CTRL-W",
+    "CTRL-X",        "CTRL-Y",         "CTRL-Z",     "esc",    "red",    "rght",   "grn",        "dblu"
+};
 /* ------------------------------------------------------------------------- */
 
 /* 0x20 - 0x3f (petcat, tok64) */
@@ -775,6 +782,14 @@ const char *c_ctrl2[0x20] = {
     "F7",    "F2",          "F4",          "F6",         "F8",      "",            "",           "",
     "BLACK", "UP",          "RVSOFF",      "CLR",        "INST",    "BROWN",       "LIG.RED",    "GREY 1",
     "GREY 2","LIG.GREEN",   "LIG.BLUE",    "GREY 3",     "PURPLE",  "LEFT",        "YELLOW",     "CYAN",
+};
+
+/* 0x80 - 0x9f Basic v3.5 (C16/Plus4) (extra {flon}{flof}{help}{dblu}{pink}{blgn}{lblu}{blu}{lgrn})*/
+static const char *d_ctrl2[0x20] = {
+    "",     "orng",         "flon",         "",           "flof",    "f1",           "f3",         "f5",
+    "f7",   "f2",           "f4",          "f6",         "help",   "sret",         "swuc",       "",
+    "blk",  "up",           "rvof",        "clr",        "inst",   "brn",          "lred",       "pink",
+    "blgn", "lblu",         "blu",         "lgrn",       "pur",    "left",         "yel",        "cyn"
 };
 
 /* ------------------------------------------------------------------------- */
@@ -867,9 +882,9 @@ const char *kwfe71[] = {
 static void usage(char *progname);
 static int parse_version(char *str);
 static void list_keywords(int version);
-static void pet_2_asc (int ctrls);
-static void asc_2_pet (int ctrls);
-static void _p_toascii(int c, int ctrls, int quote);
+static void pet_2_asc (int version, int ctrls);
+static void asc_2_pet (int version, int ctrls);
+static void _p_toascii(int c, int version, int ctrls, int quote);
 static int p_expand(int version, int addr, int ctrls);
 static void p_tokenize(int version, unsigned int addr, int ctrls);
 static unsigned char sstrcmp(unsigned char *line, const char **wordlist, int token, int maxitems);
@@ -1096,7 +1111,7 @@ int main(int argc, char **argv)
 
         if (wr_mode) {
             if (textmode) {
-                asc_2_pet(ctrls);
+                asc_2_pet(version, ctrls);
             } else {
                 p_tokenize(version, load_addr, ctrls);
             }
@@ -1119,7 +1134,7 @@ int main(int argc, char **argv)
                     }
                 }
 
-                pet_2_asc(ctrls);
+                pet_2_asc(version, ctrls);
             } else {
                 load_addr = (getc(source) & 0xff);
                 load_addr |= (getc(source) & 0xff) << 8;
@@ -1373,12 +1388,12 @@ static void list_keywords(int version)
  */
 
 /* used in text mode */
-static void pet_2_asc(int ctrls)
+static void pet_2_asc(int version, int ctrls)
 {
     int c;
 
     while ((c = getc(source)) != EOF) {
-        _p_toascii(c, ctrls, 0);           /* convert character */
+        _p_toascii(c, version, ctrls, 0);           /* convert character */
     }      /* line */
 }
 
@@ -1416,7 +1431,7 @@ static void _p_fputc(int c, int p, int quote)
     fputc(c, dest);
 }
 
-static void _p_toascii(int c, int ctrls, int quote)
+static void _p_toascii(int c, int version, int ctrls, int quote)
 {
     /* fprintf(stderr, "<%02x:%d>", c, ctrls); */
     switch (c) {
@@ -1518,12 +1533,22 @@ static void _p_toascii(int c, int ctrls, int quote)
                     if ((c > 0x1f) && isprint(c)) {
                         _p_fputc(c, c, quote);
                     } else if (ctrls) {
-                        if ((c < 0x20) && *ctrl1[c]) {
-                            fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl1[c]);
-                        } else if ((c > 0x7f) && (c < 0xa0) && *ctrl2[c & 0x1f]) {
-                            fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl2[c & 0x1f]);
+                        if (version == B_35) {
+                            if ((c < 0x20) && *e_ctrl1[c]) {
+                                fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, e_ctrl1[c]);
+                            } else if ((c > 0x7f) && (c < 0xa0) && *d_ctrl2[c & 0x1f]) {
+                                fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, d_ctrl2[c & 0x1f]);
+                            } else {
+                                out_ctrl((unsigned char)(c & 0xff));
+                            }
                         } else {
-                            out_ctrl((unsigned char)(c & 0xff));
+                            if ((c < 0x20) && *ctrl1[c]) {
+                                fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl1[c]);
+                            } else if ((c > 0x7f) && (c < 0xa0) && *ctrl2[c & 0x1f]) {
+                                fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl2[c & 0x1f]);
+                            } else {
+                                out_ctrl((unsigned char)(c & 0xff));
+                            }
                         }
                     }  /* ctrls */
             }  /* switch */
@@ -1536,7 +1561,7 @@ static int _a_topetscii(int c, int ctrls)
         return 0x0d;
     } else if (c == 0x7e) {              /*  '~' is ASCII for 'pi' */
         return 0xff;
-    } else if ((c >= 0x5b) && (c <= 0x5f)) { /* iAN: '_' -> left arrow, no char value change */
+    } else if ((c >= 0x5b) && (c <= 0x5f)) { /* '_' -> left arrow, no char value change */
         return c;
     } else if ((c >= 0x60) && (c <= 0x7e)) {
         return c ^ 0x20;
@@ -1722,7 +1747,7 @@ static int p_expand(int version, int addr, int ctrls)
                 continue;
             }
 
-            _p_toascii((int)c, ctrls, quote);  /* convert character */
+            _p_toascii((int)c, version, ctrls, quote);  /* convert character */
         } while ((c = getc(source)) != EOF && c);
         fprintf(dest, "\n");
     }      /* line */
@@ -1824,6 +1849,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         (
                             ((c = sstrcmp_codes(p, hexcodes, 0, 0x100)) != CODE_NONE) || /* 0x00-0xff */
 
+                            ((version == B_35) && ((c = sstrcmp_codes(p, e_ctrl1, 0, 0x20)) != CODE_NONE)) || /* 0x00-0x1f */
                             ((c = sstrcmp_codes(p, ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
                             ((c = sstrcmp_codes(p, a_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
                             ((c = sstrcmp_codes(p, b_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
@@ -1834,7 +1860,9 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                               ((c = sstrcmp_codes(p, a_cbmchars, 0, 0x20)) != CODE_NONE) /* 0x20-0x3f */
                               ) && (c += 0x20)) ||
 
-                            ((((c = sstrcmp_codes(p, ctrl2, 0, 0x20)) != CODE_NONE) ||
+                            ((
+                              ((version == B_35) && ((c = sstrcmp_codes(p, d_ctrl2, 0, 0x20)) != CODE_NONE)) ||
+                              ((c = sstrcmp_codes(p, ctrl2, 0, 0x20)) != CODE_NONE) ||
                               ((c = sstrcmp_codes(p, a_ctrl2, 0, 0x20)) != CODE_NONE) ||
                               ((c = sstrcmp_codes(p, b_ctrl2, 0, 0x20)) != CODE_NONE) ||
                               ((c = sstrcmp_codes(p, c_ctrl2, 0, 0x20)) != CODE_NONE)
@@ -2096,7 +2124,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
 /* ------------------------------------------------------------------------- */
 /* convert ascii (text) to petscii */
-static void asc_2_pet(int ctrls)
+static void asc_2_pet(int version, int ctrls)
 {
     static unsigned char line[MAX_INLINE_LEN + 1];
     int c, d;
@@ -2141,6 +2169,7 @@ static void asc_2_pet(int ctrls)
                 (
                     ((c = sstrcmp_codes(p, hexcodes, 0, 0x100)) != CODE_NONE) || /* 0x00-0xff */
 
+                    ((version == B_35) && ((c = sstrcmp_codes(p, e_ctrl1, 0, 0x20)) != CODE_NONE)) || /* 0x00-0x1f */
                     ((c = sstrcmp_codes(p, ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
                     ((c = sstrcmp_codes(p, a_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
                     ((c = sstrcmp_codes(p, b_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
@@ -2151,7 +2180,9 @@ static void asc_2_pet(int ctrls)
                       ((c = sstrcmp_codes(p, a_cbmchars, 0, 0x20)) != CODE_NONE) /* 0x20-0x3f */
                         ) && (c += 0x20)) ||
 
-                    ((((c = sstrcmp_codes(p, ctrl2, 0, 0x20)) != CODE_NONE) ||
+                    ((
+                      ((version == B_35) && ((c = sstrcmp_codes(p, d_ctrl2, 0, 0x20)) != CODE_NONE)) ||
+                      ((c = sstrcmp_codes(p, ctrl2, 0, 0x20)) != CODE_NONE) ||
                       ((c = sstrcmp_codes(p, a_ctrl2, 0, 0x20)) != CODE_NONE) ||
                       ((c = sstrcmp_codes(p, b_ctrl2, 0, 0x20)) != CODE_NONE) ||
                       ((c = sstrcmp_codes(p, c_ctrl2, 0, 0x20)) != CODE_NONE)
