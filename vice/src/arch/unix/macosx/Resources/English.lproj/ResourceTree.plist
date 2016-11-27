@@ -238,6 +238,10 @@
 						<string>SBDigimax,b</string>
 						<key>DIGIMAX base</key>
 						<string>SBDigimaxBase,i</string>
+						<key>ETFE enable</key>
+						<string>SBETFE,b</string>
+						<key>ETFE base</key>
+						<string>SBETFEBase,i</string>
 					</dict>
 					<key>Drive 1</key>
 					<dict>
@@ -434,14 +438,19 @@
 			</dict>
 			<key>Cartridges</key>
 			<dict>
-				<key>TFE/RRNet</key>
+				<key>Ethernet Cartridge</key>
 				<dict>
-					<key>Enable</key>
-					<string>ETHERNET_ACTIVE,b</string>
+					<key>enabled</key>
+					<string>ETHERNETCART_ACTIVE,b</string>
+					<key>mode</key>
+					<string>ETHERNETCARTMode,e,TFE,RR-Net</string>
+					<key>base address</key>
+					<string>ETHERNETCARTBase,i</string>
+				</dict>
+				<key>Ethernet Interface</key>
+				<dict>
 					<key>Interface</key>
 					<string>ETHERNET_INTERFACE,s</string>
-					<key>RRNet</key>
-					<string>ETHERNET_AS_RR,b</string>
 				</dict>
 				<key>SFX Sound Expander</key>
 				<dict>
