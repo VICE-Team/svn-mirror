@@ -90,6 +90,7 @@ extern "C" {
 #include "ui_autostart.h"
 #include "ui_datasette.h"
 #include "ui_device.h"
+#include "ui_ide64usb.h"
 #include "ui_netplay.h"
 #include "ui_ram.h"
 #include "ui_sound.h"
@@ -1197,6 +1198,11 @@ void ui_dispatch_events(void)
             case MENU_SAMPLER_FILENAME:
                 ui_select_file(B_SAVE_PANEL, SAMPLER_MEDIA_FILE, (void*)0);
                 break;
+
+            case MENU_IDE64_USB_SERVER:
+                ui_ide64usb();
+                break;
+  
             case MESSAGE_SET_RESOURCE:
                 {
                     const char *res_name;
@@ -1213,6 +1219,8 @@ void ui_dispatch_events(void)
                     }
                     break;
                 }
+
+
             default:
                 if (message_queue[i].what >= 'M000' && message_queue[i].what <= 'M999') {
 

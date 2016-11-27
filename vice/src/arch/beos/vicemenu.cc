@@ -908,7 +908,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
 #ifdef USE_MPG123
                     extsubmenu->AddItem(new BMenuItem("MP3@64", new BMessage(MENU_IDE64_CLOCKPORT_MP3AT64)));
 #endif
-
+                submenu->AddItem(new BMenuItem("IDE64 USB server settings ...", new BMessage(MENU_IDE64_USB_SERVER)));
 
             menu->AddItem(submenu = new BMenu("Magic Voice Options"));
                 submenu->AddItem(new BMenuItem("Magic Voice emulation", new BMessage(MENU_TOGGLE_MAGICVOICE)));

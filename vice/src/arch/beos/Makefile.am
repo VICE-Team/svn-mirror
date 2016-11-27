@@ -83,6 +83,8 @@ libarch_a_SOURCES = \
 	ui_file.h \
 	ui_ide64.cc \
 	ui_ide64.h \
+	ui_ide64usb.cc \
+	ui_ide64usb.h \
 	ui_joystick.cc \
 	ui_joystick.h \
 	ui_netplay.cc \
