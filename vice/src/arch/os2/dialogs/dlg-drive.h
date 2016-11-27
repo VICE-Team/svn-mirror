@@ -73,6 +73,10 @@
 #define CB_ROMSCP      0x104e
 #define CB_RTCSAVE     0x104f
 
+#define SL_RPM         0x1050
+#define SL_WOBBLE      0x1051
+#define SL_DRIVE_VOL   0x1052
+
 #define WM_SWITCH      WM_USER + 0x1
 #define WM_SWITCHTT    WM_USER + 0x2
 #define WM_DRIVEIMAGE  WM_USER + 0x3
