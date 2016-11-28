@@ -263,8 +263,8 @@ BEGIN
     IDS_VICII_MODEL         "VIC-II 모델"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "글루 로직"
-    IDS_DISCRETE            "다른"
-    IDS_CUSTOM_IC           "커스텀 IC"
+    IDS_DISCRETE            "이산형"
+    IDS_CUSTOM_IC           "특정 IC"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

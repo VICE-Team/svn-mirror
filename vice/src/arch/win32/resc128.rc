@@ -1106,7 +1106,7 @@ LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_INT_FUNCTION_ROM            "Select Internal Function ROM file"
   IDS_SELECT_EXT_FUNCTION_ROM            "Select External Function ROM file"
-  IDS_MACHINE_TYPE                       "머신 종류"
+  IDS_MACHINE_TYPE                       "컴퓨터 유형"
   IDS_FUNCTION_ROM                       "Function ROM"
   IDS_RAM_BANKS                          "RAM banks"
   IDS_C128_SETTINGS                      "C128 settings"

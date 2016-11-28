@@ -107,7 +107,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtual FS"
     IDS_AUTOSTART_INJECT                        "Inject ins RAM"
     IDS_AUTOSTART_DISK                          "Disk Image"
-    IDS_AUTOSTART_DELAY                         "Autostart delay"
+    IDS_AUTOSTART_DELAY                         "Autostart Verzögerung"
 END
 
 
@@ -128,7 +128,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "FS virtual"
     IDS_AUTOSTART_INJECT                        "Introd. en RAM"
     IDS_AUTOSTART_DISK                          "Imag. disco"
-    IDS_AUTOSTART_DELAY                         "Autostart delay"
+    IDS_AUTOSTART_DELAY                         "Retardo en autoarranque"
 END
 
 
@@ -149,7 +149,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "SF virtuel"
     IDS_AUTOSTART_INJECT                        "Injecter dans le RAM"
     IDS_AUTOSTART_DISK                          "Image de disque"
-    IDS_AUTOSTART_DELAY                         "Autostart delay"
+    IDS_AUTOSTART_DELAY                         "Délai d'autodémarrage"
 END
 
 
@@ -197,7 +197,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtual FS"
     IDS_AUTOSTART_INJECT                        "Immetti su RAM"
     IDS_AUTOSTART_DISK                          "Immagine disco"
-    IDS_AUTOSTART_DELAY                         "Autostart delay"
+    IDS_AUTOSTART_DELAY                         "Ritardo all'avvio automatico"
 END
 
 
@@ -245,7 +245,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtueel Bestandssysteem"
     IDS_AUTOSTART_INJECT                        "injecteer in RAM"
     IDS_AUTOSTART_DISK                          "Disk bestand"
-    IDS_AUTOSTART_DELAY                         "Autostart delay"
+    IDS_AUTOSTART_DELAY                         "Vertraging van de autostart"
 END
 
 
@@ -269,7 +269,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Wirtualny system plików"
     IDS_AUTOSTART_INJECT                        "Wy¶lij do RAM-u"
     IDS_AUTOSTART_DISK                          "Obraz dyskietki"
-    IDS_AUTOSTART_DELAY                         "Autostart delay"
+    IDS_AUTOSTART_DELAY                         "Opó¼nienie autostartu"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -320,7 +320,7 @@ BEGIN
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtuellt FS"
     IDS_AUTOSTART_INJECT                        "Lägg in i RAM"
     IDS_AUTOSTART_DISK                          "Diskavbildning"
-    IDS_AUTOSTART_DELAY                         "Autostart delay"
+    IDS_AUTOSTART_DELAY                         "Autostartfördröjning"
 END
 
 
@@ -349,3 +349,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

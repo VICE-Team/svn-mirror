@@ -874,7 +874,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_GENERIC_CARTS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_GENERIC_CARTS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_GENERIC_CARTS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_GENERIC_CARTS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_GENERIC_CARTS_NL, "Algemene Cartridges..." },
 /* pl */ { IDMS_GENERIC_CARTS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_GENERIC_CARTS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_GENERIC_CARTS_SV, "" },  /* fuzzy */
@@ -888,7 +888,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_FREEZER_CARTS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_FREEZER_CARTS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_FREEZER_CARTS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_FREEZER_CARTS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_FREEZER_CARTS_NL, "Freezer Cartridges..." },
 /* pl */ { IDMS_FREEZER_CARTS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_FREEZER_CARTS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_FREEZER_CARTS_SV, "" },  /* fuzzy */
@@ -902,7 +902,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_UTIL_CARTS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_UTIL_CARTS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_UTIL_CARTS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_UTIL_CARTS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_UTIL_CARTS_NL, "Gebruiksprogramma Cartridges..." },
 /* pl */ { IDMS_UTIL_CARTS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_UTIL_CARTS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_UTIL_CARTS_SV, "" },  /* fuzzy */
@@ -916,7 +916,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_GAME_CARTS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_GAME_CARTS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_GAME_CARTS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_GAME_CARTS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_GAME_CARTS_NL, "Spel Cartridges..." },
 /* pl */ { IDMS_GAME_CARTS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_GAME_CARTS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_GAME_CARTS_SV, "" },  /* fuzzy */
@@ -930,7 +930,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_RAMEX_CARTS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_RAMEX_CARTS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_RAMEX_CARTS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_RAMEX_CARTS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_RAMEX_CARTS_NL, "RAM uitbreiding Cartridges..." },
 /* pl */ { IDMS_RAMEX_CARTS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_RAMEX_CARTS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_RAMEX_CARTS_SV, "" },  /* fuzzy */
@@ -2133,7 +2133,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_OLD_NTSC_M_FR, "Ancien NTSC-M" },
 /* hu */ { IDMS_OLD_NTSC_M_HU, "Régi NTSC-M" },
 /* it */ { IDMS_OLD_NTSC_M_IT, "NTSC-M vecchio" },
-/* ko */ { IDMS_OLD_NTSC_M_KO, "¿Ãµå NTSC-M" },
+/* ko */ { IDMS_OLD_NTSC_M_KO, "±¸Çü NTSC-M" },
 /* nl */ { IDMS_OLD_NTSC_M_NL, "Oud NTSC-M" },
 /* pl */ { IDMS_OLD_NTSC_M_PL, "Stary NTSC-M" },
 /* ru */ { IDMS_OLD_NTSC_M_RU, "Old NTSC-M" },
@@ -2259,7 +2259,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_C64_OLD_PAL_FR, "Ancien PAL C64" },
 /* hu */ { IDMS_C64_OLD_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C64_OLD_PAL_IT, "C64 PAL vecchio" },
-/* ko */ { IDMS_C64_OLD_PAL_KO, "C64 ¿Ãµå PAL" },
+/* ko */ { IDMS_C64_OLD_PAL_KO, "C64 ±¸Çü PAL" },
 /* nl */ { IDMS_C64_OLD_PAL_NL, "C64 oud PAL" },
 /* pl */ { IDMS_C64_OLD_PAL_PL, "C64 stary PAL" },
 /* ru */ { IDMS_C64_OLD_PAL_RU, "" },  /* fuzzy */
@@ -2301,7 +2301,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_C64_OLD_NTSC_FR, "Ancien NTSC C64" },
 /* hu */ { IDMS_C64_OLD_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C64_OLD_NTSC_IT, "C64 NTSC vecchio" },
-/* ko */ { IDMS_C64_OLD_NTSC_KO, "C64 ¿Ãµå NTSC" },
+/* ko */ { IDMS_C64_OLD_NTSC_KO, "C64 ±¸Çü NTSC" },
 /* nl */ { IDMS_C64_OLD_NTSC_NL, "C64 oud NTSC" },
 /* pl */ { IDMS_C64_OLD_NTSC_PL, "C64 stary NTSC" },
 /* ru */ { IDMS_C64_OLD_NTSC_RU, "C64 old NTSC" },
@@ -3660,7 +3660,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_USERPORT_DEVICE_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_USERPORT_DEVICE_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_USERPORT_DEVICE_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_USERPORT_DEVICE_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_USERPORT_DEVICE_SETTINGS_NL, "Userport apparaat instellingen" },
 /* pl */ { IDMS_USERPORT_DEVICE_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_USERPORT_DEVICE_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_USERPORT_DEVICE_SETTINGS_SV, "" },  /* fuzzy */
@@ -3674,7 +3674,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_TAPEPORT_DEVICE_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_TAPEPORT_DEVICE_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_TAPEPORT_DEVICE_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_TAPEPORT_DEVICE_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_TAPEPORT_DEVICE_SETTINGS_NL, "Tapeport apparaat instellingen" },
 /* pl */ { IDMS_TAPEPORT_DEVICE_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_TAPEPORT_DEVICE_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_TAPEPORT_DEVICE_SETTINGS_SV, "" },  /* fuzzy */
@@ -3688,7 +3688,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_TAPELOG_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_TAPELOG_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_TAPELOG_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_TAPELOG_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_TAPELOG_SETTINGS_NL, "TapeLog apparaat instellingen..." },
 /* pl */ { IDMS_TAPELOG_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_TAPELOG_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_TAPELOG_SETTINGS_SV, "" },  /* fuzzy */
@@ -3702,7 +3702,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_CPCLOCKF83_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_CPCLOCKF83_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_CPCLOCKF83_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_CPCLOCKF83_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_CPCLOCKF83_SETTINGS_NL, "CP CLock F83 RTC apparaat instellingen..." },
 /* pl */ { IDMS_CPCLOCKF83_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_CPCLOCKF83_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_CPCLOCKF83_SETTINGS_SV, "" },  /* fuzzy */
@@ -3710,13 +3710,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_ENABLE_TAPE_SENSE_DONGLE,    "Enable tape sense dongle" },
 /* da */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_DE, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_DE, "Band Sense Dongle aktivieren" },
 /* es */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_NL, "Activeer de tape sense dongle" },
 /* pl */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_TAPE_SENSE_DONGLE_SV, "" },  /* fuzzy */
@@ -3724,13 +3724,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_ENABLE_DTL_BASIC_DONGLE,    "Enable DTL Basic dongle" },
 /* da */ { IDMS_ENABLE_DTL_BASIC_DONGLE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_DTL_BASIC_DONGLE_DE, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_DTL_BASIC_DONGLE_DE, "DTL Basic Dongle aktivieren" },
 /* es */ { IDMS_ENABLE_DTL_BASIC_DONGLE_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_ENABLE_DTL_BASIC_DONGLE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_DTL_BASIC_DONGLE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ENABLE_DTL_BASIC_DONGLE_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_ENABLE_DTL_BASIC_DONGLE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_DTL_BASIC_DONGLE_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_DTL_BASIC_DONGLE_NL, "Activeer de DTL Basic dongle" },
 /* pl */ { IDMS_ENABLE_DTL_BASIC_DONGLE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ENABLE_DTL_BASIC_DONGLE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_DTL_BASIC_DONGLE_SV, "" },  /* fuzzy */
@@ -4172,13 +4172,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_ENABLE_USERPORT_DIGIMAX,    "Enable Userport DigiMAX device" },
 /* da */ { IDMS_ENABLE_USERPORT_DIGIMAX_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_USERPORT_DIGIMAX_DE, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_DIGIMAX_DE, "Userport DigiMAX Gerät aktivieren" },
 /* es */ { IDMS_ENABLE_USERPORT_DIGIMAX_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_ENABLE_USERPORT_DIGIMAX_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_USERPORT_DIGIMAX_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ENABLE_USERPORT_DIGIMAX_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_ENABLE_USERPORT_DIGIMAX_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_USERPORT_DIGIMAX_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_DIGIMAX_NL, "Activeer userport DigiMAX apparaat" },
 /* pl */ { IDMS_ENABLE_USERPORT_DIGIMAX_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ENABLE_USERPORT_DIGIMAX_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_USERPORT_DIGIMAX_SV, "" },  /* fuzzy */
@@ -4186,13 +4186,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER,    "Enable Userport 4bit sampler" },
 /* da */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_DE, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_DE, "Userport 4bit Sampler aktivieren" },
 /* es */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_NL, "Activeer Userport 4bit sampler" },
 /* pl */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_USERPORT_4BIT_SAMPLER_SV, "" },  /* fuzzy */
@@ -4200,13 +4200,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_ENABLE_USERPORT_8BSS,    "Enable Userport 8bit stereo sampler" },
 /* da */ { IDMS_ENABLE_USERPORT_8BSS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_USERPORT_8BSS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_8BSS_DE, "Userport 8bit Sampler aktivieren" },
 /* es */ { IDMS_ENABLE_USERPORT_8BSS_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_ENABLE_USERPORT_8BSS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_USERPORT_8BSS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ENABLE_USERPORT_8BSS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_ENABLE_USERPORT_8BSS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_USERPORT_8BSS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_8BSS_NL, "Activeer Userport 8bit stereo sampler" },
 /* pl */ { IDMS_ENABLE_USERPORT_8BSS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ENABLE_USERPORT_8BSS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_USERPORT_8BSS_SV, "" },  /* fuzzy */
@@ -4424,13 +4424,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_VFLI_MOD_ENABLE,    "Enable VFLI modification" },
 /* da */ { IDMS_VFLI_MOD_ENABLE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_VFLI_MOD_ENABLE_DE, "" },  /* fuzzy */
+/* de */ { IDMS_VFLI_MOD_ENABLE_DE, "VFLI Emulation aktivieren" },
 /* es */ { IDMS_VFLI_MOD_ENABLE_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_VFLI_MOD_ENABLE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_VFLI_MOD_ENABLE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VFLI_MOD_ENABLE_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_VFLI_MOD_ENABLE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VFLI_MOD_ENABLE_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_VFLI_MOD_ENABLE_NL, "Activeer VFLI modificatie" },
 /* pl */ { IDMS_VFLI_MOD_ENABLE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_VFLI_MOD_ENABLE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_VFLI_MOD_ENABLE_SV, "" },  /* fuzzy */
@@ -4472,7 +4472,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_USERPORT_RTC58321A_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_USERPORT_RTC58321A_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_USERPORT_RTC58321A_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_USERPORT_RTC58321A_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_USERPORT_RTC58321A_SETTINGS_NL, "Userport RTC58321a instellingen..." },
 /* pl */ { IDMS_USERPORT_RTC58321A_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_USERPORT_RTC58321A_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_USERPORT_RTC58321A_SETTINGS_SV, "" },  /* fuzzy */
@@ -4486,7 +4486,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_NL, "Userport DS1307 RTC instellingen..." },
 /* pl */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_USERPORT_DS1307_RTC_SETTINGS_SV, "" },  /* fuzzy */
@@ -5732,7 +5732,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_CHOOSE_VICII_MODEL_HU, "" },  /* fuzzy */
 /* it */ { IDS_CHOOSE_VICII_MODEL_IT, "" },  /* fuzzy */
 /* ko */ { IDS_CHOOSE_VICII_MODEL_KO, "" },  /* fuzzy */
-/* nl */ { IDS_CHOOSE_VICII_MODEL_NL, "" },  /* fuzzy */
+/* nl */ { IDS_CHOOSE_VICII_MODEL_NL, "Kies VIC-II model" },
 /* pl */ { IDS_CHOOSE_VICII_MODEL_PL, "" },  /* fuzzy */
 /* ru */ { IDS_CHOOSE_VICII_MODEL_RU, "" },  /* fuzzy */
 /* sv */ { IDS_CHOOSE_VICII_MODEL_SV, "" },  /* fuzzy */
@@ -6902,13 +6902,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DATASETTE,    "Datasette" },
 /* da */ { IDS_DATASETTE_DA, "" },  /* fuzzy */
-/* de */ { IDS_DATASETTE_DE, "" },  /* fuzzy */
+/* de */ { IDS_DATASETTE_DE, "Datasette" },
 /* es */ { IDS_DATASETTE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DATASETTE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DATASETTE_HU, "" },  /* fuzzy */
 /* it */ { IDS_DATASETTE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DATASETTE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DATASETTE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DATASETTE_NL, "Datasette" },
 /* pl */ { IDS_DATASETTE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DATASETTE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DATASETTE_SV, "" },  /* fuzzy */
@@ -6978,7 +6978,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_CP_CLOCK_F83_HU, "" },  /* fuzzy */
 /* it */ { IDS_CP_CLOCK_F83_IT, "" },  /* fuzzy */
 /* ko */ { IDS_CP_CLOCK_F83_KO, "" },  /* fuzzy */
-/* nl */ { IDS_CP_CLOCK_F83_NL, "" },  /* fuzzy */
+/* nl */ { IDS_CP_CLOCK_F83_NL, "CP Clock F83" },
 /* pl */ { IDS_CP_CLOCK_F83_PL, "" },  /* fuzzy */
 /* ru */ { IDS_CP_CLOCK_F83_RU, "" },  /* fuzzy */
 /* sv */ { IDS_CP_CLOCK_F83_SV, "" },  /* fuzzy */
@@ -6986,13 +6986,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA,    "Save CP Clock F83 RTC data when changed" },
 /* da */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_DA, "" },  /* fuzzy */
-/* de */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_DE, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_DE, "CP Clock F83 RTC Daten bei Änderung speichern" },
 /* es */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_HU, "" },  /* fuzzy */
 /* it */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_NL, "Sla de CP Clock F83 RTC data op indien gewijzigd" },
 /* pl */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SAVE_CP_CLOCK_F83_RTC_DATA_SV, "" },  /* fuzzy */
@@ -7000,13 +7000,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CP_CLOCK_F83_SETTINGS,    "CP Clock F83 settings" },
 /* da */ { IDS_CP_CLOCK_F83_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_CP_CLOCK_F83_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDS_CP_CLOCK_F83_SETTINGS_DE, "CP Clock F83 Einstellungen" },
 /* es */ { IDS_CP_CLOCK_F83_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_CP_CLOCK_F83_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CP_CLOCK_F83_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_CP_CLOCK_F83_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_CP_CLOCK_F83_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_CP_CLOCK_F83_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_CP_CLOCK_F83_SETTINGS_NL, "CP Clock F83 instellingen" },
 /* pl */ { IDS_CP_CLOCK_F83_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_CP_CLOCK_F83_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_CP_CLOCK_F83_SETTINGS_SV, "" },  /* fuzzy */
@@ -7020,7 +7020,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_GENERIC_LOGFILE_HU, "" },  /* fuzzy */
 /* it */ { IDS_GENERIC_LOGFILE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_GENERIC_LOGFILE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_GENERIC_LOGFILE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_GENERIC_LOGFILE_NL, "Algemeen log bestand" },
 /* pl */ { IDS_GENERIC_LOGFILE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_GENERIC_LOGFILE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_GENERIC_LOGFILE_SV, "" },  /* fuzzy */
@@ -7034,7 +7034,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SPECIFIED_TAPELOG_FILE_HU, "" },  /* fuzzy */
 /* it */ { IDS_SPECIFIED_TAPELOG_FILE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SPECIFIED_TAPELOG_FILE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SPECIFIED_TAPELOG_FILE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFIED_TAPELOG_FILE_NL, "Algemeen log bestand" },
 /* pl */ { IDS_SPECIFIED_TAPELOG_FILE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SPECIFIED_TAPELOG_FILE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SPECIFIED_TAPELOG_FILE_SV, "" },  /* fuzzy */
@@ -7048,7 +7048,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_TAPELOG_HU, "" },  /* fuzzy */
 /* it */ { IDS_TAPELOG_IT, "" },  /* fuzzy */
 /* ko */ { IDS_TAPELOG_KO, "" },  /* fuzzy */
-/* nl */ { IDS_TAPELOG_NL, "" },  /* fuzzy */
+/* nl */ { IDS_TAPELOG_NL, "TapeLog" },
 /* pl */ { IDS_TAPELOG_PL, "" },  /* fuzzy */
 /* ru */ { IDS_TAPELOG_RU, "" },  /* fuzzy */
 /* sv */ { IDS_TAPELOG_SV, "" },  /* fuzzy */
@@ -7062,7 +7062,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_TAPELOG_DESTINATION_HU, "" },  /* fuzzy */
 /* it */ { IDS_TAPELOG_DESTINATION_IT, "" },  /* fuzzy */
 /* ko */ { IDS_TAPELOG_DESTINATION_KO, "" },  /* fuzzy */
-/* nl */ { IDS_TAPELOG_DESTINATION_NL, "" },  /* fuzzy */
+/* nl */ { IDS_TAPELOG_DESTINATION_NL, "TapeLog berichten bestemming" },
 /* pl */ { IDS_TAPELOG_DESTINATION_PL, "" },  /* fuzzy */
 /* ru */ { IDS_TAPELOG_DESTINATION_RU, "" },  /* fuzzy */
 /* sv */ { IDS_TAPELOG_DESTINATION_SV, "" },  /* fuzzy */
@@ -7076,7 +7076,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_TAPELOG_FILENAME_SELECT_HU, "" },  /* fuzzy */
 /* it */ { IDS_TAPELOG_FILENAME_SELECT_IT, "" },  /* fuzzy */
 /* ko */ { IDS_TAPELOG_FILENAME_SELECT_KO, "" },  /* fuzzy */
-/* nl */ { IDS_TAPELOG_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* nl */ { IDS_TAPELOG_FILENAME_SELECT_NL, "Selecteer bestand voor de TapeLog" },
 /* pl */ { IDS_TAPELOG_FILENAME_SELECT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_TAPELOG_FILENAME_SELECT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_TAPELOG_FILENAME_SELECT_SV, "" },  /* fuzzy */
@@ -7090,7 +7090,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_TAPELOG_FILENAME_HU, "" },  /* fuzzy */
 /* it */ { IDS_TAPELOG_FILENAME_IT, "" },  /* fuzzy */
 /* ko */ { IDS_TAPELOG_FILENAME_KO, "" },  /* fuzzy */
-/* nl */ { IDS_TAPELOG_FILENAME_NL, "" },  /* fuzzy */
+/* nl */ { IDS_TAPELOG_FILENAME_NL, "TapeLog bestand" },
 /* pl */ { IDS_TAPELOG_FILENAME_PL, "" },  /* fuzzy */
 /* ru */ { IDS_TAPELOG_FILENAME_RU, "" },  /* fuzzy */
 /* sv */ { IDS_TAPELOG_FILENAME_SV, "" },  /* fuzzy */
@@ -7104,7 +7104,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_TAPELOG_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_TAPELOG_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_TAPELOG_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_TAPELOG_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_TAPELOG_SETTINGS_NL, "TapeLog instellingen" },
 /* pl */ { IDS_TAPELOG_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_TAPELOG_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_TAPELOG_SETTINGS_SV, "" },  /* fuzzy */
@@ -7308,13 +7308,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DRIVE_RPM,    "RPM (25000..35000)" },
 /* da */ { IDS_DRIVE_RPM_DA, "" },  /* fuzzy */
-/* de */ { IDS_DRIVE_RPM_DE, "" },  /* fuzzy */
+/* de */ { IDS_DRIVE_RPM_DE, "RPM (25000..35000)" },
 /* es */ { IDS_DRIVE_RPM_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DRIVE_RPM_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DRIVE_RPM_HU, "" },  /* fuzzy */
 /* it */ { IDS_DRIVE_RPM_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DRIVE_RPM_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DRIVE_RPM_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DRIVE_RPM_NL, "RPM (25000..35000)" },
 /* pl */ { IDS_DRIVE_RPM_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DRIVE_RPM_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DRIVE_RPM_SV, "" },  /* fuzzy */
@@ -7322,13 +7322,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DRIVE_WOBBLE,    "Wobble (0..1000)" },
 /* da */ { IDS_DRIVE_WOBBLE_DA, "" },  /* fuzzy */
-/* de */ { IDS_DRIVE_WOBBLE_DE, "" },  /* fuzzy */
+/* de */ { IDS_DRIVE_WOBBLE_DE, "Schwankung (0..1000)" },
 /* es */ { IDS_DRIVE_WOBBLE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DRIVE_WOBBLE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DRIVE_WOBBLE_HU, "" },  /* fuzzy */
 /* it */ { IDS_DRIVE_WOBBLE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DRIVE_WOBBLE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DRIVE_WOBBLE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DRIVE_WOBBLE_NL, "Wiebel (0..1000)" },
 /* pl */ { IDS_DRIVE_WOBBLE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DRIVE_WOBBLE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DRIVE_WOBBLE_SV, "" },  /* fuzzy */
@@ -7440,7 +7440,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_USERPORT_DS1307_RTC_ENABLE_HU, "" },  /* fuzzy */
 /* it */ { IDS_USERPORT_DS1307_RTC_ENABLE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_USERPORT_DS1307_RTC_ENABLE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_USERPORT_DS1307_RTC_ENABLE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_DS1307_RTC_ENABLE_NL, "Activeer de Userport DS1307 RTC" },
 /* pl */ { IDS_USERPORT_DS1307_RTC_ENABLE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_USERPORT_DS1307_RTC_ENABLE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_USERPORT_DS1307_RTC_ENABLE_SV, "" },  /* fuzzy */
@@ -7454,7 +7454,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_HU, "" },  /* fuzzy */
 /* it */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_NL, "Sla de Userport DS1307 RTC data op indien gewijzigd" },
 /* pl */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SAVE_USERPORT_DS1307_RTC_DATA_SV, "" },  /* fuzzy */
@@ -7468,7 +7468,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_USERPORT_DS1307_RTC_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_USERPORT_DS1307_RTC_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_USERPORT_DS1307_RTC_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_USERPORT_DS1307_RTC_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_DS1307_RTC_SETTINGS_NL, "Userport DS1307 RTC instellingen" },
 /* pl */ { IDS_USERPORT_DS1307_RTC_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_USERPORT_DS1307_RTC_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_USERPORT_DS1307_RTC_SETTINGS_SV, "" },  /* fuzzy */
@@ -7482,7 +7482,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_USERPORT_RTC58321A_ENABLE_HU, "" },  /* fuzzy */
 /* it */ { IDS_USERPORT_RTC58321A_ENABLE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_USERPORT_RTC58321A_ENABLE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_USERPORT_RTC58321A_ENABLE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_RTC58321A_ENABLE_NL, "Activeer de Userport RTC58321a" },
 /* pl */ { IDS_USERPORT_RTC58321A_ENABLE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_USERPORT_RTC58321A_ENABLE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_USERPORT_RTC58321A_ENABLE_SV, "" },  /* fuzzy */
@@ -7496,7 +7496,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SAVE_USERPORT_RTC58321A_DATA_HU, "" },  /* fuzzy */
 /* it */ { IDS_SAVE_USERPORT_RTC58321A_DATA_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SAVE_USERPORT_RTC58321A_DATA_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAVE_USERPORT_RTC58321A_DATA_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_USERPORT_RTC58321A_DATA_NL, "Sla de Userport RTC58321a data op indien gewijzigd" },
 /* pl */ { IDS_SAVE_USERPORT_RTC58321A_DATA_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SAVE_USERPORT_RTC58321A_DATA_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SAVE_USERPORT_RTC58321A_DATA_SV, "" },  /* fuzzy */
@@ -7510,7 +7510,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_USERPORT_RTC58321A_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_USERPORT_RTC58321A_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_USERPORT_RTC58321A_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_USERPORT_RTC58321A_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_RTC58321A_SETTINGS_NL, "Userport RTC58321a instellingen" },
 /* pl */ { IDS_USERPORT_RTC58321A_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_USERPORT_RTC58321A_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_USERPORT_RTC58321A_SETTINGS_SV, "" },  /* fuzzy */
@@ -7812,13 +7812,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED,    "Save BBRTC data when changed" },
 /* da */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_DA, "" },  /* fuzzy */
-/* de */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_DE, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_DE, "BBRTC Daten bei Änderung speichern" },
 /* es */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_HU, "" },  /* fuzzy */
 /* it */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_NL, "Sla de BBRTC data op indien gewijzigd" },
 /* pl */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SAVE_BBRTC_DATA_WHEN_CHANGED_SV, "" },  /* fuzzy */
@@ -8651,7 +8651,6 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DISABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DISABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
 /* tr */ { IDS_DISABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
-#endif
 
 /* en */ { IDS_PET_REU_SIZE,    "PET REU size" },
 /* da */ { IDS_PET_REU_SIZE_DA, "PET REU størrelse" },
@@ -10677,7 +10676,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SHORTBUS_DIGIMAX_HU, "" },  /* fuzzy */
 /* it */ { IDS_SHORTBUS_DIGIMAX_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SHORTBUS_DIGIMAX_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SHORTBUS_DIGIMAX_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SHORTBUS_DIGIMAX_NL, "Short Bus DigiMAX apparaat" },
 /* pl */ { IDS_SHORTBUS_DIGIMAX_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SHORTBUS_DIGIMAX_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SHORTBUS_DIGIMAX_SV, "" },  /* fuzzy */
@@ -10691,7 +10690,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SHORTBUS_DIGIMAX_BASE_HU, "" },  /* fuzzy */
 /* it */ { IDS_SHORTBUS_DIGIMAX_BASE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SHORTBUS_DIGIMAX_BASE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SHORTBUS_DIGIMAX_BASE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SHORTBUS_DIGIMAX_BASE_NL, "Short Bus DigiMAX apparaat adres" },
 /* pl */ { IDS_SHORTBUS_DIGIMAX_BASE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SHORTBUS_DIGIMAX_BASE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SHORTBUS_DIGIMAX_BASE_SV, "" },  /* fuzzy */
@@ -11978,7 +11977,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_MACHINE_TYPE_FR, "Type de machine" },
 /* hu */ { IDS_MACHINE_TYPE_HU, "Gép típus" },
 /* it */ { IDS_MACHINE_TYPE_IT, "Tipo computer" },
-/* ko */ { IDS_MACHINE_TYPE_KO, "¸Ó½Å Á¾·ù" },
+/* ko */ { IDS_MACHINE_TYPE_KO, "ÄÄÇ»ÅÍ À¯Çü" },
 /* nl */ { IDS_MACHINE_TYPE_NL, "Machinesoort" },
 /* pl */ { IDS_MACHINE_TYPE_PL, "Typ maszyny" },
 /* ru */ { IDS_MACHINE_TYPE_RU, "ÂØß ÚÞÜßìîâÕàÐ" },
@@ -12034,7 +12033,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_EXTERNAL_FUNCTION_ROM_FILENAME_FR, "Fichier ROM Fonction externe" },
 /* hu */ { IDS_EXTERNAL_FUNCTION_ROM_FILENAME_HU, "Külsõ Function ROM fájl" },
 /* it */ { IDS_EXTERNAL_FUNCTION_ROM_FILENAME_IT, "File Function ROM esterna" },
-/* ko */ { IDS_EXTERNAL_FUNCTION_ROM_FILENAME_KO, "¿ÜºÎÇÔ¼ö ROM ÆÄÀÏ" },
+/* ko */ { IDS_EXTERNAL_FUNCTION_ROM_FILENAME_KO, "¿ÜºÎ ÇÔ¼ö ROM ÆÄÀÏ" },
 /* nl */ { IDS_EXTERNAL_FUNCTION_ROM_FILENAME_NL, "Extern functie ROM bestand" },
 /* pl */ { IDS_EXTERNAL_FUNCTION_ROM_FILENAME_PL, "Plik zewnêtrznego Function ROM-u" },
 /* ru */ { IDS_EXTERNAL_FUNCTION_ROM_FILENAME_RU, "External Function ROM file" },
@@ -12734,7 +12733,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_DEBUG_FR, "Débug" },
 /* hu */ { IDS_DEBUG_HU, "Nyomkövetés" },
 /* it */ { IDS_DEBUG_IT, "Debug" },
-/* ko */ { IDS_DEBUG_KO, "µð¹÷" },
+/* ko */ { IDS_DEBUG_KO, "µð¹ö±×" },
 /* nl */ { IDS_DEBUG_NL, "Debug" },
 /* pl */ { IDS_DEBUG_PL, "Debug" },
 /* ru */ { IDS_DEBUG_RU, "Debug" },
@@ -12959,7 +12958,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_AUTOSTART_DELAY_HU, "" },  /* fuzzy */
 /* it */ { IDS_AUTOSTART_DELAY_IT, "" },  /* fuzzy */
 /* ko */ { IDS_AUTOSTART_DELAY_KO, "" },  /* fuzzy */
-/* nl */ { IDS_AUTOSTART_DELAY_NL, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_DELAY_NL, "Vertraging van de autostart (in seconden)" },
 /* pl */ { IDS_AUTOSTART_DELAY_PL, "" },  /* fuzzy */
 /* ru */ { IDS_AUTOSTART_DELAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_DELAY_SV, "" },  /* fuzzy */
@@ -13154,7 +13153,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_6569R1_OLD_PAL_FR, "6569R1 (ancien PAL)" },
 /* hu */ { IDS_6569R1_OLD_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDS_6569R1_OLD_PAL_IT, "6569R1 (PAL vecchio)" },
-/* ko */ { IDS_6569R1_OLD_PAL_KO, "6569R1 (¿Ãµå PAL)" },
+/* ko */ { IDS_6569R1_OLD_PAL_KO, "6569R1 (±¸Çü PAL)" },
 /* nl */ { IDS_6569R1_OLD_PAL_NL, "6569R1 (oud PAL)" },
 /* pl */ { IDS_6569R1_OLD_PAL_PL, "6569R1 (stary PAL)" },
 /* ru */ { IDS_6569R1_OLD_PAL_RU, "" },  /* fuzzy */
@@ -13196,7 +13195,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_6567R56A_OLD_NTSC_FR, "6567R56A (ancien NTSC)" },
 /* hu */ { IDS_6567R56A_OLD_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDS_6567R56A_OLD_NTSC_IT, "6567R56A (NTSC vecchio)" },
-/* ko */ { IDS_6567R56A_OLD_NTSC_KO, "6567R56A (¿Ãµå NTSC)" },
+/* ko */ { IDS_6567R56A_OLD_NTSC_KO, "6567R56A (±¸Çü NTSC)" },
 /* nl */ { IDS_6567R56A_OLD_NTSC_NL, "6567R56A (oud NTSC)" },
 /* pl */ { IDS_6567R56A_OLD_NTSC_PL, "6567R56A (stary NTSC)" },
 /* ru */ { IDS_6567R56A_OLD_NTSC_RU, "" },  /* fuzzy */
@@ -13224,7 +13223,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_6526_OLD_FR, "6526 (ancien)" },
 /* hu */ { IDS_6526_OLD_HU, "" },  /* fuzzy */
 /* it */ { IDS_6526_OLD_IT, "6526 (vecchio)" },
-/* ko */ { IDS_6526_OLD_KO, "6526 (¿À·¡µÈ)" },
+/* ko */ { IDS_6526_OLD_KO, "6526 (±¸Çü)" },
 /* nl */ { IDS_6526_OLD_NL, "6526 (oud)" },
 /* pl */ { IDS_6526_OLD_PL, "6526 (stary)" },
 /* ru */ { IDS_6526_OLD_RU, "6526 (old)" },
@@ -13252,7 +13251,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_DISCRETE_FR, "Discrète" },
 /* hu */ { IDS_DISCRETE_HU, "" },  /* fuzzy */
 /* it */ { IDS_DISCRETE_IT, "Discreto" },
-/* ko */ { IDS_DISCRETE_KO, "´Ù¸¥" },
+/* ko */ { IDS_DISCRETE_KO, "ÀÌ»êÇü" },
 /* nl */ { IDS_DISCRETE_NL, "Diskreet" },
 /* pl */ { IDS_DISCRETE_PL, "Dyskretny" },
 /* ru */ { IDS_DISCRETE_RU, "Discrete" },
@@ -13266,7 +13265,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_CUSTOM_IC_FR, "IC Personnalisé" },
 /* hu */ { IDS_CUSTOM_IC_HU, "" },  /* fuzzy */
 /* it */ { IDS_CUSTOM_IC_IT, "IC personalizzato" },
-/* ko */ { IDS_CUSTOM_IC_KO, "Ä¿½ºÅÒ IC" },
+/* ko */ { IDS_CUSTOM_IC_KO, "Æ¯Á¤ IC" },
 /* nl */ { IDS_CUSTOM_IC_NL, "Aangepast IC" },
 /* pl */ { IDS_CUSTOM_IC_PL, "W³asne IC" },
 /* ru */ { IDS_CUSTOM_IC_RU, "Custom IC" },
@@ -13911,7 +13910,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_GENERIC_CARTS_HU, "" },  /* fuzzy */
 /* it */ { IDS_GENERIC_CARTS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_GENERIC_CARTS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_GENERIC_CARTS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_GENERIC_CARTS_NL, "Algemene Cartridges" },
 /* pl */ { IDS_GENERIC_CARTS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_GENERIC_CARTS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_GENERIC_CARTS_SV, "" },  /* fuzzy */
@@ -13925,7 +13924,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_FREEZER_CARTS_HU, "" },  /* fuzzy */
 /* it */ { IDS_FREEZER_CARTS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_FREEZER_CARTS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_FREEZER_CARTS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_FREEZER_CARTS_NL, "Freezer Cartridges" },
 /* pl */ { IDS_FREEZER_CARTS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_FREEZER_CARTS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_FREEZER_CARTS_SV, "" },  /* fuzzy */
@@ -13939,7 +13938,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_UTIL_CARTS_HU, "" },  /* fuzzy */
 /* it */ { IDS_UTIL_CARTS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_UTIL_CARTS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_UTIL_CARTS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_UTIL_CARTS_NL, "Gebruiksprogramma Cartridges" },
 /* pl */ { IDS_UTIL_CARTS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_UTIL_CARTS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_UTIL_CARTS_SV, "" },  /* fuzzy */
@@ -13953,7 +13952,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_GAME_CARTS_HU, "" },  /* fuzzy */
 /* it */ { IDS_GAME_CARTS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_GAME_CARTS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_GAME_CARTS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_GAME_CARTS_NL, "Spel Cartridges" },
 /* pl */ { IDS_GAME_CARTS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_GAME_CARTS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_GAME_CARTS_SV, "" },  /* fuzzy */
@@ -13967,39 +13966,39 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_RAMEX_CARTS_HU, "" },  /* fuzzy */
 /* it */ { IDS_RAMEX_CARTS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_RAMEX_CARTS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_RAMEX_CARTS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_RAMEX_CARTS_NL, "RAM uitbreiding Cartridges" },
 /* pl */ { IDS_RAMEX_CARTS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_RAMEX_CARTS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_RAMEX_CARTS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_RAMEX_CARTS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SYMBOLIC,    "Symbolic" },
-/* da */ { IDS_SYMBOLIC_DA, "" },  /* fuzzy */
-/* de */ { IDS_SYMBOLIC_DE, "" },  /* fuzzy */
-/* es */ { IDS_SYMBOLIC_ES, "" },  /* fuzzy */
-/* fr */ { IDS_SYMBOLIC_FR, "" },  /* fuzzy */
+/* da */ { IDS_SYMBOLIC_DA, "Symbolsk" },
+/* de */ { IDS_SYMBOLIC_DE, "Symbolisch" },
+/* es */ { IDS_SYMBOLIC_ES, "Simbólico" },
+/* fr */ { IDS_SYMBOLIC_FR, "Symbolique" },
 /* hu */ { IDS_SYMBOLIC_HU, "" },  /* fuzzy */
-/* it */ { IDS_SYMBOLIC_IT, "" },  /* fuzzy */
-/* ko */ { IDS_SYMBOLIC_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SYMBOLIC_NL, "" },  /* fuzzy */
-/* pl */ { IDS_SYMBOLIC_PL, "" },  /* fuzzy */
-/* ru */ { IDS_SYMBOLIC_RU, "" },  /* fuzzy */
-/* sv */ { IDS_SYMBOLIC_SV, "" },  /* fuzzy */
-/* tr */ { IDS_SYMBOLIC_TR, "" },  /* fuzzy */
+/* it */ { IDS_SYMBOLIC_IT, "Simbolica" },
+/* ko */ { IDS_SYMBOLIC_KO, "»óÂ¡" },
+/* nl */ { IDS_SYMBOLIC_NL, "Symbolisch" },
+/* pl */ { IDS_SYMBOLIC_PL, "Symboliczne" },
+/* ru */ { IDS_SYMBOLIC_RU, "Symbolic" },
+/* sv */ { IDS_SYMBOLIC_SV, "Symbolisk" },
+/* tr */ { IDS_SYMBOLIC_TR, "Sembolik" },
 
 /* en */ { IDS_POSITIONAL,    "Positional" },
-/* da */ { IDS_POSITIONAL_DA, "" },  /* fuzzy */
-/* de */ { IDS_POSITIONAL_DE, "" },  /* fuzzy */
-/* es */ { IDS_POSITIONAL_ES, "" },  /* fuzzy */
-/* fr */ { IDS_POSITIONAL_FR, "" },  /* fuzzy */
+/* da */ { IDS_POSITIONAL_DA, "Positionsbestemt" },
+/* de */ { IDS_POSITIONAL_DE, "Positional" },
+/* es */ { IDS_POSITIONAL_ES, "Posicional" },
+/* fr */ { IDS_POSITIONAL_FR, "Positionnel" },
 /* hu */ { IDS_POSITIONAL_HU, "" },  /* fuzzy */
-/* it */ { IDS_POSITIONAL_IT, "" },  /* fuzzy */
-/* ko */ { IDS_POSITIONAL_KO, "" },  /* fuzzy */
-/* nl */ { IDS_POSITIONAL_NL, "" },  /* fuzzy */
-/* pl */ { IDS_POSITIONAL_PL, "" },  /* fuzzy */
-/* ru */ { IDS_POSITIONAL_RU, "" },  /* fuzzy */
-/* sv */ { IDS_POSITIONAL_SV, "" },  /* fuzzy */
-/* tr */ { IDS_POSITIONAL_TR, "" },  /* fuzzy */
+/* it */ { IDS_POSITIONAL_IT, "Posizionale" },
+/* ko */ { IDS_POSITIONAL_KO, "À§Ä¡»óÀÇ" },
+/* nl */ { IDS_POSITIONAL_NL, "Positioneel" },
+/* pl */ { IDS_POSITIONAL_PL, "Pozycjonalne" },
+/* ru */ { IDS_POSITIONAL_RU, "Positional" },
+/* sv */ { IDS_POSITIONAL_SV, "Positionsriktig" },
+/* tr */ { IDS_POSITIONAL_TR, "Konumsal" },
 
 /* en */ { IDS_SYMBOLIC_USER,    "Symbolic (user)" },
 /* da */ { IDS_SYMBOLIC_USER_DA, "" },  /* fuzzy */
@@ -14009,7 +14008,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SYMBOLIC_USER_HU, "" },  /* fuzzy */
 /* it */ { IDS_SYMBOLIC_USER_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SYMBOLIC_USER_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SYMBOLIC_USER_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SYMBOLIC_USER_NL, "Symbolische (gebruiker)" },
 /* pl */ { IDS_SYMBOLIC_USER_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SYMBOLIC_USER_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SYMBOLIC_USER_SV, "" },  /* fuzzy */
@@ -14023,7 +14022,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_POSITIONAL_USER_HU, "" },  /* fuzzy */
 /* it */ { IDS_POSITIONAL_USER_IT, "" },  /* fuzzy */
 /* ko */ { IDS_POSITIONAL_USER_KO, "" },  /* fuzzy */
-/* nl */ { IDS_POSITIONAL_USER_NL, "" },  /* fuzzy */
+/* nl */ { IDS_POSITIONAL_USER_NL, "Positioneel (gebruiker)" },
 /* pl */ { IDS_POSITIONAL_USER_PL, "" },  /* fuzzy */
 /* ru */ { IDS_POSITIONAL_USER_RU, "" },  /* fuzzy */
 /* sv */ { IDS_POSITIONAL_USER_SV, "" },  /* fuzzy */
@@ -14037,7 +14036,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_HU, "" },  /* fuzzy */
 /* it */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_NL, "Selecteer bestand voor symbolische gebruikers toewijzing" },
 /* pl */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SYMBOLIC_KEYMAP_FILENAME_SELECT_SV, "" },  /* fuzzy */
@@ -14051,7 +14050,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_HU, "" },  /* fuzzy */
 /* it */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_IT, "" },  /* fuzzy */
 /* ko */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_KO, "" },  /* fuzzy */
-/* nl */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* nl */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_NL, "Selecteer bestand voor positionele gebruikers toewijzing" },
 /* pl */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_POSITIONAL_KEYMAP_FILENAME_SELECT_SV, "" },  /* fuzzy */
@@ -14065,7 +14064,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_ACTIVE_KEYMAP_HU, "" },  /* fuzzy */
 /* it */ { IDS_ACTIVE_KEYMAP_IT, "" },  /* fuzzy */
 /* ko */ { IDS_ACTIVE_KEYMAP_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ACTIVE_KEYMAP_NL, "" },  /* fuzzy */
+/* nl */ { IDS_ACTIVE_KEYMAP_NL, "Actieve toewijzing" },
 /* pl */ { IDS_ACTIVE_KEYMAP_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ACTIVE_KEYMAP_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ACTIVE_KEYMAP_SV, "" },  /* fuzzy */
@@ -14079,7 +14078,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_KEYBOARD_MAPPING_HU, "" },  /* fuzzy */
 /* it */ { IDS_KEYBOARD_MAPPING_IT, "" },  /* fuzzy */
 /* ko */ { IDS_KEYBOARD_MAPPING_KO, "" },  /* fuzzy */
-/* nl */ { IDS_KEYBOARD_MAPPING_NL, "" },  /* fuzzy */
+/* nl */ { IDS_KEYBOARD_MAPPING_NL, "Toetsenbord toewijzing" },
 /* pl */ { IDS_KEYBOARD_MAPPING_PL, "" },  /* fuzzy */
 /* ru */ { IDS_KEYBOARD_MAPPING_RU, "" },  /* fuzzy */
 /* sv */ { IDS_KEYBOARD_MAPPING_SV, "" },  /* fuzzy */
@@ -14093,7 +14092,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_HU, "" },  /* fuzzy */
 /* it */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_IT, "" },  /* fuzzy */
 /* ko */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_KO, "" },  /* fuzzy */
-/* nl */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_NL, "" },  /* fuzzy */
+/* nl */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_NL, "Symbolische gebruikers toetsenbordbestand" },
 /* pl */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_PL, "" },  /* fuzzy */
 /* ru */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_RU, "" },  /* fuzzy */
 /* sv */ { IDS_USER_SYMBOLIC_KEYMAP_FILENAME_SV, "" },  /* fuzzy */
@@ -14107,7 +14106,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_HU, "" },  /* fuzzy */
 /* it */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_IT, "" },  /* fuzzy */
 /* ko */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_KO, "" },  /* fuzzy */
-/* nl */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_NL, "" },  /* fuzzy */
+/* nl */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_NL, "Positionele gebruikers toetsenbordbestand" },
 /* pl */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_PL, "" },  /* fuzzy */
 /* ru */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_RU, "" },  /* fuzzy */
 /* sv */ { IDS_USER_POSITIONAL_KEYMAP_FILENAME_SV, "" },  /* fuzzy */
@@ -14121,7 +14120,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_KEYMAP_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_KEYMAP_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_KEYMAP_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_KEYMAP_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_KEYMAP_SETTINGS_NL, "Toetsenbord toewijzing instellingen" },
 /* pl */ { IDS_KEYMAP_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_KEYMAP_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_KEYMAP_SETTINGS_SV, "" },  /* fuzzy */
