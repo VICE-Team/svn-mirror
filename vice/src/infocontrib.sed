@@ -175,6 +175,7 @@ s/@b{lvd}/lvd <lvd.mhm@gmail.com>/g
 s/@b{Michael Steil}/Michael Steil <mist64@mac.com>/g
 s/@b{Hans Deragon}/Hans Deragon <hans@deragon.biz>/g
 s/@b{TMLPiper}/TMLPiper <icolquhoun@users.sourceforge.net>/g
+s/@b{Christopher Phillips}/Christopher Phillips <shrydar@users.sourceforge.net>/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g

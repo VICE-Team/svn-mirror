@@ -27468,6 +27468,9 @@ Fixed windows midi driver for 64bit windows.
 Supplied a patch that fixes REL file records larger 256 bytes
 when using vdrive.
 
+@b{Christopher Phillips}
+Fixed and improved some Mac OS X gui items.
+
 @item
 @b{Frank Prindle}
 Contributed some patches.
