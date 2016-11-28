@@ -1,5 +1,1378 @@
 ------------------------------------------------------------------------------
 
+2016-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.proto, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.txt, po/da.po,
+	po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h, src/vice-version.sh:
+	VICE 2.4.33
+
+2016-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/infocontrib.sed: Updated.
+
+2016-11-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/rescia.rc,
+	src/arch/win32/resethernet.rc, src/arch/win32/resethernetcart.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resretroreplay.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2016-11-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2016-11-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2016-11-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-drive.c, src/arch/os2/dialogs/dlg-drive.h,
+	src/arch/os2/dialogs/dlg-drive.rc: Added drive rpm, wobble and sound
+	volume items to the os/2 gui.
+
+2016-11-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/constants.txt,
+	src/arch/beos/ui.cc, src/arch/beos/ui_ide64usb.cc,
+	src/arch/beos/ui_ide64usb.h, src/arch/beos/vicemenu.cc: Add IDE64 USB
+	server settings to the BeOS UI
+
+2016-11-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	more osx gui updates
+
+2016-11-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/cocoa/menu/c64controller.m,
+	src/arch/unix/macosx/cocoa/menu/vic20controller.m: some osx gui
+	updates
+
+2016-11-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/ui_device.cc, src/arch/beos/ui_device.h: Add drive
+	sound emulation volume item to the BeOS UI
+
+2016-11-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/clockport-mp3at64.c: Some fixes.
+
+2016-11-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/ui_device.cc, src/arch/beos/ui_device.h: Add drive RPM
+	and Wobble items to the BeOS UI
+
+2016-11-26  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: made description of drive wobble value more clear
+
+2016-11-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiattach.c: Added autostart delay items to the dos
+	tui.
+
+2016-11-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-drive.rc: Slight fix.
+
+2016-11-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resautostart.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/uiautostart.c: Added
+	autostart delay items to the windows gui.
+
+2016-11-26  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.txt, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vicemenu.cc: Added IDE64 shortbus DigiMAX/ETFE menu
+	items to BeVICE.
+
+2016-11-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Update c1541 delete command: each unit specified is now
+	checked, not just the current one
+
+2016-11-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/ui_sid.cc: Adjust BeOS/Haiku SID dialog to properly
+	display ReSID controls
+
+2016-11-26  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/sdl/archdep.h, src/arch/sdl/archdep_beos.h: Disable
+	"hardware" scaling for SDL builds on BeOS/Haiku.
+
+2016-11-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_autostart.cc, src/arch/beos/ui_autostart.h: Added
+	missing svn properties.
+
+2016-11-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/scpu64ui.cc: Fixed handling
+	of IDE64 clockport device for BeVICE xscpu64 and x128.
+
+2016-11-25  groepaz <groepaz@gmx.net>
+
+	* src/petcat.c: added plus4/basic v3.5 specific control codes, fixes
+	bug #764
+
+2016-11-25  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128mem.c: invert chargen_high for international version,
+	fixes bug #781
+
+2016-11-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi: Fix typos
+
+2016-11-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.txt,
+	src/arch/beos/vicemenu.cc: Add IDE64 clockport device selection to
+	BeOS/Haiku
+
+2016-11-24  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c: work around auto start bug in x128, when prg file
+	is autostarted with default settings, it would fail because some code
+	in RAM is executed (see comment). someone who is more into c128 than i
+	am might want to fix this properly :)
+
+2016-11-24  groepaz <groepaz@gmx.net>
+
+	* src/video/video-resources.c: more tweaks to the CRT emulation
+	defaults
+
+2016-11-24  groepaz <groepaz@gmx.net>
+
+	* src/vic20/vic-color.c: added extra palette for ntsc, tweaked to be
+	close(r) to mikes palette and tokras photo
+
+2016-11-24  groepaz <groepaz@gmx.net>
+
+	* src/crtc/crtc-color.c: tweak color to be closer to p1 phosphor
+
+2016-11-24  groepaz <groepaz@gmx.net>
+
+	* data/PET/amber.vpl, data/PET/green.vpl, data/PET/white.vpl: use rgb
+	values of the respective display phosphors for the monochrome palettes
+
+2016-11-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/ui_autostart.cc: Add AutostartDelay menu item to the
+	BeOS/Haiku UI (one more file)
+
+2016-11-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/constants.txt,
+	src/arch/beos/ui.cc, src/arch/beos/ui_autostart.h,
+	src/arch/beos/vicemenu.cc: Add AutostartDelay menu item to the
+	BeOS/Haiku UI
+
+2016-11-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_drive.c: Add AutostartDelay menu item to SDL UI
+
+2016-11-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Fix stupid typo in yasm version check
+
+2016-11-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Remove quotes from yasm version check, some shells
+	complain
+
+2016-11-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/ui_device.cc: Adjust BeOS device dialog to properly
+	display all text
+
+2016-11-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* autogen.sh: Fix files-to-remember logic in autogen, see bug #825
+
+2016-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uiautostart.c: Added autostart delay items to the
+	amiga gui.
+
+2016-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uiautostart.c,
+	src/arch/amigaos/mui/uiautostart.h: Some cosmetic fixes.
+
+2016-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added autostart delay items to the
+	os/2 gui.
+
+2016-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-drive.c, src/arch/os2/dialogs/dlg-drive.h,
+	src/arch/os2/dialogs/dlg-drive.rc: Added RTC Save (FD2000/4000) items
+	to the os/2 drive dialog.
+
+2016-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-drive.c, src/arch/os2/dialogs/dlg-drive.h,
+	src/arch/os2/dialogs/dlg-drive.rc: Added SuperCard+ items to the os/2
+	drive dialog.
+
+2016-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-drive.rc: Locked in new coordinates and
+	removed group boxes.
+
+2016-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uivideo.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc:
+	Updated.
+
+2016-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-drive.c, src/arch/os2/dialogs/dlg-drive.h,
+	src/arch/os2/dialogs/dlg-drive.rc: Fixed/extended the drive parallel
+	cable elements of the os/2 drive settings dialog.
+
+2016-11-23  groepaz <groepaz@gmx.net>
+
+	* data/PLUS4/Makefile.am, data/PLUS4/vice.vpl,
+	data/PLUS4/yape-ntsc.vpl, data/PLUS4/yape-pal.vpl, src/palette.c,
+	src/plus4/ted-resources.c: remove totally useless and broken vice.vpl
+	that didnt even contain a plus4 palette. added pal and ntsc palettes
+	stolen from yape. embedded-stuff and bindist scripts need updating
+	(sorry)
+
+2016-11-23  groepaz <groepaz@gmx.net>
+
+	* src/video/video-resources.c: make contrast/saturation settings
+	neutral by default and tweak values only for c64 and plus4 (for now)
+
+2016-11-23  groepaz <groepaz@gmx.net>
+
+	* src/plus4/ted-color.c: tweak NTSC colors to somehow match YAPEs
+	output
+
+2016-11-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/monitor/mon_parse.c, src/monitor/mon_parse.h: Updates mon files
+
+2016-11-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Fix check_drive_unit()
+
+2016-11-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi, src/arch/unix/gui/uiautostart.c: Fix autostart UI
+	text for *nix
+
+2016-11-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-drive.rc: Updated slightly.
+
+2016-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi: Slight docs update
+
+2016-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added ide64 usb server items to the
+	os/2 gui.
+
+2016-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Add unzip as an alias for zcreate
+
+2016-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-datasette.c,
+	src/arch/os2/dialogs/dlg-datasette.h,
+	src/arch/os2/dialogs/dlg-datasette.rc, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc: Added
+	tapeport device items to the os/2 gui.
+
+2016-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Remove weird comma operator
+
+2016-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Apply c1541 patch by Greg King, see bug #821
+
+2016-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Fix stupid mistake
+
+2016-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/uicbm2cart.c,
+	src/arch/unix/gui/uicbm2cart.h: Fix memory leak in *nix cart menu for
+	xcbm2 and xcbm5x0
+
+2016-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uic64cart.c: Fix memory leak in *nix cart menu for
+	x64, x64sc, xscpu64 and x128
+
+2016-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/vic20ui.c: Fix memory leak in xvic cartridge
+	attach menu for *nix UI
+
+2016-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c64/patchrom.c: Change log_verbose to log_error when returning
+	error code
+
+2016-11-20  groepaz <groepaz@gmx.net>
+
+	* src/video/video-color.c: hack to align internally generated colors
+	with the pepto stuff a bit better.
+
+2016-11-20  groepaz <groepaz@gmx.net>
+
+	* src/vicii/vicii-color.c, src/viciisc/vicii-color.c: trivial test
+	option
+
+2016-11-20  groepaz <groepaz@gmx.net>
+
+	* src/video/video-resources.c: tweak defaults so ptoings yusblend test
+	works better
+
+2016-11-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/x11ui.c: on ui_update_menus set sliders in CRT
+	control to values of their associated resources
+
+2016-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_qnx6.sh: Fixed sdl qnx6 make bindist.
+
+2016-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/qnx6/make-bindist.sh: Fixed xaw qnx6 make bindist.
+
+2016-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Fixed os/2 palette menu.
+
+2016-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/Makefile.am, src/arch/os2/dialogs/dialogs.h,
+	src/arch/os2/dialogs/dialogs.rc,
+	src/arch/os2/dialogs/dlg-text-input.c,
+	src/arch/os2/watcom/dialogs.tgt, src/arch/os2/watcom/vice.wpj: Added
+	generic text input dialog for the os/2 gui.
+
+2016-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/archdep.c, src/arch/os2/dialogs/dialogs.c,
+	src/arch/os2/dialogs/dialogs.rc, src/arch/os2/dialogs/dlg-cmdopt.c,
+	src/arch/os2/dialogs/dlg-color.rc,
+	src/arch/os2/dialogs/dlg-datasette.rc,
+	src/arch/os2/dialogs/dlg-drive.rc,
+	src/arch/os2/dialogs/dlg-emulator.rc,
+	src/arch/os2/dialogs/dlg-fileio.c, src/arch/os2/dialogs/dlg-fileio.rc,
+	src/arch/os2/dialogs/dlg-ide64.rc,
+	src/arch/os2/dialogs/dlg-joystick.rc,
+	src/arch/os2/dialogs/dlg-monitor.c,
+	src/arch/os2/dialogs/dlg-monitor.rc, src/arch/os2/dialogs/menubar.rc,
+	src/arch/os2/fullscr.c, src/arch/os2/gradd.h, src/arch/os2/signals.c,
+	src/arch/os2/snippets/pmwin2.c, src/arch/os2/sounddrv.c,
+	src/arch/os2/video.c, src/arch/os2/vsidui.c: Removed some obsolete
+	#if(n)def's.
+
+2016-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resvsid.rc, src/arch/win32/vsidui.c: Added speed
+	items to the windows vsid gui.
+
+2016-11-20  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/monitor/mon_memory.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/monitor/mon_parse.y,
+	src/monitor/monitor.c, src/monitor/montypes.h: Clear the buffer before
+	starting parsing. If the previous line contained a syntax error, it
+	might leave dirty data in the buffer. An example was this line:
+	hunt 801 947b bo 64, (note: bo, not b0), that left the number $0b as
+	first byte of the buffer. So, when one attempted to launch the correct
+	line, hunt 801 947b b0 64, the content of the buffer was not the
+	expected $b0 $64, but $0b $b0 $64 (the first $0b being an undesired
+	side effect of the initial command)
+
+2016-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/cs8900io.c: Provide gui error message when trying to
+	enable pcap based devices when no pcap library can be loaded, fixes
+	bug #812.
+
+2016-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/dialogs/dialogs.h,
+	src/arch/os2/dialogs/dialogs.rc, src/arch/os2/dialogs/dlg-cmdopt.c,
+	src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc, src/arch/os2/uifeatures.c,
+	src/arch/os2/watcom/archdep.tgt, src/arch/os2/watcom/vice.wpj: Added
+	vice features show dialog to the os/2 gui.
+
+2016-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/vicemenu.cc: Added max speed items to the beos gui.
+
+2016-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiethernet.c: Initialize var, fixes bug #815.
+
+2016-11-19  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/uimenu.c, src/c128/c128.c, src/c64/c64.c,
+	src/c64/vsid.c, src/c64dtv/c64dtv.c, src/machine.h, src/pet/pet.c,
+	src/plus4/plus4.c, src/plus4/ted-timing.c, src/scpu64/scpu64.c,
+	src/vic20/vic-timing.c, src/vic20/vic20.c, src/vicii/vicii-timing.c,
+	src/viciisc/vicii-timing.c: Fix: revert r32345
+
+2016-11-19  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/uimenu.c, src/c128/c128.c, src/c64/c64.c,
+	src/c64/vsid.c, src/c64dtv/c64dtv.c, src/machine.h, src/pet/pet.c,
+	src/plus4/plus4.c, src/plus4/ted-timing.c, src/scpu64/scpu64.c,
+	src/vic20/vic-timing.c, src/vic20/vic20.c, src/vicii/vicii-timing.c,
+	src/viciisc/vicii-timing.c: Fix: this should adress bug #810, now when
+	in menu, only normal borders are used + machine does not reset anymore
+	when changing 
+
+2016-11-18  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/Makefile.am: Fixed typo.
+
+2016-11-18  groepaz <groepaz@gmx.net>
+
+	* src/crtc/crtc.c: fix warning
+
+2016-11-18  groepaz <groepaz@gmx.net>
+
+	* src/cbm2/cbm2-resources.c, src/cbm2/cbm2mem.c,
+	src/cbm2/cbm5x0-resources.c, src/crtc/crtc-mem.c, src/crtc/crtc-mem.h,
+	src/crtc/crtc.c, src/crtc/crtctypes.h, src/pet/petmem.c: added i/o
+	dump for CRTC, added constants for CRTC registers and made most of the
+	code use them, fixed some register write masking
+
+2016-11-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/clockport-mp3at64.c: Slight fix.
+
+2016-11-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto, data/fonts/Makefile.am: Fix QNX6 fontdir shizzle
+
+2016-11-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Remove --enable-debug-code
+
+2016-11-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uidrivec128.c, src/arch/amigaos/mui/uidrivec64.c,
+	src/arch/amigaos/mui/uidrivec64dtv.c,
+	src/arch/amigaos/mui/uidrivepetcbm2.c,
+	src/arch/amigaos/mui/uidriveplus4.c,
+	src/arch/amigaos/mui/uidrivevic20.c: Added drive rpm and wobble
+	elements to the amiga gui.
+
+2016-11-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uinetwork.c: Slight fix.
+
+2016-11-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c64/patchrom.c: Change revision-OK message to verbose. Remove
+	parenthesis from return statements, return is a statement, not a
+	function call
+
+2016-11-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cbm2/cbm5x0.c: Fix memory leaks in CBM 500 resources handling
+
+2016-11-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cbm2/cbm2cart.c: Fix typos
+
+2016-11-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cbm2/cbm2.c, src/cbm2/cbm2cart.c: Fix memory leaks in CBM-II
+	resources handling
+
+2016-11-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/video/video-viewport.c: Fix warning
+
+2016-11-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/rawnetarch.c: Minor fixes.
+
+2016-11-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/statusbar.cc, src/arch/beos/ui.cc: Display tape status
+	on the BeVICE statusbar whenever the Datasette is enabled.
+
+2016-11-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_file.cc: Fixed a crash in ui_select_file_action().
+
+2016-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	src/arch/win32/c64dtvui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/cbm5x0ui.c,
+	src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2common.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/reskeymap.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/uikeyboard.c,
+	src/arch/win32/uikeyboard.h, src/arch/win32/uikeymap.c,
+	src/arch/win32/uikeymap.h, src/arch/win32/vic20ui.c,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64dtv.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj: Fixed keymap support for the windows
+	gui.
+
+2016-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/vsidui.c, src/arch/amigaos/vsiduires.h: Removed
+	refresh rate related items from vsid in the amiga gui.
+
+2016-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.proto, src/arch/unix/Makefile.am,
+	src/arch/unix/hpux: Removed outdated (and by now obsolete) hpux
+	bindist directory.
+
+2016-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/makebindist.bat,
+	src/arch/os2/watcom/makebindist.cmd: Fixed os/2 makebindst scripts
+	when it comes to copying the palette (.vpl) files.
+
+2016-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/ko.po, po/translations-status.txt: Updated with Korean
+	translations by David Renz.
+
+2016-11-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cbmdos.h: Fix assigning/comparing -1 to/with unsigned drive
+	number
+
+2016-11-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/iec/pc8477.c, src/drive/iec/wd1770.c: Fix warnings
+
+2016-11-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundmp3.c: Fix warning
+
+2016-11-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/mouse.c: Fix warnings
+
+2016-11-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/samplerdrv/file_drv.c: Fix warning
+
+2016-11-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/tape/t64.c: T64: only adjust size of last file if end address
+	points past the T64 data
+
+2016-11-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/io-access.c, src/arch/unix/x11/qnxshm.c: Fix a few
+	warnings on QNX6
+
+2016-11-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/vsidui.c, src/arch/unix/x11/gnome/uimenu.c: Add
+	ugly hacks to work around ugly hack in vsid UI
+
+2016-11-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/makeclean.cmd,
+	src/arch/os2/makedist.cmd: Removed obsolete os/2 command files.
+
+2016-11-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/c128/c128embedded.c, src/c64/c64embedded.c,
+	src/cbm2/cbm2embedded.c, src/cbm2/cbm5x0embedded.c,
+	src/pet/petembedded.c, src/plus4/plus4embedded.c,
+	src/vic20/vic20embedded.c: Fixed palette generation and usage for
+	'--enable-embedded'.
+
+2016-11-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/push-roms.sh: Fixed android roms list.
+
+2016-11-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64dtvui.c, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/cbm2ui.c, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/cbm5x0ui.c, src/arch/amigaos/cbm5x0uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/Makefile.am, src/arch/amigaos/mui/uikeymap.c,
+	src/arch/amigaos/mui/uikeymap.h, src/arch/amigaos/mui/uipetsettings.c,
+	src/arch/amigaos/petui.c, src/arch/amigaos/petuires.h,
+	src/arch/amigaos/plus4ui.c, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/scpu64ui.c, src/arch/amigaos/scpu64uires.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Fixed
+	keymap support for the amiga gui.
+
+2016-11-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uivideo.c: Fixed palette items in the amiga
+	gui.
+
+2016-11-14  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: updated info on available
+	palettes in the documentation
+
+2016-11-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/menudefs.c,
+	src/arch/msdos/petui.c, src/arch/msdos/uikeymap.c,
+	src/arch/msdos/uikeymap.h: Fixed keymap support for the dos tui.
+
+2016-11-14  groepaz <groepaz@gmx.net>
+
+	* data/CBM-II/Makefile.am, data/CBM-II/default.vpl,
+	data/CBM-II/pepto-pal.vpl, data/CBM-II/vice.vpl: rename vice.vpl to
+	pepto-pal.vpl and default.vpl to vice.vpl
+
+2016-11-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/reside64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uiide64.c: Added ide64
+	clockport elements to the windows gui.
+
+2016-11-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/vsidui.c, src/arch/unix/vsiduiunix.h,
+	src/arch/unix/x11/xaw/uivsidcontrol.c: Fix memory leaks in Xaw vsid UI
+
+2016-11-14  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uistatusbar.c: When positioning the status
+	porthole, only refer to the drive status widgets if they actually
+	exist. If not, the porthole is placed to the right of the speed label.
+
+2016-11-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/samplerdrv/file_drv.c, src/samplerdrv/file_drv.h,
+	src/samplerdrv/sampler.c: Fix memory leak in sampler resources
+	handling
+
+2016-11-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/tapeport/tapelog.h: Fix memory leak in tapeport, properly this
+	time
+
+2016-11-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/tapeport/tapelog.c, src/tapeport/tapelog.h,
+	src/tapeport/tapeport.c: Fix memory leak in resource handling of
+	tapelog
+
+2016-11-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/xaw/widgets/Joystick.c: Fix indentation/code style
+	in xaw/widgets/Joystick.c
+
+2016-11-14  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/widgets/Joystick.xt: Move declaration up, to
+	match r32295, editing the generated code.
+
+2016-11-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c64/cart/cs8900io.c: Fix memory leak in resource handling of
+	cs8900io
+
+2016-11-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/uimenu.c: Fix memory leaks in Gtk UI:
+	properly free extra memory allocated for menu items
+
+2016-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_qnx6_runtime_os.c: Fixed.
+
+2016-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/vsyncarch.c: Slight order fix.
+
+2016-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/Joystick.c: Partially fixed, some-1
+	else will need to fix indentation and coding style of this file.
+
+2016-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_qnx6_runtime_os.c,
+	src/platform/platform_x86_runtime_cpu.h: Added QNX 6.x runtime
+	detection.
+
+2016-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/opencbm.h: Fixed for qnx 6.x.
+
+2016-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/Makefile.am, src/arch/amigaos/mui/uic64cart.c,
+	src/arch/amigaos/mui/uic64cart.h, src/arch/amigaos/scpu64ui.c,
+	src/arch/amigaos/scpu64uires.h, src/arch/amigaos/uic64cart.c,
+	src/arch/amigaos/uires.h: Fixed binary cart image selection/menu items
+	for the amiga gui.
+
+2016-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added ide64 clockport items to the
+	os/2 gui.
+
+2016-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/reside64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uiide64.c: Added ide64
+	short bus etfe elements to the windows gui.
+
+2016-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Fixed.
+
+2016-11-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/attach.c: Revert patch #140, causes an abort (--disable-debug)
+	or segfault (--enable-debug)
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Fixed loading of the various palette
+	files for the os/2 gui.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/x128.tgt, src/arch/os2/watcom/x64.tgt,
+	src/arch/os2/watcom/xscpu64.tgt: Added mmc64, mmcr and rr clockport
+	items to the os/2 gui.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added ide64 short bus etfe elements
+	to the os/2 gui.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added ethernetcart elements to the
+	os/2 gui.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Fixed mouse elements in the os/2 gui.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/reside64.rc,
+	src/arch/win32/uiide64.c: Added address label to the ide64 shortbus
+	digimax dialog in the windows gui.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/attach.c: Fixed.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.m:
+	Applied patch #139 by Christopher Phillips: Added RPM and Wobble to
+	the Drive Settings dialogue.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/attach.c: Applied patch #140 by Greg King: Fix memory leak in
+	disk image detachment.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/resretroreplay.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uimmc64.c,
+	src/arch/win32/uimmcreplay.c, src/arch/win32/uiretroreplay.c: Added
+	mmc64, mmcr and rr clockport selection elements to the windows gui.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-fileio.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc: Fixed
+	binary cart image selection/menu items for the os/2 gui.
+
+2016-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/rawnetarch.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resethernet.rc, src/arch/win32/resethernetcart.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/restfe.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/ui.c, src/arch/win32/uiethernet.c,
+	src/arch/win32/uiethernet.h, src/arch/win32/uiethernetcart.c,
+	src/arch/win32/uiethernetcart.h, src/arch/win32/uitfe.c,
+	src/arch/win32/uitfe.h, src/arch/win32/vic20ui.c,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj: Added ethernet and ethernetcart items
+	to the windows gui.
+
+2016-11-12  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Summary: Updated.
+
+2016-11-11  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/ui.c: Fix: do not create the window in console mode
+	(thx to compyx)
+
+2016-11-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_video.c, src/arch/sdl/menu_video.h,
+	src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xcbm2_ui.c,
+	src/arch/sdl/xpet_ui.c, src/arch/sdl/xplus4_ui.c,
+	src/arch/sdl/xscpu64_ui.c, src/arch/sdl/xvic_ui.c: Fix memory leaks in
+	the SDL UI palette menu's
+
+2016-11-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_c64cart.c, src/arch/sdl/menu_c64cart.h,
+	src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xscpu64_ui.c: Fix memory leak in
+	SDL dynamic C64 cart menu
+
+2016-11-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/xvic_ui.c: Fix memory leak in SDL xvic SID model menu
+
+2016-11-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_sid.c, src/arch/sdl/menu_sid.h,
+	src/arch/sdl/vsidui.c, src/arch/sdl/x128_ui.c,
+	src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xscpu64_ui.c: Fix memory leak
+	in SDL dynamic SID model menu
+
+2016-11-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xscpu64_ui.c: Fix memory leak
+	in SDL keyboard settings menu (all emu's this time)
+
+2016-11-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_settings.c, src/arch/sdl/menu_settings.h,
+	src/arch/sdl/vsidui.c: Fix memory leak in SDL keyboard settings menu
+
+2016-11-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_speed.c, src/arch/sdl/menu_speed.h,
+	src/arch/sdl/vsidui.c: Add speed settings submenu to vsid SDL UI
+
+2016-11-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uisettings.c, src/arch/unix/gui/uisettings.h,
+	src/arch/unix/gui/vsidui.c: Add 'Maximum speed' submenu to vsid
+	settings *nix UI
+
+2016-11-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am, doc/html/images/CIPS2008.jpg,
+	doc/html/images/CommodoreInnovationPriceSoftware2008.jpg,
+	doc/html/index.html: Shortened.
+
+2016-11-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_settings.c, src/arch/sdl/menu_settings.h,
+	src/arch/sdl/vsidui.c: Update VSID SDL menu
+
+2016-11-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/6510dtvcore.c, src/65816core.c, src/65c02core.c,
+	src/arch/amigaos/mui/mui.c, src/arch/amigaos/mui/mui.h,
+	src/arch/amigaos/mui/uidrivec128.c, src/arch/amigaos/mui/uidrivec64.c,
+	src/arch/amigaos/mui/uidrivepetcbm2.c,
+	src/arch/amigaos/mui/uidriveplus4.c, src/arch/amigaos/timer.c,
+	src/h6809regs.h, src/joyport/joystick.c, src/mainc64cpu.c,
+	src/mainviccpu.c, src/monitor/mon_lex.c, src/monitor/mon_lex.l,
+	src/monitor/mon_parse.c, src/monitor/monitor.c, src/pet/6809.h,
+	src/plus4/plus4.h, src/scpu64/scpu64.h, src/vic20/vic20.h,
+	src/vic20/vic20cpu.c: Reverted svn:eol-style properties changed by
+	r32212.
+
+2016-11-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.rc:
+	Changed vicii new lums to be x64dtv only for the os/2 gui.
+
+2016-11-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added vic20 vfli mod elements to the
+	os/2 gui.
+
+2016-11-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/resources.c: Add dumping of resources at exit when DBGRESOURCES
+	is defined
+
+2016-11-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added joyport device elements to the
+	os/2 gui.
+
+2016-11-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.txt: Update vice.txt
+
+2016-11-09  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-badline.c: Comment fix by Leandro
+
+2016-11-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* AUTHORS, man/vice.1: Slight update.
+
+2016-11-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi: Fix Acia1Irq description (NMI and IRQ constants were
+	switched)
+
+2016-11-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/vic20/vic20-cmdline-options.c: Add missing -acia1/+acia1 command
+	line options to xvic
+
+2016-11-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/scpu64/scpu64-cmdline-options.c: Add missing -acia1/+acia1
+	command line options to xscpu64
+
+2016-11-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Removed unused elements.
+
+2016-11-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/pet.c: Don't register joyport keypads, xpet already has a
+	native keypad.
+
+2016-11-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2.c, src/cbm2/cbm5x0.c: Don't register joyport keypads,
+	xcbm2 and xcbm5x0 already have a native keypad.
+
+2016-11-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c: Don't register joyport keypads, x128 already has a
+	native keypad.
+
+2016-11-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added userport devices elements to
+	the os/2 gui.
+
+2016-11-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h: Add rebuilt monitor files
+
+2016-11-07  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-badline.c: Special case for cycle 58
+
+2016-11-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c64/Makefile.am, src/c64/vsid-resources.c: Fix vsid build
+	errors, hopefully
+
+2016-11-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c64/Makefile.am, src/c64/vsid-cmdline-options.c: Remove
+	basic/chargen/kernal command line options from vsid. Remove unused
+	file src/c64/vsid-resources.c
+
+2016-11-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/Makefile.am, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h: Fixed.
+
+2016-11-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.txt, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vicemenu.cc: Added RR, MMC64 and MMCR clockport device
+	items to the beos gui.
+
+2016-11-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-ide64.h, src/arch/os2/dialogs/dlg-ide64.rc:
+	Some cosmetic fixes.
+
+2016-11-07  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-badline.c: Try to fix a linecrunching bug (LFT)
+
+2016-11-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added IDE64 shortbus DigiMAX items to
+	the os/2 gui.
+
+2016-11-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Replace a lot of magic numbers with symbolic names and
+	replace a few drive_check() calls.
+
+2016-11-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi, src/machine.h: Changed MachineVideoStandard resource
+	to positive values. Code fixing the old values withheld for now
+
+2016-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added rrnet mk3 items to the os/2
+	gui.
+
+2016-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Removed userport item from the
+	digimax cart in the os/2 gui.
+
+2016-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added sampler setting items to the
+	os/2 gui.
+
+2016-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added c64 cp/m (z80) cart items to
+	the os/2 gui.
+
+2016-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added vic20 I/O-2 & I/O-3 RAM cart
+	items to the os/2 gui.
+
+2016-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added vic20 ultimem items to the os/2
+	gui.
+
+2016-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added ss5 32k addon items to the os/2
+	gui.
+
+2016-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/uires.h, src/arch/amigaos/vic20ui.c,
+	src/arch/amigaos/vic20uires.h: Added vic20 vfli mod items to the amiga
+	gui
+
+2016-11-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi: Add 'Fast Resampling' to SidResidSampling
+	description, fix typo/grammer
+
+2016-11-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c64/psid.c: Add -basic, -chargen, -kernal and -kernalrev command
+	line options to vsid
+
+2016-11-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/snapshot.c: Fixed a mingw32 warning.
+
+2016-11-05  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/amigaos/mui/uijoystickll.c: Added a comment relating to
+	r30229.
+
+2016-11-05  Marcus Sutton <loggedoubt@gmail.com>
+
+	* autogen.sh: Allow use of automake 1.10.2.
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added proper screenshot support to
+	the os/2 gui.
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added easyflash crt optimize items to
+	the os/2 gui.
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added plus4 memory hacks items to the
+	os/2 gui.
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added viciisc vsp bug items to the
+	os/2 gui.
+
+2016-11-05  AreaScout <areascout@gmx.at>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java: Fix:
+	x128 for android, use all kernal + char files
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added ds12c887 rtc run mode items to
+	the os/2 gui.
+
+2016-11-05  AreaScout <areascout@gmx.at>
+
+	* build/android/build-android.sh, src/arch/android/AnVICE/Makefile.am:
+	Fix: forgot quotes + reflect r32210 to Makefile.am
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/cocoa/dialog/disassemblywindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/iotreewindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/recordmediawindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/resourceeditorcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/vicewindowcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/vicefilepanel.h,
+	src/arch/unix/macosx/cocoa/menu/vicefilepanel.m,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/arch/unix/macosx/cocoa/viceapplication.m,
+	src/arch/unix/macosx/cocoa/vicemachine.m,
+	src/arch/unix/macosx/cocoa/video.m,
+	src/arch/unix/macosx/cocoa/view/driveview.m,
+	src/arch/unix/macosx/cocoa/view/soundview.m: Applied patch #137 by
+	Christopher Phillips: Fixed 31 warnings in the OS X Cocoa UI code.
+	Fixed bug where CPU window visibility couldn't be toggled by the menu
+	item unless it had already been loaded. Fixed bug where CPU window
+	contents would remaing blank unless it was already visible at startup. 
+	(issues #243 and 252?)
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/cbm2ui.c, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/cbm5x0ui.c, src/arch/amigaos/cbm5x0uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/Makefile.am, src/arch/amigaos/mui/uicpclockf83.c,
+	src/arch/amigaos/mui/uicpclockf83.h,
+	src/arch/amigaos/mui/uidatasette.c, src/arch/amigaos/mui/uitapelog.c,
+	src/arch/amigaos/mui/uitapelog.h, src/arch/amigaos/petui.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4ui.c,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/scpu64uires.h,
+	src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Added
+	tapeport devices elements to the amiga gui.
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/6510dtvcore.c, src/65816core.c, src/65c02core.c,
+	src/arch/amigaos/mui/mui.c, src/arch/amigaos/mui/mui.h,
+	src/arch/amigaos/mui/uidrivec128.c, src/arch/amigaos/mui/uidrivec64.c,
+	src/arch/amigaos/mui/uidrivepetcbm2.c,
+	src/arch/amigaos/mui/uidriveplus4.c, src/arch/amigaos/timer.c,
+	src/c64/c64cpusc.c, src/h6809regs.h, src/joyport/joystick.c,
+	src/mainc64cpu.c, src/mainviccpu.c, src/monitor/mon_lex.c,
+	src/monitor/mon_lex.l, src/monitor/mon_parse.c, src/monitor/monitor.c,
+	src/pet/6809.h, src/plus4/plus4.h, src/scpu64/scpu64.h,
+	src/vic20/vic20.h, src/vic20/vic20cpu.c: Some more amiga fixes.
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uiuserportds1307rtc.c,
+	src/arch/amigaos/mui/uiuserportds1307rtc.h: Function name fix.
+
+2016-11-05  AreaScout <areascout@gmx.at>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/config.android.h,
+	src/arch/android/AnVICE/config.android.h.proto: Add: versions info
+	automation for android port
+
+2016-11-05  AreaScout <areascout@gmx.at>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java: Fix:
+	keymap file naming for x128
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.txt,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/ui_vicii.cc,
+	src/arch/beos/vicemenu.cc: Fixed vicii lums to be x64dtv only for the
+	beos gui.
+
+2016-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/cbm2ui.c, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/Makefile.am,
+	src/arch/amigaos/mui/uic64model.c,
+	src/arch/amigaos/mui/uic64scmodel.c, src/arch/amigaos/mui/uiide64.c,
+	src/arch/amigaos/mui/uijoyport.c,
+	src/arch/amigaos/mui/uiuserportds1307rtc.c,
+	src/arch/amigaos/mui/uiuserportrtc58321a.c,
+	src/arch/amigaos/mui/uivicii.c, src/arch/amigaos/petui.c,
+	src/arch/amigaos/scpu64ui.c, src/arch/amigaos/vic20ui.c: Some amiga
+	fixes.
+
+2016-11-05  AreaScout <areascout@gmx.at>
+
+	* build/android/build-android.sh,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java: Fix:
+	keymap file naming for android port
+
+2016-11-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/vsync.c: Remove -refreshrate/RefrashRate from vsid. (The Amiga
+	UI has this, why?)
+
+2016-11-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/keyboard.c: Remove KeyboardMapping, KeyboardType, KeymapIndex,
+	KeymapPosFile, KeymapSymFile, KeymapUserPosFile, KeymapUserSymFile and
+	related command line options from vsid
+
+2016-11-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/xaw/x11video.c: Remove -+keepaspect/KeepAspectRatio
+	and -+trueaspect/TrueAspectRatio from vsid *nix
+
+2016-11-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/machine.c: Remove non-sensical
+	-exitscreenshot/ExitScreenshotName from vsid
+
+2016-11-05  AreaScout <areascout@gmx.at>
+
+	* src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_20/Android.mk.proto:
+	Fix: reflect changes from r32168 to Android port
+
+2016-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/clockport-mp3at64.c: Fixed.
+
+2016-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uijoyport.c: Added bbrtc save data items to the
+	amiga gui.
+
+2016-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uiide64.c: Added IDE64 short bus digimax items to
+	the amiga gui.
+
+2016-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/cbm2ui.c, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/Makefile.am,
+	src/arch/amigaos/mui/uiuserportds1307rtc.c,
+	src/arch/amigaos/mui/uiuserportds1307rtc.h,
+	src/arch/amigaos/mui/uiuserportrtc58321a.c,
+	src/arch/amigaos/mui/uiuserportrtc58321a.h, src/arch/amigaos/petui.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4ui.c,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/scpu64ui.c,
+	src/arch/amigaos/scpu64uires.h, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Added all
+	userport device items to the amiga gui.
+
 2016-11-03  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	ChangeLog, configure.proto, doc/vice.chm, doc/vice.guide,

@@ -2263,8 +2263,8 @@ All these resources are available for all emulators except vsid.
      to D64)
 
 `AutostartDelayRandom'
-     Boolean, enables a short (0-10 frames) random delay on autostart
-     (all emulators except vsid).
+     Boolean, enables a short (0-10 frames) random delay on autostart.
+     This is added to the `AutostartDelay' (all emulators except vsid).
 
 `AutostartDelay'
      Integer specifying the delay in seconds required to wait for the
@@ -3445,8 +3445,8 @@ Drive resources
 `Drive9Wobble'
 `Drive10Wobble'
 `Drive11Wobble'
-     Integers specifying the random wobble that will be added the
-     rotation speed.
+     Integers specifying the random deviation of the rotation speed,
+     multiplied by 100 so 100 equals +/- 1rpm.
 
 `DosName1540'
 `DosName1541'
@@ -4473,7 +4473,7 @@ RS232 command-line options
 `-acia1irq <interrupt>'
      Set the ACIA interrupt (`Acia1Irq') (x64, x64sc, xscpu64, xvic and
      x128 only, and only if RS232 support is enabled and supported at
-     compile time).  (0: None, 1: NMI, 2: IRQ)
+     compile time).  (0: None, 1: IRQ, 2: NMI)
 
 `-rsuser'
 `+rsuser'
@@ -6011,9 +6011,14 @@ used in both the C64 and the C128.
      there is also a chance that also enemies become invincible then).
 
    * "Color set" can be used to dynamically change the palette file
-     being used by choosing one of the available predefined color sets:
+     being used by choosing one of the available predefined color sets,
+     for example:
 
-        * `default.vpl' ("default"), the default VICE palette;
+        * `pepto-pal.vpl' ("Pepto PAL"), a Palette calculated by Philip
+          "Pepto" Timmermann (http://www.pepto.de/projects/colorvic/).
+          (This is the default)
+
+        * `vic.vpl' ("VICE"), the old default VICE palette.
 
         * `c64s.vpl' ("C64S"), palette taken from the shareware C64S
           emulator by Miha Peternel.
@@ -6364,7 +6369,7 @@ SID resources
 
 `SidResidSampling'
      Integer specifying the sampling method (`0': Fast, `1':
-     Interpolation, `2': Resampling)
+     Interpolation, `2': Resampling, `3': Fast Resampling)
 
 `SidResidPassband'
      Integer specifying the resampling filter passband in percentage of
@@ -6859,7 +6864,7 @@ C64 resources
 
 `MachineVideoStandard'
      Integer that specifies the video standard of the emulated machine
-     (-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+     (4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
 
 C64 command-line options
 ........................
@@ -6893,16 +6898,16 @@ C64 command-line options
      (0xDE00/0xDE80/0xDF00/0xDF80)
 
 `-pal'
-     Use PAL sync factor (`MachineVideoStandard=-1').
+     Use PAL sync factor (`MachineVideoStandard=1').
 
 `-ntsc'
-     Use NTSC sync factor (`MachineVideoStandard=-2').
+     Use NTSC sync factor (`MachineVideoStandard=2').
 
 `-ntscold'
-     Use old NTSC sync factor (`MachineVideoStandard=-3').
+     Use old NTSC sync factor (`MachineVideoStandard=3').
 
 `-paln'
-     Use PAL-N sync factor (`MachineVideoStandard=-4').
+     Use PAL-N sync factor (`MachineVideoStandard=4').
 
 `-model <Model>'
      Set the C64 model (`VICIIModel', `CIA1Model', `CIA2Model',
@@ -7274,7 +7279,7 @@ C128 resources
 
 `MachineVideoStandard'
      Integer that specifies the video standard of the emulated machine
-     (-1: PAL, -2: NTSC).
+     (1: PAL, 2: NTSC).
 
 C128 command-line options
 .........................
@@ -7292,10 +7297,10 @@ C128 command-line options
      Always switch to C128 mode on reset (`Go64Mode=0'.
 
 `-pal'
-     Use PAL sync factor (`MachineVideoStandard=-1').
+     Use PAL sync factor (`MachineVideoStandard=1').
 
 `-ntsc'
-     Use NTSC sync factor (`MachineVideoStandard=-2').
+     Use NTSC sync factor (`MachineVideoStandard=2').
 
 `-model <Model>'
      Set the C128 model (`MachineVideoStandard', `CIA1Model',
@@ -7552,7 +7557,7 @@ DTV resources
 
 `MachineVideoStandard'
      Integer that specifies the video standard of the emulated machine.
-     (-1: PAL, -2: NTSC)
+     (1: PAL, 2: NTSC)
 
 DTV command-line options
 ------------------------
@@ -7562,10 +7567,10 @@ DTV command-line options
      `HummerADC').  (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)
 
 `-pal'
-     Use PAL sync factor (`MachineVideoStandard=-1').
+     Use PAL sync factor (`MachineVideoStandard=1').
 
 `-ntsc'
-     Use NTSC sync factor (`MachineVideoStandard=-2').
+     Use NTSC sync factor (`MachineVideoStandard=2').
 
 `-chargen <name>'
      Specify filename of the character generator ROM file
@@ -7600,7 +7605,7 @@ SCPU64 resources
 
 `MachineVideoStandard'
      Integer that specifies the video standard of the emulated machine
-     (-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+     (4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
 
 `IECReset'
      Integer specifying if the IEC bus resets when the CPU resets.  (0:
@@ -7640,16 +7645,16 @@ SCPU64 command-line options
      drean, jap, c64gs)
 
 `-pal'
-     Use PAL sync factor (`MachineVideoStandard=-1').
+     Use PAL sync factor (`MachineVideoStandard=1').
 
 `-ntsc'
-     Use NTSC sync factor (`MachineVideoStandard=-2').
+     Use NTSC sync factor (`MachineVideoStandard=2').
 
 `-ntscold'
-     Use old NTSC sync factor (`MachineVideoStandard=-3').
+     Use old NTSC sync factor (`MachineVideoStandard=3').
 
 `-paln'
-     Use PAL-N sync factor (`MachineVideoStandard=-4').
+     Use PAL-N sync factor (`MachineVideoStandard=4').
 
 `-iecreset <value>'
      Set IEC reset bahaviour (`IECReset').  (0: Do not reset with CPU
@@ -7666,11 +7671,11 @@ SCPU64 command-line options
 
 `-jiffyswitch'
 `+jiffyswitch'
-     Enable/disable the jiffy swicth (`JiffySwitch=1', `JiffySwitch=0').
+     Enable/disable the jiffy switch (`JiffySwitch=1', `JiffySwitch=0').
 
 `-speedswitch'
 `+speedswitch'
-     Enable/disable the speed swicth (`SpeedSwitch=1', `SpeedSwitch=0').
+     Enable/disable the speed switch (`SpeedSwitch=1', `SpeedSwitch=0').
 
 `-gluelogictype <type>'
      Set glue logic type (`GlueLogic').  (0: discrete, 1: 252535-01)
@@ -7928,7 +7933,7 @@ VIC20 cartridge resources
 
 `MachineVideoStandard'
      Integer that specifies the video standard of the emulated machine
-     (-1: PAL, -2: NTSC).
+     (1: PAL, 2: NTSC).
 
 VIC20 cartridge command-line options
 ....................................
@@ -8129,10 +8134,10 @@ VIC20 cartridge command-line options
      `RamBlock3' and `RamBlock5').  (vic20/vic20pal/vic20ntsc, vic21)
 
 `-pal'
-     Use PAL sync factor (`MachineVideoStandard=-1').
+     Use PAL sync factor (`MachineVideoStandard=1').
 
 `-ntsc'
-     Use NTSC sync factor (`MachineVideoStandard=-2').
+     Use NTSC sync factor (`MachineVideoStandard=2').
 
 VIC settings
 ------------
@@ -8764,7 +8769,7 @@ PLUS4 resources
 
 `MachineVideoStandard'
      Integer that specifies the video standard of the emulated machine
-     (-1: PAL, -2: NTSC).
+     (1: PAL, 2: NTSC).
 
 `RamSize'
      Integer specifying the size of the memory in kByte.  (16, 32, 64)
@@ -8787,10 +8792,10 @@ PLUS4 command-line options
      plus4/plus4pal/plus4ntsc, v364/cv364, c232)
 
 `-pal'
-     Use PAL sync factor (`MachineVideoStandard=-1').
+     Use PAL sync factor (`MachineVideoStandard=1').
 
 `-ntsc'
-     Use NTSC sync factor (`MachineVideoStandard=-2').
+     Use NTSC sync factor (`MachineVideoStandard=2').
 
 `-ramsize <ramsize>'
      Specify size of RAM installed in kb (`RamSize').  (16, 32, 64)
@@ -9321,7 +9326,7 @@ PET resources
 
 `MachineVideoStandard'
      Integer that specifies the video standard of the emulated machine
-     (-1: PAL, -2: NTSC).
+     (1: PAL, 2: NTSC).
 
 `CPUswitch'
      Integer specifying the status of the SuperPET CPU switch (0: 6502,
@@ -9333,10 +9338,10 @@ PET command line options
 These are the commandline options specific for the PET models.
 
 `-pal'
-     Use PAL sync factor (`MachineVideoStandard=-1').
+     Use PAL sync factor (`MachineVideoStandard=1').
 
 `-ntsc'
-     Use NTSC sync factor (`MachineVideoStandard=-2').
+     Use NTSC sync factor (`MachineVideoStandard=2').
 
 `-model <model>'
      Specify the PET model you want to emulate (`Basic1',
@@ -9419,12 +9424,12 @@ memory at $8800 as colour RAM.
 There are two versions of the extension:
 
 with digital colour (RGBI), which can select 16 foreground and 16
-background colours for each charcter cell. The The 8 colour bits are
-used as RGBI RGBI, with the most significant bits for the background,
-and the least significant bits for the foreground.
+background colours for each character cell. The 8 colour bits are used
+as RGBI RGBI, with the most significant bits for the background, and
+the least significant bits for the foreground.
 
-with analog colour, which can use 256 foreground colours for each
-character cell. The 8 colour bits are used as RRR GGG BB.
+With analog colour, which can use 256 foreground colours for each
+character cell, the 8 colour bits are used as RRR GGG BB.
 
 
 @EndNode
@@ -9698,7 +9703,7 @@ file, command line options or right-menu items):
 
 `MachineVideoStandard'
      Integer that specifies the video standard of the emulated machine
-     (-1: PAL, -2: NTSC).
+     (1: PAL, 2: NTSC).
 
 Choosing a common CBM-II model is done from the right-button menu
 instead, by choosing an item from the "Model defaults" submenu.
@@ -9786,10 +9791,10 @@ CBM-II command line options
 These are the commandline options specific for the CBM-II models.
 
 `-pal'
-     Use PAL sync factor (`MachineVideoStandard=-1').
+     Use PAL sync factor (`MachineVideoStandard=1').
 
 `-ntsc'
-     Use NTSC sync factor (`MachineVideoStandard=-2').
+     Use NTSC sync factor (`MachineVideoStandard=2').
 
 `-ramsize <ramsize>'
      Specify size of RAM (`RamSize').  xcbm2: (128, 256, 512, 1024)
@@ -9910,7 +9915,7 @@ VSID resources
 
 `MachineVideoStandard'
      Integer that specifies the video standard of the emulated machine
-     (-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+     (4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
 
 VSID command-line options
 .........................
@@ -9932,16 +9937,16 @@ VSID command-line options
      Specify name of the Basic ROM image (`BasicName').
 
 `-pal'
-     Use PAL sync factor (`MachineVideoStandard=-1').
+     Use PAL sync factor (`MachineVideoStandard=1').
 
 `-ntsc'
-     Use NTSC sync factor (`MachineVideoStandard=-2').
+     Use NTSC sync factor (`MachineVideoStandard=2').
 
 `-ntscold'
-     Use old NTSC sync factor (`MachineVideoStandard=-3').
+     Use old NTSC sync factor (`MachineVideoStandard=3').
 
 `-paln'
-     Use PAL-N sync factor (`MachineVideoStandard=-4').
+     Use PAL-N sync factor (`MachineVideoStandard=4').
 
 
 @EndNode
@@ -21012,6 +21017,8 @@ External contributors:
 
    * Helfried Peyrl Supplied a patch that fixes REL file records larger
      256 bytes when using vdrive.
+
+     Christopher Phillips Fixed and improved some Mac OS X gui items.
 
    * Frank Prindle Contributed some patches.
 
