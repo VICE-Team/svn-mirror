@@ -30,6 +30,7 @@
 #endif
 #include "mui.h"
 
+#include "keyboard.h"
 #include "uikeymap.h"
 #include "intl.h"
 #include "translate.h"

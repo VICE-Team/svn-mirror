@@ -30,6 +30,7 @@
 #endif
 #include "mui.h"
 
+#include "cartridge.h"
 #include "uic64cart.h"
 #include "intl.h"
 #include "translate.h"
@@ -256,7 +257,7 @@ static APTR build_gui_util(void)
     APTR ec_button, ef_button, epyx_button, exos_button, ide64_button, i488_button;
     APTR ks_button, m5_button, md_button, mv_button, ma_button, mmc64_button;
     APTR p64_button, pf_button, rex_button, rep256_button, ross_button, simon_button;
-    APTR sb_button, se5_button;
+    APTR sb_button, sd_button, se5_button;
 
 #ifdef HAVE_PCAP
     CART_HOOK(RRN3Hook, RRN3);
@@ -379,8 +380,8 @@ CART_LOAD(ZAX, CARTRIDGE_NAME_ZAXXON, CARTRIDGE_ZAXXON)
 static APTR build_gui_game(void)
 {
     APTR app, ui, ok, cancel;
-    APTR din_button, gmod2_button, gs_button, ocean_button, rgcd_button, sr128_button;
-    APTR zax_button;
+    APTR din_button, gmod2_button, gs_button, ocean_button, rgcd_button, sg_button;
+    APTR sr128_button, zax_button;
 
     CART_HOOK(DINHook, DIN);
     CART_HOOK(GMOD2Hook, GMOD2);
@@ -434,7 +435,7 @@ CART_LOAD(REU, CARTRIDGE_NAME_REU, CARTRIDGE_REU)
 static APTR build_gui_ramex(void)
 {
     APTR app, ui, ok, cancel;
-    APTR dqbb_button, geo_button, ip_button, rc_button, reu_buttton;
+    APTR dqbb_button, geo_button, ip_button, rc_button, reu_button;
 
     CART_HOOK(DQBBHook, DQBB);
     CART_HOOK(GEOHook, GEO);
