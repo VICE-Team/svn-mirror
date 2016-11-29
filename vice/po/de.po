@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-28 10:38-0800\n"
-"PO-Revision-Date: 2016-11-12 19:13+0100\n"
+"PO-Revision-Date: 2016-11-29 18:25+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -1524,12 +1524,11 @@ msgid "Disk image for PRG autostart"
 msgstr "Disk Imagedatei für PRG Autstart"
 
 #: src/arch/unix/gui/uiautostart.c:68
-#, fuzzy
 msgid ""
 "Enter autostart delay in seconds\n"
 "(max. 1000, 0 means default)"
 msgstr ""
-"Setze maximale Zufallsverzögerung in Frames\n"
+"Setze maximale Zufallsverzögerung in Sekunden\n"
 "(1000: maximum, 0: Standard )"
 
 #: src/arch/unix/gui/uiautostart.c:69 src/arch/win32/resautostart.rc.po.c:60
@@ -1567,9 +1566,8 @@ msgid "Autostart random delay"
 msgstr "Autostart Zufallsverzögerung"
 
 #: src/arch/unix/gui/uiautostart.c:102
-#, fuzzy
 msgid "Autostart fixed delay"
-msgstr "Autostart Verzögerung"
+msgstr "Autostart fixe Verzögerung"
 
 #: src/arch/unix/gui/uiautostart.c:105 src/arch/win32/resautostart.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:12957
@@ -7112,9 +7110,8 @@ msgstr "IDE64 Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1685 src/arch/win32/resethernetcart.rc.po.c:35
 #: src/arch/win32/resvic20.rc.po.c:576
-#, fuzzy
 msgid "Ethernet Cart settings"
-msgstr "Ethernet Einstellungen"
+msgstr "Ethernet Modul Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1687 src/arch/win32/resacia.rc.po.c:84
 #: src/arch/win32/resvic20.rc.po.c:571 src/arch/amigaos/intl_text.c.po.c:4205
@@ -7881,19 +7878,16 @@ msgid "Interface"
 msgstr "Schnittstelle"
 
 #: src/arch/win32/resethernetcart.rc.po.c:36
-#, fuzzy
 msgid "Enable the Ethernet Cart"
-msgstr "Expert Cartridge aktivieren"
+msgstr "Ethernet Cartridge aktivieren"
 
 #: src/arch/win32/resethernetcart.rc.po.c:37
-#, fuzzy
 msgid "Ethernet Cart mode"
-msgstr "Ethernet Erweiterungsmodul"
+msgstr "Ethernet Modul Modus"
 
 #: src/arch/win32/resethernetcart.rc.po.c:38
-#, fuzzy
 msgid "Ethernet Cart base address"
-msgstr "Dritter SID Chip Basisadresse"
+msgstr "Ethernet Modul Chip Basisadresse"
 
 #: src/arch/win32/resexpert.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:7635
 msgid "Select file for Expert Cartridge"
@@ -7968,14 +7962,12 @@ msgid "IDE64 shortbus DigiMAX device address"
 msgstr "IDE64 Shortbus DigiMAX Geräteadresse"
 
 #: src/arch/win32/reside64.rc.po.c:96
-#, fuzzy
 msgid "IDE64 shortbus ETFE device"
-msgstr "IDE64 Shortbus DigiMAX Gerät aktivieren"
+msgstr "IDE64 Shortbus ETFE Gerät"
 
 #: src/arch/win32/reside64.rc.po.c:97
-#, fuzzy
 msgid "IDE64 shortbus ETFE device address"
-msgstr "IDE64 Shortbus DigiMAX Geräteadresse"
+msgstr "IDE64 Shortbus ETFE Geräteadresse"
 
 #: src/arch/win32/reside64.rc.po.c:99
 msgid "Enable IDE64 V4"
@@ -8013,7 +8005,6 @@ msgstr "IDE64 USB Server Adresse"
 #: src/arch/win32/reside64.rc.po.c:111 src/arch/win32/resmmc64.rc.po.c:65
 #: src/arch/win32/resmmcreplay.rc.po.c:56
 #: src/arch/win32/resretroreplay.rc.po.c:43
-#, fuzzy
 msgid "Clockport Device"
 msgstr "Clockport Gerät"
 
@@ -8796,31 +8787,26 @@ msgstr "Funktions ROM Imagedatei high (3plus1)"
 
 #: src/arch/amigaos/intl_text.c.po.c:845
 #: src/arch/amigaos/intl_text.c.po.c:13881
-#, fuzzy
 msgid "Generic Cartridges"
 msgstr "Universelle Erweiterungsmodule"
 
 #: src/arch/amigaos/intl_text.c.po.c:859
 #: src/arch/amigaos/intl_text.c.po.c:13895
-#, fuzzy
 msgid "Freezer Cartridges"
 msgstr "Freezer Erweiterungsmodule"
 
 #: src/arch/amigaos/intl_text.c.po.c:873
 #: src/arch/amigaos/intl_text.c.po.c:13909
-#, fuzzy
 msgid "Utility Cartridges"
 msgstr "Utility Erweiterungsmodule"
 
 #: src/arch/amigaos/intl_text.c.po.c:887
 #: src/arch/amigaos/intl_text.c.po.c:13923
-#, fuzzy
 msgid "Game Cartridges"
 msgstr "Spiel Erweiterungsmodule"
 
 #: src/arch/amigaos/intl_text.c.po.c:901
 #: src/arch/amigaos/intl_text.c.po.c:13937
-#, fuzzy
 msgid "RAM Expansion Cartridges"
 msgstr "RAM Erweiterungsmodule"
 
@@ -9137,24 +9123,20 @@ msgid "Drive ROM settings"
 msgstr "Floppy ROM Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3631
-#, fuzzy
 msgid "Userport device settings"
-msgstr "Userport Geräte"
+msgstr "Userport Geräteeinstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3645
-#, fuzzy
 msgid "Tapeport device settings"
-msgstr "Bandlog Geräteeinstellungen"
+msgstr "Bandport Geräteeinstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3659
-#, fuzzy
 msgid "TapeLog device settings"
 msgstr "Bandlog Geräteeinstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3673
-#, fuzzy
 msgid "CP CLock F83 RTC device settings"
-msgstr "CP Clock F83 Geräteeinstellungen"
+msgstr "CP Clock F83 RTC Geräteeinstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3855
 msgid "PLUS256K file"
@@ -9191,15 +9173,13 @@ msgstr "Userport 8bit Sampler aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:4443
 #: src/arch/amigaos/intl_text.c.po.c:7481
-#, fuzzy
 msgid "Userport RTC58321a settings"
-msgstr "Userport RTC (58321a) Einstellungen"
+msgstr "Userport RTC58321a Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:4457
 #: src/arch/amigaos/intl_text.c.po.c:7439
-#, fuzzy
 msgid "Userport DS1307 RTC settings"
-msgstr "Userport RTC (DS1307) Einstellungen"
+msgstr "Userport DS1307 RTC Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:4919
 msgid "Fullscreen Statusbar"
@@ -9276,9 +9256,8 @@ msgid "Save %s screenshot"
 msgstr "Screenshot %s speichern"
 
 #: src/arch/amigaos/intl_text.c.po.c:5703
-#, fuzzy
 msgid "Choose VICII model"
-msgstr "VIC-II Modell"
+msgstr "VIC-II Modell wählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:5717
 #, c-format
@@ -9383,40 +9362,33 @@ msgid "Additional Delay"
 msgstr "Zusätzliche Verzögerung"
 
 #: src/arch/amigaos/intl_text.c.po.c:6949
-#, fuzzy
 msgid "CP Clock F83"
-msgstr "CP Clock F83 Einstellungen"
+msgstr "CP Clock F83"
 
 #: src/arch/amigaos/intl_text.c.po.c:6991
 #: src/arch/amigaos/intl_text.c.po.c:7005
-#, fuzzy
 msgid "Generic logfile"
-msgstr "Generisches Image"
+msgstr "Generische Logdatei"
 
 #: src/arch/amigaos/intl_text.c.po.c:7019
-#, fuzzy
 msgid "TapeLog"
 msgstr "Bandlog"
 
 #: src/arch/amigaos/intl_text.c.po.c:7033
-#, fuzzy
 msgid "TapeLog messages destination"
 msgstr "Ort für Bandlog Nachrichten"
 
 #: src/arch/amigaos/intl_text.c.po.c:7047
-#, fuzzy
 msgid "Select file for TapeLog"
 msgstr "Bandlog Datei auswählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:7061
-#, fuzzy
 msgid "TapeLog file"
 msgstr "Bandlog Datei"
 
 #: src/arch/amigaos/intl_text.c.po.c:7075
-#, fuzzy
 msgid "TapeLog settings"
-msgstr "Einstellungen speichern"
+msgstr "Bandlog Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:7271
 msgid "Enable FD2000/4000 RTC data saving"
@@ -9431,24 +9403,20 @@ msgid "Wobble"
 msgstr "Schwankung"
 
 #: src/arch/amigaos/intl_text.c.po.c:7411
-#, fuzzy
 msgid "Enable Userport DS1307 RTC"
-msgstr "Userport RTC (DS1307) aktivieren"
+msgstr "Userport DS1307 RTC aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:7425
-#, fuzzy
 msgid "Save Userport DS1307 RTC data when changed"
-msgstr "RTC (DS1307) Daten bei Änderung speichern"
+msgstr "DS1307 RTC Daten bei Änderung speichern"
 
 #: src/arch/amigaos/intl_text.c.po.c:7453
-#, fuzzy
 msgid "Enable Userport RTC58321a"
-msgstr "Userport RTC (58321a) aktivieren"
+msgstr "Userport RTC58321a aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:7467
-#, fuzzy
 msgid "Save Userport RTC58321a data when changed"
-msgstr "RTC (58321a) Daten bei Änderung speichern"
+msgstr "Userport RTC58321a Daten bei Änderung speichern"
 
 #: src/arch/amigaos/intl_text.c.po.c:7495
 msgid "Select file to be used as sampler input"
@@ -9846,14 +9814,12 @@ msgid "Select BIOS file"
 msgstr "BIOS Datei wählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:10647
-#, fuzzy
 msgid "Short bus DigiMAX device"
-msgstr "IDE64 Shortbus DigiMAX Gerät aktivieren"
+msgstr "Shortbus DigiMAX Gerät"
 
 #: src/arch/amigaos/intl_text.c.po.c:10661
-#, fuzzy
 msgid "Short bus DigiMAX base address"
-msgstr "IDE64 Shortbus DigiMAX Geräteadresse"
+msgstr "Shortbus DigiMAX Geräteadresse"
 
 #: src/arch/amigaos/intl_text.c.po.c:10675
 msgid "Select MMC/SD image file"
@@ -10016,9 +9982,8 @@ msgid "Enable Smart Mouse RTC saving"
 msgstr "Smart Mouse RTC Speicherung aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:12929
-#, fuzzy
 msgid "Autostart delay (in seconds)"
-msgstr "Autostart Verzögerung"
+msgstr "Autostart Verzögerung (in Sekunden)"
 
 #: src/arch/amigaos/intl_text.c.po.c:13055
 msgid "Save to EasyFlash CRT file on detach"
@@ -10101,49 +10066,40 @@ msgid "Positional"
 msgstr "Positional"
 
 #: src/arch/amigaos/intl_text.c.po.c:13979
-#, fuzzy
 msgid "Symbolic (user)"
-msgstr "Symbolische Zuordnung (Benutzer)"
+msgstr "Symbolisch (Benutzer)"
 
 #: src/arch/amigaos/intl_text.c.po.c:13993
-#, fuzzy
 msgid "Positional (user)"
-msgstr "Positions Zuordnung (Benutzer)"
+msgstr "Positionszuordnung (Benutzer)"
 
 #: src/arch/amigaos/intl_text.c.po.c:14007
-#, fuzzy
 msgid "Select file for user symbolic keymap"
 msgstr "Symbolische Keymap Datei auswählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:14021
-#, fuzzy
 msgid "Select file for user positional keymap"
 msgstr "Positions Keymap Datei auswählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:14035
-#, fuzzy
 msgid "Active keymap"
-msgstr "Keymap Datei speichern"
+msgstr "Aktive Keymap"
 
 #: src/arch/amigaos/intl_text.c.po.c:14049
-#, fuzzy
 msgid "Keyboard mapping"
 msgstr "Tastatur Mapping"
 
 #: src/arch/amigaos/intl_text.c.po.c:14063
-#, fuzzy
 msgid "User symbolic keymap file"
-msgstr "Symbolische Keymap Datei auswählen"
+msgstr "Symbolische Keymap Datei"
 
 #: src/arch/amigaos/intl_text.c.po.c:14077
-#, fuzzy
 msgid "User positional keymap file"
-msgstr "Positions Keymap Datei auswählen"
+msgstr "Positions Keymap Datei"
 
 #: src/arch/amigaos/intl_text.c.po.c:14091
-#, fuzzy
 msgid "Keymap settings"
-msgstr "Tastatur Einstellungen"
+msgstr "Keymap Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:14105
 msgid "Select SID file to load"
