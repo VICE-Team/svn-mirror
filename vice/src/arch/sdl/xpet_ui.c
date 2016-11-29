@@ -176,10 +176,6 @@ void petui_set_menu_params(int index, menu_draw_t *menu_draw)
     int cols = petmem_get_rom_columns();
     int keymap;
 
-#if 1
-    log_warning(LOG_DEFAULT, "cols : %d", cols);
-#endif
-
     menu_draw->max_text_x = cols ? cols : 40;
     menu_draw->extra_x = 24;
     menu_draw->extra_y = (cols == 40) ? 32 : 20;
