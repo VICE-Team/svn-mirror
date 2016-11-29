@@ -63,6 +63,7 @@ extern "C" {
 #include "ui_cia.h"
 #include "ui_drive.h"
 #include "ui_ide64.h"
+#include "ui_ide64usb.h"
 #include "ui_joystick.h"
 #include "ui_printer.h"
 #include "ui_sid.h"
@@ -635,6 +636,9 @@ static void c64_ui_specific(void *msg, void *window)
                 break;
             case MENU_IDE64_SIZE4:
                 ui_ide64(4);
+                break;
+            case MENU_IDE64_USB_SERVER:
+                ui_ide64usb();
                 break;
             case MENU_MAGICVOICE_FILE:
                 ui_select_file(B_SAVE_PANEL, MAGICVOICE_FILE, (void*)0);
