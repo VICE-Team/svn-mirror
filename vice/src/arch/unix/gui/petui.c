@@ -141,8 +141,10 @@ static ui_menu_entry_t sidcart_submenu[] = {
    /* Translators: "SID clock" as in "CPU Frequency" */
     { N_("SID clock"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_clock_submenu },
+#ifdef HAVE_RESID
     { N_("ReSID sampling method"), UI_MENU_TYPE_NORMAL,
         NULL, NULL, sid_resid_sampling_submenu },
+#endif
     { NULL }
 };
 
