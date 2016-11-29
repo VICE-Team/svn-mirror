@@ -138,9 +138,11 @@ static ui_menu_entry_t sidcart_submenu[] = {
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("SID address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_address_submenu },
-    /* Translators: "SID clock" as in "CPU Frequency" */
+   /* Translators: "SID clock" as in "CPU Frequency" */
     { N_("SID clock"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_clock_submenu },
+    { N_("ReSID sampling method"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, sid_resid_sampling_submenu },
     { NULL }
 };
 
