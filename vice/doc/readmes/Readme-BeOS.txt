@@ -4,12 +4,12 @@ BeVICE
 REQUIREMENTS
 ---------------------------
 BeVICE was developed and so far tested under BeOS 5 Personal Edition,
-Zeta and Haiku.
+Zeta and Haiku (R1 Alpha3 and later.)
 
 INSTALLATION
 ------------------------
 No nice package installer so far, just expand the binary archive to 
-wherever you like, enter the directory 'BeVICE-2.*' and start your
+wherever you like, enter the directory 'BeVICE-3.*' and start your
 favourite emulator (x64, x128, xvic, xpet, xplus4, xcbm2, etc).
 
 COMPILATION
@@ -18,13 +18,12 @@ If you have the source distribution of VICE and want to build your own
 binaries, the following hints may help:
 - Building under BeOS requires the Be development tools; you can get them for
   free at: http://www.bebits.com/
-- Expand the source directory vice-2.*
+- Expand the source directory vice-3.*
 - Start a terminal and enter the source directory
 - ./configure
-  Configures for building BeOS binaries. You may also be able to use the
-  --enable-sdlui option to build binaries using the SDL UI instead of the
-  native BeOS UI, or the --with-sdlsound option to use just the SDL sound
-  driver with the native UI. (No guarantees.)
+  Configures for building BeOS or Haiku binaries. You may also choose to use
+  the --enable-sdlui option to build binaries using the SDL UI instead of the
+  native BeOS/Haiku UI. (This has only been tested with SDL 1.x so far.)
 - make
   Compiles all the stuff and creates the executables in the src subdirectory.
 - make bindist
@@ -34,9 +33,6 @@ binaries, the following hints may help:
 
 BUGS (only the known;)
 -------------------------------------
-- Sometimes the application loses the keyboard focus; no keystrokes are
-  accepted inside the emu, so the emulator has to be restarted.
-  (I have not observed this; it may no longer be true.)
 - The sound code has changed significantly and may change more in the future.
   How many machines it does (not) work on is largely unknown at this point.
 - The monitor only works if you start the emulator from a terminal; if you
@@ -47,9 +43,11 @@ BUGS (only the known;)
 
 TODO
 ----------
-- Some user interfaces for the settings are missing; some machine
-  specific setting are missing; use commandline options or
+- Some user interfaces for the settings may still be missing; some machine
+  specific setting may be missing; use commandline options or
   edit the vice.ini.
+- DirectWindow mode is untested/unavailable on newer versions of Haiku. It is
+  known to be unsupported by older versions of Haiku.
 - Fullsrceen mode is needed.
 
 FEEDBACK
