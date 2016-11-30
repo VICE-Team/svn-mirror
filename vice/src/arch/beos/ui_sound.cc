@@ -28,6 +28,7 @@
 #include <Box.h>
 #include <OptionPopUp.h>
 #include <RadioButton.h>
+#include <Slider.h>
 #include <string.h>
 #include <Window.h>
 
@@ -113,12 +114,15 @@ class SoundWindow : public BWindow {
         SoundWindow();
         ~SoundWindow();
         virtual void MessageReceived(BMessage *msg);
+    private:
+        BSlider *main_vol_slider;
+        BSlider *drive_vol_slider;
 };
 
 static SoundWindow *soundwindow = NULL;
 
 SoundWindow::SoundWindow() 
-    : BWindow(BRect(50, 50, 450, 190), "Sound settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 530, 270), "Sound settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BView *background;
     BRect r;
@@ -135,8 +139,50 @@ SoundWindow::SoundWindow()
     background->SetViewColor(220, 220, 220, 0);
     AddChild(background);
 
+    // Main volume slider
+    r = Bounds();
+    r.right = r.left + r.Width() / 2;
+    r.InsetBy(5, 5);
+    r.bottom = 80;
+    box = new BBox(r, "SoundVolume");
+    box->SetViewColor(220, 220, 220, 0);
+
+    resources_get_int("SoundVolume", &res_value);
+    msg = new BMessage(MESSAGE_SOUND_VOLUME);
+    main_vol_slider = new BSlider(BRect(10, 10, r.Width() - 10, 30), "SoundVolume",
+                        "Main volume", msg, 0, 100, B_TRIANGLE_THUMB);
+    main_vol_slider->SetValue(res_value);
+    main_vol_slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+    main_vol_slider->SetHashMarkCount(11);
+    main_vol_slider->SetLimitLabels("0", "100");
+    box->AddChild(main_vol_slider);
+    
+    background->AddChild(box);
+
+    // Drive sound volume slider
+    r = Bounds();
+    r.right = r.left + r.Width() / 2;
+    r.OffsetBy(r.Width(), 0);
+    r.InsetBy(5, 5);
+    r.bottom = 80;
+    box = new BBox(r, "DriveSoundEmulationVolume");
+    box->SetViewColor(220, 220, 220, 0);
+
+    resources_get_int("DriveSoundEmulationVolume", &res_value);
+    msg = new BMessage(MESSAGE_SOUND_DRIVE_VOLUME);
+    drive_vol_slider = new BSlider(BRect(10, 10, r.Width() - 10, 30), "DriveSoundEmulationVolume",
+                        "Drive sound emulation volume", msg, 0, 4000, B_TRIANGLE_THUMB);
+    drive_vol_slider->SetValue(res_value);
+    drive_vol_slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+    drive_vol_slider->SetHashMarkCount(11);
+    drive_vol_slider->SetLimitLabels("0", "100");
+    box->AddChild(drive_vol_slider);
+    
+    background->AddChild(box);
+
     /* Mode */
     r = Bounds();
+    r.top = 80;
     r.right = r.left + r.Width() / 4;
     r.InsetBy(5, 5);
     r.bottom -= 30;
@@ -157,6 +203,7 @@ SoundWindow::SoundWindow()
 
     /* Frequency */
     r = Bounds();
+    r.top = 80;
     r.right = r.left + r.Width() / 4;
     r.OffsetBy(r.Width(), 0);
     r.InsetBy(5, 5);
@@ -170,8 +217,7 @@ SoundWindow::SoundWindow()
     for (i = 0; i < ui_sound_freq_count; i++) {
         msg = new BMessage(MESSAGE_SOUND_FREQ);
         msg->AddInt32("frequency", ui_sound_freq[i]);
-        sprintf(str, "%d", ui_sound_freq[i]);
-        //~ sprintf(str, "%d Hz", ui_sound_freq[i]);
+        sprintf(str, "%d Hz", ui_sound_freq[i]);
         radiobutton = new BRadioButton(BRect(10, 20 + 20 * i, r.Width() - 10, 35 + 20 * i), str, str, msg);
         radiobutton->SetValue(res_value == ui_sound_freq[i]);
         box->AddChild(radiobutton);
@@ -196,6 +242,7 @@ SoundWindow::SoundWindow()
 
     /* Fragment size */
     r = Bounds();
+    r.top = 80;
     r.right = r.left + r.Width() / 4;
     r.OffsetBy(2 * r.Width(), 0);
     r.InsetBy(5, 5);
@@ -216,6 +263,7 @@ SoundWindow::SoundWindow()
 
     /* Sync method */
     r = Bounds();
+    r.top = 80;
     r.right = r.left + r.Width() / 4;
     r.OffsetBy(3 * r.Width(), 0);
     r.InsetBy(5, 5);
@@ -268,6 +316,15 @@ void SoundWindow::MessageReceived(BMessage *msg)
             msg->FindInt32("mode", &res_value);
             resources_set_int("SoundOutput", res_value);
             break;
+        case MESSAGE_SOUND_VOLUME:
+            res_value = main_vol_slider->Value();
+            resources_set_int("SoundVolume", res_value);
+            break;
+        case MESSAGE_SOUND_DRIVE_VOLUME:
+            res_value = drive_vol_slider->Value();
+            resources_set_int("DriveSoundEmulationVolume", res_value);
+            break;
+
         default:
             BWindow::MessageReceived(msg);
     }

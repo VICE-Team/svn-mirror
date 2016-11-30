@@ -29,6 +29,7 @@
 #include <Box.h>
 #include <CheckBox.h>
 #include <RadioButton.h>
+#include <Slider.h>
 #include <string.h>
 #include <TabView.h>
 #include <Window.h>
@@ -125,8 +126,11 @@ class DriveView : public BView {
     public:
         DriveView(BRect r, int drive_num);
         void EnableControlsForDriveSettings(int type_index);
+
+    /* we have to remember some controls to enable/disable them */
+        BSlider *rpm_slider;
+        BSlider *wobble_slider;
     private:
-        /* we have to remember some controls to enable/disable them */
         BRadioButton *rb_extendimagepolicy[3];
         BRadioButton *rb_idlemethod[3];
         BRadioButton *rb_parallelcable[4];
@@ -155,6 +159,8 @@ void DriveView::EnableControlsForDriveSettings(int type_index)
         rb_parallelcable[i]->SetEnabled(drive_check_parallel_cable(current_drive_type));
     }
 
+    rpm_slider->SetEnabled(current_drive_type != 0 ? 1 : 0);
+    wobble_slider->SetEnabled(current_drive_type != 0 ? 1 : 0);
 }
 
 DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_NONE, B_WILL_DRAW)
@@ -171,20 +177,17 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
     BView::SetViewColor(220, 220, 220, 0);
 
     /* extend image policy */
-    r.OffsetTo(90, 0);
-    r.right = 220;
-    r.bottom = 95;
+    r.Set(100, 0, 260, 95);
     box = new BBox(r);
     box->SetLabel("40 track handling");
     AddChild(box);
-    r.InsetBy(10, 10);
     sprintf(resname, "Drive%dExtendImagePolicy", drive_num);
     resources_get_int(resname, &current_value);
     for (i = 0; extend_image_policy[i].name; i++) {
         msg = new BMessage(MESSAGE_DRIVE_EXTENDIMAGEPOLICY);
         msg->AddString("resname", resname);
         msg->AddInt32("resource_index", i);
-        radiobutton = new BRadioButton(BRect(10, 20 + i * 25, 120, 30 + i * 25), extend_image_policy[i].name, extend_image_policy[i].name, msg);
+        radiobutton = new BRadioButton(BRect(10, 20 + i * 25, 150, 30 + i * 25), extend_image_policy[i].name, extend_image_policy[i].name, msg);
         box->AddChild(radiobutton);
         rb_extendimagepolicy[i] = radiobutton;
         if (extend_image_policy[i].id == current_value) {
@@ -194,9 +197,7 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
 
     /* drive expansion */
     if (machine_drive_expansion_count > 0) {
-        r.left = 90;
-        r.top = 100;
-        r.right = 220;
+        r.Set(100, 100, 260, 0);
         r.bottom = r.top + 20 + machine_drive_expansion_count * 25; /* 270 or 320 */
         box = new BBox(r);
         box->SetLabel("Drive expansion");
@@ -205,7 +206,7 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
             sprintf(resname, expansion_list[i].resource_name, drive_num);
             msg = new BMessage(MESSAGE_DRIVE_EXPANSION);
             msg->AddString("resname", resname);
-            checkbox = new BCheckBox(BRect(10, 20 + i * 25, 120, 30 + i * 25), resname, expansion_list[i].name, msg);
+            checkbox = new BCheckBox(BRect(10, 20 + i * 25, 150, 30 + i * 25), resname, expansion_list[i].name, msg);
             box->AddChild(checkbox);
             cb_expansion[i] = checkbox;
             resources_get_int(resname, &current_value);
@@ -214,20 +215,17 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
     }
 
     /* idle method */
-    r.OffsetTo(230, 0);
-    r.right = 330;
-    r.bottom = 95;
+    r.Set(270, 0, 400, 95);
     box = new BBox(r);
     box->SetLabel("Idle method");
     AddChild(box);
-    r.InsetBy(10,10);
     sprintf(resname, "Drive%dIdleMethod", drive_num);
     resources_get_int(resname, &current_value);
     for (i = 0; idle_method[i].name; i++) {
         msg = new BMessage(MESSAGE_DRIVE_IDLEMETHOD);
         msg->AddString("resname", resname);
         msg->AddInt32("resource_index", i);
-        radiobutton = new BRadioButton(BRect(10, 20 + i * 25, 90, 30 + i * 25), idle_method[i].name, idle_method[i].name, msg);
+        radiobutton = new BRadioButton(BRect(10, 20 + i * 25, 120, 30 + i * 25), idle_method[i].name, idle_method[i].name, msg);
         box->AddChild(radiobutton);
         rb_idlemethod[i] = radiobutton;
         if (idle_method[i].id == current_value) {
@@ -237,9 +235,7 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
 
     /* parallel cable */
     if (machine_parallel_cable_type_count > 0) {
-        r.left = 230;
-        r.top = 100;
-        r.right = 330;
+        r.Set(270, 100, 400, 0);
         r.bottom = r.top + 20 + machine_parallel_cable_type_count * 25; /* 170 or 220 */
         box = new BBox(r);
         box->SetLabel("Parallel Cable");
@@ -250,7 +246,7 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
             msg = new BMessage(MESSAGE_DRIVE_PARALLELCABLE);
             msg->AddString("resname", resname);
             msg->AddInt32("resource_index", i);
-            radiobutton = new BRadioButton(BRect(10, 20 + i * 25, 90, 30 + i * 25), parallel_cable[i].name, parallel_cable[i].name, msg);
+            radiobutton = new BRadioButton(BRect(10, 20 + i * 25, 120, 30 + i * 25), parallel_cable[i].name, parallel_cable[i].name, msg);
             box->AddChild(radiobutton);
             rb_parallelcable[i] = radiobutton;
             if (parallel_cable[i].id == current_value) {
@@ -259,14 +255,50 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
         }
     }
 
+    /* drive RPM slider */
+    sprintf(resname, "Drive%dRPM", drive_num);
+    resources_get_int(resname, &current_value);
+
+    r.Set(100, 100, 400, 140);
+    if (machine_drive_expansion_count > 0) {
+        /* offset by 180 or 230 */
+        r.OffsetBy(0, 30 + machine_drive_expansion_count * 25);
+    }
+    msg = new BMessage(MESSAGE_DRIVE_RPM);
+    msg->AddString("resname", resname);
+    msg->AddInt32("drive_num", drive_num);
+    rpm_slider = new BSlider(r, resname, "Drive RPM", msg, 28000, 32000, B_TRIANGLE_THUMB);
+    rpm_slider->SetValue(current_value);
+    rpm_slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+    rpm_slider->SetHashMarkCount(21);
+    rpm_slider->SetLimitLabels("280.00", "320.00");
+    AddChild(rpm_slider);
+
+    /* drive wobble slider */
+    sprintf(resname, "Drive%dWobble", drive_num);
+    resources_get_int(resname, &current_value);
+ 
+    r.Set(100, 165, 400, 205);
+    if (machine_drive_expansion_count > 0) {
+        /* offset by 180 or 230 */
+        r.OffsetBy(0, 30 + machine_drive_expansion_count * 25);
+    }
+    msg = new BMessage(MESSAGE_DRIVE_WOBBLE);
+    msg->AddString("resname", resname);
+    msg->AddInt32("drive_num", drive_num);
+    wobble_slider = new BSlider(r, resname, "Drive Wobble", msg, 0, 500, B_TRIANGLE_THUMB);
+    wobble_slider->SetValue(current_value);
+    wobble_slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+    wobble_slider->SetHashMarkCount(26);
+    wobble_slider->SetLimitLabels("0", "5.00");
+    AddChild(wobble_slider);
+
     /* at last drive type, so we can enable/disable other controls */
-    r.OffsetTo(0, 0);
-    r.right = 80;
+    r.Set(0, 0, 90, 0);
     r.bottom = 20 + machine_drive_type_count * 25; /* max 420 */
     box = new BBox(r);
     box->SetLabel("Drive type");
     AddChild(box);
-    r.InsetBy(10, 10);
     sprintf(resname, "Drive%dType", drive_num);
     resources_get_int(resname, &current_value);
     for (i = 0; drive_list[i].name; i++) {
@@ -274,7 +306,7 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
         msg->AddString("resname", resname);
         msg->AddInt32("drive_num", drive_num);
         msg->AddInt32("resource_index", i);
-        radiobutton = new BRadioButton(BRect(10, 20 + i * 25, 70, 30 + i * 25), drive_list[i].name, drive_list[i].name, msg);
+        radiobutton = new BRadioButton(BRect(10, 20 + i * 25, 80, 30 + i * 25), drive_list[i].name, drive_list[i].name, msg);
         radiobutton->SetEnabled(drive_check_type(drive_list[i].id, drive_num - 8));
         box->AddChild(radiobutton);
 
@@ -334,28 +366,38 @@ void DriveWindow::MessageReceived(BMessage *msg)
 {
     const char *resname;
     int32 drive_num;
-    int32 resource_index;
+    int32 res_index, res_value;
 
     msg->FindString("resname", &resname);
-    msg->FindInt32("resource_index", &resource_index);
+    msg->FindInt32("resource_index", &res_index);
 
     switch (msg->what) {
         case MESSAGE_DRIVE_TYPE:
             msg->FindInt32("drive_num", &drive_num);
-            resources_set_int(resname, drive_list[resource_index].id);
-            dv[drive_num - 8]->EnableControlsForDriveSettings(resource_index);
+            resources_set_int(resname, drive_list[res_index].id);
+            dv[drive_num - 8]->EnableControlsForDriveSettings(res_index);
             break;
         case MESSAGE_DRIVE_EXTENDIMAGEPOLICY:
-            resources_set_int(resname, extend_image_policy[resource_index].id);
+            resources_set_int(resname, extend_image_policy[res_index].id);
             break;
         case MESSAGE_DRIVE_IDLEMETHOD:
-            resources_set_int(resname, idle_method[resource_index].id);
+            resources_set_int(resname, idle_method[res_index].id);
             break;
         case MESSAGE_DRIVE_EXPANSION:
             resources_toggle(resname, NULL);
             break;
         case MESSAGE_DRIVE_PARALLELCABLE:
-            resources_set_int(resname, parallel_cable[resource_index].id);
+            resources_set_int(resname, parallel_cable[res_index].id);
+            break;
+        case MESSAGE_DRIVE_RPM:
+            msg->FindInt32("drive_num", &drive_num);
+            res_value = dv[drive_num - 8]->rpm_slider->Value();
+            resources_set_int(resname, res_value);
+            break;
+        case MESSAGE_DRIVE_WOBBLE:
+            msg->FindInt32("drive_num", &drive_num);
+            res_value = dv[drive_num - 8]->wobble_slider->Value();
+            resources_set_int(resname, res_value);
             break;
         default:
             BWindow::MessageReceived(msg);
@@ -411,11 +453,16 @@ void ui_drive(ui_drive_type_t *drive_types, int caps)
         machine_parallel_cable_type_count = (caps & HAS_PARA_CABLE) ? 4 : 0;
     }
 
-    r.Set(50, 50, 400, 310);
+    r.Set(50, 50, 470, 310);
+#if 0
     if (machine_drive_type_count > 9) {
         r.bottom = 110 + machine_drive_type_count * 25;  /* max 510 */
     } else if (machine_drive_expansion_count > 0) {
         r.bottom = 210 + machine_drive_expansion_count * 25;  /* 360 or 410 */
+    }
+#endif
+    if (machine_drive_expansion_count > 0) {
+        r.bottom = 340 + machine_drive_expansion_count * 25;  /* 490 or 540 */
     }
 
     drivewindow = new DriveWindow(r);

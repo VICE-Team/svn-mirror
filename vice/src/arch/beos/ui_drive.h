@@ -38,7 +38,7 @@ typedef struct ui_drive_type_s {
 enum ui_drive_caps {
     HAS_NO_CAPS = 0,
     HAS_PARA_CABLE = (1 << 0),
-    HAS_PROFDOS = (1 << 1)     /* Implies SuperCard as well. */
+    HAS_PROFDOS = (1 << 1)     /* Implies SuperCard+ as well. */
 };
 
 const uint32 MESSAGE_DRIVE_TYPE              = 'MD01';
@@ -46,6 +46,8 @@ const uint32 MESSAGE_DRIVE_EXTENDIMAGEPOLICY = 'MD02';
 const uint32 MESSAGE_DRIVE_IDLEMETHOD        = 'MD03';
 const uint32 MESSAGE_DRIVE_EXPANSION         = 'MD04';
 const uint32 MESSAGE_DRIVE_PARALLELCABLE     = 'MD05';
+const uint32 MESSAGE_DRIVE_RPM               = 'MD06';
+const uint32 MESSAGE_DRIVE_WOBBLE            = 'MD07';
 
 extern void ui_drive(ui_drive_type_t *drive_types, int caps);
 
