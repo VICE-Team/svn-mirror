@@ -274,11 +274,24 @@ left from previous installs.
 
 - Documentation in AmigaGuide format.
 
-** BeOS changes
----------------
+** BeOS/Haiku changes
+---------------------
+
+- GUI fixes and improvements.
+
+- New support for Haiku native x86_gcc2, x86, and x86_64 binaries.
+
+- New "bsp" sound driver inspired by SDL (and used by default on Haiku,)
+  which should produce sound on all systems where SDL programs can.
+  This has been tested on Haiku R1 Alpha3 where the old "beos" driver
+  produces only crashes.
+
 - New hardware SID I/O access system which allows PCI CW3,
   ISA/PCI HardSID, ParSID and SSI2001 to work with and
   without device drivers.
+
+- Due to the addition of the hardware SID I/O access system, binaries built
+  for BeOS no longer run under Haiku. Please use Haiku native binaries.
 
 ** DOS changes
 --------------
