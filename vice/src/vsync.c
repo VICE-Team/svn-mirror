@@ -601,11 +601,19 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         avg_sdelay += sdelay;
     }
 
+    /* FIXME: This ifdef is a hack, chosen because it matches the others in
+    this file, and because the if inside it causes problems on some platforms.
+    At least win32, sdl-win32, and beos seem to be better without it.
+    More testing is needed. */
+#if (defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI) && !defined(USE_SDLUI2)
     /* if the frame was skipped, dont advance the time for the next frame, this
        helps with catching up when rendering falls behind */
     if ((frame_ticks > 0) && (skipped_redraw < 1)) {
         next_frame_start += frame_ticks;
     }
+#else
+    next_frame_start += frame_ticks;
+#endif
 
     vsyncarch_postsync();
 
