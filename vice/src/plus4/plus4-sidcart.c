@@ -164,6 +164,9 @@ static int set_sidcart_enabled(int value, void *param)
         sidcart_list_item = NULL;
     }
     sidcart_sound_chip.chip_enabled = val;
+#ifdef HAVE_RESID
+    sid_set_enable(val);
+#endif
     sound_state_changed = 1;
     return 0;
 }
@@ -250,6 +253,9 @@ static const resource_int_t sidcart_resources_int[] = {
 
 int sidcart_resources_init(void)
 {
+#ifdef HAVE_RESID
+    sid_set_enable(0);
+#endif
     if (sid_resources_init() < 0) {
         return -1;
     }

@@ -78,21 +78,7 @@ static int set_sid_engine(int set_engine, void *param)
 
     if (engine == SID_ENGINE_DEFAULT) {
 #ifdef HAVE_RESID
-#if 0
-        if (machine_class != VICE_MACHINE_VIC20)
-#else
-        /* FIXME: FastSID engine is used by default for all machines with a
-           SIDcart because the ReSID emulation can significantly affect
-           performance even when the SIDcart is disabled. We need a way to
-           properly disable the SID engine when the SIDcart is disabled. */
-        if (machine_class != VICE_MACHINE_VIC20 && machine_class != VICE_MACHINE_PET
-            && machine_class != VICE_MACHINE_PLUS4)
-#endif
-        {
-            engine = SID_ENGINE_RESID;
-        } else {
-            engine = SID_ENGINE_FASTSID;
-        }
+        engine = SID_ENGINE_RESID;
 #else
         engine = SID_ENGINE_FASTSID;
 #endif
@@ -308,6 +294,27 @@ static int set_sid_hardsid_right(int val, void *param)
     hardsid_set_device(1, sid_hardsid_right);
 
     return 0;
+}
+#endif
+
+#ifdef HAVE_RESID
+static int sid_enabled = 1;
+
+void sid_set_enable(int value)
+{
+    int val = value ? 1 : 0;
+
+    if (val == sid_enabled) {
+        return;
+    }
+
+    if (val) {
+        sid_engine_set(SID_ENGINE_FASTSID);
+    } else {
+        sid_engine_set(sid_engine);
+    }
+    sid_enabled = val;
+    sid_state_changed = 1;
 }
 #endif
 
