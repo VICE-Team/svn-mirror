@@ -68,29 +68,31 @@ void IDE64Window::EnableSizeControls(int enable)
 }
 
 IDE64Window::IDE64Window(int img_num) 
-    : BWindow(BRect(50, 50, 230, 235), "IDE64 size settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 340, 235), "IDE64 size settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     int cylinders, heads, sectors, autodetect;
-    char *temp_str = NULL;
+    char temp_str[40];
+    char *img_str = NULL;
     BView *background;
     BCheckBox *checkbox;
     BMessage *msg;
     BRect r;
 
     switch (img_num) {
-        case 0:
-            temp_str = "IDE64 primary master HD size settings";
-            break;
         case 1:
-            temp_str = "IDE64 primary slave HD size settings";
+            img_str = "primary master";
             break;
         case 2:
-            temp_str = "IDE64 secondary master HD size settings";
+            img_str = "primary slave";
             break;
         case 3:
-            temp_str = "IDE64 secondary slave HD size settings";
+            img_str = "secondary master";
+            break;
+        case 4:
+            img_str = "secondary slave";
             break;
     }
+    sprintf(temp_str, "IDE64 %s HD size settings", img_str);
     SetTitle(temp_str);
 
     r = Bounds();
@@ -109,6 +111,7 @@ IDE64Window::IDE64Window(int img_num)
 
     r = Bounds();
     r.top = 20;
+    r.right -= 110;
     r.InsetBy(10, 10);
     customsizebox = new BBox(r, "Custom size");
     customsizebox->SetLabel("Custom size");
