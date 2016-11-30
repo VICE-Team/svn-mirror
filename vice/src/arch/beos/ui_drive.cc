@@ -197,8 +197,8 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
 
     /* drive expansion */
     if (machine_drive_expansion_count > 0) {
-        r.Set(100, 100, 260, 0);
-        r.bottom = r.top + 20 + machine_drive_expansion_count * 25; /* 270 or 320 */
+        r.Set(100, 105, 260, 0);
+        r.bottom = r.top + 20 + machine_drive_expansion_count * 25; /* 275 or 325 */
         box = new BBox(r);
         box->SetLabel("Drive expansion");
         AddChild(box);
@@ -235,8 +235,8 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
 
     /* parallel cable */
     if (machine_parallel_cable_type_count > 0) {
-        r.Set(270, 100, 400, 0);
-        r.bottom = r.top + 20 + machine_parallel_cable_type_count * 25; /* 170 or 220 */
+        r.Set(270, 105, 400, 0);
+        r.bottom = r.top + 20 + machine_parallel_cable_type_count * 25; /* 175 or 225 */
         box = new BBox(r);
         box->SetLabel("Parallel Cable");
         AddChild(box);
@@ -259,7 +259,7 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
     sprintf(resname, "Drive%dRPM", drive_num);
     resources_get_int(resname, &current_value);
 
-    r.Set(100, 100, 400, 140);
+    r.Set(100, 105, 400, 145);
     if (machine_drive_expansion_count > 0) {
         /* offset by 180 or 230 */
         r.OffsetBy(0, 30 + machine_drive_expansion_count * 25);
@@ -278,7 +278,7 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
     sprintf(resname, "Drive%dWobble", drive_num);
     resources_get_int(resname, &current_value);
  
-    r.Set(100, 165, 400, 205);
+    r.Set(100, 170, 400, 210);
     if (machine_drive_expansion_count > 0) {
         /* offset by 180 or 230 */
         r.OffsetBy(0, 30 + machine_drive_expansion_count * 25);
@@ -462,7 +462,7 @@ void ui_drive(ui_drive_type_t *drive_types, int caps)
     }
 #endif
     if (machine_drive_expansion_count > 0) {
-        r.bottom = 340 + machine_drive_expansion_count * 25;  /* 490 or 540 */
+        r.bottom = 345 + machine_drive_expansion_count * 25;  /* 495 or 545 */
     }
 
     drivewindow = new DriveWindow(r);

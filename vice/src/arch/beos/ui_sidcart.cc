@@ -127,7 +127,7 @@ void SidCartWindow::EnableControls()
 }
 
 SidCartWindow::SidCartWindow() 
-    : BWindow(BRect(250, 50, 500, 410), "SID cartridge settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(250, 50, 580, 450), "SID cartridge settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BMessage *msg;
     BCheckBox *checkbox;
@@ -155,7 +155,7 @@ SidCartWindow::SidCartWindow()
     resources_get_int("SidEngine", &engine);
     res_val = engine << 8;
     res_val |= i;
-    engine_model_popup = new BOptionPopUp(BRect(10, 35, 240, 59), "SID Engine/Model", "SID Engine/Model", new BMessage(MESSAGE_SIDCART_MODEL));
+    engine_model_popup = new BOptionPopUp(BRect(10, 35, 330, 59), "SID Engine/Model", "SID Engine/Model", new BMessage(MESSAGE_SIDCART_MODEL));
     for (i = 0; sid_engine_model_list[i] != NULL; i++) {
         engine_model_popup->AddOption(sid_engine_model_list[i]->name, sid_engine_model_list[i]->value);
     }
@@ -169,7 +169,7 @@ SidCartWindow::SidCartWindow()
     background->AddChild(checkbox);
 
     /* SID address */
-    addressbox = new BBox(BRect(10, 85, 120, 145), "SID address");
+    addressbox = new BBox(BRect(10, 85, 160, 145), "SID address");
     addressbox->SetViewColor(220, 220, 220, 0);
     addressbox->SetLabel("SID address");
     background->AddChild(addressbox);
@@ -178,13 +178,13 @@ SidCartWindow::SidCartWindow()
     for (i = 0; i < 2; i++) {
         msg = new BMessage(MESSAGE_SIDCART_ADDRESS);
         msg->AddInt32("address", i);
-        radiobutton = new BRadioButton(BRect(10, 15 + i * 20, 100, 30 + i * 20), sidaddresstextpair[i], sidaddresstextpair[i], msg);
+        radiobutton = new BRadioButton(BRect(10, 15 + i * 20, 140, 30 + i * 20), sidaddresstextpair[i], sidaddresstextpair[i], msg);
         radiobutton->SetValue(res_val == sidaddressintpair[i]);
         addressbox->AddChild(radiobutton);
     }
 
     /* SID clock */
-    clockbox = new BBox(BRect(130, 85, 240, 145), "SID clock");
+    clockbox = new BBox(BRect(170, 85, 320, 145), "SID clock");
     clockbox->SetViewColor(220, 220, 220, 0);
     clockbox->SetLabel("SID clock");
     background->AddChild(clockbox);
@@ -193,7 +193,7 @@ SidCartWindow::SidCartWindow()
     for (i = 0; i < 2; i++) {
         msg = new BMessage(MESSAGE_SIDCART_CLOCK);
         msg->AddInt32("clock", i);
-        radiobutton = new BRadioButton(BRect(10, 15 + i * 20, 100, 30 + i * 20), sidclockpair[i], sidclockpair[i], msg);
+        radiobutton = new BRadioButton(BRect(10, 15 + i * 20, 140, 30 + i * 20), sidclockpair[i], sidclockpair[i], msg);
         radiobutton->SetValue(res_val == i);
         clockbox->AddChild(radiobutton);
     }
@@ -205,13 +205,13 @@ SidCartWindow::SidCartWindow()
         checkbox->SetValue(res_val);
         background->AddChild(checkbox);
     } else {
-        ResizeTo(250, 335);
+        ResizeTo(330, 375);
     }
 
     /* reSID settings */
     r = Bounds();
     r.InsetBy(10, 10);
-    r.top = r.bottom - 170;
+    r.top = r.bottom - 200;
     residbox = new BBox(r, "reSID settings");
     //~ residbox->SetViewColor(220, 220, 220, 0);
     residbox->SetLabel("reSID settings");
@@ -223,7 +223,7 @@ SidCartWindow::SidCartWindow()
     for (i = 0; samplingmode[i] != NULL; i++) {
         msg = new BMessage(MESSAGE_SIDCART_RESIDSAMPLING);
         msg->AddInt32("mode", i);
-        radiobutton = new BRadioButton(BRect(10, 15 + i * 25, r.Width() / 2 - 10, 30 + i * 25), samplingmode[i], samplingmode[i], msg);
+        radiobutton = new BRadioButton(BRect(10, 15 + i * 25, r.Width() / 2, 30 + i * 25), samplingmode[i], samplingmode[i], msg);
         radiobutton->SetValue(res_val == i);
         residbox->AddChild(radiobutton);
     }

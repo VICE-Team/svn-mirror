@@ -76,7 +76,7 @@ PetWindow::PetWindow()
     AddChild(background);
 
     /* memory */
-    r = BRect(110, 5, 190, 170);
+    r = BRect(10, 5, 140, 170);
     box = new BBox(r, "Memory");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Memory");
@@ -93,7 +93,7 @@ PetWindow::PetWindow()
     }
 
     /* video */
-    r = BRect(110, 180, 190, 270);
+    r = BRect(10, 180, 140, 270);
     box = new BBox(r, "Video");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Video");
@@ -109,7 +109,7 @@ PetWindow::PetWindow()
     }
 
     /* io size */
-    r = BRect(110, 280, 190, 345);
+    r = BRect(10, 280, 140, 345);
     box = new BBox(r, "IO Size");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("IO Size");
@@ -125,7 +125,7 @@ PetWindow::PetWindow()
     }
 
     /* keyboard */
-    r = BRect(200, 5, 360, 70);
+    r = BRect(150, 5, 360, 70);
     box = new BBox(r, "Keyboard");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Keyboard");
@@ -141,7 +141,7 @@ PetWindow::PetWindow()
     }
 
     /* crtc */
-    r = BRect(200, 80, 360, 120);
+    r = BRect(150, 80, 360, 120);
     box = new BBox(r, "CRTC");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("CRTC");
@@ -153,7 +153,7 @@ PetWindow::PetWindow()
     box->AddChild(checkbox);
 
     /* superpet */
-    r = BRect(200, 130, 360, 170);
+    r = BRect(150, 130, 360, 170);
     box = new BBox(r, "SuperPET");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("SuperPET");
@@ -165,7 +165,7 @@ PetWindow::PetWindow()
     box->AddChild(checkbox);
 
     /* 8296 PET */
-    r = BRect(200, 180, 360, 245);
+    r = BRect(150, 180, 360, 245);
     box = new BBox(r, "8296 PET");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("8296 PET");
@@ -186,7 +186,7 @@ PetWindow::PetWindow()
 
 PetWindow::~PetWindow() 
 {
-    petwindow = NULL;	
+    petwindow = NULL;
 }
 
 void PetWindow::MessageReceived(BMessage *msg)
