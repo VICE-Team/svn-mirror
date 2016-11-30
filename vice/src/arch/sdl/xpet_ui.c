@@ -32,11 +32,6 @@
 
 #include "debug.h"
 #include "lib.h"
-
-#if 1
-#include "log.h"
-#endif
-
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"
