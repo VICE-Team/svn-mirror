@@ -766,6 +766,12 @@ BMenuBar *menu_create(int machine_class, int window_nr)
             menu->AddItem(new BMenuItem("Enable speed switch", new BMessage(MENU_TOGGLE_SCPU64_SPEED_ENABLE)));
     }
 
+    if (get_devices != NULL) {
+        uppermenu->AddSeparatorItem();
+        uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
+        uppermenu->AddSeparatorItem();
+    }
+
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Expansion Carts"));
@@ -1215,41 +1221,41 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128 ||
         machine_class == VICE_MACHINE_CBM6x0 || machine_class == VICE_MACHINE_PET ||
         machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_PLUS4) {
-        menu->AddItem(submenu = new BMenu("Userport devices"));
-            submenu->AddItem(new BMenuItem("Enable userport DAC", new BMessage(MENU_TOGGLE_USERPORT_DAC)));
+        uppermenu->AddItem(menu = new BMenu("Userport devices"));
+            menu->AddItem(new BMenuItem("Enable userport DAC", new BMessage(MENU_TOGGLE_USERPORT_DAC)));
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128 ||
         machine_class == VICE_MACHINE_CBM6x0 || machine_class == VICE_MACHINE_PET ||
         machine_class == VICE_MACHINE_VIC20) {
-            submenu->AddItem(new BMenuItem("Enable userport RTC (58321A)", new BMessage(MENU_TOGGLE_USERPORT_58321A)));
-            submenu->AddItem(new BMenuItem("Save userport RTC (58321A) data when changed", new BMessage(MENU_TOGGLE_USERPORT_58321A_SAVE)));
-            submenu->AddItem(new BMenuItem("Enable userport RTC (DS1307)", new BMessage(MENU_TOGGLE_USERPORT_DS1307)));
-            submenu->AddItem(new BMenuItem("Save userport RTC (DS1307) data when changed", new BMessage(MENU_TOGGLE_USERPORT_DS1307_SAVE)));
+            menu->AddItem(new BMenuItem("Enable userport RTC (58321A)", new BMessage(MENU_TOGGLE_USERPORT_58321A)));
+            menu->AddItem(new BMenuItem("Save userport RTC (58321A) data when changed", new BMessage(MENU_TOGGLE_USERPORT_58321A_SAVE)));
+            menu->AddItem(new BMenuItem("Enable userport RTC (DS1307)", new BMessage(MENU_TOGGLE_USERPORT_DS1307)));
+            menu->AddItem(new BMenuItem("Save userport RTC (DS1307) data when changed", new BMessage(MENU_TOGGLE_USERPORT_DS1307_SAVE)));
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128 ||
         machine_class == VICE_MACHINE_CBM6x0) {
-            submenu->AddItem(new BMenuItem("Enable userport DigiMAX", new BMessage(MENU_TOGGLE_USERPORT_DIGIMAX)));
-            submenu->AddItem(new BMenuItem("Enable userport 4bit sampler", new BMessage(MENU_TOGGLE_USERPORT_4BIT_SAMPLER)));
-            submenu->AddItem(new BMenuItem("Enable userport 8bit stereo sampler", new BMessage(MENU_TOGGLE_USERPORT_8BSS)));
+            menu->AddItem(new BMenuItem("Enable userport DigiMAX", new BMessage(MENU_TOGGLE_USERPORT_DIGIMAX)));
+            menu->AddItem(new BMenuItem("Enable userport 4bit sampler", new BMessage(MENU_TOGGLE_USERPORT_4BIT_SAMPLER)));
+            menu->AddItem(new BMenuItem("Enable userport 8bit stereo sampler", new BMessage(MENU_TOGGLE_USERPORT_8BSS)));
     }
 
-    if (machine_class != VICE_MACHINE_SCPU64 && machine_class != VICE_MACHINE_VSID) {
-        menu->AddItem(submenu = new BMenu("Tape port devices"));
-            submenu->AddItem(new BMenuItem("Enable datasette device", new BMessage(MENU_TOGGLE_TAPEPORT_DATASETTE)));
-            submenu->AddItem(new BMenuItem("Enable tape sense dongle", new BMessage(MENU_TOGGLE_TAPEPORT_TAPE_SENSE_DONGLE)));
-            submenu->AddItem(new BMenuItem("Enable DTL Basic dongle", new BMessage(MENU_TOGGLE_TAPEPORT_DTL_BASIC_DONGLE)));
-            submenu->AddItem(new BMenuItem("Enable CP Clock F83 device", new BMessage(MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83)));
-            submenu->AddItem(new BMenuItem("Save CP Clock F83 RTC data when changed", new BMessage(MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83_SAVE)));
-            submenu->AddItem(new BMenuItem("Enable tape log device", new BMessage(MENU_TOGGLE_TAPEPORT_TAPELOG)));
-            submenu->AddItem(extsubmenu = new BMenu("Tape log destination"));
-                extsubmenu->SetRadioMode(true);
-                extsubmenu->AddItem(new BMenuItem("Log messages to emulator log file", new BMessage(MENU_TAPEPORT_TAPELOG_DEFAULT_LOGFILE)));
-                extsubmenu->AddItem(new BMenuItem("Log messages to user specified file", new BMessage(MENU_TAPEPORT_TAPELOG_USER_LOGFILE)));
-            submenu->AddItem(new BMenuItem("Tape log filename", new BMessage(MENU_TAPEPORT_TAPLOG_FILENAME)));
+    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID && machine_class != VICE_MACHINE_SCPU64) {
+        uppermenu->AddItem(menu = new BMenu("Tape port devices"));
+            menu->AddItem(new BMenuItem("Enable datasette device", new BMessage(MENU_TOGGLE_TAPEPORT_DATASETTE)));
+            menu->AddItem(new BMenuItem("Enable tape sense dongle", new BMessage(MENU_TOGGLE_TAPEPORT_TAPE_SENSE_DONGLE)));
+            menu->AddItem(new BMenuItem("Enable DTL Basic dongle", new BMessage(MENU_TOGGLE_TAPEPORT_DTL_BASIC_DONGLE)));
+            menu->AddItem(new BMenuItem("Enable CP Clock F83 device", new BMessage(MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83)));
+            menu->AddItem(new BMenuItem("Save CP Clock F83 RTC data when changed", new BMessage(MENU_TOGGLE_TAPEPORT_CP_CLOCK_F83_SAVE)));
+            menu->AddItem(new BMenuItem("Enable tape log device", new BMessage(MENU_TOGGLE_TAPEPORT_TAPELOG)));
+            menu->AddItem(submenu = new BMenu("Tape log destination"));
+                submenu->SetRadioMode(true);
+                submenu->AddItem(new BMenuItem("Log messages to emulator log file", new BMessage(MENU_TAPEPORT_TAPELOG_DEFAULT_LOGFILE)));
+                submenu->AddItem(new BMenuItem("Log messages to user specified file", new BMessage(MENU_TAPEPORT_TAPELOG_USER_LOGFILE)));
+            menu->AddItem(new BMenuItem("Tape log filename", new BMessage(MENU_TAPEPORT_TAPLOG_FILENAME)));
     }
 
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1297,7 +1303,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         uppermenu->AddItem(new BMenuItem("Video ...", new BMessage(MENU_VIDEO_SETTINGS)));
     }
 
-    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID) {
+    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID && machine_class != VICE_MACHINE_SCPU64) {
         uppermenu->AddItem(new BMenuItem("Datasette ...", new BMessage(MENU_DATASETTE_SETTINGS)));
     }
 
@@ -1441,10 +1447,6 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         if (machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PET) {
                 menu->AddItem(new BMenuItem("Save Smart Mouse RTC data when changed", new BMessage(MENU_TOGGLE_SMART_MOUSE_RTC_SAVE)));
         }
-
-        uppermenu->AddSeparatorItem();
-        uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
-        uppermenu->AddSeparatorItem();
 
         if (devices_port_1) {
             lib_free(devices_port_1);
