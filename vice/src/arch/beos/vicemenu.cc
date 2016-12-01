@@ -240,7 +240,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
         uppermenu->AddItem(new BMenuItem("Detach cartridge image", new BMessage(MENU_CART_DETACH)));
         uppermenu->AddSeparatorItem();
     }
-                        
+
     if (machine_class == VICE_MACHINE_PLUS4) {
         uppermenu->AddItem(menu = new BMenu("Attach cartridge image"));
             menu->AddItem(new BMenuItem("Smart attach", new BMessage(MENU_CART_PLUS4_SMART)));
@@ -1310,6 +1310,10 @@ BMenuBar *menu_create(int machine_class, int window_nr)
     if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("Drive ...", new BMessage(MENU_DRIVE_SETTINGS)));
         uppermenu->AddItem(new BMenuItem("Device ...", new BMessage(MENU_DEVICE_SETTINGS)));
+        // keymap settings menu
+        uppermenu->AddItem(new BMenuItem("Keyboard ...",
+                    new BMessage(MENU_KEYMAP_SETTINGS)));
+
 
         uppermenu->AddItem(menu = new BMenu("Printer"));
             menu->AddItem(new BMenuItem("Printer settings ...", new BMessage(MENU_PRINTER_SETTINGS)));

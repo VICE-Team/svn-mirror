@@ -90,6 +90,7 @@ extern "C" {
 #include "ui_autostart.h"
 #include "ui_datasette.h"
 #include "ui_device.h"
+#include "ui_keymap.h"
 #include "ui_netplay.h"
 #include "ui_ram.h"
 #include "ui_sound.h"
@@ -1197,6 +1198,10 @@ void ui_dispatch_events(void)
             case MENU_SAMPLER_FILENAME:
                 ui_select_file(B_SAVE_PANEL, SAMPLER_MEDIA_FILE, (void*)0);
                 break;
+            case MENU_KEYMAP_SETTINGS:
+                ui_keymap();
+                break;
+
             case MESSAGE_SET_RESOURCE:
                 {
                     const char *res_name;
