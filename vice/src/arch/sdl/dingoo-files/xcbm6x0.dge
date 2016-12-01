@@ -1,4 +1,0 @@
-#!/bin/sh
-
-./xcbm2 >vice_log.txt 2>&1
-sync

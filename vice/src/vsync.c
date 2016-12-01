@@ -85,10 +85,6 @@ static int refresh_rate;
 /* "Warp mode".  If nonzero, attempt to run as fast as possible. */
 static int warp_mode_enabled;
 
-/* Dingoo overclocking mode */
-#ifdef DINGOO_NATIVE
-static int overclock_mode_enabled;
-#endif
 
 static int set_relative_speed(int val, void *param)
 {
@@ -120,17 +116,6 @@ static int set_warp_mode(int val, void *param)
     return 0;
 }
 
-/* FIXME: Why the hell is this here and not in archdep ? */
-#ifdef DINGOO_NATIVE
-static int set_overclock_mode(int val, void *param)
-{
-    overclock_mode_enabled = val ? 1 : 0;
-
-    set_overclock(val);
-
-    return 0;
-}
-#endif
 
 /* Vsync-related resources. */
 static const resource_int_t resources_int[] = {
@@ -141,11 +126,6 @@ static const resource_int_t resources_int[] = {
     { "WarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
       /* FIXME: maybe RES_EVENT_NO */
       &warp_mode_enabled, set_warp_mode, NULL },
-#ifdef DINGOO_NATIVE
-    { "OverClock", 0, RES_EVENT_STRICT, (resource_value_t)1,
-      /* FIXME: maybe RES_EVENT_NO */
-      &overclock_mode_enabled, set_overclock_mode, NULL },
-#endif
     { NULL }
 };
 
@@ -156,11 +136,6 @@ static const resource_int_t resources_int_vsid[] = {
     { "WarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
       /* FIXME: maybe RES_EVENT_NO */
       &warp_mode_enabled, set_warp_mode, NULL },
-#ifdef DINGOO_NATIVE
-    { "OverClock", 0, RES_EVENT_STRICT, (resource_value_t)1,
-      /* FIXME: maybe RES_EVENT_NO */
-      &overclock_mode_enabled, set_overclock_mode, NULL },
-#endif
     { NULL }
 };
 

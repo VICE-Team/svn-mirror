@@ -39,9 +39,6 @@ UI_MENU_DEFINE_TOGGLE(WarpMode)
 UI_MENU_DEFINE_RADIO(RefreshRate)
 UI_MENU_DEFINE_RADIO(Speed)
 
-#ifdef DINGOO_NATIVE
-UI_MENU_DEFINE_TOGGLE(OverClock)
-#endif
 
 static UI_MENU_CALLBACK(custom_RefreshRate_callback)
 {
@@ -103,12 +100,6 @@ const ui_menu_entry_t speed_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_WarpMode_callback,
       NULL },
-#ifdef DINGOO_NATIVE
-    { "Overclock to 433 MHZ",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_OverClock_callback,
-      NULL },
-#endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Refresh rate"),
     { "Automatic",
@@ -179,12 +170,6 @@ const ui_menu_entry_t speed_menu_vsid[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_WarpMode_callback,
       NULL },
-#ifdef DINGOO_NATIVE
-    { "Overclock to 433 MHZ",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_OverClock_callback,
-      NULL },
-#endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Maximum speed"),
     { "10%",

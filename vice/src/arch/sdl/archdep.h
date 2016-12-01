@@ -114,8 +114,4 @@ extern char *archdep_sdl2_default_renderers[];
 #include "archdep_cegcc.h"
 #endif
 
-#ifdef DINGOO_NATIVE
-#include "archdep_dingoo.h"
-#endif
-
 #endif

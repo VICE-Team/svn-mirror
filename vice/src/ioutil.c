@@ -212,7 +212,6 @@ char *ioutil_current_dir(void)
     return p;
 }
 
-#ifndef DINGOO_NATIVE
 static int dirs_amount = 0;
 static int files_amount = 0;
 
@@ -386,7 +385,6 @@ ioutil_dir_t *ioutil_opendir(const char *path)
 
     return ioutil_dir;
 }
-#endif
 
 char *ioutil_readdir(ioutil_dir_t *ioutil_dir)
 {

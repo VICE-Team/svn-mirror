@@ -170,19 +170,9 @@ int sysfile_cmdline_options_init(void)
 FILE *sysfile_open(const char *name, char **complete_path_return,
                    const char *open_mode)
 {
-#ifndef DINGOO_NATIVE
     char *p = NULL;
-#endif
     FILE *f;
 
-#ifdef DINGOO_NATIVE
-    *complete_path_return = make_absolute_system_path(name);
-    f = fopen(*complete_path_return, open_mode);
-    if (!f) {
-        *complete_path_return = NULL;
-    }
-    return f;
-#else
     if (name == NULL || *name == '\0') {
         log_error(LOG_DEFAULT, "Missing name for system file.");
         return NULL;
@@ -207,7 +197,6 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
         }
         return f;
     }
-#endif  /* DINGOO_NATIVE */
 }
 
 /* As `sysfile_open', but do not open the file.  Just return 0 if the file is

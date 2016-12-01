@@ -7,7 +7,6 @@ extra_includes =
 endif
 
 SUBDIRS = \
-	dingoo-files \
 	msvc-files \
 	qnx4 \
 	syllable-files \
@@ -211,8 +210,6 @@ EXTRA_DIST = \
 	archdep_beos.h \
 	archdep_cegcc.c \
 	archdep_cegcc.h \
-	archdep_dingoo.c \
-	archdep_dingoo.h \
 	archdep_unix.c \
 	archdep_unix.h \
 	archdep_win32.c \
@@ -259,8 +256,6 @@ EXTRA_DIST = \
 	generate_msvcmips_sdl1x.bat \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
-	make-bindist_dingoo.sh \
-	make-bindist_dingoo_native.sh \
 	make-bindist_qnx6.sh \
 	make-bindist_scosol.sh \
 	make-bindist_skyos.sh \

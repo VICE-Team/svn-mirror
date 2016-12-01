@@ -1,4 +1,0 @@
-#!/bin/sh
-
-./x64 >vice_log.txt 2>&1
-sync

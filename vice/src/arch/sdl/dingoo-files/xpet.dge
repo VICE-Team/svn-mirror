@@ -1,4 +1,0 @@
-#!/bin/sh
-
-./xpet >vice_log.txt 2>&1
-sync

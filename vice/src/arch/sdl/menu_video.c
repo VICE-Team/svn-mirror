@@ -647,12 +647,6 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIVideoCache_callback,
       NULL },
-#ifndef DINGOO_NATIVE
-    { "VICII border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_border_menu },
-#endif
     { "VICII Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

@@ -10,7 +10,6 @@ noinst_LIBRARIES = libvideo.a
 libvideo_a_SOURCES = \
 	render1x1.c \
 	render1x1.h \
-	render1x1_dingoo.h \
 	render1x1crt.c \
 	render1x1crt.h \
 	render1x1ntsc.c \

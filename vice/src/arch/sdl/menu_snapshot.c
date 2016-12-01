@@ -259,16 +259,6 @@ const ui_menu_entry_t snapshot_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)save_snapshot_menu },
-#ifdef DINGOO_NATIVE
-    { "Load snapshot slot",
-      MENU_ENTRY_DIALOG,
-      load_snapshot_slot_callback,
-      NULL },
-    { "Save snapshot slot",
-      MENU_ENTRY_DIALOG,
-      save_snapshot_slot_callback,
-      NULL },
-#else
     { "Quickload snapshot.vsf",
       MENU_ENTRY_DIALOG,
       quickload_snapshot_callback,
@@ -277,7 +267,6 @@ const ui_menu_entry_t snapshot_menu[] = {
       MENU_ENTRY_DIALOG,
       quicksave_snapshot_callback,
       NULL },
-#endif
     SDL_MENU_ITEM_SEPARATOR,
     { "Start/stop recording history",
       MENU_ENTRY_OTHER,

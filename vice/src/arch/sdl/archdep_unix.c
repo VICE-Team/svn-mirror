@@ -79,10 +79,6 @@ static char *boot_path = NULL;
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
 
-#if defined(DINGUX) || defined(DINGUX_SDL)
-#define USE_PROC_SELF_EXE
-#define USE_EXE_RELATIVE_TMP
-#endif
 
 #if defined(__QNX__) && !defined(__QNXNTO__)
 int archdep_rtc_get_centisecond(void)
@@ -656,9 +652,6 @@ int archdep_file_is_chardev(const char *name)
 
 int archdep_require_vkbd(void)
 {
-#if defined(DINGUX) || defined(DINGUX_SDL)
-    return 1;
-#endif
     return 0;
 }
 

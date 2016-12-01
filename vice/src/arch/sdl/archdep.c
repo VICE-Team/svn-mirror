@@ -53,9 +53,6 @@
 #include "archdep_cegcc.c"
 #endif
 
-#ifdef DINGOO_NATIVE
-#include "archdep_dingoo.c"
-#endif
 
 int archdep_init(int *argc, char **argv)
 {

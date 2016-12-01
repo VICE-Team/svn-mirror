@@ -600,9 +600,6 @@ void ui_sdl_quit(void)
             ui_error("Cannot save current settings.");
         }
     }
-#ifdef DINGOO_NATIVE
-    dingoo_reboot(); /* FIXME: why isn't this in archdep code? */
-#endif
     exit(0);
 }
 
