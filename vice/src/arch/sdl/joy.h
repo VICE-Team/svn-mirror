@@ -85,7 +85,7 @@ extern void sdljoy_swap_ports(void);
 #define JOYDEV_DESCRIPTION_2  "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
 #define JOYDEV_DESCRIPTION_3  "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
 #define JOYDEV_DESCRIPTION_4  "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
-#define JOYDEV_DESCRIPTION_4  "Set device for extra joystick port 3 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
+#define JOYDEV_DESCRIPTION_5  "Set device for extra joystick port 3 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
 #endif
 
 #endif
