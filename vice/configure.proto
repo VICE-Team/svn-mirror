@@ -2527,7 +2527,7 @@ if test x"$enable_ethernet" = "xyes"; then
     fi
   fi
   if test x"$TFE_LIBS" = "x" -a x"$is_win32" = "xno"; then
-    AC_MSG_ERROR([Needed TFE libs not found])
+    AC_MSG_ERROR([Needed pcap library not found, please install libpcap-dev or equivalent])
   fi
 fi
 AC_SUBST(DOS_TFE_PCAP_LIB)
