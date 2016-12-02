@@ -320,7 +320,7 @@ static char * display_drive_menu(void)
     }
     lib_free(drives);
 
-    return current_drive;
+    return result;
 }
 #endif
 
