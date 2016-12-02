@@ -60,6 +60,7 @@ static int set_video_cache_enabled(int val, void *param)
         /* HACK: some machines do not have a working video cache, so
                  disable it by default */
         if ((machine_class == VICE_MACHINE_C64DTV) ||
+            (machine_class == VICE_MACHINE_SCPU64) ||
             (machine_class == VICE_MACHINE_C64SC) ||
             (machine_class == VICE_MACHINE_PLUS4)) {
             val = 0;
