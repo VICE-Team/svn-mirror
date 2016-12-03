@@ -253,15 +253,15 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
         filepanel->Window()->Unlock();
     }
     if (filetype == DISK_FILE) {
-        static BMessage msg = BMessage(MESSAGE_ATTACH_READONLY);
+        BMessage *msg = new BMessage(MESSAGE_ATTACH_READONLY);
         int n;
 
         /* attach readonly checkbox */
         if (filepanel->Window()->Lock()) {
             filepanel->Window()->ChildAt(0)->AddChild(cb_readonly);
-            msg.MakeEmpty();
-            msg.AddInt32("device", *(int*)fileparam);
-            cb_readonly->SetMessage(&msg);
+            msg->MakeEmpty();
+            msg->AddInt32("device", *(int*)fileparam);
+            cb_readonly->SetMessage(msg);
             resources_get_int_sprintf("AttachDevice%dReadonly", &n, *(int*)fileparam);
             cb_readonly->SetValue(n);
             filepanel->Window()->Unlock();
