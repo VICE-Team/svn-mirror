@@ -34,6 +34,9 @@
 
 #ifdef HAVE_PARSID
 
+/* for snooze() */
+#include <OS.h>
+
 #include "io-access.h"
 #include "log.h"
 #include "parsid.h"
