@@ -614,7 +614,6 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
         sprintf(title, "Select sampler media file");
     }
 
-
     filepanel->Window()->SetTitle(title);
 
     filepanel->Show();
@@ -636,7 +635,7 @@ static void load_snapshot_trap(WORD unused_addr, void *path)
     if (machine_read_snapshot((char *)path, 0) < 0) {
         snapshot_display_error();
     }
-    delete (char *)path;
+    lib_free(path);
 }
 
 static void save_snapshot_trap(WORD unused_addr, void *path)
@@ -644,9 +643,10 @@ static void save_snapshot_trap(WORD unused_addr, void *path)
     if (machine_write_snapshot((char *)path, 1, 1, 0) < 0) {
         snapshot_display_error();
     }
-    delete (char *)path;
+    lib_free(path);
 }
-        
+
+
 static void ui_sound_record_action(const char *name, const char *ext)
 {
     char *ext_name = util_add_extension_const(name, ext);
@@ -654,9 +654,10 @@ static void ui_sound_record_action(const char *name, const char *ext)
     resources_set_string("SoundRecordDeviceArg", ext_name);
     resources_set_string("SoundRecordDeviceName", ext);
     ui_display_statustext("Sound Recording Started...", 1);
-    delete ext_name;
+    lib_free(ext_name);
 }
-        
+
+
 void ui_select_file_action(BMessage *msg)
 {
     entry_ref ref;
@@ -677,7 +678,7 @@ void ui_select_file_action(BMessage *msg)
             return;
         }
         path = new BPath(&ref);
-        
+
         /* now the ACTION */
         if (last_filetype[0] == DISK_FILE) {
                 /* it's a disk-attach */
