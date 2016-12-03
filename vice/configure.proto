@@ -3577,10 +3577,23 @@ LIBS="$old_LIBS"
 AC_SUBST(GFXOUTPUT_DRIVERS)
 AC_SUBST(GFXOUTPUT_LIBS)
 
-AC_CHECK_HEADERS(portaudio.h,[AC_CHECK_LIB(portaudio, Pa_Initialize,
-                     [LIBS="$LIBS -lportaudio";
-                      USE_PORTAUDIO_SUPPORT="yes";
-                      AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,)])
+AC_CHECK_HEADERS(portaudio.h, PA_HEADERS="yes", PA_HEADERS="no")
+
+if test x"$PA_HEADERS" = "xyes"; then
+  AC_CHECK_LIB(portaudio, Pa_Initialize,
+               [LIBS="$LIBS -lportaudio";
+                USE_PORTAUDIO_SUPPORT="yes";
+                AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,)
+
+  if test x"$USE_PORTAUDIO_SUPPORT" != "xyes" -a x"$is_win32" = "xyes"; then
+    unset ac_cv_lib_portaudio_Pa_Initialize
+    AC_CHECK_LIB(portaudio, Pa_Initialize,
+                 [LIBS="$LIBS -lportaudio -lwinmm";
+                  USE_PORTAUDIO_SUPPORT="yes";
+                  AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,-lwinmm)
+  fi
+fi
+
 
 AC_CHECK_HEADERS(mpg123.h,[AC_CHECK_LIB(mpg123, mpg123_init,
                      [LIBS="$LIBS -lmpg123";
