@@ -34,6 +34,7 @@
 #include "lib.h"
 #include "log.h"
 #include "monitor.h"
+#include "ui.h"
 #include "uimon.h"
 
 static console_t *console_log_local = NULL;
