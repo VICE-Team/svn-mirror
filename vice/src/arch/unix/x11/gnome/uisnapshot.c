@@ -90,7 +90,7 @@ void ui_snapshot_dialog(void)
     if (res != GTK_RESPONSE_ACCEPT) {
         return;
     }
-    
+
     name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(snapshot_dialog));
     if (!name) {
         ui_error(_("Invalid filename"));
@@ -103,5 +103,5 @@ void ui_snapshot_dialog(void)
     } else {
         ui_message(_("Successfully wrote `%s'\n"), name);
     }
-    lib_free(name);
+    g_free(name);
 }
