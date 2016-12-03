@@ -320,7 +320,6 @@ void KeymapWindow::browse_open(int keymap_type)
 
 void KeymapWindow::MessageReceived(BMessage *msg)
 {
-    BAlert *alert;
     char str[256];
     entry_ref ref;
     BPath *path;
