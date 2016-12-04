@@ -2711,11 +2711,11 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
                 HAVE_FULLSCREEN_SUPPORT="yes"
             fi
 
+            AC_CHECK_FUNCS(SDL_NumJoysticks)
+
             if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes" -a x"$ac_cv_lib_SDL2_SDL_OpenAudio" != "xyes"; then
                 LIBS="$LIBS $EXTRA_SDL_LIBS"
             fi
-
-            AC_CHECK_FUNCS(SDL_NumJoysticks)
 
             dnl check for opengl libs.
             AC_MSG_CHECKING(whether we can use the GL library)
