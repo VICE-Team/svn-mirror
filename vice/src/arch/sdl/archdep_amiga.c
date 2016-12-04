@@ -479,6 +479,8 @@ void archdep_set_current_drive(const char *drive)
     if (lck) {
         CurrentDir(lck);
         Unlock(lck);
+    } else {
+        ui_error("Failed to change to drive %s", drive);
     }
 }
 

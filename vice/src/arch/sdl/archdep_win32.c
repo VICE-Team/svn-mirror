@@ -656,7 +656,9 @@ char *archdep_get_current_drive(void)
 
 void archdep_set_current_drive(const char *drive)
 {
-    _chdir(drive);
+    if (_chdir(drive)) {
+        ui_error("Failed to change drive to %s", drive);
+    }
 }
 #endif
 
