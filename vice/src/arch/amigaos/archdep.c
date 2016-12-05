@@ -246,14 +246,6 @@ FILE *archdep_open_default_log_file(void)
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {
-    if (run_from_wb) {
-        return 0;
-    }
-
-    if (fputs(level_string, stdout) == EOF || fprintf(stdout, txt) < 0 || fputc ('\n', stdout) == EOF) {
-        return -1;
-    }
-
     return 0;
 }
 
