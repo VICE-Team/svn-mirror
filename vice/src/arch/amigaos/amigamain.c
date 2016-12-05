@@ -60,6 +60,9 @@ int main(int argc, char **argv)
     if (vice_timer == NULL) {
         return RETURN_FAIL;
     }
+    if (load_libs() < 0) {
+        return -1;
+    }
     return main_program(argc, argv);
 }
 

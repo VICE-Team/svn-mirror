@@ -348,7 +348,7 @@ int ui_init(int *argc, char **argv)
 
 int ui_init_finish(void)
 {
-    return load_libs();
+    return 0;
 }
 
 int ui_init_finalize(void)
