@@ -2354,7 +2354,7 @@ LIBAVFORMAT_HEADER_FILES = \
 	libavformat/ffm.h \
 	libavformat/ffmeta.h \
 	libavformat/flac_picture.h \
-	libavformat/flac_enc.h \
+	libavformat/flacenc.h \
 	libavformat/flv.h \
 	libavformat/gxf.h \
 	libavformat/hevc.h \
