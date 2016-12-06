@@ -152,6 +152,7 @@ EXTRA_DIST = \
 	xscpu64.tgt \
 	xscpu64-dlg-fileio.c \
 	xscpu64-dragndrop.c \
+	xscpu64-menubar.c \
 	xscpu64-specific.tgt \
 	xscpu64-video.c \
 	xscpu64-vsyncarch.c \
