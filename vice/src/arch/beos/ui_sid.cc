@@ -206,7 +206,7 @@ SidWindow::SidWindow()
         extrasidbox = NULL;
         second_sid_popup = NULL;
         third_sid_popup = NULL;
-        ResizeTo(250, 240);
+        ResizeTo(330, 270);
     }
 
     /* reSID settings */
