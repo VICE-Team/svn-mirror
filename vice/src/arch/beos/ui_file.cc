@@ -112,8 +112,8 @@ static void create_content_list(BListView *contentlist, image_contents_t *conten
 }
 
 VicePreview::VicePreview(BPoint origin, ViceFilePanel *f)
-    : BWindow(BRect(origin.x, origin.y, origin.x + 300, origin.y + 200),
-    "Image Contents", B_MODAL_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL, B_AVOID_FOCUS)
+    : BWindow(BRect(origin.x, origin.y, origin.x + 320, origin.y + 200),
+    "Image Contents", B_MODAL_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL, B_NOT_RESIZABLE | B_AVOID_FOCUS)
 {
     BView *background;
     BRect r;
@@ -220,7 +220,9 @@ void ViceFilePanel::SelectionChanged(void)
             strncpy(previewwindow->image_name, path->Path(), 255); 
             previewwindow->DisplayContent(read_disk_or_tape_image_contents(path->Path()));
             previewwindow->MoveTo(BPoint(Window()->Frame().left, Window()->Frame().bottom+5));
+#ifndef __HAIKU__
             Window()->SendBehind(previewwindow);
+#endif
         } else {
             previewwindow->DisplayContent(NULL);
         }
