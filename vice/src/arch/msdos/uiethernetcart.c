@@ -207,7 +207,7 @@ static tui_menu_item_def_t ethernetcart_base20_submenu[] = {
     { NULL }
 };
 
-static tui_menu_item_def_t tfe_c64_menu_items[] = {
+static tui_menu_item_def_t ethernetcart_c64_menu_items[] = {
     { "_Enable Ethernet Cart:", "Emulate Ethernet Cartridge",
       toggle_ETHERNETCART_ACTIVE_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
@@ -222,7 +222,7 @@ static tui_menu_item_def_t tfe_c64_menu_items[] = {
     { NULL }
 };
 
-static tui_menu_item_def_t tfe_vic20_menu_items[] = {
+static tui_menu_item_def_t ethernetcart_vic20_menu_items[] = {
     { "_Enable Ethernet Cart:", "Emulate Ethernet Cartridge",
       toggle_ETHERNETCART_ACTIVE_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
