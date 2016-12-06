@@ -33,7 +33,7 @@
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
-#include "uitfe.h"
+#include "uiethernetcart.h"
 
 TUI_MENU_DEFINE_TOGGLE(ETHERNETCART_ACTIVE)
 TUI_MENU_DEFINE_RADIO(ETHERNETCARTMode)
