@@ -137,6 +137,7 @@ static BYTE hardsid_inb(unsigned int addrint)
     return _inp(addr);
 #endif
 #endif
+    return 0;
 }
 
 static DWORD hardsid_inl(unsigned int addrint)
@@ -153,6 +154,7 @@ static DWORD hardsid_inl(unsigned int addrint)
     return _inpd(addr);
 #endif
 #endif
+    return 0;
 }
 
 int hs_pci_read(WORD addr, int chipno)
