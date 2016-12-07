@@ -1749,8 +1749,8 @@ fi
 dnl ----- Dynamic Lib Loading Support -----
 dynlib_support=no
 DYNLIB_LIBS=
-dnl check for dlopen support on unix systems
-if test x"$is_unix" = "xyes"; then
+dnl check for dlopen support on unix and beos/haiku systems
+if test x"$is_unix" = "xyes" -o x"$is_beos" = "xyes"; then
   AC_CHECK_HEADER(dlfcn.h,,)
   if test x"$ac_cv_header_dlfcn_h" = "xyes" ; then
     AC_CHECK_FUNC(dlopen,
