@@ -2416,9 +2416,8 @@ if test x"$enable_ethernet" = "xyes"; then
     AC_CHECK_LIB(net, libnet_write_link_layer,[ AC_DEFINE(HAVE_DOS_LIBNET,,[Can we use the dos NET library?])
                                         TFE_LIBS="-lnet $TFE_LIBS"],,)
     LIBS=$old_LIBS
-  fi
-  if test x"$is_win32" = "xno"; then
-    if test x"$enable_ethernet" = "xyes"; then
+  else
+    if test x"$is_win32" = "xno"; then
     dnl libpcap.a
       AC_CHECK_LIB(nsl, gethostbyname,[ LIBS="-lnsl $LIBS" ],,)
       AC_CHECK_LIB(socket, gethostbyname,[ LIBS="-lsocket $LIBS" ],,)
