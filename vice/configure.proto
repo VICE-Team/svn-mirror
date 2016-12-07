@@ -4047,10 +4047,15 @@ if test x"$enable_realdevice" != "xno"; then
     AC_MSG_RESULT([yes])
   else
     if test x"$dynlib_support" = "xyes"; then
-      AC_DEFINE(HAVE_OPENCBM,,[Support for OpenCBM (former CBM4Linux).])
-      HAVE_OPENCBM_SUPPORT="yes"
-      AM_CONDITIONAL(HAVE_REALDEVICE, true)
-      AC_MSG_RESULT([yes])
+      if test x"$is_beos" != "xyes"; then 
+        AC_DEFINE(HAVE_OPENCBM,,[Support for OpenCBM (former CBM4Linux).])
+        HAVE_OPENCBM_SUPPORT="yes"
+        AM_CONDITIONAL(HAVE_REALDEVICE, true)
+        AC_MSG_RESULT([yes])
+      else
+        AM_CONDITIONAL(HAVE_REALDEVICE, false)
+        AC_MSG_RESULT([no (not supported on current host)])
+      fi
     else
       AM_CONDITIONAL(HAVE_REALDEVICE, false)
       AC_MSG_RESULT([no (dynamic lib support missing)])
