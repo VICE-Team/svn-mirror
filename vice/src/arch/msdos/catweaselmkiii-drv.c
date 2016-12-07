@@ -59,26 +59,26 @@ static int sids_found = -1;
 #define CW_SID_DAT 0xd8
 #define CW_SID_CMD 0xdc
 
-static int pci_find_catweasel(int index)
+static int vice_pci_find_catweasel(int index)
 {
     int i = 0, j = 0, res;
     int bus, device, func;
     uint32 subsysID, baseAddr;
 
-    if (pci_install_check() != 0) {
+    if (vice_pci_install_check() != 0) {
         return -1;
     }
 
     while (i <= index) {
 
         /* Find the next card that uses the Tiger Jet Networks Tiger320 PCI chip */
-        res = pci_find(CW_VENDOR, CW_DEVICE, j++, &bus, &device, &func);
+        res = vice_pci_find(CW_VENDOR, CW_DEVICE, j++, &bus, &device, &func);
         if (res != 0) {
             return -1;
         }
 
         /* Read the subsystem vendor ID + subsystem ID */
-        res = pci_read_config_dword(bus, device, func, 0x2c, &subsysID);
+        res = vice_pci_read_config_dword(bus, device, func, 0x2c, &subsysID);
         if (res != 0) {
             continue;
         }
@@ -99,7 +99,7 @@ static int pci_find_catweasel(int index)
     for (i = 0x10; i <= 0x24; i += 4) {
 
         /* Read a base address */
-        res = pci_read_config_dword(bus, device, func, i, &baseAddr);
+        res = vice_pci_read_config_dword(bus, device, func, i, &baseAddr);
         if (res != 0) {
             return -1;
         }
@@ -164,7 +164,7 @@ int catweaselmkiii_drv_open(void)
 
     log_message(LOG_DEFAULT, "Detecting PCI CatWeasel boards.");
 
-    base = pci_find_catweasel(0);
+    base = vice_pci_find_catweasel(0);
 
     if (base == -1) {
         log_message(LOG_DEFAULT, "Unable to find a PCI CatWeasel board.");

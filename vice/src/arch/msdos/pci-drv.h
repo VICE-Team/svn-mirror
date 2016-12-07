@@ -30,8 +30,8 @@
 typedef unsigned short uint16;
 typedef unsigned long uint32;
 
-extern int pci_install_check(void);
-extern int pci_find(int vendorID, int deviceID, int index, int *bus, int *device, int *func);
-extern pci_read_config_dword(int bus, int device, int func, int reg, uint32 *value);
+extern int vice_pci_install_check(void);
+extern int vice_pci_find(int vendorID, int deviceID, int index, int *bus, int *device, int *func);
+extern vice_pci_read_config_dword(int bus, int device, int func, int reg, uint32 *value);
 
 #endif

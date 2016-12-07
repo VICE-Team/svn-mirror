@@ -36,7 +36,7 @@
 typedef unsigned short uint16;
 typedef unsigned long uint32;
 
-int pci_install_check(void)
+int vice_pci_install_check(void)
 {
     __dpmi_regs r;
 
@@ -63,7 +63,7 @@ int pci_install_check(void)
     return 0;
 }
 
-int pci_find(int vendorID, int deviceID, int index, int *bus, int *device, int *func)
+int vice_pci_find(int vendorID, int deviceID, int index, int *bus, int *device, int *func)
 {
     __dpmi_regs r;
 
@@ -88,7 +88,7 @@ int pci_find(int vendorID, int deviceID, int index, int *bus, int *device, int *
     return r.h.ah;
 }
 
-int pci_read_config_dword(int bus, int device, int func, int reg, uint32 *value)
+int vice_pci_read_config_dword(int bus, int device, int func, int reg, uint32 *value)
 {
     __dpmi_regs r;
 

@@ -56,7 +56,7 @@ static unsigned int base2;
 static int sids_found = -1;
 static int hssids[MAXSID] = {-1, -1, -1, -1};
 
-static uint32 pci_find_hardsid(int index)
+static uint32 vice_pci_find_hardsid(int index)
 {
     int i = 0, j = 0, res;
     int bus, device, func;
@@ -65,14 +65,14 @@ static uint32 pci_find_hardsid(int index)
     uint32 baseAddr1 = 0;
     uint32 baseAddr2 = 0;
 
-    if (pci_install_check() != 0) {
+    if (vice_pci_install_check() != 0) {
         return -1;
     }
 
     while (i <= index) {
 
         /* Find the HardSID card */
-        res = pci_find(0x6581, 0x8580, j++, &bus, &device, &func);
+        res = vice_pci_find(0x6581, 0x8580, j++, &bus, &device, &func);
         if (res != 0) {
             return -1;
         }
@@ -83,7 +83,7 @@ static uint32 pci_find_hardsid(int index)
     for (i = 0x10; i <= 0x24; i += 4) {
 
         /* Read a base address */
-        res = pci_read_config_dword(bus, device, func, i, &baseAddr);
+        res = vice_pci_read_config_dword(bus, device, func, i, &baseAddr);
         if (res != 0) {
             return -1;
         }
@@ -203,7 +203,7 @@ int hs_pci_open(void)
 
     log_message(LOG_DEFAULT, "Detecting PCI HardSID boards.");
 
-    base1 = pci_find_hardsid(0);
+    base1 = vice_pci_find_hardsid(0);
     base2 = base1 & 0xffff;
     base1 >>= 16;
 
