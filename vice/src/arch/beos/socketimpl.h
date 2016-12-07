@@ -48,6 +48,17 @@
 typedef int SOCKET;
 typedef struct timeval TIMEVAL;
 
+/* HACK: Haiku doesn't declare closesocket() in any standard header, so the
+ *       following hack takes care of that. Since Haiku is fairly POSIX
+ *       compatible this works. But feel free to solve this properly (compyx)
+ */
+#ifdef __HAIKU__
+#  ifndef closesocket
+#    include <unistd.h>
+#    define closesocket(FD) close(FD)
+#  endif
+#endif
+
 #ifndef __HAIKU__
 typedef unsigned long in_addr_t;
 #endif
