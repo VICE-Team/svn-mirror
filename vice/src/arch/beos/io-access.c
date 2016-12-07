@@ -37,8 +37,10 @@
 #define POKE_DEVICE_FULLNAME "/dev/misc/poke"
 #define POKE_SIGNATURE       'wltp'
 #else
+#ifndef WORDS_BIGENDIAN
 extern int read_isa_io(int dummy, void *addr, int size);
 extern int write_isa_io(int dummy, void *addr, int size, DWORD val);
+#endif
 #endif
 
 #ifdef __HAIKU__
@@ -82,7 +84,9 @@ void io_access_store_byte(WORD addr, BYTE value)
 
     ioctl(poke_driver_fd, POKE_PORT_WRITE, &args, sizeof(args));
 #else
+#ifndef WORDS_BIGENDIAN
     write_isa_io(0, (void *)(DWORD)addr, 1, (DWORD)value);
+#endif
 #endif
 }
 
@@ -96,7 +100,11 @@ BYTE io_access_read_byte(WORD addr)
     }
     return (BYTE)args.value;
 #else
+#ifndef WORDS_BIGENDIAN
     return (BYTE)read_isa_io(0, (void *)(DWORD)addr, 1);
+#else
+    return 0;
+#endif
 #endif
 }
 
@@ -107,7 +115,9 @@ void io_access_store_long(WORD addr, DWORD value)
 
     ioctl(poke_driver_fd, POKE_PORT_WRITE, &args, sizeof(args));
 #else
+#ifndef WORDS_BIGENDIAN
     write_isa_io(0, (void *)(DWORD)addr, 4, (DWORD)value);
+#endif
 #endif
 }
 
@@ -121,6 +131,10 @@ DWORD io_access_read_long(WORD addr)
     }
     return (DWORD)args.value;
 #else
+#ifndef WORDS_BIGENDIAN
     return (DWORD)read_isa_io(0, (void *)(DWORD)addr, 4);
+#else
+    return 0;
+#endif
 #endif
 }
