@@ -32,6 +32,11 @@
 #include <string.h>
 #include <unistd.h>
 
+#ifdef __minix
+#undef HAVE_TERMIOS_H
+#undef GWINSZ_IN_SYS_IOCTL
+#endif
+
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>
 #endif
