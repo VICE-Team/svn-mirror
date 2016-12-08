@@ -25,7 +25,7 @@
 #define HAVE_RS232NET           1
 #define HAVE_DYNLIB_SUPPORT     1
 
-#ifndef _M_IA64
+#if !defined(_M_IA64) && !defined(_M_ARM)
 #define HAVE_SSI2001            1
 #define HAVE_HARDSID            1
 #define HAVE_CATWEASELMKIII     1
@@ -68,7 +68,7 @@
 #define DWORD_IS_LONG           1
 #define HAVE_PCAP                1
 
-#ifndef _M_IA64
+#if !defined(_M_IA64) && !defined(_M_ARM)
 #define HAVE_FFMPEG             1
 #define HAVE_FFMPEG_SWSCALE     1
 #define HAVE_FFMPEG_HEADER_SUBDIRS 1
