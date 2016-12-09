@@ -6,10 +6,9 @@ docdir = $(realdocdir)
 doc_DATA = \
 	amigaos.html \
 	beos.html \
-	images/CIPS2008.jpg \
+	images/CIPS2008.png \
 	images/new.gif \
-	images/vice-logo.jpg \
-	images/vice-logo-small.png \
+	images/vice-logo.svg \
 	index.html \
 	macosx.html \
 	COPYING \
