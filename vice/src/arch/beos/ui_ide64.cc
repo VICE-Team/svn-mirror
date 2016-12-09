@@ -72,7 +72,7 @@ IDE64Window::IDE64Window(int img_num)
 {
     int cylinders, heads, sectors, autodetect;
     char temp_str[40];
-    char *img_str = NULL;
+    const char *img_str = NULL;
     BView *background;
     BCheckBox *checkbox;
     BMessage *msg;
