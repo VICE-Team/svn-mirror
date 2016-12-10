@@ -105,7 +105,7 @@ static const ui_menu_entry_t xpet_main_menu[] = {
     { "Screenshot",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)screenshot_ted_menu },
+      (ui_callback_data_t)screenshot_crtc_menu },
     { "Speed settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
