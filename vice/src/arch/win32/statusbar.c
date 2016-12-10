@@ -75,7 +75,6 @@ static int event_part;
 static int event_mode;
 static unsigned int event_time_current, event_time_total;
 
-static char  emu_status_text[1024];
 static TCHAR st_emu_status_text[1024];
 
 static HBRUSH b_red;
@@ -124,7 +123,7 @@ static void SetStatusWindowParts(HWND hwnd)
     width = rect.right-rect.left;
 
     /* Place the volume slider */
-    MoveWindow(FindWindowEx(hwnd, NULL,TRACKBAR_CLASS, "Volume"), width - 20, 3, 20, 36, 0);
+    MoveWindow(FindWindowEx(hwnd, NULL, TRACKBAR_CLASS, TEXT("Volume")), width - 20, 3, 20, 36, 0);
 
     posx[i--] = width;
     width -= 20;
@@ -142,9 +141,9 @@ static void SetStatusWindowParts(HWND hwnd)
     posx[0] = width - 20;
 
     SendMessage(hwnd, SB_SETPARTS, last_part, (LPARAM)posx);
-    SendMessage(hwnd, SB_SETTEXT, disk_update_part|SBT_OWNERDRAW, 0);
-    SendMessage(hwnd, SB_SETTEXT, 1|SBT_OWNERDRAW, 0);
-    SendMessage(hwnd, SB_SETTEXT, (last_part - 1)|SBT_OWNERDRAW, 0);
+    SendMessage(hwnd, SB_SETTEXT, disk_update_part | SBT_OWNERDRAW, 0);
+    SendMessage(hwnd, SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
+    SendMessage(hwnd, SB_SETTEXT, (last_part - 1) | SBT_OWNERDRAW, 0);
 
     lib_free(posx);
 }
@@ -225,7 +224,7 @@ void statusbar_setstatustext(const char *text)
 {
     int i;
 
-    strcpy(emu_status_text, text);
+    system_mbstowcs(st_emu_status_text, text, 1024);
     for (i = 0; i < number_of_status_windows; i++) {
         SendMessage(status_hwnd[i], SB_SETTEXT, 0 | SBT_OWNERDRAW, 0);
     }
@@ -347,7 +346,7 @@ void statusbar_handle_WMSIZE(UINT msg, WPARAM wparam, LPARAM lparam, int window_
 void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
 {
     RECT led;
-    TCHAR text[256];
+    TCHAR st[256];
 
     if (wparam == IDM_STATUS_WINDOW) {
         int part_top = ((DRAWITEMSTRUCT*)lparam)->rcItem.top;
@@ -365,7 +364,6 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             led.right -= 2;
             led.top += 2;
             led.bottom -= 2;
-            system_mbstowcs(st_emu_status_text, emu_status_text, 1024);
             DrawText(hDC, st_emu_status_text, -1, &led, DT_WORDBREAK);
             return;
         }
@@ -382,7 +380,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             led.left = part_left + 2;
             led.right = part_left + 34;
 
-            DrawText(hDC, translate_text(IDS_TAPE), -1, &led, 0);
+            DrawText(hDC, intl_translate_tcs(IDS_TAPE), -1, &led, 0);
 
             /* the tape-motor */
             led.top = part_top + 1;
@@ -432,8 +430,8 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             led.bottom = part_top + 18;
             led.left = part_left + 65;
             led.right = part_left + 100;
-            _stprintf(text, TEXT("%03i"), tape_counter % 1000);
-            DrawText(hDC, text, -1, &led, 0);
+            lib_sntprintf(st, 256, TEXT("%03i"), tape_counter % 1000);
+            DrawText(hDC, st, -1, &led, 0);
 
             /* the joysticks */
             led.left = part_left + 2;
@@ -441,7 +439,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             led.top = part_top + 22;
             led.bottom = part_top + 38;
 
-            DrawText(hDC, translate_text(IDS_JOYSTICK_C), -1, &led, 0);
+            DrawText(hDC, intl_translate_tcs(IDS_JOYSTICK_C), -1, &led, 0);
 
             for (joynum = 1; joynum <= 2; joynum ++) {
                 led.top = part_top + 22;
@@ -475,8 +473,8 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 led.bottom = led.top + 16;
                 led.left = part_left + 2;
                 led.right = part_left + 45;
-                _stprintf(text, TEXT("%2d: %.1f"), status_map[index] + 8, status_track[status_map[index]]);
-                DrawText(hDC, text, -1, &led, 0);
+                lib_sntprintf(st, 256, TEXT("%2d: %.1f"), status_map[index] + 8, status_track[status_map[index]]);
+                DrawText(hDC, st, -1, &led, 0);
 
                 led.bottom = led.top + 12;
                 led.left = part_left + 47;
@@ -508,20 +506,20 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             /* it's the event history part */
             switch (event_mode) {
                 case EVENT_RECORDING:
-                    _stprintf(text, translate_text(IDS_RECORDING), event_time_current / 60, event_time_current % 60);
+                    lib_sntprintf(st, 256, intl_translate_tcs(IDS_RECORDING), event_time_current / 60, event_time_current % 60);
                     break;
                 case EVENT_PLAYBACK:
-                    _stprintf(text, translate_text(IDS_PLAYBACK), event_time_current / 60, event_time_current % 60, event_time_total / 60, event_time_total % 60);
+                    lib_sntprintf(st, 256, intl_translate_tcs(IDS_PLAYBACK), event_time_current / 60, event_time_current % 60, event_time_total / 60, event_time_total % 60);
                     break;
                 default:
-                    _stprintf(text, translate_text(IDS_UNKNOWN));
+                    lib_sntprintf(st, 256, intl_translate_tcs(IDS_UNKNOWN));
             }
             led = ((DRAWITEMSTRUCT*)lparam)->rcItem;
             led.left += 2;
             led.right -= 2;
             led.top += 2;
             led.bottom -= 2;
-            DrawText(hDC, text, -1, &led, DT_WORDBREAK);
+            DrawText(hDC, st, -1, &led, DT_WORDBREAK);
         }
     }
 }
