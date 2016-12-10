@@ -127,7 +127,7 @@ VicePreview::VicePreview(BPoint origin, ViceFilePanel *f)
     AddChild(background);
 
     r.InsetBy(10, 10);
-    r.right -= 80;
+    r.right -= 100;
     contentlist = new BListView(r, "contents", B_SINGLE_SELECTION_LIST);
     contentlist->SetInvocationMessage(new BMessage(AUTOSTART_MESSAGE));
 
@@ -136,7 +136,7 @@ VicePreview::VicePreview(BPoint origin, ViceFilePanel *f)
 
     background->AddChild(new BScrollView("scroll_contents", contentlist, B_FOLLOW_LEFT | B_FOLLOW_TOP, 0, false, true));
         
-    background->AddChild(new BButton(BRect(r.right + 20, 10, r.right + 80, 30), "Autostart", "Autostart", new BMessage(AUTOSTART_MESSAGE)));
+    background->AddChild(new BButton(BRect(r.right + 20, 10, r.right + 100, 30), "Autostart", "Autostart", new BMessage(AUTOSTART_MESSAGE)));
 
     Minimize(true);
     Show();
