@@ -38,8 +38,11 @@
 #include <sys/time.h> 
 #include <sys/socket.h>
 #include <netdb.h>
-#include <arpa/inet.h>
 #include <ByteOrder.h>
+
+#ifdef __HAIKU__
+#include <arpa/inet.h>
+#endif
 
 #ifdef HAVE_NETINET_TCP_H
 #include <netinet/tcp.h>
