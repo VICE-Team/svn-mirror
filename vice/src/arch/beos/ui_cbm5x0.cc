@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -62,7 +63,7 @@ class Cbm5x0Window : public BWindow {
 static Cbm5x0Window *cbm5x0window = NULL;
 
 Cbm5x0Window::Cbm5x0Window()
-    : BWindow(BRect(50,50,340,355),"CBM5x0 settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 370, 290), "CBM5x0 settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE)
 {
     BView *background;
     BRect r;
@@ -79,31 +80,8 @@ Cbm5x0Window::Cbm5x0Window()
     background->SetViewColor(220, 220, 220, 0);
     AddChild(background);
 
-    /* CBM5x0 models */
-    r = BRect(10, 5, 110, 175);
-    box = new BBox(r, "Machine");
-    box->SetViewColor(220, 220, 220, 0);
-    box->SetLabel("Machine");
-    background->AddChild(box);
-
-    /* model line */
-    r = BRect(10, 185, 110, 275);
-    box = new BBox(r, "Model line");
-    box->SetViewColor(220, 220, 220, 0);
-    box->SetLabel("Model line");
-    background->AddChild(box);
-
-    resources_get_int("ModelLine", &res);
-    for (i = 0; cbm5x0_modelline[i]; i++) {
-        msg = new BMessage(MESSAGE_CBM5X0_MODELLINE);
-        msg->AddInt32("modelline", i);
-        radiobutton = new BRadioButton(BRect(10, 15 + i * 25, 90, 25 + i * 25), cbm5x0_modelline[i], cbm5x0_modelline[i], msg);
-        radiobutton->SetValue(res == i);
-        box->AddChild(radiobutton);
-    }
-
     /* memory */
-    r = BRect(120, 5, 280, 120);
+    r = BRect(10, 10, 120, 150);
     box = new BBox(r, "Memory");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Memory");
@@ -114,13 +92,30 @@ Cbm5x0Window::Cbm5x0Window()
         msg = new BMessage(MESSAGE_CBM5X0_MEMORY);
         msg->AddInt32("memory", i);
         sprintf(str, "%d KByte", cbm5x0_memory[i]);
-        radiobutton = new BRadioButton(BRect(10, 15 + i * 25, 150, 25 + i * 25), str, str, msg);
+        radiobutton = new BRadioButton(BRect(10, 15 + i * 25, 100, 25 + i * 25), str, str, msg);
         radiobutton->SetValue(res == cbm5x0_memory[i]);
         box->AddChild(radiobutton);
     }
 
+
+    /* model line */
+    r = BRect(10, 160, 120, 225);
+    box = new BBox(r, "Model line");
+    box->SetViewColor(220, 220, 220, 0);
+    box->SetLabel("Model line");
+    background->AddChild(box);
+
+    resources_get_int("ModelLine", &res);
+    for (i = 0; cbm5x0_modelline[i]; i++) {
+        msg = new BMessage(MESSAGE_CBM5X0_MODELLINE);
+        msg->AddInt32("modelline", i);
+        radiobutton = new BRadioButton(BRect(10, 15 + i * 25, 100, 25 + i * 25), cbm5x0_modelline[i], cbm5x0_modelline[i], msg);
+        radiobutton->SetValue(res == i);
+        box->AddChild(radiobutton);
+    }
+
     /* ram banks */
-    r = BRect(120, 130, 280, 295);
+    r = BRect(130, 10, 310, 175);
     box = new BBox(r, "RAM Banks");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("RAM Banks");
@@ -129,7 +124,7 @@ Cbm5x0Window::Cbm5x0Window()
     for (i = 0; rambank_text[i]; i++) {
         msg = new BMessage(MESSAGE_CBM5X0_RAMBANK);
         msg->AddInt32("rambank", i);
-        checkbox = new BCheckBox(BRect(10, 15 + i * 25, 150, 25 + i * 25), rambank_text[i], rambank_text[i], msg);
+        checkbox = new BCheckBox(BRect(10, 15 + i * 25, 170, 25 + i * 25), rambank_text[i], rambank_text[i], msg);
         resources_get_int(rambank_res[i], &res);
         checkbox->SetValue(res);
         box->AddChild(checkbox);
