@@ -160,7 +160,7 @@ void gmod2_io1_store(WORD addr, BYTE value)
 
     gmod2_bank = value & 0x3f;
     if ((value & 0xc0) == 0xc0) {
-        // FIXME: flash mode enable, ultimax for e000-ffff
+        /* FIXME: flash mode enable, ultimax for e000-ffff */
         gmod2_cmode = CMODE_ULTIMAX;
     } else if ((value & 0x40) == 0x00) {
         gmod2_cmode = CMODE_8KGAME;

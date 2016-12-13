@@ -337,7 +337,7 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartgmod2", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_GMOD2, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_GAME_KILLER_CART,                      // FIXME
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_GAME_KILLER_CART,                      /* FIXME */
       NULL, NULL },
     { "-cartgk", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_GAME_KILLER, NULL, NULL,
