@@ -423,7 +423,7 @@ _END
   rm -f pkgmap.hdr pkgmap.tmp
 
   cd ..
-  packagename=sdlvice-$VICEVERSION-$arch_version-$arch_cpu-local.pkg
+  packagename=vice-sdl-$VICEVERSION-$arch_version-$arch_cpu-local.pkg
 
   tar cf $packagename.tar $GUIVICE
   gzip $packagename.tar
