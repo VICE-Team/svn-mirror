@@ -69,4 +69,4 @@
 #define PLATFORM_OS "QNX 6.x"
 #endif
 
-#endif // VICE_PLATFORM_QNX6_VERSION_H
+#endif /* VICE_PLATFORM_QNX6_VERSION_H */
