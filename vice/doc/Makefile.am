@@ -14,7 +14,8 @@ MISC_DOX = \
 	iec-bus.txt \
 	MacOSX-ResourceTree.txt \
 	NLS-Howto.txt \
-	ports-status.txt
+	ports-status.txt \
+	WinNT-Unicode.txt
 
 TEXI_TOOLS = \
 	fixdox.sh \

@@ -18,6 +18,7 @@ doc_DATA = \
 	nsosrh.html \
 	qnx.html \
 	sco.html \
+	sitemap/xml \
 	solaris.html \
 	vice.css \
 	vice_1.html \
@@ -42,7 +43,8 @@ doc_DATA = \
 	vice_20.html \
 	vice_21.html \
 	vice_22.html \
-	vice_toc.html
+	vice_toc.html \
+	robots.txt
 
 EXTRA_DIST = $(doc_DATA) \
 	texi2html

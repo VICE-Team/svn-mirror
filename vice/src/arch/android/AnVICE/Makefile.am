@@ -1,5 +1,6 @@
 SUBDIRS = \
 	.settings \
+	assets \
 	assets-proto \
 	jni \
 	res-proto \
@@ -30,7 +31,7 @@ EXTRA_DIST = \
 	res/layout/system.xml \
 	res/values/defaults.xml \
 	res/values/dimens.xml \
-	res/values/themes.xml
+	res/values/themes.xml \
 	src/com/locnet/vice/DosBoxAudio.java \
 	src/com/locnet/vice/DosBoxControl.java \
 	src/com/locnet/vice/DosBoxMenuUtility.java \
