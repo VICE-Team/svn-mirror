@@ -5,6 +5,7 @@ docdir = $(realdocdir)
 
 doc_DATA = \
 	amigaos.html \
+	android.html \
 	beos.html \
 	darwin.html \
 	images/CIPS2008.png \
