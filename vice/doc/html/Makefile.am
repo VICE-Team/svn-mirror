@@ -6,6 +6,7 @@ docdir = $(realdocdir)
 doc_DATA = \
 	amigaos.html \
 	beos.html \
+	darwin.html \
 	images/CIPS2008.png \
 	images/new.gif \
 	images/vice-logo.svg \
@@ -13,6 +14,7 @@ doc_DATA = \
 	macosx.html \
 	COPYING \
 	NEWS \
+	nsosrh.html \
 	qnx.html \
 	sco.html \
 	solaris.html \
