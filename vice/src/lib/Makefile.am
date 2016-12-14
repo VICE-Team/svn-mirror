@@ -22,6 +22,19 @@ if LAMEMP3_DIR_USED
 # platform with either static or shared ffmpeg compile enabled.
 
 EXTRA_DIST = \
+	libffmpeg/ffmpeg_dxva2.c \
+	libffmpeg/cmdutils.c \
+	libffmpeg/ffmpeg_opt.c \
+	libffmpeg/ffserver.c \
+	libffmpeg/libavutil/avconfig.h \
+	libffmpeg/ffmpeg_filter.c \
+	libffmpeg/ffmpeg_vda.c \
+	libffmpeg/cmdutils_opencl.c \
+	libffmpeg/ffplay.c \
+	libffmpeg/ffmpeg.c \
+	libffmpeg/libavcodec/avcodecres.rc \
+	libffmpeg/ffmpeg_vdpau.c \
+	libffmpeg/ffprobe.c \
 	liblame/acinclude.m4 \
 	liblame/aclocal.m4 \
 	liblame/API \
