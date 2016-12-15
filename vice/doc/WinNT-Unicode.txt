@@ -42,7 +42,7 @@ Potential Problems
   build must be enclosed in a TEXT() wrapper, but this macro only works for
   string constants (or other macros defined as string constants.) You can't
   use TEXT() around names of variables.
-- translate_text() returns strings of  8-bit characters, so you can't use it
+- translate_text() returns strings of 8-bit characters, so you can't use it
   in places where a TCHAR string is expected. 
 - Functions such as lib_msprintf() and util_concat() can only support 8-bit
   chars for both input and output.

@@ -1,5 +1,443 @@
 ------------------------------------------------------------------------------
 
+2016-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.proto, doc/WinNT-Unicode.txt, doc/vice.chm,
+	doc/vice.hlp, doc/vice.pdf, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, po/translations-status.txt,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h, src/vice-version.sh:
+	Generated VICE 3.0 source for building bindists for the release on
+	December 22nd.
+
+2016-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, src/arch/android/AnVICE/Makefile.am,
+	src/arch/android/AnVICE/assets: Fixed android build script to generate
+	the 'assets' directory and removed the empty directory from the
+	makefile and svn.
+
+2016-12-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/Makefile.am: Fix .PHONY targets, see bug #834
+
+2016-12-14  groepaz <groepaz@gmx.net>
+
+	* doc/html/Makefile.am: fix typo
+
+2016-12-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am: Fixed a typo.
+
+2016-12-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/lib/Makefile.am: Add missing ffmpeg files to dist
+
+2016-12-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/Makefile.am, doc/html/Makefile.am,
+	src/arch/android/AnVICE/Makefile.am,
+	src/arch/unix/macosx/Resources/Makefile.am,
+	src/arch/win32/vs_tmpl/Makefile.am: Adding missing files to dist
+
+2016-12-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am, doc/html/android.html, doc/html/index.html:
+	Added android download page.
+
+2016-12-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/platform/platform_aix_version.h,
+	src/platform/platform_dragonfly_version.h,
+	src/platform/platform_freebsd_version.h,
+	src/platform/platform_netbsd_version.h,
+	src/platform/platform_openbsd_version.h,
+	src/platform/platform_qnx6_version.h,
+	src/platform/platform_solaris_version.h: Fix C++ style comments
+
+2016-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am, doc/html/darwin.html, doc/html/index.html,
+	doc/html/nsosrh.html: Updated.
+
+2016-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Updated.
+
+2016-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4:
+	Added svn ignores.
+
+2016-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Slight fix.
+
+2016-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_scosol.sh: Fix bin package name.
+
+2016-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/gmod2.c: Use /* ... */
+	not // ...
+
+2016-12-12  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/statusbar.cc: Use a maximum size of 11 points for the
+	BeVICE statusbar font.
+
+2016-12-12  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_cbm2.cc, src/arch/beos/ui_cbm5x0.cc: Rearranged the
+	BeVICE CBM-II settings dialogs.
+
+2016-12-10  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/socketimpl.h: Fixed. (BeOS has no <arpa/inet.h>.)
+
+2016-12-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/xpet_ui.c: Use correct screenshot menu for xpet (fixes
+	bug #833).
+
+2016-12-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added missing makefile generation (fixes bug #832).
+
+2016-12-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html, doc/html/beos.html, doc/html/index.html,
+	doc/html/macosx.html, doc/html/qnx.html, doc/html/sco.html,
+	doc/html/solaris.html: Some fixes.
+
+2016-12-09  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/statusbar.c: win32 Unicode fixes: Statusbar.
+
+2016-12-09  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_file.cc: Adjusted image contents window control
+	sizes.
+
+2016-12-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Some fixes.
+
+2016-12-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am: Added missing directory.
+
+2016-12-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/geninfocontrib_h.sh: Fixed os/2 about dialog generation.
+
+2016-12-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/ui_ide64.cc: Fix warning
+
+2016-12-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/html/index.html: Remove Dingoo from the list of binaries,
+	support for Dingoo/Dingux was removed.
+
+2016-12-08  groepaz <groepaz@gmx.net>
+
+	* doc/Doxyfile, doc/html/Makefile.am, doc/html/amigaos.html,
+	doc/html/beos.html, doc/html/images/CIPS2008.jpg,
+	doc/html/images/CIPS2008.png, doc/html/images/vice-logo-small.png,
+	doc/html/images/vice-logo.jpg, doc/html/images/vice-logo.svg,
+	doc/html/index.html, doc/html/macosx.html, doc/html/qnx.html,
+	doc/html/sco.html, doc/html/solaris.html, doc/html/texi2html,
+	doc/html/vice.css, doc/vice.pdf: updated website html, updated
+	generation of html docs and doxygen. all using a similar design as the
+	pokefinder page.
+
+2016-12-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/console.c: Fixed for minix.
+
+2016-12-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ide-config.h: Fixed for winrt.
+
+2016-12-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/hardsid.c: Make 'hardsid_available()' function return 0 for
+	platforms that don't support hardsid.
+
+2016-12-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/io-access.c: Fixed for ppc-beos.
+
+2016-12-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/socketimpl.h: Add hack for Haiku's missing
+	closesocket()
+
+2016-12-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/socketimpl.h: Add missing include for inet_addr
+
+2016-12-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Don't enable OpenCBM on BeOS/Haiku
+
+2016-12-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Add Beos/Haiku to dynamic library loading check
+
+2016-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/catweaselmkiii-drv.c, src/arch/msdos/hs-pci.c,
+	src/arch/msdos/pci-drv.c, src/arch/msdos/pci-drv.h: Some pci function
+	name changes for dos so they don't conflict with functions present in
+	libpcap.
+
+2016-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Some dos pcap/libnet fixes.
+
+2016-12-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/archdep.h, src/arch/sdl/archdep_beos.h: Changed
+	BeOS/Haiku path separator to ':'. (Not sure if old config files will
+	work with this, but ';' was wrong.)
+
+2016-12-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_sid.cc: Fixed for machines with no extra SIDs.
+
+2016-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiethernetcart.c: Fixed.
+
+2016-12-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_file.cc: Fixed file selector getting hidden behind
+	main window when the image contents window is displayed on Haiku.
+
+2016-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiethernetcart.c: Fixed.
+
+2016-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/Makefile.am: Added missing file.
+
+2016-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/hs-pci.c: Fixed.
+
+2016-12-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/amigamain.c, src/arch/amigaos/uiapi.c: Load libs
+	earlier.
+
+2016-12-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c: Small fix.
+
+2016-12-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/Makefile: Fixed for 'make dist'.
+
+2016-12-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_amiga.c, src/arch/sdl/archdep_win32.c: Added
+	SDL error message when changing to a drive that is not accessible.
+
+2016-12-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Slight order change to make 'SDL_NumJoysticks'
+	detection work like it should again.
+
+2016-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fix portaudio detection for windows when
+	libportaudio needs libwinmm support to work.
+
+2016-12-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/uimon.c: Fix missing #include
+
+2016-12-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/parsid-drv.c: Fix missing include for snooze()
+
+2016-12-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/kbd.c: Add missing #include
+
+2016-12-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/ui_keymap.cc: Remove unused BAlert
+
+2016-12-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/uisnapshot.c: Use g_free() on pointer
+	returned by Gtk
+
+2016-12-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/make-bindist_dingoo.sh,
+	src/arch/sdl/make-bindist_dingoo_native.sh: Remove old Dingoo
+	make-bindist files
+
+2016-12-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/make-bindist_beos.sh: Fix make-bindist for BeOS SDL
+	port
+
+2016-12-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/ui_file.cc: BeOS: fix crash on exit after having used
+	'attach image'
+
+2016-12-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/ui_file.cc: BeOS UI: don't use delete on memory
+	returned by malloc()
+
+2016-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/uifilereq.c: Return proper drive result, fixes bug
+	#496.
+
+2016-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/types.h: Some fixes.
+
+2016-12-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/raster/raster-resources.c: Change default due to video core
+
+2016-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/joy.h: Typo fix.
+
+2016-12-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* Makefile.am, configure.proto, src/arch/sdl/Makefile.am,
+	src/arch/sdl/archdep.c, src/arch/sdl/archdep.h,
+	src/arch/sdl/archdep_dingoo.c, src/arch/sdl/archdep_dingoo.h,
+	src/arch/sdl/archdep_unix.c, src/arch/sdl/dingoo-files,
+	src/arch/sdl/menu_c64cart.c, src/arch/sdl/menu_snapshot.c,
+	src/arch/sdl/menu_speed.c, src/arch/sdl/menu_vic20cart.c,
+	src/arch/sdl/menu_video.c, src/arch/sdl/sdlmain.c, src/arch/sdl/ui.c,
+	src/c64/c64cart.h, src/ioutil.c, src/plus4/ted-timing.h,
+	src/printerdrv/drv-nl10.c, src/printerdrv/printer.c, src/sysfile.c,
+	src/vic20/victypes.h, src/video/Makefile.am,
+	src/video/render1x1_dingoo.h, src/video/video-render-crt.c,
+	src/video/video-render-pal.c, src/vsync.c: Remove Dingoo/Dingux
+	support, current vice won't run on it
+
+2016-12-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/lib/libffmpeg/Makefile: Add libavformat/flac_enc.h header for
+	source releases
+
+2016-12-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Change pcap error message
+
+2016-12-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/constants.txt,
+	src/arch/beos/ui.cc, src/arch/beos/ui_keymap.cc,
+	src/arch/beos/ui_keymap.h, src/arch/beos/vicemenu.cc: Add keyboard
+	dialog to BeOS UI. Contains two controls that set unused resources,
+	since the BeOS keyboard code is incomplete
+
+2016-11-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_drive.cc, src/arch/beos/ui_pet.cc,
+	src/arch/beos/ui_sidcart.cc: Some more BeVICE dialog control
+	adjustments.
+
+2016-11-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/vsync.c: Added a hack to deal with bug #818 (and possibly #792.)
+
+2016-11-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* doc/readmes/Readme-BeOS.txt: Updated for the 3.0 release.
+
+2016-11-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/vicemenu.cc: Moved/fixed some BeVICE menu items.
+
+2016-11-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_device.cc, src/arch/beos/ui_device.h,
+	src/arch/beos/ui_drive.cc, src/arch/beos/ui_drive.h,
+	src/arch/beos/ui_sound.cc, src/arch/beos/ui_sound.h: BeOS/Haiku UI
+	changes: Added main volume and drive sound volume sliders to the Sound
+	settings dialog. Added drive RPM and wobble sliders to the Drive
+	settings dialog. Adjusted the size of other controls in those dialogs.
+	Reverted addition of drive RPM, wobble and sound volume sliders to the
+	Device settings dialog; wrong dialog.
+
+2016-11-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_ide64.cc: Fixed a crash and hacked the size of the
+	BeVICE IDE64 image size dialog.
+
+2016-11-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* NEWS: Updated BeOS/Haiku section and fixed svn props.
+
+2016-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/xpet_ui.c: Removed obsolete include.
+
+2016-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/pet-sidcart.c, src/plus4/plus4-sidcart.c,
+	src/sid/sid-resources.c, src/sid/sid.h,
+	src/vic20/cart/vic20-sidcart.c: Fixed pet, plus4 and vic20 sidcart
+	performance issues when the sidcart is not activated.
+
+2016-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uic64cart.c,
+	src/arch/amigaos/mui/uikeymap.c: Some amiga fixes.
+
+2016-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/xpet_ui.c: Removed debugging line.
+
+2016-11-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/vic20ui.c: Add ReSID sampling method UI item to
+	*nix xvic
+
+2016-11-29  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2016-11-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c: Add ifdef's
+	around ReSID ui items
+
+2016-11-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c: Add ReSID
+	sampling method items to the *nix menu for xpet and xplus4
+
+2016-11-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/sid/sid-resources.c: Changed default SID engine for xpet/xplus4
+	to FastSID to improve performance when SIDcart is disabled.
+
+2016-11-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/ui.cc: Moved ui_ide64usb()
+	calls to machine-specific BeOS UI code.
+
 2016-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.proto, doc/vice.chm, doc/vice.guide,
