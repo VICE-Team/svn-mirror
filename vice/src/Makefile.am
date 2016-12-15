@@ -2315,12 +2315,12 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20
-	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv
-	librs232drv libgfxoutputdrv libsamplerdrv libjoyport libsounddrv
-	libdiskimage libfsdevice libtape libarch libvicii libviciisc
-	libviciidtv libviciivsid libvdc libsid libcrtc libvideo libserial
-	libparallel libcore libiecbus libfileio librtc libuserport libtapeport
+.PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 \
+	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv \
+	librs232drv libgfxoutputdrv libsamplerdrv libjoyport libsounddrv \
+	libdiskimage libfsdevice libtape libarch libvicii libviciisc \
+	libviciidtv libviciivsid libvdc libsid libcrtc libvideo libserial \
+	libparallel libcore libiecbus libfileio librtc libuserport libtapeport \
 	libp64 libscpu64 libdiag @RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
