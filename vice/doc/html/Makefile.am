@@ -18,7 +18,7 @@ doc_DATA = \
 	nsosrh.html \
 	qnx.html \
 	sco.html \
-	sitemap/xml \
+	sitemap.xml \
 	solaris.html \
 	vice.css \
 	vice_1.html \
