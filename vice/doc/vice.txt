@@ -11,7 +11,7 @@ manual under the conditions for verbatim copying, provided that the
 entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
-This is the documentation for version 2.4 of VICE, the Versatile
+This is the documentation for version 3.0 of VICE, the Versatile
 Commodore Emulator.
 
 1 GNU GENERAL PUBLIC LICENSE
