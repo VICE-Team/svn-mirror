@@ -781,7 +781,8 @@ fi
 echo building $emulib
 cd ..
 
-rm assets/*
+rm -f -r assets
+mkdir assets
 cp assets-proto/gpl.txt assets
 
 if test x"$emulator" = "xx64"; then
