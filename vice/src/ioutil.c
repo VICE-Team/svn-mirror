@@ -332,7 +332,7 @@ static void ioutil_filldir(const char *path, ioutil_name_table_t *dirs, ioutil_n
                     lib_free(filename);
                     filename = NULL;
                 }
-#endif // DT_LNK
+#endif /* DT_LNK */
             } else {
                 files[file_count].name = lib_stralloc(dp->d_name);
                 file_count++;
