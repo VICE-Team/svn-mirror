@@ -617,7 +617,7 @@ static Widget build_ffmpeg_options(Widget parent)
     form = XtVaCreateWidget("ffmpegOptionsForm",
                                    formWidgetClass, parent,
                                    XtNborderWidth, 0,
-                                   XtNwidth, 1000L, // aim for max width
+                                   XtNwidth, 1000L, /* aim for max width */
                                    NULL);
 
     format_label = XtVaCreateManagedWidget("formatTypeLabel",
@@ -968,7 +968,7 @@ static Widget build_native_options(Widget parent)
     form = XtVaCreateWidget("nativeOptionsForm",
                                    formWidgetClass, parent,
                                    XtNborderWidth, (XtArgVal)0,
-                                   XtNwidth, 1000L, // aim for max width
+                                   XtNwidth, 1000L, /* aim for max width */
                                    NULL);
 
     oversize_button = build_label_and_menu(form,

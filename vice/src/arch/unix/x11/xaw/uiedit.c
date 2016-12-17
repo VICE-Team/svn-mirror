@@ -140,7 +140,7 @@ static UI_CALLBACK(ui_edit_command_copy)
         lib_free(selection_text);
         selection_text = clipboard_read_screen_output("\n");
         if (selection_text != NULL) {
-            //gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), text, strlen(text));
+            /* gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), text, strlen(text)); */
             SetSelection(_ui_top_level, NULL, NULL);
         }
     }

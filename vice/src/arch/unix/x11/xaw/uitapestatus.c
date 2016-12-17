@@ -86,14 +86,15 @@ static void invalidate_tape_menu(void);
  */
 static XawDisplayList *create_display_list(Widget w, char *fmt, ...)
 {
-    //va_list args;
+    /* va_list args; */
     char *buf;
     XawDisplayList *xdl;
     XrmValue from, to;
-
-    //va_start(args, fmt);
-    //buf = lib_mvsprintf(fmt, args);
-    //va_end(args);
+#if 0
+    va_start(args, fmt);
+    buf = lib_mvsprintf(fmt, args);
+    va_end(args);
+#endif
     buf = fmt;
 
     DBG(("converting displayList: [%s]", buf));
@@ -107,7 +108,7 @@ static XawDisplayList *create_display_list(Widget w, char *fmt, ...)
         xdl = NULL;
     }
 
-    //lib_free(buf);
+    /* lib_free(buf); */
 
     return xdl;
 }

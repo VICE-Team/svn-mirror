@@ -44,7 +44,7 @@
 #include "sid-resources.h"
 #include "types.h"
 
-// Approx 3 PAL screen updates
+/* Approx 3 PAL screen updates */
 #define HARDSID_DELAY_CYCLES 50000
 
 static int hsid_fd = -1;
