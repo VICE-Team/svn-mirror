@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #ifndef RAND_MAX
 #include <limits.h>
@@ -954,11 +955,12 @@ static int keyboard_parse_keymap(const char *filename, int child)
 {
     FILE *fp;
     char *complete_path = NULL;
-    char buffer[1000];
+    char buffer[1024];
 
     DBG((">keyboard_parse_keymap(%s)\n", filename));
 
-    fp = sysfile_open(filename, &complete_path, MODE_READ_TEXT);
+    /* open in binary mode so the newline system doesn't matter */
+    fp = sysfile_open(filename, &complete_path, "rb");
 
     if (fp == NULL) {
         log_message(keyboard_log, "Error loading keymap `%s'->`%s'.", filename, complete_path ? complete_path : "<empty/null>");
@@ -972,12 +974,18 @@ static int keyboard_parse_keymap(const char *filename, int child)
         buffer[0] = 0;
         if (fgets(buffer, 999, fp)) {
             char *p;
+            long blen = (long)strlen(buffer);
 
-            if (strlen(buffer) == 0) {
+            if (blen == 0) {
                 break;
             }
 
-            buffer[strlen(buffer) - 1] = 0; /* remove newline */
+            /* remove trailing CR or/and LF */
+            blen--;
+            while (blen >= 0 && (buffer[blen] == '\n' || buffer[blen] == '\r')) {
+                buffer[blen--] = '\0';
+            }
+
             /* remove comments */
             if ((p = strchr(buffer, '#'))) {
                 *p = 0;
