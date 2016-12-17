@@ -1012,11 +1012,9 @@ static int ffmpegdrv_write(screenshot_t *screenshot)
     return 0;
 }
 
-static void ffmpegdrv_shutdown(void)
-{
-    ffmpeglib_close(&ffmpeglib);
-    lib_free(ffmpeg_format);
-}
+
+static void ffmpegdrv_shutdown(void);
+
 
 static gfxoutputdrv_t ffmpeg_drv = {
     "FFMPEG",
@@ -1036,6 +1034,28 @@ static gfxoutputdrv_t ffmpeg_drv = {
     , NULL
 #endif
 };
+
+
+static void ffmpegdrv_shutdown(void)
+{
+    int i = 0;
+
+    ffmpeglib_close(&ffmpeglib);
+
+    while (ffmpeg_drv.formatlist[i].name != NULL) {
+        lib_free(ffmpeg_drv.formatlist[i].name);
+        if (ffmpeg_drv.formatlist[i].audio_codecs != NULL) {
+            lib_free(ffmpeg_drv.formatlist[i].audio_codecs);
+        }
+        if (ffmpeg_drv.formatlist[i].video_codecs != NULL) {
+            lib_free(ffmpeg_drv.formatlist[i].video_codecs);
+        }
+        i++;
+    }
+    lib_free(ffmpeg_drv.formatlist);
+
+    lib_free(ffmpeg_format);
+}
 
 static void ffmpeg_get_formats_and_codecs(void)
 {
