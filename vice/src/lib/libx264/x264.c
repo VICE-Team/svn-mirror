@@ -468,9 +468,9 @@ static void print_csp_names( int longhelp )
     printf( "                              - valid csps for `lavf' demuxer:\n" );
     printf( INDENT );
     size_t line_len = strlen( INDENT );
-    for( enum PixelFormat i = AV_PIX_FMT_NONE+1; i < AV_PIX_FMT_NB; i++ )
+    for( enum PixelFormat ii = AV_PIX_FMT_NONE+1; ii < AV_PIX_FMT_NB; ii++ )
     {
-        const char *pfname = av_get_pix_fmt_name( i );
+        const char *pfname = av_get_pix_fmt_name( ii );
         if( pfname )
         {
             size_t name_len = strlen( pfname );
@@ -481,7 +481,7 @@ static void print_csp_names( int longhelp )
             }
             printf( "%s", pfname );
             line_len += name_len;
-            if( i+1 < AV_PIX_FMT_NB )
+            if( ii+1 < AV_PIX_FMT_NB )
             {
                 printf( ", " );
                 line_len += 2;
