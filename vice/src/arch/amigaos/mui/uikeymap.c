@@ -57,7 +57,7 @@ static const int ui_keymap_active_values[] = {
 
 static char *ui_keymap_mapping[KBD_MAPPING_NUM + 1];
 
-static const int ui_keymap_mapping_values[KBD_MAPPING_NUM + 1];
+static int ui_keymap_mapping_values[KBD_MAPPING_NUM + 1];
 
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "KeymapIndex", ui_keymap_active, ui_keymap_active_values, NULL },
