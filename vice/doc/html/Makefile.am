@@ -20,6 +20,7 @@ doc_DATA = \
 	sco.html \
 	sitemap.xml \
 	solaris.html \
+	sortix.html \
 	vice.css \
 	vice_1.html \
 	vice_2.html \
