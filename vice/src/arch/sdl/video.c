@@ -908,7 +908,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int l;
     int drv_index = -1;
     double aspect = 1.0;
-    char rendername[256];
+    char rendername[256] = { 0 };
     char **renderlist = NULL;
     int renderamount = SDL_GetNumRenderDrivers();
     unsigned int window_h = 0;
@@ -917,8 +917,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int temp_w = 0;
     SDL_GLContext ctx;
     SDL_RendererInfo info;
-
-    memset(rendername, 0, sizeof(rendername));
 
     DBG(("%s: %i,%i (%i)", __func__, *width, *height, canvas->index));
 
