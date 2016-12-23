@@ -234,9 +234,23 @@ int machine_get_num_keyboard_types(void)
     return 1;
 }
 
+/* For use in the UI's, the actuall keymaps still need to be generated */
+static kbdtype_info_t kbdinfo[] = {
+    { "International", C128_MACHINE_INT, 0 },
+    { "Finnish", C128_MACHINE_FINNISH, 0 },
+    { "French", C128_MACHINE_FRENCH, 0 },
+    { "German", C128_MACHINE_GERMAN, 0 },
+    { "Italian", C128_MACHINE_ITALIAN, 0 },
+    { "Norwegian", C128_MACHINE_NORWEGIAN, 0 },
+    { "Swedish", C128_MACHINE_SWEDISH, 0 },
+    { "Swiss", C128_MACHINE_SWISS, 0 },
+    { NULL, 0, 0 }
+};
+
+
 kbdtype_info_t *machine_get_keyboard_info_list(void)
 {
-    return NULL; /* return 0 if no different types exist */
+    return kbdinfo;
 }
 
 
