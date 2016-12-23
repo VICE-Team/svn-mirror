@@ -29,6 +29,7 @@ palettes = \
 	pepto-pal.vpl \
 	pepto-palold.vpl \
 	community-colors.vpl \
+	colodore.vpl \
 	ptoing.vpl \
 	deekay.vpl \
 	rgb.vpl \

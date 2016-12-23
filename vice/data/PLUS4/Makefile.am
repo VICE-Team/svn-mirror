@@ -15,7 +15,8 @@ romsets = \
 
 palettes = \
 	yape-pal.vpl \
-	yape-ntsc.vpl
+	yape-ntsc.vpl \
+	colodore_ted.vpl
 
 x11_keymaps = \
 	x11_pos.vkm \

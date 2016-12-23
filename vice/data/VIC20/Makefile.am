@@ -11,7 +11,8 @@ romsets = \
 palettes = \
 	vice.vpl \
 	mike-pal.vpl \
-	mike-ntsc.vpl
+	mike-ntsc.vpl \
+	colodore_vic.vpl
 
 x11_keymaps = \
 	x11_pos.vkm \
