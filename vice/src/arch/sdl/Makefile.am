@@ -9,6 +9,7 @@ endif
 SUBDIRS = \
 	msvc-files \
 	qnx4 \
+	sortix-files \
 	syllable-files \
 	win32-watcom
 

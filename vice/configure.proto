@@ -4787,6 +4787,7 @@ AC_OUTPUT([Makefile
            src/arch/sdl/Makefile
            src/arch/sdl/msvc-files/Makefile
            src/arch/sdl/qnx4/Makefile
+           src/arch/sdl/sortix-files/Makefile
            src/arch/sdl/syllable-files/Makefile
            src/arch/sdl/win32-watcom/Makefile
            src/arch/unix/Makefile
