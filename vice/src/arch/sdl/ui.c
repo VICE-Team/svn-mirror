@@ -71,6 +71,11 @@
 #define DBG(x)
 #endif
 
+#ifdef ANDROID_COMPILE 
+extern void keyboard_key_pressed(signed long key);
+#endif  
+
+
 static int sdl_ui_ready = 0;
 
 /* ----------------------------------------------------------------- */
@@ -136,6 +141,7 @@ void ui_handle_misc_sdl_event(SDL_Event e)
 
 #ifdef ANDROID_COMPILE
 #include "loader.h"
+#include "keyboard.h"
 
 extern int loader_loadstate;
 extern int loader_savestate;
