@@ -48,6 +48,7 @@ struct SDL_mutex {
 
 SDL_Surface sdl_surface;
 SDL_PixelFormat sdl_format;
+char tmp[20] = { 0 };
 
 //C64
 extern DECLSPEC Uint32 SDLCALL SDL_MapRGB(const SDL_PixelFormat *const format, const Uint8 r, const Uint8 g, const Uint8 b)
@@ -397,7 +398,8 @@ extern DECLSPEC int SDLCALL SDL_JoystickNumBalls(SDL_Joystick *joystick)
 
 extern DECLSPEC const char * SDLCALL SDL_JoystickName(int index)
 {
-    return "Joystick " + index;
+    sprintf(tmp, "Joystick %d", index);
+    return tmp;
 }
 
 extern DECLSPEC void SDLCALL SDL_JoystickUpdate(void)
@@ -411,7 +413,8 @@ extern DECLSPEC int SDLCALL SDL_JoystickEventState(int state)
 
 extern DECLSPEC char * SDLCALL SDL_GetKeyName(SDLKey key)
 {
-    return (char *)("Key " + key);
+    sprintf(tmp, "Key %d", key);
+    return key;
 }
 
 extern DECLSPEC int SDLCALL SDL_Flip(SDL_Surface* screen)
@@ -440,7 +443,8 @@ extern DECLSPEC int SDLCALL SDL_CDNumDrives()
 
 extern DECLSPEC const char *SDLCALL SDL_CDName(int drive)
 {
-    return "CDROM " + drive;
+    sprintf(tmp, "CDROM %d", drive);
+    return tmp;
 }
 
 extern DECLSPEC char *SDLCALL SDL_GetError(void)
